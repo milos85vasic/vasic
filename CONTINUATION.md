@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-06T20:00:00Z
+    Last-Updated: 2026-09-06T21:05:00Z
     Synced-Commit: 99814b2
     Authority-Root: submodules/constitution
 
@@ -473,6 +473,129 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### THE BROWSER SUITE'S "302 PASSED / 0 FAILED" IS WITHDRAWN — IT IS 69 FAILED, AND ALL 69 ARE ONE MISSING BUILD, 2026-09-06
+
+Gate 6's own command was re-run verbatim — `cd _tests && npx playwright test
+--project=chromium --grep-invert 'all-language'`:
+
+    69 failed · 163 passed · 1 flaky · 6 skipped   (4.7m)
+
+**69 of the 70 listed failure lines name `milosvasic.ru`. Not one is a
+`vasic.digital` defect.** `_tests/playwright.config.js:17` serves
+`milosvasic.ru/_site`, and that directory holds **8 tracked files and exactly
+one rendered page**, against ~180 front-matter source files. It is a
+hand-staged fragment, not a build.
+
+**Three claims this document and the carriers carried are WITHDRAWN as measured
+false, not merely stale:**
+
+1. *"`_site/` is git-ignored."* It is **TRACKED** — 8 files. `.gitignore:70`
+   does say `_site/`, but the rule was added AFTER the files were tracked, so
+   it does nothing. The config claims it; git disagrees. That inert rule is
+   exactly why the carriers describe it as ignored.
+2. *"gate 6 validates a six-day-old build."* Not age — **completeness**. Source
+   and `_site` are timestamped 89 ms apart. Served alone, `_site` answers
+   **1 of 525** sitemap URLs; the other 524 are 404, as are all 180 article
+   fragments and all 45 download PDFs. It ships no `assets/od/` and no
+   `assets/js/`, so even its one working page renders without stylesheets.
+3. *"the remedy is `bundle install` inside `milosvasic.ru`."* That cannot even
+   be STARTED here: `ruby` and `gem` exist, but **`bundle`, `bundler` and
+   `jekyll` are all absent from PATH**. The gap is one step wider than recorded.
+
+**Production is NOT affected and this was checked, not assumed.**
+`.github/workflows/pages.yml` runs `bundle exec jekyll build --destination
+_site` and uploads the REGENERATED tree, so the committed `_site` is overwritten
+by that build and never read. Its whole cost is local, and the cost is that a
+green gate 6 on the `milosvasic.ru` half was evidence about eight files.
+
+**What was fixed is the REPORTING, because 69 red tests for one missing build is
+an infrastructure fault wearing content-failure red.** New `_tests/preflight.js`
+answers one question — can this suite honestly run? — with two verdicts and
+deliberately no third: **0 READY** or **2 CANNOT DETERMINE**. It never exits 1,
+because a preflight has read no site content and may make no claim about it.
+The route roster is DERIVED from the specs (each spec's single
+`require('../env.js')` binding line, then its `goto()` calls and its
+table-driven `{base:, path:}` rows), so a spec added tomorrow is covered without
+editing the file. It reports **6 missing PAGES**, and says so in those units:
+`seo-meta.spec.js` alone reconciles exactly, 2 pages × 6 assertions = 12
+failures.
+
+**It also closed two holes in `scripts/pre-push-gates.sh`'s own precondition.**
+That precondition tested for `milosvasic.ru/_site/index.html` — *the one file a
+fragment is guaranteed to have*, so the fragment passed it. And nothing asked
+whether a browser could START: `@playwright/test` is installed here and
+**webkit cannot launch at all** (`Host system is missing dependencies to run
+browsers`), because the failure is in system libraries rather than npm, so a
+package-presence check was checking the wrong thing. Verified both ways:
+
+| run | result |
+|---|---|
+| `PREPUSH_ONLY=6` | `● SKIP gate 6` with the full stated reason, rc 0 |
+| `PREPUSH_ONLY=6 PREPUSH_STRICT=1` | `PUSH BLOCKED — 1 gate(s) failed`, rc 1 |
+
+so it cannot become a hiding place. §1.1 paired proof `_tests/prove-preflight.sh`
+is **8 passed / 0 failed**, mutations as DATA only, including an M0 vacuity
+control — without it, "every mutation was caught" is satisfied by a program that
+returns 2 unconditionally — and M6 asserting the never-exits-1 contract. Two of
+the eight failed on first run; both were **wrong assertions in the proof, not
+defects in the preflight**, and the proof was fixed rather than the code.
+
+**Left for the operator, NOT acted on:** `_site` is dead weight that the
+production build ignores and the local harness mistakes for a site.
+`git rm -r --cached _site` removes nothing from disk and has no production
+effect, but deleting tracked files from a live public site is an operator
+decision. Until then gate 6's `milosvasic.ru` half honestly SKIPs.
+
+### FOUR SUBMODULES: GATES THAT REPORTED PASS FOR WHAT THEY NEVER RAN, 2026-09-06
+
+One defect class, found independently in four repositories: **a check reporting
+a CONTENT verdict for an INFRASTRUCTURE fault.** Each is committed and pushed.
+
+- **`submodules/RAG` `13f4bac`.** The unit gate ran `go test -short`, under
+  which four packages self-skip entirely. It tested **116 of 143** test
+  functions and printed `Results: 4/4 passed` — because a package that skips
+  everything exits 0 and the gate read the runner's exit code. All 27 skipped
+  tests pass in full mode and need no external infrastructure, so the hole was
+  not a dependency to document. Now **143 declared / 143 executed / 143 passed
+  / 0 skipped**, plus 143 under `-race`, with a new assertion comparing
+  DECLARED (counted from source) against EXECUTED (counted from the runner) —
+  two independent sources, so a runner that silently runs nothing is caught.
+  Six scripts that printed `PASSED (SKIP-OK)` now exit 2.
+- **`submodules/LLMProvider` `e2c6b7b`** (on `master` — see the branch note
+  below). Eight scripts, not the two briefed, returned 0 on absent
+  preconditions. Seven timing tests asserted a **wall-clock ceiling** on a
+  jittered retry — a claim about how busy the machine is, not about the code;
+  five of seven broke under deliberate load. Each now keeps its *lower* bound
+  (load can only delay a timer, never fire it early) and checks the real
+  property over 100,000 samples. Making `IsOpenCodeInstalled()` truthful — it
+  was `return false`, keeping three tests dark since 2026-03-19 — revealed that
+  the unit suite would then make **real model calls** and that `HealthCheck()`
+  would **spawn a daemon** as a side effect; both are now gated.
+- **`ai_interviewing` `712a9c9`.** A stopped server produced **19 content FAILs**
+  rather than undetermined. An impostor on the recorded port was **certified**
+  (`[PASS] C1 health ok=true (v9.9.9)`) and then used as the reference that
+  accused the REAL TLS endpoint of being "a DIFFERENT server". Driven at a dead
+  port it is now **rc 2, 0 content FAILs, 21 UNDETERMINED**, each naming its
+  reason. A fifth defect was found by measurement rather than from the brief:
+  `X | grep -q PAT` under `set -o pipefail` fails **because** the pattern was
+  found — grep exits on match, the writer dies of SIGPIPE, pipefail promotes it.
+  Measured 1 spurious FAIL in 10 runs, and 214 non-zero in a 3000-iteration
+  harness.
+- **`_tools/` (umbrella).** `reproducibility-selftest.sh` printed a green PASS
+  and exited 0 for a population it no longer had — driven with all eight Python
+  subjects deleted. Registry scanroots widened `scripts tests` →
+  `scripts tests _tools _tools/translate _tools/portfolio`;
+  `verify-check-registry.sh` is **57 PASS / 0 FAIL / 1 DEBT**, the debt loud on
+  every run rather than papered over as an exemption.
+
+**Branch note, measured because "work on main only" has one real exception.**
+`submodules/LLMProvider` lives on **`master`**: its `main` is 16 commits behind
+and a strict ancestor, last touched 2026-07-12. `submodules/containers` is the
+opposite — `main` live, `master` genuinely diverged (207 / 41, not
+fast-forwardable either way). Both remote `HEAD`s point at the live branch, both
+gitlinks match exactly, and `helix-deps.yaml` already records which is which.
+
 
 ### SEARCH SERVED A WINDOW OF PURE VOCABULARY — FIXED AND MEASURED, 2026-09-06
 

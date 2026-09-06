@@ -105,18 +105,37 @@
 #     bash scripts/verify-check-registry.sh --prove-failure   # its own §1.1 proof
 #
 # ── SCOPE, STATED SO NOBODY INFERS IT ────────────────────────────────────────
-# The scanroots are `scripts/` and `tests/` only. `_tools/` and `_tests/` hold
-# further gates that scripts/pre-push-gates.sh runs — notably
-# `_tools/audit-hardcoding.sh`, `_tools/translate/reproducibility-selftest.sh`,
-# `_tools/portfolio/self-validate.sh` and `_tests/run-harness-selfvalidation.sh`
-# — and they are NOT swept here yet. That is a KNOWN, DECLARED scope boundary,
-# not a claim that they conform. Widening it is a one-line `scanroot` addition;
-# it was not done in the same change that introduced the instrument because
-# those trees were under concurrent edit.
+# WIDENED 2026-09-06. The scanroots were `scripts/` and `tests/` only, and this
+# block used to record why: `_tools/` and `_tests/` hold further gates that
+# scripts/pre-push-gates.sh runs, and they were "NOT swept here yet ... because
+# those trees were under concurrent edit". `_tools/` no longer is, so it is
+# swept now — `_tools`, `_tools/translate` and `_tools/portfolio` are declared
+# below and the three gates the old note named by hand are registered as `check`
+# rows, each with a paired §1.1 proof and a demonstrated rc-2 state that were
+# WRITTEN for this change, not merely asserted. What each one owed, and what it
+# was measured doing before it was fixed, is recorded in the row comments.
+#
+# `_tests/` IS STILL NOT SWEPT, and `_tests/run-harness-selfvalidation.sh` is
+# therefore still unregistered. That is unchanged and deliberate: that tree was
+# under concurrent edit while this change was made, so nothing in it was read,
+# run, or judged. It is a DECLARED boundary, not a claim of conformance.
+#
+# The sweep is `find -maxdepth 1`, so a scanroot covers ONE directory level.
+# Six `*.sh` under `_tools/` therefore remain outside it, in five further
+# subdirectories that are not declared as scanroots:
+#   _tools/containers/compose/jekyll-build.sh   _tools/gen/build.sh
+#   _tools/helixtranslate-container/run.sh      _tools/od/generate.sh
+#   _tools/od/start-daemon.sh                   _tools/pdf/build-pdfs.sh
+# Naming them here is the point: an undeclared boundary is the thing this file
+# exists to prevent. The same maxdepth rule already applies to `scripts/audit/`
+# and `scripts/badges/`, whose checks are registered individually.
 # -----------------------------------------------------------------------------
 
 scanroot	scripts
 scanroot	tests
+scanroot	_tools
+scanroot	_tools/translate
+scanroot	_tools/portfolio
 
 # ── Files under a scanroot that are not checks ───────────────────────────────
 exempt	scripts/install_skills.sh	installer: shells out to `npx skills add` to populate global skills; asserts nothing about this repository
@@ -171,3 +190,77 @@ check	docs-chain-sync	scripts/verify-docs-chain.sh	flag	--prove-failure	--root /
 check	zero-findings-sweep	scripts/audit/zero_findings_sweep.sh	flag	--prove-failure	--root /nonexistent
 check	badge-computer	scripts/badges/compute_badges.sh	flag	--prove-failure	--check --root /nonexistent
 check	directive-register	scripts/verify-directive-register.sh	flag	--prove-failure	--root /nonexistent
+
+# ── _tools/ — files under the newly declared scanroots that are not checks ───
+# Every one of these was classified by reading its header and its exit paths,
+# not by whether registering it would be convenient. A script that PRODUCES a
+# verdict is not exempt here even when it is inconvenient — see the `debt` row
+# for _tools/review-translations.sh below.
+exempt	_tools/deploy-langs.sh	deploy driver: regenerates both sites, commits and pushes them, then validates the LIVE sites. It MUTATES two production repositories; its output is a deployment, not a judgement about this tree
+exempt	_tools/distribute-helixtranslate.sh	distribution tool: ships the HelixTranslate container assets to remote hosts over ssh/scp/rsync. It moves files to other machines and asserts nothing about this repository
+exempt	_tools/helixtranslate-container.sh	engine shim: a one-shot `podman run --rm -i` wrapper that streams a document through the translation engine. It is the SUBJECT of the translate-reproducibility check, not a check itself
+exempt	_tools/helixtranslate-local.sh	engine shim, local variant: resolves the container runtime through the Containers submodule and runs the engine. Same role as the shim above — a subject, not a judge
+exempt	_tools/render-articles.sh	generator: renders article Markdown into HTML fragments. It writes content; the content it writes is judged elsewhere (_tools/audit-hardcoding.sh)
+exempt	_tools/translate-all-defresfr.sh	translation batch driver (de/es/fr): resumable content producer. Deliberately no `set -e` so one failure does not abort the batch, which is the opposite of a gate's contract
+exempt	_tools/translate-all-langs.sh	translation batch driver, generic-language form: same producer role as the de/es/fr driver above
+exempt	_tools/translate-fleet.sh	parallel translation driver: dispatches translation jobs to containers on two remote hosts. An orchestrator of work, not an assertion about the tree
+exempt	_tools/translate-pipeline.sh	translation pipeline: turns one Markdown file into a translated one. It is the SUBJECT of the translate-reproducibility check (its line 55 engine default is one of the two defaults that check reads)
+exempt	_tools/watch-deploy.sh	watcher daemon: loops calling deploy-langs.sh until the translation batch finishes. It schedules a mutator; it judges nothing
+exempt	_tools/translate/finalize-review.sh	remediation driver: re-runs the recalibrated reviewer over the docs a superseded reviewer false-FAILed, to bring each language to a full count. It CHANGES recorded verdicts rather than producing one
+exempt	_tools/translate/run-batch.sh	orchestrator: decides WHAT to (re)run and records per-(lang,doc) status. Its own header states it "does NOT translate or review itself" — it neither performs nor judges the work
+exempt	_tools/translate/translate-content.sh	content translation utility: the committed driver the batch orchestrator calls. It is the SUBJECT of the translate-reproducibility check (its line 61 engine default is the other of the two defaults that check reads)
+
+# ── _tools/ gates — registered 2026-09-06, each fixed before it was registered ─
+# scripts/pre-push-gates.sh has run all three since long before the registry
+# existed (gate_2, gate_3, gate_4). Being run by the hook is not conformance,
+# and the audit that preceded this registration found that two of the three
+# were not three-valued in the direction they claimed. What each owed, and the
+# measurement that established it, is recorded on the row.
+#
+# hardcoded-content — a MISSING GO TOOLCHAIN already returned 2 (measured with a
+# PATH-stubbed `go`), but every OTHER "the gate had no input" path returned 1
+# while printing the words "gate could not run": driven with a stub `go` that
+# built a generator emitting nothing, it printed "❌ FAIL — gate could not run"
+# and exited 1. An unusable build was reported as a confirmed hardcoding
+# violation. die() is now rc 2, and the gate gained --audit-only (which is what
+# lets its proof drive the shipped code path against fixture trees) and a
+# --prove-failure battery of 9 data-only mutations.
+check	hardcoded-content	_tools/audit-hardcoding.sh	flag	--prove-failure	--audit-only /nonexistent
+#
+# translate-reproducibility — BOTH halves of this gate are ABSENCE assertions,
+# and an absence assertion over an empty set is vacuously true. The shell half
+# had a positive control; the PYTHON half did not. Driven on a throwaway copy
+# with every *.py under _tools deleted, it printed "PASS (no /tmp engine default
+# in any _tools/**/*.py)" and exited 0 — a pass for a population it no longer
+# had. It now proves its subject is non-empty before asserting over it, has a
+# real rc 2, and carries a 5-mutation --prove-failure battery whose M4 is
+# exactly that vacuous pass.
+check	translate-reproducibility	_tools/translate/reproducibility-selftest.sh	flag	--prove-failure	--root /nonexistent
+#
+# portfolio-data-integrity — this one was already three-valued for the fixture
+# faults its own header documents (deleted and corrupt golden-BAD fixtures both
+# measured rc 2 before any change). It had ONE hole: run_case mapped any rc
+# outside {0,1,2} to UNDETERMINED in the evidence JSON, but the assertion block
+# re-tested the raw rc and sent everything else to FAIL. With `node` hidden
+# behind a PATH stub it exited 1 saying "validator is not mutation-paired"
+# while its own evidence recorded UNDETERMINED. Both arms now branch on the
+# same vocabulary, and the 8-mutation --prove-failure battery includes that
+# case (M8) and an out-of-contract validator (M6).
+# The rc-2 probe is `--fixtures /nonexistent`, and the subject guard is ordered
+# BEFORE the evidence-directory mkdir on purpose: the default OUT is tracked
+# evidence under _tests/, so a probe that ran past that point would dirty the
+# working tree every time the registry is verified.
+check	portfolio-data-integrity	_tools/portfolio/self-validate.sh	flag	--prove-failure	--fixtures /nonexistent
+
+# ── _tools/ debt — declared, counted, NOT fixed ──────────────────────────────
+# review-translations.sh is NOT exempt, and calling it one would have been the
+# convenient answer rather than the true one. It runs an independent reviewer
+# model over every translated article and "records a strict PASS/FAIL/ERROR
+# verdict + evidence JSON", which is a judging instrument by any reading. It
+# owes both properties: `grep -c 'prove-failure|selftest|mutation'` returns 0,
+# and it parses no options at all, so there is no argv that could reach a
+# could-not-determine state — its two guard clauses ("cannot resolve repository
+# root", "reviewer not found") are precisely could-not-determine conditions and
+# both exit 1. Bringing it to conformance needs a reviewer backend this pass
+# did not have, so it is declared rather than hidden.
+debt	translation-review	_tools/review-translations.sh	proof,three-valued	produces PASS/FAIL/ERROR verdicts per translated article but has no paired mutation proof (no --prove-failure/--selftest arm exists) and no rc-2 path: it takes no options, and both of its "cannot run" guards — unresolvable repository root, missing reviewer — exit 1, reporting could-not-determine as a finding. Conformance needs a reviewer model backend, which was not available in the pass that registered it

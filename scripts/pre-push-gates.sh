@@ -218,12 +218,38 @@ precondition() {
                 echo "PREPUSH_SKIP_SLOW=1 was set by the operator"
                 return 1
             fi
-            if [[ ! -f "$ROOT/milosvasic.ru/_site/index.html" ]]; then
-                echo "milosvasic.ru/_site is not built — run: (cd milosvasic.ru && bundle exec jekyll build --destination _site)"
-                return 1
-            fi
-            if [[ ! -f "$ROOT/vasic.digital/index.html" ]]; then
-                echo "the vasic.digital submodule is not checked out — run: git submodule update --init vasic.digital"
+            # The two checks that used to stand here tested for
+            # milosvasic.ru/_site/index.html and vasic.digital/index.html. Both
+            # were too weak to catch the state this host is actually in.
+            #
+            # `_site/index.html` EXISTS — and `_site` still holds only eight
+            # tracked files and exactly one rendered page, because this host has
+            # no `bundle` and cannot run Jekyll at all. So the one file a
+            # fragment is guaranteed to have was the entire test, and
+            # ui-l10n-chrome.spec.js's request for /products/ru/catalogizer.html
+            # 404s against a page the milosvasic.ru SOURCE really does carry.
+            # That reaches the reader as "the site is broken". It is not; the
+            # served corpus is a fragment.
+            #
+            # Nor did anything ask whether a browser could START. Measured
+            # 2026-09-06, `@playwright/test` is installed and webkit still
+            # cannot launch — the failure is in system libraries, not in npm —
+            # so a package-presence check was checking the wrong thing entirely.
+            #
+            # _tests/preflight.js asks both questions and derives the route list
+            # from the specs themselves, so a spec added tomorrow is covered
+            # without editing this file. It is scoped to --project=chromium
+            # because that is what gate 6 runs: holding this gate to webkit's
+            # system libraries would block a push over a browser it never uses.
+            # Its exit 2 is a CANNOT-DETERMINE, which is exactly what a stated
+            # SKIP reason means here; it never returns 1, because a preflight
+            # has read no site content and may make no claim about it.
+            local pf_out pf_rc
+            pf_out="$(cd "$ROOT/_tests" && node preflight.js --project=chromium 2>&1)"
+            pf_rc=$?
+            if [[ "$pf_rc" != "0" ]]; then
+                echo "the harness cannot honestly run — _tests/preflight.js exited $pf_rc:"
+                printf '%s\n' "$pf_out" | sed 's/^/    /'
                 return 1
             fi
             ;;
