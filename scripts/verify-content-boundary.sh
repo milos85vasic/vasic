@@ -220,6 +220,49 @@
 # fact that a default run scanned NONE is printed too. A blind spot that does
 # not announce itself is how this one survived.
 #
+# ── THE FABRICATED ZERO in that announcement (found and fixed 2026-09-06) ────
+# The paragraph above was HALF TRUE, and the false half was the reassuring one.
+# The default branch of that report printed a HARDCODED LITERAL:
+#
+#     untracked (public)    0 file(s) — NOT SCANNED; pass --include-untracked ...
+#
+# `UNTRACKED_N` was only ever incremented inside the `--include-untracked`
+# branch, so on a default run it was ALWAYS 0 and that line read "0 file(s)"
+# whether the tree held none or held sixty. Nothing counted them. The words
+# "NOT SCANNED" stood beside the zero, but a reader takes in the NUMBER before
+# the qualifier, and the number said there were none. In a gate whose entire
+# job is to stop private content reaching a public repository before an
+# irreversible push, that was a statement of fact which had never been
+# measured — the same failure class as the leak this section exists because of,
+# committed by the fix for it.
+#
+# It stood for four days: introduced together with the untracked branch itself
+# in commit 402a8c7 (2026-09-02), carried unchanged through a75c898
+# (2026-09-04), corrected here.
+#
+# TWO changes, and the separation between them is load-bearing:
+#
+#   * COUNTED HONESTLY. `cb_ls_untracked` now runs on the public side in BOTH
+#     modes. In the default mode its files land in `UNSCANNED_N` and
+#     `$UNSCANNED_LIST` — a SEPARATE counter and a SEPARATE list that NO pass
+#     ever reads. The analysed candidate set is byte-for-byte what it was, so
+#     the promise made above — "a plain run's verdict and counts are exactly
+#     what they were" — survives this fix instead of being quietly spent by it.
+#     M29e is the paired half that holds it: the leak counts either side of
+#     this change, on one tree, must be identical.
+#
+#   * UNREAD BUT PUSHABLE IS UNDETERMINED. A file that could leak and was not
+#     opened is an `undet` row naming its PATH, so a default run over a tree
+#     holding one exits 2 and never 0. This gate cannot call a tree clean over
+#     files it declined to read, and in this project a 2 is never a pass.
+#     PRECEDENCE IS UNCHANGED, and is still decided in exactly one place — the
+#     `RC=0 / RC=2 / RC=1` ladder at the bottom of this file, untouched by this
+#     change: a real leak outranks it. M29c holds that open.
+#
+# `.gitignore` still decides what is even eligible: an ignored file cannot be
+# pushed, so it is neither counted nor named. M29d holds that open in the
+# default mode, as M23d does for the flag.
+#
 # ── Fleet derivation (nothing is hardcoded) ──────────────────────────────────
 # The fleet is read from `.gitmodules` plus this tree's own remote, exactly as
 # gate_E and the audits do. Visibility is asked of the PROVIDER, never assumed
@@ -332,9 +375,13 @@
 #   * translated, paraphrased or reordered content. This is a verbatim matcher.
 #   * anything in git HISTORY. Every pass reads the working tree only.
 #   * UNTRACKED files in a public repository, UNLESS `--include-untracked` is
-#     given. That was a silent hole until 2026-09-02 and it is now an announced
-#     one: every run prints how many untracked files it read, and a default run
-#     prints that it read none. See "THE UNTRACKED HOLE" above.
+#     given. That was a silent hole until 2026-09-02, and until 2026-09-06 the
+#     announcement of it printed a FABRICATED ZERO. Both halves are fixed: a
+#     default run now COUNTS the untracked public files it is not reading,
+#     NAMES them, and reports them as UNDETERMINED, so it can no longer exit 0
+#     over a file it never opened. The CONTENT of such a file is still unread
+#     — that part is the blind spot, and it is closed only by passing the flag.
+#     See "THE UNTRACKED HOLE" and "THE FABRICATED ZERO" above.
 #   * UNTRACKED files in a PRIVATE repository, in EVERY mode. The private corpus
 #     is always tracked-only, so private material that has been written but not
 #     yet committed is not a source of keys and its appearance in a public file
@@ -423,6 +470,11 @@ CORPUS_DELTA_N=0
 # header note "THE UNTRACKED HOLE".
 INCLUDE_UNTRACKED=0
 UNTRACKED_N=0
+# Untracked PUBLIC files this run did NOT read. Counted on EVERY default run,
+# and kept rigidly separate from UNTRACKED_N and from the analysed candidate
+# set: these paths are enumerated for the REPORT and for one UNDETERMINED row,
+# and are never handed to any pass. See the header note "THE FABRICATED ZERO".
+UNSCANNED_N=0
 
 # ── short pass (class D2: headings, list items, captions) ────────────────────
 # A separate, NARROWER pass. Its strictness does not come from the window — it
@@ -979,9 +1031,17 @@ M22EOF
     p_case "M23b0 the seeded file really is untracked" "?? in git status" \
         "$( [[ $m23u -eq 0 ]] && echo '??' || echo 'NOT untracked' )" "$m23u" \
         "$(git -C "$tmp/m23" status --porcelain 2>&1 | head -5)"
-    out="$(bash "$self" --root "$tmp/m23" --fleet-spec "$SPEC" --allow "$ALLOW" --quiet 2>&1)"; rc=$?
-    p_case "M23b default mode is BLIND to it (the hole)" "rc=0 (the defect)" "rc=$rc" \
-        "$( [[ $rc -eq 0 ]] && echo 0 || echo 1 )" "$out"
+    #      M23b was written as `rc=0 (the defect)` and passed for four days.
+    #      It is now rc=2: the default run STILL cannot see the content — that
+    #      is what the flag is for, and the absence of a LEAK line below proves
+    #      the hole is unchanged — but it may no longer report the tree CLEAN
+    #      over a file it declined to open. See "THE FABRICATED ZERO".
+    out="$(bash "$self" --root "$tmp/m23" --fleet-spec "$SPEC" --allow "$ALLOW" 2>&1)"; rc=$?
+    p_case "M23b default mode is still BLIND to the CONTENT" "no LEAK line" \
+        "$( grep -q 'LEAK —' <<<"$out" && echo 'LEAK printed' || echo 'no LEAK line' )" \
+        "$( grep -q 'LEAK —' <<<"$out" && echo 1 || echo 0 )" "$(tail -6 <<<"$out")"
+    p_case "M23b2 but it is UNDETERMINED, never clean" "rc=2" "rc=$rc" \
+        "$( [[ $rc -eq 2 ]] && echo 0 || echo 1 )" "$(tail -6 <<<"$out")"
     out="$(bash "$self" --root "$tmp/m23" --fleet-spec "$SPEC" --allow "$ALLOW" --include-untracked 2>&1)"; rc=$?
     p_case "M23c --include-untracked CATCHES it" "rc=1" "rc=$rc" \
         "$( [[ $rc -eq 1 ]] && echo 0 || echo 1 )" "$(tail -6 <<<"$out")"
@@ -1056,6 +1116,116 @@ M24QEOF
     out="$(bash "$self" --root "$tmp/m24" --fleet-spec "$SPEC" --allow "$ALLOW" --include-untracked --quiet 2>&1)"; rc=$?
     p_case "M24b same bytes, private file COMMITTED, caught" "rc=1" "rc=$rc" \
         "$( [[ $rc -eq 1 ]] && echo 0 || echo 1 )" "$out"
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # F7 — THE FABRICATED ZERO (2026-09-06).
+    #
+    # The default branch of the untracked report printed a HARD-CODED "0
+    # file(s) — NOT SCANNED" and counted nothing, so a tree holding sixty
+    # unread public files reported the same number as an empty one. These cases
+    # pin the four claims the fix makes, and the last is the one that protects
+    # everything else: COUNTING must not have widened what is SCANNED.
+    # ══════════════════════════════════════════════════════════════════════════
+
+    # ---- M29a the TRUE count is reported, and it is not a constant -------
+    #      Three untracked public files, none of them read. The old line said
+    #      "0 file(s)" here. The second half of the pair runs the SAME command
+    #      against the SAME fixture with no untracked file, so a detector that
+    #      simply always printed "3" would fail it.
+    cp -a "$B" "$tmp/m29"
+    printf 'An ordinary working note that quotes nothing from anywhere.\n' >"$tmp/m29/docs/scratch-a.md"
+    printf 'A second ordinary note, written for this fixture alone.\n'      >"$tmp/m29/docs/scratch-b.md"
+    printf 'A third ordinary note, written for this fixture alone.\n'       >"$tmp/m29/docs/scratch-c.md"
+    out="$(bash "$self" --root "$tmp/m29" --fleet-spec "$SPEC" --allow "$ALLOW" 2>&1)"; rc=$?
+    local m29c=1 m29j=1
+    grep -q '3 file(s) — NOT SCANNED' <<<"$out" && m29c=0
+    p_case "M29a default run reports the TRUE count" "3 file(s) — NOT SCANNED" \
+        "$(grep -o '[0-9]* file(s) — NOT SCANNED' <<<"$out" | head -1)" "$m29c" "$(tail -12 <<<"$out")"
+    local m29n=1
+    grep -q 'docs/scratch-b.md' <<<"$out" && m29n=0
+    p_case "M29a2 it NAMES the files it did not read" "docs/scratch-b.md named" \
+        "$( [[ $m29n -eq 0 ]] && echo named || echo ABSENT )" "$m29n" "$(tail -14 <<<"$out")"
+    bash "$self" --root "$tmp/m29" --fleet-spec "$SPEC" --allow "$ALLOW" --json \
+        >"$tmp/m29.json" 2>/dev/null
+    grep -q '"files_unscanned": 3' "$tmp/m29.json" && m29j=0
+    p_case "M29a3 --json carries the same count" '"files_unscanned": 3' \
+        "$(grep -o '"files_unscanned": [0-9]*' "$tmp/m29.json" | head -1)" "$m29j" \
+        "$(grep -o '"untracked": {[^}]*}' "$tmp/m29.json" | head -1)"
+    out="$(bash "$self" --root "$B" --fleet-spec "$SPEC" --allow "$ALLOW" 2>&1)"; rc=$?
+    local m29z=1
+    grep -q '0 file(s) — NOT SCANNED' <<<"$out" && m29z=0
+    p_case "M29a4 an untracked-free tree still reports 0" "0 file(s) — NOT SCANNED" \
+        "$(grep -o '[0-9]* file(s) — NOT SCANNED' <<<"$out" | head -1)" "$m29z" "$(tail -10 <<<"$out")"
+
+    # ---- M29b unread but pushable is UNDETERMINED, not clean -------------
+    #      No leak anywhere on this tree: the only thing standing between it
+    #      and rc=0 is that three files that COULD leak were never opened.
+    out="$(bash "$self" --root "$tmp/m29" --fleet-spec "$SPEC" --allow "$ALLOW" --quiet 2>&1)"; rc=$?
+    p_case "M29b no leak, but unread files => rc=2" "rc=2" "rc=$rc" \
+        "$( [[ $rc -eq 2 ]] && echo 0 || echo 1 )" "$out"
+    out="$(bash "$self" --root "$tmp/m29" --fleet-spec "$SPEC" --allow "$ALLOW" --include-untracked --quiet 2>&1)"; rc=$?
+    p_case "M29b2 same tree, files READ, is clean" "rc=0" "rc=$rc" \
+        "$( [[ $rc -eq 0 ]] && echo 0 || echo 1 )" "$out"
+
+    # ---- M29c/M29e PRECEDENCE holds, and the SCANNED SET did not move ----
+    #      One tree carrying a real TRACKED leak, measured twice: before an
+    #      untracked public file appears beside it, and after. rc must stay 1
+    #      (a leak outranks undetermined, decided in one place and untouched),
+    #      and the prose/short/name counts must be IDENTICAL — which is the
+    #      whole guarantee that counting the unread files did not quietly
+    #      enlarge what is analysed.
+    local rca=99 rcb=99
+    cp -a "$tmp/m1" "$tmp/m29p"
+    bash "$self" --root "$tmp/m29p" --fleet-spec "$SPEC" --allow "$ALLOW" --json \
+        >"$tmp/m29p.a" 2>/dev/null; rca=$?
+    { printf '\n'; sed -n '4,6p' "$tmp/m29p/priv/chapters/notes.txt"; } >"$tmp/m29p/docs/untracked-extra.md"
+    bash "$self" --root "$tmp/m29p" --fleet-spec "$SPEC" --allow "$ALLOW" --json \
+        >"$tmp/m29p.b" 2>/dev/null; rcb=$?
+    p_case "M29c leak outranks the new rc=2 source" "rc=1 both runs" "rc=$rca/$rcb" \
+        "$( [[ "$rca" == "1" && "$rcb" == "1" ]] && echo 0 || echo 1 )" \
+        "$(grep -o '"counts": {[^}]*}' "$tmp/m29p.b" | head -1)"
+    local ca cb m29s=1
+    ca="$(grep -o '"leaks": [0-9]*, "prose": [0-9]*, "short": [0-9]*, "name": [0-9]*' "$tmp/m29p.a" | head -1)"
+    cb="$(grep -o '"leaks": [0-9]*, "prose": [0-9]*, "short": [0-9]*, "name": [0-9]*' "$tmp/m29p.b" | head -1)"
+    [[ -n "$ca" && "$ca" == "$cb" ]] && m29s=0
+    p_case "M29e counting did NOT widen the scanned set" "identical leak counts" \
+        "$( [[ $m29s -eq 0 ]] && echo identical || echo DIFFERS )" "$m29s" \
+        "before: $ca / after: $cb"
+    local m29u=1
+    grep -q 'docs/untracked-extra.md' "$tmp/m29p.b" && m29u=0
+    p_case "M29e2 the unread file is still NAMED on a red run" "path in undetermined" \
+        "$( [[ $m29u -eq 0 ]] && echo named || echo ABSENT )" "$m29u" \
+        "$(grep -o '"undetermined": \[[^]]*' "$tmp/m29p.b" | head -c 300)"
+
+    # ---- M29d `.gitignore` still decides, in the DEFAULT mode too --------
+    #      An ignored file cannot be pushed, so reporting it would be noise and
+    #      an rc=2 bought with noise is how a gate stops being read. The pair:
+    #      the SAME bytes in a NON-ignored untracked file must be counted, so
+    #      the first half's silence cannot be the counter having gone dead.
+    cp -a "$B" "$tmp/m29g"
+    printf 'scratch/\n' >"$tmp/m29g/.gitignore"
+    git -C "$tmp/m29g" add -A >/dev/null 2>&1
+    git -C "$tmp/m29g" -c commit.gpgsign=false commit -qm m29g >/dev/null 2>&1
+    mkdir -p "$tmp/m29g/scratch"
+    printf 'An ignored scratch note that can never be pushed.\n' >"$tmp/m29g/scratch/note.md"
+    out="$(bash "$self" --root "$tmp/m29g" --fleet-spec "$SPEC" --allow "$ALLOW" 2>&1)"; rc=$?
+    local m29i=1 m29ip=1
+    grep -q '0 file(s) — NOT SCANNED' <<<"$out" && m29i=0
+    grep -q 'scratch/note.md' <<<"$out" || m29ip=0
+    p_case "M29d ignored file is NOT counted" "0 file(s) — NOT SCANNED" \
+        "$(grep -o '[0-9]* file(s) — NOT SCANNED' <<<"$out" | head -1)" "$m29i" "$(tail -10 <<<"$out")"
+    p_case "M29d2 ignored file is NOT named" "path absent" \
+        "$( [[ $m29ip -eq 0 ]] && echo absent || echo PRINTED )" "$m29ip" "$(tail -10 <<<"$out")"
+    p_case "M29d3 ignored-only tree is still CLEAN" "rc=0" "rc=$rc" \
+        "$( [[ $rc -eq 0 ]] && echo 0 || echo 1 )" "$(tail -6 <<<"$out")"
+    printf 'A note that is NOT ignored and therefore could be pushed.\n' >"$tmp/m29g/docs/not-ignored-note.md"
+    out="$(bash "$self" --root "$tmp/m29g" --fleet-spec "$SPEC" --allow "$ALLOW" 2>&1)"; rc=$?
+    local m29i2=1
+    grep -q '1 file(s) — NOT SCANNED' <<<"$out" && m29i2=0
+    p_case "M29d4 same tree, NON-ignored file, counted" "1 file(s) — NOT SCANNED" \
+        "$(grep -o '[0-9]* file(s) — NOT SCANNED' <<<"$out" | head -1)" "$m29i2" "$(tail -10 <<<"$out")"
+    p_case "M29d5 ... and that one turns it UNDETERMINED" "rc=2" "rc=$rc" \
+        "$( [[ $rc -eq 2 ]] && echo 0 || echo 1 )" "$(tail -6 <<<"$out")"
 
     # ══════════════════════════════════════════════════════════════════════════
     # F6 — THE MOVING TREE (2026-09-04).
@@ -1217,10 +1387,10 @@ M24QEOF
     bash "$self" --root "$SELF_REPO" --quiet >"$tmp/live.log" 2>&1; lrc=$?
     echo "live run rc=$lrc  ($(tail -n 1 "$tmp/live.log" 2>/dev/null || echo 'no output captured'))"
     echo "  A non-zero live rc is a statement about THIS TREE, not about the"
-    echo "  battery above; all 28 mutations ran against the synthetic fixture."
+    echo "  battery above; all 29 mutations ran against the synthetic fixture."
 
     echo
-    echo "proof: $P_PASS passed, $P_FAIL failed, 28 mutations run"
+    echo "proof: $P_PASS passed, $P_FAIL failed, 29 mutations run"
     [[ $P_FAIL -eq 0 ]]
 }
 
@@ -1806,6 +1976,11 @@ EMIT_SEQ=0
 # nobody could see was missing.
 UNTRACKED_LIST="$TMPD/untracked.txt"; : >"$UNTRACKED_LIST"
 
+# Every untracked PUBLIC file the run did NOT admit, fully qualified. A
+# SEPARATE file from the one above on purpose: nothing downstream may confuse
+# "read" with "seen but not read", and no pass reads this one at all.
+UNSCANNED_LIST="$TMPD/unscanned.txt"; : >"$UNSCANNED_LIST"
+
 # The umbrella's own path is "."; every label must be plain "docs/x.md", never
 # "./docs/x.md", or an exemption glob written the obvious way would silently
 # fail to match — a false NEGATIVE hiding inside a false-positive guard.
@@ -1848,12 +2023,25 @@ emit_repo() { # $1 repo-relative path  $2 out-BASE (.L/.S/.N appended)  $3 "priv
     # and git does not descend into a submodule's working tree, so each
     # repository in the fleet still contributes exactly its own untracked files
     # under its own prefix — no path is counted twice and none is mislabelled.
-    if [[ $INCLUDE_UNTRACKED -eq 1 && "$side" == "pub" ]]; then
+    #
+    # COUNTING AND SCANNING ARE TWO DIFFERENT THINGS, and until 2026-09-06 this
+    # block did neither in the default mode while REPORTING a hard-coded 0.
+    # The enumeration now runs in BOTH modes; only the flag decides whether the
+    # result is appended to `$list`. With the flag OFF the analysed set is
+    # therefore byte-for-byte what it always was — the paths go to a separate
+    # counter and a separate list that feed the report and one UNDETERMINED
+    # row, and nothing else. See the header note "THE FABRICATED ZERO".
+    if [[ "$side" == "pub" ]]; then
         cb_ls_untracked "$dir" >"$base.untracked"
         if [[ -s "$base.untracked" ]]; then
-            UNTRACKED_N=$((UNTRACKED_N + $(wc -l <"$base.untracked" | tr -d ' ')))
-            sed "s|^|$pfx|" "$base.untracked" >>"$UNTRACKED_LIST"
-            cat "$base.untracked" >>"$list"
+            if [[ $INCLUDE_UNTRACKED -eq 1 ]]; then
+                UNTRACKED_N=$((UNTRACKED_N + $(wc -l <"$base.untracked" | tr -d ' ')))
+                sed "s|^|$pfx|" "$base.untracked" >>"$UNTRACKED_LIST"
+                cat "$base.untracked" >>"$list"
+            else
+                UNSCANNED_N=$((UNSCANNED_N + $(wc -l <"$base.untracked" | tr -d ' ')))
+                sed "s|^|$pfx|" "$base.untracked" >>"$UNSCANNED_LIST"
+            fi
         fi
     fi
 
@@ -2101,6 +2289,31 @@ for p in "${PUB_PATHS[@]:-}"; do
 done
 trace "public scan done (L=$(wc -l <"$HITS_L") S=$(wc -l <"$HITS_S") N=$(wc -l <"$HITS_N") raw matches)"
 
+# ── UNREAD BUT PUSHABLE => UNDETERMINED (2026-09-06) ─────────────────────────
+# A file sitting untracked in a public working tree is one `git add .` away
+# from a public history that cannot be edited afterwards. This run did not open
+# it. "Clean" is therefore a verdict this run is not entitled to give, and in
+# this project a 2 is never a pass — so the files are named, by PATH ONLY, as
+# UNDETERMINED rows. Reading them is what `--include-untracked` is for; the row
+# says so rather than leaving the operator to guess.
+#
+# The gate's own `undet` mechanism is used, unchanged, so this feeds the same
+# UNDET_ROWS the report and the JSON already print, and obeys the same single
+# precedence ladder at the bottom of this file. A leak still outranks it.
+if [[ $INCLUDE_UNTRACKED -eq 0 && $UNSCANNED_N -gt 0 ]]; then
+    undet "$UNSCANNED_N untracked PUBLIC file(s) exist in this tree and were NOT READ by this run; their content could not be checked, and 'commit' runs 'git add .', which would stage every one of them. Re-run with --include-untracked to read them."
+    UNS_NAMED=0
+    while IFS= read -r u; do
+        [[ -n "${u:-}" ]] || continue
+        UNS_NAMED=$((UNS_NAMED + 1))
+        if [[ $UNS_NAMED -le $CORPUS_NAME_MAX ]]; then
+            undet "untracked PUBLIC file NOT read: $u — path named, content deliberately NOT read"
+        fi
+    done < <(LC_ALL=C sort "$UNSCANNED_LIST")
+    [[ $UNSCANNED_N -gt $CORPUS_NAME_MAX ]] && \
+        undet "untracked PUBLIC file NOT read: ... and $((UNSCANNED_N - CORPUS_NAME_MAX)) further path(s) not named individually"
+fi
+
 # ── ALREADY-PUBLIC + DECLARED exemptions, once per key space ─────────────────
 # Each class gets its OWN already-public set: "present in >= 2 public
 # repositories" has to be asked of the same kind of key it is answering about.
@@ -2319,9 +2532,18 @@ if [[ $QUIET -eq 0 ]]; then
         vsay "  ${C_DIM}the PRIVATE corpus is still tracked-only in this mode: the flag widens where${C_OFF}"
         vsay "  ${C_DIM}a key may be FOUND, never what a key IS. See the header's blind-spot list.${C_OFF}"
     else
-        vsay "  untracked (public)    ${C_YEL}0 file(s) — NOT SCANNED${C_OFF}; pass --include-untracked to read them"
+        # $UNSCANNED_N, never a literal. Until 2026-09-06 this printed "0
+        # file(s)" on every default run, counted nothing, and was read as
+        # "there were none". See the header note "THE FABRICATED ZERO".
+        vsay "  untracked (public)    ${C_YEL}$UNSCANNED_N file(s) — NOT SCANNED${C_OFF}; pass --include-untracked to read them"
+        if [[ $UNSCANNED_N -gt 0 ]]; then
+            while IFS= read -r u; do vsay "    ${C_DIM}$u${C_OFF}"; done < <(LC_ALL=C sort "$UNSCANNED_LIST" | head -20)
+            [[ $UNSCANNED_N -gt 20 ]] && vsay "    ${C_DIM}... and $((UNSCANNED_N - 20)) more${C_OFF}"
+        fi
         vsay "  ${C_DIM}an untracked public file quoting private material is invisible to this run,${C_OFF}"
         vsay "  ${C_DIM}and 'commit' runs 'git add .', which stages every one of them.${C_OFF}"
+        [[ $UNSCANNED_N -gt 0 ]] && \
+            vsay "  ${C_DIM}they are reported as UNDETERMINED above: unread and pushable is not clean.${C_OFF}"
     fi
 fi
 
@@ -2361,8 +2583,10 @@ if [[ $JSON -eq 1 ]]; then
     # Additive, so a consumer written against the previous shape keeps working.
     # `files_scanned` is 0 in the default mode BECAUSE nothing was read, not
     # because nothing was there — `included` is what distinguishes the two.
-    printf '  "untracked": { "included": %s, "side": "public", "files_scanned": %s },\n' \
-        "$INCLUDE_UNTRACKED" "$UNTRACKED_N"
+    # `files_unscanned` is additive too, and it is the field that used to be
+    # missing while the human line asserted a zero it had not measured.
+    printf '  "untracked": { "included": %s, "side": "public", "files_scanned": %s, "files_unscanned": %s },\n' \
+        "$INCLUDE_UNTRACKED" "$UNTRACKED_N" "$UNSCANNED_N"
     # Additive. "stable":false means the counts above were measured over a tree
     # that changed underneath them; "changed" carries only how many paths, and
     # the paths themselves are in "undetermined" — never their content.

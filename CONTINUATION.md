@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-06T09:20:00Z
+    Last-Updated: 2026-09-06T09:45:00Z
     Synced-Commit: 99814b2
     Authority-Root: submodules/constitution
 
@@ -528,6 +528,54 @@ composition was fine. The share is ONE constant, argued rather than measured,
 deliberately in one place so changing it is visible. Making it a ceiling that
 engages only when a population would otherwise be starved is a different and
 reasonable design; it was not taken here.
+
+### THE CONTENT-BOUNDARY GATE PRINTED A FABRICATED ZERO FOR FOUR DAYS — FIXED 2026-09-06
+
+**In the gate whose entire job is to stop private content reaching a PUBLIC
+repository before an irreversible push.** Its default branch emitted a HARDCODED
+LITERAL — `untracked (public) 0 file(s) — NOT SCANNED` — and never counted them.
+A reader sees a zero and concludes there were none. The words "NOT SCANNED" were
+there, but "0 file(s)" contradicted them and **the reassuring half was the false
+one**. Introduced with the untracked branch itself in `402a8c7`
+(2026-09-02T23:30:57), carried unchanged through `a75c898` — **four days, two
+commits**.
+
+Not hypothetical: the gate's own header records a 2026-09-02 incident where an
+untracked file in this public umbrella carried verbatim private source, and
+*"this gate ran green over that file every time, because it never opened it."*
+
+**THIS IS THE SECOND INSTANCE OF ONE CLASS IN A SINGLE DAY.** The other is
+recorded below — an environment audit reported "1 → 0" for a file that was still
+untracked and therefore never scanned. `git ls-files` does not list what has not
+been added, and the `commit` wrapper runs `git add .`, so the window between
+writing a file and publishing it permanently is ONE COMMAND WIDE.
+
+**The fix, and the property that had to be preserved.** `cb_ls_untracked` now
+runs on the public side in BOTH modes; only the flag decides whether the result
+joins the scanned set. Default-mode paths go to a separate counter and list that
+no analysis pass reads — because the header makes an explicit promise that a
+plain run's counts are not silently moved underneath a recorded baseline.
+**Verified byte-identical: 15558 (prose 14740, short 653, name 165) before and
+after.** Unread-but-pushable files now emit an `undet` row through the gate's
+OWN existing mechanism, because a gate cannot call a tree clean when files that
+could leak sit in it unread, and **2 is never a pass**. Precedence is untouched
+and was diff-verified: a real leak still outranks undetermined.
+
+Proof: **74 passed / 0 failed over 29 mutations** (battery 28 → 29). The new M29
+family proves the true count is reported and named, that the counter is NOT
+constant (a tree with no untracked files still reports 0), that rc is 2 with no
+leak and 0 once the same files are read, that a leak outranks undetermined on a
+tree carrying both, that `.gitignore` is still respected, and — the load-bearing
+one — that the leak counts are identical before and after an untracked file
+appears.
+
+**HONEST BOUNDARY (§11.4.6).** This tree currently holds **ZERO** untracked
+files across the umbrella and all 13 declared submodules, measured twice. So the
+live line reads `0 file(s)` as a MEASUREMENT that coincides with the old
+literal, and no `undet` row fires here today. The fix is demonstrated on the
+proof's fixtures, which is real (M29a reports 3, M29d4 reports 1) — but a
+non-zero count against the actual fleet has NOT been observed and is not
+claimed.
 
 ### TWO GATES THAT COULD NOT ANSWER NOW DO — AND ONE ANSWER WAS A FAILURE THE MISSING TOOLCHAIN HAD BEEN HIDING
 
