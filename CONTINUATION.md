@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-06T21:25:00Z
+    Last-Updated: 2026-09-06T21:40:00Z
     Synced-Commit: 99814b2
     Authority-Root: submodules/constitution
 
@@ -473,6 +473,83 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### THE SWEEP'S 96 FAILs ARE *NOT* FABRICATED BY SIGPIPE — HYPOTHESIS TESTED AND REFUTED BY MEASUREMENT, 2026-09-06
+
+A fleet sweep found **224 real `X | grep -q PAT` verdict-position sites under
+`pipefail`**, of which 204 sit in repositories the sweeping agent could not
+edit. The strongest hypothesis it raised was
+`scripts/verify-all-constitution-rules.sh` — `set -uo pipefail` at line 102 and
+36 such sites — as the possible source of some of the sweep's **96 FAILs**.
+
+**That hypothesis is REFUTED for today's tree, and refuted by measurement rather
+than by reading.** Two fail-open classifier populations were measured against
+the real corpus:
+
+* **Header tests** (SOURCED / SUBCOMMAND / WRITES-BARE). 286 gates scanned; 34
+  headers exceed the 4096 B threshold, the largest **32,304 B**. The number
+  where one of those patterns matches with **more than 4096 B still to write**
+  is **ZERO**.
+* **Helper test** (`_names_this_file_as_helper`). Across all **666**
+  (gate, sibling) pairs where the basename appears, the worst case is **641 B**
+  remaining after the first non-comment line — against a 4096 B threshold.
+
+**So no current FAIL is manufactured by this defect.** That is a real negative
+result and it closes the fleet's strongest open lead.
+
+**The mechanism itself is narrower and sharper than first briefed, and the
+earlier "~64 KB pipe buffer" figure is WITHDRAWN.** Two conditions must BOTH
+hold: more than **PIPE_BUF (4096 B)** still to write after the match, AND a
+**line terminator** after it — GNU grep is line-oriented, so a body with no
+newline is read to EOF and the writer is never cut off. Reproduced
+independently here:
+
+    bytes   newline after match   FAIL branch taken
+     4096          yes                 0/100
+    16384          yes               100/100
+   262144          yes               100/100
+   262144           no                 0/100
+
+**The four sites were converted anyway, and the two claims are kept apart.**
+Every one is FAIL-OPEN: a spurious 141 makes the `if` false, the file is not
+classified as a non-gate, and it is swept as though it were one — manufacturing
+a FAIL about a helper that was never a gate. The comment on
+`_names_this_file_as_helper` already records that an earlier defect did exactly
+that to `lib/covenant_propagation_mutation_engine.sh` by a different route. All
+four are live code paths, not dead ones: the classifiers fire **HELPER 6,
+FIXTURE 6, SOURCED 2, WRITES-BARE 1, SUBCOMMAND 1** on the real corpus.
+
+A here-string is not a pipeline, so `pipefail` has nothing to promote and the
+status is grep's alone — same regex, same per-line anchoring. **Behaviour
+preservation is proved, not asserted: `--list` output is BYTE-IDENTICAL across
+all 270 discovered gates, both rc 0.**
+
+### A CHALLENGE CERTIFIED A PANICKING BINARY AS PASSED
+
+`submodules/RAG` `2dffc73`, `submodules/LLMProvider` `4c73c8b`,
+`submodules/containers` `7f59225`. Driven with a fake binary printing a Go panic
+followed by 200 KiB of multi-line padding, `ui_terminal_interaction_challenge.sh`
+**caught 0 of 20** and printed `=== RAG UI Challenge: PASSED ===` at rc 0. Fixed:
+**20 of 20**, `FAIL: --help leaked: panic:`, rc 1. An anti-bluff challenge
+certifying a panicking binary as clean.
+
+20 verdict sites fixed across the three repos, with behavioural equivalence
+proved at 13/13 cases. A second, independent bug at the same site in
+`containers`: `assert_no_panic`'s loop ended on an `&&` list, so it returned the
+last iteration's status — 1 exactly when NO hostile pattern was found — and every
+caller is `... || exit 1`, so it fired for every WELL-BEHAVED binary.
+
+A guard now exists at `submodules/containers/scripts/anti-bluff/`: three-valued,
+keyed on `path:ID` so a line move does not churn its baseline,
+**11/11 mutations all DATA**, and it caught two of its own fixtures passing for
+the wrong reason while being written. `make sigpipe-verdict-scan` is clean over
+688 paths; a seeded tripwire returns rc 1 and naming it, rc 0 once removed.
+
+**Routed but NOT fixed — 204 findings in repos that sweep could not edit:**
+`workshop` 95, umbrella root 84, `submodules/constitution` 24, `superspec` 1.
+Whether any of them has ever fired is **UNDETERMINED**; none was tested. The
+umbrella's 84 are now 80, the four above having been closed.
+
 
 ### FOUR CARRIER CLAIMS WITHDRAWN AS MEASURED FALSE, AND A DESIGN SYSTEM WITH NO COLOURS PASSED A CONTRAST AUDIT, 2026-09-06
 

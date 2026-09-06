@@ -1016,6 +1016,36 @@ _gate_header() {
          { exit }' "$1"
 }
 
+# SIGPIPE NOTE — why the four classification tests below use a here-string
+# rather than `printf ... | grep -q`.
+#
+# This file sets `set -uo pipefail` (line 102). Under pipefail, `X | grep -q PAT`
+# fails BECAUSE the pattern was found: grep exits on the match, the writer is
+# killed by SIGPIPE (141), and pipefail promotes that to the pipeline's status.
+# Both conditions needed are ordinary here — more than PIPE_BUF (4096 B) still to
+# write after the match, and a line terminator after it.
+#
+# The polarity is what makes it worth pre-empting: every test below is
+# FAIL-OPEN. A spurious 141 makes the `if` false, the file is NOT classified as
+# a non-gate, and it is swept as though it were a gate — manufacturing a FAIL
+# about a helper that was never a gate. The comment on _names_this_file_as_helper
+# records that an earlier defect did exactly that to
+# lib/covenant_propagation_mutation_engine.sh, by a different route.
+#
+# MEASURED 2026-09-06, and it does NOT fire on today's tree — this is
+# prevention, not a repair, and the two claims are not blurred:
+#   * 286 gates scanned; 34 headers exceed 4096 B, the largest 32304 B. Of those
+#     34, the number where one of these patterns matches with >4096 B still to
+#     write is ZERO.
+#   * the helper test's producer over all 666 (gate, sibling) pairs where the
+#     basename appears: worst case 641 B remaining after the first non-comment
+#     line, against a 4096 B threshold.
+# So none of the sweep's current FAILs is fabricated by this. It is one longer
+# header away from being live, and headers here already reach 32 KB.
+#
+# A here-string is not a pipeline, so pipefail has nothing to promote and the
+# status is grep's alone. Same regex, same per-line anchoring.
+
 # ─────────────────────────────────────────────────────────────────────────────
 # NON-GATE CLASSIFICATION  (GATE-TRIAGE.md §9.6 C8 / C8a)
 #
@@ -1146,7 +1176,7 @@ _names_this_file_as_helper() {
         [ "$f" = "$self" ] && continue
         # A NON-comment mention: the sibling treats it as a path it reads,
         # sources or copies, rather than merely writing about it.
-        if grep -F -- "$b" "$f" 2>/dev/null | grep -qvE '^[[:space:]]*#'; then
+        if grep -qvE '^[[:space:]]*#' <<<"$(grep -F -- "$b" "$f" 2>/dev/null)"; then
             return 0
         fi
     done < <(grep -rlF --include='*.sh' -- "$b" "$gd" 2>/dev/null)
@@ -1169,8 +1199,7 @@ nongate_reason() {
 
     hdr="$(_gate_header "$g")"
 
-    if printf '%s\n' "$hdr" \
-       | grep -qE '^#[[:space:]]+(\.|source)[[:space:]]+[A-Za-z0-9_./$"{}-]+\.sh'; then
+    if grep -qE '^#[[:space:]]+(\.|source)[[:space:]]+[A-Za-z0-9_./$"{}-]+\.sh' <<<"$hdr"; then
         printf 'SOURCED — its own Usage documents `. <file>`, not an invocation'
         return 0
     fi
@@ -1183,14 +1212,12 @@ nongate_reason() {
             fi ;;
     esac
 
-    if printf '%s\n' "$hdr" \
-       | grep -qE "^#[[:space:]]+(\./)?$(printf '%s' "$b" | sed 's/[.[\*^$]/\\&/g')[[:space:]]+[a-z][a-z0-9_-]*([[:space:]]|\$)"; then
+    if grep -qE "^#[[:space:]]+(\./)?$(printf '%s' "$b" | sed 's/[.[\*^$]/\\&/g')[[:space:]]+[a-z][a-z0-9_-]*([[:space:]]|\$)" <<<"$hdr"; then
         printf 'SUBCOMMAND — its Usage requires a positional subcommand; bare is a usage refusal, not a verdict'
         return 0
     fi
 
-    if printf '%s\n' "$hdr" \
-       | grep -qiE '\((no args?|default)\)[^#]*\b((re)?write|regenerat|overwrit|emit)'; then
+    if grep -qiE '\((no args?|default)\)[^#]*\b((re)?write|regenerat|overwrit|emit)' <<<"$hdr"; then
         printf 'WRITES-BARE — its Usage binds the no-argument invocation to a WRITE; bare is its generator mode'
         return 0
     fi

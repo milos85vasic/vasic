@@ -164,7 +164,7 @@ deps:
   # ─── Infrastructure library submodule (grouped layout, submodules/<name>/) ─
   - name: containers
     ssh_url: git@github.com:vasic-digital/containers.git
-    ref: "6d13ad03528c47066437d511aca529022d654b50"   # gitlink tracks heads/main; tags exist upstream but none names this commit, so a sha is the only exact pin
+    ref: "7f5922563d8bec866b1a25eac483590c9a212817"   # gitlink tracks heads/main; tags exist upstream but none names this commit, so a sha is the only exact pin
     # ⚠ STAGED, NOT YET COMMITTED (2026-09-01). This gitlink is
     # `git submodule add`-ed and staged, so `git ls-tree HEAD
     # submodules/containers` is still empty. That is precisely why
@@ -187,7 +187,7 @@ deps:
 
   - name: LLMProvider
     ssh_url: git@github.com:vasic-digital/LLMProvider.git
-    ref: "e2c6b7bf039c1b08a5e9cc375e5d5efe5dd24aae"   # gitlink tracks heads/master; `git tag --points-at HEAD` is empty, so a sha is the only exact pin
+    ref: "4c73c8b0dfc69d9fc5efe1a6a83665163161e8c6"   # gitlink tracks heads/master; `git tag --points-at HEAD` is empty, so a sha is the only exact pin
     why: "The organisation's LLM-provider abstraction, adopted under the §11.4.74 catalogue-check rather than rebuilt: a consuming project that needs to talk to a model backend uses this and does not grow its own provider seam. Go module `digital.vasic.llmprovider`; one five-method `LLMProvider` interface (Complete / CompleteStream / HealthCheck / GetCapabilities / ValidateConfig) over 43 concrete adapters under pkg/providers/ — including `generic` for anything speaking the OpenAI-compatible wire format and `ollama` for a locally hosted runtime — plus the operational primitives around them: pkg/circuit (closed/open/half-open breaker), pkg/health, retry with exponential backoff and jitter, pkg/discovery, pkg/apikeys, pkg/http, pkg/i18n. Consuming Go code resolves it via `replace digital.vasic.llmprovider => ./submodules/LLMProvider` in development and this pinned sha in production."
     layout: grouped
     # ⚠ STAGED, NOT YET COMMITTED (2026-09-01), exactly as `containers` was: the
@@ -216,7 +216,7 @@ deps:
 
   - name: RAG
     ssh_url: git@github.com:vasic-digital/RAG.git
-    ref: "13f4bacd6051bc3d351c780107becd886ce19a39"   # gitlink tracks heads/main; `git tag --points-at HEAD` is empty (helixcode-v1.1.0 named an ANCESTOR), so a sha is the only exact pin
+    ref: "2dffc735f3d8233396a88c8ea2c973ac3b105bc2"   # gitlink tracks heads/main; `git tag --points-at HEAD` is empty (helixcode-v1.1.0 named an ANCESTOR), so a sha is the only exact pin
     why: "The organisation's retrieval library, adopted under the §11.4.74 catalogue-check rather than rebuilt: a consuming project that needs to rank documents against a query uses this and does not grow its own retrieval contract. Go module `digital.vasic.rag`; `retriever.Document{ID,Content,Metadata,Score,Source}` is the identity type every stage passes, behind a one-method `Retriever` interface. pkg/chunker (fixed-size / recursive / sentence), pkg/reranker (score, MMR), pkg/hybrid (BM25 keyword, semantic wrapper, RRF and weighted-linear fusion), pkg/pipeline (fluent retrieve→rerank→format builder), pkg/grounding (the deterministic answer-grounding seam contributed upstream from this project on 2026-09-01 under §11.4.74 clause 4 — RetrievalGate with absolute AND relative/margin tests, the three-state answered/declined/unavailable Verdict, ValidateCitations set-membership, ValidateVerbatim, and the model-free Extractive adapter). It deliberately ships NO vector store and NO embedding model — the consumer supplies both. Consuming Go code resolves it via `replace digital.vasic.rag => ./submodules/RAG` in development and this pinned sha in production."
     layout: grouped
     # ⚠ STAGED, NOT YET COMMITTED (2026-09-01) — same situation and same reason
