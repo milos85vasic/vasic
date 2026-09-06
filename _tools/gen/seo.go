@@ -292,7 +292,37 @@ func writeSitemapRobots(site *Site, out string) error {
 			base := info.Name()
 			// Skip assets, dot/underscore dirs, the Jekyll build output, and the
 			// `articles/` tree (those .html are page fragments, not standalone
-			// indexable pages — they are injected into product/portfolio pages).
+			// indexable pages).
+			//
+			// THE EXCLUSION IS CORRECT AND MUST STAY. Measured 2026-09-06 over
+			// all 270 fragments in vasic.digital: NONE carries a <!DOCTYPE>,
+			// <html>, <title> or a canonical link. A sitemap row pointing at one
+			// would put a title-less, chrome-less document into a search index —
+			// the exclusion is what prevents a real SEO defect, not a nicety.
+			//
+			// THE REASON THIS COMMENT USED TO GIVE IS WITHDRAWN AS MEASURED
+			// FALSE. It read "they are injected into product/portfolio pages".
+			// Nothing injects them. In vasic.digital, `git grep` for `articles`
+			// outside articles/ and _article_src/ returns ZERO lines; there are
+			// zero data-src attributes in any of the 795 pages, and no JS
+			// mentions articles or read-more. The mechanism is in the history,
+			// not a mystery: 697ed42 (2026-06-25) added js/articles.js, whose
+			// fetch path was document-relative ("articles/"+lang+"/"+slug) and
+			// so would have 404'd from every page except "/", and 5a4c3bb
+			// (2026-08-10) replaced the whole js/+css/ tree with assets/od/,
+			// deleting that loader. It was never re-implemented. The fragments
+			// also style themselves with .hx-* rules that no longer exist in any
+			// served stylesheet, so they could not render even if reached.
+			//
+			// The 270 fragments are still SERVED — https://vasic.digital/articles/
+			// en/asinka.html returns 200 — so a direct visitor gets unstyled
+			// quirks-mode text. Whether to re-wire a loader (root-relative this
+			// time) or delete articles/ and _article_src/ is an operator
+			// decision about content and is deliberately not made here.
+			//
+			// milosvasic.ru carries the same defect one stage earlier: its
+			// loader survives and is still document-relative, so it would 404 on
+			// 524 of its 525 pages if any page still emitted a trigger. None does.
 			if base == "assets" || base == "articles" || base == "_site" ||
 				strings.HasPrefix(base, ".") || strings.HasPrefix(base, "_") {
 				return filepath.SkipDir
