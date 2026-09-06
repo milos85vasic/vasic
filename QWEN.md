@@ -1055,6 +1055,30 @@ Playwright (chromium) additionally requires `npm ci` and
 `npx playwright install chromium` inside `_tests/`, and a built
 `milosvasic.ru/_site` before the suite is served.
 
+**TWO OF THOSE TOOLCHAINS ARE ABSENT ON THIS HOST, and both make a gate report
+rc 2 — measured 2026-09-06, and rc 2 is never a pass.**
+
+* **`tesseract` is NOT INSTALLED**, so **gate 5 exits 2**. `poppler-utils` IS
+  present — `pdftotext`, `pdfinfo` and `pdftoppm` all resolve — so the export
+  validator runs 5 of its 6 checks and skips exactly one:
+  `[SKIP] FULL-VISUAL/visual.ocr — tesseract missing — cannot OCR rendered
+  pages`, giving `5 PASS / 0 FAIL / 1 SKIP of 6` and
+  `verdict=UNDETERMINED`. **This is the gate working, not failing**: its
+  golden-bad arm still DETECTS correctly (rc 1, naming two CONTENT faults), so
+  the detector is live; it simply refuses to call the golden-good arm a pass
+  while a check family did not run. Remedy is a package install and therefore an
+  operator action: `sudo apt-get install -y tesseract-ocr`.
+* **`bundle`, `bundler` and `jekyll` are all absent**, so gate 6's precondition
+  reports CANNOT DETERMINE — see the `_site` section below.
+
+Re-derive rather than trusting either line; a host changes under you:
+
+```bash
+for b in pdftotext pdfinfo pdftoppm tesseract bundle jekyll; do
+  printf '%-10s %s\n' "$b" "$(command -v "$b" || echo MISSING)"; done
+bash _tests/run-harness-selfvalidation.sh   # 0 pass · 1 finding · 2 could-not-determine
+```
+
 ### Governance and adaptability instruments
 
 Separate from the pre-push gates. Every one is three-valued — **0 clean, 1 a

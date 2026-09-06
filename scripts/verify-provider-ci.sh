@@ -798,7 +798,7 @@ probe_github() {    # $1 owner $2 name $3 repo index -> sets PB_TRIG PB_DETAIL
             detail="${detail}STANDING TRIGGER: Pages build_type=legacy — the provider queues a 'pages build and deployment' Actions run on every push to '$sbr'. The tree contains no file that declares it and no file that can stop it; "
             add_remedy "PROVIDER|$owner/$name|GitHub Pages is in legacy (deploy-from-a-branch) mode, so the provider builds on every push with no workflow file involved. Operator-only, Settings > Pages: (a) leave it and record a documented deviation, (b) change the source, or (c) disable Pages. (b) and (c) change or stop publishing — decide what serves the live site before touching either."
         fi
-    elif printf '%s' "$out" | grep -q '404'; then
+    elif grep -q '404' <<<"$out"; then
         detail="${detail}pages=not enabled; "
     else
         unv="${unv}Pages configuration unreadable ($(api_err "$out")); "
@@ -828,7 +828,7 @@ probe_github() {    # $1 owner $2 name $3 repo index -> sets PB_TRIG PB_DETAIL
             detail="${detail}STANDING TRIGGER: ruleset(s) $wfrules impose required workflows on this repository — imposed above the repository, unremovable by any file in it; "
             add_remedy "PROVIDER|$owner/$name|A repository ruleset (possibly inherited from the owning organisation) imposes required workflows: $wfrules. No file-level change removes it. Operator-only: repository or organisation Settings > Rules > Rulesets."
         fi
-    elif printf '%s' "$out" | grep -qi 'Upgrade to GitHub'; then
+    elif grep -qi 'Upgrade to GitHub' <<<"$out"; then
         # The provider is not refusing to answer, it is stating the feature is
         # not available for this repository — so none can be in force. Its own
         # words are quoted rather than paraphrased into a claim of our own.
@@ -905,9 +905,9 @@ probe_github() {    # $1 owner $2 name $3 repo index -> sets PB_TRIG PB_DETAIL
             else
                 detail="${detail}branch-protection=present, no required status checks; "
             fi
-        elif printf '%s' "$out" | grep -qi 'not protected\|404'; then
+        elif grep -qi 'not protected\|404' <<<"$out"; then
             detail="${detail}branch-protection=none on $defbr; "
-        elif printf '%s' "$out" | grep -qi 'Upgrade to GitHub'; then
+        elif grep -qi 'Upgrade to GitHub' <<<"$out"; then
             detail="${detail}branch-protection=unavailable on this plan for a private repository (so none is in force); "
         else
             unv="${unv}branch protection unreadable ($(api_err "$out")); "

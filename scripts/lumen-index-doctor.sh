@@ -224,7 +224,7 @@ MKPY
             printf '%s\n' "$out" | tail -5 | sed 's/^/        /'
             return
         fi
-        if [[ -n "$needle" ]] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+        if [[ -n "$needle" ]] && ! grep -qF -- "$needle" <<<"$out"; then
             p_bad "$label" "rc=$want as required, but the output never NAMED '$needle' — an unnamed finding is not actionable"
             printf '%s\n' "$out" | tail -5 | sed 's/^/        /'
             return
@@ -261,7 +261,7 @@ MKPY
     _m8_out="$(env HOME="$SB" LUMEN_STORE="$SB/store" LUMEN_CONFIG="$SB/no-such-config.yaml" \
                    OLLAMA_HOST="127.0.0.1:1" LUMEN_PROBE_TIMEOUT=1 LUMEN_VEC_ELEM="not-a-type" \
                    timeout 120 bash "$SELF" "$SB_PROJ" 2>&1)"; _m8_rc=$?
-    if [[ $_m8_rc -eq 2 ]] && printf '%s' "$_m8_out" | grep -qF "is not one of"; then
+    if [[ $_m8_rc -eq 2 ]] && grep -qF "is not one of" <<<"$_m8_out"; then
         p_ok "M8 bad-element-type (env)  " "rc=2, and it named the rejected element type"
     else
         p_bad "M8 bad-element-type (env)  " "expected rc=2 naming the rejected type, got rc=$_m8_rc"
@@ -271,7 +271,7 @@ MKPY
     #      at" is not "nothing wrong": it must be 2, never 0.
     mkdir -p "$SB/empty-store"
     _m9_out="$(run_doctor "$SB/empty-store")"; _m9_rc=$?
-    if [[ $_m9_rc -eq 2 ]] && printf '%s' "$_m9_out" | grep -qF "no Lumen index found"; then
+    if [[ $_m9_rc -eq 2 ]] && grep -qF "no Lumen index found" <<<"$_m9_out"; then
         p_ok "M9 no-index-for-project    " "rc=2, and it named the missing index"
     else
         p_bad "M9 no-index-for-project    " "expected rc=2 naming the missing index, got rc=$_m9_rc"
@@ -281,7 +281,7 @@ MKPY
     #       refuse to certify from an unverified backend rather than proceed.
     build_specimen "$SB/store" clean >/dev/null 2>&1
     _m10_out="$(run_doctor "$SB/store" --require-live-backend)"; _m10_rc=$?
-    if [[ $_m10_rc -eq 2 ]] && printf '%s' "$_m10_out" | grep -qF "backend unreachable"; then
+    if [[ $_m10_rc -eq 2 ]] && grep -qF "backend unreachable" <<<"$_m10_out"; then
         p_ok "M10 required-backend-down  " "rc=2, and it refused to report healthy or corrupt"
     else
         p_bad "M10 required-backend-down  " "expected rc=2 naming the unreachable backend, got rc=$_m10_rc"

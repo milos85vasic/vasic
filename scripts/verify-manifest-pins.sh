@@ -879,7 +879,7 @@ prove_failure() {
     # halves of that sentence are defects this file has actually shipped; see
     # the block above build_synthetic_specimen for the measurements.
     live_out="$(bash "$0" --root "$REPO_ROOT" 2>&1)"; live_rc=$?
-    if printf '%s' "$live_out" | grep -qE 'INTERNAL-FAULT|unbound variable|command not found|syntax error near'; then
+    if grep -qE 'INTERNAL-FAULT|unbound variable|command not found|syntax error near' <<<"$live_out"; then
         echo "❌ PRE-FLIGHT live-run   — INSTRUMENT FAULT: the real entry point aborted on the real tree"
         echo "                        -> a gate that cannot start proves nothing. Counted as a proof FAILURE."
         printf '%s\n' "$live_out" | sed 's/^/        /'
@@ -955,7 +955,7 @@ prove_failure() {
             printf '%s\n' "$out" | sed 's/^/        /'
             mut_fails=$((mut_fails+1)); rm -rf "$dir"; return
         fi
-        if [ -n "$needle" ] && ! printf '%s' "$out" | grep -qF "$needle"; then
+        if [ -n "$needle" ] && ! grep -qF "$needle" <<<"$out"; then
             echo "❌ ${name} — ${desc}"
             echo "                        -> rc=${mrc} as wanted, but the message never NAMES '${needle}'."
             echo "                           An unactionable failure message is a §11.4.6 defect of its own."

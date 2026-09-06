@@ -280,7 +280,7 @@ STUB_JOURNALCTL
             printf '%s\n' "$out" | tail -6 | sed 's/^/        /'
             return
         fi
-        if [[ -n "$needle" ]] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+        if [[ -n "$needle" ]] && ! grep -qF -- "$needle" <<<"$out"; then
             p_bad "$label" "rc=${want} as required, but the output never NAMED '${needle}'"
             printf '%s\n' "$out" | tail -6 | sed 's/^/        /'
             return
@@ -322,7 +322,7 @@ STUB_JOURNALCTL
                OLLAMA_TUNE_CPUS=0 OLLAMA_TUNE_AVAIL_MB=0 OLLAMA_TUNE_MODEL_MB=512 \
                OLLAMA_TUNE_MIN="$PIN_MIN" OLLAMA_TUNE_MAX="$PIN_MAX" \
                timeout 180 bash "$SELF_PATH" 2>&1)"; _m8rc=$?
-    if [[ $_m8rc -eq 2 ]] && printf '%s' "$_m8" | grep -qF "neither CPU nor memory facts were readable"; then
+    if [[ $_m8rc -eq 2 ]] && grep -qF "neither CPU nor memory facts were readable" <<<"$_m8"; then
         p_ok "M8 host-unmeasurable      " "rc=2, and it abstained instead of inventing a number"
     else
         p_bad "M8 host-unmeasurable     " "expected rc=2 naming the unreadable host facts, got rc=${_m8rc}"
@@ -347,7 +347,7 @@ STUB_JOURNALCTL
     # The mode must not launder a finding into a green exit while printing
     # instructions nobody is told to run.
     _m10="$(run_synth "$((PIN_MAX - 1))" --print-commands)"; _m10rc=$?
-    if [[ $_m10rc -eq 1 ]] && printf '%s' "$_m10" | grep -qF "OLLAMA_NUM_PARALLEL=${PIN_MAX}"; then
+    if [[ $_m10rc -eq 1 ]] && grep -qF "OLLAMA_NUM_PARALLEL=${PIN_MAX}" <<<"$_m10"; then
         p_ok "M10 print-commands-verdict" "rc=1 (same finding as report mode) and the emitted command carries the computed value"
     else
         p_bad "M10 print-commands-verdict" "expected rc=1 with the computed value in the commands, got rc=${_m10rc}"
@@ -424,7 +424,7 @@ host_is_local() {
     elif command -v ifconfig >/dev/null 2>&1; then
         addrs="$(ifconfig 2>/dev/null | awk '/inet6? /{print $2}')"
     fi
-    [[ -n "$addrs" ]] && printf '%s\n' "$addrs" | grep -qxF "$a" && return 0
+    [[ -n "$addrs" ]] && grep -qxF "$a" <<<"$addrs" && return 0
     return 1
 }
 IS_LOCAL=1; host_is_local "$API_ADDR" || IS_LOCAL=0

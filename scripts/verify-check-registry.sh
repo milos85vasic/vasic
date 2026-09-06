@@ -551,7 +551,7 @@ EOF
             printf '%s\n' "$out" | tail -4 | sed 's/^/        /'
             return
         fi
-        if [[ -n "$needle" ]] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+        if [[ -n "$needle" ]] && ! grep -qF -- "$needle" <<<"$out"; then
             p_bad "$label" "rc=$want as expected, but the output never NAMED '$needle' — an unnamed failure is not actionable"
             printf '%s\n' "$out" | tail -4 | sed 's/^/        /'
             return
@@ -894,7 +894,7 @@ while [[ $i -lt ${#CHK_ID[@]} ]]; do
             undet "$id" "--run-proofs: the paired proof timed out after ${PROOF_TIMEOUT}s; whether it works is unknown"
         elif [[ $frc -ne 0 ]]; then
             bad "$id" "--run-proofs: the paired proof '$arg' exited rc=$frc. A proof that cannot pass on this tree proves nothing: $(printf '%s' "$out" | grep -m1 -E '❌|FAIL' | head -c 200)"
-        elif ! printf '%s' "$out" | grep -qE '(^|[^A-Za-z])M[0-9]|[0-9]+[[:space:]]+(mutation|mutations|drift|drifts|caught|passed)'; then
+        elif ! grep -qE '(^|[^A-Za-z])M[0-9]|[0-9]+[[:space:]]+(mutation|mutations|drift|drifts|caught|passed)' <<<"$out"; then
             bad "$id" "--run-proofs: the paired proof '$arg' exited 0 but reported no mutation results — it returned success without exercising anything (this is the exact defect SC-012 exists to catch)"
         else
             ok "$id" "--run-proofs: the paired proof RAN and reported mutation results: $(printf '%s' "$out" | grep -m1 -E '(^|[^A-Za-z])M[0-9]|[0-9]+[[:space:]]+(mutation|mutations|drift|drifts|caught|passed)|MUTATIONS? (CAUGHT|caught)' | sed 's/^[[:space:]]*//' | head -c 140)"

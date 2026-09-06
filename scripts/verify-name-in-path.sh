@@ -315,7 +315,7 @@ if [[ "$MODE" == "prove" ]]; then
             printf '%s\n' "$out" | tail -6 | sed 's/^/        /'
             p_fails=$((p_fails+1)); rm -rf "$dir"; return
         fi
-        if [[ -n "$needle" ]] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+        if [[ -n "$needle" ]] && ! grep -qF -- "$needle" <<<"$out"; then
             printf '❌ %-26s %s\n' "$label" "$desc"
             printf '                           -> rc=%s as wanted, but the output never NAMED %s.\n' "$rc" "'$needle'"
             printf '%s\n' "$out" | tail -6 | sed 's/^/        /'
@@ -324,7 +324,7 @@ if [[ "$MODE" == "prove" ]]; then
         # THE MASKING INVARIANT, asserted on EVERY mutation without exception:
         # the planted token must never be echoed back. A gate that reprints what
         # it found has widened the disclosure instead of reporting it.
-        if printf '%s' "$out" | grep -qF -- "$_n"; then
+        if grep -qF -- "$_n" <<<"$out"; then
             printf '❌ %-26s %s\n' "$label" "$desc"
             printf '                           -> the OUTPUT REPRINTED the suspected token. A detector that\n'
             printf '                              echoes the name it found is a second disclosure.\n'
@@ -461,7 +461,7 @@ if [[ "$SWEEP" == "1" && -r "$ROOT/.gitmodules" ]]; then
                     continue
                 fi
                 _url="$(git config -f "$ROOT/.gitmodules" --get "submodule.${_p}.url" 2>/dev/null || echo '')"
-                if [[ -n "$_url" ]] && ! printf '%s\n' "$_owned_urls" | grep -qxF "$_url"; then
+                if [[ -n "$_url" ]] && ! grep -qxF "$_url" <<<"$_owned_urls"; then
                     FLEET_THIRD="${FLEET_THIRD}${_p}	${_url}"$'\n'
                 else
                     FLEET_OWNED="${FLEET_OWNED}${_p}"$'\n'

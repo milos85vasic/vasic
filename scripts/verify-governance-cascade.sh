@@ -644,7 +644,7 @@ derive_fleet() {
         ns="$(url_namespace "$u")" || ns=""
         if [ -n "$ns" ] && in_list "$ns" "$OWNED_NAMESPACES"; then
             OWNED_ROOTS="${OWNED_ROOTS} ${p}"
-        elif printf '%s\n' "$excl" | grep -qxF "$p"; then
+        elif grep -qxF "$p" <<<"$excl"; then
             THIRD_PARTY_ROOTS="${THIRD_PARTY_ROOTS} ${p}"
         else
             UNCLASSIFIED_ROOTS="${UNCLASSIFIED_ROOTS} ${p}"
@@ -1049,7 +1049,7 @@ c7_recursion() {
                 ownnest="${ownnest} ${d}/${p}(${ns})"
                 continue
             fi
-            if printf '%s\n' "$excluded" | grep -qxF "${d}/${p}"; then
+            if grep -qxF "${d}/${p}" <<<"$excluded"; then
                 inf "C7 · ${d}/${p} — nested gitlink in namespace ${ns:-<unparseable>}; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade"
                 continue
             fi
@@ -1506,7 +1506,7 @@ prove_failure() {
     # voids the instrument instead of merely describing the tree.
     local live_out live_rc
     live_out="$(bash "$0" --root "$REPO_ROOT" 2>&1)"; live_rc=$?
-    if printf '%s' "$live_out" | grep -qE 'INTERNAL-FAULT|unbound variable|command not found|syntax error near'; then
+    if grep -qE 'INTERNAL-FAULT|unbound variable|command not found|syntax error near' <<<"$live_out"; then
         echo "❌ PRE-FLIGHT live-run   — INSTRUMENT FAULT: the real entry point aborted on the real tree"
         echo "                        -> a verifier that cannot start proves nothing (§11.4.201(7)(b))."
         echo "                           Counted as a proof FAILURE; the battery below still runs."
@@ -1589,7 +1589,7 @@ prove_failure() {
             mut_fails=$((mut_fails+1))
             rm -rf "$dir"; return
         fi
-        if [ -n "$expect" ] && ! printf '%s' "$mout" | grep -qF -- "$expect"; then
+        if [ -n "$expect" ] && ! grep -qF -- "$expect" <<<"$mout"; then
             echo "❌ ${name} — ${desc}"
             echo "                        -> rc=${mrc} as wanted, but the verdict never NAMED '${expect}'."
             echo "                           A gate that fails without saying what broke is unactionable (§11.4.6)."
@@ -1724,7 +1724,7 @@ prove_failure() {
        && sed -i "s/^LOCKSTEP_FROM=${LOCKSTEP_FROM}\$/LOCKSTEP_FROM=$((LOCKSTEP_FROM_MAX + 1))/" "$ratchet_script" \
        && grep -q "^LOCKSTEP_FROM=$((LOCKSTEP_FROM_MAX + 1))\$" "$ratchet_script"; then
         rout="$(bash "$ratchet_script" --root "$pristine" 2>&1)"; rrc=$?
-        if [ "$rrc" -eq 1 ] && printf '%s' "$rout" | grep -qF "exceeds the documented per-agent header budget"; then
+        if [ "$rrc" -eq 1 ] && grep -qF "exceeds the documented per-agent header budget" <<<"$rout"; then
             echo "✅ M13 ratchet-breached     — LOCKSTEP_FROM raised to $((LOCKSTEP_FROM_MAX + 1)) (past the ${LOCKSTEP_FROM_MAX} ceiling) on a GREEN tree"
             echo "                        -> rc=${rrc} (wanted 1)  [C5]  named 'exceeds the documented per-agent header budget'"
         else
@@ -1772,7 +1772,7 @@ SHIM
     then
         chmod +x "${grep_shim}/grep"
         m14out="$(PATH="${grep_shim}:$PATH" bash "$0" --root "$pristine" 2>&1)"; m14rc=$?
-        if [ "$m14rc" -eq 2 ] && printf '%s' "$m14out" | grep -qF "the membership test itself FAILED"; then
+        if [ "$m14rc" -eq 2 ] && grep -qF "the membership test itself FAILED" <<<"$m14out"; then
             echo "✅ M14 membership-tool-fault — C6's grep ERRORS (rc 2) instead of answering, for 'syn-alpha'"
             echo "                        -> rc=${m14rc} (wanted 2)  [C6]  COULD-NOT-DETERMINE, not a phantom FAIL"
         else

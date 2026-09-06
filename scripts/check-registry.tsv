@@ -190,6 +190,24 @@ check	docs-chain-sync	scripts/verify-docs-chain.sh	flag	--prove-failure	--root /
 check	zero-findings-sweep	scripts/audit/zero_findings_sweep.sh	flag	--prove-failure	--root /nonexistent
 check	badge-computer	scripts/badges/compute_badges.sh	flag	--prove-failure	--check --root /nonexistent
 check	directive-register	scripts/verify-directive-register.sh	flag	--prove-failure	--root /nonexistent
+#
+# push-topology — registered 2026-09-06, and it closes a measured blind spot
+# rather than a hypothetical one. `git grep -- '--all --push'` returned NOTHING
+# in the entire tree that day: every remote-aware instrument here reads either
+# `.gitmodules` (which carries ONE url per submodule, and it is a FETCH url) or
+# a single `origin` fetch url. Push urls live in each checkout's UNTRACKED
+# `.git/config`, so a fan-out configured there was invisible to all of them.
+# Measured the same day: 8 of 14 repositories have a remote with MORE THAN ONE
+# push url, `submodules/constitution` has SIX on `origin` alone, and there are
+# 29 distinct push destinations across the tree — none of it visible to any
+# gate. It exits 1 on this tree, on `monetization`: a PRIVATE repository whose
+# push urls include gitflic.ru and gitverse.ru, hosts for which no read-only API
+# adapter is registered, so their visibility cannot be established. Its
+# --prove-failure battery is 11 assertions over 10 fixture trees, every mutation
+# DATA (a seeded git remote configuration plus a PATH-shimmed provider answering
+# from a fixture table), and M1 exists solely to keep `git remote get-url --push`
+# — which prints only the FIRST of six — out of the implementation.
+check	push-topology	scripts/verify-push-topology.sh	flag	--prove-failure	--root /nonexistent
 
 # ── _tools/ — files under the newly declared scanroots that are not checks ───
 # Every one of these was classified by reading its header and its exit paths,

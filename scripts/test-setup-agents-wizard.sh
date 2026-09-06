@@ -219,7 +219,7 @@ if [[ $PROVE -eq 1 ]]; then
         local label="$1" needle="$2"; shift 2
         local out rc
         out="$( ( cd "$WSB" && timeout 300 bash "$SELF_PATH" "$@" 2>&1 ) )"; rc=$?
-        if [[ $rc -eq 2 ]] && printf '%s' "$out" | grep -qF -- "$needle"; then
+        if [[ $rc -eq 2 ]] && grep -qF -- "$needle" <<<"$out"; then
             p_ok "$label" "rc=2, and it named the reason"
         else
             p_bad "$label" "expected rc=2 naming '${needle}', got rc=${rc}"
@@ -1138,8 +1138,13 @@ rm -rf "$box"
 _pat="(/Vol""umes/|/Us""ers/[A-Za-z]|/run/me""dia/[A-Za-z])"
 own=$(for f in "$SCRIPT_DIR"/*.sh; do
         case "$f" in *audit-hardcoded-paths.sh) continue;; esac
-        grep -vE '^[[:space:]]*#' "$f" 2>/dev/null \
-          | grep -qE "$_pat" && echo "$f"
+        # SIGPIPE: the producer here is a whole script with its comments stripped
+        # — MEASURED up to 77,269 bytes (verify-content-boundary.sh) — so once a
+        # machine-specific path appears early in a large file, `grep -q` exits,
+        # the first grep dies of SIGPIPE, pipefail promotes 141, the `&&` never
+        # fires and J8 reports 0 violations. A detector that fails open reports
+        # a clean tree precisely when the tree is dirty.
+        grep -qE "$_pat" <<<"$(grep -vE '^[[:space:]]*#' "$f" 2>/dev/null)" && echo "$f"
       done | wc -l)
 assert_eq "J8 our own scripts contain no machine-specific paths" "0" "$own"
 

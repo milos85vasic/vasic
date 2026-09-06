@@ -497,7 +497,7 @@ detect_uncatalogued() {
         while IFS= read -r f; do
             [ -n "$f" ] || continue
             base="${f#"$ROOT"/}"
-            if ! printf '%s\n' "$known" | grep -qxF "$base"; then
+            if ! grep -qxF "$base" <<<"$known"; then
                 printf 'uncatalogued\t%s\t%s\t%s\t\n' "$base" "1" \
                     "$(jsan "shell script under declared scanroot '${d}' appears in no registry row — it has no paired §1.1 mutation and no exemption")"
             fi

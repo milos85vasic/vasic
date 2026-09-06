@@ -337,7 +337,7 @@ gate_E() {
                 sub_dev="${sub_dev}${p} $(printf '%s' "$n" | tr '\n' ' ')"$'\n'"    REASON: ${dev_reason}"$'\n'
                 continue
             fi
-            if [[ -n "$sub_url" ]] && ! printf '%s\n' "$owned_urls" | grep -qxF "$sub_url"; then
+            if [[ -n "$sub_url" ]] && ! grep -qxF "$sub_url" <<<"$owned_urls"; then
                 sub_note="${sub_note}${p} [third-party: ${sub_url}] $(printf '%s' "$n" | tr '\n' ' ')"$'\n'
             else
                 sub_viol="${sub_viol}${p} $(printf '%s' "$n" | tr '\n' ' ')"$'\n'
@@ -429,7 +429,18 @@ gate_6() {
     local _pw_busy=""
     while IFS= read -r _pw_port; do
         [[ -n "$_pw_port" ]] || continue
-        ss -tln 2>/dev/null | grep -q ":${_pw_port}[[:space:]]" && _pw_busy="${_pw_busy}${_pw_port} "
+        # SIGPIPE: `ss -tln | grep -q` under `set -o pipefail` FAILS BECAUSE THE
+        # PORT WAS FOUND. grep -q exits on the match, ss dies of SIGPIPE (141),
+        # pipefail promotes 141 to the pipeline's status, and the `&&` never
+        # fires. MEASURED on this host: `ss -tln` emits 9,480 bytes, and running
+        # this exact pipeline against every listening port returned 141 for 26 of
+        # 40 of them — every port with more than PIPE_BUF (4096) bytes still to
+        # write after its own line. That defeats precisely the misdiagnosis the
+        # comment above says this probe exists to prevent: a busy port went
+        # unrecorded, gate 6 ran anyway, and the bind failure was reported as a
+        # site defect instead of rc=2. The here-string runs `ss` to completion
+        # first, so there is no reader to close the pipe early.
+        grep -q ":${_pw_port}[[:space:]]" <<<"$(ss -tln 2>/dev/null)" && _pw_busy="${_pw_busy}${_pw_port} "
     done < <(sed -nE 's/^[[:space:]]*port:[[:space:]]*([0-9]+).*/\1/p' "$ROOT/_tests/playwright.config.js" 2>/dev/null)
     if [[ -n "$_pw_busy" ]]; then
         echo "COULD NOT DETERMINE — webServer port(s) already in use: ${_pw_busy}"
@@ -715,7 +726,7 @@ prove_failure() {
         echo "PRE-PUSH-GATES-PROOF: UNDETERMINED — cannot create a scratch dir" >&2; return 2; }
     pf_out="$(env TMPDIR="$pf_tmp" bash "$SELF_ABS" --list 2>&1)"; pf_rc=$?
     rm -rf "$pf_tmp"
-    if [[ $pf_rc -eq 0 ]] && printf '%s' "$pf_out" | grep -qF "§11.4.156(E) no active root CI config"; then
+    if [[ $pf_rc -eq 0 ]] && grep -qF "§11.4.156(E) no active root CI config" <<<"$pf_out"; then
         printf 'ℹ %-30s the real entry point ran against the real tree and enumerated its %s\n' \
                "PRE-FLIGHT live --list" "$(printf '%s' "$pf_out" | grep -cE '^[E0-9] ')"
         printf '%-32s real gates. Bounded on purpose: a full live run REWRITES _tests/evidence\n' ""
@@ -822,7 +833,7 @@ DEPS
             printf '%s\n' "$out" | tail -8 | sed 's/^/        /'
             return
         fi
-        if [[ -n "$needle" ]] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+        if [[ -n "$needle" ]] && ! grep -qF -- "$needle" <<<"$out"; then
             p_bad "$label" "rc=${want} as required, but the output never NAMED '${needle}'"
             printf '%s\n' "$out" | tail -8 | sed 's/^/        /'
             return
@@ -847,7 +858,7 @@ DEPS
     assert "M1 gate-fails-blocks-push  " 1 "PUSH BLOCKED"
     local out
     out="$(run_spec)"
-    if printf '%s' "$out" | grep -qE 'passed=1[[:space:]]+failed=1[[:space:]]+undetermined=0'; then
+    if grep -qE 'passed=1[[:space:]]+failed=1[[:space:]]+undetermined=0' <<<"$out"; then
         p_ok "M1b failure-counted-as-FAIL" "the counters read passed=1 failed=1 undetermined=0"
     else
         p_bad "M1b failure-counted-as-FAIL" "a failing gate was not counted as a FAIL"
@@ -862,8 +873,7 @@ DEPS
     printf '2\n' > "$SPEC/scripts/audit-hardcoded-paths.sh.rc"
     assert "M2 gate-blind-is-UNDET     " 1 "COULD NOT DETERMINE a verdict"
     out="$(run_spec)"
-    if printf '%s' "$out" | grep -qE 'passed=1[[:space:]]+failed=0[[:space:]]+undetermined=1' \
-       && printf '%s' "$out" | grep -qF "NOT a failure of this tree and NOT a pass"; then
+    if grep -qE 'passed=1[[:space:]]+failed=0[[:space:]]+undetermined=1' <<<"$out" \       && grep -qF "NOT a failure of this tree and NOT a pass" <<<"$out"; then
         p_ok "M2b blind-is-not-a-FAIL   " "counters read failed=0 undetermined=1, and it refuses to accuse the tree"
     else
         p_bad "M2b blind-is-not-a-FAIL  " "an rc=2 gate was conflated with a FAILURE"
@@ -908,7 +918,7 @@ DEPS
     sgit -C "$SPEC/vendorsub" commit -q -m "seed an active workflow inside a third-party gitlink" >/dev/null 2>&1
     assert "M6 third-party-out-of-scope" 0 "ALL RUN GATES PASSED"
     out="$(run_spec PREPUSH_VERBOSE=1 --)"
-    if printf '%s' "$out" | grep -qF "OUT OF SCOPE" && printf '%s' "$out" | grep -qF "vendorsub"; then
+    if grep -qF "OUT OF SCOPE" <<<"$out" && grep -qF "vendorsub" <<<"$out"; then
         p_ok "M6b out-of-scope-is-NAMED " "it is reported by name rather than silently omitted"
     else
         p_bad "M6b out-of-scope-is-NAMED" "a third-party finding was dropped instead of reported"

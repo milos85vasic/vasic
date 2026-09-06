@@ -508,7 +508,7 @@ G3
             printf '%s\n' "$out" | tail -6 | sed 's/^/        /'
             return
         fi
-        if [ -n "$needle" ] && ! printf '%s' "$out" | grep -qF -- "$needle"; then
+        if [ -n "$needle" ] && ! grep -qF -- "$needle" <<<"$out"; then
             p_bad "$label" "rc=${want} as required, but the output never NAMED '${needle}'"
             printf '%s\n' "$out" | tail -6 | sed 's/^/        /'
             return
@@ -538,8 +538,8 @@ G3
     printf '2\n' > "$GD/g2_selftest.sh.rc"
     assert "M2 child-gate-blind-rc2    " 1 "ERRORED (blind instrument" --quiet
     out="$(run_spec --quiet)"
-    if printf '%s' "$out" | grep -qE '^  FAIL   \(rc=1\)     : 0$' && \
-       printf '%s' "$out" | grep -qE '^  ERROR  \(rc!=0,1\)  : 1$'; then
+    if grep -qE '^  FAIL   \(rc=1\)     : 0$' <<<"$out" && \
+       grep -qE '^  ERROR  \(rc!=0,1\)  : 1$' <<<"$out"; then
         p_ok "M2b blind-is-not-a-FAIL   " "the summary reports 0 FAIL and 1 ERROR — the two verdicts are not conflated"
     else
         p_bad "M2b blind-is-not-a-FAIL  " "an rc=2 gate was not counted separately from FAIL"
@@ -558,7 +558,7 @@ G3
     printf '2\n' > "$SPEC/.step1rc"
     assert "M4 step1-blind-rc2         " 1 "STEP1 ERROR" --quiet
     out="$(run_spec --quiet)"
-    if printf '%s' "$out" | grep -qF "COULD NOT VERIFY"; then
+    if grep -qF "COULD NOT VERIFY" <<<"$out"; then
         p_ok "M4b step1-blind-is-named  " "it says COULD NOT VERIFY rather than accusing the tree"
     else
         p_bad "M4b step1-blind-is-named " "an rc=2 step 1 was not reported as could-not-verify"
@@ -588,7 +588,7 @@ G3
 
     # ---- M8  a root that does not exist -> rc 2 ------------------------------
     out="$(bash "$0" --root "$SB/no-such-root" --quiet 2>&1)"; rc=$?
-    if [ "$rc" -eq 2 ] && printf '%s' "$out" | grep -qF "project root not found"; then
+    if [ "$rc" -eq 2 ] && grep -qF "project root not found" <<<"$out"; then
         p_ok "M8 root-absent            " "rc=2, and it named the missing root"
     else
         p_bad "M8 root-absent           " "expected rc=2 naming the missing root, got rc=${rc}"
@@ -606,8 +606,7 @@ G4
     chmod 755 "$GD/g4_added.sh"
     after_n="$(run_spec --list | sed -n 's/^Discovered \([0-9]*\) gate script(s).*/\1/p')"
     out="$(run_spec --quiet)"; rc=$?
-    if [ "$rc" -eq 1 ] && printf '%s' "$out" | grep -qF "g4_added.sh" \
-       && [ "${after_n:-0}" -eq $(( ${before_n:-0} + 1 )) ]; then
+    if [ "$rc" -eq 1 ] && grep -qF "g4_added.sh" <<<"$out" \       && [ "${after_n:-0}" -eq $(( ${before_n:-0} + 1 )) ]; then
         p_ok "M9 new-gate-discovered    " "the count moved ${before_n} -> ${after_n} and the added gate's failure made the sweep rc=1, with no edit to the sweep"
     else
         p_bad "M9 new-gate-discovered   " "adding a gate did not change the sweep: count ${before_n} -> ${after_n}, rc=${rc}"
@@ -616,8 +615,7 @@ G4
 
     # ---- M10 the resolved argv is DERIVED from each gate, not written down ----
     out="$(run_spec)"
-    if printf '%s' "$out" | grep -qF "g2_selftest RESOLVED-AS=--selftest" \
-       && printf '%s' "$out" | grep -qF "g3_projectroot RESOLVED-ROOT=${SPEC}"; then
+    if grep -qF "g2_selftest RESOLVED-AS=--selftest" <<<"$out" \       && grep -qF "g3_projectroot RESOLVED-ROOT=${SPEC}" <<<"$out"; then
         p_ok "M10 argv-resolution       " "--selftest was preferred where declared, and '--root <project-root>' resolved to the PROJECT root"
     else
         p_bad "M10 argv-resolution      " "resolve_argv did not hand each gate the invocation its own source declares"
@@ -633,9 +631,7 @@ G4
     mv "$GD/g1_plain.sh" "$SB/g1-dropped.sh"
     lim_after="$(run_spec --list | sed -n 's/^Discovered \([0-9]*\) gate script(s).*/\1/p')"
     out="$(run_spec --quiet)"; rc=$?
-    if [ "$rc" -eq 1 ] && printf '%s' "$out" | grep -qF "LEDGER DROP" \
-       && printf '%s' "$out" | grep -qF "g1_plain.sh" \
-       && [ "${lim_after:-0}" -eq $(( ${lim_before:-0} - 1 )) ]; then
+    if [ "$rc" -eq 1 ] && grep -qF "LEDGER DROP" <<<"$out" \       && grep -qF "g1_plain.sh" <<<"$out" \       && [ "${lim_after:-0}" -eq $(( ${lim_before:-0} - 1 )) ]; then
         p_ok "M11 dropped-gate CAUGHT   " "the count fell ${lim_before} -> ${lim_after}, the sweep exited 1 and NAMED the vanished gate. Same pin, so the deletion is DETERMINED, not inferred."
     else
         p_bad "M11 dropped-gate CAUGHT  " "a deleted gate was not caught: rc=${rc}, count ${lim_before} -> ${lim_after}"
@@ -665,8 +661,7 @@ G4
         spec_git rm -q -- scripts/gates/g1_plain.sh
         spec_git commit -qm "upstream removes a gate"
         out="$(run_spec --quiet)"; rc=$?
-        if [ "$rc" -eq 0 ] && printf '%s' "$out" | grep -qF "upstream removal" \
-           && ! printf '%s' "$out" | grep -qF "LEDGER DROP"; then
+        if [ "$rc" -eq 0 ] && grep -qF "upstream removal" <<<"$out" \           && ! grep -qF "LEDGER DROP" <<<"$out"; then
             p_ok "M13 upstream-removal NOTE " "the pin MOVED and git reports the path as no longer tracked, so it is reported as an upstream removal and does NOT gate"
         else
             p_bad "M13 upstream-removal NOTE" "a legitimate upstream removal was not distinguished from a deletion (rc=${rc})"
@@ -680,8 +675,7 @@ G4
         spec_git commit -qm "upstream moves on"
         mv "$GD/g2_selftest.sh" "$SB/g2-dropped.sh"
         out="$(run_spec --quiet)"; rc=$?
-        if [ "$rc" -eq 1 ] && printf '%s' "$out" | grep -qF "LEDGER DROP" \
-           && printf '%s' "$out" | grep -qF "g2_selftest.sh"; then
+        if [ "$rc" -eq 1 ] && grep -qF "LEDGER DROP" <<<"$out" \           && grep -qF "g2_selftest.sh" <<<"$out"; then
             p_ok "M14 drop-survives-a-bump  " "the pin MOVED, yet a gate deleted from the working tree is still TRACKED at the new commit — caught as a drop and NAMED, not pardoned by the bump"
         else
             p_bad "M14 drop-survives-a-bump " "a local deletion was pardoned because the pin had moved (rc=${rc})"
@@ -710,10 +704,10 @@ G4
 
     # ---- M16 a THIN WRAPPER gets the root its header declares (C1a) ----------
     out="$(run_spec)"
-    if printf '%s' "$out" | grep -qF "g5_wrapper RESOLVED-ROOT=${SPEC}"; then
+    if grep -qF "g5_wrapper RESOLVED-ROOT=${SPEC}" <<<"$out"; then
         emit_g5 "constitution-root"          # mutate ONLY the declared kind
         out="$(run_spec)"
-        if printf '%s' "$out" | grep -qF "g5_wrapper RESOLVED-ROOT=${SPEC}/submodules/constitution"; then
+        if grep -qF "g5_wrapper RESOLVED-ROOT=${SPEC}/submodules/constitution" <<<"$out"; then
             p_ok "M16 thin-wrapper root     " "a gate with NO --root case arm of its own — parser in a sourced lib — was handed the root its header declares, and re-declaring consumer-root as constitution-root moved the resolved root with it"
         else
             p_bad "M16 thin-wrapper root    " "the resolved root did not follow the wrapper's own declaration when it changed"
@@ -730,13 +724,12 @@ G4
     # resolving at all, so the discrimination is proved in both directions.
     out="$(run_spec)"
     ok16a=0; ok16b=0
-    printf '%s' "$out" | grep -qF "g6_dir_scan RESOLVED-ROOT=${SPEC}" && ok16a=1
-    printf '%s' "$out" | grep -qF "g7_dir_const RESOLVED-ROOT=${SPEC}/submodules/constitution" && ok16b=1
+    grep -qF "g6_dir_scan RESOLVED-ROOT=${SPEC}" <<<"$out" && ok16a=1
+    grep -qF "g7_dir_const RESOLVED-ROOT=${SPEC}/submodules/constitution" <<<"$out" && ok16b=1
     if [ "$ok16a" -eq 1 ] && [ "$ok16b" -eq 1 ]; then
         emit_g7 'scan root (default: $G7_ROOT or "..")'   # mutate ONLY the words
         out="$(run_spec)"
-        if printf '%s' "$out" | grep -qF "g7_dir_const RESOLVED-ROOT=${SPEC}" \
-           && ! printf '%s' "$out" | grep -qF "g7_dir_const RESOLVED-ROOT=${SPEC}/submodules/constitution"; then
+        if grep -qF "g7_dir_const RESOLVED-ROOT=${SPEC}" <<<"$out" \           && ! grep -qF "g7_dir_const RESOLVED-ROOT=${SPEC}/submodules/constitution" <<<"$out"; then
             p_ok "M17 dir-vocabulary split  " "'--root <dir>' resolved to the PROJECT root where the gate said 'scan root' and to the CONSTITUTION root where it said 'constitution root'; rewording the one line moved it, so the split is read from the gate and not from a list in this script"
         else
             p_bad "M17 dir-vocabulary split " "rewording the gate's own --root description did not change the root it was handed"
@@ -753,11 +746,10 @@ G4
     # this test hands `--root` to a batch runner that cannot take one, turning a
     # usage refusal into an rc=2 ERROR the sweep would score against this tree.
     out="$(run_spec)"
-    if printf '%s' "$out" | grep -qF "g8_suite ARGV=[]" \
-       && ! printf '%s' "$out" | grep -qF "g8_suite REFUSED"; then
+    if grep -qF "g8_suite ARGV=[]" <<<"$out" \       && ! grep -qF "g8_suite REFUSED" <<<"$out"; then
         emit_g8 "parser"                    # give it a parser, change nothing else
         out="$(run_spec)"
-        if printf '%s' "$out" | grep -qF "g8_suite RESOLVED-ROOT=${SPEC}"; then
+        if grep -qF "g8_suite RESOLVED-ROOT=${SPEC}" <<<"$out"; then
             p_ok "M18 root-withheld-no-parser" "a gate whose header documents --root but which parses no flags was invoked bare, and the SAME header started receiving the root the moment a --root arm appeared — the resolver keys on the parser, not on the prose"
         else
             p_bad "M18 root-withheld-no-parser" "adding a --root arm did not make the documented root arrive"
@@ -774,10 +766,9 @@ G4
     # poisons the variable in the sweep's own environment: an inherited value
     # from a stale shell must never redirect 286 gates at another tree.
     out="$(run_spec)"
-    if printf '%s' "$out" | grep -qF "g9_env_default CONSUMER_ROOT=[${SPEC}]"; then
+    if grep -qF "g9_env_default CONSUMER_ROOT=[${SPEC}]" <<<"$out"; then
         out="$(CONSUMER_ROOT="$SB/poisoned-root" bash "$0" --root "$SPEC" 2>&1)"
-        if printf '%s' "$out" | grep -qF "g9_env_default CONSUMER_ROOT=[${SPEC}]" \
-           && ! printf '%s' "$out" | grep -qF "poisoned-root"; then
+        if grep -qF "g9_env_default CONSUMER_ROOT=[${SPEC}]" <<<"$out" \           && ! grep -qF "poisoned-root" <<<"$out"; then
             p_ok "M19 CONSUMER_ROOT exported" "a gate declaring no --root at all saw the sweep's own project root, and a poisoned CONSUMER_ROOT in the caller's environment was OVERRIDDEN rather than inherited"
         else
             p_bad "M19 CONSUMER_ROOT exported" "an inherited CONSUMER_ROOT survived into the gates — the sweep's own --root is not authoritative"
@@ -815,7 +806,7 @@ G4
     [ ! -e "$SB/g10-wrote-here" ] && m20_excluded=1
     printf '%s\n' "$lst" | grep -F 'g10_generator.sh' | grep -qF 'EXCLUDED' && m20_named=1
     printf '%s' "$lst" | grep -F 'g1_plain.sh' | grep -qF 'argv:' \
-      && printf '%s' "$out" | grep -qF 'g1_plain argv=' && m20_realgate=1
+      && grep -qF 'g1_plain argv=' <<<"$out" && m20_realgate=1
     if [ "$rc" -eq 0 ] && [ "$m20_excluded" -eq 1 ] && [ "$m20_named" -eq 1 ] && [ "$m20_realgate" -eq 1 ]; then
         emit_g10 "silent"           # drop ONLY the "(no args) (re)write" line
         rm -f "$SB/g10-wrote-here"
@@ -860,7 +851,7 @@ G4
     # state how many *.sh it scanned, how many it is invoking, and why each
     # difference exists.
     out="$(run_spec --quiet)"
-    if printf '%s' "$out" | grep -qE 'non-gates excluded  : [0-9]+ of [0-9]+ \*\.sh scanned'; then
+    if grep -qE 'non-gates excluded  : [0-9]+ of [0-9]+ \*\.sh scanned' <<<"$out"; then
         p_ok "M20c exclusions-are-visible" "the run header states the scanned total, the invoked total and the difference, and --list names every excluded file with its reason"
     else
         p_bad "M20c exclusions-are-visible" "the sweep did not report its excluded set — an exclusion nobody can see is a silent coverage cut"

@@ -591,8 +591,7 @@ while IFS= read -r store; do
                 esac ;;
             config)
                 t="$(blob_text_head "$sha" 4096)"
-                if printf '%s' "$t" | grep -q '\[core\]' \
-                   && printf '%s' "$t" | grep -q 'repositoryformatversion'; then
+                if grep -q '\[core\]' <<<"$t" \                   && grep -q 'repositoryformatversion' <<<"$t"; then
                     e_config=1; config_sha="$sha"
                 fi ;;
             packed-refs)

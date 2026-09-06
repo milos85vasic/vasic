@@ -218,7 +218,7 @@ prove() {
     rm -f "$tmp/docs/directive-register.md"
     local out rc
     out="$(analyse "$tmp" 2>&1)"; rc=$?
-    if [ "$rc" -eq 2 ] && printf '%s' "$out" | grep -q 'UNDETERMINED'; then
+    if [ "$rc" -eq 2 ] && grep -q 'UNDETERMINED' <<<"$out"; then
         printf 'PROVE: M5 caught — absent register returns rc 2 and prints UNDETERMINED\n'
         caught=$((caught + 1))
     else

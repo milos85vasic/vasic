@@ -613,10 +613,10 @@ verify_lumen() {
         local probe
         probe=$(curl -s --max-time 90 "$host/api/embed" \
             -d "{\"model\":\"$LUMEN_EMBED_MODEL\",\"input\":\"health check\"}" 2>/dev/null)
-        if printf '%s' "$probe" | grep -q '"embeddings"'; then
+        if grep -q '"embeddings"' <<<"$probe"; then
             print_success "Embedding backend healthy at $host (round-trip returned a vector)."
             warn_if_gpu_embedding_backend "$host"
-        elif printf '%s' "$probe" | grep -q 'NaN'; then
+        elif grep -q 'NaN' <<<"$probe"; then
             print_error "Embedding backend is WEDGED at $host - it returns NaN for every input."
             print_warning "Fix: ollama stop $LUMEN_EMBED_MODEL   (a fresh runner clears it)"
             rc=1
@@ -1557,7 +1557,26 @@ else
         _lb=$(LUMEN_BIN="${LUMEN_BIN:-}" bash -c 'command -v lumen' 2>/dev/null)
         _real=$(readlink -f "$_lb" 2>/dev/null)
         if [[ -n "$_real" ]] && command -v strings >/dev/null 2>&1; then
-            if strings "$_real" 2>/dev/null | grep -qiE 'telemetry|analytics|posthog|mixpanel|segment\.io'; then
+            # SIGPIPE: `strings <binary> | grep -q` under `set -euo pipefail`
+            # returns 141 BECAUSE A MATCH WAS FOUND — grep -q exits, strings
+            # dies writing the rest, pipefail promotes it, and the `if` goes
+            # FALSE. The output would then read "ships no telemetry" for a
+            # binary that does. `strings` over a Go binary is routinely
+            # megabytes and these tokens live in the symbol table near the
+            # front, so the >4096-bytes-after-the-match condition is the normal
+            # case, not the edge case.
+            #
+            # This site uses the `|| true` group rather than the here-string the
+            # rest of this sweep uses, and the difference is deliberate: a
+            # here-string materialises the producer in full, and this producer
+            # is UNBOUNDED. The group keeps the stream and only stops the
+            # producer's death from becoming the pipeline's verdict.
+            #
+            # HONEST BOUNDARY (§11.4.6): UNVERIFIED on this host. `command -v
+            # lumen` is empty here, so no binary exists to reproduce the 141
+            # against; this is a reasoned fix to a structurally identical site,
+            # not a measured one.
+            if { strings "$_real" 2>/dev/null || true; } | grep -qiE 'telemetry|analytics|posthog|mixpanel|segment\.io'; then
                 echo "  ⚠️  Lumen binary contains analytics-like strings - inspect $_real"
             else
                 echo "  ➖ Lumen ships no telemetry (probed $_real just now)"

@@ -123,7 +123,7 @@ if [[ "$MODE" == "prove" ]]; then
     run_case() {                       # name | expect_rc | expect_substring
         local name="$1" want="$2" needle="$3" out rc
         out="$(bash "${BASH_SOURCE[0]}" "$ROOT" 2>&1)"; rc=$?
-        if [[ "$rc" == "$want" ]] && printf '%s' "$out" | grep -qF -- "$needle"; then
+        if [[ "$rc" == "$want" ]] && grep -qF -- "$needle" <<<"$out"; then
             printf '%sPROOF OK%s   %-34s rc=%s and named: %s\n' "$G" "$N" "$name" "$rc" "$needle"
         else
             printf '%sPROOF FAIL%s %-34s rc=%s (wanted %s) needle=%s\n' "$R" "$N" "$name" "$rc" "$want" "$needle"
@@ -160,7 +160,15 @@ if [[ "$MODE" == "prove" ]]; then
     old=""
     while read -r c; do
         [[ -n "$c" ]] || continue
-        git -C "$ROOT" show --name-only --format= "$c" 2>/dev/null | grep -qx 'CONTINUATION.md' && continue
+        # SIGPIPE: `git show --name-only | grep -qx` under pipefail returns 141
+        # BECAUSE THE PATH WAS FOUND — `CONTINUATION.md` sorts near the top of
+        # git's path ordering, so a large commit leaves far more than PIPE_BUF
+        # (4096) bytes to write after the match. REPRODUCED on this repository's
+        # own history: commit 12ecc0bc lists 71,206 bytes of paths, 57,755 of
+        # them after the match, and this pipeline returns 141 there. A 141 makes
+        # the `&&` false, so the `continue` is skipped and M6 picks the wrong
+        # rewind commit.
+        grep -qx 'CONTINUATION.md' <<<"$(git -C "$ROOT" show --name-only --format= "$c" 2>/dev/null)" && continue
         old="$(git -C "$ROOT" rev-parse "${c}^" 2>/dev/null)"; [[ -n "$old" ]] && break
     done < <(git -C "$ROOT" log --format=%H -40 -- CLAUDE.md README.md scripts/pre-push-gates.sh 2>/dev/null)
     if [[ -n "$old" ]]; then
@@ -178,7 +186,7 @@ if [[ "$MODE" == "prove" ]]; then
     SCRATCH="$(mktemp -d)"
     cp -p "$BK" "$SCRATCH/CONTINUATION.md"
     out="$(bash "${BASH_SOURCE[0]}" "$SCRATCH" 2>&1)"; rc=$?
-    if [[ "$rc" == 2 ]] && printf '%s' "$out" | grep -q 'UNDET'; then
+    if [[ "$rc" == 2 ]] && grep -q 'UNDET' <<<"$out"; then
         printf '%sPROOF OK%s   %-34s rc=2, %s UNDET line(s) (no git repo, no carriers, no constitution, no runner)\n' \
             "$G" "$N" "unanswerable environment" "$(printf '%s' "$out" | grep -c 'UNDET  ')"
     else
@@ -294,7 +302,13 @@ else
         offenders=""
         while read -r c; do
             [[ -n "$c" ]] || continue
-            if ! git -C "$ROOT" show --name-only --format= "$c" 2>/dev/null | grep -qx 'CONTINUATION.md'; then
+            # Same SIGPIPE defect as the rewind loop above, and here the polarity
+            # is WORSE: this site is `if !`, so a 141 — which means the path WAS
+            # found — makes the condition TRUE and reports a commit that DID
+            # update CONTINUATION.md as a §12.10 protection-2 offender. A false
+            # accusation, not a missed finding. Same reproduction: commit
+            # 12ecc0bc, 57,755 bytes after the match.
+            if ! grep -qx 'CONTINUATION.md' <<<"$(git -C "$ROOT" show --name-only --format= "$c" 2>/dev/null)"; then
                 touched="$(git -C "$ROOT" show --name-only --format= "$c" 2>/dev/null | grep -Fx -f <(printf '%s\n' "${WATCHED[@]}") | tr '\n' ' ')"
                 offenders+="    ${c:0:12} $(git -C "$ROOT" log -1 --format=%s "$c" 2>/dev/null) -> ${touched}"$'\n'
             fi

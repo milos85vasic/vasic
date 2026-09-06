@@ -321,7 +321,12 @@ read_row() {
     [ -f "$f" ] || return 1
     h1="$(grep -nE '^# ' "$f" | head -n1 | cut -d: -f1)"
     [ -n "$h1" ] || return 1
-    tail -n +$((h1 + 1)) "$f" | grep -m1 -vE '^[[:space:]]*$'
+    # SIGPIPE: `tail | grep -m1` under pipefail returns 141 BECAUSE A LINE WAS
+    # FOUND — grep -m1 exits after the first match and tail dies writing the
+    # rest. This status IS read_row's return value, so the failure propagates.
+    # MEASURED against this repository's own README.md: 41,836 bytes, and
+    # `read_row README.md | grep -qE '^!\[…'` returned 141 on 100 of 100 runs.
+    grep -m1 -vE '^[[:space:]]*$' <<<"$(tail -n +$((h1 + 1)) "$f")"
 }
 
 write_row() {
@@ -329,7 +334,11 @@ write_row() {
     h1="$(grep -nE '^# ' "$f" | head -n1 | cut -d: -f1)"
     [ -n "$h1" ] || { printf 'compute_badges: %s has no H1\n' "$f" >&2; return 2; }
     tmp="$(mktemp)"
-    if read_row "$f" | grep -qE '^!\[[^]]*\]\([^)]*\)'; then
+    # Second half of the same SIGPIPE defect: even with read_row fixed, piping
+    # its output into `grep -q` re-creates the trap one level up. The here-string
+    # also makes the branch depend on the CONTENT of the row rather than on
+    # read_row's exit status, which is what it always meant to test.
+    if grep -qE '^!\[[^]]*\]\([^)]*\)' <<<"$(read_row "$f")"; then
         # Replace the existing row in place.
         awk -v h1="$h1" '
             NR <= h1 { print; next }
@@ -428,12 +437,12 @@ selftest() {
     #     read back with the same extraction the gate uses. This is the seam
     #     where a badge could say green over a red measurement.
     got="$(render_badge probe probe bad "$(classify_ratio 40 90 70)")"
-    if printf '%s' "$got" | grep -qE '(^|[-_/.?= ])red([-_/.?= ]|$)'; then
+    if grep -qE '(^|[-_/.?= ])red([-_/.?= ]|$)' <<<"$got"; then
         printf '  ✅ %-52s -> carries red\n' "negative-control: RED classification reaches the URL"; pass=$((pass+1))
     else
         printf '  ❌ %-52s -> %s\n' "negative-control: RED classification reaches the URL" "$got"; fail=$((fail+1))
     fi
-    if printf '%s' "$got" | grep -qE '(^|[-_/.?= ])green([-_/.?= ]|$)'; then
+    if grep -qE '(^|[-_/.?= ])green([-_/.?= ]|$)' <<<"$got"; then
         printf '  ❌ %-52s -> a RED badge also carries a green token\n' "negative-control: RED badge is not also green"; fail=$((fail+1))
     else
         printf '  ✅ %-52s -> no green token present\n' "negative-control: RED badge is not also green"; pass=$((pass+1))
@@ -577,7 +586,7 @@ prove_failure() {
     # ---- M7: a computed colour must reach the rendered badge ----------------
     total=$((total+1))
     got="$(render_badge z z z red)"
-    if printf '%s' "$got" | grep -q 'vocab=red' && ! printf '%s' "$got" | grep -qE '(^|[-_/.?= ])green([-_/.?= ]|$)'; then
+    if grep -q 'vocab=red' <<<"$got" && ! grep -qE '(^|[-_/.?= ])green([-_/.?= ]|$)' <<<"$got"; then
         printf '  ✅ M7  CAUGHT  a RED classification reaches the URL and carries no green token\n'; caught=$((caught+1))
     else
         printf '  ❌ M7  MISSED  a RED classification did not survive rendering: %s\n' "$got"

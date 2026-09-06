@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-06T21:40:00Z
+    Last-Updated: 2026-09-06T21:55:00Z
     Synced-Commit: 99814b2
     Authority-Root: submodules/constitution
 
@@ -473,6 +473,73 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### GATE 5 IS rc 2, AND IT IS THE GATE WORKING — `tesseract` IS NOT INSTALLED, 2026-09-06
+
+`bash _tests/run-harness-selfvalidation.sh` exits **2**, and the reason is an
+absent toolchain rather than a defect:
+
+    [export-validator] tools: pdftotext=ok  pdfimages=ok  pdftoppm=ok  tesseract=MISSING
+      [SKIP] FULL-VISUAL/visual.ocr — tesseract missing — cannot OCR rendered pages
+    [export-validator] checks: 5 PASS / 0 FAIL / 1 SKIP of 6
+    [export-validator] verdict=UNDETERMINED
+
+`poppler-utils` IS present — `pdftotext`, `pdfinfo` and `pdftoppm` all resolve —
+so 5 of 6 checks run. **The detector is demonstrably live**: the golden-bad arm
+still returns rc 1 and names two CONTENT faults. The gate simply refuses to call
+the golden-good arm a pass while a check family did not run, which is exactly
+the three-valued contract. **rc 2 is never a pass**, and this one is not being
+recorded as one.
+
+Remedy is a package install and therefore an operator action:
+`sudo apt-get install -y tesseract-ocr`. It was NOT performed.
+
+This is the second documented toolchain in `## Build and test entry points` that
+is absent on this host — the other being `bundle` / `bundler` / `jekyll`, which
+puts gate 6's precondition into CANNOT DETERMINE. Both are now recorded in the
+carriers beside the toolchain list rather than left for the next reader to
+rediscover by running a gate and being surprised.
+
+### `verdict` `e4b2f6e` AND `passage` `ad5504d` — THREE DOCUMENTS CLAIMED GATES THAT DID NOT EXIST
+
+Both were extracted from the private tree on 2026-09-01 under §11.4.74 and had
+never been audited. All three defects are the same shape — a document asserting
+enforcement by a gate that is not there, which is worse than an undocumented gap
+because a reader who trusts it stops looking.
+
+`verdict/README.md` named `TestNoConsumerShapedDependencies` as what "fails if a
+consumer-shaped symbol is introduced"; `grep -rn NoConsumerShaped` over the
+whole module matched **only that sentence** — the test belongs to `passage`.
+`verdict` claimed "each gate is accompanied by" a paired mutation while its two
+STRUCTURAL gates shipped none. `passage`'s two decoupling gates shipped none
+while both the file header and README said each does, and CHANGELOG.md named
+"eight gates, four of which ship a paired mutation" for a file holding seven
+with two.
+
+**Every one was closed by RAISING THE SUITE, not by softening the claim** —
+scanners extracted so mutations drive the real gate code, seeded `go.mod`
+content, seeded paths, and a schema mutation that `ALTER`s a real built database
+to re-add a retired v0.1.x column. All proven live: neutering the shared scanner
+makes the mutation report `MUTATION SURVIVED`. **verdict 20/3 → 22/5; passage
+61/4 → 63/6.** Both green on build, vet, test, `-race` and `-shuffle=on`, with
+0 skipped tests.
+
+Unprompted evidence one of these gates genuinely works: a dictionary word was
+accidentally written into README prose while drafting, and
+`TestNoConsumerShapedVocabularyInSource` caught it on the next run at
+`README.md:106`. The prose was fixed rather than an exemption added.
+
+Clean findings with their evidence: three-valued exits DRIVEN (missing binary →
+2, dead port → 2, empty tally → **2 not 0**, problem + undetermined → 1); the
+empty-set family already defended by `t.Fatal` with a "would pass by looking at
+nothing" message; zero SIGPIPE instances and structurally so; and no private
+content carried out of the extraction — the single occurrence of `workshop` is
+an entry in passage's own BLOCKLIST dictionary, a word being forbidden.
+
+Reported and NOT fixed: `passage/helix-deps.yaml` records `ref: main` for
+verdict while `go.mod` pins the immutable tag `v0.1.1`. `passage` has no
+`.gitmodules`, so no gitlink exists for C9 to compare.
+
 
 ### THE SWEEP'S 96 FAILs ARE *NOT* FABRICATED BY SIGPIPE — HYPOTHESIS TESTED AND REFUTED BY MEASUREMENT, 2026-09-06
 

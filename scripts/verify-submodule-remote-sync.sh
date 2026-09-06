@@ -311,7 +311,7 @@ check_remote_sync() {
         n=$((n + 1))
 
         local owned=1
-        if [ -n "$excl" ] && printf '%s\n' "$excl" | grep -qxF "$path"; then owned=0; fi
+        if [ -n "$excl" ] && grep -qxF "$path" <<<"$excl"; then owned=0; fi
 
         if [ -z "$url" ]; then
             if [ "$owned" -eq 1 ]; then
@@ -536,7 +536,7 @@ prove_failure() {
             printf '%s\n' "$out" | sed 's/^/        /'
             mut_fails=$((mut_fails+1)); return
         fi
-        if [ -n "$expect" ] && ! printf '%s' "$out" | grep -qF -- "$expect"; then
+        if [ -n "$expect" ] && ! grep -qF -- "$expect" <<<"$out"; then
             echo "❌ ${name}"
             echo "                        -> rc=${orc} as wanted, but the verdict never said '${expect}'."
             echo "                           A finding that does not name the remedy is unactionable (§11.4.6)."

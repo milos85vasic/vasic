@@ -242,7 +242,7 @@ deps:
   #     (operator directive 2026-09-01) ──────────────────────────────────────
   - name: verdict
     ssh_url: git@github.com:vasic-digital/verdict.git
-    ref: "477dc35afe60f5f2f94d0c902a5a7a7ce0e4ec6b"   # tag v0.1.1 points at this commit; the sha is the exact pin
+    ref: "e4b2f6ec5fc6109ba869a4494718a9186d435424"   # tag v0.1.1 points at this commit; the sha is the exact pin
     why: "The three-valued instrument result (0 ok / 1 problem / 2 undetermined) whose numeric value IS the process exit code, so os.Exit(v.Code()) is correct by construction. Extracted from workshop/platform/libs/ and published as its own PUBLIC repository because it lived inside a private submodule and, being a submodule inside a submodule, violated §11.4.28. It exists so `could not determine` is never reported as a pass or a failure: a missing helper (rc=127) must not read as a rule violation, and an ENV/SKIP bucket must not be folded into a pass count. Go module `github.com/vasic-digital/verdict`; ZERO require lines, asserted by TestNoDependencies, so importing it adds nothing to any consumer's go.sum. Catalogue-check §11.4.74: no repo in either organisation carried a three-valued instrument result — Veritas is claim-verification with a free-text verdict plus a confidence score, anti_bluff is shell seams with no Go module, PliniusCommon is gRPC service plumbing."
     layout: grouped
     # Live topology: origin fetches AND pushes github.com:vasic-digital/verdict.git;
@@ -259,7 +259,7 @@ deps:
 
   - name: passage
     ssh_url: git@github.com:vasic-digital/passage.git
-    ref: "9f92b2f167d79f1b05ca10f9bf862ee9258844a8"   # HEAD is PAST tag v0.2.0 (which points at 729cd96a); the sha is the exact pin
+    ref: "ad5504dcb3de251c23df81c15ef6896fd4ec24e7"   # HEAD is PAST tag v0.2.0 (which points at 729cd96a); the sha is the exact pin
     why: "Stable identity for citable spans of text: a pid is a ULID minted ONCE at ingest, derived from neither content nor position. Both alternatives were measured and both fail in opposite directions — a content-derived id changed when one typo was fixed, and a positional key moved every range when a section was prepended; under either, citations break WHILE THE UI KEEPS RENDERING LINKS to the wrong text. Ships PID/Minter, three anchor modes (inline / sidecar / registry_only), a JSONL-authoritative Registry with a derived SQLite+FTS5 index, and a four-state Outcome in which an unreadable registry surfaces as 503 rather than a 404 claiming the passage does not exist. Extracted from workshop/platform/libs/ and published PUBLIC for the same §11.4.28 reason as verdict. Go module `github.com/vasic-digital/passage`. Catalogue-check §11.4.74: Embeddings is provider adapters only with no identity seam, RAG's chunker is positional (Start/End — the design passage measured and rejected), Document models whole files not spans, and docs_chain is content-hashed — the property passage exists to avoid."
     layout: grouped
     # Live topology: origin fetches AND pushes github.com:vasic-digital/passage.git;
@@ -336,7 +336,7 @@ deps:
 
   - name: design-toolkit
     ssh_url: git@github.com:vasic-digital/design-toolkit.git
-    ref: "a135aa8eebb17917d699ab3ca3f3c48e99e13d89"   # a v0.2.2 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    ref: "bcf262530df1161a59c2617e5abebb727a12ccd0"   # a v0.2.2 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
     why: "§11.4.162 OpenDesign UI design-system engine — machine-readable design tokens (§11.4.216), brand contract (§11.4.217), design-library catalogue (§11.4.218). Ships 11 design-specialist agent recipes under agents/."
     layout: flat
     # §11.4.28(C) / INVENTORY gap G11: this repo checks design-toolkit out TWICE
@@ -369,7 +369,7 @@ deps:
 
   - name: workshop
     ssh_url: git@github.com:milos85vasic/workshop_curriculum.git
-    ref: "24e14b8c69f6219e40d4413b65bc804cca9b3bf8"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
+    ref: "7536ae284bf41bd417eb6391fc264794fa8dc6b0"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
     why: "The Workshop Curriculum — a teaching corpus of recorded sessions and their written materials under chapters/<NN>/ and nested sub-chapters chapters/<NN>.<NN>/, carried as an owned submodule of the umbrella. Its one mechanism is the SHA-256-verified multi-part video-archive pipeline in scripts/ (archive-videos.sh / extract-videos.sh / install-hooks.sh / self-test.sh), which keeps gigabyte recordings in git as <=50 MB *.tar.gz.part-NNN chunks plus a *.sha256 manifest while the extracted videos stay git-ignored."
     layout: flat
     # Live topology: github, origin and upstream ALL resolve to the single URL
