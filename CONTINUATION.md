@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-07T07:00:00Z
+    Last-Updated: 2026-09-07T11:30:00Z
     Synced-Commit: 6f4fdbe
     Authority-Root: submodules/constitution
 
@@ -473,6 +473,105 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### AREAS WERE UNREADABLE, AND FIXING THAT REVEALED THEY ARE NOT AI-TECHNOLOGY AREAS AT ALL, 2026-09-07
+
+Reported from manual testing: knowledge areas rendered as raw ULIDs. Root cause
+was **upstream of the UI** — `/api/areas` returned 819 areas of which **5**
+carried a title, so the UI rendered the only string it had.
+
+`workshop` `4fb9f99` derives titles, tags and summaries at the publish boundary
+from data the row already carried (`member_terms`, each an evidenced row with a
+`canonical_form` and `significance_score`). **819/819 titled, summarised and
+tagged**, verified on the live endpoint; determinism proved by two independent
+HTTP runs producing sha256 `a65f46f5…65ecde` over the whole projection. A NAME
+gate now joins the evidence gate, reporting into the existing `held_back`
+structure rather than dropping silently.
+
+**AND THE FIX MADE THE REAL PROBLEM VISIBLE, WHICH IS THE POINT.** The user's
+requirement is that areas be *AI-technology areas actually taught in the videos*.
+Measured against a list of AI/ML terms:
+
+| evidence floor | extracted kept | of those, AI-termed |
+|---:|---:|---:|
+| 1 (implemented) | 814 | **32 (3.9%)** |
+| 2 | 36 | **0** |
+| 3 | 8 | **0** |
+
+**778 of 814 rest on exactly one passage**; 813 of 814 have a single member term.
+`derive.py:propose_areas` emits every unlinked term as its own area by explicit
+design (`E1: propose, don't discard`) — correct for a MINER; what was missing is
+any selection between the miner and the API. **These are transcript vocabulary,
+not AI topics, and no evidence threshold fixes that** — the 0% column is the
+proof. Selection needs topic-relevance or authored areas, and that is an operator
+decision. `MinPublishedEvidenceCount` is implemented at **1 so nothing is
+deleted**, with a lockstep assertion and a Go test that both fail if it moves.
+
+### A LESSON LINK TO "CHAPTER 01 AT 10:00" THREW THE TIME AWAY ON ONE OF TWO ROUTES
+
+Measured before changing anything: `/chapters/01/transcript?t=600` seeked to
+**602.5 s** and played; `/chapters/01?t=600` left `currentTime` at **0**.
+`ChapterDetailComponent` subscribed to `paramMap` and never `queryParamMap`.
+
+Much of what was assumed missing already existed and was already proved —
+`#p-<pid>` scrolls, seeks and plays, and auto-scroll-to-playing-position is real
+with a WCAG 2.2 SC 2.2.2 pause control. One contract now, on both surfaces,
+documented in `platform/frontend/docs/time-links.md` because the new
+`curriculum-kit` targets it:
+
+    /chapters/<slug>[/transcript][?t=<seconds>][&end=<seconds>][#p-<pid>]
+
+Malformed input is IGNORED, never coerced — a mistyped `?t=` must not seek to 0
+of a 1h55m recording. `playback.ts` now clears an unconsumed seek on `detach()`,
+because it followed the reader into the NEXT recording. **155 passed / 1 failed
+→ 162 passed / 0 failed**; the 1 was a pre-existing `scrollY` exact-equality race.
+
+### `submodules/curriculum-kit` — AND THE MECHANISM WAS NOT PORTABLE
+
+The brief said the lesson/test mechanism "can be picked up from the
+ai_interviewing". **It cannot: it does not exist there.** Grep-confirmed across
+that backend and frontend — no gating of a test on lesson completion, no
+completion state, no pass threshold, no server-side grading, no video, no time
+ranges, no typed material kinds. Scoring is entirely client-side; a "test" is
+questions filtered by kind. **This is new work, and the port framing would have
+produced something far thinner than asked for.**
+
+Built as a Go module with an **empty require set**, so project-not-awareness is
+compiler-enforced. `Catalog → Area → Lesson → Material` + `Area.Assessment`;
+materials cover illustration, diagram, scheme, graph, video and document;
+`VideoAnchor{chapterId, startMillis, endMillis, transcriptAnchor}` is a RANGE.
+`go test` 94.3% coverage, `--prove-failure` **32/32** with mutations as DATA
+fixtures, four carriers in lockstep (1 distinct normalised digest), leak scan
+clean with a live positive control.
+
+Three design decisions came from defects found in `ai_interviewing`: answers are
+named **by id, never index** (its `omitempty` index had made 40 of 312 items
+unanswerable); `Submit` on a locked assessment returns no populated result, so an
+ignored error cannot read as "scored 0"; a gate over an empty required set does
+**not** open.
+
+### `design-toolkit` `ddb9b65` — TWO "DISTINCT" BRANDS SHIPPED THE SAME COLOUR STRUCTURE
+
+Reported as monotone/sepia. Measured: **neutral 36% / warm 37% / cool 27%**, mean
+saturation 0.34. Worse than the complaint — **both brands occupied the identical
+3 hue bins over 120°, in both themes**. `vector.harmonyRule` was derived per seed,
+printed into two comments, and consumed by nothing: a free axis spent on a
+comment. Now **4–5 bins / 150–180° / cool 18.4%**, with a 36-seed sweep minimum of
+4 bins / 150°.
+
+`#d97706` is gone — it sits beside the warm-clay accent the `frontend-design`
+skill names as the commonest AI-generated signature, hand-painted inside a module
+whose premise is derivation.
+
+**The agent rejected its own first plan**, which added ramps no stylesheet
+references — moving the metric while changing zero pixels. It re-aimed the second
+hue at tokens already painted (the dashed diagram plate, every focus ring). A
+36-seed sweep also found all Monochrome primaries emitting the identical
+`#5e5e5e`, so every such brand got the same counterpoint. T1–T5 all still PASS,
+T4 at 32 pairs min 3.24:1. New anti-monotone gate whose proof's load-bearing row
+takes the **actual committed pre-fix candidates from `git HEAD`** and asserts
+rejection.
+
 
 ### THE LAST TWO CONTRACT VIOLATIONS ARE CLOSED, AND THE FIX I ALMOST SHIPPED WAS WORSE THAN THE DEFECT, 2026-09-07
 
