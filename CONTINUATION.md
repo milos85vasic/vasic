@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-07T11:30:00Z
+    Last-Updated: 2026-09-07T12:15:00Z
     Synced-Commit: 6f4fdbe
     Authority-Root: submodules/constitution
 
@@ -473,6 +473,75 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### `workshop` COULD NOT BE BUILT OR RUN OUTSIDE THE UMBRELLA, AND THE REMEDY IT PRINTED WAS IMPOSSIBLE, 2026-09-07
+
+Both modules were cloned from their real remotes and driven end to end — not
+inspected. Inspection says what a repo declares; only a clone says what it
+delivers.
+
+**`ai_interviewing` was already standalone** and is the control that makes the
+workshop result meaningful: `build.sh` 0, `start.sh` 0, health 200, its own
+challenge bank **24 / 0 / 0** aimed at its own port and database, and **no
+`replace` of any kind** in `go.mod`.
+
+**`workshop` did not build at all.**
+
+    go: replacement directory ../../../submodules/LLMProvider does not exist
+
+Five dependencies — `containers`, `passage`, `verdict`, `RAG`, `LLMProvider` —
+resolved through relative `replace` paths walking **three levels up, out of the
+repository**. **Nothing in the module declared them**: no `.gitmodules`, no
+manifest. Inside the umbrella it works and nobody notices.
+
+**And `setup.sh` told the operator to run a command that cannot work** —
+`git submodule update --init submodules/containers`, which is `rc 1, pathspec did
+not match` because the path is not a submodule — then misreported the failure as
+*"network or credentials"*. The remedy is now derived from whether `.gitmodules`
+exists.
+
+`helix-deps.yaml` (new) declares all five with pinned refs.
+`workshop/scripts/bootstrap-standalone.sh` (new) clones them and writes a `go.work`
+overlay — **no `go.mod` is edited**, so the umbrella layout stays the single
+source of truth and standalone is the overlay.
+
+**A FRESH CLONE SERVED AN EMPTY CORPUS.** `main.go` derives the registry path
+from `-index` = `/var/lib/workshop`, a named volume **nothing in the repository
+ever populates**, while the tracked `curriculum/passages.jsonl` sat mounted
+read-only and unread. `compose.yml` now passes `-registry` explicitly.
+
+    standalone api-challenges.sh   before  96 passed / 9 FAILED / 8 undetermined
+                                   after  112 passed / 1 FAILED / 0 undetermined
+
+End to end after: bootstrap 0 → build 0 → vet 0 → `setup.sh --yes` **0 READY** →
+`build.sh` 0 → `start.sh` 0 → health **200**.
+
+`workshop/scripts/verify-standalone-clone.sh` and
+`ai_interviewing/scripts/verify-standalone-clone.sh` — one in each module, NOT at
+this root — are the repeatable proof (8
+passed each, mutations as DATA in throwaway git repos); `workshop/scripts/bootstrap-standalone.sh --prove-failure`
+is 6 passed. The workshop gate found the last two
+impossible-remedy instances itself.
+
+**A SKIP THAT EXITED 0**, in `ai_interviewing/scripts/validate-exports.sh`: a
+standalone clone reported the §11.4.168 export check as PASSING while nothing had
+been validated. Its caller then collapsed the third state with `|| exit 1`. Both
+halves moved; fixing either alone leaves the contract broken the other way.
+
+**STILL BLOCKING A STANDALONE `workshop`, unclosed:** `curriculum/taxonomy.jsonl`
+is git-ignored and needs a ~700 MB venv, so `/api/areas/...` answers 503 while
+**`setup.sh` still exits 0 READY** — a real gap. `TestGateKG1` grades this
+module against a contract the UMBRELLA owns; the spec was deliberately NOT copied
+in, because that creates a second source of truth — **an ownership decision for
+the operator**. And with `WORKSHOP_PROJECT_NAME` set, `api-challenges.sh` fell
+back to the literal `127.0.0.1:8087` and reported 110 passed **against the
+umbrella's server** — the cross-contamination class flagged, not fixed.
+
+UNDETERMINED: the compose `-registry` change is **verified by equivalence, not in
+place** — the same flag, mount and file produced the same `pid_count` in the
+standalone clone, and the two files are byte-identical (sha256 `40e7cd00…`), but
+proving it on the live container requires the restart that follows this entry.
+
 
 ### AREAS WERE UNREADABLE, AND FIXING THAT REVEALED THEY ARE NOT AI-TECHNOLOGY AREAS AT ALL, 2026-09-07
 
