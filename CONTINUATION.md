@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-06T21:55:00Z
-    Synced-Commit: 99814b2
+    Last-Updated: 2026-09-07T07:00:00Z
+    Synced-Commit: 6f4fdbe
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,68 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### THE LAST TWO CONTRACT VIOLATIONS ARE CLOSED, AND THE FIX I ALMOST SHIPPED WAS WORSE THAN THE DEFECT, 2026-09-07
+
+`workshop` `f5a3ab1`. The QA bank is **111 passed / 0 FAILED / 0
+could-not-determine** against a server rebuilt from this tree. B5 and C5 read
+`http=400 code=unknown_parameter`.
+
+**The green was audited rather than accepted.** The total moved 113 → 111, so
+two checks that PASSED before are absent. `g_ok/I4b` fires only when
+`status == unavailable`, `g_ok/I8` only when `status != ok`; before the restart
+`g_ok` returned `unavailable / suggest_timeout / leg=lexical`, after it returns
+`ok`. Both conditionals correctly stopped applying — **no coverage was lost, and
+that improvement is the RESTART, not the fix**, so it is not claimed as one.
+
+**The §1.1 pairing that shipped missing.** Six mutations, every one DATA — a
+different `allowed ...string` argument — never an edit to `rejectUnknownParams`.
+**6/6 pass on the real code; 4 of 6 FAIL against a fail-open mutation**, sha256
+confirming the restore. The 2 that still pass are the acceptance controls, which
+is correct: without them a rejector that refused *everything* would satisfy the
+other four. M3 proves an EMPTY allow-list refuses rather than fails open; M5
+fires 200 identical requests to prove the offending field is deterministic,
+because the function scans a map and Go randomises map iteration.
+
+**THE FIX I ALMOST SHIPPED WOULD HAVE BEEN WORSE THAN THE DEFECT.** The term
+card rendered `href=""` — a link back to the current page — because
+`h.deep_link ?? fallback` never fires on an empty string. My first correction
+kept the fallback and guarded on `chapter_slug`. Measuring 160 rows over eight
+live queries stopped it:
+
+| kind | rows | destination |
+|---|---:|---|
+| `transcript_segment` | 44 | `deep_link` supplied |
+| `doc_section` | 20 | chapter is real |
+| `doc_section` | 17 | chapter `docs` — **not a chapter** |
+| `code` | 14 | chapter `docs` — **not a chapter** |
+| `term` / `kg_term` | 65 | no chapter at all |
+
+`/api/chapters` reports `01`, `02`, `02.01`. That fix would have pointed **31
+rows** at `/chapters/docs/transcript`, and the SPA answers 200 for any path, so
+they would have LOOKED like working links and failed only on arrival.
+
+Then the fact that settled it: **the `deep_link` key was absent 0 times, empty
+116 times, non-empty 44.** The fallback has NEVER EXECUTED. So it is deleted
+rather than repaired — the obvious one-character fix, `??` → `||`, would have
+woken dead code and shipped the 31.
+
+**Proved in both directions:** fix in place **11 passed**; `deepLink` mutated
+back to `??` and rebuilt → **1 FAILED, the new test and only it**; restored
+byte-identical by sha256; restored bundle rebuilt → **11 passed**. The other ten
+stayed green under the mutation, so the assertion isolates this behaviour.
+
+**The contract clause that made the original mistake look safe** is corrected in
+`specs/001-…/contracts/http-api.md`. It declared `kinds` a *"Subset of
+`transcript,doc_section,code,diagram`"*; spec 002 added catalogue kinds and never
+amended it, so a QA challenge trusted the stale clause, composed
+`"/api/passages/" + pid` itself, and reported the resulting `400 malformed_pid`
+as a SERVER fault across four checks. `transcript` and `diagram` do not appear
+in the live index at all.
+
+    api-challenges.sh   111 / 0 / 0        go build · vet · test   0 · 0 · 0 (19 pkgs)
+    ng build            0                  platform health         200
+
 
 ### GATE 5 IS rc 2, AND IT IS THE GATE WORKING — `tesseract` IS NOT INSTALLED, 2026-09-06
 

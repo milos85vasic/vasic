@@ -637,17 +637,55 @@ reproducible.
 |---|---|---|---|
 | `q` | string | required | Trimmed. Empty ⇒ `400 empty_query`. A multi-paragraph query is legitimate; over 8192 bytes ⇒ `413 query_too_long` (spec edge case: empty, one-character and multi-paragraph queries must all behave predictably). |
 | `limit` | int | `20` | Max `100`. |
-| `kinds` | csv | all | Subset of `transcript,doc_section,code,diagram`. |
+| `kinds` | csv | all | Subset of the kinds the index actually holds — see the note below. The four-value list this cell used to give is **WITHDRAWN as measured false**. |
 | `chapter` | string | — | Scope to one chapter. |
 | `mode` | enum | `fused` | `fused` \| `lexical` \| `semantic`. `lexical` is the honest escape hatch when the operator knows the embedding backend is saturated. |
 | `timeout_ms` | int | `5000` | Clamped to `[500, 15000]`. This is the bounded timeout D-SEARCH-4 requires; exceeding it ⇒ `unavailable{embedding_timeout}`, never an unbounded wait. |
+
+**`kind`, and why `pid` is NOT always a ULID — measured 2026-09-07, 160 rows over
+eight queries against the running stack.**
+
+Spec 002 (`knowledge-areas-deep-linking`) added catalogue kinds to this endpoint
+and never came back to amend the two clauses below, so §3.7 went on declaring a
+world that had stopped being true. **A QA challenge then trusted the stale
+clause**, took `results[0].pid`, built `"/api/passages/" + pid` itself, and
+reported the resulting `400 malformed_pid` as a SERVER fault for four separate
+checks. The server was conforming throughout. This note exists so the next
+reader does not repeat that.
+
+| kind | rows | `pid` shape | `deep_link` |
+|---|---:|---|---|
+| `transcript_segment` | 44 | ULID | supplied |
+| `term` | 64 | `kg_terms:<ident>` | **empty** |
+| `doc_section` | 37 | ULID | **empty** |
+| `code` | 14 | ULID | **empty** |
+| `kg_term` | 1 | `kg_terms:<ident>` | **empty** |
+
+`transcript` and `diagram` — two of the four values the old cell named — did not
+appear in the sample at all; `transcript_segment` is the value actually emitted.
+
+Two consequences a client MUST honour, both of which the old text implied away:
+
+1. **`pid` is a ULID only for kinds that live in the passage registry.** A
+   catalogue row's id is `kg_terms:<ident>`, and §1.4 constrains `{pid}` on
+   `/api/passages/{pid}` to a 26-character ULID — so passing a catalogue id
+   there is a client error, and `400 malformed_pid` (§5.2) is the correct answer.
+   **Follow `href`, which §3.7 gives on every hit, instead of composing a URL.**
+   The catalogue row IS resolvable: `GET /api/terms/<ident>` returns 200.
+2. **`deep_link` is empty for every kind but one.** It is the server's statement
+   of where a hit takes the reader, and an empty string means *nowhere* — not
+   *unset*. 116 of the 160 rows carried `""` and **0 omitted the key**, so a
+   client using `deep_link ?? fallback` never reaches its fallback. Render such
+   a hit as text; do not fabricate a destination from `chapter_slug`, which for
+   `doc_section` and `code` rows is `docs` — not a chapter `/api/chapters`
+   reports.
 
 **`Hit` shape**
 
 ```jsonc
 {
-  "pid": "01JBX7QK3M8V2ZC4YT5N6RWDPA",
-  "kind": "transcript",
+  "pid": "01JBX7QK3M8V2ZC4YT5N6RWDPA",   // ULID here; "kg_terms:<ident>" for a catalogue kind
+  "kind": "transcript_segment",           // see the table above for the live set
   "chapter_slug": "01-ai-workflows",
   "title": "Cutting chunks at silence",
   "snippet": "…never mid-word…",          // built from OUR store; never upstream free text (§2.4)
