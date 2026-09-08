@@ -310,6 +310,43 @@ deps:
     # Nothing was moved. Both mirrors verified INDEPENDENTLY with `git
     # ls-remote` rather than from push output, and they agree ref-for-ref.
 
+  - name: curriculum-kit
+    ssh_url: git@github.com:vasic-digital/curriculum-kit.git
+    ref: "52f08af5abb396bce7d9679cb82eb0b9dd0246fc"   # first publication; no tag exists yet, so the sha is the only exact pin
+    why: "The project-not-aware Catalog -> Area -> Lesson -> Material plus Assessment content model and its gate: an area leads to lessons, and the lessons lead to a test that is not available until they are complete. Owns the types, the validation rules CK001..CK024 plus the undetermined CK900, the availability gate, grading, and the Progress value type; owns no authoring, storage, transport or rendering. Go module `github.com/vasic-digital/curriculum-kit`; ZERO require lines, asserted by its own test, so importing it adds nothing to any consumer go.sum. Consumed by workshop/platform/backend through a relative `replace`, which is why it had to become a repository: as a plain directory it had no commit, so no truthful ref could be recorded here and `workshop/scripts/verify-standalone-clone.sh` reported it as a standalone gap."
+    layout: grouped
+    # PUBLISHED 2026-09-08 under operator decision #1 of
+    # docs/OPERATOR-DECISIONS-2026-09-07.md, which chose publication over
+    # vendoring the directory or accepting the debt.
+    # PUBLIC on GitHub (gh api repos/vasic-digital/curriculum-kit --jq .private
+    # -> false), measured immediately after creation.
+    # Live topology matches verdict and passage: origin FETCHES github and
+    # PUSHES both github and gitlab; upstream, vasic_digital_github and
+    # vasic_digital_gitlab are declared as separate remotes and upstreams/
+    # carries both recipes.
+    # THE GITLAB MIRROR IS PRIVATE AND WAS AUTO-CREATED BY THE FIRST PUSH, not
+    # by any decision taken here. That is a PUBLIC -> PRIVATE flow and so
+    # carries no disclosure risk, the same direction verified for
+    # design-toolkit under decision #15. Both mirrors were read back with
+    # `git ls-remote` and carry the same commit.
+    # PRE-PUBLISH CONTENT-BOUNDARY AUDIT, because a public push is
+    # irreversible: all 82 files enumerated and scanned against the three
+    # private repositories. Zero absolute host paths, zero private path or
+    # repository references, zero personal names, zero e-mail addresses, zero
+    # media filenames, and both testdata catalogs are synthetic
+    # bicycle-maintenance fixtures. An independent 8-token shingle
+    # cross-check found 291 of 14,067 distinct shingles also present on the
+    # private side, every one a governance carrier line propagated OUTWARD
+    # under §11.4.157, MIT/OFL licence boilerplate, or Go and shell idiom.
+    # scripts/verify-content-boundary.sh attributes SIX rows to this path,
+    # all `short` class, ZERO prose and ZERO name class, over three ordinary
+    # strings: a section-heading fragment, the three-valued rc-2 phrasing,
+    # and a `--quiet` flag help line.
+    # Ships all four §11.4.157 carriers in lockstep, MIT LICENSE, and its own
+    # helix-deps.yaml declaring `deps: []` — a genuine leaf. No .github/, so
+    # it adds no §11.4.156 CI surface, and no nested gitlink, so it adds no
+    # recursion.
+
   # ─── Owned product submodules (flat layout, <root>/<name>/) ─────────────
   - name: vasic.digital
     ssh_url: git@github.com:vasic-digital/vasic-digital.github.io.git
@@ -319,7 +356,13 @@ deps:
 
   - name: milosvasic.ru
     ssh_url: git@github.com:milos85vasic/milosvasic.ru.git
-    ref: "f5f13a25eaebb4d8023717040425992a43c53de1"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    ref: "e786ccdd9c7c02b92894e2c64605c13c61a9fa7b"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    # Moved 2026-09-08 from f5f13a25eaebb4d8023717040425992a43c53de1 by operator
+    # decision #13: `_site/` was UNTRACKED there (8 files, one rendered page).
+    # The `why:` below has said "its rendered _site/ is git-ignored" all along;
+    # that was FALSE until this bump — `.gitignore:70` did say `_site/`, but the
+    # rule was added after the files were tracked, so it never applied to them.
+    # The sentence is now accurate rather than aspirational.
     why: "Site submodule — Jekyll source; its rendered _site/ is git-ignored and must be built before the Playwright suite can serve it. Rendered into by _tools/gen and deployed by _tools/deploy-langs.sh."
     layout: flat
     # ⚠ FETCH/PUSH ASYMMETRY (Constitution.md -> "Hazard"): the ssh_url above is
@@ -336,7 +379,17 @@ deps:
 
   - name: design-toolkit
     ssh_url: git@github.com:vasic-digital/design-toolkit.git
-    ref: "ddb9b6510e7513c628613bd326453a721d0efbb3"   # a v0.2.2 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    ref: "e721b3c7eba8fad21311f3a066da53eb53ea87cd"   # a v0.2.2 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    # Moved 2026-09-08 from ddb9b6510e7513c628613bd326453a721d0efbb3 by operator
+    # decision #15: `upstreams/gitlab.sh.disabled` was renamed to
+    # `upstreams/gitlab.sh` and the PRIVATE GitLab mirror was synced. Measured
+    # before: mirror at 520c436c2c2a, unmoved since 2026-08-08, 0 divergent / 9
+    # behind. Measured after: gitlab, origin and the local gitlink ALL at
+    # e721b3c7…, `rev-list --left-right --count` 0 / 0. The push was a
+    # fast-forward (520c436..e721b3c); nothing was forced.
+    # NOTE for whoever reads the "GitLab mirror is BEHIND" prose elsewhere in
+    # this tree: as of this bump it is NOT behind. It will drift again the
+    # moment a push reaches only one surface, so re-derive rather than quote.
     why: "§11.4.162 OpenDesign UI design-system engine — machine-readable design tokens (§11.4.216), brand contract (§11.4.217), design-library catalogue (§11.4.218). Ships 11 design-specialist agent recipes under agents/."
     layout: flat
     # §11.4.28(C) / INVENTORY gap G11: this repo checks design-toolkit out TWICE

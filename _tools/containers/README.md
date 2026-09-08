@@ -17,8 +17,12 @@ returned **zero** hits — the gitlink was declared, manifest-pinned and unused.
 | `cmd/site-build/` | the orchestrator. Drives podman/docker **only** through the submodule's `pkg/runtime`, `pkg/compose` and `pkg/logging` |
 | `cmd/distribute-helixtranslate/` | builds the HelixTranslate image on a remote host and distributes it, through the submodule's `pkg/remote` and `pkg/remoteexec`. **Never run against a live remote — see its package comment before trusting it** |
 | `cmd/runtime-probe/` | answers "which container runtime is on THIS machine?" via the submodule's `runtime.AutoDetect`, for shell callers that must not grow their own detection. Three-valued; **fully verified on this host** |
-| `compose/compose.sites.yml` | the service definitions the orchestrator consumes |
+| `cmd/ocr/` | the OCR orchestrator. Runs tesseract over a directory of page PNGs, again through `pkg/runtime` + `pkg/compose`. This is what lets gate 5 reach a real verdict instead of UNDETERMINED |
+| `internal/orchestrate/` | the lifecycle helpers `site-build` and `ocr` share — root resolution, wait-for-exit, log streaming. Extracted rather than copied, per §11.4.251 |
+| `compose/compose.sites.yml` | the site-build service definitions the orchestrator consumes |
+| `compose/compose.ocr.yml` | the tesseract service definition |
 | `compose/jekyll-build.sh` | the Jekyll service's entrypoint, executed **inside** the container only |
+| `compose/ocr-run.sh` | the tesseract service's entrypoint, executed **inside** the container only (POSIX `sh`: the image ships no bash and no find) |
 
 `podman` and `docker` appear nowhere in `cmd/site-build`. That is the point of
 §11.4.76(4): the submodule owns every process that talks to a runtime, and this
@@ -37,7 +41,13 @@ go build -o bin/site-build ./cmd/site-build
 go build -o bin/runtime-probe ./cmd/runtime-probe
 ./bin/runtime-probe                     # runtime=podman version=5.7.1
 ./bin/runtime-probe -name-only          # podman          (for `$(...)` in shell)
+
+go build -o bin/ocr ./cmd/ocr
+./bin/ocr -dir <dir-of-page-pngs>       # writes <page>.ocr.txt beside each PNG
 ```
+
+`_tests/export/validate-pdf.js` builds and calls `bin/ocr` itself when no host
+`tesseract` is on PATH, so gate 5 needs no manual step.
 
 `runtime-probe` exists because `site-build -probe` cannot answer for a caller
 that has no compose file: it returns **2** when compose is unavailable, which is
@@ -178,6 +188,71 @@ shelling out to a runtime. What `cmd/site-build` does instead is (a) use the
 module's own public `runtime.WithTail("-1")`, and (b) report `Close()`'s error
 instead of discarding it, so a broken log call can never again be mistaken for a
 quiet container.
+
+## Why the tesseract service exists — the second measured defect
+
+`tesseract` is not installed on this host and is not going to be. The
+operator's standing decision (#10 in
+[`docs/OPERATOR-DECISIONS-2026-09-07.md`](../../docs/OPERATOR-DECISIONS-2026-09-07.md))
+is that a missing toolchain is provided as a CONTAINER WORKLOAD through
+`submodules/containers`, **never** as a host package — that decision
+explicitly overruled a recommendation of host installs.
+
+The cost of the absence was measured, not assumed. `_tests/export/validate-pdf.js`
+SKIPped `FULL-VISUAL/visual.ocr`, and a SKIP cannot leave the verdict at PASS,
+so gate 5 sat at:
+
+```
+5 PASS / 0 FAIL / 1 SKIP of 6      verdict=UNDETERMINED      rc 2
+```
+
+That is the gate working rather than failing — its golden-BAD arm still
+detected correctly — but **rc 2 is never a pass**, so a whole check family was
+uncovered. With the container engine wired in, the same command reports:
+
+```
+6 PASS / 0 FAIL / 0 SKIP of 6      verdict=PASS              rc 0
+```
+
+and the golden-BAD arm **still** exits 1 naming four CONTENT/TEXTUAL faults, so
+nothing was weakened to reach the green.
+
+**Two design points worth stating, because both were failure modes first.**
+
+* **One container per PDF, not per page.** The image's own entrypoint is
+  `exec tesseract "$@"` — one invocation per container. `compose/ocr-run.sh`
+  replaces it with a loop over the mounted directory, so a 12-page document is
+  one lifecycle to orchestrate and prove instead of twelve.
+* **`user: "0:0"`, and it is not a privilege escalation.** The runtime here is
+  ROOTLESS podman, where container uid 0 maps to the invoking host user. The
+  image's default `tesseract` user maps to a subuid that does not own the bind
+  mount, and tesseract then fails with, measured before the flag was added:
+  `Error, could not create TXT output file: Permission denied`.
+
+### The freshness assertion is proved, not asserted (§1.1)
+
+OCR output lands **beside its input**, which makes a stale `<page>.ocr.txt` the
+exact thing that could make a no-op container look like a successful OCR. The
+assertion was exercised against a paired mutation — same service name, same
+container name, a container that exits 0 and writes nothing — in both the
+absent and the stale case:
+
+```
+# fresh directory
+ocr: FAIL — "tesseract-ocr" exited 0 but produced NO fresh transcript for any
+of the 2 page(s). (missing=2 empty=0 not-rewritten=0)                    rc 1
+
+# directory already holding transcripts from an earlier run
+ocr: FAIL — ... (missing=0 empty=0 not-rewritten=2)                      rc 1
+```
+
+The mutation is DATA — a throwaway compose file — so the assertion cannot be
+made inoperative by editing the code it guards. Five further mutations were
+exercised and each behaved as its contract states: empty `PATH` (no runtime)
+rc 2, no PNGs rc 2, unreadable `-dir` rc 2, unexpected argument rc 1, and — on
+the JavaScript side — an engine that returns rc 2 is reported as a
+SKIP-with-reason rather than as a legibility FAIL, because blaming a document
+for a missing runtime is a false accusation.
 
 ## Not containerised, and why
 

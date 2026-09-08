@@ -41,10 +41,8 @@ package main
 
 import (
 	"context"
-	"errors"
 	"flag"
 	"fmt"
-	"io"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -55,14 +53,17 @@ import (
 	"digital.vasic.containers/pkg/compose"
 	"digital.vasic.containers/pkg/logging"
 	"digital.vasic.containers/pkg/runtime"
+
+	"vasic.digital/tools/containers/internal/orchestrate"
 )
 
 // Exit codes. Three-valued by project convention: 2 is COULD NOT DETERMINE and
-// is never a pass.
+// is never a pass. They live in internal/orchestrate so this command and
+// cmd/ocr cannot drift apart on what a 2 means.
 const (
-	exitOK           = 0
-	exitFail         = 1
-	exitUndetermined = 2
+	exitOK           = orchestrate.ExitOK
+	exitFail         = orchestrate.ExitFail
+	exitUndetermined = orchestrate.ExitUndetermined
 )
 
 // workload describes one containerised job this program knows how to run.
@@ -116,7 +117,7 @@ func run() int {
 
 	log := logging.NewStdLogger("site-build")
 
-	root, err := resolveRoot(*flagRoot)
+	root, err := orchestrate.ResolveRoot(*flagRoot)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "site-build: COULD NOT DETERMINE the repository root: %v\n", err)
 		return exitUndetermined
@@ -216,15 +217,15 @@ func run() int {
 		compose.WithRemoveOrphans(true),
 	); err != nil {
 		fmt.Fprintf(os.Stderr, "site-build: compose up failed: %v\n", err)
-		dumpLogs(ctx, rt, wl.container)
+		orchestrate.DumpLogs(ctx, rt, "site-build", wl.container)
 		return exitFail
 	}
 
 	// ---- 5. Wait for the container to stop, then read its REAL exit code off
 	// the stopped container through the module's runtime API.
-	status, werr := waitForExit(ctx, rt, wl.container)
+	status, werr := orchestrate.WaitForExit(ctx, rt, wl.container)
 
-	dumpLogs(ctx, rt, wl.container)
+	orchestrate.DumpLogs(ctx, rt, "site-build", wl.container)
 
 	// Tear down regardless of outcome; keep the named volumes (the gem and Go
 	// caches are the reason the second run is fast).
@@ -295,135 +296,4 @@ func run() int {
 		fmt.Printf("   freshness: mtime advanced from %s\n", before.Format(time.RFC3339))
 	}
 	return exitOK
-}
-
-// waitForExit polls the container until it leaves the running state and
-// returns its final status. It returns an error — never a fabricated exit code
-// — when the outcome cannot be established, so the caller reports rc 2 rather
-// than guessing.
-func waitForExit(
-	ctx context.Context, rt runtime.ContainerRuntime, name string,
-) (*runtime.ContainerStatus, error) {
-	const poll = 2 * time.Second
-	var lastErr error
-	for {
-		select {
-		case <-ctx.Done():
-			if lastErr != nil {
-				return nil, fmt.Errorf("timed out waiting for %s; last status error: %w", name, lastErr)
-			}
-			return nil, fmt.Errorf("timed out waiting for %s to exit: %w", name, ctx.Err())
-		case <-time.After(poll):
-		}
-
-		st, err := rt.Status(ctx, name)
-		if err != nil {
-			// A container that has already been reaped is indistinguishable, at
-			// this layer, from a runtime that cannot answer. Both are recorded
-			// and surface as COULD NOT DETERMINE if the deadline arrives first.
-			lastErr = err
-			continue
-		}
-		switch st.State {
-		case runtime.StateRunning, runtime.StateCreated, runtime.StateRestarting, runtime.StateRemoving:
-			continue
-		default:
-			return st, nil
-		}
-	}
-}
-
-// logTail is the value passed to runtime.WithTail.
-//
-// It is NOT the module's default, and the difference is a MEASURED upstream
-// defect rather than a preference. `runtime.defaultLogOptions()` sets
-// Tail:"all" (pkg/runtime/options.go:141) and PodmanRuntime.Logs appends it
-// verbatim as `--tail all` (pkg/runtime/podman.go:331-333). Podman parses
-// --tail with strconv.ParseInt, so measured on this host:
-//
-//	podman logs --tail all  <c>  -> Error: invalid argument "all" ... rc 125
-//	podman logs --tail -1   <c>  -> the container's output,          rc 0
-//
-// The failure is SILENT to a caller: ExecuteStream starts the process
-// successfully, so Logs() returns a nil error, the pipe hits EOF immediately,
-// and the rc-125 only reaches the caller through Close() -> cmd.Wait(). A
-// caller that defers Close() and ignores its error therefore sees "logs read
-// fine, container produced nothing" — which is exactly the shape of a bluff.
-//
-// Per §11.4.76(4) the FIX belongs upstream in vasic-digital/containers (make
-// the podman path translate "all" to "-1", or default to "-1"), not here. What
-// this program does instead is use the module's own public option to ask for a
-// value podman accepts, and report Close()'s error instead of discarding it.
-// "-1" is what was measured to work on podman; docker's --tail also accepts a
-// negative count as "all", though that half was NOT measured here.
-const logTail = "-1"
-
-// dumpLogs streams the container's output to stdout. Failure to read logs is
-// reported but never changes the verdict — the verdict comes from the exit
-// code and the artifact. It is reported LOUDLY, though: an empty log section
-// that is really a broken log call must not read as an empty container.
-func dumpLogs(ctx context.Context, rt runtime.ContainerRuntime, name string) {
-	rc, err := rt.Logs(ctx, name, runtime.WithTail(logTail))
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "site-build: (container logs unavailable: %v)\n", err)
-		return
-	}
-	fmt.Println("---------------- container output: " + name + " ----------------")
-	n, cerr := io.Copy(os.Stdout, rc)
-	if cerr != nil && !errors.Is(cerr, io.EOF) {
-		fmt.Fprintf(os.Stderr, "site-build: (log stream ended early: %v)\n", cerr)
-	}
-	// Close() is where the log command's own exit status surfaces. Discarding
-	// it is how a failed `podman logs` masquerades as a silent container.
-	if closeErr := rc.Close(); closeErr != nil {
-		fmt.Fprintf(os.Stderr,
-			"site-build: WARNING — reading container logs FAILED (%v). "+
-				"The %d byte(s) above are what was readable, not necessarily what the container printed.\n",
-			closeErr, n)
-	} else if n == 0 {
-		fmt.Fprintf(os.Stderr,
-			"site-build: NOTE — the log command succeeded and returned 0 bytes; "+
-				"this container genuinely printed nothing.\n")
-	}
-	fmt.Println("---------------- end container output ----------------")
-}
-
-// resolveRoot finds the umbrella repository root. Explicit -root wins; then the
-// directory this source file lives in (three levels up from cmd/site-build);
-// then $PWD walked upwards. It never hardcodes an absolute path — a checkout
-// must work from anywhere.
-func resolveRoot(explicit string) (string, error) {
-	if explicit != "" {
-		abs, err := filepath.Abs(explicit)
-		if err != nil {
-			return "", err
-		}
-		if !isRepoRoot(abs) {
-			return "", fmt.Errorf("-root %s does not look like the umbrella root (no .gitmodules + _tools)", abs)
-		}
-		return abs, nil
-	}
-	if wd, err := os.Getwd(); err == nil {
-		for dir := wd; ; {
-			if isRepoRoot(dir) {
-				return dir, nil
-			}
-			parent := filepath.Dir(dir)
-			if parent == dir {
-				break
-			}
-			dir = parent
-		}
-	}
-	return "", errors.New("no ancestor of the working directory contains both .gitmodules and _tools/")
-}
-
-func isRepoRoot(dir string) bool {
-	if _, err := os.Stat(filepath.Join(dir, ".gitmodules")); err != nil {
-		return false
-	}
-	if _, err := os.Stat(filepath.Join(dir, "_tools")); err != nil {
-		return false
-	}
-	return true
 }

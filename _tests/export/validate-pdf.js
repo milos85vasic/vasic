@@ -43,7 +43,7 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
-const { execFileSync } = require('child_process');
+const { execFileSync, spawnSync } = require('child_process');
 
 function parseArgs(argv) {
   const a = { minWords: 40, minOcrWords: 15, minImages: 1, expect: [], name: 'doc' };
@@ -61,6 +61,101 @@ function parseArgs(argv) {
 }
 
 function hasTool(n) { try { execFileSync('which', [n], { stdio: 'pipe' }); return true; } catch { return false; } }
+
+/*
+ * Resolve an OCR ENGINE, which is not the same question as "is tesseract on
+ * PATH".
+ *
+ * WHY THIS EXISTS. `tesseract` is absent from the development host and is not
+ * going to be installed there: the operator's standing decision (#10 in
+ * docs/OPERATOR-DECISIONS-2026-09-07.md) is that a missing toolchain is
+ * provided as a CONTAINER WORKLOAD through `submodules/containers`, never as a
+ * host package. Without an engine the FULL-VISUAL/visual.ocr check SKIPs, and
+ * a SKIP leaves this validator at UNDETERMINED — rc 2, never a pass. So the
+ * host binary is preferred when it is there, and the containerised engine is
+ * the fallback rather than the check simply not running.
+ *
+ * NOTHING HERE TALKS TO A CONTAINER RUNTIME. The strings `podman` and `docker`
+ * appear nowhere in this file. The container is started, waited on, inspected
+ * and torn down by _tools/containers/cmd/ocr, which drives the runtime
+ * exclusively through the canonical Containers Submodule — §11.4.76(1) makes
+ * that module authoritative for runtime auto-detection and lifecycle, and
+ * §11.4.76(4) forbids growing a parallel implementation in a consumer. Picking
+ * a runtime here would be exactly that parallel implementation.
+ *
+ * Both engines write the SAME filenames — `<page>.ocr.txt` beside `<page>.png`,
+ * which is what `tesseract <in> <base>` produces — so the transcript read-back
+ * is engine-independent and neither path is privileged in the evidence.
+ *
+ * Returns { available, kind, reason, run }. `run(pageDir)` returns a numeric
+ * status: 0 ran, 1 the engine failed outright, 2 COULD NOT DETERMINE. A 2 is
+ * reported as a SKIP-with-reason, never as coverage.
+ */
+function findRepoRoot(start) {
+  for (let dir = start; ;) {
+    if (fs.existsSync(path.join(dir, '.gitmodules')) && fs.existsSync(path.join(dir, '_tools'))) return dir;
+    const parent = path.dirname(dir);
+    if (parent === dir) return null;
+    dir = parent;
+  }
+}
+
+function resolveOcrEngine() {
+  if (hasTool('tesseract')) {
+    return {
+      available: true, kind: 'host', reason: 'host tesseract binary on PATH',
+      run(pageDir, pages) {
+        let worst = 0;
+        for (const pg of pages) {
+          const abs = path.join(pageDir, pg);
+          try { sh('tesseract', [abs, abs.replace(/\.png$/, '.ocr'), '--psm', '6']); }
+          catch { worst = 1; }
+        }
+        // A per-page failure is NOT the engine failing: the transcript audit
+        // below decides, page by page, what actually got produced.
+        return pages.length ? 0 : worst;
+      },
+    };
+  }
+
+  const root = findRepoRoot(__dirname);
+  if (!root) {
+    return { available: false, kind: null,
+      reason: 'tesseract missing, and the umbrella root could not be located from this file, so the containerised engine cannot be reached' };
+  }
+  const mod = path.join(root, '_tools', 'containers');
+  const bin = path.join(mod, 'bin', 'ocr');
+  const rel = path.relative(root, bin);
+
+  if (!fs.existsSync(bin)) {
+    if (!hasTool('go')) {
+      return { available: false, kind: null,
+        reason: `tesseract missing; the containerised engine ${rel} is not built and go is absent, so it cannot be built here` };
+    }
+    try {
+      // Build it, never `go run` it: `go run` collapses every non-zero program
+      // exit into 1, which would turn the engine's rc 2 (COULD NOT DETERMINE)
+      // into rc 1 (a real finding) — an unproven claim reported as a defect.
+      sh('go', ['build', '-o', bin, './cmd/ocr'], { cwd: mod, stdio: 'pipe' });
+    } catch (e) {
+      return { available: false, kind: null,
+        reason: `tesseract missing; building the containerised OCR engine failed: ${String(e.message || e).split('\n')[0]}` };
+    }
+  }
+
+  return {
+    available: true, kind: 'container',
+    reason: `containerised tesseract via ${rel} (Containers Submodule, §11.4.76)`,
+    run(pageDir) {
+      const r = spawnSync(bin, ['-dir', pageDir, '-root', root],
+        { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
+      if (r.error) return 2;
+      if (r.stderr) process.stderr.write(r.stderr);
+      // The engine is three-valued and its codes are passed through unchanged.
+      return typeof r.status === 'number' ? r.status : 2;
+    },
+  };
+}
 
 /*
  * Collect the page images pdftoppm just wrote, in TRUE PAGE ORDER.
@@ -86,7 +181,7 @@ function collectPages(dir) {
     .map(x => x.f);
 }
 module.exports = { collectPages };
-function sh(cmd, args) { return execFileSync(cmd, args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }); }
+function sh(cmd, args, opts) { return execFileSync(cmd, args, { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, ...(opts || {}) }); }
 
 // Deterministic provenance stamp for the verdict JSON.
 //
@@ -163,10 +258,15 @@ function run() {
   if (!fs.existsSync(pdf)) { console.error('pdf not found: ' + pdf); process.exit(2); }
   fs.mkdirSync(args.out, { recursive: true });
 
-  const tools = { pdftotext: hasTool('pdftotext'), pdfimages: hasTool('pdfimages'), pdftoppm: hasTool('pdftoppm'), tesseract: hasTool('tesseract') };
+  // `tesseract` here means "an OCR engine is reachable", not "the binary is on
+  // PATH". On a host with no tesseract the engine is the containerised one; the
+  // report records WHICH, so a reader can never mistake one for the other.
+  const ocrEngine = resolveOcrEngine();
+  const tools = { pdftotext: hasTool('pdftotext'), pdfimages: hasTool('pdfimages'), pdftoppm: hasTool('pdftoppm'), tesseract: ocrEngine.available };
   const report = {
     schema: 'export-validator/1', ...provenance(),
-    pdf, name: args.name, tools, thresholds: { minWords: args.minWords, minOcrWords: args.minOcrWords, minImages: args.minImages, expect: args.expect },
+    pdf, name: args.name, tools, ocrEngine: { kind: ocrEngine.kind, reason: ocrEngine.reason },
+    thresholds: { minWords: args.minWords, minOcrWords: args.minOcrWords, minImages: args.minImages, expect: args.expect },
     checks: [], verdict: 'PASS',
   };
   // Verdict precedence: FAIL outranks UNDETERMINED outranks PASS. A SKIP is a
@@ -224,7 +324,7 @@ function run() {
   if (!tools.pdftoppm) {
     add('visual.ocr', 'FULL-VISUAL', 'SKIP', 'pdftoppm missing — cannot rasterise pages for OCR');
   } else if (!tools.tesseract) {
-    add('visual.ocr', 'FULL-VISUAL', 'SKIP', 'tesseract missing — cannot OCR rendered pages');
+    add('visual.ocr', 'FULL-VISUAL', 'SKIP', `no OCR engine available — ${ocrEngine.reason}`);
   } else {
     // Rasterise into a DEDICATED, EMPTIED directory.
     //
@@ -239,6 +339,10 @@ function run() {
     //     1, 10, 11, 12, 2, 3 ... — silently scrambling the OCR transcript.
     // The set is now exactly what THIS pdftoppm invocation produced, and it is
     // ordered by the page number pdftoppm itself assigned.
+    //
+    // Emptying it also underwrites the freshness assertion for BOTH engines: a
+    // transcript found here after the run cannot be a survivor of an earlier
+    // one, because the directory did not exist a moment ago.
     const pageDir = path.join(args.out, `${args.name}.pages`);
     fs.rmSync(pageDir, { recursive: true, force: true });
     fs.mkdirSync(pageDir, { recursive: true });
@@ -247,13 +351,22 @@ function run() {
     sh('pdftoppm', ['-r', '150', '-png', pdf, ppmBase]);
 
     const pages = collectPages(pageDir);
+    const engineStatus = pages.length ? ocrEngine.run(pageDir, pages) : 2;
+
+    // Read the transcripts back per page. This is deliberately an AUDIT of what
+    // landed on disk rather than a record of what the engine claimed: it is the
+    // same measurement for the host binary and the container, and a page whose
+    // transcript is missing or empty is counted as errored no matter which
+    // engine was asked. An engine's own exit code is evidence about the engine;
+    // only the files are evidence about the pages.
     let ocrText = '';
     const ocrErrors = [];
     for (const pg of pages) {
-      const abs = path.join(pageDir, pg);
-      const b = abs.replace(/\.png$/, '.ocr');
-      try { sh('tesseract', [abs, b, '--psm', '6']); ocrText += '\n' + fs.readFileSync(b + '.txt', 'utf8'); }
-      catch (e) { ocrErrors.push(`${pg}: ${String(e.message || e).split('\n')[0]}`); }
+      const t = path.join(pageDir, pg.replace(/\.png$/, '.ocr.txt'));
+      let body = '';
+      try { body = fs.readFileSync(t, 'utf8'); } catch { body = ''; }
+      if (body.trim() === '') ocrErrors.push(`${pg}: no OCR transcript produced`);
+      else ocrText += '\n' + body;
     }
     const ocrWords = ocrText.split(/\s+/).filter(w => /[A-Za-z0-9]/.test(w));
     fs.writeFileSync(path.join(args.out, `${args.name}.ocr.combined.txt`), ocrText);
@@ -261,16 +374,24 @@ function run() {
     if (pages.length === 0) {
       // pdftoppm produced nothing: we cannot judge legibility either way.
       add('visual.ocr', 'FULL-VISUAL', 'SKIP', 'pdftoppm produced no page images — nothing to OCR');
+    } else if (engineStatus === 2) {
+      // The engine could not run at all (no container runtime, no compose, an
+      // outcome that could not be read back). That is COULD NOT DETERMINE, and
+      // it is reported as a SKIP rather than as a legibility failure — blaming
+      // the document for a missing runtime would be a false accusation.
+      add('visual.ocr', 'FULL-VISUAL', 'SKIP',
+          `OCR engine (${ocrEngine.kind}) COULD NOT DETERMINE an outcome — coverage is incomplete, not a finding about this PDF`);
     } else if (ocrErrors.length === pages.length) {
-      add('visual.ocr', 'FULL-VISUAL', 'SKIP', `tesseract failed on all ${pages.length} page(s): ${ocrErrors[0]}`);
+      add('visual.ocr', 'FULL-VISUAL', 'SKIP', `OCR produced no transcript for any of the ${pages.length} page(s): ${ocrErrors[0]}`);
     } else {
       add('visual.ocr', 'FULL-VISUAL', ocrWords.length >= args.minOcrWords ? 'PASS' : 'FAIL',
-          `OCR of ${pages.length} rendered page(s) [${pages.join(', ')}] recovered ${ocrWords.length} legible words (min ${args.minOcrWords})` +
+          `OCR (${ocrEngine.kind}) of ${pages.length} rendered page(s) [${pages.join(', ')}] recovered ${ocrWords.length} legible words (min ${args.minOcrWords})` +
           (ocrErrors.length ? ` — ${ocrErrors.length} page(s) errored` : ''));
     }
     report.ocrPages = pages.length;
     report.ocrPageFiles = pages;
     report.ocrPageDir = pageDir;
+    report.ocrEngineStatus = engineStatus;
     if (ocrErrors.length) report.ocrErrors = ocrErrors;
   }
 

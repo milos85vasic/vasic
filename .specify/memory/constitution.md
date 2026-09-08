@@ -1,49 +1,51 @@
 <!--
 SYNC IMPACT REPORT — .specify/memory/constitution.md
 ====================================================
-Version change: 1.0.0 → 1.1.0  (MINOR)
+Version change: 1.1.0 → 1.2.0  (MINOR)
 
-Bump rationale: two new principles added and several sections materially expanded.
-No principle was removed or redefined, so this is not MAJOR. The changes are more
-than wording, so it is not PATCH.
-
-Modified principles:
-  - (no renames)
-  - "Evidence-Based Claims"      — expanded with the measured-not-asserted rule
-  - "Isolation by Default"       — expanded with the no-vacuous-gate rule
-  - "Comprehensive Documentation"— expanded; CONTINUATION.md now EXISTS (386 lines)
+Bump rationale: four principles added, no principle removed or redefined. The
+additions are materially new rules rather than wording, so not PATCH; nothing is
+backward-incompatible, so not MAJOR.
 
 Added principles:
-  + "Honest Instruments"         — a check that cannot run reports neither pass nor fail
-  + "Environment Adaptability"   — no frozen assumption about the host
+  + "Authored Curriculum"    — a published area is authored, never auto-mined vocabulary
+  + "Published Means Served" — never advertise what the API will refuse to serve
+  + "Derived Presentation"   — theme comes from seeded derivation; contrast floors are gates
+  + "Standalone Cloneable"   — every owned module builds and runs from a fresh clone
 
-Added sections:
-  + "Governance" (amendment procedure, versioning policy, compliance review)
-  + "Local Gate Suite" (the 8 registered pre-push gates)
-  + "Verification Scripts" (the governance/adaptability instrument inventory)
+Why these four, and why now. Each encodes a defect MEASURED in this repository on
+2026-09-07, not an aspiration:
 
-Corrected factual errors carried from v1.0.0:
-  ! "11,101 lines, 261 anchors" → measured 11,700 lines, 252 anchors at pin 90297902
-  ! submodule fleet was implicit → now 8 declared, enumerated
-  ! Testing Strategy listed 5 commands → the local gate runner registers 8 (E, 0-6)
+  ! 814 of 819 published knowledge areas were single mined transcript terms —
+    "Bazillion", "Sillier", "Blinks". Only 32 of 814 titles (3.9%) contained any
+    AI/ML term, and raising the evidence floor made it WORSE (0 of 36 at floor 2,
+    0 of 8 at floor 3). The miner emits every unlinked term by explicit design;
+    nothing selected between it and the API.
+  ! The list route served 819 areas while the detail route refused 817 with
+    `area_not_published` — 2 publication reviews existed for 819 areas.
+  ! The token derivation was widened (hue span 120° → 150–180°) and NOTHING
+    regenerated the consuming app's stylesheets, so the measured improvement was
+    invisible to every user.
+  ! `workshop` did not build outside the umbrella at all: five dependencies
+    resolved through relative `replace` paths escaping the repository, declared
+    nowhere — and `setup.sh` printed a remedy that could not work.
 
-Templates requiring updates — verified by reading each, not assumed:
-  NOTE: TWO plan templates exist. `setup-plan.sh` resolves the superspec one, not
-  the core one. An earlier draft of this report named only the core template; that
-  was wrong and is corrected here rather than silently amended.
-  ✅ .specify/extensions/superspec/templates/plan-template.md (the one actually
-     resolved) — its Constitution Check is a table of generic
-     `[Principle N from constitution]` rows, so the two new principles slot in with
-     no template edit required.
-  ✅ .specify/templates/plan-template.md (core, not resolved here) — its
-     Constitution Check is the placeholder line
-     `[Gates determined based on constitution file]`; principle-agnostic, no edit.
-  ✅ .specify/templates/spec-template.md   — 0 constitution references; no change needed.
-  ✅ .specify/templates/tasks-template.md  — 0 constitution references; no change needed.
-  ✅ README.md                             — already carries the CI/local-gate notice.
+Factual corrections, called out rather than silently applied:
+  ! fleet was "8 submodules declared … six owned" → measured 2026-09-07:
+    13 declared in `.gitmodules`, 12 recorded in `helix-deps.yaml`, 11 owned
+  ! `submodules/curriculum-kit` exists as a PLAIN DIRECTORY (82 tracked files),
+    not a gitlink; wiring it as a submodule is an unperformed operator step
 
-Follow-up TODOs: none. No placeholder tokens remain (verified: 0 matches for
-`[ALL_CAPS]` tokens).
+Templates requiring updates — verified by reading, not assumed:
+  ✅ .specify/extensions/superspec/templates/plan-template.md — its Constitution
+     Check is a table of generic `[Principle N from constitution]` rows, so the
+     four new principles slot in with no template edit.
+  ✅ .specify/templates/plan-template.md — Constitution Check is the
+     principle-agnostic placeholder `[Gates determined based on constitution file]`.
+  ✅ .specify/templates/spec-template.md — no principle-specific section.
+  ✅ .specify/templates/tasks-template.md — task categories are principle-agnostic.
+
+Deferred: none. No unexplained placeholder tokens remain.
 -->
 ---
 version: 1.1.0
@@ -98,10 +100,17 @@ truth; no carrier may weaken or override a universal clause.
 
 Every owned submodule MUST carry the four carriers, each opening with a real, non-fenced
 `## INHERITED FROM ` pointer heading (§11.4.35 invariant 6). The fleet is DERIVED from
-`.gitmodules`, never hardcoded: **8 submodules are declared** — `submodules/constitution` (the
-governance source), `submodules/superspec` (third-party, out of scope per §11.4.156(C)), and six
-owned: `milosvasic.ru`, `vasic.digital`, `design-toolkit`, `ai_interviewing`, `monetization`,
-`workshop`.
+`.gitmodules`, never hardcoded. Measured 2026-09-07: **13 submodules are declared** and
+`helix-deps.yaml` records **12** — `submodules/constitution` (the governance source),
+`submodules/superspec` (third-party, out of scope per §11.4.156(C)), and **11 owned**:
+`milosvasic.ru`, `vasic.digital`, `design-toolkit`, `ai_interviewing`, `monetization`,
+`workshop`, `submodules/containers`, `submodules/LLMProvider`, `submodules/RAG`,
+`submodules/verdict`, `submodules/passage`. The earlier "8 declared, six owned" figure is
+WITHDRAWN as measured false, not silently replaced.
+
+`submodules/curriculum-kit` is present as a PLAIN DIRECTORY of 82 tracked files, NOT a gitlink.
+It is therefore outside the cascade until an operator creates its upstream and runs
+`git submodule add`. Counting it as owned would be a claim the tree does not support.
 
 ### Isolation by Default
 
@@ -148,6 +157,88 @@ Rationale: this repository has been bitten repeatedly — a hardcoded macOS path
 that pushes to production, a distro-specific service config path, an i915-only log pattern that
 would report "0 faults" forever on AMD hardware, and a GNU-vs-`ugrep` difference that silently
 broke a test assertion on this very host.
+
+### Authored Curriculum
+
+A published knowledge area MUST be an AUTHORED subject with a stated scope, not a token a miner
+happened to isolate. Extraction MAY propose candidates; it MUST NOT publish them.
+
+Three rules follow, and each is testable:
+
+- An area MUST carry a title, a summary and tags that a reader recognises as a SUBJECT. A single
+  word lifted from a transcript is not a subject.
+- An area MUST be ON-DOMAIN for the curriculum that publishes it. A curriculum about AI and IT
+  publishes AI and IT areas; relevance MUST be measured and reported, not assumed from the fact
+  that the words appeared in the source material.
+- An area MUST carry the material that makes it teachable — lessons, an end-of-area assessment,
+  and the materials the lessons cite — or it MUST NOT be published. An area with nothing behind
+  it is a promise the interface cannot keep.
+
+Rationale, measured 2026-09-07: 814 of 819 published areas were single mined terms — "Bazillion",
+"Sillier", "Blinks", "Googling". Only 32 of 814 titles (3.9%) contained any AI/ML term, and 778 of
+814 rested on exactly one passage. `derive.py:propose_areas` emits every unlinked term as its own
+area by explicit design, commented `E1: propose, don't discard` — correct for a MINER, and exactly
+why publishing its raw output is wrong. Raising the evidence floor made relevance WORSE, not
+better (0 of 36 at floor 2), which proves the defect is not a threshold and cannot be tuned away.
+
+The reference implementation is `ai_interviewing`: one authored document per area, numbered, each
+paired with a question bank at the same number. Fixing this by improving the miner is forbidden;
+the miner is not the problem.
+
+### Published Means Served
+
+An API MUST NOT advertise a resource it will refuse to serve. If a listing includes an item, the
+item's own route MUST return it — or the listing MUST exclude it and say, in its own payload, how
+many were withheld and why.
+
+A refusal MUST carry enough for the caller to render something honest: at minimum the resource's
+name and the reason. A page that can show a name and shows an opaque identifier instead has
+failed this principle even when the underlying gate is correct.
+
+Rationale, measured 2026-09-07: `/api/areas` served 819 areas while `/api/areas/{id}` refused 817
+of them with `area_not_published`, because 2 publication-review records existed for 819 areas. The
+gate was right and the contract was broken — the interface advertised 819 subjects of which it
+would open 2, and rendered a raw ULID for the rest. Both halves of a gated resource MUST agree.
+
+### Derived Presentation
+
+Visual identity MUST be DERIVED from the seeded token pipeline, never hand-painted into a
+consuming application. A colour written directly into a consumer's stylesheet defeats the
+derivation for every other consumer and every other seed.
+
+- A widened or corrected token set is NOT delivered until a consumer has regenerated from it and
+  the change is measurable in what that consumer SERVES. A token-level measurement is evidence
+  about tokens, and MUST NOT be reported as evidence about the interface.
+- Accessibility floors are GATES. When a derived colour fails a contrast floor, the DERIVATION
+  moves; the floor never does.
+- A palette gate MUST measure a property a human would recognise as the complaint — hue spread,
+  chromatic share — and MUST be provable against the artefact that motivated it.
+
+Rationale, measured 2026-09-07: the derivation was widened from 3 hue bins over 120° to 4–5 bins
+over 150–180°, and the consuming application's stylesheets were never regenerated, so the
+improvement reached no user. Separately, two supposedly distinct brands were shipping the
+IDENTICAL 3-bin, 120° structure in both themes — a uniqueness claim the tokens did not support.
+
+### Standalone Cloneable
+
+Every owned module MUST be cloneable, buildable and runnable on its own, outside this umbrella. A
+module that only works because a parent checkout happens to be present is not a module.
+
+- Every dependency MUST be DECLARED inside the module — in its own manifest, its own `.gitmodules`,
+  or its own bootstrap — never resolved by a relative path that escapes the repository undeclared.
+- A remedy printed to an operator MUST be runnable in the context that printed it. A setup script
+  that emits an impossible command is worse than one that emits none, because it sends the reader
+  after a fault that does not exist.
+- A module MUST ship a repeatable standalone check with a paired mutation, so cloneability cannot
+  regress silently.
+
+Rationale, measured 2026-09-07 by CLONING both modules rather than inspecting them: `workshop` did
+not build at all — five dependencies resolved through relative `replace` paths walking three
+levels out of the repository, declared nowhere — and its `setup.sh` told the operator to run
+`git submodule update --init` for a path that is not a submodule, then misreported the resulting
+failure as a network or credentials problem. A fresh clone also came up serving an EMPTY corpus,
+because the registry path was derived from a volume nothing in the repository populates.
+Inspection reports what a repository DECLARES; only a clone reports what it DELIVERS.
 
 ### Quality Over Speed
 
@@ -284,3 +375,9 @@ than silently applied.
 check. Before a release or a tag, run the full sweep plus the verification scripts above, and
 record the result. An unrunnable check is reported as such — never as a pass. Claims of
 compliance require the command output that demonstrates it.
+
+**Version**: 1.2.0 | **Ratified**: 2026-08-26 | **Last Amended**: 2026-09-07
+
+Ratification date is DERIVED, not asserted: `git log --reverse --format=%cs --
+.specify/memory/constitution.md` returns 2026-08-26, the first commit that
+introduced this file. Re-derive it rather than trusting this line.

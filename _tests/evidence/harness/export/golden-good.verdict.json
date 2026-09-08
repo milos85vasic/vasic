@@ -7,7 +7,11 @@
     "pdftotext": true,
     "pdfimages": true,
     "pdftoppm": true,
-    "tesseract": false
+    "tesseract": true
+  },
+  "ocrEngine": {
+    "kind": "container",
+    "reason": "containerised tesseract via _tools/containers/bin/ocr (Containers Submodule, §11.4.76)"
   },
   "thresholds": {
     "minWords": 40,
@@ -52,19 +56,24 @@
     {
       "id": "visual.ocr",
       "family": "FULL-VISUAL",
-      "status": "SKIP",
-      "detail": "tesseract missing — cannot OCR rendered pages"
+      "status": "PASS",
+      "detail": "OCR (container) of 2 rendered page(s) [page-1.png, page-2.png] recovered 109 legible words (min 15)"
     }
   ],
-  "verdict": "UNDETERMINED",
+  "verdict": "PASS",
   "pdftotextFile": "_tests/evidence/harness/export/golden-good.pdftotext.txt",
+  "ocrPages": 2,
+  "ocrPageFiles": [
+    "page-1.png",
+    "page-2.png"
+  ],
+  "ocrPageDir": "_tests/evidence/harness/export/golden-good.pages",
+  "ocrEngineStatus": 0,
   "counts": {
     "total": 6,
-    "pass": 5,
+    "pass": 6,
     "fail": 0,
-    "skip": 1
+    "skip": 0
   },
-  "skippedChecks": [
-    "FULL-VISUAL/visual.ocr"
-  ]
+  "skippedChecks": []
 }

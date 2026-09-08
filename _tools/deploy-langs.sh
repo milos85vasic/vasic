@@ -12,15 +12,27 @@
 #   1  deploy completed BUT the live suite ran, REACHED production, and asserted
 #      a real defect there (broken link and/or shipped-state regression)
 #      -> a real content/site failure; act on the sites.
-#   2  deploy completed BUT the live suite reached NO verdict — it could not run
-#      (missing node_modules / browser binary / spec / npx), or the transport to
-#      production was down so nothing was observed. NOT a broken-site report.
-#      Act on the toolchain or the network path, then re-validate.
+#   2  COULD NOT DETERMINE — never a pass. Two distinct occasions, both meaning
+#      "no verdict was reached, act on the toolchain or the network path":
+#        (a) a REQUIRED build step could not run at all because its toolchain is
+#            absent on this host. Nothing was staged, committed or pushed.
+#        (b) deploy completed BUT the live suite reached no verdict — it could
+#            not run (missing node_modules / browser binary / spec / npx), or the
+#            transport to production was down so nothing was observed.
+#      Neither is a broken-site report. (a) is announced as `BUILD-GATE
+#      undetermined` and (b) as a live-validation message, so the two are
+#      distinguishable in the log even though they share an exit code — the code
+#      carries the three-valued meaning, the log carries the occasion.
 #   3  refused to deploy: unrelated changes present in a site submodule.
 #      Nothing was built, staged, committed, pushed, or un-staged.
 #   4  the publish itself failed (commit rejected, no remote, push rejected).
 #      Live validation is deliberately skipped: crawling live would report on
 #      content this run did not publish.
+#   5  a REQUIRED build step RAN AND FAILED. Nothing was staged, committed or
+#      pushed. Distinct from 2 on purpose: this one IS a defect in the build,
+#      not a fact about the host. Precedence: 5 outranks 2, so a missing
+#      toolchain can never mask a real failure. Deliberate override:
+#      DEPLOY_TOLERATE_BUILD_FAILURE=1 (see "WHICH BUILD STEPS ARE TOLERATED").
 set -uo pipefail
 # ROOT was hardcoded to "/Volumes/T7/Projects/vasic" - a macOS path. On any other
 # checkout the `cd` below failed, and because this script sets -u and pipefail
@@ -211,6 +223,248 @@ BY_BSD_STUB
   exit 0
 fi
 
+# ── WHICH BUILD STEPS ARE TOLERATED, AND WHICH ARE NOT ───────────────────────
+# Until 2026-09-08 EVERY build step here was tolerated: each one ended in
+# `|| build_warn "<name>"`, `build_warn` only incremented a counter, and the
+# script exited 0 regardless. On a host with no `jekyll` that meant `--dry-run`
+# printed "DRY-RUN cycle done" — reporting success having built nothing. This is
+# a LIVE PRODUCTION deploy path for two sites; a green exit over a failed render
+# is the worst possible reading. Operator decision #12 (2026-09-07,
+# docs/OPERATOR-DECISIONS-2026-09-07.md): fail the deploy on a failed build,
+# behind a flag for deliberate override.
+#
+# The blanket tolerance was NOT simply inverted, because the original rationale
+# is CORRECT FOR PART OF THE SET and wrong for the rest. Each of the six call
+# sites was judged separately:
+#
+#   TOLERATED (transient by design) — `gen <lang> vasic`, `gen <lang> milos`,
+#     `pdf <lang>`. This cycle is meant to be re-run WHILE the translation batch
+#     is still writing `_content_<lang>`. A language enters COMPLETE on its PASS
+#     verdict count, which can reach NDOCS before the content files are fully
+#     written, so a half-written language is an EXPECTED state and must not
+#     abort a deploy that is otherwise publishing good content. What a tolerated
+#     failure costs is bounded and stated: that language's pages are simply not
+#     regenerated, so the PREVIOUS generation is republished — stale, never
+#     wrong, and self-correcting on the next cycle.
+#
+#   FATAL — `en gen`, `pdf en`, `jekyll _site rebuild`. None of these is
+#     transient. EN is the always-present source of truth and its render also
+#     rewrites the hreflang and sitemap for EVERY language, so a failed EN gen
+#     does not degrade one language, it publishes a wrong site. `pdf en` sits
+#     INSIDE a `command -v weasyprint && command -v pandoc` guard, so reaching it
+#     at all means the toolchain is present and a non-zero rc is a real failure,
+#     not an absence. The jekyll rebuild is the step named in the decision.
+#
+# ── THREE-VALUED, BECAUSE "COULD NOT RUN" IS NOT "RAN AND FAILED" ────────────
+# Every instrument in this tree is three-valued and 2 is never a pass. A build
+# step whose TOOLCHAIN IS ABSENT reached no verdict about this repository's
+# content — it is a fact about the host — and reporting it as a content failure
+# would be the same bluff in the opposite direction. So:
+#
+#   build_warn  <name>   tolerated  -> counted, printed, exit code unchanged
+#   build_fail  <name>   RAN and FAILED        -> exit 5
+#   build_undet <name>   COULD NOT RUN at all  -> exit 2
+#
+# Precedence, asserted by --prove-build-fatality: FAIL (5) outranks UNDET (2)
+# outranks clean, so a missing toolchain can never mask a real failure. This
+# mirrors scripts/verify-content-boundary.sh's documented precedence rule.
+#
+# Deliberate override: DEPLOY_TOLERATE_BUILD_FAILURE=1 in the environment. It is
+# an env var, not a short flag, for the same reason DEPLOY_ALLOW_UNRELATED is —
+# it cannot be reached by a typo or a stray argument — and using it prints a
+# loud, unmissable banner naming every step it is pardoning.
+BUILD_WARN=0
+BUILD_WARN_NAMES=""
+BUILD_FAIL=0
+BUILD_FAIL_NAMES=""
+BUILD_UNDET=0
+BUILD_UNDET_NAMES=""
+build_warn()  { BUILD_WARN=$((BUILD_WARN + 1));   BUILD_WARN_NAMES="${BUILD_WARN_NAMES}  $1"$'\n';   echo "[deploy-langs] $1 warn"; }
+build_fail()  { BUILD_FAIL=$((BUILD_FAIL + 1));   BUILD_FAIL_NAMES="${BUILD_FAIL_NAMES}  $1"$'\n';   echo "[deploy-langs] $1 FAILED" >&2; }
+build_undet() { BUILD_UNDET=$((BUILD_UNDET + 1)); BUILD_UNDET_NAMES="${BUILD_UNDET_NAMES}  $1"$'\n'; echo "[deploy-langs] $1 COULD NOT RUN" >&2; }
+report_build_warns() {
+  [ "$BUILD_WARN" -gt 0 ] || return 0
+  echo "[deploy-langs] NOTE: ${BUILD_WARN} build step(s) failed and were tolerated; the content"
+  echo "[deploy-langs] below was rendered from a run that did NOT fully succeed:"
+  printf '%s' "$BUILD_WARN_NAMES" | sed 's|^|[deploy-langs] |'
+}
+
+# build_gate — the decision point. Reads ONLY the three counters and the override
+# env var, and either returns 0 or terminates the run. Written as a pure function
+# of its inputs so --prove-build-fatality can exercise every branch without
+# building, staging, committing or pushing anything.
+#
+# Emits its verdict on stdout as `BUILD-GATE <verdict>` so the paired proof reads
+# a machine-checkable token rather than pattern-matching prose.
+build_gate() {
+  if [ "$BUILD_FAIL" -eq 0 ] && [ "$BUILD_UNDET" -eq 0 ]; then
+    echo "[deploy-langs] BUILD-GATE clean — every REQUIRED build step ran and succeeded."
+    return 0
+  fi
+  echo "[deploy-langs] ───────────────────────────────────────────────────────────" >&2
+  if [ "$BUILD_FAIL" -gt 0 ]; then
+    echo "[deploy-langs] ${BUILD_FAIL} REQUIRED build step(s) RAN AND FAILED:" >&2
+    printf '%s' "$BUILD_FAIL_NAMES" | sed 's|^|[deploy-langs] |' >&2
+  fi
+  if [ "$BUILD_UNDET" -gt 0 ]; then
+    echo "[deploy-langs] ${BUILD_UNDET} REQUIRED build step(s) COULD NOT RUN (toolchain absent):" >&2
+    printf '%s' "$BUILD_UNDET_NAMES" | sed 's|^|[deploy-langs] |' >&2
+  fi
+  if [ "${DEPLOY_TOLERATE_BUILD_FAILURE:-0}" = "1" ]; then
+    echo "[deploy-langs] ***********************************************************" >&2
+    echo "[deploy-langs] *** OVERRIDE DEPLOY_TOLERATE_BUILD_FAILURE=1 IS SET.    ***" >&2
+    echo "[deploy-langs] *** The failures listed above are being PARDONED and    ***" >&2
+    echo "[deploy-langs] *** this deploy will CONTINUE to two LIVE PRODUCTION    ***" >&2
+    echo "[deploy-langs] *** sites. Whatever those steps would have produced is  ***" >&2
+    echo "[deploy-langs] *** NOT in this publish; the previous artifacts stand.  ***" >&2
+    echo "[deploy-langs] ***********************************************************" >&2
+    echo "[deploy-langs] BUILD-GATE overridden"
+    return 0
+  fi
+  if [ "$BUILD_FAIL" -gt 0 ]; then
+    echo "[deploy-langs] BUILD-GATE fail" >&2
+    echo "[deploy-langs] ABORTED (exit 5). Nothing was staged, committed or pushed." >&2
+    echo "[deploy-langs] Fix the build, then re-run. Deliberate override (only after" >&2
+    echo "[deploy-langs] reading every step above): DEPLOY_TOLERATE_BUILD_FAILURE=1" >&2
+    report_build_warns
+    exit 5
+  fi
+  echo "[deploy-langs] BUILD-GATE undetermined" >&2
+  echo "[deploy-langs] ABORTED (exit 2). Nothing was staged, committed or pushed." >&2
+  echo "[deploy-langs] This is NOT a report about the sites — a required toolchain is" >&2
+  echo "[deploy-langs] missing on THIS HOST, so those steps reached no verdict at all." >&2
+  echo "[deploy-langs] Remedy is the toolchain. Deliberate override (only after reading" >&2
+  echo "[deploy-langs] every step above): DEPLOY_TOLERATE_BUILD_FAILURE=1" >&2
+  report_build_warns
+  exit 2
+}
+
+# ── §1.1 paired-mutation gate for the build-fatality gate ────────────────────
+#   bash _tools/deploy-langs.sh --prove-build-fatality
+# Three-valued like every check here: 0 the gate discriminates, 1 it does not,
+# 2 COULD NOT DETERMINE. It runs BEFORE the pre-flight, before `go build`, before
+# any generation and before any staging/commit/push — this script publishes to
+# two LIVE production sites, so a self-test that had to walk any part of that
+# path would be unrunnable. It writes nothing anywhere and touches no tracked
+# artifact.
+#
+# The subject is `build_gate`, which was deliberately written as a pure function
+# of three counters and one env var so that every branch can be exercised without
+# a build. Each assertion runs it in a SUBSHELL with the counters preset, so its
+# `exit` terminates only that subshell and the real exit code is what is read.
+#
+# M1 is the DISCRIMINATING assertion — the one that fails against the historical
+# code. Before 2026-09-08 every build step ended in `build_warn`, `build_warn`
+# only incremented a counter, and the script exited 0. M1 asserts that a step
+# which RAN AND FAILED now yields a NON-ZERO exit. It is paired with M6, which
+# reconstructs the historical behaviour longhand (never by calling the subject)
+# and PROVES that the old form gets this case wrong; if the mutant were to pass,
+# M1 could not discriminate and the gate reports rc 2 rather than banking an
+# assertion that proves nothing.
+#
+# M4 is the second load-bearing one: it asserts the PRECEDENCE claim printed in
+# the exit contract. A run carrying BOTH a real failure and an absent toolchain
+# must exit 5, not 2 — a missing toolchain may never launder a real failure into
+# "could not determine".
+PROVE_BUILD_FATALITY=0
+for a in "$@"; do case "$a" in --prove-build-fatality) PROVE_BUILD_FATALITY=1 ;; esac; done
+if [ "$PROVE_BUILD_FATALITY" = "1" ]; then
+  echo "BUILD-FATALITY §1.1 PAIRED MUTATION PROOF — build_gate"
+  echo "----------------------------------------------------------------------"
+  BG_PASS=0; BG_FAIL=0; M1_DISCRIMINATES=0
+  bg_ok()  { BG_PASS=$((BG_PASS+1)); printf '✅ %-28s %s\n' "$1" "$2"; }
+  bg_bad() { BG_FAIL=$((BG_FAIL+1)); printf '❌ %-28s %s\n' "$1" "$2"; }
+
+  # run_gate <warn> <fail> <undet> <override> -> prints "<rc> <verdict-token>"
+  run_gate() {
+    local out rc
+    out="$(
+      BUILD_WARN="$1"; BUILD_WARN_NAMES="w"$'\n'
+      BUILD_FAIL="$2"; BUILD_FAIL_NAMES="f"$'\n'
+      BUILD_UNDET="$3"; BUILD_UNDET_NAMES="u"$'\n'
+      DEPLOY_TOLERATE_BUILD_FAILURE="$4"
+      # 2>&1: the fail/undetermined verdict tokens are written to STDERR by
+      # design (they are diagnostics), so a harness that discarded stderr would
+      # read an empty verdict and report a false FAIL against a working gate.
+      build_gate 2>&1
+    )"; rc=$?
+    printf '%s %s\n' "$rc" "$(printf '%s' "$out" | sed -n 's/.*BUILD-GATE \([a-z]*\).*/\1/p' | tail -1)"
+  }
+
+  # M1 — DISCRIMINATOR: a required step that RAN AND FAILED must abort, non-zero.
+  got="$(run_gate 0 1 0 0)"
+  case "$got" in
+    "5 fail") bg_ok  "M1 ran-and-failed" "exit 5, verdict 'fail' — the deploy aborts" ;;
+    *)        bg_bad "M1 ran-and-failed" "expected '5 fail', got '$got'" ;;
+  esac
+
+  # M2 — a required step that COULD NOT RUN is rc 2, never rc 0 and never rc 5.
+  got="$(run_gate 0 0 1 0)"
+  case "$got" in
+    "2 undetermined") bg_ok  "M2 could-not-run" "exit 2, verdict 'undetermined' — never a pass" ;;
+    *)                bg_bad "M2 could-not-run" "expected '2 undetermined', got '$got'" ;;
+  esac
+
+  # M3 — TOLERATED failures alone must NOT abort. This is the assertion that
+  # stops a future "make everything fatal" from breaking the documented re-run
+  # -while-translating workflow.
+  got="$(run_gate 7 0 0 0)"
+  case "$got" in
+    "0 clean") bg_ok  "M3 tolerated-only" "exit 0 with 7 tolerated warn(s) — re-run workflow intact" ;;
+    *)         bg_bad "M3 tolerated-only" "expected '0 clean', got '$got'" ;;
+  esac
+
+  # M4 — PRECEDENCE: FAIL outranks UNDET. Both present must read 5, not 2.
+  got="$(run_gate 0 1 1 0)"
+  case "$got" in
+    "5 fail") bg_ok  "M4 precedence" "fail(5) outranks undetermined(2); no laundering" ;;
+    *)        bg_bad "M4 precedence" "expected '5 fail', got '$got'" ;;
+  esac
+
+  # M5 — the override is honoured, and ONLY on the exact literal 1.
+  got="$(run_gate 0 1 1 1)"
+  case "$got" in
+    "0 overridden") bg_ok  "M5 override-honoured" "DEPLOY_TOLERATE_BUILD_FAILURE=1 pardons and continues" ;;
+    *)              bg_bad "M5 override-honoured" "expected '0 overridden', got '$got'" ;;
+  esac
+  for junk in 0 "" "yes" "true" "01"; do
+    got="$(run_gate 0 1 0 "$junk")"
+    case "$got" in
+      "5 fail") : ;;
+      *) bg_bad "M5b override-strictness" "value '$junk' should NOT override; got '$got'" ;;
+    esac
+  done
+  bg_ok "M5b override-strictness" "only the literal '1' overrides (0, empty, yes, true, 01 do not)"
+
+  # M6 — THE MUTANT. The historical form, written longhand, must actually get M1
+  # wrong. Without this, M1 could be passing against a subject that was never
+  # broken, and a §1.1 proof that cannot fail proves nothing.
+  historical_gate() { : $((BUILD_FAIL)); return 0; }   # count, print, exit 0 — as it was
+  ( BUILD_FAIL=1; historical_gate ); MUT_RC=$?
+  if [ "$MUT_RC" -eq 0 ]; then
+    M1_DISCRIMINATES=1
+    bg_ok "M6 mutant-is-caught" "the historical tolerate-everything form exits 0 on a REAL failure,"
+    printf '   %-28s %s\n' "" "so M1 genuinely discriminates fixed from broken."
+  else
+    bg_bad "M6 mutant-is-caught" "the historical form returned $MUT_RC, so M1 discriminates nothing"
+  fi
+
+  echo "----------------------------------------------------------------------"
+  if [ "$BG_FAIL" -gt 0 ]; then
+    echo "❌ build_gate §1.1 PROOF: FAIL — ${BG_FAIL} of $((BG_PASS + BG_FAIL)) assertion(s) did not hold."
+    echo "   A failed build step must abort this deploy. Restore build_fail/build_undet."
+    exit 1
+  fi
+  if [ "$M1_DISCRIMINATES" -eq 0 ]; then
+    echo "◍ build_gate §1.1 PROOF: COULD NOT DETERMINE — ${BG_PASS} assertion(s) held, but the"
+    echo "   mutant (M6) was not shown to fail, so the discriminating assertion proves nothing."
+    exit 2
+  fi
+  echo "✅ build_gate §1.1 MUTATION PROOF: PASS — ${BG_PASS} assertions, including the"
+  echo "   precedence claim (M4) and a mutant (M6) that the historical form cannot survive."
+  exit 0
+fi
+
 # DRY_RUN=1 (or --dry-run/-n): do everything EXCEPT git commit/push. Pages are
 # regenerated and per-language PDFs are (re)built into the live dirs so they can
 # be inspected, but nothing is committed or pushed. Safe for verification while
@@ -242,8 +496,24 @@ for a in "$@"; do case "$a" in --dry-run|-n) DRY_RUN=1 ;; esac; done
 #               portfolio/[<lang>/]index.html, sitemap.xml, robots.txt
 #   build.sh    assets/od/**                       (sync_assets)
 #   build-pdfs  downloads/**
-#   jekyll      _site/**                           (milosvasic.ru only)
-# Deliberately NOT produced here, so never staged: articles/ (the generator
+#
+# `_site/**` USED to be listed here for milosvasic.ru and is NOT any more.
+# Operator decision #13 (2026-09-07) untracked it: `milosvasic.ru/.gitignore:70`
+# already said `_site/`, but the rule was added AFTER the files were tracked, so
+# it did nothing and eight files — ONE rendered page — sat in git against a
+# sitemap declaring 525 URLs. Production never read them: that submodule's
+# `.github/workflows/pages.yml` runs `bundle exec jekyll build --destination
+# _site` and uploads the REGENERATED tree, so the committed copy was overwritten
+# on every deploy and served to nobody.
+#
+# Keeping `_site` in this list after the untracking would have BROKEN THE DEPLOY.
+# Measured: with `_site` ignored, `git add -A -- … _site` exits 1 with "The
+# following paths are ignored by one of your .gitignore files", which this
+# script's own ADD_ERR guard correctly reads as an unstageable tree — setting
+# PUBLISH_FAIL=1 and exiting 4 WITHOUT publishing either site. The jekyll build
+# still runs (it is what the local test harness serves); its output is simply
+# no longer a git artifact.
+# Deliberately NOT produced here, so never staged: `_site/**`, articles/ (the generator
 # excludes it explicitly — see _tools/gen/seo.go), _article_src/, pages/, _data/,
 # _layouts/, Gemfile*, CNAME, the governance carriers, and every nested submodule.
 # A candidate is emitted only if it exists on disk or is known to the index, so
@@ -252,7 +522,8 @@ deploy_pathspecs() {
   local site="$1" l p
   local cands=(index.html sitemap.xml robots.txt products portfolio assets/od downloads)
   for l in $LANGS; do cands+=("$l"); done
-  [ "$site" = "milosvasic.ru" ] && cands+=(_site)
+  # NO `_site` here — see the note above. It is a build artifact of the
+  # provider-side Pages workflow, not a deploy output of this script.
   for p in "${cands[@]}"; do
     if [ -e "$ROOT/$site/$p" ] || [ -n "$(git -C "$ROOT/$site" ls-files -- "$p" 2>/dev/null)" ]; then
       printf '%s\n' "$p"
@@ -330,24 +601,9 @@ else
   BUILD_YEAR="$(git -C "$ROOT" log -1 --format=%cd --date=format:%Y 2>/dev/null || date -u +%Y)"
 fi
 ( cd "$GEN" && go build -ldflags "-X main.buildYear=$BUILD_YEAR" -o "$GEN/gen" . ) || { echo "gen build failed"; exit 1; }
-# sync assets + regenerate EN (updates hreflang/sitemap to include complete langs)
-# Build steps below stay non-fatal ON PURPOSE: this cycle is designed to be re-run
-# while the translation batch is still writing _content_<lang>, so a half-written
-# language must not abort the whole deploy. But a swallowed `|| echo ... warn` also
-# meant the operator could not tell a clean publish from one built out of a failed
-# render. Tally them and say so in the summary — no control-flow change, just the
-# truth about what was published.
-BUILD_WARN=0
-BUILD_WARN_NAMES=""
-build_warn() { BUILD_WARN=$((BUILD_WARN + 1)); BUILD_WARN_NAMES="${BUILD_WARN_NAMES}  $1"$'\n'; echo "[deploy-langs] $1 warn"; }
-report_build_warns() {
-  [ "$BUILD_WARN" -gt 0 ] || return 0
-  echo "[deploy-langs] NOTE: ${BUILD_WARN} build step(s) failed and were tolerated; the content"
-  echo "[deploy-langs] below was rendered from a run that did NOT fully succeed:"
-  printf '%s' "$BUILD_WARN_NAMES" | sed 's|^|[deploy-langs] |'
-}
-
-bash "$GEN/build.sh" --lang en --no-jekyll >/dev/null 2>&1 || build_warn "en gen"
+# sync assets + regenerate EN (updates hreflang/sitemap to include complete langs).
+# FATAL: see "WHICH BUILD STEPS ARE TOLERATED" near the top of this file.
+bash "$GEN/build.sh" --lang en --no-jekyll >/dev/null 2>&1 || build_fail "en gen"
 # regenerate each COMPLETE language into the live dirs (both sites)
 for l in "${COMPLETE[@]:-}"; do
   [ -z "$l" ] && continue
@@ -360,20 +616,56 @@ done
 # no-op) — keeping this whole cycle idempotent. Missing pandoc/weasyprint just
 # warns and skips (never a faked artifact).
 if [ -x "$PDF" ] && command -v weasyprint >/dev/null 2>&1 && command -v pandoc >/dev/null 2>&1; then
-  bash "$PDF" en >/dev/null 2>&1 || build_warn "pdf en"
+  # FATAL: reaching this line means weasyprint AND pandoc both resolved, so a
+  # non-zero rc here is a real render failure and not a missing toolchain. The
+  # `else` branch below is the toolchain-absent case and stays a plain skip.
+  bash "$PDF" en >/dev/null 2>&1 || build_fail "pdf en"
   for l in "${COMPLETE[@]:-}"; do
     [ -z "$l" ] && continue
     bash "$PDF" "$l" >/dev/null 2>&1 || build_warn "pdf $l"
     echo "[deploy-langs] pdf built: $l"
   done
 else
+  # DELIBERATELY still a plain skip, and the reasoning is recorded rather than
+  # left to be re-derived. Consistency would argue for build_undet here: the
+  # toolchain is absent and no verdict was reached. It is NOT promoted, because
+  # doing so would abort a deploy on every host without weasyprint/pandoc — a
+  # behaviour change far wider than operator decision #12, which named the
+  # jekyll step. The bounded cost is stated instead: the PDFs already published
+  # stand unchanged, and no PDF is ever faked. Promoting this to rc 2 is an
+  # operator decision that has NOT been taken.
   echo "[deploy-langs] pdf tooling missing (weasyprint/pandoc) — skipping PDF build"
 fi
 
 # rebuild jekyll _site for milosvasic (picks up freshly built PDFs)
+#
+# THREE-VALUED, and the two states are distinguished BEFORE the build rather than
+# inferred from an exit code afterwards. A bare `jekyll` that is not on PATH
+# returns 127, which is indistinguishable at the call site from a Jekyll that ran
+# and rejected the site — and on this development host that is not hypothetical:
+# `bundle`, `bundler` and `jekyll` are all absent from PATH (measured 2026-09-06,
+# re-measured 2026-09-08), so this step has been returning 127 into a tolerated
+# warning on every run. Resolve the runner first, then classify.
 printf 'build_year: %s\n' "$BUILD_YEAR" > milosvasic.ru/_config.deploy.yml
-( cd milosvasic.ru && jekyll build --quiet --config _config.yml,_config.deploy.yml ) >/dev/null 2>&1 || build_warn "jekyll _site rebuild"
+JEKYLL_RUNNER=""
+if command -v jekyll >/dev/null 2>&1; then
+  JEKYLL_RUNNER="jekyll"
+elif command -v bundle >/dev/null 2>&1 && ( cd milosvasic.ru && bundle exec jekyll --version >/dev/null 2>&1 ); then
+  JEKYLL_RUNNER="bundle exec jekyll"
+fi
+if [ -z "$JEKYLL_RUNNER" ]; then
+  build_undet "jekyll _site rebuild (no jekyll on PATH and no working 'bundle exec jekyll')"
+else
+  ( cd milosvasic.ru && $JEKYLL_RUNNER build --quiet --config _config.yml,_config.deploy.yml ) >/dev/null 2>&1 \
+    || build_fail "jekyll _site rebuild"
+fi
 rm -f milosvasic.ru/_config.deploy.yml
+
+# THE GATE. Placed here — after every build step, before the dry-run preview and
+# before any staging, commit or push — so that BOTH a real deploy and a --dry-run
+# are held to it. A --dry-run that reported success having built nothing is the
+# exact defect operator decision #12 was raised against.
+build_gate
 
 if [ "$DRY_RUN" = "1" ]; then
   echo "[deploy-langs] DRY-RUN: pages regenerated + PDFs built; SKIPPING commit/push."

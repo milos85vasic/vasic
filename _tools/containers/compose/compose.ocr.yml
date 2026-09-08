@@ -1,0 +1,78 @@
+# =============================================================================
+# compose.ocr.yml — the containerised TESSERACT workload.
+#
+# Why this file exists. `tesseract` is not installed on the development host and
+# is not going to be: the operator's standing directive (recorded as decision
+# #10 in docs/OPERATOR-DECISIONS-2026-09-07.md) is that missing toolchains are
+# provided as CONTAINER WORKLOADS through `submodules/containers`, not as host
+# packages. Without an OCR engine the export validator's FULL-VISUAL/visual.ocr
+# check SKIPs, and a SKIP leaves gate 5 at verdict=UNDETERMINED — rc 2, never a
+# pass. This service is what lets that check actually run.
+#
+# NOTHING starts this service by hand. It is brought up, waited on, inspected
+# and torn down by _tools/containers/cmd/ocr, which drives the runtime
+# exclusively through `digital.vasic.containers` (pkg/runtime + pkg/compose +
+# pkg/logging). Per §11.4.76(1) and (4) the Containers Submodule is the
+# orchestration authority; this file is the service DEFINITION it consumes, not
+# a parallel orchestrator.
+#
+# Why there is no Containerfile here, as with compose.sites.yml: the service
+# runs a STOCK upstream image with a bind-mounted entrypoint. Nothing about OCR
+# needs a derived image, so none is built. If one is ever needed, §11.4.76(4)
+# says extend `vasic-digital/containers` rather than growing an image-build
+# path in this tree.
+#
+# Every image reference and every path is env-derived with a documented
+# default, so a pinned digest or a second checkout needs no edit to this file:
+#
+#   VASIC_ROOT            absolute path of the umbrella repository root
+#                         (REQUIRED — cmd/ocr always sets it)
+#   VASIC_OCR_DIR         absolute path of the directory holding the page PNGs
+#                         (REQUIRED — cmd/ocr always sets it)
+#   VASIC_TESSERACT_IMAGE the OCR image
+#   VASIC_OCR_PSM         tesseract --psm value
+#   VASIC_OCR_LANG        tesseract -l value
+# =============================================================================
+
+services:
+
+  tesseract-ocr:
+    image: ${VASIC_TESSERACT_IMAGE:-docker.io/jitesoft/tesseract-ocr:latest}
+    container_name: vasic-tesseract-ocr
+
+    # user "0:0" is NOT a privilege escalation here, and the reason is measured
+    # rather than assumed. The runtime on this host is ROOTLESS podman, where
+    # container uid 0 maps to the INVOKING HOST USER — so files the container
+    # writes into the bind mount land owned by the caller, which is the whole
+    # requirement. The image's own default user (`tesseract`) maps to a subuid
+    # that does not own the host directory, and tesseract then fails with
+    # exactly this, measured on this host before the flag was added:
+    #
+    #   Error, could not create TXT output file: Permission denied
+    #
+    # On a ROOTFUL runtime this would genuinely run as root; the workload is a
+    # read-only OCR pass over PNGs the caller already produced, and it mounts
+    # nothing but that one directory plus a read-only script.
+    user: "0:0"
+
+    # The image's own entrypoint is `exec tesseract "$@"`, i.e. exactly one
+    # invocation per container. This workload OCRs a whole page directory in a
+    # SINGLE container, so the entrypoint is replaced with the loop script.
+    # That is a per-PDF container instead of a per-PAGE container, which is
+    # both faster and far less lifecycle churn for the orchestrator to prove.
+    entrypoint: ["/bin/sh", "/opt/ocr/ocr-run.sh"]
+    working_dir: /data
+
+    environment:
+      OCR_PSM: ${VASIC_OCR_PSM:-6}
+      OCR_LANG: ${VASIC_OCR_LANG:-eng}
+
+    volumes:
+      - ${VASIC_OCR_DIR:?VASIC_OCR_DIR must be set - run via _tools/containers/cmd/ocr}:/data:rw
+      - ${VASIC_ROOT:?VASIC_ROOT must be set}/_tools/containers/compose/ocr-run.sh:/opt/ocr/ocr-run.sh:ro
+
+    # No network is needed to read a PNG. Denying it means a green OCR result
+    # cannot have come from anywhere but the mounted pages.
+    network_mode: none
+
+    restart: "no"
