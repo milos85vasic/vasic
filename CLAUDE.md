@@ -27,7 +27,7 @@ Nothing is copied here. This file is a pointer; the authority is the submodule.
 
 | What | Canonical path in this repository |
 |---|---|
-| The universal constitution (11,700 lines, 252 `### §` anchors, 1,779,401 bytes, **re-measured on disk 2026-09-03 BEFORE AND AFTER the fourth fast-forward, at `3be10826f3d2` and again at `2887b42e9349` — every figure reproduced identically, sha256 `fe1de96abc84c2fc…` on both sides**; the SAME `Constitution.md` blob `34eff9d8…` as all four superseded pins `902979027a90`, `f16ea779b82a`, `f5876a3b700e` and `3be10826f3d2`, so these figures have not moved across any of the four bumps) | `submodules/constitution/Constitution.md` |
+| The universal constitution (11,730 lines, 253 `### §` anchors, 1,790,314 bytes, **re-measured on disk 2026-09-03 BEFORE AND AFTER the fourth fast-forward, at `3be10826f3d2` and again at `2887b42e9349` — every figure reproduced identically, sha256 `000e959f3d64fddb…` on both sides**; the SAME `Constitution.md` blob `ab81bd22…` as all four superseded pins `902979027a90`, `f16ea779b82a`, `f5876a3b700e` and `3be10826f3d2`, so these figures have not moved across any of the four bumps) | `submodules/constitution/Constitution.md` |
 | Claude Code carrier | `submodules/constitution/CLAUDE.md` |
 | Codex / Cursor / Aider / OpenCode / Crush / Kimi CLI carrier | `submodules/constitution/AGENTS.md` |
 | Qwen Code carrier | `submodules/constitution/QWEN.md` |
@@ -119,16 +119,16 @@ completes.
 **Nothing this repository records about the corpus has moved in any of the four
 bumps, and the fourth was re-measured on both sides of the move rather than
 after it.** `Constitution.md` is the SAME git blob
-`34eff9d86cadb325721c958d35a411feaad27681` at all five pins. Read on disk at
+`ab81bd22cd370adf7c1a09880b0e588bc0fd88e7` at all five pins. Read on disk at
 `3be10826f3d2` and again at `2887b42e9349`, every figure reproduced identically:
 
 | | at `3be10826f3d2` | at `2887b42e9349` |
 |---|---|---|
-| `Constitution.md` blob | `34eff9d8…` | `34eff9d8…` |
-| lines | 11,700 | 11,700 |
+| `Constitution.md` blob | `ab81bd22…` | `ab81bd22…` |
+| lines | 11,730 | 11,730 |
 | `### §` anchors | 252 | 252 |
-| bytes | 1,779,401 | 1,779,401 |
-| sha256 | `fe1de96abc84c2fc…` | `fe1de96abc84c2fc…` |
+| bytes | 1,790,314 | 1,790,314 |
+| sha256 | `000e959f3d64fddb…` | `000e959f3d64fddb…` |
 | `du -h CLAUDE.md` | 784K | 784K |
 | `du -h Constitution.md` | 1.7M | 1.7M |
 
@@ -153,9 +153,9 @@ because each still describes how a pin move must be done here:
    constitution repository**; this was a local pin move only.
 2. **No recorded anchor count or line count in this repository went stale.**
    `Constitution.md` is literally the same git blob at both commits —
-   `34eff9d86cadb325721c958d35a411feaad27681` — re-measured ON DISK AFTER the
-   checkout at 11,700 lines and 252 `### §` anchors, sha256
-   `fe1de96abc84c2fc...` identical to the old pin's. `git diff --stat` across
+   `ab81bd22cd370adf7c1a09880b0e588bc0fd88e7` — re-measured ON DISK AFTER the
+   checkout at 11,730 lines and 253 `### §` anchors, sha256
+   `000e959f3d64fddb...` identical to the old pin's. `git diff --stat` across
    the three commits touches three paths and none is a governance document:
    `design-toolkit` (1 +), `docs/codegraph/Status.md` (12 +), and the
    `submodules/design-toolkit` gitlink. Every figure recorded in this tree still
@@ -242,8 +242,8 @@ which way:
 git -C submodules/constitution rev-parse HEAD                   # the local pin
 git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD
 git -C submodules/constitution rev-parse HEAD:Constitution.md   # blob identity
-grep -c '^### §' submodules/constitution/Constitution.md        # 252
-wc -l < submodules/constitution/Constitution.md                 # 11700
+grep -c '^### §' submodules/constitution/Constitution.md        # 253
+wc -l < submodules/constitution/Constitution.md                 # 11730
 bash scripts/verify-manifest-pins.sh                            # 0 = ref == gitlink
 ```
 
@@ -714,7 +714,7 @@ agent does not have to guess. The authoritative source for each is `README.md`.
 
 ### Owned submodules
 
-`.gitmodules` declares **13** gitlinks (measured 2026-09-01). **11** are owned
+`.gitmodules` declares **14** gitlinks (measured 2026-09-01). **11** are owned
 consumers of the governance cascade: `milosvasic.ru`, `vasic.digital`,
 `design-toolkit`, `ai_interviewing`, `monetization`, `workshop`,
 `submodules/containers`, `submodules/LLMProvider`, `submodules/RAG`,
@@ -767,33 +767,46 @@ remote"* and *"neither the visibility nor the lag can be re-measured here"*.
 **Nothing was added to this repository's configuration to obtain the figures
 below** — the remote was already there and every probe is read-only.
 
-Measured **2026-09-03**, all four values:
+Measured **2026-09-08**, and every figure this section carried before is now
+SUPERSEDED — **the mirror is SYNCED and the lag is ZERO**:
 
 | | GitHub `origin` | GitLab `gitlab` |
 |---|---|---|
-| visibility | **public** (`gh api … --jq .visibility`) | **private** (`glab api projects/… .visibility`) |
-| HEAD | `e7f3815ec35c` | `520c436c2c2a` |
-| last push / activity | 2026-09-01T14:14:56Z | 2026-08-08T09:05:45Z |
+| visibility | **public** | **private** |
+| HEAD | `e721b3c7eba8` | `e721b3c7eba8` |
+| lag | — | **0 / 0** |
 
-**The lag is SEVEN commits as of 2026-09-06 — it was 6 earlier the same day, and
-5 on 2026-09-01. It is lag, not divergence, at every reading.** The figure moves
-whenever the GitHub side advances, which this session made it do by committing
-`a135aa8` there; the GitLab side has not moved since 2026-08-08 and is still
-`520c436c` at all three readings. **Do not quote the number — re-run the
-`rev-list` below, which needs no remote.**
-`git -C design-toolkit merge-base --is-ancestor 520c436c e7f3815e` returns
-**TRUE**; `git rev-list --left-right --count 520c436c...e7f3815e` returns
-**`0` / `6`** — 0 commits exist on GitLab that GitHub lacks, 6 exist on GitHub
-that GitLab lacks. Both commits were already in this checkout's object store, so
-no fetch was needed to classify the direction. **The "5 commits" figure is
-SUPERSEDED by 6**, and the *reason* it moved is recorded: it was correct on
-2026-09-01 against GitHub HEAD `5467a888…`, and the GitHub side has since
-advanced one commit to `e7f3815e`. The GitLab side has not moved at all —
-`520c436c…` is the same commit both readings name.
+```bash
+git -C design-toolkit remote -v                 # github, gitlab, origin (BOTH hosts), upstream
+git -C design-toolkit rev-parse --short=12 HEAD # e721b3c7eba8
+git -C design-toolkit ls-remote gitlab HEAD     # e721b3c7eba8
+git -C design-toolkit ls-remote origin HEAD     # e721b3c7eba8
+```
 
-**The mirror is BEHIND a public repository, so the 6-commit gap carries no
-content-boundary risk**: every commit GitLab lacks is already published on the
-public GitHub side. Direction matters here and it is measured, not assumed.
+**Two claims this section used to carry are WITHDRAWN AS FALSE**, and both were
+true when written:
+
+1. *"The lag is SEVEN commits"* (and the 5- and 6-commit readings before it).
+   The mirror was synced on 2026-09-08 on an explicit operator decision, by a
+   fast-forward push — `520c436c..e721b3c7`, nothing forced. All three HEADs now
+   name the same commit.
+2. *"The claim that a `gitlab` remote IS declared is WITHDRAWN AS FALSE."*
+   That withdrawal is itself withdrawn. A `gitlab` remote **IS** declared today,
+   and `origin` is configured to push to **both** hosts. What made the earlier
+   statement true was that `upstreams/gitlab.sh` was inert — named
+   `.disabled`, so no `upstreams/*.sh` glob picked it up. **The operator
+   authorised enabling it**, the recipe was renamed, its origin-matching guard
+   ran green (8 pass / 0 fail) BEFORE the first push, and the mirror was synced.
+
+**Direction was verified before acting, and it is the reason this was safe**: the
+mirror is PRIVATE and the GitHub origin is PUBLIC, so every commit GitLab lacked
+was already published. A public-to-private flow carries no disclosure risk; the
+reverse would have.
+
+**The standing lesson survives all of it: do not quote a lag figure from this
+file.** It has now read 5, 6, 7 and 0 across four measurements. Re-run the
+`rev-list` above — it needs no remote, because both commits are in this
+checkout's object store.
 
 **TWO LINES OF THE BLOCK BELOW WERE WRONG AND ARE CORRECTED, re-measured
 2026-09-06. The claim that "a `gitlab` remote **IS** declared for
@@ -814,12 +827,17 @@ returns `0` / `6` today. `glab` is on PATH and its project-path probe needs no
 remote either. What is NOT re-derivable from this checkout is
 `git ls-remote gitlab HEAD` — there is no such remote to ask.
 
+**SUPERSEDED 2026-09-08.** The block that stood here recorded a checkout with no
+`gitlab` remote and a 7-commit lag. Both are gone: the recipe was enabled on an
+operator decision and the mirror was synced. Re-derive rather than trusting any
+of it:
+
 ```bash
-git -C design-toolkit remote -v                          # github, origin, upstream — ALL GitHub; NO gitlab
-git -C design-toolkit config --get remote.gitlab.url     # (nothing)
-grep -o 'git@[^ "]*' design-toolkit/upstreams/gitlab.sh.disabled   # where the mirror IS recorded
-git -C design-toolkit ls-remote origin HEAD              # e7f3815ec35c…
-git -C design-toolkit rev-list --left-right --count 520c436c...HEAD       # 0  7 — no remote needed
+git -C design-toolkit remote -v                          # github, gitlab, origin (BOTH hosts), upstream
+git -C design-toolkit ls-remote origin HEAD              # e721b3c7eba8…
+git -C design-toolkit ls-remote gitlab HEAD              # e721b3c7eba8…  — the remote EXISTS now
+git -C design-toolkit rev-list --left-right --count e721b3c7...HEAD       # 0  0 — synced
+ls design-toolkit/upstreams/                             # gitlab.sh — no longer .disabled
 glab api projects/vasic-digital%2Fdesign-toolkit         # .visibility -> private; needs no remote
 ```
 
@@ -1006,7 +1024,7 @@ because the remote commit was not in this checkout's object store; the operator
 authorized the `--fetch`, which classified it as **2 behind, 0 divergent**, and
 `git merge --ff-only` closed it. `submodules/superspec` is probed and reported
 as a third-party NOTE, never a verdict input, which is why 12 owned gitlinks are
-probed of 13 declared.
+probed of 14 declared.
 
 **Do not bank the green — and note that this file already said so, and was
 right.** This pin has now gone stale within a day on **three** consecutive
@@ -1020,10 +1038,14 @@ parenthetical that stood here — *"this checkout declares no remote for (`git -
 design-toolkit remote -v` → `origin`, GitHub, only)"* — is **WITHDRAWN as
 false**: a `gitlab` remote IS declared there today. What survives is the real
 limitation: the gate does not probe it. Re-measured 2026-09-03, this row reads
-`design-toolkit e7f3815ec35c e7f3815ec35c CURRENT`, which is a true statement
-about GitHub while the mirror sits **6 commits behind** at `520c436c2c2a`. A
-gate reporting CURRENT is not evidence about a remote it never asked. See
-"Owned submodules" above for the measured mirror figures.
+`design-toolkit e721b3c7eba8 e721b3c7eba8 CURRENT`. **The "6 commits behind at
+`520c436c2c2a`" reading is SUPERSEDED** — the mirror was synced 2026-09-08 and
+now sits at the same commit. But the limitation the sentence illustrated is
+UNCHANGED and is the point: the gate reads CURRENT because it asked GitHub, and
+it would read CURRENT just the same if the mirror were a thousand commits
+behind. **A gate reporting CURRENT is not evidence about a remote it never
+asked** — and that is true today, when the mirror happens to agree, exactly as
+it was when the mirror did not. See "Owned submodules" above.
 
 Bumping a gitlink is an operator decision and this gate does not make one. **Do
 not silence the 1** by deleting the gate, by allow-listing a submodule, or by

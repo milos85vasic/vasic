@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-07T12:15:00Z
-    Synced-Commit: 6f4fdbe
+    Last-Updated: 2026-09-08T09:05:51Z
+    Synced-Commit: bfe2931
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,209 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### TWO PROVIDER HOSTS HAD NEVER BEEN ASKED, AND THIS RECORD HAD FALLEN BEHIND ITS OWN HISTORY, 2026-09-08
+
+**Read the shape of this entry before its numbers.** Two of the reds in
+`specs/005-clone-and-clear-red/spec.md` were closed, and they were closed in
+opposite ways: one by *asking a question nobody had ever put*, the other by
+*writing down what had already happened*. Neither was closed by moving a
+threshold, and one of them deliberately does not go green.
+
+#### R5 — `scripts/verify-provider-ci.sh` grew two read-only adapters
+
+`bash scripts/verify-provider-ci.sh` was, and still is, **rc 1** — and the 1 is
+the same real finding it has always been: one CONFIRMED standing provider-side
+trigger on the fleet's Pages-in-legacy-mode repository, which has **no
+file-level remedy**. That row is untouched and must not be "fixed" here.
+
+What changed is the other half of that run. Six rows on `gitflic.ru` and
+`gitverse.ru` had been UNVERIFIED for a reason that was not a measurement:
+**no adapter was registered for either host, so nothing had ever been asked.**
+Both now have one, and the mechanism that produced the red is named rather than
+merely removed — the red was *absence of an instrument*, not a failed probe.
+
+    before   rows: 1 CONFIRMED · 6 UNVERIFIED · 0 HISTORICAL · 36 no-trigger · 1 out-of-scope   (rc=1)
+    after    rows: 1 CONFIRMED · 6 UNVERIFIED · 0 HISTORICAL · 36 no-trigger · 1 out-of-scope   (rc=1)
+
+**The counts are identical and that is the honest result, not a failure.** What
+moved is what each of those six rows now SAYS. Every one of them used to read
+*"no read-only API adapter is registered for this host"*. They now read, per
+host and measured on 2026-09-08:
+
+    gitflic.ru   host reachable — https://api.gitflic.ru answered HTTP 403 — but its
+                 API requires a credential for every route; none is configured
+    gitverse.ru  host reachable — https://api.gitverse.ru answered HTTP 401 — but its
+                 API requires a credential for every route; none is configured
+
+That is **FR-011c working**: "never asked" became "asked, and could not
+determine". No row became a pass, and rc 2 remains reachable and is never
+recorded as compliance.
+
+**The two adapters have DIFFERENT ceilings, and the difference is the finding.**
+
+* **`gitverse.ru` CAN reach a clean verdict.** Its route set was established
+  empirically against the live host rather than guessed: with the vendor media
+  type `application/vnd.gitverse.object+json;version=1`, a route that exists
+  answers **401** unauthenticated while a route that does not answers **400**.
+  On that evidence the adapter asks only routes observed to exist — the
+  repository object, the Actions workflow list, the Actions run history and the
+  server-side webhook list.
+* **`gitflic.ru` CANNOT, by construction, and says so on every row.** Its
+  pipeline **scheduler** — the one standing, server-side, push-independent
+  trigger it has — is configured in the project web UI, and its published REST
+  API documents no route that reads it. So no read-only probe can establish that
+  no schedule is armed, with or without a credential. The adapter still reads
+  the project object, the mirror state and the pipeline history and reports
+  them, then returns UNVERIFIED naming exactly the one question it could not
+  put, and emits an operator-only MANUAL remedy pointing at the UI screen.
+  **Reporting NONE here would be inventing an answer.**
+
+Credentials: `GITFLIC_TOKEN` and `GITVERSE_TOKEN`, neither set on this host, so
+neither adapter has ever authenticated here. Every call is a GET; nothing
+mutates. The credential is handed to `curl` on **stdin** (`curl -K -`), never in
+argv, because an argv secret is readable by any process on the host through
+`/proc`.
+
+**§1.1 pairing — six new mutation cases, every one driven by DATA.** The
+adapters were not edited to make any of them pass; the lever is an environment
+variable naming a different API base (`GITFLIC_API_BASE` / `GITVERSE_API_BASE`,
+which self-hosted installations need anyway) plus a stub server serving
+different canned bodies. Each runs against a one-repository fixture tree, so it
+is hermetic — no case can pass or fail because of what some unrelated
+submodule's provider answered today.
+
+    bash scripts/verify-provider-ci.sh --selftest     # 18 passed, 0 failed (rc=0)
+
+      M8   gitverse unreachable          -> rc=2, row UNVERIFIED
+      M9   gitverse control GOES GREEN   -> rc=0, row NONE
+      M10  same fixture, one field moved -> rc=1, row CONFIRMED, cites STANDING TRIGGER
+      M11  credential REJECTED           -> rc=2, adapter state=broken, 0 clean rows
+      M12  gitflic ceiling holds even when every route answers 200 -> rc=2, UNVERIFIED
+      M13  gitflic unreachable           -> rc=2, adapter state=unreachable
+      M14  no credential appears as a curl ARGUMENT anywhere in the file
+      M14b M14's own paired proof: the same rule finds a seeded leak, ignores a comment
+
+**M9 and M10 are the pair that matters.** A battery made only of "it refuses to
+pass" cases would be satisfied by an adapter hardwired to return UNVERIFIED.
+M9 is the control that must go GREEN and M10 is the identical fixture with one
+field changed that must go RED, so the verdict is proved to track the data.
+
+No new file was added under `scripts/`, so the anti-drift half of the check
+registry is unaffected: `bash scripts/verify-check-registry.sh` is **rc 0**, and
+`provider-ci`'s registered proof is still `--selftest` on the same entry point.
+
+#### R2 — this document had fallen behind its own history
+
+`bash scripts/continuation-check.sh` was **rc 1** at `7 PASS · 1 DRIFT · 0 UNDET
+· 15 NOTE`. C3 named two commits that changed a watched governance file without
+updating this document in the same commit — `bfe29319` and `738fbf15`, both
+touching `helix-deps.yaml`. **The mechanism was a §12.10 protection-2 miss, not
+a stale timestamp:** the work landed, the record did not move with it. This
+entry and the `Synced-Commit` field at the top of the file are that correction.
+
+#### What this session did, verified in this tree rather than restated
+
+Each line below was re-measured here on 2026-09-08 unless it is marked
+otherwise.
+
+* **`vasic-digital/curriculum-kit` is published and mounted.** `.gitmodules`
+  now declares **14** gitlinks (`git config -f .gitmodules --get-regexp
+  'submodule\..*\.path$' | wc -l`), including `submodules/curriculum-kit`.
+  The standalone-clone gates live **inside the modules**, not at this root:
+  `workshop/scripts/verify-standalone-clone.sh` and
+  `ai_interviewing/scripts/verify-standalone-clone.sh`.
+* **The export harness no longer has an unrunnable check.**
+  `bash _tests/run-harness-selfvalidation.sh` is **rc 0** —
+  `golden-good verdict=PASS (rc=0, full coverage)` and `golden-bad DETECTED
+  (rc=1)`. The OCR check now reports `FULL-VISUAL/visual.ocr — OCR (container)
+  … recovered 79 legible words`, so the family that used to SKIP now runs.
+  **`tesseract` is still absent from this host's PATH** — the toolchain moved
+  into a container through `submodules/containers`, it was not installed. The
+  previous state was rc 2 / `verdict=UNDETERMINED`, and rc 2 was never a pass.
+* **`milosvasic.ru/_site` is untracked.** Inside that submodule,
+  `git ls-files _site | wc -l` is **0** against **807** files present on disk;
+  the commit is `e786ccd` *"untrack the Jekyll build output — .gitignore:70 had
+  been inert since it was added"*. Production is unaffected: that site publishes
+  through its own server-side `pages.yml` workflow, which nothing here touched.
+* **`_tools/deploy-langs.sh` no longer exits 0 on a failed build.** Its own
+  header now declares `build_fail <name> RAN and FAILED -> exit 5` and
+  `build_undet <name> COULD NOT RUN at all -> exit 2`, with 5 outranking 2 so a
+  missing toolchain can never launder a real failure, and an explicit override
+  `DEPLOY_TOLERATE_BUILD_FAILURE=1` that announces itself. The old behaviour was
+  to increment a counter, print "tolerated", and still exit 0.
+* **`design-toolkit`'s two mirrors are IN SYNC for the first time in this
+  record.** `git -C design-toolkit ls-remote origin HEAD`,
+  `ls-remote gitlab HEAD` and `rev-parse HEAD` all return `e721b3c7eba8`, so the
+  lag is **0 / 0**. Every earlier figure in the carriers — 5, 6, 7, 9 commits
+  behind — is **superseded**. A `gitlab` remote IS declared in this checkout
+  today, which the carriers' own withdrawal note said was not the case; that
+  note is now itself out of date and is left for the carrier edit, not patched
+  here.
+* **The served platform answers.** `curl -s http://127.0.0.1:8087/api/areas`
+  returns **39** areas, measured directly. Three further areas are held back.
+
+#### Workshop-side figures — ATTRIBUTED, and the corpus was MOVING
+
+The curriculum work (published areas, listed-but-unopenable areas, the learning
+catalogue, video anchors, question banks) happened inside the **private**
+`workshop` submodule and is recorded here **by path and count only**.
+
+**Do not read those figures as re-measured by this entry.** They were produced
+by the agent that did that work, and when this record was written the corpus was
+demonstrably still moving under it: `git -C workshop ls-files curriculum/questions
+| wc -l` reported **17** tracked files while `ls curriculum/questions/*.json`
+reported **30** present — thirteen files written and not yet committed, by
+another agent working concurrently in that submodule. Under §11.4.6 a count
+taken over a moving corpus is not a finding, so no workshop count is asserted
+here as this session's measurement. The one figure that IS this session's own is
+the served `/api/areas` = 39 above, taken from the running container.
+
+#### Open and DELIBERATELY red — declared, not defects to chase
+
+Three states below are red on purpose. Each names what would lift it.
+
+1. **25 areas carry no assessment.** Structural, not an evidence gap — those
+   area documents were never sectioned into the passage registry, so no citation
+   can resolve and no question can be authored. Lifted by sectioning them
+   (`specs/005-clone-and-clear-red/spec.md` FR-015, SC-011).
+2. **Three documents fail publication review**, on **62 / 54 / 58** uncited
+   claim blocks respectively. They remain unpublished, which is the correct
+   state for a document whose claims do not carry citations. Lifted by citing
+   the claims, never by relaxing the reviewer.
+3. **The served interface paints 2 hue families against a floor of 6.** The
+   count went *down* from 4 when the measuring instrument's own three defects
+   were fixed first — an honest instrument reporting a worse number is the
+   instrument working. Lifted by FR-016..FR-019, and every hue added must carry
+   a stated classification job.
+
+#### Specifications in flight
+
+* `specs/004-authored-ai-areas/` — full planning set (`spec.md`, `plan.md`,
+  `research.md`, `data-model.md`, `contracts/`, `quickstart.md`, `tasks.md`,
+  `checklists/`).
+* `specs/005-clone-and-clear-red/` — `spec.md` plus `checklists/`. It is the
+  register the reds above are numbered against (R1..R11), and its Clarifications
+  section carries the four operator decisions this session worked under: Git LFS
+  for archive parts going forward; the 387 baselined hardcoded paths are in
+  scope as a per-repository campaign; **read-only adapters for both unprobed
+  hosts** (done, above); and the governance-pin fetch is authorised with a fixed
+  fast-forward-only sequence.
+
+#### Reproduce all of it
+
+```bash
+bash scripts/continuation-check.sh                 # 0 = in sync
+bash scripts/verify-provider-ci.sh                 # 1 = the ONE confirmed finding stands
+bash scripts/verify-provider-ci.sh --selftest      # 0 = 18 passed, 0 failed
+bash scripts/verify-check-registry.sh              # 0 = registry closed both ways
+bash _tests/run-harness-selfvalidation.sh          # 0 = good PASS, bad DETECTED
+git config -f .gitmodules --get-regexp 'submodule\..*\.path$' | wc -l   # 14
+git -C design-toolkit rev-parse HEAD                                   # == both mirrors
+curl -s http://127.0.0.1:8087/api/areas | jq length                    # 39
+```
+
+---
 
 ### `workshop` COULD NOT BE BUILT OR RUN OUTSIDE THE UMBRELLA, AND THE REMEDY IT PRINTED WAS IMPOSSIBLE, 2026-09-07
 

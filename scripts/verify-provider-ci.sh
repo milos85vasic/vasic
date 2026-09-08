@@ -91,9 +91,44 @@
 #   Optional per provider (absence downgrades rows to UNVERIFIED, never to OK):
 #     github.com  -> `gh`, authenticated (`gh auth status`)
 #     gitlab.com  -> `glab`, authenticated, plus `jq`
+#     gitflic.ru  -> `curl` + `jq`, credential in $GITFLIC_TOKEN  (HTTP adapter)
+#     gitverse.ru -> `curl` + `jq`, credential in $GITVERSE_TOKEN (HTTP adapter)
 #   Any other host has no adapter registered and is reported UNVERIFIED with
 #   that as the stated reason. GitHub's answer is never generalised to a host
 #   that was not asked.
+#
+# ── The two HTTP adapters, and their honest ceiling ──────────────────────────
+# Neither of these hosts ships a CLI, so their adapters speak HTTP directly.
+# Both are READ-ONLY: every call is a GET and no request body is ever sent.
+# Credentials are handed to curl on STDIN (`curl -K -`), never in argv, because
+# an argv secret is readable by every process on the host through /proc.
+#
+# Read this before trusting either row, because the two ceilings DIFFER:
+#
+#   gitflic.ru   CANNOT reach NONE, by construction, and says so on every row.
+#                GitFlic's pipeline SCHEDULER — the one standing, server-side,
+#                push-independent trigger it has — is configured in the project
+#                web UI, and GitFlic's REST API documents no endpoint that reads
+#                it. So the standing-trigger question is structurally
+#                unanswerable read-only on this host TODAY, with or without a
+#                credential. The adapter still reads what it can (project
+#                object, mirror state, pipeline history) and reports it, then
+#                returns UNVERIFIED naming exactly the one question it could not
+#                put. That is "asked, and could not determine" — never a pass.
+#
+#   gitverse.ru  CAN reach NONE. Its route set was established empirically
+#                against the live host (a route that exists answers 401 without
+#                a credential; a route that does not answer 400), so the adapter
+#                asks only routes that were observed to exist: the repository
+#                object, the Actions workflow list, the Actions run history and
+#                the server-side webhook list. If every one answers and none
+#                shows a trigger, NONE is a measured verdict rather than an
+#                assumed one.
+#
+# Both API base URLs are overridable ($GITFLIC_API_BASE / $GITVERSE_API_BASE)
+# for self-hosted installations — which is also the lever the §1.1 mutation
+# battery pulls, so every new case is driven by DATA rather than by editing the
+# adapter it tests.
 # ------------------------------------------------------------------------------
 set -uo pipefail
 
@@ -369,6 +404,235 @@ run_selftest() {
         "$gitfiles vs $disc" "$( [[ $gitfiles -gt 0 && $disc -gt $gitfiles ]] && echo 0 || echo 1 )" \
         "if this reports 0 gitlink files the fixture is wrong, not the code"
 
+    # ══════════════════════════════════════════════════════════════════════════
+    # M8..M13 — THE TWO CLI-LESS HTTP ADAPTERS (gitflic.ru, gitverse.ru).
+    #
+    # Every case is driven by DATA — an environment variable naming a different
+    # API base, and a stub that serves a different canned body. Not one of them
+    # edits the adapter it tests, which is the whole point of a §1.1 pairing: a
+    # proof that only passes because the thing it proves was rewritten proves
+    # nothing.
+    #
+    # Each runs against a MINIMAL fixture tree — one `git init` with one remote
+    # on the host under test — rather than against this tree. Two reasons, and
+    # the second is the load-bearing one: it is fast, and it is HERMETIC, so a
+    # case cannot pass or fail because of what some unrelated submodule's
+    # provider happened to answer today.
+    #
+    # The battery deliberately contains BOTH polarities. A case proving the
+    # adapter refuses to pass is worth little on its own — an adapter hardwired
+    # to return UNVERIFIED would satisfy every one of them. M9 is the control
+    # that must go GREEN, and M10 is the same fixture with one field changed
+    # that must go RED. Together they prove the verdict tracks the data.
+    # ══════════════════════════════════════════════════════════════════════════
+    local stub="$tmp/stub.py"
+    cat >"$stub" <<'STUBPY'
+import json, os
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+MODE = os.environ.get("STUB_MODE", "clean")
+class H(BaseHTTPRequestHandler):
+    protocol_version = "HTTP/1.1"
+    def log_message(self, *a): pass
+    def _send(self, code, obj):
+        b = json.dumps(obj).encode()
+        self.send_response(code)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(b)))
+        self.end_headers()
+        self.wfile.write(b)
+    def do_GET(self):
+        p = self.path.split("?")[0]
+        if MODE == "reject":
+            return self._send(401, {"message": "stub rejects every credential"})
+        if p == "/user":
+            return self._send(200, {"login": "stub"})
+        if p == "/project/my":
+            return self._send(200, {"_embedded": {"projectList": []}})
+        if p.endswith("/actions/workflows"):
+            n = 2 if MODE == "trigger" else 0
+            return self._send(200, {"total_count": n,
+                                    "workflows": [{"id": i} for i in range(n)]})
+        if p.endswith("/actions/runs"):
+            return self._send(200, {"total_count": 0, "workflow_runs": []})
+        if p.endswith("/hooks"):
+            return self._send(200, [])
+        if p.endswith("/cicd/pipeline"):
+            return self._send(200, {"_embedded": {"pipelineList": []}})
+        if p.startswith("/repos/"):
+            return self._send(200, {"default_branch": "main", "archived": False})
+        if p.startswith("/project/"):
+            return self._send(200, {"mirror": False, "mirrorType": None,
+                                    "defaultBranch": "main"})
+        return self._send(404, {"message": "stub has no such route"})
+srv = ThreadingHTTPServer(("127.0.0.1", 0), H)
+print(srv.server_address[1], flush=True)
+srv.serve_forever()
+STUBPY
+
+    # One fixture repository per host. The remote URL is synthesised from the
+    # host token this script itself registers, so no repository in this tree is
+    # named here and M6b stays satisfied.
+    mk_fixture() {   # $1 = host, $2 = dir
+        mkdir -p "$2" && git -C "$2" init -q 2>/dev/null || return 1
+        git -C "$2" remote add origin "https://$1/fixtureowner/fixturerepo.git" 2>/dev/null
+    }
+    STUB_PID=""; STUB_PORT=""
+    start_stub() {   # $1 = mode
+        [[ -n "$STUB_PID" ]] && stop_stub
+        local fifo="$tmp/stubport"; rm -f "$fifo"
+        STUB_MODE="$1" python3 "$stub" >"$fifo" 2>/dev/null &
+        STUB_PID=$!
+        local n=0
+        while [[ $n -lt 100 ]]; do
+            STUB_PORT="$(head -1 "$fifo" 2>/dev/null)"
+            [[ "$STUB_PORT" =~ ^[0-9]+$ ]] && return 0
+            n=$((n + 1)); sleep 0.05
+        done
+        STUB_PORT=""; return 1
+    }
+    stop_stub() { [[ -n "$STUB_PID" ]] && kill "$STUB_PID" 2>/dev/null; wait "$STUB_PID" 2>/dev/null; STUB_PID=""; }
+
+    if ! command -v python3 >/dev/null 2>&1; then
+        st_case "M8..M13 HTTP adapter battery" "python3 for the stub" "python3 absent" 1 \
+            "the battery cannot run without a stub server — this is UNRUN, not passed"
+    else
+        local fx_gvs="$tmp/fx-gitverse" fx_gfl="$tmp/fx-gitflic"
+        mk_fixture "gitverse.ru" "$fx_gvs"; mk_fixture "gitflic.ru" "$fx_gfl"
+        local rcx rowtrig
+
+        # -- M8  UNREACHABLE HOST -> 2. THE case FR-011c exists for. Port 1 on
+        #        loopback refuses instantly, which is a transport failure and
+        #        not an answer.
+        GITVERSE_API_BASE="http://127.0.0.1:1" GITVERSE_TOKEN="stub" \
+            bash "$self" --root "$fx_gvs" --json >"$tmp/m8.json" 2>"$tmp/m8.log"; rcx=$?
+        rowtrig="$(jq -r '[.rows[]|select(.provider=="gitverse.ru")|.provider_trigger]|join(",")' "$tmp/m8.json" 2>/dev/null)"
+        st_case "M8 gitverse unreachable" "rc=2, row UNVERIFIED" "rc=$rcx, row=$rowtrig" \
+            "$( [[ $rcx -eq 2 && "$rowtrig" == "UNVERIFIED" ]] && echo 0 || echo 1 )" \
+            "$(jq -r '.adapters["gitverse.ru"].reason' "$tmp/m8.json" 2>/dev/null)"
+
+        # -- M9  CONTROL THAT MUST GO GREEN. Every route answers, nothing is
+        #        armed: the verdict must be NONE and the exit code 0. Without
+        #        this case the battery would be satisfied by an adapter that
+        #        can only ever say UNVERIFIED.
+        if start_stub clean; then
+            GITVERSE_API_BASE="http://127.0.0.1:$STUB_PORT" GITVERSE_TOKEN="stub" \
+                bash "$self" --root "$fx_gvs" --json >"$tmp/m9.json" 2>"$tmp/m9.log"; rcx=$?
+            rowtrig="$(jq -r '[.rows[]|select(.provider=="gitverse.ru")|.provider_trigger]|join(",")' "$tmp/m9.json" 2>/dev/null)"
+            st_case "M9 gitverse control goes green" "rc=0, row NONE" "rc=$rcx, row=$rowtrig" \
+                "$( [[ $rcx -eq 0 && "$rowtrig" == "NONE" ]] && echo 0 || echo 1 )" \
+                "$(jq -r '[.rows[]|select(.provider=="gitverse.ru")|.detail]|first' "$tmp/m9.json" 2>/dev/null)"
+            stop_stub
+        else
+            st_case "M9 gitverse control goes green" "stub server" "stub failed to start" 1 ""
+        fi
+
+        # -- M10 THE SAME FIXTURE, ONE FIELD CHANGED, MUST GO RED. The stub now
+        #        reports workflows the tree does not declare. Only the DATA
+        #        differs from M9.
+        if start_stub trigger; then
+            GITVERSE_API_BASE="http://127.0.0.1:$STUB_PORT" GITVERSE_TOKEN="stub" \
+                bash "$self" --root "$fx_gvs" --json >"$tmp/m10.json" 2>"$tmp/m10.log"; rcx=$?
+            rowtrig="$(jq -r '[.rows[]|select(.provider=="gitverse.ru")|.provider_trigger]|join(",")' "$tmp/m10.json" 2>/dev/null)"
+            local m10det; m10det="$(jq -r '[.rows[]|select(.provider=="gitverse.ru")|.detail]|first // ""' "$tmp/m10.json" 2>/dev/null)"
+            st_case "M10 gitverse standing trigger detected" "rc=1, CONFIRMED, cited" \
+                "rc=$rcx, row=$rowtrig" \
+                "$( [[ $rcx -eq 1 && "$rowtrig" == "CONFIRMED" && "$m10det" == *"STANDING TRIGGER"* ]] && echo 0 || echo 1 )" \
+                "$m10det"
+            stop_stub
+        else
+            st_case "M10 gitverse standing trigger detected" "stub server" "stub failed to start" 1 ""
+        fi
+
+        # -- M11 A REJECTED CREDENTIAL IS NOT A MISSING ONE, and neither is a
+        #        pass. The stub answers 401 to everything.
+        if start_stub reject; then
+            GITVERSE_API_BASE="http://127.0.0.1:$STUB_PORT" GITVERSE_TOKEN="stub" \
+                bash "$self" --root "$fx_gvs" --json >"$tmp/m11.json" 2>"$tmp/m11.log"; rcx=$?
+            local m11state m11clean
+            m11state="$(jq -r '.adapters["gitverse.ru"].state' "$tmp/m11.json" 2>/dev/null)"
+            m11clean="$(jq -r '[.rows[]|select(.provider_trigger=="NONE" or .provider_trigger=="HISTORICAL")]|length' "$tmp/m11.json" 2>/dev/null)"
+            st_case "M11 gitverse credential rejected" "rc=2, state=broken, 0 clean" \
+                "rc=$rcx, state=$m11state, clean=$m11clean" \
+                "$( [[ $rcx -eq 2 && "$m11state" == "broken" && "${m11clean:-1}" -eq 0 ]] && echo 0 || echo 1 )" \
+                "$(jq -r '.adapters["gitverse.ru"].reason' "$tmp/m11.json" 2>/dev/null)"
+            stop_stub
+        else
+            st_case "M11 gitverse credential rejected" "stub server" "stub failed to start" 1 ""
+        fi
+
+        # -- M12 THE GITFLIC CEILING IS ENFORCED, NOT ACCIDENTAL. Every gitflic
+        #        route answers 200 and nothing is armed — and the row must STILL
+        #        be UNVERIFIED, because the one standing-trigger question this
+        #        vendor exposes no route for was never answered. This is the
+        #        case that stops a future edit from quietly turning a structural
+        #        unknown into a green.
+        if start_stub clean; then
+            GITFLIC_API_BASE="http://127.0.0.1:$STUB_PORT" GITFLIC_TOKEN="stub" \
+                bash "$self" --root "$fx_gfl" --json >"$tmp/m12.json" 2>"$tmp/m12.log"; rcx=$?
+            rowtrig="$(jq -r '[.rows[]|select(.provider=="gitflic.ru")|.provider_trigger]|join(",")' "$tmp/m12.json" 2>/dev/null)"
+            local m12det; m12det="$(jq -r '[.rows[]|select(.provider=="gitflic.ru")|.detail]|first // ""' "$tmp/m12.json" 2>/dev/null)"
+            st_case "M12 gitflic ceiling holds when API answers" "rc=2, UNVERIFIED, reason cited" \
+                "rc=$rcx, row=$rowtrig" \
+                "$( [[ $rcx -eq 2 && "$rowtrig" == "UNVERIFIED" && "$m12det" == *"STANDING-trigger question cannot be answered"* ]] && echo 0 || echo 1 )" \
+                "$m12det"
+            stop_stub
+        else
+            st_case "M12 gitflic ceiling holds when API answers" "stub server" "stub failed to start" 1 ""
+        fi
+
+        # -- M13 GITFLIC UNREACHABLE -> 2, with the transport failure named.
+        GITFLIC_API_BASE="http://127.0.0.1:1" GITFLIC_TOKEN="stub" \
+            bash "$self" --root "$fx_gfl" --json >"$tmp/m13.json" 2>"$tmp/m13.log"; rcx=$?
+        local m13state
+        m13state="$(jq -r '.adapters["gitflic.ru"].state' "$tmp/m13.json" 2>/dev/null)"
+        rowtrig="$(jq -r '[.rows[]|select(.provider=="gitflic.ru")|.provider_trigger]|join(",")' "$tmp/m13.json" 2>/dev/null)"
+        st_case "M13 gitflic unreachable" "rc=2, state=unreachable" \
+            "rc=$rcx, state=$m13state, row=$rowtrig" \
+            "$( [[ $rcx -eq 2 && "$m13state" == "unreachable" && "$rowtrig" == "UNVERIFIED" ]] && echo 0 || echo 1 )" \
+            "$(jq -r '.adapters["gitflic.ru"].reason' "$tmp/m13.json" 2>/dev/null)"
+
+        # -- M14 NO CREDENTIAL EVER REACHES THE PROCESS TABLE. The adapters hand
+        #        curl its config on stdin precisely so a token cannot be read
+        #        out of /proc by any other process on the host. Asserted on the
+        #        source rather than trusted: no token variable may appear as a
+        #        curl ARGUMENT anywhere in this file.
+        local argvleak
+        #        Comment lines are excluded before the search, not after: this
+        #        header documents which variable holds which credential, and a
+        #        rule that cannot tell prose from an invocation would force the
+        #        documentation out to stay green — a symptom fix.
+        argvleak="$(grep -vE '^[[:space:]]*#' "$self" \
+            | grep -nE '(^|[^[:alnum:]_-])curl([[:space:]]|$)[^|;&]*\$\{?(GFL_TOKEN|GVS_TOKEN|GITFLIC_TOKEN|GITVERSE_TOKEN)' \
+            | grep -v 'grep -nE' || true)"
+        st_case "M14 no credential in curl argv" "0 occurrences" \
+            "$( [[ -z "$argvleak" ]] && echo 0 || echo "$(printf '%s\n' "$argvleak" | wc -l)" ) occurrence(s)" \
+            "$( [[ -z "$argvleak" ]] && echo 0 || echo 1 )" "$argvleak"
+
+        # -- M14b M14's OWN PAIRED PROOF. A rule that reports zero because it
+        #        matches nothing is worthless, so the same pattern is run over a
+        #        seeded leak. The seed is DATA in a scratch file; this script is
+        #        not touched.
+        #        The seed is ASSEMBLED from pieces rather than written out
+        #        literally, because a literal leak line here would be a leak
+        #        line in this file and M14 would — correctly — flag its own
+        #        fixture.
+        local seed="$tmp/seeded-leak.sh"
+        local _var='$GVS_TOKEN'
+        local _bin
+        _bin=cur; _bin="${_bin}l"
+        printf '%s\n' '#!/usr/bin/env bash' \
+            "# a comment naming $_var must NOT be flagged" \
+            "out=\"\$($_bin -s -H \"Authorization: Bearer $_var\" https://example.invalid/user)\"" >"$seed"
+        local seedhit seedcomment
+        seedhit="$(grep -vE '^[[:space:]]*#' "$seed" \
+            | grep -cE '(^|[^[:alnum:]_-])curl([[:space:]]|$)[^|;&]*\$\{?(GFL_TOKEN|GVS_TOKEN|GITFLIC_TOKEN|GITVERSE_TOKEN)')"
+        seedcomment="$(grep -cE '^[[:space:]]*#.*GVS_TOKEN' "$seed")"
+        st_case "M14b the argv rule detects a seeded leak" "1 hit, comment ignored" \
+            "hits=$seedhit, comment-lines-present=$seedcomment" \
+            "$( [[ "$seedhit" -eq 1 && "$seedcomment" -eq 1 ]] && echo 0 || echo 1 )" \
+            "if this reports 0 hits the rule is inert and M14's zero means nothing"
+    fi
+
     echo
     echo "self-test: $ST_PASS passed, $ST_FAIL failed"
     [[ $ST_FAIL -eq 0 ]]
@@ -542,10 +806,54 @@ collect_upstreams
 # ══════════════════════════════════════════════════════════════════════════════
 adapter_for_host() {
     case "$1" in
-        github.com)          printf 'gh' ;;
-        gitlab.com|gitlab.*) printf 'glab' ;;
-        *)                   printf '' ;;
+        github.com)            printf 'gh' ;;
+        gitlab.com|gitlab.*)   printf 'glab' ;;
+        gitflic.ru|gitflic.*)  printf 'gitflic' ;;
+        gitverse.ru|gitverse.*) printf 'gitverse' ;;
+        *)                     printf '' ;;
     esac
+}
+
+# Which adapters this tree actually needs. The two HTTP adapters below cost a
+# network round trip to probe, so they are probed only when some upstream in
+# this tree is actually on that host — never speculatively.
+declare -A HOST_ADAPTER_NEEDED=()
+for u in ${UP_HOST[@]+"${!UP_HOST[@]}"}; do
+    a="$(adapter_for_host "${UP_HOST[$u]}")"
+    [[ -n "$a" ]] && HOST_ADAPTER_NEEDED["$a"]=1
+done
+
+# ── Read-only HTTP transport, shared by the CLI-less adapters ────────────────
+# Sets HTTP_CODE / HTTP_BODY, or returns non-zero with HTTP_TRANSPORT naming the
+# transport failure. Returning non-zero is NOT a verdict about the repository —
+# it is the absence of an answer, and every caller must route it to `unv`.
+#
+# The credential never touches argv. It is written into a curl config read from
+# STDIN, so `ps`, `/proc/<pid>/cmdline` and any shell history see the URL and
+# nothing else. Redirects are deliberately NOT followed: an API that answers a
+# redirect has not answered the question, and following one risks carrying an
+# Authorization header somewhere it was not issued for.
+HTTP_CODE=0; HTTP_BODY=""; HTTP_TRANSPORT=""
+http_get() {   # $1 url, $2 accept media type, $3 Authorization value (may be empty)
+    HTTP_CODE=0; HTTP_BODY=""; HTTP_TRANSPORT=""
+    command -v curl >/dev/null 2>&1 || { HTTP_TRANSPORT="curl is not installed"; return 1; }
+    local cfg out rc
+    printf -v cfg 'url = "%s"\nheader = "Accept: %s"\n' "$1" "$2"
+    if [[ -n "${3:-}" ]]; then
+        local esc="${3//\\/\\\\}"; esc="${esc//\"/\\\"}"
+        printf -v cfg '%sheader = "Authorization: %s"\n' "$cfg" "$esc"
+    fi
+    printf -v cfg '%ssilent\nmax-time = 20\nwrite-out = "\\n%%{http_code}"\n' "$cfg"
+    out="$(printf '%s' "$cfg" | curl -K - 2>/dev/null)"; rc=$?
+    if [[ $rc -ne 0 ]]; then
+        HTTP_TRANSPORT="curl exit $rc — network, DNS or TLS failure reaching the host"
+        return 1
+    fi
+    HTTP_CODE="${out##*$'\n'}"
+    HTTP_BODY="${out%$'\n'*}"
+    [[ "$HTTP_CODE" =~ ^[0-9]{3}$ ]] || {
+        HTTP_TRANSPORT="the host returned no HTTP status line"; HTTP_CODE=0; return 1; }
+    return 0
 }
 
 GH_STATE="absent"; GH_REASON="the 'gh' CLI is not installed"; GH_LOGIN=""
@@ -584,8 +892,89 @@ if command -v glab >/dev/null 2>&1; then
     fi
 fi
 
-adapter_state()  { case "$1" in gh) printf '%s' "$GH_STATE" ;; glab) printf '%s' "$GLAB_STATE" ;; *) printf 'none' ;; esac; }
-adapter_reason() { case "$1" in gh) printf '%s' "$GH_REASON" ;; glab) printf '%s' "$GLAB_REASON" ;; *) printf 'no read-only API adapter is registered for this host' ;; esac; }
+# ── HTTP adapter: gitflic.ru ─────────────────────────────────────────────────
+# Base + auth scheme are the vendor's documented ones ("Authorization: token
+# <access token>"). The identity probe is `GET /project/my` — a documented,
+# read-only listing of the authenticated account's own projects, chosen because
+# it answers the only question an availability probe should ask: does this
+# credential authenticate?
+GFL_API="${GITFLIC_API_BASE:-https://api.gitflic.ru}"
+GFL_ACCEPT="application/json"
+GFL_TOKEN="${GITFLIC_TOKEN:-${GITFLIC_API_TOKEN:-}}"
+GFL_STATE="absent"; GFL_REASON="no upstream in this tree is on this host, so the adapter was not probed"
+if [[ -n "${HOST_ADAPTER_NEEDED[gitflic]:-}" ]]; then
+    if ! command -v curl >/dev/null 2>&1; then
+        GFL_STATE="absent"; GFL_REASON="this host has no CLI adapter and its API is reached over HTTP, but 'curl' is not installed"
+    elif ! command -v jq >/dev/null 2>&1; then
+        GFL_STATE="broken"; GFL_REASON="'jq' is not installed and this API returns raw JSON"
+    elif [[ -z "$GFL_TOKEN" ]]; then
+        # Ask the host anyway. "Reachable but demands a credential" and "host is
+        # down" are different unknowns and must not be reported as one.
+        if http_get "$GFL_API/project/my" "$GFL_ACCEPT" ""; then
+            GFL_STATE="unauth"
+            GFL_REASON="host reachable ($GFL_API answered HTTP $HTTP_CODE) but its API requires a credential for every route; none is configured — set GITFLIC_TOKEN to a read-only personal access token"
+        else
+            GFL_STATE="unreachable"
+            GFL_REASON="$GFL_API could not be reached: $HTTP_TRANSPORT"
+        fi
+    elif http_get "$GFL_API/project/my" "$GFL_ACCEPT" "token $GFL_TOKEN"; then
+        case "$HTTP_CODE" in
+            200) GFL_STATE="ready";  GFL_REASON="authenticated (identity route answered HTTP 200)" ;;
+            401|403) GFL_STATE="broken"; GFL_REASON="the configured credential was rejected (HTTP $HTTP_CODE)" ;;
+            *)   GFL_STATE="broken"; GFL_REASON="the identity route answered HTTP $HTTP_CODE, which is neither an authentication nor a usable answer" ;;
+        esac
+    else
+        GFL_STATE="unreachable"; GFL_REASON="$GFL_API could not be reached: $HTTP_TRANSPORT"
+    fi
+fi
+
+# ── HTTP adapter: gitverse.ru ────────────────────────────────────────────────
+# The vendor media type is required: without it the host answers 400 for every
+# route. With it, an existing route answers 401 unauthenticated and a
+# non-existent route still answers 400 — which is how this adapter's route set
+# was established against the live host rather than guessed.
+GVS_API="${GITVERSE_API_BASE:-https://api.gitverse.ru}"
+GVS_ACCEPT="application/vnd.gitverse.object+json;version=1"
+GVS_TOKEN="${GITVERSE_TOKEN:-${GITVERSE_API_TOKEN:-}}"
+GVS_STATE="absent"; GVS_REASON="no upstream in this tree is on this host, so the adapter was not probed"
+if [[ -n "${HOST_ADAPTER_NEEDED[gitverse]:-}" ]]; then
+    if ! command -v curl >/dev/null 2>&1; then
+        GVS_STATE="absent"; GVS_REASON="this host has no CLI adapter and its API is reached over HTTP, but 'curl' is not installed"
+    elif ! command -v jq >/dev/null 2>&1; then
+        GVS_STATE="broken"; GVS_REASON="'jq' is not installed and this API returns raw JSON"
+    elif [[ -z "$GVS_TOKEN" ]]; then
+        if http_get "$GVS_API/user" "$GVS_ACCEPT" ""; then
+            GVS_STATE="unauth"
+            GVS_REASON="host reachable ($GVS_API answered HTTP $HTTP_CODE) but its API requires a credential for every route; none is configured — set GITVERSE_TOKEN to a read-only personal access token"
+        else
+            GVS_STATE="unreachable"
+            GVS_REASON="$GVS_API could not be reached: $HTTP_TRANSPORT"
+        fi
+    elif http_get "$GVS_API/user" "$GVS_ACCEPT" "Bearer $GVS_TOKEN"; then
+        case "$HTTP_CODE" in
+            200) GVS_STATE="ready";  GVS_REASON="authenticated (identity route answered HTTP 200)" ;;
+            401|403) GVS_STATE="broken"; GVS_REASON="the configured credential was rejected (HTTP $HTTP_CODE)" ;;
+            *)   GVS_STATE="broken"; GVS_REASON="the identity route answered HTTP $HTTP_CODE, which is neither an authentication nor a usable answer" ;;
+        esac
+    else
+        GVS_STATE="unreachable"; GVS_REASON="$GVS_API could not be reached: $HTTP_TRANSPORT"
+    fi
+fi
+
+adapter_state()  { case "$1" in
+        gh)       printf '%s' "$GH_STATE" ;;
+        glab)     printf '%s' "$GLAB_STATE" ;;
+        gitflic)  printf '%s' "$GFL_STATE" ;;
+        gitverse) printf '%s' "$GVS_STATE" ;;
+        *)        printf 'none' ;;
+    esac; }
+adapter_reason() { case "$1" in
+        gh)       printf '%s' "$GH_REASON" ;;
+        glab)     printf '%s' "$GLAB_REASON" ;;
+        gitflic)  printf '%s' "$GFL_REASON" ;;
+        gitverse) printf '%s' "$GVS_REASON" ;;
+        *)        printf 'no read-only API adapter is registered for this host' ;;
+    esac; }
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 4. OWNERSHIP — derived, in this order, with the evidence recorded per repo.
@@ -692,6 +1081,13 @@ for i in "${!REPO_DIR[@]}"; do
                         OWNED_NS["$(ns_key "$host" "$owner")"]="push-perm"
                     fi
                 fi ;;
+            gitflic|gitverse)
+                # These adapters exist, but neither vendor documents a
+                # per-repository push-permission field, so ownership is not
+                # derivable from them. Stated rather than left to look like the
+                # adapter is missing — a different and much weaker fact.
+                REPO_EVID[$i]="${REPO_EVID[$i]:+${REPO_EVID[$i]}; }$host=adapter registered, but this API exposes no push-permission field — ownership not derivable here"
+                ;;
             *)
                 REPO_EVID[$i]="${REPO_EVID[$i]:+${REPO_EVID[$i]}; }$host=no adapter registered, ownership unverifiable"
                 ;;
@@ -999,6 +1395,166 @@ probe_gitlab() {    # $1 owner $2 name $3 repo index
     PB_TRIG="$trig"; PB_DETAIL="$detail"
 }
 
+probe_gitflic() {   # $1 owner $2 name $3 repo index
+    local owner="$1" name="$2" i="$3"
+    local detail="" trig="NONE" unv="" hist=0
+    local base="$GFL_API/project/$owner/$name" auth="token $GFL_TOKEN"
+
+    # -- project object. `mirror` is the field worth reading here: a server-side
+    #    mirror moves refs into this project without a push of ours. That is a
+    #    fact about ref movement, NOT by itself a CI trigger, and it is reported
+    #    as evidence rather than graded as one.
+    if http_get "$base" "$GFL_ACCEPT" "$auth" && [[ "$HTTP_CODE" == "200" ]]; then
+        local mir mtyp defbr
+        mir="$(printf  '%s' "$HTTP_BODY" | jq -r '.mirror     // "?"' 2>/dev/null)"
+        mtyp="$(printf '%s' "$HTTP_BODY" | jq -r '.mirrorType // "-"' 2>/dev/null)"
+        defbr="$(printf '%s' "$HTTP_BODY" | jq -r '.defaultBranch // "?"' 2>/dev/null)"
+        detail="${detail}project=readable mirror=${mir:-?} mirrorType=${mtyp:--} default-branch=${defbr:-?}; "
+        if [[ "$mir" == "true" ]]; then
+            detail="${detail}NOTE: server-side MIRROR — the provider moves refs here without a push of ours; reported, not graded as a trigger; "
+        fi
+    elif [[ "${HTTP_CODE:-0}" =~ ^[0-9]{3}$ ]]; then
+        unv="${unv}project object unreadable (HTTP $HTTP_CODE); "
+    else
+        unv="${unv}project object unreadable ($HTTP_TRANSPORT); "
+    fi
+
+    # -- pipeline history. Past tense, and reported as such.
+    if http_get "$base/cicd/pipeline" "$GFL_ACCEPT" "$auth" && [[ "$HTTP_CODE" == "200" ]]; then
+        local tot rec newest
+        # The vendor paginates with a Spring `_embedded` envelope; a bare array
+        # is also accepted. Deliberately `// empty` and NOT `// 0`: a body with
+        # no array at all is an UNRECOGNISED SHAPE, and defaulting it to zero
+        # would turn "I could not read this" into "there were none".
+        tot="$(printf '%s' "$HTTP_BODY"    | jq -r '[..|arrays|length]|max // empty' 2>/dev/null | head -1)"
+        newest="$(printf '%s' "$HTTP_BODY" | jq -r '[..|objects|select(has("createdAt"))|.createdAt]|sort|last // ""' 2>/dev/null)"
+        if [[ -n "$SINCE" ]]; then
+            rec="$(printf '%s' "$HTTP_BODY" | jq -r --arg s "$SINCE" '[..|objects|select(has("createdAt"))|select(.createdAt>$s)]|length' 2>/dev/null)"
+        else
+            rec="$tot"
+        fi
+        if [[ "${tot:-}" =~ ^[0-9]+$ ]]; then
+            detail="${detail}pipelines(listed=$tot, newest=${newest:-none}, in-window=${rec:-?}); "
+            if [[ "${rec:-0}" =~ ^[0-9]+$ && "${rec:-0}" -gt 0 && "${FILE_ACTIVE_N[$i]}" == "0" ]]; then
+                hist="$rec"
+                detail="${detail}HISTORICAL: ${rec} pipeline(s) ran in the window while the tree declares zero active CI config; "
+                add_remedy "REVIEW|$owner/$name|${rec} GitFlic pipeline(s) ran in the window while the tree declares zero active CI config. Operator-only: project CI/CD > Schedules, and the project's CI/CD settings, in the GitFlic web UI."
+            fi
+        else
+            unv="${unv}pipeline history returned an unrecognised JSON shape; "
+        fi
+    elif [[ "${HTTP_CODE:-0}" =~ ^[0-9]{3}$ ]]; then
+        unv="${unv}pipeline history unreadable (HTTP $HTTP_CODE); "
+    else
+        unv="${unv}pipeline history unreadable ($HTTP_TRANSPORT); "
+    fi
+
+    # -- THE STANDING-TRIGGER QUESTION, AND WHY IT CANNOT BE PUT HERE.
+    #    This is not a missing feature of this adapter; it is a missing endpoint
+    #    at the vendor. The scheduler is a server-side project setting edited in
+    #    the web UI, and the published REST API documents no route that reads
+    #    it — so no read-only probe can establish that none is armed. Reporting
+    #    NONE would be inventing the answer, so this row can never be clean, and
+    #    the reason travels with it on every run.
+    unv="${unv}the STANDING-trigger question cannot be answered read-only on this host: its pipeline scheduler is a server-side project setting configured in the web UI and its REST API documents no route that reads it; "
+    add_remedy "MANUAL|$owner/$name|GitFlic's pipeline scheduler is server-side and has no documented read-only API route, so no probe can confirm that no schedule is armed. Operator-only, in the GitFlic web UI: project CI/CD > Schedules (Расписания), plus the project's CI/CD settings and webhooks."
+
+    if [[ -n "$unv" && "$trig" != "CONFIRMED" ]]; then
+        trig="UNVERIFIED"; detail="${detail}NOT VERIFIED: $unv"
+    elif [[ -n "$unv" ]]; then
+        detail="${detail}also not verified: $unv"
+    fi
+    [[ "$trig" == "NONE" && "${hist:-0}" != "0" ]] && trig="HISTORICAL"
+    PB_TRIG="$trig"; PB_DETAIL="$detail"
+}
+
+probe_gitverse() {  # $1 owner $2 name $3 repo index
+    local owner="$1" name="$2" i="$3"
+    local detail="" trig="NONE" unv="" hist=0
+    local base="$GVS_API/repos/$owner/$name" auth="Bearer $GVS_TOKEN"
+
+    _gvs() {  # $1 route suffix, $2 label -> body in HTTP_BODY, or appends to unv
+        if http_get "$base$1" "$GVS_ACCEPT" "$auth" && [[ "$HTTP_CODE" == "200" ]]; then
+            return 0
+        elif [[ "${HTTP_CODE:-0}" =~ ^[0-9]{3}$ ]]; then
+            unv="${unv}$2 unreadable (HTTP $HTTP_CODE); "; return 1
+        else
+            unv="${unv}$2 unreadable ($HTTP_TRANSPORT); "; return 1
+        fi
+    }
+
+    if _gvs "" "repository object"; then
+        local defbr arch
+        defbr="$(printf '%s' "$HTTP_BODY" | jq -r '.default_branch // "?"' 2>/dev/null)"
+        arch="$(printf  '%s' "$HTTP_BODY" | jq -r '.archived       // "?"' 2>/dev/null)"
+        detail="${detail}repo=readable default-branch=${defbr:-?} archived=${arch:-?}; "
+    fi
+
+    # Workflows the PROVIDER believes it holds. A workflow the provider lists
+    # that no file in the tree declares is the shape this whole script exists
+    # to catch, so the two counts are printed side by side and the reader is
+    # told which is which rather than being handed a single reconciled number.
+    if _gvs "/actions/workflows" "Actions workflow list"; then
+        local nwf
+        nwf="$(printf '%s' "$HTTP_BODY" | jq -r 'if type=="array" then length elif type=="object" and has("total_count") then .total_count elif type=="object" and has("workflows") then (.workflows|length) else empty end' 2>/dev/null | head -1)"
+        if [[ "${nwf:-}" =~ ^[0-9]+$ ]]; then
+            detail="${detail}provider-listed-workflows=$nwf tree-active-configs=${FILE_ACTIVE_N[$i]}; "
+            if [[ "$nwf" -gt 0 && "${FILE_ACTIVE_N[$i]}" == "0" ]]; then
+                trig="CONFIRMED"
+                detail="${detail}STANDING TRIGGER: the provider lists $nwf workflow(s) while the tree declares zero active CI config — nothing in the tree declares them and no file in it can remove them; "
+                add_remedy "PROVIDER|$owner/$name|GitVerse lists $nwf Actions workflow(s) for this repository while the tree declares zero active CI config. Operator-only: project Settings > Actions in the GitVerse web UI."
+            fi
+        else
+            unv="${unv}Actions workflow list returned an unrecognised JSON shape; "
+        fi
+    fi
+
+    if _gvs "/actions/runs" "Actions run history"; then
+        local tot rec newest
+        tot="$(printf '%s' "$HTTP_BODY"    | jq -r 'if type=="array" then length elif type=="object" and has("total_count") then .total_count elif type=="object" and has("workflow_runs") then (.workflow_runs|length) else empty end' 2>/dev/null | head -1)"
+        newest="$(printf '%s' "$HTTP_BODY" | jq -r '[..|objects|select(has("created_at"))|.created_at]|sort|last // ""' 2>/dev/null)"
+        if [[ -n "$SINCE" ]]; then
+            rec="$(printf '%s' "$HTTP_BODY" | jq -r --arg s "$SINCE" '[..|objects|select(has("created_at"))|select(.created_at>$s)]|length' 2>/dev/null)"
+        else
+            rec="$tot"
+        fi
+        if [[ "${tot:-}" =~ ^[0-9]+$ ]]; then
+            detail="${detail}runs(listed=$tot, newest=${newest:-none}, in-window=${rec:-?}); "
+            if [[ "${rec:-0}" =~ ^[0-9]+$ && "${rec:-0}" -gt 0 && "${FILE_ACTIVE_N[$i]}" == "0" && "$trig" != "CONFIRMED" ]]; then
+                hist="$rec"
+                detail="${detail}HISTORICAL: ${rec} run(s) in the window while the tree declares zero active CI config — a fact about the past, NOT a claim that a push today triggers one; "
+                add_remedy "REVIEW|$owner/$name|${rec} GitVerse Actions run(s) occurred in the window while the tree declares zero active CI config. Operator-only: confirm which setting produced them and that it is genuinely gone."
+            fi
+        else
+            unv="${unv}Actions run history returned an unrecognised JSON shape; "
+        fi
+    fi
+
+    # Server-side webhooks. Not provider CI, but they are push-triggered actions
+    # the provider performs that no file in the tree declares, so they are
+    # reported — and never counted as a trigger they are not.
+    if _gvs "/hooks" "server-side webhook list"; then
+        local nhk
+        nhk="$(printf '%s' "$HTTP_BODY" | jq -r 'if type=="array" then length elif type=="object" and has("total_count") then .total_count else empty end' 2>/dev/null | head -1)"
+        if [[ "${nhk:-}" =~ ^[0-9]+$ ]]; then
+            detail="${detail}server-side-webhooks=$nhk; "
+            if [[ "$nhk" -gt 0 ]]; then
+                add_remedy "REVIEW|$owner/$name|GitVerse holds $nhk server-side webhook(s) on this repository. A webhook is not provider CI, but it is a push-triggered action declared by no file in the tree. Operator-only: project Settings > Webhooks."
+            fi
+        else
+            unv="${unv}server-side webhook list returned an unrecognised JSON shape; "
+        fi
+    fi
+
+    if [[ -n "$unv" && "$trig" != "CONFIRMED" ]]; then
+        trig="UNVERIFIED"; detail="${detail}NOT VERIFIED: $unv"
+    elif [[ -n "$unv" ]]; then
+        detail="${detail}also not verified: $unv"
+    fi
+    [[ "$trig" == "NONE" && "${hist:-0}" != "0" ]] && trig="HISTORICAL"
+    PB_TRIG="$trig"; PB_DETAIL="$detail"
+}
+
 # -- build the rows ------------------------------------------------------------
 for i in "${!REPO_DIR[@]}"; do
     fileci="active=${FILE_ACTIVE_N[$i]} inert=${FILE_INERT_N[$i]}"
@@ -1023,14 +1579,20 @@ for i in "${!REPO_DIR[@]}"; do
             OURS)
                 if [[ "$st" == "ready" ]]; then
                     case "$ad" in
-                        gh)   probe_github "$owner" "$name" "$i" ;;
-                        glab) probe_gitlab "$owner" "$name" "$i" ;;
+                        gh)       probe_github   "$owner" "$name" "$i" ;;
+                        glab)     probe_gitlab   "$owner" "$name" "$i" ;;
+                        gitflic)  probe_gitflic  "$owner" "$name" "$i" ;;
+                        gitverse) probe_gitverse "$owner" "$name" "$i" ;;
                     esac
                 else
                     PB_TRIG="UNVERIFIED"
                     PB_DETAIL="not asked: $(adapter_reason "$ad"). GitHub's answer is NOT generalised to this host."
                     UNVERIFIED_LOG+=("${REPO_REL[$i]} @ $host/$owner/$name — $(adapter_reason "$ad")")
-                    add_remedy "MANUAL|$host/$owner/$name|No read-only API adapter could answer for this host. Verify by hand in that provider's web UI: CI/CD settings, pipeline schedules, pages/publishing settings, and required checks on the default branch."
+                    if [[ -n "$ad" ]]; then
+                        add_remedy "MANUAL|$host/$owner/$name|An adapter IS registered for this host but could not run: $(adapter_reason "$ad"). Until it can, verify by hand in that provider's web UI: CI/CD settings, pipeline schedules, pages/publishing settings, webhooks, and required checks on the default branch."
+                    else
+                        add_remedy "MANUAL|$host/$owner/$name|No read-only API adapter could answer for this host. Verify by hand in that provider's web UI: CI/CD settings, pipeline schedules, pages/publishing settings, and required checks on the default branch."
+                    fi
                 fi
                 case "$PB_TRIG" in
                     CONFIRMED)  verdict="PROVIDER-SIDE CI CONFIRMED" ;;
@@ -1084,6 +1646,8 @@ say "${C_BLD}Provider-side CI verification${C_OFF}   root: $ROOT"
 say "window: last ${WINDOW_DAYS} day(s)${SINCE:+ (since $SINCE)}   repos: ${#REPO_DIR[@]}   upstream rows: ${#R_REPO[@]}"
 say "adapters: github.com -> gh [$GH_STATE: $GH_REASON]"
 say "          gitlab.com -> glab [$GLAB_STATE: $GLAB_REASON]"
+say "          gitflic.ru -> http [$GFL_STATE: $GFL_REASON]"
+say "          gitverse.ru -> http [$GVS_STATE: $GVS_REASON]"
 say "          any other host -> none registered (rows reported UNVERIFIED)"
 say ""
 # Column widths are measured from the data, not guessed: a fixed width silently
@@ -1211,8 +1775,9 @@ if [[ $JSON -eq 1 ]]; then
     printf '  "since": %s,\n' "$(jstr "$SINCE")"
     printf '  "exit_code": %s,\n' "$RC"
     printf '  "verdict": %s,\n' "$(jstr "$(case $RC in 0) echo no-provider-side-triggering ;; 1) echo provider-side-triggering-confirmed ;; 2) echo could-not-determine ;; esac)")"
-    printf '  "adapters": { "github.com": {"state": %s, "reason": %s}, "gitlab.com": {"state": %s, "reason": %s} },\n' \
-        "$(jstr "$GH_STATE")" "$(jstr "$GH_REASON")" "$(jstr "$GLAB_STATE")" "$(jstr "$GLAB_REASON")"
+    printf '  "adapters": { "github.com": {"state": %s, "reason": %s}, "gitlab.com": {"state": %s, "reason": %s}, "gitflic.ru": {"state": %s, "reason": %s}, "gitverse.ru": {"state": %s, "reason": %s} },\n' \
+        "$(jstr "$GH_STATE")" "$(jstr "$GH_REASON")" "$(jstr "$GLAB_STATE")" "$(jstr "$GLAB_REASON")" \
+        "$(jstr "$GFL_STATE")" "$(jstr "$GFL_REASON")" "$(jstr "$GVS_STATE")" "$(jstr "$GVS_REASON")"
     printf '  "counts": {"confirmed": %s, "unverified": %s, "historical": %s, "no_trigger": %s, "out_of_scope": %s},\n' \
         "$n_confirmed" "$n_unverified" "$n_hist" "$n_clean" "$n_scope"
     printf '  "repositories": [\n'

@@ -83,8 +83,8 @@ complete**, because every story's visibility derives from T007.
 - [x] T012 [P] [US1] Add `?include=held_back` so withholding never makes an area unreachable.
 - [x] T013 [P] [US1] Emit `tags` as an empty array, never `null`, in the area wire type. **Evidence**: a null breaks the field the interface filters on.
 - [x] T014 [US1] Derive titles, tags and summaries in `workshop/platform/backend/pkg/knowledge/presentation.go`.
-- [ ] T015 [US1] Add a `tags` field to the client area model in `workshop/platform/frontend/src/app/core/knowledge.ts` — it models `terms` and **has no field for tags at all**, so tags are discarded before any component can ask for them (FR-019).
-- [ ] T016 [US1] Render title, summary and tags on the area detail page in `workshop/platform/frontend/src/app/features/` — 3 of 4 render branches emit the raw identifier as the heading (SC-003).
+- [x] T015 [US1] Add a `tags` field to the client area model in `workshop/platform/frontend/src/app/core/knowledge.ts` — it models `terms` and **has no field for tags at all**, so tags are discarded before any component can ask for them (FR-019). — EVIDENCE: `workshop/platform/frontend/src/app/features/areas/curriculum-model.ts:487,505` (`AreaCard.tags`, `normaliseAreaCard`) + `area-detail.component.ts:451` — PATH DRIFT: delivered in a second normaliser, not in `core/knowledge.ts`, which still drops `tags`; the capability (FR-019) holds. Frontend unit suite 298/298 SUCCESS 2026-09-08
+- [x] T016 [US1] Render title, summary and tags on the area detail page in `workshop/platform/frontend/src/app/features/` — 3 of 4 render branches emit the raw identifier as the heading (SC-003). — EVIDENCE: `workshop/platform/frontend/src/app/features/areas/area-detail.component.ts:111` single `<h1 data-testid="area-title">{{ displayTitle() }}</h1>`, `:442` title chain with the slug as LAST resort, `:446` summary, `:115-121,451` tags list. Frontend unit suite 298/298 SUCCESS 2026-09-08
 
 **Checkpoint**: A learner can open every listed area and read what it is.
 
@@ -114,7 +114,7 @@ complete**, because every story's visibility derives from T007.
 - [x] T026 [US2] Exclude the 10 `flashcard` rows rather than mapping them onto graded items, and report the exclusion. **Evidence**: mapping a study aid onto a test question is a silent promotion.
 - [x] T027 [US2] Pass `-learning-catalog /opt/workshop/curriculum/learning` in `workshop/platform/compose.yml`. **Evidence**: the flag defaults to EMPTY and empty is a *determined* state — every learning route would answer `no_learning_catalog` cleanly after a restart, with nothing in any log to notice. YAML re-parsed; the path is inside the existing read-only bind, so no volume change.
 - [ ] T028 [US2] Render the lesson list and lesson body with prev/next in `workshop/platform/frontend/src/app/features/`, using the same sorted slice the list uses.
-- [ ] T029 [US2] Render the test — availability message before completion, questions after, result after submission — in the same feature directory, showing `pass_percent` **before** the attempt begins (FR-008b).
+- [x] T029 [US2] Render the test — availability message before completion, questions after, result after submission — in the same feature directory, showing `pass_percent` **before** the attempt begins (FR-008b). — EVIDENCE: `workshop/platform/frontend/src/app/features/areas/area-test.component.ts:75-112` availability + `passPercent` shown before the attempt, `:169-181` result panel with the determinate/lower-bound split. Frontend unit suite 298/298 SUCCESS 2026-09-08
 
 **Checkpoint**: The full learner journey works against authored content.
 
@@ -131,8 +131,8 @@ complete**, because every story's visibility derives from T007.
 - [x] T033 [US3] Emit `href: null` + `unresolved_reason` + intact anchor + a count for an unservable chapter. **Evidence**: 205 of 205 resolved, 0 unresolved.
 - [x] T034 [US3] Declare the chapter registry **from disk** (`workshop/chapters/`) rather than from the anchors themselves. **Evidence**: deriving it from the anchors would make the resolution check vacuously pass; `ScanChapterDirs` returns exactly `01`, `02`, `02.01`.
 - [x] T035 [US3] Implement the client-side time-link contract in `workshop/platform/frontend/src/app/core/timelink.ts`.
-- [ ] T036 [US3] Seek the player to `t` and scroll the transcript to the `#p-` passage **without further scrolling**, marking it visually, in the transcript component.
-- [ ] T037 [P] [US3] Make the extent of a range discernible when `end` is present, not only its start (US3 scenario 3).
+- [x] T036 [US3] Seek the player to `t` and scroll the transcript to the `#p-` passage **without further scrolling**, marking it visually, in the transcript component. — EVIDENCE: `workshop/platform/frontend/src/app/features/transcript/transcript.component.ts:593` `#p-` parse, `:614-634` seek with `link.end`, `:691-693` `scrollIntoView`, `:631` `machine.seeked()` suspends follow so nothing scrolls further; `seek.spec.ts` + `follow-mode.spec.ts` green in the 298/298 run 2026-09-08
+- [x] T037 [P] [US3] Make the extent of a range discernible when `end` is present, not only its start (US3 scenario 3). — EVIDENCE: `workshop/platform/frontend/src/app/core/playback.ts:88-95` `stopAt` bounds playback to `end` (and only when `end > t`); `features/chapters/recording-player.component.ts:84-87` `data-testid="span-end"` names the excerpt end. Frontend unit suite 298/298 SUCCESS 2026-09-08
 - [ ] T038 [P] [US3] Report an unresolvable target as unavailable rather than routing to a page that reports nothing found (FR-017).
 
 ---
@@ -145,7 +145,7 @@ complete**, because every story's visibility derives from T007.
 - [x] T039 [US4] Specify one diagram per area — type, the single idea, concrete nodes and edges — in `workshop/docs/training/diagrams/SPEC.md`, with deliberately smaller diagrams for the thin modules and the reason written down.
 - [x] T040 [US4] Build 8 SVGs in the house style extracted from `design-system/diagrams/`, **adding** `<title>`, `<desc>`, `role="img"` and `aria-label` — absent from 0 of 33 references. **Evidence**: all 8 parse as XML, rc 0; no external font, image or script.
 - [x] T041 [P] [US4] Serve `video` materials with `chapter_id`, `start_millis`, `end_millis`, `length_millis`, `transcript_anchor`, `chapter_slug` and `href`.
-- [ ] T042 [US4] Render materials in place with their captions in the lesson component.
+- [x] T042 [US4] Render materials in place with their captions in the lesson component. — EVIDENCE: `workshop/platform/frontend/src/app/features/areas/area-lessons.component.ts:102-148` — materials rendered in place, caption per material, and a visual with no `alt` is offered as a named link rather than a blank frame. Frontend unit suite 298/298 SUCCESS 2026-09-08
 - [ ] T043 [P] [US4] Play a video segment in place, bounded to its stated range.
 - [ ] T044 [P] [SUBAGENT] [US4] Rasterise the 8 SVGs and check text fit at the served font metric — well-formedness and theming are verified; **text fit is not** (plan.md gap 7).
 
@@ -156,10 +156,10 @@ complete**, because every story's visibility derives from T007.
 **Goal**: A varied palette that remains legible in both presentations.
 **Independent Test**: Sample the colours actually painted on each principal surface; measure variety across them and contrast within each pairing.
 
-- [ ] T045 [US5] Regenerate the served stylesheets from the widened token source in `workshop/platform/frontend/src/styles/`, then rebuild. **This is defect D6**: nothing had regenerated them, so a token-level widening never reached a visitor.
-- [ ] T046 [TDD] [SUBAGENT] [US5] Write a hue-family check that reads the **served** stylesheet — not the token source — asserting ≥6 distinct hue families across principal surfaces (SC-010). A check that reads the token source commits D6 inside the instrument meant to catch it.
-- [ ] T047 [TDD] [P] [SUBAGENT] [US5] Write a contrast check asserting the normal-text and non-text floors in **both** light and dark presentation, over the served bundle (SC-011).
-- [ ] T048 [P] [SUBAGENT] [US5] Pair T046 and T047 with data-driven mutation proofs, each carrying a control and a vacuity refusal that exits 2.
+- [x] T045 [US5] Regenerate the served stylesheets from the widened token source in `workshop/platform/frontend/src/styles/`, then rebuild. **This is defect D6**: nothing had regenerated them, so a token-level widening never reached a visitor. — EVIDENCE: `bash workshop/platform/gates/verify-served-palette.sh` rc **0** against the LIVE served bundle (`sample: live, http://127.0.0.1:8087`, 2 stylesheets, 208 surfaces graded): 7 distinct hue families, floor 6 — the widening reaches a visitor, so D6 is closed at the served layer
+- [x] T046 [TDD] [SUBAGENT] [US5] Write a hue-family check that reads the **served** stylesheet — not the token source — asserting ≥6 distinct hue families across principal surfaces (SC-010). A check that reads the token source commits D6 inside the instrument meant to catch it. — EVIDENCE: `bash workshop/platform/gates/verify-served-palette.sh` rc **0** — reads the SERVED stylesheets over http://127.0.0.1:8087, not the token source; `PASS: 7 distinct hue family/families across principal surfaces (floor 6)`
+- [x] T047 [TDD] [P] [SUBAGENT] [US5] Write a contrast check asserting the normal-text and non-text floors in **both** light and dark presentation, over the served bundle (SC-011). — EVIDENCE: `bash workshop/platform/gates/verify-served-contrast.sh` rc **0** — `PASS: all 200 pairing(s) clear their floor, in each scheme independently` (8 unusable reported, not counted as passes)
+- [x] T048 [P] [SUBAGENT] [US5] Pair T046 and T047 with data-driven mutation proofs, each carrying a control and a vacuity refusal that exits 2. — EVIDENCE: `bash workshop/platform/gates/prove-served-palette.sh` rc **0**, 8 passed / 0 failed / 8 mutations (M2 and M3 are rc-2 vacuity refusals, N1 the non-vacuity control); `prove-served-contrast.sh` rc **0**, 6 passed / 0 failed / 6 mutations (M0 control, M2 rc-2 vacuity refusal, M3 the light-passes/dark-fails split). Gate source byte-identical across each battery
 - [ ] T049 [US5] Emit `corpus_revision` on the served catalogue and cite it in every interface claim (FR-023a). **Analysis finding F7 — MISPLACED**: this is a catalogue concern owned by the backend stream, not a presentation one. Execute it with Phase 3 (US1); it is listed here only because the superspec blueprint's Track A carries a *bundle* build id, which is a different artefact, and this task must not be assumed covered by it.
 
 **Execution note**: rebuild immediately before measuring and **state which build
@@ -177,7 +177,7 @@ not what failed; the timing was.
 - [x] T050 [US6] Add `workshop/scripts/bootstrap-standalone.sh` and `workshop/helix-deps.yaml`.
 - [x] T051 [P] [US6] Add `verify-standalone-clone.sh` to both `workshop/scripts/` and `ai_interviewing/scripts/`.
 - [x] T052 [US6] Record the `curriculum-kit` replace-target gap verbatim in `workshop/platform/backend/go.mod`. **Evidence**: gaps 2 → 3, correctly — the gate working, not drift.
-- [ ] T053 [US6] **BLOCKED — operator decision.** Publish `submodules/curriculum-kit` as a git repository and mount it as a gitlink, then declare it in `helix-deps.yaml`. It is currently a plain directory with **no commit to pin**, so a truthful manifest entry cannot be written and a fabricated `ref:` would be a bluff.
+- [x] T053 [US6] **BLOCKED — operator decision.** Publish `submodules/curriculum-kit` as a git repository and mount it as a gitlink, then declare it in `helix-deps.yaml`. It is currently a plain directory with **no commit to pin**, so a truthful manifest entry cannot be written and a fabricated `ref:` would be a bluff. — EVIDENCE: `git ls-files -s submodules/curriculum-kit` -> `160000 52f08af5abb396bce7d9679cb82eb0b9dd0246fc`; `.gitmodules:40-42` declares the path and url; `helix-deps.yaml:313-316` records `ref: 52f08af5abb3...`; `bash scripts/verify-manifest-pins.sh` rc **0** at 13 MATCH / 0 DRIFT / 0 UNDETERMINED. The blocker (no commit to pin) is gone
 
 ---
 
@@ -187,21 +187,21 @@ not what failed; the timing was.
 still a **2** over HTTP. This phase is where that changes, and it exists as its
 own phase so the distinction is never quietly dropped.
 
-- [ ] T054 Stop every writing stream, then restart once with `bash workshop/scripts/restart.sh` (a full down/up, never `compose restart`). **Never pass `--destroy-volumes` to `stop.sh`** — the `workshop-index` volume holds hours of transcription output.
-- [ ] T055 Re-run `bash workshop/platform/gates/verify-server-unity.sh` against the live container. **Currently RED at `PASS=37 FAIL=6`** — all six new routes answering a plain-text 404 because the container runs the old binary. Against a server built from this tree the same gate is `PASS=43 FAIL=0 UNDET=0 DEBT=8`.
-- [ ] T056 Confirm `GET /api/areas` returns **42**, not the 819 the running container still holds in memory from start-up.
-- [ ] T057 Exercise all six learning routes over HTTP against authored content. Everything so far is measured through the server's own loader **in-process**; the HTTP surface is unmeasured (plan.md gap 1).
-- [ ] T058 [P] Register the new gates in `workshop/platform/gates/check-registry-002.tsv` and the pipeline gates in their registry. **Evidence needed**: `verify-check-registry-002.sh` currently rc 0 at `checks=94 debt=3`.
+- [x] T054 Stop every writing stream, then restart once with `bash workshop/scripts/restart.sh` (a full down/up, never `compose restart`). **Never pass `--destroy-volumes` to `stop.sh`** — the `workshop-index` volume holds hours of transcription output. — EVIDENCE: container `workshop-curriculum_platform_1` started 2026-09-08 08:01:16, `Up 4 hours (healthy)` at measurement, and it serves the six learning routes that exist only in the new binary (all 200/403/400 below) — a full down/up, not a `compose restart`. Volume `workshop-curriculum_workshop-index` intact (487880 crossref edges over 24394 sources at generation 6)
+- [x] T055 Re-run `bash workshop/platform/gates/verify-server-unity.sh` against the live container. **Currently RED at `PASS=37 FAIL=6`** — all six new routes answering a plain-text 404 because the container runs the old binary. Against a server built from this tree the same gate is `PASS=43 FAIL=0 UNDET=0 DEBT=8`. — EVIDENCE: `bash workshop/platform/gates/verify-server-unity.sh` rc **0** — `PASS=43 FAIL=0 UNDET=0 DEBT=8`, exactly the stated target; the six §002.LEARN routes answer as declared. The 8 DEBT rows are recorded NOT_BUILT contract endpoints, printed by design
+- [x] T056 Confirm `GET /api/areas` returns **42**, not the 819 the running container still holds in memory from start-up. — EVIDENCE: `GET http://127.0.0.1:8087/api/areas` -> **200**, `contract.total_areas = 42`, `len(areas) = 39` + `len(held_back) = 3`; every id in `areas` carries an `href`, and `GET /api/areas/{first}` -> 200
+- [x] T057 Exercise all six learning routes over HTTP against authored content. Everything so far is measured through the server's own loader **in-process**; the HTTP surface is unmeasured (plan.md gap 1). — EVIDENCE: all six exercised over HTTP with `X-Session: audit-004-probe` on 2026-09-08: `GET /api/areas/{a}/lessons` 200 (7 lessons), `GET /api/areas/{a}/lessons/{l}` 200 (carries `prev`/`next`/`position`), `POST /api/areas/{a}/lessons/{l}/state` 200 (`complete_of_required` 0 -> 1), `GET /api/areas/{a}/materials` 200 (+ `?kind=<unknown>` -> **400**, T022 on the wire), `GET /api/areas/{a}/assessment` 200 (`available:false` with the missing-lesson list), `POST /api/areas/{a}/assessment/submit` -> **403** with the availability envelope, never a zero score
+- [x] T058 [P] Register the new gates in `workshop/platform/gates/check-registry-002.tsv` and the pipeline gates in their registry. **Evidence needed**: `verify-check-registry-002.sh` currently rc 0 at `checks=94 debt=3`. — EVIDENCE: `bash workshop/platform/gates/verify-check-registry-002.sh` rc **0** — `checks=103 debt=3 missing=0 unreadable=0 proof_fail=0` (was 94/3); the new rows are `check-registry-002.tsv:444-453` (`G-AREA-NAME`, `G-LEARN-PUBCONSIST`, `G-LEARN-GATE`, `G-SERVED-PALETTE`, `G-SERVED-CONTRAST`, each with its `-proof` sibling) plus `G-AREA-TOPICALITY-classifier` and the `FR-004-obtainability` pair
 - [ ] T059 [P] Add `workshop/curriculum/area-timelinks.json` and `workshop/curriculum/unpublished-areas.jsonl` to `.gitignore`, matching their siblings.
 - [ ] T060 [P] Re-run the full frontend suite and account for every delta against the 162/0/8 baseline.
 - [ ] T061 [REVIEW] **Human checkpoint** — read the 3 area documents failing publication review on 62, 54 and 58 uncited claim blocks. They stay failing until read; stamping them is the bypass.
 - [ ] T062 [REVIEW] **Human checkpoint** — confirm or replace the 70% `passPercent`, the mcq-2/short-3 point weights, the 91–95 prefix shift and the anchor attachment section. These four are authored schema choices, stated rather than measured.
-- [ ] T063 [SUBAGENT] Re-mine chapter 02 into the taxonomy, or record the coverage gap explicitly. A topic taught only there, in words the chapter-01 lexicon lacks, is invisible to every coverage figure in this feature.
+- [x] T063 [SUBAGENT] Re-mine chapter 02 into the taxonomy, or record the coverage gap explicitly. A topic taught only there, in words the chapter-01 lexicon lacks, is invisible to every coverage figure in this feature. — EVIDENCE: `workshop/docs/training/CURRICULUM-AREAS.md:108` records the gap explicitly and by name — chapter 02 and 02.01 contribute tier-A term matches only, no span-tier evidence and no chapter-02 coverage report has ever been built, so a topic taught only there is invisible to every figure on that page. This is the task’s second arm; the re-mine itself was NOT done
 - [ ] T064 Regenerate the 12 pre-existing documents' ingested `.sections.json`, or record that their corpus copy is stale. **Regenerating mints new pids and changes the searchable corpus** — a corpus decision, not a cleanup.
 - [ ] T066 [TDD] Assert **corpus stability during measurement** in every corpus-counting run (FR-030) — fingerprint the enumerated set before and after the analysis passes, sharing the enumeration with the analysis by construction, and emit `undet` rows **naming the changed paths** when they differ. **Analysis finding F2: this requirement had zero task coverage.** It was promoted from a real incident — a gate reporting 12939 / 12939 / 13058 / 12968 for the same command on a tree another agent was editing. The umbrella's `scripts/verify-content-boundary.sh` already implements exactly this; reuse its approach rather than inventing one.
 - [ ] T067 [TDD] [P] Assert **result stability** (FR-011) in `workshop/platform/gates/prove-assessment-gate.sh` — submit, re-read, require a byte-identical result. **Analysis finding F4: FR-011 appeared only as a manual quickstart step, so nothing asserted it.**
 - [ ] T068 [P] Detect **duplicate subjects** (FR-020) in `workshop/pipeline/extract/verify_curriculum_areas.py`, or record FR-020 as deferred with its reason. **Analysis finding F5**: an existing mutation catches one *area* in two files; nothing catches two areas covering one *subject*.
-- [ ] T069 [P] Report **question-bank coverage** on every run as a fraction of published areas (SC-004a), currently 5 of 42. A tracked figure, never a floor.
+- [x] T069 [P] Report **question-bank coverage** on every run as a fraction of published areas (SC-004a), currently 5 of 42. A tracked figure, never a floor. — EVIDENCE: `workshop/pipeline/extract/build_learning_catalog.py:506-510` prints the fraction on every run; dry run 2026-09-08 rc **0**: `areas considered 42 / with lessons 42 / with an assessment 30 / WITHOUT assessment 12 (each a CK021 finding; no question generated to hide one)`. NOTE: SC-004a and Amendment A1 both say **5 of 42**; the measured figure is **30 of 42** (`verify_question_banks.py` rc 0, 30 banks / 234 questions / 597 citations resolved) — the spec figure is superseded
 - [ ] T070 [P] Append the governing FR/SC identifiers to each task line in this file. **Analysis finding F8**: 33 of 39 FRs and 14 of 18 SCs are cited nowhere by id, so **SC-013 ("100% of requirements map to a check") is mechanically unverifiable** — it can be argued but not computed. With ids present it becomes a `grep`.
 - [ ] T065 [SUBAGENT] Investigate the redaction-pipeline report: one segment is marked `redacted: true` while the same sentence survives in the merged transcript. Reported, not acted on.
 
@@ -268,29 +268,50 @@ a catalogue whose list disagrees with its detail route.
 |---|---:|---:|---:|
 | Phase 1 Setup | 4 | 4 | 0 |
 | Phase 2 Foundational | 5 | 5 | 0 |
-| Phase 3 US1 | 7 | 5 | 2 |
-| Phase 4 US2 | 13 | 11 | 2 |
-| Phase 5 US3 | 9 | 6 | 3 |
-| Phase 6 US4 | 6 | 3 | 3 |
-| Phase 7 US5 | 5 | 0 | 5 |
-| Phase 8 US6 | 4 | 3 | 1 (blocked) |
-| Phase 9 Polish | 17 | 0 | 17 |
-| **Total** | **70** | **37** | **33** |
+| Phase 3 US1 | 7 | 7 | 0 |
+| Phase 4 US2 | 13 | 12 | 1 |
+| Phase 5 US3 | 9 | 8 | 1 |
+| Phase 6 US4 | 6 | 4 | 2 |
+| Phase 7 US5 | 5 | 4 | 1 |
+| Phase 8 US6 | 4 | 4 | 0 |
+| Phase 9 Polish | 17 | 7 | 10 |
+| **Total** | **70** | **55** | **15** |
+
+**Re-audited 2026-09-08 against evidence, not against task text.** 18 tasks were
+found already delivered and are ticked above with the run that proves each. Two
+of them were delivered at a DIFFERENT path than the task names (T015 in
+`features/areas/curriculum-model.ts`, not `core/knowledge.ts`) and one was closed
+by its second arm rather than its first (T063 records the gap; it does not
+re-mine chapter 02) — both are stated on the line rather than smoothed over.
+**Phase 9's headline is withdrawn: the work IS now proved as served** —
+`verify-server-unity.sh` rc 0 at PASS=43 FAIL=0, all six learning routes
+exercised over HTTP, and the palette and contrast gates read the served bundle.
+The five tasks that remain PARTIAL are left UNTICKED with what is missing named
+in the audit report: T028 (no prev/next in the client), T038 (the deep-link miss
+path in `transcript.component.ts` `applyPending()` gives up SILENTLY — its own
+comment says so), T060 (suite re-run green at **298/298 SUCCESS, 0 failed,
+0 skipped** against a 162/0/8 baseline, but the +136/-8 delta is not itemised),
+T066 (a corpus fingerprint exists in `classify_area_topicality.py` and is
+gate-checked, but it is a SINGLE fingerprint — there is no before/after pair and
+no `undet` row naming changed paths) and T059 (both files are TRACKED —
+`git ls-files` matches them — so a `.gitignore` line would change nothing until
+they are untracked, exactly the umbrella's own `_site` defect).
 
 Re-derive rather than trusting the table:
 
 ```bash
 grep -c '^- \[' specs/004-authored-ai-areas/tasks.md    # 70
-grep -c '^- \[x\]' specs/004-authored-ai-areas/tasks.md  # 37
+grep -c '^- \[x\]' specs/004-authored-ai-areas/tasks.md  # 55
 ```
 
 **Five tasks (T066–T070) were added by `/speckit-analyze` remediation**, closing
 the three requirements that had zero coverage (FR-011, FR-020, FR-030) plus the
 two traceability findings. None is done.
 
-**37 of 65 tasks carry a captured run.** Zero of the 12 Phase 9 tasks do, which
-is the honest headline: the work is built and proved in process, and **not one
-line of it has been proved as served**.
+**55 of 70 tasks carry a captured run** (re-audited 2026-09-08). The earlier
+headline — *"not one line of it has been proved as served"* — is **WITHDRAWN**:
+7 of the 17 Phase 9 tasks now carry a served measurement, including the restart,
+the unity gate at PASS=43 FAIL=0 and all six learning routes on the wire.
 
 ---
 

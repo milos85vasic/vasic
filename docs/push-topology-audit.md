@@ -1,6 +1,6 @@
 # Push-topology audit — every repository in this tree
 
-**Measured 2026-09-05/06 from `/home/milosvasic/Projects/vasic` on this development host.
+**Measured 2026-09-05/06 from this repository's root on the development host.
 Read-only throughout: `git remote -v`, `git remote get-url --all --push`, `git ls-remote`,
 `gh api`, `glab api`, anonymous `curl`. Nothing was pushed, fetched-and-merged, added,
 removed or enabled. No remote configuration was changed.**
