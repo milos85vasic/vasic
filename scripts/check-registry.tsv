@@ -121,11 +121,21 @@
 # run, or judged. It is a DECLARED boundary, not a claim of conformance.
 #
 # The sweep is `find -maxdepth 1`, so a scanroot covers ONE directory level.
-# Six `*.sh` under `_tools/` therefore remain outside it, in five further
+# SEVEN `*.sh` under `_tools/` therefore remain outside it, in five further
 # subdirectories that are not declared as scanroots:
 #   _tools/containers/compose/jekyll-build.sh   _tools/gen/build.sh
-#   _tools/helixtranslate-container/run.sh      _tools/od/generate.sh
-#   _tools/od/start-daemon.sh                   _tools/pdf/build-pdfs.sh
+#   _tools/containers/compose/ocr-run.sh        _tools/helixtranslate-container/run.sh
+#   _tools/od/generate.sh                       _tools/od/start-daemon.sh
+#   _tools/pdf/build-pdfs.sh
+#
+# The count above read SIX until 2026-09-08 and was measured wrong, not merely
+# stale: `_tools/containers/compose/ocr-run.sh` landed with the OCR workload and
+# was never added to this list. That is exactly the drift this block exists to
+# prevent, so the correction is recorded rather than silently applied. Both
+# `compose/` entries stay outside `_tools/containers` (declared a scanroot in
+# the same change) because maxdepth 1 does not reach a second level. Re-derive
+# instead of trusting the list:
+#   find _tools -name '*.sh' -type f  |  filter out the four declared scanroots
 # Naming them here is the point: an undeclared boundary is the thing this file
 # exists to prevent. The same maxdepth rule already applies to `scripts/audit/`
 # and `scripts/badges/`, whose checks are registered individually.
@@ -136,8 +146,10 @@ scanroot	tests
 scanroot	_tools
 scanroot	_tools/translate
 scanroot	_tools/portfolio
+scanroot	_tools/containers
 
 # ── Files under a scanroot that are not checks ───────────────────────────────
+exempt	_tools/containers/prove-ocr.sh	IS a paired §1.1 mutation proof, not a check needing one: it drives _tools/containers/cmd/ocr against 7 data-only mutations plus a 2-part control, so its own mutation arm is its body rather than a --prove-failure flag. Three-valued (0 all caught + control passed, 1 a mutation slipped through or the control failed, 2 no go / no pdftoppm / no container runtime — never a pass). Written because cmd/ocr shipped with its mutations exercised BY HAND and recorded only as README prose, while its sibling cmd/runtime-probe ships main_test.go
 exempt	scripts/install_skills.sh	installer: shells out to `npx skills add` to populate global skills; asserts nothing about this repository
 exempt	scripts/lumen-reindex.sh	mutator: rebuilds the Lumen index; its verdict is the index, not a pass/fail judgement about the tree
 exempt	scripts/ollama-vulkan-remediation.sh	remediation tool: takes the GPU out of ollama's embedding path; it changes host state rather than judging it
@@ -215,7 +227,7 @@ check	push-topology	scripts/verify-push-topology.sh	flag	--prove-failure	--root 
 # not by whether registering it would be convenient. A script that PRODUCES a
 # verdict is not exempt here even when it is inconvenient — see the `debt` row
 # for _tools/review-translations.sh below.
-exempt	_tools/deploy-langs.sh	deploy driver: regenerates both sites, commits and pushes them, then validates the LIVE sites. It MUTATES two production repositories; its output is a deployment, not a judgement about this tree
+exempt	_tools/deploy-langs.sh	deploy driver: regenerates both sites, commits and pushes them, then validates the LIVE sites. It MUTATES two production repositories, and it remains a producer rather than a check OF THIS REPOSITORY — the sweep may not run it, because running it publishes to two live sites. THE OLD REASON'S CLOSING CLAUSE — "its output is a deployment, not a judgement about this tree" — IS WITHDRAWN as of 2026-09-08, and the row is kept exempt on the narrower ground above rather than on that one. What changed: commit 738fbf1 (2026-09-08) added a BUILD GATE to this script that judges this repository's own build steps and ABORTS the deploy before anything is staged, committed or pushed. Until that commit every build step ended in `|| build_warn`, which only incremented a counter, so `--dry-run` printed success having built nothing. It is now three-valued and the contract is written into the source: build_warn -> tolerated, exit unchanged; build_fail -> exit 5 (ran and failed); build_undet -> exit 2 (could not run), with FAIL outranking UNDET so an absent toolchain can never launder a real failure. It ships its own §1.1 paired battery, `bash _tools/deploy-langs.sh --prove-build-fatality`, which drives every branch through the pure `build_gate` function without building, staging, committing or pushing. So this file DOES now judge, and the exemption's ground has moved from "it judges nothing" to "it may not be executed by a sweep"; re-validated by reading the source on 2026-09-08. HONEST BOUNDARY: that proof was NOT executed during this re-validation — running a live production deploy driver was out of scope for the exemption audit that found this — so the verdict rests on reading lines 226-300 and 370 of the file, not on a captured run. The live-site verdict (classify_live_result, exit 1/2/0) is OLDER than today and was already about the deployed sites rather than about this tree; it is not what expired this row
 exempt	_tools/distribute-helixtranslate.sh	distribution tool: ships the HelixTranslate container assets to remote hosts over ssh/scp/rsync. It moves files to other machines and asserts nothing about this repository
 exempt	_tools/helixtranslate-container.sh	engine shim: a one-shot `podman run --rm -i` wrapper that streams a document through the translation engine. It is the SUBJECT of the translate-reproducibility check, not a check itself
 exempt	_tools/helixtranslate-local.sh	engine shim, local variant: resolves the container runtime through the Containers submodule and runs the engine. Same role as the shim above — a subject, not a judge

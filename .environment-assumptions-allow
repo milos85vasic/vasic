@@ -2235,3 +2235,143 @@ workshop/platform/gates/prove-floor-domain.sh ENDPOINT BASE="http://127.0.0.1:$(
 # file header is "M8 THREE-VALUED no service at all -> 2". The unreachability
 # IS the mutation. Same reasoning and same precedent as the L1 lever above.
 workshop/platform/gates/prove-floor-domain.sh ENDPOINT clean        2 "http://127.0.0.1:1"
+
+# =============================================================================
+# 2026-09-08 — the 44-finding wave from the parallel gate/prover/curriculum
+# session. THIRTY-SEVEN occurrences are exempted below; ZERO were real fixes,
+# and that verdict is stated plainly rather than softened. Each rule carries
+# the evidence that decided it. Six further occurrences are UPSTREAM
+# (submodules/constitution/scripts/skill_activation/*) and one is in
+# submodules/containers; none is exempted here, because a finding inside a
+# submodule is fixed in that submodule and returns as a gitlink bump.
+#
+# Three shapes recur, and all three have direct precedent in the rules above:
+#   (a) KERNEL-ASSIGNED PORT — the prover binds port 0, the kernel picks, the
+#       script reads the number back and injects it. That is an override being
+#       EXERCISED, not an assumption frozen. The detector is line-scoped and
+#       cannot see the bind two functions away.
+#   (b) DELIBERATELY DEAD ADDRESS — port 1 on loopback refuses instantly. The
+#       unreachability IS the mutation. An env override here would let a caller
+#       aim the case at something that answers and silently destroy the only
+#       assertion that the rc-2 branch fires.
+#   (c) RECORDED MEASUREMENT — a captured transcript or a cited vendor default
+#       inside curriculum prose. Rewriting it would falsify the record, which
+#       is the opposite of what §11.4.2 / §11.4.5 require of captured evidence.
+# =============================================================================
+
+# REASON: (a) kernel-assigned. The stub is `ThreadingHTTPServer(("127.0.0.1",
+# 0), H)` at :467, which prints `srv.server_address[1]`; `start_stub` at :480
+# reads that number into STUB_PORT and refuses to proceed unless it matches
+# ^[0-9]+$. Covers M9, M10, M11 and M12.
+scripts/verify-provider-ci.sh ENDPOINT _API_BASE="http://127.0.0.1:$STUB_PORT"
+
+# REASON: (b) deliberately dead. M8 ("UNREACHABLE HOST -> 2") and M13 assert
+# that a transport failure is UNVERIFIED and never a pass. Port 1 is the test
+# INPUT; making it configurable would let the case be pointed somewhere that
+# answers, turning the rc-2 proof into a false green.
+scripts/verify-provider-ci.sh ENDPOINT _API_BASE="http://127.0.0.1:1"
+
+# REASON: (a) kernel-assigned. `ls_free_port` binds ("127.0.0.1", 0) and prints
+# getsockname()[1]; ls_start refuses to continue if it is empty. Loopback is
+# the bind address this helper itself chose, so the fixture stack is never
+# reachable off-box.
+workshop/platform/gates/lib/learning_stack.sh ENDPOINT LS_BASE="http://127.0.0.1:$port"
+
+# REASON: (a) kernel-assigned. The prover launches its stub with an explicit
+# argv port of 0; the stub binds it, prints server_address[1], and the prover
+# reads the number back out of port.txt, emitting UNDETERMINED (rc 2) if the
+# stub never reported one. Four provers share this exact shape.
+workshop/platform/gates/prove-answer-key-disclosure.sh ENDPOINT --base "http://127.0.0.1:$port"
+
+# REASON: (a) kernel-assigned — same shape and same stub launch as above.
+workshop/platform/gates/prove-area-publication-consistency.sh ENDPOINT --base "http://127.0.0.1:$port"
+
+# REASON: (a) kernel-assigned — same shape and same stub launch as above.
+workshop/platform/gates/prove-assessment-gate.sh ENDPOINT --base "http://127.0.0.1:$port"
+
+# REASON: (a) kernel-assigned — same shape and same stub launch as above.
+workshop/platform/gates/prove-submission-validation.sh ENDPOINT --base "http://127.0.0.1:$port"
+
+# REASON: (a) kernel-assigned. The inline stub writes srv.server_address[1] to
+# a port file; the prover exits 2 if that file is still empty after 50 tries,
+# so the port is derived and the failure to derive it is loud.
+workshop/platform/gates/prove-area-naming.sh ENDPOINT BASE="http://127.0.0.1:$PORT"
+
+# REASON: (b) deliberately dead — the M10 mutation, which asserts the gate
+# exits 2 when nothing is listening.
+workshop/platform/gates/prove-area-naming.sh ENDPOINT --base "http://127.0.0.1:1"
+
+# REASON: (a) kernel-assigned. FIXTURE_PORT comes from an inline
+# `s.bind(("127.0.0.1", 0)); getsockname()[1]` immediately above, and the
+# fixture service is health-checked before M4b is allowed to assert anything.
+workshop/platform/gates/prove-bank-reachability.sh ENDPOINT FIXTURE_BASE="http://127.0.0.1:$FIXTURE_PORT"
+
+# REASON: (b) deliberately dead — the M8 mutation, "an unreachable service is
+# UNDETERMINED, never a pass".
+workshop/platform/gates/prove-bank-reachability.sh ENDPOINT     "http://127.0.0.1:1"
+
+# REASON: (b) deliberately dead — the M8 PRECEDENCE mutation, which points the
+# live arm at a port nothing is listening on to prove a finding (1) outranks an
+# undetermined (2).
+workshop/platform/gates/prove-lesson-content.sh ENDPOINT --base "http://127.0.0.1:1"
+
+# REASON: NOT a frozen endpoint — this is the LAST RESORT of a three-tier
+# precedence chain that already exists: `--base URL` flag, then
+# $WORKSHOP_BASE_URL, then platform/run/server.json, then this literal. The
+# detector is line-scoped and the env tier is 44 lines earlier, so it cannot
+# see the override it is asking for. The literal is left in place deliberately:
+# collapsing it to `${BASE_URL:-...}` would satisfy the detector while adding
+# no override that does not already exist, and a cosmetic edit that silences a
+# gate is worse than a stated exemption.
+workshop/platform/gates/verify-bank-reachability.sh ENDPOINT || BASE_URL="http://127.0.0.1:8087"
+
+# REASON: identical three-tier chain to the verifier above ($WORKSHOP_BASE_URL
+# at :43, run/server.json at :44, literal last). Same reasoning.
+workshop/platform/gates/prove-bank-reachability.sh ENDPOINT || BASE_URL="http://127.0.0.1:8087"
+
+# REASON: not an endpoint at all — `new URL(relative, base)` needs a base to
+# parse a RELATIVE href, and the base is then discarded: only url.pathname and
+# url.searchParams are asserted. No request is ever made to this address. The
+# literal is a parsing idiom, and replacing it with an env value would let a
+# caller change nothing except which string gets thrown away.
+workshop/platform/frontend/e2e/area-lessons-and-test.spec.ts ENDPOINT new URL(href!, 'http://localhost')
+
+# REASON: (c) recorded measurement — a CITED VENDOR DEFAULT inside curriculum
+# prose, in a "body" string explaining what the upstream project does, with the
+# citation on the same line. The port is a fact ABOUT that project, not a
+# configuration this repository reads. Rewriting it would falsify the citation.
+workshop/curriculum/learning/06-local-inference-and-runners.json ENDPOINT localhost:11434
+
+# REASON: (c) recorded measurement — a model card NAME inside curriculum prose,
+# cited to its published model card, in an explanation of why a code-trained
+# embedding model behaves as it does on ordinary text. The identifier IS the
+# subject of the sentence; parameterising it would destroy the explanation.
+# This is the same false-positive class the audit already documents for module
+# docstrings, occurring in a JSON "body" field where comment-blanking cannot
+# reach it.
+workshop/curriculum/learning/15-code-indexing-and-semantic-search.json MODEL jina-embeddings-v2-base-code
+
+# REASON: (c) recorded measurement — pasted `curl` transcripts inside "body"
+# prose, each introduced as "Measured live", showing the address the evidence
+# was captured against. This is captured runtime evidence under §11.4.2 /
+# §11.4.5; rewriting the host it was measured on would falsify the record.
+workshop/curriculum/learning/91-retrieval-and-the-three-state-contract.json ENDPOINT //127.0.0.1
+
+# REASON: (c) recorded measurement — same shape: captured transcripts in "body"
+# prose naming the address they were taken against.
+workshop/curriculum/learning/92-grounded-answering-and-refusal.json ENDPOINT //127.0.0.1
+
+# REASON: (c) recorded measurement — the DEPLOYED calibration, quoted from the
+# compose file as a record of what was actually running when the evidence was
+# taken. A recorded configuration is a result, not an assumption.
+workshop/curriculum/learning/92-grounded-answering-and-refusal.json MODEL qwen2.5:3b-instruct-q4_K_M
+
+# REASON: (c) recorded measurement — captured transcripts in "body" prose.
+workshop/curriculum/learning/93-passage-identity-and-redaction.json ENDPOINT //127.0.0.1
+
+# REASON: (c) recorded measurement — captured transcripts in "body" prose.
+workshop/curriculum/learning/95-evidence-gates-and-anti-bluff.json ENDPOINT //127.0.0.1
+
+# REASON: (c) recorded measurement — the deployed answer model named in a
+# record of what was running, same as 92 above.
+workshop/curriculum/learning/95-evidence-gates-and-anti-bluff.json MODEL qwen2.5:3b-instruct-q4_K_M

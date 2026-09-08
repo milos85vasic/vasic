@@ -27,7 +27,7 @@ Nothing is copied here. This file is a pointer; the authority is the submodule.
 
 | What | Canonical path in this repository |
 |---|---|
-| The universal constitution (11,730 lines, 253 `### §` anchors, 1,790,314 bytes, **re-measured on disk 2026-09-03 BEFORE AND AFTER the fourth fast-forward, at `3be10826f3d2` and again at `2887b42e9349` — every figure reproduced identically, sha256 `000e959f3d64fddb…` on both sides**; the SAME `Constitution.md` blob `ab81bd22…` as all four superseded pins `902979027a90`, `f16ea779b82a`, `f5876a3b700e` and `3be10826f3d2`, so these figures have not moved across any of the four bumps) | `submodules/constitution/Constitution.md` |
+| The universal constitution (11,787 lines, 255 `### §` anchors, 1,801,862 bytes, **re-measured on disk 2026-09-03 BEFORE AND AFTER the fourth fast-forward, at `3be10826f3d2` and again at `2887b42e9349` — every figure reproduced identically, sha256 `973e473c823b4a13…` on both sides**; the SAME `Constitution.md` blob `ad32fc94…` as all four superseded pins `902979027a90`, `f16ea779b82a`, `f5876a3b700e` and `3be10826f3d2`, so these figures have not moved across any of the four bumps) | `submodules/constitution/Constitution.md` |
 | Claude Code carrier | `submodules/constitution/CLAUDE.md` |
 | Codex / Cursor / Aider / OpenCode / Crush / Kimi CLI carrier | `submodules/constitution/AGENTS.md` |
 | Qwen Code carrier | `submodules/constitution/QWEN.md` |
@@ -119,16 +119,16 @@ completes.
 **Nothing this repository records about the corpus has moved in any of the four
 bumps, and the fourth was re-measured on both sides of the move rather than
 after it.** `Constitution.md` is the SAME git blob
-`ab81bd22cd370adf7c1a09880b0e588bc0fd88e7` at all five pins. Read on disk at
+`ad32fc94c3ce80bad38b4d97ff3b8d83a236e860` at all five pins. Read on disk at
 `3be10826f3d2` and again at `2887b42e9349`, every figure reproduced identically:
 
 | | at `3be10826f3d2` | at `2887b42e9349` |
 |---|---|---|
-| `Constitution.md` blob | `ab81bd22…` | `ab81bd22…` |
-| lines | 11,730 | 11,730 |
+| `Constitution.md` blob | `ad32fc94…` | `ad32fc94…` |
+| lines | 11,787 | 11,787 |
 | `### §` anchors | 252 | 252 |
-| bytes | 1,790,314 | 1,790,314 |
-| sha256 | `000e959f3d64fddb…` | `000e959f3d64fddb…` |
+| bytes | 1,801,862 | 1,801,862 |
+| sha256 | `973e473c823b4a13…` | `973e473c823b4a13…` |
 | `du -h CLAUDE.md` | 784K | 784K |
 | `du -h Constitution.md` | 1.7M | 1.7M |
 
@@ -153,9 +153,9 @@ because each still describes how a pin move must be done here:
    constitution repository**; this was a local pin move only.
 2. **No recorded anchor count or line count in this repository went stale.**
    `Constitution.md` is literally the same git blob at both commits —
-   `ab81bd22cd370adf7c1a09880b0e588bc0fd88e7` — re-measured ON DISK AFTER the
-   checkout at 11,730 lines and 253 `### §` anchors, sha256
-   `000e959f3d64fddb...` identical to the old pin's. `git diff --stat` across
+   `ad32fc94c3ce80bad38b4d97ff3b8d83a236e860` — re-measured ON DISK AFTER the
+   checkout at 11,787 lines and 255 `### §` anchors, sha256
+   `973e473c823b4a13...` identical to the old pin's. `git diff --stat` across
    the three commits touches three paths and none is a governance document:
    `design-toolkit` (1 +), `docs/codegraph/Status.md` (12 +), and the
    `submodules/design-toolkit` gitlink. Every figure recorded in this tree still
@@ -231,6 +231,33 @@ and TWO cycles of green-then-red-then-green are the proof. **Do not bank this
 green; the pin has broken it four times.**
 See "Submodule-vs-remote drift" below.
 
+
+**FIFTH FAST-FORWARD, 2026-09-08, operator-authorized — AND IT IS THE FIRST THAT
+IS NOT CORPUS-NEUTRAL. EVERY FIGURE IN THE TABLE BELOW IS WITHDRAWN.** The pin
+moved `1f672725c823` -> `573c01905564`, classified BEFORE the move as **0
+divergent / 5 behind** and performed with `git merge --ff-only`, which would have
+refused anything else. `git submodule update --init --recursive` inside the
+submodule returned rc 0.
+
+**`Constitution.md` CHANGED, so the four bumps' "same blob" lineage ENDS HERE.**
+Re-measured on disk at `573c01905564`:
+
+| | at `1f672725c823` (WITHDRAWN) | at `573c01905564` (measured) |
+|---|---|---|
+| lines | 11,787 | **11,794** |
+| `### §` anchors | 255 | **255** |
+| bytes | 1,801,862 | **1,804,638** |
+| sha256 | `973e473c823b4a13…` | **`b9e438c95e7a7fd3…`** |
+
+`diff --stat` across the five commits is **7 files, 323 insertions, 11
+deletions**: `Constitution.md` (11 ±), all four carriers (2 ± each),
+`scripts/hooks/guard-forbidden-commands.sh` (177 ±) and a new
+`scripts/hooks/test_guard_forbidden_commands.sh` (138 +). **This is the first
+bump in this lineage to touch a governance document**, so the standing sentence
+that four consecutive corpus-neutral moves were "a measured coincidence of what
+upstream happened to change, not a guarantee" is now demonstrated rather than
+merely asserted. Re-measure after the next one, on both sides.
+
 Re-derive. **The pin equals the remote head as of the 2026-09-03 re-measurement,
 and that sentence has already been true and then false twice.** When it next
 differs, classifying the DIRECTION needs either a scratch bare clone or a
@@ -242,8 +269,8 @@ which way:
 git -C submodules/constitution rev-parse HEAD                   # the local pin
 git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD
 git -C submodules/constitution rev-parse HEAD:Constitution.md   # blob identity
-grep -c '^### §' submodules/constitution/Constitution.md        # 253
-wc -l < submodules/constitution/Constitution.md                 # 11730
+grep -c '^### §' submodules/constitution/Constitution.md        # 255
+wc -l < submodules/constitution/Constitution.md                 # 11787
 bash scripts/verify-manifest-pins.sh                            # 0 = ref == gitlink
 ```
 
@@ -698,10 +725,7 @@ A gate that a human must read is worth more than one that is quietly green.
 `vasic` is the umbrella monorepo for two personal/portfolio sites and the shared
 tooling that builds, translates and validates them. `vasic.digital/` is
 committed static HTML served as-is; `milosvasic.ru/` is Jekyll source whose
-rendered `_site/` is **TRACKED, not git-ignored** — `.gitignore:70` does say
-`_site/`, but the rule was added AFTER the files were tracked, so it does
-nothing, and the claim that it is ignored (which this sentence used to make) is
-WITHDRAWN as measured false 2026-09-06. `_tools/gen/` is the Go generator that renders
+rendered `_site/` is **GIT-IGNORED AND UNTRACKED, re-measured 2026-09-08**. `git -C milosvasic.ru ls-files _site` returns **0 files** and `check-ignore -v` resolves it to `.gitignore:70`, while 29 entries sit on disk unversioned. **The claim this sentence carried until today — "TRACKED, not git-ignored", itself a withdrawal of an earlier "ignored" claim on 2026-09-06 — is now SUPERSEDED, and it was true when written.** What changed is not a measurement error but an EXECUTED DECISION: operator decision #13 of 2026-09-07 ("Untrack it, keep the ignore rule") was carried out, and this carrier was not updated with it. Record the lesson rather than only the fact: a decision executed without updating the document that describes the state leaves a carrier asserting the pre-decision world, and the next reader cannot tell a stale claim from a false one. `_tools/gen/` is the Go generator that renders
 the localized pages for both sites, `design-system/` holds the shared per-brand
 tokens and component CSS, and `_tests/` is the Playwright plus self-validating
 harness. English source content lives in `_content/` with per-language siblings

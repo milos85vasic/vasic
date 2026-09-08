@@ -240,6 +240,221 @@ failure as a network or credentials problem. A fresh clone also came up serving 
 because the registry path was derived from a volume nothing in the repository populates.
 Inspection reports what a repository DECLARES; only a clone reports what it DELIVERS.
 
+### Source Is Not Served
+
+**A measurement of SOURCE is not evidence about the SERVED product, and MUST
+NEVER be reported as one.** Every claim about behaviour MUST state which
+population it measured: the artefacts on disk, the process in memory, or the
+running product on the wire.
+
+**Rationale — this is not a hypothetical.** It occurred FOUR times in a single
+day, in four disguises:
+
+1. A palette gate read design-token files and its result was reported as a fact
+   about the interface. Nothing had regenerated the served stylesheets.
+2. A build identifier was computed over the served directory after a `cp -a`
+   merged rather than replaced, so the hash covered an orphaned stylesheet the
+   page never loads. The identifier did not describe what was served, inside the
+   very instrument written to prove that distinction.
+3. A gate suite was verified in-process and reported as working. The running
+   container held a binary four hours older than the code under test.
+4. A specification's own baseline row recorded "30 areas with an assessment, 224
+   questions" — a true reading of the authored catalog on disk — while the
+   running server served 14 and 116. Both measurements were correct. Only one
+   described the product.
+
+**The rule is symmetric.** An in-process pass is a legitimate result and MUST be
+labelled as one; it is not a lesser measurement, it is a measurement of a
+different thing. `rm -rf` before copy, never `cp -a` into an existing directory.
+
+### A Snapshot Licenses Only Itself
+
+**A process holding a cached copy of external state MUST NOT assert a DETERMINED
+NEGATIVE about that state once the copy may be stale.** It MUST detect staleness
+and return could-not-determine, naming what changed.
+
+**Rationale.** A server read its content catalog once at start-up — deliberately,
+and documented. It then answered *"this area's learning catalog carries no
+end-of-area test"* — a claim about the **directory** — from a snapshot taken
+hours earlier. Thirteen authored question banks holding eighty-nine questions had
+been written after the process started. The discriminating condition was neither
+the areas nor the banks: it was **time**.
+
+The interface then rendered that as *"No test has been written for this area yet
+— the server answered and there is genuinely none."* **Confident prose asserting
+the opposite of the truth.** An unexplained gap invites investigation; a
+confident wrong explanation closes it. A false negative delivered with a stated
+reason is worse than a silent one.
+
+**The remedy is not to reload constantly.** It is to know what the snapshot
+licenses. Positive assertions about held data remain valid; negative assertions
+about the world do not. Distinguish "no source configured" from "source unread"
+from "source changed" — collapsing them turns a known state into a fault.
+
+### A Gate's Population Is Part of Its Claim
+
+**The SET a check covers MUST be justified independently of the count it
+produces, and stated in its output.** A change to a population MUST be defensible
+before its effect on the result is known.
+
+**Rationale.** Three defects in one day were instruments pointed at the wrong
+set, not instruments computing wrongly — and every one reported cleanly:
+
+- A link checker scanned one directory and not its sibling. The unchecked
+  directory had no checker at all, so its dangling links were invisible.
+- A hue gate never sampled the elements it existed to measure: its non-text rows
+  graded the ground *behind* an indicator, so a coloured chip could not
+  contribute by construction. Correct for contrast, wrong for hue.
+- A reachability gate checked route mountedness against ONE fixture area and
+  never checked bank-to-area reachability across the population. Eighty-nine
+  questions were unreachable while it passed.
+
+**No amount of rigour inside a check catches a check aimed at the wrong set.**
+Therefore: an absence assertion MUST first establish its subject set is
+non-empty; and when a population is widened, the justification MUST be written
+down BEFORE the new count is read. If you find yourself adding a case and then
+checking whether the number moved, you are tuning to a result.
+
+### An Exemption Is a Claim That Can Expire
+
+**Every exemption, baseline row, waiver and declared condition is a CLAIM ABOUT A
+FILE at a moment in time. Changing the file can falsify it silently.** A declared
+condition MUST carry its evidence, its reason, and who may lift it — and MUST be
+re-validated whenever its subject changes.
+
+**Rationale.** A check registry exempted a watcher script with the reason *"it
+schedules a mutator; it judges nothing."* That was true when written. The script
+later gained a three-valued verdict of its own, and the exemption became false
+while continuing to look reviewed. **An exemption whose justification has
+expired is worse than no exemption**, because it carries the authority of a
+decision nobody is making any more.
+
+Corollary, measured the same day: a baseline is recorded DEBT, not a
+justification, and MUST be re-derived before it is counted. A row fixed upstream
+and never pruned overstates debt exactly as a stale exemption understates it.
+
+### A Screen's Precision Is Not Its Recall
+
+**A check's finding is evidence about the rows it FLAGS and evidence about
+nothing else.** A clean row is not a cleared row unless the check's recall has
+been measured. Any claim of the form "N defects exist" derived from a screen MUST
+state the screen's recall or declare it UNKNOWN.
+
+**Rationale.** An anchor screen was measured at **98% precision** — of 52 rows it
+flagged, 51 were real defects. That number is excellent and it licensed nothing.
+Reading the 182 rows it did NOT flag found **121 defective, 66.5%**, putting its
+recall at **≈29.5%**: it missed seven defective rows in ten. Had the flagged rows
+been repaired and the screen then re-run to green, the artifact would have
+carried 121 known-reachable defects under a passing gate.
+
+Precision is cheap to measure and recall is expensive, which is exactly why
+recall goes unmeasured and why the resulting confidence is misplaced. **A screen
+that has never been run against an exhaustively-read sample has no known recall,
+and its green is a statement about its own appetite, not about the population.**
+
+### A Gate Cannot See a Displacement Larger Than Its Window
+
+**A check that compares an item to its NEIGHBOURS detects local error and is
+BLIND BY CONSTRUCTION to global error.** Any instrument with a bounded comparison
+window MUST state that bound in its output, and MUST NOT be read as evidence
+about displacement beyond it.
+
+**Rationale.** 44 questions cited passages from an entirely wrong corpus — testing
+one system's API contract while anchored to unrelated teaching material — and
+every one scored **perfectly clean**. The screen compared each citation against
+its adjacent passages; when an anchor is globally wrong, no neighbour helps
+either, so coverage and best-alternative are both zero and the delta is zero.
+**Maximum cleanliness and maximum wrongness produced the same number.**
+
+No tuning could have reached these. The defect was not that the threshold was
+wrong; it was that the question being asked — *"is a nearer passage better?"* —
+cannot express *"is this the right corpus?"*. Therefore a bounded-window check
+MUST NOT be the only instrument over a population, and its output MUST say what
+it cannot see.
+
+### A Rule Enforced by Nothing Is Not a Rule
+
+**A constraint that no instrument checks is a comment, and it MUST NOT be
+recorded in a form that implies it was verified.** Every stated rule MUST name
+the check that enforces it, or state explicitly that none exists.
+
+**Rationale.** A quality constraint forbidding citations outside a "verified
+evidence pack" propagated verbatim into 37 files. Measured: there is **no pack
+producer and no pack artefact** — the pack was derived by reading a document; and
+**no gate ever checked membership** — the bank verifier's eight assertions cover
+resolution, redaction and path, and never pack membership.
+
+The constraint was therefore unenforced, unenforceable, and **guaranteed the
+defect it existed to prevent**: the packs certified isolated transcript lines
+while the sentences that carry meaning run across them, so a file obeying its own
+rule could not cite its own evidence. 139 of 153 correct citations added during
+repair lay outside the pack. **An unenforced rule does not fail safe — it
+propagates by copying, accumulates authority by repetition, and is discovered
+only when someone measures the thing it governs.**
+
+### Reproduce Before Repairing
+
+**A repair MUST begin by reproducing the defect and confirming its MECHANISM, not
+merely its symptom.** Where a brief asserts a cause, the assignee MUST verify that
+cause and report a contradiction rather than implement against it.
+
+**Rationale.** Seven times in one session the reported symptom was real and the
+stated mechanism was wrong. Fixing the stated mechanism would have shipped a
+green gate over an unfixed product in at least three:
+
+- Shuffling choice order would not have fixed an answer-shape leak: the choice
+  *identifier* encoded the key, so the key would have moved with its label
+  attached.
+- A "missing withholding call" on a graded path was not missing — the type in use
+  carries no citations field, so the protection is INAPPLICABLE. Wiring it would
+  have installed an inoperative gate reading green forever.
+- A root cause given as "re-cut boundaries" addressed under half the cases and
+  targeted an artefact that does not exist.
+
+Each false mechanism was a plausible story that fit the visible evidence. What
+distinguished them was measurement, never reasoning. **An instruction to
+implement gets a thing built; an instruction to verify-then-implement gets it
+built or gets the brief corrected.**
+
+### Never Mutate Shared State With a Whole-Tree Command
+
+**No actor may run a command whose effect is unbounded across a working tree that
+other actors are writing.** Every write MUST re-read its target immediately
+beforehand and MUST touch only the fields it owns.
+
+**Rationale.** `git stash -u` on a shared tree reverted **125 tracked files** to
+HEAD in one command; HEAD moved concurrently and the paired `git stash pop`
+reapplied **zero**. Recovery required merging two incomplete sources — rebalanced
+fields from the stash, repaired fields from disk — because neither held the whole
+truth.
+
+The compounding failure is subtler and MUST be designed against: **an actor that
+verifies its write against the copy it read cannot detect what changed
+underneath it.** The destroying actor's own check reported "no fields changed
+outside my lane" and was TRUE, because it compared against its own stale
+snapshot. Therefore a post-write verification MUST diff against the file's
+CURRENT content, never against the copy the writer began from. A regeneration
+step with no narrow mode is this hazard in permanent form.
+
+### A Statistic a Fix Can Overshoot Requires a Two-Sided Check
+
+**Where a gate drives a measured statistic toward a target, the check MUST bound
+it in BOTH directions and MUST prove both arms.** A one-sided check on a
+correctable statistic actively selects for its inverse.
+
+**Rationale.** An assessment was measured at **100% "the correct answer is the
+longest option"** against a ~25% chance baseline. A one-sided gate would have
+rewarded driving that to zero — installing the inverse tell, where eliminating
+the longest option becomes a free correct guess. The shipped gate bounds the
+statistic within a band around chance and proves both directions: one mutation
+seeds always-longest, another seeds never-longest, and both must fail.
+
+The same reasoning applies wherever a fix is scored by the metric it moves.
+**A metric optimised against becomes a target, and the cheapest way to satisfy a
+one-sided bound is usually to overshoot it.** A paired control proving the gate
+still PASSES a legitimate population is therefore mandatory, so that "catches the
+defect" is proved separately from "rejects everything".
+
 ### Quality Over Speed
 
 60% RAM cap on heavy work. TDD where possible. Lint and typecheck before claiming done. No
@@ -376,7 +591,7 @@ check. Before a release or a tag, run the full sweep plus the verification scrip
 record the result. An unrunnable check is reported as such — never as a pass. Claims of
 compliance require the command output that demonstrates it.
 
-**Version**: 1.2.0 | **Ratified**: 2026-08-26 | **Last Amended**: 2026-09-07
+**Version**: 1.4.0 | **Ratified**: 2026-08-26 | **Last Amended**: 2026-09-08
 
 Ratification date is DERIVED, not asserted: `git log --reverse --format=%cs --
 .specify/memory/constitution.md` returns 2026-08-26, the first commit that

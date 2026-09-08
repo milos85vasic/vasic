@@ -254,6 +254,60 @@ the JavaScript side — an engine that returns rc 2 is reported as a
 SKIP-with-reason rather than as a legibility FAIL, because blaming a document
 for a missing runtime is a false accusation.
 
+**Those mutations are now a SHIPPED, RE-RUNNABLE proof rather than this
+paragraph.** Until 2026-09-08 they existed only as the prose above: exercised
+by hand in the session that wrote `cmd/ocr`, and therefore not re-runnable by
+the next reader, not registered, and unable to notice the day the assertion
+stopped holding. Its sibling `cmd/runtime-probe` shipped `main_test.go`;
+`cmd/ocr` shipped nothing. `prove-ocr.sh` closes that asymmetry:
+
+```bash
+bash _tools/containers/prove-ocr.sh
+# === paired mutation proof: _tools/containers/cmd/ocr ===
+#   PASS M0 CONTROL real compose OCRs a real page   rc=0
+#   PASS M0b CONTROL wrote a non-empty transcript
+#   PASS M1 no-op container, no transcript at all   rc=1
+#   PASS M2 no-op container, STALE transcripts present rc=1
+#   PASS M3 empty PATH (no runtime)                 rc=2
+#   PASS M4 directory holds no PNGs                 rc=2
+#   PASS M5 -dir does not exist                     rc=2
+#   PASS M6 compose file unreadable                 rc=2
+#   PASS M7 unexpected argument                     rc=1
+# RESULT: 9 passed / 0 failed
+```
+
+Measured 2026-09-08 on podman 5.7.0. Every mutation is DATA — a throwaway
+compose file, an empty `PATH`, an empty directory, an extra argv word — and not
+one edits `cmd/ocr`. **M0 carries the same weight as the mutations**: without a
+control, "every mutation was caught" is satisfied by a program that fails
+unconditionally, which catches everything and detects nothing. M0b is separate
+from M0 on purpose — asserting only on rc would let a green exit stand for a
+transcript nobody read. The control's page is rasterised from the tracked
+`_tests/export/fixtures/golden-good.pdf`, so the proof carries its own input
+rather than depending on a leftover evidence directory.
+
+**M2 is the load-bearing one.** OCR output lands beside its input, so a
+leftover `<page>.ocr.txt` is indistinguishable from a fresh one to any check
+that merely asks whether the file exists.
+
+The script is registered in `scripts/check-registry.tsv` as an `exempt` row —
+it IS a paired proof rather than a check owing one — and that registration was
+itself proved load-bearing against a throwaway copy of the tree:
+
+```
+# control (registry unmutated)              61 PASS, 0 FAIL          rc 0
+# mutation (the exempt row deleted)         60 PASS, 1 FAIL          rc 1
+#   FAIL [R5] UNREGISTERED — _tools/containers/prove-ocr.sh is under a
+#   declared scanroot but appears in no check, debt, or exempt row
+```
+
+Declaring `_tools/containers` a scanroot in the same change surfaced a second,
+smaller drift: the registry's own honest-boundary comment listed **six**
+un-swept `*.sh` under `_tools/` when there are **seven** —
+`compose/ocr-run.sh` landed with this workload and was never added. That is
+precisely the drift the comment exists to prevent, so it is corrected there
+with the correction recorded rather than silently applied.
+
 ## Not containerised, and why
 
 * **Playwright (gate 6)** — it works on the host today, so it fixes nothing

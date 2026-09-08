@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-08T09:05:51Z
-    Synced-Commit: bfe2931
+    Last-Updated: 2026-09-08T13:01:00Z
+    Synced-Commit: 3922e35c12c3
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -643,7 +643,17 @@ Three states below are red on purpose. Each names what would lift it.
    claim blocks respectively. They remain unpublished, which is the correct
    state for a document whose claims do not carry citations. Lifted by citing
    the claims, never by relaxing the reviewer.
-3. **The served interface paints 2 hue families against a floor of 6.** The
+3. **The served interface paints 7 hue families against a floor of 6 — CLOSED.**
+   The "2 families" reading is SUPERSEDED and was true when written. Re-measured
+   twice on 2026-09-08 against build `c6d039954ce2` with a stability bracket:
+   `verify-served-palette.sh --base http://127.0.0.1:8087` → **rc 0, 7 distinct
+   hue families**, 208 surfaces graded, 0 unusable; `verify-served-contrast.sh`
+   → **rc 0, 200 pairings** clear their floor in each scheme independently.
+   Most of the gain came from FIXING THE SAMPLER, not from adding colour: a
+   `paint` probe read `borderTopColor` without checking border WIDTH, and
+   `border-color` initialises to `currentColor`, so every element reported the
+   body TEXT colour as painted. Two taxonomy families were revealed, not
+   invented. The
    count went *down* from 4 when the measuring instrument's own three defects
    were fixed first — an honest instrument reporting a worse number is the
    instrument working. Lifted by FR-016..FR-019, and every hue added must carry

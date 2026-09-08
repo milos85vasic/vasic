@@ -60,6 +60,47 @@ Two obligations follow, and both are now requirements in this document:
    files, in a build id hashed over an orphaned stylesheet, in a gate suite
    verified in-process, and here.
 
+## Clarifications
+
+### Session 2026-09-08
+
+- Q: The four sections are served as a key on the chapter object, but four dedicated components exist whose routes 404. Which is the surface? → A: **Build the four routes to match the components.**
+- Q: `covered: 0` because no coverage decision has been recorded by anybody. Who judges it? → A: **An agent proposes coverage per point; the operator reviews.**
+- Q: The QA documents were written before the rebuild and describe the pre-fix product. → A: **Regenerate both against the current build before QA.**
+- Q: 39 areas not 42, 12 without tests, every score indeterminate. What does the client see? → A: **Disclose all three up front in the walkthrough.**
+
+#### What each obliges, and one blocker
+
+**The four routes are wiring, not new capability** — the components exist and the
+data is derived. **But one is blocked and the blocker is deliberate**: the route
+manifest records that a meeting-notes withholding rule *may not be guessed*,
+because one note is a content judgement left undecided for the operator. That
+rule must be settled before `/api/chapters/{id}/meeting-notes` can be built
+correctly, and building it on a guessed rule would publish a judgement nobody
+made.
+
+**Coverage: proposed, never asserted.** The operator chose agent-proposed review
+over judging cold — but the agent that built the record explicitly declined this
+work, on the grounds that matching one heuristic extraction against another is
+*"a guess wearing a decision's clothes"* and every downstream percentage would
+inherit it. That refusal was correct and stands. So a proposal is admissible only
+if it carries, per point, the evidence it rests on and its own confidence, and is
+marked **proposed** in the artefact until a human confirms it. `coverage_state`
+stays `undecided` until then — a proposal is not a decision, and the served
+figure must not move because an agent drafted something.
+
+**The QA documents are regenerated, not patched.** They describe 14 areas with
+tests and 0 lessons with content; live is 27 and 318 of 318. A stale
+expected-result column does not merely mislead — it manufactures false defects
+and spends a tester's time disproving our own fixes. Both must record the build
+id they were written against so they can be re-validated when the build moves.
+
+**Client disclosure is up front, not on discovery.** The three facts — 39 areas
+rather than 42, 12 carrying no test, and every score indeterminate because all
+banks mix machine-marked and free-text questions — each have a good reason, and
+the reasons demonstrate the anti-bluff discipline rather than apologising for it.
+A gap discovered live is worse than one disclosed first.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - A participant reads what a session produced (Priority: P1)
@@ -168,12 +209,14 @@ An independent reviewer takes any claim made about the platform and traces it to
 - **FR-002**: A chapter's record MUST be authored from that session **and every session before it**; an item raised earlier and unresolved MUST still appear.
 - **FR-003**: Every item MUST identify the session it originated in.
 - **FR-004**: A section with nothing to report MUST say so with the reason. **An empty section and an unwritten section MUST NOT be indistinguishable.**
-- **FR-005**: The four sections MUST be served, not only present as files.
+- **FR-005**: The four sections MUST be served, not only present as files, and MUST be reachable at their own routes so a section can be linked to directly.
+- **FR-005a**: A withholding rule for any section MUST be settled by the operator before that section's route is built. A route built on a guessed withholding rule publishes a judgement nobody made.
 
 ### Carry-forward
 
 - **FR-006**: Every session MUST have a recorded plan, so coverage can be determined at all.
 - **FR-007**: Every planned point MUST resolve to exactly one of: covered, carried forward, or explicitly dropped with a reason. **A planned point MUST NOT simply vanish.**
+- **FR-007a**: A coverage verdict MAY be proposed by a machine but MUST carry, per point, the evidence it rests on and its own confidence, and MUST be marked PROPOSED until a human confirms it. The served coverage state MUST remain undecided until confirmation — **a proposal is not a decision, and the published figure MUST NOT move because a draft exists.**
 - **FR-008**: A point not covered MUST appear in the next chapter's plan, re-planned.
 - **FR-009**: A carried-forward point MUST be **visually distinguished** from a newly raised one.
 - **FR-010**: The number of times a point has slipped MUST be visible.
@@ -193,6 +236,8 @@ An independent reviewer takes any claim made about the platform and traces it to
 - **FR-018**: A single QA document MUST exist covering every feature and flow, each step stating its expected result **before** the tester performs it.
 - **FR-019**: It MUST state how to report a discrepancy and what to capture.
 - **FR-020**: It MUST disclose every known limitation **in advance**. A tester MUST NOT discover a known limitation as if it were a defect.
+- **FR-020a**: The QA and client documents MUST record the build identifier they were written against, and MUST be regenerated — not patched — when that build moves. A stale expected-result column manufactures false defects and spends a tester's time disproving fixes.
+- **FR-020b**: The client-facing walkthrough MUST disclose, before a client can encounter them: the served area count against the authored total, the count of areas carrying no test with the reason, and that scores are indeterminate while any bank mixes machine-marked and free-text questions.
 - **FR-021**: Reaching a testable state MUST require only the documented steps.
 - **FR-022**: It MUST cover edge cases and failure paths, not only the paths that succeed.
 
