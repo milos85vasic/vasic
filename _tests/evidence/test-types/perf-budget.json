@@ -1,86 +1,34 @@
 [
   {
+    "site": "milosvasic.ru",
+    "path": "/",
+    "browser": "chromium",
+    "transferredBytes": 467597,
+    "requests": 18,
+    "unsizedRequests": 0
+  },
+  {
+    "site": "milosvasic.ru",
+    "path": "/products/helixtrack.html",
+    "browser": "chromium",
+    "transferredBytes": 403772,
+    "requests": 16,
+    "unsizedRequests": 0
+  },
+  {
     "site": "vasic.digital",
     "path": "/",
     "browser": "chromium",
     "transferredBytes": 321371,
-    "requests": 13
+    "requests": 13,
+    "unsizedRequests": 0
   },
   {
     "site": "vasic.digital",
     "path": "/products/helixtrack.html",
     "browser": "chromium",
     "transferredBytes": 305741,
-    "requests": 12
-  },
-  {
-    "site": "milosvasic.ru",
-    "path": "/products/helixtrack.html",
-    "browser": "chromium",
-    "transferredBytes": 403181,
-    "requests": 16
-  },
-  {
-    "site": "milosvasic.ru",
-    "path": "/",
-    "browser": "chromium",
-    "transferredBytes": 467006,
-    "requests": 18
-  },
-  {
-    "site": "vasic.digital",
-    "path": "/",
-    "browser": "firefox",
-    "transferredBytes": 945098,
-    "requests": 17
-  },
-  {
-    "site": "vasic.digital",
-    "path": "/products/helixtrack.html",
-    "browser": "firefox",
-    "transferredBytes": 977437,
-    "requests": 17
-  },
-  {
-    "site": "milosvasic.ru",
-    "path": "/",
-    "browser": "firefox",
-    "transferredBytes": 680324,
-    "requests": 24
-  },
-  {
-    "site": "milosvasic.ru",
-    "path": "/products/helixtrack.html",
-    "browser": "firefox",
-    "transferredBytes": 579048,
-    "requests": 22
-  },
-  {
-    "site": "vasic.digital",
-    "path": "/",
-    "browser": "webkit",
-    "transferredBytes": 319369,
-    "requests": 13
-  },
-  {
-    "site": "vasic.digital",
-    "path": "/products/helixtrack.html",
-    "browser": "webkit",
-    "transferredBytes": 303267,
-    "requests": 12
-  },
-  {
-    "site": "milosvasic.ru",
-    "path": "/products/helixtrack.html",
-    "browser": "webkit",
-    "transferredBytes": 400565,
-    "requests": 16
-  },
-  {
-    "site": "milosvasic.ru",
-    "path": "/",
-    "browser": "webkit",
-    "transferredBytes": 512691,
-    "requests": 18
+    "requests": 12,
+    "unsizedRequests": 0
   }
 ]
