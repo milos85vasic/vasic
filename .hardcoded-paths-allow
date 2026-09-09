@@ -461,3 +461,50 @@ workshop/docs/the-platform/ledger/captures/cap_c56a6cfeb46e/body
 # A dead entry silences the next real finding, which is why these are retired
 # rather than left standing.
 # ==============================================================================
+
+# ==============================================================================
+# 2026-09-09 — the .html RENDERS of documents whose .md SOURCES are already
+# allowed above
+# ==============================================================================
+# REASON: these eight files are pandoc exports of markdown sources that ALREADY
+# carry an allow row in this file, and every matched line is the same class the
+# source's row already justifies:
+#
+#   * setup-agents-wizard/*.html render the five files under the
+#     "ANONYMISED PLACEHOLDERS AND QUOTATIONS OF THIS GATE'S OWN PATTERN" block
+#     above (docs/setup-agents-wizard/{README,SAFETY-AND-ROLLBACK,TROUBLESHOOTING,
+#     USER_GUIDE,OPERATIONAL-SCRIPTS}.md). The matches are `/home/you/...` and
+#     `/home/<you>/...` placeholder transcripts and the elided `/Volumes/…` form
+#     — no machine is identified by any of them.
+#   * docs/SESSION-REPORT.html and docs/content-boundary-incident-2026-09-01.html
+#     render the two baselined .md files at lines above; their single matches
+#     are a quotation of this gate's own PATTERN
+#     (`PATTERN='(/Volumes/|/Users/[A-Za-z]|...`) — a document that describes
+#     this detector must contain the strings the detector looks for, exactly as
+#     the source's baseline already records.
+#
+# Regenerating the export would NOT remove any match: the .md sources carry the
+# same placeholder and PATTERN-quotation lines and are allowed for exactly that
+# content. Scoped to these eight named files; a new .html export under docs/
+# must earn its own row.
+docs/setup-agents-wizard/README.html
+docs/setup-agents-wizard/SAFETY-AND-ROLLBACK.html
+docs/setup-agents-wizard/TROUBLESHOOTING.html
+docs/setup-agents-wizard/USER_GUIDE.html
+docs/setup-agents-wizard/OPERATIONAL-SCRIPTS.html
+docs/setup-agents-wizard/RESIDUAL-PATHS-AUDIT.html
+docs/SESSION-REPORT.html
+docs/content-boundary-incident-2026-09-01.html
+
+# REASON: SYNTHETIC PLANTED PAYLOAD IN A §1.1 MUTATION PROOF, and its docs_chain
+# export sidecar. workshop/platform/gates/prove-material-metadata-disclosure.sh:132
+# carries `{"generated_from": "/home/somedeveloper/projects/x"}` as fixture M7 of
+# its own paired-mutation proof — the string EXISTS to be caught by the
+# material-metadata gate it proves ("home-directory path in a served .json").
+# Editing or deleting it would weaken the proof; no machine named `somedeveloper`
+# exists and no path is derived from it. The .sections.json row is the same
+# payload re-serialised by scripts/ingest.sh (the same derived-artifact
+# reasoning already recorded for workshop/docs/session-evidence/*.sections.json
+# above). Both are scoped by name; a NEW planted fixture elsewhere still fails.
+workshop/platform/gates/prove-material-metadata-disclosure.sh
+workshop/platform/gates/prove-material-metadata-disclosure.sections.json
