@@ -422,7 +422,7 @@ deps:
 
   - name: workshop
     ssh_url: git@github.com:milos85vasic/workshop_curriculum.git
-    ref: "2c47348706a42ed217c885a2df5e856175b45a9f"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
+    ref: "7537536b4b9cf77be4a8fd6d789bf62d98c3dc05"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
     why: "The Workshop Curriculum — a teaching corpus of recorded sessions and their written materials under chapters/<NN>/ and nested sub-chapters chapters/<NN>.<NN>/, carried as an owned submodule of the umbrella. Its one mechanism is the SHA-256-verified multi-part video-archive pipeline in scripts/ (archive-videos.sh / extract-videos.sh / install-hooks.sh / self-test.sh), which used to keep gigabyte recordings in git as <=50 MB *.tar.gz.part-NNN chunks. SUPERSEDED 2026-09-08 on an operator decision: the 54 parts (2,624.8 MB) were UNTRACKED with `git rm --cached` and the pattern gitignored, so no new archive byte enters and a fresh checkout drops from ~2.7 GB to small. The *.sha256 manifests stay TRACKED at ~9 KB — they are the integrity record any future fetch verifies against. History rewriting is forbidden, so the already-committed blobs remain and size-pack did not fall; that limit is stated in the module README and printed by scripts/verify-obtainability.sh rather than glossed. The fetch mechanism is deliberately NOT invented: extract-videos.sh returns rc 2 COULD-NOT-DETERMINE with a TODO(storage-fetch) marker naming exactly what is missing, and a present-but-corrupt part still returns rc 1."
     layout: flat
     # Live topology: github, origin and upstream ALL resolve to the single URL
