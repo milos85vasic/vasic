@@ -1598,11 +1598,18 @@ tree.</strong></p>
 <li><em>“The submodule is present for the workload
 <code>specs/001-…</code> plans.”</em> <strong>It has a real consumer
 now.</strong> <code>_tools/containers/</code> was committed 2026-09-03
-(<code>460266c</code>) with 7 tracked files — <code>go.mod</code>
-requiring <code>digital.vasic.containers</code>, <code>go.sum</code>,
+(<code>460266c</code>) with <strong>18</strong> tracked files as
+re-measured 2026-09-09 — among them <code>go.mod</code> requiring
+<code>digital.vasic.containers</code>, <code>go.sum</code>,
 <code>cmd/site-build/main.go</code>,
-<code>compose/compose.sites.yml</code>,
-<code>compose/jekyll-build.sh</code> — and its own README records the
+<code>compose/compose.sites.yml</code> and
+<code>compose/jekyll-build.sh</code>. <strong>The “7 tracked files” this
+sentence carried is WITHDRAWN BY MEASUREMENT, and it was true when
+written</strong>: 7 was the count on the day the directory was
+committed, and the directory grew. It is the FIRST claim
+<code>scripts/verify-claim-ledger.sh</code> caught (§11.4.266) and is
+registered there as row <code>carriers-containers-consumer-files</code>,
+so it cannot go stale silently again. Its own README records the
 measurement that made it necessary: before it existed,
 <code>grep -rn 'digital.vasic.containers'</code> outside
 <code>submodules/</code> and <code>workshop/</code> returned
@@ -1981,8 +1988,9 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href=
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-provider-ci.sh              <span class="co"># 1 — 1 CONFIRMED/6 UNVERIFIED/2 HISTORICAL</span></span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-pretooluse-guard.sh         <span class="co"># 0 — 8 PASS/0 FAIL/0 UNDET (2026-09-09; G12)</span></span>
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-all-constitution-rules.sh   <span class="co"># 1 — 173 PASS/96 FAIL/2 ERROR of 271 gates</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/lumen-index-doctor.sh              <span class="co"># semantic index health</span></span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/ollama-tune.sh                     <span class="co"># local inference host tuning</span></span></code></pre></div>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-claim-ledger.sh             <span class="co"># §11.4.266 — RE-MEASURES every recorded claim</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/lumen-index-doctor.sh              <span class="co"># semantic index health</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/ollama-tune.sh                     <span class="co"># local inference host tuning</span></span></code></pre></div>
 <p><strong>Four verdicts that moved on 2026-09-03, stated as
 withdrawals:</strong></p>
 <table>
@@ -2090,9 +2098,18 @@ substitute.</p>
 proof executed and reported, not that this tree is defect-free.</strong>
 The sweep’s <strong>DROP</strong> direction remains open and is printed
 on every run: its ADD direction is proved, while assertion
-<strong>L1</strong> deletes a gate, measures the count falling
-<code>3 → 2</code>, and records that the sweep still exits 0 because it
-keeps <strong>no expected-gate ledger</strong>.</p>
+<strong>L1</strong> deletes a gate and measures the count falling
+<code>3 → 2</code>. <strong>The reason this block used to give — “the
+sweep still exits 0 because it keeps no expected-gate ledger” — is
+WITHDRAWN AS FALSE.</strong>
+<code>scripts/constitution-gate-ledger.tsv</code> exists and holds
+<strong>271</strong> data rows, and the sweep’s DROP direction has been
+proved against it since 2026-09-02. The false half was caught by
+<code>scripts/verify-claim-ledger.sh</code> (§11.4.266) and the
+surviving half — that the DROP direction is open — was NOT re-measured
+this session and is neither confirmed nor withdrawn here. The live
+figure is registered as ledger row
+<code>carriers-constitution-gate-ledger-rows</code>.</p>
 <p>The zero-DEBT history is worth keeping. A zero means “every
 registered check is accounted for”, <strong>not</strong> “every check
 has a working paired proof” — a plain run verifies proof

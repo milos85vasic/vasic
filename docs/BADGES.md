@@ -19,7 +19,7 @@ a project whose badge row is honestly red is compliant with it — the reader
 gets the truth. Omitting the classes with no instrument would be the
 §11.4.201(6) false-null the anchor forbids by name.
 
-Recorded: 2026-09-09T10:10:10Z (UTC) at commit e1de4d5
+Recorded: 2026-09-09T10:16:33Z (UTC) at commit 9b7cf6a
 
 ---
 
@@ -80,8 +80,8 @@ Source: no SLSA Build Level is tracked (probed: docs/security/SLSA_LEVEL.md); §
 ## zero-findings
 
 Colour: red
-Value: 33 over ratchet
-Source: docs/findings/zero_findings_ledger.jsonl (33 rows) vs docs/findings/zero_findings_ratchet.tsv (TOTAL=26); RED because the ledger has RISEN above the recorded ratchet ceiling — §11.4.261(C) refuses the seam, and the ceiling may only ever be lowered
+Value: 37 over ratchet
+Source: docs/findings/zero_findings_ledger.jsonl (37 rows) vs docs/findings/zero_findings_ratchet.tsv (TOTAL=26); RED because the ledger has RISEN above the recorded ratchet ceiling — §11.4.261(C) refuses the seam, and the ceiling may only ever be lowered
 
 ## evidence
 

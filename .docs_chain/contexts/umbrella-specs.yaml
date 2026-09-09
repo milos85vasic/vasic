@@ -152,6 +152,9 @@ nodes:
   specs_006_session_record_and_qa_readiness_data_model_md:   { kind: markdown, path: specs/006-session-record-and-qa-readiness/data-model.md }
   specs_006_session_record_and_qa_readiness_data_model_html: { kind: html,     path: specs/006-session-record-and-qa-readiness/data-model.html }
   specs_006_session_record_and_qa_readiness_data_model_pdf:  { kind: pdf,      path: specs/006-session-record-and-qa-readiness/data-model.pdf }
+  specs_006_session_record_and_qa_readiness_plan_coverage_fix_c_md:   { kind: markdown, path: specs/006-session-record-and-qa-readiness/plan-coverage-fix-c.md }
+  specs_006_session_record_and_qa_readiness_plan_coverage_fix_c_html: { kind: html,     path: specs/006-session-record-and-qa-readiness/plan-coverage-fix-c.html }
+  specs_006_session_record_and_qa_readiness_plan_coverage_fix_c_pdf:  { kind: pdf,      path: specs/006-session-record-and-qa-readiness/plan-coverage-fix-c.pdf }
   specs_006_session_record_and_qa_readiness_plan_md:   { kind: markdown, path: specs/006-session-record-and-qa-readiness/plan.md }
   specs_006_session_record_and_qa_readiness_plan_html: { kind: html,     path: specs/006-session-record-and-qa-readiness/plan.html }
   specs_006_session_record_and_qa_readiness_plan_pdf:  { kind: pdf,      path: specs/006-session-record-and-qa-readiness/plan.pdf }
@@ -266,6 +269,8 @@ edges:
   - { type: derive-from, from: specs_006_session_record_and_qa_readiness_contracts_session_record_html, to: specs_006_session_record_and_qa_readiness_contracts_session_record_pdf,  transform: html2pdf }
   - { type: derive-from, from: specs_006_session_record_and_qa_readiness_data_model_md,   to: specs_006_session_record_and_qa_readiness_data_model_html, transform: md2html }
   - { type: derive-from, from: specs_006_session_record_and_qa_readiness_data_model_html, to: specs_006_session_record_and_qa_readiness_data_model_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_plan_coverage_fix_c_md,   to: specs_006_session_record_and_qa_readiness_plan_coverage_fix_c_html, transform: md2html }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_plan_coverage_fix_c_html, to: specs_006_session_record_and_qa_readiness_plan_coverage_fix_c_pdf,  transform: html2pdf }
   - { type: derive-from, from: specs_006_session_record_and_qa_readiness_plan_md,   to: specs_006_session_record_and_qa_readiness_plan_html, transform: md2html }
   - { type: derive-from, from: specs_006_session_record_and_qa_readiness_plan_html, to: specs_006_session_record_and_qa_readiness_plan_pdf,  transform: html2pdf }
   - { type: derive-from, from: specs_006_session_record_and_qa_readiness_quickstart_md,   to: specs_006_session_record_and_qa_readiness_quickstart_html, transform: md2html }

@@ -199,7 +199,10 @@ SURF
         build_base
         local before after rc
         before="$(lab_sum)"
-        ( cd "$LAB/w" && eval "$body" ) >/dev/null 2>&1
+        # `bash -c` rather than `eval`: same semantics for a literal body
+        # written in this file, one fewer §11.4.261 danger-zone row, and the
+        # arm cannot touch this shell's state even by accident.
+        ( cd "$LAB/w" && bash -c "$body" ) >/dev/null 2>&1
         after="$(lab_sum)"
         if [ "$expect_change" = "1" ] && [ "$before" = "$after" ]; then
             printf 'FAIL %s\n     the arm body left the lab BYTE-IDENTICAL, so this arm would test\n     nothing. An inoperative mutation is not a passing one.\n' "$label"

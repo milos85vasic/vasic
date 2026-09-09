@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>plan-coverage-fix-c</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">plan-coverage-fix-c</h1>
+</header>
+<h1
+id="plan-coverage-proposal-rule-the-veto-guard-and-fix-c">Plan-coverage
+proposal rule — the veto guard and Fix C</h1>
+<p><strong>Feature:</strong> 006-session-record-and-qa-readiness ·
+FR-007, FR-007a <strong>Date:</strong> 2026-09-09
+<strong>Status:</strong> BOTH CHANGES APPLIED on operator decision. Not
+committed by the authoring session. <strong>Subject:</strong>
+<code>pipeline/extract/propose_plan_coverage.py</code>,
+<code>platform/gates/verify-plan-coverage-proposal.sh</code>,
+<code>platform/gates/prove-plan-coverage-proposal.sh</code> (private
+<code>workshop</code> submodule)</p>
+<p><strong>CONTENT BOUNDARY — BINDING.</strong> This file lives in a
+PUBLIC repository and its subject is inside the PRIVATE
+<code>workshop</code> submodule. Every planned point, passage and
+extracted row below is named <strong>by identifier or path
+only</strong>. No point text, no transcript text, no curriculum prose,
+no area title and no person’s name appears here, and none may be added.
+Matched vocabulary is reported as counts, never as words — a bag of
+discriminative terms is a paraphrase of the sentence it came from.</p>
+<hr />
+<h2 id="why-the-rule-was-investigated-at-all">1. Why the rule was
+investigated at all</h2>
+<p>Three proposal rows that a human had <strong>independently recorded
+<code>covered</code></strong>, each with an evidence locator, came back
+from the rule as <code>cannot_determine</code> (medium confidence):</p>
+<table>
+<thead>
+<tr>
+<th>plan_id</th>
+<th>chapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01M1H9DJ052XDSQQJVZNSN8KCB</code></td>
+<td>02</td>
+</tr>
+<tr>
+<td><code>01M1H9DJ052XDSQQJVZNSN8KCC</code></td>
+<td>02</td>
+</tr>
+<tr>
+<td><code>01M1SD6HJ78ZTKAXSW0185YKH8</code></td>
+<td>02.01</td>
+</tr>
+</tbody>
+</table>
+<p>The operator was offered “rewrite them”, “correct them to covered”
+and “withdraw them”, and <strong>chose none of those</strong>:
+<em>investigate the rule that produced them first</em>. What follows is
+that investigation and the two changes it led to. <strong>No row was
+repaired by hand at any point.</strong></p>
+<h2 id="what-the-rule-does">2. What the rule does</h2>
+<p>Two lanes per planned point, each scored as IDF-weighted recall of
+the point’s discriminative terms and each compared against a
+<strong>matched null</strong> of 300 synthetic points built from
+same-rarity terms drawn from the origin chapter’s vocabulary:</p>
+<ul>
+<li><strong>transcript lane</strong> — a sliding 5-segment window over
+the chapter’s own transcript;</li>
+<li><strong>own-row lane</strong> — the best match against a
+<strong>single</strong> extracted row (meeting note / TODO / open
+question) whose <code>origin_chapter</code> is this chapter.</li>
+</ul>
+<p>An absence guard already existed for the negative branch: a lane may
+support <code>not_covered</code> only when
+<code>q_upper95 &lt;= alpha</code>, where <code>q</code> is the
+probability that a same-rarity <em>unrelated</em> point leaves
+<strong>no</strong> trace in this chapter. That guard had replaced a
+<code>transcript_segments &gt;= 500</code> constant under decision #14
+of 2026-09-08, precisely because the constant made
+<code>not_covered</code> structurally unreachable for a short
+chapter.</p>
+<h2 id="root-cause-two-causes-not-one">3. Root cause — TWO causes, not
+one</h2>
+<p><strong>The three rows do not share a cause, and forcing one story
+would have been wrong.</strong> All three were
+<code>ONE_LANE_ONLY</code>: the transcript lane beat its null, the
+own-row lane did not.</p>
+<p><strong>Cause 1 — <code>01M1SD6HJ78ZTKAXSW0185YKH8</code> (chapter
+02.01).</strong> The own-row lane is <em>measurably blind</em> here
+(<code>q_upper95 = 0.8618</code>). The absence guard already computed
+that number, already printed it, and already refused to let this lane
+create a negative — and then let the same lane <strong>veto a
+positive</strong> with no guard at all. <strong>Decision #14’s guard had
+been applied to one branch only.</strong></p>
+<p><strong>Cause 2 — <code>…KCB</code> and <code>…KCC</code> (chapter
+02).</strong> Blindness does <strong>not</strong> explain these. Their
+own-row lane is measurably sighted (<code>q_upper95 = 0.0099</code>) and
+it genuinely dissented (<code>p</code> = 0.1367 and 0.1867, no ties, 299
+distinct null values). The rule’s local reasoning was valid. The defect
+is one level up: a lane with <strong>no measurable relationship to the
+outcome</strong> was a mandatory conjunct.</p>
+<p><strong>The measurement that carried both decisions.</strong> Against
+the 7 points a human has recorded <code>covered</code> on this tree:</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>lane</th>
+<th>fires</th>
+<th>captures human-recorded <code>covered</code></th>
+<th>expected by chance</th>
+<th>one-sided hypergeometric</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>transcript</td>
+<td>7/49</td>
+<td><strong>4/7</strong></td>
+<td>1.00</td>
+<td><strong>p = 0.0049</strong></td>
+</tr>
+<tr>
+<td>own-row</td>
+<td>5/49</td>
+<td><strong>1/7</strong></td>
+<td>0.71</td>
+<td><strong>p = 0.55</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Supporting structural measurements.</strong> The median own
+row carries 5 content tokens after stoplisting (chapter 02) against a
+point of 6–8 discriminative terms; chapter 02.01’s entire own-row
+evidence base is <strong>3 rows for 30 planned points</strong>, so 27 of
+those 30 have zero overlap with any own row and score exactly 0.0 with
+<code>p = 1.0</code> by arithmetic. This is the single-unit design the
+transcript lane’s 5-segment window exists to avoid — <em>“a single
+segment cannot hold a whole point and a per-segment match would be
+unfair by construction”</em> — and that argument was never applied to
+the own-row lane. <strong>Widening it does not help and was
+tried:</strong> a union over <em>all</em> own rows fires on 1/49 instead
+of 5/49.</p>
+<p><strong>Excluded by measurement, not by assumption.</strong>
+Threshold and seed instability are not the cause: across four seeds only
+2–3 of 49 rows change any lane’s significance and the
+<code>covered</code> count stayed 1 every time. A mid-p correction for
+ties changes nothing.</p>
+<p><strong>Withdrawn during the investigation.</strong> An intermediate
+finding that <code>covered</code> was “physically unreachable for 44 of
+49 rows” <strong>is withdrawn</strong> — it restated the observed lane
+failure rather than proving unreachability. Checked properly, a single
+own row carrying 1–2 of the point’s rarest terms would suffice
+everywhere (<code>k_needed</code> = 1 or 2 against a max own-row length
+of 10–30). There is no unreachability theorem; there is an extreme power
+deficit.</p>
+<h2 id="the-two-changes">4. The two changes</h2>
+<h3 id="the-veto-guard-applied-first">4.1 The veto guard (applied
+first)</h3>
+<p>A lane whose <code>q_upper95 &gt; alpha</code> is
+<strong>disqualified as a witness</strong> on both branches: it may
+neither create a negative nor veto a positive. Same alpha, same
+already-computed number, <strong>no new parameter and no new draw from
+the RNG</strong>.</p>
+<p><strong>Blast radius, predicted before and confirmed after: exactly 1
+row of 49.</strong> <code>01M1SD6HJ78ZTKAXSW0185YKH8</code>,
+<code>cannot_determine</code> → <code>covered</code>;
+<code>covered</code> 1 → 2. It fixed cause 1 and, correctly, did
+<strong>not</strong> fix cause 2.</p>
+<h3 id="fix-c-applied-second-separate-operator-decision">4.2 Fix C
+(applied second, separate operator decision)</h3>
+<p><code>covered</code> now requires the <strong>transcript lane and
+nothing else</strong>. The own-row lane is reported on every row and
+decides nothing — it may neither create a verdict nor veto one. This
+mirrors what the rule has always done for <code>not_covered</code>:
+<em>a coverage claim is a claim about the SESSION, and the transcript is
+the session.</em></p>
+<p>Three positive codes, differing <strong>only</strong> in what the
+demoted lane did, so that demoting it hides nothing:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>code</th>
+<th>meaning</th>
+<th>rows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TWO_LANES_BEAT_MATCHED_NULL</code></td>
+<td>both lanes agreed</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>ONE_LANE_BEAT_MATCHED_NULL_THE_OTHER_IS_MEASURABLY_BLIND</code></td>
+<td>the own-row lane could not see</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>TRANSCRIPT_LANE_DECISIVE_OWN_ROW_LANE_SIGHTED_AND_DISSENTING</code></td>
+<td>the own-row lane <strong>could</strong> see,
+<strong>dissented</strong>, and <strong>was overridden</strong></td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<p><code>ONE_LANE_ONLY</code> is <strong>renamed</strong> to
+<code>OWN_ROW_LANE_ONLY_THE_DECISIVE_LANE_DID_NOT_AGREE</code> (4 rows)
+— the old name asserted a symmetry between the lanes that no longer
+exists.</p>
+<p><strong>Removed by Fix C:</strong> the veto guard’s
+<em>symmetric</em> arm — a significant own-row lane while the transcript
+lane was blind. Under Fix C the own-row lane never creates a verdict.
+That arm <strong>never fired</strong> on this tree, so the removal is
+measurable at zero rows; it is recorded here rather than left to be
+discovered.</p>
+<h2 id="blast-radius-of-fix-c-predicted-6-rows-observed-6-rows">5. Blast
+radius of Fix C — predicted 6 rows, observed 6 rows</h2>
+<p><code>covered</code> 1 → 7 against the original artefact (2 → 7
+against the veto-guard artefact). <strong>No recorded human decision is
+contradicted, and none could be: all 7 recorded dispositions are
+<code>covered</code>; no human has recorded a negative anywhere in this
+tree.</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>chapter</th>
+<th>plan_id</th>
+<th>→ code</th>
+<th>human decision?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>02</td>
+<td><code>01M1H9DJ052XDSQQJVZNSN8KCB</code></td>
+<td>sighted-dissent overridden</td>
+<td><strong><code>covered</code>, with evidence locator</strong> —
+refuted row 1</td>
+</tr>
+<tr>
+<td>02</td>
+<td><code>01M1H9DJ052XDSQQJVZNSN8KCC</code></td>
+<td>sighted-dissent overridden</td>
+<td><strong><code>covered</code>, with evidence locator</strong> —
+refuted row 2</td>
+</tr>
+<tr>
+<td>02.01</td>
+<td><code>01M1SD6HJ78ZTKAXSW0185YKH8</code></td>
+<td>overridden blind lane</td>
+<td><strong><code>covered</code>, with evidence locator</strong> —
+refuted row 3</td>
+</tr>
+<tr>
+<td>02</td>
+<td><code>01M1H9DJ052XDSQQJVZNSN8KC6</code></td>
+<td>sighted-dissent overridden</td>
+<td><strong>none</strong> — surfaced for reading</td>
+</tr>
+<tr>
+<td>02</td>
+<td><code>01M1H9DJ052XDSQQJVZNSN8KC8</code></td>
+<td>sighted-dissent overridden</td>
+<td><strong>none</strong> — surfaced for reading</td>
+</tr>
+<tr>
+<td>02</td>
+<td><code>01M1H9DJ052XDSQQJVZNSN8KCT</code></td>
+<td>sighted-dissent overridden</td>
+<td><strong>none</strong> — surfaced for reading</td>
+</tr>
+</tbody>
+</table>
+<h2
+id="honest-boundary-what-fix-c-costs-and-what-it-does-not-establish">6.
+HONEST BOUNDARY — what Fix C costs and what it does not establish</h2>
+<p>These four points are carried in the generator’s own docstring and in
+the gate’s header, not only here.</p>
+<ol type="1">
+<li><strong>It discards a measured dissent by design.</strong> On
+<code>…KC6</code> and <code>…KC8</code> the own-row lane is measurably
+able to see and dissented strongly (<code>p</code> = 0.8433 and 0.5733).
+Those are disagreements, not silences, and this rule overrides them. The
+third positive code exists so every such row says so about itself;
+<code>evidence.own_row_lane.p_value</code> is the size of what was
+discarded. <strong>The pre-Fix-C behaviour is recoverable exactly by
+ignoring every row carrying that code.</strong></li>
+<li><strong>Specificity is UNMEASURED and the evidence is
+one-sided.</strong> <code>p = 0.0049</code> and <code>p = 0.55</code>
+are agreement on <strong>positives only</strong>. <strong>No human has
+recorded a <code>not_covered</code> or a <code>dropped</code> anywhere
+in this tree</strong>, so there is no negative ground truth and nothing
+establishes either lane’s specificity. A lane that fired on every row
+would score as well. The ground truth is 7 rows. Read the change as
+<em>“the own-row lane adds nothing measurable to the positives”</em>,
+never as <em>“the transcript lane is right”</em>.</li>
+<li><strong>Three of the six moved rows are flagged
+<code>near_decision_threshold</code></strong> — <code>…KC6</code>,
+<code>…KCB</code>, <code>…KCT</code>. At least one of their lanes has a
+p-value inside 0.02..0.12, so a different Monte-Carlo seed could move
+them back. A verdict that moves with a seed is not a verdict.</li>
+<li><strong>The three undecided rows are NOT measured false
+positives.</strong> They are rows no human has read, which this change
+now puts in front of one. Nothing here says they are covered.</li>
+</ol>
+<p><strong>And the standing limit both changes inherit:</strong> a
+planned point is the output of a cue-phrase heuristic over ASR text and
+is <em>what was said</em> about the next session, never a ratified
+agenda. Every verdict inherits that and cannot be stronger than it. A
+proposal remains a <strong>draft for a human</strong>; it is not the
+decision record, and the served figure still moves only when a human
+decides.</p>
+<h2 id="evidence">7. Evidence</h2>
+<ul>
+<li><code>verify-plan-coverage-proposal.sh</code> — <strong>rc 0, zero
+findings</strong> (P1–P11).</li>
+<li><code>prove-plan-coverage-proposal.sh</code> — <strong>71 passed / 0
+failed / 61 mutations / 10 controls</strong>, rc 0.</li>
+<li><strong>RNG invariant.</strong> The null draws are one shared
+sequential stream, so an added or removed draw would shift every
+downstream row. Measured after both changes: <strong>0 of 49 rows show
+any change to <code>evidence</code></strong> — every p-value, null p95,
+<code>zero_trace_trials</code> and <code>q_upper95</code> byte-identical
+to the original artefact. Both changes touch the DECISION only.</li>
+</ul>
+<p><strong>P11</strong>, the new assertion, is the mirror of P7 and
+enforces two things: the <strong>decisive lane must have carried the
+positive</strong> (the demoted lane may not decide), and the
+<strong>code must match what the own-row lane actually did</strong>, so
+a row that overrode a real sighted dissent can never be filed as
+corroboration or as blindness. P11 checks that a positive is well-formed
+and honestly labelled. <strong>It does not check, and cannot check, that
+a positive is true.</strong></p>
+<p>Controls, one per admissible positive shape (<code>C11</code>,
+<code>C11a</code>, <code>C11b</code>), keep <code>covered</code> from
+being made unreachable by tightening the gate. <code>M29</code> — a
+<code>covered</code> created by the own-row lane alone — and
+<code>M35</code> — an overridden sighted dissent mislabelled as an
+overridden blind lane — are the two arms that hold Fix C to its stated
+shape.</p>
+<p><strong>P11 was rewritten the day it was written.</strong> Its first
+form forbade exactly what Fix C then adopted, and its paired mutation
+<code>M29</code> existed to prevent that adoption. Both were replaced
+rather than deleted when the operator adopted the larger rule on
+measured grounds. <strong>A proof left pointing at a withdrawn rule is a
+gate green over something nobody believes.</strong></p>
+<h2 id="population-reconciliation-66-49-traced-per-row">8. Population
+reconciliation, 66 → 49 — traced per row</h2>
+<p>Recorded here because an exact total can hide two offsetting errors,
+and here it did.</p>
+<p><strong>Every one of the 17 removed rows is accounted for. 0
+unreconciled.</strong> Traced two ways: from each ledger entry’s own
+<code>affected_plan_points</code> field, and by <strong>counterfactual
+re-derivation</strong> (a throwaway copy of <code>curriculum/</code>
+with all dispositions removed, re-run through
+<code>cmd/session-record</code>).</p>
+<p><strong>The 6 ledger retractions remove 11 ROWS, not 6</strong> —
+five origin-01 points cost two rows each (once in chapter 02, once
+carried into 02.01); one origin-02 point costs one:</p>
+<table>
+<thead>
+<tr>
+<th>retracted point</th>
+<th>minted in</th>
+<th>rows removed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01M1H9DJ052XDSQQJVZNSN8KC4</code></td>
+<td>01</td>
+<td><code>02/…8KC4</code>, <code>02.01/…8KC4</code></td>
+</tr>
+<tr>
+<td><code>01M1H9DJ052XDSQQJVZNSN8KCG</code></td>
+<td>01</td>
+<td><code>02/…8KCG</code>, <code>02.01/…8KCG</code></td>
+</tr>
+<tr>
+<td><code>01M1H9DJ052XDSQQJVZNSN8KCK</code></td>
+<td>01</td>
+<td><code>02/…8KCK</code>, <code>02.01/…8KCK</code></td>
+</tr>
+<tr>
+<td><code>01M1H9DJ052XDSQQJVZNSN8KCQ</code></td>
+<td>01</td>
+<td><code>02/…8KCQ</code>, <code>02.01/…8KCQ</code></td>
+</tr>
+<tr>
+<td><code>01M1H9DJ052XDSQQJVZNSN8KCF</code></td>
+<td>01</td>
+<td><code>02/…8KCF</code>, <code>02.01/…8KCF</code></td>
+</tr>
+<tr>
+<td><code>01M1SD6HJ78ZTKAXSW0185YKHB</code></td>
+<td>02</td>
+<td><code>02.01/…YKHB</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The other 6 rows are decision #12’s human
+<code>covered</code> decisions</strong> — six chapter 02 points resolved
+and therefore stopped carrying into 02.01. Measured, not inferred:
+emptying the dispositions restores exactly these six rows and no others
+— <code>02.01/…8KCB</code>, <code>…8KCC</code>, <code>…8KCH</code>,
+<code>…8KCN</code>, <code>…8KCP</code>, <code>…8KCV</code>. (The 7th
+decision, <code>…YKH8</code> in 02.01, removes no row: that chapter has
+no successor.)</p>
+<p><strong>So <code>66 − 11 − 6 = 49</code> is right and the attribution
+was inverted.</strong> The reconciliation as previously written credited
+the 11 to a separate population of “extraction defects” and the 6 to the
+ledger. In fact <strong>the ledger accounts for the 11</strong> and
+<strong>the coverage decisions account for the 6</strong>. There is no
+separate population: decision #13’s “11” and the ledger’s “6” are
+<strong>the same retirement counted two ways — 11 rows, 6 distinct
+points</strong>.</p>
+<p>Two supporting measurements: the 6 retracted ids are <strong>absent
+from every chapter’s <code>next-meeting-points.jsonl</code></strong> —
+the extractor fix, not the ledger, is the mechanism, and the ledger is
+documentation of it — and the counterfactual derivation with an emptied
+ledger returns <strong>55</strong>, not 60, which is what proves
+that.</p>
+<p><strong>A label that survives because two wrong numbers cancel is a
+false-green in prose.</strong> That is why the per-row trace was
+required, and it is the transferable lesson of this section.</p>
+</body>
+</html>

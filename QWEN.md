@@ -456,14 +456,25 @@ Full design, the measured false-positive reasoning and the fleet map:
 [`docs/content-boundary.md`](docs/content-boundary.md).
 
 **This gate is RED on this tree today, and that is the designed state — do not
-make it green.** Re-measured **2026-09-03**,
+make it green.** Re-measured **2026-09-09**,
 `bash scripts/verify-content-boundary.sh` exits **1** and prints:
 
 ```
-LEAK — 15308 surviving match(es) (prose 14552, short 642, name 114); 19 row(s) also could not be determined
-corpus MOVED — 18 of 12535 enumerated file(s) changed between the pre- and
+LEAK — 5267 surviving match(es) (prose 4291, short 450, name 257, fingerprint 269); 83 row(s) also could not be determined
+corpus MOVED — 386 of 15098 enumerated file(s) changed between the pre- and
        post-analysis fingerprints
+  direction (outward)   30326 row(s) subtracted as PROVABLY PUBLIC-FIRST of 15021 eligible key(s)
+                        3602 row(s) dated and KEPT (private-first or same second);
+                        1139 row(s) direction-UNDETERMINED and kept
 ```
+
+**The 2026-09-03/04 reading this block used to carry — `LEAK — 15308 surviving
+match(es) (prose 14552, short 642, name 114); 19 row(s) also could not be
+determined`, over `12535` enumerated files — is WITHDRAWN as current. It was
+true when written**, and it is not comparable to the line above for two
+independent reasons, both measured rather than inferred: a **fifth subtraction**
+(direction) now runs, and a **fifth class** (`fingerprint`) now exists. See "The
+direction subtraction" immediately below.
 
 **THE "NOT REPRODUCIBLE RUN-TO-RUN" FINDING IS RESOLVED, AND THE EARLIER
 VERDICT — *"the exact mechanism is UNDETERMINED and was not established"* — IS
@@ -556,10 +567,18 @@ public destination, `specs/**` holds **7890**, `submodules/**` ~2800,
 **`specs/002-**` is 6104 and `specs/001-**` is 1786** — the two spec trees are
 **61.3% of the entire finding on their own** (61.3–61.5% across the three runs).
 
-**The load-bearing limitation is unchanged: this gate detects CO-OCCURRENCE, not
-DIRECTION.** Governance text that originated in these PUBLIC carriers and
-propagated INTO a private submodule is indistinguishable, to it, from private
-content leaking OUT. **On 2026-09-03 the direction was measured independently,
+**THE LOAD-BEARING LIMITATION THIS PARAGRAPH USED TO ASSERT — *"unchanged: this
+gate detects CO-OCCURRENCE, not DIRECTION"* — IS WITHDRAWN AS OF 2026-09-09, and
+it was true every day it stood.** The gate now answers direction itself, for the
+`prose` and `short` classes, as a fifth subtraction derived every run from the
+two sides' own histories. It remains true, and is now the narrower statement, that
+the gate detects co-occurrence only for the `name` and `fingerprint` classes,
+which are excluded from the subtraction by two independent guards. Everything
+below this paragraph describes the OFFLINE probe that preceded the shipped pass;
+it is kept because the method is the same and because its class A finding is what
+justified shipping. Governance text that originated in these PUBLIC carriers and
+propagated INTO a private submodule was indistinguishable, to the gate as it then
+stood, from private content leaking OUT. **On 2026-09-03 the direction was measured independently,
 by git first-commit timestamp, for THREE buckets — the two below, and then class
 A, the largest, which had none until that day. Class A is the one to read: see
 "Class A direction" in the decision packet. Its answer is NOT uniformly
@@ -764,6 +783,15 @@ cost of each stated rather than implied:**
    probe is a working prototype of exactly this**, run offline over 9,414
    file-revisions in under a minute, so the feasibility question is answered.
    It is still the only option that raises precision without hiding a row.
+   **SELECTED AND SHIPPED 2026-09-09. The sentence above that calls this option
+   a prototype is superseded by the sentence after it, and is kept so the
+   decision is legible.** The probe is now inside
+   `scripts/verify-content-boundary.sh` as the fifth subtraction. Measured
+   INSIDE ONE RUN, on one corpus fingerprint, 2026-09-09: **30,326 of 35,593
+   rows subtracted as provably public-first (85.2%)**, leaving **5,267**;
+   `--prove-failure` covers it with mutations **M30a–M30f**. It subtracts no row
+   without dating BOTH sides, it prints its recall cost on every run, and it
+   adds **no** allow-list entry. See "The direction subtraction" above.
 4. **Judge the ~1540 class A INWARD rows** as a fresh assessment wave — **not all
    ~7870.** The direction probe has cut the reading assignment by 80% and named
    where it concentrates: 1084 rows against private source code, 68 against the
@@ -777,6 +805,16 @@ survives.** The reason for putting 4 first has CHANGED: class A is no longer the
 class with no direction evidence — it now has the best evidence in this file, and
 that evidence is what makes the reading assignment small enough to be worth
 starting.
+
+**THE ORDERING ABOVE IS SUPERSEDED BY EVENTS, not by a change of mind: option 3
+was selected and shipped on 2026-09-09, so it is no longer pending.** The
+recommendation that survives is **4, over the population the subtraction now
+leaves standing** — `3,602` dated-and-KEPT rows plus `1,139` direction-
+UNDETERMINED rows plus the `257` name and `269` fingerprint rows the pass may
+never touch, measured 2026-09-09. Option 2 is unchanged and still unrecommended:
+**an allow-list entry hides the row from the next reader.** Nothing in this
+packet was judged, redacted, allow-listed or re-baselined to reach any of these
+figures.
 
 **Do NOT read this packet as clearance.** It places every row by path; it judges
 none. Options 2 and 4 both require reading private material and are operator
@@ -1291,6 +1329,7 @@ bash scripts/verify-submodule-remote-sync.sh    # 0 — RED, THEN GREEN AGAIN: 1
 bash scripts/verify-provider-ci.sh              # 1 — 1 CONFIRMED/6 UNVERIFIED/2 HISTORICAL
 bash scripts/verify-pretooluse-guard.sh         # 0 — 8 PASS/0 FAIL/0 UNDET (2026-09-09; G12)
 bash scripts/verify-all-constitution-rules.sh   # 1 — 173 PASS/96 FAIL/2 ERROR of 271 gates
+bash scripts/verify-claim-ledger.sh             # §11.4.266 — RE-MEASURES every recorded claim
 bash scripts/lumen-index-doctor.sh              # semantic index health
 bash scripts/ollama-tune.sh                     # local inference host tuning
 ```
@@ -1303,7 +1342,7 @@ bash scripts/ollama-tune.sh                     # local inference host tuning
 | `audit-hardcoded-paths.sh` | **0** — 6 file(s) allowed | **1** — 1 occurrence, 12 file(s) allowed |
 | `audit-environment-assumptions.sh` | 0 — **531** allow-listed, **2166** files, **683** baselined | 0 — **567** allow-listed, **2247** files, **666** baselined |
 | `verify-submodule-remote-sync.sh` | **0** — 12 CURRENT | **1** — 11 CURRENT / 1 DRIFT, then **0** — 12 CURRENT after the fourth authorized fast-forward, *both on 2026-09-03* |
-| `verify-content-boundary.sh` | 1 — **11878** (prose 11356, short 433, name 89) | 1 — **15308** (prose 14552, short 642, name 114) with **`corpus MOVED — 18 of 12535 files`**; RED BY DESIGN, and the gate now REPORTS its own instability instead of hiding it |
+| `verify-content-boundary.sh` | 1 — **11878** (prose 11356, short 433, name 89) | 1 — **5267** (prose 4291, short 450, name 257, **fingerprint 269**) with **`corpus MOVED — 386 of 15098 files`**, re-measured **2026-09-09** after the direction subtraction shipped; the **15308** reading of 2026-09-04 is WITHDRAWN as current. RED BY DESIGN. **A smaller number here is NOT a cleanup**: 30326 rows were subtracted as provably public-first and 526 rows sit in two classes the pass may never touch |
 
 **`audit-hardcoded-paths.sh` went RED and the finding is REAL, not a re-baseline.**
 Exit **1**, `❌ 1 occurrence(s) across 1 file(s)`, scanning 6054 files across 14
@@ -1524,9 +1563,15 @@ Five of those need reading carefully rather than glancing at:
   This instrument's verdict has changed five times without the audit itself
   being edited once; the fleet moves under it. Re-run it, never quote it.**
 - **`verify-content-boundary.sh` exits 1 and is MEANT to.** Re-measured
-  2026-09-04: **15308** (prose 14552, short 642, name 114) with **19 undetermined
-  rows**, of which the load-bearing one is `corpus MOVED — 18 of 12535 enumerated
-  file(s) changed`. The earlier claim that **"the total is now known not to be
+  **2026-09-09**: **5267** (prose 4291, short 450, name 257, fingerprint 269)
+  with **83 undetermined rows**, of which the load-bearing one is
+  `corpus MOVED — 386 of 15098 enumerated file(s) changed`. **The 2026-09-04
+  reading — 15308 (prose 14552, short 642, name 114) with 19 undetermined rows
+  over 12535 files — is WITHDRAWN as current and was true when written.** Two
+  things changed underneath it, and neither is a cleanup: the **direction
+  subtraction** removed 30326 rows of that run's own 35593 as provably
+  public-first, and a fifth class, **`fingerprint`**, was added and contributes
+  269. The earlier claim that **"the total is now known not to be
   reproducible run-to-run"** is **SUPERSEDED**: the algorithm is deterministic —
   four runs on a frozen snapshot were byte-identical — and the movement is
   concurrent editing, which the gate now measures and names rather than absorbing
@@ -1538,6 +1583,11 @@ Five of those need reading carefully rather than glancing at:
   text-level direction evidence over its complete row set — 79.7% outward,
   ~19.5% inward — so the rows an operator must actually open number about 1540,
   not about 7870. Nothing was judged, allow-listed or re-baselined to achieve that.
+  **What moved on 2026-09-09 is that the same probe became part of the gate, and
+  it is now applied to the WHOLE eligible population rather than to one class**:
+  15021 eligible keys dated on both sides, 30326 rows subtracted, 3602 kept,
+  1139 undetermined. The reading assignment is what SURVIVES that — and it still
+  has to be read.
 - **`verify-submodule-remote-sync.sh` exits 0 as of 2026-09-03, and that is a
   measurement of today rather than a property of the tree.** Re-measured after
   the fourth authorized fast-forward: **12 CURRENT / 0 DRIFT / 0 UNDETERMINED**.

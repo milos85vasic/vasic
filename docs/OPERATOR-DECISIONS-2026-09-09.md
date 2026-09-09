@@ -650,3 +650,148 @@ that the two agree **once the recorded retirements are accounted for** — the
 gate reconciles through the retraction ledger and prints the reconciliation.
 The rationale-code discrepancy (four in the prose, five in the JSON) is a
 genuine divergence and is exactly what a total-only check would miss.
+
+## WORKSHOP BECOMES THE ABSOLUTE PRIORITY — and my first estimate was WRONG
+
+Operator directive, 2026-09-09: *"Prioritize as the most critical and absolute
+priority completion of Workshop Submodule so we have it fully manual QA ready
+and ready for presentation to the clients as soon as possible."* Monetization
+continues in the background.
+
+**I gave an estimate of 45-78 agent-hours / 12-20h wall-clock for full fleet,
+and the operator chose scope on it. Measured against the running system, the
+real figure is 130-180 agent-hours / 35-45h — roughly 5-6 working days.** The
+estimate was built from this repository's own written record rather than from a
+measurement, which is the exact failure mode this document has now recorded
+thirteen times. It was re-put to the operator with the corrected numbers and
+**full fleet was re-confirmed**.
+
+| scope | agent-hours | wall-clock |
+|---|---|---|
+| curated 15 areas | 40-55 | 14-18h (~2 working days) |
+| **full fleet, 40 areas — CHOSEN** | **130-180** | **35-45h (~5-6 working days)** |
+
+Two items are UNBOUNDED and NOT inside the 180: semantic-search re-enablement
+(cause not established) and 2 evidence-starved areas needing new recording,
+which is content work rather than engineering.
+
+### FOUR of the eight blockers I reported were FALSE
+
+Recorded because I relayed them to the operator with confidence.
+
+| reported | measured |
+|---|---|
+| 25 areas carry no assessment, never sectioned | **FALSE.** 38 of 40 serve one; 289 questions; all 40 resolve evidence. Only 2 lack a bank and both correctly — 3 and 4 anchored passages against a floor of 8 |
+| answer-key leak: 10 of 182, worst 33 words | **MISLOCATED.** The gated assessment path serves NO citations at all (structural, `learning/wire.go:264-277`). The real leak is on the ungated `/api/areas/{id}/questions` deck: **4 of 289, worst 17 words** |
+| elision carries 62% of audited citations | mechanism and size CONFIRMED (318 of 2242, 14.2%); **62% REFUTED** — 2.8% of bank citations, 6.3% of client-reachable |
+| 66 flagged citations, 22 in areas 01-03 | **REFUTED.** No artefact records per-citation flags. The live gate reports 27 + 47 = 74, keyed per QUESTION, 20 in areas 01-03 |
+| areas 19/27/28 need banks; `kg_*` not searchable | **BOTH ALREADY DONE** |
+
+### THE HEADLINE NOBODY HAD NAMED — the assessment cannot conclude
+
+    perfect run, every auto-gradable question answered correctly:
+    points 8  max_points 20  percent 40  pass_percent 70
+    passed false  determinate false  ungraded 4  percent_is_lower_bound true
+
+**289 questions; 292 of 721 points auto-gradable (40.5%); NO free-text grader
+exists anywhere in the tree** (`curriculum-kit/pkg/curriculum/assess.go:184`).
+**In all 38 areas that serve a test, a client can never receive a pass or
+fail.** The UI is honest about it — it prints "at least 40%" and *"No pass or
+fail is recorded, and that is not a refusal"* — so this is a
+feature-completeness gap presented well, not a bug. But a buyer evaluating an
+assessment product reads it as "this cannot score my people".
+
+**Operator decision: re-frame honestly (2-3h)** — score over marked points only,
+present free text as self-review with the model answer. Building a real grader
+(16h+) was rejected for now.
+
+### THE RISK THAT COULD INVALIDATE THE PLAN
+
+The homepage promises *"every claim traces to a timestamped passage you can
+open."* **Nobody has read a single citation against its claim.** All 42
+publication reviews state in their own text that they are MECHANICAL — they
+establish a citation RESOLVES, not that the passage SUPPORTS. And
+`citation_coverage.py:17` records that in a sibling document set **304 of 310
+citations resolved perfectly and supported nothing**. Median client-reachable
+passage: **142 characters**, half under 200.
+
+The mechanical picture is excellent and will mislead: **1,948 of 1,952
+client-reachable pids resolve 200 non-empty (99.80%)**, and following a citation
+**seeks the recording to the exact second**. A citation can land perfectly and
+still not say the thing.
+
+**Operator decision: read the curated 15 areas EXHAUSTIVELY**, not a sample and
+not just the demo path.
+
+### What measured STRONG, for balance
+
+Homepage **0 console errors, 0 failed requests**. 40 of 40 area cards carry
+title and summary with **0 placeholder strings**. Citation -> passage ->
+recording-seek is the best surface in the product. Recording plays, 500
+transcript segments, PDF downloads. Mobile 375px and dark mode: **page-level
+horizontal overflow 0 on all 3 pages x 3 modes**.
+
+### Standing constraint
+
+**Phase 3 of monetization is HARD BLOCKED until Workshop is presentable** — it
+shallow-clones 462 repositories including the 2.7 GB private workshop tree, onto
+the same volume Workshop is being built on.
+
+## The citation-authoring pilot — the estimate's biggest unknown, MEASURED
+
+**"371 questions with ZERO citations" is true only of the machine-checkable
+marker.** The gate counts exactly one form, `(cite: PID)`. Measured across the
+37 documents:
+
+    questions total                                          371
+      already naming a pid in prose (backtick / ellipsis /
+      `#p-` deep link) — NOT in the gate's form                271   73%
+      carrying no pid reference at all                        100   27%
+
+**So the job is 73% format-conversion-plus-verification and 27%
+search-from-scratch, not 100% authoring.** That was the largest single input to
+the delivery estimate and it was in nobody's brief.
+
+**Measured throughput: ~19 s per question.** Area 33 end-to-end — 10 questions,
+23 blocks, 59 pids — in **191 s**. Time split: reading candidates 42%, judging
+and searching 24%, reading the questions 29%, mechanical apply/verify 5%.
+
+**Extrapolation: 2-8 agent-hours, most likely 3-5.** My previous figure for this
+item was an unmeasured **30-125 hours**.
+
+**The pilot's own honesty about its sample is why the number is usable.** Its
+chosen area was median on every variable visible beforehand and turned out to be
+**1st of 37 by pid density** — extreme on the one variable that mattered. It
+sampled a second area from the opposite tail to compensate and stated plainly:
+*"Do not quote the floor to a client. n = 12 questions, from 2 of 37 areas."*
+
+**A trap it caught:** one author-named pid resolves to a **REDACTED** passage,
+inadmissible under #26a. **A blind mechanical conversion of the 73% would have
+emitted it.** Conversion cannot be fully automated.
+
+### Operator decisions taken on it, 2026-09-09
+
+| # | Question | Decision |
+|---|---|---|
+| A | The gate measures claim BLOCKS (2,574), not questions (371); gate-green is 2-3x the work | **Questions only.** Every question traces to evidence — what a client checks. Body prose stays honestly reported as in progress |
+| B | The >=12-word key rule: per passage, or per citation GROUP? Segments are ~40 chars, so 5 of them can reconstruct 18 words none contains | **Keep PER-PASSAGE.** The original defect was a client following ONE href. Group-level would make questions whose task is to state what the session said uncitable — real content loss against a marginal threat |
+| C | Follow-ups | **All four**: regenerate `citation-coverage.jsonl` (sequenced behind the index owner), run a LOW-density area early to tighten the range, wire in the accidentally-found candidate index first, then the full run |
+
+## REVISED DELIVERY ESTIMATE — third and best-grounded
+
+| Band | Agent-hours |
+|---|---:|
+| P0 — client-visible (1 of 13 done: the port collision resolved itself) | 26-51 |
+| P1 — completeness | 17-37 |
+| Citation support-read, curated 15 | 20-30 |
+| QA pass + fixing what it finds | 12-22 |
+| **Citation authoring — MEASURED, was 30-125** | **3-5** |
+| **TOTAL** | **78-145** |
+
+**Wall-clock ~3-6 working days**, down from 6-10.
+
+**Two constraints now bind the wall-clock more than agent count does.** A
+session rate limit killed **eleven concurrent agents at once** at 13:05,
+including an ingest waiting on an embed; four are running now, not eleven. And
+the index is single-owner (§11.4.119), so every ingest, embed and rebuild
+serialises regardless of how many lanes are open.
