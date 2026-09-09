@@ -10,28 +10,46 @@
 # module's own `runtime.AutoDetect`, reached through this repository's single
 # consumer module at `_tools/containers` (`cmd/runtime-probe`).
 #
-# NOT CONVERTED, because the module cannot express it today. The container
-# invocation below is a one-shot `run --rm -i` that streams the source document
-# on STDIN. Measured at gitlink d940b51fc247c285c805799452992da8d09c75b9:
+# NOT CONVERTED — but THE REASON THIS HEADER USED TO GIVE IS WITHDRAWN BY NAME.
+# It was TRUE when written, at gitlink d940b51fc247c285c805799452992da8d09c75b9,
+# and it is FALSE at the pin this repository consumes today. It read:
 #
-#   * pkg/runtime/runtime.go's ContainerRuntime interface declares Name,
-#     Version, IsAvailable, Start, Stop, Remove, Status, List, Stats, Exec and
-#     Logs. There is NO Run and no Create — the interface acts on containers
-#     that already exist, so there is no ephemeral-run primitive to call.
-#   * Exec(ctx, id, cmd []string) accepts no stdin and returns a buffered
-#     *ExecResult.
-#   * pkg/remote/connection/interface.go:146 declares WithStdin(io.Reader), but
-#     that package is interfaces and option builders only: nothing implements
-#     its Connection interface and no constructor returns one.
+#   "the module cannot express it today ... There is NO Run and no Create ...
+#    Exec(ctx, id, cmd []string) accepts no stdin ...
+#    pkg/remote/connection/interface.go:146 declares WithStdin(io.Reader), but
+#    that package is interfaces and option builders only."
 #
-# Closing that half is an UPSTREAM change to vasic-digital/containers per
-# §11.4.76(4) — an ephemeral-run primitive that accepts stdin — not a rewrite
-# here. The exception is declared rather than quietly tolerated, and this file
-# was NOT replaced by an unverified Go rewrite: a working script traded for an
-# unproven one is a downgrade dressed as compliance.
+# Re-measured 2026-09-09 at gitlink 7f5922563d8bec866b1a25eac483590c9a212817:
+# the ephemeral-run primitive EXISTS, having landed upstream in 6d13ad03528c
+# (2026-09-04) — two commits BEFORE the current pin, so this file asserted a
+# closed gap for five days.
 #
-# The same gap is why `_tools/helixtranslate-container.sh` stays as it is; see
-# its own header, which measures the remote half of it.
+#   * pkg/runtime/runtime.go declares, ON the ContainerRuntime interface,
+#       Run(ctx, image string, cmd []string, opts ...RunOption) (*ExecResult, error)
+#   * pkg/runtime/run.go and run_test.go exist. WithRunStdin(io.Reader) supplies
+#     the document and is what puts `-i` on the argv (run.go:119, run.go:204).
+#   * StdinExecutor / ExecuteWithStdin is really implemented, by defaultExecutor
+#     on the os/exec path (run.go:53). A missing implementation is refused with
+#     ErrStdinUnsupported BEFORE the command runs, never degraded to an
+#     empty-stdin success.
+#
+# TWO HALVES OF THE WITHDRAWN CLAIM SURVIVE and must not be over-corrected away:
+# Exec(ctx, id, cmd []string) STILL accepts no stdin, and pkg/remote/connection
+# is STILL interfaces and option builders only. The REMOTE-stdin gap is OPEN —
+# remote.RemoteRuntime.Run explicitly refuses WithRunStdin — which is why
+# `_tools/helixtranslate-container.sh` keeps its exception. This file's own
+# invocation is LOCAL, so it is now CONVERTIBLE IN PRINCIPLE.
+#
+# IT IS STILL NOT CONVERTED, deliberately. Re-measured 2026-09-09 on this host:
+# `podman images | grep -i helixtranslate` matches ZERO rows; `getent hosts`
+# fails to resolve thinker.local and amber.local; `ssh -o BatchMode=yes` returns
+# rc 255 for both. Absent image, unreachable hosts — an rc 2, and a 2 is never a
+# pass. A working script traded for an unproven rewrite is a downgrade dressed
+# as compliance. Convertible in principle is not verified in practice.
+#
+# `_tools/helixtranslate-container/run.sh` is in the same position and its
+# header records the same withdrawal; `_tools/helixtranslate-container.sh` is
+# NOT — see its own header, which measures the remote half of it.
 # =============================================================================
 # Local drop-in for the HelixTranslate unified-translator: same flags as the
 # engine binary, but runs the helixtranslate:cli container LOCALLY through the

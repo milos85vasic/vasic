@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>LUMEN-INDEX-INTEGRITY</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">LUMEN-INDEX-INTEGRITY</h1>
+</header>
+<h1 id="lumen-index-integrity-report">Lumen Index Integrity Report</h1>
+<p><strong>Subject:</strong> Did the ollama <code>NaN</code> embedding
+fault corrupt the Lumen semantic index for this project?</p>
+<p><strong>Database:</strong>
+<code>~/.local/share/lumen/21bf1507a8925bcf/index.db</code> (101,474,304
+bytes) <strong>Project:</strong>
+<code>&lt;ext-volume-host&gt;/Projects/vasic</code>
+<strong>Investigated:</strong> 2026-08-26, 23:19–23:31 (+02:00)
+<strong>Method:</strong> read-only forensic inspection. Every connection
+was opened as
+<code>sqlite3.connect("file:&lt;home&gt;/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro", uri=True)</code>
+with <code>PRAGMA busy_timeout</code>. No write was ever issued; no
+<code>lumen</code> subcommand was run. A concurrent
+<code>lumen index</code> process was writing to the DB throughout.</p>
+<hr />
+<h2 id="verdict">VERDICT</h2>
+<blockquote>
+<h3
+id="the-index-is-not-corrupt.-it-is-trustworthy-but-severely-incomplete.">The
+index is <strong>NOT CORRUPT</strong>. It is <strong>TRUSTWORTHY BUT
+SEVERELY INCOMPLETE</strong>.</h3>
+<p><strong>Do NOT rebuild it.</strong> Rebuilding would throw away
+30,009 verified-good vectors and restart a ~15-hour job from zero. The
+correct action is to <strong>let it finish</strong> (or re-run
+<code>lumen index</code>), now that the ollama backend is healthy
+again.</p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Any NaN / Inf vectors?</td>
+<td><strong>0</strong> — out of 30,009 decoded (100% of the index, not a
+sample)</td>
+</tr>
+<tr>
+<td>Any all-zero vectors?</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Any wrong-dimension vectors?</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Any zero / absurd L2 norms?</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Any null or empty embedding blobs?</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td><code>PRAGMA integrity_check</code></td>
+<td><strong><code>ok</code></strong></td>
+</tr>
+<tr>
+<td>Coverage</td>
+<td><strong>491 of 3,833 indexable files fully indexed
+(12.8%)</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why no corruption was possible:</strong> when ollama returned
+HTTP 500, Lumen’s embedding client raised an error and the <em>entire
+indexing run aborted</em>. It never received a vector, so it never had
+anything to write. There is no code path that substitutes a placeholder.
+This is confirmed by the log (see §4) and by the data (see §2).</p>
+<p><strong>The real damage is coverage, not corruption.</strong> The
+failures aborted seven consecutive runs, so the index only ever got
+through the alphabetically-first ~13% of the tree. Semantic search
+currently returns <strong>nothing</strong> for <code>_tests/</code>,
+<code>_tools/</code>, <code>design-system/</code>, <code>docs/</code>,
+<code>scripts/</code>, <code>_content_sr/</code>,
+<code>_content_tr/</code>, <code>_content_zh/</code> and others (see
+§5).</p>
+<hr />
+<h2 id="schema">1. Schema</h2>
+<p>Read with:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">type</span>, name, tbl_name, sql <span class="kw">FROM</span> sqlite_master <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="kw">type</span>, name;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>PRAGMA table_info(<span class="st">&#39;&lt;table&gt;&#39;</span>);</span></code></pre></div>
+<h3 id="application-tables">Application tables</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> files (</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    path TEXT <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">hash</span> TEXT <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> chunks (</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span>         TEXT <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    file_path  TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> files(path),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    symbol     TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    kind       TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    start_line <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    end_line   <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_chunks_file_path <span class="kw">ON</span> chunks(file_path);</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> project_meta (</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">key</span>   TEXT <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">value</span> TEXT <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<h3 id="vector-table">Vector table</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> VIRTUAL <span class="kw">TABLE</span> vec_chunks <span class="kw">USING</span> vec0(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> TEXT <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    embedding <span class="dt">float</span>[<span class="dv">768</span>] distance_metric<span class="op">=</span>cosine</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p>This is <strong>sqlite-vec <code>vec0</code></strong>, created by
+extension version <strong>v0.1.6</strong>
+(<code>SELECT key, value FROM vec_chunks_info;</code> →
+<code>CREATE_VERSION = 'v0.1.6'</code>).</p>
+<p>The <code>vec0</code> module is not loadable from stock CPython, so
+<code>SELECT ... FROM vec_chunks</code> is impossible in a plain
+<code>sqlite3</code> connection:</p>
+<pre><code>sqlite3.OperationalError: no such module: vec0</code></pre>
+<p><strong>I therefore decoded the shadow tables directly</strong>,
+which <code>vec0</code> maintains as ordinary SQLite tables:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> <span class="ot">&quot;vec_chunks_rowids&quot;</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">rowid</span> <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> TEXT <span class="kw">UNIQUE</span> <span class="kw">NOT</span> <span class="kw">NULL</span>,   <span class="co">-- == chunks.id</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    chunk_id <span class="dt">INTEGER</span>,          <span class="co">-- which block</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    chunk_offset <span class="dt">INTEGER</span>       <span class="co">-- slot within the block</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> <span class="ot">&quot;vec_chunks_chunks&quot;</span>(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    chunk_id <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">size</span> <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span>,     <span class="co">-- slots per block (1024 here)</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    validity <span class="dt">BLOB</span> <span class="kw">NOT</span> <span class="kw">NULL</span>,    <span class="co">-- size-bit LSB-first bitmap</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    rowids <span class="dt">BLOB</span> <span class="kw">NOT</span> <span class="kw">NULL</span>       <span class="co">-- size x int64</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> <span class="ot">&quot;vec_chunks_vector_chunks00&quot;</span>(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">rowid</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,         <span class="co">-- == chunk_id</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    vectors <span class="dt">BLOB</span> <span class="kw">NOT</span> <span class="kw">NULL</span>      <span class="co">-- size x 768 x float32</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<h3 id="how-embeddings-are-actually-stored-confirmed-by-measurement">How
+embeddings are actually stored — confirmed by measurement</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Encoding</td>
+<td>IEEE-754 <strong>float32, little-endian</strong>, contiguous</td>
+<td><code>numpy.frombuffer(blob, dtype='&lt;f4')</code> yields unit-norm
+vectors</td>
+</tr>
+<tr>
+<td>Dimensionality</td>
+<td><strong>768</strong></td>
+<td>declared in DDL; <code>project_meta.vec_dimensions = 768</code></td>
+</tr>
+<tr>
+<td>Bytes per vector</td>
+<td><strong>3,072</strong></td>
+<td>768 x 4</td>
+</tr>
+<tr>
+<td>Block layout</td>
+<td><strong>1,024 vectors per blob</strong></td>
+<td><code>length(vectors) = 3,145,728 = 1024 x 768 x 4</code> for all 30
+blocks</td>
+</tr>
+<tr>
+<td>Validity bitmap</td>
+<td>128 bytes = 1,024 bits</td>
+<td><code>length(validity) = 128</code></td>
+</tr>
+<tr>
+<td>Rowid sidecar</td>
+<td>8,192 bytes = 1,024 x int64</td>
+<td><code>length(rowids) = 8192</code></td>
+</tr>
+<tr>
+<td>Normalization</td>
+<td>vectors are <strong>L2-normalized to 1.0 at write time</strong></td>
+<td>see §2 norm distribution</td>
+</tr>
+</tbody>
+</table>
+<p>Verified with:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> c.chunk_id, c.<span class="kw">size</span>, <span class="fu">length</span>(c.validity), <span class="fu">length</span>(c.rowids), <span class="fu">length</span>(v.vectors)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> vec_chunks_chunks c</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> vec_chunks_vector_chunks00 v <span class="kw">ON</span> v.<span class="dt">rowid</span> <span class="op">=</span> c.chunk_id</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> c.chunk_id;</span></code></pre></div>
+<p>All 30 blocks returned <code>size=1024, 128, 8192, 3145728</code>.
+Blocks 1–29 are fully occupied (1024 live slots each); block 30 held 49
+live slots at snapshot 1 and 313 at snapshot 2.</p>
+<h3
+id="project_meta-confirms-this-is-the-right-database"><code>project_meta</code>
+— confirms this is the right database</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">key</span>, <span class="fu">value</span> <span class="kw">FROM</span> project_meta <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="kw">key</span>;</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>snapshot 1 (23:21:21)</th>
+<th>snapshot 2 (23:27:47)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_path</code></td>
+<td><code>&lt;ext-volume-host&gt;/Projects/vasic</code></td>
+<td><em>(same)</em></td>
+</tr>
+<tr>
+<td><code>embedding_model</code></td>
+<td><code>ordis/jina-embeddings-v2-base-code</code></td>
+<td><em>(same)</em></td>
+</tr>
+<tr>
+<td><code>vec_dimensions</code></td>
+<td><code>768</code></td>
+<td><em>(same)</em></td>
+</tr>
+<tr>
+<td><code>total_files</code></td>
+<td><code>3835</code></td>
+<td><code>3833</code></td>
+</tr>
+<tr>
+<td><code>root_hash</code></td>
+<td><code>e762a114...ab096</code></td>
+<td><code>8f46dd1d...5980be</code></td>
+</tr>
+<tr>
+<td><code>last_indexed_at</code></td>
+<td><code>2026-08-26T21:02:37Z</code></td>
+<td><code>2026-08-26T21:25:19Z</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>project_path</code> matches exactly. <strong>This is the
+correct index for this project.</strong></p>
+<hr />
+<h2 id="are-any-stored-vectors-corrupt">2. Are any stored vectors
+corrupt?</h2>
+<p><strong>No. Zero corrupt vectors.</strong> I decoded <strong>every
+live vector</strong>, twice — not a sample. (The brief called for
+&gt;=200 sampled or all if under 2000; there are ~30,000, and a full
+scan was cheap, so all of them were checked in both passes.)</p>
+<h3 id="procedure">Procedure</h3>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- 1. every live slot and which chunk it belongs to</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">id</span>, chunk_id, chunk_offset <span class="kw">FROM</span> vec_chunks_rowids;</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- 2. chunk -&gt; file mapping, for naming any bad row</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">id</span>, file_path, symbol, kind, start_line, end_line <span class="kw">FROM</span> chunks;</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">-- 3. the raw vector blocks</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> c.chunk_id, c.<span class="kw">size</span>, c.validity, c.rowids, v.vectors</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> vec_chunks_chunks c</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> vec_chunks_vector_chunks00 v <span class="kw">ON</span> v.<span class="dt">rowid</span> <span class="op">=</span> c.chunk_id</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> c.chunk_id;</span></code></pre></div>
+<p>Each block was decoded as
+<code>np.frombuffer(vectors, dtype='&lt;f4').reshape(size, 768)</code>,
+the validity bitmap as
+<code>np.unpackbits(..., bitorder='little')[:size]</code>, and every
+slot present in <code>vec_chunks_rowids</code> was tested for
+<code>np.isnan</code>, <code>np.isinf</code>, all-zero, dimension, and
+<code>np.linalg.norm</code> in float64.</p>
+<h3 id="results">Results</h3>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Snapshot 1 (29,745 vectors)</th>
+<th>Snapshot 2 (30,009 vectors)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NaN-containing vectors</td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Inf-containing vectors</td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>All-zero vectors</td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Wrong dimensionality (!= 768)</td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>L2 norm == 0 or absurd (&lt;1e-6 or &gt;1e6)</td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Validity-bitmap vs rowid-table mismatches</td>
+<td><strong>0</strong></td>
+<td><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>No bad vector exists, so there is no affected file/chunk to
+name.</strong></p>
+<h3 id="l2-norm-distribution-snapshot-2-n-30009">L2 norm distribution
+(snapshot 2, n = 30,009)</h3>
+<pre><code>min    = 0.999999      median = 1.000000      max  = 1.000001
+p0.1   = 0.999999      mean   = 1.000000      std  = 0.000000
+p1     = 1.000000      p99    = 1.000000
+count norm &lt; 0.5 : 0        count norm &gt; 100 : 0</code></pre>
+<p>Every vector is a unit vector to float32 precision. This is
+significant: <strong><code>NaN</code> is absorbing under
+normalization</strong>. If even one component of a vector had been
+<code>NaN</code>, its norm would have been <code>NaN</code> and the
+whole vector would have been written as <code>NaN</code>. A perfectly
+tight distribution at 1.0 across all 30,009 vectors is direct proof that
+no <code>NaN</code> ever reached the writer.</p>
+<h3
+id="distinctness-guards-against-a-repeated-garbageplaceholder-vector">Distinctness
+(guards against a repeated garbage/placeholder vector)</h3>
+<p>4,096 vectors from blocks 1–4 were MD5-hashed: <strong>4,096
+distinct, 0 byte-identical groups, max group size 1.</strong> There is
+no repeated constant/placeholder vector.</p>
+<h3 id="independent-proof-that-the-decoding-is-correct">Independent
+proof that the decoding is correct</h3>
+<p>The “all norms are 1.0” result would be meaningless if I had mis-read
+the byte layout. To rule that out, I re-embedded the original source
+text of three chunks with the <em>live</em> ollama backend and compared
+with the stored vector:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Chunk</th>
+<th>File:lines</th>
+<th>cosine vs re-embedded <code>path\nsymbol\nbody</code></th>
+<th>control (vs unrelated stored vector)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>007fc48c9f28f674</code></td>
+<td><code>_content/products/HelixTerminator.md:87-93</code></td>
+<td><strong>0.9796</strong></td>
+<td>0.5896</td>
+</tr>
+<tr>
+<td><code>02e1e07d54bf256d</code></td>
+<td><code>_content/products/HelixBuilder.md:31-38</code></td>
+<td><strong>0.9922</strong></td>
+<td>0.5133</td>
+</tr>
+<tr>
+<td><code>039bb9ab95ce8912</code></td>
+<td><code>_content/products/LLMOrchestrator.md:72-82</code></td>
+<td><strong>0.9858</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Cosine ~0.98–0.99 against a fresh embedding of the same source text,
+versus ~0.51–0.59 for unrelated content. The byte layout is decoded
+correctly <strong>and</strong> the stored vectors are semantically valid
+— they still match what the model produces today.</p>
+<hr />
+<h2 id="did-lumen-store-anything-at-all-when-the-backend-was-failing">3.
+Did Lumen store anything at all when the backend was failing?</h2>
+<p><strong>No. Nothing. Not a single row, and certainly no placeholder
+vectors.</strong></p>
+<h3
+id="structural-evidence-the-index-is-perfectly-self-consistent">Structural
+evidence — the index is perfectly self-consistent</h3>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> chunks c <span class="kw">LEFT</span> <span class="kw">JOIN</span> vec_chunks_rowids r <span class="kw">ON</span> r.<span class="kw">id</span> <span class="op">=</span> c.<span class="kw">id</span> <span class="kw">WHERE</span> r.<span class="kw">id</span> <span class="kw">IS</span> <span class="kw">NULL</span>;   <span class="co">-- 0</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> vec_chunks_rowids r <span class="kw">LEFT</span> <span class="kw">JOIN</span> chunks c <span class="kw">ON</span> c.<span class="kw">id</span> <span class="op">=</span> r.<span class="kw">id</span> <span class="kw">WHERE</span> c.<span class="kw">id</span> <span class="kw">IS</span> <span class="kw">NULL</span>;   <span class="co">-- 0</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> vec_chunks_rowids <span class="kw">WHERE</span> chunk_id <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">OR</span> chunk_offset <span class="kw">IS</span> <span class="kw">NULL</span>;           <span class="co">-- 0</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> chunks c <span class="kw">LEFT</span> <span class="kw">JOIN</span> files f <span class="kw">ON</span> f.path <span class="op">=</span> c.file_path <span class="kw">WHERE</span> f.path <span class="kw">IS</span> <span class="kw">NULL</span>;    <span class="co">-- 0</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> chunks <span class="kw">WHERE</span> end_line <span class="op">&lt;</span> start_line;                                          <span class="co">-- 0</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> chunks <span class="kw">WHERE</span> start_line <span class="op">&lt;</span> <span class="dv">0</span>;                                                 <span class="co">-- 0</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> chunks <span class="kw">WHERE</span> symbol <span class="op">=</span> <span class="st">&#39;&#39;</span>;                                                    <span class="co">-- 0</span></span></code></pre></div>
+<p><code>chunks</code> and <code>vec_chunks_rowids</code> are exactly
+1:1 (29,745 = 29,745; then 30,009 = 30,009). <strong>There is no chunk
+without a vector and no vector without a chunk.</strong> There is no
+room for a “row written with a missing embedding” — the schema pairs
+them and the data honours it.</p>
+<p>There are no NULL or empty embedding blobs: the <code>vectors</code>
+column is <code>BLOB NOT NULL</code> and all 30 blocks are exactly the
+full 3,145,728 bytes.</p>
+<h3
+id="lumen-commits-incrementally-per-batch-and-each-commit-is-valid">Lumen
+commits incrementally per batch, and each commit is valid</h3>
+<p>This is provable from the run log,
+<code>~/.local/share/lumen/debug.log</code>. Each run reports how many
+files the <em>previous</em> run had already banked:</p>
+<table>
+<thead>
+<tr>
+<th>Run started</th>
+<th><code>files_unchanged</code> at plan time</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-08-24 12:13:34</td>
+<td>0</td>
+<td>FAILED (NaN, batch 192) after 1h46m</td>
+</tr>
+<tr>
+<td>2026-08-26 20:38:45</td>
+<td><strong>193</strong></td>
+<td>FAILED (HTTP 400, <code>EOF</code>, batch 96)</td>
+</tr>
+<tr>
+<td>2026-08-26 22:34:23</td>
+<td><strong>412</strong></td>
+<td>FAILED (NaN, batch 224)</td>
+</tr>
+<tr>
+<td>2026-08-26 23:03:46</td>
+<td><strong>448</strong></td>
+<td>FAILED (NaN, batch 0)</td>
+</tr>
+<tr>
+<td>2026-08-26 23:04:29</td>
+<td><strong>448</strong></td>
+<td>FAILED (NaN, batch 0)</td>
+</tr>
+<tr>
+<td>2026-08-26 23:06:45</td>
+<td><strong>448</strong></td>
+<td>FAILED (NaN, batch 32)</td>
+</tr>
+<tr>
+<td>2026-08-26 23:11:21</td>
+<td><strong>448</strong></td>
+<td>cancelled by signal at 23:25:19</td>
+</tr>
+<tr>
+<td>2026-08-26 23:25:50</td>
+<td><strong>491</strong></td>
+<td>running</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>files_unchanged</code> count climbs 0 → 193 → 412 → 448 →
+491 <strong>across runs that all failed</strong>. That is the signature
+of per-batch commits: an aborted run leaves behind a <em>partial but
+valid</em> index, and the next run picks up where it left off. Exactly
+the benign failure mode.</p>
+<p>Note the three runs at 23:03, 23:04 and 23:06 that died at
+<strong>batch 0 / batch 32</strong> — they contributed nothing at all
+(<code>files_unchanged</code> stays pinned at 448). When the backend was
+fully wedged, Lumen wrote <strong>zero</strong> rows rather than garbage
+ones.</p>
+<h3 id="the-one-thing-that-looks-alarming-and-why-it-is-not">The one
+thing that <em>looks</em> alarming, and why it is not</h3>
+<p>At snapshot 1, <strong>164 rows in <code>files</code> had an empty
+<code>hash</code> and zero chunks</strong>:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> files <span class="kw">WHERE</span> <span class="kw">hash</span> <span class="op">=</span> <span class="st">&#39;&#39;</span>;                                                  <span class="co">-- 164 -&gt; 175</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> f.path <span class="kw">FROM</span> files f <span class="kw">LEFT</span> <span class="kw">JOIN</span> chunks c <span class="kw">ON</span> c.file_path <span class="op">=</span> f.path</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> c.<span class="kw">id</span> <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">ORDER</span> <span class="kw">BY</span> f.path;                                                          <span class="co">-- same set</span></span></code></pre></div>
+<p>All 164 are non-empty <code>.md</code> files on disk (3,773–29,616
+bytes; <strong>0 missing, 0 zero-byte</strong>), so they <em>should</em>
+have produced chunks. These are <strong>placeholder <code>files</code>
+rows written before the embedding step</strong>, left behind when a run
+aborted.</p>
+<p>Comparing the two snapshots settles what they are:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th>count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Empty-hash rows at snapshot 1</td>
+<td>164</td>
+</tr>
+<tr>
+<td>Empty-hash rows at snapshot 2</td>
+<td>175</td>
+</tr>
+<tr>
+<td><strong>Resolved</strong> (empty hash → real hash + chunks) between
+snapshots</td>
+<td><strong>23</strong> (all <code>_content_ko/...</code>)</td>
+</tr>
+<tr>
+<td><strong>Newly created</strong> placeholders (the live frontier)</td>
+<td><strong>34</strong> (all <code>_content_ru/</code>,
+<code>_content_sr/</code>)</td>
+</tr>
+<tr>
+<td><strong>Stuck in both snapshots</strong> (leftovers from earlier
+aborted runs)</td>
+<td><strong>141</strong></td>
+</tr>
+</tbody>
+</table>
+<p>That “141” is not a coincidence: the 23:11 run’s plan reported
+<strong><code>files_to_modify: 141</code></strong>. Lumen already
+classifies these rows as needing reprocessing, because an empty hash can
+never match a real content hash.</p>
+<p><strong>These placeholder rows are harmless and
+self-healing:</strong></p>
+<ul>
+<li>they carry <strong>zero chunks and zero vectors</strong> — there is
+no garbage to poison a search;</li>
+<li>the empty hash guarantees they are re-processed on the next
+run;</li>
+<li>they demonstrably resolve on their own (23 of them did so during the
+6 minutes between my two snapshots).</li>
+</ul>
+<p>A breakdown of the 141 stuck placeholders, and the full list, is in
+§6.</p>
+<h3 id="lumens-error-handling-from-the-binary">Lumen’s error handling,
+from the binary</h3>
+<p>Strings extracted from <code>lumen-linux-amd64</code> v0.0.41 show
+the failure path is a hard error, never a fallback value:</p>
+<pre><code>service returned HTTP %d
+embedding server failed, trying next
+all embedding servers exhausted
+all embedding servers are unhealthy
+no healthy embedding server found</code></pre>
+<p>and the write path is:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">INSERT</span> <span class="kw">INTO</span> files (path, <span class="kw">hash</span>) <span class="kw">VALUES</span> (?, ?)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">DELETE</span> <span class="kw">FROM</span> chunks <span class="kw">WHERE</span> file_path <span class="op">=</span> ?</span></code></pre></div>
+<p>There is no “insert zero vector on error” path. The observed log
+errors are all of the form
+<code>indexing: embed batch: all embedding servers exhausted after failover: ...</code>
+— the batch throws, the run dies.</p>
+<hr />
+<h2 id="the-fault-itself-dated-from-the-log">4. The fault itself, dated
+from the log</h2>
+<p>Source: <code>~/.local/share/lumen/debug.log</code> (7,225,413 bytes;
+covers 2026-05-29 → 2026-08-26).</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&quot;unsupported value: NaN&quot;</span> ~/.local/share/lumen/debug.log     <span class="co"># 140</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&quot;all embedding servers exhausted&quot;</span> ~/.local/share/lumen/debug.log  <span class="co"># 143</span></span></code></pre></div>
+<ul>
+<li><strong>140</strong> log entries carry
+<code>{"error":"failed to encode response: json: unsupported value: NaN"}</code>.</li>
+<li><strong>First occurrence: <code>2026-07-22T20:59:52+03:00</code>.
+Last: <code>2026-08-26T23:11:13+02:00</code>.</strong> The fault window
+is therefore <strong>~5 weeks</strong>, not a single evening.</li>
+<li>Every one of the 140 is at level <code>ERROR</code> with
+<code>msg</code> of <code>indexing failed</code> (65) or
+<code>indexing nested repo failed</code> (75). <strong>In all 140 cases
+the run aborted.</strong> Not one is a warning-and-continue.</li>
+<li>It affected many projects (<code>boba</code> 19,
+<code>claude_toolkit</code> 16, <code>lava</code> 13, <code>tmux</code>
+6, …).</li>
+</ul>
+<p><strong>Five of those hits are this project:</strong></p>
+<pre><code>2026-08-24T13:59:12  embedding batch starting at 192  (HTTP 500) NaN
+2026-08-26T23:02:37  embedding batch starting at 224  (HTTP 500) NaN
+2026-08-26T23:04:29  embedding batch starting at 0    (HTTP 500) NaN
+2026-08-26T23:05:31  embedding batch starting at 0    (HTTP 500) NaN
+2026-08-26T23:11:13  embedding batch starting at 32   (HTTP 500) NaN</code></pre>
+<p>Plus one unrelated backend failure on 2026-08-26T22:34:17:
+<code>embed error (HTTP 400): {"error":"do embedding request: Post \"http://127.0.0.1:46279/embedding\": EOF"}</code>
+(the ollama model runner died mid-request).</p>
+<h3 id="this-projects-index-has-never-once-completed">This project’s
+index has never once completed</h3>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;&quot;msg&quot;:&quot;indexing complete&quot;&#39;</span> ~/.local/share/lumen/debug.log   <span class="co"># 39 (all other projects)</span></span></code></pre></div>
+<p>Filtering the log to
+<code>"project":"&lt;ext-volume-host&gt;/Projects/vasic"</code> yields
+<strong>7 <code>indexing started</code>, 6 <code>indexing failed</code>,
+and 0 successful <code>indexing complete</code></strong>. The only
+<code>indexing complete</code> for this project is the 23:25:19
+cancellation record, which reports
+<code>indexed_files: 0, chunks_created: 0, elapsed: 13m56s</code> and an
+empty <code>new_root_hash</code>.</p>
+<h3 id="backend-health-now">Backend health now</h3>
+<pre><code>GET  http://localhost:11434/            -&gt; HTTP 200
+POST http://localhost:11434/api/embed   -&gt; HTTP 200, 768 finite floats, no NaN</code></pre>
+<p><strong>ollama is healthy again as of 2026-08-26 23:26.</strong></p>
+<hr />
+<h2 id="coverage-vs-the-working-tree-two-snapshots">5. Coverage vs the
+working tree — two snapshots</h2>
+<p>A <code>lumen index &lt;ext-volume-host&gt;/Projects/vasic</code>
+process was writing to the DB throughout. Both snapshots were taken
+read-only, in place.</p>
+<h3 id="snapshot-deltas">Snapshot deltas</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Metric</th>
+<th><strong>Snapshot 1 — 2026-08-26T23:21:21+02:00</strong></th>
+<th><strong>Snapshot 2 — 2026-08-26T23:27:47+02:00</strong></th>
+<th>Delta (6m 26s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SELECT COUNT(*) FROM files</code></td>
+<td>632</td>
+<td>666</td>
+<td><strong>+34</strong></td>
+</tr>
+<tr>
+<td><code>SELECT COUNT(*) FROM chunks</code></td>
+<td>29,745</td>
+<td>30,009</td>
+<td><strong>+264</strong></td>
+</tr>
+<tr>
+<td><code>SELECT COUNT(*) FROM vec_chunks_rowids</code></td>
+<td>29,745</td>
+<td>30,009</td>
+<td><strong>+264</strong></td>
+</tr>
+<tr>
+<td><code>SELECT COUNT(*) FROM files WHERE hash &lt;&gt; ''</code>
+(fully indexed)</td>
+<td>468</td>
+<td>491</td>
+<td><strong>+23</strong></td>
+</tr>
+<tr>
+<td><code>SELECT COUNT(*) FROM files WHERE hash = ''</code>
+(placeholders)</td>
+<td>164</td>
+<td>175</td>
+<td>+11</td>
+</tr>
+<tr>
+<td>Live vectors in block 30</td>
+<td>49</td>
+<td>313</td>
+<td>+264</td>
+</tr>
+<tr>
+<td><code>project_meta.last_indexed_at</code></td>
+<td><code>2026-08-26T21:02:37Z</code></td>
+<td><code>2026-08-26T21:25:19Z</code></td>
+<td>advanced</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The index is demonstrably moving forward, and every vector
+added between the two snapshots was also clean</strong> (the full-decode
+scan was re-run at snapshot 2 and again found 0 defects across all
+30,009).</p>
+<p>Progress rate: ~23 fully-indexed files per 6.4 minutes ≈ <strong>3.6
+files/min</strong>. At that rate the remaining 3,342 files need roughly
+<strong>15 hours</strong>.</p>
+<h3 id="working-tree">Working tree</h3>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>                                    <span class="co"># 5679 tracked files</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> <span class="at">-E</span> <span class="st">&#39;\.(png|jpg|...|woff2|ttf|pdf|zip)$&#39;</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>   <span class="co"># 4473 non-binary</span></span></code></pre></div>
+<p>Lumen’s own count of indexable files (from its plan log) is
+<strong>3,833</strong>.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Indexable files per Lumen</td>
+<td><strong>3,833</strong></td>
+</tr>
+<tr>
+<td>Rows present in <code>files</code></td>
+<td>666 (17.4%)</td>
+</tr>
+<tr>
+<td><strong>Fully indexed (hash + chunks + vectors)</strong></td>
+<td><strong>491 (12.8%)</strong></td>
+</tr>
+<tr>
+<td>Placeholder rows, no vectors yet</td>
+<td>175</td>
+</tr>
+<tr>
+<td><strong>Not reached at all</strong></td>
+<td><strong>3,167 (82.6%)</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="per-directory-coverage-snapshot-2">Per-directory coverage
+(snapshot 2)</h3>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="cf">CASE</span> <span class="cf">WHEN</span> <span class="fu">instr</span>(path,<span class="st">&#39;/&#39;</span>)<span class="op">&gt;</span><span class="dv">0</span> <span class="cf">THEN</span> <span class="fu">substr</span>(path,<span class="dv">1</span>,<span class="fu">instr</span>(path,<span class="st">&#39;/&#39;</span>)<span class="op">-</span><span class="dv">1</span>) <span class="cf">ELSE</span> <span class="st">&#39;&lt;root file&gt;&#39;</span> <span class="cf">END</span> <span class="kw">AS</span> top,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(<span class="op">*</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> files <span class="kw">GROUP</span> <span class="kw">BY</span> top <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dv">2</span> <span class="kw">DESC</span>;</span></code></pre></div>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>Top-level dir</th>
+<th style="text-align: right;">indexable in tree</th>
+<th style="text-align: right;">rows in index</th>
+<th style="text-align: right;"><strong>fully indexed</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_content</code></td>
+<td style="text-align: right;">69</td>
+<td style="text-align: right;">69</td>
+<td style="text-align: right;"><strong>69</strong></td>
+</tr>
+<tr>
+<td><code>_content_ar</code></td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;"><strong>38</strong></td>
+</tr>
+<tr>
+<td><code>_content_de</code></td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;"><strong>38</strong></td>
+</tr>
+<tr>
+<td><code>_content_es</code></td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;"><strong>38</strong></td>
+</tr>
+<tr>
+<td><code>_analysis</code></td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">73</td>
+<td style="text-align: right;">73</td>
+</tr>
+<tr>
+<td><code>.specify</code></td>
+<td style="text-align: right;">79</td>
+<td style="text-align: right;">67</td>
+<td style="text-align: right;">67</td>
+</tr>
+<tr>
+<td><code>_content_fa</code></td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">33</td>
+</tr>
+<tr>
+<td><code>_content_be</code></td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">24</td>
+</tr>
+<tr>
+<td><code>_content_fr</code></td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">22</td>
+</tr>
+<tr>
+<td><code>_content_ko</code></td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr>
+<td><code>_content_hi</code></td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr>
+<td><code>.claude</code></td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td><code>.kimi-code</code></td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td><code>.opencode</code></td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td><code>.github</code></td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>&lt;root file&gt;</code></td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>_content_ja</code></td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;"><strong>0</strong></td>
+</tr>
+<tr>
+<td><code>_content_kk</code></td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;"><strong>0</strong></td>
+</tr>
+<tr>
+<td><code>_content_ru</code></td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;"><strong>0</strong></td>
+</tr>
+<tr>
+<td><code>_content_sr</code></td>
+<td style="text-align: right;">38</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;"><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<h3
+id="top-level-directories-entirely-absent-from-the-index-12">Top-level
+directories ENTIRELY ABSENT from the index (12)</h3>
+<table>
+<thead>
+<tr>
+<th>Directory</th>
+<th style="text-align: right;">Indexable files invisible to search</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>_tests</code></strong></td>
+<td style="text-align: right;"><strong>3,406</strong></td>
+</tr>
+<tr>
+<td><strong><code>design-system</code></strong></td>
+<td style="text-align: right;"><strong>136</strong></td>
+</tr>
+<tr>
+<td><strong><code>_tools</code></strong></td>
+<td style="text-align: right;"><strong>94</strong></td>
+</tr>
+<tr>
+<td><code>_content_tr</code></td>
+<td style="text-align: right;">38</td>
+</tr>
+<tr>
+<td><code>_content_zh</code></td>
+<td style="text-align: right;">38</td>
+</tr>
+<tr>
+<td><code>_content_sr</code></td>
+<td style="text-align: right;">38 (only 3 placeholder rows, 0
+indexed)</td>
+</tr>
+<tr>
+<td><code>scripts</code></td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td><code>submodules</code></td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td><code>.codegraph</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>data</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>docs</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>upstreams</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+</tbody>
+</table>
+<p>The pattern is a strict ASCII-sorted sweep — <code>.claude</code>,
+<code>.github</code>, <code>.kimi-code</code>, <code>.opencode</code>,
+<code>.specify</code>, then <code>_analysis</code>,
+<code>_content*</code>… — currently stalled at <code>_content_ru</code>
+/ <code>_content_sr</code>. Everything sorting after that has never been
+reached. <strong>Note that <code>docs/</code> — including this report’s
+own directory — is not indexed.</strong></p>
+<hr />
+<h2 id="the-141-stuck-placeholder-rows">6. The 141 stuck placeholder
+rows</h2>
+<p>Rows in <code>files</code> with <code>hash = ''</code> and zero
+chunks in <em>both</em> snapshots. They hold <strong>no
+vectors</strong>, so they cannot corrupt a search result; they will be
+re-processed automatically because an empty hash never matches a real
+content hash. Listed for completeness.</p>
+<pre><code>   4  &lt;root file&gt;       (AGENTS.md, CLAUDE.md, GEMINI.md, QWEN.md)
+  14  _content_be
+   5  _content_fa
+  16  _content_fr
+  24  _content_hi
+  38  _content_ja
+  38  _content_kk
+   2  _content_ko</code></pre>
+<p>Full list:</p>
+<pre><code>AGENTS.md
+CLAUDE.md
+GEMINI.md
+QWEN.md
+_content_be/products/HelixConstitution.md
+_content_be/products/HelixGitpx.md
+_content_be/products/HelixLLM.md
+_content_be/products/HelixMemory.md
+_content_be/products/HelixOTA.md
+_content_be/products/HelixPlay.md
+_content_be/products/HelixQA.md
+_content_be/products/HelixSkills.md
+_content_be/products/HelixSpecifier.md
+_content_be/products/HelixTerminator.md
+_content_be/products/HelixTrack.md
+_content_be/products/HelixTranslate.md
+_content_be/products/Herald.md
+_content_be/products/LLMOrchestrator.md
+_content_fa/products/VisionEngine.md
+_content_fa/products/docs_chain.md
+_content_fa/products/task_bridge.md
+_content_fa/sites/milosvasic-ru.md
+_content_fa/sites/vasic-digital.md
+_content_fr/docs/cover-letter.md
+_content_fr/docs/cv.md
+_content_fr/docs/portfolio.md
+_content_fr/products/Catalogizer.md
+_content_fr/products/Courses-Creator.md
+_content_fr/products/DocProcessor.md
+_content_fr/products/Helix-Flow.md
+_content_fr/products/HelixAgent.md
+_content_fr/products/HelixBuilder.md
+_content_fr/products/HelixCluster.md
+_content_fr/products/HelixCode.md
+_content_fr/products/HelixConstitution.md
+_content_fr/products/HelixGitpx.md
+_content_fr/products/HelixLLM.md
+_content_fr/products/HelixMemory.md
+_content_fr/products/HelixOTA.md
+_content_hi/products/HelixMemory.md
+_content_hi/products/HelixOTA.md
+_content_hi/products/HelixPlay.md
+_content_hi/products/HelixQA.md
+_content_hi/products/HelixSkills.md
+_content_hi/products/HelixSpecifier.md
+_content_hi/products/HelixTerminator.md
+_content_hi/products/HelixTrack.md
+_content_hi/products/HelixTranslate.md
+_content_hi/products/Herald.md
+_content_hi/products/LLMOrchestrator.md
+_content_hi/products/LLMProvider.md
+_content_hi/products/LLMsVerifier.md
+_content_hi/products/Mail-Server-Factory.md
+_content_hi/products/Parallels-Utils.md
+_content_hi/products/Qemu-Utils.md
+_content_hi/products/Server-Factory-Additional-Components.md
+_content_hi/products/Server-Factory-Core-Framework.md
+_content_hi/products/Vasic-Digital-Reusable-Module-Suite.md
+_content_hi/products/VisionEngine.md
+_content_hi/products/docs_chain.md
+_content_hi/products/task_bridge.md
+_content_hi/sites/milosvasic-ru.md
+_content_hi/sites/vasic-digital.md
+_content_ja/docs/cover-letter.md
+_content_ja/docs/cv.md
+_content_ja/docs/portfolio.md
+_content_ja/products/Catalogizer.md
+_content_ja/products/Courses-Creator.md
+_content_ja/products/DocProcessor.md
+_content_ja/products/Helix-Flow.md
+_content_ja/products/HelixAgent.md
+_content_ja/products/HelixBuilder.md
+_content_ja/products/HelixCluster.md
+_content_ja/products/HelixCode.md
+_content_ja/products/HelixConstitution.md
+_content_ja/products/HelixGitpx.md
+_content_ja/products/HelixLLM.md
+_content_ja/products/HelixMemory.md
+_content_ja/products/HelixOTA.md
+_content_ja/products/HelixPlay.md
+_content_ja/products/HelixQA.md
+_content_ja/products/HelixSkills.md
+_content_ja/products/HelixSpecifier.md
+_content_ja/products/HelixTerminator.md
+_content_ja/products/HelixTrack.md
+_content_ja/products/HelixTranslate.md
+_content_ja/products/Herald.md
+_content_ja/products/LLMOrchestrator.md
+_content_ja/products/LLMProvider.md
+_content_ja/products/LLMsVerifier.md
+_content_ja/products/Mail-Server-Factory.md
+_content_ja/products/Parallels-Utils.md
+_content_ja/products/Qemu-Utils.md
+_content_ja/products/Server-Factory-Additional-Components.md
+_content_ja/products/Server-Factory-Core-Framework.md
+_content_ja/products/Vasic-Digital-Reusable-Module-Suite.md
+_content_ja/products/VisionEngine.md
+_content_ja/products/docs_chain.md
+_content_ja/products/task_bridge.md
+_content_ja/sites/milosvasic-ru.md
+_content_ja/sites/vasic-digital.md
+_content_kk/docs/cover-letter.md
+_content_kk/docs/cv.md
+_content_kk/docs/portfolio.md
+_content_kk/products/Catalogizer.md
+_content_kk/products/Courses-Creator.md
+_content_kk/products/DocProcessor.md
+_content_kk/products/Helix-Flow.md
+_content_kk/products/HelixAgent.md
+_content_kk/products/HelixBuilder.md
+_content_kk/products/HelixCluster.md
+_content_kk/products/HelixCode.md
+_content_kk/products/HelixConstitution.md
+_content_kk/products/HelixGitpx.md
+_content_kk/products/HelixLLM.md
+_content_kk/products/HelixMemory.md
+_content_kk/products/HelixOTA.md
+_content_kk/products/HelixPlay.md
+_content_kk/products/HelixQA.md
+_content_kk/products/HelixSkills.md
+_content_kk/products/HelixSpecifier.md
+_content_kk/products/HelixTerminator.md
+_content_kk/products/HelixTrack.md
+_content_kk/products/HelixTranslate.md
+_content_kk/products/Herald.md
+_content_kk/products/LLMOrchestrator.md
+_content_kk/products/LLMProvider.md
+_content_kk/products/LLMsVerifier.md
+_content_kk/products/Mail-Server-Factory.md
+_content_kk/products/Parallels-Utils.md
+_content_kk/products/Qemu-Utils.md
+_content_kk/products/Server-Factory-Additional-Components.md
+_content_kk/products/Server-Factory-Core-Framework.md
+_content_kk/products/Vasic-Digital-Reusable-Module-Suite.md
+_content_kk/products/VisionEngine.md
+_content_kk/products/docs_chain.md
+_content_kk/products/task_bridge.md
+_content_kk/sites/milosvasic-ru.md
+_content_kk/sites/vasic-digital.md
+_content_ko/docs/cover-letter.md
+_content_ko/docs/cv.md</code></pre>
+<hr />
+<h2 id="internal-consistency">7. Internal consistency</h2>
+<p>Run on a read-only URI connection:</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> sqlite3.<span class="ex">connect</span>(<span class="st">&quot;file:&lt;home&gt;/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro&quot;</span>,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                      uri<span class="op">=</span><span class="va">True</span>, timeout<span class="op">=</span><span class="dv">300</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">&quot;PRAGMA busy_timeout=300000&quot;</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> r <span class="kw">in</span> con.execute(<span class="st">&quot;PRAGMA integrity_check&quot;</span>): <span class="bu">print</span>(r[<span class="dv">0</span>])</span></code></pre></div>
+<h3
+id="pragma-integrity_check-verbatim-output"><code>PRAGMA integrity_check</code>
+— verbatim output</h3>
+<pre><code>ok</code></pre>
+<h3 id="supporting-pragmas">Supporting pragmas</h3>
+<table>
+<thead>
+<tr>
+<th>Pragma</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PRAGMA quick_check</code></td>
+<td><code>ok</code></td>
+</tr>
+<tr>
+<td><code>PRAGMA foreign_key_check</code></td>
+<td>0 rows</td>
+</tr>
+<tr>
+<td><code>PRAGMA journal_mode</code></td>
+<td><code>wal</code></td>
+</tr>
+<tr>
+<td><code>PRAGMA page_size</code></td>
+<td><code>4096</code></td>
+</tr>
+<tr>
+<td><code>PRAGMA page_count</code></td>
+<td><code>24775</code></td>
+</tr>
+<tr>
+<td><code>PRAGMA freelist_count</code></td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>PRAGMA user_version</code></td>
+<td><code>0</code></td>
+</tr>
+</tbody>
+</table>
+<p>Clean, with no free pages — no sign of torn writes, rollback debris,
+or a half-vacuumed file. Executed at 2026-08-26T23:22:18+02:00 while
+<code>lumen index</code> was actively writing; the WAL was 8,285,352
+bytes at the time and the check still returned <code>ok</code>.</p>
+<hr />
+<h2 id="conclusions-and-recommended-action">8. Conclusions and
+recommended action</h2>
+<ol type="1">
+<li><p><strong>No vector in this index is corrupt.</strong> All 30,009
+were decoded and checked — 0 NaN, 0 Inf, 0 all-zero, 0 wrong-dimension,
+0 bad norms — and the decoding was independently validated against the
+live model (cosine 0.98–0.99).</p></li>
+<li><p><strong>The ollama NaN fault could not corrupt the index by
+construction.</strong> An HTTP 500 makes Lumen’s embed call return an
+error and the run aborts. No vector arrives, so none is stored. 140 log
+entries confirm every NaN hit terminated its run.</p></li>
+<li><p><strong>Aborted runs leave a partial but valid index.</strong>
+<code>files_unchanged</code> climbing 0 → 193 → 412 → 448 → 491 across
+six failed runs proves per-batch commits, each internally
+consistent.</p></li>
+<li><p><strong>The genuine damage is coverage.</strong> 12.8% of the
+project is indexed. Semantic search over <code>_tests/</code>,
+<code>_tools/</code>, <code>design-system/</code>, <code>docs/</code>,
+<code>scripts/</code>, <code>_content_sr|tr|zh/</code> will silently
+return nothing — the most dangerous failure mode here, because it looks
+like “no results” rather than an error.</p></li>
+<li><p><strong>Do not purge or rebuild.</strong>
+<code>lumen purge</code> would discard 30,009 verified-good vectors and
+restart a ~15-hour job. Let the running <code>lumen index</code>
+continue, or re-run it; it resumes from where it stopped.</p></li>
+<li><p><strong>Watch for a recurrence.</strong> ollama is healthy now,
+but the fault was intermittent for five weeks. Confirm completion
+with:</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">&#39;&quot;project&quot;:&quot;&lt;ext-volume-host&gt;/Projects/vasic&quot;&#39;</span> ~/.local/share/lumen/debug.log <span class="dt">\</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&#39;&quot;msg&quot;:&quot;indexing complete&quot;&#39;</span></span></code></pre></div>
+<p>A genuine completion reports non-zero <code>indexed_files</code> and
+<code>chunks_created</code>. Re-verify coverage with:</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> files <span class="kw">WHERE</span> <span class="kw">hash</span> <span class="op">&lt;&gt;</span> <span class="st">&#39;&#39;</span>;   <span class="co">-- target: ~3833</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> files <span class="kw">WHERE</span> <span class="kw">hash</span> <span class="op">=</span> <span class="st">&#39;&#39;</span>;    <span class="co">-- target: 0</span></span></code></pre></div></li>
+</ol>
+<h3 id="one-caveat-worth-flagging-inference-not-measurement">One caveat
+worth flagging (inference, not measurement)</h3>
+<p><code>project_meta.root_hash</code> advanced from
+<code>e762a114…</code> to <code>8f46dd1d…</code> and
+<code>last_indexed_at</code> to <code>2026-08-26T21:25:19Z</code> when
+the 23:11 run was <strong>cancelled</strong>, not completed. Lumen
+appears to persist these markers on run termination regardless of
+outcome. Per-file hashing still drives the real work — the very next
+plan (23:25:53) correctly found only 491 unchanged and 3,186 to add — so
+nothing was skipped in practice. But an incomplete index now carries a
+“fresh-looking” root hash, and if the tree stopped changing while
+coverage was partial, a fast-path “nothing to do” check on
+<code>root_hash</code> could in principle report the index as up to
+date. I did not observe this happening; treat it as a risk to watch, not
+a confirmed defect.</p>
+<hr />
+<h2 id="appendix-reproducing-this-report">Appendix: reproducing this
+report</h2>
+<p>Every figure above comes from one of these, all read-only:</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sqlite3, numpy <span class="im">as</span> np</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>DB <span class="op">=</span> <span class="st">&quot;file:&lt;home&gt;/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro&quot;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> sqlite3.<span class="ex">connect</span>(DB, uri<span class="op">=</span><span class="va">True</span>, timeout<span class="op">=</span><span class="dv">120</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">&quot;PRAGMA busy_timeout=120000&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- schema</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">type</span>, name, tbl_name, sql <span class="kw">FROM</span> sqlite_master <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="kw">type</span>, name;</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">key</span>, <span class="fu">value</span> <span class="kw">FROM</span> vec_chunks_info;</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- identity + counts</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">key</span>, <span class="fu">value</span> <span class="kw">FROM</span> project_meta <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="kw">key</span>;</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> files;</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> chunks;</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> vec_chunks_rowids;</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> files <span class="kw">WHERE</span> <span class="kw">hash</span> <span class="op">&lt;&gt;</span> <span class="st">&#39;&#39;</span>;</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> files <span class="kw">WHERE</span> <span class="kw">hash</span> <span class="op">=</span> <span class="st">&#39;&#39;</span>;</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="co">-- vector storage layout</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> c.chunk_id, c.<span class="kw">size</span>, <span class="fu">length</span>(c.validity), <span class="fu">length</span>(c.rowids), <span class="fu">length</span>(v.vectors)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> vec_chunks_chunks c</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> vec_chunks_vector_chunks00 v <span class="kw">ON</span> v.<span class="dt">rowid</span> <span class="op">=</span> c.chunk_id</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> c.chunk_id;</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a><span class="co">-- vector decode inputs</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">id</span>, chunk_id, chunk_offset <span class="kw">FROM</span> vec_chunks_rowids;</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">id</span>, file_path, symbol, kind, start_line, end_line <span class="kw">FROM</span> chunks;</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> c.chunk_id, c.<span class="kw">size</span>, c.validity, c.rowids, v.vectors</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> vec_chunks_chunks c</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="kw">JOIN</span> vec_chunks_vector_chunks00 v <span class="kw">ON</span> v.<span class="dt">rowid</span> <span class="op">=</span> c.chunk_id</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> c.chunk_id;</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="co">-- referential integrity</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> chunks c <span class="kw">LEFT</span> <span class="kw">JOIN</span> vec_chunks_rowids r <span class="kw">ON</span> r.<span class="kw">id</span> <span class="op">=</span> c.<span class="kw">id</span> <span class="kw">WHERE</span> r.<span class="kw">id</span> <span class="kw">IS</span> <span class="kw">NULL</span>;</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> vec_chunks_rowids r <span class="kw">LEFT</span> <span class="kw">JOIN</span> chunks c <span class="kw">ON</span> c.<span class="kw">id</span> <span class="op">=</span> r.<span class="kw">id</span> <span class="kw">WHERE</span> c.<span class="kw">id</span> <span class="kw">IS</span> <span class="kw">NULL</span>;</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> vec_chunks_rowids <span class="kw">WHERE</span> chunk_id <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">OR</span> chunk_offset <span class="kw">IS</span> <span class="kw">NULL</span>;</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> chunks c <span class="kw">LEFT</span> <span class="kw">JOIN</span> files f <span class="kw">ON</span> f.path <span class="op">=</span> c.file_path <span class="kw">WHERE</span> f.path <span class="kw">IS</span> <span class="kw">NULL</span>;</span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> chunks <span class="kw">WHERE</span> end_line <span class="op">&lt;</span> start_line;</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> chunks <span class="kw">WHERE</span> start_line <span class="op">&lt;</span> <span class="dv">0</span>;</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> chunks <span class="kw">WHERE</span> symbol <span class="op">=</span> <span class="st">&#39;&#39;</span>;</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a><span class="co">-- coverage</span></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="cf">CASE</span> <span class="cf">WHEN</span> <span class="fu">instr</span>(path,<span class="st">&#39;/&#39;</span>)<span class="op">&gt;</span><span class="dv">0</span> <span class="cf">THEN</span> <span class="fu">substr</span>(path,<span class="dv">1</span>,<span class="fu">instr</span>(path,<span class="st">&#39;/&#39;</span>)<span class="op">-</span><span class="dv">1</span>) <span class="cf">ELSE</span> <span class="st">&#39;&lt;root file&gt;&#39;</span> <span class="cf">END</span> <span class="kw">AS</span> top,</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> files <span class="kw">GROUP</span> <span class="kw">BY</span> top <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dv">2</span> <span class="kw">DESC</span>;</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> f.path <span class="kw">FROM</span> files f <span class="kw">LEFT</span> <span class="kw">JOIN</span> chunks c <span class="kw">ON</span> c.file_path <span class="op">=</span> f.path</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a><span class="kw">WHERE</span> c.<span class="kw">id</span> <span class="kw">IS</span> <span class="kw">NULL</span> <span class="kw">ORDER</span> <span class="kw">BY</span> f.path;</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> kind, <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> chunks <span class="kw">GROUP</span> <span class="kw">BY</span> kind <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dv">2</span> <span class="kw">DESC</span>;</span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a><span class="co">-- consistency</span></span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>PRAGMA integrity_check;</span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>PRAGMA quick_check;</span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a>PRAGMA foreign_key_check;</span></code></pre></div>
+<p>Vector decode, per block:</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>arr   <span class="op">=</span> np.frombuffer(vectors, dtype<span class="op">=</span><span class="st">&#39;&lt;f4&#39;</span>).reshape(size, <span class="dv">768</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>valid <span class="op">=</span> np.unpackbits(np.frombuffer(validity, dtype<span class="op">=</span>np.uint8), bitorder<span class="op">=</span><span class="st">&#39;little&#39;</span>)[:size]</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># check only slots present in vec_chunks_rowids:</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   np.isnan(v).sum(), np.isinf(v).sum(), np.any(v), np.linalg.norm(v.astype(np.float64))</span></span></code></pre></div>
+<p>Chunk kind distribution, for reference:</p>
+<table>
+<thead>
+<tr>
+<th>kind</th>
+<th style="text-align: right;">count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>section</code></td>
+<td style="text-align: right;">29,692</td>
+</tr>
+<tr>
+<td><code>document</code></td>
+<td style="text-align: right;">31</td>
+</tr>
+<tr>
+<td><code>function</code></td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr>
+<td><code>var</code></td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+<p>(Overwhelmingly Markdown sections, consistent with the
+alphabetically-early <code>_content*</code> and <code>_analysis</code>
+directories being the only ones reached so far. No source-code directory
+has been indexed yet.)</p>
+</body>
+</html>

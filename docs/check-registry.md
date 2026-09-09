@@ -1163,3 +1163,480 @@ in the detector's own source.
 | `N10` | an allow entry matching nothing is reported as stale, never silent |
 | `N11`–`N14` | four could-not-determine states → **rc 2**: absent target, not a git tree, empty scan universe, uninitialised submodule |
 | all 14 | the output never reprints the planted token |
+
+---
+
+## `pretooluse-guard` — added 2026-09-09
+
+`scripts/verify-pretooluse-guard.sh`. The §11.4.234(A)(3) dedicated
+hook-validation stage for the §11.4.109 PreToolUse guard hook. It closes
+inventory gap **G12**.
+
+### What it closes
+
+G12 read: *"no `PreToolUse` guard is wired, although the canonical guard script
+is present in the submodule."* The canonical script has been sitting in
+`submodules/constitution/scripts/hooks/` unreferenced — a guard present in the
+tree and wired to nothing, which is the same shape as the unused
+`submodules/containers` gitlink recorded elsewhere in this repository: every
+gate green over a component nothing consumed.
+
+The hook is now wired in **`.claude/settings.json`**, which is **tracked**
+(`git ls-files --error-unmatch .claude/settings.json` succeeds). That choice is
+the whole point of assertion V3 below. The alternative — the host-wide
+`~/.claude*/settings.json` — would guard this developer's machine and nothing
+else, reproducing exactly the `.git/hooks/` hole this repository already
+documents: untracked, so a fresh clone is unprotected and nobody is told.
+
+The hook is **referenced, never copied**. §11.4.109(A) forbids a local copy in
+terms — *"a copy diverges silently"* — so V2 accepts only a command string that
+names the canonical submodule path and REJECTS a local copy even when that copy
+is byte-identical today.
+
+### Contract
+
+Three-valued. **2 is never a pass.**
+
+| rc | meaning |
+|---|---|
+| 0 | wired, referenced, tracked, and demonstrably firing |
+| 1 | a real defect: unwired, wired to a copy, inoperative, over-blocking, untracked, or a missing/mutilated preamble document |
+| 2 | could not determine: root absent, root not a git tree, or `bash`/`git` unavailable |
+
+### The assertions, and why V4–V6 are the load-bearing ones
+
+| id | asserts |
+|---|---|
+| V1 | the canonical guard exists at the canonical submodule path |
+| V2 | `.claude/settings.json` declares a `PreToolUse` hook command naming **that** path — a local copy is rejected |
+| V3 | that settings file is **tracked in git**, so a fresh clone inherits the guard |
+| V4 | the wired guard is **executed** against five forbidden probes — force-push, force-with-lease, `--no-verify`, privilege escalation, host-power — and must refuse all five with rc 2 |
+| V5 | the same guard **allows** a benign `git status` and a non-Bash tool call — a guard that blocks everything is switched off within the hour, so over-blocking is a defect too |
+| V6 | the `# guardrails:allow` escape marker does **not** downgrade the host-power class (§11.4.109(A)5, §12) |
+| V7 | `docs/AGENT_GUARDRAILS.md` carries both mandated headings and the `11.4.109` anchor literal (§11.4.109(B)/(C)) |
+| V8 | the upstream hermetic harness `test_guard_forbidden_commands.sh` is present |
+
+V4 is the reason this check exists at all. A validator that reads a JSON key and
+reports green has verified that a *string* is in a *file*; it has verified
+nothing about whether a forbidden command would be stopped. §11.4.201 names that
+failure precisely — a guard that reports a false GREEN is worse than no guard,
+because it converts an open hole into a closed ticket. Every probe V4 sends is
+harmless even if the guard were absent: nothing is executed, the command text
+only ever reaches the guard on stdin as JSON.
+
+**Deferred, not dropped (§11.4.234(C)).** V8 asserts the upstream harness is
+PRESENT; it does not run it, because a 70-case suite does not belong inside a
+pre-push cheap check. Its execution is a separately named stage and the green
+output says so on every run rather than letting the deferral go unrecorded:
+
+```
+bash submodules/constitution/scripts/hooks/test_guard_forbidden_commands.sh
+```
+
+### Measured on this tree, 2026-09-09
+
+```
+  PASS  V1 canonical guard present     submodules/constitution/scripts/hooks/guard-forbidden-commands.sh
+  PASS  V2 PreToolUse hook wired       → submodules/constitution/scripts/hooks/guard-forbidden-commands.sh
+  PASS  V3 wiring survives a fresh clone   .claude/settings.json is tracked
+  PASS  V4 guard fires on a forbidden probe   5/5 classes refused with rc 2
+  PASS  V5 guard passes benign calls          benign Bash + non-Bash tool both rc 0
+  PASS  V6 escape hatch cannot unlock host-power   still rc 2 with the marker present
+  PASS  V7 preamble document           both mandated headings + anchor literal present
+  PASS  V8 upstream hermetic harness present
+  PASS=8 FAIL=0 UNDET=0                                                     rc=0
+```
+
+### Paired proof
+
+```
+bash scripts/verify-pretooluse-guard.sh --prove-failure   # rc 0, 15 cases
+```
+
+The CONTROL is a **synthetic** throwaway tree built in `mktemp -d`, green by
+construction, so no state of the real repository can redden the control and
+silently switch the battery off. Every mutation is applied to that throwaway;
+nothing in `submodules/constitution` is ever written to.
+
+| case | asserts |
+|---|---|
+| `C1` | an intact synthetic tree passes — rc 0 |
+| `M1` | the `hooks` key removed from settings → rc 1 |
+| `M2` | wired to a LOCAL COPY of the guard instead of the submodule path → rc 1, even though the copy is byte-identical |
+| `M3` | the guard **neutered** to `exit 0` → rc 1. This is the mutation the whole check is for: settings unchanged, config assertion still green, guard useless |
+| `M4` | the guard **over-blocking** with `exit 2` → rc 1 |
+| `M5` | a guard that lets `# guardrails:allow` unlock host-power → rc 1 |
+| `M6` | settings.json UNTRACKED → rc 1 — the `.git/hooks/` hole, caught |
+| `M7` | the canonical guard script deleted → rc 1 |
+| `M8`–`M10` | preamble deleted / a mandated heading stripped / the `11.4.109` literal stripped → rc 1 each |
+| `M11` | the upstream hermetic harness deleted → rc 1 |
+| `M12` | settings.json malformed, so the harness would load no hooks at all → rc 1 |
+| `U1`, `U2` | not a git tree, and an absent root → **rc 2**, never a pass |
+
+`M3` and `M6` are the two that a config-reading validator would miss entirely,
+and they are the two most likely real-world regressions: someone edits the
+submodule copy, or someone gitignores `.claude/`.
+
+### One defect the battery found in its own validator
+
+The first run reported `14 passed / 1 failed` with the CONTROL red and the
+mutation labels printed blank. Two real bugs, both found by the proof rather
+than by reading: the synthetic settings heredoc emitted `\$` inside a JSON
+string, which is an invalid JSON escape, so `jq` refused the file the control
+depended on; and the V4 probe loop read into an undeclared `label`, clobbering
+the caller's variable of the same name in every case that reached V4. Both are
+fixed and the second carries an inline comment saying why the `local` is
+load-bearing. Recorded because a proof that found nothing on its first run is
+the one to distrust.
+
+## `zero-findings-sweep` — registered 2026-09-05, documented 2026-09-09
+
+| field | value |
+|---|---|
+| row | `check	zero-findings-sweep	scripts/audit/zero_findings_sweep.sh	flag	--prove-failure	--root /nonexistent` |
+| entry point | `bash scripts/audit/zero_findings_sweep.sh` |
+| paired proof | `bash scripts/audit/zero_findings_sweep.sh --prove-failure` |
+| rc-2 probe | `--root /nonexistent` — **measured rc 2**, 2026-09-09 |
+| anchor | §11.4.261 (+ clause (C) ratchet) |
+
+This section is the R5 documentation half, written **2026-09-09**, four days
+after the row itself landed. The row has been conformant since it was added —
+`verify-check-registry.sh` reports it PASS — but the registry doc carried no
+entry for it, and a check nobody can read about is a check nobody can audit.
+
+### What it enforces
+
+It iterates the §11.4.261(A) closed vocabulary — shortcomings, gaps, weak-spots,
+danger-zones, todo-fixme, skipped-tests, bluffs, unresolved,
+divergent-stale-orphan, uncatalogued — over every tracked file at this root, and
+compares each class's live count against the ceiling recorded in
+`docs/findings/zero_findings_ratchet.tsv`. Scope is by construction, not by
+filter: it enumerates with `git ls-files`, and a gitlink is one entry, so
+submodule content never enters the count. Three exclusions are declared and
+printed on every run, one of which is the sweep's own source — it carries the
+patterns it hunts for, so scanning itself would be self-detection, not a finding.
+
+### Contract
+
+Three-valued, and a 2 is never a pass:
+
+- **0** — every class is within its ceiling.
+- **1** — at least one class ROSE above its ceiling. The seam is refused.
+- **2** — COULD NOT DETERMINE: no ratchet snapshot recorded, a detector input
+  missing, or the root absent. An unrecorded baseline is never a pass, and a
+  blind detector reports blind rather than zero.
+
+`--write-ledger` regenerates `docs/findings/zero_findings_ledger.jsonl` (the
+§11.4.261(B) SSoT). `--write-ratchet` regenerates the ceilings and **refuses to
+raise any of them**, which is clause (C) implemented rather than described.
+
+### Paired proof
+
+`--prove-failure` — **15/15 mutations caught, measured 2026-09-09**, every one
+DATA (planted fixtures in a throwaway tree), never an edit to the sweep, so no
+mutation can leave a weakened detector behind. It carries a CONTROL that proves
+the proof is not vacuous, one mutation per vocabulary class (M1–M10), and three
+that matter more than the rest:
+
+| case | asserts |
+|---|---|
+| M11 | a finding above the ceiling makes the sweep REFUSE (rc 1) — the rise fails closed |
+| M12 | `--write-ratchet` REFUSED to raise a ceiling (rc 1) — debt cannot be absorbed by re-baselining upward |
+| M13 | a tree with no ratchet snapshot returns rc **2**, not rc 0 |
+| M14 | removing a detector input returns rc **2** — the DROP direction, so a detector that stops detecting is reported blind rather than as zero findings |
+
+M14 is the case that keeps this sweep out of the trap the constitution sweep
+itself fell into before 2026-09-02 (see *The ledger, and why it is not a
+hardcoded list* above): a count that falls because the instrument stopped
+looking must never read as progress.
+
+`--selftest` is separate and cheaper: **22 passed / 0 failed**, golden-good
+clean, golden-bad detected in all 10 classes, plus negative controls.
+
+### Measured on this tree, 2026-09-09 — and it is RED
+
+**exit 1.** 2860 tracked files scanned after 2 declared exclusions:
+
+```
+shortcomings 1 > 0 | skipped-tests 16 > 9 | TOTAL 35 > 26   -> RATCHET REFUSED
+```
+
+The other seven classes are within ceiling. This red is the ratchet working, not
+the sweep failing, and it is **left red deliberately**: the ceilings may only
+ever be lowered, and neither risen class can be honestly cleared from here. The
+one `shortcomings` row is the registry's own remaining DEBT row
+(`translation-review`, which owes a proof and a three-valued exit and needs a
+reviewer model backend). The `skipped-tests` rise is mostly `_tests/preflight.js`
+and `_tests/prove-preflight.sh`, added 2026-09-06 — real new matches in real new
+files, not a detector change.
+
+### The stale-SSoT defect this section records
+
+Until 2026-09-09 the committed ledger was the one written **2026-09-04** and
+recorded 26 rows while the live sweep measured 35. Because
+`CM-ZERO-FINDINGS-MONOTONE-RATCHET` reads the *ledger*, and the README
+zero-findings badge reads the *ledger*, both were **green/amber over a stale
+SSoT** while the live sweep refused the seam. Regenerating the ledger flipped the
+gate to its honest FAIL and the badge to its honest colour. Nothing was
+weakened; a false green was removed. **A ledger that is not regenerated is not a
+record, it is a memory of a tree that no longer exists.**
+
+## `badge-computer` — registered 2026-09-05, documented 2026-09-09
+
+| field | value |
+|---|---|
+| row | `check	badge-computer	scripts/badges/compute_badges.sh	flag	--prove-failure	--check --root /nonexistent` |
+| entry point | `bash scripts/badges/compute_badges.sh --check` |
+| paired proof | `bash scripts/badges/compute_badges.sh --prove-failure` |
+| rc-2 probe | `--check --root /nonexistent` — **measured rc 2**, 2026-09-09 |
+| anchor | §11.4.259 (clauses A, C, D, E, F) |
+
+### What it enforces
+
+§11.4.259(C) is the clause that decides what this script is: every badge's colour
+and value is COMPUTED from a live source of truth, never hand-typed. The script
+separates MEASURE (run commands against this tree), CLASSIFY (turn a measurement
+into one of the closed GREEN/AMBER/RED vocabulary) and RENDER (emit Markdown), so
+the (F) golden fixtures can exercise classify and render with planted inputs
+without first breaking the real repository. `--check` re-runs the measurements and
+REFUSES when the committed row no longer matches them; `--write` regenerates the
+row in `README.md` and the provenance table in `docs/BADGES.md`.
+
+### Contract
+
+- **0** — the committed row matches every live source.
+- **1** — DRIFT: the row disagrees with a measurement, is missing, or a badge has
+  no provenance entry.
+- **2** — COULD NOT DETERMINE (e.g. the README is absent). Never a pass.
+
+### Paired proof
+
+`--prove-failure` — **9/9 mutations caught, measured 2026-09-09**, including the
+CONTROL. The load-bearing ones are M1 (a 0% measurement against a 90% target
+classifies RED, not GREEN — the §11.4.259(F) golden-RED assertion, the bluff the
+anchor names explicitly), M2 (the colour `beta` is REFUSED — clause (A) admits no
+gradations), M4 (a stale row claiming green over a red measurement → rc 1), M5 (an
+absent README → rc 2, not 0), M6 (the production-readiness gauge over
+`{amber,red}` inputs is RED — it cannot outrank its inputs) and M8 (all 12 badges
+carry a non-empty provenance string).
+
+`--selftest` runs the clause-(F) fixtures: **12 passed / 0 failed** —
+golden-good GREEN, golden-bad RED, golden-amber AMBER, plus negative controls
+asserting the colour actually reaches the rendered URL.
+
+### Measured on this tree, 2026-09-09 — the row was STALE and understated the red
+
+`--check` opened at **rc 1**. The committed row claimed `evidence 22/22 proofs`
+(amber) and a gauge of `blocked, 8 red`; the live measurement said `evidence
+29/30 proofs` (**red**) and `blocked, 9 red`. The README was therefore showing a
+**friendlier** picture than the tree — the §11.4.259(E) always-in-sync violation,
+in the direction that matters. `--write` regenerated it and `--check` now exits
+**0** (12 badges in sync).
+
+The row is honestly red — 9 RED, 2 AMBER, 1 GREEN, gauge RED — and that is
+compliance, not failure. §11.4.259's own honest boundary says so: *"a project
+whose badge row is HONESTLY red is compliant with §11.4.259 (the reader gets the
+truth) even while it fails other release gates."* The alternative — omitting the
+classes this project has no instrument for — is the §11.4.201(6) FALSE-NULL the
+anchor names by name.
+
+### One defect this session's re-measurement found in the badge computer itself
+
+Regenerating the row surfaced a fault the earlier green `--check` could not have
+shown, because it only appears once a badge CHANGES colour. Both the
+`zero-findings` and `evidence` badges built their provenance string with the
+rationale **hardcoded**: `"... AMBER because the §11.4.261 invariant is ZERO and
+the ratchet is holding at a brownfield baseline"` and `"... AMBER not GREEN
+because §11.4.262 also requires a CAPTURED evidence ARTIFACT"`. The colour was
+computed by a three-branch conditional directly above; the sentence explaining it
+was not. So when the ledger rose past the ratchet and the badge correctly turned
+**RED**, `docs/BADGES.md` went on telling the reader why it was AMBER.
+
+§11.4.259(C) makes provenance part of the badge, not a comment beside it — a
+badge whose provenance is wrong is not a badge with a cosmetic blemish. Both
+rationales are now selected in the same branch that selects the colour, so a
+rationale cannot disagree with the badge it explains. Re-measured after the fix:
+`--selftest` 12 passed / 0 failed, `--prove-failure` 9/9 caught, `--check` rc 0.
+
+Worth recording for the class, not the instance: **a value and the sentence
+explaining that value must be produced by the same branch.** Anywhere they are
+computed separately, they are free to drift, and they will drift silently in the
+direction of whatever the sentence was written for on the day.
+
+---
+
+## `claim-ledger` — added 2026-09-09 (§11.4.266)
+
+`docs/claim-ledger.tsv` + `scripts/verify-claim-ledger.sh`
+
+Registered as `claim-ledger`, proof `--prove-failure`, rc-2 probe
+`--root /nonexistent`.
+
+### What it closes — nine measured instances, not a hypothesis
+
+**No instrument in this tree compared a RECORDED CLAIM against the thing it
+describes.** Every gate here verifies its subject; not one verified what the
+repository *says* about its subject. A gitlink moves, every gate stays green,
+and the documents go on asserting a gap that closed days ago. Nine instances
+were measured on 2026-09-07/08/09:
+
+1. `submodules/containers` — nine tracked files asserted "`pkg/runtime` has no
+   `Run`, no `Create`" for five days after the primitive shipped upstream, two
+   commits *before* the pin this tree already consumed.
+2. Three "actionable FAILs" recorded as work to do; all three already existed.
+3. Two of those gates were **PASSING over a stale ledger** — it recorded 26
+   findings while the live sweep measured 35, and both the ratchet gate and the
+   README badge read the LEDGER rather than the live sweep.
+4. `-question-verify none` recorded as unrecognised; it had landed in `5642dd6`.
+5. A `redactions` table recorded as empty; it had already materialised.
+6. "34 runs no setting readable today explains" — it is 43, and they are.
+7. "the sweep keeps no expected-gate ledger" — the ledger exists, at 271 rows.
+8. A note claiming 66 rows against a 49-row artefact, whose gate exited 0
+   because nothing read the prose.
+9. A stop-rule asserting a PROXY that fires on the safe case.
+
+**Note the shape: several were GREEN GATES OVER STALE GROUND TRUTH.** That is
+the failure this gate must not become, and the format is built against it.
+
+### Why a side ledger and not in-place annotation
+
+Both were considered. The ledger won on three measurements:
+
+- **The four-carrier lockstep constraint.** `CLAUDE.md` / `AGENTS.md` /
+  `QWEN.md` / `GEMINI.md` are byte-identical from the measured convergence line
+  (19) down and cascade check **C5** enforces it. An in-place annotation would
+  have to be byte-identical in four files, so *registering one claim* would
+  become a four-file lockstep edit — and every such edit is a chance to put C5
+  red. Registration must be cheap or it will not happen.
+- **§11.4.266(A) mandates the ledger shape**: "ONE LEDGER PER REPOSITORY,
+  ENUMERATED FROM THE CLAIM SIDE." A row is the unit the anchor names.
+- **This repository already parses ledgers as TSV** —
+  `scripts/check-registry.tsv`, `scripts/constitution-gate-ledger.tsv`,
+  `docs/findings/zero_findings_ratchet.tsv`. TSV needs no `yq`, and a
+  pre-push instrument must not have a parser that can fail to load.
+
+The cost of the choice is stated rather than hidden: a side ledger can be
+orphaned from the document it describes. That is exactly why **L1** exists —
+a row whose anchor no longer matches is a FINDING, not a tidy-up.
+
+### The format, and the one property that keeps it honest
+
+```
+surface  <path>
+claim    <id> <surface> <kind> <bluff-type> <severity> <op> <expected> <anchor> <probe>
+```
+
+**A `prose` row stores NO measured figure.** The CLAIMED value is read out of
+the document at run time by the anchor's single capture group; the REAL value
+comes from running the probe fresh. There is nothing cached that can go stale,
+and **no way to make such a row green by editing the ledger** — editing the
+anchor only re-points it at different prose. Instance 3 above cannot recur in a
+`prose` row by construction.
+
+An `assert` row is for a claim that states no number ("the sweep keeps no
+expected-gate ledger"). It *does* store an expected value, and that is its
+honest boundary: someone could make it green by editing `expected` while the
+prose still asserts the old proposition. Prefer `prose`.
+
+`bluff-type` is drawn from the **seven-member closed vocabulary of
+§11.4.266(B)** — `green-but-broken`, `coverage-theater`,
+`rubber-stamp-verified`, `stubbed-core`, `doc-vs-code-drift`,
+`config-present-but-unwired`, `byte-identical-fork`. An invented type is a FAIL.
+The type is a **routing key** to the anchor that owns its counter-gate
+(§11.4.266(C)), not a label. `severity` is consumer-supplied DATA — the corpus
+states no scale; here it is `blocker | major | minor`.
+
+### Contract
+
+Three-valued, and **2 is never a pass**:
+
+- **0** — every row's claim is still made and still agrees with a measurement
+  taken during *this run*
+- **1** — a claim is FALSE, a row is an ORPHAN, a row carries an invented bluff
+  type, or a row is malformed
+- **2** — no `python3`, no ledger, **a ledger with zero claim rows** (vacuity: a
+  gate that reports 0 over nothing has certified nothing), an absent surface, or
+  a probe that would not run
+
+**Precedence: 1 outranks 2**, and it is asserted by mutation `P1` rather than
+declared. If 2 won, one broken probe anywhere would mask every false claim in
+the file.
+
+**Every occurrence of an anchor is checked, not the first.** A dead figure
+written in a live figure's clothes is a finding. This repository deliberately
+records superseded numbers in prose, so an anchor must be specific enough to
+match only the live assertion — a too-loose anchor surfaces as a FALSE, never
+as silence. Control arm `C1` proves a superseded figure recorded *outside* the
+anchor stays green, so the withdraw-by-name convention is not made impossible.
+
+### Paired proof (§1.1) — 13 arms, data-driven, in a throwaway lab
+
+Nothing in the battery edits the gate, and nothing runs against the live tree.
+Two controls, eight mutations, three rc-2 arms:
+
+```
+C0  CONTROL — a fully TRUE ledger over a matching tree fires nothing        rc 0
+C1  CONTROL — a SUPERSEDED figure in prose, outside the anchor, stays green rc 0
+M1  the DOCUMENT'S asserted figure is falsified                            rc 1
+M2  REALITY MOVES while the claim stays put — THE measured defect class     rc 1
+M3  ORPHAN — the claim is deleted, the row survives                        rc 1
+M4  a SECOND occurrence of the claim shape carries a DEAD figure           rc 1
+M5  an INVENTED bluff type outside the seven-member closed set             rc 1
+M6  a MALFORMED row                                                        rc 1
+M7  an ASSERT row's reality moves — the thing it denies now exists         rc 1
+U1  a probe that WILL NOT RUN is UNDETERMINED, never verified              rc 2
+U2  an ABSENT SURFACE is UNDETERMINED                                      rc 2
+U3  VACUITY — a ledger with zero claim rows certifies nothing              rc 2
+P1  PRECEDENCE — a FALSE claim outranks an UNDETERMINED one                rc 1
+```
+
+**C0 is the §11.4.201(1) golden-FALSE fixture**: a fully-populated ledger whose
+every row is true must fire *nothing*. **M2 is the load-bearing arm.** All nine
+measured instances have that shape — reality moved, the claim did not — and a
+gate that caught only M1's direction would have caught *none* of them.
+
+**Every arm declares `expect_change`, and an arm whose body leaves the lab
+byte-identical FAILS.** Adopted from the lesson recorded in
+`workshop/platform/gates/prove-plan-coverage-proposal.sh`, where three arms
+silently became no-ops when the figures they named literally moved, and only
+surfaced because they wanted rc 1 — an arm wanting rc 0 would have passed
+for ever while testing nothing. The harness was itself proved operative:
+seeding M2's body with `true` in a throwaway copy produces
+`FAIL M2 … the arm body left the lab BYTE-IDENTICAL`, and the battery exits 1.
+
+### What this gate does NOT assert — read before quoting a green exit
+
+- **COMPLETENESS.** §11.4.266(A) requires *every* advertised capability on every
+  declared surface to resolve to exactly one row.
+  **`CM-CLAIM-REALITY-LEDGER-COMPLETE` IS NOT SATISFIED.** The ledger is a
+  bounded slice of 10 rows and both the gate and the ledger say so on every
+  run. `--completeness` counts unregistered countable-claim shapes and reports
+  them as waves for an operator to approve; it is a NOTE, never a verdict input,
+  because a heuristic claim-shape scanner cannot decide what is a claim.
+- **ORACLE STRENGTH.** A row proves the claim agrees with what its probe
+  measured, not that the probe measures the right thing (§11.4.245, §1.1).
+- **The other three carriers.** A shared-region claim is registered once against
+  `CLAUDE.md`; C5's byte-identity covers `AGENTS.md` / `QWEN.md` / `GEMINI.md`.
+  If C5 went red, a now-false claim surviving in one carrier alone would be
+  invisible *here*. The two gates are complements.
+
+### First real run, 2026-09-09 — RED, on three genuinely stale claims
+
+```
+   rows:    10 claim row(s) over 5 declared surface(s)
+   verdict: 7 VERIFIED · 3 FALSE · 0 ORPHAN · 0 MALFORMED/UNTYPED · 0 UNDETERMINED
+```
+
+The three FALSE rows were real and were **not** seeded:
+
+| row | the document said | a fresh measurement said |
+|---|---|---|
+| `carriers-containers-consumer-files` | `_tools/containers/` has **7** tracked files | **18** |
+| `carriers-sweep-keeps-no-gate-ledger` | the sweep keeps **no expected-gate ledger** | it exists, 271 rows |
+| `readme-zero-findings-badge` | badge: `zero findings — 35 over ratchet` | live sweep TOTAL **33**, then **34** |
+
+The last row is instance 3 recurring while this gate was being written: the
+badge was computed once and frozen, the sweep kept moving, and the README went
+on showing a friendlier picture than the tree. It also moved **between two runs
+of this gate in the same session**, which is why the gate fingerprints its read
+set and reports a moving corpus by path.

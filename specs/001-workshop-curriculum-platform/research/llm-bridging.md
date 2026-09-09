@@ -161,16 +161,16 @@ The reference module's backend confirms it: `ai_interviewing/platform/backend/go
 
 ```bash
 env | grep -E 'SSL_CERT_FILE|NODE_EXTRA_CA_CERTS'
-# SSL_CERT_FILE=/home/milosvasic/.helixagent/ca-bundle.pem
-# NODE_EXTRA_CA_CERTS=/home/milosvasic/.helixagent/ca-bundle.pem
+# SSL_CERT_FILE=<home>/.helixagent/ca-bundle.pem
+# NODE_EXTRA_CA_CERTS=<home>/.helixagent/ca-bundle.pem
 ls -l ~/.helixagent/ca-bundle.pem
 # -rw-r--r-- 223959 Apr 30 11:39   (exists)
 ```
 
-`~/.bashrc:65-69` explains it: *"trust the self-signed HelixLLM cert via the unified CA bundle. The bundle contains system CAs + HelixLLM/certs/cert.pem (the live cert the HelixLLM server actually serves)."* But `~/.profile:10` sets `NODE_EXTRA_CA_CERTS=/run/media/milosvasic/DATA4TB/Projects/HelixAgent/HelixLLM/certs`, and:
+`~/.bashrc:65-69` explains it: *"trust the self-signed HelixLLM cert via the unified CA bundle. The bundle contains system CAs + HelixLLM/certs/cert.pem (the live cert the HelixLLM server actually serves)."* But `~/.profile:10` sets `NODE_EXTRA_CA_CERTS=<ext-volume-host>/Projects/HelixAgent/HelixLLM/certs`, and:
 
 ```bash
-ls -d /run/media/milosvasic/DATA4TB/Projects/HelixAgent
+ls -d <ext-volume-host>/Projects/HelixAgent
 # ls: cannot access ...: No such file or directory
 ```
 
@@ -210,10 +210,10 @@ jq -r '.model // "-"'            ~/.config/opencode/opencode.json   # → -
 **f) `LLMProvider` — the one real, reachable artefact.**
 
 ```bash
-find /home/milosvasic /run/media/milosvasic/DATA4TB/Projects -maxdepth 4 -type d -name LLMProvider
-# /home/milosvasic/Yole/LLMProvider
-# /run/media/milosvasic/DATA4TB/Projects/helix_translate/LLMProvider
-git -C /run/media/milosvasic/DATA4TB/Projects/helix_translate/LLMProvider remote -v
+find <home> <ext-volume-host>/Projects -maxdepth 4 -type d -name LLMProvider
+# <home>/Yole/LLMProvider
+# <ext-volume-host>/Projects/helix_translate/LLMProvider
+git -C <ext-volume-host>/Projects/helix_translate/LLMProvider remote -v
 # origin  git@github.com:HelixDevelopment/LLMProvider.git
 head -3 .../LLMProvider/go.mod       # module digital.vasic.llmprovider ; go 1.25.3
 ls .../LLMProvider/pkg/providers | wc -l   # → 43

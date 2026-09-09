@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>data-model</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">data-model</h1>
+</header>
+<h1 id="data-model-chapter-hierarchy">Data Model — Chapter
+Hierarchy</h1>
+<p><strong>Feature</strong>: <code>specs/003-chapter-hierarchy</code> |
+<strong>Date</strong>: 2026-09-05</p>
+<p><strong>Normative dependencies</strong>:
+<code>specs/001-workshop-curriculum-platform/data-model.md</code>
+defines the Chapter entity and
+<code>specs/001-workshop-curriculum-platform/contracts/http-api.md</code>
+defines its wire form. <strong>This document amends both</strong>, and
+the amendment is not editorial — see §1.1. Where this document and a 001
+contract disagree on anything <em>other</em> than the two amendments
+named there, the 001 contract wins and this document is the defect.</p>
+<h2 id="what-already-exists-and-is-not-redefined-here">0. What already
+exists and is not redefined here</h2>
+<p>Restated only to fix the boundary. None of this is changed by this
+feature.</p>
+<ul>
+<li><strong>Passage</strong> — the smallest addressable unit of source
+content. Carries a minted 26-character identifier, a kind, a
+<strong>chapter <code>scope</code></strong>, an ordering key, a source
+reference, text, provenance, confidence, an uncertainty flag, a
+redaction flag and a change-detection hash. Measured 2026-09-05:
+<strong>13,141 records</strong>, of which <strong>1,819</strong> carry
+the chapter scope <code>01</code>, <strong>2,176</strong> carry
+<code>docs</code>, <strong>2</strong> carry <code>curriculum</code>, and
+<strong>9,144</strong> carry no scope. <strong>The <code>scope</code>
+field is already an opaque string and already holds a chapter id. This
+feature changes which strings appear in it, not the field.</strong></li>
+<li><strong>Chapter Section</strong> — derived, never authored, with its
+own derivation rule and cross-check.</li>
+<li><strong>Cross-reference</strong> — an existing passage-to-passage
+relation.</li>
+<li><strong>The knowledge layer</strong> of feature 002 — areas, terms,
+lesson sections, questions, mentions. All flat, all consuming
+<code>chapter_slug</code>, none of them changed here.</li>
+</ul>
+<h2 id="identity-one-string-five-roles">1. Identity — one string, five
+roles</h2>
+<p>The canonical chapter identifier is the <strong>dotted, zero-padded
+numeric path</strong>:</p>
+<pre><code>^[0-9]{2,}(\.[0-9]{2,})*$</code></pre>
+<p><code>01</code> · <code>02</code> · <code>02.01</code> ·
+<code>02.01.01</code> · <code>100</code> are valid. <code>2</code> ·
+<code>02.2</code> · <code>02.</code> · <code>.01</code> ·
+<code>02.01.</code> · the empty string are not.</p>
+<p>That one string serves, <strong>unchanged and untranslated</strong>,
+as all five of:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Where</th>
+<th>Measured today</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>directory name under <code>chapters/</code></td>
+<td>the filesystem</td>
+<td><code>chapters/02.01</code> exists</td>
+</tr>
+<tr>
+<td>URL path segment</td>
+<td><code>GET /api/chapters/{chapter}</code> and five siblings</td>
+<td><code>main.go:547</code>, <code>:817</code>–<code>:819</code>,
+<code>:841</code>, <code>:843</code></td>
+</tr>
+<tr>
+<td>passage registry <code>scope</code></td>
+<td><code>curriculum/passages.jsonl</code></td>
+<td><code>01</code> present; <code>02</code> and <code>02.01</code> hold
+zero records</td>
+</tr>
+<tr>
+<td><code>chapter_slug</code> field value</td>
+<td>the knowledge layer’s artifacts</td>
+<td><code>chapter-01/knowledge/build.py:415</code> derives it correctly
+from <code>r["scope"]</code></td>
+</tr>
+<tr>
+<td>suffix of a <code>chapter-&lt;id&gt;</code> directory</td>
+<td><code>curriculum/chapter-01/</code></td>
+<td><code>ChapterDir</code> (<code>curriculum.go:187</code>) tries
+<code>chapter-&lt;slug&gt;</code> then <code>&lt;slug&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>No layer maps it to a different form.</strong> There is no
+slug-to-ordinal translation, no ordinal-to-directory translation and no
+display-name lookup. The reason is that every translation is a place
+where two representations of one chapter can disagree, and the
+disagreement is silent — the link still resolves, to something else.</p>
+<h3
+id="the-two-inherited-contradictions-this-identity-forces-into-the-open">1.1
+The two inherited contradictions this identity forces into the open</h3>
+<p>Both are <strong>defects in feature 001’s own artifacts</strong>,
+both pre-date this feature, and both were invisible while there was one
+chapter — because with <code>01</code> alone, the slug and the
+zero-padded ordinal are the same string.</p>
+<ol type="1">
+<li><strong><code>specs/001-.../data-model.md:45</code> types
+<code>Chapter.ordinal</code> as <code>int</code>.</strong>
+<code>02.01</code> has no <code>int</code> ordinal.
+<code>ordinalOf</code> (<code>internal/api/chapters.go:736</code>) is
+the faithful implementation of that type and it returns
+<strong><code>2</code></strong> for both <code>02</code> and
+<code>02.01</code>; <code>chapterTitle</code> (<code>:755</code>)
+renders both as <em>“Chapter 2”</em>. <strong>The collision is the type,
+not the function.</strong></li>
+<li><strong><code>specs/001-.../contracts/http-api.md:60</code> states
+that the zero-padded <code>ordinal</code> is “not accepted as a path key
+— one key, one meaning”.</strong> The live, manifest-declared route is
+<code>GET /api/chapters/01</code> (<code>route-manifest.tsv:72</code>),
+and <code>01</code> <strong>is</strong> the zero-padded ordinal.</li>
+</ol>
+<p>This document’s proposal is to widen <code>ordinal</code> into an
+ordered <strong><code>ordinal_path</code></strong> and to amend
+<code>http-api.md:60</code> to say that the dotted id
+<strong>is</strong> the path key — which makes “one key, one meaning”
+true for the first time rather than merely stated. <strong>Neither
+amendment may be made by implementing it.</strong> Both are recorded as
+the feature’s blocking decision (spec §Clarifications), and every field
+below marked <code>ordinal_path</code> is provisional on it.</p>
+<h3 id="what-the-identity-is-not">1.2 What the identity is
+<em>not</em></h3>
+<p><strong>A chapter id is not a minted identifier</strong>, and this
+feature does not make it one. The platform’s identity contract mints
+ULIDs for passages, areas, terms, questions and mentions precisely
+because those are content-bearing entities whose text gets corrected,
+and a content-derived identifier would break every citation when it is.
+A chapter id is a <strong>structural name under an operator’s
+control</strong>, chosen deliberately, never generated, and immutable
+once published — the same status
+<code>specs/001-.../data-model.md</code> already gives
+<code>Chapter.slug</code>.</p>
+<p>The consequence is stated so it is not discovered: <strong>a chapter
+cannot be re-parented without being renamed</strong>, because its parent
+is derived from its name (§3). That is accepted. Re-parenting a chapter
+changes what it <em>is</em>, and a rename is a visible operation with a
+visible diff, where editing a stored parent field is neither.</p>
+<h2 id="entities">2. Entities</h2>
+<h3 id="chapter">2.1 Chapter</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>matches §1’s grammar; <strong>immutable once published</strong>;
+unique. It is the directory name, the path key, the <code>scope</code>
+and the <code>chapter_slug</code></td>
+</tr>
+<tr>
+<td><code>ordinal_path</code></td>
+<td>ordered list of integers</td>
+<td><strong>derived</strong> from <code>id</code> by splitting on
+<code>.</code>; provisional on the §1.1 decision. Replaces
+<code>ordinal</code></td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>string</td>
+<td><strong>must not collide</strong> between two distinct chapters
+(FR-023)</td>
+</tr>
+<tr>
+<td><code>summary</code></td>
+<td>string or null</td>
+<td>unchanged from 001 — <code>null</code>, never a placeholder, because
+no summary is authored and nothing local can write one</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>enum</td>
+<td>unchanged from 001: <code>draft</code> | <code>transcribed</code> |
+<code>published</code></td>
+</tr>
+<tr>
+<td><code>recording</code>, <code>materials</code>,
+<code>transcript</code></td>
+<td>unchanged</td>
+<td>a <strong>parent chapter may legitimately have none of them</strong>
+— see below</td>
+</tr>
+<tr>
+<td><code>hierarchy</code></td>
+<td>derived view</td>
+<td>§2.2. <strong>Never stored</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>A parent chapter with no material of its own is a valid
+chapter, not an error.</strong> <code>02</code> may be a container for
+<code>02.01</code>. Its zero passages are a measurement to publish, not
+a condition to raise. Nothing in the model distinguishes a container
+from a leaf, and nothing should — that distinction is
+<code>child_ids</code> being non-empty, which is derived.</p>
+<p><strong><code>id</code> is immutable once published for the same
+reason <code>slug</code> already is</strong>: every deep link, every
+registry <code>scope</code> value, every archived artifact and every
+<code>chapter-&lt;id&gt;</code> directory resolves through it.</p>
+<h3 id="chapter-hierarchy-a-derived-view-not-an-entity">2.2 Chapter
+Hierarchy — a derived view, not an entity</h3>
+<p>Named here only because the API returns it, and a thing the API
+returns needs a defined shape. <strong>It has no storage, no table, no
+column and no file.</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Derivation from <code>id</code> alone</th>
+<th>Root / leaf behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>parent_id</code></td>
+<td>everything before the last <code>.</code>; <code>null</code> if
+there is no <code>.</code></td>
+<td><code>null</code> for a top-level chapter — <strong>falls
+out</strong>, not special-cased</td>
+</tr>
+<tr>
+<td><code>depth</code></td>
+<td>count of components — one plus the number of <code>.</code></td>
+<td><code>1</code> for a top-level chapter</td>
+</tr>
+<tr>
+<td><code>ancestor_ids</code></td>
+<td>every proper prefix ending at a component boundary, outermost
+first</td>
+<td><code>[]</code> for a top-level chapter</td>
+</tr>
+<tr>
+<td><code>child_ids</code></td>
+<td>every present id whose <code>parent_id</code> equals this id, in
+byte order</td>
+<td><code>[]</code> for a leaf — <strong>falls out</strong>, not
+special-cased</td>
+</tr>
+<tr>
+<td><code>ordinal_path</code></td>
+<td>each component parsed as an integer, in order</td>
+<td>a single-element list for a top-level chapter</td>
+</tr>
+<tr>
+<td><code>orphaned</code></td>
+<td>true when <code>parent_id</code> is non-null and names an id not
+present</td>
+<td>false for a top-level chapter</td>
+</tr>
+</tbody>
+</table>
+<p>Worked, against the ids measured present plus the synthetic cases the
+gates use:</p>
+<table>
+<thead>
+<tr>
+<th><code>id</code></th>
+<th><code>parent_id</code></th>
+<th><code>depth</code></th>
+<th><code>ancestor_ids</code></th>
+<th><code>ordinal_path</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01</code></td>
+<td><code>null</code></td>
+<td>1</td>
+<td><code>[]</code></td>
+<td><code>[1]</code></td>
+</tr>
+<tr>
+<td><code>02</code></td>
+<td><code>null</code></td>
+<td>1</td>
+<td><code>[]</code></td>
+<td><code>[2]</code></td>
+</tr>
+<tr>
+<td><code>02.01</code></td>
+<td><code>02</code></td>
+<td>2</td>
+<td><code>["02"]</code></td>
+<td><code>[2, 1]</code></td>
+</tr>
+<tr>
+<td><code>02.01.01</code></td>
+<td><code>02.01</code></td>
+<td>3</td>
+<td><code>["02", "02.01"]</code></td>
+<td><code>[2, 1, 1]</code></td>
+</tr>
+<tr>
+<td><code>02.10</code></td>
+<td><code>02</code></td>
+<td>2</td>
+<td><code>["02"]</code></td>
+<td><code>[2, 10]</code></td>
+</tr>
+<tr>
+<td><code>10</code></td>
+<td><code>null</code></td>
+<td>1</td>
+<td><code>[]</code></td>
+<td><code>[10]</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>child_ids</code> is the one field that needs the id
+<em>set</em> rather than the id alone</strong>, and
+<code>orphaned</code> is the one that needs it too. Both are still
+derivations — over the set of present ids, computed on demand — and
+neither is stored. Naming that distinction matters: it is the seam where
+somebody will later propose “just cache the children”, which is §3’s
+forbidden second representation wearing a performance argument. The
+measured chapter count is <strong>3</strong>.</p>
+<h2 id="the-derived-not-stored-rule">3. The derived-not-stored rule</h2>
+<blockquote>
+<p><strong><code>parent_id</code>, <code>depth</code>,
+<code>ancestor_ids</code>, <code>child_ids</code> and
+<code>ordinal_path</code> are ALL derived from the identifier by string
+operation, and NONE of them is stored — so they cannot disagree with
+it.</strong></p>
+</blockquote>
+<p>This is the model’s central decision and it is one sentence long on
+purpose.</p>
+<p><strong>What it forbids, concretely</strong>, because each of these
+is the reasonable-looking form:</p>
+<ul>
+<li>a <code>parent_id</code> column on a chapter table — a chapter whose
+id says <code>02.01</code> and whose stored parent says <code>03</code>
+is <strong>not a detectable error state</strong>. It is two facts, both
+readable, both plausible, with no symptom until something
+navigates;</li>
+<li>a <code>depth</code> field written at ingest — correct when written,
+stale after a rename;</li>
+<li>a materialised child list — correct until a chapter is added, and
+nothing tells it one was;</li>
+<li>a stored <code>ordinal_path</code> — the same collision as
+<code>ordinal</code>, one indirection further away;</li>
+<li>a hierarchy sidecar file listing the tree — a second enumeration
+that agrees today and is what a reader will trust tomorrow.</li>
+</ul>
+<p><strong>Why this and not a stored field.</strong> The argument for
+storing is always the same and it is always about cost: the derivation
+is repeated work. Measured, the work is a string split over
+<strong>3</strong> ids. The argument against storing is not about cost
+at all: <em>two representations of one fact can disagree, and this
+particular disagreement has no symptom.</em> A navigation that follows a
+wrong stored parent does not fail — it succeeds, into the wrong chapter,
+and every artifact downstream of it agrees with itself.</p>
+<p>This is the same reasoning feature 002 applied when it refused stored
+reverse edges (<code>002/data-model.md</code> §3) and the same reasoning
+feature 001 applied when it kept chapter sections derived. It is
+recorded here rather than cross-referenced because a reader arriving at
+a <code>parent_id</code> proposal needs the argument in front of them,
+not a pointer to it.</p>
+<h2 id="ordering">4. Ordering</h2>
+<p><strong>Byte-lexicographic on the <code>id</code> string.</strong>
+Nothing else.</p>
+<p>Verified by execution rather than reasoning, 2026-09-05:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&#39;10\n02.09\n01\n03\n02\n02.10\n02.01.01\n02.01\n&#39;</span> <span class="kw">|</span> <span class="va">LC_ALL</span><span class="op">=</span>C <span class="fu">sort</span></span></code></pre></div>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Position</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td><code>01</code></td>
+<td><code>02</code></td>
+<td><code>02.01</code></td>
+<td><code>02.01.01</code></td>
+<td><code>02.09</code></td>
+<td><code>02.10</code></td>
+<td><code>03</code></td>
+<td><code>10</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>A parent sorts immediately before its first child, and that
+is a consequence rather than a rule.</strong> <code>.</code> is
+<strong>0x2E</strong>; the digits <code>0</code>–<code>9</code> are
+<strong>0x30</strong>–<strong>0x39</strong>. So at the position where a
+parent’s id ends, a child’s <code>.</code> compares below any sibling’s
+next digit, and <code>02</code> precedes <code>02.01</code> precedes
+<code>03</code>. Nothing implements this; it happens.</p>
+<p><strong><code>02.10</code> after <code>02.09</code> is the case that
+proves it is not a decimal comparison.</strong> Read as decimals,
+<code>.09</code> and <code>.10</code> would order the same way — but
+<code>02.9</code> (unpadded) would sort <em>after</em>
+<code>02.10</code>, which is exactly why the padding is in the grammar.
+<strong>The ordering is true only because every component is
+zero-padded, which makes the validator the mechanism that carries
+it.</strong></p>
+<p><strong>The comparator already exists and is already
+correct.</strong> <code>cmd/workshop-server/main.go:2126</code> reads
+<code>sort.Slice(out, func(i, j int) bool { return out[i].ID &lt; out[j].ID })</code>.
+<strong>It MUST NOT be changed.</strong> The assertion goes on the
+<em>ordering</em> — API order, shell-glob order and filesystem byte
+order must be the same order (H4) — so that a future rewrite into a
+“smarter” numeric comparator is caught by the gate rather than by a
+reader noticing <code>02.10</code> in the wrong place.</p>
+<h2 id="invariants-the-model-must-not-be-able-to-violate">5. Invariants
+the model must not be able to violate</h2>
+<p>Stated as invariants rather than as tests, because a test can be
+deleted and a structural property cannot.</p>
+<ul>
+<li><strong>H1</strong> — <strong>A directory under
+<code>chapters/</code> that does not match the grammar is reported as
+<code>unclassified</code>, with a reason, in every enumeration that
+covers it.</strong> It is never silently skipped and never silently
+accepted. The failure being guarded is not a crash; it is a green run
+over an incomplete set — which is exactly what <code>chapter-\d+</code>
+plus <code>continue</code> produced before <code>266f443</code>.</li>
+<li><strong>H2</strong> — <strong>Every hierarchy field is derived; none
+is stored.</strong> §3. There is no column, no file and no cache holding
+a parent, a depth or a child list.</li>
+<li><strong>H3</strong> — <strong>An orphaned sub-chapter is still
+SERVED</strong>, with <code>orphaned: true</code> and the missing
+ancestor named. Hiding it loses content that exists; promoting it to a
+root silently rewrites the hierarchy. Both alternatives are wrong in a
+way the reader cannot see, and serving it with a flag is the only form
+that states what is true.</li>
+<li><strong>H4</strong> — <strong>API order, shell-glob order and
+filesystem byte order are the same order by construction</strong>, not
+by coincidence and not by a sorting step that reconciles them. The three
+are compared element by element and any difference is a failure.</li>
+<li><strong>H5</strong> — <strong>No sub-chapter-specific code path
+exists anywhere.</strong> A branch conditioned on a chapter’s depth —
+<code>if depth &gt; 1</code> — <strong>is a defect</strong>, because it
+means the general case was not built and the special case will drift
+away from it. There is one kind of chapter.</li>
+<li><strong>H6</strong> — <strong>Depth is unbounded in the grammar and
+measured in the response.</strong> The maximum depth present is
+published as a figure; no constant bounds it. A limit asserted without a
+measurement is a guess that later gets designed around.</li>
+<li><strong>H7</strong> — <strong>Every chapter-scope comparison is
+EQUALITY.</strong> <code>HasSuffix</code>, <code>HasPrefix</code> or
+<code>Contains</code> applied to a chapter scope <strong>is a
+defect</strong>. This is written as an invariant and not as a note about
+one file because the file it was found in —
+<code>cmd/workshop-redact/main.go</code>, now equality at
+<code>:616</code> — is not the only place a scope is compared, and the
+next one will look just as harmless.</li>
+</ul>
+<p><strong>H7 has a corollary that is the whole reason it is an
+invariant</strong>: the defect is invisible to a single-scope fixture.
+<code>02.01</code> has the suffix <code>01</code>, so
+<code>HasSuffix</code> and <code>==</code> return the same answer for
+every input a one-chapter test can construct. <strong>A test for H7 must
+use a fixture registry holding at least two scopes, one a sub-chapter of
+the other</strong> — and the paired proof must demonstrate that the
+one-scope fixture stays green under the mutation, because that is the
+measurement that shows why the cheaper fixture is not coverage.</p>
+<h2 id="backward-compatibility">6. Backward compatibility</h2>
+<p>Every claim here is a property of the derivation, not a compatibility
+shim, and each is measurable.</p>
+<ul>
+<li><strong><code>01</code> is valid under the grammar.</strong> Two
+digits, no separator. Nothing about the existing corpus becomes
+invalid.</li>
+<li><strong><code>parent_id: null</code> and <code>child_ids: []</code>
+are not special cases.</strong> They fall out of §2.2’s derivation — no
+<code>.</code> yields no parent; no present id has <code>01</code> as a
+prefix component, so no children. A model that needed a root case would
+be a model with two rules.</li>
+<li><strong><code>ordinal</code> keeps its exact current value for every
+chapter that exists today.</strong> <code>01</code> → <code>[1]</code>,
+<code>02</code> → <code>[2]</code>; read as a single number, both are
+what <code>ordinalOf</code> returns now. The widening changes no
+existing value; it makes a previously unrepresentable one
+representable.</li>
+<li><strong>The two regex changes are WIDENINGS, and their paired
+mutations must assert BOTH directions.</strong> <code>chapter-\d+</code>
+→ <code>chapter-\d+(?:\.\d+)*</code> at
+<code>meeting_notes.py:109</code> and <code>author.py:159</code>. A
+proof asserting only that <code>chapter-02.01</code> now matches would
+pass against a pattern that had stopped matching <code>chapter-01</code>
+— which would be a worse defect than the one being fixed, and silent in
+the same way.</li>
+<li><strong>The <code>HasSuffix</code> → equality change is strictly
+NARROWING</strong>, and that is why it needs the two-scope fixture. It
+removes matches; it adds none. On a one-scope registry it is a
+<strong>no-op</strong> — the two operators agree on every input — so it
+can be reverted with every existing test still green. The fixture shape
+is the guard, not the assertion.</li>
+</ul>
+<h2 id="what-this-model-deliberately-does-not-have">7. What this model
+deliberately does not have</h2>
+<ul>
+<li><strong>No stored hierarchy of any kind.</strong> §3.</li>
+<li><strong>No chapter-id minting.</strong> §1.2. A chapter id is a
+structural name, not a content identifier.</li>
+<li><strong>No display-name table.</strong> <code>title</code> is
+derived from the id, as it already is. Authoring chapter titles is a
+separate decision and would create a second thing that can be
+stale.</li>
+<li><strong>No depth limit.</strong> H6.</li>
+<li><strong>No <code>is_sub_chapter</code> flag, and no chapter
+kind.</strong> A flag is the storage form of H5’s forbidden branch — it
+exists to be tested against, and the first
+<code>if chapter.is_sub</code> is the special path the invariant
+forbids. What a caller actually wants is <code>depth</code> or
+<code>parent_id</code>, both derived.</li>
+<li><strong>No re-parenting operation.</strong> §1.2. Re-parenting is a
+rename, and a rename of a published chapter is not an operation this
+model offers.</li>
+<li><strong>No nested representation on the wire.</strong> The
+<code>chapters</code> array stays flat; <code>api.ts:88</code> reads it
+flat, and ancestry is carried per row instead.</li>
+</ul>
+</body>
+</html>

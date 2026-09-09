@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>data-model</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">data-model</h1>
+</header>
+<h1 id="phase-1-data-model">Phase 1 — Data Model</h1>
+<p><strong>Feature</strong>: Authored AI/IT Knowledge Areas ·
+<strong>Date</strong>: 2026-09-07</p>
+<p>Entities, their invariants, and the state each can be in. Field names
+are the shape, not a serialisation; the wire form is in <a
+href="contracts/"><code>contracts/</code></a>.</p>
+<p><strong>Two invariants govern everything below</strong>, and both
+exist because their absence was the measured defect:</p>
+<ul>
+<li><strong>I1 — One decision, many consumers.</strong> The publication
+decision is computed once. Any entity’s visibility derives from that
+single computation. Two implementations that agree today are the D3
+defect waiting to recur.</li>
+<li><strong>I2 — Absence is a state, not a null.</strong> Every
+“missing” case is a named, reportable state with a reason. A synthesised
+value standing in for an absent one is how 814 mined areas acquired
+names they never had.</li>
+</ul>
+<hr />
+<h2 id="area">Area</h2>
+<p>The published unit: a named AI/IT subject.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>ULID. <strong>The identity.</strong> Minted by extraction; authored
+content binds to it. Never displayed as a title.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>Human-readable. <strong>Non-empty is the publication rule</strong>
+(R3).</td>
+</tr>
+<tr>
+<td><code>summary</code></td>
+<td>What the subject covers.</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td>Derived. <strong>Never <code>null</code> — an empty array
+instead</strong>, because a null breaks the field the interface filters
+on.</td>
+</tr>
+<tr>
+<td><code>evidence_count</code></td>
+<td>Passages supporting this area. Reported, never used as a publication
+filter (R2).</td>
+</tr>
+<tr>
+<td><code>lessons</code></td>
+<td>Ordered. May be empty only if the area is not published.</td>
+</tr>
+<tr>
+<td><code>assessment</code></td>
+<td>Zero or one.</td>
+</tr>
+<tr>
+<td><code>corpus_revision</code></td>
+<td>The revision this area was built from (FR-023a).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Invariants</strong></p>
+<ul>
+<li><code>title</code> non-empty is the title test for publication.</li>
+<li>An area appears in the catalogue <strong>iff</strong> its detail,
+lessons and assessment are servable (FR-018). Listing and openability
+are one condition.</li>
+<li>Withheld areas keep their identifier and reason, and disclose a
+derived name <strong>when one is derivable</strong> (FR-018b).
+Withholding an area is not a reason to withhold what it is called.</li>
+<li>Thinly-evidenced areas still report <code>evidence_count</code>
+(FR-005b).</li>
+</ul>
+<p><strong>States</strong> — the closed vocabulary, every one reportable
+by every surface:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>State</th>
+<th>Meaning</th>
+<th>Detail route</th>
+<th>In <code>areas[]</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>published</code></td>
+<td>all tests pass</td>
+<td>200</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>no_title</code></td>
+<td>mined proposal, never authored</td>
+<td>refusal</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>no_evidence</code></td>
+<td>no supporting passages</td>
+<td>refusal</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>no_publication_review</code></td>
+<td>authored, unreviewed</td>
+<td>refusal + derived name</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>stale_publication_review</code></td>
+<td>review predates content</td>
+<td>refusal + derived name</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>no_materials_record</code></td>
+<td>editorial: nothing attached</td>
+<td>refusal</td>
+<td>no</td>
+</tr>
+<tr>
+<td><strong><code>build_inconsistent</code></strong></td>
+<td>review present, materials absent — a <strong>build</strong> fault,
+not editorial</td>
+<td><strong>503</strong></td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p><code>build_inconsistent</code> is deliberately distinct (FR-018c):
+the author stage writes review and materials in one run, so their
+disagreement is a broken build. It answers 503 while the catalogue still
+answers 200 — one bad record must not take the catalogue down.</p>
+<hr />
+<h2 id="lesson">Lesson</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code>, <code>ord</code></td>
+<td><code>ord</code> drives one server-side sort. One order, used by
+list and by prev/next.</td>
+</tr>
+<tr>
+<td><code>title</code>, <code>body</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>estimated_minutes</code></td>
+<td>Per lesson; summed to an area total.</td>
+</tr>
+<tr>
+<td><code>materials[]</code></td>
+<td>Zero or more.</td>
+</tr>
+<tr>
+<td><code>anchors[]</code></td>
+<td>Zero or more video anchors.</td>
+</tr>
+<tr>
+<td><code>required</code></td>
+<td>Whether it counts toward assessment availability.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Invariants</strong></p>
+<ul>
+<li>Order is total and stable. Prev/next are computed <strong>from the
+same sorted slice the list uses</strong> — a second ordering is a second
+thing to disagree.</li>
+<li>The required set MUST be able to be a <strong>proper subset</strong>
+of the lessons; a model where they coincide cannot express the gate
+correctly and hides the “any lesson opens it” defect (R6).</li>
+</ul>
+<hr />
+<h2 id="material">Material</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kind</code></td>
+<td>Closed vocabulary: illustration, diagram, scheme, graph, video. An
+unknown kind is a <strong>400</strong>, never an empty list.</td>
+</tr>
+<tr>
+<td><code>caption</code></td>
+<td>What it shows.</td>
+</tr>
+<tr>
+<td><code>alt</code></td>
+<td>Text alternative conveying <strong>content</strong>, not a file
+name.</td>
+</tr>
+<tr>
+<td><code>ref</code></td>
+<td>Where the asset is.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Invariant</strong>: a material whose asset is missing renders
+as <em>unavailable</em>, never as a broken element.</p>
+<hr />
+<h2 id="videoanchor">VideoAnchor</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>chapter_id</code></td>
+<td>Which recording.</td>
+</tr>
+<tr>
+<td><code>start_millis</code></td>
+<td><strong>Measured</strong> from the segment sidecar. Not derivable
+from the passage registry, which carries only an end time.</td>
+</tr>
+<tr>
+<td><code>end_millis</code></td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td><code>transcript_anchor</code></td>
+<td>The passage id to scroll to and mark.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Invariants</strong></p>
+<ul>
+<li>Every anchor in a published lesson resolves to an existing recording
+<strong>and</strong> an existing passage (FR-016); an unresolvable
+anchor blocks publication of that lesson rather than reaching a
+learner.</li>
+<li><code>end</code> is emitted <strong>only when
+<code>&gt; t</code></strong>. A malformed span is ignored by the
+consumer, so emitting one produces a broken link that renders
+correctly.</li>
+<li>The <code>#p-</code> fragment is emitted <strong>only for a
+Crockford-shaped ULID</strong>.</li>
+<li>An unservable chapter yields <code>href: null</code> +
+<code>unresolved_reason</code> + intact anchor + a count. <strong>No
+link is invented.</strong></li>
+</ul>
+<hr />
+<h2 id="assessment">Assessment</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>questions[]</code></td>
+<td>The bank.</td>
+</tr>
+<tr>
+<td><code>pass_percent</code></td>
+<td>Declared per area; <strong>shown before the attempt</strong>
+(FR-008b).</td>
+</tr>
+<tr>
+<td><code>required_lessons[]</code></td>
+<td>The availability condition.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Invariants</strong></p>
+<ul>
+<li>Availability is decided <strong>where content is served</strong>,
+not where it is displayed (FR-012a).</li>
+<li>While unavailable, the response carries <strong>zero</strong>
+prompts, options and answers (FR-010, SC-009).</li>
+<li>An area may have lessons and <strong>no</strong> assessment. That is
+an honest state; a fabricated question bank is worse than a missing
+one.</li>
+</ul>
+<hr />
+<h2 id="question">Question</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>On the taking path</th>
+<th>In the result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code>, <code>prompt</code>, <code>options[]</code></td>
+<td>yes</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>correct_choices[]</code></td>
+<td><strong>absent by construction</strong></td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>explanation</code></td>
+<td><strong>absent by construction</strong></td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Invariant</strong>: the taking projection is built as a map
+with <strong>no answer field at all</strong> — not as the domain type
+with fields omitted. Omission depends on every future field remembering
+to omit itself; absence does not.</p>
+<p>Answers are identified <strong>by ID, never by index</strong>
+(FR-012), so presentation order cannot change what an answer means.</p>
+<hr />
+<h2 id="attempt">Attempt</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>session</code></td>
+<td>Opaque, header-supplied, one channel only (R7).</td>
+</tr>
+<tr>
+<td><code>answers</code></td>
+<td>By question id and choice id.</td>
+</tr>
+<tr>
+<td><code>score</code>, <code>passed</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>outcomes[]</code></td>
+<td>Per question: correct?, correct answer, explanation.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Invariants</strong></p>
+<ul>
+<li>A submitted result is <strong>stable</strong> — re-reading returns
+the same result (FR-011).</li>
+<li>Progress is mutated under a single lock in one operation; a
+read-then-write cycle silently drops a concurrent completion (R7).</li>
+</ul>
+<hr />
+<h2 id="catalogue">Catalogue</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>areas[]</code></td>
+<td>Exactly the set whose detail answers 200.</td>
+</tr>
+<tr>
+<td><code>held_back[]</code></td>
+<td>id + reason for every withheld area.</td>
+</tr>
+<tr>
+<td><code>reason_table</code></td>
+<td>The closed vocabulary, in the same response.</td>
+</tr>
+<tr>
+<td><code>total_areas</code></td>
+<td>The population, so a filtered list never hides the denominator.</td>
+</tr>
+<tr>
+<td><code>corpus_revision</code></td>
+<td>What this was built from (FR-023a).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Invariant (I1, asserted end to end)</strong>:
+<code>areas[]</code> is exactly the set whose <code>href</code> answers
+200. This is a property a gate can check, and does.</p>
+<p><strong>Nothing becomes unreachable by being held back</strong>:
+<code>?include=held_back</code> returns full objects for those rows.</p>
+</body>
+</html>

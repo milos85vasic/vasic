@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>evidence</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">evidence</h1>
+</header>
+<h1 id="contract-what-a-claim-must-carry">Contract — What a claim must
+carry</h1>
+<h2 id="every-claim-states-its-population">Every claim states its
+population</h2>
+<p><strong><code>source</code> · <code>in_process</code> ·
+<code>served</code>.</strong> The same figure over different populations
+is a different fact, and reporting one as another is this project’s
+most-repeated defect — four times in one day.</p>
+<p>The canonical instance: <strong>on disk 42 areas / 30 with an
+assessment / 224 questions; on the wire 39 / 14 / 116.</strong> Both
+readings correct. Only one described the product.</p>
+<h2 id="every-claim-carries-its-state">Every claim carries its
+state</h2>
+<p>A build identifier, a corpus fingerprint, or both. <strong>A reading
+with neither cannot be trusted once the tree moves</strong> — and this
+tree moved all day. A measurement bracketed by identical fingerprints is
+attributable; one that is not must say so.</p>
+<h2 id="every-check-is-three-valued">Every check is three-valued</h2>
+<p><strong>0 satisfied · 1 a real finding · 2
+could-not-determine.</strong> A finding outranks a could-not-determine,
+which outranks clean. <strong>A 2 is never recorded as
+satisfied.</strong></p>
+<h2 id="every-check-ships-a-paired-proof">Every check ships a paired
+proof</h2>
+<p>Mutations are <strong>DATA</strong> — fixtures, env vars, arguments —
+<strong>never edits to the thing under test</strong>. The subject’s
+source hash is captured before the battery and re-asserted after.</p>
+<p>Each battery carries:</p>
+<ul>
+<li>a <strong>control that goes green</strong> — a battery of only
+refuse-to-pass cases is satisfied by a gate hardwired to fail;</li>
+<li>a <strong>vacuity refusal exiting 2</strong> — an absence assertion
+over an empty set has checked nothing;</li>
+<li>where the check forbids something, an <strong>overreach
+mutation</strong> — the legitimate case that must NOT fire.</li>
+</ul>
+<h2 id="every-check-states-its-population">Every check states its
+population</h2>
+<p><strong>The SET is justified independently of the count it
+produces.</strong> Three defects in one day were instruments aimed at
+the wrong set while reporting cleanly. If you add a case and then check
+whether the number moved, you are tuning to a result.</p>
+<h2 id="every-known-gap-is-recorded">Every known gap is recorded</h2>
+<p>With its reason and <strong>who may lift it</strong>. An exemption is
+a claim about a file at a moment in time, and changing the file can
+falsify it silently.</p>
+<h2
+id="currently-admissible-measured-after-rebuild-and-restart">Currently
+admissible, measured after rebuild and restart</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Population</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>39 served / 3 held back / 42 total</td>
+<td>served</td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td>27 areas with a test, 205 questions</td>
+<td>served</td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td>318 of 318 lessons carry a body</td>
+<td>served</td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td>four sections with carry-forward</td>
+<td>served</td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td>205 of 205 video anchors resolve</td>
+<td>served</td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td>7 hue families (floor 6), 200 contrast pairings</td>
+<td>served, bracketed</td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td>answer key absent while locked</td>
+<td>served</td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td>498,580 cross-reference edges, generation 7</td>
+<td>served</td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td>1,933 boundary rows judged, 0 disclosures</td>
+<td>source</td>
+<td>rc 1 by design</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

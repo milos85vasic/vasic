@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>docs-chain</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">docs-chain</h1>
+</header>
+<h1 id="docs-chain-in-this-repository">Docs Chain in this
+repository</h1>
+<p><strong>Revision:</strong> 1 <strong>Last modified:</strong>
+2026-09-03T00:00:00Z <strong>Status:</strong> ACTIVE — the umbrella’s
+own Markdown is bound; the fleet determination below is deliberate and
+states what is NOT bound and why. <strong>Authority:</strong>
+constitution §11.4.106 (Docs Chain is the canonical sync engine),
+§11.4.65 (the export mandate), §11.4.28(B) (submodule decoupling)</p>
+<hr />
+<h2 id="what-is-mandated-and-by-which-rule">1. What is mandated, and by
+which rule</h2>
+<p>The format set is <strong><code>.html</code> +
+<code>.pdf</code></strong>. The citation is constitution
+<strong>§11.4.65 — Universal Markdown export mandate</strong>, whose
+verbatim operator anchor reads:</p>
+<blockquote>
+<p>“Any markdown document inside the project and which is not part of
+the applications or services source code MUST BE exported (be available)
+in PDF and HTML! … Every time when Markdown document (file) is modified,
+its proper HTML and PDF versions MUST BE regenerated. Markdown documents
+MUST BE at all times in sync with PDF and HTML versions!”</p>
+</blockquote>
+<p>and whose mandatory protection 1 is <em>“Every INCLUDED
+<code>.md</code> file has <code>.html</code> and <code>.pdf</code>
+siblings.”</em></p>
+<p><strong>DOCX is NOT in the universal set.</strong> It is added by
+<strong>§11.4.153</strong> for one document class only — the per-feature
+Status set — which says so explicitly: <em>“this doc class ADDS DOCX to
+the §11.4.65 universal HTML+PDF export set; the other doc classes are
+unchanged.”</em> §11.4.208 (operator-request history) and the
+extension-catalogue rule likewise name a four-format export for their
+own classes. <strong>This repository currently has no document of any of
+those classes</strong>, so no chain here emits DOCX. Demanding one would
+be a §11.4.201(1) false-positive refusal — a gate failing a tree that is
+compliant.</p>
+<p>Nothing was recorded as <em>could not determine</em> on the format
+axis: every mandated format is producible on this host, measured
+2026-09-03 — <code>pandoc 3.10</code>, <code>weasyprint 69.0</code>, and
+(for the DOCX class if one ever lands) <code>pandoc</code>’s own
+<code>pandoc-docx</code> builtin plus <code>libreoffice</code>. Docs
+Chain surfaces an absent tool as a typed <code>ToolAbsentError</code>
+and an honest SKIP rather than a fake transform (§11.4.106(E)); that
+path was not exercised because no tool is absent.</p>
+<h2
+id="how-docs-chain-is-adopted-through-the-constitution-not-a-second-copy">2.
+How Docs Chain is adopted — through the constitution, not a second
+copy</h2>
+<p><code>docs_chain</code> is <strong>already a submodule of the
+constitution</strong>, at
+<code>submodules/constitution/submodules/docs_chain</code>, landed there
+under the §11.4.28(C) depth-1 reusable-engine carve-out. <strong>No
+gitlink was added to this repository</strong>, because adding one would
+create a second checkout of <code>vasic-digital/docs_chain</code> in the
+same tree — precisely the duplication §11.4.74 (reuse before
+reimplement) exists to prevent, and it would put two
+independently-movable pins on one upstream.</p>
+<p>Consequences of consuming it this way, stated rather than
+implied:</p>
+<ul>
+<li><p><code>.gitmodules</code> and <code>helix-deps.yaml</code> are
+<strong>unchanged</strong>, so cascade check C9 (which compares the
+manifest to the git <strong>index</strong>,
+<code>git ls-files -s</code>) cannot drift on account of this work.
+Nothing needed to move together because nothing moved.</p></li>
+<li><p>The engine is consumed <strong>by reference</strong>, never
+copied (§11.4.106(A), §11.4.177). This repository holds configuration
+and a gate; it holds no vendored copy of the engine.</p></li>
+<li><p>The binary is a build artefact, resolved at run time in this
+order: <code>$DOCS_CHAIN_BIN</code> → <code>PATH</code> → the module’s
+own gitignored build output. Build it with:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span><span class="bu">cd</span> submodules/constitution/submodules/docs_chain <span class="kw">&amp;&amp;</span> <span class="ex">go</span> build <span class="at">-o</span> docs_chain ./cmd/docs_chain<span class="kw">)</span></span></code></pre></div>
+<p>If none of the three resolves,
+<code>scripts/verify-docs-chain.sh</code> exits <strong>2</strong>
+(could not determine) and prints that command. An absent tool is never
+reported as a clean tree — a missing binary and a compliant repository
+would otherwise return the same quiet zero (§11.4.201(6)).</p></li>
+</ul>
+<h2 id="what-is-bound">3. What is bound</h2>
+<p>Three contexts under <code>.docs_chain/contexts/</code>, all
+<strong>generated</strong> by
+<code>scripts/gen-docs-chain-contexts.sh</code>:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Context</th>
+<th>Scope</th>
+<th>Documents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>umbrella-root</code></td>
+<td>project-root <code>*.md</code> — <code>README</code>,
+<code>CONTINUATION</code>, <code>Constitution.md</code>, and the four
+carriers</td>
+<td>7</td>
+</tr>
+<tr>
+<td><code>umbrella-docs</code></td>
+<td><code>docs/**/*.md</code></td>
+<td>51</td>
+</tr>
+<tr>
+<td><code>umbrella-specs</code></td>
+<td><code>specs/**/*.md</code></td>
+<td>54</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The 40 / 25 figures this table carried are SUPERSEDED,
+re-measured 2026-09-09 at 51 and 54 — a roster of 112 documents, not
+72.</strong> Nothing regressed: the generator re-derived the roster from
+a tree that grew, which is C3 working rather than drift. Read the
+consequence rather than the counts: C5’s “artifacts absent” figure rose
+from 144 to 206 across the same move, and that rise is arithmetic, not a
+new defect — 75 documents × 2 slots = 150 became 112 × 2 = 224, so the
+DENOMINATOR became honest while the numerator followed. Re-derive rather
+than quoting this table:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/gen-docs-chain-contexts.sh   <span class="co"># (re)derive</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;markdown&#39;</span> .docs_chain/contexts/<span class="pp">*</span>.yaml</span></code></pre></div>
+<p>Each document is one two-edge chain: <code>md → html</code>
+(<code>pandoc-html</code>) then <code>html → pdf</code>
+(<code>weasyprint-pdf</code>). The PDF is rendered from the <strong>same
+HTML a reader opens</strong>, never from the Markdown directly, so the
+two exports cannot become different renderings of one source.</p>
+<p>Excluded, each as a §11.4.65 EXCLUDED class rather than a
+convenience: <code>.claude/</code>, <code>.specify/</code>,
+<code>.ashlrcode/</code>, <code>.github/</code> (vendored agent, plugin
+and extension trees this repository does not own), dependency trees, and
+<strong>every path declared in <code>.gitmodules</code></strong> — see
+§4.</p>
+<h3 id="the-roster-is-derived-and-its-rot-is-a-failure">The roster is
+derived, and its rot is a failure</h3>
+<p>Docs Chain binds explicit node paths; its schema has no glob for a
+<code>markdown</code> node (<code>members:</code> exists only for
+<code>kind: fingerprint</code>). A hand-written context is therefore a
+roster, and a roster stops matching reality the day someone adds a
+document and does not remember the file exists.</p>
+<p>So the roster is <strong>generated from the tree</strong>, and
+<code>scripts/verify-docs-chain.sh</code> check <strong>C3</strong>
+re-derives it into a temp directory and diffs. <strong>A Markdown
+document added later with no node is a diff, which is a FAILURE</strong>
+— not an omission. That pairing, not the generator alone, is what makes
+“and for documents added later” true rather than aspirational.
+<code>docs_chain verify</code> cannot see this: it reports on what is
+<em>registered</em> and is perfectly content with a silently shrinking
+scope.</p>
+<h2 id="the-privacy-rule-and-how-the-configuration-enforces-it">4. The
+privacy rule, and how the configuration enforces it</h2>
+<p>This repository is <strong>PUBLIC</strong>. Three of its submodules —
+<code>workshop</code>, <code>ai_interviewing</code>,
+<code>monetization</code> — are <strong>PRIVATE</strong>. An HTML or PDF
+export carries the <strong>full text</strong> of its source. Docs Chain
+node paths are project-root-relative, so a context at <em>this</em> root
+could name <code>workshop/docs/x.md</code> and emit
+<code>workshop/docs/x.html</code> — or, with one wrong path, emit that
+HTML at a public path. Committed and pushed, that is a permanent,
+irreversible disclosure: history is not editable after a push.</p>
+<p><strong>The defence is structural, not careful.</strong> Three
+layers:</p>
+<ol type="1">
+<li><p><strong>Scope.</strong> Every path in every context at this root
+is a file <em>this</em> repository tracks. <strong>No submodule path —
+public or private — is ever named.</strong> A private source therefore
+has no node in any public-root chain, so no transform can be asked to
+render one. There is no path from a misconfiguration of this
+repository’s chains to a public export of a private document, because
+the configuration does not name private documents at all.</p></li>
+<li><p><strong>Mechanical guard.</strong>
+<code>scripts/verify-docs-chain.sh</code> asserts it on every run, and
+fails (exit 1) rather than warns:</p>
+<ul>
+<li><strong>C1 CONTAINMENT</strong> — no node path may name a
+<strong>declared submodule</strong>. The roster comes from
+<code>.gitmodules</code> at run time, so the rule is decidable without
+consulting any remote’s visibility setting — a property this tree cannot
+see and which changes outside it. It refuses public submodules too: a
+rule that needed to know which submodules are private would be wrong the
+moment a visibility flag flips.</li>
+<li><strong>C2 NO ESCAPE</strong> — no absolute path, no <code>..</code>
+segment. C1 closes the route into a submodule; C2 closes the route out
+of the repository entirely.</li>
+</ul></li>
+<li><p><strong>Per-repository chains.</strong> A submodule that wants a
+chain registers it in <strong>its own root</strong>, where its exports
+land in <strong>its own repository</strong> by construction
+(§11.4.28(B): a submodule is project-not-aware and self-contained).
+<code>docs_chain --root DIR</code> supports exactly this.</p></li>
+</ol>
+<p>Both invariants are <em>demonstrated</em>, not asserted:
+<code>bash scripts/verify-docs-chain.sh --prove-failure</code> seeds a
+node under a declared submodule path (<strong>M4</strong>) and a
+<code>../</code> escape (<strong>M5</strong>) into a throwaway git
+repository and requires exit 1 from each, alongside a golden-FALSE
+control that must <strong>not</strong> fire.</p>
+<h2 id="the-fleet-determination-which-owned-submodules-are-bound">5. The
+fleet determination — which owned submodules are bound</h2>
+<p>The fleet is derived at run time from <code>.gitmodules</code> +
+<code>helix-deps.yaml</code>, never from a list in a document. As
+measured: <strong>13 declared gitlinks — 11 owned consumers, 1
+governance source (<code>submodules/constitution</code>), 1 third-party
+(<code>submodules/superspec</code>).</strong></p>
+<p><strong>Determination: none of the 13 is bound from this root, and
+that is the correct answer rather than a shortfall.</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Submodule class</th>
+<th>Binding</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The 3 private consumers</td>
+<td>in its own root, by its own operator</td>
+<td>binding them from a PUBLIC root is the exact leak class §4 exists to
+prevent</td>
+</tr>
+<tr>
+<td>The 8 public owned consumers</td>
+<td>in its own root</td>
+<td>§11.4.28(B) — a submodule’s export chain is part of that submodule,
+not of whatever project consumes it; binding from here would write into
+another repository and make its gitlink dirty on every umbrella
+sync</td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td><strong>already self-bound</strong></td>
+<td>it is the governance SOURCE, and it ships
+<code>CLAUDE.html/.pdf/.docx</code>, <code>AGENTS.*</code>,
+<code>Constitution.*</code> beside their <code>.md</code> today. A
+second consumer writing into it would be a §11.4.26 violation</td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code></td>
+<td>not bound</td>
+<td>third-party, and §11.4.65 EXCLUDES “any third-party submodule NOT in
+the owned-submodule set”</td>
+</tr>
+</tbody>
+</table>
+<p><code>scripts/gen-docs-chain-contexts.sh</code> is
+repository-agnostic and takes <code>--root</code>, so a submodule adopts
+its own chain with the same two commands used here. That is the
+mechanism; running it inside eleven separately-versioned repositories,
+several under concurrent edit, is an operator decision and is
+<strong>recorded as an open item, not silently done</strong>.</p>
+<h2 id="running-it">6. Running it</h2>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/gen-docs-chain-contexts.sh          <span class="co"># (re)derive the contexts from the tree</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">DC</span><span class="op">=</span>submodules/constitution/submodules/docs_chain/docs_chain</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">$DC</span> doctor <span class="at">--all</span>                                 <span class="co"># validate configuration, no writes</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="va">$DC</span> sync   <span class="at">--all</span>                                 <span class="co"># propagate; atomic, content-hash gated</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="va">$DC</span> verify <span class="at">--all</span>                                 <span class="co"># read-only drift check</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-docs-chain.sh                <span class="co"># the gate: contained + complete + in sync</span></span></code></pre></div>
+<p><code>scripts/verify-docs-chain.sh</code> is three-valued —
+<strong>0</strong> contained/complete/in sync, <strong>1</strong> a real
+finding (drift, an unbound document, a path that leaves this
+repository), <strong>2</strong> could not determine (no root, not a git
+repository, no binary, a context that will not parse). <strong>2 is
+never a pass</strong>, and a confirmed failure outranks an undetermined.
+It is registered in <code>scripts/check-registry.tsv</code> as
+<code>docs-chain-sync</code> with a <code>--prove-failure</code> paired
+proof, so R5 (anti-drift) is satisfied and the check is enumerated for
+SC-012/SC-013.</p>
+<h2 id="honest-boundaries">7. Honest boundaries</h2>
+<ul>
+<li><p><strong>Content-hash, not mtime.</strong> <code>touch</code> on a
+chained source triggers nothing — demonstrated, not asserted (§8 of the
+session report). This also means a §11.4.65 protection-2 reading of
+“mtime ≥” is satisfied <em>a fortiori</em>: the content is proven equal,
+which is stronger than a timestamp comparison.</p></li>
+<li><p><strong>The gate proves SYNC, not CORRECTNESS.</strong> An export
+that faithfully renders a wrong document passes. Document correctness
+stays §11.4.44 / §11.4.99 / §11.4.194 territory.</p></li>
+<li><p><strong>REVERSED 2026-09-09, on an explicit operator decision:
+the exports ARE TRACKED.</strong> The bullet below is kept verbatim, not
+deleted, because its measurement was real and its trade is real — it was
+decided the other way. What the old reasoning did not weigh is that
+ignoring the exports made §11.4.65 compliance a <strong>working-tree
+property only</strong>: a fresh clone carries no exports, so
+<code>scripts/verify-docs-chain.sh</code> — which checks protections 1
+and 2 ON DISK — is RED on arrival for anyone who has not first run a
+sync, and §11.4.65’s own word “available” cannot mean “available to
+whoever generated it locally”. The §11.4.30 objection is answered
+narrowly rather than waved away: §11.4.30 forbids versioned BUILD
+artefacts of the applications and services; a rendering another anchor
+mandates must EXIST is the deliverable, not its by-product. The
+content-boundary cost is <strong>accepted and expected</strong> — that
+gate’s count rises, and a rise caused by tracking renderings of
+already-public Markdown is inherent to the mandate, <strong>not a new
+disclosure</strong>. The reversal is a NARROWING of
+<code>.gitignore</code>, not a blanket un-ignore: root
+<code>*.pdf</code>/<code>*.png</code>/<code>*.html</code> stay ignored
+by default with only the seven <code>umbrella-root</code> siblings
+negated by name, and <code>/qa-results/docs_chain/</code> plus
+<code>.docs_chain/state.json</code> are untouched.
+<code>.gitignore</code> carries the full record. The paragraph that
+follows is the SUPERSEDED 2026-09-03 decision:</p></li>
+<li><p><strong>The exports are generated but NOT tracked, and that was
+decided on a measurement rather than a preference.</strong>
+<em>(SUPERSEDED — see the bullet above.)</em> The content-boundary gate
+reads a text-bearing PDF through <code>pdftotext</code> and HTML as
+text, so every export re-presents its source’s full text to the
+detector. Measured on this tree, 2026-09-03:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>corpus</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tracked only (the gate’s default)</td>
+<td><code>LEAK — 11973 match(es)</code></td>
+</tr>
+<tr>
+<td>plus the 146 exports (<code>--include-untracked</code>)</td>
+<td><code>LEAK — 24759 match(es)</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>+12,786 matches, +107%</strong> — on a gate that is red by
+design and whose whole value is that a human still reads it. Tracking
+the exports would more than double it while disclosing nothing new:
+every export renders a <code>.md</code> that is already public. §11.4.30
+forbids versioning a build derivative, and §11.4.77 is satisfied because
+the regeneration mechanism exists and is gated
+(<code>docs_chain sync --all</code>). So <code>.gitignore</code> now
+covers the exports, which also resolves — coherently — the pre-existing
+asymmetry in which the root <code>/*.pdf</code> rule ignored the root
+PDFs while the root <code>.html</code> would have been tracked.</p>
+<p>This does <strong>not</strong> weaken §11.4.65: protections 1 and 2
+are about the siblings EXISTING and being IN SYNC, and
+<code>scripts/verify-docs-chain.sh</code> checks that <strong>on
+disk</strong> (C5), never in the index — so ignoring them costs the gate
+not one assertion. It is a reversible decision: delete one commented
+block in <code>.gitignore</code> and the exports become tracked. The
+fleet precedent points the other way — the constitution’s own repository
+tracks its <code>.html/.pdf/.docx</code> — so an operator who prefers
+that can have it for the price of the measured match count
+above.</p></li>
+<li><p><strong>Not bound:</strong> the eleven owned submodules (§5), and
+every vendored tree under <code>.claude/</code>, <code>.specify/</code>
+and <code>.ashlrcode/</code>. Both are declared scope boundaries, not
+claims of conformance.</p></li>
+<li><p><strong>C4 costs roughly what a <code>sync</code> costs, and that
+has a consequence.</strong> <code>docs_chain verify</code> re-derives
+every registered output to compare it, so on this 73-document corpus C4
+takes <strong>6–10 minutes</strong> on a loaded host (measured: a full
+<code>sync --all</code> was 29m25s at 26% CPU under a load average of
+25). Wiring this gate into <code>scripts/pre-push-gates.sh</code> would
+add that to every push. The cheap pre-filter is the mtime comparison C5
+already implies — if no <code>.md</code> is newer than its
+<code>.html</code>, C4 has nothing to find — and adding that fast path
+is a reasonable follow-up. <strong>It was not done here</strong>,
+because a check that skips its authoritative comparison on an mtime
+heuristic is precisely the mtime-vs-content-hash confusion this engine
+exists to remove, and that trade-off deserves a deliberate decision
+rather than a quiet optimisation.</p></li>
+<li><p><strong>On a tree under concurrent edit, C4 can be red through
+nobody’s fault.</strong> Measured twice, 2026-09-03: a
+<code>sync --all</code> left <strong>zero</strong> drifted sources, and
+the C4 that followed still reported DRIFT because
+<code>CONTINUATION.md</code> was edited again <em>during</em> C4’s own
+multi-minute run — <code>md</code> 20:35:12 against an export built
+20:29:14, and before that <code>md</code> 20:16:41 against 20:13:53. The
+offending document is the one several agents update continuously. That
+is the gate reporting a genuinely stale export, which is what it is for;
+it is also why a green C4 should be read as “green at the instant it
+finished”, and why this gate belongs at a quiescent seam (pre-push, per
+§11.4.84) rather than mid-flight.</p></li>
+</ul>
+</body>
+</html>

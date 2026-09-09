@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DOC-AUDIT</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DOC-AUDIT</h1>
+</header>
+<h1 id="documentation-audit-docssetup-agents-wizard">Documentation Audit
+— <code>docs/setup-agents-wizard/</code></h1>
+<p>Read-only correctness audit of the seven-document set against the
+three scripts it documents. Nothing outside this file was created,
+edited or executed against the real environment.</p>
+<h2 id="scope-and-method">Scope and method</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Artifact</th>
+<th style="text-align: left;">State audited (<code>sha256</code>)</th>
+<th style="text-align: right;">Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td
+style="text-align: left;"><code>scripts/setup-agents-wizard.sh</code></td>
+<td
+style="text-align: left;"><code>7f2fc18b6c0b0ed32465ae9efd992130b544b6846e19ff2c5f3167647827624f</code></td>
+<td style="text-align: right;">1017</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>scripts/rollback-agents-wizard.sh</code></td>
+<td
+style="text-align: left;"><code>5c54f38e61e213b4f6da09378268b2e23806b574014372170a3166af35af9ab0</code></td>
+<td style="text-align: right;">171</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>scripts/test-setup-agents-wizard.sh</code></td>
+<td
+style="text-align: left;"><code>5c33717362c29839f330e51337120930099d0cd52d557915fa6ea1e5e9f2ef3b</code></td>
+<td style="text-align: right;">589</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>docs/setup-agents-wizard/ARCHITECTURE.md</code></td>
+<td
+style="text-align: left;"><code>7f927db13916f68f005fff46cd53154cdf17524acadb91f3511ed9c5e846487d</code></td>
+<td style="text-align: right;">407</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>docs/setup-agents-wizard/FAQ.md</code></td>
+<td
+style="text-align: left;"><code>e12c78638e8116e7f53bb797ea2ffadee2da00a6636ab61b79a064a07da84c9a</code></td>
+<td style="text-align: right;">556</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>docs/setup-agents-wizard/MANUAL.md</code></td>
+<td
+style="text-align: left;"><code>b10854dd300f77e06129fd0179a9ca7f97dff863aa65c2984694bbfc76c585ae</code></td>
+<td style="text-align: right;">624</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>docs/setup-agents-wizard/README.md</code></td>
+<td
+style="text-align: left;"><code>ce521ff45cd4f007cd3cd24785fd7620c595f35b2154a8ee5aacb62b60593b3b</code></td>
+<td style="text-align: right;">411</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>docs/setup-agents-wizard/SAFETY-AND-ROLLBACK.md</code></td>
+<td
+style="text-align: left;"><code>2d19e2b0297440ccf1f893ed8e8395678ead43b8c46c4b867c6e49cc981a8c72</code></td>
+<td style="text-align: right;">616</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>docs/setup-agents-wizard/TROUBLESHOOTING.md</code></td>
+<td
+style="text-align: left;"><code>b0be08a8b7d026b9853536589d8275fdc3703c3772d29dd87ef9bf8034643afe</code></td>
+<td style="text-align: right;">716</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>docs/setup-agents-wizard/USER_GUIDE.md</code></td>
+<td
+style="text-align: left;"><code>13db707047a1403ee51120d8dac671edca8e71446556791edc243714e56e6fb0</code></td>
+<td style="text-align: right;">443</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>The three scripts changed twice while this audit was in
+progress</strong> (two rounds of edits by another process). All findings
+below are stated against the hashes in the table above, which were
+stable for the final 3+ minutes of the audit. The seven documents did
+<strong>not</strong> change at any point. If the scripts move again,
+re-verify the rows marked <em>(new behaviour)</em>.</p>
+</blockquote>
+<p>Checks performed: extraction and verification of every command, flag,
+path, package and environment variable named in the docs; a full static
+inventory of the test suite; a <code>github-slugger</code>-equivalent
+resolution of all 86 relative links and in-page anchors; an
+<code>mmdc</code> 11.12.0 render of all six Mermaid blocks; and live
+probing of the installed <code>lumen 0.0.41</code> CLI to check the flag
+tables.</p>
+<hr />
+<h2 id="verdict">Verdict</h2>
+<p><strong>67 findings: 17 Critical, 41 Major, 9 Minor.</strong></p>
+<p>Three whole subsystems that the wizard performs today are
+<strong>absent from all seven documents</strong>: the Step 7
+project-indexing pass (<code>WIZARD_INDEX_PROJECT</code>), the
+glyphdown-hook opt-out (<code>WIZARD_SKIP_GLYPHDOWN_HOOK</code>), and
+the telemetry opt-out (<code>configure_telemetry_optout</code>,
+<code>WIZARD_KEEP_TELEMETRY</code>) which writes a third managed block
+into <code>~/.bashrc</code>, runs <code>codegraph telemetry off</code>
+and edits <code>~/.qwen/settings.json</code>. Grep across all seven
+files returns zero hits for <code>WIZARD_SKIP_GLYPHDOWN_HOOK</code>,
+<code>WIZARD_INDEX_PROJECT</code>, <code>WIZARD_KEEP_TELEMETRY</code>,
+<code>telemetry</code>, <code>DO_NOT_TRACK</code>,
+<code>usageStatisticsEnabled</code> and <code>Step 7</code>.</p>
+<p><code>ARCHITECTURE.md</code> is the worst-affected document: its
+statement at line 11 that “Every diagram below is derived from the
+current code” is false — two of its six diagrams depict the exact
+behaviour the wizard removed and the test suite now forbids.</p>
+<p><code>SAFETY-AND-ROLLBACK.md</code> and <code>MANUAL.md</code> are
+otherwise the most accurate documents, but both now carry stale rollback
+semantics (<code>MODIFIED</code> vs <code>CREATED</code>, and the
+SpecKit undo action) that the most recent script edit inverted.</p>
+<p><strong><code>TROUBLESHOOTING.md</code> is very nearly clean</strong>
+— one Minor finding only.</p>
+<p>Also verified clean, with no findings at all:</p>
+<ul>
+<li><strong>Cross-links:</strong> all 86 relative markdown links and
+in-page anchors resolve. Zero broken.</li>
+<li><strong>Mermaid:</strong> all six
+``<code>mermaid blocks in</code>ARCHITECTURE.md<code>render successfully under</code>mmdc`
+11.12.0 (blocks at lines 31–131, 151–189, 209–235, 254–300, 330–348,
+368–390). No parse errors. Their <em>content</em> is wrong in places
+(see findings); their <em>syntax</em> is fine.</li>
+<li><strong>Stale <code>@qoomon/lumen</code> /
+<code>"args": ["serve"]</code> presented as current:</strong> none.
+Every occurrence is either <code>codegraph</code>’s legitimate
+<code>serve</code>, or is explicitly framed as a documented past
+bug.</li>
+<li><strong>Embedded script listing in <code>README.md</code>:</strong>
+correctly removed; <code>README.md:378</code> and
+<code>MANUAL.md:8-9</code> describe its removal rather than reproducing
+it.</li>
+</ul>
+<hr />
+<h2 id="findings">Findings</h2>
+<h3 id="critical">Critical</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">File</th>
+<th style="text-align: right;">Line</th>
+<th style="text-align: left;">Incorrect claim (quoted)</th>
+<th style="text-align: left;">What the code actually does</th>
+<th style="text-align: left;">Suggested correction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>ARCHITECTURE.md</code></td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">“Every diagram below is derived from the
+current code.”</td>
+<td style="text-align: left;">Diagram 1 (§1) and diagram 4 (§4) describe
+the pre-fix wizard: bare-name npm agent installs, scoped-name retries,
+five wrong MCP config paths and a <code>ToolCall</code> hook. None of
+that exists in <code>scripts/setup-agents-wizard.sh</code>.</td>
+<td style="text-align: left;">Redraw diagrams 1 and 4 from the current
+script, then keep the sentence.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ARCHITECTURE.md</code></td>
+<td style="text-align: right;">51</td>
+<td
+style="text-align: left;"><code>AGT["npm i -g kimi, opencode, mimo, qwen-code"] --&gt; AGTQ{"install failed?"}</code></td>
+<td style="text-align: left;">The wizard never npm-installs these. Lines
+656–665 are a detection-only roll call printing the vendor URL. Only
+<code>qwen</code> is installed, from <code>@qwen-code/qwen-code</code>
+(line 653). Test <code>A13</code> asserts
+<code>npm install -g (kimi\|opencode\|mimo\|qwen-code)</code> appears
+<strong>zero</strong> times.</td>
+<td style="text-align: left;">Replace with a detection node: “detect
+kimi / opencode / mimo → print vendor URL if missing” and a separate
+<code>npm_install_if_missing qwen "@qwen-code/qwen-code"</code>
+node.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ARCHITECTURE.md</code></td>
+<td style="text-align: right;">52</td>
+<td
+style="text-align: left;"><code>AGTQ -- yes --&gt; AGTF["retry scoped names&lt;br/&gt;kimi/cli, opencode/cli, mimo/cli, qwen-code/cli"]</code></td>
+<td style="text-align: left;">No scoped-name retry exists. Test
+<code>A12</code> asserts <code>@kimi/cli</code>,
+<code>@opencode/cli</code> and <code>@mimo/cli</code> never appear on an
+executable line.</td>
+<td style="text-align: left;">Delete the
+<code>AGTQ</code>/<code>AGTF</code> retry branch entirely.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ARCHITECTURE.md</code></td>
+<td style="text-align: right;">92–96</td>
+<td
+style="text-align: left;"><code>M1["Step 5 - configure MCP servers"] --&gt; MC["~/.claude/mcp.json"]</code>
+… <code>MK["~/.kimi/config.json"]</code> …
+<code>MO["~/.opencode/config.json"]</code> …
+<code>MM["~/.mimo/config.json"]</code> …
+<code>MQ["~/.qwen-code/config.json"]</code></td>
+<td style="text-align: left;">All five are the orphan paths the wizard
+stopped writing. Real targets:
+<code>claude mcp add-json … -s user</code> (line 731),
+<code>~/.kimi-code/mcp.json</code> (793),
+<code>~/.config/opencode/opencode.json</code> (801),
+<code>~/.qwen/settings.json</code> (830); MiMo Code gets <strong>no
+file</strong> (823–827).</td>
+<td style="text-align: left;">Replace the five node labels with the real
+targets and make the MiMo node a “manual step, nothing written”
+terminal.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ARCHITECTURE.md</code></td>
+<td style="text-align: right;">98</td>
+<td
+style="text-align: left;"><code>MPL --&gt; MHK["jq: add glyphdown ToolCall hook&lt;br/&gt;to ~/.claude/settings.json"]</code></td>
+<td style="text-align: left;">The wizard writes
+<code>.hooks.PreToolUse</code> and <code>.hooks.PostToolUse</code>
+(lines 777–785). Test <code>A21</code> asserts the literal
+<code>"ToolCall"</code> is <strong>absent</strong>. The step is also
+skipped when <code>glyphdown</code> is missing or
+<code>WIZARD_SKIP_GLYPHDOWN_HOOK</code> is set.</td>
+<td style="text-align: left;">“jq: ensure glyphdown PreToolUse +
+PostToolUse hooks”, with guard branches for <code>glyphdown</code>
+missing and <code>WIZARD_SKIP_GLYPHDOWN_HOOK</code> set.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ARCHITECTURE.md</code></td>
+<td style="text-align: right;">272–277</td>
+<td style="text-align: left;"><code>M1["~/.claude/mcp.json"]</code> …
+<code>M3["~/.kimi/config.json"]</code> …
+<code>M4["~/.opencode/config.json"]</code> …
+<code>M5["~/.mimo/config.json"]</code> …
+<code>M6["~/.qwen-code/config.json"]</code></td>
+<td style="text-align: left;">Same orphan paths as above, repeated in
+the “Files touched” diagram. <code>~/.mimo/config.json</code> in
+particular is shown as a jq-merged config for an agent the wizard writes
+nothing for.</td>
+<td style="text-align: left;">Same correction as the row above; drop the
+MiMo node from the <code>MG</code> subgraph.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ARCHITECTURE.md</code></td>
+<td style="text-align: right;">273</td>
+<td
+style="text-align: left;"><code>M2["~/.claude/settings.json&lt;br/&gt;glyphdown ToolCall hook"]</code></td>
+<td style="text-align: left;"><code>PreToolUse</code> /
+<code>PostToolUse</code>, not <code>ToolCall</code>.</td>
+<td
+style="text-align: left;"><code>"~/.claude/settings.json&lt;br/&gt;glyphdown PreToolUse + PostToolUse hooks"</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ARCHITECTURE.md</code></td>
+<td style="text-align: right;">303</td>
+<td style="text-align: left;">“All five agents receive the
+<strong>identical</strong> MCP block — <code>lumen</code> pointed at the
+absolute wrapper path with args <code>[\"stdio\"]</code>, plus
+<code>codegraph</code> with args <code>[\"serve\"]</code>.”</td>
+<td style="text-align: left;">Only Kimi and Qwen Code get that block
+(<code>configure_mcp_for_agent</code>, lines 141–175). Claude Code gets
+<code>lumen</code> only, via the CLI. Opencode gets <code>lumen</code>
+only, in the <code>.mcp</code> schema as
+<code>{"type":"local","command":[…,"stdio"],"enabled":true}</code> —
+<code>MANUAL.md:266</code> correctly says “CodeGraph is not added here”.
+MiMo Code gets nothing.</td>
+<td style="text-align: left;">“Kimi and Qwen Code receive both servers
+in <code>.mcpServers</code>; Claude Code and Opencode receive
+<code>lumen</code> only, each in its own form; MiMo Code receives
+nothing.”</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ARCHITECTURE.md</code></td>
+<td style="text-align: right;">315</td>
+<td
+style="text-align: left;">“<code>scripts/test-setup-agents-wizard.sh</code>
+runs six groups.”</td>
+<td style="text-align: left;">Eight groups:
+<code>A</code>–<code>H</code>.
+<code>group "H. Telemetry opt-out (isolated \$HOME)"</code> is declared
+at test line 392 and <code>group "G. …"</code> at 446.
+<code>README.md:269</code> says “seven groups” — the two documents
+contradict each other, and both are now wrong.</td>
+<td style="text-align: left;">“runs eight groups (A–H)”; add rows for
+<code>G</code> and <code>H</code> to the table at 320–327.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>MANUAL.md</code></td>
+<td style="text-align: right;">128</td>
+<td style="text-align: left;">“Note the <code>{}</code> is written
+<em>before</em> <code>backup_file</code>, so a config the wizard creates
+from scratch is recorded <code>MODIFIED</code> with <code>{}</code> as
+its original.”</td>
+<td style="text-align: left;"><em>(new behaviour)</em> Reversed.
+<code>configure_mcp_for_agent</code> now calls
+<code>snapshot_before "$component" "$config_file"</code> at line 149,
+<strong>before</strong> the <code>{}</code> seed at 150–152, with the
+comment “Snapshot BEFORE seeding the file.” Test <code>G16</code>
+asserts the row is <code>CREATED</code>, and <code>G17</code> asserts
+rollback <strong>deletes</strong> the file.</td>
+<td style="text-align: left;">“The snapshot is taken <em>before</em> the
+<code>{}</code> seed, so a config the wizard creates from scratch is
+recorded <code>CREATED</code> and rollback removes it.”</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>MANUAL.md</code></td>
+<td style="text-align: right;">261</td>
+<td style="text-align: left;">“The <code>{}</code> is written
+<em>before</em> <code>backup_file</code>, so on a clean machine the
+manifest records <code>MODIFIED</code> with <code>{}</code> as the
+original.”</td>
+<td style="text-align: left;"><em>(new behaviour)</em>
+<code>snapshot_before claude "$CLAUDE_SETTINGS"</code> runs at line 773,
+before the <code>{}</code> seed at 774.</td>
+<td style="text-align: left;">Same correction: recorded
+<code>CREATED</code>, deleted on rollback.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>SAFETY-AND-ROLLBACK.md</code></td>
+<td style="text-align: right;">582–587</td>
+<td style="text-align: left;">“<strong>A config the wizard had to create
+from scratch is recorded as <code>MODIFIED</code>, not
+<code>CREATED</code>.</strong> <code>configure_mcp_for_agent</code> and
+the Glyphdown hook step write <code>{}</code> into a missing file
+<em>before</em> calling <code>backup_file</code>, so the stored original
+is <code>{}</code> and rollback restores an empty <code>{}</code> file
+instead of deleting it.”</td>
+<td style="text-align: left;"><em>(new behaviour)</em> No longer true
+for either code path (script lines 149 and 773). Tests
+<code>G16</code>/<code>G17</code> are the regression guards. This bullet
+sits under “What is <em>not</em> reversible”, so it understates what
+rollback now does.</td>
+<td style="text-align: left;">Delete the bullet, or move it to a “fixed”
+note; <code>~/.kimi-code/mcp.json</code>,
+<code>~/.qwen/settings.json</code> and
+<code>~/.claude/settings.json</code> are now removed cleanly.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>SAFETY-AND-ROLLBACK.md</code></td>
+<td style="text-align: right;">98</td>
+<td style="text-align: left;"><code>\|</code>uv tool install
+specify-cli<code>\| Only</code>npm_install_if_missing<code>records an undo</code>ACTION<code>; the</code>uv<code>branch does not \|</code></td>
+<td style="text-align: left;"><em>(new behaviour)</em> The
+<code>uv</code> branch now records one:
+<code>record_action speckit "uv tool uninstall specify-cli"</code>
+(script line 639). Test <code>A28</code> asserts it. A user who runs
+<code>--run-actions</code> believing SpecKit is out of scope will now
+have <code>specify-cli</code> uninstalled.</td>
+<td style="text-align: left;">Remove the row from “What is <em>not</em>
+recorded” and add a <code>speckit</code> component to the components
+table.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>SAFETY-AND-ROLLBACK.md</code></td>
+<td style="text-align: right;">580–581</td>
+<td
+style="text-align: left;">“<strong><code>uv tool install specify-cli</code>
+records no <code>ACTION</code>.</strong> Only
+<code>npm_install_if_missing</code> writes undo rows. Uninstall SpecKit
+by hand if you want it gone.”</td>
+<td style="text-align: left;"><em>(new behaviour)</em> As above —
+<code>record_action speckit …</code> at script line 639.</td>
+<td style="text-align: left;">“<code>uv tool install specify-cli</code>
+records an <code>ACTION</code> under component <code>speckit</code>;
+<code>--run-actions</code> will uninstall it.”</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>FAQ.md</code></td>
+<td style="text-align: right;">545–547</td>
+<td style="text-align: left;">“## Does the wizard index my project?” /
+“No. It sets up the launcher, <code>PATH</code>, completions, the
+embedding backend and the MCP configs, then prints the commands for you
+to run:”</td>
+<td style="text-align: left;">With <code>WIZARD_INDEX_PROJECT</code>
+set, Step 7 (script lines 881–909) runs
+<code>codegraph sync</code>/<code>codegraph init</code> and
+<code>lumen index "$PROJECT_ROOT"</code>. The answer is only correct for
+the default, opt-out path.</td>
+<td style="text-align: left;">“Not by default. Set
+<code>WIZARD_INDEX_PROJECT=1</code> and Step 7 builds/refreshes both the
+CodeGraph and Lumen indexes for the project root.”</td>
+</tr>
+<tr>
+<td style="text-align: left;"><em>(all 7 docs)</em></td>
+<td style="text-align: right;">—</td>
+<td style="text-align: left;"><code>WIZARD_SKIP_GLYPHDOWN_HOOK</code>
+appears <strong>zero</strong> times across the entire doc set.</td>
+<td style="text-align: left;">Script lines 765–769: setting it skips the
+glyphdown hook registration entirely and the final summary prints
+<code>➖ Glyphdown Hook  skipped on request (WIZARD_SKIP_GLYPHDOWN_HOOK)</code>
+(line 995). Test <code>A19</code> requires the opt-out to exist. The
+wizard’s own comment calls it “documented”.</td>
+<td style="text-align: left;">Add to <code>MANUAL.md:431–437</code>,
+<code>USER_GUIDE.md:385–389</code>, and the <code>MANUAL.md:261</code>
+glyphdown row (which currently gives <code>glyphdown</code> on
+<code>PATH</code> as the <em>only</em> condition).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><em>(all 7 docs)</em></td>
+<td style="text-align: right;">—</td>
+<td style="text-align: left;"><code>WIZARD_INDEX_PROJECT</code> and
+<code>Step 7</code> appear <strong>zero</strong> times across the entire
+doc set.</td>
+<td style="text-align: left;">Script lines 881–909 add
+<code>Step 7: Indexing This Project</code>, opt-in via
+<code>WIZARD_INDEX_PROJECT</code>. Tests
+<code>A25</code>–<code>A27</code> cover it; <code>A10</code> now asserts
+step headers <code>"1,2,3,4,5,6,7,"</code>.</td>
+<td style="text-align: left;">Add Step 7 to every step table and to the
+env-var references; note that CodeGraph uses <code>sync</code> when
+<code>.codegraph/codegraph.db</code> exists and <code>init</code>
+otherwise.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><em>(all 7 docs)</em></td>
+<td style="text-align: right;">—</td>
+<td style="text-align: left;"><code>telemetry</code>,
+<code>WIZARD_KEEP_TELEMETRY</code>, <code>DO_NOT_TRACK</code>,
+<code>usageStatisticsEnabled</code> and
+<code>configure_telemetry_optout</code> each appear
+<strong>zero</strong> times across the entire doc set.</td>
+<td style="text-align: left;"><em>(new behaviour)</em>
+<code>configure_telemetry_optout</code> (script lines 384–430) runs
+unconditionally as the first act of <code>ensure_lumen</code> (line
+500). It appends a <strong>third</strong> managed block to
+<code>~/.bashrc</code>
+(<code># &gt;&gt;&gt; telemetry opt-out (managed by Claude Code) &gt;&gt;&gt;</code>),
+exports <code>DO_NOT_TRACK=1</code> and
+<code>CODEGRAPH_TELEMETRY=0</code>, runs
+<code>codegraph telemetry off</code>, sets
+<code>.usageStatisticsEnabled = false</code> in
+<code>~/.qwen/settings.json</code>, and adds a “Telemetry / analytics:”
+section to the final summary (lines 975–991). Tests
+<code>A29</code>–<code>A32</code> and group <code>H</code> (H1–H7) cover
+it.</td>
+<td style="text-align: left;">Document the block, the three knobs, the
+<code>WIZARD_KEEP_TELEMETRY</code> escape hatch, the extra
+<code>~/.qwen/settings.json</code> mutation, and the new summary
+section.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="major">Major</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">File</th>
+<th style="text-align: right;">Line</th>
+<th style="text-align: left;">Incorrect claim (quoted)</th>
+<th style="text-align: left;">What the code actually does</th>
+<th style="text-align: left;">Suggested correction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>README.md</code></td>
+<td style="text-align: right;">68</td>
+<td style="text-align: left;">“## 🧭 The Six Steps” (table rows
+<code>**1**</code>–<code>**6**</code> follow)</td>
+<td style="text-align: left;">Seven step headers exist:
+<code>Step 1</code> … <code>Step 7: Indexing This Project</code> (script
+lines 563, 581, 692, 698, 710, 842, 882).</td>
+<td style="text-align: left;">“The Seven Steps”; add a Step 7 row marked
+opt-in via <code>WIZARD_INDEX_PROJECT</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>README.md</code></td>
+<td style="text-align: right;">23</td>
+<td style="text-align: left;">“Task‑oriented walkthrough: quick start,
+what each of the six steps prints”</td>
+<td style="text-align: left;">Seven steps.</td>
+<td style="text-align: left;">“…each of the seven steps…”</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>README.md</code></td>
+<td style="text-align: right;">273</td>
+<td style="text-align: left;">“…library‑mode guard, sequential
+<code>Step 1..6</code> headers, <code>shellcheck -S error</code>.”</td>
+<td style="text-align: left;">Test <code>A10</code> (test line 142) is
+now
+<code>assert_eq "A10 step headers are sequential 1..7" "1,2,3,4,5,6,7," "$steps"</code>.</td>
+<td style="text-align: left;">“sequential <code>Step 1..7</code>
+headers”</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>README.md</code></td>
+<td style="text-align: right;">269</td>
+<td style="text-align: left;">“It runs assertions across <strong>seven
+groups</strong>:”</td>
+<td style="text-align: left;">Eight groups,
+<code>A</code>–<code>H</code>.</td>
+<td style="text-align: left;">“eight groups”</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>README.md</code></td>
+<td style="text-align: right;">271–279</td>
+<td style="text-align: left;">Group table rows <code>**A**</code> …
+<code>**G**</code></td>
+<td style="text-align: left;">No <code>**H**</code> row; group
+<code>H</code> (Telemetry opt-out, H1–H7) is missing.</td>
+<td style="text-align: left;">Add an <code>H</code> row.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>README.md</code></td>
+<td style="text-align: right;">279</td>
+<td style="text-align: left;">“<strong>G</strong> | Backup manifest and
+rollback (15 assertions, <code>G1</code>–<code>G15</code>)”</td>
+<td style="text-align: left;"><code>G1</code>–<code>G18</code>:
+<code>G16</code>, <code>G17</code>, <code>G18</code> were added at test
+lines 543, 548, 560.</td>
+<td style="text-align: left;">“(18 assertions,
+<code>G1</code>–<code>G18</code>)” and mention the
+<code>CREATED</code>-not-<code>MODIFIED</code> regression tests.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>README.md</code></td>
+<td style="text-align: right;">75</td>
+<td style="text-align: left;">“Prints ✅ / ⚠️ for <code>lumen</code>,
+<code>codegraph</code>, <code>glyphdown</code>, <code>specify</code>,
+<code>kimi</code>, <code>opencode</code>, <code>mimo</code>,
+<code>qwen-code</code>, <code>ashlr</code>.”</td>
+<td style="text-align: left;">Script line 699:
+<code>for cmd in lumen codegraph glyphdown specify kimi opencode mimo qwen ashlr; do</code>
+— the binary is <code>qwen</code>.</td>
+<td style="text-align: left;">Replace <code>qwen-code</code> with
+<code>qwen</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>README.md</code></td>
+<td style="text-align: right;">118</td>
+<td style="text-align: left;">“| <strong>Qwen Code</strong> |
+<code>npm install -g @qwen-code/qwen-code</code>, only when
+<code>qwen-code</code> is missing |”</td>
+<td style="text-align: left;">Script line 653:
+<code>npm_install_if_missing qwen "@qwen-code/qwen-code"   # binary is \</code>qwen`,
+not
+`qwen-code`<code>. Test</code>A22<code>asserts the string</code>npm_install_if_missing
+qwen-code<code>never appears. | "only when</code>qwen<code>is missing" | |</code>README.md<code>| 390 | "The step count went from 5 to 6; every later step shifted by one." | The count is now 7. | "went from 5 to 6, and later to 7 with the opt-in indexing step." | |</code>MANUAL.md<code>| 54 | "Bun;</code>npm_install_if_missing<code>for</code>codegraph<code>and</code>glyphdown<code>;</code>specify<code>via</code>uv
+tool install specify-cli<code>;</code>npm_install_if_missing
+qwen-code<code>; …" |</code>npm_install_if_missing qwen “<span
+class="citation"
+data-cites="qwen-code/qwen-code">@qwen-code/qwen-code</span>”<code>. The quoted string is the exact literal that test</code>A22<code>requires to be **absent** from the wizard. |</code>npm_install_if_missing
+qwen<code>| |</code>MANUAL.md<code>| 141 | "</code>npm_install_if_missing
+qwen-code "<span class="citation"
+data-cites="qwen-code/qwen-code">@qwen-code/qwen-code</span>"<code>." | Same — the real call site is</code>npm_install_if_missing
+qwen “<span class="citation"
+data-cites="qwen-code/qwen-code">@qwen-code/qwen-code</span>”<code>(script line 653). |</code>npm_install_if_missing
+qwen “<span class="citation"
+data-cites="qwen-code/qwen-code">@qwen-code/qwen-code</span>”<code>| |</code>MANUAL.md<code>| 48–59 | "### Execution order" table, rows</code>1<code>–</code>6<code>plus the two</code>—<code>rows | Missing Step 7. | Add a Step 7 row (opt-in,</code>WIZARD_INDEX_PROJECT<code>). | |</code>MANUAL.md<code>| 59 | "\| — \|</code>Setup
+Complete – Final
+Summary<code>\| Four</code>✅<code>/</code>❌<code>tables plus a numbered next-steps list \|" | *(new behaviour)* Five sections now:</code>Installed
+Global Commands<code>,</code>Agent MCP Configurations
+(Lumen)<code>,</code>Lumen Semantic Search<code>,</code>Telemetry /
+analytics<code>(script line 975) and</code>Project<code>. | "Five</code>✅<code>/</code>❌<code>tables" | |</code>MANUAL.md<code>| 302 | "\|</code>qwen-code<code>\|</code><span
+class="citation"
+data-cites="qwen-code/qwen-code">@qwen-code/qwen-code</span><code>\|</code>npm
+uninstall -g <span class="citation"
+data-cites="qwen-code/qwen-code">@qwen-code/qwen-code</span><code>\|" (Command column) | The command the package provides — and the name the wizard probes — is</code>qwen<code>. | Command column:</code>qwen<code>. | |</code>MANUAL.md<code>| 118 | "Components in use:</code>lumen<code>,</code>shell<code>,</code>claude<code>,</code>kimi<code>,</code>opencode<code>,</code>qwen<code>,</code>npm<code>, and</code>misc<code>as the unused fallback." | *(new behaviour)*</code>speckit<code>is missing —</code>record_action
+speckit “uv tool uninstall
+specify-cli”<code>at script line 639. | Add</code>speckit<code>to the list. | |</code>MANUAL.md<code>| 143–144 | "SpecKit does not go through it —</code>specify<code>is a Python tool installed with</code>uv
+tool install
+specify-cli<code>, and that branch records **no** undo action." | *(new behaviour)* That branch now records</code>record_action
+speckit “uv tool uninstall
+specify-cli”<code>. | "…and that branch records an</code>ACTION<code>under component</code>speckit<code>." | |</code>MANUAL.md<code>| 304–305 | "</code>specify<code>comes from</code>uv
+tool install
+specify-cli<code>when</code>uv<code>is available — a Python tool, not an npm package, and the only install the wizard performs **without** recording an undo action." | *(new behaviour)* It now records one.</code>WOZCODE_INSTALL_CMD<code>, Bun and ashlr remain unrecorded. | Drop the "only install without an undo action" clause; name Bun/ashlr/WOZCODE as the unrecorded ones. | |</code>MANUAL.md<code>| 340 | "Two blocks are written, each delimited by literal marker lines that must begin at column 1." | *(new behaviour)* Three: the lumen block and the telemetry opt-out block in</code>~/.bashrc<code>, plus the user-bin block in</code>~/.bash_profile<code>(</code>PRIVACY_BLOCK_START<code>at script line 372). Test</code>H1<code>asserts exactly one telemetry block. | "Three blocks are written" + a</code>###
+telemetry
+opt-out<code>subsection. | |</code>MANUAL.md<code>| 431–437 | "### Read by the wizard" table:</code>WIZARD_STATE_DIR<code>,</code>WOZCODE_INSTALL_CMD<code>,</code>LUMEN_EMBED_MODEL<code>,</code>OLLAMA_HOST<code>,</code>SETUP_WIZARD_LIB_ONLY<code>| The wizard reads nine: those five plus</code>WIZARD_SKIP_GLYPHDOWN_HOOK<code>(line 765),</code>WIZARD_INDEX_PROJECT<code>(line 881),</code>WIZARD_KEEP_TELEMETRY<code>(line 385), and</code>LUMEN_BIN<code>(line 233, inside the generated wrapper — already covered separately at 443). | Add the three missing</code>WIZARD_*<code>rows. This table is the reference of record, so the omission propagates. | |</code>MANUAL.md<code>| 616–624 | "## Test suite" group table, rows</code>A<code>…</code>G<code>| Missing group</code>H<code>(H1–H7, telemetry opt-out, throwaway</code><span
+class="math inline">$HOME`). | Add an `H` row. |
+| `MANUAL.md` | 618 | "…library-mode guard, sequential step headers
+`1..6`, `shellcheck -S error`" | Test `A10` asserts `1..7`. | "`1..7`" |
+| `MANUAL.md` | 624 | "\| G \| Backup manifest and rollback, `G1`–`G15`,
+in a throwaway
+`$</span>HOME<code>…" |</code>G1<code>–</code>G18<code>. | "</code>G1<code>–</code>G18<code>" | |</code>ARCHITECTURE.md<code>| 7 | "…this document shows **how the pieces fit together**: the order of the six steps…" | Seven steps. | "the seven steps" | |</code>ARCHITECTURE.md<code>| 24 | "The wizard runs six numbered steps top to bottom, non-interactively." | Seven; the seventh is conditional on</code>WIZARD_INDEX_PROJECT<code>. | "seven numbered steps, the last of which is opt-in" | |</code>ARCHITECTURE.md<code>| 50 |</code>
+NPM[“npm i -g codegraph, glyphdown, speckit<br/>failures
+tolerated<br/>Lumen deliberately NOT from npm”] –&gt;
+AGT<code>| SpecKit is not an npm package: script lines 633–646 install it with</code>uv
+tool install
+specify-cli<code>. The document's own README companion (</code>README.md:94<code>) states this correctly. |</code>“npm
+i -g codegraph, glyphdown<br/>specify via uv tool install
+specify-cli”<code>| |</code>ARCHITECTURE.md<code>| 91 |</code> V1[“Step
+4 - verify CLI availability<br/>lumen codegraph glyphdown
+specify<br/>kimi opencode mimo qwen-code ashlr”] –&gt;
+M1<code>| Script line 699 loops over</code>qwen<code>, not</code>qwen-code<code>. | Replace</code>qwen-code<code>with</code>qwen<code>. | |</code>ARCHITECTURE.md<code>| 307 | "**Takeaway:** the wizard's footprint is two managed shell blocks, two installed files, six JSON configs and three project paths." | Three managed blocks; the JSON configs the wizard actually writes are</code>~/.claude/settings.json<code>,</code>~/.kimi-code/mcp.json<code>,</code>~/.config/opencode/opencode.json<code>and</code>~/.qwen/settings.json<code>(four), plus</code>~/.claude.json<code>mutated by the</code>claude<code>CLI. | Recount against the real targets and the telemetry block. | |</code>ARCHITECTURE.md<code>| 315–318 | "Groups **B–D** source the wizard in *library mode* (</code>SETUP_WIZARD_LIB_ONLY=1<code>) against a throwaway</code><span
+class="math inline">$HOME` … Only group **F** looks at the real machine,
+and `--no-live` skips it." | Groups `B`, `C`, `D`, `G` and `H` all use
+`in_sandbox` (throwaway
+`$</span>HOME<code>+ library mode).</code>README.md:283<code>correctly says "Groups B, C, D and G" — the two documents contradict each other, and both now omit</code>H<code>. | "Groups B, C, D, G and H source the wizard in library mode…" | |</code>ARCHITECTURE.md<code>| 320–327 | "## 5. ✅ Test suite coverage map" table, rows</code><strong>A</strong><code>…</code><strong>F</strong><code>| Groups</code>G<code>(backup manifest and rollback) and</code>H<code>(telemetry opt-out) are both missing from the table. | Add</code>G<code>and</code>H<code>rows. | |</code>ARCHITECTURE.md<code>| 322 | "\| **A** Static analysis \| A1–A11 \| …" | Group A now runs</code>A1<code>–</code>A32<code>(36 recorded assertions, because</code>A12<code>fires once per bogus package). | "A1–A32" | |</code>ARCHITECTURE.md<code>| 331 |</code>
+A[“A. static analysis<br/>A1 to A11”] –&gt; AT[“wizard source
+text”]<code>| Same. | "A1 to A32" | |</code>USER_GUIDE.md<code>| 151 | "A roll call of</code>lumen
+codegraph glyphdown specify kimi opencode mimo qwen-code
+ashlr<code>." | Script line 699 lists</code>qwen<code>, not</code>qwen-code<code>. | Replace</code>qwen-code<code>with</code>qwen<code>. | |</code>USER_GUIDE.md<code>| 220 | "The wizard closes with three</code>✅<code>/</code>❌<code>tables — global commands, agent MCP configs, Lumen setup, project state" | Four items are then listed for "three" tables, and the real count is now **five** sections (the</code>Telemetry
+/
+analytics:<code>block at script line 975 is the fifth).</code>MANUAL.md:59<code>says "Four" — the two documents contradict each other and neither matches the code. | "five</code>✅<code>/</code>❌<code>tables — global commands, agent MCP configs, Lumen setup, telemetry, project state" | |</code>USER_GUIDE.md<code>| 383 | "These three are the only ones worth setting *before* the wizard runs." | Six wizard-input variables exist: the three listed plus</code>WIZARD_STATE_DIR<code>,</code>WIZARD_SKIP_GLYPHDOWN_HOOK<code>,</code>WIZARD_INDEX_PROJECT<code>and</code>WIZARD_KEEP_TELEMETRY<code>— all read before or during the run. | Extend the table;</code>MANUAL.md:433<code>already documents</code>WIZARD_STATE_DIR<code>as a pre-run input, so the two documents disagree. | |</code>USER_GUIDE.md<code>| 59–222 | "## What each step does, and what you will see" — sections</code>###
+Step 1<code>…</code>### Step 6 — Project-Level
+Setup<code>, then</code>### Final
+summary<code>| Step 7 is missing from the walkthrough. | Add a</code>###
+Step 7 — Indexing This
+Project<code>section noting it only runs with</code>WIZARD_INDEX_PROJECT<code>and that the default prints</code>ℹ️
+Skipping project indexing (set WIZARD_INDEX_PROJECT=1 to build
+indexes).<code>| |</code>USER_GUIDE.md<code>| 24 | "\|</code>npm<code>\| Installs CodeGraph, Glyphdown, SpecKit, agent CLIs \| **Hard stop.** …" | SpecKit is installed with</code>uv<code>, not npm — as this same document says at line 213 ("SpecKit is a Python tool; there is no</code><span
+class="citation"
+data-cites="specify/cli">@specify/cli</span><code>npm package") and line 112. Internal contradiction. | "Installs CodeGraph, Glyphdown and the Qwen Code CLI" | |</code>FAQ.md<code>| 225 | "What re-running does **not** do: it never re-indexes anything, and never deletes an index." | With</code>WIZARD_INDEX_PROJECT<code>set, Step 7 runs</code>codegraph
+sync<code>/</code>codegraph init<code>and</code>lumen
+index<code>(script lines 885–906). | "…never re-indexes anything **unless you set</code>WIZARD_INDEX_PROJECT<code>**, and never deletes an index." | |</code>FAQ.md<code>| 442 | "The components are</code>lumen<code>,</code>shell<code>,</code>claude<code>,</code>kimi<code>,</code>opencode<code>,</code>qwen<code>and</code>npm<code>;</code>all<code>is accepted…" | *(new behaviour)*</code>speckit<code>is missing. | Add</code>speckit<code>. | |</code>SAFETY-AND-ROLLBACK.md<code>| 169–178 | "### Components" table, rows</code>lumen<code>,</code>shell<code>,</code>claude<code>,</code>kimi<code>,</code>opencode<code>,</code>qwen<code>,</code>npm<code>,</code>misc<code>| *(new behaviour)* No</code>speckit<code>row, although</code>record_action
+speckit “uv tool uninstall
+specify-cli”<code>writes one (script line 639). Since this table defines what</code>–component<code>accepts, the omission is user-visible. | Add:</code>|
+speckit | Step 2 | ACTION uv tool uninstall specify-cli
+|<code>| |</code>SAFETY-AND-ROLLBACK.md<code>| 172 | "\|</code>shell<code>\|</code>configure_lumen_shell<code>(Step 3) \|</code>~/.bashrc<code>,</code>~/.bash_profile<code>\|" | *(new behaviour)*</code>configure_telemetry_optout<code>also writes</code>shell<code>rows:</code>backup_file
+“$bashrc”
+shell<code>at script line 391. So</code>~/.bashrc<code>is snapshotted by two different functions in Step 3. | "</code>configure_lumen_shell<code>and</code>configure_telemetry_optout<code>(Step 3)" | |</code>SAFETY-AND-ROLLBACK.md<code>| 89–101 | "### What is *not* recorded" table | *(new behaviour)* Omits</code>.codegraph/<code>(and</code>~/.codegraph/telemetry.json<code>), which Step 7 and</code>codegraph
+telemetry off<code>create outside the manifest.</code>codegraph
+init<code>writes</code>.codegraph/codegraph.db<code>into</code>PROJECT_ROOT`
+(script line 816–821).</td>
+<td style="text-align: left;">Add a row for the CodeGraph index and
+telemetry state.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="minor">Minor</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">File</th>
+<th style="text-align: right;">Line</th>
+<th style="text-align: left;">Incorrect claim (quoted)</th>
+<th style="text-align: left;">What the code actually does</th>
+<th style="text-align: left;">Suggested correction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>ARCHITECTURE.md</code></td>
+<td style="text-align: right;">249</td>
+<td style="text-align: left;">“Every pre-existing file is copied to
+<code>&lt;file&gt;.bak.&lt;YYYYMMDDHHMMSS&gt;</code> before
+modification”</td>
+<td
+style="text-align: left;"><code>~/.local/share/bash-completion/completions/lumen</code>
+is registered with <code>snapshot_before</code> only (script line 303)
+and gets no <code>.bak</code> sibling — as
+<code>SAFETY-AND-ROLLBACK.md:85-87</code> and
+<code>TROUBLESHOOTING.md:708-709</code> both state. Internal
+contradiction.</td>
+<td style="text-align: left;">Add the completions-file exception.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ARCHITECTURE.md</code></td>
+<td style="text-align: right;">247–309</td>
+<td style="text-align: left;">“## 4. 📂 Files touched”</td>
+<td style="text-align: left;">The rollback state directory
+<code>~/.local/share/setup-agents-wizard/backups/&lt;utc&gt;/</code> is
+created on every run (script lines 64–67) but appears in no
+subgraph.</td>
+<td style="text-align: left;">Add it to the <code>IG</code> subgraph or
+a new “State” subgraph.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>MANUAL.md</code></td>
+<td style="text-align: right;">172</td>
+<td style="text-align: left;">“<code>mkdir -p ~/.local/bin</code>;
+<code>backup_file \"$LUMEN_WRAPPER\"</code>; writes the wrapper from a
+quoted heredoc; <code>chmod 755</code>.”</td>
+<td style="text-align: left;">The real call passes the component:
+<code>backup_file "$LUMEN_WRAPPER" lumen</code> (script line 212).
+Without it the default would be <code>misc</code>, which the same
+document says is unused.</td>
+<td
+style="text-align: left;"><code>backup_file "$LUMEN_WRAPPER" lumen</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>MANUAL.md</code></td>
+<td style="text-align: right;">517–529</td>
+<td style="text-align: left;">The <code>lumen [command]</code>
+“Available Commands” block, under “Confirmed against
+<code>lumen 0.0.41</code>”</td>
+<td style="text-align: left;">Verified live: the real
+<code>lumen --help</code> also lists
+<code>help  Help about any command</code>. Everything else in the block
+matches exactly.</td>
+<td style="text-align: left;">Add the <code>help</code> row, or mark the
+listing as abridged.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>MANUAL.md</code></td>
+<td style="text-align: right;">500–508</td>
+<td style="text-align: left;">The <code>in_sandbox() { … }</code> code
+block</td>
+<td style="text-align: left;">Not byte-exact: the real helper (test
+lines 59–72) also contains <code>set -uo pipefail</code>, a four-line
+comment, and <code>set +e</code> before <code>$1</code>.</td>
+<td style="text-align: left;">Reproduce verbatim or say “abridged”.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>README.md</code></td>
+<td style="text-align: right;">243</td>
+<td style="text-align: left;">“- <code>/reload-plugins</code>” (under
+“<strong>Claude Code</strong>: Restart the IDE extension. Inside Claude,
+type:”)</td>
+<td style="text-align: left;">The wizard’s printed next-steps list names
+only <code>/cost-mode</code> and <code>/fixclaude</code> (script line
+947). <code>/reload-plugins</code> is not printed by the wizard and is
+not verifiable from any script in this repository.</td>
+<td style="text-align: left;">Either drop it or mark it as an extra
+suggestion, not something the wizard tells you to run.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>TROUBLESHOOTING.md</code></td>
+<td style="text-align: right;">550</td>
+<td style="text-align: left;">“Unit groups
+<strong>A</strong>–<strong>E</strong> run against a throwaway
+<code>$HOME</code> and throwaway git repositories.”</td>
+<td style="text-align: left;">Group <code>A</code> reads the wizard
+source only — no sandbox (<code>ARCHITECTURE.md:322</code> gets this
+right: “reads the wizard source only”). Groups <code>G</code> and
+<code>H</code> also run in a throwaway <code>$HOME</code> and are not
+mentioned.</td>
+<td style="text-align: left;">“Group A reads the source only; groups B,
+C, D, G and H use a throwaway <code>$HOME</code>; group E uses throwaway
+git repositories.”</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>README.md</code></td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">“…and, where the agent’s schema takes a
+server map, <strong>CodeGraph</strong> too”</td>
+<td style="text-align: left;">Opencode’s <code>.mcp</code> <em>is</em> a
+server map, but the wizard adds only <code>lumen</code> there (script
+lines 806–809); <code>MANUAL.md:266</code> says so explicitly.</td>
+<td style="text-align: left;">“…and, for Kimi and Qwen Code, CodeGraph
+too.”</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>README.md</code></td>
+<td style="text-align: right;">407</td>
+<td style="text-align: left;">“- Never overwrites your existing project
+files outside of <code>submodules/</code>.”</td>
+<td style="text-align: left;">Still true for <em>overwrites</em>, but
+Step 7 now creates <code>.codegraph/</code> in the project root in
+addition to <code>.specify/</code> / <code>specs/</code>. Worth naming
+so the claim stays unambiguous.</td>
+<td style="text-align: left;">“…outside of <code>submodules/</code>,
+<code>.specify/</code>/<code>specs/</code> and
+<code>.codegraph/</code>.”</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="verified-correct">Verified correct</h2>
+<p>The following claims were checked against the code (or the live CLI)
+and are <strong>accurate</strong>. This list exists so the audit
+demonstrates coverage rather than only complaints.</p>
+<h3 id="the-specific-items-flagged-for-verification">The specific items
+flagged for verification</h3>
+<ul>
+<li><strong><code>WIZARD_STATE_DIR</code> is resolved at call
+time.</strong> <code>MANUAL.md:113</code>, <code>MANUAL.md:197</code>,
+<code>MANUAL.md:433</code> and <code>SAFETY-AND-ROLLBACK.md:58-65</code>
+all correctly describe the re-resolution inside <code>backup_init</code>
+(script lines 60–62). <code>README.md:212</code> correctly says it
+overrides the location. The rollback tool reads the same variable
+(<code>rollback-agents-wizard.sh:31</code>).</li>
+<li><strong><code>SETUP_WIZARD_LIB_ONLY</code> library mode.</strong>
+<code>MANUAL.md:472-486</code> quotes the guard verbatim and correctly
+notes that <code>SCRIPT_DIR</code>/<code>PROJECT_ROOT</code> are
+computed <em>before</em> it (script lines 545–553).
+<code>MANUAL.md:86-89</code> and <code>MANUAL.md:137-138</code>
+correctly state that <code>npm_install_if_missing</code> is defined
+<em>below</em> the guard and is unavailable in library mode.</li>
+<li><strong>Every rollback flag exists and behaves as
+documented.</strong> <code>--list</code>, <code>--session</code>,
+<code>--component</code>/<code>-c</code> (repeatable, <code>all</code>
+accepted), <code>--dry-run</code>/<code>-n</code>,
+<code>--yes</code>/<code>-y</code>, <code>--run-actions</code>,
+<code>--help</code>/<code>-h</code> — all present at
+<code>rollback-agents-wizard.sh:38-49</code>. The option table at
+<code>SAFETY-AND-ROLLBACK.md:195-203</code> and the synopsis at
+<code>MANUAL.md:30-31</code> are correct, including “Any other argument
+prints <code>❌ Unknown option: …</code> and exits
+<strong>2</strong>”.</li>
+<li><strong>Rollback exit codes.</strong>
+<code>SAFETY-AND-ROLLBACK.md:209-216</code>,
+<code>MANUAL.md:76-80</code> and <code>README.md:226</code> all match
+the script: <code>0</code> for
+success/<code>--list</code>/<code>--help</code>/<code>--dry-run</code>/nothing
+to do/declining the prompt; <code>1</code> for failures, missing backup
+root or missing manifest; <code>2</code> for a bad option; a failed
+<code>ACTION</code> warns without changing the exit code.</li>
+<li><strong>npm package names.</strong>
+<code>@colbymchenry/codegraph</code> (script line 629) and
+<code>glyphdown</code> (line 630) are documented correctly everywhere,
+as is <code>@qwen-code/qwen-code</code> as the <em>package</em>.
+<code>specify</code> via <code>uv tool install specify-cli</code> (line
+637) is documented correctly in <code>README.md:94</code>,
+<code>USER_GUIDE.md:84</code>, <code>MANUAL.md:326</code> and
+<code>FAQ.md:361</code>.</li>
+<li><strong>The <code>qwen</code> binary name is correct in the wizard
+itself</strong> — <code>README.md:338</code>, <code>FAQ.md:360</code>,
+<code>SAFETY-AND-ROLLBACK.md:539</code> and <code>MANUAL.md:302</code>
+all give the right <em>uninstall</em> command
+(<code>npm uninstall -g … @qwen-code/qwen-code</code>). Only the
+<em>binary/probe</em> name is wrong, in the five places listed
+above.</li>
+<li><strong>Agent MCP config paths.</strong>
+<code>README.md:126-132</code>, <code>USER_GUIDE.md:178-184</code>,
+<code>MANUAL.md:260-268</code>, <code>FAQ.md:406-411</code>,
+<code>TROUBLESHOOTING.md:129-144</code> and
+<code>SAFETY-AND-ROLLBACK.md:171-178</code> all give the verified real
+targets: <code>claude mcp add-json lumen … -s user</code>;
+<code>~/.kimi-code/mcp.json</code> (<code>.mcpServers</code>);
+<code>~/.config/opencode/opencode.json</code> (<code>.mcp</code>,
+<code>{"type":"local","command":[…],"enabled":true}</code>);
+<code>~/.qwen/settings.json</code> (<code>.mcpServers</code>); MiMo Code
+manual, no file. Each of the five documents also correctly labels the
+old orphan paths as leftovers from a previous revision.</li>
+<li><strong><code>stdio</code> vs <code>serve</code>.</strong> Every
+occurrence of <code>"args": ["serve"]</code> in the docs is either
+<code>codegraph</code>’s legitimate one (<code>README.md:145</code>,
+<code>MANUAL.md:157</code>, <code>FAQ.md:486</code>,
+<code>ARCHITECTURE.md:304</code>) or is explicitly presented as the past
+bug (<code>README.md:387</code>, <code>TROUBLESHOOTING.md:126</code>,
+<code>FAQ.md:511</code>). <code>TROUBLESHOOTING.md:166</code> —
+“<code>codegraph</code> legitimately uses <code>serve</code>. Only the
+<code>lumen</code> entry changes.” — is exactly right.</li>
+<li><strong>No stale <code>@qoomon/lumen</code> presented as
+current.</strong> All five occurrences
+(<code>README.md:273/378/386/395</code>, <code>MANUAL.md:324</code>,
+<code>FAQ.md:98/116</code>, <code>ARCHITECTURE.md:322</code>) frame it
+as a removed 404, matching test <code>A2</code>.</li>
+<li><strong>The deleted README script listing.</strong>
+<code>README.md:368-378</code> correctly points at
+<code>scripts/setup-agents-wizard.sh</code> as the single source of
+truth and explains the removal; no document reproduces or links to an
+embedded listing.</li>
+</ul>
+<h3 id="structural-and-mechanical-checks">Structural and mechanical
+checks</h3>
+<ul>
+<li><strong>Cross-links: 86/86 resolve.</strong> Every relative markdown
+link between the seven documents points at a file that exists, and every
+<code>#anchor</code> matches a real heading under GitHub’s slug rules —
+including the emoji-prefixed leading-hyphen anchors
+(<code>#-safety-and-reversibility</code>,
+<code>#-what-changed-and-why</code>,
+<code>#-mcp-configuration-for-every-agent</code>,
+<code>#-script-source</code>) and the underscore-bearing
+<code>#library-mode-setup_wizard_lib_only</code>,
+<code>#why-does-the-wizard-not-set-lumen_embed_model</code>.</li>
+<li><strong>Mermaid: 6/6 blocks parse and render.</strong>
+<code>mmdc</code> 11.12.0 produced a valid SVG for every fenced block in
+<code>ARCHITECTURE.md</code> (127 KB, 42 KB, 30 KB, 35 KB, 27 KB, 30 KB
+respectively); no error SVGs, no parse failures. The
+<code>flowchart TD</code>, <code>sequenceDiagram</code>,
+<code>flowchart LR</code> and <code>stateDiagram-v2</code> blocks are
+all syntactically sound, <code>classDef</code>/<code>class</code>
+statements included.</li>
+<li><strong>Test-count claims.</strong> <code>README.md:279</code>’s
+“(15 assertions, <code>G1</code>–<code>G15</code>)” was the only numeric
+test-count claim in the entire doc set at the time it was written; it is
+now stale (see Major findings). No document states an overall assertion
+total, so no overall total is wrong — but none is right either. The true
+inventory is below.</li>
+</ul>
+<h3 id="test-suite-inventory-measured-sha256-5c33717">Test-suite
+inventory (measured, <code>sha256 5c33717…</code>)</h3>
+<p>Counted by expanding every loop in
+<code>scripts/test-setup-agents-wizard.sh</code> (each call to
+<code>assert_eq</code> / <code>assert_contains</code> /
+<code>assert_absent</code> / <code>record</code> / <code>skip</code>
+increments <code>TID</code>).</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Group</th>
+<th style="text-align: left;">Test IDs</th>
+<th style="text-align: right;">Distinct IDs</th>
+<th style="text-align: right;">Records emitted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">A — Static analysis of the wizard</td>
+<td style="text-align: left;"><code>A1</code>–<code>A32</code></td>
+<td style="text-align: right;">32</td>
+<td style="text-align: right;">36 (<code>A12</code> fires 5×, once per
+bogus package)</td>
+</tr>
+<tr>
+<td style="text-align: left;">B — Lumen launcher unit tests</td>
+<td style="text-align: left;"><code>B1</code>–<code>B8</code></td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr>
+<td style="text-align: left;">C — Shell configuration unit tests</td>
+<td style="text-align: left;"><code>C1</code>–<code>C10</code></td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td style="text-align: left;">D — MCP configuration unit tests</td>
+<td style="text-align: left;"><code>D1</code>–<code>D5</code></td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5 (or 5 skips without
+<code>jq</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">E — SuperSpec submodule safety</td>
+<td style="text-align: left;"><code>E1</code>–<code>E3</code></td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td style="text-align: left;">F — Live integration</td>
+<td style="text-align: left;"><code>F1</code>–<code>F8</code> +
+<code>F5b</code></td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">11 live (<code>F2</code> fires 3×, once
+per shell kind) / 7 with <code>--no-live</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">H — Telemetry opt-out</td>
+<td style="text-align: left;"><code>H1</code>–<code>H7</code></td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">7 (<code>H6</code>,<code>H7</code> skip
+without <code>jq</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">G — Backup manifest and rollback</td>
+<td style="text-align: left;"><code>G1</code>–<code>G18</code></td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">18 (<code>G16</code>–<code>G18</code>
+skip without <code>jq</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Total</strong></td>
+<td style="text-align: left;"><strong>A–H, 8 groups</strong></td>
+<td style="text-align: right;"><strong>92</strong></td>
+<td style="text-align: right;"><strong>98</strong> full live run /
+<strong>94</strong> with <code>--no-live</code></td>
+</tr>
+</tbody>
+</table>
+<p>Note the file declares group <code>H</code> (line 392)
+<em>before</em> group <code>G</code> (line 446), so the console output
+order is A, B, C, D, E, F, H, G.</p>
+<h3
+id="observations-about-the-code-not-documentation-defects">Observations
+about the code (not documentation defects)</h3>
+<p>These are not doc errors, but they affect what the docs
+<em>could</em> truthfully say:</p>
+<ol type="1">
+<li><strong><code>--no-live</code> skips <code>F1</code>–<code>F7</code>
+but not <code>F8</code>.</strong> Test line 293 is
+<code>for t in F1 F2 F3 F4 F5 F6 F7; do skip "$t live check" "--no-live"; done</code>
+— <code>F8</code> is simply never recorded in that mode. The docs’ claim
+that “<code>--no-live</code> skips group F” (<code>README.md:281</code>,
+<code>ARCHITECTURE.md:407</code>) is true in effect, but the evidence
+file will silently be missing an <code>F8</code> row rather than showing
+it as skipped.</li>
+<li><strong><code>configure_telemetry_optout</code> calls
+<code>backup_file "$bashrc" shell</code> a second time</strong> (script
+line 391, after <code>configure_lumen_shell</code>’s call at 322).
+<code>snapshot_before</code> de-duplicates the manifest row correctly,
+but a <em>second</em> <code>~/.bashrc.bak.&lt;ts&gt;</code> sibling is
+written on every run. Documents that describe <code>.bak</code>
+accumulation (<code>USER_GUIDE.md:423-426</code>,
+<code>SAFETY-AND-ROLLBACK.md:73-83</code>) will under-count by one per
+run.</li>
+<li><strong><code>~/.local/share/lumen</code> is confirmed as the index
+store</strong> — <code>lumen purge --help</code> states “Deletes lumen
+index databases under ~/.local/share/lumen/”, and the directory exists
+on this host. <code>ARCHITECTURE.md:281/304/364</code>,
+<code>MANUAL.md:270</code> and <code>FAQ.md:229-244</code> are
+correct.</li>
+<li><strong>Every Lumen CLI flag documented in
+<code>MANUAL.md:534-606</code> was verified live against
+<code>lumen 0.0.41</code></strong>: <code>index</code>
+(<code>-b/--backend</code>, <code>-f/--force</code>,
+<code>-m/--model</code>), <code>search</code> (<code>-b</code>,
+<code>--cwd</code>, <code>-f</code>, <code>--max-lines</code>,
+<code>--min-score</code>, <code>-m</code>, <code>-n/--n-results</code>,
+<code>-p/--path</code>, <code>--summary</code>, <code>--trace</code>),
+<code>purge</code>, <code>stdio</code>, <code>completion</code>
+(bash/fish/powershell/zsh) and <code>hook</code>
+(<code>pre-tool-use</code>, <code>session-start</code>). All match
+exactly.</li>
+</ol>
+</body>
+</html>

@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>content-boundary-class-a-judgement</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">content-boundary-class-a-judgement</h1>
+</header>
+<h1 id="content-boundary-class-a-inward-rows-judged-2026-09-08">Content
+boundary — class A INWARD rows, judged (2026-09-08)</h1>
+<p><strong>Status: JUDGED. NOTHING WAS REDACTED, NOTHING WAS
+ALLOW-LISTED, NO THRESHOLD OR BASELINE WAS MOVED, AND
+<code>scripts/verify-content-boundary.sh</code> WAS NOT EDITED. The gate
+still exits 1, and it should.</strong></p>
+<p>This closes the option-4 half of the decision packet carried in the
+four root governance carriers under <em>“Content-boundary re-baseline —
+the decision packet”</em>, and answers <strong>R11</strong> of <a
+href="../specs/005-clone-and-clear-red/spec.md"><code>../specs/005-clone-and-clear-red/spec.md</code></a>.
+It does <strong>not</strong> make the detector green — spec 005 puts
+that explicitly out of scope — and it must not be read as clearing the
+population the gate reports.</p>
+<p>Machine-readable artefact: <a
+href="findings/content-boundary-class-a-judgement.jsonl"><code>findings/content-boundary-class-a-judgement.jsonl</code></a>
+— one object per judged row. <strong>Paths, classes, digests, epochs and
+counts only. No matched text appears in it, in this document, or in any
+report derived from either.</strong></p>
+<h2 id="what-was-judged-and-what-class-a-means">What was judged, and
+what “class A” means</h2>
+<p><strong>Class A</strong> is the content-boundary population whose
+PUBLIC destination is one of this umbrella’s two spec trees,
+<code>specs/001-**</code> and <code>specs/002-**</code>. It is the
+largest structural class in the packet, and the packet’s recommended
+action was to judge its <strong>INWARD</strong> rows — the rows whose
+text was committed on the PRIVATE side first.</p>
+<p><strong>Two full gate runs were taken, tied together with
+<code>--expect-corpus</code>, and BOTH are reported — not the more
+convenient one.</strong> The population moved sharply between them;
+§“Why the total fell” below explains why, measured rather than
+guessed.</p>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 36%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">run 1 · 2026-09-08 12:14</th>
+<th style="text-align: right;">run 2 · 2026-09-08 12:53</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gate exit</td>
+<td style="text-align: right;"><strong>1</strong></td>
+<td style="text-align: right;"><strong>1</strong></td>
+</tr>
+<tr>
+<td>gate total</td>
+<td style="text-align: right;"><strong>16,155</strong> (prose 15,107,
+short 831, name 217)</td>
+<td style="text-align: right;"><strong>9,945</strong> (prose 9,456,
+short 373, name 116)</td>
+</tr>
+<tr>
+<td>class A</td>
+<td style="text-align: right;"><strong>9,513</strong> (prose 9,168,
+short 295, name 50)</td>
+<td style="text-align: right;"><strong>7,086</strong> (prose 6,902,
+short 139, name 45)</td>
+</tr>
+<tr>
+<td>class A <strong>OUTWARD</strong> — public text is older</td>
+<td style="text-align: right;"><strong>7,631</strong> (80.2 %)</td>
+<td style="text-align: right;"><strong>5,815</strong> (82.1 %)</td>
+</tr>
+<tr>
+<td>class A <strong>INWARD</strong> — private text is older</td>
+<td style="text-align: right;"><strong>1,832</strong> (19.3 %)</td>
+<td style="text-align: right;"><strong>1,226</strong> (17.3 %)</td>
+</tr>
+<tr>
+<td>class A direction <strong>UNDETERMINED</strong></td>
+<td style="text-align: right;"><strong>50</strong> (0.5 %)</td>
+<td style="text-align: right;"><strong>45</strong> (0.6 %)</td>
+</tr>
+<tr>
+<td>corpus during the run</td>
+<td style="text-align: right;"><strong>MOVED</strong>, 66 of 14,891
+files</td>
+<td style="text-align: right;"><strong>MOVED</strong>, 4 of 14,837
+files</td>
+</tr>
+<tr>
+<td>corpus vs run 1’s manifest</td>
+<td style="text-align: right;">(wrote it)</td>
+<td style="text-align: right;"><strong>DIFFERS</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Judged here: the UNION of both runs’ INWARD and
+direction-UNDETERMINED rows — 1,933.</strong> 1,882 came from run 1, and
+<strong>51 further rows appeared only in run 2</strong> (all
+<code>G2</code>, all into <code>specs/001-…/contracts/*</code>); judging
+the union rather than either run alone is what stops a moving tree from
+quietly dropping a row out of the reading queue.</p>
+<p>The direction split has now been measured <strong>five times over
+five populations whose totals differ by more than 3,000 rows</strong>,
+and OUTWARD has landed between <strong>79.1 % and 82.1 %</strong> every
+single time (79.7 / 79.3 / 79.1 / 80.2 / 82.1). <strong>The totals move;
+the direction does not.</strong> That is the finding to act on.</p>
+<h3 id="why-the-total-fell-measured-not-guessed">Why the total fell —
+measured, not guessed</h3>
+<p><strong>An unexplained fall is worse than a stable red, so this one
+is attributed.</strong> The gate total fell 16,155 → 9,945 in 39
+minutes. <strong>Nothing was silenced to achieve it</strong>, and each
+of the four candidate mechanisms was tested rather than assumed:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Candidate mechanism</th>
+<th>Measured</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>the instrument was weakened</td>
+<td><strong>No.</strong> <code>scripts/verify-content-boundary.sh</code>
+is unmodified; the path-reference mask is <strong>identical</strong> in
+both runs (1,425 long + 5,613 short shingles)</td>
+</tr>
+<tr>
+<td>an exemption was added</td>
+<td><strong>No.</strong> <code>.content-boundary-allow</code> is
+unmodified; pardons <strong>rose</strong> 4,077 → 4,083, moving with the
+corpus</td>
+</tr>
+<tr>
+<td>private files were deleted or untracked</td>
+<td><strong>No.</strong> Of the 139 private files behind the lost rows,
+<strong>0</strong> are gone from disk and <strong>0</strong> have left
+<code>git ls-files</code></td>
+</tr>
+<tr>
+<td>a new public repository exonerated them</td>
+<td><strong>No.</strong> The derived fleet is <strong>identical</strong>
+in both runs (15 rows, same roles); a 40-row sample of the lost rows
+found <strong>0</strong> whose text is present in the newest public
+submodule</td>
+</tr>
+<tr>
+<td><strong>the private corpus itself shrank</strong></td>
+<td><strong>YES.</strong> Private prose tokens fell <strong>3,597,903 →
+3,129,293 (−13.0 %)</strong>, name candidates 527 → 353, already-public
+keys 2,306 → 869</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The mechanism is concurrent work, not remediation.</strong>
+The private <code>workshop</code> submodule had <strong>217 modified
+files</strong> in its working tree while both runs were taken, and the
+gate reads the working tree. A 13 % smaller private corpus yields a
+smaller private key space and therefore fewer matches, in every class at
+once — which is exactly the shape observed. <strong>This is a
+measurement of a moving tree, and neither total may be quoted as the
+count of any single tree.</strong> Both runs said so themselves.</p>
+<h3 id="method-stated-so-it-can-be-attacked">Method — stated so it can
+be attacked</h3>
+<p>Direction is measured <strong>at the level of the text, not the
+file</strong>, and <strong>at corpus level, not pairwise</strong>:</p>
+<ol type="1">
+<li>Every class-A row’s matched string is normalised exactly as the gate
+normalises (<code>[^A-Za-z0-9]+</code> → space, lowercased — the same
+rule at <code>scripts/verify-content-boundary.sh:1938</code>).</li>
+<li>Every commit of every repository is walked
+<strong>chronologically</strong>, and every blob it adds or modifies is
+normalised the same way and scanned for every still-undated string. A
+string is dated at the <strong>earliest commit whose blob content
+actually contains it</strong>, anywhere in that repository — so a string
+that moved between files is still caught, and a file merely renamed does
+not restart its clock.</li>
+<li>Public = the umbrella. Private = <code>workshop</code>,
+<code>ai_interviewing</code>, <code>monetization</code>. Blobs scanned:
+<strong>6,449 public, 2,881 private</strong> (workshop 2,072,
+ai_interviewing 794, monetization 15). <strong>Nothing sampled, nothing
+extrapolated.</strong></li>
+<li>A string committed on one side only is
+<strong>UNDETERMINED</strong>, never a verdict.</li>
+</ol>
+<p><strong>The probe’s normalisation was validated against the gate
+rather than assumed to agree with it.</strong> On a seeded random sample
+of <strong>60</strong> class-A rows, the row’s matched string was
+located, under this probe’s own normalisation, in the current content of
+both the named public file and the named private file: <strong>60 of 60
+on each side, 0 misses.</strong> Two corpora normalised differently is
+the one failure the gate’s own header says must never happen, and this
+is the check that it did not.</p>
+<p>The <code>name</code> class cannot be dated at all: the gate
+<strong>withholds</strong> the matched text by design, so there is
+nothing to normalise. All 50 class-A name rows are therefore
+direction-UNDETERMINED <strong>by construction</strong>, and defeating
+that protection to date them would be the disclosure the protection
+exists to prevent.</p>
+<h3 id="what-private-committed-first-does-not-mean">What “private
+committed first” does NOT mean</h3>
+<p>It establishes an <strong>order</strong>, nothing more. A symbol
+name, a task line, an error string, or a design decision made in code
+and written up afterwards all produce INWARD rows with nothing having
+crossed the boundary. <strong>1,832 rows are not 1,832 leaks and must
+never be reported as such.</strong> What the number does establish is
+that the reassuring story — <em>“the specs are outward propagation”</em>
+— is true for four rows in five and <strong>false for the
+fifth</strong>, which is why the fifth was read.</p>
+<h2
+id="the-68-rows-against-the-recorded-teaching-material-read-first">The
+68 rows against the recorded teaching material — read first</h2>
+<p>These are the only judged rows whose private side sits under
+<code>workshop/chapters/</code>, the directory holding a recording of a
+private teaching session with an identifiable third party. They carry
+the highest cost if wrong, so they were judged first and in the most
+detail.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr>
+<td>Rows</td>
+<td><strong>68</strong>, all <code>prose</code></td>
+</tr>
+<tr>
+<td>Private source</td>
+<td><strong>one</strong> file:
+<code>workshop/chapters/01/transcript/accuracy-plan.json</code></td>
+</tr>
+<tr>
+<td>Public destinations</td>
+<td><code>specs/001-…/tasks.md</code> (45, at 4 distinct lines) and
+<code>specs/002-…/tasks.md</code> (23, at 3 distinct lines)</td>
+</tr>
+<tr>
+<td>Distinct matched strings</td>
+<td><strong>30</strong></td>
+</tr>
+<tr>
+<td>Direction</td>
+<td>INWARD, lead <strong>141 seconds</strong> — private
+<code>2026-09-03T20:15:14</code>, public
+<code>2026-09-03T20:17:35</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verdict: NOT A DISCLOSURE.</strong> Three independent
+measurements, each re-derivable:</p>
+<ol type="1">
+<li><strong>The private file contains no recorded material of any
+kind.</strong> It is a stratified <strong>sampling plan</strong> for
+measuring transcript accuracy. Its fields are a chapter id, a filename,
+a duration, a seed, thirty <code>{t0,t1}</code> window bounds, and five
+descriptive strings. It carries <strong>no transcript text, no speaker
+turn, no utterance, no participant identifier and no personal
+data</strong> — there is no field of that kind in it to carry any.</li>
+<li><strong>Every one of the 30 matched strings resolves to a
+methodology field</strong>, and the split was measured rather than
+asserted: <code>estimator_unit</code> <strong>23</strong>, the plan’s
+own how-to-use instruction field <strong>6</strong>, and
+<code>reference_schema.windows[].onset_s</code> <strong>1</strong>.
+<strong>Zero</strong> resolve to any window, timing, content or identity
+field.</li>
+<li><strong>The public side is the instruction to use that
+plan.</strong> The four <code>specs/001-…/tasks.md</code> lines and the
+three <code>specs/002-…/tasks.md</code> lines are task prose telling a
+human what to produce, in what form, and why the estimator unit matters.
+Naming the plan’s path is a <strong>reference</strong>, which this
+boundary explicitly permits.</li>
+</ol>
+<p>The 141-second lead is the whole mechanism: one authoring session in
+which the plan was committed privately and the public task text
+describing it was written two and a half minutes later. <strong>The
+direction is real and the crossing is not.</strong></p>
+<p>Separately, the <strong>5</strong> class-A <code>name</code>-class
+rows whose private side is the private notes PDF are covered under G8
+below. Its <strong>filename carries the third party’s given
+name</strong>, so that path is <strong>withheld</strong> from the
+machine-readable artefact — a path is normally quotable, this one is
+not.</p>
+<h2 id="every-judged-group-with-its-verdict">Every judged group, with
+its verdict</h2>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Group</th>
+<th style="text-align: right;">Rows</th>
+<th style="text-align: right;">Digests</th>
+<th style="text-align: right;">Private files</th>
+<th style="text-align: right;">Public files</th>
+<th style="text-align: right;">Median lead</th>
+<th>Verdict · reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>G1</strong> chapter sampling plan</td>
+<td style="text-align: right;">68</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">141 s</td>
+<td>NOT A DISCLOSURE · methodology field of a sampling plan</td>
+</tr>
+<tr>
+<td><strong>G2</strong> platform source (<code>platform/</code>,
+<code>pipeline/</code>, <code>scripts/</code>,
+<code>curriculum/</code>)</td>
+<td style="text-align: right;">1,222</td>
+<td style="text-align: right;">885+</td>
+<td style="text-align: right;">102</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">29 min</td>
+<td>NOT A DISCLOSURE · spec and implementation co-authored</td>
+</tr>
+<tr>
+<td><strong>G3</strong> session-evidence briefs</td>
+<td style="text-align: right;">184</td>
+<td style="text-align: right;">121</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">141 s</td>
+<td>NOT A DISCLOSURE · build-session brief about the specified
+platform</td>
+</tr>
+<tr>
+<td><strong>G4</strong> platform documentation (<code>limits</code>,
+<code>manual</code>, <code>faq</code>, <code>README</code>, runbooks,
+prompts)</td>
+<td style="text-align: right;">163</td>
+<td style="text-align: right;">55</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">11 h</td>
+<td>NOT A DISCLOSURE · documentation of the same platform</td>
+</tr>
+<tr>
+<td><strong>G5</strong> training areas</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">71</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">194 s</td>
+<td>NOT A DISCLOSURE · shared engineering argument about the public
+contract</td>
+</tr>
+<tr>
+<td><strong>G6</strong> chapter-01 redaction review</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">21 h</td>
+<td>NOT A DISCLOSURE · by-design counts-only public summary</td>
+</tr>
+<tr>
+<td><strong>G7</strong> evidence files and gate registries</td>
+<td style="text-align: right;">114</td>
+<td style="text-align: right;">102</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">7 min</td>
+<td>NOT A DISCLOSURE · gate and evidence vocabulary</td>
+</tr>
+<tr>
+<td><strong>G8</strong> name class (direction undetermined)</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;"><strong>1</strong></td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">—</td>
+<td>NOT A DISCLOSURE · digest previously adjudicated as a product
+brand</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td style="text-align: right;"><strong>1,933</strong></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td><strong>0 DISCLOSURE · 0 unjudged</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Row counts are over the <strong>union</strong> of both runs; the
+per-group digest, file and lead-time columns are run 1’s, which is the
+larger population.</p>
+<p><strong>Every row landed in a group; none is ungrouped.</strong> The
+artefact carries a <code>G9-UNGROUPED</code> verdict of
+<code>UNDETERMINED</code> precisely so that a future run over a changed
+corpus cannot silently absorb a row that no group describes.</p>
+<h3 id="g2-1222-rows-and-why-they-are-the-least-surprising-half">G2 —
+1,222 rows, and why they are the least surprising half</h3>
+<p>Private <strong>source code</strong> (Go 479, Python 377, shell 323,
+TypeScript 13 by row) against the public <strong>contract and task
+documents that specify it</strong>. The private side is the
+implementation of the platform <code>specs/001-**</code> and
+<code>specs/002-**</code> define; the public side is its specification.
+The overlapping text is comment, docstring and status prose about that
+platform’s own behaviour — the public document’s own subject matter.
+Median lead 29 minutes; <strong>74.7 %</strong> of all INWARD rows are
+inside one hour and <strong>90.1 %</strong> inside a day, which is the
+signature of one author writing spec and code in one sitting, in both
+orders.</p>
+<h3 id="g5-the-one-group-where-a-second-opinion-is-reasonable">G5 — the
+one group where a second opinion is reasonable</h3>
+<p>126 rows, dominated by
+<code>docs/training/areas/05-evidence-gates-and-anti-bluff.md</code>
+(64) reaching <code>specs/001-…/contracts/pipeline-cli.md</code> and
+<code>…/http-api.md</code>. Both sides argue the same point about the
+platform’s own <code>status.sh</code> exit-code contract — a
+three-numbered refusal of the “benign state” reading — and the private
+side is a training Q&amp;A restating it.</p>
+<p><strong>Judged NOT A DISCLOSURE</strong>: the subject is the public
+contract’s own subject, the argument concerns an exit code the public
+document normatively defines, and <strong>no pedagogy, no participant,
+no session content and no personal data appears on either side of any
+matched string.</strong> The remaining 62 rows of the group are
+short-class generic phrases and multi-format duplicates
+(<code>.md</code> / <code>.html</code> / <code>.pdf</code> renders of
+one document each counted separately) across 13 digests.</p>
+<p><strong>Recorded honestly</strong>: this is authored curriculum
+material, it is private-first, and the wording is reused. If the
+operator regards the <em>wording</em> of a training area as a commercial
+asset distinct from the contract it describes, that is a licensing
+judgement, not a boundary one — and it is the operator’s to make. It
+does not change the boundary verdict.</p>
+<h3 id="g6-the-pair-that-looks-worst-and-is-designed">G6 — the pair that
+looks worst and is designed</h3>
+<p><code>workshop/docs/redaction-review-chapter-01.{md,pdf}</code>
+reaching <code>specs/001-…/redaction-review-summary.md</code> and
+<code>…/tasks.md</code>, 6 rows over 3 digests. The public file
+<strong>states its own boundary in its first paragraph</strong>: counts
+and verdict only, no chapter content, no personal name, no
+<code>pid</code>, no transcript line reference, with the detailed review
+named by private path. The overlap is the vocabulary of the category
+headings and the decision counts. That is the design working, not
+failing.</p>
+<h3 id="g8-50-rows-one-digest-and-a-limit-that-is-the-protection">G8 —
+50 rows, one digest, and a limit that is the protection</h3>
+<p>All 50 class-A <code>name</code>-class rows carry the
+<strong>single</strong> digest <code>04bc71a2</code>, all in
+<code>specs/001-…/research/transcription.md</code>, from 10 private
+files across <code>workshop</code> and <code>ai_interviewing</code>.
+That digest was resolved in <a
+href="content-boundary-incident-2026-09-01.md"><code>content-boundary-incident-2026-09-01.md</code>
+§12.2</a> to a <strong>machine-learning model-hub brand, two tokens —
+not a person</strong>, by re-implementing the gate’s own
+<code>h()</code> and rebuilding the reported line’s capitalised
+runs.</p>
+<p><strong>Honest boundary (§11.4.6): that resolution was NOT
+independently re-derived in this session.</strong> The identity evidence
+carried here is narrower and is stated as such: same gate, same digest
+function, same 8-hex digest, same public file, same class. The verdict
+rests on the earlier wave’s adjudication, and a reader who wants it
+re-derived should re-run §12.2’s method rather than trust this
+sentence.</p>
+<p><strong>Direction for these 50 rows remains UNDETERMINED and cannot
+be resolved with this instrument</strong>, because the gate redacts the
+matched text by design. That is the same mechanism which keeps a real
+person’s name out of an archived artefact: <strong>the protection and
+the blind spot are one thing</strong>, and trading the first for the
+second would be the wrong trade.</p>
+<h2 id="two-checks-that-do-not-rely-on-the-gates-own-exonerations">Two
+checks that do not rely on the gate’s own exonerations</h2>
+<p>Both bypass the detector entirely. Both were re-run in this
+session.</p>
+<ol type="1">
+<li><strong>The third party’s given name is measured absent.</strong>
+The candidate tokens are <strong>derived programmatically from the
+private artefact’s own path</strong> — never typed, never written down —
+and searched as whole words across every tracked file of all ten
+in-scope public repositories, and separately across every untracked file
+of this public working tree. Of 5 derived tokens, 4 are ordinary words
+with 182–1,269 public files each; <strong>exactly 1 has zero occurrences
+anywhere public</strong>, tracked or untracked. §11.3’s redaction
+holds.</li>
+<li><strong>No judged row’s private path was published if the path
+itself discloses.</strong> The one private path whose basename carries
+that token is masked in the machine-readable artefact by the same
+derived rule, so the artefact cannot publish what the redaction
+removed.</li>
+</ol>
+<h2 id="what-this-did-not-do">What this did NOT do</h2>
+<ul>
+<li><strong>No public file was edited to remove a match.</strong> No
+redaction was performed.</li>
+<li><strong><code>.content-boundary-allow</code> was not
+touched.</strong> No pair was added, and none is proposed. An allow-list
+entry buys a green exit at the cost of hiding the row from the next
+reader, and adding one here would assert boundary flows that do not
+exist.</li>
+<li><strong><code>scripts/verify-content-boundary.sh</code> was not
+edited.</strong> No window, floor, rank, bucket or filter was moved. The
+counts this document reports are the unmodified gate’s.</li>
+<li><strong>No baseline was moved and no count was re-based.</strong>
+The gate exits <strong>1</strong>.</li>
+<li><strong>Nothing about the incident’s §3, §8B or §11.4
+changed.</strong> History still carries the wave-1 and wave-2 material;
+the provider purge is still unsent; the conversation with the third
+party is still the substantive remedy and is still the operator’s to
+have.</li>
+</ul>
+<h2
+id="honest-boundary-read-this-before-quoting-any-number-above">Honest
+boundary — read this before quoting any number above</h2>
+<ol type="1">
+<li><strong>The corpus MOVED during both measuring runs, and the gate
+said so.</strong> Run 1 reported
+<code>corpus MOVED — 66 of 14,891 enumerated file(s) changed</code>; run
+2 reported <code>4 of 14,837</code> <strong>and</strong>
+<code>corpus DIFFERS from --expect-corpus</code>. So <strong>neither
+16,155 nor 9,945 may be quoted as the count of any single tree</strong>,
+and this document does not quote either as one. The movement is
+concurrent work by other agents in this one checkout — a 13 %
+contraction of the private corpus, attributed above. <strong>This is the
+reason the union of both runs is judged rather than either
+alone.</strong></li>
+<li><strong>What the instability does not touch is the direction
+split</strong>, which is the figure this document acts on. It has now
+been measured on five populations whose totals differ by more than 3,000
+rows, and OUTWARD has landed between <strong>79.1 % and 82.1 %</strong>
+every time.</li>
+<li><strong>Judgement is by GROUP, evidenced by inspection of the
+largest and the riskiest members — not by reading all 1,138 distinct
+digests one at a time.</strong> G1 was resolved string-by-string (30 of
+30). G5, G6 and the 182 rows whose lead exceeds 24 hours — the rows
+where the same-session mechanism is weakest — were opened individually.
+The remainder was judged on its group’s measured shape. <strong>The 51
+rows seen only in run 2 were direction-measured but were not separately
+opened</strong>; all 51 are <code>G2</code>, into
+<code>specs/001-…/contracts/*</code>, and they inherit that group’s
+verdict rather than carrying an independent one. A reader who disagrees
+with a group can re-derive it from the artefact, which names every row’s
+private path, public path and line.</li>
+<li><strong>This judges class A only.</strong> The other ~6,600 rows of
+the population — public reusables extracted from the private tree, the
+governance cascade, and a genuinely unassessed remainder — are
+<strong>not</strong> judged here and are <strong>not</strong> cleared by
+it.</li>
+<li><strong>This says nothing about git history.</strong> Every pass
+reads the working tree.</li>
+</ol>
+<h2 id="what-the-operator-is-asked-to-decide-next">What the operator is
+asked to decide next</h2>
+<p>Nothing here requires a decision to stand; the judgement is recorded
+and the gate is unchanged. Three things are worth deciding, in this
+order:</p>
+<ol type="1">
+<li><strong>Nothing, for class A.</strong> The recommended action of the
+decision packet has now been carried out and found <strong>0 disclosures
+over 1,882 rows</strong>. Option 2 of that packet — allow-listing
+classes B and C — is still <strong>not recommended</strong>: it would
+hide rows from the next reader, and its direction evidence remains
+file-level and sampled, which is weaker than what class A now has twice
+over.</li>
+<li><strong>Option 3 — teach the gate direction.</strong> This is now
+the only remaining option that raises precision without hiding a row,
+and its feasibility is no longer in question: the probe behind this
+document dated 16,599 rows across two runs, against 9,330 blobs, in
+about four minutes per run. Subtracting <strong>OUTWARD</strong> rows
+with the recall cost printed, exactly as the detector already prints its
+already-public subtractions, would remove ~80 % of class A from the
+reading queue <strong>without asserting a single boundary flow that does
+not exist</strong>.</li>
+<li><strong>The G5 wording question</strong>, if the operator regards a
+training area’s wording as a commercial asset. That is a licensing
+decision and is not a boundary one.</li>
+</ol>
+<h2 id="re-derive-rather-than-trusting-this-document">Re-derive rather
+than trusting this document</h2>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh <span class="at">--json</span> <span class="at">--expect-corpus</span> /tmp/cb.manifest</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary-judgement.sh            <span class="co"># 0 / 1 / 2</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary-judgement.sh <span class="at">--prove-failure</span></span></code></pre></div>
+</body>
+</html>

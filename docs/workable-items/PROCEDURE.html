@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>PROCEDURE</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">PROCEDURE</h1>
+</header>
+<h1 id="workable-items-the-procedure">Workable items — the
+procedure</h1>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr>
+<td><strong>Document</strong></td>
+<td><code>docs/workable-items/PROCEDURE.md</code></td>
+</tr>
+<tr>
+<td><strong>Revision</strong></td>
+<td>1</td>
+</tr>
+<tr>
+<td><strong>Created</strong></td>
+<td>2026-09-08</td>
+</tr>
+<tr>
+<td><strong>Anchors</strong></td>
+<td>§11.4.93, §11.4.95, §11.4.54, §11.4.15, §11.4.16, §11.4.33,
+§11.4.90, §11.4.148, §11.4.63, §11.4.208</td>
+</tr>
+<tr>
+<td><strong>Status of this document</strong></td>
+<td>The single source of truth for HOW work is tracked here (§11.4.63).
+Where it disagrees with
+<code>submodules/constitution/Constitution.md</code>, the constitution
+wins.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-exists-and-where">What exists, and where</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Artefact</th>
+<th>Path</th>
+<th>Authored by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The database — the single source of truth</td>
+<td><code>docs/workable_items.db</code></td>
+<td>the canonical binary (schema) + the umbrella tool (rows)</td>
+</tr>
+<tr>
+<td>The identifier roster</td>
+<td><code>docs/workable-items/sub-projects.tsv</code></td>
+<td>the operator (five names) + this agent (ten proposals)</td>
+</tr>
+<tr>
+<td>The canonical tracker binary</td>
+<td><code>submodules/constitution/scripts/workable-items/bin/workable-items-linux</code></td>
+<td>upstream, consumed</td>
+</tr>
+<tr>
+<td>The umbrella-local tool</td>
+<td><code>_tools/workable-items/</code></td>
+<td>this repository</td>
+</tr>
+<tr>
+<td>The gate</td>
+<td><code>scripts/verify-workable-items.sh</code></td>
+<td>this repository</td>
+</tr>
+</tbody>
+</table>
+<h2 id="why-there-are-two-binaries-and-not-one">Why there are two
+binaries and not one</h2>
+<p>§11.4.93 places the tracker upstream and says so in terms:</p>
+<blockquote>
+<p>“The Go binary lives in the constitution submodule
+(<code>constitution/scripts/workable-items/</code>) so consumers
+reference it from there per §11.4.74 catalogue-first discipline —
+<strong>never reimplement</strong>.”</p>
+</blockquote>
+<p>That binary is present, builds nothing here, and runs on this host.
+It owns the schema and every lifecycle mutation: <code>add</code>,
+<code>update</code>, <code>reopen</code>, <code>move</code>,
+<code>block</code>, <code>close</code>, <code>obsolete-details</code>,
+<code>report</code>, <code>diary</code>, <code>export</code>,
+<code>sync db-to-md</code>, <code>sync md-to-db</code>,
+<code>diff</code>, <code>validate</code>. <strong>Use it for all of
+those.</strong> Writing a second one would be the reimplementation the
+anchor forbids.</p>
+<p>The umbrella tool exists for the two things the canonical binary does
+not do, and could not: this monorepo has FIFTEEN identifier-bearing
+sub-projects while the canonical tool derives exactly ONE three-letter
+key from the project root directory name
+(<code>cmd/workable-items/prefix.go</code>), and this repository’s
+backfill sources are its own.</p>
+<p>The split is also deliberate on evidence grounds (§11.4.240, producer
+≠ verifier): the rows are written by the tool this repository authors
+and checked by the binary it does not. That is not decorative. During
+the adoption work the upstream validator caught two real defects the
+umbrella validator was not looking for — items with no
+<code>doc_segments</code> row, which <code>db-to-md</code> would have
+silently dropped, and closure <code>evidence_path</code> values that
+were well-formed but resolved to nothing on disk.</p>
+<h2 id="the-identifier-scheme">The identifier scheme</h2>
+<p><code>&lt;THREE UPPERCASE LETTERS&gt;-&lt;zero-padded number&gt;</code>,
+e.g. <code>WSP-142</code>.</p>
+<p>§11.4.54 names <code>ATM-NNN</code>. §11.4.148 then makes the prefix
+consumer-supplied, in terms: <em>“the consuming project supplies its
+concrete DB path, <strong>id prefix</strong>, external-tracker service +
+list/board id + field map + default-assignee env var, and docs_chain
+context per §11.4.35.”</em> The three-letter shape is also what the
+canonical tracker’s own heading grammar requires
+(<code>^## [A-Z]{3}-…</code>). So the operator’s <code>VSC</code> /
+<code>WSP</code> / <code>AII</code> / <code>MVR</code> /
+<code>VDT</code> scheme is an instance of the mandate, not a deviation
+from it — no override is needed and none is claimed.</p>
+<p><strong>The FLEET is derived; the NAMES are not.</strong> The set of
+sub-projects comes from <code>.gitmodules</code> cross-checked against
+<code>helix-deps.yaml</code> at run time. The roster file supplies only
+the name for each derived member, because a name is an operator decision
+and cannot be measured. A submodule with no roster row makes the gate
+report <strong>rc 2 — could not determine</strong>, never a pass, so a
+new submodule cannot be silently dropped out of tracking.</p>
+<p>Five names were stated by the operator. <strong>Ten are PROPOSALS
+awaiting ratification</strong> and are marked <code>proposed</code> in
+the roster file; <code>workable-items-vsc roster</code> prints the split
+on every run so a proposal is never mistaken for a decision.</p>
+<h2 id="day-to-day">Day-to-day</h2>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># What is open, and where</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">submodules/constitution/scripts/workable-items/bin/workable-items-linux</span> <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    report <span class="at">--db</span> docs/workable_items.db <span class="at">--by-status</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Open a new item (the canonical binary owns every mutation)</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">submodules/constitution/scripts/workable-items/bin/workable-items-linux</span> <span class="dt">\</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    add Task medium <span class="at">--db</span> docs/workable_items.db <span class="at">--prefix</span> WSP <span class="dt">\</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">--title</span> <span class="st">&quot;&lt;what&gt;&quot;</span> <span class="at">--description</span> <span class="st">&quot;&lt;WHAT / manifests / repro / acceptance&gt;&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Close one — evidence is mandatory and the path must RESOLVE</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ex">submodules/constitution/scripts/workable-items/bin/workable-items-linux</span> <span class="dt">\</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    close WSP-142 <span class="at">--db</span> docs/workable_items.db <span class="at">--status</span> completed <span class="dt">\</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">--evidence</span> docs/qa/<span class="op">&lt;</span>artefact<span class="op">&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># The umbrella&#39;s own legs</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ex">_tools/workable-items/bin/workable-items-vsc</span> roster     <span class="co"># fleet vs identifiers</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ex">_tools/workable-items/bin/workable-items-vsc</span> validate   <span class="co"># integrity contract</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ex">_tools/workable-items/bin/workable-items-vsc</span> report     <span class="co"># tallies incl. evidence class</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># The gate, and its §1.1 paired proof</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-workable-items.sh</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-workable-items.sh <span class="at">--prove-failure</span></span></code></pre></div>
+<p>Build the umbrella tool with
+<code>cd _tools/workable-items &amp;&amp; CGO_ENABLED=0 GOPROXY=off go build -o bin/workable-items-vsc .</code>
+It is pure Go on <code>modernc.org/sqlite</code>, following the
+<code>monetization/tools/repodb</code> precedent — no CGO, no network,
+no <code>sqlite3</code> CLI dependency.</p>
+<h2 id="the-vocabularies-and-the-one-place-they-live">The vocabularies,
+and the one place they live</h2>
+<p>Status, type and the closure mapping are the constitution’s, not this
+repository’s. They are enforced twice: by <code>CHECK</code> constraints
+in the canonical schema, and by the umbrella validator.</p>
+<table>
+<thead>
+<tr>
+<th>Type (§11.4.16)</th>
+<th>Closes as (§11.4.33)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Bug</code></td>
+<td><code>Fixed (→ Fixed.md)</code></td>
+</tr>
+<tr>
+<td><code>Feature</code></td>
+<td><code>Implemented (→ Fixed.md)</code></td>
+</tr>
+<tr>
+<td><code>Task</code></td>
+<td><code>Completed (→ Fixed.md)</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>Obsolete (→ Fixed.md)</code> is §11.4.90’s fourth terminal
+value and applies regardless of type. It requires an
+<code>obsolete_details</code> row carrying the triple-check evidence;
+the anchor’s words are <em>“There MUST NOT be any mistake”</em>.</p>
+<h2 id="the-database-is-tracked.-never-ignore-it.">The database is
+TRACKED. Never ignore it.</h2>
+<p>§11.4.95, verbatim:</p>
+<blockquote>
+<p>“<strong>TRACKED in git</strong> at canonical path
+<code>docs/workable_items.db</code>. NEVER gitignored regardless of
+file-size or ‘build-artefact-class’ heuristics — the DB is NOT a build
+artefact, it IS authoritative source data.”</p>
+</blockquote>
+<p>The <code>.db-wal</code> and <code>.db-shm</code> sidecars ARE
+ignored — the same anchor names them. The gate checks both directions
+and its paired proof drives the ignore predicate red against a throwaway
+repository, so “the DB is tracked” is a measured claim rather than a
+habit.</p>
+<h2 id="honest-boundaries-11.4.6">Honest boundaries (§11.4.6)</h2>
+<ol type="1">
+<li><strong>The evidence class of a backfilled closure is recorded, and
+it is not a re-run.</strong> Every item carries an
+<code>item_provenance</code> row naming the artefact its status rests on
+and the CLASS of that evidence: <code>document-assertion</code> (an
+operator-decision document states the outcome),
+<code>checkbox-state</code> (a tracked task list marks the row
+<code>[x]</code>), or <code>undetermined</code>. <strong>No backfilled
+closure was re-verified by executing anything.</strong> A
+<code>Completed</code> row backfilled from a <code>[x]</code> means the
+task list says so — nothing stronger. Query it:
+<code>SELECT evidence_class, count(*) FROM item_provenance GROUP BY 1;</code></li>
+<li><strong>The content-boundary gate cannot see inside this
+database.</strong> <code>scripts/verify-content-boundary.sh</code>
+selects its corpus with <code>grep -Il .</code>, which excludes binary
+files, and a SQLite database is binary. The boundary argument for the DB
+therefore rests on provenance, not on that gate: every backfilled title
+is a verbatim substring of the already-public umbrella file it cites
+(checked mechanically over all 529 rows, 0 exceptions), and no row was
+sourced from a private submodule’s own files.</li>
+<li><strong>Type is <code>Task</code> on every backfilled row, by the
+anchor’s own fallback.</strong> §11.4.16: <em>“When ambiguous, fall back
+to <code>Task</code>.”</em> Classifying 529 rows into Bug/Feature/Task
+from their prose would have been a guess wearing a classification’s
+clothes. Re-typing an item is a one-command <code>update</code>.</li>
+<li><strong>Severity is unset on every backfilled row.</strong> No
+source states one, and §11.4.93 marks the column informational.</li>
+<li><strong>Sub-project attribution is by measured path mention, not by
+subject.</strong> A row naming no sub-project path, or naming paths in
+more than one, is attributed to the parent <code>VSC</code> — which is
+truthful, because the source document lives in the umbrella. One known
+conservative miss: an org-qualified name like
+<code>vasic-digital/design-toolkit</code> does not match the tree path
+<code>design-toolkit</code>, and lands on <code>VSC</code>.</li>
+<li><strong><code>[BLOCKED: …]</code> task rows are recorded
+<code>Queued</code>, not <code>Operator-blocked</code>.</strong>
+§11.4.21 and §11.4.148(D3) require a WHY, an exhausted-alternatives
+statement and an ENUMERATED set of unblock choices. The source rows
+supply none of the three, and inventing them to reach the stronger
+status would be the fabrication §11.4.6 forbids. Each such row says so
+in its own description.</li>
+<li><strong><code>sync db-to-md</code> has not been run and no Markdown
+surface is generated yet.</strong> §11.4.93’s bidirectional round-trip
+guarantee is therefore NOT demonstrated here. It is a tracked follow-up,
+not a shipped property.</li>
+</ol>
+</body>
+</html>

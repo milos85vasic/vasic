@@ -80,6 +80,93 @@ nodes:
   specs_002_knowledge_areas_deep_linking_tasks_md:   { kind: markdown, path: specs/002-knowledge-areas-deep-linking/tasks.md }
   specs_002_knowledge_areas_deep_linking_tasks_html: { kind: html,     path: specs/002-knowledge-areas-deep-linking/tasks.html }
   specs_002_knowledge_areas_deep_linking_tasks_pdf:  { kind: pdf,      path: specs/002-knowledge-areas-deep-linking/tasks.pdf }
+  specs_003_chapter_hierarchy_contracts_http_api_md:   { kind: markdown, path: specs/003-chapter-hierarchy/contracts/http-api.md }
+  specs_003_chapter_hierarchy_contracts_http_api_html: { kind: html,     path: specs/003-chapter-hierarchy/contracts/http-api.html }
+  specs_003_chapter_hierarchy_contracts_http_api_pdf:  { kind: pdf,      path: specs/003-chapter-hierarchy/contracts/http-api.pdf }
+  specs_003_chapter_hierarchy_data_model_md:   { kind: markdown, path: specs/003-chapter-hierarchy/data-model.md }
+  specs_003_chapter_hierarchy_data_model_html: { kind: html,     path: specs/003-chapter-hierarchy/data-model.html }
+  specs_003_chapter_hierarchy_data_model_pdf:  { kind: pdf,      path: specs/003-chapter-hierarchy/data-model.pdf }
+  specs_003_chapter_hierarchy_plan_md:   { kind: markdown, path: specs/003-chapter-hierarchy/plan.md }
+  specs_003_chapter_hierarchy_plan_html: { kind: html,     path: specs/003-chapter-hierarchy/plan.html }
+  specs_003_chapter_hierarchy_plan_pdf:  { kind: pdf,      path: specs/003-chapter-hierarchy/plan.pdf }
+  specs_003_chapter_hierarchy_research_md:   { kind: markdown, path: specs/003-chapter-hierarchy/research.md }
+  specs_003_chapter_hierarchy_research_html: { kind: html,     path: specs/003-chapter-hierarchy/research.html }
+  specs_003_chapter_hierarchy_research_pdf:  { kind: pdf,      path: specs/003-chapter-hierarchy/research.pdf }
+  specs_003_chapter_hierarchy_spec_md:   { kind: markdown, path: specs/003-chapter-hierarchy/spec.md }
+  specs_003_chapter_hierarchy_spec_html: { kind: html,     path: specs/003-chapter-hierarchy/spec.html }
+  specs_003_chapter_hierarchy_spec_pdf:  { kind: pdf,      path: specs/003-chapter-hierarchy/spec.pdf }
+  specs_003_chapter_hierarchy_tasks_md:   { kind: markdown, path: specs/003-chapter-hierarchy/tasks.md }
+  specs_003_chapter_hierarchy_tasks_html: { kind: html,     path: specs/003-chapter-hierarchy/tasks.html }
+  specs_003_chapter_hierarchy_tasks_pdf:  { kind: pdf,      path: specs/003-chapter-hierarchy/tasks.pdf }
+  specs_004_authored_ai_areas_checklists_requirements_md:   { kind: markdown, path: specs/004-authored-ai-areas/checklists/requirements.md }
+  specs_004_authored_ai_areas_checklists_requirements_html: { kind: html,     path: specs/004-authored-ai-areas/checklists/requirements.html }
+  specs_004_authored_ai_areas_checklists_requirements_pdf:  { kind: pdf,      path: specs/004-authored-ai-areas/checklists/requirements.pdf }
+  specs_004_authored_ai_areas_contracts_authored_document_md:   { kind: markdown, path: specs/004-authored-ai-areas/contracts/authored-document.md }
+  specs_004_authored_ai_areas_contracts_authored_document_html: { kind: html,     path: specs/004-authored-ai-areas/contracts/authored-document.html }
+  specs_004_authored_ai_areas_contracts_authored_document_pdf:  { kind: pdf,      path: specs/004-authored-ai-areas/contracts/authored-document.pdf }
+  specs_004_authored_ai_areas_contracts_catalogue_md:   { kind: markdown, path: specs/004-authored-ai-areas/contracts/catalogue.md }
+  specs_004_authored_ai_areas_contracts_catalogue_html: { kind: html,     path: specs/004-authored-ai-areas/contracts/catalogue.html }
+  specs_004_authored_ai_areas_contracts_catalogue_pdf:  { kind: pdf,      path: specs/004-authored-ai-areas/contracts/catalogue.pdf }
+  specs_004_authored_ai_areas_contracts_learning_md:   { kind: markdown, path: specs/004-authored-ai-areas/contracts/learning.md }
+  specs_004_authored_ai_areas_contracts_learning_html: { kind: html,     path: specs/004-authored-ai-areas/contracts/learning.html }
+  specs_004_authored_ai_areas_contracts_learning_pdf:  { kind: pdf,      path: specs/004-authored-ai-areas/contracts/learning.pdf }
+  specs_004_authored_ai_areas_contracts_time_links_md:   { kind: markdown, path: specs/004-authored-ai-areas/contracts/time-links.md }
+  specs_004_authored_ai_areas_contracts_time_links_html: { kind: html,     path: specs/004-authored-ai-areas/contracts/time-links.html }
+  specs_004_authored_ai_areas_contracts_time_links_pdf:  { kind: pdf,      path: specs/004-authored-ai-areas/contracts/time-links.pdf }
+  specs_004_authored_ai_areas_data_model_md:   { kind: markdown, path: specs/004-authored-ai-areas/data-model.md }
+  specs_004_authored_ai_areas_data_model_html: { kind: html,     path: specs/004-authored-ai-areas/data-model.html }
+  specs_004_authored_ai_areas_data_model_pdf:  { kind: pdf,      path: specs/004-authored-ai-areas/data-model.pdf }
+  specs_004_authored_ai_areas_plan_md:   { kind: markdown, path: specs/004-authored-ai-areas/plan.md }
+  specs_004_authored_ai_areas_plan_html: { kind: html,     path: specs/004-authored-ai-areas/plan.html }
+  specs_004_authored_ai_areas_plan_pdf:  { kind: pdf,      path: specs/004-authored-ai-areas/plan.pdf }
+  specs_004_authored_ai_areas_quickstart_md:   { kind: markdown, path: specs/004-authored-ai-areas/quickstart.md }
+  specs_004_authored_ai_areas_quickstart_html: { kind: html,     path: specs/004-authored-ai-areas/quickstart.html }
+  specs_004_authored_ai_areas_quickstart_pdf:  { kind: pdf,      path: specs/004-authored-ai-areas/quickstart.pdf }
+  specs_004_authored_ai_areas_research_md:   { kind: markdown, path: specs/004-authored-ai-areas/research.md }
+  specs_004_authored_ai_areas_research_html: { kind: html,     path: specs/004-authored-ai-areas/research.html }
+  specs_004_authored_ai_areas_research_pdf:  { kind: pdf,      path: specs/004-authored-ai-areas/research.pdf }
+  specs_004_authored_ai_areas_spec_md:   { kind: markdown, path: specs/004-authored-ai-areas/spec.md }
+  specs_004_authored_ai_areas_spec_html: { kind: html,     path: specs/004-authored-ai-areas/spec.html }
+  specs_004_authored_ai_areas_spec_pdf:  { kind: pdf,      path: specs/004-authored-ai-areas/spec.pdf }
+  specs_004_authored_ai_areas_tasks_md:   { kind: markdown, path: specs/004-authored-ai-areas/tasks.md }
+  specs_004_authored_ai_areas_tasks_html: { kind: html,     path: specs/004-authored-ai-areas/tasks.html }
+  specs_004_authored_ai_areas_tasks_pdf:  { kind: pdf,      path: specs/004-authored-ai-areas/tasks.pdf }
+  specs_005_clone_and_clear_red_checklists_requirements_md:   { kind: markdown, path: specs/005-clone-and-clear-red/checklists/requirements.md }
+  specs_005_clone_and_clear_red_checklists_requirements_html: { kind: html,     path: specs/005-clone-and-clear-red/checklists/requirements.html }
+  specs_005_clone_and_clear_red_checklists_requirements_pdf:  { kind: pdf,      path: specs/005-clone-and-clear-red/checklists/requirements.pdf }
+  specs_005_clone_and_clear_red_spec_md:   { kind: markdown, path: specs/005-clone-and-clear-red/spec.md }
+  specs_005_clone_and_clear_red_spec_html: { kind: html,     path: specs/005-clone-and-clear-red/spec.html }
+  specs_005_clone_and_clear_red_spec_pdf:  { kind: pdf,      path: specs/005-clone-and-clear-red/spec.pdf }
+  specs_005_clone_and_clear_red_tasks_md:   { kind: markdown, path: specs/005-clone-and-clear-red/tasks.md }
+  specs_005_clone_and_clear_red_tasks_html: { kind: html,     path: specs/005-clone-and-clear-red/tasks.html }
+  specs_005_clone_and_clear_red_tasks_pdf:  { kind: pdf,      path: specs/005-clone-and-clear-red/tasks.pdf }
+  specs_006_session_record_and_qa_readiness_contracts_evidence_md:   { kind: markdown, path: specs/006-session-record-and-qa-readiness/contracts/evidence.md }
+  specs_006_session_record_and_qa_readiness_contracts_evidence_html: { kind: html,     path: specs/006-session-record-and-qa-readiness/contracts/evidence.html }
+  specs_006_session_record_and_qa_readiness_contracts_evidence_pdf:  { kind: pdf,      path: specs/006-session-record-and-qa-readiness/contracts/evidence.pdf }
+  specs_006_session_record_and_qa_readiness_contracts_learning_surface_md:   { kind: markdown, path: specs/006-session-record-and-qa-readiness/contracts/learning-surface.md }
+  specs_006_session_record_and_qa_readiness_contracts_learning_surface_html: { kind: html,     path: specs/006-session-record-and-qa-readiness/contracts/learning-surface.html }
+  specs_006_session_record_and_qa_readiness_contracts_learning_surface_pdf:  { kind: pdf,      path: specs/006-session-record-and-qa-readiness/contracts/learning-surface.pdf }
+  specs_006_session_record_and_qa_readiness_contracts_session_record_md:   { kind: markdown, path: specs/006-session-record-and-qa-readiness/contracts/session-record.md }
+  specs_006_session_record_and_qa_readiness_contracts_session_record_html: { kind: html,     path: specs/006-session-record-and-qa-readiness/contracts/session-record.html }
+  specs_006_session_record_and_qa_readiness_contracts_session_record_pdf:  { kind: pdf,      path: specs/006-session-record-and-qa-readiness/contracts/session-record.pdf }
+  specs_006_session_record_and_qa_readiness_data_model_md:   { kind: markdown, path: specs/006-session-record-and-qa-readiness/data-model.md }
+  specs_006_session_record_and_qa_readiness_data_model_html: { kind: html,     path: specs/006-session-record-and-qa-readiness/data-model.html }
+  specs_006_session_record_and_qa_readiness_data_model_pdf:  { kind: pdf,      path: specs/006-session-record-and-qa-readiness/data-model.pdf }
+  specs_006_session_record_and_qa_readiness_plan_md:   { kind: markdown, path: specs/006-session-record-and-qa-readiness/plan.md }
+  specs_006_session_record_and_qa_readiness_plan_html: { kind: html,     path: specs/006-session-record-and-qa-readiness/plan.html }
+  specs_006_session_record_and_qa_readiness_plan_pdf:  { kind: pdf,      path: specs/006-session-record-and-qa-readiness/plan.pdf }
+  specs_006_session_record_and_qa_readiness_quickstart_md:   { kind: markdown, path: specs/006-session-record-and-qa-readiness/quickstart.md }
+  specs_006_session_record_and_qa_readiness_quickstart_html: { kind: html,     path: specs/006-session-record-and-qa-readiness/quickstart.html }
+  specs_006_session_record_and_qa_readiness_quickstart_pdf:  { kind: pdf,      path: specs/006-session-record-and-qa-readiness/quickstart.pdf }
+  specs_006_session_record_and_qa_readiness_research_md:   { kind: markdown, path: specs/006-session-record-and-qa-readiness/research.md }
+  specs_006_session_record_and_qa_readiness_research_html: { kind: html,     path: specs/006-session-record-and-qa-readiness/research.html }
+  specs_006_session_record_and_qa_readiness_research_pdf:  { kind: pdf,      path: specs/006-session-record-and-qa-readiness/research.pdf }
+  specs_006_session_record_and_qa_readiness_spec_md:   { kind: markdown, path: specs/006-session-record-and-qa-readiness/spec.md }
+  specs_006_session_record_and_qa_readiness_spec_html: { kind: html,     path: specs/006-session-record-and-qa-readiness/spec.html }
+  specs_006_session_record_and_qa_readiness_spec_pdf:  { kind: pdf,      path: specs/006-session-record-and-qa-readiness/spec.pdf }
+  specs_006_session_record_and_qa_readiness_tasks_md:   { kind: markdown, path: specs/006-session-record-and-qa-readiness/tasks.md }
+  specs_006_session_record_and_qa_readiness_tasks_html: { kind: html,     path: specs/006-session-record-and-qa-readiness/tasks.html }
+  specs_006_session_record_and_qa_readiness_tasks_pdf:  { kind: pdf,      path: specs/006-session-record-and-qa-readiness/tasks.pdf }
 edges:
   - { type: derive-from, from: specs_001_workshop_curriculum_platform_analysis_md,   to: specs_001_workshop_curriculum_platform_analysis_html, transform: md2html }
   - { type: derive-from, from: specs_001_workshop_curriculum_platform_analysis_html, to: specs_001_workshop_curriculum_platform_analysis_pdf,  transform: html2pdf }
@@ -131,6 +218,64 @@ edges:
   - { type: derive-from, from: specs_002_knowledge_areas_deep_linking_spec_html, to: specs_002_knowledge_areas_deep_linking_spec_pdf,  transform: html2pdf }
   - { type: derive-from, from: specs_002_knowledge_areas_deep_linking_tasks_md,   to: specs_002_knowledge_areas_deep_linking_tasks_html, transform: md2html }
   - { type: derive-from, from: specs_002_knowledge_areas_deep_linking_tasks_html, to: specs_002_knowledge_areas_deep_linking_tasks_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_003_chapter_hierarchy_contracts_http_api_md,   to: specs_003_chapter_hierarchy_contracts_http_api_html, transform: md2html }
+  - { type: derive-from, from: specs_003_chapter_hierarchy_contracts_http_api_html, to: specs_003_chapter_hierarchy_contracts_http_api_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_003_chapter_hierarchy_data_model_md,   to: specs_003_chapter_hierarchy_data_model_html, transform: md2html }
+  - { type: derive-from, from: specs_003_chapter_hierarchy_data_model_html, to: specs_003_chapter_hierarchy_data_model_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_003_chapter_hierarchy_plan_md,   to: specs_003_chapter_hierarchy_plan_html, transform: md2html }
+  - { type: derive-from, from: specs_003_chapter_hierarchy_plan_html, to: specs_003_chapter_hierarchy_plan_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_003_chapter_hierarchy_research_md,   to: specs_003_chapter_hierarchy_research_html, transform: md2html }
+  - { type: derive-from, from: specs_003_chapter_hierarchy_research_html, to: specs_003_chapter_hierarchy_research_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_003_chapter_hierarchy_spec_md,   to: specs_003_chapter_hierarchy_spec_html, transform: md2html }
+  - { type: derive-from, from: specs_003_chapter_hierarchy_spec_html, to: specs_003_chapter_hierarchy_spec_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_003_chapter_hierarchy_tasks_md,   to: specs_003_chapter_hierarchy_tasks_html, transform: md2html }
+  - { type: derive-from, from: specs_003_chapter_hierarchy_tasks_html, to: specs_003_chapter_hierarchy_tasks_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_004_authored_ai_areas_checklists_requirements_md,   to: specs_004_authored_ai_areas_checklists_requirements_html, transform: md2html }
+  - { type: derive-from, from: specs_004_authored_ai_areas_checklists_requirements_html, to: specs_004_authored_ai_areas_checklists_requirements_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_004_authored_ai_areas_contracts_authored_document_md,   to: specs_004_authored_ai_areas_contracts_authored_document_html, transform: md2html }
+  - { type: derive-from, from: specs_004_authored_ai_areas_contracts_authored_document_html, to: specs_004_authored_ai_areas_contracts_authored_document_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_004_authored_ai_areas_contracts_catalogue_md,   to: specs_004_authored_ai_areas_contracts_catalogue_html, transform: md2html }
+  - { type: derive-from, from: specs_004_authored_ai_areas_contracts_catalogue_html, to: specs_004_authored_ai_areas_contracts_catalogue_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_004_authored_ai_areas_contracts_learning_md,   to: specs_004_authored_ai_areas_contracts_learning_html, transform: md2html }
+  - { type: derive-from, from: specs_004_authored_ai_areas_contracts_learning_html, to: specs_004_authored_ai_areas_contracts_learning_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_004_authored_ai_areas_contracts_time_links_md,   to: specs_004_authored_ai_areas_contracts_time_links_html, transform: md2html }
+  - { type: derive-from, from: specs_004_authored_ai_areas_contracts_time_links_html, to: specs_004_authored_ai_areas_contracts_time_links_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_004_authored_ai_areas_data_model_md,   to: specs_004_authored_ai_areas_data_model_html, transform: md2html }
+  - { type: derive-from, from: specs_004_authored_ai_areas_data_model_html, to: specs_004_authored_ai_areas_data_model_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_004_authored_ai_areas_plan_md,   to: specs_004_authored_ai_areas_plan_html, transform: md2html }
+  - { type: derive-from, from: specs_004_authored_ai_areas_plan_html, to: specs_004_authored_ai_areas_plan_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_004_authored_ai_areas_quickstart_md,   to: specs_004_authored_ai_areas_quickstart_html, transform: md2html }
+  - { type: derive-from, from: specs_004_authored_ai_areas_quickstart_html, to: specs_004_authored_ai_areas_quickstart_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_004_authored_ai_areas_research_md,   to: specs_004_authored_ai_areas_research_html, transform: md2html }
+  - { type: derive-from, from: specs_004_authored_ai_areas_research_html, to: specs_004_authored_ai_areas_research_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_004_authored_ai_areas_spec_md,   to: specs_004_authored_ai_areas_spec_html, transform: md2html }
+  - { type: derive-from, from: specs_004_authored_ai_areas_spec_html, to: specs_004_authored_ai_areas_spec_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_004_authored_ai_areas_tasks_md,   to: specs_004_authored_ai_areas_tasks_html, transform: md2html }
+  - { type: derive-from, from: specs_004_authored_ai_areas_tasks_html, to: specs_004_authored_ai_areas_tasks_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_005_clone_and_clear_red_checklists_requirements_md,   to: specs_005_clone_and_clear_red_checklists_requirements_html, transform: md2html }
+  - { type: derive-from, from: specs_005_clone_and_clear_red_checklists_requirements_html, to: specs_005_clone_and_clear_red_checklists_requirements_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_005_clone_and_clear_red_spec_md,   to: specs_005_clone_and_clear_red_spec_html, transform: md2html }
+  - { type: derive-from, from: specs_005_clone_and_clear_red_spec_html, to: specs_005_clone_and_clear_red_spec_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_005_clone_and_clear_red_tasks_md,   to: specs_005_clone_and_clear_red_tasks_html, transform: md2html }
+  - { type: derive-from, from: specs_005_clone_and_clear_red_tasks_html, to: specs_005_clone_and_clear_red_tasks_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_contracts_evidence_md,   to: specs_006_session_record_and_qa_readiness_contracts_evidence_html, transform: md2html }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_contracts_evidence_html, to: specs_006_session_record_and_qa_readiness_contracts_evidence_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_contracts_learning_surface_md,   to: specs_006_session_record_and_qa_readiness_contracts_learning_surface_html, transform: md2html }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_contracts_learning_surface_html, to: specs_006_session_record_and_qa_readiness_contracts_learning_surface_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_contracts_session_record_md,   to: specs_006_session_record_and_qa_readiness_contracts_session_record_html, transform: md2html }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_contracts_session_record_html, to: specs_006_session_record_and_qa_readiness_contracts_session_record_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_data_model_md,   to: specs_006_session_record_and_qa_readiness_data_model_html, transform: md2html }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_data_model_html, to: specs_006_session_record_and_qa_readiness_data_model_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_plan_md,   to: specs_006_session_record_and_qa_readiness_plan_html, transform: md2html }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_plan_html, to: specs_006_session_record_and_qa_readiness_plan_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_quickstart_md,   to: specs_006_session_record_and_qa_readiness_quickstart_html, transform: md2html }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_quickstart_html, to: specs_006_session_record_and_qa_readiness_quickstart_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_research_md,   to: specs_006_session_record_and_qa_readiness_research_html, transform: md2html }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_research_html, to: specs_006_session_record_and_qa_readiness_research_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_spec_md,   to: specs_006_session_record_and_qa_readiness_spec_html, transform: md2html }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_spec_html, to: specs_006_session_record_and_qa_readiness_spec_pdf,  transform: html2pdf }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_tasks_md,   to: specs_006_session_record_and_qa_readiness_tasks_html, transform: md2html }
+  - { type: derive-from, from: specs_006_session_record_and_qa_readiness_tasks_html, to: specs_006_session_record_and_qa_readiness_tasks_pdf,  transform: html2pdf }
 transforms:
   md2html:  { builtin: pandoc-html }
   html2pdf: { builtin: weasyprint-pdf }

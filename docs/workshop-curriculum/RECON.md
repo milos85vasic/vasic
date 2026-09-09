@@ -6,7 +6,7 @@ than assumption. It contains no design and no recommendations that are not clear
 labelled as such.
 
 **Date of survey:** 2026-08-31
-**Repository root:** `/run/media/milosvasic/DATA4TB/Projects/vasic`
+**Repository root:** `<ext-volume-host>/Projects/vasic`
 **Repository HEAD at survey time:** `708c8b1` (branch `main`)
 **Mode:** read-only reconnaissance. Nothing outside this file was created or modified.
 
@@ -552,11 +552,11 @@ search returns grounded results · theme toggle switches light/dark.
 **A real portability defect to avoid inheriting.** `api-challenges.sh:11` is:
 
 ```bash
-SQLITE="${SQLITE_BIN:-/Users/milosvasic/Library/Android/sdk/platform-tools/sqlite3}"
+SQLITE="${SQLITE_BIN:-<home>/Library/Android/sdk/platform-tools/sqlite3}"
 ```
 
 That default is a **macOS** path. On this Linux host `sqlite3` resolves to
-`/home/milosvasic/Android/Sdk/platform-tools/sqlite3`, so **7 of the 24 challenges
+`<home>/Android/Sdk/platform-tools/sqlite3`, so **7 of the 24 challenges
 (C6, C7, C18, C19, C24 and the DB lookups feeding C8/C9) silently degrade to `[FAIL]`
 here unless `SQLITE_BIN` is exported.** `scripts/audit-hardcoded-paths.sh` exists at the
 umbrella root for exactly this class of bug; `ai_interviewing/` is a submodule and is
@@ -587,7 +587,7 @@ evidence-gated three-bank test discipline.
 
 **What it is here.** Lumen is a **Claude Code plugin/MCP tool**, not a library or a
 service this repository owns. `lumen` on `PATH` is
-`/home/milosvasic/.local/bin/lumen`, a 2,505-byte bash launcher ("Managed by Claude
+`<home>/.local/bin/lumen`, a 2,505-byte bash launcher ("Managed by Claude
 Code") that resolves `uname` → `lumen-linux-amd64` and `sort -V`-picks the newest
 version under `~/.claude-shared/plugins/cache/*/lumen/*/bin/`. It currently resolves to
 **v0.0.41** at
@@ -600,7 +600,7 @@ version under `~/.claude-shared/plugins/cache/*/lumen/*/bin/`. It currently reso
 MCP tool names. `.opencode/`, `.crush/`, `.kimi-code/` contain zero lumen references.
 The two live declarations are **outside** the repo:
 
-* user-global `~/.claude.json` → `mcpServers.lumen = {"type":"stdio","command":"/home/milosvasic/.local/bin/lumen","args":["stdio"]}` → the `mcp__lumen__*` tools;
+* user-global `~/.claude.json` → `mcpServers.lumen = {"type":"stdio","command":"<home>/.local/bin/lumen","args":["stdio"]}` → the `mcp__lumen__*` tools;
 * the plugin's own `plugin.json` → `${CLAUDE_PLUGIN_ROOT}/scripts/run stdio`, enabled in `~/.claude-claude4/settings.json` → the `mcp__plugin_lumen_lumen__*` tools.
 
 The plugin also installs a `PreToolUse` hook on `Grep|Bash` — the source of the
@@ -612,11 +612,11 @@ The plugin also installs a `PreToolUse` hook on `Grep|Bash` — the source of th
 **not** exist and every `LUMEN_*`/`OLLAMA_*` export in `~/.bashrc` is commented out, so
 everything falls through to built-in defaults.
 
-**Index store.** `$XDG_DATA_HOME/lumen` → `/home/milosvasic/.local/share/lumen/`, which
+**Index store.** `$XDG_DATA_HOME/lumen` → `<home>/.local/share/lumen/`, which
 holds **764 index directories**. The directory name is
 `sha256(projectPath + "\0" + model + "\0" + IndexVersion)[:16]` with `IndexVersion="3"`.
 For this project that resolves — and was confirmed on disk — to
-**`/home/milosvasic/.local/share/lumen/21bf1507a8925bcf/`**, `index.db` = 335,679,488
+**`<home>/.local/share/lumen/21bf1507a8925bcf/`**, `index.db` = 335,679,488
 bytes plus WAL/SHM/lock. Consequence documented in both project scripts: **changing the
 model name silently starts a second index instead of updating this one.**
 
@@ -929,15 +929,15 @@ anywhere.
 |---|---|---|
 | `podman` | `/usr/bin/podman` (5.7.1, rootless) | containers |
 | `docker` | **MISSING** | — |
-| `ffmpeg` / `ffprobe` | `/home/milosvasic/bin/` (7.0.2-static) | media transcode / probe |
-| `pandoc` | `/home/milosvasic/.local/bin/pandoc` | HTML + DOCX export |
-| `weasyprint` | `/home/milosvasic/.local/bin/weasyprint` | PDF export |
-| `mmdc` | `/home/milosvasic/.npm-global/bin/mmdc` | Mermaid → PNG/SVG |
+| `ffmpeg` / `ffprobe` | `<home>/bin/` (7.0.2-static) | media transcode / probe |
+| `pandoc` | `<home>/.local/bin/pandoc` | HTML + DOCX export |
+| `weasyprint` | `<home>/.local/bin/weasyprint` | PDF export |
+| `mmdc` | `<home>/.npm-global/bin/mmdc` | Mermaid → PNG/SVG |
 | `pdftotext` | `/usr/bin/pdftotext` | §11.4.168 textual layer |
-| `tesseract` | `/home/milosvasic/.local/bin/tesseract` | §11.4.168 OCR layer |
+| `tesseract` | `<home>/.local/bin/tesseract` | §11.4.168 OCR layer |
 | `go` / `node` / `npm` / `ruby` / `bundler` / `python3` | system paths | build toolchains |
-| `sqlite3` | `/home/milosvasic/Android/Sdk/platform-tools/sqlite3` | note the unusual path (§2.5) |
-| `lumen` | `/home/milosvasic/.local/bin/lumen` (launcher → v0.0.41) | semantic search |
+| `sqlite3` | `<home>/Android/Sdk/platform-tools/sqlite3` | note the unusual path (§2.5) |
+| `lumen` | `<home>/.local/bin/lumen` (launcher → v0.0.41) | semantic search |
 | `ollama` | `/usr/bin/ollama` (running, CPU-only, embeddings only) | embeddings |
 | **ASR (speech-to-text)** | **MISSING** | see below |
 | `yt-dlp` | MISSING | — |
@@ -995,7 +995,7 @@ currently untracked.
 ## §4 · Binding constraints the spec must respect
 
 All quotes below are verbatim from
-`/run/media/milosvasic/DATA4TB/Projects/vasic/submodules/constitution/Constitution.md`
+`<ext-volume-host>/Projects/vasic/submodules/constitution/Constitution.md`
 (11,689 lines). Line numbers are that file's.
 
 ### 4.1 §11.4.156 — the CI prohibition · **release blocker**
@@ -1444,7 +1444,7 @@ model for careful, three-valued, evidence-producing operational scripts.
 ## §7 · Command log
 
 Every command run during this survey. All are read-only. `$ROOT` =
-`/run/media/milosvasic/DATA4TB/Projects/vasic`.
+`<ext-volume-host>/Projects/vasic`.
 
 **Repository shape**
 
@@ -1549,7 +1549,7 @@ cat $ROOT/.lumenignore $ROOT/.lumen-reindex.log
 cat $ROOT/.claude/settings.json $ROOT/.claude/settings.local.json
 pgrep -a lumen ; pgrep -a ollama
 cat /etc/sysconfig/ollama ; ls /var/lib/ollama/.ollama/models/manifests/**
-ls -la /home/milosvasic/.local/share/lumen/21bf1507a8925bcf/
+ls -la <home>/.local/share/lumen/21bf1507a8925bcf/
 # lumen 0.0.41 source: cmd/stdio.go, internal/chunker/languages.go,
 #   internal/index/index.go, internal/merkle/ignore.go, internal/config/{config,version}.go
 find $ROOT/design-system $ROOT/design-toolkit -maxdepth 2

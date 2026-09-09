@@ -258,21 +258,85 @@ that four consecutive corpus-neutral moves were "a measured coincidence of what
 upstream happened to change, not a guarantee" is now demonstrated rather than
 merely asserted. Re-measure after the next one, on both sides.
 
-Re-derive. **The pin equals the remote head as of the 2026-09-03 re-measurement,
-and that sentence has already been true and then false twice.** When it next
-differs, classifying the DIRECTION needs either a scratch bare clone or a
-`git fetch` inside the submodule, and a fetch is a mutating command and an
-operator decision. The read-only probes below tell you THAT it differs, never
-which way:
+### STANDING AUTHORIZATION for fast-forward-only constitution-pin bumps (2026-09-09)
+
+**The operator has converted the per-bump approval into a STANDING one.** Five
+of the six moves in the lineage above were authorized one at a time, and the pin
+went stale again within the day on four consecutive occasions; the approval is
+now given once, with the terms fixed. **The terms are the authorization — a bump
+that does not satisfy every one of them is NOT authorized:**
+
+1. An agent MAY `git fetch` inside `submodules/constitution` and fast-forward it
+   **without asking again**. The sentence that stood here — *"a fetch is a
+   mutating command and an operator decision"* — is **SUPERSEDED for this one
+   submodule**, and for no other.
+2. ONLY when `git merge-base --is-ancestor <pin> <remote>` returns TRUE **and**
+   `git rev-list --left-right --count <pin>...<remote>` shows **0 divergent**.
+   **ANY divergence: STOP and report. Do not merge.**
+3. ONLY via `git merge --ff-only`. Never rebase, never `--force`, never
+   `--force-with-lease`, never a `+ref` push. §11.4.113 is absolute and this
+   authorization does not touch it.
+4. The `diff --stat` across the moved range MUST be reported, and
+   `Constitution.md` MUST be re-measured on **BOTH** sides of the move — blob
+   sha, line count, `### §` anchor count, byte count, sha256. **The 2026-09-08
+   bump was the first in this lineage to change `Constitution.md`:
+   corpus-neutrality is NOT a property of a pin move, it is a measurement that
+   must be taken each time.**
+5. The gitlink and the `helix-deps.yaml` `deps[].ref` entry MUST be staged
+   **together in one change**, or cascade check C9 will correctly report DRIFT —
+   as it has, twice.
+6. **Nothing is ever pushed to the constitution repository.** This is a local
+   pin move only.
+
+**Scope, stated so it is not over-read: this authorization covers
+`submodules/constitution` and NOTHING else.** Every other owned gitlink still
+requires a per-bump operator decision, even when `verify-submodule-remote-sync.sh`
+reports it BEHIND and even when the move would be a clean fast-forward.
+
+Re-derive. **The pin equals the remote head as re-measured 2026-09-09, and that
+sentence has already been true and then false three times.** The probes below
+are read-only and tell you THAT it differs; under the standing authorization
+above, a `--fetch` may then be run to classify WHICH WAY:
 
 ```bash
 git -C submodules/constitution rev-parse HEAD                   # the local pin
 git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD
 git -C submodules/constitution rev-parse HEAD:Constitution.md   # blob identity
 grep -c '^### §' submodules/constitution/Constitution.md        # 255
-wc -l < submodules/constitution/Constitution.md                 # 11787
+wc -l < submodules/constitution/Constitution.md                 # 11794
 bash scripts/verify-manifest-pins.sh                            # 0 = ref == gitlink
 ```
+
+**Re-measured 2026-09-09, and the whole fleet is level — no move was made and
+none was needed.** `git -C submodules/constitution rev-parse HEAD` and
+`git ls-remote … HEAD` both return `573c019055646e72aeb1ee22dabb9005e94e855e`,
+so the standing authorization had nothing to act on the day it was granted.
+`bash scripts/verify-submodule-remote-sync.sh` exits **0** at **13 CURRENT /
+0 DRIFT / 0 UNDETERMINED of 13 owned gitlinks probed, 14 declared** — the first
+reading in this file's history with no BEHIND row anywhere in the fleet.
+`bash scripts/verify-manifest-pins.sh` exits **0** at **13 MATCH / 0 DRIFT /
+0 UNDETERMINED**. `Constitution.md` re-measured on disk at that pin: blob
+`d95bf0c4f47c…`, **11,794** lines, **255** `### §` anchors, **1,804,638** bytes,
+sha256 `b9e438c95e7a7fd3…` — every figure identical to the post-09-08 table
+above, which is what "re-measure, do not quote" buys you.
+
+**The fleet grew by one and this file had not recorded it.**
+`submodules/curriculum-kit` (`vasic-digital/curriculum-kit`, at
+`07af6fb79e20`) joined the owned set; it is probed by both gates and is CURRENT.
+Three counts moved with it, each quoted from its own gate rather than derived by
+hand: `verify-submodule-remote-sync.sh` probes **13** owned gitlinks of 14
+declared (was 12 of 14); cascade **C1** classifies **12 owned + 1 governance
+source + 1 third-party** (was 11 owned); **C2/C3** now find **12 × 4 = 48**
+owned-submodule carriers (was 11 × 4 = 44). Note the two vocabularies disagree
+on purpose — the remote-sync gate probes `submodules/constitution` and counts it
+among its 13, while C1 classifies it as the cascade's SOURCE and excludes it
+from its 12. **Every "11 owned", "12 owned gitlinks", "44 of 44" and
+"12 CURRENT" figure elsewhere in this carrier is SUPERSEDED.** Re-derive the
+roster from the gates; never quote it from here.
+
+**Do not read the 13/13 green as durable.** This carrier has recorded five
+green-then-red cycles on this one pin; the standing authorization exists
+precisely because the green does not survive the week.
 
 Note the path: this repository places the submodule at `submodules/constitution/`,
 not at the top-level `constitution/` that the constitution's own prose and
@@ -901,9 +965,15 @@ false in the direction that flattered the tree.**
 
 - *"The submodule is present for the workload `specs/001-…` plans."* **It has a
   real consumer now.** `_tools/containers/` was committed 2026-09-03 (`460266c`)
-  with 7 tracked files — `go.mod` requiring `digital.vasic.containers`, `go.sum`,
-  `cmd/site-build/main.go`, `compose/compose.sites.yml`, `compose/jekyll-build.sh`
-  — and its own README records the measurement that made it necessary: before it
+  with **18** tracked files as re-measured 2026-09-09 — among them `go.mod`
+  requiring `digital.vasic.containers`, `go.sum`, `cmd/site-build/main.go`,
+  `compose/compose.sites.yml` and `compose/jekyll-build.sh`. **The "7 tracked
+  files" this sentence carried is WITHDRAWN BY MEASUREMENT, and it was true when
+  written**: 7 was the count on the day the directory was committed, and the
+  directory grew. It is the FIRST claim `scripts/verify-claim-ledger.sh` caught
+  (§11.4.266) and is registered there as row
+  `carriers-containers-consumer-files`, so it cannot go stale silently again.
+  Its own README records the measurement that made it necessary: before it
   existed, `grep -rn 'digital.vasic.containers'` outside `submodules/` and
   `workshop/` returned **zero** hits. **The gitlink was declared,
   manifest-pinned, cascade-verified and unused** — every gate green over a
@@ -950,8 +1020,11 @@ two.** Full table, with the measurement behind each verdict:
 through `_tools/containers/cmd/runtime-probe`, verified on this host at all
 three exit codes; `_tools/distribute-helixtranslate.sh` is one whose replacement
 exists but is **UNVERIFIED**; `_tools/helixtranslate-container.sh` and
-`_tools/helixtranslate-container/run.sh` are violations that **cannot be closed
-from this tree** and now carry declared exceptions; and
+`_tools/helixtranslate-container/run.sh` are violations that carry declared
+exceptions — **and the words "cannot be closed from this tree" that this
+sentence applied to BOTH of them are WITHDRAWN for `run.sh`, by the measurement
+below; they were true when written and still hold for
+`_tools/helixtranslate-container.sh`** — and
 `_tools/translate-fleet.sh` is **not** a violation.
 
 **That last verdict was reversed by measurement mid-task and the reversal is the
@@ -965,23 +1038,96 @@ expects a consumer to supply. Naming the LOCAL host's runtime is not, which is
 exactly why the same-looking literal in `helixtranslate-local.sh` was a real
 violation and was converted.
 
-**What blocks the rest is one missing upstream primitive, and §11.4.76(4) says
-where it belongs.** Both un-closeable files perform a one-shot `run --rm -i`
-that streams a document on **STDIN**. Measured at gitlink
-`d940b51fc247c285c805799452992da8d09c75b9`: `pkg/runtime`'s `ContainerRuntime`
-interface declares Name, Version, IsAvailable, Start, Stop, Remove, Status,
-List, Stats, Exec and Logs — **no `Run`, no `Create`**, so there is no
-ephemeral-run primitive at all; `Exec(ctx, id, cmd []string)` accepts no stdin;
-and the module's only `WithStdin`
-(`pkg/remote/connection/interface.go:146`) sits in an interfaces-and-options-only
-package that nothing implements and no constructor returns. The fix is an
-upstream change to `vasic-digital/containers`, **never a parallel implementation
-here** — and until it lands, a working script is not to be replaced by an
-unverified rewrite.
+**THE CLAIM THIS BLOCK CARRIED IS WITHDRAWN BY NAME, AND IT IS FALSE TODAY
+RATHER THAN MERELY STALE. It was TRUE when written, at the pin it named.** The
+withdrawn sentence read, verbatim:
+
+> *"Measured at gitlink `d940b51fc247c285c805799452992da8d09c75b9`:
+> `pkg/runtime`'s `ContainerRuntime` interface declares Name, Version,
+> IsAvailable, Start, Stop, Remove, Status, List, Stats, Exec and Logs — **no
+> `Run`, no `Create`**, so there is no ephemeral-run primitive at all;
+> `Exec(ctx, id, cmd []string)` accepts no stdin; and the module's only
+> `WithStdin` (`pkg/remote/connection/interface.go:146`) sits in an
+> interfaces-and-options-only package that nothing implements and no
+> constructor returns."*
+
+**The gitlink moved and the primitive EXISTS.** Re-measured **2026-09-09** at
+gitlink `7f5922563d8bec866b1a25eac483590c9a212817` — `git ls-files -s
+submodules/containers` and `git -C submodules/containers rev-parse HEAD` agree.
+The ephemeral-run primitive landed upstream in `6d13ad03528c` (2026-09-04),
+**two commits before the current pin**, so this repository consumed the fix
+without noticing it and kept asserting the gap for five days. `pkg/runtime/run.go`
+and `pkg/runtime/run_test.go` exist, and `pkg/runtime/runtime.go` now declares on
+the interface itself:
+
+```go
+Run(
+    ctx context.Context, image string, cmd []string, opts ...RunOption,
+) (*ExecResult, error)
+```
+
+`WithRunStdin(io.Reader)` supplies the document **and** is what puts `-i` on the
+argv (`pkg/runtime/run.go:119`, and `args = append(args, "-i")` at line 204);
+`StdinExecutor` / `ExecuteWithStdin` is really implemented, by `defaultExecutor`
+on the `os/exec` path (`run.go:53`). Missing stdin support is refused with
+`ErrStdinUnsupported` **before the command runs**, never degraded to an
+empty-stdin success.
+
+**WHAT REMAINS TRUE, and must not be over-corrected away.** Two halves of the
+old claim survive verbatim at the current pin, and they are the reason this is
+a SPLIT rather than a clean withdrawal:
+
+* `Exec(ctx, id, cmd []string)` **still accepts no stdin.** Read the interface;
+  the signature is unchanged.
+* **The REMOTE-stdin gap is OPEN.** `remote.RemoteRuntime.Run`
+  (`pkg/remote/runtime.go`, around line 240) *explicitly refuses* a caller that
+  passes `WithRunStdin`, and says why in its own words: *"RemoteExecutor exposes
+  Execute … and ExecuteStream …; neither accepts an `io.Reader`, so there is no
+  seam through which a local document could be streamed to the remote
+  container's standard input."* It returns an error wrapping
+  `runtime.ErrStdinUnsupported` rather than a zero-exit result from an empty
+  stdin — a refusal worth recording as good practice, and the same discipline
+  the LOCAL path shows. `pkg/remote/connection` is **still** interfaces and
+  option builders only: `WithStdin` at `interface.go:146` stands, the package
+  holds four files and none of them implements the `Connection` interface.
+
+**So the consequence for the two exception-carrying scripts is a SPLIT, not one
+verdict:**
+
+* **`_tools/helixtranslate-container/run.sh` — its declared §11.4.76 exception
+  REASON no longer holds.** That file is installed on, and runs ON, the remote
+  host, so from that host's own view its `run --rm -i` is a LOCAL run. It is
+  **convertible in principle** today via `runtime.Run` with `WithRunStdin` /
+  `WithRunVolumes` / `WithRunEntrypoint` / `WithRunExtraArgs`. Its header has
+  been corrected to withdraw the reason while stating that the conversion
+  remains unperformed.
+* **`_tools/helixtranslate-container.sh` — its exception STANDS**, with its
+  reason narrowed by measurement to the remote-stdin gap named above. It is the
+  local half, a raw `ssh … < "$IN"`, and is **still not convertible**.
+
+**NEITHER SCRIPT WAS CONVERTED, and that is a decision with evidence rather
+than an omission.** Re-measured 2026-09-09 on this host: `podman images | grep
+-i helixtranslate` matches **zero** rows, `getent hosts` fails to resolve both
+`thinker.local` and `amber.local`, and `ssh -o BatchMode=yes` returns **rc 255**
+for both. Absent image, unreachable hosts — that is an rc **2**, and **a 2 is
+never a pass**. A working script must not be replaced by a rewrite that cannot
+be exercised end to end; a convertible-in-principle finding is not a
+verified-in-practice conversion, and this file will not blur the two.
+
+**One honest upstream observation, recorded as an observation and not as a
+defect (§11.4.6).** `defaultExecutor.ExecuteWithStdin` builds its child with
+`exec.CommandContext`, then folds an `*exec.ExitError` into `exitCode` and sets
+`err = nil` (`pkg/runtime/run.go:53-73`). A CANCELLED run is killed by the
+context and therefore comes back as a signal death — `ExitCode = -1` with a
+**nil error** — so a caller must consult `ctx.Err()` to tell cancellation from a
+container that exited −1. **Cancellation genuinely works**; whether reporting it
+this way is deliberate is **UNCONFIRMED** — it was not asked upstream and no
+comment in the module states it.
 
 **Honest boundary (§11.4.6): whether those particular images were ever built or
 run CANNOT BE DETERMINED from this checkout, and the conversion did not change
-that.** Re-measured 2026-09-04: `podman images` on this host matches
+that — and it is UNCHANGED by the primitive landing upstream.** Re-measured
+2026-09-04 and **re-confirmed identically 2026-09-09**: `podman images` on this host matches
 `helixtranslate` **zero** times, and both remote hosts are **unreachable** —
 `getent hosts` fails to resolve `thinker.local` and `amber.local`, and `ssh
 -o BatchMode=yes` returns **rc 255** for both, which is a measured absence and
@@ -1143,6 +1289,7 @@ bash scripts/audit-environment-assumptions.sh   # 0 — 567 allow-listed, 666 ba
 bash scripts/verify-content-boundary.sh         # 1 — RED BY DESIGN, see "Content boundary"
 bash scripts/verify-submodule-remote-sync.sh    # 0 — RED, THEN GREEN AGAIN: 12 CURRENT/0 DRIFT
 bash scripts/verify-provider-ci.sh              # 1 — 1 CONFIRMED/6 UNVERIFIED/2 HISTORICAL
+bash scripts/verify-pretooluse-guard.sh         # 0 — 8 PASS/0 FAIL/0 UNDET (2026-09-09; G12)
 bash scripts/verify-all-constitution-rules.sh   # 1 — 173 PASS/96 FAIL/2 ERROR of 271 gates
 bash scripts/lumen-index-doctor.sh              # semantic index health
 bash scripts/ollama-tune.sh                     # local inference host tuning
@@ -1205,9 +1352,15 @@ Five of those need reading carefully rather than glancing at:
   **Honest boundary (§11.4.6): a 0 here means every registered proof executed
   and reported, not that this tree is defect-free.** The sweep's **DROP**
   direction remains open and is printed on every run: its ADD direction is
-  proved, while assertion **L1** deletes a gate, measures the count falling
-  `3 → 2`, and records that the sweep still exits 0 because it keeps **no
-  expected-gate ledger**.
+  proved, while assertion **L1** deletes a gate and measures the count falling
+  `3 → 2`. **The reason this block used to give — "the sweep still exits 0
+  because it keeps no expected-gate ledger" — is WITHDRAWN AS FALSE.**
+  `scripts/constitution-gate-ledger.tsv` exists and holds **271** data rows, and
+  the sweep's DROP direction has been proved against it since 2026-09-02. The
+  false half was caught by `scripts/verify-claim-ledger.sh` (§11.4.266) and the
+  surviving half — that the DROP direction is open — was NOT re-measured this
+  session and is neither confirmed nor withdrawn here. The live figure is
+  registered as ledger row `carriers-constitution-gate-ledger-rows`.
 
   The zero-DEBT history is worth keeping. A zero means "every registered check is
   accounted for", **not** "every check has a working paired proof" — a plain run
@@ -1635,8 +1788,64 @@ inventory's own):
   re-derive this number by hand — run the verifier and quote what it prints.**
 - G8 — the markdown export mandate (11.4.65) is unmet across the repository.
   Unchanged and with no work in flight.
-- G12 — no `PreToolUse` guard is wired, although the canonical guard script is
-  present in the submodule. Unchanged and with no work in flight.
+- G12 — **CLOSED 2026-09-09**, and the closure rests on the guard being observed
+  to REFUSE rather than on a config key being present. The §11.4.109 `PreToolUse`
+  guard is wired in `.claude/settings.json` — matcher `*`, command
+  `bash "$CLAUDE_PROJECT_DIR/submodules/constitution/scripts/hooks/guard-forbidden-commands.sh"`
+  — **by reference, never copied**, because §11.4.109(A) says a copy diverges
+  silently.
+
+  **The wiring location was chosen, not defaulted to, and the reason is a lesson
+  this file already records elsewhere.** `.claude/settings.json` is **TRACKED**
+  (`git ls-files --error-unmatch .claude/settings.json` succeeds), so a fresh
+  clone inherits the guard. The host-wide `~/.claude*/settings.json` was
+  rejected: it would guard one developer's machine and leave every clone
+  unprotected with nobody told — precisely the `.git/hooks/` hole recorded under
+  "Build and test entry points" above.
+
+  `docs/AGENT_GUARDRAILS.md` now carries §11.4.109 **(B)** the SUBAGENT
+  CONSTITUTIONAL PREAMBLE and **(C)** the ORCHESTRATOR PRE-ACTION CHECKLIST,
+  with the `11.4.109` anchor literal.
+
+  **Measured 2026-09-09, not asserted:**
+
+  ```bash
+  bash submodules/constitution/scripts/hooks/test_guard_forbidden_commands.sh
+  #   rc 0 — PASS=70 FAIL=0     (the upstream author's own hermetic suite)
+  bash scripts/verify-pretooluse-guard.sh
+  #   rc 0 — 8 PASS / 0 FAIL / 0 UNDET
+  bash scripts/verify-pretooluse-guard.sh --prove-failure
+  #   rc 0 — 15 cases: 12 mutations caught, 2 rc-2 states, control green
+  ```
+
+  `scripts/verify-pretooluse-guard.sh` is the §11.4.234(A)(3) dedicated
+  hook-validation stage, registered as `pretooluse-guard` in
+  `scripts/check-registry.tsv`. It **executes** the wired guard against five
+  forbidden probes (force-push, `--force-with-lease`, `--no-verify`, privilege
+  escalation, host-power) and requires rc 2 from each; requires rc 0 from a
+  benign call, because a guard that blocks everything is switched off within the
+  hour; and requires that the `# guardrails:allow` marker does **not** downgrade
+  host-power. Its battery proves it catches a **neutered** guard (edited to
+  `exit 0`, settings untouched) and an **untracked** settings file. A validator
+  that passes while the hook is inert is the false-green control §11.4.201
+  forbids.
+
+  **Honest boundary (§11.4.6), three limits the closure does not hide.** (a) The
+  guard's refusal text cites the consuming-project clauses `§6.T.3` / `§6.U`
+  rather than the universal `§11.4.113` / §11.4 anchors — upstream text inside a
+  consumed submodule, REPORTED and not patched, per the `design-toolkit`
+  precedent above. The class is blocked either way. (b) The validator executes
+  the canonical script at its canonical path; it does not re-implement the
+  harness's `$CLAUDE_PROJECT_DIR` expansion, so it proves the script refuses, not
+  that a future harness expands the path correctly. (c) The 70-case upstream
+  harness is asserted PRESENT and EXECUTED as a separately named stage, printed
+  on every green run — a recorded deferral per §11.4.234(C), never a dropped
+  gate.
+
+  **What is NOT closed by this.** §11.4.109's own mechanical-enforcement list
+  also requires the `11.4.109` literal in every per-scope governance file of
+  every owned submodule (item 5). That was NOT measured this session and no
+  claim is made about it.
 
 ### Content boundary incident, 2026-09-01 — OPEN, and not closeable by a commit
 

@@ -1,0 +1,4293 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>INVENTORY</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">INVENTORY</h1>
+</header>
+<h1 id="constitution-adoption-inventory-gap-analysis">Constitution
+Adoption — Inventory &amp; Gap Analysis</h1>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Revision</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Created</td>
+<td>2026-08-26</td>
+</tr>
+<tr>
+<td>Last modified</td>
+<td>2026-09-01</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>active — <strong>historical record plus a current status
+ledger</strong></td>
+</tr>
+<tr>
+<td>How to read it</td>
+<td>The §8 G-headings are the ORIGINAL 2026-08-26 discovery evidence and
+are deliberately not rewritten as gaps move. Current statuses live in
+<strong>§8.0 Current status ledger</strong>, and the authority above
+that is the <code>- G&lt;n&gt; — &lt;STATUS&gt;</code> lines in the four
+root carriers. Never quote a G-heading as a current status.</td>
+</tr>
+<tr>
+<td>Status summary</td>
+<td>Phase-1 read-and-map inventory of
+<code>submodules/constitution</code> (HelixConstitution) and its
+adoption state in the <code>vasic</code> umbrella. Read-only pass: no
+existing file was modified. Headline finding — the umbrella repository
+has <strong>zero</strong> agent-instruction files at its root, so the
+constitution’s prescribed inheritance mechanism is <strong>not wired at
+all</strong>.</td>
+</tr>
+<tr>
+<td>Issues</td>
+<td>12 ranked gaps (G1–G12)</td>
+</tr>
+<tr>
+<td>Issues summary</td>
+<td>G1 no consumer governance layer; G2 no inheritance pointer; G3 no
+post-pull validation sweep; G4 active CI contradicts §11.4.156; G5 no
+mechanical enforcement; G6 no <code>helix-deps.yaml</code>; G7 no
+submodule propagation; G8 §11.4.65 export gap (265 <code>.md</code>, 0
+<code>.html</code>); G9 §11.4.212 README-orphan gap; G10 §4
+tag-mirroring gap; G11 duplicate <code>design-toolkit</code> checkout;
+G12 anti-forgetting hook — CLOSED 2026-09-09.</td>
+</tr>
+<tr>
+<td>Fixed</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Fixed summary</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Continuation</td>
+<td>Phase 2 — apply the proposed inheritance design in §7 below.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Scope of this document.</strong> This is a <strong>read-only
+inventory</strong>. Per the task that produced it, no existing file in
+this repository was modified and no mutating git command was run. Every
+claim below cites a real path and, where the claim is a quotation, exact
+text. Anything that could not be verified from the checkout is marked
+<strong>unverified</strong> together with what would verify it.</p>
+</blockquote>
+<h2 id="table-of-contents">Table of contents</h2>
+<ul>
+<li><a href="#1-method-and-honesty-contract">1. Method and honesty
+contract</a></li>
+<li><a href="#2-what-the-constitution-submodule-actually-is">2. What the
+constitution submodule actually is</a></li>
+<li><a href="#3-nested-submodules-of-the-constitution">3. Nested
+submodules of the constitution</a></li>
+<li><a href="#4-mandatory-vs-advisory--the-exact-wording">4. Mandatory
+vs advisory — the exact wording</a></li>
+<li><a href="#5-the-prescribed-adoption-mechanism-quoted">5. The
+prescribed adoption mechanism (quoted)</a></li>
+<li><a
+href="#6-agent-instruction-files-across-the-umbrella-and-every-submodule">6.
+Agent instruction files across the umbrella and every submodule</a></li>
+<li><a href="#7-proposed-minimal-inheritance-design">7. Proposed minimal
+inheritance design</a></li>
+<li><a href="#8-gaps-and-violations-ranked-by-severity">8. Gaps and
+violations, ranked by severity</a></li>
+<li><a href="#9-full-mandatory-rule-table">9. Full mandatory-rule
+table</a></li>
+<li><a href="#10-unverified-items">10. Unverified items</a></li>
+</ul>
+<hr />
+<h2 id="method-and-honesty-contract">1. Method and honesty contract</h2>
+<p>Everything in this document was produced by reading files in the
+checkout at <code>&lt;ext-volume-host&gt;/Projects/vasic</code> and
+running <strong>read-only</strong> shell commands (<code>ls</code>,
+<code>cat</code>, <code>sed</code>, <code>grep</code>,
+<code>git ls-files</code>, <code>git grep</code>,
+<code>git submodule status</code>, <code>git tag</code>,
+<code>git remote -v</code>, <code>find</code>). No
+<code>git fetch</code>, <code>pull</code>, <code>checkout</code>,
+<code>commit</code>, <code>push</code>, or <code>submodule update</code>
+was run.</p>
+<p>Three verdict values are used and they mean exactly this:</p>
+<ul>
+<li><strong>Yes</strong> — a concrete artifact in the checkout satisfies
+the rule, and the artifact is named.</li>
+<li><strong>No</strong> — the required artifact is demonstrably absent
+or demonstrably contradicted, and the check that proves it is
+named.</li>
+<li><strong>Unknown — needs verification</strong> — the rule is
+conditional, or checking it requires running the project’s own gates /
+network access, neither of which this pass did. The verifying action is
+stated in <a href="#10-unverified-items">§10</a>.</li>
+</ul>
+<p>Where a verdict is inherited from the pre-existing audit at
+<code>_analysis/constitution-compliance.md</code> (dated 2026-08-05,
+re-verified 2026-08-10), that is stated explicitly rather than
+re-claimed as first-hand.</p>
+<p><strong>Self-referential caveat.</strong> §11.4.65 (Universal
+Markdown export mandate) requires every non-source <code>.md</code> in
+the project to carry synchronized <code>.html</code> and
+<code>.pdf</code> siblings. This document is
+<code>docs/constitution-adoption/INVENTORY.md</code> and therefore falls
+inside that scope. It ships <strong>without</strong> those siblings
+because the task that produced it permitted the creation of exactly one
+file. That is a known, deliberate, disclosed §11.4.65 deviation, not an
+oversight.</p>
+<hr />
+<h2 id="what-the-constitution-submodule-actually-is">2. What the
+constitution submodule actually is</h2>
+<p><strong>It is not empty and it does define enforceable
+rules.</strong> This needs saying up front because the task allowed for
+the opposite finding.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path in this repo</td>
+<td><code>submodules/constitution</code></td>
+</tr>
+<tr>
+<td>Upstream</td>
+<td><code>git@github.com:HelixDevelopment/HelixConstitution.git</code>
+(<code>.gitmodules:3</code>)</td>
+</tr>
+<tr>
+<td>Pinned commit</td>
+<td><code>448981ae3498229c734dc60719f4b19f01d7a75f</code>
+(<code>git ls-files -s</code>)</td>
+</tr>
+<tr>
+<td><code>git describe</code></td>
+<td><code>v1.0.0-51-g448981a</code> — 51 commits <strong>past</strong>
+the only semver tag, i.e. <strong>not pinned to a tag</strong></td>
+</tr>
+<tr>
+<td>Checked out?</td>
+<td>Yes, fully, including all 7 of its own nested submodules</td>
+</tr>
+<tr>
+<td>Canonical rule text</td>
+<td><code>submodules/constitution/Constitution.md</code> — 11,101 lines
+/ 1.53 MB</td>
+</tr>
+</tbody>
+</table>
+<p>Top-level governing documents (each also exported to
+<code>.html</code>, <code>.pdf</code>, <code>.docx</code> per its own
+§11.4.65):</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Lines</th>
+<th>Role (per <code>submodules/constitution/README.md</code> “Contents”
+table)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Constitution.md</code></td>
+<td>11101</td>
+<td>“<strong>The canonical universal constitution.</strong> All clauses
+are project-agnostic.”</td>
+</tr>
+<tr>
+<td><code>CLAUDE.md</code></td>
+<td>2998</td>
+<td>“Universal CLAUDE.md for Claude Code agents. Imports
+<code>Constitution.md</code> by reference.”</td>
+</tr>
+<tr>
+<td><code>AGENTS.md</code></td>
+<td>2738</td>
+<td>“Universal AGENTS.md for every other CLI agent (Codex, Cursor,
+Aider, OpenCode, Crush, Kimi CLI).”</td>
+</tr>
+<tr>
+<td><code>QWEN.md</code></td>
+<td>1089</td>
+<td>“Universal QWEN.md for the Qwen Code CLI agent.”</td>
+</tr>
+<tr>
+<td><code>GEMINI.md</code></td>
+<td>497</td>
+<td>Gemini CLI carrier; made a first-class peer by §11.4.157.</td>
+</tr>
+<tr>
+<td><code>CLAUDE_ANCHORS_FULL.md</code></td>
+<td>790</td>
+<td>Full anchor corpus companion.</td>
+</tr>
+<tr>
+<td><code>submodules-catalogue.md</code></td>
+<td>229</td>
+<td>“Canonical inventory of every owned-by-us repository under
+<code>vasic-digital</code> + <code>HelixDevelopment</code> (142 repos at
+landing time).”</td>
+</tr>
+<tr>
+<td><code>helix-deps.yaml</code></td>
+<td>—</td>
+<td>§11.4.31 machine-readable dependency manifest for the constitution’s
+own 7 deps.</td>
+</tr>
+<tr>
+<td><code>templates/</code></td>
+<td>3 files</td>
+<td><code>AGENTS.project.md.template</code>,
+<code>CLAUDE.project.md.template</code>,
+<code>Constitution.project.md.template</code> — the consumer-side
+scaffolds.</td>
+</tr>
+<tr>
+<td><code>find_constitution.sh</code></td>
+<td>—</td>
+<td>Parent-walk resolver; <strong>already supports the
+<code>submodules/constitution/</code> layout</strong> (see below).</td>
+</tr>
+<tr>
+<td><code>meta_test_inheritance.sh</code></td>
+<td>—</td>
+<td>Mutation meta-test that proves a consumer’s inheritance gate is not
+a bluff gate.</td>
+</tr>
+<tr>
+<td><code>scripts/hooks/guard-forbidden-commands.sh</code></td>
+<td>29,705 B</td>
+<td>The canonical §11.4.109(A) <code>PreToolUse</code> guard. Present,
+executable, <strong>never invoked from this repo</strong>.</td>
+</tr>
+<tr>
+<td><code>scripts/post_update_hook.sh</code></td>
+<td>20,975 B</td>
+<td>The canonical §11.4.164 post-pull hook. Present, <strong>never
+invoked from this repo</strong>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Scale of the rule corpus</strong> (mechanically counted over
+<code>Constitution.md</code>):</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Measure</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Distinct numbered anchors (headings + bold-anchor paragraphs)</td>
+<td><strong>261</strong></td>
+</tr>
+<tr>
+<td>Top-level articles §1–§12</td>
+<td>12</td>
+</tr>
+<tr>
+<td>§11.4.N covenant anchors</td>
+<td>234</td>
+</tr>
+<tr>
+<td>Anchors declaring a <code>CM-COVENANT-114-N-PROPAGATION</code>
+gate</td>
+<td><strong>175</strong></td>
+</tr>
+<tr>
+<td>Occurrences of the token <code>MUST</code></td>
+<td>1,542</td>
+</tr>
+<tr>
+<td>Occurrences of the token <code>SHOULD</code></td>
+<td>15</td>
+</tr>
+<tr>
+<td>Occurrences of “No escape hatch”</td>
+<td>200</td>
+</tr>
+<tr>
+<td>Occurrences of “release blocker”</td>
+<td>176</td>
+</tr>
+</tbody>
+</table>
+<p>The 1,542-to-15 <code>MUST</code>/<code>SHOULD</code> ratio is the
+quantitative answer to “mandatory vs advisory”: this corpus is almost
+entirely mandatory.</p>
+<p><strong>Layout note that matters.</strong>
+<code>submodules/constitution/find_constitution.sh</code> already
+resolves this repository’s layout. Lines 41–46:</p>
+<blockquote>
+<pre><code># Candidate relative locations of the constitution submodule, in
+# priority order. The canonical top-level `constitution/` is kept
+# for backward compatibility; `submodules/constitution/` is the
+# §11.4.28 dependency-layout form (all owned submodules under a
+# root `submodules/` directory, §11.4.29 snake_case).
+local rels=( &quot;constitution&quot; &quot;submodules/constitution&quot; )</code></pre>
+</blockquote>
+<p>So the <em>path</em> is fine. What is missing is everything the path
+was supposed to be wired into.</p>
+<hr />
+<h2 id="nested-submodules-of-the-constitution">3. Nested submodules of
+the constitution</h2>
+<p><code>submodules/constitution/.gitmodules</code> registers 7
+submodules. All 7 are populated. An eighth directory,
+<code>clickup_sync</code>, exists on disk but is <strong>not a git
+submodule</strong> — it has no <code>.git</code> file and no
+<code>.gitmodules</code> entry.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Submodule</th>
+<th>Path</th>
+<th>Purpose (from its own README)</th>
+<th>Own agent files</th>
+<th>Cites the constitution?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>anti_bluff</code></td>
+<td><code>submodules/constitution/submodules/anti_bluff</code></td>
+<td>“mechanical anti-bluff seams for any Helix-constitution project” —
+executable guards that refuse on a real condition; wires a
+status-custody seam into a consumer’s tracker SQLite DB. Design law
+quoted in its README: “<strong>Prose does not bind; seams
+do.</strong>”</td>
+<td>none</td>
+<td>Yes (§11.4.28(C), §11.4.17, §11.4.35, §11.4.6)</td>
+</tr>
+<tr>
+<td><code>continuum</code></td>
+<td><code>.../submodules/continuum</code></td>
+<td>“Continuum — instant-resume continuation engine”. Content-addressed
+multi-stream snapshot store; resume cost
+<code>O(changed streams)</code>. Go stdlib only.</td>
+<td>none</td>
+<td>Yes (§12.10, §11.4.127, §11.4.131, §11.4.207)</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td><code>.../submodules/design-toolkit</code></td>
+<td>“A reusable, license-clean <strong>design-capability layer</strong>
+that combines with <strong>OpenDesign</strong> to produce
+<strong>unique, enterprise-grade, non-repeatable UI/UX</strong>”. Ships
+11 design-specialist agent recipes under <code>agents/</code>. Status:
+“FIRST INCREMENT — review-ready local scaffold.”</td>
+<td>11 recipe <code>.md</code> under <code>agents/</code>, none
+canonical</td>
+<td>Yes (§11.4.162)</td>
+</tr>
+<tr>
+<td><code>docs_chain</code></td>
+<td><code>.../submodules/docs_chain</code></td>
+<td>Universal Go bidirectional document-and-database
+dependency-propagation engine; content-hash change detection with Kahn
+topological ordering and atomic-rename commits. Phases 1–5 implemented;
+6–7 PLANNED.</td>
+<td><code>AGENTS.md</code>, <code>CLAUDE.md</code>,
+<code>QWEN.md</code>, <code>CONSTITUTION.md</code></td>
+<td>Yes (all 5 top-level <code>.md</code>)</td>
+</tr>
+<tr>
+<td><code>helix_perf_cache</code></td>
+<td><code>.../submodules/helix_perf_cache</code></td>
+<td>“A <strong>project-agnostic reusable engine</strong> for LLM
+inference-performance measurement and caching”. Honest two-track framing
+separating local KV-cache reuse from hosted-API prompt caching.</td>
+<td><code>AGENTS.md</code>, <code>CLAUDE.md</code>,
+<code>GEMINI.md</code>, <code>QWEN.md</code></td>
+<td>Yes (all 6 top-level <code>.md</code>)</td>
+</tr>
+<tr>
+<td><code>session_orchestrator</code></td>
+<td><code>.../submodules/session_orchestrator</code></td>
+<td>“A <strong>project-agnostic, fully decoupled</strong> Go engine for
+coordinating a <em>flowing pool</em> of session aliases behind a
+<em>floating orchestrator role</em>”. Same-session failover explicitly
+NOT implemented.</td>
+<td>none</td>
+<td><strong>No</strong> — zero “constitution” matches in its top-level
+<code>.md</code></td>
+</tr>
+<tr>
+<td><code>token_optimizer</code></td>
+<td><code>.../submodules/token_optimizer</code></td>
+<td>“Project-agnostic Go engine that minimizes the token / cost / byte
+footprint of LLM request pipelines”. Only <code>pkg/config</code>
+implemented so far.</td>
+<td>none</td>
+<td><strong>No</strong> — zero “constitution” matches in its top-level
+<code>.md</code></td>
+</tr>
+<tr>
+<td><code>clickup_sync</code></td>
+<td><code>.../submodules/clickup_sync</code></td>
+<td><strong>Not a submodule.</strong> Docs-only directory. Its
+<code>docs/design/DESIGN.md</code> states: “DESIGN ONLY (Phase 0). NO
+implementation code, NO repo creation, NO ClickUp writes, NO main-tree
+source edits exist as a result of this document.”</td>
+<td>none</td>
+<td>Yes, but only under <code>docs/</code></td>
+</tr>
+</tbody>
+</table>
+<p>Pin state
+(<code>git -C submodules/constitution submodule status</code>):
+<code>design-toolkit</code> at <code>v0.2.2-4-g16e4e76</code> and
+<code>docs_chain</code> at <code>helixcode-v1.1.0-9-g9510e01</code> are
+<strong>past</strong> their tags; the other five track
+<code>heads/main</code>.</p>
+<hr />
+<h2 id="mandatory-vs-advisory-the-exact-wording">4. Mandatory vs
+advisory — the exact wording</h2>
+<h3 id="the-blanket-mandatory-declaration">4.1 The blanket mandatory
+declaration</h3>
+<p><code>submodules/constitution/Constitution.md:124-127</code>:</p>
+<blockquote>
+<p><strong>This document defines mandatory, non-negotiable rules for
+every project that includes this constitution submodule. Every AI agent
+and every human contributor MUST comply. Violations are
+blockers.</strong></p>
+</blockquote>
+<p><code>Constitution.md:129-132</code>:</p>
+<blockquote>
+<p>Project-specific constitutions extend this document. When a project
+Constitution (e.g. <code>docs/guides/PROJECT_CONSTITUTION.md</code>) and
+this universal Constitution differ, the project Constitution may extend
+or tighten — but NEVER weaken — the universal rules below.</p>
+</blockquote>
+<h3 id="the-per-anchor-mandatory-formula">4.2 The per-anchor mandatory
+formula</h3>
+<p>175 of the 234 §11.4.N anchors close with a three-part formula.
+Representative instance, <code>Constitution.md:9569-9573</code>
+(§11.4.157):</p>
+<blockquote>
+<p><strong>Canonical authority:</strong> constitution submodule <a
+href="Constitution.md"><code>Constitution.md</code></a> §11.4.157.</p>
+<p>Non-compliance is a release blocker regardless of context. No escape
+hatch — no <code>--skip-gemini-md</code>,
+<code>--gemini-optional</code>, <code>--gemini-lag-OK</code>,
+<code>--four-carrier-suffices</code> flag.</p>
+</blockquote>
+<p>The same formula appears 176 times (“release blocker”) and 200 times
+(“No escape hatch”). Each also names its enforcement gate, e.g. the same
+clause:</p>
+<blockquote>
+<p>Propagation gate <code>CM-COVENANT-114-157-PROPAGATION</code>
+(literal <code>11.4.157</code> across the consumer fleet, GEMINI.md
+INCLUDED)</p>
+</blockquote>
+<h3 id="the-single-most-important-rule">4.3 The single most important
+rule</h3>
+<p><code>Constitution.md:163-164</code> (§1.1):</p>
+<blockquote>
+<p>This is the <strong>single most important rule in this
+Constitution.</strong> Every subsequent §11.4.x clause is downstream of
+it.</p>
+</blockquote>
+<p>Referring to (<code>Constitution.md:147-160</code>) mutation-paired
+gates: a gate that cannot be made to FAIL by breaking its assertion “is
+a sham and must be rewritten.”</p>
+<h3 id="what-is-genuinely-advisory">4.4 What is genuinely advisory</h3>
+<p>Only 15 <code>SHOULD</code> tokens exist. The load-bearing advisory
+items relevant here:</p>
+<ul>
+<li><strong>Tag pinning is recommended, not mandatory.</strong>
+<code>submodules/constitution/README.md</code> (“How to consume” → step
+1): “<code># Pin to a tag for reproducibility (recommended)</code>”. So
+this repo’s <code>v1.0.0-51-g448981a</code> floating pin is <em>not</em>
+a violation.</li>
+<li><strong>Multi-upstream for the consumer is SHOULD.</strong>
+<code>Constitution.md:196-198</code>: “Consuming projects SHOULD do the
+same for their own multi-remote topology.” (For the constitution
+submodule itself it is MUST — §2.1 / Appendix C.)</li>
+<li><strong>Parent-walk helper is SHOULD.</strong> Appendix B,
+<code>Constitution.md:10230-10238</code>: “every project SHOULD provide
+a helper that walks up parents until it finds
+<code>constitution/Constitution.md</code>”.</li>
+<li><strong>Changelog export script is SHOULD.</strong>
+<code>Constitution.md:243-245</code>: “The project SHOULD provide a
+script (<code>scripts/testing/export_changelog.sh &lt;tag&gt;</code> or
+equivalent)”. The changelog <em>entries</em> themselves are MUST
+(§5).</li>
+<li><strong><code>CM-CANONICAL-ROOT-CLARITY</code> is “recommended, per
+consuming project”</strong> (<code>Constitution.md:2933</code>) — the
+gate is recommended; the underlying §11.4.35 inheritance-pointer
+requirement it checks is MUST.</li>
+</ul>
+<p>Some clauses are <strong>conditionally applicable</strong> rather
+than advisory — e.g. §11.4.47 (Firebase data review), §11.4.51
+(Live-ADB-First), §11.4.128 (device recording) presuppose an
+Android/device product. §11.4.169 explicitly contemplates this by
+requiring a <em>justified</em> N/A per required test type. The
+pre-existing audit at <code>_analysis/constitution-compliance.md</code>
+uses an “Applies?” column for exactly this reason.</p>
+<hr />
+<h2 id="the-prescribed-adoption-mechanism-quoted">5. The prescribed
+adoption mechanism (quoted)</h2>
+<p><strong>The constitution DOES prescribe an adoption
+mechanism.</strong> It is not invented here. It has five parts.</p>
+<h3
+id="part-1-add-the-submodule-submodulesconstitutionreadme.md-how-to-consume-1">5.1
+Part 1 — add the submodule
+(<code>submodules/constitution/README.md</code>, “How to consume”
+§1)</h3>
+<blockquote>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule add git@github.com:HelixDevelopment/HelixConstitution.git constitution</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Pin to a tag for reproducibility (recommended)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> constitution</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout v1.0.0          <span class="co"># whatever the current stable tag is</span></span></code></pre></div>
+</blockquote>
+<p><strong>Status in this repo: DONE</strong> (at
+<code>submodules/constitution</code> rather than
+<code>constitution</code>, which <code>find_constitution.sh</code>
+explicitly supports).</p>
+<h3
+id="part-2-wire-the-inheritance-submodulesconstitutionreadme.md-how-to-consume-2">5.2
+Part 2 — wire the inheritance
+(<code>submodules/constitution/README.md</code>, “How to consume”
+§2)</h3>
+<blockquote>
+<p>Add a clearly-marked pointer at the top of your project’s root
+<code>CLAUDE.md</code>:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">## INHERITED FROM constitution/CLAUDE.md</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>All rules in <span class="in">`constitution/CLAUDE.md`</span> (and the <span class="in">`constitution/Constitution.md`</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>it references) apply unconditionally. Project-specific rules below</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>extend them.</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>@constitution/CLAUDE.md</span></code></pre></div>
+<p>Same for <code>AGENTS.md</code> (any AI-agent tooling) and (since
+2026-05-20) <code>QWEN.md</code> for Qwen Code:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Base agent rules: </span><span class="in">`constitution/AGENTS.md`</span><span class="at"> — READ IT FIRST.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; The base file is authoritative for any topic not covered here.</span></span></code></pre></div>
+<p>And for your project Constitution:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>This constitution **extends** the Helix Universal Constitution at</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="in">`constitution/Constitution.md`</span>. All clauses there apply unless</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>explicitly overridden below with an explicit <span class="in">`Override §X.Y`</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>section.</span></code></pre></div>
+</blockquote>
+<p>The normative form of the same requirement is §11.4.35 invariant 6,
+<code>Constitution.md:2919-2925</code>:</p>
+<blockquote>
+<ol start="6" type="1">
+<li><strong><code>@constitution/CLAUDE.md</code> import
+(Claude-Code-style) and the pointer-block fallback
+(Aider/Codex/Gemini-style) are equivalent.</strong> The consumer’s
+CLAUDE.md MUST start with one of:
+<ul>
+<li>The native import: <code>@constitution/CLAUDE.md</code></li>
+<li>The portable pointer-block per the
+<code>## INHERITED FROM constitution/CLAUDE.md</code> heading defined in
+<code>constitution/CLAUDE.md</code> “How inheritance works”.</li>
+</ul></li>
+</ol>
+</blockquote>
+<p>And the canonical-root definition,
+<code>Constitution.md:2861-2874</code>:</p>
+<blockquote>
+<p>The three files in <strong>this constitution submodule</strong>
+(<code>constitution/Constitution.md</code>,
+<code>constitution/CLAUDE.md</code>,
+<code>constitution/AGENTS.md</code>) are the <strong>canonical
+root</strong> — also called the <strong>parent</strong> files. […] The
+three files in <strong>the consuming project’s repository root</strong>
+(<code>&lt;project-root&gt;/CLAUDE.md</code>,
+<code>&lt;project-root&gt;/AGENTS.md</code>, optionally
+<code>&lt;project-root&gt;/Constitution.md</code> or equivalent) are the
+<strong>consumer extensions</strong>. They MUST start with the
+inheritance pointer […]</p>
+</blockquote>
+<p>§11.4.157 (<code>Constitution.md:9564</code>) widens the carrier set
+from three to five:</p>
+<blockquote>
+<p>Every governance addition or edit MUST land in ALL FIVE carriers in
+lockstep: the canonical <code>Constitution.md</code> PLUS each per-agent
+mirror <code>CLAUDE.md</code> + <code>AGENTS.md</code> +
+<code>QWEN.md</code> + <code>GEMINI.md</code></p>
+</blockquote>
+<p><strong>Status in this repo: NOT DONE.</strong> See <a
+href="#6-agent-instruction-files-across-the-umbrella-and-every-submodule">§6</a>.</p>
+<h3 id="part-3-templates-to-instantiate">5.3 Part 3 — templates to
+instantiate</h3>
+<p>The submodule ships the exact consumer-side scaffolds:</p>
+<ul>
+<li><code>submodules/constitution/templates/CLAUDE.project.md.template</code>
+— opens with <code>## INHERITED FROM constitution/CLAUDE.md</code>, the
+“constitution wins” sentence, and the bare
+<code>@constitution/CLAUDE.md</code> import line.</li>
+<li><code>submodules/constitution/templates/AGENTS.project.md.template</code>
+— opens with the
+<code>&gt; Base agent rules live at constitution/AGENTS.md … **READ THOSE FIRST.**</code>
+blockquote, then a “Critical base rules restated (for agents that don’t
+follow <span class="citation" data-cites="imports">@imports</span>)”
+list of 9 items.</li>
+<li><code>submodules/constitution/templates/Constitution.project.md.template</code>
+— the “extends the Helix Universal Constitution” opener, plus
+<code>## Owned-submodule set</code> and
+<code>## Project-specific remotes</code> sections required by §4 and
+§2.1.</li>
+</ul>
+<p>There is <strong>no</strong> <code>QWEN.project.md.template</code> or
+<code>GEMINI.project.md.template</code> despite §11.4.157 mandating
+five-carrier lockstep. That is a gap in the constitution submodule
+itself (recorded as G7b in <a
+href="#8-gaps-and-violations-ranked-by-severity">§8</a>).</p>
+<h3
+id="part-4-verify-with-an-automated-test-submodulesconstitutionreadme.md-how-to-consume-4">5.4
+Part 4 — verify with an automated test
+(<code>submodules/constitution/README.md</code>, “How to consume”
+§4)</h3>
+<blockquote>
+<p>Every consuming project should ship a test that verifies the
+constitution submodule is present, at the expected pinned revision, and
+that the project’s CLAUDE.md / AGENTS.md / QWEN.md / Constitution all
+reference the submodule. See:</p>
+<ul>
+<li>The ATMOSphere project’s
+<code>test_constitution_inheritance.sh</code> for the reference
+implementation pattern.</li>
+<li>The Herald project’s
+<code>tests/test_constitution_inheritance.sh</code> + paired
+<code>tests/test_i6_refinement_meta.sh</code> […]</li>
+<li>The Herald <code>scripts/audit_antibluff.sh</code> for the canonical
+anti-bluff audit pattern […]</li>
+</ul>
+</blockquote>
+<p>That gate must itself be mutation-proven by
+<code>submodules/constitution/meta_test_inheritance.sh</code>, whose
+in-source header states its contract:</p>
+<blockquote>
+<pre><code># Pattern (mutation testing — Constitution §1.1):
+#   1. Take a snapshot of Constitution.md.
+#   2. Mutate: delete the §11.4 anchor block.
+#   3. Run the consuming project&#39;s inheritance gate.
+#   4. Assert the gate now reports FAIL.
+#   5. Restore.</code></pre>
+</blockquote>
+<p><strong>Status in this repo: NOT DONE.</strong> No
+<code>test_constitution_inheritance.sh</code> exists under
+<code>tests/</code>, <code>scripts/</code>, or <code>_tests/</code>;
+<code>git grep meta_test_inheritance</code> returns no hit outside the
+submodule itself.</p>
+<h3 id="part-5-the-post-pull-transaction-11.4.164-11.4.32">5.5 Part 5 —
+the post-pull transaction (§11.4.164 + §11.4.32)</h3>
+<p>§11.4.164, <code>Constitution.md:9743</code>:</p>
+<blockquote>
+<p>The canonical hook script lives at
+<code>constitution/scripts/post_update_hook.sh</code> and is inherited
+by reference (§11.4.28) — NEVER copied locally.</p>
+</blockquote>
+<p>and its consumer obligation:</p>
+<blockquote>
+<p>Every project that fetches/pulls the constitution submodule MUST
+invoke the post-update hook after the fetch completes. […] A project
+that pulls the constitution and does NOT invoke the hook is
+non-compliant</p>
+</blockquote>
+<p>§11.4.32, <code>Constitution.md:2044-2050</code>:</p>
+<blockquote>
+<p><strong>Validation sweep contract.</strong> The sweep is implemented
+as <code>scripts/verify-all-constitution-rules.sh</code> (canonical
+name) which: 1. Re-runs the existing governance-cascade verifier
+(<code>scripts/    verify-governance-cascade.sh</code>) covering every
+§11.9 + CONST-* anchor across every owned submodule (recursive per
+CONST-047).</p>
+</blockquote>
+<p>and, <code>Constitution.md:2085-2090</code>:</p>
+<blockquote>
+<p><strong>Composition.</strong> §11.4.32 is the <strong>enforcement
+engine</strong> for every other §11.4.x and CONST-NNN rule. Without it,
+new rules cascade as anchors but never get enforced in the codebase.</p>
+</blockquote>
+<p><strong>Status in this repo: NOT DONE.</strong> Neither script
+exists.</p>
+<h3 id="summary-answer">5.6 Summary answer</h3>
+<blockquote>
+<p><strong>The constitution prescribes a concrete, named, five-part
+adoption mechanism. Nothing needs to be invented. Of the five parts,
+exactly one (adding the submodule) is done in this repository; the other
+four are entirely unwired.</strong></p>
+</blockquote>
+<hr />
+<h2
+id="agent-instruction-files-across-the-umbrella-and-every-submodule">6.
+Agent instruction files across the umbrella and every submodule</h2>
+<p>Enumerated with <code>ls -a</code>, <code>git ls-files</code>, and
+<code>find . -maxdepth 3</code> for <code>AGENTS.md</code>,
+<code>CLAUDE.md</code>, <code>QWEN.md</code>, <code>GEMINI.md</code>,
+<code>AGENT.md</code>, <code>Constitution.md</code>,
+<code>CONSTITUTION.md</code>, <code>CONVENTIONS.md</code>,
+<code>.cursorrules</code>, <code>.clinerules</code>,
+<code>.windsurfrules</code>.</p>
+<h3 id="umbrella-root-the-headline-finding">6.1 Umbrella root — the
+headline finding</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Expected file</th>
+<th>Consumed by</th>
+<th>Present?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CLAUDE.md</code></td>
+<td>Claude Code</td>
+<td><strong>ABSENT</strong></td>
+</tr>
+<tr>
+<td><code>AGENTS.md</code></td>
+<td>Codex, Cursor, Aider, OpenCode, Crush, Kimi CLI</td>
+<td><strong>ABSENT</strong></td>
+</tr>
+<tr>
+<td><code>QWEN.md</code></td>
+<td>Qwen Code</td>
+<td><strong>ABSENT</strong></td>
+</tr>
+<tr>
+<td><code>GEMINI.md</code></td>
+<td>Gemini CLI</td>
+<td><strong>ABSENT</strong></td>
+</tr>
+<tr>
+<td><code>Constitution.md</code></td>
+<td>humans + all agents</td>
+<td><strong>ABSENT</strong></td>
+</tr>
+<tr>
+<td><code>.cursorrules</code></td>
+<td>Cursor (legacy)</td>
+<td><strong>ABSENT</strong></td>
+</tr>
+<tr>
+<td><code>CONTINUATION.md</code> (§12.10)</td>
+<td>all agents</td>
+<td><strong>ABSENT</strong></td>
+</tr>
+<tr>
+<td><code>helix-deps.yaml</code> (§11.4.31)</td>
+<td>consumer tooling</td>
+<td><strong>ABSENT</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The only Markdown file at the repository root is
+<code>README.md</code>, and it does not mention the constitution.</p>
+<p><code>README.md:41-44</code> goes further and states affirmatively
+that the constitution is <em>not</em> consumed by anything:</p>
+<blockquote>
+<p>It is excluded from the Jekyll build anyway, and the other submodules
+(constitution/, design-toolkit/) are not read by any gate — so only
+these two are fetched.</p>
+</blockquote>
+<p><code>README.md:35-36</code> also instructs a fresh clone
+<strong>not</strong> to initialize it:</p>
+<blockquote>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule update <span class="at">--init</span> vasic.digital milosvasic.ru</span></code></pre></div>
+</blockquote>
+<p><code>_analysis/OPENDESIGN-ADOPTION-PLAN.md:79</code> records the
+same state as a known open item:</p>
+<blockquote>
+<p><strong>Wire the constitution as a submodule</strong> of the
+<code>vasic</code> umbrella (<code>submodules/constitution</code> or
+<code>constitution/</code>) so <code>find_constitution.sh</code>
+resolves and the gates actually apply here (today it governs by
+reference only, NOT checked out).</p>
+</blockquote>
+<p>That note is now half-stale — the submodule <em>is</em> checked out
+and mapped in <code>.gitmodules</code> — but its substantive claim
+(“governs by reference only”) remains accurate: nothing reads it.</p>
+<h3
+id="every-agent-instruction-file-that-exists-anywhere-in-the-tree">6.2
+Every agent instruction file that exists anywhere in the tree</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Path</th>
+<th>Consumed by</th>
+<th>Inherits the constitution?</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>submodules/constitution/CLAUDE.md</code></td>
+<td>Claude Code</td>
+<td><strong>N/A — it IS the canonical root</strong></td>
+<td>§11.4.35: “The three files in <strong>this constitution
+submodule</strong> … are the <strong>canonical root</strong>”
+(<code>Constitution.md:2861</code>)</td>
+</tr>
+<tr>
+<td><code>submodules/constitution/AGENTS.md</code></td>
+<td>all other CLI agents</td>
+<td>N/A — canonical root</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>submodules/constitution/QWEN.md</code></td>
+<td>Qwen Code</td>
+<td>N/A — canonical root</td>
+<td><code>QWEN.md:34</code> “The <strong>authoritative source</strong>
+is <code>Constitution.md</code> in this repository.”</td>
+</tr>
+<tr>
+<td><code>submodules/constitution/GEMINI.md</code></td>
+<td>Gemini CLI</td>
+<td>N/A — canonical root</td>
+<td><code>GEMINI.md:19-26</code> “these ARE the canonical root per
+§11.4.35, NOT consumer extensions”</td>
+</tr>
+<tr>
+<td><code>submodules/constitution/Constitution.md</code></td>
+<td>humans + all agents</td>
+<td>N/A — canonical root</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>vasic.digital/QWEN.md</code></td>
+<td>Qwen Code</td>
+<td><strong>No</strong></td>
+<td><code>grep -in constitution vasic.digital/QWEN.md</code> → <strong>0
+hits</strong>. 55 lines describing the <code>commit</code> script and
+<code>Upstreams/GitHub.sh</code>.</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru/Upstreamable/AGENTS.md</code></td>
+<td>Codex/Cursor/etc.</td>
+<td><strong>Yes — pointer form</strong></td>
+<td>Lines 3-8: “&gt; <strong>Base agent rules:</strong> when this module
+is consumed inside a project that includes the Helix Constitution
+submodule, the file <code>constitution/AGENTS.md</code> is authoritative
+for any topic not covered here. Locate it from any nested depth using
+the constitution’s <code>find_constitution.sh</code> helper.”</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru/Upstreamable/CLAUDE.md</code></td>
+<td>Claude Code</td>
+<td><strong>Yes — pointer form</strong></td>
+<td>Line 6 heading <code>## Helix Constitution inheritance</code>; lines
+9-13 reference <code>constitution/CLAUDE.md</code>,
+<code>constitution/Constitution.md</code>,
+<code>find_constitution.sh</code>.</td>
+</tr>
+<tr>
+<td><code>submodules/constitution/submodules/docs_chain/{AGENTS,CLAUDE,QWEN}.md</code>
++ <code>CONSTITUTION.md</code></td>
+<td>respective agents</td>
+<td><strong>Yes</strong></td>
+<td>All five of its top-level <code>.md</code> match “constitution”;
+README states it “is consumed as a core part of the HelixConstitution
+submodule”.</td>
+</tr>
+<tr>
+<td><code>submodules/constitution/submodules/helix_perf_cache/{AGENTS,CLAUDE,GEMINI,QWEN}.md</code></td>
+<td>respective agents</td>
+<td><strong>Yes</strong></td>
+<td>All six top-level <code>.md</code> match; cites
+<code>constitution/submodules/helix_perf_cache/</code>, §11.4.28(C),
+§11.4.112. Sizes 5,417–5,430 B — the same content mirrored per
+vendor.</td>
+</tr>
+<tr>
+<td><code>.specify/memory/constitution.md</code></td>
+<td>spec-kit <code>/speckit.constitution</code></td>
+<td><strong>No — unrelated artifact</strong></td>
+<td>It is the <strong>unfilled spec-kit template</strong>: line 1 is
+<code># [PROJECT_NAME] Constitution</code>, body is
+<code>[PRINCIPLE_1_NAME]</code> placeholders. Nothing to do with
+HelixConstitution.</td>
+</tr>
+<tr>
+<td><code>.specify/extensions/superspec/examples/static-landing-page/CLAUDE.md</code></td>
+<td>example fixture</td>
+<td>No</td>
+<td>Vendored example inside a third-party submodule.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="submodules-with-no-agent-instruction-file-at-all">6.3 Submodules
+with no agent instruction file at all</h3>
+<p><code>ai_interviewing/</code>, <code>monetization/</code>,
+<code>design-toolkit/</code> (umbrella copy),
+<code>submodules/superspec/</code>, and the constitution’s
+<code>anti_bluff</code>, <code>continuum</code>,
+<code>session_orchestrator</code>, <code>token_optimizer</code>.</p>
+<p>Note that <code>session_orchestrator</code> and
+<code>token_optimizer</code> contain <strong>zero</strong> references to
+the constitution in any top-level <code>.md</code> — they are the only
+two engines in the constitution’s own dependency set that do not
+acknowledge it.</p>
+<h3 id="the-mechanical-consequence">6.4 The mechanical consequence</h3>
+<p>§11.4.35 invariant 5 (<code>Constitution.md:2913-2918</code>) defines
+what the propagation gates check:</p>
+<blockquote>
+<p>The existing <code>CM-COVENANT-114-N-PROPAGATION</code> gate family
+verifies that anchor TEXT for §11.4.N exists in EVERY
+<code>CLAUDE.md</code> and <code>AGENTS.md</code> across the
+project.</p>
+</blockquote>
+<p>There are <strong>175</strong> such gates. The umbrella has
+<strong>zero</strong> <code>CLAUDE.md</code> and <strong>zero</strong>
+<code>AGENTS.md</code>. Therefore <strong>all 175 propagation gates fail
+by construction</strong> — not as a judgement call, but as an arithmetic
+fact. <code>git grep</code> for the literal <code>11.4.&lt;N&gt;</code>
+across umbrella-owned files finds 62 distinct anchors mentioned, all of
+them inside <code>_analysis/</code>, <code>_tests/</code>,
+<code>README.md</code>, <code>.github/workflows/ci.yml</code> and
+<code>.gitignore</code> — <strong>none</strong> inside an agent context
+carrier, because none exists.</p>
+<hr />
+<h2 id="proposed-minimal-inheritance-design">7. Proposed minimal
+inheritance design</h2>
+<p>Design principles, in priority order:</p>
+<ol type="1">
+<li><strong>Reference, never copy.</strong> §11.4.164 states the rule
+for hook scripts verbatim — “inherited by reference (§11.4.28) — NEVER
+copied locally” (<code>Constitution.md:9743</code>) — and §11.4.35
+invariant 7 forbids re-authoring an anchor in the wrong layer: “AI
+agents MUST NOT silently re-author a §11.4.X anchor in the wrong layer
+and call it propagation.” A 1.5 MB copy of <code>Constitution.md</code>
+into the umbrella would diverge on the next upstream commit and would
+itself become a §11.4.35 violation.</li>
+<li><strong>Path-correct.</strong> Every template and every quoted
+snippet says <code>constitution/…</code>. In this repo the real path is
+<code>submodules/constitution/…</code>. Every pointer written must use
+the real path, or the <code>@import</code> silently resolves to nothing.
+This is the single highest-risk detail in the whole change.</li>
+<li><strong>Five carriers, not three.</strong> §11.4.157(A) requires
+CLAUDE + AGENTS + QWEN + GEMINI + Constitution in lockstep.</li>
+<li><strong>Additive only.</strong> No existing file’s meaning changes;
+<code>README.md</code> gains links, <code>.claude/settings.json</code>
+gains a hook.</li>
+</ol>
+<h3 id="new-files-at-the-umbrella-root-5">7.1 New files at the umbrella
+root (5)</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Content</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CLAUDE.md</code></td>
+<td>Instantiate
+<code>submodules/constitution/templates/CLAUDE.project.md.template</code>,
+replacing every <code>constitution/</code> with
+<code>submodules/constitution/</code>. Its first content line must be
+the <code>## INHERITED FROM submodules/constitution/CLAUDE.md</code>
+heading; the import line <code>@submodules/constitution/CLAUDE.md</code>
+follows.</td>
+<td>§11.4.35 inv. 6</td>
+</tr>
+<tr>
+<td><code>AGENTS.md</code></td>
+<td>Instantiate <code>AGENTS.project.md.template</code>, path-corrected.
+Keeps the template’s “Critical base rules restated” block verbatim —
+that block is the constitution’s own prescribed restatement for agents
+that ignore <code>@imports</code>, so reproducing it is sanctioned, not
+duplication.</td>
+<td>README “How to consume” §2</td>
+</tr>
+<tr>
+<td><code>QWEN.md</code></td>
+<td>No template ships. Use the AGENTS.md pointer form, which
+<code>submodules/constitution/README.md</code> explicitly prescribes for
+QWEN:
+<code>&gt; Base agent rules: submodules/constitution/QWEN.md — READ IT FIRST.</code>
+plus the same restated-rules block.</td>
+<td>README “How to consume” §2 + §11.4.157</td>
+</tr>
+<tr>
+<td><code>GEMINI.md</code></td>
+<td>No template ships. Use the pointer block that
+<code>submodules/constitution/GEMINI.md:31-38</code> itself prescribes
+for consumers: <code>## INHERITED FROM constitution/GEMINI.md</code> →
+path-corrected.</td>
+<td>§11.4.157(A)</td>
+</tr>
+<tr>
+<td><code>Constitution.md</code></td>
+<td>Instantiate <code>Constitution.project.md.template</code>,
+path-corrected. Must populate <code>## Owned-submodule set</code> with
+the six owned gitlinks (<code>milosvasic.ru</code>,
+<code>vasic.digital</code>, <code>design-toolkit</code>,
+<code>ai_interviewing</code>, <code>monetization</code>,
+<code>submodules/constitution</code>) and mark
+<code>submodules/superspec</code> third-party (upstream
+<code>git@github.com:WangX0111/superspec.git</code>, outside every
+operator-listed org).</td>
+<td>§4 + §11.4.28</td>
+</tr>
+</tbody>
+</table>
+<p>Each of the five is a pointer plus a project-specific delta. None
+restates the 234 anchors. Total added text should be on the order of
+150–300 lines, not 15,000.</p>
+<h3 id="the-exact-pointer-block">7.2 The exact pointer block</h3>
+<p>For <code>CLAUDE.md</code>, the first lines of the file:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># vasic — CLAUDE.md</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## INHERITED FROM submodules/constitution/CLAUDE.md</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>All rules in <span class="in">`submodules/constitution/CLAUDE.md`</span> and the</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="in">`submodules/constitution/Constitution.md`</span> it references apply unconditionally</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>to this project. Project-specific rules below extend them — they do NOT weaken</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>or override any universal clause.</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>When this file disagrees with the constitution submodule, the constitution wins.</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>@submodules/constitution/CLAUDE.md</span></code></pre></div>
+<p>For <code>AGENTS.md</code> / <code>QWEN.md</code> /
+<code>GEMINI.md</code>, the portable blockquote form, since those
+runtimes do not all honour <code>@import</code>:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Base agent rules: </span><span class="in">`submodules/constitution/AGENTS.md`</span><span class="at"> — READ IT FIRST.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; The base file is authoritative for any topic not covered here.</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Locate it from any nested depth with </span><span class="in">`submodules/constitution/find_constitution.sh`</span><span class="at">.</span></span></code></pre></div>
+<h3 id="propagation-to-submodules">7.3 Propagation to submodules</h3>
+<p>Per §11.4.28(B) an owned submodule “MUST remain <strong>fully
+decoupled</strong> from any specific consuming project” and be
+“<strong>Project-not-aware</strong>”
+(<code>Constitution.md:2411-2418</code>). So the submodule-side pointer
+must be the <strong>conditional</strong> form already proven in this
+repo at <code>milosvasic.ru/Upstreamable/AGENTS.md:3-12</code> — which
+names no consuming project and degrades gracefully:</p>
+<blockquote>
+<p>When this module is consumed standalone (no constitution submodule
+reachable in any parent), only the module-local notes below apply.</p>
+</blockquote>
+<p>That existing file is the reference implementation for the
+propagation work. Targets that need it, in dependency order:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Target</th>
+<th>Needs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vasic.digital/</code></td>
+<td><code>CLAUDE.md</code>, <code>AGENTS.md</code>,
+<code>GEMINI.md</code> created; existing <code>QWEN.md</code> gains the
+pointer block above its current content</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru/</code> (root)</td>
+<td>all four carriers — only <code>Upstreamable/</code> currently has
+any</td>
+</tr>
+<tr>
+<td><code>design-toolkit/</code></td>
+<td>all four carriers</td>
+</tr>
+<tr>
+<td><code>ai_interviewing/</code></td>
+<td>all four carriers</td>
+</tr>
+<tr>
+<td><code>monetization/</code></td>
+<td>all four carriers</td>
+</tr>
+<tr>
+<td><code>submodules/constitution/submodules/session_orchestrator</code></td>
+<td>all four carriers (currently zero constitution awareness)</td>
+</tr>
+<tr>
+<td><code>submodules/constitution/submodules/token_optimizer</code></td>
+<td>all four carriers (currently zero constitution awareness)</td>
+</tr>
+<tr>
+<td><code>submodules/constitution/submodules/{anti_bluff,continuum,design-toolkit}</code></td>
+<td>carriers absent though READMEs cite the constitution</td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code></td>
+<td><strong>none</strong> — third-party, excluded per §4</td>
+</tr>
+</tbody>
+</table>
+<p>Ordering matters: §3 (<code>Constitution.md:203-215</code>) requires
+the submodule commit and push to land <strong>before</strong> the parent
+captures the pointer.</p>
+<h3
+id="enforcement-wiring-without-which-the-pointers-are-decoration">7.4
+Enforcement wiring (without which the pointers are decoration)</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Artifact</th>
+<th>Purpose</th>
+<th>Mandated by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scripts/verify-governance-cascade.sh</code></td>
+<td>Assert each of the 5 carriers exists, opens with the pointer, and
+that every owned submodule carries one.</td>
+<td>§11.4.32 step 1</td>
+</tr>
+<tr>
+<td><code>scripts/verify-all-constitution-rules.sh</code></td>
+<td>The canonical post-pull sweep that calls the above plus each
+implementable gate.</td>
+<td>§11.4.32 (canonical name given verbatim)</td>
+</tr>
+<tr>
+<td><code>tests/test_constitution_inheritance.sh</code></td>
+<td>The presence/revision/reference gate.</td>
+<td>README “How to consume” §4</td>
+</tr>
+<tr>
+<td>A meta-test calling
+<code>bash submodules/constitution/meta_test_inheritance.sh 'bash tests/test_constitution_inheritance.sh'</code></td>
+<td>Proves the gate above is not a bluff gate.</td>
+<td>§1.1 + <code>meta_test_inheritance.sh</code> usage header</td>
+</tr>
+<tr>
+<td><code>PreToolUse</code> hook in <code>.claude/settings.json</code> →
+<code>submodules/constitution/scripts/hooks/guard-forbidden-commands.sh</code></td>
+<td>Blocks force-push / sudo / host-power at the tool-call boundary.
+Reference the submodule path; do not copy.</td>
+<td>§11.4.109(A)</td>
+</tr>
+<tr>
+<td><code>docs/AGENT_GUARDRAILS.md</code></td>
+<td>The subagent constitutional preamble the orchestrator pastes into
+every dispatch.</td>
+<td>§11.4.109(B)</td>
+</tr>
+<tr>
+<td>A post-pull invocation of
+<code>submodules/constitution/scripts/post_update_hook.sh</code></td>
+<td>Completes the governance-update transaction.</td>
+<td>§11.4.164</td>
+</tr>
+<tr>
+<td><code>helix-deps.yaml</code> at the umbrella root</td>
+<td>Declares the umbrella’s own six owned deps. Model it on
+<code>submodules/constitution/helix-deps.yaml</code>.</td>
+<td>§11.4.31</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-referencing-beats-copying-stated-plainly">7.5 Why
+referencing beats copying — stated plainly</h3>
+<ul>
+<li>A copy of <code>Constitution.md</code> is 1.53 MB and 11,101 lines.
+It would be stale the moment upstream lands anchor §11.4.239.</li>
+<li>§11.4.35 invariant 7 names the failure mode: “duplicates silently
+diverge over time”, and the prescribed remedy for a misfiled rule is
+<code>git mv</code> + commit, explicitly <em>not</em> “leave both copies
+in place to be safe”.</li>
+<li>The <code>@import</code> / pointer-block pair is the constitution’s
+own answer to the only real objection (agents that do not resolve
+imports), and §11.4.35 invariant 6 declares the two forms
+<strong>equivalent</strong>.</li>
+<li>The restated-rules block in <code>AGENTS.project.md.template</code>
+is a deliberate, bounded 9-item safety net authored by the constitution
+itself — using it is following the mechanism, not duplicating the
+corpus.</li>
+</ul>
+<hr />
+<h2 id="gaps-and-violations-ranked-by-severity">8. Gaps and violations,
+ranked by severity</h2>
+<p>Severity uses the constitution’s own vocabulary: a “release blocker”
+clause violated is CRITICAL.</p>
+<h3 id="current-status-ledger-read-this-before-the-g-headings-below">8.0
+Current status ledger — READ THIS BEFORE THE G-HEADINGS BELOW</h3>
+<blockquote>
+<p><strong>The G-headings in §8.1 onward are the ORIGINAL 2026-08-26
+discovery evidence and are deliberately NOT rewritten as gaps
+move.</strong> That is what makes this document a forensic record: it
+preserves what was actually observed on the day, including the
+observations that later turned out to be wrong. Several of them are now
+stale by design.</p>
+<p><strong>Never quote a G-heading below as a current status.</strong>
+Use the ledger in this subsection, and treat even it as dated — the
+authority is the <code>- G&lt;n&gt; — &lt;STATUS&gt;</code> lines in the
+four root carriers, which <code>scripts/continuation-check.sh</code> C4
+holds in agreement with <code>CONTINUATION.md</code> §4 mechanically on
+every run. This ledger is not machine-compared to those; if it disagrees
+with them, <strong>this ledger is the defect</strong>.</p>
+</blockquote>
+<p>Reconciled against the carriers and re-measured on
+<strong>2026-09-01</strong>:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gap</th>
+<th>Status now</th>
+<th>Measured how</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1</td>
+<td><strong>CLOSED</strong></td>
+<td>Four root carriers exist (<code>CLAUDE.md</code>,
+<code>AGENTS.md</code>, <code>QWEN.md</code>, <code>GEMINI.md</code>),
+520 lines each, sharing the line-24-to-EOF digest
+<code>a1f3a936e0ff6817…</code>.</td>
+</tr>
+<tr>
+<td>G2</td>
+<td><strong>CLOSED</strong></td>
+<td>All four plus root <code>Constitution.md</code> open with
+<code>## INHERITED FROM</code>; cascade C5 ROOT-CARRIERS PASS.</td>
+</tr>
+<tr>
+<td>G3</td>
+<td><strong>CLOSED</strong></td>
+<td>Cascade step 1 exits 0 at 12 PASS / 0 FAIL / 0 ENV / 7 NOTE, with a
+<code>--prove-failure</code> paired mutation. Closes the sweep CONTRACT,
+not the sweep’s verdict — see G-note below.</td>
+</tr>
+<tr>
+<td>G4</td>
+<td><strong>PARTIAL, and will not reach CLOSED from inside this
+tree</strong></td>
+<td>Umbrella root complies
+(<code>.github/workflows/ci.yml.disabled</code>, local pre-push hook).
+<code>milosvasic.ru/.github/workflows/pages.yml</code> stays ACTIVE as a
+<strong>documented deviation, never an override</strong> — it is the
+sole publish path for a live production site. <code>vasic.digital</code>
+is non-compliant at the <strong>provider</strong> level with no
+file-level remedy. Provider-side settings are operator-only and
+<strong>unverified</strong>; <code>scripts/verify-provider-ci.sh</code>
+measures on demand and its exit 2 is not a pass.</td>
+</tr>
+<tr>
+<td>G5</td>
+<td><strong>PARTIALLY CLOSED</strong></td>
+<td>The commit <strong>wrapper</strong> exists (<code>commit</code> on
+PATH, driven by the tracked <code>upstreams/GitHub.sh</code>); it runs
+<code>git add .</code>. Missing: git <strong>hooks</strong> as a
+tracked, travelling artefact — <code>.git/hooks/pre-push</code> is
+installed here but <code>.git/hooks/</code> is untracked, so a fresh
+clone is unprotected.</td>
+</tr>
+<tr>
+<td>G6</td>
+<td><strong>CLOSED</strong></td>
+<td><code>helix-deps.yaml</code> exists at the root and parses under
+<code>yaml.safe_load</code>.</td>
+</tr>
+<tr>
+<td>G7</td>
+<td><strong>CLOSED — 28 of 28</strong></td>
+<td><code>bash scripts/verify-governance-cascade.sh</code> exits 0. C2
+finds all <strong>7 × 4 = 28</strong> owned-submodule carriers present;
+C3 finds all 28 accepted by the canonical
+<code>is_pointer_carrier</code> predicate; C8 finds each owned submodule
+internally in lockstep. The fleet is DERIVED from
+<code>.gitmodules</code> + <code>helix-deps.yaml</code>, never
+hardcoded. <strong>The §8 G7 heading below, and the staged-but-unapplied
+<code>propagation/</code> note, are both superseded.</strong> Withdrawn
+figures: “20/20”, “20/24”, and a verbally circulated “24/24” (which was
+6 × 4, before <code>submodules/containers</code> joined the fleet).</td>
+</tr>
+<tr>
+<td>G8</td>
+<td><strong>OPEN</strong></td>
+<td>§11.4.65 markdown/export mandate unmet across the repository. No
+work in flight.</td>
+</tr>
+<tr>
+<td>G9</td>
+<td><strong>NO VERIFIED CURRENT STATUS</strong></td>
+<td>Not carried in the carriers’ gap list. Do not report it closed or
+open without re-auditing.</td>
+</tr>
+<tr>
+<td>G10</td>
+<td><strong>NO VERIFIED CURRENT STATUS</strong></td>
+<td>As G9.</td>
+</tr>
+<tr>
+<td>G11</td>
+<td><strong>NO VERIFIED CURRENT STATUS</strong></td>
+<td>The duplicate <code>design-toolkit</code> checkout is still
+<em>described</em> in <code>helix-deps.yaml</code> around its
+<code>design-toolkit</code> entry, with a two-command re-derivation
+recipe. A description is not a status.</td>
+</tr>
+<tr>
+<td>G12</td>
+<td><strong>CLOSED</strong> (2026-09-09)</td>
+<td>The <code>PreToolUse</code> guard is wired in the TRACKED
+<code>.claude/settings.json</code>, by reference to the canonical
+submodule script. Proven firing:
+<code>bash scripts/verify-pretooluse-guard.sh</code> rc 0 at 8 PASS / 0
+FAIL / 0 UNDET, its <code>--prove-failure</code> battery rc 0 at 15/15,
+and the upstream hermetic harness rc 0 at 70 PASS / 0 FAIL.
+<code>docs/AGENT_GUARDRAILS.md</code> now carries §11.4.109(B) and
+(C).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>G-note — the sweep’s own verdict.</strong> G3 closing means a
+sweep exists, runs, and is mutation-proven. It does <strong>not</strong>
+mean the sweep passes.
+<code>scripts/verify-all-constitution-rules.sh</code> discovers its
+gates dynamically and that population moved <strong>57 → 286</strong>
+when the constitution pin was fast-forwarded, so every split published
+before the fast-forward is withdrawn and none is comparable to a
+present-day run. The most recent measurement on record is <strong>186
+PASS / 95 FAIL / 6 ERROR of 287 gates</strong> — recorded as a
+<em>reported prior measurement</em>, because a re-run started 2026-09-01
+had not completed when this was written. Its failures are known to
+include third-party and staged carriers that no commit here can clear,
+and defects internal to the constitution submodule itself.</p>
+<p><strong>Also open, and not a numbered gap:</strong>
+<code>scripts/audit-environment-assumptions.sh</code> exits
+<strong>1</strong> — 7 frozen GNU-vs-BSD environment assumptions in
+<code>scripts/verify-check-registry.sh</code> (6) and
+<code>scripts/verify-manifest-pins.sh</code> (1), plus 699 baselined
+occurrences across 18 files. A baseline is recorded debt, not
+compliance.</p>
+<h3
+id="g1-critical-the-umbrella-has-no-consumer-governance-layer-at-all">G1
+— CRITICAL — The umbrella has no consumer governance layer at all</h3>
+<p><strong>Rule:</strong> §11.4.35
+(<code>Constitution.md:2861-2874</code>), §11.4.157(A)
+(<code>Constitution.md:9564</code>). <strong>Evidence:</strong>
+<code>ls</code> at the repository root returns exactly one
+<code>.md</code> file, <code>README.md</code>. <code>CLAUDE.md</code>,
+<code>AGENTS.md</code>, <code>QWEN.md</code>, <code>GEMINI.md</code>,
+and <code>Constitution.md</code> are all ABSENT.
+<code>git ls-files</code> confirms none is tracked.
+<strong>Consequence:</strong> every one of the 175
+<code>CM-COVENANT-114-N-PROPAGATION</code> gates fails by construction,
+and no agent invoked in this repository is exposed to any constitutional
+rule.</p>
+<h3
+id="g2-critical-no-inheritance-pointer-exists-anywhere-in-the-umbrella">G2
+— CRITICAL — No inheritance pointer exists anywhere in the umbrella</h3>
+<p><strong>Rule:</strong> §11.4.35 invariant 6
+(<code>Constitution.md:2919-2925</code>). <strong>Evidence:</strong>
+<code>git grep -e '@constitution/CLAUDE.md' -e 'INHERITED FROM constitution'</code>
+returns zero hits in any governance file. The only matches for
+<code>find_constitution.sh</code> are marketing copy in
+<code>_content*/products/HelixConstitution.md</code> and
+<code>_analysis/content-briefs/HelixConstitution.md</code> — the repo
+<em>describes</em> the mechanism as a product feature while not using
+it.</p>
+<h3
+id="g3-critical-no-post-pull-validation-sweep-the-enforcement-engine-is-missing">G3
+— CRITICAL — No post-pull validation sweep; the enforcement engine is
+missing</h3>
+<p><strong>Rule:</strong> §11.4.32
+(<code>Constitution.md:2026-2094</code>), which describes itself as “the
+<strong>enforcement engine</strong> for every other §11.4.x and
+CONST-NNN rule. Without it, new rules cascade as anchors but never get
+enforced in the codebase.” <strong>Evidence:</strong>
+<code>scripts/verify-all-constitution-rules.sh</code> ABSENT,
+<code>scripts/verify-governance-cascade.sh</code> ABSENT.
+<code>ls scripts/</code> returns only <code>install_skills.sh</code>,
+<code>rollback-agents-wizard.sh</code>,
+<code>setup-agents-wizard.sh</code>,
+<code>test-setup-agents-wizard.sh</code>.</p>
+<h3 id="g4-critical-active-ci-directly-contradicts-11.4.156">G4 —
+CRITICAL — Active CI directly contradicts §11.4.156</h3>
+<p><strong>Rule:</strong> §11.4.156
+(<code>Constitution.md:9542-9557</code>): “<strong>(A) Zero active CI at
+the repository root.</strong> No active
+<code>.github/workflows/*.yml|*.yaml</code> … may exist at the ROOT of
+any governed repository/submodule”. “Non-compliance is a release blocker
+regardless of context. No escape hatch — no <code>--allow-ci</code>,
+<code>--enable-workflow</code>, <code>--keep-pipeline</code>,
+<code>--remote-ci-OK</code>, <code>--ci-exempt</code> flag.”
+<strong>Evidence:</strong> <code>.github/workflows/ci.yml</code> exists
+at the root with live triggers, and <code>README.md:3</code> advertises
+it with a status badge. Note this is a <em>genuine conflict of
+intent</em>, not mere neglect: the workflow’s own header documents why
+it was added (“Nothing ran the test suite, so a regression could only be
+caught by hand”). Resolving it is an operator decision — either disable
+per §11.4.156(B) (rename to <code>ci.yml.disabled-local-only</code>) and
+migrate to the §11.4.75 local five-layer hook ritual, or record an
+explicit <code>Override §11.4.156</code> in the new project
+<code>Constitution.md</code>. Silently leaving it is the one option the
+constitution forbids.</p>
+<blockquote>
+<p><strong>UPDATE 2026-08-27 — decided, and one of the two options above
+was wrong.</strong> This section is a Phase-1 snapshot and is retained
+as written. Two corrections:</p>
+<ol type="1">
+<li><strong>The <code>Override §11.4.156</code> option does not
+exist.</strong> It was sought and disqualified twice over. §11.4.156’s
+closing formula names and refuses the exemption vocabulary — <em>“No
+escape hatch — no <code>--allow-ci</code>,
+<code>--enable-workflow</code>, <code>--keep-pipeline</code>,
+<code>--remote-ci-OK</code>, <code>--ci-exempt</code> flag”</em> — so a
+project-local override is a <code>--ci-exempt</code> by another
+spelling. And the inheritance contract every carrier here states —
+<em>“Project-specific rules below extend them — they do NOT weaken or
+override any universal clause”</em> — makes a project-local override of
+an inherited clause structurally impossible. With the override gone,
+compliance was the only remaining path that does not amend shared
+governance.</li>
+<li><strong>The operator decided: <em>“Comply — disable both, enforce
+locally.”</em></strong> <del>Both <code>.github/workflows/ci.yml</code>
+and <code>milosvasic.ru/.github/workflows/pages.yml</code> are renamed
+to a non-active <code>.disabled</code> name per §11.4.156(B), and the
+gates move to a local <strong>pre-push hook</strong>.</del> No
+constitution amendment was made.</li>
+<li><strong>PARTIALLY REVERSED the same day — only <code>ci.yml</code>
+was disabled.</strong> A material fact emerged after correction 2 was
+written: <code>gh api repos/milos85vasic/milosvasic.ru/pages</code>
+returns <code>build_type: "workflow"</code>, meaning GitHub Pages
+publishes the <strong>live production site</strong>
+<code>https://milosvasic.ru/</code> exclusively by running
+<code>pages.yml</code>. There is no <code>gh-pages</code> branch, no
+<code>docs/</code> folder, and the repo root is Jekyll SOURCE, so it
+cannot be served raw from a branch; <code>_tools/deploy-langs.sh</code>
+pushes source and then <code>sleep</code>s waiting for that very
+workflow, so it is not a substitute. Disabling <code>pages.yml</code>
+would end publishing outright. <strong>Operator’s overriding directive,
+verbatim:</strong> <em>“Make sure all pages websites work flawlessly! No
+website can be broken! All websites we have here are running deployed in
+production!”</em></li>
+</ol>
+<p><strong>The state that stands (verified 2026-08-27).</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Surface</th>
+<th>State</th>
+<th>Posture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.github/workflows/ci.yml</code></td>
+<td>renamed <code>ci.yml.disabled</code>; gates in a local pre-push
+hook</td>
+<td>umbrella root <strong>file-level compliant</strong></td>
+</tr>
+<tr>
+<td><code>milosvasic.ru/.github/workflows/pages.yml</code></td>
+<td><strong>ACTIVE</strong>, byte-identical to the publishing version;
+<strong>will not be disabled</strong></td>
+<td><strong>known, documented DEVIATION — not an override</strong></td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td>zero workflow files, yet <code>build_type: "legacy"</code> triggers
+<code>pages build and deployment</code> on every push</td>
+<td><strong>non-compliant at the PROVIDER level; no file-level
+remedy</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The <code>milosvasic.ru</code> state is <strong>not</strong> an
+<code>Override §11.4.156</code> and must never be recorded as one —
+correction 1 above still holds in full. An override would claim the
+clause no longer applies; this admits it applies, is knowingly unmet,
+and says why.</p>
+<p><strong>G4 moves OPEN → PARTIAL, not CLOSED — and will not reach
+CLOSED.</strong> Honest boundary (§11.4.6): file-level disabling stops
+FILE-triggered runs but does not reach provider-side settings
+(org-default required workflows, branch-protection required checks,
+Pages source settings, provider-side scheduled exports); those remain
+operator-only to CHANGE. Their STATUS is no longer asserted from memory:
+<code>bash scripts/verify-provider-ci.sh</code> enumerates the owned
+repositories from this checkout’s own remotes and queries the provider —
+exit <strong>0</strong> none found, <strong>1</strong> confirmed,
+<strong>2</strong> could not determine (<strong>not</strong> a pass).
+<code>scripts/setup-agents-wizard.sh</code> runs it as Step 9 and turns
+a confirmed finding into a manual step. Anything this document says
+about the provider is a dated observation; re-measure before quoting it.
+<strong>Cost of the umbrella half:</strong> no server-side enforcement
+on push or PR; <code>.git/hooks/</code> is untracked, so a fresh clone
+has no protection until
+<code>bash scripts/pre-push-gates.sh --install</code> is run, and
+<code>git push --no-verify</code> bypasses the hook. Full record: <a
+href="DECISION-11-4-156-COMPLY.md"><code>DECISION-11-4-156-COMPLY.md</code></a>
+§0; CI surface inventory: <code>CI-INVENTORY-11-4-156.md</code>.</p>
+</blockquote>
+<h3
+id="g5-high-no-mechanical-enforcement-layer-11.4.75-five-layers-zero-present">G5
+— HIGH — No mechanical enforcement layer (§11.4.75 five layers, zero
+present)</h3>
+<p><strong>Rule:</strong> §11.4.75
+(<code>Constitution.md:6967-7010</code>). <strong>Evidence:</strong>
+<code>ls .git/hooks/</code> shows no non-sample hooks. No
+<code>commit_all.sh</code>. No pre-commit, pre-push, or post-commit
+wiring anywhere. §11.4.75’s own forensic anchor is the operator asking
+“Why do these violations still happen!?” — the answer here is that no
+layer exists.</p>
+<h3 id="g6-high-no-helix-deps.yaml-at-the-umbrella-root">G6 — HIGH — No
+<code>helix-deps.yaml</code> at the umbrella root</h3>
+<p><strong>Rule:</strong> §11.4.31
+(<code>Constitution.md:1907-1913</code>): “Every owned-by-us submodule
+MUST ship a machine-readable, version-controlled <strong>dependency
+manifest</strong> at the canonical path <code>helix-deps.yaml</code>”.
+<strong>Evidence:</strong> ABSENT at root. The constitution submodule
+ships its own at <code>submodules/constitution/helix-deps.yaml</code> (a
+good model), and its header even records that its own manifest “was
+MISSING until 2026-08-15” — the same class of gap, previously caught one
+level up.</p>
+<h3 id="g7-high-zero-propagation-to-owned-submodules">G7 — HIGH — Zero
+propagation to owned submodules</h3>
+<blockquote>
+<p><strong>SUPERSEDED — see §8.0.</strong> G7 is <strong>CLOSED</strong>
+as of 2026-09-01, measured at <strong>28 of 28</strong> carriers across
+seven owned submodules by
+<code>bash scripts/verify-governance-cascade.sh</code> (exit 0). The
+evidence paragraph below is the 2026-08-26 observation, preserved
+unchanged as the forensic record of what was true then. It is not a
+current status.</p>
+</blockquote>
+<p><strong>Rule:</strong> §11.4.157(A) five-carrier lockstep;
+§11.4.28(A) equal-codebase. <strong>Evidence:</strong> Of six owned
+submodules, only <code>vasic.digital</code> has any carrier
+(<code>QWEN.md</code>), and it contains <strong>zero</strong> references
+to the constitution
+(<code>grep -in constitution vasic.digital/QWEN.md</code> → 0 hits).
+<code>ai_interviewing</code>, <code>monetization</code>,
+<code>design-toolkit</code>, and <code>milosvasic.ru</code> root have
+none at all.</p>
+<p><strong>G7b (MEDIUM, upstream defect):</strong> the constitution
+submodule ships <code>templates/</code> for CLAUDE / AGENTS /
+Constitution but <strong>not</strong> for QWEN or GEMINI, even though
+§11.4.157 makes all five equal. Consumers must hand-derive two of five
+carriers. Worth reporting upstream per §11.4.26.</p>
+<h3 id="g8-high-11.4.65-export-mandate-comprehensively-unmet">G8 — HIGH
+— §11.4.65 export mandate comprehensively unmet</h3>
+<p><strong>Rule:</strong> §11.4.65
+(<code>Constitution.md:5959-5966</code>): “Any markdown document inside
+the project and which is not part of the applications or services source
+code MUST BE exported (be available) in PDF and HTML!”
+<strong>Evidence:</strong> 265 tracked <code>.md</code> files outside
+submodules and <code>_content*</code>; <strong>0</strong> of them have
+an <code>.html</code> sibling (counted mechanically).
+<code>README.md</code> has neither <code>README.html</code> nor
+<code>README.pdf</code>.</p>
+<h3
+id="g9-high-11.4.212-readme-as-entrypoint-unmet-every-project-doc-is-an-orphan">G9
+— HIGH — §11.4.212 README-as-entrypoint unmet; every project doc is an
+orphan</h3>
+<p><strong>Rule:</strong> §11.4.212
+(<code>Constitution.md:10586</code>): “No project document may be an
+ORPHAN — a doc that no link-path from README reaches is a §11.4.212
+violation.” <strong>Evidence:</strong>
+<code>grep -oE '\]\([^)]+\)' README.md</code> returns exactly two links,
+both to the CI badge/workflow URL. <code>_analysis/</code>,
+<code>_tests/GATES.md</code>, <code>_tests/TEST-TYPES.md</code>,
+<code>docs/setup-agents-wizard/</code> are all unreachable from
+README.</p>
+<h3 id="g10-medium-4-tag-mirroring-incomplete">G10 — MEDIUM — §4 tag
+mirroring incomplete</h3>
+<p><strong>Rule:</strong> §4 (<code>Constitution.md:218-227</code>):
+“the same tag MUST be created on <strong>every owned
+submodule</strong>”. <strong>Evidence:</strong> umbrella tags are
+<code>pre-restyle, v1.7.1, v1.7.2, v1.8.0</code>.
+<code>git -C &lt;sub&gt; tag -l v1.8.0</code>: present on
+<code>milosvasic.ru</code> and <code>vasic.digital</code>;
+<strong>absent</strong> on <code>design-toolkit</code>,
+<code>ai_interviewing</code>, <code>monetization</code>,
+<code>submodules/constitution</code> — all owned-org.</p>
+<h3 id="g11-medium-design-toolkit-is-checked-out-twice">G11 — MEDIUM —
+<code>design-toolkit</code> is checked out twice</h3>
+<p><strong>Rule:</strong> §11.4.28(C) dependency-layout /
+no-nested-own-org-chains. <strong>Evidence:</strong>
+<code>design-toolkit</code> @ <code>16e4e76</code> at the umbrella root
+<strong>and</strong>
+<code>submodules/constitution/submodules/design-toolkit</code> @
+<code>16e4e76</code>. The shas match today, so nothing is broken now;
+the constitution’s own <code>helix-deps.yaml</code> justifies the inner
+copy under the “§11.4.28(C) hub carve-out”. But two gitlinks to the same
+repo can drift independently, and no manifest at the umbrella declares
+which one is authoritative — because the umbrella has no manifest
+(G6).</p>
+<h3
+id="g12-closed-2026-09-09-11.4.109-anti-forgetting-layer-is-wired-and-proven-firing">G12
+— CLOSED 2026-09-09 — §11.4.109 anti-forgetting layer is wired and
+proven firing</h3>
+<p><strong>Rule:</strong> §11.4.109(A)/(B)/(C); the validation stage per
+§11.4.234(A)(3).</p>
+<p><strong>The finding, as it stood:</strong>
+<code>.claude/settings.local.json</code> contained only a
+<code>permissions.allow</code> array with two Lumen MCP entries — no
+<code>PreToolUse</code> hook — while
+<code>submodules/constitution/scripts/hooks/guard-forbidden-commands.sh</code>
+sat present and executable, blocking nothing.
+<code>docs/AGENT_GUARDRAILS.md</code> was ABSENT.</p>
+<p><strong>What changed, on the operator decision of
+2026-09-09.</strong></p>
+<ol type="1">
+<li><strong>(A) The hook is wired</strong>, in
+<code>.claude/settings.json</code>, as a <code>PreToolUse</code> entry
+with matcher <code>*</code> whose command is
+<code>bash "$CLAUDE_PROJECT_DIR/submodules/constitution/scripts/hooks/guard-forbidden-commands.sh"</code>.
+It is <strong>referenced, not copied</strong> — §11.4.109(A) forbids a
+local copy because a copy diverges silently.</li>
+<li><strong>The wiring location was a deliberate choice, and it is the
+tracked one.</strong> <code>.claude/settings.json</code> is tracked in
+git, so a fresh clone inherits the guard. The host-wide
+<code>~/.claude*/settings.json</code> was rejected for exactly the
+reason this repository already records about <code>.git/hooks/</code>:
+untracked enforcement protects one working copy and leaves every clone
+unguarded with nobody told.</li>
+<li><strong>(B) and (C)</strong> now exist at
+<code>docs/AGENT_GUARDRAILS.md</code>, carrying the mandated
+<code>SUBAGENT CONSTITUTIONAL PREAMBLE</code> and
+<code>ORCHESTRATOR PRE-ACTION CHECKLIST</code> headings and the
+<code>11.4.109</code> anchor literal.</li>
+<li><strong>§11.4.234(A)(3) / §1.1:</strong>
+<code>scripts/verify-pretooluse-guard.sh</code> is the dedicated
+hook-validation script, registered as <code>pretooluse-guard</code> in
+<code>scripts/check-registry.tsv</code> and documented in
+<code>docs/check-registry.md</code>.</li>
+</ol>
+<p><strong>Evidence, measured 2026-09-09 rather than
+asserted.</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>instrument</th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bash submodules/constitution/scripts/hooks/test_guard_forbidden_commands.sh</code></td>
+<td>rc <strong>0</strong> — <code>PASS=70 FAIL=0</code> (the upstream
+author’s own hermetic suite)</td>
+</tr>
+<tr>
+<td><code>bash scripts/verify-pretooluse-guard.sh</code></td>
+<td>rc <strong>0</strong> — 8 PASS / 0 FAIL / 0 UNDET</td>
+</tr>
+<tr>
+<td><code>bash scripts/verify-pretooluse-guard.sh --prove-failure</code></td>
+<td>rc <strong>0</strong> — 15 cases, 12 mutations caught, 2 rc-2
+states, control green</td>
+</tr>
+<tr>
+<td><code>bash scripts/verify-check-registry.sh</code></td>
+<td>rc <strong>0</strong> — 65 PASS / 0 FAIL / 1 DEBT (pre-existing,
+unrelated)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The closure rests on the guard being observed to REFUSE, not
+on a config key being present.</strong> The validator executes the wired
+script against five forbidden probes — force-push,
+<code>--force-with-lease</code>, <code>--no-verify</code>, privilege
+escalation and host-power — and requires rc 2 from each; it separately
+requires rc 0 from a benign <code>git status</code> and from a non-Bash
+tool call, because a guard that blocks everything gets switched off; and
+it requires that the <code># guardrails:allow</code> escape marker does
+<strong>not</strong> downgrade the host-power class. Its mutation
+battery demonstrates that a <strong>neutered</strong> guard (edited to
+<code>exit 0</code>, settings untouched) and an
+<strong>untracked</strong> settings file are both caught as rc 1. A
+validator that passes while the hook is missing or inert is the
+false-green control §11.4.201 forbids, and that is the failure this one
+is built to avoid.</p>
+<p><strong>Honest boundary (§11.4.6).</strong> Three limits, none of
+which the closure hides. (a) The guard’s own refusal messages cite the
+consuming-project clause numbers <code>§6.T.3</code> / <code>§6.U</code>
+rather than the universal <code>§11.4.113</code> / §11.4 anchors. That
+is upstream text inside a consumed submodule; it is reported, not
+patched, per the <code>design-toolkit</code> precedent. The class is
+blocked either way. (b) The validator executes the canonical script at
+its canonical path; it does not re-implement the harness’s
+<code>$CLAUDE_PROJECT_DIR</code> expansion, so it proves the script
+refuses, not that the harness’s own expansion is correct on some future
+host. (c) The 70-case upstream harness is asserted PRESENT by V8 and
+EXECUTED as a separately named stage, printed on every green run — a
+recorded deferral per §11.4.234(C), not a dropped gate.</p>
+<h3 id="ranking-rationale">Ranking rationale</h3>
+<p>G1–G4 are CRITICAL because each independently defeats the entire
+adoption: without carriers no rule reaches an agent (G1/G2); without the
+sweep no rule is ever checked (G3); and G4 is an active, live
+contradiction of a named release-blocker clause rather than a mere
+omission. G5–G9 are HIGH because each violates a “release blocker”
+clause but is remediable without an operator policy decision. G10–G12
+are MEDIUM: real, cited, and fixable, but none blocks the inheritance
+wiring itself.</p>
+<hr />
+<h2 id="full-mandatory-rule-table">9. Full mandatory-rule table</h2>
+<p>All 261 numbered anchors extracted mechanically from
+<code>submodules/constitution/Constitution.md</code>. Two known
+duplicate anchor numbers (§11.4.140 and §11.4.141, each minted twice)
+are the <strong>operator-owned collision</strong> the constitution
+documents in its own header Status summary (“the KNOWN operator-owned
+§11.4.54 anchor-number collision on 11.4.140/11.4.141 cited strictly in
+those senses”) — both rows are listed.</p>
+<p>Column meanings:</p>
+<ul>
+<li><strong>Prop. gate</strong> — <code>**FAIL**</code> where the anchor
+declares a <code>CM-COVENANT-114-N-PROPAGATION</code> gate. All 175 such
+gates fail because the umbrella has zero <code>CLAUDE.md</code> /
+<code>AGENTS.md</code> (see <a
+href="#64-the-mechanical-consequence">§6.4</a>). <code>—</code> means
+the anchor declares no such gate. 177 rows carry <code>**FAIL**</code>
+because §11.4.140 and §11.4.141 are each minted twice (the documented
+collision).</li>
+<li><strong>Substance</strong> — first-hand or cited verdict on the
+underlying requirement. <strong>65 anchors were examined</strong> in
+this pass: 50 received a definite Yes / Partial / No verdict, and 15
+were examined but remain <code>Unknown</code> because they are
+conditional or need a runtime check. The other <strong>196 were not
+examined</strong> and are honestly marked <code>Unknown</code> rather
+than guessed. <code>Unknown</code> here means <em>not checked</em> — and
+given G1–G3, the realistic prior is that most are unmet.</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Anchor</th>
+<th>Title</th>
+<th>Source</th>
+<th>Prop. gate</th>
+<th>Substance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>§1</td>
+<td>Test coverage is mandatory for every change</td>
+<td><code>Constitution.md:133</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§1.1</td>
+<td>False-positive immunity is an invariant</td>
+<td><code>Constitution.md:147</code></td>
+<td>—</td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§2</td>
+<td>Commit and push mechanics — single entrypoint, locked</td>
+<td><code>Constitution.md:168</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§2.1</td>
+<td>Multi-upstream push is the norm</td>
+<td><code>Constitution.md:185</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§3</td>
+<td>Submodule changes propagate through submodule commits first</td>
+<td><code>Constitution.md:201</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§4</td>
+<td>Every tag on the main repo MUST be mirrored on every owned
+submodule</td>
+<td><code>Constitution.md:218</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§5</td>
+<td>Changelog discipline and multi-format export</td>
+<td><code>Constitution.md:229</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§6</td>
+<td>Documentation up to the nano-details</td>
+<td><code>Constitution.md:247</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§7</td>
+<td>Making false-success results literally impossible</td>
+<td><code>Constitution.md:265</code></td>
+<td>—</td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§7.1</td>
+<td>NO BLUFF — positive-evidence-only validation</td>
+<td><code>Constitution.md:282</code></td>
+<td>—</td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§8</td>
+<td>Bleeding-edge ultra-perfection quality bar</td>
+<td><code>Constitution.md:319</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§9</td>
+<td>Absolute codebase and data safety — zero risk, zero loss</td>
+<td><code>Constitution.md:351</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§9.1</td>
+<td>Mandatory safety protocol for destructive operations</td>
+<td><code>Constitution.md:359</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§9.2</td>
+<td>Force-push requires explicit user authorization every time</td>
+<td><code>Constitution.md:400</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§9.3</td>
+<td>Hardlinked backup is the standard — there is no excuse</td>
+<td><code>Constitution.md:421</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§9.4</td>
+<td>Commit-message audit trail for history rewrites</td>
+<td><code>Constitution.md:429</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§10</td>
+<td>Enforcement</td>
+<td><code>Constitution.md:442</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11</td>
+<td>End-user quality covenant</td>
+<td><code>Constitution.md:452</code></td>
+<td>—</td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§11.4</td>
+<td>End-user quality guarantee — forensic anchor (User mandate,
+2026-04-28)</td>
+<td><code>Constitution.md:454</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.1</td>
+<td>FAIL-bluffs are equally forbidden</td>
+<td><code>Constitution.md:485</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.2</td>
+<td>Recorded-evidence requirement</td>
+<td><code>Constitution.md:515</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.3</td>
+<td>Per-environment-topology test dispatch</td>
+<td><code>Constitution.md:540</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.4</td>
+<td>Test-interrupt-on-discovery + retest-from-clean-baseline</td>
+<td><code>Constitution.md:557</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.5</td>
+<td>Captured-evidence quality analysis</td>
+<td><code>Constitution.md:601</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.6</td>
+<td>No-guessing mandate</td>
+<td><code>Constitution.md:630</code></td>
+<td>—</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>§11.4.7</td>
+<td>Demotion-evidence rule</td>
+<td><code>Constitution.md:651</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.8</td>
+<td>Deep-web-research-before-implementation</td>
+<td><code>Constitution.md:672</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.9</td>
+<td>Batch-source-fixes-before-rebuild</td>
+<td><code>Constitution.md:696</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.10</td>
+<td>Credentials-handling mandate</td>
+<td><code>Constitution.md:709</code></td>
+<td>—</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>§11.4.10.A</td>
+<td>Pre-store credential leak audit (User mandate, 2026-05-17)</td>
+<td><code>Constitution.md:751</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.11</td>
+<td>File-layout discipline</td>
+<td><code>Constitution.md:820</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.12</td>
+<td>Auto-generated docs sync mandate</td>
+<td><code>Constitution.md:857</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.13</td>
+<td>Out-of-band sink-side captured-evidence</td>
+<td><code>Constitution.md:870</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.14</td>
+<td>Test playback cleanup mandate</td>
+<td><code>Constitution.md:888</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.15</td>
+<td>Item-status tracking mandate</td>
+<td><code>Constitution.md:913</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.16</td>
+<td>Item-type tracking mandate</td>
+<td><code>Constitution.md:935</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.17</td>
+<td>Universal-vs-project classification of new rules (User mandate,
+2026-05-14)</td>
+<td><code>Constitution.md:970</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.20</td>
+<td>Subagent-driven-by-default mandate (User mandate, 2026-05-14)</td>
+<td><code>Constitution.md:1017</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.18</td>
+<td>Script documentation mandate (User mandate, 2026-05-14)</td>
+<td><code>Constitution.md:1089</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.19</td>
+<td>Fixed-document column-alignment mandate (User mandate,
+2026-05-14)</td>
+<td><code>Constitution.md:1150</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.21</td>
+<td>Operator-blocked status + self-resolution exhaustion mandate (User
+mandate, 2026-05-14)</td>
+<td><code>Constitution.md:1253</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.22</td>
+<td>Document-sync commit discipline (User mandate, 2026-05-14)</td>
+<td><code>Constitution.md:1398</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.23</td>
+<td>Visual-cue &amp; grouping mandate for Issues docs (User mandate,
+2026-05-14)</td>
+<td><code>Constitution.md:1493</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.24</td>
+<td>Build-resource stats tracking mandate (User mandate,
+2026-05-14)</td>
+<td><code>Constitution.md:1593</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.25</td>
+<td>Full-Automation-Coverage Mandate (User mandate, 2026-05-15)</td>
+<td><code>Constitution.md:1708</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.26</td>
+<td>Constitution-Submodule Update Workflow Mandate (User mandate,
+2026-05-15)</td>
+<td><code>Constitution.md:1788</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.31</td>
+<td>Submodule-Dependency-Manifest Mandate (User mandate,
+2026-05-15)</td>
+<td><code>Constitution.md:1879</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.32</td>
+<td>Post-Constitution-Pull Validation Mandate (User mandate,
+2026-05-15)</td>
+<td><code>Constitution.md:2026</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.30</td>
+<td>.gitignore + No-Versioned-Build-Artifacts Mandate (User mandate,
+2026-05-15)</td>
+<td><code>Constitution.md:2095</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.29</td>
+<td>Lowercase-Snake_Case-Naming Mandate (User mandate, 2026-05-15)</td>
+<td><code>Constitution.md:2225</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.28</td>
+<td>Submodules-As-Equal-Codebase + Decoupling + Dependency-Layout
+Mandate (User mandate, 2026-05-15)</td>
+<td><code>Constitution.md:2359</code></td>
+<td>—</td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§11.4.27</td>
+<td>No-Fakes-Beyond-Unit-Tests + 100%-Test-Type-Coverage Mandate (User
+mandate, 2026-05-15)</td>
+<td><code>Constitution.md:2548</code></td>
+<td>—</td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§11.4.33</td>
+<td>Type-aware closure-status vocabulary (User mandate, 2026-05-15)</td>
+<td><code>Constitution.md:2691</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.34</td>
+<td>Reopened-source attribution mandate (User mandate, 2026-05-15)</td>
+<td><code>Constitution.md:2747</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.35</td>
+<td>Canonical-root inheritance clarity (User mandate, 2026-05-15)</td>
+<td><code>Constitution.md:2816</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.36</td>
+<td>Mandatory install_upstreams on clone/add Mandate (User mandate,
+2026-05-15)</td>
+<td><code>Constitution.md:2948</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.37</td>
+<td>Fetch-before-edit mandate (User mandate, 2026-05-15)</td>
+<td><code>Constitution.md:3037</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.38</td>
+<td>Installable-Asset Evidence Mandate (User mandate, 2026-05-17)</td>
+<td><code>Constitution.md:3131</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.39</td>
+<td>Per-Feature On-Device End-User Validation Mandate (iter-76,
+2026-05-17)</td>
+<td><code>Constitution.md:3192</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.40</td>
+<td>Full-suite retest before release tag mandate (User mandate,
+2026-05-17)</td>
+<td><code>Constitution.md:3236</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.41</td>
+<td>Pre-Force-Push Merge-First Mandate (User mandate, 2026-05-17)</td>
+<td><code>Constitution.md:3323</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.42</td>
+<td>Iteration-discipline mandate (User mandate, 2026-05-18)</td>
+<td><code>Constitution.md:3455</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.43</td>
+<td>TDD-Fix-Discipline Mandate (User mandate, 2026-05-18)</td>
+<td><code>Constitution.md:3555</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.44</td>
+<td>Document Revision Header Mandate (User mandate, 2026-05-18)</td>
+<td><code>Constitution.md:3659</code></td>
+<td><strong>FAIL</strong></td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.45</td>
+<td>Integration-Status-Doc Maintenance Mandate (User mandate,
+2026-05-18)</td>
+<td><code>Constitution.md:3761</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.46</td>
+<td>Validate-recent-work-before-post-flash-tests mandate (User mandate,
+2026-05-18)</td>
+<td><code>Constitution.md:3860</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.47</td>
+<td>Firebase Data Review Mandate (User mandate, 2026-05-18)</td>
+<td><code>Constitution.md:3963</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.48</td>
+<td>UI-Driven Video Testing Mandate (User mandate, 2026-05-18)</td>
+<td><code>Constitution.md:4069</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.49</td>
+<td>Dual-Approach Testing Mandate (User mandate, 2026-05-18)</td>
+<td><code>Constitution.md:4205</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.50</td>
+<td>Deterministic Consistency Mandate (User mandate, 2026-05-18)</td>
+<td><code>Constitution.md:4315</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.51</td>
+<td>Live-ADB-First Maximization Mandate (User mandate, 2026-05-18)</td>
+<td><code>Constitution.md:4437</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.52</td>
+<td>Autonomous-Validation Mandate (User mandate, 2026-05-18)</td>
+<td><code>Constitution.md:4561</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.53</td>
+<td>Fixed_Summary parity mandate (User mandate, 2026-05-18)</td>
+<td><code>Constitution.md:4744</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.54</td>
+<td>ATM-NNN ticket identifier mandate (User mandate, 2026-05-19)</td>
+<td><code>Constitution.md:4886</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.55</td>
+<td>Reopens-history tracking + per-item Reopens.md doc (User mandate,
+2026-05-19)</td>
+<td><code>Constitution.md:5011</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.56</td>
+<td>Status_Summary parity + two-audience format (User mandate,
+2026-05-19)</td>
+<td><code>Constitution.md:5124</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.57</td>
+<td>README.md doc-link section + revision metadata (User mandate,
+2026-05-19)</td>
+<td><code>Constitution.md:5224</code></td>
+<td><strong>FAIL</strong></td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.58</td>
+<td>Parallel-development methodology (User mandate, 2026-05-19)</td>
+<td><code>Constitution.md:5327</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.59</td>
+<td>README always-sync mandate (User mandate, 2026-05-19)</td>
+<td><code>Constitution.md:5544</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.60</td>
+<td>Documentation always-sync composite covenant (User mandate,
+2026-05-19)</td>
+<td><code>Constitution.md:5622</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.61</td>
+<td>Mandatory Markdown metadata table + structured-doc ToC (User
+mandate, 2026-05-19)</td>
+<td><code>Constitution.md:5725</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.63</td>
+<td>Workable-items procedure docs as single source of truth (User
+mandate, 2026-05-19)</td>
+<td><code>Constitution.md:5860</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.65</td>
+<td>Universal Markdown export mandate (User mandate, 2026-05-19)</td>
+<td><code>Constitution.md:5954</code></td>
+<td><strong>FAIL</strong></td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.66</td>
+<td>Blocker-resolution interactive-clarification mandate (User mandate,
+2026-05-19)</td>
+<td><code>Constitution.md:6088</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.67</td>
+<td>Shell-script target-shell-parseability mandate (User mandate,
+2026-05-19)</td>
+<td><code>Constitution.md:6184</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.68</td>
+<td>Positive sink-side / downstream evidence mandate (User mandate,
+2026-05-20)</td>
+<td><code>Constitution.md:6347</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.69</td>
+<td>Universal Sink-Side Positive-Evidence Taxonomy + Mechanical
+Enforcement (User mandate, 2026-05-20)</td>
+<td><code>Constitution.md:6486</code></td>
+<td><strong>FAIL</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>§11.4.70</td>
+<td>Subagent-Driven Execution Is The Default (User mandate,
+2026-05-20)</td>
+<td><code>Constitution.md:6773</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.71</td>
+<td>Pre-Push Fetch + Investigate + Integrate Mandate (User mandate,
+2026-05-20)</td>
+<td><code>Constitution.md:6843</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.72</td>
+<td>Audio Top-Priority Mandate (User mandate, 2026-05-20)</td>
+<td><code>Constitution.md:6878</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.73</td>
+<td>Main-specification document versioning + revision discipline (User
+mandate, 2026-05-20)</td>
+<td><code>Constitution.md:6896</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.74</td>
+<td>Submodule-catalogue-first discovery + extend-don’t-reimplement (User
+mandate, 2026-05-20)</td>
+<td><code>Constitution.md:6930</code></td>
+<td>—</td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§11.4.75</td>
+<td>Mechanical Enforcement Without Exception (User mandate,
+2026-05-20)</td>
+<td><code>Constitution.md:6967</code></td>
+<td><strong>FAIL</strong></td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.76</td>
+<td>Containers-submodule mandate (User mandate, 2026-05-20)</td>
+<td><code>Constitution.md:7109</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.77</td>
+<td>Regeneration-mechanism-required mandate (User mandate,
+2026-05-20)</td>
+<td><code>Constitution.md:7142</code></td>
+<td>—</td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§11.4.78</td>
+<td>CodeGraph code-intelligence mandate (User mandate, 2026-05-20)</td>
+<td><code>Constitution.md:7194</code></td>
+<td>—</td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§11.4.79</td>
+<td>Own-org submodules MUST be included in the CodeGraph index (User
+mandate, 2026-05-21)</td>
+<td><code>Constitution.md:7242</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.80</td>
+<td>CodeGraph regular-update + sync automation mandate (User mandate,
+2026-05-21)</td>
+<td><code>Constitution.md:7284</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.81</td>
+<td>Cross-platform-parity mandate (User mandate, 2026-05-21)</td>
+<td><code>Constitution.md:7327</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.82</td>
+<td>Iteration-speedup discipline mandate (User mandate, 2026-05-22)</td>
+<td><code>Constitution.md:7368</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.83</td>
+<td>docs/qa/ end-user evidence mandate (User mandate, 2026-05-22)</td>
+<td><code>Constitution.md:7433</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.84</td>
+<td>Working-tree quiescence rule for subagent commits (User mandate,
+2026-05-22)</td>
+<td><code>Constitution.md:7459</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.85</td>
+<td>Stress + Chaos Test Mandate (User mandate, 2026-05-24)</td>
+<td><code>Constitution.md:7492</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.86</td>
+<td>Roster/corpus-backed Status-doc auto-sync mandate (User mandate,
+2026-05-25)</td>
+<td><code>Constitution.md:7549</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.87</td>
+<td>Endless-loop autonomous work + zero-idle agent dispatch + anti-bluff
+testing mandate (User mandate, 2026-05-26)</td>
+<td><code>Constitution.md:7572</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.88</td>
+<td>Background-push mandate: commit-lock release immediately after
+commit, push runs detached (User mandate, 2026-05-26)</td>
+<td><code>Constitution.md:7610</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.89</td>
+<td>Background test execution mandate (User mandate, 2026-05-27)</td>
+<td><code>Constitution.md:7640</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.90</td>
+<td>Obsolete status + per-item obsolescence audit mandate (User mandate,
+2026-05-27)</td>
+<td><code>Constitution.md:7674</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.91</td>
+<td>Summary-doc clarity mandate (User mandate, 2026-05-27)</td>
+<td><code>Constitution.md:7703</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.92</td>
+<td>Multi-pass change-evaluation discipline (User mandate,
+2026-05-27)</td>
+<td><code>Constitution.md:7742</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.93</td>
+<td>SQLite-backed single-source-of-truth for workable items (User
+mandate, 2026-05-27)</td>
+<td><code>Constitution.md:7778</code></td>
+<td><strong>FAIL</strong></td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.94</td>
+<td>Zero-idle priority-first parallel-by-default operating mode (User
+mandate, 2026-05-27)</td>
+<td><code>Constitution.md:7840</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.95</td>
+<td>Workable-items SQLite DB is TRACKED in git, NEVER gitignored (User
+mandate, 2026-05-27)</td>
+<td><code>Constitution.md:7883</code></td>
+<td><strong>FAIL</strong></td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.96</td>
+<td>Safe-parallel-work-with-long-build catalogue + mandate (User
+mandate, 2026-05-27)</td>
+<td><code>Constitution.md:7911</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.97</td>
+<td>Maximum-use-of-idle-time mandate + progress-update cadence (User
+mandate, 2026-05-27)</td>
+<td><code>Constitution.md:7965</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.98</td>
+<td>Full-Automation Anti-Bluff Mandate — Live tests MUST be re-runnable
+end-to-end without manual intervention (User mandate</td>
+<td><code>Constitution.md:8003</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.99</td>
+<td>Latest-Source Documentation Cross-Reference Mandate — instructions,
+guides, and manuals MUST be verified against the lat</td>
+<td><code>Constitution.md:8036</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.100</td>
+<td>RETIRED</td>
+<td><code>Constitution.md:8086</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.101</td>
+<td>Autonomous-decision-over-blocking mandate (User mandate,
+2026-05-28)</td>
+<td><code>Constitution.md:8090</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.102</td>
+<td>Mandatory systematic-debugging activation + always-loaded
+skill-discovery + plugin-dependency availability (User mandate</td>
+<td><code>Constitution.md:8123</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.103</td>
+<td>Continuous parallel-stream working routine (User mandate,
+2026-05-29)</td>
+<td><code>Constitution.md:8153</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.104</td>
+<td>Participant identity, attribution &amp; notification-tagging (User
+mandate, 2026-05-31)</td>
+<td><code>Constitution.md:8189</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.105</td>
+<td>Natural-language intent recognition &amp; clarification (User
+mandate, 2026-05-31)</td>
+<td><code>Constitution.md:8232</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.106</td>
+<td>Docs Chain — mechanical documentation/DB sync engine (Operator
+mandate, 2026-05-31)</td>
+<td><code>Constitution.md:8279</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.107</td>
+<td>Anti-bluff AV/test-validation techniques mandate (User-driven
+research, 2026-06-02)</td>
+<td><code>Constitution.md:8315</code></td>
+<td><strong>FAIL</strong></td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§11.4.108</td>
+<td>Four-layer fix-verification +
+runtime-signature-as-definition-of-done mandate (systematic-debugging
+Phase 4.5, 2026-06-0</td>
+<td><code>Constitution.md:8365</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.109</td>
+<td>Mandatory Anti-Forgetting Enforcement: PreToolUse Guard Hook +
+Subagent Constitutional Preamble + Orchestrator Pre-Actio</td>
+<td><code>Constitution.md:8399</code></td>
+<td><strong>FAIL</strong></td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.110</td>
+<td>Pre-build build-readiness verdict + change-impact clash detection
+mandate (operator mandate, 2026-06-03)</td>
+<td><code>Constitution.md:8485</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.111</td>
+<td>Resolve-by-stable-name-not-by-enumeration-index mandate
+(research-derived, 2026-06-03)</td>
+<td><code>Constitution.md:8519</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.112</td>
+<td>Structural-impossibility won’t-fix classification mandate
+(research-derived, 2026-06-03)</td>
+<td><code>Constitution.md:8539</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.113</td>
+<td>Absolute no-force-push + merge-onto-latest-main mandate (User
+mandate, 2026-06-03)</td>
+<td><code>Constitution.md:8565</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.114</td>
+<td>Last-known-good-tag regression isolation mandate (1.1.8-dev
+remediation, 2026-06-03)</td>
+<td><code>Constitution.md:8600</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.115</td>
+<td>RED-baseline-on-the-broken-artifact + polarity-switch mandate
+(1.1.8-dev remediation, 2026-06-03)</td>
+<td><code>Constitution.md:8624</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.116</td>
+<td>Real-time conductor↔︎autonomous-test-framework sync channel mandate
+(1.1.8-dev remediation, 2026-06-03)</td>
+<td><code>Constitution.md:8652</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.117</td>
+<td>Computer-vision / OCR pixel-oracle fallback for non-introspectable
+UIs mandate (1.1.8-dev remediation, 2026-06-03)</td>
+<td><code>Constitution.md:8676</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.118</td>
+<td>Discovery-pressure to confirm known-issue-set completeness mandate
+(1.1.8-dev remediation, 2026-06-03)</td>
+<td><code>Constitution.md:8700</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.119</td>
+<td>Single-resource-owner partitioning for parallel hardware testing
+mandate (1.1.8-dev remediation, 2026-06-03)</td>
+<td><code>Constitution.md:8724</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.120</td>
+<td>Fix-breaks-its-own-gate reconciliation mandate (1.1.8-dev
+remediation, 2026-06-03)</td>
+<td><code>Constitution.md:8748</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.121</td>
+<td>No-commit-while-build-writes-tracked-artifacts mandate (1.1.8-dev
+remediation, 2026-06-03)</td>
+<td><code>Constitution.md:8776</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.122</td>
+<td>No-silent-removal-of-existing-components-without-operator-confirmation
+mandate (User mandate, 2026-06-03)</td>
+<td><code>Constitution.md:8800</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.123</td>
+<td>Rock-solid-proof-or-deep-research mandate (User mandate,
+2026-06-03)</td>
+<td><code>Constitution.md:8822</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.124</td>
+<td>Dead/unwired-code investigate-before-remove mandate (User mandate,
+2026-06-04)</td>
+<td><code>Constitution.md:8844</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.125</td>
+<td>Code-review-agent gate before pre-build + main build (mandatory
+multi-layer review) (User mandate, 2026-06-04)</td>
+<td><code>Constitution.md:8870</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.126</td>
+<td>Default autonomous-loop working mode from first prompt (User
+mandate, 2026-06-04)</td>
+<td><code>Constitution.md:8896</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.127</td>
+<td>Session-handoff resumption-prompt mandate (User mandate,
+2026-06-06)</td>
+<td><code>Constitution.md:8918</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.128</td>
+<td>Always-on device-recording mandate (User mandate, 2026-06-06)</td>
+<td><code>Constitution.md:8932</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.129</td>
+<td>Huge-blocker release protocol (User mandate, 2026-06-06)</td>
+<td><code>Constitution.md:8944</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.130</td>
+<td>Post-remediation validate-the-fix-FIRST-after-redeploy (User
+mandate, 2026-06-06)</td>
+<td><code>Constitution.md:8956</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.131</td>
+<td>Standing session-resumption file mandate (User mandate,
+2026-06-07)</td>
+<td><code>Constitution.md:8972</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.132</td>
+<td>Risk-ordered validation priority mandate (User mandate,
+2026-06-07)</td>
+<td><code>Constitution.md:8994</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.133</td>
+<td>Target-System + hardware safety mandate (User mandate,
+2026-06-08)</td>
+<td><code>Constitution.md:9018</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.134</td>
+<td>Code-review iterate-until-GO + rock-solid-evidence mandate (User
+mandate, 2026-06-08)</td>
+<td><code>Constitution.md:9046</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.135</td>
+<td>Standing regression-guard suite +
+every-fixed-defect-gets-a-permanent-regression-test (User mandate,
+2026-06-08)</td>
+<td><code>Constitution.md:9060</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.136</td>
+<td>Real-content end-to-end playback-test mandate (User mandate,
+2026-06-08)</td>
+<td><code>Constitution.md:9073</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.137</td>
+<td>Subtitle/caption content-correctness oracle +
+secure-display-proxy-honesty mandate (User mandate, 2026-06-08)</td>
+<td><code>Constitution.md:9082</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.138</td>
+<td>Operator-escape =&gt; mandatory bluff-audit + permanent guard (User
+mandate, 2026-06-08)</td>
+<td><code>Constitution.md:9097</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.139</td>
+<td>Fresh-process clean-artifact runtime-signature mandate (User
+mandate, 2026-06-08)</td>
+<td><code>Constitution.md:9106</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.140</td>
+<td>Universal action-prefix system (<code>ACTION_NAME ::</code>) (User
+mandate, 2026-06-09)</td>
+<td><code>Constitution.md:9114</code></td>
+<td><strong>FAIL</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>§11.4.141</td>
+<td>Token-efficiency mandate (research-derived + operator mandate,
+2026-06-09)</td>
+<td><code>Constitution.md:9233</code></td>
+<td><strong>FAIL</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>§11.4.142</td>
+<td>Universal code-review mandate — every change reviewed, always, no
+exception (User mandate, 2026-06-09)</td>
+<td><code>Constitution.md:9263</code></td>
+<td><strong>FAIL</strong></td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§11.4.143</td>
+<td>Real-user-journey mandate for video-streaming-app full-automation
+tests (User mandate, 2026-06-10)</td>
+<td><code>Constitution.md:9283</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.144</td>
+<td>Tracked/recorded-device availability-following mandate (User
+mandate, 2026-06-10)</td>
+<td><code>Constitution.md:9297</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.145</td>
+<td>Independent multi-angle impact-research per change (User mandate,
+2026-06-10)</td>
+<td><code>Constitution.md:9311</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.146</td>
+<td>Reproduce-first test + same-test-confirms-fix + mandatory
+extend-to-all-cases workflow (User mandate, 2026-06-10)</td>
+<td><code>Constitution.md:9329</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.147</td>
+<td>Crashed-agent respawn-until-complete + no-work-loss registry mandate
+(User mandate, 2026-06-10)</td>
+<td><code>Constitution.md:9351</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.148</td>
+<td>Workable-item integrity (status+type+id) + comprehensive structured
+description + bidirectional external-tracker sync +</td>
+<td><code>Constitution.md:9373</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.149</td>
+<td>Per-workable-item testing-diary mandate (User mandate,
+2026-06-10)</td>
+<td><code>Constitution.md:9395</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.150</td>
+<td>Mandatory deep multi-angle web research per change/issue, before
+declaring fixed or structural (User mandate, 2026-06-11</td>
+<td><code>Constitution.md:9415</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.151</td>
+<td>Project-prefixed release-tag/version-naming mandate (User mandate,
+2026-06-12)</td>
+<td><code>Constitution.md:9439</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.152</td>
+<td>Crashlytics-recorded-data continuous monitoring + systematic-debug +
+regression-test-coverage mandate (User mandate, 202</td>
+<td><code>Constitution.md:9460</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.153</td>
+<td>Comprehensive per-feature Status + Status_Summary document set with
+mandatory video-recording confirmation (User mandate</td>
+<td><code>Constitution.md:9490</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.154</td>
+<td>Window-scoped capture + fresh-corpus rotation for feature/QA
+recordings (User mandate, 2026-06-15)</td>
+<td><code>Constitution.md:9516</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.155</td>
+<td>Project-name-prefixed feature/QA recording filenames (User mandate,
+2026-06-15)</td>
+<td><code>Constitution.md:9528</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.156</td>
+<td>All CI/CD automation (GitHub Actions / GitLab pipelines /
+equivalents) MUST be disabled (User mandate, 2026-06-15)</td>
+<td><code>Constitution.md:9542</code></td>
+<td><strong>FAIL</strong> <em>(as measured for this Phase-1 pass)</em> —
+<strong>partially remediated 2026-08-27</strong>, see the G4 update:
+<code>.github/workflows/ci.yml</code> → <code>ci.yml.disabled</code>,
+gates → local pre-push hook.
+<code>milosvasic.ru/.github/workflows/pages.yml</code> remains
+<strong>ACTIVE</strong> by operator decision (sole publish path for a
+production site) — a documented deviation, not an override.
+<code>vasic.digital</code> triggers provider-side Pages runs with no
+workflow file to disable. <strong>Do not read this as PASS
+anywhere</strong>: §11.4.156(B)’s test is <em>“a push triggers ZERO
+runs”</em>, two of three surfaces knowingly fail it, and the umbrella’s
+remaining provider-side settings are unverified.</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.157</td>
+<td>GEMINI.md maintained in lockstep with CLAUDE.md / AGENTS.md /
+QWEN.md (User mandate, 2026-06-15)</td>
+<td><code>Constitution.md:9558</code></td>
+<td><strong>FAIL</strong></td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.158</td>
+<td>Intensive all-feature/flow/edge-case video-recording +
+read-the-screen content-verification mandate (User mandate, 2026-</td>
+<td><code>Constitution.md:9574</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.159</td>
+<td>Mandatory window-specific video recording + vision validation
+mandate (User mandate, 2026-06-20)</td>
+<td><code>Constitution.md:9600</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.160</td>
+<td>Vision-verified recording + HelixQA bridge mandate (User mandate,
+2026-06-21)</td>
+<td><code>Constitution.md:9649</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.161</td>
+<td>Rootless container runtime mandate (User mandate, 2026-06-21)</td>
+<td><code>Constitution.md:9671</code></td>
+<td><strong>FAIL</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>§11.4.162</td>
+<td>OpenDesign UI design system mandate (User mandate, 2026-06-21)</td>
+<td><code>Constitution.md:9689</code></td>
+<td><strong>FAIL</strong></td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§11.4.163</td>
+<td>Universal Media Validation &amp; Verification Mandate (User mandate,
+2026-06-21)</td>
+<td><code>Constitution.md:9717</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.164</td>
+<td>Universal Constitution Auto-Propagation &amp; Hook System (User
+mandate, 2026-06-21)</td>
+<td><code>Constitution.md:9741</code></td>
+<td><strong>FAIL</strong></td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.165</td>
+<td>Universal Independent Verification Agent Mandate (User mandate,
+2026-06-21)</td>
+<td><code>Constitution.md:9769</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.166</td>
+<td>REPEALED (operator decision, 2026-06-22)</td>
+<td><code>Constitution.md:9793</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.167</td>
+<td>Big-work-item feature work-stream lifecycle (own copy-on-write
+project copy + own branch/tags + per-feature builds, no-m</td>
+<td><code>Constitution.md:9795</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.168</td>
+<td>Exported-document independent content + textual + full-visual
+validation mandate (User mandate, 2026-06-23)</td>
+<td><code>Constitution.md:9913</code></td>
+<td><strong>FAIL</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>§11.4.169</td>
+<td>Mandatory comprehensive test-type coverage with anti-bluff captured
+evidence (User mandate, 2026-06-25)</td>
+<td><code>Constitution.md:9935</code></td>
+<td><strong>FAIL</strong></td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§11.4.140</td>
+<td>Mandatory HelixTranslate canonical translation pipeline (User
+mandate, 2026-06-25)</td>
+<td><code>Constitution.md:9969</code></td>
+<td><strong>FAIL</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>§11.4.141</td>
+<td>Mandatory independent per-language translation review (User mandate,
+2026-06-25)</td>
+<td><code>Constitution.md:9999</code></td>
+<td><strong>FAIL</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>§11.4.170</td>
+<td>Device-independent host-side rendered-UI visual-proof mandate (User
+mandate, 2026-06-25)</td>
+<td><code>Constitution.md:10029</code></td>
+<td><strong>FAIL</strong></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>§12</td>
+<td>Host-session safety — directly OR indirectly signing the user out is
+FORBIDDEN</td>
+<td><code>Constitution.md:10033</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§12.1</td>
+<td>Forbidden operations — directly OR indirectly</td>
+<td><code>Constitution.md:10039</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§12.2</td>
+<td>Required safeguards</td>
+<td><code>Constitution.md:10060</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§12.3</td>
+<td>Container hygiene</td>
+<td><code>Constitution.md:10074</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§12.6</td>
+<td>Memory-Budget Ceiling — 60% MAXIMUM</td>
+<td><code>Constitution.md:10085</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§12.10</td>
+<td>Continuation document — sacred invariant</td>
+<td><code>Constitution.md:10115</code></td>
+<td>—</td>
+<td>No</td>
+</tr>
+<tr>
+<td>§12.11</td>
+<td>Maximal dynamic resource utilization for containerized builds (User
+mandate, 2026-07-03)</td>
+<td><code>Constitution.md:10157</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§12.12</td>
+<td>Process/thread-limit (RLIMIT_NPROC) awareness for parallel
+subagent/multi-process work (User mandate, 2026-07-07)</td>
+<td><code>Constitution.md:10177</code></td>
+<td>—</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.171</td>
+<td>Mandatory comprehensive human-readable workable-item descriptions
+(User mandate, 2026-06-29)</td>
+<td><code>Constitution.md:10241</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.172</td>
+<td>Mandatory production-readiness planning with realistic timeline
+projection (User mandate, 2026-06-29)</td>
+<td><code>Constitution.md:10243</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.173</td>
+<td>Containerized + distributed build mandate (User mandate,
+2026-06-29)</td>
+<td><code>Constitution.md:10245</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.174</td>
+<td>Shared-host process-ownership verification mandate (User mandate,
+2026-06-29)</td>
+<td><code>Constitution.md:10247</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.176</td>
+<td>Conflict-free multi-track work-division + exactly-once claim
+registry + capability-aware deadlock-proof device-lock (Use</td>
+<td><code>Constitution.md:10249</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.177</td>
+<td>Developer-tooling project-decoupling + invocation-directory
+operation (User mandate, 2026-07-04)</td>
+<td><code>Constitution.md:10251</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.178</td>
+<td>Track-qualified identity for parallel work streams (session-name
+collision ban) (User mandate, 2026-07-04)</td>
+<td><code>Constitution.md:10253</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.179</td>
+<td>Corruption-isolated parallel git streams (own-.git independent
+clones, not shared-common-dir worktrees) (User mandate, 2</td>
+<td><code>Constitution.md:10255</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.180</td>
+<td>Commit/push (single-writer) wrappers MUST auto-reap provably-stale
+locks before acquiring (User mandate, 2026-07-04)</td>
+<td><code>Constitution.md:10257</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.181</td>
+<td>Consistent controlled feature-branch naming: one feature/logic-group
+⇒ exactly ONE canonical branch name across the main</td>
+<td><code>Constitution.md:10259</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.182</td>
+<td>Track+branch work-stream identity label
+<code>(T&lt;N&gt;/&lt;branch&gt;)</code> on every
+agent/subagent/work-stream label and every operator-f</td>
+<td><code>Constitution.md:10261</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.183</td>
+<td>Maximal multi-agent utilization per work-stream +
+full-constitution-application + zero-bluff mandate (User mandate,
+2026</td>
+<td><code>Constitution.md:10263</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.184</td>
+<td>Mandatory SonarQube static-analysis CLI + local tooling installed
+and PATH-discoverable (User mandate, 2026-07-06)</td>
+<td><code>Constitution.md:10265</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.185</td>
+<td>Manual QA-team testing as the mandatory FINAL confirmation of done
+(User mandate, 2026-07-07)</td>
+<td><code>Constitution.md:10267</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.186</td>
+<td>Anti-divergence enforcement: cross-document consistency is a
+mandatory-before-export/commit gate, never an after-the-fac</td>
+<td><code>Constitution.md:10271</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.187</td>
+<td>Automatic multi-track ruler orchestration (User mandate, 2026-07-04;
+landed 2026-07-09)</td>
+<td><code>Constitution.md:10273</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.188</td>
+<td>Regular main→feature merge cadence: every track / feature-branch
+MUST FREQUENTLY merge canonical <code>main</code> into itself DURI</td>
+<td><code>Constitution.md:10275</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.189</td>
+<td>Most-reopened cases get extra-depth live-testing scrutiny FIRST
+(User mandate, 2026-07-10)</td>
+<td><code>Constitution.md:10277</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.190</td>
+<td>Website engineering-quality mandate: every project website MUST be
+fully responsive + completely SEO-optimized + uniquel</td>
+<td><code>Constitution.md:10279</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.191</td>
+<td>Work-to-track/branch binding enforcement: a logic-group’s work can
+NEVER be committed OR dispatched onto the wrong track</td>
+<td><code>Constitution.md:10281</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.192</td>
+<td>Continuous multi-track auto-backfill: a FREE track MUST be
+IMMEDIATELY re-assigned its next-highest-priority domain work</td>
+<td><code>Constitution.md:10283</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.193</td>
+<td>Anti-blind-typing mandate: every UI interaction MUST be “seen” and
+“understood” via OCR/vision/screenshot proof, NEVER b</td>
+<td><code>Constitution.md:10303</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.194</td>
+<td>Exhaustive all-scenario, all-angle code-review +
+verify-against-captured-runtime-evidence mandate (User mandate,
+2026-07</td>
+<td><code>Constitution.md:10325</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.195</td>
+<td>Branch-structure governance: taxonomy + merge-after-live-QA +
+flavor/product non-merge (User mandate, 2026-07-14)</td>
+<td><code>Constitution.md:10353</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.196</td>
+<td>Native-alias-first priority + per-alias real-signal
+limit/subscription tracking + auto-rebind-on-recovery +
+resource-det</td>
+<td><code>Constitution.md:10388</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.197</td>
+<td>Research / kicked-off-work completion mandate: every research effort
+MUST be driven to full, wired, verified completion</td>
+<td><code>Constitution.md:10398</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.198</td>
+<td>Default working mechanisms: multi-alias native-first orchestration
+AND heavy token-optimization are ALWAYS-ON defaults f</td>
+<td><code>Constitution.md:10420</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.199</td>
+<td>Exact-reproduction-sequence mandate: when a working reproduction
+exists, the investigation MUST use ITS exact sequence —</td>
+<td><code>Constitution.md:10438</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.200</td>
+<td>Non-targetable deploy/flash tooling MUST isolate exactly ONE
+eligible target and VERIFY-AFTER-WRITE on the INTENDED targ</td>
+<td><code>Constitution.md:10458</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.201</td>
+<td>Every guard/gate MUST assert the REAL condition: a false-positive
+refusal is a FAIL-bluff, a false-negative pass is a PA</td>
+<td><code>Constitution.md:10478</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.202</td>
+<td>Reporting directives: a report MUST auto-create a fully-populated,
+fully-synced workable item — never a prose acknowledg</td>
+<td><code>Constitution.md:10518</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.207</td>
+<td>Instant multi-stream resume engine: whole-fleet continuation state
+is a durable, content-addressed, atomically-committed</td>
+<td><code>Constitution.md:10524</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.208</td>
+<td>Operator-request-history document: every project maintains a
+project-local, always-in-sync ledger of every operator requ</td>
+<td><code>Constitution.md:10532</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.209</td>
+<td>Code-review MUST run on the Fable model at xhigh effort (Opus xhigh
+fallback) (User mandate, 2026-07-15)</td>
+<td><code>Constitution.md:10544</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.210</td>
+<td>Zero-loss request/prompt intake: every operator request MUST be
+mechanically captured, tracked, and processed — never sk</td>
+<td><code>Constitution.md:10556</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.211</td>
+<td>Merge-conflict resolution during main→feature/product/flavor merges
+MUST run on the Fable model at xhigh effort (Opus xh</td>
+<td><code>Constitution.md:10572</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.212</td>
+<td>Main README is the canonical starting-point / entry point for ALL
+project documentation — no doc may be an orphan unreac</td>
+<td><code>Constitution.md:10584</code></td>
+<td><strong>FAIL</strong></td>
+<td>No</td>
+</tr>
+<tr>
+<td>§11.4.213</td>
+<td>FEATURE research-scheduling directive: recognized via all §11.4.140
+forms, SCHEDULES (never synchronously executes) a de</td>
+<td><code>Constitution.md:10596</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.214</td>
+<td>Recurrence-links-not-mints: a defect that returns MUST reopen its
+existing item, never enter as a new id (research-deriv</td>
+<td><code>Constitution.md:10618</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.215</td>
+<td>A doc that BINDS work MUST live, tracked, in the repository where
+that work happens (research-derived, 2026-07-17)</td>
+<td><code>Constitution.md:10638</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.216</td>
+<td>Canonical machine-readable design-token source: one CSS
+custom-property file (<code>:root</code> +
+<code>[data-theme="dark"]</code>), generate</td>
+<td><code>Constitution.md:10652</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.217</td>
+<td>OpenDesign brand contract: every UI-shipping product carries a
+9-section DESIGN.md + tokens.css twin with disjoint color</td>
+<td><code>Constitution.md:10666</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.218</td>
+<td>Living design-library catalogue: every component × state × theme
+rendered self-contained + a cross-platform reusability</td>
+<td><code>Constitution.md:10680</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.219</td>
+<td>Per-app screen catalogues: full-IA coverage per surface,
+per-platform chrome variants, honesty markers for unbuilt behav</td>
+<td><code>Constitution.md:10694</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.220</td>
+<td>Open-first design tooling: self-hosted open platforms are primary;
+proprietary tools are import/export targets only; des</td>
+<td><code>Constitution.md:10708</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.221</td>
+<td>Motion discipline: token-bound durations/easings + machine-readable
+manifest + reduced-motion static fallbacks everywher</td>
+<td><code>Constitution.md:10722</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.222</td>
+<td>Design-completion export wave: a design is not done until token
+codegen, the honest-output raster matrix, both-theme ren</td>
+<td><code>Constitution.md:10736</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.223</td>
+<td>Provenance-marker discipline for design documentation + central
+open-item registry in the area index (User mandate, 2026</td>
+<td><code>Constitution.md:10750</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.224</td>
+<td>Test-first (TDD) for ALL work, not only fixes + a minimum
+code-coverage floor that is NECESSARY-never-sufficient (User m</td>
+<td><code>Constitution.md:10764</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.225</td>
+<td>Scheduler-quota burst-throttling telemetry + interactive-scope
+isolation from bursty fleets: progressive interactive deg</td>
+<td><code>Constitution.md:10790</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.226</td>
+<td>Evidence-class-at-closure + standing detection pressure: machinery
+presence does NOT predict whether a fix holds — the E</td>
+<td><code>Constitution.md:10808</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.227</td>
+<td>Governance-corpus self-custody: the rule corpus is bound by the same
+custody it imposes — every named gate is implemente</td>
+<td><code>Constitution.md:10838</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.228</td>
+<td>Cross-agent extension lifecycle mandate: per-platform compatibility
+declaration, source tracking, per-extension document</td>
+<td><code>Constitution.md:10860</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.229</td>
+<td>Live in-session task/todo tracker MUST always be up to date and
+fully in sync with the real work state — never stale, ne</td>
+<td><code>Constitution.md:10907</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.230</td>
+<td>Parallelized-pipeline methodology: build↔︎validate overlap +
+affected-stages-only re-run + parallel multi-device testing/</td>
+<td><code>Constitution.md:10927</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.231</td>
+<td>Nano-precision model-tier selection: lightest-capable-model-first
+with dynamic mid-task escalation (User mandate, 2026-0</td>
+<td><code>Constitution.md:10944</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.232</td>
+<td>Anti-mess long-op orchestration: every long-op is registered,
+single-owned-per-purpose, liveness-PROVEN, handed-off-on-s</td>
+<td><code>Constitution.md:10967</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.233</td>
+<td>Standing anti-mess control plane: a level-triggered, idempotent,
+invariant-catalogue reconciliation loop over the WHOLE</td>
+<td><code>Constitution.md:10994</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.234</td>
+<td>Dedicated hook-validation script: hook checks run as an explicit
+stage of a dedicated commit/push script, and the commit</td>
+<td><code>Constitution.md:11017</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.235</td>
+<td>Build-and-deploy the moment source fixes are proven-correct
+(test-side hardening is a parallel stage, never a build gate</td>
+<td><code>Constitution.md:11035</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.236</td>
+<td>QA-deploy-readiness gate: no manual-QA hand-off until the mandated
+validation produced a candidate-fingerprinted PASS ve</td>
+<td><code>Constitution.md:11049</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+<tr>
+<td>§11.4.237</td>
+<td>Mandatory exhaustive context-and-spirit-aware translation review:
+every localized artifact independently reviewed for CO</td>
+<td><code>Constitution.md:11055</code></td>
+<td><strong>FAIL</strong></td>
+<td>Partial</td>
+</tr>
+<tr>
+<td>§11.4.238</td>
+<td>Automated QA must be the DISCOVERER: manual QA finds nothing new,
+and anything it finds is a coverage escape (User manda</td>
+<td><code>Constitution.md:11077</code></td>
+<td><strong>FAIL</strong></td>
+<td>Unknown</td>
+</tr>
+</tbody>
+</table>
+<h3 id="verdict-rollup">9.1 Verdict rollup</h3>
+<p>Counted mechanically over the table above.</p>
+<table>
+<thead>
+<tr>
+<th>Substance verdict</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Yes</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Partial</td>
+<td>14</td>
+</tr>
+<tr>
+<td>No</td>
+<td>26</td>
+</tr>
+<tr>
+<td>Unknown — needs verification</td>
+<td>211</td>
+</tr>
+<tr>
+<td><strong>Total anchor rows</strong></td>
+<td><strong>261</strong></td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Propagation-gate verdict</th>
+<th>Rows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FAIL</strong> — gate declared, cannot pass (175 distinct
+gates over 177 rows)</td>
+<td>177</td>
+</tr>
+<tr>
+<td>No gate declared</td>
+<td>84</td>
+</tr>
+<tr>
+<td><strong>Total anchor rows</strong></td>
+<td><strong>261</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="unverified-items">10. Unverified items</h2>
+<p>Each of these is honestly <strong>unverified</strong>; the action
+that would settle it is given.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Why unverified</th>
+<th>What would verify it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>196 anchors marked <code>Unknown</code> in <a
+href="#9-full-mandatory-rule-table">§9</a></td>
+<td>Checking each requires running the project’s own gates, which do not
+exist (G3), or domain-specific runtime evidence</td>
+<td>Build <code>scripts/verify-all-constitution-rules.sh</code> per
+§11.4.32 and run it; that script <em>is</em> the mechanism the
+constitution specifies for answering this question</td>
+</tr>
+<tr>
+<td>Whether the umbrella is intended to be multi-provider (§2.1)</td>
+<td><code>git remote -v</code> shows one provider;
+<code>upstreams/</code> holds only <code>GitHub.sh</code>. §2.1 binds
+“Every project hosted on multiple Git providers”</td>
+<td>Operator statement, or running
+<code>submodules/constitution/install_upstreams.sh</code> semantics
+against the umbrella’s intended mirror set</td>
+</tr>
+<tr>
+<td>Whether the constitution submodule pointer is current</td>
+<td>Comparing to upstream requires <code>git fetch</code>, which this
+pass was forbidden to run</td>
+<td><code>git -C submodules/constitution fetch --all &amp;&amp; git -C submodules/constitution log --oneline HEAD..origin/main</code></td>
+</tr>
+<tr>
+<td>Whether <code>.codegraph/codegraph.db</code> indexes own-org
+submodules (§11.4.79)</td>
+<td>The DB was not opened</td>
+<td><code>sqlite3 .codegraph/codegraph.db</code> and inspect indexed
+paths for submodule prefixes</td>
+</tr>
+<tr>
+<td>Whether releases exist on remote providers</td>
+<td>Requires network</td>
+<td><code>gh release list</code> / <code>glab release list</code> — the
+prior audit at <code>_analysis/constitution-compliance.md</code> flagged
+the same item as “UNVERIFIED (offline)”</td>
+</tr>
+<tr>
+<td>Whether <code>submodules/superspec</code> is genuinely
+third-party</td>
+<td>Inferred from its upstream
+<code>git@github.com:WangX0111/superspec.git</code> being outside every
+operator-listed org in §11.4.28</td>
+<td>Operator confirmation, or <code>gh org list</code> per §11.4.28’s
+own discovery instruction</td>
+</tr>
+<tr>
+<td>§3 commit-ordering compliance (submodule-first)</td>
+<td>Requires reflog archaeology across seven repos</td>
+<td><code>git -C &lt;sub&gt; reflog</code> cross-referenced against
+parent commit timestamps</td>
+</tr>
+<tr>
+<td>Whether <code>ai_interviewing</code> / <code>monetization</code> are
+in-scope for §11.4.28(A) equal-codebase work</td>
+<td>Both are near-empty (<code>monetization/</code> holds
+<code>docs</code>, <code>README.md</code>, <code>repos.txt</code>,
+<code>upstreams</code>)</td>
+<td>Operator scoping decision</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-commands-used-to-produce-this-document">Appendix —
+commands used to produce this document</h2>
+<p>All read-only. Reproducible from a clean checkout.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inventory</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-a</span><span class="kw">;</span> <span class="fu">cat</span> .gitmodules<span class="kw">;</span> <span class="fu">git</span> ls-files <span class="at">-s</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;$1==160000&#39;</span><span class="kw">;</span> <span class="fu">git</span> submodule status</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-la</span> submodules/constitution submodules/constitution/submodules</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Rule corpus</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&#39;^## \|^### &#39;</span> submodules/constitution/Constitution.md</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-o</span> <span class="st">&#39;CM-COVENANT-114-[0-9]*-PROPAGATION&#39;</span> submodules/constitution/Constitution.md <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-u</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-o</span> <span class="st">&#39;\bMUST\b&#39;</span> submodules/constitution/Constitution.md <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-o</span> <span class="st">&#39;\bSHOULD\b&#39;</span> submodules/constitution/Constitution.md <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Governance-layer presence</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> CLAUDE.md AGENTS.md QWEN.md GEMINI.md Constitution.md CONTINUATION.md helix-deps.yaml<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="bu">[</span> <span class="ot">-e</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;PRESENT </span><span class="va">$f</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;ABSENT  </span><span class="va">$f</span><span class="st">&quot;</span><span class="kw">;</span> <span class="cf">done</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> grep <span class="at">-n</span> <span class="at">-e</span> <span class="st">&#39;@constitution/CLAUDE.md&#39;</span> <span class="at">-e</span> <span class="st">&#39;INHERITED FROM constitution&#39;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-maxdepth</span> 3 <span class="at">-name</span> .git <span class="at">-prune</span> <span class="at">-o</span> <span class="at">-type</span> f <span class="dt">\</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">\(</span> <span class="at">-iname</span> <span class="st">&#39;AGENTS.md&#39;</span> <span class="at">-o</span> <span class="at">-iname</span> <span class="st">&#39;CLAUDE.md&#39;</span> <span class="at">-o</span> <span class="at">-iname</span> <span class="st">&#39;QWEN.md&#39;</span> <span class="dt">\</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">-o</span> <span class="at">-iname</span> <span class="st">&#39;GEMINI.md&#39;</span> <span class="at">-o</span> <span class="at">-iname</span> <span class="st">&#39;.cursorrules&#39;</span> <span class="at">-o</span> <span class="at">-iname</span> <span class="st">&#39;Constitution.md&#39;</span> <span class="dt">\)</span> <span class="at">-print</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Enforcement-layer presence</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> scripts/<span class="kw">;</span> <span class="fu">ls</span> .git/hooks/ <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-v</span> sample<span class="kw">;</span> <span class="fu">cat</span> .claude/settings.local.json</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Export + entrypoint gaps</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files <span class="st">&#39;*.md&#39;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-vE</span> <span class="st">&#39;^(submodules/|milosvasic\.ru/|vasic\.digital/|design-toolkit/|ai_interviewing/|monetization/|_content)&#39;</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-oE</span> <span class="st">&#39;\]\([^)]+\)&#39;</span> README.md</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Tag mirroring</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag<span class="kw">;</span> <span class="cf">for</span> s <span class="kw">in</span> milosvasic.ru vasic.digital design-toolkit ai_interviewing monetization submodules/constitution<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$s</span><span class="st"> </span><span class="va">$(</span><span class="fu">git</span> <span class="at">-C</span> <span class="va">$s</span> tag <span class="at">-l</span> v1.8.0<span class="va">)</span><span class="st">&quot;</span><span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
+</body>
+</html>

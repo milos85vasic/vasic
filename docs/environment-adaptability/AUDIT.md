@@ -372,7 +372,7 @@ be added without running it.
 ## 1. What this covers, and what it does not
 
 `scripts/audit-hardcoded-paths.sh` already exists and catches exactly one class:
-machine-specific **absolute paths** (`/Volumes/T7/...`, `/home/<someone>/...`).
+machine-specific **absolute paths** (`<macos-host>/...`, `/home/<someone>/...`).
 It is blind to everything else that ties the tree to one box.
 
 `scripts/audit-environment-assumptions.sh` is its sibling for the broader class.

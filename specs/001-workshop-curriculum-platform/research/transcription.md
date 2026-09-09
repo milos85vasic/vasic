@@ -84,8 +84,8 @@ current load would roughly double it. Scheduling is part of the design, not an a
 ```console
 $ for t in ffprobe ffmpeg python3 whisper sox mediainfo pdftotext pdfinfo pdftoppm tesseract ollama nvidia-smi; do
     p=$(command -v "$t"); [ -n "$p" ] && echo "FOUND $t -> $p" || echo "MISSING $t"; done
-FOUND ffprobe -> /home/milosvasic/bin/ffprobe
-FOUND ffmpeg -> /home/milosvasic/bin/ffmpeg
+FOUND ffprobe -> <home>/bin/ffprobe
+FOUND ffmpeg -> <home>/bin/ffmpeg
 FOUND python3 -> /usr/bin/python3
 FOUND whisper -> /usr/bin/whisper
 MISSING sox
@@ -93,7 +93,7 @@ MISSING mediainfo
 FOUND pdftotext -> /usr/bin/pdftotext
 FOUND pdfinfo -> /usr/bin/pdfinfo
 FOUND pdftoppm -> /usr/bin/pdftoppm
-FOUND tesseract -> /home/milosvasic/.local/bin/tesseract
+FOUND tesseract -> <home>/.local/bin/tesseract
 FOUND ollama -> /usr/bin/ollama
 MISSING nvidia-smi
 ```
@@ -108,9 +108,9 @@ $ ffprobe -show_format -show_streams "…Recording.mp4"
 Unrecognized option 'show_format'.
 Error splitting the argument list: Option not found
 
-$ ls -la /home/milosvasic/bin/ffprobe /home/milosvasic/bin/ffmpeg
-lrwxrwxrwx … /home/milosvasic/bin/ffmpeg  -> /home/milosvasic/.cache/ms-playwright/ffmpeg-1011/ffmpeg-linux
-lrwxrwxrwx … /home/milosvasic/bin/ffprobe -> /home/milosvasic/.cache/ms-playwright/ffmpeg-1011/ffmpeg-linux
+$ ls -la <home>/bin/ffprobe <home>/bin/ffmpeg
+lrwxrwxrwx … <home>/bin/ffmpeg  -> <home>/.cache/ms-playwright/ffmpeg-1011/ffmpeg-linux
+lrwxrwxrwx … <home>/bin/ffprobe -> <home>/.cache/ms-playwright/ffmpeg-1011/ffmpeg-linux
 ```
 
 Both names are symlinks to the **same** Playwright-bundled binary, which is `ffmpeg`, not
@@ -1079,9 +1079,9 @@ recalibrate the thresholds above.
 ```console
 $ pdfinfo "…Notes by Gemini.PDF"
 Title:           Milos teaching … AI workflows - 2026/08/27 09:57 CEST - Notes by Gemini
-Creator:         Mozilla/5.0 (Linux; arm_64; Android 16; SM-S918B) … YaBrowser/26.8.1.121.00 Mobile Safari/537.36
+[REDACTED 2026-09-09: a device/user-agent fingerprint and an exact document creation timestamp, both extracted from a PRIVATE session's notes PDF, stood here. They identified a physical device and are withdrawn. CONTAINMENT ONLY — the values remain in this PUBLIC repository's history at commit 16cd4ba, and history rewriting is forbidden by §11.4.113. Whose device it was is UNDETERMINED.]
 Producer:        Skia/PDF m150
-CreationDate:    Thu Aug 27 19:33:49 2026 CEST
+
 Pages:           8
 Tagged:          yes
 File size:       417800 bytes

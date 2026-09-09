@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>research</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">research</h1>
+</header>
+<h1 id="phase-0-research">Phase 0 — Research</h1>
+<p><strong>Feature</strong>: Session record per chapter + QA readiness ·
+<strong>Date</strong>: 2026-09-08</p>
+<p>Every decision was settled by a measurement taken on this tree,
+quoted with it. Where a decision rests on judgement rather than
+measurement, that is said.</p>
+<p><strong>No NEEDS CLARIFICATION entered this phase</strong> — four
+were closed in the spec’s Clarifications section. What follows are the
+design decisions those did not settle, plus three refuted hypotheses
+kept because each pointed the work in a wrong direction before being
+killed.</p>
+<hr />
+<h2 id="r1-where-does-the-session-records-data-come-from">R1 — Where
+does the session record’s data come from?</h2>
+<p><strong>Decision</strong>: From
+<code>pipeline/extract/meeting_notes.py</code>, which already produced
+all four sections into
+<code>curriculum/chapter-&lt;slug&gt;/knowledge/*.jsonl</code>. Build
+the plan, the cumulative view, carry-forward and serving
+<strong>around</strong> it.</p>
+<p><strong>Rationale.</strong> The producer existed and was wired into
+the pipeline. The initial brief said “0 matches inside
+<code>chapters/</code>”, which was accurate and misleading — the
+material lives under <code>curriculum/</code>. Forking the producer
+would have created two extraction mechanisms for one record (§11.4.251)
+and, worse, two mechanisms that could disagree about the same
+section.</p>
+<p><strong>What was genuinely absent</strong>: the plan, the cumulative
+view, carry-forward, the empty-versus-unwritten distinction, and
+serving.</p>
+<p><strong>Alternatives considered</strong>: authoring the sections by
+hand (rejected — a hand-maintained list drifts from what the pipeline
+produces); a second extractor tuned for this feature (rejected — the
+fork).</p>
+<hr />
+<h2 id="r2-how-is-carry-forward-computed-so-a-point-cannot-vanish">R2 —
+How is carry-forward computed so a point cannot vanish?</h2>
+<p><strong>Decision</strong>:
+<code>plan(N) = unresolved points of plan(N−1) with slip+1</code>
+<strong>plus</strong> chapter N−1’s next-meeting points. Coverage is a
+recorded <em>input</em>, and <strong>absence of a decision resolves to
+<code>carried</code></strong>.</p>
+<p><strong>Rationale, and it is the load-bearing design choice.</strong>
+<code>Resolve</code> has <strong>no fourth branch</strong>. A planned
+point is covered, carried, or dropped-with-a-reason; there is no path by
+which it can be neither. <strong><code>vanished=0</code> therefore holds
+by construction, not by diligence</strong> — which is the only way it
+can hold across a corpus nobody re-reads.</p>
+<p>A drop recorded <strong>without a reason is refused</strong> and
+carries instead, so “dropped” cannot become a quiet disposal route.</p>
+<p>Ordering uses <code>curriculum.ChapterID.OrdinalPath</code>, which
+already exists. <strong>A second ordering is a second thing to
+disagree.</strong></p>
+<p><strong>Measured</strong>: 66 planned, 0 covered, 66 carried, 0
+dropped, <strong>0 vanished</strong>; 436 items, 210 carried, max slip
+2, one terminal outbox holding 42 points.</p>
+<hr />
+<h2 id="r3-why-is-covered-0-and-why-was-a-verdict-refused">R3 — Why is
+<code>covered: 0</code>, and why was a verdict refused?</h2>
+<p><strong>Decision</strong>: <code>coverage_state: undecided</code>,
+and <strong>no coverage verdict was authored</strong>.</p>
+<p><strong>Rationale, in the deriving agent’s own words</strong>:
+judging coverage means matching one heuristic extraction against
+another, and a text-match verdict would be <em>“a guess wearing a
+decision’s clothes”</em> — every downstream percentage would inherit
+it.</p>
+<p>The plan basis is weaker than an agenda and the record says so: it is
+a <strong>cue-phrase heuristic over ASR text</strong> whose own
+docstring admits it misses paraphrases. It is <em>what was said about
+the next session</em>, never <em>an agreed agenda</em>.</p>
+<p><strong>Chapter 01’s plan is UNDETERMINED</strong> — no predecessor,
+no recorded intent anywhere. No plan was invented and <strong>no
+coverage percentage is computed for it</strong>.</p>
+<p><strong>The operator has since asked for a machine PROPOSAL under
+review.</strong> FR-007a is what makes that compatible with the refusal
+rather than an override: a proposal carries per-point evidence and
+confidence, is marked PROPOSED, and <strong>the served
+<code>coverage_state</code> must remain <code>undecided</code></strong>
+until a human confirms. A draft must not move a published figure.</p>
+<hr />
+<h2 id="r4-where-do-the-four-sections-live-on-the-wire">R4 — Where do
+the four sections live on the wire?</h2>
+<p><strong>Decision</strong>: <strong>Both</strong> — a
+<code>session_record</code> key on <code>GET /api/chapters/{id}</code>,
+<strong>and</strong> three dedicated routes. The fourth is blocked.</p>
+<p><strong>Rationale.</strong> The embedded key was built first,
+deliberately avoiding route-manifest churn, and it works: four sections,
+126 carry-forward markers, 281 slip references, one outbox. But
+<strong>four Angular components already existed</strong> for standalone
+routes, and the manifest carried four <code>NOT_BUILT</code> DEBT rows.
+The data was reachable one way while the UI was built for another.</p>
+<p>The operator chose to build the routes. The binding constraint is
+that both surfaces <strong>consume
+<code>pkg/sessionrecord</code></strong> rather than re-deriving — and
+the gate must assert they agree, because <em>a route and a key that
+agree today are exactly what drift</em>.</p>
+<p><strong><code>meeting-notes</code> is NOT built.</strong> The
+manifest records that its withholding rule <strong>may not be
+guessed</strong>, because one note is a content judgement left undecided
+for the operator. FR-005a: a route built on a guessed withholding rule
+publishes a judgement nobody made. That refusal is preserved, not routed
+around.</p>
+<hr />
+<h2 id="r5-refuted-the-platform-is-close-to-qa-ready">R5 — REFUTED: “the
+platform is close to QA-ready”</h2>
+<p><strong>Refuted by an adversarial independent review, and recorded
+because the wrong belief nearly shipped.</strong></p>
+<p>Four headline claims were false against the running product:</p>
+<table>
+<thead>
+<tr>
+<th>claimed</th>
+<th>served</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30 areas with an assessment</td>
+<td><strong>14</strong></td>
+</tr>
+<tr>
+<td>224 graded questions</td>
+<td><strong>116</strong></td>
+</tr>
+<tr>
+<td>lessons carry real content</td>
+<td><strong>0 of 318</strong></td>
+</tr>
+<tr>
+<td>four session sections served</td>
+<td><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The evidence machinery was never bluffing about what it
+measures.</strong> It was silent about what nothing measured: no gate
+checked bank-to-area reachability across the population, no gate
+asserted a lesson body is non-empty, and the server-unity gate exited
+<strong>0</strong> while printing four <code>NOT_BUILT</code> routes as
+recorded debt — honest in its own output, but a “PASS” anyone could
+quote.</p>
+<p><strong>Every one of the four sat in a blind spot.</strong> That is
+why each fix ships the missing gate alongside it, and why the
+constitution gained <em>A Gate’s Population Is Part of Its
+Claim</em>.</p>
+<hr />
+<h2 id="r6-refuted-the-catalog-loader-is-broken">R6 — REFUTED: “the
+catalog loader is broken”</h2>
+<p>The 13 unreachable banks looked like a loader defect. <strong>It is
+not.</strong></p>
+<p><code>learning.Load</code> reads the catalog <strong>once at process
+start</strong>, deliberately and documentedly. The server then answered
+<em>“this area’s learning catalog carries no end-of-area test”</em> — a
+claim about the <strong>directory</strong> — from a snapshot taken hours
+earlier.</p>
+<p><strong>The discriminating condition was time, not the areas and not
+the banks</strong>: the 14 that worked had banks written at 07:13; the
+13 that failed at 10:47; the process started at 08:01.</p>
+<p><strong>Fix: the snapshot may only assert what it licenses.</strong>
+Staleness is four-valued — <code>Fresh</code> / <code>Stale</code> /
+<code>StalenessUnknown</code> / <code>NoSource</code>.
+<code>NoSource</code> is separate on purpose: an in-memory test catalog
+has no directory to have drifted from, so its negatives still stand. A
+stale catalog returns <strong>503</strong> naming the changed files.</p>
+<p><strong>Alternatives considered</strong>: reload on every request
+(rejected — solves the symptom at a cost the design deliberately
+avoided); watch the directory (rejected — more machinery than the
+honesty requires).</p>
+<hr />
+<h2 id="r7-refuted-the-lesson-bodies-were-lost">R7 — REFUTED: “the
+lesson bodies were lost”</h2>
+<p>They were <strong>read, measured, and discarded</strong> on every
+run. <code>build_learning_catalog.py</code> parsed every section body,
+used it once for <code>estimatedMinutes</code>, and never referenced it
+again.</p>
+<p><strong>The reason is the interesting part: the shared library’s
+<code>Lesson</code> had nowhere to put it.</strong> Its only text field
+was <code>Summary</code>, a one-line blurb the interface renders as a
+muted paragraph. Writing a 4,563-word body with time links into a field
+named <code>Summary</code> would have been a semantic lie, <strong>so
+the builder correctly dropped it rather than lying.</strong></p>
+<p><strong>Therefore the fix belonged upstream</strong>, in
+<code>curriculum-kit</code>, not in the consumer — and a consumer-local
+field would have failed the <strong>entire directory load</strong>,
+because <code>DecodeDocument</code> calls
+<code>DisallowUnknownFields()</code>.</p>
+<p><code>Body</code> is <strong>optional</strong> in the kit by
+deliberate choice: a materials-only lesson is legitimate, so “every
+lesson must have a body” is a <em>consumer policy</em> the library may
+not impose. A test records that choice so a future rule requiring one
+must change a test that explains its absence.</p>
+<p><strong>Measured</strong>: 339 of 339 at source, <strong>318 of 318
+served</strong>, median 328 words, longest 4,563. Twelve lessons under
+100 words were <strong>left short</strong> — converted, not padded.</p>
+<hr />
+<h2 id="r8-how-is-the-answer-key-kept-off-the-wire">R8 — How is the
+answer key kept off the wire?</h2>
+<p><strong>Decision</strong>: A <code>QuestionForTaking</code>
+projection built as a map with <strong>no answer field at all</strong> —
+not the domain type with fields omitted.</p>
+<p><strong>Rationale.</strong> The kit’s <code>Question</code> carries
+<code>CorrectChoices</code>/<code>Explanation</code> with
+<code>omitempty</code>, so <strong>marshalling the type directly would
+ship the key</strong> the moment a question had one. Omission depends on
+every future field remembering to omit itself; <strong>absence does
+not</strong>.</p>
+<p><strong>And the lock was bypassable one route over.</strong> The
+practice deck and the graded bank are the same authored rows emitted
+twice — <strong>224 of 224 match by prompt, 0 of 224 by id</strong>. So
+gating <code>/practice</code> would have deleted a feature the contract
+intends. The defect was the <em>disclosure</em>: answers are now
+withheld for graded rows, and the withholding <strong>says so</strong>
+rather than silently omitting.</p>
+<p><strong>Fail-closed on the R6 finding</strong>: nil catalog, load
+error <strong>or stale snapshot</strong> withholds every key, because a
+graded prompt the snapshot never saw would look “graded nowhere” to a
+literal index and be published.</p>
+<hr />
+<h2
+id="r9-what-makes-a-qa-document-usable-by-someone-who-has-never-seen-this">R9
+— What makes a QA document usable by someone who has never seen
+this?</h2>
+<p><strong>Decision</strong>: Every scenario states its expected result
+<strong>before</strong> the tester acts; every known limitation is
+disclosed <strong>in advance</strong>; the build identifier is
+recorded.</p>
+<p><strong>Rationale.</strong> A step that says only “click X” makes the
+tester the oracle, and they have no basis to be one. And <strong>a
+tester must never discover a known limitation as if it were a
+defect</strong> — re-finding what we already know is the most expensive
+way to spend a QA team’s time.</p>
+<p><strong>The documents must be regenerated, not patched</strong>
+(FR-020a). Written at 12:30 against the pre-rebuild product, they
+describe 14 areas with tests and 0 lessons with content; live is 27 and
+318 of 318. <strong>A stale expected-result column manufactures false
+defects</strong> and spends a tester’s day disproving our own fixes.</p>
+<hr />
+<h2 id="r10-what-does-the-client-see-and-what-is-disclosed">R10 — What
+does the client see, and what is disclosed?</h2>
+<p><strong>Decision</strong>: Disclose three facts up front (FR-020b) —
+39 areas served against 42 authored, 12 carrying no test with the
+reason, and every score indeterminate.</p>
+<p><strong>Rationale.</strong> Each has a good reason, and <strong>the
+reasons demonstrate the anti-bluff discipline rather than apologising
+for it</strong>. A gap discovered live is worse than one disclosed
+first. The alternative — demo only the 27 areas with tests — is
+legitimate for a demo but leaves an undisclosed gap one click away in a
+catalogue showing 39.</p>
+</body>
+</html>

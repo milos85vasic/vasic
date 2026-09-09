@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 # =============================================================================
 # translate-fleet.sh — parallel article-translation driver that runs the
-# HelixTranslate engine ONLY inside containers on thinker.local (podman) and
-# amber.local (docker), per the infra mandate. Jobs (site × lang × slug) are
-# round-robined across the two hosts and executed by a bounded worker pool, so
-# both machines translate concurrently. Each job delegates to the unchanged
+# HelixTranslate engine ONLY inside containers on the hosts declared in
+# HT_FLEET, per the infra mandate. Jobs (site × lang × slug) are round-robined
+# across those hosts and executed by a bounded worker pool, so every declared
+# machine translates concurrently. NO host name appears in this file. Each job delegates to the unchanged
 # translate-pipeline.sh (frontmatter-preserving, retry+fallback, artifact strip)
 # with HELIX_TRANSLATE_BIN pointed at the container shim.
 #
 # Usage: translate-fleet.sh <tag> <lang> [<lang> ...]
-# Env:   FLEET_PARALLEL (default 4)  HOSTS (default "thinker.local amber.local")
+# Env:   FLEET_PARALLEL (default 4)
+#        HT_FLEET  REQUIRED, space-separated `host[:runtime]` — no default,
+#                  absent is rc 2 (COULD NOT DETERMINE), never a guess.
+#                  `HOSTS` is honoured as a legacy alias.
+#        HT_SSH_USER (default $USER).  See _tools/lib/translation-fleet.sh.
 # Resumable: existing outputs are skipped. No `set -e` (one bad job ≠ abort).
 # =============================================================================
 set -uo pipefail
@@ -29,9 +33,15 @@ SHIM="$TOOLS/helixtranslate-container.sh"
 EVID="$ROOT/_tests/evidence/translate"
 SUM="$EVID/${TAG}-summary.log"
 JOBS="$EVID/${TAG}-jobs.tsv"
+# The fleet is DECLARED in the environment and RESOLVED here; this file carries
+# no machine name and no two-host assumption. Resolved BEFORE the evidence files
+# are truncated: an rc-2 run must leave no half-written run transcript behind.
+# shellcheck source=lib/translation-fleet.sh
+. "$TOOLS/lib/translation-fleet.sh"
+mapfile -t HOSTLIST < <(ht_fleet_hosts) || exit 2
+[ "${#HOSTLIST[@]}" -gt 0 ] || { echo "FATAL (rc 2): HT_FLEET resolved to no hosts" >&2; exit 2; }
 mkdir -p "$EVID"; : > "$SUM"; : > "$JOBS"
 PAR="${FLEET_PARALLEL:-4}"
-read -r -a HOSTLIST <<<"${HOSTS:-thinker.local amber.local}"
 
 # ---- Build the job list: site \t lang \t slug \t src \t out ----------------
 n=0
@@ -66,7 +76,7 @@ run_job() {
   # was a real §11.4.76(4) violation and was converted.
   # This script spawns no runtime and no ssh itself; it delegates both to
   # "$SHIM", whose own header declares the remaining exception.
-  local rt="podman"; [ "$host" = "amber.local" ] && rt="docker"
+  local rt; rt="$(ht_fleet_runtime "$host")" || return 2
   if HELIX_TRANSLATE_BIN="$SHIM" HT_HOST="$host" HT_RUNTIME="$rt" \
        bash "$PIPE" --in "$src" --out "$out" --lang "$lang" --article >>"$SUM" 2>&1; then
     echo "OK   $site/$lang/$slug @${host}"
@@ -74,8 +84,8 @@ run_job() {
     echo "FAIL $site/$lang/$slug @${host}"
   fi
 }
-export -f run_job
-export PIPE SHIM SUM
+export -f run_job ht_fleet_require ht_fleet_runtime
+export PIPE SHIM SUM HT_FLEET HOSTS HT_DEFAULT_RUNTIME
 
 # ---- Dispatch round-robin with a bounded pool ------------------------------
 i=0

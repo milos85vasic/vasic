@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>quickstart</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">quickstart</h1>
+</header>
+<h1 id="quickstart-validating-this-feature-end-to-end">Quickstart —
+validating this feature end to end</h1>
+<p><strong>Feature</strong>: Authored AI/IT Knowledge Areas ·
+<strong>Date</strong>: 2026-09-07</p>
+<p>Runnable scenarios that prove the feature works. Every command below
+has been executed; where a result is <strong>not</strong> yet
+obtainable, that is stated rather than written as an expectation.</p>
+<p><strong>Exit-code contract throughout: <code>0</code> clean ·
+<code>1</code> a real finding · <code>2</code> could not determine. A
+<code>2</code> is never a pass.</strong></p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li><code>podman</code> (no <code>docker</code> on this host)</li>
+<li>Go 1.26+, Node 20, Python 3</li>
+<li>The private <code>workshop</code> submodule initialised</li>
+<li><code>submodules/curriculum-kit</code> present (it is a plain
+directory — see the caveat at the end)</li>
+</ul>
+<h2 id="build-and-unit-gates">0 — Build and unit gates</h2>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> workshop/platform/backend</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> build ./... <span class="kw">&amp;&amp;</span> <span class="ex">go</span> vet ./... <span class="kw">&amp;&amp;</span> <span class="ex">go</span> test ./... <span class="at">-count</span><span class="op">=</span>1</span></code></pre></div>
+<p>Expected: <strong>rc 0</strong>, 19 packages ok. Measured: rc 0
+before and after this work.</p>
+<h2 id="the-catalogue-tells-the-truth-about-itself-us1-fr-018">1 — The
+catalogue tells the truth about itself (US1, FR-018)</h2>
+<p>The property: <strong><code>areas[]</code> is exactly the set whose
+<code>href</code> answers 200.</strong></p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/platform/gates/verify-area-publication-consistency.sh</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/platform/gates/prove-area-publication-consistency.sh</span></code></pre></div>
+<p>Expected: <strong>0</strong> —
+<code>6 passed / 0 failed / 0 could-not-determine</code>, then
+<strong>0</strong> — <code>7 passed / 0 failed / 7 mutations</code>.
+Both measured.</p>
+<p>The prover’s mutations are <strong>data</strong>, read from
+<code>MUTATION=</code>; the stub’s source is byte-identical on every
+run. Mutation 0 is a control that must go <strong>green</strong> — a
+gate that failed on everything would “catch” everything and prove
+nothing.</p>
+<p><strong>Vacuity check A6</strong>: nothing served <em>and</em>
+nothing held back must exit <strong>2</strong>. The prover asserts this,
+so a gate reporting “no inconsistencies” over an empty catalogue cannot
+pass.</p>
+<h2
+id="a-test-cannot-be-taken-early-and-cannot-leak-us2-fr-010-sc-009">2 —
+A test cannot be taken early, and cannot leak (US2, FR-010, SC-009)</h2>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/platform/gates/verify-assessment-gate.sh</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/platform/gates/prove-assessment-gate.sh</span></code></pre></div>
+<p>Expected: <strong>0</strong> — <code>9 passed</code>, then
+<strong>0</strong> — <code>17 passed / 17 mutations</code>.
+Measured.</p>
+<p>Watch <strong>B4/M7</strong> specifically: it is the mutation that
+opens the gate as soon as <em>any</em> lesson completes, and it passes
+five of the other assertions. If you change the fixture so its required
+set equals its lesson set, B4 stops catching it — the fixture, not the
+gate, is what makes this detectable.</p>
+<p><strong>Vacuity checks B9/B10</strong> exit <strong>2</strong> on a
+test gated on nothing.</p>
+<h2 id="video-anchors-resolve-and-land-correctly-us3-fr-016-sc-008">3 —
+Video anchors resolve and land correctly (US3, FR-016, SC-008)</h2>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> workshop/pipeline/extract/verify_curriculum_areas.py</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> workshop/pipeline/extract/verify_curriculum_areas.py <span class="at">--prove-failure</span></span></code></pre></div>
+<p>Measured: plain run <strong>rc 1</strong> —
+<code>A1 37 docs OK · A2/A3/A4 479 links, 0 link defects · A5 3 FAIL</code>;
+prover <strong>rc 0</strong> at
+<code>11 passed / 0 failed, 11 mutations</code>.</p>
+<p><strong>The rc 1 is correct and must not be silenced.</strong> The
+three failures are the three area documents with 62, 54 and 58 uncited
+claim blocks. Leaving them failing is the point; stamping them would be
+the bypass.</p>
+<p>Spot-check one link by hand in the browser and confirm all four
+consumer obligations: the player is at <code>t</code>, the passage is in
+view <strong>without scrolling</strong>, it is visually distinguished,
+and the range extent is discernible.</p>
+<h2 id="the-whole-learner-journey-us1-us2-sc-006">4 — The whole learner
+journey (US1 + US2, SC-006)</h2>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/platform/qa/challenges/api-challenges.sh</span></code></pre></div>
+<p>Measured: <strong>rc 0</strong>,
+<code>111 passed, 0 FAILED, 0 could not be determined</code>.</p>
+<p>Then, by hand: open the catalogue → open an area → read its lessons →
+attempt the test before finishing (expect a stated remaining requirement
+and <strong>no</strong> question text) → finish the lessons → take the
+test → read the result → reload and confirm the result is unchanged.</p>
+<blockquote>
+<p><strong>This journey CANNOT yet be completed against real
+content.</strong> Every real area answers a determined
+<code>no_learning_catalog</code> until
+<code>curriculum/learning/NN-&lt;slug&gt;.json</code> is authored. The
+six routes are proved against a synthetic bicycle-maintenance fixture
+only. This is a <strong>2</strong>, not a pass, and it is the largest
+open item.</p>
+</blockquote>
+<h2 id="served-state-matches-on-disk-state-fr-023a-defect-d8">5 — Served
+state matches on-disk state (FR-023a, defect D8)</h2>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/platform/gates/verify-server-unity.sh                 <span class="co"># against the live container</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/platform/gates/verify-server-unity.sh <span class="at">--base</span> <span class="op">&lt;</span>fresh<span class="op">&gt;</span>  <span class="co"># against a server built from this tree</span></span></code></pre></div>
+<p>Measured <strong>right now</strong>: against the live container
+<strong>RED — <code>PASS=37 FAIL=6</code></strong>, all six the new
+routes answering a plain-text 404 because the container is running the
+<strong>old binary</strong>. Against a server built from this tree:
+<strong><code>PASS=43 FAIL=0 UNDET=0 DEBT=8</code></strong>.</p>
+<p><strong>This is the feature’s own headline defect, live.</strong> A
+verified on-disk state is not evidence about what is served. It clears
+on restart:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/scripts/restart.sh     <span class="co"># full down/up, never `compose restart`</span></span></code></pre></div>
+<blockquote>
+<p><strong>Never pass <code>--destroy-volumes</code> to
+<code>stop.sh</code>.</strong> The <code>workshop-index</code> volume
+holds hours of transcription output.</p>
+</blockquote>
+<p>Restart <strong>once</strong>, after every writer has stopped — a
+restart mid-write measures a tree that is still moving.</p>
+<h2 id="presentation-us5-sc-010-sc-011">6 — Presentation (US5, SC-010,
+SC-011)</h2>
+<blockquote>
+<p><strong>No instrument exists yet.</strong> SC-010 (≥6 hue families
+across principal surfaces) and SC-011 (contrast floors in both light and
+dark) have no check.</p>
+<p>A check written here must read <strong>the served
+stylesheet</strong>, not the token source. A token-level measurement is
+evidence about tokens, and reporting it as evidence about the interface
+is exactly defect D6. Rebuild immediately before measuring and state
+which build was measured.</p>
+</blockquote>
+<h2 id="standalone-cloneability-us6-fr-024">7 — Standalone cloneability
+(US6, FR-024)</h2>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/scripts/verify-standalone-clone.sh</span></code></pre></div>
+<p>Measured: <strong>3 gaps</strong>, up from 2. The new row is truthful
+and is the gate working:</p>
+<pre><code>platform/backend/go.mod: replace target ../../../submodules/curriculum-kit
+resolves OUTSIDE this repository and &#39;curriculum-kit&#39; is not declared in
+helix-deps.yaml</code></pre>
+<p><code>submodules/curriculum-kit</code> <strong>is not a git
+repository</strong>. It has no commit, so no truthful
+<code>helix-deps.yaml</code> entry can be written, and a fabricated
+<code>ref:</code> would be a bluff. <strong>Inside the umbrella this
+builds; a standalone clone does not.</strong> Remedy — publish it and
+mount it as a gitlink — is upstream and is an operator decision.</p>
+<h2
+id="summary-of-what-this-quickstart-can-and-cannot-prove-today">Summary
+of what this quickstart can and cannot prove today</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 Build and unit gates</td>
+<td><strong>PASS</strong>, rc 0</td>
+</tr>
+<tr>
+<td>1 Catalogue consistency</td>
+<td><strong>PASS</strong>, rc 0 both arms</td>
+</tr>
+<tr>
+<td>2 Assessment gating and non-disclosure</td>
+<td><strong>PASS</strong>, rc 0 both arms</td>
+</tr>
+<tr>
+<td>3 Anchors resolve</td>
+<td><strong>rc 1, correctly</strong> — 0 link defects, 3 documents fail
+review</td>
+</tr>
+<tr>
+<td>4 Full journey, synthetic</td>
+<td><strong>PASS</strong>, 111/0/0</td>
+</tr>
+<tr>
+<td>4 Full journey, real content</td>
+<td><strong>UNDETERMINED</strong> — no authored catalogue yet</td>
+</tr>
+<tr>
+<td>5 Served == on-disk</td>
+<td><strong>RED</strong> — container runs the old binary</td>
+</tr>
+<tr>
+<td>6 Presentation</td>
+<td><strong>UNDETERMINED</strong> — no instrument</td>
+</tr>
+<tr>
+<td>7 Standalone clone</td>
+<td><strong>1 real finding</strong>, blocked upstream</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

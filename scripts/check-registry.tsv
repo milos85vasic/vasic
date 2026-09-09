@@ -149,6 +149,7 @@ scanroot	_tools/portfolio
 scanroot	_tools/containers
 
 # ── Files under a scanroot that are not checks ───────────────────────────────
+exempt	_tools/prove-translation-fleet.sh	IS a paired §1.1 mutation proof, not a check needing one: it guards the 2026-09-08 fleet-config decoupling (_tools/lib/translation-fleet.sh plus the three shell drivers and cmd/distribute-helixtranslate) and carries both arms in its body rather than behind a --prove-failure flag. CONTROL: the five guarded files carry no machine name and no frozen ssh account; a declared HT_FLEET resolves per-host runtimes; the ssh account comes from $USER; an UNDECLARED fleet is rc 2 in all three drivers. MUTATION: five throwaway copies re-freeze a host name in five different shapes and each MUST be caught, plus a sixth control proving a fully derived form is NOT flagged. Three-valued (0 all controls passed and all mutations caught, 1 a control failed or a mutation slipped through, 2 the guarded tree is missing — never a pass). Its own mutation arm found three real detector defects on first run and they were fixed before it went green.
 exempt	_tools/containers/prove-ocr.sh	IS a paired §1.1 mutation proof, not a check needing one: it drives _tools/containers/cmd/ocr against 7 data-only mutations plus a 2-part control, so its own mutation arm is its body rather than a --prove-failure flag. Three-valued (0 all caught + control passed, 1 a mutation slipped through or the control failed, 2 no go / no pdftoppm / no container runtime — never a pass). Written because cmd/ocr shipped with its mutations exercised BY HAND and recorded only as README prose, while its sibling cmd/runtime-probe ships main_test.go
 exempt	scripts/install_skills.sh	installer: shells out to `npx skills add` to populate global skills; asserts nothing about this repository
 exempt	scripts/lumen-reindex.sh	mutator: rebuilds the Lumen index; its verdict is the index, not a pass/fail judgement about the tree
@@ -203,6 +204,7 @@ check	docs-chain-sync	scripts/verify-docs-chain.sh	flag	--prove-failure	--root /
 check	zero-findings-sweep	scripts/audit/zero_findings_sweep.sh	flag	--prove-failure	--root /nonexistent
 check	badge-computer	scripts/badges/compute_badges.sh	flag	--prove-failure	--check --root /nonexistent
 check	directive-register	scripts/verify-directive-register.sh	flag	--prove-failure	--root /nonexistent
+check	claim-ledger	scripts/verify-claim-ledger.sh	flag	--prove-failure	--root /nonexistent
 #
 # push-topology — registered 2026-09-06, and it closes a measured blind spot
 # rather than a hypothetical one. `git grep -- '--all --push'` returned NOTHING
@@ -221,6 +223,33 @@ check	directive-register	scripts/verify-directive-register.sh	flag	--prove-failu
 # from a fixture table), and M1 exists solely to keep `git remote get-url --push`
 # — which prints only the FIRST of six — out of the implementation.
 check	push-topology	scripts/verify-push-topology.sh	flag	--prove-failure	--root /nonexistent
+
+# ── §11.4.93 / §11.4.95 / §11.4.148 workable-items SSoT ─────────────────────
+# The gate over docs/workable_items.db: the database exists at the canonical
+# path, is NOT gitignored (§11.4.95 forbids it in terms), is tracked, its
+# sub-project identifier roster covers the fleet derived from .gitmodules in
+# both directions, and every item carries a valid status, a valid type and a
+# unique prefixed id (§11.4.148 D1) with the §11.4.33 closure vocabulary and the
+# §11.4.91 description floor holding.
+#
+# It carries a deliberate PRODUCER-IS-NOT-VERIFIER split (§11.4.240): leg G6
+# runs the CANONICAL validator from the constitution submodule, which this
+# repository does not author, over rows this repository's own tool wrote. That
+# leg is not decorative — it caught two real defects during the adoption work
+# that the umbrella validator did not look for (items with no doc_segments row,
+# so db-to-md would have silently dropped them; and closure evidence paths that
+# were well-formed but resolved to nothing).
+#
+# --prove-failure is 9 assertions: 1 CONTROL (an unmutated copy still validates
+# clean, so no mutation can pass for the wrong reason), 5 data mutations against
+# throwaway COPIES of the database (an id prefix naming no sub-project; a gap in
+# a prefix's monotonic sequence; a closure status mismatched to its type; a
+# description under the §11.4.91 floor; an item whose status rests on no
+# provenance row), 2 over a throwaway git repository exercising the REAL
+# not-ignored predicate in both directions, and 1 driving the canonical verifier
+# red on an unresolvable evidence path. Every mutation is DATA. Not one edits
+# this script, the validator's source, or the tracked database.
+check	workable-items	scripts/verify-workable-items.sh	flag	--prove-failure	--db docs/does-not-exist.db
 
 # ── _tools/ — files under the newly declared scanroots that are not checks ───
 # Every one of these was classified by reading its header and its exit paths,
@@ -283,6 +312,7 @@ check	translate-reproducibility	_tools/translate/reproducibility-selftest.sh	fla
 # evidence under _tests/, so a probe that ran past that point would dirty the
 # working tree every time the registry is verified.
 check	portfolio-data-integrity	_tools/portfolio/self-validate.sh	flag	--prove-failure	--fixtures /nonexistent
+check	pretooluse-guard	scripts/verify-pretooluse-guard.sh	flag	--prove-failure	--root /nonexistent
 
 # ── _tools/ debt — declared, counted, NOT fixed ──────────────────────────────
 # review-translations.sh is NOT exempt, and calling it one would have been the

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>research</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">research</h1>
+</header>
+<h1 id="phase-0-research">Phase 0 — Research</h1>
+<p><strong>Feature</strong>: Authored AI/IT Knowledge Areas ·
+<strong>Date</strong>: 2026-09-07</p>
+<p>Every decision below was settled by a measurement taken on this tree,
+and the measurement is quoted with it. Where a decision rests on
+judgement rather than measurement, that is said in the decision itself
+rather than dressed up.</p>
+<p>There were <strong>no unresolved NEEDS CLARIFICATION</strong>
+entering this phase; the five open questions were closed in the spec’s
+Clarifications section. What follows are the design decisions those
+clarifications did not settle.</p>
+<hr />
+<h2 id="r1-how-is-the-publication-decision-computed">R1 — How is the
+publication decision computed?</h2>
+<p><strong>Decision</strong>: One function,
+<code>AreaPublicationOf</code>, consumed by every surface that needs the
+answer. Not a shared constant, not a shared vocabulary of reasons — a
+shared <em>decision</em>.</p>
+<p><strong>Rationale</strong>: This is the measured cause of D3, and the
+near-miss fix would have failed. The list handler and the detail handler
+each implemented the rule. The list applied four tests (evidence at
+build, live evidence, evidence floor, derivable title); the detail route
+applied those <strong>plus three more</strong> (review present,
+materials present, review not stale). Every unit test passed, because
+each handler was tested against its own gate. <strong>The inconsistency
+is a property of the pair, and nothing asserted the pair.</strong></p>
+<p>The two handlers <em>already shared their reason strings</em>. What
+they did not share was the <strong>sequence of tests</strong>. A shared
+vocabulary would therefore have left the defect exactly where it
+was.</p>
+<p><strong>Alternatives considered</strong>:</p>
+<ul>
+<li><em>Enrich the refusal so the detail route explains itself
+better.</em> Rejected on two grounds. It preserves the falsehood in the
+cheapest place to read — a <code>count</code> of 819 is what a dashboard
+renders, and no detail inside a 404 corrects a number nobody re-derives.
+And it makes the contract’s own <code>held_back</code> block
+self-contradictory: an area reported held back <em>and</em> listed as
+available in the same response.</li>
+<li><em>Make the list stricter and leave the detail route alone.</em>
+Same defect, other direction; still two implementations.</li>
+</ul>
+<p><strong>Consequence, deliberately kept</strong>: a review with
+<strong>no</strong> materials row is an inconsistent <em>build</em>, not
+an editorial refusal — the author stage writes both in one run. It gets
+its own state: the detail route answers 503, the list holds it back and
+still answers 200. One bad build record must not take down the
+catalogue. The invariant survives: it is not in
+<code>areas[]</code>.</p>
+<hr />
+<h2 id="r2-what-selects-the-published-area-set">R2 — What selects the
+published area set?</h2>
+<p><strong>Decision</strong>: The <strong>37 modules of the existing
+hand-authored lexicon</strong> (7 tracks, 137 terms), each requiring
+measured passage evidence, an authored document and a publication
+review. <strong>Not</strong> an evidence-frequency ranking.</p>
+<p><strong>Rationale</strong>: An evidence floor was implemented and
+<strong>measured, then rejected, because it made topicality
+worse.</strong> At floor 2, <strong>0 of 36</strong> surviving titles
+carried an AI/ML term; at floor 1, <strong>32 of 814</strong> did.
+Frequency is not topicality. Raising the bar would have been a confident
+regression with a green-looking justification.</p>
+<p>The lexicon was already in the corpus and was never wired into the
+publication path. Its alias patterns are written against what the
+transcription engines <em>actually emitted</em>, including their
+mis-renderings — which is why it matches real transcript text where a
+title-keyword search does not.</p>
+<p>Coverage measured across all three recordings: <strong>0 of
+37</strong> modules have zero evidence, <strong>0 of 137</strong> terms
+match zero passages. Distribution: <strong>16</strong> strongly
+evidenced (≥40 passages), <strong>9</strong> moderate (20–39),
+<strong>12</strong> thin (&lt;20), thinnest at exactly
+<strong>1</strong>.</p>
+<p><strong>Alternatives considered</strong>: mining a fresh topical list
+(rejected — the mined list is the defect); a topical classifier as the
+filter (rejected — it scores relevance of a <em>name</em>, and the names
+were synthesised from nulls); an evidence floor (rejected by the
+measurement above).</p>
+<p><strong>Result</strong>: published areas 819 → <strong>42</strong>;
+areas answering “not published” 817 → <strong>3</strong>; AI-or-IT term
+in name 4.5% → <strong>64.3%</strong>.</p>
+<p><strong>Honest limit</strong>: the relevance probe measures whether
+an area’s <em>name</em> carries a domain term. It misses real AI areas
+whose titles use no jargon, so 42.9% (AI/ML term) understates the
+change. The figure is a floor, not the value.</p>
+<hr />
+<h2 id="r3-why-were-814-areas-being-published-at-all">R3 — Why were 814
+areas being published at all?</h2>
+<p><strong>Decision</strong>: An area is published <strong>iff its title
+is non-empty.</strong></p>
+<p><strong>Rationale</strong>: This rule was <strong>already written
+down and never enforced</strong>. The data model said a title is
+“non-empty when published”; nothing checked it. The term-extraction
+stage was behaving correctly under its own rule — it emits single-term
+proposals by design. The defect was that <strong>nothing between the
+miner and the API distinguished a proposal from a
+publication.</strong></p>
+<p>The single-word area names visitors saw were never stored. The
+backend <strong>synthesised a display title from member terms when the
+title was null</strong>. The symptom was a rendering of an absence.</p>
+<p><strong>Consequence</strong>: nothing is deleted. Withheld rows go to
+<code>unpublished-areas.jsonl</code>; the term rows (17,811) and the
+passage registry are untouched. The rule is implemented in <strong>two
+places so a re-run reproduces it</strong> — the policy module and the
+pipeline reconcile stage.</p>
+<hr />
+<h2 id="r4-where-does-authored-content-live-and-in-what-format">R4 —
+Where does authored content live, and in what format?</h2>
+<p><strong>Decision</strong>:
+<code>workshop/curriculum/learning/NN-&lt;slug&gt;.json</code>, one
+<code>curriculum-kit</code> <code>Document</code> per authored area,
+decoded with <code>DecodeDocument</code>.</p>
+<p><strong>Rationale</strong>: <code>DecodeDocument</code>
+<strong>rejects unknown fields</strong>. This is the load- bearing
+property: a misspelled key otherwise drops its material
+<em>silently</em>, and a lesson quietly missing a diagram is
+indistinguishable from a lesson that never had one. Failing loudly at
+load is worth the strictness.</p>
+<p><code>NN-</code> is a sort key only. <strong>Identity is the area’s
+taxonomy ULID inside the file</strong>, so an authored document binds
+itself to an extracted area with no mapping table to maintain and
+nothing to keep in sync.</p>
+<p>An unconfigured catalogue is a <strong>determined</strong>
+<code>no_learning_catalog</code>; an unreadable one is a 503. The
+distinction matters: “not configured” is a known state, “cannot read” is
+a fault.</p>
+<p><strong>Alternatives considered</strong>: a database (rejected —
+content is authored as committed files, and a migration adds a
+synchronisation problem this design does not have); Markdown with front
+matter (rejected — the kit’s <code>Document</code> already carries the
+shape, and a second parser is a second place to disagree); filename as
+identity (rejected — a rename would silently orphan an area).</p>
+<hr />
+<h2 id="r5-how-are-video-anchors-produced-and-expressed">R5 — How are
+video anchors produced and expressed?</h2>
+<p><strong>Decision</strong>: URL grammar
+<code>/chapters/&lt;slug&gt;[/transcript][?t=&lt;seconds&gt;][&amp;end=&lt;seconds&gt;][#p-&lt;pid&gt;]</code>,
+written down in <code>platform/frontend/docs/time-links.md</code> as the
+producer’s authority. Spans are built from engine-measured start/end
+times in the transcript segment sidecars, joined on passage id.</p>
+<p><strong>Rationale</strong>: The passage registry carries <strong>only
+an end time</strong>. The registry alone therefore cannot produce a
+start, and any start derived from it would be invented. Joining on
+<code>pid</code> against the segment sidecar is what makes the start
+measured.</p>
+<p>Three producer rules, each preventing a link that <em>looks</em>
+fine:</p>
+<ul>
+<li><code>end</code> is emitted <strong>only when
+<code>&gt; t</code></strong> — the documented consumer ignores a
+malformed span, so producing one yields a broken link that renders
+correctly.</li>
+<li><code>#p-</code> is emitted <strong>only for a Crockford-shaped
+ULID</strong> — the grammar reserves that prefix.</li>
+<li>A chapter the server does not serve gets <code>href: null</code>, a
+stated <code>unresolved_reason</code>, its anchor intact, and a count.
+<strong>No link is invented.</strong></li>
+</ul>
+<p><strong>Measured</strong>: 205 spans, 479 contract-conformant links
+across 37 documents. The 12 pre-existing documents previously carried
+<strong>zero</strong> links into any recording.</p>
+<hr />
+<h2
+id="r6-how-is-the-assessment-gated-and-how-are-answers-kept-out-of-the-wire">R6
+— How is the assessment gated, and how are answers kept out of the
+wire?</h2>
+<p><strong>Decision</strong>: Availability is decided by
+<code>AvailabilityOf</code> in the kit; submission by
+<code>Submit</code> (never the ungated <code>Grade</code>). Questions
+reach the wire through a purpose-built <code>QuestionForTaking</code>
+projection that has <strong>no answer field at all</strong>.</p>
+<p><strong>Rationale</strong>: The kit’s <code>Question</code> carries
+<code>CorrectChoices</code>/<code>Explanation</code> with
+<code>omitempty</code>, so <strong>marshalling the kit type directly
+would ship the key</strong> the moment a question had one. A projection
+built as a map with no answer field cannot leak a future upstream field
+either — the protection survives changes to the type it projects
+from.</p>
+<p>Keys and explanations are disclosed <strong>only in the submit
+result</strong>, where they are feedback rather than a spoiler.</p>
+<p>The gate’s load-bearing mutation is “open as soon as <em>any</em>
+lesson completes”. It passes five of the eight assertions and is caught
+by exactly one — which is why the fixture’s required lesson set must be
+a <strong>proper subset</strong> of its lessons. A fixture where they
+coincide would let the defect through while looking thorough.</p>
+<p><strong>Alternatives considered</strong>: gating in the frontend
+(rejected — the client would still have been sent the answers); a second
+availability test in the consumer (rejected — that is R1’s defect class
+in a new place).</p>
+<hr />
+<h2 id="r7-how-is-learner-progress-held">R7 — How is learner progress
+held?</h2>
+<p><strong>Decision</strong>: Session-keyed, on the server, in a file
+separate from the reading- position store. One <code>Mutate</code> under
+a single lock.</p>
+<p><strong>Rationale</strong>: A Get+Put cycle <strong>silently drops a
+concurrent completion</strong>. The two stores are kept apart because
+they have different shapes, different lifetimes and different costs when
+lost.</p>
+<p>Session identity is accepted through <strong>one</strong> channel (a
+header). The established interviewing module accepts it three ways —
+body, query parameter and header — and three places to supply it are
+three places for them to disagree.</p>
+<hr />
+<h2
+id="r8-what-is-deliberately-not-ported-from-the-interviewing-module">R8
+— What is deliberately NOT ported from the interviewing module?</h2>
+<p>Recorded so absence is not read as oversight:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Not ported</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>difficulty</code>, <code>category</code> on questions</td>
+<td><strong>No such field exists in
+<code>curriculum-kit</code>.</strong> Requires an upstream change. Not
+fabricated.</td>
+</tr>
+<tr>
+<td>Spaced repetition (<code>streak</code>, <code>due_at</code>)</td>
+<td>The kit declines it deliberately. The interviewing module
+<strong>writes both and reads neither</strong> — porting a field no
+route consumes would add a maintenance surface with no behaviour.</td>
+</tr>
+<tr>
+<td>Localisation</td>
+<td>The kit is single-language by its own admission.</td>
+</tr>
+<tr>
+<td>Plan corpus features</td>
+<td>No plan corpus exists here.</td>
+</tr>
+<tr>
+<td>A second <code>slug</code> identity</td>
+<td>The kit mints no second identity scheme; the ULID is the
+identity.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>And what was fixed rather than copied</strong>: the
+interviewing module’s <code>?kind=</code> filter is unvalidated and
+passes through to storage, so an unknown kind returns an empty list that
+reads as “there are none”. Here an unknown kind is a
+<strong>400</strong>. Copying the behaviour would have copied a
+defect.</p>
+<hr />
+<h2 id="r9-why-is-curriculum-kit-consumed-by-a-replace-directive">R9 —
+Why is <code>curriculum-kit</code> consumed by a <code>replace</code>
+directive?</h2>
+<p><strong>Decision</strong>: <code>replace</code> to
+<code>../../../submodules/curriculum-kit</code>, matching the pattern
+the module’s five existing siblings already use.</p>
+<p><strong>Rationale</strong>: The umbrella is the only place all of
+them exist together.</p>
+<p><strong>This is an open gap, not a resolved decision.</strong>
+<code>submodules/curriculum-kit</code> is <strong>not a git
+repository</strong> — it has no commit to pin, so a truthful
+<code>helix-deps.yaml</code> entry cannot be written, and a fabricated
+<code>ref:</code> would be a bluff.
+<code>verify-standalone-clone.sh</code> correctly went from 2 gaps to 3
+and names this row. Recorded verbatim in <code>go.mod</code>:
+<strong>inside the umbrella this builds; a standalone clone of this
+repository does not.</strong> The remedy — publish it and mount it as a
+gitlink — is upstream and is an operator decision.</p>
+</body>
+</html>

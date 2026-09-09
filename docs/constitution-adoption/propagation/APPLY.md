@@ -313,7 +313,7 @@ umbrella capture (§4.7).
 ### 4.2 `ai_interviewing` — CREATE 4
 
 ```bash
-cd /run/media/milosvasic/DATA4TB/Projects/vasic
+cd <ext-volume-host>/Projects/vasic
 P=docs/constitution-adoption/propagation
 cp "$P/ai_interviewing/AGENTS.md.staged"  ai_interviewing/AGENTS.md
 cp "$P/ai_interviewing/CLAUDE.md.staged"  ai_interviewing/CLAUDE.md
@@ -341,7 +341,7 @@ before committing. See [`RISKS.md` §5](RISKS.md#5-honesty-flags-in-the-prepared
 ### 4.3 `design-toolkit` — CREATE 4
 
 ```bash
-cd /run/media/milosvasic/DATA4TB/Projects/vasic
+cd <ext-volume-host>/Projects/vasic
 P=docs/constitution-adoption/propagation
 cp "$P/design-toolkit/AGENTS.md.staged"  design-toolkit/AGENTS.md
 cp "$P/design-toolkit/CLAUDE.md.staged"  design-toolkit/CLAUDE.md
@@ -368,7 +368,7 @@ Bringing the constitution back in sync means a commit inside
 ### 4.4 `milosvasic.ru` — CREATE 4
 
 ```bash
-cd /run/media/milosvasic/DATA4TB/Projects/vasic
+cd <ext-volume-host>/Projects/vasic
 P=docs/constitution-adoption/propagation
 cp "$P/milosvasic.ru/AGENTS.md.staged"  milosvasic.ru/AGENTS.md
 cp "$P/milosvasic.ru/CLAUDE.md.staged"  milosvasic.ru/CLAUDE.md
@@ -400,7 +400,7 @@ This does **not** touch `milosvasic.ru/Upstreamable` (a separate
 ### 4.5 `monetization` — CREATE 4 (widest fan-out)
 
 ```bash
-cd /run/media/milosvasic/DATA4TB/Projects/vasic
+cd <ext-volume-host>/Projects/vasic
 P=docs/constitution-adoption/propagation
 cp "$P/monetization/AGENTS.md.staged"  monetization/AGENTS.md
 cp "$P/monetization/CLAUDE.md.staged"  monetization/CLAUDE.md
@@ -446,7 +446,7 @@ in its tracked-file count, to 4 providers.
 The three new carriers:
 
 ```bash
-cd /run/media/milosvasic/DATA4TB/Projects/vasic
+cd <ext-volume-host>/Projects/vasic
 P=docs/constitution-adoption/propagation
 cp "$P/vasic.digital/AGENTS.md.staged"  vasic.digital/AGENTS.md
 cp "$P/vasic.digital/CLAUDE.md.staged"  vasic.digital/CLAUDE.md
@@ -473,7 +473,7 @@ on the produced file — [`PROOF.md`](PROOF.md) §4).
 All 55 existing lines are preserved verbatim:
 
 ```bash
-cd /run/media/milosvasic/DATA4TB/Projects/vasic/vasic.digital
+cd <ext-volume-host>/Projects/vasic/vasic.digital
 B=../docs/constitution-adoption/propagation/vasic.digital/QWEN.insert-block.md
 { head -n 1 QWEN.md; echo; cat "$B"; tail -n +2 QWEN.md; } > QWEN.md.new
 # verify before swapping: the diff must be pure insertion, zero deletions
@@ -489,7 +489,7 @@ Then confirm the produced file is a pointer carrier before committing — this i
 the check whose absence made Revision 1 defective, and it takes one command:
 
 ```bash
-cd /run/media/milosvasic/DATA4TB/Projects/vasic
+cd <ext-volume-host>/Projects/vasic
 . submodules/constitution/scripts/gates/lib/pointer_carrier.sh
 for f in vasic.digital/{AGENTS,CLAUDE,QWEN,GEMINI}.md; do
   is_pointer_carrier "$f" && echo "OK   pointer carrier: $f" \
@@ -507,7 +507,7 @@ constitution's `AGENTS.project.md.template` restates "**Use the project's commit
 wrapper.** No direct `git add` / `git commit` / `git push` on main repo." Prefer:
 
 ```bash
-cd /run/media/milosvasic/DATA4TB/Projects/vasic/vasic.digital
+cd <ext-volume-host>/Projects/vasic/vasic.digital
 ./commit "docs: add Helix Constitution inheritance pointers (conditional form, §11.4.28(B) + §11.4.35)"
 ```
 
@@ -533,7 +533,7 @@ build ignores or publishes them was **not verified** (see
 Only after all five submodule pushes succeed:
 
 ```bash
-cd /run/media/milosvasic/DATA4TB/Projects/vasic
+cd <ext-volume-host>/Projects/vasic
 git status --short        # expect exactly 5 gitlink modifications + this docs/ dir
 git add ai_interviewing design-toolkit milosvasic.ru monetization vasic.digital \
         docs/constitution-adoption/propagation
@@ -566,7 +566,7 @@ Re-syncing the constitution's `design-toolkit` gitlink (§4.3) would add its
 ## 5. Post-apply verification (read-only)
 
 ```bash
-cd /run/media/milosvasic/DATA4TB/Projects/vasic
+cd <ext-volume-host>/Projects/vasic
 # 1. Every owned submodule now tracks the carriers
 for s in ai_interviewing design-toolkit milosvasic.ru monetization vasic.digital; do
   echo "== $s"; git -C "$s" ls-files | grep -E '^(AGENTS|CLAUDE|QWEN|GEMINI)\.md$'

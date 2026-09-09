@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Review phase — Workshop Curriculum Platform (feature 001)" />
+  <title>review</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">review</h1>
+</header>
+<h1 id="review-workshop-curriculum-platform">Review — Workshop
+Curriculum Platform</h1>
+<p><strong>Date</strong>: 2026-09-02 · <strong>Feature</strong>:
+<code>specs/001-workshop-curriculum-platform</code>
+<strong>Phase</strong>: <code>review</code> — first execution.
+<code>analyze</code> ran once (2026-09-01) against a
+<strong>91-task</strong> revision of <code>tasks.md</code>;
+<code>implement</code> has never been executed as a tracked SpecKit
+phase, so every line of the platform was written by hand outside it.
+This document is the reconciliation of the current <strong>120</strong>
+tasks against the tree, plus the review findings the phase exists to
+produce.</p>
+<p><strong>Scope note.</strong> This repository is PUBLIC. No transcript
+text, participant name or recording filename appears anywhere below.
+Where a defect concerns such data, the defect is described and the data
+is not.</p>
+<hr />
+<h2 id="why-this-document-had-to-be-written">0. Why this document had to
+be written</h2>
+<p><code>tasks.md</code> carried <strong>120 <code>T###</code>
+identifiers and 0 ticked checkboxes</strong>, and
+<code>.superpowers/sdd/progress.md</code> listed zero completed tasks —
+while the tree held a running service on the LAN with 30+ registered
+routes, 1 101 minted passages, a cross-reference graph, an entailment
+verifier, a 57-question answering benchmark and a reworked Angular
+client. Nothing had ever reconciled the two. The gap was not that work
+was missing; it was that <strong>nobody could tell which work was
+missing</strong>, and that is the condition in which a decorative
+requirement survives.</p>
+<p>After reconciliation: <strong>54 of 120 tasks are now
+ticked</strong>, and the 66 that are not are enumerated with a reason
+each.</p>
+<hr />
+<h2 id="the-evidence-standard-applied">1. The evidence standard
+applied</h2>
+<p>A task was ticked only against an artifact that exists and behaves.
+Concretely:</p>
+<ol type="1">
+<li><strong>A file on disk, named.</strong> Not a plan sentence, not a
+comment claiming the thing, not a document asserting it. Every BUILT
+verdict below cites a path, a route, a test function or a gate.</li>
+<li><strong>A gate named in the task is part of the
+deliverable.</strong> Standing rule 1 of <code>tasks.md</code> makes a
+paired mutation proof a condition of a check existing at all. So a task
+of the shape <em>“implement X · Gate G-N: … · Paired mutation: …”</em>
+is ticked only when <strong>both</strong> halves exist. Nine tasks were
+withheld on exactly this basis — T019, T021 and T029; then T059, T073
+and T075; then T078, T081 and T114 — the module is there, the proof is
+not.</li>
+<li><strong>The live service outranks the manifest.</strong>
+<code>workshop/platform/gates/route-manifest.tsv</code> is a
+hand-maintained declaration. Every one of its 25 rows was probed against
+<code>192.168.1.44:8087</code> rather than read.</li>
+<li><strong>Content type discriminates a 404.</strong>
+<code>404 application/json</code> with a contract body means the route
+exists and is answering “no” (measured: <code>chapter_not_found</code>,
+<code>material_not_found</code>, <code>job_not_found</code>,
+<code>not_found</code> for an absent pid).
+<code>404 text/plain — 404 page not found</code> means the route is not
+registered (measured: <code>/api/nosuchroute</code> on all four verbs,
+<code>/api/crossrefs</code>, <code>/api/knowledge</code>). Grading on
+the status code alone would have mis-filed at least six endpoints
+here.</li>
+<li><strong>Repository documentation is not evidence.</strong> Several
+figures in the carriers and in <code>tasks.md</code> are measurably
+stale — see §6. Every number below was re-derived.</li>
+<li><strong>Could-not-determine is a result.</strong> Two tasks are
+recorded as such rather than guessed.</li>
+</ol>
+<p><strong>A “BUILT DIFFERENTLY” verdict was ticked only when the intent
+is satisfied and the difference does not matter.</strong> Thirteen were.
+Twenty more are recorded as BUILT DIFFERENTLY and left
+<strong>unticked</strong>, because the difference does matter — those
+are review findings, not bookkeeping.</p>
+<hr />
+<h2 id="disposition-all-120-tasks">2. Disposition — all 120 tasks</h2>
+<table>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 36%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr>
+<th>Verdict</th>
+<th style="text-align: right;">Tasks</th>
+<th style="text-align: right;">Ticked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>BUILT</strong> — present where the task says, shaped as the
+task says</td>
+<td style="text-align: right;"><strong>41</strong></td>
+<td style="text-align: right;">41</td>
+</tr>
+<tr>
+<td><strong>BUILT DIFFERENTLY</strong> — the intent is met and the
+divergence costs nothing</td>
+<td style="text-align: right;"><strong>13</strong></td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr>
+<td><strong>BUILT DIFFERENTLY</strong> — the intent falls short, or a
+gate the task names is missing</td>
+<td style="text-align: right;"><strong>20</strong></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td><strong>NOT BUILT</strong></td>
+<td style="text-align: right;"><strong>44</strong></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td><strong>SUPERSEDED</strong> by a later recorded decision</td>
+<td style="text-align: right;"><strong>0</strong></td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td><strong>CANNOT DETERMINE</strong></td>
+<td style="text-align: right;"><strong>2</strong></td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td style="text-align: right;"><strong>120</strong></td>
+<td style="text-align: right;"><strong>54</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Re-derive the tick count rather than trusting this table:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> specs/001-workshop-curriculum-platform</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;^- \[x\] T&#39;</span> tasks.md   <span class="co"># 54 ticked</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;^- \[ \] T&#39;</span> tasks.md   <span class="co"># 66 not ticked</span></span></code></pre></div>
+<h3 id="built-41-ticked">2.1 BUILT — 41, ticked</h3>
+<p><strong>Setup</strong> — T001
+(<code>workshop/platform/{backend,frontend,bin}</code> +
+<code>workshop/{curriculum,pipeline,docs,evidence}</code>, and no
+<code>workshop/containers/</code>) · T002
+(<code>platform/backend/go.mod</code>, <code>go 1.26.2</code>) · T003
+(the module requires <code>digital.vasic.containers</code> at
+<code>v0.0.0</code>, plus
+<code>replace … =&gt; ../../../submodules/containers</code>, and
+<code>go test ./...</code> passes) · T004 (Angular 19.2, karma/jasmine,
+deps installed) · T007 (measured:
+<code>git -C workshop ls-files | grep '^\.github/workflows/.*\.ya?ml$'</code>
+is empty; gate-E essence re-run across all 13 declared gitlinks —
+<code>workshop</code> = 0).</p>
+<p><strong>Foundational</strong> — T008
+<code>submodules/passage/pkg/passage/pid.go</code> (ULID minter,
+monotonic across clock stall, deliberately no <code>Time()</code>
+accessor) · T009 <code>anchor.go</code> (HTML/Mermaid/PlantUML syntaxes,
+<code>ScanAnchors</code> rejects duplicate and dangling anchors) · T010
+<code>registry.go</code> (<code>passages.jsonl</code> →
+<code>passages.db</code>; <code>content_hash</code> in no PK, unique
+index or FK) · T018
+<code>submodules/verdict/pkg/verdict/verdict.go</code> (0/1/2,
+<code>Tally</code> precedence Problem &gt; Undetermined &gt; OK,
+<strong>empty tally = Undetermined</strong>, JSON emits the name never
+the integer) · T108 <code>scripts/build.sh</code> · T109
+<code>scripts/restart.sh</code> (stop→start with 1/2 short-circuit,
+unclassified → 2) · T110 <strong>G-CLI-16</strong> —
+<code>scripts/verify.sh</code> V4 <code>gate_lifecycle:298-306</code>
+with the exact paired mutation the task names
+(<code>podman-compose up -d</code> fallback seeded,
+<code>:558-559</code> ⇒ rc 1), a variable-held-runtime case (V4c), and a
+read-only <code>podman ps</code> control (V4b) that <em>shows</em> the
+exemption rather than asserting it.</p>
+<p><strong>US1</strong> — T112 <code>scripts/verify-accuracy.sh</code>
+(requires <code>--reference</code>; <strong>exit 2 when it is
+absent</strong>, <code>:665</code>/<code>:669</code>;
+<code>--windows/--seed/--normaliser/--min-accuracy</code>; writes
+<code>accuracy.json</code>; <strong>G-CLI-5</strong> named at
+<code>:88,:395,:452,:544,:554</code> with a built-in
+<code>--selftest</code> that seeds a bluff into the real guard block).
+Verified live: <code>GET /api/chapters/01/accuracy</code> →
+<code>{"measured": false, "wer": null, "reason": …, "remedy": …}</code>
+— exactly the contracted shape for “not measured”.</p>
+<p><strong>US2</strong> — T043 / T044 (<code>/api/chapters</code>,
+<code>/api/chapters/{slug}</code>,
+<code>/api/chapters/{slug}/transcript</code> — all probed live) · T046 /
+T047 (<code>features/chapters/</code>, <code>features/transcript/</code>
+exist and are routed) · T050
+(<code>features/transcript/seek.spec.ts:139-141</code> and
+<code>:219-220</code> assert seek publish &lt; 5 000 ms and
+<code>video.currentTime</code> to 3 decimal places).</p>
+<p><strong>US3</strong> — T052 (FTS5 prefix,
+<code>pkg/search/lexical.go</code>, <code>AND p.redacted = 0</code>) ·
+T053 <strong>G-HTTP-8</strong>
+(<code>internal/api/gates_test.go:286</code> — a real
+<code>net.Listen</code> counting <em>accepted connections</em>, 200
+suggest calls + 25 forced 503s, asserts <code>conns.Load() == 0</code>;
+live <code>/api/suggest</code> returns
+<code>legs: {"lexical":"ok"}</code> and nothing else) · T054 · T055
+<strong>G-HTTP-1/2/3</strong>
+(<code>pkg/search/envelope.go:302-510</code>; verified live — a partial
+failure returns <strong>503</strong>
+<code>partial_failure_zero_results</code> with <strong>no
+<code>results</code> key at all</strong>) · T056
+<strong>G-HTTP-4</strong> (<code>degraded.go:42-52,61-75,125-134</code>;
+the glued upstream string is confined to <code>degraded.evidence</code>)
+· T057 <strong>G-HTTP-7</strong>
+(<code>search.component.spec.ts:23</code> — both directions, plus a
+paired-mutation control at <code>:186-216</code> that reimplements
+<code>error: () =&gt; loading.set(false)</code> and proves the gate has
+teeth) · T058 <strong>G-IDX-1</strong> (verify-before-swap in one
+transaction, <code>pkg/index/generation.go:141-167</code>) · T060 / T061
+(cycle-safe traversal, <code>redacted_omitted</code> as a count that
+never names a pid, <code>*int</code> without <code>omitempty</code> so
+“not traversed” is explicit <code>null</code>) · T062 (exhaustive
+<code>@switch</code> over <code>ok|no_match|unavailable</code> plus two
+further distinct states) · T066 <strong>G-PID-3</strong>
+(<code>pid_test.go:465-508</code>, including the mutation that keys a
+citation on <code>content_hash</code> and watches it dangle) · T117
+<strong>G-HTTP-6</strong> (<code>gates_test.go:227</code>, 100
+randomised outcomes, and it <strong>fails if the run never produced each
+outcome</strong>; live header <code>X-Workshop-Search-Status</code>
+matched body <code>status</code> on every probe).</p>
+<p><strong>US4</strong> — T068 (four adapters: <code>""/none</code>,
+<code>extractive</code>, <code>ollama</code>,
+<code>openai_compatible</code> behind an explicit
+<code>AllowRemote</code>; unknown name →
+<code>UnavailableProvider</code>, never a panic) · T069 · T070
+(<strong>both</strong> <code>MinScore</code> and <code>MinMargin</code>;
+live <code>/api/ask/status</code> reports <code>min_score 0.45</code>,
+<code>min_margin 0.05</code>, <code>calibrated true</code>) · T071
+(<code>schema.go:115</code> <code>minItems:1</code> on citations
+<strong>and</strong> <code>:82</code> on claims) · T072 (L3a in-request
+membership + L3b <code>registry.Resolve</code> against the server’s own
+loaded registry, four outcomes kept apart) · T074 (whole-answer refusal,
+<code>verify.go:127-131,435-445,522-531</code>,
+<code>pipeline.go:303-323</code>) · T077
+(<code>testdata/benchmark/questions.tsv</code> — <strong>24 A rows and
+33 U rows</strong>, measured) · T082
+(<code>ingest.sh --require-suspend</code> →
+<code>POST /api/ask/suspend|resume</code>; 5 tests; live
+<code>suspended: false</code>).</p>
+<p><strong>Polish</strong> — T091 <code>docs/user-guide.md</code> · T092
+<code>docs/manual.md</code> · T093 <code>docs/faq.md</code> · T100
+<strong>G-CLI-11</strong> (<code>verify.sh</code> V5
+<code>gate_workflows:367</code> with three paired cases — workflow
+seeded ⇒ 1, nested checkout ⇒ 0, empty tree ⇒ 0).</p>
+<h3 id="built-differently-intent-met-13-ticked">2.2 BUILT DIFFERENTLY,
+intent met — 13, ticked</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Task</th>
+<th>Planned</th>
+<th>Actual</th>
+<th>Why the difference is immaterial</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T011</td>
+<td><code>passage/resolve.go</code></td>
+<td><code>registry.go:295-309, 462-478</code></td>
+<td>All four outcomes present and distinct; <code>undetermined</code> is
+carried by an <code>unavailable error</code> field, never collapsed;
+<strong>no</strong> fuzzy, nearest-neighbour, prefix or
+<code>content_hash</code> fallback exists. Only the filename
+differs.</td>
+</tr>
+<tr>
+<td>T013</td>
+<td>gates <code>G-PID-1</code>, <code>G-PID-2</code></td>
+<td><code>pid_test.go</code> gates <code>G1</code>, <code>G2</code></td>
+<td>Assertions match clause for clause, both paired mutations are
+injected through the <strong>real</strong> <code>SyncFile</code> via the
+real <code>WithKeyStrategy</code>, and a third test proves the two
+mutants are <em>discriminating</em> (content-hash keying survives G2;
+positional keying survives G1). Only the identifiers differ — which
+matters solely to the gate-coverage grep in <code>tasks.md</code> §“Gate
+coverage”.</td>
+</tr>
+<tr>
+<td>T024</td>
+<td><code>transcribe/vad.py</code></td>
+<td><code>pipeline/audio_energy.py:65-93</code></td>
+<td>Produces the non-speech span set the task needs
+(<code>{from_s,to_s,seconds,mean_db}</code>, p5 noise floor, ≤ floor+6
+dB). Energy-based rather than a VAD model; output exists at
+<code>pipeline/work/full_ch01.energy.json</code>.</td>
+</tr>
+<tr>
+<td>T026</td>
+<td><code>transcribe/asr.py</code></td>
+<td><code>pipeline/run_faster_whisper.py:107</code></td>
+<td><code>condition_on_previous_text=False</code> present; the second
+engine mirrors it with <code>-mc 0</code>
+(<code>run_whispercpp.sh:75</code>).</td>
+</tr>
+<tr>
+<td>T027</td>
+<td><code>transcribe/confidence.py</code></td>
+<td><code>pipeline/build_transcript.py:198-209</code></td>
+<td>Marks rather than guesses. Uses mean word probability +
+<code>no_speech_prob</code>; <code>avg_logprob</code> is passed through
+but not decisive. Different signal, same guarantee.</td>
+</tr>
+<tr>
+<td>T033</td>
+<td><code>accuracy/score.py</code></td>
+<td><code>scripts/verify-accuracy.sh:201-262</code></td>
+<td>≥30 stratified 30-second <strong>audio-timeline</strong> windows,
+seeded and recorded, oversampled then de-overlapped. The bias the task
+warns about (sampling passages hides whole-region deletions) is named in
+the code.</td>
+</tr>
+<tr>
+<td>T036</td>
+<td>300 s calibration</td>
+<td><code>pipeline/calibrate.sh</code> +
+<code>calibration/sample_1800.*</code> +
+<code>CALIBRATION.md</code></td>
+<td>A two-engine calibration ran, on a longer sample than asked. Whether
+it settles research items U1–U3 specifically was not verified here.</td>
+</tr>
+<tr>
+<td>T042</td>
+<td><code>internal/store/chapter.go</code></td>
+<td><code>internal/api/chapters.go</code> +
+<code>pkg/curriculum</code></td>
+<td>A read-only filesystem store rather than a database. Legitimate for
+a read-only curriculum; the endpoints serve a rich chapter object.</td>
+</tr>
+<tr>
+<td>T045</td>
+<td><code>pkg/media/serve.go</code></td>
+<td><code>internal/api/recording.go:786</code></td>
+<td><code>http.ServeContent</code> with a real integrity sidecar gate.
+Verified live: <code>Range: bytes=0-99</code> → <strong>206</strong>
+with <code>Content-Range: bytes 0-99/1871981557</code>;
+<code>HEAD</code> → 200 with <code>Accept-Ranges: bytes</code>;
+multi-range refused with 416.</td>
+</tr>
+<tr>
+<td>T048</td>
+<td>reuse <code>design-system/learning-kit/</code></td>
+<td>vendored copy + <code>sync-learning-kit.sh --check</code></td>
+<td><code>diff -q</code> and SHA-256 both show the two files
+<strong>byte-identical today</strong>. Vendored deliberately so the
+module stays independently cloneable, with a drift check wired into
+<code>npm run</code>.</td>
+</tr>
+<tr>
+<td>T089</td>
+<td><code>docs/add-chapter-prompt.md</code></td>
+<td><code>docs/prompts/add-a-chapter.md</code></td>
+<td>Same artifact, filed under a <code>prompts/</code> directory.</td>
+</tr>
+<tr>
+<td>T094</td>
+<td><code>docs/training.md</code> +
+<code>docs/tutorial-quickstart.md</code></td>
+<td><code>docs/training/00-Overview-and-Taxonomy.md</code> +
+<code>docs/training/areas/01..05</code> +
+<code>docs/quickstart.md</code></td>
+<td>A training <em>set</em> of six documents rather than one file — a
+superset.</td>
+</tr>
+<tr>
+<td>T108</td>
+<td>build.sh incl. container images</td>
+<td><code>scripts/build.sh:73-115</code></td>
+<td>Builds <code>workshop-boot</code>, the Go server and the Angular
+bundle in order. It builds <strong>no image</strong>, because
+<code>compose.yml:78</code> runs a stock <code>alpine:3.20</code> with
+host-built binaries bind-mounted and declares no <code>build:</code>
+key. The §11.4.76(4) obligation is honoured by there being no image
+build at all, not violated — and no direct
+<code>podman build</code>/<code>docker build</code> exists
+anywhere.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="built-differently-intent-not-met-20-deliberately-unticked">2.3
+BUILT DIFFERENTLY, intent NOT met — 20, deliberately unticked</h3>
+<p>These are the review’s substantive findings. Each is a task, not a
+patch.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Task</th>
+<th>What exists</th>
+<th>What is missing, and why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>T019</strong></td>
+<td><code>pipeline/detect_media.sh</code> probes real capability
+(<code>-show_format -show_streams</code>, then asserts
+<code>^duration=</code> and <code>^codec_type=audio</code>), never
+<code>--version</code>; has <code>--prove-failure</code> over
+healthy/broken/silent fixtures.</td>
+<td><strong>The exit semantics are inverted.</strong> T019 requires an
+unusable tool to exit <strong>2</strong> (“an unusable tool determines
+nothing”). The script exits <strong>1</strong> for UNUSABLE and reserves
+2 for “the probe reached no verdict” (<code>:88-93</code>,
+<code>:425</code>). Both readings are defensible; they are not the same,
+and only one can be right. <code>G-CLI-3</code> appears nowhere in the
+tree. <strong>This needs an operator ruling, not a patch.</strong></td>
+</tr>
+<tr>
+<td><strong>T021</strong></td>
+<td><code>scripts/{start,stop,status}.sh</code> drive
+<code>workshop-boot</code>, whose source
+(<code>platform/orchestration/cmd/workshop-boot/main.go</code>) consumes
+the containers submodule’s Go API (<code>pkg/compose</code>,
+<code>pkg/health</code>, <code>pkg/runtime</code>) and constructs the
+manager with this project’s compose file. It does <strong>not</strong>
+wrap <code>cmd/boot</code>. No lifecycle path invokes
+podman/docker/compose.</td>
+<td><strong><code>G-CLI-12</code> does not exist</strong> — nothing
+binds the published port with an unidentifiable holder and asserts
+<code>status.sh</code> exits 2. A different gate was built instead
+(<code>G-CLI-17</code>, see §5), which is good work but is not this
+one.</td>
+</tr>
+<tr>
+<td><strong>T029</strong></td>
+<td>The coverage identity <strong>is</strong> implemented —
+<code>pkg/curriculum/curriculum.go:389 ComputeCoverage</code>, with a
+documented <code>coverageEpsilon = 1e-6</code> for float error
+only.</td>
+<td>Two things. (a) It lives in Go, not
+<code>transcribe/coverage.py</code>, and <strong><code>G-CLI-4</code>
+does not exist</strong> — nothing deletes a chunk’s output and asserts
+exit 1. (b) <strong>It is currently reporting a failure and nothing acts
+on it</strong> — see §4.3.</td>
+</tr>
+<tr>
+<td><strong>T030</strong></td>
+<td><code>curriculum/chapter-01/transcript.md</code> exists with
+timestamps and provenance.</td>
+<td><strong>It carries zero pid anchors.</strong> Measured:
+<code>grep -c 'pid:'</code> → 0 on both <code>transcript.md</code> and
+<code>exercise-01.md</code>, and <code>grep -nE '^&lt;!--'</code> finds
+no comment lines at all. Meanwhile <strong>every one of the 1 101
+registry rows declares
+<code>source_ref.anchor = "inline"</code>.</strong> See §4.4.</td>
+</tr>
+<tr>
+<td><strong>T031</strong></td>
+<td>The immutable machine layer is real:
+<code>registry.go:501-503</code> refuses any mutation of
+<code>machine_text</code>, and <code>Provenance</code> transitions one
+way.</td>
+<td><strong>There is no append-only correction overlay.</strong> A
+correction overwrites <code>text</code> in place and flips provenance.
+<code>pkg/transcript/layers.go</code> does not exist. Correction
+<em>history</em> is therefore not retained — only the before (machine)
+and the current, never the sequence.</td>
+</tr>
+<tr>
+<td><strong>T034</strong></td>
+<td>The normaliser (<code>compare_engines.py:52-56</code>
+<code>norm_word</code> + <code>align</code>) is imported rather than
+reimplemented, and its SHA-256 is recorded on every run.</td>
+<td><strong>It is not frozen.</strong> The hash is enforced only when
+the caller passes <code>--normaliser-sha256</code>; no pinned expected
+value is stored anywhere. “Recorded” is not “frozen”, and the task’s
+whole point is that the arithmetic is fixed <em>before</em> the first
+measurement.</td>
+</tr>
+<tr>
+<td><strong>T049</strong></td>
+<td>Progress is persisted, twice.</td>
+<td><strong>Two stores that never meet.</strong>
+<code>core/progress.ts</code> writes <code>localStorage</code> only
+(<code>KEY_PREFIX = 'workshop-progress:'</code>), while
+<code>features/progress/progress.component.ts:190</code> reads the
+<strong>server</strong> route, which is registered
+(<code>main.go:303-304</code>) and live (<code>GET /api/progress</code>
+→ 400 <code>X-Session is required</code>). What the reader writes, the
+progress page never sees. The header comment in <code>progress.ts</code>
+justifying localStorage says <code>/api/progress</code> was measured 404
+— <strong>that claim is now stale.</strong></td>
+</tr>
+<tr>
+<td><strong>T051</strong></td>
+<td><code>docs/quickstart.md</code> exists and is substantial.</td>
+<td><strong>No timed fresh-clone run is recorded.</strong> Its line 3
+asserts a fifteen-minute path from a fresh clone to a working search
+(paraphrased — that file is in the PRIVATE submodule, so it is cited by
+path, not quoted); no stopwatch figure for the whole run appears in the
+file. SC-004 is claimed, not measured. Aggravating factor:
+<code>pipeline/venv-setup.sh</code> does not exist (T005), so a fresh
+clone cannot reproduce the Python environment at all.</td>
+</tr>
+<tr>
+<td><strong>T059</strong></td>
+<td>Redacted pids are excluded from FTS at build time
+(<code>registry.go:1075</code>) and from the embedding set
+(<code>semantic.go:270</code>), with a read-side re-filter.</td>
+<td><strong>Two independent mechanisms, one gate.</strong> The embedding
+exclusion runs in a <em>separate background pass</em>
+(<code>startVectorIndexing</code>), not inside <code>index.Build</code>,
+and the generation verification gate checks <strong>FTS membership only,
+never the vector set</strong>. R5 (“report <code>degraded</code> until
+the post-redaction rebuild completes”) is not evidenced anywhere. Since
+nothing can <em>perform</em> a redaction (T012, T038), none of this has
+ever been exercised end to end.</td>
+</tr>
+<tr>
+<td><strong>T063</strong></td>
+<td>A real a11y surface: <code>@axe-core/playwright</code> scans per
+route in <strong>both themes</strong>
+(<code>e2e/a11y-responsive.spec.ts</code>), ARIA 1.2 combobox keyboard
+handling with <code>aria-activedescendant</code>
+(<code>search.component.ts:392-434</code>), unit-level a11y assertions,
+and contrast work documented with measured axe findings in
+<code>styles.scss:78-125</code>.</td>
+<td><strong>The suite has never passed.</strong>
+<code>e2e/artifacts/results.json</code> (2026-09-01T21:21Z) records
+<code>expected: 20, unexpected: 58</code>, every failure
+<code>net::ERR_CONNECTION_REFUSED</code> — the server was not up.
+Written, not proven. SC-017 is unmeasured.</td>
+</tr>
+<tr>
+<td><strong>T073</strong></td>
+<td>L4 exists and refuses honestly on undecidable input.</td>
+<td><strong>It is not what the task specifies, and on the running server
+it is weaker still.</strong> (a) Floor 1 is <strong>lexical content-word
+overlap</strong> (<code>verify.go:234-260</code>), not an embedding
+floor — the task’s own sentence is quoted in the code at
+<code>:214-215</code> beside a different implementation. (b) Entailment
+runs <strong>one pair at a time</strong>
+(<code>verify.go:487-512</code>); there is no <code>Batch</code> method
+in <code>pkg/entail</code>. (c) <code>main.go:475-494</code> calls
+<code>answering.Wire</code> <strong>without</strong>
+<code>EntailPython</code>/<code>EntailModelDir</code>, so per
+<code>wire.go:141-147</code> the deployed server falls back to the
+lexical floor. The live service says so itself. See §4.2.</td>
+</tr>
+<tr>
+<td><strong>T075</strong></td>
+<td>The decline half is built and tested: a citation resolving
+<code>redacted</code> produces <code>declined{redacted_evidence}</code>
+for the whole answer (<code>pipeline_test.go:256</code>).</td>
+<td><strong>Stored answers are never marked
+<code>withdrawn</code></strong> — because jobs are in-memory and
+non-durable by design (<code>jobs.go:12-17</code>), so there are no
+stored answers. That may be the right design, but it is a silent change
+to the requirement, recorded nowhere.</td>
+</tr>
+<tr>
+<td><strong>T078</strong></td>
+<td><code>platform/backend/gates/bench-answers.sh</code> exists,
+classifies each question, is three-valued, and records
+<code>retrieval</code> (top score <strong>and</strong> margin) on every
+response including successes.</td>
+<td><strong>The criterion it exists to prove is refuted.</strong> See
+§4.1. Also: it lives under <code>platform/backend/gates/</code>, not
+<code>workshop/scripts/</code>, and nothing in the shell control plane
+runs it — <code>verify.sh</code> scans only
+<code>platform/gates/</code>.</td>
+</tr>
+<tr>
+<td><strong>T081</strong></td>
+<td>FR-025 is enforced <strong>structurally</strong>:
+<code>internal/api/router.go</code> registers nothing answering and
+constructs nothing from a provider; the ask tree is mounted separately
+from <code>pkg/answer/http.go</code>. <code>no_provider</code> is an
+<code>UnavailableCode</code>, and <code>pipeline_test.go:106</code>
+asserts the two enums are disjoint.</td>
+<td><strong>Neither named gate exists as an executable check.</strong>
+<code>G-HTTP-5</code> appears <strong>once in the whole tree, in a
+comment</strong> (<code>pkg/answer/http.go:24</code>).
+<code>G-CLI-13</code> appears five times, all in comments plus one test
+comment; <code>provider_test.go:64</code> covers the server half
+(construction failure is not fatal) but nothing covers the
+<code>start.sh</code> half.</td>
+</tr>
+<tr>
+<td><strong>T083</strong></td>
+<td>The behaviour is built, and the live
+<code>/api/ask/status.latency_note</code> carries measured
+prefill/decode figures and an explicit “instant is off by two orders of
+magnitude”. <code>estimated_seconds</code> is <code>null</code> with a
+<code>_basis</code> string until measured (<code>http.go:175-183</code>,
+tested at <code>http_test.go:144</code>).</td>
+<td><strong><code>docs/answering.md</code> does not exist.</strong> The
+honest statement lives in an API field and in
+<code>docs/limits.md §1.4</code>, not in the document the task
+names.</td>
+</tr>
+<tr>
+<td><strong>T095</strong></td>
+<td><code>docs/limits.md</code> is the strongest document in the tree.
+It records SC-010 as <strong>not met</strong> (§1.1), L4 as a lexical
+floor (§1.2), the one-chapter corpus (§1.3), the latency reality (§1.4),
+and that <code>declined</code> is a correct result (§1.5) — with
+commands and outputs.</td>
+<td><strong>The SC-016a limit is absent</strong> — zero occurrences of
+<code>SC-016a</code>, “code-passage” or “code identity”. That limit is
+missing because the capability was never built (T014–T017), which is
+exactly when an honest-limits page most needs to say so.</td>
+</tr>
+<tr>
+<td><strong>T097</strong></td>
+<td><code>verify.sh</code> V7 <code>gate_pairing:445</code> requires
+every <code>verify-*.sh</code> to have a <code>prove-*.sh</code>, and
+<code>--prove-failure</code> includes a real-entry-point run over a
+mutated tree (<code>:617-630</code>).</td>
+<td><strong>Coverage is a fraction.</strong> V7 scans
+<code>platform/gates/</code> only. <code>platform/backend/gates/</code>
+is never scanned, and three of its four provers
+(<code>prove-search-mutations.sh</code>,
+<code>prove-suggest-mutations.sh</code>,
+<code>prove-lumen-mutations.sh</code>) are reachable from
+<strong>nothing</strong> — not from <code>answering-gates.sh</code>, not
+from <code>verify.sh</code>. No mechanism covers the Go
+<code>_test.go</code> gates at all.</td>
+</tr>
+<tr>
+<td><strong>T098</strong></td>
+<td>The three-valued discipline is real and paired-proven where it
+exists: <code>verify.sh:799-812</code> (1 outranks 2),
+<code>:636-650</code> (proof of exactly that), <code>:652-663</code> (“a
+SKIP is never a PASS”), <code>:772-773</code> (no gates found ⇒ 2, never
+0); <code>answering-gates.sh:82-84</code> repeats the rule.</td>
+<td>Not universal, for the same reason as T097 — the audit cannot reach
+what the aggregator cannot see.</td>
+</tr>
+<tr>
+<td><strong>T105</strong></td>
+<td>This document.</td>
+<td>It reconciles the 120 tasks and reports on the success criteria.
+<strong>It does not trace all 45 FRs individually.</strong> That trace
+remains open.</td>
+</tr>
+<tr>
+<td><strong>T120</strong></td>
+<td><code>scripts/verify.sh</code> is genuinely good: 7 static gates +
+runtime gate discovery, <code>--prove-failure</code> with ~20
+<code>prove_gate</code> cases including controls that must stay
+<strong>green</strong>, the precedence rule implemented
+<strong>once</strong> and paired-proven in both directions, and an empty
+gate set treated as 2 rather than 0.</td>
+<td><strong>It does not “run every gate in this contract set”.</strong>
+It never scans <code>platform/backend/gates/</code>, never runs the Go
+gates, and <strong>22 of the 30 contracted gate identifiers do not exist
+anywhere in the tree</strong> (see §5.1). The aggregation mechanism is
+excellent; what it aggregates is a fraction of what the contract
+defines.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="not-built-44">2.4 NOT BUILT — 44</h3>
+<p>Grouped by what their absence costs.</p>
+<p><strong>FR-039 (redaction) — the entire chain, 8 tasks: T012, T038,
+T039, T040, T076, plus the R-rule halves in T059 and T075 and the
+publish precondition in T087.</strong> Measured: zero files anywhere
+match <code>redaction*</code>; zero occurrences of
+<code>redaction-review</code> in any
+<code>.sh</code>/<code>.go</code>/<code>.py</code>;
+<code>INSERT INTO redactions</code> appears <strong>zero times in the
+whole repository</strong>. The <code>redactions</code> table DDL is
+declared (<code>registry.go:946-953</code>) and never written;
+<code>passages.redacted</code> is a bare column flip
+(<code>registry.go:1071</code>) — which T012 itself calls a contract
+violation. <strong>There is no way to redact anything.</strong> See
+§4.5, which is the most serious finding in this review.</p>
+<p><strong>Code-passage identity / SC-016a — 4 tasks: T014, T015, T016,
+T017.</strong> <code>pipeline/detect_symbols.sh</code> does not exist;
+P-U1 is unsettled and no evidence is recorded under
+<code>workshop/evidence/</code>. <code>symbol.go</code> and
+<code>ingest_match.go</code> do not exist. <code>symbol_aliases</code>
+DDL is declared (<code>registry.go:966-973</code>) and never written.
+<code>G-PID-4</code> appears nowhere. Correctly, T015–T017 were blocked
+on T014 — the dependency was respected, which is why this is a clean gap
+rather than a mess.</p>
+<p><strong>The pipeline wrapper layer — 8 tasks: T005
+(<code>venv-setup.sh</code>), T020 (<code>detect_backend.sh</code>),
+T023 (<code>reassemble.sh</code> wiring), T025 (chunker), T028
+(checkpoint/resume), T032 (<code>pdf_notes.py</code>), T111
+(<code>transcribe.sh</code>), T113 (<code>ingest.sh</code> as
+contracted).</strong> Whole-tree search returns <strong>zero
+hits</strong> for <code>transcribe.sh</code>, <code>index.sh</code>,
+<code>crossref.sh</code>, <code>redact.sh</code>,
+<code>add-chapter.sh</code>, <code>bench-suggest.sh</code>,
+<code>bench-search.sh</code>, <code>bench-retrieval.sh</code>,
+<code>detect_symbols.sh</code>, <code>detect_backend.sh</code>,
+<code>venv-setup.sh</code>. <code>ingest.sh</code> exists but parses
+only <code>--require-suspend</code>; none of
+<code>--write-anchors</code>, <code>--no-write-anchors</code>,
+<code>--kinds</code>, <code>--corpus</code>, <code>--dry-run</code>,
+<code>--check-idempotent</code> exists, and <code>G-PID-6</code> (the
+double-run idempotency proof, I1–I6) is absent. No chunker exists — the
+real run was a <strong>single unchunked 6 928.7 s pass</strong>
+(<code>transcripts/full_ch01.runlog</code>, wall 4 854.79 s), so
+FR-029’s resumability was never needed and is unbuilt.</p>
+<p><strong>The <code>_common.sh</code> contract — 3 tasks: T106, T107,
+T119.</strong> <code>_common.sh</code> implements <strong>0 of the
+6</strong> features T106/T107 name: no environment → config-file →
+live-probe → fallback ladder (only single-level
+<code>${VAR:-default}</code>), no <code>(size, mtime, inode)</code>
+source fingerprints, no self-hash re-check
+(<code>script_modified_while_running</code> appears only in the contract
+document), <strong>no <code>ERR</code> or <code>EXIT</code> trap at
+all</strong>, no evidence writer, no <code>api_key_env</code>.
+<code>findings.jsonl</code> exists nowhere.
+<code>manifest.json</code>/<code>stdout.log</code>/<code>stderr.log</code>
+are written by no script. Only <code>verify-accuracy.sh:751</code>
+writes a <code>result.json</code>, and only on the measurement path.
+<code>G-CLI-1</code>, <code>G-CLI-9</code>, <code>G-CLI-10</code> appear
+nowhere. FR-040 and SC-018 are unmet.</p>
+<p><strong>Retrieval measurement — 4 tasks: T064, T065, T067,
+T118.</strong> No <code>retrieval.tsv</code> and no retrieval benchmark
+file exists at any path. No <code>bench-suggest.sh</code>, no
+<code>bench-search.sh</code>, no <code>bench-retrieval.sh</code>, no
+latency evidence artifact. <strong>SC-007 (≥90% top-5) and SC-008 (≥80%
+zero-overlap) are entirely unmeasured</strong> — not failing,
+unmeasured, which is worse because nothing says so.
+<code>docs/search.md</code> (the media-boundary statement, FR-031) does
+not exist; <code>docs/limits.md</code> covers media but not that
+boundary explicitly.</p>
+<p><strong>US5 add-chapter — 6 tasks: T084, T085, T086, T087, T088,
+T090.</strong> <code>add-chapter.sh</code> does not exist, so none of
+the nine contracted stages, <code>G-CLI-7</code>, <code>G-CLI-8</code>,
+or the publish preconditions B1–B6 exist. <strong>SC-011 is
+unmeasured.</strong> Note that T088’s stated rationale (“so idempotency
+can be proven without running ASR”) is obsolete — see §6 — but the
+deliverable is absent regardless.</p>
+<p><strong>Accuracy measurement — 3 tasks: T035, T037, T041.</strong> No
+accuracy report and no <code>accuracy.json</code> exists anywhere; the
+live endpoint says <code>measured: false</code>. T035’s specific
+mutation (inject a known WER, assert the scorer reports it) is not what
+<code>--selftest</code> does — that seeds a bluff into the reference
+guard, which is G-CLI-5’s proof, a different assertion. T041’s human
+speaker-attribution review has not been performed; the artifact carries
+<strong>149 <code>speaker unattributed</code></strong> markers and the
+client asserts an unattributed speaker is never guessed
+(<code>seek.spec.ts:185</code>) — the refusal is built, the review is
+not. <strong>SC-002 is unmeasured.</strong></p>
+<p><strong>Governance / close-out — 5 tasks: T022, T096, T099, T101,
+T104.</strong> T022 (review the passage contract <em>before</em>
+anything consumes it) never happened — consumers shipped first, and this
+document is the retrospective substitute. T096:
+<code>scripts/check-registry.tsv</code> contains <strong>no workshop
+entries</strong> (145 lines; the only match for “workshop” is a comment
+referencing <code>specs/001</code>), so
+<code>verify-check-registry.sh</code> cannot enforce SC-012/SC-013 on
+any of this feature’s checks. T099: <code>workshop/evidence/</code>
+holds exactly one file (<code>phase2-passage-identity/README.md</code>);
+the real evidence lives under <code>platform/backend/evidence/</code>
+and <code>platform/qa/evidence/</code> and is
+<strong>uncommitted</strong>. T101: <code>CONTINUATION.md</code> is
+stale — it states “<code>specs/001-workshop-curriculum-platform/</code>
+is the only feature directory” while <code>specs/002-*</code> exists
+with 7 artifacts, and describes the platform as “building has started …
+nothing is committed”. T104: measured — <strong>47 modified/untracked
+paths in <code>workshop</code></strong>, 5 in the umbrella including an
+untracked <code>specs/002-*</code>. Nothing has been committed or
+pushed.</p>
+<p><strong>Setup / misc — 3 tasks: T006, T114, T079.</strong> T006:
+gofmt is gated for exactly three packages
+(<code>answering-gates.sh:56-57</code>), not module-wide; <strong>no
+ESLint configuration or <code>lint</code> script exists in the frontend
+at all</strong>. T114: <code>G-CLI-15</code>, the
+containers-actually-booted anti-bluff, appears nowhere — so nothing
+asserts that a green <code>start.sh</code> implies the compose project’s
+containers are running and that <code>/api/health</code> was answered
+<em>through the published port</em>. T079: <strong>no human
+certification of any citation is recorded anywhere</strong>; SC-009 is
+unmeasured as specified.</p>
+<h3 id="superseded-0">2.5 SUPERSEDED — 0</h3>
+<p>No task was replaced by a recorded later decision. Two
+<em>premises</em> were superseded, and are recorded in §6 rather than
+here, because a stale premise in a plan is not a completed task.</p>
+<h3 id="cannot-determine-2">2.6 CANNOT DETERMINE — 2</h3>
+<ul>
+<li><strong>T102</strong> — “Confirm <code>workshop</code>’s four
+governance carriers remain in lockstep
+(<code>verify-governance-cascade.sh</code> C8)”. All four carriers exist
+in <code>workshop/</code> at ~14.5 KB each, but lockstep is a byte-level
+property of a normalised comparison, and I did not run the verifier.
+Compounding it: <code>.gitmodules</code> now declares
+<strong>13</strong> gitlinks (the carriers describe 9), so the cascade’s
+own fleet derivation may or may not still classify correctly.
+<strong>Not a pass.</strong></li>
+<li><strong>T103</strong> — “Run the whole gate suite green”. No
+recorded green run exists, and I did not run the suite (it mutates and
+it is heavy). Whether it <em>would</em> be green is undetermined; that
+it has not been <em>recorded</em> is determined. <strong>Not a
+pass.</strong></li>
+</ul>
+<hr />
+<h2 id="what-was-built-well">3. What was built well</h2>
+<p>Named plainly, because the failures below are easier to act on when
+the good work is not lumped in with them.</p>
+<ol type="1">
+<li><strong><code>submodules/passage</code> is the best-engineered thing
+here.</strong> The four-outcome resolver keeps <code>undetermined</code>
+structurally distinct from <code>not_in_registry</code> rather than by
+convention. The prohibition list on <code>content_hash</code>
+(<code>registry.go:130-147</code>) enumerates four permitted and seven
+forbidden uses and the schema honours all of them.
+<code>LoadJSONL</code> uses <code>DisallowUnknownFields</code>, so an
+undefined key is <em>refused</em>, not silently dropped. And
+<code>pid_test.go</code>’s mutants are proven
+<strong>discriminating</strong> — content-hash keying must survive G2
+and positional keying must survive G1 — which catches the failure mode
+where a mutation is so crude that every gate goes red and the proof
+means nothing.</li>
+<li><strong><code>decoupling_test.go</code> is a better test than it was
+asked to be.</strong> It scans every <code>.go</code> file,
+<code>go.mod</code> and <code>README.md</code> for consumer vocabulary,
+checks exported types by reflection, checks the <code>Kind</code> type
+by AST, and checks the SQL schema by <code>PRAGMA table_info</code>. Its
+own header confesses that the older, narrower test “WAS the whole of the
+reusability claim” for two releases while the API carried a consumer’s
+vocabulary in a field, a tag, an enum and a column. That is the right
+instinct: strengthen the instrument and say what the old one
+missed.</li>
+<li><strong>The three-state search contract is enforced at one
+construction point.</strong> <code>NewEnvelope</code>
+(<code>envelope.go:302-510</code>) is the only way an envelope is built,
+and invariants I1–I9 are checked there with a test each. The measured
+consequence is visible from outside: a partial failure returns 503 with
+<strong>no <code>results</code> key at all</strong>, so a client cannot
+mistake it for emptiness.</li>
+<li><strong><code>G-HTTP-8</code> is proven at the socket, not by
+mocking.</strong> A real listener counts <em>accepted connections</em>
+across 200 suggest calls plus 25 deterministically-forced 503s. That is
+the difference between “we did not observe an embed call” and “an embed
+call was impossible”.</li>
+<li><strong><code>verify.sh</code>’s precedence rule.</strong> 1
+outranks 2, implemented in one place, paired-proven in both directions,
+with “no gates found ⇒ 2, never 0” and “a SKIP is never a PASS” as
+separate proofs. Given that this repository has shipped seven
+pass/fail/could-not-determine conflations, getting this right once and
+proving it is worth more than the gate count.</li>
+<li><strong><code>docs/limits.md</code> volunteers its own bad
+news.</strong> §1.1 states SC-010 is not met and names the fabrication
+count. §1.2 states the support floor is lexical, not entailment. A
+document that says “the thing I document does not meet its criterion” is
+doing the job §11.4.6 asks for.</li>
+<li><strong>The router’s unknown-<code>/api</code> handler, and the
+reasoning recorded with it.</strong> A mounted SPA turned
+<code>GET /api/search</code> into a 200 <code>text/html</code> on a
+server implementing none of it — a probe checking only the status code
+would have certified an endpoint that did not exist. The fix registers
+<code>GET /api/</code> → <code>http.NotFound</code> <strong>with no
+contract body</strong>, and the comment explains that the
+<em>absence</em> of a body is what lets a client tell “this route does
+not exist” from “this thing does not exist”. Verified live: unknown
+<code>/api</code> paths return <code>404 text/plain</code> on all four
+verbs while real endpoints return <code>404 application/json</code> with
+a contract body.</li>
+<li><strong><code>workshop-boot</code> genuinely consumes the containers
+submodule.</strong> It imports <code>pkg/compose</code>,
+<code>pkg/health</code>, <code>pkg/logging</code>,
+<code>pkg/runtime</code> and constructs the orchestrator with this
+project’s compose file — and it deliberately does <strong>not</strong>
+wrap <code>cmd/boot</code>, whose measured behaviour is to exit 0 having
+started nothing. The task warned about that trap and the implementation
+avoided it.</li>
+<li><strong>The QA challenge suite found both live defects before this
+review did.</strong> <code>B5</code> and <code>B9</code> in
+<code>platform/qa/challenges/api-challenges.sh</code> assert exactly the
+two behaviours in §4.1 and §4.2, and
+<code>platform/qa/evidence/prove/baseline.out:31,35</code> records both
+as <code>[FAIL]</code>. The instrument works. What did not happen is
+anyone acting on it.</li>
+</ol>
+<hr />
+<h2 id="what-was-built-and-is-defective">4. What was built and is
+defective</h2>
+<h3 id="above_floor-true-on-a-score-of-0.0-re-verified-reproduces">4.1
+<code>above_floor: true</code> on a score of <code>0.0</code> —
+RE-VERIFIED, reproduces</h3>
+<p><strong>Status: confirmed, twice, on the live service.</strong></p>
+<pre><code>GET /api/search?q=zzqxwvblorptfhgm            → 200  status=ok
+   n_results 20 · above_floor true on 20/20 · every score exactly 0 · floor_calibrated false
+GET /api/search?q=qqxzzyvwmkbhtrdplf          → 200  status=ok
+   n_results 20 · above_floor true on 20/20 · every score exactly 0</code></pre>
+<p><strong>Mechanism</strong>,
+<code>pkg/search/service.go:485-495</code>: <code>s.Floor</code> is 0
+while uncalibrated, and the split is
+<code>if d.Score &lt; s.Floor</code> — which is false for a score of
+exactly 0, so every hit takes the <code>h.AboveFloor = true</code>
+branch. The code’s own comment says demoting on an unmeasured threshold
+“would be inventing a judgement”, and that reasoning is sound; the
+defect is that the <em>claim</em> <code>above_floor: true</code> is
+emitted anyway. A hit scoring 0.0 has cleared nothing.</p>
+<p><strong>Scope, measured per mode</strong> — this is narrower than
+“the default mode” and the difference matters:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th><code>mode</code></th>
+<th>gibberish result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lexical</code></td>
+<td><strong>200 <code>no_match</code></strong> — correct</td>
+</tr>
+<tr>
+<td><code>code</code></td>
+<td><strong>200 <code>no_match</code></strong> — correct</td>
+</tr>
+<tr>
+<td><code>semantic</code></td>
+<td><strong>200 <code>ok</code>, 20 hits, all score 0, all
+<code>above_floor: true</code></strong></td>
+</tr>
+<tr>
+<td><code>fused</code> (the default)</td>
+<td>inherits the semantic leg’s hits when that leg succeeds</td>
+</tr>
+<tr>
+<td><code>bogusmode</code></td>
+<td><strong>400 <code>unknown_parameter</code></strong>,
+<code>field: mode</code> — correct</td>
+</tr>
+</tbody>
+</table>
+<p>So <code>no_match</code> is unreachable <strong>specifically through
+the semantic leg</strong>, and therefore through the default. The
+three-state contract is intact in <code>envelope.go</code>; what defeats
+it is that the semantic leg always returns <em>k</em> nearest neighbours
+and the floor never demotes them.</p>
+<p><strong>Already asserted and already failing</strong>:
+<code>platform/qa/challenges/api-challenges.sh:196-209</code> (challenge
+<code>B9</code>), recorded
+<code>[FAIL] B9 … zero-score-but-above_floor=20 of 20 hits; floor_calibrated=False</code>
+in <code>platform/qa/evidence/prove/baseline.out:35</code>.</p>
+<p><strong>Note for whoever fixes it</strong>: the envelope already has
+the right vocabulary. <code>near_misses</code> exists, invariant I6
+requires <code>above_floor: false</code> on every near-miss, and I7
+requires a <code>no_match</code> built on an uncalibrated floor to say
+<code>floor_calibrated: false</code>. The parts are there; they are not
+wired to the uncalibrated case.</p>
+<h3
+id="unknown-query-parameters-silently-accepted-re-verified-reproduces">4.2
+Unknown query parameters silently accepted — RE-VERIFIED,
+reproduces</h3>
+<p><strong>Status: confirmed.</strong></p>
+<pre><code>GET /api/search?q=x&amp;nosuchparam=1     → 200  status=ok, 20 results        ← silently honoured
+GET /api/suggest?q=x&amp;bogus=2          → 200  status=ok                    ← silently honoured
+GET /api/search?q=x&amp;limit=notanumber  → 400  unknown_parameter, field=limit
+GET /api/search?q=x&amp;mode=bogusmode    → 400  unknown_parameter, field=mode
+GET /api/search                       → 400  empty_query, field=q</code></pre>
+<p>The closed §5.2 enum <strong>has</strong> the word for this fault,
+and the endpoint uses it — but only for a bad <strong>value</strong> of
+a known parameter, never for an unknown <strong>name</strong>.
+<code>internal/api/search.go</code> reads parameters positively
+(<code>r.URL.Query().Get("q")</code>, <code>…Get("mode")</code>,
+<code>…Get("kinds")</code>, <code>…Get("chapter")</code>) and never
+enumerates what it did <em>not</em> consume, so an unrecognised name
+cannot be detected. The caller gets a window they did not ask for and
+cannot tell.</p>
+<p><strong>Already asserted and already failing</strong>:
+<code>api-challenges.sh:159-168</code> (challenge <code>B5</code>),
+recorded
+<code>[FAIL] B5 … OBSERVED: http=200 ct=application/json code=None</code>
+in <code>platform/qa/evidence/prove/baseline.out:31</code>.</p>
+<p><strong>A third, adjacent finding surfaced while probing
+this</strong>: <code>?limit=999999</code> returns <strong>200 with 100
+results</strong> — the value is silently clamped, with no error and no
+field in the response saying it was clamped. Same failure shape as B5:
+the caller’s instruction was altered without being told.</p>
+<h3
+id="sc-010-fails-on-the-live-service-an-unanswerable-question-was-answered">4.3
+SC-010 fails on the live service — an unanswerable question was
+answered</h3>
+<p><strong>This was not on the known-defect list and it is the most
+consequential runtime finding.</strong></p>
+<p>Recorded evidence,
+<code>platform/backend/evidence/answering/</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Run</th>
+<th style="text-align: right;">A/OK</th>
+<th style="text-align: right;">A/DECLINED</th>
+<th style="text-align: right;">U/REFUSED</th>
+<th style="text-align: right;"><strong>U/FABRICATED</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bench-2026-09-01.tsv</code></td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;"><strong>2</strong></td>
+</tr>
+<tr>
+<td><code>bench-expanded-2026-09-01.tsv</code></td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;"><strong>3</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Re-verified live tonight</strong>, one class-<code>U</code>
+question from the expanded set (an uncomputable aggregate — the corpus
+states a monthly figure and never an annual one, so answering requires
+arithmetic the passages do not contain):</p>
+<pre><code>POST-equivalent GET /api/ask?q=…  → job accepted
+  final: status = answered · citations = 2 · text present
+  retrieval: top_score 0.7244 · margin 0.2334 · min_score 0.45 · min_margin 0.05
+             retrieved 8 · admitted 8</code></pre>
+<p><strong>It still fabricates.</strong> SC-010 requires ≥10
+unanswerable questions declined <strong>100%</strong> with
+<strong>0</strong> fabricated. Measured: 3 of 33.</p>
+<p><strong>Why L1 cannot catch this</strong>: the retrieval gate is
+working exactly as designed — top score 0.72 against a floor of 0.45,
+margin 0.23 against 0.05. The passages <em>are</em> topically relevant.
+The question is unanswerable not because retrieval is weak but because
+the answer requires a computation the corpus does not support, and
+<strong>only L4 can catch that</strong> — which brings us to:</p>
+<h3
+id="l4-is-disabled-on-the-deployed-server-and-the-server-says-so">4.4 L4
+is disabled on the deployed server, and the server says so</h3>
+<p><code>cmd/workshop-server/main.go:475-494</code> calls
+<code>answering.Wire</code> without <code>EntailPython</code> or
+<code>EntailModelDir</code>. Per
+<code>internal/answering/wire.go:141-147</code>, unset paths mean L4
+falls back to the lexical floor. Only <code>cmd/workshop-ask</code>
+exposes <code>-entail-python</code> / <code>-entail-model</code>
+flags.</p>
+<p>The live service reports this itself. Its
+<code>support_verification</code> field, returned by
+<code>GET /api/ask/status</code> and defined as a string literal in
+<code>workshop/platform/backend/pkg/answer/verify.go</code>, states in
+substance — <strong>paraphrased, not quoted, because that file is in the
+PRIVATE submodule</strong> — that the check is a lexical content-word
+overlap test, which a claim clears once at least half of its content
+words also occur somewhere in whatever passages back it; that this is a
+NECESSARY condition for support and explicitly NOT entailment; that it
+cannot separate a claim the passage actually states from one that merely
+reuses its vocabulary; that a claim scoring a perfect 1.00 can still
+invert the passage’s meaning via a single inserted negation; and that
+this layer is what the system drops back to whenever no entailment model
+can be reached.</p>
+<p>(Read the field itself at that path for the exact wording. It is
+quoted here <strong>by path only</strong> — this document is in the
+PUBLIC umbrella and <code>workshop/</code> is PRIVATE, so reproducing
+the literal would be a disclosure, per the standing rule in
+<code>docs/content-boundary.md</code>.)</p>
+<p>That is an admirably honest field. It is also a precise description
+of how §4.3’s fabrication gets through: a claim that multiplies a stated
+monthly figure shares nearly all its content words with the passage that
+states it.</p>
+<p>The entailment verifier itself is real and was genuinely exercised —
+<code>pkg/entail/onnx.go</code> (ONNX int8 cross-encoder, model identity
+read from the <strong>loaded</strong> files rather than a compiled-in
+constant), with eleven dated evidence artifacts under
+<code>evidence/answering/</code>. It is built and not deployed. Note
+also that <strong>every model-touching entail test <code>t.Skip</code>s
+without env vars</strong> (<code>onnx_test.go:23</code>,
+<code>model_identity_test.go:41</code>, <code>eval_test.go:92</code>),
+so <code>go test ./...</code> completes <code>pkg/entail</code> in 15 ms
+without exercising the model — a green suite that proves nothing about
+the layer.</p>
+<h3
+id="fr-039-is-decorative-and-chapter-1-is-being-served-without-its-review">4.5
+FR-039 is decorative, and Chapter 1 is being served without its
+review</h3>
+<p>The plan said this in as many words: <em>“Removing any one of them
+leaves FR-039 decorative.”</em> All of them are missing.</p>
+<p>Measured: - Zero files match <code>redaction*</code> anywhere in the
+tree. - Zero occurrences of <code>redaction-review</code> in any
+<code>.sh</code>, <code>.go</code> or <code>.py</code>. - <strong>Zero
+<code>INSERT INTO redactions</code></strong> in the whole repository.
+The table DDL exists and is never written. -
+<code>passages.redacted</code> is a bare column flip from
+<code>boolInt(rec.Redacted)</code> (<code>registry.go:1071</code>) — the
+exact thing T012 calls a contract violation. There is no
+<code>unredact</code>, so no history.</p>
+<p>Consequently: - <strong><code>redaction-review.json</code> does not
+exist for Chapter 1</strong>, and T040 forbids export, publication,
+serving or committing before it does. - The transcript <strong>is
+committed</strong> in the <code>workshop</code> submodule. - The chapter
+<strong>is served live</strong> on the LAN at
+<code>192.168.1.44:8087</code>. - <strong><code>GET /api/chapters</code>
+discloses the raw material filenames</strong>, and those filenames
+identify the third party whose presence is the stated reason FR-039
+exists. The transcript endpoint serves 1 055 passages of their
+speech.</p>
+<p>The publish precondition that would have blocked this
+(<code>B5</code> in T087) lives in <code>add-chapter.sh</code>, which
+does not exist. <code>internal/api/recording_test.go:767</code> asserts
+that <em>recording responses</em> never leak the filename — so the
+concern was understood in one place and missed in the adjacent one.</p>
+<p>This is a governance finding, not a code-style one. It is the single
+item in this review that should be actioned before anything else in the
+ledger.</p>
+<h3
+id="the-coverage-identity-is-failing-and-nothing-is-acting-on-it">4.6
+The coverage identity is failing and nothing is acting on it</h3>
+<p><code>GET /api/chapters/01/transcript</code> returns, live:</p>
+<pre><code>coverage: complete = false
+          duration_s         6928.713
+          speech_span_s      6545.98
+          accounted_silence_s   0
+          unexplained_gap_s   382.733     ← 5.5 % of the runtime
+          gaps: [ … each with reason &quot;unmeasured&quot; … ]</code></pre>
+<p>The arithmetic is right and the endpoint is honest. But
+<code>accounted_silence_s</code> is <strong>0</strong> because the VAD
+output (<code>audio_energy.py</code>, T024) is never fed into the
+coverage computation — the two halves were built and never joined. So
+382.7 seconds of the recording are unaccounted for,
+<code>complete</code> is <code>false</code>, and <strong>B1
+(<code>coverage.unexplained_gap_s == 0</code>) would block
+publication</strong> if the publish gate existed. It does not, so the
+chapter is served anyway. SC-001 is not met.</p>
+<h3
+id="every-registry-row-claims-an-anchor-mode-the-files-do-not-carry">4.7
+Every registry row claims an anchor mode the files do not carry</h3>
+<p>Measured:</p>
+<pre><code>passages.jsonl: 1101 rows, all with source_ref.anchor = &quot;inline&quot;
+curriculum/chapter-01/transcript.md   : grep -c &#39;pid:&#39;  → 0 ;  no &#39;&lt;!--&#39; lines at all
+curriculum/chapter-01/exercise-01.md  : grep -c &#39;pid:&#39;  → 0</code></pre>
+<p>The registry declares that identity travels <em>inline, in the source
+file</em>. It does not. Identity exists only in
+<code>passages.jsonl</code> and the derived <code>.db</code> —
+i.e. <code>AnchorRegistryOnly</code> in the contract’s vocabulary,
+recorded as <code>inline</code>.</p>
+<p>Two consequences, one measured and one not: -
+<strong>Measured</strong>: <code>ingest.sh</code> has no
+<code>--write-anchors</code> flag, so nothing ever writes them. -
+<strong>Not measured, and I will not assert it</strong>: whether a
+re-ingest attaches or re-mints without anchors depends on which
+<code>Sync</code> branch fires, and I did not run ingest. What
+<em>is</em> certain is that the anchor-attach path (R1c: an anchor
+present but not in the registry is a hard error) can never fire on this
+corpus, so the survival guarantees G1/G2 — which are proven, rigorously,
+on synthetic files <em>with</em> anchors — are unexercised against the
+real one.</p>
+<h3 id="two-progress-stores-that-never-meet">4.8 Two progress stores
+that never meet</h3>
+<p><code>core/progress.ts</code> writes <code>localStorage</code> only;
+<code>features/progress/progress.component.ts:190</code> reads
+<code>GET /api/progress</code>, which is registered
+(<code>main.go:303-304</code>) and live (400 without
+<code>X-Session</code>). The transcript reader’s position is therefore
+invisible to the progress page. The comment in <code>progress.ts</code>
+justifying the localStorage choice cites a measured 404 on
+<code>/api/progress</code> — that measurement is stale.</p>
+<h3 id="the-a11y-suite-has-never-passed">4.9 The a11y suite has never
+passed</h3>
+<p><code>e2e/artifacts/results.json</code> (2026-09-01T21:21Z):
+<code>expected: 20, unexpected: 58</code>, every failure
+<code>net::ERR_CONNECTION_REFUSED</code>. The suite is well written —
+axe per route in both themes, plus real ARIA 1.2 combobox keyboard
+handling — and it has produced no green run. SC-017 is unmeasured, and
+the artifact currently on disk could be mistaken for a run that found
+problems rather than a run that never happened.</p>
+<h3 id="the-semantic-leg-is-intermittently-unavailable">4.10 The
+semantic leg is intermittently unavailable</h3>
+<p>Across roughly 20 live probes tonight, <code>mode=semantic</code> and
+<code>mode=fused</code> alternated between answering and returning
+<code>503 partial_failure_zero_results</code> with
+<code>legs.semantic = "failed"</code>. At one point four consecutive
+retries over ~30 s all failed while <code>mode=lexical</code> answered
+every time. The degradation is <strong>honest</strong> — that is the
+three-state contract working, and it is the right behaviour — but a
+search surface whose primary leg fails under light probing load will not
+meet SC-006 in use. This is consistent with the tuning note already
+recorded in the repository about embedding serialisation under
+<code>OLLAMA_NUM_PARALLEL=1</code>.</p>
+<h3 id="only-two-files-in-the-entire-tree-reach-the-platform">4.11 Only
+two files in the entire tree reach the platform</h3>
+<p><code>ingest.sh:271-287</code> hardcodes exactly two sources per
+chapter — <code>transcript.md</code> and <code>exercise-01.md</code>.
+Measured composition of <code>passages.jsonl</code>:</p>
+<pre><code>1101 passages: transcript_segment 1055 · doc_section 44 · code 2
+by source path:  1055 from chapter-01/transcript.md
+                   46 from chapter-01/exercise-01.md</code></pre>
+<p>Everything else is invisible to search and to answering: all 17
+documents under <code>workshop/docs/</code> (including the five
+training-area documents, the user guide, the manual, the FAQ and
+<code>limits.md</code> itself), and every file under
+<code>curriculum/chapter-01/knowledge/</code> (areas, terms, lexicon,
+artifacts, question banks, coverage, reverse index, linkage).
+<code>md_sections.py</code> also drops sections shorter than
+<code>MIN_CHARS = 120</code> silently — 48 headings in
+<code>exercise-01.md</code> produced 44 <code>doc_section</code>
+passages — which is a defensible rule, but the drop is not reported.</p>
+<p>The <code>--corpus</code> flag that decision D2 relies on (“the
+corpus is the <code>workshop/</code> module <strong>plus the
+<code>vasic</code> monorepo</strong>”) does not exist, which is why the
+whole monorepo contributes exactly <strong>2</strong> code passages. Any
+question whose answer lives in <code>docs/</code> is structurally
+unanswerable, and the system cannot tell the user that.</p>
+<hr />
+<h2 id="what-was-built-that-no-task-asked-for">5. What was built that no
+task asked for</h2>
+<p>Not a complaint — some of it is the best work here. But it is
+unbudgeted, unreviewed against any spec, and in one case it changes the
+application’s front door.</p>
+<h3
+id="a-different-gate-vocabulary-from-the-one-the-contracts-define">5.1 A
+different gate vocabulary from the one the contracts define</h3>
+<p>The contracts define <strong>30</strong> gate identifiers
+(<code>G-CLI-1..17</code>, <code>G-HTTP-1..8</code>,
+<code>G-PID-1..6</code>). Measured occurrences in implementation code
+across <code>workshop/</code> and the two submodules:</p>
+<p><em>Present</em>: <code>G-CLI-5</code>, <code>G-CLI-11</code>,
+<code>G-CLI-13</code> (comments only), <code>G-CLI-16</code>, the whole
+<code>G-HTTP-1</code> … <code>G-HTTP-4</code> block,
+<code>G-HTTP-5</code> (one comment), <code>G-HTTP-6</code> …
+<code>G-HTTP-8</code>, and <code>G-PID-3</code>.</p>
+<p><em>Absent entirely</em>:
+<code>G-CLI-1, 2, 3, 4, 6, 7, 8, 9, 10, 12, 14, 15</code>,
+<code>G-PID-1, 2, 4, 5, 6</code>.</p>
+<p><em>Invented instead</em>, and not in any contract:
+<strong><code>G-CLI-17</code></strong> (a stopped stack must be a
+determined negative distinguishable by exit code — with a prover that
+compiles, vets <strong>and links</strong> its mutations into the real
+<code>workshop-boot</code> before requiring the gate to go red),
+<strong><code>G-IDX-1</code></strong>,
+<strong><code>G-ANS-BUILD/VET/FMT/UNIT/RACE/MUTATE/BENCH</code></strong>,
+<strong>seven <code>G-LUMEN</code> gates</strong>, <strong>nine
+<code>G-SUG</code> gates</strong>,
+<strong><code>G-WEB-1</code></strong>,
+<strong><code>G-DECOUPLE</code></strong>, and the QA challenge families
+<code>A*</code>/<code>B*</code>/<code>C*</code>.</p>
+<p>The invented gates are, on the whole, good — <code>G-LUMEN-2</code>
+(a glued symbol never reaches a renderable field) and
+<code>G-SUG-8</code> (a material suggestion’s target actually resolves
+against the endpoint that serves it) are exactly the kind of check that
+catches real bugs. But the contracts’ closure condition in
+<code>tasks.md</code> §“Gate coverage” — <em>“a gate defined in a
+contract and built by no task is a gate that will not exist”</em> — is
+now false for 17 of 30, and the substitution was never recorded.</p>
+<h3
+id="a-whole-knowledge-layer-built-ahead-of-the-spec-that-asks-for-it">5.2
+A whole knowledge layer, built ahead of the spec that asks for it</h3>
+<p><code>workshop/curriculum/chapter-01/knowledge/</code> contains
+<code>areas.json</code>, <code>terms.json</code>,
+<code>lexicon.json</code>, <code>artifacts.json</code>,
+<code>coverage.json</code>, <code>reverse-index.json</code>,
+<code>linkage.jsonl</code>, <code>platform-mapping.json</code>, two
+question banks, <code>build.py</code>, <code>verify.py</code>, a
+<code>TAXONOMY.md</code> and a <code>README.md</code>. The frontend
+carries <code>core/knowledge.ts</code> (537 lines) and <strong>five
+feature directories nobody asked for in 001</strong> —
+<code>features/{areas,practice,ask,progress,curriculum}</code> — and
+<code>/api/suggest</code> already returns <code>area_code</code>,
+<code>area_slug</code>, <code>lesson_slug</code> and <code>sid</code>
+fields in its suggestion targets.</p>
+<p><strong>This is spec 002’s subject matter</strong>
+(<code>specs/002-knowledge-areas-deep-linking/</code>, 7 artifacts,
+2026-09-01), built before 002’s execution phase began. The header
+comment at
+<code>workshop/platform/frontend/src/app/core/knowledge.ts:12-18</code>
+is honest about its own status — <strong>paraphrased, not quoted,
+because that file is in the PRIVATE submodule</strong>: it records a 404
+from each of the two endpoints it depends on (<code>/api/areas</code>;
+separately, <code>/api/quizzes</code>) on that build, and concludes that
+the type shapes declared beneath it amount to a STATED CONTRACT the
+client programs against rather than an observation of any working
+endpoint. (Exact wording at that path; cited <strong>by path
+only</strong>, per <code>docs/content-boundary.md</code>.)</p>
+<p><strong>One consequence deserves a decision rather than a
+shrug</strong>: <code>app.routes.ts:31-33</code> routes <code>''</code>
+to <code>CurriculumComponent</code>, so <strong><code>/</code> is no
+longer the chapter list</strong>. Feature 001’s US2 independent test is
+<em>“start with the documented command, confirm Chapter 1 is
+listed”</em> — the front door moved to serve a feature that has not been
+executed yet.</p>
+<h3 id="an-upstream-contributions-staging-area">5.3 An
+upstream-contributions staging area</h3>
+<p><code>workshop/platform/upstream-contributions/rag-grounding/</code>
+is its own Go module with <code>grounding.go</code>,
+<code>extractive.go</code>, <code>provider.go</code> and a test — code
+staged for contribution back to the RAG submodule rather than forked in
+place. That is the right instinct and it is not in the plan. Its
+<code>README.md:34</code> is also the tree’s own honest record that
+loopback egress refusal is <strong>ABSENT</strong>.</p>
+<h3 id="two-new-public-submodules">5.4 Two new public submodules</h3>
+<p><code>.gitmodules</code> now declares <strong>13</strong> gitlinks,
+not the 9 the umbrella carriers describe.
+<code>submodules/passage</code> and <code>submodules/verdict</code> were
+extracted as separate published repositories — which
+<code>tasks.md</code> records as a correction (the “FILE PATHS CORRECTED
+2026-09-01” block) — and <code>submodules/LLMProvider</code> and
+<code>submodules/RAG</code> were added and are consumed by the backend
+(<code>go.mod:86-92</code>). The extraction is exactly what the plan’s
+own reasoning about <code>pkg/</code> vs <code>internal/</code> argues
+for. The carriers not being updated to match is a separate, small
+debt.</p>
+<h3 id="a-qa-challenge-suite-with-mutation-provers">5.5 A QA challenge
+suite with mutation provers</h3>
+<p><code>platform/qa/</code> — <code>api-challenges.sh</code>,
+<code>answering-challenges.sh</code>, <code>state2-challenges.sh</code>,
+each with a <code>prove-*.sh</code>, plus a
+<code>mutating-proxy.py</code> and a <code>_bank.sh</code>. It is the
+instrument that already found both known defects. Nothing in the plan
+asked for it, and nothing in the control plane runs it
+(<code>verify.sh</code> scans only <code>platform/gates/</code>).</p>
+<h3 id="a-second-asr-engine-built-and-calibrated">5.6 A second ASR
+engine, built and calibrated</h3>
+<p><code>pipeline/engines/whisper.cpp</code> is vendored and
+<strong>built</strong> (<code>build/bin/whisper-cli</code>, 2.4 MB, plus
+<code>whisper-server</code>, <code>whisper-bench</code>,
+<code>whisper-quantize</code>), with 874 MB of GGML weights alongside
+the CTranslate2 weights. <code>compare_engines.py</code> implements a
+word-level Levenshtein alignment and — the part worth keeping — measures
+how often engine B contradicts engine A’s <em>high-confidence</em>
+words, explicitly refusing to treat agreement as correctness. The plan
+named one engine. Two were built and diffed.</p>
+<hr />
+<h2 id="stale-premises-found-while-reconciling">6. Stale premises found
+while reconciling</h2>
+<p>Recorded because the plan and the carriers still assert them, and an
+agent reading either would act on false facts.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Assertion, and where</th>
+<th>Measured today</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CLAUDE.md</code>: “No ASR engine … <code>whisper</code>,
+<code>faster_whisper</code>, <code>vosk</code> … all absent”</td>
+<td><strong>False.</strong>
+<code>pipeline/venv/bin/python -c "import faster_whisper, ctranslate2"</code>
+→ <code>OK 1.2.1 4.8.2</code>, and whisper.cpp is built with weights on
+disk. The system <code>python3</code> is indeed bare — the venv is
+mandatory, which <code>detect_media.sh:206-209</code> correctly checks
+for.</td>
+</tr>
+<tr>
+<td><code>CLAUDE.md</code> and <code>tasks.md</code> Phase 6: “no
+generative model exists on this host … both are embedding models”</td>
+<td><strong>False.</strong> Live <code>/api/ask/status</code> reports
+<code>enabled: true</code> and <code>calibrated: true</code> for
+<code>model: qwen2.5:3b-instruct-q4_K_M</code> behind
+<code>provider: ollama</code>. Phase 6’s “BLOCKED ON AN OPERATOR ACTION”
+banner is obsolete.</td>
+</tr>
+<tr>
+<td><code>tasks.md</code> File Structure: “<code>questions.tsv</code>
+currently holds <strong>8 <code>A</code> rows and 10 <code>U</code>
+rows</strong> … 8 is not 20, and the shortfall is real”</td>
+<td><strong>Superseded.</strong> Measured: <strong>24 A, 33 U</strong>.
+SC-009’s count requirement is met; SC-010’s count requirement is met.
+The <em>shortfall</em> is now in certification and outcomes, not in
+counts.</td>
+</tr>
+<tr>
+<td><code>CLAUDE.md</code>: “<code>.gitmodules</code> declares
+<strong>nine</strong> gitlinks”</td>
+<td><strong>False.</strong> Thirteen.</td>
+</tr>
+<tr>
+<td><code>CONTINUATION.md</code>:
+“<code>specs/001-workshop-curriculum-platform/</code> is the only
+feature directory”</td>
+<td><strong>False.</strong>
+<code>specs/002-knowledge-areas-deep-linking/</code> exists with 7
+artifacts.</td>
+</tr>
+<tr>
+<td><code>core/progress.ts</code> header: <code>/api/progress</code>
+measured 404</td>
+<td><strong>False now.</strong> Registered at
+<code>main.go:303-304</code>; live <code>GET /api/progress</code> → 400
+<code>X-Session is required</code>.</td>
+</tr>
+<tr>
+<td><code>tasks.md</code> T088 rationale: “otherwise every US5 proof
+inherits the ASR block”</td>
+<td>Obsolete — there is no ASR block. The deliverable is still
+absent.</td>
+</tr>
+<tr>
+<td><code>route-manifest.tsv</code> “DEBT=4”</td>
+<td><strong>Not four missing endpoints.</strong> All four
+<code>NOT_BUILT</code> rows are <code>/api/nosuchroute</code> on
+GET/POST/PUT/DELETE — negative controls asserting an unknown path
+returns a plain 404. All four behave as declared (verified live:
+<code>404 text/plain</code>). Reading “DEBT=4” as four unimplemented
+contract routes would be wrong. The manifest does, separately, omit
+<code>POST /api/ask</code> and <code>POST /api/progress</code>, both of
+which are registered and live.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="success-criteria-measured-failing-or-unmeasured">7. Success
+criteria — measured, failing, or unmeasured</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>SC</th>
+<th>State</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SC-001 coverage identity closes</td>
+<td><strong>FAILING</strong></td>
+<td>live <code>unexplained_gap_s: 382.733</code>,
+<code>complete: false</code> (§4.6)</td>
+</tr>
+<tr>
+<td>SC-002 transcript accuracy over ≥30 windows</td>
+<td><strong>UNMEASURED</strong></td>
+<td><code>/api/chapters/01/accuracy</code> →
+<code>measured: false</code>; no <code>accuracy.json</code> exists</td>
+</tr>
+<tr>
+<td>SC-003 timestamp within 5 s of spoken content</td>
+<td><strong>UNMEASURED as written</strong></td>
+<td><code>seek.spec.ts</code> proves the <em>UI seek</em> is exact and
+&lt; 5 s; the criterion is about transcript timing, which needs SC-002’s
+reference</td>
+</tr>
+<tr>
+<td>SC-004 fresh clone → running in 15 min</td>
+<td><strong>UNMEASURED</strong></td>
+<td>claimed in <code>docs/quickstart.md:3</code>, not timed;
+<code>venv-setup.sh</code> absent</td>
+</tr>
+<tr>
+<td>SC-005 suggest ≤ 200 ms p95</td>
+<td><strong>MET, ad hoc</strong></td>
+<td>10 live calls at the HTTP boundary: p50 9.8 ms, p95 10.3 ms, max
+11.0 ms. The contracted harness (<code>bench-suggest.sh</code>) does not
+exist</td>
+</tr>
+<tr>
+<td>SC-006 search ≤ 2 s p95</td>
+<td><strong>UNMEASURED</strong></td>
+<td>no harness; and see §4.10</td>
+</tr>
+<tr>
+<td>SC-007 ≥90% top-5</td>
+<td><strong>UNMEASURED</strong></td>
+<td>no retrieval benchmark exists at any path</td>
+</tr>
+<tr>
+<td>SC-008 ≥80% zero-overlap</td>
+<td><strong>UNMEASURED</strong></td>
+<td>same</td>
+</tr>
+<tr>
+<td>SC-009 100% of citations support their claim, ≥20 answers</td>
+<td><strong>UNMEASURED</strong></td>
+<td>24 A rows exist; 17 answered in the last run; <strong>no human
+certification recorded anywhere</strong></td>
+</tr>
+<tr>
+<td>SC-010 ≥10 unanswerable, 100% declined, 0 fabricated</td>
+<td><strong>FAILING</strong></td>
+<td>3 fabricated of 33 recorded; re-verified live tonight (§4.3)</td>
+</tr>
+<tr>
+<td>SC-011 new chapter in &lt;30 min, zero code change</td>
+<td><strong>UNMEASURED</strong></td>
+<td><code>add-chapter.sh</code> does not exist</td>
+</tr>
+<tr>
+<td>SC-012 100% of checks carry a paired failure proof</td>
+<td><strong>PARTIAL</strong></td>
+<td>enforced for <code>platform/gates/</code> only; three provers under
+<code>platform/backend/gates/</code> are reachable from nothing</td>
+</tr>
+<tr>
+<td>SC-013 100% distinguish could-not-determine</td>
+<td><strong>PARTIAL</strong></td>
+<td>rigorous where implemented (<code>verify.sh:799-812</code>,
+<code>answering-gates.sh:82-84</code>); not universal</td>
+</tr>
+<tr>
+<td>SC-014 zero active server-side CI</td>
+<td><strong>MET</strong></td>
+<td><code>git -C workshop ls-files</code> → no workflow files; the 29
+vendored <code>whisper.cpp</code> workflow files are git-ignored and
+correctly classified out-of-scope by <code>verify.sh</code> V5, which
+prints them rather than suppressing them</td>
+</tr>
+<tr>
+<td>SC-015 pushed and verified with <code>git ls-remote</code></td>
+<td><strong>NOT MET</strong></td>
+<td>47 uncommitted paths in <code>workshop</code>, 5 in the
+umbrella</td>
+</tr>
+<tr>
+<td>SC-016 pid survives correction and movement</td>
+<td><strong>MET</strong></td>
+<td><code>pid_test.go</code> G1/G2 with discriminating paired mutations
+— but proven on synthetic anchored files, and the real corpus carries no
+anchors (§4.7)</td>
+</tr>
+<tr>
+<td>SC-016a code-passage identity</td>
+<td><strong>NOT IMPLEMENTABLE as specified</strong></td>
+<td>P-U1 unsettled; T014 never ran</td>
+</tr>
+<tr>
+<td>SC-017 WCAG 2.1 AA, zero A/AA violations</td>
+<td><strong>UNMEASURED</strong></td>
+<td>suite written, never passed (§4.9)</td>
+</tr>
+<tr>
+<td>SC-018 evidence for every run</td>
+<td><strong>NOT MET</strong></td>
+<td>no evidence writer exists; <code>findings.jsonl</code> appears
+nowhere</td>
+</tr>
+<tr>
+<td>SC-019 each component builds with the curriculum absent</td>
+<td><strong>PARTIAL</strong></td>
+<td><code>decoupling_test.go</code> proves no consumer
+<em>vocabulary</em> — stronger in one dimension. No test compiles or
+runs any package with the consumer removed</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="what-this-review-recommends-becomes-a-task-not-a-patch">8. What
+this review recommends becomes a task, not a patch</h2>
+<p>In priority order. None of these was implemented here; that is the
+point of the phase.</p>
+<ol type="1">
+<li><strong>FR-039 first.</strong> Either build the redaction chain
+(T012, T038, T039, T040) before the platform serves Chapter 1 again, or
+record an operator decision that the review is “none required” — an
+explicit decision is valid; the absence of one is not. Right now a third
+party’s speech and name are served on the LAN and committed to a
+submodule with no recorded review. This is the one item that should not
+wait for the rest of the ledger.</li>
+<li><strong>Make <code>no_match</code> reachable.</strong> Wire the
+uncalibrated case to <code>near_misses</code> +
+<code>above_floor: false</code>, which the envelope already supports
+(I6, I7). Do not calibrate a floor by guessing — emitting
+<code>above_floor: true</code> on a zero score is the bug, not the
+absence of a threshold.</li>
+<li><strong>Reject unknown parameter names.</strong> Enumerate the
+consumed set and refuse the remainder with the
+<code>unknown_parameter</code> code the enum already provides. Fold in
+the silent <code>limit</code> clamp.</li>
+<li><strong>Deploy L4’s entailment, or state in
+<code>docs/limits.md</code> that the deployed server runs the lexical
+floor.</strong> <code>main.go</code> needs to pass
+<code>EntailPython</code>/<code>EntailModelDir</code>. Until it does,
+SC-010 cannot be met — §4.3 and §4.4 are one defect seen from two
+ends.</li>
+<li><strong>Join the coverage halves.</strong> Feed
+<code>audio_energy.py</code>’s silence spans into
+<code>ComputeCoverage</code> so <code>accounted_silence_s</code> stops
+being 0 and SC-001 becomes answerable either way.</li>
+<li><strong>Decide the <code>detect_media.sh</code> exit
+semantics</strong> (T019) — 1 or 2 for an unusable tool. This is a
+contract question, not a code question.</li>
+<li><strong>Widen the corpus</strong> (<code>--corpus</code>, T113) so
+<code>docs/</code> and <code>knowledge/</code> reach the index, or state
+in <code>limits.md</code> that they do not.</li>
+<li><strong>Point <code>verify.sh</code> at
+<code>platform/backend/gates/</code></strong> and at the Go gates, or
+record why it should not. Three mutation provers currently run only if
+someone types their path.</li>
+<li><strong>Register this feature’s checks</strong> in
+<code>scripts/check-registry.tsv</code> (T096) so SC-012/SC-013 can be
+enforced mechanically rather than read off this document.</li>
+<li><strong>Reconcile the gate vocabulary</strong> (§5.1): promote the
+invented gates into the contracts, or build the 17 contracted ones, or
+record the substitution. The closure condition in <code>tasks.md</code>
+is currently false and silently so.</li>
+<li><strong>Refresh the stale premises in §6</strong> — the ASR and
+generative-model claims in <code>CLAUDE.md</code> and in
+<code>tasks.md</code> Phase 6 will otherwise keep an agent from doing
+work that is already possible.</li>
+<li><strong>Decide whether <code>/</code> should be the chapter
+list</strong> (§5.2) before feature 002 executes.</li>
+</ol>
+<hr />
+<h2 id="honest-boundary-on-this-review-itself">9. Honest boundary on
+this review itself</h2>
+<ul>
+<li>I did not run <code>verify-governance-cascade.sh</code>, nor
+<code>scripts/pre-push-gates.sh</code>, nor <code>verify.sh</code>, nor
+<code>verify.sh --prove-failure</code>. T102 and T103 are therefore
+<strong>CANNOT DETERMINE</strong>, not passes.</li>
+<li>I did not run <code>ingest.sh</code>, so §4.7’s consequence for
+re-ingest is stated as unmeasured rather than asserted.</li>
+<li>I did not stop ollama, so <code>G-HTTP-5</code>’s and
+<code>G-CLI-13</code>’s runtime assertions were not exercised; their
+absence from the tree is a code-search result, which is sufficient for
+the verdict.</li>
+<li><code>go test ./...</code> in <code>platform/backend</code> was run
+and passed (14 packages <code>ok</code>, 0 FAIL) — with the caveats that
+<code>pkg/curriculum</code> (690 lines) and <code>pkg/embed</code> (249
+lines) have <strong>no test files at all</strong>, and
+<code>pkg/entail</code> completes in 15 ms because every model-touching
+test skips.</li>
+<li>All live measurements were taken against
+<code>192.168.1.44:8087</code> between 06:10 and 06:40 UTC on
+2026-09-02, at index generation 21, <code>pid_count</code> 1101. The
+semantic leg’s availability varied during that window (§4.10); every
+conclusion drawn from it is stated with the number of observations
+behind it.</li>
+<li><strong>The tree moved while this review was being written.</strong>
+Between the start of the inventory and its close, another session
+created <code>workshop/pipeline/{extract,mentions,authoring}/</code>,
+<code>workshop/platform/backend/pkg/{knowledge,assessment}/</code>,
+<code>workshop/platform/frontend/src/app/features/plans/</code>,
+<code>workshop/scripts/prove-export-capabilities.sh</code> and
+<code>docs/content-boundary-incident-2026-09-01.md</code> — the count of
+changed paths in <code>workshop</code> went from 47 to 55 during the
+session. None of those paths is a feature-001 deliverable, so no verdict
+above is invalidated by them, but <strong>every “NOT BUILT” here is a
+statement about the tree as of 2026-09-02 ~06:40 UTC and must be
+re-derived before it is acted on.</strong> Re-derive with the one-liners
+cited in each finding rather than trusting this document — which is the
+same rule this document applies to every other document in the
+repository.</li>
+<li>No fix was applied. Nothing was committed or pushed. Files written:
+exactly <code>specs/001-workshop-curriculum-platform/tasks.md</code> (54
+checkbox flips, no other change — verified with <code>git diff</code>),
+<code>specs/001-workshop-curriculum-platform/review.md</code> (new), and
+an appended section in <code>.superpowers/sdd/progress.md</code>.</li>
+</ul>
+</body>
+</html>

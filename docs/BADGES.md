@@ -19,7 +19,7 @@ a project whose badge row is honestly red is compliant with it — the reader
 gets the truth. Omitting the classes with no instrument would be the
 §11.4.201(6) false-null the anchor forbids by name.
 
-Recorded: 2026-09-04T17:28:31Z (UTC) at commit 50a9367
+Recorded: 2026-09-09T10:10:10Z (UTC) at commit e1de4d5
 
 ---
 
@@ -79,21 +79,21 @@ Source: no SLSA Build Level is tracked (probed: docs/security/SLSA_LEVEL.md); §
 
 ## zero-findings
 
-Colour: amber
-Value: 26 tracked
-Source: docs/findings/zero_findings_ledger.jsonl (26 rows) vs docs/findings/zero_findings_ratchet.tsv (TOTAL=26); AMBER because the §11.4.261 invariant is ZERO and the ratchet is holding at a brownfield baseline, not because the sweep failed
+Colour: red
+Value: 33 over ratchet
+Source: docs/findings/zero_findings_ledger.jsonl (33 rows) vs docs/findings/zero_findings_ratchet.tsv (TOTAL=26); RED because the ledger has RISEN above the recorded ratchet ceiling — §11.4.261(C) refuses the seam, and the ceiling may only ever be lowered
 
 ## evidence
 
-Colour: amber
-Value: 22/22 proofs
-Source: scripts/check-registry.tsv: 22 check row(s), 0 owing a proof. AMBER not GREEN because §11.4.262 also requires a CAPTURED evidence ARTIFACT per PASS, and no artifact capture exists at this root — the proof count alone does not satisfy the anchor
+Colour: red
+Value: 31/32 proofs
+Source: scripts/check-registry.tsv: 31 check row(s), 1 owing a proof. RED because 1 registered row(s) still owe a paired proof; §11.4.262 coverage is incomplete before the artifact-capture half is even considered
 
 ## production-readiness
 
 Colour: red
-Value: blocked, 8 red
-Source: composite of every clause-(B) badge: 8 RED, 2 AMBER. §11.4.259(D) makes a RED gauge a release-blocker
+Value: blocked, 10 red
+Source: composite of every clause-(B) badge: 10 RED, 0 AMBER. §11.4.259(D) makes a RED gauge a release-blocker
 
 ---
 

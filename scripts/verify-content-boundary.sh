@@ -290,6 +290,11 @@
 #     --no-short          disable the short pass  (used by the paired proof to
 #                         demonstrate the ORIGINAL defect; never for a real run)
 #     --no-names          disable the personal-name pass
+#     --no-direction      disable the OUTWARD (public-first) subtraction. Used
+#                         by the paired proof as the second half of every
+#                         direction mutation, so a green case is attributable
+#                         to the subtraction and not to the fixture. A real run
+#                         that passes it reports MORE rows, never fewer.
 #     --name-rank <n>     the n most frequent corpus tokens count as ordinary
 #                         words and may not form a name (default 2000)
 #     --name-ppm <n>      a token occurring >= n times per MILLION private prose
@@ -422,6 +427,89 @@
 # WHICH counts a mid-run edit changed. It says the measurement was taken over a
 # moving target, which is the difference between a number and a measurement.
 #
+# ── DIRECTION: the OUTWARD subtraction (2026-09-09) ──────────────────────────
+# Everything above answers ONE question: does this text exist on both sides?
+# That is CO-OCCURRENCE, and co-occurrence has no direction. Governance prose
+# that originated in this PUBLIC umbrella and propagated INTO a private
+# submodule — which §11.4.157 lockstep and `upstream-contributions/` staging
+# directories make routine here — is indistinguishable, to every pass above,
+# from private material leaking OUT. On this tree that ambiguity is the bulk of
+# the population: an offline probe measured the largest structural class at
+# roughly FOUR ROWS IN FIVE public-first, reproduced across five runs whose
+# totals differed by more than 3,000 rows (79.1 / 79.3 / 79.1 / 80.2 / 82.1 %
+# OUTWARD). The rows an operator must actually read were the other fifth, and
+# nothing in this gate could tell them apart.
+#
+# This pass is that probe, ported in, and it is a SUBTRACTION with the same
+# shape and the same discipline as the four above it: it is DERIVED (recomputed
+# every run from the repositories' own histories, nothing baked in), it is
+# COUNTED, and its RECALL COST is PRINTED on every run.
+#
+#   THE RULE. A surviving row is subtracted only when its matched text is
+#   PROVABLY PUBLIC-FIRST: dated on BOTH sides, and the earliest public commit
+#   containing it strictly precedes the earliest private one. Equal timestamps
+#   are NOT public-first. Undated on either side is NOT public-first.
+#
+#   HOW A STRING IS DATED — at the level of the TEXT, not the file. Every blob
+#   ever recorded by any commit of any repository on that side is normalised
+#   with the SAME rule the passes above use (`[^A-Za-z0-9]+` -> space,
+#   lowercased) and scanned for the key as a token run. The key's date is the
+#   earliest commit whose blob CONTENT actually contains it, anywhere in that
+#   side's repositories — so a string that moved between files is still caught,
+#   a rename does not restart its clock, and the file a row happens to name is
+#   irrelevant to its date. Blobs are walked in ascending commit-time order and
+#   a key is dropped from the search the moment it is dated, which is an exact
+#   pruning and not a shortcut: a later commit cannot date a string earlier.
+#
+# ── WHAT THE SUBTRACTION IS NOT ALLOWED TO TOUCH ─────────────────────────────
+#   * THE `name` CLASS. NEVER, under any dates, by two independent guards: name
+#     rows are excluded from the key set handed to the dater, and the
+#     subtraction refuses the class by name. This is not caution, it is
+#     arithmetic: the gate REDACTS the matched text of a name row by design, so
+#     there is no string to date, and defeating that redaction to obtain one
+#     would be the disclosure the redaction exists to prevent. The offline
+#     probe's own honest boundary says direction was never established for a
+#     single name row. Mutations M30d/M30e hold this open in both directions.
+#   * THE `fingerprint` CLASS. Its value is withheld from every output for the
+#     same reason, and — unlike prose and short — its direction has NEVER been
+#     measured on any population: the class was added on 2026-09-09, after the
+#     last probe. Subtracting an undermeasured class is how a gate goes quietly
+#     green. It is excluded until someone measures it, and that is stated here
+#     rather than left as an accident of the filter.
+#
+# ── RECALL COST, stated in full because it is real ───────────────────────────
+#   1. "Public committed first" is an ORDER, not an exoneration. If private
+#      material was pasted into a public file and PUSHED before the private
+#      document that holds it was ever committed, this pass subtracts a REAL
+#      LEAK. The asymmetry is structural and worth naming precisely: the
+#      private corpus is read from the WORKING TREE, and dated from HISTORY.
+#      Private text that is uncommitted is undated (kept, correctly); private
+#      text committed LATE dates late, and its rows are subtracted.
+#   2. Commit timestamps are author-controlled and are rewritten by rebase,
+#      filter-branch and amend. This pass trusts `%ct`. It is not a
+#      tamper-evident clock and is not claimed to be one.
+#   3. Only COMMITTED text can be dated. A row whose text exists on one side in
+#      the working tree only is direction-UNDETERMINED — it is NOT subtracted,
+#      it stays a finding, and it is COUNTED and announced as an UNDETERMINED
+#      row. "I could not date it" is never "it is clean".
+#   4. Only what history can be READ AS TEXT is dated: blobs at or below the
+#      corpus size cap that are not binary. That mirrors the corpus the keys
+#      are drawn from — and it means a key that reached the corpus through
+#      `pdftotext` is never dated, because history holds the PDF and not its
+#      rendered text. Such a row is direction-UNDETERMINED and is KEPT.
+#   5. It says nothing about whether a kept row is a disclosure. Removing four
+#      rows in five makes the remaining fifth READABLE; it does not judge it.
+#
+# PRECEDENCE IS UNCHANGED and is still decided in exactly one place, the
+# `RC=0 / RC=2 / RC=1` ladder at the bottom of this file. A subtracted row
+# cannot mask another row, and the direction-undetermined summary row is an
+# UNDET row like any other: a leak still outranks it.
+#
+# `--no-direction` disables the pass. The paired proof uses it as the second
+# half of every direction mutation — the same shape as `--no-short` — so a
+# green case proves the SUBTRACTION cleared the row rather than the fixture
+# never having been red.
+#
 # ── Side effects ─────────────────────────────────────────────────────────────
 # NONE. Every provider call is a read. No git command that writes is run: no
 # fetch, no push, no checkout, no submodule update, no config write. Nothing in
@@ -432,7 +520,11 @@
 # makes github.com rows UNVERIFIED -> exit 2, never a pass); `pdftotext` for
 # PDF-borne private material (absence makes those files UNREADABLE -> exit 2,
 # because the most sensitive artefact in this fleet is a PDF and silently
-# skipping it would be the exact bluff §11.4 forbids).
+# skipping it would be the exact bluff §11.4 forbids). `python3` for the
+# DIRECTION subtraction (absence subtracts NOTHING — every eligible row stays a
+# finding — and reports the whole eligible population as direction-UNDETERMINED,
+# because a pass that cannot run must not be reported as a pass that found
+# nothing).
 # ------------------------------------------------------------------------------
 set -uo pipefail
 
@@ -487,6 +579,27 @@ SHORT_W=5           # window for the short pass, in tokens
 SHORT_MINC=20       # character floor for a short shingle (long pass uses 40)
 SHORT_MINAL=4       # alphabetic tokens of length >= 3 required, out of SHORT_W
 SHORT_LINEMAX=9     # a private line longer than this is prose, not a heading
+# Documentation mirror of the awk-side AMINC. Kept as a separate name on purpose
+# so that the report cannot silently disagree with the detector: if one moves
+# and the other does not, the printed recall cost is a lie, and this comment is
+# the place the next reader looks.
+AMINC_DOC=6
+
+# ── direction subtraction (2026-09-09) ───────────────────────────────────────
+# Public-first rows are subtracted; see the header note "DIRECTION". Every
+# counter here is REPORTED, including the ones that mean "this pass declined to
+# act", because a subtraction that is silent about what it could not decide is
+# indistinguishable from one that decided everything.
+DO_DIRECTION=1
+DIR_ELIGIBLE=0        # rows this pass was allowed to consider at all
+DIR_SUBTRACTED=0      # rows removed: dated on BOTH sides, public strictly first
+DIR_KEPT=0            # rows dated on both sides that were NOT public-first
+DIR_UNDATED=0         # rows undatable on one or both sides -> UNDETERMINED
+DIR_STATUS="off"
+# The classes this pass may act on. `name` and `fingerprint` are absent BY
+# DECISION, not by omission: both have their matched text withheld from every
+# output by design, so neither has a string to date. See the header note.
+DIR_CLASSES="prose short"
 
 # ── name pass (class D3: a real person's full name) ──────────────────────────
 DO_NAMES=1
@@ -516,6 +629,7 @@ while [[ $# -gt 0 ]]; do
         --short-line-max) SHORT_LINEMAX="${2:-12}"; shift 2 ;;
         --no-short)    DO_SHORT=0; shift ;;
         --no-names)    DO_NAMES=0; shift ;;
+        --no-direction) DO_DIRECTION=0; shift ;;
         --name-rank)   NAME_RANK="${2:-2000}"; shift 2 ;;
         --name-ppm)    NAME_PPM="${2:-25}"; shift 2 ;;
         --name-floor)  NAME_FLOOR="${2:-0}"; shift 2 ;;
@@ -1374,6 +1488,133 @@ M24QEOF
     p_case "M28d the leak is still reported" "LEAK printed" \
         "$( [[ $m28l -eq 0 ]] && echo printed || echo ABSENT )" "$m28l" "$(tail -12 <<<"$out")"
 
+    # ══════════════════════════════════════════════════════════════════════════
+    # F5 — THE DIRECTION (OUTWARD) SUBTRACTION, 2026-09-09.
+    #
+    # Every case below is driven by DATA — two fixture repositories and the
+    # commit dates written into them — and not one of them edits this script or
+    # passes a threshold that changes what "public-first" means. A mutation that
+    # needs the gate edited to fail is an inoperative proof, and this repository
+    # has had to fix that class twice.
+    #
+    # The cases come in PAIRS built from the SAME text, because a subtraction
+    # can be made to look correct by a detector that has simply gone quiet:
+    #   M30a  public-first  -> subtracted, tree clean
+    #   M30b  the SAME fixture with the two dates SWAPPED -> still red
+    #   M30c  the SAME public-first fixture with --no-direction -> still red,
+    #         which is what attributes M30a to the subtraction and not to luck
+    #   M30d  a `name` row whose dates are unambiguously public-first -> NEVER
+    #         subtracted, because the class carries no datable text at all
+    #   M30e  the same for a `fingerprint` row
+    #   M30f  text committed on ONE side only -> UNDETERMINED, kept, announced
+    # ══════════════════════════════════════════════════════════════════════════
+    # A commit at a CHOSEN time. Committer date is what `%ct` reports and what
+    # the dater reads, so both halves are set: an author-date-only fixture would
+    # pass here and mean nothing.
+    commit_at() { # $1 repo  $2 epoch  $3 message
+        git -C "$1" add -A >/dev/null 2>&1
+        GIT_AUTHOR_DATE="$2 +0000" GIT_COMMITTER_DATE="$2 +0000" \
+            git -C "$1" -c commit.gpgsign=false commit -qm "$3" >/dev/null 2>&1
+    }
+    # SYNTHETIC, like every other fixture string in this file. Long enough for
+    # the long pass (>= 10 tokens, >= 40 characters, two function words, five
+    # alphabetic tokens) so the case exercises the class the subtraction is
+    # actually aimed at.
+    local DIRTXT='The migration cadence for the northern relay was agreed during the spring review and every later revision of the published timetable has repeated it without amendment.'
+    local T_OLD=1500000000 T_NEW=1700000000
+
+    # ---- M30a public-first text IS subtracted ----------------------------
+    cp -a "$B" "$tmp/m30a"
+    printf '\n%s\n' "$DIRTXT" >>"$tmp/m30a/docs/plan.md"
+    commit_at "$tmp/m30a" "$T_OLD" "public first"
+    printf '%s\n' "$DIRTXT" >"$tmp/m30a/priv/chapters/later.txt"
+    commit_at "$tmp/m30a/priv" "$T_NEW" "private later"
+    out="$(bash "$self" --root "$tmp/m30a" --fleet-spec "$SPEC" --allow "$ALLOW" 2>&1)"; rc=$?
+    p_case "M30a public-first row is subtracted" "rc=0" "rc=$rc" \
+        "$( [[ $rc -eq 0 ]] && echo 0 || echo 1 )" "$(tail -12 <<<"$out")"
+    local m30rep=1
+    grep -qE 'direction \(outward\) +[1-9][0-9]* row\(s\) subtracted as PROVABLY PUBLIC-FIRST' <<<"$out" && m30rep=0
+    p_case "M30a the subtraction is COUNTED in the report" ">=1 reported" \
+        "$( [[ $m30rep -eq 0 ]] && echo reported || echo ABSENT )" "$m30rep" "$(tail -14 <<<"$out")"
+    local m30cost=1
+    grep -q 'RECALL COST, stated: public-first is an ORDER, not an exoneration' <<<"$out" && m30cost=0
+    p_case "M30a its RECALL COST is printed" "printed" \
+        "$( [[ $m30cost -eq 0 ]] && echo printed || echo ABSENT )" "$m30cost" "$(tail -14 <<<"$out")"
+
+    # ---- M30b THE SAME FIXTURE, DATES SWAPPED, must stay red -------------
+    cp -a "$B" "$tmp/m30b"
+    printf '%s\n' "$DIRTXT" >"$tmp/m30b/priv/chapters/earlier.txt"
+    commit_at "$tmp/m30b/priv" "$T_OLD" "private first"
+    printf '\n%s\n' "$DIRTXT" >>"$tmp/m30b/docs/plan.md"
+    commit_at "$tmp/m30b" "$T_NEW" "public later"
+    out="$(bash "$self" --root "$tmp/m30b" --fleet-spec "$SPEC" --allow "$ALLOW" 2>&1)"; rc=$?
+    p_case "M30b private-first row is NOT subtracted" "rc=1" "rc=$rc" \
+        "$( [[ $rc -eq 1 ]] && echo 0 || echo 1 )" "$(tail -12 <<<"$out")"
+
+    # ---- M30c the SAME public-first tree, subtraction OFF, must be red ---
+    #      Without this half M30a proves only that the tree is green, never
+    #      that the subtraction is what made it green.
+    out="$(bash "$self" --root "$tmp/m30a" --fleet-spec "$SPEC" --allow "$ALLOW" --no-direction 2>&1)"; rc=$?
+    p_case "M30c --no-direction leaves the same row standing" "rc=1" "rc=$rc" \
+        "$( [[ $rc -eq 1 ]] && echo 0 || echo 1 )" "$(tail -12 <<<"$out")"
+
+    # ---- M30d a NAME row is never subtracted, whatever the dates ---------
+    #      The public sentence is committed in 2017 and the private roster it
+    #      matches carries the fixture's own "now", so the dates are
+    #      unambiguously public-first. The row must survive anyway: the gate
+    #      WITHHOLDS a name's matched text by design, so no string exists to
+    #      have been dated, and subtracting on a date that cannot exist would
+    #      be a bluff.
+    cp -a "$B" "$tmp/m30d"
+    cat >>"$tmp/m30d/docs/plan.md" <<'M30DEOF'
+
+The programme was proposed by Varnex Quilloby during the planning round and
+the committee adopted it without amendment at the following meeting.
+M30DEOF
+    commit_at "$tmp/m30d" "$T_OLD" "public first, name"
+    out="$(bash "$self" --root "$tmp/m30d" --fleet-spec "$SPEC" --allow "$ALLOW" 2>&1)"; rc=$?
+    local m30d=1
+    grep -qE 'LEAK — [0-9]+ surviving match\(es\).*name [1-9]' <<<"$out" && m30d=0
+    p_case "M30d name row survives a public-first date" "rc=1" "rc=$rc" \
+        "$( [[ $rc -eq 1 ]] && echo 0 || echo 1 )" "$(tail -12 <<<"$out")"
+    p_case "M30d the surviving row is still the NAME class" "name >= 1" \
+        "$( [[ $m30d -eq 0 ]] && echo present || echo ABSENT )" "$m30d" "$(tail -12 <<<"$out")"
+
+    # ---- M30e a FINGERPRINT row is never subtracted either ---------------
+    #      Same argument, and a stronger one: the class was added on 2026-09-09
+    #      and its direction has never been measured on any population.
+    cp -a "$B" "$tmp/m30e"
+    printf 'Device serial f47ac10b-58cc-4372-a567-0e02b2c3d479 recorded during the session.\n' \
+        >"$tmp/m30e/priv/chapters/serial.txt"
+    commit_at "$tmp/m30e/priv" "$T_NEW" "private later"
+    printf '\nThe unit identifier is f47ac10b-58cc-4372-a567-0e02b2c3d479 in the published table.\n' \
+        >>"$tmp/m30e/docs/plan.md"
+    commit_at "$tmp/m30e" "$T_OLD" "public first"
+    out="$(bash "$self" --root "$tmp/m30e" --fleet-spec "$SPEC" --allow "$ALLOW" 2>&1)"; rc=$?
+    local m30e=1
+    grep -qE 'LEAK — [0-9]+ surviving match\(es\).*fingerprint [1-9]' <<<"$out" && m30e=0
+    p_case "M30e fingerprint row survives a public-first date" "rc=1" "rc=$rc" \
+        "$( [[ $rc -eq 1 ]] && echo 0 || echo 1 )" "$(tail -12 <<<"$out")"
+    p_case "M30e the surviving row is still the FINGERPRINT class" "fingerprint >= 1" \
+        "$( [[ $m30e -eq 0 ]] && echo present || echo ABSENT )" "$m30e" "$(tail -12 <<<"$out")"
+
+    # ---- M30f undatable on one side => UNDETERMINED, kept, announced -----
+    #      The public copy is written into a TRACKED file and left UNCOMMITTED,
+    #      so history cannot date it. The row must stay a finding and the run
+    #      must SAY it could not decide, rather than treating "no date" as "not
+    #      public-first" silently or as "clean" catastrophically.
+    cp -a "$B" "$tmp/m30f"
+    printf '%s\n' "$DIRTXT" >"$tmp/m30f/priv/chapters/only.txt"
+    commit_at "$tmp/m30f/priv" "$T_OLD" "private committed"
+    printf '\n%s\n' "$DIRTXT" >>"$tmp/m30f/docs/plan.md"     # deliberately NOT committed
+    out="$(bash "$self" --root "$tmp/m30f" --fleet-spec "$SPEC" --allow "$ALLOW" 2>&1)"; rc=$?
+    local m30u=1
+    grep -q 'direction UNDETERMINED for' <<<"$out" && m30u=0
+    p_case "M30f undatable row is kept, not subtracted" "rc=1" "rc=$rc" \
+        "$( [[ $rc -eq 1 ]] && echo 0 || echo 1 )" "$(tail -12 <<<"$out")"
+    p_case "M30f it is ANNOUNCED as undetermined" "row printed" \
+        "$( [[ $m30u -eq 0 ]] && echo printed || echo ABSENT )" "$m30u" "$(tail -14 <<<"$out")"
+
     # ---- M10 the detector is not constant: it must clear a clean copy ----
     #      after having failed a dirty one, from the SAME fixture.
     out="$(bash "$self" --root "$B" --fleet-spec "$SPEC" --allow "$ALLOW" --quiet 2>&1)"; rc=$?
@@ -1387,10 +1628,10 @@ M24QEOF
     bash "$self" --root "$SELF_REPO" --quiet >"$tmp/live.log" 2>&1; lrc=$?
     echo "live run rc=$lrc  ($(tail -n 1 "$tmp/live.log" 2>/dev/null || echo 'no output captured'))"
     echo "  A non-zero live rc is a statement about THIS TREE, not about the"
-    echo "  battery above; all 29 mutations ran against the synthetic fixture."
+    echo "  battery above; all 35 mutations ran against the synthetic fixture."
 
     echo
-    echo "proof: $P_PASS passed, $P_FAIL failed, 29 mutations run"
+    echo "proof: $P_PASS passed, $P_FAIL failed, 35 mutations run"
     [[ $P_FAIL -eq 0 ]]
 }
 
@@ -1756,6 +1997,87 @@ BEGIN{
   # class — font stacks like a two-word typeface name were the largest single
   # source of bogus "personal names".
   CODECH = "[{}<>=|;~$@#_/`\\\\^]"
+
+  # ── A: HIGH-SIGNAL LITERAL ATOMS (added 2026-09-09) ─────────────────────────
+  # WHY THIS KEY SPACE EXISTS. On 2026-09-09 a real disclosure was found that
+  # this gate structurally COULD NOT see, and it appeared in none of the rows of
+  # any pass above. It was a device / user-agent fingerprint plus an exact
+  # document creation timestamp, lifted out of a PRIVATE PDF's Info dictionary
+  # into a public file. Two independent barriers hid it:
+  #
+  #   1. it lived in PDF METADATA, and `pdftotext` renders PAGE CONTENT only, so
+  #      the string was never in any corpus this gate built (see emit_repo);
+  #   2. it carries no function words and almost no alphabetic tokens, so even
+  #      as page text it fails BOTH prose-shape filters — the long pass needs
+  #      `fw >= 2 && al >= 5` and the short pass needs `al >= SMINAL`.
+  #
+  # The prose-shape filter is NOT removed: it is doing real work (it is what
+  # keeps this gate's output readable at all). This is a PARALLEL path for the
+  # classes where ONE occurrence is meaningful whatever the shape — a build
+  # number, a handset model code, an exact timestamp, a serial-like identifier.
+  # Atoms are extracted from the RAW line on BOTH sides under identical rules,
+  # with no anchoring, no function-word floor and no alphabetic-token floor.
+  #
+  # An atom is still subject to every SUBTRACTION the other classes get: the
+  # "present in >= 2 public repositories" already-public rule and the declared
+  # `.content-boundary-allow` pairs. That is what keeps a version string that is
+  # genuinely ambient in this fleet from being reported as a leak.
+  AMINC = 6
+  AK = 0
+  aname[++AK] = "ts"
+  are[AK]  = "[0-9][0-9][0-9][0-9][-_/][0-9][0-9][-_/][0-9][0-9][T _][0-9][0-9][:_][0-9][0-9]"
+  aname[++AK] = "ts"
+  are[AK]  = "D:[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]"
+  aname[++AK] = "ver"
+  are[AK]  = "[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+"
+  aname[++AK] = "ua"
+  are[AK]  = "[A-Za-z][A-Za-z0-9]+/[0-9]+\\.[0-9]+[0-9.]*"
+  aname[++AK] = "osver"
+  are[AK]  = "(Android|iOS|iPadOS|Windows NT|Mac OS X|CrOS)[ ]+[0-9]+(\\.[0-9]+)*"
+  aname[++AK] = "hwmodel"
+  are[AK]  = "[A-Z][A-Z0-9]*[-_][A-Z0-9]*[0-9][A-Z0-9]*"
+  aname[++AK] = "serial"
+  are[AK]  = "[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]-[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]-[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]-[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]-[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]"
+}
+# Fold an atom exactly as every other key space folds its tokens, so that a
+# value re-punctuated by whatever copied it ("126.0.6478.122" vs "126 0 6478
+# 122") is still the same key on both sides.
+function anorm(v) {
+  gsub(/[^A-Za-z0-9]+/, " ", v); v = tolower(v)
+  sub(/^ +/, "", v); sub(/ +$/, "", v)
+  return v
+}
+# Kind-specific precision guards. These are the ONLY filtering an atom gets, and
+# each one is stated here rather than buried, because every guard is a RECALL
+# COST: what it rejects, this gate can no longer see.
+#
+#   hwmodel  the part after the separator must be >= 4 characters. REJECTS
+#            `UTF-8`, `SHA-256`, `CVE-1`; also rejects a genuine 3-character
+#            model suffix, which is the cost.
+#   every    >= AMINC characters after folding. REJECTS a 2-part version such
+#            as `1.2`, which is the cost, and which is deliberate: a 2-part
+#            version is ambient everywhere and would drown the class.
+function aok(kind, raw, v,   tail) {
+  if (length(v) < AMINC) return 0
+  if (kind == "hwmodel") {
+    tail = raw
+    sub(/^[A-Z][A-Z0-9]*[-_]/, "", tail)
+    if (length(tail) < 4) return 0
+    if (raw !~ /[0-9]/) return 0
+  }
+  return 1
+}
+function emit_atoms(s,   k, rest, raw, v) {
+  for (k = 1; k <= AK; k++) {
+    rest = s
+    while (match(rest, are[k])) {
+      raw  = substr(rest, RSTART, RLENGTH)
+      rest = substr(rest, RSTART + RLENGTH)
+      v = anorm(raw)
+      if (aok(aname[k], raw, v)) print "A\t" aname[k] ":" v "\t" FNR "\t" PFX cur
+      if (RLENGTH <= 0) break
+    }
+  }
 }
 # ── NAME JUNCTIONS: what may stand between a given name and a surname ────────
 # The N pass used to fold EVERY non-alphanumeric run into one separator, which
@@ -1934,6 +2256,10 @@ FNR == 1 { flush(); cur = (NAME != "" ? NAME : FILENAME) }
     # exists on this line and no junction of it is ever read.
     if ($0 ~ /[A-Z][a-z][A-Za-z0-9]*[^A-Za-z0-9]+[A-Z][a-z]/) RAW[FNR] = $0
   }
+  # ── A pass: unanchored, unfiltered-by-shape, both sides ────────────────────
+  # Deliberately OUTSIDE flush(): an atom is a property of ONE line, never of a
+  # token window, so it needs neither the window machinery nor the prose tests.
+  emit_atoms($0)
   line = $0
   gsub(/[^A-Za-z0-9]+/, " ", line)
   n = split(line, t, " ")
@@ -2088,6 +2414,48 @@ emit_repo() { # $1 repo-relative path  $2 out-BASE (.L/.S/.N appended)  $3 "priv
                 -v SANCH="$sanch" -v NANCH="$nanch" \
                 -f "$SHINGLE_AWK" "$base.pdftxt" >>"$tagged" || :
             rm -f "$base.pdftxt"
+
+            # ── PDF INFO DICTIONARY (added 2026-09-09) ────────────────────────
+            # `pdftotext` renders PAGE CONTENT. It does not read the Info
+            # dictionary, so until this block existed a PDF's Creator, Producer,
+            # Author, Title, Keywords and creation/modification timestamps were
+            # in NO corpus this gate built — on either side. That is the exact
+            # hole the 2026-09-09 disclosure went through: the leaked value was
+            # copied out of a private PDF's `Creator` and creation-date fields,
+            # and appeared in none of this gate's rows because the gate had
+            # never read those fields.
+            #
+            # The fields are rendered as a small synthetic document and fed
+            # through the SAME shingle awk as everything else, so metadata joins
+            # every key space at once — L, S, N and the new A — under identical
+            # rules on both sides. The field order below is FIXED so that the
+            # line number in a finding identifies the field without the value
+            # ever being printed:
+            #
+            #   1 Title  2 Subject  3 Keywords  4 Author
+            #   5 Creator  6 Producer  7 CreationDate  8 ModDate
+            #
+            # The synthetic location is "<path>#pdfmeta", never the page text's
+            # own path, so a reader can tell the two apart at a glance.
+            if ! command -v pdfinfo >/dev/null 2>&1; then
+                undet "$(qualify "$p" "$f"): a PDF in a $side repository had its PAGE TEXT read but its Info dictionary was NOT read (no pdfinfo); metadata fields were NOT checked"
+                continue
+            fi
+            if ! pdfinfo "$dir/$f" >"$base.pdfinfo" 2>/dev/null; then
+                undet "$(qualify "$p" "$f"): pdfinfo could not read the Info dictionary; the PDF's metadata fields were NOT checked"
+                continue
+            fi
+            awk -F': ' '
+              BEGIN{ split("Title Subject Keywords Author Creator Producer CreationDate ModDate", O, " ") }
+              { k = $1; sub(/^[^:]*: */, "", $0); if (k != "" ) V[k] = $0 }
+              END{ for (i = 1; i <= 8; i++) printf "%s\n", (O[i] in V ? V[O[i]] : "") }' \
+                "$base.pdfinfo" >"$base.pdfmeta"
+            awk -v W="$WIDTH" -v MINC="$MIN_CHARS" -v PFX="$pfx" -v NAME="$f#pdfmeta" \
+                -v SW="$SHORT_W" -v SMINC="$SHORT_MINC" -v SMINAL="$SHORT_MINAL" \
+                -v SLINEMAX="$slinemax" -v NAMES="$DO_NAMES" -v PRIVSIDE="$privside" \
+                -v SANCH="$sanch" -v NANCH="$nanch" \
+                -f "$SHINGLE_AWK" "$base.pdfmeta" >>"$tagged" || :
+            rm -f "$base.pdfinfo" "$base.pdfmeta"
         done <"$pdfs"
     fi
 
@@ -2095,11 +2463,12 @@ emit_repo() { # $1 repo-relative path  $2 out-BASE (.L/.S/.N appended)  $3 "priv
     # pass over every file is the whole point: the three key spaces must not
     # cost three reads of the tree.
     [[ -s "$tagged" ]] || return 0
-    awk -F'\t' -v L="$out.L" -v S="$out.S" -v N="$out.N" '
+    awk -F'\t' -v L="$out.L" -v S="$out.S" -v N="$out.N" -v A="$out.A" '
         { rec = $2 "\t" $3 "\t" $4
           if      ($1 == "L") print rec >> L
           else if ($1 == "S") print rec >> S
-          else if ($1 == "N") print rec >> N }' "$tagged"
+          else if ($1 == "N") print rec >> N
+          else if ($1 == "A") print rec >> A }' "$tagged"
     rm -f "$tagged"
 }
 
@@ -2107,7 +2476,7 @@ emit_repo() { # $1 repo-relative path  $2 out-BASE (.L/.S/.N appended)  $3 "priv
 # The private side is NEVER anchored: it is where the candidate keys come from.
 SANCHOR_FILE=""; NANCHOR_FILE=""
 PRIV_BASE="$TMPD/priv"
-: >"$PRIV_BASE.L"; : >"$PRIV_BASE.S"; : >"$PRIV_BASE.N"
+: >"$PRIV_BASE.L"; : >"$PRIV_BASE.S"; : >"$PRIV_BASE.N"; : >"$PRIV_BASE.A"
 for p in "${PRIV_PATHS[@]:-}"; do
     [[ -n "$p" ]] || continue
     trace "private corpus: $p"
@@ -2250,6 +2619,24 @@ fi
 # key -> the private files it came from (only for keys that survived the mask)
 PRIV_SRC="$TMPD/priv.src.L"
 awk -F'\t' 'NR==FNR{K[$0]=1;next} ($1 in K){print $1"\t"$3}' "$PRIV_KEYS" "$PRIV_BASE.L" | sort -u >"$PRIV_SRC"
+# ── A: the high-signal atom key space ────────────────────────────────────────
+# NO path mask is applied. The mask exists because a private FILE NAME quoted in
+# a public document is a reference, not a disclosure — a true statement about
+# token windows drawn from prose. An atom is not a token window: a build number
+# or a timestamp that happens to appear in a file name is the same value
+# wherever it sits, and masking it would reintroduce exactly the blind spot this
+# key space was added to close. The already-public rule and the declared allow
+# pairs still apply, in resolve_class, identically to every other class.
+PRIV_AKEYS="$TMPD/priv.keys.A"
+cut -f1 "$PRIV_BASE.A" | sort -u >"$PRIV_AKEYS"
+PRIV_ASRC="$TMPD/priv.src.A"
+# One source row per key on purpose: an atom such as a build number can occur in
+# thousands of private lines, and join()ing every one of them against every
+# public hit is the O(hits x sources) shape the comment below this block warns
+# about. The FIRST private source, in sorted order, is representative and the
+# row is a LOCATION, never a count.
+cut -f1,3 "$PRIV_BASE.A" | sort -u | awk -F'\t' '!s[$1]++' >"$PRIV_ASRC"
+trace "atom keys: $(wc -l <"$PRIV_AKEYS")"
 PRIV_SSRC="$TMPD/priv.src.S"; : >"$PRIV_SSRC"
 [[ $SHORT_W -gt 0 ]] && awk -F'\t' 'NR==FNR{K[$0]=1;next} ($1 in K){print $1"\t"$3}' \
     "$PRIV_SKEYS" "$PRIV_BASE.S" | sort -u >"$PRIV_SSRC"
@@ -2268,14 +2655,19 @@ NANCHOR_FILE="$TMPD/anchor.N"; : >"$NANCHOR_FILE"
 HITS_L="$TMPD/hits.L"; : >"$HITS_L"
 HITS_S="$TMPD/hits.S"; : >"$HITS_S"
 HITS_N="$TMPD/hits.N"; : >"$HITS_N"
+HITS_A="$TMPD/hits.A"; : >"$HITS_A"
 PUB_BASE="$TMPD/pub"
 for p in "${PUB_PATHS[@]:-}"; do
     [[ -n "$p" ]] || continue
     trace "scanning public repo: $p"
-    : >"$PUB_BASE.L"; : >"$PUB_BASE.S"; : >"$PUB_BASE.N"
+    : >"$PUB_BASE.L"; : >"$PUB_BASE.S"; : >"$PUB_BASE.N"; : >"$PUB_BASE.A"
     emit_repo "$p" "$PUB_BASE" pub
     awk -F'\t' -v REPO="$p" 'NR==FNR{K[$0]=1;next} ($1 in K){print $1"\t"REPO"\t"$3"\t"$2}' \
         "$PRIV_KEYS" "$PUB_BASE.L" >>"$HITS_L"
+    # Atoms are matched on exact folded value; there is no anchoring to do and
+    # no shape to re-test, because neither side ever applied one.
+    awk -F'\t' -v REPO="$p" 'NR==FNR{K[$0]=1;next} ($1 in K){print $1"\t"REPO"\t"$3"\t"$2}' \
+        "$PRIV_AKEYS" "$PUB_BASE.A" >>"$HITS_A"
     [[ $SHORT_W -gt 0 ]] && awk -F'\t' -v REPO="$p" 'NR==FNR{K[$0]=1;next} ($1 in K){print $1"\t"REPO"\t"$3"\t"$2}' \
         "$PRIV_SKEYS" "$PUB_BASE.S" >>"$HITS_S"
     # names match in EITHER order; the row always carries the CANDIDATE key so
@@ -2285,9 +2677,9 @@ for p in "${PUB_PATHS[@]:-}"; do
         { if ($1 in K) { print $1"\t"REPO"\t"$3"\t"$2; next }
           n=split($1,a," "); if (n==2) { r=a[2]" "a[1]; if (r in K) print r"\t"REPO"\t"$3"\t"$2 } }' \
         "$NAME_CAND" "$PUB_BASE.N" >>"$HITS_N"
-    rm -f "$PUB_BASE.L" "$PUB_BASE.S" "$PUB_BASE.N"
+    rm -f "$PUB_BASE.L" "$PUB_BASE.S" "$PUB_BASE.N" "$PUB_BASE.A"
 done
-trace "public scan done (L=$(wc -l <"$HITS_L") S=$(wc -l <"$HITS_S") N=$(wc -l <"$HITS_N") raw matches)"
+trace "public scan done (L=$(wc -l <"$HITS_L") S=$(wc -l <"$HITS_S") N=$(wc -l <"$HITS_N") A=$(wc -l <"$HITS_A") raw matches)"
 
 # ── UNREAD BUT PUSHABLE => UNDETERMINED (2026-09-06) ─────────────────────────
 # A file sitting untracked in a public working tree is one `git add .` away
@@ -2386,8 +2778,9 @@ resolve_class() { # $1 class  $2 hits  $3 priv-src  $4 out
 resolve_class prose "$HITS_L" "$PRIV_SRC"  "$TMPD/final.L"
 resolve_class short "$HITS_S" "$PRIV_SSRC" "$TMPD/final.S"
 resolve_class name  "$HITS_N" "$PRIV_NSRC" "$TMPD/final.N"
-cat "$TMPD/final.L" "$TMPD/final.S" "$TMPD/final.N" >"$FINAL"
-for cls in prose short name; do
+resolve_class fingerprint "$HITS_A" "$PRIV_ASRC" "$TMPD/final.A"
+cat "$TMPD/final.L" "$TMPD/final.S" "$TMPD/final.N" "$TMPD/final.A" >"$FINAL"
+for cls in prose short name fingerprint; do
     n=$(cat "$TMPD/ex.$cls" 2>/dev/null || echo 0)
     EXEMPT_TOTAL=$((EXEMPT_TOTAL + n))
     m=$(wc -l <"$TMPD/multipub.$cls" 2>/dev/null | tr -d ' ' || echo 0)
@@ -2413,7 +2806,288 @@ BEGIN{ OFS = "\t"
   # POSIX awk and this tree already carries seven frozen GNU-only assumptions.
   A = "abcdefghijklmnopqrstuvwxyz0123456789 -"
   for (i = 1; i <= length(A); i++) ORD[substr(A, i, 1)] = i + 32 }
-{ print $0, ($1 == "name" ? h($5) : "-") }' "$FINAL" >"$FINAL.id" && mv "$FINAL.id" "$FINAL"
+{ print $0, ($1 == "name" || $1 == "fingerprint" ? h($5) : "-") }' "$FINAL" >"$FINAL.id" && mv "$FINAL.id" "$FINAL"
+
+# ══════════════════════════════════════════════════════════════════════════════
+# DIRECTION — the OUTWARD (public-first) subtraction
+#
+# The fifth subtraction, and the first one that answers a question none of the
+# other four can even ask: which way did this text travel? See the header note
+# "DIRECTION: the OUTWARD subtraction" for the rule, the method and the full
+# recall cost. Everything below only IMPLEMENTS what is declared there.
+#
+# It runs LAST, over the rows that survived every other subtraction, because
+# dating is by far the most expensive thing this gate does and there is no
+# reason to date a row that is already exonerated.
+# ══════════════════════════════════════════════════════════════════════════════
+DIRECTION_TSV="$TMPD/direction.tsv"; : >"$DIRECTION_TSV"
+DIR_KEYS="$TMPD/direction.keys"; : >"$DIR_KEYS"
+if [[ $DO_DIRECTION -eq 1 ]]; then
+    # GUARD ONE OF TWO. The eligible class list is `$DIR_CLASSES`, and `name`
+    # and `fingerprint` are not in it, so their keys are never even handed to
+    # the dater. The second guard is inside the subtraction awk below, which
+    # refuses those classes by name whatever this file contains. Two
+    # independent guards because ONE of them is a filter, and a filter is one
+    # careless edit from admitting the class it excludes.
+    awk -F'\t' -v CLS="$DIR_CLASSES" '
+        BEGIN{ n = split(CLS, a, " "); for (i = 1; i <= n; i++) OK[a[i]] = 1 }
+        ($1 in OK) { print $5 }' "$FINAL" | sort -u >"$DIR_KEYS"
+    DIR_ELIGIBLE=$(wc -l <"$DIR_KEYS" | tr -d ' ')
+    # Distinct from "off": the pass was ENABLED and found nothing it may act
+    # on, which is a different statement from having been switched off.
+    [[ "$DIR_ELIGIBLE" -eq 0 ]] && DIR_STATUS="idle"
+    trace "direction: $DIR_ELIGIBLE eligible key(s) to date"
+fi
+
+if [[ $DO_DIRECTION -eq 1 && "$DIR_ELIGIBLE" -gt 0 ]]; then
+    if ! command -v python3 >/dev/null 2>&1; then
+        # NOT a silent skip and NOT a pass: nothing is subtracted, every
+        # eligible row stays a finding, and the whole population is announced
+        # as direction-UNDETERMINED. Mutation M30f holds this open.
+        DIR_STATUS="unavailable"
+        DIR_UNDATED=$DIR_ELIGIBLE
+        undet "direction subtraction did NOT run (python3 not on PATH): the direction of $DIR_ELIGIBLE eligible key(s) could not be determined, so NOTHING was subtracted and every one of those rows is still reported"
+    else
+        DIR_PY="$TMPD/direction.py"
+        cat >"$DIR_PY" <<'DIRPYEOF'
+# Dates every key on BOTH sides at TEXT level, from the repositories' own
+# histories. See the header note "DIRECTION" in verify-content-boundary.sh.
+#
+# Reads : argv[1] one key per line; env CB_PUB_REPOS / CB_PRIV_REPOS, absolute
+#         repository directories, newline separated.
+# Writes: argv[2] rows of  key <TAB> public-epoch|- <TAB> private-epoch|-
+#
+# NOTHING IS MUTATED. `git log` and `git cat-file` are reads; no ref, index,
+# working tree or config is touched.
+import collections, os, re, subprocess, sys
+
+KEYS, OUT = sys.argv[1], sys.argv[2]
+PUB = [d for d in os.environ.get("CB_PUB_REPOS", "").split("\n") if d]
+PRIV = [d for d in os.environ.get("CB_PRIV_REPOS", "").split("\n") if d]
+
+# THE SAME normalisation the shingle awk applies, byte for byte: every run of
+# non-alphanumerics becomes one space, and the result is lowercased. Two
+# corpora normalised differently is the one failure this script's own header
+# says must never happen, so this rule is not restated anywhere else.
+NON = re.compile(rb"[^A-Za-z0-9]+")
+
+keys = []
+with open(KEYS, "rb") as fh:
+    for ln in fh:
+        ln = ln.rstrip(b"\n")
+        if ln:
+            keys.append(ln)
+keys = list(dict.fromkeys(keys))
+
+
+def probe_token(k):
+    """The token a blob is pre-filtered on. PURELY a performance device: the
+    longest token is the rarest one on average, so a blob that lacks it cannot
+    contain the key and need not be searched. Correctness does not depend on
+    the choice — every candidate that survives the filter is still tested by
+    an exact token-run match below."""
+    return max(k.split(b" "), key=lambda t: (len(t), t))
+
+
+CAP = int(os.environ.get("CB_SIZE_CAP", "524288"))
+
+
+def blob_revisions(repos):
+    """(commit-epoch, repo, blob) for every blob any commit ever recorded, each
+    blob carrying its EARLIEST commit, ascending. Gitlinks are skipped: a
+    submodule pointer has no content to date.
+
+    Blobs LARGER THAN THE CORPUS SIZE CAP are dropped here, and that is a
+    CORPUS rule rather than a speed trick: the passes that produce these keys
+    read only text files at or below the same cap, so no key can have come from
+    a larger file. It is applied identically on both sides. Its cost is real
+    and is declared in the header: a historical revision of a file that has
+    since shrunk below the cap is not dated, and a key living only there is
+    direction-UNDETERMINED rather than subtracted — which keeps the row."""
+    seen = {}
+    for r in repos:
+        p = subprocess.run(["git", "-C", r, "log", "--all", "--pretty=format:@%ct",
+                            "--raw", "--no-abbrev"], capture_output=True)
+        t = 0
+        for ln in p.stdout.split(b"\n"):
+            if not ln:
+                continue
+            if ln[0:1] == b"@":
+                try:
+                    t = int(ln[1:])
+                except ValueError:
+                    pass
+            elif ln[0:1] == b":":
+                head = ln.split(b"\t", 1)[0].split()
+                if len(head) < 5 or head[1] == b"160000":
+                    continue
+                sha = head[3]
+                if len(sha) != 40 or sha == b"0" * 40:
+                    continue
+                k = (r, sha)
+                if k not in seen or t < seen[k]:
+                    seen[k] = t
+    keep = {}
+    for r in repos:
+        shas = [s for (rr, s) in seen if rr == r]
+        if not shas:
+            continue
+        q = subprocess.run(["git", "-C", r, "cat-file", "--batch-check",
+                            "--buffer"], input=b"\n".join(shas) + b"\n",
+                           capture_output=True)
+        for ln in q.stdout.split(b"\n"):
+            f = ln.split()
+            if len(f) == 3 and f[1] == b"blob" and int(f[2]) <= CAP:
+                keep[(r, f[0])] = seen[(r, f[0])]
+    return sorted((t, r, s) for (r, s), t in keep.items())
+
+
+def date_side(repos, keyset):
+    """Earliest commit epoch at which each key's TEXT existed anywhere on this
+    side. Blobs are walked in ascending commit-time order and a key leaves the
+    search the moment it is dated — an exact pruning, because no later commit
+    can date a string earlier."""
+    found = {}
+    undated = set(keyset)
+    if not undated or not repos:
+        return found
+    idx = collections.defaultdict(list)
+    for k in undated:
+        idx[probe_token(k)].append(k)
+    probes = set(idx)
+    procs = {}
+    for r in repos:
+        procs[r] = subprocess.Popen(["git", "-C", r, "cat-file", "--batch"],
+                                    stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    try:
+        for t, r, s in blob_revisions(repos):
+            if not undated:
+                break
+            pr = procs[r]
+            pr.stdin.write(s + b"\n")
+            pr.stdin.flush()
+            hdr = pr.stdout.readline().split()
+            if len(hdr) != 3 or hdr[1] != b"blob":
+                continue
+            data = pr.stdout.read(int(hdr[2]))
+            pr.stdout.read(1)
+            # Binary, by git's own heuristic. The corpus passes index text
+            # files only (`grep -Il`), so a binary blob cannot be the origin of
+            # any key here. A PDF is therefore NOT dated — the corpus reads one
+            # through `pdftotext`, and history does not — so a key drawn from a
+            # PDF is direction-UNDETERMINED and is KEPT, never subtracted.
+            if b"\0" in data[:8192]:
+                continue
+            toks = NON.sub(b" ", data).lower().split()
+            if not toks:
+                continue
+            hits = probes & set(toks)
+            if not hits:
+                continue
+            text = b" " + b" ".join(toks) + b" "
+            drop = [k for h in hits for k in idx[h]
+                    if k in undated and (b" " + k + b" ") in text]
+            if not drop:
+                continue
+            for k in drop:
+                undated.discard(k)
+                found[k] = t
+                lst = idx[probe_token(k)]
+                if len(lst) > 1:
+                    lst.remove(k)
+                else:
+                    del idx[probe_token(k)]
+            probes = set(idx)
+    finally:
+        for pr in procs.values():
+            try:
+                pr.stdin.close()
+            except Exception:
+                pass
+            pr.kill()
+    return found
+
+
+pub = date_side(PUB, keys)
+priv = date_side(PRIV, keys)
+with open(OUT, "wb") as fh:
+    for k in keys:
+        fh.write(k + b"\t" + (str(pub[k]).encode() if k in pub else b"-") + b"\t"
+                 + (str(priv[k]).encode() if k in priv else b"-") + b"\n")
+DIRPYEOF
+        DIR_PUB_LIST=""; DIR_PRIV_LIST=""
+        for p in "${PUB_PATHS[@]:-}"; do
+            [[ -n "$p" ]] || continue
+            if [[ "$p" == "." ]]; then DIR_PUB_LIST+="$ROOT"$'\n'; else DIR_PUB_LIST+="$ROOT/$p"$'\n'; fi
+        done
+        for p in "${PRIV_PATHS[@]:-}"; do
+            [[ -n "$p" ]] || continue
+            if [[ "$p" == "." ]]; then DIR_PRIV_LIST+="$ROOT"$'\n'; else DIR_PRIV_LIST+="$ROOT/$p"$'\n'; fi
+        done
+        trace "direction: dating $DIR_ELIGIBLE key(s) against both sides' histories"
+        if CB_PUB_REPOS="$DIR_PUB_LIST" CB_PRIV_REPOS="$DIR_PRIV_LIST" CB_SIZE_CAP="$SIZE_CAP" \
+             python3 "$DIR_PY" "$DIR_KEYS" "$DIRECTION_TSV" 2>"$TMPD/direction.err"; then
+            DIR_STATUS="ran"
+        else
+            DIR_STATUS="error"
+            : >"$DIRECTION_TSV"
+            DIR_UNDATED=$DIR_ELIGIBLE
+            undet "direction subtraction FAILED to run ($(tr '\n' ' ' <"$TMPD/direction.err" | cut -c1-160)): NOTHING was subtracted and the direction of $DIR_ELIGIBLE eligible key(s) is UNDETERMINED"
+        fi
+        trace "direction: dating done ($DIR_STATUS)"
+    fi
+fi
+
+if [[ "$DIR_STATUS" == "ran" ]]; then
+    awk -F'\t' -v D="$DIRECTION_TSV" -v CLS="$DIR_CLASSES" -v CNT="$TMPD/direction.counts" '
+    BEGIN{ n = split(CLS, a, " "); for (i = 1; i <= n; i++) OK[a[i]] = 1 }
+    NR == FNR { P[$1] = $2; Q[$1] = $3; next }
+    {
+      # GUARD TWO OF TWO, and it is deliberately redundant with the class
+      # filter that built the key list. A row whose class is not eligible is
+      # printed BEFORE any date is consulted, so no arrangement of dates and no
+      # future edit to $DIR_CLASSES can subtract a `name` or a `fingerprint`
+      # row: their matched text is withheld by design, there is therefore no
+      # string to have dated, and a subtraction resting on a date that cannot
+      # exist would be a bluff. Mutations M30d and M30e hold this open.
+      if (!($1 in OK)) { print; next }
+      if (!($5 in P))  { und++; print; next }
+      p = P[$5]; q = Q[$5]
+      if (p == "-" || q == "-") { und++; print; next }
+      # STRICTLY earlier. Equal timestamps are not evidence of direction, and
+      # two commits one second apart on the same clock are not either — but a
+      # tie-break tolerance would be a threshold nobody measured, so the rule
+      # stays the one the offline probe used.
+      # `nsub`, never `sub`: `sub` is an awk BUILTIN and using it as a variable
+      # is a syntax error. It cost a silent zero once — the awk died, `&& mv`
+      # never ran, the counters kept their initial 0 and the report said "0
+      # subtracted" as though the pass had looked and found nothing. That is
+      # the fabricated-zero shape this file already carries one scar from,
+      # which is why the failure branch below now exists.
+      if (p + 0 < q + 0) { nsub++; next }
+      kept++; print
+    }
+    END{ printf "%d\t%d\t%d\n", nsub + 0, kept + 0, und + 0 > CNT }
+    ' "$DIRECTION_TSV" "$FINAL" >"$FINAL.dir" && mv "$FINAL.dir" "$FINAL"
+    if [[ -s "$TMPD/direction.counts" ]]; then
+        IFS=$'\t' read -r DIR_SUBTRACTED DIR_KEPT DIR_UNDATED <"$TMPD/direction.counts"
+    else
+        # The subtraction itself did not complete. NOTHING was subtracted —
+        # `mv` is chained to the awk's own exit status, so `$FINAL` is
+        # untouched — and that is reported as UNDETERMINED rather than as a
+        # pass that found nothing to do.
+        DIR_STATUS="error"
+        DIR_SUBTRACTED=0; DIR_KEPT=0; DIR_UNDATED=$DIR_ELIGIBLE
+        rm -f "$FINAL.dir"
+        undet "direction subtraction did not complete (its resolver returned no counts): NOTHING was subtracted and the direction of $DIR_ELIGIBLE eligible key(s) is UNDETERMINED"
+    fi
+    if [[ "${DIR_UNDATED:-0}" -gt 0 ]]; then
+        # NOT subtracted, still reported as findings, and named as a class that
+        # this pass could not decide. "I could not date it" is never "clean".
+        undet "direction UNDETERMINED for $DIR_UNDATED surviving row(s): their text is not committed on one or both sides, so public-first could be neither established nor refuted; NONE of them was subtracted and every one is still reported above"
+    fi
+    trace "direction: subtracted=$DIR_SUBTRACTED kept=$DIR_KEPT undated=$DIR_UNDATED"
+fi
 
 # ── corpus fingerprint, AFTER every pass has read the tree ───────────────────
 # The window this brackets is the whole analysis: the private corpus build, the
@@ -2438,6 +3112,7 @@ LEAKS=$(wc -l <"$FINAL" | tr -d ' ')
 LEAKS_PROSE=$(awk -F'\t' '$1=="prose"' "$FINAL" | wc -l | tr -d ' ')
 LEAKS_SHORT=$(awk -F'\t' '$1=="short"' "$FINAL" | wc -l | tr -d ' ')
 LEAKS_NAME=$(awk -F'\t' '$1=="name"' "$FINAL" | wc -l | tr -d ' ')
+LEAKS_FING=$(awk -F'\t' '$1=="fingerprint"' "$FINAL" | wc -l | tr -d ' ')
 MULTI_N=$MULTI_TOTAL
 MULTIPUB="$TMPD/multipub.prose"
 UNDET_N=$(wc -l <"$UNDET_ROWS" | tr -d ' ')
@@ -2466,7 +3141,7 @@ done <"$FLEET"
 if [[ $LEAKS -gt 0 ]]; then
     say ""
     say "${MARK}${C_RED}${C_BLD}LEAK — private-only content found in a public repository${C_OFF}"
-    say "  ${C_DIM}classes: prose=$LEAKS_PROSE (>= $WIDTH-token run)  short=$LEAKS_SHORT (private heading/list line, $SHORT_W-token run)  name=$LEAKS_NAME (personal name)${C_OFF}"
+    say "  ${C_DIM}classes: prose=$LEAKS_PROSE (>= $WIDTH-token run)  short=$LEAKS_SHORT (private heading/list line, $SHORT_W-token run)  name=$LEAKS_NAME (personal name)  fingerprint=$LEAKS_FING (high-signal literal: device/UA token, version, timestamp, model code, serial-like id, PDF metadata field)${C_OFF}"
     [[ $LEAKS_NAME -gt 0 ]] && say "  ${C_DIM}$(awk -F'\t' '$1=="name" && !($6 in n){n[$6]=1; c++} END{print c+0}' "$FINAL") distinct personal name(s), identified below by digest only${C_OFF}"
     prev=""; prevcls=""
     while IFS=$'\t' read -r cls src pub line key nid; do
@@ -2482,6 +3157,16 @@ if [[ $LEAKS -gt 0 ]]; then
             # The public file:line above is enough to act on, and reading it
             # is a deliberate act rather than a side effect of running a gate.
             say "      ${C_DIM}matched:${C_OFF} personal name #$nid ($(awk '{print NF}' <<<"$key") tokens), forward or reversed — withheld; read the public line above"
+        elif [[ "$cls" == "fingerprint" ]]; then
+            # DELIBERATELY NOT PRINTED, for the same reason the name class is
+            # not printed, and it is the reason this class exists at all. The
+            # 2026-09-09 disclosure was a device fingerprint and an exact
+            # timestamp; a gate that printed the value into its own output —
+            # which is pasted into reports, logs and incident notes inside this
+            # PUBLIC repository — would be committing the disclosure a second
+            # time, from the instrument built to stop it. The KIND is safe to
+            # print and is what an operator needs to triage; the value is not.
+            say "      ${C_DIM}matched:${C_OFF} ${key%%:*} literal #$nid — value withheld; read the public line above"
         else
             say "      ${C_DIM}matched:${C_OFF} ${key:0:110}"
         fi
@@ -2501,7 +3186,15 @@ if [[ $QUIET -eq 0 ]]; then
     vsay "  path-reference mask   $(wc -l <"$PATHMASK" | tr -d ' ') long + $(wc -l <"$PATHMASK_S" | tr -d ' ') short shingles built from the private indexes' own file names"
     vsay "  ${C_DIM}not applied to the name class: a full name in a public file is a finding even${C_OFF}"
     vsay "  ${C_DIM}when a private FILE is named after the person. Use .content-boundary-allow to decide.${C_OFF}"
-    vsay "  already-public        $MULTI_N key(s) in >= 2 public repositories (prose ${MULTI_BY_CLASS[prose]:-0}, short ${MULTI_BY_CLASS[short]:-0}, name ${MULTI_BY_CLASS[name]:-0})"
+    vsay "  already-public        $MULTI_N key(s) in >= 2 public repositories (prose ${MULTI_BY_CLASS[prose]:-0}, short ${MULTI_BY_CLASS[short]:-0}, name ${MULTI_BY_CLASS[name]:-0}, fingerprint ${MULTI_BY_CLASS[fingerprint]:-0})"
+    vsay "  atom key space        $(wc -l <"$PRIV_AKEYS" | tr -d ' ') high-signal literal(s) derived from the private corpus INCLUDING every PDF Info dictionary"
+    vsay "  ${C_DIM}RECALL COST, stated: the atom pass sees ONLY the declared kinds — 4-part${C_OFF}"
+    vsay "  ${C_DIM}versions, name/version UA tokens, dated timestamps, uppercase model codes${C_OFF}"
+    vsay "  ${C_DIM}with a >= 4-character suffix, and UUID-shaped serials. It does NOT see:${C_OFF}"
+    vsay "  ${C_DIM}2- and 3-part version numbers, bare hex runs (a git SHA or a checksum is${C_OFF}"
+    vsay "  ${C_DIM}indistinguishable from a device serial and would flood the class), IMEI/${C_OFF}"
+    vsay "  ${C_DIM}MAC/IP literals, any atom shorter than $AMINC_DOC folded characters, and any${C_OFF}"
+    vsay "  ${C_DIM}value carried in a private BINARY format this host cannot render to text.${C_OFF}"
     if [[ $DO_NAMES -eq 1 ]]; then
         vsay "  name candidates       $(wc -l <"$NAME_CAND" | tr -d ' ') derived this run; $(wc -l <"$TMPD/ident.pub.keys" 2>/dev/null | tr -d ' ') public git identity form(s) subtracted"
         vsay "  name frequency floor  ${FLOOR:-0} occurrence(s) over ${TOK_TOTAL:-0} prose tokens ($( [[ "${NAME_FLOOR:-0}" -ge 0 ]] && echo "--name-floor, absolute" || echo "${NAME_PPM} per million, scale-free" )); $(wc -l <"$COMMON_TOK" 2>/dev/null | tr -d ' ') token(s) count as ordinary words"
@@ -2509,6 +3202,33 @@ if [[ $QUIET -eq 0 ]]; then
         vsay "  ${C_DIM}private corpus is invisible to the shape route. Only the git-identity${C_OFF}"
         vsay "  ${C_DIM}route still sees them, and only if they commit. See docs/content-boundary.md.${C_OFF}"
         vsay "  name path-reference   $(cat "$TMPD/pathex.name" 2>/dev/null || echo 0) match(es) whose every token is already in the private or public file's own path"
+    fi
+    # ── DIRECTION, printed on EVERY run, including when it did nothing ───────
+    # A subtraction that is silent about what it declined to decide reads as a
+    # subtraction that decided everything. Each counter below is a different
+    # statement and none of them may be inferred from another.
+    if [[ $DO_DIRECTION -eq 0 ]]; then
+        vsay "  direction (outward)   ${C_YEL}DISABLED${C_OFF} by --no-direction; nothing was subtracted for direction and the counts above are the UNDIRECTED population"
+    else
+        case "$DIR_STATUS" in
+          ran)
+            vsay "  direction (outward)   $DIR_SUBTRACTED row(s) subtracted as PROVABLY PUBLIC-FIRST of $DIR_ELIGIBLE eligible key(s) dated on both sides' full histories"
+            vsay "                        $DIR_KEPT row(s) dated and KEPT (private-first or same second); $DIR_UNDATED row(s) direction-UNDETERMINED and kept"
+            ;;
+          unavailable)
+            vsay "  direction (outward)   ${C_YEL}DID NOT RUN${C_OFF} — python3 absent; 0 subtracted, $DIR_ELIGIBLE eligible row(s) reported as UNDETERMINED" ;;
+          error)
+            vsay "  direction (outward)   ${C_RED}FAILED${C_OFF} — 0 subtracted, $DIR_ELIGIBLE eligible row(s) reported as UNDETERMINED" ;;
+          *)
+            vsay "  direction (outward)   nothing to date: no surviving row belongs to a class this pass may act on" ;;
+        esac
+        vsay "  ${C_DIM}RECALL COST, stated: public-first is an ORDER, not an exoneration. Private${C_OFF}"
+        vsay "  ${C_DIM}material pasted into a public file and PUSHED before the private document${C_OFF}"
+        vsay "  ${C_DIM}holding it was ever committed IS subtracted here — the private corpus is${C_OFF}"
+        vsay "  ${C_DIM}read from the WORKING TREE and dated from HISTORY, and that asymmetry is${C_OFF}"
+        vsay "  ${C_DIM}the cost. Commit timestamps are author-controlled and survive no rebase.${C_OFF}"
+        vsay "  ${C_DIM}The name and fingerprint classes are NEVER dated or subtracted: their${C_OFF}"
+        vsay "  ${C_DIM}matched text is withheld by design, so no string exists to have dated.${C_OFF}"
     fi
     if [[ $MULTI_N -gt 0 ]]; then
         vsay "  ${C_DIM}boundary: this cannot exonerate a passage leaked into two public repos at once.${C_OFF}"
@@ -2569,15 +3289,15 @@ RC=0
 say ""
 case $RC in
   0) say "${MARK}${C_GRN}${C_BLD}CLEAN${C_OFF} — no private-only prose found in any in-scope public repository" ;;
-  1) say "${MARK}${C_RED}${C_BLD}LEAK${C_OFF} — $LEAKS surviving match(es) (prose $LEAKS_PROSE, short $LEAKS_SHORT, name $LEAKS_NAME); $UNDET_N row(s) also could not be determined" ;;
+  1) say "${MARK}${C_RED}${C_BLD}LEAK${C_OFF} — $LEAKS surviving match(es) (prose $LEAKS_PROSE, short $LEAKS_SHORT, name $LEAKS_NAME, fingerprint $LEAKS_FING); $UNDET_N row(s) also could not be determined" ;;
   2) say "${MARK}${C_YEL}${C_BLD}COULD NOT DETERMINE${C_OFF} — $UNDET_N unresolved row(s); this is NOT a pass" ;;
 esac
 [[ $SYNTHETIC -eq 1 ]] && say "${C_YEL}This run used a SYNTHETIC fleet and is not evidence about any real repository.${C_OFF}"
 
 if [[ $JSON -eq 1 ]]; then
     printf '{\n  "root": "%s",\n  "fleet_source": "%s",\n' "$ROOT" "$( [[ $SYNTHETIC -eq 1 ]] && echo spec || echo derived )"
-    printf '  "counts": { "leaks": %s, "prose": %s, "short": %s, "name": %s, "undetermined": %s, "already_public": %s, "exempted": %s, "not_indexed": %s },\n' \
-        "$LEAKS" "$LEAKS_PROSE" "$LEAKS_SHORT" "$LEAKS_NAME" "$UNDET_N" "$MULTI_N" "$EXEMPTED" "$SKIP_N"
+    printf '  "counts": { "leaks": %s, "prose": %s, "short": %s, "name": %s, "fingerprint": %s, "undetermined": %s, "already_public": %s, "exempted": %s, "not_indexed": %s },\n' \
+        "$LEAKS" "$LEAKS_PROSE" "$LEAKS_SHORT" "$LEAKS_NAME" "$LEAKS_FING" "$UNDET_N" "$MULTI_N" "$EXEMPTED" "$SKIP_N"
     printf '  "windows": { "long": %s, "short": %s, "short_line_max": %s, "names": %s },\n' \
         "$WIDTH" "$SHORT_W" "$SHORT_LINEMAX" "$DO_NAMES"
     # Additive, so a consumer written against the previous shape keeps working.
@@ -2590,6 +3310,13 @@ if [[ $JSON -eq 1 ]]; then
     # Additive. "stable":false means the counts above were measured over a tree
     # that changed underneath them; "changed" carries only how many paths, and
     # the paths themselves are in "undetermined" — never their content.
+    # Additive. "subtracted" is what this run removed as provably public-first;
+    # "undetermined" is what it declined to decide and left standing in
+    # "leaks". `enabled:false` means the counts above are the UNDIRECTED
+    # population, which is a different measurement, not a cleaner one.
+    printf '  "direction": { "enabled": %s, "status": "%s", "eligible": %s, "subtracted": %s, "kept": %s, "undetermined": %s, "classes": "%s" },\n' \
+        "$( [[ $DO_DIRECTION -eq 1 ]] && echo true || echo false )" "$DIR_STATUS" \
+        "$DIR_ELIGIBLE" "${DIR_SUBTRACTED:-0}" "${DIR_KEPT:-0}" "${DIR_UNDATED:-0}" "$DIR_CLASSES"
     printf '  "corpus": { "files": %s, "digest": "%s", "stable": %s, "changed": %s, "matches_expected": %s },\n' \
         "$CORPUS_N" "$CORPUS_DIGEST" "$( [[ $CORPUS_MOVED -eq 1 ]] && echo false || echo true )" \
         "$CORPUS_DELTA_N" \
@@ -2601,7 +3328,13 @@ if [[ $JSON -eq 1 ]]; then
     # withheld from the terminal: JSON gets archived, and a real person's name
     # in an archived artefact is the D3 disclosure all over again.
     awk -F'\t' '{gsub(/"/,"\\\"")
-                 m = ($1 == "name" ? "<personal name withheld #" $6 ">" : $5)
+                 # The fingerprint class is redacted here too, and for a
+                 # stronger reason than the name class: the value that created
+                 # this class was a device fingerprint, and JSON from this gate
+                 # is archived inside a PUBLIC repository. Only the KIND and a
+                 # digest travel.
+                 m = ($1 == "name" ? "<personal name withheld #" $6 ">" \
+                      : ($1 == "fingerprint" ? "<" substr($5, 1, index($5, ":") - 1) " literal withheld #" $6 ">" : $5))
                  printf "%s    {\"class\":\"%s\",\"private\":\"%s\",\"public\":\"%s\",\"line\":%s,\"match\":\"%s\"}", (NR>1?",\n":""), $1,$2,$3,$4,m} END{print ""}' "$FINAL"
     printf '  ],\n  "undetermined": [\n'
     awk '{gsub(/"/,"\\\"");printf "%s    \"%s\"", (NR>1?",\n":""), $0} END{print ""}' "$UNDET_ROWS"

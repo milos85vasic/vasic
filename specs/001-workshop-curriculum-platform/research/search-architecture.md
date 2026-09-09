@@ -15,7 +15,7 @@ Every number below was produced by a command run against this machine on 2026-08
 
 Two conditions constrained the measurements and are stated up front because they change how the numbers should be read:
 
-1. A `lumen index -f /run/media/milosvasic/DATA4TB/Projects/vasic` run started at 21:12 CEST was **still running throughout**. All embedding latencies below were therefore taken **under concurrent index load**. That is a realistic operating condition (it is exactly what happens after every chapter ingest), but it is not the idle case.
+1. A `lumen index -f <ext-volume-host>/Projects/vasic` run started at 21:12 CEST was **still running throughout**. All embedding latencies below were therefore taken **under concurrent index load**. That is a realistic operating condition (it is exactly what happens after every chapter ingest), but it is not the idle case.
 2. The live index was treated as **read-only**. Every read used `sqlite3 "file:...?mode=ro"`. All write experiments were done against a throwaway two-file project in the scratchpad.
 
 **UNVERIFIED items are collected in Appendix C.** Nothing in this document reports a state that was not observed.
@@ -33,7 +33,7 @@ Lumen is adopted as the **embedding and vector-retrieval engine** for the corpus
 
 ### Rationale — measured facts
 
-**Version and shape.** `lumen version` → `0.0.41`. The `lumen` on `PATH` is a bash launcher at `/home/milosvasic/.local/bin/lumen` that resolves the highest installed plugin version; the real binary is `/home/milosvasic/.claude-shared/plugins/cache/claude-plugins-official/lumen/0.0.41/bin/lumen-linux-amd64` (stripped Go ELF, module path `github.com/ory/lumen`).
+**Version and shape.** `lumen version` → `0.0.41`. The `lumen` on `PATH` is a bash launcher at `<home>/.local/bin/lumen` that resolves the highest installed plugin version; the real binary is `<home>/.claude-shared/plugins/cache/claude-plugins-official/lumen/0.0.41/bin/lumen-linux-amd64` (stripped Go ELF, module path `github.com/ory/lumen`).
 
 **CLI surface** — the complete command set:
 
@@ -107,7 +107,7 @@ CREATE VIRTUAL TABLE vec_chunks USING vec0 (
 ```
 vec_dimensions=768
 embedding_model=ordis/jina-embeddings-v2-base-code
-project_path=/run/media/milosvasic/DATA4TB/Projects/vasic
+project_path=<ext-volume-host>/Projects/vasic
 last_indexed_at=2026-08-31T17:51:01Z
 total_files=2510
 root_hash=11e7034b26c9b83c…
@@ -713,7 +713,7 @@ for d in ~/.local/share/lumen/*/; do
   sqlite3 "file:${d}index.db?mode=ro" \
     "select value from project_meta where key='project_path';"
 done
-# → /run/media/milosvasic/DATA4TB/Projects/vasic = 21bf1507a8925bcf
+# → <ext-volume-host>/Projects/vasic = 21bf1507a8925bcf
 
 D=~/.local/share/lumen/21bf1507a8925bcf/index.db
 sqlite3 "file:$D?mode=ro" ".schema"                        # schema in Finding 1

@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>PRODUCTION-SITE-HEALTH</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">PRODUCTION-SITE-HEALTH</h1>
+</header>
+<h1 id="production-site-health-verification-report">Production site
+health — verification report</h1>
+<p><strong>Verified at:</strong> 2026-08-27T19:52:13Z (UTC)
+<strong>Verified from:</strong> repository root
+<code>&lt;ext-volume-host&gt;/Projects/vasic</code>
+<strong>Scope:</strong> every website this repository deploys.
+<strong>Mode:</strong> read-only. No site content, workflow, or config
+was modified. Nothing was committed or pushed.</p>
+<p>Every claim below is backed by a command whose exact text is
+reproduced so the check can be re-run. Where a check could not be
+performed, the item is marked <code>UNVERIFIED</code> with the reason
+(§11.4.3 / §11.4.6). A <code>200</code> status code is never treated on
+its own as proof of correct publishing.</p>
+<hr />
+<h2 id="executive-summary">Executive summary</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Websites deployed by this repository</td>
+<td><strong>2</strong></td>
+</tr>
+<tr>
+<td>HEALTHY</td>
+<td><strong>2</strong></td>
+</tr>
+<tr>
+<td>AT RISK</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>BROKEN</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Live URLs checked</td>
+<td>1050 (full sitemap sweep, both sites)</td>
+</tr>
+<tr>
+<td>Live URLs returning 200</td>
+<td>1050 / 1050</td>
+</tr>
+<tr>
+<td>Pages rendered correctly (sampled, deep-checked)</td>
+<td>88 / 88</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Is any website currently broken? No.</strong> <strong>Is any
+website currently at risk of breaking? No — for the live
+sites.</strong></p>
+<p>Both production websites — <code>https://milosvasic.ru/</code> and
+<code>https://vasic.digital/</code> — serve HTTP 200 over valid TLS,
+publish through an ACTIVE, green publishing mechanism, and serve
+genuinely rendered output (zero raw Liquid, zero leaked YAML front
+matter across an 88-page deep sample and a 1050-URL sitemap sweep). The
+most recent deployment of each site succeeded and corresponds to the
+exact commit that is currently <code>origin/main</code> HEAD in each
+site repository.</p>
+<h3 id="items-needing-operator-action">Items needing operator
+action</h3>
+<p>None are site-breaking. Three items are recorded for the operator’s
+decision:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Severity</th>
+<th>Item</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>Advisory (deploy tooling, not the live sites)</td>
+<td><code>_tests/node_modules</code> is not installed on this machine,
+so the post-deploy LIVE validation step inside
+<code>_tools/deploy-langs.sh</code> (lines 123-124,
+<code>npx playwright test</code>) cannot run cleanly here.
+<code>deploy-langs.sh</code> treats a validator failure as
+<code>LIVE_FAIL=1</code> and exits non-zero, so a deploy run on this
+machine would report
+<code>LIVE validation: FAIL — broken links on live</code> for a tooling
+reason rather than a real broken link. Fix before the next deploy:
+<code>cd _tests &amp;&amp; npm ci &amp;&amp; npx playwright install chromium</code>.
+The sites themselves are unaffected — this report’s independent 1050-URL
+sweep already covers what that validator checks.</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Content / SEO defect on <code>milosvasic.ru</code> (not an
+outage)</td>
+<td>All 14 localized homepages and all localized product pages serve the
+<strong>English</strong> <code>&lt;title&gt;</code> and
+<code>&lt;meta name="description"&gt;</code>. The generated front matter
+for <code>&lt;lang&gt;/index.html</code> omits <code>title:</code> and
+<code>description:</code>, so the Jekyll layout falls back to the site
+default. <code>vasic.digital</code> does <strong>not</strong> have this
+defect — its localized titles are correctly translated. Separately,
+<code>milosvasic.ru</code> product-page titles duplicate the site name:
+<code>&lt;title&gt;HelixTerminator — Miloš Vasić \| Miloš Vasić&lt;/title&gt;</code>.</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Coupling risk in the deploy script</td>
+<td><code>_tools/deploy-langs.sh</code> runs
+<code>git -C "$s" add -A</code> (line 91) before committing each site.
+At the time of this report <code>milosvasic.ru</code> has a
+<strong>staged, uncommitted</strong> <code>Upstreamable</code> gitlink
+change (<code>94f9831</code> → <code>9bf1240</code>) placed there by a
+concurrent agent. A deploy run right now would sweep that gitlink change
+into a production content commit. This does <strong>not</strong> break
+the build (<code>pages.yml</code> sets <code>submodules: false</code>
+and <code>_config.yml</code> excludes <code>Upstreamable</code> from the
+Jekyll build), but it couples an unrelated in-progress repair to a
+production publish.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="site-discovery-how-the-list-of-2-was-established">1. Site
+discovery — how the list of 2 was established</h2>
+<p>The list was not assumed. Six independent discovery paths were run
+and all converge on exactly two deployed websites.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Declared submodules</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> .gitmodules</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule status</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Custom-domain markers</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-name</span> CNAME <span class="at">-not</span> <span class="at">-path</span> <span class="st">&#39;*/node_modules/*&#39;</span> <span class="at">-not</span> <span class="at">-path</span> <span class="st">&#39;*/_site/*&#39;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Jekyll sources</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> . <span class="at">-maxdepth</span> 3 <span class="at">-name</span> <span class="st">&#39;_config.yml&#39;</span> <span class="at">-not</span> <span class="at">-path</span> <span class="st">&#39;*/node_modules/*&#39;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Tracked workflows, root + every submodule</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files .github</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> d <span class="kw">in</span> milosvasic.ru vasic.digital design-toolkit ai_interviewing monetization<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">(</span><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$d</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">git</span> ls-files .github<span class="kw">)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Deploy scripts</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-la</span> _tools/            <span class="co"># deploy-langs.sh is the only site deploy driver</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;1,200p&#39;</span> _tools/deploy-langs.sh</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. GitHub Pages configuration for every candidate repo</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> r <span class="kw">in</span> milos85vasic/milosvasic.ru vasic-digital/vasic-digital.github.io <span class="dt">\</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>         vasic-digital/design-toolkit milos85vasic/ai_interviewing <span class="dt">\</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>         milos85vasic/monetization milos85vasic/vasic<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="ex">gh</span> api <span class="st">&quot;repos/</span><span class="va">$r</span><span class="st">/pages&quot;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="ex">gh</span> api <span class="st">&quot;repos/</span><span class="va">$r</span><span class="st">&quot;</span> <span class="at">--jq</span> <span class="st">&#39;&quot;has_pages=\(.has_pages) homepage=\(.homepage)&quot;&#39;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<h3 id="results">Results</h3>
+<blockquote>
+<p><strong>These <code>build_type</code> values are a dated observation,
+not a standing fact.</strong> Provider settings change outside this tree
+and nothing in it can see that happen. Re-measure with
+<code>bash scripts/verify-provider-ci.sh</code> — it discovers the
+repositories from this checkout’s own remotes and queries the provider
+(exit <code>0</code> none found, <code>1</code> confirmed provider-side
+triggering, <code>2</code> could not determine, which is
+<strong>not</strong> a pass).
+<code>scripts/setup-agents-wizard.sh</code> runs it as Step 9.</p>
+</blockquote>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Repository / path</th>
+<th>CNAME</th>
+<th>Jekyll</th>
+<th>Tracked workflow</th>
+<th>GitHub Pages</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>milosvasic.ru/</code> →
+<code>milos85vasic/milosvasic.ru</code></td>
+<td><code>milosvasic.ru</code></td>
+<td>yes (<code>_config.yml</code>)</td>
+<td><code>.github/workflows/pages.yml</code></td>
+<td><code>has_pages=true</code>, <code>build_type=workflow</code></td>
+<td><strong>DEPLOYED SITE</strong></td>
+</tr>
+<tr>
+<td><code>vasic.digital/</code> →
+<code>vasic-digital/vasic-digital.github.io</code></td>
+<td><code>vasic.digital</code></td>
+<td>no (committed static HTML)</td>
+<td>none (uses GitHub’s built-in)</td>
+<td><code>has_pages=true</code>, <code>build_type=legacy</code></td>
+<td><strong>DEPLOYED SITE</strong></td>
+</tr>
+<tr>
+<td><code>design-toolkit/</code> →
+<code>vasic-digital/design-toolkit</code></td>
+<td>none</td>
+<td>none</td>
+<td>none</td>
+<td><code>has_pages=false</code> (API 404)</td>
+<td>not a site</td>
+</tr>
+<tr>
+<td><code>ai_interviewing/</code> →
+<code>milos85vasic/ai_interviewing</code></td>
+<td>none</td>
+<td>none</td>
+<td>none</td>
+<td><code>has_pages=false</code> (API 404)</td>
+<td>not a site</td>
+</tr>
+<tr>
+<td><code>monetization/</code> →
+<code>milos85vasic/monetization</code></td>
+<td>none</td>
+<td>none</td>
+<td>none</td>
+<td><code>has_pages=false</code> (API 404)</td>
+<td>not a site</td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code>,
+<code>submodules/superspec</code></td>
+<td>none</td>
+<td>none</td>
+<td>n/a</td>
+<td>not queried as sites (no CNAME, no Pages markers)</td>
+<td>not a site</td>
+</tr>
+<tr>
+<td>umbrella repo <code>milos85vasic/vasic</code></td>
+<td>none</td>
+<td>none</td>
+<td><code>.github/workflows/ci.yml.disabled</code> (see §5.4)</td>
+<td><code>has_pages=false</code> (API 404)</td>
+<td>not a site</td>
+</tr>
+</tbody>
+</table>
+<p>A domain sweep over <code>README.md</code>, <code>docs/</code>, and
+<code>_tools/*.sh</code> surfaced no third site domain — only
+<code>milosvasic.ru</code> plus third-party/tooling hosts:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-rhoE</span> <span class="st">&#39;https?://[a-zA-Z0-9._-]+\.[a-z]{2,}&#39;</span> README.md docs/ _tools/<span class="pp">*</span>.sh <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s|https\?://||&#39;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-u</span></span></code></pre></div>
+<p><code>_tools/deploy-langs.sh</code> itself iterates exactly
+<code>for s in vasic.digital milosvasic.ru</code> (lines 74 and 90),
+confirming two deploy targets from the deploy driver’s own code.</p>
+<p><strong>Tooling availability:</strong> <code>gh</code> version
+2.86.0, authenticated as <code>milos85vasic</code>, token scopes
+<code>gist, read:org, repo, workflow</code>. All <code>gh api</code>
+results below are real API responses, not inferred.</p>
+<hr />
+<h2 id="site-1-httpsmilosvasic.ru">2. Site 1 —
+<code>https://milosvasic.ru/</code></h2>
+<h3 id="verdict-healthy">Verdict: <strong>HEALTHY</strong></h3>
+<p>Jekyll site. Source in submodule <code>milosvasic.ru/</code>.
+<code>_site/</code> is git-ignored and built by GitHub Actions.</p>
+<h3 id="evidence">Evidence</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Live HTTP status</td>
+<td><strong>200</strong></td>
+<td><code>200 https://milosvasic.ru/</code></td>
+</tr>
+<tr>
+<td><code>www.</code> host</td>
+<td><strong>200</strong>, redirects to apex</td>
+<td><code>200 https://milosvasic.ru/</code> from
+<code>https://www.milosvasic.ru</code></td>
+</tr>
+<tr>
+<td><code>http://</code> → <code>https://</code></td>
+<td><strong>200</strong>, lands on
+<code>https://milosvasic.ru/</code></td>
+<td><code>https_enforced: true</code> in Pages API</td>
+</tr>
+<tr>
+<td>TLS valid</td>
+<td><strong>YES</strong> — <code>ssl_verify_result=0</code></td>
+<td>Let’s Encrypt <code>CN=YR1</code>, <code>CN=milosvasic.ru</code>,
+SAN <code>milosvasic.ru, www.milosvasic.ru</code>,
+<code>notAfter=Nov 20 06:08:24 2026 GMT</code></td>
+</tr>
+<tr>
+<td><code>last-modified</code></td>
+<td><code>Thu, 27 Aug 2026 00:12:48 GMT</code></td>
+<td><code>curl -sSI</code></td>
+</tr>
+<tr>
+<td>Server</td>
+<td><code>GitHub.com</code>, edge region <code>fra</code></td>
+<td>response headers</td>
+</tr>
+<tr>
+<td>DNS</td>
+<td><code>185.199.108.153 .109.153 .110.153 .111.153</code> (GitHub
+Pages apex IPs), apex and <code>www</code> identical</td>
+<td><code>getent ahostsv4</code></td>
+</tr>
+<tr>
+<td>Publish mechanism</td>
+<td><strong>GitHub Pages,
+<code>build_type: workflow</code></strong></td>
+<td><code>gh api repos/milos85vasic/milosvasic.ru/pages</code> →
+<code>"build_type":"workflow"</code>, <code>"status":"built"</code>,
+<code>"cname":"milosvasic.ru"</code>,
+<code>"https_enforced":true</code></td>
+</tr>
+<tr>
+<td>Publishing workflow tracked and ACTIVE</td>
+<td><strong>YES</strong></td>
+<td><code>git ls-files .github</code> →
+<code>.github/workflows/pages.yml</code>;
+<code>gh api .../actions/workflows</code> →
+<code>Deploy Jekyll to GitHub Pages \| state=active \| path=.github/workflows/pages.yml</code></td>
+</tr>
+<tr>
+<td>Workflow committed, no local drift</td>
+<td><strong>YES</strong></td>
+<td><code>git status --short</code> clean for that path;
+<code>git diff HEAD -- .github/workflows/pages.yml</code> empty;
+introduced by <code>fae3b24</code>, confirmed ancestor of
+<code>origin/main</code></td>
+</tr>
+<tr>
+<td>Last 8 Actions runs</td>
+<td><strong>8 / 8 <code>success</code></strong></td>
+<td>latest:
+<code>Deploy Jekyll to GitHub Pages \| completed \| success \| 2026-08-27T00:11:55Z \| 66c8d60</code></td>
+</tr>
+<tr>
+<td>Last run, job level</td>
+<td><code>build</code> success, <code>deploy</code> success, <strong>0
+failed steps</strong></td>
+<td>run <code>33026023067</code></td>
+</tr>
+<tr>
+<td>Last Pages deployment</td>
+<td><code>success</code> at <code>2026-08-27T00:12:54Z</code>, env URL
+<code>https://milosvasic.ru/</code>, sha <code>66c8d60</code></td>
+<td>deployments API</td>
+</tr>
+<tr>
+<td>Deployed sha == <code>origin/main</code></td>
+<td><strong>YES</strong> —
+<code>66c8d607b20f0d9e984cb0e06f10a2020ebd9a10</code> both sides;
+<code>0 0</code> ahead/behind</td>
+<td><code>git rev-list --left-right --count HEAD...origin/main</code></td>
+</tr>
+<tr>
+<td>Rendered output, not template source</td>
+<td><strong>YES</strong></td>
+<td>homepage: <code>{{</code> count <strong>0</strong>, <code>{%</code>
+count <strong>0</strong>, no leading <code>---</code>,
+<code>&lt;title&gt;</code> present, <code>&lt;/html&gt;</code>
+present</td>
+</tr>
+<tr>
+<td>Full sitemap sweep</td>
+<td><strong>525 / 525 URLs → 200</strong></td>
+<td>see §3</td>
+</tr>
+<tr>
+<td>Deep page sample</td>
+<td><strong>44 pages, 0 with raw Liquid, 0 with front
+matter</strong></td>
+<td>see §3</td>
+</tr>
+<tr>
+<td>Branch protection on <code>main</code></td>
+<td><strong>NONE</strong> — API returns
+<code>404 Branch not protected</code> (permission was sufficient; token
+has <code>repo</code> scope and other protected endpoints answered)</td>
+<td><code>gh api repos/milos85vasic/milosvasic.ru/branches/main/protection</code></td>
+</tr>
+<tr>
+<td><code>github-pages</code> environment</td>
+<td><code>protection_rules: [branch_policy]</code>,
+<code>custom_branch_policies: true</code> — no reviewer gate that could
+stall a deploy</td>
+<td>environments API</td>
+</tr>
+<tr>
+<td>Repo state</td>
+<td><code>default_branch=main private=false archived=false disabled=false has_pages=true</code></td>
+<td>repo API</td>
+</tr>
+</tbody>
+</table>
+<h3 id="jekyll-is-genuinely-rendering-positive-proof">Jekyll is
+genuinely rendering — positive proof</h3>
+<p>The strongest single proof that the build is live and not frozen: the
+<strong>committed source has YAML front matter and the served page does
+not</strong>. If Jekyll were not running, the front matter would leak
+verbatim.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> milosvasic.ru show HEAD:de/index.html <span class="kw">|</span> <span class="fu">head</span> <span class="at">-13</span>   <span class="co"># begins with ---\nlayout: default\nlang: de ...</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-sS</span> <span class="at">-L</span> https://milosvasic.ru/de/ <span class="kw">|</span> <span class="fu">head</span> <span class="at">-3</span>           <span class="co"># begins with &lt;!DOCTYPE html&gt;...</span></span></code></pre></div>
+<ul>
+<li>Committed <code>de/index.html</code>: 33 343 bytes, starts
+<code>---</code> / <code>layout: default</code> /
+<code>lang: de</code>.</li>
+<li>Served <code>/de/</code>: 40 352 bytes, starts
+<code>&lt;!DOCTYPE html&gt;</code>,
+<code>&lt;html lang="de" dir="ltr" data-theme="light"&gt;</code>.</li>
+<li>The committed
+<code>&lt;h1 class="od-hero__title"&gt;Miloš Vasić</code> is
+<strong>present</strong> in the served page.</li>
+<li>Served <code>/de/</code> contains <strong>16</strong>
+<code>rel="alternate"</code> hreflang links — the
+<code>seo_hreflang</code> front-matter value was consumed and expanded
+by the layout.</li>
+<li>Served <code>/ar/</code> correctly carries
+<code>dir="rtl"</code>.</li>
+</ul>
+<h3 id="reproduce">Reproduce</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-sS</span> <span class="at">-o</span> /dev/null <span class="at">-m</span> 25 <span class="at">-w</span> <span class="st">&#39;%{http_code} %{url_effective} tls_verify=%{ssl_verify_result}\n&#39;</span> <span class="at">-L</span> https://milosvasic.ru</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-sSI</span> <span class="at">-m</span> 25 <span class="at">-L</span> https://milosvasic.ru/ <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-iE</span> <span class="st">&#39;^(HTTP/|last-modified|server)&#39;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="kw">|</span> <span class="ex">openssl</span> s_client <span class="at">-servername</span> milosvasic.ru <span class="at">-connect</span> milosvasic.ru:443 <span class="dv">2</span><span class="op">&gt;</span>/dev/null <span class="dt">\</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="ex">openssl</span> x509 <span class="at">-noout</span> <span class="at">-subject</span> <span class="at">-issuer</span> <span class="at">-dates</span> <span class="at">-ext</span> subjectAltName</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/milos85vasic/milosvasic.ru/pages</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/milos85vasic/milosvasic.ru/actions/workflows <span class="dt">\</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--jq</span> <span class="st">&#39;.workflows[] | &quot;\(.name) | state=\(.state) | path=\(.path)&quot;&#39;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api <span class="st">&#39;repos/milos85vasic/milosvasic.ru/actions/runs?per_page=8&#39;</span> <span class="dt">\</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--jq</span> <span class="st">&#39;.workflow_runs[] | &quot;\(.name) | \(.status) | \(.conclusion) | \(.created_at) | \(.head_sha[0:7])&quot;&#39;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/milos85vasic/milosvasic.ru/actions/runs/33026023067/jobs <span class="dt">\</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--jq</span> <span class="st">&#39;.jobs[] | &quot;\(.name) | \(.status) | \(.conclusion)&quot;&#39;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api <span class="st">&#39;repos/milos85vasic/milosvasic.ru/deployments?environment=github-pages&amp;per_page=3&#39;</span> <span class="dt">\</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">--jq</span> <span class="st">&#39;.[] | &quot;\(.created_at) sha=\(.sha[0:7])&quot;&#39;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/milos85vasic/milosvasic.ru/branches/main/protection</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/milos85vasic/milosvasic.ru/environments/github-pages <span class="dt">\</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">--jq</span> <span class="st">&#39;{protection_rules:[.protection_rules[]?|{type:.type}], deployment_branch_policy:.deployment_branch_policy}&#39;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> milosvasic.ru fetch origin main <span class="kw">&amp;&amp;</span> <span class="fu">git</span> <span class="at">-C</span> milosvasic.ru rev-list <span class="at">--left-right</span> <span class="at">--count</span> HEAD...origin/main</span></code></pre></div>
+<h3 id="defects-recorded-against-this-site-non-breaking">Defects
+recorded against this site (non-breaking)</h3>
+<p>See <strong>A2</strong> in the executive summary. Evidence:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> l <span class="kw">in</span> <span class="st">&quot;&quot;</span> de/ ja/ ru/ ar/<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">curl</span> <span class="at">-sS</span> <span class="at">-L</span> <span class="st">&quot;https://milosvasic.ru/</span><span class="va">$l</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-o</span> <span class="st">&#39;&lt;title&gt;[^&lt;]*&lt;/title&gt;&#39;</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-1</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>All five return the identical English string
+<code>&lt;title&gt;Miloš Vasić | AI Engineer — Verifiable AI-Development Systems&lt;/title&gt;</code>,
+while <code>&lt;html lang=...&gt;</code> is correctly localized
+(<code>en</code>, <code>de</code>, <code>ja</code>, <code>ru</code>,
+<code>ar</code>). Root cause, verified in the committed source:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> l <span class="kw">in</span> ru sr de es fr be zh kk hi ja ko ar tr fa<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">git</span> <span class="at">-C</span> milosvasic.ru show <span class="st">&quot;HEAD:</span><span class="va">$l</span><span class="st">/index.html&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;1,15p&#39;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-qE</span> <span class="st">&#39;^title:&#39;</span> <span class="dt">\</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$l</span><span class="st"> has title&quot;</span> <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$l</span><span class="st"> NO title in front matter&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># → all 14 report &quot;NO title in front matter&quot;</span></span></code></pre></div>
+<p>Product pages additionally double the site name:
+<code>&lt;title&gt;HelixTerminator — Miloš Vasić | Miloš Vasić&lt;/title&gt;</code>
+— the front-matter <code>title</code> already ends in
+<code>— Miloš Vasić</code> and the layout appends
+<code>| Miloš Vasić</code>.</p>
+<hr />
+<h2 id="content-sanity-full-sweep-across-both-sites">3. Content sanity —
+full sweep across both sites</h2>
+<p>A 200 alone proves nothing, so the content itself was fetched and
+inspected.</p>
+<h3 id="full-sitemap-status-sweep-1050-urls">3.1 Full sitemap status
+sweep — 1050 URLs</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> h <span class="kw">in</span> milosvasic.ru vasic.digital<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">curl</span> <span class="at">-sS</span> <span class="at">-L</span> <span class="st">&quot;https://</span><span class="va">$h</span><span class="st">/sitemap.xml&quot;</span> <span class="at">-o</span> <span class="st">&quot;sm-</span><span class="va">$h</span><span class="st">.xml&quot;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">grep</span> <span class="at">-o</span> <span class="st">&#39;&lt;loc&gt;[^&lt;]*&lt;/loc&gt;&#39;</span> <span class="st">&quot;sm-</span><span class="va">$h</span><span class="st">.xml&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/&lt;[^&gt;]*&gt;//g&#39;</span> <span class="op">&gt;</span> <span class="st">&quot;locs-</span><span class="va">$h</span><span class="st">.txt&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> locs-<span class="pp">*</span>.txt <span class="op">&gt;</span> locs-all.txt          <span class="co"># 1050 URLs (525 per site)</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> locs-all.txt <span class="kw">|</span> <span class="fu">xargs</span> <span class="at">-P</span> 10 <span class="at">-I{}</span> <span class="dt">\</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  curl <span class="at">-sS</span> <span class="at">-o</span> /dev/null <span class="at">-m</span> 30 <span class="at">-L</span> <span class="at">-w</span> <span class="st">&#39;%{http_code} {}\n&#39;</span> {} <span class="op">&gt;</span> sitemap-status.txt</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;{print $1}&#39;</span> sitemap-status.txt <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-rn</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-v</span> <span class="st">&#39;^200 &#39;</span> sitemap-status.txt</span></code></pre></div>
+<p>Result: <code>1047 × 200</code>, <code>3 × 503</code>. All three 503s
+were on <code>milosvasic.ru</code> and were <strong>transient GitHub
+Pages rate-limiting from the parallel sweep</strong> — each returned 200
+on immediate serial retry:</p>
+<pre><code>retry: 200 https://milosvasic.ru/products/helixterminator.html
+retry: 200 https://milosvasic.ru/products/kk/helixllm.html
+retry: 200 https://milosvasic.ru/products/ko/helixbuilder.html</code></pre>
+<p><strong>Effective result: 1050 / 1050 → 200.</strong></p>
+<h3 id="deep-render-check-88-page-spread-sample">3.2 Deep render check —
+88-page spread sample</h3>
+<p>Every 12th URL of the combined sitemap (88 pages, both sites, all 15
+languages, homepages + language indexes + portfolio + product pages) was
+downloaded in full and inspected for build breakage:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;NR%12==1&#39;</span> locs-all.txt <span class="op">&gt;</span> sample.txt      <span class="co"># 88 URLs</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="va">i</span><span class="op">=</span>0<span class="kw">;</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">u</span><span class="kw">;</span> <span class="cf">do</span> <span class="va">i</span><span class="op">=</span><span class="va">$((i</span><span class="op">+</span><span class="dv">1</span><span class="va">))</span><span class="kw">;</span> <span class="ex">curl</span> <span class="at">-sS</span> <span class="at">-m</span> 30 <span class="at">-L</span> <span class="st">&quot;</span><span class="va">$u</span><span class="st">&quot;</span> <span class="at">-o</span> <span class="st">&quot;pages/p</span><span class="va">$i</span><span class="st">.html&quot;</span><span class="kw">;</span> <span class="cf">done</span> <span class="op">&lt;</span> sample.txt</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-l</span> <span class="st">&#39;{{&#39;</span> pages/<span class="pp">*</span>.html <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>                                   <span class="co"># → 0</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-l</span> <span class="st">&#39;{%&#39;</span> pages/<span class="pp">*</span>.html <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>                                   <span class="co"># → 0</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> pages/<span class="pp">*</span>.html<span class="kw">;</span> <span class="cf">do</span> <span class="fu">head</span> <span class="at">-c</span> 4 <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-q</span> <span class="st">&#39;^---&#39;</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span><span class="kw">;</span> <span class="cf">done</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>   <span class="co"># → 0</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> pages/<span class="pp">*</span>.html<span class="kw">;</span> <span class="cf">do</span> <span class="fu">grep</span> <span class="at">-q</span> <span class="st">&#39;&lt;/html&gt;&#39;</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;MISSING &lt;/html&gt;: </span><span class="va">$f</span><span class="st">&quot;</span><span class="kw">;</span> <span class="cf">done</span>   <span class="co"># → none</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> pages/<span class="pp">*</span>.html<span class="kw">;</span> <span class="cf">do</span> <span class="fu">grep</span> <span class="at">-q</span> <span class="st">&#39;&lt;title&gt;&#39;</span>  <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;MISSING &lt;title&gt;: </span><span class="va">$f</span><span class="st">&quot;</span><span class="kw">;</span> <span class="cf">done</span>  <span class="co"># → none</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-S</span> pages/<span class="pp">*</span>.html <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-5</span> <span class="kw">|</span> <span class="fu">xargs</span> wc <span class="at">-c</span>    <span class="co"># smallest page is 29 226 bytes — no stub/empty output</span></span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>Threshold for BROKEN</th>
+<th>Observed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pages containing raw Liquid <code>{{</code></td>
+<td>any</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Pages containing raw Liquid <code>{%</code></td>
+<td>any</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Pages starting with YAML front matter <code>---</code></td>
+<td>any</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Pages missing <code>&lt;/html&gt;</code></td>
+<td>any</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Pages missing <code>&lt;title&gt;</code></td>
+<td>any</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Smallest rendered page</td>
+<td>stub-sized</td>
+<td>29 226 bytes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ancillary-endpoints">3.3 Ancillary endpoints</h3>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> h <span class="kw">in</span> milosvasic.ru vasic.digital<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> p <span class="kw">in</span> robots.txt sitemap.xml feed.xml 404.html __definitely_missing__<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">curl</span> <span class="at">-sS</span> <span class="at">-o</span> /dev/null <span class="at">-m</span> 20 <span class="at">-w</span> <span class="st">&quot;%{http_code}  </span><span class="va">$h</span><span class="st">/</span><span class="va">$p</span><span class="st">\n&quot;</span> <span class="at">-L</span> <span class="st">&quot;https://</span><span class="va">$h</span><span class="st">/</span><span class="va">$p</span><span class="st">&quot;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">done</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Endpoint</th>
+<th><code>milosvasic.ru</code></th>
+<th><code>vasic.digital</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>robots.txt</code></td>
+<td>200</td>
+<td>200</td>
+</tr>
+<tr>
+<td><code>sitemap.xml</code></td>
+<td>200 (525 <code>&lt;loc&gt;</code>)</td>
+<td>200 (525 <code>&lt;loc&gt;</code>)</td>
+</tr>
+<tr>
+<td><code>feed.xml</code></td>
+<td>200 (Jekyll feed)</td>
+<td>404 — <strong>expected</strong>, static site with no Jekyll feed
+generator</td>
+</tr>
+<tr>
+<td>unknown path</td>
+<td>404</td>
+<td>404</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="site-2-httpsvasic.digital">4. Site 2 —
+<code>https://vasic.digital/</code></h2>
+<h3 id="verdict-healthy-1">Verdict: <strong>HEALTHY</strong></h3>
+<p>Committed static HTML, served as-is by GitHub Pages’ built-in
+<code>pages-build-deployment</code>. No custom workflow exists or is
+needed.</p>
+<h3 id="evidence-1">Evidence</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Live HTTP status</td>
+<td><strong>200</strong></td>
+<td><code>200 https://vasic.digital/</code></td>
+</tr>
+<tr>
+<td><code>www.</code> host</td>
+<td><strong>200</strong>, redirects to apex</td>
+<td><code>200 https://vasic.digital/</code> from
+<code>https://www.vasic.digital</code></td>
+</tr>
+<tr>
+<td><code>vasic-digital.github.io</code></td>
+<td><strong>200</strong>, redirects to
+<code>https://vasic.digital/</code></td>
+<td>custom domain correctly bound</td>
+</tr>
+<tr>
+<td><code>http://</code> → <code>https://</code></td>
+<td><strong>200</strong>, lands on
+<code>https://vasic.digital/</code></td>
+<td><code>https_enforced: true</code></td>
+</tr>
+<tr>
+<td>TLS valid</td>
+<td><strong>YES</strong> — <code>ssl_verify_result=0</code></td>
+<td>Let’s Encrypt <code>CN=YR1</code>, <code>CN=vasic.digital</code>,
+SAN <code>vasic.digital, www.vasic.digital</code>,
+<code>notAfter=Oct  8 16:32:52 2026 GMT</code></td>
+</tr>
+<tr>
+<td><code>last-modified</code></td>
+<td><code>Thu, 27 Aug 2026 00:15:26 GMT</code></td>
+<td><code>curl -sSI</code></td>
+</tr>
+<tr>
+<td>Server</td>
+<td><code>GitHub.com</code>, edge region <code>fra</code></td>
+<td>response headers</td>
+</tr>
+<tr>
+<td>DNS</td>
+<td><code>185.199.108.153 .109.153 .110.153 .111.153</code>, apex and
+<code>www</code> identical</td>
+<td><code>getent ahostsv4</code></td>
+</tr>
+<tr>
+<td>Publish mechanism</td>
+<td><strong>GitHub Pages, <code>build_type: legacy</code></strong>
+(built-in builder, <code>source.branch=main</code>,
+<code>path=/</code>)</td>
+<td><code>gh api repos/vasic-digital/vasic-digital.github.io/pages</code>
+→ <code>"build_type":"legacy"</code>, <code>"status":"built"</code>,
+<code>"cname":"vasic.digital"</code></td>
+</tr>
+<tr>
+<td>Tracked publish workflow in repo</td>
+<td><strong>NONE — and correctly so</strong></td>
+<td><code>git ls-files .github</code> in <code>vasic.digital/</code>
+returns nothing; publishing is GitHub’s built-in
+<code>dynamic/pages/pages-build-deployment</code>, reported
+<code>state=active</code></td>
+</tr>
+<tr>
+<td>Last 8 Actions runs</td>
+<td><strong>8 / 8 <code>success</code></strong></td>
+<td>latest:
+<code>pages build and deployment \| completed \| success \| 2026-08-27T00:14:51Z \| 6e5411c</code></td>
+</tr>
+<tr>
+<td>Last run, job level</td>
+<td><code>build</code> success, <code>deploy</code> success,
+<code>report-build-status</code> success</td>
+<td>run <code>33026192751</code></td>
+</tr>
+<tr>
+<td>Last 5 Pages builds</td>
+<td><strong>5 / 5 <code>built</code>,
+<code>error=null</code></strong></td>
+<td><code>gh api .../pages/builds</code></td>
+</tr>
+<tr>
+<td>Last Pages deployment</td>
+<td><code>success</code> at <code>2026-08-27T00:15:32Z</code>, env URL
+<code>https://vasic.digital/</code>, sha <code>6e5411c</code></td>
+<td>deployments API</td>
+</tr>
+<tr>
+<td>Deployed sha == <code>origin/main</code></td>
+<td><strong>YES</strong> —
+<code>6e5411c21b3cd9c6df5addb543b1a07930c3bfa9</code> both sides;
+<code>0 0</code> ahead/behind</td>
+<td><code>git rev-list --left-right --count HEAD...origin/main</code></td>
+</tr>
+<tr>
+<td>Working tree clean</td>
+<td><strong>YES</strong></td>
+<td><code>git -C vasic.digital status --short</code> empty</td>
+</tr>
+<tr>
+<td>Rendered output, not template source</td>
+<td><strong>YES</strong></td>
+<td><code>{{</code> count <strong>0</strong>, <code>{%</code> count
+<strong>0</strong>, no leading <code>---</code>,
+<code>&lt;title&gt;Vasic Digital — AI-Native Software Engineering&lt;/title&gt;</code>,
+<code>&lt;/html&gt;</code> present</td>
+</tr>
+<tr>
+<td><strong>Live bytes == committed bytes</strong></td>
+<td><strong>BYTE-IDENTICAL</strong> (48 456 bytes)</td>
+<td>see below — decisive proof the site is not frozen</td>
+</tr>
+<tr>
+<td>Full sitemap sweep</td>
+<td><strong>525 / 525 URLs → 200</strong></td>
+<td>see §3</td>
+</tr>
+<tr>
+<td>Localized titles</td>
+<td><strong>correctly translated</strong> in de / ja / ru / ar</td>
+<td>see below</td>
+</tr>
+<tr>
+<td>Branch protection on <code>main</code></td>
+<td><strong>NONE</strong> — API returns
+<code>404 Branch not protected</code></td>
+<td><code>gh api repos/vasic-digital/vasic-digital.github.io/branches/main/protection</code></td>
+</tr>
+<tr>
+<td><code>github-pages</code> environment</td>
+<td><code>protection_rules: [branch_policy]</code>,
+<code>custom_branch_policies: true</code> — no reviewer gate</td>
+<td>environments API</td>
+</tr>
+<tr>
+<td>Repo state</td>
+<td><code>default_branch=main private=false archived=false disabled=false has_pages=true</code></td>
+<td>repo API</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="decisive-freshness-proof-live-equals-committed-head-byte-for-byte">Decisive
+freshness proof — live equals committed HEAD, byte for byte</h3>
+<p>Because this site is committed static HTML, the served page can be
+diffed directly against the commit that is <code>origin/main</code>:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> vasic.digital show HEAD:index.html <span class="op">&gt;</span> vd-committed.html</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-sS</span> <span class="at">-L</span> https://vasic.digital/ <span class="at">-o</span> vd-live.html</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span> <span class="at">-q</span> vd-committed.html vd-live.html</span></code></pre></div>
+<p>Result: <strong>identical</strong>, 48 456 bytes on both sides. The
+live site is serving exactly the content of commit <code>6e5411c</code>,
+which is exactly <code>origin/main</code>. This rules out a frozen or
+stale deployment.</p>
+<h3 id="localized-rendering">Localized rendering</h3>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> l <span class="kw">in</span> <span class="st">&quot;&quot;</span> de/ ja/ ru/ ar/<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">curl</span> <span class="at">-sS</span> <span class="at">-L</span> <span class="st">&quot;https://vasic.digital/</span><span class="va">$l</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-o</span> <span class="st">&#39;&lt;title&gt;[^&lt;]*&lt;/title&gt;&#39;</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-1</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<pre><code>&lt;title&gt;Vasic Digital — AI-Native Software Engineering&lt;/title&gt;
+&lt;title&gt;Vasic Digital — KI-natives Software Engineering&lt;/title&gt;
+&lt;title&gt;Vasic Digital — AIネイティブ ソフトウェアエンジニアリング&lt;/title&gt;
+&lt;title&gt;Vasic Digital — AI‑нативная разработка программного обеспечения&lt;/title&gt;
+&lt;title&gt;Vasic Digital — هندسة برمجيات AI-Native&lt;/title&gt;</code></pre>
+<p><code>&lt;html lang&gt;</code> values are
+<code>en / de / ja / ru / ar</code>, with <code>dir="rtl"</code> on
+Arabic.</p>
+<h3 id="reproduce-1">Reproduce</h3>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-sS</span> <span class="at">-o</span> /dev/null <span class="at">-m</span> 25 <span class="at">-w</span> <span class="st">&#39;%{http_code} %{url_effective} tls_verify=%{ssl_verify_result}\n&#39;</span> <span class="at">-L</span> https://vasic.digital</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-sSI</span> <span class="at">-m</span> 25 <span class="at">-L</span> https://vasic.digital/ <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-iE</span> <span class="st">&#39;^(HTTP/|last-modified|server)&#39;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="kw">|</span> <span class="ex">openssl</span> s_client <span class="at">-servername</span> vasic.digital <span class="at">-connect</span> vasic.digital:443 <span class="dv">2</span><span class="op">&gt;</span>/dev/null <span class="dt">\</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="ex">openssl</span> x509 <span class="at">-noout</span> <span class="at">-subject</span> <span class="at">-issuer</span> <span class="at">-dates</span> <span class="at">-ext</span> subjectAltName</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/vasic-digital/vasic-digital.github.io/pages</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/vasic-digital/vasic-digital.github.io/actions/workflows <span class="dt">\</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--jq</span> <span class="st">&#39;.workflows[] | &quot;\(.name) | state=\(.state) | path=\(.path)&quot;&#39;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api <span class="st">&#39;repos/vasic-digital/vasic-digital.github.io/actions/runs?per_page=8&#39;</span> <span class="dt">\</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">--jq</span> <span class="st">&#39;.workflow_runs[] | &quot;\(.name) | \(.status) | \(.conclusion) | \(.created_at) | \(.head_sha[0:7])&quot;&#39;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api <span class="st">&#39;repos/vasic-digital/vasic-digital.github.io/pages/builds?per_page=5&#39;</span> <span class="dt">\</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">--jq</span> <span class="st">&#39;.[] | &quot;\(.status) | \(.created_at) | \(.commit[0:7]) | err=\(.error.message)&quot;&#39;</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/vasic-digital/vasic-digital.github.io/branches/main/protection</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> vasic.digital fetch origin main <span class="kw">&amp;&amp;</span> <span class="fu">git</span> <span class="at">-C</span> vasic.digital rev-list <span class="at">--left-right</span> <span class="at">--count</span> HEAD...origin/main</span></code></pre></div>
+<hr />
+<h2 id="risk-review">5. Risk review</h2>
+<h3
+id="milosvasic.ru.githubworkflowspages.yml-present-active-intact">5.1
+<code>milosvasic.ru/.github/workflows/pages.yml</code> — present,
+ACTIVE, intact</h3>
+<p>This is the <strong>sole publish path</strong> for
+<code>milosvasic.ru</code> (the repo’s Pages <code>build_type</code> is
+<code>workflow</code>, so GitHub’s built-in Jekyll builder is bypassed).
+It was verified on all five required points:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Status</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Present on disk</td>
+<td><strong>YES</strong></td>
+<td><code>milosvasic.ru/.github/workflows/pages.yml</code>, 1333
+bytes</td>
+</tr>
+<tr>
+<td>Tracked by git</td>
+<td><strong>YES</strong></td>
+<td><code>git ls-files .github</code> →
+<code>.github/workflows/pages.yml</code></td>
+</tr>
+<tr>
+<td>Committed with no local drift</td>
+<td><strong>YES</strong></td>
+<td><code>git diff HEAD -- .github/workflows/pages.yml</code> empty;
+<code>git status --short</code> shows no entry for it</td>
+</tr>
+<tr>
+<td>Present on <code>origin/main</code></td>
+<td><strong>YES</strong></td>
+<td><code>git merge-base --is-ancestor fae3b24 origin/main</code> →
+ancestor confirmed</td>
+</tr>
+<tr>
+<td>Registered ACTIVE on GitHub</td>
+<td><strong>YES</strong></td>
+<td><code>gh api .../actions/workflows</code> →
+<code>state=active</code></td>
+</tr>
+<tr>
+<td>Parses as valid YAML</td>
+<td><strong>YES</strong></td>
+<td><code>yaml.safe_load</code> succeeded</td>
+</tr>
+<tr>
+<td><code>build</code> job intact</td>
+<td><strong>YES</strong></td>
+<td>5 steps: <code>actions/checkout@v4</code>
+(<code>submodules: false</code>),
+<code>actions/configure-pages@v5</code>, <code>ruby/setup-ruby@v1</code>
+(3.3, bundler-cache),
+<code>bundle exec jekyll build --destination _site</code>
+(<code>JEKYLL_ENV=production</code>),
+<code>actions/upload-pages-artifact@v3</code></td>
+</tr>
+<tr>
+<td><code>deploy</code> job intact</td>
+<td><strong>YES</strong></td>
+<td><code>needs: build</code>, <code>environment: github-pages</code>, 1
+step <code>actions/deploy-pages@v4</code> with
+<code>id: deployment</code></td>
+</tr>
+<tr>
+<td>Triggers intact</td>
+<td><strong>YES</strong></td>
+<td><code>on: {push: {branches: [main]}, workflow_dispatch: null}</code></td>
+</tr>
+<tr>
+<td>Permissions intact</td>
+<td><strong>YES</strong></td>
+<td><code>contents: read</code>, <code>pages: write</code>,
+<code>id-token: write</code></td>
+</tr>
+<tr>
+<td>Last execution</td>
+<td><strong>success</strong>, both jobs, 0 failed steps,
+<code>2026-08-27T00:11:55Z</code> on <code>66c8d60</code></td>
+<td>run <code>33026023067</code></td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&quot;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="st">import yaml</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="st">d = yaml.safe_load(open(&#39;milosvasic.ru/.github/workflows/pages.yml&#39;))</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="st">print(&#39;jobs:&#39;, list(d[&#39;jobs&#39;].keys()))</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="st">print(&#39;build steps:&#39;, len(d[&#39;jobs&#39;][&#39;build&#39;][&#39;steps&#39;]))</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="st">print(&#39;deploy steps:&#39;, len(d[&#39;jobs&#39;][&#39;deploy&#39;][&#39;steps&#39;]))</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="st">print(&#39;deploy needs:&#39;, d[&#39;jobs&#39;][&#39;deploy&#39;][&#39;needs&#39;])</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co"># jobs: [&#39;build&#39;, &#39;deploy&#39;] / build steps: 5 / deploy steps: 1 / deploy needs: build</span></span></code></pre></div>
+<h3 id="why-submodules-false-matters-do-not-remove-it">5.2 Why
+<code>submodules: false</code> matters — do not remove it</h3>
+<p><code>pages.yml</code> exists specifically because the default
+recursive checkout fails on a broken nested gitlink in
+<code>milosvasic.ru/Upstreamable</code>. That failure is not
+hypothetical — the legacy builder errored <strong>four times</strong>
+before the workflow was introduced:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/milos85vasic/milosvasic.ru/pages/builds <span class="dt">\</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--jq</span> <span class="st">&#39;.[] | select(.status==&quot;errored&quot;) | {created:.created_at, commit:.commit[0:7], error:.error.message}&#39;</span></span></code></pre></div>
+<pre><code>{&quot;commit&quot;:&quot;f120ac6&quot;,&quot;created&quot;:&quot;2026-08-06T17:04:48Z&quot;,&quot;error&quot;:&quot;Page build failed.&quot;}
+{&quot;commit&quot;:&quot;fd2f66e&quot;,&quot;created&quot;:&quot;2026-08-06T14:46:39Z&quot;,&quot;error&quot;:&quot;Page build failed.&quot;}
+{&quot;commit&quot;:&quot;d68aa97&quot;,&quot;created&quot;:&quot;2026-08-06T11:22:23Z&quot;,&quot;error&quot;:&quot;Page build failed.&quot;}
+{&quot;commit&quot;:&quot;72a29d5&quot;,&quot;created&quot;:&quot;2026-08-06T10:47:33Z&quot;,&quot;error&quot;:&quot;Page build failed.&quot;}</code></pre>
+<p>GitHub’s API returns only the generic string
+<code>Page build failed.</code> — the underlying runner log is not
+exposed through this endpoint, so the specific error text is
+<strong>UNVERIFIED</strong> beyond that message. The chronology is
+unambiguous, however: the errors stop the moment <code>pages.yml</code>
+lands, and every run since is green.</p>
+<p><strong>Operator guidance:</strong> <code>submodules: false</code> in
+<code>pages.yml</code> must not be flipped to <code>true</code> and
+<code>pages.yml</code> must not be deleted (which would fall back to the
+legacy builder that fails). <code>Upstreamable</code> is excluded from
+the Jekyll build anyway — <code>milosvasic.ru/_config.yml</code> line
+<strong>45</strong>:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exclude</span><span class="kw">:</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> Gemfile</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> Gemfile.lock</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> README.md</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> README.pdf</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> LICENSE</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> start.sh</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> vendor</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> Upstreamable</span><span class="co">      # ← line 45</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> Upstreams</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> .run</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> downloads/src</span></span></code></pre></div>
+<p>Minor doc drift: the comment at the top of <code>pages.yml</code>
+cites “<code>_config.yml</code> line 43”; the exclusion is now at line
+45. Harmless — the exclusion itself is intact.</p>
+<h3 id="concurrent-upstreamable-work-currently-harmless-but-coupled">5.3
+Concurrent Upstreamable work — currently harmless, but coupled</h3>
+<p>At report time <code>milosvasic.ru</code> carries one <strong>staged,
+uncommitted</strong> change, placed by a concurrent agent (not touched
+by this verification):</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> milosvasic.ru status <span class="at">--short</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># M  Upstreamable</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> milosvasic.ru diff <span class="at">--cached</span> <span class="at">--</span> Upstreamable</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># -Subproject commit 94f9831b8aa0a1d4df23671d2e4600886aad0dcf</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># +Subproject commit 9bf124096eda44e78edcd3f56df748d23ef4c577</span></span></code></pre></div>
+<p>Impact on publishing: <strong>none today.</strong>
+<code>pages.yml</code> checks out with <code>submodules: false</code>
+and <code>_config.yml</code> excludes <code>Upstreamable</code>, so the
+gitlink value is irrelevant to the build. The residual risk is
+procedural and is recorded as <strong>A3</strong>:
+<code>deploy-langs.sh</code> line 91 runs
+<code>git -C "$s" add -A</code>, so the next deploy would fold this
+in-progress gitlink change into a production content commit.</p>
+<h3
+id="root-ci.yml-ci.yml.disabled-recent-change-not-a-publish-path">5.4
+Root <code>ci.yml</code> → <code>ci.yml.disabled</code> — recent change,
+not a publish path</h3>
+<p>The umbrella repository’s CI workflow was renamed and the rename is
+<strong>staged but not yet committed</strong>:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files .github          <span class="co"># → .github/workflows/ci.yml.disabled</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status <span class="at">--short</span> .github    <span class="co"># → R  .github/workflows/ci.yml -&gt; .github/workflows/ci.yml.disabled</span></span></code></pre></div>
+<p>Verified that this workflow never published a site:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&quot;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="st">import yaml</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="st">d = yaml.safe_load(open(&#39;.github/workflows/ci.yml.disabled&#39;))</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="st">print(&#39;name:&#39;, d.get(&#39;name&#39;)); print(&#39;jobs:&#39;, list(d[&#39;jobs&#39;].keys()))</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># name: CI / jobs: [&#39;quality-gates&#39;]</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-niE</span> <span class="st">&#39;actions/deploy-pages|upload-pages-artifact|gh-pages&#39;</span> .github/workflows/ci.yml.disabled</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># → no matches in any executable step (only prose in header comments)</span></span></code></pre></div>
+<p>It contained a single <code>quality-gates</code> job and no deploy
+step, and the umbrella repo has <code>has_pages=false</code>. Its own
+header comment states the enforcement moved to a local pre-push hook
+(<code>scripts/pre-push-gates.sh</code>). <strong>No publishing
+impact.</strong> This also closes gap G4 recorded in
+<code>CLAUDE.md</code> (root <code>ci.yml</code> was flagged as
+conflicting with anchor 11.4.156(A)); note the rename is not yet
+committed, so the resolution is not yet durable.</p>
+<h3 id="branch-protection-and-required-status-checks">5.5 Branch
+protection and required status checks</h3>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/milos85vasic/milosvasic.ru/branches/main/protection</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/vasic-digital/vasic-digital.github.io/branches/main/protection</span></code></pre></div>
+<p>Both return:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;message&quot;</span><span class="fu">:</span><span class="st">&quot;Branch not protected&quot;</span><span class="fu">,</span><span class="dt">&quot;status&quot;</span><span class="fu">:</span><span class="st">&quot;404&quot;</span><span class="fu">}</span></span></code></pre></div>
+<p>Read as: <strong>no branch protection and no required status checks
+on <code>main</code> in either site repo.</strong> The 404 is the
+documented “not protected” response, not a permission denial — the token
+carries <code>repo</code> scope and the sibling protected endpoints
+(<code>/environments/github-pages</code>, <code>/deployments</code>)
+answered successfully for the same repos. Nothing can block a merge or a
+push, so nothing can stall a publish.</p>
+<p>The <code>github-pages</code> environment in both repos carries only
+a <code>branch_policy</code> rule with
+<code>custom_branch_policies: true</code> and
+<code>protected_branches: false</code> — no required reviewer, so no
+deployment can sit waiting for approval.</p>
+<h3 id="recent-workflow-errors">5.6 Recent workflow errors</h3>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api <span class="st">&#39;repos/milos85vasic/milosvasic.ru/actions/runs?per_page=8&#39;</span> <span class="dt">\</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">--jq</span> <span class="st">&#39;.workflow_runs[] | &quot;\(.name) | \(.status) | \(.conclusion) | \(.created_at)&quot;&#39;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api <span class="st">&#39;repos/vasic-digital/vasic-digital.github.io/actions/runs?per_page=8&#39;</span> <span class="dt">\</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--jq</span> <span class="st">&#39;.workflow_runs[] | &quot;\(.name) | \(.status) | \(.conclusion) | \(.created_at)&quot;&#39;</span></span></code></pre></div>
+<p><strong>Zero Actions failures on either site repo across the last 8
+runs each (16 runs, 16 × <code>success</code>), back to
+2026-08-07.</strong> The only errors anywhere in the publishing history
+are the four legacy Pages builds of 2026-08-06 documented in §5.2, all
+of which predate and motivated the current workflow.</p>
+<h3 id="deploy-tooling-readiness">5.7 Deploy tooling readiness</h3>
+<p><code>_tools/deploy-langs.sh</code> ends with a post-deploy LIVE
+validation gate:</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;118,127p&#39;</span> _tools/deploy-langs.sh</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ( cd &quot;$ROOT/_tests&quot; &amp;&amp; VD_BASE=&quot;https://$VD_DOMAIN&quot; MV_BASE=&quot;https://$MV_DOMAIN&quot; \</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#     npx playwright test --config=playwright.live.config.js all-languages-link-integrity.spec.js --reporter=line )</span></span></code></pre></div>
+<p>Verified wiring:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spec file exists and is tracked</td>
+<td><strong>YES</strong> —
+<code>_tests/tests/all-languages-link-integrity.spec.js</code></td>
+</tr>
+<tr>
+<td>Config resolves it</td>
+<td><strong>YES</strong> — <code>playwright.live.config.js</code> has
+<code>testDir: './tests'</code> and <code>testMatch</code> includes
+<code>all-languages-link-integrity\.spec\.js</code></td>
+</tr>
+<tr>
+<td>Env-var contract matches</td>
+<td><strong>YES</strong> — spec reads <code>process.env.VD_BASE</code> /
+<code>process.env.MV_BASE</code>; the script exports exactly those
+two</td>
+</tr>
+<tr>
+<td><code>_tests/node_modules</code> installed</td>
+<td><strong>NO</strong> —
+<code>ls: cannot access '_tests/node_modules'</code></td>
+</tr>
+</tbody>
+</table>
+<p>The missing <code>node_modules</code> is item <strong>A1</strong>:
+<code>deploy-langs.sh</code> maps any validator non-zero exit to
+<code>LIVE_FAIL=1</code> and exits 1 with the message
+<code>LIVE validation: FAIL — broken links on live</code>, which on this
+machine would be a tooling artefact, not a real broken link. Remedy
+before the next deploy:</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tests <span class="kw">&amp;&amp;</span> <span class="ex">npm</span> ci <span class="kw">&amp;&amp;</span> <span class="ex">npx</span> playwright install chromium</span></code></pre></div>
+<p>This report’s §3 sitemap sweep and 88-page render sample were run
+independently of that harness and already establish live link integrity
+for both sites.</p>
+<hr />
+<h2 id="explicitly-unverified">6. Explicitly UNVERIFIED</h2>
+<p>Recorded honestly per §11.4.6 — these were <strong>not</strong>
+proven and must not be read as passes:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Why unverified</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Specific error text of the four 2026-08-06 legacy Pages build
+failures</td>
+<td><code>gh api .../pages/builds</code> exposes only the generic string
+<code>Page build failed.</code>; the legacy builder’s runner log is not
+retrievable through the API. The correlation with the
+<code>Upstreamable</code> gitlink is stated in <code>pages.yml</code>’s
+own header comment and is consistent with the chronology, but the raw
+error text was not read.</td>
+</tr>
+<tr>
+<td>A local end-to-end Jekyll rebuild of <code>milosvasic.ru</code></td>
+<td>Not run — it would mutate the working tree and could collide with
+the concurrent <code>Upstreamable</code> work. Build health is instead
+evidenced by the green GitHub Actions run on the exact current HEAD plus
+the front-matter-consumed / hreflang-expanded rendering proof in
+§2.</td>
+</tr>
+<tr>
+<td>The Playwright live-validation suite itself</td>
+<td>Not executed — <code>_tests/node_modules</code> is absent (item A1).
+An equivalent independent check (1050-URL sweep + 88-page render
+inspection) was run instead and is reported in §3.</td>
+</tr>
+<tr>
+<td>Whether GitHub Pages usage quotas or org-level Actions policies
+could throttle a future deploy</td>
+<td>Not queried.</td>
+</tr>
+<tr>
+<td>Health of any site outside this repository</td>
+<td>Out of scope.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="bottom-line">7. Bottom line</h2>
+<ul>
+<li><strong>2 websites are deployed by this repository.</strong> Both
+were found by discovery, not assumed.</li>
+<li><strong><code>https://milosvasic.ru/</code> — HEALTHY.</strong> 200,
+valid TLS to 2026-11-20, publishing via ACTIVE workflow
+<code>pages.yml</code> (<code>build_type: workflow</code>), last deploy
+<code>success</code> on the exact current <code>origin/main</code> sha,
+525/525 sitemap URLs live, fully rendered output. Two non-breaking SEO
+defects recorded (A2).</li>
+<li><strong><code>https://vasic.digital/</code> — HEALTHY.</strong> 200,
+valid TLS to 2026-10-08, publishing via GitHub’s built-in builder
+(<code>build_type: legacy</code>), last deploy <code>success</code> on
+the exact current <code>origin/main</code> sha, 525/525 sitemap URLs
+live, and the served homepage is <strong>byte-identical</strong> to the
+committed source.</li>
+<li><strong>No website is broken. No website is at risk of going
+down.</strong></li>
+<li>The only pre-deploy chore is <strong>A1</strong>
+(<code>cd _tests &amp;&amp; npm ci &amp;&amp; npx playwright install chromium</code>),
+which affects the deploy script’s self-check, not the live sites.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>RISKS</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">RISKS</h1>
+</header>
+<h1 id="constitution-propagation-risks">Constitution Propagation —
+RISKS</h1>
+<blockquote>
+<p><strong>Note on filenames.</strong> The staged carrier drafts in this
+directory are stored with a <code>.staged</code> suffix
+(e.g. <code>AGENTS.md.staged</code>). The constitution’s propagation
+gates discover carriers by exact filename (<code>CLAUDE.md</code>,
+<code>AGENTS.md</code>, <code>QWEN.md</code>, <code>GEMINI.md</code>),
+so drafts named that way inside the repo are counted as real carriers
+and fail the gate. Drop the <code>.staged</code> suffix when you copy a
+file into its target submodule.</p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Revision</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Created</td>
+<td>2026-08-26</td>
+</tr>
+<tr>
+<td>Last modified</td>
+<td>2026-08-27</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>active</td>
+</tr>
+<tr>
+<td>Status summary</td>
+<td>Blast-radius, exclusion and honesty register for the propagation
+prepared in <a href="APPLY.md"><code>APPLY.md</code></a>. Nothing has
+been applied. Every number below comes from a read-only command whose
+output is quoted. <strong>Revision 2 (2026-08-27)</strong> adds §0: the
+Revision-1 staging was defective and would have regressed the
+constitution gates; it has been rewritten and the fix measured in <a
+href="PROOF.md"><code>PROOF.md</code></a>.</td>
+</tr>
+<tr>
+<td>Continuation</td>
+<td>Operator reads this — §0 first — before executing
+<code>APPLY.md</code> §4.</td>
+</tr>
+</tbody>
+</table>
+<h2
+id="revision-1-of-this-staging-was-defective-recorded-not-quietly-fixed">0.
+Revision 1 of this staging was defective — recorded, not quietly
+fixed</h2>
+<p><strong>The Revision-1 files in this directory would have made the
+constitution gates strictly worse if applied.</strong> This is recorded
+here rather than silently corrected, because an operator who read
+Revision 1’s <code>APPLY.md</code> and acted on it would have been worse
+off for it.</p>
+<h3 id="the-defect">0.1 The defect</h3>
+<p>Every <code>CM-COVENANT-114-*-PROPAGATION</code> gate sources one
+predicate,
+<code>submodules/constitution/scripts/gates/lib/pointer_carrier.sh</code>.
+It recognises a §11.4.35 pointer consumer — a carrier allowed to omit
+the anchor literals — <strong>iff</strong> the file contains a
+<strong>line-anchored, non-fenced <code>## INHERITED FROM</code> heading
+at column zero</strong>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode awk"><code class="sourceCode awk"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>fenced <span class="op">&amp;&amp;</span> <span class="op">/^</span><span class="co">## INHERITED FROM / { found = 1; exit }</span></span></code></pre></div>
+<p>The Revision-1 drafts opened with a <code>&gt;</code> blockquote
+(<code>AGENTS.md</code>, <code>QWEN.md</code>, <code>GEMINI.md</code>,
+<code>QWEN.insert-block.md</code>) or with
+<code># CLAUDE.md — &lt;module&gt;</code> followed by
+<code>## Helix Constitution inheritance</code> (<code>CLAUDE.md</code>).
+None of those matches. None of the drafts carried a single one of the 17
+anchor literals either. So every applied file would have registered as a
+<strong>new anchor-less carrier</strong> and <strong>added</strong> 17
+<code>MISSING</code> verdicts of its own.</p>
+<h3 id="what-it-would-have-cost-measured">0.2 What it would have cost,
+measured</h3>
+<p>Run in temp directories mirroring the real fleet, with the 17 real
+gates (<a href="PROOF.md"><code>PROOF.md</code></a> has the full
+output):</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>MISSING carriers</th>
+<th>MISSING lines</th>
+<th>17 gates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>live repository today</td>
+<td>5</td>
+<td>85</td>
+<td>all FAIL</td>
+</tr>
+<tr>
+<td><code>APPLY.md</code> §4.6 with the <strong>Revision-1</strong>
+files</td>
+<td><strong>8</strong></td>
+<td><strong>136</strong></td>
+<td>all FAIL, louder</td>
+</tr>
+<tr>
+<td><code>APPLY.md</code> §4.2 – §4.6 with the
+<strong>Revision-1</strong> files</td>
+<td><strong>24</strong></td>
+<td><strong>408</strong></td>
+<td>all FAIL, louder</td>
+</tr>
+<tr>
+<td><code>APPLY.md</code> §4.6 with the <strong>Revision-2</strong>
+files</td>
+<td><strong>4</strong></td>
+<td><strong>68</strong></td>
+<td>all FAIL (third-party only)</td>
+</tr>
+<tr>
+<td><code>APPLY.md</code> §4.2 – §4.6 with the
+<strong>Revision-2</strong> files</td>
+<td><strong>4</strong></td>
+<td><strong>68</strong></td>
+<td>all FAIL (third-party only)</td>
+</tr>
+</tbody>
+</table>
+<p>The 136 / 8 row reproduces <a
+href="../GATE-TRIAGE.md"><code>GATE-TRIAGE.md</code></a> §6.1’s
+prediction exactly. It was correct.</p>
+<h3 id="what-was-changed-in-revision-2">0.3 What was changed in Revision
+2</h3>
+<ul>
+<li>All 19 <code>*.md.staged</code> carriers were rewritten. Each now
+opens with its H1 title and, immediately under it, the canonical
+<strong><code>## INHERITED FROM constitution/&lt;BASE&gt;</code></strong>
+heading — the form the constitution’s own examples use and the form the
+four repository-root carriers that pass all 17 gates use.</li>
+<li><code>vasic.digital/QWEN.insert-block.md</code> was replaced by a
+block that starts with that heading, so the file it is inserted into
+becomes a pointer carrier and <strong>leaves</strong> the MISSING set.
+All 55 existing lines of <code>vasic.digital/QWEN.md</code> are
+preserved — verified by a zero-deletion diff on the produced file.</li>
+<li>The substance the previous author argued for correctly is kept: the
+inheritance is stated <strong>conditionally</strong>
+(consumed-inside-a-project vs. consumed-standalone), the constitution is
+located with <code>find_constitution.sh</code> rather than a path, and
+<strong>no</strong> depth-dependent or parent-project path is hardcoded
+— the heading’s <code>constitution/&lt;BASE&gt;</code> is stated in the
+carrier itself to be the base file’s canonical <em>name</em>, resolved
+by the helper, not a filesystem path. §11.4.28(B) is intact;
+<code>APPLY.md</code> §5’s own grep for
+<code>submodules/constitution</code> finds nothing in any carrier.</li>
+<li><code>APPLY.md</code> §1’s tree listing now shows the
+<code>.staged</code> suffixes, and its §4 <code>cp</code> commands now
+copy <strong>from</strong> <code>&lt;name&gt;.md.staged</code> (Revision
+1’s commands copied from a source filename that does not exist).</li>
+<li><code>APPLY.md</code> §4.6 no longer instructs copying anchor-less
+carriers, carries the corrected insertion line numbers (the block grew
+from 17 to 48 lines, so the original body now resumes at line 51, not
+20), and ends with a <code>is_pointer_carrier</code> check on all four
+produced files.</li>
+<li><code>APPLY.md</code> §5 gained two checks — the per-file predicate
+check and a fleet-level MISSING-count check — precisely because their
+absence is what let Revision 1 ship.</li>
+</ul>
+<h3 id="what-revision-2-does-not-claim">0.4 What Revision 2 does
+<strong>not</strong> claim</h3>
+<p>It does not make the 17 gates pass. Four category-(c) third-party
+carriers (<a href="../GATE-TRIAGE.md"><code>GATE-TRIAGE.md</code></a>
+§3.1, §7) hold every one of them FAILing and nothing in this directory
+can clear them. The claim is narrower and measured: the propagation
+stops adding failures and removes one
+(<code>vasic.digital/QWEN.md</code>) — 85 MISSING lines → 68, five
+MISSING carriers → four.</p>
+<h2 id="what-was-and-was-not-done-while-preparing-this">1. What was and
+was not done while preparing this</h2>
+<p><strong>Not run, anywhere:</strong> <code>git add</code>,
+<code>git commit</code>, <code>git push</code>, <code>git fetch</code>,
+<code>git pull</code>, <code>git checkout</code>,
+<code>git submodule update</code>, <code>git tag</code>,
+<code>git remote add</code>, <code>git config</code>. No file inside any
+submodule working tree was created, modified, or deleted. The only
+writes are the files in this directory
+(<code>docs/constitution-adoption/propagation/</code>), all of them in
+the umbrella repo: 22 at Revision 1, and at Revision 2 the same 20
+staged artifacts rewritten in place plus <code>PROOF.md</code> added —
+23 files.</p>
+<p><strong>Also run for Revision 2 (all read-only):</strong> the 17
+<code>cm_covenant_114_*_propagation.sh</code> gates against the live
+repository root and against five temp directories under the session
+scratchpad, plus <code>lib/pointer_carrier.sh --selftest</code> and
+direct <code>is_pointer_carrier</code> calls. No gate script, no
+library, and no submodule file was modified to produce those runs.</p>
+<p><strong>Observed, not caused — a concurrent auto-commit swept the
+rewritten drafts.</strong> This repository has an automated commit loop
+(<code>git log --oneline</code> shows a run of <code>Auto-commit</code>
+entries). At 2026-08-26T23:11:47Z, while Revision 2 was being prepared,
+a commit made outside this task
+(<code>f5626d6 Fix 3 refuted claims from independent audit …</code>)
+captured all 20 rewritten <code>*.staged</code> artifacts in this
+directory into git history. The Revision-2 work itself ran no
+<code>git add</code>, <code>git commit</code>, or <code>git push</code>;
+the files’ content on disk and in <code>HEAD</code> is identical, so
+nothing was half-captured. It is recorded here because a reader
+comparing <code>git log</code> against this document’s “no mutating git
+command was run” statement would otherwise see a contradiction — and
+because it is the §11.4.84 working-tree-quiescence hazard in its live
+form: an unrelated commit absorbed in-flight edits it did not
+describe.</p>
+<p><strong>Run:</strong> <code>git -C &lt;sub&gt; ls-files</code>,
+<code>ls-files -s</code>, <code>remote -v</code>,
+<code>remote get-url --push --all</code>, <code>rev-parse</code>,
+<code>describe</code>, <code>status --porcelain</code>,
+<code>symbolic-ref -q</code>, <code>check-ignore -v</code>,
+<code>submodule status</code>, plus <code>cat</code> / <code>head</code>
+/ <code>awk</code> / <code>grep</code> / <code>wc</code> on tracked
+files.</p>
+<h2 id="push-fan-out-per-repository">2. Push fan-out per repository</h2>
+<p>Measured with
+<code>git -C &lt;repo&gt; remote get-url --push --all origin</code> and
+<code>git -C &lt;repo&gt; remote -v</code>. “Distinct URLs” counts
+unique destinations, since <code>ai_interviewing</code> and
+<code>vasic.digital</code> configure three remote <em>names</em> that
+all resolve to one URL.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Repository</th>
+<th>Remote names</th>
+<th><code>git push origin</code> push URLs</th>
+<th>Distinct destinations</th>
+<th>Providers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td><code>github</code>, <code>origin</code>, <code>upstream</code></td>
+<td><code>git@github.com:milos85vasic/ai_interviewing.git</code></td>
+<td><strong>1</strong></td>
+<td>GitHub</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td><code>origin</code></td>
+<td><code>git@github.com:vasic-digital/design-toolkit.git</code></td>
+<td><strong>1</strong></td>
+<td>GitHub</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td><code>gitflic</code>, <code>github</code>, <code>origin</code>,
+<code>upstream</code></td>
+<td><code>git@gitflic.ru:milosvasic/milosvasic-net-v-2.git</code><br><code>git@github.com:milos85vasic/milosvasic.net.v2.git</code></td>
+<td><strong>2</strong></td>
+<td>GitFlic, GitHub</td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td><code>gitflic</code>, <code>github</code>, <code>gitlab</code>,
+<code>gitverse</code>, <code>origin</code>, <code>upstream</code></td>
+<td><code>git@gitflic.ru:milosvasic/monetization.git</code><br><code>git@github.com:milos85vasic/monetization.git</code><br><code>git@gitlab.com:milos85vasic/monetization.git</code><br><code>ssh://git@gitverse.ru:2222/milosvasic/monetization.git</code></td>
+<td><strong>4</strong></td>
+<td>GitFlic, GitHub, GitLab, GitVerse</td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td><code>github</code>, <code>origin</code>, <code>upstream</code></td>
+<td><code>git@github.com:vasic-digital/vasic-digital.github.io.git</code></td>
+<td><strong>1</strong></td>
+<td>GitHub (Pages)</td>
+</tr>
+<tr>
+<td>umbrella <code>vasic</code></td>
+<td><code>github</code>, <code>origin</code>, <code>upstream</code></td>
+<td><code>git@github.com:milos85vasic/vasic.git</code></td>
+<td><strong>1</strong></td>
+<td>GitHub</td>
+</tr>
+<tr>
+<td><strong>Total if APPLY.md §4 is fully executed</strong></td>
+<td>—</td>
+<td>—</td>
+<td><strong>10</strong></td>
+<td>4 providers</td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code> — <strong>NOT
+touched</strong></td>
+<td><code>gitflic</code>, <code>github</code>, <code>gitlab</code>,
+<code>gitverse</code>, <code>origin</code>, <code>upstream</code>,
+<code>vasic_digital_github</code>,
+<code>vasic_digital_gitlab</code></td>
+<td><code>git@gitflic.ru:helixdevelopment/helixconstitution.git</code><br><code>git@github.com:HelixDevelopment/HelixConstitution.git</code><br><code>git@gitlab.com:helixdevelopment1/helixconstitution.git</code><br><code>git@gitverse.ru:helixdevelopment/HelixConstitution.git</code><br><code>git@github.com:vasic-digital/HelixConstitution.git</code><br><code>git@gitlab.com:vasic-digital/HelixConstitution.git</code></td>
+<td><strong>6</strong></td>
+<td>GitFlic, GitHub ×2 orgs, GitLab ×2 orgs, GitVerse</td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code> — <strong>NOT
+touched</strong></td>
+<td><code>origin</code></td>
+<td><code>git@github.com:WangX0111/superspec.git</code></td>
+<td><strong>1</strong></td>
+<td>GitHub (third-party)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Single loudest number: <code>monetization</code>.</strong>
+One <code>git push</code> writes to four providers. That repository
+currently tracks <strong>8 files</strong>
+(<code>git -C monetization ls-files | wc -l</code> → <code>8</code>);
+the four carriers are a 50 % increase in its content, published to
+GitFlic, GitHub, GitLab and GitVerse simultaneously. If any of the four
+is unreachable or credential-stale, the push partially succeeds — git
+pushes each URL in turn — leaving the mirrors divergent. Nothing in this
+preparation detects or repairs that.</p>
+<p><strong><code>design-toolkit</code> has two parents.</strong>
+<code>git submodule status</code> shows it as an umbrella gitlink at
+<code>16e4e76d57ab61b5f3b46fae3372b2e6d6cc73e3</code>, and
+<code>git -C submodules/constitution/submodules/design-toolkit rev-parse HEAD</code>
+returns the identical SHA of the identical upstream. Committing to
+<code>design-toolkit</code> makes the <strong>constitution’s</strong>
+recorded gitlink stale. Restoring that consistency requires a commit
+inside <code>submodules/constitution</code>, which fans out to the
+<strong>6 URLs</strong> in the row above — including two
+<code>vasic-digital</code> mirrors of a repository owned by
+<code>HelixDevelopment</code>. That step is deliberately <strong>not
+prepared and not recommended blind</strong>; it turns a 10-URL change
+into a 16-URL change and publishes into the shared constitution
+repository.</p>
+<h3 id="milosvasic.ru-fetchpush-url-asymmetry">2.1
+<code>milosvasic.ru</code> — fetch/push URL asymmetry</h3>
+<p>This one is easy to get wrong and worth reading twice.</p>
+<pre><code>$ git -C milosvasic.ru remote get-url origin
+git@github.com:milos85vasic/milosvasic.ru.git
+
+$ git -C milosvasic.ru remote get-url --push --all origin
+git@gitflic.ru:milosvasic/milosvasic-net-v-2.git
+git@github.com:milos85vasic/milosvasic.net.v2.git</code></pre>
+<p><code>.gitmodules</code> declares this submodule’s URL as
+<code>git@github.com:milos85vasic/milosvasic.ru.git</code> — and
+<strong>no configured push URL writes to it</strong>. A
+<code>git push origin main</code> publishes to
+<code>milosvasic-net-v-2</code> (GitFlic) and
+<code>milosvasic.net.v2</code> (GitHub) instead. Whether those three are
+mirrors of one repository under different names, or genuinely different
+repositories, <strong>could not be verified offline</strong> (§6). If
+they are not mirrors, the commit lands where the umbrella is not
+looking, and the next <code>git submodule update</code> on a fresh clone
+will not find the new commit.</p>
+<p>The same shape, less severely, exists for <code>monetization</code>
+and <code>submodules/constitution</code>, whose <code>origin</code>
+fetch URL is a GitHub URL while their <code>origin</code> push URL list
+starts with GitFlic. There the GitHub URL <em>is</em> included among the
+push URLs, so the asymmetry is benign.</p>
+<h2 id="third-party-exclusion-submodulessuperspec">3. Third-party
+exclusion — <code>submodules/superspec</code></h2>
+<p><strong>Nothing is prepared for it, and nothing may be written into
+it.</strong></p>
+<p>Evidence, in order of strength:</p>
+<ol type="1">
+<li><strong>Upstream ownership.</strong> <code>.gitmodules</code> maps
+it to <code>git@github.com:WangX0111/superspec.git</code>;
+<code>git -C submodules/superspec remote -v</code> confirms
+<code>origin</code> is that URL and is the <em>only</em> remote.
+<code>WangX0111</code> is not <code>milos85vasic</code>, not
+<code>vasic-digital</code>, and not <code>HelixDevelopment</code> — the
+three orgs every other gitlink in <code>.gitmodules</code> belongs to.
+It is an external maintainer’s repository.</li>
+<li><strong>The constitution’s own rule scopes propagation to owned
+submodules.</strong> §11.4.28 is titled for owned submodules and
+§11.4.28(B) governs “Owned submodules”; the umbrella-side
+<code>Constitution.project.md.template</code> provides a
+<code>## Owned-submodule set</code> section and closes it with the
+literal line “Third-party submodules excluded.”</li>
+<li><strong>§11.4.65 excludes third-party trees explicitly.</strong>
+<code>Constitution.md:5995</code> heads the exclusion list “EXCLUDED
+(NOT subject to §11.4.65 — these are application/service source code or
+<strong>third-party trees we do not own</strong>)”, listing “Any
+third-party submodule NOT in the owned-submodule set”.</li>
+<li><strong>INVENTORY.md already ruled on it.</strong> §7.3’s target
+table ends “<code>submodules/superspec</code> | <strong>none</strong> —
+third-party, excluded per §4”, and §10 of its unverified table records
+the same conclusion with the same basis.</li>
+<li><strong>Practical harm.</strong> Writing carriers into it would mean
+either committing to a repository the operator does not control — a push
+that would be rejected, or worse, accepted into a fork the umbrella then
+diverges from — or carrying a permanently dirty working tree that breaks
+<code>git submodule status</code> cleanliness for everyone.</li>
+</ol>
+<p>Note it already contains two files matching an agent-carrier name —
+<code>examples/static-landing-page/CLAUDE.md</code> and
+<code>examples/static-landing-page/.specify/memory/constitution.md</code>.
+Both are <strong>vendored example fixtures inside the third-party
+tree</strong>, not carriers of this project (INVENTORY.md §6.2
+classifies them the same way). They are not to be edited, counted, or
+propagated to.</p>
+<p>The only residual claim that is inference rather than fact is that
+<code>WangX0111</code> is external to the operator — see §6.</p>
+<h2 id="risks-of-the-change-itself">4. Risks of the change itself</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Risk</th>
+<th>Why it exists</th>
+<th>Mitigation in <code>APPLY.md</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>A carrier hardcodes the umbrella layout
+(<code>submodules/constitution/…</code>) and thereby violates
+§11.4.28(B)’s “No project-specific context, hardcoded paths”</td>
+<td>The constitution’s own templates and README all say
+<code>constitution/…</code>, and the umbrella’s real path is
+<code>submodules/constitution/…</code>; the naive fix is to
+path-correct, which is exactly the violation</td>
+<td>The conditional form names the base file and
+<code>find_constitution.sh</code>, never a parent-relative path.
+<code>APPLY.md</code> §5 check 2 greps for
+<code>submodules/constitution</code> in every carrier and reports a hit
+as a violation.</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>An <code>@constitution/CLAUDE.md</code> import silently resolves to
+nothing</td>
+<td>Claude Code resolves <code>@</code> imports relative to the
+importing file, so inside a submodule it points at
+<code>&lt;sub&gt;/constitution/CLAUDE.md</code>, which never exists</td>
+<td>The prepared <code>CLAUDE.md</code> carries no <code>@</code> import
+at all. <code>APPLY.md</code> §5 check 2 greps for a leading
+<code>@constitution/</code>.</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>The pointer asserts inheritance that is false for a standalone
+clone</td>
+<td>A cloned-alone submodule has no constitution anywhere; an
+unconditional “these rules apply” sentence would be a bluff in the §11.4
+sense</td>
+<td>Both sentences are conditional (“when this module is consumed inside
+a project that includes …” / “When this module is consumed standalone …
+only the module-local notes below apply”) — the reference
+implementation’s exact wording.</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>Existing content in <code>vasic.digital/QWEN.md</code> is
+destroyed</td>
+<td>The temptation is to overwrite with a clean template</td>
+<td>No replacement file is provided for it. <code>APPLY.md</code> §4.6
+ships an insert-block plus a <code>diff</code> gate that must print
+nothing before the swap, and a post-apply zero-deletion diff.</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>Parent gitlinks captured before submodule pushes land</td>
+<td>§3 (<code>Constitution.md:213</code>): “Skipping step 1 produces
+parent commits / tags that point at old submodule HEADs without the
+actual source.”</td>
+<td><code>APPLY.md</code> §4.1 states the ordering; §4.7 is explicitly
+last.</td>
+</tr>
+<tr>
+<td>R6</td>
+<td>Partial multi-URL push leaves mirrors divergent</td>
+<td><code>monetization</code> (4 URLs) and <code>milosvasic.ru</code> (2
+URLs) push to several hosts in one command; one failing host does not
+roll back the others</td>
+<td><strong>Not mitigated.</strong> The operator must re-check each
+provider after the push. No verification of remote state is possible
+offline.</td>
+</tr>
+<tr>
+<td>R7</td>
+<td>The new files are born §11.4.65-non-compliant</td>
+<td>§11.4.65 requires <code>.html</code> + <code>.pdf</code> siblings
+for every included <code>.md</code>, and
+<code>Constitution.md:5989</code> INCLUDES owned-submodule top-level
+<code>README.md</code> / <code>CLAUDE.md</code> /
+<code>AGENTS.md</code>; protection 1 is “A missing export is a §11.4.65
+violation regardless of when the markdown was last touched”</td>
+<td><strong>Not mitigated</strong> — no export tooling exists in this
+repo. <code>APPLY.md</code> §6 discloses it. The same deviation applies
+to <code>APPLY.md</code>, this file, and the 19 prepared carriers plus
+the insert block, exactly as INVENTORY.md §1 disclosed for itself.</td>
+</tr>
+<tr>
+<td>R8</td>
+<td>The pointers are unenforced decoration</td>
+<td>The gates that would check them
+(<code>scripts/verify-governance-cascade.sh</code>,
+<code>scripts/verify-all-constitution-rules.sh</code>,
+<code>tests/test_constitution_inheritance.sh</code>) do not exist —
+INVENTORY.md G3/G5. §11.4.32 (<code>Constitution.md:2079-2082</code>):
+“Without it, new rules cascade as anchors but never get enforced in the
+codebase.”</td>
+<td><strong>Not mitigated by design</strong> — this task prepares
+propagation only. <code>APPLY.md</code> §6 states it.</td>
+</tr>
+<tr>
+<td>R9</td>
+<td>Submodule carriers alone do not close G1/G2</td>
+<td>The 175 <code>CM-COVENANT-114-N-PROPAGATION</code> gates check
+<code>CLAUDE.md</code> / <code>AGENTS.md</code> “across the project”
+(§11.4.35 invariant 5), and the umbrella root still has none
+(INVENTORY.md §6.1, §6.4)</td>
+<td><code>APPLY.md</code> §6 states it. The umbrella-root carriers of
+INVENTORY.md §7.1 are a separate change.</td>
+</tr>
+<tr>
+<td>R10</td>
+<td><code>vasic.digital</code> is a GitHub <strong>Pages</strong>
+repository — a push redeploys the live site</td>
+<td>Four new root-level <code>.md</code> files land in a published
+static site</td>
+<td>Flagged in <code>APPLY.md</code> §4.6. Whether Jekyll ignores or
+publishes them is <strong>unverified</strong> (§6).</td>
+</tr>
+<tr>
+<td>R12</td>
+<td>A staged carrier does not satisfy <code>is_pointer_carrier()</code>
+and therefore <em>adds</em> 17 MISSING verdicts instead of clearing
+any</td>
+<td>This is not hypothetical: it is exactly what Revision 1 of this
+directory did (§0). A carrier that looks like a pointer to a human — a
+blockquote, a differently-worded H2 — is invisible to the predicate,
+which matches only a line-anchored, non-fenced
+<code>## INHERITED FROM</code> heading at column zero</td>
+<td><strong>Mitigated and measured.</strong> Every carrier now opens
+with that heading; <code>APPLY.md</code> §5 check 5 runs the real
+predicate over every applied file, and check 6 re-runs all 17 gates and
+prints the fleet MISSING count. <a
+href="PROOF.md"><code>PROOF.md</code></a> records the before/after with
+a control run on the uncorrected files.</td>
+</tr>
+<tr>
+<td>R11</td>
+<td><code>vasic.digital</code> has a commit wrapper and the constitution
+forbids bypassing it</td>
+<td><code>AGENTS.project.md.template</code>: “<strong>Use the project’s
+commit wrapper.</strong> No direct <code>git add</code> /
+<code>git commit</code> / <code>git push</code> on main repo.” The
+tracked script <code>vasic.digital/commit</code> exists.</td>
+<td><code>APPLY.md</code> §4.6 gives the wrapper form first and the
+plain-git form as a labelled fallback, and states the wrapper’s
+internals were not executed or line-read.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="honesty-flags-in-the-prepared-text">5. Honesty flags in the
+prepared text</h2>
+<ul>
+<li><strong><code>ai_interviewing</code> and the decoupling
+sentence.</strong> The reference CLAUDE.md form ends “This module stays
+fully decoupled and reusable per the Helix Constitution’s §11.4.28 …
+<strong>No project-specific context is injected here.</strong>”
+Reproduced verbatim into <code>ai_interviewing</code>, that last
+sentence is contradicted by that module’s own <code>README.md</code>,
+which opens “<strong>Interview-preparation corpus and employer
+due-diligence</strong> for the CauseMatch <em>Senior Full-Stack
+Engineer, Agent-Native Development</em> position — built for the
+candidate at <a href="https://milosvasic.ru">milosvasic.ru</a> (Miloš
+Vasić)”. Naming a specific employer and a specific consuming site is
+precisely the “project-specific context” §11.4.28(B) forbids. Revision 1
+kept the sentence for exact fidelity to the reference form and left the
+operator to accept or delete it. <strong>Revision 2 removed it</strong>,
+replacing it with a claim about the carrier itself, which is verifiable
+and was verified: <em>“This file therefore hardcodes no parent-project
+path and no depth-dependent path, keeping the module project-not-aware,
+decoupled and reusable per §11.4.28(B).”</em> That is a statement about
+the file the operator is committing — checked by <code>APPLY.md</code>
+§5 check 2, which greps every carrier for the umbrella layout string and
+finds none in any of the 20. No carrier now asserts anything about the
+<em>module’s</em> content, which this pass did not audit (§6). Whether
+<code>ai_interviewing</code>’s README is itself §11.4.28(B)-compliant
+remains an open, separate remediation item — it is simply no longer
+pre-judged by a sentence in the carrier.</li>
+<li><strong>INVENTORY.md §6.2/§7.3 needs a correction.</strong> It
+presents <code>milosvasic.ru/Upstreamable/{AGENTS,CLAUDE}.md</code> as
+<code>milosvasic.ru</code>’s files. They are tracked by a
+<strong>different repository</strong>, <code>red-elf/Upstreamable</code>
+(<code>milosvasic.ru/.gitmodules</code>, gitlink
+<code>94f9831b8aa0a1d4df23671d2e4600886aad0dcf</code>).
+<code>milosvasic.ru</code> itself tracks <strong>zero</strong>
+agent-instruction files. The reference <em>form</em> is still valid and
+is what this propagation reproduces; only the attribution is wrong.
+<code>APPLY.md</code> §2.1 records this. This file does not modify
+INVENTORY.md.</li>
+<li><strong>Four carriers, not two, and not five.</strong> The reference
+implementation ships <code>AGENTS.md</code> + <code>CLAUDE.md</code>
+only. This propagation prepares four, adding <code>QWEN.md</code> and
+<code>GEMINI.md</code> per §11.4.157 and INVENTORY.md §7.3. The fifth
+carrier (<code>Constitution.md</code>) is deliberately
+<strong>not</strong> prepared: whether a project-unaware owned submodule
+must carry its own <code>Constitution.md</code> is <strong>not
+specified</strong> in <code>submodules/constitution/templates/</code>,
+in README “How to consume”, or in §11.4.28. The only Constitution
+template that ships is a <em>project</em> scaffold requiring
+<code>## Owned-submodule set</code> and
+<code>## Project-specific remotes</code>.</li>
+<li><strong><code>QWEN.md</code> and <code>GEMINI.md</code> forms are
+derived, not quoted.</strong>
+<code>submodules/constitution/templates/</code> contains exactly three
+files — <code>AGENTS.project.md.template</code>,
+<code>CLAUDE.project.md.template</code>,
+<code>Constitution.project.md.template</code>. There is
+<strong>no</strong> <code>QWEN.project.md.template</code> and
+<strong>no</strong> <code>GEMINI.project.md.template</code>
+(INVENTORY.md records this as gap G7b). The QWEN form is the README’s
+own instruction (“Same for <code>AGENTS.md</code> … and (since
+2026-05-20) <code>QWEN.md</code> for Qwen Code:” + the blockquote)
+applied to the conditional wording. The GEMINI form is derived from
+§11.4.157’s first-class-carrier mandate;
+<code>submodules/constitution/GEMINI.md</code> does prescribe a consumer
+pointer, but as an unconditional
+<code>## INHERITED FROM constitution/GEMINI.md</code> heading and with
+<strong>SHOULD</strong>, not MUST (“the project’s repo-root carrier
+SHOULD start with a clearly-marked inheritance pointer”) — and its
+unconditional wording is unusable in a project-unaware module. Where the
+constitution specifies nothing, this document says “not specified”
+rather than inventing a convention.</li>
+</ul>
+<h2 id="not-verified">6. Not verified</h2>
+<p>Each item states what would settle it. None of these was guessed at
+above.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Why unverified</th>
+<th>What would verify it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Whether <code>milosvasic.ru</code>’s three URLs
+(<code>milosvasic.ru</code> on GitHub, <code>milosvasic.net.v2</code> on
+GitHub, <code>milosvasic-net-v-2</code> on GitFlic) are mirrors of one
+repository</td>
+<td>Requires network access; <code>git fetch</code> /
+<code>ls-remote</code> was forbidden</td>
+<td><code>git -C milosvasic.ru ls-remote git@github.com:milos85vasic/milosvasic.ru.git</code>
+compared against the two push URLs, or an operator statement</td>
+</tr>
+<tr>
+<td>Whether each push URL is reachable and the credentials current</td>
+<td>No network operation was run</td>
+<td><code>git -C &lt;sub&gt; ls-remote &lt;url&gt;</code> per URL,
+before committing anything</td>
+</tr>
+<tr>
+<td>Whether the four new root <code>.md</code> files would be published
+by <code>vasic.digital</code>’s GitHub Pages build</td>
+<td>Requires reading and reasoning about the site’s build configuration,
+and ultimately a deploy</td>
+<td>Inspect <code>vasic.digital</code> for <code>_config.yml</code> /
+<code>.nojekyll</code> and its exclude list; or push to a branch and
+preview</td>
+</tr>
+<tr>
+<td>What <code>vasic.digital/commit</code> actually does (stages all?
+pushes? which remotes?)</td>
+<td>The script was not executed and was not read line-by-line</td>
+<td><code>cat vasic.digital/commit</code> and dry-run it in a scratch
+clone</td>
+</tr>
+<tr>
+<td>Whether <code>WangX0111</code> is genuinely external to the
+operator</td>
+<td>Inferred from the org not matching any of <code>milos85vasic</code>
+/ <code>vasic-digital</code> / <code>HelixDevelopment</code></td>
+<td>Operator confirmation, or
+<code>gh repo view WangX0111/superspec</code></td>
+</tr>
+<tr>
+<td>Whether the five submodules’ <em>content</em> is otherwise
+§11.4.28(B)-compliant (beyond the <code>ai_interviewing</code> README
+flagged in §5)</td>
+<td>This pass surveyed carriers and remotes, not the 3,156 tracked files
+across the five modules for project-coupling</td>
+<td>A §11.4.28(B) audit per module — out of scope here</td>
+</tr>
+<tr>
+<td>Whether the constitution submodule pointer is current relative to
+its upstream</td>
+<td><code>git fetch</code> was forbidden</td>
+<td><code>git -C submodules/constitution fetch --all &amp;&amp; git -C submodules/constitution log --oneline HEAD..origin/main</code>
+(INVENTORY.md §10 records the same item)</td>
+</tr>
+<tr>
+<td><del>Whether applying this would make any existing gate pass</del> —
+<strong>verified 2026-08-27; the answer is no</strong></td>
+<td>Superseded: <code>scripts/verify-all-constitution-rules.sh</code>
+and the 17 <code>cm_covenant_114_*_propagation.sh</code> gates now exist
+and were run. Applying this propagation leaves all 17 FAILing, held by
+four third-party carriers; what it changes is the MISSING count, 85 →
+68, and the MISSING-carrier count, 5 → 4</td>
+<td>Done — <a href="PROOF.md"><code>PROOF.md</code></a>; re-runnable at
+any time with <code>APPLY.md</code> §5 check 6</td>
+</tr>
+<tr>
+<td>Whether the constitution’s own nested submodules
+(<code>anti_bluff</code>, <code>continuum</code>,
+<code>session_orchestrator</code>, <code>token_optimizer</code>, its
+<code>design-toolkit</code>, …) need the same treatment</td>
+<td>Out of scope — this task named the 5 umbrella-owned submodules.
+INVENTORY.md §7.3 lists them as targets</td>
+<td>A separate decision; each such commit would push through
+<code>submodules/constitution</code>‘s 6-URL fan-out or those modules’
+own remotes</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

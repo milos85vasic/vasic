@@ -3,10 +3,10 @@
 **Subject:** Did the ollama `NaN` embedding fault corrupt the Lumen semantic index for this project?
 
 **Database:** `~/.local/share/lumen/21bf1507a8925bcf/index.db` (101,474,304 bytes)
-**Project:** `/run/media/milosvasic/DATA4TB/Projects/vasic`
+**Project:** `<ext-volume-host>/Projects/vasic`
 **Investigated:** 2026-08-26, 23:19–23:31 (+02:00)
 **Method:** read-only forensic inspection. Every connection was opened as
-`sqlite3.connect("file:/home/milosvasic/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro", uri=True)`
+`sqlite3.connect("file:<home>/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro", uri=True)`
 with `PRAGMA busy_timeout`. No write was ever issued; no `lumen` subcommand was run.
 A concurrent `lumen index` process was writing to the DB throughout.
 
@@ -148,7 +148,7 @@ SELECT key, value FROM project_meta ORDER BY key;
 
 | key | snapshot 1 (23:21:21) | snapshot 2 (23:27:47) |
 | --- | --- | --- |
-| `project_path` | `/run/media/milosvasic/DATA4TB/Projects/vasic` | *(same)* |
+| `project_path` | `<ext-volume-host>/Projects/vasic` | *(same)* |
 | `embedding_model` | `ordis/jina-embeddings-v2-base-code` | *(same)* |
 | `vec_dimensions` | `768` | *(same)* |
 | `total_files` | `3835` | `3833` |
@@ -384,7 +384,7 @@ Plus one unrelated backend failure on 2026-08-26T22:34:17:
 grep -c '"msg":"indexing complete"' ~/.local/share/lumen/debug.log   # 39 (all other projects)
 ```
 
-Filtering the log to `"project":"/run/media/milosvasic/DATA4TB/Projects/vasic"` yields
+Filtering the log to `"project":"<ext-volume-host>/Projects/vasic"` yields
 **7 `indexing started`, 6 `indexing failed`, and 0 successful `indexing complete`**. The only
 `indexing complete` for this project is the 23:25:19 cancellation record, which reports
 `indexed_files: 0, chunks_created: 0, elapsed: 13m56s` and an empty `new_root_hash`.
@@ -402,7 +402,7 @@ POST http://localhost:11434/api/embed   -> HTTP 200, 768 finite floats, no NaN
 
 ## 5. Coverage vs the working tree — two snapshots
 
-A `lumen index /run/media/milosvasic/DATA4TB/Projects/vasic` process was writing to the DB
+A `lumen index <ext-volume-host>/Projects/vasic` process was writing to the DB
 throughout. Both snapshots were taken read-only, in place.
 
 ### Snapshot deltas
@@ -666,7 +666,7 @@ _content_ko/docs/cv.md
 Run on a read-only URI connection:
 
 ```python
-con = sqlite3.connect("file:/home/milosvasic/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro",
+con = sqlite3.connect("file:<home>/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro",
                       uri=True, timeout=300)
 con.execute("PRAGMA busy_timeout=300000")
 for r in con.execute("PRAGMA integrity_check"): print(r[0])
@@ -716,7 +716,7 @@ Executed at 2026-08-26T23:22:18+02:00 while `lumen index` was actively writing; 
 6. **Watch for a recurrence.** ollama is healthy now, but the fault was intermittent for five
    weeks. Confirm completion with:
    ```bash
-   grep '"project":"/run/media/milosvasic/DATA4TB/Projects/vasic"' ~/.local/share/lumen/debug.log \
+   grep '"project":"<ext-volume-host>/Projects/vasic"' ~/.local/share/lumen/debug.log \
      | grep '"msg":"indexing complete"'
    ```
    A genuine completion reports non-zero `indexed_files` and `chunks_created`.
@@ -745,7 +745,7 @@ Every figure above comes from one of these, all read-only:
 
 ```python
 import sqlite3, numpy as np
-DB = "file:/home/milosvasic/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro"
+DB = "file:<home>/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro"
 con = sqlite3.connect(DB, uri=True, timeout=120)
 con.execute("PRAGMA busy_timeout=120000")
 ```

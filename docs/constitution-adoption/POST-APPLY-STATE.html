@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>POST-APPLY-STATE</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">POST-APPLY-STATE</h1>
+</header>
+<h1 id="post-apply-state-what-is-now-measured">Post-apply state — what
+is now MEASURED</h1>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Revision</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Created</td>
+<td>2026-08-27</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>active</td>
+</tr>
+<tr>
+<td>Status summary</td>
+<td>The constitution propagation described in <a
+href="propagation/APPLY.md"><code>propagation/APPLY.md</code></a> has
+been applied and pushed to five owned submodules. This document replaces
+the projections in <a
+href="propagation/PROOF.md"><code>propagation/PROOF.md</code></a> §7
+with measurements taken against the live tree. Sweep verdict is
+unchanged (37 PASS / 21 FAIL / 0 ERROR, exit 1) and that is the correct
+outcome; the <em>inside</em> of the propagation gates moved as
+predicted. Two previously projected effects are settled: one
+materialised, one did <strong>not</strong>.</td>
+</tr>
+<tr>
+<td>Constitution HEAD</td>
+<td><code>448981ae3498229c734dc60719f4b19f01d7a75f</code></td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>Read-only measurement. No submodule working tree was written to. No
+mutating git command was run. No gate, script, test,
+<code>Constitution.md</code>, <code>helix-deps.yaml</code> or root
+carrier was modified. The only file created is this one.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>§11.4.65 disclosure.</strong> This document ships without its
+<code>.html</code> and <code>.pdf</code> siblings — the same known,
+disclosed deviation <code>INVENTORY.md</code> records as gap
+<strong>G8</strong> and <code>RISKS.md</code> records as R7 for this
+whole directory.</p>
+</blockquote>
+<hr />
+<h2 id="the-sweep-before-and-after">1. The sweep — before and after</h2>
+<p>Command, verbatim:</p>
+<pre><code>$ bash scripts/verify-all-constitution-rules.sh ; echo &quot;EXIT=$?&quot;
+EXIT=1</code></pre>
+<p>Summary block, verbatim from the post-apply run:</p>
+<pre><code>======================================================================
+SUMMARY
+======================================================================
+gates run           : 58
+  PASS              : 37
+  FAIL   (rc=1)     : 21
+  ERROR  (rc!=0,1)  : 0
+§11.4.32 step 1     : skip
+
+FAILED:
+  ❌ cm_continuum_resume_engine_present.sh
+  ❌ cm_covenant_114_162_propagation.sh
+  ❌ cm_covenant_114_167_propagation.sh
+  ❌ cm_covenant_114_176_propagation.sh
+  ❌ cm_covenant_114_187_propagation.sh
+  ❌ cm_covenant_114_191_propagation.sh
+  ❌ cm_covenant_114_196_propagation.sh
+  ❌ cm_covenant_114_199_propagation.sh
+  ❌ cm_covenant_114_200_propagation.sh
+  ❌ cm_covenant_114_201_propagation.sh
+  ❌ cm_covenant_114_202_propagation.sh
+  ❌ cm_covenant_114_207_propagation.sh
+  ❌ cm_covenant_114_213_propagation.sh
+  ❌ cm_covenant_114_230_propagation.sh
+  ❌ cm_covenant_114_231_propagation.sh
+  ❌ cm_covenant_114_232_propagation.sh
+  ❌ cm_covenant_114_233_propagation.sh
+  ❌ cm_covenant_114_235_propagation.sh
+  ❌ cm_gate_ledger_ratchet.sh
+  ❌ cm_track_branch_label_mutation_test.sh
+  ❌ cm_track_branch_label.sh
+
+======================================================================
+❌ SWEEP: FAIL — 21 FAIL + 0 ERROR out of 58 gate(s).</code></pre>
+<h3 id="verdict-split-unchanged.-gate-internals-moved.">1.1 Verdict
+split: unchanged. Gate internals: moved.</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Before (GATE-TRIAGE §5)</th>
+<th>After (this run)</th>
+<th>Δ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gates run</td>
+<td>58</td>
+<td>58</td>
+<td>—</td>
+</tr>
+<tr>
+<td>PASS</td>
+<td>37</td>
+<td>37</td>
+<td>—</td>
+</tr>
+<tr>
+<td>FAIL (rc=1)</td>
+<td>21</td>
+<td>21</td>
+<td>—</td>
+</tr>
+<tr>
+<td>ERROR (rc≠0,1)</td>
+<td>0</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td>sweep exit code</td>
+<td>1</td>
+<td><strong>1</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>failing gate <strong>set</strong></td>
+<td>21 names</td>
+<td><strong>the same 21 names</strong></td>
+<td>identical</td>
+</tr>
+<tr>
+<td><code>❌ MISSING</code> lines across the 17 propagation gates</td>
+<td>85</td>
+<td><strong>68</strong></td>
+<td><strong>−17</strong></td>
+</tr>
+<tr>
+<td>distinct MISSING carriers</td>
+<td>5</td>
+<td><strong>4</strong></td>
+<td><strong>−1</strong></td>
+</tr>
+<tr>
+<td><code>POINTER-INHERITANCE-SKIP</code> per gate</td>
+<td>11</td>
+<td><strong>31</strong></td>
+<td><strong>+20</strong></td>
+</tr>
+<tr>
+<td><code>POINTER-INHERITANCE-SKIP</code> lines in the run (incl. 17
+summary lines)</td>
+<td>204 + 17</td>
+<td><strong>544</strong></td>
+<td>+323</td>
+</tr>
+<tr>
+<td><code>DIVERGENT</code> (the 5 fence-aware gates)</td>
+<td>0</td>
+<td><strong>0</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Measured:</p>
+<pre><code>$ grep -c &quot;❌ MISSING&quot; &lt;post-apply sweep&gt;
+68
+$ grep &quot;❌ MISSING&quot; &lt;post-apply sweep&gt; | sed &#39;s/.*MISSING *//; s/  *—.*//&#39; | sort | uniq -c
+     17 milosvasic.ru/Upstreamable/AGENTS.md
+     17 milosvasic.ru/Upstreamable/CLAUDE.md
+     17 .specify/extensions/superspec/examples/static-landing-page/CLAUDE.md
+     17 submodules/superspec/examples/static-landing-page/CLAUDE.md</code></pre>
+<p>Every one of the 17 gates now reports the identical shape:</p>
+<pre><code>CM-COVENANT-114-162-PROPAGATION: 4 PRESENT, 31 POINTER-INHERITANCE-SKIP, 4 MISSING (anchor 11.4.162)
+CM-COVENANT-114-230-PROPAGATION: 4 single-block-PRESENT, 31 POINTER-INHERITANCE-SKIP, 4 MISSING/DUPLICATED, 0 DIVERGENT</code></pre>
+<p><strong>Explanation of the non-change.</strong> The verdict split
+<em>could not</em> have improved. <code>GATE-TRIAGE.md</code> §3.1
+states the arithmetic that decides rows 1–17: each of the 17 gates was
+held FAIL by five carriers at once, one owned (category b) and four
+third-party (category c). The apply cleared the one owned carrier. Four
+category-(c) carriers remain, so all 17 gates still exit 1. Rows 18–21
+live inside <code>submodules/constitution</code> and were never in the
+apply’s scope. The correct success signal here is the <strong>−17
+MISSING lines / −1 carrier / +20 SKIP</strong> movement inside the
+gates, not the summary line — and <code>PROOF.md</code> §7 said so in
+advance (“It does not show the gates go green. They do not.”).</p>
+<p><code>31 = 11 + 20</code>: the 11 pre-existing pointer carriers (4
+repository-root carriers + 3 <code>docs_chain</code> + 4
+<code>helix_perf_cache</code>) plus the 20 newly applied ones (5
+submodules × 4 carriers).
+<code>544 = 17 gates × (31 skip lines + 1 summary line)</code>. No
+carrier is double-counted and none is missing.</p>
+<h3 id="nothing-regressed">1.2 Nothing regressed</h3>
+<ul>
+<li>The failing set is name-for-name the set recorded in
+<code>GATE-TRIAGE.md</code> §3. No gate that previously passed now
+fails.</li>
+<li><code>0 DIVERGENT</code> still holds on all five fence-aware gates:
+no carrier holds a corrupted or duplicated anchor block. The 20 new
+files introduced no divergence.</li>
+<li><code>pointer_carrier.sh --selftest</code> →
+<code>PASS (5/5)</code>, including both decoys. The instrument that
+produced the +20 is not blind (§11.4.201(7)(b)).</li>
+<li><code>tests/test_constitution_inheritance.sh</code> →
+<code>CM-CONSTITUTION-INHERITANCE: 8 PASS, 0 SKIP, 0 FAIL</code>.</li>
+</ul>
+<h3 id="constitution.md-known-excluded-gate-findings-is-now-stale">1.3
+<code>Constitution.md</code> § “Known-excluded gate findings” is now
+stale</h3>
+<p>Not corrected here — that file is out of this task’s scope — but
+recorded so a reader does not act on it:</p>
+<ul>
+<li>Section A still lists <strong>five</strong> carriers and
+<strong>85</strong> MISSING lines. Both numbers are now wrong:
+<strong>four</strong> and <strong>68</strong>.</li>
+<li>The <code>vasic.digital/QWEN.md</code> row still says “the fix
+<strong>is staged</strong> at
+<code>docs/constitution-adoption/propagation/vasic.digital/QWEN.insert-block.md</code>
+and awaits operator application”. It has been applied and pushed
+(<code>vasic.digital</code> HEAD <code>6e5411c</code>). That row should
+be struck, leaving section A with four third-party rows and <strong>zero
+owned-repository gaps</strong>.</li>
+</ul>
+<hr />
+<h2
+id="the-design-toolkit-two-parent-question-settled-it-did-not-materialise">2.
+The <code>design-toolkit</code> two-parent question — SETTLED: it did
+<strong>not</strong> materialise</h2>
+<p><code>PROOF.md</code> §7 projected: “after a commit + push +
+submodule update its four carriers would appear at a <em>second</em>
+path (<code>submodules/constitution/submodules/design-toolkit/</code>) …
+the count of SKIP lines would grow by 4 × 17. This is projected, not
+measured.”</p>
+<p><strong>Measured: the second path shows nothing at all.</strong> The
+gates emit exactly 31 SKIP lines, not 35.
+<code>submodules/constitution/submodules/design-toolkit</code> appears
+in <strong>no</strong> gate output — not as PRESENT, not as SKIP, not as
+MISSING.</p>
+<h3 id="why-two-independent-git-object-stores-not-one-working-tree">2.1
+Why — two independent git object stores, not one working tree</h3>
+<p><code>design-toolkit</code> is a gitlink of both parents at the same
+URL:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parent</th>
+<th><code>.gitmodules</code> path</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>umbrella (<code>vasic</code>)</td>
+<td><code>design-toolkit</code></td>
+<td><code>git@github.com:vasic-digital/design-toolkit.git</code></td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td><code>submodules/design-toolkit</code></td>
+<td><code>git@github.com:vasic-digital/design-toolkit.git</code></td>
+</tr>
+</tbody>
+</table>
+<p>But the two checkouts have <strong>separate git
+directories</strong>:</p>
+<pre><code>$ cat design-toolkit/.git
+gitdir: ../.git/modules/design-toolkit
+
+$ cat submodules/constitution/submodules/design-toolkit/.git
+gitdir: ../../../../.git/modules/submodules/constitution/modules/design-toolkit</code></pre>
+<p>A commit made in one is invisible to the other until the other’s
+parent bumps its gitlink and runs <code>submodule update</code>. Nothing
+propagates automatically. The projection’s premise (“after a commit +
+push + submodule update”) named the third step, and that third step has
+not been taken.</p>
+<h3 id="the-measured-divergence">2.2 The measured divergence</h3>
+<pre><code>$ git -C design-toolkit log --oneline -2
+efd2c3f Add constitution pointer carriers (AGENTS/CLAUDE/QWEN/GEMINI)
+725e456 cascade: feat(002): anti-slop spec — credential-seam sanitisation + 2 scanner findings
+
+$ git -C submodules/constitution/submodules/design-toolkit log --oneline -2
+16e4e76 feat(proposed): OpenDesign Learning Kit — reusable, decoupled component pack
+520c436 feat(§11.4.162): brand-hue anchoring + HelixQA token bank + hybrid-pipeline guide</code></pre>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Path</th>
+<th>HEAD</th>
+<th><code>describe</code></th>
+<th>Recorded gitlink</th>
+<th>Dirty?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>design-toolkit</code> (umbrella)</td>
+<td><code>efd2c3fb2f88…</code></td>
+<td><code>v0.2.2-6-gefd2c3f</code></td>
+<td>umbrella records <code>efd2c3fb2f88…</code></td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>submodules/constitution/submodules/design-toolkit</code></td>
+<td><code>16e4e76d57ab…</code></td>
+<td><code>v0.2.2-4-g16e4e76</code></td>
+<td>constitution records <code>16e4e76d57ab…</code></td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<pre><code>$ git ls-tree HEAD design-toolkit
+160000 commit efd2c3fb2f880aaf2baf7f4819ce28a1ce3609cb  design-toolkit
+
+$ git -C submodules/constitution ls-tree HEAD submodules/design-toolkit
+160000 commit 16e4e76d57ab61b5f3b46fae3372b2e6d6cc73e3  submodules/design-toolkit</code></pre>
+<h3 id="answers-to-the-three-questions-asked">2.3 Answers to the three
+questions asked</h3>
+<ol type="1">
+<li><p><strong>Has the nested checkout also picked up the
+carriers?</strong> <strong>No.</strong>
+<code>submodules/constitution/submodules/design-toolkit/</code> exists
+and is fully populated (agents, docs, evidence, generators, knowledge,
+mcp, proposed, qa, submodules, <code>README.md</code>) but contains
+<strong>zero</strong> of <code>AGENTS.md</code>, <code>CLAUDE.md</code>,
+<code>QWEN.md</code>, <code>GEMINI.md</code>. Its HEAD
+<code>16e4e76</code> predates the carrier commit <code>efd2c3f</code> by
+two commits.</p></li>
+<li><p><strong>Is the constitution’s own gitlink for it now
+stale?</strong> <strong>Yes — stale by exactly two commits</strong>, but
+<em>consistently</em> stale: the constitution’s recorded gitlink
+(<code>16e4e76</code>) and its checked-out HEAD agree, so
+<code>git -C submodules/constitution submodule status</code> shows no
+<code>+</code> marker and the constitution’s working tree is clean with
+respect to it. The staleness is relative to the
+<code>design-toolkit</code> remote, which now carries
+<code>efd2c3f</code> (pushed; 0 unpushed commits). Two commits behind:
+<code>725e456</code> (cascade / anti-slop spec) and <code>efd2c3f</code>
+(the carriers).</p></li>
+<li><p><strong>What do the propagation gates see at each
+path?</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Path</th>
+<th>Carriers discovered</th>
+<th>Gate verdict lines</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>design-toolkit/{AGENTS,CLAUDE,GEMINI,QWEN}.md</code></td>
+<td>4</td>
+<td>4 ×
+<code>⏭ POINTER-INHERITANCE-SKIP … §11.4.35 pointer consumer</code> per
+gate (68 lines across 17 gates)</td>
+</tr>
+<tr>
+<td><code>submodules/constitution/submodules/design-toolkit/</code></td>
+<td><strong>0</strong></td>
+<td><strong>no lines emitted at all</strong></td>
+</tr>
+</tbody>
+</table>
+<p>A directory with no carrier filenames contributes nothing to any of
+the three buckets. This is why the nested path is not merely “not SKIP”
+— it is entirely absent from the output.</p></li>
+</ol>
+<h3 id="what-happens-if-the-operator-does-bump-it">2.4 What happens if
+the operator does bump it</h3>
+<p>If <code>submodules/constitution</code> bumps
+<code>submodules/design-toolkit</code> to <code>efd2c3f</code> and runs
+<code>submodule update</code>, the four carriers appear at the second
+path. They are byte-identical files and
+<code>is_pointer_carrier()</code> is path-independent (it reads only the
+file’s own text for a non-fenced, line-anchored
+<code>## INHERITED FROM</code> heading), so they would be scored
+<code>POINTER-INHERITANCE-SKIP</code> there too:</p>
+<ul>
+<li>SKIP per gate: 31 → 35; SKIP lines in the sweep: 544 → 612.</li>
+<li>MISSING lines: <strong>68, unchanged</strong>. Distinct MISSING
+carriers: <strong>4, unchanged</strong>.</li>
+<li>Failing gate count: <strong>21, unchanged</strong>.</li>
+</ul>
+<p>So <code>PROOF.md</code>’s <em>direction</em> was right (the second
+copy costs nothing and adds +4 × 17 SKIP lines) but its
+<em>mechanism</em> was wrong: the effect is not automatic, it requires a
+deliberate gitlink bump inside <code>submodules/constitution</code>,
+whose push fan-out is the 6-URL one recorded in
+<code>GATE-TRIAGE.md</code> §6.4. <strong>The cheapest honest reading
+today is: the two-parent effect is latent, not live.</strong></p>
+<h3
+id="git-submodule-status---recursive-the-known-failure-worked-around">2.5
+<code>git submodule status --recursive</code> — the known failure,
+worked around</h3>
+<p>Reproduced, not fought:</p>
+<pre><code>$ git submodule status --recursive
+ ed73d855… ai_interviewing (heads/main)
+ efd2c3fb… design-toolkit (v0.2.2-6-gefd2c3f)
+ 66c8d607… milosvasic.ru (v1.8.0-6-g66c8d60)
+ 94f9831b… milosvasic.ru/Upstreamable (heads/main)
+fatal: no submodule mapping found in .gitmodules for path &#39;Upstreamable&#39;
+fatal: failed to recurse into submodule &#39;Upstreamable&#39;
+fatal: failed to recurse into submodule &#39;milosvasic.ru&#39;
+rc=128</code></pre>
+<p>Root cause, measured:
+<code>milosvasic.ru/Upstreamable/.gitmodules</code> is <strong>0
+bytes</strong>, yet the <code>Upstreamable</code> repository records a
+gitlink <em>at its own root, named after itself</em>:</p>
+<pre><code>$ git -C milosvasic.ru/Upstreamable ls-files -s | awk &#39;$1==&quot;160000&quot;&#39;
+160000 3da17555b83ea647f5e602e5e6ee3ba4308d5f8f 0   Upstreamable</code></pre>
+<p><code>3da1755</code> is <code>Upstreamable</code>’s own parent
+commit. A self-referential gitlink with no <code>.gitmodules</code>
+mapping is unresolvable by design, and it aborts the whole recursion —
+which is why the traversal never reaches
+<code>submodules/constitution</code>’s children.</p>
+<p><strong>Workaround used</strong> (non-recursive, one level at a time
+— read-only, complete):</p>
+<pre><code>$ git submodule status                       # 7 top-level entries, all in sync (no &#39;+&#39;)
+$ for s in &lt;each&gt;; do git -C &quot;$s&quot; submodule status; done</code></pre>
+<p>which yields the constitution’s children including the design-toolkit
+row:</p>
+<pre><code> 16e4e76d57ab61b5f3b46fae3372b2e6d6cc73e3 submodules/design-toolkit (v0.2.2-4-g16e4e76)</code></pre>
+<p>Top-level <code>git submodule status</code> shows <strong>no
+<code>+</code> prefix on any entry</strong>: every gitlink the umbrella
+records matches the checked-out HEAD, i.e. the five carrier commits are
+committed at the umbrella level, not left dangling.</p>
+<hr />
+<h2 id="the-remaining-4-missing-carriers-confirmed-and-adjudicated">3.
+The remaining 4 MISSING carriers — confirmed and adjudicated</h2>
+<p>Confirmed <strong>exactly</strong> as anticipated. Each appears 17
+times (once per gate), 17 × 4 = 68, no fifth carrier anywhere in the
+run.</p>
+<h3 id="milosvasic.ruupstreamableagents.md-and-...claude.md">3.1
+<code>milosvasic.ru/Upstreamable/AGENTS.md</code> and
+<code>.../CLAUDE.md</code></h3>
+<ul>
+<li><strong>Owning repository:</strong>
+<code>red-elf/Upstreamable</code>.
+<code>milosvasic.ru/.gitmodules</code> maps it to
+<code>git@github.com:red-elf/Upstreamable.git</code>. Its own remotes
+are <code>github.com:red-elf/Upstreamable.git</code> and
+<code>gitflic.ru:red-elf/upstreamable.git</code> — the
+<code>red-elf</code> namespace, which is not among the namespaces this
+project pushes to (<code>vasic-digital</code>,
+<code>milos85vasic</code>, <code>milosvasic</code>,
+<code>HelixDevelopment</code> / <code>helixdevelopment</code>).</li>
+<li><strong>Can anything in a repo the user OWNS clear it? No.</strong>
+The files are two levels down: a gitlink of the
+<code>milosvasic.ru</code> submodule. Clearing them means committing
+into <code>red-elf/Upstreamable</code> and pushing to a repository this
+project neither owns nor has a push path to. The only owned lever is
+<code>milosvasic.ru</code>’s <strong>gitlink</strong>, and moving a
+gitlink cannot change the content of the commit it points at — it can
+only point at a <em>different</em> upstream commit, which would have to
+already contain the anchors, which no upstream commit does.</li>
+<li><strong>Aggravating factor:</strong> even a hypothetical upstream
+fix would land in a repo whose root carries a broken self-referential
+gitlink and a 0-byte <code>.gitmodules</code> (§2.5). Writing into it
+from here would be a fork, not a fix.</li>
+<li><strong>Category (c)</strong>, unchanged from
+<code>GATE-TRIAGE.md</code> §7.</li>
+</ul>
+<h3 id="submodulessuperspecexamplesstatic-landing-pageclaude.md">3.2
+<code>submodules/superspec/examples/static-landing-page/CLAUDE.md</code></h3>
+<ul>
+<li><p><strong>Owning repository:</strong>
+<code>WangX0111/superspec</code>
+(<code>git -C submodules/superspec remote -v</code> →
+<code>git@github.com:WangX0111/superspec.git</code>, fetch and push).
+Third-party, not the user’s.</p></li>
+<li><p><strong>What the file actually is</strong> — five lines,
+verbatim:</p>
+<pre><code>&lt;!-- SPECKIT START --&gt;
+For additional context about technologies to be used, project structure,
+shell commands, and other important information, read the current plan:
+specs/001-static-landing-page/plan.md
+&lt;!-- SPECKIT END --&gt;</code></pre>
+<p>A spec-kit demo fixture for an example landing page. It is not a
+governance carrier; it is only <em>named</em> like one, and the gates
+discover carriers by bare filename.</p></li>
+<li><p><strong>Can anything in a repo the user OWNS clear it?
+No.</strong> The write would have to land in
+<code>WangX0111/superspec</code>. The umbrella’s only lever is the
+gitlink, and no upstream <code>superspec</code> commit carries the 17
+anchors.</p></li>
+</ul>
+<h3
+id="specifyextensionssuperspecexamplesstatic-landing-pageclaude.md">3.3
+<code>.specify/extensions/superspec/examples/static-landing-page/CLAUDE.md</code></h3>
+<ul>
+<li><p><strong>Physically writable here.</strong>
+<code>git ls-files --error-unmatch</code> confirms the umbrella tracks
+it. It is byte-identical to §3.2:</p>
+<pre><code>80df9a6dcb0455736fc24e39963c64b17d3ebd0f571e441343558c416fc775a3  submodules/superspec/examples/static-landing-page/CLAUDE.md
+80df9a6dcb0455736fc24e39963c64b17d3ebd0f571e441343558c416fc775a3  .specify/extensions/superspec/examples/static-landing-page/CLAUDE.md</code></pre></li>
+<li><p><strong>Can a repo the user OWNS clear it? Physically yes,
+legitimately no — deliberately not written, and this document does not
+write it either.</strong> It is one file of a vendored third-party
+spec-kit extension pinned in <code>.specify/extensions/.registry</code>
+at <code>"version": "1.0.2"</code> with
+<code>"manifest_hash": "sha256:6e23ee6c18f9e05d077293c7cd3ab8aaa982f1b7e35996267dc32b51e5fc8e54"</code>.
+Injecting 17 constitution anchor blocks into a vendored demo fixture
+would fork the artifact from its upstream and invalidate the pinned
+manifest hash, in order to satisfy a gate that is misreading a demo file
+as a governance carrier. That trades a true FAIL for a false PASS plus a
+corrupted vendor pin. Recorded as a <strong>non-fix</strong>, not as an
+impossibility — exactly as <code>GATE-TRIAGE.md</code> §3.1 recorded
+it.</p></li>
+</ul>
+<h3 id="verdict-on-the-four">3.4 Verdict on the four</h3>
+<p><strong>Zero of the four can be cleared by any write into a
+repository the user owns.</strong> Two require a push to
+<code>red-elf</code>, one requires a push to <code>WangX0111</code>, and
+the fourth is a vendored byte-copy of the third whose only “fix” is a
+deliberate corruption of a pinned vendor artifact. The durable remedy
+for all four is the one <code>GATE-TRIAGE.md</code> §7 already names,
+upstream in the gate family per §11.4.26: the propagation gates prune
+only
+<code>node_modules|.git|out|build|dist|prebuilts|external|vendor|target</code>
+and treat every
+<code>CLAUDE.md</code>/<code>AGENTS.md</code>/<code>QWEN.md</code>/<code>GEMINI.md</code>
+under <code>--root</code> as an owned governance carrier. A third-party
+submodule tree and a vendored extension’s demo fixture are neither. Any
+in-repo workaround would be an allowlist.</p>
+<hr />
+<h2 id="did-the-applied-carriers-survive-yes-all-20">4. Did the applied
+carriers survive? — YES, all 20</h2>
+<h3 id="files-present-tracked-clean-committed-and-pushed">4.1 Files
+present, tracked, clean, committed and pushed</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Submodule</th>
+<th>HEAD</th>
+<th>carriers tracked</th>
+<th>carriers dirty</th>
+<th>unpushed commits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td><code>ed73d85</code> Add constitution pointer carriers
+(AGENTS/CLAUDE/QWEN/GEMINI)</td>
+<td>4/4</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td><code>efd2c3f</code> Add constitution pointer carriers
+(AGENTS/CLAUDE/QWEN/GEMINI)</td>
+<td>4/4</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td><code>66c8d60</code> Add constitution pointer carriers
+(AGENTS/CLAUDE/QWEN/GEMINI)</td>
+<td>4/4</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td><code>54ed7b0</code> Add constitution pointer carriers
+(AGENTS/CLAUDE/QWEN/GEMINI)</td>
+<td>4/4</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td><code>6e5411c</code> Add constitution pointer carriers
+(AGENTS/CLAUDE/GEMINI) + QWEN.md pointer block</td>
+<td>4/4</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>Sizes and line counts (three new 55-line carriers per module,
+<code>vasic.digital</code>’s <code>QWEN.md</code> being the pre-existing
+file with a block prepended):</p>
+<pre><code>ai_interviewing  AGENTS.md 2573B/55L  CLAUDE.md 2510B/55L  QWEN.md 2481B/55L  GEMINI.md 2492B/55L
+design-toolkit   AGENTS.md 2572B/55L  CLAUDE.md 2509B/55L  QWEN.md 2480B/55L  GEMINI.md 2491B/55L
+milosvasic.ru    AGENTS.md 2571B/55L  CLAUDE.md 2508B/55L  QWEN.md 2479B/55L  GEMINI.md 2490B/55L
+monetization     AGENTS.md 2570B/55L  CLAUDE.md 2507B/55L  QWEN.md 2478B/55L  GEMINI.md 2489B/55L
+vasic.digital    AGENTS.md 2571B/55L  CLAUDE.md 2508B/55L  QWEN.md 5069B/103L GEMINI.md 2490B/55L</code></pre>
+<p>The only dirty paths anywhere in the five are
+<code>milosvasic.ru/sitemap.xml</code> and
+<code>vasic.digital/sitemap.xml</code> — unrelated to this work, and
+neither is a carrier.</p>
+<h3 id="still-recognised-by-is_pointer_carrier">4.2 Still recognised by
+<code>is_pointer_carrier()</code></h3>
+<p>Sourced live from
+<code>submodules/constitution/scripts/gates/lib/pointer_carrier.sh</code>
+and run over all 20 files:</p>
+<pre><code>ai_interviewing/{AGENTS,CLAUDE,QWEN,GEMINI}.md    TRUE TRUE TRUE TRUE
+design-toolkit/{AGENTS,CLAUDE,QWEN,GEMINI}.md     TRUE TRUE TRUE TRUE
+milosvasic.ru/{AGENTS,CLAUDE,QWEN,GEMINI}.md      TRUE TRUE TRUE TRUE
+monetization/{AGENTS,CLAUDE,QWEN,GEMINI}.md       TRUE TRUE TRUE TRUE
+vasic.digital/{AGENTS,CLAUDE,QWEN,GEMINI}.md      TRUE TRUE TRUE TRUE</code></pre>
+<p><strong>20/20 TRUE.</strong> The predicate library’s own golden test,
+run unmodified:</p>
+<pre><code>$ bash submodules/constitution/scripts/gates/lib/pointer_carrier.sh --selftest
+PASS golden-good: real pointer consumer recognised
+PASS golden-bad: fenced-carrier heading correctly NOT recognised
+PASS negative: no-heading doc correctly NOT recognised
+PASS golden-bad-midline: mid-line backticked heading correctly NOT recognised
+PASS golden-bad-tilde: ~~~-fenced heading correctly NOT recognised
+pointer_carrier.sh selftest: PASS (5/5)
+rc=0</code></pre>
+<p>Independently corroborated by the sweep itself: each of the 17 gates
+prints all 20 files by name as
+<code>⏭ POINTER-INHERITANCE-SKIP</code>.</p>
+<h3
+id="vasic.digitalqwen.md-55-original-lines-intact-but-the-shape-is-not-the-one-proof.md-5-describes">4.3
+<code>vasic.digital/QWEN.md</code> — 55 original lines intact, but the
+shape is <strong>not</strong> the one <code>PROOF.md</code> §5
+describes</h3>
+<p><strong>Losslessness: confirmed, three independent ways.</strong></p>
+<pre><code>$ git -C vasic.digital show --numstat --format= HEAD
+55  0   AGENTS.md
+55  0   CLAUDE.md
+55  0   GEMINI.md
+48  0   QWEN.md</code></pre>
+<p>Zero deletions on <code>QWEN.md</code>; 48 lines inserted.</p>
+<pre><code>$ git -C vasic.digital show HEAD~1:QWEN.md &gt; orig      # 55 lines, 2754 bytes
+$ tail -n +49 vasic.digital/QWEN.md        &gt; tail      # current lines 49..103
+$ diff orig tail &amp;&amp; echo IDENTICAL
+IDENTICAL
+$ sha256sum orig tail
+3084a5b72a629af7dd9be9d7e97526ef13cc55b20d6e9baf3c818778c05c5b01  orig
+3084a5b72a629af7dd9be9d7e97526ef13cc55b20d6e9baf3c818778c05c5b01  tail</code></pre>
+<p>All 55 original lines are byte-identical, in order, with a matching
+SHA-256.</p>
+<p><strong>Deviation from the documented recipe — recorded, not
+corrected.</strong> <code>APPLY.md</code> §4.6’s recipe is
+<code>{ head -n 1 QWEN.md; echo; cat "$B"; tail -n +2 QWEN.md; }</code>
+and <code>PROOF.md</code> §5 records its result as:</p>
+<pre><code>first 3 lines:
+  # Vasic-Digital GitHub Pages Project
+  (blank)
+  ## INHERITED FROM constitution/QWEN.md
+&#39;## Project Overview&#39; now at line 52</code></pre>
+<p>What was actually applied is a <strong>pure prepend</strong>, not an
+insert-under-the-H1:</p>
+<pre><code>$ head -3 vasic.digital/QWEN.md
+## INHERITED FROM constitution/QWEN.md
+(blank)
+**The inheritance below is conditional. Both cases are stated; neither is
+
+$ grep -n &#39;^# Vasic-Digital GitHub Pages Project&#39; vasic.digital/QWEN.md
+49:# Vasic-Digital GitHub Pages Project
+$ grep -n &#39;^## Project Overview&#39; vasic.digital/QWEN.md
+51:## Project Overview</code></pre>
+<p>Consequences, stated plainly:</p>
+<ul>
+<li><strong>Gate impact: none.</strong>
+<code>is_pointer_carrier()</code> scans the whole file for a non-fenced,
+line-anchored <code>## INHERITED FROM</code> heading; both shapes
+satisfy it, and the file is scored <code>POINTER-INHERITANCE-SKIP</code>
+by all 17 gates.</li>
+<li><strong><code>CM-CANONICAL-ROOT-CLARITY</code> clause (a):</strong>
+the applied shape is <em>stronger</em> than the documented one — the
+pointer literally opens the file. (That gate is recommended but
+unimplemented; this is a reading of the anchor text, not a gate
+result.)</li>
+<li><strong>One cosmetic defect.</strong> There is <strong>no blank
+line</strong> between the inserted block’s last line (line 48,
+<code>weaken or override them.</code>) and the original H1 (line 49,
+<code># Vasic-Digital GitHub Pages Project</code>). CommonMark lets an
+ATX heading interrupt a paragraph, so it still renders as a heading; it
+is a style nit, not a correctness one. Left as-is — fixing it means
+writing into a submodule working tree and re-pushing a live GitHub Pages
+site.</li>
+<li><strong>Line-count note.</strong> <code>PROOF.md</code> §5 records
+“orig lines: 55 new lines: 104”; the live file measures
+<code>wc -l</code> 55 → 103. Both are right about different things: the
+file has <strong>no trailing newline</strong>, so it holds 56 physical
+lines (55 newlines) before and 104 after, i.e. <code>wc -l</code>
+reports 55 → 103. The substance — 48 inserted, 0 deleted — is
+unaffected.</li>
+</ul>
+<hr />
+<h2
+id="cm_opendesign_ui_system.sh-the-false-pass-still-false-now-quantified">5.
+<code>cm_opendesign_ui_system.sh</code> — the FALSE PASS, still false,
+now quantified</h2>
+<h3 id="it-still-falsely-passes">5.1 It still falsely passes</h3>
+<pre><code>$ bash submodules/constitution/scripts/gates/cm_opendesign_ui_system.sh --root .
+⏭️  SKIP CM-OPENDESIGN-UI-SYSTEM: no UI surface detected under /run/media/…/vasic
+    (no theme/token/visreg sources matched OD_*_GLOBS) — §11.4.3 SKIP-with-reason, not a fake PASS
+rc=0</code></pre>
+<p>and in the sweep:</p>
+<pre><code>PASS   rc=0        30ms  cm_opendesign_ui_system.sh   --root /run/media/…/vasic</code></pre>
+<p>The skip <strong>reason is factually false</strong>. The repository
+has a real UI surface — eight CSS files under
+<code>design-system/</code>:</p>
+<pre><code>design-system/brand-milosvasic/milosvasic.css
+design-system/brand-vasic-digital/vasic-digital.css
+design-system/components-extended.css
+design-system/fonts/fonts.css
+design-system/learning-kit/kit-tokens.css
+design-system/learning-kit/learning-kit.css
+design-system/motion/animations.css
+design-system/motion/overlays.css</code></pre>
+<h3 id="precisely-why-it-skips">5.2 Precisely why it skips</h3>
+<p>The gate’s binding,
+<code>submodules/constitution/scripts/gates/cm_opendesign_ui_system.sh</code>
+<strong>line 82</strong>:</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="va">OD_THEME_GLOBS</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${OD_THEME_GLOBS</span><span class="op">:-</span>src/theme/<span class="pp">*</span> src/styles/<span class="pp">*</span> styles/<span class="pp">*</span> theme/<span class="pp">*</span> themes/<span class="pp">*</span> ui/theme/<span class="pp">*</span> assets/theme/<span class="pp">*</span> <span class="pp">*</span>.theme.css tailwind.config.<span class="pp">*</span> tokens.css<span class="va">}</span><span class="st">&quot;</span></span></code></pre></div>
+<p>None of those patterns names <code>design-system/</code>. Lines 83–84
+(<code>OD_TOKEN_GLOBS</code>, <code>OD_VISREG_GLOBS</code>) miss for the
+same reason — and <code>OD_VISREG_GLOBS</code>’s <code>**/…</code>
+patterns cannot recurse at all, because <code>_expand()</code> (lines
+88–99) uses plain shell globbing with <code>globstar</code> unset. With
+all three lists empty, the no-UI-surface branch at <strong>lines
+107–111</strong> fires and <code>exit 0</code>.</p>
+<p>The umbrella never binds any <code>OD_*_GLOBS</code>:
+<code>scripts/verify-all-constitution-rules.sh</code> contains no
+<code>export</code>, no env-binding mechanism, and no <code>OD_</code>
+string anywhere. It invokes each gate as bare
+<code>bash "$g" $argv</code> (line 249), inheriting the ambient
+environment.</p>
+<h3 id="exactly-what-would-have-to-change-one-binding-one-file">5.3
+Exactly what would have to change — one binding, one file</h3>
+<p><strong>The single load-bearing change is binding
+<code>OD_THEME_GLOBS</code> in the environment the sweep hands to the
+gate</strong>, i.e. in
+<code>&lt;ext-volume-host&gt;/Projects/vasic/scripts/verify-all-constitution-rules.sh</code>
+at the gate-invocation site (<code>run_one … bash "$g" $argv</code>,
+<strong>line 249</strong>) — or, if the operator prefers a per-gate
+override table, in a new resolution branch alongside
+<code>resolve_argv()</code> (<strong>lines 139–160</strong>). It must
+NOT be changed inside <code>cm_opendesign_ui_system.sh</code> itself:
+that file lives in <code>submodules/constitution</code> and its defaults
+are the <em>generic</em> consumer defaults §11.4.28 mandates; the
+consumer-specific layout is exactly what §11.4.35 says the consumer
+registers.</p>
+<p>Binding <code>OD_THEME_GLOBS</code> alone is sufficient to defeat the
+false SKIP — the branch requires <strong>all three</strong> lists to be
+empty.</p>
+<p><strong>Nothing here has been changed. These are read-only
+measurements of what each binding would produce, run with
+<code>VAR=… bash &lt;gate&gt; --root .</code>:</strong></p>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Bindings</th>
+<th>(a) dep</th>
+<th>(b) tokens</th>
+<th>(c) light+dark</th>
+<th>(d) visreg</th>
+<th>Verdict</th>
+<th>rc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0 — today</strong></td>
+<td>none</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td><strong>SKIP → scored PASS</strong></td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>OD_THEME_GLOBS='design-system/*.css design-system/*/*.css'</code></td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>❌</td>
+<td><strong>FAIL — 3/4 failed</strong></td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>+
+<code>OD_TOKEN_GLOBS='design-system/learning-kit/kit-tokens.css …'</code>,
+<code>OD_VISREG_GLOBS='design-system/preview/* tests/visual/*'</code></td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td><strong>FAIL — 2/4 failed</strong></td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>+ <code>OD_MANIFEST_GLOBS='helix-deps.yaml'</code></td>
+<td>✅</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+<td><strong>FAIL — 1/4 failed</strong></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Notes on each sub-check, measured:</p>
+<ul>
+<li><strong>(a) OpenDesign declared dependency.</strong> Fails under the
+default <code>OD_MANIFEST_GLOBS</code> because <strong>none</strong> of
+<code>.mcp.json</code>, <code>package.json</code>, <code>go.mod</code>,
+<code>Cargo.toml</code>, <code>pubspec.yaml</code>,
+<code>requirements.txt</code>, <code>opencode.json</code>,
+<code>.qwen/settings.json</code> exists at the umbrella root, and
+<code>open-design-mcp</code> is not on <code>PATH</code>. It
+<strong>passes</strong> the moment
+<code>OD_MANIFEST_GLOBS='helix-deps.yaml'</code> is bound:
+<code>helix-deps.yaml:100</code> already declares the dependency
+(<code>"§11.4.162 OpenDesign UI design-system engine …"</code>),
+producing
+<code>✅ (a) OpenDesign declared dependency — declared in helix-deps.yaml</code>.</li>
+<li><strong>(b) design tokens consumed.</strong> <strong>This is the
+irreducible finding and it does not go away under any binding.</strong>
+The theme sources carry <strong>187 six-digit hex colour
+literals</strong> across five files:
+<code>design-system/brand-milosvasic/milosvasic.css</code>,
+<code>design-system/brand-vasic-digital/vasic-digital.css</code>,
+<code>design-system/learning-kit/kit-tokens.css</code>,
+<code>design-system/learning-kit/learning-kit.css</code>,
+<code>design-system/motion/animations.css</code>. With no token artifact
+bound the gate reports “NO design-token artifact AND theme sources carry
+hardcoded hex”; with <code>kit-tokens.css</code> bound as the token
+artifact it reports “token artifact exists but theme sources still
+inline hardcoded hex (token not consumed)”. Either way, ❌.</li>
+<li><strong>(c) light + dark.</strong> Passes honestly in every scenario
+— all five theme files match both <code>\blight\b</code> and
+<code>\bdark\b</code>.</li>
+<li><strong>(d) visual regression.</strong> Fails under defaults
+(<code>**/…</code> cannot recurse; no <code>tests/visual/</code> or
+<code>test/visual/</code> exists; a repo-wide search for
+<code>*visreg*</code>, <code>*visual*regression*</code> and
+<code>*.snap.png</code> outside the submodules returns nothing). It
+“passes” in scenarios 2–3 only because
+<code>design-system/preview/*</code> was bound as a visreg glob — that
+is a <strong>generous</strong> binding the operator should scrutinise
+before adopting: a preview directory is not a pixel-diff harness. The
+conservative honest binding leaves (d) ❌ and yields <strong>2/4
+failed</strong>.</li>
+</ul>
+<h3 id="the-operators-decision-stated-in-one-line">5.4 The operator’s
+decision, stated in one line</h3>
+<p>Binding <code>OD_THEME_GLOBS</code> (one line in the umbrella’s own
+sweep script — a file this task did not touch) converts a <strong>false
+PASS into a true FAIL</strong>, taking the sweep from <strong>37 PASS /
+21 FAIL</strong> to <strong>36 PASS / 22 FAIL</strong>. It is the honest
+direction and it is not free: it puts a 187-literal token-consumption
+debt on the board (sub-check (b)) that no glob binding can argue away.
+It is a scope and configuration decision, not a silent edit, and it
+remains <strong>not made</strong>.</p>
+<p>Related and unchanged: <code>GATE-TRIAGE.md</code> §8.3’s observation
+still holds — the <code>37 PASS</code> figure is more precisely
+<strong>34 enforced PASS + 2 honest unbound-feature SKIPs + 1 false
+SKIP</strong>, because the sweep’s SUMMARY has no SKIP column.</p>
+<hr />
+<h2 id="rows-2021-diagnosis-confirmed-and-it-needs-two-lines-not-one">6.
+Rows 20/21 — diagnosis confirmed, and it needs <strong>two</strong>
+lines, not one</h2>
+<h3 id="the-failure-reproduced-post-apply">6.1 The failure, reproduced
+post-apply</h3>
+<pre><code>===== cm_track_branch_label.sh  [FAIL rc=1]
+✅ PRESENCE+EXEC: hook -&gt; …/scripts/hooks/guard-track-branch-label.sh
+✅ PRESENCE+EXEC: labeler -&gt; …/scripts/multitrack/track_branch_label.sh
+✅ PARSEABILITY: hook clean (bash -n)
+✅ PARSEABILITY: labeler clean (bash -n)
+✅ DOC: convention doc present -&gt; …/docs/scripts/guard-track-branch-label.md
+❌ ALIAS-VALIDATION: labeler did not yield the known synthetic alias (got &#39;xhigh&#39; from &#39;(T1/main - cmgatechk - ? - xhigh)&#39;)
+❌ CM-TRACK-BRANCH-LABEL: FAIL — see violations above</code></pre>
+<pre><code>===== cm_track_branch_label_mutation_test.sh  [FAIL rc=1]
+❌ META FAIL: clean fixture (real hook validates the alias field) — gate FAILed unexpectedly (false alarm!)
+✅ META OK:   MUTATION: format-only hook (alias check stripped) — gate correctly FAILed on the mutation
+❌ META FAIL: RESTORED fixture (real hook re-audited) — gate FAILed unexpectedly (false alarm!)
+✅ META OK:   doc-missing fixture (§11.4.18 convention doc absent) — gate correctly FAILed on the mutation
+✅ META OK:   parse-broken fixture (unbalanced quote in hook) — gate correctly FAILed on the mutation
+❌ META FAIL: CM-TRACK-BRANCH-LABEL failed the §1.1 discriminator</code></pre>
+<h3
+id="gate-triage.mds-diagnosis-confirmed-with-one-wording-correction">6.2
+<code>GATE-TRIAGE.md</code>’s diagnosis: CONFIRMED (with one wording
+correction)</h3>
+<p><code>submodules/constitution/scripts/multitrack/track_branch_label.sh:268</code>:</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&#39;(T%s/%s - %s - %s - %s)\n&#39;</span> <span class="st">&quot;</span><span class="va">$_n</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$_br</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$_al</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$_mo</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$_ef</span><span class="st">&quot;</span></span></code></pre></div>
+<p><code>submodules/constitution/scripts/gates/cm_track_branch_label.sh:90–97</code>:</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the &lt;alias&gt; field from a &quot;(T&lt;N&gt;/&lt;branch&gt; - &lt;alias&gt;) ...&quot; label.</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">_label_alias()</span> <span class="kw">{</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">_p</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1</span><span class="op">%%</span>)<span class="pp">*</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">case</span> <span class="st">&quot;</span><span class="va">$_p</span><span class="st">&quot;</span> <span class="kw">in</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>        <span class="pp">*</span><span class="st">&#39; - &#39;</span><span class="pp">*</span><span class="kw">)</span> <span class="bu">printf</span> <span class="st">&#39;%s&#39;</span> <span class="st">&quot;</span><span class="va">${_p</span><span class="op">##</span><span class="pp">*</span> - <span class="va">}</span><span class="st">&quot;</span> <span class="cf">;;</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>        <span class="pp">*</span><span class="kw">)</span>       <span class="bu">printf</span> <span class="st">&#39;%s&#39;</span> <span class="st">&#39;&#39;</span> <span class="cf">;;</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">esac</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
+<p>Measured against the live labeler:</p>
+<pre><code>live label              : (T1/main - cmgatechk - ? - xhigh)
+current  ${_p##* - }    : &#39;xhigh&#39;        &lt;-- read as the alias
+positional field 2      : &#39;cmgatechk&#39;    &lt;-- the actual alias</code></pre>
+<p><code>${_p##* - }</code> takes the <strong>last</strong>
+<code>-</code>-separated field, which is now the <em>effort</em>. This
+is unconditional: whatever the effort resolves to, the last field is
+never the alias. <strong>The diagnosis is correct.</strong></p>
+<p><em>Wording correction (§11.4.6).</em> <code>GATE-TRIAGE.md</code>
+§6.3 calls it a “<strong>five</strong>-field label”. The
+<code>printf</code> has five <code>%s</code> conversions, but
+<code>T%s/%s</code> joins the track and branch with <code>/</code>, not
+<code>-</code>, so the emitted label has <strong>four</strong>
+<code>-</code>-separated fields: <code>(T1/main</code>,
+<code>cmgatechk</code>, <code>?</code>, <code>xhigh</code>. The count is
+off by one; the conclusion is not.</p>
+<p><em>The gate’s own comment is also stale</em> — it documents a
+two-field label
+<code>"(T&lt;N&gt;/&lt;branch&gt; - &lt;alias&gt;) ..."</code>, which is
+the shape <code>${_p##* - }</code> was written for.</p>
+<h3 id="the-corrected-extractor-already-exists-in-the-hook">6.3 The
+corrected extractor already exists — in the hook</h3>
+<p><code>submodules/constitution/scripts/hooks/guard-track-branch-label.sh:207–218</code>
+carries the <em>right</em> implementation, with a comment that predicted
+this exact bug:</p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># … &lt;alias&gt; is everything BEFORE the NEXT &#39; - &#39; if one follows (4-field form:</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># alias precedes model) or the remainder (3-field legacy form …). This stays</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co"># correct whether or not an optional &lt;model&gt; 3rd field is present — unlike a</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="co"># naive &quot;take everything after the LAST &#39; - &#39;&quot; rule, which would silently</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="co"># grab &lt;model&gt; instead of &lt;alias&gt; once dispatchers start emitting 4-field</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co"># labels (§11.4.182 §11.4.6 — the extraction must not regress under the new field).</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">_label_alias()</span> <span class="kw">{</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="bu">local</span> <span class="va">_pfx</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1</span><span class="op">%%</span>)<span class="pp">*</span><span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="bu">local</span> <span class="va">_rest</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">case</span> <span class="st">&quot;</span><span class="va">$_pfx</span><span class="st">&quot;</span> <span class="kw">in</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="pp">*</span><span class="st">&#39; - &#39;</span><span class="pp">*</span><span class="kw">)</span> <span class="va">_rest</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${_pfx</span><span class="op">#</span><span class="pp">*</span><span class="st">&#39; - &#39;</span><span class="va">}</span><span class="st">&quot;</span> <span class="cf">;;</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    <span class="pp">*</span><span class="kw">)</span>       <span class="bu">printf</span> <span class="st">&#39;%s&#39;</span> <span class="st">&#39;&#39;</span><span class="kw">;</span> <span class="cf">return</span> <span class="cf">;;</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">esac</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">case</span> <span class="st">&quot;</span><span class="va">$_rest</span><span class="st">&quot;</span> <span class="kw">in</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>    <span class="pp">*</span><span class="st">&#39; - &#39;</span><span class="pp">*</span><span class="kw">)</span> <span class="bu">printf</span> <span class="st">&#39;%s&#39;</span> <span class="st">&quot;</span><span class="va">${_rest</span><span class="op">%%</span><span class="st">&#39; - &#39;</span><span class="pp">*</span><span class="va">}</span><span class="st">&quot;</span> <span class="cf">;;</span>   <span class="co"># 4-field: alias is BEFORE the next &#39; - &#39;</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>    <span class="pp">*</span><span class="kw">)</span>       <span class="bu">printf</span> <span class="st">&#39;%s&#39;</span> <span class="st">&quot;</span><span class="va">$_rest</span><span class="st">&quot;</span> <span class="cf">;;</span>              <span class="co"># 3-field: alias is the remainder</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">esac</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
+<p><strong>So the gate and the hook hold two divergent copies of the
+same helper, and only the gate’s copy is stale.</strong> The one-line
+fix is a drop-in replacement of <code>cm_track_branch_label.sh:94</code>
+with the hook’s two-stage extraction, or — cleaner and DRY per §11.4.28
+— sourcing the hook’s helper from a shared library.</p>
+<h3
+id="new-finding-the-one-line-fix-is-necessary-but-not-sufficient">6.4
+<strong>New finding: the one-line fix is necessary but NOT
+sufficient</strong></h3>
+<p><code>cm_track_branch_label.sh:141–142</code> builds the mutation
+probe by appending after the <em>last</em> <code>-</code>:</p>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="va">_head</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${_correct</span><span class="op">%</span> - <span class="pp">*</span><span class="va">}</span><span class="st">&quot;</span>                <span class="co"># comment claims: &quot;(T&lt;N&gt;/&lt;branch&gt;&quot;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="va">_wrong</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${_head}</span><span class="st"> - </span><span class="va">${_known}</span><span class="st">_MUT)&quot;</span>      <span class="co"># concrete alias that disagrees with live</span></span></code></pre></div>
+<p>Against the live four-field label this produces, measured:</p>
+<pre><code>_head  = &#39;(T1/main - cmgatechk - ?&#39;                       &lt;-- comment says &quot;(T1/main&quot;
+_wrong = &#39;(T1/main - cmgatechk - ? - cmgatechk_MUT)&#39;      &lt;-- mutates the EFFORT slot</code></pre>
+<p>The mutation lands in the effort position, not the alias position.
+Today that is unreachable — the gate exits at the
+<code>_live != _known</code> check on line 138 — but <strong>fixing
+<code>_label_alias</code> alone makes it reachable and the gate still
+FAILs</strong>, now with a <em>false accusation against a hook that is
+provably correct</em>. Verified by driving the real hook read-only with
+each payload:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Payload</th>
+<th>Hook rc</th>
+<th>Gate expects</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(T1/main - cmgatechk - ? - cmgatechk_MUT)</code> — what line
+142 builds</td>
+<td><strong>0</strong> (allowed)</td>
+<td>2 →
+<code>❌ WRONG alias NOT blocked … hook does NOT validate the alias field</code></td>
+</tr>
+<tr>
+<td><code>(T1/main - cmgatechk_MUT - ? - xhigh)</code> — alias slot
+genuinely mutated</td>
+<td><strong>2</strong> (blocked)</td>
+<td>2 ✅</td>
+</tr>
+<tr>
+<td><code>(T1/main - cmgatechk - ? - xhigh)</code> — the correct live
+label</td>
+<td><strong>0</strong></td>
+<td>0 ✅</td>
+</tr>
+<tr>
+<td><code>(T1/main - ?) gate probe</code> with
+<code>CLAUDE_CONFIG_DIR</code> unset</td>
+<td><strong>0</strong></td>
+<td>0 ✅</td>
+</tr>
+</tbody>
+</table>
+<p>The hook is behaving exactly as documented
+(<code>guard-track-branch-label.sh:148–151</code> reads “the alias field
+… regardless” of trailing fields). It is the gate’s probe construction
+that is wrong.</p>
+<h3
+id="the-exact-change-two-lines-both-inside-submodulesconstitution">6.5
+The exact change — two lines, both inside
+<code>submodules/constitution</code></h3>
+<p>Both live in
+<code>submodules/constitution/scripts/gates/cm_track_branch_label.sh</code>.
+<strong>Neither has been made.</strong></p>
+<p><strong>Change 1 — line 94</strong> (the one-line fix
+<code>GATE-TRIAGE.md</code> §6.3 names). Replace</p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>        <span class="ex">*</span><span class="st">&#39; - &#39;</span><span class="ex">*</span><span class="er">)</span> <span class="bu">printf</span> <span class="st">&#39;%s&#39;</span> <span class="st">&quot;</span><span class="va">${_p</span><span class="op">##</span><span class="pp">*</span> - <span class="va">}</span><span class="st">&quot;</span> <span class="kw">;;</span></span></code></pre></div>
+<p>with the hook’s positional two-stage extraction (mirror
+<code>guard-track-branch-label.sh:207–218</code> verbatim, and refresh
+the stale comment on line 90 to describe the 4-field label).</p>
+<p><strong>Change 2 — lines 141–142</strong> (required, or Change 1
+merely relocates the failure). Replace the trailing-append construction
+with an in-place mutation of the <strong>alias</strong> field, safe for
+both the 3-field legacy and 4/5-field forms. Verified read-only to
+produce <code>(T1/main - cmgatechk_MUT - ? - xhigh)</code> → hook rc = 2
+(the expected BLOCK), and <code>(T1/main - cmgatechk_MUT)</code> for the
+legacy form:</p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="va">_pfx</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${_correct</span><span class="op">%%</span>)<span class="pp">*</span><span class="va">}</span><span class="st">&quot;</span><span class="kw">;</span> <span class="va">_tail</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${_correct</span><span class="op">#</span><span class="pp">*</span>)<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="va">_t1</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${_pfx</span><span class="op">%%</span><span class="st">&#39; - &#39;</span><span class="pp">*</span><span class="va">}</span><span class="st">&quot;</span>                    <span class="co"># &quot;(T&lt;N&gt;/&lt;branch&gt;&quot;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="va">_restf</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${_pfx</span><span class="op">#</span><span class="pp">*</span><span class="st">&#39; - &#39;</span><span class="va">}</span><span class="st">&quot;</span>                  <span class="co"># &quot;&lt;alias&gt;[ - &lt;model&gt;[ - &lt;effort&gt;]]&quot;</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="cf">case</span> <span class="st">&quot;</span><span class="va">$_restf</span><span class="st">&quot;</span> <span class="kw">in</span> <span class="pp">*</span><span class="st">&#39; - &#39;</span><span class="pp">*</span><span class="kw">)</span> <span class="va">_after</span><span class="op">=</span><span class="st">&quot; - </span><span class="va">${_restf</span><span class="op">#</span><span class="pp">*</span><span class="st">&#39; - &#39;</span><span class="va">}</span><span class="st">&quot;</span> <span class="cf">;;</span> <span class="pp">*</span><span class="kw">)</span> <span class="va">_after</span><span class="op">=</span><span class="st">&quot;&quot;</span> <span class="cf">;;</span> <span class="cf">esac</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="va">_wrong</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${_t1}</span><span class="st"> - </span><span class="va">${_known}</span><span class="st">_MUT</span><span class="va">${_after}</span><span class="st">)</span><span class="va">${_tail}</span><span class="st">&quot;</span></span></code></pre></div>
+<p><strong>Projected outcome, measured probe-by-probe:</strong> with
+both changes, <code>_rc_w = 2</code>, <code>_rc_c = 0</code>,
+<code>_rc_q = 0</code> — all three ALIAS-VALIDATION assertions
+satisfied, and invariants 1–3 (presence/exec, parseability, doc) already
+pass. <strong>Row 20 would PASS.</strong></p>
+<p><strong>Row 21 — reasoned, not measured.</strong>
+<code>cm_track_branch_label_mutation_test.sh</code> derives the gate
+under test from its own <code>SCRIPT_DIR</code> (line 45) and accepts no
+override, so it cannot be re-run against a corrected copy without
+writing into the submodule — which this task must not do. The reasoning:
+its only two <code>META FAIL</code>s are on the <em>clean</em> and
+<em>RESTORED</em> fixtures (“gate FAILed unexpectedly (false alarm!)”),
+both of which run the real gate against the real hook; fixing row 20
+removes the false alarm on both. The three genuine mutations already
+score <code>✅ META OK</code>, and the format-only mutation strips the
+hook’s alias check so <code>_rc_w</code> becomes 0 → the corrected gate
+still FAILs it → still caught. Row 21 is a consequence of row 20, as
+<code>GATE-TRIAGE.md</code> §6.3 states.</p>
+<h3 id="upstream-decision-required">6.6 Upstream decision required</h3>
+<p>Both changes are inside <code>submodules/constitution</code>, whose
+<code>origin</code> <strong>pushes to six URLs in one command</strong>
+(<code>GATE-TRIAGE.md</code> §6.4):</p>
+<pre><code>git@gitflic.ru:helixdevelopment/helixconstitution.git
+git@github.com:HelixDevelopment/HelixConstitution.git
+git@gitlab.com:helixdevelopment1/helixconstitution.git
+git@gitverse.ru:helixdevelopment/HelixConstitution.git
+git@github.com:vasic-digital/HelixConstitution.git
+git@gitlab.com:vasic-digital/HelixConstitution.git</code></pre>
+<p>Landing them changes the constitution every consuming project
+inherits. <strong>Nothing in the umbrella can move rows 20 or
+21.</strong></p>
+<hr />
+<h2 id="honest-boundary-what-this-document-does-not-establish">7. Honest
+boundary — what this document does not establish</h2>
+<ul>
+<li><strong>It does not show the sweep improved.</strong> It did not,
+and could not: 21 FAIL, exit 1, unchanged. What moved is inside the
+propagation gates (85 → 68 MISSING lines, 5 → 4 carriers, 11 → 31 SKIP),
+and that movement is the whole of the measurable result.</li>
+<li><strong>It does not measure row 21.</strong> §6.5 states the
+reasoning and labels it as reasoning.</li>
+<li><strong>It does not measure the two-parent effect after a gitlink
+bump.</strong> §2.4’s numbers (31 → 35 SKIP, MISSING unchanged) are
+derived from the predicate’s path-independence and the byte-identity of
+the files, not from a run — making that run requires a commit inside
+<code>submodules/constitution</code>.</li>
+<li><strong>It applies neither §5 nor §6.</strong> Both are quantified
+so the operator can decide; both remain unmade.</li>
+<li><strong>It does not correct <code>Constitution.md</code>.</strong>
+§1.3 records that its “Known-excluded gate findings” section is now
+stale in three places, and leaves the correction to the operator.</li>
+<li><strong>It does not assess whether the carriers’ prose is the right
+governance answer</strong>, only that all 20 are recognised as §11.4.35
+pointer consumers and that <code>vasic.digital/QWEN.md</code>’s original
+55 lines are byte-intact.</li>
+</ul>
+</body>
+</html>

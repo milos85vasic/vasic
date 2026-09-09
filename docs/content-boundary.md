@@ -444,6 +444,79 @@ surname not, so "all" keeps the finding and "any" would have lost it. The cost
 of "all" is the reverse case — a private file named after a person in full
 cannot be told apart from a public file naming that path.
 
+## The direction subtraction (shipped 2026-09-09) — the fifth filter
+
+Every filter above answers **co-occurrence**: does this text stand on both sides
+of the boundary? None of them can answer **direction**. Governance prose written
+in this public umbrella and propagated *into* a private submodule — which
+§11.4.157 lockstep and the private `upstream-contributions/` staging tree make
+routine here — is indistinguishable, to filters 1 through 4, from private
+material leaking *out*. On this tree that ambiguity was most of the population:
+the offline probe recorded in
+[`content-boundary-class-a-judgement.md`](content-boundary-class-a-judgement.md)
+measured the largest structural class at **79.1 – 82.1 % public-first across
+five runs whose totals differed by more than 3,000 rows**. The totals moved; the
+direction did not.
+
+That probe is now **inside the gate**, as a subtraction with the same shape and
+the same discipline as the four above it — derived every run, counted, and its
+recall cost printed.
+
+**The rule.** A surviving row is subtracted only when its matched text is
+**provably public-first**: dated on **both** sides, with the earliest public
+commit **strictly** before the earliest private one. Equal timestamps are not
+public-first. Undated on either side is not public-first.
+
+**How a string is dated — text level, not file level.** Every blob any commit of
+any repository on that side ever recorded is normalised with *the gate's own*
+rule (`[^A-Za-z0-9]+` → space, lowercased) and searched for the key as a token
+run. The date is the earliest commit whose blob **content** contains it,
+anywhere on that side — so a string that moved between files is still caught and
+a rename does not restart its clock. Blobs are walked oldest-first and a key
+leaves the search the moment it is dated: an exact pruning, since no later
+commit can date a string earlier.
+
+**Two classes are never touched, by two independent guards.**
+
+| Class | Why it is excluded |
+|---|---|
+| `name` | The gate **withholds** a name's matched text by design. There is no string to date, and obtaining one would be the disclosure the redaction exists to prevent. The offline probe's own honest boundary says direction was never established for a single name row. |
+| `fingerprint` | Its value is withheld for the same reason, **and** its direction has never been measured on any population — the class was added on 2026-09-09, after the last probe. Subtracting an unmeasured class is how a gate goes quietly green. |
+
+Name and fingerprint keys are never handed to the dater, *and* the resolver
+refuses both classes by name whatever the key list contains. Mutations **M30d**
+and **M30e** plant a row of each with unambiguously public-first dates and
+require it to **survive**.
+
+### Recall cost, stated in full
+
+1. **"Public committed first" is an order, not an exoneration.** If private
+   material was pasted into a public file and **pushed** before the private
+   document holding it was ever committed, this pass subtracts a real leak. The
+   asymmetry is structural: the private corpus is read from the **working tree**
+   and dated from **history**.
+2. **Commit timestamps are author-controlled** and are rewritten by rebase,
+   amend and filter-branch. This is not a tamper-evident clock.
+3. **Only committed text can be dated.** A row whose text exists on one side in
+   the working tree only is direction-**UNDETERMINED**: not subtracted, still
+   reported, and counted in a named `COULD NOT DETERMINE` row.
+4. **Only what history can be read as text is dated** — blobs at or below the
+   corpus size cap that are not binary, mirroring the corpus the keys come from.
+   A key that reached the corpus through `pdftotext` is therefore never dated
+   (history holds the PDF, not its rendered text) and its row is **kept**.
+5. It says nothing about whether a **kept** row is a disclosure. Removing four
+   rows in five makes the fifth readable; it does not judge it.
+
+**Precedence is unchanged** and still decided in one place: a leak outranks the
+direction-undetermined row like any other `2`. `--no-direction` turns the pass
+off and reports the undirected population — the paired proof uses it as the
+second half of every direction mutation (**M30c**), so a green case is
+attributable to the subtraction rather than to the fixture.
+
+**Dependency:** `python3`. If it is absent the pass subtracts **nothing** and
+reports the whole eligible population as undetermined — a pass that cannot run
+is never reported as a pass that found nothing.
+
 ## Exit codes
 
 `0` clean · `1` leak found, both sides named with a `file:line` on the public

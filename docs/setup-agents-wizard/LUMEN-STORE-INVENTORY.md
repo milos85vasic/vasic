@@ -14,16 +14,16 @@ open write handles on the store. All four index directories must be excluded fro
 
 | Index dir | PID | Project being indexed | Size | Note |
 |---|---|---|---|---|
-| `74e360aac96f417e` | 1693992 | `/run/media/milosvasic/DATA4TB/Projects/boba` | 681.9 MB | index |
-| `21bf1507a8925bcf` | 840272 | `/run/media/milosvasic/DATA4TB/Projects/vasic` | 347.9 MB | index -f (THE named active rebuild) |
-| `feaae19c7a38712e` | 1692994 | `/run/media/milosvasic/DATA4TB/Projects/lava` | 270.4 MB | index |
-| `06dd1f85fde5febb` | 1789297 | `/run/media/milosvasic/DATA4TB/Projects/boba/constitution` | 15.1 MB | index (no project_path written yet) |
+| `74e360aac96f417e` | 1693992 | `<ext-volume-host>/Projects/boba` | 681.9 MB | index |
+| `21bf1507a8925bcf` | 840272 | `<ext-volume-host>/Projects/vasic` | 347.9 MB | index -f (THE named active rebuild) |
+| `feaae19c7a38712e` | 1692994 | `<ext-volume-host>/Projects/lava` | 270.4 MB | index |
+| `06dd1f85fde5febb` | 1789297 | `<ext-volume-host>/Projects/boba/constitution` | 15.1 MB | index (no project_path written yet) |
 
-- **`21bf1507a8925bcf` is the index for `/run/media/milosvasic/DATA4TB/Projects/vasic`** — the rebuild the operator
+- **`21bf1507a8925bcf` is the index for `<ext-volume-host>/Projects/vasic`** — the rebuild the operator
   flagged. It is 347.9 MB with an 82 MB write-ahead log open by PID 840272. **It must never be purged.**
 - **`06dd1f85fde5febb` is a trap.** A naive inventory classifies it as an orphan, because it has *no* `project_path`
   in `project_meta`. It is not an orphan — it is a *brand-new index in flight* for
-  `/run/media/milosvasic/DATA4TB/Projects/boba/constitution` (PID 1789297). Lumen writes `project_path` only when
+  `<ext-volume-host>/Projects/boba/constitution` (PID 1789297). Lumen writes `project_path` only when
   indexing **completes**, so an in-progress index is indistinguishable from a crashed one by DB contents alone.
   It is the 7th-largest directory in the store. Verified by reading `/proc/1789297/fd`.
 
@@ -89,17 +89,17 @@ ACTIVE-REBUILD entries. All four in-flight index directories from §0 are exclud
 
 | # | Index dir | Class | Size | Files | Chunks | DB mtime | Project |
 |---:|---|---|---:|---:|---:|---|---|
-| 1 | `74e360aac96f417e` | LIVE ⚠️**IN FLIGHT** | 681.9 MB | 14825 | 201252 | 2026-08-27 20:02 | `/run/media/milosvasic/DATA4TB/Projects/boba` |
-| 2 | `21bf1507a8925bcf` | ACTIVE-REBUILD ⚠️**IN FLIGHT** | 347.9 MB | 2111 | 52516 | 2026-08-27 20:06 | `/run/media/milosvasic/DATA4TB/Projects/vasic` |
-| 3 | `feaae19c7a38712e` | LIVE ⚠️**IN FLIGHT** | 270.4 MB | 7920 | 77163 | 2026-08-27 20:28 | `/run/media/milosvasic/DATA4TB/Projects/lava` |
+| 1 | `74e360aac96f417e` | LIVE ⚠️**IN FLIGHT** | 681.9 MB | 14825 | 201252 | 2026-08-27 20:02 | `<ext-volume-host>/Projects/boba` |
+| 2 | `21bf1507a8925bcf` | ACTIVE-REBUILD ⚠️**IN FLIGHT** | 347.9 MB | 2111 | 52516 | 2026-08-27 20:06 | `<ext-volume-host>/Projects/vasic` |
+| 3 | `feaae19c7a38712e` | LIVE ⚠️**IN FLIGHT** | 270.4 MB | 7920 | 77163 | 2026-08-27 20:28 | `<ext-volume-host>/Projects/lava` |
 | 4 | `e7758398337f6aa7` | LIVE | 139.5 MB | 282 | 2038 | 2026-07-27 00:24 | `/tmp/.private/milosvasic` |
-| 5 | `0e540668e98c02ce` | LIVE | 125.2 MB | 2247 | 37348 | 2026-07-26 21:21 | `/run/media/milosvasic/DATA4TB/Projects/claude_toolkit` |
-| 6 | `40b9531ba54c9f4f` | LIVE | 45.7 MB | 1000 | 13255 | 2026-08-26 21:10 | `/run/media/milosvasic/DATA4TB/Projects/tmux` |
-| 7 | `06dd1f85fde5febb` | ACTIVE-REBUILD ⚠️**IN FLIGHT** | 15.1 MB | 7 | 1503 | 2026-08-27 20:05 | `/run/media/milosvasic/DATA4TB/Projects/boba/constitution` |
-| 8 | `6ea66d6d87cbf1e9` | LIVE | 13.0 MB | 294 | 3208 | 2026-08-18 21:02 | `/run/media/milosvasic/DATA4TB/Projects/assignments/…` |
-| 9 | `8addff8070269398` | LIVE | 6.5 MB | 220 | 1051 | 2026-08-20 17:38 | `/run/media/milosvasic/DATA4TB/Projects/lava/.claude/worktrees/agent-ae3b1805128e2e0c8` |
-| 10 | `35d7137ceae5a7b4` | LIVE | 3.2 MB | 51 | 351 | 2026-07-22 19:59 | `/run/media/milosvasic/DATA4TB/Projects/helix_seller` |
-| 11 | `d0d7a5956ee798fd` | LIVE | 3.2 MB | 66 | 512 | 2026-07-31 17:45 | `/home/milosvasic/Downloads` |
+| 5 | `0e540668e98c02ce` | LIVE | 125.2 MB | 2247 | 37348 | 2026-07-26 21:21 | `<ext-volume-host>/Projects/claude_toolkit` |
+| 6 | `40b9531ba54c9f4f` | LIVE | 45.7 MB | 1000 | 13255 | 2026-08-26 21:10 | `<ext-volume-host>/Projects/tmux` |
+| 7 | `06dd1f85fde5febb` | ACTIVE-REBUILD ⚠️**IN FLIGHT** | 15.1 MB | 7 | 1503 | 2026-08-27 20:05 | `<ext-volume-host>/Projects/boba/constitution` |
+| 8 | `6ea66d6d87cbf1e9` | LIVE | 13.0 MB | 294 | 3208 | 2026-08-18 21:02 | `<ext-volume-host>/Projects/assignments/…` |
+| 9 | `8addff8070269398` | LIVE | 6.5 MB | 220 | 1051 | 2026-08-20 17:38 | `<ext-volume-host>/Projects/lava/.claude/worktrees/agent-ae3b1805128e2e0c8` |
+| 10 | `35d7137ceae5a7b4` | LIVE | 3.2 MB | 51 | 351 | 2026-07-22 19:59 | `<ext-volume-host>/Projects/helix_seller` |
+| 11 | `d0d7a5956ee798fd` | LIVE | 3.2 MB | 66 | 512 | 2026-07-31 17:45 | `<home>/Downloads` |
 | 12 | `002451c5e88e19b1` | DEAD | 3.1 MB | 1 | 1 | 2026-07-26 22:30 | `/tmp/.private/milosvasic/tmp.Wi8cikm3Dw` |
 | 13 | `00e9aeba4da4732b` | DEAD | 3.1 MB | 1 | 1 | 2026-07-26 20:20 | `/tmp/.private/milosvasic/tmp.pHsCTrLuTv` |
 | 14 | `0191bb1eccd8cf77` | DEAD | 3.1 MB | 1 | 1 | 2026-07-26 20:18 | `/tmp/.private/milosvasic/tmp.IVP5aXoSOH` |
@@ -128,9 +128,10 @@ drive would make a LIVE project look DEAD. **That risk was checked explicitly an
 Evidence:
 
 1. **No DEAD index records a path under `/run/media/` at all.** Of 525 DEAD indexes, 524 point into `/tmp` and 1
-   points at `/home/milosvasic/Projects`. Zero point at removable media.
-2. The only volume ever mounted under `/run/media/milosvasic/` is `DATA4TB`, and it **is mounted right now**
-   (`/dev/nvme0n1p1` → `/run/media/milosvasic/DATA4TB`, btrfs, 3.6 TB). Every `/run/media/...` path in the store
+   points at `<linux-host>/Projects`. Zero point at removable media.
+2. The only volume ever mounted under this host's removable-media root is the one this document calls
+   `<ext-volume-host>`, and it **is mounted right now**
+   (`/dev/nvme0n1p1` → `<ext-volume-host>`, btrfs, 3.6 TB). Every `/run/media/...` path in the store
    resolves successfully.
 3. `/home` is a separate mounted filesystem (`/dev/nvme1n1p3`) and is mounted. `/tmp` is mounted.
 4. `lsblk` shows no other block device with an unmounted filesystem holding projects.
@@ -139,7 +140,7 @@ Evidence:
 |---|---:|---:|---|---|
 | `/tmp/.private/milosvasic/tmp.*` | 511 | 933.4 MB | yes (`/tmp`) | **Definitely deleted** — per-session agent scratch dirs |
 | `/tmp/*` (other) | 13 | 1.2 MB | yes (`/tmp`) | **Definitely deleted** — test fixtures |
-| `/home/milosvasic/Projects` | 1 | 0.1 MB | yes (`/home`) | **Definitely deleted** — parent dir absent |
+| `<linux-host>/Projects` | 1 | 0.1 MB | yes (`/home`) | **Definitely deleted** — parent dir absent |
 | `/run/media/**` | **0** | 0.0 MB | — | none exist |
 
 **Conclusion: "possibly unmounted" = 0 indexes / 0.0 MB. All 525 DEAD indexes are definitely deleted.**
@@ -154,16 +155,16 @@ The `/tmp` finding also explains the store's shape: 511 of 525 DEAD indexes are 
 
 | Index dir | Size | Files | Chunks | Last indexed | Project path |
 |---|---:|---:|---:|---|---|
-| `74e360aac96f417e` | 681.9 MB | 14825 | 201252 | 2026-08-25T23:41:53Z | `/run/media/milosvasic/DATA4TB/Projects/boba` |
-| `feaae19c7a38712e` | 270.4 MB | 7920 | 77163 | 2026-08-26T13:28:54Z | `/run/media/milosvasic/DATA4TB/Projects/lava` |
+| `74e360aac96f417e` | 681.9 MB | 14825 | 201252 | 2026-08-25T23:41:53Z | `<ext-volume-host>/Projects/boba` |
+| `feaae19c7a38712e` | 270.4 MB | 7920 | 77163 | 2026-08-26T13:28:54Z | `<ext-volume-host>/Projects/lava` |
 | `e7758398337f6aa7` | 139.5 MB | 282 | 2038 | 2026-07-26T22:24:38Z | `/tmp/.private/milosvasic` |
-| `0e540668e98c02ce` | 125.2 MB | 2247 | 37348 | 2026-07-26T19:21:56Z | `/run/media/milosvasic/DATA4TB/Projects/claude_toolkit` |
-| `40b9531ba54c9f4f` | 45.7 MB | 1000 | 13255 | 2026-08-13T09:55:35Z | `/run/media/milosvasic/DATA4TB/Projects/tmux` |
-| `6ea66d6d87cbf1e9` | 13.0 MB | 294 | 3208 | 2026-08-18T19:02:55Z | `/run/media/milosvasic/DATA4TB/Projects/assignments/…` |
-| `8addff8070269398` | 6.5 MB | 220 | 1051 | 2026-08-20T15:38:47Z | `/run/media/milosvasic/DATA4TB/Projects/lava/.claude/worktrees/agent-ae3b1805128e2e0c8` |
-| `35d7137ceae5a7b4` | 3.2 MB | 51 | 351 | 2026-07-22T17:59:52Z | `/run/media/milosvasic/DATA4TB/Projects/helix_seller` |
-| `d0d7a5956ee798fd` | 3.2 MB | 66 | 512 | 2026-07-31T15:45:07Z | `/home/milosvasic/Downloads` |
-| `97e1836a7eabe96a` | 0.1 MB | 0 | 0 | 2026-07-12T16:41:04Z | `/home/milosvasic/Downloads/flashing/1.2.1-dev-0.0.3` |
+| `0e540668e98c02ce` | 125.2 MB | 2247 | 37348 | 2026-07-26T19:21:56Z | `<ext-volume-host>/Projects/claude_toolkit` |
+| `40b9531ba54c9f4f` | 45.7 MB | 1000 | 13255 | 2026-08-13T09:55:35Z | `<ext-volume-host>/Projects/tmux` |
+| `6ea66d6d87cbf1e9` | 13.0 MB | 294 | 3208 | 2026-08-18T19:02:55Z | `<ext-volume-host>/Projects/assignments/…` |
+| `8addff8070269398` | 6.5 MB | 220 | 1051 | 2026-08-20T15:38:47Z | `<ext-volume-host>/Projects/lava/.claude/worktrees/agent-ae3b1805128e2e0c8` |
+| `35d7137ceae5a7b4` | 3.2 MB | 51 | 351 | 2026-07-22T17:59:52Z | `<ext-volume-host>/Projects/helix_seller` |
+| `d0d7a5956ee798fd` | 3.2 MB | 66 | 512 | 2026-07-31T15:45:07Z | `<home>/Downloads` |
+| `97e1836a7eabe96a` | 0.1 MB | 0 | 0 | 2026-07-12T16:41:04Z | `<home>/Downloads/flashing/1.2.1-dev-0.0.3` |
 
 > **Redaction — 2026-09-02.** The `6ea66d6d87cbf1e9` row above ends in `assignments/…`. The `…` is a deliberate
 > elision, not a truncated path: that project path's final component was a third party's given name, and this
@@ -175,8 +176,8 @@ Two entries are worth a second look, though neither is an orphan by the brief's 
 - **`e7758398337f6aa7` — `/tmp/.private/milosvasic` (139.5 MB).** This is an index of the *agent scratchpad root*,
   not a project. The path exists, so it classifies LIVE, but it indexes throwaway data and is the 4th-largest
   directory in the store. It is also the single most dangerous purge target — see the warning in §7.
-- **`d0d7a5956ee798fd` — `/home/milosvasic/Downloads` (3.2 MB)** and **`97e1836a7eabe96a` —
-  `/home/milosvasic/Downloads/flashing/1.2.1-dev-0.0.3` (0.1 MB, 0 files, 0 chunks).** Also not projects.
+- **`d0d7a5956ee798fd` — `<home>/Downloads` (3.2 MB)** and **`97e1836a7eabe96a` —
+  `<home>/Downloads/flashing/1.2.1-dev-0.0.3` (0.1 MB, 0 files, 0 chunks).** Also not projects.
 
 These are judgement calls for the operator, not orphans. They are **excluded** from the reclaim commands below.
 
@@ -795,13 +796,13 @@ xargs -a /tmp/lumen-dead-paths.txt -n 50 lumen purge
 ### 7.3 Tier 2 — DEAD real project path (1 dir, 0.1 MB)
 
 ```bash
-# /home/milosvasic/Projects — 0.1 MB, last indexed 2026-06-28T09:53:08Z, index dir 0062e9326404910c
-lumen purge /home/milosvasic/Projects
+# <linux-host>/Projects — 0.1 MB, last indexed 2026-06-28T09:53:08Z, index dir 0062e9326404910c
+lumen purge <linux-host>/Projects
 ```
 
-Sanity-check first: `/home/milosvasic/Projects` is a plausible former projects root on the internal `/home`
+Sanity-check first: `<linux-host>/Projects` is a plausible former projects root on the internal `/home`
 filesystem (mounted). It was last indexed 2026-06-28T09:53:08Z and the directory is absent. Projects now live under
-`/run/media/milosvasic/DATA4TB/Projects/`, so this looks like a genuine relocation, not an unmounted volume.
+`<ext-volume-host>/Projects/`, so this looks like a genuine relocation, not an unmounted volume.
 
 ### 7.4 Tier 3 — INCOMPLETE indexes (227 dirs, 22.1 MB) — NOT purgeable by path
 
@@ -873,7 +874,7 @@ on mounted filesystems at inventory time.
 
 | Index dir | Size (MB) | Files | Last indexed | Recorded project_path (absent) |
 |---|---:|---:|---|---|
-| `0062e9326404910c` | 0.1 | 0 | 2026-06-28T09:53:08 | `/home/milosvasic/Projects` |
+| `0062e9326404910c` | 0.1 | 0 | 2026-06-28T09:53:08 | `<linux-host>/Projects` |
 | `93e0be39d2d441b6` | 0.1 | 0 | 2026-07-04T23:04:29 | `/tmp/.private/milosvasic/tmp.0IvWvhTGtC` |
 | `721b0a291a1d12dd` | 3.1 | 1 | 2026-07-26T18:17:38 | `/tmp/.private/milosvasic/tmp.0J4Hgg6WXK` |
 | `8f35d02501d97670` | 3.1 | 1 | 2026-07-26T18:17:41 | `/tmp/.private/milosvasic/tmp.0Oggx6IuEl` |

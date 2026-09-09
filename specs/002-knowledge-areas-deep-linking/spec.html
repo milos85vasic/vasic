@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>spec</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">spec</h1>
+</header>
+<h1
+id="feature-specification-knowledge-areas-bidirectional-deep-linking">Feature
+Specification: Knowledge Areas &amp; Bidirectional Deep Linking</h1>
+<p><strong>Feature Branch</strong>:
+<code>002-knowledge-areas-deep-linking</code></p>
+<p><strong>Created</strong>: 2026-09-01</p>
+<p><strong>Status</strong>: Draft</p>
+<p><strong>Input</strong>: User description:</p>
+<blockquote>
+<p><em>“No knowledge covered - areas - like we have in AI Curriculum
+(ai_interviewing)! We have to extract all terms and areas and for them
+all to create same materials kinds like ai_interviewing has! All areas
+and terms mentioned in transcript and video MUST BE linked to these
+knowledge resources - areas with chapters and quizzes! Extend this
+properly! Use the same technology we have used to create UI / UX for
+ai_interviewing! Design unique look and feel using OpenDesign… Search
+MUST be able to search all contents - areas with chapters, quizzes,
+everything from the interview and to link exactly where they appear! In
+videos we MUST BE linked to exact times, and from whole transcripts to
+jump to whole areas, proper chapters and part of the chapters (or
+quizzes / tests) where content is mentioned and where it
+appears!”</em></p>
+</blockquote>
+<p>Amended the same day by a second operator directive, which reframes
+the work rather than adding to it:</p>
+<blockquote>
+<p><em>“Use ai_interviewing as reference and base on top of which we
+shall build our workshop! Do not clone or copy it but use as the
+reference / port it properly (parts we may need)! Current workshop is
+extremely poorly made!”</em></p>
+</blockquote>
+<p>And amended again, with the two corrections that decide how the work
+is judged:</p>
+<blockquote>
+<p><em>“Do not just pickup materials from ai_interviewing but create the
+materials which are following our chapters (chapter 01 we have
+currently), and then as we are adding more chapters after they are
+processed we MUST extract all areas and themes which will be fully
+covered through added areas and chapters with exhaustive long and short
+tests / quizzes! Everything MUST BE cross-referenced, searchable by
+meaning and context and fully connected! Transcripts and video content,
+codebases, knowledge base - areas with chapters, quizzes / tests - all
+of it!”</em></p>
+</blockquote>
+<hr />
+<h2
+id="why-this-feature-exists-the-workshop-is-the-wrong-kind-of-artefact">Why
+this feature exists: the workshop is the wrong kind of artefact</h2>
+<p>This framing is stated first because it is the reason the feature is
+not an add-on.</p>
+<p>Measured 2026-09-01, comparing the reference module with what feature
+001 produced:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Dimension</th>
+<th><code>ai_interviewing</code> (reference)</th>
+<th><code>workshop</code> (today)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Frontend components</td>
+<td>8</td>
+<td><strong>10</strong></td>
+</tr>
+<tr>
+<td>Frontend lines of code</td>
+<td>2,690</td>
+<td><strong>4,566</strong></td>
+</tr>
+<tr>
+<td>Backend API routes</td>
+<td>4</td>
+<td><strong>25</strong></td>
+</tr>
+<tr>
+<td>Content files</td>
+<td>68, plus a taxonomy of areas</td>
+<td><strong>8</strong></td>
+</tr>
+<tr>
+<td>Knowledge areas with materials</td>
+<td>34 area documents</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>Questions with source provenance</td>
+<td>0 of ~68 files</td>
+<td>n/a — no questions exist</td>
+</tr>
+</tbody>
+</table>
+<p>The workshop has <strong>more</strong> code and almost none of the
+substance. The component vocabulary shows why:</p>
+<ul>
+<li><code>ai_interviewing</code>: <strong>module · practice · progress ·
+plans</strong> — a <em>learning platform</em>.</li>
+<li><code>workshop</code>: <strong>chapter-list · transcript ·
+recording-player · crossrefs</strong> — a <em>media viewer</em>.</li>
+</ul>
+<p>The workshop is not badly built. It is an excellent document browser
+over a recording, when what is wanted is a curriculum a person learns
+from. Feature 001 delivered the substrate — a faithful transcript, 1,101
+addressable passages, a working search and a cross-reference graph.
+Feature 002 delivers the missing half: the knowledge layer that turns
+that substrate into a course.</p>
+<p><strong>And it does one thing the reference cannot do at
+all.</strong> The reference’s questions carry a prompt and an answer and
+nothing else — no link to any source. The workshop’s 1,101 passages each
+carry a minted identifier that has been <em>measured</em> to survive
+both a content correction and a structural insertion. So every workshop
+question can cite the exact moment that teaches it, and a learner can
+jump from a quiz question to that moment in the recording and back. That
+is the game-changer, and it is the operator’s <em>“linked to exact times
+… jump to whole areas, proper chapters and part of the chapters (or
+quizzes / tests)”</em> stated as a mechanism.</p>
+<h2 id="context-verified-starting-state">Context: Verified Starting
+State</h2>
+<p>Measured on 2026-09-01. Every figure below is re-derivable by the
+command in the right-hand column; none is quoted from a document.
+Requirements later in this specification are only meaningful against
+these values.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Measured value</th>
+<th>Re-derive with</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Platform reachable</td>
+<td>live on the LAN, HTTP 200 on <code>/api/health</code></td>
+<td><code>curl -s -o /dev/null -w '%{http_code}' http://&lt;host&gt;:&lt;port&gt;/api/health</code></td>
+</tr>
+<tr>
+<td>Passages in the corpus</td>
+<td><strong>1,101</strong></td>
+<td>count records in the passage registry</td>
+</tr>
+<tr>
+<td>— transcript segments</td>
+<td><strong>1,055</strong></td>
+<td>group the registry by <code>kind</code></td>
+</tr>
+<tr>
+<td>— document sections</td>
+<td><strong>44</strong></td>
+<td>”</td>
+</tr>
+<tr>
+<td>— code passages</td>
+<td><strong>2</strong></td>
+<td>”</td>
+</tr>
+<tr>
+<td>Passages flagged uncertain</td>
+<td><strong>267</strong> (24.2%)</td>
+<td>count <code>uncertain == true</code></td>
+</tr>
+<tr>
+<td>Distinct scopes (chapters) present</td>
+<td><strong>1</strong></td>
+<td>count distinct <code>scope</code></td>
+</tr>
+<tr>
+<td>Passage identifier</td>
+<td>minted ULID, persisted, never positional, never content-derived</td>
+<td>registry <code>pid</code> field</td>
+</tr>
+<tr>
+<td>Identifier survival, measured</td>
+<td>1,101 / 1,101 preserved across a content correction and a section
+insertion</td>
+<td>replay of the 001 experiment</td>
+</tr>
+<tr>
+<td>Segment timing granularity</td>
+<td>median segment <strong>6.74 s</strong>, p95 <strong>10.78
+s</strong>, max <strong>20.22 s</strong>, mean 6.56 s over 1,055
+segments spanning 6,924.10 s</td>
+<td>derive per-segment spans from the registry</td>
+</tr>
+<tr>
+<td>Word-level timings</td>
+<td><strong>present, in a per-chapter sidecar — not in the
+registry.</strong> 15,610 word records, each carrying a start, an end
+and a probability; 2,717 (17.4%) flagged below the confidence
+threshold</td>
+<td>read the chapter’s word sidecar; inspect <code>counts</code></td>
+</tr>
+<tr>
+<td>Indexed content kinds declared by search</td>
+<td><code>transcript_segment</code>, <code>doc_section</code>,
+<code>code</code>, <code>diagram</code> — but the corpus holds
+<strong>0</strong> diagram passages, so one declared kind is empty</td>
+<td><code>/api/search</code> response <code>corpus.indexed_kinds</code>;
+group the registry by <code>kind</code></td>
+</tr>
+<tr>
+<td>Positional match offsets in a search hit</td>
+<td>the hit carries a <code>highlights</code> field typed as a list of
+offset pairs and it is <strong>unconditionally set to empty</strong>;
+the snippet is generated with empty match delimiters. <strong>No offsets
+are produced anywhere today</strong></td>
+<td>inspect the hit-construction path and any live
+<code>/api/search</code> response</td>
+</tr>
+<tr>
+<td>Relevance floor</td>
+<td><strong>uncalibrated</strong> — the envelope reports
+<code>floor_calibrated: false</code> and nothing is demoted</td>
+<td>any <code>/api/search</code> response</td>
+</tr>
+<tr>
+<td>Media reachability declared by search</td>
+<td><em>“transcripts and captions only”</em></td>
+<td><code>/api/search</code> response,
+<code>corpus.media_reached_via</code></td>
+</tr>
+<tr>
+<td>Endpoints for areas / terms / quizzes</td>
+<td><strong>absent</strong> — <code>/api/areas</code>,
+<code>/api/terms</code>, <code>/api/quizzes</code> all return 404</td>
+<td>probe each path</td>
+</tr>
+<tr>
+<td>Server behaviour suite</td>
+<td><strong>25 PASS / 4 DEBT</strong>; the 4 are permanent
+negative-route assertions, driven from a route manifest</td>
+<td>the server-unity verifier</td>
+</tr>
+<tr>
+<td>Existing workshop taxonomy</td>
+<td><strong>5 areas — as prose only.</strong> Area documents exist under
+the workshop’s training documentation, ids
+<code>01</code>–<code>05</code>, already using an adapted form of the
+reference skeleton. There is <strong>no machine-readable
+representation</strong>: no identifiers, no schema, no database table,
+no endpoint</td>
+<td>list the training area documents; search the platform for an area
+type or table</td>
+</tr>
+<tr>
+<td>Existing workshop term inventory</td>
+<td><strong>none.</strong> No glossary, no term table, no term field
+anywhere in the platform or the curriculum</td>
+<td>search the platform and curriculum for a term entity</td>
+</tr>
+<tr>
+<td>Existing workshop assessment model</td>
+<td><strong>none.</strong> Quiz styling is present in the vendored
+design kit; the concept is not — no data model, no endpoint, no
+component</td>
+<td>search for a question or quiz entity</td>
+</tr>
+<tr>
+<td>Extracted taxonomy (landed 2026-09-01, during drafting)</td>
+<td><strong>7 tracks, 37 modules, 137 terms</strong> for the one
+chapter; linkage for all 1,101 passages; a reverse index keyed by
+module, term and track</td>
+<td>count the records in the chapter’s knowledge directory</td>
+</tr>
+<tr>
+<td>Extracted taxonomy coverage</td>
+<td><strong>884 of 1,055 transcript passages (83.79%)</strong> and
+<strong>14,290 of 15,610 words (91.54%)</strong>; every uncovered
+passage carries a stated reason; 211 of the 267 uncertain passages are
+covered</td>
+<td>read the coverage record</td>
+</tr>
+<tr>
+<td>Chapter sections</td>
+<td><strong>already modelled</strong>, and derived rather than authored:
+transcript sections carry a rule and a cross-check; the chapter’s
+document sections number <strong>46</strong></td>
+<td>the chapter endpoint’s <code>sections</code>; the document section
+sidecar</td>
+</tr>
+<tr>
+<td>Reference area skeleton</td>
+<td><strong>7 level-2 headings in a fixed order</strong>, present in
+34/34 area documents (one document substitutes two alternatives for one
+heading)</td>
+<td>count headings across the reference area documents</td>
+</tr>
+<tr>
+<td>Reference area corpus</td>
+<td><strong>34</strong> area documents in Markdown, plus <strong>74
+diagrams</strong> rendered to 3 formats each from Mermaid source</td>
+<td>count <code>.md</code> files and diagram files in the reference area
+directory</td>
+</tr>
+<tr>
+<td>Reference four-format coverage</td>
+<td><strong>25 of 34</strong> areas carry all four formats — <strong>9
+are Markdown only</strong></td>
+<td>file-existence matrix over
+<code>md</code>/<code>html</code>/<code>docx</code>/<code>pdf</code></td>
+</tr>
+<tr>
+<td>Reference question bank</td>
+<td><strong>312 multiple-choice + 473 short-answer = 785 authored
+items</strong> across 34 files each, linked to an area by a code rather
+than by a key</td>
+<td>count items in the reference question banks</td>
+</tr>
+<tr>
+<td>Reference question provenance</td>
+<td><strong>0 of 785.</strong> The question record has fields for
+prompt, choices, answer, explanation, category and difficulty — and no
+source field of any kind</td>
+<td>reference question type definition and bank schema</td>
+</tr>
+<tr>
+<td>Reference search</td>
+<td>a substring scan over three tables with a fixed result limit,
+<strong>no ranking and no locus</strong>; its hit carries a type, an
+area id, a title and a snippet</td>
+<td>reference search implementation</td>
+</tr>
+<tr>
+<td>Generative model on this host</td>
+<td><strong>none.</strong> The local inference host serves two models,
+both embedding models</td>
+<td>list the local model store</td>
+</tr>
+<tr>
+<td>Entailment path</td>
+<td>an entailment-based support verifier <strong>exists in the
+platform</strong> and is selected when a model directory is configured;
+the fallback is lexical overlap with a configurable floor</td>
+<td>inspect the answering verifier wiring</td>
+</tr>
+<tr>
+<td>Export and OCR toolchain</td>
+<td><strong>all present on this host</strong>: a Markdown converter, an
+HTML-to-PDF renderer, an office suite, a PDF text extractor, an OCR
+engine and a Mermaid renderer all resolve on <code>PATH</code></td>
+<td><code>command -v</code> each</td>
+</tr>
+</tbody>
+</table>
+<h3 id="a-claim-this-document-made-and-now-withdraws">A claim this
+document made and now withdraws</h3>
+<p>An earlier revision of this table stated <strong>“Word-level timings:
+absent.”</strong> That was <strong>wrong</strong> and is withdrawn
+rather than quietly corrected, because the rules governing this
+repository require a retracted figure to be retracted visibly.</p>
+<p>What was actually measured: the <em>passage registry</em> carries a
+per-segment end time and nothing finer — that half was right. But a
+<strong>per-chapter word sidecar exists</strong> alongside it and holds
+15,610 word records with individual start and end times. The error was
+to infer the corpus from one file. Its consequence would have been
+material: the specification would have committed to segment-level
+precision as a ceiling when word-level precision is reachable by joining
+the sidecar on time.</p>
+<p>The corrected position, which the requirements below are written
+against: <strong>precision is word-level where the word sidecar covers
+the material and segment-level otherwise</strong>, the two are not
+interchangeable, and every link must state which one it used. 17.4% of
+words are flagged below the confidence threshold, so word-level
+precision is <em>available</em>, not <em>uniformly trustworthy</em>.</p>
+<h3 id="three-facts-that-are-load-bearing-and-easy-to-misread">Three
+facts that are load-bearing and easy to misread</h3>
+<ol type="1">
+<li><strong>The workshop is not starting from zero, and not starting
+from data either.</strong> Five areas already exist as prose, in an
+adapted form of the reference skeleton. What does not exist is any
+machine-readable form of them — no identifier, no schema, no endpoint.
+The work is to promote prose into a first-class entity and then extend
+it, not to invent a taxonomy against an empty page and not to write
+documents that already exist.</li>
+<li><strong>The <code>highlights</code> field is a measured lie waiting
+to happen.</strong> A search hit already advertises a list of match
+offsets, and that list is unconditionally empty. A consumer reading the
+schema would reasonably conclude offsets are available. This is exactly
+the shape of defect the governing rules call a blind instrument, and the
+“say <em>where</em> it appears” requirement lands directly on it.</li>
+<li><strong>There is no generative model on this host.</strong> Anything
+requiring new prose to be written at run time cannot execute here today.
+This is why prose authorship is an open clarification rather than an
+assumption. Note the contrast with the export and OCR toolchain, which
+<em>is</em> fully present — so the second clarification is a question
+about scope, not about capability.</li>
+</ol>
+<h2 id="clarifications">Clarifications</h2>
+<h3 id="session-2026-09-01">Session 2026-09-01</h3>
+<p>Three questions were left open because each genuinely changes the
+size and the risk of the work and none could be settled from evidence in
+the tree. Everything else the description left unstated was decided, and
+those decisions are recorded under <strong>Assumptions</strong> and
+<strong>Resolved Decisions</strong> with the reasoning, per the
+operator’s standing instruction to take the safest, most stable,
+risk-free option whenever a choice is forced.</p>
+<p><strong>Status, 2026-09-02: two of the three are now DECIDED and ONE
+remains open.</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Clarification</th>
+<th>Status</th>
+<th>Where the decision lives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prose authorship</td>
+<td><strong>OPEN</strong> — genuinely undecided</td>
+<td>still bounds T031; no decision record exists</td>
+</tr>
+<tr>
+<td>what <em>“in videos”</em> covers</td>
+<td><strong>DECIDED 2026-09-02</strong> — spoken <strong>plus</strong>
+on-screen OCR, extending this spec <strong>in place</strong></td>
+<td><strong>D5</strong> below; tasks T123–T142</td>
+</tr>
+<tr>
+<td>answering over the new material</td>
+<td><strong>DECIDED 2026-09-02</strong> — build the
+answer-against-question verifier</td>
+<td>T115/T116, marked <code>[UNBUILT]</code>, not
+<code>[BLOCKED]</code></td>
+</tr>
+</tbody>
+</table>
+<p>A decided clarification is not a built one. Both decided questions
+leave <strong>unbuilt code</strong> behind them, and the count that
+matters for planning is stated plainly in each entry rather than folded
+into a single “resolved”.</p>
+<ul>
+<li><p><strong>[NEEDS CLARIFICATION: prose authorship]</strong> Area
+materials in the reference are written prose — <em>“Why this
+matters”</em>, <em>“Core concepts in one page”</em>, model answers.
+Three ways to produce the workshop’s equivalent differ by an order of
+magnitude in scope and in risk, and the host makes the difference
+concrete rather than theoretical, because <strong>it has no generative
+model</strong>: <strong>(a) extractive only</strong> — an area document
+is assembled entirely from cited passages and fixed templated connective
+text, so every sentence is traceable and nothing is invented, but the
+prose reads as an anthology rather than a lesson; <strong>(b)
+agent-authored at build time</strong> — a human or an agent working in
+this repository writes the prose once, cites passages for every claim,
+and the platform never generates text at run time; <strong>(c)
+platform-generated at run time</strong> — the platform drafts area prose
+itself, which requires a generative model to be installed and brings the
+fabrication risk this repository has already measured. <em>Scope
+impact</em>: (a) needs no model and no review workflow; (b) needs a
+review-and-publication gate; (c) needs a model, a grounding pipeline,
+and a fabrication measurement before anything may be published.</p></li>
+<li><p><del><strong>[NEEDS CLARIFICATION: what “in videos”
+covers]</strong></del> <strong>DECIDED 2026-09-02 — spoken PLUS
+on-screen OCR, extending this specification IN PLACE.</strong> The
+question is kept in full below, because the decision is only legible
+against what was actually asked. The description requires terms
+mentioned <em>“in transcript and video”</em> to be linked to <em>“exact
+times”</em>. The corpus contains only what was <strong>spoken</strong>.
+Text that appeared <strong>on screen</strong> — the substance of a
+screen recording — is not transcribed and is not in the registry, and
+the one declared content kind that could hold it is measured empty
+(<code>diagram</code>, 0 passages — starting-state table above). Linking
+on-screen occurrences would mean optical character recognition across
+the whole recording, producing a new passage kind, new timings and a new
+accuracy obligation of its own. <em>Scope impact</em>: spoken-only is a
+linking feature over data that already exists; spoken-plus-on-screen is
+a second ingestion pipeline that must be measured before it can be
+trusted. <strong>This was a question about scope, not about
+capability</strong> — the OCR engine resolves on this host, so the
+answer was never forced by the environment.</p>
+<p><strong>The decision, and the three parts of it that bind
+work.</strong> (1) <strong>Scope</strong>: on-screen text is
+<strong>in</strong>, so every one of the three consequences the question
+named is now owed — a new passage kind, new timings, and a new accuracy
+obligation. (2) <strong>Placement</strong>: this specification is
+extended <strong>in place</strong> rather than a separate feature 003
+being opened, because the new kind joins the <em>existing</em> passage
+registry, the <em>existing</em> two-valued precision model and the
+<em>existing</em> mention join; a second spec would have had to restate
+all three and would have created the second source of truth the
+reconciliation rules exist to prevent. (3) <strong>Sequencing</strong>:
+<strong>specify now, build later.</strong> The work is written down as
+tasks <strong>T123–T142</strong> and is sequenced <strong>after this
+specification’s 28 already-unbuilt tasks</strong>. Nothing in this
+decision is built, and no checkbox was ticked for it. Full reasoning,
+alternatives and what would reopen it: <strong>D5</strong> below.</p>
+<p><strong>The consequence, stated plainly because it changes when this
+feature can close: spec 002 cannot close until OCR accuracy is
+MEASURED.</strong> Not designed, not implemented, not reviewed —
+<strong>measured</strong>, per SC-031 through SC-034, on the chapter the
+mentions are derived from. Accuracy for automatic speech recognition in
+this project is a measured quantity with a recorded procedure
+(<code>workshop/pipeline/CALIBRATION.md</code>,
+<code>workshop/pipeline/compare_engines.py</code>,
+<code>workshop/scripts/verify-accuracy.sh</code> — all three present,
+measured 2026-09-02). Optical character recognition entering the same
+corpus at a <em>lower</em> evidentiary standard than the speech it sits
+beside would make the corpus’s overall accuracy unknown while every
+published figure continued to look precise. <strong>A task that says
+“OCR the video” without an accuracy budget is the defect this
+clarification was raised to prevent, and adding the tasks without the
+budget would have been answering the question by ignoring
+it.</strong></p></li>
+<li><p><strong>[NEEDS CLARIFICATION: answering over the new
+material]</strong> Question answering over the workshop corpus has a
+<strong>known, measured, unclosed defect</strong>: on the unanswerable
+set, 3 of 33 questions were answered rather than declined, and
+separately, <em>extractive evasion</em> is undefended — a passage
+fragment that is topically related but does not answer the question
+passes every existing check, because every layer verifies <em>claim
+against passage</em> and no layer verifies <em>claim against
+question</em>. Extending answering across areas, lessons and quiz
+questions multiplies the surface on which that defect can appear.
+<em>Scope impact</em>: closing it means building a claim-to-question
+relevance verifier and measuring it — and on this host, an
+entailment-class model would have to be installed first; leaving it open
+means the feature ships with the defect stated in its limits document
+and answering held to retrieval over the new kinds without generating
+answers about them. <strong>The one option that is not available is to
+describe it as solved.</strong></p></li>
+</ul>
+<h2 id="user-scenarios-testing-mandatory">User Scenarios &amp; Testing
+<em>(mandatory)</em></h2>
+<h3
+id="user-story-1---the-workshop-teaches-areas-not-just-chapters-priority-p1">User
+Story 1 - The workshop teaches areas, not just chapters (Priority:
+P1)</h3>
+<p>A learner opens the workshop and sees the knowledge it covers laid
+out as areas — the way the reference module lays out its taxonomy —
+rather than as a single recording with a transcript underneath. They
+pick an area, read its materials, and every claim in those materials
+points back to the moment in the workshop where it was actually
+taught.</p>
+<p><strong>Why this priority</strong>: this is the missing substance.
+Without it the platform remains a media viewer, which the starting-state
+table measures rather than asserts: 0 areas, 0 area materials, and
+<code>/api/areas</code> returning 404. Every later story navigates to,
+from, or across areas, so nothing else can exist first.</p>
+<p><strong>Independent Test</strong>: deliver only the taxonomy and the
+area documents. A reviewer opens the area list, picks any five areas at
+random, and confirms each has materials in the reference skeleton and
+that every substantive claim carries a citation that resolves to a real
+passage. Value is delivered even if no new interface, search or
+assessment is ever built.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> the indexed corpus, <strong>When</strong>
+taxonomy extraction is run, <strong>Then</strong> a set of knowledge
+areas and terms is produced in which every area and every term is
+evidenced by at least one passage, and no area or term exists without
+evidence.</li>
+<li><strong>Given</strong> the extracted taxonomy, <strong>When</strong>
+a reviewer inspects any area, <strong>Then</strong> it carries a
+materials document following the same section skeleton the reference
+module uses.</li>
+<li><strong>Given</strong> an area’s materials, <strong>When</strong> a
+reviewer examines any substantive claim, <strong>Then</strong> it
+carries at least one passage citation that resolves, or it is visibly
+marked as editorial framing rather than as workshop content.</li>
+<li><strong>Given</strong> extraction is run a second time on unchanged
+content, <strong>When</strong> it completes, <strong>Then</strong> the
+taxonomy is identical and no identifier has changed.</li>
+<li><strong>Given</strong> a passage that no area claims,
+<strong>When</strong> the extraction completes, <strong>Then</strong>
+that passage is explicitly classified as unattached with a stated
+reason, rather than silently dropped from the accounting.</li>
+<li><strong>Given</strong> a term the extractor recognised with low
+confidence, <strong>When</strong> it is published, <strong>Then</strong>
+it is marked uncertain and is not presented as a confidently identified
+term.</li>
+</ol>
+<hr />
+<h3
+id="user-story-2---go-from-any-point-to-every-related-point-in-both-directions-priority-p2">User
+Story 2 - Go from any point to every related point, in both directions
+(Priority: P2)</h3>
+<p>A learner watching the recording pauses at a moment and jumps
+straight to the area that moment belongs to, and from there to the
+lesson section and to the questions that test it. Later they come at it
+from the other end: they open a quiz question and jump to the exact
+moment in the recording that teaches its answer, then come back without
+losing their place.</p>
+<p><strong>Why this priority</strong>: this is the heart of the
+operator’s description and the mechanism every other story depends on.
+It is second only because it needs areas to link to. Once it exists,
+search results, quizzes and the learning surface all navigate through it
+rather than each inventing its own notion of “where”.</p>
+<p><strong>Independent Test</strong>: with the taxonomy present,
+enumerate every recorded link, traverse it forward and then backward,
+and confirm the reverse traversal returns the origin. No interface is
+required — this is testable entirely through the platform’s own
+interfaces.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> a transcript moment, <strong>When</strong> a
+learner asks what it belongs to, <strong>Then</strong> the areas, the
+chapter section and the questions attached to it are returned, each
+reachable in one step.</li>
+<li><strong>Given</strong> an area, <strong>When</strong> a learner asks
+where it appears, <strong>Then</strong> every passage that evidences it
+is returned, each with the position at which it occurs.</li>
+<li><strong>Given</strong> a question, <strong>When</strong> a learner
+follows its citation, <strong>Then</strong> playback lands inside the
+time span of the cited passage.</li>
+<li><strong>Given</strong> any recorded link, <strong>When</strong> it
+is traversed in reverse, <strong>Then</strong> the origin is returned;
+no link is one-way.</li>
+<li><strong>Given</strong> a passage whose text is corrected and the
+content re-indexed, <strong>When</strong> every link is re-traversed,
+<strong>Then</strong> all of them still resolve to the same
+targets.</li>
+<li><strong>Given</strong> a link whose target no longer exists,
+<strong>When</strong> it is followed, <strong>Then</strong> it fails
+loudly with a stated reason, and is never quietly re-pointed at a
+different target.</li>
+<li><strong>Given</strong> a chain of related material that forms a
+cycle, <strong>When</strong> a learner traverses it,
+<strong>Then</strong> they are not trapped; the traversal
+terminates.</li>
+<li><strong>Given</strong> a passage that has been redacted,
+<strong>When</strong> any link to it is followed, <strong>Then</strong>
+the redaction is honoured at every layer, not merely in the transcript
+view.</li>
+</ol>
+<hr />
+<h3
+id="user-story-3---search-everything-and-be-told-exactly-where-it-is-priority-p3">User
+Story 3 - Search everything, and be told exactly where it is (Priority:
+P3)</h3>
+<p>A learner searches once and gets results drawn from areas, lesson
+sections, quiz questions, the transcript, the written documents, the
+code and the diagrams — and each result says <em>where</em> it occurs:
+which area and chapter section contain it, and at what point within
+them.</p>
+<p><strong>Why this priority</strong>: search already works over the 001
+corpus, so this story extends a proven capability rather than creating
+one. It is third because the new content kinds must exist before they
+can be indexed.</p>
+<p><strong>Independent Test</strong>: with the new kinds indexed, run a
+benchmark of meaning-based queries whose expected targets are known in
+advance and confirm both that the expected item is returned and that
+every returned hit carries a locus that resolves.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> all content kinds are indexed,
+<strong>When</strong> a learner searches, <strong>Then</strong> results
+may come from any kind, and a kind with content but no index entries is
+a failure rather than an empty category.</li>
+<li><strong>Given</strong> a search result, <strong>When</strong> it is
+displayed, <strong>Then</strong> it states the unit that contains it and
+the position within that unit — a time span where the source is
+media-backed, a text span otherwise.</li>
+<li><strong>Given</strong> a learner types the first characters of an
+area or term name, <strong>When</strong> suggestions appear,
+<strong>Then</strong> areas and terms are offered alongside the existing
+suggestions.</li>
+<li><strong>Given</strong> a learner wants to narrow results,
+<strong>When</strong> they filter by area or by kind,
+<strong>Then</strong> only matching results are returned and the filter
+is reflected in what is shown.</li>
+<li><strong>Given</strong> the search backend is degraded or
+unavailable, <strong>When</strong> a learner searches,
+<strong>Then</strong> the system says it could not answer, and does not
+render the failure as “no results”.</li>
+<li><strong>Given</strong> the corpus has grown with the new kinds,
+<strong>When</strong> latency is measured, <strong>Then</strong> it
+still meets the thresholds established for the existing corpus.</li>
+</ol>
+<hr />
+<h3
+id="user-story-4---practice-and-see-exactly-where-each-answer-comes-from-priority-p4">User
+Story 4 - Practice, and see exactly where each answer comes from
+(Priority: P4)</h3>
+<p>A learner finishes an area and practises it: multiple-choice
+questions, short-answer questions and flashcards. Every question shows
+where its answer comes from, and a single action takes the learner to
+that moment in the recording and back to the question afterwards.</p>
+<p><strong>Why this priority</strong>: this is where the workshop
+exceeds its reference rather than catching up to it, so it is worth
+building deliberately and on top of proven linking rather than early and
+fragile. It depends on areas (US1) and on the link mechanism (US2).</p>
+<p><strong>Independent Test</strong>: enumerate every served question,
+resolve every citation it carries, and confirm none is unresolvable;
+then, for questions citing a transcript segment, follow the citation and
+confirm playback lands inside that segment’s time span.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> an area, <strong>When</strong> a learner
+opens its practice set, <strong>Then</strong> questions of the reference
+module’s kinds are available — multiple choice, short answer and
+flashcard.</li>
+<li><strong>Given</strong> any served question, <strong>When</strong>
+its provenance is inspected, <strong>Then</strong> it carries at least
+one passage citation that resolves.</li>
+<li><strong>Given</strong> a question whose citation cannot be resolved,
+<strong>When</strong> the practice set is assembled,
+<strong>Then</strong> that question is withheld rather than served
+without provenance.</li>
+<li><strong>Given</strong> a question citing a transcript segment,
+<strong>When</strong> the learner follows the citation,
+<strong>Then</strong> playback lands inside that segment, and returning
+restores the question and the learner’s progress.</li>
+<li><strong>Given</strong> a model answer that was assembled rather than
+authored, <strong>When</strong> it is shown, <strong>Then</strong> it is
+marked as such, and is not presented as a verified answer.</li>
+<li><strong>Given</strong> a learner completes practice,
+<strong>When</strong> they return later, <strong>Then</strong> their
+progress per area and per question set is preserved.</li>
+</ol>
+<hr />
+<h3
+id="user-story-5---a-learning-surface-with-its-own-visual-identity-priority-p5">User
+Story 5 - A learning surface, with its own visual identity (Priority:
+P5)</h3>
+<p>A learner uses an interface built for learning — an area view, a
+practice view, a progress view and a study-plan view — rather than a
+file browser with a video in it. It looks like the workshop’s own
+product, not like a copy of the reference module.</p>
+<p><strong>Why this priority</strong>: the surface is the vehicle, not
+the cargo. Stories 1 to 4 are all testable through the platform’s
+interfaces without it, and the workshop already has a working, if
+mis-shaped, front end. Reshaping it last means it is reshaped around
+behaviour that has already been proven.</p>
+<p><strong>Independent Test</strong>: open each new view and complete
+its primary task using only the keyboard, then run an accessibility
+audit and a design-token conformance check against the whole
+surface.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> the platform is running,
+<strong>When</strong> a learner opens it, <strong>Then</strong> the
+entry point is the knowledge the workshop covers, with the recording
+reachable from within an area rather than being the top-level
+object.</li>
+<li><strong>Given</strong> an area, <strong>When</strong> a learner
+opens it, <strong>Then</strong> they can read it, practise it, see their
+progress in it, and reach every linked point from it.</li>
+<li><strong>Given</strong> the existing chapter, transcript, recording
+and cross-reference views, <strong>When</strong> the new surface is
+delivered, <strong>Then</strong> those capabilities remain reachable,
+subordinated to the area they belong to rather than removed.</li>
+<li><strong>Given</strong> any new view, <strong>When</strong> its
+styling is inspected, <strong>Then</strong> every colour, spacing and
+typographic value resolves through the shared design-token contract, and
+no brand value is written literally.</li>
+<li><strong>Given</strong> any new view, <strong>When</strong> an
+accessibility audit is run, <strong>Then</strong> it reports no Level A
+or Level AA violation, and every deep link is reachable and operable by
+keyboard alone.</li>
+<li><strong>Given</strong> a learner is midway through an area,
+<strong>When</strong> they follow a deep link out and come back,
+<strong>Then</strong> their position is restored.</li>
+</ol>
+<hr />
+<h3
+id="user-story-6---take-an-area-away-with-you-in-four-formats-priority-p6">User
+Story 6 - Take an area away with you, in four formats (Priority:
+P6)</h3>
+<p>A learner exports an area and gets the same set of document formats
+the reference module ships: Markdown, HTML, Word and PDF — with the
+citations preserved.</p>
+<p><strong>Why this priority</strong>: last because it is a
+transformation of material that must exist and be correct first.
+Exporting wrong material in four formats is four times the damage.</p>
+<p><strong>Independent Test</strong>: run the export over every
+published area and check the format matrix is complete, then re-run it
+and confirm the extracted text of each regenerated document is
+unchanged.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> a published area, <strong>When</strong>
+export is run, <strong>Then</strong> all four formats are produced.</li>
+<li><strong>Given</strong> the export has been run,
+<strong>When</strong> an area is exported again from unchanged source,
+<strong>Then</strong> the extracted text of each output is identical to
+the previous run.</li>
+<li><strong>Given</strong> an exported document, <strong>When</strong> a
+reader inspects a cited claim, <strong>Then</strong> the citation is
+present and identifies the passage it came from.</li>
+<li><strong>Given</strong> an area that has not passed its publication
+review, <strong>When</strong> export is run, <strong>Then</strong> that
+area is not exported and the omission is reported.</li>
+<li><strong>Given</strong> a diagram belonging to an area,
+<strong>When</strong> the area is exported, <strong>Then</strong> the
+diagram is rendered into each format rather than being dropped.</li>
+</ol>
+<hr />
+<h3
+id="user-story-7---add-the-next-chapter-and-get-the-whole-knowledge-layer-priority-p7">User
+Story 7 - Add the next chapter and get the whole knowledge layer
+(Priority: P7)</h3>
+<p>A maintainer finishes recording Chapter 2. They run one documented
+procedure. The chapter arrives transcribed, its passages minted, its
+areas extracted and merged into the existing taxonomy, its materials
+written, its short and long question sets built, everything
+cross-referenced, indexed and deep-linked — with no hand-assembly of
+structure and no code change.</p>
+<p><strong>Why this priority</strong>: last, because it validates every
+earlier story at once. It is not the least important — it is arguably
+the point of the whole feature, since a curriculum that cannot grow is a
+document. But it can only be <em>tested</em> once the things it must
+produce are known to be producible, so it is sequenced where it can
+actually be proven rather than where it feels most important.</p>
+<p><strong>Independent Test</strong>: run the documented procedure
+against a small synthetic chapter and confirm that every output appears
+and that the diff contains no hand-created structural file.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> a new chapter’s raw material placed where the
+procedure specifies, <strong>When</strong> the procedure runs,
+<strong>Then</strong> the chapter emerges transcribed, with minted
+passage identifiers, extracted areas, authored materials, short and long
+question sets, cross-references, index entries and deep links.</li>
+<li><strong>Given</strong> an existing taxonomy, <strong>When</strong> a
+new chapter is processed, <strong>Then</strong> established areas keep
+their identifiers and gain evidence, newly evidenced areas are added,
+and a contradiction between new evidence and an existing area is
+reported rather than silently resolved.</li>
+<li><strong>Given</strong> the procedure is run twice on the same
+chapter, <strong>When</strong> the second run completes,
+<strong>Then</strong> nothing has changed and nothing is
+duplicated.</li>
+<li><strong>Given</strong> a chapter whose material is incomplete,
+<strong>When</strong> the procedure runs, <strong>Then</strong> it names
+exactly what is missing and publishes nothing.</li>
+<li><strong>Given</strong> two chapters are present,
+<strong>When</strong> a learner searches or browses an area,
+<strong>Then</strong> results and evidence span both chapters, and no
+area is confined to the chapter it first appeared in.</li>
+<li><strong>Given</strong> the procedure exists, <strong>When</strong> a
+maintainer looks for how to add a chapter, <strong>Then</strong> there
+is exactly one documented way to do it.</li>
+</ol>
+<hr />
+<h3 id="edge-cases">Edge Cases</h3>
+<ul>
+<li><strong>A term appears in a passage that has been redacted.</strong>
+The term keeps its evidence count only if another passage supports it;
+otherwise the term itself must disappear from the published taxonomy,
+not merely lose one link. Redaction that stops at the display layer is
+the failure mode this repository has already contracted against.</li>
+<li><strong>A term is a common word.</strong> “Test”, “run”, “build”
+occur constantly. An extractor that treats frequency as significance
+produces a taxonomy of stopwords. Significance must be demonstrated, and
+the demonstration must be recorded so it can be challenged.</li>
+<li><strong>An area is evidenced only by passages flagged
+uncertain.</strong> 267 of 1,101 passages are uncertain. An area resting
+entirely on uncertain evidence must be marked as such and must not read
+like a confident one.</li>
+<li><strong>A mention spans a segment boundary.</strong> A term spoken
+across the seam between two segments belongs to both; attaching it to
+one silently loses half its evidence.</li>
+<li><strong>Two areas overlap almost completely.</strong> Near-duplicate
+areas fragment the taxonomy and split their own evidence. Merging is a
+decision with consequences for every link already pointing at either
+one.</li>
+<li><strong>A question’s only citation is corrected after the question
+is written.</strong> The citation must survive the correction; that is
+exactly what the minted identifier exists for, and it must be proven,
+not assumed.</li>
+<li><strong>A question cites a passage in a different chapter than the
+area it belongs to.</strong> Legitimate once more than one chapter
+exists; the model must not assume an area lives in one chapter.</li>
+<li><strong>The export toolchain is not installed.</strong> Four-format
+export depends on document conversion tooling. Its absence must report
+that the export could not be performed — never that it was performed and
+produced nothing.</li>
+<li><strong>A learner follows a deep link into a passage whose time span
+exceeds twenty seconds.</strong> The measured maximum is 20.22 s.
+Landing “inside the segment” is the guarantee; landing on the word is
+not, and the interface must not imply the precision it does not
+have.</li>
+<li><strong>The taxonomy is re-extracted while the index is being
+served.</strong> Half-written taxonomies must never be served; a stale
+but coherent taxonomy is preferable to an incoherent one.</li>
+<li><strong>A search hit’s containing unit was deleted between indexing
+and display.</strong> The locus must fail loudly rather than render a
+link into nothing.</li>
+<li><strong>An area has zero questions.</strong> Presenting an empty
+practice set as though practice exists is a small lie that erodes trust
+in every other count on the page.</li>
+<li><strong>A screen-reader user follows a deep link into the
+recording.</strong> The jump changes context; the change must be
+announced, and returning must restore focus, not dump the user at the
+top of the page.</li>
+</ul>
+<h2 id="requirements-mandatory">Requirements <em>(mandatory)</em></h2>
+<h3 id="functional-requirements">Functional Requirements</h3>
+<p><strong>Ported knowledge model — port, do not clone</strong></p>
+<ul>
+<li><strong>FR-001</strong>: The workshop MUST adopt the reference
+module’s learning hierarchy — curriculum, track, module, lesson — as its
+curriculum spine, taking the shape from the reference rather than
+inventing a second one.</li>
+<li><strong>FR-002</strong>: The mapping between that hierarchy and the
+workshop’s existing concepts — chapters, passages, cross-references —
+MUST be defined explicitly and MUST NOT create a parallel hierarchy that
+covers the same ground. A knowledge area is the workshop’s module; a
+chapter is a <em>source</em> of material for areas, not a level of the
+hierarchy above them.</li>
+<li><strong>FR-003</strong>: For every element taken from the reference,
+the design MUST record which of three it is — <strong>ported
+as-is</strong>, <strong>adapted</strong>, or <strong>newly
+designed</strong> — and why. An element recorded as “ported as-is” that
+in fact differs is a defect.</li>
+<li><strong>FR-004</strong>: <strong>The reference supplies shape, never
+substance.</strong> No content, wording, fixture, question, model answer
+or asset MAY be copied from the reference module into the workshop. What
+is reused is structure: the hierarchy, the document skeleton, the
+question-bank schema, the export toolchain’s design. What is authored
+fresh is everything a reader actually reads. Every workshop area, lesson
+and question MUST be derived from the workshop’s own chapters and MUST
+be evidenced against the workshop’s own passages. <em>Why this is stated
+so bluntly</em>: the reference holds 785 ready-made questions and 34
+finished area documents about a different subject entirely. Reusing them
+would be faster than authoring, would pass a superficial review because
+the documents look right, and would be worthless — the workshop would
+ship a curriculum about interview preparation while claiming to teach
+its own material. It is the single easiest way for this feature to go
+wrong.</li>
+<li><strong>FR-004a</strong>: The reference module is a <strong>separate
+private repository</strong>. Its content MUST NOT migrate into the
+workshop under any justification, including as a placeholder, a fixture,
+a template with the words left in, or an example. This is a content
+boundary, not a style preference, and it is enforced by the same check
+that keeps workshop content out of public repositories.</li>
+<li><strong>FR-005</strong>: The normative definition of the ported
+model MUST live in a single knowledge-model contract document, and this
+specification and every downstream artifact MUST reference it rather
+than restate it, so that the two cannot drift.</li>
+</ul>
+<p><strong>Taxonomy extraction</strong></p>
+<ul>
+<li><strong>FR-006</strong>: The system MUST derive its knowledge areas
+and terms from the indexed corpus, not from a hand-written list, and
+MUST record how each was derived.</li>
+<li><strong>FR-007</strong>: Every area and every term MUST carry a
+persisted identifier assigned once at creation, neither positional nor
+derived from its own text, following the same identity discipline the
+passage identifier already follows.</li>
+<li><strong>FR-008</strong>: Every published area and every published
+term MUST be evidenced by at least one passage. An area or term with no
+evidencing passage MUST NOT be published.</li>
+<li><strong>FR-008a</strong>: The five areas that already exist as prose
+in the workshop’s training documentation MUST be
+<strong>promoted</strong> into the machine-readable model — given
+identifiers, evidenced against the corpus and reconciled with what
+extraction derives — rather than being ignored, duplicated, or
+overwritten by a fresh extraction. Where extraction and the existing
+prose disagree about what an area is, the disagreement MUST be surfaced
+for a decision, not silently resolved in either direction.</li>
+<li><strong>FR-009</strong>: Extraction MUST be idempotent: a second run
+over unchanged content MUST produce an identical taxonomy and MUST
+change no identifier.</li>
+<li><strong>FR-010</strong>: Extraction MUST account for every passage —
+each is either attached to at least one area or explicitly classified as
+unattached with a stated reason. Silent omission is forbidden.</li>
+<li><strong>FR-011</strong>: The system MUST distinguish a term
+identified with confidence from one identified with low confidence, MUST
+mark the latter, and MUST NOT present it as the former.</li>
+<li><strong>FR-012</strong>: An area evidenced only by passages flagged
+uncertain MUST be marked as resting on uncertain evidence.</li>
+<li><strong>FR-013</strong>: Term significance MUST be demonstrated by a
+recorded, re-derivable measure rather than asserted, and raw frequency
+alone MUST NOT be that measure.</li>
+</ul>
+<p><strong>Area materials</strong></p>
+<ul>
+<li><strong>FR-014</strong>: Every published area MUST carry a materials
+document following the reference module’s section skeleton — measured as
+seven level-2 sections in a fixed order: why the area matters, its core
+concepts on one page, questions and model answers subdivided per topic,
+real-world challenge scenarios, red flags and strong signals, how the
+area maps back to the workshop, and sources. The two sections whose
+reference wording is specific to interviewing MUST be
+<strong>adapted</strong> to the workshop’s subject rather than carried
+over verbatim, and that adaptation MUST be recorded under FR-003.</li>
+<li><strong>FR-014a</strong>: Where an area’s materials contain a
+diagram, the diagram MUST be authored as text source and rendered, never
+embedded as an unreproducible binary, following the reference module’s
+practice.</li>
+<li><strong>FR-015</strong>: Every substantive claim in an area’s
+materials MUST carry at least one passage citation that resolves, or
+MUST be visibly marked as editorial framing that is not workshop
+content.</li>
+<li><strong>FR-016</strong>: An area MUST NOT be published until its
+publication review has been recorded. Recording <em>“nothing to
+change”</em> is a valid review; skipping the review is not.</li>
+<li><strong>FR-017</strong>: Materials MUST record for each unit of
+prose whether it was authored or assembled, and MUST NOT present
+assembled text as authored.</li>
+</ul>
+<p><strong>Deep linking — the identity and navigation model</strong></p>
+<ul>
+<li><strong>FR-018</strong>: Every relationship the system records
+between two addressable things MUST be traversable in both directions. A
+relationship that can only be followed one way MUST NOT be
+recorded.</li>
+<li><strong>FR-019</strong>: From any transcript moment, the system MUST
+return the areas, the lesson section and the questions attached to it,
+each reachable in a single step.</li>
+<li><strong>FR-020</strong>: From any area, lesson section or question,
+the system MUST return every passage that evidences it, with the
+position at which the evidence occurs.</li>
+<li><strong>FR-021</strong>: For evidence that is media-backed, the
+position MUST be a time span, and following it MUST land within that
+span. Two precisions exist and the system MUST NOT conflate them:
+<strong>word level</strong>, available where a word-timing sidecar
+covers the material, and <strong>segment level</strong>, available
+everywhere else. Every media-backed link MUST record which precision
+produced it, MUST NOT present segment precision as word precision, and
+MUST NOT treat a word whose timing confidence is below the recorded
+threshold as though it were confident.</li>
+<li><strong>FR-022</strong>: A mention that spans a segment boundary
+MUST be attached to every segment it touches.</li>
+<li><strong>FR-023</strong>: Every link MUST resolve through one shared
+resolution path with four distinct outcomes — found, redacted, not
+present, and could not determine — with no fuzzy fallback, no
+nearest-match, and no second path.</li>
+<li><strong>FR-024</strong>: An unresolvable link MUST fail loudly and
+MUST NEVER be silently re-pointed at a different target.</li>
+<li><strong>FR-025</strong>: All links MUST continue to resolve to their
+original targets after a passage’s text is corrected and the content
+re-indexed.</li>
+<li><strong>FR-026</strong>: Traversal of the relationship graph MUST
+terminate on cyclic material and MUST NOT trap a reader.</li>
+<li><strong>FR-027</strong>: Redaction MUST propagate to every artifact
+kind this feature introduces — taxonomy, materials, questions, index
+entries, exports and stored answers — not only to displayed
+transcript.</li>
+</ul>
+<p><strong>Search</strong></p>
+<ul>
+<li><strong>FR-028</strong>: Every content kind the feature introduces —
+areas, lesson sections, terms and questions — MUST be indexed and
+searchable alongside the existing kinds.</li>
+<li><strong>FR-029</strong>: Every search result MUST carry a locus: the
+unit that contains it and the position within that unit. The position
+MUST include the <strong>match offsets within the matched text</strong>.
+Today the result already advertises an offset list and that list is
+always empty; a field that promises a position and never carries one
+MUST NOT survive this feature. Either it is populated, or it is removed
+and its absence stated.</li>
+<li><strong>FR-030</strong>: A locus MUST resolve. A result whose locus
+cannot be resolved MUST NOT be returned as though it could.</li>
+<li><strong>FR-030a</strong>: The reference module’s search MUST NOT be
+ported. It is a substring scan with no ranking and no locus, and the
+workshop’s existing search already exceeds it on both counts. This is
+recorded as an explicit “not ported” decision under FR-003 so that a
+later reader does not mistake the omission for an oversight.</li>
+<li><strong>FR-031</strong>: Suggestions MUST include area and term
+names.</li>
+<li><strong>FR-032</strong>: Results MUST be filterable by content kind
+and by area.</li>
+<li><strong>FR-033</strong>: The existing three-state search behaviour —
+results, no relevant match, could not determine — MUST be preserved
+across every new kind. A degraded backend MUST NOT be rendered as an
+empty result set.</li>
+</ul>
+<p><strong>Full connectivity across all four content kinds</strong></p>
+<ul>
+<li><p><strong>FR-033a</strong>: Four content kinds MUST be interlinked,
+and the requirement is not satisfied by linking any subset:
+<strong>transcripts</strong>, <strong>the recording</strong>,
+<strong>codebases</strong>, and <strong>the knowledge base</strong> —
+areas with their lessons and their questions. Every pair that can
+meaningfully relate MUST be traversable in both directions:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>From</th>
+<th>To</th>
+<th>What the traversal must return</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a moment in the recording</td>
+<td>area / lesson / question</td>
+<td>what is being taught at that moment and what tests it</td>
+</tr>
+<tr>
+<td>an area, lesson or question</td>
+<td>a moment in the recording</td>
+<td>the position where the material was actually taught</td>
+</tr>
+<tr>
+<td>a transcript passage</td>
+<td>area / lesson / question</td>
+<td>the knowledge the passage evidences</td>
+</tr>
+<tr>
+<td>a code passage</td>
+<td>transcript passage</td>
+<td>the moment that code was discussed</td>
+</tr>
+<tr>
+<td>an area</td>
+<td>code passages</td>
+<td>the code that the area’s knowledge is realised in</td>
+</tr>
+<tr>
+<td>any of the four</td>
+<td>any other, transitively</td>
+<td>a path, not a dead end</td>
+</tr>
+</tbody>
+</table></li>
+<li><p><strong>FR-033b</strong>: The join across all four kinds MUST be
+the passage identifier. A timestamp MUST NOT be used as a join key.
+<em>Why</em>: the identifier is measured to survive both a content
+correction and a structural insertion; a timestamp survives neither a
+re-cut nor a re-transcription, so a graph keyed on time would silently
+rot at the first correction while continuing to render links.</p></li>
+<li><p><strong>FR-033c</strong>: Search MUST cover all four kinds by
+meaning and by context, and MUST report where each hit occurs, in the
+terms of the kind it came from — a time position for the recording, a
+text position for a transcript or a document, a file and symbol position
+for code, and a containing area and lesson for the knowledge
+base.</p></li>
+</ul>
+<p><strong>A repeatable chapter pipeline, not a one-off
+build</strong></p>
+<ul>
+<li><strong>FR-033d</strong>: Everything this feature produces MUST be
+produced by a <strong>repeatable pipeline</strong>, not hand-assembled
+for the chapter that exists today. Processing a new chapter MUST yield,
+without hand-authoring of the structure: its transcript, its passages
+with minted identifiers, its extracted areas and themes, its authored
+materials, its long and short question sets, its cross-references, its
+search index entries and all of its deep links.</li>
+<li><strong>FR-033e</strong>: That pipeline MUST <strong>extend the
+chapter-addition path the platform already contracts</strong> — the
+documented add-a-chapter procedure and its accompanying prompt — rather
+than introducing a second, parallel way to add a chapter. Two procedures
+for the same act guarantee that one of them rots.</li>
+<li><strong>FR-033f</strong>: Adding a chapter MUST update the taxonomy
+rather than replace it: areas already established keep their identifiers
+and gain new evidence, areas newly evidenced are added, and an area that
+a new chapter contradicts is surfaced for a decision rather than
+silently rewritten.</li>
+<li><strong>FR-033g</strong>: The pipeline MUST report precisely what is
+missing when a chapter cannot be fully processed, and MUST NOT publish a
+partially processed chapter as though it were complete.</li>
+</ul>
+<p><strong>Assessment with provenance</strong></p>
+<ul>
+<li><strong>FR-034</strong>: The system MUST support the reference
+module’s question kinds — multiple choice, short answer and flashcard —
+with the reference’s difficulty and category vocabulary, taking the
+schema from it and the questions from the workshop’s own material.</li>
+<li><strong>FR-034a</strong>: Every area MUST carry both a
+<strong>short</strong> question set and a <strong>long</strong> question
+set, and the distinction MUST be a real difference in depth rather than
+in count: a short set checks recall of the area’s core concepts, a long
+set requires reasoning across more than one passage of evidence.</li>
+<li><strong>FR-034b</strong>: Question coverage MUST be
+<strong>exhaustive against the area’s evidence, not against a target
+count</strong>. Every lesson section of an area MUST be assessed by at
+least one question, and the proportion of the area’s evidencing passages
+that are cited by at least one question MUST be measured and published.
+A large number of questions concentrated on a small part of an area does
+not satisfy this requirement, and the measurement is defined so that it
+cannot.</li>
+<li><strong>FR-035</strong>: Every question MUST carry at least one
+passage citation. This is the property the reference module does not
+have, and it is mandatory here.</li>
+<li><strong>FR-036</strong>: A question whose citation does not resolve
+MUST NOT be served.</li>
+<li><strong>FR-037</strong>: From any question, a learner MUST be able
+to reach the position its citation names and return, with their progress
+preserved.</li>
+<li><strong>FR-038</strong>: A model answer that was assembled rather
+than authored MUST be marked as assembled.</li>
+<li><strong>FR-039</strong>: The system MUST record a learner’s progress
+per area and per question set, and that record MUST survive a re-ingest
+of the content it refers to — a learner’s history is not a derived
+artifact and MUST NOT be discarded when the curriculum is rebuilt.</li>
+</ul>
+<p><strong>Learning surface and visual identity</strong></p>
+<ul>
+<li><strong>FR-040</strong>: The interface MUST offer the reference
+module’s learning views — an area view, a practice view, a progress view
+and a study-plan view — as first-class surfaces.</li>
+<li><strong>FR-041</strong>: The workshop’s existing chapter,
+transcript, recording and cross-reference capabilities MUST remain
+reachable, subordinated to the area they serve rather than removed.</li>
+<li><strong>FR-042</strong>: All new styling MUST resolve through the
+shared design-token contract, and MUST NOT write brand values
+literally.</li>
+<li><strong>FR-043</strong>: The workshop MUST have a visual identity
+distinguishable from the reference module, achieved through the token
+layer rather than by forking the component library.</li>
+<li><strong>FR-044</strong>: Every new view MUST meet WCAG 2.1 Level AA,
+and every deep link MUST be operable by keyboard alone, with context
+changes announced.</li>
+<li><strong>FR-044a</strong>: Interaction, motion and transition
+behaviour MUST be taken from the platform’s own ranked, sourced
+user-experience research rather than chosen by taste, and each
+interaction decision MUST name the finding it rests on. Where a proposed
+effect has no supporting finding, it MUST NOT ship on the grounds that
+it looks better.</li>
+<li><strong>FR-044b</strong>: Every motion effect MUST respect a
+reduced-motion preference, preserving the final visual state without the
+transition. An effect that becomes load-bearing for comprehension — one
+a user who disables motion would lose information by not seeing — MUST
+NOT be used.</li>
+</ul>
+<p><strong>Export</strong></p>
+<ul>
+<li><strong>FR-045</strong>: Every published area MUST be exportable to
+Markdown, HTML, Word and PDF.</li>
+<li><strong>FR-046</strong>: The non-Markdown formats MUST be generated
+from the Markdown source; no format may be authored independently of the
+others.</li>
+<li><strong>FR-047</strong>: Citations MUST be preserved in every
+exported format.</li>
+<li><strong>FR-048</strong>: An area that has not passed publication
+review MUST NOT be exported, and the omission MUST be reported.</li>
+<li><strong>FR-049</strong>: When the export toolchain is unavailable,
+the system MUST report that export could not be performed, and MUST NOT
+report success over an empty or partial output.</li>
+</ul>
+<p><strong>Answering over the new material</strong></p>
+<ul>
+<li><strong>FR-050</strong>: The known unclosed defects in question
+answering — the measured fabrication rate on unanswerable questions, and
+the undefended case where a topically related fragment that does not
+answer the question passes every existing check — MUST be stated in the
+shipped limits documentation, and MUST NOT be described as solved
+anywhere.</li>
+<li><strong>FR-051</strong>: If answering is extended to generate
+answers about areas, lessons or questions, a verification layer that
+checks the answer against the <strong>question</strong> — not only
+against the passage — MUST exist and MUST be measured before that
+extension is enabled.</li>
+<li><strong>FR-052</strong>: Where a verification layer cannot run
+because its prerequisite is absent on the host, it MUST report that it
+could not determine, and the answer MUST NOT be served as verified. An
+entailment-based verifier already exists in the platform behind a
+configured model directory, with lexical overlap as its fallback; a
+verifier that was <em>requested</em> and could not load MUST NOT
+silently degrade to the weaker one.</li>
+</ul>
+<p><strong>Evidence and governance</strong></p>
+<ul>
+<li><strong>FR-053</strong>: Every check this feature adds MUST have a
+paired demonstration that it reports failure when the condition it
+guards is broken.</li>
+<li><strong>FR-054</strong>: Every check MUST distinguish “could not
+determine” from both “passed” and “failed”.</li>
+<li><strong>FR-055</strong>: Checks MUST write their evidence to the
+repository’s versioned evidence location.</li>
+<li><strong>FR-056</strong>: No server-side continuous-integration
+automation may be introduced, anywhere in the fleet.</li>
+<li><strong>FR-057</strong>: No workshop content — no transcript text,
+no participant name, no chapter material, no recording filename — may
+appear in any public repository, including this specification directory.
+Content is referenced by identifier only.</li>
+<li><strong>FR-058</strong>: Components this feature produces MUST
+follow the decoupling and reuse rules already established for the
+workshop platform: usable without the curriculum, testable without it,
+and where genuinely reusable, resident in their own public repository
+with synthetic fixtures.</li>
+<li><strong>FR-059</strong>: Every endpoint this feature adds MUST be
+declared in the platform’s interface contract <strong>and</strong> in
+the route manifest the server-unity verifier reads, and MUST be probed
+against the running binary. The existing verifier already fails when a
+contracted endpoint has no manifest row, so an endpoint that is built
+but undeclared is a failure by construction — and one that is declared
+but not built must answer as a not-built route rather than being
+swallowed by the single-page application.</li>
+</ul>
+<p><strong>On-screen text — added 2026-09-02 by the decision recorded in
+D5</strong></p>
+<p>Every requirement in this block is <strong>specified and
+unbuilt</strong>. They are carried by tasks T123–T142, sequenced after
+this specification’s 28 already-unbuilt tasks.</p>
+<ul>
+<li><strong>FR-060</strong>: On-screen text recognised from a chapter
+recording MUST enter the corpus as a <strong>passage</strong> of the new
+kind <code>screen_text</code>, minted through the <strong>same</strong>
+minter as every other passage and resolved through the
+<strong>same</strong> four-outcome resolver. It MUST NOT be stored in a
+second registry, mint through a second minter, or carry a second
+identifier format.</li>
+<li><strong>FR-061</strong>: Each <code>screen_text</code> passage MUST
+carry a <strong>visibility interval</strong> — the span across which its
+text was observed on screen — and the <strong>interval bound</strong>,
+which is the sampling period the interval is accurate to. The bound MUST
+be recorded on the passage and carried onto every mention derived from
+it. It MUST NOT be omitted, and it MUST NOT be presented as zero.</li>
+<li><strong>FR-062</strong>: A mention derived from a
+<code>screen_text</code> passage MUST join the <strong>existing
+two-valued</strong> precision model: it declares <code>segment</code>
+precision and carries its interval bound. <strong>No third precision
+value may be introduced.</strong> A <code>screen_text</code> mention
+MUST NOT declare <code>word</code> precision, because no per-word timing
+record produced its time.</li>
+<li><strong>FR-063</strong>: Every mention MUST declare its
+<strong>modality</strong> — <code>spoken</code> or
+<code>on_screen</code>. Every evidence count on which a publication,
+coverage or attachment figure depends MUST be taken over
+<strong>corroboration groups</strong> and not over raw mentions, so that
+one term both spoken and displayed at one moment counts
+<strong>once</strong>. Both figures — grouped and raw — MUST be
+published together. Neither mention may be deleted: both MUST remain
+individually retrievable and individually navigable.</li>
+<li><strong>FR-064</strong>: OCR accuracy MUST be <strong>measured per
+chapter</strong>, against a hand-truthed ground-truth sample drawn by a
+recorded, seeded, reproducible rule with the population size published,
+on <strong>both</strong> axes: <strong>textual</strong> accuracy and
+<strong>temporal</strong> accuracy — whether a mention’s declared
+visibility interval actually contains the moment its text was on screen.
+A textual figure alone does not satisfy this requirement, because deep
+linking depends only on the temporal one and a text-only measurement
+cannot see a temporal failure at all.</li>
+<li><strong>FR-064a</strong>: The accuracy <strong>budget</strong> MUST
+be <strong>derived from the recorded speech-recognition calibration for
+the same corpus and read from it at run time</strong>, never written as
+a literal. It MUST NOT be a guessed threshold. Where the calibration
+record or the ground-truth sample cannot be read, the check MUST report
+<strong>could not determine</strong> and MUST NOT pass.</li>
+<li><strong>FR-064b</strong>: No OCR-derived mention may be
+<strong>published</strong> for a chapter until that chapter’s accuracy
+measurement has been observed passing <strong>for that chapter</strong>.
+Font, resolution and compression differ between recordings, so an
+accuracy figure measured on one chapter is not evidence about another —
+the same per-chapter discipline word-timing availability already
+carries.</li>
+<li><strong>FR-065</strong>: OCR output MUST pass the content-boundary
+check <strong>before</strong> it reaches any public artifact. A screen
+recording displays material the transcript never contained — window
+titles, file paths, identifiers, a third party’s name in a title bar —
+so this kind is a <strong>new disclosure surface</strong>, and a
+boundary check scoped to transcript text does not cover it.</li>
+<li><strong>FR-066</strong>: The <code>screen_text</code> kind MUST NOT
+be advertised as an indexed kind until it is
+<strong>retrievable</strong>, proven by a planted known target rather
+than by a row count. The corpus already advertises one kind with zero
+entries, and this requirement exists so that a second one is not
+created.</li>
+</ul>
+<h3 id="key-entities">Key Entities</h3>
+<ul>
+<li><strong>Knowledge Area</strong>: a coherent body of knowledge the
+workshop covers. The workshop’s realisation of the reference module’s
+<em>module</em>. Carries a persisted identifier, a title, a summary, an
+ordering, its evidencing passages, its lesson sections, its questions
+and its publication-review record. An area is <em>not</em> a chapter and
+does not live inside one; it draws evidence from any number of
+chapters.</li>
+<li><strong>Term</strong>: a named concept within one or more areas.
+Carries a persisted identifier, a canonical form, its known surface
+variants, a confidence marking and its evidencing passages. A term with
+no evidence does not exist.</li>
+<li><strong>Lesson Section</strong>: an addressable part of an area’s
+materials. Carries a persisted identifier and its own citations, so a
+link can name a part of an area rather than only the whole.</li>
+<li><strong>Question</strong>: an assessment item belonging to an area.
+Carries a persisted identifier, its kind, its prompt, its answer or
+choices, an authored-or-assembled marking, and — mandatorily — its
+citations. <strong>This last field is the difference from the reference
+module, where it does not exist.</strong></li>
+<li><strong>Mention</strong>: the join that carries the whole feature.
+Relates a term or an area to a passage, and records the position within
+that passage — a text span always, and for media-backed passages the
+containing segment’s time span. Mentions are what make both directions
+of navigation possible.</li>
+<li><strong>Passage</strong>: unchanged from the existing platform. The
+smallest addressable unit of source content, carrying a minted
+identifier that is neither positional nor content-derived. This feature
+adds nothing to it and depends on it entirely.</li>
+<li><strong>Publication Review</strong>: the record that an area has
+been reviewed and may be published and exported. Has a subject, a
+decision, a reviewer and a time. Its absence blocks publication.</li>
+<li><strong>Locus</strong>: what a search result reports about where it
+is — the containing unit and the position within it. Distinct from the
+result itself, because the same passage can be reached through more than
+one containing unit.</li>
+<li><strong>Progress</strong>: a learner’s state within an area and
+within a question set.</li>
+<li><strong>On-Screen Text Passage</strong> (<code>screen_text</code>):
+a passage whose text was <strong>shown</strong> rather than spoken, read
+from a chapter recording by optical character recognition. A new
+<strong>kind</strong> of the existing Passage, not a new entity — it
+inherits the minter, the resolver, the redaction flag and the mention
+model unchanged. Carries a visibility interval and the interval bound
+that interval is accurate to. <strong>Added 2026-09-02; specified and
+unbuilt.</strong></li>
+<li><strong>Corroboration Group</strong>: the unit evidence is
+<strong>counted</strong> over. Groups the mentions of one subject whose
+times overlap within a measured window, so a term both spoken and
+displayed at one moment is one piece of evidence rather than two. It
+changes what is counted, never what exists — every grouped mention stays
+individually retrievable. <strong>Added 2026-09-02; specified and
+unbuilt.</strong></li>
+</ul>
+<h2 id="success-criteria-mandatory">Success Criteria
+<em>(mandatory)</em></h2>
+<h3 id="measurable-outcomes">Measurable Outcomes</h3>
+<p>Every criterion below names the method that measures it. A criterion
+whose measurement method is “inspection by a reviewer” says so and
+states the sample size and how the sample is drawn. This discipline
+exists because feature 001 shipped a criterion that no task measured,
+and the gap was found late.</p>
+<p><strong>Taxonomy</strong></p>
+<ul>
+<li><strong>SC-001</strong>: 100% of published areas and 100% of
+published terms have at least one evidencing passage. <strong>Measured
+by</strong>: joining the taxonomy to the mention set and counting
+entries with zero mentions; the count must be 0. Paired mutation:
+publish an area with its mentions removed — the check must go red.</li>
+<li><strong>SC-002</strong>: On a random sample of at least 30 extracted
+terms, drawn with a recorded seed, at least 90% are judged genuine
+domain terms rather than extraction noise. <strong>Measured by</strong>:
+a reviewer’s recorded judgement sheet, stored with the seed so the
+sample is reproducible and the verdict is challengeable.</li>
+<li><strong>SC-003</strong>: 100% of the 1,101 passages are accounted
+for — attached to at least one area or classified as unattached with a
+stated reason. <strong>Measured by</strong>: summing attached and
+classified counts and asserting the total equals the registry count. The
+attachment <em>proportion</em> is published as a measured figure; no
+threshold is claimed for it, because the corpus’s topical density has
+not been measured and inventing a threshold would be a guess.</li>
+<li><strong>SC-004</strong>: A second extraction run over unchanged
+content changes nothing: 0 identifiers reassigned, 0 areas or terms
+added or removed, and a byte-identical taxonomy file. <strong>Measured
+by</strong>: running extraction twice and diffing; paired mutation: make
+one identifier depend on content — the check must go red.</li>
+</ul>
+<p><strong>Materials</strong></p>
+<ul>
+<li><strong>SC-005</strong>: 100% of published areas contain every
+section of the reference skeleton. <strong>Measured by</strong>: a
+heading-presence check across all area source documents; any missing
+section fails.</li>
+<li><strong>SC-006</strong>: 100% of substantive claims in published
+areas either carry a resolving citation or are marked as editorial.
+<strong>Measured by</strong>: parsing each area document into claims,
+resolving every citation, and asserting no claim is both unmarked and
+uncited.</li>
+<li><strong>SC-007</strong>: 0 areas are published without a recorded
+publication review. <strong>Measured by</strong>: a publication
+precondition check that enumerates published areas and asserts each has
+a review that is newer than the materials it reviews.</li>
+</ul>
+<p><strong>Deep linking</strong></p>
+<ul>
+<li><strong>SC-008</strong>: For 100% of recorded relationships, reverse
+traversal returns the origin. <strong>Measured by</strong>: enumerating
+every relationship, traversing it in reverse through the platform’s own
+interface, and counting failures; the count must be 0.</li>
+<li><strong>SC-009</strong>: For 100% of media-backed citations,
+following the link lands inside the cited passage’s own time span.
+<strong>Measured by</strong>: asserting the landing time falls within
+the span, over every such citation. The precision this delivers is the
+segment, whose measured distribution is median 6.74 s, p95 10.78 s and
+maximum 20.22 s; that distribution is published with the result rather
+than being smoothed into a single number.</li>
+<li><strong>SC-010</strong>: After a content correction and a structural
+insertion, 100% of area, term, lesson, question and mention links still
+resolve to the same targets. <strong>Measured by</strong>: replaying the
+identifier-survival experiment already measured for passages, extended
+to the new identifier kinds, and comparing the full link set before and
+after by hash.</li>
+<li><strong>SC-011</strong>: 100% of unresolvable links fail loudly; 0
+are silently re-pointed. <strong>Measured by</strong>: a mutation that
+deletes a link target and asserts the resolver returns a loud outcome;
+the paired proof makes the resolver re-point by nearest match and
+requires the check to go red.</li>
+<li><strong>SC-012</strong>: 100% of redactions propagate to every
+artifact kind this feature introduces. <strong>Measured by</strong>:
+redacting a passage and asserting its text is absent from the taxonomy,
+the materials, the questions, the index, the exports and any stored
+answer; paired mutation: skip one propagation target — the check must go
+red.</li>
+</ul>
+<p><strong>Search</strong></p>
+<ul>
+<li><strong>SC-013</strong>: 100% of content kinds are represented in
+the index. <strong>Measured by</strong>: for each kind, a query with a
+planted, known target must return it; a kind with content but zero index
+entries fails. This is deliberately not a count of rows, because a row
+count cannot tell a populated index from a populated table nobody
+queries.</li>
+<li><strong>SC-014</strong>: 100% of returned search hits carry a locus
+that resolves. <strong>Measured by</strong>: running the retrieval
+benchmark and asserting the property on every hit; any hit without a
+resolving locus fails the run.</li>
+<li><strong>SC-015</strong>: On a benchmark of at least 20 meaning-based
+queries over the new content kinds, with expected targets fixed in
+advance, at least 90% return the expected item in the top five.
+<strong>Measured by</strong>: a stored benchmark file of
+query-to-expected-identifier pairs, executed by a gate that prints the
+per-query outcome, not only the aggregate.</li>
+<li><strong>SC-016</strong>: Suggestion latency remains at or below 200
+ms at the 95th percentile after the new kinds are indexed.
+<strong>Measured by</strong>: re-running the existing latency harness
+against the grown corpus and publishing the measured p95 alongside the
+pre-existing figure, so a regression is visible rather than merely
+absent.</li>
+<li><strong>SC-017</strong>: Search result latency remains at or below 2
+s at the 95th percentile after the new kinds are indexed.
+<strong>Measured by</strong>: the same harness and the same
+before-and-after publication.</li>
+</ul>
+<p><strong>Full connectivity and the repeatable pipeline</strong></p>
+<ul>
+<li><strong>SC-015a</strong>: All six traversals in the connectivity
+matrix are exercised and return a non-empty result wherever the
+underlying material exists. <strong>Measured by</strong>: a connectivity
+harness that, for each row of the matrix, picks every eligible origin
+and asserts the traversal returns at least one target — and, where no
+target exists, asserts the system says so rather than returning an empty
+list that reads as “nothing here”. Any row with zero exercised origins
+fails, because an unexercised traversal is unmeasured, not passing.</li>
+<li><strong>SC-015b</strong>: 0 links in the knowledge graph are keyed
+on a timestamp. <strong>Measured by</strong>: inspecting every stored
+relationship for its join key; any relationship keyed on time rather
+than on a passage identifier fails. Paired mutation: introduce one
+time-keyed link — the check must go red.</li>
+<li><strong>SC-015c</strong>: A chapter that has never been processed
+goes from raw material to a complete, connected knowledge layer using
+only the documented procedure, with <strong>zero hand-authoring of
+structure and zero code changes</strong>. <strong>Measured by</strong>:
+running the procedure end to end against a small synthetic chapter and
+asserting the presence of every output — passages with identifiers,
+areas, materials, short and long question sets, cross-references, index
+entries and deep links — then asserting the diff contains no manually
+created structural file. This is the criterion that proves the pipeline
+is repeatable rather than that one chapter happens to be finished.</li>
+<li><strong>SC-015d</strong>: Adding a chapter preserves the existing
+taxonomy: 0 identifiers of previously established areas or terms change,
+and every contradiction between new evidence and an existing area is
+reported rather than resolved silently. <strong>Measured by</strong>:
+capturing the taxonomy before and after, diffing identifiers, and
+asserting the contradiction report exists and is non-empty whenever a
+contradiction was seeded. Paired mutation: make the pipeline re-derive
+area identifiers on each run — the check must go red.</li>
+<li><strong>SC-015e</strong>: An incompletely processed chapter is never
+published as complete. <strong>Measured by</strong>: withholding one
+required input, running the procedure, and asserting it names precisely
+what is missing and publishes nothing. Paired mutation: make the missing
+input a warning — the check must go red.</li>
+</ul>
+<p><strong>Assessment</strong></p>
+<ul>
+<li><p><strong>SC-017a</strong>: 100% of areas carry both a short and a
+long question set, and the two are distinguishable by depth rather than
+by count. <strong>Measured by</strong>: asserting both sets exist for
+every area, then asserting that every question in a long set cites
+<strong>more than one distinct passage</strong> while a short-set
+question may cite one. The depth test is structural on purpose — a
+reviewer’s impression of difficulty is not reproducible, and a citation
+count is.</p></li>
+<li><p><strong>SC-017b</strong>: 100% of lesson sections in every
+published area are assessed by at least one question. <strong>Measured
+by</strong>: joining lesson sections to the questions that cite passages
+belonging to them and counting sections with zero; the count must be
+0.</p></li>
+<li><p><strong>SC-017c</strong>: The proportion of each area’s
+evidencing passages that are cited by at least one question is
+<strong>measured and published per area</strong>, and the distribution
+across areas is published with it. <strong>Measured by</strong>:
+computing the ratio per area and emitting the full per-area table, not
+an average. No threshold is claimed, for a stated reason: the density of
+assessable substance per passage has not been measured, and inventing a
+percentage would be a guess dressed as a target. What the criterion
+forbids is the figure going unmeasured or being reported only as a mean,
+which is how a well-covered area conceals an empty one.</p></li>
+<li><p><strong>SC-018</strong>: 100% of served questions carry at least
+one citation that resolves. <strong>Measured by</strong>: enumerating
+every served question, resolving every citation, and counting failures;
+the count must be 0. <strong>The reference module’s measured value for
+this property is 0%</strong>, so this criterion is where the workshop
+exceeds it, and the comparison is recorded rather than claimed.</p></li>
+<li><p><strong>SC-019</strong>: 100% of questions whose citation is a
+transcript segment support a round trip — from question to the cited
+moment and back — with progress preserved. <strong>Measured by</strong>:
+an end-to-end traversal over every such question; if the count of such
+questions makes exhaustive traversal impractical, a sample of at least
+30 is drawn with a recorded seed and the total population is published
+alongside it.</p></li>
+<li><p><strong>SC-020</strong>: 100% of assembled model answers are
+marked as assembled. <strong>Measured by</strong>: a schema assertion
+over the whole question set; an unmarked assembled answer
+fails.</p></li>
+</ul>
+<p><strong>Surface</strong></p>
+<ul>
+<li><strong>SC-021</strong>: Every new view reports zero Level A and
+zero Level AA accessibility violations, and 100% of deep links are
+operable by keyboard alone. <strong>Measured by</strong>: an automated
+audit per view plus a keyboard-only traversal that visits every
+deep-link affordance and asserts it can be reached, activated and
+returned from.</li>
+<li><strong>SC-022</strong>: 100% of new styling resolves through the
+shared design-token contract; 0 literal brand values appear in new
+stylesheets. <strong>Measured by</strong>: the design toolkit’s own
+token conformance check, plus a literal-value scan over the new
+stylesheets; both must pass, because the first proves the tokens are
+valid and the second proves they are actually used.</li>
+<li><strong>SC-023</strong>: 100% of the existing chapter, transcript,
+recording and cross-reference capabilities remain reachable after the
+surface is reshaped. <strong>Measured by</strong>: enumerating those
+capabilities before the change and asserting each is still reachable
+after it — a before-and-after list, not a recollection.</li>
+</ul>
+<p><strong>Export</strong></p>
+<ul>
+<li><strong>SC-024</strong>: 100% of published areas carry all four
+formats. <strong>Measured by</strong>: a file-existence matrix over
+every published area. The reference module’s measured coverage is 25 of
+34; this criterion requires the workshop to be complete, and the
+comparison is stated so the bar is known to be higher than the model it
+was taken from.</li>
+<li><strong>SC-025</strong>: Re-exporting an unchanged area produces
+documents whose extracted text is identical to the previous run.
+<strong>Measured by</strong>: extracting text from each output and
+diffing; extraction rather than byte comparison, because embedded
+timestamps make byte equality unachievable for some formats and a
+criterion nobody can meet is worse than none.</li>
+</ul>
+<p><strong>Honesty and governance</strong></p>
+<ul>
+<li><strong>SC-026</strong>: The shipped limits documentation names
+every open defect the evidence directory records, including the measured
+fabrication rate on unanswerable questions and the undefended
+topically-related-but-non-answering case. <strong>Measured by</strong>:
+a cross-check that reads the recorded defects and asserts each is named
+in the limits document; an unnamed defect fails. Paired mutation: remove
+one defect from the limits document — the check must go red.</li>
+<li><strong>SC-027</strong>: 100% of checks this feature adds have a
+paired demonstration that they fail when their guarded condition is
+broken. <strong>Measured by</strong>: the check registry, which fails on
+an unregistered or unpaired check.</li>
+<li><strong>SC-028</strong>: 100% of checks this feature adds
+distinguish “could not determine” from “passed” and “failed”.
+<strong>Measured by</strong>: driving each check into a
+could-not-determine condition — an absent dependency or an unreachable
+service — and asserting the third state rather than either of the other
+two.</li>
+<li><strong>SC-029</strong>: 0 occurrences of workshop content appear in
+any public repository, including this specification directory.
+<strong>Measured by</strong>: the content-boundary check, run across the
+public surface.</li>
+<li><strong>SC-029a</strong>: 0 occurrences of reference-module content
+appear anywhere in the workshop. <strong>Measured by</strong>: the same
+boundary check run in the opposite direction — every workshop area,
+lesson and question is checked against the reference’s own corpus, and
+any substantive overlap fails. Paired mutation: plant one reference
+question in a workshop bank — the check must go red. This runs in both
+directions deliberately: one direction protects a private recording from
+a public repository, the other protects the workshop from shipping
+someone else’s curriculum under its own name.</li>
+<li><strong>SC-029b</strong>: 100% of interaction and motion decisions
+in new views name the research finding they rest on. <strong>Measured
+by</strong>: a traceability check over the interaction inventory; an
+entry with no named finding fails.</li>
+<li><strong>SC-030</strong>: 0 active server-side continuous-integration
+workflows exist anywhere in the fleet after this feature lands.
+<strong>Measured by</strong>: the existing fleet-wide gate.</li>
+</ul>
+<p><strong>On-screen text — added 2026-09-02, and the reason this
+feature cannot close on design alone</strong></p>
+<p>Every criterion in this block is <strong>specified and
+unmeasured</strong>. SC-031 through SC-034 are the ones that make
+<em>“spec 002 cannot close until OCR accuracy is measured”</em> a
+checkable statement rather than a sentiment: each names a figure that
+does not exist yet, and none of them can be satisfied by building the
+pipeline — only by running it and publishing what it produced.</p>
+<ul>
+<li><strong>SC-031</strong>: OCR <strong>textual</strong> accuracy is
+measured and published per chapter, as word error rate and character
+error rate against a hand-truthed ground-truth sample. <strong>Measured
+by</strong>: a ground-truth sample drawn by a recorded seed with the
+population size published, scored by the same edit-distance method the
+speech-recognition calibration already uses, so the two figures are
+comparable rather than merely adjacent. A published figure with no
+recorded seed fails.</li>
+<li><strong>SC-032</strong>: OCR <strong>temporal</strong> accuracy is
+measured and published per chapter: the proportion of on-screen mentions
+whose declared visibility interval contains the frame at which the text
+was actually on screen. <strong>Measured by</strong>: resolving each
+sampled mention back to the recording and asserting containment.
+<strong>This criterion is separate from SC-031 deliberately</strong> —
+deep linking depends on this figure and on no other, and a perfect
+textual score is compatible with every interval being wrong.</li>
+<li><strong>SC-033</strong>: Both OCR figures are published
+<strong>beside</strong> the speech-recognition figures for the same
+corpus, in the same document, in the same run. <strong>Measured
+by</strong>: a check that reads the recorded speech calibration and
+asserts both appear together; an OCR figure published alone fails,
+because a number with nothing to compare it to is not an accuracy claim
+a reader can act on.</li>
+<li><strong>SC-034</strong>: 0 OCR-derived mentions are published for
+any chapter whose accuracy measurement has not been observed passing
+<strong>for that chapter</strong>. <strong>Measured by</strong>: joining
+the published mention set to the per-chapter accuracy records; a mention
+from an unmeasured or could-not-determine chapter fails. Paired
+mutation: publish from a chapter whose accuracy run returned
+could-not-determine — the check must go red.</li>
+<li><strong>SC-035</strong>: A term both spoken and displayed at one
+moment contributes <strong>1</strong> to its area’s evidence count, not
+2, while <strong>both</strong> of its mentions remain individually
+retrievable and individually navigable. <strong>Measured by</strong>:
+seeding exactly that case and asserting the count, the retrievability of
+both members, and that the grouped and raw figures are both published.
+Paired mutations: count raw mentions instead of groups; and widen the
+grouping window to the whole chapter so two genuinely distinct
+occurrences collapse. Both must go red.</li>
+<li><strong>SC-036</strong>: 0 occurrences of on-screen-derived text
+reach a public artifact without passing the content-boundary check.
+<strong>Measured by</strong>: the existing boundary check, extended over
+the OCR output and run before publication. Paired mutation: scope the
+check to transcript text only — it must go red, because that is
+precisely the scoping that would let a window title through.</li>
+</ul>
+<h2 id="assumptions">Assumptions</h2>
+<p>Decisions taken where the description did not specify, each chosen
+for the safest and most stable option and each revisitable.</p>
+<ul>
+<li><strong>The reference is a model, not a source.</strong> Its
+structure, hierarchy, question kinds, document skeleton and export
+toolchain are the template; none of its content, wording or fixtures
+crosses into the workshop. Its 34 finished area documents and 785
+finished questions are about a different subject and are, for this
+feature’s purposes, not material but a shape.</li>
+<li><strong>Everything a reader reads is authored from the workshop’s
+own chapters.</strong> Areas, lessons and questions are derived from
+what was actually taught and evidenced against the workshop’s own
+passages. There is no scenario in which borrowed material is acceptable,
+including as a temporary placeholder.</li>
+<li><strong>This is a pipeline, and it is judged as one.</strong> One
+chapter exists today. The feature is complete when <em>the next</em>
+chapter can go through it and come out with the same completeness, not
+when this chapter’s materials look finished.</li>
+<li><strong>A knowledge area is the workshop’s module.</strong> Mapping
+areas onto the reference’s <em>module</em> level keeps one hierarchy
+rather than two, which FR-002 requires. Chapters supply evidence to
+areas; they are not a level above them.</li>
+<li><strong>Areas span chapters from the first day.</strong> The corpus
+currently has one chapter, so a one-chapter-per-area shortcut would work
+today and break at the second chapter. Modelling the relationship as
+many-to-many now costs nothing and avoids a migration later.</li>
+<li><strong>The taxonomy is bounded by evidence, not by the reference’s
+size.</strong> The reference has 34 areas. The workshop will have as
+many as its corpus evidences and no more. Producing areas to match a
+count would mean inventing coverage the recording does not contain — the
+exact failure the governing rules forbid.</li>
+<li><strong>Identity discipline is inherited wholesale.</strong> Areas,
+terms, lesson sections, questions and mentions all take minted,
+persisted identifiers on the same rules as the passage identifier,
+because the property that makes links survive corrections is already
+measured for passages and there is no reason to invent a weaker scheme
+for the things pointing at them.</li>
+<li><strong>Mention precision is the containing segment.</strong>
+Word-level timings do not exist in the registry, so segment-level is
+what can be delivered honestly. The measured distribution is published
+rather than a single reassuring number.</li>
+<li><strong>Assessment mirrors the reference’s grading model.</strong>
+Multiple choice is scored automatically; short answer reveals a model
+answer for self-assessment. Automatic grading of free text would require
+a capability the host does not have and would import the fabrication
+risk into the one place a learner is most likely to trust the
+output.</li>
+<li><strong>The corpus for area extraction is the workshop’s own
+material.</strong> Transcript segments, chapter documents and diagrams
+create areas. Code passages in the wider monorepo may be <em>linked</em>
+as evidence, following the corpus decision already recorded for the
+platform, but they do not create areas — code in an unrelated project is
+not a thing the workshop taught.</li>
+<li><strong>The platform stays local and internal.</strong> The
+publication scope already decided for the platform is unchanged; nothing
+here implies public hosting, and the privacy handling and redaction path
+already contracted continue to apply.</li>
+<li><strong>Search is extended, not replaced.</strong> The existing
+two-path search and its three-state behaviour are proven; new kinds join
+that index rather than arriving with a second search system.</li>
+<li><strong>The existing front end is reshaped, not rebuilt.</strong> It
+has more code than the reference and it works; the defect is its shape.
+Subordinating the media views under areas preserves working behaviour
+while fixing the shape, and avoids discarding capability that took a
+feature to build.</li>
+<li><strong>The visual identity comes from the token layer.</strong> A
+distinct look is achieved by giving the workshop its own token values
+against the shared contract, not by forking the component library —
+forking would double the maintenance and guarantee drift.</li>
+<li><strong>Scale is tens of areas and one to tens of chapters</strong>,
+matching the platform’s existing scale assumption. Nothing is designed
+for thousands.</li>
+<li><strong>Governance is binding.</strong> No server-side CI, paired
+mutation proofs for every gate, three-valued checks, evidence written to
+the versioned location, carriers in lockstep, and the continuation
+document updated alongside non-trivial changes.</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li><strong>The knowledge-model contract</strong> in the workshop’s
+documentation. It is the normative definition of the ported hierarchy,
+and this specification deliberately references it rather than restating
+it (FR-005), so the two cannot drift. <strong>It landed while this
+specification was being written</strong>, and its opening rule — that
+the contract transfers <em>form</em> and transfers no <em>content</em> —
+is the same boundary FR-004 states independently. The two were written
+in parallel and agree; that agreement is a check that passed, not a
+coordination.</li>
+<li><strong>The area and term taxonomy</strong>, extracted into the
+workshop’s curriculum directory by a separate effort. <strong>It also
+landed while this specification was being written</strong>, and the
+requirements here were written against what a taxonomy must
+<em>satisfy</em> rather than against any particular one — so what landed
+is evidence, not a premise. Measured on arrival, for the one chapter
+that exists: <strong>7 tracks, 37 modules, 137 terms</strong>;
+per-passage linkage for all <strong>1,101</strong> passages; a coverage
+record showing <strong>884 of 1,055 transcript passages covered
+(83.79%)</strong> and <strong>14,290 of 15,610 words (91.54%)</strong>,
+with every uncovered passage carrying a <strong>stated reason</strong>;
+and a reverse index keyed by module, by term and by track. Its own
+identity rule states that the passage identifier is the citable identity
+and that timestamps are for navigation only because a re-cut moves them
+— which is FR-033b, arrived at independently. <em>What this does not
+settle</em>: the taxonomy is an input to be reconciled under FR-008a and
+contract §2.3, not a finished answer. The five prose areas still hold
+the promotion path, and any contradiction between them and these 37
+modules is reported for a decision rather than merged.</li>
+<li><strong>The platform’s user-experience research</strong> (FR-044a).
+<strong>This has not landed.</strong> The research directory now exists
+but holds a document on a different subject. Until it does, the
+interaction and motion requirements state what a decision must be able
+to show, and <strong>T094 is marked blocked</strong> rather than being
+written against taste.</li>
+<li><strong>The existing platform</strong>: the passage registry and its
+minted identifiers, the resolution path, the search index and its
+three-state behaviour, the cross-reference graph, and the media
+range-serving that makes a timestamp jump possible.</li>
+<li><strong>The reference module</strong>, as the structural template
+and as the source of the export toolchain’s design — and
+<strong>only</strong> as that. It is a separate private repository; it
+is read for shape and never for substance (FR-004, FR-004a).</li>
+<li><strong>The documented chapter-addition procedure and its
+prompt</strong>, which exist in the workshop’s documentation today while
+the script that automates them does not. This feature extends both
+rather than replacing them (FR-033e).</li>
+<li><strong>The platform’s user-experience research</strong>, being
+produced as this specification is drafted, as the source of the
+interaction and motion requirements (FR-044a). At the time of writing
+the research directory did not yet exist, so this specification states
+what interaction decisions must be able to show rather than naming any
+particular finding.</li>
+<li><strong>The shared design system and the design toolkit</strong>
+that owns the token contract and its conformance check.</li>
+<li><strong>Document conversion tooling</strong> for the four-format
+export.</li>
+<li><strong>An entailment-capable or generative model</strong>, for the
+answer-to-question verification layer only, and only if the third
+clarification is resolved towards closing that defect. Nothing else in
+this specification depends on a model that this host does not have.</li>
+</ul>
+<h2 id="out-of-scope">Out of Scope</h2>
+<ul>
+<li>Public internet publication of the curriculum. The platform’s
+local-and-internal decision stands.</li>
+<li>Re-transcribing, re-recording or editing source recordings.</li>
+<li>Authoring material for chapters that do not exist.</li>
+<li>Translating the curriculum.</li>
+<li>Replacing or re-architecting the reference module. It is read, never
+written.</li>
+<li><del>Optical character recognition of on-screen content —
+<strong>pending the second clarification</strong>, which is precisely
+the question of whether this belongs in scope.</del> <strong>WITHDRAWN
+2026-09-02: OCR of on-screen content is now IN SCOPE</strong>, by the
+decision recorded in the Clarifications block and in
+<strong>D5</strong>. It is specified as tasks <strong>T123–T142</strong>
+and is <strong>unbuilt</strong>, sequenced after this specification’s 28
+already-unbuilt tasks. Do not restate this line as an exclusion — the
+pending question it referred to has been answered.</li>
+<li>Automatic grading of free-text answers.</li>
+<li>A second search system, a streaming service, or any new content
+delivery infrastructure.</li>
+</ul>
+<h2 id="resolved-decisions">Resolved Decisions</h2>
+<p>Questions that materially affect scope and were settled here rather
+than left open, each recording what was chosen, why it is the safe
+choice, and what would reopen it.</p>
+<h3
+id="d1-the-knowledge-area-is-the-module-level-of-the-ported-hierarchy">D1
+— The knowledge area is the module level of the ported hierarchy</h3>
+<p><em>The question</em>: the reference has curriculum, track, module
+and lesson. The workshop has chapters and passages. Where does a
+knowledge area sit?</p>
+<p><em>Decision</em>: a knowledge <strong>area is the workshop’s
+module</strong>. Lesson sections sit beneath it. Chapters are a
+<em>source</em> of evidence that areas draw on, related many-to-many,
+and are not a level of the hierarchy.</p>
+<p><em>Why this is the safe choice</em>: the alternative — areas nested
+inside chapters — is simpler today, with one chapter, and wrong at the
+second one, because knowledge recurs across sessions. Choosing the
+correct shape while the data is small costs a design decision; choosing
+it later costs a migration of every link already created, which is
+exactly the class of change this feature’s identity discipline exists to
+survive but should not be made to prove unnecessarily.</p>
+<p><em>What would reopen it</em>: a decision that areas are per-chapter
+by definition, which would make the curriculum a set of session
+summaries rather than a body of knowledge.</p>
+<h3 id="d2-the-existing-media-surface-is-subordinated-not-removed">D2 —
+The existing media surface is subordinated, not removed</h3>
+<p><em>The question</em>: the operator judged the current workshop
+poorly made. Do the existing chapter, transcript, recording and
+cross-reference views go away?</p>
+<p><em>Decision</em>: they <strong>stay and are subordinated</strong>.
+They become the way a learner reaches source material from within an
+area, rather than the top-level objects the product is organised
+around.</p>
+<p><em>Why this is the safe choice</em>: those views are the working
+half of what exists — they are what makes a timestamp jump possible at
+all, and the deep linking this feature is built on runs through them.
+Removing them would discard proven capability to fix a problem that is
+one of <em>arrangement</em>. Keeping them without subordinating them
+would leave the product a media viewer with a curriculum bolted to the
+side, which is the criticism itself. Subordination fixes the shape and
+keeps the capability, and SC-023 measures that nothing was lost in the
+process.</p>
+<p><em>What would reopen it</em>: an explicit decision that the
+recording is not part of the learning experience.</p>
+<h3
+id="d3-assessment-is-scored-where-scoring-is-objective-and-self-assessed-where-it-is-not">D3
+— Assessment is scored where scoring is objective, and self-assessed
+where it is not</h3>
+<p><em>The question</em>: must the workshop grade free-text answers?</p>
+<p><em>Decision</em>: multiple-choice questions are <strong>scored
+automatically</strong>; short-answer questions reveal a model answer for
+<strong>self-assessment</strong>, as the reference module does. No
+automatic grading of free text.</p>
+<p><em>Why this is the safe choice</em>: automatic grading of free text
+needs a judging model. This host has none, so the capability would be
+unverifiable here — and worse, a grader is the single place where a
+wrong confident output does the most damage, because a learner told they
+were wrong when they were right will unlearn something correct. The
+reference module has lived without it. Deferring costs a feature; adding
+it now risks the product’s credibility on a capability that cannot be
+measured on the machine it must run on.</p>
+<p><em>What would reopen it</em>: a judging model available and measured
+on this host, with a fabrication rate established the same way the
+answering path’s was.</p>
+<h3
+id="d4-citations-are-mandatory-on-questions-and-a-question-without-one-is-withheld">D4
+— Citations are mandatory on questions, and a question without one is
+withheld</h3>
+<p><em>The question</em>: what happens when a question cannot be traced
+to a passage?</p>
+<p><em>Decision</em>: it is <strong>not served</strong>. Provenance is a
+precondition of a question existing, not a decoration on it.</p>
+<p><em>Why this is the safe choice</em>: the entire justification for
+this feature over its reference is that the workshop’s questions can be
+traced. A question served without provenance is indistinguishable to a
+learner from one with it, so a single unprovenanced question silently
+converts the guarantee into a claim. Withholding is loud, cheap and
+reversible; serving is quiet and irreversible once trusted.</p>
+<p><em>What would reopen it</em>: nothing short of abandoning the
+provenance guarantee itself.</p>
+<h3
+id="d5-on-screen-text-is-in-scope-this-spec-is-extended-in-place-and-it-is-specified-before-it-is-built">D5
+— On-screen text is in scope, this spec is extended in place, and it is
+specified before it is built</h3>
+<p><strong>Taken by the operator 2026-09-02.</strong> This is the
+decision that closes the <em>what “in videos” covers</em> clarification.
+It has three parts and each was decided separately, because each could
+have gone the other way.</p>
+<p><em>The question</em>: the description asks for terms mentioned
+<em>“in transcript and video”</em>. The corpus holds only what was
+<strong>spoken</strong>. Does <em>“video”</em> mean the recording as a
+source of spoken words, or does it mean the text visible on screen — the
+actual substance of a screen recording?</p>
+<p><em>Decision, part 1 — scope</em>: <strong>spoken PLUS
+on-screen.</strong> On-screen text is ingested by optical character
+recognition and becomes linkable evidence like any other passage. The
+alternative, spoken-only, was a linking feature over data that already
+exists and would have delivered a curriculum that could not point at the
+thing being demonstrated.</p>
+<p><em>Decision, part 2 — placement</em>: <strong>this specification is
+extended in place</strong>, not superseded by a feature 003. The new
+kind joins the existing passage registry, the existing two-valued
+precision model and the existing mention join. A second specification
+would have had to restate all three, and a restatement is a second
+source of truth — the same failure mode the reconciliation rules
+(contract §2.3) and the “one minter” rule (D-KG-2) are arranged
+against.</p>
+<p><em>Decision, part 3 — sequencing</em>: <strong>specify now, build
+later</strong>, after the 28 tasks this specification already carries
+unbuilt. Writing the tasks now fixes the accuracy obligation, the
+deduplication rule and the precision decision <strong>before</strong>
+anybody writes the pipeline that would otherwise settle them by
+accident.</p>
+<p><em>Why this is the safe choice</em>: the risk in OCR is not that it
+fails to run — it runs on this host. The risk is that it runs
+<strong>well enough to look right</strong>, deposits thousands of
+passages whose text is approximately correct and whose timings are
+approximately placed, and thereby degrades the accuracy of a corpus that
+currently has a measured one. Deciding scope without deciding the
+accuracy obligation would have realised exactly that risk. So the
+obligation is decided here with the scope: per chapter, on two axes,
+against a budget derived from the recorded speech calibration rather
+than picked (FR-064, FR-064a, FR-064b; SC-031 to SC-034).</p>
+<p><em>The consequence, recorded rather than discovered later</em>:
+<strong>spec 002 cannot close until OCR accuracy is measured.</strong>
+This decision moved the finish line. It is written into the
+Clarifications block, into the task list’s global constraints, and into
+Phase 11’s checkpoint, so that a later reader arriving at “94 of 122
+done” cannot mistake the remaining work for polish.</p>
+<p><em>Honest boundary</em>: three things about this decision are
+<strong>not</strong> claims of capability. (a) The OCR engine resolves
+on this host — measured 2026-09-02, <code>tesseract</code> at a
+user-local path carrying three language packs — but <em>no OCR artifact
+of any kind exists in the workshop today</em>, so every task below is
+genuinely unbuilt. (b) The new kind joins a precision model whose
+<code>word</code> branch is <strong>contracted and currently
+unexercised</strong>: <code>workshop/docs/limits.md</code> §10.1 and the
+defects row <code>precision-segment-only</code> record that every deep
+link in this deployment resolves at <code>segment</code> precision. (c)
+No number in this decision is an accuracy figure. None has been
+measured, and none may be written down until one is.</p>
+<p><em>What would reopen it</em>: a measured OCR error rate so far above
+the recorded speech-recognition baseline that on-screen mentions would
+degrade the corpus rather than extend it — in which case the honest
+response is to publish the figure and withhold the mentions, which
+FR-064b already requires, rather than to lower the budget until the
+figure passes.</p>
+</body>
+</html>

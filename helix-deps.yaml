@@ -413,7 +413,7 @@ deps:
 
   - name: monetization
     ssh_url: git@github.com:milos85vasic/monetization.git
-    ref: "82232caa39e9277face7d70b249c8720b921d50d"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
+    ref: "9d881aa00ab0a29b217002e9a69dccfce9b3748f"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
     why: "Monetization of existing projects — docs, repos.txt, and the per-provider upstream declaration scripts (GitFlic / GitHub / GitLab / GitVerse)."
     layout: flat
     # Live topology: origin fetches github.com:milos85vasic/monetization.git and

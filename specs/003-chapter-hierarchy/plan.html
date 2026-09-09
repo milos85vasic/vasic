@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>plan</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">plan</h1>
+</header>
+<h1 id="implementation-plan-chapter-hierarchy">Implementation Plan:
+Chapter Hierarchy</h1>
+<p><strong>Branch</strong>: <code>003-chapter-hierarchy</code> |
+<strong>Date</strong>: 2026-09-05 | <strong>Spec</strong>: <a
+href="./spec.md">spec.md</a></p>
+<p><strong>Input</strong>: Feature specification from
+<code>specs/003-chapter-hierarchy/spec.md</code></p>
+<h2 id="summary">Summary</h2>
+<p><code>workshop/chapters/</code> holds <code>01</code>,
+<code>02</code> and <code>02.01</code>. The last of those is the first
+sub-chapter this project has ever had, and everything downstream of
+<code>chapters/</code> was written against a flat list.</p>
+<p>The identity decision is small and mostly already true: the canonical
+chapter id is the dotted, zero-padded numeric path, and it is
+simultaneously the directory name, the URL segment, the registry
+<code>scope</code>, the <code>chapter_slug</code> and the
+<code>chapter-</code> suffix, with no translation anywhere. <strong>Four
+of the five layers a dotted id must survive already survive it</strong>
+— <code>SafeSlug</code> permits <code>.</code>, <code>ChapterDir</code>
+resolves <code>chapter-02.01</code>, the route wildcard is
+single-segment, and <code>encodeURIComponent</code> leaves
+<code>.</code> alone. The fifth, the search catalogue’s filename-shape
+detector, was measured and does not misclassify <code>.01</code>.</p>
+<p>What is <em>not</em> already true is derivation.
+<code>ordinalOf("02.01")</code> returns <code>2</code>, which is what
+<code>ordinalOf("02")</code> returns, and <code>chapterTitle</code>
+renders both as <em>“Chapter 2”</em>. That is the visible half. The
+invisible half is larger: a redaction reviewer that matched scopes by
+suffix, two extraction stages that skipped a non-matching path with
+<code>continue</code>, six embedded manifest rows that name
+<code>chapter-01</code>, and an ingest script whose transcript default
+is chapter 01’s transcript — so omitting one argument ingests
+<strong>the wrong chapter’s content under the right chapter’s
+scope</strong>.</p>
+<p>This plan fixes the invisible defects before the visible ones, and it
+fixes none of them before the specification decision they all rest
+on.</p>
+<h2 id="technical-context">Technical Context</h2>
+<p><strong>Language/Version</strong>: Go 1.26.2 for the backend,
+matching <code>workshop/platform/backend/go.mod</code>. TypeScript with
+Angular 19.2 standalone components for the front end. Python 3.14.6 and
+Bash for the pipeline. No new language and no new runtime.</p>
+<p><strong>Primary Dependencies</strong>: unchanged. Nothing is added.
+The identity library at <code>submodules/passage</code> is consumed as
+it already is — <strong>chapter ids are not minted identifiers and this
+feature does not make them one</strong>; they are structural names under
+an operator’s control, and D3 in the specification records why that is
+deliberate.</p>
+<p><strong>Storage</strong>: unchanged in kind and in schema.
+<code>workshop/curriculum/passages.jsonl</code> remains the source of
+truth; its <code>scope</code> field already holds a chapter id as an
+opaque string and needs no change to hold a dotted one. <strong>No
+column is added anywhere</strong> — the hierarchy is derived (D3).</p>
+<p><strong>Testing</strong>: Go’s built-in testing for the backend;
+Karma and Jasmine for the front end; the platform’s existing gate
+scripts and route manifest for behavioural assertions against the live
+binary. Every new gate owes a paired mutation proof and a three-valued
+exit.</p>
+<p><strong>Target Platform</strong>: Linux, single machine, local and
+internal only. Unchanged.</p>
+<p><strong>Project Type</strong>: an in-place correction across an
+existing web application and its offline pipeline. There is no new
+component.</p>
+<p><strong>Performance Goals</strong>: none of its own. The existing
+latency thresholds are not renegotiated by this change, and nothing here
+is on a hot path — the hierarchy is a string operation over a list whose
+measured length is 3.</p>
+<p><strong>Constraints</strong>: no new routes (FR-026); no stored
+hierarchy field (FR-007); no code path branching on depth (FR-032); no
+server-side CI; the flat <code>chapters</code> array is a live consumer
+contract.</p>
+<h3 id="premises-checked-before-they-were-relied-on">Premises checked
+before they were relied on</h3>
+<p>Each was assumed by the design and each was measured on 2026-09-05.
+<strong>Five held and one was inverted</strong>, and the inverted one is
+recorded as a correction rather than quietly dropped.</p>
+<p><strong>1. HELD — the filesystem layer already accepts a dotted
+id.</strong> <code>SafeSlug</code>
+(<code>pkg/curriculum/curriculum.go:205</code>) is an allowlist of
+<code>a-z A-Z 0-9 - _ .</code> that rejects <code>/</code> and
+<code>\</code> at <code>:209</code>; <code>ChapterDir</code>
+(<code>:187</code>) tries <code>chapter-&lt;slug&gt;</code> then
+<code>&lt;slug&gt;</code>. <em>Consequence for design</em>: the
+<code>chapters/02/01</code> alternative would have required
+<strong>removing</strong> the <code>/</code> rejection — a
+path-traversal boundary — to buy a naming preference. That is the
+strongest single argument for the dotted form and it is a measurement,
+not a preference.</p>
+<p><strong>2. HELD — the routing layer already accepts it.</strong>
+<code>GET /api/chapters/{chapter}</code> and five siblings are
+registered at <code>cmd/workshop-server/main.go:547</code>,
+<code>:817</code>–<code>:819</code>, <code>:841</code>,
+<code>:843</code>. Go’s <code>{name}</code> wildcard matches exactly one
+path segment and treats <code>.</code> as an ordinary character.
+<em>Consequence</em>: no route pattern changes, and the
+<code>02/01</code> alternative would not have matched the registered
+patterns at all.</p>
+<p><strong>3. HELD — the client layer already accepts it.</strong>
+<code>encodeURIComponent</code> at <code>core/api.ts:107</code>,
+<code>:122</code>, <code>:155</code> leaves <code>.</code> unescaped; it
+is an unreserved character. <em>Consequence</em>: no client encoding
+change.</p>
+<p><strong>4. HELD — the ordering is already implemented
+correctly.</strong> <code>main.go:2126</code> sorts on
+<code>out[i].ID &lt; out[j].ID</code>, which is byte-lexicographic. Run
+against <code>01 02 02.01 02.01.01 02.09 02.10 03 10</code> it produces
+exactly the required order. <em>Consequence for design</em>: <strong>the
+correct action on the sorting code is to change nothing</strong>, and to
+put the assertion on the ordering instead — a gate the code must satisfy
+rather than a rewrite that might satisfy it today.</p>
+<p><strong>5. HELD — the leak detector does not fire on a dotted
+id.</strong> <code>HasSourceFilenameShape</code>
+(<code>pkg/search/catalog.go:368</code>) compiles its pattern from a
+<strong>closed</strong> extension list
+(<code>:320</code>–<code>:323</code>) plus one archive-chunk
+alternative; the list holds no numeric-only entry, so <code>.01</code>
+is not read as an extension. <em>Consequence</em>: no allowance is
+needed, and no exemption is added. This one was checked precisely
+because a false positive here would have been a content-boundary alarm
+on every sub-chapter id.</p>
+<p><strong>6. INVERTED — the ordinal problem is not an implementation
+defect.</strong> The design’s first framing was that
+<code>ordinalOf</code> is a bug to be fixed in
+<code>internal/api/chapters.go</code>. It is not: it is the faithful
+implementation of
+<code>specs/001-workshop-curriculum-platform/data-model.md:45</code>,
+which types <code>Chapter.ordinal</code> as <code>int</code>. Under that
+type there is no correct implementation for <code>02.01</code>.
+<em>Consequence for the plan</em>: <strong>Phase 0 is a specification
+decision, not code</strong>, and it blocks everything. A second
+contradiction surfaced with it —
+<code>specs/001-workshop-curriculum-platform/contracts/http-api.md:60</code>
+says the zero-padded ordinal is <em>“not accepted as a path key”</em>
+while <code>route-manifest.tsv:72</code> declares
+<code>GET /api/chapters/01</code>, which is exactly that. Both are
+inherited defects, neither was introduced here, and neither may be
+inherited silently.</p>
+<h2 id="constitution-check">Constitution Check</h2>
+<p><em>GATE: must pass before Phase 0 research. Re-check after Phase 1
+design.</em></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Status</th>
+<th>Basis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Evidence-Based Claims</strong></td>
+<td><strong>PASS</strong></td>
+<td>Every figure in the specification’s starting-state table names the
+file and line, or the command, that re-derives it. The sort order was
+produced by running <code>sort</code>, not by reasoning about byte
+values. One premise was <strong>inverted by measurement</strong> and is
+recorded as such.</td>
+</tr>
+<tr>
+<td><strong>Honest Instruments</strong></td>
+<td><strong>PASS</strong></td>
+<td>FR-004 forbids a silent skip and requires an
+<code>unclassified</code> report with a reason. FR-028 requires the
+filter echo on <strong>every</strong> status including
+could-not-determine, so a degraded backend can never read as an empty
+branch. FR-029 refuses a <code>404</code> for a well-formed request
+about a branch that does not exist.</td>
+</tr>
+<tr>
+<td><strong>Governance Fidelity</strong></td>
+<td><strong>PASS</strong></td>
+<td>No carrier changes, no submodule added, no governance surface
+touched. FR-033 requires the route manifest to move in the same change
+as the behaviour.</td>
+</tr>
+<tr>
+<td><strong>Isolation by Default</strong></td>
+<td><strong>PASS</strong></td>
+<td>Every criterion guarding a silent failure names its mutation:
+SC-001, SC-002, SC-003, SC-005, SC-006, SC-007, SC-008, SC-010, SC-011,
+SC-013, SC-014, SC-017 and SC-019. SC-009 goes further and measures the
+<strong>blindness of a test</strong> rather than the behaviour of the
+code.</td>
+</tr>
+<tr>
+<td><strong>Comprehensive Documentation</strong></td>
+<td><strong>PASS</strong></td>
+<td>FR-024 requires <code>derivation.ordinal</code> to keep describing
+what the code actually does; the endpoint’s existing honesty mechanism
+is preserved rather than left stale.</td>
+</tr>
+<tr>
+<td><strong>Environment Adaptability</strong></td>
+<td><strong>PASS</strong></td>
+<td>FR-019 removes a frozen absolute path; FR-016 removes a frozen
+transcript default; FR-021 removes six frozen manifest rows; FR-035
+requires every gate to take its chapter from the live tree, as one gate
+already does.</td>
+</tr>
+<tr>
+<td><strong>Quality Over Speed</strong></td>
+<td><strong>PASS</strong></td>
+<td>The grammar, the two-scope redaction fixture and the ordering gate
+are marked test-first below, chosen where a defect is
+<strong>silent</strong>.</td>
+</tr>
+<tr>
+<td><strong>§11.4.156 — no server-side CI</strong></td>
+<td><strong>PASS</strong></td>
+<td>Nothing here adds a workflow file anywhere in the fleet.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gate result (initial): PROCEED to Phase 0 only.</strong> The
+clarification recorded in the specification blocks Phase 1 and
+everything after it. Phase 0 is the work of settling it.</p>
+<h3 id="what-the-gate-does-not-certify">What the gate does <em>not</em>
+certify</h3>
+<p>This table records that the <strong>design</strong> satisfies the
+principles. It is not a claim that the platform’s gates pass today —
+none was run for this plan, and two that write into tracked evidence
+files were deliberately not invoked. It is also not a claim that the
+open clarification has a safe default. It does not: all three options
+for the <code>ordinal</code> type change something a consumer can see,
+and the <em>appearance</em> of a safe default — keep <code>int</code>,
+leave sub-chapters without an ordinal — is the option that permanently
+makes them second-class.</p>
+<h2 id="phase-ordering-and-the-rule-behind-it">Phase ordering, and the
+rule behind it</h2>
+<p><strong>Fix what hides first.</strong></p>
+<p>The three defects already repaired in <code>266f443</code> share a
+shape: none of them failed. The redaction reviewer exited <code>0</code>
+and produced a coverage record that overstated itself; the two
+extraction stages exited <code>0</code> and produced nothing. A defect
+that announces itself gets fixed by whoever trips over it. A defect that
+returns <code>200</code> and exits <code>0</code> gets fixed only if
+someone goes looking, and it does damage the whole time nobody does.</p>
+<p>So the phases are ordered by <strong>how loudly each defect
+fails</strong>, quietest first — after two phases that are ordered by
+necessity rather than by noise:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Phase</th>
+<th>What</th>
+<th>Why here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0</strong></td>
+<td>The specification decision — <code>ordinal</code> type, path-key
+contradiction</td>
+<td><strong>Blocks everything.</strong> No implementation of
+<code>ordinal_path</code> is correct until the type it replaces is
+resolved, and shipping one first would make the decision
+retroactively.</td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td>Foundational — the grammar, the validator, the derivation, the
+ordering gate</td>
+<td><strong>Enabling.</strong> Nothing can be <em>asserted</em> about
+<code>02.01</code> before there is a definition of what a chapter id is.
+This phase writes no fix; it writes the thing every fix is checked
+against.</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>The redaction defect’s owed test</td>
+<td><strong>Quietest.</strong> The fix has landed; the test has not. It
+is harmless with one scope and wrong with two, so the code currently
+passes for a reason that has nothing to do with being correct. A
+one-scope fixture cannot see it — SC-009 measures exactly that.</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Silent data loss — ingest defaults, transcript defaults, embedded
+manifest, frozen builders</td>
+<td><strong>Next quietest.</strong> Each of these produces plausible
+output. The ingest default is the worst of them: it writes
+<strong>chapter 01’s transcript under another chapter’s scope</strong>,
+and every downstream artifact then agrees with itself.</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>Visible defects — <code>ordinalOf</code>, <code>chapterTitle</code>,
+the front end’s two shapes, the route manifest,
+<code>calibrate.sh</code></td>
+<td><strong>Loud, or nearly.</strong> A collision in a title is visible
+to anyone who looks at two chapters. The front end’s
+<code>null</code>-versus-<code>2</code> disagreement is visible to
+anyone who compares two views. These get fixed anyway; they do not need
+to be first.</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>The API surface — <code>hierarchy</code>, the filters, the orphan
+shape</td>
+<td><strong>Depends on 1 and 4.</strong> It serves what those
+derive.</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td>Gates, manifest, documentation, closure</td>
+<td><strong>Last, by construction.</strong> A gate written before the
+behaviour it guards is a gate written against an intention.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Phase 2 before Phase 3 is a judgement, and it is stated
+rather than implied.</strong> Both are silent. The redaction defect is
+put first because its output is a <strong>disclosure-control
+record</strong> — a document whose whole purpose is to state what was
+covered — and a coverage claim that is wrong is worse than a content
+pipeline that produced nothing, which at least leaves an absence
+somebody notices.</p>
+<h2 id="project-structure">Project Structure</h2>
+<h3 id="documentation-this-feature">Documentation (this feature)</h3>
+<pre class="text"><code>specs/003-chapter-hierarchy/
+├── spec.md                       # Feature specification
+├── plan.md                       # This file
+├── research.md                   # Measured evidence and the rejected alternatives
+├── data-model.md                 # The Chapter entity, the derived view, invariants H1–H7
+├── contracts/
+│   └── http-api.md               # The two changed response bodies
+└── tasks.md                      # Task breakdown, T001–T037</code></pre>
+<h3 id="source-code">Source Code</h3>
+<p>Paths by responsibility. Every one of these already exists —
+<strong>this feature creates no new package, no new module and no new
+component.</strong></p>
+<pre class="text"><code>workshop/platform/backend/
+├── pkg/curriculum/curriculum.go        # EXISTING and ALREADY CORRECT — SafeSlug:205 permits `.`,
+│                                       #   ChapterDir:187 resolves `chapter-02.01`. Gains an
+│                                       #   ASSERTION, not a change.
+├── pkg/chapterid/                      # NEW, and the only new package — the grammar, the
+│                                       #   validator and the five derivations. Depends on nothing
+│                                       #   but the standard library, which is what makes it
+│                                       #   testable with no tree present.
+├── internal/api/chapters.go            # EXISTING — ordinalOf:736 and chapterTitle:755 replaced by
+│                                       #   calls into pkg/chapterid; derivation:141 rewritten.
+├── pkg/search/suggest-sources.json      # EXISTING — six chapter-01 rows derived instead
+├── pkg/search/catalog.go               # EXISTING — the //go:embed at :70–71 and the manifest
+│                                       #   loader; measured safe at :320–354, gains an assertion
+├── cmd/workshop-server/main.go         # EXISTING — listChapters:2094 gains the unclassified
+│                                       #   report; the comparator at :2126 MUST NOT CHANGE
+└── cmd/workshop-redact/main.go         # EXISTING — :616 already equality; gains the two-scope test
+
+workshop/pipeline/
+├── extract/meeting_notes.py            # EXISTING — :109 already widened; gains both-direction proof
+├── extract/author.py                   # EXISTING — :159 already widened; gains both-direction proof
+├── build_transcript.py                 # EXISTING — :143–144 frozen defaults removed
+└── calibrate.sh                        # EXISTING — :36 frozen absolute path resolved from a chapter
+
+workshop/scripts/ingest.sh              # EXISTING — :46 chapter default, :93 transcript default
+workshop/curriculum/chapter-01/knowledge/build.py
+                                        # EXISTING — :363, :435 deep links and :478, :564, :582,
+                                        #   :592 slug literals derived as :415 already does
+
+workshop/platform/frontend/src/app/core/
+├── models.ts                           # EXISTING — :301 and :357 reconciled
+└── api.ts                              # EXISTING — :88 reads the array flat; must keep working
+
+workshop/platform/gates/
+├── route-manifest.tsv                  # EXISTING — :64 #subst, rows :72–:76, :85, :157–:160
+├── verify-chapter-hierarchy.sh         # NEW — the ordering, grammar and no-special-case gate
+├── prove-chapter-hierarchy.sh          # NEW — its paired mutation proof
+└── verify-absence-honesty.sh           # EXISTING — :127–134 is the precedent every new gate copies</code></pre>
+<p><strong>Structure Decision</strong>: the one new package is
+<code>pkg/chapterid</code>, not <code>internal/</code>. It knows about a
+string grammar and nothing else — no registry, no filesystem, no HTTP —
+which is what lets it be tested exhaustively against a table of inputs
+with no tree present, and what lets the pipeline’s own checks assert
+against the same definition rather than a second one.
+<code>internal/</code> would foreclose that by language rule.</p>
+<p>Everything else is an edit to a file that already exists. <strong>A
+feature whose implementation adds one small package and changes fourteen
+lines across nine files is a feature whose risk is concentrated in the
+decisions, not in the code</strong>, which is why Phase 0 is where the
+weight is.</p>
+<h2 id="execution-strategy">Execution Strategy</h2>
+<h3 id="test-first-components">Test-first components</h3>
+<p>Marked <code>[TDD]</code> in the task breakdown. Chosen where a
+defect would be <strong>silent</strong> rather than loud.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" /><strong>The id grammar and its
+validator.</strong> The one input it exists to catch — <code>02.2</code>
+— sorts incorrectly and looks fine. No sorting test written with
+well-formed input can see it, so the rejection is written before the
+acceptance.</label></li>
+<li><label><input type="checkbox" /><strong>The two-scope redaction
+fixture.</strong> The defect is invisible to a one-scope fixture by
+construction, and SC-009 requires that blindness to be
+<em>measured</em>, not assumed. Writing the fixture after the assertion
+would invite a fixture shaped to pass.</label></li>
+<li><label><input type="checkbox" /><strong>The three-order
+agreement.</strong> API, glob and filesystem order must be the same
+order. Nothing asserts it today and the code that satisfies it is one
+refactor from not doing so.</label></li>
+<li><label><input type="checkbox" /><strong>The derivations.</strong>
+<code>parent_id</code>, <code>depth</code>, <code>ancestor_ids</code>,
+<code>child_ids</code>, <code>ordinal_path</code> — each a pure string
+operation, each with a table of inputs including the root and leaf cases
+that FR-008 requires to fall out rather than be
+special-cased.</label></li>
+<li><label><input type="checkbox" /><strong>The ingest refusal.</strong>
+A test that ingestion <em>refuses</em> is the only thing that
+distinguishes it from ingestion that quietly used another chapter’s
+transcript, because both write records and both exit successfully
+today.</label></li>
+<li><label><input type="checkbox" /><strong>The both-direction pattern
+proofs.</strong> A widening that stopped matching the old form would
+pass a test asserting only the new form. Both directions, or the proof
+is half a proof.</label></li>
+</ul>
+<h3 id="parallel-work">Parallel work</h3>
+<p>Marked <code>[P]</code>. These share no files.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />The pipeline defaults
+(<code>ingest.sh</code>, <code>build_transcript.py</code>,
+<code>calibrate.sh</code>) and the backend derivation — different
+languages, different directories.</label></li>
+<li><label><input type="checkbox" />The front-end shape reconciliation
+and the suggest-source derivation.</label></li>
+<li><label><input type="checkbox" />The route manifest rows and the
+documentation.</label></li>
+</ul>
+<h3 id="human-checkpoints">Human checkpoints</h3>
+<p>The agent stops and waits for explicit approval at each.</p>
+<ol type="1">
+<li><strong>Before anything in Phase 1</strong> — the
+<code>ordinal</code> type and the path-key contradiction are operator
+decisions about two documents feature 001 already published. They are
+not implementation choices and must not be settled by writing code.</li>
+<li><strong>After the grammar lands</strong> — every later assertion is
+written against it, and a grammar changed after adoption invalidates all
+of them.</li>
+<li><strong>After Phase 3</strong> — the silent-loss fixes change what
+the pipeline writes. The diff is reviewed before any chapter is
+re-ingested.</li>
+<li><strong>Before the API change is declared complete</strong> — the
+flat-array contract with <code>api.ts:88</code> is checked against a
+running client, not against the schema.</li>
+</ol>
+<h3 id="review-gates">Review gates</h3>
+<p>Marked <code>[REVIEW]</code>.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" /><strong>The Phase 0 decision
+record.</strong> Both amendments to feature 001’s artifacts are written
+down, with their reasoning, before any code depends on
+them.</label></li>
+<li><label><input type="checkbox" /><strong>The grammar</strong>, before
+anything consumes it.</label></li>
+<li><label><input type="checkbox" /><strong>The two-scope
+fixture</strong>, because it is the only artifact in this feature that
+proves a disclosure-control record means what it says.</label></li>
+<li><label><input type="checkbox" /><strong>The route manifest
+diff</strong>, in the same change as the behaviour it
+declares.</label></li>
+</ul>
+<h2 id="complexity-tracking">Complexity Tracking</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Violation</th>
+<th>Why needed</th>
+<th>Simpler alternative rejected because</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A new package (<code>pkg/chapterid</code>) for what is arguably five
+one-line string functions</td>
+<td>The grammar is consumed by the backend, the pipeline and the gates.
+One definition, three consumers.</td>
+<td>Inlining the parsing at each call site is simpler per site and
+guarantees three subtly different definitions of what a chapter id is —
+which is how <code>ordinalOf</code> came to exist in the first
+place.</td>
+</tr>
+<tr>
+<td>A <code>hierarchy</code> object on every row rather than a nested
+array</td>
+<td>The client needs ancestry; a live consumer reads the array flat
+(<code>api.ts:88</code>).</td>
+<td>Nesting is smaller on the wire and is a breaking change to a working
+client, forcing a tree walk to find a chapter that is currently
+indexable.</td>
+</tr>
+<tr>
+<td><code>ordinal_path</code> replacing <code>ordinal</code>, changing a
+published wire field</td>
+<td><code>02.01</code> has no <code>int</code> ordinal, and the two
+collide under one.</td>
+<td>Keeping <code>int</code> and giving sub-chapters no ordinal is a
+smaller diff and makes every sub-chapter permanently unorderable and
+unlabelled — it does not solve the problem, it names it and moves
+on.</td>
+</tr>
+<tr>
+<td>A criterion (SC-009) that asserts a test <strong>stays
+green</strong> under a mutation</td>
+<td>It is the only way to prove a one-scope fixture cannot see the
+suffix defect.</td>
+<td>Asserting only that the two-scope fixture goes red proves the
+fixture works; it does not prove the cheaper fixture somebody will write
+instead does not.</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

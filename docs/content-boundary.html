@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>content-boundary</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">content-boundary</h1>
+</header>
+<h1
+id="the-content-boundary-private-material-must-not-appear-in-a-public-repository">The
+content boundary: private material must not appear in a public
+repository</h1>
+<p><code>scripts/verify-content-boundary.sh</code> +
+<code>.content-boundary-allow</code></p>
+<h2 id="the-rule-in-one-line">The rule, in one line</h2>
+<p><strong>Never quote, paste, excerpt or transcribe content from a
+private repository into a file tracked by a public one.</strong> Naming
+a private <em>path</em> is fine. Copying what is <em>inside</em> it is
+not.</p>
+<h2 id="why-it-is-absolute">Why it is absolute</h2>
+<p>This umbrella spans both visibilities. A gitlink in a public
+repository exposes a commit SHA and nothing more, so material in a
+private submodule stays private — <strong>as long as nobody copies it
+out</strong>. One paragraph pasted into a public <code>docs/</code> or
+<code>specs/</code> file defeats that permanently: the text is then in a
+public repository’s history, and history is not editable after a push.
+There is no undo, only disclosure plus a rewrite nobody can force other
+clones to take.</p>
+<p>The pressure that produces this mistake is not carelessness, it is
+diligence. An agent told to document the work comprehensively reaches
+for an illustrative quote, and the quote is the leak.</p>
+<h2 id="the-measured-fleet-re-derive-do-not-trust-this-table">The
+measured fleet (re-derive; do not trust this table)</h2>
+<p>Derived 2026-09-01 (afternoon) from <code>.gitmodules</code> plus
+this tree’s own remote, with visibility and push permission taken from
+the provider. <strong>One row changed between the morning and the
+afternoon of the same day</strong> — see the note under the table. That
+is the reason this heading says “do not trust this table”.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh <span class="at">--list-fleet</span></span></code></pre></div>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>repository</th>
+<th>role</th>
+<th>evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.</code> (the umbrella)</td>
+<td><strong>public</strong></td>
+<td><code>private=false, push=true</code></td>
+</tr>
+<tr>
+<td><code>workshop</code></td>
+<td><strong>private</strong></td>
+<td><code>private=true</code></td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td><strong>public</strong></td>
+<td><code>private=false, push=true</code> — <strong>was
+<code>private=true</code> this morning</strong></td>
+</tr>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td><strong>private</strong></td>
+<td><code>private=true</code></td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td><strong>private</strong></td>
+<td><code>private=true</code></td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td>public</td>
+<td><code>private=false, push=true</code></td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td>public</td>
+<td><code>private=false, push=true</code></td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td>public</td>
+<td><code>private=false, push=true</code></td>
+</tr>
+<tr>
+<td><code>submodules/containers</code></td>
+<td>public</td>
+<td><code>private=false, push=true</code></td>
+</tr>
+<tr>
+<td><code>submodules/LLMProvider</code></td>
+<td>public</td>
+<td><code>private=false, push=true</code></td>
+</tr>
+<tr>
+<td><code>submodules/RAG</code></td>
+<td>public</td>
+<td><code>private=false, push=true</code></td>
+</tr>
+<tr>
+<td><code>submodules/verdict</code></td>
+<td>public</td>
+<td><code>private=false, push=true</code></td>
+</tr>
+<tr>
+<td><code>submodules/passage</code></td>
+<td>public</td>
+<td><code>private=false, push=true</code></td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code></td>
+<td>out-of-scope</td>
+<td><code>private=false, push=false</code> — an upstream we cannot
+push</td>
+</tr>
+</tbody>
+</table>
+<p>Four of these (<code>LLMProvider</code>, <code>RAG</code>,
+<code>verdict</code>, <code>passage</code>) were added to
+<code>.gitmodules</code> by another agent <em>while this guard was being
+written</em>, and the run picked them up with no edit to any script.
+That is the point of deriving the fleet rather than listing it.</p>
+<p><strong><code>design-toolkit</code> flipped from private to public
+between two runs on 2026-09-01, and the gate followed it with no edit to
+anything.</strong> The earlier revision of this table recorded it as
+private and was correct when written. The consequence is arithmetic, not
+cosmetic: everything <code>design-toolkit</code> contributed to the
+private corpus left it, so <strong>no total measured before the flip is
+comparable to one measured after</strong>. The incident note’s “377 →
+232” and this document’s own older funnel both predate it. Re-derive; do
+not subtract.</p>
+<p><strong>This table records ONE remote per repository, and
+<code>design-toolkit</code> has two with DIFFERENT
+visibilities.</strong> The fleet is derived from
+<code>submodule.&lt;name&gt;.url</code> — a single URL per submodule —
+plus this tree’s own remote. <code>design-toolkit</code>’s row above
+says <strong>public</strong>, which is a measured fact about its GitHub
+origin <code>vasic-digital/design-toolkit</code>. Measured 2026-09-02,
+the same repository also has a GitLab mirror,
+<code>git@gitlab.com:vasic-digital/design-toolkit.git</code>, which is
+<strong>private</strong>:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span>   api repos/vasic-digital/design-toolkit <span class="at">--jq</span> .visibility            <span class="co"># public</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">glab</span> api <span class="st">&quot;projects/vasic-digital%2Fdesign-toolkit&quot;</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> .visibility  <span class="co"># private</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># and anonymously, which distinguishes &quot;private&quot; from &quot;you have access&quot;:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-o</span> /dev/null <span class="at">-w</span> <span class="st">&#39;%{http_code}\n&#39;</span> https://api.github.com/repos/vasic-digital/design-toolkit    <span class="co"># 200</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-o</span> /dev/null <span class="at">-w</span> <span class="st">&#39;%{http_code}\n&#39;</span> https://gitlab.com/api/v4/projects/vasic-digital%2Fdesign-toolkit  <span class="co"># 404</span></span></code></pre></div>
+<p><strong>This does not change any boundary verdict, and the reason is
+measured rather than assumed.</strong> The mirror is 6 commits
+<strong>behind</strong> the public origin and its head is a strict
+<strong>ancestor</strong> of it, so every commit and every tag the
+mirror advertises is already reachable from the public GitHub head; its
+merge-request, issue, wiki, snippet, package and registry stores are all
+empty. The private side is a strict subset of the public side, so it
+contributes nothing to the private corpus and no total above needs
+re-deriving on its account. Full measurement, the commands, and the
+honest boundary on what <code>ls-remote</code> can and cannot see: <a
+href="constitution-adoption/REMOTE-ASYMMETRY.md#10-design-toolkits-gitlab-mirror--measured-2026-09-02"><code>constitution-adoption/REMOTE-ASYMMETRY.md</code>
+§10</a>.</p>
+<p><strong>What this IS evidence of: a single-remote blind spot shared
+by two gates.</strong> Neither this guard nor
+<code>scripts/verify-submodule-remote-sync.sh</code> can see a second
+remote for any submodule, because <code>.gitmodules</code> declares
+exactly one URL and neither reads a submodule’s named remotes. Today
+that costs nothing here. It would cost something the moment a
+repository’s mirror were <em>ahead</em> of, or divergent from, the URL
+in <code>.gitmodules</code> — a case no instrument in this tree can
+currently detect. Closing it needs a declared source of mirror URLs and
+is a separate operator decision, specified in §10.6 of that document.
+<strong>Do not read this note as a reason to relax
+anything.</strong></p>
+<p><strong>There are three private submodules today, not four and not
+one.</strong> <code>workshop</code> holds the session recording and its
+notes and is the most sensitive; <code>ai_interviewing</code> and
+<code>monetization</code> are private too, and the same rule governs all
+three. The fleet is derived on every run, so a repository flipped from
+private to public — or a submodule added tomorrow — is picked up without
+an edit to any script.</p>
+<h2 id="what-the-guard-actually-detects">What the guard actually
+detects</h2>
+<p>Three key spaces, all built in a <strong>single pass</strong> over
+each file, all compared across line boundaries. Text is folded to
+lowercase alphanumerics and everything else becomes a separator, so a
+quotation the pasting editor re-wrapped is still the same token run —
+which a line-oriented <code>grep</code> cannot see, and which matters,
+because the first real leak found in this tree was a quotation split
+across three lines.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>class</th>
+<th>key</th>
+<th>catches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>prose</code></td>
+<td>normalised <strong>10-token</strong> shingle</td>
+<td>a copied paragraph or sentence</td>
+</tr>
+<tr>
+<td><code>short</code></td>
+<td>normalised <strong>5-token</strong> shingle, private side restricted
+to the document’s own <strong>heading / list-item / block-opening
+lines</strong></td>
+<td>a copied <em>heading list</em> — class <strong>D2</strong> of the
+incident</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>a run of <strong>2 or 3 consecutively capitalised tokens</strong>,
+matched in <strong>either order</strong></td>
+<td>a real person’s full name — class <strong>D3</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-blind-spot-the-first-two-classes-were-added-to-close">The
+blind spot the first two classes were added to close</h3>
+<p>On 2026-09-01 the prose pass scored two public files
+<strong>clean</strong> while both reproduced a private notes document’s
+complete section-heading list, and while a third party’s full real name
+stood in three public locations. It was found by a human-directed audit.
+<code>docs/content-boundary-incident-2026-09-01.md</code> records this
+as findings <strong>F2</strong> and <strong>F3</strong>.</p>
+<p><strong>Three independent barriers stacked</strong>, and lowering any
+one of them alone would not have helped:</p>
+<ol type="1">
+<li><strong>The window.</strong> Five of the seven headings are five or
+six tokens long. No shingle of them is ever built — not at 10, not at 8,
+not at 7.</li>
+<li><strong>The 40-character floor.</strong> A five-token phrase needs
+an average word length of 7.2 characters to clear it.</li>
+<li><strong>Prose-shape, “≥ 2 distinct function words”.</strong> A
+heading is a noun phrase. <em>“Nightly ingest of the partner
+catalogue”</em> has one.</li>
+</ol>
+<p>Measured on a synthetic four-heading fixture built for the purpose
+(no real string in it), against the <strong>unmodified</strong>
+gate:</p>
+<table>
+<thead>
+<tr>
+<th><code>--window</code></th>
+<th>verdict</th>
+<th>matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>10</strong> (the shipped default)</td>
+<td><strong>CLEAN — rc 0</strong></td>
+<td>0</td>
+</tr>
+<tr>
+<td>8 (the value the incident note records)</td>
+<td><strong>CLEAN — rc 0</strong></td>
+<td>0</td>
+</tr>
+<tr>
+<td>7</td>
+<td>LEAK</td>
+<td>1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>LEAK</td>
+<td>2</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>CLEAN — rc 0 again</strong></td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>Read the last row carefully. <strong>“Just lower the window” does not
+work</strong>: at 5 the gate goes blind a second time, for barriers 2
+and 3 rather than barrier 1. Note also that the incident note records
+the window as <strong>eight</strong> and the shipped default was
+<strong>ten</strong> — the blind spot was one token wider than the
+incident report says.</p>
+<h2 id="why-it-does-not-cry-wolf">Why it does not cry wolf</h2>
+<p>A naive line-grep on this tree produced <strong>24,963 hits whose top
+thirty were all legitimate</strong>. That number is the whole design
+problem: a gate reporting 24,963 findings is switched off within a week,
+and then the real leak ships. Seven filters run, six derived and one
+declared. Three of them (1b, 1c, 2b) exist only to keep the short and
+name classes affordable, and each states which class it touches — a
+filter that narrowed all three at once would have re-created the blind
+spot in a new place.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>filter</th>
+<th>applies to</th>
+<th>derived?</th>
+<th>measured effect on this tree</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>prose-shape</strong> — ≥ 2 distinct function words, ≥ 5
+alphabetic tokens</td>
+<td>prose</td>
+<td>derived</td>
+<td>removes CSS/markup/code boilerplate, the largest residual class</td>
+</tr>
+<tr>
+<td>1b</td>
+<td><strong>prose-LINE</strong> — the private line must contain none of
+<code>{}&lt;&gt;=\|;~$@#_/</code> and no <code>](</code></td>
+<td>short, name</td>
+<td>derived</td>
+<td>−63% of the short class and −63% of the name class in one step: it
+removes the entire CSS / SCSS / HTML / Go / <code>go.sum</code>
+contribution</td>
+</tr>
+<tr>
+<td>1c</td>
+<td><strong>structural</strong> — the private line must carry a
+heading/bullet marker <strong>or</strong> open a block, and be ≤
+<code>--short-line-max</code> (9) tokens</td>
+<td>short</td>
+<td>derived</td>
+<td>a short line <em>inside</em> a wrapped paragraph is ordinary prose
+the 10-token pass already covers</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>path-reference</strong> — shingles built from the private
+repos’ own <code>git ls-files</code> are subtracted, at
+<strong>each</strong> window in use</td>
+<td>prose, short</td>
+<td>derived</td>
+<td>clears the recording’s filename wherever it is quoted, while leaving
+quotations of the recording’s <em>notes</em> standing</td>
+</tr>
+<tr>
+<td>2b</td>
+<td><strong>name path-reference</strong> — a candidate whose
+<strong>every</strong> token already appears in the private source path
+or the public file’s own path</td>
+<td>name</td>
+<td>derived</td>
+<td>35 matches; kills the “private deep-dive about product X → public
+product page for X” class</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>already-public</strong> — a key in ≥ 2 distinct public
+repositories is already public</td>
+<td>all three, computed <strong>per class</strong></td>
+<td>derived</td>
+<td>840 keys this run (prose 786, short 6, name 48)</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>declared</strong> — <code>.content-boundary-allow</code>
+pairs</td>
+<td>all three</td>
+<td>declared</td>
+<td>9 pairs, 4,196 matches pardoned</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-the-short-pass-does-not-resurrect-the-24963-hit-flood">Why
+the short pass does not resurrect the 24,963-hit flood</h3>
+<p>Because its precision does not come from the window. This was
+measured, not assumed. Dropping to a 5-token window with only the
+<em>old</em> filters produced <strong>8,535</strong> short-class rows on
+this tree — unusable, and exactly the outcome the naive line-grep was
+rejected for.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>private-side restriction on short keys</th>
+<th>short-class rows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>none beyond “a source line of 5–12 tokens”</td>
+<td><strong>8,535</strong></td>
+</tr>
+<tr>
+<td>+ prose-LINE rule, + “line standing alone between two blank
+lines”</td>
+<td>51</td>
+</tr>
+<tr>
+<td>+ prose-LINE rule, + “heading marker <strong>or</strong>
+block-opening line”, ≤ 9 tokens</td>
+<td><strong>35</strong> ← shipped</td>
+</tr>
+</tbody>
+</table>
+<p>The middle row was <strong>tried and rejected</strong>, and it is
+recorded because the reason matters: “standing alone between two blank
+lines” is wrong, because in a real notes document a heading is followed
+<em>immediately</em> by its own body. It dropped the exact class it
+exists to catch. <strong>Mutation M17b caught that before it
+shipped</strong>, which is the whole argument for pairing a gate with a
+mutation.</p>
+<p>The <strong>public</strong> side is deliberately left unrestricted.
+In the public file the same words may sit mid-paragraph, inside a
+bullet, or be re-wrapped by the editor that pasted them. Narrowing what
+may <em>become</em> a candidate is safe; narrowing where it may be
+<em>found</em> would be a new blind spot.</p>
+<p>Distinctiveness weighting over rare word sequences was considered and
+<strong>not used</strong> for the short class: it was not needed once
+structure did the work, and it would have cost recall on headings built
+entirely from common words — which is what a heading usually is.</p>
+<h2
+id="the-name-class-and-how-candidates-are-derived-without-writing-a-name-down">The
+name class, and how candidates are derived without writing a name
+down</h2>
+<p><strong>No name is written into the script, into
+<code>.content-boundary-allow</code>, into the proof fixtures, or into
+this document.</strong> Writing one down would itself be the disclosure
+the check exists to prevent. Candidates are re-derived every run from
+the private repositories by two independent routes:</p>
+<ul>
+<li><strong>git identities</strong> of the private repositories
+(<code>%an</code>, <code>%cn</code>, <code>user.name</code>). These are
+person names <em>by construction</em> — no heuristic is involved.</li>
+<li><strong>capitalised runs in private prose</strong> whose every token
+is <strong>rare in lowercase</strong> across this corpus. That single
+test is what separates <code>Firstname Surname</code> from
+<code>Design Toolkit</code> or <code>Getting Started</code> without a
+gazetteer: a common noun that happens to be capitalised in a heading is
+abundant in lowercase elsewhere, and a surname is not.</li>
+</ul>
+<p><strong>The claim that the second route’s frequency rule was
+“scale-free — in a small fixture nothing clears the minimum count” is
+WITHDRAWN. Both halves were measurably false.</strong> See <em>The
+2026-09-01 name-class tightening</em> below.</p>
+<p><strong>Route (a) is precise and was not touched. Route (b) is where
+all the noise was.</strong> Measured on 2026-09-01: of the
+<strong>125</strong> surviving name rows, route (a) contributed
+<strong>zero</strong> and route (b) contributed <strong>every
+one</strong>.</p>
+<p><strong>The repository owner’s own name is excluded — derived, not
+hardcoded.</strong> Names that are git identities of a
+<strong>public</strong> repository are subtracted, in <em>both</em>
+orders. 11 such forms were subtracted this run. The person who commits
+to the public repositories is publishing under that name already.</p>
+<p>Matching is <strong>order-insensitive</strong>:
+<code>Surname Firstname</code> is checked as well as
+<code>Firstname Surname</code>, and because the comparison runs over a
+token stream, a name split across a line break is still found.</p>
+<h3 id="the-name-itself-is-never-printed">The name itself is never
+printed</h3>
+<p>The terminal output and the <code>--json</code> output both
+<strong>withhold</strong> the matched name and give a stable digest
+instead — <code>personal name #4f8d043f</code>. The public
+<code>file:line</code> is printed, which is what an operator needs to
+act. This is deliberate: gate output gets pasted into reports, CI logs
+and incident notes, and that is one of the ways class D3 spread the
+first time. The digest lets a report say <em>“43 occurrences of 8
+distinct names”</em> without any archive ever containing one.</p>
+<p>Filter 2 is the one that answers the obvious objection. A public file
+may legitimately name
+<code>workshop/chapters/01/&lt;recording&gt;.mp4</code> in a build
+command; that is a reference, not a disclosure of what was said. Because
+the mask is built from the private index itself, it needs no
+maintenance.</p>
+<p>Filter 4 uses <strong>pairs</strong> — one private glob, one public
+glob, one mandatory reason — so an exemption authorising design tokens
+to reach <code>design-system/</code> does not also authorise a
+transcript to reach it. A malformed row makes the run exit 2, never
+0.</p>
+<h3 id="the-stated-limit-of-filter-3">The stated limit of filter 3</h3>
+<p>“Already public in ≥ 2 repositories” cannot exonerate a passage
+leaked into two public repositories at once, and it is not claimed to.
+Every shingle it clears is counted and its private source files are
+named in the run’s own summary, so the exoneration is visible rather
+than silent.</p>
+<h3 id="the-stated-limit-of-filter-1">The stated limit of filter 1</h3>
+<p>The model is <strong>English prose</strong>. Private <em>code</em>
+copied into a public repository is outside this instrument and is not
+claimed to be covered.</p>
+<h2 id="the-2026-09-01-name-class-tightening">The 2026-09-01 name-class
+tightening</h2>
+<p>A triage adjudicated every one of the 125 name rows and found
+<strong>125 of 125 rows and 20 of 20 distinct digests to be false
+positives — not one was a person.</strong> A class that is 100% noise
+gets ignored, and an ignored detector is worse than no detector, because
+it looks like coverage. Three changes shipped; two candidates were
+rejected. Every figure below was re-derived on this tree, not
+inherited.</p>
+<h3 id="what-was-actually-wrong-the-tokeniser-not-the-filters">What was
+actually wrong: the tokeniser, not the filters</h3>
+<p>The N pass folded <strong>every</strong> non-alphanumeric run into a
+single separator. That is correct for the prose pass — it is what
+defeats re-wrapping — and wrong for names, because it <strong>fuses list
+items into one “name”</strong>: <code>A/B/C</code> became a single
+capitalised run. That run stands in neither text. It was a tokeniser
+defect, not a filter that was too loose.</p>
+<h3 id="name-junction-rule-shipped-both-sides">1. Name-junction rule
+(shipped, both sides)</h3>
+<p>Two capitalised tokens form a candidate only when what stands between
+them is something a personal name may actually contain. It is written as
+an <strong>allow-list</strong> because that is the half that can be
+justified:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>junction</th>
+<th>verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>whitespace only</td>
+<td>name-compatible</td>
+</tr>
+<tr>
+<td>a bare hyphen (<code>Anne-Marie</code>)</td>
+<td>name-compatible</td>
+</tr>
+<tr>
+<td>a comma with optional whitespace
+(<code>Surname, Firstname</code>)</td>
+<td>name-compatible</td>
+</tr>
+<tr>
+<td><strong>anything else</strong></td>
+<td>a delimiter — break</td>
+</tr>
+</tbody>
+</table>
+<p>At most <strong>one</strong> hyphen or comma; two is a break. So
+<code>Alpha - Beta</code> (spaced dash), <code>Alpha--Beta</code>,
+<code>Alpha.Beta</code>, <code>Alpha/Beta</code>,
+<code>Alpha|Beta</code>, <code>Alpha;Beta</code>,
+<code>Alpha[Beta]</code>, <code>**Alpha:** **Beta**</code> and
+<code>"Alpha",\n"Beta"</code> all break, and so do the non-ASCII commas
+<code>、</code> and <code>،</code>.</p>
+<p><strong>It is applied to the PUBLIC side as well as the private
+one</strong>, against this script’s usual doctrine that narrowing the
+public side creates a blind spot. The reason is that this is not a
+narrowing of where a name may be <em>found</em>: the fused run exists in
+neither corpus, and fixing the tokeniser on one side only would leave
+the two normalised differently — the one thing the script’s own header
+says must never happen. Measured: applying it to the private side alone
+drops <strong>0</strong> of the 125 rows today; the public side is where
+every fusion sits.</p>
+<p><strong>Measured effect: 67 of 125 rows (54%), 4 of 20
+digests.</strong></p>
+<h3 id="no-bridging-a-token-free-line-shipped-both-sides">2. No bridging
+a token-free line (shipped, both sides)</h3>
+<p>A capitalised run may be <strong>re-wrapped onto the next
+line</strong> — that is a real leak shape and mutation M19 holds it open
+— but it may not bridge a line with no tokens on it. A person is not
+written across a paragraph break, a horizontal rule, or a PDF page
+break.</p>
+<p><strong>Measured effect: 2 further rows, 2 further digests.</strong>
+(The triage reported 3 rows; re-derived here it is 2. The third row it
+counted crosses a plain line break inside a JSON array, not a blank
+line, and is cleared by rule 1 instead.)</p>
+<h3
+id="rank-independent-frequency-floor-shipped-the-one-with-a-real-cost">3.
+Rank-independent frequency floor (shipped) — the one with a real
+cost</h3>
+<p>The old rule was
+<code>rank &lt;= --name-rank (2000) AND count &gt;= 5</code>. Two things
+are wrong with it and both are measured, not asserted:</p>
+<ul>
+<li><strong>An absolute rank is not scale-free.</strong> Rank is a
+position in a <em>vocabulary</em>. On this tree rank 2000 lands at
+<strong>count 89</strong>, so every token of every surviving false
+positive passed straight through: they sit at <strong>ranks
+2167–14849</strong>, and several occur <strong>45 to 80</strong> times.
+(The triage reported the corpus at 941,648 tokens and ranks 2072–12227;
+re-derived here the corpus is <strong>1,325,163</strong> private prose
+tokens and the range is <strong>2167–14849</strong>. Mine
+supersede.)</li>
+<li><strong>A small fixture <em>does</em> clear the minimum
+count.</strong> Mutation M22 needed exactly two planted lines; a third
+put the fixture’s given name at 5 occurrences and the old rank rule
+swept it unaided.</li>
+</ul>
+<p>The floor is now expressed <strong>per million prose tokens</strong>
+(<code>--name-ppm</code>, default <strong>25</strong>), so it tracks the
+corpus instead of a fixed position in it, and it is <strong>0</strong>
+in a small corpus, where nothing can clear it. On this tree it derives
+to <strong>33 occurrences</strong>. <code>--name-floor &lt;n&gt;</code>
+gives the absolute form, which the paired proof needs because no
+per-million rate reaches 1 in a fixture. The old rank rule is
+<strong>kept and unioned</strong> with it, so nothing that used to be
+ordinary stops being ordinary. <strong>Route (a) is exempt from
+both</strong>, deliberately.</p>
+<p><strong>Why 33 and not 20.</strong> The triage measured a floor of 20
+clearing 13 of 20 digests — reproduced exactly here. It is still the
+wrong number, because the floor was chosen on the noise axis and the
+cost sits on the other one:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>floor</th>
+<th>digests left (of 20)</th>
+<th>candidates lost (of the 445 the old build derived)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>89 (today’s effective rank cut)</td>
+<td>20</td>
+<td>0</td>
+</tr>
+<tr>
+<td>40</td>
+<td>12</td>
+<td>221 (49.7%)</td>
+</tr>
+<tr>
+<td><strong>33 (shipped)</strong></td>
+<td><strong>12</strong></td>
+<td><strong>234 (52.6%)</strong></td>
+</tr>
+<tr>
+<td>30</td>
+<td>11</td>
+<td>245 (55.1%)</td>
+</tr>
+<tr>
+<td>25</td>
+<td>8</td>
+<td>268 (60.2%)</td>
+</tr>
+<tr>
+<td>20</td>
+<td>7</td>
+<td><strong>289 (64.9%)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Below about 30 the floor stops sweeping ordinary English words and
+starts sweeping <strong>low-frequency proper nouns</strong> —
+<code>qdrant</code> (25), <code>milvus</code> (20), <code>face</code>
+(19), <code>pinecone</code> (15) — which is precisely the frequency
+class a person’s name belongs to. Buying quiet there means buying it
+with exactly the recall the detector exists for. <strong>33 is 3× the
+highest count among the tokens of the real private-only given names in
+this corpus (5 and 11).</strong> The one real person-token above it
+(count 132) belongs to a <em>public</em> git identity and is subtracted
+by construction anyway.</p>
+<h3 id="the-comma-decision">The comma decision</h3>
+<p><strong>The comma is allowed.</strong> Breaking on it would remove a
+further <strong>15 rows (12%) and 4 more digests</strong>, all
+comma-separated enumerations of product names. It was rejected
+anyway:</p>
+<ol type="1">
+<li><code>Surname, Firstname</code> is a real personal-name rendering —
+the form an index, a bibliography and an attendance roster use — and the
+comma is the <em>only</em> punctuation it contains. Order-insensitive
+matching (mutation M15) exists to catch it; a comma break would delete
+the shape it matches.</li>
+<li>A <strong>series-scoped</strong> exception (“break only inside a run
+of three or more comma-separated capitalised items”) was designed and
+rejected: it false-breaks the ordinary appositive
+<code>Surname, Firstname, who chaired</code>, which is exactly the
+leaked-roster prose it would exist to protect. And two of the four comma
+digests are <em>two-item</em> enumerations, which no structural rule can
+tell from <code>Surname, Firstname</code>.</li>
+<li>The 15 rows are therefore a <strong>declared, measured,
+unfixed</strong> noise source.</li>
+</ol>
+<p><strong>Mutation M21 holds this decision open.</strong> If a later
+change makes the comma a hard separator to buy a quieter run, M21 goes
+red and says why.</p>
+<h3 id="rejected-the-intra-word-hyphen">Rejected: the intra-word
+hyphen</h3>
+<p>The triage’s own fourth, not-recommended proposal. Re-derived: it
+clears <strong>7 rows and 2 digests</strong> and costs <strong>every
+double-barrelled given name</strong>. Rejected.</p>
+<h3
+id="the-recall-cost-of-each-shipped-change-added-to-the-blind-spot-list">The
+recall cost of each shipped change, added to the blind-spot list</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>change</th>
+<th>what the gate can no longer see</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>junction rule</td>
+<td>a name split across two markdown <strong>table cells</strong>
+(<code>\| Firstname \| Surname \|</code>), across two code spans, across
+two path segments, or written with a non-ASCII comma</td>
+</tr>
+<tr>
+<td>token-free-line rule</td>
+<td>a name whose two tokens sit on either side of a blank line, a
+horizontal rule, or a PDF page break</td>
+</tr>
+<tr>
+<td>frequency floor</td>
+<td>a person whose name token reaches <strong>33 occurrences</strong> in
+the private corpus. <strong>This grows with the corpus</strong>: the two
+real given names here sit at 5 and 11, but a participant recurring
+across a longer course <em>will</em> cross it, and only route (a) — a
+git identity — still sees them, and only if they commit</td>
+</tr>
+</tbody>
+</table>
+<h3 id="measured-result">Measured result</h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>rows</th>
+<th>prose</th>
+<th>short</th>
+<th>name</th>
+<th>distinct name digests</th>
+<th>rc</th>
+<th>runtime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>before</td>
+<td>367</td>
+<td>207</td>
+<td>35</td>
+<td>125</td>
+<td>20</td>
+<td>1</td>
+<td>206–294 s</td>
+</tr>
+<tr>
+<td>after</td>
+<td><strong>285</strong></td>
+<td><strong>207</strong></td>
+<td><strong>35</strong></td>
+<td><strong>43</strong></td>
+<td><strong>8</strong></td>
+<td>1</td>
+<td>193–299 s</td>
+</tr>
+</tbody>
+</table>
+<p>The derived candidate set went <strong>445 → 163</strong>, and the
+run now prints the floor it derived —
+<code>33 occurrence(s) over 1,325,231 prose tokens (25 per million, scale-free); 3,888 token(s) count as ordinary words</code>
+— so it is never an invisible constant. (The corpus total moved
+1,325,163 → 1,325,231 between the two runs; four other agents were
+editing this tree at the time. Every number here is a dated
+observation.)</p>
+<p><strong>The prose and short passes are provably untouched</strong>:
+comparing the two runs’ own <code>--json</code> output as sets, both are
+<strong>byte-identical — 207 and 35 rows, 0 added, 0 removed</strong>.
+The name class lost <strong>82 rows and 0 gained</strong>.</p>
+<p>Runtime is <strong>within the noise</strong> — see the paired table
+under <em>Cost</em>, where the two back-to-back samples disagree in
+sign. The first working build was reliably +60–70 s, because the
+junction signature was built eagerly for every line carrying two
+capitalised tokens. It is now built <strong>lazily</strong> — at most
+once per line, and only for a line the anchored name loop actually
+reaches. Fixing that also surfaced a real bug: an editing slip had
+dropped the public-side anchor test entirely, which changed no result
+(the join still filters by candidate) but did most of the damage.</p>
+<p><strong>The residue is still 100% false positives.</strong> 43 rows
+over 8 digests, dominated by comma-separated enumerations of product and
+technology names — the class the comma decision deliberately declines to
+sweep. That is recorded here rather than hidden, and <strong>nothing was
+added to <code>.content-boundary-allow</code>.</strong></p>
+<h3 id="the-stated-limit-of-filter-2b-name-path-reference">The stated
+limit of filter 2b (name path-reference)</h3>
+<p>It tests <strong>every</strong> token, never “any”, and that
+asymmetry is deliberate. The one artefact in this fleet whose
+<em>filename</em> carries a participant’s <strong>first</strong> name
+would otherwise pardon that person’s <strong>full</strong> name: first
+name in the path, surname not, so “all” keeps the finding and “any”
+would have lost it. The cost of “all” is the reverse case — a private
+file named after a person in full cannot be told apart from a public
+file naming that path.</p>
+<h2
+id="the-direction-subtraction-shipped-2026-09-09-the-fifth-filter">The
+direction subtraction (shipped 2026-09-09) — the fifth filter</h2>
+<p>Every filter above answers <strong>co-occurrence</strong>: does this
+text stand on both sides of the boundary? None of them can answer
+<strong>direction</strong>. Governance prose written in this public
+umbrella and propagated <em>into</em> a private submodule — which
+§11.4.157 lockstep and the private <code>upstream-contributions/</code>
+staging tree make routine here — is indistinguishable, to filters 1
+through 4, from private material leaking <em>out</em>. On this tree that
+ambiguity was most of the population: the offline probe recorded in <a
+href="content-boundary-class-a-judgement.md"><code>content-boundary-class-a-judgement.md</code></a>
+measured the largest structural class at <strong>79.1 – 82.1 %
+public-first across five runs whose totals differed by more than 3,000
+rows</strong>. The totals moved; the direction did not.</p>
+<p>That probe is now <strong>inside the gate</strong>, as a subtraction
+with the same shape and the same discipline as the four above it —
+derived every run, counted, and its recall cost printed.</p>
+<p><strong>The rule.</strong> A surviving row is subtracted only when
+its matched text is <strong>provably public-first</strong>: dated on
+<strong>both</strong> sides, with the earliest public commit
+<strong>strictly</strong> before the earliest private one. Equal
+timestamps are not public-first. Undated on either side is not
+public-first.</p>
+<p><strong>How a string is dated — text level, not file level.</strong>
+Every blob any commit of any repository on that side ever recorded is
+normalised with <em>the gate’s own</em> rule (<code>[^A-Za-z0-9]+</code>
+→ space, lowercased) and searched for the key as a token run. The date
+is the earliest commit whose blob <strong>content</strong> contains it,
+anywhere on that side — so a string that moved between files is still
+caught and a rename does not restart its clock. Blobs are walked
+oldest-first and a key leaves the search the moment it is dated: an
+exact pruning, since no later commit can date a string earlier.</p>
+<p><strong>Two classes are never touched, by two independent
+guards.</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Class</th>
+<th>Why it is excluded</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>The gate <strong>withholds</strong> a name’s matched text by design.
+There is no string to date, and obtaining one would be the disclosure
+the redaction exists to prevent. The offline probe’s own honest boundary
+says direction was never established for a single name row.</td>
+</tr>
+<tr>
+<td><code>fingerprint</code></td>
+<td>Its value is withheld for the same reason, <strong>and</strong> its
+direction has never been measured on any population — the class was
+added on 2026-09-09, after the last probe. Subtracting an unmeasured
+class is how a gate goes quietly green.</td>
+</tr>
+</tbody>
+</table>
+<p>Name and fingerprint keys are never handed to the dater, <em>and</em>
+the resolver refuses both classes by name whatever the key list
+contains. Mutations <strong>M30d</strong> and <strong>M30e</strong>
+plant a row of each with unambiguously public-first dates and require it
+to <strong>survive</strong>.</p>
+<h3 id="recall-cost-stated-in-full">Recall cost, stated in full</h3>
+<ol type="1">
+<li><strong>“Public committed first” is an order, not an
+exoneration.</strong> If private material was pasted into a public file
+and <strong>pushed</strong> before the private document holding it was
+ever committed, this pass subtracts a real leak. The asymmetry is
+structural: the private corpus is read from the <strong>working
+tree</strong> and dated from <strong>history</strong>.</li>
+<li><strong>Commit timestamps are author-controlled</strong> and are
+rewritten by rebase, amend and filter-branch. This is not a
+tamper-evident clock.</li>
+<li><strong>Only committed text can be dated.</strong> A row whose text
+exists on one side in the working tree only is
+direction-<strong>UNDETERMINED</strong>: not subtracted, still reported,
+and counted in a named <code>COULD NOT DETERMINE</code> row.</li>
+<li><strong>Only what history can be read as text is dated</strong> —
+blobs at or below the corpus size cap that are not binary, mirroring the
+corpus the keys come from. A key that reached the corpus through
+<code>pdftotext</code> is therefore never dated (history holds the PDF,
+not its rendered text) and its row is <strong>kept</strong>.</li>
+<li>It says nothing about whether a <strong>kept</strong> row is a
+disclosure. Removing four rows in five makes the fifth readable; it does
+not judge it.</li>
+</ol>
+<p><strong>Precedence is unchanged</strong> and still decided in one
+place: a leak outranks the direction-undetermined row like any other
+<code>2</code>. <code>--no-direction</code> turns the pass off and
+reports the undirected population — the paired proof uses it as the
+second half of every direction mutation (<strong>M30c</strong>), so a
+green case is attributable to the subtraction rather than to the
+fixture.</p>
+<p><strong>Dependency:</strong> <code>python3</code>. If it is absent
+the pass subtracts <strong>nothing</strong> and reports the whole
+eligible population as undetermined — a pass that cannot run is never
+reported as a pass that found nothing.</p>
+<h2 id="exit-codes">Exit codes</h2>
+<p><code>0</code> clean · <code>1</code> leak found, both sides named
+with a <code>file:line</code> on the public side · <code>2</code>
+<strong>could not determine</strong> — visibility unknown, no
+authenticated <code>gh</code>, a private submodule not initialised, a
+private PDF with no text extractor, or a malformed exemption file.</p>
+<p><code>1</code> outranks <code>2</code>: a leak is a fact. Rows that
+could not be checked are printed on <strong>every</strong> run whatever
+the exit code, so a <code>1</code> never hides a <code>2</code> and a
+<code>2</code> never reads as a <code>0</code>. <strong>A repository
+whose visibility cannot be established is state 2, never a pass</strong>
+— “I could not look” is not “clean”.</p>
+<h2 id="cost-declared-rather-than-discovered">Cost, declared rather than
+discovered</h2>
+<p><strong>Runtime is dominated by page-cache state, not by the
+filters</strong>, and any single number here would be misleading.
+Measured on this tree on 2026-09-01, all six runs on the same host:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>build</th>
+<th>runs</th>
+<th>wall clock</th>
+<th>peak RSS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>before (prose only)</td>
+<td>2</td>
+<td>175 s, 234 s</td>
+<td>193 MB</td>
+</tr>
+<tr>
+<td>prose + short + name</td>
+<td>4</td>
+<td>124 s, 210 s, 238 s, 253 s</td>
+<td>194 MB</td>
+</tr>
+<tr>
+<td><strong>+ the 2026-09-01 name tightening</strong> (shipped
+build)</td>
+<td>4</td>
+<td>193 s, 209 s, 269 s, 299 s</td>
+<td>194 MB</td>
+</tr>
+<tr>
+<td><em>(two discarded intermediate builds, kept for the
+record)</em></td>
+<td>2</td>
+<td>265 s, 277 s</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>The only fair comparison is the <strong>paired</strong> one — the two
+runs made back to back against the same tree: <strong>175 s → 210 s,
++20%.</strong></p>
+<p><strong>The 2026-09-01 name tightening has no measurable runtime
+cost, and the honest form of that statement is that the two paired
+samples disagree in sign:</strong></p>
+<table>
+<thead>
+<tr>
+<th>paired sample, back to back, same host state</th>
+<th>before</th>
+<th>after</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>259.5 s</td>
+<td>298.7 s (<strong>+15%</strong>)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>294.2 s</td>
+<td>208.5 s (<strong>−29%</strong>)</td>
+</tr>
+</tbody>
+</table>
+<p>Unpaired observations span <strong>206–294 s before</strong> and
+<strong>193–299 s after</strong>. A single number in either direction
+would be a bluff. What <em>is</em> measurable is that the first working
+build was reliably worse — 265 s and 277 s — because the junction
+signature was built eagerly for every line carrying two capitalised
+tokens, and because an editing slip had dropped the public-side anchor
+test. The signature is now built lazily and the anchor is restored;
+those two rows are kept in the table because a regression nobody records
+is a regression that returns.</p>
+<p>The fastest observed <em>new</em> run (124 s) is faster than the
+fastest observed <em>old</em> run, because by then the tree was in cache
+and the host was idle. <strong>Peak memory is unchanged.</strong></p>
+<p>The added work is one pass, not three: the emitter builds all three
+key spaces while it already has the file open, and the public side is
+<em>anchored</em> on the private side’s own first tokens, so a short
+shingle or a name run is built only where the private corpus has
+something to compare it to. Private key spaces this run:
+<strong>800,131</strong> long keys, <strong>2,838</strong> short keys,
+and <strong>163</strong> name candidates (<strong>445</strong> before
+the 2026-09-01 tightening).</p>
+<p>The earlier <strong>~370 s</strong> figure in this document is
+<strong>withdrawn, not restated</strong>: it was measured before
+<code>design-toolkit</code> became public and left the private corpus,
+so it does not describe the same computation.</p>
+<p><code>CB_TRACE=1</code> prints a per-stage progress trace; minutes of
+silence are indistinguishable from a hang.</p>
+<p>This is <strong>not</strong> a pre-push-hook cost. It belongs in a
+pre-tag / release sweep or a deliberate audit, the same trade
+<code>docs/check-registry.md</code> records for
+<code>--run-proofs</code> at 243 s. It is <strong>not currently wired
+into <code>scripts/pre-push-gates.sh</code></strong> — that file was
+under concurrent edit and wiring it is the controller’s call.</p>
+<h2 id="the-measured-funnel-on-this-tree">The measured funnel on this
+tree</h2>
+<p>Measured 2026-09-01, afternoon, <strong>after</strong>
+<code>design-toolkit</code> became public and <strong>while</strong> a
+second redaction wave was landing in the working tree. Totals move
+between runs for both reasons; the per-class split is the part worth
+reading.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>stage</th>
+<th>rows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>naive line-grep, for comparison (dated: pre-flip)</td>
+<td>24,963</td>
+</tr>
+<tr>
+<td><strong>prose</strong> — after all filters</td>
+<td>207</td>
+</tr>
+<tr>
+<td><strong>short</strong> — after all filters (5 distinct phrases,
+amplified by the 16-language <code>_content_*</code> copies)</td>
+<td>35</td>
+</tr>
+<tr>
+<td><strong>name</strong> — after all filters, <strong>after the
+2026-09-01 tightening</strong> (<strong>8 distinct
+digests</strong>)</td>
+<td>43</td>
+</tr>
+<tr>
+<td><strong>total, rc 1</strong></td>
+<td><strong>285</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The name row read <strong>125 rows / 20 digests</strong> before the
+tightening described above. A triage adjudicated all 125 and found
+<strong>every one</strong> a false positive; the tightening removed 82
+of them without touching the prose or short passes.</p>
+<p><strong>The name class is a review queue, not a verdict</strong>, and
+the 43 that remain are <em>also</em> all false positives — dominated by
+comma-separated enumerations of product and technology names, which the
+comma decision deliberately declines to sweep.</p>
+<p>None of these has been adjudicated <em>into</em> the exemption file,
+and <strong>none has been added to
+<code>.content-boundary-allow</code>.</strong> Silencing a finding this
+instrument has not been told is benign is the exact failure it exists to
+prevent; the pairs file says so itself.</p>
+<h2 id="paired-proof">Paired proof</h2>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh <span class="at">--prove-failure</span></span></code></pre></div>
+<p>Re-measured 2026-09-01 after the name-class tightening: <strong>31
+assertions passed, 0 failed, 22 mutations run, rc 0, 175 s.</strong>
+(The earlier <strong>23 / 17 / 117 s</strong> figure described the
+battery before M18–M22 were added.) Twenty-two mutations against a
+<strong>synthetic</strong> fixture that is green by construction. The
+live tree is a <em>reported</em> pre-flight that cannot disable the
+battery — the shape this repository had to adopt after two gates were
+found whose proofs baselined against the live tree and therefore ran
+zero mutations the moment the tree had a real finding. That failure mode
+is not hypothetical here: <strong>this gate is red on this tree
+today</strong>, so a live-tree control would have been inoperative from
+its first run.</p>
+<p><strong>Every fixture string is synthetic and was written for the
+proof.</strong> No heading, sentence or name from any real private
+document appears in it, and the two personal names are invented token
+pairs belonging to nobody. A fixture carrying the real leaked content
+would re-leak it into this public repository — the proof would become
+the incident.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>case</th>
+<th>seeded mutation</th>
+<th>expected</th>
+<th>got</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C0</td>
+<td>synthetic control, nothing planted</td>
+<td>rc 0</td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td>M1</td>
+<td>verbatim quote from a private file</td>
+<td>rc 1 + both sides named</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td>M2</td>
+<td>the same quote re-wrapped onto one line</td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td>M3</td>
+<td>a path <em>reference</em> only</td>
+<td>rc 0</td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td>M4</td>
+<td>an exemption must not pardon other content</td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td>M5</td>
+<td>uninitialised private submodule</td>
+<td>rc 2</td>
+<td>rc 2</td>
+</tr>
+<tr>
+<td>M6</td>
+<td>a leak outranks an undetermined row</td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td>M7</td>
+<td>malformed exemption file</td>
+<td>rc 2</td>
+<td>rc 2</td>
+</tr>
+<tr>
+<td>M8</td>
+<td>provider client unusable, against the <strong>real</strong>
+tree</td>
+<td>rc 2</td>
+<td>rc 2</td>
+</tr>
+<tr>
+<td>M9</td>
+<td><code>--fleet-spec</code> pointed at the real repository</td>
+<td>rc 2 + refusal</td>
+<td>rc 2 + refusal</td>
+</tr>
+<tr>
+<td><strong>M11</strong></td>
+<td>a <strong>five-token</strong> private heading, reproduced
+verbatim</td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td><strong>M11b</strong></td>
+<td>the same tree with <code>--no-short</code></td>
+<td><strong>rc 0 — the defect</strong></td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td><strong>M12</strong></td>
+<td>a <strong>six-token</strong> private heading</td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td><strong>M13</strong></td>
+<td>a heading <strong>re-wrapped across a line break</strong></td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td><strong>M14</strong></td>
+<td>a personal name, <strong>forward</strong> order</td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td><strong>M14b</strong></td>
+<td>the name is <strong>withheld</strong> from the output</td>
+<td>withheld</td>
+<td>withheld</td>
+</tr>
+<tr>
+<td><strong>M15</strong></td>
+<td>a personal name, <strong>reversed</strong> order</td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td><strong>M16</strong></td>
+<td><strong>CONTROL</strong> — near-miss prose, a capitalised
+product-style pair, and the private notes’ own vocabulary
+recombined</td>
+<td><strong>rc 0</strong></td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td><strong>M17a</strong></td>
+<td><strong>regression:</strong> a private notes doc’s heading list
+reproduced in a public file, <code>--no-short</code></td>
+<td><strong>rc 0 — this is the original leak</strong></td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td><strong>M17b</strong></td>
+<td>the same tree, short pass enabled</td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td><strong>M18a</strong></td>
+<td><strong>CONTROL</strong> — the same two name tokens fused by
+<code>/</code>, <code>\|</code>, <code>;</code>, <code>.</code>,
+<code>**:**</code> and <code>",\n"</code></td>
+<td><strong>rc 0</strong></td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td><strong>M18b</strong></td>
+<td>the <strong>same tokens</strong>, separated by a space</td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td><strong>M19</strong></td>
+<td>a name <strong>re-wrapped across a plain line break</strong></td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td><strong>M20a</strong></td>
+<td><strong>CONTROL</strong> — a name split across a <strong>blank
+line</strong></td>
+<td><strong>rc 0</strong></td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td><strong>M20b</strong></td>
+<td>the <strong>same two lines</strong>, made adjacent</td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td><strong>M21</strong></td>
+<td><code>Surname, Firstname</code> — <strong>the comma decision, held
+open</strong></td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td><strong>M22a</strong></td>
+<td>a planted name with the frequency floor
+<strong>disabled</strong></td>
+<td>rc 1</td>
+<td>rc 1</td>
+</tr>
+<tr>
+<td><strong>M22b</strong></td>
+<td>the <strong>same tree</strong> with <code>--name-floor 3</code> —
+<strong>the declared recall cost</strong></td>
+<td><strong>rc 0</strong></td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td>M10</td>
+<td>the control is still clean after every mutation</td>
+<td>rc 0</td>
+<td>rc 0</td>
+</tr>
+</tbody>
+</table>
+<p>M11b and M17a are the load-bearing halves. Without them the battery
+would prove only that the tree can be made red, not that <strong>the
+short pass is what makes it red</strong> — and M17a is the incident
+itself, reconstructed from synthetic parts: a notes document whose short
+headings are separated by their own body text, and a public file that
+reproduces the <em>heading list</em> and quotes no sentence at all.</p>
+<p><strong>M18b, M19, M20b and M22a are the load-bearing halves of the
+2026-09-01 tightening.</strong> Each pairs the shape a rule now
+<em>clears</em> with a shape built from the <strong>same two
+tokens</strong> that it must still catch — forward (M14), reversed
+(M15), comma-reversed (M21), re-wrapped (M19), spaced (M18b),
+adjacent-line (M20b). Without those halves, every new CONTROL would also
+pass if the name pass had simply stopped working.</p>
+<p>M22 is the pair that exhibits a <strong>cost</strong> rather than a
+win: the same tree, the same planted name, red with the floor off and
+green with it on. A tightening whose recall cost is not demonstrable is
+a tightening nobody can audit.</p>
+<p>M16 is the control that keeps the answer honest. It plants ordinary
+prose, a <code>Capitalised Pair</code> whose tokens are common lowercase
+words in the private corpus, and a five-token phrase built from the
+private notes’ own vocabulary but never written in them. All three stay
+clean, so the gate is demonstrably not matching everything.</p>
+<p>Registered in <code>scripts/check-registry.tsv</code> as
+<code>content-boundary</code>, so
+<code>scripts/verify-check-registry.sh</code> fails if it goes missing.
+Re-measured 2026-09-01 after the short and name passes landed:
+<strong>25 PASS / 0 FAIL / 5 DEBT / 0 UNDET, rc 0</strong>, R5 green.
+The registry row is unchanged — same entry point, same
+<code>--prove-failure</code> proof, same
+<code>--root /nonexistent</code> → rc 2 probe (verified).</p>
+<h3 id="status-of-the-incidents-open-findings">Status of the incident’s
+open findings</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>finding</th>
+<th>before</th>
+<th>now</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>F2</strong> — the gate cannot see class D2 (headings)</td>
+<td>open</td>
+<td><strong>closed by the <code>short</code> class</strong>; M11, M12,
+M13, M17 are the proof, M11b and M17a are the paired demonstration of
+the original defect</td>
+</tr>
+<tr>
+<td><strong>F3</strong> — the gate cannot detect a personal name at
+all</td>
+<td>open</td>
+<td><strong>a detector now exists</strong>; candidates are derived,
+never listed, and the name is never printed. It is not a solved problem
+— see the blind spots below — but “cannot detect at all” is no longer
+true</td>
+</tr>
+</tbody>
+</table>
+<p>The incident note proposed closing F3 with <em>“a privately-held name
+deny-list, read from outside the tracked tree”</em>. That was
+<strong>not</strong> the route taken: a deny-list is a file someone has
+to write a real name into and then keep synchronised, and it fails
+silently the moment a name is missing from it. Deriving candidates from
+the private repositories themselves needs no list, no maintenance, and
+no name written down anywhere.</p>
+<h2
+id="what-this-instrument-still-cannot-see-declared-not-implied-away">What
+this instrument still cannot see — declared, not implied away</h2>
+<p>Every instrument in this tree declares its blind spots. These are the
+new ones and the surviving old ones, stated plainly rather than left for
+the next incident to discover:</p>
+<ul>
+<li><strong>A 5-to-9 token fragment lifted from the MIDDLE of a long
+private prose line.</strong> The short pass indexes structural lines
+only; the long pass needs 10 tokens. Fragments in that band are covered
+by neither. This is the price paid for not resurrecting the 8,535-row
+flood, and it is a real gap.</li>
+<li><strong>Non-ASCII text of any kind.</strong> Tokenisation is
+<code>[^A-Za-z0-9]</code>. Cyrillic, Greek and CJK private material is
+invisible to <em>every</em> pass, and so is a name written in one of
+them. This predates the short and name passes and is not fixed by them.
+It also means a repository owner whose git identity is recorded in
+Cyrillic is not subtracted from the name candidates by that route.</li>
+<li><strong>A name that is not <code>Aa+ Aa+</code></strong>: lowercase,
+<code>ALL CAPS</code>, <code>McDonald</code>, <code>O'Brien</code>, a
+mononym.</li>
+<li><strong>A name whose tokens are frequent enough in the private
+corpus</strong> to enter the <code>--name-rank</code> common set
+<strong>or to reach the <code>--name-ppm</code> frequency
+floor</strong>. The floor is the sharper of the two and <strong>it grows
+with the corpus</strong>: 33 occurrences today, against real
+private-only given names sitting at 5 and 11. A participant recurring
+across a longer course will cross it, and only a git identity still sees
+them. <em>(Added 2026-09-01 — the cost of tightening 3.)</em></li>
+<li><strong>A name whose two tokens are separated by anything other than
+whitespace, one hyphen, or one comma</strong> — including a name split
+across two markdown <strong>table cells</strong>, two code spans or two
+path segments, and any name written with a non-ASCII comma
+(<code>、</code>, <code>،</code>). <em>(Added 2026-09-01 — the cost of
+tightening 1.)</em></li>
+<li><strong>A name whose two tokens sit on either side of a token-free
+line</strong> — a paragraph break, a horizontal rule, or a PDF page
+break. A name re-wrapped onto the immediately following line is still
+seen (mutation M19). <em>(Added 2026-09-01 — the cost of tightening
+2.)</em></li>
+<li><strong>A name present in ≥ 2 public repositories</strong>, which
+the already-public rule exonerates by design.</li>
+<li><strong>Private CODE copied into a public repository.</strong>
+Filter 1 models English prose; filter 1b now explicitly
+<em>excludes</em> code lines from the two new classes.</li>
+<li><strong>Translated, paraphrased or reordered content.</strong> This
+is a verbatim matcher.</li>
+<li><strong>Anything in git HISTORY.</strong> Every pass reads the
+working tree only. A green run means the tip of the tree is clean and
+says nothing whatever about the commits behind it — which, for the
+2026-09-01 incident, is the part that still matters.</li>
+<li><strong>A private repository that is private at the provider but
+whose content this process cannot read</strong> is state 2, never
+0.</li>
+</ul>
+<h2
+id="current-state-this-gate-is-red-and-that-is-the-correct-reading">Current
+state: this gate is RED, and that is the correct reading</h2>
+<p><code>bash scripts/verify-content-boundary.sh</code> is <strong>rc
+1</strong> today: <strong>285 surviving rows — prose 207, short 35, name
+43</strong>, 0 undetermined. Nothing in that number has been silenced to
+make it smaller, and <code>.content-boundary-allow</code> was not
+touched by the 2026-09-01 tightening.</p>
+<p>The groups are left visible for the same reason as before — a human
+decides, not a glob: <code>ai_interviewing</code> project deep-dives
+overlapping this repository’s own site copy, the workshop’s governance
+carriers quoted into
+<code>specs/001-workshop-curriculum-platform/quickstart.md</code>, and
+the 8 distinct name digests that remain.</p>
+<p><strong>A red gate is not this gate failing.</strong> It is this gate
+working on a tree that has not been remediated.
+<code>docs/content-boundary-incident-2026-09-01.md</code> is the record
+of what has and has not been decided.</p>
+<h2
+id="bugs-these-mutations-caught-recorded-so-they-are-not-reintroduced">Bugs
+these mutations caught, recorded so they are not reintroduced</h2>
+<p><strong>M5 — a false CLEAN from an uninitialised submodule.</strong>
+<code>git -C &lt;dir&gt; rev-parse --git-dir</code> <strong>succeeds
+inside an empty directory</strong> that merely sits within another
+repository: it walks up and answers about the parent. An uninitialised
+submodule is exactly such a directory, so the obvious check reported it
+as healthy and its content silently counted as “nothing to find” — a
+false CLEAN, the one verdict this instrument must never produce by
+accident. <code>is_repo_root()</code> now requires the directory to
+<em>be</em> the top level git resolves for it. Mutation M5 is what found
+this; without the paired proof it would have shipped.</p>
+<p><strong>M17b — a structural rule that dropped the class it was
+written for.</strong> The short pass’s first cut required a private
+heading to stand <strong>alone between two blank lines</strong>. It
+looked right, it cut the false positives from 8,535 to 51 — and it
+scored the reconstructed incident <strong>clean</strong>, because in a
+real notes document a heading is followed immediately by its own body.
+The rule is now “carries a heading/bullet marker <strong>or</strong>
+opens a block”. The mutation caught it in the same session it was
+written.</p>
+<p><strong>M22 — a “scale-free” claim that a fixture disproved in one
+line.</strong> This document and the script both said the name-frequency
+rule was scale-free and that “in a small fixture nothing clears the
+minimum count”. Building M22 showed otherwise immediately: three planted
+private lines put the fixture’s given name at <strong>5</strong>
+occurrences, which is exactly <code>NAME_MINCOUNT</code>, and the old
+rank rule swept the candidate unaided — so <em>both</em> halves of the
+pair went green and the mutation proved nothing about the floor it was
+written for. M22 now plants exactly two lines, and the comment says why.
+The claim is withdrawn in both files rather than quietly edited.</p>
+<p><strong>A dropped anchor test, found by a runtime
+regression.</strong> While adding the junction rule, an edit removed
+<code>if (useNA &amp;&amp; !(tok[i] in NA)) continue</code> from the
+name loop. It changed <strong>no result</strong> — the hit join still
+filters by candidate — so no assertion caught it. It showed up as the
+gate going from 206 s to 277 s. A performance measurement was the only
+thing standing between that and shipping.</p>
+<p><strong>A counting bug in this gate’s own summary.</strong> The
+per-class totals were taken from the three pre-deduplication files while
+the reported total came from the <code>sort -u</code>’d union, so the
+parts did not add up to the whole (129 vs 125). They are now all counted
+from the deduplicated result. A summary whose parts do not add up to its
+own total is the kind of small dishonesty that makes a whole report
+unusable.</p>
+</body>
+</html>

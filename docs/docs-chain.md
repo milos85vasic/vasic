@@ -78,8 +78,22 @@ Three contexts under `.docs_chain/contexts/`, all **generated** by
 | Context | Scope | Documents |
 |---|---|---|
 | `umbrella-root` | project-root `*.md` — `README`, `CONTINUATION`, `Constitution.md`, and the four carriers | 7 |
-| `umbrella-docs` | `docs/**/*.md` | 40 |
-| `umbrella-specs` | `specs/**/*.md` | 25 |
+| `umbrella-docs` | `docs/**/*.md` | 51 |
+| `umbrella-specs` | `specs/**/*.md` | 54 |
+
+**The 40 / 25 figures this table carried are SUPERSEDED, re-measured 2026-09-09
+at 51 and 54 — a roster of 112 documents, not 72.** Nothing regressed: the
+generator re-derived the roster from a tree that grew, which is C3 working
+rather than drift. Read the consequence rather than the counts: C5's
+"artifacts absent" figure rose from 144 to 206 across the same move, and that
+rise is arithmetic, not a new defect — 75 documents × 2 slots = 150 became
+112 × 2 = 224, so the DENOMINATOR became honest while the numerator followed.
+Re-derive rather than quoting this table:
+
+```bash
+bash scripts/gen-docs-chain-contexts.sh   # (re)derive
+grep -c 'markdown' .docs_chain/contexts/*.yaml
+```
 
 Each document is one two-edge chain: `md → html` (`pandoc-html`) then
 `html → pdf` (`weasyprint-pdf`). The PDF is rendered from the **same HTML a
@@ -200,8 +214,29 @@ SC-012/SC-013.
 * **The gate proves SYNC, not CORRECTNESS.** An export that faithfully renders
   a wrong document passes. Document correctness stays §11.4.44 / §11.4.99 /
   §11.4.194 territory.
+* **REVERSED 2026-09-09, on an explicit operator decision: the exports ARE
+  TRACKED.** The bullet below is kept verbatim, not deleted, because its
+  measurement was real and its trade is real — it was decided the other way.
+  What the old reasoning did not weigh is that ignoring the exports made
+  §11.4.65 compliance a **working-tree property only**: a fresh clone carries no
+  exports, so `scripts/verify-docs-chain.sh` — which checks protections 1 and 2
+  ON DISK — is RED on arrival for anyone who has not first run a sync, and
+  §11.4.65's own word "available" cannot mean "available to whoever generated
+  it locally". The §11.4.30 objection is answered narrowly rather than waved
+  away: §11.4.30 forbids versioned BUILD artefacts of the applications and
+  services; a rendering another anchor mandates must EXIST is the deliverable,
+  not its by-product. The content-boundary cost is **accepted and expected** —
+  that gate's count rises, and a rise caused by tracking renderings of
+  already-public Markdown is inherent to the mandate, **not a new disclosure**.
+  The reversal is a NARROWING of `.gitignore`, not a blanket un-ignore: root
+  `*.pdf`/`*.png`/`*.html` stay ignored by default with only the seven
+  `umbrella-root` siblings negated by name, and `/qa-results/docs_chain/` plus
+  `.docs_chain/state.json` are untouched. `.gitignore` carries the full record.
+  The paragraph that follows is the SUPERSEDED 2026-09-03 decision:
+
 * **The exports are generated but NOT tracked, and that was decided on a
-  measurement rather than a preference.** The content-boundary gate reads a
+  measurement rather than a preference.** *(SUPERSEDED — see the bullet above.)*
+  The content-boundary gate reads a
   text-bearing PDF through `pdftotext` and HTML as text, so every export
   re-presents its source's full text to the detector. Measured on this tree,
   2026-09-03:

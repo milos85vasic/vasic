@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>OLLAMA-REMEDIATION</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">OLLAMA-REMEDIATION</h1>
+</header>
+<h1 id="runbook-ollama-embeddings-on-a-vulkan-igpu">Runbook: ollama
+embeddings on a Vulkan iGPU</h1>
+<p><strong>Audience:</strong> the operator of the machine running the
+embedding backend. <strong>Applies to:</strong> any host where
+<code>ollama</code> serves the Lumen embedding model from a GPU driven
+by Vulkan — in practice an Intel iGPU (<code>library=Vulkan</code>,
+<code>type=iGPU</code>) with the i915 kernel driver. <strong>Does not
+apply to:</strong> hosts where <code>ollama ps</code> reports
+<code>100% CPU</code>, or where <code>inference compute</code> reports a
+library other than <code>Vulkan</code>.</p>
+<p>This is the <em>what to do about it</em> document. The evidence, the
+harness, the controlled conditions and the upstream bug links live in <a
+href="./OLLAMA-NAN-WEDGE.md">OLLAMA-NAN-WEDGE.md</a> — read that if you
+want to know <em>why</em>; read this if you want to know <em>what to
+type</em>.</p>
+<p><strong>One-line verdict:</strong> take the iGPU out of the embedding
+path. Do not upgrade ollama hoping it is fixed — it is not fixed
+upstream, and on ALT Sisyphus there is no newer package anyway.</p>
+<hr />
+<h2 id="status-on-this-host-resolved">0. STATUS ON THIS HOST:
+RESOLVED</h2>
+<blockquote>
+<p><strong>Tier 3 has been applied and verified.</strong>
+<code>/etc/sysconfig/ollama</code> carries
+<code>GGML_VK_VISIBLE_DEVICES=-1</code>, the service has been restarted,
+and ollama’s own journal now reports <code>library=cpu</code>.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Check</th>
+<th style="text-align: left;">Before</th>
+<th style="text-align: left;">After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td
+style="text-align: left;"><code>inference compute … library=</code></td>
+<td style="text-align: left;"><code>Vulkan</code> (Intel Iris Xe,
+<code>type=iGPU</code>)</td>
+<td style="text-align: left;"><strong><code>cpu</code></strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ollama ps</code> PROCESSOR</td>
+<td style="text-align: left;"><code>100% GPU</code></td>
+<td
+style="text-align: left;"><strong><code>100% CPU</code></strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">i915 <code>Fence expiration</code> /
+<code>GPU HANG</code> since ollama started</td>
+<td style="text-align: left;">hundreds</td>
+<td style="text-align: left;"><strong>0</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;">32-chunk / 18,576-char batch</td>
+<td style="text-align: left;">repeated <strong>stale</strong> vector
+under HTTP 200</td>
+<td style="text-align: left;"><strong>32 distinct vectors, 5 runs out of
+5</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The remaining i915 lines in a 24-hour window are pre-remediation
+history. <code>scripts/ollama-vulkan-remediation.sh --check</code>
+accounts for that explicitly: it counts faults <strong>since the current
+ollama start</strong>, and labels the 24-hour figure as history.</p>
+</blockquote>
+<p><strong>This runbook is now mostly a record and a re-application
+guide.</strong> Read §7 if you need to apply Tier 3 on another host, or
+if an ollama package upgrade replaces the unit or the environment file
+and puts you back on the corrupting path. Read §9 either way:
+<strong>the fix does not repair vectors already written.</strong></p>
+<p><strong>There is a script for all of this now.</strong> Everything §7
+tells you to type by hand is implemented, with verification, in
+<code>scripts/ollama-vulkan-remediation.sh</code>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/ollama-vulkan-remediation.sh</span> <span class="at">--check</span>     <span class="co"># read-only; the default</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/ollama-vulkan-remediation.sh</span> <span class="at">--apply</span>     <span class="co"># sudo + restart, then verifies</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/ollama-vulkan-remediation.sh</span> <span class="at">--verify</span>    <span class="co"># library=cpu AND a clean batch probe</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/ollama-vulkan-remediation.sh</span> <span class="at">--rollback</span>  <span class="co"># undo, sudo</span></span></code></pre></div>
+<p>Full flag reference, exit codes and the list of things it
+deliberately will not do: <a
+href="./OPERATIONAL-SCRIPTS.md"><code>OPERATIONAL-SCRIPTS.md</code></a>.</p>
+<hr />
+<h2 id="the-symptom-as-a-user-experiences-it">1. The symptom, as a user
+experiences it</h2>
+<p>You do not see “Vulkan”. You see one of these, in roughly this order
+of escalation:</p>
+<p><strong>a. Lumen prints its usage text after a failed index.</strong>
+This is the one that wastes the most time, because it reads like
+<em>you</em> mistyped the command:</p>
+<pre><code>{&quot;error&quot;:&quot;failed to encode response: json: unsupported value: NaN&quot;}
+
+Usage:
+  lumen index &lt;project-path&gt; [flags]
+...</code></pre>
+<p>The command was fine. The backend returned HTTP 500, Lumen surfaced
+the error and then printed its help — and the help is the last thing on
+screen, so it is the thing you read.</p>
+<p><strong>b. Searches hang, then time out.</strong> This host was
+measured at <code>OLLAMA_NUM_PARALLEL=1</code>, i.e. one embedding
+request at a time — check yours with
+<code>bash scripts/ollama-tune.sh</code>, which reads the value off the
+running service rather than assuming it. At a parallelism of 1, a
+request that is quietly waiting out a ~20 s GPU fence timeout blocks
+every other client behind it. Interactive search latency goes from ~0.3
+s to tens of seconds, then to nothing.</p>
+<p><strong>c. Searches “work” but return nonsense, or return nothing for
+files you know exist.</strong> This is the dangerous one and it produces
+<strong>no error at all</strong>. See §3.</p>
+<p><strong>c2. Nothing looks wrong at all.</strong> The worst case has
+no user-visible symptom whatsoever. The backend returns HTTP 200 with a
+<strong>well-formed, unit-norm, 768-dimension vector</strong> — it is
+simply the <em>previous</em> vector, repeated. Searches keep working.
+Health checks keep passing. A full forensic audit of the index passed
+every test it ran and declared the index <code>TRUSTWORTHY</code>. It
+was wrong: <strong>758 vectors across 55 files</strong> were stale
+duplicates. See §3, mode 4, and <a
+href="./INDEX-CORRUPTION-RECONCILIATION.md"><code>INDEX-CORRUPTION-RECONCILIATION.md</code></a>.</p>
+<p><strong>d. The wizard says the backend is wedged.</strong>
+<code>scripts/setup-agents-wizard.sh</code> catches the hard form:</p>
+<pre><code>❌ Embedding backend is WEDGED at http://localhost:11434 - it returns NaN for every input.
+⚠️  Fix: ollama stop ordis/jina-embeddings-v2-base-code   (a fresh runner clears it)</code></pre>
+<p><code>ollama stop</code> <em>does</em> clear it — for a while. It is
+first aid, not treatment: the next context-filling chunk wedges it
+again. That is what this runbook is for.</p>
+<hr />
+<h2 id="thirty-second-diagnosis">2. Thirty-second diagnosis</h2>
+<p><strong>One command does all of this now</strong>, including the
+batch probe that steps 1–5 below cannot do:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/ollama-vulkan-remediation.sh</span> <span class="at">--check</span>      <span class="co"># read-only; this is the default action</span></span></code></pre></div>
+<p>It reports the backend library (scanned from the service start
+timestamp, so a busy journal cannot hide it), whether the environment
+file carries the flag, the i915 fault count <strong>since ollama
+started</strong>, and a 32-distinct-texts batch probe that requires 32
+distinct vectors back. Note that <code>--check</code> always exits
+<code>0</code> — read its output, or use <code>--verify</code>, which
+does not.</p>
+<p>The manual equivalent, if you want to see the raw evidence. Nothing
+here writes, restarts, or reconfigures anything.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Is the embedding model being served from a GPU at all?</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> ps</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#    PROCESSOR column: &quot;100% GPU&quot; -&gt; affected path.  &quot;100% CPU&quot; -&gt; you are already safe.</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Which compute library did ollama pick?</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">journalctl</span> <span class="at">-u</span> ollama <span class="at">--no-pager</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-F</span> <span class="st">&#39;inference compute&#39;</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-1</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#    library=Vulkan  + type=iGPU  -&gt; this runbook applies.</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Has the kernel already been abandoning GPU work?</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ex">journalctl</span> <span class="at">-k</span> <span class="at">--no-pager</span> <span class="at">--since</span> <span class="st">&quot;24 hours ago&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;Fence expiration time out&#39;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ex">journalctl</span> <span class="at">-k</span> <span class="at">--no-pager</span> <span class="at">--since</span> <span class="st">&quot;24 hours ago&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;GPU HANG&#39;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#    Any non-zero fence count while only embeddings ran -&gt; confirmed.</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Is the backend wedged right now?</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> http://localhost:11434/api/embed <span class="dt">\</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span> <span class="st">&#39;{&quot;model&quot;:&quot;ordis/jina-embeddings-v2-base-code&quot;,&quot;input&quot;:&quot;health check&quot;}&#39;</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-c</span> 80</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#    healthy -&gt; {&quot;model&quot;:&quot;...&quot;,&quot;embeddings&quot;:[[0.0...</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#    wedged  -&gt; {&quot;error&quot;:&quot;failed to encode response: json: unsupported value: NaN&quot;}</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Has indexing already failed on it?</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-F</span> <span class="st">&#39;unsupported value: NaN&#39;</span> ~/.local/share/lumen/debug.log <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-3</span></span></code></pre></div>
+<p><strong>Reading the result</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">What you saw</th>
+<th style="text-align: left;">Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>100% GPU</code> <strong>and</strong>
+<code>library=Vulkan</code></td>
+<td style="text-align: left;">Affected. Pick a tier below.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>100% GPU</code>, library is
+something else (CUDA, ROCm)</td>
+<td style="text-align: left;">Not this defect. The tiers still work but
+you probably do not want them.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>100% CPU</code></td>
+<td style="text-align: left;">Already remediated (or the model was never
+offloaded). Nothing to do.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Step 4 returned <code>NaN</code></td>
+<td style="text-align: left;">Wedged <strong>right now</strong>.
+<code>ollama stop &lt;model&gt;</code> unblocks you this minute; then
+fix it properly.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Step 3 non-zero, step 4 healthy</td>
+<td style="text-align: left;">Silent corruption is in progress. Step 4
+passing proves nothing — see §3.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>A passing health check is not a healthy index.</strong> Step
+4 sends a 12-character input in a batch of one. That never trips the
+bug: the fault needs a large <strong>batch</strong> (§3). The wizard’s
+own round-trip probe has exactly the same blind spot, on purpose — a
+probe large enough to detect the fault is a probe large enough to
+<em>cause</em> it, and the wizard must not corrupt an index while
+checking it.</p>
+<p>The operational scripts accept that cost deliberately and send a real
+32-text batch, because nothing smaller can see failure mode 4. Do not
+run <code>./scripts/ollama-vulkan-remediation.sh --check</code> against
+a backend you know is on Vulkan while an index run is in flight — probe
+first, or fix first, but not both at once.</p>
+</blockquote>
+<hr />
+<h2 id="what-is-actually-going-wrong-the-90-second-version">3. What is
+actually going wrong (the 90-second version)</h2>
+<ol type="1">
+<li>A large embedding <strong>request</strong> arrives. Note the wording
+— see the correction below; the operative quantity turned out to be the
+size of the whole batch, not of one chunk.</li>
+<li>ggml-vulkan issues one large compute dispatch to the iGPU.</li>
+<li>The i915 driver’s fence wait expires (~20 s). The kernel logs
+<code>Fence expiration time out i915-…:ollama[pid]</code> and
+<strong>abandons the dispatch</strong>.</li>
+<li><strong>ollama reads the result buffer anyway.</strong> It was never
+validly written.</li>
+<li>What you get back depends on what was in that buffer. <strong>Four
+modes, worst last:</strong></li>
+</ol>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">#</th>
+<th style="text-align: left;">What comes back</th>
+<th style="text-align: left;">HTTP</th>
+<th style="text-align: left;">Caught by a per-vector check?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td
+style="text-align: left;"><code>{"error":"…unsupported value: NaN"}</code></td>
+<td style="text-align: left;">500</td>
+<td style="text-align: left;">Yes — loud</td>
+</tr>
+<tr>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">An all-zero vector</td>
+<td style="text-align: left;"><strong>200</strong></td>
+<td style="text-align: left;">Yes — a zero-norm test sees it</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">The runner wedges: every later request
+returns <code>NaN</code> until the model is unloaded</td>
+<td style="text-align: left;">500</td>
+<td style="text-align: left;">Yes, but usually blamed on the caller</td>
+</tr>
+<tr>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;"><strong>A repeated STALE vector</strong> —
+well-formed, 768 dims, L2 norm 1.000000</td>
+<td style="text-align: left;"><strong>200</strong></td>
+<td style="text-align: left;"><strong>NO. Invisible to NaN, Inf,
+all-zero and norm checks alike.</strong></td>
+</tr>
+</tbody>
+</table>
+<ol start="6" type="1">
+<li>Repeated timeouts degrade the Vulkan context until the kernel resets
+the device (<code>context reset due to GPU hang</code>). Past that point
+every request fails instantly — even <code>"hi"</code>, in 0.06 s —
+until the runner process is destroyed.</li>
+</ol>
+<p><strong>The HTTP 500 is the tombstone, not the fault.</strong> By the
+time you see <code>NaN</code>, corrupt vectors have already been written
+to the index under HTTP 200. That is why every tier below is paired with
+a recommendation to reindex, and why “just restart it when it breaks” is
+not a remediation.</p>
+<h3 id="correction-it-is-the-batch-total-not-the-chunk">Correction: it
+is the BATCH TOTAL, not the chunk</h3>
+<p>This section originally attributed the fault to a single ~8
+000-character chunk filling the model’s context. <strong>That hypothesis
+was falsified.</strong> Lumen batches <strong>32 chunks per
+<code>/api/embed</code> request</strong>, and inside the corrupted range
+on this host the <em>largest single chunk was 2,832 characters</em> —
+comfortably below the 4 000-char level at which zero fence timeouts were
+measured. The 24 requests that produced the corruption carried
+<strong>16,698–31,364 characters each</strong>.</p>
+<p>Chunk size was never the protective factor. Any probe you build must
+therefore send a <strong>batch</strong>, not a big string — which is
+exactly what <code>scripts/ollama-vulkan-remediation.sh</code> and
+<code>scripts/lumen-reindex.sh</code> do (32 distinct texts; 32 distinct
+vectors required back).</p>
+<p>Full derivation, with the per-file breakdown of all 758 affected
+vectors: <a
+href="./INDEX-CORRUPTION-RECONCILIATION.md"><code>INDEX-CORRUPTION-RECONCILIATION.md</code></a>.</p>
+<h3 id="why-mode-4-defeated-a-full-forensic-audit">Why mode 4 defeated a
+full forensic audit</h3>
+<p><a
+href="./LUMEN-INDEX-INTEGRITY.md"><code>LUMEN-INDEX-INTEGRITY.md</code></a>
+audited this index and concluded it was <strong>TRUSTWORTHY</strong>.
+Every number in it is correct and reproduces exactly: 0 NaN, 0 Inf, 0
+all-zero, 0 wrong-dimension, every norm inside 0.999999–1.000001.</p>
+<p><strong>The conclusion did not follow from the measurements.</strong>
+All four tests are <em>per-vector</em>, and a stale-but-well-formed
+vector passes all four by construction. The one check that would have
+caught it — aggregate distinctness — was run on blocks 1–4 only (4,096
+vectors of 35,717). The corruption lived in blocks 28–29.</p>
+<p>The lesson, and the reason <code>scripts/lumen-index-doctor.sh</code>
+exists:</p>
+<blockquote>
+<p><strong>A vector can be perfectly well-formed and still be the wrong
+vector.</strong> Health is not a property you can establish one vector
+at a time. <em>N</em> distinct texts must yield <em>N</em> distinct
+vectors, and nothing short of that comparison can tell you whether they
+did.</p>
+</blockquote>
+<p>The settled verdict is <a
+href="./INDEX-CORRUPTION-RECONCILIATION.md"><code>INDEX-CORRUPTION-RECONCILIATION.md</code></a>.
+<code>LUMEN-INDEX-INTEGRITY.md</code> is kept unedited as a historical
+record of how a rigorous audit reached a wrong conclusion.</p>
+<p>The GPU is not even buying you speed at the size that matters: at
+full context it “finishes” in ~20 s because it is <em>timing out</em>,
+not computing. The CPU takes ~70–110 s and returns a correct,
+bit-deterministic vector.</p>
+<hr />
+<h2 id="before-you-choose-the-index-trade-off">4. Before you choose: the
+index trade-off</h2>
+<p><strong>This is the decision that actually matters, and it is not
+about performance.</strong></p>
+<p>Lumen keys each index database by <strong>(project path, embedding
+model)</strong>. Evidence:</p>
+<ul>
+<li><p>Every index lives in
+<code>~/.local/share/lumen/&lt;opaque-hash&gt;/index.db</code>, and each
+database records its own identity in <code>project_meta</code>:</p>
+<pre><code>$ sqlite3 ~/.local/share/lumen/&lt;hash&gt;/index.db &#39;select key, value from project_meta;&#39;
+vec_dimensions|768
+root_hash|3df357055b55bac731ba96837b817238d3476767ed0144d558e7358dda94641b
+embedding_model|ordis/jina-embeddings-v2-base-code
+project_path|&lt;ext-volume-host&gt;/Projects/vasic
+last_indexed_at|...
+total_files|2413</code></pre></li>
+<li><p><code>lumen purge --help</code> documents the consequence in as
+many words:</p>
+<blockquote>
+<p><em>“Each path is normalized to its git root first, then matched
+against the <code>project_path</code> recorded inside each index
+database, <strong>so switching embedding models or using custom models
+never leaves orphan indexes</strong>.”</em></p>
+</blockquote>
+<p>Purge matches on the recorded <code>project_path</code>
+<strong>because</strong> the directory name alone cannot find every
+index for a project — a model switch puts the new index somewhere else.
+Purge was built to clean up exactly the orphan this trade-off
+creates.</p></li>
+<li><p>Vectors from two different models are not comparable.
+<code>vec_dimensions</code> is fixed per database and cosine similarity
+across two different embedding spaces is meaningless, so reuse is not
+merely unimplemented — it is not possible.</p></li>
+</ul>
+<h3 id="therefore">Therefore</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Changes
+<code>LUMEN_EMBED_MODEL</code>?</th>
+<th style="text-align: left;">Existing index</th>
+<th style="text-align: left;">Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Tier 1</strong>
+(<code>options.num_gpu</code>)</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;"><strong>preserved</strong></td>
+<td style="text-align: left;">not usable by Lumen — see §5</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Tier 2</strong> (CPU-pinned model
+tag)</td>
+<td style="text-align: left;"><strong>yes</strong></td>
+<td style="text-align: left;"><strong>DISCARDED — orphaned, and a second
+index is built from zero</strong></td>
+<td style="text-align: left;">full reindex of every project, plus the
+disk of both copies until you purge</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Tier 3</strong>
+(<code>GGML_VK_VISIBLE_DEVICES=-1</code>)</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;"><strong>preserved and
+resumable</strong></td>
+<td style="text-align: left;">one <code>sudo</code>, one service
+restart</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verdict: Tier 3 is the better durable fix.</strong> It keeps
+the model name, so it keeps the index. Tier 2 changes the model name,
+and a different model name means a second index built from scratch while
+the original is orphaned on disk. On this host that is a <strong>113
+MiB</strong> index over <strong>2 413 tracked files</strong> thrown away
+— and thrown away <em>per project</em>, for every project you have ever
+indexed, not just the one in front of you.</p>
+<p>Tier 2 remains the right answer in exactly one situation: <strong>you
+cannot get sudo.</strong> It is the only tier that survives a restart
+without root.</p>
+<blockquote>
+<p><strong>Do not reach for Tier 2 as “the safe one because it does not
+need a restart.”</strong> The restart is the cheap part. The reindex is
+the expensive part, and only Tier 2 forces it on you as a permanent,
+per-project cost.</p>
+</blockquote>
+<h3 id="the-restart-is-safe-for-a-running-index">The restart is safe for
+a running index</h3>
+<p>Tier 3 needs <code>systemctl restart ollama</code>, which will kill
+whatever embedding request is in flight and fail the indexing job that
+issued it. <strong>That is recoverable and cheap</strong>, because
+Lumen’s index is incremental and resumes:</p>
+<pre><code>01:35:33 ERROR &quot;indexing failed&quot;  project=&quot;.../vasic&quot;
+         err=&quot;... embed error (HTTP 500): {&quot;error&quot;:&quot;...unsupported value: NaN&quot;}&quot;
+01:36:31 INFO  &quot;indexing started&quot; project=&quot;.../vasic&quot;
+01:36:33 INFO  &quot;indexing plan&quot;    total_files=2413 files_unchanged=662 files_to_add=1553 ...</code></pre>
+<p>Observed in <code>~/.local/share/lumen/debug.log</code> on this host:
+a run killed mid-flight by the NaN fault, restarted a minute later, and
+picked up with <strong>662 files already done</strong> (the previous
+plan had recorded 526). Nothing was lost; the work already committed
+stayed committed.</p>
+<p>Still, prefer to restart when nothing is indexing:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pgrep</span> <span class="at">-af</span> <span class="st">&#39;lumen.*index&#39;</span>     <span class="co"># empty output = nothing in flight, restart freely</span></span></code></pre></div>
+<p>If it is not empty, either wait, or accept the interruption and
+re-run <code>lumen index &lt;path&gt;</code> afterwards. Do
+<strong>not</strong> <code>kill -9</code> the indexer to “clean up
+first” — let it die on its own or let it finish.</p>
+<hr />
+<h2 id="tier-1-per-request-num_gpu-0">5. Tier 1 — per-request
+<code>num_gpu: 0</code></h2>
+<p><strong>What it is:</strong> every embedding request explicitly asks
+for zero GPU layers.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> http://localhost:11434/api/embed <span class="at">-d</span> <span class="st">&#39;{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;model&quot;: &quot;ordis/jina-embeddings-v2-base-code&quot;,</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;input&quot;: [&quot;…your text…&quot;],</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;options&quot;: { &quot;num_gpu&quot;: 0 }</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">}&#39;</span></span></code></pre></div>
+<p><strong>Cost:</strong> none to set up. ~3–4x slower per request at
+full context (~70–110 s vs a ~20 s GPU “answer” that is really a
+timeout). No restart, no root, no config file.</p>
+<p><strong>What it does NOT fix — read this before choosing it:</strong>
+<strong>Lumen cannot use it.</strong> Lumen exposes
+<code>LUMEN_EMBED_MODEL</code>, <code>LUMEN_BACKEND</code>,
+<code>LUMEN_EMBED_CTX</code>, <code>LUMEN_EMBED_DIMS</code>,
+<code>LUMEN_MAX_CHUNK_TOKENS</code>, <code>LUMEN_FRESHNESS_TTL</code>,
+<code>LUMEN_REINDEX_TIMEOUT</code> and <code>LUMEN_LOG_LEVEL</code> —
+and nothing that injects <code>options</code> into the request body.
+Neither does any other client you did not write. Tier 1 protects
+<strong>your own scripts and probes only</strong>; it leaves the
+indexer, which is the thing generating the full-context chunks in the
+first place, completely exposed.</p>
+<p><strong>Rollback:</strong> stop sending <code>options</code>. There
+is no persistent state to undo.</p>
+<hr />
+<h2 id="tier-2-a-cpu-pinned-model-tag">6. Tier 2 — a CPU-pinned model
+tag</h2>
+<p><strong>What it is:</strong> a derived model that carries
+<code>num_gpu 0</code> inside itself, so <em>any</em> caller gets CPU
+without sending options.</p>
+<p>It already exists on this host and is validated 3/3 in <a
+href="./OLLAMA-NAN-WEDGE.md#8-validation-of-the-fix">OLLAMA-NAN-WEDGE.md
+§8</a>. Confirm before you rely on it:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> list <span class="kw">|</span> <span class="fu">grep</span> jina-embeddings-code-cpu</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> show jina-embeddings-code-cpu <span class="at">--modelfile</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-E</span> <span class="st">&#39;^(FROM|PARAMETER)&#39;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   -&gt; PARAMETER num_gpu 0        &lt;- this line is the whole fix</span></span></code></pre></div>
+<p>If it is missing, recreate it (shares blobs with the original — no
+re-download, no extra disk for the weights):</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&#39;FROM ordis/jina-embeddings-v2-base-code\nPARAMETER num_gpu 0\n&#39;</span> <span class="op">&gt;</span> /tmp/Modelfile.cpu</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> create jina-embeddings-code-cpu <span class="at">-f</span> /tmp/Modelfile.cpu</span></code></pre></div>
+<p>Point Lumen at it — <strong>this is the line that costs you the
+index</strong>:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">LUMEN_EMBED_MODEL</span><span class="op">=</span>jina-embeddings-code-cpu     <span class="co"># and add it to ~/.bashrc to persist</span></span></code></pre></div>
+<p><strong>Cost:</strong> the same ~3–4x CPU slowdown as Tier 1,
+<strong>plus a full reindex of every project</strong>,
+<strong>plus</strong> the orphaned original index sitting on disk until
+you purge it (§4). Agent-spawned MCP servers only inherit the variable
+if they are started from a shell that has it, so a half-applied Tier 2
+gives you <em>two</em> live indexes and searches whose results depend on
+which process asked.</p>
+<p><strong>What it does NOT fix:</strong> anything that ignores
+<code>LUMEN_EMBED_MODEL</code> — another user’s shell, a service unit,
+an MCP server launched from a session started before you exported it.
+Those keep using the GPU model and keep corrupting its index.</p>
+<p><strong>Rollback:</strong></p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">unset</span> <span class="va">LUMEN_EMBED_MODEL</span>                 <span class="co"># and delete the line from ~/.bashrc</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> rm jina-embeddings-code-cpu      <span class="co"># optional; frees the tag, keeps the shared blobs</span></span></code></pre></div>
+<p>Your original index is still there and still valid — that is the one
+upside of the orphaning. Searches go back to it the moment the variable
+is gone. The CPU-model index then becomes the orphan; clear it with
+<code>lumen purge &lt;path&gt;</code> (which matches by recorded
+<code>project_path</code> and so removes <strong>all</strong> indexes
+for that project, both models — you will reindex from zero
+afterwards).</p>
+<hr />
+<h2 id="tier-3-disable-vulkan-service-wide-recommended">7. Tier 3 —
+disable Vulkan service-wide (recommended)</h2>
+<p><strong>What it is:</strong> ollama never discovers the Vulkan
+device, so it never offloads anything to it. The model name does not
+change, so <strong>the existing index is preserved and keeps
+resuming</strong>.</p>
+<p><code>OLLAMA_VULKAN=0</code> and <code>OLLAMA_LLM_LIBRARY=cpu</code>
+were both tested and both do <strong>nothing</strong> on this build —
+<code>OLLAMA_VULKAN</code> is already <code>false</code> in the running
+service and Vulkan is used anyway.
+<code>GGML_VK_VISIBLE_DEVICES=-1</code> is the only variable that
+works.</p>
+<p><strong>This tier requires <code>sudo</code>. There is no
+passwordless sudo on this machine</strong> (<code>sudo -n true</code> →
+<code>sudo: a password is required</code>), so it cannot be automated
+and the wizard will never attempt it. An operator has to run it.</p>
+<blockquote>
+<p><strong>Already applied on this host</strong> — see <a
+href="#0-status-on-this-host-resolved">§0</a>. The steps below are the
+re-application procedure (new host, or an ollama package upgrade that
+replaced the unit or the environment file).</p>
+</blockquote>
+<blockquote>
+<p><strong>Shortcut.</strong>
+<code>./scripts/ollama-vulkan-remediation.sh --apply</code> performs
+Steps 2–4 in one go: it appends the flag only if absent, restarts the
+service, waits 6 s, then asserts <code>library=cpu</code>
+<strong>and</strong> a clean 32-vector batch probe before reporting
+success. It is a no-op if the flag is already there.
+<code>--rollback</code> reverses Step 2 and re-checks. The hand-typed
+procedure below remains correct and is what the script does.</p>
+<p>One difference worth knowing: the script <strong>appends the bare
+line</strong> <code>GGML_VK_VISIBLE_DEVICES=-1</code> and does not
+<code>chmod</code>. The heredoc in Step 2 writes the same setting with
+an explanatory comment header. If <code>/etc/sysconfig/ollama</code> on
+your host has no comments, the script wrote it.</p>
+</blockquote>
+<h3 id="step-1-confirm-the-seam-no-changes-yet">Step 1 — confirm the
+seam (no changes yet)</h3>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">systemctl</span> show ollama <span class="at">-p</span> FragmentPath <span class="at">-p</span> DropInPaths <span class="at">-p</span> EnvironmentFiles</span></code></pre></div>
+<p>Expect:</p>
+<pre><code>FragmentPath=/usr/lib/systemd/system/ollama.service
+DropInPaths=
+EnvironmentFiles=/etc/sysconfig/ollama (ignore_errors=yes)</code></pre>
+<p>The unit <strong>already</strong> sources
+<code>/etc/sysconfig/ollama</code> optionally
+(<code>EnvironmentFile=-</code>), and the file does not exist yet.
+Creating it sets service-wide environment <strong>without editing any
+unit file and without a drop-in</strong>. Nothing packaged is
+modified.</p>
+<h3 id="step-2-create-the-file">Step 2 — create the file</h3>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> tee /etc/sysconfig/ollama <span class="op">&gt;</span>/dev/null <span class="op">&lt;&lt;&#39;EOF&#39;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st"># Intel iGPU + Mesa Vulkan corrupts embeddings at full context and wedges the</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="st"># ollama runner (i915 fence timeouts -&gt; GPU hang). Upstream, still open:</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="st">#   https://github.com/ggml-org/llama.cpp/issues/18969</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="st">#   https://github.com/ggml-org/llama.cpp/issues/26044</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="st"># NOTE: OLLAMA_VULKAN=0 does NOT work on this build - it is already false and</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="st"># Vulkan is used anyway. GGML_VK_VISIBLE_DEVICES=-1 is what actually disables it.</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="st"># See docs/setup-agents-wizard/OLLAMA-REMEDIATION.md</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="st">GGML_VK_VISIBLE_DEVICES=-1</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="op">EOF</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> chmod 0644 /etc/sysconfig/ollama</span></code></pre></div>
+<h3 id="step-3-pick-your-moment-then-restart">Step 3 — pick your moment,
+then restart</h3>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pgrep</span> <span class="at">-af</span> <span class="st">&#39;lumen.*index&#39;</span>          <span class="co"># ideally empty; if not, see §4 &quot;the restart is safe&quot;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl restart ollama</span></code></pre></div>
+<h3 id="step-4-verify-do-not-skip">Step 4 — verify (do not skip)</h3>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">journalctl</span> <span class="at">-u</span> ollama <span class="at">--no-pager</span> <span class="at">--since</span> <span class="st">&#39;2 min ago&#39;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-F</span> <span class="st">&#39;inference compute&#39;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   must now show library=cpu, and no Vulkan device line at all.</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> ps</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   after the next embed, PROCESSOR must read &quot;100% CPU&quot;.</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="ex">journalctl</span> <span class="at">-k</span> <span class="at">--no-pager</span> <span class="at">--since</span> <span class="st">&#39;10 min ago&#39;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;Fence expiration time out&#39;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   must stay at 0 while indexing runs.</span></span></code></pre></div>
+<p>If <code>inference compute</code> still says
+<code>library=Vulkan</code>, the environment file was not read — check
+for a typo in the path (<code>/etc/sysconfig/ollama</code>, no
+extension) and that
+<code>systemctl show ollama -p EnvironmentFiles</code> still lists
+it.</p>
+<p><strong>Cost:</strong> one <code>sudo</code>, one restart, and the
+same ~3–4x CPU slowdown on embeddings — now applied to everything the
+daemon serves, including any chat model you also run through it. If you
+use this ollama for generation as well, that is the real price of Tier
+3, and it is the one reason to prefer Tier 2 despite the index cost.</p>
+<p><strong>What it does NOT fix:</strong> vectors already written. The
+corruption is in the index, not in the daemon — see §9.</p>
+<p><strong>Rollback:</strong></p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> rm /etc/sysconfig/ollama          <span class="co"># or comment the GGML_VK_VISIBLE_DEVICES line out</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl restart ollama</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="ex">journalctl</span> <span class="at">-u</span> ollama <span class="at">--no-pager</span> <span class="at">--since</span> <span class="st">&#39;2 min ago&#39;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-F</span> <span class="st">&#39;inference compute&#39;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   -&gt; library=Vulkan again</span></span></code></pre></div>
+<p>Rollback restores the defect. It does not damage the index, because
+the model name never changed.</p>
+<hr />
+<h2 id="what-none-of-these-tiers-fix">8. What none of these tiers
+fix</h2>
+<p>Be explicit about the boundaries, so nobody reports these back as
+“the fix did not work”:</p>
+<ul>
+<li><strong>Vectors already in the index.</strong> Every tier changes
+what happens <em>next</em>. Nothing repairs an all-zero — or, worse, a
+<em>stale-but-well-formed</em> — vector that was written last week under
+HTTP 200. On this host that was 758 vectors across 55 files, and a fixed
+backend did not touch a single one of them. Check with
+<code>./scripts/lumen-index-doctor.sh</code>, then rebuild with
+<code>./scripts/lumen-reindex.sh &lt;path&gt; --force</code>. See
+§9.</li>
+<li><strong>The upstream bug.</strong> It is open in ggml/llama.cpp with
+no merged fix (<a
+href="https://github.com/ggml-org/llama.cpp/issues/18969">#18969</a>, <a
+href="https://github.com/ggml-org/llama.cpp/issues/26044">#26044</a>)
+and reported against ollama (<a
+href="https://github.com/ollama/ollama/issues/13086">#13086</a>, <a
+href="https://github.com/ollama/ollama/issues/15248">#15248</a>). These
+tiers <em>avoid</em> it.</li>
+<li><strong>Upgrading ollama.</strong> Installed 0.23.4 is the newest
+package in ALT Sisyphus, and the defect is unfixed upstream regardless.
+Upgrading is a gamble on an open bug <em>and</em> a step outside the
+distro. Upgrade for other reasons, on their own merits, after a tier is
+in place.</li>
+<li><strong>Serialisation.</strong>
+<code>json: unsupported value: NaN</code> is the Go encoder refusing to
+encode a NaN float. It is a symptom. There is nothing to fix in any JSON
+layer.</li>
+<li><strong>Throughput.</strong> At the parallelism this host was
+running (<code>1</code>), embeddings serialise no matter which compute
+library is in use. CPU embeddings are slower per request; on a large
+corpus that is hours, not minutes. Plan the reindex. Concurrency is a
+<strong>separate</strong> knob from the Vulkan fix and has its own tool
+— <code>bash scripts/ollama-tune.sh</code> measures this host’s
+CPU/RAM/model facts and reports what its concurrency should be,
+<code>--apply</code> sets it. Do not copy a number out of this document:
+it was measured on one machine.</li>
+<li><strong>Other GPU workloads.</strong> Tier 3 disables Vulkan for the
+whole daemon. If something else on this host needs iGPU acceleration
+through ollama, Tier 3 takes it away.</li>
+</ul>
+<h3 id="partial-mitigations-that-are-not-fixes">Partial mitigations that
+are <em>not</em> fixes</h3>
+<p>Listed so you do not rediscover them and mistake them for
+solutions:</p>
+<ul>
+<li><strong><code>ollama stop &lt;model&gt;</code></strong> clears a
+wedged runner. The next full-context chunk wedges it again. First aid
+only.</li>
+<li><strong>Capping chunk size</strong>
+(<code>LUMEN_MAX_CHUNK_TOKENS</code>) keeps chunks below the
+context-fill boundary that triggers the fault, and would also cut
+latency. <strong>Untested here</strong> — the boundary is bracketed
+between 4 000 and 8 000 characters on one synthetic corpus, not pinned,
+and it moves with content. Treat as defence in depth on top of a tier,
+never instead of one.</li>
+<li><strong><code>GGML_VK_DISABLE_F16=1</code></strong> is exposed by
+<code>libggml-vulkan.so</code> and might fix the corruption while
+keeping the iGPU. <strong>Untested.</strong> If you try it, verify with
+the behavioural signature in <a
+href="./OLLAMA-NAN-WEDGE.md#8-validation-of-the-fix">OLLAMA-NAN-WEDGE.md
+§8</a>, not with a journal grep.</li>
+</ul>
+<hr />
+<h2 id="after-you-apply-a-tier-check-then-reindex-clean">9. After you
+apply a tier: check, then reindex clean</h2>
+<p>Any index built against the Vulkan path may contain zero-norm,
+subtly-wrong, or <strong>stale duplicate</strong> vectors. All of them
+were written under HTTP 200 and are invisible to every status-code check
+— and the stale ones are invisible to every <em>per-vector</em> check as
+well.</p>
+<p><strong>First find out whether you actually have a problem.</strong>
+Read-only, safe during an index run:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-index-doctor.sh</span> /path/to/repo</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   exit 0 = healthy · 1 = corruption found · 2 = could not inspect</span></span></code></pre></div>
+<p>An incremental re-run will <strong>not</strong> repair anything it
+finds: a corrupted file still carries a non-empty content hash, so Lumen
+treats it as done and skips it forever. Force it:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-reindex.sh</span> /path/to/repo <span class="at">--force</span></span></code></pre></div>
+<p>That wrapper refuses to start if the backend still reports
+<code>library=Vulkan</code> (exit <code>3</code>), probes for
+stale-duplicate vectors before writing anything (exit <code>4</code> if
+the backend fails it), and retries around transient faults instead of
+dying halfway with Lumen’s usage text on screen. The bare equivalent, if
+you prefer it, is:</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> index /path/to/repo <span class="at">-f</span>      <span class="co"># -f = force full re-index; re-embeds everything</span></span></code></pre></div>
+<p>Then confirm:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-index-doctor.sh</span> /path/to/repo     <span class="co"># expect exit 0</span></span></code></pre></div>
+<p>Full flag and exit-code reference for both: <a
+href="./OPERATIONAL-SCRIPTS.md"><code>OPERATIONAL-SCRIPTS.md</code></a>.</p>
+<p>Budget for it. On CPU this is materially slower than the run that
+produced the bad data, and at the parallelism this host was measured to
+run (<code>1</code>) it cannot be sped up by throwing more clients at
+it. Check what YOUR host is set to, and what it could be, before you
+assume:</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/ollama-tune.sh                  <span class="co"># detect + recommend, changes nothing</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/ollama-tune.sh <span class="at">--print-commands</span> <span class="co"># the exact commands for this host</span></span></code></pre></div>
+<p>If you took Tier 2 and want the orphaned GPU-model index gone as
+well:</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> purge /path/to/repo         <span class="co"># removes ALL indexes for that project, both models</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> index /path/to/repo         <span class="co"># rebuild</span></span></code></pre></div>
+<p><code>lumen purge</code> with <strong>no arguments</strong> wipes
+every index for every project on the machine. Pass the path.</p>
+<hr />
+<h2 id="what-the-setup-wizard-does-and-deliberately-does-not-do">10.
+What the setup wizard does, and deliberately does not do</h2>
+<p><code>scripts/setup-agents-wizard.sh</code> →
+<code>verify_lumen</code> will, when the backend is reachable:</p>
+<ul>
+<li>send a real embedding round-trip and require a vector back (test
+<code>A33</code>);</li>
+<li>name the wedged-NaN state explicitly rather than reporting a generic
+failure (test <code>A34</code>);</li>
+<li>ask <code>/api/ps</code> whether the embedding model is
+GPU-resident, read ollama’s own <code>inference compute</code> line for
+the library it actually chose, and <strong>warn with a pointer to this
+runbook</strong> when that library is Vulkan (tests
+<code>A35</code>–<code>A41</code>).</li>
+</ul>
+<p>It deliberately does <strong>not</strong>:</p>
+<ul>
+<li>change <code>LUMEN_EMBED_MODEL</code> — that would orphan your index
+(§4);</li>
+<li>write <code>/etc/sysconfig/ollama</code> — that needs root;</li>
+<li>restart any service — that would interrupt a running index without
+asking;</li>
+<li>use <code>sudo</code> anywhere in this path;</li>
+<li><strong>invoke
+<code>scripts/ollama-vulkan-remediation.sh</code>.</strong> It names it;
+it never runs it.</li>
+</ul>
+<p>When it cannot read the journal, it says the library is
+<em>unknown</em> rather than assuming. A warning you can trust is worth
+more than a warning that guesses; tests <code>A37</code> and
+<code>A38</code> keep it that way, and <code>A41</code> keeps the check
+read-only.</p>
+<h3 id="it-now-also-raises-an-action-required-step">It now also raises
+an ACTION REQUIRED step</h3>
+<p>When the journal (scanned from ollama’s
+<code>ActiveEnterTimestamp</code>) reports <code>library=Vulkan</code>,
+the wizard’s closing <strong>ACTION REQUIRED</strong> section carries an
+entry naming the exact commands, and writes them to
+<code>&lt;project-root&gt;/MANUAL-STEPS.md</code>:</p>
+<pre><code>Take the GPU out of the embedding path (asks for your password)
+     ./scripts/ollama-vulkan-remediation.sh --check    # diagnosis, read-only
+     ./scripts/ollama-vulkan-remediation.sh --apply    # applies it, then verifies
+     # WHY: this backend silently writes STALE DUPLICATE vectors under HTTP 200 -
+     # well-formed, unit-norm, and invisible to every per-vector check.
+     # Full runbook: docs/setup-agents-wizard/OLLAMA-REMEDIATION.md</code></pre>
+<p>On a terminal the wizard then pauses for Enter so the list cannot
+scroll past unread (<code>WIZARD_NONINTERACTIVE=1</code> skips the
+pause). The entry disappears on the next run once the journal reports
+<code>library=cpu</code> — the detection is stateful, not a checklist.
+See <a
+href="./ACTION-REQUIRED.md"><code>ACTION-REQUIRED.md</code></a>.</p>
+<p>Test <code>A41</code> is what keeps the privileged commands
+<em>out</em> of the wizard: applying the fix is the remediation script’s
+job, behind an explicit subcommand.</p>
+<hr />
+<h2 id="appendix-a-the-state-of-this-host-after-remediation">Appendix A:
+the state of this host AFTER remediation</h2>
+<p>Read on 2026-08-27, not assumed. Reproduce with
+<code>./scripts/ollama-vulkan-remediation.sh --check</code>.</p>
+<pre><code>/etc/sysconfig/ollama            GGML_VK_VISIBLE_DEVICES=-1      (single bare line: written by --apply)
+inference compute ... library=cpu                                (no Vulkan device line at all)
+ollama ps          ordis/jina-embeddings-v2-base-code:latest  345 MB  100% CPU  ctx 8192
+journalctl -k --since &quot;&lt;ollama ActiveEnterTimestamp&gt;&quot;
+                   0 x &quot;Fence expiration time out&quot; / &quot;GPU HANG&quot;
+journalctl -k --since &quot;24 hours ago&quot;
+                   520 lines — ALL pre-remediation history
+batch probe        32 chunks / 18,576 chars -&gt; 32 distinct vectors, 5 runs of 5</code></pre>
+<p>The index itself was rebuilt afterwards; see §9 and <a
+href="./OPERATIONAL-SCRIPTS.md"><code>OPERATIONAL-SCRIPTS.md</code></a>.</p>
+<hr />
+<h2
+id="appendix-b-the-state-of-this-host-when-the-runbook-was-written">Appendix
+B: the state of this host when the runbook was written</h2>
+<p>Everything below was read, not assumed. This is the
+<strong>pre-remediation</strong> snapshot, kept so the before/after in
+§0 is checkable. Reproduce any line with the commands in §2.</p>
+<pre><code>ollama version is 0.23.4                       (ollama-0.23.4-alt1.x86_64, newest in Sisyphus)
+inference compute ... library=Vulkan name=Vulkan0
+                      description=&quot;Intel(R) Iris(R) Xe Graphics (TGL GT2)&quot; type=iGPU
+ollama ps          ordis/jina-embeddings-v2-base-code:latest   396 MB   100% GPU   ctx 8192
+/api/ps            &quot;size_vram&quot;: 396324864        (== size: fully resident on the GPU)
+journalctl -k --since &quot;24 hours ago&quot;
+                   551 x &quot;Fence expiration time out&quot;
+                     3 x &quot;GPU HANG&quot;
+systemctl show ollama -p EnvironmentFiles
+                   /etc/sysconfig/ollama (ignore_errors=yes)     &lt;- referenced, absent
+sudo -n true    -&gt; &quot;sudo: a password is required&quot;                &lt;- no passwordless sudo
+ollama list     -&gt; jina-embeddings-code-cpu:latest   (Tier 2 tag present, PARAMETER num_gpu 0)
+                   ordis/jina-embeddings-v2-base-code:latest
+index           ~/.local/share/lumen/&lt;hash&gt;/index.db  113 MiB, 2413 files tracked,
+                   embedding_model=ordis/jina-embeddings-v2-base-code</code></pre>
+</body>
+</html>

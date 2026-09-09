@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>spec</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">spec</h1>
+</header>
+<h1 id="feature-specification-chapter-hierarchy">Feature Specification:
+Chapter Hierarchy</h1>
+<p><strong>Feature Branch</strong>:
+<code>003-chapter-hierarchy</code></p>
+<p><strong>Created</strong>: 2026-09-05</p>
+<p><strong>Status</strong>: Draft</p>
+<p><strong>Input</strong>: No operator directive is quoted here, because
+none was given. This feature was opened by a <strong>change in the
+tree</strong>, not by a request, and saying so plainly is the honest
+form: on 2026-09-05, commit <code>266f443</code> added
+<code>workshop/chapters/02</code> and
+<code>workshop/chapters/02.01</code> — <strong>the first sub-chapter
+this project has ever had</strong>. Everything downstream of
+<code>chapters/</code> was written against a flat list of chapters, and
+three defects that were latent with one chapter went live with three.
+That commit fixed three of them. This specification is the rest.</p>
+<hr />
+<h2
+id="why-this-feature-exists-one-directory-name-broke-an-assumption-nobody-had-written-down">Why
+this feature exists: one directory name broke an assumption nobody had
+written down</h2>
+<p>Nothing in the platform ever <em>decided</em> that chapters were
+flat. It simply never had a reason not to be. With one chapter,
+<code>01</code>, every shortcut worked: parse the leading digits and you
+have an ordinal; match <code>chapter-\d+</code> and you have every
+chapter; compare a scope with <code>HasSuffix</code> and you have the
+right chapter. Each of those is correct for <code>01</code> and each is
+wrong for <code>02.01</code>.</p>
+<p>The three that were already found share a shape worth naming before
+the requirements, because it is what this specification is organised
+around:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Defect</th>
+<th>With one chapter</th>
+<th>With <code>02</code> and <code>02.01</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>strings.HasSuffix(*rec.Scope, chapter)</code> in the redaction
+reviewer</td>
+<td>correct — one scope, nothing to confuse</td>
+<td><code>02.01</code> <strong>has</strong> the suffix <code>01</code>,
+so chapter 01’s redaction review absorbs sub-chapter artifacts and
+<strong>overstates its own coverage</strong></td>
+</tr>
+<tr>
+<td><code>chapter-\d+</code> in two extraction stages, with
+<code>continue</code> on a non-match</td>
+<td>correct — <code>chapter-01</code> matches</td>
+<td><code>chapter-02.01</code> does not match, and a non-match is
+<strong>skipped silently</strong> on a green run</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Neither failed loudly. One produced a disclosure-control
+record that claimed more coverage than it had, and the other produced
+nothing at all and said nothing about it.</strong> That is the class
+this feature is about: <em>not</em> code that crashes on a dotted id,
+but code that keeps working, keeps returning <code>200</code>, keeps
+exiting <code>0</code>, and is quietly wrong. The remaining open defects
+listed below are all of that same class, with one exception
+(<code>ordinalOf</code>) that is loudly wrong in a way a reader will
+misread as a cosmetic label.</p>
+<p><strong>And the root of it is not in the code at all.</strong>
+<code>specs/001-workshop-curriculum-platform/data-model.md:45</code>
+types <code>Chapter.ordinal</code> as <code>int</code>. Every ordinal
+collision in this document follows from that one line, and no amount of
+implementation work resolves it — a <code>02.01</code> has no
+<code>int</code> ordinal, and giving it one is how <code>02</code> and
+<code>02.01</code> come to be the same number. That decision is Phase 0
+and it blocks the rest.</p>
+<h2 id="context-verified-starting-state">Context: Verified Starting
+State</h2>
+<p>Measured on <strong>2026-09-05</strong>. Every figure is re-derivable
+by the command in the right-hand column; none is quoted from a document.
+Requirements below are only meaningful against these values.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Measured value</th>
+<th>Re-derive with</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chapter directories present</td>
+<td><strong>3</strong> — <code>01</code>, <code>02</code>,
+<code>02.01</code>. <code>02.01</code> is the first sub-chapter</td>
+<td><code>ls workshop/chapters/</code></td>
+</tr>
+<tr>
+<td>Curriculum directories present</td>
+<td><strong>1</strong> — <code>chapter-01</code> only</td>
+<td><code>ls workshop/curriculum/</code></td>
+</tr>
+<tr>
+<td>Records in the passage registry</td>
+<td><strong>13,141</strong></td>
+<td>count lines in <code>workshop/curriculum/passages.jsonl</code></td>
+</tr>
+<tr>
+<td>Distinct <strong>chapter</strong> scopes in the registry</td>
+<td><strong>1</strong> — <code>01</code>, holding <strong>1,819</strong>
+records. <code>02</code> and <code>02.01</code> hold
+<strong>zero</strong></td>
+<td>group the registry by <code>scope</code></td>
+</tr>
+<tr>
+<td>Other scopes in the registry</td>
+<td><code>docs</code> <strong>2,176</strong>, <code>curriculum</code>
+<strong>2</strong>, and <strong>9,144</strong> records carrying no scope
+at all</td>
+<td>”</td>
+</tr>
+<tr>
+<td>Archive state of the new chapters</td>
+<td>both <strong>archived and verified, not ingested</strong>:
+<code>02</code> carries 16 <code>*.part-*</code> members plus a SHA-256
+manifest and a <code>.verified</code> marker; <code>02.01</code> carries
+2. Neither has a transcript</td>
+<td><code>ls workshop/chapters/02 workshop/chapters/02.01</code></td>
+</tr>
+<tr>
+<td>Chapter id accepted by the filesystem resolver</td>
+<td><strong><code>.</code> is already permitted.</strong>
+<code>SafeSlug</code> allowlists <code>a-z A-Z 0-9 - _ .</code> and
+rejects only <code>/</code> and <code>\</code></td>
+<td><code>workshop/platform/backend/pkg/curriculum/curriculum.go:205</code>,
+<code>:209</code></td>
+</tr>
+<tr>
+<td>Chapter directory resolution for a dotted id</td>
+<td><strong>already works.</strong> <code>ChapterDir</code> tries
+<code>chapter-&lt;slug&gt;</code> then <code>&lt;slug&gt;</code></td>
+<td><code>curriculum.go:187</code></td>
+</tr>
+<tr>
+<td>Route wildcard shape</td>
+<td><code>GET /api/chapters/{chapter}</code> and five siblings. Go’s
+<code>{name}</code> wildcard matches <strong>exactly one path
+segment</strong> and has no dot delimiter</td>
+<td><code>workshop/platform/backend/cmd/workshop-server/main.go:547</code>,
+<code>:817</code>–<code>:819</code>, <code>:841</code>,
+<code>:843</code></td>
+</tr>
+<tr>
+<td>Client URL construction</td>
+<td><code>encodeURIComponent(slug)</code>, which leaves <code>.</code>
+unescaped — an unreserved character</td>
+<td><code>workshop/platform/frontend/src/app/core/api.ts:107</code>,
+<code>:122</code>, <code>:155</code></td>
+</tr>
+<tr>
+<td>Chapter list ordering</td>
+<td><strong>already byte-lexicographic on the id</strong> —
+<code>sort.Slice(out, func(i, j int) bool { return out[i].ID &lt; out[j].ID })</code></td>
+<td><code>main.go:2126</code></td>
+</tr>
+<tr>
+<td>Chapter enumeration</td>
+<td><code>listChapters</code> accepts <strong>any</strong> directory
+name that is not a dotfile. There is <strong>no id grammar and no
+validator</strong></td>
+<td><code>main.go:2094</code>–<code>2110</code></td>
+</tr>
+<tr>
+<td>Ordinal derivation</td>
+<td><code>ordinalOf("02.01")</code> stops at the first non-digit and
+returns <strong><code>2</code></strong> — the same value as
+<code>ordinalOf("02")</code></td>
+<td><code>workshop/platform/backend/internal/api/chapters.go:736</code></td>
+</tr>
+<tr>
+<td>Title derivation</td>
+<td><code>chapterTitle</code> renders both <code>02</code> and
+<code>02.01</code> as <strong><code>"Chapter 2"</code></strong></td>
+<td><code>chapters.go:755</code>–<code>756</code></td>
+</tr>
+<tr>
+<td>The API’s own account of that</td>
+<td>the <code>derivation.ordinal</code> string — <em>“parsed from the
+leading digits of the chapter slug”</em> — <strong>accurately describes
+the defect</strong>. The endpoint is not lying; it is telling you
+exactly what it did</td>
+<td><code>chapters.go:140</code>–<code>146</code></td>
+</tr>
+<tr>
+<td>Suggest source manifest</td>
+<td><strong>6 rows</strong> hardcode <code>chapter-01/...</code>, and
+the file is compiled in with <code>//go:embed</code></td>
+<td><code>workshop/platform/backend/pkg/search/suggest-sources.json:10,34,57,77,101,125</code>;
+<code>pkg/search/catalog.go:70</code>–<code>71</code></td>
+</tr>
+<tr>
+<td>Leak detector behaviour on a dotted id</td>
+<td><code>HasSourceFilenameShape</code> does <strong>not</strong>
+misclassify <code>.01</code> — its extension list is closed and
+numeric-only suffixes are not in it</td>
+<td><code>catalog.go:320</code>–<code>354</code>, <code>:368</code></td>
+</tr>
+<tr>
+<td>Front-end ordinal, minimal shape</td>
+<td><code>ordinal: /^\d+$/.test(key) ? Number(key) : null</code> —
+yields <strong><code>null</code></strong> for <code>02.01</code></td>
+<td><code>workshop/platform/frontend/src/app/core/models.ts:301</code></td>
+</tr>
+<tr>
+<td>Front-end ordinal, full shape</td>
+<td><code>ordinal: num(raw['ordinal'])</code> — yields
+<strong><code>2</code></strong> for <code>02.01</code>. <strong>The two
+shapes disagree</strong></td>
+<td><code>models.ts:357</code></td>
+</tr>
+<tr>
+<td>Chapter list consumed flat</td>
+<td>the client reads <code>body['chapters']</code> as an array</td>
+<td><code>api.ts:88</code></td>
+</tr>
+<tr>
+<td>Ingest chapter default</td>
+<td><code>CHAPTER="01"</code></td>
+<td><code>workshop/scripts/ingest.sh:46</code></td>
+</tr>
+<tr>
+<td>Ingest transcript default</td>
+<td><code>WORKSHOP_TRANSCRIPT_JSON</code> defaults to <strong>chapter
+01’s</strong> transcript JSON</td>
+<td><code>ingest.sh:93</code></td>
+</tr>
+<tr>
+<td>Transcript builder defaults</td>
+<td><code>--chapter default="chapter-01"</code>,
+<code>--title default="Chapter 1"</code></td>
+<td><code>workshop/pipeline/build_transcript.py:143</code>–<code>144</code></td>
+</tr>
+<tr>
+<td>Calibration input</td>
+<td>a <strong>frozen absolute path</strong> to chapter 01’s recording
+file</td>
+<td><code>workshop/pipeline/calibrate.sh:36</code></td>
+</tr>
+<tr>
+<td>Chapter-01 knowledge builder</td>
+<td>2 frozen deep links, 4 frozen <code>chapter_slug</code> literals —
+and <strong>one line that derives correctly</strong> from
+<code>r["scope"]</code></td>
+<td><code>workshop/curriculum/chapter-01/knowledge/build.py:363</code>,
+<code>:435</code>; <code>:478</code>, <code>:564</code>,
+<code>:582</code>, <code>:592</code>; correct at <code>:415</code></td>
+</tr>
+<tr>
+<td>Route manifest chapter substitution</td>
+<td><code>#subst {chapter} 01</code></td>
+<td><code>workshop/platform/gates/route-manifest.tsv:64</code></td>
+</tr>
+<tr>
+<td>Route manifest literal rows</td>
+<td>rows <code>:72</code>–<code>:76</code> and <code>:85</code> are
+written with a literal <code>/api/chapters/01/</code>; rows
+<code>:157</code>–<code>:160</code> are four <code>NOT_BUILT</code> rows
+carrying the same literal</td>
+<td>”</td>
+</tr>
+<tr>
+<td>A gate that already does it right</td>
+<td><code>verify-absence-honesty.sh</code> takes a live chapter id from
+<code>GET /api/chapters</code> rather than hardcoding one</td>
+<td><code>workshop/platform/gates/verify-absence-honesty.sh:127</code>–<code>134</code></td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The three commands behind the load-bearing rows</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> workshop/chapters/ workshop/curriculum/</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&quot;import json,collections;c=collections.Counter(json.loads(l).get(&#39;scope&#39;) for l in open(&#39;workshop/curriculum/passages.jsonl&#39;));print(dict(c))&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&#39;10\n02.09\n01\n03\n02\n02.10\n02.01.01\n02.01\n&#39;</span> <span class="kw">|</span> <span class="va">LC_ALL</span><span class="op">=</span>C <span class="fu">sort</span></span></code></pre></div>
+<h3
+id="the-tree-moved-during-drafting-and-four-rows-above-are-already-superseded">The
+tree moved DURING drafting, and four rows above are already
+superseded</h3>
+<p>Re-measured at the end of the same session that produced the table.
+<strong>Another agent working in this checkout landed two of the fixes
+this specification asks for, and ingested a sub-chapter, while it was
+being written.</strong> That is recorded rather than folded into the
+table, because a starting state that has quietly been edited to match
+the present is no longer a starting state.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Row above</th>
+<th>As measured</th>
+<th>Re-measured, same day</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Distinct chapter scopes</td>
+<td><strong>1</strong> (<code>01</code>, 1,819 records)</td>
+<td><strong>2</strong> — <code>01</code> 1,819 <strong>and
+<code>02.01</code> 42</strong></td>
+<td><strong>SUPERSEDED</strong></td>
+</tr>
+<tr>
+<td>Registry record count</td>
+<td><strong>13,141</strong></td>
+<td><strong>13,183</strong></td>
+<td><strong>SUPERSEDED</strong></td>
+</tr>
+<tr>
+<td>Curriculum directories</td>
+<td><code>chapter-01</code> only</td>
+<td><code>chapter-02.01/</code> present, untracked</td>
+<td><strong>SUPERSEDED</strong></td>
+</tr>
+<tr>
+<td><code>ingest.sh:46</code> — <code>CHAPTER="01"</code></td>
+<td>frozen default</td>
+<td><code>CHAPTER=""</code> at <code>:60</code>, and a
+<strong>refusal</strong> at <code>:109</code> exiting through the
+three-valued <code>undetermined</code> path</td>
+<td><strong>FIXED, and the fix is not this feature’s</strong></td>
+</tr>
+<tr>
+<td><code>ingest.sh:93</code> — frozen <code>full_ch01</code>
+transcript</td>
+<td>frozen default</td>
+<td>derived at <code>:120</code> as <code>full_ch${_CH_FLAT}</code>,
+with the dots stripped so a sub-chapter id yields a single-extension
+filename</td>
+<td><strong>FIXED, and the fix is not this feature’s</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Three consequences, and none of them is “update the
+table”.</strong></p>
+<ol type="1">
+<li><strong>FR-016 and FR-017 are satisfied in code and unsatisfied in
+evidence.</strong> The refusal exists; <strong>no test for it
+appeared</strong>. G-CH-13 and its paired mutation are still owed, and a
+fix with no paired proof is a fix that reverts the first time somebody
+finds the refusal inconvenient. Task T017 is annotated accordingly and
+stays unticked.</li>
+<li><strong>The starting-state table is a dated observation and is now
+demonstrably one.</strong> Do not quote any figure in it as current —
+re-run the commands. This document’s own numbers went stale in
+hours.</li>
+<li><strong>A sub-chapter now holds passages, which changes what the
+two-scope redaction fixture is testing.</strong> The registry that was
+hypothetical when Phase 2 was written is real: scopes <code>01</code>
+and <code>02.01</code> both exist in
+<code>curriculum/passages.jsonl</code> today. That makes T013 easier to
+build and makes T014 more urgent, because the condition under which
+<code>HasSuffix</code> and <code>==</code> disagree is no longer a
+fixture — it is the corpus.</li>
+</ol>
+<h3 id="three-facts-that-are-load-bearing-and-easy-to-misread">Three
+facts that are load-bearing and easy to misread</h3>
+<ol type="1">
+<li><strong><code>02</code> and <code>02.01</code> are archived and
+verified, and they are <em>not</em> in the corpus.</strong> Every “0
+passages” figure above is a statement about ingestion, not about the
+material. The recordings exist, hash-verified, in the tree. Nothing in
+this specification is blocked on acquiring content; it is blocked on the
+corpus being able to <em>name</em> the content it already has.</li>
+<li><strong>The filesystem and routing layers are already correct, and
+that is a measurement, not luck.</strong> <code>SafeSlug</code> permits
+<code>.</code>; <code>ChapterDir</code> resolves
+<code>chapter-02.01</code>; the route wildcard is single-segment;
+<code>encodeURIComponent</code> leaves <code>.</code> alone; the list
+comparator is already the right one. <strong>Four of the five places a
+dotted id has to survive already survive it.</strong> The work is
+therefore much smaller than “add hierarchy support”, and pretending
+otherwise would invite a rewrite of code that is already right. The one
+that is <em>not</em> correct is derivation — <code>ordinalOf</code> and
+everything downstream of it.</li>
+<li><strong><code>chapters.go:141</code> is not a bug in the
+documentation — it is documentation of the bug.</strong> The endpoint
+publishes <code>derivation.ordinal</code> as <em>“parsed from the
+leading digits of the chapter slug”</em>, which is precisely what it
+does and precisely why <code>02.01</code> collides with <code>02</code>.
+An honest instrument describing a wrong answer is still a wrong answer,
+and the fix is the derivation, not the string.</li>
+</ol>
+<h2 id="clarifications">Clarifications</h2>
+<h3 id="session-2026-09-05">Session 2026-09-05</h3>
+<p>One question is open, it is a <strong>specification</strong> question
+rather than an implementation one, and it <strong>blocks everything else
+in this feature</strong>. It is stated first because a reader who skips
+it will read the requirements below as implementable, and they are
+not.</p>
+<ul>
+<li><p><strong>[NEEDS CLARIFICATION: the <code>ordinal</code> type, and
+the path key that contradicts it]</strong> Two lines in feature 001’s
+own artifacts have to be resolved explicitly, and neither can be
+resolved by writing code:</p>
+<p><strong>(a)
+<code>specs/001-workshop-curriculum-platform/data-model.md:45</code>
+types <code>Chapter.ordinal</code> as <code>int</code>.</strong> Under
+that type, <code>02.01</code> has no representable ordinal. Every
+collision in this document — <code>ordinalOf</code> returning
+<code>2</code>, <code>chapterTitle</code> rendering <em>“Chapter
+2”</em>, the front end’s two disagreeing shapes — is that one line
+reaching the surface. Three ways out: <strong>(i)</strong> widen
+<code>ordinal</code> to an ordered <em>path</em> of integers (this
+specification’s proposal, <code>ordinal_path</code>);
+<strong>(ii)</strong> keep <code>int</code> and declare sub-chapters to
+have no ordinal, which makes them second-class in every ordering;
+<strong>(iii)</strong> keep <code>int</code> and flatten sub-chapters
+into the same number space, which renumbers every existing chapter the
+first time a sub-chapter is inserted. <em>Scope impact</em>: (i) changes
+a wire field and one derivation; (ii) changes nothing and leaves the
+front end’s <code>null</code>/<code>2</code> disagreement as the
+contracted behaviour; (iii) breaks every existing link.</p>
+<p><strong>(b)
+<code>specs/001-workshop-curriculum-platform/contracts/http-api.md:60</code>
+states that the zero-padded <code>ordinal</code> is “not accepted as a
+path key — one key, one meaning”.</strong> The implementation uses
+<strong>exactly that</strong> as the path key:
+<code>GET /api/chapters/01</code> is the live, manifest-declared route
+(<code>route-manifest.tsv:72</code>), and <code>01</code> <em>is</em>
+the zero-padded ordinal. The contract and the implementation have
+disagreed since before this feature existed, and the disagreement went
+unseen because — with one chapter — the slug and the zero-padded ordinal
+are the same string. <strong>They stop being the same string the moment
+<code>ordinal</code> is not an <code>int</code>.</strong> Two ways out:
+amend the contract to say the dotted id <em>is</em> the key (this
+specification’s proposal — it makes the slug and the id one string,
+which is the whole identity decision below), or introduce a separate
+slug and accept two keys for one chapter.</p>
+<p><strong>Neither may be inherited silently.</strong> Both are recorded
+in feature 001’s artifacts, both are wrong or contradicted today, and
+this feature’s entire identity model rests on which way they go. A
+<code>[BLOCKED: ordinal type]</code> marker is live on the tasks that
+depend on it.</p></li>
+</ul>
+<p>Everything else the change left unstated was decided, and those
+decisions are recorded under <strong>Assumptions</strong> and
+<strong>Resolved Decisions</strong> with their reasoning.</p>
+<h2 id="user-scenarios-testing-mandatory">User Scenarios &amp; Testing
+<em>(mandatory)</em></h2>
+<h3 id="user-story-1---a-sub-chapter-is-a-chapter-priority-p1">User
+Story 1 - A sub-chapter is a chapter (Priority: P1)</h3>
+<p>A maintainer adds <code>chapters/02.01</code> and expects the
+platform to treat it as a chapter: listed, addressable, orderable,
+ingestible, searchable — without a single line of code that asks whether
+it is a sub-chapter.</p>
+<p><strong>Why this priority</strong>: it is the whole feature. Every
+other story is a consequence.</p>
+<p><strong>Independent test</strong>: create a chapter directory named
+with a two-level id, run the pipeline, and confirm it appears in the
+list, resolves at its own URL, sorts in the right place, and carries no
+special-cased handling anywhere in its path.</p>
+<p><strong>Acceptance scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> <code>chapters/02.01</code> exists,
+<strong>When</strong> a client calls the chapter list,
+<strong>Then</strong> the entry appears with id <code>02.01</code>, a
+parent of <code>02</code>, a depth of <code>2</code>, and an ordinal
+path that does not collide with <code>02</code>.</li>
+<li><strong>Given</strong> the same, <strong>When</strong> a client
+requests that chapter directly, <strong>Then</strong> it resolves — the
+route wildcard is single-segment and the id contains no
+<code>/</code>.</li>
+<li><strong>Given</strong> <code>01</code>, <code>02</code>,
+<code>02.01</code>, <code>02.10</code>, <code>03</code> and
+<code>10</code> all exist, <strong>When</strong> any of them is listed,
+globbed or read from disk, <strong>Then</strong> the three orders are
+identical and <code>02.01</code> falls immediately after
+<code>02</code>.</li>
+<li><strong>Given</strong> the codebase, <strong>When</strong> it is
+searched for a branch conditioned on a chapter’s depth,
+<strong>Then</strong> none is found.</li>
+</ol>
+<hr />
+<h3 id="user-story-2---nothing-is-silently-dropped-priority-p1">User
+Story 2 - Nothing is silently dropped (Priority: P1)</h3>
+<p>A maintainer runs the extraction, ingestion and authoring stages over
+a tree containing a sub-chapter, and every stage either processes it or
+says, by name, that it did not.</p>
+<p><strong>Why this priority</strong>: also P1, and for a stated reason
+— the two regex defects already fixed did not fail. They exited
+<code>0</code>. A pipeline that drops a chapter silently is worse than
+one that refuses to run, because the refusal is a fact and the silence
+is a false one.</p>
+<p><strong>Independent test</strong>: run every stage against a tree
+holding a sub-chapter with no content of its own, and assert that the
+sub-chapter is named in each stage’s output — as processed, or as
+skipped with a reason.</p>
+<p><strong>Acceptance scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> a chapter directory whose name does not match
+the id grammar, <strong>When</strong> any stage enumerates chapters,
+<strong>Then</strong> it is reported as <code>unclassified</code> with a
+stated reason and is never omitted from the enumeration.</li>
+<li><strong>Given</strong> a sub-chapter with no transcript,
+<strong>When</strong> ingestion runs without an explicit transcript
+argument, <strong>Then</strong> it <strong>refuses</strong>, naming the
+missing input — it does <strong>not</strong> fall back to another
+chapter’s transcript.</li>
+<li><strong>Given</strong> any stage that filters chapter paths by
+pattern, <strong>When</strong> the pattern fails to match a directory
+that exists, <strong>Then</strong> the non-match is reported rather than
+skipped with <code>continue</code>.</li>
+</ol>
+<hr />
+<h3
+id="user-story-3---every-chapter-scope-comparison-names-exactly-one-chapter-priority-p1">User
+Story 3 - Every chapter-scope comparison names exactly one chapter
+(Priority: P1)</h3>
+<p>An operator runs a redaction review for chapter <code>01</code> and
+gets chapter <code>01</code>’s artifacts — not <code>02.01</code>’s, and
+not <code>01</code>’s plus everything whose id happens to end in
+<code>01</code>.</p>
+<p><strong>Why this priority</strong>: P1, and the reason is disclosure
+control. The fix has landed (<code>workshop-redact/main.go:616</code> is
+now <code>*rec.Scope != chapter</code>). What has <strong>not</strong>
+landed is the test that can see the defect, and a fix without one is a
+fix that can be reverted by an editor who thinks <code>HasSuffix</code>
+reads more permissively.</p>
+<p><strong>Independent test</strong>: build a fixture registry holding
+<strong>two</strong> scopes, <code>01</code> and <code>02.01</code>, run
+the redaction review for <code>01</code>, and assert
+<code>02.01</code>’s artifacts are absent.</p>
+<p><strong>Acceptance scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> a registry with scopes <code>01</code> and
+<code>02.01</code>, <strong>When</strong> the review runs for
+<code>01</code>, <strong>Then</strong> exactly the <code>01</code>
+artifacts are covered.</li>
+<li><strong>Given</strong> the same fixture, <strong>When</strong> the
+comparison is mutated back to <code>HasSuffix</code>,
+<strong>Then</strong> the test goes red.</li>
+<li><strong>Given</strong> a <strong>one</strong>-scope fixture,
+<strong>When</strong> the same mutation is applied,
+<strong>Then</strong> the test stays green — which is the measurement
+that proves a one-scope fixture cannot guard this.</li>
+</ol>
+<hr />
+<h3
+id="user-story-4---hierarchy-is-visible-without-a-new-endpoint-priority-p2">User
+Story 4 - Hierarchy is visible without a new endpoint (Priority:
+P2)</h3>
+<p>A client renders a chapter tree, filters to one branch, and asks how
+deep the corpus goes — using the endpoints it already calls.</p>
+<p><strong>Why this priority</strong>: the information is needed, and a
+new route is a new manifest row, a new contract section, a new gate and
+a new negative assertion. Deriving it costs none of those.</p>
+<p><strong>Independent test</strong>: fetch the chapter list, build a
+tree from the <code>hierarchy</code> object on each row without a second
+request, and confirm the tree matches the directory layout.</p>
+<p><strong>Acceptance scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> the chapter list, <strong>When</strong> a
+client reads a row, <strong>Then</strong> it carries
+<code>parent_id</code>, <code>depth</code>, <code>ancestor_ids</code>,
+<code>child_ids</code> and <code>orphaned</code> — and the array is
+still <strong>flat</strong>.</li>
+<li><strong>Given</strong> <code>?under=02</code>, <strong>When</strong>
+the list is fetched, <strong>Then</strong> it returns <code>02</code>’s
+descendants, and the response echoes the filters it applied.</li>
+<li><strong>Given</strong> <code>?under=99</code>, <strong>When</strong>
+the list is fetched, <strong>Then</strong> the response is
+<code>200</code> with an empty array and
+<code>under_resolved: false</code> — <strong>not</strong> a
+<code>404</code>, because the request was well-formed and the answer is
+<em>“no such branch”</em>, not <em>“no such endpoint”</em>.</li>
+<li><strong>Given</strong> the backend cannot read the chapter tree,
+<strong>When</strong> the list is fetched, <strong>Then</strong> the
+response is the existing could-not-determine state <strong>and still
+echoes the filters</strong>.</li>
+</ol>
+<hr />
+<h3 id="user-story-5---an-orphan-is-served-and-says-so-priority-p3">User
+Story 5 - An orphan is served, and says so (Priority: P3)</h3>
+<p><code>chapters/02.01</code> exists and <code>chapters/02</code> does
+not. The platform serves <code>02.01</code> and states that its parent
+is missing.</p>
+<p><strong>Why this priority</strong>: it is a real state — a
+sub-chapter can be archived before its parent is, or a parent can be
+withdrawn — and both of the obvious behaviours are wrong. Hiding the
+orphan loses content that exists; serving it as a root silently rewrites
+the hierarchy.</p>
+<p><strong>Independent test</strong>: remove a parent directory from a
+fixture tree, list the chapters, and assert the child is present, marked
+<code>orphaned: true</code>, and names the id it could not find.</p>
+<p><strong>Acceptance scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> <code>02.01</code> with no <code>02</code>,
+<strong>When</strong> the list is fetched, <strong>Then</strong>
+<code>02.01</code> is present, <code>orphaned</code> is
+<code>true</code>, and <code>parent_id</code> still reads
+<code>02</code> — the derivation is unchanged by the parent’s
+absence.</li>
+<li><strong>Given</strong> the same, <strong>When</strong>
+<code>?under=02</code> is requested, <strong>Then</strong>
+<code>02.01</code> is returned, because <code>under</code> filters on
+the derived ancestry and not on the existence of the ancestor.</li>
+</ol>
+<hr />
+<h3 id="edge-cases">Edge Cases</h3>
+<ul>
+<li><strong>A directory named <code>02.2</code>.</strong> Not
+zero-padded, so byte order puts it <em>after</em> <code>02.10</code>. It
+must be refused by the validator, not silently sorted wrongly. This is
+the single input the grammar exists to reject.</li>
+<li><strong>A directory named <code>2</code>.</strong> Same class, one
+level up.</li>
+<li><strong>A directory named <code>02.01.01.01</code>.</strong> Depth
+is unbounded in the grammar. It must be accepted, and the measured
+maximum depth must be published rather than a limit asserted.</li>
+<li><strong>A chapter id used as a path key against a route
+wildcard.</strong> <code>{chapter}</code> is single-segment. An id
+containing <code>/</code> would silently truncate the match — which is
+exactly why <code>SafeSlug</code> rejects <code>/</code>, and why the
+rejected <code>02/01</code> design would have needed that rejection
+removed.</li>
+<li><strong>A parent with no material of its own.</strong>
+<code>02</code> may be a container. It is still a chapter, is still
+listed, and its zero passages are a measurement rather than an
+error.</li>
+<li><strong>Two chapters whose ids differ only by padding</strong>
+(<code>02.1</code> and <code>02.01</code>). The grammar rejects the
+first, so this cannot arise — but the validator must be <em>tested</em>
+on it, because “cannot arise” is an assertion about a validator that has
+not been written yet.</li>
+<li><strong>A search hit whose scope is a sub-chapter.</strong> Any
+consumer comparing scopes with <code>HasPrefix</code>,
+<code>HasSuffix</code> or <code>Contains</code> is wrong for the same
+reason the redaction reviewer was.</li>
+<li><strong>A chapter id appearing inside a filename-shaped
+string.</strong> The leak detector’s extension list is closed and holds
+no numeric-only entry, so <code>.01</code> is not read as an extension.
+Measured, not assumed — and it must stay measured, because the fix for
+it is one entry in a list.</li>
+<li><strong>The client’s two chapter shapes disagreeing.</strong> They
+already do: <code>null</code> from one, <code>2</code> from the other.
+Whatever the ordinal decision is, both shapes must produce the same
+value or the mismatch must be impossible to express.</li>
+</ul>
+<h2 id="requirements-mandatory">Requirements <em>(mandatory)</em></h2>
+<h3 id="functional-requirements">Functional Requirements</h3>
+<p><strong>Identity</strong></p>
+<ul>
+<li><strong>FR-001</strong>: A chapter’s canonical identifier MUST be
+its dotted, zero-padded numeric path — <code>01</code>, <code>02</code>,
+<code>02.01</code> — and MUST match the grammar
+<code>^[0-9]{2,}(\.[0-9]{2,})*$</code>.</li>
+<li><strong>FR-002</strong>: That one string MUST serve, unchanged and
+untranslated, as <strong>all five</strong> of: the directory name under
+<code>chapters/</code>, the URL path segment, the passage registry
+<code>scope</code> value, the <code>chapter_slug</code> field value, and
+the suffix in a <code>chapter-&lt;id&gt;</code> curriculum directory
+name. No layer MAY map it to a different form.</li>
+<li><strong>FR-003</strong>: Depth MUST be unbounded in the grammar. A
+limit MAY be measured and published; it MUST NOT be asserted.</li>
+<li><strong>FR-004</strong>: A directory under <code>chapters/</code>
+whose name does not match FR-001 MUST be reported as
+<code>unclassified</code>, with the reason, in every enumeration that
+covers it. It MUST NOT be silently skipped, and it MUST NOT be silently
+accepted.</li>
+<li><strong>FR-005</strong>: The validator MUST reject a non-zero-padded
+component (<code>02.2</code>, <code>2</code>), and this rejection MUST
+carry a paired mutation proving the check can fail.</li>
+</ul>
+<p><strong>Derivation</strong></p>
+<ul>
+<li><strong>FR-006</strong>: <code>parent_id</code>, <code>depth</code>,
+<code>ancestor_ids</code>, <code>child_ids</code> and
+<code>ordinal_path</code> MUST all be <strong>derived from the
+identifier by string operation</strong> and MUST NOT be stored
+anywhere.</li>
+<li><strong>FR-007</strong>: No entity MAY carry a stored
+<code>parent_id</code>, a stored depth, or a stored child list. A second
+representation of the hierarchy is forbidden, because two
+representations of one fact can disagree and the disagreement has no
+symptom.</li>
+<li><strong>FR-008</strong>: <code>parent_id</code> MUST be
+<code>null</code> for a top-level chapter and <code>child_ids</code>
+MUST be <code>[]</code> for a leaf. Both MUST fall out of the derivation
+rather than being special-cased.</li>
+</ul>
+<p><strong>Ordering</strong></p>
+<ul>
+<li><strong>FR-009</strong>: The order of chapters MUST be
+byte-lexicographic on the identifier string, and this MUST be the same
+order produced by the filesystem, by a shell glob and by the API.</li>
+<li><strong>FR-010</strong>: A parent MUST sort immediately before its
+first child. This is a consequence of the zero-padding and of
+<code>.</code> (0x2E) sorting below <code>0</code>–<code>9</code>
+(0x30–0x39); it MUST NOT be implemented as a separate rule.</li>
+<li><strong>FR-011</strong>: The existing comparator at
+<code>main.go:2126</code> MUST NOT be changed. It is already correct,
+and a gate MUST assert the ordering rather than the code so that a
+future rewrite is caught.</li>
+</ul>
+<p><strong>The scope-comparison rule</strong></p>
+<ul>
+<li><strong>FR-012</strong>: Every comparison of a chapter scope against
+a chapter id MUST be <strong>equality</strong>. Use of
+<code>HasSuffix</code>, <code>HasPrefix</code> or <code>Contains</code>
+on a chapter scope is a defect.</li>
+<li><strong>FR-013</strong>: The equality comparison at
+<code>workshop-redact/main.go:616</code> MUST be covered by a test whose
+fixture registry holds <strong>at least two</strong> scopes, one of
+which is a sub-chapter of the other. A single-scope fixture MUST NOT be
+accepted as coverage, and the paired proof MUST demonstrate that a
+single-scope fixture stays green under the <code>HasSuffix</code>
+mutation.</li>
+</ul>
+<p><strong>Pattern widening</strong></p>
+<ul>
+<li><strong>FR-014</strong>: Every pattern matching a chapter path MUST
+accept a dotted id. The two already widened —
+<code>_TRANSCRIPT_PATH_RE</code> at
+<code>pipeline/extract/meeting_notes.py:109</code> and
+<code>_ELIGIBLE_SOURCE</code> at
+<code>pipeline/extract/author.py:159</code> — MUST retain paired
+mutations asserting <strong>both</strong> directions: a dotted id now
+matches, <strong>and</strong> the previously-matching flat form still
+matches. A widening that quietly stopped matching
+<code>chapter-01</code> would be worse than the defect it fixed.</li>
+<li><strong>FR-015</strong>: A pattern non-match on a directory that
+exists MUST be reported. <code>continue</code> on a non-match is
+forbidden wherever the set being iterated is the set of real
+chapters.</li>
+</ul>
+<p><strong>Silent-content defects</strong></p>
+<ul>
+<li><strong>FR-016</strong>: <code>workshop/scripts/ingest.sh</code>
+MUST NOT default its transcript input to any specific chapter’s
+transcript. Omitting the transcript export while naming a chapter MUST
+<strong>refuse</strong>, naming the missing input — it MUST NOT ingest a
+different chapter’s content under the requested scope.</li>
+<li><strong>FR-017</strong>: <code>ingest.sh</code>’s chapter default
+MUST be removed or MUST be reported on every run. A default that names a
+real chapter is indistinguishable, in the output, from an explicit
+choice.</li>
+<li><strong>FR-018</strong>:
+<code>workshop/pipeline/build_transcript.py:143</code>–<code>144</code>
+MUST NOT carry frozen <code>chapter-01</code> / <code>Chapter 1</code>
+defaults.</li>
+<li><strong>FR-019</strong>:
+<code>workshop/pipeline/calibrate.sh:36</code> MUST resolve its
+recording input from a named chapter rather than from a frozen absolute
+path.</li>
+<li><strong>FR-020</strong>:
+<code>workshop/curriculum/chapter-01/knowledge/build.py</code> MUST
+derive every chapter reference from the record it is processing, as
+<code>:415</code> already does. The frozen deep links at
+<code>:363</code> and <code>:435</code> and the frozen
+<code>chapter_slug</code> literals at <code>:478</code>,
+<code>:564</code>, <code>:582</code> and <code>:592</code> MUST be
+derived the same way.</li>
+<li><strong>FR-021</strong>: The suggest source manifest MUST NOT
+hardcode a chapter directory. The six <code>chapter-01/...</code> rows
+at <code>suggest-sources.json:10,34,57,77,101,125</code> MUST be
+replaced by a derivation over the chapters that exist, so that a new
+chapter reaches <code>/api/suggest</code> without a rebuild of an
+embedded file.</li>
+</ul>
+<p><strong>Visible-label defects</strong></p>
+<ul>
+<li><strong>FR-022</strong>: <code>ordinalOf</code> MUST NOT return a
+value that collides between a parent and its child. Its replacement MUST
+be an ordered path, and the resolution of the <code>ordinal</code> type
+question above governs what that path is called on the wire.</li>
+<li><strong>FR-023</strong>: <code>chapterTitle</code> MUST NOT render
+two distinct chapters with the same title.</li>
+<li><strong>FR-024</strong>: <code>derivation.ordinal</code> MUST be
+rewritten when the derivation is, and MUST continue to describe what the
+code actually does. It is the endpoint’s honesty mechanism and it
+currently works; it MUST NOT be left describing a derivation that has
+been replaced.</li>
+<li><strong>FR-025</strong>: The front end’s two chapter shapes MUST
+produce the same <code>ordinal</code> value for the same chapter, or the
+wire format MUST make the disagreement unrepresentable.
+<code>models.ts:301</code> and <code>models.ts:357</code> currently
+yield <code>null</code> and <code>2</code> for <code>02.01</code>.</li>
+</ul>
+<p><strong>API</strong></p>
+<ul>
+<li><strong>FR-026</strong>: <strong>No new route MAY be added by this
+feature.</strong> The information is carried by the two existing chapter
+endpoints.</li>
+<li><strong>FR-027</strong>: <code>GET /api/chapters</code> MUST carry a
+<code>hierarchy</code> object on every row, and the top-level
+<code>chapters</code> value MUST remain a <strong>flat array</strong>.
+Nesting it would break <code>api.ts:88</code>, which reads it flat.</li>
+<li><strong>FR-028</strong>: <code>GET /api/chapters</code> MUST accept
+<code>under</code>, <code>depth</code> and <code>include_self</code>,
+and MUST echo the filters it applied on <strong>every</strong> response
+status, including could-not-determine. A client that cannot see which
+filters were applied cannot distinguish an empty branch from an ignored
+parameter.</li>
+<li><strong>FR-029</strong>: An <code>under</code> value naming a
+chapter that does not exist MUST return <code>200</code> with an empty
+array and <code>under_resolved: false</code>. It MUST NOT return
+<code>404</code>: the request was well-formed and the route exists.</li>
+<li><strong>FR-030</strong>: <code>GET /api/chapters/{chapter}</code>
+MUST carry a <code>hierarchy</code> object with resolvable parent and
+child hrefs, MUST replace <code>ordinal</code> with
+<code>ordinal_path</code>, MUST fix <code>title</code>, and MUST rewrite
+<code>derivation.ordinal</code>.</li>
+<li><strong>FR-031</strong>: An orphaned chapter MUST be
+<strong>served</strong>, with <code>orphaned: true</code> and the
+missing ancestor named. It MUST NOT be hidden and MUST NOT be silently
+promoted to a root.</li>
+</ul>
+<p><strong>No special-casing</strong></p>
+<ul>
+<li><strong>FR-032</strong>: There MUST be <strong>no
+sub-chapter-specific code path anywhere</strong>. A branch conditioned
+on a chapter’s depth — <code>if depth &gt; 1</code> — is a defect,
+because it means the general case was not built.</li>
+</ul>
+<p><strong>Governance</strong></p>
+<ul>
+<li><strong>FR-033</strong>: Every route touched by this feature MUST
+have its route-manifest row updated, and the manifest MUST NOT continue
+to encode <code>01</code> as the only substitutable chapter.</li>
+<li><strong>FR-034</strong>: Every gate this feature adds MUST be
+three-valued — <code>0</code> clean, <code>1</code> a real finding,
+<code>2</code> could not determine — and MUST carry a paired mutation
+proof.</li>
+<li><strong>FR-035</strong>: Every gate that needs a chapter id MUST
+take it from the live tree, as
+<code>verify-absence-honesty.sh:127</code>–<code>134</code> already
+does, rather than hardcoding one.</li>
+</ul>
+<h3 id="key-entities">Key Entities</h3>
+<ul>
+<li><strong>Chapter</strong>: unchanged in kind, changed in identity.
+Its identifier becomes the dotted numeric path, which is simultaneously
+its directory name, its URL segment, its registry scope, its
+<code>chapter_slug</code> and its <code>chapter-</code> suffix. It gains
+no stored field.</li>
+<li><strong>Chapter Hierarchy</strong>: <strong>not an entity</strong> —
+a derived view. <code>parent_id</code>, <code>depth</code>,
+<code>ancestor_ids</code>, <code>child_ids</code> and
+<code>ordinal_path</code> are computed from the identifier string on
+demand. It is named here only because the API returns it and a thing the
+API returns needs a defined shape.</li>
+<li><strong>Passage</strong>: unchanged. Its <code>scope</code> field
+already holds a chapter id and already holds it as an opaque string;
+this feature changes what strings appear there, not the field.</li>
+</ul>
+<h2 id="success-criteria-mandatory">Success Criteria
+<em>(mandatory)</em></h2>
+<h3 id="measurable-outcomes">Measurable Outcomes</h3>
+<p>Every criterion names the method that measures it, and every
+criterion guarding a silent failure names the mutation that must turn it
+red.</p>
+<p><strong>Identity and ordering</strong></p>
+<ul>
+<li><strong>SC-001</strong>: 100% of chapter directories are either
+accepted by the grammar or reported <code>unclassified</code> with a
+reason. <strong>Measured by</strong>: enumerating
+<code>chapters/</code>, partitioning into accepted and reported, and
+asserting the two counts sum to the directory count. Paired mutation:
+make the enumerator <code>continue</code> on a non-match — the check
+must go red.</li>
+<li><strong>SC-002</strong>: The validator rejects <code>02.2</code>,
+<code>2</code>, <code>2.1</code>, <code>02.</code>, <code>.01</code> and
+the empty string, and accepts <code>01</code>, <code>02</code>,
+<code>02.01</code>, <code>02.01.01</code> and <code>100</code>.
+<strong>Measured by</strong>: a table-driven test over exactly those
+inputs. Paired mutation: relax the grammar to <code>[0-9]+</code> — the
+rejections must fail.</li>
+<li><strong>SC-003</strong>: API order, glob order and filesystem byte
+order are <strong>identical</strong> over a fixture tree holding
+<code>01 02 02.01 02.01.01 02.09 02.10 03 10</code>. <strong>Measured
+by</strong>: capturing all three and comparing them element by element;
+any difference fails. Paired mutation: sort by <code>ordinal_path</code>
+numerically instead of by the id string — the check must go red on
+<code>02.09</code> versus <code>02.10</code>.</li>
+<li><strong>SC-004</strong>: A parent sorts immediately before its first
+child in 100% of parent/child pairs present. <strong>Measured
+by</strong>: for each parent, asserting the next element in the ordering
+is its first child whenever it has one.</li>
+</ul>
+<p><strong>No silent loss</strong></p>
+<ul>
+<li><strong>SC-005</strong>: Every pipeline stage that enumerates
+chapters names every chapter directory in its output — as processed or
+as skipped-with-reason. <strong>Measured by</strong>: running each stage
+against a fixture tree containing one sub-chapter and one deliberately
+malformed directory, then asserting both names appear in the output.
+Paired mutation: restore <code>continue</code> on non-match in one stage
+— the check must go red.</li>
+<li><strong>SC-006</strong>: Both widened patterns match both forms.
+<strong>Measured by</strong>: asserting <code>_TRANSCRIPT_PATH_RE</code>
+and <code>_ELIGIBLE_SOURCE</code> each match a <code>chapter-01</code>
+path <strong>and</strong> a <code>chapter-02.01</code> path. Paired
+mutations, both required: (a) revert to <code>chapter-\d+</code> — the
+dotted assertion must fail; (b) change to <code>chapter-\d+\.\d+</code>
+— the flat assertion must fail.</li>
+<li><strong>SC-007</strong>: Ingestion never ingests one chapter’s
+transcript under another chapter’s scope. <strong>Measured by</strong>:
+invoking <code>ingest.sh</code> with a chapter and no transcript export
+and asserting a non-zero exit naming the missing input, with
+<strong>zero</strong> records written. Paired mutation: restore the
+<code>full_ch01</code> default — the check must go red.</li>
+</ul>
+<p><strong>Scope comparison</strong></p>
+<ul>
+<li><strong>SC-008</strong>: The redaction reviewer’s coverage for
+chapter <code>01</code> excludes <code>02.01</code>’s artifacts.
+<strong>Measured by</strong>: a <strong>two-scope</strong> fixture
+registry, asserting the covered artifact set equals the <code>01</code>
+set exactly. Paired mutation: restore <code>strings.HasSuffix</code> —
+the check must go red.</li>
+<li><strong>SC-009</strong>: A <strong>one-scope</strong> fixture is
+proven insufficient. <strong>Measured by</strong>: running the same
+<code>HasSuffix</code> mutation against a single-scope fixture and
+asserting the test <strong>stays green</strong>. This criterion measures
+the test’s own blindness, and it is the reason SC-008 is specified with
+a fixture shape rather than only an assertion.</li>
+<li><strong>SC-010</strong>: 0 chapter-scope comparisons in the tree use
+<code>HasSuffix</code>, <code>HasPrefix</code> or <code>Contains</code>.
+<strong>Measured by</strong>: a gate that enumerates comparisons against
+a chapter-scope value and asserts the operator is equality. Paired
+mutation: introduce one — the check must go red.</li>
+</ul>
+<p><strong>Derivation</strong></p>
+<ul>
+<li><strong>SC-011</strong>: 0 hierarchy fields are stored.
+<strong>Measured by</strong>: inspecting the registry schema, the
+derived database and every serialised artifact for a persisted
+<code>parent_id</code>, depth or child list; the count must be 0. Paired
+mutation: persist one — the check must go red.</li>
+<li><strong>SC-012</strong>: For 100% of chapters, every derived field
+recomputes identically from the identifier alone. <strong>Measured
+by</strong>: recomputing the whole hierarchy from the id list with no
+filesystem access and comparing to what the API returns.</li>
+<li><strong>SC-013</strong>: <code>ordinalOf</code> produces no
+collision. <strong>Measured by</strong>: computing the ordinal
+representation for every chapter present plus a synthetic set of at
+least eight ids and asserting the values are pairwise distinct. Paired
+mutation: restore leading-digit parsing — the check must go red on the
+<code>02</code> / <code>02.01</code> pair.</li>
+<li><strong>SC-014</strong>: The front end’s two chapter shapes agree.
+<strong>Measured by</strong>: constructing both from the same payload
+for every chapter present and asserting field-by-field equality of the
+ordinal representation. Paired mutation: restore the
+<code>/^\d+$/</code> test in the minimal shape — the check must go red
+on <code>02.01</code>.</li>
+</ul>
+<p><strong>API</strong></p>
+<ul>
+<li><strong>SC-015</strong>: 0 new routes are added. <strong>Measured
+by</strong>: diffing the route manifest’s route set before and after;
+the added-route count must be 0.</li>
+<li><strong>SC-016</strong>: The <code>chapters</code> value is a flat
+array in 100% of responses. <strong>Measured by</strong>: asserting the
+JSON type and asserting no element carries a nested chapter array.</li>
+<li><strong>SC-017</strong>: The <code>filters</code> echo is present on
+<strong>every</strong> status, including could-not-determine.
+<strong>Measured by</strong>: driving the endpoint into each of its
+states with filters set and asserting the echo in each. Paired mutation:
+omit the echo on the unavailable path — the check must go red. This is
+the criterion that keeps a degraded backend from looking like an empty
+branch.</li>
+<li><strong>SC-018</strong>: An unknown <code>under</code> returns
+<code>200</code> with <code>under_resolved: false</code>, never
+<code>404</code>. <strong>Measured by</strong>: probing with a chapter
+id that does not exist and asserting the status and the field.</li>
+<li><strong>SC-019</strong>: An orphaned sub-chapter is served with
+<code>orphaned: true</code> and names its missing ancestor.
+<strong>Measured by</strong>: a fixture tree with the parent removed.
+Paired mutation: filter orphans out of the list — the check must go
+red.</li>
+</ul>
+<p><strong>No special-casing</strong></p>
+<ul>
+<li><strong>SC-020</strong>: 0 code paths branch on chapter depth.
+<strong>Measured by</strong>: a gate that searches the backend, front
+end and pipeline for a conditional on a depth or level value derived
+from a chapter id, and asserts none exists. Any hit is reported with its
+location rather than counted.</li>
+<li><strong>SC-021</strong>: The maximum depth present is
+<strong>measured and published</strong>, and no depth limit is asserted
+anywhere. <strong>Measured by</strong>: computing the maximum over the
+chapters present and asserting no constant bounding depth exists in the
+codebase.</li>
+</ul>
+<p><strong>Backward compatibility</strong></p>
+<ul>
+<li><strong>SC-022</strong>: <code>01</code> is valid under the grammar
+and its ordinal representation is unchanged in value for every chapter
+that exists today. <strong>Measured by</strong>: computing the
+representation for every present chapter before and after and asserting
+equality. This is the criterion that makes the change non-breaking for
+the corpus as it stands.</li>
+<li><strong>SC-023</strong>: Every deep link that resolves today still
+resolves after the change. <strong>Measured by</strong>: enumerating the
+deep links in the built artifacts, resolving each before and after, and
+comparing the outcome sets.</li>
+</ul>
+<p><strong>Governance</strong></p>
+<ul>
+<li><strong>SC-024</strong>: 100% of gates added by this feature are
+three-valued and carry a paired mutation. <strong>Measured by</strong>:
+driving each into a could-not-determine condition and observing exit
+<code>2</code>, then running its prover.</li>
+<li><strong>SC-025</strong>: 0 gates hardcode a chapter id.
+<strong>Measured by</strong>: a check over the gate scripts asserting
+each obtains its chapter from the live tree or from an argument.</li>
+</ul>
+<h2 id="assumptions">Assumptions</h2>
+<ul>
+<li><strong>The dotted id is a path, not a decimal.</strong>
+<code>02.10</code> sorts after <code>02.09</code> because both are
+zero-padded strings compared byte by byte, not because
+<code>.10 &gt; .09</code> numerically. Reading the id as a decimal is
+the single most likely misreading and it produces the wrong order at
+exactly ten children.</li>
+<li><strong>Zero-padding is two digits minimum, and more is
+allowed.</strong> <code>^[0-9]{2,}</code> accepts <code>100</code>. A
+hundred-chapter corpus is not planned; a grammar that forbids it for no
+reason is a limit asserted rather than measured.</li>
+<li><strong>The four already-correct layers stay correct by accident of
+good design, and are now asserted.</strong> <code>SafeSlug</code>,
+<code>ChapterDir</code>, the route wildcard and
+<code>encodeURIComponent</code> all handle <code>.</code> today. Each is
+one small edit away from not doing so, so each acquires an assertion
+rather than a comment.</li>
+<li><strong><code>02</code> may legitimately have no material of its
+own.</strong> A parent is a container as well as a chapter. Zero
+passages under <code>02</code> is a measurement to publish, not an error
+to raise.</li>
+<li><strong>The corpus grows; the identity does not change.</strong>
+<code>02</code> and <code>02.01</code> are archived and archived and not
+ingested today. Ingesting them is separate work that this feature makes
+<em>possible</em>; this feature is complete when a sub-chapter can go
+through the pipeline unchanged, not when a particular sub-chapter
+has.</li>
+<li><strong>No renumbering, ever.</strong> Existing chapter ids are
+immutable. Any option that renumbers <code>01</code> is rejected on that
+ground alone, because every deep link, every registry scope and every
+archived artifact resolves through it.</li>
+<li><strong>Governance is binding.</strong> Three-valued checks, paired
+mutation proofs, no server-side CI, the content boundary in both
+directions, and the continuation document updated alongside non-trivial
+changes.</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li><strong>The resolution of the <code>ordinal</code> type question and
+the path-key contradiction</strong> (Clarifications above). Both are
+recorded in feature 001’s artifacts, both must be amended explicitly,
+and this feature’s wire format depends on which way each goes. Nothing
+downstream of Phase 0 is implementable until they are settled.</li>
+<li><strong>The existing passage registry and its <code>scope</code>
+field</strong>, which already stores a chapter id as an opaque string
+and needs no change to hold a dotted one.</li>
+<li><strong>The existing identity library</strong>, consumed from
+<code>submodules/passage</code>. Chapter ids are <strong>not</strong>
+minted identifiers and this feature does not make them one — see
+Resolved Decisions D3.</li>
+<li><strong>The route manifest and the server-unity verifier</strong>,
+which must be updated in the same change as any endpoint behaviour, and
+whose <code>#subst {chapter} 01</code> line is itself a chapter-01
+assumption.</li>
+<li><strong>Feature 002’s knowledge layer</strong>, which consumes
+<code>chapter_slug</code> and derives deep links. Its own builder is one
+of the artifacts listed under FR-020.</li>
+</ul>
+<h2 id="out-of-scope">Out of Scope</h2>
+<ul>
+<li><strong>Ingesting chapters <code>02</code> and
+<code>02.01</code>.</strong> They are archived and verified; running
+them through the pipeline is the work this feature enables and is not
+this feature.</li>
+<li><strong>Any new endpoint.</strong> FR-026 states it as a requirement
+rather than an exclusion, and it is repeated here because “add
+<code>/api/chapters/{chapter}/children</code>” is the obvious first
+idea.</li>
+<li><strong>A nested chapter tree on the wire.</strong> The array stays
+flat; nesting is a client concern and a breaking change.</li>
+<li><strong>A depth limit.</strong> Measured and published, never
+asserted.</li>
+<li><strong>Renaming or renumbering any existing chapter.</strong></li>
+<li><strong>Re-recording, re-transcribing or editing source
+material.</strong></li>
+<li><strong>A hierarchy for anything other than chapters.</strong>
+Knowledge areas are flat by feature 002’s own decision and nothing here
+changes that.</li>
+</ul>
+<h2 id="resolved-decisions">Resolved Decisions</h2>
+<p>Questions settled here rather than left open, each recording what was
+chosen, why it is the safe choice, and what would reopen it.</p>
+<h3 id="d1-the-canonical-id-is-the-dotted-zero-padded-numeric-path">D1 —
+The canonical id is the dotted, zero-padded numeric path</h3>
+<p><em>The question</em>: how is a sub-chapter identified?</p>
+<p><em>Decision</em>: <code>^[0-9]{2,}(\.[0-9]{2,})*$</code>. One
+string, five roles — directory name, URL segment, registry
+<code>scope</code>, <code>chapter_slug</code>, and the suffix of
+<code>chapter-&lt;id&gt;</code> — with <strong>no translation at any
+boundary</strong>.</p>
+<p><em>Why this is the safe choice</em>: it is the form the tree already
+uses (<code>chapters/02.01</code> exists), and <strong>four of the five
+layers it has to survive already survive it</strong>, measured rather
+than assumed: <code>SafeSlug</code> permits <code>.</code>
+(<code>curriculum.go:205</code>, <code>:209</code>),
+<code>ChapterDir</code> already resolves <code>chapter-02.01</code>
+(<code>:187</code>), Go’s <code>{chapter}</code> wildcard is
+single-segment with no dot delimiter, and
+<code>encodeURIComponent</code> leaves <code>.</code> unescaped. The
+fifth — the search catalogue’s leak detector — was checked and does not
+misclassify <code>.01</code>, because its extension list is closed and
+holds no numeric-only entry
+(<code>catalog.go:320</code>–<code>354</code>). A scheme requiring
+<strong>zero</strong> changes to the identity, routing and filesystem
+layers is not merely convenient; it is the one with the smallest surface
+on which a silent defect can appear.</p>
+<p><em>What would reopen it</em>: a requirement for a non-numeric
+chapter id, which would break the ordering guarantee in D2 and would
+need a different one.</p>
+<h3
+id="d2-ordering-is-byte-lexicographic-on-the-id-and-that-is-a-consequence-not-a-rule">D2
+— Ordering is byte-lexicographic on the id, and that is a consequence,
+not a rule</h3>
+<p><em>The question</em>: how do chapters sort, and where does a child
+go relative to its parent?</p>
+<p><em>Decision</em>: <strong>byte-lexicographic on the identifier
+string</strong>. Given zero-padding, this produces
+<code>01 02 02.01 02.01.01 02.09 02.10 03 10</code> — verified by
+running it, not reasoned about. A parent sorts immediately before its
+first child because <code>.</code> is <strong>0x2E</strong> and the
+digits <code>0</code>–<code>9</code> are
+<strong>0x30</strong>–<strong>0x39</strong>, so the child’s
+<code>.</code> beats any sibling’s next character.</p>
+<p><em>Why this is the safe choice</em>: the comparator that implements
+it <strong>already exists and is already correct</strong>
+(<code>main.go:2126</code>), so the safest action on the sorting code is
+to change nothing. What is missing is the <em>guarantee</em>: nothing
+today asserts that the three orders — API, glob, filesystem — agree, and
+nothing stops a future rewrite from “improving” the comparator into a
+numeric one that puts <code>02.10</code> before <code>02.09</code>. The
+gate goes on the ordering; the code stays.</p>
+<p><em>The load-bearing consequence</em>: <strong>the validator is what
+needs the gate, not the sort.</strong> The order is correct <em>only
+because every component is zero-padded</em>. <code>02.2</code> would
+sort after <code>02.10</code> and be wrong in a way no sorting test with
+well-formed input can see. The grammar is therefore the mechanism that
+makes the ordering true, and rejecting <code>02.2</code> is the
+assertion that carries it.</p>
+<p><em>What would reopen it</em>: variable-width components, which would
+force a parsed comparator and give up the property that filesystem order
+and API order are the same order by construction.</p>
+<h3 id="d3-hierarchy-is-derived-never-stored">D3 — Hierarchy is derived,
+never stored</h3>
+<p><em>The question</em>: store <code>parent_id</code> on each chapter,
+or derive it from the id?</p>
+<p><em>Decision</em>: <strong>derive everything</strong> —
+<code>parent_id</code>, <code>depth</code>, <code>ancestor_ids</code>,
+<code>child_ids</code>, <code>ordinal_path</code> — by string operation
+on the identifier. Nothing is persisted.</p>
+<p><em>Why this is the safe choice</em>: a stored <code>parent_id</code>
+is a <strong>second source of truth about structure</strong>, and the
+two can disagree. A chapter whose id says <code>02.01</code> and whose
+stored parent says <code>03</code> is not a detectable error state — it
+is two facts, both readable, both plausible, with no symptom until
+something navigates. Derivation makes the disagreement unrepresentable.
+This is the same reasoning feature 002 applied when it refused stored
+reverse edges, and the same reasoning feature 001 applied when it kept
+chapter sections derived.</p>
+<p><em>The cost, stated</em>: the id becomes structurally meaningful, so
+a chapter cannot be re-parented without being renamed. That is accepted:
+re-parenting a chapter changes what it <em>is</em>, and a rename is a
+visible operation where a stored-field edit is not.</p>
+<p><em>What would reopen it</em>: a requirement to re-parent chapters
+without renaming them.</p>
+<h3 id="d4-the-identity-schemes-two-rejected-alternatives">D4 — The
+identity scheme’s two rejected alternatives</h3>
+<p><em>The question</em>: two other schemes were considered and both are
+recorded, because each looks better than it is.</p>
+<p><em>Rejected — <code>chapters/02/01</code> as path segments.</em> It
+reads more naturally as a hierarchy. It requires <code>/</code> inside
+the chapter slug, and <code>SafeSlug</code>
+(<code>curriculum.go:209</code>) exists <strong>precisely to reject
+<code>/</code></strong> — it is a path-traversal boundary, and weakening
+it to accommodate a naming preference trades a security property for
+aesthetics. It also breaks the route wildcard: Go’s
+<code>{chapter}</code> matches a single segment, so
+<code>GET /api/chapters/02/01</code> would not match the registered
+pattern at all.</p>
+<p><em>Rejected — a flat id with a stored <code>parent_id</code>.</em>
+It is the conventional relational answer and it creates exactly the
+second source of truth D3 exists to prevent. It also loses the ordering
+property: with an opaque flat id, sort order has to be reconstructed by
+walking the parent links, and filesystem order stops matching API order
+by construction rather than agreeing with it.</p>
+<p><em>What would reopen either</em>: nothing currently foreseen. Both
+are recorded so that the next reader does not re-propose them as
+improvements.</p>
+<h3 id="d5-no-new-routes-and-the-array-stays-flat">D5 — No new routes,
+and the array stays flat</h3>
+<p><em>The question</em>: hierarchy has to reach the client. A new
+endpoint, a nested array, or fields on the existing rows?</p>
+<p><em>Decision</em>: <strong>fields on the existing rows</strong>, plus
+three query parameters. <code>GET /api/chapters</code> gains a
+<code>hierarchy</code> object per row;
+<code>GET /api/chapters/{chapter}</code> gains one with parent and child
+hrefs. The top-level array stays flat.</p>
+<p><em>Why this is the safe choice</em>: nesting the array is a breaking
+change to a live consumer — <code>api.ts:88</code> reads
+<code>body['chapters']</code> as a flat array — and it would force every
+client to walk a tree to find a chapter it can currently index. A new
+route is not free either: the route manifest, the contract section, the
+server-unity verifier row and a negative assertion all follow it, and
+the information is fully derivable from data the endpoint already
+returns.</p>
+<p><em>The one shape that follows from it</em>: an unknown
+<code>under</code> value must be <code>200</code> with
+<code>under_resolved: false</code>, because the route exists and the
+request was well-formed. A <code>404</code> there would say <em>“no such
+endpoint”</em> about a request whose real answer is <em>“no such
+branch”</em> — the same conflation between <em>absent</em> and
+<em>not-found</em> that the platform’s four-outcome resolver exists to
+prevent.</p>
+<p><em>What would reopen it</em>: a client requirement that cannot be
+met by a flat array plus derived ancestry, which has not been
+demonstrated.</p>
+</body>
+</html>

@@ -459,7 +459,7 @@ bash tests/test_constitution_inheritance.sh
 Real output, this checkout:
 
 ```
-CM-CONSTITUTION-INHERITANCE: checking /run/media/milosvasic/DATA4TB/Projects/vasic
+CM-CONSTITUTION-INHERITANCE: checking <ext-volume-host>/Projects/vasic
 ✅ PASS  I7 PREDICATE-NOT-BLIND — pointer_carrier.sh --selftest: pointer_carrier.sh selftest: PASS (5/5)
 ✅ PASS  I1 SUBMODULE-PRESENT — canonical root complete at submodules/constitution/ (§11.4.35)
 ✅ PASS  I2 PINNED-REVISION — submodules/constitution HEAD == pinned gitlink 448981ae3498229c734dc60719f4b19f01d7a75f
@@ -469,7 +469,7 @@ CM-CONSTITUTION-INHERITANCE: checking /run/media/milosvasic/DATA4TB/Projects/vas
 ✅ PASS  I6 ANCHOR-PRESENT — '### §11.4 End-user quality guarantee' present in the inherited corpus
 ✅ PASS  I8 PROPAGATION-GATES — 17/17 cm_covenant_114_*_propagation gates PASS on the root carriers
 ----------------------------------------------------------------------
-CM-CONSTITUTION-INHERITANCE: 8 PASS, 0 SKIP, 0 FAIL  (root /run/media/milosvasic/DATA4TB/Projects/vasic)
+CM-CONSTITUTION-INHERITANCE: 8 PASS, 0 SKIP, 0 FAIL  (root <ext-volume-host>/Projects/vasic)
 ✅ CM-CONSTITUTION-INHERITANCE: PASS — constitution inheritance is wired
 ```
 
@@ -568,8 +568,8 @@ checkout, constitution HEAD `448981ae3498229c734dc60719f4b19f01d7a75f`:
 ======================================================================
 §11.4.32 VALIDATION SWEEP — verify-all-constitution-rules.sh
 ======================================================================
-project root        : /run/media/milosvasic/DATA4TB/Projects/vasic
-constitution        : /run/media/milosvasic/DATA4TB/Projects/vasic/submodules/constitution
+project root        : <ext-volume-host>/Projects/vasic
+constitution        : <ext-volume-host>/Projects/vasic/submodules/constitution
 constitution HEAD   : 448981ae3498229c734dc60719f4b19f01d7a75f
 gates discovered    : 57 (dynamically, under scripts/gates/**)
 per-gate timeout    : 900s
@@ -585,10 +585,10 @@ per-gate timeout    : 900s
 PASS   rc=0       656ms  cm_build_on_source_proven_not_test_side_mutation_test.sh    (gate defaults)
 PASS   rc=0        11ms  cm_build_on_source_proven_not_test_side.sh                  (gate defaults)
 PASS   rc=0     56079ms  cm_cli_agent_plugins_wired_mutation_test.sh                 (gate defaults)
-PASS   rc=0     12255ms  cm_cli_agent_plugins_wired.sh                               --root /run/media/milosvasic/DATA4TB/Projects/vasic/submodules/constitution --quiet
+PASS   rc=0     12255ms  cm_cli_agent_plugins_wired.sh                               --root <ext-volume-host>/Projects/vasic/submodules/constitution --quiet
 PASS   rc=0       526ms  cm_continuum_resume_engine_present_mutation_test.sh         (gate defaults)
-FAIL   rc=1      1228ms  cm_continuum_resume_engine_present.sh                       --root /run/media/milosvasic/DATA4TB/Projects/vasic/submodules/constitution --quiet
-FAIL   rc=1       519ms  cm_covenant_114_162_propagation.sh                          --root /run/media/milosvasic/DATA4TB/Projects/vasic --quiet
+FAIL   rc=1      1228ms  cm_continuum_resume_engine_present.sh                       --root <ext-volume-host>/Projects/vasic/submodules/constitution --quiet
+FAIL   rc=1       519ms  cm_covenant_114_162_propagation.sh                          --root <ext-volume-host>/Projects/vasic --quiet
 
                         […] 48 further gate lines elided for length […]
 
@@ -637,7 +637,7 @@ FAILED:
 DETAIL — full output of every non-PASS gate
 ======================================================================
 ===== cm_continuum_resume_engine_present.sh  [FAIL rc=1]
-      argv: --root /run/media/milosvasic/DATA4TB/Projects/vasic/submodules/constitution --quiet
+      argv: --root <ext-volume-host>/Projects/vasic/submodules/constitution --quiet
 ❌ FOUND    project-specific literal(s) inside the engine (decoupling violation):
             submodules/continuum/test/e2e/e2e_test.go
 ----------------------------------------------------------------------

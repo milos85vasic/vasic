@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>analysis</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">analysis</h1>
+</header>
+<h1
+id="cross-artifact-analysis-workshop-curriculum-platform">Cross-Artifact
+Analysis — Workshop Curriculum Platform</h1>
+<p><strong>Feature</strong>:
+<code>specs/001-workshop-curriculum-platform</code> |
+<strong>Date</strong>: 2026-09-01 <strong>Scope</strong>: spec, plan,
+research (×4), data-model, contracts (×3), quickstart, tasks, checklist,
+project constitution — 8,433 lines.</p>
+<h2 id="severity-counts">Severity counts</h2>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CRITICAL</td>
+<td><strong>4</strong></td>
+</tr>
+<tr>
+<td>HIGH</td>
+<td>17</td>
+</tr>
+<tr>
+<td>MEDIUM</td>
+<td>22</td>
+</tr>
+<tr>
+<td>LOW</td>
+<td>6</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>49</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="coverage-headline">Coverage headline</h2>
+<ul>
+<li><strong>FRs with no covering task (2)</strong>: FR-006, FR-039</li>
+<li><strong>FRs partially covered (7)</strong>: FR-005, FR-011, FR-012,
+FR-016, FR-017, FR-018, FR-029</li>
+<li><strong>SCs with no executing task (3)</strong>: SC-007, SC-008,
+SC-016a</li>
+<li><strong>SC partially validated (1)</strong>: SC-018</li>
+<li><strong>Scope creep: 0.</strong> Four tasks trace to a
+decision/anchor rather than an FR (T003, T026, T039, T074) — all
+justified.</li>
+<li><code>tasks.md</code>’s own count is correct by enumeration:
+7+9+16+10+14+14+6+15 = <strong>91</strong>.</li>
+</ul>
+<p><strong>Tree facts measured during analysis</strong> (not read off a
+document): <code>.gitmodules</code> declares <strong>9</strong>
+submodules including a populated <code>submodules/containers</code>;
+<code>workshop/</code> carries all four carriers;
+<code>workshop/chapters/01/</code> holds 36 parts; the reference control
+plane is <code>ai_interviewing/platform/scripts/</code>, not
+<code>ai_interviewing/scripts/</code>; <code>workshop/docs/</code>
+already exists.</p>
+<hr />
+<h2 id="critical">CRITICAL</h2>
+<h3
+id="c1-container-orchestration-two-incompatible-architectures-on-a-claim-the-tree-disproves">C1
+— Container orchestration: two incompatible architectures on a claim the
+tree disproves</h3>
+<p><code>plan.md:73</code> and <code>tasks.md:123,145</code> assume
+<code>submodules/containers</code> exists and is consumed. But
+<code>research.md:281</code>, <code>contracts/pipeline-cli.md:809</code>
+and <code>quickstart.md:992</code> all still state it is <strong>“not a
+submodule of this tree”</strong> — false as of this feature’s own work,
+never withdrawn (the constitution requires an explicit withdrawal, not a
+silent replacement).</p>
+<p>Worse, the two are architecturally incompatible:
+<code>pipeline-cli.md</code> §4.8 specifies <strong>native</strong>
+launch (“run the built binary natively, as <code>ai_interviewing</code>
+does”), while T015 specifies <strong>container</strong> wrappers over
+<code>cmd/boot</code>.</p>
+<p>Third strand: <code>plan.md:96</code> records that the containers
+submodule’s own carriers were a §11.4.157(B) violation “which currently
+blocks the pre-push hook”, and no task clears it. <em>(Resolved
+2026-09-01 upstream at <code>4dab992</code>; the plan text is now stale
+in the other direction.)</em></p>
+<p><strong>Resolution</strong>: one operator decision (native vs
+containerised), then withdraw the stale claim in all three documents and
+align <code>pipeline-cli.md</code> §4.8 with T015 or the reverse.</p>
+<h3 id="c2-fr-039-redaction-is-a-must-with-zero-tasks">C2 — FR-039
+(redaction) is a MUST with zero tasks</h3>
+<p><code>spec.md:219</code> requires a documented redaction step that
+MUST have run before any export or publication. It exists because the
+Chapter 1 recording features an identifiable third party.</p>
+<p>It is <strong>fully contracted</strong>: <code>pipeline-cli.md</code>
+§4.6 (<code>redact.sh</code>) and §4.7 B5 (publish precondition);
+<code>passage-contract.md</code> §4.3 (<code>redactions</code> table),
+§7.3 rules R1–R7, gate G-PID-5; <code>http-api.md</code> §3.8
+(<code>410 Gone</code>), §3.9 (<code>redacted_omitted</code>), §3.10
+A4.</p>
+<p><strong><code>tasks.md</code> has no redaction task.</strong>
+“redact” appears once (T064) as a <em>fixture kind</em>. Consequentially
+T071 describes add-chapter as “transcribe → ingest → index → cross-link”
+against <code>pipeline-cli.md:559</code>’s nine stages — dropping
+<strong>preflight, verify-accuracy and redaction-review</strong>, the
+last of which gates publication.</p>
+<h3 id="c3-sc-016a-has-no-implementing-and-no-validating-task">C3 —
+SC-016a has no implementing and no validating task</h3>
+<p><code>spec.md:258</code> requires code-passage identity keyed on
+symbol path with a rename alias table, such that 100% of stale code
+references <strong>fail loudly</strong>. Contracted at
+<code>passage-contract.md</code> §6.2–6.5, §4.3
+(<code>symbol_aliases</code> DDL), §8 rule R4, gate G-PID-4.</p>
+<p>T011 proves only G-PID-1/G-PID-2 (the two SC-016 survival
+guarantees). <code>symbol_aliases</code>, R4 and G-PID-4 appear in no
+task. SC-016a’s only mention is T081 — which <em>documents</em> a
+guarantee nothing implements.</p>
+<p>Compounded by <code>passage-contract.md:631</code> (P-U1): “Lumen
+exposes no symbol table through its CLI or MCP surface … the matching
+key has no confirmed producer” — in no task and no register.</p>
+<h3 id="c4-the-answer-contract-is-forked">C4 — The Answer contract is
+forked</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th><code>data-model.md:144</code></th>
+<th><code>http-api.md:824</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>field</td>
+<td><code>verdict</code></td>
+<td><code>status</code></td>
+</tr>
+<tr>
+<td>refusal member</td>
+<td><code>refused</code></td>
+<td><code>declined</code></td>
+</tr>
+<tr>
+<td>reason field</td>
+<td><code>refusal_reason</code></td>
+<td><code>reason</code></td>
+</tr>
+<tr>
+<td>reason members</td>
+<td><code>below_threshold, margin_too_small, unsupported, no_provider</code></td>
+<td><code>below_threshold, margin_too_small, unsupported, no_citations, redacted_evidence</code></td>
+</tr>
+</tbody>
+</table>
+<p>Four incompatibilities — and <code>data-model.md</code> files
+<code>no_provider</code> (an <em>unavailable</em> cause) as a
+<strong>refusal</strong> reason, conflating exactly the two states
+<code>http-api.md:847</code> A7 declares distinct.
+<code>plan.md:247</code> marks refusal and citation the two highest-risk
+<code>[TDD]</code> components, so tests land first against one of two
+shapes. T057–T068 cite <code>http-api.md</code> and never
+<code>data-model.md</code>.</p>
+<hr />
+<h2 id="high-17-abbreviated">HIGH (17, abbreviated)</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Finding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H1</td>
+<td><code>plan.md</code> contradicts itself three times: Phase 0 “IN
+PROGRESS”/Phase 1 “NOT STARTED” vs a post-Phase-1 re-check and 91 tasks;
+carriers “present and committed” vs “absent today”;
+<code>[REVIEW] Container definitions</code> vs “NO containers/ dir —
+deliberately NOT created”.</td>
+</tr>
+<tr>
+<td>H2</td>
+<td>SC-002 says “random sample of ≥30 <strong>passages</strong>”;
+research D-TRANS-3 samples <strong>audio-timeline windows</strong> (to
+remove deletion bias) — a reinterpretation repeated in four documents
+while <code>tasks.md:26</code> claims values are “copied verbatim from
+spec.md”. “random” vs “seeded, stratified” are also different designs.
+The criterion was never amended.</td>
+</tr>
+<tr>
+<td>H3</td>
+<td>FR-016 requires indexing “the recordings themselves”; Lumen’s
+allowlist is a compile-time var with no override. Satisfied by
+<em>reduction to text</em>, which is a re-reading, not compliance. No
+task indexes a recording.</td>
+</tr>
+<tr>
+<td>H4</td>
+<td><code>passage-contract.md</code> §6.6 quotes the
+<strong>pre-split</strong> SC-016 as “unqualified” and recommends a
+change already applied. <code>plan.md:244</code> shares the stale
+reading and never mentions SC-016a; <code>data-model.md</code> mentions
+neither SC-016a nor <code>symbol_aliases</code>.</td>
+</tr>
+<tr>
+<td>H5</td>
+<td>Decision ids collide: <code>research.md</code> D-LLM-1…5 and
+<code>llm-bridging.md</code> D-LLM-1…11 mean different things (research
+D-LLM-1 = provider seam; llm-bridging D-LLM-1 = no generative model
+exists). T069 cites D-LLM-10 in the llm-bridging sense — valid but
+unresolvable from <code>research.md</code>, which
+<code>tasks.md:27</code> names as its source.
+<code>D-SEARCH-*</code>/<code>D-TRANS-*</code> exist only in
+<code>research.md</code>.</td>
+</tr>
+<tr>
+<td>H6</td>
+<td>Control plane specified at two paths with two script sets.
+<code>pipeline-cli.md:125</code> names six scripts and justifies via
+<code>ai_interviewing</code>’s <code>scripts/</code> — but the real
+reference is <code>ai_interviewing/platform/scripts/</code>. T015
+creates 3 of 6; missing are <code>restart.sh</code>,
+<code>build.sh</code> and <strong><code>verify.sh</code></strong> — the
+aggregation point that runs every gate and implements SC-012/SC-013
+precedence. Seven of eight contracted pipeline wrappers are
+untasked.</td>
+</tr>
+<tr>
+<td>H7</td>
+<td>T053 <strong>builds</strong> the SC-007/SC-008 benchmark; <strong>no
+task runs it</strong>. Compare T064/T065, which do it correctly.
+<code>quickstart.md:620</code> specifies the missing
+<code>bench-retrieval.sh</code>. Both criteria are also
+<code>BLOCKED: U5</code>, stated flatly in Global Constraints with no
+caveat.</td>
+</tr>
+<tr>
+<td>H8</td>
+<td>SC-006 feasibility rests on an unverified assumption.
+<code>tasks.md:29-31</code> juxtaposes “embedding 18.2–21.0 s” and
+“results ≤2 s p95” without reconciliation.
+<code>search-architecture.md:377</code> asserts the 2.2 s warm-up is
+“not paid per call” while its own C-3 marks that UNVERIFIED with
+counter-evidence (<code>index_status</code> cost 2.6–5.1 s on three
+consecutive calls in one warm session). No task settles U4/C-3, and the
+“reserved embedding capacity — a hard requirement” is untasked.</td>
+</tr>
+<tr>
+<td>H9</td>
+<td>Phase 3’s checkpoint cannot be met by Phase 3’s tasks: (a) the blind
+human reference (1–2 h) is contractually required and <strong>no task
+produces it</strong>, so T031 terminates at exit 2 by contract; (b) T030
+claims to settle U1, but U1 is settled by the venv install — T005,
+thirteen tasks earlier — while T018–T029 presume a working
+<code>faster-whisper</code> with no failure branch; (c) the
+<code>whisper.cpp</code> fallback is itself unverified (U9, absent from
+<code>research.md</code>).</td>
+</tr>
+<tr>
+<td>H10</td>
+<td>The project constitution asserts two facts this feature measured
+false: “ffmpeg/<strong>ffprobe</strong> 7.0.2” (a Playwright symlink
+that fails <code>-show_format</code>), and “<strong>8</strong>
+submodules are declared” (measured: 9) — against its own principle that
+“a hardcoded list silently goes stale the moment the set grows”. Root
+<code>CLAUDE.md</code>’s owned-submodule list omits both
+<code>workshop</code> and <code>containers</code>.</td>
+</tr>
+<tr>
+<td>H11</td>
+<td><code>quickstart.md</code> states two counts of its own preflight
+failures — “Three of its six checks” vs “anything other than four
+<code>1</code>s and two <code>0</code>s has not understood the host”.
+The table shows four.</td>
+</tr>
+<tr>
+<td>H12</td>
+<td>FR-006 (preserve source material unmodified) has no task, though it
+is contracted with gate G-CLI-2. <code>plan.md:158</code> asserts the
+property as already true about a pipeline that does not exist.</td>
+</tr>
+<tr>
+<td>H13</td>
+<td><code>sections[]</code> is served by the API
+(<code>http-api.md:333</code>, traced to FR-011) but modelled nowhere
+and built by no task. FR-011 is effectively untasked.</td>
+</tr>
+<tr>
+<td>H14</td>
+<td>The unverified register loses 17 of 22 entries and <strong>collides
+on two identifiers</strong>: transcription U4/U5 mean different things
+from research U4/U5. Transcription U6–U9 reach nothing downstream; two
+orphan UNVERIFIEDs sit in no register. Phase-1 contracts add
+P-U1/P-U2/P-U3 and C-U6/C-U7, all untasked — P-U2 in particular is the
+mechanism SC-016 rests on.</td>
+</tr>
+<tr>
+<td>H15</td>
+<td>T070 states the generation-latency estimates as fact, dropping the
+UNVERIFIED marker every other artifact carries — while the same task
+correctly forbids the API from publishing an estimate. The source
+contradicts itself: “engineering estimates, not measurements” vs
+“measured in tens of seconds”.</td>
+</tr>
+<tr>
+<td>H16</td>
+<td>SC-003’s “within 5 seconds” carries no statistic; downstream invents
+p95 in three places. Its feasibility rests on
+<code>transcription.md:724</code>’s “<strong>probably</strong>
+sufficient” — a hedge the governing rules forbid for causal claims — and
+U5 registers it unverified.</td>
+</tr>
+<tr>
+<td>H17</td>
+<td>SC-005’s sole evidence (FTS5 p95 9.58 ms) was measured over the
+<strong>existing monorepo’s</strong> 58,726 symbols, 92.7% of which are
+markdown headings — not curriculum passages, which do not exist. The
+architectural conclusion is robust; the <em>headroom</em> claim is not.
+Constitution: “A claim measured on one member of a set is NOT a claim
+about the set.”</td>
+</tr>
+</tbody>
+</table>
+<h2 id="medium-22-abbreviated">MEDIUM (22, abbreviated)</h2>
+<p>M1 paired-mutation inventory counted three ways (14 / “of 24” /
+actual 28), and <strong>no task cites any <code>G-*</code> id</strong> ·
+M2 evidence path forked <code>workshop/evidence/</code> vs
+<code>workshop/_evidence/</code> · M3 <code>pipeline-cli.md:796</code>
+claims “42 FRs / 18 SCs” fully covered — there are 19 SCs and the claim
+is false for SC-015 and SC-016a · M4 “five corrected premises” does not
+decompose (premise 2 is “superseded by premise 5”) · M5 “Open items
+entering Phase 1” lists three, one already resolved and still marked
+pending, and omits U3–U5 · M6 T055 proves SC-016 over citations built in
+a later phase · M7 checklist maps FR-039 to link-survival criteria · M8
+provider env var forked, and the fallback makes the mismatch
+<strong>silent</strong> · M9 quickstart corrects a <code>plan.md</code>
+statement it no longer makes · M10 six contracted endpoints untasked ·
+M11 <code>data-model.md</code> is a strict subset of the same-day
+contracts with no note that it is an abstraction · M12 SC-008’s
+denominator ambiguous · M13 SC-004’s 15-min budget has no host baseline
+while reassembly may dominate it · M14 SC-011’s “hands-on time”
+undefined · M15 US3 called independently testable but declared to need
+US2 · M16 SC-018 has a writing task but nothing asserting 100% · M17
+FR-029’s progress half untasked · M18 FR-005’s “state where it cannot”
+half untasked; <code>speaker_source</code> missing from the data model ·
+M19 T017 inherits a two-valued script and adds no classifier, so an
+unreadable part reports 1 instead of 2 · M20 tombstones have no
+resolution outcome · M21 the withdrawn “75 s” figure is restated as fact
+in <code>llm-bridging.md:657</code> · M22 <code>llm-bridging.md</code>
+defines two disjoint L1–L4 sets (grounding and privacy), so a bare “L3”
+is ambiguous.</p>
+<h2 id="low-6">LOW (6)</h2>
+<p>L1 <code>spec.md:21</code> “single word ‘Tbd.’” — measured: a heading
+plus <code>Tbd.</code> · L2 <code>workshop/docs/</code> marked NEW but
+exists; T001 must be non-destructive · L3
+<code>WORKSHOP_CHUNK_SECONDS</code> is a flat 300 among derived
+neighbours · L4 registry path globbed two ways · L5
+<code>pipeline-cli.md:702</code>’s example total matches no enumeration
+· L6 decision ordinal <code>2b</code> round-trips through no
+<code>\d+</code> scheme.</p>
+<h2 id="categories-genuinely-clean-reported-as-such">Categories
+genuinely clean — reported as such</h2>
+<ul>
+<li><strong>§11.4.156 / no CI: clean.</strong> Guarded at four
+independent points, including a gate whose mutation is “add one — must
+FAIL”. The <code>workshop</code> tree contains no
+<code>.github/</code>.</li>
+<li><strong>Every contracted gate carries a paired mutation:
+clean.</strong> All 28 name a specific mutation and require it to
+redden. The real-entry-point rule and the grep-is-not-a-test rule are
+both carried through, and a gate whose mutation fails to redden it is
+defined as vacuous → FAIL. M1 concerns <em>counting</em> the inventory,
+not any gate lacking a proof.</li>
+<li><strong>Three-valued reporting: clean by design</strong>, including
+a mechanical <code>ERR</code> trap mapping unclassified failures to 2.
+Only defect is M19, a task omission.</li>
+<li><strong>No frozen host assumptions in the design: clean.</strong>
+Only L3 remains.</li>
+<li><strong>No scope creep: clean.</strong> All 91 tasks trace to a
+requirement, decision, assumption or anchor.</li>
+</ul>
+<p><strong>Verified negatives</strong> (checked and sound): the 91-task
+count and per-phase split; T069’s <code>D-LLM-10</code> is
+<strong>not</strong> dangling; <code>plan.md</code>’s “14 proofs” is an
+accurate count of quickstart’s table; the constitution’s “8 registered
+pre-push gates” (E + 0–6); the 36-part count.</p>
+<h2 id="readiness-verdict">Readiness verdict</h2>
+<p><strong>NOT READY.</strong> Two MUST-level obligations (FR-039
+redaction, SC-016a code identity) are fully contracted and entirely
+absent from 91 tasks — building now yields a system that cannot redact
+and that silently re-points code citations, the exact failures those
+requirements exist to prevent. Container orchestration is split across
+two incompatible architectures resting on a claim the tree disproves.
+The Answer contract is forked in the two components the plan itself
+marks highest-risk.</p>
+<p><strong>Suggested order</strong>: (1) the container decision — it
+changes T003, T015, <code>pipeline-cli.md</code> §4.8 and H6; (2)
+coverage gaps C2, C3, H12, H13, M10, M16–M19 — mechanical additions
+against contracts that already specify the work; (3) contract/data-model
+reconciliation C4, H4, M11 — must land before Phase 2’s
+<code>[TDD]</code> work; (4) spec amendments H2, H3, H16, M12–M14, M7;
+(5) open-item handling H7–H9, H14 — consolidate the register, add
+settling tasks, assign the human reference; (6) consistency and count
+corrections.</p>
+<p><strong>Every CRITICAL and HIGH finding is a document reconciliation
+or a missing task — none requires rethinking the architecture.</strong>
+Two need more than editing: C1 needs an operator decision, and H9(a)
+needs the 1–2 hours of blind human transcription nobody has been
+assigned.</p>
+<h2 id="a-note-on-why-this-analysis-was-possible">A note on why this
+analysis was possible</h2>
+<p>The artifacts are unusually strong where it matters most: the
+three-valued instrument design, the measured rejection of Lumen chunk
+ids and the ULID scheme built in its place, the D-TRANS-3 deletion-bias
+argument, the egress-denied negative control, and above all the
+unverified registers. The documents repeatedly refuse to claim what they
+have not measured — <strong>including about themselves</strong>:
+<code>plan.md</code> withdraws its own <code>ffprobe</code> claim,
+<code>spec.md:145</code> withdraws the 75 s figure. That discipline is
+the only reason this analysis could find drift at all. In a set of
+documents that bluffed, none of these 49 contradictions would have been
+visible.</p>
+</body>
+</html>

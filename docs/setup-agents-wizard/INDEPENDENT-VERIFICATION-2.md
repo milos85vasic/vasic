@@ -235,11 +235,11 @@ stubs for `lumen`/`curl`/`ollama`/`journalctl`, so nothing real was indexed):
 ```console
 $ env -i PATH="$SB/bin:/usr/bin:/bin" HOME="$SB/home" LUMEN_REINDEX_LOG="$SB/reindex.log" \
       bash scripts/lumen-reindex.sh --help
-[18:06:53] === lumen-reindex: /run/media/milosvasic/DATA4TB/Projects/vasic (force=0) ===
+[18:06:53] === lumen-reindex: <ext-volume-host>/Projects/vasic (force=0) ===
 [18:06:53] === INDEX COMPLETE after 1 round(s) ===
 REAL_EXIT_CODE=0
 $ cat "$SB/INDEXED_SENTINEL"
-STUB LUMEN WAS INVOKED: index /run/media/milosvasic/DATA4TB/Projects/vasic
+STUB LUMEN WAS INVOKED: index <ext-volume-host>/Projects/vasic
 ```
 
 A `--forec`-style typo silently downgraded a rebuild to incremental — the one thing the header
@@ -801,16 +801,16 @@ defect in the thing it is testing, as R3 and R5 together demonstrate.
 
 ```console
 === BEFORE ===
-45dfceaf29b60c49da965895ee152a0ae2b4890ed18a8cfbb0940dfe2470f877  /home/milosvasic/.bashrc
-5affcade3a9c2fe707518aabd7c635be9231f7d68845be94aca5daa6ecc1849b  /home/milosvasic/.bash_profile
-ebf11baf1e6c90fccc8c630a32fd0a23d91cd190918f2f7d7e2a18918229ae7c  /home/milosvasic/.local/bin/lumen
-52caecc09cf656a1b45bbd6e17f3cf07414157a556ef4b35541646038f9f6d21  /home/milosvasic/.claude.json
+45dfceaf29b60c49da965895ee152a0ae2b4890ed18a8cfbb0940dfe2470f877  <home>/.bashrc
+5affcade3a9c2fe707518aabd7c635be9231f7d68845be94aca5daa6ecc1849b  <home>/.bash_profile
+ebf11baf1e6c90fccc8c630a32fd0a23d91cd190918f2f7d7e2a18918229ae7c  <home>/.local/bin/lumen
+52caecc09cf656a1b45bbd6e17f3cf07414157a556ef4b35541646038f9f6d21  <home>/.claude.json
 
 === AFTER ===
-45dfceaf29b60c49da965895ee152a0ae2b4890ed18a8cfbb0940dfe2470f877  /home/milosvasic/.bashrc
-5affcade3a9c2fe707518aabd7c635be9231f7d68845be94aca5daa6ecc1849b  /home/milosvasic/.bash_profile
-ebf11baf1e6c90fccc8c630a32fd0a23d91cd190918f2f7d7e2a18918229ae7c  /home/milosvasic/.local/bin/lumen
-52caecc09cf656a1b45bbd6e17f3cf07414157a556ef4b35541646038f9f6d21  /home/milosvasic/.claude.json
+45dfceaf29b60c49da965895ee152a0ae2b4890ed18a8cfbb0940dfe2470f877  <home>/.bashrc
+5affcade3a9c2fe707518aabd7c635be9231f7d68845be94aca5daa6ecc1849b  <home>/.bash_profile
+ebf11baf1e6c90fccc8c630a32fd0a23d91cd190918f2f7d7e2a18918229ae7c  <home>/.local/bin/lumen
+52caecc09cf656a1b45bbd6e17f3cf07414157a556ef4b35541646038f9f6d21  <home>/.claude.json
 
 === DIFF ===
 IDENTICAL - real environment untouched

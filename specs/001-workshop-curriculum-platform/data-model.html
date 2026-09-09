@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>data-model</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">data-model</h1>
+</header>
+<h1 id="data-model-workshop-curriculum-platform">Data Model — Workshop
+Curriculum Platform</h1>
+<p><strong>Feature</strong>:
+<code>specs/001-workshop-curriculum-platform</code> |
+<strong>Date</strong>: 2026-09-01 <strong>Derived from</strong>: <a
+href="./spec.md">spec.md</a> Key Entities, constrained by <a
+href="./research.md">research.md</a></p>
+<h2 id="scope-and-what-is-authoritative">Scope, and what is
+authoritative</h2>
+<p><strong>This document is a deliberate abstraction. It is NOT the full
+schema, and a field’s absence here is not evidence that the field does
+not exist.</strong> It carries the entities, their relationships, the
+identity decision they all hang on, and the state machines. Storage
+columns, wire fields, DDL, closed enums and gate definitions live in the
+contracts, which are normative:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Authoritative document</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Registry records, SQLite DDL, ingest matching, resolution, redaction
+log</td>
+<td><a
+href="./contracts/passage-contract.md">contracts/passage-contract.md</a></td>
+</tr>
+<tr>
+<td>HTTP request/response bodies, status envelopes, <strong>all closed
+enums</strong></td>
+<td><a href="./contracts/http-api.md">contracts/http-api.md</a></td>
+</tr>
+<tr>
+<td>CLI surface, exit codes, pipeline stages</td>
+<td><a
+href="./contracts/pipeline-cli.md">contracts/pipeline-cli.md</a></td>
+</tr>
+</tbody>
+</table>
+<p>Where this document and a contract disagree, <strong>the contract
+wins and this document is the defect</strong>. Section <a
+href="#not-modelled-here--and-where-it-does-live">Not modelled here</a>
+names the specific fields this abstraction omits, so a reader is pointed
+rather than left to infer absence.</p>
+<h2 id="the-one-decision-everything-hangs-on">The one decision
+everything hangs on</h2>
+<p><code>Passage.pid</code> is a <strong>ULID minted once at
+ingest</strong>. It is not derived from content and not derived from
+position.</p>
+<p>This is not a style preference. Both alternatives were measured and
+both fail (D-SEARCH-1):</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Candidate identity</th>
+<th>Behaviour measured</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lumen chunk ID (content-derived)</td>
+<td>typo fix changed <code>4b98e295c112a429</code> →
+<code>610e608a50f273a6</code></td>
+<td>every human correction (FR-038) silently breaks every citation to
+that passage</td>
+</tr>
+<tr>
+<td>Positional key (file + line range)</td>
+<td>prepending a section moved every later range</td>
+<td>every edit above a passage breaks its links</td>
+</tr>
+</tbody>
+</table>
+<p>Under either, <strong>SC-016 scores 0% on corrected passages while
+the UI keeps rendering links that now point somewhere else</strong> — a
+failure with no visible symptom. A minted identifier is the only form
+that survives both operations, which is why it is the root of this
+model.</p>
+<h2 id="entities">Entities</h2>
+<h3 id="chapter">Chapter</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ordinal</code></td>
+<td>int</td>
+<td>zero-padded on disk (<code>chapters/01/</code>), matching existing
+convention</td>
+</tr>
+<tr>
+<td><code>slug</code></td>
+<td>string</td>
+<td>stable, URL-safe; never reused</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>string</td>
+<td>human title</td>
+</tr>
+<tr>
+<td><code>summary</code></td>
+<td>string</td>
+<td>shown in the chapter list (FR-008)</td>
+</tr>
+<tr>
+<td><code>recording</code></td>
+<td>Recording</td>
+<td>exactly one today; the model permits several</td>
+</tr>
+<tr>
+<td><code>materials</code></td>
+<td>[]SupportingMaterial</td>
+<td>notes, diagrams, code</td>
+</tr>
+<tr>
+<td><code>transcript</code></td>
+<td>Transcript</td>
+<td>absent until produced</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>enum</td>
+<td><code>draft</code> | <code>transcribed</code> |
+<code>published</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rules</strong>: a chapter MUST NOT reach
+<code>published</code> with an incomplete material set (FR-028).
+<code>ordinal</code> and <code>slug</code> are immutable once published
+— cross-references resolve through them.</p>
+<h3 id="recording">Recording</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>path</code></td>
+<td>string</td>
+<td>git-ignored; the whole file is never committed</td>
+</tr>
+<tr>
+<td><code>parts</code></td>
+<td>[]string</td>
+<td>the 36 × 50 MB <code>tar.gz</code> parts that <em>are</em>
+committed</td>
+</tr>
+<tr>
+<td><code>sha256</code></td>
+<td>string</td>
+<td>verified before use (FR-007)</td>
+</tr>
+<tr>
+<td><code>duration_s</code></td>
+<td>float</td>
+<td>measured, not assumed — Chapter 1 is <code>6928.75</code></td>
+</tr>
+<tr>
+<td><code>audio</code></td>
+<td>AudioProps</td>
+<td>codec, sample rate, channel layout</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rules</strong>: reassembly MUST verify <code>sha256</code>
+and fail loudly on mismatch. <code>duration_s</code> is the denominator
+for SC-001 coverage, so it is stored, not recomputed per query.</p>
+<p><code>AudioProps</code> records <code>dual_mono: true</code> for
+Chapter 1 — measured L−R difference −90.3 dB. This is data, not trivia:
+it is why <code>Passage.speaker</code> cannot be machine-derived
+(D-TRANS-2).</p>
+<h3 id="transcript">Transcript</h3>
+<p>Two layers, because the machine output is <em>evidence</em> and must
+survive correction (FR-038).</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>chapter_slug</code></td>
+<td>string</td>
+<td>owner</td>
+</tr>
+<tr>
+<td><code>engine</code></td>
+<td>string</td>
+<td>e.g. <code>faster-whisper/large-v3-turbo</code></td>
+</tr>
+<tr>
+<td><code>engine_params</code></td>
+<td>map</td>
+<td>including the frozen normaliser hash</td>
+</tr>
+<tr>
+<td><code>machine_passages</code></td>
+<td>[]Passage</td>
+<td><strong>immutable</strong> once written</td>
+</tr>
+<tr>
+<td><code>corrections</code></td>
+<td>[]Correction</td>
+<td>append-only overlay</td>
+</tr>
+<tr>
+<td><code>accuracy</code></td>
+<td>AccuracyReport</td>
+<td>absent until measured</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rules</strong>: <code>machine_passages</code> is never
+mutated — a correction is a new <code>Correction</code> row. Deleting it
+would destroy the ability to re-measure accuracy later (SC-002).</p>
+<h3 id="passage-the-addressable-unit">Passage — the addressable
+unit</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pid</code></td>
+<td>ULID</td>
+<td><strong>minted at ingest</strong>; the only citable identity</td>
+</tr>
+<tr>
+<td><code>kind</code></td>
+<td>enum</td>
+<td><code>transcript</code> | <code>doc_section</code> |
+<code>code</code> | <code>diagram</code></td>
+</tr>
+<tr>
+<td><code>source_ref</code></td>
+<td>SourceRef</td>
+<td>where it came from; may move without changing <code>pid</code></td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>string</td>
+<td>current text: machine, or corrected if a <code>Correction</code>
+applies</td>
+</tr>
+<tr>
+<td><code>provenance</code></td>
+<td>enum</td>
+<td><code>machine</code> | <code>human_corrected</code> (FR-038)</td>
+</tr>
+<tr>
+<td><code>confidence</code></td>
+<td>float?</td>
+<td><code>avg_logprob</code>-derived; null for non-transcript kinds</td>
+</tr>
+<tr>
+<td><code>uncertain</code></td>
+<td>bool</td>
+<td>drives the FR-003 “unclear, not guessed” marking</td>
+</tr>
+<tr>
+<td><code>t_start_s</code>, <code>t_end_s</code></td>
+<td>float?</td>
+<td>transcript kinds only; the SC-003 5 s bound applies</td>
+</tr>
+<tr>
+<td><code>speaker</code></td>
+<td>string?</td>
+<td>human-attributed or null — never machine-guessed (D-TRANS-2)</td>
+</tr>
+<tr>
+<td><code>redacted</code></td>
+<td>bool</td>
+<td>FR-039; suppresses from index, answers and export</td>
+</tr>
+<tr>
+<td><code>content_hash</code></td>
+<td>string</td>
+<td><strong>change detection only — deliberately NOT
+identity</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rules</strong>: - <code>pid</code> is written back into the
+source artifact as <code>&lt;!-- pid: … --&gt;</code> so the anchor
+travels with the text. - For a chapter’s transcript passages:
+<code>⋃ [t_start_s, t_end_s] ∪ VAD_silence == [0, duration_s]</code>
+<strong>exactly</strong>. This makes SC-001 an arithmetic identity
+rather than a judgement (D-TRANS-4). - <code>content_hash</code> is
+named to prevent the exact mistake this model exists to avoid. Any code
+treating it as identity is a defect. - A redacted passage MUST propagate
+to the index and to any stored answers, not merely to the rendered
+transcript.</p>
+<h3 id="correction">Correction</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pid</code></td>
+<td>ULID (the passage corrected)</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>string (replacement)</td>
+</tr>
+<tr>
+<td><code>author</code>, <code>at</code>, <code>reason</code></td>
+<td>provenance</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule</strong>: corrections never change <code>pid</code>.
+That is the whole point of the layer.</p>
+<h3 id="crossreference">CrossReference</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>from_pid</code>, <code>to_pid</code></td>
+<td>ULID</td>
+<td>directed</td>
+</tr>
+<tr>
+<td><code>relation</code></td>
+<td>enum</td>
+<td><code>explains</code> | <code>demonstrates</code> |
+<code>continues</code> | <code>related</code></td>
+</tr>
+<tr>
+<td><code>origin</code></td>
+<td>enum</td>
+<td><code>derived</code> | <code>authored</code></td>
+</tr>
+<tr>
+<td><code>score</code></td>
+<td>float?</td>
+<td>for <code>derived</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rules</strong>: self-references rejected. Traversal must be
+cycle-safe (spec edge case: “cross- references must not create loops
+that trap a reader”). <code>derived</code> links are rebuildable;
+<code>authored</code> links are content and survive re-index.</p>
+<h3 id="index-derived-never-authoritative">Index (derived, never
+authoritative)</h3>
+<p>Two paths, because one cannot meet both latency targets
+(D-SEARCH-2).</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Path</th>
+<th>Backing</th>
+<th>Measured</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lexical</code></td>
+<td>SQLite FTS5 prefix index over symbols/titles</td>
+<td>p95 <strong>9.58 ms</strong></td>
+</tr>
+<tr>
+<td><code>semantic</code></td>
+<td>embedding vectors, 768-dim</td>
+<td>query embed <strong>18.2–21.0 s</strong> under load</td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>generation</code></td>
+<td>int</td>
+<td>monotonic</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td>enum</td>
+<td><code>building</code> | <code>verified</code> | <code>live</code> |
+<code>superseded</code> | <code>discarded</code> (passage-contract.md
+§4.4 <code>generations</code>)</td>
+</tr>
+<tr>
+<td><code>pid_count</code></td>
+<td>int</td>
+<td>verification gate input</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rules</strong>: only a <code>verified</code> generation may
+become <code>live</code>, by atomic swap. Readers never see
+<code>building</code> — measured necessity: during the live rebuild,
+<code>chunks</code> moved while <code>last_indexed_at</code> still
+advertised the previous generation, i.e. a half-written readable
+index.</p>
+<h3 id="answer">Answer</h3>
+<p><strong>Authoritative schema</strong>: <a
+href="./contracts/http-api.md">contracts/http-api.md</a> §3.10 and §5.
+The table below is the entity view of that contract. It uses the
+contract’s field names and the contract’s enum members exactly — see <a
+href="#arbitration-2026-09-01--one-answer-shape">Arbitration</a> for
+why.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>question</code></td>
+<td>string</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>enum</td>
+<td><code>answered</code> | <code>declined</code> |
+<code>unavailable</code> — the three <strong>terminal</strong> states.
+(<code>pending</code> is a state of the answer <em>job</em> resource,
+not of an answer; http-api.md §3.10.)</td>
+</tr>
+<tr>
+<td><code>text</code></td>
+<td>string?</td>
+<td>present only when <code>answered</code></td>
+</tr>
+<tr>
+<td><code>citations</code></td>
+<td>[]ULID</td>
+<td><strong>≥1 when <code>answered</code></strong>, enforced by schema
+(<code>minItems: 1</code>)</td>
+</tr>
+<tr>
+<td><code>reason</code></td>
+<td>discriminated</td>
+<td>absent when <code>answered</code>; shape and vocabulary determined
+by <code>status</code> — table below</td>
+</tr>
+<tr>
+<td><code>retrieval</code></td>
+<td>RetrievalTrace</td>
+<td>top score and margin, recorded even on success</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>reason</code> is discriminated by <code>status</code>,
+and the two reason vocabularies are disjoint:</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th><code>status</code></th>
+<th>HTTP</th>
+<th><code>reason</code> shape</th>
+<th>Closed vocabulary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>answered</code></td>
+<td><code>200</code></td>
+<td>absent</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>declined</code></td>
+<td><strong><code>200</code></strong> — a correct result, not an
+error</td>
+<td>bare enum string</td>
+<td><code>below_threshold</code> | <code>margin_too_small</code> |
+<code>unsupported</code> | <code>no_citations</code> |
+<code>redacted_evidence</code> (http-api.md §5.5)</td>
+</tr>
+<tr>
+<td><code>unavailable</code></td>
+<td><strong><code>503</code></strong></td>
+<td>object <code>{ code, message, retry_after_s }</code></td>
+<td>the answering-leg codes of http-api.md §5.3:
+<code>no_provider</code> | <code>provider_disabled</code> |
+<code>provider_unreachable</code> | <code>model_not_generative</code> |
+<code>verification_unavailable</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rules</strong>: <code>answered</code> with zero citations is
+structurally undecodable (<code>minItems: 1</code>). Every citation MUST
+be a member of the live generation’s PID set
+(<code>generation_members</code>) — a deterministic check, and the
+reason SC-009 is reachable at all. A citation outside the set makes the
+whole answer <code>declined{no_citations}</code>; a citation that
+resolves to a redacted passage makes it
+<code>declined{redacted_evidence}</code>; a citation whose verification
+<em>could not run</em> makes it
+<code>unavailable{verification_unavailable}</code>, never
+<code>declined</code> — verification that could not run is not
+verification that failed (passage-contract.md §7.2 C3–C5). Claims are
+never silently stripped. <code>retrieval</code> is stored even on
+success so a 0.002-margin pass is visible as <em>fragile</em> rather
+than indistinguishable from a confident one.</p>
+<p><code>unavailable</code> is a first-class third state, distinct from
+<code>declined</code>. Conflating them would make a missing provider
+look like a content gap — the Honest Instruments principle applied to
+the domain.</p>
+<p><strong>Why <code>no_provider</code> is not a decline
+reason.</strong> A decline is a <em>judgement about the content</em>:
+the system retrieved, evaluated, and determined the corpus does not
+support an answer. <code>unavailable</code> is the absence of the
+instrument that would have made that judgement. “No generative model is
+installed” is not a fact about the curriculum, and filing it as a
+refusal reason would report a thing that could not run as a thing that
+was judged — the exact failure the three-state contract exists to
+prevent. <code>no_provider</code> therefore lives only in the
+<code>unavailable</code> vocabulary (http-api.md §5.3), and the two
+vocabularies above share no member.</p>
+<h4 id="arbitration-2026-09-01-one-answer-shape">Arbitration
+(2026-09-01) — one Answer shape</h4>
+<p>This entity previously carried a second, incompatible shape:
+<code>verdict</code> / <code>refused</code> /
+<code>refusal_reason</code>, with <code>no_provider</code> filed among
+the refusal reasons. That fork is <strong>withdrawn, not silently
+replaced</strong>, and the record is kept here so a reader of an older
+draft can see what changed:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th>withdrawn (this document)</th>
+<th>adopted (http-api.md)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>field name</td>
+<td><code>verdict</code></td>
+<td><strong><code>status</code></strong></td>
+</tr>
+<tr>
+<td>refusal member</td>
+<td><code>refused</code></td>
+<td><strong><code>declined</code></strong></td>
+</tr>
+<tr>
+<td>reason field</td>
+<td><code>refusal_reason</code></td>
+<td><strong><code>reason</code></strong></td>
+</tr>
+<tr>
+<td>reason members</td>
+<td><code>below_threshold, margin_too_small, unsupported, no_provider</code></td>
+<td><strong><code>below_threshold, margin_too_small, unsupported, no_citations, redacted_evidence</code></strong>
+— and <code>no_provider</code> moved to the <code>unavailable</code>
+vocabulary, where its meaning belongs</td>
+</tr>
+</tbody>
+</table>
+<p>Three reasons the API contract’s shape won:</p>
+<ol type="1">
+<li><p><strong>It is the shape the tests will be written
+against.</strong> T057–T068 cite <code>http-api.md</code>; no task cites
+this document for the Answer shape. <code>plan.md</code> marks refusal
+behaviour and citation verification <code>[TDD]</code>, so those tests
+land <em>before</em> the implementation — against whichever document
+they name.</p></li>
+<li><p><strong><code>verdict</code> was already taken.</strong>
+<code>submodules/verdict/pkg/verdict/</code> is this project’s 0/1/2
+three-valued <em>instrument</em> result, used by every command and
+endpoint (T018). Naming the answer’s domain outcome <code>verdict</code>
+too would put two different meanings on one word in one codebase, which
+is the conflation this feature is built to avoid.</p>
+<blockquote>
+<p>Two corrections here, both 2026-09-01, both path/reference only — the
+naming argument itself is untouched.
+<del><code>pkg/verdict/</code></del> was an unqualified path written
+when the package lived under the backend module; <code>verdict</code> is
+now a separately published module mounted at
+<code>submodules/verdict</code> (see <a href="./tasks.md">tasks.md</a>’s
+File Structure correction). <del><code>(T012)</code></del> was simply
+the wrong task number — T012 is the append-only redaction log; the
+verdict helpers are <strong>T018</strong>. Found while correcting the
+paths, and fixed by editing the <em>citation</em>, never by renumbering
+the task: other documents and agent reports cite these T-numbers, so
+moving one to make a stale reference true would break every correct
+reference to it.</p>
+</blockquote></li>
+<li><p><strong><code>status</code> is already the discriminator
+everywhere else.</strong> The search envelope keys on
+<code>status</code> (§2.5), and <code>declined</code> is the term
+already used by <code>passage-contract.md</code> §7.2 (C3–C5),
+<code>research/llm-bridging.md</code> (“Behaviour when the provider is
+unreachable”) and the SC-010 gate. Choosing
+<code>status</code>/<code>declined</code> moved four documents into
+agreement instead of two.</p></li>
+</ol>
+<h2 id="relationships">Relationships</h2>
+<pre><code>Chapter 1──1 Recording
+   │  1──0..1 Transcript ──1──* Passage ──0..* Correction
+   │  1──*    SupportingMaterial ──1──* Passage
+   ▼
+Passage *──* Passage   (CrossReference, directed, cycle-safe)
+Passage *──1 Index generation   (membership; rebuildable)
+Answer  *──* Passage   (citations; membership checked against the LIVE generation)</code></pre>
+<h2 id="state-transitions">State transitions</h2>
+<p><strong>Chapter</strong>:
+<code>draft → transcribed → published</code>. Regression to
+<code>draft</code> is permitted (a recording is replaced);
+<code>published → published</code> must be idempotent (FR-027).</p>
+<p><strong>Index generation</strong>:
+<code>building → verified → live</code>, and
+<code>live → superseded</code> on swap.
+<code>building → discarded</code> on failed verification — a generation
+that fails its gate is never served, which is what keeps FR-020
+honest.</p>
+<p><strong>Passage provenance</strong>:
+<code>machine → human_corrected</code> only. There is no path back,
+because the machine text is retained separately rather than
+overwritten.</p>
+<h2 id="validation-rules-traced-to-requirements">Validation rules traced
+to requirements</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pid</code> minted, never derived</td>
+<td>FR-037, SC-016</td>
+</tr>
+<tr>
+<td>machine passages immutable; corrections layered</td>
+<td>FR-038, SC-002</td>
+</tr>
+<tr>
+<td>span union equals full duration</td>
+<td>FR-001, SC-001</td>
+</tr>
+<tr>
+<td>timestamp within 5 s</td>
+<td>FR-002, SC-003</td>
+</tr>
+<tr>
+<td><code>uncertain</code> set from engine confidence, never
+inferred</td>
+<td>FR-003</td>
+</tr>
+<tr>
+<td><code>speaker</code> null unless human-attributed</td>
+<td>FR-005</td>
+</tr>
+<tr>
+<td>sha256 verified before reassembly</td>
+<td>FR-007</td>
+</tr>
+<tr>
+<td><code>redacted</code> propagates to index and stored answers</td>
+<td>FR-039</td>
+</tr>
+<tr>
+<td><code>answered</code> ⇒ ≥1 citation, all in live PID set</td>
+<td>FR-021, SC-009</td>
+</tr>
+<tr>
+<td><code>declined</code> ≠ <code>unavailable</code>; their reason
+vocabularies are disjoint</td>
+<td>FR-022, FR-025, SC-010, SC-013</td>
+</tr>
+<tr>
+<td>code passage identity keyed on <code>(path, symbol)</code> +
+<code>symbol_aliases</code>; unaliased rename fails loudly</td>
+<td>FR-037, <strong>SC-016a</strong></td>
+</tr>
+<tr>
+<td>only <code>verified</code> generations serve</td>
+<td>FR-020</td>
+</tr>
+<tr>
+<td>re-ingest is idempotent on <code>pid</code></td>
+<td>FR-027</td>
+</tr>
+</tbody>
+</table>
+<h2 id="not-modelled-here-and-where-it-does-live">Not modelled here —
+and where it does live</h2>
+<p>The contracts specify fields this document deliberately does not
+repeat. They are <strong>named</strong> here so that absence above reads
+as <em>abstraction</em>, not as <em>nonexistence</em>. Duplicating them
+would create a fourth place to drift, which is precisely how the Answer
+fork above happened.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field / table</th>
+<th>What it carries</th>
+<th>Authoritative location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>machine_text</code></td>
+<td>the immutable machine layer that makes SC-002 re-measurable</td>
+<td>passage-contract.md §4.2 (F1, F2), §4.3 DDL</td>
+</tr>
+<tr>
+<td><code>source_ref.anchor</code></td>
+<td><code>inline</code> | <code>sidecar</code> |
+<code>registry_only</code> — how the identifier travels</td>
+<td>passage-contract.md §4.2, §8 R5/R6</td>
+</tr>
+<tr>
+<td><code>uncertain_reason</code></td>
+<td><code>low_confidence</code> | <code>inaudible</code> |
+<code>overlapping_speech</code> | <code>language_uncertain</code>;
+non-null <strong>iff</strong> <code>uncertain</code></td>
+<td>passage-contract.md §4.2 F3; http-api.md §3.4</td>
+</tr>
+<tr>
+<td><code>speaker_source</code></td>
+<td><code>human</code> | <code>unattributed</code> — never
+<code>machine</code> (D-TRANS-2). This is the FR-005 “state where it
+cannot” half.</td>
+<td>passage-contract.md §4.2 F4; http-api.md §3.4</td>
+</tr>
+<tr>
+<td><code>symbol_aliases</code></td>
+<td>the code-passage rename alias table SC-016a rests on</td>
+<td>passage-contract.md §4.3 DDL, §6.2–6.6, §8 R3/R4</td>
+</tr>
+<tr>
+<td><code>redactions</code></td>
+<td>append-only redaction log — <code>Passage.redacted</code> above is
+the <em>materialisation</em>, not the record</td>
+<td>passage-contract.md §4.3 DDL, §7.3</td>
+</tr>
+<tr>
+<td><code>generation_members</code></td>
+<td>the pid set citation verification checks membership against</td>
+<td>passage-contract.md §4.3 DDL, §7.2 C2</td>
+</tr>
+<tr>
+<td><code>sections[]</code></td>
+<td>FR-011 navigable chapter structure (<code>id</code>,
+<code>title</code>, <code>first_pid</code>, <code>t_start_s</code>)</td>
+<td>http-api.md §3.3</td>
+</tr>
+<tr>
+<td><code>content_hash</code>, <code>minted_at</code>,
+<code>ingest_run</code></td>
+<td>change detection and identifier provenance</td>
+<td>passage-contract.md §4.2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="deliberately-out-of-the-model">Deliberately out of the
+model</h2>
+<p>Unlike the section above, these have <strong>no</strong>
+authoritative location — they are absent by decision.</p>
+<ul>
+<li><strong>User accounts and permissions</strong> — decision D1 makes
+this single-user and local.</li>
+<li><strong>Direct audio/video embeddings</strong> — Lumen cannot index
+media (D-SEARCH-3); media is reached through transcripts. Stated rather
+than implied.</li>
+<li><strong>Distributed or multi-writer state</strong> — single machine,
+single writer.</li>
+</ul>
+</body>
+</html>

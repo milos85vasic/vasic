@@ -1,0 +1,2993 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>pipeline-cli</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">pipeline-cli</h1>
+</header>
+<h1
+id="pipeline-operator-cli-contract-workshop-curriculum-platform">Pipeline
+&amp; Operator CLI Contract — Workshop Curriculum Platform</h1>
+<p><strong>Feature</strong>:
+<code>specs/001-workshop-curriculum-platform</code> |
+<strong>Phase</strong>: 1 (Design &amp; Contracts) |
+<strong>Date</strong>: 2026-09-01</p>
+<p><strong>Governs</strong>: the offline content pipeline and the
+operator control plane. <strong>Derived from</strong>: <a
+href="../spec.md">spec.md</a> FR-004/006/007/012/026–029/034/040, <a
+href="../plan.md">plan.md</a> (corrected premises 1, 3, 4, 5), <a
+href="../research.md">research.md</a> D-TRANS-*, D-SEARCH-*, D-LLM-*, <a
+href="../data-model.md">data-model.md</a>. <strong>Companion
+contracts</strong>: <a
+href="./passage-contract.md">passage-contract.md</a> (what ingest
+mints), <a href="./http-api.md">http-api.md</a> (what the server then
+serves).</p>
+<p>Interfaces and behavioural guarantees only. No implementation, no
+migrations.</p>
+<hr />
+<h2 id="exit-codes-binding-across-this-whole-contract-set">1. Exit codes
+— binding across this whole contract set</h2>
+<p><code>.specify/memory/constitution.md</code>, <strong>Honest
+Instruments</strong>, verbatim:</p>
+<blockquote>
+<p>A check that cannot run MUST report that it could not run. It MUST
+NOT report success, and it MUST NOT report failure. Three states are
+mandatory and distinct: <code>0</code> — the condition was checked and
+holds; <code>1</code> — the condition was checked and is violated;
+<code>2</code> — the condition could NOT be checked.</p>
+<p>Collapsing state 2 into state 1 makes a broken tool accuse a healthy
+codebase. Collapsing it into state 0 makes a broken tool certify code
+nobody inspected. Both are release blockers. A missing credential, an
+unreachable service, a saturated backend, or a crashed helper are all
+state 2.</p>
+</blockquote>
+<p>Every command in this document obeys it. No exceptions, no
+per-command variation.</p>
+<h3 id="the-taxonomy">1.1 The taxonomy</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Name</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>OK</td>
+<td>The work was done, or the condition was checked and holds.</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>PROBLEM FOUND</td>
+<td>A <strong>real defect in the content or the tree</strong> was
+detected. The instrument worked.</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>COULD NOT DETERMINE</td>
+<td>The instrument itself could not run to a conclusion.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-pair-that-makes-the-distinction-concrete">1.2 The pair that
+makes the distinction concrete</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Exit</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The recording’s SHA-256 <strong>mismatches</strong> the
+manifest</td>
+<td><code>1</code></td>
+<td>Computed successfully; the file is bad. A real problem, found.</td>
+</tr>
+<tr>
+<td>The recording could not be <strong>read</strong> to compute a
+SHA-256</td>
+<td><code>2</code></td>
+<td>Nothing was determined about the file.</td>
+</tr>
+</tbody>
+</table>
+<p>Same file, same command, opposite classes. Any command that returns
+<code>1</code> for the second case is accusing a healthy tree.</p>
+<h3 id="what-is-always-2">1.3 What is always <code>2</code></h3>
+<p>Non-exhaustive but binding by class — <em>“a missing credential, an
+unreachable service, a saturated backend, or a crashed helper are all
+state 2.”</em></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A required binary is missing or unusable</td>
+<td>Includes the <code>ffprobe</code> trap, §3.2</td>
+</tr>
+<tr>
+<td>The Python venv, ASR model, or model file is absent</td>
+<td>Premise 4: no ASR engine is installed on this host today</td>
+</tr>
+<tr>
+<td>ollama / Lumen / the embedding backend is unreachable</td>
+<td></td>
+</tr>
+<tr>
+<td>The embedding backend reports
+<strong><code>all embedding servers exhausted</code></strong></td>
+<td>Measured. Never <code>1</code> — the corpus is not at fault</td>
+</tr>
+<tr>
+<td>An embed or search call exceeded its bounded timeout</td>
+<td></td>
+</tr>
+<tr>
+<td>The distinct-vector probe fails (degenerate/repeated vectors)</td>
+<td>The mode that put 758 duplicate vectors into this index on
+2026-08-26</td>
+</tr>
+<tr>
+<td>A lock is held by another run</td>
+<td></td>
+</tr>
+<tr>
+<td>The evidence directory is unwritable</td>
+<td>§2.5</td>
+</tr>
+<tr>
+<td>Disk full, permission denied, OOM, RAM cap unsatisfiable</td>
+<td></td>
+</tr>
+<tr>
+<td>A helper process crashed, was killed, or exited on a signal</td>
+<td></td>
+</tr>
+<tr>
+<td>The command was interrupted
+(<code>SIGINT</code>/<code>SIGTERM</code>)</td>
+<td>§1.5</td>
+</tr>
+<tr>
+<td>Any unclassified non-zero exit inside the script</td>
+<td>§1.4</td>
+</tr>
+<tr>
+<td>A verification could not run (no human reference, no calibration
+set)</td>
+<td>e.g. §4.2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="unclassified-failures-are-2-mechanically">1.4 Unclassified
+failures are <code>2</code>, mechanically</h3>
+<p><code>set -euo pipefail</code> makes an unexpected error exit with
+whatever the failing command returned — frequently <code>1</code> (a
+real problem, by our taxonomy) or <code>127</code> (command not found).
+Both would be lies.</p>
+<p><strong>Normative</strong>: every command installs an
+<code>ERR</code> trap and an <code>EXIT</code> trap that map any
+<em>unclassified</em> non-zero status to <code>2</code>, and print the
+failing command and line. Only statuses set deliberately by the
+command’s own classification logic may be <code>0</code> or
+<code>1</code>.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Raw status</th>
+<th>Mapped</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>126</code> (not executable), <code>127</code> (not found)</td>
+<td><code>2</code></td>
+<td>A missing tool determines nothing</td>
+</tr>
+<tr>
+<td><code>128+N</code> (killed by signal N)</td>
+<td><code>2</code></td>
+<td>A crashed helper is state 2 by name</td>
+</tr>
+<tr>
+<td>Any other unclassified non-zero</td>
+<td><code>2</code></td>
+<td>If the command did not classify it, it did not determine
+anything</td>
+</tr>
+<tr>
+<td><code>3</code>–<code>125</code></td>
+<td><strong>reserved, unused</strong></td>
+<td>Three states, not five</td>
+</tr>
+</tbody>
+</table>
+<h3 id="interruption">1.5 Interruption</h3>
+<p><code>SIGINT</code>/<code>SIGTERM</code> ⇒ flush the current
+checkpoint, write the run manifest, print <code>INTERRUPTED</code> with
+the resume command, <strong>exit <code>2</code></strong>. An interrupted
+run determined nothing about the whole job, even though completed chunks
+are preserved and will be skipped on resume (FR-029).</p>
+<h3 id="json-and-the-machine-readable-result">1.6 <code>--json</code>
+and the machine-readable result</h3>
+<p>Every command accepts <code>--json</code>. When given, <strong>stdout
+carries exactly one JSON object and nothing else</strong>; all human
+text goes to stderr.</p>
+<pre class="jsonc"><code>{
+  &quot;command&quot;: &quot;index&quot;,
+  &quot;run_id&quot;: &quot;01JBX7QJ…&quot;,
+  &quot;state&quot;: &quot;could_not_determine&quot;,     // &quot;ok&quot; | &quot;problem_found&quot; | &quot;could_not_determine&quot;
+  &quot;exit&quot;: 2,
+  &quot;reason&quot;: {
+    &quot;code&quot;: &quot;embedding_backend_exhausted&quot;,
+    &quot;message&quot;: &quot;all embedding servers exhausted after failover: context deadline exceeded&quot;,
+    &quot;remedy&quot;: &quot;wait for the running index rebuild to finish, or run with --lexical-only&quot;
+  },
+  &quot;findings&quot;: [],                     // populated when exit==1: one entry per real problem found
+  &quot;partial&quot;: { &quot;lexical&quot;: &quot;ok&quot;, &quot;semantic&quot;: &quot;failed&quot; },
+  &quot;evidence_dir&quot;: &quot;workshop/_evidence/index/2026-09-01T10-14-02Z-01JBX7QJ…&quot;,
+  &quot;started_at&quot;: &quot;…&quot;, &quot;ended_at&quot;: &quot;…&quot;, &quot;duration_s&quot;: 41.2
+}</code></pre>
+<p><code>state</code> and <code>exit</code> MUST agree. A gate asserts
+the mapping over every command (§5, G-CLI-1).</p>
+<hr />
+<h2 id="conventions-common-to-every-command">2. Conventions common to
+every command</h2>
+<h3 id="location-and-invocation">2.1 Location and invocation</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Location</th>
+<th>Shape</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Control plane</td>
+<td><code>workshop/scripts/{build,start,stop,restart,status,verify}.sh</code></td>
+<td>Script <strong>names</strong> mirror
+<code>ai_interviewing/platform/scripts/{build,ingest,restart,start,status,stop}.sh</code>
+(FR-013). The <strong>directory</strong> deliberately does not — see the
+path decision below.</td>
+</tr>
+<tr>
+<td>Shared wrapper library</td>
+<td><code>workshop/scripts/_common.sh</code></td>
+<td>Configuration resolution (§2.2), the <code>ERR</code> trap (§1.4),
+evidence paths (§2.5). Mirrors the reference’s own
+<code>_common.sh</code>. Sourced, never executed.</td>
+</tr>
+<tr>
+<td>Pipeline wrappers</td>
+<td><code>workshop/scripts/{transcribe,verify-accuracy,ingest,index,crossref,redact,add-chapter}.sh</code></td>
+<td>Bash entry points</td>
+</tr>
+<tr>
+<td>Pipeline implementation</td>
+<td><code>workshop/pipeline/{transcribe,ingest,crossref}/</code></td>
+<td>Python/Go called by the wrappers</td>
+</tr>
+<tr>
+<td>Orchestration consumer</td>
+<td><code>workshop/platform/orchestration/</code></td>
+<td>The Go module that consumes <code>digital.vasic.containers</code>
+via <code>replace</code> (§11.4.76(2)) and builds the
+<code>workshop-boot</code> adapter into
+<code>workshop/platform/bin/</code>. <strong>Not a script layer</strong>
+— §4.8</td>
+</tr>
+<tr>
+<td>Pre-existing, reused</td>
+<td><code>workshop/scripts/{archive-videos,extract-videos,install-hooks,self-test}.sh</code></td>
+<td><strong>Invoked, never reimplemented</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Path decision — <code>workshop/scripts/</code>, not
+<code>workshop/platform/scripts/</code></strong> (settled 2026-09-01;
+recorded because two documents in this set had drifted apart on it, and
+because the justification this table previously gave cited the wrong
+reference directory).</p>
+<p><em>The correction first.</em> This table used to justify the control
+plane as mirroring <strong><code>ai_interviewing</code>’s
+<code>scripts/</code></strong>. That citation was wrong, and is
+withdrawn. Measured:</p>
+<pre><code>ai_interviewing/scripts/           build-all.sh  export-doc.sh  render-diagrams.sh  validate-exports.sh
+ai_interviewing/platform/scripts/  _common.sh  build.sh  ingest.sh  restart.sh  start.sh  status.sh  stop.sh</code></pre>
+<p><code>ai_interviewing/scripts/</code> is <strong>documentation
+tooling</strong>. The real reference control plane is
+<code>ai_interviewing/platform/scripts/</code>. Note what survives the
+correction: the six script <em>names</em> this table already listed
+match <code>ai_interviewing/platform/scripts/</code> exactly. Only the
+directory was mis-cited — the mirror claim was right about the thing
+that matters and wrong about where to look.</p>
+<p><em>The decision.</em> The control plane lives at
+<code>workshop/scripts/</code>, one script directory for the whole
+module. Three reasons, in decreasing weight:</p>
+<ol type="1">
+<li><strong><code>workshop/scripts/</code> already exists and is
+load-bearing.</strong> It holds
+<code>{archive-videos,extract-videos,install-hooks,self-test}.sh</code>
+plus <code>git-hooks/</code> — the reassembly and integrity machinery
+FR-007 is satisfied by <strong>invoking</strong>, and which this
+contract marks <em>invoked, never reimplemented</em>. Those cannot move
+without breaking <code>install-hooks.sh</code> and the tooling that
+already calls them.</li>
+<li><strong>A split would make FR-013 worse, not better.</strong>
+Putting the control plane under <code>workshop/platform/scripts/</code>
+while the pipeline wrappers and the pre-existing scripts stay at
+<code>workshop/scripts/</code> yields two script directories in one
+module and no rule for which holds what. FR-013 asks that someone
+familiar with one module can navigate the other; one obvious directory
+serves that better than a structural echo that fragments the
+module.</li>
+<li><strong>The reference’s nesting is not transferable anyway.</strong>
+<code>ai_interviewing</code> is a platform-and-nothing-else module, so
+its control plane naturally sits under <code>platform/</code>. The
+workshop additionally owns a <em>pipeline</em> layer and <em>source
+material</em>, and its wrappers span all three — they are module-scoped,
+not platform-scoped. <code>workshop/platform/</code> is the built
+product (<code>backend/</code>, <code>frontend/</code>,
+<code>bin/</code>, <code>orchestration/</code>), which is exactly what a
+script that drives the pipeline is not part of.</li>
+</ol>
+<p>FR-013 is therefore satisfied by <strong>name and exit-semantic
+parity</strong>, which is what a person actually carries between
+modules, rather than by directory nesting. Any document in this set
+invoking <code>workshop/platform/scripts/…</code> is stale against this
+decision and is corrected to <code>workshop/scripts/</code>.</p>
+<p><code>extract-videos.sh</code> already verifies per-part, archive and
+extracted-video hashes against the
+<code>video-archive-manifest v1</code>. FR-007 is therefore satisfied by
+<strong>invoking</strong> it. Note its current contract is two-valued
+(<code>die()</code> → <code>exit 1</code>); §4.1 specifies the wrapper
+that classifies its failure into <code>1</code> vs <code>2</code> rather
+than editing a script that other tooling depends on.</p>
+<p>Every command supports <code>--help</code> (exit <code>0</code>),
+<code>--version</code> (exit <code>0</code>), <code>--dry-run</code>,
+<code>--json</code>, <code>-v</code>.</p>
+<h3 id="environment-overrides-environment-adaptability">2.2 Environment
+overrides (Environment Adaptability)</h3>
+<p>The constitution requires that no file freeze an assumption about the
+host, and that every derived value be overridable. Every variable below
+is <strong>derived</strong> when unset; setting it overrides
+detection.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Derived from</th>
+<th>Governs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WORKSHOP_ROOT</code></td>
+<td><code>git rev-parse --show-toplevel</code> then
+<code>/workshop</code></td>
+<td>Module root</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_CHAPTERS_DIR</code></td>
+<td><code>$WORKSHOP_ROOT/chapters</code></td>
+<td>Source material</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_CURRICULUM_DIR</code></td>
+<td><code>$WORKSHOP_ROOT/curriculum</code></td>
+<td>Published output, <code>passages.jsonl</code></td>
+</tr>
+<tr>
+<td><code>WORKSHOP_EVIDENCE_DIR</code></td>
+<td><code>$WORKSHOP_ROOT/_evidence</code></td>
+<td>FR-040</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_LOCK_DIR</code></td>
+<td><code>$WORKSHOP_ROOT/.locks</code></td>
+<td>§2.6</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_FFMPEG</code> / <code>WORKSHOP_FFPROBE</code></td>
+<td>capability probe, §3.2</td>
+<td>Media tooling</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_PYTHON</code> / <code>WORKSHOP_VENV</code></td>
+<td><code>$WORKSHOP_ROOT/.venv</code></td>
+<td>ASR runtime</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_ASR_MODEL</code></td>
+<td><code>large-v3-turbo</code></td>
+<td>D-TRANS-1</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_ASR_COMPUTE_TYPE</code></td>
+<td><code>int8</code></td>
+<td>CPU-only</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_ASR_THREADS</code></td>
+<td><code>nproc</code> minus a reserved core</td>
+<td></td>
+</tr>
+<tr>
+<td><code>WORKSHOP_CHUNK_SECONDS</code></td>
+<td><code>300</code></td>
+<td>D-TRANS-4</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_DB</code></td>
+<td><code>$WORKSHOP_CURRICULUM_DIR/passages.db</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>WORKSHOP_GENERATIONS_DIR</code></td>
+<td><code>$WORKSHOP_CURRICULUM_DIR/generations</code></td>
+<td>D-SEARCH-5</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_PORT</code> / <code>WORKSHOP_BIND</code></td>
+<td><code>8080</code> / <code>127.0.0.1</code></td>
+<td>§4.8; loopback by default (D1)</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_MAX_RAM_PCT</code></td>
+<td><code>60</code></td>
+<td>Constitution, Quality Over Speed</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_ANSWERING_PROVIDER</code> / <code>_ENDPOINT</code> /
+<code>_MODEL</code> / <code>_LOCALITY</code></td>
+<td><code>answering.yaml</code></td>
+<td>D-LLM-1</td>
+</tr>
+<tr>
+<td><code>OLLAMA_HOST</code></td>
+<td><code>http://127.0.0.1:11434</code></td>
+<td>Honoured as a fallback for <code>endpoint</code> when
+<code>provider: ollama</code>, mirroring
+<code>scripts/lumen-reindex.sh</code> so an operator learns one
+pattern</td>
+</tr>
+<tr>
+<td><code>LUMEN_*</code></td>
+<td>existing repo convention</td>
+<td>Semantic backend</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Resolution order is fixed and identical everywhere</strong>:
+environment → config file → live probe → documented fallback. This is
+the order <code>scripts/lumen-reindex.sh</code> already establishes in
+this repository; copying it means one pattern, not two.</p>
+<p><strong>Derived values must print their inputs.</strong> The
+constitution requires that <em>“a tuned value MUST be computed from
+measured host facts and MUST print its inputs so the arithmetic can be
+audited.”</em> Each command prints, at <code>-v</code>, the host facts
+it measured and the arithmetic it performed —
+e.g. <code>MemTotal=32,614 MiB × 60% = 19,568 MiB cap; model needs ~2,100 MiB; threads=7 (nproc 8 − 1)</code>.</p>
+<h3 id="output-discipline">2.3 Output discipline</h3>
+<p>Human progress and diagnostics → <strong>stderr</strong>. Machine
+results → <strong>stdout</strong> (only under <code>--json</code>). This
+keeps <code>cmd --json | jq</code> correct while a human still sees
+progress.</p>
+<h3 id="read-only-guarantee-on-source-material-fr-006">2.4 Read-only
+guarantee on source material (FR-006)</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1</td>
+<td>Source material — recording, archive parts, notes PDF, supplied
+diagrams and code — is opened <code>O_RDONLY</code>.</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>Before starting, each command records
+<code>(size, mtime, inode)</code> of every source it will read. On exit
+it re-checks them. A change ⇒ <strong>exit <code>1</code></strong> (a
+real problem: something modified the sources).</td>
+</tr>
+<tr>
+<td>S3</td>
+<td>Derived artifacts are written <strong>only</strong> under
+<code>chapters/NN/transcript/</code>, <code>curriculum/</code>,
+<code>_evidence/</code> and <code>.locks/</code>.</td>
+</tr>
+<tr>
+<td>S4</td>
+<td>No command writes to <code>chapters/NN/*.mp4</code>,
+<code>*.tar.gz.*</code>, <code>*.sha256</code>, or
+<code>*.pdf</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gate G-CLI-2</strong>: run the full pipeline; assert every
+source file’s <code>(size, mtime, inode)</code> is unchanged.
+<strong>Paired mutation</strong>: have transcribe rewrite the notes PDF
+in place. Gate must FAIL.</p>
+<h3 id="evidence-fr-040-sc-018">2.5 Evidence (FR-040, SC-018)</h3>
+<p>Every run writes to
+<code>$WORKSHOP_EVIDENCE_DIR/&lt;command&gt;/&lt;UTC-timestamp&gt;-&lt;run_id&gt;/</code>:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>manifest.json</code></td>
+<td>Command, argv, resolved environment (secret <strong>names</strong>
+only, never values), host facts, tool versions and their
+capability-probe results, start time</td>
+</tr>
+<tr>
+<td><code>result.json</code></td>
+<td>The <code>--json</code> object of §1.6</td>
+</tr>
+<tr>
+<td><code>stdout.log</code>, <code>stderr.log</code></td>
+<td>Full streams</td>
+</tr>
+<tr>
+<td><code>findings.jsonl</code></td>
+<td>One line per problem found (exit <code>1</code>)</td>
+</tr>
+<tr>
+<td>Command-specific</td>
+<td>e.g. <code>coverage.json</code>, <code>accuracy.json</code>,
+<code>generation.json</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E1</td>
+<td>Evidence is written on <strong>every</strong> outcome —
+<code>0</code>, <code>1</code> and especially <code>2</code>. A run that
+could not determine anything is the run whose evidence matters
+most.</td>
+</tr>
+<tr>
+<td>E2</td>
+<td>If the evidence directory cannot be created or written, the command
+<strong>exits <code>2</code> immediately, before doing any
+work</strong>, printing the reason to stderr. It does not attempt to
+write evidence about failing to write evidence, and it does not proceed
+unrecorded.</td>
+</tr>
+<tr>
+<td>E3</td>
+<td>Evidence is committed alongside the change it describes, so it is
+reviewable at the commit that produced it — mirroring the repository’s
+existing <code>_tests/evidence/</code> practice.</td>
+</tr>
+<tr>
+<td>E4</td>
+<td>Secrets are never written. <code>api_key_env</code> holds the
+<strong>name</strong> of an environment variable; the manifest records
+the name, never the value, never a file path.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="locking">2.6 Locking</h3>
+<p>One exclusive lock per chapter: <code>flock</code> on
+<code>$WORKSHOP_LOCK_DIR/&lt;slug&gt;.lock</code>, plus a global lock
+for <code>index.sh --swap</code>.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Exit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lock acquired</td>
+<td>proceed</td>
+</tr>
+<tr>
+<td>Lock held by a <strong>live</strong> process</td>
+<td><code>2</code>, <code>reason.code: "lock_held"</code>, with the
+holder’s pid and command</td>
+</tr>
+<tr>
+<td>Lock file present, holder <strong>not alive</strong></td>
+<td>Stale lock is reclaimed, and the reclamation is recorded in the
+manifest</td>
+</tr>
+<tr>
+<td>Lock directory unwritable</td>
+<td><code>2</code></td>
+</tr>
+</tbody>
+</table>
+<p>A held lock is never <code>1</code>. Another run being in progress is
+not a defect in the content.</p>
+<h3 id="no-ci-fr-034-sc-014-constitution-11.4.156">2.7 No CI (FR-034,
+SC-014, constitution §11.4.156)</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N1</td>
+<td>These commands are <strong>local only</strong>. No command in this
+contract creates, references or requires a
+<code>.github/workflows/*.yml</code> file anywhere, including inside
+<code>workshop/</code>.</td>
+</tr>
+<tr>
+<td>N2</td>
+<td><code>verify.sh</code> (§4.9) is the aggregation point the
+umbrella’s local pre-push hook calls. It is a script, not a
+workflow.</td>
+</tr>
+<tr>
+<td>N3</td>
+<td>Introducing an active workflow is a release blocker.
+<code>scripts/pre-push-gates.sh</code> gate <code>E</code> already
+enforces this at the umbrella root; the workshop’s own tree is covered
+by the same fleet check, which derives the owned set from
+<code>helix-deps.yaml</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="memory-constitution-quality-over-speed">2.8 Memory
+(constitution, Quality Over Speed)</h3>
+<p>Each long-running command computes a cap from
+<code>MemTotal × WORKSHOP_MAX_RAM_PCT</code> and prints the arithmetic.
+It reduces concurrency to fit. If the job cannot fit even at minimum
+concurrency ⇒ exit <code>2</code>,
+<code>reason.code: "insufficient_memory"</code> — not a crash, and not a
+silent overcommit.</p>
+<h3 id="never-edit-a-running-script">2.9 Never edit a running
+script</h3>
+<p>The constitution states it plainly: <em>“Never edit a shell script
+while it is executing — bash reads scripts lazily and a live edit makes
+the running shell execute garbage.”</em> Long-running commands
+(<code>transcribe.sh</code>, <code>index.sh</code>,
+<code>add-chapter.sh</code>) record their own file hash in the manifest
+at start and re-check it at each checkpoint. A change ⇒ abort with exit
+<code>2</code>,
+<code>reason.code: "script_modified_while_running"</code>.</p>
+<hr />
+<h2 id="preflight-the-checks-that-run-before-any-command-does-work">3.
+Preflight — the checks that run before any command does work</h2>
+<h3 id="structure">3.1 Structure</h3>
+<p>Preflight is a shared routine. It classifies every finding as
+<strong><code>2</code> (tooling)</strong> or <strong><code>1</code>
+(content)</strong> and reports <strong>all</strong> findings, not the
+first (FR-028’s “report precisely what is missing” applies to tooling
+too).</p>
+<h3
+id="the-ffprobe-capability-probe-a-named-check-because-of-a-measured-trap">3.2
+The <code>ffprobe</code> capability probe — a named check, because of a
+measured trap</h3>
+<p>Corrected premise 3 (plan.md): <code>&lt;home&gt;/bin/ffprobe</code>
+is a <strong>symlink to Playwright’s ffmpeg binary</strong>. It accepts
+<code>--version</code> — so a naive probe reports it present — and
+rejects <code>-show_format</code> with <em>“Unrecognized option”</em>,
+which reads like a bad-argument error rather than a missing tool. Both
+<code>ffmpeg</code> and <code>ffprobe</code> resolve into
+<code>~/.cache/ms-playwright/ffmpeg-1011/</code>, an npx-managed cache
+that <code>npx playwright uninstall</code> would remove.</p>
+<p><strong>Normative</strong>:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1</td>
+<td><code>ffprobe --version</code> succeeding is <strong>NOT</strong>
+acceptance and MUST NOT be used as the probe.</td>
+</tr>
+<tr>
+<td>P2</td>
+<td>The probe runs
+<code>ffprobe -v quiet -print_format json -show_format -show_streams &lt;fixture&gt;</code>
+against a tiny committed media fixture and requires exit <code>0</code>
+<strong>and</strong> parseable JSON containing a <code>format</code>
+object.</td>
+</tr>
+<tr>
+<td>P3</td>
+<td>The probe likewise exercises <code>ffmpeg</code> by decoding the
+fixture to a null sink.</td>
+</tr>
+<tr>
+<td>P4</td>
+<td>Failure ⇒ exit <code>2</code>,
+<code>reason.code: "ffprobe_unusable"</code>, with the resolved path,
+the symlink target, and the remedy.</td>
+</tr>
+<tr>
+<td>P5</td>
+<td>The resolved path is recorded in the manifest. If it resolves inside
+a browser-automation cache, the command prints a warning: a production
+content pipeline must not depend on an npx-managed cache.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gate G-CLI-3</strong>: point <code>WORKSHOP_FFPROBE</code> at
+Playwright’s ffmpeg binary; assert exit <code>2</code> with
+<code>ffprobe_unusable</code>. <strong>Paired mutation</strong>: change
+the probe to <code>ffprobe --version</code>. Gate must FAIL — it will
+report the tool as present.</p>
+<h3 id="other-preflight-checks">3.3 Other preflight checks</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Check</th>
+<th>Failing exit</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python venv exists and imports <code>faster_whisper</code></td>
+<td><code>2</code></td>
+<td>Premise 4: no ASR engine is installed on this host today;
+<code>/usr/bin/whisper</code> is <code>whisper-1.3.1-alt1</code>, an
+unrelated microphone-loopback GUI. <code>import whisper</code>
+fails.</td>
+</tr>
+<tr>
+<td>ASR model file present and hash matches</td>
+<td><code>2</code></td>
+<td></td>
+</tr>
+<tr>
+<td>SQLite build has FTS5</td>
+<td><code>2</code></td>
+<td>Verified available in <code>modernc.org/sqlite</code>, already in
+the reference module’s <code>go.mod</code></td>
+</tr>
+<tr>
+<td>Embedding backend reachable <strong>and answering</strong></td>
+<td><code>2</code></td>
+<td>A liveness probe alone is insufficient — <code>health_check</code>
+returned <code>OK</code> 2 ms before <code>semantic_search</code> failed
+with <code>all embedding servers exhausted</code>. The probe must issue
+a real bounded embed.</td>
+</tr>
+<tr>
+<td>Chapter directory exists</td>
+<td><code>1</code></td>
+<td>Content</td>
+</tr>
+<tr>
+<td>Chapter material set complete</td>
+<td><code>1</code></td>
+<td>FR-028 — §4.7</td>
+</tr>
+<tr>
+<td>Evidence dir writable</td>
+<td><code>2</code></td>
+<td>E2</td>
+</tr>
+<tr>
+<td>Free disk ≥ required</td>
+<td><code>2</code></td>
+<td>Decode alone produces a 211 MiB WAV; reassembly needs 1.8 GB</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="command-contracts">4. Command contracts</h2>
+<h3 id="transcribe.sh-chapter-slug">4.1
+<code>transcribe.sh &lt;chapter-slug&gt;</code></h3>
+<p><strong>Traces</strong>: FR-001, FR-002, FR-003, FR-005, FR-006,
+FR-007, FR-029, SC-001, SC-003.</p>
+<p><strong>Arguments</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;chapter-slug&gt;</code></td>
+<td>required</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--resume</code></td>
+<td>off</td>
+<td>Skip chunks whose output exists and whose embedded input hash
+matches (FR-029)</td>
+</tr>
+<tr>
+<td><code>--from-parts</code></td>
+<td>auto</td>
+<td>Invoke <code>extract-videos.sh</code> first if the reassembled file
+is absent</td>
+</tr>
+<tr>
+<td><code>--chunk-seconds N</code></td>
+<td><code>300</code></td>
+<td>D-TRANS-4</td>
+</tr>
+<tr>
+<td><code>--model M</code></td>
+<td><code>large-v3-turbo</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--threads N</code></td>
+<td>derived</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--sample-seconds N</code></td>
+<td>—</td>
+<td>Calibration mode: transcribe only the first N seconds (this is the
+run that closes U1/U2/U3)</td>
+</tr>
+<tr>
+<td><code>--dry-run</code></td>
+<td>off</td>
+<td>Preflight + partition only; write <code>chunks.json</code>,
+transcribe nothing</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects</strong> — all under
+<code>chapters/NN/transcript/</code>:</p>
+<pre><code>transcript/work/audio.wav        16 kHz mono, ~211 MiB, decoded ONCE and hashed
+transcript/work/vad.json         speech/non-speech regions, stamped with the WAV hash
+transcript/work/chunks.json      deterministic partition; each entry has index, abs start/end, hash
+transcript/work/chunks/NNN.json  per-chunk output — the checkpoint
+transcript/machine.jsonl         assembled machine passages (immutable once written)
+transcript/transcript.machine.md renderable machine transcript
+transcript/coverage.json         the SC-001 arithmetic identity
+$WORKSHOP_EVIDENCE_DIR/transcribe/&lt;ts&gt;-&lt;run_id&gt;/</code></pre>
+<p><strong>Idempotency &amp; resume</strong>: the partition is
+deterministic — identical WAV hash ⇒ identical <code>chunks.json</code>.
+Resume recomputes VAD and partition, then skips any chunk whose output
+exists <strong>and</strong> whose embedded input hash matches.
+Everything else is redone. There is no state beyond the files
+themselves. Each chunk is written <code>.tmp</code> → <code>fsync</code>
+→ <code>rename()</code>; <strong>the atomic rename is the
+checkpoint</strong>, so a crash leaves each chunk file either absent or
+complete, never half-written. A half-written chunk that parsed as valid
+JSON would be silent, plausible data loss — which is why the rename, not
+a lock or a database, is the mechanism.</p>
+<p><strong>Progress (FR-029)</strong>: chunks completed / 24,
+audio-seconds completed / 6928.75, elapsed, and a projected finish
+<strong>derived from the measured rate so far — never from the D-TRANS-1
+estimate</strong> (which is itself UNVERIFIED, §6 U2). Written to the
+run manifest as it goes, so an interrupted run leaves a readable record
+of how far it got.</p>
+<p><strong>Coverage proof (SC-001)</strong>:
+<code>⋃ passage spans ∪ ⋃ VAD non-speech spans == [0, duration_s)</code>
+exactly. Any second belonging to neither is an <strong>unexplained
+gap</strong>. The eight measured long silences (4552.33, 4626.42,
+4872.28, 5009.90, 5025.19, 5998.99, 6063.45, 6925.35 s) are a ready-made
+VAD fixture: the detector must independently classify all eight as
+non-speech, and gap 8 is the recording’s trailing tail — the assembled
+transcript must terminate with an accounted-for non-speech region, which
+is the most likely place for the coverage assertion itself to be
+wrong.</p>
+<p><strong>Uncertainty (FR-003)</strong>: <code>uncertain</code> is set
+from the engine’s <code>avg_logprob</code>, <code>no_speech_prob</code>
+and <code>compression_ratio</code>. <code>faster-whisper</code> is
+chosen precisely because it returns them; without a confidence signal
+FR-003 has nothing to key on and becomes editorial opinion. Text is
+<strong>never</strong> invented for an unclear segment.</p>
+<p><strong>Speakers (FR-005)</strong>: <code>speaker</code> is left
+<code>null</code> with <code>speaker_source: "unattributed"</code>. No
+diarization is run: the audio is dual-mono (L−R = −90.3 dB) and
+uniformly AGC-compressed, so both cues that make diarization tractable
+are measurably absent.</p>
+<p><strong>Exit codes</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Conditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>All chunks transcribed, coverage identity holds, sources
+unchanged</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>Unexplained coverage gap; a VAD-declared silence contradicting a
+measured long silence; source <code>(size, mtime, inode)</code> changed
+during the run; <code>extract-videos.sh</code> reported a
+<strong>checksum mismatch</strong></td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>ffmpeg/ffprobe unusable (§3.2); venv or model missing; embedding/ASR
+helper crashed; disk full; RAM cap unsatisfiable; lock held;
+interrupted; <code>extract-videos.sh</code> could not read a part;
+script modified while running</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gate G-CLI-4</strong>: delete one chunk’s output and assert
+the coverage check reports exit <code>1</code>. <strong>Paired
+mutation</strong>: make coverage tolerate gaps under a threshold. Gate
+must FAIL. <em>(This is the mutation proof D-TRANS-4 names.)</em></p>
+<hr />
+<h3 id="verify-accuracy.sh-chapter-slug">4.2
+<code>verify-accuracy.sh &lt;chapter-slug&gt;</code></h3>
+<p><strong>Traces</strong>: FR-004, FR-033, SC-002, SC-013.</p>
+<p><strong>Arguments</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--reference &lt;path&gt;</code></td>
+<td>required</td>
+<td>Blind human transcription of the sampled windows</td>
+</tr>
+<tr>
+<td><code>--windows N</code></td>
+<td><code>30</code></td>
+<td>≥30 stratified 30-second <strong>audio-timeline</strong>
+windows</td>
+</tr>
+<tr>
+<td><code>--seed N</code></td>
+<td>recorded</td>
+<td>Seeded so the sample is reproducible</td>
+</tr>
+<tr>
+<td><code>--normaliser &lt;path&gt;</code></td>
+<td>frozen</td>
+<td>Its SHA-256 is recorded and must match the frozen hash</td>
+</tr>
+<tr>
+<td><code>--min-accuracy X</code></td>
+<td>unset</td>
+<td>When set, a WER above <code>1 − X</code> is a
+<strong>finding</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Method (D-TRANS-3)</strong>: word error rate against a blind
+human reference over seeded, stratified <strong>audio-timeline</strong>
+windows — not sampled machine passages. Sampling passages makes
+whole-region deletions structurally invisible: a dropped span produces
+no passage to sample, so accuracy is biased upward exactly where the
+transcript is worst. Thirty 30 s windows span well over 30 passages, so
+SC-002’s wording is satisfied on its own terms while the bias is
+removed. Companion metrics: coverage-gap rate (SC-001), timestamp error
+median/p95 against the 5 s bound (SC-003), speaker accuracy
+(FR-005).</p>
+<p><strong>Side effects</strong>:
+<code>chapters/NN/transcript/accuracy.json</code>, plus evidence.</p>
+<p><strong>Exit codes</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Conditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>WER measured and written; if <code>--min-accuracy</code> was given,
+it is met</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>WER measured and <strong>below</strong> <code>--min-accuracy</code>;
+or a companion metric breached (e.g. timestamp p95 &gt; 5 s)</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><strong><code>--reference</code> missing or unreadable</strong>;
+normaliser hash mismatch; fewer windows available than requested; audio
+unreadable</td>
+</tr>
+</tbody>
+</table>
+<p>The first <code>2</code> case is the most important line in this
+section: <strong>the absence of a human reference is <code>2</code>,
+never <code>0</code>.</strong> A command that cannot measure accuracy
+must not report that accuracy is fine. Until this command has run,
+<code>GET /api/chapters/{c}/accuracy</code> reports
+<code>measured: false, wer: null</code> (<a
+href="./http-api.md">http-api.md §3.12</a>).</p>
+<p><strong>Gate G-CLI-5</strong>: run with <code>--reference</code>
+pointing at a nonexistent file; assert exit <code>2</code>.
+<strong>Paired mutation</strong>: return <code>0</code> with
+<code>wer: 0.0</code> when the reference is absent. Gate must FAIL.</p>
+<hr />
+<h3 id="ingest.sh-chapter-slug">4.3
+<code>ingest.sh [&lt;chapter-slug&gt;]</code></h3>
+<p><strong>Traces</strong>: FR-016, FR-027, FR-037, FR-038, SC-016.</p>
+<p><strong>Arguments</strong>: <code>--write-anchors</code> (default on
+for <code>workshop/</code>-owned text), <code>--no-write-anchors</code>,
+<code>--kinds transcript,doc_section,code,diagram</code>,
+<code>--corpus &lt;path&gt;</code> (D2: <code>workshop/</code> plus the
+<code>vasic</code> monorepo), <code>--dry-run</code>,
+<code>--check-idempotent</code>.</p>
+<p><strong>Behaviour</strong>: implements the matching algorithm and
+idempotency contract of <a
+href="./passage-contract.md">passage-contract.md §8</a> exactly. Nothing
+here restates it; the two must not drift.</p>
+<p><strong>Side effects</strong>: <code>curriculum/passages.jsonl</code>
+(sorted, byte-stable), <code>curriculum/passages.db</code>, anchors
+written back into <code>workshop/</code>-owned text sources, sidecars
+for anchorless formats, evidence.</p>
+<p><strong>Idempotency (FR-027)</strong>: a second run over unchanged
+input mints zero pids, writes zero anchors, produces a byte-identical
+<code>passages.jsonl</code>, leaves every source byte-identical, creates
+no new generation, and exits <code>0</code>.
+<code>--check-idempotent</code> performs the second run into a scratch
+tree and diffs, reporting exit <code>1</code> on any difference.</p>
+<p><strong>Exit codes</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Conditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Ingest complete; registry consistent</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>Duplicate anchor (R1b); foreign anchor (R1c); unaliased rename of
+<code>workshop/</code>-owned code (R4); non-idempotent second run; a
+<code>pid</code> collision; a passage violating a field invariant
+(F1–F7)</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>Registry unreadable or locked; symbol source unavailable (§6 P-U1);
+disk full; interrupted</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="index.sh">4.4 <code>index.sh</code></h3>
+<p><strong>Traces</strong>: FR-014, FR-015, FR-016, FR-020, FR-027,
+SC-005, SC-006.</p>
+<p><strong>Arguments</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--chapter S</code></td>
+<td>all</td>
+<td>Scope</td>
+</tr>
+<tr>
+<td><code>--lexical-only</code></td>
+<td>off</td>
+<td>Build only the FTS5 leg. <strong>The honest escape hatch when the
+embedding backend is saturated.</strong></td>
+</tr>
+<tr>
+<td><code>--semantic-only</code></td>
+<td>off</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--verify-only</code></td>
+<td>off</td>
+<td>Run the verification gate against an existing <code>building</code>
+generation; swap nothing</td>
+</tr>
+<tr>
+<td><code>--swap</code></td>
+<td>on</td>
+<td>Promote <code>verified</code> → <code>live</code> by atomic
+swap</td>
+</tr>
+<tr>
+<td><code>--no-swap</code></td>
+<td>off</td>
+<td>Build and verify; leave promotion to a later run</td>
+</tr>
+<tr>
+<td><code>--timeout-ms N</code></td>
+<td><code>5000</code> per call</td>
+<td>Bounded — an unbounded query is how a 10-minute stall happens</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Behaviour (D-SEARCH-5)</strong>: builds a
+<strong>new</strong> generation; never mutates the live one. Only a
+<code>verified</code> generation may become <code>live</code>. Readers
+never see <code>building</code>. A generation failing its gate is
+<code>discarded</code> and never served — which is what keeps FR-020
+honest. Verification inputs include <code>pid_count</code> and the
+<code>root_hash</code> over member <code>content_hash</code>es.</p>
+<p>This discipline exists because a half-written readable index was
+<strong>measured</strong>: during the live rebuild, <code>chunks</code>
+moved 58,734 → 58,744 while
+<code>last_indexed_at</code>/<code>root_hash</code> still advertised the
+previous generation.</p>
+<p><strong>Interactive capacity reservation</strong>: index runs must
+leave embedding capacity for interactive queries. This is a hard
+requirement, not a nicety — <code>scripts/ollama-tune.sh</code> records
+that with <code>OLLAMA_NUM_PARALLEL</code> resolving to 1, <em>“a single
+embed went from 0.74 s to a &gt;90 s client timeout, which stalled
+indexing entirely”</em>, with the note <em>“queue depth is not the
+defect — serialisation is.”</em> Without reservation, SC-006 fails on
+every chapter ingest — precisely when people are using the system.</p>
+<p><strong>Exit codes</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Conditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>New generation verified and live, or already current with nothing to
+do</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td><strong>Verification gate failed</strong> — the generation is
+discarded. A real problem, found: e.g. <code>pid_count</code> mismatch,
+a member pid absent from the registry, a redacted passage present in the
+index</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>Embedding backend unreachable, <strong>exhausted</strong>, timed
+out, or returning degenerate vectors; Lumen unreachable; no verified
+generation exists to serve; global swap lock held; disk full;
+interrupted</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The line that must not be blurred</strong>:
+<code>all embedding servers exhausted</code> is <strong>exit
+<code>2</code></strong>, never <code>1</code>. The corpus is not at
+fault when the backend is saturated. Reporting <code>1</code> there
+makes a broken backend accuse a healthy curriculum — the exact
+conflation the Honest Instruments principle names.</p>
+<p><strong>Partial outcomes</strong>: if <code>--semantic-only</code>
+fails but a lexical generation is usable, the exit is still
+<code>2</code> (the requested work did not complete), and
+<code>result.json</code> carries
+<code>"partial": {"lexical": "ok", "semantic": "failed"}</code> so the
+operator learns that search will degrade rather than die.</p>
+<p><strong>Gate G-CLI-6</strong>: point the embedding endpoint at a
+closed port; assert exit <code>2</code> with
+<code>embedding_backend_exhausted</code> <strong>and</strong> that the
+previously live generation is still live and serving. <strong>Paired
+mutation</strong>: map backend failure to exit <code>1</code>. Gate must
+FAIL.</p>
+<hr />
+<h3 id="crossref.sh">4.5 <code>crossref.sh</code></h3>
+<p><strong>Traces</strong>: FR-018, SC-016.</p>
+<p><strong>Arguments</strong>: <code>--chapter S</code>,
+<code>--min-score X</code>, <code>--max-per-passage N</code> (default
+<code>20</code>), <code>--rebuild-derived</code>,
+<code>--check-cycles</code>.</p>
+<p><strong>Behaviour</strong>: rebuilds <code>origin: "derived"</code>
+edges for the target generation. <strong><code>authored</code> edges are
+never touched</strong> — they are content, not derivation (<a
+href="./passage-contract.md">passage-contract.md §7.4 X4</a>).
+Self-references are rejected. Traversal is cycle-checked.</p>
+<p><strong>Exit codes</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Conditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Edges built; no cycle among <code>authored</code> edges</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>A cycle among <code>authored</code> edges (a content defect a human
+introduced); an edge whose endpoint is not in the registry; a
+self-reference in authored content</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>Embedding backend unavailable for similarity scoring; registry
+unreadable; interrupted</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="redact.sh">4.6 <code>redact.sh</code></h3>
+<p><strong>Traces</strong>: FR-039, SC-016.</p>
+<p><strong>Arguments</strong>: <code>--pid P</code> (repeatable),
+<code>--pids-file F</code>, <code>--reason CODE</code> (required),
+<code>--by NAME</code> (required), <code>--unredact</code>,
+<code>--review-only</code>.</p>
+<p><strong>Behaviour</strong>: appends to the <code>redactions</code>
+log, materialises <code>passages.redacted</code>, marks affected stored
+answers <code>withdrawn</code>, and marks the live generation as
+requiring a rebuild. Propagation rules R1–R7 of <a
+href="./passage-contract.md">passage-contract.md §7.3</a> apply in full
+— index, cross-references and stored answers, not merely the rendered
+transcript.</p>
+<p><code>--review-only</code> records the FR-039 redaction review for a
+chapter without redacting anything. Recording <em>“none required”</em>
+is an explicit, valid decision; <strong>skipping the review is
+not</strong>. The review artifact is
+<code>chapters/NN/redaction-review.json</code> and must be newer than
+the transcript it reviews.</p>
+<p><strong>Exit codes</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Conditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Redaction (or review) recorded</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>A supplied pid is not in the registry; a redaction is requested for
+a pid already redacted with a different reason; the review is stale
+relative to the transcript</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>Registry unwritable; the index rebuild required to make the
+redaction effective could not be started; interrupted</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="add-chapter.sh-chapter-slug-the-fr-026-procedure">4.7
+<code>add-chapter.sh &lt;chapter-slug&gt;</code> — the FR-026
+procedure</h3>
+<p><strong>Traces</strong>: FR-026, FR-027, FR-028, FR-029, FR-039,
+SC-011, SC-016.</p>
+<p>This is the single documented, repeatable procedure. It requires
+<strong>no code changes</strong> to add a chapter — a new chapter is a
+new directory plus a manifest.</p>
+<p><strong>Required inputs</strong> (this list is the contract; anything
+else is optional):</p>
+<pre><code>chapters/&lt;NN&gt;/chapter.yaml            ordinal, slug, title, summary
+chapters/&lt;NN&gt;/&lt;recording&gt;.tar.gz.NNN  size-bounded parts
+chapters/&lt;NN&gt;/&lt;recording&gt;.sha256      video-archive-manifest v1
+chapters/&lt;NN&gt;/materials/              optional supporting material</code></pre>
+<p><strong>Stages, in order</strong>:
+<code>preflight → extract → transcribe → verify-accuracy → ingest → index → crossref → redaction-review → publish</code>.</p>
+<p><strong>Arguments</strong>: <code>--resume</code>,
+<code>--only &lt;stage&gt;</code>, <code>--skip &lt;stage&gt;</code>,
+<code>--from &lt;stage&gt;</code>, <code>--dry-run</code>,
+<code>--json</code>, <code>--check-idempotent</code>.</p>
+<p><strong>FR-028 — incomplete material sets</strong></p>
+<p>Preflight enumerates <strong>every</strong> missing or malformed
+item, not the first, and separates the two classes:</p>
+<pre class="jsonc"><code>{ &quot;state&quot;: &quot;problem_found&quot;, &quot;exit&quot;: 1,
+  &quot;findings&quot;: [
+    { &quot;code&quot;: &quot;missing_file&quot;,    &quot;path&quot;: &quot;chapters/02/chapter.yaml&quot; },
+    { &quot;code&quot;: &quot;missing_field&quot;,   &quot;path&quot;: &quot;chapters/02/chapter.yaml&quot;, &quot;field&quot;: &quot;summary&quot; },
+    { &quot;code&quot;: &quot;parts_incomplete&quot;,&quot;expected&quot;: 36, &quot;present&quot;: 34,
+      &quot;missing&quot;: [&quot;…tar.gz.021&quot;, &quot;…tar.gz.030&quot;] }
+  ] }</code></pre>
+<ul>
+<li>Missing <strong>materials</strong> ⇒ exit <code>1</code>.
+Determined: the chapter is incomplete.</li>
+<li>Missing <strong>tooling</strong> ⇒ exit <code>2</code>. Determined
+nothing about the chapter.</li>
+</ul>
+<p><strong>A partial chapter is never published as complete.</strong>
+Publication requires, all of them:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Publish precondition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1</td>
+<td><code>coverage.unexplained_gap_s == 0</code></td>
+</tr>
+<tr>
+<td>B2</td>
+<td><code>accuracy.json</code> exists —
+i.e. <code>verify-accuracy.sh</code> has actually run (FR-004). Its
+<em>value</em> may be below target; its <em>absence</em> blocks.</td>
+</tr>
+<tr>
+<td>B3</td>
+<td>Every passage has a <code>pid</code> in
+<code>passages.jsonl</code></td>
+</tr>
+<tr>
+<td>B4</td>
+<td>The generation containing the chapter is <code>live</code></td>
+</tr>
+<tr>
+<td>B5</td>
+<td><code>redaction-review.json</code> exists and is newer than the
+transcript (FR-039)</td>
+</tr>
+<tr>
+<td>B6</td>
+<td>No source file changed during the run (S2)</td>
+</tr>
+</tbody>
+</table>
+<p>Failing any of B1–B6 ⇒ exit <code>1</code>, chapter remains
+<code>transcribed</code>, not <code>published</code>.</p>
+<p><strong>FR-027 — idempotency.</strong> A second run on the same
+chapter MUST:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Assertion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>J1</td>
+<td>Exit <code>0</code></td>
+</tr>
+<tr>
+<td>J2</td>
+<td>Mint zero pids, write zero anchors</td>
+</tr>
+<tr>
+<td>J3</td>
+<td>Leave <code>passages.jsonl</code> byte-identical</td>
+</tr>
+<tr>
+<td>J4</td>
+<td>Leave the published curriculum tree byte-identical,
+<strong>except</strong> for new evidence directories, whose timestamps
+and run ids necessarily differ</td>
+</tr>
+<tr>
+<td>J5</td>
+<td>Create no new index generation</td>
+</tr>
+<tr>
+<td>J6</td>
+<td>Produce no duplicate chapter, section, passage or
+cross-reference</td>
+</tr>
+</tbody>
+</table>
+<p><code>--check-idempotent</code> performs the second run and asserts
+J1–J6, reporting exit <code>1</code> on any breach.</p>
+<p><strong>Gate G-CLI-7</strong>: run <code>add-chapter.sh</code> twice
+on a small synthetic chapter; assert J1–J6. <strong>Paired
+mutation</strong>: make ingest mint whenever no anchor was read this
+run. Gate must FAIL on J2, J3 and J5 simultaneously.</p>
+<p><strong>Gate G-CLI-8</strong>: remove <code>chapter.yaml</code> and
+two archive parts; assert exit <code>1</code> with
+<strong>three</strong> findings enumerated and nothing published.
+<strong>Paired mutation</strong>: report only the first finding and
+publish anyway. Gate must FAIL.</p>
+<p><strong>SC-011</strong> (a maintainer adds a chapter in under 30
+minutes of hands-on time) is about <em>hands-on</em> time. Transcription
+wall-clock is 40–80 minutes idle by estimate —
+<strong>UNVERIFIED</strong> (§6 U2) and roughly doubled under current
+load. The command is therefore resumable and backgroundable, and
+<code>--json</code> progress is machine-readable so the maintainer is
+not sitting at a terminal.</p>
+<hr />
+<h3 id="control-plane-build-start-stop-restart-status">4.8 Control plane
+— <code>build</code> / <code>start</code> / <code>stop</code> /
+<code>restart</code> / <code>status</code></h3>
+<p><strong>Traces</strong>: FR-012, FR-013, FR-025, SC-004, D1,
+§11.4.76, §11.4.161.</p>
+<blockquote>
+<p><strong>Rewritten 2026-09-01.</strong> An earlier revision of this
+section specified <strong>native</strong> launch —
+<em>“<code>start.sh</code>/<code>stop.sh</code> … run the built binary
+natively, as <code>ai_interviewing</code> does”</em> — as the forced
+consequence of C-U6’s since-withdrawn “not a submodule of this tree”.
+That premise is withdrawn (§7.1) and so is the native specification that
+rested on it. <strong>The control plane is containerised.</strong> This
+is not a preference this document is free to re-litigate: the operator
+requires container operation, and §11.4.76 makes
+<code>vasic-digital/containers</code> the only legal way to provide it.
+The two point the same way.</p>
+</blockquote>
+<h4
+id="the-orchestration-seam-what-is-consumed-and-what-is-written-here">4.8.0
+The orchestration seam — what is consumed and what is written here</h4>
+<p><code>submodules/containers</code>
+(<code>digital.vasic.containers</code>, gitlink <code>4dab992</code>)
+supplies, as a <strong>Go API</strong>: runtime auto-detection with
+<strong>podman first and rootless</strong> (§11.4.161 — the host has
+podman 5.7.1 rootless and no docker) in <code>pkg/runtime</code>;
+compose orchestration that resolves the compose CLI to
+<code>podman-compose</code> and suppresses the docker-only
+<code>--wait</code> flag in <code>pkg/compose</code>; and TCP/HTTP/gRPC
+health checkers in <code>pkg/health</code>. §11.4.76(3) names exactly
+these packages as the things a consuming project invokes.</p>
+<p><strong><code>cmd/boot</code> is NOT the seam, and specifying it
+would have specified a silent false pass.</strong> An earlier revision
+of this section said the wrappers “invoke <code>cmd/boot</code>”.
+Measured at gitlink <code>4dab992</code> in
+<code>submodules/containers/cmd/boot/main.go</code>:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Measured</th>
+<th>Consequence for this contract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Its whole flag set is <code>--env</code>, <code>--project</code>,
+<code>--timeout</code>, <code>--help</code>. There are no
+<code>up</code> / <code>down</code> / <code>status</code> subcommands
+and <strong>no compose-file flag at all</strong>.</td>
+<td>The lifecycle verbs and the compose file this control plane needs
+cannot be expressed through it.</td>
+</tr>
+<tr>
+<td>It hardcodes a single endpoint map,
+<code>{"helixagent": localhost:7061}</code>
+(<code>main.go:148–153</code>), with no flag to change it.</td>
+<td>It boots someone else’s service, not this stack.</td>
+</tr>
+<tr>
+<td>Its <code>boot.NewBootManager</code> is constructed with runtime,
+logger, projectDir, distributor, hostManager and scheduler — <strong>no
+orchestrator and no health checker</strong>.</td>
+<td>Nothing brings a compose project up and nothing verifies
+health.</td>
+</tr>
+<tr>
+<td><code>runBoot</code> returns <code>nil</code> after
+<code>BootAll</code>, so the process <strong>exits <code>0</code> having
+started nothing</strong>.</td>
+<td>A wrapper trusting that exit code reports a healthy stack that does
+not exist.</td>
+</tr>
+</tbody>
+</table>
+<p>That last row is decisive: <code>cmd/boot</code> is a <strong>green
+instrument over an absent system</strong>, the precise bluff shape
+§11.4.76(5) and the constitution’s anti-bluff rules exist to catch. A
+contract that named it would have mandated the failure its own G-CLI-15
+forbids. This is recorded rather than quietly routed around, because the
+next reader will otherwise reach for <code>cmd/boot</code> for the same
+reason the earlier revision did — it is the obviously-named entry
+point.</p>
+<p><strong>The seam is therefore the Go API, reached through a consuming
+adapter.</strong> <code>workshop-boot</code> (built from
+<code>workshop/platform/orchestration/cmd/workshop-boot</code>, module
+<code>…/platform/orchestration</code>, which consumes
+<code>digital.vasic.containers</code> via the §11.4.76(2)
+<code>replace</code>) imports <code>pkg/compose</code>,
+<code>pkg/health</code>, <code>pkg/runtime</code> and
+<code>pkg/logging</code> and exposes the verbs this control plane
+actually needs: <code>up</code>, <code>down</code>, <code>status</code>,
+<code>probe</code>. It <strong>does not</strong> shell out to
+podman.</p>
+<p>This is consumption, not reimplementation, and the distinction is not
+a matter of framing: the adapter contains no runtime detection, no
+compose driving, and no health-check logic of its own — all three are
+called in the submodule. What it adds is argument surface and the §1
+exit mapping.</p>
+<p>What this feature writes, and <strong>all</strong> it may write:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Written here?</th>
+<th>Why that is §11.4.76-legal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Runtime detection, compose orchestration, health checking</td>
+<td><strong>No</strong> — consumed from <code>pkg/runtime</code>,
+<code>pkg/compose</code>, <code>pkg/health</code></td>
+<td>§11.4.76(1),(4): reimplementation is the violation</td>
+</tr>
+<tr>
+<td>Go module consuming <code>digital.vasic.containers</code> via
+<code>replace</code> (§11.4.76(2))</td>
+<td>Yes</td>
+<td>The prescribed development-time consumption form</td>
+</tr>
+<tr>
+<td>The <code>workshop-boot</code> adapter exposing
+<code>up</code>/<code>down</code>/<code>status</code>/<code>probe</code>
+over that API</td>
+<td>Yes</td>
+<td>§11.4.76(3) prescribes invoking the
+<code>boot</code>/<code>compose</code>/<code>health</code> APIs; a CLI
+face over them adds no orchestration</td>
+</tr>
+<tr>
+<td>A compose file describing <em>this</em> stack’s services</td>
+<td>Yes</td>
+<td><code>ComposeProject.File</code> accepts an arbitrary compose file;
+supplying data to a consumed API is consumption</td>
+</tr>
+<tr>
+<td>Thin bash wrappers that invoke <code>workshop-boot</code></td>
+<td>Yes</td>
+<td>No usable bash or CLI boot entry point exists upstream.
+<strong>Anything beyond thin wrapping must be contributed
+upstream</strong>, not grown locally</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Upstream debt this creates, stated rather than left
+implicit.</strong> <code>cmd/boot</code>’s four defects above are
+upstream defects. §11.4.76(4) makes fixing them there — a compose-file
+flag, lifecycle verbs, an orchestrator and health checker on the
+<code>BootManager</code>, and a non-zero exit when nothing booted — the
+correct long-run remedy, with the adapter narrowing as they land.
+<code>workshop/platform/upstream-contributions/</code> is where that
+work is staged. The adapter is legal today because it consumes rather
+than reimplements; it is not a licence to keep growing locally what
+belongs upstream.</p>
+<p><strong>Explicitly forbidden</strong>, and named so it cannot be
+reintroduced by drift: a hand-rolled
+<code>Containerfile</code>-plus-<code>podman run</code> stack, a bash
+<em>or Go</em> reimplementation of health polling, backoff or compose
+driving inside <code>workshop/</code>, and any direct
+<code>podman</code>/<code>podman-compose</code> invocation that bypasses
+<code>workshop-boot</code> to bring the stack up or down. Direct
+<code>podman</code> calls are permitted <strong>only</strong> for
+read-only post-mortem diagnostics on a failure path (for example tailing
+a dead container’s logs), never for lifecycle.</p>
+<p>Each bash wrapper is a <em>translator</em>, not a <em>manager</em>:
+it resolves configuration per §2.2, invokes <code>workshop-boot</code>,
+and maps the result onto the §1 three-valued exit taxonomy. That mapping
+is the only orchestration-adjacent logic the bash layer owns.</p>
+<p><strong>Additional §2.2 variables this seam requires</strong> —
+derived when unset, overridable, same resolution order as everywhere
+else:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Derived from</th>
+<th>Governs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WORKSHOP_COMPOSE_FILE</code></td>
+<td><code>$WORKSHOP_ROOT/platform/compose.yml</code></td>
+<td>The stack definition handed to <code>workshop-boot</code></td>
+</tr>
+<tr>
+<td><code>WORKSHOP_PROJECT_NAME</code></td>
+<td><code>workshop_curriculum</code></td>
+<td>Compose project label; scopes every lifecycle call</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_BOOT_BIN</code></td>
+<td><code>$WORKSHOP_ROOT/platform/bin/workshop-boot</code></td>
+<td>The built adapter over <code>pkg/compose</code> +
+<code>pkg/health</code> + <code>pkg/runtime</code></td>
+</tr>
+<tr>
+<td><code>WORKSHOP_STATE_FILE</code></td>
+<td><code>$WORKSHOP_ROOT/platform/run/server.json</code></td>
+<td>Resolved endpoint of the running stack — replaces the pidfile a
+native design would have used</td>
+</tr>
+<tr>
+<td><code>WORKSHOP_STACK_WAIT</code></td>
+<td><code>30</code></td>
+<td>Seconds <code>workshop-boot</code> waits for health, via
+<code>pkg/health</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The pidfile is gone.</strong> A container’s liveness is not a
+PID on this host, so every exit-code condition below that previously
+read “pidfile” now reads against the container state and the resolved
+endpoint. Where the old text said <code>/proc</code> unreadable, the new
+condition is that the container runtime could not be reached or its
+report could not be parsed. The <strong>taxonomy is unchanged</strong>;
+only the evidence it reads has changed.</p>
+<h4 id="build.sh"><code>build.sh</code></h4>
+<p>Builds, in this order: the <code>workshop-boot</code> adapter into
+<code>$WORKSHOP_BOOT_BIN</code>; the Go backend and the Angular frontend
+into <code>workshop/platform/bin/</code>; then the container image(s)
+the compose file names, through the containers submodule rather than a
+direct <code>podman build</code>.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Conditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Everything built</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>Compile, test or image-build failure — a real problem in the code or
+the compose definition</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>Toolchain missing (Go, Node, no container runtime detected); network
+needed and unreachable; disk full</td>
+</tr>
+</tbody>
+</table>
+<p>“No container runtime detected” is emphatically a <code>2</code>, not
+a <code>1</code>: the host could not be assessed, which is not a finding
+about the code.</p>
+<h4 id="start.sh"><code>start.sh</code></h4>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Argument</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--port N</code></td>
+<td><code>8080</code></td>
+<td>Published port on the host</td>
+</tr>
+<tr>
+<td><code>--bind ADDR</code></td>
+<td><code>127.0.0.1</code></td>
+<td><strong>Loopback by default (D1).</strong> A non-loopback bind
+requires an explicit <code>--bind</code> and prints a warning naming D1
+and the identifiable third party in the recording. The publish address
+is bound on the <strong>host</strong> side of the port mapping; a
+container that listens on <code>0.0.0.0</code> internally is not a D1
+violation, and a wrapper MUST NOT report it as one.</td>
+</tr>
+<tr>
+<td><code>--foreground</code></td>
+<td>off</td>
+<td>Streams container logs instead of detaching</td>
+</tr>
+<tr>
+<td><code>--wait-healthy N</code></td>
+<td><code>$WORKSHOP_STACK_WAIT</code> (<code>30</code>)</td>
+<td>Seconds to wait for <code>/api/health</code> <strong>through the
+published port</strong> — never against the container’s internal
+address, which would pass while the mapping is broken</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Builds on demand.</strong> A missing
+<code>$WORKSHOP_BOOT_BIN</code> or server binary is not a failure; it is
+a reason to run <code>build.sh</code> first, exactly as the reference
+control plane does. A build that then fails propagates its own exit code
+unchanged.</p>
+<p><strong>Idempotent, and guarded twice on purpose.</strong> The
+wrapper asks <code>workshop-boot status</code> before acting and returns
+<code>0</code> unchanged if the stack is already up and healthy; and it
+passes compose’s <code>--no-recreate</code> so that a racing second
+caller cannot tear down a container that is serving. Neither guard alone
+survives two concurrent callers, which is why both are contracted rather
+than one. This composes with, and does not replace, the §2.6 lock.</p>
+<p><strong>Stale state must not be trusted.</strong> Any prior
+<code>$WORKSHOP_STATE_FILE</code> is removed before the stack starts, so
+the address the health check probes is the one <em>this</em> run
+actually bound. A health check that passes against a stale endpoint is
+the exact failure this contract’s three-valued design exists to
+prevent.</p>
+<p><strong>FR-025 is observable at startup</strong>: answering-provider
+construction failure must not abort startup. The stack comes up with an
+unavailable provider and serves browsing and search;
+<code>/api/ask</code> returns <code>503</code>. <code>start.sh</code>
+prints which state it came up in. (Gate G-CLI-13.)</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Conditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Serving and healthy (or already was)</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>The published port is bound by a <strong>different,
+identifiable</strong> process; the compose file is missing or invalid;
+the configuration is invalid; a container exited non-zero with a
+diagnosable cause</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>Health never answered within <code>--wait-healthy</code>; the
+container runtime is absent or unreachable; the stack’s state could not
+be determined at all, so starting would have been a guess;
+<code>$WORKSHOP_STATE_FILE</code> could not be written</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>2</code> for “state could not be determined” is deliberate
+and is the containerised counterpart of the native design’s
+unreadable-pidfile case: the wrapper refuses to start a stack whose
+current state it cannot read, and says why, rather than acting on an
+assumption.</p>
+<h4 id="stop.sh"><code>stop.sh</code></h4>
+<p>Brings the stack down through <code>workshop-boot down</code>, then
+removes <code>$WORKSHOP_STATE_FILE</code>.</p>
+<p>Exit <code>0</code> when the stack is stopped — <strong>including
+when it was already stopped</strong>, because the desired state is
+reached. <code>1</code> when containers were found but did not terminate
+after the runtime’s stop grace period followed by a kill. <code>2</code>
+when liveness could not be determined: the container runtime is
+unreachable, or its state report could not be parsed.</p>
+<h4 id="restart.sh"><code>restart.sh</code></h4>
+<p><code>stop.sh</code> then <code>start.sh</code>, with the same
+arguments forwarded to <code>start.sh</code>. It is <strong>not</strong>
+a compose <code>restart</code>: a full down/up is what makes the restart
+honest about picking up a changed compose file or a rebuilt image. Exit
+is <code>start.sh</code>’s exit, except that a <code>stop.sh</code> exit
+of <code>1</code> or <code>2</code> short- circuits and propagates
+unchanged — restarting on top of a stack that could not be stopped would
+report success over an unknown.</p>
+<h4 id="status.sh"><code>status.sh</code></h4>
+<p>The three-state exemplar. Its contract is stated explicitly because
+“stopped” could plausibly be argued into any of the three:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>The stack is <code>RUNNING</code> <strong>and</strong>
+<code>/api/health</code> answers through the published port. The
+condition — <em>the service is up</em> — was checked and holds.</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>Checked, and the service is <strong>not</strong> up. Determined
+negative — including the <code>DEGRADED</code> case where containers
+exist but not all are running, which is a determined negative rather
+than an unknown.</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><strong>Could not determine</strong>: the container runtime is
+absent or unreachable; a container is reported in a state the wrapper
+cannot classify; the published port is bound by a process whose identity
+cannot be established; <code>/api/health</code> timed out without
+connecting or refusing.</td>
+</tr>
+</tbody>
+</table>
+<p><code>stop.sh</code> treats “already stopped” as <code>0</code> while
+<code>status.sh</code> treats it as <code>1</code>. That is deliberate
+and not a contradiction: <code>stop</code> reports whether the
+<strong>desired state</strong> was reached; <code>status</code> reports
+whether the <strong>asserted condition</strong> holds.</p>
+<blockquote>
+<h5
+id="the-implementation-diverges-from-this-table.-the-table-stands-the-code-must-move.">THE
+IMPLEMENTATION DIVERGES FROM THIS TABLE. The table stands; the code must
+move.</h5>
+<p><strong>Decided 2026-09-01. DECIDED BUT NOT APPLIED</strong> — the
+fix is one branch in a file outside the deciding agent’s permitted edit
+set, so it is written down here in full rather than half-made.</p>
+<ul>
+<li><p><em>Measured 2026-09-01</em>, first execution of this path on
+record:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">WORKSHOP_PROJECT_NAME</span><span class="op">=</span>zzz-definitely-nonexistent <span class="fu">bash</span> workshop/scripts/status.sh<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;rc=</span><span class="va">$?</span><span class="st">&quot;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># STOPPED</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   no containers exist for this project</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># rc=0</span></span></code></pre></div>
+<p>The table above requires <code>1</code>. The measured value is
+<code>0</code>. This is a <strong>real divergence</strong>, not an
+unknown: the run completed and printed a determinate state.</p>
+<p>Note what this measurement retires. The workshop’s own pages recorded
+the <code>STOPPED</code> exit code as <em>“a code reading, not a
+measurement”</em> and said the path <em>“was NOT executed”</em>. It has
+now been executed. The code reading was correct; it is no longer the
+only evidence.</p></li>
+<li><p><em>Root cause</em>:
+<code>platform/orchestration/cmd/workshop-boot/main.go</code>,
+<code>cmdStatus</code>, the <code>if len(statuses) == 0</code> branch —
+it prints <code>STOPPED</code> and <code>return nil</code>, and
+<code>nil</code> maps to exit 0.</p></li>
+<li><p><em>The argument for the code, stated fairly</em>: under the
+three-valued discipline used everywhere in this tree — <code>0</code>
+fine, <code>1</code> a real problem, <code>2</code> could-not-determine
+— a cleanly stopped stack is a <strong>successful measurement of a
+benign state</strong>, not a fault. Returning <code>1</code> for a stack
+that was deliberately stopped reads as an accusation. On that reading
+the contract, not the code, is what got this wrong.</p></li>
+<li><p><em>Why that argument is refused</em>. Three reasons, and the
+third is decisive.</p>
+<ol type="1">
+<li><strong><code>status.sh</code> is a predicate, not a health
+report.</strong> Its question is <em>“is the service up?”</em>
+<code>0</code> means the asserted condition <strong>holds</strong>. That
+is the convention <code>test</code>, <code>grep</code>,
+<code>diff</code> and <code>cmp</code> all share, and it is what makes
+<code>status.sh &amp;&amp; deploy</code> correct rather than a trap. The
+three-valued discipline is not violated by it — it is expressed by it:
+<code>2</code> still means the question could not be answered, which is
+the distinction that discipline exists to protect. The branch
+immediately beside the defect proves the code already understands this,
+returning <code>cannotDetermine</code> (exit <code>2</code>) when the
+runtime answers but the project state cannot be read, with the comment
+<em>“reporting STOPPED here would be a guess dressed up as a
+measurement.”</em></li>
+<li><strong>The “benign state” reading was already anticipated and
+answered.</strong> The <code>1</code> row does not mean <em>fault</em>;
+it means <strong>determined negative</strong>, and it already carries
+<code>DEGRADED</code> for exactly this reason. Nothing is lost by
+putting <code>STOPPED</code> beside it, because the <em>kind</em> of
+negative is reported on <strong>stdout</strong> — the script’s first
+token is <code>RUNNING</code>, <code>STOPPED</code>,
+<code>DEGRADED</code> or <code>UNDETERMINED</code>. Distinctions belong
+where they can be read; the exit code answers the yes/no.</li>
+<li><strong>The current behaviour has produced a documented,
+load-bearing defect.</strong> As shipped, <code>status.sh</code> exit
+<code>0</code> <strong>cannot distinguish a running stack from a stopped
+one</strong>. Five separate workshop pages have had to instruct callers
+<em>not to branch on the exit code</em> and to <code>grep</code> stdout
+instead. An exit code that all of its own documentation tells you to
+ignore is not a defensible design choice; it is a defect with a
+workaround written five times. The contract is not what needs amending
+here.</li>
+</ol></li>
+<li><p><em>Exactly what must change</em> (one branch, plus its
+proof):</p>
+<ol type="1">
+<li><code>platform/orchestration/cmd/workshop-boot/main.go</code> →
+<code>cmdStatus</code> → the <code>len(statuses) == 0</code> branch:
+keep <code>fmt.Println("STOPPED")</code> and the explanatory second
+line, then return a determined-negative error instead of
+<code>nil</code>, so the wrapper exits <code>1</code>. It must
+<strong>not</strong> route through <code>cannotDetermine</code> — a
+stack that is known to be stopped was determined, not unknown, and
+collapsing it into <code>2</code> would trade one wrong answer for
+another.</li>
+<li><strong>Paired mutation (§1.1, mandatory):</strong> make that branch
+<code>return nil</code> again and assert the gate goes red. Without it
+the fix proves nothing.</li>
+<li><code>workshop/scripts/status.sh</code> must pass the boot binary’s
+exit code through unchanged — verify it does not swallow it before
+assuming step 1 is sufficient.</li>
+<li>The five workshop pages that currently say <em>“do not branch on the
+exit code”</em> (<code>docs/limits.md</code> §7,
+<code>docs/manual.md</code> §5.1 and its §5 table,
+<code>docs/faq.md</code> §8, <code>docs/quickstart.md</code>,
+<code>docs/training/areas/05-evidence-gates-and-anti-bluff.md</code>)
+must be updated <strong>in the same change</strong>, not after it. Until
+then they are correct about the shipped binary and must not be edited to
+describe a fix that has not landed.</li>
+</ol></li>
+<li><p><em>Until it lands</em>: the divergence is <strong>live and
+recorded</strong>. <code>RUNNING</code> and <code>STOPPED</code> both
+exit <code>0</code> in the shipped binary, the workshop pages’ “read
+stdout, not the exit code” guidance is the correct instruction
+<strong>for that binary</strong>, and no gate may report this contract
+row as satisfied.</p></li>
+</ul>
+</blockquote>
+<p><code>status.sh --json</code> additionally reports index generation,
+leg health, the answering provider state, and — new with the
+containerised seam — the <strong>detected container runtime and its
+version</strong> and the per-container state, so an operator sees
+degradation before a user does and can tell a sick container from a sick
+application.</p>
+<p><strong>A note on FR-013 and the reference module.</strong>
+<code>ai_interviewing</code> defines zero containers, so the reference
+cannot be, and is not, imitated at the orchestration layer. FR-013 asks
+that a person familiar with one module can navigate the other; this
+section satisfies that through the <strong>script names and their exit
+semantics</strong>, which match, not through the mechanism underneath
+them. That distinction is stated rather than left implicit, because
+“mirrors <code>ai_interviewing</code>” would otherwise read as a claim
+that the reference is containerised. It is not.</p>
+<hr />
+<h3 id="verify.sh-the-aggregation-point">4.9 <code>verify.sh</code> —
+the aggregation point</h3>
+<p><strong>Traces</strong>: FR-032, FR-033, FR-040, SC-012, SC-013,
+SC-018.</p>
+<p>Runs every gate in this contract set (G-HTTP-*, G-PID-*, G-CLI-*) and
+aggregates.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Exit</th>
+<th>Conditions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Every gate ran and passed</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>At least one gate <strong>ran</strong> and reported a violation</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>At least one gate <strong>could not run</strong> — and
+<strong>no</strong> gate reported a violation</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Precedence is deliberate and is the single most error-prone
+line in this document</strong>: if some gates failed (<code>1</code>)
+and others could not run (<code>2</code>), the aggregate is
+<strong><code>1</code></strong> — a confirmed violation outranks an
+unknown — and the summary reports both counts separately. The one thing
+<code>verify.sh</code> must never do is report <code>0</code> while any
+gate was skipped. <code>PREPUSH_STRICT=1</code> semantics apply: a SKIP
+is never a PASS.</p>
+<p>Output shape (matching the repository’s existing sweep
+vocabulary):</p>
+<pre><code>PASS 21  FAIL 0  COULD-NOT-RUN 3  of 24
+COULD-NOT-RUN:
+  G-CLI-6  embedding backend unreachable (127.0.0.1:11434 connection refused)
+  ...</code></pre>
+<p><strong>Every gate registers a paired mutation</strong> (FR-032,
+SC-012). <code>verify.sh --prove-failure</code> runs each mutation and
+asserts its gate turns red; a gate whose mutation does not turn it red
+is reported as <strong>vacuous</strong> and counted as
+<code>FAIL</code>. Per the constitution: <em>“a gate that has never been
+observed failing is not known to work”</em>, and <em>“a mutation proof
+that exercises only sandboxed copies can go green over an instrument
+that cannot start at all; proofs MUST include at least one case that
+runs the real entry point end to end.”</em></p>
+<hr />
+<h2 id="cross-cutting-gates">5. Cross-cutting gates</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Assertion</th>
+<th>Paired mutation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G-CLI-1</td>
+<td>For every command, <code>result.json.state</code> and the process
+exit status agree across all three outcomes.</td>
+<td>Hardcode <code>state: "ok"</code>. Must FAIL.</td>
+</tr>
+<tr>
+<td>G-CLI-2</td>
+<td>Source <code>(size, mtime, inode)</code> unchanged after a full
+pipeline run (§2.4).</td>
+<td>Rewrite the notes PDF in place. Must FAIL.</td>
+</tr>
+<tr>
+<td>G-CLI-3</td>
+<td><code>ffprobe</code> capability probe rejects Playwright’s binary
+(§3.2).</td>
+<td>Use <code>ffprobe --version</code> as the probe. Must FAIL.</td>
+</tr>
+<tr>
+<td>G-CLI-4</td>
+<td>Deleting one chunk output makes coverage report <code>1</code>
+(§4.1).</td>
+<td>Tolerate sub-threshold gaps. Must FAIL.</td>
+</tr>
+<tr>
+<td>G-CLI-5</td>
+<td>Missing accuracy reference ⇒ exit <code>2</code>, never
+<code>0</code> (§4.2).</td>
+<td>Return <code>0</code> with <code>wer: 0.0</code>. Must FAIL.</td>
+</tr>
+<tr>
+<td>G-CLI-6</td>
+<td>Saturated/unreachable embedding backend ⇒ exit <code>2</code>, live
+generation untouched (§4.4).</td>
+<td>Map backend failure to <code>1</code>. Must FAIL.</td>
+</tr>
+<tr>
+<td>G-CLI-7</td>
+<td><code>add-chapter.sh</code> run twice satisfies J1–J6 (§4.7).</td>
+<td>Mint unconditionally. Must FAIL.</td>
+</tr>
+<tr>
+<td>G-CLI-8</td>
+<td>Incomplete materials ⇒ exit <code>1</code>, all findings enumerated,
+nothing published (§4.7).</td>
+<td>Report first finding only and publish. Must FAIL.</td>
+</tr>
+<tr>
+<td>G-CLI-9</td>
+<td>Evidence exists for every run, including exit <code>2</code> (§2.5
+E1).</td>
+<td>Skip evidence on the failure path. Must FAIL.</td>
+</tr>
+<tr>
+<td>G-CLI-10</td>
+<td>Every unclassified failure maps to <code>2</code>, including
+<code>127</code> (§1.4).</td>
+<td>Remove the <code>ERR</code> trap. Must FAIL — a missing binary will
+surface as <code>127</code>.</td>
+</tr>
+<tr>
+<td>G-CLI-11</td>
+<td>No <code>.github/workflows/*.yml</code> exists anywhere under
+<code>workshop/</code> (§2.7).</td>
+<td>Add one. Must FAIL.</td>
+</tr>
+<tr>
+<td>G-CLI-12</td>
+<td><code>status.sh</code> returns <code>2</code> when the port is bound
+by an unidentifiable process (§4.8).</td>
+<td>Return <code>1</code>. Must FAIL.</td>
+</tr>
+<tr>
+<td>G-CLI-13</td>
+<td>With ollama stopped: <code>start.sh</code> exits <code>0</code>,
+<code>/api/search</code> serves, <code>/api/ask</code> returns
+<code>503</code> (FR-025).</td>
+<td>Abort startup on provider construction failure. Must FAIL.</td>
+</tr>
+<tr>
+<td>G-CLI-14</td>
+<td><strong>Privacy negative control</strong> (FR-024, D-LLM-4): inside
+the egress-denied namespace,
+<code>curl --max-time 5 https://example.com</code> MUST fail, and a
+packet capture across the full 20-answer and 10-refusal runs shows zero
+non-loopback packets.</td>
+<td>Run the same assertions outside the namespace. Must FAIL — otherwise
+the test proves nothing about the namespace.</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">G-CLI-15 | <strong>Containers-actually-booted
+anti-bluff</strong> (§11.4.76(5)): after <code>start.sh</code> exits
+<code>0</code>, the container runtime reports the compose project’s
+containers <strong>running</strong>, and <code>/api/health</code> was
+answered by one of them. A green control plane MUST imply the infra was
+up. | Replace <code>workshop-boot</code> with a stub that exits
+<code>0</code> and starts nothing — i.e. reproduce
+<code>cmd/boot</code>’s measured behaviour exactly. Must FAIL. This
+mutation is not hypothetical: it is what the upstream CLI does today,
+which is why this gate is the one that would have caught the withdrawn
+<code>cmd/boot</code> specification. |<br />
+G-CLI-16 | <strong>Consumption, not reimplementation</strong>
+(§11.4.76(4)): no lifecycle path under <code>workshop/</code> invokes
+<code>podman</code>, <code>docker</code>, <code>podman-compose</code> or
+<code>docker compose</code> to bring the stack up or down; every such
+transition goes through <code>workshop-boot</code>, which reaches the
+runtime only through the submodule’s <code>pkg/compose</code>. Read-only
+diagnostics on a failure path are exempt and MUST be shown to be exempt
+by the gate, not by assertion. | Add a <code>podman-compose up -d</code>
+fallback to <code>start.sh</code> for when <code>workshop-boot</code> is
+missing. Must FAIL — that fallback is exactly the parallel
+implementation the clause forbids, and it is the shape drift takes.
+|<br />
+G-CLI-17 | <code>status.sh</code> against a project with <strong>no
+containers</strong> prints <code>STOPPED</code> <strong>and</strong>
+exits <code>1</code> — a determined negative, distinguishable by the
+exit code alone from <code>RUNNING</code>’s <code>0</code> (§4.8; the
+sibling of G-CLI-12, which pins the same script’s <code>2</code>).
+Reproduce with
+<code>WORKSHOP_PROJECT_NAME=&lt;unused-name&gt; bash workshop/scripts/status.sh</code>.
+| Restore the <code>return nil</code> in <code>cmdStatus</code>’s
+<code>len(statuses) == 0</code> branch — i.e. reproduce the behaviour
+measured on 2026-09-01. Must FAIL. <strong>This gate did not exist while
+the divergence did, which is how the divergence survived</strong>; it is
+written down <em>with</em> the decision rather than after the fix, so
+the fix cannot land unproven. |</div>
+<p>G-CLI-15 and G-CLI-16 are new with the containerised §4.8 and exist
+because that rewrite created two properties nothing else in this set
+covers. <strong>Neither has a task yet</strong> — see §5.1.</p>
+<p>G-CLI-14’s negative control is what upgrades <em>“we observed no
+egress”</em> into <em>“egress was impossible.”</em> A configuration flag
+is not a guarantee, and hostname string matching is not a security
+boundary — which is why <code>locality</code> is
+<strong>declared</strong> and then checked against resolved addresses,
+never inferred.</p>
+<p>G-CLI-16 deserves one line of justification, because a gate that
+greps for a string is normally the weakest kind. This one is not a grep
+for style: <code>podman-compose up</code> in a lifecycle path is not a
+smell, it is the §11.4.76(4) violation itself, so the textual presence
+<em>is</em> the property. Its mutation is a realistic one — a
+well-meaning fallback for a missing binary — rather than a contrived
+edit, which is what makes the proof worth having.</p>
+<h3 id="gate-task-coverage-stated-not-assumed">5.1 Gate → task coverage
+— stated, not assumed</h3>
+<p>Reported rather than silently left for a reader to discover, and
+<strong>not fixed here</strong>: <code>tasks.md</code> is owned by
+another agent this session, so this section routes the work instead of
+doing it.</p>
+<ul>
+<li><strong>No task in <code>tasks.md</code> cites any <code>G-*</code>
+identifier</strong>, so no gate in this contract is currently claimed by
+a task by name.</li>
+<li><strong>G-CLI-15 and G-CLI-16 are additionally new</strong>,
+introduced above by the §4.8 rewrite, and could not have been tasked
+before now.</li>
+<li>The <strong>paired-mutation inventory count changes</strong>: this
+section’s table is now <strong>16</strong> <code>G-CLI-*</code> rows,
+not 14. The <code>PASS 21 FAIL 0 COULD-NOT-RUN 3 of 24</code> sample in
+§4.9 is illustrative output, not an inventory, and is not a claim about
+the count.</li>
+</ul>
+<hr />
+<h2 id="traceability">6. Traceability</h2>
+<h3 id="requirements-this-contract-covers">6.1 Requirements this
+contract covers</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-001 complete transcript</td>
+<td>§4.1 coverage identity</td>
+</tr>
+<tr>
+<td>FR-002 timestamps</td>
+<td>§4.1 (absolute time = <code>chunk_start + relative</code>, read from
+the hashed partition, never accumulated — drift cannot compound)</td>
+</tr>
+<tr>
+<td>FR-003 uncertainty marked</td>
+<td>§4.1 uncertainty</td>
+</tr>
+<tr>
+<td>FR-004 measured accuracy report</td>
+<td>§4.2</td>
+</tr>
+<tr>
+<td>FR-005 speakers or stated inability</td>
+<td>§4.1 speakers</td>
+</tr>
+<tr>
+<td>FR-006 sources preserved</td>
+<td>§2.4 S1–S4, G-CLI-2</td>
+</tr>
+<tr>
+<td>FR-007 reassembly + integrity, fail loudly</td>
+<td>§2.1 (invokes <code>extract-videos.sh</code>), §4.1 exit table</td>
+</tr>
+<tr>
+<td>FR-012 documented start/stop, no manual setup</td>
+<td>§4.8</td>
+</tr>
+<tr>
+<td>FR-013 conventions of the reference module</td>
+<td>§2.1 script <strong>names</strong> and the path decision beneath the
+table; §4.8 closing note. Satisfied by name and exit-semantic parity
+with <code>ai_interviewing/platform/scripts/</code>,
+<strong>not</strong> by directory nesting and <strong>not</strong> at
+the orchestration layer, where the reference has nothing to
+imitate.</td>
+</tr>
+<tr>
+<td>FR-016 all content types indexed</td>
+<td>§4.3 <code>--kinds</code>, §4.4</td>
+</tr>
+<tr>
+<td>FR-018 cross-references</td>
+<td>§4.5</td>
+</tr>
+<tr>
+<td>FR-020 honest degradation</td>
+<td>§4.4 exit <code>2</code> on saturation; <code>--lexical-only</code>
+escape hatch</td>
+</tr>
+<tr>
+<td>FR-024 no external transmission</td>
+<td>G-CLI-14</td>
+</tr>
+<tr>
+<td>FR-025 search survives answering outage</td>
+<td>§4.8 <code>start.sh</code>, G-CLI-13</td>
+</tr>
+<tr>
+<td>FR-026 single repeatable procedure, no code changes</td>
+<td>§4.7</td>
+</tr>
+<tr>
+<td>FR-027 idempotent</td>
+<td>§4.3, §4.7 J1–J6, G-CLI-7</td>
+</tr>
+<tr>
+<td>FR-028 precise missing-material report, no partial publish</td>
+<td>§4.7 FR-028 block, B1–B6, G-CLI-8</td>
+</tr>
+<tr>
+<td>FR-029 resumable, progress, no lost work</td>
+<td>§4.1 resume + atomic-rename checkpoints</td>
+</tr>
+<tr>
+<td>FR-032 every check has a paired mutation</td>
+<td>§5, §4.9 <code>--prove-failure</code></td>
+</tr>
+<tr>
+<td>FR-033 unable-to-verify distinguishable</td>
+<td>§1 in full</td>
+</tr>
+<tr>
+<td>FR-034 no server-side CI</td>
+<td>§2.7 N1–N3, G-CLI-11</td>
+</tr>
+<tr>
+<td>FR-037 stable identifiers</td>
+<td>§4.3 (delegates to passage-contract.md §8)</td>
+</tr>
+<tr>
+<td>FR-038 immutable machine layer</td>
+<td>§4.1 <code>machine.jsonl</code> immutable; §4.3</td>
+</tr>
+<tr>
+<td>FR-039 redaction required before publication</td>
+<td>§4.6, §4.7 B5</td>
+</tr>
+<tr>
+<td>FR-040 evidence to a versioned location</td>
+<td>§2.5 E1–E4, G-CLI-9</td>
+</tr>
+<tr>
+<td>SC-001 coverage 100%, gaps explained</td>
+<td>§4.1, G-CLI-4</td>
+</tr>
+<tr>
+<td>SC-002 ≥30 sampled windows, figure published</td>
+<td>§4.2</td>
+</tr>
+<tr>
+<td>SC-003 5 s timestamp bound</td>
+<td>§4.2 companion metrics</td>
+</tr>
+<tr>
+<td>SC-004 fresh clone → running in 15 min</td>
+<td>§4.8 (<code>build.sh</code> + <code>start.sh</code>); the tutorial
+itself is <code>quickstart.md</code>, not this contract</td>
+</tr>
+<tr>
+<td>SC-011 add a chapter in 30 min hands-on</td>
+<td>§4.7</td>
+</tr>
+<tr>
+<td>SC-012 100% of checks have a paired mutation</td>
+<td>§5, §4.9</td>
+</tr>
+<tr>
+<td>SC-013 three states in 100% of checks</td>
+<td>§1</td>
+</tr>
+<tr>
+<td>SC-014 zero active CI workflows</td>
+<td>§2.7, G-CLI-11</td>
+</tr>
+<tr>
+<td>SC-016 references survive correction</td>
+<td>§4.3, §4.4 (generation discipline)</td>
+</tr>
+<tr>
+<td>SC-018 100% of checks write evidence</td>
+<td>§2.5, G-CLI-9</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="requirements-no-contract-in-this-set-covers-stated-rather-than-left-as-a-silent-gap">6.2
+Requirements <strong>no contract in this set covers</strong> — stated
+rather than left as a silent gap</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Why no interface contract covers it</th>
+<th>Where it must be handled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FR-030</strong> — quick-start, user guide, operator manual,
+FAQ</td>
+<td>These are documents, not interfaces. The contracts fix the shapes
+the documents describe.</td>
+<td><code>workshop/docs/</code> deliverables; <code>quickstart.md</code>
+(owned by another agent this session)</td>
+</tr>
+<tr>
+<td><strong>FR-031</strong> — honest statement of what the system cannot
+do</td>
+<td>Partially covered: the boundaries are stated in-band (<a
+href="./http-api.md">http-api.md §3.7 <code>corpus</code></a>, §3.12
+<code>measured:false</code>, <a
+href="./passage-contract.md">passage-contract.md §6.5</a>). The
+user-facing prose is not.</td>
+<td><code>workshop/docs/</code></td>
+</tr>
+<tr>
+<td><strong>FR-035</strong> — four governance carriers in lockstep</td>
+<td>A repository governance property, not an interface.</td>
+<td><code>scripts/verify-governance-cascade.sh</code>; the workshop
+submodule’s own carriers</td>
+</tr>
+<tr>
+<td><strong>FR-036</strong> — clean tree across repo and every
+submodule</td>
+<td>An operator/commit-hygiene property.</td>
+<td>The project commit wrapper; <code>SC-015</code></td>
+</tr>
+<tr>
+<td><strong>FR-041 / FR-042</strong> — WCAG 2.1 AA, keyboard-operable
+search</td>
+<td>A frontend property. The API affordances that make them attainable
+are contracted (<a href="./http-api.md">http-api.md §3.6, §6</a>);
+conformance itself is not.</td>
+<td>Frontend contract + the SC-017 automated audit</td>
+</tr>
+<tr>
+<td><strong>SC-017</strong> — automated WCAG audit, zero A/AA
+violations</td>
+<td>Same.</td>
+<td>Frontend test suite</td>
+</tr>
+</tbody>
+</table>
+<p>Nothing else in the 42 FRs / 18 SCs is uncovered.</p>
+<hr />
+<h2 id="unverified-register">7. Unverified register</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Item</th>
+<th>Status</th>
+<th>Settled by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>U1</strong></td>
+<td>cp314 wheels for CTranslate2 / faster-whisper install and run on
+this host. Every command in §4.1 presumes them.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>Attempt the project-local venv install. Until it succeeds,
+<code>transcribe.sh</code> exits <code>2</code> at preflight — which is
+the correct report, not a blocker on this contract.</td>
+</tr>
+<tr>
+<td><strong>U2</strong></td>
+<td>Real transcription throughput on this CPU. The 40–80 minute figure
+is an <strong>estimate</strong>, roughly doubled under current
+load.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td><code>transcribe.sh --sample-seconds 300</code> on the
+already-extracted 300 s sample. <strong>Progress ETA is derived from the
+measured rate, never from this estimate</strong> (§4.1).</td>
+</tr>
+<tr>
+<td><strong>U3</strong></td>
+<td>That the recording contains intelligible speech in a known language.
+Nobody has listened and no ASR has run.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>The same calibration run. Until it closes,
+<code>add-chapter.sh</code> must not publish without
+<code>verify-accuracy.sh</code> having run (B2) — the accuracy gate is
+what would catch a transcript of nothing.</td>
+</tr>
+<tr>
+<td><strong>U4</strong></td>
+<td>Idle embedding latency; the <code>--timeout-ms 5000</code> default
+and the SC-006 budget assume it.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>Time ten consecutive searches in one warm session against an idle
+backend, after the running <code>lumen index --force</code> rebuild
+completes.</td>
+</tr>
+<tr>
+<td><strong>U5</strong></td>
+<td>SC-007/SC-008 retrieval quality and the relevance floor. No corpus
+exists yet.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>Build the ≥20-query benchmark set after Chapter 1 is indexed, then
+calibrate.</td>
+</tr>
+<tr>
+<td><strong>C-U6</strong></td>
+<td><strong>Container orchestration.</strong> <del><code>plan.md</code>
+treats containerisation as new work (the reference module defines
+<strong>zero</strong> containers), and constitution §11.4.76 requires
+<code>vasic-digital/containers</code> as the sole orchestration layer —
+<strong>which is not a submodule of this tree</strong>.</del> §11.4.161
+mandates rootless podman; the host has podman 5.7.1 rootless and
+<strong>no docker</strong> — that half stands, measured.</td>
+<td><del><strong>UNRESOLVED, not merely unverified</strong></del> →
+<strong>RESOLVED 2026-09-01. Original text kept struck through, not
+deleted (see the withdrawal note below the table).</strong></td>
+<td><del>An operator decision on whether
+<code>vasic-digital/containers</code> is added as a submodule.
+<strong>This contract therefore specifies no container
+commands.</strong> <code>start.sh</code>/<code>stop.sh</code> are the
+documented FR-012 interface and run the built binary natively, as
+<code>ai_interviewing</code> does.</del> The submodule
+<strong>is</strong> declared and populated; §4.8 now specifies the
+containerised control plane. Adding a bespoke container stack is still
+forbidden by §11.4.76(4) — that clause of the original entry was never
+wrong.</td>
+</tr>
+<tr>
+<td><strong>C-U7</strong></td>
+<td><strong><code>ai_interviewing</code>’s
+<code>search.component.ts</code> defect</strong> (<a
+href="./http-api.md">http-api.md §2.2</a>) exists independently of this
+feature and is out of scope here. Whether to fix it is an operator
+decision.</td>
+<td>Noted</td>
+<td>An operator decision; it is not a dependency of this feature.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="withdrawal-c-u6s-not-a-submodule-of-this-tree">7.1 Withdrawal —
+C-U6’s “not a submodule of this tree”</h3>
+<p>Recorded explicitly because this contract set treats a stale claim as
+something to <strong>withdraw</strong>, never to quietly overwrite; a
+reader must be able to tell a corrected fact from one that was never
+wrong.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr>
+<td><strong>The withdrawn claim</strong></td>
+<td>“constitution §11.4.76 requires
+<code>vasic-digital/containers</code> as the sole orchestration layer —
+<strong>which is not a submodule of this tree</strong>”, and its
+consequence, “<strong>this contract therefore specifies no container
+commands</strong> … <code>start.sh</code>/<code>stop.sh</code> … run the
+built binary natively, as <code>ai_interviewing</code> does”.</td>
+</tr>
+<tr>
+<td><strong>What was believed, and why it was reasonable</strong></td>
+<td>Written 2026-08-31. At that moment <code>.gitmodules</code> declared
+no <code>vasic-digital/containers</code> gitlink. §11.4.76(2) makes the
+submodule a hard prerequisite for any containerised workload, so with
+the prerequisite unmet the only §11.4.76-legal position was to specify
+nothing containerised and to escalate the gap as an operator decision.
+The reasoning was sound on the tree as it then stood.</td>
+</tr>
+<tr>
+<td><strong>What is measured now</strong></td>
+<td>2026-09-01.
+<code>git config -f .gitmodules --get-regexp containers</code> →
+<code>submodule.submodules/containers.path submodules/containers</code>
+and <code>…url git@github.com:vasic-digital/containers.git</code>.
+<code>submodules/containers</code> is populated
+(<code>pkg/compose</code>, <code>pkg/health</code>,
+<code>pkg/runtime</code> present).
+<code>git ls-tree HEAD submodules/containers</code> → gitlink pinned at
+<code>4dab992</code>. <code>scripts/verify-governance-cascade.sh</code>
+classifies <strong>9</strong> declared submodules from evidence — 7
+owned, including containers.</td>
+</tr>
+<tr>
+<td><strong>When it changed</strong></td>
+<td>During this feature’s own Phase 1 work — after the C-U6 row was
+written, before this withdrawal. The claim was true when made and is
+false now; both facts are on the record.</td>
+</tr>
+<tr>
+<td><strong>What the withdrawal does NOT overturn</strong></td>
+<td>Two things the original row got right and that remain binding: (a)
+<code>ai_interviewing</code> defines <strong>zero</strong> containers,
+so “run it through the containers the same way” cannot mean copying the
+reference module — the reference is a naming and navigability precedent
+(FR-013), not a container precedent; (b) a bespoke Containerfile or
+hand-rolled compose stack is a §11.4.76(4) violation, and remains
+forbidden.</td>
+</tr>
+<tr>
+<td><strong>Consequence for this contract</strong></td>
+<td>§4.8 is rewritten. The control plane is
+<strong>containerised</strong>, launching through the
+<code>workshop-boot</code> adapter over
+<code>submodules/containers</code>’
+<code>pkg/compose</code>/<code>pkg/health</code>/<code>pkg/runtime</code>
+Go API — <strong>not</strong> through its <code>cmd/boot</code> CLI,
+which §4.8.0 measures as unusable. Native launch is no longer specified
+anywhere in this document.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The architecture is decided and is not reopened by this
+document.</strong> The operator requires container operation and
+§11.4.76 mandates the submodule; those point the same way, so there is
+no trade-off left to weigh. The residual §11.4.161 constraint (rootless
+podman, no docker) was never withdrawn and is honoured by the
+submodule’s podman-first backend selection.</p>
+<p><strong>Measured, not assumed</strong>, and therefore not in this
+register: the <code>ffprobe</code>/Playwright symlink trap; the absence
+of any ASR engine and of any generative model; the recording’s duration
+(6928.75 s), dual-mono audio and eight long silences;
+<code>all embedding servers exhausted</code> from a backend whose
+<code>health_check</code> said OK 2 ms earlier; the half-written
+readable index during rebuild; FTS5 prefix latency at p95 9.58 ms; and
+the 20.16 / 11.05 / 0.10 s spread across three identical embed
+calls.</p>
+</body>
+</html>

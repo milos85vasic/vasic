@@ -299,7 +299,14 @@ async function probeBrowsers(names) {
       report.notes.push(
         `${key} serves ${path.relative(REPO, dir)}, which does not exist — ` +
           (key === 'MV_BASE'
-            ? 'run: (cd milosvasic.ru && bundle exec jekyll build --destination _site)'
+            ? // The remedy is the CONTAINER path, not a host `bundle exec jekyll`.
+              // Measured 2026-09-09 on this host: `bundle`, `bundler` and `jekyll`
+              // are all absent from PATH, so the host command this line used to
+              // name could not even be STARTED — a remedy nobody can run is worse
+              // than none, because it sends the reader to `apt-get`, which
+              // operator decision #10 of 2026-09-07 forbids. The Jekyll toolchain
+              // is provided as a container workload through submodules/containers.
+              'run: (cd _tools/containers && go build -o bin/site-build ./cmd/site-build && ./bin/site-build -workload jekyll)'
             : 'run: git submodule update --init vasic.digital')
       );
     }

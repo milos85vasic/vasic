@@ -1,7 +1,7 @@
 # Production site health — verification report
 
 **Verified at:** 2026-08-27T19:52:13Z (UTC)
-**Verified from:** repository root `/run/media/milosvasic/DATA4TB/Projects/vasic`
+**Verified from:** repository root `<ext-volume-host>/Projects/vasic`
 **Scope:** every website this repository deploys.
 **Mode:** read-only. No site content, workflow, or config was modified. Nothing was
 committed or pushed.

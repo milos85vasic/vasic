@@ -1,0 +1,3279 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>http-api</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">http-api</h1>
+</header>
+<h1 id="http-api-contract-workshop-curriculum-platform">HTTP API
+Contract — Workshop Curriculum Platform</h1>
+<p><strong>Feature</strong>:
+<code>specs/001-workshop-curriculum-platform</code> |
+<strong>Phase</strong>: 1 (Design &amp; Contracts) |
+<strong>Date</strong>: 2026-09-01</p>
+<p><strong>Governs</strong>: the backend HTTP surface consumed by the
+Angular client. <strong>Derived from</strong>: <a
+href="../spec.md">spec.md</a> (FR/SC), <a href="../plan.md">plan.md</a>
+(five corrected premises), <a href="../research.md">research.md</a>
+(D-SEARCH-*, D-LLM-*), <a href="../data-model.md">data-model.md</a>.
+<strong>Companion contracts</strong>: <a
+href="./passage-contract.md">passage-contract.md</a> (what a
+<code>pid</code> is), <a href="./pipeline-cli.md">pipeline-cli.md</a>
+(how the data this API serves is produced).</p>
+<p>This document specifies <strong>interfaces and behavioural
+guarantees</strong>. It contains no handler bodies, no business logic
+and no migrations. Where a guarantee cannot be offered because something
+is unverified, it is marked and the settling measurement is named (§8)
+rather than assumed away.</p>
+<hr />
+<h2 id="conventions">1. Conventions</h2>
+<h3 id="base-transport-scope">1.1 Base, transport, scope</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Basis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base path</td>
+<td><code>/api</code></td>
+<td>FR-013 — matches
+<code>ai_interviewing/platform/backend/internal/api/api.go:36</code></td>
+</tr>
+<tr>
+<td>Bind address</td>
+<td>loopback by default</td>
+<td>D1 (local/internal only)</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td><strong>none</strong></td>
+<td>D1 — single machine, single user; no accounts are in the data
+model</td>
+</tr>
+<tr>
+<td>Request encoding</td>
+<td><code>application/json</code> for bodies; query string for
+reads</td>
+<td></td>
+</tr>
+<tr>
+<td>Response encoding</td>
+<td><code>application/json; charset=utf-8</code>, except
+recording/material bytes</td>
+<td></td>
+</tr>
+<tr>
+<td>Versioning</td>
+<td>none in the path. The contract is versioned with the repository.
+Breaking changes bump <code>X-Workshop-Api-Contract</code>.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>There is <strong>no</strong> rate limiting, quota, or tenancy. Adding
+any would imply a multi-user deployment, which D1 excludes.</p>
+<h3 id="response-headers-required-on-every-api-response">1.2 Response
+headers required on every <code>/api</code> response</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Header</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X-Workshop-Api-Contract</code></td>
+<td>Contract revision this build implements (e.g. <code>1</code>).</td>
+</tr>
+<tr>
+<td><code>Cache-Control</code></td>
+<td><code>no-store</code> on every three-state endpoint (§2). Only
+recording and material bytes are cacheable.</td>
+</tr>
+</tbody>
+</table>
+<p>Additionally, on every endpoint that reads the index or the passage
+registry:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Header</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X-Workshop-Index-Generation</code></td>
+<td>Integer generation the response was served from (data-model
+<code>Index.generation</code>). Lets the client detect an atomic swap
+mid-session and re-fetch.</td>
+</tr>
+<tr>
+<td><code>X-Workshop-Search-Status</code></td>
+<td>Mirrors the body’s <code>status</code> verbatim. <strong>Convenience
+mirror only.</strong> It MUST equal <code>body.status</code>; a gate
+asserts agreement (§2.7).</td>
+</tr>
+</tbody>
+</table>
+<p><code>X-Workshop-Search-Status</code> exists so that a proxy, a log
+line or a curl <code>-I</code> can distinguish the three states without
+parsing a body. It is never the authority — the body is.</p>
+<h3
+id="why-cache-control-no-store-is-mandatory-on-the-three-state-endpoints">1.3
+Why <code>Cache-Control: no-store</code> is mandatory on the three-state
+endpoints</h3>
+<p>A cached <code>200 ok</code> outliving an index swap or a backend
+failure would let an intermediary serve a successful-looking response
+while the backend is unavailable. That is precisely the FR-020 violation
+this contract exists to make impossible, so caching is removed rather
+than tuned.</p>
+<h3 id="path-parameters">1.4 Path parameters</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Form</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{chapter}</code></td>
+<td>chapter <code>slug</code> (data-model
+<code>Chapter.slug</code>)</td>
+<td>Immutable once published. The zero-padded <code>ordinal</code> is
+<strong>not</strong> accepted as a path key — one key, one meaning.</td>
+</tr>
+<tr>
+<td><code>{pid}</code></td>
+<td>canonical uppercase ULID, 26 chars</td>
+<td>See <a href="./passage-contract.md">passage-contract.md §2</a>.
+Lowercase input is accepted and canonicalised; responses always carry
+uppercase.</td>
+</tr>
+<tr>
+<td><code>{job_id}</code></td>
+<td>opaque string</td>
+<td>Answer job handle. Not a ULID; carries no meaning.</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="malformed-request-errors-4xx-are-a-fourth-thing-not-a-fourth-state">1.5
+Malformed-request errors (<code>4xx</code>) are a fourth thing, not a
+fourth state</h3>
+<p>A <code>4xx</code> says <em>the request was wrong</em>. It is outside
+the three-state contract of §2, which describes outcomes of well-formed
+requests. The client must not render a <code>4xx</code> through any of
+the three result branches.</p>
+<pre class="jsonc"><code>// 4xx body — the only shape a 4xx ever has
+{
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;empty_query&quot;,              // closed enum, see §5.2
+    &quot;message&quot;: &quot;q is required and must be non-empty after trimming&quot;,
+    &quot;field&quot;: &quot;q&quot;                        // optional
+  }
+}</code></pre>
+<hr />
+<h2
+id="the-three-state-contract-fr-019-fr-020-fr-033-sc-013-d-search-4">2.
+The three-state contract (FR-019, FR-020, FR-033, SC-013,
+D-SEARCH-4)</h2>
+<p><strong>This is the load-bearing section of this document.</strong>
+Everything else is plumbing.</p>
+<h3 id="the-requirement-restated-exactly">2.1 The requirement, restated
+exactly</h3>
+<p>There are <strong>three</strong> distinguishable outcomes, never
+two:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>State</th>
+<th>Meaning</th>
+<th>Constitution analogue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ok</code></td>
+<td>The question was answered and there is something to show.</td>
+<td>exit <code>0</code></td>
+</tr>
+<tr>
+<td><code>no_match</code></td>
+<td>The question was answered and the answer is <em>nothing
+matches</em>.</td>
+<td>exit <code>1</code> — checked, negative</td>
+</tr>
+<tr>
+<td><code>unavailable</code></td>
+<td><strong>The question could not be answered.</strong></td>
+<td>exit <code>2</code> — COULD NOT DETERMINE</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>.specify/memory/constitution.md</code> <strong>Honest
+Instruments</strong> principle is binding here: collapsing state 2 into
+state 0 makes a broken system certify content nobody searched;
+collapsing it into state 1 makes a broken backend assert that the
+curriculum contains nothing. Both are release blockers.</p>
+<h3 id="the-anti-pattern-this-repository-already-ships">2.2 The
+anti-pattern this repository already ships</h3>
+<p><code>ai_interviewing/platform/frontend/src/app/features/search.component.ts</code>
+is the concrete failure the contract is designed against. Measured, at
+the lines quoted:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode ts"><code class="sourceCode typescript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">// line 19 — the only negative branch in the template</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>@else <span class="cf">if</span> (<span class="fu">q</span>()<span class="op">.</span><span class="at">length</span> <span class="op">&gt;=</span> <span class="dv">2</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="fu">hits</span>()<span class="op">.</span><span class="at">length</span>) { <span class="op">&lt;</span>p <span class="kw">class</span><span class="op">=</span><span class="st">&quot;muted&quot;</span><span class="op">&gt;</span>No results <span class="cf">for</span> <span class="st">&quot;{{ q() }}&quot;</span><span class="op">.&lt;/</span>p<span class="op">&gt;</span> }</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">// line 58 — the error branch sets no error state at all</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)<span class="op">.</span><span class="fu">subscribe</span>({ next<span class="op">:</span> h <span class="kw">=&gt;</span> { <span class="kw">this</span><span class="op">.</span><span class="at">hits</span><span class="op">.</span><span class="fu">set</span>(h <span class="op">||</span> [])<span class="op">;</span> <span class="kw">this</span><span class="op">.</span><span class="at">loading</span><span class="op">.</span><span class="fu">set</span>(<span class="kw">false</span>)<span class="op">;</span> }<span class="op">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>              error<span class="op">:</span> () <span class="kw">=&gt;</span> <span class="kw">this</span><span class="op">.</span><span class="at">loading</span><span class="op">.</span><span class="fu">set</span>(<span class="kw">false</span>) })<span class="op">;</span></span></code></pre></div>
+<p>A backend failure clears <code>loading</code>, leaves
+<code>hits</code> empty, and the template renders <strong>“No results
+for …”</strong>. The component has two states where three are required.
+Its backend compounds this by returning <code>[]</code> for queries
+shorter than two characters. This defect exists independently of this
+feature and must not be inherited.</p>
+<h3 id="why-liveness-cannot-gate-the-third-state">2.3 Why liveness
+cannot gate the third state</h3>
+<p>Measured in one MCP session, seconds apart (research.md
+D-SEARCH-4):</p>
+<pre><code>== health_check   2 ms ==            == semantic_search 20013 ms ==
+Status: OK                            embed query: all embedding servers exhausted after
+Message: service is healthy           failover: … context deadline exceeded  [isError=True]</code></pre>
+<p><code>health_check</code> reported healthy <strong>2 ms
+before</strong> the search path failed hard. It is a liveness probe, not
+a saturation probe.</p>
+<p><strong>Normative</strong>: the <code>status</code> field MUST be
+derived from the outcome of the search call actually performed for this
+request. It MUST NOT be derived, in whole or in part, from
+<code>/api/health</code>, from Lumen’s <code>health_check</code>, from a
+cached liveness flag, or from any probe that did not execute this query.
+<code>/api/health</code> (§3.1) exists for process supervision only and
+carries an explicit non-guarantee in its own response.</p>
+<h3 id="why-upstream-text-is-quarantined">2.4 Why upstream text is
+quarantined</h3>
+<p>Lumen returns, as <strong>one unstructured string</strong>
+(research.md D-SEARCH-4):</p>
+<pre><code>&quot;No results found. | Warning: Index is being updated in the background.
+ Results may be incomplete or outdated. Us…&quot;</code></pre>
+<p>A client that reads the first line, or renders the blob, displays “No
+results found.” while the index is provably incomplete.</p>
+<p><strong>Normative</strong>:</p>
+<ul>
+<li>The backend MUST parse upstream result text for degradation markers,
+and MUST promote a match to
+<code>degraded.semantic = "reindexing"</code>.</li>
+<li>Upstream free text MUST NEVER appear in <code>results[]</code>, in
+<code>suggestions[]</code>, or in any field the client renders as
+primary copy.</li>
+<li>Upstream text may appear <strong>only</strong> in
+<code>reason.evidence</code> or <code>degraded.evidence</code>, both of
+which are declared <strong>diagnostic-only</strong> fields. The client
+contract forbids rendering them outside a diagnostics disclosure.</li>
+</ul>
+<h3 id="the-response-envelope">2.5 The response envelope</h3>
+<p>Returned by <code>/api/search</code>, <code>/api/suggest</code>, and
+<code>/api/passages/{pid}/crossrefs</code>, with the payload array named
+per endpoint.</p>
+<pre class="jsonc"><code>{
+  &quot;status&quot;: &quot;ok&quot;,                  // &quot;ok&quot; | &quot;no_match&quot; | &quot;unavailable&quot; — exhaustive, closed
+  &quot;query&quot;: &quot;how do we cut chunks at silence&quot;,
+  &quot;generation&quot;: 7,                 // index generation; null iff status==&quot;unavailable&quot;
+  &quot;floor_calibrated&quot;: false,       // §8 U5 — see 2.6 rule I7
+  &quot;legs&quot;: {                        // per-leg outcome; keys present iff the leg was enabled
+    &quot;lexical&quot;:  &quot;ok&quot;,              // &quot;ok&quot; | &quot;failed&quot; | &quot;skipped&quot;
+    &quot;semantic&quot;: &quot;failed&quot;
+  },
+  &quot;results&quot;: [ /* Hit — §3.7 */ ], // PRESENT AND NON-EMPTY IFF status==&quot;ok&quot;. ABSENT otherwise.
+  &quot;near_misses&quot;: [ /* Hit */ ],    // present only when status==&quot;no_match&quot;; see I6
+  &quot;degraded&quot;: {                    // present only alongside status==&quot;ok&quot;. Never with the others.
+    &quot;semantic&quot;: &quot;reindexing&quot;,      // closed enum, §5.3
+    &quot;message&quot;: &quot;Meaning-based search is unavailable right now — showing keyword matches only.&quot;,
+    &quot;evidence&quot;: &quot;No results found. | Warning: Index is being updated…&quot;   // DIAGNOSTIC ONLY
+  },
+  &quot;reason&quot;: null,                  // present IFF status==&quot;unavailable&quot;; shape in §2.6
+  &quot;took_ms&quot;: 41
+}</code></pre>
+<p><code>unavailable</code> bodies additionally carry:</p>
+<pre class="jsonc"><code>{
+  &quot;status&quot;: &quot;unavailable&quot;,
+  &quot;reason&quot;: {
+    &quot;code&quot;: &quot;embedding_backend_exhausted&quot;,   // closed enum, §5.3
+    &quot;leg&quot;: &quot;semantic&quot;,                       // &quot;lexical&quot; | &quot;semantic&quot; | &quot;index&quot; | &quot;registry&quot;
+    &quot;message&quot;: &quot;Search cannot answer right now: the embedding backend is saturated.&quot;,
+    &quot;retry_after_s&quot;: 30,                     // nullable — null means UNKNOWN, never 0
+    &quot;evidence&quot;: &quot;all embedding servers exhausted after failover: … context deadline exceeded&quot;
+  }
+}</code></pre>
+<h3
+id="invariants-these-are-what-make-the-anti-pattern-physically-impossible">2.6
+Invariants — these are what make the anti-pattern physically
+impossible</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Invariant</th>
+<th>Consequence for a naive client</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>I1</strong></td>
+<td><code>results</code> is present <strong>iff</strong>
+<code>status == "ok"</code>, and when present it is
+<strong>non-empty</strong>. It is never <code>[]</code>.</td>
+<td><code>hits.length === 0</code> can no longer mean “no results” — on
+any non-<code>ok</code> outcome there is no array to measure.</td>
+</tr>
+<tr>
+<td><strong>I2</strong></td>
+<td><code>status == "unavailable"</code> <strong>iff</strong> HTTP
+<code>503</code>. Never <code>200</code>.</td>
+<td>A client that only branches on HTTP status still cannot render
+“nothing found” for a backend failure.</td>
+</tr>
+<tr>
+<td><strong>I3</strong></td>
+<td><code>status == "no_match"</code> ⇒ HTTP <code>200</code>.
+<code>status == "ok"</code> ⇒ HTTP <code>200</code>.</td>
+<td>Determined negatives are successes, so <code>no_match</code> stays
+measurable (it is a real result, not an error).</td>
+</tr>
+<tr>
+<td><strong>I4</strong></td>
+<td><code>reason</code> is present <strong>iff</strong>
+<code>status == "unavailable"</code>, and its <code>code</code> is from
+the closed enum in §5.3.</td>
+<td>No free-form failure strings reach the UI.</td>
+</tr>
+<tr>
+<td><strong>I5</strong></td>
+<td><strong><code>no_match</code> requires every <em>enabled</em> leg to
+have returned successfully.</strong> If any leg failed
+<strong>and</strong> the surviving legs produced zero results, the
+outcome is <code>unavailable</code> with
+<code>reason.code = "partial_failure_zero_results"</code>.</td>
+<td>The single most-missed case: a degraded search may report
+<code>ok</code>; it may <strong>never</strong> report
+<code>no_match</code>. “The leg that ran found nothing” is not “nothing
+matches”.</td>
+</tr>
+<tr>
+<td><strong>I6</strong></td>
+<td><code>near_misses</code> may only appear with <code>no_match</code>,
+every entry carries <code>"above_floor": false</code>, and the client
+contract requires them to be rendered in a visually distinct, explicitly
+labelled region.</td>
+<td>FR-019 — below-threshold items are shown as context, never as
+answers.</td>
+</tr>
+<tr>
+<td><strong>I7</strong></td>
+<td>When <code>floor_calibrated == false</code>, a <code>no_match</code>
+MUST be rendered with the calibration caveat, because an uncalibrated
+relevance floor cannot support the claim “nothing matches”.</td>
+<td>§8 U5. Honest until measured.</td>
+</tr>
+<tr>
+<td><strong>I8</strong></td>
+<td><code>degraded</code> may accompany <code>ok</code> only. It is
+never present with <code>no_match</code> (excluded by I5) nor with
+<code>unavailable</code> (which is total, not partial).</td>
+<td>One banner, one meaning.</td>
+</tr>
+<tr>
+<td><strong>I9</strong></td>
+<td>The envelope is constructed in exactly <strong>one</strong> function
+in the search service. No handler assembles it field-by-field.</td>
+<td>Makes I1–I8 enforceable at a single point rather than
+per-endpoint.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gates-and-their-paired-mutations-fr-032-sc-012">2.7 Gates and
+their paired mutations (FR-032, SC-012)</h3>
+<p>Every guarantee above is a claim, so each carries a gate and a
+mutation proving the gate fails when the guarantee is broken.
+Constitution §1.1: <em>a gate that has never been observed failing is
+not known to work.</em></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Assertion (executes the behaviour, does not grep for it)</th>
+<th>Paired mutation that MUST turn it red</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G-HTTP-1</td>
+<td>Point the embedding endpoint at a closed port;
+<code>GET /api/search?q=x</code> returns <strong>503</strong> with
+<code>status:"unavailable"</code> and a <code>reason.code</code>.</td>
+<td>Make the handler return <code>200 {"results":[]}</code> on backend
+error. Gate must FAIL.</td>
+</tr>
+<tr>
+<td>G-HTTP-2</td>
+<td>Same failure; assert the response body has <strong>no</strong>
+<code>results</code> key at all.</td>
+<td>Add <code>"results": []</code> to the unavailable branch. Gate must
+FAIL.</td>
+</tr>
+<tr>
+<td>G-HTTP-3</td>
+<td>Fail the semantic leg, let lexical return zero rows; assert
+<code>status == "unavailable"</code>,
+<code>reason.code == "partial_failure_zero_results"</code>.</td>
+<td>Change the rule to emit <code>no_match</code> when any leg
+succeeded. Gate must FAIL. (This is invariant I5, the one most likely to
+be “simplified” later.)</td>
+</tr>
+<tr>
+<td>G-HTTP-4</td>
+<td>Feed the search service Lumen’s literal
+<code>"No results found. \| Warning: Index is being updated…"</code>
+string; assert <code>status=="ok"</code> with
+<code>degraded.semantic=="reindexing"</code> when lexical has rows, and
+that the raw string appears <strong>only</strong> under
+<code>degraded.evidence</code>.</td>
+<td>Forward the upstream string into <code>results[0].snippet</code>.
+Gate must FAIL.</td>
+</tr>
+<tr>
+<td>G-HTTP-5</td>
+<td>With ollama stopped: <code>GET /api/search</code> returns
+<strong>200</strong> with real lexical results <strong>and</strong>
+<code>POST /api/ask</code> returns <strong>503</strong>
+<code>state:"unavailable"</code>.</td>
+<td>Wire <code>/api/search</code> through the answering provider’s
+health check. Gate must FAIL. (FR-025; mirrors research llm-bridging §3
+item 5.)</td>
+</tr>
+<tr>
+<td>G-HTTP-6</td>
+<td>For 100 randomised outcomes, assert
+<code>X-Workshop-Search-Status</code> header equals
+<code>body.status</code>.</td>
+<td>Hardcode the header to <code>ok</code>. Gate must FAIL.</td>
+</tr>
+<tr>
+<td>G-HTTP-7</td>
+<td>Frontend: render each of the three envelopes; assert the no-results
+copy does <strong>not</strong> appear for the <code>unavailable</code>
+envelope and the unavailable copy does <strong>not</strong> appear for
+<code>no_match</code>.</td>
+<td>Restore the <code>ai_interviewing</code> error handler
+(<code>error: () =&gt; loading.set(false)</code>). Gate must FAIL.</td>
+</tr>
+<tr>
+<td>G-HTTP-8</td>
+<td>Packet/socket assertion: during 200 <code>/api/suggest</code> calls,
+zero requests reach the embedding endpoint.</td>
+<td>Add an embedding call to the suggest path. Gate must FAIL. (§3.6,
+SC-005.)</td>
+</tr>
+</tbody>
+</table>
+<p>Evidence for every gate is written to the versioned evidence location
+per FR-040 — see <a href="./pipeline-cli.md">pipeline-cli.md
+§2.5</a>.</p>
+<hr />
+<h2 id="endpoint-catalogue">3. Endpoint catalogue</h2>
+<p>Legend: <strong>Traces</strong> names the requirement each endpoint
+exists to satisfy. An endpoint with no trace would be unrequested
+capability and is not in this contract.</p>
+<h3 id="get-apihealth-process-liveness-only">3.1
+<code>GET /api/health</code> — process liveness only</h3>
+<p><strong>Traces</strong>: none (operational). Present because
+<code>ai_interviewing</code> has it (FR-013) and the control plane’s
+<code>status.sh</code> needs it (<a
+href="./pipeline-cli.md">pipeline-cli.md §4.8</a>).</p>
+<p><strong>Response 200</strong></p>
+<pre class="jsonc"><code>{
+  &quot;ok&quot;: true,
+  &quot;version&quot;: &quot;…&quot;,
+  &quot;contract&quot;: 1,
+  &quot;index_generation&quot;: 7,
+  &quot;not_a_search_availability_signal&quot;: true
+}</code></pre>
+<p>The last field is not decoration. It is the contract’s explicit
+non-guarantee, carried in-band so that a reader of a captured response
+cannot mistake this endpoint’s meaning:</p>
+<blockquote>
+<p><strong>This endpoint reports that the HTTP process is up. It says
+nothing about whether search can answer.</strong> Using it to gate
+search availability reproduces the measured <code>health_check</code>
+failure in §2.3. Search availability is only ever the
+<code>status</code> field of a search response.</p>
+</blockquote>
+<p><code>/api/health</code> never returns 503 for a degraded backend; if
+the process can answer, it answers 200.</p>
+<hr />
+<h3 id="get-apichapters-list-chapters">3.2
+<code>GET /api/chapters</code> — list chapters</h3>
+<p><strong>Traces</strong>: FR-008, FR-013, SC-004 (the first screen a
+new user reaches).</p>
+<p><strong>Request</strong>: no parameters. (Scale is “one chapter,
+growing to tens” — spec Assumptions — so no pagination is specified.
+Adding pagination would be unrequested capability.)</p>
+<p><strong>Response 200</strong></p>
+<pre class="jsonc"><code>{
+  &quot;chapters&quot;: [
+    {
+      &quot;slug&quot;: &quot;01-ai-workflows&quot;,
+      &quot;ordinal&quot;: 1,
+      &quot;title&quot;: &quot;Chapter 1 — Session Recording&quot;,
+      &quot;summary&quot;: &quot;…&quot;,
+      &quot;status&quot;: &quot;published&quot;,            // &quot;draft&quot; | &quot;transcribed&quot; | &quot;published&quot;
+      &quot;recording&quot;: {
+        &quot;available&quot;: true,              // false ⇒ parts present but not reassembled
+        &quot;duration_s&quot;: 6928.75,          // measured, from the Recording entity
+        &quot;size_bytes&quot;: 1871981557
+      },
+      &quot;transcript&quot;: {
+        &quot;present&quot;: true,
+        &quot;passage_count&quot;: 1421,
+        &quot;uncertain_count&quot;: 37,          // FR-003 — visible before opening the chapter
+        &quot;coverage_complete&quot;: true,      // SC-001 arithmetic identity, computed at ingest
+        &quot;accuracy&quot;: { &quot;measured&quot;: false, &quot;wer&quot;: null }   // FR-004 / SC-002; null until measured
+      },
+      &quot;material_count&quot;: 1
+    }
+  ],
+  &quot;generation&quot;: 7
+}</code></pre>
+<p><code>accuracy.wer</code> is <code>null</code>, never a placeholder
+number, until <a
+href="./pipeline-cli.md"><code>verify-accuracy.sh</code></a> has run.
+<code>measured: false</code> with <code>wer: null</code> is the “unable
+to verify” state (FR-033) expressed in data.</p>
+<p><strong>Errors</strong>: <code>503</code>
+<code>{"status":"unavailable","reason":{"code":"registry_unreadable"}}</code>
+if the passage registry cannot be opened. Never an empty
+<code>chapters</code> array for a storage fault — that is I1 applied to
+browsing.</p>
+<hr />
+<h3 id="get-apichapterschapter-one-chapter-with-its-materials">3.3
+<code>GET /api/chapters/{chapter}</code> — one chapter with its
+materials</h3>
+<p><strong>Traces</strong>: FR-008, FR-009, FR-011.</p>
+<p><strong>Response 200</strong></p>
+<pre class="jsonc"><code>{
+  &quot;slug&quot;: &quot;01-ai-workflows&quot;,
+  &quot;ordinal&quot;: 1,
+  &quot;title&quot;: &quot;…&quot;,
+  &quot;summary&quot;: &quot;…&quot;,
+  &quot;status&quot;: &quot;published&quot;,
+  &quot;sections&quot;: [                          // FR-011 — navigable, never one undifferentiated block
+    { &quot;id&quot;: &quot;s-03&quot;, &quot;title&quot;: &quot;Cutting chunks at silence&quot;, &quot;first_pid&quot;: &quot;01JBX…&quot;, &quot;t_start_s&quot;: 512.4 }
+  ],
+  &quot;materials&quot;: [
+    {
+      &quot;id&quot;: &quot;notes-gemini&quot;,
+      &quot;kind&quot;: &quot;pdf&quot;,                     // &quot;pdf&quot; | &quot;markdown&quot; | &quot;image&quot; | &quot;diagram&quot; | &quot;code&quot;
+      &quot;title&quot;: &quot;Notes by Gemini&quot;,
+      &quot;bytes&quot;: 421888,
+      &quot;href&quot;: &quot;/api/chapters/01-ai-workflows/materials/notes-gemini&quot;,
+      &quot;authority&quot;: &quot;secondary&quot;           // D-TRANS-5 — the recording is authoritative
+    }
+  ],
+  &quot;recording&quot;: { &quot;href&quot;: &quot;/api/chapters/01-ai-workflows/recording&quot;,
+                 &quot;probe&quot;: &quot;/api/chapters/01-ai-workflows/recording/probe&quot; },
+  &quot;transcript&quot;: { &quot;href&quot;: &quot;/api/chapters/01-ai-workflows/transcript&quot; },
+  &quot;accuracy&quot;:   { &quot;href&quot;: &quot;/api/chapters/01-ai-workflows/accuracy&quot; }
+}</code></pre>
+<p><code>authority: "secondary"</code> is contractual, not cosmetic: the
+notes PDF is a ~26-words-per-minute summary that demonstrably errs
+(“Spatkit” for SpecKit). The client must present it as supporting
+material, never as the record of what was said (spec edge case: <em>“The
+notes PDF and the transcript disagree — the recording is the
+authority”</em>).</p>
+<p><strong>Errors</strong>: <code>404</code>
+<code>chapter_not_found</code> (determined negative); <code>503</code>
+<code>registry_unreadable</code>.</p>
+<hr />
+<h3
+id="get-apichapterschaptertranscript-passages-timestamps-provenance-uncertainty">3.4
+<code>GET /api/chapters/{chapter}/transcript</code> — passages,
+timestamps, provenance, uncertainty</h3>
+<p><strong>Traces</strong>: FR-001, FR-002, FR-003, FR-005, FR-011,
+FR-038, SC-001, SC-003.</p>
+<p><strong>Request</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>from_pid</code></td>
+<td>ULID</td>
+<td>—</td>
+<td>Window start; omit for the beginning.</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>int</td>
+<td><code>500</code></td>
+<td>Max <code>2000</code>. A 1,400-passage chapter is servable whole;
+the window exists so a client need not hold it all.</td>
+</tr>
+<tr>
+<td><code>section</code></td>
+<td>string</td>
+<td>—</td>
+<td>Restrict to one <code>sections[].id</code>.</td>
+</tr>
+<tr>
+<td><code>include_redacted_markers</code></td>
+<td>bool</td>
+<td><code>true</code></td>
+<td>Redacted passages appear as markers, never as content (FR-039).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response 200</strong></p>
+<pre class="jsonc"><code>{
+  &quot;chapter_slug&quot;: &quot;01-ai-workflows&quot;,
+  &quot;engine&quot;: &quot;faster-whisper/large-v3-turbo&quot;,       // Transcript.engine
+  &quot;engine_params&quot;: { &quot;beam_size&quot;: 5, &quot;condition_on_previous_text&quot;: false,
+                     &quot;normaliser_sha256&quot;: &quot;sha256:…&quot; },   // frozen before first measurement
+  &quot;duration_s&quot;: 6928.75,
+  &quot;coverage&quot;: {                                     // SC-001 as an arithmetic identity, D-TRANS-4
+    &quot;complete&quot;: true,
+    &quot;speech_span_s&quot;: 6887.42,
+    &quot;accounted_silence_s&quot;: 41.33,
+    &quot;unexplained_gap_s&quot;: 0.0,                       // MUST be exactly 0 for a published chapter
+    &quot;gaps&quot;: []                                      // each gap: {start_s, end_s, reason}
+  },
+  &quot;passages&quot;: [
+    {
+      &quot;pid&quot;: &quot;01JBX7QK3M8V2ZC4YT5N6RWDPA&quot;,
+      &quot;kind&quot;: &quot;transcript&quot;,
+      &quot;text&quot;: &quot;we always cut inside a measured silence, never mid-word&quot;,
+      &quot;t_start_s&quot;: 512.4,
+      &quot;t_end_s&quot;: 519.1,
+      &quot;speaker&quot;: &quot;Milos&quot;,                // null when not human-attributed — never machine-guessed
+      &quot;speaker_source&quot;: &quot;human&quot;,         // &quot;human&quot; | &quot;unattributed&quot; — D-TRANS-2, dual-mono audio
+      &quot;provenance&quot;: &quot;human_corrected&quot;,   // &quot;machine&quot; | &quot;human_corrected&quot;  (FR-038)
+      &quot;confidence&quot;: -0.31,               // avg_logprob-derived; null for non-transcript kinds
+      &quot;uncertain&quot;: false,                // FR-003
+      &quot;uncertain_reason&quot;: null,          // &quot;low_confidence&quot; | &quot;inaudible&quot; | &quot;overlapping_speech&quot;
+                                         //  | &quot;language_uncertain&quot;  — null iff uncertain==false
+      &quot;redacted&quot;: false,
+      &quot;content_hash&quot;: &quot;sha256:…&quot;,        // CHANGE DETECTION ONLY — never identity. See passage-contract §6.
+      &quot;machine_text&quot;: &quot;we always cut inside a measured silence never mid word&quot;
+                                         // present iff provenance==&quot;human_corrected&quot;; the
+                                         // immutable recogniser output, retained as evidence
+    },
+    {
+      &quot;pid&quot;: &quot;01JBX7QK55T0N9E1XJ2H3KFMQR&quot;,
+      &quot;kind&quot;: &quot;transcript&quot;,
+      &quot;text&quot;: null,                      // redacted passages carry no text, at any layer
+      &quot;t_start_s&quot;: 1204.0, &quot;t_end_s&quot;: 1211.6,
+      &quot;redacted&quot;: true,
+      &quot;redaction&quot;: { &quot;reason_code&quot;: &quot;third_party_pii&quot;, &quot;at&quot;: &quot;2026-09-01T10:02:11Z&quot; }
+    }
+  ],
+  &quot;next_from_pid&quot;: &quot;01JBX7QK9…&quot;          // null at the end of the chapter
+}</code></pre>
+<p><strong>Contractual points</strong></p>
+<ul>
+<li><code>speaker</code> is <code>null</code> unless a human attributed
+it. The recording’s “stereo” is <strong>dual-mono</strong> (L−R = −90.3
+dB) and uniformly AGC-compressed, so channel- and loudness-based
+separation are measurably impossible (D-TRANS-2). FR-005 explicitly
+permits stating inability; the API states it through
+<code>speaker_source: "unattributed"</code> rather than by
+guessing.</li>
+<li><code>uncertain</code> is set from the engine’s own confidence
+signal, never inferred downstream. A passage with
+<code>uncertain: true</code> MUST carry a non-null
+<code>uncertain_reason</code>.</li>
+<li><code>machine_text</code> is served alongside corrected text so a
+reader can see both layers. Deleting it would destroy the ability to
+re-measure accuracy later (SC-002); the API therefore exposes it rather
+than only the current text.</li>
+<li><code>coverage.unexplained_gap_s &gt; 0</code> on a chapter with
+<code>status: "published"</code> is a contract violation; the publish
+step refuses it (<a href="./pipeline-cli.md">pipeline-cli.md
+§4.7</a>).</li>
+</ul>
+<p><strong>Errors</strong>: <code>404</code>
+<code>chapter_not_found</code>; <code>404</code>
+<code>transcript_not_produced</code> (determined: the chapter exists and
+has no transcript — distinct from the chapter not existing);
+<code>503</code> <code>registry_unreadable</code>.</p>
+<hr />
+<h3 id="recording-serve-and-seek-a-local-file-d1-d3">3.5 Recording:
+serve and seek a <strong>local file</strong> (D1, D3)</h3>
+<p>There is no streaming service here. The 1.8 GB file is reassembled
+locally from 36 × 50 MB parts, checksum-verified, and byte-served.
+<strong>No transcoding, no HLS/DASH, no adaptive bitrate ladder, no
+CDN</strong> — D3 excludes all of it.</p>
+<h4 id="get-apichapterschapterrecordingprobe">3.5.1
+<code>GET /api/chapters/{chapter}/recording/probe</code></h4>
+<p><strong>Traces</strong>: FR-007, FR-009, SC-003.</p>
+<pre class="jsonc"><code>{
+  &quot;available&quot;: true,
+  &quot;duration_s&quot;: 6928.75,
+  &quot;size_bytes&quot;: 1871981557,
+  &quot;sha256&quot;: &quot;…&quot;,
+  &quot;verified_at&quot;: &quot;2026-09-01T09:12:44Z&quot;,
+  &quot;container&quot;: &quot;mp4&quot;, &quot;video&quot;: &quot;h264 1920x1080 24fps&quot;, &quot;audio&quot;: &quot;aac-lc 48000 stereo(dual-mono)&quot;,
+  &quot;etag&quot;: &quot;\&quot;sha256-1f4c9ab0e7d2…-1871981557\&quot;&quot;
+}</code></pre>
+<p>When not available, <code>probe</code> returns <strong>503</strong>,
+not 200-with-<code>available:false</code>, for the same reason searches
+do (§2.6 I2):</p>
+<pre class="jsonc"><code>{
+  &quot;status&quot;: &quot;unavailable&quot;,
+  &quot;reason&quot;: {
+    &quot;code&quot;: &quot;recording_not_reassembled&quot;,
+    &quot;message&quot;: &quot;The recording has not been reassembled from its 36 archive parts.&quot;,
+    &quot;remedy&quot;: &quot;bash workshop/scripts/extract-videos.sh&quot;,
+    &quot;parts_present&quot;: 36, &quot;parts_expected&quot;: 36
+  }
+}</code></pre>
+<h4 id="gethead-apichapterschapterrecording">3.5.2
+<code>GET|HEAD /api/chapters/{chapter}/recording</code></h4>
+<p><strong>Traces</strong>: FR-009, FR-007, SC-003, D3.</p>
+<p><strong>Range support (mandatory)</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Accept-Ranges: bytes</code></td>
+<td>Sent on <code>GET</code> and <code>HEAD</code>, always.</td>
+</tr>
+<tr>
+<td>Accepted forms</td>
+<td><code>bytes=N-</code>, <code>bytes=N-M</code>, <code>bytes=-N</code>
+(suffix).</td>
+</tr>
+<tr>
+<td>Multi-range</td>
+<td><strong>Not supported.</strong> <code>bytes=0-99,200-299</code> ⇒
+<code>416</code> with
+<code>error.code = "multi_range_unsupported"</code>. Returning the full
+entity instead (also RFC-permitted) would push 1.8 GB down a link that
+asked for 200 bytes, so the contract refuses explicitly.</td>
+</tr>
+<tr>
+<td>Success</td>
+<td><code>206 Partial Content</code> with
+<code>Content-Range: bytes a-b/total</code> and
+<code>Content-Length</code> = part length.</td>
+</tr>
+<tr>
+<td>Unsatisfiable</td>
+<td><code>416 Range Not Satisfiable</code> with
+<code>Content-Range: bytes */&lt;total&gt;</code>.</td>
+</tr>
+<tr>
+<td>No <code>Range</code> header</td>
+<td><code>200</code> with the full entity and
+<code>Content-Length</code>. Never chunked-with-206.</td>
+</tr>
+<tr>
+<td><code>If-Range</code></td>
+<td>Honoured against the strong <code>ETag</code>: match ⇒
+<code>206</code>; mismatch ⇒ <code>200</code> full entity.</td>
+</tr>
+<tr>
+<td><code>ETag</code></td>
+<td>Strong, content-addressed:
+<code>"sha256-&lt;first 16 hex of the verified digest&gt;-&lt;size&gt;"</code>.
+Stable across a re-extraction on another machine, because it is derived
+from the manifest digest, not from inode metadata.</td>
+</tr>
+<tr>
+<td>Concurrency</td>
+<td>Bounded by <code>WORKSHOP_RECORDING_MAX_READERS</code> (derived from
+host CPU count, overridable). Exceeded ⇒ <code>503</code>
+<code>too_many_readers</code> with <code>Retry-After</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Integrity (FR-007) without hashing 1.8 GB per
+request</strong></p>
+<p>The extraction step writes a sidecar recording the verified
+<code>sha256</code> together with the <code>size</code> and
+<code>mtime</code> of the file it verified. On each request the server
+compares the current file’s <code>size</code> and <code>mtime</code>
+against the sidecar:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sidecar matches the file</td>
+<td>Serve.</td>
+</tr>
+<tr>
+<td>Sidecar absent</td>
+<td><code>503</code> <code>recording_integrity_unverified</code> — bytes
+are never served unverified.</td>
+</tr>
+<tr>
+<td>Sidecar present, <code>size</code>/<code>mtime</code> differ</td>
+<td><code>503</code> <code>recording_integrity_stale</code>, remedy:
+re-run extraction.</td>
+</tr>
+<tr>
+<td>Extraction recorded a digest mismatch</td>
+<td><code>503</code> <code>recording_integrity_mismatch</code> — “fail
+loudly” (FR-007).</td>
+</tr>
+</tbody>
+</table>
+<p>All four are <strong>state 2</strong>, not 404 and not a partial
+serve. The distinction matters: <code>404</code> on this route means
+<em>this chapter has no recording at all</em> (a determined negative);
+“the file has not been reassembled yet” is <em>could not determine</em>,
+and a fresh clone is in exactly that state.</p>
+<p><strong>Seeking (SC-003)</strong></p>
+<p>The client seeks by setting <code>currentTime</code> on the media
+element from a passage’s <code>t_start_s</code>; the browser then issues
+its own <code>Range</code> requests using the MP4’s internal index. The
+API’s only obligation is honest range support.</p>
+<p><strong>Normative non-capability</strong>: the server MUST NOT expose
+a “seek to N seconds” endpoint. Mapping a timestamp to a byte offset
+requires an index the container already holds and the browser already
+uses; re-deriving it server-side would be invented capability with a new
+failure mode and no requirement behind it.</p>
+<p><strong>Caching</strong>:
+<code>Cache-Control: private, max-age=31536000, immutable</code> plus
+the strong <code>ETag</code>. This is the one route where caching is
+correct, because the entity is content-addressed and immutable (FR-006 —
+source material is never modified).</p>
+<h4 id="get-apichapterschaptermaterialsmaterial_id">3.5.3
+<code>GET /api/chapters/{chapter}/materials/{material_id}</code></h4>
+<p><strong>Traces</strong>: FR-009, FR-016. Byte-serves a supporting
+material with its declared <code>Content-Type</code>. Same
+<code>ETag</code>/range rules as §3.5.2 (the 412 KB notes PDF does not
+need them, but one rule is fewer rules). <code>404</code>
+<code>chapter_not_found</code> when the slug names no chapter;
+<code>404</code> <code>material_not_found</code> when the chapter is
+real and holds no material under that id; <code>503</code> when the file
+is listed in the chapter manifest but missing on disk — again,
+absent-but-expected is state 2.</p>
+<p><strong>That <code>503</code> carries
+<code>reason.code = "curriculum_unreadable"</code> (§5.3), and every
+<code>503</code> this route can produce carries the same one.</strong>
+The clause above used to specify the condition and name no code at all,
+which left the one field a client is contractually required to branch on
+(§6) unstated for a response this contract says is reachable — measured
+and named 2026-09-03, and the omission is <strong>WITHDRAWN</strong>.
+There are four such paths and they are one code because they are one
+remedy — the chapter tree could not be read — while
+<code>reason.message</code> and the diagnostic
+<code>reason.evidence</code> string distinguish them:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Condition</th>
+<th><code>reason.code</code></th>
+<th><code>reason.leg</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The chapter tree could not be listed, so no slug can be
+resolved</td>
+<td><code>curriculum_unreadable</code></td>
+<td><code>curriculum</code></td>
+</tr>
+<tr>
+<td>The chapter’s own directory could not be listed</td>
+<td><code>curriculum_unreadable</code></td>
+<td><code>curriculum</code></td>
+</tr>
+<tr>
+<td>The material is listed in the chapter and could not be
+<strong>opened</strong></td>
+<td><code>curriculum_unreadable</code></td>
+<td><code>curriculum</code></td>
+</tr>
+<tr>
+<td>The material was opened and could not be <strong>measured</strong>
+(<code>stat</code>)</td>
+<td><code>curriculum_unreadable</code></td>
+<td><code>curriculum</code></td>
+</tr>
+</tbody>
+</table>
+<p>Read from the four non-test raise sites in
+<code>workshop/platform/backend/internal/api/chapters.go</code> (cited
+<strong>by path only</strong>), each calling the single
+<code>writeUnavailable</code> helper in that same file. That helper is
+the only way a <code>503</code> leaves this handler, and it emits
+<code>status: "unavailable"</code> plus a <code>reason</code> object
+with <code>code</code>, <code>leg</code>, <code>message</code> and
+<code>retry_after_s</code>, together with the
+<code>X-Workshop-Search-Status: unavailable</code> header — the §4 shape
+exactly. <code>curriculum_unreadable</code> is an existing §5.3 member
+and no code was invented to fill this gap.</p>
+<p><strong>Honest boundary (§11.4.6): this is read from source, not from
+a live probe.</strong> All four conditions require the chapter tree to
+be unreadable underneath a running server, which was not induced on the
+live deployment. What was measured live is the negative half —
+<code>GET /api/chapters</code> answers <code>200</code> with chapter
+<code>01</code> present — so the <code>503</code> branch is established
+from the raise sites and the single <code>writeUnavailable</code> choke
+point, and is recorded as that.</p>
+<hr />
+<h3 id="get-apisuggest-lexical-type-ahead.-never-embeds.">3.6
+<code>GET /api/suggest</code> — lexical type-ahead. <strong>Never
+embeds.</strong></h3>
+<p><strong>Traces</strong>: FR-015, FR-042, SC-005.</p>
+<p><strong>The measured constraint that shapes this endpoint</strong>
+(D-SEARCH-2): a semantic query embedding was measured at
+<strong>18.2–21.0 s</strong> under load, plus ~2,202 ms fixed indexer
+setup per CLI process. The FTS5 prefix index over 58,726 real symbols
+builds in 0.93 s / 15.9 MB and answers at <strong>p50 0.25 ms, p95 9.58
+ms, p99 19.2 ms</strong> — measured under load average ~9 while a full
+re-index was running. SC-005’s 200 ms budget is unreachable semantically
+and comfortable lexically.</p>
+<p><strong>Normative</strong>:</p>
+<blockquote>
+<p><code>/api/suggest</code> MUST NOT call the embedding backend, MUST
+NOT call Lumen, and MUST NOT fall back to a semantic path under any
+condition, including when the lexical index is unavailable. Its
+<code>legs</code> object is always exactly <code>{"lexical": …}</code>.
+Gate G-HTTP-8 asserts zero embedding requests during suggest
+traffic.</p>
+</blockquote>
+<p><strong>Request</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Rules</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>q</code></td>
+<td>string</td>
+<td>required</td>
+<td>Trimmed. Empty ⇒ <code>400 empty_query</code>. <strong>A single
+character MUST be executed, not short-circuited</strong> — the
+<code>ai_interviewing</code> backend’s “return <code>[]</code> below 2
+chars” behaviour is a defect and is forbidden here. Longer than 1024
+bytes ⇒ <code>400 query_too_long</code> (a type-ahead query that long is
+a client bug).</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>int</td>
+<td><code>10</code></td>
+<td>Max <code>25</code>.</td>
+</tr>
+<tr>
+<td><code>chapter</code></td>
+<td>string</td>
+<td>—</td>
+<td>Optional scope.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response 200</strong> (envelope of §2.5, payload
+<code>suggestions</code>)</p>
+<pre class="jsonc"><code>{
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;q&quot;: &quot;spec&quot;,
+  &quot;legs&quot;: { &quot;lexical&quot;: &quot;ok&quot; },
+  &quot;suggestions&quot;: [
+    { &quot;id&quot;: &quot;sg-1&quot;,                        // stable within this response — needed for aria-activedescendant (FR-042)
+      &quot;text&quot;: &quot;SpecKit&quot;,
+      &quot;kind&quot;: &quot;symbol&quot;,                    // &quot;symbol&quot;|&quot;heading&quot;|&quot;chapter&quot;|&quot;speaker&quot;|&quot;term&quot;
+      &quot;target&quot;: { &quot;pid&quot;: &quot;01JBX…&quot;, &quot;chapter_slug&quot;: &quot;01-ai-workflows&quot;, &quot;t_start_s&quot;: 512.4 },
+      &quot;score&quot;: 12.4 }
+  ],
+  &quot;total&quot;: 1,                              // for the screen-reader announcement (FR-041/042)
+  &quot;took_ms&quot;: 3
+}</code></pre>
+<p><strong>Suggestions are navigational targets, not search
+results</strong> (D-SEARCH-2). Selecting one navigates to a
+<code>pid</code>; it does not run a semantic query.</p>
+<p><strong>Server-side budget</strong>: <code>suggest_budget_ms</code>
+(default 50, derived/overridable). If the budget elapses with zero rows
+retrieved, the response is <code>503</code> <code>suggest_timeout</code>
+— <strong>not</strong> an empty dropdown. If rows were retrieved, a
+truncated list is a legitimate <code>ok</code>.</p>
+<p><strong>Unavailable causes</strong>:
+<code>lexical_index_unavailable</code> (FTS5 database missing, locked or
+corrupt), <code>index_no_verified_generation</code>,
+<code>suggest_timeout</code>.</p>
+<p><strong>Accessibility obligations this endpoint carries</strong> (the
+rest is a frontend contract): stable per-response <code>id</code>s so
+<code>aria-activedescendant</code> can reference them; a
+<code>total</code> count so the live region can announce “N
+suggestions”; deterministic ordering so keyboard traversal is
+reproducible.</p>
+<hr />
+<h3 id="get-apisearch-on-submit">3.7 <code>GET /api/search</code> — on
+submit</h3>
+<p><strong>Traces</strong>: FR-014, FR-016, FR-017, FR-019, FR-020,
+SC-006, SC-007, SC-008.</p>
+<p><strong>Request</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Rules</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>q</code></td>
+<td>string</td>
+<td>required</td>
+<td>Trimmed. Empty ⇒ <code>400 empty_query</code>. A multi-paragraph
+query is legitimate; over 8192 bytes ⇒ <code>413 query_too_long</code>
+(spec edge case: empty, one-character and multi-paragraph queries must
+all behave predictably).</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>int</td>
+<td><code>20</code></td>
+<td>Max <code>100</code>.</td>
+</tr>
+<tr>
+<td><code>kinds</code></td>
+<td>csv</td>
+<td>all</td>
+<td>Subset of the kinds the index actually holds — see the note below.
+The four-value list this cell used to give is <strong>WITHDRAWN as
+measured false</strong>.</td>
+</tr>
+<tr>
+<td><code>chapter</code></td>
+<td>string</td>
+<td>—</td>
+<td>Scope to one chapter.</td>
+</tr>
+<tr>
+<td><code>mode</code></td>
+<td>enum</td>
+<td><code>fused</code></td>
+<td><code>fused</code> | <code>lexical</code> | <code>semantic</code>.
+<code>lexical</code> is the honest escape hatch when the operator knows
+the embedding backend is saturated.</td>
+</tr>
+<tr>
+<td><code>timeout_ms</code></td>
+<td>int</td>
+<td><code>5000</code></td>
+<td>Clamped to <code>[500, 15000]</code>. This is the bounded timeout
+D-SEARCH-4 requires; exceeding it ⇒
+<code>unavailable{embedding_timeout}</code>, never an unbounded
+wait.</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>kind</code>, and why <code>pid</code> is NOT always a
+ULID — measured 2026-09-07, 160 rows over eight queries against the
+running stack.</strong></p>
+<p>Spec 002 (<code>knowledge-areas-deep-linking</code>) added catalogue
+kinds to this endpoint and never came back to amend the two clauses
+below, so §3.7 went on declaring a world that had stopped being true.
+<strong>A QA challenge then trusted the stale clause</strong>, took
+<code>results[0].pid</code>, built <code>"/api/passages/" + pid</code>
+itself, and reported the resulting <code>400 malformed_pid</code> as a
+SERVER fault for four separate checks. The server was conforming
+throughout. This note exists so the next reader does not repeat
+that.</p>
+<table>
+<thead>
+<tr>
+<th>kind</th>
+<th style="text-align: right;">rows</th>
+<th><code>pid</code> shape</th>
+<th><code>deep_link</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>transcript_segment</code></td>
+<td style="text-align: right;">44</td>
+<td>ULID</td>
+<td>supplied</td>
+</tr>
+<tr>
+<td><code>term</code></td>
+<td style="text-align: right;">64</td>
+<td><code>kg_terms:&lt;ident&gt;</code></td>
+<td><strong>empty</strong></td>
+</tr>
+<tr>
+<td><code>doc_section</code></td>
+<td style="text-align: right;">37</td>
+<td>ULID</td>
+<td><strong>empty</strong></td>
+</tr>
+<tr>
+<td><code>code</code></td>
+<td style="text-align: right;">14</td>
+<td>ULID</td>
+<td><strong>empty</strong></td>
+</tr>
+<tr>
+<td><code>kg_term</code></td>
+<td style="text-align: right;">1</td>
+<td><code>kg_terms:&lt;ident&gt;</code></td>
+<td><strong>empty</strong></td>
+</tr>
+</tbody>
+</table>
+<p><code>transcript</code> and <code>diagram</code> — two of the four
+values the old cell named — did not appear in the sample at all;
+<code>transcript_segment</code> is the value actually emitted.</p>
+<p>Two consequences a client MUST honour, both of which the old text
+implied away:</p>
+<ol type="1">
+<li><strong><code>pid</code> is a ULID only for kinds that live in the
+passage registry.</strong> A catalogue row’s id is
+<code>kg_terms:&lt;ident&gt;</code>, and §1.4 constrains
+<code>{pid}</code> on <code>/api/passages/{pid}</code> to a 26-character
+ULID — so passing a catalogue id there is a client error, and
+<code>400 malformed_pid</code> (§5.2) is the correct answer.
+<strong>Follow <code>href</code>, which §3.7 gives on every hit, instead
+of composing a URL.</strong> The catalogue row IS resolvable:
+<code>GET /api/terms/&lt;ident&gt;</code> returns 200.</li>
+<li><strong><code>deep_link</code> is empty for every kind but
+one.</strong> It is the server’s statement of where a hit takes the
+reader, and an empty string means <em>nowhere</em> — not <em>unset</em>.
+116 of the 160 rows carried <code>""</code> and <strong>0 omitted the
+key</strong>, so a client using <code>deep_link ?? fallback</code> never
+reaches its fallback. Render such a hit as text; do not fabricate a
+destination from <code>chapter_slug</code>, which for
+<code>doc_section</code> and <code>code</code> rows is <code>docs</code>
+— not a chapter <code>/api/chapters</code> reports.</li>
+</ol>
+<p><strong><code>Hit</code> shape</strong></p>
+<pre class="jsonc"><code>{
+  &quot;pid&quot;: &quot;01JBX7QK3M8V2ZC4YT5N6RWDPA&quot;,   // ULID here; &quot;kg_terms:&lt;ident&gt;&quot; for a catalogue kind
+  &quot;kind&quot;: &quot;transcript_segment&quot;,           // see the table above for the live set
+  &quot;chapter_slug&quot;: &quot;01-ai-workflows&quot;,
+  &quot;title&quot;: &quot;Cutting chunks at silence&quot;,
+  &quot;snippet&quot;: &quot;…never mid-word…&quot;,          // built from OUR store; never upstream free text (§2.4)
+  &quot;highlights&quot;: [[12, 21]],               // byte offsets into snippet; empty for semantic-only hits
+  &quot;t_start_s&quot;: 512.4, &quot;t_end_s&quot;: 519.1,   // transcript kinds only; null otherwise
+  &quot;source_ref&quot;: { &quot;path&quot;: &quot;chapters/01/transcript/transcript.md&quot;,
+                  &quot;line_start&quot;: 812, &quot;line_end&quot;: 815, &quot;symbol&quot;: null },
+  &quot;score&quot;: 0.71,
+  &quot;above_floor&quot;: true,
+  &quot;leg&quot;: &quot;fused&quot;,                         // &quot;lexical&quot; | &quot;semantic&quot; | &quot;fused&quot;
+  &quot;provenance&quot;: &quot;human_corrected&quot;,
+  &quot;uncertain&quot;: false,
+  &quot;href&quot;: &quot;/api/passages/01JBX7QK3M8V2ZC4YT5N6RWDPA?context=2&quot;,
+  &quot;deep_link&quot;: &quot;/chapters/01-ai-workflows/transcript#p-01JBX7QK3M8V2ZC4YT5N6RWDPA&quot;
+}</code></pre>
+<p><strong>Boundary that must not be implied away</strong> (D-SEARCH-3,
+FR-031): <code>kind</code> has <strong>no</strong> <code>audio</code> or
+<code>video</code> value, by design. Lumen’s extension allowlist is a
+compile-time <code>var</code> with no override — 25 code and doc
+extensions, and <strong>no</strong> image, audio, video, PDF, HTML or
+SVG. Measured: zero indexed files for
+<code>.sh .html .css .txt .svg .mmd .puml .vtt .srt .pdf</code>, against
+55 tracked <code>.sh</code>, 146 <code>.html</code> and 32
+<code>.css</code> in the root module. That is exclusion, not absence.
+Audio and video are searchable <strong>through their transcripts and
+captions</strong>; diagrams through their descriptions. FR-016 is
+satisfied by reduction to text, and the API states the boundary rather
+than pretending to a capability it does not have. The response carries
+it in-band:</p>
+<pre class="jsonc"><code>&quot;corpus&quot;: {
+  &quot;indexed_kinds&quot;: [&quot;transcript&quot;, &quot;doc_section&quot;, &quot;code&quot;, &quot;diagram&quot;],
+  &quot;media_reached_via&quot;: &quot;transcripts and captions only&quot;
+}</code></pre>
+<p><strong>Ordering of <code>results</code> — normative.
+<code>score</code> is NOT the sort key, and a client MUST NOT re-sort by
+it.</strong></p>
+<p>This clause is new on 2026-09-03. Until today §3.7 stated
+<strong>no</strong> ordering rule at all, and the served order happened
+to be descending <code>score</code>. It no longer is. <strong>No written
+contract was violated by that change</strong> — there was nothing here
+to violate — and that is precisely the argument for writing one: an
+unstated invariant that clients depend on is a contract the server never
+agreed to and can break without notice, which is what just happened.</p>
+<p>Measured live 2026-09-03 against the running deployment at generation
+67, <code>GET /api/search?q=silence&amp;limit=8</code>, ranks 1→8:</p>
+<pre><code>0.0273  0.0149  0.0143  0.0318  0.0156  0.0149  0.0145  0.0143
+                        ^^^^^^ rank 4 outscores rank 1</code></pre>
+<p>Two further queries at the same limit and generation behave the same
+way: <code>q=chunk</code> reads <code>0.0164 0.0323 0.0161 …</code> and
+<code>q=spec</code> reads <code>0.0320 0.0307 0.0118 0.0310 …</code>.
+<strong>The scores themselves did not move; only the order
+did.</strong></p>
+<p>The ordering that actually applies, in the order it is applied:</p>
+<ol type="1">
+<li>Candidates are sorted <strong>descending by
+<code>score</code></strong>, stably.</li>
+<li>Hits are withheld and demoted: a hit whose locus does not resolve is
+dropped entirely (FR-030); a snippet carrying a source-filename shape is
+dropped by §2.4’s disclosure guard; a semantic hit at or below the
+relevance floor is moved to the near-miss list and is
+<strong>not</strong> a result. The survivors are truncated to
+<code>limit</code>. <strong>This is the window.</strong></li>
+<li><strong>The window is then replaced by a permutation of
+itself.</strong> The permutation is a reciprocal-rank fusion (k=60, the
+same constant used across legs) of two orderings over the same
+positions: the incoming score order from step 1, and an Okapi BM25
+OR-ranking computed over the window <strong>as its own
+mini-corpus</strong> — so <code>idf</code> and length normalisation are
+relative to the window, which is what lets a short exact-title row
+compete with a long transcript segment. The final sort is stable and
+tie-broken by incoming position, so two equally-fused documents keep
+their relative order and an identical request returns an identical
+order.</li>
+<li><code>score</code> is <strong>not</strong> rewritten by step 3. It
+still means what the leg measured — cosine for semantic, bm25 for
+lexical, RRF-across-legs for fused. That is why <code>score</code> and
+position disagree: the number is preserved deliberately, and preserving
+it is what breaks the correspondence.</li>
+</ol>
+<p><strong>What step 3 cannot do, and these are structural properties
+rather than promises.</strong> It is a permutation of the served window:
+it cannot add a hit, cannot remove one, and cannot change a score. So
+<code>no_match</code> (reached from an <strong>empty</strong> hit list)
+is unreachable through it — a permutation of the empty list is the empty
+list — the relevance floor is neither read nor widened, and no near-miss
+can be promoted. It runs on the already-floor-filtered list for exactly
+that reason.</p>
+<p><strong>The near-miss list is deliberately NOT reordered</strong>,
+and stays in descending <code>score</code>. It is evidence about what
+the floor rejected, and its order is the order that produced the
+rejection.</p>
+<p><strong>This is switchable and the switch is part of the
+contract.</strong> The permutation is applied when the server’s
+window-rerank option is on. It is on by default and is on in the
+deployment measured above (the server logs
+<code>search window rerank=true</code> at boot and the running
+container’s argv carries <code>-search-window-rerank=true</code>).
+Turning it off restores step 1’s descending-<code>score</code> order
+exactly, because steps 1 and 2 are unchanged by it. <strong>A client
+must therefore treat the served order as authoritative and
+<code>score</code> as a displayable measurement, under either
+setting</strong> — that rule is the same in both configurations, which
+is what makes it safe to state.</p>
+<p><strong>Honest boundary (§11.4.6).</strong> Three things above are
+read from <code>workshop/platform/backend/pkg/search/</code> (cited
+<strong>by path only</strong>) and not from a live probe: the near-miss
+list’s ordering — the three queries measured returned zero near-misses,
+so no live response exercised it; the determinism of step 3; and the
+claim that disabling the option restores descending <code>score</code>.
+On determinism the live evidence is real but thin and is not more than
+it is: two identical <code>q=silence&amp;limit=8</code> requests
+returned an identical order and identical scores. <strong>Two calls do
+not establish a determinism property</strong> — they are consistent with
+it and would have refuted it had they disagreed. The rerank-off
+configuration was <strong>not</strong> measured, because doing so
+requires restarting the running deployment. What was measured live is
+the fact this clause exists to record: the served order is not
+descending <code>score</code>.</p>
+<p><strong>SC-006 note</strong>: 2 s p95 is achievable only with a
+long-lived index child process (avoiding the measured 2.2 s per-process
+warm-up) <strong>and</strong> embedding capacity reserved from indexing.
+During a chapter ingest without reservation, 9–50 s was measured. The
+<code>unavailable</code> state exists for exactly that window, and
+<code>reason.retry_after_s</code> carries the operator’s expectation
+when known.</p>
+<hr />
+<h3 id="get-apipassagespid-result-exact-passage-with-context">3.8
+<code>GET /api/passages/{pid}</code> — result → exact passage with
+context</h3>
+<p><strong>Traces</strong>: FR-017, FR-037, FR-038, FR-039, SC-003,
+SC-016.</p>
+<p><strong>Request</strong>: <code>context</code> (int, default
+<code>2</code>, max <code>10</code>) — passages either side.</p>
+<p><strong>Response 200</strong></p>
+<pre class="jsonc"><code>{
+  &quot;passage&quot;: { /* the passage object of §3.4 */ },
+  &quot;context_before&quot;: [ /* up to `context` passages */ ],
+  &quot;context_after&quot;:  [ /* … */ ],
+  &quot;chapter&quot;: { &quot;slug&quot;: &quot;01-ai-workflows&quot;, &quot;title&quot;: &quot;…&quot; },
+  &quot;recording_seek&quot;: { &quot;href&quot;: &quot;/api/chapters/01-ai-workflows/recording&quot;, &quot;t_start_s&quot;: 512.4 },
+  &quot;generation&quot;: 7
+}</code></pre>
+<p><strong>Resolution outcomes — four, and each maps to a distinct HTTP
+status</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Registry outcome</th>
+<th>HTTP</th>
+<th>Body <code>status</code></th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>found</code></td>
+<td><code>200</code></td>
+<td>—</td>
+<td>The passage exists and is servable.</td>
+</tr>
+<tr>
+<td><code>redacted</code></td>
+<td><strong><code>410 Gone</code></strong></td>
+<td><code>"redacted"</code></td>
+<td>The pid is real; its content is suppressed (FR-039). A citation to a
+redacted passage must land on an explicit redaction notice — never on a
+404, which reads as a broken link, and never on the content.</td>
+</tr>
+<tr>
+<td><code>not_in_registry</code></td>
+<td><code>404</code></td>
+<td><code>"not_found"</code></td>
+<td>Determined negative: the registry is readable and this pid is not in
+it.</td>
+</tr>
+<tr>
+<td><code>undetermined</code></td>
+<td><code>503</code></td>
+<td><code>"unavailable"</code></td>
+<td>The registry could not be read, or no verified generation is
+live.</td>
+</tr>
+<tr>
+<td>malformed pid</td>
+<td><code>400</code></td>
+<td>—</td>
+<td><code>error.code = "malformed_pid"</code>. Not a ULID.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Normative</strong>: resolution NEVER falls back to fuzzy text
+matching or nearest-neighbour lookup. An unknown pid is not “probably
+this one”. Full rules in <a
+href="./passage-contract.md">passage-contract.md §7</a>.</p>
+<hr />
+<h3 id="get-apipassagespidcrossrefs-cross-references">3.9
+<code>GET /api/passages/{pid}/crossrefs</code> — cross-references</h3>
+<p><strong>Traces</strong>: FR-018, SC-016, spec edge case
+<em>“cross-references must not create loops that trap a
+reader”</em>.</p>
+<p><strong>Request</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Max</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>relation</code></td>
+<td>csv of <code>explains,demonstrates,continues,related</code></td>
+<td>all</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>origin</code></td>
+<td><code>derived</code> | <code>authored</code> | both</td>
+<td>both</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>depth</code></td>
+<td>int</td>
+<td><code>1</code></td>
+<td><code>3</code></td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td>int</td>
+<td><code>20</code></td>
+<td><code>100</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response 200</strong> (envelope of §2.5, payload
+<code>crossrefs</code>)</p>
+<pre class="jsonc"><code>{
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;from_pid&quot;: &quot;01JBX7QK3M8V2ZC4YT5N6RWDPA&quot;,
+  &quot;generation&quot;: 7,
+  &quot;crossrefs&quot;: [
+    { &quot;to_pid&quot;: &quot;01JBX7QM…&quot;, &quot;relation&quot;: &quot;explains&quot;, &quot;origin&quot;: &quot;derived&quot;, &quot;score&quot;: 0.62,
+      &quot;depth&quot;: 1, &quot;preview&quot;: { &quot;kind&quot;: &quot;doc_section&quot;, &quot;title&quot;: &quot;…&quot;, &quot;snippet&quot;: &quot;…&quot; },
+      &quot;href&quot;: &quot;/api/passages/01JBX7QM…&quot; }
+  ],
+  &quot;truncated_by&quot;: null,          // null | &quot;cycle&quot; | &quot;limit&quot; | &quot;depth&quot;
+  &quot;redacted_omitted&quot;: 1,         // count only — never the pids, never the content
+  &quot;took_ms&quot;: 6
+}</code></pre>
+<p><strong>Cycle safety (normative)</strong>: traversal maintains a
+visited set; no returned path revisits a pid; <code>from_pid</code>
+never appears in <code>crossrefs</code>; self-references are rejected at
+write time. When traversal stopped because a cycle was detected,
+<code>truncated_by: "cycle"</code> says so rather than silently
+returning a shorter list.</p>
+<p><strong>Redaction</strong>: redacted endpoints are excluded from
+results, and the <em>count</em> is reported. Reporting the count is
+honest (the reader learns something was suppressed) without leaking
+what.</p>
+<p><strong>Three states apply</strong>: <code>ok</code> (≥1 edge),
+<code>no_match</code> (registry read fine, zero neighbours),
+<code>unavailable</code> (registry/index unreadable, or the
+<code>derived</code> edges belong to a generation that is not live).</p>
+<hr />
+<h3
+id="post-apiask-and-get-apiaskjob_id-ask-a-question-asynchronously">3.10
+<code>POST /api/ask</code> and <code>GET /api/ask/{job_id}</code> — ask
+a question, <strong>asynchronously</strong></h3>
+<p><strong>Traces</strong>: FR-021, FR-022, FR-023, FR-024, FR-025,
+SC-009, SC-010.</p>
+<blockquote>
+<h4 id="route-names-corrected-2026-09-01-apianswer-apiask">ROUTE NAMES
+CORRECTED 2026-09-01 — <code>/api/answer</code> →
+<code>/api/ask</code></h4>
+<p><del>This section named <code>POST /api/answer</code>,
+<code>GET /api/answer/{job_id}</code> and
+<code>GET /api/answering/status</code>.</del> Those three names are
+<strong>withdrawn</strong>, struck through rather than deleted so a
+reader can tell a corrected name from one that was never wrong. Nothing
+else in this section changed: every request shape, response shape,
+status code, normative point A1–A8 and the FR-025 route-separation rule
+below are unaltered. <strong>Only the spelling of the paths
+moved.</strong></p>
+<ul>
+<li><p><em>Believed when written (2026-08-31)</em>: the contract was
+authored before the answering tree existed, and <code>/api/answer</code>
+was chosen on paper with nothing to measure it against.</p></li>
+<li><p><em>Measured 2026-09-01</em>, against the live stack on port
+8087, and re-derivable in one line each:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-o</span> /dev/null <span class="at">-w</span> <span class="st">&#39;%{http_code}\n&#39;</span> http://127.0.0.1:8087/api/ask/status        <span class="co"># 200</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-o</span> /dev/null <span class="at">-w</span> <span class="st">&#39;%{http_code}\n&#39;</span> <span class="st">&#39;http://127.0.0.1:8087/api/ask?q=ping&#39;</span>      <span class="co"># 202</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-o</span> /dev/null <span class="at">-w</span> <span class="st">&#39;%{http_code}\n&#39;</span> http://127.0.0.1:8087/api/ask/nosuchjob     <span class="co"># 404 job_not_found</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-o</span> /dev/null <span class="at">-w</span> <span class="st">&#39;%{http_code}\n&#39;</span> <span class="at">-X</span> POST http://127.0.0.1:8087/api/answer    <span class="co"># 404</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-o</span> /dev/null <span class="at">-w</span> <span class="st">&#39;%{http_code}\n&#39;</span> http://127.0.0.1:8087/api/answering/status  <span class="co"># 404</span></span></code></pre></div>
+<p><code>platform/backend/pkg/answer/http.go</code> mounts five routes
+and every one of them is spelled <code>/api/ask</code>.
+<code>/api/answer</code> and <code>/api/answering/status</code> answer
+<code>404 page not found</code> — a plain 404, no contract
+body.</p></li>
+<li><p><em>Why the CONTRACT moved and not the code</em>:
+<code>/api/ask</code> is the name that exists. It is served by five
+mounted routes, exercised by <code>pkg/answer/http_test.go</code> and
+<code>pkg/answer/citations_verified_test.go</code>, probed by
+<code>platform/gates/route-manifest.tsv</code>, and documented in the
+workshop’s own user-facing pages and training material.
+<code>/api/answer</code> existed <strong>only on paper</strong>, and its
+only appearance in executable code was a <em>negative</em> assertion —
+that it must 404. Renaming five working routes would invalidate every
+measurement taken against them and break documentation that was verified
+against reality, in exchange for a name whose sole claim is that this
+file wrote it down first. A contract earns authority by being the thing
+the system is measured against; it does not earn it by being older than
+the system.</p></li>
+<li><p><em>When it changed</em>: the answering tree was built at
+<code>/api/ask</code> by a second author as the standalone
+<code>cmd/workshop-ask</code> binary and later folded into
+<code>cmd/workshop-server</code>. The divergence was recorded — never
+hidden — in <code>platform/gates/route-manifest.tsv</code>, which held
+the three <code>/api/answer</code> rows at <code>NOT_BUILT</code>
+specifically so the gap would print as DEBT on every run until somebody
+decided it. This is that decision.</p></li>
+<li><p><em>What still holds, unchanged</em>:
+<code>POST /api/answer</code> and <code>GET /api/answering/status</code>
+MUST still answer a <strong>plain 404</strong>, never a 405. A retired
+name must not start aliasing the live one — two spellings for one
+resource is the same one-fact-in-two-places defect this correction
+removes. That assertion did not move into this contract; it already
+lives in <code>cmd/workshop-server/web_test.go</code>
+(<code>TestUnimplementedApiRoutesAre404OnEveryVerb</code>) and
+<code>internal/api/gates_test.go</code>, which is why the manifest rows
+could be retired without losing the guard.</p></li>
+<li><p><em>Recorded, NOT resolved by this correction</em>: the
+implementation also mounts <code>GET /api/ask/{job_id}/stream</code>,
+which answers (<code>404 job_not_found</code> for an unknown id,
+measured 2026-09-01). <strong>This contract still defers
+streaming</strong> — see <em>“Streaming is deferred, not offered”</em>
+below, and the verification argument there is untouched by the rename. A
+route that the contract declines to offer is a <strong>separate, open
+divergence</strong>, and it is written down here rather than swept in
+under a renaming decision it has nothing to do with.</p></li>
+</ul>
+</blockquote>
+<h4 id="the-measurements-this-contract-is-built-on">The measurements
+this contract is built on</h4>
+<ul>
+<li><strong>There is no generative model installed at all.</strong>
+ollama serves exactly two models and they are the <em>same</em>
+embedding model (<code>jina-bert-v2</code>, 160.28M, an encoder with no
+LM head); the whole model store is 309 MB across 7 blobs — too small to
+hold a decoder (plan.md premise 5).</li>
+<li><strong>“Instant” is off by two orders of magnitude.</strong> Three
+identical two-word embed calls, model resident, minutes apart:
+<strong>20.16 s / 11.05 s / 0.10 s</strong> at load 8.25. Estimated
+CPU-only generation (<strong>UNVERIFIED</strong>, §8): ~21 s (1.5B) /
+~42 s (3B) / ~95 s (7B) idle, ×1.4 with verification (D-LLM-5).</li>
+<li>Therefore answering is <strong>asynchronous by contract</strong>,
+and the <code>extractive</code> adapter — which answers in ~0.3 s, is
+genuinely grounded and <strong>cannot fabricate</strong> — is the
+default <em>working</em> path.</li>
+</ul>
+<h4 id="post-apiask"><code>POST /api/ask</code></h4>
+<p><strong>Request</strong></p>
+<pre class="jsonc"><code>{ &quot;question&quot;: &quot;why do we cut chunks inside silence?&quot;,
+  &quot;chapter&quot;: &quot;01-ai-workflows&quot;,     // optional scope
+  &quot;top_k&quot;: 8 }                      // optional, clamped to the configured maximum</code></pre>
+<p><strong>Response 202 Accepted</strong> — a job was created:</p>
+<pre class="jsonc"><code>{
+  &quot;job_id&quot;: &quot;ans_01JBX7R2…&quot;,
+  &quot;poll&quot;: &quot;/api/ask/ans_01JBX7R2…&quot;,
+  &quot;poll_after_ms&quot;: 0,                 // 0 for the extractive adapter; ≥2000 for generative
+  &quot;estimated_seconds&quot;: null,          // NULL while unmeasured — see §8. Never a guessed number.
+  &quot;provider&quot;: { &quot;name&quot;: &quot;extractive&quot;, &quot;locality&quot;: &quot;local&quot;, &quot;model&quot;: null }
+}</code></pre>
+<p><strong>Response 503</strong> — answering cannot run. Returned
+<strong>immediately</strong>; no job is created:</p>
+<pre class="jsonc"><code>{
+  &quot;status&quot;: &quot;unavailable&quot;,
+  &quot;reason&quot;: {
+    &quot;code&quot;: &quot;no_provider&quot;,            // §5.3: no_provider | provider_unreachable
+                                      //       | model_not_generative | provider_disabled
+    &quot;message&quot;: &quot;Answering is not configured. Search and browsing are unaffected.&quot;,
+    &quot;retry_after_s&quot;: null
+  }
+}</code></pre>
+<p><code>model_not_generative</code> is a named code because this
+environment invites exactly that bug: model resolution on this machine
+lands on an embedding model, and the ollama adapter <strong>must fail
+construction</strong> with <em>“model X is an embedding model, not a
+generative model”</em> rather than posting <code>/api/chat</code> and
+rendering the nonsense that comes back.</p>
+<p><strong>Default state</strong>: <code>enabled: false</code>,
+<code>provider: none</code>. A fresh clone therefore returns
+<code>503</code> here and <code>200</code> from <code>/api/search</code>
+— which is FR-025’s acceptance criterion, satisfied out of the box
+rather than by a runtime check.</p>
+<h4 id="get-apiaskjob_id"><code>GET /api/ask/{job_id}</code></h4>
+<p>Exactly four terminal-or-pending shapes:</p>
+<pre class="jsonc"><code>// 200 — still running
+{ &quot;status&quot;: &quot;pending&quot;, &quot;phase&quot;: &quot;retrieving&quot;,   // &quot;retrieving&quot;|&quot;generating&quot;|&quot;verifying&quot;
+  &quot;elapsed_s&quot;: 12.4, &quot;poll_after_ms&quot;: 2000 }
+
+// 200 — answered. Every citation verified against the LIVE generation&#39;s pid set.
+{ &quot;status&quot;: &quot;answered&quot;,
+  &quot;text&quot;: &quot;Chunks are cut inside measured silence so no word straddles a boundary…&quot;,
+  &quot;citations&quot;: [
+    { &quot;pid&quot;: &quot;01JBX7QK3M8V2ZC4YT5N6RWDPA&quot;, &quot;quote&quot;: &quot;never mid-word&quot;,
+      &quot;chapter_slug&quot;: &quot;01-ai-workflows&quot;, &quot;t_start_s&quot;: 512.4,
+      &quot;href&quot;: &quot;/api/passages/01JBX7QK3M8V2ZC4YT5N6RWDPA&quot; }
+  ],
+  &quot;retrieval&quot;: { &quot;top_score&quot;: 0.74, &quot;margin&quot;: 0.19, &quot;min_score&quot;: 0.55, &quot;min_margin&quot;: 0.08 },
+  &quot;provider&quot;: { &quot;name&quot;: &quot;ollama&quot;, &quot;model&quot;: &quot;…&quot;, &quot;locality&quot;: &quot;local&quot; },
+  &quot;generation&quot;: 7, &quot;elapsed_s&quot;: 38.2 }
+
+// 200 — declined. A CORRECT RESULT, not an error.
+{ &quot;status&quot;: &quot;declined&quot;,
+  &quot;reason&quot;: &quot;margin_too_small&quot;,     // §5.5, closed: below_threshold | margin_too_small
+                                    // | unsupported | no_citations | redacted_evidence
+                                    // NEVER an §5.3 code — the two sets are disjoint (§5.6)
+  &quot;message&quot;: &quot;The indexed content does not support an answer to this question.&quot;,
+  &quot;closest&quot;: [ /* Hit[] — what was retrieved, shown as context, never as an answer */ ],
+  &quot;retrieval&quot;: { &quot;top_score&quot;: 0.61, &quot;margin&quot;: 0.02, &quot;min_score&quot;: 0.55, &quot;min_margin&quot;: 0.08 } }
+
+// 503 — could not determine
+{ &quot;status&quot;: &quot;unavailable&quot;,
+  &quot;reason&quot;: { &quot;code&quot;: &quot;provider_unreachable&quot;, &quot;message&quot;: &quot;…&quot;, &quot;retry_after_s&quot;: 30 } }</code></pre>
+<p><strong>Normative points</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+<th>Basis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td><code>declined</code> returns <strong>200</strong>. Conflating a
+decline with a failure would make SC-010 unmeasurable — you cannot count
+refusals if refusals look like outages.</td>
+<td>FR-022, SC-010</td>
+</tr>
+<tr>
+<td>A2</td>
+<td><code>answered</code> with zero citations is <strong>structurally
+impossible</strong>: the generation schema carries
+<code>"minItems": 1</code>, so an uncited claim is undecodable, and the
+API rejects any answer object failing it.</td>
+<td>FR-021, SC-009, D-LLM-2 L2</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Every citation pid MUST be a member of the <strong>live</strong>
+generation’s pid set — a deterministic set check, and the reason SC-009
+is reachable at all. A citation outside the set ⇒ the whole answer is
+<code>declined{no_citations}</code>. Claims are never silently
+stripped.</td>
+<td>SC-009, D-LLM-2 L3</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>If a cited passage is redacted between generation and delivery, the
+answer becomes <code>declined{redacted_evidence}</code>. Redaction
+propagates to stored answers, not only to the rendered transcript.</td>
+<td>FR-039</td>
+</tr>
+<tr>
+<td>A5</td>
+<td><code>retrieval</code> is returned <strong>even on success</strong>,
+so a 0.002-margin pass is visible as <em>fragile</em> rather than
+indistinguishable from a confident one.</td>
+<td>data-model <code>Answer.retrieval</code></td>
+</tr>
+<tr>
+<td>A6</td>
+<td><code>min_score</code>/<code>min_margin</code> shipping at
+<code>0.0</code> means <em>uncalibrated</em>, and an uncalibrated
+threshold <strong>refuses everything</strong>. “We never calibrated”
+fails loudly instead of degrading into “answer everything”.</td>
+<td>D-LLM-1</td>
+</tr>
+<tr>
+<td>A7</td>
+<td><code>unavailable</code> is a first-class third state, distinct from
+<code>declined</code>. Conflating them would make a missing provider
+look like a content gap. Enforced mechanically by §5.6: the decline
+vocabulary (§5.5) and the answering <code>reason.code</code> vocabulary
+(§5.3) are <strong>disjoint</strong>, so <code>no_provider</code> and
+its siblings cannot be filed as refusal reasons.</td>
+<td>FR-025, FR-033, SC-013</td>
+</tr>
+<tr>
+<td>A8</td>
+<td>Jobs are in-memory and single-machine. A job id is not durable
+across a restart; an unknown id ⇒ <code>404 job_not_found</code>.
+Claiming durability would be invented capability.</td>
+<td>D1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Streaming is deferred, not offered.</strong> A first token
+can be tens of seconds away, so streaming would materially improve
+perceived latency — but verification (L3/L4) can only run on a
+<em>complete</em> answer, so streaming would display unverified claims
+for seconds. If added later, the verified/unverified state must be
+visible throughout and the answer must not be presentable as final until
+verification completes.</p>
+<h4 id="get-apiaskstatus"><code>GET /api/ask/status</code></h4>
+<p><strong>Traces</strong>: FR-023, FR-024, FR-031.</p>
+<pre class="jsonc"><code>{
+  &quot;enabled&quot;: false,
+  &quot;provider&quot;: &quot;none&quot;,                 // none | extractive | ollama | openai_compatible
+  &quot;model&quot;: null,
+  &quot;endpoint&quot;: &quot;http://127.0.0.1:11434&quot;,
+  &quot;locality&quot;: &quot;local&quot;,                // DECLARED, never inferred from the endpoint string
+  &quot;locality_verified&quot;: true,          // resolved-address check agreed with the declaration
+  &quot;calibrated&quot;: false,                // min_score/min_margin are still 0.0 ⇒ refuses everything
+  &quot;reason&quot;: { &quot;code&quot;: &quot;no_provider&quot;, &quot;message&quot;: &quot;No generative model is installed on this host.&quot; }
+}</code></pre>
+<p><strong><code>api_key_env</code> is never echoed here, never logged,
+and never included in provider descriptions.</strong> The config holds
+the <em>name</em> of an environment variable, never a value and never a
+file path.</p>
+<p><code>locality</code> is declared rather than inferred because
+inferring “<code>127.0.0.1</code> means local” is a string comparison a
+typo defeats (<code>localhost.example.com</code>).
+<code>locality_verified</code> is the result of resolving the endpoint’s
+addresses and requiring every one to be a loopback address when
+<code>locality: local</code>. A divergence between declaration and
+resolved reality is a <strong>fault</strong>, reported as
+<code>locality_verified: false</code> and blocking answering — not a
+warning.</p>
+<p><strong>FR-025 is enforced architecturally, not by a runtime
+check</strong>: <code>/api/search</code>, <code>/api/suggest</code>,
+<code>/api/chapters</code>, <code>/api/passages</code> are registered on
+a router group with <strong>no reference to the answering
+package</strong>; <code>/api/ask</code> and <code>/api/ask/status</code>
+are the only routes that construct a provider. Provider construction
+failure must not abort server startup. There is no shared goroutine pool
+or connection pool between the answering client and the search path, so
+a hung 240 s generation cannot starve search and break SC-006 for a
+reason unrelated to search. Gate G-HTTP-5 proves it; its paired mutation
+wires search through the provider health check and must turn the gate
+red.</p>
+<hr />
+<h3 id="getpost-apiprogress-reading-position">3.11
+<code>GET|POST /api/progress</code> — reading position</h3>
+<p><strong>Traces</strong>: FR-010.</p>
+<p><code>POST</code> body
+<code>{ "chapter_slug": "…", "pid": "01JBX…", "t_seconds": 512.4 }</code>;
+identity is the <code>X-Session</code> header (the same header
+<code>ai_interviewing</code> already uses — FR-013). <code>GET</code>
+returns the stored position per chapter. Storage is local and
+single-user (D1); this is a convenience record, not an account.</p>
+<p><code>404</code> when <code>X-Session</code> has no stored progress
+(determined negative). <code>503</code> when the store is
+unreadable.</p>
+<p><strong>That <code>503</code> carries
+<code>status: "unavailable"</code> plus
+<code>reason.code = "progress_store_unreadable"</code> and
+<code>reason.leg = "progress"</code> — §4’s ordinary <code>503</code>
+row, with no exception.</strong> Measured in-process on 2026-09-03 by
+seeding a torn <code>progress.json</code> under an <code>httptest</code>
+server built from the real handler:</p>
+<pre class="jsonc"><code>// HTTP 503        X-Workshop-Search-Status: unavailable
+{
+  &quot;status&quot;: &quot;unavailable&quot;,
+  &quot;generation&quot;: null,
+  &quot;reason&quot;: {
+    &quot;code&quot;: &quot;progress_store_unreadable&quot;,   // closed enum, §5.3
+    &quot;leg&quot;: &quot;progress&quot;,
+    &quot;message&quot;: &quot;the reading-position store could not be read; this is NOT the same as this session having no stored position&quot;,
+    &quot;retry_after_s&quot;: null                  // §2.5: null is UNKNOWN, never 0
+  }
+}</code></pre>
+<p>Both <code>503</code> paths on this route emit that shape —
+<code>GET</code> when the store cannot be read, <code>POST</code> when
+the position cannot be stored — from the two non-test raise sites in
+<code>workshop/platform/backend/internal/api/progress.go</code> (cited
+<strong>by path only</strong>), each calling the
+<code>writeUnavailable</code> helper. They share one code because they
+share one failure: <code>Put</code> reads the store before it writes, so
+both faults are the same file, and two codes would name one fault
+twice.</p>
+<p><strong>THE PREVIOUS REVISION OF THIS CLAUSE IS WITHDRAWN, NOT
+RESTATED — but what it recorded was true when written.</strong> It
+documented this route as <strong>the one documented exception to §4’s
+<code>503</code> row</strong>, because both raise sites called
+<code>writeError</code> and emitted §1.5’s fourth-thing shape
+instead:</p>
+<pre class="jsonc"><code>// HTTP 503 — PRE-FIX, 2026-09-03. No `status`, no `reason`,
+//            and no X-Workshop-Search-Status header at all.
+{ &quot;error&quot;: { &quot;code&quot;: &quot;internal_error&quot;, &quot;message&quot;: &quot;the reading-position store could not be read; …&quot; } }</code></pre>
+<p>That capture is kept because it is the evidence, and because the
+deviation is the kind that hides: the property this route actually turns
+on — that an unreadable store is never reported as “you have never read
+anything here” — <strong>held throughout</strong>, so the endpoint’s own
+gate was green the whole time. A <code>503</code> was a <code>503</code>
+and a <code>404</code> was a <code>404</code>. What was broken was that
+this <code>503</code> did not <em>parse</em> like any other
+<code>503</code>, which §6 depends on and no status-code assertion can
+see.</p>
+<p><strong>Which of the two remedies was taken, and why.</strong> The
+previous revision named two — teach the route
+<code>writeUnavailable</code> and add a <code>reason.code</code> member,
+or amend §4 to admit an <code>error.code</code>-shaped <code>503</code>
+— and made neither. <strong>The first is now applied.</strong> The
+second was refused: it would spend a contract-wide guarantee, on which
+every other route and §6’s client obligation depend, to accommodate one
+local convenience store. A new <code>reason.code</code> member was
+required because nothing in §5.3 fits — <code>registry_unreadable</code>
+is <code>passages.db</code> and <code>curriculum_unreadable</code> is
+the chapter’s pipeline output, and each would send an operator to the
+wrong file. See §5.3 for the member and §5.6 for its disjointness.</p>
+<p><strong>Gated.</strong> Two tests in
+<code>internal/api/progress_test.go</code> (cited <strong>by path
+only</strong> — see the note at the end of this clause) carry it: the
+older one seeds a corrupt store, requires <code>503</code>, and fails if
+the body carries a <code>not_found</code> verdict; the new one asserts
+the envelope above on <strong>both</strong> methods —
+<code>status</code>, an object-shaped <code>reason</code>, membership of
+<code>reason.code</code> in the closed §5.3 enum, the leg, an explicit
+null <code>retry_after_s</code>, and the
+<code>X-Workshop-Search-Status</code> header. Its paired mutation
+reverts either raise site to <code>writeError</code>, which compiles and
+turns it red. <strong>A client may now assume a <code>503</code> from
+<code>/api/progress</code> parses like a <code>503</code> from any other
+route.</strong></p>
+<blockquote>
+<p><strong>Why the two tests cited in this clause and in §3.7 are named
+by PATH and never by gate id — the closure check caught this edit, and
+the catch is worth more than the citation was.</strong> The first draft
+of both clauses cited the implementation’s own gate identifiers: the
+progress-store one here, the search-disclosure one in §3.7.
+<code>tasks.md</code>’s gate-attachment closure check enumerates gate
+ids by grepping <code>contracts/</code> and requires each to be carried
+by a task line; writing those two into this file moved its population
+from <strong>31 to 33</strong> and it immediately reported
+<strong><code>unattached: 2</code></strong>, naming both. <strong>The
+instrument was right.</strong> An id written into
+<code>contracts/</code> is a contract-level obligation that some task
+must build, and neither of these is one: both name tests that already
+exist in the backend, cited here as evidence, not commissioned here as
+work. <strong>The fix was to drop the identifiers — not to widen the
+check, not to attach them to a task line, and not to touch a single
+checkbox.</strong> Everything they carried survives as a path, which is
+what a reader needs in order to go and look. Re-measured after the
+correction: <strong>31 ids, <code>unattached: 0</code></strong>.</p>
+<p><strong>The second half of that lesson is a limitation of the
+instrument, and it is why this note spells no identifier
+either.</strong> Because the population is a grep over
+<code>contracts/</code>, a contract document <strong>cannot discuss a
+gate id without enlisting it</strong> — including in a note explaining
+why it should not be enlisted. The first attempt at this very paragraph
+named both ids and left the check at <strong>33 /
+<code>unattached: 2</code></strong>. There is no way to write “this id
+is deliberately not a contract gate” inside <code>contracts/</code> and
+have the check agree. The resolution here is to describe the gates and
+let the cited test files carry their own names; <strong>deliberately
+misspelling an id to slip past the extractor was considered and
+refused</strong>, because an instrument that can be evaded by spelling
+is worth nothing, and the next reader would have no way to tell a dodge
+from a typo.</p>
+</blockquote>
+<hr />
+<h3
+id="get-apichapterschapteraccuracy-the-measured-transcript-accuracy">3.12
+<code>GET /api/chapters/{chapter}/accuracy</code> — the measured
+transcript accuracy</h3>
+<p><strong>Traces</strong>: FR-004, FR-033, SC-002.</p>
+<pre class="jsonc"><code>{
+  &quot;measured&quot;: true,
+  &quot;method&quot;: &quot;WER against a blind human reference over 30 seeded, stratified 30-second audio windows&quot;,
+  &quot;windows&quot;: 30,
+  &quot;seed&quot;: 1724,
+  &quot;wer&quot;: 0.061,
+  &quot;normaliser_sha256&quot;: &quot;sha256:…&quot;,       // frozen BEFORE the first measurement
+  &quot;companion&quot;: { &quot;coverage_gap_rate&quot;: 0.0, &quot;timestamp_error_median_s&quot;: 0.4,
+                 &quot;timestamp_error_p95_s&quot;: 1.9, &quot;speaker_accuracy&quot;: null },
+  &quot;evidence_href&quot;: &quot;…/_evidence/verify-accuracy/2026-09-01T09-40Z-…/result.json&quot;,
+  &quot;measured_at&quot;: &quot;2026-09-01T09:40:12Z&quot;
+}</code></pre>
+<p>When the measurement has not been run:</p>
+<pre class="jsonc"><code>{ &quot;measured&quot;: false, &quot;wer&quot;: null,
+  &quot;reason&quot;: &quot;verify-accuracy has not been run for this chapter&quot;,
+  &quot;remedy&quot;: &quot;bash workshop/scripts/verify-accuracy.sh 01-ai-workflows --reference &lt;path&gt;&quot; }</code></pre>
+<p><code>measured: false</code> with <code>wer: null</code> is the third
+state expressed in data: not “0% error”, not “we failed” — <em>not
+measured</em>. Sampling is on the <strong>audio timeline</strong>, not
+on machine passages, because sampling passages makes whole-region
+deletions structurally invisible (a dropped span produces no passage to
+sample), biasing accuracy upward exactly where the transcript is worst
+(D-TRANS-3).</p>
+<hr />
+<h3 id="get-apiindexstatus-generation-transparency">3.13
+<code>GET /api/index/status</code> — generation transparency</h3>
+<p><strong>Traces</strong>: FR-020, FR-027, FR-033.</p>
+<pre class="jsonc"><code>{
+  &quot;live&quot;: { &quot;generation&quot;: 7, &quot;state&quot;: &quot;live&quot;, &quot;pid_count&quot;: 1421,
+            &quot;built_at&quot;: &quot;2026-09-01T08:02:00Z&quot; },
+  &quot;building&quot;: { &quot;generation&quot;: 8, &quot;state&quot;: &quot;building&quot;, &quot;progress&quot;: 0.42 },  // null when idle
+  &quot;legs&quot;: { &quot;lexical&quot;: &quot;ok&quot;, &quot;semantic&quot;: &quot;degraded&quot; },
+  &quot;semantic_note&quot;: &quot;Upstream index is rebuilding; semantic results may be incomplete.&quot;,
+  &quot;floor_calibrated&quot;: false
+}</code></pre>
+<p><code>503</code> when there is no verified generation at all — a
+system with nothing live must say so, not serve zero results from an
+empty index. Only a <code>verified</code> generation may become
+<code>live</code>, by atomic swap; readers never see
+<code>building</code>. This is a measured necessity: during the live
+rebuild, <code>chunks</code> moved 58,734 → 58,744 while
+<code>last_indexed_at</code>/<code>root_hash</code> still advertised the
+previous generation — a half-written, readable index (D-SEARCH-5).</p>
+<p>Freshness polling (<code>index_status</code>, measured at
+<strong>2.6–5.1 s</strong> per call) is a <strong>background</strong>
+poll and MUST NOT be on any request path.</p>
+<hr />
+<h2 id="error-and-status-taxonomy">4. Error and status taxonomy</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>HTTP</th>
+<th>Body discriminator</th>
+<th>Category</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>200</code></td>
+<td><code>status: "ok"</code></td>
+<td>determined, positive</td>
+<td>State 0.</td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td><code>status: "no_match"</code> / <code>"declined"</code></td>
+<td>determined, negative</td>
+<td>State 1. A real, measurable result.</td>
+</tr>
+<tr>
+<td><code>200</code></td>
+<td><code>status: "pending"</code></td>
+<td>in progress</td>
+<td>Answer jobs only.</td>
+</tr>
+<tr>
+<td><code>202</code></td>
+<td>—</td>
+<td>accepted</td>
+<td>Answer job created.</td>
+</tr>
+<tr>
+<td><code>206</code></td>
+<td>—</td>
+<td>partial content</td>
+<td>Recording range.</td>
+</tr>
+<tr>
+<td><code>400</code></td>
+<td><code>error.code</code></td>
+<td>request fault</td>
+<td>Malformed query, malformed pid, empty query. Outside the three
+states (§1.5).</td>
+</tr>
+<tr>
+<td><code>404</code></td>
+<td><code>status: "not_found"</code> or <code>error.code</code></td>
+<td>determined, negative</td>
+<td>The thing genuinely does not exist.</td>
+</tr>
+<tr>
+<td><code>410</code></td>
+<td><code>status: "redacted"</code></td>
+<td>determined, suppressed</td>
+<td>The pid is real; content withheld (FR-039).</td>
+</tr>
+<tr>
+<td><code>413</code></td>
+<td><code>error.code: "query_too_long"</code></td>
+<td>request fault</td>
+<td></td>
+</tr>
+<tr>
+<td><code>416</code></td>
+<td><code>error.code</code></td>
+<td>request fault</td>
+<td>Unsatisfiable or multi-range.</td>
+</tr>
+<tr>
+<td><code>503</code></td>
+<td><code>status: "unavailable"</code> + <code>reason.code</code></td>
+<td><strong>could not determine</strong></td>
+<td>State 2. Always.</td>
+</tr>
+<tr>
+<td><code>500</code></td>
+<td><code>error.code: "internal_error"</code></td>
+<td>could not determine</td>
+<td>Treated as state 2 by the client; a bug, not a result.</td>
+</tr>
+</tbody>
+</table>
+<p>There is deliberately <strong>no</strong> response in this contract
+that pairs HTTP <code>200</code> with an empty result set and no
+discriminator. That combination is the failure mode FR-020 exists to
+prevent.</p>
+<p><strong>The <code>503</code> row above has NO exception, and the
+sentence that used to record one is WITHDRAWN.</strong> An earlier
+revision named <code>/api/progress</code> (§3.11) as the single
+documented deviation: it answered <code>503</code> with an
+<code>error.code</code> of <code>internal_error</code> and no
+<code>status</code> and no <code>reason.code</code>. That was a correct
+measurement of the implementation on 2026-09-03, and it has since been
+<strong>fixed in the backend rather than accommodated here</strong> —
+both of that route’s raise sites now emit
+<code>status: "unavailable"</code> plus
+<code>reason.code = "progress_store_unreadable"</code> (a new §5.3
+member) and <code>reason.leg = "progress"</code>, re-measured in-process
+the same day and gated with a paired mutation. See §3.11 for both
+captures, before and after.</p>
+<p><strong>The direction of that fix is the point, and it is worth
+stating once for the next deviation.</strong> The two remedies were to
+change the code or to widen this row. Widening the row was refused: this
+row is what lets a client write ONE <code>503</code> parser, and §6’s
+branch-on-<code>reason.code</code> obligation is quantified over every
+route. A contract-wide guarantee is not the right currency for a single
+endpoint’s convenience store. <strong>A documented exception here is a
+debt to be paid, not a shape to be matched.</strong></p>
+<h2 id="closed-enums">5. Closed enums</h2>
+<p><strong>5.1 Inventory.</strong> <strong>Six</strong> closed enums
+govern every discriminated field:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Enum</th>
+<th>Members</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>status</code> — search/browse envelope</td>
+<td><code>ok</code> | <code>no_match</code> |
+<code>unavailable</code></td>
+<td>§2.5</td>
+</tr>
+<tr>
+<td><code>status</code> — answer job</td>
+<td><code>pending</code> | <code>answered</code> | <code>declined</code>
+| <code>unavailable</code></td>
+<td>§3.10</td>
+</tr>
+<tr>
+<td><code>error.code</code></td>
+<td>request faults (4xx/5xx)</td>
+<td>§5.2</td>
+</tr>
+<tr>
+<td><code>reason.code</code></td>
+<td>state 2, <em>could not determine</em></td>
+<td>§5.3</td>
+</tr>
+<tr>
+<td><code>degraded.*</code></td>
+<td>state 0 with a caveat</td>
+<td>§5.4</td>
+</tr>
+<tr>
+<td><strong>decline <code>reason</code></strong></td>
+<td>state 1 negative, <em>determined</em></td>
+<td><strong>§5.5</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>“Five closed enums” is WITHDRAWN as the count of this table,
+corrected 2026-09-03 by counting the rows.</strong> The table has six
+and has had six for as long as this document has existed; the word was
+never re-derived after the sixth row was written. The count is the
+load-bearing part of the sentence — a reader validating a client against
+“five” has one closed vocabulary they were never told to implement.</p>
+<p><strong>The sixth row was checked for the obvious alternative
+explanation — that a non-enum had been pasted into an enum table — and
+it is NOT that.</strong> The <code>decline reason</code> row is a
+genuine closed enum of the same class as the other five: §5.5 enumerates
+its members exhaustively, it discriminates a single wire field
+(<code>reason</code> on a <code>status: "declined"</code> body), and
+§5.6 makes its disjointness from §5.3 normative rather than advisory.
+The backend carries it as a distinct closed type with its own validity
+predicate and its own <code>reason</code> JSON tag, in
+<code>workshop/platform/backend/pkg/answer/outcome.go</code> (cited
+<strong>by path only</strong>), where an out-of-set value is rejected
+rather than serialised. So the row belongs and the number was stale.</p>
+<p><strong>What the miscount actually is a symptom of is visible in the
+table itself: that row is the only one in bold.</strong> Every other row
+is plain; this one bolds both its <code>Enum</code> cell and its
+<code>§</code> cell. Bold on exactly the newest row is the trace of an
+append that updated the table and not the sentence above it.
+<strong>Honest boundary (§11.4.6): git cannot separate the two.</strong>
+<code>git log -S'Five closed enums'</code> and
+<code>git log -S'decline \</code>reason`’<code>over this path both terminate at the same single commit</code>695c22d`,
+so the ordering above is read from the formatting, and the formatting is
+evidence of a late edit, not proof of one. It is recorded as the reading
+it is.</p>
+<p><code>status</code> carries two vocabularies because it discriminates
+two different resources; both are closed, and the resource decides which
+applies. Closed means a value outside the enum is a contract violation,
+not an extension point. A new failure mode gets a new enum member and a
+new gate — never a free-text string.</p>
+<p><strong>5.2 <code>error.code</code> (4xx/5xx request faults)</strong>
+<code>empty_query</code>, <code>query_too_long</code>,
+<code>malformed_pid</code>, <code>unknown_parameter</code>,
+<code>invalid_range</code>, <code>multi_range_unsupported</code>,
+<code>chapter_not_found</code>, <code>material_not_found</code>,
+<code>job_not_found</code>, <code>internal_error</code>,
+<code>transcript_not_produced</code>, <code>area_not_found</code>,
+<code>area_not_published</code>, <code>term_withdrawn</code>,
+<code>term_not_found</code>.</p>
+<p><strong>The last five were added on 2026-09-03 by measurement, not by
+design, and — as in §5.3 — the direction of the gap was
+implementation-ahead-of-contract, not the reverse.</strong> All five are
+emitted on the wire today by a deployment this contract governs; none of
+them was listed here. §5.1’s rule cuts the same way it does for
+<code>reason.code</code>: while a row was missing, a conforming client
+validating against the printed contract had to reject a response the
+server legitimately produced. Every raise site is in
+<code>workshop/platform/backend/internal/api/</code> and is cited
+<strong>by path only</strong>.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Code</th>
+<th>HTTP</th>
+<th>Raised when</th>
+<th>Evidence it reaches the wire</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>transcript_not_produced</code></td>
+<td><code>404</code></td>
+<td>§3.4’s SECOND determined negative: the chapter
+<strong>exists</strong> and nothing has transcribed it. Deliberately not
+<code>chapter_not_found</code> — “no such chapter” sends a reader to the
+chapter list, “not transcribed yet” sends them to the pipeline.</td>
+<td>Non-test raise site in <code>internal/api/chapters.go</code>;
+asserted on the response body by
+<code>internal/api/chapters_test.go</code>, which requires
+<code>error.code == "transcript_not_produced"</code> and states in its
+own failure message that <code>chapter_not_found</code> is the wrong
+answer. <code>go test ./internal/api/</code> PASS, 2026-09-03.</td>
+</tr>
+<tr>
+<td><code>area_not_found</code></td>
+<td><code>404</code></td>
+<td>The area id names no area at all — either absent from the taxonomy,
+or 002 A3.1.1 applies (zero live evidencing mentions, which that
+contract treats as never having been returned).</td>
+<td>Live probe 2026-09-03 against the running deployment:
+<code>GET /api/areas/00000000000000000000000000</code> ⇒
+<code>404</code>, body
+<code>{"error":{"code":"area_not_found","message":"no such area","field":"area"}}</code>.
+Ten non-test raise sites, two each in <code>areas.go</code>,
+<code>questions.go</code>, <code>evidence.go</code>,
+<code>coverage.go</code> and <code>export.go</code>.</td>
+</tr>
+<tr>
+<td><code>area_not_published</code></td>
+<td><code>404</code></td>
+<td>002 A3.2.2: the area is <strong>real</strong> and has live evidence,
+but carries no recorded publication review, and A3.2.2 says plainly that
+the area is then not served. Distinct from <code>area_not_found</code> —
+what is missing is a different fact than “no such area”.</td>
+<td>Live probe 2026-09-03:
+<code>GET /api/areas/01M1GWQYWSKZA7A2S59MNV0Z2Q</code> (an id returned
+by <code>GET /api/areas</code> on that same deployment) ⇒
+<code>404</code>, body
+<code>{"error":{"code":"area_not_published","message":"this area has no recorded publication review; FR-016/FR-048 make a review mandatory to serve an area's materials","field":"area"}}</code>.</td>
+</tr>
+<tr>
+<td><code>term_withdrawn</code></td>
+<td><code>404</code></td>
+<td>002 A3.4.2: the term is withdrawn from the taxonomy rather than
+merely unlinked. Two causes, one code, each naming its own
+<code>reason</code> in the message: <code>all_evidence_redacted</code>
+(evidence existed at build time and was redacted or removed) and
+<code>no_evidence_at_build</code> (the taxonomy build never recorded any
+— an FR-008 build defect, not a redaction).</td>
+<td>Two non-test raise sites in <code>internal/api/terms.go</code>;
+asserted on the response body twice by
+<code>internal/api/terms_test.go</code>, both requiring
+<code>error.code == "term_withdrawn"</code>.
+<code>go test ./internal/api/</code> PASS, 2026-09-03. <strong>Not
+live-probeable on this deployment</strong>: <code>GET /api/terms</code>
+reports <code>withdrawn: {"count": 0, "terms": []}</code> over 8,537
+terms at generation 67, so no served term is in that state today.</td>
+</tr>
+<tr>
+<td><code>term_not_found</code></td>
+<td><code>404</code></td>
+<td>The taxonomy never carried a term of that name at all — as opposed
+to one withdrawn (above).</td>
+<td>Live probe 2026-09-03:
+<code>GET /api/terms/knowledge-route-manifest-probe</code> ⇒
+<code>404</code>, body
+<code>{"error":{"code":"term_not_found","message":"no such term","field":"term"}}</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>transcript_not_produced</code> closes an inconsistency
+the implementation had already recorded against this document.</strong>
+<code>internal/api/api.go</code>’s declaration of that constant carries
+an in-source <code>HONEST BOUNDARY (§11.4.6)</code> note saying §3.4’s
+prose names the code while §5.2’s printed inventory does not, and
+resolving it in favour of the endpoint clause that actually describes
+the response. That note was correct and is now discharged from this
+side: §3.4 and §5.2 agree.</p>
+<p><strong>Honest boundary (§11.4.6) — what these five rows do NOT
+claim.</strong> They are a statement about the codes named here,
+established one at a time; they are not a re-audit of §5.2 as a whole.
+<code>job_not_found</code> and <code>invalid_range</code> were carried
+by this list before today and were <strong>not</strong> re-verified
+against the wire on 2026-09-03, so nothing above should be read as
+evidence that the remaining ten members are each implemented.
+<code>term_withdrawn</code> in particular is established from its raise
+sites and its passing wire-level test, <strong>not</strong> from a live
+response — the running deployment holds no withdrawn term to produce
+one.</p>
+<p><strong>5.3 <code>reason.code</code> (state 2 — could not
+determine)</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Code</th>
+<th>Leg</th>
+<th>Raised when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>embedding_timeout</code></td>
+<td>semantic</td>
+<td><code>timeout_ms</code> elapsed on the query embed. The direct fix
+for the recorded unbounded stall.</td>
+</tr>
+<tr>
+<td><code>embedding_backend_exhausted</code></td>
+<td>semantic</td>
+<td>Upstream reported <code>all embedding servers exhausted</code>.</td>
+</tr>
+<tr>
+<td><code>embedding_degenerate_vectors</code></td>
+<td>semantic</td>
+<td>Background distinct-vector probe failed — the mode that returns HTTP
+200 with a repeated stale vector: well-formed, non-NaN, correct L2 norm,
+and completely wrong. It put 758 duplicate vectors into this index on
+2026-08-26.</td>
+</tr>
+<tr>
+<td><code>partial_failure_zero_results</code></td>
+<td>mixed</td>
+<td>Invariant I5: a leg failed and the survivors found nothing.</td>
+</tr>
+<tr>
+<td><code>lexical_index_unavailable</code></td>
+<td>lexical</td>
+<td>FTS5 database missing, locked or corrupt.</td>
+</tr>
+<tr>
+<td><code>code_index_unavailable</code></td>
+<td>lumen</td>
+<td>The code-semantics leg’s own backend could not be reached. A
+separate member from <code>lexical_index_unavailable</code>, not a reuse
+of it: a client that retries, or an operator who reports, has to be told
+<strong>which</strong> backend went down, and borrowing the other leg’s
+code sends both to the wrong one.</td>
+</tr>
+<tr>
+<td><code>index_no_verified_generation</code></td>
+<td>index</td>
+<td>Nothing is live.</td>
+</tr>
+<tr>
+<td><code>index_rebuilding_no_fallback</code></td>
+<td>index</td>
+<td>Upstream rebuilding <strong>and</strong> the lexical leg is also
+down.</td>
+</tr>
+<tr>
+<td><code>suggest_timeout</code></td>
+<td>lexical</td>
+<td><code>suggest_budget_ms</code> elapsed with zero rows.</td>
+</tr>
+<tr>
+<td><code>registry_unreadable</code></td>
+<td>registry</td>
+<td><code>passages.db</code> cannot be opened.</td>
+</tr>
+<tr>
+<td><code>curriculum_unreadable</code></td>
+<td>curriculum</td>
+<td>The chapter’s own committed pipeline output — the transcript sidecar
+carrying the engine, the duration and the segment spans — could not be
+read (§3.3, §3.4). Not a reuse of <code>registry_unreadable</code>,
+because the two remedies point at different files: an unreadable
+registry is fixed by re-ingesting, an unreadable curriculum tree by
+repairing the mount or re-running transcription.</td>
+</tr>
+<tr>
+<td><code>progress_store_unreadable</code></td>
+<td>progress</td>
+<td>The local reading-position store (<code>progress.json</code>) exists
+and could not be used (§3.11), on either the <code>GET</code> read path
+or the <code>POST</code> write path — <code>Put</code> reads before it
+writes, so both are the same file and the same fault. Not a reuse of
+<code>registry_unreadable</code> or <code>curriculum_unreadable</code>:
+this is a <strong>third</strong> file with a <strong>third</strong>
+remedy — repair or delete one local convenience file, costing a reader
+their saved positions and nothing else — and borrowing either existing
+code would send an operator to the wrong one. <code>progress</code> is
+likewise a leg of its own and never appears in a search envelope’s
+<code>legs</code> map, because §3.11 is not a retrieval route.</td>
+</tr>
+<tr>
+<td><code>recording_not_reassembled</code></td>
+<td>—</td>
+<td>36 parts present, no reassembled file.</td>
+</tr>
+<tr>
+<td><code>recording_integrity_unverified</code> / <code>_stale</code> /
+<code>_mismatch</code></td>
+<td>—</td>
+<td>FR-007 states.</td>
+</tr>
+<tr>
+<td><code>too_many_readers</code></td>
+<td>—</td>
+<td>Concurrent range readers exceeded.</td>
+</tr>
+<tr>
+<td><code>no_provider</code> / <code>provider_disabled</code> /
+<code>provider_unreachable</code> /
+<code>model_not_generative</code></td>
+<td>answering</td>
+<td>FR-025 states.</td>
+</tr>
+<tr>
+<td><code>verification_unavailable</code></td>
+<td>answering</td>
+<td>Citation verification itself could not run — never treated as
+“verified”. Names the <strong>passage-facing</strong> layers (L3
+citation identity, L4 support); the fix, when there is one, is on the
+passage side.</td>
+</tr>
+<tr>
+<td><code>question_verification_unavailable</code></td>
+<td>answering</td>
+<td>The <strong>answer-against-question</strong> layer (L5) was
+configured, was consulted, and <strong>could not decide</strong> — the
+model endpoint went away, the deadline elapsed, or the question’s demand
+could not be classified.</td>
+</tr>
+<tr>
+<td><code>thresholds_uncalibrated</code></td>
+<td>answering</td>
+<td><code>min_score</code> / <code>min_margin</code> are still
+<code>0.0</code>, so the admission gate cannot separate answerable from
+unanswerable. It refuses <strong>as state 2</strong>, never as a
+decline: an uncalibrated instrument has judged nothing, and filing its
+refusal under §5.5 would blame the corpus for a missing calibration (A6,
+D-LLM-1, §8 U5).</td>
+</tr>
+<tr>
+<td><code>ingest_in_progress</code></td>
+<td>answering</td>
+<td>An exclusive ingest lock is held, so answering is suspended while
+search keeps serving the existing live generation (D-LLM-10).</td>
+</tr>
+<tr>
+<td><code>request_cancelled</code></td>
+<td>answering</td>
+<td>The caller went away, or the deadline elapsed, before any verdict
+existed. No verdict was reached, so none may be reported.</td>
+</tr>
+<tr>
+<td><code>locality_unverified</code></td>
+<td>answering</td>
+<td>The declared <code>locality</code> disagreed with the endpoint’s
+resolved addresses (§3.10 <code>GET /api/ask/status</code>). A fault
+that blocks answering outright — never a warning served alongside an
+answer.</td>
+</tr>
+<tr>
+<td><code>generation_gated_pending_clarification</code></td>
+<td>answering</td>
+<td>Retrieval admitted material flagged as requiring
+answer-against-question verification while that layer is <strong>not
+built in this deployment</strong>. Distinct from
+<code>verification_unavailable</code>, which is transient and may
+succeed on the next call, and from
+<code>question_verification_unavailable</code>, which names a layer that
+exists and did not decide: this one is <strong>standing</strong>, and no
+restart, provider change or configuration clears it.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>An EIGHTH row, <code>progress_store_unreadable</code>, was
+added on 2026-09-03 for the opposite reason to the seven below — it is
+the only member here that the implementation did NOT already
+emit.</strong> It was minted to close §4’s one documented
+<code>503</code> deviation (§3.11), and it was minted only after the
+existing members were checked against the fault and found to misdescribe
+it. It is therefore <em>not</em> a counter-example to the rule stated
+below: the code and the contract row landed <strong>together</strong>,
+in the same change, with a paired-mutation gate, so there was never an
+interval in which a conforming client would have rejected a legitimate
+response.</p>
+<p><strong>Seven rows above were added on 2026-09-03 by measurement, not
+by design, and the direction of the gap was the opposite of the one
+assumed.</strong> They are <code>code_index_unavailable</code>,
+<code>curriculum_unreadable</code>,
+<code>thresholds_uncalibrated</code>, <code>ingest_in_progress</code>,
+<code>request_cancelled</code>, <code>locality_unverified</code> and
+<code>generation_gated_pending_clarification</code> — seven codes that
+the implementation <strong>already emits on the wire</strong> and that
+this printed table did not list. The enumeration was taken from the two
+closed vocabularies the backend declares against this section by name,
+in <code>workshop/platform/backend/pkg/search/envelope.go</code> and
+<code>workshop/platform/backend/pkg/answer/outcome.go</code>, each cited
+<strong>by path only</strong>; every one of the seven has at least one
+non-test raise site. Two of them carry an in-source note saying this
+table lacks the row and asking for it.</p>
+<p><strong>This matters because §5.3 is closed.</strong> “A value
+outside the enum is a contract violation, not an extension point” (§5.1)
+cuts both ways: while the row was missing, a conforming client
+validating against the printed contract would have had to reject a
+response the server legitimately produced. A code that is implemented
+therefore belongs here <strong>more</strong> urgently than one that is
+not — the reverse reading, that this section is a register of unbuilt
+codes, is <strong>withdrawn</strong>; <code>registry_unreadable</code>,
+<code>suggest_timeout</code> and <code>embedding_timeout</code> have all
+been implemented since before it was written. Codes that are contracted
+and unbuilt are tracked in §8 and in <code>tasks.md</code>, never by
+omission here.</p>
+<p><strong><code>question_verification_unavailable</code> is a third
+code, not a reuse of <code>verification_unavailable</code>, and the
+difference is operational.</strong>
+<code>verification_unavailable</code> says the machinery that checks a
+claim <em>against its passages</em> did not run. This one says the
+machinery that checks a claim <em>against the question</em> did not run.
+An operator reading them needs to know which side to look at, and one
+code covering both would not tell them.</p>
+<p><strong>It is never a degrade.</strong> Where a layer was asked for
+and then produced no verdict, its verdict may not be supplied by some
+other layer that happens to have completed (<a
+href="../../002-knowledge-areas-deep-linking/contracts/http-api-delta.md">specs/002-knowledge-areas-deep-linking</a>
+C4.3.4, FR-052). Serving <code>answered</code> on the strength of the
+four passage-facing layers, because the question-facing one was silent,
+is exactly the substitution that requirement forbids. This code is what
+refusing that substitution looks like on the wire: state 2,
+<code>503</code>, and no answer.</p>
+<p><strong>5.4 <code>degraded.*</code> (state 0 with a caveat)</strong>
+<code>semantic</code>: <code>reindexing</code> | <code>partial</code> |
+<code>stale_generation</code>. <code>lexical</code>:
+<code>stale_generation</code>.</p>
+<p><strong>5.5 decline <code>reason</code> (state 1 — determined,
+negative)</strong></p>
+<p>Carried as a <strong>bare enum string</strong> on
+<code>status: "declined"</code> bodies (§3.10), never as an object. This
+is the only registry of these members; a document that lists them
+elsewhere is quoting, not defining.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Member</th>
+<th>Raised when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>below_threshold</code></td>
+<td>Top retrieval score is under <code>min_score</code>. The model was
+never called (L1).</td>
+</tr>
+<tr>
+<td><code>margin_too_small</code></td>
+<td>Top-1 to top-2 margin is under <code>min_margin</code> — retrieval
+could not discriminate.</td>
+</tr>
+<tr>
+<td><code>unsupported</code></td>
+<td>Support verification (L4) found a claim the cited passages do not
+entail.</td>
+</tr>
+<tr>
+<td><code>no_citations</code></td>
+<td>A citation pid is outside the live generation’s member set (A3), so
+the whole answer is declined rather than silently stripped.</td>
+</tr>
+<tr>
+<td><code>redacted_evidence</code></td>
+<td>A cited passage was redacted between generation and delivery
+(A4).</td>
+</tr>
+<tr>
+<td><code>does_not_answer</code></td>
+<td>Answer-against-question verification (L5) found a claim that its
+cited passages <strong>do</strong> support and that answers a
+<strong>different question</strong> than the one asked.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why <code>does_not_answer</code> is not
+<code>unsupported</code>, and may never be folded into it —
+normative.</strong> The two sound adjacent and are opposites.
+<code>unsupported</code> means <em>the cited passages do not state the
+claim</em>: the generator produced content the corpus does not carry.
+<code>does_not_answer</code> means <em>the citation is exact and the
+claim is still off-target</em> — typically a fragment lifted out of a
+passage on a related topic, which clears every passage-facing layer by
+construction, and a verbatim fragment clears them by identity.</p>
+<p><strong>Their remedies point in opposite directions.</strong> An
+<code>unsupported</code> claim needs better evidence — the answer is
+about the right thing and rests on nothing. A
+<code>does_not_answer</code> claim needs a different answer — the
+evidence is impeccable and the answer is about the wrong thing.
+Reporting the second under the first would tell a maintainer to go fix
+retrieval when the retrieval was fine, and it would make the two rates
+indistinguishable in aggregate, so a system trading one failure for the
+other would look unchanged. Reporting it under the first was considered
+and <strong>refused</strong> for exactly that reason; the member exists
+so the distinction survives to the wire.</p>
+<p>This is the layer that closes the gap the earlier four could not see:
+<a
+href="../../002-knowledge-areas-deep-linking/contracts/http-api-delta.md">specs/002-knowledge-areas-deep-linking</a>
+C4.3.3 (FR-051) records that the four existing layers all verify the
+claim against the <strong>passage</strong> and none verifies it against
+the <strong>question</strong>, which is how a topically related fragment
+passes all four. A claim that fails L5 refuses the
+<strong>whole</strong> answer — no claim is stripped and the remainder
+served — on the same rule as <code>no_citations</code> above.</p>
+<p><strong>5.6 The two answering vocabularies are disjoint —
+normative</strong></p>
+<p>§5.5 and the answering-leg rows of §5.3 (<code>no_provider</code>,
+<code>provider_disabled</code>, <code>provider_unreachable</code>,
+<code>model_not_generative</code>,
+<code>verification_unavailable</code>,
+<code>question_verification_unavailable</code>,
+<code>thresholds_uncalibrated</code>, <code>ingest_in_progress</code>,
+<code>request_cancelled</code>, <code>locality_unverified</code>,
+<code>generation_gated_pending_clarification</code>) <strong>share no
+member, and no member may be added to both.</strong> A decline is a
+judgement about the <em>content</em>; <code>unavailable</code> is the
+absence of the instrument that would have made that judgement. Filing
+<code>no_provider</code> as a decline reason would report a thing that
+could not run as a thing that was judged — state 2 rendered as state 1,
+which is the precise failure the three-state contract exists to prevent.
+This rule is what makes A7 checkable rather than merely stated: the
+disjointness is mechanical, so a violation is a schema error and not a
+matter of interpretation.</p>
+<p><strong><code>progress_store_unreadable</code> is disjoint from §5.5
+too, and is deliberately NOT added to the enumeration above.</strong>
+That list is scoped, by its own opening words, to the
+<strong>answering-leg</strong> rows of §5.3, and this member’s leg is
+<code>progress</code> — appending it would misstate the section’s own
+scope and quietly imply <code>/api/progress</code> has an answering
+path, which it does not. The disjointness it needs is satisfied on
+stronger grounds than membership of a list: §5.5’s vocabulary describes
+a judgement about <em>content</em> reached by the answering pipeline,
+and §3.11 neither judges content nor has a pipeline, so no decline
+reason can name this fault and this code can never name a decline.
+Recorded here rather than left inferred, because “it is not in the list”
+and “it is not disjoint” are different facts and only the first is
+true.</p>
+<hr />
+<h2 id="what-the-client-is-contractually-required-to-do">6. What the
+client is contractually required to do</h2>
+<p>The API cannot enforce rendering, so these obligations are stated
+here and tested by G-HTTP-7.</p>
+<ol type="1">
+<li><strong>Three render branches, minimum</strong>, keyed on
+<code>body.status</code> — never on <code>results.length</code>.</li>
+<li><strong>Never render the no-results copy on a non-200
+response</strong>, and never on <code>status != "no_match"</code>.</li>
+<li><code>reason.evidence</code> and <code>degraded.evidence</code> are
+diagnostics; render them only inside an explicit disclosure, never as
+primary copy.</li>
+<li><code>near_misses</code> render in a distinct, labelled region:
+<em>below the relevance threshold</em>.</li>
+<li>When <code>floor_calibrated == false</code>, a <code>no_match</code>
+renders with the calibration caveat (I7).</li>
+<li>When <code>degraded</code> is present, a persistent banner is shown
+for the whole result set — not a dismissible toast that leaves the
+reader believing they saw everything.</li>
+<li>Suggestions are announced through a live region using
+<code>total</code>, and are keyboard-traversable via the per-response
+<code>id</code>s (FR-041, FR-042).</li>
+<li><code>410 redacted</code> renders as an explicit redaction notice,
+never as a broken link.</li>
+</ol>
+<hr />
+<h2 id="traceability">7. Traceability</h2>
+<h3 id="requirements-this-contract-covers">7.1 Requirements this
+contract covers</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-001 complete transcript</td>
+<td>§3.4 <code>coverage</code> block</td>
+</tr>
+<tr>
+<td>FR-002 timestamps</td>
+<td>§3.4 <code>t_start_s</code>/<code>t_end_s</code>; §3.5.2 seek</td>
+</tr>
+<tr>
+<td>FR-003 uncertainty marked</td>
+<td>§3.4 <code>uncertain</code>, <code>uncertain_reason</code></td>
+</tr>
+<tr>
+<td>FR-004 accuracy report</td>
+<td>§3.12</td>
+</tr>
+<tr>
+<td>FR-005 speaker attribution / stated inability</td>
+<td>§3.4 <code>speaker</code>, <code>speaker_source</code></td>
+</tr>
+<tr>
+<td>FR-007 integrity verified, fail loudly</td>
+<td>§3.5.2 integrity table</td>
+</tr>
+<tr>
+<td>FR-008 browsable chapters</td>
+<td>§3.2</td>
+</tr>
+<tr>
+<td>FR-009 read + play in place</td>
+<td>§3.3, §3.4, §3.5, §3.5.3</td>
+</tr>
+<tr>
+<td>FR-010 progress preserved</td>
+<td>§3.11</td>
+</tr>
+<tr>
+<td>FR-011 navigable sections</td>
+<td>§3.3 <code>sections</code>, §3.4 <code>section</code> filter</td>
+</tr>
+<tr>
+<td>FR-013 conventions of the reference module</td>
+<td>§1.1 base path, <code>X-Session</code> in §3.11</td>
+</tr>
+<tr>
+<td>FR-014 meaning-based results</td>
+<td>§3.7 <code>mode=fused/semantic</code></td>
+</tr>
+<tr>
+<td>FR-015 suggestions while typing</td>
+<td>§3.6</td>
+</tr>
+<tr>
+<td>FR-016 all content types indexed</td>
+<td>§3.7 <code>kinds</code> + <code>corpus</code> boundary</td>
+</tr>
+<tr>
+<td>FR-017 result → exact passage with context</td>
+<td>§3.8</td>
+</tr>
+<tr>
+<td>FR-018 cross-references</td>
+<td>§3.9</td>
+</tr>
+<tr>
+<td>FR-019 plain no-match, no unrelated answers</td>
+<td>§2.6 I1/I3/I6</td>
+</tr>
+<tr>
+<td>FR-020 honest unavailability</td>
+<td>§2 in full; §5.3</td>
+</tr>
+<tr>
+<td>FR-021 answers with citations</td>
+<td>§3.10 A2, A3</td>
+</tr>
+<tr>
+<td>FR-022 decline rather than fabricate</td>
+<td>§3.10 <code>declined</code>, A1</td>
+</tr>
+<tr>
+<td>FR-023 local and external providers</td>
+<td>§3.10 <code>/api/ask/status</code></td>
+</tr>
+<tr>
+<td>FR-024 no external transmission when local</td>
+<td>§3.10 <code>locality</code>, <code>locality_verified</code></td>
+</tr>
+<tr>
+<td>FR-025 search survives answering outage</td>
+<td>§3.10 route separation; G-HTTP-5</td>
+</tr>
+<tr>
+<td>FR-027 idempotent extension (observable)</td>
+<td>§1.2 <code>X-Workshop-Index-Generation</code>; §3.13</td>
+</tr>
+<tr>
+<td>FR-031 honest statement of limits</td>
+<td>§3.7 <code>corpus</code>; §3.10 <code>reason</code>; §3.12
+<code>measured:false</code></td>
+</tr>
+<tr>
+<td>FR-032 every check has a paired mutation</td>
+<td>§2.7</td>
+</tr>
+<tr>
+<td>FR-033 unable-to-verify distinguishable</td>
+<td>§2.1, §4, §3.12, §3.10 A7</td>
+</tr>
+<tr>
+<td>FR-037 stable identifiers</td>
+<td>§1.4, §3.8 (contract in passage-contract.md)</td>
+</tr>
+<tr>
+<td>FR-038 immutable machine layer + provenance</td>
+<td>§3.4 <code>provenance</code>, <code>machine_text</code></td>
+</tr>
+<tr>
+<td>FR-039 redaction propagates</td>
+<td>§3.4 markers, §3.8 <code>410</code>, §3.9
+<code>redacted_omitted</code>, §3.10 A4</td>
+</tr>
+<tr>
+<td>FR-041 / FR-042 accessibility</td>
+<td>§3.6 <code>id</code>/<code>total</code>/ordering; §6 client
+obligations</td>
+</tr>
+<tr>
+<td>SC-001 100% coverage accounted</td>
+<td>§3.4 <code>coverage.unexplained_gap_s</code></td>
+</tr>
+<tr>
+<td>SC-002 measured accuracy published</td>
+<td>§3.12</td>
+</tr>
+<tr>
+<td>SC-003 land within 5 s</td>
+<td>§3.4 timestamps + §3.5.2 range support</td>
+</tr>
+<tr>
+<td>SC-005 suggestions ≤200 ms p95</td>
+<td>§3.6 lexical-only, <code>suggest_budget_ms</code></td>
+</tr>
+<tr>
+<td>SC-006 results ≤2 s p95</td>
+<td>§3.7 <code>timeout_ms</code>; §3.13 generation transparency</td>
+</tr>
+<tr>
+<td>SC-007 / SC-008 retrieval quality</td>
+<td>§3.7 <code>mode</code>, <code>score</code>, <code>above_floor</code>
+— <strong>quality itself is unverified, §8 U5</strong></td>
+</tr>
+<tr>
+<td>SC-009 citations resolve and support</td>
+<td>§3.10 A2/A3</td>
+</tr>
+<tr>
+<td>SC-010 declines, never fabricates</td>
+<td>§3.10 A1/A6</td>
+</tr>
+<tr>
+<td>SC-013 three states in 100% of checks</td>
+<td>§2.1, §4</td>
+</tr>
+<tr>
+<td>SC-016 references survive correction</td>
+<td>§3.8 resolution table; contract in passage-contract.md</td>
+</tr>
+<tr>
+<td>SC-017 WCAG AA + keyboard</td>
+<td>§3.6, §6 (API obligations only)</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="requirements-not-covered-by-this-contract-and-where-they-live">7.2
+Requirements <strong>not</strong> covered by this contract, and where
+they live</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Owner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-006 preserve source material unmodified</td>
+<td><a href="./pipeline-cli.md">pipeline-cli.md §4.1</a> — read-only
+guarantee at ingest</td>
+</tr>
+<tr>
+<td>FR-012 documented start/stop</td>
+<td><a href="./pipeline-cli.md">pipeline-cli.md §4.8</a></td>
+</tr>
+<tr>
+<td>FR-026 / FR-028 / FR-029 extension procedure</td>
+<td><a href="./pipeline-cli.md">pipeline-cli.md §4.7, §4.1</a></td>
+</tr>
+<tr>
+<td>FR-030 documentation set</td>
+<td>Not a contract. <code>docs/</code> deliverable +
+<code>quickstart.md</code>.</td>
+</tr>
+<tr>
+<td>FR-034 no server-side CI</td>
+<td><a href="./pipeline-cli.md">pipeline-cli.md §2.7</a></td>
+</tr>
+<tr>
+<td><strong>FR-035 governance carriers in lockstep</strong></td>
+<td><strong>No interface contract can cover this.</strong> It is a
+repository governance task
+(<code>scripts/verify-governance-cascade.sh</code>). Flagged, not
+silently dropped.</td>
+</tr>
+<tr>
+<td><strong>FR-036 clean tree across repo and submodules</strong></td>
+<td><strong>No interface contract can cover this.</strong>
+Operator/commit-wrapper task. Flagged.</td>
+</tr>
+<tr>
+<td>FR-040 evidence to a versioned location</td>
+<td><a href="./pipeline-cli.md">pipeline-cli.md §2.5</a></td>
+</tr>
+<tr>
+<td>FR-041 / FR-042 full WCAG conformance</td>
+<td>Frontend contract + <code>SC-017</code> audit. This document
+specifies only the API affordances that make them attainable.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2
+id="unverified-register-what-this-contract-depends-on-that-has-not-been-measured">8.
+Unverified register — what this contract depends on that has not been
+measured</h2>
+<p>Marked so no reader mistakes a design intent for a measurement. Each
+names what settles it.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Depends on</th>
+<th>Status</th>
+<th>Settled by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>U4</strong> (research.md)</td>
+<td>Idle embedding latency. <code>/api/search</code>’s SC-006 budget and
+the default <code>timeout_ms: 5000</code> assume the semantic leg can
+answer in seconds when idle. Only loaded figures exist
+(<strong>18.2–21.0 s</strong>, and 20.16/11.05/0.10 s across three
+identical calls).</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>Time ten consecutive <code>semantic_search</code> calls in one warm
+session against an idle backend, <strong>after</strong> the running
+<code>lumen index --force</code> rebuild completes.</td>
+</tr>
+<tr>
+<td><strong>C-3</strong> (research/search-architecture.md)</td>
+<td>Whether the ~2.2 s per-process indexer setup amortises across calls
+in one long-lived session. If it does not, every semantic query carries
+a multi-second fixed cost and SC-006 is unreachable regardless of
+U4.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>Same ten-call timing run; inspect the spread, not just the
+mean.</td>
+</tr>
+<tr>
+<td><strong>U5</strong> (research.md)</td>
+<td>The relevance floor separating <code>ok</code> from
+<code>no_match</code>. No corpus exists yet, so no floor has been
+calibrated.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>Build the SC-007/SC-008 benchmark set (≥20 labelled queries) after
+Chapter 1 is indexed; calibrate, then flip <code>floor_calibrated</code>
+to <code>true</code>. Until then invariant <strong>I7</strong> applies
+and the API reports <code>floor_calibrated: false</code> on every
+response.</td>
+</tr>
+<tr>
+<td><strong>D-LLM-5 estimate</strong></td>
+<td>Generation latency (~21 s / ~42 s / ~95 s idle by model size). No
+generative model is installed, so nothing was timed.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>An operator <code>ollama pull</code> of a generative model, then a
+timed run. <strong>Until then <code>estimated_seconds</code> MUST be
+<code>null</code></strong> — the API does not publish an estimate it has
+not measured.</td>
+</tr>
+<tr>
+<td><strong>HelixLLM behaviour</strong></td>
+<td>The <code>openai_compatible</code> adapter is claimed to cover
+HelixLLM. No HelixLLM server is running and no checkout exists on this
+disk; nothing about it was tested.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>Start a HelixLLM instance and run the adapter’s conformance check
+against it.</td>
+</tr>
+<tr>
+<td><strong>U3</strong> (research.md)</td>
+<td>That the recording contains intelligible speech in a known language.
+Nobody has listened and no ASR has run. Every transcript-serving
+endpoint here presumes a transcript exists and is meaningful.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>The 5-minute calibration run on the already-extracted 300 s sample
+(also closes U1 and U2).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Not marked unverified, because they were measured</strong>:
+FTS5 prefix latency (p95 9.58 ms), <code>health_check</code> lying about
+saturation, Lumen’s glued no-results/warning string, Lumen’s
+content-derived chunk ids, the half-written readable index during
+rebuild, the recording’s duration and dual-mono audio, and the
+<code>search.component.ts</code> anti-pattern.</p>
+</body>
+</html>

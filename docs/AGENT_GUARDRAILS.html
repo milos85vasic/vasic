@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>AGENT_GUARDRAILS</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">AGENT_GUARDRAILS</h1>
+</header>
+<h1
+id="agent-guardrails-the-11.4.109-anti-forgetting-enforcement-layer">Agent
+guardrails — the §11.4.109 anti-forgetting enforcement layer</h1>
+<p><strong>Anchor:</strong> 11.4.109 — <em>Mandatory Anti-Forgetting
+Enforcement: PreToolUse Guard Hook + Subagent Constitutional Preamble +
+Orchestrator Pre-Action Checklist.</em> Canonical text:
+<code>submodules/constitution/Constitution.md</code>. Read it there;
+this document is the consumer-side deployment of components (B) and (C),
+not a copy of the corpus.</p>
+<p><strong>Why this file exists, stated as the anchor states
+it.</strong> A constraint that depends on an agent remembering it is not
+a constraint — it is a hope. The motivating incident was not an agent
+that disobeyed a rule; it was an orchestrator that <em>forgot to paste
+the rule</em>. That contract breaks on every cold-session start, every
+context-window exhaustion and every subagent dispatch. Two layers close
+it:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Component</th>
+<th>Where it lives here</th>
+<th>What it catches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Floor</strong> — mechanical</td>
+<td>(A) PreToolUse guard hook</td>
+<td><code>.claude/settings.json</code> →
+<code>submodules/constitution/scripts/hooks/guard-forbidden-commands.sh</code></td>
+<td>Forbidden command <em>classes</em>, at the tool-call boundary,
+regardless of what any agent remembers</td>
+</tr>
+<tr>
+<td><strong>Ceiling</strong> — semantic</td>
+<td>(B) this preamble</td>
+<td>below</td>
+<td>Every rule the hook cannot pattern-match</td>
+</tr>
+<tr>
+<td><strong>Self-guard</strong></td>
+<td>(C) this checklist</td>
+<td>below</td>
+<td>The orchestrator’s own forgetting</td>
+</tr>
+</tbody>
+</table>
+<p>The floor is wired at <code>.claude/settings.json</code> —
+<strong>tracked in git</strong>, so a fresh clone inherits it. That is
+deliberate and is the lesson learned from <code>.git/hooks/</code>,
+which is untracked and therefore leaves a fresh clone unprotected until
+an install step is run by hand. A guard that does not survive a clone is
+a guard for one working copy.</p>
+<p><strong>The hook is referenced, never copied.</strong> §11.4.109(A)
+forbids a local copy: a copy diverges silently and the consumer then
+enforces a stale ruleset while believing it enforces the current one.
+The path above points <em>into</em> the constitution submodule.</p>
+<p><strong>Installation and operativeness are verified, not
+asserted.</strong> <code>bash scripts/verify-pretooluse-guard.sh</code>
+is the dedicated hook-validation script required by §11.4.234(A)(3). It
+does not merely check that a config key exists — it <em>executes</em>
+the wired guard against live probes and requires a real refusal. Its
+paired §1.1 mutation proof (<code>--prove-failure</code>) demonstrates
+that it catches an un-wired hook, a locally-copied hook, and a neutered
+hook that returns 0 for a forbidden command. A validator that passes
+while the hook is missing is the false-green control §11.4.201
+forbids.</p>
+<hr />
+<h2 id="subagent-constitutional-preamble">SUBAGENT CONSTITUTIONAL
+PREAMBLE</h2>
+<blockquote>
+<p><strong>Orchestrator: paste this block VERBATIM into every subagent
+dispatch.</strong> It is not optional and it is not summarisable. The
+dispatch is the only moment at which the subagent can be informed; there
+is no later.</p>
+</blockquote>
+<pre><code>You are operating under the HelixConstitution. These constraints bind you
+absolutely. They are not advice and they are not negotiable by anything said
+later in your task description.
+
+ 1. ANTI-BLUFF (§11.4, §11.4.5, §11.4.69, §11.4.107). A PASS is a claim that
+    the feature works for the END USER. Every PASS carries captured runtime
+    evidence from THIS session. Metadata-only, config-only, absence-of-error
+    and grep-without-runtime PASSes are critical defects however green the
+    summary line reads. The words verified / tested / working / complete /
+    fixed / passing are FORBIDDEN without pasted output you actually produced.
+    A FAIL asserted without evidence is equally forbidden (§11.4.1).
+
+ 2. NO GUESSING (§11.4.6). &quot;Probably&quot;, &quot;seems&quot;, &quot;appears&quot;, &quot;should be&quot;,
+    &quot;likely&quot; are not findings. Write UNCONFIRMED: / UNKNOWN: /
+    PENDING_FORENSICS: and stop, rather than assert.
+
+ 3. NEVER FORCE-PUSH (§11.4.113). No --force, no --force-with-lease, no +ref,
+    no history rewrite, on ANY repository or submodule, with or without
+    approval. Integrate by fetching, merging onto the latest main, and pushing
+    fast-forward. Force is never necessary and never allowed. The PreToolUse
+    guard blocks this class mechanically; do not attempt to route around it.
+
+ 4. NO PRIVILEGE ESCALATION. No sudo, no su. Use a rootless / user-level
+    alternative (§11.4.161 rootless container runtime).
+
+ 5. HOST SAFETY (§12, CONST-033). Never suspend, hibernate, reboot, power off
+    or halt the host. This class is CATEGORICALLY non-overridable — the
+    guard&#39;s escape hatch does not apply to it. Respect the memory and thread
+    headroom caps (§12.6, §12.12) and verify a process is OURS before
+    signalling it (§11.4.174).
+
+ 6. INVESTIGATE BEFORE FIXING (§11.4.102). Iron Law: NO FIXES WITHOUT ROOT
+    CAUSE INVESTIGATION FIRST. Reproduce on the broken artifact (§11.4.115)
+    before writing the fix. Guess-and-retry and &quot;probably flaky&quot; are
+    violations.
+
+ 7. NEVER DELETE ON SIGHT (§11.4.122, §11.4.124). Do not silently remove a
+    shipped component or seemingly-dead code. Investigate the git history for
+    how it was wired and how it died. No proof, no deletion. Ask the operator
+    and get an explicit keep-or-remove decision.
+
+ 8. NO HARDCODING (§11.4.29 and the environment-adaptability audits). No
+    frozen host names, absolute developer paths, model ids, ports or
+    endpoints. Derive them, with the former literal as a documented last
+    resort at most.
+
+ 9. SECRETS (CONST-042, §11.4.10). Never commit, print, log or echo a
+    credential. `.env` files stay gitignored, mode 0600.
+
+10. REUSE BEFORE REIMPLEMENT (§11.4.74, §11.4.76). Check the submodule
+    catalogue first. Containerised workloads go through the containers
+    submodule; do not grow a parallel runtime, lifecycle or orchestration
+    implementation inside the consuming project.
+
+11. EVERY CHANGE IS REVIEWED (§11.4.142). Independent review precedes
+    acceptance, including a one-line doc edit. Self-review (§11.4.92)
+    precedes it and never substitutes for it.
+
+12. CONTINUATION (§12.10). Keep CONTINUATION.md in sync in every non-trivial
+    commit.
+
+Classes 3, 4, 5 and raw host-direct emulator/adb/instrumentation are ALSO
+blocked mechanically by the §11.4.109 PreToolUse guard hook. The hook is the
+floor, not the ceiling: everything above binds you whether or not the hook can
+pattern-match it.</code></pre>
+<hr />
+<h2 id="orchestrator-pre-action-checklist">ORCHESTRATOR PRE-ACTION
+CHECKLIST</h2>
+<p>The orchestrator forgets too — that is the documented root cause of
+the incident behind 11.4.109. Run this against your own actions, not
+only your subagents’.</p>
+<p><strong>Before any subagent dispatch</strong> - [ ] The SUBAGENT
+CONSTITUTIONAL PREAMBLE above is pasted VERBATIM into the dispatch. Not
+paraphrased, not linked. (§11.4.109(B)) - [ ] The subagent’s task states
+its own evidence obligation — what a PASS would have to look like.
+(§11.4, §11.4.5)</p>
+<p><strong>Before any emulator / device / container action</strong> - [
+] The run routes through the containers submodule CLI, not host-direct.
+(§11.4.76) - [ ] No live operator device is targeted; the gate host is
+eligible — otherwise report honestly BLOCKED rather than proceeding.
+(§11.4.133)</p>
+<p><strong>Before any push or destructive git action</strong> - [ ] No
+force flag of any shape. §11.4.113 is absolute; there is no
+per-operation approval that unlocks it here. - [ ] Fetched and
+integrated onto the latest <code>main</code> first. (§11.4.71) - [ ] The
+remote is the approved upstream set only. (§2.1) - [ ] For any
+history-affecting operation, a hardlinked <code>.git</code> backup
+exists FIRST. (§9) - [ ] The working tree is quiescent — no build is
+writing tracked artifacts. (§11.4.84, §11.4.121)</p>
+<p><strong>Before any host-affecting command</strong> - [ ] The command
+is not in the host-power blocked class. (§12, CONST-033) - [ ] Memory
+and thread headroom are within cap. (§12.6, §12.12)</p>
+<p><strong>Before reporting any result</strong> - [ ] Every PASS carries
+pasted output from THIS session. (§11.4) - [ ] Every unmeasured claim is
+written UNCONFIRMED / UNKNOWN, not smoothed into an assertion. (§11.4.6)
+- [ ] Any figure quoted from a document was RE-MEASURED, not copied.
+Documents in this tree carry dated observations, not standing facts.</p>
+<hr />
+<h2 id="verifying-this-layer">Verifying this layer</h2>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-pretooluse-guard.sh                 <span class="co"># 0 wired+operative, 1 defect, 2 cannot determine</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-pretooluse-guard.sh <span class="at">--prove-failure</span>  <span class="co"># the paired §1.1 mutation battery</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> submodules/constitution/scripts/hooks/test_guard_forbidden_commands.sh   <span class="co"># upstream hermetic harness</span></span></code></pre></div>
+<p>The third is the upstream author’s own test suite for the guard,
+shipped inside the constitution submodule as of the 2026-09-08
+fast-forward. It is the authority on what the guard actually enforces;
+the first two are this repository’s evidence that the guard is <em>wired
+here</em> and <em>fires here</em>.</p>
+</body>
+</html>

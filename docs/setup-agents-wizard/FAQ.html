@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>FAQ</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">FAQ</h1>
+</header>
+<h1 id="setup-wizard-faq">Setup Wizard FAQ</h1>
+<p>Answers to the questions that come up after running
+<code>scripts/setup-agents-wizard.sh</code>.</p>
+<ul>
+<li>What the wizard installs: <a href="./README.md">README.md</a></li>
+<li>Symptom -&gt; diagnosis -&gt; fix: <a
+href="./TROUBLESHOOTING.md">TROUBLESHOOTING.md</a></li>
+<li>Undoing a run: <a
+href="./SAFETY-AND-ROLLBACK.md">SAFETY-AND-ROLLBACK.md</a></li>
+<li>The three post-install scripts: <a
+href="./OPERATIONAL-SCRIPTS.md">OPERATIONAL-SCRIPTS.md</a></li>
+<li>The steps the wizard cannot perform: <a
+href="./ACTION-REQUIRED.md">ACTION-REQUIRED.md</a></li>
+<li>Whether an index can be trusted: <a
+href="./INDEX-CORRUPTION-RECONCILIATION.md">INDEX-CORRUPTION-RECONCILIATION.md</a></li>
+</ul>
+<p>Everything below describes the script as it currently exists in this
+repository.</p>
+<hr />
+<h2 id="why-isnt-lumen-found-after-running-the-wizard">Why isn’t
+<code>lumen</code> found after running the wizard?</h2>
+<p>Because the shell you ran the wizard <em>from</em> never re-read its
+startup files.</p>
+<p>The wizard writes the launcher to <code>~/.local/bin/lumen</code> and
+appends a managed block to <code>~/.bashrc</code> and
+<code>~/.bash_profile</code> that puts <code>~/.local/bin</code> on
+<code>PATH</code>. Those blocks only take effect in shells started
+<em>after</em> the wizard ran. The <code>export PATH=...</code> the
+wizard does at the end of <code>configure_lumen_shell</code> applies to
+the wizard’s own process and dies with it.</p>
+<p>Fix — pick one:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">exec</span> bash <span class="at">-l</span>          <span class="co"># replace the current shell with a fresh login shell</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span> ~/.bashrc           <span class="co"># or just re-source it</span></span></code></pre></div>
+<p>Then verify:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> lumen                      <span class="co"># -&gt; /home/&lt;you&gt;/.local/bin/lumen</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> version                         <span class="co"># -&gt; e.g. 0.0.41</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;&gt;&gt;&gt; lumen semantic search&#39;</span> ~/.bashrc      <span class="co"># -&gt; 1</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;&gt;&gt;&gt; user bin on PATH&#39;</span>      ~/.bash_profile <span class="co"># -&gt; 1</span></span></code></pre></div>
+<p>The wizard performs this same check itself
+(<code>verify_lumen</code>) using
+<code>bash -lc 'command -v lumen'</code> and prints
+<code>lumen not on PATH in a login shell - open a new terminal to pick it up.</code>
+when it fails.</p>
+<p>Two things that will still leave <code>lumen</code> missing:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Situation</th>
+<th style="text-align: left;">Why</th>
+<th style="text-align: left;">What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">You use zsh / fish</td>
+<td style="text-align: left;">The wizard only writes
+<code>~/.bashrc</code> and <code>~/.bash_profile</code></td>
+<td style="text-align: left;">Add <code>~/.local/bin</code> to
+<code>PATH</code> in your own rc file</td>
+</tr>
+<tr>
+<td style="text-align: left;">Wrapper exists but nothing resolves
+it</td>
+<td style="text-align: left;">The Lumen <em>plugin</em> is not
+installed</td>
+<td style="text-align: left;">Run
+<code>~/.local/bin/lumen version</code> directly — see <a
+href="./TROUBLESHOOTING.md#1-lumen-could-not-locate-the-lumen-plugin-binary-exit-127">TROUBLESHOOTING
+#1</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2
+id="why-does-lumen-work-in-my-terminal-but-not-in-cron-ssh-host-cmd-a-systemd-user-unit">Why
+does <code>lumen</code> work in my terminal but not in cron /
+<code>ssh host 'cmd'</code> / a systemd user unit?</h2>
+<p>Because those contexts do not run an interactive shell, and the usual
+place <code>~/.local/bin</code> gets added to <code>PATH</code> is
+guarded against exactly that.</p>
+<p>A stock <code>~/.bashrc</code> starts with:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">case</span> <span class="va">$-</span> <span class="kw">in</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">*</span><span class="ss">i</span><span class="pp">*</span><span class="kw">)</span> <span class="cf">;;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="pp">*</span><span class="kw">)</span> <span class="cf">return;;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">esac</span></span></code></pre></div>
+<p>Anything appended to <code>~/.bashrc</code> — including the wizard’s
+Lumen block — is <em>below</em> that guard, so a non-interactive shell
+returns before reaching it. Meanwhile a login shell starts from the
+<code>PATH</code> that <code>/etc/profile</code> builds, which does not
+contain <code>~/.local/bin</code>.</p>
+<p>That is why the wizard writes a <strong>second</strong>, smaller
+block into <code>~/.bash_profile</code>:</p>
+<pre><code># &gt;&gt;&gt; user bin on PATH (managed by Claude Code) &gt;&gt;&gt;
+case &quot;:$PATH:&quot; in *&quot;:$HOME/.local/bin:&quot;*) ;; *) export PATH=&quot;$HOME/.local/bin:$PATH&quot;;; esac
+# &lt;&lt;&lt; user bin on PATH &lt;&lt;&lt;</code></pre>
+<p><code>~/.bash_profile</code> is read by <strong>login</strong> shells
+regardless of interactivity, so this covers
+<code>bash -lc '&lt;cmd&gt;'</code>, console/SSH logins, and any unit or
+job that starts a login shell.</p>
+<p>It does <strong>not</strong> cover shells that are neither login nor
+interactive. For those, do not rely on <code>PATH</code> at all:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Context</th>
+<th style="text-align: left;">Reliable fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">crontab</td>
+<td style="text-align: left;">Put
+<code>PATH=/home/&lt;you&gt;/.local/bin:/usr/bin:/bin</code> at the top
+of the crontab, or call <code>$HOME/.local/bin/lumen</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">systemd user unit</td>
+<td
+style="text-align: left;"><code>Environment=PATH=%h/.local/bin:/usr/bin:/bin</code>,
+or use the absolute path in <code>ExecStart=</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ssh host 'cmd'</code></td>
+<td
+style="text-align: left;"><code>ssh host 'bash -lc "lumen ..."'</code>
+or <code>ssh host '~/.local/bin/lumen ...'</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">An agent spawning an MCP server</td>
+<td style="text-align: left;">Already handled: the wizard writes the
+<strong>absolute</strong> wrapper path into every MCP config</td>
+</tr>
+</tbody>
+</table>
+<p>That last row is the same problem: agents spawn MCP servers from
+non-interactive shells, so <code>configure_mcp_for_agent</code> writes
+<code>"command": "/home/&lt;you&gt;/.local/bin/lumen"</code> instead of
+a bare <code>lumen</code>.</p>
+<hr />
+<h2 id="why-is-lumen-not-installed-from-npm">Why is Lumen not installed
+from npm?</h2>
+<p>Because there is no such npm package. <code>@qoomon/lumen</code> does
+not exist — the registry returns 404.</p>
+<p>An earlier version of the wizard had it in the global
+<code>npm install -g ...</code> line with a trailing
+<code>|| true</code>, which swallowed the 404 silently:
+<code>lumen</code> was never installed, but the final summary still
+looked healthy.</p>
+<p>Lumen ships as a <strong>Claude Code plugin binary</strong>, at a
+path like:</p>
+<pre><code>~/.claude-shared/plugins/cache/&lt;marketplace&gt;/lumen/&lt;version&gt;/bin/lumen-&lt;os&gt;-&lt;arch&gt;</code></pre>
+<p>So the wizard installs nothing from npm for Lumen. It installs a
+wrapper on <code>PATH</code> (<code>ensure_lumen</code>, Step 3) that
+locates that plugin binary at call time. If the plugin itself is
+missing, install it from inside Claude Code with
+<code>/plugin</code>.</p>
+<p>The test suite guards against a regression here — assertion
+<strong>A2</strong> fails the build if the string
+<code>@qoomon/lumen</code> reappears anywhere in the wizard.</p>
+<hr />
+<h2 id="why-is-there-a-wrapper-script-instead-of-a-symlink">Why is there
+a wrapper script instead of a symlink?</h2>
+<p>Because the plugin path contains a <strong>version</strong> component
+that changes on every update:</p>
+<pre><code>~/.claude-shared/plugins/cache/&lt;marketplace&gt;/lumen/0.0.41/bin/lumen-linux-amd64
+                                                    ^^^^^^</code></pre>
+<p>A symlink (or a hardcoded <code>PATH</code> entry) into that
+directory breaks the moment the plugin updates and the old version
+directory is removed — and it breaks <em>silently</em>, because the
+dangling link still looks like an installed <code>lumen</code> until you
+run it.</p>
+<p><code>~/.local/bin/lumen</code> is a small bash script that resolves
+the binary on every invocation:</p>
+<ol type="1">
+<li>If <code>LUMEN_BIN</code> is set, use it (and exit <code>127</code>
+if it is not executable).</li>
+<li>Map the host to the plugin naming convention:
+<code>linux</code>/<code>darwin</code> x
+<code>amd64</code>/<code>arm64</code>.</li>
+<li>Glob
+<code>~/.claude-shared/plugins/cache/*/lumen/*/bin/lumen-&lt;os&gt;-&lt;arch&gt;</code>,
+falling back to
+<code>~/.claude*/plugins/cache/*/lumen/*/bin/lumen-&lt;os&gt;-&lt;arch&gt;</code>.</li>
+<li>Pick the <strong>highest</strong> version with <code>sort -V</code>,
+then <code>exec</code> it.</li>
+</ol>
+<p><code>sort -V</code> (version sort) rather than a plain lexical sort
+is load-bearing:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Sort</th>
+<th style="text-align: left;">Order</th>
+<th style="text-align: left;">Winner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">lexical (<code>sort</code>)</td>
+<td style="text-align: left;"><code>0.0.100</code>, <code>0.0.41</code>,
+<code>0.0.9</code></td>
+<td style="text-align: left;"><code>0.0.9</code> — wrong</td>
+</tr>
+<tr>
+<td style="text-align: left;">version (<code>sort -V</code>)</td>
+<td style="text-align: left;"><code>0.0.9</code>, <code>0.0.41</code>,
+<code>0.0.100</code></td>
+<td style="text-align: left;"><code>0.0.100</code> — correct</td>
+</tr>
+</tbody>
+</table>
+<p>Once the plugin passes <code>0.0.99</code>, a lexical sort would pin
+you to an old binary forever. Test <strong>B3</strong> installs fake
+<code>0.0.9</code>, <code>0.0.41</code> and <code>0.0.100</code>
+binaries and asserts the wrapper runs <code>0.0.100</code>.</p>
+<p>To bypass resolution entirely (custom build, a binary outside the
+plugin cache):</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">LUMEN_BIN</span><span class="op">=</span>/path/to/lumen-linux-amd64</span></code></pre></div>
+<p>The wrapper is safe to delete; re-run the wizard (or just
+<code>install_lumen_wrapper</code>) to restore it.</p>
+<hr />
+<h2 id="why-does-the-wizard-not-set-lumen_embed_model">Why does the
+wizard not set <code>LUMEN_EMBED_MODEL</code>?</h2>
+<p>Because pinning it desynchronizes two consumers that must agree.</p>
+<p>The <code>lumen</code> CLI and the <code>lumen stdio</code> MCP
+servers running inside each agent share the same <strong>built-in
+defaults</strong>. If you export <code>LUMEN_EMBED_MODEL</code> in
+<code>~/.bashrc</code>, only the processes that inherit that environment
+get your value — and after a plugin update whose default model changed,
+the CLI and the agent-spawned server can disagree.</p>
+<p>A model mismatch is not a hard error. Lumen keys its index by the
+embedding model, so a second model means Lumen builds a <strong>second
+complete index for every project</strong>: double the embedding time,
+double the disk usage, and searches that hit a half-built index.</p>
+<p>For this reason the wizard writes the tuning knobs into
+<code>~/.bashrc</code> <strong>commented out</strong>:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#export LUMEN_BACKEND=ollama                                 # ollama | lmstudio</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">#export LUMEN_EMBED_MODEL=ordis/jina-embeddings-v2-base-code</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#export OLLAMA_HOST=http://localhost:11434</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#export LUMEN_REINDEX_TIMEOUT=600   # seconds; raise for very large repositories</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#export LUMEN_FRESHNESS_TTL=300     # seconds before an index is treated as stale</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#export LUMEN_LOG_LEVEL=info        # debug | info | warn | error</span></span></code></pre></div>
+<p>The wizard still <em>uses</em>
+<code>ordis/jina-embeddings-v2-base-code</code> internally — that is the
+model it pulls into ollama (<code>ensure_ollama</code>) and the one it
+reports on in the summary. It just does not force it on your shell.</p>
+<p>If you genuinely need a different model, prefer the per-command flag
+so the change is scoped and visible:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> index /path/to/repo <span class="at">-m</span> <span class="op">&lt;</span>model<span class="op">&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> search <span class="st">&quot;...&quot;</span> <span class="at">-p</span> /path/to/repo <span class="at">-m</span> <span class="op">&lt;</span>model<span class="op">&gt;</span></span></code></pre></div>
+<p>and expect a full extra index to be built for that model.</p>
+<hr />
+<h2 id="is-it-safe-to-re-run-the-wizard">Is it safe to re-run the
+wizard?</h2>
+<p>Yes. Re-running is the supported way to repair a broken setup.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Mutation</th>
+<th style="text-align: left;">Why re-running is safe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>~/.bashrc</code>,
+<code>~/.bash_profile</code></td>
+<td style="text-align: left;">Blocks are marker-delimited.
+<code>strip_managed_block</code> removes the old block with
+<code>awk</code> before the new one is appended — content outside the
+markers is untouched, and the file’s mode is preserved</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>PATH</code> line inside those
+blocks</td>
+<td style="text-align: left;">Guarded by
+<code>case ":$PATH:" in *":$HOME/.local/bin:"*) ;; ...</code> — sourcing
+twice cannot add a second entry</td>
+</tr>
+<tr>
+<td style="text-align: left;">Agent MCP configs</td>
+<td style="text-align: left;"><code>jq</code> merges by key: existing
+keys are replaced, unrelated keys are preserved, nothing is duplicated.
+Claude Code is skipped outright when <code>claude mcp get lumen</code>
+already succeeds</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>~/.claude/settings.json</code></td>
+<td style="text-align: left;">The Glyphdown entry is appended to
+<code>.hooks.PreToolUse</code> / <code>.hooks.PostToolUse</code> only
+when
+<code>[.hooks[$ev][]?.hooks[]?.command] \| index("glyphdown")</code>
+finds nothing — so re-runs neither duplicate it nor disturb your own
+hooks. The file is not touched at all when
+<code>WIZARD_SKIP_GLYPHDOWN_HOOK</code> is set, or when
+<code>glyphdown</code> is not installed</td>
+</tr>
+<tr>
+<td style="text-align: left;">Telemetry opt-out</td>
+<td style="text-align: left;">Same marker-delimited strip-then-append as
+the other <code>~/.bashrc</code> block (test <strong>H2</strong>), and
+<code>~/.qwen/settings.json</code> is rewritten only when
+<code>.usageStatisticsEnabled</code> is not already
+<code>false</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Global CLI installs</td>
+<td style="text-align: left;">Guarded by <code>check_command</code>: a
+tool already on <code>PATH</code> is left alone, never reinstalled or
+upgraded</td>
+</tr>
+<tr>
+<td style="text-align: left;">Every file it edits</td>
+<td style="text-align: left;">Backed up first as
+<code>&lt;file&gt;.bak.YYYYMMDDHHMMSS</code>, <strong>and</strong>
+recorded in a rollback manifest — see <a
+href="#how-do-i-completely-uninstall-what-the-wizard-added">How do I
+completely uninstall</a></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>~/.local/bin/lumen</code></td>
+<td style="text-align: left;">Backed up, then rewritten from the
+embedded template</td>
+</tr>
+<tr>
+<td style="text-align: left;">Cloned repos (SuperSpec,
+marketplaces)</td>
+<td style="text-align: left;">Skipped when already present</td>
+</tr>
+<tr>
+<td style="text-align: left;">A registered SuperSpec submodule</td>
+<td style="text-align: left;">Detected via
+<code>[[ -e "$sub_path/.git" ]]</code> — a gitlink is a <em>file</em>,
+not a directory — and never deleted</td>
+</tr>
+</tbody>
+</table>
+<p>That last row was a real data-loss bug: the old check
+<code>[[ -d .../.git ]]</code> is always false for a submodule, so the
+<code>rm -rf</code> beneath it deleted the checkout on every run. Test
+<strong>E1</strong> is the regression guard and asserts a canary file
+survives.</p>
+<p>The idempotency claims are enforced by tests <strong>C3</strong>,
+<strong>C4</strong>, <strong>C8</strong>, <strong>C10</strong> and
+<strong>D5</strong> (three consecutive runs, exactly one block; two
+runs, exactly two MCP servers).</p>
+<p>What re-running does <strong>not</strong> do: it never re-indexes
+anything <strong>unless you set
+<code>WIZARD_INDEX_PROJECT</code></strong> (see <a
+href="#does-the-wizard-index-my-project">Does the wizard index my
+project?</a>), and it never deletes an index.</p>
+<hr />
+<h2
+id="where-does-lumen-store-indexes-and-how-much-space-do-they-use">Where
+does Lumen store indexes and how much space do they use?</h2>
+<p>In <code>~/.local/share/lumen/</code>, one directory per project:</p>
+<pre><code>~/.local/share/lumen/
+├── 74e360aac96f417e/
+│   ├── index.db          &lt;- SQLite database with the embeddings
+│   ├── index.db-wal
+│   ├── index.db-shm
+│   └── index.db.lock
+└── ...</code></pre>
+<p>Directory names are opaque hashes; the project path is recorded
+<em>inside</em> the database, which is what lets
+<code>lumen purge &lt;path&gt;</code> match the right one.</p>
+<p>They get big. Size scales with the amount of indexed code, and every
+project you have ever searched from an agent leaves one behind. A
+machine with a few hundred indexed projects can easily hold gigabytes —
+an observed example: 2.3 GB across 764 project directories, with the
+largest single project at 666 MB.</p>
+<p>Inspect it:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ~/.local/share/lumen                          <span class="co"># total</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ~/.local/share/lumen/<span class="pp">*</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-h</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-10</span>   <span class="co"># biggest offenders</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> ~/.local/share/lumen <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>                   <span class="co"># how many projects</span></span></code></pre></div>
+<p>Reclaim it:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> purge /path/to/project     <span class="co"># remove ONE project&#39;s index (path is normalized to its git root)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> purge                      <span class="co"># remove EVERY index — irreversible</span></span></code></pre></div>
+<p>Bare <code>lumen purge</code> takes no confirmation prompt. Nothing
+is lost permanently (indexes rebuild on the next
+<code>lumen index</code> or search), but rebuilding everything costs the
+full embedding time again, which for hundreds of projects is hours.</p>
+<p>Two details worth knowing:</p>
+<ul>
+<li>Indexes created by older binaries did not record
+<code>project_path</code> and cannot be matched by path; only a bare
+<code>lumen purge</code> clears those.</li>
+<li>Purging a project while an indexer is running for it makes that
+indexer log a write error and exit — re-run
+<code>lumen index &lt;path&gt;</code> afterwards.</li>
+</ul>
+<hr />
+<h2 id="how-do-i-completely-uninstall-what-the-wizard-added">How do I
+completely uninstall what the wizard added?</h2>
+<p><strong>Use the rollback tool.</strong> There is no
+<code>--uninstall</code> flag on the wizard, but every mutation it makes
+is recorded in a manifest and
+<code>scripts/rollback-agents-wizard.sh</code> replays it in
+reverse:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--list</span>                 <span class="co"># which runs can be undone</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--dry-run</span>              <span class="co"># print the plan, change nothing</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--run-actions</span> <span class="at">--yes</span>    <span class="co"># apply, including the npm, SpecKit and claude mcp undo commands</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">exec</span> bash <span class="at">-l</span>                                               <span class="co"># pick up the restored PATH</span></span></code></pre></div>
+<p>That restores every modified file <strong>byte-exactly</strong>, with
+its original permissions; deletes every file the wizard created; and
+runs the recorded undo commands (<code>npm uninstall -g …</code>,
+<code>uv tool uninstall specify-cli</code>,
+<code>claude mcp remove lumen -s user</code>). Without
+<code>--run-actions</code> those commands are printed for you to run
+yourself. The rollback is itself reversible — current state is copied
+into <code>&lt;session&gt;/pre-rollback-&lt;UTC&gt;/</code> before
+anything is touched.</p>
+<p>Three limits worth knowing before you rely on it:</p>
+<ul>
+<li>A session is <strong>one wizard run</strong>. Roll back several runs
+newest-first with <code>--session &lt;id&gt;</code>.</li>
+<li>Work delegated to third parties is not in the manifest: Bun, ashlr,
+WOZCODE, Ollama and its model, the two <code>git clone</code>d
+marketplaces, and the project-level <code>.specify/</code> /
+<code>submodules/superspec</code> / <code>.codegraph/</code>.</li>
+<li><code>--run-actions</code> with no <code>--component</code>
+<strong>will</strong> uninstall SpecKit, because the <code>uv</code>
+install now records <code>uv tool uninstall specify-cli</code> under
+component <code>speckit</code>. Scope the rollback (<code>-c npm</code>,
+<code>-c claude</code>, …) if you want to keep it.</li>
+</ul>
+<p>For those, and for the case where the manifest is gone, remove things
+in this order, skipping anything you still want.</p>
+<p><strong>1. Lumen launcher, completions and backups</strong></p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-f</span> ~/.local/bin/lumen ~/.local/bin/lumen.bak.<span class="pp">*</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-f</span> ~/.local/share/bash-completion/completions/lumen</span></code></pre></div>
+<p><strong>2. The managed shell blocks</strong> — reuse the wizard’s own
+remover in library mode, so the markers and file permissions are handled
+correctly:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /path/to/this/repo</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="va">SETUP_WIZARD_LIB_ONLY</span><span class="op">=</span>1 <span class="bu">.</span> scripts/setup-agents-wizard.sh</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="ex">strip_managed_block</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.bashrc&quot;</span>       <span class="st">&quot;</span><span class="va">$LUMEN_BLOCK_START</span><span class="st">&quot;</span>   <span class="st">&quot;</span><span class="va">$LUMEN_BLOCK_END</span><span class="st">&quot;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="ex">strip_managed_block</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.bashrc&quot;</span>       <span class="st">&quot;</span><span class="va">$PRIVACY_BLOCK_START</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$PRIVACY_BLOCK_END</span><span class="st">&quot;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="ex">strip_managed_block</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.bash_profile&quot;</span> <span class="st">&quot;</span><span class="va">$USERBIN_BLOCK_START</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$USERBIN_BLOCK_END</span><span class="st">&quot;</span></span></code></pre></div>
+<p>There are three blocks: <code>~/.bashrc</code> holds both the Lumen
+block and the telemetry opt-out block, <code>~/.bash_profile</code> the
+user-bin block.</p>
+<p><strong>3. MCP server entries, per agent</strong> — each at its real
+location, and note that Opencode uses <code>.mcp</code>, not
+<code>.mcpServers</code>:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp remove lumen <span class="at">-s</span> user                     <span class="co"># Claude Code — through its own CLI</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                                                    <span class="co"># (this writes to the ACTIVE CLAUDE_CONFIG_DIR)</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="va">tmp</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">jq</span> <span class="st">&#39;del(.mcpServers.lumen)&#39;</span> ~/.claude.json <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> ~/.claude.json</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>                                                    <span class="co"># ^ the mirror MiMo and other inheritors read</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="va">tmp</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">jq</span> <span class="st">&#39;del(.mcpServers.lumen, .mcpServers.codegraph)&#39;</span> ~/.kimi-code/mcp.json <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> ~/.kimi-code/mcp.json</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="va">tmp</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">jq</span> <span class="st">&#39;del(.mcpServers.lumen, .mcpServers.codegraph)&#39;</span> ~/.qwen/settings.json <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> ~/.qwen/settings.json</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="va">tmp</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">jq</span> <span class="st">&#39;del(.mcp.lumen)&#39;</span> ~/.config/opencode/opencode.json <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> ~/.config/opencode/opencode.json</span></code></pre></div>
+<p>MiMo Code needs nothing — the wizard never wrote a config for it.</p>
+<p><strong>4. The Glyphdown hooks in Claude settings</strong> — they are
+entries inside the <code>PreToolUse</code> and <code>PostToolUse</code>
+arrays, so remove just those and keep your own:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">tmp</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">jq</span> <span class="st">&#39;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="st">  def strip: (. // []) | map(select(([.hooks[]?.command] | index(&quot;glyphdown&quot;)) | not));</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="st">  .hooks.PreToolUse |= strip | .hooks.PostToolUse |= strip</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span> ~/.claude/settings.json <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> ~/.claude/settings.json</span></code></pre></div>
+<p><strong>5. Cloned marketplace repositories</strong></p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> ~/.claude/plugins/marketplaces/Sagargupta16/claude-cost-optimizer</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> ~/.claude/plugins/marketplaces/JCodesMore/jcodesmore-plugins</span></code></pre></div>
+<p><strong>6. Global CLI tools</strong> (note: no Lumen package — it was
+never installed from npm, and Kimi / Opencode / MiMo Code are never
+npm-installed either)</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> uninstall <span class="at">-g</span> @colbymchenry/codegraph glyphdown @qwen-code/qwen-code</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> tool uninstall specify-cli</span></code></pre></div>
+<p><strong>6b. Telemetry settings</strong> — the <code>~/.bashrc</code>
+block goes with step 2 above; the rest:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="va">tmp</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">jq</span> <span class="st">&#39;del(.usageStatisticsEnabled)&#39;</span> ~/.qwen/settings.json <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> ~/.qwen/settings.json</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">codegraph</span> telemetry <span class="at">--help</span>      <span class="co"># CodeGraph&#39;s own switch; state lives in ~/.codegraph/telemetry.json</span></span></code></pre></div>
+<p><strong>7. Lumen indexes</strong> — see <a
+href="#where-does-lumen-store-indexes-and-how-much-space-do-they-use">Where
+does Lumen store indexes</a>. <code>lumen purge</code> before you delete
+the wrapper, or just <code>rm -rf ~/.local/share/lumen</code>. If you
+ran Step 8, the CodeGraph database is separate and lives in the project:
+<code>rm -rf .codegraph</code>.</p>
+<p><strong>8. Embedding backend</strong> (only if nothing else uses
+ollama)</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> rm ordis/jina-embeddings-v2-base-code</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl disable <span class="at">--now</span> ollama</span></code></pre></div>
+<p><strong>9. Third-party installers the wizard invoked</strong> — Bun
+(<code>~/.bun</code>), which installs itself and may have added its own
+lines to your rc files, and the <strong>ashlr plugin</strong>, which is
+a clone rather than a binary:</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> ~/.claude/plugins/cache/ashlr-marketplace/ashlr</span></code></pre></div>
+<p>Whatever <code>/plugin install</code> then registered inside Claude
+Code is Claude Code’s own state — remove it there, not on disk.</p>
+<p><strong>10. Project-level artifacts</strong> —
+<code>submodules/superspec</code>, <code>.specify/</code>,
+<code>specs/</code>, plus the regenerated files that are deliberately
+<em>not</em> in the rollback manifest:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-f</span>  MANUAL-STEPS.md .lumen-reindex.log</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> .ashlrcode                <span class="co"># the ashlr genome, if you ran /ashlr:ashlr-genome-init</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> .test-evidence            <span class="co"># test-suite output</span></span></code></pre></div>
+<p>Treat the rest as project content, not wizard leftovers: if the repo
+tracks <code>submodules/superspec</code> as a git submodule, remove it
+with <code>git submodule deinit</code> / <code>git rm</code>, not
+<code>rm -rf</code>.</p>
+<p><strong>11. The ollama Vulkan remediation</strong>, if you applied
+it. It is outside the manifest and has its own undo — note that undoing
+it <strong>restores the defect</strong>:</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/ollama-vulkan-remediation.sh</span> <span class="at">--rollback</span>     <span class="co"># needs sudo; restarts ollama</span></span></code></pre></div>
+<p><strong>11. Orphan files from older revisions</strong> — an earlier
+wizard wrote configs no agent reads. Delete them if they exist:</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-f</span> ~/.claude/mcp.json ~/.kimi/config.json ~/.opencode/config.json <span class="dt">\</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>      ~/.mimo/config.json ~/.qwen-code/config.json</span></code></pre></div>
+<p><strong>12. Timestamped backups and rollback sessions the wizard left
+behind</strong></p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> ~/.bashrc.bak.<span class="pp">*</span> ~/.bash_profile.bak.<span class="pp">*</span> ~/.claude/<span class="pp">*</span>.bak.<span class="pp">*</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> ~/.local/share/setup-agents-wizard      <span class="co"># the rollback sessions — only once you are sure</span></span></code></pre></div>
+<p>Full detail: <a
+href="./SAFETY-AND-ROLLBACK.md"><code>SAFETY-AND-ROLLBACK.md</code></a>.</p>
+<hr />
+<h2 id="what-if-i-already-had-mcp-servers-configured">What if I already
+had MCP servers configured?</h2>
+<p>They are preserved. Every edit the wizard makes to a config file is a
+<strong><code>jq</code> merge</strong>, never a replacement:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Agent</th>
+<th style="text-align: left;">What the wizard does</th>
+<th style="text-align: left;">What survives</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Kimi, Qwen Code</td>
+<td
+style="text-align: left;"><code>jq '.mcpServers += {lumen, codegraph}'</code></td>
+<td style="text-align: left;">Every other MCP server, and every key
+outside <code>.mcpServers</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Opencode</td>
+<td
+style="text-align: left;"><code>jq '.mcp //= {} \| .mcp.lumen = {…}'</code></td>
+<td style="text-align: left;">Every other entry under <code>.mcp</code>,
+and the rest of the document</td>
+</tr>
+<tr>
+<td style="text-align: left;">Claude Code</td>
+<td
+style="text-align: left;"><code>claude mcp add-json lumen … -s user</code>,
+and only when <code>claude mcp get lumen</code> fails</td>
+<td style="text-align: left;">Everything — the CLI owns the file, and
+the wizard never hand-edits <code>~/.claude.json</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Claude hooks</td>
+<td style="text-align: left;"><code>.hooks.PreToolUse</code> /
+<code>.hooks.PostToolUse</code> gain one entry, guarded by an
+<code>index("glyphdown")</code> check</td>
+<td style="text-align: left;">Every hook you already had, on every
+event</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>+=</code> object merge replaces only the keys named on the
+right-hand side. A server you configured yourself under a different name
+is untouched; a server you configured <em>as</em> <code>lumen</code> or
+<code>codegraph</code> is overwritten — and its previous content is in
+the rollback manifest, so
+<code>./scripts/rollback-agents-wizard.sh -c kimi --yes</code> brings it
+back byte-exactly.</p>
+<p>Re-running does not duplicate anything: tests <strong>D4</strong> and
+<strong>D5</strong> assert that foreign keys survive and that two runs
+still leave exactly two MCP servers.</p>
+<p>Two related guarantees:</p>
+<ul>
+<li><strong>Claude Code’s <code>~/.claude.json</code> is never
+hand-edited.</strong> It also holds session and project state, so the
+wizard goes through the <code>claude mcp</code> CLI instead.</li>
+<li><strong>Nothing is written for an agent that is not
+installed.</strong> Kimi is skipped unless <code>~/.kimi-code</code>
+exists, Qwen unless <code>~/.qwen</code> exists, and Opencode unless its
+config file already exists — the wizard does not create one.</li>
+</ul>
+<hr />
+<h2 id="can-i-undo-just-one-agent">Can I undo just one agent?</h2>
+<p>Yes. <code>--component</code> (short <code>-c</code>) scopes the
+rollback, and it is repeatable:</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> opencode <span class="at">--dry-run</span>   <span class="co"># look first</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> opencode <span class="at">--yes</span>       <span class="co"># remove Lumen from Opencode only</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> kimi <span class="at">-c</span> qwen <span class="at">--yes</span>   <span class="co"># two agents, nothing else</span></span></code></pre></div>
+<p>The components are <code>lumen</code>, <code>shell</code>,
+<code>claude</code>, <code>kimi</code>, <code>opencode</code>,
+<code>qwen</code>, <code>npm</code> and <code>speckit</code>;
+<code>all</code> is accepted and means “no filter”, which is also the
+default. Test <strong>G11</strong> asserts that a component filter
+leaves the other components untouched.</p>
+<p>Claude Code is a special case: its MCP registration is recorded as an
+<code>ACTION</code> (a command, not a file), so it needs
+<code>--run-actions</code>:</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> claude <span class="at">--run-actions</span> <span class="at">--yes</span></span></code></pre></div>
+<p>That also restores <code>~/.claude/settings.json</code>, since the
+Glyphdown hooks belong to the same component. To unregister the MCP
+server <em>only</em>, run the recorded undo command yourself:</p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp remove lumen <span class="at">-s</span> user</span></code></pre></div>
+<p>MiMo Code has no component of its own because there is no
+MiMo-specific file: it <strong>inherits</strong> MCP servers from
+<code>~/.claude.json</code>. Undoing it therefore means removing the
+mirror, which lives in the <code>claude</code> component:</p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="st">&#39;del(.mcpServers.lumen)&#39;</span> ~/.claude.json <span class="op">&gt;</span> /tmp/cj <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> /tmp/cj ~/.claude.json</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="ex">mimo</span> mcp list <span class="kw">|</span> <span class="fu">grep</span> lumen        <span class="co"># should now find nothing</span></span></code></pre></div>
+<p>Note that a full <code>-c claude</code> rollback restores
+<code>~/.claude.json</code> byte-exactly, which removes the mirror as a
+side effect — along with the Glyphdown hooks and the Claude Code
+registration.</p>
+<p>Restart the agent afterwards — MCP servers are launched at session
+start.</p>
+<hr />
+<h2 id="what-is-stdio-vs-serve">What is <code>stdio</code> vs
+<code>serve</code>?</h2>
+<p><code>stdio</code> is Lumen’s MCP subcommand. <code>serve</code> does
+not exist in Lumen.</p>
+<pre><code>$ lumen serve
+Error: unknown command &quot;serve&quot; for &quot;lumen&quot;
+Run &#39;lumen --help&#39; for usage.</code></pre>
+<p><code>lumen stdio</code> starts the MCP server on stdin/stdout: the
+agent launches the process and speaks MCP over the pipe. There is no
+long-running daemon and no port to configure — one server process per
+agent session, started and stopped by the agent.</p>
+<p>That is why the MCP config the wizard writes for Kimi and Qwen Code
+looks like this:</p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mcpServers&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;lumen&quot;</span><span class="fu">:</span>     <span class="fu">{</span> <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;/home/&lt;you&gt;/.local/bin/lumen&quot;</span><span class="fu">,</span> <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;stdio&quot;</span><span class="ot">]</span> <span class="fu">},</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;codegraph&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;codegraph&quot;</span><span class="fu">,</span>                    <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;serve&quot;</span><span class="ot">]</span> <span class="fu">}</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Opencode’s schema differs — a <code>.mcp</code> object with the
+command as an array — but the subcommand is the same:</p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mcp&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;lumen&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;local&quot;</span><span class="fu">,</span> <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;/home/&lt;you&gt;/.local/bin/lumen&quot;</span><span class="ot">,</span> <span class="st">&quot;stdio&quot;</span><span class="ot">]</span><span class="fu">,</span> <span class="dt">&quot;enabled&quot;</span><span class="fu">:</span> <span class="kw">true</span> <span class="fu">}</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>and Claude Code is registered through its own CLI:</p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add-json lumen <span class="st">&#39;{&quot;command&quot;:&quot;/home/&lt;you&gt;/.local/bin/lumen&quot;,&quot;args&quot;:[&quot;stdio&quot;]}&#39;</span> <span class="at">-s</span> user</span></code></pre></div>
+<p>Note the asymmetry: <code>codegraph serve</code> is correct for
+CodeGraph; <code>lumen serve</code> is not. Tests <strong>A3</strong>,
+<strong>A4</strong> and <strong>D1</strong> pin this down.</p>
+<p>If an agent is still configured with <code>"args": ["serve"]</code>
+for Lumen, its MCP server fails to start on every session — see <a
+href="./TROUBLESHOOTING.md#2-error-unknown-command-serve-for-lumen">TROUBLESHOOTING
+#2</a>.</p>
+<hr />
+<h2 id="do-i-need-sudo">Do I need sudo?</h2>
+<p>Only for system-level packages and services. Everything the wizard
+installs for <em>you</em> lands in your own home directory:
+<code>~/.local/bin</code>, <code>~/.local/share</code>,
+<code>~/.bashrc</code>, <code>~/.bash_profile</code> and the per-agent
+config directories.</p>
+<p><code>sudo</code> appears in exactly three code paths:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Where</th>
+<th style="text-align: left;">Command</th>
+<th style="text-align: left;">Skipped when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>ensure_jq</code></td>
+<td style="text-align: left;"><code>sudo apt-get install -y jq</code> /
+<code>sudo yum install -y jq</code></td>
+<td style="text-align: left;"><code>jq</code> is already installed</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ensure_ollama</code></td>
+<td
+style="text-align: left;"><code>curl -fsSL https://ollama.com/install.sh \| sh</code>
+(the installer elevates itself on Linux)</td>
+<td style="text-align: left;"><code>ollama</code> is already
+installed</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ensure_ollama</code></td>
+<td
+style="text-align: left;"><code>sudo systemctl enable --now ollama</code></td>
+<td style="text-align: left;">the <code>ollama</code> service is already
+active</td>
+</tr>
+</tbody>
+</table>
+<p>On macOS both use Homebrew, so no <code>sudo</code> at all.</p>
+<p>If you cannot use <code>sudo</code>: install <code>jq</code> however
+your environment allows, and run the embedding backend yourself instead
+of as a system service —</p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> serve <span class="kw">&amp;</span>                                  <span class="co"># foreground/user-owned backend</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">OLLAMA_HOST</span><span class="op">=</span>http://<span class="op">&lt;</span>host<span class="op">&gt;</span>:11434          <span class="co"># or point Lumen at an existing one</span></span></code></pre></div>
+<p>The wizard tolerates all three failing: it prints warnings and
+continues, and <code>verify_lumen</code> tells you what is still
+broken.</p>
+<p><strong>There is a fourth <code>sudo</code> path, and it is
+deliberately <em>not</em> in the wizard.</strong>
+<code>scripts/ollama-vulkan-remediation.sh --apply</code> writes
+<code>/etc/sysconfig/ollama</code> and runs
+<code>sudo systemctl restart ollama</code>. It lives in a separate
+script behind an explicit subcommand because restarting a system service
+and changing host-wide GPU behaviour is a decision an installer has no
+business making quietly. Test <strong>A41</strong> asserts the wizard’s
+own source carries no <code>systemctl restart</code>, no
+<code>/etc</code> write and no <code>sudo</code> in the embedding path;
+the wizard only names the commands, under <code>ACTION REQUIRED</code>.
+<code>--check</code>, <code>--verify</code> and
+<code>scripts/lumen-index-doctor.sh</code> need no privileges at all
+(test <strong>I14</strong>).</p>
+<hr />
+<h2 id="why-does-command--v-ashlr-never-find-anything">Why does
+<code>command -v ashlr</code> never find anything?</h2>
+<p><strong>Because there is no <code>ashlr</code> binary, by
+design.</strong> ashlr is a Claude Code <em>plugin</em>, not a CLI. Its
+installer clones into
+<code>~/.claude/plugins/cache/ashlr-marketplace/ashlr/</code> and
+deliberately creates no executable and does not touch
+<code>settings.json</code>.</p>
+<p>An earlier revision of the wizard ran
+<code>check_command ashlr</code> and consequently printed a permanent,
+misleading <code>❌</code> for software that was installed and fine. It
+now verifies the plugin <strong>directory</strong> instead, and reports
+it in its own summary section:</p>
+<pre><code>Claude Code plugins / optional tools:
+  ✅ ashlr plugin installed (activate with /plugin install inside Claude Code)</code></pre>
+<p>Tests <strong>A42</strong> (no <code>PATH</code> probe) and
+<strong>A43</strong> (directory check present) stop that regressing.</p>
+<p>Downloading it is not the same as activating it. Three slash commands
+inside Claude Code finish the job, plus one to confirm:</p>
+<pre><code>/plugin marketplace add ashlrai/ashlr-plugin
+/plugin install ashlr@ashlr-marketplace
+/reload-plugins
+/ashlr:ashlr-status</code></pre>
+<p>The wizard can tell whether you have done them:
+<code>plugins/cache/&lt;mkt&gt;/</code> means the installer cloned the
+bits, while <code>plugins/marketplaces/&lt;mkt&gt;/</code> is written by
+Claude Code itself when a human runs
+<code>/plugin marketplace add</code>. Only the second means the plugin
+is wired in — so the <code>ACTION REQUIRED</code> entry appears until
+you have actually done it, then disappears on the next run. See <a
+href="./ACTION-REQUIRED.md">ACTION-REQUIRED.md</a>.</p>
+<p>Optionally, <code>/ashlr:ashlr-genome-init</code> then builds a
+project genome at <code>&lt;project-root&gt;/.ashlrcode/genome/</code> —
+15 sections across <code>vision/</code>, <code>milestones/</code>,
+<code>strategies/</code> and <code>knowledge/</code>, indexed by
+<code>manifest.json</code>. It is optional, it lives inside your
+project, and no script creates it.</p>
+<hr />
+<h2
+id="the-index-was-audited-and-declared-trustworthy.-why-is-there-a-corruption-report">The
+index was audited and declared trustworthy. Why is there a corruption
+report?</h2>
+<p><strong>Because the audit’s conclusion was wrong, and understanding
+why is the most useful thing in this documentation set.</strong></p>
+<p><a href="./LUMEN-INDEX-INTEGRITY.md">LUMEN-INDEX-INTEGRITY.md</a>
+decoded every vector in the index and checked for NaN, Inf, all-zero
+values and L2 norms outside <code>0.99–1.01</code>. It found none — 0,
+0, 0, 0, with every norm inside <code>0.999999–1.000001</code> — and
+concluded <code>TRUSTWORTHY</code>.</p>
+<p>Every one of those measurements is correct and reproduces exactly.
+<strong>All four are per-vector tests, and the failure mode that
+actually occurred is invisible to per-vector tests.</strong> On a
+GPU/Vulkan embedding path, ollama can return the <em>previous</em>
+vector: well-formed, 768 dimensions, unit norm — simply not the vector
+for the text you sent. It passes all four checks by construction.</p>
+<p>The one check that would have caught it, aggregate distinctness, was
+run on blocks 1–4 only (4,096 of 35,717 vectors). The corruption lived
+in blocks 28–29: <strong>758 identical vectors covering 695 distinct
+texts across 55 files</strong>.</p>
+<blockquote>
+<p><strong>A vector can be perfectly well-formed and still be the wrong
+vector.</strong> Health is not a property you can establish one vector
+at a time.</p>
+</blockquote>
+<p><strong>The settled verdict is <a
+href="./INDEX-CORRUPTION-RECONCILIATION.md">INDEX-CORRUPTION-RECONCILIATION.md</a>.</strong>
+Use that one to decide whether an index can be trusted.
+<code>LUMEN-INDEX-INTEGRITY.md</code> is kept <strong>unedited</strong>
+as a historical record of how a careful audit reached a wrong
+conclusion; the same report also falsified the “large chunks are the
+trigger” hypothesis (the largest chunk in the corrupted range was 2,832
+characters — the operative quantity is the <strong>batch total</strong>,
+and Lumen sends 32 chunks per request).</p>
+<p>What follows from it in the code:
+<code>scripts/lumen-index-doctor.sh</code> tests aggregate distinctness
+alongside the conventional checks (<code>I8</code>, <code>I9</code>),
+and both backend probes send a real 32-text batch and require 32
+distinct vectors back (<code>I7</code>). Check your own index with:</p>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-index-doctor.sh</span> <span class="st">&quot;</span><span class="va">$PWD</span><span class="st">&quot;</span>     <span class="co"># exit 1 = corruption found</span></span></code></pre></div>
+<hr />
+<h2 id="what-is-the-action-required-section-at-the-end">What is the
+<code>ACTION REQUIRED</code> section at the end?</h2>
+<p>The steps a shell script genuinely cannot perform: Claude Code slash
+commands (they run inside a Claude Code session) and privileged host
+changes (they need your <code>sudo</code>).</p>
+<p>The alternative — skipping them quietly — is how a wizard ends up
+printing a green summary for work nobody did. So the wizard detects each
+pending step from your machine’s actual state, prints them, writes
+<code>&lt;project-root&gt;/MANUAL-STEPS.md</code>, and on a terminal
+pauses for Enter so the list cannot scroll past unread.</p>
+<ul>
+<li><strong>It is not a checklist.</strong> Nothing is ticked off. Do a
+step, re-run the wizard, and the entry is gone because the condition
+that raised it no longer holds.</li>
+<li><strong><code>MANUAL-STEPS.md</code> is overwritten every
+run</strong> and is not in the rollback manifest. <code>rm</code> it
+when you are done, or <code>.gitignore</code> it.</li>
+<li><strong><code>WIZARD_NONINTERACTIVE=1</code> skips the
+pause</strong> (the section still prints and the file is still written).
+The pause is also skipped automatically when stdin is not a
+terminal.</li>
+<li><strong>This is the wizard’s only blocking prompt.</strong> A
+<code>sudo</code> password prompt comes from <code>sudo</code>.</li>
+</ul>
+<p>Tests <strong>A48</strong>, <strong>A49</strong>,
+<strong>A50</strong>. Full detail: <a
+href="./ACTION-REQUIRED.md">ACTION-REQUIRED.md</a>.</p>
+<hr />
+<h2 id="does-the-wizard-index-my-project">Does the wizard index my
+project?</h2>
+<p><strong>Not by default.</strong> It sets up the launcher,
+<code>PATH</code>, completions, the embedding backend and the MCP
+configs. If a bounded probe
+(<code>timeout 20 lumen search "x" -p "$PROJECT_ROOT" --summary -n 1</code>)
+cannot confirm a usable index, it raises an <code>ACTION REQUIRED</code>
+step naming the commands:</p>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-reindex.sh</span> <span class="st">&quot;/path/to/project&quot;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-index-doctor.sh</span> <span class="st">&quot;/path/to/project&quot;</span>   <span class="co"># verify afterwards</span></span></code></pre></div>
+<p>A bare <code>lumen index "/path/to/project"</code> still works and is
+what those wrap. The wrapper is better for a long unattended run — it
+refuses to start on an embedding backend known to write corrupt vectors,
+and retries around transient faults instead of dying halfway and
+printing Lumen’s usage text, which reads like <em>you</em> mistyped the
+command. The doctor is the part people skip: <strong>a successful index
+is not necessarily a correct one</strong> (see <a
+href="#the-index-was-audited-and-declared-trustworthy-why-is-there-a-corruption-report">the
+index-audit question above</a>).</p>
+<p>Indexing is incremental, so re-running after large external changes
+(a big rebase, a generated-code drop) is cheap. Use <code>-f</code> /
+<code>--force</code> when you want a full rebuild — and note it is
+<strong>mandatory</strong> after a corruption event, because a corrupted
+file keeps a valid content hash and an incremental run skips it
+forever.</p>
+<p><strong>If you want the wizard to do it, opt in:</strong></p>
+<div class="sourceCode" id="cb40"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="va">WIZARD_INDEX_PROJECT</span><span class="op">=</span>1 <span class="ex">./scripts/setup-agents-wizard.sh</span></span></code></pre></div>
+<p>That enables <strong>Step 8: Indexing This Project</strong>, which
+builds or refreshes <em>both</em> indexes for the project root:</p>
+<ul>
+<li><strong>CodeGraph</strong> —
+<code>codegraph sync "$PROJECT_ROOT"</code> when
+<code>.codegraph/codegraph.db</code> already exists, otherwise
+<code>codegraph init "$PROJECT_ROOT"</code>, which creates
+<code>.codegraph/</code>.</li>
+<li><strong>Lumen</strong> —
+<code>lumen index "$PROJECT_ROOT"</code>.</li>
+</ul>
+<p>Either half is skipped with a warning if its CLI is missing. Without
+the variable, Step 8 prints one line —
+<code>ℹ️ Skipping project indexing (set WIZARD_INDEX_PROJECT=1 to build indexes).</code>
+— and the <code>Step 8</code> header never appears at all.</p>
+<p>It is opt-in for a reason: installing an indexer is fast, running one
+is not. A first Lumen pass on a large repository is CPU-bound on the
+embedding backend and can take hours, and you rarely want that happening
+inside a setup script you are watching.</p>
+<blockquote>
+<p><strong>The wizard never runs <code>codegraph index</code>.</strong>
+That command deletes the existing database before rebuilding it, which
+would throw away a good index on every re-run. <code>sync</code> is the
+incremental path, and test <strong>A27</strong> fails the build if
+<code>codegraph index</code> reappears.</p>
+</blockquote>
+<hr />
+<h2
+id="why-did-the-wizard-show-me-an-ollama-command-instead-of-just-running-it">Why
+did the wizard show me an ollama command instead of just running
+it?</h2>
+<p>Because running it restarts the ollama service, and that aborts every
+embedding request in flight. If an index run is part-way through, it
+loses that work. The wizard is not entitled to make that trade for
+you.</p>
+<p>Step 7 asks <code>scripts/ollama-tune.sh</code> how ollama is managed
+on <strong>this</strong> host and what concurrency this host’s CPU, RAM
+and loaded model justify, shows you the answer, and puts the delegate’s
+exact commands into ACTION REQUIRED. To let it apply them:</p>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="va">WIZARD_TUNE_OLLAMA</span><span class="op">=</span>1 <span class="ex">./scripts/setup-agents-wizard.sh</span></span></code></pre></div>
+<p>Even then it asks first, and it refuses while an indexer is running —
+or while it cannot tell whether one is (no <code>pgrep</code>), because
+“cannot tell” is not “idle”. If it does apply, the change lands in the
+rollback manifest as <code>bash &lt;path&gt; --revert</code>, alongside
+a <code>NOTE</code> recording that the aborted in-flight requests are
+not something <code>--revert</code> can bring back.</p>
+<p><strong>It will never print an example number.</strong> If the tuner
+is missing, cannot reach a verdict, or there is no ollama at all, you
+get a step that says nothing was measured — not a plausible-looking
+value that was never computed on your machine.</p>
+<p>One subtlety worth knowing, because it bit the first version of this
+step: <code>ollama-tune.sh</code> exits <code>1</code> for <em>“a real
+problem / action required”</em>, which is exactly when it
+<strong>does</strong> have a recommendation. <code>0</code> means
+nothing to apply and <code>2</code> means it could not determine. The
+wizard maps all three explicitly — a non-zero exit is not read as “the
+tuner broke”.</p>
+<hr />
+<h2
+id="step-9-said-the-provider-ci-status-is-unverified.-is-that-a-failure">Step
+9 said the provider CI status is “UNVERIFIED”. Is that a failure?</h2>
+<p>No, and it is deliberately not a pass either.
+<code>scripts/verify-provider-ci.sh</code> answers with three values,
+and the wizard keeps all three: <code>0</code> nothing found,
+<code>1</code> confirmed provider-side triggering, <code>2</code> could
+not determine. Exit <code>2</code> — and a timeout, an unexpected
+status, a missing script, or a missing <code>gh</code> — is reported as
+<code>COULD NOT BE DETERMINED</code> /
+<code>Reporting UNVERIFIED. This is NOT a pass</code>.</p>
+<p>The usual cause is that <code>gh</code> is not authenticated or the
+token lacks admin scope on a repository. Check with
+<code>gh auth status</code>, then run the verifier again.</p>
+<p>This matters because everything else in this repository checks
+<strong>files</strong>, and a file-level check structurally cannot see
+an org-default required workflow, a branch-protection required check,
+the GitHub Pages source setting, or a provider-side scheduled export.
+Those remain operator-only to <em>change</em> — but their status is now
+measured on demand rather than asserted in prose.</p>
+<p>Neither index is recorded in the rollback manifest — they are
+tool-owned data, not wizard edits. Remove them with
+<code>rm -rf .codegraph</code> and
+<code>lumen purge "/path/to/project"</code>.</p>
+<hr />
+<h2 id="what-does-the-wizard-do-about-telemetry">What does the wizard do
+about telemetry?</h2>
+<p>It turns it <strong>off</strong>, for the tools it installs, as the
+first act of Step 3 (<code>configure_telemetry_optout</code>). Opt out
+of the opt-out with <code>WIZARD_KEEP_TELEMETRY=1</code>, which leaves
+every setting below exactly as it found it and prints
+<code>⚠️ WIZARD_KEEP_TELEMETRY set - leaving telemetry settings alone.</code></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Tool</th>
+<th style="text-align: left;">What is set</th>
+<th style="text-align: left;">Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Any tool honouring the convention</td>
+<td style="text-align: left;"><code>export DO_NOT_TRACK=1</code></td>
+<td style="text-align: left;">A third managed block in
+<code>~/.bashrc</code>,
+<code># &gt;&gt;&gt; telemetry opt-out (managed by Claude Code) &gt;&gt;&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">CodeGraph</td>
+<td style="text-align: left;"><code>export CODEGRAPH_TELEMETRY=0</code>,
+plus <code>codegraph telemetry off</code> (which also deletes its
+buffered data)</td>
+<td style="text-align: left;">The same <code>~/.bashrc</code> block; the
+CLI persists its own state in
+<code>~/.codegraph/telemetry.json</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Qwen Code</td>
+<td
+style="text-align: left;"><code>.usageStatisticsEnabled = false</code></td>
+<td style="text-align: left;"><code>~/.qwen/settings.json</code>, via a
+<code>jq</code> merge that preserves your other keys</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Lumen</strong></td>
+<td style="text-align: left;"><strong>nothing — it ships no
+telemetry</strong></td>
+<td style="text-align: left;">—</td>
+</tr>
+</tbody>
+</table>
+<p>That last row is the point of stating it explicitly: Lumen’s binary
+was checked and contains <strong>zero analytics strings</strong>, so
+there is no switch to flip and the wizard does not pretend otherwise.
+The summary does not restate that as a past finding either — it re-runs
+<code>strings</code> against the resolved binary on every run and
+reports what it just saw:
+<code>➖ Lumen ships no telemetry (probed /path/to/lumen-linux-amd64 just now)</code>,
+or
+<code>⚠️ Lumen binary contains analytics-like strings - inspect &lt;path&gt;</code>
+if that ever changes, or
+<code>➖ Lumen telemetry not probed (strings(1) unavailable)</code> when
+it cannot check.</p>
+<p>None of these values was guessed. <code>DO_NOT_TRACK</code> is the
+cross-tool convention (<a href="https://consoledonottrack.com"
+class="uri">https://consoledonottrack.com</a>) and was confirmed by
+grepping the <code>@colbymchenry/codegraph</code> bundle;
+<code>usageStatisticsEnabled</code> was found in the installed
+<code>@qwen-code/qwen-code</code> chunks.</p>
+<p>Both exports also apply to the wizard’s own process, so the rest of
+the run is covered without waiting for a new shell.</p>
+<p>Two practical notes:</p>
+<ul>
+<li><code>~/.qwen/settings.json</code> is only touched when it
+<strong>already exists</strong> and <code>jq</code> is available, and
+only when the flag is not already <code>false</code> — otherwise you get
+<code>✅ Qwen usage statistics already disabled.</code> (Test
+<strong>H7</strong> guards a subtle bug here: jq’s <code>//</code>
+operator returns its right-hand side for <code>false</code> as well as
+<code>null</code>, so reading the flag with <code>// "unset"</code> made
+a correctly-disabled setting look unset.)</li>
+<li>The <code>~/.bashrc</code> block and the Qwen edit are both in the
+rollback manifest (components <code>shell</code> and <code>qwen</code>).
+<code>codegraph telemetry off</code> is an out-of-band CLI call with no
+<code>ACTION</code> row — re-enable it yourself if you want it
+back.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>passage-contract</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">passage-contract</h1>
+</header>
+<h1 id="passage-pid-contract-workshop-curriculum-platform">Passage / PID
+Contract — Workshop Curriculum Platform</h1>
+<p><strong>Feature</strong>:
+<code>specs/001-workshop-curriculum-platform</code> |
+<strong>Phase</strong>: 1 (Design &amp; Contracts) |
+<strong>Date</strong>: 2026-09-01</p>
+<p><strong>Governs</strong>: passage identity — the internal contract
+every other component depends on. <strong>Derived from</strong>: <a
+href="../spec.md">spec.md</a> FR-037/FR-038/FR-039, <a
+href="../research.md">research.md</a> D-SEARCH-1, <a
+href="../data-model.md">data-model.md</a> <code>Passage</code>.
+<strong>Consumed by</strong>: <a href="./http-api.md">http-api.md</a>
+(<code>{pid}</code> path parameter, citations, cross-references,
+<code>410 redacted</code>) and <a
+href="./pipeline-cli.md">pipeline-cli.md</a> (ingest, index, crossref,
+redact).</p>
+<p>This is the contract <code>plan.md</code> marks <code>[REVIEW]</code>
+— <em>“review before anything consumes it; every other component depends
+on its shape.”</em> It specifies shapes, schemas and guarantees. No
+implementation, no migrations.</p>
+<hr />
+<h2 id="the-one-rule">1. The one rule</h2>
+<blockquote>
+<p><strong><code>pid</code> is a ULID minted once at ingest. It is not
+derived from content and it is not derived from position. Nothing else
+is ever a citable identity.</strong></p>
+</blockquote>
+<p>This is not a style preference. Both alternatives were
+<strong>measured</strong>, and both fail, in opposite directions
+(D-SEARCH-1, controlled three-run re-index):</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Candidate identity</th>
+<th>Measured behaviour</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lumen chunk id (content-derived)</td>
+<td>Fixing <strong>one typo</strong> inside a section, line numbers
+unchanged, changed the id <code>4b98e295c112a429</code> →
+<code>610e608a50f273a6</code></td>
+<td>Every human correction (FR-038) silently breaks every citation to
+that passage</td>
+</tr>
+<tr>
+<td>Positional key (file + line range)</td>
+<td>Prepending a section shifted every later section by 4 lines:
+<strong>all ids unchanged, all line ranges moved</strong></td>
+<td>Every edit above a passage breaks its links</td>
+</tr>
+</tbody>
+</table>
+<p>Under either, <strong>SC-016 scores 0% on corrected passages while
+the UI keeps rendering links that now point somewhere else</strong> — a
+failure with no visible symptom. Lumen’s ids are not exposed through its
+CLI or MCP surface anyway, leaving only a positional key, which run 3
+shows moves. Both available keys fail.</p>
+<p>A minted identifier is the only form that survives both operations.
+Everything below exists to keep that true.</p>
+<hr />
+<h2 id="the-pid">2. The <code>pid</code></h2>
+<h3 id="format">2.1 Format</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Type</td>
+<td>ULID (Crockford base32)</td>
+</tr>
+<tr>
+<td>Length</td>
+<td>exactly 26 characters</td>
+</tr>
+<tr>
+<td>Canonical case</td>
+<td><strong>UPPERCASE</strong></td>
+</tr>
+<tr>
+<td>Validation regex</td>
+<td><code>^[0-7][0-9A-HJKMNP-TV-Z]{25}$</code></td>
+</tr>
+<tr>
+<td>Excluded letters</td>
+<td><code>I</code>, <code>L</code>, <code>O</code>, <code>U</code>
+(Crockford alphabet)</td>
+</tr>
+<tr>
+<td>Serialised as</td>
+<td>a bare string. Never wrapped, never prefixed, never namespaced.</td>
+</tr>
+</tbody>
+</table>
+<p>Lowercase input is accepted at every boundary and canonicalised to
+uppercase before storage, comparison or response. Two pids are equal iff
+their canonical forms are byte-equal — no normalisation beyond case, no
+trimming of “similar-looking” characters.</p>
+<h3 id="minting-rules-normative">2.2 Minting rules (normative)</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M1</td>
+<td>A <code>pid</code> is minted <strong>exactly once</strong>, at the
+first ingest that observes the passage.</td>
+</tr>
+<tr>
+<td>M2</td>
+<td>Only the ingest command mints. No other component — not the API, not
+the indexer, not the cross-referencer, not the frontend — may create a
+<code>pid</code>.</td>
+</tr>
+<tr>
+<td>M3</td>
+<td>A <code>pid</code> is <strong>never reused, never reassigned, and
+never recycled</strong>, including after the passage it named is
+deleted. Deletion tombstones the row; it does not free the
+identifier.</td>
+</tr>
+<tr>
+<td>M4</td>
+<td>A <code>pid</code> is minted <strong>only</strong> when the ingest
+matching algorithm (§8) fails to attach the passage to an existing
+registry row. Minting is the last branch, never the first.</td>
+</tr>
+<tr>
+<td>M5</td>
+<td>The ULID timestamp component is the ingest wall-clock. It carries
+<strong>no semantic meaning</strong>. Sorting passages by
+<code>pid</code>, inferring recording order from <code>pid</code>, or
+reading a date out of a <code>pid</code> is a defect. Monotonicity is
+guaranteed only within a single ingest process, and is an implementation
+convenience, not a contract.</td>
+</tr>
+<tr>
+<td>M6</td>
+<td>Minting is not idempotent by luck — it is idempotent by M4.
+Re-running ingest on unchanged input mints <strong>zero</strong> pids
+(FR-027).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-a-pid-is-not">2.3 What a <code>pid</code> is not</h3>
+<p>It is not an ordering key, not a version, not a hash, not a URL, not
+a file path, not a line number, not a Lumen chunk id, and not derivable
+from any of them. Given a <code>pid</code> and nothing else, the only
+way to learn anything about the passage is to ask the registry (§7).</p>
+<hr />
+<h2 id="source-anchors">3. Source anchors</h2>
+<p>The <code>pid</code> is written back into the source artifact so
+<strong>the identifier travels with the text</strong>. This is the
+mechanism that delivers guarantee G2 (§5): when a passage moves, its
+anchor moves with it, and the next ingest re-derives the position rather
+than re-deriving the identity.</p>
+<h3 id="the-canonical-anchor">3.1 The canonical anchor</h3>
+<pre><code>&lt;!-- pid: 01JBX7QK3M8V2ZC4YT5N6RWDPA --&gt;</code></pre>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Property</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Placement</td>
+<td>On its own line, immediately preceding the passage’s first line. No
+blank line between anchor and passage.</td>
+</tr>
+<tr>
+<td>Recognition regex</td>
+<td><code>^&lt;!--\s*pid:\s*([0-7][0-9A-HJKMNP-TV-Z]{25})\s*--&gt;$</code></td>
+</tr>
+<tr>
+<td>Emission form</td>
+<td>Exactly <code>&lt;!-- pid: &lt;PID&gt; --&gt;</code> — one space
+after <code>&lt;!--</code>, one space either side of the pid, one space
+before <code>--&gt;</code>. Emission is canonical even though
+recognition is tolerant, so that re-ingest produces byte-identical files
+(FR-027).</td>
+</tr>
+<tr>
+<td>Cardinality</td>
+<td>One anchor per passage. A <code>pid</code> appears as an anchor
+<strong>at most once in the entire repository</strong>.</td>
+</tr>
+<tr>
+<td>Rendering</td>
+<td>HTML comments do not render in markdown output, so anchors are
+invisible to a reader while remaining in the source a human edits.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="per-format-anchor-syntax">3.2 Per-format anchor syntax</h3>
+<p>Markdown is the primary case. The others exist because “write a
+comment” is not universally possible, and pretending otherwise would be
+inventing capability.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Artifact kind</th>
+<th>Anchor syntax</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Markdown, HTML</td>
+<td><code>&lt;!-- pid: … --&gt;</code></td>
+<td>Canonical.</td>
+</tr>
+<tr>
+<td>Mermaid (<code>.mmd</code>)</td>
+<td><code>%% pid: …</code></td>
+<td>Must precede the node/statement it identifies.</td>
+</tr>
+<tr>
+<td>PlantUML (<code>.puml</code>)</td>
+<td><code>' pid: …</code></td>
+<td></td>
+</tr>
+<tr>
+<td>SVG</td>
+<td><code>&lt;!-- pid: … --&gt;</code> inside the root element</td>
+<td></td>
+</tr>
+<tr>
+<td>WebVTT / SRT (<code>.vtt</code>, <code>.srt</code>)</td>
+<td><strong>none — sidecar</strong></td>
+<td>These formats have no comment syntax that survives every parser. The
+pid lives in <code>&lt;file&gt;.pids.jsonl</code>, keyed by cue
+identifier.</td>
+</tr>
+<tr>
+<td>Transcript chunk JSON</td>
+<td><strong>none — sidecar</strong></td>
+<td>Machine artifacts under <code>transcript/work/</code> are
+regenerable and must not be hand-edited; the pid lives in the registry,
+keyed by <code>(chunk_index, segment_index)</code>.</td>
+</tr>
+<tr>
+<td>Source code</td>
+<td><strong>none — registry only</strong></td>
+<td>See §3.3.</td>
+</tr>
+<tr>
+<td>PDF, images, audio, video</td>
+<td><strong>none — registry only</strong></td>
+<td>Binary; not editable by this pipeline (FR-006).</td>
+</tr>
+</tbody>
+</table>
+<p>Sidecar records use the same shape as a registry line (§4.2)
+restricted to <code>{pid, key}</code>, where <code>key</code> is the
+format’s own stable within-file identifier.</p>
+<h3 id="where-anchors-are-never-written">3.3 Where anchors are never
+written</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Never inside source code.</strong></td>
+<td>The D2 corpus is the whole <code>vasic</code> monorepo. Writing
+anchors into code the workshop does not own would modify unrelated
+submodules, pollute diffs, and violate the spirit of FR-006. Code
+passages are registry-only (§6).</td>
+</tr>
+<tr>
+<td><strong>Never outside <code>workshop/</code>.</strong></td>
+<td>Any passage whose <code>source_ref.path</code> resolves outside the
+<code>workshop/</code> submodule is registry-only, and inherits the
+weaker guarantee of §6 — <em>including</em> markdown files elsewhere in
+the monorepo.</td>
+</tr>
+<tr>
+<td><strong>Never into a machine artifact under
+<code>transcript/work/</code>.</strong></td>
+<td>Those files are regenerable checkpoints; an anchor there would be
+destroyed on the next resume.</td>
+</tr>
+<tr>
+<td><strong>Never into the recording, the notes PDF, or any supplied
+material.</strong></td>
+<td>FR-006: source material is preserved unmodified. Ingest opens them
+<code>O_RDONLY</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="anchor-authority">3.4 Anchor authority</h3>
+<ul>
+<li>The <strong>anchor is authoritative</strong> for the text↔︎identity
+association.</li>
+<li><code>source_ref</code> in the registry is a <strong>cache</strong>
+of where the anchor was last seen, and MUST be re-derived from the file
+on every ingest.</li>
+<li>A registry row whose <code>source_ref</code> disagrees with the file
+is not a conflict — the file wins, and ingest updates the row. That is
+guarantee G2 operating normally, not an error.</li>
+<li>An anchor in a file whose pid is <strong>absent from the
+registry</strong> is an error, not an invitation to mint (§8, rule R1c).
+Silently adopting a foreign anchor would let a copy-pasted block hijack
+an identity.</li>
+</ul>
+<hr />
+<h2 id="the-registry">4. The registry</h2>
+<p>Two artifacts, one authoritative.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Artifact</th>
+<th>Role</th>
+<th>Tracked in git</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>workshop/curriculum/passages.jsonl</code></td>
+<td><strong>Source of truth.</strong> Human-reviewable, line-oriented,
+diffable.</td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td><code>workshop/curriculum/passages.db</code></td>
+<td>Derived SQLite: query index, FTS5, join tables. Rebuildable from the
+JSONL at any time.</td>
+<td><strong>No</strong> (git-ignored)</td>
+</tr>
+</tbody>
+</table>
+<p>The identity of the system lives in a text file a human can read in a
+pull request. The database is a cache. If they disagree, the JSONL wins
+and the database is rebuilt.</p>
+<h3 id="passages.jsonl-file-level-contract">4.1
+<code>passages.jsonl</code> file-level contract</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Property</th>
+<th>Contract</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Encoding</td>
+<td>UTF-8, NFC-normalised, LF line endings, final newline present</td>
+<td>Byte-stable across platforms</td>
+</tr>
+<tr>
+<td>One record per line</td>
+<td>Compact JSON, no embedded newlines</td>
+<td><code>git diff</code> shows one changed passage as one changed
+line</td>
+</tr>
+<tr>
+<td>Key order</td>
+<td>Fixed, as listed in §4.2</td>
+<td>Byte-identical output on re-ingest (FR-027)</td>
+</tr>
+<tr>
+<td>Record order</td>
+<td>Sorted ascending by <code>pid</code></td>
+<td>A minted pid lands deterministically; review diffs stay small</td>
+</tr>
+<tr>
+<td>Whitespace</td>
+<td>No trailing whitespace, no pretty-printing</td>
+<td></td>
+</tr>
+<tr>
+<td>Idempotency</td>
+<td>Re-running ingest on unchanged input produces a
+<strong>byte-identical</strong> file</td>
+<td>The mechanical test for FR-027</td>
+</tr>
+</tbody>
+</table>
+<h3 id="record-schema">4.2 Record schema</h3>
+<pre class="jsonc"><code>{
+  &quot;pid&quot;: &quot;01JBX7QK3M8V2ZC4YT5N6RWDPA&quot;,
+  &quot;kind&quot;: &quot;transcript&quot;,                    // transcript | doc_section | code | diagram
+  &quot;chapter_slug&quot;: &quot;01-ai-workflows&quot;,       // null for corpus-wide passages outside a chapter
+  &quot;source_ref&quot;: {
+    &quot;path&quot;: &quot;chapters/01/transcript/transcript.md&quot;,   // repo-relative, forward slashes
+    &quot;line_start&quot;: 812,
+    &quot;line_end&quot;: 815,
+    &quot;symbol&quot;: null,                        // code kind only — see §6
+    &quot;anchor&quot;: &quot;inline&quot;                     // &quot;inline&quot; | &quot;sidecar&quot; | &quot;registry_only&quot;
+  },
+  &quot;text&quot;: &quot;we always cut inside a measured silence, never mid-word&quot;,
+  &quot;machine_text&quot;: &quot;we always cut inside a measured silence never mid word&quot;,
+                                           // transcript kind only; IMMUTABLE once written (FR-038)
+  &quot;provenance&quot;: &quot;human_corrected&quot;,         // machine | human_corrected
+  &quot;confidence&quot;: -0.31,                     // avg_logprob-derived; null for non-transcript kinds
+  &quot;uncertain&quot;: false,
+  &quot;uncertain_reason&quot;: null,                // low_confidence | inaudible | overlapping_speech
+                                           //  | language_uncertain ; null iff uncertain==false
+  &quot;t_start_s&quot;: 512.4,                      // transcript kind only; null otherwise
+  &quot;t_end_s&quot;: 519.1,
+  &quot;speaker&quot;: &quot;Milos&quot;,                      // null unless human-attributed
+  &quot;speaker_source&quot;: &quot;human&quot;,               // human | unattributed  (never &quot;machine&quot; — D-TRANS-2)
+  &quot;redacted&quot;: false,
+  &quot;content_hash&quot;: &quot;sha256:8f1c…&quot;,          // CHANGE DETECTION ONLY — see §6bis / §5.3
+  &quot;minted_at&quot;: &quot;2026-09-01T09:12:44Z&quot;,     // provenance of the identifier, not of the text
+  &quot;ingest_run&quot;: &quot;01JBX7QJ…&quot;                // run id that minted or last touched the row
+}</code></pre>
+<p><strong>Required fields</strong>: <code>pid</code>,
+<code>kind</code>, <code>source_ref</code>, <code>text</code>,
+<code>provenance</code>, <code>redacted</code>,
+<code>content_hash</code>, <code>minted_at</code>. All others are
+nullable with the constraints noted.</p>
+<p><strong>Field-level invariants</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td><code>machine_text</code> is written once and never mutated. A
+correction adds a <code>corrections</code> record and updates
+<code>text</code>; <code>machine_text</code> is untouched. Deleting it
+would destroy the ability to re-measure accuracy later (SC-002).</td>
+</tr>
+<tr>
+<td>F2</td>
+<td><code>provenance == "human_corrected"</code> ⇒
+<code>machine_text</code> is non-null and at least one
+<code>corrections</code> record exists for this <code>pid</code>.</td>
+</tr>
+<tr>
+<td>F3</td>
+<td><code>uncertain == true</code> ⇔
+<code>uncertain_reason != null</code>. Neither may be inferred
+downstream; <code>uncertain</code> is set from the engine’s own
+confidence signal at ingest (FR-003).</td>
+</tr>
+<tr>
+<td>F4</td>
+<td><code>speaker != null</code> ⇒
+<code>speaker_source == "human"</code>. <code>speaker_source</code> may
+never be <code>"machine"</code> — the audio is dual-mono (L−R = −90.3
+dB) and AGC-flattened, so both diarization cues are measurably absent
+(D-TRANS-2).</td>
+</tr>
+<tr>
+<td>F5</td>
+<td><code>kind == "transcript"</code> ⇒ <code>t_start_s</code> and
+<code>t_end_s</code> are non-null, and
+<code>t_start_s &lt; t_end_s</code>.</td>
+</tr>
+<tr>
+<td>F6</td>
+<td><code>redacted == true</code> ⇒ <code>text</code> and
+<code>machine_text</code> are <strong>absent from every
+serialisation</strong> that leaves the registry, at every layer
+(§7.3).</td>
+</tr>
+<tr>
+<td>F7</td>
+<td><code>content_hash</code> is present on every row and is
+<strong>never</strong> used as a key (§5.3).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="passages.db-schema-normative-declaration-not-a-migration">4.3
+<code>passages.db</code> schema (normative declaration, not a
+migration)</h3>
+<p>Derived. Rebuildable. <code>modernc.org/sqlite</code>, already a
+dependency of the reference module — no new dependency (D-SEARCH-2).</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Identity. One row per passage, forever.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> passages (</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  pid              TEXT <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,          <span class="co">-- canonical uppercase ULID</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  kind             TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">CHECK</span> (kind <span class="kw">IN</span> (<span class="st">&#39;transcript&#39;</span>,<span class="st">&#39;doc_section&#39;</span>,<span class="st">&#39;code&#39;</span>,<span class="st">&#39;diagram&#39;</span>)),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  chapter_slug     TEXT,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  path             TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  line_start       <span class="dt">INTEGER</span>, line_end <span class="dt">INTEGER</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  symbol           TEXT,                      <span class="co">-- code kind only</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  anchor           TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">CHECK</span> (anchor <span class="kw">IN</span> (<span class="st">&#39;inline&#39;</span>,<span class="st">&#39;sidecar&#39;</span>,<span class="st">&#39;registry_only&#39;</span>)),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  text             TEXT,                      <span class="co">-- NULL when redacted</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  machine_text     TEXT,                      <span class="co">-- immutable; NULL when redacted</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  provenance       TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">CHECK</span> (provenance <span class="kw">IN</span> (<span class="st">&#39;machine&#39;</span>,<span class="st">&#39;human_corrected&#39;</span>)),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  confidence       <span class="dt">REAL</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  uncertain        <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> <span class="dv">0</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  uncertain_reason TEXT,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  t_start_s        <span class="dt">REAL</span>, t_end_s <span class="dt">REAL</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  speaker          TEXT,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  speaker_source   TEXT <span class="kw">CHECK</span> (speaker_source <span class="kw">IN</span> (<span class="st">&#39;human&#39;</span>,<span class="st">&#39;unattributed&#39;</span>)),</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  redacted         <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">DEFAULT</span> <span class="dv">0</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  content_hash     TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,             <span class="co">-- change detection ONLY (§5.3)</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  minted_at        TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  ingest_run       TEXT</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> passages_by_chapter  <span class="kw">ON</span> passages(chapter_slug, t_start_s);</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> passages_by_path     <span class="kw">ON</span> passages(path, line_start);</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">UNIQUE</span> <span class="kw">INDEX</span> passages_symbol_key <span class="kw">ON</span> passages(path, symbol) <span class="kw">WHERE</span> symbol <span class="kw">IS</span> <span class="kw">NOT</span> <span class="kw">NULL</span>;</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co">-- Append-only correction overlay. The machine layer is never overwritten.</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> corrections (</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  seq     <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  pid     TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> passages(pid),</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  text    TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  author  TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="kw">at</span>      TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  reason  TEXT</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> corrections_by_pid <span class="kw">ON</span> corrections(pid, seq);</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co">-- Append-only redaction log. Never a column flip in isolation.</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> redactions (</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  seq         <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span> AUTOINCREMENT,</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>  pid         TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> passages(pid),</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  action      TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">CHECK</span> (action <span class="kw">IN</span> (<span class="st">&#39;redact&#39;</span>,<span class="st">&#39;unredact&#39;</span>)),</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  reason_code TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>  <span class="kw">by</span>          TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>  <span class="kw">at</span>          TEXT <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="co">-- Directed, cycle-checked relationships.</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> crossrefs (</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>  from_pid   TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> passages(pid),</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>  to_pid     TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> passages(pid),</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>  relation   TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">CHECK</span> (relation <span class="kw">IN</span> (<span class="st">&#39;explains&#39;</span>,<span class="st">&#39;demonstrates&#39;</span>,<span class="st">&#39;continues&#39;</span>,<span class="st">&#39;related&#39;</span>)),</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>  origin     TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">CHECK</span> (origin <span class="kw">IN</span> (<span class="st">&#39;derived&#39;</span>,<span class="st">&#39;authored&#39;</span>)),</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>  score      <span class="dt">REAL</span>,</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>  generation <span class="dt">INTEGER</span>,                        <span class="co">-- derived edges belong to a generation; authored do not</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>  <span class="kw">PRIMARY</span> <span class="kw">KEY</span> (from_pid, to_pid, relation, origin),</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>  <span class="kw">CHECK</span> (from_pid <span class="op">&lt;&gt;</span> to_pid)                 <span class="co">-- self-references rejected at write time</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="co">-- Code-passage rename aliases. Best-effort, honestly labelled (§6).</span></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> symbol_aliases (</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>  old_path TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>, old_symbol TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>  new_path TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>, new_symbol TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>  pid      TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> passages(pid),</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>  origin   TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">CHECK</span> (origin <span class="kw">IN</span> (<span class="st">&#39;detected&#39;</span>,<span class="st">&#39;authored&#39;</span>)),</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a>  <span class="kw">at</span>       TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>  <span class="kw">PRIMARY</span> <span class="kw">KEY</span> (old_path, old_symbol, new_path, new_symbol)</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="co">-- Index generations. Only a verified generation may become live (D-SEARCH-5).</span></span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> generations (</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>  generation <span class="dt">INTEGER</span> <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>  state      TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">CHECK</span> (state <span class="kw">IN</span> (<span class="st">&#39;building&#39;</span>,<span class="st">&#39;verified&#39;</span>,<span class="st">&#39;live&#39;</span>,<span class="st">&#39;superseded&#39;</span>,<span class="st">&#39;discarded&#39;</span>)),</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>  pid_count  <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>  built_at   TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>  root_hash  TEXT</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> generation_members (</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a>  generation <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> generations(generation),</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>  pid        TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> passages(pid),</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>  <span class="kw">PRIMARY</span> <span class="kw">KEY</span> (generation, pid)</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a><span class="co">-- Lexical type-ahead. Prefix tokens sized for the measured 2-4 character probe workload.</span></span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> VIRTUAL <span class="kw">TABLE</span> passages_fts <span class="kw">USING</span> fts5(</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>  pid UNINDEXED, title, <span class="kw">body</span>, symbol,</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>  prefix <span class="op">=</span> <span class="st">&#39;2 3 4&#39;</span>,</span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>  tokenize <span class="op">=</span> <span class="st">&#39;unicode61 remove_diacritics 2&#39;</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p><strong>Schema invariants</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1</td>
+<td><code>passages.pid</code> is the only primary key in the system.
+Every foreign key in every table points at it.</td>
+</tr>
+<tr>
+<td>S2</td>
+<td><code>content_hash</code> appears in <strong>no</strong> primary
+key, <strong>no</strong> unique index and <strong>no</strong> foreign
+key. Grep is not the enforcement — §5.3’s behavioural gate is.</td>
+</tr>
+<tr>
+<td>S3</td>
+<td><code>crossrefs</code> with <code>origin = 'derived'</code> carry a
+<code>generation</code> and are deleted wholesale when that generation
+is superseded. <code>origin = 'authored'</code> rows carry
+<code>generation IS NULL</code> and survive every re-index — they are
+content, not derivation.</td>
+</tr>
+<tr>
+<td>S4</td>
+<td><code>generation_members</code> is the set that citation
+verification checks membership against (http-api.md §3.10 A3).</td>
+</tr>
+<tr>
+<td>S5</td>
+<td>A row is never <code>DELETE</code>d from <code>passages</code>.
+Removal is <code>redacted = 1</code> plus a <code>redactions</code>
+record, or a tombstone; the identifier is never freed (M3).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="the-two-survival-guarantees">5. The two survival guarantees</h2>
+<p>FR-037 exists because of exactly two operations. Each gets a named
+guarantee, a mechanism, and a gate with a paired mutation.</p>
+<h3 id="g1-pid-survives-text-correction-fr-038-sc-016">5.1 G1 —
+<code>pid</code> survives text correction (FR-038, SC-016)</h3>
+<p><strong>Guarantee</strong>: correcting a passage’s text does not
+change its <code>pid</code>, and every citation and cross-reference
+pointing at it continues to resolve to <em>the same passage</em>.</p>
+<p><strong>Mechanism</strong>: a correction is an
+<strong>append</strong> to <code>corrections</code> and an update to
+<code>passages.text</code>. <code>passages.pid</code> is untouched.
+<code>passages.machine_text</code> is untouched.
+<code>content_hash</code> is recomputed — which is its entire job
+(§5.3). The anchor in the source file is untouched, because the
+correction edits the text <em>under</em> the anchor.</p>
+<p><strong>Provenance transition</strong>:
+<code>machine → human_corrected</code>, one way only. There is no path
+back, because the machine text is retained separately rather than
+overwritten.</p>
+<p><strong>Gate G-PID-1</strong>: create a passage, cite it, correct its
+text, re-run ingest and re-index; assert the <code>pid</code> is
+unchanged, the citation still resolves, <code>machine_text</code> is
+byte-identical to before, and <code>content_hash</code>
+<strong>did</strong> change. <strong>Paired mutation</strong>: make
+ingest re-mint on <code>content_hash</code> change (i.e. reproduce the
+measured Lumen behaviour). The gate must FAIL. Without this mutation the
+gate proves nothing — and this is the precise defect the whole contract
+exists to prevent, so it is the one mutation that must never be
+skipped.</p>
+<h3 id="g2-pid-survives-line-movement-fr-037">5.2 G2 — <code>pid</code>
+survives line movement (FR-037)</h3>
+<p><strong>Guarantee</strong>: inserting, deleting or moving content
+<strong>above</strong> a passage does not change its <code>pid</code>.
+Its <code>source_ref.line_start</code>/<code>line_end</code> change;
+nothing else does.</p>
+<p><strong>Mechanism</strong>: the anchor travels with the text. Ingest
+locates passages by scanning for anchors and re-derives
+<code>source_ref</code> from where it found them.
+<code>source_ref</code> is a cache (§3.4), never a key.</p>
+<p><strong>Gate G-PID-2</strong>: reproduce the measured D-SEARCH-1 run
+3 — prepend a section to a transcript, shifting every later section by 4
+lines. Assert every <code>pid</code> is unchanged <strong>and</strong>
+every affected <code>source_ref</code> was updated to the new lines.
+<strong>Paired mutation</strong>: key ingest matching on
+<code>(path, line_start)</code>. The gate must FAIL.</p>
+<h3 id="content_hash-change-detection-never-identity">5.3
+<code>content_hash</code> — change detection, <strong>never</strong>
+identity</h3>
+<p><strong>Definition</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Algorithm</td>
+<td>SHA-256</td>
+</tr>
+<tr>
+<td>Input</td>
+<td>the passage’s <strong>current</strong> <code>text</code>,
+NFC-normalised, trailing whitespace stripped per line, LF-joined</td>
+</tr>
+<tr>
+<td>Encoding</td>
+<td>lowercase hex, prefixed <code>sha256:</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Permitted uses — exhaustive</strong></p>
+<ol type="1">
+<li>Skip re-embedding a passage whose text has not changed since the
+last generation.</li>
+<li>Detect that a correction actually altered the text (a no-op
+correction is rejected).</li>
+<li>Contribute to a generation’s <code>root_hash</code> for the
+verification gate.</li>
+<li>Detect that a source file was edited outside the pipeline.</li>
+</ol>
+<p><strong>Forbidden uses — also exhaustive, and each is a
+defect</strong></p>
+<ol type="1">
+<li>As a citation target.</li>
+<li>As a cross-reference endpoint.</li>
+<li>As a join key, foreign key, primary key or unique index
+component.</li>
+<li>As an equality test for “is this the same passage”.</li>
+<li>As a cache key that outlives a generation.</li>
+<li>Aliased to a field named <code>id</code>, <code>key</code>,
+<code>hash</code>, <code>chunk_id</code> or anything else that reads as
+identity.</li>
+</ol>
+<p><strong>Naming is part of the contract</strong>: the field is named
+<code>content_hash</code> in every serialisation — JSONL, SQLite, HTTP
+responses, log lines — precisely so nobody mistakes it for identity. Any
+code treating it as identity is a defect, not a design variation.</p>
+<p><strong>Gate G-PID-3</strong> (behavioural, because <em>“an assertion
+that greps a file for a string is not a test”</em> — constitution,
+Isolation by Default): change a passage’s text; assert
+<code>content_hash</code> changed, <code>pid</code> did not, and
+<strong>every</strong> stored citation and cross-reference to that
+passage still resolves to the same row. <strong>Paired
+mutation</strong>: replace the citation lookup key with
+<code>content_hash</code>. The gate must FAIL.</p>
+<hr />
+<h2 id="code-passages-a-weaker-guarantee-stated-openly">6. CODE passages
+— a weaker guarantee, stated openly</h2>
+<p>Text passages get identity by construction. <strong>Code passages do
+not, and this contract does not pretend otherwise.</strong></p>
+<h3 id="why-it-is-weaker">6.1 Why it is weaker</h3>
+<p>Anchors are never written into source code (§3.3): the D2 corpus is
+the whole monorepo, and stamping comments into files the workshop does
+not own would modify unrelated submodules. Without an anchor, ingest has
+no travelling marker and must re-attach identity by <em>matching</em> —
+and matching is a heuristic.</p>
+<h3 id="the-matching-key">6.2 The matching key</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Component</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>path</code> (repo-relative)</td>
+<td><code>workshop/platform/backend/internal/search/service.go</code></td>
+</tr>
+<tr>
+<td><code>symbol</code> (symbol path)</td>
+<td><code>internal/search.(*Service).Query</code></td>
+</tr>
+</tbody>
+</table>
+<p>A code passage’s row is re-attached on re-ingest by
+<code>(path, symbol)</code>, then by the <code>symbol_aliases</code>
+table.</p>
+<h3 id="what-holds-and-what-does-not">6.3 What holds and what does
+not</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Guarantee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Edit the body of a symbol (text correction)</td>
+<td><strong>Holds.</strong> Same <code>(path, symbol)</code>;
+<code>pid</code> preserved; <code>content_hash</code> changes. Identical
+to G1.</td>
+</tr>
+<tr>
+<td>Move a symbol within its file (line movement)</td>
+<td><strong>Holds.</strong> Position is not the key. Identical to
+G2.</td>
+</tr>
+<tr>
+<td>Reformat, re-indent, re-order other symbols</td>
+<td><strong>Holds.</strong></td>
+</tr>
+<tr>
+<td><strong>Rename a symbol</strong></td>
+<td><strong>Does not hold automatically.</strong> Requires an alias
+record.</td>
+</tr>
+<tr>
+<td><strong>Move a symbol to another file</strong></td>
+<td><strong>Does not hold automatically.</strong> Requires an alias
+record.</td>
+</tr>
+<tr>
+<td><strong>Delete a symbol</strong></td>
+<td>Row is tombstoned; the <code>pid</code> is never reused (M3).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-rename-alias-table">6.4 The rename alias table</h3>
+<p><code>symbol_aliases</code> maps an old <code>(path, symbol)</code>
+to a new one, preserving the <code>pid</code>.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th><code>origin</code></th>
+<th>Source</th>
+<th>Trust</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>authored</code></td>
+<td>Written by a maintainer as part of the rename</td>
+<td>Authoritative</td>
+</tr>
+<tr>
+<td><code>detected</code></td>
+<td>Proposed by ingest’s heuristic</td>
+<td><strong>Best-effort, may be wrong</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The detection heuristic — identical <code>content_hash</code> in the
+same file under a different symbol name, or an identical symbol name
+appearing in a different file when the old one vanished in the same run
+— is a <strong>heuristic</strong>. It can mis-attach two similar
+helpers. Detected aliases are recorded with
+<code>origin: "detected"</code> so a reviewer can see which links rest
+on a guess.</p>
+<h3 id="the-guarantee-actually-offered-and-its-limit">6.5 The guarantee
+actually offered, and its limit</h3>
+<blockquote>
+<p><strong>Code passage identity is best-effort. When it fails, it fails
+<em>loudly</em>.</strong></p>
+</blockquote>
+<p>An unaliased rename causes the old <code>pid</code> to resolve as
+<code>not_in_registry</code> — an HTTP <code>404</code>, a visibly
+broken citation. It <strong>never</strong> silently re-points at
+different code. The failure mode is a dead link a reader can report, not
+a confident link to the wrong thing.</p>
+<p>That is a materially weaker promise than text passages get, and it is
+stated here rather than glossed:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Identity under correction</th>
+<th>Identity under movement</th>
+<th>Identity under rename</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>transcript</code>, <code>doc_section</code>,
+<code>diagram</code> (inside <code>workshop/</code>)</td>
+<td>Guaranteed</td>
+<td>Guaranteed</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td><code>code</code>, and <strong>any</strong> passage outside
+<code>workshop/</code></td>
+<td>Guaranteed</td>
+<td>Guaranteed</td>
+<td><strong>Best-effort; loud failure if unaliased</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="boundary-on-sc-016-sc-016a-flagged-then-closed-in-the-spec">6.6
+Boundary on SC-016 / SC-016a — flagged, then closed in the spec</h3>
+<p><strong>Status: the boundary this section first raised has been
+resolved. <code>spec.md</code> was amended; the recommendation below was
+adopted in full.</strong> The history is kept rather than deleted,
+because the recommendation is the reason the criterion reads the way it
+now does.</p>
+<p><strong>What this section originally said (2026-09-01,
+superseded).</strong> SC-016 then read <em>unqualified</em> — “100% of
+previously created cross-references and citations still resolve” — with
+no scope on which passages. Read literally as transcripts, this contract
+met it at 100% by construction (G1 + G2); extended to code passages
+under symbol rename or file move, 100% held only when an alias existed.
+That gap was recorded rather than assumed away, with the recommendation
+that it <em>“be resolved explicitly — either by narrowing SC-016 to the
+transcript scope it names, or by making an <code>authored</code> alias a
+mandatory step of any code rename inside
+<code>workshop/</code>.”</em></p>
+<p><strong>What was adopted.</strong> Both halves. <code>spec.md</code>
+split the criterion in two:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>Scope</th>
+<th>Guarantee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SC-016</strong></td>
+<td>passages the curriculum <strong>owns</strong> — transcripts and its
+own documentation</td>
+<td>100% of cross-references and citations still resolve after
+correction plus re-index. Holds <strong>by construction</strong>: the
+identifier is anchored into the source artifact itself (§3.1, G1,
+G2).</td>
+</tr>
+<tr>
+<td><strong>SC-016a</strong></td>
+<td>source code the curriculum does <strong>not</strong> own, where no
+anchor can be written into the file</td>
+<td>Identity is keyed on symbol path with a rename alias table (§6.2,
+§6.4). The promise is deliberately weaker and stated rather than
+overclaimed: <strong>100% of stale code references fail loudly.</strong>
+An unresolvable identifier returns not-found and is
+<strong>never</strong> silently re-pointed at different code. A rename
+inside the curriculum’s own tree without an alias fails ingest rather
+than shipping a broken link.</td>
+</tr>
+</tbody>
+</table>
+<p>So the first half of the recommendation became SC-016’s new scoping
+clause, and the second half became SC-016a’s ingest rule — which this
+contract implements for <code>workshop/</code>-owned code (an unaliased
+rename fails the ingest gate, exit <code>1</code>, §8 R4) and, for code
+outside <code>workshop/</code>, converts into the loud-failure guarantee
+SC-016a actually claims (§6.5, mint-and-orphan).</p>
+<p><strong>What remains a real limit, and is not closed by the
+amendment.</strong> SC-016a’s guarantee is <em>loud failure</em>, not
+<em>survival</em>. An unaliased rename of code outside
+<code>workshop/</code> still breaks the citation; the contract’s promise
+is only that the break is visible as a <code>404</code> rather than
+hidden behind a confident link to the wrong code. That is a materially
+weaker promise than §6.5’s table gives text passages, and it stays
+stated here rather than glossed. It also inherits <strong>P-U1</strong>
+(§10): the <code>symbol</code> component of the matching key has no
+confirmed producer yet.</p>
+<p><strong>Gate G-PID-4</strong>: rename a <code>workshop/</code>-owned
+symbol with an <code>authored</code> alias; assert the <code>pid</code>
+is preserved and citations resolve. Then rename one
+<strong>without</strong> an alias; assert the old <code>pid</code>
+resolves as <code>not_in_registry</code> (a loud 404) and that ingest
+reports the unaliased rename as exit 1. <strong>Paired
+mutation</strong>: make unaliased renames mint a new pid silently and
+re-point the old citation by nearest-text match. The gate must FAIL.</p>
+<hr />
+<h2
+id="resolution-how-citations-cross-references-and-redactions-resolve">7.
+Resolution — how citations, cross-references and redactions resolve</h2>
+<p>Everything that points at content points at a <code>pid</code> and
+resolves through the registry. There is no second path.</p>
+<h3 id="the-resolution-function">7.1 The resolution function</h3>
+<pre><code>resolve(pid) -&gt; Resolution</code></pre>
+<p><strong>Exactly four outcomes.</strong> Three of them are the
+mandated three states; the fourth is redaction, which is a determined
+answer of its own.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Outcome</th>
+<th>Meaning</th>
+<th>HTTP (http-api.md §3.8)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>found</code></td>
+<td>Registry readable; row present; not redacted</td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td><code>redacted</code></td>
+<td>Registry readable; row present; suppressed</td>
+<td><code>410 Gone</code></td>
+</tr>
+<tr>
+<td><code>not_in_registry</code></td>
+<td>Registry readable; row absent — a <strong>determined
+negative</strong></td>
+<td><code>404</code></td>
+</tr>
+<tr>
+<td><code>undetermined</code></td>
+<td>Registry unreadable, locked, or no generation is live —
+<strong>could not determine</strong></td>
+<td><code>503</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Normative</strong>: resolution NEVER falls back to fuzzy text
+matching, nearest-neighbour lookup, prefix matching, or “the passage
+with the same <code>content_hash</code>”. An unknown <code>pid</code> is
+not “probably this one”. A wrong-but-plausible resolution is the exact
+“confident but wrong” outcome the governing constitution forbids; a dead
+link is the correct behaviour.</p>
+<p><code>undetermined</code> is never collapsed into
+<code>not_in_registry</code>. Collapsing them would make an unreadable
+database look like a curriculum that never contained the passage.</p>
+<h3 id="citation-resolution-fr-021-sc-009">7.2 Citation resolution
+(FR-021, SC-009)</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td>An answer’s citations are <code>pid</code>s. Nothing else is citable
+— not line ranges, not <code>content_hash</code>, not Lumen chunk
+ids.</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>Every citation is checked for <strong>set membership in the live
+generation</strong> (<code>generation_members</code>) before the answer
+is served. A deterministic set check, costing microseconds;
+<strong>SC-009 is unreachable without it</strong>.</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>A citation failing C2 invalidates the <strong>whole answer</strong>
+(<code>declined{no_citations}</code>). Claims are never silently
+stripped to make an answer presentable.</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>A citation resolving to <code>redacted</code> invalidates the whole
+answer (<code>declined{redacted_evidence}</code>).</td>
+</tr>
+<tr>
+<td>C5</td>
+<td>A citation resolving to <code>undetermined</code> yields
+<code>unavailable</code>, <strong>never</strong> <code>declined</code> —
+verification that could not run is not verification that failed.</td>
+</tr>
+</tbody>
+</table>
+<p>C5 is the Honest Instruments principle applied to grounding, and it
+is easy to get backwards.</p>
+<h3 id="redaction-resolution-fr-039">7.3 Redaction resolution
+(FR-039)</h3>
+<p>Redaction is an <strong>append-only log</strong>
+(<code>redactions</code>), not a column flip. The
+<code>passages.redacted</code> column is a materialisation of the log’s
+latest <code>action</code> for that <code>pid</code>.</p>
+<p><strong>Mandatory propagation — all of it, not just the rendered
+transcript:</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>Excluded from <code>passages_fts</code> and from the embedding set
+at generation build time. A redacted passage cannot be returned by
+search.</td>
+</tr>
+<tr>
+<td>R2</td>
+<td><code>resolve()</code> returns <code>redacted</code>;
+<code>text</code> and <code>machine_text</code> are absent from every
+serialisation at every layer (F6).</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>Cross-references with a redacted endpoint are suppressed from
+traversal; the <strong>count</strong> is reported as
+<code>redacted_omitted</code> (honest that something was suppressed,
+without leaking what).</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>Any <strong>stored answer</strong> whose citations intersect the
+redaction set is marked <code>withdrawn</code> and MUST NOT be served.
+Re-asking is required. Redaction propagates to stored answers, not
+merely to the displayed transcript.</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>Redacting requires a rebuild of the live generation before search is
+honest again. Until the rebuild completes, the index reports
+<code>degraded</code> rather than serving a generation known to contain
+the passage.</td>
+</tr>
+<tr>
+<td>R6</td>
+<td>Un-redaction is an explicit <code>action: "unredact"</code> record —
+also append-only, also reviewable. The log is the audit trail; history
+is never rewritten.</td>
+</tr>
+<tr>
+<td>R7</td>
+<td><strong>Publication and export are blocked</strong> until a
+redaction review has been recorded for the chapter (FR-039). Explicitly
+deciding “none required” satisfies it; skipping it does not. Enforced by
+<a href="./pipeline-cli.md">pipeline-cli.md §4.6/§4.7</a>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gate G-PID-5</strong>: redact a cited passage; assert search
+cannot return it, <code>resolve</code> returns <code>redacted</code>
+(410), cross-references to it are omitted with a non-zero
+<code>redacted_omitted</code>, and the stored answer citing it is
+<code>withdrawn</code>. <strong>Paired mutation</strong>: propagate
+redaction only to the rendered transcript. The gate must FAIL —
+demonstrating R1, R3 and R4 individually.</p>
+<h3 id="cross-reference-resolution-fr-018">7.4 Cross-reference
+resolution (FR-018)</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X1</td>
+<td>Both endpoints are <code>pid</code>s. Self-references are rejected
+at write time (schema <code>CHECK</code>).</td>
+</tr>
+<tr>
+<td>X2</td>
+<td>Traversal maintains a visited set; no returned path revisits a
+<code>pid</code>. Spec edge case: <em>cross-references must not create
+loops that trap a reader.</em></td>
+</tr>
+<tr>
+<td>X3</td>
+<td>Truncation is reported
+(<code>truncated_by: "cycle" \| "limit" \| "depth"</code>), never
+silent.</td>
+</tr>
+<tr>
+<td>X4</td>
+<td><code>derived</code> edges belong to a generation and are rebuilt
+with it. <code>authored</code> edges are content and survive every
+re-index.</td>
+</tr>
+<tr>
+<td>X5</td>
+<td>An edge whose target resolves <code>undetermined</code> makes the
+whole cross-reference response <code>unavailable</code>, not a shorter
+list.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ingest-matching-algorithm-normative-deterministic">8. Ingest
+matching algorithm (normative, deterministic)</h2>
+<p>Applied per candidate passage, in this order. The order is part of
+the contract: minting is the last branch (M4).</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Step</th>
+<th>Condition</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>R1a</strong></td>
+<td>An anchor is present and its <code>pid</code> <strong>is</strong> in
+the registry</td>
+<td>Attach to that row. Re-derive <code>source_ref</code> from the
+anchor’s current position. <strong>Authoritative</strong> — no other
+check may override it.</td>
+</tr>
+<tr>
+<td><strong>R1b</strong></td>
+<td>An anchor is present, its <code>pid</code> is in the registry, and
+the same <code>pid</code> appears as an anchor elsewhere in the
+tree</td>
+<td><strong>Error, exit 1</strong>: duplicate anchor. A <code>pid</code>
+names one passage.</td>
+</tr>
+<tr>
+<td><strong>R1c</strong></td>
+<td>An anchor is present and its <code>pid</code> is
+<strong>not</strong> in the registry</td>
+<td><strong>Error, exit 1</strong>: foreign anchor. Do not mint, do not
+adopt. A copy-pasted block must not hijack an identity, and an unknown
+anchor may mean the registry was rolled back — a condition an operator
+must see.</td>
+</tr>
+<tr>
+<td><strong>R2</strong></td>
+<td>No anchor; <code>kind == "code"</code> or the path is outside
+<code>workshop/</code>; <code>(path, symbol)</code> matches a row</td>
+<td>Attach.</td>
+</tr>
+<tr>
+<td><strong>R3</strong></td>
+<td>No anchor; <code>kind == "code"</code>; <code>(path, symbol)</code>
+matches a <code>symbol_aliases</code> row</td>
+<td>Attach via the alias, and record which alias was used so
+<code>origin: "detected"</code> links are reviewable.</td>
+</tr>
+<tr>
+<td><strong>R4</strong></td>
+<td>No anchor; <code>kind == "code"</code>; a symbol vanished and an
+unaliased candidate exists</td>
+<td><strong>Exit 1</strong> for <code>workshop/</code>-owned code (an
+alias is required — §6.6). For code outside <code>workshop/</code>, mint
+a new <code>pid</code> and record the orphaned old one, so the broken
+citation is <em>loud</em> (§6.5).</td>
+</tr>
+<tr>
+<td><strong>R5</strong></td>
+<td>No anchor; text kind inside <code>workshop/</code></td>
+<td><strong>Mint</strong> a <code>pid</code>; write the anchor back to
+the source file.</td>
+</tr>
+<tr>
+<td><strong>R6</strong></td>
+<td>No anchor; text kind outside <code>workshop/</code>, or a sidecar
+format</td>
+<td><strong>Mint</strong> a <code>pid</code>; record
+<code>anchor: "sidecar"</code> or <code>"registry_only"</code>. Never
+write into the file.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="idempotency-contract-fr-027-sc-011">8.1 Idempotency contract
+(FR-027, SC-011)</h3>
+<p>A second ingest over unchanged inputs MUST:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Assertion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I1</td>
+<td>Mint <strong>zero</strong> pids.</td>
+</tr>
+<tr>
+<td>I2</td>
+<td>Write <strong>zero</strong> anchors.</td>
+</tr>
+<tr>
+<td>I3</td>
+<td>Produce a <strong>byte-identical</strong>
+<code>passages.jsonl</code>.</td>
+</tr>
+<tr>
+<td>I4</td>
+<td>Leave every source file byte-identical.</td>
+</tr>
+<tr>
+<td>I5</td>
+<td>Create no new index generation.</td>
+</tr>
+<tr>
+<td>I6</td>
+<td>Exit <code>0</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gate G-PID-6</strong>: run ingest twice; assert I1–I6 by
+diffing the tree and counting mints. <strong>Paired mutation</strong>:
+make R5 unconditional (mint whenever no anchor was <em>read this
+run</em>). The gate must FAIL on I1, I3 and I5 simultaneously.</p>
+<hr />
+<h2 id="traceability">9. Traceability</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Where in this contract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-002 timestamps carried per passage</td>
+<td>§4.2 <code>t_start_s</code>/<code>t_end_s</code>, F5</td>
+</tr>
+<tr>
+<td>FR-003 uncertainty marked, never invented</td>
+<td>§4.2 F3</td>
+</tr>
+<tr>
+<td>FR-005 speaker attributed or stated absent</td>
+<td>§4.2 F4</td>
+</tr>
+<tr>
+<td>FR-016 all indexed content types are passages</td>
+<td>§4.3 <code>kind</code> enum; §6 (code); §3.2 (diagrams)</td>
+</tr>
+<tr>
+<td>FR-017 result → exact passage</td>
+<td>§7.1 <code>resolve</code> + <code>source_ref</code></td>
+</tr>
+<tr>
+<td>FR-018 cross-references</td>
+<td>§4.3 <code>crossrefs</code>, §7.4</td>
+</tr>
+<tr>
+<td>FR-021 citations</td>
+<td>§7.2</td>
+</tr>
+<tr>
+<td>FR-027 idempotent re-ingest</td>
+<td>§4.1, §8.1</td>
+</tr>
+<tr>
+<td><strong>FR-037 stable, non-positional, non-content-derived
+id</strong></td>
+<td>§1, §2, §5.1, §5.2 — the whole document</td>
+</tr>
+<tr>
+<td>FR-038 machine layer immutable + provenance recorded</td>
+<td>§4.2 F1/F2, §4.3 <code>corrections</code>, §5.1</td>
+</tr>
+<tr>
+<td>FR-039 redaction step and propagation</td>
+<td>§4.3 <code>redactions</code>, §7.3</td>
+</tr>
+<tr>
+<td>FR-040 evidence retained with the commit</td>
+<td>§4 — <code>passages.jsonl</code> is git-tracked and reviewable at
+the commit that produced it</td>
+</tr>
+<tr>
+<td>SC-002 accuracy re-measurable later</td>
+<td>§4.2 F1 (<code>machine_text</code> retained)</td>
+</tr>
+<tr>
+<td>SC-009 citations resolve and are verifiable</td>
+<td>§7.2 C2 (<code>generation_members</code> set check)</td>
+</tr>
+<tr>
+<td>SC-013 three states distinguished</td>
+<td>§7.1 (<code>undetermined</code> never collapsed)</td>
+</tr>
+<tr>
+<td><strong>SC-016 100% of references to OWNED passages survive
+correction + re-index</strong></td>
+<td>§5.1 G1, §5.2 G2 — 100% by construction for anchored kinds inside
+<code>workshop/</code></td>
+</tr>
+<tr>
+<td><strong>SC-016a code identity: 100% of stale code references fail
+LOUDLY</strong></td>
+<td>§6.2 matching key, §6.4 <code>symbol_aliases</code>, §6.5 the
+guarantee and its limit, §6.6 scope, §8 R3/R4, gate
+<strong>G-PID-4</strong>. Producer of <code>symbol</code> is
+<strong>UNVERIFIED</strong> — see P-U1 (§10).</td>
+</tr>
+<tr>
+<td>FR-032 / SC-012 every gate has a paired mutation</td>
+<td>G-PID-1 … G-PID-6</td>
+</tr>
+</tbody>
+</table>
+<h3 id="requirements-deliberately-not-covered-here">9.1 Requirements
+deliberately <strong>not</strong> covered here</h3>
+<p>FR-001, FR-004, FR-006, FR-007, FR-026, FR-028, FR-029 → <a
+href="./pipeline-cli.md">pipeline-cli.md</a>. FR-008 … FR-015, FR-019 …
+FR-025 → <a href="./http-api.md">http-api.md</a>. FR-030, FR-031 →
+documentation deliverables. FR-034 → pipeline-cli.md §2.7.
+<strong>FR-035 and FR-036 are covered by no contract in this
+set</strong> — they are repository governance and commit-hygiene tasks,
+flagged in <a href="./http-api.md">http-api.md §7.2</a>.</p>
+<hr />
+<h2 id="unverified-register">10. Unverified register</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Item</th>
+<th>Status</th>
+<th>Settled by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>P-U1</strong></td>
+<td><strong>The source of <code>symbol</code> for code
+passages.</strong> §6 keys code identity on a symbol path, but Lumen
+exposes no symbol table through its CLI or MCP surface (measured: no
+tool returns chunk identifiers or symbols), so the 58,726-symbol figure
+comes from its internal store, not from a supported interface.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>Either read Lumen’s SQLite store directly and confirm the symbol
+schema is stable, or extract symbols with a Go/TypeScript parser owned
+by this feature. Until settled, §6’s matching key has no confirmed
+producer.</td>
+</tr>
+<tr>
+<td><strong>P-U2</strong></td>
+<td><strong>Anchor write-back safety on generated markdown.</strong>
+§3.1 writes anchors into <code>workshop/</code> markdown. Whether any
+downstream renderer, exporter or PDF step in this repository strips or
+re-orders HTML comments has not been tested.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>Round-trip a transcript with anchors through the export path and
+diff the anchors before and after.</td>
+</tr>
+<tr>
+<td><strong>P-U3</strong></td>
+<td><strong>Registry scale.</strong> Chapter 1 is ~1,400 transcript
+passages; the code corpus adds tens of thousands.
+<code>passages.jsonl</code> sort-and-rewrite on every ingest is
+contracted as byte-stable, but its cost at full corpus size has not been
+measured.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>Time a full ingest once the corpus exists. If it becomes a problem,
+the fix is chunked JSONL files per chapter — a layout change, not an
+identity change.</td>
+</tr>
+<tr>
+<td><strong>U3</strong> (research.md)</td>
+<td>That the recording contains intelligible speech. Every transcript
+passage in this contract presumes a meaningful transcript exists.</td>
+<td><strong>UNVERIFIED</strong></td>
+<td>The 5-minute calibration run on the extracted 300 s sample.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Measured, not assumed</strong> (and therefore not in this
+register): Lumen chunk ids are content-derived and position-independent
+(the <code>4b98e295c112a429</code> → <code>610e608a50f273a6</code> typo
+experiment, and the prepend experiment where all ids held while ranges
+moved); the recording’s dual-mono audio that rules out machine speaker
+attribution; FTS5 availability in <code>modernc.org/sqlite</code>; and
+the half-written readable index observed during a live rebuild.</p>
+</body>
+</html>

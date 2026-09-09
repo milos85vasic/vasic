@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>CODEGRAPH-UPGRADE</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">CODEGRAPH-UPGRADE</h1>
+</header>
+<h1 id="codegraph-1.5.0-1.6.0-upgrade-risk-analysis">CodeGraph 1.5.0 →
+1.6.0 — Upgrade Risk Analysis</h1>
+<p><strong>Status:</strong> read-only analysis. Nothing was installed,
+upgraded, re-indexed, or written to any agent config while producing
+this document. The only file created is this one.</p>
+<p><strong>Analysis date:</strong> 2026-08-26 <strong>Analyst
+method:</strong> inspection of the installed 1.5.0 engine source + the
+1.6.0 tarball fetched to a temp dir with <code>npm pack</code> (never
+installed, temp dir removed afterwards).</p>
+<p><strong>Verdict: GO — but as a two-phase upgrade, not
+<code>codegraph upgrade</code> on its own.</strong> The agent-config
+risk (RISK 1) is effectively <strong>zero</strong>. The re-index risk
+(RISK 2) is <strong>real and confirmed</strong>: a full, destructive
+rebuild of every project index is required.</p>
+<hr />
+<h2 id="installed-vs-latest-version">1. Installed vs latest version</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Value</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Installed version</td>
+<td><strong>1.5.0</strong></td>
+<td><code>codegraph version</code> → <code>1.5.0</code></td>
+</tr>
+<tr>
+<td>Installed package <code>version</code> field</td>
+<td><strong>1.5.0</strong></td>
+<td><code>&lt;home&gt;/.npm-global/lib/node_modules/@colbymchenry/codegraph/package.json</code></td>
+</tr>
+<tr>
+<td>Binary on PATH</td>
+<td><code>&lt;home&gt;/.npm-global/bin/codegraph</code></td>
+<td><code>which codegraph</code></td>
+</tr>
+<tr>
+<td>Latest published</td>
+<td><strong>1.6.0</strong></td>
+<td><code>npm view @colbymchenry/codegraph version</code> →
+<code>1.6.0</code></td>
+</tr>
+<tr>
+<td>Update-check cache agrees</td>
+<td><code>{"latest":"v1.6.0"}</code></td>
+<td><code>&lt;home&gt;/.codegraph/update-check.json</code></td>
+</tr>
+<tr>
+<td>1.6.0 publish date</td>
+<td>2026-08-26T17:11:06Z</td>
+<td><code>npm view … --json</code> (<code>time</code> map) — published
+<em>today</em></td>
+</tr>
+</tbody>
+</table>
+<p>Recent versions (tail of
+<code>npm view @colbymchenry/codegraph versions --json</code>):</p>
+<pre><code>&quot;1.1.6&quot;, &quot;1.2.0&quot;, &quot;1.3.0&quot;, &quot;1.3.1&quot;, &quot;1.4.0&quot;, &quot;1.4.1&quot;, &quot;1.5.0&quot;, &quot;1.6.0&quot;</code></pre>
+<p>1.6.0 is a genuine <code>latest</code> dist-tag, not a pre-release.
+Note it was published <em>the same day</em> as this analysis — there is
+no soak time behind it. That is a mild argument for waiting a few days,
+not a blocker.</p>
+<h3 id="package-layout-both-versions">Package layout (both
+versions)</h3>
+<p>The npm package <code>@colbymchenry/codegraph</code> is a thin shim.
+The real engine ships as a platform-specific optional dependency:</p>
+<ul>
+<li><code>@colbymchenry/codegraph</code> — <code>npm-shim.js</code>,
+<code>npm-sdk.js</code>, <code>dist/</code> (<strong>type declarations
+only</strong>), <code>README.md</code></li>
+<li><code>@colbymchenry/codegraph-linux-x64</code> — the actual JS
+engine (<code>lib/dist/</code>) plus a bundled Node runtime. <strong>292
+MB unpacked, 941 files.</strong></li>
+</ul>
+<p>Both versions pin <code>optionalDependencies</code> to the exact
+matching version (<code>1.5.0</code> → <code>1.5.0</code>,
+<code>1.6.0</code> → <code>1.6.0</code>), so upgrading the shim always
+pulls a matching ~292 MB engine download.</p>
+<hr />
+<h2 id="what-changed-between-1.5.0-and-1.6.0">2. What changed between
+1.5.0 and 1.6.0</h2>
+<p>There is <strong>no CHANGELOG file in the published tarball</strong>
+(<code>files</code> is limited to <code>npm-shim.js</code>,
+<code>npm-sdk.js</code>, <code>dist</code>, <code>README.md</code>).
+Release notes come from GitHub:
+<code>https://github.com/colbymchenry/codegraph/releases</code> (tag
+<code>v1.6.0</code>, published 2026-08-26T17:07:30Z).</p>
+<h3 id="highlights-verbatim-from-the-1.6.0-release-notes">Highlights,
+verbatim from the 1.6.0 release notes</h3>
+<ul>
+<li><strong>GitHub Copilot is now supported</strong> —
+<code>codegraph install</code> sets it up in VS Code, the Copilot CLI,
+and JetBrains IDEs.</li>
+<li><strong>Set up in one command</strong> —
+<code>codegraph install --yes --init</code>.</li>
+<li><strong>Better answers for your agent</strong> —
+<code>codegraph_explore</code> no longer repeats code it already showed,
+always returns files/symbols asked for by name, and spends space on code
+that answers the question rather than look-alikes, generated files, and
+type shims.</li>
+<li><strong>Your graph stays right as you keep coding</strong> — a
+long-running index no longer drifts from a fresh one; edits to
+<code>codegraph.json</code> (such as <code>exclude</code>) apply
+immediately without a restart.</li>
+<li><strong>No more silent crashes or hangs</strong> — deeply nested
+C/C++ files, Swift Vapor projects, and large sync batches that used to
+kill or stall indexing now finish cleanly.</li>
+<li><strong>A disk-space leak is fixed</strong> — a force-killed session
+could leave the write-ahead log to grow without bound (tens of gigabytes
+reported); the leftover log is now folded back and trimmed automatically
+the next time the project opens.</li>
+<li><strong>Works from a workspace or monorepo root</strong> — the MCP
+server finds your indexed project when launched from a folder above
+it.</li>
+<li><strong>More accurate code graphs</strong> for TypeScript, Rust,
+Erlang, C/C++, and Python.</li>
+<li>Also new: per-project Codex setup, a <code>deprioritize</code>
+setting, the <code>codegraph context</code> command.</li>
+</ul>
+<p>And, critically, this line from the release notes:</p>
+<blockquote>
+<p>After upgrading, run <code>codegraph index</code> once in each
+project so your existing graph picks up these fixes —
+<code>codegraph status</code> reminds you when it’s needed.</p>
+</blockquote>
+<h3 id="confirmed-without-installing">Confirmed without installing</h3>
+<p><code>npm view @colbymchenry/codegraph@1.6.0</code> gives:</p>
+<ul>
+<li><code>dist.tarball</code> =
+<code>https://registry.npmjs.org/@colbymchenry/codegraph/-/codegraph-1.6.0.tgz</code></li>
+<li><code>description</code> = unchanged from 1.5.0 (“Local-first code
+intelligence for AI agents (MCP). Self-contained — bundles its own
+runtime.”)</li>
+<li>unpacked size 760.9 kB, 182 files, shasum
+<code>d04bc0c93a86186d3ebcb55c74cc15166a50b46e</code></li>
+</ul>
+<p>Engine tarball: <code>@colbymchenry/codegraph-linux-x64@1.6.0</code>,
+<code>dist.unpackedSize</code> = 292,753,805 bytes,
+<code>dist.fileCount</code> = 941.</p>
+<hr />
+<h2 id="does-1.6.0-bump-extraction_version-past-24">3. Does 1.6.0 bump
+<code>EXTRACTION_VERSION</code> past 24?</h2>
+<h1 id="yes.-24-25.">YES. 24 → 25.</h1>
+<p>This is confirmed <strong>twice</strong>, from two independent
+artifacts, without installing anything.</p>
+<p><strong>Evidence A — the published type declaration in the 1.6.0 shim
+package</strong> (<code>npm pack @colbymchenry/codegraph@1.6.0</code> in
+a temp dir, then
+<code>package/dist/extraction/extraction-version.d.ts</code>):</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode ts"><code class="sourceCode typescript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">export</span> <span class="kw">declare</span> <span class="kw">const</span> EXTRACTION_VERSION <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span></code></pre></div>
+<p><strong>Evidence B — the actual runnable engine JS of 1.6.0.</strong>
+Streamed a single file out of the 292 MB platform tarball without
+installing it:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-sL</span> https://registry.npmjs.org/@colbymchenry/codegraph-linux-x64/-/codegraph-linux-x64-1.6.0.tgz <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="fu">tar</span> <span class="at">-xzO</span> package/lib/dist/extraction/extraction-version.js</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>exports<span class="op">.</span><span class="at">EXTRACTION_VERSION</span> <span class="op">=</span> <span class="dv">25</span><span class="op">;</span></span></code></pre></div>
+<p><strong>The installed 1.5.0 engine, for comparison:</strong>
+<code>…/node_modules/@colbymchenry/codegraph-linux-x64/lib/dist/extraction/extraction-version.js:27</code></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>exports<span class="op">.</span><span class="at">EXTRACTION_VERSION</span> <span class="op">=</span> <span class="dv">24</span><span class="op">;</span></span></code></pre></div>
+<p><strong>Current index state of this repo</strong>
+(<code>codegraph status --json</code>, read-only):</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;version&quot;</span><span class="fu">:</span> <span class="st">&quot;1.5.0&quot;</span><span class="fu">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;fileCount&quot;</span><span class="fu">:</span> <span class="dv">541</span><span class="fu">,</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;nodeCount&quot;</span><span class="fu">:</span> <span class="dv">10286</span><span class="fu">,</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;edgeCount&quot;</span><span class="fu">:</span> <span class="dv">39793</span><span class="fu">,</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;dbSizeBytes&quot;</span><span class="fu">:</span> <span class="dv">48103424</span><span class="fu">,</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;lastIndexed&quot;</span><span class="fu">:</span> <span class="st">&quot;2026-08-26T18:34:43.643Z&quot;</span><span class="fu">,</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;index&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;builtWithVersion&quot;</span><span class="fu">:</span> <span class="st">&quot;1.5.0&quot;</span><span class="fu">,</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;builtWithExtractionVersion&quot;</span><span class="fu">:</span> <span class="dv">24</span><span class="fu">,</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;currentExtractionVersion&quot;</span><span class="fu">:</span> <span class="dv">24</span><span class="fu">,</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;reindexRecommended&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;state&quot;</span><span class="fu">:</span> <span class="st">&quot;complete&quot;</span><span class="fu">,</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;pendingRefs&quot;</span><span class="fu">:</span> <span class="dv">0</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>The moment 1.6.0 is installed,
+<code>builtWithExtractionVersion: 24 &lt; currentExtractionVersion: 25</code>
+and <code>reindexRecommended</code> flips to <code>true</code>.</p>
+<h3
+id="codegraph-sync-will-not-clear-the-staleness"><code>codegraph sync</code>
+will NOT clear the staleness</h3>
+<p>This is the part that makes RISK 2 unavoidable. From the installed
+engine, <code>lib/dist/index.js</code> (the comment is the authors’ own,
+verbatim):</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Stamp the index with the engine that built it, so `codegraph status`</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">// and `codegraph upgrade` can recommend a re-index when the running</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">// engine produces richer extraction than the one on disk. Only on a</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">// real full index — a sync touches a subset, so it must NOT advance the</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">// extraction stamp (the bulk would still be stale). See extraction-version.ts.</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (result<span class="op">.</span><span class="at">success</span> <span class="op">&amp;&amp;</span> result<span class="op">.</span><span class="at">filesIndexed</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">queries</span><span class="op">.</span><span class="fu">setMetadata</span>(<span class="st">&#39;indexed_with_version&#39;</span><span class="op">,</span> version_1<span class="op">.</span><span class="at">CodeGraphPackageVersion</span>)<span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">queries</span><span class="op">.</span><span class="fu">setMetadata</span>(<span class="st">&#39;indexed_with_extraction_version&#39;</span><span class="op">,</span> <span class="bu">String</span>(extraction_version_1<span class="op">.</span><span class="at">EXTRACTION_VERSION</span>))<span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>So the post-upgrade advisory’s <code>codegraph sync</code> option
+(<code># incremental, fast</code>) will keep the index <em>working</em>
+but leaves it permanently stamped at 24 and permanently flagged stale.
+Only a full <code>codegraph index</code> re-stamps it.</p>
+<h3
+id="codegraph-index-is-destructive-confirmed"><code>codegraph index</code>
+is destructive — confirmed</h3>
+<p><code>lib/dist/bin/codegraph.js</code> around line 719:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">// `index` is a FULL re-index — identical to a fresh `init`. RECREATE the</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">// database from scratch (discard .codegraph/codegraph.db + its WAL) rather</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">// than opening the old graph and DELETE-ing every row.</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> cg <span class="op">=</span> <span class="cf">await</span> CodeGraph<span class="op">.</span><span class="fu">recreate</span>(projectPath)<span class="op">;</span></span></code></pre></div>
+<p><code>CodeGraph.recreate()</code> in
+<code>lib/dist/index.js:292</code>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">static</span> <span class="kw">async</span> <span class="fu">recreate</span>(projectRoot) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">...</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> dbPath <span class="op">=</span> (<span class="dv">0</span><span class="op">,</span> db_1<span class="op">.</span><span class="at">getDatabasePath</span>)(resolvedRoot)<span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        (<span class="dv">0</span><span class="op">,</span> db_1<span class="op">.</span><span class="at">removeDatabaseFiles</span>)(dbPath)<span class="op">;</span>   <span class="co">// &lt;-- deletes codegraph.db + WAL/SHM</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">catch</span> (err) {</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">...</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="vs">`Could not rebuild the index — the database file is in use (</span><span class="sc">${</span>reason<span class="sc">}</span><span class="vs">). `</span> <span class="op">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>            <span class="vs">`Stop any running CodeGraph MCP server/daemon for this project and retry, ...`</span>)<span class="op">;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> db <span class="op">=</span> db_1<span class="op">.</span><span class="at">DatabaseConnection</span><span class="op">.</span><span class="fu">initialize</span>(dbPath)<span class="op">;</span>   <span class="co">// fresh empty DB</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">...</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>Practical consequence:</strong>
+<code>&lt;ext-volume-host&gt;/Projects/vasic/.codegraph/codegraph.db</code>
+(46 MB, 541 files, 10,286 nodes, 39,793 edges) is deleted and rebuilt
+from zero. There is no in-place migration path, and no partial/resumable
+rebuild. <strong>Back the DB up first</strong> — see §6.</p>
+<p>Note also the <code>EBUSY</code> failure mode above: any running
+CodeGraph MCP server/daemon holding the DB can make
+<code>recreate()</code> fail. On Linux (POSIX unlink) this usually
+succeeds anyway, but a running daemon will then be pointing at a deleted
+inode. Stop agents first.</p>
+<hr />
+<h2 id="what-codegraph-install---refresh-actually-writes">4. What
+<code>codegraph install --refresh</code> actually writes</h2>
+<h3 id="it-merges.-it-does-not-overwrite.-with-receipts">It MERGES. It
+does not overwrite. — with receipts</h3>
+<h4 id="a.-the-refresh-is-scoped-to-already-configured-targets-only">4a.
+The refresh is scoped to already-configured targets only</h4>
+<p><code>lib/dist/installer/index.js:340-376</code>:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode js"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"> * Pure refresh sweep — re-runs `install()` for every target that is</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"> * ALREADY configured at `location` ...</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"> *</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"> * Strictly a refresh, never a first install:</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"> *   - targets that aren&#39;t `alreadyConfigured` are skipped untouched;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"> *   - permissions are not written (`autoAllow: false`) and the prompt</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"> *     hook is left as-is (`promptHook: undefined`), so choices the user</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co"> *     made at install time — or by hand since — are preserved.</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">refreshTargets</span>(targets<span class="op">,</span> location) {</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> targets<span class="op">.</span><span class="fu">map</span>((target) <span class="kw">=&gt;</span> {</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> base <span class="op">=</span> { <span class="dt">id</span><span class="op">:</span> target<span class="op">.</span><span class="at">id</span><span class="op">,</span> <span class="dt">displayName</span><span class="op">:</span> target<span class="op">.</span><span class="at">displayName</span><span class="op">,</span> location }<span class="op">;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="op">!</span>target<span class="op">.</span><span class="fu">supportsLocation</span>(location)) {</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> { <span class="op">...</span>base<span class="op">,</span> <span class="dt">status</span><span class="op">:</span> <span class="st">&#39;unsupported&#39;</span><span class="op">,</span> <span class="dt">changedPaths</span><span class="op">:</span> [] }<span class="op">;</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="op">!</span>target<span class="op">.</span><span class="fu">detect</span>(location)<span class="op">.</span><span class="at">alreadyConfigured</span>) {</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> { <span class="op">...</span>base<span class="op">,</span> <span class="dt">status</span><span class="op">:</span> <span class="st">&#39;not-configured&#39;</span><span class="op">,</span> <span class="dt">changedPaths</span><span class="op">:</span> [] }<span class="op">;</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> result <span class="op">=</span> target<span class="op">.</span><span class="fu">install</span>(location<span class="op">,</span> { <span class="dt">autoAllow</span><span class="op">:</span> <span class="kw">false</span><span class="op">,</span> <span class="dt">promptHook</span><span class="op">:</span> <span class="kw">undefined</span> })<span class="op">;</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        <span class="op">...</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Two consequences that matter here: the new Copilot targets in 1.6.0
+will <strong>not</strong> be auto-added by a refresh (they aren’t
+<code>alreadyConfigured</code>), and
+<code>~/.claude/settings.json</code> permissions are
+<strong>not</strong> rewritten (<code>autoAllow: false</code>).</p>
+<h4
+id="b.-only-8-targets-exist-in-1.5.0-and-neither-kimi-nor-qwen-is-one-of-them">4b.
+Only 8 targets exist in 1.5.0 — and neither Kimi nor Qwen is one of
+them</h4>
+<p><code>lib/dist/installer/targets/registry.js</code>:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode js"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>exports<span class="op">.</span><span class="at">ALL_TARGETS</span> <span class="op">=</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">freeze</span>([</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    claude_1<span class="op">.</span><span class="at">claudeTarget</span><span class="op">,</span>      cursor_1<span class="op">.</span><span class="at">cursorTarget</span><span class="op">,</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    codex_1<span class="op">.</span><span class="at">codexTarget</span><span class="op">,</span>        opencode_1<span class="op">.</span><span class="at">opencodeTarget</span><span class="op">,</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    hermes_1<span class="op">.</span><span class="at">hermesTarget</span><span class="op">,</span>      gemini_1<span class="op">.</span><span class="at">geminiTarget</span><span class="op">,</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    antigravity_1<span class="op">.</span><span class="at">antigravityTarget</span><span class="op">,</span> kiro_1<span class="op">.</span><span class="at">kiroTarget</span><span class="op">,</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>])<span class="op">;</span></span></code></pre></div>
+<p>1.6.0 adds exactly three more — <code>copilotVscodeTarget</code>,
+<code>copilotCliTarget</code>, <code>copilotJetbrainsTarget</code> — and
+nothing else.</p>
+<p>Grepping every target for <code>kimi</code> and <code>qwen</code>
+returns <strong>zero hits in both versions</strong>. The full set of
+paths any target writes:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Target</th>
+<th>Global paths written</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>claude</td>
+<td><code>~/.claude.json</code>, <code>~/.claude/settings.json</code>,
+<code>~/.claude/CLAUDE.md</code></td>
+</tr>
+<tr>
+<td>cursor</td>
+<td><code>~/.cursor/mcp.json</code></td>
+</tr>
+<tr>
+<td>codex</td>
+<td><code>~/.codex/…</code></td>
+</tr>
+<tr>
+<td>opencode</td>
+<td><code>~/.config/opencode/opencode.jsonc</code> <em>or</em>
+<code>opencode.json</code>,
+<code>~/.config/opencode/AGENTS.md</code></td>
+</tr>
+<tr>
+<td>hermes</td>
+<td><code>~/.hermes/…</code></td>
+</tr>
+<tr>
+<td>gemini</td>
+<td><code>~/.gemini/…</code></td>
+</tr>
+<tr>
+<td>antigravity</td>
+<td><code>~/.gemini/config</code>,
+<code>~/.gemini/antigravity</code></td>
+</tr>
+<tr>
+<td>kiro</td>
+<td><code>~/.kiro/…</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="c.-risk-assessment-per-at-risk-file">4c. Risk assessment per
+at-risk file</h4>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Touched by refresh?</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>~/.kimi-code/mcp.json</code></td>
+<td><strong>NO — never</strong></td>
+<td>No <code>kimi</code> target exists in 1.5.0 or 1.6.0. CodeGraph has
+no code path that resolves this file.</td>
+</tr>
+<tr>
+<td><code>~/.qwen/settings.json</code></td>
+<td><strong>NO — never</strong></td>
+<td>No <code>qwen</code> target exists. The <code>gemini</code> target
+writes <code>~/.gemini</code>, not <code>~/.qwen</code>.</td>
+</tr>
+<tr>
+<td><code>~/.claude.json</code></td>
+<td><strong>NO — no write will occur</strong></td>
+<td>Merge-by-key writer, and the existing entry is already byte-equal to
+what it would write → <code>unchanged</code>, file untouched. See
+4d.</td>
+</tr>
+<tr>
+<td><code>~/.config/opencode/opencode.json</code></td>
+<td><strong>NO — no write will occur</strong></td>
+<td>Surgical JSONC edit, and the existing entry is already byte-equal →
+<code>unchanged</code>, file untouched. See 4e.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>lumen</code> entries in <code>~/.kimi-code/mcp.json</code>,
+<code>~/.qwen/settings.json</code>, and
+<code>~/.config/opencode/opencode.json</code> are therefore all
+safe.</p>
+<blockquote>
+<p><strong>Correction to the stated premise:</strong>
+<code>~/.claude.json</code> does <strong>not</strong> currently contain
+a <code>lumen</code> MCP entry. Its <code>mcpServers</code> map holds
+exactly one key: <code>codegraph</code>. Lumen reaches Claude Code
+through a <strong>plugin</strong>
+(<code>mcp__plugin_lumen_lumen__*</code> tools,
+<code>enabledPlugins</code> in <code>~/.claude/settings.json</code>),
+not through <code>mcpServers</code>. Nothing in this upgrade touches
+<code>enabledPlugins</code> — <code>refreshTargets</code> passes
+<code>autoAllow: false</code>, so <code>~/.claude/settings.json</code>
+is not written at all.</p>
+</blockquote>
+<h4 id="d.-the-claude-writer-read-modify-write-on-one-key">4d. The
+Claude writer — read-modify-write on one key</h4>
+<p><code>lib/dist/installer/targets/claude.js</code>:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode js"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">writeMcpEntry</span>(loc) {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> file <span class="op">=</span> <span class="fu">mcpJsonPath</span>(loc)<span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> existing <span class="op">=</span> (<span class="dv">0</span><span class="op">,</span> shared_1<span class="op">.</span><span class="at">readJsonFile</span>)(file)<span class="op">;</span>          <span class="co">// &lt;-- reads and PARSES the whole existing file</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> before <span class="op">=</span> existing<span class="op">.</span><span class="at">mcpServers</span><span class="op">?.</span><span class="at">codegraph</span><span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> after <span class="op">=</span> (<span class="dv">0</span><span class="op">,</span> shared_1<span class="op">.</span><span class="at">getMcpServerConfig</span>)()<span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ((<span class="dv">0</span><span class="op">,</span> shared_1<span class="op">.</span><span class="at">jsonDeepEqual</span>)(before<span class="op">,</span> after)) {</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Already exactly what we&#39;d write — preserve byte-identical file.</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> { <span class="dt">path</span><span class="op">:</span> file<span class="op">,</span> <span class="dt">action</span><span class="op">:</span> <span class="st">&#39;unchanged&#39;</span> }<span class="op">;</span>            <span class="co">// &lt;-- NO WRITE AT ALL</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> action <span class="op">=</span> before <span class="op">?</span> <span class="st">&#39;updated&#39;</span> <span class="op">:</span> (fs<span class="op">.</span><span class="fu">existsSync</span>(file) <span class="op">?</span> <span class="st">&#39;updated&#39;</span> <span class="op">:</span> <span class="st">&#39;created&#39;</span>)<span class="op">;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>existing<span class="op">.</span><span class="at">mcpServers</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        existing<span class="op">.</span><span class="at">mcpServers</span> <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    existing<span class="op">.</span><span class="at">mcpServers</span><span class="op">.</span><span class="at">codegraph</span> <span class="op">=</span> after<span class="op">;</span>                     <span class="co">// &lt;-- sets ONE key, keeps everything else</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">0</span><span class="op">,</span> shared_1<span class="op">.</span><span class="at">writeJsonFile</span>)(file<span class="op">,</span> existing)<span class="op">;</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { <span class="dt">path</span><span class="op">:</span> file<span class="op">,</span> action }<span class="op">;</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Note the authors’ own comment nearby, which addresses this exact
+concern:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode js"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">// A pre-existing MCP JSON file (`~/.claude.json` globally,</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">// `./.mcp.json` locally) containing other MCP servers (no</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">// `codegraph` key) is &#39;updated&#39;, not &#39;created&#39; — we&#39;re adding an</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">// entry to a file that was already there.</span></span></code></pre></div>
+<p><code>readJsonFile</code> (in <code>targets/shared.js</code>) also
+guards against the unparseable case rather than truncating:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode js"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"> * Read a JSON file, returning `{}` when missing or unparseable.</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"> *</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"> * Unparseable files are backed up to `</span><span class="kw">&lt;path&gt;</span><span class="co">.backup` BEFORE we return</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"> * `{}` — so an idempotent re-run never silently deletes a user&#39;s</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"> * existing config that happened to break JSON parse temporarily.</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span></code></pre></div>
+<p><strong>Idempotency check against the live file.</strong>
+<code>getMcpServerConfig()</code> returns
+<code>{ type: 'stdio', command: 'codegraph', args: ['serve', '--mcp'] }</code>.
+The current <code>~/.claude.json</code> holds exactly:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;type&quot;</span><span class="fu">:</span><span class="st">&quot;stdio&quot;</span><span class="fu">,</span><span class="dt">&quot;command&quot;</span><span class="fu">:</span><span class="st">&quot;codegraph&quot;</span><span class="fu">,</span><span class="dt">&quot;args&quot;</span><span class="fu">:</span><span class="ot">[</span><span class="st">&quot;serve&quot;</span><span class="ot">,</span><span class="st">&quot;--mcp&quot;</span><span class="ot">]</span><span class="fu">}</span></span></code></pre></div>
+<p>→ <code>jsonDeepEqual</code> is <strong>true</strong> →
+<code>action: 'unchanged'</code> → <strong><code>~/.claude.json</code>
+is not written at all.</strong> Its 62 top-level keys and 25
+project/session entries (122,681 bytes) are untouched.</p>
+<p>Confirmed still true in 1.6.0: <code>diff</code> of
+<code>targets/shared.js</code> between the 1.5.0 engine and the 1.6.0
+engine reports <strong>IDENTICAL</strong>, so
+<code>getMcpServerConfig()</code> is unchanged and the entry still
+matches.</p>
+<p><strong>Worst case if it <em>had</em> differed:</strong>
+<code>writeJsonFile</code> does
+<code>JSON.stringify(data, null, 2)</code>, which would reformat the
+whole file (2-space indent, key order preserved) but preserve every key
+and value. Reformatting, never data loss.</p>
+<h4 id="e.-the-opencode-writer-surgical-jsonc-edit">4e. The opencode
+writer — surgical JSONC edit</h4>
+<p><code>lib/dist/installer/targets/opencode.js</code>:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode js"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">writeMcpEntry</span>(loc) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> file <span class="op">=</span> <span class="fu">configPath</span>(loc)<span class="op">;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">...</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> config <span class="op">=</span> <span class="fu">parseConfig</span>(text)<span class="op">;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> before <span class="op">=</span> config<span class="op">.</span><span class="at">mcp</span><span class="op">?.</span><span class="at">codegraph</span><span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> after <span class="op">=</span> <span class="fu">getOpencodeServerEntry</span>()<span class="op">;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> ((<span class="dv">0</span><span class="op">,</span> shared_1<span class="op">.</span><span class="at">jsonDeepEqual</span>)(before<span class="op">,</span> after)) {</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> { <span class="dt">path</span><span class="op">:</span> file<span class="op">,</span> <span class="dt">action</span><span class="op">:</span> <span class="st">&#39;unchanged&#39;</span> }<span class="op">;</span>            <span class="co">// &lt;-- NO WRITE</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">...</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Surgical edit — preserves comments, formatting, and order of</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// every key we don&#39;t touch.</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> edits <span class="op">=</span> (<span class="dv">0</span><span class="op">,</span> jsonc_parser_1<span class="op">.</span><span class="at">modify</span>)(text<span class="op">,</span> [<span class="st">&#39;mcp&#39;</span><span class="op">,</span> <span class="st">&#39;codegraph&#39;</span>]<span class="op">,</span> after<span class="op">,</span> {</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">formattingOptions</span><span class="op">:</span> FORMATTING<span class="op">,</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> updated <span class="op">=</span> (<span class="dv">0</span><span class="op">,</span> jsonc_parser_1<span class="op">.</span><span class="at">applyEdits</span>)(text<span class="op">,</span> edits)<span class="op">;</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">0</span><span class="op">,</span> shared_1<span class="op">.</span><span class="at">atomicWriteFileSync</span>)(file<span class="op">,</span> updated)<span class="op">;</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { <span class="dt">path</span><span class="op">:</span> file<span class="op">,</span> <span class="dt">action</span><span class="op">:</span> existed <span class="op">?</span> <span class="st">&#39;updated&#39;</span> <span class="op">:</span> <span class="st">&#39;created&#39;</span> }<span class="op">;</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>This is the safest writer of the lot — <code>jsonc-parser</code>’s
+<code>modify</code>/<code>applyEdits</code> rewrites only the byte range
+of the <code>mcp.codegraph</code> value, leaving all 133 other servers,
+comments, key order, and whitespace physically untouched.</p>
+<p><strong>Idempotency check against the live file.</strong>
+<code>getOpencodeServerEntry()</code> returns
+<code>{ type: 'local', command: ['codegraph', 'serve', '--mcp'], enabled: true }</code>.
+The current <code>~/.config/opencode/opencode.json</code> holds
+exactly:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;type&quot;</span><span class="fu">:</span><span class="st">&quot;local&quot;</span><span class="fu">,</span><span class="dt">&quot;command&quot;</span><span class="fu">:</span><span class="ot">[</span><span class="st">&quot;codegraph&quot;</span><span class="ot">,</span><span class="st">&quot;serve&quot;</span><span class="ot">,</span><span class="st">&quot;--mcp&quot;</span><span class="ot">]</span><span class="fu">,</span><span class="dt">&quot;enabled&quot;</span><span class="fu">:</span><span class="kw">true</span><span class="fu">}</span></span></code></pre></div>
+<p>→ <code>jsonDeepEqual</code> is <strong>true</strong> →
+<code>action: 'unchanged'</code> → <strong>not written.</strong> The 134
+servers under <code>mcp</code> (including <code>lumen</code>), plus the
+<code>skills</code> and <code>instructions</code> keys, are safe.</p>
+<p><code>configPath()</code> prefers <code>opencode.jsonc</code> and
+falls back to <code>opencode.json</code>. Only
+<code>opencode.json</code> exists here, so it resolves to the correct
+file — no risk of a stray <code>.jsonc</code> being created.</p>
+<p><code>diff</code> of <code>targets/opencode.js</code> between 1.5.0
+and 1.6.0: <strong>IDENTICAL</strong>.</p>
+<h4 id="f.-what-refresh-would-write-in-principle">4f. What refresh
+<em>would</em> write, in principle</h4>
+<p><code>claudeTarget.install()</code> also calls
+<code>upsertInstructionsEntry(~/.claude/CLAUDE.md)</code>, and
+<code>opencodeTarget.install()</code> calls it on
+<code>~/.config/opencode/AGENTS.md</code>. That helper is marker-fenced
+and content-preserving:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode js"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (startIdx <span class="op">!==</span> <span class="op">-</span><span class="dv">1</span> <span class="op">&amp;&amp;</span> endIdx <span class="op">&gt;</span> startIdx) {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> existingBlock <span class="op">=</span> content<span class="op">.</span><span class="fu">substring</span>(startIdx<span class="op">,</span> endIdx <span class="op">+</span> endMarker<span class="op">.</span><span class="at">length</span>)<span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (existingBlock <span class="op">===</span> body) {</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">&#39;unchanged&#39;</span><span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> before <span class="op">=</span> content<span class="op">.</span><span class="fu">substring</span>(<span class="dv">0</span><span class="op">,</span> startIdx)<span class="op">;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> after <span class="op">=</span> content<span class="op">.</span><span class="fu">substring</span>(endIdx <span class="op">+</span> endMarker<span class="op">.</span><span class="at">length</span>)<span class="op">;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">atomicWriteFileSync</span>(filePath<span class="op">,</span> before <span class="op">+</span> body <span class="op">+</span> after)<span class="op">;</span>   <span class="co">// only the fenced block is replaced</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">&#39;updated&#39;</span><span class="op">;</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>Verified:</strong> both files carry
+<code>&lt;!-- CODEGRAPH_START --&gt;</code> /
+<code>&lt;!-- CODEGRAPH_END --&gt;</code> at lines 1–10, and a
+programmatic comparison confirms each on-disk block is
+<strong>byte-identical</strong> to
+<code>CODEGRAPH_INSTRUCTIONS_BLOCK</code>. <code>diff</code> of
+<code>instructions-template.js</code> between 1.5.0 and 1.6.0 is
+<strong>IDENTICAL</strong>, so these stay <code>unchanged</code>
+too.</p>
+<p><code>cleanupLegacyHooks()</code> strips only pre-0.8
+<code>mark-dirty</code> / <code>sync-if-dirty</code> hooks; a scan of
+<code>~/.claude/settings.json</code> finds none. No-op.</p>
+<h4
+id="g.-the-one-genuine-1.6.0-installer-diff-and-why-it-doesnt-apply">4g.
+The one genuine 1.6.0 installer diff, and why it doesn’t apply</h4>
+<p><code>targets/claude.js</code> is the only changed writer. The diff
+is entirely a Windows fix (#1466):</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode js"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PROMPT_HOOK_COMMAND <span class="op">=</span> <span class="bu">process</span><span class="op">.</span><span class="at">platform</span> <span class="op">===</span> <span class="st">&#39;win32&#39;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">?</span> <span class="st">&#39;codegraph.cmd prompt-hook&#39;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">:</span> <span class="st">&#39;codegraph prompt-hook&#39;</span><span class="op">;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> PROMPT_HOOK_FORMS <span class="op">=</span> [<span class="st">&#39;codegraph prompt-hook&#39;</span><span class="op">,</span> <span class="st">&#39;codegraph.cmd prompt-hook&#39;</span>]<span class="op">;</span></span></code></pre></div>
+<p>plus an in-place migration loop that rewrites an installer-written
+hook command to the current platform’s spelling. On Linux
+<code>PROMPT_HOOK_COMMAND</code> evaluates to
+<code>'codegraph prompt-hook'</code> — exactly what
+<code>~/.claude/settings.json</code> already contains — so
+<code>migrated</code> stays <code>false</code> and the function returns
+<code>unchanged</code>. And in a refresh it is never called at all
+(<code>promptHook: undefined</code>).</p>
+<p><code>installer/index.js</code> diffs are cosmetic only: help text,
+prompt hints, and the new <code>--init</code> flag.</p>
+<p><strong>Bottom line for RISK 1: on this machine,
+<code>codegraph install --refresh</code> under 1.6.0 will write nothing.
+Every target reports <code>unchanged</code>, and Kimi/Qwen are not
+targets at all.</strong></p>
+<hr />
+<h2 id="upgrade-path-that-skips-the-config-rewrite">5. Upgrade path that
+skips the config rewrite</h2>
+<p>Yes — one exists, and it is what <code>codegraph upgrade</code> runs
+internally anyway.</p>
+<p><code>lib/dist/upgrade/index.js</code> detects the install method as
+<code>{ kind: 'npm', scope: 'global' }</code> (the package lives under
+the global prefix <code>&lt;home&gt;/.npm-global</code>) and then
+runs:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode js"><code class="sourceCode javascript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">upgradeNpm</span>(method<span class="op">,</span> versionSpec<span class="op">,</span> deps) {</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> args <span class="op">=</span> method<span class="op">.</span><span class="at">scope</span> <span class="op">===</span> <span class="st">&#39;global&#39;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>        <span class="op">?</span> [<span class="st">&#39;install&#39;</span><span class="op">,</span> <span class="st">&#39;-g&#39;</span><span class="op">,</span> <span class="vs">`</span><span class="sc">${</span>exports<span class="op">.</span><span class="at">NPM_PACKAGE</span><span class="sc">}</span><span class="vs">@</span><span class="sc">${</span>versionSpec<span class="sc">}</span><span class="vs">`</span>]</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="op">:</span> [<span class="st">&#39;install&#39;</span><span class="op">,</span> <span class="vs">`</span><span class="sc">${</span>exports<span class="op">.</span><span class="at">NPM_PACKAGE</span><span class="sc">}</span><span class="vs">@</span><span class="sc">${</span>versionSpec<span class="sc">}</span><span class="vs">`</span>]<span class="op">;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    deps<span class="op">.</span><span class="fu">log</span>(c<span class="op">.</span><span class="fu">dim</span>(<span class="vs">`Running: npm </span><span class="sc">${</span>args<span class="op">.</span><span class="fu">join</span>(<span class="st">&#39; &#39;</span>)<span class="sc">}</span><span class="vs">`</span>))<span class="op">;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">...</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>So <code>codegraph upgrade</code> ≡
+<code>npm install -g @colbymchenry/codegraph@latest</code>
+<strong>plus</strong> three post-steps
+(<code>upgrade/index.js:355-382</code>):</p>
+<ol type="1">
+<li><code>reportResolvedVersion()</code> — a PATH-shadowing probe. Warns
+if another <code>codegraph</code> earlier on PATH shadows the upgraded
+one.</li>
+<li><code>selfHealPromptHook()</code> — wires the Claude
+<code>UserPromptSubmit</code> front-load hook if a configured global
+Claude install lacks it. <strong>Already present here →
+no-op.</strong></li>
+<li><code>selfHealInstalledSurfaces()</code> — spawns
+<code>codegraph install --refresh</code>. <strong>Analysed in §4 → no-op
+here.</strong></li>
+<li>Prints <code>reindexAdvisory()</code> — the “run
+<code>codegraph sync</code> / <code>codegraph index -f</code>”
+reminder.</li>
+</ol>
+<h3 id="three-ways-to-run-it">Three ways to run it</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Option</th>
+<th>Command</th>
+<th>Config rewrite</th>
+<th>What you miss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td><code>codegraph upgrade</code></td>
+<td>runs <code>install --refresh</code> (no-op here)</td>
+<td>nothing</td>
+</tr>
+<tr>
+<td>B</td>
+<td><code>CODEGRAPH_NO_INSTALL_REFRESH=1 codegraph upgrade</code></td>
+<td><strong>skipped by kill-switch</strong></td>
+<td>agent-surface self-heal (not needed — templates identical)</td>
+</tr>
+<tr>
+<td>C</td>
+<td><code>npm install -g @colbymchenry/codegraph@latest</code></td>
+<td><strong>never runs</strong></td>
+<td>PATH probe, prompt-hook self-heal, re-index advisory</td>
+</tr>
+</tbody>
+</table>
+<p>Option B’s kill switch is a first-class, documented feature of the
+code:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode js"><code class="sourceCode javascript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">selfHealInstalledSurfaces</span>(deps) {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="bu">process</span><span class="op">.</span><span class="at">env</span><span class="op">.</span><span class="at">CODEGRAPH_NO_INSTALL_REFRESH</span> <span class="op">===</span> <span class="st">&#39;1&#39;</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="op">!</span>deps<span class="op">.</span><span class="fu">hasCommand</span>(<span class="st">&#39;codegraph&#39;</span>))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">...</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>There is a matching <code>CODEGRAPH_NO_PROMPT_HOOK=1</code> for step
+2.</p>
+<p><strong>Recommendation: Option B.</strong> It performs the identical
+binary upgrade, keeps the useful PATH probe and version reporting, and
+provably cannot touch a single agent config file. Option C is a fine
+fallback but is strictly less informative — in particular you lose the
+PATH-shadowing warning, which is the one post-step that catches a real
+and easy-to-miss failure mode.</p>
+<hr />
+<h2 id="recommended-safe-upgrade-procedure">6. Recommended safe upgrade
+procedure</h2>
+<p><strong>Go/no-go: GO.</strong> RISK 1 is retired by code inspection —
+no config write will occur. RISK 2 is real but is a known, bounded,
+one-time cost (a 46 MB / 541-file rebuild), it is fully backed up by
+step 2 below, and it is fully reversible by step R2.</p>
+<p>The only judgement call: 1.6.0 was published hours before this
+analysis. If you want soak time, defer a few days — nothing in 1.5.0 is
+broken. The strongest reason not to wait is the WAL disk-leak fix, which
+can cost tens of gigabytes if a session is force-killed.</p>
+<h3 id="phase-0-pre-flight-read-only">Phase 0 — pre-flight
+(read-only)</h3>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">codegraph</span> version</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">codegraph</span> status <span class="at">--json</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-40</span>           <span class="co"># record fileCount / nodeCount / edgeCount</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> <span class="at">-a</span> codegraph                           <span class="co"># must show exactly ONE path</span></span></code></pre></div>
+<p>Expect <code>1.5.0</code>,
+<code>builtWithExtractionVersion: 24</code>, and a single
+<code>&lt;home&gt;/.npm-global/bin/codegraph</code>. More than one entry
+means a shadowing install — fix that before upgrading.</p>
+<h3
+id="phase-1-back-up-everything-the-upgrade-could-plausibly-touch">Phase
+1 — back up everything the upgrade could plausibly touch</h3>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="va">STAMP</span><span class="op">=</span><span class="va">$(</span><span class="fu">date</span> +%Y%m%d-%H%M%S<span class="va">)</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="va">BK</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/codegraph-upgrade-backup-</span><span class="va">$STAMP</span><span class="st">&quot;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">&quot;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Agent configs (belt and braces — analysis says none will be written)</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> ~/.claude.json                        <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/claude.json&quot;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> ~/.claude/settings.json               <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/claude-settings.json&quot;</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> ~/.claude/CLAUDE.md                   <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/CLAUDE.md&quot;</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> ~/.kimi-code/mcp.json                 <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/kimi-mcp.json&quot;</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> ~/.config/opencode/opencode.json      <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/opencode.json&quot;</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> ~/.config/opencode/AGENTS.md          <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/opencode-AGENTS.md&quot;</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> ~/.qwen/settings.json                 <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/qwen-settings.json&quot;</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co"># The expensive artifact: the project index</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> <span class="op">&lt;</span>ext-volume-host<span class="op">&gt;</span>/Projects/vasic/.codegraph <span class="dt">\</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/vasic-dot-codegraph&quot;</span></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-la</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">&quot;</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">&quot;</span></span></code></pre></div>
+<p>Record the backup path. Roughly 46 MB plus a few hundred KB.</p>
+<h3 id="phase-2-stop-anything-holding-the-index">Phase 2 — stop anything
+holding the index</h3>
+<p>Quit Claude Code, opencode, Kimi, Qwen, and any other agent with a
+live CodeGraph MCP session. <code>CodeGraph.recreate()</code> throws on
+a locked DB, and a live daemon would otherwise be left pointing at a
+deleted inode.</p>
+<h3
+id="phase-3-upgrade-the-binary-only-with-the-config-rewrite-disabled">Phase
+3 — upgrade the binary only, with the config rewrite disabled</h3>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="va">CODEGRAPH_NO_INSTALL_REFRESH</span><span class="op">=</span>1 <span class="ex">codegraph</span> upgrade</span></code></pre></div>
+<p>This downloads ~292 MB (the platform engine bundle). Then verify:</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">codegraph</span> version                            <span class="co"># expect 1.6.0</span></span></code></pre></div>
+<h3 id="phase-4-confirm-no-config-was-touched">Phase 4 — confirm no
+config was touched</h3>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="va">STAMP</span><span class="op">=</span>...   <span class="co"># the one from Phase 1</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="va">BK</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/codegraph-upgrade-backup-</span><span class="va">$STAMP</span><span class="st">&quot;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> ~/.claude.json ~/.claude/settings.json ~/.kimi-code/mcp.json <span class="dt">\</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>         ~/.config/opencode/opencode.json ~/.qwen/settings.json<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="va">b</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$BK</span><span class="st">/</span><span class="va">$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># (adjust names to match the copies made above)</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diff</span> <span class="at">-q</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$b</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;UNCHANGED: </span><span class="va">$f</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;*** CHANGED: </span><span class="va">$f</span><span class="st"> ***&quot;</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>Every line should read <code>UNCHANGED</code>. If any reads
+<code>CHANGED</code>, inspect the diff before proceeding — and note that
+even a “changed” <code>~/.claude.json</code> would be a reformat, not a
+data loss (§4d).</p>
+<p>Also spot-check that <code>lumen</code> survived:</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;&quot;lumen&quot;&#39;</span> ~/.kimi-code/mcp.json ~/.config/opencode/opencode.json ~/.qwen/settings.json</span></code></pre></div>
+<h3 id="phase-5-confirm-the-staleness-flag-then-rebuild">Phase 5 —
+confirm the staleness flag, then rebuild</h3>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">codegraph</span> status <span class="at">--json</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-A5</span> <span class="st">&#39;&quot;index&quot;&#39;</span></span></code></pre></div>
+<p>Expect <code>builtWithExtractionVersion: 24</code>,
+<code>currentExtractionVersion: 25</code>,
+<code>reindexRecommended: true</code>. That is the expected, correct
+state — not a fault.</p>
+<p>Then, and only with the Phase 1 backup in hand:</p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="op">&lt;</span>ext-volume-host<span class="op">&gt;</span>/Projects/vasic</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="ex">codegraph</span> index</span></code></pre></div>
+<p>This <strong>deletes and rebuilds</strong>
+<code>.codegraph/codegraph.db</code>. Afterwards:</p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">codegraph</span> status <span class="at">--json</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-40</span></span></code></pre></div>
+<p>Expect <code>builtWithExtractionVersion: 25</code>,
+<code>reindexRecommended: false</code>, <code>state: "complete"</code>,
+and a <code>fileCount</code> at or near 541. A materially lower file
+count means the rebuild was incomplete — restore from backup (step R2)
+and investigate.</p>
+<p>Repeat <code>codegraph index</code> in each other project you care
+about. <code>codegraph status</code> in any project will tell you
+whether it still needs it.</p>
+<h3 id="phase-6-restart-agents">Phase 6 — restart agents</h3>
+<p>Restart Claude Code / opencode / Kimi / Qwen so each reconnects to
+the 1.6.0 MCP server.</p>
+<hr />
+<h3 id="rollback">Rollback</h3>
+<p><strong>R1 — revert the binary to 1.5.0</strong> (the exact
+command):</p>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install <span class="at">-g</span> @colbymchenry/codegraph@1.5.0</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="ex">codegraph</span> version        <span class="co"># expect 1.5.0</span></span></code></pre></div>
+<p>This is safe and complete: <code>optionalDependencies</code> are
+pinned to the exact version, so npm pulls
+<code>@colbymchenry/codegraph-linux-x64@1.5.0</code> back down with
+it.</p>
+<p>Do <strong>not</strong> use <code>codegraph upgrade 1.5.0</code> for
+a downgrade — <code>runUpgrade</code> is written around moving to a
+target version and re-runs the surface self-heals. Plain
+<code>npm install -g</code> is the clean path.</p>
+<p><strong>R2 — restore the index</strong> (needed if you already ran
+<code>codegraph index</code> under 1.6.0, since a 25-stamped index read
+by a 1.5.0 engine is not what 1.5.0 built):</p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="va">STAMP</span><span class="op">=</span>...   <span class="co"># from Phase 1</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="op">&lt;</span>ext-volume-host<span class="op">&gt;</span>/Projects/vasic</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> .codegraph</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/codegraph-upgrade-backup-</span><span class="va">$STAMP</span><span class="st">/vasic-dot-codegraph&quot;</span> .codegraph</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="ex">codegraph</span> status <span class="at">--json</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-20</span>     <span class="co"># expect builtWithExtractionVersion 24, 541 files</span></span></code></pre></div>
+<p><strong>R3 — restore agent configs</strong> (should never be needed;
+included for completeness):</p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="va">BK</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/codegraph-upgrade-backup-</span><span class="va">$STAMP</span><span class="st">&quot;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/claude.json&quot;</span>            ~/.claude.json</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/claude-settings.json&quot;</span>   ~/.claude/settings.json</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/CLAUDE.md&quot;</span>              ~/.claude/CLAUDE.md</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/kimi-mcp.json&quot;</span>          ~/.kimi-code/mcp.json</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/opencode.json&quot;</span>          ~/.config/opencode/opencode.json</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/opencode-AGENTS.md&quot;</span>     ~/.config/opencode/AGENTS.md</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-a</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/qwen-settings.json&quot;</span>     ~/.qwen/settings.json</span></code></pre></div>
+<hr />
+<h2 id="implications-for-keep-extensions-up-to-date-automatically">7.
+Implications for “keep extensions up to date automatically”</h2>
+<p>Auto-upgrading CodeGraph is <strong>safe for agent configs</strong> —
+the writers are merge-only, idempotent, and scoped to already-configured
+targets, and they never resolve Kimi or Qwen paths at all.</p>
+<p>It is <strong>not</strong> safe to auto-upgrade blind with respect to
+the index. Any release that bumps <code>EXTRACTION_VERSION</code>
+silently converts every project index into a stale one, and the only
+remedy is a destructive full rebuild that must be scheduled, not
+stumbled into.</p>
+<p>Suggested policy for an auto-update wizard:</p>
+<ol type="1">
+<li><p>Before upgrading, capture <code>codegraph status --json</code> →
+<code>index.currentExtractionVersion</code> per project.</p></li>
+<li><p>Fetch the candidate version’s <code>EXTRACTION_VERSION</code>
+cheaply and without installing:</p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> pack @colbymchenry/codegraph@<span class="op">&lt;</span>ver<span class="op">&gt;</span>   <span class="co"># 267 KB, in a temp dir</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xzO</span> <span class="at">-f</span> colbymchenry-codegraph-<span class="op">&lt;</span>ver<span class="op">&gt;</span>.tgz <span class="dt">\</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    package/dist/extraction/extraction-version.d.ts <span class="kw">|</span> <span class="fu">grep</span> EXTRACTION_VERSION</span></code></pre></div>
+<p>The shim package is tiny and its <code>.d.ts</code> carries the
+constant — no need for the 292 MB engine.</p></li>
+<li><p>If the constant is unchanged → auto-upgrade freely.</p></li>
+<li><p>If it bumped → back up each <code>.codegraph/</code> dir,
+upgrade, then queue <code>codegraph index</code> per project as
+explicit, user-visible work.</p></li>
+<li><p>Always set <code>CODEGRAPH_NO_INSTALL_REFRESH=1</code> in the
+automated path, so an unattended upgrade can never reach an agent config
+file.</p></li>
+</ol>
+<hr />
+<h2
+id="appendix-questions-not-answerable-without-a-mutating-action">Appendix
+— questions not answerable without a mutating action</h2>
+<p>Everything asked was answered non-destructively. For completeness,
+the two things that genuinely cannot be known without mutating:</p>
+<ul>
+<li><strong>How long the 1.6.0 rebuild of this repo takes, and the
+resulting node/edge counts.</strong> Only running
+<code>codegraph index</code> (destructive — deletes the DB) reveals
+this. The 1.5.0 baseline is 541 files / 10,286 nodes / 39,793 edges / 46
+MB; 1.6.0’s extraction improvements should raise the node and edge
+counts.</li>
+<li><strong>That <code>install --refresh</code> under the 1.6.0 binary
+reports <code>unchanged</code> in practice.</strong> Proven by source
+inspection and byte-comparison of every input, but only running
+<code>codegraph install --refresh</code> (a mutating action, by
+definition) would demonstrate it empirically. Phase 4’s
+<code>diff</code> check verifies the same property after the fact,
+without needing to trust it in advance.</li>
+</ul>
+<hr />
+<h2 id="appendix-commands-used-for-this-analysis">Appendix — commands
+used for this analysis</h2>
+<p>All read-only. No global installs, no upgrades, no config writes, no
+<code>index</code>/<code>init</code>/<code>uninit</code>/<code>sync</code>.</p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">codegraph</span> version</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="ex">codegraph</span> status <span class="at">--json</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> view @colbymchenry/codegraph version</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> view @colbymchenry/codegraph versions <span class="at">--json</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> view @colbymchenry/codegraph@1.6.0 <span class="at">--json</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> view @colbymchenry/codegraph-linux-x64@1.6.0 dist.tarball dist.unpackedSize dist.fileCount</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 1.6.0 shim, into a mktemp -d, extracted but never installed:</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> pack @colbymchenry/codegraph@1.6.0</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="co"># one file streamed out of the 292 MB engine tarball, never installed:</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-sL</span> <span class="op">&lt;</span>engine-tarball<span class="op">&gt;</span> <span class="kw">|</span> <span class="fu">tar</span> <span class="at">-xzO</span> package/lib/dist/extraction/extraction-version.js</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-sL</span> <span class="op">&lt;</span>engine-tarball<span class="op">&gt;</span> <span class="kw">|</span> <span class="fu">tar</span> <span class="at">-xz</span> <span class="at">-C</span> <span class="op">&lt;</span>tmp<span class="op">&gt;</span> --wildcards <span class="dt">\</span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>     <span class="st">&quot;package/lib/dist/installer/*&quot;</span> <span class="st">&quot;package/lib/dist/upgrade/*&quot;</span></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-sL</span> https://api.github.com/repos/colbymchenry/codegraph/releases<span class="pp">?</span>per_page=5</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a><span class="co"># plus reads/greps/diffs of the installed 1.5.0 engine under</span></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a><span class="co"># ~/.npm-global/lib/node_modules/@colbymchenry/codegraph/</span></span></code></pre></div>
+<p>The temp directory was removed after the analysis.</p>
+</body>
+</html>

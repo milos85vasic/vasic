@@ -7,7 +7,7 @@ corroborated, this document says so rather than repeating it.
 
 | | |
 |---|---|
-| Repository | `/run/media/milosvasic/DATA4TB/Projects/vasic` |
+| Repository | `<ext-volume-host>/Projects/vasic` |
 | HEAD at time of writing | `62706a9` — `git ls-remote github main` returns the same SHA, so local == remote |
 | Independent measurement window | **2026-08-27 18:21Z – 18:29Z** (20:21–20:29 CEST) |
 | Primary source | `.superpowers/sdd/progress.md` (~830 lines, written as the work happened) |
@@ -38,7 +38,7 @@ investigation, and the removal of hardcoded machine paths.
   stored embedding vectors for roughly five weeks**.
 - Four constitution pointer carriers at the root, propagation applied to five owned submodules
   across ten push URLs on four providers, and a 58-gate validation sweep.
-- Every hardcoded `/Volumes/T7/Projects/vasic` path removed from executable code (18 files,
+- Every hardcoded `<macos-host>/Projects/vasic` path removed from executable code (18 files,
   33 occurrences) behind a mutation-proven audit guard.
 - 18 documents under `docs/setup-agents-wizard/` and `docs/constitution-adoption/`, including two
   adversarial verification reports left deliberately unedited.
@@ -128,7 +128,7 @@ correction lives only in the two later documents.
 
 ```bash
 set -uo pipefail                     # note: no -e
-ROOT="/Volumes/T7/Projects/vasic"    # the original author's macOS box
+ROOT="<macos-host>/Projects/vasic"    # the original author's macOS box
 cd "$ROOT"                           # no ||, no guard
 ```
 
@@ -150,7 +150,7 @@ that only tracing the **real** script with `bash -x`, invoked from `/tmp`, prove
 the correct standard and it was applied.
 
 `_tools/watch-deploy.sh` carried the same defect and was the more dangerous of the two. Its
-before-state is a bare `cd /Volumes/T7/Projects/vasic` under `set -uo pipefail`, followed by
+before-state is a bare `cd <macos-host>/Projects/vasic` under `set -uo pipefail`, followed by
 `for i in $(seq 1 240); do ... bash _tools/deploy-langs.sh ... sleep 1200`. That is **240 cycles
 × 20 minutes ≈ 80 hours** of a watcher running in the caller's directory, invoking a relative
 `_tools/deploy-langs.sh` that does not exist there. It now derives
@@ -161,7 +161,7 @@ before-state is a bare `cd /Volumes/T7/Projects/vasic` under `set -uo pipefail`,
 **Symptom.** Would have been a large, unexplained bill and 532 overwritten translations.
 
 **Root cause.** **537 review JSONs** under `_tests/evidence/translate-new/` bake
-`"_translated": "/Volumes/T7/Projects/vasic/_content_<lang>/..."` **into the data** — I confirmed
+`"_translated": "<macos-host>/Projects/vasic/_content_<lang>/..."` **into the data** — I confirmed
 **523** of them carry such a path, exclusively under the `_translated` key. Three scripts gate on
 `os.path.isfile()` of that recorded absolute path: `_tools/translate/matrix.py` (via its
 `anchored()` helper) and inline Python in `_tools/translate/run-batch.sh` and
@@ -542,7 +542,7 @@ deliberately **not** flagged; only machine-specific roots are.
 The *"18 files, 33 occurrences"* claim reproduces exactly. Replaying the audit's own scope
 (`git ls-files` minus `docs/`, `_content*`, `_analysis/`, `_tests/evidence/`, `.test-evidence/`,
 `.superpowers/`, `.ashlrcode/`) at `72dc135^` yields 17 files / 32 lines carrying the literal
-`/Volumes/T7/Projects/vasic`, plus `_tools/distribute-helixtranslate.sh` with one generic
+`<macos-host>/Projects/vasic`, plus `_tools/distribute-helixtranslate.sh` with one generic
 `/Volumes/...` that the broader pattern also catches — **18 / 33**. The same scope at `72dc135`
 and at HEAD yields **1 file / 1 occurrence**, the detector.
 

@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>push-topology-audit</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">push-topology-audit</h1>
+</header>
+<h1 id="push-topology-audit-every-repository-in-this-tree">Push-topology
+audit — every repository in this tree</h1>
+<p><strong>Measured 2026-09-05/06 from this repository’s root on the
+development host. Read-only throughout: <code>git remote -v</code>,
+<code>git remote get-url --all --push</code>,
+<code>git ls-remote</code>, <code>gh api</code>, <code>glab api</code>,
+anonymous <code>curl</code>. Nothing was pushed, fetched-and-merged,
+added, removed or enabled. No remote configuration was
+changed.</strong></p>
+<p>Every figure below is a dated observation, not a standing fact.
+Repository visibility is a provider setting that changes outside this
+tree, and three submodule HEADs moved <em>during</em> this audit (see <a
+href="#the-tree-was-moving">The tree was moving</a>). Re-run the
+commands; do not quote the numbers.</p>
+<hr />
+<h2 id="method-and-the-flag-that-inverts-the-answer">0 — Method, and the
+flag that inverts the answer</h2>
+<p><code>git remote get-url --push &lt;remote&gt;</code> prints only the
+<strong>first</strong> push URL. On a remote with four push URLs it
+returns one, with exit code 0 and no warning. An audit built on it
+reports the opposite of the truth.</p>
+<p>Measured on <code>monetization</code>’s <code>origin</code>, both
+forms side by side:</p>
+<pre><code>git remote get-url --push       origin   -&gt;  git@gitflic.ru:milosvasic/monetization.git          (1 URL)
+git remote get-url --all --push origin   -&gt;  git@gitflic.ru:milosvasic/monetization.git
+                                             git@github.com:milos85vasic/monetization.git
+                                             git@gitlab.com:milos85vasic/monetization.git
+                                             ssh://git@gitverse.ru:2222/milosvasic/monetization.git   (4 URLs)</code></pre>
+<p>Every push count in this document comes from
+<code>--all --push</code>, cross-checked against the <code>(push)</code>
+lines of <code>git remote -v</code> and against the <code>pushurl</code>
+line count in each repository’s own <code>.git/config</code>. The three
+agree everywhere.</p>
+<hr />
+<h2 id="push-topology-all-14-repositories">1 — Push topology, all 14
+repositories</h2>
+<p>13 gitlinks are declared in <code>.gitmodules</code>
+(<code>git config -f .gitmodules --get-regexp 'submodule\..*\.path'</code>,
+rc=0), plus the umbrella itself. All 14 are initialised and were
+probed.</p>
+<h3 id="a-fan-out-remotes-more-than-one-push-url">1a — Fan-out remotes
+(more than one push URL)</h3>
+<p><strong>Eight of the fourteen repositories carry a remote that
+publishes to multiple destinations from a single
+<code>git push</code>.</strong> In every case the fan-out remote is
+<code>origin</code>.</p>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 18%" />
+<col style="width: 18%" />
+<col style="width: 25%" />
+<col style="width: 18%" />
+</colgroup>
+<thead>
+<tr>
+<th>Repository</th>
+<th>Remote</th>
+<th>Fetch URL</th>
+<th style="text-align: right;">Push URLs</th>
+<th>Fetch host ≠ first push host?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td><code>origin</code></td>
+<td><code>github.com:HelixDevelopment/HelixConstitution</code></td>
+<td style="text-align: right;"><strong>6</strong></td>
+<td><strong>YES</strong> — fetches github, pushes gitflic first</td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td><code>origin</code></td>
+<td><code>github.com:milos85vasic/monetization</code></td>
+<td style="text-align: right;"><strong>4</strong></td>
+<td><strong>YES</strong> — fetches github, pushes gitflic first</td>
+</tr>
+<tr>
+<td><code>submodules/containers</code></td>
+<td><code>origin</code></td>
+<td><code>github.com:vasic-digital/containers</code></td>
+<td style="text-align: right;"><strong>3</strong></td>
+<td>no (github first)</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td><code>origin</code></td>
+<td><code>github.com:milos85vasic/milosvasic.ru</code></td>
+<td style="text-align: right;"><strong>2</strong></td>
+<td><strong>YES</strong> — fetches github, pushes gitflic first</td>
+</tr>
+<tr>
+<td><code>submodules/LLMProvider</code></td>
+<td><code>origin</code></td>
+<td><code>github.com:vasic-digital/LLMProvider</code></td>
+<td style="text-align: right;">2</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>submodules/RAG</code></td>
+<td><code>origin</code></td>
+<td><code>github.com:vasic-digital/RAG</code></td>
+<td style="text-align: right;">2</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>submodules/verdict</code></td>
+<td><code>origin</code></td>
+<td><code>github.com:vasic-digital/verdict</code></td>
+<td style="text-align: right;">2</td>
+<td>no</td>
+</tr>
+<tr>
+<td><code>submodules/passage</code></td>
+<td><code>origin</code></td>
+<td><code>github.com:vasic-digital/passage</code></td>
+<td style="text-align: right;">2</td>
+<td>no</td>
+</tr>
+</tbody>
+</table>
+<p>That is <strong>eight</strong> fan-out remotes across
+<strong>eight</strong> repositories — the table above lists every one.
+No repository has more than one fan-out remote.</p>
+<p>Full push-URL sets for the fan-out remotes:</p>
+<pre><code>submodules/constitution  origin -&gt;  gitflic.ru:helixdevelopment/helixconstitution
+                                    github.com:HelixDevelopment/HelixConstitution
+                                    gitlab.com:helixdevelopment1/helixconstitution
+                                    gitverse.ru:helixdevelopment/HelixConstitution
+                                    github.com:vasic-digital/HelixConstitution
+                                    gitlab.com:vasic-digital/HelixConstitution
+
+monetization             origin -&gt;  gitflic.ru:milosvasic/monetization
+                                    github.com:milos85vasic/monetization
+                                    gitlab.com:milos85vasic/monetization
+                                    gitverse.ru:2222/milosvasic/monetization      (ssh://, non-standard port)
+
+submodules/containers    origin -&gt;  github.com:vasic-digital/Containers
+                                    gitlab.com:vasic-digital/containers
+                                    gitlab.com:vasic-digital/Containers           &lt;- same GitLab project as the line above
+
+milosvasic.ru            origin -&gt;  gitflic.ru:milosvasic/milosvasic-net-v-2
+                                    github.com:milos85vasic/milosvasic.net.v2     &lt;- rename alias, see §1c
+
+submodules/LLMProvider   origin -&gt;  github.com:vasic-digital/LLMProvider + gitlab.com:vasic-digital/LLMProvider
+submodules/RAG           origin -&gt;  github.com:vasic-digital/RAG        + gitlab.com:vasic-digital/RAG
+submodules/verdict       origin -&gt;  github.com:vasic-digital/verdict    + gitlab.com:vasic-digital/verdict
+submodules/passage       origin -&gt;  github.com:vasic-digital/passage    + gitlab.com:vasic-digital/passage</code></pre>
+<h3 id="b-single-destination-repositories">1b — Single-destination
+repositories</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Repository</th>
+<th>Remotes</th>
+<th>Push destinations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.</code> (umbrella)</td>
+<td><code>github</code>, <code>origin</code>, <code>upstream</code></td>
+<td>all three → <code>github.com:milos85vasic/vasic</code> (1 URL
+each)</td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td><code>github</code>, <code>origin</code>, <code>upstream</code></td>
+<td>all three →
+<code>github.com:vasic-digital/vasic-digital.github.io</code></td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td><code>github</code>, <code>origin</code>, <code>upstream</code></td>
+<td>all three →
+<code>github.com:vasic-digital/design-toolkit</code></td>
+</tr>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td><code>github</code>, <code>origin</code>, <code>upstream</code></td>
+<td>all three →
+<code>github.com:milos85vasic/ai_interviewing</code></td>
+</tr>
+<tr>
+<td><code>workshop</code></td>
+<td><code>github</code>, <code>origin</code>, <code>upstream</code></td>
+<td>all three →
+<code>github.com:milos85vasic/workshop_curriculum</code></td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code></td>
+<td><code>origin</code></td>
+<td><code>github.com:WangX0111/superspec</code> (third-party
+upstream)</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>design-toolkit</code> declares NO <code>gitlab</code>
+remote in this checkout</strong> — <code>git remote -v</code> returns
+<code>github</code>, <code>origin</code>, <code>upstream</code>, all
+GitHub. <code>CLAUDE.md</code> records that a <code>gitlab</code> remote
+<em>is</em> declared there; that is <strong>no longer true of this
+checkout</strong> (the gitlink has since moved to
+<code>a135aa8eebb1</code>). The mirror is still measurable by probing
+the URL directly — see §6.</p>
+<h3
+id="c-three-push-urls-are-rename-aliases-not-distinct-repositories">1c —
+Three push URLs are rename aliases, not distinct repositories</h3>
+<p>Confirmed by <code>gh api repos/&lt;x&gt; --jq .full_name</code>
+(rc=0) and by <code>ls-remote</code> returning the same SHA through both
+names:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Push URL as configured</th>
+<th>Resolves to</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>github.com:milos85vasic/milosvasic.net.v2</code></td>
+<td><code>milos85vasic/milosvasic.ru</code></td>
+<td><strong>the live production site repo</strong></td>
+</tr>
+<tr>
+<td><code>github.com:HelixDevelopment/HelixConstitution</code></td>
+<td><code>HelixDevelopment/constitution</code></td>
+<td>governance source</td>
+</tr>
+<tr>
+<td><code>github.com:vasic-digital/Containers</code></td>
+<td><code>vasic-digital/containers</code></td>
+<td>case-only difference</td>
+</tr>
+</tbody>
+</table>
+<p>This matters for <code>milosvasic.ru</code>: <code>origin</code>’s
+push set does <strong>not</strong> literally contain
+<code>milos85vasic/milosvasic.ru</code>, so a naive reading says
+<code>git push origin</code> never reaches production. It does — through
+GitHub’s rename redirect. <strong>That redirect is a provider
+convenience, not a guarantee: GitHub retires it if the old name is ever
+reclaimed.</strong> The publish path of a live production site currently
+depends on it.</p>
+<p>Likewise <code>submodules/containers</code> <code>origin</code>
+pushes to the <strong>same GitLab project twice</strong>
+(<code>containers</code> and <code>Containers</code> both resolve to
+<code>vasic-digital/containers</code>, <code>glab api</code> rc=0), so
+one of its three push URLs is redundant.</p>
+<hr />
+<h2 id="visibility-by-measurement">2 — Visibility, by measurement</h2>
+<h3
+id="github-gh-api-reposr---jq-.full_name.visibility.privatetostring.default_branch.pushed_at-all-rc0">GitHub
+—
+<code>gh api repos/&lt;r&gt; --jq '[.full_name,.visibility,(.private|tostring),.default_branch,.pushed_at]'</code>,
+all rc=0</h3>
+<table>
+<thead>
+<tr>
+<th>Repository</th>
+<th>Visibility</th>
+<th>Default branch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>milos85vasic/vasic</code> (umbrella)</td>
+<td><strong>public</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><code>HelixDevelopment/constitution</code></td>
+<td><strong>public</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><code>vasic-digital/HelixConstitution</code></td>
+<td><strong>PRIVATE</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><code>milos85vasic/milosvasic.ru</code></td>
+<td><strong>public</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><code>vasic-digital/vasic-digital.github.io</code></td>
+<td><strong>public</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><code>vasic-digital/design-toolkit</code></td>
+<td><strong>public</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><code>milos85vasic/ai_interviewing</code></td>
+<td><strong>PRIVATE</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><code>milos85vasic/monetization</code></td>
+<td><strong>PRIVATE</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><code>milos85vasic/workshop_curriculum</code></td>
+<td><strong>PRIVATE</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><code>WangX0111/superspec</code></td>
+<td><strong>public</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><code>vasic-digital/containers</code></td>
+<td><strong>public</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><code>vasic-digital/LLMProvider</code></td>
+<td><strong>public</strong></td>
+<td>master</td>
+</tr>
+<tr>
+<td><code>vasic-digital/RAG</code></td>
+<td><strong>public</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><code>vasic-digital/verdict</code></td>
+<td><strong>public</strong></td>
+<td>main</td>
+</tr>
+<tr>
+<td><code>vasic-digital/passage</code></td>
+<td><strong>public</strong></td>
+<td>main</td>
+</tr>
+</tbody>
+</table>
+<p>The three private repositories named in the audit brief are
+<strong>confirmed private</strong>: <code>workshop</code>,
+<code>ai_interviewing</code>, <code>monetization</code>. A
+<strong>fourth</strong> private repository was found that the brief did
+not name: <strong><code>vasic-digital/HelixConstitution</code> on
+GitHub</strong>, which is a push target of
+<code>submodules/constitution</code>.</p>
+<h3 id="gitlab-glab-api-projectsenc-all-rc0">GitLab —
+<code>glab api projects/&lt;enc&gt;</code>, all rc=0</h3>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>Visibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>helixdevelopment1/helixconstitution</code></td>
+<td>public</td>
+</tr>
+<tr>
+<td><code>vasic-digital/HelixConstitution</code></td>
+<td><strong>public</strong></td>
+</tr>
+<tr>
+<td><code>milos85vasic/monetization</code></td>
+<td><strong>PRIVATE</strong></td>
+</tr>
+<tr>
+<td><code>vasic-digital/containers</code></td>
+<td>public</td>
+</tr>
+<tr>
+<td><code>vasic-digital/LLMProvider</code></td>
+<td>public</td>
+</tr>
+<tr>
+<td><code>vasic-digital/RAG</code></td>
+<td>public</td>
+</tr>
+<tr>
+<td><code>vasic-digital/verdict</code></td>
+<td>public</td>
+</tr>
+<tr>
+<td><code>vasic-digital/passage</code></td>
+<td>public</td>
+</tr>
+<tr>
+<td><code>vasic-digital/design-toolkit</code></td>
+<td><strong>PRIVATE</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Inconsistency worth naming:</strong> the mirror
+<code>vasic-digital/HelixConstitution</code> is <strong>private on
+GitHub and public on GitLab</strong>. The same content, the same name,
+two opposite settings. Its source
+(<code>HelixDevelopment/constitution</code>) is public, so this is not a
+disclosure — but one of the two settings does not express whatever the
+intent was.</p>
+<h3 id="the-two-hosts-with-no-api-adapter">The two hosts with no API
+adapter</h3>
+<pre><code>command -v gitflic   -&gt;  (absent)
+command -v gitverse  -&gt;  (absent)</code></pre>
+<p>No read-only API adapter is registered for <code>gitflic.ru</code> or
+<code>gitverse.ru</code>, which is the same class the umbrella’s own
+<code>scripts/verify-provider-ci.sh</code> reports as UNVERIFIED (6
+rows). <strong>This is a missing-adapter problem, not a network problem,
+and the distinction is measured:</strong> <code>git ls-remote</code>
+over SSH succeeded against both hosts (rc=0, real SHAs returned — see
+§6), and anonymous HTTPS against both hosts returned HTTP 200 for a
+public project. Both hosts are reachable from here. What is missing is a
+way to <em>ask them a visibility question</em>.</p>
+<hr />
+<h2 id="the-matrix-that-matters-private-source-push-target">3 — The
+matrix that matters: private source × push target</h2>
+<p>For every repository whose own GitHub origin is
+<strong>private</strong>, every destination a
+<code>git push origin</code> would reach:</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Private source</th>
+<th>Push target</th>
+<th>Host</th>
+<th>Adapter?</th>
+<th>Visibility of target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>monetization</code></strong></td>
+<td><code>gitflic.ru:milosvasic/monetization</code></td>
+<td>gitflic.ru</td>
+<td><strong>NO</strong></td>
+<td><strong>not anonymously readable</strong> (§3a) — setting
+UNDETERMINED</td>
+</tr>
+<tr>
+<td></td>
+<td><code>github.com:milos85vasic/monetization</code></td>
+<td>github.com</td>
+<td>yes (<code>gh</code>)</td>
+<td><strong>private</strong> ✔</td>
+</tr>
+<tr>
+<td></td>
+<td><code>gitlab.com:milos85vasic/monetization</code></td>
+<td>gitlab.com</td>
+<td>yes (<code>glab</code>)</td>
+<td><strong>private</strong> ✔</td>
+</tr>
+<tr>
+<td></td>
+<td><code>gitverse.ru:2222/milosvasic/monetization</code></td>
+<td>gitverse.ru</td>
+<td><strong>NO</strong></td>
+<td><strong>not anonymously readable</strong> (§3a) — setting
+UNDETERMINED</td>
+</tr>
+<tr>
+<td><strong><code>ai_interviewing</code></strong></td>
+<td><code>github.com:milos85vasic/ai_interviewing</code></td>
+<td>github.com</td>
+<td>yes</td>
+<td><strong>private</strong> ✔</td>
+</tr>
+<tr>
+<td><strong><code>workshop</code></strong></td>
+<td><code>github.com:milos85vasic/workshop_curriculum</code></td>
+<td>github.com</td>
+<td>yes</td>
+<td><strong>private</strong> ✔</td>
+</tr>
+</tbody>
+</table>
+<p><code>ai_interviewing</code> and <code>workshop</code> publish to
+exactly one destination each, and that destination is confirmed private.
+<strong><code>monetization</code> is the only private repository in this
+tree that fans out, and it is the only one with targets this checkout
+cannot fully classify.</strong></p>
+<h3 id="a-what-the-two-unadaptered-targets-were-measured-to-be">3a —
+What the two unadaptered targets <em>were</em> measured to be</h3>
+<p>Absent an API, an anonymous read is still a real measurement, and it
+was run with <strong>positive controls on both hosts</strong> so that a
+failure cannot be confused with a broken method.
+<code>GIT_TERMINAL_PROMPT=0</code>, empty credential helper, no
+credentials offered:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Probe</th>
+<th><code>git ls-remote</code> (anon HTTPS)</th>
+<th>Web page (anon <code>curl -L</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>control</strong>
+<code>github.com/vasic-digital/design-toolkit</code> (known public)</td>
+<td>rc=0, SHA returned</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>control</strong>
+<code>github.com/milos85vasic/monetization</code> (known private)</td>
+<td>rc=128, auth challenge</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>control</strong>
+<code>gitflic.ru/project/helixdevelopment/helixconstitution</code>
+(public source)</td>
+<td><strong>rc=0, SHA returned</strong></td>
+<td><strong>HTTP 200</strong></td>
+</tr>
+<tr>
+<td><strong>control</strong>
+<code>gitverse.ru/helixdevelopment/HelixConstitution</code> (public
+source)</td>
+<td><strong>rc=0, SHA returned</strong></td>
+<td><strong>HTTP 200</strong></td>
+</tr>
+<tr>
+<td><code>gitflic.ru/project/milosvasic/monetization</code></td>
+<td>rc=128, auth challenge</td>
+<td>HTTP 404</td>
+</tr>
+<tr>
+<td><code>gitverse.ru/milosvasic/monetization</code></td>
+<td>rc=128, auth challenge</td>
+<td>HTTP 404</td>
+</tr>
+<tr>
+<td><code>gitflic.ru/project/milosvasic/milosvasic-net-v-2</code></td>
+<td>rc=128, auth challenge</td>
+<td>HTTP 404</td>
+</tr>
+<tr>
+<td><code>gitflic.ru/project/&lt;nonexistent&gt;</code> (negative
+control)</td>
+<td>—</td>
+<td>HTTP 404</td>
+</tr>
+<tr>
+<td><code>gitverse.ru/&lt;nonexistent&gt;</code> (negative control)</td>
+<td>—</td>
+<td>HTTP 404</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What this establishes:</strong> the probe method works on
+both hosts (a public project there is anonymously clonable and returns
+200), and <strong>neither <code>monetization</code> copy is readable by
+an anonymous stranger.</strong> That is the reassuring half, and it is a
+genuine measurement rather than an assumption.</p>
+<p><strong>What this does NOT establish, and must not be reported as if
+it did:</strong></p>
+<ol type="1">
+<li>A 404 is what these hosts return for <em>both</em> “private” and
+“does not exist” — the negative control proves the two are
+indistinguishable from outside. The repositories <strong>do</strong>
+exist (SSH <code>ls-remote</code> reaches them, §6), so “not anonymously
+readable” is the finding; “private” is an inference.</li>
+<li><strong>Anonymous-unreadable is not the same as private.</strong>
+Neither host was asked for its visibility <em>setting</em>. A project
+set to an “internal”/“logged-in users only” tier — if these hosts offer
+one — would present exactly this way while being readable by every
+registered user of the platform. <strong>Nothing in this checkout can
+tell those two states apart.</strong> That is the residual risk, and it
+is unclosed.</li>
+<li>Nothing was established about <strong>forks, mirrors or
+organisation-level sharing</strong> on either host.</li>
+</ol>
+<p><strong>Verdict for §3: UNDETERMINED, narrowed but not
+closed.</strong> Two push targets of a private repository sit on hosts
+whose visibility model this checkout cannot query. Anonymous access is
+measurably denied today; the setting behind that denial has never been
+read by anyone here.</p>
+<hr />
+<h2
+id="the-reverse-check-any-private-source-pushing-to-a-confirmed-public-target">4
+— The reverse check: any private source pushing to a confirmed-public
+target?</h2>
+<p>This was checked exhaustively — every push URL of every repository,
+against the measured visibility table in §2.</p>
+<p><strong>Result: NONE. No confirmed private→public flow exists in this
+tree today.</strong></p>
+<p>The four cases that had to be ruled out individually, because each
+<em>looks</em> like one:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Case</th>
+<th>Source</th>
+<th>Target</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>monetization</code> → GitLab</td>
+<td>private</td>
+<td><code>gitlab.com:milos85vasic/monetization</code>
+<strong>private</strong></td>
+<td>not a leak</td>
+</tr>
+<tr>
+<td><code>constitution</code> →
+<code>vasic-digital/HelixConstitution</code> on GitLab</td>
+<td><strong>public</strong> source
+(<code>HelixDevelopment/constitution</code>)</td>
+<td>public</td>
+<td>not a leak — public content to a public mirror</td>
+</tr>
+<tr>
+<td><code>constitution</code> →
+<code>vasic-digital/HelixConstitution</code> on GitHub</td>
+<td>public source</td>
+<td><strong>private</strong> target</td>
+<td>public→private, harmless</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code> → gitflic</td>
+<td>public source</td>
+<td>not anonymously readable</td>
+<td>public→non-public, harmless</td>
+</tr>
+</tbody>
+</table>
+<p>Note the direction of the last two: this tree’s cross-visibility
+flows all run <strong>public into private</strong>, which loses nothing.
+The dangerous direction is empty.</p>
+<p><strong>Honest boundary:</strong> this is a statement about
+<strong>configured push destinations</strong>, not about repository
+<em>contents</em>. Whether private material has previously been
+committed into a public repository is a different question with its own
+open incident —
+<code>docs/content-boundary-incident-2026-09-01.md</code> and
+<code>scripts/verify-content-boundary.sh</code>, which exits 1 by
+design. <strong>A clean §4 here does not clear that.</strong></p>
+<hr />
+<h2 id="secret-hygiene-in-provider-api-responses">5 — Secret hygiene in
+provider API responses</h2>
+<p>The GitLab project API returns a live <strong>runner registration
+token</strong> in the project payload for callers with sufficient role.
+Anyone who logs, pipes, pastes or screenshots raw
+<code>glab api projects/...</code> output captures it.</p>
+<p>All nine GitLab-hosted projects in this tree were checked.
+<strong>Values were never read, recorded, or written anywhere — only
+presence, type and length.</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>GitLab project</th>
+<th><code>runners_token</code></th>
+<th>Source repo visibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>milos85vasic/monetization</code></strong></td>
+<td><strong>PRESENT</strong> — type <code>str</code>, length
+<strong>29</strong></td>
+<td>private</td>
+</tr>
+<tr>
+<td><code>helixdevelopment1/helixconstitution</code></td>
+<td>absent</td>
+<td>public</td>
+</tr>
+<tr>
+<td><code>vasic-digital/HelixConstitution</code></td>
+<td>absent</td>
+<td>public (GitLab)</td>
+</tr>
+<tr>
+<td><code>vasic-digital/containers</code></td>
+<td>absent</td>
+<td>public</td>
+</tr>
+<tr>
+<td><code>vasic-digital/LLMProvider</code></td>
+<td>absent</td>
+<td>public</td>
+</tr>
+<tr>
+<td><code>vasic-digital/RAG</code></td>
+<td>absent</td>
+<td>public</td>
+</tr>
+<tr>
+<td><code>vasic-digital/verdict</code></td>
+<td>absent</td>
+<td>public</td>
+</tr>
+<tr>
+<td><code>vasic-digital/passage</code></td>
+<td>absent</td>
+<td>public</td>
+</tr>
+<tr>
+<td><code>vasic-digital/design-toolkit</code></td>
+<td>absent</td>
+<td>private (GitLab)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Exactly one project of nine exposes it, and it is the one
+private repository with the widest push fan-out.</strong> The eight that
+do not expose it are all in the <code>vasic-digital</code> and
+<code>helixdevelopment1</code> group namespaces; the one that does is in
+the user’s <strong>own personal namespace</strong>, where the account
+holds Owner rather than a group-delegated role. The exposure tracks the
+caller’s role on the project, not any per-project setting made
+deliberately.</p>
+<p><strong>Does it need to be there?</strong> Measured alongside it:
+<code>shared_runners_enabled=true</code>,
+<code>jobs_enabled=true</code>,
+<code>runner_token_expiration_interval=None</code> (<strong>no
+expiry</strong>), and <code>ci_job_token_scope_enabled=false</code> on
+<strong>every</strong> project including this one. No project-level
+runner is evidenced by these fields. <strong>A never-expiring
+registration token is being served in an API response for a private
+repository whose CI posture shows no sign of needing a project
+runner.</strong> Whether a runner is genuinely registered was not
+determined — that needs a <code>runners</code> listing, which was not
+run.</p>
+<p>No other credential-shaped value was found in any payload. The other
+keys matching token/secret/key are configuration booleans and claim
+lists (<code>ci_job_token_scope_enabled</code>,
+<code>ci_id_token_sub_claim_components</code>,
+<code>runner_token_expiration_interval</code>,
+<code>ci_push_repository_for_job_token_allowed</code>), not secrets. A
+separate scan for credentials embedded in remote URLs
+(<code>https://user:pass@host</code> form) across all 14 repositories
+returned <strong>zero</strong> matches.</p>
+<hr />
+<h2 id="mirror-sync-every-reachable-push-target">6 — Mirror sync, every
+reachable push target</h2>
+<p><code>git ls-remote &lt;push-url&gt; refs/heads/&lt;local-branch&gt;</code>
+against the local HEAD, for all 29 distinct push URLs across the 14
+repositories. <strong>Every probe returned rc=0 — including both
+<code>gitflic.ru</code> and <code>gitverse.ru</code>, over SSH.</strong>
+No target was unreachable; no auth was refused; nothing timed out.</p>
+<p><strong>Result: 29 of 29 configured push targets IN-SYNC with their
+local HEAD.</strong></p>
+<p>That includes every one of the six constitution mirrors (gitflic, two
+GitHub orgs, two GitLab namespaces, gitverse — all at
+<code>cbcf4eebdf0a</code>), all four <code>monetization</code> mirrors
+(all at <code>54ed7b0f5add</code>), and both <code>milosvasic.ru</code>
+targets.</p>
+<h3 id="the-one-mirror-that-is-behind-is-the-one-no-longer-wired-up">The
+one mirror that is behind is the one no longer wired up</h3>
+<p><code>design-toolkit</code>’s GitLab mirror is <strong>not</strong> a
+configured push target in this checkout (§1b), so it does not appear in
+the 29. Probing the URL directly — read-only, no remote added:</p>
+<pre><code>local HEAD                                    a135aa8eebb17917d699ab3ca3f3c48e99e13d89
+gitlab.com:vasic-digital/design-toolkit main  520c436c2c2a33ed3976856463347519b3a710d9   rc=0
+merge-base --is-ancestor 520c436c a135aa8e    rc=0     -&gt; pure lag, no divergence
+rev-list --left-right --count 520c436c...a135aa8e  -&gt;  0   7</code></pre>
+<p><strong>Confirmed: 0 divergent, 7 behind.</strong> The brief’s figure
+of 7 is correct and <strong>supersedes the 6 recorded in
+<code>CLAUDE.md</code></strong> — the GitHub side has advanced one
+further commit since that reading; the GitLab side has not moved at all
+(<code>520c436c</code> is the same commit both readings name).</p>
+<p>The gap is structurally frozen and cannot close by itself: the
+submodule’s push recipe is <code>upstreams/gitlab.sh.disabled</code>,
+and this checkout declares no <code>gitlab</code> remote for it.
+<strong>The mirror is behind a repository that is public on GitHub, so
+every commit it lacks is already published; the 7-commit gap carries no
+content-boundary risk.</strong></p>
+<p><strong>No other repository was found lagging any of its
+mirrors.</strong></p>
+<h3 id="the-tree-was-moving">The tree was moving</h3>
+<p>Three submodule HEADs changed between the first and second
+measurement pass of this audit, consistent with other agents working in
+the same checkout:</p>
+<pre><code>submodules/containers    6d13ad03528c  -&gt;  7f5922563d8b
+submodules/LLMProvider   e2c6b7bf039c  -&gt;  4c73c8b0dfc6
+submodules/RAG           13f4bacd6051  -&gt;  2dffc735f3d8</code></pre>
+<p>All three still measured IN-SYNC against every mirror at the later
+reading. <strong>Treat the per-SHA rows as a snapshot, not a
+baseline</strong> — the sync verdicts are what survive.</p>
+<hr />
+<h2 id="the-blind-spot-no-gate-in-this-tree-reads-a-push-url">7 — The
+blind spot: no gate in this tree reads a push URL</h2>
+<p><code>scripts/verify-submodule-remote-sync.sh</code> — the only
+instrument here that looks at a remote at all — reads the URL declared
+in <strong><code>.gitmodules</code></strong> (line 309,
+<code>while IFS=$'\t' read -r path url</code>), which is a single
+<em>fetch</em> URL per submodule. It never enumerates configured remotes
+and never asks for push URLs.</p>
+<pre><code>git grep -n -- &#39;--all --push&#39;     -&gt;  no matches anywhere in the umbrella</code></pre>
+<p><strong>Consequence, stated plainly:</strong> a submodule could
+acquire a fifth push URL pointing at any host on earth, and
+<code>verify-submodule-remote-sync.sh</code>,
+<code>verify-manifest-pins.sh</code>,
+<code>verify-governance-cascade.sh</code> and
+<code>verify-content-boundary.sh</code> would all stay exactly as green
+as they are now. The entire fan-out described in §1 is invisible to
+every gate in this repository. It was found by hand, and only because
+someone went looking.</p>
+<p>The fan-out mechanism is also visible in the tracked
+<code>upstreams/</code> recipe sets, which agree with the configured
+push URLs repository by repository:</p>
+<table>
+<thead>
+<tr>
+<th>Repository</th>
+<th style="text-align: right;"><code>upstreams/</code> recipes</th>
+<th style="text-align: right;">push URLs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td style="text-align: right;">4 (<code>GitFlic</code>,
+<code>GitHub</code>, <code>GitLab</code>, <code>GitVerse</code>)</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td><code>submodules/containers</code></td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr>
+<td><code>submodules/LLMProvider</code></td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td><code>submodules/RAG</code></td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td><code>submodules/verdict</code>,
+<code>submodules/passage</code></td>
+<td style="text-align: right;">2 each</td>
+<td style="text-align: right;">2 each</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td style="text-align: right;">2, one <code>.disabled</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><code>.</code> (umbrella), <code>ai_interviewing</code>,
+<code>workshop</code></td>
+<td style="text-align: right;">1 each</td>
+<td style="text-align: right;">1 each</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code>, <code>vasic.digital</code></td>
+<td style="text-align: right;"><strong>none</strong></td>
+<td style="text-align: right;">2, 1</td>
+</tr>
+</tbody>
+</table>
+<p><code>milosvasic.ru</code> has <strong>no <code>upstreams/</code>
+directory at all</strong> yet carries two push URLs — its fan-out lives
+only in <code>.git/config</code>, which is untracked. A fresh clone
+reproduces neither.</p>
+<hr />
+<h2 id="everything-undetermined">8 — Everything UNDETERMINED</h2>
+<p>Recorded as 2, never as a pass.</p>
+<ol type="1">
+<li><strong>Visibility <em>setting</em> of
+<code>gitflic.ru:milosvasic/monetization</code>.</strong> No API
+adapter. Anonymous read denied and web page 404 (with working positive
+controls on that host), so it is not open to strangers — but “not
+anonymously readable” is not “private”, and an internal/logged-in-users
+tier would be indistinguishable from here.</li>
+<li><strong>Visibility <em>setting</em> of
+<code>gitverse.ru:2222/milosvasic/monetization</code>.</strong>
+Identical situation, identical evidence, identical residual gap.</li>
+<li><strong>Visibility of
+<code>gitflic.ru:milosvasic/milosvasic-net-v-2</code>.</strong> Same
+class. Source repo is public, so the stakes are lower, but the answer is
+equally unknown.</li>
+<li><strong>Whether a GitLab runner is actually registered against
+<code>milos85vasic/monetization</code></strong> — i.e. whether the
+never-expiring <code>runners_token</code> serves any purpose. Not
+probed; needs a <code>runners</code> listing.</li>
+<li><strong>Whether the <code>milosvasic.net.v2</code> rename redirect
+will persist.</strong> Provider behaviour, unreadable from here. Today
+it resolves; a production publish path depends on it.</li>
+<li><strong>Whether the two unadaptered hosts expose these repositories
+through forks, mirrors, or org-level sharing.</strong> Not probed by any
+method available here.</li>
+<li><strong>Whether <code>.git/config</code> in a fresh clone would
+reproduce any of this topology.</strong> The push fan-out lives in
+untracked local config; only the <code>upstreams/</code> recipes are
+tracked, and they do not match the push URLs everywhere (§7).</li>
+</ol>
+<hr />
+<h2 id="what-an-operator-must-decide">9 — What an operator must
+decide</h2>
+<p>Nothing below was acted on. Each item names its cost.</p>
+<ol type="1">
+<li><p><strong>Get a read-only visibility answer for
+<code>gitflic.ru</code> and <code>gitverse.ru</code>, or accept
+permanent ignorance about two destinations of a private
+repository.</strong> Both hosts are reachable and both serve public
+projects anonymously, so the gap is genuinely <em>adapter-shaped</em>
+and closable — a small read-only API client for each, registered the way
+<code>gh</code>/<code>glab</code> are, would move items 1–3 above out of
+UNDETERMINED for good. Cost: real work against two APIs with no existing
+tooling. Doing nothing costs nothing today and leaves a private
+repository publishing to two hosts nobody has ever asked a question
+of.</p></li>
+<li><p><strong>Decide whether <code>monetization</code> should fan out
+to four hosts at all.</strong> It is the only private repository in the
+tree that does, and its two unverifiable destinations are the
+<em>entire</em> content of §3. Reducing <code>origin</code>’s push set
+to the two hosts that can be audited would close the finding outright.
+Cost: the Russian-host mirrors stop receiving commits, which may be
+exactly why they exist. <strong>This is a hosting-policy decision, not a
+security defect</strong> — the audit found no evidence of exposure, only
+of unverifiability.</p></li>
+<li><p><strong>Rotate the GitLab runner registration token on
+<code>milos85vasic/monetization</code>, or establish that it is
+needed.</strong> It has no expiry, it is served in an API response for a
+private repository, and no project runner is evidenced. Cost of
+rotating: any genuinely registered runner must be re-registered. Cost of
+leaving it: a permanent credential in every raw <code>glab api</code>
+transcript for that project. <strong>Determine first (item 4 in §8),
+then rotate — do not rotate blind.</strong></p></li>
+<li><p><strong>Reconcile <code>vasic-digital/HelixConstitution</code>:
+private on GitHub, public on GitLab.</strong> Two opposite settings on
+the same mirrored content. Harmless today because the source is public;
+it is a signal that one of the two was set without the other in
+view.</p></li>
+<li><p><strong>Decide whether <code>milosvasic.ru</code>’s production
+publish path should keep depending on a GitHub rename redirect.</strong>
+<code>origin</code> pushes to <code>milosvasic.net.v2</code>, which
+resolves to <code>milosvasic.ru</code> only because GitHub still honours
+the old name. Pointing the push URL at the current name is a one-line
+config change with no downside. Cost of leaving it: a live site whose
+deploy path breaks silently if the old name is ever reclaimed.</p></li>
+<li><p><strong>Teach a gate to read push URLs.</strong> Every finding in
+this document was invisible to every instrument in this repository (§7).
+A check that enumerates <code>git remote get-url --all --push</code> per
+repository, resolves each host, and fails when a private repository
+gains a destination that cannot be classified would make this audit
+repeatable instead of one-off. Cost: another gate to maintain — and it
+should be paired-mutation proved like the rest, or it is worth
+nothing.</p></li>
+<li><p><strong>Drop the redundant duplicate push URL on
+<code>submodules/containers</code></strong> (<code>Containers</code> and
+<code>containers</code> are the same GitLab project). Cosmetic; costs
+nothing either way.</p></li>
+</ol>
+<p><strong>Recommended ordering: 5 (free, protects production), then 3
+(after determining 4 in §8), then 1, then 2, then 6.</strong> Items 4
+and 7 are tidy-ups.</p>
+<hr />
+<h2 id="re-derive-do-not-quote-this-file">10 — Re-derive; do not quote
+this file</h2>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># topology — the ONLY correct flag</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> d <span class="kw">in</span> . <span class="va">$(</span><span class="fu">git</span> config <span class="at">-f</span> .gitmodules <span class="at">--get-regexp</span> <span class="st">&#39;submodule\..*\.path&#39;</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $2}&#39;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">&quot;## </span><span class="va">$d</span><span class="st">&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> r <span class="kw">in</span> <span class="va">$(</span><span class="fu">git</span> <span class="at">-C</span> <span class="st">&quot;</span><span class="va">$d</span><span class="st">&quot;</span> remote<span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;  </span><span class="va">$r</span><span class="st"> fetch: </span><span class="va">$(</span><span class="fu">git</span> <span class="at">-C</span> <span class="st">&quot;</span><span class="va">$d</span><span class="st">&quot;</span> remote get-url <span class="at">--all</span>       <span class="st">&quot;</span><span class="va">$r</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;\n&#39;</span> <span class="st">&#39; &#39;</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">&quot;  </span><span class="va">$r</span><span class="st"> push : </span><span class="va">$(</span><span class="fu">git</span> <span class="at">-C</span> <span class="st">&quot;</span><span class="va">$d</span><span class="st">&quot;</span> remote get-url <span class="at">--all</span> <span class="at">--push</span> <span class="st">&quot;</span><span class="va">$r</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;\n&#39;</span> <span class="st">&#39; &#39;</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">done</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># visibility</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span>   api repos/<span class="op">&lt;</span>owner<span class="op">&gt;</span>/<span class="op">&lt;</span>name<span class="op">&gt;</span>      --jq <span class="st">&#39;[.full_name,.visibility]|join(&quot; &quot;)&#39;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="ex">glab</span> api projects/<span class="op">&lt;</span>owner<span class="op">&gt;</span>%2F<span class="op">&lt;</span>name<span class="op">&gt;</span> <span class="kw">|</span> <span class="ex">python3</span> <span class="at">-c</span> <span class="st">&#39;import sys,json;d=json.load(sys.stdin);print(d[&quot;path_with_namespace&quot;],d[&quot;visibility&quot;])&#39;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># anonymous readability on a host with no adapter (positive control first!)</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="va">GIT_TERMINAL_PROMPT</span><span class="op">=</span>0 <span class="fu">git</span> <span class="at">-c</span> credential.helper= ls-remote https://<span class="op">&lt;</span>host<span class="op">&gt;</span>/<span class="op">&lt;</span>path<span class="op">&gt;</span>.git HEAD</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co"># mirror sync</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> <span class="op">&lt;</span>repo<span class="op">&gt;</span> ls-remote <span class="op">&lt;</span>push-url<span class="op">&gt;</span> refs/heads/<span class="op">&lt;</span>branch<span class="op">&gt;</span></span></code></pre></div>
+</body>
+</html>

@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>plan</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">plan</h1>
+</header>
+<h1 id="implementation-plan-workshop-curriculum-platform">Implementation
+Plan: Workshop Curriculum Platform</h1>
+<p><strong>Branch</strong>:
+<code>001-workshop-curriculum-platform</code> | <strong>Date</strong>:
+2026-08-31 | <strong>Spec</strong>: <a href="./spec.md">spec.md</a>
+<strong>Input</strong>: Feature specification from
+<code>specs/001-workshop-curriculum-platform/spec.md</code></p>
+<h2 id="summary">Summary</h2>
+<p>Turn a 1.8 GB workshop recording into a browsable, searchable
+curriculum.</p>
+<p>The primary requirement is a faithful, verifiable transcript (User
+Story 1) — everything else is built on it. On top of that sits a
+chapter-browsing interface modelled on the existing
+<code>ai_interviewing</code> module (US2), a semantic search layer over
+all curriculum content with stable citable passages (US3), grounded
+question answering that refuses rather than fabricates (US4), and a
+repeatable procedure for adding each new chapter (US5).</p>
+<p>The technical approach reuses what this repository already runs — a
+Go backend, an Angular frontend, the existing Lumen semantic index, and
+the local ollama inference endpoint — and adds transcription, a
+passage-identity layer, and a search interface. <strong>Five premises
+did not survive verification</strong> and are corrected in Technical
+Context below — including two of this plan’s own.</p>
+<h2 id="technical-context">Technical Context</h2>
+<p><strong>Language/Version</strong>: Go 1.26.2 (backend, matching
+<code>ai_interviewing/platform/backend/go.mod</code>);
+TypeScript/Angular (frontend, matching
+<code>ai_interviewing/platform/frontend</code>, package name
+<code>ai-curriculum</code>); Python 3.14.6 and Bash for pipeline
+tooling.</p>
+<p><strong>Primary Dependencies</strong>: <code>ffmpeg</code> for media
+handling — <strong>but see the corrected premise below:
+<code>ffprobe</code> is NOT installed</strong>, and <code>ffmpeg</code>
+itself resolves into an npx-managed Playwright cache.
+<code>faster-whisper</code> (CTranslate2, CPU int8,
+<code>large-v3-turbo</code>) for speech recognition — <strong>not
+installed; must be added in a project-local venv</strong>. Lumen for
+semantic indexing over text. ollama at
+<code>http://localhost:11434</code> for embeddings only — <strong>it
+serves no generative model</strong>.</p>
+<p><strong>Storage</strong>: Files on disk for source material,
+transcripts and curriculum content. SQLite for the derived index,
+following the pattern the existing Lumen index already uses. No external
+database — decision D1 makes the system single-machine.</p>
+<p><strong>Testing</strong>: Go’s built-in testing for the backend;
+Karma + Jasmine for the frontend, matching the reference module; Bash
+harness tests for pipeline scripts, following the repository’s existing
+convention of behavioural assertions with paired mutation proofs.</p>
+<p><strong>Target Platform</strong>: Linux, single machine,
+local/internal only (decision D1). Host container runtime is
+<strong>podman + podman-compose</strong>; <code>docker</code> is
+<strong>absent</strong> on this host.</p>
+<p><strong>Project Type</strong>: Web application (Go service + Angular
+client) with an offline content pipeline.</p>
+<p><strong>Performance Goals</strong>: Suggestions ≤200 ms p95 (SC-005);
+search results ≤2 s p95 (SC-006); ≥90% top-5 accuracy on a 20-query
+benchmark (SC-007); ≥80% success on queries sharing no literal words
+with the target (SC-008).</p>
+<p><strong>Constraints</strong>: CPU-only inference — the repository
+deliberately forces <code>library=cpu</code> and
+<code>GGML_VK_VISIBLE_DEVICES=-1</code> after a GPU fault corrupted the
+index. 8 CPUs. No content leaves the machine when a local model is
+configured (FR-024). No server-side CI may be added (FR-034).</p>
+<h3 id="five-corrected-premises">Five corrected premises</h3>
+<p>These are recorded because the request or an earlier draft of this
+plan assumed each of them, and none held when measured. Three concern
+the environment and two concern this plan’s own earlier claims — both
+kinds are listed, because a plan that hides its own corrections is not
+evidence of anything.</p>
+<p><strong>1. The reference module is not containerised — and a bespoke
+stack would have been a violation.</strong> The request says the
+curriculum must run “through the containers same way” as
+<code>ai_interviewing</code>. Measured: <code>ai_interviewing</code>
+contains <strong>zero</strong> container definitions; it runs as a
+native Go binary (<code>platform/bin/aicur</code>) serving an Angular
+frontend. So “the same way” cannot mean copying a setup that does not
+exist.</p>
+<p>More importantly, the obvious fallback — hand-rolling a Containerfile
+— is forbidden. <strong>§11.4.76</strong> (verified verbatim at
+<code>submodules/constitution/Constitution.md:7113</code>) mandates that
+for ANY containerised workload the project MUST consume
+<code>git@github.com:vasic-digital/containers.git</code> as a git
+submodule, and clause (4) requires <strong>extending it, never
+reimplementing it</strong>. It was not declared in this tree.</p>
+<p><em>Resolution</em>: the submodule is now mounted at
+<code>submodules/containers</code> — the tree’s <code>submodules/</code>
+path is for non-product infrastructure gitlinks
+(<code>constitution</code>, <code>superspec</code>), and containers is a
+consumed Go library, not a product. It classifies OWNED automatically,
+because <code>github.com/vasic-digital</code> now hosts three declared
+submodules and the fleet roster derives ownership from that evidence
+rather than a hardcoded list.</p>
+<p><em>What it actually provides</em> — verified by building it and
+running its tests, not read off its README: six runtime backends behind
+one interface with <strong>podman first, explicitly for
+rootless</strong> (satisfying §11.4.161); compose orchestration that
+detects the compose CLI and resolves to <code>podman-compose</code> on
+this host, correctly suppressing the docker-only <code>--wait</code>
+flag and defending against the podman-docker shim; TCP/HTTP/gRPC health
+checkers; lazy boot with idle shutdown; and a <code>cmd/boot</code> CLI.
+It is Go-only, which fits — the workshop backend is Go 1.26.2.</p>
+<p><em>Three gaps named rather than discovered later</em>: - <strong>No
+bash boot wrapper exists.</strong> The request’s “all mandatory bash
+scripts” is not satisfied by the submodule; lifecycle is a Go API plus
+Go CLIs. <del>Thin workshop wrappers that invoke <code>cmd/boot</code>
+are <em>consumption</em>, so they are §11.4.76-legal.</del> Anything
+beyond thin wrapping must be contributed upstream.</p>
+<p><strong>Corrected 2026-09-01 — <code>cmd/boot</code> is not usable as
+that entry point.</strong> This bullet named the wrong one, and the
+error was not cosmetic: it would have specified an instrument that
+reports success over an absent system. Measured in
+<code>submodules/containers/cmd/boot/main.go</code> at gitlink
+<code>4dab992</code> — its flags are only <code>--env</code>,
+<code>--project</code>, <code>--timeout</code>, <code>--help</code>, so
+there are <strong>no lifecycle verbs and no compose-file flag</strong>;
+it hardcodes <code>{"helixagent": localhost:7061}</code>
+(<code>main.go:148–153</code>); its <code>BootManager</code> is built
+with <strong>no orchestrator and no health checker</strong>; and
+<code>runBoot</code> returns <code>nil</code>, so it <strong>exits
+<code>0</code> having started nothing</strong>. A wrapper trusting that
+exit code would report a healthy stack that does not exist — the
+§11.4.76(5) bluff shape exactly. <em>Resolution</em>: the control plane
+consumes the submodule’s <strong>Go API</strong>
+(<code>pkg/compose</code>, <code>pkg/health</code>,
+<code>pkg/runtime</code>) through a <code>workshop-boot</code> adapter
+in <code>workshop/platform/orchestration/</code>, which is what
+§11.4.76(3) actually prescribes. Still consumption — the adapter
+contains no runtime detection, compose driving or health-check logic of
+its own. <code>cmd/boot</code>’s four defects are upstream debt to be
+fixed there per §11.4.76(4), staged in
+<code>workshop/platform/upstream-contributions/</code>. -
+<code>DefaultHelixServices()</code> is postgres/redis/etcd-shaped,
+irrelevant here — but not a defect, since
+<code>ComposeProject.File</code> accepts an arbitrary compose file, so
+the workshop supplies its own. -
+<strong><code>submodules/containers/scripts/build-all.sh</code> is
+broken upstream</strong>: it builds <code>./cmd/core/</code> and
+<code>./cmd/host-agent/</code>, neither of which exists. Do not use it
+as a model.</p>
+<p><em>One blocker it exposed — now CLEARED; recorded rather than
+deleted.</em> <del>The submodule’s own four carriers are 414/246/24/24
+lines — four genuinely different documents, a §11.4.157(B) violation
+latent upstream. The new C8 in-submodule lockstep check catches it,
+<strong>which currently blocks the pre-push hook</strong>. Being fixed
+upstream per §11.4.76(4), not worked around locally.</del></p>
+<p><strong>RESOLVED 2026-09-01.</strong> The finding was correct; only
+its tense is now wrong, and a plan that leaves a cleared blocker
+described as live is as misleading as one that hides a real one. The fix
+went upstream — not around it — exactly as §11.4.76(4) requires:</p>
+<ul>
+<li><p><strong>Upstream commit</strong> <code>4dab992</code>
+<em>“govern(carriers): restore §11.4.157(B) four-carrier lockstep”</em>,
+touching all four carriers (+2456 / −352). Pushed, not merely
+local.</p></li>
+<li><p><strong>Gitlink bumped and verified</strong>:
+<code>git ls-tree HEAD submodules/containers</code> →
+<code>160000 commit 4dab992582666a64a4353cd593704cdc969aaa1e</code>. The
+umbrella consumes the fixed commit, so the resolution is pinned rather
+than incidental to a checkout.</p></li>
+<li><p><strong>Measured carrier sizes now</strong>: 703 / 703 / 703 /
+703 lines, replacing 414 / 246 / 24 / 24.</p></li>
+<li><p><strong>The instrument was re-run, not assumed</strong> (per
+§11.4.6 — a fix is not a pass until the gate that caught it is observed
+green). <code>bash scripts/verify-governance-cascade.sh</code> on
+2026-09-01:</p>
+<pre><code>✅ PASS  C8 IN-SUBMODULE-LOCKSTEP — all 7 owned submodule(s) carry four agent carriers with
+         byte-identical bodies once the per-agent header is normalised (§11.4.157(B))
+CM-GOVERNANCE-CASCADE: 12 PASS, 0 FAIL, 0 ENV, 7 NOTE          rc=0</code></pre></li>
+</ul>
+<p><strong>The pre-push hook is therefore no longer blocked by
+this</strong>, and no task is needed to clear it. Note the boundary this
+claim does and does not cross: what was measured is the governance
+cascade returning rc=0 with C8 green. That is the check that was
+blocking. It is not a claim that every other pre-push gate passes — none
+of those were run for this correction, and their state is not asserted
+here.</p>
+<p><strong>2. Generative capability — resolved, and the answer is
+“none”.</strong> Superseded by premise 5 below, which measured it.
+US1–US3 are deliberately sequenced to deliver value without it, and
+FR-025 already requires browsing and search to work when answering is
+unavailable, so US4 degrades to a documented operator step rather than
+blocking the feature.</p>
+<p><strong>3. <code>ffprobe</code> is not installed, and
+<code>ffmpeg</code> is not durably installed either.</strong> An earlier
+draft of this plan asserted “ffmpeg/ffprobe 7.0.2 (present on host)”.
+Measured: <code>$(command -v ffprobe)</code> resolves to a
+<strong>symlink to Playwright’s ffmpeg binary</strong> and rejects
+<code>-show_format</code> (“Unrecognized option”). The original probe
+ran <code>ffprobe --version</code>, which the ffmpeg binary accepts — so
+a tool that does not exist looked present. Both <code>ffmpeg</code> and
+<code>ffprobe</code> resolve into
+<code>~/.cache/ms-playwright/ffmpeg-1011/</code>, an npx-managed cache
+that a <code>npx playwright uninstall</code> or a cache clean would
+remove.</p>
+<p><em>Consequence</em>: any pipeline step invoking <code>ffprobe</code>
+fails here with what reads like a bad-argument error rather than a
+missing-binary error. The pipeline MUST detect its media tooling rather
+than assume it (Environment Adaptability), and MUST NOT depend on a
+browser-automation cache for a production content pipeline.</p>
+<p><strong>4. No speech-recognition engine is installed.</strong>
+<code>/usr/bin/whisper</code> is <code>whisper-1.3.1-alt1</code>, a
+microphone-loopback GUI by a different author — not OpenAI Whisper;
+<code>import whisper</code> fails. ollama’s
+<code>/v1/audio/transcriptions</code> endpoint is real, but its Whisper
+strings are an <em>encoder</em> projecting audio into an LLM token
+space; <code>word_timestamps</code>, <code>avg_logprob</code> and
+<code>no_speech_prob</code> appear nowhere in the binary, so it cannot
+satisfy FR-002 (timestamps) or FR-003 (confidence).</p>
+<p><strong>5. There is no generative model, so User Story 4 cannot run
+at all today.</strong> ollama serves exactly two models and they are the
+<strong>same</strong> embedding model (<code>jina-bert-v2</code>,
+160.28M, an encoder with no LM head). The entire model store is 309 MB
+across 7 blobs — too small to hold a decoder. US4 is blocked on an
+operator <code>ollama pull</code>, not on code. Corroborating trap:
+<code>~/helix-agent</code> is a 23.7 MB <strong>cluster mesh
+node</strong> (SWIM / WireGuard / etcd), not an LLM agent; and HelixLLM
+appears in this repository only as portfolio marketing copy.</p>
+<p><strong>Measured recording properties</strong> (these, not “1.8 GB”,
+drive every estimate): duration <strong>01:55:28.75 (6928.75
+s)</strong>, H.264 1920x1080 24 fps, AAC-LC 48 kHz stereo — but the
+stereo is <strong>dual-mono</strong> (L-R difference -90.3 dB), so
+channel-based speaker separation is impossible. Uniformly
+AGC-compressed. Only 8 long silences totalling 41.33 s (0.597%). The
+notes PDF has a real text layer (3,034 words) — a
+<strong>summary</strong>, roughly 26 words per minute of recording, and
+demonstrably erroneous (“Spatkit” for SpecKit), which is why the spec
+makes the recording authoritative.</p>
+<p><strong>Open items entering Phase 1</strong>:</p>
+<ul>
+<li>Whether Lumen’s chunk identifiers are stable across re-index —
+determines whether FR-037 needs its own identity layer. Highest-risk
+unknown: SC-016 fails silently if wrong. Research pending.</li>
+<li>Whether the cp314 wheels for CTranslate2/faster-whisper install and
+run on this host.</li>
+<li>Real transcription throughput, settled by a 5-minute calibration run
+on an already-extracted 300 s sample.</li>
+</ul>
+<h2 id="constitution-check">Constitution Check</h2>
+<p><em>GATE: Must pass before proceeding. Re-check after design
+phase.</em></p>
+<p>Principles taken from <code>.specify/memory/constitution.md</code>,
+which inherits from the constitution submodule.</p>
+<table>
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 30%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Status</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Evidence-Based Claims</strong> — no guessing, no fabrication
+(§11.4)</td>
+<td><strong>PASS</strong></td>
+<td>The spec’s Context table records only measured values. FR-004
+requires a <em>measured</em> accuracy figure, not an assertion. FR-033
+forbids reporting a check as passed when it could not run. This plan
+corrects two premises that measurement disproved rather than carrying
+them forward.</td>
+</tr>
+<tr>
+<td><strong>Governance Fidelity</strong> — four carriers in lockstep;
+constitution is authoritative</td>
+<td><strong>PASS</strong> (was NEEDS ATTENTION)</td>
+<td>Resolved 2026-09-01, after this row was first written.
+<code>workshop</code> carried none of the four carriers (coverage 20/24)
+and <code>verify-governance-cascade.sh</code> FAILed C1 and C6 on it.
+All four are now present <strong>and committed</strong> in that
+submodule at <code>55076bf</code> — committing mattered, because until
+then a fresh <code>git submodule update --init</code> would have
+reconstructed a <code>workshop</code> without them. Coverage is 24/24;
+the verifier reports 10 PASS / 0 FAIL / rc=0, and its
+<code>--prove-failure</code> — which was itself inoperative, failing at
+CONTROL so zero mutations were ever reached — now runs the real entry
+point first.</td>
+</tr>
+<tr>
+<td><strong>Isolation by Default</strong> — mutation-paired gates;
+hardlinked backup before destructive ops (§1.1, §9)</td>
+<td><strong>PASS</strong></td>
+<td>FR-032 and SC-012 require every check to carry a paired proof that
+it fails when its condition is broken. The transcription pipeline reads
+source media and never writes to it (FR-006).</td>
+</tr>
+<tr>
+<td><strong>Comprehensive Documentation</strong> — CONTINUATION.md
+updated; honest boundaries</td>
+<td><strong>PASS</strong></td>
+<td>FR-030/031 mandate the doc set including an explicit statement of
+what the system cannot do. FR-035 covers CONTINUATION.md.</td>
+</tr>
+<tr>
+<td><strong>Quality Over Speed</strong> — 60% RAM cap, TDD,
+lint/typecheck before “done”</td>
+<td><strong>PASS</strong></td>
+<td>Execution Strategy below marks the correctness-critical components
+<code>[TDD]</code>. Transcription is chunked and resumable (FR-029),
+keeping memory bounded rather than loading a 1.8 GB file whole.</td>
+</tr>
+<tr>
+<td><strong>§11.4.156 — no active server-side CI</strong></td>
+<td><strong>PASS</strong></td>
+<td>FR-034 and SC-014 forbid adding any. The repository’s local pre-push
+gate remains the enforcement point.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Gate result (initial): PROCEED</strong>, with one blocking
+prerequisite — <code>workshop</code> governance onboarding. That
+prerequisite is now <strong>discharged</strong> (see the row above).</p>
+<h3 id="post-design-re-check-2026-09-01-after-phase-1">Post-design
+re-check (2026-09-01, after Phase 1)</h3>
+<p>Re-evaluated against the design rather than the intent, as the gate
+requires.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Status</th>
+<th>What the design does about it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Evidence-Based Claims</td>
+<td><strong>PASS</strong></td>
+<td>Phase 0 replaced five assumed premises with measurements and
+withdrew two of this plan’s own claims explicitly.
+<code>research.md</code> carries an UNVERIFIED register (U1–U5) naming
+what settles each.</td>
+</tr>
+<tr>
+<td>Honest Instruments</td>
+<td><strong>PASS</strong></td>
+<td>The 0/1/2 contract is bound into the design, not bolted on:
+<code>Answer.status</code> has <code>unavailable</code> as a first-class
+third state distinct from <code>declined</code>, and D-SEARCH-4 forbids
+deriving degradation from a liveness probe — measured necessity, since
+<code>health_check</code> returned OK 2 ms before
+<code>semantic_search</code> failed.</td>
+</tr>
+<tr>
+<td>Governance Fidelity</td>
+<td><strong>PASS</strong></td>
+<td>24/24 carriers, committed.</td>
+</tr>
+<tr>
+<td>Isolation by Default</td>
+<td><strong>PASS</strong></td>
+<td>Every gate this feature adds owes a paired mutation proof
+(FR-032/SC-012). The quickstart enumerates 14 such proofs as owed rather
+than assumed.</td>
+</tr>
+<tr>
+<td>Comprehensive Documentation</td>
+<td><strong>PASS</strong></td>
+<td>FR-030/031 require the doc set to state what the system cannot do —
+which now includes real limits: media is reachable only via transcripts
+(D-SEARCH-3), and answering is asynchronous, not instant (D-LLM-5).</td>
+</tr>
+<tr>
+<td>Environment Adaptability</td>
+<td><strong>PASS</strong></td>
+<td>The pipeline must detect its media tooling rather than assume it — a
+rule this plan earned by asserting <code>ffprobe</code> was present when
+it is a Playwright symlink.</td>
+</tr>
+<tr>
+<td>Quality Over Speed</td>
+<td><strong>PASS</strong></td>
+<td>Transcription is chunked and resumable, so memory stays bounded
+rather than loading a 1.8 GB file whole.</td>
+</tr>
+<tr>
+<td>§11.4.156 — no server-side CI</td>
+<td><strong>PASS</strong>, and strengthened</td>
+<td>Enforcement itself was defective: gate E swept only the umbrella, so
+an added workflow inside <code>workshop/</code> would have shipped
+unnoticed. Closed and mutation-proven on 2026-09-01.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Post-design gate result: PROCEED to
+<code>/speckit-tasks</code>.</strong> No unjustified violation. The two
+Complexity Tracking entries stand, and the second is no longer
+speculative — D-SEARCH-1 measured that Lumen chunk IDs are
+content-derived, so the passage-identity layer is required.</p>
+<h2 id="project-structure">Project Structure</h2>
+<h3 id="documentation-this-feature">Documentation (this feature)</h3>
+<pre class="text"><code>specs/001-workshop-curriculum-platform/
+├── spec.md                  # Feature specification
+├── plan.md                  # This file
+├── research.md              # Phase 0 consolidated findings
+├── research/
+│   ├── transcription.md     # ASR engine, accuracy methodology, resumability
+│   ├── search-architecture.md  # Index design, passage identity, autocomplete
+│   └── llm-bridging.md      # Provider seam, grounding, refusal design
+├── data-model.md            # Phase 1 entities
+├── contracts/               # Phase 1 interface contracts
+├── quickstart.md            # Phase 1 validation guide
+├── tasks.md                 # Task breakdown
+└── checklists/
+    └── requirements.md      # Spec quality checklist</code></pre>
+<h3 id="source-code-repository-root">Source Code (repository root)</h3>
+<pre class="text"><code>workshop/                             # the feature&#39;s home (a submodule)
+├── CLAUDE.md AGENTS.md QWEN.md GEMINI.md   # governance carriers — PREREQUISITE, absent today
+├── chapters/
+│   └── 01/                           # existing: recording parts, .sha256, notes PDF
+│       └── transcript/               # NEW: machine transcript + corrections + evidence
+├── curriculum/                       # NEW: published, browsable chapter content
+├── platform/                         # NEW: mirrors ai_interviewing/platform layout
+│   ├── backend/                      # Go service: content, search, answering
+│   ├── frontend/                     # Angular client: browse, watch, search UI
+│   └── bin/
+├── pipeline/                         # NEW: offline content pipeline
+│   ├── transcribe/                   # media → timestamped passages
+│   ├── ingest/                       # passages → stable ids → index
+│   └── crossref/                     # passage relationships
+├── scripts/                          # existing archive/extract/hooks + NEW run/build/test
+│                                     # NO containers/ dir — orchestration is CONSUMED from
+│                                     # submodules/containers; a local stack violates §11.4.76(4)
+└── docs/                             # NEW: quickstart, user guide, manual, FAQ, training</code></pre>
+<p><strong>Decoupling (operator directive, 2026-09-01)</strong>: every
+component and service must be fully decoupled and reusable
+(FR-043–FR-045, SC-019). Reusable units live in <code>pkg/</code>, never
+<code>internal/</code> — Go’s <code>internal/</code> is importable only
+from within its own module, so it forecloses reuse by language rule
+rather than by style. Only <code>internal/store</code> stays private,
+because chapter and curriculum persistence is the one genuinely
+workshop-specific unit. Where reuse is real, a unit becomes its own
+module on the <code>digital.vasic.containers</code> pattern.</p>
+<p><strong>Structure Decision</strong>: mirror
+<code>ai_interviewing/platform</code>’s <code>backend/</code> +
+<code>frontend/</code> + <code>bin/</code> split, because the spec’s
+FR-013 requires a person familiar with one module to navigate the other,
+and because that layout is already proven in this repository. Everything
+the workshop needs that <code>ai_interviewing</code> does not have — the
+transcription pipeline, passage identity, containers — is added
+alongside rather than by reshaping the reference.</p>
+<p>The feature lives inside the <code>workshop/</code> submodule, not
+the umbrella. That keeps the curriculum independently cloneable and
+keeps the umbrella’s working tree clean, which FR-036 requires.</p>
+<h2 id="execution-strategy">Execution Strategy</h2>
+<h3 id="tdd-requirements">TDD Requirements</h3>
+<p>Marked <code>[TDD]</code> in the task breakdown. Chosen where a
+defect would be silent rather than loud.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" /><strong>Passage identity and
+cross-reference resolution</strong>: SC-016 demands 100% of references
+to passages the curriculum <strong>owns</strong> — transcripts and its
+own documentation — still resolve after correction plus re-index. This
+fails <em>invisibly</em> — links keep rendering, they just point at the
+wrong text. Tests must exist before the implementation.</label></li>
+<li><label><input type="checkbox" /><strong>Code-passage identity
+(SC-016a)</strong>: for source code the curriculum does
+<strong>not</strong> own, no anchor can be written into the file, so
+identity is keyed on symbol path plus a rename alias table
+(<code>symbol_aliases</code>). The criterion is deliberately weaker and
+is <strong>100% of stale code references fail loudly</strong> — never a
+silent re-point at different code. That guarantee is exactly the kind a
+naive implementation converts into a confident wrong answer, so its
+tests also land first. Contract:
+<code>contracts/passage-contract.md</code> §6.2–6.6, §8 R3/R4, gate
+G-PID-4. Carries the open <strong>P-U1</strong>: the <code>symbol</code>
+matching key has no confirmed producer yet.</label></li>
+<li><label><input type="checkbox" /><strong>Refusal behaviour in
+question answering</strong>: SC-010 requires 10/10 unanswerable
+questions declined. A system that fabricates confidently is the single
+worst outcome this feature can produce, and the governing constitution
+names it as a release blocker.</label></li>
+<li><label><input type="checkbox" /><strong>Citation
+verification</strong>: SC-009 requires 100% of citations to genuinely
+support their claim. Attaching a citation is easy; verifying it supports
+the claim is the actual work.</label></li>
+<li><label><input type="checkbox" /><strong>Three-state search
+contract</strong>: results / no-match / cannot-answer. This repository
+has already shipped the failure once — a saturated backend produced
+timeouts that a naive client would render as “no results”.</label></li>
+<li><label><input type="checkbox" /><strong>Transcript accuracy
+measurement</strong>: the sampling and scoring harness must be correct
+before any accuracy figure is published, or the number means
+nothing.</label></li>
+<li><label><input type="checkbox" /><strong>Extension procedure
+idempotency</strong>: FR-027 requires a second run to change
+nothing.</label></li>
+</ul>
+<h3 id="parallel-execution-opportunities">Parallel Execution
+Opportunities</h3>
+<p>Marked <code>[SUBAGENT]</code>. These share no files.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" /><strong>Transcription
+pipeline</strong> and <strong>frontend search UI</strong> — different
+languages, different directories, joined only by the passage
+contract.</label></li>
+<li><label><input type="checkbox" /><strong>Documentation set</strong>
+(quickstart, user guide, manual, FAQ, training) can proceed once the
+contracts are fixed, independently of implementation.</label></li>
+<li><label><input type="checkbox" /><strong>Container
+definitions</strong> and <strong>backend service</strong> — the
+container work depends only on the run commands, not on their
+internals.</label></li>
+<li><label><input type="checkbox" /><strong><code>workshop</code>
+governance onboarding</strong> is fully independent of all feature work
+and should start immediately; it is a prerequisite for completion, not
+for progress.</label></li>
+</ul>
+<h3 id="human-checkpoints">Human Checkpoints</h3>
+<p>The agent pauses and waits for explicit approval at each.</p>
+<ol type="1">
+<li><strong>After Phase 0 research</strong> — before committing to an
+ASR engine and an index architecture, because both are expensive to
+reverse.</li>
+<li><strong>After foundational setup</strong> — <code>workshop</code>
+governance onboarding green, project structure in place, gates
+passing.</li>
+<li><strong>After User Story 1</strong> — the transcript and its
+<em>measured</em> accuracy figure reviewed. This is the gate that
+matters most: everything downstream inherits this artifact’s
+quality.</li>
+<li><strong>After each subsequent user story</strong> — behaviour
+checked against that story’s acceptance scenarios.</li>
+<li><strong>Before merge</strong> — full gate suite green,
+<code>CONTINUATION.md</code> synced, all submodules and the umbrella
+committed and pushed clean (FR-036, SC-015).</li>
+</ol>
+<h3 id="review-gates">Review Gates</h3>
+<p>Marked <code>[REVIEW]</code>.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" /><strong>Passage contract</strong>
+(identity, timestamps, provenance) — review before anything consumes it;
+every other component depends on its shape.</label></li>
+<li><label><input type="checkbox" /><strong>Privacy handling</strong> —
+the redaction path (FR-039) and the local-only guarantee (FR-024)
+concern an identifiable third party. Review before
+integration.</label></li>
+<li><label><input type="checkbox" /><strong>Answering prompt and refusal
+thresholds</strong> — review before enabling, because a permissive
+threshold silently converts refusals into fabrications.</label></li>
+<li><label><input type="checkbox" /><strong>Container
+definitions</strong> — first containers in this module; review before
+they become the pattern others copy.</label></li>
+</ul>
+<h2 id="complexity-tracking">Complexity Tracking</h2>
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 20%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr>
+<th>Violation</th>
+<th>Why Needed</th>
+<th>Simpler Alternative Rejected Because</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Adding a submodule dependency
+(<code>vasic-digital/containers</code>) that the reference module does
+not use</td>
+<td>Not actually optional: §11.4.76 mandates it for ANY containerised
+workload and clause (4) forbids reimplementing it. Hand-rolling a
+Containerfile would satisfy the operator’s container request while
+violating the constitution the same request demands be respected.</td>
+<td>Running natively like <code>ai_interviewing</code> adds zero new
+concepts — but forgoes containers entirely, which the operator asked for
+explicitly, and inherits the host-drift problem this repo has repeatedly
+been bitten by (podman-not-docker, ugrep-not-GNU-grep, a GPU that must
+stay out of the inference path). Writing a bespoke Containerfile was
+rejected outright as a §11.4.76 violation, not merely as inferior.</td>
+</tr>
+<tr>
+<td>A passage-identity layer duplicating what the index appears to
+provide</td>
+<td>FR-037 requires identifiers that survive re-indexing AND text
+correction.</td>
+<td>Reusing Lumen’s chunk identifiers was the preferred outcome and is
+now <strong>rejected on measurement</strong> (D-SEARCH-1): a controlled
+three-run re-index showed a one-character typo fix changes the id, while
+a line shift does not — they are content-derived, exactly one of the two
+forms FR-037 forbids, and the one that breaks on the operation this
+feature performs most. Built on them, SC-016 would score 0% on every
+corrected passage with no visible symptom. The ids are not exposed
+through the CLI or MCP either, leaving only a positional key, which the
+same experiment showed moves.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="phase-status">Phase Status</h2>
+<ul>
+<li><strong>Phase 0 (Research)</strong>: IN PROGRESS. Three research
+streams dispatched — transcription, search architecture, LLM bridging.
+Consolidated into <code>research.md</code> on completion.</li>
+<li><strong>Phase 1 (Design &amp; Contracts)</strong>: NOT STARTED.
+Requires Phase 0.</li>
+</ul>
+</body>
+</html>

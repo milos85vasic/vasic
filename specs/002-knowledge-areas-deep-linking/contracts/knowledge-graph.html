@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>knowledge-graph</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">knowledge-graph</h1>
+</header>
+<h1
+id="knowledge-graph-contract-extraction-mentions-authorship-pipeline">Knowledge
+Graph Contract — Extraction, Mentions, Authorship, Pipeline</h1>
+<p><strong>Feature</strong>:
+<code>specs/002-knowledge-areas-deep-linking</code> |
+<strong>Date</strong>: 2026-09-01</p>
+<p>Companion to <a
+href="./http-api-delta.md"><code>http-api-delta.md</code></a>, which
+covers the wire. This document covers <strong>how the graph comes to
+exist</strong>: minting, promotion, extraction, reconciliation, mention
+derivation, authorship rules and the repeatable pipeline. Entity shapes
+live in <a href="../data-model.md"><code>../data-model.md</code></a> and
+are not restated. The knowledge-model contract in the workshop’s own
+documentation is authoritative for the ported hierarchy (FR-005); where
+it and this document describe the same thing, it wins.</p>
+<h2 id="minting-normative">1. Minting — normative</h2>
+<ul>
+<li><strong>M1</strong> — every new entity mints through the
+<strong>existing</strong> passage minter. There is no second minter and
+no second identifier format.</li>
+<li><strong>M2</strong> — minting happens <strong>once, at
+creation</strong>. Re-running any stage over unchanged input mints
+<strong>zero</strong> identifiers.</li>
+<li><strong>M3</strong> — an identifier is never derived from the
+entity’s text, title, slug, ordinal, heading, file position or any hash
+of these.</li>
+<li><strong>M4</strong> — minting is the <strong>last</strong> branch of
+every matching algorithm, never the first. If an entity can be matched
+to an existing one, it is matched; minting is what happens when it
+demonstrably cannot.</li>
+<li><strong>M5</strong> — an anchor that is present but unknown to the
+registry is an <strong>error</strong>. It is never a silent mint and
+never an adoption. This mirrors the passage registry’s existing hard
+edge, and it exists because the alternative — adopt on mismatch — turns
+a corrupted reference into a plausible one.</li>
+</ul>
+<p><strong>Gate G-KG-13</strong> — run every stage twice over unchanged
+input and assert zero mints, a byte-identical taxonomy file, and no
+source file modified. <strong>Paired mutation</strong>: make minting
+unconditional whenever no anchor was read in the current run; the gate
+must go red on all three assertions at once.</p>
+<h3 id="screen_text-a-fifth-kind-not-a-fifth-registry">1.1
+<code>screen_text</code> — a fifth kind, not a fifth registry</h3>
+<ul>
+<li><strong>M6</strong> — on-screen text recognised from a chapter
+recording enters the corpus as a <strong>passage</strong> of kind
+<code>screen_text</code> (FR-060, data-model §2.9). It mints through the
+<strong>same</strong> minter, resolves through the <strong>same</strong>
+four-outcome resolver, and inherits the <strong>same</strong>
+append-only redaction log. There is no second registry, no second mint
+path and no second identifier format.</li>
+<li><strong>M7</strong> — its ordering key is the <strong>visibility
+onset</strong>, exactly as a transcript segment’s is its start time, so
+spoken and on-screen passages of one chapter order on
+<strong>one</strong> axis.</li>
+<li><strong>M8</strong> — it declares <code>producer = ocr</code>,
+<strong>distinct from <code>asr</code></strong>, and that marking is
+enforced in <strong>both</strong> directions: only a
+<code>screen_text</code> may claim it, and a <code>screen_text</code>
+may claim nothing else. This is <strong>not</strong> the library’s
+<code>provenance</code> field, which records whether the text is still
+the machine’s or has been human-corrected — a corrected OCR passage is
+<code>human_corrected</code> <strong>and</strong> <code>ocr</code>, and
+collapsing the two axes would make that state unrepresentable.</li>
+<li><strong>M9</strong> — it carries the engine’s own
+<strong>confidence</strong> and the <strong>interval bound</strong>
+(FR-061). The bound is never omitted and never zero: an interval read
+off a sampling grid is not exact, so a zero bound is not a tight
+measurement but a measurement never taken, presented as the tightest
+possible one.</li>
+<li><strong>M10</strong> — an <strong>empty recognition is not a
+passage</strong>. It is a sample that recognised nothing and is reported
+as such, so evidence counts are never inflated by rows that evidence
+nothing.</li>
+</ul>
+<p><strong>Gate G-OCR-2</strong> — assert a <code>screen_text</code>
+mints through the existing minter into the existing registry, resolves
+to all <strong>four</strong> outcomes, orders on its visibility onset,
+carries producer, confidence and interval bound through the existing
+wire translation with no per-kind branch, and is suppressed by the
+existing redaction log alongside a spoken passage. <strong>Paired
+mutation</strong>: mint an OCR passage through a second identifier
+format, or strip any one of the invariants above; the gate must go red,
+and it must go red <strong>naming the invariant that broke</strong> — a
+refusal from an unrelated rule is a catch the gate did not make.</p>
+<p><strong><code>screen_text</code> is deliberately NOT advertised as a
+retrievable kind.</strong> Nothing produces one yet (002 T126 is unbuilt
+and blocked). <code>diagram</code> is already an
+advertised-but-unretrievable kind in this deployment, and adding a
+second instance of that defect to buy a tidier-looking kind list is
+refused.</p>
+<h2 id="promotion-extraction-reconciliation-the-order-is-normative">2.
+Promotion, extraction, reconciliation — the order is normative</h2>
+<p>Order per research D-KG-3. Running these out of order produces a
+defensible-looking result that has quietly inverted which source of
+truth holds the identifiers.</p>
+<h3 id="promote-first">2.1 Promote (first)</h3>
+<ul>
+<li><strong>P1</strong> — each area that exists today as prose becomes a
+first-class entity with a minted identifier.</li>
+<li><strong>P2</strong> — each promoted area is evidenced against the
+corpus. <strong>An area that acquires zero evidencing mentions fails
+promotion loudly</strong> and is not published. It is not published
+unevidenced and it is not silently dropped; both are reported.</li>
+<li><strong>P3</strong> — the prose document becomes the area’s
+materials, and its existing section headings become lesson sections. It
+is not rewritten as a side effect of promotion.</li>
+<li><strong>P4</strong> — promotion records, per area, that its origin
+is <code>promoted</code>. This is not decoration: it tells a later
+reader which areas embody human judgement about what the workshop
+teaches and which a machine proposed.</li>
+</ul>
+<h3 id="extract-second">2.2 Extract (second)</h3>
+<ul>
+<li><strong>E1</strong> — extraction reads the <strong>whole
+corpus</strong> and proposes areas and terms. It never reads the
+reference module (FR-004a).</li>
+<li><strong>E2</strong> — every proposal carries its evidence and its
+significance measure <strong>with the inputs to that measure</strong>,
+so a reviewer can disagree with a specific term and see why it scored as
+it did.</li>
+<li><strong>E3</strong> — raw frequency alone is <strong>not</strong> a
+significance measure (FR-013). A measure that ranks a spoken corpus by
+frequency returns function words.</li>
+<li><strong>E4</strong> — a proposal with a low-confidence score is
+marked <code>uncertain</code> and is never presented as confident
+(FR-011).</li>
+<li><strong>E5</strong> — <strong>no area count is targeted.</strong>
+The corpus evidences as many areas as it evidences. Producing areas to
+match the reference’s 34 would mean inventing coverage the recording
+does not contain, which is the failure this whole contract is arranged
+against. Research <strong>U3</strong> records that the actual number is
+unknown until the first run, and <strong>no downstream artifact may
+assume one</strong>.</li>
+</ul>
+<h3 id="reconcile-third-and-visibly">2.3 Reconcile (third, and
+visibly)</h3>
+<p>Every extracted proposal falls into exactly one of three branches,
+and the third is the one that matters:</p>
+<ul>
+<li><strong>R1 — attaches</strong>: the proposal is within a promoted
+area’s scope. It becomes evidence on that area. No new area, no new
+identifier.</li>
+<li><strong>R2 — adds</strong>: the proposal is outside every promoted
+area’s scope. A new area is minted with origin
+<code>extracted</code>.</li>
+<li><strong>R3 — contradicts</strong>: the proposal overlaps a promoted
+area but disagrees about its scope or boundary. It is <strong>reported
+for a decision</strong>. It is <strong>neither merged nor
+discarded</strong>, and the pipeline does not proceed past it
+silently.</li>
+</ul>
+<p><strong>Why R3 is a hard stop rather than a heuristic</strong>:
+merging on overlap silently redraws a boundary a human drew. Discarding
+on overlap silently ignores evidence. Either is a decision about what
+the workshop teaches, made by a similarity score, invisibly. Reporting
+costs a review; the alternatives cost the taxonomy’s credibility.</p>
+<p><strong>Gate G-KG-14</strong> — seed a contradiction, run
+reconciliation, and assert it appears in the report and that neither a
+merge nor a discard occurred. <strong>Paired mutation</strong>: make R3
+fall through to R1 above a similarity threshold; the gate must go
+red.</p>
+<h3 id="account-for-everything">2.4 Account for everything</h3>
+<ul>
+<li><strong>A1</strong> — every passage is either attached to at least
+one area or <strong>explicitly classified as unattached with a stated
+reason</strong> (FR-010).</li>
+<li><strong>A2</strong> — attached plus classified equals the registry
+count. Exactly. A shortfall is a failure, not a rounding.</li>
+<li><strong>A3</strong> — the <strong>proportion</strong> attached is
+published as a measured figure. <strong>No threshold is set</strong>
+(research U2): the density of teachable substance in a spoken working
+session has not been measured, and a guessed target gets optimised
+toward.</li>
+</ul>
+<h2 id="mention-derivation-the-measured-join">3. Mention derivation —
+the measured join</h2>
+<p>The algorithm is normative because its two branches produce genuinely
+different guarantees, and collapsing them is invisible.</p>
+<p><strong>Given</strong> an occurrence of a term or area in a
+passage:</p>
+<ol type="1">
+<li>Record the <strong>text span</strong> — character offsets within the
+passage’s text. Always.</li>
+<li>If the passage is <strong>not</strong> a transcript segment, stop.
+No time span, no precision.</li>
+<li>If it <strong>is</strong>, attempt the word join: locate the
+occurrence’s words in the chapter’s word sidecar and take their start
+and end times.
+<ul>
+<li><strong>Joined</strong> → time span from the word times;
+<strong>precision = <code>word</code></strong>; carry the word’s timing
+confidence.</li>
+<li><strong>Not joined</strong> → time span from the enclosing segment;
+<strong>precision = <code>segment</code></strong>.</li>
+</ul></li>
+<li>If the occurrence crosses a segment boundary, emit <strong>one
+mention per segment it touches</strong> (FR-022).</li>
+</ol>
+<p><strong>Measured, and both branches are real</strong>: 15,610 words,
+monotonic, spanning exactly the same range as the segment set.
+<strong>15,535 (99.52%) join to a segment by time; 75 (0.48%) do
+not</strong>, falling in the gaps between segments. The second branch is
+not a theoretical fallback.</p>
+<ul>
+<li><strong>N1</strong> — <code>precision</code> is
+<strong>required</strong> whenever a time span exists. There is no
+default. A default would make every unjoined mention claim word
+accuracy.</li>
+<li><strong>N2</strong> — the two precisions are <strong>never</strong>
+conflated in storage, on the wire, or in the interface. Measured segment
+durations are median 6.74 s, p95 10.78 s and maximum 20.22 s, so the
+difference between the branches is up to twenty seconds of recording —
+long enough to be a different topic.</li>
+<li><strong>N3</strong> — timing confidence is carried, not discarded.
+17.4% of words fall below the recorded flag threshold and the 5th
+percentile is 0.559; “usually confident” is the reasoning that ships the
+wrong link.</li>
+<li><strong>N4</strong> — the join is by <strong>time into
+segment</strong>, and the segment yields the <strong>passage
+identifier</strong>. The identifier is what is stored. The time is a
+position (FR-033b).</li>
+</ul>
+<p><strong>Gate G-KG-4</strong> (shared with the wire contract) — assert
+every time-carrying mention declares its precision. <strong>Paired
+mutation</strong>: omit precision and default it to <code>word</code>;
+the gate must go red.</p>
+<p><strong>Gate G-KG-15</strong> — assert the unjoined fraction is
+measured and reported rather than assumed zero. <strong>Paired
+mutation</strong>: silently treat an unjoined occurrence as
+<code>word</code> precision at the segment start; the gate must go red.
+Research <strong>U5</strong> asks whether the 75 unjoined words cluster
+or scatter; the answer changes nothing about this contract but changes
+whether there is a segmentation defect worth fixing.</p>
+<h2 id="authorship-materials-and-questions">4. Authorship — materials
+and questions</h2>
+<h3 id="provenance-of-prose">4.1 Provenance of prose</h3>
+<ul>
+<li><strong>W1</strong> — every lesson section records
+<code>authored</code> or <code>assembled</code> (FR-017). Under a purely
+extractive authorship decision everything is <code>assembled</code>;
+under an agent-authored one everything is <code>authored</code>; under a
+generated one both appear. The field is built now so all three remain
+shippable without a schema change.</li>
+<li><strong>W2</strong> — every substantive claim carries at least one
+resolving citation, or is <strong>visibly marked as editorial framing
+that is not workshop content</strong> (FR-015). There is no unmarked,
+uncited claim.</li>
+<li><strong>W3</strong> — an area is not published until its publication
+review is recorded, and a review older than the materials it reviews is
+<strong>stale</strong> and fails (FR-016). Recording <em>“nothing to
+change”</em> is a valid review; skipping it is not.</li>
+</ul>
+<h3 id="questions">4.2 Questions</h3>
+<ul>
+<li><strong>Q1</strong> — every question carries at least one citation
+and <strong>every citation must resolve</strong>, or the question is
+<strong>withheld</strong> (FR-035, FR-036). Withholding is the default
+path, not an error path.</li>
+<li><strong>Q2</strong> — a <code>long</code>-set question cites
+<strong>more than one distinct</strong> passage; a
+<code>short</code>-set question may cite one (D-KG-7). This is the
+structural distinction, chosen because perceived difficulty is not
+reproducible and citation breadth is.</li>
+<li><strong>Q3</strong> — every question names the lesson sections it
+assesses. This is what makes per-section coverage measurable rather than
+estimated.</li>
+<li><strong>Q4</strong> — an assembled model answer is marked assembled
+wherever it appears (FR-038).</li>
+<li><strong>Q5</strong> — <strong>no question, prompt, choice, answer or
+explanation may originate from the reference module</strong> (FR-004,
+FR-004a). It holds 785 finished questions about a different subject, in
+a private repository. Reusing them would be faster, would survive a
+superficial review, and would be worthless.</li>
+</ul>
+<p><strong>Gate G-KG-16</strong> — plant one reference-module question
+in a workshop bank and assert the content boundary check fails.
+<strong>Paired mutation</strong>: scope the boundary check to the
+outbound direction only; the gate must go red. The check runs
+<strong>both</strong> ways deliberately: outbound keeps a private
+recording out of public repositories, inbound keeps the workshop from
+shipping someone else’s curriculum under its own name.</p>
+<h3 id="coverage-measurement">4.3 Coverage measurement</h3>
+<ul>
+<li><strong>C1</strong> — every lesson section of every published area
+is assessed by at least one question (SC-017b). A section with zero is
+listed explicitly, never omitted from the enumeration.</li>
+<li><strong>C2</strong> — the proportion of an area’s evidencing
+passages cited by at least one question is computed <strong>per
+area</strong> and published as a <strong>distribution</strong>, never as
+a mean (SC-017c). A mean is how a well-covered area conceals an empty
+one.</li>
+<li><strong>C3</strong> — <strong>no threshold</strong> is expressed and
+no field says “pass” (research U2).</li>
+</ul>
+<h2 id="the-repeatable-pipeline">5. The repeatable pipeline</h2>
+<p>The feature is complete when the <strong>next</strong> chapter runs
+through unchanged, not when this chapter’s materials look finished.</p>
+<ul>
+<li><strong>S1</strong> — the knowledge layer is a set of stages
+<strong>added to the platform’s existing chapter-addition path</strong>
+— its documented procedure and its prompt — not a second way to add a
+chapter (FR-033e). Two procedures for one act guarantee one of them
+rots.</li>
+<li><strong>S2</strong> — processing a chapter yields, without
+hand-authoring of structure: transcript, passages with minted
+identifiers, extracted areas and themes, authored materials, short and
+long question sets, cross-references, index entries, deep links.</li>
+<li><strong>S3</strong> — every stage is <strong>three-valued</strong>:
+determined-good, a real problem found, or could not determine. A missing
+dependency, an unreachable service or a crashed helper is always the
+third.</li>
+<li><strong>S4</strong> — every stage is <strong>idempotent</strong>
+(M2) and <strong>resumable</strong>, and reports progress from measured
+rate rather than from an estimate.</li>
+<li><strong>S5</strong> — a chapter that cannot be fully processed
+reports <strong>precisely what is missing</strong> and publishes nothing
+(FR-033g). A partially processed chapter is never presented as
+complete.</li>
+<li><strong>S6</strong> — adding a chapter <strong>updates</strong> the
+taxonomy: established areas keep their identifiers and gain evidence,
+newly evidenced areas are added, contradictions are reported (FR-033f,
+§2.3 R3).</li>
+<li><strong>S7</strong> — no stage writes to a source. Sources are
+opened read-only; derived artifacts land only in the derived
+locations.</li>
+<li><strong>S8</strong> — every stage writes its evidence to the
+versioned evidence location, including — and especially — on a
+could-not-determine outcome, which is the run a reader most needs the
+record of.</li>
+</ul>
+<p><strong>Gate G-KG-17</strong> — run the whole pipeline against a
+small synthetic chapter and assert every output in S2 exists and that
+the diff contains <strong>no hand-created structural file</strong>.
+<strong>Paired mutation</strong>: remove one stage from the procedure;
+the gate must go red naming the missing output. This is the gate that
+proves the pipeline is repeatable rather than that one chapter happens
+to be finished.</p>
+<p><strong>Gate G-KG-18</strong> — withhold one required input and
+assert the run names exactly what is missing and publishes nothing.
+<strong>Paired mutation</strong>: downgrade the missing input to a
+warning; the gate must go red.</p>
+<h2 id="resolution-and-redaction">6. Resolution and redaction</h2>
+<p>Both are inherited from the platform’s existing contracts and are
+<strong>not</strong> reimplemented here. Two consequences bind this
+feature specifically:</p>
+<ul>
+<li><strong>X1</strong> — every link, citation and mention resolves
+through the <strong>one</strong> existing resolution function, with its
+four outcomes. There is no second path and no fallback of any kind — no
+fuzzy text match, no nearest neighbour, no prefix match, no same-hash
+lookup (FR-023, FR-024).</li>
+<li><strong>X2</strong> — redaction propagates to all
+<strong>eight</strong> targets enumerated in the data model: mentions,
+terms, areas, questions, lesson sections, index entries, exports and
+stored answers. <strong>Gate G-KG-7</strong> skips exactly one and must
+go red.</li>
+</ul>
+<h2 id="environment-adaptability">7. Environment adaptability</h2>
+<p>Requirements that follow from measurement on this host, not from
+principle:</p>
+<ul>
+<li><strong>V1</strong> — every export and diagram tool is
+<strong>detected and capability-probed</strong>, never assumed from a
+name on <code>PATH</code>. Measured: all of them resolve into
+<strong>user-local</strong> directories rather than system ones. This
+repository has already shipped a defect of exactly this shape — a media
+tool that answered a version query and rejected the flag that mattered,
+because the name resolved into an unrelated cache.</li>
+<li><strong>V2</strong> — word-timing availability is detected
+<strong>per chapter</strong>, not assumed corpus-wide. One chapter has a
+word sidecar; nothing guarantees the next one will.</li>
+<li><strong>V3</strong> — the significance measure prints the host facts
+and the arithmetic it used, so the score can be audited rather than
+trusted.</li>
+<li><strong>V4</strong> — no stage assumes a generative model. There is
+none on this host, and a stage that requires one reports
+could-not-determine rather than failing as though the content were at
+fault.</li>
+</ul>
+<h2 id="gate-inventory">8. Gate inventory</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Subject</th>
+<th>Owned by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G-KG-1</td>
+<td>route manifest completeness</td>
+<td>wire contract §2</td>
+</tr>
+<tr>
+<td>G-KG-2</td>
+<td>unprovenanced question withheld</td>
+<td>wire §3.5 / here §4.2 Q1</td>
+</tr>
+<tr>
+<td>G-KG-3</td>
+<td>long-set citation breadth</td>
+<td>here §4.2 Q2</td>
+</tr>
+<tr>
+<td>G-KG-4</td>
+<td>precision declared on every time-carrying entry</td>
+<td>here §3</td>
+</tr>
+<tr>
+<td>G-KG-5</td>
+<td>offsets populated or field absent</td>
+<td>wire §4.1</td>
+</tr>
+<tr>
+<td>G-KG-6</td>
+<td>no time-keyed relationship</td>
+<td>here §3 N4</td>
+</tr>
+<tr>
+<td>G-KG-7</td>
+<td>redaction reaches all eight targets</td>
+<td>here §6 X2</td>
+</tr>
+<tr>
+<td>G-KG-8</td>
+<td>unresolvable link fails loudly</td>
+<td>here §6 X1</td>
+</tr>
+<tr>
+<td>G-KG-9</td>
+<td>export toolchain unavailable ⇒ could-not-determine</td>
+<td>here §7 V1</td>
+</tr>
+<tr>
+<td>G-KG-10</td>
+<td>unevidenced area or term never served</td>
+<td>here §2.1 P2</td>
+</tr>
+<tr>
+<td>G-KG-11</td>
+<td>advertised kind is actually retrievable</td>
+<td>wire §5</td>
+</tr>
+<tr>
+<td>G-KG-12</td>
+<td>coverage per area, never a mean</td>
+<td>here §4.3 C2</td>
+</tr>
+<tr>
+<td>G-KG-13</td>
+<td>idempotency: zero mints on re-run</td>
+<td>here §1</td>
+</tr>
+<tr>
+<td>G-KG-14</td>
+<td>contradiction reported, never merged or discarded</td>
+<td>here §2.3</td>
+</tr>
+<tr>
+<td>G-KG-15</td>
+<td>unjoined mention fraction measured, not assumed zero</td>
+<td>here §3</td>
+</tr>
+<tr>
+<td>G-KG-16</td>
+<td>content boundary enforced <strong>in both directions</strong></td>
+<td>here §4.2 Q5</td>
+</tr>
+<tr>
+<td>G-KG-17</td>
+<td>synthetic chapter produces every output, no hand-assembly</td>
+<td>here §5</td>
+</tr>
+<tr>
+<td>G-KG-18</td>
+<td>incomplete chapter names what is missing, publishes nothing</td>
+<td>here §5</td>
+</tr>
+<tr>
+<td>G-OCR-2</td>
+<td><code>screen_text</code> is a fifth kind, not a fifth registry</td>
+<td>here §1.1</td>
+</tr>
+</tbody>
+</table>
+<p>Nineteen gates, nineteen paired mutations. A gate that has never been
+observed failing is not known to work, and this repository has twice
+shipped a proof that could not fail — one whose control failed so zero
+mutations ever ran, one that exercised only sandboxed copies while the
+real entry point could not start. <strong>Every proof here must include
+a case that runs the real entry point against the real
+tree.</strong></p>
+<p><strong>G-OCR-2 is the only Phase-11 gate in this table, and the
+omission of the rest is deliberate.</strong> Phase 11 names eleven
+<code>G-OCR-*</code> identifiers in its task list. Ten of them guard
+code nobody has written, and publishing an identifier here before its
+gate exists inverts the order this contract depends on: the closure
+check requires every gate id in <code>contracts/</code> to be carried by
+a task block, and the registry requires every registered check to have a
+paired demonstration. An id published ahead of its gate satisfies both
+bookkeeping rules while asserting a demonstration that does not exist —
+which is the inoperative-proof defect wearing a contract’s clothes.
+<strong>Build the gate, then add the row.</strong></p>
+</body>
+</html>

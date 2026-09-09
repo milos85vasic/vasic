@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Task breakdown for authored AI/IT knowledge areas with lessons, tests and video anchors" />
+  <title>tasks</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">tasks</h1>
+</header>
+<h1
+id="tasks-authored-aiit-knowledge-areas-with-lessons-tests-and-video-anchors">Tasks:
+Authored AI/IT Knowledge Areas with Lessons, Tests and Video
+Anchors</h1>
+<p><strong>Input</strong>: Design documents from
+<code>specs/004-authored-ai-areas/</code>
+<strong>Prerequisites</strong>: <a href="plan.md">plan.md</a>, <a
+href="spec.md">spec.md</a>, <a href="research.md">research.md</a>, <a
+href="data-model.md">data-model.md</a>, <a
+href="contracts/">contracts/</a>, <a
+href="quickstart.md">quickstart.md</a></p>
+<h2 id="how-to-read-this-file">How to read this file</h2>
+<p><strong>Tasks marked <code>[x]</code> are DONE and were verified with
+a captured run</strong>; the evidence is on the task line. They are kept
+rather than deleted because this feature was built by four parallel
+streams during the session that specified it, and a task list that hid
+the completed work would misrepresent both what remains and how the
+remainder must be verified.</p>
+<p><strong>A checked box here means a command was run and its exit code
+observed.</strong> It does not mean the capability is live — several
+completed tasks are verified in-process and remain unverified over HTTP.
+Those are checked here and listed again under Phase 8, which exists
+precisely so an in-process pass is never mistaken for a served one.</p>
+<h2 id="task-format">Task Format</h2>
+<pre><code>[ID] [markers] [Story] Description with file path</code></pre>
+<p><strong>Markers</strong>: <code>[P]</code> parallelizable ·
+<code>[TDD]</code> RED-GREEN-REFACTOR · <code>[REVIEW]</code> review
+before consumers are built · <code>[SUBAGENT]</code> delegable</p>
+<p><strong>Story labels</strong>: <code>[US1]</code>..<code>[US6]</code>
+map to the user stories in <a href="spec.md">spec.md</a>.</p>
+<h2 id="path-conventions">Path Conventions</h2>
+<p>Paths are repository-relative from the umbrella root. The two roots
+that matter: <code>workshop/</code> (the private module) and
+<code>submodules/curriculum-kit/</code> (the reusable library,
+project-unaware).</p>
+<hr />
+<h2 id="phase-1-setup-shared-infrastructure">Phase 1: Setup (Shared
+Infrastructure)</h2>
+<p><strong>Purpose</strong>: The reusable shape and the strict content
+format exist before anything is authored against them.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T001 [REVIEW] Create the
+reusable curriculum library in <code>submodules/curriculum-kit/</code> —
+<code>Catalog → Area → Lesson → Material</code> plus
+<code>Area.Assessment</code>, with
+<code>VideoAnchor{chapterId,startMillis,endMillis,transcriptAnchor}</code>
+(FR-006, FR-013, FR-014). <strong>Evidence</strong>: 82 tracked files
+(source); <code>go test ./...</code> ok (in_process).</label></li>
+<li><label><input type="checkbox" checked="" />T002 Keep the library
+project-unaware by construction in
+<code>submodules/curriculum-kit/go.mod</code> — an empty require set, so
+a project import would not compile (FR-?). <strong>Evidence</strong>:
+compiler-enforced, not convention.</label></li>
+<li><label><input type="checkbox" checked="" />T003 [P] Implement
+<code>DecodeDocument</code> with <code>DisallowUnknownFields()</code> in
+<code>submodules/curriculum-kit/pkg/curriculum/document.go</code>
+(FR-?). <strong>Evidence</strong>: a misspelled key fails the load
+loudly instead of dropping its material silently.</label></li>
+<li><label><input type="checkbox" checked="" />T004 [P] Make
+<code>Area.Assessment</code> a pointer so “under construction” is
+representable, and have <code>Validate</code> emit <code>CK021</code>
+for it rather than letting the absence pass unnoticed (FR-008, SC-004a).
+<strong>Evidence</strong> (population: unstated): 37 CK021 findings
+raised, none suppressed.</label></li>
+</ul>
+<p><strong>Execution notes</strong>: T003 is the load-bearing decision
+of this phase. Everything authored later either decodes or fails at
+load; there is no partial-success path.</p>
+<hr />
+<h2 id="phase-2-foundational-blocking-prerequisites">Phase 2:
+Foundational (Blocking Prerequisites)</h2>
+<p><strong>Purpose</strong>: The single publication decision, and the
+evidence base the authored set is selected from. <strong>No user story
+work can begin until this phase is complete</strong>, because every
+story’s visibility derives from T007.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T005 Measure module
+evidence across <strong>all</strong> recordings in
+<code>workshop/pipeline/extract/measure_module_evidence.py</code>
+(FR-005, FR-005a, FR-005b, SC-016). <strong>Evidence</strong> (source):
+rc 0; 0 of 37 modules with zero evidence, 0 of 137 terms matching zero
+passages; 16 strong / 9 moderate / 12 thin.</label></li>
+<li><label><input type="checkbox" checked="" />T006 Enforce the
+already-written “title non-empty when published” rule in
+<code>workshop/pipeline/extract/publication_policy.py</code>
+<strong>and</strong> in the pipeline reconcile stage, so a re-run
+reproduces it (FR-003, FR-018, FR-018b, SC-001).
+<strong>Evidence</strong> (source): published 819 → 42; nothing deleted,
+withheld rows to
+<code>workshop/curriculum/unpublished-areas.jsonl</code>.</label></li>
+<li><label><input type="checkbox" checked="" />T007 [TDD] [REVIEW]
+Compute the publication decision <strong>once</strong> in
+<code>workshop/platform/backend/internal/api/area_publication.go</code>
+(<code>AreaPublicationOf</code>) and consume it from all three surfaces
+(FR-018, FR-018a, SC-001). <strong>Evidence</strong> (in_process):
+<code>verify-area-publication-consistency.sh</code> rc 0 (6 passed);
+<code>prove-area-publication-consistency.sh</code> rc 0 (7 passed / 7
+mutations); Go <code>TestAreaListAndDetailAgree</code> asserts the
+<strong>pair</strong>, which is what was missing while both handlers’
+own tests passed.</label></li>
+<li><label><input type="checkbox" checked="" />T008 [P] Promote the 37
+authored subjects through the real minting bridge in
+<code>workshop/pipeline/extract/promote_curriculum_areas.py</code>,
+supplying a lexicon evidence finder instead of the title-keyword default
+(FR-001, FR-002, FR-005a, SC-002). <strong>Evidence</strong> (source):
+rc 0, 37 published / 0 failed; reviews 2 → 39.</label></li>
+<li><label><input type="checkbox" checked="" />T009 [P] Keep
+<code>proposer</code> and <code>reviewer</code> distinct in the review
+store, both defaulting to the pipeline string (FR-002).
+<strong>Evidence</strong>: honest description of a run with no
+independent audit; <code>--reviewer</code> is passed only when a human
+has read them.</label></li>
+</ul>
+<p><strong>Checkpoint</strong>: The catalogue is honest about itself.
+<strong>T007 is the checkpoint</strong> — <code>areas[]</code> is now
+exactly the set whose detail answers 200, asserted end to end.</p>
+<hr />
+<h2
+id="phase-3-user-story-1-a-learner-finds-a-subject-they-recognise-p1-mvp">Phase
+3: User Story 1 — A learner finds a subject they recognise (P1)
+<strong>MVP</strong></h2>
+<p><strong>Goal</strong>: Every catalogue entry is nameable by a person
+and every entry opens. <strong>Independent Test</strong>: Open the
+catalogue, read every visible entry, open each one.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T010 [US1] Serve
+<code>areas[]</code> as exactly the servable set, with
+<code>held_back[]</code>, the reason table and <code>total_areas</code>
+in the same response, in
+<code>workshop/platform/backend/internal/api/</code> (FR-018, FR-018b,
+SC-001). <strong>Evidence</strong> (population: unstated): 817
+unopenable → 3.</label></li>
+<li><label><input type="checkbox" checked="" />T011 [US1] Disclose a
+derived title/tags/summary on a <strong>refusal</strong> where one is
+derivable, in the same handler (FR-018b). <strong>Evidence</strong>: the
+reported symptom was a page reading only “withheld pending review”; an
+area held back for a missing review has a perfectly good
+name.</label></li>
+<li><label><input type="checkbox" checked="" />T012 [P] [US1] Add
+<code>?include=held_back</code> so withholding never makes an area
+unreachable (FR-018b).</label></li>
+<li><label><input type="checkbox" checked="" />T013 [P] [US1] Emit
+<code>tags</code> as an empty array, never <code>null</code>, in the
+area wire type (FR-003, FR-019). <strong>Evidence</strong>: a null
+breaks the field the interface filters on.</label></li>
+<li><label><input type="checkbox" checked="" />T014 [US1] Derive titles,
+tags and summaries in
+<code>workshop/platform/backend/pkg/knowledge/presentation.go</code>
+(FR-003, FR-018b).</label></li>
+<li><label><input type="checkbox" checked="" />T015 [US1] Add a
+<code>tags</code> field to the client area model in
+<code>workshop/platform/frontend/src/app/core/knowledge.ts</code> — it
+models <code>terms</code> and <strong>has no field for tags at
+all</strong>, so tags are discarded before any component can ask for
+them (FR-019, SC-005). — EVIDENCE (source):
+<code>workshop/platform/frontend/src/app/features/areas/curriculum-model.ts:487,505</code>
+(<code>AreaCard.tags</code>, <code>normaliseAreaCard</code>) +
+<code>area-detail.component.ts:451</code> — PATH DRIFT: delivered in a
+second normaliser, not in <code>core/knowledge.ts</code>, which still
+drops <code>tags</code>; the capability (FR-019) holds. Frontend unit
+suite 298/298 SUCCESS (in_process) 2026-09-08</label></li>
+<li><label><input type="checkbox" checked="" />T016 [US1] Render title,
+summary and tags on the area detail page in
+<code>workshop/platform/frontend/src/app/features/</code> — 3 of 4
+render branches emit the raw identifier as the heading (SC-003, FR-003,
+FR-019, SC-005). — EVIDENCE (source):
+<code>workshop/platform/frontend/src/app/features/areas/area-detail.component.ts:111</code>
+single
+<code>&lt;h1 data-testid="area-title"&gt;{{ displayTitle() }}&lt;/h1&gt;</code>,
+<code>:442</code> title chain with the slug as LAST resort,
+<code>:446</code> summary, <code>:115-121,451</code> tags list. Frontend
+unit suite 298/298 SUCCESS (in_process) 2026-09-08</label></li>
+</ul>
+<p><strong>Checkpoint</strong>: A learner can open every listed area and
+read what it is.</p>
+<hr />
+<h2
+id="phase-4-user-story-2-a-learner-works-through-an-area-and-is-tested-p1">Phase
+4: User Story 2 — A learner works through an area and is tested
+(P1)</h2>
+<p><strong>Goal</strong>: Lessons in order, a gated end-of-area test, a
+scored result. <strong>Independent Test</strong>: Read one area’s
+lessons, take its test answering some right and some wrong, check the
+score and per-question feedback match.</p>
+<h3 id="tests-for-user-story-2">Tests for User Story 2</h3>
+<blockquote>
+<p>Written FIRST and verified to fail. The load-bearing one is T017.</p>
+</blockquote>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T017 [TDD] [US2] Prove
+the assessment gate with <strong>17 data mutations</strong> in
+<code>workshop/platform/gates/prove-assessment-gate.sh</code>, including
+B4/M7 “the gate opens as soon as <em>any</em> lesson completes” — which
+passes B1, B2, B3, B5 and B7 and is caught <strong>only</strong> by B4
+(FR-010, FR-012a, FR-028, SC-009). <strong>Evidence</strong>
+(in_process): rc 0, 17 passed. Requires the fixture’s required set to be
+a <strong>proper subset</strong> of its lessons.</label></li>
+<li><label><input type="checkbox" checked="" />T018 [TDD] [US2] Add a
+leak check that fails if <code>correct_choices</code> or
+<code>explanation</code> appears on the taking path, in
+<code>workshop/platform/backend/internal/api/lessons_test.go</code>
+(FR-010, SC-009).</label></li>
+<li><label><input type="checkbox" checked="" />T019 [P] [US2] Add
+vacuity refusals <strong>B9/B10</strong> — no lesson outside the
+required set, or a test gated on nothing, must exit <strong>2</strong>,
+never 0 (FR-027, FR-029).</label></li>
+</ul>
+<h3 id="implementation-for-user-story-2">Implementation for User Story
+2</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T020 [US2] Implement the
+six learning routes in
+<code>workshop/platform/backend/internal/api/lessons.go</code>, all
+behind the T007 decision, all keyed on the opaque <code>X-Session</code>
+header only (FR-006, FR-007, FR-009, FR-010, FR-012a,
+FR-013).</label></li>
+<li><label><input type="checkbox" checked="" />T021 [US2] Build the
+taking projection as a map with <strong>no answer field at all</strong>
+in the same file — not the domain type with fields omitted, so no future
+upstream field can leak through it (FR-010, FR-012a,
+SC-009).</label></li>
+<li><label><input type="checkbox" checked="" />T022 [P] [US2] Validate
+<code>?kind=</code> against the closed vocabulary and return
+<strong>400</strong> for an unknown kind (FR-013).
+<strong>Evidence</strong>: an empty list reads as “there are none”,
+which is a different and false statement.</label></li>
+<li><label><input type="checkbox" checked="" />T023 [US2] Implement the
+session progress store in
+<code>workshop/platform/backend/pkg/learning/</code> — one
+<code>Mutate</code> under a single lock, atomic temp-file+rename, a file
+separate from the reading-position store (FR-010, FR-012a).
+<strong>Evidence</strong>: a Get+Put cycle silently drops a concurrent
+completion.</label></li>
+<li><label><input type="checkbox" checked="" />T024 [US2] Build the
+authored learning catalog in
+<code>workshop/pipeline/extract/build_learning_catalog.py</code> →
+<code>workshop/curriculum/learning/</code> (FR-006, FR-007, SC-004).
+<strong>Evidence</strong> (source): 42 files, 339 lessons, 1,068
+minutes; ids derived from the area ULID so catalog-wide collisions are
+structurally impossible.</label></li>
+<li><label><input type="checkbox" checked="" />T025 [US2] Resolve each
+bank’s <code>correct_index</code> to a choice <strong>id</strong> during
+the build (FR-012). <strong>Evidence</strong>: the kit rejects the index
+form by design.</label></li>
+<li><label><input type="checkbox" checked="" />T026 [US2] Exclude the 10
+<code>flashcard</code> rows rather than mapping them onto graded items,
+and report the exclusion (FR-008). <strong>Evidence</strong>: mapping a
+study aid onto a test question is a silent promotion.</label></li>
+<li><label><input type="checkbox" checked="" />T027 [US2] Pass
+<code>-learning-catalog /opt/workshop/curriculum/learning</code> in
+<code>workshop/platform/compose.yml</code> (SC-006).
+<strong>Evidence</strong> (source): the flag defaults to EMPTY and empty
+is a <em>determined</em> state — every learning route would answer
+<code>no_learning_catalog</code> cleanly after a restart, with nothing
+in any log to notice. YAML re-parsed; the path is inside the existing
+read-only bind, so no volume change.</label></li>
+<li><label><input type="checkbox" />T028 [US2] Render the lesson list
+and lesson body with prev/next in
+<code>workshop/platform/frontend/src/app/features/</code>, using the
+same sorted slice the list uses (FR-007, SC-006).</label></li>
+<li><label><input type="checkbox" checked="" />T029 [US2] Render the
+test — availability message before completion, questions after, result
+after submission — in the same feature directory, showing
+<code>pass_percent</code> <strong>before</strong> the attempt begins
+(FR-008b, FR-009, FR-010, SC-017). — EVIDENCE (source):
+<code>workshop/platform/frontend/src/app/features/areas/area-test.component.ts:75-112</code>
+availability + <code>passPercent</code> shown before the attempt,
+<code>:169-181</code> result panel with the determinate/lower-bound
+split. Frontend unit suite 298/298 SUCCESS (in_process)
+2026-09-08</label></li>
+</ul>
+<p><strong>Checkpoint</strong>: The full learner journey works against
+authored content.</p>
+<hr />
+<h2
+id="phase-5-user-story-3-jump-to-the-exact-moment-in-the-recording-p2">Phase
+5: User Story 3 — Jump to the exact moment in the recording (P2)</h2>
+<p><strong>Goal</strong>: Follow a lesson reference; land on the
+recording at that moment with the transcript scrolled and the passage
+marked. <strong>Independent Test</strong>: Follow every reference in one
+area and confirm all four consumer obligations.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T030 [US3] Write the URL
+grammar down as the producer’s authority in
+<code>workshop/platform/frontend/docs/time-links.md</code> (FR-014,
+FR-015).</label></li>
+<li><label><input type="checkbox" checked="" />T031 [US3] Build spans
+from engine-measured start/end times joined on passage id, in
+<code>workshop/pipeline/extract/build_area_timelinks.py</code> →
+<code>workshop/curriculum/area-timelinks.json</code> (FR-014, FR-016).
+<strong>Evidence</strong> (source): rc 0, 205 spans; the passage
+registry carries <strong>only</strong> an end time, so a start derived
+from it alone would be invented.</label></li>
+<li><label><input type="checkbox" checked="" />T032 [US3] Emit
+<code>end</code> <strong>only when <code>&gt; t</code></strong> and
+<code>#p-</code> <strong>only for a Crockford-shaped ULID</strong>, in
+the material renderer (FR-014, FR-015). <strong>Evidence</strong>: the
+consumer ignores a malformed span, so producing one yields a link that
+renders correctly and does nothing.</label></li>
+<li><label><input type="checkbox" checked="" />T033 [US3] Emit
+<code>href: null</code> + <code>unresolved_reason</code> + intact anchor
++ a count for an unservable chapter (FR-016, FR-017, SC-007).
+<strong>Evidence</strong> (source): 205 of 205 resolved, 0
+unresolved.</label></li>
+<li><label><input type="checkbox" checked="" />T034 [US3] Declare the
+chapter registry <strong>from disk</strong>
+(<code>workshop/chapters/</code>) rather than from the anchors
+themselves (FR-016, FR-029, SC-007). <strong>Evidence</strong> (source):
+deriving it from the anchors would make the resolution check vacuously
+pass; <code>ScanChapterDirs</code> returns exactly <code>01</code>,
+<code>02</code>, <code>02.01</code>.</label></li>
+<li><label><input type="checkbox" checked="" />T035 [US3] Implement the
+client-side time-link contract in
+<code>workshop/platform/frontend/src/app/core/timelink.ts</code>
+(FR-015).</label></li>
+<li><label><input type="checkbox" checked="" />T036 [US3] Seek the
+player to <code>t</code> and scroll the transcript to the
+<code>#p-</code> passage <strong>without further scrolling</strong>,
+marking it visually, in the transcript component (FR-015, SC-008). —
+EVIDENCE (source):
+<code>workshop/platform/frontend/src/app/features/transcript/transcript.component.ts:593</code>
+<code>#p-</code> parse, <code>:614-634</code> seek with
+<code>link.end</code>, <code>:691-693</code>
+<code>scrollIntoView</code>, <code>:631</code>
+<code>machine.seeked()</code> suspends follow so nothing scrolls
+further; <code>seek.spec.ts</code> + <code>follow-mode.spec.ts</code>
+green in the 298/298 run (in_process) 2026-09-08</label></li>
+<li><label><input type="checkbox" checked="" />T037 [P] [US3] Make the
+extent of a range discernible when <code>end</code> is present, not only
+its start (US3 scenario 3; FR-014). — EVIDENCE (source):
+<code>workshop/platform/frontend/src/app/core/playback.ts:88-95</code>
+<code>stopAt</code> bounds playback to <code>end</code> (and only when
+<code>end &gt; t</code>);
+<code>features/chapters/recording-player.component.ts:84-87</code>
+<code>data-testid="span-end"</code> names the excerpt end. Frontend unit
+suite 298/298 SUCCESS (in_process) 2026-09-08</label></li>
+<li><label><input type="checkbox" />T038 [P] [US3] Report an
+unresolvable target as unavailable rather than routing to a page that
+reports nothing found (FR-017).</label></li>
+</ul>
+<hr />
+<h2 id="phase-6-user-story-4-materials-not-only-text-p2">Phase 6: User
+Story 4 — Materials, not only text (P2)</h2>
+<p><strong>Goal</strong>: Illustrations, diagrams, schemes, graphs and
+in-place video segments. <strong>Independent Test</strong>: Open every
+lesson in one area; each declared material renders, is captioned, and is
+reachable without a mouse.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T039 [US4] Specify one
+diagram per area — type, the single idea, concrete nodes and edges — in
+<code>workshop/docs/training/diagrams/SPEC.md</code>, with deliberately
+smaller diagrams for the thin modules and the reason written down
+(FR-013).</label></li>
+<li><label><input type="checkbox" checked="" />T040 [US4] Build 8 SVGs
+in the house style extracted from <code>design-system/diagrams/</code>,
+<strong>adding</strong> <code>&lt;title&gt;</code>,
+<code>&lt;desc&gt;</code>, <code>role="img"</code> and
+<code>aria-label</code> — absent from 0 of 33 references (FR-013).
+<strong>Evidence</strong> (source): all 8 parse as XML, rc 0; no
+external font, image or script.</label></li>
+<li><label><input type="checkbox" checked="" />T041 [P] [US4] Serve
+<code>video</code> materials with <code>chapter_id</code>,
+<code>start_millis</code>, <code>end_millis</code>,
+<code>length_millis</code>, <code>transcript_anchor</code>,
+<code>chapter_slug</code> and <code>href</code> (FR-013,
+FR-014).</label></li>
+<li><label><input type="checkbox" checked="" />T042 [US4] Render
+materials in place with their captions in the lesson component (FR-013).
+— EVIDENCE (source):
+<code>workshop/platform/frontend/src/app/features/areas/area-lessons.component.ts:102-148</code>
+— materials rendered in place, caption per material, and a visual with
+no <code>alt</code> is offered as a named link rather than a blank
+frame. Frontend unit suite 298/298 SUCCESS (in_process)
+2026-09-08</label></li>
+<li><label><input type="checkbox" />T043 [P] [US4] Play a video segment
+in place, bounded to its stated range (FR-013).</label></li>
+<li><label><input type="checkbox" />T044 [P] [SUBAGENT] [US4] Rasterise
+the 8 SVGs and check text fit at the served font metric —
+well-formedness and theming are verified; <strong>text fit is
+not</strong> (plan.md gap 7; FR-013).</label></li>
+</ul>
+<hr />
+<h2 id="phase-7-user-story-5-vivid-legible-consistent-p2">Phase 7: User
+Story 5 — Vivid, legible, consistent (P2)</h2>
+<p><strong>Goal</strong>: A varied palette that remains legible in both
+presentations. <strong>Independent Test</strong>: Sample the colours
+actually painted on each principal surface; measure variety across them
+and contrast within each pairing.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T045 [US5] Regenerate the
+served stylesheets from the widened token source in
+<code>workshop/platform/frontend/src/styles/</code>, then rebuild.
+<strong>This is defect D6</strong>: nothing had regenerated them, so a
+token-level widening never reached a visitor (FR-021, FR-023, SC-010). —
+EVIDENCE (served):
+<code>bash workshop/platform/gates/verify-served-palette.sh</code> rc
+<strong>0</strong> against the LIVE served bundle
+(<code>sample: live, http://127.0.0.1:8087</code>, 2 stylesheets, 208
+surfaces graded): 7 distinct hue families, floor 6 — the widening
+reaches a visitor, so D6 is closed at the served layer</label></li>
+<li><label><input type="checkbox" checked="" />T046 [TDD] [SUBAGENT]
+[US5] Write a hue-family check that reads the <strong>served</strong>
+stylesheet — not the token source — asserting ≥6 distinct hue families
+across principal surfaces (SC-010). A check that reads the token source
+commits D6 inside the instrument meant to catch it (SC-010, FR-021,
+FR-023, FR-026). — EVIDENCE (served):
+<code>bash workshop/platform/gates/verify-served-palette.sh</code> rc
+<strong>0</strong> — reads the SERVED stylesheets over
+http://127.0.0.1:8087, not the token source;
+<code>PASS: 7 distinct hue family/families across principal surfaces (floor 6)</code></label></li>
+<li><label><input type="checkbox" checked="" />T047 [TDD] [P] [SUBAGENT]
+[US5] Write a contrast check asserting the normal-text and non-text
+floors in <strong>both</strong> light and dark presentation, over the
+served bundle (SC-011, FR-022, FR-023, FR-026). — EVIDENCE (served):
+<code>bash workshop/platform/gates/verify-served-contrast.sh</code> rc
+<strong>0</strong> —
+<code>PASS: all 200 pairing(s) clear their floor, in each scheme independently</code>
+(8 unusable reported, not counted as passes)</label></li>
+<li><label><input type="checkbox" checked="" />T048 [P] [SUBAGENT] [US5]
+Pair T046 and T047 with data-driven mutation proofs, each carrying a
+control and a vacuity refusal that exits 2 (FR-027, FR-028, FR-029,
+SC-013, SC-014). — EVIDENCE (in_process):
+<code>bash workshop/platform/gates/prove-served-palette.sh</code> rc
+<strong>0</strong>, 8 passed / 0 failed / 8 mutations (M2 and M3 are
+rc-2 vacuity refusals, N1 the non-vacuity control);
+<code>prove-served-contrast.sh</code> rc <strong>0</strong>, 6 passed /
+0 failed / 6 mutations (M0 control, M2 rc-2 vacuity refusal, M3 the
+light-passes/dark-fails split). Gate source byte-identical across each
+battery</label></li>
+<li><label><input type="checkbox" />T049 [US5] Emit
+<code>corpus_revision</code> on the served catalogue and cite it in
+every interface claim (FR-023a, SC-018). <strong>Analysis finding F7 —
+MISPLACED</strong>: this is a catalogue concern owned by the backend
+stream, not a presentation one. Execute it with Phase 3 (US1); it is
+listed here only because the superspec blueprint’s Track A carries a
+<em>bundle</em> build id, which is a different artefact, and this task
+must not be assumed covered by it.</label></li>
+</ul>
+<p><strong>Execution note</strong>: rebuild immediately before measuring
+and <strong>state which build was measured</strong>. A stream that
+measures another stream’s output mid-write reads a transiently broken
+file — this happened during construction and the partition was not what
+failed; the timing was.</p>
+<hr />
+<h2 id="phase-8-user-story-6-each-module-runs-on-its-own-p3">Phase 8:
+User Story 6 — Each module runs on its own (P3)</h2>
+<p><strong>Goal</strong>: Clone either module alone, bootstrap it, reach
+a running system. <strong>Independent Test</strong>: Clone into an empty
+directory outside the umbrella on a host that has never held it.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T050 [US6] Add
+<code>workshop/scripts/bootstrap-standalone.sh</code> and
+<code>workshop/helix-deps.yaml</code> (FR-024, SC-012).</label></li>
+<li><label><input type="checkbox" checked="" />T051 [P] [US6] Add
+<code>verify-standalone-clone.sh</code> to both
+<code>workshop/scripts/</code> and <code>ai_interviewing/scripts/</code>
+(FR-024, FR-025, FR-026, SC-012).</label></li>
+<li><label><input type="checkbox" checked="" />T052 [US6] Record the
+<code>curriculum-kit</code> replace-target gap verbatim in
+<code>workshop/platform/backend/go.mod</code> (FR-024).
+<strong>Evidence</strong> (source): gaps 2 → 3, correctly — the gate
+working, not drift.</label></li>
+<li><label><input type="checkbox" checked="" />T053 [US6]
+<strong>BLOCKED — operator decision.</strong> Publish
+<code>submodules/curriculum-kit</code> as a git repository and mount it
+as a gitlink, then declare it in <code>helix-deps.yaml</code>. It is
+currently a plain directory with <strong>no commit to pin</strong>, so a
+truthful manifest entry cannot be written and a fabricated
+<code>ref:</code> would be a bluff (FR-024, SC-012). — EVIDENCE
+(source): <code>git ls-files -s submodules/curriculum-kit</code> -&gt;
+<code>160000 52f08af5abb396bce7d9679cb82eb0b9dd0246fc</code>;
+<code>.gitmodules:40-42</code> declares the path and url;
+<code>helix-deps.yaml:313-316</code> records
+<code>ref: 52f08af5abb3...</code>;
+<code>bash scripts/verify-manifest-pins.sh</code> rc <strong>0</strong>
+at 13 MATCH / 0 DRIFT / 0 UNDETERMINED. The blocker (no commit to pin)
+is gone</label></li>
+</ul>
+<hr />
+<h2
+id="phase-9-polish-cross-cutting-turning-in-process-passes-into-served-ones">Phase
+9: Polish &amp; Cross-Cutting — turning in-process passes into served
+ones</h2>
+<p><strong>Purpose</strong>: Every task above marked <code>[x]</code>
+that was verified <strong>in-process</strong> is still a
+<strong>2</strong> over HTTP. This phase is where that changes, and it
+exists as its own phase so the distinction is never quietly dropped.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T054 Stop every writing
+stream, then restart once with
+<code>bash workshop/scripts/restart.sh</code> (a full down/up, never
+<code>compose restart</code>). <strong>Never pass
+<code>--destroy-volumes</code> to <code>stop.sh</code></strong> — the
+<code>workshop-index</code> volume holds hours of transcription output
+(FR-023, FR-023a). — EVIDENCE (served): container
+<code>workshop-curriculum_platform_1</code> started 2026-09-08 08:01:16,
+<code>Up 4 hours (healthy)</code> at measurement, and it serves the six
+learning routes that exist only in the new binary (all 200/403/400
+below) — a full down/up, not a <code>compose restart</code>. Volume
+<code>workshop-curriculum_workshop-index</code> intact (487880 crossref
+edges over 24394 sources at generation 6)</label></li>
+<li><label><input type="checkbox" checked="" />T055 Re-run
+<code>bash workshop/platform/gates/verify-server-unity.sh</code> against
+the live container. <strong>Currently RED at
+<code>PASS=37 FAIL=6</code></strong> — all six new routes answering a
+plain-text 404 because the container runs the old binary. Against a
+server built from this tree the same gate is
+<code>PASS=43 FAIL=0 UNDET=0 DEBT=8</code> (FR-023, FR-026). — EVIDENCE
+(served):
+<code>bash workshop/platform/gates/verify-server-unity.sh</code> rc
+<strong>0</strong> — <code>PASS=43 FAIL=0 UNDET=0 DEBT=8</code>, exactly
+the stated target; the six §002.LEARN routes answer as declared. The 8
+DEBT rows are recorded NOT_BUILT contract endpoints, printed by
+design</label></li>
+<li><label><input type="checkbox" checked="" />T056 Confirm
+<code>GET /api/areas</code> returns <strong>42</strong>, not the 819 the
+running container still holds in memory from start-up (FR-018, FR-023a,
+SC-001). — EVIDENCE (served):
+<code>GET http://127.0.0.1:8087/api/areas</code> -&gt;
+<strong>200</strong>, <code>contract.total_areas = 42</code>,
+<code>len(areas) = 39</code> + <code>len(held_back) = 3</code>; every id
+in <code>areas</code> carries an <code>href</code>, and
+<code>GET /api/areas/{first}</code> -&gt; 200</label></li>
+<li><label><input type="checkbox" checked="" />T057 Exercise all six
+learning routes over HTTP against authored content. Everything so far is
+measured through the server’s own loader <strong>in-process</strong>;
+the HTTP surface is unmeasured (plan.md gap 1; FR-006, FR-007, FR-009,
+FR-010, FR-012a, FR-013, SC-006, SC-009). — EVIDENCE (served): all six
+exercised over HTTP with <code>X-Session: audit-004-probe</code> on
+2026-09-08: <code>GET /api/areas/{a}/lessons</code> 200 (7 lessons),
+<code>GET /api/areas/{a}/lessons/{l}</code> 200 (carries
+<code>prev</code>/<code>next</code>/<code>position</code>),
+<code>POST /api/areas/{a}/lessons/{l}/state</code> 200
+(<code>complete_of_required</code> 0 -&gt; 1),
+<code>GET /api/areas/{a}/materials</code> 200 (+
+<code>?kind=&lt;unknown&gt;</code> -&gt; <strong>400</strong>, T022 on
+the wire), <code>GET /api/areas/{a}/assessment</code> 200
+(<code>available:false</code> with the missing-lesson list),
+<code>POST /api/areas/{a}/assessment/submit</code> -&gt;
+<strong>403</strong> with the availability envelope, never a zero
+score</label></li>
+<li><label><input type="checkbox" checked="" />T058 [P] Register the new
+gates in <code>workshop/platform/gates/check-registry-002.tsv</code> and
+the pipeline gates in their registry (FR-026, SC-013). <strong>Evidence
+needed</strong>: <code>verify-check-registry-002.sh</code> currently rc
+0 at <code>checks=94 debt=3</code>. — EVIDENCE (source):
+<code>bash workshop/platform/gates/verify-check-registry-002.sh</code>
+rc <strong>0</strong> —
+<code>checks=103 debt=3 missing=0 unreadable=0 proof_fail=0</code> (was
+94/3); the new rows are <code>check-registry-002.tsv:444-453</code>
+(<code>G-AREA-NAME</code>, <code>G-LEARN-PUBCONSIST</code>,
+<code>G-LEARN-GATE</code>, <code>G-SERVED-PALETTE</code>,
+<code>G-SERVED-CONTRAST</code>, each with its <code>-proof</code>
+sibling) plus <code>G-AREA-TOPICALITY-classifier</code> and the
+<code>FR-004-obtainability</code> pair</label></li>
+<li><label><input type="checkbox" />T059 [P] Add
+<code>workshop/curriculum/area-timelinks.json</code> and
+<code>workshop/curriculum/unpublished-areas.jsonl</code> to
+<code>.gitignore</code>, matching their siblings (FR-?).</label></li>
+<li><label><input type="checkbox" />T060 [P] Re-run the full frontend
+suite and account for every delta against the 162/0/8 baseline
+(FR-?).</label></li>
+<li><label><input type="checkbox" />T061 [REVIEW] <strong>Human
+checkpoint</strong> — read the 3 area documents failing publication
+review on 62, 54 and 58 uncited claim blocks. They stay failing until
+read; stamping them is the bypass (FR-002).</label></li>
+<li><label><input type="checkbox" />T062 [REVIEW] <strong>Human
+checkpoint</strong> — confirm or replace the 70%
+<code>passPercent</code>, the mcq-2/short-3 point weights, the 91–95
+prefix shift and the anchor attachment section. These four are authored
+schema choices, stated rather than measured (FR-008b,
+SC-017).</label></li>
+<li><label><input type="checkbox" checked="" />T063 [SUBAGENT] Re-mine
+chapter 02 into the taxonomy, or record the coverage gap explicitly. A
+topic taught only there, in words the chapter-01 lexicon lacks, is
+invisible to every coverage figure in this feature (FR-005). — EVIDENCE:
+<code>workshop/docs/training/CURRICULUM-AREAS.md:108</code> records the
+gap explicitly and by name — chapter 02 and 02.01 contribute tier-A term
+matches only, no span-tier evidence and no chapter-02 coverage report
+has ever been built, so a topic taught only there is invisible to every
+figure on that page. This is the task’s second arm; the re-mine itself
+was NOT done</label></li>
+<li><label><input type="checkbox" />T064 Regenerate the 12 pre-existing
+documents’ ingested <code>.sections.json</code>, or record that their
+corpus copy is stale. <strong>Regenerating mints new pids and changes
+the searchable corpus</strong> — a corpus decision, not a cleanup
+(FR-?).</label></li>
+<li><label><input type="checkbox" />T066 [TDD] Assert <strong>corpus
+stability during measurement</strong> in every corpus-counting run
+(FR-030, FR-027) — fingerprint the enumerated set before and after the
+analysis passes, sharing the enumeration with the analysis by
+construction, and emit <code>undet</code> rows <strong>naming the
+changed paths</strong> when they differ. <strong>Analysis finding F2:
+this requirement had zero task coverage.</strong> It was promoted from a
+real incident — a gate reporting 12939 / 12939 / 13058 / 12968 for the
+same command on a tree another agent was editing. The umbrella’s
+<code>scripts/verify-content-boundary.sh</code> already implements
+exactly this; reuse its approach rather than inventing one.</label></li>
+<li><label><input type="checkbox" />T067 [TDD] [P] Assert <strong>result
+stability</strong> (FR-011, FR-026) in
+<code>workshop/platform/gates/prove-assessment-gate.sh</code> — submit,
+re-read, require a byte-identical result. <strong>Analysis finding F4:
+FR-011 appeared only as a manual quickstart step, so nothing asserted
+it.</strong></label></li>
+<li><label><input type="checkbox" />T068 [P] Detect <strong>duplicate
+subjects</strong> (FR-020, FR-026) in
+<code>workshop/pipeline/extract/verify_curriculum_areas.py</code>, or
+record FR-020 as deferred with its reason. <strong>Analysis finding
+F5</strong>: an existing mutation catches one <em>area</em> in two
+files; nothing catches two areas covering one
+<em>subject</em>.</label></li>
+<li><label><input type="checkbox" checked="" />T069 [P] Report
+<strong>question-bank coverage</strong> on every run as a fraction of
+published areas (SC-004a, FR-008), currently 5 of 42. A tracked figure,
+never a floor. — EVIDENCE (source):
+<code>workshop/pipeline/extract/build_learning_catalog.py:506-510</code>
+prints the fraction on every run; dry run 2026-09-08 rc
+<strong>0</strong>:
+<code>areas considered 42 / with lessons 42 / with an assessment 30 / WITHOUT assessment 12 (each a CK021 finding; no question generated to hide one)</code>.
+NOTE: SC-004a and Amendment A1 both say <strong>5 of 42</strong>; the
+measured figure is <strong>30 of 42</strong>
+(<code>verify_question_banks.py</code> rc 0, 30 banks / 234 questions /
+597 citations resolved) — the spec figure is superseded</label></li>
+<li><label><input type="checkbox" />T070 [P] Append the governing FR/SC
+identifiers to each task line in this file (SC-013). <strong>Analysis
+finding F8</strong>: 33 of 39 FRs and 14 of 18 SCs are cited nowhere by
+id, so <strong>SC-013 (“100% of requirements map to a check”) is
+mechanically unverifiable</strong> — it can be argued but not computed.
+With ids present it becomes a <code>grep</code>.</label></li>
+<li><label><input type="checkbox" />T065 [SUBAGENT] Investigate the
+redaction-pipeline report: one segment is marked
+<code>redacted: true</code> while the same sentence survives in the
+merged transcript. Reported, not acted on (FR-?).</label></li>
+</ul>
+<hr />
+<h2 id="dependencies">Dependencies</h2>
+<pre><code>Phase 1 (kit + strict format)
+  └─&gt; Phase 2 (T007 single decision)          ← the checkpoint
+        ├─&gt; Phase 3 US1  ─┐
+        ├─&gt; Phase 4 US2  ─┤  independent of each other
+        ├─&gt; Phase 5 US3  ─┤
+        ├─&gt; Phase 6 US4  ─┤
+        └─&gt; Phase 7 US5  ─┘
+Phase 8 US6  — independent of all stories
+Phase 9      — requires every writing stream to have STOPPED (T054)</code></pre>
+<p><strong>T007 blocks every story.</strong> Nothing else does: US1–US5
+touch disjoint file sets and were in fact built concurrently.</p>
+<p><strong>T054 blocks T055–T057</strong> and must run exactly once,
+after all writers stop. A restart mid-write measures a tree that is
+still moving.</p>
+<h2 id="parallel-execution">Parallel Execution</h2>
+<p>Four streams with disjoint file sets, as actually run:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Stream</th>
+<th>Writes</th>
+<th>Tasks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content</td>
+<td><code>workshop/docs/training/</code>,
+<code>workshop/curriculum/</code>, <code>workshop/pipeline/</code></td>
+<td>T005, T006, T008, T024–T026, T031, T039, T040, T063, T064</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td><code>workshop/platform/backend/</code>,
+<code>workshop/platform/gates/</code></td>
+<td>T007, T010–T014, T017–T023, T032–T034, T041, T058</td>
+</tr>
+<tr>
+<td>Frontend</td>
+<td><code>workshop/platform/frontend/src/app/</code></td>
+<td>T015, T016, T028, T029, T035–T038, T042, T043</td>
+</tr>
+<tr>
+<td>Theming</td>
+<td><code>workshop/platform/frontend/src/styles/</code></td>
+<td>T045–T048</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cross-stream rule</strong>: any stream measuring another
+stream’s output must rebuild immediately before measuring and state
+which build it measured.</p>
+<h2 id="implementation-strategy">Implementation Strategy</h2>
+<p><strong>MVP = Phase 1 + Phase 2 + Phase 3 (US1).</strong> A catalogue
+that is honest about what it holds. T007 alone took
+listed-but-unopenable areas from 817 to 3.</p>
+<p><strong>Increment 2 = Phase 4 (US2)</strong> — lessons and a gated
+test. This is the mission as stated, and its backend is done; T028/T029
+are what remain.</p>
+<p><strong>Increment 3 = Phases 5–7.</strong> Anchors, materials,
+presentation.</p>
+<p><strong>Phase 9 is not optional polish.</strong> Until T054–T057 run,
+this feature is verified on disk and in process, and <strong>unverified
+as served</strong> — which is the exact defect class (D6, D8) it was
+written to eliminate. Reporting it complete before then would repeat the
+mistake inside the fix for it.</p>
+<h2 id="status">Status</h2>
+<p>Counted from this file by script, not transcribed from a draft. An
+earlier revision of this table said 44 done; the file said 37.
+<strong>The file was right</strong>, and the discrepancy is recorded
+rather than quietly corrected, because a task list whose summary
+disagrees with its own checkboxes is the same defect class as a
+catalogue whose list disagrees with its detail route.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">tasks</th>
+<th style="text-align: right;">done</th>
+<th style="text-align: right;">remaining</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phase 1 Setup</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Phase 2 Foundational</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Phase 3 US1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Phase 4 US2</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Phase 5 US3</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Phase 6 US4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr>
+<td>Phase 7 US5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>Phase 8 US6</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>Phase 9 Polish</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td style="text-align: right;"><strong>70</strong></td>
+<td style="text-align: right;"><strong>55</strong></td>
+<td style="text-align: right;"><strong>15</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Re-audited 2026-09-08 against evidence, not against task
+text.</strong> 18 tasks were found already delivered and are ticked
+above with the run that proves each. Two of them were delivered at a
+DIFFERENT path than the task names (T015 in
+<code>features/areas/curriculum-model.ts</code>, not
+<code>core/knowledge.ts</code>) and one was closed by its second arm
+rather than its first (T063 records the gap; it does not re-mine chapter
+02) — both are stated on the line rather than smoothed over.
+<strong>Phase 9’s headline is withdrawn: the work IS now proved as
+served</strong> — <code>verify-server-unity.sh</code> rc 0 at PASS=43
+FAIL=0, all six learning routes exercised over HTTP, and the palette and
+contrast gates read the served bundle. The five tasks that remain
+PARTIAL are left UNTICKED with what is missing named in the audit
+report: T028 (no prev/next in the client), T038 (the deep-link miss path
+in <code>transcript.component.ts</code> <code>applyPending()</code>
+gives up SILENTLY — its own comment says so), T060 (suite re-run green
+at <strong>298/298 SUCCESS, 0 failed, 0 skipped</strong> against a
+162/0/8 baseline, but the +136/-8 delta is not itemised), T066 (a corpus
+fingerprint exists in <code>classify_area_topicality.py</code> and is
+gate-checked, but it is a SINGLE fingerprint — there is no before/after
+pair and no <code>undet</code> row naming changed paths) and T059 (both
+files are TRACKED — <code>git ls-files</code> matches them — so a
+<code>.gitignore</code> line would change nothing until they are
+untracked, exactly the umbrella’s own <code>_site</code> defect).</p>
+<p>Re-derive rather than trusting the table:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;^- \[&#39;</span> specs/004-authored-ai-areas/tasks.md    <span class="co"># 70</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;^- \[x\]&#39;</span> specs/004-authored-ai-areas/tasks.md  <span class="co"># 55</span></span></code></pre></div>
+<p><strong>Five tasks (T066–T070) were added by
+<code>/speckit-analyze</code> remediation</strong>, closing the three
+requirements that had zero coverage (FR-011, FR-020, FR-030) plus the
+two traceability findings. None is done.</p>
+<p><strong>55 of 70 tasks carry a captured run</strong> (re-audited
+2026-09-08). The earlier headline — <em>“not one line of it has been
+proved as served”</em> — is <strong>WITHDRAWN</strong>: 7 of the 17
+Phase 9 tasks now carry a served measurement, including the restart, the
+unity gate at PASS=43 FAIL=0 and all six learning routes on the
+wire.</p>
+<hr />
+<h2 id="superspec-bridge-where-the-bite-sized-steps-live">Superspec
+bridge — where the bite-sized steps live</h2>
+<p><code>/speckit-superspec-tasks</code> ran the
+<code>superpowers:writing-plans</code> skill over the remainder. Its
+output is an implementation blueprint at</p>
+<p><strong><code>workshop/docs/superpowers/plans/2026-09-07-served-verification-and-presentation-instruments.md</code></strong>
+(380 lines)</p>
+<p>which decomposes the <strong>unheld</strong> remainder into
+bite-sized TDD steps with exact files, real commands and expected exit
+codes.</p>
+<p><strong>Why only the unheld remainder.</strong> The scope check found
+that 6 of the 28 open tasks — T015, T016, T028, T029, T036 (frontend)
+and T045 (theming) — are being worked by live agents right now. Writing
+bite-sized steps for work in flight would have duplicated an agent
+mid-task and produced two authorities for the same file. Those tasks
+keep their entries here and take their direction from their agents.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Blueprint task</th>
+<th>tasks.md</th>
+<th>What it produces</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>(new)</td>
+<td><code>lib/served_css.sh</code> — one definition of “what is served”,
+refusing with <strong>2</strong> rather than guessing</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>(new)</td>
+<td><code>sample-served-surfaces.mjs</code> — samples what is
+<strong>painted</strong>, both colour schemes, no verdict</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>T046, T048</td>
+<td><code>verify-served-palette.sh</code> + prover, 3 data mutations,
+mutation 0 the control</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>T047, T048</td>
+<td><code>verify-served-contrast.sh</code> + prover, incl. a mutation
+that passes light and fails dark</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>T058</td>
+<td>Registry rows; <code>checks=94 -&gt; 98</code>, debt unchanged</td>
+</tr>
+<tr>
+<td>B1</td>
+<td>T054</td>
+<td>The single restart, gated on a tree that has stopped moving</td>
+</tr>
+<tr>
+<td>B2</td>
+<td>T056</td>
+<td>The list/detail pair asserted <strong>over HTTP</strong></td>
+</tr>
+<tr>
+<td>B3</td>
+<td>T057</td>
+<td>SC-009 measured <strong>on the wire</strong>, which is the only
+place it counts</td>
+</tr>
+<tr>
+<td>B4</td>
+<td>T055</td>
+<td><code>verify-server-unity.sh</code> 37/6 -&gt; 43/0</td>
+</tr>
+<tr>
+<td>B5</td>
+<td>T044, FR-023a</td>
+<td>Presentation measured against the restarted stack, with the build id
+stated</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Sampling is split from verdict on purpose.</strong> It is
+what lets every mutation be a <strong>data</strong> edit to a fixture
+rather than a code edit to a gate — the §1.1 requirement that makes a
+prover trustworthy.</p>
+<p><strong>One gap the blueprint’s self-review found and did not paper
+over</strong>: FR-023a asks the <em>served catalogue</em> to declare its
+corpus revision, while Track A carries a build id for the
+<em>bundle</em>. Different artefacts. That is <strong>T049</strong>, it
+belongs to the backend stream, and the blueprint says so rather than
+letting A2 look like it covers it.</p>
+<p><strong>Execution order:</strong></p>
+<pre><code>A1 -&gt; A2 -&gt; A3 --+
+            A4 --+-&gt; A5        buildable NOW, writers still running
+[all writers stop] -&gt; B1 -&gt; B2 -&gt; B3 -&gt; B4 -&gt; B5   (B5 needs A3+A4)</code></pre>
+</body>
+</html>

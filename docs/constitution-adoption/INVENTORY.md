@@ -9,7 +9,7 @@
 | How to read it | The §8 G-headings are the ORIGINAL 2026-08-26 discovery evidence and are deliberately not rewritten as gaps move. Current statuses live in **§8.0 Current status ledger**, and the authority above that is the `- G<n> — <STATUS>` lines in the four root carriers. Never quote a G-heading as a current status. |
 | Status summary | Phase-1 read-and-map inventory of `submodules/constitution` (HelixConstitution) and its adoption state in the `vasic` umbrella. Read-only pass: no existing file was modified. Headline finding — the umbrella repository has **zero** agent-instruction files at its root, so the constitution's prescribed inheritance mechanism is **not wired at all**. |
 | Issues | 12 ranked gaps (G1–G12) |
-| Issues summary | G1 no consumer governance layer; G2 no inheritance pointer; G3 no post-pull validation sweep; G4 active CI contradicts §11.4.156; G5 no mechanical enforcement; G6 no `helix-deps.yaml`; G7 no submodule propagation; G8 §11.4.65 export gap (265 `.md`, 0 `.html`); G9 §11.4.212 README-orphan gap; G10 §4 tag-mirroring gap; G11 duplicate `design-toolkit` checkout; G12 no anti-forgetting hook. |
+| Issues summary | G1 no consumer governance layer; G2 no inheritance pointer; G3 no post-pull validation sweep; G4 active CI contradicts §11.4.156; G5 no mechanical enforcement; G6 no `helix-deps.yaml`; G7 no submodule propagation; G8 §11.4.65 export gap (265 `.md`, 0 `.html`); G9 §11.4.212 README-orphan gap; G10 §4 tag-mirroring gap; G11 duplicate `design-toolkit` checkout; G12 anti-forgetting hook — CLOSED 2026-09-09. |
 | Fixed | — |
 | Fixed summary | — |
 | Continuation | Phase 2 — apply the proposed inheritance design in §7 below. |
@@ -38,7 +38,7 @@
 ## 1. Method and honesty contract
 
 Everything in this document was produced by reading files in the checkout at
-`/run/media/milosvasic/DATA4TB/Projects/vasic` and running **read-only** shell
+`<ext-volume-host>/Projects/vasic` and running **read-only** shell
 commands (`ls`, `cat`, `sed`, `grep`, `git ls-files`, `git grep`,
 `git submodule status`, `git tag`, `git remote -v`, `find`). No `git fetch`,
 `pull`, `checkout`, `commit`, `push`, or `submodule update` was run.
@@ -637,7 +637,7 @@ Reconciled against the carriers and re-measured on **2026-09-01**:
 | G9 | **NO VERIFIED CURRENT STATUS** | Not carried in the carriers' gap list. Do not report it closed or open without re-auditing. |
 | G10 | **NO VERIFIED CURRENT STATUS** | As G9. |
 | G11 | **NO VERIFIED CURRENT STATUS** | The duplicate `design-toolkit` checkout is still *described* in `helix-deps.yaml` around its `design-toolkit` entry, with a two-command re-derivation recipe. A description is not a status. |
-| G12 | **OPEN** | No `PreToolUse` guard is wired; the canonical guard script sits unused in the constitution submodule. No work in flight. |
+| G12 | **CLOSED** (2026-09-09) | The `PreToolUse` guard is wired in the TRACKED `.claude/settings.json`, by reference to the canonical submodule script. Proven firing: `bash scripts/verify-pretooluse-guard.sh` rc 0 at 8 PASS / 0 FAIL / 0 UNDET, its `--prove-failure` battery rc 0 at 15/15, and the upstream hermetic harness rc 0 at 70 PASS / 0 FAIL. `docs/AGENT_GUARDRAILS.md` now carries §11.4.109(B) and (C). |
 
 **G-note — the sweep's own verdict.** G3 closing means a sweep exists, runs, and
 is mutation-proven. It does **not** mean the sweep passes.
@@ -840,14 +840,67 @@ justifies the inner copy under the "§11.4.28(C) hub carve-out". But two gitlink
 to the same repo can drift independently, and no manifest at the umbrella
 declares which one is authoritative — because the umbrella has no manifest (G6).
 
-### G12 — MEDIUM — §11.4.109 anti-forgetting layer absent while its script sits unused
+### G12 — CLOSED 2026-09-09 — §11.4.109 anti-forgetting layer is wired and proven firing
 
-**Rule:** §11.4.109(A)/(B) (`Constitution.md:8399-8440`).
-**Evidence:** `.claude/settings.local.json` contains only a `permissions.allow`
-array with two Lumen MCP entries — no `PreToolUse` hook. Meanwhile
-`submodules/constitution/scripts/hooks/guard-forbidden-commands.sh` is present
-(29,705 bytes, executable) and would block force-push / sudo / host-power
-classes if wired. `docs/AGENT_GUARDRAILS.md` is ABSENT.
+**Rule:** §11.4.109(A)/(B)/(C); the validation stage per §11.4.234(A)(3).
+
+**The finding, as it stood:** `.claude/settings.local.json` contained only a
+`permissions.allow` array with two Lumen MCP entries — no `PreToolUse` hook —
+while `submodules/constitution/scripts/hooks/guard-forbidden-commands.sh` sat
+present and executable, blocking nothing. `docs/AGENT_GUARDRAILS.md` was ABSENT.
+
+**What changed, on the operator decision of 2026-09-09.**
+
+1. **(A) The hook is wired**, in `.claude/settings.json`, as a `PreToolUse`
+   entry with matcher `*` whose command is
+   `bash "$CLAUDE_PROJECT_DIR/submodules/constitution/scripts/hooks/guard-forbidden-commands.sh"`.
+   It is **referenced, not copied** — §11.4.109(A) forbids a local copy because
+   a copy diverges silently.
+2. **The wiring location was a deliberate choice, and it is the tracked one.**
+   `.claude/settings.json` is tracked in git, so a fresh clone inherits the
+   guard. The host-wide `~/.claude*/settings.json` was rejected for exactly the
+   reason this repository already records about `.git/hooks/`: untracked
+   enforcement protects one working copy and leaves every clone unguarded with
+   nobody told.
+3. **(B) and (C)** now exist at `docs/AGENT_GUARDRAILS.md`, carrying the
+   mandated `SUBAGENT CONSTITUTIONAL PREAMBLE` and `ORCHESTRATOR PRE-ACTION
+   CHECKLIST` headings and the `11.4.109` anchor literal.
+4. **§11.4.234(A)(3) / §1.1:** `scripts/verify-pretooluse-guard.sh` is the
+   dedicated hook-validation script, registered as `pretooluse-guard` in
+   `scripts/check-registry.tsv` and documented in `docs/check-registry.md`.
+
+**Evidence, measured 2026-09-09 rather than asserted.**
+
+| instrument | result |
+|---|---|
+| `bash submodules/constitution/scripts/hooks/test_guard_forbidden_commands.sh` | rc **0** — `PASS=70 FAIL=0` (the upstream author's own hermetic suite) |
+| `bash scripts/verify-pretooluse-guard.sh` | rc **0** — 8 PASS / 0 FAIL / 0 UNDET |
+| `bash scripts/verify-pretooluse-guard.sh --prove-failure` | rc **0** — 15 cases, 12 mutations caught, 2 rc-2 states, control green |
+| `bash scripts/verify-check-registry.sh` | rc **0** — 65 PASS / 0 FAIL / 1 DEBT (pre-existing, unrelated) |
+
+**The closure rests on the guard being observed to REFUSE, not on a config key
+being present.** The validator executes the wired script against five forbidden
+probes — force-push, `--force-with-lease`, `--no-verify`, privilege escalation
+and host-power — and requires rc 2 from each; it separately requires rc 0 from a
+benign `git status` and from a non-Bash tool call, because a guard that blocks
+everything gets switched off; and it requires that the `# guardrails:allow`
+escape marker does **not** downgrade the host-power class. Its mutation battery
+demonstrates that a **neutered** guard (edited to `exit 0`, settings untouched)
+and an **untracked** settings file are both caught as rc 1. A validator that
+passes while the hook is missing or inert is the false-green control §11.4.201
+forbids, and that is the failure this one is built to avoid.
+
+**Honest boundary (§11.4.6).** Three limits, none of which the closure hides.
+(a) The guard's own refusal messages cite the consuming-project clause numbers
+`§6.T.3` / `§6.U` rather than the universal `§11.4.113` / §11.4 anchors. That is
+upstream text inside a consumed submodule; it is reported, not patched, per the
+`design-toolkit` precedent. The class is blocked either way. (b) The validator
+executes the canonical script at its canonical path; it does not re-implement
+the harness's `$CLAUDE_PROJECT_DIR` expansion, so it proves the script refuses,
+not that the harness's own expansion is correct on some future host. (c) The
+70-case upstream harness is asserted PRESENT by V8 and EXECUTED as a separately
+named stage, printed on every green run — a recorded deferral per §11.4.234(C),
+not a dropped gate.
 
 ### Ranking rationale
 

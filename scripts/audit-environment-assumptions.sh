@@ -5,7 +5,7 @@
 # WHY
 # ---
 # scripts/audit-hardcoded-paths.sh catches one narrow class: machine-specific
-# absolute PATHS (`/Volumes/T7/...`). It is blind to everything else that ties
+# absolute PATHS (`<macos-host>/...`). It is blind to everything else that ties
 # this tree to one box. This is its sibling for the broader class, written
 # against the operator directive:
 #
@@ -596,12 +596,19 @@ scripts/test-setup-agents-wizard.sh GNUBSD sort -V
 # /Applications/Open Design.app is macOS-only with NO env override at all.
 _tools/od/start-daemon.sh OSPATH /Applications/
 
-# BASELINE: known defect F11 - docs/environment-adaptability/AUDIT.md.
-# thinker.local / amber.local are the operators own two machines.
-_tools/translate-fleet.sh HOSTNAME *
-
-# BASELINE: known defect F11 (mirror) - docs/environment-adaptability/AUDIT.md.
-_tools/helixtranslate-container.sh HOSTNAME *
+# TOMBSTONE 2026-09-08 — F11 is FIXED, so its three BASELINE rows are RETIRED.
+# The rows were:
+#     _tools/translate-fleet.sh            HOSTNAME *
+#     _tools/helixtranslate-container.sh   HOSTNAME *
+#     _tools/distribute-helixtranslate.sh  HOSTNAME *
+# They pardoned two developer machine names and a frozen ssh login. All three
+# files now resolve host, per-host runtime and ssh account through the new
+# _tools/lib/translation-fleet.sh, whose contract has NO host default: an
+# undeclared HT_FLEET is rc 2 (COULD NOT DETERMINE), never a guess. Measured:
+# with HT_FLEET unset all three exit 2 and print the variable to set; with
+# HT_FLEET="a:podman b:docker" they resolve a and b and nothing else.
+# A dead rule is an exemption waiting to pardon a NEW offence at the same path,
+# which is why these are retired rather than left standing.
 
 # BASELINE: known defect F12 - docs/environment-adaptability/AUDIT.md.
 # /usr/local/bin/unified-translator is the in-container install prefix, but it
@@ -684,10 +691,6 @@ _tools/watch-deploy.sh PARALLEL *
 # (WangX0111/superspec), outside the owned-submodule set. Its pinned
 # python-version and installer calls are upstreams to change, not this repos.
 .specify/extensions/* * *
-
-# BASELINE: known defect F11 (mirror) - docs/environment-adaptability/AUDIT.md.
-# thinker.local / amber.local plus the operators own ssh login are literals.
-_tools/distribute-helixtranslate.sh HOSTNAME *
 
 # DELETED 2026-09-02 - the last three F15 BASELINE rows
 # (`_tools/gen/repair_ui_terms.py`, `translate_aria_footer.py`,

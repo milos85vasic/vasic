@@ -28,7 +28,7 @@ the bluff this project forbids, and an evidence line with no population is the
 defect the constitution principle *Source Is Not Served* exists to catch.
 
 **Dates.** Every re-measurement below was taken **2026-09-08** from the umbrella
-root at `/home/milosvasic/Projects/vasic`. Three of them contradict an earlier
+root at `<repo-root>`. Three of them contradict an earlier
 recorded state, and the contradiction is written on the line rather than absorbed.
 
 ## Task Format

@@ -34,7 +34,7 @@
 #      toolchain can never mask a real failure. Deliberate override:
 #      DEPLOY_TOLERATE_BUILD_FAILURE=1 (see "WHICH BUILD STEPS ARE TOLERATED").
 set -uo pipefail
-# ROOT was hardcoded to "/Volumes/T7/Projects/vasic" - a macOS path. On any other
+# ROOT was hardcoded to "<macos-host>/Projects/vasic" - a macOS path. On any other
 # checkout the `cd` below failed, and because this script sets -u and pipefail
 # but NOT -e, the failure was SILENT: the script carried on in the caller's
 # working directory with GEN and PDF pointing at paths that do not exist, then

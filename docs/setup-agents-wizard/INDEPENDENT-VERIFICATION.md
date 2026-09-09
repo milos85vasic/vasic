@@ -4,7 +4,7 @@
 until personally reproduced. Finding a false claim was the goal, not a failure.
 
 - **Date of run:** 2026-08-26T22:43Z → 2026-08-26T23:01Z (local 2026-08-27 00:43 → 01:01 CEST)
-- **Repository:** `/run/media/milosvasic/DATA4TB/Projects/vasic`
+- **Repository:** `<ext-volume-host>/Projects/vasic`
 - **Repo HEAD during verification:** `9f5a21f0af507f121482bd23704e1bf221f885db`
 - **Method:** read-only against the real environment. All mutation testing ran in
   throwaway `$HOME` sandboxes (`mktemp -d`) via `SETUP_WIZARD_LIB_ONLY=1` library mode.
@@ -550,7 +550,7 @@ Full content, confirming nothing was lost:
   "model": { "name": "coder-model" },
   "$version": 3,
   "mcpServers": {
-    "lumen":     { "command": "/home/milosvasic/.local/bin/lumen", "args": ["stdio"] },
+    "lumen":     { "command": "<home>/.local/bin/lumen", "args": ["stdio"] },
     "codegraph": { "command": "codegraph", "args": ["serve"] }
   },
   "usageStatisticsEnabled": false
@@ -608,7 +608,7 @@ without the opt-out. The protection covers humans at a prompt, not automation.
 Binary under test:
 
 ```
-/home/milosvasic/.claude-shared/plugins/cache/claude-plugins-official/lumen/0.0.41/bin/lumen-linux-amd64
+<home>/.claude-shared/plugins/cache/claude-plugins-official/lumen/0.0.41/bin/lumen-linux-amd64
 34565800 bytes, ELF 64-bit LSB executable, x86-64, dynamically linked, stripped
 sha256 95b516ea716a3e21b62a9cae91b7f3bdc32720589368b50d69a28fee7d1ac412
 ```
@@ -955,7 +955,7 @@ Final state:
   (line 213); it has no repo write path.
 - The suite's `.test-evidence/` output is gitignored and does not appear above.
 - A **second Claude process with `cwd` set to this repository** was observed:
-  `readlink /proc/<pid>/cwd` returned `/run/media/milosvasic/DATA4TB/Projects/vasic`
+  `readlink /proc/<pid>/cwd` returned `<ext-volume-host>/Projects/vasic`
   for a PID that is not this session (this session is PID 4094209,
   `--session-id f190827d-5978-deb6-a880-642959ad497f`).
 - One of the diffs is self-describing: `scripts/verify-all-constitution-rules.sh`

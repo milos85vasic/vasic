@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>search-architecture</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">search-architecture</h1>
+</header>
+<h1 id="phase-0-research-semantic-index-and-search-architecture">Phase 0
+Research — Semantic Index and Search Architecture</h1>
+<p><strong>Feature</strong>:
+<code>001-workshop-curriculum-platform</code> <strong>Scope</strong>:
+User Story 3; FR-014…FR-020, FR-026, FR-027, FR-037; SC-005, SC-006,
+SC-007, SC-008, SC-016. <strong>Date measured</strong>: 2026-08-31,
+22:00–22:40 CEST. <strong>Constraints taken as given (not
+relitigated)</strong>: D1 local/internal only · D2 corpus =
+<code>workshop/</code> + the <code>vasic</code> monorepo · FR-037
+persisted stable identifiers · the SC latency and quality targets.</p>
+<p><strong>Sibling research documents, deliberately out of scope
+here</strong>: <code>research/transcription.md</code> (how audio becomes
+text) and <code>research/llm-bridging.md</code> (how an answer model is
+attached). This document stops at the boundary of both: it specifies the
+<em>passage contract</em> that transcription must emit, and the
+<em>retrieval contract</em> that answering must consume.</p>
+<hr />
+<h2 id="method-and-what-could-not-be-measured">0. Method, and what could
+not be measured</h2>
+<p>Every number below was produced by a command run against this machine
+on 2026-08-31. Commands and raw output are reproduced inline and in
+Appendix A.</p>
+<p>Two conditions constrained the measurements and are stated up front
+because they change how the numbers should be read:</p>
+<ol type="1">
+<li>A <code>lumen index -f &lt;ext-volume-host&gt;/Projects/vasic</code>
+run started at 21:12 CEST was <strong>still running throughout</strong>.
+All embedding latencies below were therefore taken <strong>under
+concurrent index load</strong>. That is a realistic operating condition
+(it is exactly what happens after every chapter ingest), but it is not
+the idle case.</li>
+<li>The live index was treated as <strong>read-only</strong>. Every read
+used <code>sqlite3 "file:...?mode=ro"</code>. All write experiments were
+done against a throwaway two-file project in the scratchpad.</li>
+</ol>
+<p><strong>UNVERIFIED items are collected in Appendix C.</strong>
+Nothing in this document reports a state that was not observed.</p>
+<hr />
+<h2
+id="finding-1-what-the-existing-lumen-capability-actually-provides">Finding
+1 — What the existing Lumen capability actually provides</h2>
+<h3 id="decision">Decision</h3>
+<p>Lumen is adopted as the <strong>embedding and vector-retrieval
+engine</strong> for the corpus it already covers, and for nothing else.
+It is treated as a <em>component</em>, not as the search system.
+Specifically:</p>
+<ul>
+<li><strong>Use it for</strong>: turning markdown and source code into
+768-dimensional vectors and returning nearest-neighbour matches as
+<code>(file_path, start_line, end_line, symbol, kind, score)</code>.</li>
+<li><strong>Do not use it for</strong>: passage identity,
+cross-references, autocomplete, lexical/keyword matching, an HTTP API,
+coverage of file types it does not parse, or the three-state
+availability contract.</li>
+</ul>
+<h3 id="rationale-measured-facts">Rationale — measured facts</h3>
+<p><strong>Version and shape.</strong> <code>lumen version</code> →
+<code>0.0.41</code>. The <code>lumen</code> on <code>PATH</code> is a
+bash launcher at <code>&lt;home&gt;/.local/bin/lumen</code> that
+resolves the highest installed plugin version; the real binary is
+<code>&lt;home&gt;/.claude-shared/plugins/cache/claude-plugins-official/lumen/0.0.41/bin/lumen-linux-amd64</code>
+(stripped Go ELF, module path <code>github.com/ory/lumen</code>).</p>
+<p><strong>CLI surface</strong> — the complete command set:</p>
+<pre><code>$ lumen --help
+Available Commands:
+  completion  Generate the autocompletion script for the specified shell
+  hook        Hook handlers for AI coding agent integration
+  index       Index a project for semantic search
+  purge       Remove lumen index data
+  search      Search an indexed project for semantically similar code
+  stdio       Start the MCP server on stdin/stdout
+  version     Print the lumen version
+
+$ lumen index --help
+Usage: lumen index &lt;project-path&gt; [flags]
+  -b, --backend string   embedding backend (&quot;ollama&quot; or &quot;lmstudio&quot;)
+  -f, --force            force full re-index
+  -m, --model string     embedding model (default: $LUMEN_EMBED_MODEL or ordis/jina-embeddings-v2-base-code)
+
+$ lumen search --help
+Usage: lumen search &lt;query&gt; [flags]
+  -b, --backend string    embedding backend
+      --cwd string        project root when path is a subdirectory
+  -f, --force             force full re-index before searching
+      --max-lines int     truncate snippets at N lines (0 = unlimited)
+      --min-score float   minimum score threshold (-1 to 1)
+  -m, --model string      embedding model override
+  -n, --n-results int     max results to return (default 8)
+  -p, --path string       directory to search (default: cwd)
+      --summary           omit code snippets, return location only
+      --trace             print per-phase timing to stderr</code></pre>
+<p>There is <strong>no</strong> subcommand to list, dump, or address a
+chunk by identifier; no JSON output flag; no incremental “index only
+this file” command; no lexical/keyword mode.</p>
+<p><strong>MCP surface</strong> — exactly three tools, confirmed by
+driving <code>lumen stdio</code> directly over JSON-RPC:</p>
+<pre><code>$ python3 mcpprobe.py
+initialize 20 ms
+tools: [&#39;health_check&#39;, &#39;index_status&#39;, &#39;semantic_search&#39;]</code></pre>
+<p><code>semantic_search(query, path?, cwd?, limit?, min_score?, max_lines?, summary?)</code>,
+<code>index_status(path)</code>, <code>health_check()</code>. No tool
+exposes chunk identifiers, cross-references, or suggestions.</p>
+<p><strong>Index schema</strong> (live index for this repo,
+<code>~/.local/share/lumen/21bf1507a8925bcf/index.db</code>, 338
+MB):</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> files (path TEXT <span class="kw">PRIMARY</span> <span class="kw">KEY</span>, <span class="kw">hash</span> TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>);</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> project_meta (<span class="kw">key</span> TEXT <span class="kw">PRIMARY</span> <span class="kw">KEY</span>, <span class="fu">value</span> TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>);</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> chunks (</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span>         TEXT <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    file_path  TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> files(path),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    symbol     TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    kind       TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    start_line <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    end_line   <span class="dt">INTEGER</span> <span class="kw">NOT</span> <span class="kw">NULL</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">INDEX</span> idx_chunks_file_path <span class="kw">ON</span> chunks(file_path);</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> VIRTUAL <span class="kw">TABLE</span> vec_chunks <span class="kw">USING</span> vec0 (</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">id</span> TEXT <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    embedding <span class="dt">float</span>[<span class="dv">768</span>] distance_metric<span class="op">=</span>cosine</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<p><code>files.hash</code> is the <strong>sha256 of the file’s
+bytes</strong> — verified: <code>files.hash</code> for
+<code>workshop/README.md</code> is <code>3f83a338…feca</code>, identical
+to <code>sha256sum</code> of that file. <code>chunks.id</code> is a
+16-hex-character (64-bit) value; all 58,734 rows are exactly 16
+characters and 6.13 % begin with <code>0</code> (expected 6.25 % for a
+zero-padded hex hash), so it is a padded 64-bit digest, not a counter.
+The vectors live in a separate <code>sqlite-vec</code> <code>vec0</code>
+virtual table joined to <code>chunks</code> <strong>by that same
+id</strong> — meaning the id is the only key linking a chunk’s metadata
+to its vector.</p>
+<p><strong>Project metadata</strong> for this repo:</p>
+<pre><code>vec_dimensions=768
+embedding_model=ordis/jina-embeddings-v2-base-code
+project_path=&lt;ext-volume-host&gt;/Projects/vasic
+last_indexed_at=2026-08-31T17:51:01Z
+total_files=2510
+root_hash=11e7034b26c9b83c…</code></pre>
+<p><strong>Embedding model and dimension</strong>:
+<code>ordis/jina-embeddings-v2-base-code</code>, 768 dims, cosine
+distance, served by ollama at <code>http://localhost:11434</code>,
+<strong>100 % CPU</strong> (<code>ollama ps</code> shows
+<code>PROCESSOR 100% CPU</code>, <code>CONTEXT 8192</code>). CPU-only is
+deliberate: <code>scripts/ollama-vulkan-remediation.sh</code> forced it
+after a Vulkan/iGPU fault silently wrote 758 duplicate vectors into this
+index on 2026-08-26.</p>
+<p><strong>Chunking.</strong> Symbols in the binary show a
+<code>MultiChunker</code> dispatching to <code>MarkdownChunker</code>,
+<code>GoAST</code>, <code>TreeSitterChunker</code>,
+<code>StructuredChunker</code> (YAML/JSON key paths) and
+<code>SvelteChunker</code>, followed by
+<code>mergeUndersizedChunks</code> / <code>splitOversizedChunks</code> /
+<code>createSubChunks</code> governed by a <code>max_chunk_tokens</code>
+setting. Empirically, over the 58,734 live chunks:</p>
+<table>
+<thead>
+<tr>
+<th><code>kind</code></th>
+<th>count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>section</code> (markdown heading block)</td>
+<td>54,445</td>
+</tr>
+<tr>
+<td><code>function</code></td>
+<td>2,919</td>
+</tr>
+<tr>
+<td><code>method</code></td>
+<td>447</td>
+</tr>
+<tr>
+<td><code>var</code></td>
+<td>347</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>297</td>
+</tr>
+<tr>
+<td><code>const</code></td>
+<td>172</td>
+</tr>
+<tr>
+<td><code>document</code> (whole structured file)</td>
+<td>84</td>
+</tr>
+<tr>
+<td><code>interface</code></td>
+<td>23</td>
+</tr>
+</tbody>
+</table>
+<p>Span statistics: <strong>min 1 line, mean 5.8 lines, max 133
+lines</strong>; 41,300 chunks (70 %) are ≤ 5 lines. Markdown is cut at
+headings — one chunk per heading, from the heading line to the line
+before the next heading.</p>
+<h3
+id="can-it-index-non-code-content-yes-for-markdown-no-for-most-other-things.-this-is-measured-not-inferred."><strong>Can
+it index non-code content?</strong> — Yes for markdown, no for most
+other things. This is measured, not inferred.</h3>
+<p>Markdown is not merely supported, it <em>dominates</em> this index:
+1,810 of 2,510 indexed files are <code>.md</code>, and 92.7 % of all
+chunks are markdown <code>section</code>s. A transcript published as
+markdown will be indexed with no special handling.</p>
+<p>But the file-type coverage is a hard allowlist, and the exclusions
+matter:</p>
+<pre><code>$ sqlite3 &quot;file:$D?mode=ro&quot; &quot;select count(*) from files where path like &#39;%.sh&#39;;&quot;    → 0
+   … same query for .html → 0   .css → 0   .txt → 0   .svg → 0   .mmd → 0
+   .puml → 0   .vtt → 0   .srt → 0   .pdf → 0   .mp4 → 0   .rb → 0   .toml → 0
+$ git ls-files &#39;*.sh&#39;   | wc -l   → 55
+$ git ls-files &#39;*.html&#39; | wc -l   → 146
+$ git ls-files &#39;*.css&#39;  | wc -l   → 32</code></pre>
+<p>Those 55 shell scripts, 146 HTML files and 32 stylesheets are tracked
+in the repository’s root module and <strong>none of them are in the
+index</strong>. This is exclusion, not absence. The extensions actually
+present are <code>md go json mjs py js yaml ts yml</code>; the binary
+additionally carries <code>.tsx .jsx .cpp .cxx .hpp .php .mdx</code>
+string constants and tree-sitter queries for C/C++/C#/Rust.</p>
+<p><strong>Consequence for FR-016</strong>: “index all curriculum
+content types … source code” cannot be satisfied by Lumen alone, because
+this project’s operational surface is bash. That gap is closed in
+Finding 4, not wished away.</p>
+<h3
+id="can-it-be-queried-programmatically-with-structured-results-yes-but-the-structure-is-weak."><strong>Can
+it be queried programmatically with structured results?</strong> — Yes,
+but the structure is weak.</h3>
+<p>Both the CLI and the MCP tool return the <em>same</em>
+semi-structured text blob. Real output:</p>
+<pre><code>$ lumen search &quot;splitting a video into pieces&quot; -p &lt;proj&gt; --trace -n 3
+Found 1 results:
+
+&lt;result:file filename=&quot;a.md&quot;&gt;
+  &lt;result:chunk line-start=&quot;5&quot; line-end=&quot;8&quot; symbol=&quot;Alpha&quot; kind=&quot;section&quot; score=&quot;0.69&quot;&gt;
+# Alpha
+
+The recording pipeline splits the video into parts.
+
+  &lt;/result:chunk&gt;
+&lt;/result:file&gt;</code></pre>
+<p>It is XML-shaped but is not declared as an API, has no schema, is not
+valid XML in general (chunk bodies are raw source, unescaped), and —
+<strong>critically — it does not contain
+<code>chunks.id</code></strong>. The only join key a consumer gets is
+<code>(file_path, line-start, line-end, symbol, kind)</code>, which is a
+<em>positional</em> locator. Any consumer that wants stable identity
+must supply it from elsewhere.</p>
+<h3 id="alternatives-considered">Alternatives considered</h3>
+<ul>
+<li><strong>Replace Lumen with a project-owned sqlite-vec
+store.</strong> Rejected. The spec’s Assumptions section commits to
+reusing the existing capability (“builds on it rather than introducing a
+competing one”), Lumen already carries 58,734 embedded chunks for this
+corpus at a cost of roughly 15 hours of CPU embedding, and it already
+solves chunking for eight languages plus markdown. Rebuilding that is
+weeks of work for no retrieval-quality gain.</li>
+<li><strong>Fork/patch Lumen to add file types and stable ids.</strong>
+Rejected. It ships as a stripped vendor binary inside a Claude Code
+plugin cache that is replaced on every plugin upgrade
+(<code>~/.local/bin/lumen</code> exists precisely because version-pinned
+paths break). A fork would be silently overwritten and would fail the
+repository’s own portability audits.</li>
+<li><strong>Use Lumen for everything including identity.</strong>
+Rejected on the evidence in Finding 2.</li>
+</ul>
+<hr />
+<h2
+id="finding-2-identifier-stability-lumen-chunk-ids-are-content-derived-and-must-not-be-used-as-passage-identifiers">Finding
+2 — Identifier stability: <strong>Lumen chunk ids are content-derived
+and MUST NOT be used as passage identifiers</strong></h2>
+<blockquote>
+<p>This is the single most consequential finding in this document.
+SC-016 requires 100 % of cross-references and citations to survive a
+transcript correction plus re-index. Built on Lumen’s ids, that figure
+would be <strong>0 % for every corrected passage</strong>, and the
+failure would be silent.</p>
+</blockquote>
+<h3 id="decision-1">Decision</h3>
+<p><strong>Build an identifier layer.</strong> The system mints its own
+<strong>Passage Identifier (PID)</strong> at ingest, persists it in the
+repository, and never derives it from position or content. Lumen’s
+<code>chunks.id</code> is treated as an internal implementation detail
+of a disposable index and is never stored, cited, or linked to. (It is
+not even reachable — see Finding 1: neither the CLI nor the MCP tool
+returns it.)</p>
+<h3 id="rationale-the-experiment-and-its-result">Rationale — the
+experiment and its result</h3>
+<p>A controlled three-run experiment was executed against a throwaway
+git project in the scratchpad, using the same binary, model and backend
+as the live index.</p>
+<p>Fixture <code>a.md</code> (three heading sections; <code>b.md</code>
+is an unchanging control):</p>
+<pre><code>1  # Alpha
+2
+3  The recording pipeline splits the video into parts.
+4
+5  # Beta
+6
+7  A passage that will recieve a correction later on.      ← deliberate typo
+8
+9  # Gamma
+10
+11 The third section describes cross references between passages.</code></pre>
+<p><strong>Run 1 — baseline index.</strong></p>
+<pre><code>Done. Indexed 2 files, 4 chunks in 28.583s.
+
+d1b10e7c0bb67aa6 | a.md | Alpha   | 1-4
+4b98e295c112a429 | a.md | Beta    | 5-8
+0c15aed47e3f1fab | a.md | Gamma   | 9-12
+2ddebdc7cddded5d | b.md | Control | 1-4</code></pre>
+<p><strong>Run 2 — a one-word correction inside Beta
+(<code>recieve</code> → <code>receive</code>). Line numbers
+unchanged.</strong></p>
+<pre><code>Reason: root hash changed
+Files: 0 added, 1 modified, 0 removed (2 total in project)
+Done. Indexed 1 files, 3 chunks in 29.927s.
+
+d1b10e7c0bb67aa6 | a.md | Alpha   | 1-4     ← unchanged
+610e608a50f273a6 | a.md | Beta    | 5-8     ← CHANGED (was 4b98e295c112a429)
+0c15aed47e3f1fab | a.md | Gamma   | 9-12    ← unchanged
+2ddebdc7cddded5d | b.md | Control | 1-4     ← unchanged</code></pre>
+<p><strong>Run 3 — a new section prepended. Every later section shifts
+down four lines; their text is untouched.</strong></p>
+<pre><code>Files: 0 added, 1 modified, 0 removed (2 total in project)
+Done. Indexed 1 files, 4 chunks in 48.075s.
+
+1979ad59adf7bfe5 | a.md | Zero    | 1-4     ← new
+d1b10e7c0bb67aa6 | a.md | Alpha   | 5-8     ← id unchanged, position moved
+610e608a50f273a6 | a.md | Beta    | 9-12    ← id unchanged, position moved
+0c15aed47e3f1fab | a.md | Gamma   | 13-16   ← id unchanged, position moved
+2ddebdc7cddded5d | b.md | Control | 1-4     ← unchanged</code></pre>
+<p><strong>Conclusion, stated as fact:</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Property</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stable across <strong>position shift</strong> (re-cutting, inserting
+earlier content)</td>
+<td><strong>YES</strong> — ids survived a four-line shift of every
+chunk</td>
+</tr>
+<tr>
+<td>Stable across <strong>content correction</strong> (fixing a
+typo)</td>
+<td><strong>NO</strong> — a single-character edit re-issued the
+identifier</td>
+</tr>
+<tr>
+<td>Therefore the id is</td>
+<td><strong>content-derived, position-independent</strong></td>
+</tr>
+</tbody>
+</table>
+<p>FR-037 forbids identifiers that are “neither positional nor
+content-derived”. Lumen’s id is <em>exactly</em> one of the two
+forbidden kinds. It is the kind that breaks on the operation this
+feature performs most often: FR-038 explicitly provides for a human
+correction layer over machine transcript output, and every correction
+would re-issue the identifier of the corrected passage while leaving
+every neighbouring passage untouched — so the damage is scattered,
+partial, and invisible in aggregate statistics.</p>
+<p>Two independent reasons make this decisive rather than merely
+inconvenient:</p>
+<ol type="1">
+<li><strong>The id is not exposed anyway.</strong> Neither
+<code>lumen search</code> nor <code>semantic_search</code> returns it
+(Finding 1). A citation built on Lumen output would have to be keyed on
+<code>(path, line-start, line-end)</code> — a purely positional key,
+which run 3 shows moves whenever anything above it changes. Both
+available keys fail FR-037, in opposite directions.</li>
+<li><strong>The reverse-engineering attempt failed, and that is itself a
+reason.</strong> 120 candidate derivations
+(sha256/sha1/md5/blake2b/blake2s/fnv-1a truncations over 20 field
+combinations of path, symbol, kind, line range and body text) were
+tested against four known id/content pairs; none matched. The formula is
+undocumented, unrecovered, and belongs to a vendor binary that is
+replaced on plugin upgrade. Depending on it would be depending on an
+unversioned private detail.</li>
+</ol>
+<h3 id="the-identifier-layer">The identifier layer</h3>
+<p><strong>PID format.</strong> A ULID minted at ingest, namespaced:
+<code>wp_01JQ8Z7K3M4N5P6Q7R8S9T0V1W</code>. ULIDs are 26
+Crockford-base32 characters, lexicographically sortable by mint time,
+need no central coordinator, and carry no positional or content
+information. (UUIDv7 is an equivalent choice; ULID is preferred only
+because the text form is URL- and citation-safe without hyphens.)</p>
+<p><strong>Where the PID lives — three places, one
+authority:</strong></p>
+<ol type="1">
+<li><p><strong>In the source artifact itself</strong>, for every passage
+in a document the system authors (transcripts, chapter pages, diagram
+descriptions). A markdown-invisible anchor immediately above the
+passage:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- pid: wp_01JQ8Z7K3M4N5P6Q7R8S9T0V1W --&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">### 00:14:32 — Milos: why the archive is split into parts</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>Text of the passage …</span></code></pre></div>
+<p>This is the load-bearing design decision. The identifier is
+<strong>authored once, by the machine, at ingest, into the
+artifact</strong> — so it is neither positional nor content-derived, it
+is committed to git alongside the text it names, and it survives
+<em>any</em> subsequent operation including a complete rebuild of every
+index from scratch. Correcting the passage edits the text under the
+anchor; the anchor does not move. Re-cutting the transcript moves the
+anchor with its passage.</p></li>
+<li><p><strong>In the passage registry</strong> —
+<code>workshop/curriculum/passages.db</code> (SQLite, committed), the
+authoritative record:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> passage (</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  pid            TEXT <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,        <span class="co">-- ULID, minted once, never recomputed</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  chapter        TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  source_path    TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,           <span class="co">-- repo-relative</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  source_kind    TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,           <span class="co">-- transcript|doc|code|diagram|pdf|media</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">locator</span>        TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,           <span class="co">-- JSON: {line_start,line_end} | {t_start,t_end} | {symbol}</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">layer</span>          TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,           <span class="co">-- machine|human      (FR-038)</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  confidence     <span class="dt">REAL</span>,                    <span class="co">-- ASR confidence     (FR-003)</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  provenance     TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,           <span class="co">-- asr|authored|extracted|ocr</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  content_hash   TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,           <span class="co">-- CHANGE DETECTION ONLY — never identity</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  minted_at      TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  superseded_by  TEXT <span class="kw">REFERENCES</span> passage(pid),</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  redacted_at    TEXT                     <span class="co">-- FR-039</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> passage_alias (old_pid TEXT <span class="kw">PRIMARY</span> <span class="kw">KEY</span>, pid TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> passage(pid));</span></code></pre></div>
+<p><code>content_hash</code> exists and is named so that no future
+reader mistakes it for identity: it answers “did this change?”, never
+“which passage is this?”.</p></li>
+<li><p><strong>In a plain-text sidecar</strong> —
+<code>workshop/curriculum/passages.jsonl</code>, one record per line,
+committed. The SQLite file is a build artifact of the JSONL, not the
+other way round. Rationale: a binary database is unreviewable in a diff
+and unmergeable in a conflict; the JSONL makes every PID mint and every
+provenance change visible in <code>git diff</code>, which is what makes
+SC-016 auditable by a human rather than only by a script.</p></li>
+</ol>
+<p><strong>Reconciliation at re-ingest</strong> — an ordered ladder,
+first match wins:</p>
+<ol type="1">
+<li>The source artifact carries a <code>pid:</code> anchor → reuse that
+PID. (Covers all authored/transcribed content. This is the common case
+and it is exact.)</li>
+<li>The source is code and the
+<code>(source_path, symbol_path, kind)</code> triple matches an existing
+passage → reuse. Symbol path
+(<code>internal/store/store.go#Store.Search</code>) survives edits to a
+function body; it does not survive a rename.</li>
+<li>A rename/move is detected (same <code>content_hash</code>, different
+path or symbol) → reuse the PID and record the old key in
+<code>passage_alias</code>.</li>
+<li>Otherwise → mint a new PID, and if the artifact is one the system
+authors, <strong>write the anchor back into it</strong> in the same
+commit.</li>
+</ol>
+<p><strong>Why code passages are honestly weaker.</strong> Rule 2 keys
+on symbol path, which is positional in the namespace sense. Renaming a
+Go function re-keys its passage; rule 3 catches it only when the body is
+byte-identical. Littering source code with PID comments to fix this
+would be a worse cure than the disease. The honest statement, which
+belongs in the FR-031 documentation: <strong>transcript, documentation
+and diagram passages have exact, permanent identity; code passages have
+best-effort identity with an alias table, and a rename plus an edit in
+the same commit can orphan a code cross-reference.</strong> Orphans
+resolve to a tombstone that says so, never to a wrong passage.</p>
+<p><strong>Citation and cross-reference resolution always goes through
+the registry</strong>, never directly to a file offset. That single
+indirection is what buys three separate requirements at once: SC-016
+(corrections do not orphan references), FR-039 (a redacted PID resolves
+to a tombstone everywhere, including inside previously stored answers,
+because the render path re-resolves), and the loop-safety property in
+Finding 6.</p>
+<p><strong>Paired mutation proof (FR-032, SC-012).</strong> The SC-016
+gate is: record N cross-references and citations → correct a transcript
+passage → re-index → assert all N resolve to the same PID and the same
+passage. Its mutation is: run the same gate against a build configured
+to key references on <code>content_hash</code> instead of
+<code>pid</code>, and require the gate to <strong>FAIL</strong>. Without
+that second half the gate proves nothing.</p>
+<h3 id="alternatives-considered-1">Alternatives considered</h3>
+<ul>
+<li><strong>Content hash as identity.</strong> Rejected — it is what
+Lumen does, and run 2 is the demonstration of why: a typo fix is a new
+identity. Explicitly forbidden by FR-037.</li>
+<li><strong><code>file:line</code> as identity.</strong> Rejected — run
+3 is the demonstration: inserting a paragraph moved every later passage.
+Explicitly forbidden by FR-037.</li>
+<li><strong>Fuzzy re-matching on re-index (embedding similarity between
+old and new passages).</strong> Rejected as the <em>primary</em>
+mechanism. It is probabilistic, so SC-016’s “100 %” could never be
+honestly claimed, and its failures are exactly the silent kind the
+constitution forbids. Retained only as a <em>diagnostic</em>: when rule
+4 mints a new PID for content that is ≥ 0.97 cosine-similar to a passage
+that just disappeared, the ingest run emits a warning for human review
+rather than guessing.</li>
+<li><strong>Sequential integer ids.</strong> Rejected — stable, but only
+within one machine’s build order; two maintainers ingesting chapters
+independently would collide. ULID removes the coordination
+requirement.</li>
+</ul>
+<hr />
+<h2 id="finding-3-reuse-vs-build-where-the-seam-goes">Finding 3 — Reuse
+vs build: where the seam goes</h2>
+<h3 id="decision-2">Decision</h3>
+<p>Four layers. Lumen occupies exactly one of them.</p>
+<pre><code>┌─ UI (Angular, reusing design-system tokens) ────────────────────────────────┐
+│  search box (combobox, WCAG 2.1 AA) · results · passage view · cross-refs   │
+└────────────────────────────────────────────────────────────────────────────┘
+                │ HTTP, three-state envelope
+┌─ Search service (Go, in the workshop platform binary) ──────────────────────┐
+│  A. SUGGEST   FTS5 prefix over titles/symbols/entities   ~10 ms p95         │
+│  B. LEXICAL   FTS5 full-text over ALL passage text        ~10 ms            │
+│  C. SEMANTIC  → Lumen (long-lived MCP stdio child)        seconds           │
+│  D. FUSE      reciprocal-rank fusion of B+C, PID-keyed                      │
+│  E. RESOLVE   (path,lines) → PID via passage registry                       │
+│  F. HEALTH    bounded timeouts, distinct-vector probe, 3-state envelope     │
+└────────────────────────────────────────────────────────────────────────────┘
+        │                                    │
+┌─ passages.db (committed) ──────┐   ┌─ Lumen index (~/.local/share, derived) ─┐
+│ PID registry · FTS5 · edges    │   │ 768-dim vec0 · content-derived ids      │
+│ AUTHORITATIVE                  │   │ DISPOSABLE, REBUILDABLE                 │
+└────────────────────────────────┘   └─────────────────────────────────────────┘</code></pre>
+<h3 id="rationale">Rationale</h3>
+<p><strong>What must be built, and why each item cannot come from
+Lumen:</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Why Lumen cannot supply it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stable passage identity</td>
+<td>Finding 2 — content-derived, and not exposed</td>
+</tr>
+<tr>
+<td>Autocomplete ≤ 200 ms</td>
+<td>Finding 5 — the cheapest path through Lumen is one CPU
+embedding</td>
+</tr>
+<tr>
+<td>Coverage of <code>.sh</code>, <code>.html</code>, <code>.css</code>,
+PDFs, transcript timecodes</td>
+<td>Finding 1 — not in the file-type allowlist</td>
+</tr>
+<tr>
+<td>Cross-references</td>
+<td>No such concept in the schema or the tool surface</td>
+</tr>
+<tr>
+<td>Three-state availability</td>
+<td>Finding 7 — <code>health_check</code> reported “healthy” during a
+hard embedding failure</td>
+</tr>
+<tr>
+<td>An HTTP API a browser can call</td>
+<td>Only a CLI and an MCP stdio server exist</td>
+</tr>
+<tr>
+<td>Atomic index generations</td>
+<td>Finding 8 — Lumen mutates its store in place while serving
+reads</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What is genuinely reused:</strong> the embedding model and
+its 15 hours of already-computed vectors; the eight-language tree-sitter
+chunker; the merkle freshness walk; and the operational hardening
+already written in this repository —
+<code>scripts/lumen-reindex.sh</code> (GPU refusal, retry, and the only
+probe that catches the “repeated stale vector” corruption mode),
+<code>scripts/lumen-index-doctor.sh</code> (read-only distinctness
+audit, three-valued exit),
+<code>scripts/ollama-vulkan-remediation.sh</code>,
+<code>scripts/ollama-tune.sh</code>.</p>
+<p><strong>Transport to Lumen: a long-lived <code>lumen stdio</code>
+child process, not <code>lumen search</code> per query.</strong> This is
+a measured requirement, not a preference. The CLI’s <code>--trace</code>
+shows a fixed <strong>2,202 ms “indexer setup”</strong> phase per
+process:</p>
+<pre><code>[  13ms] path resolution
+[2202ms] indexer setup          → db opened, model ordis/jina-embeddings-v2-base-code
+[  12ms] merkle + freshness     → index is fresh (no reindex)
+[21040ms] query embedding       → 768 dims
+[   3ms] knn search             → 1 candidates fetched (limit=3, fetch=6)
+[   0ms] post-processing
+[23272ms] total</code></pre>
+<p>2.2 s of process warm-up alone consumes the whole SC-006 budget
+before a single vector is computed. Over the MCP stdio server,
+<code>initialize</code> costs <strong>12–20 ms</strong> and
+<code>health_check</code> <strong>2 ms</strong>, so the warm-up is not
+paid per call. (<code>index_status</code> is a different matter — see
+Finding 8.)</p>
+<p><strong>Line-range → PID resolution.</strong> Lumen returns
+<code>(file_path, line-start, line-end)</code>. The service resolves
+that to a PID by an interval lookup in the registry, whose
+<code>locator</code> for document passages is the anchor-delimited line
+range recomputed at ingest. Overlap, not equality, is the match rule —
+Lumen’s chunk boundaries are its own (mean 5.8 lines) and need not
+coincide with passage boundaries. Where a Lumen chunk spans two
+passages, both PIDs are returned and de-duplicated by rank fusion. Where
+it resolves to none (a file type we index lexically but Lumen does not,
+or vice versa), the result is dropped with a counter incremented — a
+silently dropped result is a defect, and the counter is what makes it
+visible.</p>
+<h3 id="alternatives-considered-2">Alternatives considered</h3>
+<ul>
+<li><strong>Read Lumen’s SQLite directly from the search
+service</strong> (bypassing the CLI/MCP, doing our own <code>vec0</code>
+k-NN). Tempting — <code>knn search</code> costs 2–3 ms — but rejected:
+Lumen mutates that database in place with <code>BEGIN IMMEDIATE</code>
+transactions and per-file
+<code>DELETE FROM vec_chunks WHERE id IN (SELECT id FROM chunks WHERE file_path = ?)</code>,
+and its own binary carries a
+<code>corrupted database detected during reindex, rebuilding</code>
+path. Reading someone else’s live write-ahead-logged store, whose schema
+is undeclared and whose id semantics we have already shown to be
+unstable, trades 2 s of latency for an unbounded correctness risk. The
+service still needs its <em>own</em> embedding call for the query either
+way.</li>
+<li><strong>A parallel project-owned vector index for
+everything</strong> (embed passages ourselves into
+<code>passages.db</code> via sqlite-vec). Rejected as the primary design
+because the spec commits to reuse, but explicitly <strong>retained as
+the contingency</strong>: it is the mitigation if the plugin is upgraded
+incompatibly, and the corpus size (a few thousand curriculum passages,
+versus 58,734 monorepo chunks) makes it cheap. The PID layer makes this
+switch a configuration change, because nothing above layer C knows which
+engine produced a match.</li>
+</ul>
+<hr />
+<h2 id="finding-4-how-each-content-type-becomes-passages">Finding 4 —
+How each content type becomes passages</h2>
+<h3 id="decision-3">Decision</h3>
+<p>Every content type is normalised to <strong>markdown with PID
+anchors, committed to the repository</strong>, before indexing. Lumen
+then indexes the markdown. Nothing is fed to Lumen that Lumen cannot
+parse, and nothing is claimed to be indexed that is not.</p>
+<h3 id="rationale-per-type">Rationale, per type</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Content</th>
+<th>Passage unit</th>
+<th>Semantic (Lumen)</th>
+<th>Lexical (FTS5)</th>
+<th>Honest limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Transcript segments</strong></td>
+<td>ASR segments merged into topic blocks of ~150–400 words, each a
+heading <code>### HH:MM:SS — Speaker: topic</code> with a PID anchor and
+<code>{t_start,t_end}</code> in the registry</td>
+<td><strong>Yes</strong> — published as <code>.md</code>, indexed
+natively</td>
+<td>Yes</td>
+<td>Retrieval quality is bounded by ASR accuracy (FR-004’s measured
+figure). Segments marked uncertain (FR-003) are indexed but flagged, and
+are excluded from answer citation.</td>
+</tr>
+<tr>
+<td><strong>Markdown documentation</strong></td>
+<td>Lumen’s own heading section, aligned to an authored PID anchor per
+section</td>
+<td><strong>Yes</strong> — native, already 92.7 % of the live index</td>
+<td>Yes</td>
+<td>Sections shorter than the merge threshold get folded into neighbours
+by <code>mergeUndersizedChunks</code>; sections above
+<code>max_chunk_tokens</code> are split. Chunk boundaries are therefore
+<em>not</em> guaranteed to equal passage boundaries — which is why
+resolution is by interval overlap, not equality.</td>
+</tr>
+<tr>
+<td><strong>Source code</strong></td>
+<td>Lumen chunk: <code>function</code> / <code>method</code> /
+<code>type</code> / <code>const</code> / <code>var</code> /
+<code>interface</code>; PID keyed on symbol path</td>
+<td><strong>Only for</strong>
+<code>.go .py .js .mjs .ts .tsx .jsx .json .yaml .yml .mdx .cpp .cxx .hpp .php</code></td>
+<td><strong>All text files, including <code>.sh</code>
+<code>.html</code> <code>.css</code></strong></td>
+<td><strong><code>.sh</code>, <code>.html</code>, <code>.css</code> are
+NOT semantically indexed — measured: 55 / 146 / 32 tracked files, 0
+indexed.</strong> For a repository whose operational surface is bash,
+this is the single largest coverage gap, and it must be stated in the
+FR-031 “what this cannot do” section rather than papered over. The
+lexical path covers them, so keyword search finds them; a meaning-only
+query will not.</td>
+</tr>
+<tr>
+<td><strong>Diagrams and schematics</strong></td>
+<td>The diagram’s <strong>source text</strong> (mermaid / dot /
+plantuml) plus an authored caption and description, emitted as
+<code>diagrams/&lt;name&gt;.md</code> with a PID anchor</td>
+<td><strong>Yes</strong>, via the generated <code>.md</code></td>
+<td>Yes</td>
+<td>Text-defined diagrams are fully covered this way. A diagram that
+exists <strong>only as a raster image</strong> yields nothing without
+OCR. <code>tesseract-ocr</code> is available per <code>CLAUDE.md</code>,
+so labels can be extracted and indexed with <code>provenance: ocr</code>
+and low confidence — but OCR gives <em>labels</em>, not
+<em>structure</em>: “what this diagram means”, “what connects to what”
+is <strong>not</strong> obtainable and must not be claimed. Authoring a
+caption is the only reliable route, and it is human work.</td>
+</tr>
+<tr>
+<td><strong>The notes PDF</strong> (<code>Notes by Gemini.PDF</code>,
+417,800 bytes)</td>
+<td>One passage per logical section, extracted with
+<code>pdftotext</code> (poppler-utils, available) into
+<code>chapters/01/notes.md</code> with PID anchors</td>
+<td><strong>Yes</strong>, via the generated <code>.md</code></td>
+<td>Yes</td>
+<td>Where extraction yields no text layer, OCR fallback, flagged. The
+spec’s rule stands: the recording is the authority; disagreement with
+the notes is surfaced as a cross-reference of kind
+<code>contradicts</code>, not silently resolved.</td>
+</tr>
+<tr>
+<td><strong>The recording</strong> (1.87 GB MP4, 36 × 50 MB parts)</td>
+<td><strong>Not a passage.</strong> It is a <em>target</em>: transcript
+passages carry <code>{t_start,t_end}</code> and deep-link to it (FR-002,
+SC-003)</td>
+<td><strong>No</strong></td>
+<td>No</td>
+<td><strong>Genuinely out of reach and must be documented as
+such</strong>: visual scene understanding, speaker face identification,
+and comprehension of anything drawn on screen. No vision-language model
+is established in this repository. <strong>Feasible but
+optional</strong>: a frame-OCR track (<code>ffmpeg</code> sample every N
+seconds → <code>tesseract</code>) capturing on-screen terminal and IDE
+text as low-confidence passages with <code>provenance: ocr</code>. It
+would genuinely find “the command he typed at 00:41”. It is recommended
+as a <em>separate, later</em> deliverable, not folded into the core,
+because its false-positive rate is unmeasured.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-normalisation-rule-stated-once">The normalisation rule,
+stated once</h3>
+<blockquote>
+<p><strong>If Lumen cannot index it, generate a committed markdown
+derivative that Lumen can index — and give the derivative its own PIDs,
+provenance, and a link back to the original.</strong></p>
+</blockquote>
+<p>This is preferred over extending Lumen for three reasons: the
+derivative is human-reviewable in a diff; it survives a Lumen upgrade or
+replacement; and it forces the “what is genuinely indexable” question to
+be answered explicitly, in a file someone can read, rather than buried
+in an extractor’s behaviour.</p>
+<h3 id="alternatives-considered-3">Alternatives considered</h3>
+<ul>
+<li><strong>Feed transcripts as
+<code>.vtt</code>/<code>.srt</code>.</strong> Rejected — not in the
+allowlist (measured: 0 indexed), and the timing metadata is better held
+in the registry than in the indexed text, where it would pollute the
+embedding.</li>
+<li><strong>Index raw video/audio with a multimodal embedding
+model.</strong> Rejected — no such model is installed, the backend is
+CPU-only, and D1 forbids sending content off-machine. Recorded as out of
+scope rather than as a future promise.</li>
+<li><strong>Skip the derivative and add a bespoke extractor per type
+feeding a private vector table.</strong> Rejected for now — it is the
+Finding 3 contingency design, and adopting it early would abandon the
+reuse commitment for content types (diagrams, PDFs) that markdown
+handles adequately.</li>
+</ul>
+<hr />
+<h2 id="finding-5-autocomplete-at-200-ms-p95-sc-005">Finding 5 —
+Autocomplete at 200 ms p95 (SC-005)</h2>
+<h3 id="decision-4">Decision</h3>
+<p><strong>Suggestions never touch the embedding backend.</strong>
+Type-ahead is served entirely from a SQLite FTS5 prefix index held by
+the search service process. The semantic path is not on the keystroke
+path at all.</p>
+<p>The two paths return <em>different kinds of thing</em>, and that
+difference is the design, not a compromise:</p>
+<ul>
+<li><strong>Suggest (per keystroke, ≤ 200 ms)</strong> returns
+<strong>navigational targets and query completions</strong>: chapter
+titles, transcript section headings, speaker names, code symbols,
+document titles, glossary terms, and previously-run queries. Each
+carries a PID (or a route) so <code>Enter</code> on a suggestion
+navigates <em>directly</em> to the passage without a search at all.</li>
+<li><strong>Search (on submit, ≤ 2 s)</strong> returns <strong>ranked
+passages by meaning</strong>, fusing the lexical and semantic legs.</li>
+</ul>
+<h3 id="rationale-both-halves-measured">Rationale — both halves
+measured</h3>
+<p><strong>The semantic path cannot meet 200 ms, and is not
+close.</strong> Measured on this machine, under concurrent index
+load:</p>
+<pre><code>$ for i in 1..5; do time curl -s -X POST localhost:11434/api/embed \
+      -d &#39;{&quot;model&quot;:&quot;jina-embeddings-code-cpu:latest&quot;,&quot;input&quot;:&quot;how do we archive the workshop recording&quot;}&#39;
+18.28 s   15.41 s   0.10 s   0.16 s   0.24 s        ← same input repeated; last three are cache-assisted</code></pre>
+<pre><code>$ # ten DISTINCT short queries, same conditions
+33.33 s  ← &quot;video archive pipeline design&quot;
+49.65 s  ← &quot;how are chapters organised in the curriculum&quot;
+28.75 s  ← &quot;constitution rule about server side CI&quot;
+(run aborted at the 2-minute cap)</code></pre>
+<p><code>lumen search --trace</code> attributes it precisely:
+<strong>query embedding 18,162 ms and 21,040 ms</strong> in two runs,
+against 2–3 ms for the k-NN itself. Through the MCP server, one
+<code>semantic_search</code> returned in 9,563 ms and another failed at
+20,013 ms.</p>
+<p>The honest range is therefore: <strong>~100–240 ms in the best
+observed case (idle-ish, cache-assisted, identical input), 9–50 s under
+the load this system creates for itself after every chapter
+ingest.</strong> Even the best case consumes the entire 200 ms budget
+with zero margin for HTTP, JSON and render. The true idle cold-query
+cost is <strong>UNVERIFIED</strong> (Appendix C-1) because measuring it
+requires stopping the running rebuild, which is prohibited — but no
+plausible value of it rescues the semantic path, because the
+<em>variance</em> is the disqualifier, not the mean. A p95 target cannot
+be met by a path whose p95 is set by an unrelated background job.</p>
+<p><strong>The lexical path meets it with two orders of magnitude to
+spare.</strong> A realistic suggestion dictionary was built from the
+58,726 real symbols and headings in this repository’s live Lumen index,
+copied read-only into the scratchpad:</p>
+<pre><code>source chunk rows: 58726
+build time: 0.93s   db size: 15.9 MB
+prefix-suggest latency over 400 probes (ms):
+  min=0.052  p50=0.254  p95=9.580  p99=19.203  max=51.536</code></pre>
+<p>Probes were 2–5 character prefixes drawn from real symbol vocabulary
+— i.e. the worst case (a 2-character prefix matches thousands of rows)
+is included. <strong>p95 = 9.6 ms</strong>, measured while the machine
+was under load average ~9 <em>and</em> running the full re-index. That
+leaves ~190 ms of the SC-005 budget for HTTP, serialisation and
+paint.</p>
+<p>Schema:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> VIRTUAL <span class="kw">TABLE</span> suggest <span class="kw">USING</span> fts5(</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  term, kind, pid UNINDEXED, route UNINDEXED,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  tokenize<span class="op">=</span><span class="st">&#39;unicode61&#39;</span>, prefix<span class="op">=</span><span class="st">&#39;2 3 4&#39;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>);</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- query: SELECT term, kind, pid FROM suggest WHERE suggest MATCH ?||&#39;*&#39; ORDER BY rank LIMIT 8;</span></span></code></pre></div>
+<p><strong>No new dependency is required.</strong> FTS5 with prefix
+indexes was verified working in <code>modernc.org/sqlite</code> — the
+exact pure-Go driver already in
+<code>ai_interviewing/platform/backend/go.mod</code>:</p>
+<pre><code>$ go run .    # modernc.org/sqlite, CREATE VIRTUAL TABLE … USING fts5(…, prefix=&#39;2 3 4&#39;)
+FTS5 OK, prefix match -&gt; video archive pipeline</code></pre>
+<p><strong>Client-side rules that the 200 ms figure depends
+on:</strong></p>
+<ul>
+<li>Debounce <strong>80 ms</strong> (not the 220 ms used by
+<code>ai_interviewing/platform/frontend/src/app/features/search.component.ts</code>;
+at 10 ms server time the debounce would become the dominant term).</li>
+<li>Every in-flight suggest request is cancelled by the next keystroke
+(<code>switchMap</code>), and responses are dropped if a newer keystroke
+has been issued — otherwise out-of-order responses produce a flickering
+list that reads as latency.</li>
+<li>Minimum 1 character, not 2. A single character is a legitimate
+prefix and the index handles it; the spec’s edge case requires an empty
+query, a single character, and a multi-paragraph query all to behave
+predictably. Empty → recent queries plus chapter list. Single char →
+prefix matches. Multi-paragraph → suggestions suppressed (a paragraph is
+not a prefix), submit path only, and the input is truncated for the
+embedding at the model’s 8192-token context.</li>
+<li>Suggestions are rendered as an ARIA combobox:
+<code>role="combobox"</code>, <code>aria-expanded</code>,
+<code>aria-controls</code>, <code>aria-activedescendant</code>, popup
+<code>role="listbox"</code>, Down opens/moves, Up/Down navigate, Enter
+selects, Esc closes — the pattern already written down in
+<code>design-toolkit/knowledge/aria-apg.md</code>. Focus never leaves
+the input, which is what satisfies FR-042 and the screen-reader edge
+case; the count of suggestions is announced in an
+<code>aria-live="polite"</code> region.</li>
+<li>No such component exists in this repository today (searches for
+<code>combobox</code>, <code>aria-activedescendant</code>,
+<code>typeahead</code>, <code>role="listbox"</code> return only prose).
+<code>design-system/components-extended.css</code> provides
+<code>.od-search</code>, <code>.od-search__input</code>,
+<code>.od-search__icon</code>, <code>.od-search__clear</code> —
+presentation only, no listbox. The combobox is new work built on those
+tokens.</li>
+</ul>
+<p><strong>Optional trailing semantic preview.</strong> After 350 ms of
+typing inactivity, the client <em>may</em> issue a cancellable semantic
+query and merge results <em>below</em> the lexical suggestions, clearly
+separated. It is strictly additive: it never blocks, never reorders the
+fast list, and its absence is invisible. SC-005 is measured on the
+lexical list only, and the measurement harness asserts that — otherwise
+a slow preview would silently pollute the percentile.</p>
+<h3 id="alternatives-considered-4">Alternatives considered</h3>
+<ul>
+<li><strong>Cache query embeddings.</strong> Rejected as the primary
+mechanism — it only helps repeated queries, and a prefix stream is by
+construction almost all novel strings. Retained as a small LRU for the
+submit path, where repeated queries are common.</li>
+<li><strong>A second, tiny embedding model for suggestions.</strong>
+Rejected — a smaller model still costs a CPU forward pass and a backend
+round trip per keystroke, still contends with indexing, and adds a
+second model whose relevance is uncalibrated against the main
+index.</li>
+<li><strong>Precompute embeddings for a fixed suggestion
+vocabulary.</strong> Rejected — the query still has to be embedded to
+compare against them. It solves the wrong half.</li>
+<li><strong>Trigram/<code>LIKE '%q%'</code>, as
+<code>ai_interviewing</code> does today</strong>
+(<code>store.go:501-509</code>). Rejected — unanchored <code>LIKE</code>
+cannot use an index, has no ranking, and the existing implementation
+returns no snippets and no relevance order. FTS5 costs nothing extra and
+gives BM25 ranking.</li>
+</ul>
+<hr />
+<h2 id="finding-6-cross-references-fr-018">Finding 6 — Cross-references
+(FR-018)</h2>
+<h3 id="decision-5">Decision</h3>
+<p>Cross-references are <strong>stored directed edges between
+PIDs</strong>, computed offline at ingest, in four kinds, with authored
+edges outranking derived ones and never being overwritten by
+recomputation.</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> passage_edge (</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  src_pid   TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> passage(pid),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  dst_pid   TEXT <span class="kw">NOT</span> <span class="kw">NULL</span> <span class="kw">REFERENCES</span> passage(pid),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  kind      TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,   <span class="co">-- structural | explicit | similar | curated | contradicts</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  score     <span class="dt">REAL</span>,            <span class="co">-- similar: cosine; others NULL</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  origin    TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,   <span class="co">-- generated | authored</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  computed_at TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">PRIMARY</span> <span class="kw">KEY</span> (src_pid, dst_pid, kind)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div>
+<h3 id="rationale-1">Rationale</h3>
+<p><strong>Derivable automatically:</strong></p>
+<ul>
+<li><strong><code>structural</code></strong> — free and exact. Section
+parent/child, previous/next passage within a chapter, transcript passage
+↔︎ the recording timecode it came from, transcript passage ↔︎ the
+overlapping region of the notes PDF, chapter ordinal ordering.</li>
+<li><strong><code>explicit</code></strong> — free and exact. Markdown
+links, relative file references, and code symbol references already in
+the text, resolved to PIDs at ingest. A link whose target has no PID is
+recorded as a dangling edge with a reason, not dropped.</li>
+<li><strong><code>similar</code></strong> — the semantic edges. Computed
+<strong>at ingest, not at query time</strong>: for each passage, k-NN
+against the index with <code>k = 12</code>, keep the top 5 above a
+cosine floor (start at 0.55, calibrate against the SC-007 benchmark),
+drop self and same-section neighbours. This is why it must be offline —
+at 9–50 s per embedding under load, computing neighbours on page load is
+impossible, and the passages are already embedded, so the query vector
+is free.</li>
+<li><strong><code>contradicts</code></strong> — semi-automatic. Where a
+transcript passage and the notes PDF cover the same timespan with high
+similarity but a detected factual divergence, the pair is <em>flagged
+for review</em>; the edge is only written once a human confirms it. The
+spec requires disagreement to be surfaced, not resolved; a
+machine-asserted contradiction would be a resolution.</li>
+</ul>
+<p><strong>Must be authored:</strong></p>
+<ul>
+<li><strong><code>curated</code></strong> — the editorial links: “this
+exercise implements the pattern discussed in Chapter 1 §4”. These live
+in a committed <code>workshop/curriculum/crossrefs.yaml</code>, keyed by
+PID, and are merged in at build. Recomputation deletes and rewrites
+<code>origin='generated'</code> rows only;
+<code>origin='authored'</code> rows are never touched by a machine.
+Without that rule, one re-index would silently erase a maintainer’s
+editorial work.</li>
+<li>Diagram captions, and the “what this section is really about”
+summaries that make similarity edges useful rather than merely
+proximate.</li>
+</ul>
+<p><strong>Loop safety</strong> (spec edge case: “cross-references must
+not create loops that trap a reader”):</p>
+<ol type="1">
+<li>Edges are stored <strong>directed</strong> and rendered as a bounded
+list (max 5 per kind), never as an auto-followed chain.</li>
+<li>The reader’s session keeps a visited-PID set; the
+immediately-preceding passage is suppressed from the offered list, so
+“related” never bounces the reader straight back.</li>
+<li>Symmetric <code>similar</code> pairs are de-duplicated at
+render.</li>
+<li>A build-time check reports strongly-connected components of size
+&gt; 1 in the <code>curated</code> subgraph. It is a warning, not an
+error — a genuine mutual reference is legitimate; an unnoticed one is
+not.</li>
+</ol>
+<p><strong>Why PIDs are what make this work.</strong> Because an edge
+names two PIDs and never a file offset, correcting a transcript passage
+changes no edge; renaming a file changes no edge; re-indexing changes no
+edge. That is the mechanism by which SC-016 is satisfied for
+cross-references specifically, and it exists only because of Finding 2’s
+identifier layer.</p>
+<h3 id="alternatives-considered-5">Alternatives considered</h3>
+<ul>
+<li><strong>Compute similarity at read time.</strong> Rejected on the
+measured embedding latency, and unnecessary — the vectors already
+exist.</li>
+<li><strong>Store edges as markdown links inside the passage
+text.</strong> Rejected — it makes every relationship a text edit, which
+mutates <code>content_hash</code>, which triggers re-embedding, which
+makes editorial linking expensive. The edge table keeps relationships
+out of the content.</li>
+<li><strong>A graph database.</strong> Rejected — the corpus is “one
+chapter, growing to tens” per the spec’s own scale assumption. A table
+with a composite primary key is the right size, and it is already in the
+file everything else lives in.</li>
+</ul>
+<hr />
+<h2
+id="finding-7-honest-degradation-the-three-state-contract-fr-019-fr-020">Finding
+7 — Honest degradation: the three-state contract (FR-019, FR-020)</h2>
+<h3 id="decision-6">Decision</h3>
+<p>One type, in one place, with <strong>no representation for “empty and
+healthy-unknown”</strong>:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode go"><code class="sourceCode go"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> SearchOutcome <span class="kw">struct</span> <span class="op">{</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    Status   <span class="dt">string</span>          <span class="co">// &quot;ok&quot; | &quot;no_match&quot; | &quot;unavailable&quot;   (exhaustive)</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    Results  <span class="op">[]</span>Hit           <span class="co">// non-empty iff Status == &quot;ok&quot;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    Degraded <span class="op">*</span>DegradedNotice <span class="co">// present when some legs answered and others did not</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    Reason   <span class="op">*</span>Unavailable    <span class="co">// present iff Status == &quot;unavailable&quot;</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Enforced in the search service, at the single function that
+constructs it. The HTTP layer maps <code>unavailable</code> →
+<strong>HTTP 503</strong> with a machine-readable <code>reason</code>,
+never <code>200 []</code>. The client has three render branches and a
+test that fails if the no-results copy renders on a 503.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>State</th>
+<th>Condition</th>
+<th>What the user sees</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ok</code></td>
+<td>≥ 1 result at or above the relevance floor</td>
+<td>Ranked results. If a leg failed, a persistent banner: “Meaning-based
+search is unavailable right now — showing keyword matches only.”</td>
+</tr>
+<tr>
+<td><code>no_match</code></td>
+<td>All legs answered successfully; zero results above the floor</td>
+<td>“No passage in the curriculum matches that.” Plus the nearest
+below-floor items, explicitly labelled as below the relevance threshold
+— shown, but never presented as answers (FR-019).</td>
+</tr>
+<tr>
+<td><code>unavailable</code></td>
+<td>Embedding backend unreachable, saturated, timed out, returning
+degenerate vectors; or the index has no verified generation</td>
+<td>“Search cannot answer right now” + reason + retry guidance.
+<strong>Never</strong> the empty-results copy.</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="rationale-this-repository-has-already-produced-the-failure-twice-on-both-sides-of-the-boundary">Rationale
+— this repository has already produced the failure, twice, on both sides
+of the boundary</h3>
+<p><strong>The good news: Lumen’s MCP surface distinguishes error from
+empty.</strong> Observed live during this research:</p>
+<pre><code>== semantic_search 20013 ms  q=&#39;quantum chromodynamics lattice gauge theory&#39; ==
+embed query: all embedding servers exhausted after failover:
+last error: embedding batch starting at 0: ollama embed: context deadline exceeded  [isError=True]</code></pre>
+<p><code>isError=True</code>. A saturated backend is <em>not</em>
+silently rendered as zero results by Lumen itself.</p>
+<p><strong>The bad news, and it is the actual hazard: Lumen also emits a
+degradation warning glued to an empty-results string in the same
+unstructured blob.</strong> Observed:</p>
+<pre><code>call: 4991 ms -&gt; &quot;No results found. | Warning: Index is being updated in the background.
+                  Results may be incomplete or outdated. Us…&quot;</code></pre>
+<p>A client that reads the first line — or that renders the text as-is —
+shows “No results found.” The honest signal is present but not separable
+without string parsing. <strong>The service must parse for that warning
+and promote it to <code>Degraded</code>, and must never forward Lumen’s
+text to the UI verbatim.</strong></p>
+<p><strong>Worse: <code>health_check</code> is a liveness probe, not a
+saturation probe, and it lies about saturation.</strong> Measured in the
+same MCP session, seconds apart:</p>
+<pre><code>== health_check 2 ms ==            == semantic_search 20013 ms ==
+Status: OK                          embed query: all embedding servers exhausted…
+Message: service is healthy         [isError=True]</code></pre>
+<p><strong><code>health_check</code> reported “healthy” while queries
+were failing.</strong> It cannot be the source of truth for the third
+state. What must be used instead:</p>
+<ol type="1">
+<li><strong>A bounded timeout on the actual query.</strong>
+<code>search_timeout_ms</code> (default 5,000; suggest path never calls
+it). Exceeded → <code>unavailable{reason:"embedding_timeout"}</code>.
+This is the direct fix for the recorded stall.</li>
+<li><strong>The distinct-vector probe from
+<code>scripts/lumen-reindex.sh</code></strong> — send N distinct texts,
+require N distinct vectors back — run on a background timer (not on the
+request path) and cached. It is the only check in this repository that
+catches the corruption mode where the backend returns HTTP 200 with a
+<em>repeated stale</em> vector: well-formed, non-NaN, non-zero, correct
+L2 norm, and completely wrong. That mode put 758 duplicate vectors into
+this index on 2026-08-26.</li>
+<li><strong><code>index_status</code>’s <code>Stale:</code>
+field</strong>, polled in the background (it costs 2.6–5.1 s on this
+repo — see Finding 8; it must never be on the request path).</li>
+<li><strong>Indexer-running detection</strong> →
+<code>Degraded{semantic:"reindexing"}</code>, results still served from
+the lexical leg.</li>
+</ol>
+<p><strong>The exact anti-pattern is already shipped in this repository
+and must not be copied.</strong>
+<code>ai_interviewing/platform/frontend/src/app/features/search.component.ts</code>
+handles a backend error by setting <code>loading(false)</code>, so a 500
+renders as the empty state; and its backend returns <code>[]</code> for
+queries shorter than two characters. Both are the FR-020 violation. The
+workshop platform must not inherit them, and the plan should note that
+the <code>ai_interviewing</code> search page has the same defect
+independently of this feature.</p>
+<p><strong>Load isolation — an operational requirement, not a
+nicety.</strong> <code>scripts/ollama-tune.sh</code> records that with
+<code>OLLAMA_NUM_PARALLEL</code> resolving to 1, ollama serialises
+clients and <em>“a single embed went from 0.74s to a &gt;90s client
+timeout, which stalled indexing entirely”</em>, with the design note
+<strong>“queue depth is not the defect — serialisation is.”</strong>
+This research reproduced exactly that: 28–50 s per query embedding while
+the indexer held the backend. Therefore: interactive query embedding
+must have a <strong>reserved parallel slot or a separate backend
+instance</strong> from the indexing workload. Without it, SC-006 fails
+every time a chapter is ingested — which is precisely when people will
+be using the system.</p>
+<blockquote>
+<p><strong>Correction to the spec, offered honestly.</strong> The spec
+(line 145) and <code>plan.md</code> cite <em>“a saturated embedding
+backend caused queries to time out at 75 s.”</em> An exhaustive search
+of <code>docs/</code>, <code>_analysis/</code>,
+<code>CONTINUATION.md</code>, <code>.ashlrcode/</code>,
+<code>specs/</code>, <code>_tests/evidence/</code> and
+<code>.lumen-reindex.log</code> found <strong>no artifact recording a 75
+s figure</strong>. The two saturation stalls that <em>are</em> recorded
+measure <strong>&gt;90 s</strong>
+(<code>scripts/ollama-tune.sh:8-11</code>, embed serialisation) and
+<strong>~10 minutes</strong>
+(<code>docs/setup-agents-wizard/ARCHITECTURE.md:286-289</code>,
+<code>MANUAL.md:130-132</code>, <code>ACTION-REQUIRED.md:215-216</code>
+— an unbounded <code>lumen search</code> behind a running index stalled
+the setup wizard). The spec’s <em>conclusion</em> is right and this
+research independently confirms the failure class; only the number is
+untraceable. It should be corrected to cite the recorded measurements,
+or restated as “tens of seconds to minutes”.</p>
+</blockquote>
+<h3 id="alternatives-considered-6">Alternatives considered</h3>
+<ul>
+<li><strong>Use <code>health_check</code> as the availability
+gate.</strong> Rejected on the measurement above — it returned OK during
+a hard failure.</li>
+<li><strong>Return 200 with
+<code>{"results":[], "degraded":true}</code>.</strong> Rejected — every
+HTTP client, cache and proxy treats 200 as success, and the failure mode
+this requirement exists to prevent is precisely a successful-looking
+empty response. 503 makes the failure structural.</li>
+<li><strong>Retry transparently until success.</strong> Rejected — that
+is how a 10-minute stall happens. Retries are bounded (one, with jitter)
+and the remaining budget is reported as <code>unavailable</code>.</li>
+<li><strong>Fail the whole query when the semantic leg is down.</strong>
+Rejected — FR-025 requires browsing and search to continue when
+answering is unavailable, and the lexical leg is genuinely useful. Hence
+<code>ok</code> + <code>Degraded</code> rather than
+<code>unavailable</code>, with the degradation always visible.</li>
+</ul>
+<hr />
+<h2
+id="finding-8-index-freshness-atomicity-and-incremental-extension-fr-026-fr-027">Finding
+8 — Index freshness, atomicity, and incremental extension (FR-026,
+FR-027)</h2>
+<h3 id="decision-7">Decision</h3>
+<p><strong>Generations, verified before serving, swapped atomically. The
+serving index is never mutated in place.</strong></p>
+<p>A <code>index_manifest.json</code> names the current generation:
+<code>{generation, built_at, source_commit, passage_count, edge_count, model, dims, checksum, verified}</code>.
+The service opens the generation the manifest names; a build writes
+<code>search.&lt;gen+1&gt;.db</code>, verifies it, then rewrites the
+manifest by atomic rename. Readers re-open on generation change. A
+failed verification leaves the previous generation serving — the spec’s
+own rule, “a stale-but-consistent index is preferable to an inconsistent
+one”.</p>
+<p>Verification gate, all four required: row counts match the manifest;
+every PID in the manifest resolves; the distinct-vector probe passes;
+and a smoke set of benchmark queries returns their expected PIDs. Only
+then is <code>verified: true</code> written.</p>
+<h3
+id="rationale-lumen-does-not-do-this-and-the-difference-must-be-absorbed-not-assumed-away">Rationale
+— Lumen does not do this, and the difference must be absorbed, not
+assumed away</h3>
+<p>Measured during the running rebuild: while
+<code>lumen index -f</code> had been executing for 1 h 20 m, the live
+index <strong>remained readable and was being mutated in
+place</strong>:</p>
+<pre><code>$ sqlite3 &quot;file:$D?mode=ro&quot; &quot;select count(*) from chunks;&quot;     → 58734, then 58744
+$ sqlite3 &quot;file:$D?mode=ro&quot; &quot;select … from project_meta;&quot;
+  last_indexed_at=2026-08-31T17:51:01Z      ← still the PREVIOUS run&#39;s timestamp
+  root_hash=11e7034b26c9b83c…               ← still the PREVIOUS run&#39;s hash
+$ index_status → &quot;Last indexed: 2026-08-31T17:51:01Z | Stale: yes&quot;</code></pre>
+<p>So during a rebuild the store holds a mixture of old and new rows
+while its freshness metadata still advertises the <em>previous</em>
+generation. That is a half-written, readable index — exactly the
+condition the spec forbids serving from. Lumen’s only mitigation is the
+soft text warning quoted in Finding 7. <strong>Therefore the workshop
+platform’s generation discipline applies to its own artifacts
+(<code>passages.db</code>, the FTS5 indexes, the edge table), and
+Lumen’s contribution during a rebuild is treated as
+<code>Degraded{semantic:"reindexing"}</code> — surfaced to the user,
+never silently trusted.</strong></p>
+<p><code>index_status</code> is a background poll, not a request-path
+call. Measured on this repo through a warm MCP session, three
+consecutive calls:</p>
+<pre><code>index_status(vasic) call#1: 5147 ms
+index_status(vasic) call#2: 2619 ms
+index_status(vasic) call#3: 3310 ms</code></pre>
+<p>2.6–5.1 s, not amortised across calls. On the request path it would
+fail SC-006 on its own.</p>
+<h3 id="the-extension-procedure-fr-026-fr-027-fr-028-fr-029">The
+extension procedure (FR-026, FR-027, FR-028, FR-029)</h3>
+<p><code>workshop/scripts/ingest-chapter.sh &lt;NN&gt;</code> — one
+command, seven phases, each with a receipt:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Idempotency key</th>
+<th>On re-run</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Preflight</td>
+<td>—</td>
+<td>Re-checks materials; reports precisely what is missing and exits
+non-zero <strong>without publishing</strong> (FR-028)</td>
+</tr>
+<tr>
+<td>2. Reassemble + verify recording</td>
+<td>recording sha256 vs <code>.sha256</code> manifest</td>
+<td>Skips; <code>workshop/scripts/extract-videos.sh</code> already
+verifies at three levels</td>
+</tr>
+<tr>
+<td>3. Transcribe</td>
+<td>recording sha256</td>
+<td>Skips. Segment-level checkpoints make it resumable (FR-029) — see
+<code>research/transcription.md</code></td>
+</tr>
+<tr>
+<td>4. <strong>Mint / reconcile PIDs</strong></td>
+<td>presence of <code>&lt;!-- pid: … --&gt;</code> anchors</td>
+<td><strong>No-op</strong> — anchors already exist, so nothing is
+minted. This is what makes FR-027 true rather than merely tested.</td>
+</tr>
+<tr>
+<td>5. Publish curriculum pages</td>
+<td>content hash of inputs</td>
+<td>Regenerates; byte-identical output ⇒ no commit</td>
+</tr>
+<tr>
+<td>6. Index delta</td>
+<td>file sha256 (Lumen’s own <code>files.hash</code>)</td>
+<td>Lumen re-embeds only changed files — <strong>measured</strong>: run
+2 of the Finding 2 experiment reported
+<code>Files: 0 added, 1 modified, 0 removed (2 total)</code>,
+<code>Indexed 1 files, 3 chunks</code>, leaving <code>b.md</code>
+untouched. A new chapter costs only its own files.</td>
+</tr>
+<tr>
+<td>7. Cross-refs + verify + evidence</td>
+<td>generation number</td>
+<td>New passages are k-NN’d against the existing index; existing→new
+edges added by symmetry. The existing×existing set is
+<strong>not</strong> recomputed. <code>origin='authored'</code> edges
+are never touched.</td>
+</tr>
+</tbody>
+</table>
+<p>Each phase writes a <code>.receipt</code> containing the digest of
+its inputs; a re-run whose digest matches is a no-op that prints why it
+skipped. This is the same pattern
+<code>workshop/scripts/archive-videos.sh</code> already uses
+(<code>already_archived()</code> re-hashes the video and every part),
+and <code>workshop/scripts/self-test.sh</code> already asserts
+idempotency for archive and extract — the ingest self-test extends it to
+the whole chain, including a mutation that corrupts one input and
+requires the run to fail.</p>
+<p><strong>Redaction propagation (FR-039).</strong> A redaction sets
+<code>redacted_at</code> on the PID. The next generation excludes the
+passage from all indexes, and — because every citation and
+cross-reference resolves <em>through</em> the registry at render time —
+previously stored answers immediately render the citation as a tombstone
+rather than the text. A redaction that only edited the transcript would
+leave the vectors and any cached answers intact; PID indirection is what
+prevents that.</p>
+<h3 id="alternatives-considered-7">Alternatives considered</h3>
+<ul>
+<li><strong>Serve Lumen’s index directly and rely on its “Stale”
+flag.</strong> Rejected on the measurement above:
+<code>Stale: yes</code> was reported for 80 minutes while rows changed
+underneath, and the flag costs 2.6–5.1 s to read.</li>
+<li><strong>Lock the index during rebuild and return
+<code>unavailable</code>.</strong> Rejected — a full monorepo rebuild
+takes hours on this hardware; hours of total unavailability is worse
+than degraded-but-honest service from the previous generation plus the
+lexical leg.</li>
+<li><strong>Full rebuild on every chapter.</strong> Rejected — measured
+incremental behaviour already scopes work to changed files, and a full
+rebuild is the ~15-hour operation the <code>.lumenignore</code> file was
+written to reduce.</li>
+</ul>
+<hr />
+<h2 id="consolidated-recommendation">Consolidated recommendation</h2>
+<ol type="1">
+<li><strong>Keep Lumen. Add a PID layer above it.</strong> Lumen is a
+good embedding-and-k-NN engine for markdown and eight code languages. It
+is not a search system, and its chunk ids fail FR-037 by measurement,
+not by opinion.</li>
+<li><strong>PIDs are ULIDs minted at ingest and written into the source
+artifacts as anchors</strong>, with a committed registry
+(<code>passages.jsonl</code> → <code>passages.db</code>). Every
+citation, cross-reference and redaction resolves through the registry.
+This is what makes SC-016 mechanically true.</li>
+<li><strong>Two retrieval paths with different budgets</strong>: FTS5
+prefix suggestions (<strong>measured p95 9.6 ms</strong>) on every
+keystroke; fused lexical + semantic on submit. The embedding backend
+never sees a keystroke.</li>
+<li><strong>Normalise every content type to committed markdown</strong>
+before indexing, and document the real gaps:
+<code>.sh</code>/<code>.html</code>/<code>.css</code> are lexical-only;
+raster diagrams give OCR labels but not structure; the recording is a
+link target, not a searchable surface.</li>
+<li><strong>Three states, one type, 503 for unavailable.</strong> Do not
+trust <code>health_check</code> — it reported healthy during a hard
+failure. Use bounded timeouts plus the distinct-vector probe.</li>
+<li><strong>Reserve embedding capacity for interactive queries</strong>
+separately from indexing, or SC-006 fails every time a chapter is
+ingested.</li>
+<li><strong>Generations with a verification gate and atomic
+swap</strong> for everything this feature owns; treat a Lumen rebuild as
+a declared degraded state.</li>
+</ol>
+<h3 id="consequences-for-the-success-criteria">Consequences for the
+success criteria</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>Assessment on this evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SC-005</strong> (suggestions ≤ 200 ms p95)</td>
+<td><strong>Achievable with margin</strong> — 9.6 ms p95 measured on a
+58,726-row prefix index under load. Only achievable because the path is
+lexical.</td>
+</tr>
+<tr>
+<td><strong>SC-006</strong> (results ≤ 2 s p95)</td>
+<td><strong>Achievable only under conditions that must be
+engineered</strong>: a long-lived MCP child (avoids the measured 2.2 s
+per-process warm-up) <em>and</em> embedding capacity reserved from
+indexing. Not achievable while a full re-index holds the backend — where
+9–50 s was measured. The degraded state exists for exactly that
+window.</td>
+</tr>
+<tr>
+<td><strong>SC-007</strong> (≥ 90 % top-5)</td>
+<td>Not measurable before the corpus exists. The benchmark must be
+versioned (<del><code>benchmark/queries.yaml</code></del> →
+<code>workshop/platform/backend/testdata/benchmark/retrieval.tsv</code>,
+path and format corrected 2026-09-01 — see <a
+href="../tasks.md">tasks.md</a> File Structure; ≥ 20 queries, each with
+an expected <strong>PID</strong>) and run as a gate with evidence
+written to <code>_tests/evidence/</code>.</td>
+</tr>
+<tr>
+<td><strong>SC-008</strong> (≥ 80 % with no literal overlap)</td>
+<td>Same, plus: the harness must <em>machine-verify</em> zero token
+overlap between each flagged query and its target passage text, so
+“shares no literal words” is proved rather than asserted.</td>
+</tr>
+<tr>
+<td><strong>SC-016</strong> (100 % resolve after correction +
+re-index)</td>
+<td><strong>Achievable, and only via the PID layer.</strong> With Lumen
+ids it would be 0 % for every corrected passage. Gate + paired mutation
+described in Finding 2.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-a-commands-and-raw-output">Appendix A — Commands and
+raw output</h2>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Version, CLI surface</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> version                                             <span class="co"># → 0.0.41</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> <span class="at">--help</span> <span class="kw">;</span> <span class="ex">lumen</span> index <span class="at">--help</span> <span class="kw">;</span> <span class="ex">lumen</span> search <span class="at">--help</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Locate this repo&#39;s index among 765 stores (2.6 GB total)</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> d <span class="kw">in</span> ~/.local/share/lumen/<span class="pp">*</span>/<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="ex">sqlite3</span> <span class="st">&quot;file:</span><span class="va">${d}</span><span class="st">index.db?mode=ro&quot;</span> <span class="dt">\</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;select value from project_meta where key=&#39;project_path&#39;;&quot;</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="co"># → &lt;ext-volume-host&gt;/Projects/vasic = 21bf1507a8925bcf</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="va">D</span><span class="op">=</span>~/.local/share/lumen/21bf1507a8925bcf/index.db</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;file:</span><span class="va">$D</span><span class="st">?mode=ro&quot;</span> <span class="st">&quot;.schema&quot;</span>                        <span class="co"># schema in Finding 1</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;file:</span><span class="va">$D</span><span class="st">?mode=ro&quot;</span> <span class="st">&quot;select count(*) from chunks;&quot;</span>   <span class="co"># → 58734 … 58744 (live rebuild)</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;file:</span><span class="va">$D</span><span class="st">?mode=ro&quot;</span> <span class="st">&quot;select count(*) from files;&quot;</span>    <span class="co"># → 2510</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;file:</span><span class="va">$D</span><span class="st">?mode=ro&quot;</span> <span class="st">&quot;select kind,count(*) from chunks group by kind order by 2 desc;&quot;</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;file:</span><span class="va">$D</span><span class="st">?mode=ro&quot;</span> <span class="st">&quot;select length(id),count(*) from chunks group by 1;&quot;</span>   <span class="co"># → 16|58734</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;file:</span><span class="va">$D</span><span class="st">?mode=ro&quot;</span> <span class="dt">\</span></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;select &#39;min=&#39;||min(end_line-start_line+1)||&#39; avg=&#39;||round(avg(end_line-start_line+1),1)</span></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="st">        ||&#39; max=&#39;||max(end_line-start_line+1) from chunks;&quot;</span>                      <span class="co"># → min=1 avg=5.8 max=133</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="co"># File-type coverage (0 for every one of these)</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ext <span class="kw">in</span> .sh .html .css .txt .svg .mmd .puml .vtt .srt .pdf .mp4 .rb .toml .ipynb<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>  <span class="ex">sqlite3</span> <span class="st">&quot;file:</span><span class="va">$D</span><span class="st">?mode=ro&quot;</span> <span class="st">&quot;select count(*) from files where path like &#39;%</span><span class="va">$ext</span><span class="st">&#39;;&quot;</span></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files <span class="st">&#39;*.sh&#39;</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>      <span class="co"># → 55</span></span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files <span class="st">&#39;*.html&#39;</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>    <span class="co"># → 146</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files <span class="st">&#39;*.css&#39;</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>     <span class="co"># → 32</span></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="co"># files.hash is sha256 of file bytes</span></span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;file:</span><span class="va">$D</span><span class="st">?mode=ro&quot;</span> <span class="st">&quot;select hash from files where path=&#39;workshop/README.md&#39;;&quot;</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a><span class="fu">sha256sum</span> workshop/README.md     <span class="co"># identical → 3f83a338daa79e39…</span></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Backend state</span></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> ps    <span class="co"># jina-embeddings-code-cpu:latest  345 MB  100% CPU  CONTEXT 8192</span></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> list  <span class="co"># jina-embeddings-code-cpu:latest ; ordis/jina-embeddings-v2-base-code:latest</span></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a><span class="fu">ps</span> <span class="at">-eo</span> pid,etime,args <span class="kw">|</span> <span class="fu">grep</span> lumen</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a><span class="co">#   897646  01:20:56  lumen-linux-amd64 index -f /run/media/.../vasic     ← running throughout</span></span></code></pre></div>
+<p><strong>Embedding latency, under concurrent index load:</strong></p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> 1..5<span class="kw">;</span> <span class="cf">do</span> <span class="ex">/usr/bin/time</span> <span class="at">-f</span> <span class="st">&quot;%e&quot;</span> curl <span class="at">-s</span> <span class="at">-o</span> /dev/null <span class="at">-X</span> POST <span class="dt">\</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  http://localhost:11434/api/embed <span class="at">-H</span> <span class="st">&#39;Content-Type: application/json&#39;</span> <span class="dt">\</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span> <span class="st">&#39;{&quot;model&quot;:&quot;jina-embeddings-code-cpu:latest&quot;,&quot;input&quot;:&quot;how do we archive the workshop recording&quot;}&#39;</span><span class="kw">;</span> <span class="cf">done</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 18.28  15.41  0.10  0.16  0.24     (identical input; last three cache-assisted)</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ten DISTINCT queries — aborted at the 120 s cap after three</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 33.33 s · 49.65 s · 28.75 s</span></span></code></pre></div>
+<p><strong><code>lumen search --trace</code> (own scratchpad project, 2
+files):</strong></p>
+<pre><code>[  13ms] path resolution
+[2202ms] indexer setup          → db opened, model ordis/jina-embeddings-v2-base-code
+[  12ms] merkle + freshness     → index is fresh (no reindex)
+[21040ms] query embedding       → 768 dims
+[   3ms] knn search             → 1 candidates fetched (limit=3, fetch=6)
+[   0ms] post-processing        → merged 1→1 results, filled 1 snippets
+[23272ms] total</code></pre>
+<p><strong>MCP stdio session (driven directly, ids
+matched):</strong></p>
+<pre><code>initialize                       20 ms
+health_check                      2 ms   → &quot;Status: OK / service is healthy&quot;
+index_status (2-file project)  2585 ms   → &quot;Files: 2 | Indexed: 2 | Chunks: 5 | Stale: no&quot;
+index_status (vasic) x3        5147 / 2619 / 3310 ms → &quot;Stale: yes&quot;
+semantic_search (hit)          9563 ms   → Found 1 results … [isError=None]
+semantic_search (saturated)   20013 ms   → &quot;embed query: all embedding servers exhausted after
+                                            failover: … context deadline exceeded&quot; [isError=True]
+semantic_search (reindexing)   4991 ms   → &quot;No results found. | Warning: Index is being updated
+                                            in the background. Results may be incomplete or outdated.&quot;</code></pre>
+<p><strong>Identifier-stability experiment</strong> — full script at
+<code>scratchpad/idstab-run.sh</code>; transcript in Finding 2. Fixture
+was a fresh <code>git init</code> project of two markdown files in the
+scratchpad; the live index was never written to.</p>
+<p><strong>FTS5 prefix suggestion benchmark</strong> (58,726 real
+symbols copied read-only out of the live index):</p>
+<pre><code>build time: 0.93 s      db size: 15.9 MB
+400 probes, 2–5 char prefixes drawn from real symbol vocabulary:
+min 0.052 · p50 0.254 · p95 9.580 · p99 19.203 · max 51.536  (ms)</code></pre>
+<p><strong>FTS5 availability in the driver already in
+<code>go.mod</code>:</strong></p>
+<pre><code>$ go run .   # modernc.org/sqlite; CREATE VIRTUAL TABLE … USING fts5(…, prefix=&#39;2 3 4&#39;)
+FTS5 OK, prefix match -&gt; video archive pipeline</code></pre>
+<hr />
+<h2
+id="appendix-b-existing-repository-assets-this-design-builds-on">Appendix
+B — Existing repository assets this design builds on</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Asset</th>
+<th>Role in this design</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scripts/lumen-reindex.sh</code></td>
+<td>The index build wrapper. Its distinct-vector probe (N texts → N
+distinct vectors) is adopted as the health probe in Finding 7 — it is
+the only check that catches the repeated-stale-vector corruption mode.
+Note it has <strong>no lockfile</strong>; concurrency safety is
+delegated to Lumen.</td>
+</tr>
+<tr>
+<td><code>scripts/lumen-index-doctor.sh</code></td>
+<td>Read-only corruption audit with a three-valued exit (0 healthy / 1
+corruption / 2 could not inspect). The same three-valued convention is
+what FR-033 requires and is adopted for every gate here.</td>
+</tr>
+<tr>
+<td><code>scripts/ollama-tune.sh</code></td>
+<td>Records the serialisation defect (<code>&gt;90 s</code> embed under
+<code>OLLAMA_NUM_PARALLEL=1</code>) that motivates the reserved-capacity
+requirement.</td>
+</tr>
+<tr>
+<td><code>scripts/ollama-vulkan-remediation.sh</code></td>
+<td>Why the backend is CPU-only, and therefore why embedding costs what
+it costs.</td>
+</tr>
+<tr>
+<td><code>.lumenignore</code></td>
+<td>Precedent for scoping the index; currently excludes
+<code>_tests/evidence/</code>. New generated derivatives must be
+reviewed against it.</td>
+</tr>
+<tr>
+<td><code>ai_interviewing/platform/backend</code> (Go 1.26, gin,
+<code>modernc.org/sqlite</code>, goldmark)</td>
+<td>The structural template (FR-013) and the source of the verified FTS5
+capability. Its
+<code>scripts/{start,stop,restart,status,build,ingest}.sh</code> are the
+shape the workshop platform’s scripts should take. <strong>It is not
+containerised</strong> — no Dockerfile or compose file exists in
+it.</td>
+</tr>
+<tr>
+<td><code>ai_interviewing/.../features/search.component.ts</code> +
+<code>store.go:501-509</code></td>
+<td>The <strong>anti-pattern</strong>: <code>LIKE '%q%'</code>, no
+ranking, no suggestions, and an error handler that renders failures as
+the empty state. Documented here so it is not copied.</td>
+</tr>
+<tr>
+<td><code>design-system/components-extended.css</code></td>
+<td><code>.od-search*</code> — input, icon, clear button, focus ring.
+Presentation only; no listbox.</td>
+</tr>
+<tr>
+<td><code>design-toolkit/knowledge/aria-apg.md</code></td>
+<td>The written combobox keyboard/ARIA contract to implement against for
+FR-041/FR-042.</td>
+</tr>
+<tr>
+<td><code>workshop/scripts/{archive,extract}-videos.sh</code>,
+<code>self-test.sh</code></td>
+<td>The checksum-verified reassembly (D3) and the idempotency/corruption
+test pattern reused in Finding 8.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="appendix-c-unverified-register">Appendix C — UNVERIFIED
+register</h2>
+<p>Each item states what could not be established and why, per FR-033
+and the prohibition on reporting unverified states.</p>
+<ul>
+<li><p><strong>C-1 — Idle (uncontended) query-embedding
+latency.</strong> All measurements were taken while
+<code>lumen index -f</code> held the backend. The only sub-second
+figures (0.10–0.24 s) came from repeating an <em>identical</em> input,
+which is cache-assisted and therefore not representative of a novel
+query. <strong>Reason not measured</strong>: obtaining it requires
+stopping the running rebuild, which the research constraints prohibit.
+<strong>Impact</strong>: the SC-006 headroom estimate is a lower bound
+on cost, not a measurement. <strong>How to close</strong>: after the
+rebuild completes, run 20 distinct queries against an idle backend and
+record the p95.</p></li>
+<li><p><strong>C-2 — Lumen’s chunk-id derivation formula.</strong> 120
+candidate derivations were tested against four known pairs; none
+matched. <strong>What this does not affect</strong>: Finding 2’s
+conclusion, which is behavioural (observed across three re-index runs)
+and does not depend on knowing the formula. <strong>What it does
+affect</strong>: any hypothetical scheme that would try to
+<em>predict</em> Lumen ids. Such a scheme is rejected anyway.</p></li>
+<li><p><strong>C-3 — Whether the MCP <code>semantic_search</code> path
+amortises the 2.2 s “indexer setup” across calls in one
+session.</strong> <code>initialize</code> costs 12–20 ms and
+<code>health_check</code> 2 ms, so it is not paid at startup; but
+<code>index_status</code> cost 2.6–5.1 s on <em>each</em> of three
+consecutive calls in one warm session, which is inconsistent with full
+amortisation. The binary contains an <code>indexer cache hit</code>
+string, suggesting caching exists under some conditions.
+<strong>Impact</strong>: the SC-006 budget may or may not carry a
+multi-second fixed cost per query. <strong>How to close</strong>: after
+the rebuild, time ten consecutive <code>semantic_search</code> calls in
+one MCP session against an idle backend and inspect the spread.</p></li>
+<li><p><strong>C-4 — Merkle freshness-walk cost on the full 2,510-file
+repo.</strong> Measured at 10–12 ms on a 2-file project only; the
+corresponding figure for the monorepo was not isolated (it is folded
+into the 2.6–5.1 s <code>index_status</code> numbers). <strong>Reason
+not measured</strong>: isolating it requires running
+<code>lumen search</code> against the vasic index during the rebuild,
+which risks triggering index work on a store that must stay
+read-only.</p></li>
+<li><p><strong>C-5 — SC-007 and SC-008 retrieval quality.</strong> Not
+measurable: the transcript does not exist yet, so there is no corpus and
+no benchmark. Nothing in this document claims a quality figure. The
+<code>min_score</code> floor (Lumen’s default is model-dependent; the
+binary carries <code>computeMaxDistance</code> and
+<code>boostedScore</code> logic that is not documented) must be
+<strong>calibrated against the benchmark once it exists</strong>, not
+guessed. Observed scores on a two-document toy index were 0.69 for a
+strong match and 0.41 for a weak one, which is far too small a sample to
+set a threshold from.</p></li>
+<li><p><strong>C-6 — Frame-OCR usefulness for on-screen text in the
+recording.</strong> <code>tesseract-ocr</code> and <code>ffmpeg</code>
+are available, so the pipeline is constructible, but its precision and
+false-positive rate on this recording are unmeasured. It is recorded as
+feasible-and-optional, not as planned capability.</p></li>
+<li><p><strong>C-7 — The spec’s “75 s” saturation figure.</strong> No
+artifact recording it was found anywhere in the repository. The recorded
+measurements are <code>&gt;90 s</code> and <code>~10 min</code>. See the
+correction note in Finding 7. The failure <em>class</em> is verified;
+the specific number is not.</p></li>
+</ul>
+</body>
+</html>

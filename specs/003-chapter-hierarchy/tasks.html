@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Task list for Chapter Hierarchy" />
+  <title>tasks</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">tasks</h1>
+</header>
+<h1 id="chapter-hierarchy-implementation-plan">Chapter Hierarchy —
+Implementation Plan</h1>
+<blockquote>
+<p><strong>TASK IDS ARE PER-FEATURE AND ARE NOT GLOBALLY UNIQUE — CITE
+THEM QUALIFIED.</strong> This file, <a
+href="../001-workshop-curriculum-platform/tasks.md"><code>specs/001-workshop-curriculum-platform/tasks.md</code></a>
+and <a
+href="../002-knowledge-areas-deep-linking/tasks.md"><code>specs/002-knowledge-areas-deep-linking/tasks.md</code></a>
+each number their tasks independently from <code>T001</code>, so
+<strong>every id in this file — <code>T001</code> through
+<code>T037</code> — already names two other unrelated pieces of
+work.</strong> 002’s own header records that its
+<code>T001</code>–<code>T120</code> collide with 001’s in full; this
+file adds a third meaning to the first 37 of them.</p>
+<p><strong>The requirement ids collide the same way.</strong>
+<code>FR-001</code>–<code>FR-035</code> and
+<code>SC-001</code>–<code>SC-025</code> are defined in all three
+specifications with different meanings. This feature’s
+<code>SC-009</code> measures a test’s blindness to a suffix defect;
+002’s <code>SC-009</code> is a media-backed citation landing inside its
+span; 001’s <code>SC-009</code> is citation support over generated
+answers. <strong>Nothing here is unique on its own.</strong></p>
+<p><strong>Rule — prefix the feature number: <code>003:T013</code>,
+<code>003:SC-009</code>, <code>003:FR-012</code>.</strong> A bare id in
+a brief, a commit message, a review or a source comment is ambiguous by
+construction, and a bare id has already been resolved to the wrong task
+at least once in this repository.</p>
+<p>Re-derive before citing, never from memory:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&#39;^- \*\*SC-009\*\*&#39;</span> specs/00<span class="dt">{1</span><span class="op">,</span><span class="dt">2</span><span class="op">,</span><span class="dt">3}</span>-<span class="pp">*</span>/spec.md</span></code></pre></div>
+<p><strong>Ids are NOT renumbered to fix this.</strong> Renumbering
+invalidates every existing cross-reference at once. Qualification at the
+point of citation is the remedy.</p>
+</blockquote>
+<blockquote>
+<p><strong>For agentic workers:</strong> REQUIRED SUB-SKILL: use
+<code>superpowers:subagent-driven-development</code> (recommended) or
+<code>superpowers:executing-plans</code> to implement this plan
+task-by-task. Steps use checkbox (<code>- [ ]</code>) syntax for
+tracking.</p>
+</blockquote>
+<p><strong>Goal:</strong> make a sub-chapter a chapter. One id grammar,
+five roles, every hierarchy field derived from the id and none of them
+stored — and every place that quietly assumed a flat list either fixed
+or made loud.</p>
+<p><strong>Architecture:</strong> the canonical chapter id is the
+dotted, zero-padded numeric path
+(<code>^[0-9]{2,}(\.[0-9]{2,})*$</code>), used unchanged as the
+directory name, the URL segment, the passage registry
+<code>scope</code>, the <code>chapter_slug</code> and the
+<code>chapter-</code> suffix. <strong>Four of the five layers it must
+survive already survive it</strong> — measured, not assumed.
+<code>parent_id</code>, <code>depth</code>, <code>ancestor_ids</code>,
+<code>child_ids</code> and <code>ordinal_path</code> are derived by
+string operation and never stored, so they cannot disagree with the id.
+Ordering is byte-lexicographic on the id and is already implemented
+correctly; the grammar, not the comparator, is what makes it true.</p>
+<p><strong>Tech stack:</strong> Go 1.26.2 · Angular 19.2 standalone ·
+Python 3.14.6 + Bash. <strong>No new dependency, no new route, no new
+column, and exactly one new package</strong>
+(<code>pkg/chapterid</code>).</p>
+<h2 id="global-constraints">Global constraints</h2>
+<p>Every task’s requirements implicitly include this section. Values are
+copied verbatim from <code>spec.md</code>, <code>data-model.md</code>
+and <code>research.md</code> — do not round them and do not “improve”
+them.</p>
+<ul>
+<li><strong>Fix what hides first.</strong> The phase order is by how
+loudly a defect fails, quietest first. The three already repaired in
+<code>266f443</code> all exited <code>0</code> while being wrong.</li>
+<li><strong>The id grammar is
+<code>^[0-9]{2,}(\.[0-9]{2,})*$</code>.</strong> Depth unbounded (H6).
+<code>02.2</code> and <code>2</code> are refused — that refusal is the
+mechanism that makes the sort order true.</li>
+<li><strong>Ordering is byte-lexicographic on the id string</strong>,
+verified by execution:
+<code>01 02 02.01 02.01.01 02.09 02.10 03 10</code>. <code>.</code> is
+<strong>0x2E</strong>, digits are
+<strong>0x30</strong>–<strong>0x39</strong>.</li>
+<li><strong><code>cmd/workshop-server/main.go:2126</code> MUST NOT
+CHANGE.</strong> It is already the correct comparator. The assertion
+goes on the ordering, not on the code.</li>
+<li><strong>Every hierarchy field is DERIVED and NONE is stored</strong>
+(H2). No column, no file, no cache.</li>
+<li><strong>Every chapter-scope comparison is EQUALITY</strong> (H7).
+<code>HasSuffix</code>/<code>HasPrefix</code>/<code>Contains</code> on a
+chapter scope is a defect.</li>
+<li><strong>A one-scope fixture cannot see the suffix defect.</strong>
+<code>HasSuffix</code> and <code>==</code> agree on every input a
+one-chapter registry can construct, so the narrowing fix is a
+<strong>no-op</strong> there. Fixture shape is the guard.</li>
+<li><strong>No sub-chapter-specific code path anywhere</strong> (H5).
+<code>if depth &gt; 1</code> is a defect.</li>
+<li><strong>No new route</strong> (FR-026). The manifest already carries
+<strong>20</strong> <code>NOT_BUILT</code> rows.</li>
+<li><strong>The <code>chapters</code> array stays FLAT.</strong>
+<code>core/api.ts:88</code> reads it flat.</li>
+<li><strong>Every check is three-valued</strong>: <code>0</code> fine ·
+<code>1</code> a real problem found · <code>2</code> could not
+determine. A missing dependency, unreachable service or crashed helper
+is always <code>2</code>.</li>
+<li><strong>Every check owes a paired mutation proof.</strong> The
+widenings owe <strong>two</strong> mutations each, one per
+direction.</li>
+<li><strong>Every gate takes its chapter from the live tree</strong>,
+following
+<code>verify-absence-honesty.sh:127</code>–<code>134</code>.</li>
+<li><strong>No server-side CI anywhere in the fleet.</strong></li>
+<li><strong>Do NOT run a gate with <code>--root /nonexistent</code> or
+<code>--prove-failure</code> while exploring.</strong> Some gates write
+into tracked evidence files and a speculative invocation corrupts the
+tree.</li>
+<li><strong>ONE clarification is open and it BLOCKS Phase 1
+onward.</strong> The <code>ordinal</code> type
+(<code>specs/001-.../data-model.md:45</code>) and the path-key
+contradiction (<code>specs/001-.../contracts/http-api.md:60</code>).
+Tasks carrying <code>[BLOCKED: ordinal type]</code> are waiting on an
+operator, not on an implementer.</li>
+</ul>
+<h2 id="task-format">Task format</h2>
+<pre><code>[ID] [markers] [Phase] Description</code></pre>
+<p><strong>Markers</strong>: <code>[P]</code> parallelisable ·
+<code>[TDD]</code> test-first · <code>[REVIEW]</code> review before
+proceeding · <code>[BLOCKED: x]</code> waiting on a named decision, not
+on work.</p>
+<p><strong>Numbering is permanent.</strong> Ids are never reused or
+renumbered — other documents cite them.</p>
+<h2 id="standing-rules">Standing rules</h2>
+<ol type="1">
+<li><strong>An assertion that greps for a string is not a test.</strong>
+It must execute the behaviour and check the observable result.</li>
+<li><strong>A widening owes a proof in BOTH directions.</strong> A proof
+asserting only that the new form matches passes against a pattern that
+has stopped matching the old one — a worse defect, equally silent.</li>
+<li><strong>A narrowing owes a fixture that can see it.</strong> For H7
+that means at least two scopes, one a sub-chapter of the other.</li>
+<li><strong>A default that names a real chapter is indistinguishable
+from a choice.</strong> Where an input is required, refuse; do not
+choose.</li>
+<li><strong><code>workshop/</code> is PRIVATE and <code>specs/</code> is
+PUBLIC.</strong> Refer to workshop files by path; quote code —
+identifiers, regexes, route strings, field names — and never prose,
+transcript text, curriculum content, material filenames or personal
+names.</li>
+<li><strong>Never edit a shell script while it is
+executing.</strong></li>
+</ol>
+<hr />
+<h2 id="phase-0-the-specification-decision">Phase 0: The specification
+decision</h2>
+<p><strong>Purpose</strong>: settle the two inherited contradictions
+that every later task rests on. <strong>This phase writes no
+code.</strong> Nothing in Phase 1 onward may begin until it is approved,
+because implementing an answer is how the decision gets made by
+accident.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />T001 [REVIEW] [BLOCKED: ordinal
+type] Record the decision on <code>Chapter.ordinal</code> in a decision
+record under <code>specs/003-chapter-hierarchy/</code>, and amend
+<code>specs/001-workshop-curriculum-platform/data-model.md:45</code>.
+Three options, each costed in <code>research.md</code> D-CH-5: widen to
+an ordered <code>ordinal_path</code>; keep <code>int</code> and give
+sub-chapters no ordinal; keep <code>int</code> and flatten into one
+number space. <strong>The zero-diff option is the only one that makes
+the defect permanent</strong> — record which was chosen and why the
+other two were not (FR-022) — AUDIT 2026-09-08: <strong>GENUINELY OPEN —
+AND THE DECISION WAS TAKEN IN CODE ANYWAY.</strong> No decision record
+exists under <code>specs/003-chapter-hierarchy/</code>, and
+<code>specs/001-workshop-curriculum-platform/data-model.md:45</code>
+still reads <code>| ordinal | int |</code>. Meanwhile the server already
+serves <code>ordinal_path: [2,1]</code> beside a deprecated
+<code>ordinal: 2</code>. This is the outcome the task warned about:
+implementing an answer is how the decision got made by accident.
+<strong>Highest-blocking open item in this
+feature.</strong></label></li>
+<li><label><input type="checkbox" />T002 [REVIEW] [BLOCKED: ordinal
+type] Amend
+<code>specs/001-workshop-curriculum-platform/contracts/http-api.md:60</code>,
+which says the zero-padded ordinal is <em>“not accepted as a path key —
+one key, one meaning”</em> while
+<code>workshop/platform/gates/route-manifest.tsv:72</code> declares the
+live route <code>GET /api/chapters/01</code> — which is exactly that
+string. Amend it to name the <strong>dotted id</strong> as the single
+path key, or record the alternative (a separate slug, and therefore two
+keys for one chapter) (FR-002) — AUDIT 2026-09-08: GENUINELY OPEN —
+<code>specs/001-workshop-curriculum-platform/contracts/http-api.md:60</code>
+is UNAMENDED and still says the zero-padded ordinal is
+“<strong>not</strong> accepted as a path key”, while
+<code>GET /api/chapters/02.01</code> serves 200 on exactly that
+string.</label></li>
+<li><label><input type="checkbox" />T003 [REVIEW] Confirm the two
+amendments agree with each other and with the live route set
+(<code>main.go:547</code>, <code>:817</code>–<code>:819</code>,
+<code>:841</code>, <code>:843</code>) before anything consumes them.
+Both amendments are to <strong>published</strong> artifacts of another
+feature; the diff is reviewed as a governance change, not as a spec edit
+(FR-002, FR-022) — AUDIT 2026-09-08: GENUINELY OPEN — blocked on T001
+and T002, neither of which was performed.</label></li>
+</ul>
+<p><strong>Checkpoint</strong>: the blocking decision is recorded and
+both 001 artifacts are amended. <strong>Stop for human
+approval.</strong></p>
+<hr />
+<h2
+id="phase-1-foundational-the-grammar-the-derivations-the-ordering">Phase
+1: Foundational — the grammar, the derivations, the ordering</h2>
+<p><strong>Purpose</strong>: write the definition every later assertion
+is checked against. <strong>This phase fixes nothing.</strong> It builds
+the one thing that makes “is this chapter id valid” and “what is its
+parent” a question with a single answer.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T004 [TDD] [REVIEW]
+Create <code>workshop/platform/backend/pkg/chapterid/</code> —
+<strong><code>pkg/</code>, not <code>internal/</code></strong>, because
+the pipeline’s checks and the gates must assert against the
+<em>same</em> definition, and Go’s <code>internal/</code> forecloses
+that by language rule. It depends on the standard library only, which is
+what makes it testable with no tree present (FR-001, FR-006) — EVIDENCE:
+DONE-UNTICKED — package exists as
+<code>workshop/platform/backend/pkg/curriculum/chapterid.go</code> (NOT
+the <code>pkg/chapterid/</code> path this task names). It is under
+<code>pkg/</code>, which is the requirement the path was chosen for, and
+it is stdlib-only. <code>go test ./pkg/curriculum/</code> PASSES
+(in_process). DEVIATION RECORDED: the name differs from this task; do
+not create a second package.</label></li>
+<li><label><input type="checkbox" checked="" />T005 [TDD] Implement and
+prove the grammar <code>^[0-9]{2,}(\.[0-9]{2,})*$</code> in
+<code>pkg/chapterid/grammar.go</code>. Gate <strong>G-CH-1</strong>,
+table-driven: <strong>accepts</strong>
+<code>01 02 02.01 02.01.01     100</code>; <strong>rejects</strong>
+<code>2 02.2 2.1 02. .01 ""</code>. <strong>Paired mutation</strong>:
+relax to <code>[0-9]+</code> — every rejection must fail.
+<code>02.2</code> is the input this whole gate exists for: it sorts
+<em>after</em> <code>02.10</code> and no sorting test with well-formed
+input can see it (FR-001, FR-003, FR-005, FR-034, SC-002) — EVIDENCE:
+DONE-UNTICKED — <code>ChapterIDGrammar</code> =
+<code>^[0-9]{2,}(\.[0-9]{2,})*$</code> at
+pkg/curriculum/chapterid.go:58; table-driven
+<code>TestGCH1_Grammar</code> (chapterid_test.go:26) accepts
+<code>01 02 02.01 02.01.01 100 100.01 02.09 02.10 10</code> and rejects
+the unpadded forms. <code>go test ./pkg/curriculum/</code> PASSES
+(in_process). Paired mutation is DOCUMENTED at chapterid_test.go:18 but
+NOT executed.</label></li>
+<li><label><input type="checkbox" checked="" />T006 [TDD] [BLOCKED:
+ordinal type] Implement <code>ParentID</code>, <code>Depth</code>,
+<code>AncestorIDs</code> and <code>OrdinalPath</code> in
+<code>pkg/chapterid/derive.go</code> — <strong>pure string operations on
+the id alone</strong> (<code>data-model.md</code> §2.2). Table includes
+the root case: no <code>.</code> ⇒ <code>parent_id</code>
+<code>null</code>, <code>depth</code> 1, <code>ancestor_ids</code>
+<code>[]</code>. <strong>These fall out; they are not
+special-cased</strong> (FR-008). <code>OrdinalPath</code> is blocked on
+T001 (FR-006, FR-008, FR-022, SC-012) — EVIDENCE: DONE-UNTICKED —
+<code>Depth</code> (:101), <code>ParentID</code> (:109),
+<code>AncestorIDs</code> (:119), <code>OrdinalPath</code> (:136) in
+pkg/curriculum/chapterid.go; <code>TestDerivations_FallOutOfTheID</code>
+(chapterid_test.go:155) covers the root case.
+<code>go test ./pkg/curriculum/</code> PASSES (in_process). NOTE:
+implemented despite <code>[BLOCKED: ordinal type]</code> — the T001
+decision was made IN CODE, not in a decision record.</label></li>
+<li><label><input type="checkbox" checked="" />T007 [TDD] Implement
+<code>ChildIDs</code> and <code>Orphaned</code> over the
+<strong>set</strong> of present ids. These are the only two derivations
+needing more than one id, and they are still derivations — computed on
+demand, never stored. Name that seam in the code: it is where “just
+cache the children” will be proposed, and it is the forbidden second
+representation wearing a performance argument (FR-006, FR-007, FR-008,
+FR-031) — EVIDENCE: DONE-UNTICKED — <code>ChildIDs</code> (:191),
+<code>MissingAncestorIDs</code> (:204), <code>Orphaned</code> (:225) in
+pkg/curriculum/chapterid.go; <code>TestChildIDsAndOrphaned</code>
+(chapterid_test.go:201). <code>go test ./pkg/curriculum/</code> PASSES
+(in_process).</label></li>
+<li><label><input type="checkbox" />T008 [TDD] Prove
+<strong>G-CH-2</strong> in
+<code>workshop/platform/gates/verify-chapter-hierarchy.sh</code>: over a
+fixture tree holding
+<code>01 02 02.01 02.01.01 02.09 02.10 03 10</code>, API order,
+shell-glob order and filesystem byte order are <strong>identical,
+element by element</strong>. <strong><code>main.go:2126</code> MUST NOT
+BE CHANGED by this task</strong> — it is already correct; the gate is
+what stops a future rewrite. <strong>Paired mutation</strong>: sort by
+<code>ordinal_path</code> numerically — must go red on
+<code>02.09</code> / <code>02.10</code> (FR-009, FR-010, FR-011, FR-034,
+SC-003, SC-004) — AUDIT 2026-09-08: PARTIAL —
+<code>TestGCH2_ComparatorIsUnchangedAndTheOrderIsRight</code>
+(cmd/workshop-server/chapters_hierarchy_test.go:298) and
+<code>TestOrdering_ByteLexicographicIsTheWholeRule</code>
+(chapterid_test.go:62) PASS, and <code>main.go</code> was not changed.
+MISSING:
+<code>workshop/platform/gates/verify-chapter-hierarchy.sh</code> does
+not exist, so the three-way comparison of API order vs shell-glob order
+vs filesystem byte order is NOT made, and the paired mutation is
+documented (chapterid_test.go:58) but not executed.</label></li>
+<li><label><input type="checkbox" />T009 [TDD] Prove
+<strong>G-CH-3</strong>: no persisted <code>parent_id</code>, depth or
+child list exists in the registry schema, the derived database, or any
+serialised artifact. <strong>Paired mutation</strong>: persist one — the
+gate must go red. This is H2 made checkable rather than asserted
+(FR-007, FR-034, SC-011) — AUDIT 2026-09-08: PARTIAL — the derivation is
+pure and unstored by construction (pkg/curriculum/chapterid.go header,
+“DERIVED, NEVER STORED”), and
+<code>TestChapterHierarchy_DerivedFromTheIDAlone</code>
+(internal/api/chapters_hierarchy_test.go:88) PASSES. MISSING: no gate
+asserts the ABSENCE of a persisted <code>parent_id</code>/depth/child
+list across the registry schema, derived database and serialised
+artifacts, and no mutation persists one.</label></li>
+<li><label><input type="checkbox" checked="" />T010 [TDD] Implement
+<strong>H1</strong> in <code>cmd/workshop-server/main.go:2094</code>
+(<code>listChapters</code>): a directory that does not match the grammar
+is returned in an <code>unclassified</code> list <strong>with a
+reason</strong>, never silently skipped and never silently listed as a
+chapter. Contract §4.1 C4.1.7. <strong>Paired mutation</strong>:
+<code>continue</code> on a non-match — the gate must go red. Preserve
+the existing discipline at <code>:2111</code>–<code>:2123</code>:
+material entries are <strong>counted, never named</strong> on the wire
+(FR-004, FR-034, SC-001) — EVIDENCE: DONE-UNTICKED —
+<code>ScanChapterDirs</code> (:293) + <code>ClassifyUnclassified</code>
+(:258) return a reason per rejected directory;
+<code>TestGCH1_UnclassifiedIsReportedNotSkipped</code>
+(cmd/workshop-server/chapters_hierarchy_test.go:196) PASSES
+(in_process), with the paired mutation documented at :194. LIVE:
+<code>GET /api/chapters</code> 200 carries
+<code>"unclassified": []</code> (served).</label></li>
+<li><label><input type="checkbox" />T011 [P] [TDD] Assert the four
+embeddings measured in <code>research.md</code> D-CH-2, each of which
+works today and each of which is one edit from not working:
+<code>SafeSlug</code> (<code>pkg/curriculum/curriculum.go:205</code>)
+accepts <code>.</code> and still rejects <code>/</code>;
+<code>ChapterDir</code> (<code>:187</code>) resolves
+<code>chapter-02.01</code>; the <code>{chapter}</code> wildcard matches
+a dotted id as one segment; <code>HasSourceFilenameShape</code>
+(<code>pkg/search/catalog.go:368</code>) does <strong>not</strong>
+classify <code>02.01</code> as a filename. <strong>The fourth is the
+important one</strong> — a false positive there raises a
+content-boundary alarm on every sub-chapter id, and the fix for it would
+be one entry in the extension list at
+<code>catalog.go:320</code>–<code>323</code> (FR-002) — AUDIT
+2026-09-08: PARTIAL — 2 of the 4 embeddings are asserted:
+<code>SafeSlug</code> accepts <code>02.01</code> and rejects a path
+separator, and the grammar refuses <code>02.2</code>
+(<code>TestSafeSlug_IsNotTheChapterGrammar</code>,
+chapterid_test.go:299). MISSING all three of: <code>ChapterDir</code>
+resolving <code>chapter-02.01</code>; the <code>{chapter}</code>
+wildcard matching a dotted id as ONE segment; and <strong>the important
+one</strong> — no assertion that <code>HasSourceFilenameShape</code>
+does not classify <code>02.01</code> as a filename. (Inspected:
+<code>SourceFilenameShapeExtensions</code> at pkg/search/catalog.go:320
+contains no numeric entry, so it holds in fact today — it is simply
+unguarded.)</label></li>
+<li><label><input type="checkbox" />T012 [REVIEW] Review the grammar and
+the derivations before anything consumes them. A grammar changed after
+adoption invalidates every assertion written against it (FR-001, FR-006)
+— AUDIT 2026-09-08: UNVERIFIABLE — no review record found under
+<code>specs/003-chapter-hierarchy/</code>. Resolved by a recorded
+review, or by the reviewer stating it happened.</label></li>
+</ul>
+<p><strong>Checkpoint</strong>: there is one definition of a chapter id
+and one derivation of its ancestry. <strong>Stop for human
+approval.</strong></p>
+<hr />
+<h2
+id="phase-2-the-redaction-defect-the-fix-landed-the-test-did-not">Phase
+2: The redaction defect — the fix landed, the test did not</h2>
+<p><strong>Purpose</strong>: the quietest defect in the feature.
+<code>cmd/workshop-redact/main.go:616</code> is now
+<code>*rec.Scope != chapter</code>, fixed in <code>266f443</code> from
+<code>strings.HasSuffix(*rec.Scope, chapter)</code>. <strong>Nothing
+guards it.</strong> On a one-scope registry the two operators agree on
+every constructible input, so the narrowing is a no-op there and every
+existing test passes with either. Its output is a
+<strong>disclosure-control record</strong> — a document whose purpose is
+to state what was covered — which is why it comes before the content
+defects in Phase 3.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T013 [TDD] Build a
+<strong>two-scope</strong> fixture registry under the redaction
+command’s test data: scopes <code>01</code> and <code>02.01</code>, each
+carrying at least one artifact. The fixture <em>is</em> the guard —
+<code>research.md</code> D-CH-6 tabulates why: for
+<code>chapter="01"</code>, <code>HasSuffix</code> and <code>==</code>
+disagree only on the <code>02.01</code> row (FR-013, SC-008) — EVIDENCE:
+DONE-UNTICKED — two-scope fixture (<code>01</code> and
+<code>02.01</code>) in
+workshop/platform/backend/cmd/workshop-redact/scope_test.go:29.
+<code>go test ./cmd/workshop-redact/</code> PASSES
+(in_process).</label></li>
+<li><label><input type="checkbox" checked="" />T014 [TDD] Prove
+<strong>G-CH-6</strong>: the redaction review for <code>01</code> covers
+exactly the <code>01</code> artifacts and <strong>excludes</strong>
+<code>02.01</code>’s. <strong>Paired mutation</strong>: restore
+<code>strings.HasSuffix</code> — the test must go red. Without the fix,
+chapter 01’s review absorbs sub-chapter artifacts and the record
+<strong>overstates its own coverage</strong> (FR-012, FR-013, FR-034,
+SC-008) — EVIDENCE: DONE-UNTICKED —
+<code>TestScopeIsChapter_SubChapterIsNotItsParent</code>
+(scope_test.go:20); the equality narrowing is at
+cmd/workshop-redact/main.go:616 with the defect recorded at :579 and
+:615. <code>go test ./cmd/workshop-redact/</code> PASSES
+(in_process).</label></li>
+<li><label><input type="checkbox" checked="" />T015 [TDD] Prove
+<strong>G-CH-6b</strong>, and read this one carefully because it asserts
+a <strong>negative about a test</strong>: run the same
+<code>HasSuffix</code> mutation against a <strong>one-scope</strong>
+fixture and assert the test <strong>stays green</strong>. It has no
+mutation of its own — it <em>is</em> the mutation. Without it, a
+maintainer who simplifies the fixture sees everything still pass and
+concludes the two-scope shape was incidental. It was not (003:SC-009,
+FR-013, FR-034) — EVIDENCE: DONE-UNTICKED —
+<code>TestScopeIsChapter_ProvesTheTableCatchesTheDefect</code>
+(scope_test.go:104) EXECUTES the pre-fix <code>HasSuffix</code>
+predicate in-binary (:110) and fails if the mutation is inoperative
+(:116). This is the only EXECUTING paired mutation found in the feature.
+<code>go test ./cmd/workshop-redact/</code> PASSES
+(in_process).</label></li>
+<li><label><input type="checkbox" />T016 [TDD] Implement
+<strong>G-CH-5</strong> in <code>verify-chapter-hierarchy.sh</code>: no
+comparison anywhere in the tree applies <code>HasSuffix</code>,
+<code>HasPrefix</code> or <code>Contains</code> to a chapter-scope value
+(H7). <strong>Paired mutation</strong>: introduce one — the gate must go
+red. This is written tree-wide rather than file-specific because
+<code>workshop-redact</code> is not the only place a scope is compared,
+and the next one will look just as harmless (FR-012, FR-034, SC-010) —
+AUDIT 2026-09-08: GENUINELY OPEN —
+<code>workshop/platform/gates/verify-chapter-hierarchy.sh</code> does
+not exist, so G-CH-5 is not implemented anywhere. The one narrowing that
+WAS made (workshop-redact) is guarded by its own test; nothing checks
+the tree for the next one.</label></li>
+</ul>
+<p><strong>Checkpoint</strong>: the disclosure-control record’s coverage
+claim is guarded by a fixture that can see the defect, and by a proof
+that the cheaper fixture cannot. <strong>Stop for human
+approval.</strong></p>
+<hr />
+<h2 id="phase-3-silent-data-loss">Phase 3: Silent data loss</h2>
+<p><strong>Purpose</strong>: every defect here produces
+<strong>plausible output</strong>. None fails. They are ordered within
+the phase by what a wrong run produces (<code>research.md</code>
+D-CH-8), worst first.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />T017 [TDD] Prove
+<strong>G-CH-13</strong>. <strong>THE CODE FIX LANDED CONCURRENTLY — THE
+PROOF DID NOT, AND THAT IS WHAT THIS TASK IS.</strong> Re-measured at
+the end of the drafting session (spec §“The tree moved DURING
+drafting”): another agent replaced the frozen transcript default with a
+derived one at <code>workshop/scripts/ingest.sh:120</code>
+(<code>full_ch${_CH_FLAT}</code>, dots stripped) and added a
+<strong>refusal</strong> at <code>:109</code> routed through the
+three-valued <code>undetermined</code> path. <strong>No test appeared
+with it.</strong> Assert: naming a chapter with no transcript export
+refuses, names the missing input, and writes <strong>zero</strong>
+records. <strong>Paired mutation</strong>: restore the frozen
+<code>full_ch01</code> default — the gate must go red. Until this
+exists, the fix is protected by nothing and reverts the first time the
+refusal is found inconvenient (FR-016, FR-034, SC-007) — AUDIT
+2026-09-08: GENUINELY OPEN AS A PROOF — the code fix IS present
+(<code>workshop/scripts/ingest.sh</code> derives
+<code>_CH_FLAT="${CHAPTER//./}"</code> and <code>TRANSCRIPT_JSON</code>
+from it, with the refusal above it). <strong>No test appeared with
+it</strong>, and none has since: no test exercises the refusal, names
+the missing input, or asserts zero records written. The fix is still
+protected by nothing.</label></li>
+<li><label><input type="checkbox" checked="" />T018 <strong>DONE IN
+CODE, NOT BY THIS FEATURE — verify and close, do not
+reimplement.</strong> <code>workshop/scripts/ingest.sh:46</code> was
+<code>CHAPTER="01"</code>; it now reads <code>CHAPTER=""</code> at
+<code>:60</code> with a required-argument check at
+<code>:107</code>–<code>:111</code>. Confirm the message names both
+forms an operator might pass (<code>02</code> and <code>02.01</code>)
+and that the exit is the three-valued <code>undetermined</code>, not a
+plain failure. <strong>Do not re-open the default</strong> (standing
+rule 4) (FR-017) — EVIDENCE (source): DONE-UNTICKED (verify-and-close) —
+workshop/scripts/ingest.sh:60 reads <code>CHAPTER=""</code>; the
+required-argument check names BOTH <code>02</code> and
+<code>02.01</code> and routes through the three-valued
+<code>undetermined</code>, not a plain failure. Default NOT
+re-opened.</label></li>
+<li><label><input type="checkbox" />T019 [TDD] Prove
+<strong>G-CH-12</strong> for the two patterns already widened in
+<code>266f443</code>: <code>_TRANSCRIPT_PATH_RE</code> at
+<code>workshop/pipeline/extract/meeting_notes.py:109</code> and
+<code>_ELIGIBLE_SOURCE</code> at
+<code>workshop/pipeline/extract/author.py:159</code>. Assert each
+matches <code>chapter-01/transcript.md</code> <strong>and</strong>
+<code>chapter-02.01/transcript.md</code>. <strong>TWO paired mutations,
+both required</strong>: (a) revert to <code>chapter-\d+</code> — the
+dotted assertion must fail; (b) narrow to <code>chapter-\d+\.\d+</code>
+— the flat assertion must fail. (b) is not redundant: a proof asserting
+only (a) passes against a pattern that has stopped matching the flat
+form. <strong>Do not widen <code>exercise-\d+\.md</code></strong> —
+exercise numbering is not a chapter path (FR-014, FR-034, SC-006) —
+AUDIT 2026-09-08: GENUINELY OPEN AS A PROOF — both widenings ARE in
+place: <code>_TRANSCRIPT_PATH_RE</code> at
+pipeline/extract/meeting_notes.py:109 and <code>_ELIGIBLE_SOURCE</code>
+at pipeline/extract/author.py:159, and <code>exercise-\d+\.md</code> was
+correctly left alone. <strong>Neither paired mutation exists.</strong>
+<code>test_meeting_notes.py</code> and <code>test_author.py</code>
+exercise only <code>chapter-01</code> and <code>chapter-02</code> — no
+dotted id appears in any pipeline test, so the widening is asserted in
+NEITHER direction.</label></li>
+<li><label><input type="checkbox" />T020 Implement FR-015 at both call
+sites: a pattern non-match on a directory that <strong>exists</strong>
+is <strong>reported</strong>, not skipped with <code>continue</code>.
+The two regex fixes closed the instances; the <code>continue</code> is
+the mechanism, and it is still there (FR-015, SC-005) — AUDIT
+2026-09-08: GENUINELY OPEN — the <code>continue</code> mechanism is
+still present at pipeline/extract/meeting_notes.py:126 and :129 (and at
+:198, :201, :359, :404, :407). The regex fixes closed the instances;
+FR-015 reporting a non-match on a directory that exists is not
+implemented at either call site.</label></li>
+<li><label><input type="checkbox" />T021 [P] Derive the suggest source
+manifest instead of hardcoding it. Six rows in
+<code>workshop/platform/backend/pkg/search/suggest-sources.json</code> —
+lines <code>10</code>, <code>34</code>, <code>57</code>,
+<code>77</code>, <code>101</code>, <code>125</code> — name
+<code>chapter-01/...</code>, and the file is compiled in with
+<code>//go:embed</code> at
+<code>pkg/search/catalog.go:70</code>–<code>71</code>, so <strong>no new
+chapter reaches <code>/api/suggest</code> without a rebuild</strong>.
+Preserve the existing override path (<code>LoadManifestFile</code>) and
+the reasoning behind it: a suggest surface that cannot start because a
+directory moved is a worse failure than one that starts with the kinds
+it knows about (FR-021) — AUDIT 2026-09-08: GENUINELY OPEN — all six
+rows in workshop/platform/backend/pkg/search/suggest-sources.json still
+name <code>chapter-01/...</code> at lines 10, 34, 57, 77, 101 and 125,
+unchanged.</label></li>
+<li><label><input type="checkbox" />T022 [P] Derive every chapter
+reference in
+<code>workshop/curriculum/chapter-01/knowledge/build.py</code>. Two
+frozen deep links — <code>"/chapters/01/transcript#p-%s"</code> at
+<code>:363</code> and <code>:435</code> — and four frozen
+<code>"chapter_slug": "01"</code> literals at <code>:478</code>,
+<code>:564</code>, <code>:582</code>, <code>:592</code>. <strong>The
+correct form is already in the same file</strong> at <code>:415</code>:
+<code>"chapter_slug": r["scope"]</code>. Use it (FR-020) — AUDIT
+2026-09-08: GENUINELY OPEN — both frozen deep links
+(<code>/chapters/01/transcript#p-%s</code>) remain at
+workshop/curriculum/chapter-01/knowledge/build.py:363 and :435, and all
+four frozen <code>"chapter_slug": "01"</code> literals remain at :478,
+:564, :582 and :592. The correct form is still sitting unused at
+:415.</label></li>
+<li><label><input type="checkbox" />T023 [P] Remove the frozen defaults
+at
+<code>workshop/pipeline/build_transcript.py:143</code>–<code>144</code>
+(<code>--chapter default="chapter-01"</code>,
+<code>--title default="Chapter 1"</code>). Both arguments become
+required, or both are derived from the transcript being built (FR-018) —
+AUDIT 2026-09-08: GENUINELY OPEN —
+<code>--chapter default="chapter-01"</code> and
+<code>--title default="Chapter 1"</code> are both still present at
+workshop/pipeline/build_transcript.py:143-144.</label></li>
+<li><label><input type="checkbox" />T024 [P] Resolve
+<code>workshop/pipeline/calibrate.sh:36</code> from a named chapter
+instead of a frozen absolute path to chapter 01’s recording file.
+<strong>Do not reproduce the path or the filename in any spec, commit
+message or test fixture</strong> — it is private-tree content (standing
+rule 5). Resolve the recording through the chapter directory the script
+was asked about (FR-019) — AUDIT 2026-09-08: GENUINELY OPEN —
+workshop/pipeline/calibrate.sh:36 still assigns <code>REC</code> from a
+frozen absolute path into chapter 01. (Path deliberately not reproduced
+here: private-tree content, standing rule 5.)</label></li>
+</ul>
+<p><strong>Checkpoint</strong>: no stage can process the wrong chapter’s
+content, and no stage can drop a chapter without saying so. <strong>Stop
+for human approval</strong> — the diff changes what the pipeline
+writes.</p>
+<hr />
+<h2 id="phase-4-visible-defects">Phase 4: Visible defects</h2>
+<p><strong>Purpose</strong>: wrong answers a reader can see. They get
+fixed anyway; they do not need to be first.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />T025 [TDD] [BLOCKED: ordinal type]
+Replace <code>ordinalOf</code>
+(<code>workshop/platform/backend/internal/api/chapters.go:736</code>)
+with a call into <code>pkg/chapterid</code>. Today it consumes leading
+digits and returns <strong><code>2</code></strong> for both
+<code>02</code> and <code>02.01</code>. Gate <strong>G-CH-4</strong>:
+ordinal representations are <strong>pairwise distinct</strong> over
+every present id plus a synthetic set of at least eight. <strong>Paired
+mutation</strong>: restore leading-digit parsing — must go red on the
+<code>02</code> / <code>02.01</code> pair. <strong>The defect is the
+<code>int</code> type in <code>specs/001-.../data-model.md:45</code>,
+not this function</strong> — which is why T001 blocks this (FR-022,
+FR-034, SC-013) — AUDIT 2026-09-08: PARTIAL — AND THE REQUIREMENT WAS
+DELIBERATELY NOT MET. <code>ordinalOf</code>
+(internal/api/chapters.go:783) was NOT replaced; it is kept UNCHANGED
+and marked DEPRECATED, with <code>OrdinalPath</code> added beside it for
+backward compatibility (rationale in the comment at :775). It still
+returns 2 for BOTH <code>02</code> and <code>02.01</code>. G-CH-4
+(ordinal representations pairwise distinct over every present id) is NOT
+asserted for <code>ordinal</code> — only titles are, by
+<code>TestTitle_DoesNotCollide</code>. This is a design decision that
+contradicts the task text; it needs recording, not
+reimplementing.</label></li>
+<li><label><input type="checkbox" checked="" />T026 [BLOCKED: ordinal
+type] Fix <code>chapterTitle</code> (<code>chapters.go:755</code>),
+which renders <code>02</code> and <code>02.01</code> both as
+<code>"Chapter 2"</code>. Two distinct chapters with one title is a
+wrong answer a reader will misread as a cosmetic quirk (FR-023) —
+EVIDENCE: DONE-UNTICKED — <code>chapterTitle</code>
+(internal/api/chapters.go:809) is now a one-line forward to
+<code>curriculum.ChapterID.Title</code>;
+<code>TestTitle_DoesNotCollide</code> (chapterid_test.go:119) asserts
+<code>Title("02.01") != Title("02")</code>. LIVE:
+<code>GET /api/chapters/02.01</code> 200 returns
+<code>"title": "Chapter 2.1"</code> (served).</label></li>
+<li><label><input type="checkbox" checked="" />T027 Rewrite
+<code>derivation.ordinal</code> (<code>chapters.go:141</code>) in the
+same change as T025. It currently reads <em>“parsed from the leading
+digits of the chapter slug”</em>, which is an <strong>accurate
+description of the defect</strong> — the endpoint is not lying, it is
+stating exactly what it did. <strong>Rewrite it, do not delete
+it</strong>: that honesty mechanism is why the defect is legible, and a
+string left describing a replaced derivation converts a working
+instrument into a stale one (contract C4.2.1) (FR-024, FR-030) —
+EVIDENCE: DONE-UNTICKED — <code>derivation.ordinal</code> rewritten at
+internal/api/chapters.go:172 to describe the collision rather than the
+replaced derivation, and <code>derivation.ordinal_path</code> /
+<code>derivation.hierarchy</code> added beside it. LIVE:
+<code>GET /api/chapters/02.01</code> 200 carries the rewritten strings
+(served).</label></li>
+<li><label><input type="checkbox" />T028 [P] [TDD] Reconcile the front
+end’s two chapter shapes in
+<code>workshop/platform/frontend/src/app/core/models.ts</code>. The
+minimal shape at <code>:301</code> is
+<code>ordinal: /^\d+$/.test(key) ? Number(key) : null</code> and yields
+<strong><code>null</code></strong> for <code>02.01</code>; the full
+shape at <code>:357</code> is <code>ordinal: num(raw['ordinal'])</code>
+and yields <strong><code>2</code></strong>. <strong>They disagree
+today.</strong> Assert field-by-field equality for every present
+chapter. <strong>Paired mutation</strong>: restore the
+<code>/^\d+$/</code> test — must go red on <code>02.01</code>
+(003:SC-014, FR-025, FR-034) — AUDIT 2026-09-08: GENUINELY OPEN — the
+two shapes still disagree.
+<code>workshop/platform/frontend/src/app/core/models.ts:301</code> is
+<code>ordinal: /^\d+$/.test(key) ? Number(key) : null</code> (yields
+<code>null</code> for <code>02.01</code>) and <code>:357</code> is
+<code>ordinal: num(raw['ordinal'])</code> (yields <code>2</code>).
+<code>models.spec.ts</code> exercises no dotted id and asserts no
+field-by-field equality.</label></li>
+<li><label><input type="checkbox" />T029 [TDD] Prove
+<strong>G-CH-11</strong>: <code>core/api.ts:88</code> reads
+<code>body['chapters']</code> as a flat array and must keep working
+unchanged. Assert the JSON type and assert no element carries a nested
+chapter array. <strong>Paired mutation</strong>: nest children under
+their parent — the gate must go red (FR-027, FR-034, SC-016) — AUDIT
+2026-09-08: GENUINELY OPEN — <code>core/api.ts:88</code> does read
+<code>body['chapters']</code> flat and the live response IS flat, but
+nothing asserts it: no spec in <code>src/app/core/</code> checks the
+JSON type or that no element carries a nested chapter array, and no
+paired mutation nests children.</label></li>
+</ul>
+<hr />
+<h2 id="phase-5-the-api-surface">Phase 5: The API surface</h2>
+<p><strong>Purpose</strong>: serve what Phase 1 derives, through the two
+endpoints that already exist. <strong>No route is added</strong>
+(FR-026, contract §5).</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T030 Add the
+<code>hierarchy</code> object to every row of
+<code>GET /api/chapters</code> — <code>parent_id</code>,
+<code>depth</code>, <code>ancestor_ids</code>, <code>child_ids</code>,
+<code>ordinal_path</code>, <code>orphaned</code> — computed from
+<code>pkg/chapterid</code>. <strong>The array stays flat</strong>
+(T029). Contract §4.1 (FR-006, FR-027) — EVIDENCE (served):
+DONE-UNTICKED — <code>chapterHierarchy</code> at
+internal/api/chapters.go:812. LIVE: <code>GET /api/chapters</code> 200
+returns per-row <code>hierarchy</code> with <code>parent_id</code>,
+<code>depth</code>, <code>ancestor_ids</code>, <code>child_ids</code>,
+<code>ordinal_path</code>, <code>orphaned</code>, and the array is FLAT.
+Measured 2026-09-08 against 127.0.0.1:8087.</label></li>
+<li><label><input type="checkbox" />T031 [TDD] Add <code>under</code>,
+<code>depth</code> and <code>include_self</code>, and echo the applied
+<code>filters</code> on <strong>every</strong> status including
+<code>unavailable</code>. Gate <strong>G-CH-7</strong>; <strong>paired
+mutation</strong>: omit the echo on the unavailable path. Without it,
+four situations are indistinguishable to a client — empty branch,
+misspelled parameter, parameter ignored by an older build, backend
+unreadable — and the first is a fact while the other three are faults.
+Reject an unparseable <code>depth</code> or <code>include_self</code> as
+a <strong>malformed request</strong> rather than defaulting it,
+following <code>boolParam</code>
+(<code>chapters.go:819</code>–<code>821</code>), which already rejects
+for exactly this reason (FR-028, FR-034, SC-017) — AUDIT 2026-09-08:
+GENUINELY OPEN — MEASURED, not inferred.
+<code>GET /api/chapters?under=02</code>,
+<code>?under=02&amp;depth=2</code>, <code>?under=99</code> and
+<code>?under=02&amp;include_self=true</code> all return 200 with the
+SAME unfiltered three ids, and NO <code>filters</code> key is echoed on
+any of them. The parameters are ignored entirely. <strong>This is the
+largest open capability in the feature and it blocks T032 and half of
+T034.</strong></label></li>
+<li><label><input type="checkbox" />T032 [TDD] Prove
+<strong>G-CH-8</strong>: an <code>under</code> naming a chapter that
+does not exist returns <strong><code>200</code></strong> with an empty
+array and <code>under_resolved: false</code> — <strong>never
+<code>404</code></strong>. The route exists and the request was
+well-formed; a <code>404</code> answers <em>“no such endpoint”</em> to a
+question whose answer is <em>“no such branch”</em>. <strong>Paired
+mutation</strong>: return <code>404</code>. Note also that
+<code>under_resolved</code> is <code>null</code>, not
+<code>false</code>, when <code>under</code> was not given or could not
+be looked for (FR-029, FR-034, SC-018) — AUDIT 2026-09-08: GENUINELY
+OPEN — <code>?under=99</code> does return 200, but only because
+<code>under</code> is ignored (see T031). There is no
+<code>under_resolved</code> field on the response at all, so the
+distinction between “no such branch” and “parameter not implemented”
+cannot be made by a client.</label></li>
+<li><label><input type="checkbox" />T033 [BLOCKED: ordinal type] Add
+<code>hierarchy</code> with <code>parent_href</code> and
+<code>child_hrefs</code> to <code>GET /api/chapters/{chapter}</code>,
+replace <code>ordinal</code> with <code>ordinal_path</code> —
+<strong>replace, never place beside</strong>, or a client reads the one
+that collides — and carry the rewritten
+<code>derivation.hierarchy</code>. Contract §4.2 (FR-022, FR-024,
+FR-030) — AUDIT 2026-09-08: PARTIAL — <code>hierarchy</code> with
+<code>parent_href</code> and <code>child_hrefs</code> IS served (LIVE:
+<code>GET /api/chapters/02.01</code> 200 returns
+<code>parent_href: "/api/chapters/02"</code>,
+<code>child_hrefs: []</code>, plus <code>missing_ancestor_ids</code>),
+and <code>derivation.hierarchy</code> is carried. <strong>BUT the task
+says “replace <code>ordinal</code> with <code>ordinal_path</code> —
+replace, never place beside”, and the server places them
+BESIDE</strong>: the same response carries <code>ordinal: 2</code> AND
+<code>ordinal_path: [2,1]</code>. The code states this is deliberate,
+for one release (chapters.go:147-155). Reconcile with T001/T025 rather
+than reimplementing.</label></li>
+<li><label><input type="checkbox" />T034 [TDD] Prove
+<strong>G-CH-9</strong> (H3): a sub-chapter whose parent directory is
+absent is <strong>served</strong>, with <code>orphaned: true</code>,
+<code>parent_href: null</code> and <code>missing_ancestor_ids</code>
+naming what was not found — and <code>parent_id</code>
+<strong>unchanged</strong>, because it is derived.
+<code>?under=&lt;missing parent&gt;</code> still returns it, because the
+filter runs on derived ancestry. <strong>Paired mutation</strong>:
+filter orphans out of the list — the gate must go red. Hiding it loses
+content that exists; promoting it to a root silently rewrites the
+hierarchy (FR-031, FR-034, SC-019) — AUDIT 2026-09-08: PARTIAL — the
+serving half is proven: <code>TestGCH9_OrphanIsServed</code>
+(internal/api/chapters_hierarchy_test.go:228) and
+<code>TestGCH9_OrphanIsListed</code>
+(cmd/workshop-server/chapters_hierarchy_test.go:244) PASS, with the
+paired mutation documented at :225/:243, and
+<code>missing_ancestor_ids</code> is served. MISSING: the
+<code>?under=&lt;missing parent&gt;</code> half cannot be proven because
+<code>under</code> is not implemented (T031).</label></li>
+</ul>
+<hr />
+<h2 id="phase-6-gates-manifest-closure">Phase 6: Gates, manifest,
+closure</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />T035 Update
+<code>workshop/platform/gates/route-manifest.tsv</code>. Three separate
+changes: (a) <code>:64</code> reads <code>#subst {chapter} 01</code> —
+<strong>one substitution value cannot exercise a hierarchy</strong>, so
+substitute at least a parent and a child; (b) the rows written with a
+literal <code>/api/chapters/01/</code> —
+<code>:72</code>–<code>:76</code>, <code>:85</code>, and the four
+<code>NOT_BUILT</code> rows at <code>:157</code>–<code>:160</code> — are
+re-expressed against <code>{chapter}</code> so the substitution reaches
+them; (c) both changed endpoints carry a <strong>compound</strong>
+contract citation, <code>3.2+003.4.1</code> and
+<code>3.3+003.4.2</code>. A row naming only the 001 section still looks
+complete to a reviewer while the behaviour underneath it has changed —
+the defect is a <strong>stale</strong> row, not an absent one, and no
+existence check can see it (FR-033) — AUDIT 2026-09-08: GENUINELY OPEN —
+none of the three changes is made.
+<code>workshop/platform/gates/route-manifest.tsv</code> still
+substitutes one chapter value, rows 71-76 and 85 still carry a literal
+<code>/api/chapters/01/</code>, the four NOT_BUILT rows are still
+literal, and no row carries a compound <code>3.2+003.4.1</code> /
+<code>3.3+003.4.2</code> citation.</label></li>
+<li><label><input type="checkbox" />T036 [TDD] Implement
+<strong>G-CH-10</strong> and <strong>G-CH-14</strong> in
+<code>verify-chapter-hierarchy.sh</code>, with
+<code>prove-chapter-hierarchy.sh</code> as its paired prover. G-CH-10:
+<strong>no code path anywhere branches on a chapter’s depth</strong>
+(H5) — report each hit with its location rather than counting;
+<strong>paired mutation</strong>: add <code>if depth &gt; 1</code> to
+any handler. G-CH-14: every gate obtains its chapter from the live tree
+or from an argument, following
+<code>verify-absence-honesty.sh:127</code>–<code>134</code>, whose
+<code>undet</code> on “no chapter could be read” is the third state and
+must be copied with it; <strong>paired mutation</strong>: hardcode
+<code>01</code> in one gate. Register both in
+<code>workshop/platform/gates/check-registry-003.tsv</code> (FR-032,
+FR-034, FR-035, SC-020, SC-024, SC-025) — AUDIT 2026-09-08: GENUINELY
+OPEN — neither <code>verify-chapter-hierarchy.sh</code> nor
+<code>prove-chapter-hierarchy.sh</code> exists in
+workshop/platform/gates/, no <code>G-CH-</code> identifier appears in
+any gate script or registry, and <code>check-registry-003.tsv</code>
+does not exist (only <code>check-registry-001.tsv</code> and
+<code>check-registry-002.tsv</code>).</label></li>
+<li><label><input type="checkbox" />T037 [REVIEW] Closure: publish
+<code>max_depth_present</code> as a <strong>measurement</strong> and
+assert no constant bounds depth (H6, 003:SC-021); record the feature’s
+limits in <code>workshop/docs/limits.md</code>, including that
+<code>02</code> and <code>02.01</code> remain <strong>archived and
+uningested</strong> and that nothing here ingests them; update
+<code>CONTINUATION.md</code> in the same change; and run the
+gate-coverage check below to confirm every contracted gate is carried by
+a task (FR-003, SC-021) — AUDIT 2026-09-08: PARTIAL —
+<code>max_depth_present</code> IS published as a measurement (LIVE:
+<code>GET /api/chapters</code> 200 returns
+<code>"max_depth_present": 2</code>, computed by
+<code>MaxDepthPresent</code>, pkg/curriculum/chapterid.go:325). MISSING:
+<code>workshop/docs/limits.md</code> exists but records nothing about
+hierarchy, the archived/uningested status of <code>02</code> and
+<code>02.01</code>, or a no-constant-bounds-depth assertion; and no
+gate-coverage check confirms every contracted gate is carried by a
+task.</label></li>
+</ul>
+<hr />
+<h2 id="dependencies">Dependencies</h2>
+<pre><code>T001 T002 T003          (Phase 0 — BLOCKING, operator decision)
+   └─&gt; T004 ─&gt; T005 ─&gt; T006 ─&gt; T007          (grammar before derivations)
+                 └─&gt; T008 T009 T010 T011     (gates over the grammar)
+                        └─&gt; T012 [REVIEW]
+                              ├─&gt; T013 ─&gt; T014 ─&gt; T015     (fixture before its proofs)
+                              │      └─&gt; T016
+                              ├─&gt; T017 T018 T019 T020 T021 T022 T023 T024
+                              ├─&gt; T025 ─&gt; T026 T027        (T025 also needs T001)
+                              │      └─&gt; T028 T029
+                              ├─&gt; T030 ─&gt; T031 T032
+                              │      └─&gt; T033 ─&gt; T034      (T033 also needs T001)
+                              └─&gt; T035 T036 ─&gt; T037</code></pre>
+<p><strong>Hard blocks:</strong></p>
+<ul>
+<li><strong>T001 blocks T006 (<code>OrdinalPath</code>), T025, T026 and
+T033.</strong> These carry <code>[BLOCKED: ordinal type]</code> and are
+waiting on an <strong>operator</strong>, not on an implementer. Writing
+them settles the decision by shipping, which is the one outcome Phase 0
+exists to prevent.</li>
+<li><strong>T004 blocks everything after it.</strong> One definition of
+a chapter id, or three.</li>
+<li><strong>T013 blocks T014 and T015.</strong> The fixture is the
+guard; writing the assertion first invites a fixture shaped to pass
+it.</li>
+<li><strong>T029 blocks T030.</strong> Prove the flat-array contract
+before adding fields to the rows inside it.</li>
+</ul>
+<h2 id="parallel-opportunities">Parallel opportunities</h2>
+<p>Marked <code>[P]</code>. These share no files.</p>
+<ul>
+<li><strong>T021, T022, T023, T024</strong> — a Go-embedded JSON
+manifest, a Python builder, a Python CLI and a shell script. Four
+languages, four directories.</li>
+<li><strong>T028</strong> with any Phase 3 task — TypeScript against
+Python and Bash.</li>
+<li><strong>T011</strong> with T008/T009/T010 — assertions over four
+independent packages.</li>
+</ul>
+<h2 id="independent-test-criteria">Independent test criteria</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Independently testable when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>both 001 artifacts are amended and the amendments agree with the
+live route set</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>pkg/chapterid</code> accepts and rejects its table with no
+tree present, and the three orders agree over a fixture</td>
+</tr>
+<tr>
+<td>2</td>
+<td>the two-scope fixture goes red under the mutation
+<strong>and</strong> the one-scope fixture stays green</td>
+</tr>
+<tr>
+<td>3</td>
+<td>a stage run against a tree holding a sub-chapter names it —
+processed or skipped-with-reason — and ingestion refuses rather than
+substituting</td>
+</tr>
+<tr>
+<td>4</td>
+<td>no two chapters share an ordinal representation or a title, and the
+two front-end shapes agree</td>
+</tr>
+<tr>
+<td>5</td>
+<td>a client builds the tree from one request, an unknown
+<code>under</code> is <code>200</code>, and an orphan is served
+flagged</td>
+</tr>
+<tr>
+<td>6</td>
+<td>every contracted gate is carried by a task and every gate reads its
+chapter from the live tree</td>
+</tr>
+</tbody>
+</table>
+<h2
+id="gate-coverage-every-contracted-gate-has-a-task-that-builds-it">Gate
+coverage — every contracted gate has a task that builds it</h2>
+<table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G-CH-1 grammar</td>
+<td>T005</td>
+</tr>
+<tr>
+<td>G-CH-2 three orders</td>
+<td>T008</td>
+</tr>
+<tr>
+<td>G-CH-3 derived-only</td>
+<td>T009</td>
+</tr>
+<tr>
+<td>G-CH-4 no ordinal collision</td>
+<td>T025</td>
+</tr>
+<tr>
+<td>G-CH-5 scope equality</td>
+<td>T016</td>
+</tr>
+<tr>
+<td>G-CH-6 two-scope redaction</td>
+<td>T014</td>
+</tr>
+<tr>
+<td>G-CH-6b fixture blindness</td>
+<td>T015</td>
+</tr>
+<tr>
+<td>G-CH-7 filters echo</td>
+<td>T031</td>
+</tr>
+<tr>
+<td>G-CH-8 unknown branch is 200</td>
+<td>T032</td>
+</tr>
+<tr>
+<td>G-CH-9 orphan served</td>
+<td>T034</td>
+</tr>
+<tr>
+<td>G-CH-10 no special case</td>
+<td>T036</td>
+</tr>
+<tr>
+<td>G-CH-11 flat array</td>
+<td>T029</td>
+</tr>
+<tr>
+<td>G-CH-12 both directions</td>
+<td>T019</td>
+</tr>
+<tr>
+<td>G-CH-13 ingest refusal</td>
+<td>T017</td>
+</tr>
+<tr>
+<td>G-CH-14 no hardcoded chapter in gates</td>
+<td>T036</td>
+</tr>
+<tr>
+<td>H1 unclassified reporting</td>
+<td>T010</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># THE CLOSURE CHECK. A contract gate must be carried by a </span><span class="al">TASK</span><span class="co"> BLOCK — the</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;- [ ] T###&quot; line plus its indented continuation lines. Prints one row per</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># unattached gate; silence = closed.</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;/^\| \*\*G-CH-/ {gsub(/\|/,&quot; &quot;); print $2}&#39;</span> <span class="dt">\</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    specs/003-chapter-hierarchy/contracts/http-api.md <span class="dt">\</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="fu">tr</span> <span class="at">-d</span> <span class="st">&#39;*&#39;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-u</span> <span class="dt">\</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="at">-r</span> <span class="va">g</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">grep</span> <span class="at">-q</span> <span class="st">&quot;</span><span class="va">$g</span><span class="st">&quot;</span> specs/003-chapter-hierarchy/tasks.md <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;unattached: </span><span class="va">$g</span><span class="st">&quot;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span></code></pre></div>
+<h2 id="implementation-strategy">Implementation strategy</h2>
+<p><strong>The whole feature is small, and its risk is not in the
+code.</strong> One new package, one derivation replacement, fourteen
+frozen literals and a set of gates. The weight is in Phase 0 — two
+amendments to another feature’s published artifacts — and in Phase 2,
+where a fix that has already landed is protected by nothing, on a path
+whose output is a disclosure-control record.</p>
+<p><strong>Do not start at Phase 4.</strong> The visible defects are the
+tempting first move: <code>ordinalOf</code> returning <code>2</code> is
+a one-line fix that makes a wrong label right, and it feels like
+progress. It is blocked on Phase 0, and fixing it first would settle the
+<code>ordinal</code> type question by writing an implementation of one
+answer — which is exactly how <code>Chapter.ordinal | int</code> came to
+be load-bearing in the first place.</p>
+</body>
+</html>

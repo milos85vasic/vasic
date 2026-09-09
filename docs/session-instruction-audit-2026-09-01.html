@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>session-instruction-audit-2026-09-01</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">session-instruction-audit-2026-09-01</h1>
+</header>
+<h1 id="session-instruction-audit-2026-09-01">Session instruction audit
+— 2026-09-01</h1>
+<p><strong>What this is.</strong> Every instruction the operator gave in
+session <code>f190827d-5978-deb6-a880-642959ad497f</code> (2026-08-26
+18:38 CEST → 2026-09-01 20:55 CEST), re-derived from the transcript and
+checked against the tree. It answers the operator’s own request:</p>
+<blockquote>
+<p><em>“All prompts we have given tonight MUST BE re-evaluated and
+checked so we confirm that every single one of them was processed and
+executed completely with no exception or being forgotten completely
+!!!”</em></p>
+</blockquote>
+<p><strong>Source of truth.</strong> The session JSONL, not anyone’s
+recollection and not the assistant’s own claims inside it — those claims
+are the thing being audited. The transcript was streamed with
+<code>python3</code>, never read whole. Two record classes carry
+operator input and <strong>both</strong> were extracted:</p>
+<ul>
+<li><code>type=user</code> messages with a <code>role=user</code> text
+block — prompts typed at the turn boundary;</li>
+<li><code>type=queue-operation</code> with
+<code>operation=enqueue</code> — prompts typed <strong>mid-turn</strong>
+while the assistant was working. These are delivered to the model as
+<code>attachment</code> records after the matching <code>remove</code>,
+so they count. 55 of them exist and a naive user-record scan misses
+every one that was merged into a combined delivery.</li>
+</ul>
+<p>Raw counts: <strong>96 prompt events</strong> (55 queued + 41
+direct), collapsing to <strong>51 distinct instructions</strong> after
+de-duplicating re-issues, direct/queued pairs of the same text, and the
+eleven repeats of <code>fan out subagents</code>.</p>
+<p><strong>Privacy.</strong> This repository is public. Operator
+instructions are quoted; <strong>no transcript content is
+quoted</strong>, and no person’s name appears here. Where an instruction
+itself would carry private material it is summarised instead — and so is
+any instruction that a file inside a private submodule reproduces
+verbatim, because quoting it here would republish that file’s text.
+Every such row says so at the point where it paraphrases, and cites the
+private file by path. See <code>docs/content-boundary.md</code>.</p>
+<hr />
+<h2 id="method-the-gate-suite-measured-for-this-audit">Method — the gate
+suite, measured for this audit</h2>
+<p>Every verdict below that cites a gate cites a run made <strong>for
+this audit</strong> between 23:00 and 23:20 CEST on 2026-09-01, not a
+figure copied from <code>CLAUDE.md</code>. The gates carry three
+verdicts: <strong>0 = clean; 1 = a real finding; 2 = undetermined, and 2
+is never a pass.</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Exit</th>
+<th>Result as printed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scripts/verify-governance-cascade.sh</code></td>
+<td><strong>0</strong></td>
+<td>12 PASS / 0 FAIL / 0 ENV / 8 NOTE</td>
+</tr>
+<tr>
+<td><code>scripts/verify-manifest-pins.sh</code></td>
+<td><strong>0</strong></td>
+<td>12 MATCH / 0 DRIFT / 0 UNDETERMINED of 12 declared deps</td>
+</tr>
+<tr>
+<td><code>scripts/verify-submodule-remote-sync.sh</code></td>
+<td><strong>0</strong></td>
+<td>12 CURRENT / 0 DRIFT / 0 UNDET of 12 owned gitlinks probed, 13
+declared</td>
+</tr>
+<tr>
+<td><code>scripts/verify-check-registry.sh</code></td>
+<td><strong>0</strong></td>
+<td>PASS — every registered check has a paired proof; <strong>5
+registered DEBT rows</strong> printed</td>
+</tr>
+<tr>
+<td><code>scripts/verify-mutation-anchors.sh</code></td>
+<td><strong>0</strong></td>
+<td>PASS with NOTE — 3 <code>prove-*.sh</code> scripts still lack a
+<code>--check-anchors</code> mode</td>
+</tr>
+<tr>
+<td><code>scripts/verify-remedy-executability.sh</code></td>
+<td><strong>0</strong></td>
+<td>PASS with a stated limit (does not execute discovered remedy
+strings)</td>
+</tr>
+<tr>
+<td><code>scripts/verify-private-object-exposure.sh</code></td>
+<td><strong>0</strong></td>
+<td>0 findings / 0 undetermined</td>
+</tr>
+<tr>
+<td><code>scripts/continuation-check.sh</code></td>
+<td><strong>0</strong></td>
+<td>8 PASS / 0 DRIFT / 0 UNDET / 1 NOTE — CONTINUATION.md in sync</td>
+</tr>
+<tr>
+<td><code>scripts/audit-hardcoded-paths.sh</code></td>
+<td><strong>0</strong></td>
+<td>no machine-specific hardcoded paths (9 files allow-listed)</td>
+</tr>
+<tr>
+<td><code>scripts/audit-environment-assumptions.sh</code></td>
+<td><strong>0</strong></td>
+<td>no NEW frozen assumptions (526 allow-listed); 1 third-party
+NOTE</td>
+</tr>
+<tr>
+<td><strong><code>scripts/verify-content-boundary.sh</code></strong></td>
+<td><strong>1</strong></td>
+<td><strong>LEAK — 4249 surviving matches (prose 4002, short 190, name
+57); 7 distinct personal names by digest</strong></td>
+</tr>
+<tr>
+<td><strong><code>scripts/verify-provider-ci.sh</code></strong></td>
+<td><strong>1</strong></td>
+<td><strong>provider-side CI triggering CONFIRMED on 1 upstream
+row</strong></td>
+</tr>
+<tr>
+<td><code>scripts/verify-all-constitution-rules.sh</code></td>
+<td><em>incomplete</em></td>
+<td>still executing when this document was written; <strong>no split is
+claimed</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Three statements in <code>CLAUDE.md</code> are stale and are
+corrected here by measurement, not by argument:</strong></p>
+<ol type="1">
+<li><em>“<code>audit-environment-assumptions.sh</code> is currently RED
+(exit 1) … 7 frozen environment assumptions”</em> — it now exits
+<strong>0</strong>.</li>
+<li><em>“No ASR engine … <code>whisper</code>,
+<code>faster_whisper</code> … are all absent from <code>python3</code>’s
+import path”</em> — true of the <strong>system</strong> interpreter,
+false of the project. <code>faster_whisper 1.2.1</code> and
+<code>ctranslate2 4.8.2</code> are installed in
+<code>workshop/pipeline/venv</code>, and they produced the chapter-1
+transcript.</li>
+<li><em>“No generative model … both are embedding models”</em> —
+<code>ollama</code> now serves <code>qwen2.5:3b-instruct-q4_K_M</code>
+(1840 MB) alongside the two embedding models, and the live platform
+answers through it.</li>
+</ol>
+<p><strong>Repository state at audit time.</strong> Umbrella
+<code>HEAD = 9dcfc41</code>, identical on all three remotes
+(<code>origin</code>, <code>github</code>, <code>upstream</code> — all
+three point at <code>git@github.com:milos85vasic/vasic.git</code>). All
+13 declared gitlinks equal their remote tips. Working trees are
+<strong>not</strong> clean: umbrella carries 2 staged files and 1
+untracked directory; <code>workshop</code> carries 32 dirty entries;
+<code>submodules/constitution</code> carries 1.</p>
+<hr />
+<h2 id="the-table-every-instruction-in-the-operators-own-order">The
+table — every instruction, in the operator’s own order</h2>
+<p>Status key: <strong>DONE</strong> · <strong>PARTIAL</strong> ·
+<strong>IN FLIGHT</strong> · <strong>NOT DONE</strong> ·
+<strong>SUPERSEDED</strong> · <strong>N/A</strong> (stray input or
+harness action).</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Time (CEST)</th>
+<th>Instruction</th>
+<th>Status</th>
+<th>Evidence</th>
+<th>What remains</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>08-26 18:38</td>
+<td><code>/model</code></td>
+<td>DONE</td>
+<td>Harness confirmed the model switch in-session.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>08-26 18:38</td>
+<td><code>/lumen:reindex</code></td>
+<td>DONE</td>
+<td><code>scripts/lumen-index-doctor.sh</code> → <strong>exit
+0</strong>, “index healthy”: 3313 files indexed, 71156 chunks, 71156
+distinct vectors, 0 NaN/Inf/all-zero/off-norm.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>3</td>
+<td>08-26 18:58</td>
+<td><em>“Add Lumen to my path! Extend .bashrc properly … Lumen MUST WORK
+impeccable!”</em></td>
+<td>DONE (caveat)</td>
+<td><code>bash -lc 'command -v lumen'</code> →
+<code>&lt;HOME&gt;/…</code>, rc 0. <code>~/.bashrc</code> lines 162–186
+carry a managed block with lazy completions and documented
+tunables.</td>
+<td>Doctor warns the backend is currently running
+<code>jina-embeddings-code-cpu:latest</code> while the index itself was
+created against <code>ordis/jina-embeddings-v2-base-code</code> — a live
+model mismatch that risks a second index.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>08-26 19:18</td>
+<td><em>“Let us know all is fixed, polished, properly configured, fully
+reindexed … Commit and push all work done to all upstreams! Make sure
+latest changes we did get indexed as well!”</em></td>
+<td>DONE</td>
+<td><code>git ls-remote</code> on <code>origin</code>,
+<code>github</code>, <code>upstream</code> all return
+<code>9dcfc41…</code> for <code>refs/heads/main</code>, equal to local
+<code>HEAD</code>. Per-submodule probe: <strong>13/13 SYNCED</strong>
+with their remote HEADs.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>5</td>
+<td>08-26 19:24</td>
+<td><em>“add proper setup steps into already existing script we have in
+scripts directory … all mandatory extending and polishing”</em></td>
+<td>DONE</td>
+<td><code>scripts/setup-agents-wizard.sh</code> (77,539 B), paired
+<code>scripts/test-setup-agents-wizard.sh</code> (72,561 B),
+<code>scripts/rollback-agents-wizard.sh</code> (8,673 B).</td>
+<td>—</td>
+</tr>
+<tr>
+<td>6</td>
+<td>08-26 19:26</td>
+<td><em>“CRITICAL: Cover everything with exhaustive tests which will
+validate and verify all work with machine evidence produced!”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td>Real coverage exists: registry PASS over 21 checks;
+<code>workshop/platform/gates/</code> has 5 <code>prove-*.sh</code> + 4
+<code>verify-*.sh</code>; <code>workshop/platform/qa/challenges/</code>
+has 5 scripts with recorded evidence under <code>qa/evidence/</code>;
+<code>workshop/platform/frontend/e2e/</code> has 7 specs.</td>
+<td><code>verify-check-registry.sh</code> prints <strong>5 registered
+DEBT rows</strong> on every run. <code>specs/001-…/tasks.md</code> has
+<strong>0 of 120</strong> checkboxes ticked. The newest surface
+(knowledge areas, quizzes) has no tests because it has no implementation
+— see #45/#49.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>08-26 19:28</td>
+<td><em>“run the setup agent(s) script and guide us interactively …
+Extend and polish all existing docs … user guide(s), manuals, FAQs,
+graphs, diagrams and schemes!”</em></td>
+<td>DONE</td>
+<td><code>docs/setup-agents-wizard/</code> holds 18 documents
+incl. <code>README.md</code> (62,833 B), <code>MANUAL.md</code> (69,932
+B), <code>FAQ.md</code> (39,733 B), <code>ARCHITECTURE.md</code> (42,386
+B, <strong>6 mermaid diagrams</strong>),
+<code>ACTION-REQUIRED.md</code>.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>8</td>
+<td>08-26 19:29</td>
+<td><em>“everything is fully committed and pushed to all upstreams —
+main repo and all submodules fully recursively and Codegraph, Lumen and
+all indexable extensions fully up to date and in sync”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td>Push half proven (row 4). Index half: Lumen doctor exit 0.</td>
+<td><strong>Not clean.</strong> <code>git status --porcelain</code>:
+umbrella 4 entries (2 staged + <code>specs/002-…/</code> untracked),
+<code>workshop</code> <strong>32 dirty</strong>,
+<code>submodules/constitution</code> 1 dirty. Lumen reports <strong>66
+queued placeholders</strong> not yet embedded.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>08-26 19:29 →<br>09-01 17:36</td>
+<td><em>“fan out subagents”</em> (×11 across the session)</td>
+<td>DONE</td>
+<td>Concurrent agent work is visible in the tree by mtime clustering
+(specs/002 authored 22:44–22:57, research docs 23:00–23:04, knowledge
+model 22:45, frontend rebuild 23:01).</td>
+<td>—</td>
+</tr>
+<tr>
+<td>10</td>
+<td>08-26 19:29 / 20:40 / 08-31 10:12</td>
+<td><code>/using-superpowers</code>, <code>/systematic-debugging</code>,
+<code>/subagent-driven-development</code></td>
+<td>DONE</td>
+<td>Skills invoked; <code>.superpowers/sdd/progress.md</code> is live
+and carries the protocol name.</td>
+<td>See #48 — the <em>implementation</em> half of the superpowers
+directive is only partly honoured.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>08-26 20:15</td>
+<td><em>“use any existing CLI agents configurations and extend them
+properly without breaking … safety mechanism with proper backup … proper
+uninstall / rollback mechanism … maximal flexibility, safety and be
+maximally risk free!”</em></td>
+<td>DONE</td>
+<td><code>scripts/rollback-agents-wizard.sh</code> exists and is
+registered. Timestamped backups are real on disk (9 ×
+<code>~/.local/bin/lumen.bak.&lt;UTC&gt;</code>). Documented in
+<code>docs/setup-agents-wizard/ARCHITECTURE.md</code> and
+<code>OPERATIONAL-SCRIPTS.md</code>.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>12</td>
+<td>08-26 20:32</td>
+<td><em>“fully and properly incorporate constitution Submodule … all of
+our major files — AGENTS.md, CLAUDE.md, QWEN.md, and others do inherit
+it … applied / inherited by all Submodules … fetch and pull the latest
+version … and all of its dependency Submodules fully
+recursively”</em></td>
+<td>DONE</td>
+<td><code>verify-governance-cascade.sh</code> <strong>exit 0</strong>,
+12 PASS / 0 FAIL. <code>submodules/constitution</code> =
+<code>f5876a3b700e…</code>, <strong>identical to
+<code>git ls-remote … HEAD</code></strong>. 7 nested gitlinks present
+under it. <code>verify-manifest-pins.sh</code> 12/12 MATCH.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>13</td>
+<td>08-26 20:33</td>
+<td><em>“All Submodule we have MUST BE fully recursively indexed and
+covered with all indexing extensions / services: codegraph, lumen and
+all others”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td>Lumen index healthy, 3313 files / 71156 chunks; coverage reasoning
+recorded in
+<code>docs/constitution-adoption/INDEX-COVERAGE.md</code>.</td>
+<td>66 files remain <strong>queued placeholders</strong>. No
+per-submodule completeness proof exists for either indexer; codegraph
+coverage is not measured by any gate in this tree.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>08-26 20:34 (×5, through 08-27 00:07)</td>
+<td><em>“Continue endless fully autonomous working loop … 3 - 4
+subagents … rock solid physical evidence … no bluff of any
+kind!”</em></td>
+<td>DONE</td>
+<td>Loop ran across six calendar days; eight feature commits on
+<code>main</code> since <code>708c8b1</code>.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>15</td>
+<td>08-26 20:42</td>
+<td><em>“all extensions … updated to the latest versions (automatically)
+… Turn off any analytics or telemetry data gathering if
+possible”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td>Telemetry: <code>~/.bashrc</code> exports
+<code>DO_NOT_TRACK=1</code> and <code>CODEGRAPH_TELEMETRY=0</code> —
+<strong>done</strong>.</td>
+<td>“Latest versions” is <strong>unverified</strong>:
+<code>~/.codegraph/versions/</code> contains only <code>v1.5.0</code>
+and nothing in this tree checks it against an upstream release. No
+automatic update mechanism exists.</td>
+</tr>
+<tr>
+<td>16</td>
+<td>08-26 21:08–21:09</td>
+<td>three short strings typed into the queue</td>
+<td><strong>N/A</strong></td>
+<td>Not instructions — stray input (a word, a number, an arithmetic
+fragment); each was enqueued and removed without a task.</td>
+<td>Recorded so the count is honest, not silently dropped.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>08-26 21:15</td>
+<td><em>“Fix everything now!”</em></td>
+<td>SUPERSEDED</td>
+<td>Restated with a scope on 09-01 15:08 as <em>“Fix everything workable
+- any discovered issues we have found!”</em> — see #40.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>18</td>
+<td>08-27 07:44</td>
+<td><em>“All commands executed, make them part of bash scripts for
+future situations like these! Re-run indexing now! … Commit and push all
+work!”</em></td>
+<td>DONE</td>
+<td>The ad-hoc commands became <code>scripts/lumen-reindex.sh</code>,
+<code>scripts/lumen-index-doctor.sh</code>,
+<code>scripts/ollama-tune.sh</code>,
+<code>scripts/ollama-vulkan-remediation.sh</code> — all executable and
+registered in <code>scripts/check-registry.tsv</code>.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>19</td>
+<td>08-27 15:07</td>
+<td><em>“Have we finished everything and have we executed the bash
+script for installation and configuration of all extensions we need? If
+no, complete it all and run the script. Keep us interactively in the
+loop”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td>Script and its 72 KB test harness exist and were exercised.</td>
+<td><code>docs/setup-agents-wizard/ACTION-REQUIRED.md</code> (15,710 B)
+still lists steps only the operator can perform. The honest answer to
+the question asked is “no, not everything” — see the <em>forgotten</em>
+section.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>08-27 15:19–15:20</td>
+<td><code>/plugin marketplace add ashlrai/ashlr-plugin</code>, then
+<code>/plugin install ashlr@ashlr-marketplace</code>, then
+<code>/reload-plugins</code> and <code>/ashlr:ashlr-status</code></td>
+<td>DONE</td>
+<td><code>ashlr-marketplace/ashlr</code> present in the plugin cache
+across every CLI profile; ashlr <code>PreToolUse</code> hooks fire in
+the current session.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>21</td>
+<td>08-27 15:20</td>
+<td><em>“Make sure all these commands somehow interactively are the part
+of install bash script we are building! User MUST BE aware what it has
+to do!”</em></td>
+<td>DONE</td>
+<td><code>scripts/setup-agents-wizard.sh</code> mentions ashlr 27 times
+and prints the exact commands at lines 1134–1136 and 1608–1614,
+including <code>/ashlr:ashlr-genome-init</code>.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>22</td>
+<td>08-27 15:21 / 15:35</td>
+<td><code>/ashlr:ashlr-genome-init</code></td>
+<td>DONE</td>
+<td><code>.ashlrcode/genome/</code> with <code>manifest.json</code>,
+<code>knowledge/</code>, <code>strategies/</code>,
+<code>milestones/</code>, <code>evolution/</code>, and a live
+<code>proposals.jsonl</code> (last write 23:08 today).</td>
+<td>—</td>
+</tr>
+<tr>
+<td>23</td>
+<td>08-27 16:03</td>
+<td><em>“We noticed mentioning of macOS host we have (hardcoded) paths.
+No path can be hardcoded! This all MUST BE properly fixed!”</em></td>
+<td>DONE</td>
+<td><code>scripts/audit-hardcoded-paths.sh</code> → <strong>exit
+0</strong>, “no machine-specific hardcoded paths (9 file(s) explicitly
+allowed)”. The 9 allowances are named third-party test fixtures under
+<code>submodules/containers</code>.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>24</td>
+<td>08-27 17:17</td>
+<td><em>“Do it all now! Make sure all is clean, bash setup script
+executed, all extensions properly configured and installed!”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td>Wizard runs; extensions installed (rows 20–22).</td>
+<td><code>ACTION-REQUIRED.md</code> remains non-empty; “all is clean” is
+false today (row 8).</td>
+</tr>
+<tr>
+<td>25</td>
+<td>08-27 18:00</td>
+<td>Resolve the two waiting items the assistant had raised (a tool with
+no public installer; a dead symlink step in CI) — <em>“Tackle it all …
+Do interactive questions with options for us to handle these!”</em></td>
+<td>DONE</td>
+<td>The tool was made <strong>opt-in only</strong> at
+<code>scripts/setup-agents-wizard.sh:1139</code> behind a
+<code>WOZCODE_INSTALL_CMD</code> hook, and the decision is locked by
+assertions A52/A53 in
+<code>scripts/test-setup-agents-wizard.sh:179–182</code>.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>26</td>
+<td>08-27 18:04</td>
+<td><em>“Go through all operator blocked items, all blockers and any
+show stoppers … create interactive questions for us with options … so we
+can answer, make decisions and unblock everything!”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td><code>docs/setup-agents-wizard/ACTION-REQUIRED.md</code> is the
+register this produced.</td>
+<td>The register is still open. Three blockers named during the session
+are <strong>not</strong> resolved: the ollama parallelism setting (row
+30), the provider-side Pages/Actions setting (row 30), and the two
+post-incident actions in
+<code>docs/content-boundary-incident-2026-09-01.md</code> (a server-side
+GC request, and notifying the affected third party) which that document
+itself marks <em>“not done”</em>.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>08-31 10:10–17:52</td>
+<td><code>/rate-limit-options</code> ×4</td>
+<td><strong>N/A</strong></td>
+<td>Harness commands.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>28</td>
+<td>08-31 19:01</td>
+<td><em>“Your claude.ai usage limit has reset. Continue the
+task…”</em></td>
+<td><strong>N/A</strong></td>
+<td>System-generated continuation prompt, not operator-authored. Listed
+so the transcript reconciles.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>29</td>
+<td>08-31 19:04 / 20:07</td>
+<td><code>/speckit-superspec-execute</code></td>
+<td><strong>NOT DONE</strong></td>
+<td><code>specs/001-workshop-curriculum-platform/tasks.md</code>: 120
+<code>T###</code> identifiers, <strong>0 of 120</strong> checkboxes
+ticked. <code>.superpowers/sdd/progress.md</code> “Completed tasks”
+reads <em>“(none)”</em>. No superspec execution state exists anywhere in
+the tree.</td>
+<td>The platform <strong>was</strong> built — but outside the tracked
+execute phase, so the plan and the artefact have never been reconciled.
+Either run the phase against the built system, or mark the tasks against
+what exists.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>08-31 19:11</td>
+<td>Re: an unset ollama parallelism variable, a root-owned config
+needing a password, and the file-vs-provider CI boundary — <em>“Make
+sure all this is fully dynamic and adaptable based on the
+environment!”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td>Adaptability half <strong>done</strong>:
+<code>scripts/audit-environment-assumptions.sh</code> exit 0;
+<code>docs/environment-adaptability/AUDIT.md</code>;
+<code>scripts/ollama-tune.sh</code> (75,836 B).</td>
+<td>Underlying settings <strong>still unset/unfixed</strong>:
+<code>systemctl show ollama -p Environment</code> returns
+<code>Environment=</code> (empty) — the parallelism variable was never
+set. <code>verify-provider-ci.sh</code> → <strong>exit 1</strong>,
+“provider-side triggering CONFIRMED on 1 upstream row”. Both are
+operator-only actions in a root shell / a provider UI.</td>
+</tr>
+<tr>
+<td>31</td>
+<td>08-31 19:13 / 20:21</td>
+<td><code>/speckit-constitution</code></td>
+<td>DONE</td>
+<td>Commit <code>597bc8c</code> — <em>“feat: fill constitution template
+with concrete project values”</em>.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>32</td>
+<td>08-31 19:59, re-issued 09-01 04:41 and 08:05</td>
+<td><strong>The large SpecKit brief</strong> — chapter-1 transcription;
+an ai_interviewing-style curriculum; container + bash scripts;
+semantic/contextual search over everything; cross-reference linking;
+DeepWiki-class codebase understanding with Lumen; UI/UX search
+components with fast auto-completion; full indexing of code, graphs,
+diagrams, text, audio and video; ask-the-AI answers; LLM-provider
+bridging using the two organisations’ own technology; deep research;
+docs, guides, manuals, FAQs, trainings, quickstarts; test coverage with
+machine evidence and no bluff; constitution respected with no
+violations; regular commit+push so <code>git status</code> is clean
+everywhere; and drive <strong>all</strong> SpecKit phases specify →
+clarify → plan → tasks → analyze → superspec-execute → review,
+validating on a LIVE container.</td>
+<td><strong>PARTIAL</strong></td>
+<td>Broken out below — 19 sub-items, individually evidenced.</td>
+<td>See 32a–32s.</td>
+</tr>
+<tr>
+<td>32a</td>
+<td>—</td>
+<td>Full chapter-1 transcription as a markdown document</td>
+<td>DONE</td>
+<td><code>workshop/curriculum/chapter-01/transcript.md</code>, 960 lines
+/ 108,639 B, with a provenance table: faster-whisper 1.2.1 (ctranslate2
+4.8.2), <code>large-v3-turbo</code> int8 CPU, 1055 segments, 15,610
+words, 6928.713 s audio, audio SHA-256 recorded. Machine artefacts:
+<code>transcript.segments.json</code> (15,840 lines),
+<code>transcript.words.json</code>,
+<code>pipeline/transcripts/full_ch01.faster-whisper.json</code> (1.66
+MB) + <code>.runlog</code>.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>32b</td>
+<td>—</td>
+<td>A curriculum organised the way the ai_interviewing module is</td>
+<td><strong>PARTIAL</strong></td>
+<td><code>workshop/curriculum/chapter-01/</code> holds transcript,
+<code>exercise-01.md</code>, <code>exercise-01.sections.json</code>, and
+<code>curriculum/passages.jsonl</code>.</td>
+<td>The comparison the instruction names does not hold:
+<code>ai_interviewing/docs/interview-preparation/areas/</code> has
+<strong>110</strong> area documents;
+<code>workshop/docs/training/areas/</code> has <strong>5</strong>, and
+those 5 document the <em>platform</em>, not the workshop’s subject
+matter.</td>
+</tr>
+<tr>
+<td>32c</td>
+<td>—</td>
+<td>Runnable through containers, with all mandatory bash scripts</td>
+<td>DONE</td>
+<td><code>podman ps</code>: <code>workshop-curriculum_platform_1</code>,
+<strong>Up ~1 h (healthy)</strong>, cgroup <code>libpod-…</code>, server
+reports <code>"pid": 1</code>.
+<code>workshop/platform/compose.yml</code> (10,099 B, services
+<code>platform</code> + <code>workshop-index</code>). Scripts:
+<code>setup.sh</code>
+(<code>--check-only</code>/<code>--start</code>/<code>--json</code>/<code>--prove-failure</code>),
+<code>start.sh</code>, <code>stop.sh</code>, <code>status.sh</code>,
+<code>restart.sh</code>, <code>build.sh</code>, <code>verify.sh</code>,
+<code>self-test.sh</code>, <code>ingest.sh</code>.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>32d</td>
+<td>—</td>
+<td>Browse and watch chapters</td>
+<td>DONE</td>
+<td><code>GET /api/chapters</code> → 200 (4040 B);
+<code>GET /api/chapters/01/recording/probe</code> → 200 with a
+container/codec derivation that works without a media tool.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>32e</td>
+<td>—</td>
+<td>A prompt that extends the curriculum with each new chapter</td>
+<td>DONE</td>
+<td><code>workshop/docs/prompts/add-a-chapter.md</code>, 23,414 B.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>32f</td>
+<td>—</td>
+<td>Semantic / contextual search covering all areas by meaning</td>
+<td><strong>PARTIAL</strong></td>
+<td><code>GET /api/search?q=…</code> → 200 in 293 ms, 20 results,
+<code>legs: {lexical: ok, semantic: ok, lumen: skipped}</code>.</td>
+<td>The <strong>lumen leg reports <code>skipped</code></strong> on the
+live service — see 32i.</td>
+</tr>
+<tr>
+<td>32g</td>
+<td>—</td>
+<td>Cross-reference linking, point to point</td>
+<td>DONE</td>
+<td><code>GET /api/passages/{pid}/crossrefs</code> → 200, scored
+<code>derived</code> relations with depth and preview;
+<code>legs: {index: ok, registry: ok}</code>.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>32h</td>
+<td>—</td>
+<td>Every covered area documented with curriculum materials, as
+ai_interviewing does</td>
+<td><strong>NOT DONE</strong></td>
+<td>Only a taxonomy exists (see #45), and it is uncommitted.</td>
+<td>Per-area material documents do not exist.</td>
+</tr>
+<tr>
+<td>32i</td>
+<td>—</td>
+<td>Codebases understood, Lumen semantics integrated, better than a
+public wiki-over-code service</td>
+<td><strong>NOT DONE</strong> <em>(as integrated)</em></td>
+<td>The service’s own search response says
+<code>"lumen": "skipped"</code>. <code>corpus.indexed_kinds</code> does
+include <code>code</code>, so a code leg exists — but not the Lumen one
+the instruction names.</td>
+<td>Wire and prove the Lumen leg, or state plainly that the code leg is
+not Lumen.</td>
+</tr>
+<tr>
+<td>32j</td>
+<td>—</td>
+<td>UI/UX search components with blazing-fast auto-completion</td>
+<td><strong>PARTIAL</strong></td>
+<td><code>GET /api/suggest?q=age</code> → 200 (3304 B) with typed
+suggestions carrying <code>{chapter_slug, pid, t_start_s}</code>
+targets.</td>
+<td>Covers only <code>transcript_segment</code>,
+<code>doc_section</code>, <code>code</code>, <code>diagram</code>. See
+#49 — the instruction that superseded this one is not met.</td>
+</tr>
+<tr>
+<td>32k</td>
+<td>—</td>
+<td>All codebase, graphs, schemes, diagrams, text, audio and video
+indexed by content and semantics</td>
+<td><strong>PARTIAL</strong></td>
+<td><code>corpus.indexed_kinds = [transcript_segment, doc_section, code, diagram]</code>;
+index generation 16, 1101 pids, root hash recorded.</td>
+<td>The service states its own limit:
+<code>media_reached_via: "transcripts and captions only"</code>. Audio
+and video are <strong>not</strong> indexed as media.</td>
+</tr>
+<tr>
+<td>32l</td>
+<td>—</td>
+<td>Ask the AI questions and get answers</td>
+<td>DONE (async)</td>
+<td><code>POST /api/ask</code> → 200 with <code>job_id</code>,
+<code>poll</code>, <code>stream</code>, and a <code>provider</code>
+object carrying <code>locality: local</code> and
+<code>locality_verified: true</code>, naming
+<code>qwen2.5:3b-instruct-q4_K_M</code> as the model behind
+<code>name: ollama</code>.</td>
+<td>“Instant” it is not — the service’s own measured median is
+<strong>31.4 s</strong>.</td>
+</tr>
+<tr>
+<td>32m</td>
+<td>—</td>
+<td>Bridge to LLM providers using the two organisations’ technology</td>
+<td>DONE</td>
+<td>Four public gitlinks now carry it:
+<code>submodules/LLMProvider</code>, <code>submodules/RAG</code>,
+<code>submodules/passage</code>, <code>submodules/verdict</code>; server
+flags <code>-answer-provider ollama -answer-model …</code>.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>32n</td>
+<td>—</td>
+<td>Deep research, comprehensive documentation, guides, manuals, FAQs,
+trainings, quickstarts</td>
+<td>DONE</td>
+<td><code>workshop/docs/</code>: <code>README.md</code>,
+<code>user-guide.md</code> (23,129 B), <code>manual.md</code> (28,009
+B), <code>faq.md</code> (23,307 B), <code>quickstart.md</code> (19,830
+B), <code>limits.md</code> (74,453 B), <code>training/</code> (overview
++ 5 areas), <code>research/</code> (2 files, 151 KB, written 23:00–23:04
+tonight).</td>
+<td>—</td>
+</tr>
+<tr>
+<td>32o</td>
+<td>—</td>
+<td>Test coverage asserting machine evidence, no false or faulty
+results, no bluff</td>
+<td><strong>PARTIAL</strong></td>
+<td>Same evidence as #6.</td>
+<td>Same gaps as #6.</td>
+</tr>
+<tr>
+<td>32p</td>
+<td>—</td>
+<td>Constitution fully respected, no violations</td>
+<td><strong>NOT MET</strong></td>
+<td><code>verify-content-boundary.sh</code> → <strong>exit 1</strong>:
+LEAK, 4249 surviving matches (prose 4002, short 190, name 57), 7
+distinct personal names identified by digest. Largest public
+contributors by match count: <code>scripts/lib/anchor.py</code> (632),
+<code>specs/001-…/contracts/http-api.md</code> (295),
+<code>specs/001-…/contracts/pipeline-cli.md</code> (205),
+<code>specs/001-…/research/transcription.md</code> (145).</td>
+<td>Triage all 4249 — many are plausibly shared technical prose rather
+than disclosure, but <strong>a red gate is not a pass</strong>, and 57
+name-class matches across 7 distinct people must be resolved
+individually. The full-corpus sweep
+<code>verify-all-constitution-rules.sh</code> had not finished when this
+was written, so its split is <strong>unknown</strong>, not green.</td>
+</tr>
+<tr>
+<td>32q</td>
+<td>—</td>
+<td>Regular commit and push so <code>git status</code> returns clean for
+every repository</td>
+<td><strong>NOT MET</strong></td>
+<td><code>workshop</code>: <strong>32 dirty entries</strong>. Umbrella:
+2 staged + 1 untracked directory. <code>submodules/constitution</code>:
+1 dirty.</td>
+<td>Commit or discard; all thirteen gitlinks are otherwise already at
+their remote tips.</td>
+</tr>
+<tr>
+<td>32r</td>
+<td>—</td>
+<td>Drive every SpecKit phase in order, ending with superspec-execute
+then review</td>
+<td><strong>PARTIAL</strong></td>
+<td>001 reached <strong>analyze</strong>:
+<code>specs/001-…/analysis.md</code> (15,555 B) exists alongside
+spec/plan/research/data-model/contracts/quickstart/tasks/checklists.</td>
+<td><strong><code>superspec-execute</code> and <code>review</code> never
+ran</strong> for 001 (row 29). 002 stops at <code>tasks.md</code> — it
+has no <code>analysis.md</code>.</td>
+</tr>
+<tr>
+<td>32s</td>
+<td>—</td>
+<td>Validate on a LIVE running container: all content, features, use
+cases, edge cases, scenarios, combinations</td>
+<td><strong>PARTIAL</strong></td>
+<td>The container is live and reachable;
+<code>workshop/platform/qa/evidence/</code> holds recorded challenge
+output; 7 Playwright specs exist under <code>frontend/e2e/</code>.</td>
+<td>No completed full-suite verdict was observable at audit time, and
+the live container predates tonight’s rebuilt web bundle (container up
+~1 h; <code>platform/web/*</code> rewritten at 23:01), so what is
+running is <strong>not</strong> what was last built.</td>
+</tr>
+<tr>
+<td>33</td>
+<td>09-01 08:33</td>
+<td><em>“ask us all operator blocked questions to make decisions, then
+solve all this and do it all”</em> — quoting back that
+analyze/superspec-execute/review were not done, nothing implemented, and
+the work was blocked on a missing ASR engine and a missing generative
+model</td>
+<td><strong>PARTIAL</strong></td>
+<td><strong>Both named blockers are now gone</strong>:
+<code>faster_whisper 1.2.1</code> + <code>ctranslate2 4.8.2</code> in
+<code>workshop/pipeline/venv</code>, and
+<code>qwen2.5:3b-instruct-q4_K_M</code> in ollama. <code>analyze</code>
+ran (<code>analysis.md</code>). The platform was implemented and is
+live.</td>
+<td><code>superspec-execute</code> and <code>review</code> still have
+not run (row 29 / 32r).</td>
+</tr>
+<tr>
+<td>34</td>
+<td>09-01 08:38</td>
+<td><em>“CRITICAL: All components and services MUST BE fully decoupled
+and reusable”</em></td>
+<td>DONE</td>
+<td>Four new standalone gitlinks extracted this session:
+<code>submodules/LLMProvider</code>, <code>submodules/RAG</code>,
+<code>submodules/verdict</code>, <code>submodules/passage</code> — each
+its own repository with its own tag history.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>35</td>
+<td>09-01 08:41</td>
+<td><em>“Follow how all HelixDevelopment and vasic-digital decoupled
+Submodules are made for full reusability with its own proper
+repos!”</em></td>
+<td>DONE</td>
+<td>All four new repos live under <code>vasic-digital/</code>, are
+declared in <code>.gitmodules</code>, recorded in
+<code>helix-deps.yaml</code>, and pass cascade check C6 (manifest ↔︎
+<code>.gitmodules</code> agreement, both directions) and C9
+(<code>ref</code> == gitlink).</td>
+<td>—</td>
+</tr>
+<tr>
+<td>36</td>
+<td>09-01 08:42</td>
+<td><em>“This all shall be already explained in constitution!”</em></td>
+<td>DONE</td>
+<td>Constitution consulted at <code>f5876a3</code>; C8 finds all owned
+submodules internally in four-carrier lockstep.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>37</td>
+<td>09-01 09:07</td>
+<td><em>“All such reusable new repos (Submodules) MUST BE
+PUBLIC.”</em></td>
+<td>DONE</td>
+<td><code>gh api repos/&lt;r&gt; --jq .visibility</code>:
+<code>vasic-digital/LLMProvider</code>, <code>/RAG</code>,
+<code>/verdict</code>, <code>/passage</code>, <code>/containers</code> →
+<strong>public</strong> (5/5).</td>
+<td><code>milos85vasic/workshop_curriculum</code> is
+<strong>private</strong> — correct and intended: it holds the private
+recording and transcript, and is not a reusable component repo.</td>
+</tr>
+<tr>
+<td>38</td>
+<td>09-01 09:08</td>
+<td><em>“Do not [make the] same reusables twice if we do have them
+already under our organization repos! Extend them freely for new
+features!”</em></td>
+<td>DONE</td>
+<td>No duplicate-purpose repository was created; the four new ones are
+functionally distinct (provider abstraction, retrieval, passage
+identity, verdict).</td>
+<td>—</td>
+</tr>
+<tr>
+<td>39</td>
+<td>09-01 12:39</td>
+<td><em>“Any discovered issues MUST BE systematically debugged,
+investigated, properly fixed and properly validated and
+verified!”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td>Genuine fixes shipped: <code>4ee9e8d</code> (runner distinguishes
+“could not run” from “failed”), <code>b0ab4b4</code> (live specs moved
+to the config that claims them), <code>562ecf9</code> (82-finding
+triage), <code>203061d</code> (incident record + 17 stale citations
+repointed), <code>9dcfc41</code> (manifest pins repointed).</td>
+<td>Two gates are <strong>red right now</strong> (content-boundary rc 1,
+provider-ci rc 1) and 5 registry DEBT rows stand. Discovered ≠
+fixed.</td>
+</tr>
+<tr>
+<td>40</td>
+<td>09-01 15:08</td>
+<td><em>“Fix everything workable - any discovered issues we have
+found!”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td>Same evidence as #39.</td>
+<td>Same.</td>
+</tr>
+<tr>
+<td>41</td>
+<td>09-01 15:08</td>
+<td>A demand for bash scripts able to install and launch the entire
+solution on an arbitrary host machine — <strong>paraphrased, not
+quoted</strong>, because <code>workshop/scripts/setup.sh</code> opens by
+reproducing the sentence verbatim and that file lives in a PRIVATE
+submodule, so it is cited by path only
+(<code>docs/content-boundary.md</code>)</td>
+<td>DONE</td>
+<td><code>workshop/scripts/setup.sh</code> opens by restating that
+requirement, and implements detect → do-what-is-permitted →
+refuse-clearly-by-name, with <code>--check-only</code>,
+<code>--start</code>, <code>--json</code>, and a
+<code>--prove-failure</code> paired-mutation proof.</td>
+<td>—</td>
+</tr>
+<tr>
+<td>42</td>
+<td>09-01 16:07</td>
+<td><em>“Investigate exhaustive mechanisms to achieve everything without
+exceptions!”</em></td>
+<td>DONE</td>
+<td>Delivered as research + adaptability instruments:
+<code>docs/environment-adaptability/AUDIT.md</code>,
+<code>workshop/scripts/_capabilities.sh</code> (43,232 B),
+<code>workshop/scripts/_portable.sh</code> (24,302 B).</td>
+<td>—</td>
+</tr>
+<tr>
+<td>43</td>
+<td>09-01 19:50</td>
+<td><em>“after all is done, fully committed and pushed … install and
+start the workshop solution so we can try it out … let us know ports …
+it must be accessible within the whole network!”</em></td>
+<td>DONE (precondition unmet)</td>
+<td><code>workshop-curriculum_platform_1</code> healthy; <code>ss</code>
+shows <code>workshop-server</code> bound <code>*:8087</code>;
+<code>curl http://192.168.1.44:8087/</code> → <strong>HTTP 200</strong>
+in 0.5 ms and <code>/api/health</code> reports
+<code>"http": "http://192.168.1.44:8087"</code>. A second instance
+answers on <code>127.0.0.1:8099</code>. Ports were reported to the
+operator in-session.</td>
+<td>The stated precondition — <em>“after all is done, fully committed
+and pushed”</em> — was <strong>not</strong> satisfied when it was
+started, and still is not (row 32q).</td>
+</tr>
+<tr>
+<td>44</td>
+<td>09-01 19:54</td>
+<td><em>“Workshop MUST BE heavily tested, validated and verified like we
+did with ai_interviewing !!!”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td>Workshop has 5 <code>prove-*.sh</code> + 4 <code>verify-*.sh</code>
+platform gates, 5 QA challenge scripts with recorded evidence, a
+<code>helixqa/run-suite.sh</code>, and 7 Playwright e2e specs.</td>
+<td>The named benchmark is not met. <code>ai_interviewing</code> carries
+a full <code>platform/qa</code> tree and 110 area documents; the
+workshop’s newest surface has <strong>no tests at all</strong> because
+it has no implementation (rows 45, 49).</td>
+</tr>
+<tr>
+<td>45</td>
+<td>09-01 20:26</td>
+<td><em>“We see gaps! No knowledge covered - areas - like we have in AI
+Curriculum!”</em> — extract all terms and areas; build the same kinds of
+materials; link every area and term from transcript and video to areas,
+chapters and quizzes; reuse the ai_interviewing UI/UX technology; a
+unique look via OpenDesign and all available Skills; search across
+<strong>all</strong> content; video links to exact times; use every
+SpecKit step; cover everything with tests against machine evidence; do
+it with sub-agent workflows</td>
+<td><strong>PARTIAL — mostly NOT DONE</strong></td>
+<td><strong>Landed (all uncommitted):</strong>
+<code>workshop/curriculum/chapter-01/knowledge/</code> —
+<code>areas.json</code> (<strong>7 tracks, 37 modules</strong>),
+<code>terms.json</code>, <code>coverage.json</code>,
+<code>artifacts.json</code>, <code>linkage.jsonl</code>,
+<code>reverse-index.json</code>, <code>lexicon.json</code>,
+<code>platform-mapping.json</code>, <code>TAXONOMY.md</code>,
+<code>build.py</code>, <code>verify.py</code>;
+<code>workshop/docs/knowledge-model-contract.md</code> (77,518 B); the
+whole <code>specs/002-knowledge-areas-deep-linking/</code> planning set.
+<strong>OpenDesign is real in the shipped UI</strong> — the live
+<code>index.html</code> carries the full <code>--od-*</code> token
+palette and self-hosted brand faces. Timecode deep links work: every
+suggestion and crossref carries <code>t_start_s</code>.</td>
+<td><strong>The feature does not exist in the running system.</strong>
+<code>GET /api/areas</code>, <code>/api/knowledge/areas</code>,
+<code>/api/quizzes</code> all return <strong>404</strong>, and the Go
+backend registers <strong>no</strong> area, knowledge, quiz or practice
+route — its 30 registered routes are
+transcript/search/ask/passage/progress only. Quiz content is two files
+literally named <code>question-bank-example.*.json</code>. SpecKit for
+002 stops at <code>tasks.md</code> (<strong>0 of 122</strong> done); no
+<code>analysis.md</code>.</td>
+</tr>
+<tr>
+<td>46</td>
+<td>09-01 20:30</td>
+<td><em>“Use ai_interviewing as reference and base … Do not clone or
+copy it but use as the reference / port it properly … Current workshop
+is extremely poorly made!”</em></td>
+<td><strong>IN FLIGHT</strong></td>
+<td>Uncommitted frontend rework in
+<code>workshop/platform/frontend/src/app/</code>: new
+<code>features/areas/</code>, <code>features/practice/</code>,
+<code>features/curriculum/</code>, <code>features/ask/</code>,
+<code>features/progress/</code>, plus <code>core/knowledge.ts</code>,
+<code>core/cite.component.ts</code>,
+<code>core/rail.component.ts</code>, <code>core/timecode.ts</code>,
+<code>styles/brand/</code>, <code>scripts/sync-brand-tokens.sh</code>,
+<code>scripts/sync-fonts.sh</code>.</td>
+<td>Lands when <code>specs/002</code> is implemented and the container
+is rebuilt from the new bundle. Nothing is committed.</td>
+</tr>
+<tr>
+<td>47</td>
+<td>09-01 20:40</td>
+<td><em>“Do not just pickup materials from ai_interviewing but create
+the materials which are following our chapters … extract all areas and
+themes … with exhaustive long and short tests / quizzes! Everything MUST
+BE cross-referenced, searchable by meaning and context and fully
+connected! … new widgets and stunning new designed elements … more
+powerful effects, transitions, better UX! Do deep web research
+rounds…”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td>Deep research <strong>delivered</strong>:
+<code>workshop/docs/research/ux-research-2026-09-01.md</code> (79,459 B)
+and <code>skills-and-plugins-2026-09-01.md</code> (72,314 B), both
+written 23:00–23:04 tonight. Taxonomy is chapter-derived, not lifted
+(<code>areas.json</code> records
+<code>source_of_truth: curriculum/passages.jsonl</code>).</td>
+<td>Long/short quizzes exist only as two <strong>example</strong> files.
+No widget, effect or transition work is committed.</td>
+</tr>
+<tr>
+<td>48</td>
+<td>09-01 20:43</td>
+<td><em>“All implementation work MUST BE done using superpowers !!! Use
+all additional / available Skills and Plugins we have and add more newly
+discovered from deep web research missions we MUST perform!”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td>The research mission ran —
+<code>skills-and-plugins-2026-09-01.md</code>, 72 KB.
+<code>.superpowers/sdd/progress.md</code> is live and names the
+protocol.</td>
+<td>Its completed-task ledger reads <em>“(none — awaiting tasks.md from
+the SpecKit phase)”</em>. <strong>No newly discovered skill or plugin
+was installed</strong> as a result of the research.</td>
+</tr>
+<tr>
+<td>49</td>
+<td>09-01 20:53</td>
+<td><em>“Make sure that auto-complete feature is fully connected with
+EVERYTHING … chapters content / transcriptions, codebases, areas /
+chapters / paragraphs / sections, quizzes / tests and everything
+else”</em></td>
+<td><strong>NOT DONE</strong></td>
+<td><code>/api/suggest</code> covers exactly
+<code>transcript_segment</code>, <code>doc_section</code>,
+<code>code</code>, <code>diagram</code> — confirmed by the service’s own
+<code>corpus.indexed_kinds</code>.</td>
+<td>Areas and quizzes have no server-side representation to complete
+against, so this cannot be satisfied until #45 ships. Nothing was
+committed against it.</td>
+</tr>
+<tr>
+<td>50</td>
+<td>09-01 20:54</td>
+<td><em>“Every part of the system MUST BE covered with exhaustive tests
+… and fully respect all rules and mandatory constraints from the
+constitution Submodule! Make sure we have the latest version of
+constitution codebase and all its dependency submodules (fully
+recursively) !!!”</em></td>
+<td><strong>PARTIAL</strong></td>
+<td>Constitution half <strong>DONE</strong>: pin <code>f5876a3</code> ==
+remote HEAD, 7 nested gitlinks present, C9 12/12 MATCH, cascade 12 PASS
+/ 0 FAIL.</td>
+<td>Tests half <strong>not met</strong> (rows 6, 44, 49). Compliance
+half <strong>not met</strong>: <code>verify-content-boundary.sh</code>
+exit 1, and the full sweep had not finished.</td>
+</tr>
+<tr>
+<td>51</td>
+<td>09-01 20:55</td>
+<td><em>“All prompts we have given tonight MUST BE re-evaluated and
+checked so we confirm that every single one of them was processed and
+executed completely with no exception or being forgotten completely
+!!!”</em></td>
+<td>DONE</td>
+<td>This document.</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Breakdown of the 51 distinct instructions:</strong>
+<strong>27 DONE · 17 PARTIAL · 2 NOT DONE · 1 IN FLIGHT · 1 SUPERSEDED ·
+3 N/A.</strong></p>
+<p>Counting the large brief’s 19 sub-items individually instead of as
+the single PARTIAL row 32 — <strong>69 evaluated items: 35 DONE · 23
+PARTIAL · 6 NOT DONE · 1 IN FLIGHT · 1 SUPERSEDED · 3 N/A.</strong> The
+six NOT DONE are rows 29, 49, 32h, 32i, 32p and 32q.</p>
+<hr />
+<h2 id="what-was-forgotten">What was forgotten</h2>
+<p>This is the section the audit exists for. Each item was asked for,
+and each is provably absent — not “in progress with a plan”, absent.</p>
+<p><strong>1. <code>speckit-superspec-execute</code> and
+<code>speckit-superspec-review</code> never ran.</strong> Asked twice as
+an explicit slash command (08-31 19:04 and 20:07) and named as the final
+two phases of the large brief.
+<code>specs/001-workshop-curriculum-platform/tasks.md</code> carries 120
+<code>T###</code> identifiers and <strong>0 ticked checkboxes</strong>;
+<code>.superpowers/sdd/progress.md</code> lists zero completed tasks; no
+superspec state artefact exists in the tree. The platform got built
+anyway, by hand, which is <em>why</em> this went unnoticed — the
+artefact exists so the missing phase looks harmless. It is not: nothing
+has ever reconciled the 120 planned tasks against what was actually
+built, and <code>review</code> — the step whose whole job is to find
+what needs fixing — has never executed.</p>
+<p><strong>2. The knowledge-area feature has no implementation — only a
+plan and a data file.</strong> The 20:26 instruction is the sharpest one
+of the night, and its core is unbuilt. <code>GET /api/areas</code> →
+<strong>404</strong>. <code>GET /api/knowledge/areas</code> →
+<strong>404</strong>. <code>GET /api/quizzes</code> →
+<strong>404</strong>. The Go backend’s 30 registered routes contain
+<strong>no</strong> area, knowledge, quiz or practice handler. What
+exists is a taxonomy JSON set (7 tracks, 37 modules) and a 122-task
+plan, both <strong>uncommitted</strong>. Two files named
+<code>question-bank-example.mcq.json</code> and
+<code>question-bank-example.short.json</code> are the entirety of the
+“exhaustive long and short tests / quizzes”.</p>
+<p><strong>3. Auto-complete is not connected to everything, as
+instructed at 20:53.</strong> <code>/api/suggest</code> reports its own
+corpus: <code>transcript_segment</code>, <code>doc_section</code>,
+<code>code</code>, <code>diagram</code>. Areas,
+chapters-as-knowledge-units, paragraphs/sections-as-areas, quizzes and
+tests are all absent, because item 2 is absent. Nothing was committed
+against this instruction at all.</p>
+<p><strong>4. <code>verify-content-boundary.sh</code> is RED and no one
+has said so tonight.</strong> Exit <strong>1</strong>: 4249 surviving
+matches, of which <strong>57 are personal-name class across 7 distinct
+people</strong>. This directly contradicts <em>“Constitution MUST BE
+fully taken into the account, followed and respected with no
+violations”</em> (32p) and <em>“fully respect all rules and mandatory
+constraints from the constitution Submodule”</em> (row 50). It is
+entirely possible most of the 4002 prose matches are shared technical
+vocabulary rather than disclosure — but that is a triage nobody has
+done, and <strong>a red gate is never a pass.</strong></p>
+<p><strong>5. The two post-incident actions in the content-boundary
+incident record are still not done.</strong> The 08-27 18:04 instruction
+asked for <em>every</em> blocker to be surfaced as a decision.
+<code>docs/content-boundary-incident-2026-09-01.md</code> states in its
+own header that the orphaned blobs remain fetchable by SHA until a
+server-side garbage collection that <strong>only GitHub Support can
+perform</strong>, and that requesting it — and informing the affected
+third party — are the operator’s actions and are <em>“not done”</em>.
+The document is explicit that nothing in it may be read as closure.
+Neither action has been taken.</p>
+<p><strong>6. The ollama parallelism setting was never applied.</strong>
+Raised on 08-31 19:11 and answered with adaptability tooling.
+<code>systemctl show ollama -p Environment</code> returns
+<code>Environment=</code> — empty. The variable is still unset. It needs
+a root shell; that is an operator action, and it should be on the
+operator’s list rather than buried.</p>
+<p><strong>7. “Latest versions” of the extensions was never
+verified.</strong> The 08-26 20:42 instruction had two halves. The
+telemetry half is done (<code>DO_NOT_TRACK=1</code>,
+<code>CODEGRAPH_TELEMETRY=0</code>). The auto-update half has no
+mechanism and no check: <code>~/.codegraph/versions/</code> contains
+only <code>v1.5.0</code>, and nothing in this tree compares it to an
+upstream release. Absence of a check is not a pass.</p>
+<p><strong>8. <code>git status</code> is not clean, which every “commit
+and push everything” instruction demanded.</strong>
+<code>workshop</code> has <strong>32 dirty entries</strong> — including
+the entire knowledge model and the entire frontend rework. The umbrella
+has 2 staged files and one untracked directory
+(<code>specs/002-…</code>). <code>submodules/constitution</code> has 1.
+All thirteen <em>gitlinks</em> match their remotes, so this looks synced
+from the outside; the work sitting in the working tree is what a fresh
+clone would not get.</p>
+<p><strong>9. Deep research produced findings but no adoption.</strong>
+The 20:43 instruction says to <em>add</em> newly discovered skills and
+plugins. 72 KB of research was produced. No new skill or plugin was
+installed.</p>
+<p><strong>One near-miss worth recording as a correction, not a
+finding:</strong> three “known blockers” that shaped decisions earlier
+in the session are no longer true, and <code>CLAUDE.md</code> still
+asserts them — no ASR engine (there is one, in
+<code>workshop/pipeline/venv</code>), no generative model (there is one,
+in ollama), and <code>audit-environment-assumptions.sh</code> being red
+(it exits 0). Any future planning that reads those lines will plan
+around constraints that have already been removed.</p>
+<hr />
+<h2 id="what-is-in-flight-and-when-it-lands">What is in flight, and when
+it lands</h2>
+<p>Roughly ten agents were working concurrently while this audit ran.
+Their output is in the working tree, not in a commit. By file mtime:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Work</th>
+<th>Where</th>
+<th>Last written</th>
+<th>Lands when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>specs/002-knowledge-areas-deep-linking/</code> — spec (79,876
+B), plan, research, data-model, 2 contracts, quickstart, tasks
+(<strong>122 <code>T###</code>, 0 done</strong>), checklist</td>
+<td><code>specs/002-…/</code> (untracked)</td>
+<td>22:44 – 22:57</td>
+<td>The plan is complete through <strong>tasks</strong>; it has no
+<code>analysis.md</code>. Nothing lands until implementation
+starts.</td>
+</tr>
+<tr>
+<td>Knowledge model — <code>areas.json</code> (7 tracks / 37 modules),
+<code>terms.json</code>, <code>coverage.json</code>,
+<code>artifacts.json</code>, <code>linkage.jsonl</code>,
+<code>reverse-index.json</code>, <code>lexicon.json</code>,
+<code>platform-mapping.json</code>, <code>TAXONOMY.md</code>,
+<code>build.py</code>, <code>verify.py</code></td>
+<td><code>workshop/curriculum/chapter-01/knowledge/</code>
+(untracked)</td>
+<td>22:45</td>
+<td>Data is ready now; it is inert until a server route reads it (item 2
+above).</td>
+</tr>
+<tr>
+<td><code>workshop/docs/knowledge-model-contract.md</code> (77,518
+B)</td>
+<td>workshop (untracked)</td>
+<td>22:46</td>
+<td>Ready.</td>
+</tr>
+<tr>
+<td>Angular rework — <code>features/areas</code>,
+<code>features/practice</code>, <code>features/curriculum</code>,
+<code>features/ask</code>, <code>features/progress</code>,
+<code>core/knowledge.ts</code>, <code>core/cite.component.ts</code>,
+<code>core/rail.component.ts</code>, <code>core/timecode.ts</code>,
+brand tokens, font sync scripts,
+<code>e2e/live-content.spec.ts</code></td>
+<td><code>workshop/platform/frontend/</code> (7 modified, ~18
+untracked)</td>
+<td>22:53 – 23:01</td>
+<td>Needs <code>ng build</code> <strong>and a container rebuild</strong>
+— the running container started ~22:00 and is serving the
+<em>previous</em> bundle.</td>
+</tr>
+<tr>
+<td>Deep-research reports — UX (79,459 B) and skills/plugins (72,314
+B)</td>
+<td><code>workshop/docs/research/</code> (untracked)</td>
+<td>23:00 – 23:04</td>
+<td>Delivered; adoption not started (item 9).</td>
+</tr>
+<tr>
+<td>Rebuilt web bundle</td>
+<td><code>workshop/platform/web/</code></td>
+<td>23:01</td>
+<td>Built, <strong>not served</strong>.</td>
+</tr>
+<tr>
+<td>Full constitution sweep
+<code>verify-all-constitution-rules.sh</code></td>
+<td>—</td>
+<td>running</td>
+<td>Was still executing when this document was written. <strong>No split
+is claimed for it here.</strong> Re-run it and read its own verdict; do
+not quote a number from <code>CLAUDE.md</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The single most important in-flight fact:</strong> the live
+system at <code>http://192.168.1.44:8087</code> is <strong>older than
+tonight’s work</strong>. Container up ~1 h; web bundle rewritten at
+23:01; backend binary <code>workshop-server</code> dated 20:58. Anything
+demonstrated against the live URL right now demonstrates the 20:58
+build, not the 23:01 one.</p>
+<hr />
+<h2 id="what-was-superseded-and-by-what">What was superseded, and by
+what</h2>
+<p><strong>Row 17 → row 40.</strong> <em>“Fix everything now!”</em>
+(08-26 21:15, enqueued and removed without a scoped task) was restated
+with a scope on 09-01 15:08 as <em>“Fix everything workable - any
+discovered issues we have found!”</em> The later wording is the
+operative one; both are tracked as PARTIAL under row 40.</p>
+<p><strong>Row 32j → row 49.</strong> The large brief asked for
+<em>“blazing fast auto-completion”</em> and got
+<code>/api/suggest</code> — 200, typed, timecode-bearing, delivered. At
+20:53 the operator narrowed and hardened it: <em>“Make sure that
+auto-complete feature is fully connected with EVERYTHING … chapters
+content / transcriptions, codebases, areas / chapters / paragraphs /
+sections, quizzes / tests and everything else.”</em> The later
+instruction is the standard that applies, and by that standard the
+feature is <strong>NOT DONE</strong> — the earlier PARTIAL must not be
+read as satisfying it.</p>
+<p><strong>Rows 32b / 32h → rows 45, 46 and 47, in three tightening
+steps.</strong> The brief said build a curriculum <em>“same thing we did
+for ai interviewing module”</em>. At 20:26 the operator rejected what
+existed: <em>“We see gaps! No knowledge covered - areas - like we have
+in AI Curriculum.”</em> At 20:30 he set the method: <em>“Use
+ai_interviewing as reference and base … Do not clone or copy it but use
+as the reference / port it properly (parts we may need)! Current
+workshop is extremely poorly made!”</em> At 20:40 he closed the obvious
+shortcut: <em>“Do not just pickup materials from ai_interviewing but
+create the materials which are following our chapters (chapter 01 we
+have currently).”</em> The taxonomy that was produced does obey the
+final form — <code>areas.json</code> records
+<code>source_of_truth: curriculum/passages.jsonl</code>, so it is
+derived from this workshop’s own content and not lifted. The
+<strong>materials</strong> the three instructions all demand still do
+not exist.</p>
+<p><strong>No instruction was superseded into non-existence.</strong>
+Nothing on this list was cancelled by a later prompt; the later prompts
+only raised the bar.</p>
+<hr />
+<h2 id="honest-boundary">Honest boundary</h2>
+<ul>
+<li>Every gate result above is a <strong>dated observation</strong> made
+2026-09-01 between 23:00 and 23:20 CEST. Remotes move, provider settings
+change outside this tree, and background agents were writing to the
+working tree throughout. Re-measure before acting.</li>
+<li><code>verify-all-constitution-rules.sh</code> <strong>did not
+finish</strong> inside the audit window. Its result is UNKNOWN here.
+Unknown is not a pass.</li>
+<li>Rows 9, 10, 14, 27, 28 and 42 concern process rather than artefacts.
+Their evidence is the transcript plus whatever shape the tree has, which
+is weaker than a file or an exit code. They are marked DONE on that
+weaker basis, and the distinction is stated rather than hidden.</li>
+<li>This audit changed nothing. It wrote exactly one file — this one. It
+committed nothing, pushed nothing, restarted nothing, and fixed nothing
+it found.</li>
+</ul>
+</body>
+</html>

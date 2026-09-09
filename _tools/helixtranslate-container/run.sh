@@ -10,19 +10,48 @@
 #
 # It does not detect a runtime — line 11 uses whichever runtime its caller
 # passes as $1, so it reimplements no detection primitive. What it does do is a
-# one-shot `run --rm -i` that reads the source document on STDIN, and that shape
-# is NOT expressible through the Containers Submodule today. Measured at gitlink
-# d940b51fc247c285c805799452992da8d09c75b9:
-#   * pkg/runtime's ContainerRuntime interface has NO Run and no Create — it
-#     declares Name/Version/IsAvailable/Start/Stop/Remove/Status/List/Stats/
-#     Exec/Logs, all of which act on a container that already exists.
-#   * Exec(ctx, id, cmd []string) accepts no stdin.
-#   * The only WithStdin in the module (pkg/remote/connection/interface.go:146)
-#     sits in an interfaces-and-options-only package that nothing implements.
+# one-shot `run --rm -i` that reads the source document on STDIN.
 #
-# Closing this is an UPSTREAM change per §11.4.76(4) — an ephemeral-run
-# primitive that accepts stdin — not a rewrite here. The same gap is recorded
-# in `_tools/helixtranslate-local.sh` and `_tools/helixtranslate-container.sh`.
+# THE REASON THIS EXCEPTION USED TO GIVE IS WITHDRAWN BY NAME. It was TRUE when
+# written, at gitlink d940b51fc247c285c805799452992da8d09c75b9, and it is FALSE
+# at the pin this repository consumes today. It read:
+#
+#   "that shape is NOT expressible through the Containers Submodule today.
+#    Measured at gitlink d940b51...:
+#      * pkg/runtime's ContainerRuntime interface has NO Run and no Create ...
+#      * Exec(ctx, id, cmd []string) accepts no stdin.
+#      * The only WithStdin in the module
+#        (pkg/remote/connection/interface.go:146) sits in an
+#        interfaces-and-options-only package that nothing implements."
+#
+# Re-measured 2026-09-09 at gitlink 7f5922563d8bec866b1a25eac483590c9a212817:
+# the ephemeral-run primitive EXISTS. It landed upstream in 6d13ad03528c
+# (2026-09-04), two commits before the current pin.
+#
+#   * pkg/runtime/runtime.go declares, ON the ContainerRuntime interface,
+#       Run(ctx, image string, cmd []string, opts ...RunOption) (*ExecResult, error)
+#   * pkg/runtime/run.go and run_test.go exist. WithRunStdin(io.Reader) supplies
+#     the document and is what puts `-i` on the argv (run.go:119, run.go:204).
+#   * StdinExecutor / ExecuteWithStdin is really implemented, by defaultExecutor
+#     on the os/exec path (run.go:53).
+#
+# THIS FILE RUNS ON THE REMOTE HOST, so from that host's own view the run below
+# is a LOCAL run — the remote-stdin gap that still blocks
+# `_tools/helixtranslate-container.sh` does NOT apply here. This script is
+# therefore CONVERTIBLE IN PRINCIPLE today, via runtime.Run with WithRunStdin /
+# WithRunVolumes / WithRunEntrypoint / WithRunExtraArgs.
+#
+# THE CONVERSION IS DELIBERATELY NOT PERFORMED, and the evidence is the reason.
+# Re-measured 2026-09-09 on the development host: `podman images | grep -i
+# helixtranslate` matches ZERO rows; `getent hosts` fails to resolve
+# thinker.local and amber.local; `ssh -o BatchMode=yes` returns rc 255 for both.
+# Absent image, unreachable hosts — that is an rc 2, and a 2 is never a pass. A
+# WORKING script must not be traded for a rewrite that cannot be exercised end
+# to end. Convertible in principle is not verified in practice.
+#
+# So what stands here is no longer "we cannot" but "we can, and we have not yet
+# proved it" — which is a smaller claim, and an honest one. When an image exists
+# and a host answers, convert it and prove it; until then, leave it alone.
 # =============================================================================
 # Remote container runner for HelixTranslate (installed on thinker.local/amber.local).
 # Reads the English source on STDIN, runs the unified-translator inside the

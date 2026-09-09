@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>RESIDUAL-PATHS-AUDIT</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">RESIDUAL-PATHS-AUDIT</h1>
+</header>
+<h1 id="residual-volumes-paths-post-fix-verification-audit">Residual
+<code>/Volumes</code> Paths — Post-Fix Verification Audit</h1>
+<p><strong>Date:</strong> 2026-08-27 <strong>Scope:</strong> every
+tracked file plus untracked <code>.ashlrcode/genome/**</code>
+<strong>Method:</strong> read-only.
+<code>git ls-files | xargs grep -l '/Volumes'</code>, then
+per-occurrence classification and consumer tracing for every path found
+inside a data file.</p>
+<hr />
+<h2 id="headline">Headline</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr>
+<td>Files containing <code>/Volumes</code></td>
+<td><strong>1,604</strong> tracked (+0 untracked beyond those)</td>
+</tr>
+<tr>
+<td>Total occurrences</td>
+<td><strong>10,424</strong></td>
+</tr>
+<tr>
+<td><code>scripts/audit-hardcoded-paths.sh</code> verdict</td>
+<td><code>✅ no machine-specific hardcoded paths</code> — <strong>exit
+0</strong></td>
+</tr>
+<tr>
+<td>Would a fresh clone hit any of these at runtime?</td>
+<td><strong>NO</strong></td>
+</tr>
+<tr>
+<td>INSTRUCTIONAL findings</td>
+<td><strong>1 file</strong>
+(<code>_analysis/IMPLEMENTATION-REPORT.md</code>)</td>
+</tr>
+<tr>
+<td>LOAD-BEARING findings</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td>MISLEADING-TO-AGENTS findings</td>
+<td><strong>6 genome files</strong> — the genome still asserts the bug
+is unfixed</td>
+</tr>
+</tbody>
+</table>
+<p>The systemic fix is real: <code>_tools/deploy-langs.sh</code>,
+<code>_tests/playwright.config.js</code>,
+<code>_tools/translate-pipeline.sh</code>,
+<code>_tools/review-translations.sh</code> and the translate tooling all
+derive their roots now. Nothing executable reads a <code>/Volumes</code>
+literal. What remains is documentation debt, and two pieces of it are
+actively wrong.</p>
+<hr />
+<h1 id="section-1-must-fix">⛔ SECTION 1 — MUST FIX</h1>
+<h2
+id="instructional-_analysisimplementation-report.md-30-occurrences">1.1
+INSTRUCTIONAL — <code>_analysis/IMPLEMENTATION-REPORT.md</code> (30
+occurrences)</h2>
+<p><strong>This file hands a reader a copy-pasteable bash block that
+<code>cd</code>s into directories that do not exist on any machine but
+the author’s original macOS box.</strong></p>
+<p><code>_analysis/</code> is in the audit’s <code>SKIP</code> regex
+(<code>scripts/audit-hardcoded-paths.sh:53</code>), so the audit never
+sees it.</p>
+<h3
+id="reproduction-commands-lines-222250-9-executable-volumes-paths">§8
+“Reproduction Commands” (lines 222–250) — 9 executable
+<code>/Volumes</code> paths</h3>
+<pre><code>224: cd &lt;macos-host&gt;/Projects/vasic/milosvasic.ru &amp;&amp; jekyll build
+225: cd &lt;macos-host&gt;/Projects/vasic/_tests
+231: cd &lt;macos-host&gt;/Projects/helix_translate
+239: &lt;macos-host&gt;/Projects/vasic/_tools/translate-pipeline.sh \
+240:   --in  &lt;macos-host&gt;/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md \
+241:   --out &lt;macos-host&gt;/Projects/vasic/milosvasic.ru/_article_src/ru/helix-track-core.md \
+245: &lt;macos-host&gt;/Projects/vasic/_tools/render-articles.sh &lt;macos-host&gt;/Projects/vasic/milosvasic.ru en sr ru
+246: &lt;macos-host&gt;/Projects/vasic/_tools/render-articles.sh &lt;macos-host&gt;/Projects/vasic/vasic.digital en
+249: cd &lt;macos-host&gt;/Projects/vasic/milosvasic.ru/downloads/src &amp;&amp; ./build-pdfs.sh</code></pre>
+<p>Every one of these targets <strong>does exist in this repo</strong>
+under a derived root (<code>_tools/translate-pipeline.sh</code>,
+<code>_tools/render-articles.sh</code>,
+<code>milosvasic.ru/_article_src/</code>,
+<code>vasic.digital/_article_src/</code> all confirmed present). The
+commands are correct in substance and wrong only in their anchor — which
+is the worst failure mode: a reader gets
+<code>No such file or directory</code>, not a hint that the paths are
+stale. <strong>Verdict: replace the literal prefix with
+<code>$(git rev-parse --show-toplevel)</code> or a relative
+invocation.</strong></p>
+<h3
+id="line-179-a-factually-false-statement-about-current-behaviour">Line
+179 — a factually FALSE statement about current behaviour</h3>
+<blockquote>
+<p><code>_tools/translate-pipeline.sh</code> — … around the engine
+binary (<code>HELIX_TRANSLATE_BIN</code>, default
+<code>&lt;macos-host&gt;/Projects/helix_translate/build/unified-translator</code>;
+binary confirmed present and executable on disk).</p>
+</blockquote>
+<p>The real current default is a container shim:</p>
+<pre><code>_tools/translate-pipeline.sh:55
+ENGINE=&quot;${HELIX_TRANSLATE_BIN:-$TOOLS/helixtranslate-container.sh}&quot;</code></pre>
+<p>The report documents a default that was deliberately removed.
+<strong>Verdict: stale claim, correct it or mark the section
+historical.</strong></p>
+<h3
+id="remaining-20-occurrences-in-the-same-file-lines-6-7-11-21-22-30-44-48-54-62-66-72-114-158-193-199">Remaining
+20 occurrences in the same file (lines 6, 7, 11, 21, 22, 30, 44, 48, 54,
+62, 66, 72, 114, 158, 193, 199)</h3>
+<p>Narrative provenance (“Repo:
+<code>&lt;macos-host&gt;/Projects/vasic/milosvasic.ru</code>”, “File:
+<code>/Volumes/…/assets/js/i18n.js</code>”). <strong>PROSE</strong> —
+harmless in isolation, but they are what makes §8 read as authoritative.
+Recommend a single “paths in this report are from the authoring machine;
+derive your own root” banner at the top.</p>
+<hr />
+<h2
+id="misleading-to-agents-the-genome-asserts-the-bug-is-still-open-6-files-10-occurrences">1.2
+MISLEADING TO AGENTS — the genome asserts the bug is still open (6
+files, 10 occurrences)</h2>
+<p><code>.ashlrcode/genome/</code> is consumed by ashlr as
+<strong>retrieval context</strong>. Six files state, in the present
+tense, that two scripts still hardcode
+<code>&lt;macos-host&gt;/Projects/vasic</code>. <strong>They do
+not.</strong> Verified against the live files:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Claim in genome</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_tools/deploy-langs.sh:8</code> —
+<code>ROOT="&lt;macos-host&gt;/Projects/vasic"</code></td>
+<td>Line 8 is now a <strong>comment</strong> describing the historical
+bug; line 14 is
+<code>ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &amp;&amp; pwd)"</code>
+with a <strong>fatal</strong> <code>cd</code> guard</td>
+</tr>
+<tr>
+<td><code>_tests/playwright.config.js</code> hardcodes the same
+prefix</td>
+<td>Line 7 is <code>const REPO = path.resolve(__dirname, '..');</code> —
+no <code>/Volumes</code> anywhere in the file</td>
+</tr>
+<tr>
+<td>“CI works around it by symlinking
+<code>/Volumes/… -&gt; $GITHUB_WORKSPACE</code>”</td>
+<td><code>.github/workflows/ci.yml:164</code> records the symlink bridge
+is <strong>no longer needed</strong></td>
+</tr>
+</tbody>
+</table>
+<p>An agent routing off this genome will look for a bug that is fixed,
+may “re-fix” the comment that documents the fix, or will treat backlog
+item 11 as outstanding work.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Occ</th>
+<th>Line(s)</th>
+<th>What it says</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.ashlrcode/genome/knowledge/discoveries.md</code></td>
+<td>4</td>
+<td>6, 8, 12, 14</td>
+<td>Section heading <strong>“Two scripts hardcode
+<code>&lt;macos-host&gt;/Projects/vasic</code>”</strong> with
+line-numbered specifics</td>
+<td><strong>STALE — highest impact.</strong> This is the canonical
+record every other genome file points at</td>
+</tr>
+<tr>
+<td><code>.ashlrcode/genome/vision/anti-patterns.md</code></td>
+<td>2</td>
+<td>31–35</td>
+<td>“<code>_tools/deploy-langs.sh:8</code> sets
+<code>ROOT="&lt;macos-host&gt;/Projects/vasic"</code> … On any checkout
+not at that path these break”</td>
+<td><strong>STALE</strong></td>
+</tr>
+<tr>
+<td><code>.ashlrcode/genome/vision/architecture.md</code></td>
+<td>1</td>
+<td>64</td>
+<td>“two build scripts hardcode absolute
+<code>&lt;macos-host&gt;/...</code> paths”</td>
+<td><strong>STALE</strong></td>
+</tr>
+<tr>
+<td><code>.ashlrcode/genome/milestones/backlog.md</code></td>
+<td>1</td>
+<td>64</td>
+<td>Open backlog item <strong>“11. Repair the two hardcoded
+<code>&lt;macos-host&gt;/...</code> paths”</strong></td>
+<td><strong>STALE — work already done, item should close</strong></td>
+</tr>
+<tr>
+<td><code>.ashlrcode/genome/knowledge/architecture.md</code></td>
+<td>1</td>
+<td>70</td>
+<td>Pointer: “Structural hazards (…, hardcoded
+<code>&lt;macos-host&gt;</code> paths) are in
+<code>knowledge/discoveries.md</code>”</td>
+<td><strong>STALE pointer</strong> (harmless once discoveries.md is
+corrected)</td>
+</tr>
+<tr>
+<td><code>.ashlrcode/genome/meta/maintenance.md</code></td>
+<td>1</td>
+<td>59</td>
+<td>Routing rule: update discoveries.md “if the hardcoded
+<code>&lt;macos-host&gt;</code> paths are finally fixed”</td>
+<td><strong>CONDITION HAS FIRED</strong> — the rule is correct, it just
+needs executing</td>
+</tr>
+</tbody>
+</table>
+<p><strong>These are not INSTRUCTIONAL (nothing says “run this here”)
+and not LOAD-BEARING (no runtime reads them), but they are the single
+highest-leverage residual: wrong genome state propagates into agent
+behaviour by design.</strong></p>
+<hr />
+<h1 id="section-2-verified-harmless">SECTION 2 — VERIFIED HARMLESS</h1>
+<h2 id="corrective-5-files-10-occurrences-desirable-keep">2.1 CORRECTIVE
+(5 files, 10 occurrences) — desirable, keep</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Occ</th>
+<th>Evidence</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_tools/deploy-langs.sh</code></td>
+<td>1</td>
+<td>L8:
+<code># ROOT was hardcoded to "&lt;macos-host&gt;/Projects/vasic" - a macOS path. On any other checkout the cd below failed…</code></td>
+<td><strong>CORRECTIVE.</strong> Comment-only; the code below derives
+the root and makes <code>cd</code> fatal</td>
+</tr>
+<tr>
+<td><code>scripts/audit-hardcoded-paths.sh</code></td>
+<td>3</td>
+<td>L7, L13 comments; <strong>L50 <code>PATTERN=</code> contains the
+literal <code>/Volumes/</code></strong></td>
+<td><strong>CORRECTIVE + necessarily literal.</strong> This IS the
+detector. Allow-listed in <code>.hardcoded-paths-allow</code> with that
+exact reason. Audit prints <code>⚠️ allowed</code> and still exits
+0</td>
+</tr>
+<tr>
+<td><code>.github/workflows/ci.yml</code> → <strong>now
+<code>.github/workflows/ci.yml.disabled</code></strong></td>
+<td>3</td>
+<td>L44–48 explain the historical symlink; <strong>L164 states the
+bridge “is no longer needed”</strong></td>
+<td><strong>CORRECTIVE.</strong> Comment-only. <em>(Not modified —
+another actor is editing this file.)</em> <strong>Path note
+(2026-08-27):</strong> the file is renamed to a non-active
+<code>.disabled</code> name under the §11.4.156 compliance decision (<a
+href="../constitution-adoption/DECISION-11-4-156-COMPLY.md"><code>../constitution-adoption/DECISION-11-4-156-COMPLY.md</code></a>).
+The occurrences and the verdict are unchanged — only the path is.</td>
+</tr>
+<tr>
+<td><code>docs/setup-agents-wizard/OPERATIONAL-SCRIPTS.md</code></td>
+<td>2</td>
+<td>L331 describes the removed macOS root; L342 documents the detector’s
+alternation</td>
+<td><strong>CORRECTIVE / spec</strong></td>
+</tr>
+<tr>
+<td><code>docs/setup-agents-wizard/README.md</code></td>
+<td>1</td>
+<td>L451 describes test group <strong>J</strong> and the “18 tracked
+files once hardcoded one author’s <code>/Volumes/…</code> macOS
+root”</td>
+<td><strong>CORRECTIVE</strong></td>
+</tr>
+</tbody>
+</table>
+<h2
+id="corrective-auto-captured-.ashlrcodegenomeknowledgediscoveries-auto.md-15-occurrences">2.2
+CORRECTIVE (auto-captured) —
+<code>.ashlrcode/genome/knowledge/discoveries-auto.md</code> (15
+occurrences)</h2>
+<p>Raw ashlr tool-call JSON auto-appended under
+<code>## Auto-observations · 2026-08-27</code>. The
+<code>/Volumes</code> strings sit inside <code>oldString</code> fields
+of recorded edits — i.e. they are <strong>records of the
+removal</strong>, paired with <code>newString</code> values that derive
+the root (L171 <code>review-translations.sh</code>, L194
+<code>distribute-helixtranslate.sh</code>, L196
+<code>translate-pipeline.sh</code>, L296 the audit script’s own
+header).</p>
+<p><strong>Verdict: CORRECTIVE, but noisy.</strong> It is
+machine-generated append-only log, not curated knowledge. Low risk, but
+it dilutes retrieval — a consolidation pass would help.</p>
+<h2 id="prose-_analysiscontent-briefs.md-20-files-32-occurrences">2.3
+PROSE — <code>_analysis/content-briefs/*.md</code> (20 files, 32
+occurrences)</h2>
+<p>All occurrences sit under a <strong>“Source provenance:”</strong>
+heading and cite <em>sibling repos outside this checkout</em> that were
+read while authoring the brief:</p>
+<pre><code>HelixQA.md:66  - &lt;macos-host&gt;/Projects/helixqa/README.md (status banner round 219, …)
+HelixQA.md:67  - &lt;macos-host&gt;/Projects/helixqa/CONSTITUTION.md (inheritance …)
+HelixConstitution.md:62-65  &lt;macos-host&gt;/Projects/constitution/{README.md,Constitution.md,find_constitution.sh,submodules-catalogue.md}
+Catalogizer.md:44  - Local working copy: &lt;macos-host&gt;/Projects/catalogizer (has private .env; …)
+HelixCode.md:59  - &lt;macos-host&gt;/Projects/helix_code/README.md (primary; version, architecture, …)</code></pre>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Occ</th>
+<th></th>
+<th>File</th>
+<th>Occ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HelixConstitution.md</code></td>
+<td>5</td>
+<td></td>
+<td><code>HelixSkills.md</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>HelixQA.md</code></td>
+<td>4</td>
+<td></td>
+<td><code>HelixSpecifier.md</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>Catalogizer.md</code></td>
+<td>2</td>
+<td></td>
+<td><code>HelixTrack.md</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>HelixAgent.md</code></td>
+<td>2</td>
+<td></td>
+<td><code>HelixTranslate.md</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>HelixCode.md</code></td>
+<td>2</td>
+<td></td>
+<td><code>LLMOrchestrator.md</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>HelixLLM.md</code></td>
+<td>2</td>
+<td></td>
+<td><code>LLMProvider.md</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>HelixOTA.md</code></td>
+<td>2</td>
+<td></td>
+<td><code>LLMsVerifier.md</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>HelixBuilder.md</code></td>
+<td>1</td>
+<td></td>
+<td><code>HelixMemory.md</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>HelixCluster.md</code></td>
+<td>1</td>
+<td></td>
+<td><code>HelixPlay.md</code></td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>HelixGitpx.md</code></td>
+<td>1</td>
+<td></td>
+<td><code>Vasic-Digital-Reusable-Module-Suite.md</code></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Verdict: PROSE — harmless.</strong> No imperative verb
+attaches to any of them; they are bibliography entries, not steps. They
+point at <em>other projects</em>, so they cannot be re-anchored to this
+repo root — the honest fix is a note that provenance was gathered from a
+sibling-checkout layout, not a path rewrite. <strong>No action
+required.</strong></p>
+<h2
+id="prose-one-caveat-_analysisopendesign-adoption-plan.md-1-occurrence">2.4
+PROSE (one caveat) — <code>_analysis/OPENDESIGN-ADOPTION-PLAN.md</code>
+(1 occurrence)</h2>
+<pre><code>L13: Every decision here traces to a Helix Constitution mandate
+     (`&lt;macos-host&gt;/Projects/constitution/Constitution.md`).</code></pre>
+<p><strong>Verdict: PROSE, minor.</strong> The constitution is vendored
+<strong>in this repo</strong> at <code>submodules/constitution</code>
+(confirmed present), so this citation sends a reader outside the
+checkout for a document that is one directory away. Not instructional,
+but a one-word improvement.</p>
+<h2 id="data-_testsevidence-1570-files-10326-occurrences">2.5 DATA —
+<code>_tests/evidence/**</code> (1,570 files, 10,326 occurrences)</h2>
+<p>Skipped by the audit (<code>_tests/evidence/</code> in
+<code>SKIP</code>). Broken down and traced:</p>
+<h3
+id="translate-new-537-files-523-.review.json-14-batch.log-re-anchoring-confirmed"><code>translate-new/</code>
+— 537 files (523 <code>*.review.json</code> + 14 <code>batch.log</code>)
+— <strong>re-anchoring CONFIRMED</strong></h3>
+<p>Every review JSON carries
+<code>"_translated": "&lt;macos-host&gt;/Projects/vasic/_content_&lt;lang&gt;/…"</code>.
+<strong>All three live consumers re-anchor before use, and all three
+derive their own repo root:</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Consumer</th>
+<th>Root derivation</th>
+<th>Re-anchoring</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_tools/translate/matrix.py</code></td>
+<td><code>pathlib.Path(__file__).resolve().parents[2]</code>,
+<code>VASIC_ROOT</code> override, <strong>fatal</strong> if no docs
+found</td>
+<td><code>anchored()</code> L27–38:
+<code>re.search(r"(_content[^/]*/.*)$", …)</code> →
+<code>os.path.join(REPO, tail)</code>, used at L68</td>
+</tr>
+<tr>
+<td><code>_tools/translate/finalize-review.sh</code></td>
+<td>L38
+<code>${VASIC_ROOT:-$(cd -- "$(dirname …)/.." &amp;&amp; pwd)}</code></td>
+<td>inline python L78–86, same regex, <code>argv[3]</code> = derived
+REPO</td>
+</tr>
+<tr>
+<td><code>_tools/translate/run-batch.sh</code></td>
+<td>L26, identical derivation</td>
+<td>inline python L55–62, same regex, <code>argv[2]</code> = derived
+REPO</td>
+</tr>
+</tbody>
+</table>
+<p>All three point <code>EVID</code>/<code>BASE</code> at
+<code>$REPO/_tests/evidence/translate-new</code> — never a literal.</p>
+<p><strong>Why re-anchoring is what makes them harmless, and why it
+cannot fake a PASS:</strong> each consumer still requires
+<code>os.path.isfile()</code> on the <em>re-anchored</em> path. A stale
+prefix degrades to “file missing” → not-PASS. The design is fail-closed.
+The code says so explicitly: <em>“This never fakes a PASS: the
+re-anchored file still has to actually exist.”</em> <strong>Confirmed as
+described. No action.</strong></p>
+<h3
+id="translatereview-438-additional-.json-with-the-same-_translated-field-not-previously-flagged">⚠️
+<code>translate/review/**</code> — 438 additional <code>*.json</code>
+with the same <code>_translated</code> field (NOT previously
+flagged)</h3>
+<p>This is a <strong>second, older evidence set</strong> that the brief
+did not mention. Its paths point at <code>_article_src</code>,
+<strong>not</strong> <code>_content</code>:</p>
+<pre><code>_tests/evidence/translate/review/milosvasic.ru/ar/android-toolkit.json
+  &quot;_translated&quot;: &quot;&lt;macos-host&gt;/Projects/vasic/milosvasic.ru/_article_src/ar/android-toolkit.md&quot;</code></pre>
+<p>The re-anchor regex <code>(_content[^/]*/.*)$</code> <strong>would
+not match <code>_article_src</code></strong> — so if anything consumed
+these, re-anchoring would silently no-op.</p>
+<p><strong>It is not consumed.</strong> Traced exhaustively: - All three
+re-anchoring consumers read <code>translate-new</code>
+<strong>only</strong>. - <code>_tools/review-translations.sh</code>
+<em>writes</em> into
+<code>$ROOT/_tests/evidence/translate/review/$site</code> (L24, derived
+root — already fixed) and reads back only
+<code>verdict / accuracy / fluency / completeness / script_ok / issues</code>
+(L47). <strong>No path field.</strong> -
+<code>_tools/translate-fleet.sh</code>,
+<code>translate-all-langs.sh</code>,
+<code>translate-all-defresfr.sh</code> only write summary logs
+there.</p>
+<p><strong>Verdict: DATA — dead evidence, harmless.</strong> Worst case
+is fail-closed anyway. Flagged here so it is on record that the 537-file
+figure was an undercount of the <code>_translated</code> population
+(total ≈ 961 JSON across both sets).</p>
+<h3
+id="ui-l10nreviews.json-6-l10n-auditreviewsde.review.json-1"><code>ui-l10n/reviews/*.json</code>
+(6) + <code>l10n-audit/reviews/de.review.json</code> (1)</h3>
+<p><code>"_translated": "&lt;macos-host&gt;/tmp/tmp&lt;random&gt;/tr.md"</code>
+— <strong>ephemeral tempdirs</strong> that never survived the run that
+produced them.</p>
+<p>Consumers <code>_tools/gen/review_ui_all.py</code> (L40) and
+<code>_tools/gen/translate-ui.py</code> (L124) read only
+<code>verdict / accuracy / fluency / completeness / naturalness / terms_verified / terms_required</code>.
+<strong>The <code>_translated</code> key is never read.</strong>
+Verdict: <strong>DATA — harmless.</strong></p>
+<h3
+id="harnessportfolioexportvisualgolden-goodbad.verdict.json-6"><code>harness/{portfolio,export,visual}/golden-{good,bad}.verdict.json</code>
+(6)</h3>
+<p>Carry <code>fixture</code>, <code>pdf</code>,
+<code>pdftotextFile</code>, <code>input</code>
+(<code>file:///Volumes/…</code>), <code>screenshot</code>,
+<code>txtFile</code>. <strong>These are outputs, never inputs.</strong>
+All three harnesses regenerate them from derived roots on every run:</p>
+<ul>
+<li><code>_tools/portfolio/self-validate.sh</code> —
+<code>ROOT="$(cd "$HERE/../.." &amp;&amp; pwd)"</code>,
+<code>FIX="$HERE/selfvalidate-fixtures"</code>, writes
+<code>$OUT/$name.verdict.json</code></li>
+<li><code>_tests/visual/self-validate.sh</code> —
+<code>node "$HERE/visual-oracle.js" --input "$HERE/fixtures/good.html" --out "$OUT"</code></li>
+<li><code>_tests/export/self-validate.sh</code> —
+<code>node "$HERE/validate-pdf.js" --pdf "$FIX/golden-good.pdf" --out "$OUT"</code></li>
+</ul>
+<p>Verdict: <strong>DATA — stale build artifacts, overwritten on next
+run.</strong></p>
+<h3
+id="all-other-.verdict.json-pages-homepages-components-diagrams-fixes-final-suite-pdf-audit-100-files">All
+other <code>*.verdict.json</code> (<code>pages/</code>,
+<code>homepages/</code>, <code>components/</code>,
+<code>diagrams/</code>, <code>fixes/</code>, <code>final-suite*/</code>,
+<code>pdf-audit/</code>, ~100 files)</h3>
+<p>Every code reference to <code>verdict.json</code> in the repo is a
+<strong>write</strong>:</p>
+<pre><code>_tests/export/validate-pdf.js:146   path.join(args.out, `${args.name}.verdict.json`)
+_tests/visual/visual-oracle.js:238  path.join(args.out, `${args.name}.verdict.json`)
+_tests/tools/diagram-brand-accent-proof.js:66  path.join(OUT, &#39;verdict.json&#39;)</code></pre>
+<p><strong>Zero reads anywhere in the repo.</strong> Verdict:
+<strong>DATA — harmless.</strong></p>
+<h3
+id="log-.txt-.tsv-evidence-900-files-the-bulk-of-the-10326"><code>.log</code>
+/ <code>.txt</code> / <code>.tsv</code> evidence (~900 files, the bulk
+of the 10,326)</h3>
+<p>Captured stdout from historical runs
+(<code>_tests/evidence/translate/*.log</code> alone accounts for ~7,000
+occurrences of <code>/Volumes/…/_article_src/en/*.md</code> as echoed
+filenames). Nothing parses them. Verdict: <strong>DATA —
+harmless.</strong></p>
+<h3
+id="archived-driver-scripts-under-_testsevidence-23-files-inert-but-worth-knowing">Archived
+driver scripts under <code>_tests/evidence/</code> (23 files) — inert,
+but worth knowing</h3>
+<p>These are one-shot drivers left beside their output. They
+<strong>do</strong> hardcode <code>/Volumes</code> in executable
+positions — <code>require()</code> targets, <code>REPO=</code>
+constants, <code>cd</code>:</p>
+<pre><code>_tests/evidence/a11y-audit/run-audit.js:12       require(path.join(&#39;&lt;macos-host&gt;/Projects/vasic/_tests/node_modules/playwright&#39;))
+_tests/evidence/a11y-fix3/render-axe.js:11       const ROOT = &#39;&lt;macos-host&gt;/Projects/vasic/milosvasic.ru/_site&#39;
+_tests/evidence/fix4docs/retry.sh:4              cd &lt;macos-host&gt;/Projects/vasic
+_tests/evidence/fix4docs/retry.sh:12             bash &lt;macos-host&gt;/Projects/vasic/_tools/translate/translate-content.sh …
+_tests/evidence/fix-pdf-chrome/{leak_matrix,review_chrome,translate_chrome}.py   REPO = &quot;&lt;macos-host&gt;/Projects/vasic&quot;
+_tests/evidence/live-v1.3.1/scripts/{axe-live.js,interactive-live.js,l10n.sh,l10n-vasic.sh,pdf.sh,reach.sh,reach2.sh,scope.sh}
+_tests/evidence/live-v1.5.1/{a11y/run-axe.mjs,interactive/run-interactive.mjs}
+_tests/evidence/milos-ssr-chrome/playwright-check.js
+_tests/evidence/fix-frontend/_run-evidence.mjs
+_tests/evidence/a11y-fix2/{measure-badges,measure-dialog}.js</code></pre>
+<p><strong>Verified unreachable.</strong> Each basename was searched
+across every tracked file outside <code>_tests/evidence/</code> —
+<strong>zero references</strong>, for all 15 distinct names checked. No
+CI step, npm script, test spec or shell glob (<code>find … -exec</code>,
+<code>for … in _tests/evidence/*.sh</code>) invokes anything under
+<code>_tests/evidence/</code>.</p>
+<p><strong>Verdict: DATA / dead code.</strong> They would break if run
+by hand, but nothing runs them and nothing points at them. Not
+LOAD-BEARING. Deleting or root-deriving them is optional hygiene, not a
+fix.</p>
+<h3
+id="testsevidencemonorepo-healthaudit.md-1-and-closure-final05-known-open.txt-many"><code>_tests/evidence/monorepo-health/AUDIT.md</code>
+(1) and <code>closure-final/05-known-open.txt</code> (many)</h3>
+<p>Frozen report prose and captured <code>grep</code> output where
+<code>/Volumes/…</code> is the <em>matched filename column</em>.
+Verdict: <strong>DATA — harmless.</strong></p>
+<hr />
+<h1 id="section-3-the-four-specific-questions">SECTION 3 — THE FOUR
+SPECIFIC QUESTIONS</h1>
+<h3
+id="does-any-script-still-read-a-volumes-value-out-of-a-data-file-without-re-anchoring-it">1.
+Does any script still READ a <code>/Volumes</code> value out of a data
+file without re-anchoring it?</h3>
+<p><strong>No.</strong> Every path-valued field in evidence data was
+enumerated and its consumers traced:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Where</th>
+<th>Consumers</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_translated</code></td>
+<td><code>translate-new/</code> (523), <code>translate/review/</code>
+(438), <code>ui-l10n/</code> (6), <code>l10n-audit/</code> (1)</td>
+<td><code>matrix.py</code>, <code>finalize-review.sh</code>,
+<code>run-batch.sh</code></td>
+<td><strong>Re-anchored</strong> onto a derived root, with a mandatory
+<code>isfile()</code> re-check → fail-closed</td>
+</tr>
+<tr>
+<td><code>_translated</code></td>
+<td><code>ui-l10n/</code>, <code>l10n-audit/</code></td>
+<td><code>review_ui_all.py</code>, <code>translate-ui.py</code></td>
+<td><strong>Never read</strong> — only verdict/score fields</td>
+</tr>
+<tr>
+<td><code>_translated</code></td>
+<td><code>translate/review/</code> (438)</td>
+<td><code>review-translations.sh</code></td>
+<td><strong>Never read</strong> — only verdict/score fields</td>
+</tr>
+<tr>
+<td><code>fixture</code>, <code>pdf</code>, <code>pdftotextFile</code>,
+<code>input</code>, <code>screenshot</code>, <code>txtFile</code></td>
+<td><code>harness/*</code> goldens</td>
+<td>3× <code>self-validate.sh</code></td>
+<td><strong>Never read</strong> — regenerated from derived roots</td>
+</tr>
+<tr>
+<td>every other <code>*.verdict.json</code> field</td>
+<td>all evidence dirs</td>
+<td><code>validate-pdf.js</code>, <code>visual-oracle.js</code>,
+<code>diagram-brand-accent-proof.js</code></td>
+<td><strong>Write-only</strong> — no read site exists</td>
+</tr>
+</tbody>
+</table>
+<p>Additionally, <code>_tools/translate/translate-content.sh</code>’s
+<code>jget</code> helper (L123) is called only for <code>verdict</code>,
+<code>accuracy</code>, <code>fluency</code>, <code>completeness</code>,
+<code>script_ok</code>, <code>untranslated_leftovers</code> (L235–237) —
+never a path.</p>
+<h3
+id="do-the-genome-files-mislead-an-agent-using-the-genome-for-routing">2.
+Do the genome files mislead an agent using the genome for routing?</h3>
+<p><strong>Yes — see §1.2.</strong> Six files assert in the present
+tense that <code>_tools/deploy-langs.sh</code> and
+<code>_tests/playwright.config.js</code> still hardcode
+<code>&lt;macos-host&gt;/Projects/vasic</code>, and that CI symlinks
+around it. All three claims are now false.
+<code>milestones/backlog.md</code> item 11 tracks the repair as
+outstanding work that is already done. This is the most consequential
+residual in the repository, because the genome is retrieval context by
+design.</p>
+<h3 id="is-_analysis-referenced-by-any-executable-code">3. Is
+<code>_analysis/</code> referenced by any executable code?</h3>
+<p><strong>No.</strong> Two references exist, neither is a read:</p>
+<pre><code>_tools/distribute-helixtranslate.sh:7   # Strategy (proven, see _analysis/CONTAINER-DISTRIBUTION.md):   ← comment
+scripts/audit-hardcoded-paths.sh:53     SKIP=&#39;^(docs/|_content|_analysis|_tests/evidence/|…)&#39;          ← exclusion regex</code></pre>
+<p><code>_analysis/</code> is <strong>purely narrative</strong>. That is
+precisely what makes §1.1 survivable — and also what let it go
+unnoticed.</p>
+<h3
+id="would-a-fresh-clone-on-a-different-machine-hit-any-of-these-at-runtime">4.
+Would a fresh clone on a different machine hit ANY of these at
+runtime?</h3>
+<p><strong>NO.</strong></p>
+<ul>
+<li>Every executable path in live code derives its root
+(<code>BASH_SOURCE</code>/<code>__dirname</code>/<code>__file__</code>),
+with <code>VASIC_ROOT</code> as an explicit override.</li>
+<li>The only <code>/Volumes</code> literal in live code is the audit’s
+own <code>PATTERN</code>, which must be literal and is allow-listed for
+that reason.</li>
+<li>All 10,326 evidence occurrences are in files that are written, not
+read — or, for <code>_translated</code>, are re-anchored with a
+fail-closed existence check.</li>
+<li>The 23 archived evidence drivers that <em>would</em> break are
+unreachable from any entry point.</li>
+</ul>
+<p><strong>A human reading
+<code>_analysis/IMPLEMENTATION-REPORT.md</code> §8 and pasting it will
+hit <code>No such file or directory</code> — and an agent reading the
+genome will believe a fixed bug is still open. Both are documentation
+failures, not runtime failures.</strong></p>
+<hr />
+<h1 id="section-4-is-the-audit-is-clean-claim-honest">SECTION 4 — IS THE
+“AUDIT IS CLEAN” CLAIM HONEST?</h1>
+<p><strong>Yes for what it claims; no for what a reader will
+infer.</strong></p>
+<p>The audit exits 0, and that verdict is <strong>earned</strong>: it
+proves no <em>tracked, non-skipped, non-comment</em> line carries a
+machine-specific absolute path. Its skips are principled and documented
+in its own header — <em>“Prose legitimately quotes real paths; generated
+evidence is not source”</em> — and its comment-stripping is deliberate:
+<em>“documenting the historical bug is not the bug.”</em> Both are
+correct engineering calls. <code>scripts/audit-hardcoded-paths.sh</code>
+sits in <code>.hardcoded-paths-allow</code> with the honest reason that
+it <strong>is</strong> the detector.</p>
+<p>Three caveats a reader should carry:</p>
+<ol type="1">
+<li><p><strong><code>_analysis/</code> is skipped on the theory that it
+is prose. §8 of <code>IMPLEMENTATION-REPORT.md</code> is not prose — it
+is a runnable command block.</strong> The skip’s justification does not
+hold for that file. This is the one place where “the audit is clean” is
+technically true and practically misleading.</p></li>
+<li><p><strong><code>.ashlrcode/</code> is skipped on the theory that it
+is generated.</strong> For <code>discoveries-auto.md</code> that is
+right. For the six hand-curated genome files it is wrong — they are
+authored knowledge, they are wrong, and they feed agent
+behaviour.</p></li>
+<li><p><strong>The audit scans <code>git ls-files</code> only.</strong>
+Untracked working files are invisible to it. (Checked for this review:
+<code>.ashlrcode/genome/**</code> holds no untracked
+<code>/Volumes</code> carriers beyond the seven already
+tracked.)</p></li>
+</ol>
+<p><strong>Recommended follow-up, in priority order</strong> — none of
+it required to make a fresh clone work:</p>
+<ol type="1">
+<li>Re-anchor <code>_analysis/IMPLEMENTATION-REPORT.md</code> §8 and
+correct the false <code>HELIX_TRANSLATE_BIN</code> default at line
+179.</li>
+<li>Update the six genome files to past tense and close
+<code>backlog.md</code> item 11.</li>
+<li>Consider narrowing the audit’s <code>_analysis</code> skip to
+prose-only, or adding a companion check that flags <code>/Volumes</code>
+inside fenced ```bash blocks anywhere in the tree.</li>
+</ol>
+<hr />
+<p><em>Read-only audit. No file other than this report was created or
+modified. <code>.github/workflows/ci.yml</code> and
+<code>scripts/setup-agents-wizard.sh</code> were read but not
+touched.</em></p>
+</body>
+</html>

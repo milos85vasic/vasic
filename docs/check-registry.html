@@ -1,0 +1,2859 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>check-registry</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">check-registry</h1>
+</header>
+<h1 id="the-check-registry-and-its-meta-check">The check registry and
+its meta-check</h1>
+<p><code>scripts/check-registry.tsv</code> +
+<code>scripts/verify-check-registry.sh</code></p>
+<h2 id="why">Why</h2>
+<p><code>specs/001-workshop-curriculum-platform/spec.md</code> states
+two success criteria quantified over <em>every</em> automated check:</p>
+<ul>
+<li><strong>SC-012</strong> — every check has a paired demonstration
+that it FAILS when the guarded condition is broken. 100%, no
+exceptions.</li>
+<li><strong>SC-013</strong> — the system distinguishes “unable to
+verify” from “passed” and “failed” in 100% of its checks.</li>
+</ul>
+<p>Neither is evaluable without an enumeration of “every check”. Per
+§11.4, a PASS that cannot be evidenced is a bluff, so an unevaluable
+universal claim is worse than no claim. The registry is that
+enumeration; the meta-check is what keeps it true instead of
+aspirational.</p>
+<p>The concrete motivation is measured, not theoretical. On 2026-09-01
+two gates in this tree were found with proofs that could not do their
+job:</p>
+<ul>
+<li><code>scripts/verify-governance-cascade.sh --prove-failure</code> —
+its pre-flight control runs against the LIVE tree. The live tree had a
+real C8 violation, so the control failed, the mutation battery ran
+<strong>zero</strong> mutations, and the command exited 1 having proved
+nothing.</li>
+<li>a second gate exercised only sandboxed copies while its real entry
+point could not start.</li>
+</ul>
+<p>Neither is visible from a summary line. <code>--run-proofs</code>
+sees both.</p>
+<h2 id="format">Format</h2>
+<p>TSV, TAB-separated, field 1 is the row type from a closed
+vocabulary:</p>
+<pre><code>scanroot   &lt;dir&gt;
+exempt     &lt;path&gt;  &lt;reason&gt;
+check      &lt;id&gt;  &lt;entry-point&gt;  &lt;proof-kind&gt;  &lt;proof-arg&gt;  &lt;undet-probe&gt;
+debt       &lt;id&gt;  &lt;entry-point&gt;  &lt;owed&gt;        &lt;reason&gt;</code></pre>
+<p>Full field semantics, including why TSV rather than YAML, are in the
+header of <code>scripts/check-registry.tsv</code> itself. In short: the
+governance submodule already keeps every gate ledger as TSV parsed with
+<code>cut -f1</code>, typed rows from a closed vocabulary are already a
+governance requirement here
+(<code>submodules/constitution/scripts/gates/cm_ledger_row_typed_from_closed_vocabulary.sh</code>),
+and TSV needs no <code>python3</code>/<code>yq</code> — a pre-push
+instrument must not have a parser that can fail to load and then report
+a tree it never read.</p>
+<h2 id="anti-drift">Anti-drift</h2>
+<p>A hand-maintained list rots. Both directions are closed:</p>
+<ul>
+<li><strong>outward</strong> — every registered path must exist; a dead
+row is a FAIL.</li>
+<li><strong>inward</strong> — every <code>*.sh</code> under a declared
+<code>scanroot</code> must appear in some row. A new check dropped into
+<code>scripts/</code> and not registered is a <strong>FAIL</strong>, not
+an omission. This is the half without which the registry is
+decorative.</li>
+<li><strong>ratchet</strong> — a <code>debt</code> row whose owed
+property is found SATISFIED is a FAIL (“stale debt — promote it”). Debt
+may hide a gap; it must not hide a fix.</li>
+</ul>
+<h2 id="exit-codes">Exit codes</h2>
+<p><code>0</code> all registered checks conform · <code>1</code> a real
+conformance violation · <code>2</code> could not determine (registry
+missing/unreadable/malformed, scanroot absent, probe timed out). The
+instrument is not exempt from its own SC-013 rule.</p>
+<p>Registered <strong>debt</strong> does not block a default run. It
+prints on every run and is never reported as compliance.
+<code>--strict</code> turns each debt row into a failure.</p>
+<h2 id="modes-and-cost">Modes and cost</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>mode</th>
+<th>what it does</th>
+<th>measured wall clock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>default</td>
+<td>proof STRUCTURE + executes every rc-2 probe</td>
+<td><strong>1.3 s</strong> (2026-09-02)</td>
+</tr>
+<tr>
+<td><code>--prove-failure</code></td>
+<td>its own §1.1 paired mutation proof (10 mutations)</td>
+<td><strong>5.6 s</strong></td>
+</tr>
+<tr>
+<td><code>--run-proofs</code></td>
+<td>additionally EXECUTES every registered paired proof</td>
+<td><strong>see below</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The <code>--run-proofs</code> figure of <strong>243 s</strong> was
+measured on 2026-09-01 over 13 check rows. Five more were added on
+2026-09-02 (see “The conformance gap” below) and they are not free:
+<code>setup-agents-wizard-suite</code> alone runs its 217-assertion
+subject six times. Re-measure rather than quoting the old number; it is
+a pre-tag / release-sweep instrument, not a hook.</p>
+<p>The trade is declared rather than silently sampled: executing every
+paired proof is the strongest evidence and is far too slow for a hook,
+so the default run verifies structure and says in its own summary that
+it observed no proof actually run. Nothing is skipped at random.</p>
+<h2 id="wiring-it-into-the-pre-push-hook">Wiring it into the pre-push
+hook</h2>
+<p>Not wired by this change — that is the controller’s call once the
+debt below is scheduled. When wired, it belongs in
+<code>scripts/pre-push-gates.sh</code> as a new gate id in
+<code>GATE_IDS</code>, with:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gate_N()</span> <span class="kw">{</span> <span class="fu">bash</span> <span class="st">&quot;</span><span class="va">$ROOT</span><span class="st">/scripts/verify-check-registry.sh&quot;</span><span class="kw">;</span> <span class="kw">}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># name:       check-registry conformance (SC-012 / SC-013)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># provenance: docs/check-registry.md</span></span></code></pre></div>
+<p>Two cautions specific to that host:</p>
+<ol type="1">
+<li><del><code>pre-push-gates.sh</code> maps <strong>every</strong>
+non-zero child rc to <code>FAILED</code>.</del> <strong>WITHDRAWN,
+re-verified 2026-09-01.</strong> <code>run_gate</code> now has a
+distinct <code>UNDET</code> verdict for a child rc=2 (around lines
+512-518), the summary prints <code>undetermined=</code> as its own
+counter, and an undetermined run says “COULD NOT DETERMINE a verdict”
+and blocks <em>without</em> accusing the tree. A
+<code>verify-check-registry.sh</code> rc of 2 is therefore reported as
+what it is. The debt row below was narrowed to <code>proof</code>
+accordingly, and on 2026-09-02 that remaining debt was cleared too.
+<strong>That withdrawal is no longer read off the source.</strong> It is
+MEASURED, by <code>bash scripts/pre-push-gates.sh --prove-failure</code>
+mutation M2/M2b: a child gate seeded to return rc=2 makes the runner
+print <code>passed=1 failed=0 undetermined=1</code>, say “NOT a failure
+of this tree and NOT a pass”, and exit 1. Re-introducing the old
+conflation is caught by 8 of the 9 mutations.</li>
+<li>Run it <strong>default mode</strong> in the hook (≈1.3 s).
+<code>--run-proofs</code> does not belong on a push path; it belongs in
+a pre-tag / release sweep.</li>
+</ol>
+<h2 id="the-conformance-gap-closed-2026-09-02">The conformance gap —
+CLOSED 2026-09-02</h2>
+<p>Determined empirically by running each entry point, not by reading
+its prose. Re-derive with
+<code>bash scripts/verify-check-registry.sh</code>.</p>
+<p><strong>The five DEBT rows this section used to carry are cleared.
+The registry now declares ZERO debt.</strong> Measured 2026-09-02:</p>
+<pre><code>bash scripts/verify-check-registry.sh
+# 41 PASS, 0 FAIL, 0 DEBT, 0 UNDET, 0 NOTE  -&gt; exit 0</code></pre>
+<p>The earlier figure — <strong>29 PASS / 0 FAIL / 5 DEBT / 0 UNDET,
+exit 0</strong> on 2026-09-01, and <strong>31 PASS / 5 DEBT</strong>
+once <code>remedy-executability</code> was registered — is superseded,
+not wrong-at-the-time. PASS counts <em>assertions</em> (each conforming
+check contributes an SC-012 row and an SC-013 row), not checks: 18 check
+rows plus the R0/R1/R1b/R2/R5 structural rows.</p>
+<p>The five that were owed, and what each now ships. Every one was
+verified in <strong>both</strong> directions — it passes on this tree,
+<strong>and</strong> it fails when the gate it guards is deliberately
+weakened, which is the only evidence that separates a proof from a
+decoration:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>check</th>
+<th>paired proof</th>
+<th>measured</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>verify-all-constitution-rules.sh</code></td>
+<td><code>--prove-failure</code> — synthetic consumer tree whose child
+gates read their exit code from a sidecar file</td>
+<td>10 mutations + 1 stated LIMIT, <strong>7 s</strong>; a sweep that no
+longer fails on a failing or blind child gate is caught by
+<strong>6</strong> of them</td>
+</tr>
+<tr>
+<td><code>lumen-index-doctor.sh</code></td>
+<td><code>--prove-failure</code> — a throwaway sqlite index built with
+plain sqlite3 (no sqlite-vec)</td>
+<td>10 mutations, <strong>42 s</strong>; raising the duplicate threshold
+out of reach and disabling the per-vector tests is caught by
+<strong>5</strong></td>
+</tr>
+<tr>
+<td><code>ollama-tune.sh</code></td>
+<td><code>--prove-failure</code> — a PATH-shimmed synthetic host
+(<code>systemctl</code>, <code>journalctl</code>, <code>curl</code>,
+<code>podman</code>, <code>docker</code>, <code>pgrep</code>,
+<code>ss</code>, <code>sudo</code>, <code>systemd-path</code>)</td>
+<td>10 mutations, <strong>13 s</strong>; collapsing could-not-determine
+into “fine” is caught by <strong>7</strong></td>
+</tr>
+<tr>
+<td><code>pre-push-gates.sh</code></td>
+<td><code>--prove-failure</code> — a throwaway git repository with two
+nested submodules, driven through <code>PREPUSH_ONLY</code></td>
+<td>9 mutations, <strong>4 s</strong>; re-introducing the rc-2→FAILED
+conflation and removing the push block is caught by
+<strong>8</strong></td>
+</tr>
+<tr>
+<td><code>test-setup-agents-wizard.sh</code></td>
+<td><code>--prove-failure</code> — the real wizard, byte-copied, mutated
+four ways; plus its own rc-2 states</td>
+<td>8 mutations, <strong>3 m 32 s</strong>; making a FAILED assertion
+stop reddening the suite is caught by <strong>8</strong></td>
+</tr>
+</tbody>
+</table>
+<p><code>test-setup-agents-wizard.sh</code> also owed a
+<strong>three-valued exit of its own</strong>, and now has one:
+<code>--root &lt;dir&gt;</code> that is not a directory, a wizard that
+is absent, unreadable or empty, and an evidence directory that cannot be
+created are each <strong>rc 2</strong>. It previously asserted
+three-valued behaviour in the wizard it tests (K23b/K25) while
+implementing none for itself.</p>
+<h3 id="the-gap-the-promotion-did-not-close-closed-2026-09-02">The gap
+the promotion did not close — CLOSED 2026-09-02</h3>
+<p>The old <code>constitution-rules-sweep</code> debt row named a
+specific missing demonstration: <em>“nothing demonstrates the SWEEP
+itself fails when a child gate is silently dropped.”</em> It was split
+into two halves, and <strong>both are now closed</strong>:</p>
+<ul>
+<li><strong>ADD direction — closed.</strong> Mutation M9 drops a new
+gate file into the gates directory and measures the discovered count
+moving <code>3 -&gt; 4</code>, with the added gate’s failure reddening
+the sweep and <strong>no edit to the sweep</strong>. §11.4.32’s “gates
+are DISCOVERED, never hardcoded” is therefore measured, not
+asserted.</li>
+<li><strong>DROP direction — closed.</strong> The assertion that used to
+be called <strong>L1</strong> recorded the OPPOSITE result: it deleted a
+gate file, measured the count falling <code>3 -&gt; 2</code>, and
+recorded that the sweep <strong>still exited 0</strong>, because there
+was no expected-gate ledger to compare against. It is now
+<strong>M11</strong>, and it requires the sweep to exit
+<strong>1</strong> and to NAME the vanished gate. Measured 2026-09-02:
+<em>“the count fell 3 -&gt; 2, the sweep exited 1 and NAMED the vanished
+gate.”</em></li>
+</ul>
+<h4 id="the-ledger-and-why-it-is-not-a-hardcoded-list">The ledger, and
+why it is not a hardcoded list</h4>
+<p>The blocking design problem was stated in this section and has not
+gone away: <strong>the gate population moved 57 → 286 when the
+constitution was fast-forwarded</strong>, so any expected list written
+into the sweep is wrong at the next pin — and a gate that is wrong at
+every bump gets deleted or made advisory the first time it fires. The
+expected set is therefore DATA, not code:</p>
+<p><code>scripts/constitution-gate-ledger.tsv</code> — TAB-separated,
+typed rows from a closed vocabulary (<code>pin</code>,
+<code>gate</code>), the same shape <code>check-registry.tsv</code> and
+the constitution’s own gate ledgers use. It records the constitution
+HEAD the baseline was taken at plus one row per discovered gate (286 at
+pin <code>3be10826f3d2</code>, measured 2026-09-02). It is regenerated
+only by an explicit
+<code>bash scripts/verify-all-constitution-rules.sh --update-ledger</code>,
+which prints what changed — so a population change always lands in a
+reviewable git diff.</p>
+<p><strong>The discriminator — “the pin moved” vs “a gate vanished” —
+uses two instruments, and the second is what makes the separation
+real:</strong></p>
+<ol type="1">
+<li><strong>The pin.</strong> The population is a function of the
+constitution’s commit. If the ledger’s pin EQUALS the live pin, a
+ledgered gate that is missing <strong>vanished</strong>. Determined, no
+git query needed, and this is the case that holds on a tree nobody has
+bumped.</li>
+<li><strong>Git, when the pin HAS moved.</strong> A missing path that
+git still reports as TRACKED at the current commit was deleted from the
+working tree — a vanished gate, <strong>determined</strong>, however far
+the pin travelled. A missing path that is NOT tracked at the current
+commit is a gate upstream no longer carries — a legitimate population
+change, reported as a NOTE and not gating.</li>
+</ol>
+<p>Both directions are proved, because either one alone would be
+worthless: <strong>M13</strong> requires an upstream removal across a
+moved pin NOT to gate (else the ledger cries wolf on every bump and gets
+deleted), and <strong>M14</strong> requires a local deletion across a
+moved pin to STILL be caught and named (else the ledger is a rubber
+stamp that any bump switches off). <strong>M12</strong> requires a
+deleted ledger, and <strong>M12b</strong> a malformed one, to be
+reported as could-not-determine — deleting the ledger must not buy back
+the old silence. <strong>M15</strong> requires
+<code>--update-ledger</code> to restore a clean state deliberately.</p>
+<p><strong>The residual limit, stated rather than asserted away
+(§11.4.6):</strong> when the pin has MOVED <em>and</em> the constitution
+is not a git work tree (a vendored or archive-extracted copy), neither
+instrument applies and attribution is genuinely undecidable. The sweep
+reports that as could-not-determine and exits non-zero — a blind
+instrument is never a pass (§11.4.201(7)(b)) — rather than guessing in
+either direction. M13/M14 require git and SKIP with a reason when it is
+absent. A second, smaller limit: a gate deleted upstream and re-added
+under a different name in the same bump reads as one removal plus one
+addition. The ledger does not track renames, and does not claim to.</p>
+<p><strong>Scope boundary:</strong> the ledger covers the gates
+discovered under <code>submodules/constitution/scripts/gates/**</code>.
+The project-side gate run in step 2b
+(<code>tests/test_constitution_inheritance.sh</code>) is a fixed known
+path already handled by an explicit §11.4.3 skip-with-reason, and is not
+ledgered.</p>
+<h3
+id="the-inoperative-proof-defect-closed-for-two-found-in-a-third-2026-09-01">The
+inoperative-proof defect — closed for two, found in a third
+(2026-09-01)</h3>
+<p><code>--run-proofs</code> used to report
+<code>governance-cascade</code> and <code>manifest-pins</code> as proofs
+that could not pass. Both ran their control against the <strong>live
+tree</strong>, so any real violation made the control fail and the
+battery never started. Measured by copying each script into a tree that
+was not a green checkout: both exited non-zero having run <strong>0
+mutations</strong>.</p>
+<p>Both are now <strong>FIXED</strong>. Each has a synthetic control
+that is green by construction, and the live run is demoted to a REPORTED
+pre-flight that cannot disable the battery — the shape
+<code>verify-check-registry.sh --prove-failure</code> uses. Re-measured
+against the same red tree: <code>manifest-pins</code> runs
+<strong>10/10</strong> mutations, <code>governance-cascade</code> runs
+<strong>11/11</strong>. The same shape was used for the two new audit
+proofs (10 mutations each).</p>
+<p>A <strong>third</strong> instance is now visible and is <em>not</em>
+fixed: <code>continuation-sync</code>
+(<code>scripts/continuation-check.sh --prove-failure</code>) also
+baselines against the live tree, so it reports
+<code>PROOF FAIL baseline, unmutated</code> whenever
+<code>CONTINUATION.md</code> is stale — which it is today, because
+commits <code>284adfa3</code>, <code>b2397886</code> and
+<code>6fd4cb2a</code> changed watched governance files without updating
+it in the same commit (§12.10 protection 2). (Those three have been
+renamed twice by authorized content-boundary rewrites:
+<code>d0b3c64</code>/<code>96b2988</code>/<code>ee3933d</code> →
+<code>7b4df26d</code>/<code>4ee9e8de</code>/<code>b0ab4b44</code> on
+2026-09-01 → the values above on 2026-09-02. Only the last generation
+resolves; the mappings are in
+<code>docs/content-boundary-incident-2026-09-01.md</code> §8B and
+§11.4.) It is a <em>degraded</em> rather than an inoperative proof: its
+six mutations and its rc-2 branch all still execute and pass. It was
+deliberately left alone because a synthetic control for it must make C7
+(the §6 gate table vs the live runner) and C8 (production workflow
+facts) green by construction, and the runner it compares against —
+<code>scripts/pre-push-gates.sh</code> — was under concurrent edit.</p>
+<p>Consequence, stated rather than implied:
+<code>bash scripts/verify-check-registry.sh</code> is <strong>rc
+0</strong>, but <code>--run-proofs</code> is <strong>rc 1</strong> on
+account of that one row.</p>
+<h3
+id="the-2026-09-02---run-proofs-split-rc-1-and-not-for-that-reason-any-more">The
+2026-09-02 <code>--run-proofs</code> split — rc 1, and NOT for that
+reason any more</h3>
+<p>Re-measured 2026-09-02 immediately after the five debt rows were
+cleared:</p>
+<pre><code>bash scripts/verify-check-registry.sh --run-proofs
+# 54 PASS, 5 FAIL, 0 DEBT, 0 UNDET, 0 NOTE  -&gt; exit 1
+# measured twice the same day: 10 m 44 s, then 10 m 17 s — same split both times</code></pre>
+<p><strong>All five newly-promoted checks PASS under
+<code>--run-proofs</code></strong> — each proof was executed and each
+reported real mutation results. <code>continuation-sync</code> now
+passes too. The five FAILs are a <em>different</em> set, and every one
+of them belongs to a check this change did not touch:
+<code>git diff</code> reports
+<code>scripts/verify-check-registry.sh</code>,
+<code>verify-provider-ci.sh</code>,
+<code>verify-submodule-remote-sync.sh</code>,
+<code>verify-mutation-anchors.sh</code>,
+<code>verify-private-object-exposure.sh</code> and
+<code>verify-remedy-executability.sh</code> all <strong>byte-identical
+to HEAD</strong>, and the registry diff adds and removes only the five
+rows named above. They are recorded here rather than fixed, because
+fixing them means editing gates that belong to other work in flight:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>row</th>
+<th>what <code>--run-proofs</code> says</th>
+<th>measured cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>provider-ci</code></td>
+<td><code>--selftest</code> exited rc=1</td>
+<td>a real assertion failure inside that selftest:
+<code>M6b no repository or owner name in body — expected 0 names present, got 1 present</code>.
+A genuine finding about that gate, not about this one.</td>
+</tr>
+<tr>
+<td><code>submodule-remote-sync</code></td>
+<td>“exited 0 but reported no mutation results”</td>
+<td><strong>a false positive of the meta-check’s own heuristic.</strong>
+The proof runs and returns 0; the meta-check appends
+<code>--quiet</code> because that script <em>has</em> a
+<code>--quiet</code> case arm, and <code>--quiet</code> suppresses the
+per-case lines the heuristic looks for. Measured:
+<code>--prove-failure --quiet</code> → rc 0, 23 lines, 0 needle
+matches.</td>
+</tr>
+<tr>
+<td><code>mutation-anchor-rot</code></td>
+<td>same</td>
+<td><strong>same class, different trigger.</strong> These three have no
+<code>--quiet</code> arm, so they run bare — and their summaries are
+prose (<em>“rot was DETECTED (1)”</em>, <em>“an absent remedy was CAUGHT
+(1)”</em>) with neither <code>M&lt;n&gt;</code> labels nor the phrase
+“<em>N</em> mutations”. Measured bare: rc 0, 0 needle matches.</td>
+</tr>
+<tr>
+<td><code>private-object-exposure</code></td>
+<td>same</td>
+<td>as above</td>
+</tr>
+<tr>
+<td><code>remedy-executability</code></td>
+<td>same</td>
+<td>as above</td>
+</tr>
+</tbody>
+</table>
+<p>The heuristic is <code>(^|[^A-Za-z])M[0-9]</code> or
+<code>[0-9]+\s+(mutation|mutations|drift| drifts|caught|passed)</code>.
+Four working proofs simply do not speak that way. <strong>The right fix
+is to make those four proofs say what they did — not to loosen the
+heuristic</strong>, which is the only thing standing between this
+registry and a proof that returns 0 without exercising anything. That is
+left to the owners of those gates, with the measurement above so nobody
+has to re-derive it.</p>
+<h2 id="declared-scope-boundary">Declared scope boundary</h2>
+<p>The scanroots are <code>scripts/</code> and <code>tests/</code>.
+<code>_tools/</code> and <code>_tests/</code> hold further gates that
+<code>pre-push-gates.sh</code> runs
+(<code>_tools/audit-hardcoding.sh</code>,
+<code>_tools/translate/reproducibility-selftest.sh</code>,
+<code>_tools/portfolio/self-validate.sh</code>,
+<code>_tests/run-harness-selfvalidation.sh</code>) and are
+<strong>not</strong> swept yet. That is a declared boundary, not a claim
+that they conform. Widening it is a one-line <code>scanroot</code>
+addition.</p>
+<h3 id="the-submodules-are-a-harder-boundary-and-it-is-not-one-line">The
+submodules are a HARDER boundary, and it is not one line</h3>
+<p>Widening a scanroot into a submodule is <strong>not</strong> the same
+one-line change, and the difference was measured rather than assumed on
+2026-09-03. R0 makes an absent scanroot <strong>rc 2</strong>, and
+<code>workshop/</code> is a <strong>private</strong> submodule, so on
+any clone that cannot initialise it the directory is empty. Measured in
+a sandbox copy of this tree with <code>scanroot workshop/pipeline</code>
+appended and an empty <code>workshop/</code>:</p>
+<pre><code>bash scripts/verify-check-registry.sh --root &lt;sandbox&gt;
+◍ UNDET [REGISTRY] declared scanroot &#39;workshop/pipeline&#39; is not a directory
+  under &lt;sandbox&gt; — the sweep cannot be performed
+COULD NOT DETERMINE — the registry could not be read, so nothing was verified.
+rc = 2</code></pre>
+<p>One added row takes the <strong>entire</strong> umbrella meta-check
+dark — not just the added rows — for every reader without private
+access. <code>REGISTRY</code> is also hardcoded to
+<code>$ROOT/scripts/check-registry.tsv</code>, so this instrument cannot
+be pointed at a second file without editing it.</p>
+<p>Feature-001’s <strong>transcription pipeline</strong> gates are
+therefore enumerated by their own registry <strong>inside</strong> the
+private submodule, referenced here by path only:</p>
+<table>
+<thead>
+<tr>
+<th>artefact</th>
+<th>path (inside the <code>workshop</code> submodule)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>registry</td>
+<td><code>platform/gates/check-registry-001.tsv</code></td>
+</tr>
+<tr>
+<td>meta-check</td>
+<td><code>platform/gates/verify-check-registry-001.sh</code></td>
+</tr>
+<tr>
+<td>paired proof</td>
+<td><code>platform/gates/prove-check-registry-001.sh</code></td>
+</tr>
+</tbody>
+</table>
+<p>It carries the same closed-vocabulary TSV shape and the same
+three-valued exit, uses this file’s hollow-proof heuristic
+<strong>unchanged</strong>, and its R5 sweep is
+<strong>recursive</strong> with declared <code>prune</code> rows —
+stricter than the <code>-maxdepth 1</code> sweep here, because two of
+the gates it registers live one directory down. It is run automatically
+by that module’s <code>scripts/verify.sh</code>, which discovers every
+<code>platform/gates/verify-*.sh</code> at run time.</p>
+<h2
+id="submodule-remote-sync-added-2026-09-01"><code>submodule-remote-sync</code>
+— added 2026-09-01</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>row</td>
+<td><code>check  submodule-remote-sync   scripts/verify-submodule-remote-sync.sh flag    --prove-failure --root /nonexistent</code></td>
+</tr>
+<tr>
+<td>entry point</td>
+<td><code>bash scripts/verify-submodule-remote-sync.sh</code></td>
+</tr>
+<tr>
+<td>paired proof</td>
+<td><code>bash scripts/verify-submodule-remote-sync.sh --prove-failure</code></td>
+</tr>
+<tr>
+<td>rc-2 probe</td>
+<td><code>--root /nonexistent</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-it-closes">What it closes</h3>
+<p>It closes a blind spot that was structural, not accidental. Cascade
+check C9 and <code>scripts/verify-manifest-pins.sh</code> both answer
+<em>“does <code>helix-deps.yaml</code> agree with the gitlink this
+repository will commit?”</em> — a purely <strong>local</strong>
+comparison. Neither has ever contacted a remote: on 2026-09-01 a grep
+for <code>ls-remote</code> and <code>git fetch</code> across
+<code>scripts/*.sh</code> returned <strong>nothing</strong>. So both
+exited <strong>0</strong> all day while
+<code>submodules/constitution</code> sat behind its upstream, and the
+root carriers had to warn readers in prose that <em>“the pin is BEHIND
+its upstream, and no gate in this tree catches that”</em>. Prose is not
+a gate.</p>
+<p>The two instruments answer different questions and neither replaces
+the other:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>instrument</th>
+<th>compares</th>
+<th>question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>manifest-pins</code> (C9)</td>
+<td>manifest <code>ref</code> vs local gitlink</td>
+<td>is the RECORD true?</td>
+</tr>
+<tr>
+<td><code>submodule-remote-sync</code></td>
+<td>local gitlink vs remote tip</td>
+<td>is the PIN fresh?</td>
+</tr>
+</tbody>
+</table>
+<p>Both can be green while the tree is stale. Only together do they mean
+“what we recorded is what we will commit, and what we will commit is
+what upstream has”.</p>
+<h3 id="contract">Contract</h3>
+<p>Three-valued, and <strong>state 2 outranks state 1</strong>:</p>
+<ul>
+<li><strong>0</strong> — every owned gitlink was compared and equals its
+remote tip.</li>
+<li><strong>1</strong> — at least one owned gitlink differs, reported as
+<strong>BEHIND</strong> (fast-forwardable), <strong>AHEAD</strong> (the
+gitlink is an UNPUSHED commit, so the tree does not clone for anyone
+else) or <strong>DIVERGED</strong> (operator reconciliation; never
+automate). These have different remedies and are never conflated.</li>
+<li><strong>2</strong> — COULD NOT DETERMINE: offline, DNS failure, SSH
+auth refused, remote gone, probe timeout, or <code>git</code> absent.
+<strong>A network failure must never read as “current”</strong> — that
+would replace an old blind instrument with a new one.</li>
+</ul>
+<p>The fleet is <strong>derived</strong> on every run from
+<code>.gitmodules</code> plus <code>helix-deps.yaml</code>; there is no
+roster in the file. Ownership is classified from evidence — a path
+documented in the manifest’s third-party comment block is reported but
+never gates, because upstream’s release cadence is not ours to fix.
+Measured 2026-09-01 that classifies <code>submodules/superspec</code>
+third-party and the other 12 owned, without the script naming
+either.</p>
+<h3 id="first-real-run-2026-09-01">First real run, 2026-09-01</h3>
+<p><strong>exit 1</strong> — 10 CURRENT, 2 DRIFT, 0 UNDETERMINED of 12
+owned gitlinks probed, 13 declared. <code>design-toolkit</code> and
+<code>ai_interviewing</code> are both <strong>BEHIND</strong> their
+remotes and fast-forwardable. Neither was visible to any pre-existing
+gate.</p>
+<h3 id="paired-proof">Paired proof</h3>
+<p><code>--prove-failure</code> builds real local git repositories in a
+<code>mktemp -d</code> sandbox wired by <code>file://</code> remotes, so
+<code>ls-remote</code> exercises the real code path with <strong>no
+network involved</strong>. Six states, each asserted separately:
+CURRENT→0, BEHIND→1, DIVERGED→1, AHEAD→1, UNREACHABLE→<strong>2 (never
+0)</strong>, third-party-behind→0, plus a restored control. The
+unreachable case is the one an unproven instrument would get wrong, and
+it is the reason the gate exists.</p>
+<p>Additionally seeded against the <strong>live</strong> tree: forcing
+every remote unreachable (<code>GIT_SSH_COMMAND=false</code>) yielded
+<strong>12 UNDETERMINED, rc=2</strong>, and removing the mutation
+restored the pre-mutation verdict of rc=1.</p>
+<h2
+id="private-object-exposure-added-2026-09-01"><code>private-object-exposure</code>
+— added 2026-09-01</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>row</td>
+<td><code>check  private-object-exposure scripts/verify-private-object-exposure.sh   flag    --prove-failure --root /nonexistent</code></td>
+</tr>
+<tr>
+<td>entry point</td>
+<td><code>bash scripts/verify-private-object-exposure.sh</code></td>
+</tr>
+<tr>
+<td>paired proof</td>
+<td><code>bash scripts/verify-private-object-exposure.sh --prove-failure</code></td>
+</tr>
+<tr>
+<td>rc-2 probe</td>
+<td><code>--root /nonexistent</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-it-closes-1">What it closes</h3>
+<p>A hazard that was found, written down, and then guarded by nothing
+but the sentence that recorded it.
+<code>docs/content-boundary-incident-2026-09-01.md</code> §8A.6 states
+it exactly:</p>
+<blockquote>
+<p><em>“It is recorded here because a local-any hazard that nothing
+checks is one accidental <code>git push --all</code> away from being a
+much larger incident than this one.”</em></p>
+</blockquote>
+<p>(The document’s own wording is “a local-only hazard”; the point is
+unchanged.)</p>
+<p>The concrete state, measured 2026-09-01 before the operator acted:
+the local branch <code>backup/pre-untrack-git-backup-a8137db</code>
+carried <strong>96 files</strong> that were a copy of the PRIVATE
+<code>milos85vasic/workshop_curriculum</code> object store, including a
+<strong>1,870,772,012-byte</strong> packfile, inside the
+<strong>PUBLIC</strong> <code>milos85vasic/vasic</code>. It was not an
+ancestor of <code>main</code> and <code>git ls-remote</code> showed it
+was never pushed. <code>.git/hooks/</code> is untracked, so a fresh
+clone runs no hook at all. Nothing in the tree could say any of
+that.</p>
+<p><strong>The branch has since been removed</strong>
+(<code>docs/branch-removal-2026-09-01.txt</code>), and that changes
+nothing about this check. It guards the whole <strong>category</strong>
+rather than that one branch: the §9.3 habit that produced it — copy a
+submodule’s <code>.git</code> into the umbrella before a destructive
+operation — is the correct habit and will produce another one. Not one
+line of the detection reads a branch name, so the removal did not alter
+a single code path. What changed is only which state the tree is in, and
+the check reports that state precisely rather than going quiet.</p>
+<h3 id="why-a-rename-cannot-defeat-it">Why a rename cannot defeat
+it</h3>
+<p>The detector reads <strong>no</strong> branch name, directory name,
+commit message or date. It keys on the internal layout and byte magic
+that a copied repository must keep in order to still be a
+repository:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>id</th>
+<th>evidence</th>
+<th>read from</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E1</td>
+<td><code>PACK</code> + pack version 2/3</td>
+<td>blob content</td>
+</tr>
+<tr>
+<td>E2</td>
+<td><code>\377tOc</code> + index version 2</td>
+<td>blob content</td>
+</tr>
+<tr>
+<td>E3</td>
+<td>zlib stream that inflates to a git loose-object header</td>
+<td>blob content</td>
+</tr>
+<tr>
+<td>E4</td>
+<td><code>HEAD</code> holding <code>ref: refs/…</code> or a bare 40-hex
+sha</td>
+<td>blob content</td>
+</tr>
+<tr>
+<td>E5</td>
+<td><code>config</code> holding <code>[core]</code> and
+<code>repositoryformatversion</code></td>
+<td>blob content</td>
+</tr>
+<tr>
+<td>E6</td>
+<td><code>packed-refs</code> beginning
+<code># pack-refs with:</code></td>
+<td>blob content</td>
+</tr>
+</tbody>
+</table>
+<p>A directory is judged a foreign object store on <strong>≥2 evidence
+classes, at least one of them an objects-layer proof
+(E1/E2/E3)</strong>. Path shape is a cheap pre-filter and never a
+verdict.</p>
+<p>Everything found this way is foreign <em>by construction</em>: git
+will not track its own <code>.git</code>, so an object store appearing
+in <code>git rev-list --objects</code> output is necessarily a copy of
+some other repository, committed as content. Provenance, when available,
+comes from E5 — the captured <code>config</code>’s <code>url =</code>
+lines — and is matched against the private half of the fleet.</p>
+<h3 id="scope-the-general-class-three-layers">Scope — the general class,
+three layers</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>layer</th>
+<th>question</th>
+<th>source of truth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>does any object reachable from <strong>any</strong> ref, or staged
+in the index, belong to a foreign object store?</td>
+<td><code>git rev-list --objects --all --indexed-objects</code> —
+exactly what <code>--all</code> / <code>--mirror</code> publish, plus
+what <code>git add .</code> would commit next</td>
+</tr>
+<tr>
+<td>B</td>
+<td>is a submodule’s tree committed as <strong>files</strong> instead of
+a gitlink, or is its path not a repository checkout at all?</td>
+<td><code>.gitmodules</code> paths+urls, corroborated against
+<code>helix-deps.yaml</code>; visibility from <code>gh</code></td>
+</tr>
+<tr>
+<td>C</td>
+<td>is a foreign object store in the worktree held off by nothing but
+<code>.gitignore</code>?</td>
+<td><code>find</code> + the same byte magic, then
+<code>git ls-files</code> / <code>git check-ignore</code></td>
+</tr>
+</tbody>
+</table>
+<p>No roster is hardcoded. Measured 2026-09-01 the fleet derives as
+<strong>13 declared submodules: 10 public / 3 private / 0
+visibility-undetermined</strong> — re-derive, do not quote it.</p>
+<p><strong>Pushable vs reflog-only, graded apart.</strong> Layer A takes
+<em>two</em> enumerations: the pushable set
+(<code>--all --indexed-objects</code>) and the union that adds
+<code>--reflog</code>. <code>git branch -D</code> unhooks a store from
+every ref but leaves its objects in the object database until
+<code>gc --prune=now</code>. <code>git push</code> cannot publish an
+object no ref reaches, so calling that an exposure would be a false
+finding — and going silent about it would be worse, because one reflog
+checkout puts it back on a ref. It is therefore an
+<strong>unsuppressible NOTE at rc 0</strong>, and the paired proof
+asserts both halves: rc 0, <em>and</em> the store still named in the
+output.</p>
+<p><strong>Reading a captured pack without a repository.</strong> For
+each store the check runs <code>git show-index</code> on the captured
+<code>.idx</code> blob. That parses a pack index with <strong>no
+repository and no <code>.pack</code> file</strong>, which matters
+because a captured store’s <code>config</code> can carry a stale
+<code>worktree =</code> line that makes every ordinary git command
+abort. On 2026-09-01 three consecutive attempts to read exactly such a
+store in this tree reported <em>“0 commits, nothing here”</em> — and
+every one of them was an <strong>aborted query</strong>, not a
+measurement. The census also compares the store’s own refs
+(<code>packed-refs</code>, <code>refs/**</code>, a detached
+<code>HEAD</code>) against the objects it actually holds, so an
+<strong>incomplete capture</strong> — a backup that would not restore —
+is reported as one. A census that cannot be taken prints as
+<em>unknown</em>, never as <em>empty</em>.</p>
+<h3 id="contract-1">Contract</h3>
+<p>Three-valued, and <strong>a confirmed failure outranks an
+undetermined</strong>:</p>
+<ul>
+<li><strong>0</strong> — no foreign object store anywhere, no submodule
+content committed as files, every declared submodule path a real
+repository checkout.</li>
+<li><strong>1</strong> — a determined finding.</li>
+<li><strong>2</strong> — could not determine: no root; root not a
+repository <strong>toplevel</strong>; <code>git rev-list</code> failed;
+<code>.gitmodules</code> present but unparseable; a submodule path that
+cannot be classified; or a submodule whose state needs grading while its
+provider visibility is unknown.</li>
+</ul>
+<p><strong>When an unknown visibility is deliberately <em>not</em> an
+rc-2</strong>, stated so it is never read as leniency: a submodule
+contributing zero objects to this repository’s history whose path is a
+real checkout has no content here to expose. No provider answer could
+change that structural fact, so none is demanded. Visibility is required
+— and its absence escalated — exactly where it would change the
+verdict.</p>
+<p><strong>The <code>rev-parse</code> walk-up trap.</strong>
+<code>git -C &lt;dir&gt; rev-parse --git-dir</code> <em>succeeds</em>
+inside an empty directory nested in a repository, because it walks
+<strong>up</strong> and finds the parent’s <code>.git</code>; a check
+written that way reads an uninitialised submodule as healthy. Every
+repository test here instead requires the directory to
+<strong>be</strong> the resolved toplevel
+(<code>rev-parse --show-toplevel</code>, both sides made physical with
+<code>pwd -P</code>, compared for equality). The paired proof asserts
+this directly rather than describing it.</p>
+<p>The guard is <strong>read-only</strong>. It never writes, deletes,
+renames, force-updates or pushes a ref. Removing a backup is an operator
+decision under §9.3.</p>
+<h3
+id="two-real-runs-2026-09-01-either-side-of-the-operators-removal">Two
+real runs, 2026-09-01, either side of the operator’s removal</h3>
+<p><strong>Before — exit 1</strong>, 2 findings, 0 undetermined:</p>
+<ol type="1">
+<li>foreign git object store at
+<code>workshop-git-backup-2026-08-29</code>, <strong>6 of 6</strong>
+evidence classes, largest packfile 1,870,772,012 bytes, provenance
+<code>milos85vasic/workshop_curriculum</code>, carried by
+<code>refs/heads/backup/pre-untrack-git-backup-a8137db</code>;</li>
+<li>that store is a copy of a <strong>PRIVATE</strong> repository held
+inside a <strong>PUBLIC</strong> one.</li>
+</ol>
+<p><strong>After the branch was removed — exit 0</strong>, 0 findings, 0
+undetermined, <strong>3 unsuppressible notes</strong>. The same store is
+still detected, now classified <code>REFLOG-ONLY</code>: unreachable
+from every ref and from the index, therefore not publishable by any
+<code>git push</code>, with its objects still in the object database
+until a <code>gc --prune=now</code>. The gate says so on every run
+rather than falling silent.</p>
+<p>Its census, read from the <code>.idx</code> files alone: <strong>8
+objects across 2 index files</strong> — the 1.78 GB pack indexes exactly
+<strong>one</strong>. That is the measured basis for “this was never a
+history backup”.</p>
+<p>One correction, recorded because it was arrived at by a narrower
+read: the store’s <code>packed-refs</code> names
+<code>59460387d331…</code>, which the <strong>large</strong> pack does
+not contain — but the <strong>small</strong> pack does
+(<code>git show-index</code> on <code>pack-ef685738….idx</code>, line
+5). Taken across the whole store, all <strong>2</strong> refs resolve,
+and the gate reports exactly that. “The pack does not contain it” was
+true; “the backup would not restore” did not follow from it.</p>
+<p>Plus the standing worktree NOTE: a 3,742,068,523-byte copy of the
+same store sits in the working tree, untracked <strong>only</strong>
+because of <code>.gitignore:90 workshop-git-backup-*/</code>. Given that
+this project’s commit wrapper runs <code>git add .</code> (INVENTORY gap
+G5), that line is the whole of the protection.</p>
+<h3 id="paired-proof-1">Paired proof</h3>
+<p><code>--prove-failure</code> builds a throwaway repository under
+<code>mktemp -d</code> with an isolated <code>HOME</code> and
+<code>GH_CONFIG_DIR</code>, and never touches the real tree. Measured
+2026-09-01, <strong>all assertions pass, rc 0</strong>:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>step</th>
+<th>assertion</th>
+<th>measured</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GREEN</td>
+<td>ordinary repository</td>
+<td>rc 0</td>
+</tr>
+<tr>
+<td>RED</td>
+<td>a <strong>real</strong> foreign store (verified <code>PACK</code>
+magic <code>5041434b00000002</code>) committed at
+<code>assets/vendor-data</code> on branch <code>wip/notes</code></td>
+<td>rc <strong>1</strong></td>
+</tr>
+<tr>
+<td>DECOY</td>
+<td><code>docs/samples</code> carrying packfile-, idx- and
+loose-object-<strong>shaped</strong> paths plus <code>HEAD</code>,
+<code>config</code> and <code>packed-refs</code>, all with non-git
+bytes</td>
+<td><strong>not</strong> flagged</td>
+</tr>
+<tr>
+<td>REFLOG</td>
+<td>branch deleted, reflog kept</td>
+<td>rc <strong>0</strong>, <em>and</em> <code>REFLOG-ONLY</code> still
+named — asserted both ways, because a silent 0 is indistinguishable from
+a clean tree</td>
+</tr>
+<tr>
+<td>GREEN</td>
+<td><code>reflog expire --expire=now --all</code> +
+<code>gc --prune=now</code></td>
+<td>rc 0, subject sha256 unchanged, 0 files dirtied</td>
+</tr>
+<tr>
+<td>UNDET</td>
+<td><code>--root /nonexistent</code></td>
+<td>rc 2</td>
+</tr>
+<tr>
+<td>UNDET</td>
+<td>a directory that is not a repository</td>
+<td>rc 2</td>
+</tr>
+<tr>
+<td>UNDET</td>
+<td>an <strong>empty</strong> submodule dir nested in a repo —
+<code>rev-parse --git-dir</code> returns the parent’s <code>.git</code>
+with rc 0</td>
+<td>rc 2, and the walk-up is the <em>named</em> reason</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>reflog expire</code> / <code>gc --prune=now</code> above
+run <strong>inside the <code>mktemp -d</code> sandbox only</strong>; the
+guard itself never runs either, and the real tree is not touched by any
+mode of this file.</p>
+<p>Three of those rows are the ones that matter. The
+<strong>decoy</strong> is what separates content detection from a name
+match: without it, “a rename cannot defeat this” would be a claim rather
+than a demonstration. The <strong>empty nested directory</strong> row
+asserts both the rc and that the uninitialised submodule is the stated
+cause — an rc 2 arrived at for an unrelated reason would prove nothing
+about the trap. The <strong>reflog</strong> row is asserted both ways
+for the same reason in the other direction: an rc 0 that says nothing
+cannot be told apart from a clean repository.</p>
+<p>The mutant’s names are asserted at runtime to contain none of
+<code>backup</code>, <code>workshop</code>, <code>git-backup</code>,
+<code>.git</code>, <code>objects-copy</code> or <code>mirror</code>; if
+any did, the proof aborts with rc 2 rather than crediting itself.</p>
+<h3 id="wiring-and-what-was-deliberately-not-done">Wiring, and what was
+deliberately not done</h3>
+<p>This is a <strong>gate</strong>, and the gate is the guarantee. It
+was <strong>not</strong> wired into
+<code>scripts/pre-push-gates.sh</code>, for two reasons stated rather
+than implied:</p>
+<ol type="1">
+<li><code>git push --no-verify</code> bypasses hooks entirely, and
+<code>.git/hooks/</code> is untracked, so a hook is a convenience and
+never the guarantee. A guard whose only home is a bypassable hook is not
+a guard.</li>
+<li><code>scripts/pre-push-gates.sh</code> was under concurrent edit by
+its owner (the same reason the <code>prepush-gates</code> debt row above
+records for not touching it), and its <code>GATE_IDS</code> array is a
+hardcoded list, so adding a gate means editing that file. Doing so from
+a change that does not own it is how two agents produce one broken
+runner.</li>
+</ol>
+<p>The wiring, when its owner takes it, is one id in
+<code>GATE_IDS</code> and one <code>run_gate</code> arm; the entry point
+takes no arguments and already returns the 0/1/2 the runner expects. It
+deliberately does <strong>not</strong> accept the hook’s stdin refspecs:
+it always scans every ref, because restricting it to the refs being
+pushed would make it blind to precisely the <code>--all</code> /
+<code>--mirror</code> case it exists for.</p>
+<h2
+id="remedy-executability-added-2026-09-01"><code>remedy-executability</code>
+— added 2026-09-01</h2>
+<p><code>scripts/verify-remedy-executability.sh</code> — <strong>every
+documented way out must actually exist.</strong></p>
+<h3 id="what-it-closes-2">What it closes</h3>
+<p><code>GET /api/chapters/{chapter}/accuracy</code> served a correct,
+honest body:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;measured&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;reason&quot;</span><span class="fu">:</span> <span class="st">&quot;verify-accuracy has not been run for this chapter&quot;</span><span class="fu">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;remedy&quot;</span><span class="fu">:</span> <span class="st">&quot;bash workshop/scripts/verify-accuracy.sh &lt;chapter&gt; --reference &lt;path&gt;&quot;</span><span class="fu">,</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;wer&quot;</span><span class="fu">:</span> <span class="kw">null</span><span class="fu">}</span></span></code></pre></div>
+<p>and <code>ls workshop/scripts/verify-accuracy.sh</code> reported
+<strong>no such file</strong>. The endpoint was not wrong about the
+measurement — it was right that none had been taken. It was wrong about
+the <strong>way out</strong>, which is the part a reader acts on.
+Accuracy was not un-measured; it was <strong>un-runnable by the
+documented command</strong>, and under §11.4.6 that is a bluff: the body
+asserts a path to resolution that cannot be walked, and the reader
+cannot tell without trying it.</p>
+<p><strong>Nothing in this tree was checking.</strong> Every gate here
+verifies its subject; not one verified its own advice. A remedy string
+is the only output a gate produces that the reader is expected to
+<strong>execute</strong>, and it was the only output nothing graded.
+That is the class this closes — not the single string.</p>
+<h3 id="derivation-and-the-declared-scope-boundary">Derivation, and the
+declared scope boundary</h3>
+<p><strong>Candidates are derived, never listed.</strong> The tree is
+scanned for the marker forms it actually emits and whatever is found is
+graded:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Form</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>structured key</td>
+<td><code>"remedy": "…"</code> in JSON and Go map literals</td>
+</tr>
+<tr>
+<td>Go const</td>
+<td><code>const AccuracyRemedy = "…"</code> (any <code>*Remedy</code>
+identifier)</td>
+</tr>
+<tr>
+<td>line marker</td>
+<td>line-leading <code>Remedy:</code> / <code>Fix:</code> /
+<code>Run:</code> / <code>Try:</code> / <code>try:</code></td>
+</tr>
+</tbody>
+</table>
+<p>A payload-free marker yields no candidate, which is why Python’s
+<code>try:</code> — always payload-free — does not flood the corpus.</p>
+<p><strong>Scope is declared</strong>, following the
+<code>scanroot</code> convention this registry already established:
+<code>scripts</code>, <code>tests</code>, <code>workshop/scripts</code>,
+<code>workshop/platform</code>, <code>workshop/pipeline</code>,
+<code>workshop/docs</code>, <code>_tools</code>, <code>_tests</code>,
+<code>docs</code>, printed on every run and overridable with
+<code>--scanroot</code>. <code>ai_interviewing/</code> and the two site
+submodules are <strong>out of scope</strong>: their <code>Fix:</code>
+lines are prose about software engineering in general, not remedies this
+platform emits. A declared boundary is not a claim that what lies
+outside it conforms. Vendored and generated trees
+(<code>node_modules</code>, <code>venv</code>, <code>vendor</code>,
+<code>pipeline/engines</code>, <code>pipeline/models</code>,
+<code>dist</code>, <code>_site</code>, <code>testdata</code>,
+<code>.specify</code>) are pruned: counting an upstream’s broken advice
+as this tree’s finding would be a claim with no remedy attached, which
+is this gate committing its own defect.</p>
+<p>The gate <strong>does not exclude itself</strong>. Its own header
+quotes the accuracy endpoint’s remedy, and that string is graded on
+every run like any other.</p>
+<h3
+id="command-vs-instruction-the-discriminator-and-why-it-is-safe">Command
+vs instruction — the discriminator, and why it is safe</h3>
+<p>Not every remedy is a command. <em>“Ask your administrator to install
+podman”</em> is a legitimate remedy and there is nothing to resolve. The
+rule is stated, not implied:</p>
+<blockquote>
+<p>A remedy is a <strong>COMMAND</strong> when it names a
+<strong>subject a shell can start</strong> — a path-shaped token
+(<code>dir/file.ext</code>, <code>./file</code>, an absolute path), or a
+head token that resolves on <code>PATH</code> <strong>to an
+executable</strong>.</p>
+<p>A remedy is an <strong>INSTRUCTION</strong> when it names no such
+subject. It addresses a person; there is nothing here to resolve; it is
+not a defect.</p>
+</blockquote>
+<p><strong>The property that makes this safe: classification never
+consults whether the subject exists.</strong> Path-shape is lexical, so
+<code>bash scripts/nope.sh</code> is a COMMAND that FAILS — never an
+instruction that passes. A broken remedy cannot be reclassified into the
+harmless bucket by virtue of being broken. That inversion is excluded by
+construction rather than by care.</p>
+<p>Tokens holding a placeholder or an expansion —
+<code>&lt;path&gt;</code>, <code>${VAR}</code>, <code>$1</code>,
+<code>*</code> — are <strong>not</strong> subjects. They are holes the
+reader fills, and resolving them would be resolving the gate’s own
+guess.</p>
+<p>One narrow prose test refines the ambiguous branch only. The measured
+case:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;remedy&quot;</span><span class="op">:</span> <span class="st">&quot;install a working ffprobe or ffmpeg on the host that runs &quot;</span> <span class="op">+</span> …</span></code></pre></div>
+<p>whose head token <code>install</code> is coreutils, so a
+head-resolves rule alone calls an operator instruction a command. A
+payload carrying bare English articles and prepositions as standalone
+words is treated as prose. It is applied <strong>only</strong> where no
+path-shaped subject was found, so it can never hide a broken file
+remedy.</p>
+<h3 id="existence-is-not-enough-the-operation-is-exercised">Existence is
+not enough — the operation is exercised</h3>
+<p>Measured on the development host, 2026-09-01:</p>
+<pre><code>command -v ffprobe   -&gt;  /usr/bin/ffprobe   (found)
+ffprobe -version     -&gt;  exit 0             (runs)
+ffprobe -show_format -&gt;  exit 8             (UNUSABLE)</code></pre>
+<p>Present, executable, and unable to do the thing it is named for. So
+for every <strong>file subject</strong> the gate does not stop at
+<code>-e</code>: readable, non-empty, a regular file; either the
+executable bit <strong>or</strong> an explicit interpreter named in the
+remedy itself; that interpreter (or the shebang’s) resolved on
+<code>PATH</code>; and then the file is <strong>parsed with that
+interpreter’s own syntax check</strong> — <code>bash -n</code> for
+shell, <code>ast.parse</code> for Python. That exercises exactly what
+the remedy promises, “this can be started”, and it catches the
+present-but-broken case without executing anything.</p>
+<p>Relative subjects are resolved from the emitting file <strong>outward
+to the root</strong>, because a remedy written inside
+<code>workshop/</code> may spell a path from the module root while the
+same string served over HTTP spells it from the repository root. Both
+are correct; a gate that knew only one would invent findings.</p>
+<p><strong>Honest boundary (§11.4.6).</strong> For an EXTERNAL head
+token — <code>git</code>, <code>podman</code>, <code>npm</code> — the
+gate proves <strong>existence only</strong>. It does not run them: the
+corpus contains <code>git push</code>, and this repository contains a
+deploy script that fired at two live production sites when it was run by
+accident today. Executing discovered strings is not a safety trade this
+gate is willing to make. Those are counted, listed under an
+unsuppressible NOTE, and <code>--strict</code> turns them into rc 2.
+<strong>A NOTE is not a pass; it is a stated limit.</strong></p>
+<h3 id="contract-2">Contract</h3>
+<p>Three-valued, and <strong>a confirmed failure outranks an
+undetermined</strong>:</p>
+<ul>
+<li><strong>0</strong> — every remedy that names something resolves to
+something startable.</li>
+<li><strong>1</strong> — a remedy names a file that is absent,
+unreadable, empty, not executable with no interpreter given, whose
+interpreter is missing, or which does not parse. A reader following it
+would fail.</li>
+<li><strong>2</strong> — the question could not be answered:
+<code>--root</code> is not a directory, a declared scanroot does not
+exist, <code>grep</code> is absent, or <strong>the scan matched nothing
+at all</strong>. A gate that inspected nothing has not reported a clean
+tree; it has failed to run.</li>
+<li><code>--strict</code> additionally promotes the EXTERNAL note to
+<strong>2</strong>.</li>
+</ul>
+<h3 id="first-real-run-2026-09-01-1">First real run, 2026-09-01</h3>
+<p><strong>exit 0</strong> — 23 remedy strings: <strong>10 resolve, 0
+BROKEN, 1 external, 12 instruction</strong>. The ten that resolve
+include the accuracy endpoint’s own <code>AccuracyRemedy</code> const,
+three <code>ingest.sh</code> remedies in <code>chapters.go</code>, two
+<code>extract-videos.sh</code> remedies in <code>recording.go</code>,
+and <code>workshop/docs/faq.md</code>’s <code>scripts/build.sh</code>.
+<code>--strict</code> yields <strong>2</strong> on the one external
+remedy (<code>git</code>), as designed.</p>
+<p>Two defects in the gate itself were found and fixed by that first
+run, and both are recorded here because a gate that invents subjects
+grades nothing:</p>
+<ol type="1">
+<li><strong>Glob expansion.</strong> Payload tokenisation uses an
+unquoted expansion, so a payload containing <code>**</code> (markdown
+emphasis — every <code>**Run:**</code> line in these docs) globbed
+against the working directory. The gate reported a remedy naming
+<code>AGENTS.md</code>, a file that appears in no remedy anywhere. Fixed
+with <code>set -f</code>.</li>
+<li><strong><code>command -v</code> is not “is a command”.</strong>
+<code>command -v AGENTS.md</code> succeeds on this host, because a
+directory holding a markdown file is on the operator’s
+<code>PATH</code>. Resolution now requires <code>type -t</code> plus an
+executable, non-directory target.</li>
+</ol>
+<h3 id="paired-proof-1.1">Paired proof (§1.1)</h3>
+<p><code>--prove-failure</code> builds a throwaway lab — never the real
+tree — and asserts six states, each separately:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>State</th>
+<th>Expected</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>remedy names a script that exists and starts</td>
+<td>0</td>
+</tr>
+<tr>
+<td>remedy repointed at a nonexistent script</td>
+<td><strong>1</strong>, not 2</td>
+</tr>
+<tr>
+<td>restored byte-identically (checksum-proved)</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>second, independent mutation</strong>: subject present but
+unparsable</td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td>operator instruction
+(<code>ask your administrator to install podman</code>)</td>
+<td>0, and classified INSTRUCTION</td>
+</tr>
+<tr>
+<td>empty scan</td>
+<td><strong>2</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The mutant is asserted to still <strong>parse</strong>
+(<code>bash -n</code>) before the gate is run against it — a gate that
+only reddens on a syntax break proves nothing. The second mutation
+exists because absence and unstartability are different failures, and a
+gate catching only the first would pass a remedy naming a script that
+exists and is broken.</p>
+<p><strong>The strongest evidence is not synthetic.</strong> The gate
+was run against a reconstruction of this repository’s own pre-fix state
+— <code>accuracy.go</code> beside every
+<code>workshop/scripts/*.sh</code> <strong>except</strong>
+<code>verify-accuracy.sh</code>:</p>
+<pre><code>MISSING  workshop/platform/backend/internal/api/accuracy.go:26
+         | remedy:  bash workshop/scripts/verify-accuracy.sh &lt;chapter&gt; --reference &lt;path&gt;
+         | subject: workshop/scripts/verify-accuracy.sh — resolves nowhere
+rc=1</code></pre>
+<p>Adding the script back to the same lab and re-running the same
+command yields <strong>rc=0</strong>. The mutation is the real history,
+not an invention.</p>
+<h3 id="wiring-and-what-was-deliberately-not-done-1">Wiring, and what
+was deliberately not done</h3>
+<p>Registered as a <code>check</code> row; <strong>not</strong> wired
+into <code>scripts/pre-push-gates.sh</code>, for the same two reasons
+the <code>private-object-exposure</code> section records: a hook is
+bypassable by <code>git push --no-verify</code> and
+<code>.git/hooks/</code> is untracked, so the hook is never the
+guarantee; and <code>pre-push-gates.sh</code> carries a hardcoded
+<code>GATE_IDS</code> array and was under concurrent edit by its owner.
+The wiring, when its owner takes it, is one id and one
+<code>run_gate</code> arm — the entry point takes no arguments and
+already returns the 0/1/2 the runner expects.</p>
+<h2
+id="content-boundary---include-untracked-added-2026-09-02"><code>content-boundary</code>
+— <code>--include-untracked</code> added 2026-09-02</h2>
+<p><strong>The registry row is UNCHANGED, and that is a statement, not
+an omission.</strong></p>
+<pre><code>check   content-boundary    scripts/verify-content-boundary.sh  flag    --prove-failure --root /nonexistent</code></pre>
+<p>Entry point, proof kind, proof argument and rc-2 probe are all
+exactly what they were: the check grew a MODE, not a contract. The row
+is re-verified rather than assumed — measured 2026-09-02,
+<code>bash scripts/verify-check-registry.sh</code> exits
+<strong>0</strong> at <strong>41 PASS, 0 FAIL, 0 DEBT, 0 UNDET, 0
+NOTE</strong> in 2 s, with</p>
+<pre><code>✅ PASS  [content-boundary] SC-012 paired proof: &#39;--prove-failure&#39; is a real case arm in scripts/verify-content-boundary.sh and is non-trivial
+✅ PASS  [content-boundary] SC-013 three-valued exit: probe &#39;--root /nonexistent&#39; -&gt; rc 2, distinct from 0 and 1
+✅ PASS  [R5] anti-drift: every *.sh under scripts tests is registered as a check, debt, or exemption</code></pre>
+<p>R5 stays green because no new <code>*.sh</code> was added — the mode
+lives inside the already-registered script. That run verifies proof
+STRUCTURE only and says so; the execution evidence is below.</p>
+<h3 id="the-hole-this-closes">The hole this closes</h3>
+<p>Every candidate file in that gate was enumerated with
+<code>git ls-files</code>, which lists <strong>tracked files
+only</strong>. An untracked file in a public working tree was therefore
+not filtered out — it was <strong>never opened</strong>.</p>
+<p>That is not a hypothetical. On 2026-09-02 an untracked file in this
+public umbrella,
+<code>specs/001-workshop-curriculum-platform/review.md</code>, was found
+to carry verbatim copies of source from the <strong>private</strong>
+<code>workshop</code> submodule (54 of 62 normalised 10-token windows
+matched one private Go file). The gate had been green over that file on
+every run, because it never read it. A human-directed agent found it; no
+instrument in this repository did.</p>
+<p>The exposure window is one command wide, and it is a command this
+project uses by default: the <code>commit</code> wrapper runs
+<code>git add .</code>, which stages <strong>every</strong> untracked
+file. Write it, run the wrapper, push — and it is in a public
+repository’s history, which is not editable after a push.
+<code>scripts/continuation-check.sh</code> watches neither
+<code>specs/**</code> nor <code>docs/*.md</code>, so nothing else raised
+it either.</p>
+<h3 id="contract-of-the-new-mode">Contract of the new mode</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>property</th>
+<th>behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>flag</td>
+<td><code>--include-untracked</code> — <strong>opt-in</strong>, off by
+default</td>
+</tr>
+<tr>
+<td>candidate set</td>
+<td><code>git ls-files --others --exclude-standard</code> unioned with
+the tracked set</td>
+</tr>
+<tr>
+<td>side</td>
+<td><strong>PUBLIC only.</strong> The private corpus stays tracked-only,
+so the KEY SPACE is unchanged and the two modes differ in exactly one
+variable: where a key may be <em>found</em></td>
+</tr>
+<tr>
+<td><code>.gitignore</code></td>
+<td><strong>respected</strong> — that is what
+<code>--exclude-standard</code> is for. Ignored paths are build output
+and caches that are never pushed</td>
+</tr>
+<tr>
+<td>submodules</td>
+<td><code>--others</code> does not descend into a nested working tree,
+so each repository still contributes only its own untracked files, under
+its own prefix</td>
+</tr>
+<tr>
+<td>disclosure</td>
+<td>the count of untracked files read is printed on
+<strong>every</strong> run, in <strong>both</strong> modes, and each
+path is listed. A default run prints
+<code>0 file(s) — NOT SCANNED</code></td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>additive
+<code>"untracked": { "included", "side", "files_scanned" }</code>; every
+pre-existing field keeps its shape</td>
+</tr>
+<tr>
+<td>exit codes</td>
+<td>unchanged three-valued 0 / 1 / 2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-default-did-not-move-measured-not-asserted">The default did
+not move — measured, not asserted</h3>
+<p>The <code>HEAD</code> script and the edited script were run against
+the same tree six minutes apart:</p>
+<pre><code># HEAD copy, extracted with `git show HEAD:scripts/verify-content-boundary.sh`
+LEAK — 10589 surviving match(es) (prose 10260, short 272, name 57); 0 row(s) also could not be determined   rc=1
+# edited script, default mode
+LEAK — 10589 surviving match(es) (prose 10260, short 272, name 57); 0 row(s) also could not be determined   rc=1</code></pre>
+<p>A full <code>diff</code> of the two 21.9k-line reports differs in
+exactly two places, and neither is a finding:</p>
+<ol type="1">
+<li>the <strong>three added disclosure lines</strong>
+(<code>untracked (public) 0 file(s) — NOT SCANNED …</code>);</li>
+<li><code>CONTINUATION.md:&lt;n&gt;</code> →
+<code>CONTINUATION.md:&lt;n+34&gt;</code> on every row that cites it — a
+<strong>uniform +34</strong> on all 54 such rows, because another agent
+added net 34 lines to that file between the two runs.
+<code>git diff --numstat -- CONTINUATION.md</code> showed
+<code>775 140</code> at the time, confirming the file was under
+concurrent edit. Normalising public line numbers away leaves the three
+disclosure lines as the <em>only</em> difference.</li>
+</ol>
+<h3 id="what-the-new-mode-finds-on-this-tree">What the new mode finds on
+this tree</h3>
+<pre><code>bash scripts/verify-content-boundary.sh --include-untracked
+LEAK — 10633 surviving match(es) (prose 10297, short 279, name 57); 0 row(s) also could not be determined   rc=1
+untracked (public)    4 file(s) read</code></pre>
+<p><strong>+44 rows</strong> over the default (+37 prose, +7 short, +0
+name), from <strong>2</strong> of the 4 untracked files, against
+<strong>10 distinct private sources</strong> in <strong>2</strong>
+private submodules:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>untracked public file</th>
+<th>rows</th>
+<th>private sources it matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>specs/001-workshop-curriculum-platform/review.md</code></td>
+<td>22 prose + 2 short = <strong>24</strong></td>
+<td><code>workshop/docs/session-evidence/session-ledger.md</code> (21),
+<code>workshop/docs/training/areas/02-…</code> (<code>.md</code> and
+<code>.sections.json</code>, 2),
+<code>workshop/platform/orchestration/go.mod</code> (1)</td>
+</tr>
+<tr>
+<td><code>docs/session-instruction-audit-2026-09-01.md</code></td>
+<td>15 prose + 5 short = <strong>20</strong></td>
+<td><code>workshop/scripts/setup.sh</code> (12),
+<code>workshop/pipeline/extract/verify.py</code> (2),
+<code>workshop/pipeline/extract/verify_export.py</code> (2),
+<code>workshop/docs/knowledge-model-contract.sections.json</code> (1),
+<code>workshop/docs/session-evidence/search-defect-evidence.md</code>
+(1), <code>ai_interviewing/docs/interview-preparation/areas/22-…</code>
+(<code>.md</code> and <code>.pdf</code>, 2)</td>
+</tr>
+<tr>
+<td><code>_tests/env.js</code></td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>specs/001-workshop-curriculum-platform/redaction-review-summary.md</code></td>
+<td>0</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Two facts about that table are worth stating plainly rather than
+leaving to be inferred. First,
+<code>workshop/platform/backend/pkg/answer/verify.go</code> — the
+private file that <code>review.md</code> was paraphrased away from
+earlier the same day — appears <strong>nowhere</strong> in it, which is
+independent corroboration that the paraphrase held. Second, the 24 rows
+<code>review.md</code> still produces are against a
+<strong>different</strong> private source that nobody had looked for.
+Fixing one overlap is not evidence about the others; only the scan
+is.</p>
+<p><strong>These numbers are a dated observation on a tree under
+concurrent edit.</strong> Re-run rather than quoting them. The rise is
+expected and is not to be tuned down: the whole point of the flag is
+that these rows exist and were invisible.</p>
+<h3 id="paired-proof-1.1-1">Paired proof (§1.1)</h3>
+<p><code>--prove-failure</code> grew from 22 to <strong>24
+mutations</strong>, and the summary keeps the <code>M&lt;n&gt;</code> /
+“24 mutations run” form the meta-check’s hollow-proof heuristic looks
+for. Every new case is a <strong>pair against the same tree</strong>,
+differing only in the flag — without that shape a green result could
+come from the fixture being clean rather than from the flag doing
+anything.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>case</th>
+<th>expected</th>
+<th>what it holds open</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>M23a</code></td>
+<td>rc 0</td>
+<td>the flag alone must not redden a clean tree. If
+<code>--others</code> ever started descending into the private gitlink,
+the private corpus would be scanned as public content and every key
+would match itself</td>
+</tr>
+<tr>
+<td><code>M23b0</code></td>
+<td><code>??</code> in <code>git status</code></td>
+<td>the seeded file really is untracked, so the case cannot pass for the
+wrong reason</td>
+</tr>
+<tr>
+<td><code>M23b</code></td>
+<td><strong>rc 0 — the defect</strong></td>
+<td>identical bytes to <code>M1</code>, in the same directory; the ONLY
+difference is that the file is untracked, and the default mode is blind
+to it</td>
+</tr>
+<tr>
+<td><code>M23c</code></td>
+<td>rc 1</td>
+<td><code>--include-untracked</code> catches it, and <strong>names both
+sides</strong>, the untracked public path included</td>
+</tr>
+<tr>
+<td><code>M23d</code></td>
+<td>rc 0</td>
+<td>an ignored path is not read even with the flag</td>
+</tr>
+<tr>
+<td><code>M23d2</code></td>
+<td>rc 1</td>
+<td>the same bytes in a <strong>non</strong>-ignored untracked file are
+caught — so <code>M23d</code>’s rc 0 is the ignore rule, not a dead
+detector</td>
+</tr>
+<tr>
+<td><code>M23e</code></td>
+<td>identical manifest</td>
+<td>the battery <strong>restores</strong> what it seeded, byte for byte
+(<code>cksum</code> over every non-<code>.git</code> file, POSIX rather
+than GNU <code>sha256sum</code>)</td>
+</tr>
+<tr>
+<td><code>M23e2</code></td>
+<td>rc 0</td>
+<td>the restored tree scores clean again</td>
+</tr>
+<tr>
+<td><code>M24a</code></td>
+<td><strong>rc 0 — declared cost</strong></td>
+<td>an UNTRACKED <strong>private</strong> file is still not a key
+source. A real remaining blind spot, written as a test so a later change
+that quietly widens the private side goes red</td>
+</tr>
+<tr>
+<td><code>M24b</code></td>
+<td>rc 1</td>
+<td>commit that same private file and the same public copy is caught at
+once — so <code>M24a</code>’s rc 0 is the tracked-only rule, not a dead
+detector</td>
+</tr>
+</tbody>
+</table>
+<p>Measured <strong>twice</strong>, because <code>--run-proofs</code>
+does not invoke a proof the way a human does — it appends
+<code>--quiet</code> to any script that declares that arm, and that is
+precisely what turned <code>submodule-remote-sync</code> into a
+hollow-proof false positive:</p>
+<pre><code>bash scripts/verify-content-boundary.sh --prove-failure
+  43 passed, 0 failed, 24 mutations run   rc=0   368 s
+bash scripts/verify-content-boundary.sh --prove-failure --quiet
+  43 passed, 0 failed, 24 mutations run   rc=0   233 s</code></pre>
+<p>Both outputs match the meta-check’s needle
+(<code>(^|[^A-Za-z])M[0-9]|[0-9]+[[:space:]]+(mutation|mutations|…)</code>)
+<strong>44 times</strong>, so this check does not become a fifth false
+positive. It cannot: <code>run_prove</code> emits through
+<code>printf</code>/<code>echo</code> and uses the
+<code>QUIET</code>-gated <code>say</code>/<code>vsay</code> helpers
+<strong>zero</strong> times, so <code>--quiet</code> reaches only the
+nested scans whose output is captured into a variable, never the
+battery’s own report.</p>
+<p>The proof’s own live-tree pre-flight is REPORTED, never gating, and
+it recorded <code>rc=1 (LEAK — 10564 …)</code> on this tree — a
+statement about the tree, not about the battery. The count differs from
+the 10589 measured 20 minutes earlier because the tree is under
+concurrent edit, which is exactly why these figures are dated
+observations rather than facts.</p>
+<p>Every fixture string is synthetic and was written for the proof. No
+heading, sentence or name from any real private document appears in it —
+a fixture carrying the real leaked content would re-leak it into this
+public repository, and the proof would become the incident.</p>
+<hr />
+<h2 id="name-in-path-added-2026-09-02"><code>name-in-path</code> — added
+2026-09-02</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>row</td>
+<td><code>check  name-in-path    scripts/verify-name-in-path.sh  flag    --prove-failure --root /nonexistent</code></td>
+</tr>
+<tr>
+<td>entry point</td>
+<td><code>bash scripts/verify-name-in-path.sh</code></td>
+</tr>
+<tr>
+<td>paired proof</td>
+<td><code>bash scripts/verify-name-in-path.sh --prove-failure</code> —
+<strong>14 mutations</strong></td>
+</tr>
+<tr>
+<td>rc-2 probe</td>
+<td><code>--root /nonexistent</code></td>
+</tr>
+<tr>
+<td>exit contract</td>
+<td>0 clean · 1 a name-shaped leaf under a role container · 2 could not
+determine</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-it-closes-3">What it closes</h3>
+<p>A personal given name belonging to a third party was found on
+2026-09-02 in a <strong>tracked, committed, pushed</strong> file of this
+<strong>public</strong> repository. It was not in a sentence. It was
+<strong>the final component of an absolute filesystem path</strong>, in
+a table of indexed directories, under a work-assignments parent:</p>
+<pre><code>.../Projects/&lt;assignment-ish directory&gt;/&lt;a person&#39;s given name&gt;</code></pre>
+<p>Two instruments were in a position to see it and neither did, for two
+different reasons — and the pair is the point, because “we have gates”
+was true the whole time:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>instrument</th>
+<th>why it missed</th>
+<th>fixed?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>audit-hardcoded-paths.sh</code></td>
+<td><strong>scope, not detection.</strong> Both disclosed lines MATCH
+its own <code>PATTERN</code>. Its <code>SKIP</code> regex began
+<code>^(docs/</code> and is applied <strong>before</strong> the pattern,
+so of 39 tracked <code>docs/**.md</code> files, <strong>zero</strong>
+were read.</td>
+<td>yes — <code>docs/</code> removed from <code>SKIP</code> the same
+day; see the allow-list’s own <code>docs/</code> block for the measured
+before/after</td>
+</tr>
+<tr>
+<td><code>verify-content-boundary.sh</code></td>
+<td><strong>question, not scope.</strong> It hunts COPIED PRIVATE
+CONTENT. A path is not copied content and a name inside a path is not
+prose.</td>
+<td>not applicable — a different question</td>
+</tr>
+</tbody>
+</table>
+<p>So <code>name-in-path</code> asks a <strong>third</strong> question
+that nothing in this tree asked before: <em>does a filesystem path in
+this repository name a human?</em></p>
+<h3 id="the-signal-and-why-both-halves-are-required">The signal, and why
+both halves are required</h3>
+<p>A hit needs BOTH:</p>
+<ol type="1">
+<li>the <strong>parent</strong> component is a <strong>role
+container</strong> — a directory whose name says its children are people
+or work assigned to people; and</li>
+<li>the <strong>final</strong> component is <strong>name-shaped</strong>
+— one bare ASCII alphabetic token, 3–20 characters, no digits and no
+separators, <code>Capitalised</code> or <code>lowercase</code>.</li>
+</ol>
+<p>plus an <strong>anchoring</strong> rule: the run must be a genuine
+absolute path (the <code>/</code> that opens it is a filesystem root,
+not part of a URL, a variable, a ratio or a relative path) with at least
+two components.</p>
+<p><strong>No personal name is written in the script, in any fixture, or
+in any test, and none may ever be.</strong> A detector shipping a roster
+of real names is itself the disclosure it was built to prevent. Both
+vocabularies are role nouns and generic technical words; print them and
+check rather than believing it:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-name-in-path.sh <span class="at">--vocab</span></span></code></pre></div>
+<h3 id="the-precisionrecall-trade-stated-as-a-measurement">The
+precision/recall trade, stated as a measurement</h3>
+<p>The anchoring rule is not a tidy-up. It was added after measuring the
+naive form on this tree:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>form</th>
+<th>findings on this tree</th>
+<th>what they were</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>role-container parent + name-shaped leaf, <strong>no
+anchoring</strong></td>
+<td><strong>135</strong></td>
+<td>almost entirely English <em>alternations</em> in prose —
+<code>client/server</code>, <code>person/entity</code>,
+<code>reviewer/author</code> — and relative asset URLs in CSS. Not paths
+at all.</td>
+</tr>
+<tr>
+<td>the same, <strong>anchored to a real absolute path</strong></td>
+<td><strong>1</strong></td>
+<td><code>/home/&lt;service-account&gt;</code> in a
+<code>Containerfile</code>, created by <code>useradd</code> two lines
+above it</td>
+</tr>
+</tbody>
+</table>
+<p>135 → 1 is the whole design decision, and it is a decision
+<strong>for precision and against recall</strong>, taken deliberately.
+The failure mode of a name detector is not a missed name; it is a noisy
+gate everybody learns to ignore, after which it catches nothing at all.
+What that buys is stated as blind spots <strong>B1–B8</strong> in the
+script header and <strong>printed on every single run</strong>, never
+left implicit — the largest being B1 (a name whose parent is not a
+declared role container is invisible) and B8 (a relative path is
+invisible).</p>
+<p>Two subtractions, each with its cost written down:</p>
+<ul>
+<li><strong>S1</strong> — a closed vocabulary of generic technical words
+in the leaf position, plus every container word and its <code>+s</code>
+plural (a container name is never a person). <em>Cost:</em> a person
+whose name collides with a generic word is missed.</li>
+<li><strong>S2</strong> — this repository’s <strong>own</strong> public
+identity, <strong>derived at run time and never written down</strong>:
+alphabetic tokens from <code>git config user.name</code> /
+<code>user.email</code>, every remote URL (root and submodules), the
+<code>.gitmodules</code> URLs, and the components of this checkout’s own
+absolute path. The owner’s own account name under <code>home/</code> is
+not a third-party disclosure, and hard-coding it would put a real name
+in a tracked file. <em>Cost:</em> a third party sharing a token with the
+owner’s identity is missed. Reported as a <strong>count</strong> (32
+tokens on this tree, 2026-09-02); the tokens themselves are never
+printed or stored.</li>
+</ul>
+<p>Every surviving hit carries a <strong>corpus frequency</strong> — how
+often that same token occurs as any component of any anchored path
+anywhere in the scanned universe. A leaked personal name occurs once or
+twice; a service account occurs all over the file that created it. It is
+<strong>reported, never a filter</strong>: as a filter it would let a
+leak hide behind a busy repository.</p>
+<h3 id="the-output-never-reprints-the-suspected-name">The output never
+reprints the suspected name</h3>
+<p>A gate that echoes the token it just found into a terminal, a CI log
+or a pasted report has <em>widened</em> the disclosure. Findings print
+as</p>
+<pre><code>&lt;file&gt;:&lt;line&gt;  &lt;container&gt;/&lt;REDACTED len=N case=Capitalised|lowercase&gt;  [leaf token occurs K× as a path component corpus-wide]</code></pre>
+<p>and the reader opens the file. <strong>All 14 mutations assert this
+invariant</strong>, not just one: every case additionally fails if the
+planted token appears anywhere in the detector’s output.</p>
+<h3 id="measured-on-this-tree-2026-09-02">Measured on this tree,
+2026-09-02</h3>
+<pre><code>bash scripts/verify-name-in-path.sh
+  ✅ no personal-name-shaped final path component under any role-container
+     directory (1 explicitly allowed)
+  scanned 10011 file(s) across 14 repositories        rc=0</code></pre>
+<p>The one allowance is
+<code>submodules/containers/pkg/emulator/Containerfile:75</code>, a
+<code>WORKDIR /home/&lt;account&gt;</code> whose account is created by
+<code>useradd</code> at line 73 of the same file and occurs
+<strong>31×</strong> as a path component corpus-wide.</p>
+<p><strong>It is LINE-scoped, and that is the default in
+<code>.name-in-path-allow</code></strong> — a deliberate difference from
+the sibling allow-lists. This gate exists because one line of one file
+disclosed a real person; a file-scoped pardon on a file that once
+carried a name is exactly the mechanism that would hide the next one.
+The cost is stated rather than discovered: a gitlink bump moves the
+line, the entry goes stale, the detector says so, and the finding
+returns as a failure. For a privacy gate a false red costs a minute of
+reading and a false green costs a permanent public disclosure.</p>
+<h3 id="verified-against-the-real-incident-shape">Verified against the
+real incident shape</h3>
+<p>Not asserted — measured. The redacted line was reconstructed in a
+throwaway repository with an <strong>invented</strong> given name
+substituted for the redaction, and the detector run against it:</p>
+<pre><code>❌ docs/…/LUMEN-STORE-INVENTORY.md:1  assignments/&lt;REDACTED len=9 case=Capitalised&gt;
+   [leaf token occurs 1× as a path component corpus-wide]                     rc=1</code></pre>
+<p>It fires, the frequency reads <code>1×</code> — the once-or-twice
+signature of a leaked name rather than the 31× of a service account —
+and the output does not contain the planted token. The throwaway
+repository was deleted; no name, invented or otherwise, was written into
+any tracked file.</p>
+<h3 id="paired-proof-2">Paired proof</h3>
+<pre><code>bash scripts/verify-name-in-path.sh --prove-failure     # rc 0, 14 mutations</code></pre>
+<p>Shape copied from
+<code>audit-hardcoded-paths.sh --prove-failure</code>: the CONTROL is a
+<strong>synthetic</strong> throwaway repository, green by construction,
+so no state of this tree can redden the control and silently switch the
+battery off; the live run still happens first and is REPORTED, never
+gating. The planted token is <strong>invented</strong> and is assembled
+from fragments so the joined
+<code>&lt;container&gt;/&lt;token&gt;</code> literal never exists in the
+script — otherwise the proof would plant a finding in the detector’s own
+source.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>mutation</th>
+<th>asserts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>N1</code></td>
+<td>an invented given name as the leaf under a role container →
+<strong>rc 1</strong>, naming the file</td>
+</tr>
+<tr>
+<td><code>N2</code></td>
+<td>the same finding, <code># REASON:</code> allow-listed → rc 0, still
+naming what it suppressed</td>
+</tr>
+<tr>
+<td><code>N3</code></td>
+<td>the same finding, <code># BASELINE:</code> allow-listed → rc 0,
+printed loudly as debt</td>
+</tr>
+<tr>
+<td><code>N4</code></td>
+<td><code>path:line</code> scope pardons <strong>that</strong> line</td>
+</tr>
+<tr>
+<td><code>N5</code></td>
+<td><code>path:line</code> scope at a <strong>non-offending</strong>
+line does <strong>not</strong> pardon → rc 1. Without this, N4 would
+prove nothing: a pardon that fires regardless of the line is a
+file-scoped pardon wearing a line number</td>
+</tr>
+<tr>
+<td><code>N6</code></td>
+<td>a GENERIC leaf under the same container → rc 0 (<strong>S1</strong>
+is live)</td>
+</tr>
+<tr>
+<td><code>N7</code></td>
+<td>the same token under a NON-container parent → rc 0
+(<strong>B1</strong>, blind by design)</td>
+</tr>
+<tr>
+<td><code>N8</code></td>
+<td>a hyphenated compound leaf → rc 0 (<strong>B4</strong>, blind by
+design)</td>
+</tr>
+<tr>
+<td><code>N9</code></td>
+<td>leaf equal to a token of the repository’s own
+<strong>derived</strong> identity → rc 0 (<strong>S2</strong> is live —
+and it is the <em>same leaf</em> that fires in N1, so the subtraction is
+demonstrated rather than asserted)</td>
+</tr>
+<tr>
+<td><code>N10</code></td>
+<td>an allow entry matching nothing is reported as stale, never
+silent</td>
+</tr>
+<tr>
+<td><code>N11</code>–<code>N14</code></td>
+<td>four could-not-determine states → <strong>rc 2</strong>: absent
+target, not a git tree, empty scan universe, uninitialised
+submodule</td>
+</tr>
+<tr>
+<td>all 14</td>
+<td>the output never reprints the planted token</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="pretooluse-guard-added-2026-09-09"><code>pretooluse-guard</code>
+— added 2026-09-09</h2>
+<p><code>scripts/verify-pretooluse-guard.sh</code>. The §11.4.234(A)(3)
+dedicated hook-validation stage for the §11.4.109 PreToolUse guard hook.
+It closes inventory gap <strong>G12</strong>.</p>
+<h3 id="what-it-closes-4">What it closes</h3>
+<p>G12 read: <em>“no <code>PreToolUse</code> guard is wired, although
+the canonical guard script is present in the submodule.”</em> The
+canonical script has been sitting in
+<code>submodules/constitution/scripts/hooks/</code> unreferenced — a
+guard present in the tree and wired to nothing, which is the same shape
+as the unused <code>submodules/containers</code> gitlink recorded
+elsewhere in this repository: every gate green over a component nothing
+consumed.</p>
+<p>The hook is now wired in
+<strong><code>.claude/settings.json</code></strong>, which is
+<strong>tracked</strong>
+(<code>git ls-files --error-unmatch .claude/settings.json</code>
+succeeds). That choice is the whole point of assertion V3 below. The
+alternative — the host-wide <code>~/.claude*/settings.json</code> —
+would guard this developer’s machine and nothing else, reproducing
+exactly the <code>.git/hooks/</code> hole this repository already
+documents: untracked, so a fresh clone is unprotected and nobody is
+told.</p>
+<p>The hook is <strong>referenced, never copied</strong>. §11.4.109(A)
+forbids a local copy in terms — <em>“a copy diverges silently”</em> — so
+V2 accepts only a command string that names the canonical submodule path
+and REJECTS a local copy even when that copy is byte-identical
+today.</p>
+<h3 id="contract-3">Contract</h3>
+<p>Three-valued. <strong>2 is never a pass.</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>rc</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>wired, referenced, tracked, and demonstrably firing</td>
+</tr>
+<tr>
+<td>1</td>
+<td>a real defect: unwired, wired to a copy, inoperative, over-blocking,
+untracked, or a missing/mutilated preamble document</td>
+</tr>
+<tr>
+<td>2</td>
+<td>could not determine: root absent, root not a git tree, or
+<code>bash</code>/<code>git</code> unavailable</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-assertions-and-why-v4v6-are-the-load-bearing-ones">The
+assertions, and why V4–V6 are the load-bearing ones</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>id</th>
+<th>asserts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V1</td>
+<td>the canonical guard exists at the canonical submodule path</td>
+</tr>
+<tr>
+<td>V2</td>
+<td><code>.claude/settings.json</code> declares a
+<code>PreToolUse</code> hook command naming <strong>that</strong> path —
+a local copy is rejected</td>
+</tr>
+<tr>
+<td>V3</td>
+<td>that settings file is <strong>tracked in git</strong>, so a fresh
+clone inherits the guard</td>
+</tr>
+<tr>
+<td>V4</td>
+<td>the wired guard is <strong>executed</strong> against five forbidden
+probes — force-push, force-with-lease, <code>--no-verify</code>,
+privilege escalation, host-power — and must refuse all five with rc
+2</td>
+</tr>
+<tr>
+<td>V5</td>
+<td>the same guard <strong>allows</strong> a benign
+<code>git status</code> and a non-Bash tool call — a guard that blocks
+everything is switched off within the hour, so over-blocking is a defect
+too</td>
+</tr>
+<tr>
+<td>V6</td>
+<td>the <code># guardrails:allow</code> escape marker does
+<strong>not</strong> downgrade the host-power class (§11.4.109(A)5,
+§12)</td>
+</tr>
+<tr>
+<td>V7</td>
+<td><code>docs/AGENT_GUARDRAILS.md</code> carries both mandated headings
+and the <code>11.4.109</code> anchor literal (§11.4.109(B)/(C))</td>
+</tr>
+<tr>
+<td>V8</td>
+<td>the upstream hermetic harness
+<code>test_guard_forbidden_commands.sh</code> is present</td>
+</tr>
+</tbody>
+</table>
+<p>V4 is the reason this check exists at all. A validator that reads a
+JSON key and reports green has verified that a <em>string</em> is in a
+<em>file</em>; it has verified nothing about whether a forbidden command
+would be stopped. §11.4.201 names that failure precisely — a guard that
+reports a false GREEN is worse than no guard, because it converts an
+open hole into a closed ticket. Every probe V4 sends is harmless even if
+the guard were absent: nothing is executed, the command text only ever
+reaches the guard on stdin as JSON.</p>
+<p><strong>Deferred, not dropped (§11.4.234(C)).</strong> V8 asserts the
+upstream harness is PRESENT; it does not run it, because a 70-case suite
+does not belong inside a pre-push cheap check. Its execution is a
+separately named stage and the green output says so on every run rather
+than letting the deferral go unrecorded:</p>
+<pre><code>bash submodules/constitution/scripts/hooks/test_guard_forbidden_commands.sh</code></pre>
+<h3 id="measured-on-this-tree-2026-09-09">Measured on this tree,
+2026-09-09</h3>
+<pre><code>  PASS  V1 canonical guard present     submodules/constitution/scripts/hooks/guard-forbidden-commands.sh
+  PASS  V2 PreToolUse hook wired       → submodules/constitution/scripts/hooks/guard-forbidden-commands.sh
+  PASS  V3 wiring survives a fresh clone   .claude/settings.json is tracked
+  PASS  V4 guard fires on a forbidden probe   5/5 classes refused with rc 2
+  PASS  V5 guard passes benign calls          benign Bash + non-Bash tool both rc 0
+  PASS  V6 escape hatch cannot unlock host-power   still rc 2 with the marker present
+  PASS  V7 preamble document           both mandated headings + anchor literal present
+  PASS  V8 upstream hermetic harness present
+  PASS=8 FAIL=0 UNDET=0                                                     rc=0</code></pre>
+<h3 id="paired-proof-3">Paired proof</h3>
+<pre><code>bash scripts/verify-pretooluse-guard.sh --prove-failure   # rc 0, 15 cases</code></pre>
+<p>The CONTROL is a <strong>synthetic</strong> throwaway tree built in
+<code>mktemp -d</code>, green by construction, so no state of the real
+repository can redden the control and silently switch the battery off.
+Every mutation is applied to that throwaway; nothing in
+<code>submodules/constitution</code> is ever written to.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>case</th>
+<th>asserts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>C1</code></td>
+<td>an intact synthetic tree passes — rc 0</td>
+</tr>
+<tr>
+<td><code>M1</code></td>
+<td>the <code>hooks</code> key removed from settings → rc 1</td>
+</tr>
+<tr>
+<td><code>M2</code></td>
+<td>wired to a LOCAL COPY of the guard instead of the submodule path →
+rc 1, even though the copy is byte-identical</td>
+</tr>
+<tr>
+<td><code>M3</code></td>
+<td>the guard <strong>neutered</strong> to <code>exit 0</code> → rc 1.
+This is the mutation the whole check is for: settings unchanged, config
+assertion still green, guard useless</td>
+</tr>
+<tr>
+<td><code>M4</code></td>
+<td>the guard <strong>over-blocking</strong> with <code>exit 2</code> →
+rc 1</td>
+</tr>
+<tr>
+<td><code>M5</code></td>
+<td>a guard that lets <code># guardrails:allow</code> unlock host-power
+→ rc 1</td>
+</tr>
+<tr>
+<td><code>M6</code></td>
+<td>settings.json UNTRACKED → rc 1 — the <code>.git/hooks/</code> hole,
+caught</td>
+</tr>
+<tr>
+<td><code>M7</code></td>
+<td>the canonical guard script deleted → rc 1</td>
+</tr>
+<tr>
+<td><code>M8</code>–<code>M10</code></td>
+<td>preamble deleted / a mandated heading stripped / the
+<code>11.4.109</code> literal stripped → rc 1 each</td>
+</tr>
+<tr>
+<td><code>M11</code></td>
+<td>the upstream hermetic harness deleted → rc 1</td>
+</tr>
+<tr>
+<td><code>M12</code></td>
+<td>settings.json malformed, so the harness would load no hooks at all →
+rc 1</td>
+</tr>
+<tr>
+<td><code>U1</code>, <code>U2</code></td>
+<td>not a git tree, and an absent root → <strong>rc 2</strong>, never a
+pass</td>
+</tr>
+</tbody>
+</table>
+<p><code>M3</code> and <code>M6</code> are the two that a config-reading
+validator would miss entirely, and they are the two most likely
+real-world regressions: someone edits the submodule copy, or someone
+gitignores <code>.claude/</code>.</p>
+<h3 id="one-defect-the-battery-found-in-its-own-validator">One defect
+the battery found in its own validator</h3>
+<p>The first run reported <code>14 passed / 1 failed</code> with the
+CONTROL red and the mutation labels printed blank. Two real bugs, both
+found by the proof rather than by reading: the synthetic settings
+heredoc emitted <code>\$</code> inside a JSON string, which is an
+invalid JSON escape, so <code>jq</code> refused the file the control
+depended on; and the V4 probe loop read into an undeclared
+<code>label</code>, clobbering the caller’s variable of the same name in
+every case that reached V4. Both are fixed and the second carries an
+inline comment saying why the <code>local</code> is load-bearing.
+Recorded because a proof that found nothing on its first run is the one
+to distrust.</p>
+<h2
+id="zero-findings-sweep-registered-2026-09-05-documented-2026-09-09"><code>zero-findings-sweep</code>
+— registered 2026-09-05, documented 2026-09-09</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>row</td>
+<td><code>check  zero-findings-sweep scripts/audit/zero_findings_sweep.sh    flag    --prove-failure --root /nonexistent</code></td>
+</tr>
+<tr>
+<td>entry point</td>
+<td><code>bash scripts/audit/zero_findings_sweep.sh</code></td>
+</tr>
+<tr>
+<td>paired proof</td>
+<td><code>bash scripts/audit/zero_findings_sweep.sh --prove-failure</code></td>
+</tr>
+<tr>
+<td>rc-2 probe</td>
+<td><code>--root /nonexistent</code> — <strong>measured rc 2</strong>,
+2026-09-09</td>
+</tr>
+<tr>
+<td>anchor</td>
+<td>§11.4.261 (+ clause (C) ratchet)</td>
+</tr>
+</tbody>
+</table>
+<p>This section is the R5 documentation half, written
+<strong>2026-09-09</strong>, four days after the row itself landed. The
+row has been conformant since it was added —
+<code>verify-check-registry.sh</code> reports it PASS — but the registry
+doc carried no entry for it, and a check nobody can read about is a
+check nobody can audit.</p>
+<h3 id="what-it-enforces">What it enforces</h3>
+<p>It iterates the §11.4.261(A) closed vocabulary — shortcomings, gaps,
+weak-spots, danger-zones, todo-fixme, skipped-tests, bluffs, unresolved,
+divergent-stale-orphan, uncatalogued — over every tracked file at this
+root, and compares each class’s live count against the ceiling recorded
+in <code>docs/findings/zero_findings_ratchet.tsv</code>. Scope is by
+construction, not by filter: it enumerates with
+<code>git ls-files</code>, and a gitlink is one entry, so submodule
+content never enters the count. Three exclusions are declared and
+printed on every run, one of which is the sweep’s own source — it
+carries the patterns it hunts for, so scanning itself would be
+self-detection, not a finding.</p>
+<h3 id="contract-4">Contract</h3>
+<p>Three-valued, and a 2 is never a pass:</p>
+<ul>
+<li><strong>0</strong> — every class is within its ceiling.</li>
+<li><strong>1</strong> — at least one class ROSE above its ceiling. The
+seam is refused.</li>
+<li><strong>2</strong> — COULD NOT DETERMINE: no ratchet snapshot
+recorded, a detector input missing, or the root absent. An unrecorded
+baseline is never a pass, and a blind detector reports blind rather than
+zero.</li>
+</ul>
+<p><code>--write-ledger</code> regenerates
+<code>docs/findings/zero_findings_ledger.jsonl</code> (the §11.4.261(B)
+SSoT). <code>--write-ratchet</code> regenerates the ceilings and
+<strong>refuses to raise any of them</strong>, which is clause (C)
+implemented rather than described.</p>
+<h3 id="paired-proof-4">Paired proof</h3>
+<p><code>--prove-failure</code> — <strong>15/15 mutations caught,
+measured 2026-09-09</strong>, every one DATA (planted fixtures in a
+throwaway tree), never an edit to the sweep, so no mutation can leave a
+weakened detector behind. It carries a CONTROL that proves the proof is
+not vacuous, one mutation per vocabulary class (M1–M10), and three that
+matter more than the rest:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>case</th>
+<th>asserts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>M11</td>
+<td>a finding above the ceiling makes the sweep REFUSE (rc 1) — the rise
+fails closed</td>
+</tr>
+<tr>
+<td>M12</td>
+<td><code>--write-ratchet</code> REFUSED to raise a ceiling (rc 1) —
+debt cannot be absorbed by re-baselining upward</td>
+</tr>
+<tr>
+<td>M13</td>
+<td>a tree with no ratchet snapshot returns rc <strong>2</strong>, not
+rc 0</td>
+</tr>
+<tr>
+<td>M14</td>
+<td>removing a detector input returns rc <strong>2</strong> — the DROP
+direction, so a detector that stops detecting is reported blind rather
+than as zero findings</td>
+</tr>
+</tbody>
+</table>
+<p>M14 is the case that keeps this sweep out of the trap the
+constitution sweep itself fell into before 2026-09-02 (see <em>The
+ledger, and why it is not a hardcoded list</em> above): a count that
+falls because the instrument stopped looking must never read as
+progress.</p>
+<p><code>--selftest</code> is separate and cheaper: <strong>22 passed /
+0 failed</strong>, golden-good clean, golden-bad detected in all 10
+classes, plus negative controls.</p>
+<h3 id="measured-on-this-tree-2026-09-09-and-it-is-red">Measured on this
+tree, 2026-09-09 — and it is RED</h3>
+<p><strong>exit 1.</strong> 2860 tracked files scanned after 2 declared
+exclusions:</p>
+<pre><code>shortcomings 1 &gt; 0 | skipped-tests 16 &gt; 9 | TOTAL 35 &gt; 26   -&gt; RATCHET REFUSED</code></pre>
+<p>The other seven classes are within ceiling. This red is the ratchet
+working, not the sweep failing, and it is <strong>left red
+deliberately</strong>: the ceilings may only ever be lowered, and
+neither risen class can be honestly cleared from here. The one
+<code>shortcomings</code> row is the registry’s own remaining DEBT row
+(<code>translation-review</code>, which owes a proof and a three-valued
+exit and needs a reviewer model backend). The <code>skipped-tests</code>
+rise is mostly <code>_tests/preflight.js</code> and
+<code>_tests/prove-preflight.sh</code>, added 2026-09-06 — real new
+matches in real new files, not a detector change.</p>
+<h3 id="the-stale-ssot-defect-this-section-records">The stale-SSoT
+defect this section records</h3>
+<p>Until 2026-09-09 the committed ledger was the one written
+<strong>2026-09-04</strong> and recorded 26 rows while the live sweep
+measured 35. Because <code>CM-ZERO-FINDINGS-MONOTONE-RATCHET</code>
+reads the <em>ledger</em>, and the README zero-findings badge reads the
+<em>ledger</em>, both were <strong>green/amber over a stale
+SSoT</strong> while the live sweep refused the seam. Regenerating the
+ledger flipped the gate to its honest FAIL and the badge to its honest
+colour. Nothing was weakened; a false green was removed. <strong>A
+ledger that is not regenerated is not a record, it is a memory of a tree
+that no longer exists.</strong></p>
+<h2
+id="badge-computer-registered-2026-09-05-documented-2026-09-09"><code>badge-computer</code>
+— registered 2026-09-05, documented 2026-09-09</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>field</th>
+<th>value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>row</td>
+<td><code>check  badge-computer  scripts/badges/compute_badges.sh    flag    --prove-failure --check --root /nonexistent</code></td>
+</tr>
+<tr>
+<td>entry point</td>
+<td><code>bash scripts/badges/compute_badges.sh --check</code></td>
+</tr>
+<tr>
+<td>paired proof</td>
+<td><code>bash scripts/badges/compute_badges.sh --prove-failure</code></td>
+</tr>
+<tr>
+<td>rc-2 probe</td>
+<td><code>--check --root /nonexistent</code> — <strong>measured rc
+2</strong>, 2026-09-09</td>
+</tr>
+<tr>
+<td>anchor</td>
+<td>§11.4.259 (clauses A, C, D, E, F)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-it-enforces-1">What it enforces</h3>
+<p>§11.4.259(C) is the clause that decides what this script is: every
+badge’s colour and value is COMPUTED from a live source of truth, never
+hand-typed. The script separates MEASURE (run commands against this
+tree), CLASSIFY (turn a measurement into one of the closed
+GREEN/AMBER/RED vocabulary) and RENDER (emit Markdown), so the (F)
+golden fixtures can exercise classify and render with planted inputs
+without first breaking the real repository. <code>--check</code> re-runs
+the measurements and REFUSES when the committed row no longer matches
+them; <code>--write</code> regenerates the row in <code>README.md</code>
+and the provenance table in <code>docs/BADGES.md</code>.</p>
+<h3 id="contract-5">Contract</h3>
+<ul>
+<li><strong>0</strong> — the committed row matches every live
+source.</li>
+<li><strong>1</strong> — DRIFT: the row disagrees with a measurement, is
+missing, or a badge has no provenance entry.</li>
+<li><strong>2</strong> — COULD NOT DETERMINE (e.g. the README is
+absent). Never a pass.</li>
+</ul>
+<h3 id="paired-proof-5">Paired proof</h3>
+<p><code>--prove-failure</code> — <strong>9/9 mutations caught, measured
+2026-09-09</strong>, including the CONTROL. The load-bearing ones are M1
+(a 0% measurement against a 90% target classifies RED, not GREEN — the
+§11.4.259(F) golden-RED assertion, the bluff the anchor names
+explicitly), M2 (the colour <code>beta</code> is REFUSED — clause (A)
+admits no gradations), M4 (a stale row claiming green over a red
+measurement → rc 1), M5 (an absent README → rc 2, not 0), M6 (the
+production-readiness gauge over <code>{amber,red}</code> inputs is RED —
+it cannot outrank its inputs) and M8 (all 12 badges carry a non-empty
+provenance string).</p>
+<p><code>--selftest</code> runs the clause-(F) fixtures: <strong>12
+passed / 0 failed</strong> — golden-good GREEN, golden-bad RED,
+golden-amber AMBER, plus negative controls asserting the colour actually
+reaches the rendered URL.</p>
+<h3
+id="measured-on-this-tree-2026-09-09-the-row-was-stale-and-understated-the-red">Measured
+on this tree, 2026-09-09 — the row was STALE and understated the
+red</h3>
+<p><code>--check</code> opened at <strong>rc 1</strong>. The committed
+row claimed <code>evidence 22/22 proofs</code> (amber) and a gauge of
+<code>blocked, 8 red</code>; the live measurement said
+<code>evidence 29/30 proofs</code> (<strong>red</strong>) and
+<code>blocked, 9 red</code>. The README was therefore showing a
+<strong>friendlier</strong> picture than the tree — the §11.4.259(E)
+always-in-sync violation, in the direction that matters.
+<code>--write</code> regenerated it and <code>--check</code> now exits
+<strong>0</strong> (12 badges in sync).</p>
+<p>The row is honestly red — 9 RED, 2 AMBER, 1 GREEN, gauge RED — and
+that is compliance, not failure. §11.4.259’s own honest boundary says
+so: <em>“a project whose badge row is HONESTLY red is compliant with
+§11.4.259 (the reader gets the truth) even while it fails other release
+gates.”</em> The alternative — omitting the classes this project has no
+instrument for — is the §11.4.201(6) FALSE-NULL the anchor names by
+name.</p>
+<h3
+id="one-defect-this-sessions-re-measurement-found-in-the-badge-computer-itself">One
+defect this session’s re-measurement found in the badge computer
+itself</h3>
+<p>Regenerating the row surfaced a fault the earlier green
+<code>--check</code> could not have shown, because it only appears once
+a badge CHANGES colour. Both the <code>zero-findings</code> and
+<code>evidence</code> badges built their provenance string with the
+rationale <strong>hardcoded</strong>:
+<code>"... AMBER because the §11.4.261 invariant is ZERO and the ratchet is holding at a brownfield baseline"</code>
+and
+<code>"... AMBER not GREEN because §11.4.262 also requires a CAPTURED evidence ARTIFACT"</code>.
+The colour was computed by a three-branch conditional directly above;
+the sentence explaining it was not. So when the ledger rose past the
+ratchet and the badge correctly turned <strong>RED</strong>,
+<code>docs/BADGES.md</code> went on telling the reader why it was
+AMBER.</p>
+<p>§11.4.259(C) makes provenance part of the badge, not a comment beside
+it — a badge whose provenance is wrong is not a badge with a cosmetic
+blemish. Both rationales are now selected in the same branch that
+selects the colour, so a rationale cannot disagree with the badge it
+explains. Re-measured after the fix: <code>--selftest</code> 12 passed /
+0 failed, <code>--prove-failure</code> 9/9 caught, <code>--check</code>
+rc 0.</p>
+<p>Worth recording for the class, not the instance: <strong>a value and
+the sentence explaining that value must be produced by the same
+branch.</strong> Anywhere they are computed separately, they are free to
+drift, and they will drift silently in the direction of whatever the
+sentence was written for on the day.</p>
+<hr />
+<h2
+id="claim-ledger-added-2026-09-09-11.4.266"><code>claim-ledger</code> —
+added 2026-09-09 (§11.4.266)</h2>
+<p><code>docs/claim-ledger.tsv</code> +
+<code>scripts/verify-claim-ledger.sh</code></p>
+<p>Registered as <code>claim-ledger</code>, proof
+<code>--prove-failure</code>, rc-2 probe
+<code>--root /nonexistent</code>.</p>
+<h3 id="what-it-closes-nine-measured-instances-not-a-hypothesis">What it
+closes — nine measured instances, not a hypothesis</h3>
+<p><strong>No instrument in this tree compared a RECORDED CLAIM against
+the thing it describes.</strong> Every gate here verifies its subject;
+not one verified what the repository <em>says</em> about its subject. A
+gitlink moves, every gate stays green, and the documents go on asserting
+a gap that closed days ago. Nine instances were measured on
+2026-09-07/08/09:</p>
+<ol type="1">
+<li><code>submodules/containers</code> — nine tracked files asserted
+“<code>pkg/runtime</code> has no <code>Run</code>, no
+<code>Create</code>” for five days after the primitive shipped upstream,
+two commits <em>before</em> the pin this tree already consumed.</li>
+<li>Three “actionable FAILs” recorded as work to do; all three already
+existed.</li>
+<li>Two of those gates were <strong>PASSING over a stale ledger</strong>
+— it recorded 26 findings while the live sweep measured 35, and both the
+ratchet gate and the README badge read the LEDGER rather than the live
+sweep.</li>
+<li><code>-question-verify none</code> recorded as unrecognised; it had
+landed in <code>5642dd6</code>.</li>
+<li>A <code>redactions</code> table recorded as empty; it had already
+materialised.</li>
+<li>“34 runs no setting readable today explains” — it is 43, and they
+are.</li>
+<li>“the sweep keeps no expected-gate ledger” — the ledger exists, at
+271 rows.</li>
+<li>A note claiming 66 rows against a 49-row artefact, whose gate exited
+0 because nothing read the prose.</li>
+<li>A stop-rule asserting a PROXY that fires on the safe case.</li>
+</ol>
+<p><strong>Note the shape: several were GREEN GATES OVER STALE GROUND
+TRUTH.</strong> That is the failure this gate must not become, and the
+format is built against it.</p>
+<h3 id="why-a-side-ledger-and-not-in-place-annotation">Why a side ledger
+and not in-place annotation</h3>
+<p>Both were considered. The ledger won on three measurements:</p>
+<ul>
+<li><strong>The four-carrier lockstep constraint.</strong>
+<code>CLAUDE.md</code> / <code>AGENTS.md</code> / <code>QWEN.md</code> /
+<code>GEMINI.md</code> are byte-identical from the measured convergence
+line
+(19) down and cascade check <strong>C5</strong> enforces it. An in-place
+annotation would have to be byte-identical in four files, so
+<em>registering one claim</em> would become a four-file lockstep edit —
+and every such edit is a chance to put C5 red. Registration must be
+cheap or it will not happen.</li>
+<li><strong>§11.4.266(A) mandates the ledger shape</strong>: “ONE LEDGER
+PER REPOSITORY, ENUMERATED FROM THE CLAIM SIDE.” A row is the unit the
+anchor names.</li>
+<li><strong>This repository already parses ledgers as TSV</strong> —
+<code>scripts/check-registry.tsv</code>,
+<code>scripts/constitution-gate-ledger.tsv</code>,
+<code>docs/findings/zero_findings_ratchet.tsv</code>. TSV needs no
+<code>yq</code>, and a pre-push instrument must not have a parser that
+can fail to load.</li>
+</ul>
+<p>The cost of the choice is stated rather than hidden: a side ledger
+can be orphaned from the document it describes. That is exactly why
+<strong>L1</strong> exists — a row whose anchor no longer matches is a
+FINDING, not a tidy-up.</p>
+<h3 id="the-format-and-the-one-property-that-keeps-it-honest">The
+format, and the one property that keeps it honest</h3>
+<pre><code>surface  &lt;path&gt;
+claim    &lt;id&gt; &lt;surface&gt; &lt;kind&gt; &lt;bluff-type&gt; &lt;severity&gt; &lt;op&gt; &lt;expected&gt; &lt;anchor&gt; &lt;probe&gt;</code></pre>
+<p><strong>A <code>prose</code> row stores NO measured figure.</strong>
+The CLAIMED value is read out of the document at run time by the
+anchor’s single capture group; the REAL value comes from running the
+probe fresh. There is nothing cached that can go stale, and <strong>no
+way to make such a row green by editing the ledger</strong> — editing
+the anchor only re-points it at different prose. Instance 3 above cannot
+recur in a <code>prose</code> row by construction.</p>
+<p>An <code>assert</code> row is for a claim that states no number (“the
+sweep keeps no expected-gate ledger”). It <em>does</em> store an
+expected value, and that is its honest boundary: someone could make it
+green by editing <code>expected</code> while the prose still asserts the
+old proposition. Prefer <code>prose</code>.</p>
+<p><code>bluff-type</code> is drawn from the <strong>seven-member closed
+vocabulary of §11.4.266(B)</strong> — <code>green-but-broken</code>,
+<code>coverage-theater</code>, <code>rubber-stamp-verified</code>,
+<code>stubbed-core</code>, <code>doc-vs-code-drift</code>,
+<code>config-present-but-unwired</code>,
+<code>byte-identical-fork</code>. An invented type is a FAIL. The type
+is a <strong>routing key</strong> to the anchor that owns its
+counter-gate (§11.4.266(C)), not a label. <code>severity</code> is
+consumer-supplied DATA — the corpus states no scale; here it is
+<code>blocker | major | minor</code>.</p>
+<h3 id="contract-6">Contract</h3>
+<p>Three-valued, and <strong>2 is never a pass</strong>:</p>
+<ul>
+<li><strong>0</strong> — every row’s claim is still made and still
+agrees with a measurement taken during <em>this run</em></li>
+<li><strong>1</strong> — a claim is FALSE, a row is an ORPHAN, a row
+carries an invented bluff type, or a row is malformed</li>
+<li><strong>2</strong> — no <code>python3</code>, no ledger, <strong>a
+ledger with zero claim rows</strong> (vacuity: a gate that reports 0
+over nothing has certified nothing), an absent surface, or a probe that
+would not run</li>
+</ul>
+<p><strong>Precedence: 1 outranks 2</strong>, and it is asserted by
+mutation <code>P1</code> rather than declared. If 2 won, one broken
+probe anywhere would mask every false claim in the file.</p>
+<p><strong>Every occurrence of an anchor is checked, not the
+first.</strong> A dead figure written in a live figure’s clothes is a
+finding. This repository deliberately records superseded numbers in
+prose, so an anchor must be specific enough to match only the live
+assertion — a too-loose anchor surfaces as a FALSE, never as silence.
+Control arm <code>C1</code> proves a superseded figure recorded
+<em>outside</em> the anchor stays green, so the withdraw-by-name
+convention is not made impossible.</p>
+<h3 id="paired-proof-1.1-13-arms-data-driven-in-a-throwaway-lab">Paired
+proof (§1.1) — 13 arms, data-driven, in a throwaway lab</h3>
+<p>Nothing in the battery edits the gate, and nothing runs against the
+live tree. Two controls, eight mutations, three rc-2 arms:</p>
+<pre><code>C0  CONTROL — a fully TRUE ledger over a matching tree fires nothing        rc 0
+C1  CONTROL — a SUPERSEDED figure in prose, outside the anchor, stays green rc 0
+M1  the DOCUMENT&#39;S asserted figure is falsified                            rc 1
+M2  REALITY MOVES while the claim stays put — THE measured defect class     rc 1
+M3  ORPHAN — the claim is deleted, the row survives                        rc 1
+M4  a SECOND occurrence of the claim shape carries a DEAD figure           rc 1
+M5  an INVENTED bluff type outside the seven-member closed set             rc 1
+M6  a MALFORMED row                                                        rc 1
+M7  an ASSERT row&#39;s reality moves — the thing it denies now exists         rc 1
+U1  a probe that WILL NOT RUN is UNDETERMINED, never verified              rc 2
+U2  an ABSENT SURFACE is UNDETERMINED                                      rc 2
+U3  VACUITY — a ledger with zero claim rows certifies nothing              rc 2
+P1  PRECEDENCE — a FALSE claim outranks an UNDETERMINED one                rc 1</code></pre>
+<p><strong>C0 is the §11.4.201(1) golden-FALSE fixture</strong>: a
+fully-populated ledger whose every row is true must fire
+<em>nothing</em>. <strong>M2 is the load-bearing arm.</strong> All nine
+measured instances have that shape — reality moved, the claim did not —
+and a gate that caught only M1’s direction would have caught
+<em>none</em> of them.</p>
+<p><strong>Every arm declares <code>expect_change</code>, and an arm
+whose body leaves the lab byte-identical FAILS.</strong> Adopted from
+the lesson recorded in
+<code>workshop/platform/gates/prove-plan-coverage-proposal.sh</code>,
+where three arms silently became no-ops when the figures they named
+literally moved, and only surfaced because they wanted rc 1 — an arm
+wanting rc 0 would have passed for ever while testing nothing. The
+harness was itself proved operative: seeding M2’s body with
+<code>true</code> in a throwaway copy produces
+<code>FAIL M2 … the arm body left the lab BYTE-IDENTICAL</code>, and the
+battery exits 1.</p>
+<h3
+id="what-this-gate-does-not-assert-read-before-quoting-a-green-exit">What
+this gate does NOT assert — read before quoting a green exit</h3>
+<ul>
+<li><strong>COMPLETENESS.</strong> §11.4.266(A) requires <em>every</em>
+advertised capability on every declared surface to resolve to exactly
+one row. <strong><code>CM-CLAIM-REALITY-LEDGER-COMPLETE</code> IS NOT
+SATISFIED.</strong> The ledger is a bounded slice of 10 rows and both
+the gate and the ledger say so on every run. <code>--completeness</code>
+counts unregistered countable-claim shapes and reports them as waves for
+an operator to approve; it is a NOTE, never a verdict input, because a
+heuristic claim-shape scanner cannot decide what is a claim.</li>
+<li><strong>ORACLE STRENGTH.</strong> A row proves the claim agrees with
+what its probe measured, not that the probe measures the right thing
+(§11.4.245, §1.1).</li>
+<li><strong>The other three carriers.</strong> A shared-region claim is
+registered once against <code>CLAUDE.md</code>; C5’s byte-identity
+covers <code>AGENTS.md</code> / <code>QWEN.md</code> /
+<code>GEMINI.md</code>. If C5 went red, a now-false claim surviving in
+one carrier alone would be invisible <em>here</em>. The two gates are
+complements.</li>
+</ul>
+<h3
+id="first-real-run-2026-09-09-red-on-three-genuinely-stale-claims">First
+real run, 2026-09-09 — RED, on three genuinely stale claims</h3>
+<pre><code>   rows:    10 claim row(s) over 5 declared surface(s)
+   verdict: 7 VERIFIED · 3 FALSE · 0 ORPHAN · 0 MALFORMED/UNTYPED · 0 UNDETERMINED</code></pre>
+<p>The three FALSE rows were real and were <strong>not</strong>
+seeded:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>row</th>
+<th>the document said</th>
+<th>a fresh measurement said</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>carriers-containers-consumer-files</code></td>
+<td><code>_tools/containers/</code> has <strong>7</strong> tracked
+files</td>
+<td><strong>18</strong></td>
+</tr>
+<tr>
+<td><code>carriers-sweep-keeps-no-gate-ledger</code></td>
+<td>the sweep keeps <strong>no expected-gate ledger</strong></td>
+<td>it exists, 271 rows</td>
+</tr>
+<tr>
+<td><code>readme-zero-findings-badge</code></td>
+<td>badge: <code>zero findings — 35 over ratchet</code></td>
+<td>live sweep TOTAL <strong>33</strong>, then <strong>34</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The last row is instance 3 recurring while this gate was being
+written: the badge was computed once and frozen, the sweep kept moving,
+and the README went on showing a friendlier picture than the tree. It
+also moved <strong>between two runs of this gate in the same
+session</strong>, which is why the gate fingerprints its read set and
+reports a moving corpus by path.</p>
+</body>
+</html>

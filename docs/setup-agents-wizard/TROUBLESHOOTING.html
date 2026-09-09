@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TROUBLESHOOTING</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">TROUBLESHOOTING</h1>
+</header>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<p>Symptom -&gt; diagnosis -&gt; fix for
+<code>scripts/setup-agents-wizard.sh</code> and the Lumen semantic
+search stack it configures.</p>
+<p>Background reading: <a href="./README.md">README.md</a> (what gets
+installed), <a href="./FAQ.md">FAQ.md</a> (why it is built this way) and
+<a href="./SAFETY-AND-ROLLBACK.md">SAFETY-AND-ROLLBACK.md</a> (how to
+undo a run).</p>
+<p>If the embedding backend runs on an Intel iGPU through Vulkan, read
+<a href="./OLLAMA-REMEDIATION.md">OLLAMA-REMEDIATION.md</a> before
+anything else here — that hardware returns silently-corrupt vectors
+under HTTP 200, so several symptoms below have one shared cause that no
+amount of restarting will clear.</p>
+<p><strong>Start with these two</strong>, whatever your symptom. Both
+are read-only and safe to run at any time, including during an index
+build:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/ollama-vulkan-remediation.sh</span> <span class="at">--check</span>     <span class="co"># is the backend the corrupting one?</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-index-doctor.sh</span> <span class="st">&quot;</span><span class="va">$PWD</span><span class="st">&quot;</span>             <span class="co"># is the existing index already poisoned?</span></span></code></pre></div>
+<p>The second one matters even when everything looks fine: the worst
+failure mode has <strong>no symptom at all</strong> — see <a
+href="#14-the-index-is-silently-corrupt-stale-duplicate-vectors">#14</a>.
+Reference for both: <a
+href="./OPERATIONAL-SCRIPTS.md">OPERATIONAL-SCRIPTS.md</a>.</p>
+<hr />
+<h2 id="second-health-check">60-second health check</h2>
+<p>Run this first — it reproduces what the wizard’s own
+<code>verify_lumen</code> checks, plus the state of the embedding
+backend:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> lumen                                   <span class="co"># -&gt; /home/&lt;you&gt;/.local/bin/lumen</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> version                                      <span class="co"># -&gt; e.g. 0.0.41</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> <span class="at">-lc</span> <span class="st">&#39;command -v lumen&#39;</span>                        <span class="co"># must ALSO resolve in a login shell</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-sf</span> http://localhost:11434/api/tags <span class="op">&gt;</span>/dev/null <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> backend-ok <span class="kw">||</span> <span class="bu">echo</span> backend-DOWN</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> http://localhost:11434/api/embed <span class="dt">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span> <span class="st">&#39;{&quot;model&quot;:&quot;ordis/jina-embeddings-v2-base-code&quot;,&quot;input&quot;:&quot;health check&quot;}&#39;</span> <span class="dt">\</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-q</span> <span class="st">&#39;&quot;embeddings&quot;&#39;</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> embed-ok <span class="kw">||</span> <span class="bu">echo</span> embed-BROKEN   <span class="co"># reachable != healthy</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> list <span class="kw">|</span> <span class="fu">grep</span> ordis/jina-embeddings-v2-base-code</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp get lumen                               <span class="co"># Claude Code registration</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-r</span> <span class="st">&#39;.mcpServers.lumen | .command + &quot; &quot; + .args[0]&#39;</span> ~/.kimi-code/mcp.json ~/.qwen/settings.json</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-c</span> <span class="st">&#39;.mcp.lumen&#39;</span> ~/.config/opencode/opencode.json</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ~/.local/share/lumen</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--list</span>         <span class="co"># the run is recorded and undoable</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-c</span> <span class="st">&#39;.mcpServers.lumen&#39;</span> ~/.claude.json           <span class="co"># the mirror MiMo and friends inherit</span></span></code></pre></div>
+<p>The <code>jq</code> lines should print an absolute path ending in
+<code>/.local/bin/lumen stdio</code>; the <code>du</code> line, a size
+for the index store.</p>
+<p><strong>Then the two checks the list above cannot make.</strong>
+Every command in it is a <em>per-item</em> probe, and the failure that
+cost this project the most was invisible to exactly that kind of
+probe:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/ollama-vulkan-remediation.sh</span> <span class="at">--check</span>     <span class="co"># expect library=cpu + &quot;batch probe: OK 32/32&quot;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-index-doctor.sh</span> <span class="st">&quot;</span><span class="va">$PWD</span><span class="st">&quot;</span>             <span class="co"># exit 0 = the stored vectors are trustworthy</span></span></code></pre></div>
+<p><code>--check</code> is read-only and defaults to that, so running it
+bare is safe. The doctor is read-only too and safe during an index run.
+See <a
+href="#14-the-index-is-silently-corrupt-stale-duplicate-vectors">#14</a>.</p>
+<hr />
+<h2 id="quick-triage">Quick triage</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Symptom</th>
+<th style="text-align: left;">Diagnosis</th>
+<th style="text-align: left;">Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td
+style="text-align: left;"><code>lumen: could not locate the Lumen plugin binary</code>,
+exit <code>127</code></td>
+<td style="text-align: left;">Wrapper installed, plugin binary
+absent</td>
+<td style="text-align: left;">Install the Lumen plugin
+(<code>/plugin</code> in Claude Code) or set <code>LUMEN_BIN</code> — <a
+href="#1-lumen-could-not-locate-the-lumen-plugin-binary-exit-127">#1</a></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>Error: unknown command "serve" for "lumen"</code></td>
+<td style="text-align: left;">Stale MCP config still passing
+<code>serve</code></td>
+<td style="text-align: left;">Re-run the wizard, or change the agent’s
+<code>args</code> to <code>["stdio"]</code> — <a
+href="#2-error-unknown-command-serve-for-lumen">#2</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Indexing looks stuck; searches keep saying
+<code>Index is being updated in the background</code></td>
+<td style="text-align: left;">Embedding throughput is the bottleneck;
+concurrent indexers share one ollama</td>
+<td style="text-align: left;">Watch
+<code>pgrep -af "lumen.*index"</code> and ollama CPU; index one project
+at a time — <a
+href="#3-indexing-appears-stuck-or-every-search-says-the-index-is-updating">#3</a></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>No results found.</code></td>
+<td style="text-align: left;">Index still building, or the score
+threshold cut everything</td>
+<td style="text-align: left;">Wait for indexing; then
+<code>--min-score -1 -n 20</code> — <a
+href="#4-search-returns-no-results-found">#4</a></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>Embedding backend unreachable</code>
+/ index and search both fail</td>
+<td style="text-align: left;">ollama not running or not listening where
+Lumen looks</td>
+<td style="text-align: left;"><code>systemctl is-active ollama</code>;
+<code>sudo systemctl enable --now ollama</code> — <a
+href="#5-embedding-backend-unreachable">#5</a></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>Embedding backend is WEDGED … returns NaN for every input</code>,
+or an HTTP 500 <code>unsupported value: NaN</code> followed by Lumen’s
+usage text</td>
+<td style="text-align: left;">The ollama runner is up but broken —
+<code>/api/tags</code> still answers <code>200</code></td>
+<td style="text-align: left;"><code>ollama stop &lt;model&gt;</code> for
+a fresh runner — <a
+href="#5b-embedding-backend-is-wedged-nan-for-every-input">#5b</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">The wizard warns
+<code>Embedding model is GPU-offloaded and ollama reports library=Vulkan</code></td>
+<td style="text-align: left;">The corrupting path. A large
+<strong>batch</strong> comes back as all-zero — or, worse, as a
+well-formed <em>stale duplicate</em> — under HTTP 200</td>
+<td
+style="text-align: left;"><code>./scripts/ollama-vulkan-remediation.sh --check</code>,
+then <code>--apply</code> — <a
+href="#14-the-index-is-silently-corrupt-stale-duplicate-vectors">#14</a>
+· <a href="./OLLAMA-REMEDIATION.md">OLLAMA-REMEDIATION.md</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Searches “work” but return plausible
+nonsense, or miss files you know are indexed. <strong>No error
+anywhere.</strong></td>
+<td style="text-align: left;">Stale-duplicate vectors written under HTTP
+200. Invisible to NaN / all-zero / L2-norm checks</td>
+<td
+style="text-align: left;"><code>./scripts/lumen-index-doctor.sh "$PWD"</code>
+— <a
+href="#14-the-index-is-silently-corrupt-stale-duplicate-vectors">#14</a></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>REFUSING TO START: ollama reports library=Vulkan</code>
+(exit <code>3</code>) from <code>lumen-reindex.sh</code></td>
+<td style="text-align: left;">Working as designed — it will not write
+more corrupt vectors</td>
+<td style="text-align: left;">Fix the backend, or pass
+<code>--allow-gpu</code> if you accept the risk — <a
+href="#14-the-index-is-silently-corrupt-stale-duplicate-vectors">#14</a></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>❌ no Lumen index found for … under …</code>
+(exit <code>2</code>) from <code>lumen-index-doctor.sh</code></td>
+<td style="text-align: left;">No index exists for that project, or
+<code>LUMEN_STORE</code> points elsewhere</td>
+<td style="text-align: left;">Index it first; check
+<code>ls ~/.local/share/lumen/*/index.db</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>command -v ashlr</code> finds
+nothing</td>
+<td style="text-align: left;"><strong>Expected.</strong> ashlr is a
+Claude Code plugin with no binary — by design</td>
+<td style="text-align: left;">Check
+<code>~/.claude/plugins/cache/ashlr-marketplace/ashlr/</code>, then run
+the three slash commands — <a
+href="./ACTION-REQUIRED.md">ACTION-REQUIRED.md</a></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>mimo mcp list</code> does not show
+<code>lumen</code></td>
+<td style="text-align: left;"><code>~/.claude.json</code> lacks
+<code>.mcpServers.lumen</code> (MiMo inherits from it), or MiMo started
+before it was added</td>
+<td style="text-align: left;">Re-run the wizard, then restart MiMo.
+Check with <code>jq -c '.mcpServers.lumen' ~/.claude.json</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">The wizard seems to hang at the very
+end</td>
+<td style="text-align: left;">It is waiting for <strong>Enter</strong>
+on the <code>ACTION REQUIRED</code> list</td>
+<td style="text-align: left;">Press Enter. For automation,
+<code>WIZARD_NONINTERACTIVE=1</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Backend is up but indexing still
+fails</td>
+<td style="text-align: left;">Embedding model not pulled</td>
+<td
+style="text-align: left;"><code>ollama pull ordis/jina-embeddings-v2-base-code</code>
+— <a href="#6-embedding-model-missing">#6</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">A file you just created/edited never
+appears in results</td>
+<td style="text-align: left;">It was created after the indexer’s tree
+walk started</td>
+<td style="text-align: left;">Re-run
+<code>lumen index &lt;path&gt;</code> (incremental) — <a
+href="#7-newly-created-or-edited-files-are-missing-from-search-results">#7</a></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>jq: command not found</code>, or the
+wizard exits at Step 1</td>
+<td style="text-align: left;"><code>jq</code> missing and no supported
+package manager</td>
+<td style="text-align: left;">The wizard auto-installs it; otherwise
+install manually — <a href="#8-jq-missing">#8</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Worry about <code>PATH</code> growing
+after repeated runs</td>
+<td style="text-align: left;">Not possible — the block is
+<code>case</code>-guarded</td>
+<td style="text-align: left;">Verify with
+<code>tr ':' '\n' &lt;&lt;&lt;"$PATH" \| sort \| uniq -d</code> — <a
+href="#9-duplicate-path-entries-after-several-runs">#9</a></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>lumen: command not found</code>
+right after the wizard finished</td>
+<td style="text-align: left;">Current shell never re-read its rc
+files</td>
+<td style="text-align: left;"><code>exec bash -l</code> — <a
+href="#10-lumen-command-not-found-right-after-the-wizard-finishes">#10</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">Need to file a bug</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Run the test suite and attach
+<code>.test-evidence/&lt;timestamp&gt;/</code> — <a
+href="#11-collecting-evidence-for-a-bug-report">#11</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">The wizard broke something and you want it
+back</td>
+<td style="text-align: left;">Every run is recorded in a manifest</td>
+<td
+style="text-align: left;"><code>./scripts/rollback-agents-wizard.sh --dry-run</code>,
+then <code>--yes</code> — <a
+href="#12-restoring-from-a-backup-session">#12</a></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>❌ Backup missing for &lt;file&gt;</code>
+/ <code>❌ No backup sessions found at …</code></td>
+<td style="text-align: left;">The session’s <code>files/</code> copy or
+the whole state directory is gone, or <code>WIZARD_STATE_DIR</code>
+differs</td>
+<td style="text-align: left;">Check <code>--list</code>, match
+<code>WIZARD_STATE_DIR</code>, else uninstall by hand — <a
+href="#13-rollback-says-the-backup-is-missing">#13</a></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="lumen-could-not-locate-the-lumen-plugin-binary-exit-127">1.
+<code>lumen: could not locate the Lumen plugin binary</code> (exit
+127)</h2>
+<p><strong>Symptom</strong></p>
+<pre><code>lumen: could not locate the Lumen plugin binary.
+
+Looked under:
+  ~/.claude-shared/plugins/cache/*/lumen/*/bin/
+  ~/.claude*/plugins/cache/*/lumen/*/bin/
+
+Is the Lumen plugin installed? In Claude Code run:  /plugin
+Or point at the binary directly:  export LUMEN_BIN=/path/to/lumen-linux-amd64</code></pre>
+<p>Exit status is <code>127</code>, deliberately — never <code>0</code>.
+A silent success here would leave agents thinking Lumen works (tests
+<strong>B7</strong>, <strong>B8</strong>).</p>
+<p><strong>Diagnosis</strong></p>
+<p><code>~/.local/bin/lumen</code> is only a launcher. The real binary
+ships with the Claude Code Lumen plugin at a version-pinned path, and
+the wrapper found nothing to <code>exec</code>:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-d</span> ~/.claude-shared/plugins/cache/<span class="pp">*</span>/lumen/<span class="pp">*</span>/bin/ <span class="dv">2</span><span class="op">&gt;</span>/dev/null</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-d</span> ~/.claude<span class="pp">*</span>/plugins/cache/<span class="pp">*</span>/lumen/<span class="pp">*</span>/bin/       <span class="dv">2</span><span class="op">&gt;</span>/dev/null</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">uname</span> <span class="at">-s</span><span class="kw">;</span> <span class="fu">uname</span> <span class="at">-m</span>       <span class="co"># must map to linux|darwin and amd64|arm64</span></span></code></pre></div>
+<p>If those globs print nothing, the plugin is not installed. If they
+print a directory but the error persists, the binary name does not match
+<code>lumen-&lt;os&gt;-&lt;arch&gt;</code> for this host, or it is not
+executable.</p>
+<p><strong>Fix</strong></p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A. Install the plugin from inside Claude Code</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">/plugin</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># B. Or point the wrapper at a binary directly</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">LUMEN_BIN</span><span class="op">=</span>/path/to/lumen-linux-amd64</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> version</span></code></pre></div>
+<p><code>LUMEN_BIN</code> always wins over path resolution. If it is set
+but not executable you get a distinct message and the same exit
+<code>127</code>:</p>
+<pre><code>lumen: LUMEN_BIN is set but not executable: /nope/missing</code></pre>
+<p>Two other <code>127</code> variants come from the host mapping —
+<code>lumen: unsupported OS: ...</code> and
+<code>lumen: unsupported arch: ...</code>. Those mean the wrapper cannot
+name a binary for this platform; use <code>LUMEN_BIN</code>.</p>
+<hr />
+<h2 id="error-unknown-command-serve-for-lumen">2.
+<code>Error: unknown command "serve" for "lumen"</code></h2>
+<p><strong>Symptom</strong></p>
+<p>The MCP server fails to start on every agent session; agent logs
+show:</p>
+<pre><code>Error: unknown command &quot;serve&quot; for &quot;lumen&quot;
+Run &#39;lumen --help&#39; for usage.</code></pre>
+<p><strong>Diagnosis</strong></p>
+<p>Lumen’s MCP subcommand is <code>stdio</code>. <code>serve</code>
+never existed. An old wizard revision wrote
+<code>{"command": "lumen", "args": ["serve"]}</code> into every agent
+config, and that config is still on disk — replacing the wizard does not
+rewrite a config you have since edited by hand.</p>
+<p>Check each agent at its <strong>real</strong> config location:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp get lumen                                          <span class="co"># Claude Code</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> ~/.kimi-code/mcp.json ~/.qwen/settings.json<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">printf</span> <span class="st">&#39;%s -&gt; %s\n&#39;</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$(</span><span class="ex">jq</span> <span class="at">-c</span> <span class="st">&#39;.mcpServers.lumen&#39;</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-c</span> <span class="st">&#39;.mcp.lumen&#39;</span> ~/.config/opencode/opencode.json           <span class="co"># Opencode uses .mcp</span></span></code></pre></div>
+<p>Correct output has <code>stdio</code> and an
+<strong>absolute</strong> command path:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;command&quot;</span><span class="fu">:</span><span class="st">&quot;/home/&lt;you&gt;/.local/bin/lumen&quot;</span><span class="fu">,</span><span class="dt">&quot;args&quot;</span><span class="fu">:</span><span class="ot">[</span><span class="st">&quot;stdio&quot;</span><span class="ot">]</span><span class="fu">}</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;type&quot;</span><span class="fu">:</span><span class="st">&quot;local&quot;</span><span class="fu">,</span><span class="dt">&quot;command&quot;</span><span class="fu">:</span><span class="ot">[</span><span class="st">&quot;/home/&lt;you&gt;/.local/bin/lumen&quot;</span><span class="ot">,</span><span class="st">&quot;stdio&quot;</span><span class="ot">]</span><span class="fu">,</span><span class="dt">&quot;enabled&quot;</span><span class="fu">:</span><span class="kw">true</span><span class="fu">}</span></span></code></pre></div>
+<p><strong>Fix</strong></p>
+<p>Re-run the wizard (it merges with <code>jq</code>, backs up first and
+records the change), or patch in place:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> ~/.kimi-code/mcp.json ~/.qwen/settings.json<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">||</span> <span class="cf">continue</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cp</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">.bak.</span><span class="va">$(</span><span class="fu">date</span> +%Y%m%d%H%M%S<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">tmp</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span><span class="va">)</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">jq</span> <span class="at">--arg</span> bin <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.local/bin/lumen&quot;</span> <span class="dt">\</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>     <span class="st">&#39;.mcpServers.lumen = {&quot;command&quot;: $bin, &quot;args&quot;: [&quot;stdio&quot;]}&#39;</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp remove lumen <span class="at">-s</span> user</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add-json lumen <span class="st">&quot;{</span><span class="dt">\&quot;</span><span class="st">command</span><span class="dt">\&quot;</span><span class="st">:</span><span class="dt">\&quot;</span><span class="va">$HOME</span><span class="st">/.local/bin/lumen</span><span class="dt">\&quot;</span><span class="st">,</span><span class="dt">\&quot;</span><span class="st">args</span><span class="dt">\&quot;</span><span class="st">:[</span><span class="dt">\&quot;</span><span class="st">stdio</span><span class="dt">\&quot;</span><span class="st">]}&quot;</span> <span class="at">-s</span> user</span></code></pre></div>
+<p>Restart the agent afterwards — MCP servers are launched at session
+start.</p>
+<blockquote>
+<p><code>codegraph</code> legitimately uses <code>serve</code>. Only the
+<code>lumen</code> entry changes.</p>
+<p><strong>Look in the right file.</strong> A previous revision wrote
+<code>~/.claude/mcp.json</code>, <code>~/.kimi/config.json</code>,
+<code>~/.opencode/config.json</code>, <code>~/.mimo/config.json</code>
+and <code>~/.qwen-code/config.json</code>. No agent reads any of those —
+they are orphans, and editing them changes nothing. Delete them and use
+the paths above.</p>
+</blockquote>
+<hr />
+<h2
+id="indexing-appears-stuck-or-every-search-says-the-index-is-updating">3.
+Indexing appears stuck, or every search says the index is updating</h2>
+<p><strong>Symptom</strong></p>
+<pre><code>Index is being updated in the background. Results may be incomplete or outdated.
+Use grep/glob/find for code search until indexing finishes (usually a few minutes;
+longer for large repositories).</code></pre>
+<p>…and it keeps saying that for far longer than “a few minutes”.</p>
+<p><strong>Diagnosis</strong></p>
+<p>Indexing is not I/O bound on your repository — it is bound on
+<strong>embedding</strong>. Every chunk is sent to ollama and embedded;
+on CPU-only hosts that is the whole cost. Two things make it worse:</p>
+<ol type="1">
+<li><strong>Concurrent indexers.</strong> Several agents (or several
+projects) each start their own <code>lumen index</code>, and all of them
+queue against the <em>same single</em> ollama backend. They do not fail;
+they just take turns, so each one appears frozen.</li>
+<li><strong>Repository size.</strong> A monorepo can produce a
+multi-hundred-megabyte <code>index.db</code>.</li>
+</ol>
+<p>Confirm which one you have:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pgrep</span> <span class="at">-af</span> <span class="st">&quot;lumen.*index&quot;</span>                          <span class="co"># how many indexers are running, and for what</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> ps                                         <span class="co"># is a model actually loaded and busy</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">top</span> <span class="at">-b</span> <span class="at">-n1</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-15</span>                             <span class="co"># ollama pegging cores == it is working</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ~/.local/share/lumen/<span class="pp">*</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-h</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-5</span> <span class="co"># the growing directory is your project</span></span></code></pre></div>
+<p>Re-run <code>du -sh</code> a minute apart: if the largest directory
+grew, indexing is progressing and you simply need to wait.</p>
+<p><strong>Fix</strong></p>
+<ul>
+<li><p>Let it finish. Use <code>grep</code>/<code>glob</code> for code
+search meanwhile, exactly as the message says.</p></li>
+<li><p>Serialize the work: index the big repository once, from the
+terminal, before opening several agents on it.</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> index /path/to/big/repo</span></code></pre></div></li>
+<li><p>For very large repositories, raise the reindex timeout for that
+shell:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">LUMEN_REINDEX_TIMEOUT</span><span class="op">=</span>1800   <span class="co"># seconds</span></span></code></pre></div></li>
+<li><p>Get per-phase timings to see where the time goes:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> search <span class="st">&quot;some query&quot;</span> <span class="at">-p</span> /path/to/repo <span class="at">--trace</span></span></code></pre></div></li>
+<li><p>If a previous run was killed mid-flight and nothing is making
+progress (<code>pgrep</code> empty, <code>du</code> flat), rebuild that
+one project:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-reindex.sh</span> /path/to/repo <span class="at">--force</span></span></code></pre></div>
+<p>The wrapper is preferable to a bare <code>lumen index -f</code> for a
+long unattended run: it retries around transient backend faults instead
+of dying halfway and printing Lumen’s usage text, which reads like
+<em>you</em> mistyped the command. Exit codes and flags: <a
+href="./OPERATIONAL-SCRIPTS.md#lumen-reindexsh">OPERATIONAL-SCRIPTS.md</a>.</p></li>
+</ul>
+<hr />
+<h2 id="search-returns-no-results-found.">4. Search returns
+<code>No results found.</code></h2>
+<p><strong>Symptom</strong></p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> lumen search <span class="st">&quot;how are user passwords checked&quot;</span> <span class="at">-p</span> /path/to/repo</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">No</span> results found.</span></code></pre></div>
+<p><strong>Diagnosis</strong></p>
+<p>Four plausible causes, in order of likelihood:</p>
+<ol type="1">
+<li>The index is not finished (see <a
+href="#3-indexing-appears-stuck-or-every-search-says-the-index-is-updating">#3</a>)
+— an empty or partial index has nothing above threshold.</li>
+<li>The default result count and score threshold are too strict for a
+vague query. <code>-n</code> defaults to <code>8</code>, and
+low-similarity matches are filtered out.</li>
+<li>You are searching the wrong root. <code>-p</code> is the directory
+to search; <code>--cwd</code> is the project root when <code>-p</code>
+points at a subdirectory. Get these wrong and you query a different
+index.</li>
+<li><strong>The vector for that file is corrupt.</strong> If it was
+embedded by a GPU/Vulkan backend it may be a well-formed but
+<em>stale</em> vector that has nothing to do with the file’s content, so
+no query can ever retrieve it. Rule this out with
+<code>./scripts/lumen-index-doctor.sh "$PWD"</code> — <a
+href="#14-the-index-is-silently-corrupt-stale-duplicate-vectors">#14</a>.</li>
+</ol>
+<p><strong>Fix</strong></p>
+<p>Widen the search before concluding anything is broken:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> search <span class="st">&quot;how are user passwords checked&quot;</span> <span class="at">-p</span> /path/to/repo <span class="at">--min-score</span> <span class="at">-1</span> <span class="at">-n</span> 20</span></code></pre></div>
+<p><code>--min-score</code> accepts <code>-1</code> to <code>1</code>;
+<code>-1</code> disables the cutoff so you see the ranked tail, which
+tells you whether the index has content at all. Then tighten back
+up.</p>
+<p>Other useful shapes:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> search <span class="st">&quot;...&quot;</span> <span class="at">-p</span> /path/to/repo <span class="at">--summary</span>          <span class="co"># locations only, no snippets</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> search <span class="st">&quot;...&quot;</span> <span class="at">-p</span> /path/to/repo/sub <span class="at">--cwd</span> /path/to/repo</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> search <span class="st">&quot;...&quot;</span> <span class="at">-p</span> /path/to/repo <span class="at">-f</span>                 <span class="co"># force a full re-index first</span></span></code></pre></div>
+<p>If <code>--min-score -1 -n 20</code> still returns nothing, the
+project has no index — run <code>lumen index /path/to/repo</code> and
+check <a href="#5-embedding-backend-unreachable">#5</a> and <a
+href="#6-embedding-model-missing">#6</a>.</p>
+<hr />
+<h2 id="embedding-backend-unreachable">5. Embedding backend
+unreachable</h2>
+<p><strong>Symptom</strong></p>
+<p>The wizard prints one of:</p>
+<pre><code>⚠️  Embedding backend unreachable at http://localhost:11434 - Lumen cannot index.
+⚠️  Embedding round-trip failed at http://localhost:11434 - Lumen will fail to index.</code></pre>
+<p>or indexing/searching fails immediately, before any progress.</p>
+<blockquote>
+<p>If instead you see <code>❌ Embedding backend is WEDGED …</code>, the
+daemon is up but broken — jump to <a
+href="#5b-embedding-backend-is-wedged-nan-for-every-input">#5b</a>.</p>
+</blockquote>
+<p><strong>Diagnosis</strong></p>
+<p>Lumen has no built-in embedder. Without ollama (or LM Studio)
+reachable, it can neither chunk nor search.</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-sf</span> http://localhost:11434/api/tags <span class="op">&gt;</span>/dev/null <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> reachable <span class="kw">||</span> <span class="bu">echo</span> unreachable</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">systemctl</span> is-active ollama          <span class="co"># -&gt; active | inactive | failed</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> ollama</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">${OLLAMA_HOST</span><span class="op">:-</span>http://localhost:11434<span class="va">}</span><span class="st">&quot;</span></span></code></pre></div>
+<p>The test suite’s <code>F3</code> probes
+<code>${OLLAMA_HOST:-http://localhost:11434}/api/tags</code> with a
+5-second timeout, so match your check to that URL. The wizard’s own
+<code>verify_lumen</code> starts there too, then goes further: it sends
+a real embedding request to <code>/api/embed</code> (90-second timeout)
+and requires a vector back. <strong>Reachable is not healthy</strong> —
+see <a
+href="#5b-embedding-backend-is-wedged-nan-for-every-input">#5b</a>.</p>
+<p><strong>Fix</strong></p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> systemctl enable <span class="at">--now</span> ollama      <span class="co"># start now and at boot</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="ex">systemctl</span> status ollama <span class="at">--no-pager</span>      <span class="co"># if it refuses to start</span></span></code></pre></div>
+<p>Without systemd, or without root, run it yourself:</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> serve <span class="kw">&amp;</span></span></code></pre></div>
+<p>Pointing at a backend elsewhere (another host, a non-default
+port):</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">OLLAMA_HOST</span><span class="op">=</span>http://<span class="op">&lt;</span>host<span class="op">&gt;</span>:11434</span></code></pre></div>
+<p>Remember the tuning knobs are commented out in the wizard’s
+<code>~/.bashrc</code> block by design — if you set
+<code>OLLAMA_HOST</code> for your shell, agent-spawned MCP servers only
+inherit it if they are started from a shell that has it. See <a
+href="./FAQ.md#why-does-the-wizard-not-set-lumen_embed_model">FAQ: why
+the wizard does not pin these</a>.</p>
+<hr />
+<h2 id="b.-embedding-backend-is-wedged-nan-for-every-input">5b.
+Embedding backend is WEDGED (<code>NaN</code> for every input)</h2>
+<p><strong>Symptom</strong></p>
+<pre><code>❌ Embedding backend is WEDGED at http://localhost:11434 - it returns NaN for every input.
+⚠️  Fix: ollama stop ordis/jina-embeddings-v2-base-code   (a fresh runner clears it)</code></pre>
+<p>Or, when you index by hand, an HTTP 500 followed by Lumen’s usage
+text — which reads like you mistyped the command:</p>
+<pre><code>{&quot;error&quot;:&quot;failed to encode response: json: unsupported value: NaN&quot;}</code></pre>
+<p><strong>Diagnosis</strong></p>
+<p>This is the failure mode that a reachability check cannot see. The
+daemon is up, <code>/api/tags</code> answers <code>200</code>,
+<code>systemctl is-active ollama</code> says <code>active</code> — and
+yet <strong>every</strong> embedding request comes back
+<code>NaN</code>. It happens to the ollama <em>runner</em> process under
+sustained load, and it does not clear itself.</p>
+<p>Confirm it with a round-trip, exactly as the wizard does:</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> http://localhost:11434/api/embed <span class="dt">\</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span> <span class="st">&#39;{&quot;model&quot;:&quot;ordis/jina-embeddings-v2-base-code&quot;,&quot;input&quot;:&quot;health check&quot;}&#39;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># healthy -&gt; {&quot;model&quot;:&quot;...&quot;,&quot;embeddings&quot;:[[0.01,...]]}</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># wedged  -&gt; {&quot;error&quot;:&quot;failed to encode response: json: unsupported value: NaN&quot;}</span></span></code></pre></div>
+<p><strong>Fix</strong></p>
+<p>Stop the model so ollama starts a fresh runner for it:</p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> stop ordis/jina-embeddings-v2-base-code</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> http://localhost:11434/api/embed <span class="dt">\</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-d</span> <span class="st">&#39;{&quot;model&quot;:&quot;ordis/jina-embeddings-v2-base-code&quot;,&quot;input&quot;:&quot;health check&quot;}&#39;</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-c</span> 80</span></code></pre></div>
+<p>If that is not enough, restart the daemon
+(<code>sudo systemctl restart ollama</code>). Then re-index — whatever
+was indexed while the backend was wedged is missing, partial, <strong>or
+silently wrong</strong>:</p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-reindex.sh</span> /path/to/repo <span class="at">--force</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-index-doctor.sh</span> /path/to/repo      <span class="co"># then confirm</span></span></code></pre></div>
+<blockquote>
+<p><strong><code>ollama stop</code> is first aid, not a fix, and the
+<code>NaN</code> is the tombstone rather than the fault.</strong> On an
+Intel iGPU driven by Vulkan, a large embedding <strong>batch</strong>
+times out the i915 fence; ollama reads the abandoned buffer and returns
+garbage under <strong>HTTP 200</strong> long before it ever returns
+<code>NaN</code> — sometimes an all-zero vector, and sometimes a
+<strong>well-formed, unit-norm stale duplicate</strong> that no
+per-vector check can see. A fresh runner clears the tombstone and the
+next large batch recreates the whole situation.</p>
+<p>One command replaces the manual confirmation below:
+<code>./scripts/ollama-vulkan-remediation.sh --check</code> (read-only,
+and the default action). By hand: <code>ollama ps</code>
+(<code>100% GPU</code>) and
+<code>journalctl -u ollama | grep 'inference compute'</code>
+(<code>library=Vulkan</code>). Then apply the fix —
+<code>--apply</code>, or the tiers in <strong><a
+href="./OLLAMA-REMEDIATION.md">OLLAMA-REMEDIATION.md</a></strong>.</p>
+<p><strong>Then check the index</strong>, because none of that repairs
+what was already written: <a
+href="#14-the-index-is-silently-corrupt-stale-duplicate-vectors">#14</a>.
+Evidence for the loud modes is in <a
+href="./OLLAMA-NAN-WEDGE.md">OLLAMA-NAN-WEDGE.md</a>; the settled
+verdict on what reached the index is <a
+href="./INDEX-CORRUPTION-RECONCILIATION.md">INDEX-CORRUPTION-RECONCILIATION.md</a>.</p>
+</blockquote>
+<p>Tests <strong>A33</strong> and <strong>A34</strong> keep this check
+in the wizard: the health probe must use <code>/api/embed</code>, and
+the <code>NaN</code> case must be detected and named rather than
+reported as a generic failure. Tests
+<strong>A35</strong>–<strong>A41</strong> keep the backend-placement
+warning honest: GPU residency and the compute library must both be
+<em>probed</em> (<code>/api/ps</code>, ollama’s
+<code>inference compute</code> line), an unreadable library must be
+reported as unknown rather than assumed clean, and the wizard must never
+apply the remediation itself — no service restart, no write to
+<code>/etc/sysconfig/ollama</code>.</p>
+<hr />
+<h2 id="embedding-model-missing">6. Embedding model missing</h2>
+<p><strong>Symptom</strong></p>
+<p>The backend answers <code>/api/tags</code>, but indexing fails or the
+wizard summary shows:</p>
+<pre><code>  ❌ embedding model (ordis/jina-embeddings-v2-base-code)</code></pre>
+<p><strong>Diagnosis</strong></p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> list <span class="kw">|</span> <span class="fu">grep</span> ordis/jina-embeddings-v2-base-code</span></code></pre></div>
+<p>No row means the model was never pulled — most often because the pull
+failed while the wizard ran (it only warns:
+<code>Model pull failed - Lumen indexing stays broken until it succeeds.</code>).</p>
+<p><strong>Fix</strong></p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> pull ordis/jina-embeddings-v2-base-code</span></code></pre></div>
+<p>Roughly 320 MB, one time. Re-check with <code>ollama list</code>,
+then index again.</p>
+<p>If you deliberately use a different model, pass it per command
+(<code>lumen index -m &lt;model&gt;</code>,
+<code>lumen search -m &lt;model&gt;</code>) and be aware that Lumen
+maintains a <strong>separate index per model</strong> — the same project
+will be embedded twice.</p>
+<hr />
+<h2
+id="newly-created-or-edited-files-are-missing-from-search-results">7.
+Newly created or edited files are missing from search results</h2>
+<p><strong>Symptom</strong></p>
+<p>You add <code>src/new_feature.py</code>, search for something
+obviously in it, and get nothing — while older files in the same
+repository match fine.</p>
+<p><strong>Diagnosis</strong></p>
+<p>Lumen walks the file tree at the moment indexing
+<strong>starts</strong>. Files created after that walk began are not
+part of that pass, no matter how long the pass runs. An index that
+finished “just now” can therefore be missing a file you created two
+minutes ago.</p>
+<p>This is also why an agent that writes files and immediately searches
+for them comes up empty.</p>
+<p><strong>Fix</strong></p>
+<p>Re-run the indexer. It is incremental — unchanged files are not
+re-embedded, so this is cheap:</p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> index /path/to/repo</span></code></pre></div>
+<p>Force a complete rebuild only when you suspect the index itself is
+damaged:</p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> index /path/to/repo <span class="at">-f</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or, in one step, at search time:</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> search <span class="st">&quot;...&quot;</span> <span class="at">-p</span> /path/to/repo <span class="at">-f</span></span></code></pre></div>
+<p>Habit that avoids the problem: index <em>after</em> a batch of file
+creation, not before.</p>
+<hr />
+<h2 id="jq-missing">8. <code>jq</code> missing</h2>
+<p><strong>Symptom</strong></p>
+<pre><code>jq: command not found</code></pre>
+<p>or the wizard stops in Step 1 with
+<code>Could not install jq. Please install it manually.</code></p>
+<p><strong>Diagnosis</strong></p>
+<p><code>jq</code> is what merges MCP servers into every agent config;
+the wizard refuses to continue without it. <code>ensure_jq</code> tries
+to install it automatically:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Platform</th>
+<th style="text-align: left;">Command it runs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Linux with <code>apt-get</code></td>
+<td
+style="text-align: left;"><code>sudo apt-get update -qq &amp;&amp; sudo apt-get install -y jq</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Linux with <code>yum</code></td>
+<td style="text-align: left;"><code>sudo yum install -y jq</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">macOS with <code>brew</code></td>
+<td style="text-align: left;"><code>brew install jq</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">macOS without <code>brew</code></td>
+<td style="text-align: left;">Installs Homebrew, then
+<code>brew install jq</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Anything else</td>
+<td style="text-align: left;">Prints an error and exits
+<code>1</code></td>
+</tr>
+</tbody>
+</table>
+<p>So this only surfaces when you are on a distribution with neither
+<code>apt-get</code> nor <code>yum</code> (pacman, zypper, apk, Nix, …),
+or when <code>sudo</code> is unavailable.</p>
+<p><strong>Fix</strong></p>
+<p>Install <code>jq</code> with your own package manager and re-run the
+wizard:</p>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> pacman <span class="at">-S</span> jq        <span class="co"># Arch</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> zypper install jq   <span class="co"># openSUSE</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apk add jq          <span class="co"># Alpine</span></span></code></pre></div>
+<p>Then confirm: <code>jq --version</code>. The wizard is safe to re-run
+— see <a href="./FAQ.md#is-it-safe-to-re-run-the-wizard">FAQ: is it safe
+to re-run</a>.</p>
+<hr />
+<h2 id="duplicate-path-entries-after-several-runs">9. Duplicate PATH
+entries after several runs</h2>
+<p><strong>Symptom</strong></p>
+<p>Suspicion that running the wizard N times prepends
+<code>~/.local/bin</code> to <code>PATH</code> N times.</p>
+<p><strong>Diagnosis</strong></p>
+<p>It cannot. Two independent mechanisms prevent it:</p>
+<ol type="1">
+<li><p><strong>The blocks are replaced, not appended.</strong>
+<code>strip_managed_block</code> removes the previous marker-delimited
+block before the new one is written, so <code>~/.bashrc</code> holds
+exactly one Lumen block and <code>~/.bash_profile</code> exactly one
+user-bin block, no matter how many runs (tests <strong>C3</strong>,
+<strong>C4</strong>).</p></li>
+<li><p><strong>The line itself is guarded.</strong> Both blocks
+contain:</p>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">case</span> <span class="st">&quot;:</span><span class="va">$PATH</span><span class="st">:&quot;</span> <span class="kw">in</span> <span class="pp">*</span><span class="st">&quot;:</span><span class="va">$HOME</span><span class="st">/.local/bin:&quot;</span><span class="pp">*</span><span class="kw">)</span> <span class="cf">;;</span> <span class="pp">*</span><span class="kw">)</span> <span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.local/bin:</span><span class="va">$PATH</span><span class="st">&quot;</span><span class="cf">;;</span> <span class="cf">esac</span></span></code></pre></div>
+<p>The <code>case</code> matches only when the entry is already
+surrounded by colons in <code>PATH</code>, so sourcing the file
+repeatedly — <code>.bash_profile</code> sourcing <code>.bashrc</code>, a
+nested shell, <code>exec bash -l</code> — is a no-op after the first
+time (test <strong>C8</strong>: exactly one occurrence).</p></li>
+</ol>
+<p>Note the guard is written to disk <em>literally</em>, with
+<code>$PATH</code> and <code>$HOME</code> unexpanded (test
+<strong>C7</strong>). If your <code>~/.bashrc</code> contains a real
+path like <code>/home/someone/.local/bin</code> instead of
+<code>$HOME</code>, that block was not written by this wizard.</p>
+<p><strong>Check it yourself</strong></p>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tr</span> <span class="st">&#39;:&#39;</span> <span class="st">&#39;\n&#39;</span> <span class="op">&lt;&lt;&lt;</span><span class="st">&quot;</span><span class="va">$PATH</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-d</span>          <span class="co"># prints nothing when there are no duplicates</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tr</span> <span class="st">&#39;:&#39;</span> <span class="st">&#39;\n&#39;</span> <span class="op">&lt;&lt;&lt;</span><span class="st">&quot;</span><span class="va">$PATH</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-cx</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.local/bin&quot;</span>   <span class="co"># -&gt; 1</span></span></code></pre></div>
+<p>If a duplicate does show up, it came from elsewhere. Find the
+culprit:</p>
+<div class="sourceCode" id="cb40"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&quot;local/bin&quot;</span> ~/.bashrc ~/.bash_profile ~/.profile ~/.bash_login <span class="dv">2</span><span class="op">&gt;</span>/dev/null</span></code></pre></div>
+<p>Lines outside the <code># &gt;&gt;&gt; ... &gt;&gt;&gt;</code> /
+<code># &lt;&lt;&lt; ... &lt;&lt;&lt;</code> markers are not managed by
+the wizard and will not be removed by it.</p>
+<hr />
+<h2 id="lumen-command-not-found-right-after-the-wizard-finishes">10.
+<code>lumen: command not found</code> right after the wizard
+finishes</h2>
+<p><strong>Symptom</strong></p>
+<p>The wizard’s summary shows
+<code>✅ launcher (/home/&lt;you&gt;/.local/bin/lumen)</code> but the
+very next command in the same terminal says
+<code>lumen: command not found</code>.</p>
+<p><strong>Diagnosis</strong></p>
+<p>The wizard modified <code>~/.bashrc</code> and
+<code>~/.bash_profile</code>; your current shell read those files before
+they changed. <code>PATH</code> in an already-running shell is not
+updated by editing rc files.</p>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> ~/.local/bin/lumen        <span class="co"># exists and is mode 755?</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="ex">~/.local/bin/lumen</span> version      <span class="co"># works when called by absolute path?</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$PATH</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;:&#39;</span> <span class="st">&#39;\n&#39;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-x</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.local/bin&quot;</span></span></code></pre></div>
+<p>If the absolute path works and the <code>grep</code> prints nothing,
+this is the cause.</p>
+<p><strong>Fix</strong></p>
+<div class="sourceCode" id="cb42"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="bu">exec</span> bash <span class="at">-l</span>        <span class="co"># or: . ~/.bashrc, or open a new terminal</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> lumen</span></code></pre></div>
+<p>Full detail, including zsh/fish and the non-interactive cases: <a
+href="./FAQ.md#why-isnt-lumen-found-after-running-the-wizard">FAQ: why
+isn’t lumen found</a> and <a
+href="./FAQ.md#why-does-lumen-work-in-my-terminal-but-not-in-cron--ssh-host-cmd--a-systemd-user-unit">FAQ:
+cron / ssh / systemd</a>.</p>
+<hr />
+<h2 id="collecting-evidence-for-a-bug-report">11. Collecting evidence
+for a bug report</h2>
+<p>Do not describe the failure — reproduce it with the test suite and
+attach the evidence directory. Every assertion records the expected
+value, the actual value and a timestamp.</p>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /path/to/this/repo</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/test-setup-agents-wizard.sh</span></span></code></pre></div>
+<p>It prints the evidence location and a summary:</p>
+<pre><code>================= EVIDENCE =================
+  results.tsv : .test-evidence/&lt;UTC timestamp&gt;/results.tsv
+  run.log     : .test-evidence/&lt;UTC timestamp&gt;/run.log
+  summary.json: .test-evidence/&lt;UTC timestamp&gt;/summary.json
+  total=... passed=... failed=... skipped=...
+============================================</code></pre>
+<p>Attach the whole <code>.test-evidence/&lt;timestamp&gt;/</code>
+directory:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">File</th>
+<th style="text-align: left;">Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>results.tsv</code></td>
+<td style="text-align: left;">One row per assertion: id, group, name,
+PASS/FAIL/SKIP, expected, actual, timestamp</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>run.log</code></td>
+<td style="text-align: left;">Full console transcript, including group
+headers and failure detail</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>summary.json</code></td>
+<td style="text-align: left;">Host (<code>uname</code>, bash version),
+wizard path, totals, exit code</td>
+</tr>
+</tbody>
+</table>
+<p>Useful facts about the suite before you run it:</p>
+<ul>
+<li><p>There are <strong>ten</strong> groups,
+<strong>A</strong>–<strong>J</strong>. The file declares
+<strong>H</strong> before <strong>G</strong>, so the console order is A,
+B, C, D, E, F, H, G, I, J.</p></li>
+<li><p>Groups <strong>A</strong> and <strong>I</strong> read source text
+only — no sandbox, no execution. Groups <strong>B</strong>,
+<strong>C</strong>, <strong>D</strong>, <strong>G</strong> and
+<strong>H</strong> run against a throwaway <code>$HOME</code> (with
+<code>WIZARD_STATE_DIR</code> pointed inside it), and groups
+<strong>E</strong> and <strong>J</strong> against throwaway git
+repositories. None of them touches your real environment.</p></li>
+<li><p>Group <strong>I</strong> covers the three operational scripts
+(<code>ollama-vulkan-remediation.sh</code>,
+<code>lumen-reindex.sh</code>, <code>lumen-index-doctor.sh</code>) and
+group <strong>J</strong> covers <code>audit-hardcoded-paths.sh</code> —
+see <a
+href="./OPERATIONAL-SCRIPTS.md">OPERATIONAL-SCRIPTS.md</a>.</p></li>
+<li><p><strong>Do not quote a fixed total in a bug report</strong> —
+quote <code>summary.json</code>. The count changes as tests are added,
+and <code>--no-live</code> records fewer. For reference, a full live run
+currently produces 138 records (A 54, B 8, C 10, D 5, E 3, F 11, G 18, H
+7, I 14, J 8) and <code>--no-live</code> produces 134. Note
+<code>A</code>, <code>F</code> and <code>I</code> emit more records than
+they have ids, because <code>A12</code>, <code>F2</code> and
+<code>I1</code>–<code>I3</code> are loops.</p></li>
+<li><p>Group <strong>F</strong> is the live one: it checks
+<code>PATH</code> resolution in login/interactive shells, backend
+reachability, the embedding model, and performs a true end-to-end index
++ search on a two-file fixture repository in a temp directory (which it
+purges afterwards). Skip it with:</p>
+<div class="sourceCode" id="cb45"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/test-setup-agents-wizard.sh</span> <span class="at">--no-live</span></span></code></pre></div>
+<p><code>--no-live</code> records <code>F1</code>–<code>F7</code> as
+skips; <code>F8</code> is simply not recorded in that mode, so do not
+read its absence from <code>results.tsv</code> as a failure.</p></li>
+<li><p>Exit status is non-zero if any assertion failed, so it is
+CI-usable as-is.</p></li>
+</ul>
+<p>Add these to the report when the failure is environment-specific:</p>
+<div class="sourceCode" id="cb46"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> version</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">uname</span> <span class="at">-s</span> <span class="at">-m</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> <span class="at">--version</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-1</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">--version</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="ex">systemctl</span> is-active ollama</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> list</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> ~/.local/share/lumen</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp get lumen</span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-c</span> <span class="st">&#39;.mcpServers&#39;</span> ~/.kimi-code/mcp.json ~/.qwen/settings.json</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-c</span> <span class="st">&#39;.mcp&#39;</span>        ~/.config/opencode/opencode.json</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;/&gt;&gt;&gt; lumen semantic search/,/&lt;&lt;&lt; lumen semantic search/p&#39;</span> ~/.bashrc</span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--list</span></span></code></pre></div>
+<p>Redact paths if the repository name is sensitive —
+<code>results.tsv</code> and <code>run.log</code> contain the project
+root and your <code>$HOME</code>.</p>
+<hr />
+<h2 id="restoring-from-a-backup-session">12. Restoring from a backup
+session</h2>
+<p><strong>Symptom</strong></p>
+<p>A wizard run changed something you wanted left alone — a shell file,
+an agent config, the <code>lumen</code> wrapper — and you want it back
+exactly as it was.</p>
+<p><strong>Diagnosis</strong></p>
+<p>You do not need to reconstruct anything by hand. The wizard opens a
+<strong>backup session</strong> before Step 1 and records every mutation
+in it. Find the sessions:</p>
+<div class="sourceCode" id="cb47"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--list</span></span></code></pre></div>
+<pre><code>========================================
+ Backup sessions
+========================================
+  20260826T210411Z      10 changes   components: claude kimi lumen npm opencode qwen shell
+  20260827T090300Z       4 changes   components: claude shell</code></pre>
+<p>Each session is <strong>one wizard run</strong>, holding a
+<code>manifest.tsv</code> and byte-exact copies of the originals under
+<code>files/</code>. Read the manifest directly if you want the
+detail:</p>
+<div class="sourceCode" id="cb49"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="ex">column</span> <span class="at">-t</span> <span class="at">-s</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span> ~/.local/share/setup-agents-wizard/backups/latest/manifest.tsv</span></code></pre></div>
+<p><strong>Fix</strong></p>
+<p>Preview first — <code>--dry-run</code> prints the plan and changes
+nothing:</p>
+<div class="sourceCode" id="cb50"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--dry-run</span></span></code></pre></div>
+<p>Then apply, either wholesale or scoped to one component:</p>
+<div class="sourceCode" id="cb51"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--yes</span>                        <span class="co"># the whole newest run</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> shell <span class="at">--yes</span>               <span class="co"># only ~/.bashrc + ~/.bash_profile</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> opencode <span class="at">--yes</span>            <span class="co"># only ~/.config/opencode/opencode.json</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--session</span> 20260826T210411Z <span class="at">--yes</span>   <span class="co"># an older run</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--run-actions</span> <span class="at">--yes</span>          <span class="co"># also run the npm / SpecKit / claude mcp undo commands</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="bu">exec</span> bash <span class="at">-l</span>                                                     <span class="co"># pick up the restored PATH</span></span></code></pre></div>
+<p>Things that surprise people:</p>
+<ul>
+<li><strong><code>ACTION</code> rows are printed, not executed.</strong>
+An <code>npm install -g</code> or the <code>claude mcp</code>
+registration appears as
+<code>manual   [npm] npm uninstall -g glyphdown</code>. Pass
+<code>--run-actions</code> to have the tool run them.</li>
+<li><strong>The rollback is reversible.</strong> Current state is copied
+into <code>&lt;session&gt;/pre-rollback-&lt;UTC&gt;/</code> before
+anything is touched, so a rollback you regret can be undone too.</li>
+<li><strong>Restart the agents.</strong> MCP servers are launched at
+session start, so a restored config only takes effect on the next
+session.</li>
+</ul>
+<p>Full reference, including how to reverse a rollback file by file: <a
+href="./SAFETY-AND-ROLLBACK.md">SAFETY-AND-ROLLBACK.md</a>.</p>
+<hr />
+<h2 id="rollback-says-the-backup-is-missing">13. Rollback says the
+backup is missing</h2>
+<p><strong>Symptom</strong></p>
+<pre><code>❌ Backup missing for /home/&lt;you&gt;/.bashrc (/home/&lt;you&gt;/.local/share/setup-agents-wizard/backups/20260826T210411Z/files/9f2c1ab30e7d4415__.bashrc)</code></pre>
+<p>or, before it even gets that far:</p>
+<pre><code>❌ No backup sessions found at /home/&lt;you&gt;/.local/share/setup-agents-wizard/backups
+ℹ️  The wizard creates one every time it runs.</code></pre>
+<p>The first case exits <strong>1</strong> and reports the count under
+<code>failures:</code>; other entries in the same run still apply.</p>
+<p><strong>Diagnosis</strong></p>
+<p>The manifest records <strong>absolute</strong> paths, so the stored
+copy has to be exactly where the row says it is. Three things break
+that:</p>
+<ol type="1">
+<li><strong><code>WIZARD_STATE_DIR</code> differs between the two
+scripts.</strong> If the wizard ran with a custom value, the rollback
+tool needs the same one — it defaults to
+<code>$HOME/.local/share/setup-agents-wizard</code>.</li>
+<li><strong>The state directory was moved, renamed or partially
+deleted.</strong> Copying <code>backups/</code> elsewhere invalidates
+every <code>backup</code> column.</li>
+<li><strong>The wizard could not make the copy in the first
+place.</strong> It prints <code>⚠️ Could not back up &lt;path&gt;</code>
+at the time and writes no row — so if a row exists, a copy was
+made.</li>
+</ol>
+<p>Check what is actually there:</p>
+<div class="sourceCode" id="cb54"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">${WIZARD_STATE_DIR</span><span class="op">:-</span><span class="va">$HOME</span>/.local/share/setup-agents-wizard<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-d</span> ~/.local/share/setup-agents-wizard/backups/<span class="pp">*</span>/</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="va">SESSION</span><span class="op">=</span>~/.local/share/setup-agents-wizard/backups/latest</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F</span><span class="st">&#39;\t&#39;</span> <span class="st">&#39;NR&gt;1 &amp;&amp; $4!=&quot;-&quot; {print $4}&#39;</span> <span class="st">&quot;</span><span class="va">$SESSION</span><span class="st">/manifest.tsv&quot;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="at">-r</span> <span class="va">b</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>  <span class="bu">[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$b</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;MISSING: </span><span class="va">$b</span><span class="st">&quot;</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p><strong>Fix</strong></p>
+<p>Point both scripts at the same directory:</p>
+<div class="sourceCode" id="cb55"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="va">WIZARD_STATE_DIR</span><span class="op">=</span>/path/you/used <span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--list</span></span></code></pre></div>
+<p>If the copies really are gone, rollback cannot restore those entries.
+Fall back to:</p>
+<ul>
+<li><p><strong>The <code>.bak.&lt;ts&gt;</code> siblings</strong>, which
+<code>backup_file</code> writes next to each file it touches and which
+rollback never deletes:</p>
+<div class="sourceCode" id="cb56"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1t</span> ~/.bashrc.bak.<span class="pp">*</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-1</span>        <span class="co"># newest first</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-p</span> ~/.bashrc.bak.20260826210427 ~/.bashrc</span></code></pre></div>
+<p>Note <code>~/.local/share/bash-completion/completions/lumen</code>
+has no sibling — it is registered with <code>snapshot_before</code>, not
+<code>backup_file</code>.</p></li>
+<li><p><strong>An earlier session</strong>, if one exists —
+<code>--list</code>, then <code>--session &lt;id&gt;</code>.</p></li>
+<li><p><strong>The manual uninstall procedure</strong>, component by
+component: <a
+href="./SAFETY-AND-ROLLBACK.md#manual-uninstall-if-the-manifest-is-lost">SAFETY-AND-ROLLBACK.md
+→ Manual uninstall</a>.</p></li>
+</ul>
+<p>To avoid the problem next time, keep the state directory where the
+wizard put it, and note that a <code>CREATED</code> row needs no backup
+file at all — those entries roll back cleanly even when
+<code>files/</code> is empty.</p>
+<hr />
+<h2 id="the-index-is-silently-corrupt-stale-duplicate-vectors">14. The
+index is silently corrupt (stale duplicate vectors)</h2>
+<p><strong>Symptom</strong></p>
+<p>There isn’t one. That is the point.</p>
+<p>Searches return results. They are plausible. They are also wrong — or
+a file you <em>know</em> is indexed never comes back for a query it
+should obviously match. No error is printed anywhere,
+<code>lumen index</code> exits <code>0</code>, <code>/api/embed</code>
+answers <code>200</code>, and every health check in this document
+passes.</p>
+<p><strong>Diagnosis</strong></p>
+<p>If <code>ollama</code> was ever serving the embedding model with
+<code>library=Vulkan</code> on an Intel iGPU, a large embedding
+<strong>batch</strong> can trip an i915 fence timeout. The kernel
+abandons the dispatch and ollama reads the result buffer anyway. Four
+things can come back:</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">#</th>
+<th style="text-align: left;">What comes back</th>
+<th style="text-align: left;">HTTP</th>
+<th style="text-align: left;">Caught by a per-vector check?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td
+style="text-align: left;"><code>{"error":"…unsupported value: NaN"}</code></td>
+<td style="text-align: left;">500</td>
+<td style="text-align: left;">Yes — see <a
+href="#5b-embedding-backend-is-wedged-nan-for-every-input">#5b</a></td>
+</tr>
+<tr>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">An all-zero vector</td>
+<td style="text-align: left;"><strong>200</strong></td>
+<td style="text-align: left;">Yes — a zero-norm test sees it</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">The runner wedges: every later request
+returns <code>NaN</code></td>
+<td style="text-align: left;">500</td>
+<td style="text-align: left;">Yes, usually misattributed</td>
+</tr>
+<tr>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;"><strong>A repeated STALE vector</strong> —
+well-formed, 768 dims, L2 norm 1.000000</td>
+<td style="text-align: left;"><strong>200</strong></td>
+<td style="text-align: left;"><strong>No.</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Mode 4 wrote <strong>758 identical vectors covering 695 distinct
+texts across 55 files</strong> into this project’s index. A full
+forensic audit ran NaN, Inf, all-zero and L2-norm checks, found nothing,
+and declared the index <code>TRUSTWORTHY</code>. Its measurements were
+correct; its conclusion was not — all four tests are
+<em>per-vector</em>, and a stale-but-well-formed vector passes all four
+by construction.</p>
+<blockquote>
+<p><strong>A vector can be perfectly well-formed and still be the wrong
+vector.</strong> The only thing that exposes mode 4 is <strong>aggregate
+distinctness</strong>: <em>N</em> distinct texts must yield <em>N</em>
+distinct vectors.</p>
+</blockquote>
+<p>Note also that the trigger is the <strong>batch total</strong>, not
+the chunk size. Lumen sends 32 chunks per <code>/api/embed</code>
+request; the corrupting requests here carried 16,698–31,364 characters,
+while the largest single chunk involved was only 2,832. Capping chunk
+size does not protect you.</p>
+<p><strong>Check it — read-only, safe while indexing:</strong></p>
+<div class="sourceCode" id="cb57"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-index-doctor.sh</span> <span class="st">&quot;</span><span class="va">$PWD</span><span class="st">&quot;</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   exit 0 = healthy · 1 = corruption found · 2 = could not inspect</span></span></code></pre></div>
+<p>A corrupt index looks like this:</p>
+<pre><code>vectors: 35717 total, 34959 distinct
+❌ 1 duplicate-vector group(s); 758 vectors (2.12%) are not unique
+   largest identical group: 758 copies of ONE vector
+per-vector: 0 NaN/Inf, 0 all-zero, 0 off-norm
+
+❌ CORRUPTION DETECTED</code></pre>
+<p>Note the last line of <code>per-vector:</code> — <strong>all
+zeros</strong>. That is exactly what the earlier audit saw.</p>
+<p>Two things about that exit code, before you script around it: a
+duplicate group only sets exit <code>1</code> when its
+<strong>largest</strong> member count is ≥ 10, so a small group prints a
+<code>❌</code> line and still exits <code>0</code>; and an internal
+error in the decoder (if a future Lumen changes the 768-dimension layout
+or the <code>vec_chunks_vector_chunks00</code> shadow-table name) also
+exits <code>1</code>. Read the output, not just the status.</p>
+<p><strong>Fix</strong></p>
+<p>Order matters. Fixing the backend repairs nothing already written,
+and rebuilding onto a broken backend just writes fresh corruption.</p>
+<div class="sourceCode" id="cb59"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Is the backend still the corrupting one?</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/ollama-vulkan-remediation.sh</span> <span class="at">--check</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="co">#    expect: &quot;library=cpu&quot; and &quot;batch probe: OK 32/32 distinct&quot;</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. If it says library=Vulkan — fix it. sudo, one service restart.</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/ollama-vulkan-remediation.sh</span> <span class="at">--apply</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Rebuild. --force is MANDATORY, not a preference.</span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-reindex.sh</span> <span class="st">&quot;</span><span class="va">$PWD</span><span class="st">&quot;</span> <span class="at">--force</span></span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Confirm</span></span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-index-doctor.sh</span> <span class="st">&quot;</span><span class="va">$PWD</span><span class="st">&quot;</span>     <span class="co"># expect exit 0</span></span></code></pre></div>
+<p><strong>Why <code>--force</code> is mandatory:</strong> a corrupted
+file still carries a valid content hash in the index, so Lumen treats it
+as already done. An incremental run skips it — <strong>forever</strong>.
+Only <code>lumen index -f</code> re-embeds it.</p>
+<p><code>scripts/lumen-reindex.sh</code> refuses to start at all if the
+backend still reports <code>library=Vulkan</code> (exit <code>3</code>),
+and refuses if its own 32-text batch probe fails (exit <code>4</code>).
+Both refusals are the script doing its job; do not reach for
+<code>--allow-gpu</code> to get past them unless you have decided you
+want the risk.</p>
+<p><strong>What does not help</strong></p>
+<ul>
+<li><code>OLLAMA_VULKAN=false</code> and
+<code>OLLAMA_LLM_LIBRARY=cpu</code> — both tested, both
+<strong>no-ops</strong> on this build.
+<code>GGML_VK_VISIBLE_DEVICES=-1</code> is the variable that works.</li>
+<li>Upgrading ollama — the defect is unfixed upstream.</li>
+<li><code>ollama stop &lt;model&gt;</code> — clears a wedged runner
+(mode 3), does nothing for modes 2 and 4.</li>
+<li>Capping <code>LUMEN_MAX_CHUNK_TOKENS</code> — the trigger is the
+batch total, not the chunk.</li>
+<li>Any per-vector integrity check you can think of.</li>
+</ul>
+<p><strong>Reference</strong></p>
+<ul>
+<li><a href="./OPERATIONAL-SCRIPTS.md">OPERATIONAL-SCRIPTS.md</a> —
+every flag and exit code of the three scripts.</li>
+<li><a href="./OLLAMA-REMEDIATION.md">OLLAMA-REMEDIATION.md</a> — the
+operator runbook. <strong>Status on this host: resolved</strong> —
+<code>library=cpu</code>, 0 i915 faults since the restart, 32 distinct
+vectors 5/5.</li>
+<li><a
+href="./INDEX-CORRUPTION-RECONCILIATION.md">INDEX-CORRUPTION-RECONCILIATION.md</a>
+— <strong>the settled verdict</strong>, with the per-file breakdown of
+all 758 vectors.</li>
+<li><a href="./LUMEN-INDEX-INTEGRITY.md">LUMEN-INDEX-INTEGRITY.md</a> —
+the earlier audit that concluded <code>TRUSTWORTHY</code>. Kept unedited
+as a record of how a rigorous audit reached a wrong conclusion.
+<strong>Do not use it to decide whether an index is safe.</strong></li>
+</ul>
+</body>
+</html>

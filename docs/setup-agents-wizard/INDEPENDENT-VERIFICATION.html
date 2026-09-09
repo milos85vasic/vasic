@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>INDEPENDENT-VERIFICATION</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">INDEPENDENT-VERIFICATION</h1>
+</header>
+<h1 id="independent-verification-report">Independent Verification
+Report</h1>
+<p><strong>Verifier role:</strong> adversarial third party. Every claim
+below was treated as false until personally reproduced. Finding a false
+claim was the goal, not a failure.</p>
+<ul>
+<li><strong>Date of run:</strong> 2026-08-26T22:43Z → 2026-08-26T23:01Z
+(local 2026-08-27 00:43 → 01:01 CEST)</li>
+<li><strong>Repository:</strong>
+<code>&lt;ext-volume-host&gt;/Projects/vasic</code></li>
+<li><strong>Repo HEAD during verification:</strong>
+<code>9f5a21f0af507f121482bd23704e1bf221f885db</code></li>
+<li><strong>Method:</strong> read-only against the real environment. All
+mutation testing ran in throwaway <code>$HOME</code> sandboxes
+(<code>mktemp -d</code>) via <code>SETUP_WIZARD_LIB_ONLY=1</code>
+library mode.</li>
+<li><strong>Files created by this verification:</strong> this file
+only.</li>
+</ul>
+<h2 id="scoreboard">Scoreboard</h2>
+<table>
+<thead>
+<tr>
+<th>Outcome</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>REFUTED</strong></td>
+<td><strong>3</strong> (items 3, 4, 5)</td>
+</tr>
+<tr>
+<td>VERIFIED</td>
+<td>14</td>
+</tr>
+<tr>
+<td>UNVERIFIABLE</td>
+<td>0</td>
+</tr>
+<tr>
+<td><strong>Total claims</strong></td>
+<td><strong>17</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Three additional <strong>collateral findings</strong> (C-1, C-2, C-3)
+were uncovered while testing item 4 and are recorded after the
+refutations. They were not on the verification list but are of the same
+class — a success signal not backed by work.</p>
+<hr />
+<hr />
+<h1 id="refuted-claims-read-these-first">⛔ REFUTED CLAIMS — READ THESE
+FIRST</h1>
+<hr />
+<h2
+id="refuted-item-4-b-no-summary-line-prints-based-only-on-a-file-existing-rather-than-on-the-expected-content-being-present">⛔
+REFUTED — Item 4 (B): “No summary line prints ✅ based only on a file
+EXISTING rather than on the expected CONTENT being present”</h2>
+<p><strong>Verdict: FALSE. Four summary lines do exactly that, and a
+comment three lines above them asserts the opposite.</strong></p>
+<p>The wizard’s own summary block opens with this claim, at
+<code>scripts/setup-agents-wizard.sh:946</code>:</p>
+<pre><code># Each line reports what was ACTUALLY verified, not merely that a file exists.</code></pre>
+<p>That comment is untrue for four of the ✅ lines beneath it:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Line</th>
+<th>Code</th>
+<th>What it actually proves</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>987</td>
+<td><code>[[ -x "$LUMEN_WRAPPER" ]] &amp;&amp; echo "  ✅ launcher ($LUMEN_WRAPPER)"</code></td>
+<td>a file exists and has the <code>+x</code> bit. Not that it is the
+launcher, not that it has any content.</td>
+</tr>
+<tr>
+<td>988</td>
+<td><code>[[ -r "$LUMEN_COMPLETION_DIR/lumen" ]] &amp;&amp; echo "  ✅ bash completions"</code></td>
+<td>a file exists and is readable. A zero-byte file passes.</td>
+</tr>
+<tr>
+<td>1014</td>
+<td><code>[[ -d "$PROJECT_ROOT/.specify" \|\| -d "$PROJECT_ROOT/specs" ]] &amp;&amp; echo "  ✅ SpecKit init"</code></td>
+<td>a directory exists. An <strong>empty</strong> directory passes.</td>
+</tr>
+<tr>
+<td>1015</td>
+<td><code>[[ -e "$PROJECT_ROOT/$SUPERSPEC_PATH/.git" ]] &amp;&amp; echo "  ✅ SuperSpec submodule"</code></td>
+<td>a path exists. A zero-byte <code>.git</code> passes.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="reproduction">Reproduction</h3>
+<p>Command — creates four <strong>completely empty</strong> targets,
+then replays the wizard’s own four predicates verbatim:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">BOX</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span> <span class="at">-d</span><span class="va">)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/.local/share/bash-completion/completions&quot;</span> <span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/.local/bin&quot;</span> <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>         <span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/proj/.specify&quot;</span> <span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/proj/submodules/superspec&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="bu">:</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/.local/share/bash-completion/completions/lumen&quot;</span>     <span class="co"># EMPTY file</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">:</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/.local/bin/lumen&quot;</span><span class="kw">;</span> <span class="fu">chmod</span> +x <span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/.local/bin/lumen&quot;</span> <span class="co"># EMPTY but executable</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="bu">:</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/proj/submodules/superspec/.git&quot;</span>                     <span class="co"># EMPTY gitlink</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="va">LUMEN_WRAPPER</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/.local/bin/lumen&quot;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="va">LUMEN_COMPLETION_DIR</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/.local/share/bash-completion/completions&quot;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="va">PROJECT_ROOT</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/proj&quot;</span><span class="kw">;</span> <span class="va">SUPERSPEC_PATH</span><span class="op">=</span><span class="st">&quot;submodules/superspec&quot;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-c</span> <span class="st">&quot;</span><span class="va">$LUMEN_WRAPPER</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$LUMEN_COMPLETION_DIR</span><span class="st">/lumen&quot;</span> <span class="st">&quot;</span><span class="va">$PROJECT_ROOT</span><span class="st">/</span><span class="va">$SUPERSPEC_PATH</span><span class="st">/.git&quot;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span> <span class="ot">-x</span> <span class="st">&quot;</span><span class="va">$LUMEN_WRAPPER</span><span class="st">&quot;</span> <span class="kw">]]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;  ✅ launcher (</span><span class="va">$LUMEN_WRAPPER</span><span class="st">)&quot;</span> <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;  ❌ launcher&quot;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span> <span class="ot">-r</span> <span class="st">&quot;</span><span class="va">$LUMEN_COMPLETION_DIR</span><span class="st">/lumen&quot;</span> <span class="kw">]]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;  ✅ bash completions&quot;</span> <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;  ❌ bash completions&quot;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span> <span class="ot">-d</span> <span class="st">&quot;</span><span class="va">$PROJECT_ROOT</span><span class="st">/.specify&quot;</span> <span class="kw">||</span> <span class="ot">-d</span> <span class="st">&quot;</span><span class="va">$PROJECT_ROOT</span><span class="st">/specs&quot;</span> <span class="kw">]]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;  ✅ SpecKit init&quot;</span> <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;  ❌ SpecKit init&quot;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span> <span class="ot">-e</span> <span class="st">&quot;</span><span class="va">$PROJECT_ROOT</span><span class="st">/</span><span class="va">$SUPERSPEC_PATH</span><span class="st">/.git&quot;</span> <span class="kw">]]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;  ✅ SuperSpec submodule&quot;</span> <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;  ❌ SuperSpec submodule&quot;</span></span></code></pre></div>
+<p>Real output:</p>
+<pre><code>--- all four targets are EMPTY (0 bytes) ---
+0 /tmp/.../\.local/bin/lumen
+0 /tmp/.../\.local/share/bash-completion/completions/lumen
+0 /tmp/.../proj/submodules/superspec/.git
+0 total
+  .specify contents: 0 entries
+--- replaying the wizard&#39;s exact summary predicates (lines 987,988,1014,1015) ---
+  ✅ launcher (/tmp/.../.local/bin/lumen)
+  ✅ bash completions
+  ✅ SpecKit init
+  ✅ SuperSpec submodule</code></pre>
+<p><strong>Four green checkmarks for four empty files.</strong> The
+claim is refuted.</p>
+<p>For contrast, the lines that <em>are</em> honest and were confirmed
+content-based: Claude Code (<code>claude mcp get lumen</code>), Kimi /
+Opencode / Qwen (<code>jq -e</code> on the actual key), the two
+<code>grep -qF</code> shell-block checks, the embedding-model check, and
+all three telemetry value checks. The defect is confined to the four
+rows above.</p>
+<hr />
+<h2
+id="refuted-item-5-b-codegraph-index-is-never-invoked-and-only-codegraph-sync-is">⛔
+REFUTED — Item 5 (B): “<code>codegraph index</code> is never invoked
+<strong>and only <code>codegraph sync</code> is</strong>”</h2>
+<p><strong>Verdict: FIRST HALF TRUE, SECOND HALF FALSE.</strong>
+<code>codegraph index</code> is indeed absent — but <code>sync</code> is
+not the only CodeGraph mutation the wizard runs. It also runs
+<strong><code>codegraph init</code></strong>, which the verification
+brief itself classifies alongside <code>index</code> as forbidden.</p>
+<p>Command:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&quot;codegraph index\|codegraph sync\|codegraph init\|codegraph uninit&quot;</span> <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>     scripts/setup-agents-wizard.sh</span></code></pre></div>
+<p>Real output — the complete, unedited result:</p>
+<pre><code>907:            codegraph sync &quot;$PROJECT_ROOT&quot; 2&gt;&amp;1 | tail -3 || print_warning &quot;codegraph sync failed.&quot;
+910:            codegraph init &quot;$PROJECT_ROOT&quot; 2&gt;&amp;1 | tail -3 || print_warning &quot;codegraph init failed.&quot;</code></pre>
+<p>Context (<code>scripts/setup-agents-wizard.sh:904-913</code>):</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$PROJECT_ROOT</span><span class="st">/.codegraph/codegraph.db&quot;</span> <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">print_info</span> <span class="st">&quot;CodeGraph index exists - running incremental sync...&quot;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">codegraph</span> sync <span class="st">&quot;</span><span class="va">$PROJECT_ROOT</span><span class="st">&quot;</span> <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-3</span> <span class="kw">||</span> <span class="ex">print_warning</span> <span class="st">&quot;codegraph sync failed.&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">print_info</span> <span class="st">&quot;No CodeGraph index yet - building it (this writes to .codegraph/)...&quot;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="ex">codegraph</span> init <span class="st">&quot;</span><span class="va">$PROJECT_ROOT</span><span class="st">&quot;</span> <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-3</span> <span class="kw">||</span> <span class="ex">print_warning</span> <span class="st">&quot;codegraph init failed.&quot;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div>
+<ul>
+<li>✅ <code>codegraph index</code> — <strong>never invoked</strong>.
+Verified.</li>
+<li>⛔ “only <code>codegraph sync</code>” — <strong>false</strong>.
+<code>codegraph init</code> runs on the no-DB branch.</li>
+</ul>
+<p>Mitigating facts (stated for fairness, they do not rescue the claim):
+the whole block is behind the opt-in <code>WIZARD_INDEX_PROJECT</code>
+guard, and <code>init</code> only runs when
+<code>.codegraph/codegraph.db</code> does <strong>not</strong> exist, so
+it cannot destroy an existing index. The claim as worded is still
+wrong.</p>
+<p>Note also that test <strong>A27</strong> guards this with
+<code>assert_absent "codegraph index "</code> — a match on the literal
+string <em>including a trailing space</em>. <code>codegraph index</code>
+at end-of-line, or followed by a tab, newline, or quote, would slip past
+it.</p>
+<hr />
+<h2 id="refuted-item-3-a-each-assertion-tests-what-its-name-says">⛔
+REFUTED — Item 3 (A): “Each assertion tests what its name says”</h2>
+<p><strong>Verdict: FALSE for 2 of the 3 assertions audited.</strong>
+Both were defeated by a mutation that breaks precisely the property the
+name advertises, while the assertion still reports PASS.</p>
+<p>Three assertions were selected from three different groups:
+<strong>A9</strong> (group A, static analysis), <strong>C8</strong>
+(group C, shell configuration), <strong>G10</strong> (group G,
+rollback).</p>
+<h3 id="a9-ensure_lumen-wired-into-the-wizard-flow-name-overstates">⛔
+A9 — “ensure_lumen wired into the wizard flow” — NAME OVERSTATES</h3>
+<p>The assertion
+(<code>scripts/test-setup-agents-wizard.sh:99</code>):</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">assert_contains</span> <span class="st">&quot;A9 ensure_lumen wired into the wizard flow&quot;</span> <span class="st">&quot;ensure_lumen&quot;</span> <span class="st">&quot;</span><span class="va">$src</span><span class="st">&quot;</span></span></code></pre></div>
+<p><code>$src</code> is the entire wizard file. The string
+<code>ensure_lumen</code> occurs in the <strong>function definition
+itself</strong>, so the assertion passes whether or not the function is
+ever called. “Wired into the flow” is never tested.</p>
+<p>Mutation test — delete the sole call site, keep the definition:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&#39;713d&#39;</span> scripts/setup-agents-wizard.sh <span class="op">&gt;</span> mutant.sh</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;^ensure_lumen$&#39;</span> mutant.sh                    <span class="co"># call sites remaining</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="va">src</span><span class="op">=</span><span class="va">$(</span><span class="fu">cat</span> mutant.sh<span class="va">)</span><span class="kw">;</span> <span class="kw">[[</span> <span class="st">&quot;</span><span class="va">$src</span><span class="st">&quot;</span> <span class="ot">==</span> <span class="pp">*</span><span class="st">&quot;ensure_lumen&quot;</span><span class="pp">*</span> <span class="kw">]]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> PASS <span class="kw">||</span> <span class="bu">echo</span> FAIL</span></code></pre></div>
+<p>Real output:</p>
+<pre><code>  call sites in mutant: 0  (definition still at: 519)
+  A9 assertion result on the MUTANT: &gt;&gt;&gt; PASS &lt;&lt;&lt;  (test cannot see the removed call)</code></pre>
+<p><em>(The underlying fact is fine — the real wizard does call
+<code>ensure_lumen</code> at line 713. It is the assertion that is
+blind.)</em></p>
+<h3
+id="a20-glyphdown-hook-uses-valid-claude-code-events-name-overstates-severe">⛔
+A20 — “glyphdown hook uses valid Claude Code events” — NAME OVERSTATES
+(severe)</h3>
+<p>Found while auditing the same group; included because it is the worst
+instance. The assertion
+(<code>scripts/test-setup-agents-wizard.sh:117</code>):</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">assert_contains</span> <span class="st">&quot;A20 glyphdown hook uses valid Claude Code events&quot;</span> <span class="st">&quot;PreToolUse&quot;</span> <span class="st">&quot;</span><span class="va">$src_code</span><span class="st">&quot;</span></span></code></pre></div>
+<p>Mutation test — rewrite the hook to register two entirely bogus event
+names:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">&#39;804s/PreToolUse/BogusEvent/; 804s/PostToolUse/BogusEvent2/&#39;</span> <span class="dt">\</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    scripts/setup-agents-wizard.sh <span class="op">&gt;</span> mutant2.sh</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="va">src2</span><span class="op">=</span><span class="va">$(</span><span class="fu">grep</span> <span class="at">-vE</span> <span class="st">&#39;^[[:space:]]*#&#39;</span> mutant2.sh<span class="va">)</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span> <span class="st">&quot;</span><span class="va">$src2</span><span class="st">&quot;</span> <span class="ot">==</span> <span class="pp">*</span><span class="st">&quot;PreToolUse&quot;</span><span class="pp">*</span> <span class="kw">]]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> PASS <span class="kw">||</span> <span class="bu">echo</span> FAIL</span></code></pre></div>
+<p>Real output:</p>
+<pre><code>  mutant line 804: .hooks //= {} | ensure(&quot;BogusEvent&quot;) | ensure(&quot;BogusEvent2&quot;)
+  A20 assertion result on the MUTANT: &gt;&gt;&gt; PASS &lt;&lt;&lt;
+    remaining PreToolUse: 776:# &quot;ToolCall&quot; is NOT a Claude Code hook event - the real events are PreToolUse
+    remaining PreToolUse: 807:        print_success &quot;Glyphdown PreToolUse/PostToolUse hooks ensured for Claude Code.&quot;</code></pre>
+<p>The hook now registers <code>BogusEvent</code> /
+<code>BogusEvent2</code> — and A20 still passes, because the word
+<code>PreToolUse</code> survives inside the <strong>success message
+string</strong> on line 807, which is an executable line and therefore
+not stripped by the comment filter. A test kept green by the text of a
+<code>print_success</code> banner.</p>
+<h3 id="g10-dry-run-changes-nothing-name-overstates">⛔ G10 — “–dry-run
+changes nothing” — NAME OVERSTATES</h3>
+<p>The assertion
+(<code>scripts/test-setup-agents-wizard.sh:504-506</code>):</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">out</span><span class="op">=</span><span class="va">$(</span><span class="ex">in_sandbox</span> <span class="st">&quot;</span><span class="va">$sim</span><span class="st">&quot;&#39;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">    &#39;&quot;</span><span class="va">$ROLLBACK</span><span class="st">&quot;&#39; --dry-run --yes &gt;/dev/null 2&gt;&amp;1; cat &quot;$HOME/existing.conf&quot;&#39;</span><span class="va">)</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">assert_eq</span> <span class="st">&quot;G10 --dry-run changes nothing&quot;</span> <span class="st">&quot;MODIFIED-BY-WIZARD&quot;</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$out</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-1</span><span class="va">)</span><span class="st">&quot;</span></span></code></pre></div>
+<p>It inspects the content of exactly <strong>one</strong> file.
+“Changes nothing” is a whole-filesystem claim; the check covers one
+path. A dry-run that leaked and deleted the <code>CREATED</code> file,
+or corrupted the manifest, would still pass.</p>
+<p>Demonstration:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">BOX</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span> <span class="at">-d</span><span class="va">)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&#39;MODIFIED-BY-WIZARD\n&#39;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/existing.conf&quot;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&#39;CREATED-BY-WIZARD\n&#39;</span>  <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/brand-new.conf&quot;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/brand-new.conf&quot;</span>   <span class="co"># simulate a dry-run that leaked</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">[[</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$BOX</span><span class="st">/existing.conf&quot;</span><span class="va">)</span><span class="st">&quot;</span> <span class="ot">==</span> <span class="st">&quot;MODIFIED-BY-WIZARD&quot;</span> <span class="kw">]]</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> PASS <span class="kw">||</span> <span class="bu">echo</span> FAIL</span></code></pre></div>
+<p>Real output:</p>
+<pre><code>  G10 assertion on the leaky run: &gt;&gt;&gt; PASS &lt;&lt;&lt; (brand-new.conf is gone and G10 never looks)
+    remaining: existing.conf</code></pre>
+<p><em>(The behaviour itself is correct — item 8 below proves with a
+whole-tree hash that <code>--dry-run</code> genuinely changes nothing.
+Only the assertion is too narrow to have established it.)</em></p>
+<h3
+id="c8-sourcing-.bashrc-adds-.localbin-exactly-once-name-is-accurate">✅
+C8 — “sourcing .bashrc adds ~/.local/bin exactly once” — NAME IS
+ACCURATE</h3>
+<p>Audited and cleared. The assertion really does source the generated
+<code>.bashrc</code> in a subshell, split <code>$PATH</code>, and count
+exact matches:</p>
+<pre><code>  sandbox .bashrc has an interactive guard? 0
+  C8 measured value: 1   (asserted == 1)
+  -&gt; the assertion does measure PATH after sourcing: name is ACCURATE</code></pre>
+<p>One caveat, relevant to item 11: the sandbox <code>.bashrc</code> is
+generated fresh and has <strong>no interactive-shell guard</strong>, so
+C8 exercises a file that a non-interactive <code>bash -c</code> will
+happily source. The real <code>~/.bashrc</code> does have such a guard.
+C8 passing therefore does not imply the real file behaves the same
+way.</p>
+<hr />
+<h1 id="collateral-findings">Collateral findings</h1>
+<p>These were not on the verification list. They surfaced while testing
+item 4 and belong to the same family: a success signal not backed by the
+work it implies.</p>
+<h2
+id="c-1-codegraph-index-step-finished.-prints-after-codegraph-sync-fails">C-1
+— <code>✅ CodeGraph index step finished.</code> prints after
+<code>codegraph sync</code> FAILS</h2>
+<p><code>scripts/setup-agents-wizard.sh:913</code> runs unconditionally
+after the if/else at 904-911. Both branches swallow failure with
+<code>|| print_warning</code>, so the ✅ prints either way.</p>
+<p>Reproduction with the wizard’s exact structure and a forced
+failure:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> <span class="at">-c</span> <span class="st">&#39;set -euo pipefail</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="st">print_warning(){ echo &quot;⚠️  $1&quot;; }; print_success(){ echo &quot;✅ $1&quot;; }; print_info(){ echo &quot;ℹ️  $1&quot;; }</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="st">codegraph(){ echo &quot;fatal: database is locked&quot; &gt;&amp;2; return 1; }</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="st">PROJECT_ROOT=/x</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="st">print_info &quot;CodeGraph index exists - running incremental sync...&quot;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="st">codegraph sync &quot;$PROJECT_ROOT&quot; 2&gt;&amp;1 | tail -3 || print_warning &quot;codegraph sync failed.&quot;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="st">print_success &quot;CodeGraph index step finished.&quot;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span></code></pre></div>
+<p>Real output:</p>
+<pre><code>ℹ️  CodeGraph index exists - running incremental sync...
+fatal: database is locked
+⚠️  codegraph sync failed.
+✅ CodeGraph index step finished.</code></pre>
+<p>A warning and a green check for the same failed operation, one line
+apart. (The Lumen block immediately below, at lines 917-924, does
+<em>not</em> have this bug — it is correctly wrapped in
+<code>if ... then print_success else print_warning fi</code>.)</p>
+<h2
+id="c-2-verified-...-is-printed-without-performing-any-verification">C-2
+— <code>(verified: ...)</code> is printed without performing any
+verification</h2>
+<p><code>scripts/setup-agents-wizard.sh:1010</code>:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;  ➖ Lumen ships no telemetry (verified: no analytics strings in binary)&quot;</span></span></code></pre></div>
+<p>This is a hard-coded string. The wizard runs no scan, opens no
+binary, and executes no check before printing the word “verified”. The
+conclusion happens to be correct — item 12 below independently confirms
+it — but at runtime the wizard asserts a verification it did not
+perform.</p>
+<h2 id="c-3-the-test-suite-header-overstates-its-own-isolation">C-3 —
+the test-suite header overstates its own isolation</h2>
+<p><code>scripts/test-setup-agents-wizard.sh:6</code>:</p>
+<pre><code># Every assertion records machine-readable evidence: ... Nothing here mutates
+# the real environment - unit tests run against a throwaway $HOME ...</code></pre>
+<p>Two exceptions:</p>
+<ol type="1">
+<li><strong>Every run writes into the repository.</strong>
+<code>EVIDENCE_DIR="$PROJECT_ROOT/.test-evidence/$STAMP"</code> (line
+25). My single run created <code>.test-evidence/20260826T224312Z</code>
+(24K); the directory now holds 22 such runs totalling 508K. It is
+gitignored (<code>.gitignore:63</code>), so it does not dirty
+<code>git status</code> — but it is a real write to the real repository,
+not a throwaway <code>$HOME</code>.</li>
+<li><strong>Live mode mutates the real Lumen installation.</strong>
+Without <code>--no-live</code>, group F runs <code>lumen index</code>,
+<code>lumen search</code> and <code>lumen purge</code> against the real
+binary and the real embedding backend (lines 362, 370, 387). The
+isolation claim holds only for <code>--no-live</code>.</li>
+</ol>
+<hr />
+<hr />
+<h1 id="verified-claims">✅ VERIFIED CLAIMS</h1>
+<hr />
+<h2
+id="item-1-a-test-suite-exits-0-assertion-and-group-counts-0-failures">Item
+1 (A) — test suite exits 0; assertion and group counts; “0
+failures”</h2>
+<p><strong>VERIFIED.</strong></p>
+<p>Command:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/test-setup-agents-wizard.sh <span class="at">--no-live</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;EXIT_CODE=</span><span class="va">$?</span><span class="st">&quot;</span></span></code></pre></div>
+<p>Real output (tail):</p>
+<pre><code>================= EVIDENCE =================
+  results.tsv : .../.test-evidence/20260826T224312Z/results.tsv
+  run.log     : .../.test-evidence/20260826T224312Z/run.log
+  summary.json: .../.test-evidence/20260826T224312Z/summary.json
+  total=96 passed=89 failed=0 skipped=7
+============================================
+EXIT_CODE=0</code></pre>
+<p><code>summary.json</code> agrees:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;totals&quot;</span><span class="er">:</span> <span class="fu">{</span><span class="dt">&quot;total&quot;</span><span class="fu">:</span> <span class="dv">96</span><span class="fu">,</span> <span class="dt">&quot;passed&quot;</span><span class="fu">:</span> <span class="dv">89</span><span class="fu">,</span> <span class="dt">&quot;failed&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span> <span class="dt">&quot;skipped&quot;</span><span class="fu">:</span> <span class="dv">7</span><span class="fu">}</span><span class="er">,</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;exit_code&quot;</span><span class="er">:</span> <span class="dv">0</span></span></code></pre></div>
+<p><code>results.tsv</code> holds 97 lines = 1 header + 96 assertion
+rows. Confirmed.</p>
+<ul>
+<li><strong>Exit code:</strong> 0 ✅</li>
+<li><strong>Assertions:</strong> 96 total ✅</li>
+<li><strong>Failures:</strong> 0 ✅</li>
+<li><strong>Groups:</strong> <strong>8</strong>, not 7 —
+<code>A B C D E F H G</code> (H is emitted before G in the file).</li>
+<li><strong>Caveat:</strong> 7 of the 96 are <strong>skipped</strong>,
+and they are all of group F — the entire live-integration group. The
+suite proves nothing about the live environment in
+<code>--no-live</code> mode. “0 failures out of 96” is accurate but is
+really “89 executed, 0 failed”.</li>
+</ul>
+<h2 id="item-2-a-unit-tests-do-not-touch-the-real-environment">Item 2
+(A) — unit tests do not touch the real environment</h2>
+<p><strong>VERIFIED</strong> for the three files named in the brief.</p>
+<p>Command (before and after the <code>--no-live</code> run):</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sha256sum</span> ~/.bashrc ~/.bash_profile ~/.local/bin/lumen</span></code></pre></div>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Before</th>
+<th>After</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>~/.bashrc</code></td>
+<td><code>b0c01aa26d5821d1f0fd97043e163ff7115d6e52f39178741eb2ecc841c506fc</code></td>
+<td>identical</td>
+<td>✅ unchanged</td>
+</tr>
+<tr>
+<td><code>~/.bash_profile</code></td>
+<td><code>e10d987644ad0afbb21d65b16ff2709da78efbd5a30932ed850a2de622866144</code></td>
+<td>identical</td>
+<td>✅ unchanged</td>
+</tr>
+<tr>
+<td><code>~/.local/bin/lumen</code></td>
+<td><code>ebf11baf1e6c90fccc8c630a32fd0a23d91cd190918f2f7d7e2a18918229ae7c</code></td>
+<td>identical</td>
+<td>✅ unchanged</td>
+</tr>
+</tbody>
+</table>
+<p>Two further files were hashed as controls and were also unchanged:
+<code>~/.codegraph/telemetry.json</code> (<code>58fac754…</code>) and
+<code>~/.qwen/settings.json</code> (<code>b882ccdb…</code>). A third
+re-check at 01:01, after all verification work, still returned the same
+five hashes.</p>
+<p>See collateral finding <strong>C-3</strong> for the two ways the
+suite <em>does</em> write outside its sandbox.</p>
+<h2
+id="item-6-b-glyphdown-hook-uses-pretooluseposttooluse-never-toolcall-in-executable-lines">Item
+6 (B) — glyphdown hook uses
+<code>PreToolUse</code>/<code>PostToolUse</code>, never
+<code>ToolCall</code> in executable lines</h2>
+<p><strong>VERIFIED.</strong></p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&quot;ToolCall&quot;</span> scripts/setup-agents-wizard.sh</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&quot;PreToolUse\|PostToolUse&quot;</span> scripts/setup-agents-wizard.sh</span></code></pre></div>
+<p>Real output:</p>
+<pre><code>=== ToolCall anywhere in wizard ===
+776:# &quot;ToolCall&quot; is NOT a Claude Code hook event - the real events are PreToolUse
+
+=== PreToolUse / PostToolUse ===
+776:# &quot;ToolCall&quot; is NOT a Claude Code hook event - the real events are PreToolUse
+777:# and PostToolUse, each an array of {matcher, hooks:[{type,command}]}. The old
+804:        .hooks //= {} | ensure(&quot;PreToolUse&quot;) | ensure(&quot;PostToolUse&quot;)
+807:        print_success &quot;Glyphdown PreToolUse/PostToolUse hooks ensured for Claude Code.&quot;</code></pre>
+<p>The <strong>only</strong> occurrence of <code>ToolCall</code> in the
+entire file is line 776, which begins with <code>#</code> — a comment
+explaining why the name is wrong. The executable registration is line
+804 and uses both correct events. Claim holds.</p>
+<p><em>(Related weakness — the assertion protecting this invariant, A20,
+is blind; see the refutation of item 3.)</em></p>
+<h2
+id="item-7-c-rollback-restores-byte-exactly-a-created-file-is-deleted-not-left-as">Item
+7 (C) — rollback restores byte-exactly; a CREATED file is DELETED, not
+left as <code>{}</code></h2>
+<p><strong>VERIFIED.</strong></p>
+<p>Run in a throwaway <code>$HOME</code>
+(<code>SETUP_WIZARD_LIB_ONLY=1</code>, <code>WIZARD_STATE_DIR</code>
+inside it), using a file containing tabs, multiple lines and a NUL byte
+to make a byte-exact claim meaningful.</p>
+<p>Real output:</p>
+<pre><code>ORIG_SHA=88c9b5859e5d76aa69c7b3cd65f2fed48c11f45ef19834deb5e13162e0a30999
+MODIFIED_SHA=9f659055f96381f4416d0fc5e9770643a35adb2da492e97f6a6564e5a3a89e00
+--- manifest ---
+component  action    target             backup            sha256_before  timestamp
+demo       MODIFIED  .../existing.conf  .../bd8c38c6...   88c9b585...    2026-08-26T22:45:41Z
+demo       CREATED   .../brand-new.conf -                 -              2026-08-26T22:45:41Z
+--- running rollback ---
+✅ restored [demo] .../existing.conf
+✅ deleted  [demo] .../brand-new.conf
+ℹ️  restored/removed: 2    failures: 0
+--- after rollback ---
+RESTORED_SHA=88c9b5859e5d76aa69c7b3cd65f2fed48c11f45ef19834deb5e13162e0a30999
+MODE=600
+brand-new.conf: DELETED</code></pre>
+<ul>
+<li><code>RESTORED_SHA == ORIG_SHA</code> — byte-exact restoration
+✅</li>
+<li>File mode <code>600</code> preserved ✅</li>
+<li><code>CREATED</code> file <strong>DELETED</strong>, not left as an
+empty <code>{}</code> ✅</li>
+<li>A pre-rollback snapshot was written, so the rollback is itself
+reversible ✅</li>
+</ul>
+<h2 id="item-8-c---dry-run-truly-changes-nothing">Item 8 (C) —
+<code>--dry-run</code> truly changes nothing</h2>
+<p><strong>VERIFIED</strong> — and by a stronger test than the suite’s
+own G10.</p>
+<p>Instead of checking one file, the whole sandbox <code>$HOME</code>
+was fingerprinted: relative path + type + mode + <code>sha256sum</code>
+of every file and symlink, sorted, hashed.</p>
+<p>Real output:</p>
+<pre><code>TREE_BEFORE = 003c77c1595218ace4761f8c9327fb79fc4422ddd4ba2aafa790e2c624f6265e  -
+--- rollback --dry-run --yes ---
+⚠️  DRY RUN - nothing will be changed.
+  restore  [demo] .../existing.conf
+  delete   [demo] .../brand-new.conf
+TREE_AFTER  = 003c77c1595218ace4761f8c9327fb79fc4422ddd4ba2aafa790e2c624f6265e  -</code></pre>
+<p>Identical whole-tree hashes. <code>--dry-run</code> changed nothing —
+content, mode, or path. Claim holds.</p>
+<h2 id="item-9-d-.codegraphtelemetry.json-enabled-is-false">Item 9 (D) —
+<code>~/.codegraph/telemetry.json</code> → <code>enabled</code> is
+<code>false</code></h2>
+<p><strong>VERIFIED.</strong></p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> ~/.codegraph/telemetry.json<span class="kw">;</span> <span class="ex">jq</span> <span class="st">&#39;.enabled&#39;</span> ~/.codegraph/telemetry.json<span class="kw">;</span> <span class="ex">jq</span> <span class="at">-r</span> <span class="st">&#39;.enabled|type&#39;</span> ~/.codegraph/telemetry.json</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;enabled&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;machine_id&quot;</span><span class="fu">:</span> <span class="st">&quot;2e175916-6efb-4617-8992-1f58e5d6d4ee&quot;</span><span class="fu">,</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;consent_source&quot;</span><span class="fu">:</span> <span class="st">&quot;cli&quot;</span><span class="fu">,</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;first_run_notice_shown&quot;</span><span class="fu">:</span> <span class="kw">true</span><span class="fu">,</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;updated_at&quot;</span><span class="fu">:</span> <span class="st">&quot;2026-08-26T20:50:38.529Z&quot;</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<pre><code>false
+boolean</code></pre>
+<p>Boolean <code>false</code>, not the string <code>"false"</code>.
+Claim holds.</p>
+<h2
+id="item-10-d-.qwensettings.json-usagestatisticsenabled-is-false-other-keys-intact">Item
+10 (D) — <code>~/.qwen/settings.json</code> →
+<code>usageStatisticsEnabled</code> is <code>false</code>, other keys
+intact</h2>
+<p><strong>VERIFIED.</strong></p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-r</span> <span class="st">&#39;keys[]&#39;</span> ~/.qwen/settings.json</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="st">&#39;.usageStatisticsEnabled&#39;</span> ~/.qwen/settings.json</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-r</span> <span class="st">&#39;.usageStatisticsEnabled|type&#39;</span> ~/.qwen/settings.json</span></code></pre></div>
+<pre><code>$version
+mcpServers
+model
+security
+usageStatisticsEnabled
+
+false
+boolean</code></pre>
+<p>Full content, confirming nothing was lost:</p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;security&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;auth&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;selectedType&quot;</span><span class="fu">:</span> <span class="st">&quot;qwen-oauth&quot;</span> <span class="fu">}</span> <span class="fu">},</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;model&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;coder-model&quot;</span> <span class="fu">},</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;$version&quot;</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;mcpServers&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;lumen&quot;</span><span class="fu">:</span>     <span class="fu">{</span> <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;&lt;home&gt;/.local/bin/lumen&quot;</span><span class="fu">,</span> <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;stdio&quot;</span><span class="ot">]</span> <span class="fu">},</span></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;codegraph&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;codegraph&quot;</span><span class="fu">,</span> <span class="dt">&quot;args&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;serve&quot;</span><span class="ot">]</span> <span class="fu">}</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;usageStatisticsEnabled&quot;</span><span class="fu">:</span> <span class="kw">false</span></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>Boolean <code>false</code>; auth, model, <code>$version</code> and
+both MCP servers intact. Claim holds.</p>
+<h2
+id="item-11-d-a-fresh-login-shell-exports-do_not_track1-and-codegraph_telemetry0">Item
+11 (D) — a fresh login shell exports <code>DO_NOT_TRACK=1</code> and
+<code>CODEGRAPH_TELEMETRY=0</code></h2>
+<p><strong>VERIFIED as stated</strong> — with a material gap that the
+claim’s wording hides.</p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="va">TMX_SKIP</span><span class="op">=</span>1 <span class="fu">bash</span> <span class="at">-lic</span> <span class="st">&#39;echo &quot;DO_NOT_TRACK=[${DO_NOT_TRACK:-UNSET}] CODEGRAPH_TELEMETRY=[${CODEGRAPH_TELEMETRY:-UNSET}]&quot;&#39;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="va">TMX_SKIP</span><span class="op">=</span>1 <span class="fu">bash</span> <span class="at">-lc</span>  <span class="st">&#39;...same...&#39;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="va">TMX_SKIP</span><span class="op">=</span>1 <span class="fu">bash</span> <span class="at">-ic</span>  <span class="st">&#39;...same...&#39;</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="va">TMX_SKIP</span><span class="op">=</span>1 <span class="fu">bash</span> <span class="at">-lic</span> <span class="st">&#39;export -p | grep -E &quot;DO_NOT_TRACK|CODEGRAPH_TELEMETRY&quot;&#39;</span></span></code></pre></div>
+<p>Real output:</p>
+<pre><code>=== login+interactive ===
+DO_NOT_TRACK=[1] CODEGRAPH_TELEMETRY=[0]
+=== login+non-interactive ===
+DO_NOT_TRACK=[UNSET] CODEGRAPH_TELEMETRY=[UNSET]
+=== interactive only ===
+DO_NOT_TRACK=[1] CODEGRAPH_TELEMETRY=[0]
+=== are they EXPORTED (not just set)? ===
+declare -x CODEGRAPH_TELEMETRY=&quot;0&quot;
+declare -x DO_NOT_TRACK=&quot;1&quot;</code></pre>
+<p>The claim, tested exactly as specified (<code>bash -lic</code>),
+holds: both are set to the right values and genuinely
+<strong>exported</strong> (<code>declare -x</code>).</p>
+<p><strong>⚠ Gap: a login NON-interactive shell gets neither
+variable.</strong> Cause — the exports live at
+<code>~/.bashrc:145-147</code>, but <code>~/.bashrc</code> opens
+with:</p>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="cf">case</span> <span class="va">$-</span> <span class="kw">in</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="pp">*</span><span class="ss">i</span><span class="pp">*</span><span class="kw">)</span> <span class="cf">;;</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="pp">*</span><span class="kw">)</span> <span class="cf">return;;</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="cf">esac</span></span></code></pre></div>
+<p>The guard returns before line 146 for any non-interactive shell. Any
+tool launched from a script, a cron job, CI, a systemd unit, or an agent
+harness runs without the opt-out. The protection covers humans at a
+prompt, not automation.</p>
+<h2 id="item-12-d-lumen-ships-no-telemetry">Item 12 (D) — “Lumen ships
+no telemetry”</h2>
+<p><strong>VERIFIED</strong>, to the strength of static analysis.</p>
+<p>Binary under test:</p>
+<pre><code>&lt;home&gt;/.claude-shared/plugins/cache/claude-plugins-official/lumen/0.0.41/bin/lumen-linux-amd64
+34565800 bytes, ELF 64-bit LSB executable, x86-64, dynamically linked, stripped
+sha256 95b516ea716a3e21b62a9cae91b7f3bdc32720589368b50d69a28fee7d1ac412</code></pre>
+<p>Confirmed as the binary actually in use:
+<code>~/.local/bin/lumen</code> is a wrapper that globs
+<code>~/.claude-shared/plugins/cache/*/lumen/*/bin/lumen-linux-amd64</code>
+and picks the highest <code>sort -V</code> version.</p>
+<p>Scan 1 — analytics/telemetry vendor strings:</p>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">strings</span> <span class="at">-a</span> <span class="at">-n</span> 6 <span class="st">&quot;</span><span class="va">$B</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-aicE</span> <span class="st">&#39;segment\.(io|com)|amplitude|mixpanel|posthog|sentry\.io|datadoghq|bugsnag|google-analytics|analytics\.|telemetry|statsig|rudderstack|newrelic|opentelemetry&#39;</span></span></code></pre></div>
+<pre><code>0</code></pre>
+<p>Zero matches, including the bare word <code>telemetry</code>.</p>
+<p>Scan 2 — every HTTP(S) host embedded in the binary:</p>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">strings</span> <span class="at">-a</span> <span class="at">-n</span> 8 <span class="st">&quot;</span><span class="va">$B</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-aoE</span> <span class="st">&#39;https?://[A-Za-z0-9._-]+&#39;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-u</span></span></code></pre></div>
+<pre><code>http://json-schema.org
+http://localhost
+https://github.com
+https://go.dev
+https://json-schema.org
+http://upgradechunkedCreatedIM</code></pre>
+<p>Six results: two schema namespace URIs, <code>localhost</code> (the
+embedding backend), two Go toolchain/source URLs, and one string-table
+collision artefact. <strong>No analytics endpoint, no metrics collector,
+no crash reporter, no remote host of any kind.</strong></p>
+<p><strong>Limit of the method, stated honestly:</strong> this is static
+string analysis of a stripped 34MB Go binary. It is strong negative
+evidence and it is consistent across two independent scans, but no
+string scan can <em>prove</em> the absence of telemetry (an obfuscated
+or runtime-assembled endpoint would evade it). The claim is supported by
+all available evidence; it is not mathematically proven. See collateral
+finding <strong>C-2</strong> for the separate problem that the wizard
+prints the word “verified” for this without checking anything.</p>
+<h2
+id="item-13-e-codegraph-1.6.0-extraction-version-25-index-state-complete">Item
+13 (E) — CodeGraph 1.6.0; extraction version 25; index state
+complete</h2>
+<p><strong>VERIFIED.</strong></p>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="ex">codegraph</span> <span class="at">--version</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> ls <span class="at">-g</span> <span class="at">--depth</span><span class="op">=</span>0 <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-i</span> codegraph</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;file:</span><span class="va">$PWD</span><span class="st">/.codegraph/codegraph.db?mode=ro&quot;</span> <span class="st">&quot;SELECT key, value FROM project_metadata ORDER BY key;&quot;</span></span></code></pre></div>
+<p>Real output:</p>
+<pre><code>1.6.0
+├── @colbymchenry/codegraph@1.6.0
+
+index_files_accounted|541
+index_files_discovered|541
+index_state|complete
+indexed_with_extraction_version|25
+indexed_with_version|1.6.0</code></pre>
+<p>Supporting counts and schema:</p>
+<pre><code>nodes=10286|edges=39793|files=541
+schema_versions: 1|1787778135000|Initial schema
+                 9|1787778135911|Initial schema includes all migrations</code></pre>
+<ul>
+<li>Installed version <strong>1.6.0</strong> ✅</li>
+<li><code>indexed_with_extraction_version = 25</code> ✅</li>
+<li><code>index_state = complete</code> ✅</li>
+<li><code>indexed_with_version = 1.6.0</code> — index built by the
+installed version, not stale ✅</li>
+<li><code>files_discovered == files_accounted</code> (541 = 541) — no
+unindexed remainder ✅</li>
+</ul>
+<p>Read strictly read-only via <code>?mode=ro</code>.
+<code>codegraph.db</code> mtime was <code>2026-08-26 23:02:42</code>
+before and after; no <code>index</code>, <code>init</code> or
+<code>uninit</code> was run.</p>
+<h2
+id="item-14-f-all-four-root-carriers-byte-identical-from-line-24-onward">Item
+14 (F) — all four root carriers byte-identical from line 24 onward</h2>
+<p><strong>VERIFIED — and re-verified after the files changed
+mid-audit.</strong></p>
+<div class="sourceCode" id="cb46"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> AGENTS.md CLAUDE.md GEMINI.md QWEN.md<span class="kw">;</span> <span class="cf">do</span> <span class="fu">tail</span> <span class="at">-n</span> +24 <span class="va">$f</span> <span class="kw">|</span> <span class="fu">sha256sum</span><span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
+<p>First measurement (00:47, all four at 197 lines):</p>
+<pre><code>AGENTS.md    d26e2c31252d8837870b559c90d0650709f903b74ceaedc45944bb623fa4f836
+CLAUDE.md    d26e2c31252d8837870b559c90d0650709f903b74ceaedc45944bb623fa4f836
+GEMINI.md    d26e2c31252d8837870b559c90d0650709f903b74ceaedc45944bb623fa4f836
+QWEN.md      d26e2c31252d8837870b559c90d0650709f903b74ceaedc45944bb623fa4f836
+distinct hash count: 1</code></pre>
+<p>Headers (lines 1-23) are correctly <strong>distinct</strong> per
+agent — 4 distinct hashes — confirming the shared body starts exactly at
+line 24.</p>
+<p>During verification a concurrent process edited all four carriers
+(see item 17). Re-measured at 00:59, all four now at 200 lines:</p>
+<pre><code>AGENTS.md    961f47134720080e69eafc5f7458702ad2af91dbaa7eb279f33e9d2f417851c9
+CLAUDE.md    961f47134720080e69eafc5f7458702ad2af91dbaa7eb279f33e9d2f417851c9
+GEMINI.md    961f47134720080e69eafc5f7458702ad2af91dbaa7eb279f33e9d2f417851c9
+QWEN.md      961f47134720080e69eafc5f7458702ad2af91dbaa7eb279f33e9d2f417851c9
+distinct hash count: 1</code></pre>
+<p>The invariant survived an unrelated concurrent edit — the carriers
+were changed in lockstep. Claim holds at both timestamps.</p>
+<h2
+id="item-15-f-teststest_constitution_inheritance.sh-passes-and---prove-failure-demonstrates-it-can-fail">Item
+15 (F) — <code>tests/test_constitution_inheritance.sh</code> passes, and
+<code>--prove-failure</code> demonstrates it can fail</h2>
+<p><strong>VERIFIED — both halves.</strong></p>
+<div class="sourceCode" id="cb49"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> tests/test_constitution_inheritance.sh<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;EXIT=</span><span class="va">$?</span><span class="st">&quot;</span></span></code></pre></div>
+<pre><code>✅ PASS  I7 PREDICATE-NOT-BLIND — pointer_carrier.sh --selftest: PASS (5/5)
+✅ PASS  I1 SUBMODULE-PRESENT — canonical root complete at submodules/constitution/ (§11.4.35)
+✅ PASS  I2 PINNED-REVISION — submodules/constitution HEAD == pinned gitlink 448981ae3498229c734dc60719f4b19f01d7a75f
+✅ PASS  I3 FIVE-CARRIERS — CLAUDE.md AGENTS.md QWEN.md GEMINI.md Constitution.md all present (§11.4.157)
+✅ PASS  I4 POINTER-INHERITANCE — all five carriers open with a real, non-fenced &#39;## INHERITED FROM &#39; heading
+✅ PASS  I5 SUBMODULE-REFERENCED — all five carriers name &#39;submodules/constitution/&#39;
+✅ PASS  I6 ANCHOR-PRESENT — &#39;### §11.4 End-user quality guarantee&#39; present in the inherited corpus
+✅ PASS  I8 PROPAGATION-GATES — 17/17 cm_covenant_114_*_propagation gates PASS on the root carriers
+CM-CONSTITUTION-INHERITANCE: 8 PASS, 0 SKIP, 0 FAIL
+EXIT=0</code></pre>
+<p>The falsifiability proof — this is the part that matters, and it is
+real:</p>
+<div class="sourceCode" id="cb51"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> tests/test_constitution_inheritance.sh <span class="at">--prove-failure</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;EXIT=</span><span class="va">$?</span><span class="st">&quot;</span></span></code></pre></div>
+<pre><code>✅ CONTROL golden-good  — unmutated sandbox copy PASSes (rc=0)
+✅ M1 pointer-stripped  — root CLAUDE.md loses its &#39;## INHERITED FROM &#39; pointer heading -&gt; gate FAILed (rc=1), as it must  [I4 + I8]
+✅ M2 carrier-deleted   — root GEMINI.md deleted (five-carrier lockstep broken)          -&gt; gate FAILed (rc=1), as it must  [I3 + I4 + I5]
+✅ M3 anchor-deleted    — &#39;### §11.4 ...&#39; anchor deleted from the inherited corpus       -&gt; gate FAILed (rc=1), as it must  [I6]
+✅ M4 canonical-emptied — submodules/constitution/GEMINI.md emptied (canonical root gap) -&gt; gate FAILed (rc=1), as it must  [I1]
+✅ CM-CONSTITUTION-INHERITANCE §1.1 MUTATION PROOF: PASS — control passed and all 4 mutations were caught
+EXIT=0</code></pre>
+<p>A control that passes plus four distinct mutations that each force a
+genuine <code>rc=1</code>. This test is <strong>not</strong> a blind
+instrument. All mutation work was confined to a <code>mktemp -d</code>
+sandbox; <code>git status</code> was clean immediately before and
+after.</p>
+<p>This is the standard the group-A assertions in item 3 fail to
+meet.</p>
+<h2
+id="item-16-f-verify-all-constitution-rules.sh-reports-the-claimed-passfail-split-exits-non-zero-on-failure">Item
+16 (F) — <code>verify-all-constitution-rules.sh</code> reports the
+claimed PASS/FAIL split; exits non-zero on failure</h2>
+<p><strong>VERIFIED — every element, including the composition of the
+failures.</strong></p>
+<p>The claim, at <code>Constitution.md:334-336</code>:</p>
+<blockquote>
+<p><strong>58 gates run — 37 PASS, 21 FAIL, 0 ERROR</strong>, sweep exit
+<code>1</code>. The 21 failures are exactly the 17
+<code>cm_covenant_114_*_propagation.sh</code> gates (each reporting the
+same five carriers … 17 × 5 = 85 <code>MISSING</code> lines, and no
+sixth carrier anywhere) plus the four constitution-internal gates in
+section B. Nothing else failed.</p>
+</blockquote>
+<div class="sourceCode" id="cb53"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-all-constitution-rules.sh<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;EXIT=</span><span class="va">$?</span><span class="st">&quot;</span></span></code></pre></div>
+<pre><code>❌ SWEEP: FAIL — 21 FAIL + 0 ERROR out of 58 gate(s).
+EXIT=1</code></pre>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Element of the claim</th>
+<th>Observed</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>58 gates run</td>
+<td>58</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>21 FAIL</td>
+<td>21 (<code>grep -c '^===== .*\[FAIL'</code> = 21)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>0 ERROR</td>
+<td>0</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>37 PASS</td>
+<td>58 − 21 − 0 = 37</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Exit code 1</td>
+<td><code>EXIT=1</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Exactly 17 propagation gates</td>
+<td>17
+(162,167,176,187,191,196,199,200,201,202,207,213,230,231,232,233,235)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Plus exactly 4 others</td>
+<td><code>cm_continuum_resume_engine_present.sh</code>,
+<code>cm_gate_ledger_ratchet.sh</code>,
+<code>cm_track_branch_label.sh</code>,
+<code>cm_track_branch_label_mutation_test.sh</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>“Nothing else failed”</td>
+<td>17 + 4 = 21, complete</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>17 × 5 = 85 MISSING carrier lines</td>
+<td>5 carriers × 17 occurrences each = 85</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>“no sixth carrier anywhere”</td>
+<td>distinct carriers = <strong>5</strong></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p>Carrier tally:</p>
+<pre><code>     17 vasic.digital/QWEN.md
+     17 submodules/superspec/examples/static-landing-page/CLAUDE.md
+     17 .specify/extensions/superspec/examples/static-landing-page/CLAUDE.md
+     17 milosvasic.ru/Upstreamable/CLAUDE.md
+     17 milosvasic.ru/Upstreamable/AGENTS.md
+=== distinct carrier count === 5</code></pre>
+<p>Section B’s per-gate findings were also checked against live output
+and match verbatim, including the exact ratchet numbers:</p>
+<pre><code>LEDGER-FAIL: ratchet violated — unimplemented=432 exceeds checked-in baseline=420
+❌ ALIAS-VALIDATION: labeler did not yield the known synthetic alias (got &#39;xhigh&#39; ...)</code></pre>
+<p>vs. the documented <code>unimplemented=432</code> /
+<code>baseline=420</code> and “labeler yielded <code>xhigh</code>”.
+Exact match. <strong>The sweep also genuinely exits non-zero on
+failure</strong> (<code>EXIT=1</code>) — the failures are recorded, not
+suppressed, exactly as the document states. This is the most rigorously
+honest claim in the set.</p>
+<h2
+id="item-17-g-local-head-equals-remote-main-all-7-submodules-clean-with-nothing-unpushed">Item
+17 (G) — local HEAD equals remote <code>main</code>; all 7 submodules
+clean with nothing unpushed</h2>
+<p><strong>VERIFIED</strong> for every sub-claim asked — with two
+findings the claim does not cover.</p>
+<h3 id="head-vs-remote">HEAD vs remote</h3>
+<div class="sourceCode" id="cb57"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> rev-parse HEAD</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-remote git@github.com:milos85vasic/vasic.git refs/heads/main</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> rev-list <span class="at">--left-right</span> <span class="at">--count</span> HEAD...origin/main</span></code></pre></div>
+<pre><code>9f5a21f0af507f121482bd23704e1bf221f885db
+9f5a21f0af507f121482bd23704e1bf221f885db    refs/heads/main
+0   0</code></pre>
+<p>Local HEAD is byte-identical to remote <code>main</code>; zero
+commits ahead, zero behind. ✅</p>
+<h3 id="submodule-working-trees-all-7-clean">Submodule working trees —
+all 7 clean</h3>
+<div class="sourceCode" id="cb59"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule status</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule foreach <span class="at">--quiet</span> <span class="st">&#39;echo &quot;--- $name ---&quot;; git status --porcelain&#39;</span></span></code></pre></div>
+<p>All 7 present, every one prefixed with a space (in sync with its
+gitlink), and every <code>git status --porcelain</code> returned
+<strong>empty</strong>:</p>
+<pre><code> 023abbfd ai_interviewing (heads/main)          --- ai_interviewing ---          (end)
+ 16e4e76d design-toolkit (v0.2.2-4-g16e4e76)    --- design-toolkit ---           (end)
+ 83850255 milosvasic.ru (v1.8.0-5-g8385025)     --- milosvasic.ru ---            (end)
+ 1f9f5204 monetization (heads/main)             --- monetization ---             (end)
+ 448981ae submodules/constitution (v1.0.0-51)   --- submodules/constitution ---  (end)
+ c20ac6c1 submodules/superspec (v1.0.1-7)       --- submodules/superspec ---     (end)
+ 5a4c3bba vasic.digital (v1.8.0-4-g5a4c3bb)     --- vasic.digital ---            (end)</code></pre>
+<p>7 submodules, 7 clean working trees. ✅</p>
+<h3 id="nothing-unpushed-with-a-corrected-methodology">Nothing unpushed
+— with a corrected methodology</h3>
+<p>My first test used <code>git ls-remote</code> to look for each
+submodule HEAD among the remote refs, and flagged
+<code>design-toolkit</code> and <code>submodules/constitution</code> as
+having unpushed commits. <strong>That test was wrong and the flag was a
+false alarm.</strong> <code>git ls-remote</code> lists ref <em>tips</em>
+only; a commit that is an ancestor of remote <code>main</code> never
+appears in its output. Recorded here because an adversarial report must
+show its own corrections.</p>
+<p>Re-tested definitively via the GitHub API (read-only):</p>
+<div class="sourceCode" id="cb61"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/vasic-digital/design-toolkit/commits/16e4e76d57ab61b5f3b46fae3372b2e6d6cc73e3 <span class="at">--jq</span> <span class="st">&#39;.sha&#39;</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/vasic-digital/design-toolkit/compare/725e456a...16e4e76d <span class="at">--jq</span> <span class="st">&#39;{status,ahead_by,behind_by}&#39;</span></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/HelixDevelopment/HelixConstitution/commits/448981ae3498229c734dc60719f4b19f01d7a75f <span class="at">--jq</span> <span class="st">&#39;.sha&#39;</span></span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span> api repos/HelixDevelopment/HelixConstitution/compare/9ca2a730...448981ae <span class="at">--jq</span> <span class="st">&#39;{status,ahead_by,behind_by}&#39;</span></span></code></pre></div>
+<pre><code>16e4e76d57ab61b5f3b46fae3372b2e6d6cc73e3
+{&quot;ahead_by&quot;:0,&quot;behind_by&quot;:1,&quot;status&quot;:&quot;behind&quot;}
+
+448981ae3498229c734dc60719f4b19f01d7a75f
+{&quot;ahead_by&quot;:0,&quot;behind_by&quot;:60,&quot;status&quot;:&quot;behind&quot;}</code></pre>
+<p>Both commits <strong>exist on their remotes</strong> and are
+<code>ahead_by: 0</code>. The other five submodules match their remote
+<code>main</code> tip exactly. <strong>Nothing is unpushed in any of the
+7.</strong> ✅</p>
+<h3
+id="finding-17-a-two-submodules-are-behind-upstream-with-stale-tracking-refs">⚠
+Finding 17-a — two submodules are behind upstream, with stale tracking
+refs</h3>
+<p>Not part of the claim, but material:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Submodule</th>
+<th>Local HEAD</th>
+<th>Remote <code>main</code></th>
+<th>Behind by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>design-toolkit</code></td>
+<td><code>16e4e76d57ab</code></td>
+<td><code>725e456aa35e</code></td>
+<td>1 commit</td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td><code>448981ae3498</code></td>
+<td><code>9ca2a730a945</code></td>
+<td><strong>60 commits</strong></td>
+</tr>
+</tbody>
+</table>
+<p>In both, the local <code>refs/remotes/origin/main</code> still points
+at the local HEAD, so <code>git status</code> inside them reports “up to
+date with origin/main” — a false reassurance produced by a
+never-refreshed tracking ref. For <code>submodules/constitution</code>
+the pin is <em>deliberate</em> (<code>Constitution.md</code> pins
+<code>448981ae…</code>, and test I2 asserts it), but the umbrella is 60
+upstream commits behind and nothing in the local git state says so.</p>
+<h3
+id="finding-17-b-the-root-working-tree-did-not-stay-clean-during-verification">⚠
+Finding 17-b — the root working tree did not stay clean during
+verification</h3>
+<p>The claim’s “clean” premise held when I started and had lapsed by the
+time I finished. Timeline, all from
+<code>git status --porcelain</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Time (local)</th>
+<th>Root working tree</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00:43 (start)</td>
+<td><strong>clean</strong> — empty output</td>
+</tr>
+<tr>
+<td>00:54</td>
+<td>3 modified, 1 untracked</td>
+</tr>
+<tr>
+<td>00:58:40</td>
+<td>8 modified, 2 untracked</td>
+</tr>
+<tr>
+<td>00:59:26</td>
+<td>unchanged from 00:58:40 (stable across 45s)</td>
+</tr>
+<tr>
+<td>01:01 (end)</td>
+<td>8 modified, 2 untracked</td>
+</tr>
+</tbody>
+</table>
+<p>Final state:</p>
+<pre><code> M AGENTS.md
+ M CLAUDE.md
+ M Constitution.md
+ M GEMINI.md
+ M QWEN.md
+ M docs/setup-agents-wizard/OLLAMA-NAN-WEDGE.md
+ M docs/setup-agents-wizard/README.md
+ M scripts/verify-all-constitution-rules.sh
+?? docs/constitution-adoption/GATE-TRIAGE.md
+?? docs/constitution-adoption/README.md</code></pre>
+<p><strong>This was not caused by the verification.</strong>
+Evidence:</p>
+<ul>
+<li>Nothing in this audit writes to the repo. All sandboxes were
+<code>mktemp -d</code>.</li>
+<li><code>scripts/verify-all-constitution-rules.sh</code> writes only to
+<code>DETAIL_DIR="$(mktemp -d)"</code> (line 213); it has no repo write
+path.</li>
+<li>The suite’s <code>.test-evidence/</code> output is gitignored and
+does not appear above.</li>
+<li>A <strong>second Claude process with <code>cwd</code> set to this
+repository</strong> was observed:
+<code>readlink /proc/&lt;pid&gt;/cwd</code> returned
+<code>&lt;ext-volume-host&gt;/Projects/vasic</code> for a PID that is
+not this session (this session is PID 4094209,
+<code>--session-id f190827d-5978-deb6-a880-642959ad497f</code>).</li>
+<li>One of the diffs is self-describing:
+<code>scripts/verify-all-constitution-rules.sh</code> gained the comment
+<em>“exits 2 — verified 2026-08-27”</em>, i.e. an edit authored today by
+another actor.</li>
+</ul>
+<p>Consequence for the record: <strong>HEAD still equals remote
+<code>main</code> (<code>9f5a21f</code>), so these are uncommitted
+working-tree edits, not divergence.</strong> But any statement of the
+form “the tree is clean” is time-sensitive here and was already false by
+01:01.</p>
+<hr />
+<h2 id="environment-integrity-attestation">Environment integrity
+attestation</h2>
+<p>No mutating operation was performed against the real environment.
+Verified by re-hashing after all work:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>sha256 at 00:43</th>
+<th>sha256 at 01:01</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>~/.bashrc</code></td>
+<td><code>b0c01aa26d5821d1f0fd97043e163ff7115d6e52f39178741eb2ecc841c506fc</code></td>
+<td>identical</td>
+</tr>
+<tr>
+<td><code>~/.bash_profile</code></td>
+<td><code>e10d987644ad0afbb21d65b16ff2709da78efbd5a30932ed850a2de622866144</code></td>
+<td>identical</td>
+</tr>
+<tr>
+<td><code>~/.local/bin/lumen</code></td>
+<td><code>ebf11baf1e6c90fccc8c630a32fd0a23d91cd190918f2f7d7e2a18918229ae7c</code></td>
+<td>identical</td>
+</tr>
+<tr>
+<td><code>~/.codegraph/telemetry.json</code></td>
+<td><code>58fac75432f40d21bb905a6976ec4139e817a464734e3d96c9f4007d661db44a</code></td>
+<td>identical</td>
+</tr>
+<tr>
+<td><code>~/.qwen/settings.json</code></td>
+<td><code>b882ccdb8211b19aace4c22767358371077d3f676b4366ab8cd74b030129d482</code></td>
+<td>identical</td>
+</tr>
+</tbody>
+</table>
+<p><code>.codegraph/codegraph.db</code> mtime
+<code>2026-08-26 23:02:42</code> before and after — read exclusively
+through <code>file:...?mode=ro</code>. No
+<code>codegraph index</code>/<code>init</code>/<code>uninit</code>, no
+<code>lumen index</code>/<code>purge</code>, no mutating git command, no
+service restart. The running <code>lumen index</code> job was not
+disturbed; no competing embedding work was started. The only file
+created is this report.</p>
+</body>
+</html>

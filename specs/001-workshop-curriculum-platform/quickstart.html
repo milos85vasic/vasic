@@ -1,0 +1,2080 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>quickstart</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">quickstart</h1>
+</header>
+<h1
+id="quickstart-workshop-curriculum-platform-phase-1-validation-guide">Quickstart
+— Workshop Curriculum Platform (Phase 1 validation guide)</h1>
+<p><strong>Feature</strong>:
+<code>specs/001-workshop-curriculum-platform</code> |
+<strong>Date</strong>: 2026-09-01 <strong>Reads with</strong>: <a
+href="./spec.md">spec.md</a> · <a href="./plan.md">plan.md</a> · <a
+href="./research.md">research.md</a> · <a
+href="./data-model.md">data-model.md</a> · <code>contracts/</code></p>
+<p>This is a <strong>validation guide</strong>, not an implementation
+guide. It says how to <em>run</em> the feature and how to
+<em>observe</em> whether each success criterion actually holds. It
+restates neither the interface shapes (see <code>contracts/</code>) nor
+the entities (see <a href="./data-model.md">data-model.md</a>).</p>
+<p>Every path in this document is <strong>relative to the repository
+root</strong> (the directory containing <code>workshop/</code>,
+<code>scripts/</code> and <code>specs/</code>). Run every command from
+there unless a step says otherwise.</p>
+<hr />
+<h2 id="how-to-read-this-document">How to read this document</h2>
+<p>Nothing below is presented as proven unless it was actually run. Each
+step carries one status:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Marker</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>RUNNABLE NOW</code></strong></td>
+<td>The command was executed while authoring this guide, or it invokes
+only tooling verified present in <a
+href="#0-preflight--verify-the-environment-before-anything-else">Preflight</a>.</td>
+</tr>
+<tr>
+<td><strong><code>BLOCKED: BUILD</code></strong></td>
+<td>The component does not exist yet. The command shown is the
+<strong>contract this scenario expects</strong>, not a tested
+invocation. It has never been run.</td>
+</tr>
+<tr>
+<td><strong><code>BLOCKED: OPERATOR</code></strong></td>
+<td>Needs a human action outside this repository — installing an ASR
+engine, pulling a generative model.</td>
+</tr>
+<tr>
+<td><strong><code>BLOCKED: U1</code>…</strong><code>U5</code></td>
+<td>Blocked on a named open item from <a
+href="./research.md">research.md</a> § <em>Open items carried into Phase
+1</em>.</td>
+</tr>
+</tbody>
+</table>
+<p>A step may carry more than one block. Where a step is blocked, the
+<strong>expected observable outcome</strong> is still written out,
+because that is the acceptance target the implementation is aiming at —
+it is just not evidence yet.</p>
+<h3 id="status-at-a-glance">Status at a glance</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Proves</th>
+<th>Executable today?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a
+href="#0-preflight--verify-the-environment-before-anything-else">0.
+Preflight</a></td>
+<td>environment truth</td>
+<td><strong>Yes, entirely.</strong> Three of its six checks are expected
+to report <code>1 FAIL</code> on this host.</td>
+</tr>
+<tr>
+<td><a
+href="#us1-step-1--reassemble-the-recording-from-its-36-parts">US1
+reassemble</a></td>
+<td>FR-007</td>
+<td><strong>Yes.</strong> Verified tooling, with an existing paired
+mutation proof.</td>
+</tr>
+<tr>
+<td><a href="#us1-step-2--transcribe-blocked">US1 transcribe →
+SC-001/002/003</a></td>
+<td>SC-001, SC-002, SC-003</td>
+<td><strong>No.</strong> <code>BLOCKED: OPERATOR</code> (no ASR engine)
++ <code>BLOCKED: BUILD</code> + U1, U2, U3.</td>
+</tr>
+<tr>
+<td><a href="#us2--browse-and-watch-the-curriculum">US2 browse and
+watch</a></td>
+<td>SC-004</td>
+<td><strong>No.</strong> <code>BLOCKED: BUILD</code> only — no operator
+action needed once built.</td>
+</tr>
+<tr>
+<td><a href="#us3--find-anything-by-meaning">US3 search</a></td>
+<td>SC-005, SC-006, SC-007, SC-008</td>
+<td><strong>No.</strong> <code>BLOCKED: BUILD</code>; SC-006
+additionally at risk (U4), SC-007/SC-008 additionally
+<code>BLOCKED: U5</code>.</td>
+</tr>
+<tr>
+<td><a
+href="#config-a--the-extractive-adapter-the-default-working-path">US4
+answers — config A <code>extractive</code></a></td>
+<td>SC-009, SC-010</td>
+<td><strong>No, but only on BUILD.</strong> Needs <strong>no</strong>
+generative model. This is the path that can be validated on this
+host.</td>
+</tr>
+<tr>
+<td><a
+href="#config-b--a-generative-provider-blocked-on-an-operator-pull">US4
+answers — config B generative</a></td>
+<td>SC-009, SC-010 under generation</td>
+<td><strong>No.</strong> <code>BLOCKED: OPERATOR</code>
+(<code>ollama pull</code>) + <code>BLOCKED: BUILD</code>.</td>
+</tr>
+<tr>
+<td><a href="#us5--add-a-chapter-and-run-it-twice">US5 add a
+chapter</a></td>
+<td>SC-011, FR-026, FR-027, SC-016</td>
+<td><strong>No.</strong> <code>BLOCKED: BUILD</code>; the end-to-end
+variant inherits the ASR block.</td>
+</tr>
+<tr>
+<td><a href="#governance--the-gates-that-must-be-green">Governance
+gates</a></td>
+<td>SC-014, FR-034, FR-035</td>
+<td><strong>Yes, entirely.</strong></td>
+</tr>
+<tr>
+<td><a
+href="#evidence--where-the-numbers-come-from-and-how-to-re-derive-them">Evidence
+and mutation proofs</a></td>
+<td>SC-012, SC-013, SC-018</td>
+<td><strong>Partly.</strong> The two gates that ship
+<code>--prove-failure</code> today are runnable; the feature’s own gates
+are <code>BLOCKED: BUILD</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>One sentence of honesty up front</strong>: on this host,
+today, the only parts of this feature that can be executed end to end
+are the recording reassembly, the governance gates, and the mutation
+proofs of two existing scripts. Everything else is waiting on either
+code that has not been written or a tool that has not been installed.
+This document names which, per step, rather than implying a working
+system.</p>
+<hr />
+<h2 id="preflight-verify-the-environment-before-anything-else">0.
+Preflight — verify the environment before anything else</h2>
+<p>Run this first, always. Several assumptions that this feature’s
+request rested on are <strong>false on this host</strong>, and each one
+fails in a way that looks like something else — a missing transcoder
+reports a bad-argument error, a missing speech recogniser reports a
+working binary of the same name. Failing loudly here is the entire point
+of the section.</p>
+<h3 id="the-reporting-contract">The reporting contract</h3>
+<p>Every check reports one of exactly three codes. This is the spec’s
+FR-033 / SC-013 requirement applied to the preflight itself, and it
+mirrors the <code>0</code> / <code>1</code> / <code>2</code> convention
+that <code>scripts/verify-governance-cascade.sh</code> already uses in
+this repository:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Code</th>
+<th>Name</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td><strong>PASS</strong></td>
+<td>Positive evidence was obtained that the capability exists <em>and
+behaves as required</em>.</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td><strong>FAIL</strong></td>
+<td>Positive evidence was obtained that it is absent or wrong.</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><strong>UNDETERMINED</strong></td>
+<td>The check itself could not run. <strong>Never</strong> a pass, never
+a fail.</td>
+</tr>
+</tbody>
+</table>
+<p>“Could not determine” is not a pass. A preflight that cannot see must
+say it cannot see.</p>
+<h3 id="p1-ffprobe-expected-1-fail-on-this-host">P1 —
+<code>ffprobe</code> (expected: <strong>1 FAIL</strong> on this
+host)</h3>
+<p><code>RUNNABLE NOW</code></p>
+<blockquote>
+<p><strong>Why the glob.</strong>
+<code>workshop/chapters/01/*Recording.mp4</code> is written as an
+unquoted glob rather than a literal path because the literal name
+carries a third party’s first name. The glob is not a loss of precision:
+that directory holds exactly one <code>*Recording.mp4</code>, and a glob
+expansion is not word-split, so the embedded spaces are handled
+correctly. Same for <code>*Recording.mp4.sha256</code> in US1 below. See
+<a
+href="../../docs/content-boundary-incident-2026-09-01.md"><code>docs/content-boundary-incident-2026-09-01.md</code></a>
+§11.</p>
+</blockquote>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> ffprobe <span class="kw">&amp;&amp;</span> <span class="fu">readlink</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">command</span> <span class="at">-v</span> ffprobe<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ffprobe</span> <span class="at">-v</span> error <span class="at">-show_format</span> <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  workshop/chapters/01/<span class="pp">*</span>Recording.mp4 <span class="dt">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;rc=</span><span class="va">$?</span><span class="st">&quot;</span></span></code></pre></div>
+<p><strong>Observed on this host (2026-09-01):</strong></p>
+<pre><code>&lt;home&gt;/bin/ffprobe
+&lt;home&gt;/.cache/ms-playwright/ffmpeg-1011/ffmpeg-linux
+Unrecognized option &#39;show_format&#39;.
+Error splitting the argument list: Option not found
+rc=8</code></pre>
+<p><strong>Verdict: <code>1 FAIL</code>.</strong> <code>ffprobe</code>
+is a <strong>symlink to Playwright’s bundled ffmpeg binary</strong>. It
+is not ffprobe. It accepts <code>-version</code> — which is why an
+earlier probe using <code>ffprobe --version</code> concluded it was
+present — and rejects <code>-show_format</code>, the option every
+media-inspection step in this pipeline actually needs.</p>
+<blockquote>
+<p><strong>The trap, stated so it is not re-sprung</strong>: probing
+with <code>--version</code> proves a binary answers, not that it is the
+right binary. The check MUST exercise the option the pipeline depends
+on. A preflight that runs <code>ffprobe --version</code> reports
+<code>0 PASS</code> here and is wrong.</p>
+</blockquote>
+<p><strong>Consequence for the run guide</strong>: any step below that
+would call <code>ffprobe</code> is marked
+<code>BLOCKED: OPERATOR</code>. Duration, codec and stream properties
+for Chapter 1 are <strong>not</strong> re-derivable on this host today;
+the values quoted in <a href="./research.md">research.md</a>
+(<code>6928.75 s</code>, H.264 1080p24, AAC-LC 48 kHz, dual-mono) were
+measured elsewhere and are carried, not reproduced.</p>
+<h3 id="p2-ffmpeg-expected-1-fail-as-a-durable-dependency">P2 —
+<code>ffmpeg</code> (expected: <strong>1 FAIL</strong> as a durable
+dependency)</h3>
+<p><code>RUNNABLE NOW</code></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> ffmpeg <span class="kw">&amp;&amp;</span> <span class="fu">readlink</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">command</span> <span class="at">-v</span> ffmpeg<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ffmpeg</span> <span class="at">-version</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-1</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">case</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">readlink</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">command</span> <span class="at">-v</span> ffmpeg<span class="va">)</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span> <span class="kw">in</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="pp">*</span><span class="ss">ms-playwright</span><span class="pp">*</span><span class="kw">)</span> <span class="bu">echo</span> <span class="st">&quot;FAIL: ffmpeg resolves into an npx-managed Playwright cache&quot;</span> <span class="cf">;;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;&quot;</span><span class="kw">)</span>             <span class="bu">echo</span> <span class="st">&quot;UNDETERMINED: could not resolve ffmpeg&quot;</span> <span class="cf">;;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="pp">*</span><span class="kw">)</span>              <span class="bu">echo</span> <span class="st">&quot;PASS: ffmpeg is durably installed&quot;</span> <span class="cf">;;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">esac</span></span></code></pre></div>
+<p><strong>Observed on this host (2026-09-01):</strong></p>
+<pre><code>&lt;home&gt;/bin/ffmpeg
+&lt;home&gt;/.cache/ms-playwright/ffmpeg-1011/ffmpeg-linux
+ffmpeg version 7.0.2-static https://johnvansickle.com/ffmpeg/ ...
+FAIL: ffmpeg resolves into an npx-managed Playwright cache</code></pre>
+<p><strong>Verdict: <code>1 FAIL</code> as a pipeline
+dependency</strong>, even though the binary works right now. It lives in
+<code>~/.cache/ms-playwright/ffmpeg-1011/</code>. A
+<code>npx playwright uninstall</code>, a cache clean, or a Playwright
+version bump removes it. A content pipeline that runs a workshop
+curriculum must not depend on a browser-automation cache — that is a
+dependency nobody declared and nobody maintains.</p>
+<p>The check distinguishes the two failure modes deliberately: an
+<em>unresolvable</em> ffmpeg is <code>2</code> (the instrument could not
+see), a <em>cache-resident</em> ffmpeg is <code>1</code> (it saw, and
+the answer is bad).</p>
+<h3 id="p3-speech-recognition-engine-expected-1-fail-on-this-host">P3 —
+speech-recognition engine (expected: <strong>1 FAIL</strong> on this
+host)</h3>
+<p><code>RUNNABLE NOW</code></p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> whisper <span class="kw">&amp;&amp;</span> <span class="ex">rpm</span> <span class="at">-qf</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">command</span> <span class="at">-v</span> whisper<span class="va">)</span><span class="st">&quot;</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&quot;import whisper&quot;</span>        <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-1</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&quot;import faster_whisper&quot;</span> <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-1</span></span></code></pre></div>
+<p><strong>Observed on this host (2026-09-01):</strong></p>
+<pre><code>/usr/bin/whisper
+whisper-1.3.1-alt1.noarch
+ModuleNotFoundError: No module named &#39;whisper&#39;
+ModuleNotFoundError: No module named &#39;faster_whisper&#39;</code></pre>
+<p><strong>Verdict: <code>1 FAIL</code>. No speech-recognition engine is
+installed.</strong> <code>/usr/bin/whisper</code> is
+<code>whisper-1.3.1-alt1</code>, an unrelated microphone-loopback GUI by
+a different author. It shares a name with OpenAI Whisper and nothing
+else.</p>
+<blockquote>
+<p><strong>The trap</strong>: <code>command -v whisper</code> succeeds.
+A preflight that stops there reports <code>0 PASS</code> and is wrong.
+The check MUST resolve the package identity <em>and</em> attempt the
+import that the pipeline would actually perform.</p>
+</blockquote>
+<p>Note also that <code>ollama</code>’s
+<code>/v1/audio/transcriptions</code> endpoint exists but does not close
+this gap — per <a href="./research.md">research.md</a> D-TRANS-1 its
+Whisper strings are an <em>encoder</em>, with no
+<code>word_timestamps</code>, <code>avg_logprob</code> or
+<code>no_speech_prob</code>, so it cannot satisfy FR-002 or FR-003. Do
+not treat the presence of that endpoint as a passing ASR check.</p>
+<p><strong>Consequence</strong>: <a
+href="#us1-step-2--transcribe-blocked">US1 step 2</a> onward is
+<code>BLOCKED: OPERATOR</code>.</p>
+<h3 id="p4-generative-model-expected-1-fail-on-this-host">P4 —
+generative model (expected: <strong>1 FAIL</strong> on this host)</h3>
+<p><code>RUNNABLE NOW</code> — read-only; it does not load a model and
+does not restart the service.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">--max-time</span> 8 http://localhost:11434/api/tags <span class="kw">|</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">python3</span> <span class="at">-c</span> <span class="st">&#39;import json,sys; d=json.load(sys.stdin); [print(m[&quot;name&quot;], m[&quot;details&quot;][&quot;family&quot;], m[&quot;details&quot;][&quot;parameter_size&quot;]) for m in d[&quot;models&quot;]]&#39;</span></span></code></pre></div>
+<p><strong>Observed on this host (2026-09-01):</strong></p>
+<pre><code>jina-embeddings-code-cpu:latest          jina-bert-v2  160.28M
+ordis/jina-embeddings-v2-base-code:latest jina-bert-v2  160.28M</code></pre>
+<p><strong>Verdict: <code>1 FAIL</code>. There is no generative
+model.</strong> Both entries are the <em>same</em> embedding model —
+<code>jina-bert-v2</code>, an encoder with no LM head. ollama here
+serves embeddings and nothing else.</p>
+<p>The check must classify by <strong>family and role</strong>, not by
+count. “Two models are present” is true and useless; “zero decoders are
+present” is the fact that matters.</p>
+<p><strong>Consequence</strong>: <a
+href="#config-b--a-generative-provider-blocked-on-an-operator-pull">US4
+config B</a> is <code>BLOCKED: OPERATOR</code>. <a
+href="#config-a--the-extractive-adapter-the-default-working-path">US4
+config A</a> is not — it needs no generative model at all, which is
+precisely why it is the default working path (D-LLM-5).</p>
+<h3
+id="p5-container-runtime-expected-0-pass-for-podman-docker-absent">P5 —
+container runtime (expected: <strong>0 PASS</strong> for podman, docker
+absent)</h3>
+<p><code>RUNNABLE NOW</code></p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> podman <span class="kw">&amp;&amp;</span> <span class="ex">podman</span> <span class="at">--version</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">podman</span> info <span class="at">--format</span> <span class="st">&#39;{{.Host.Security.Rootless}}&#39;</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;UNDETERMINED: podman info failed&quot;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> docker <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;docker: ABSENT (expected)&quot;</span></span></code></pre></div>
+<p><strong>Observed on this host (2026-09-01):</strong>
+<code>podman version 5.7.1</code>; <code>docker</code> is <strong>not on
+PATH</strong>.</p>
+<p><strong>Verdict: <code>0 PASS</code></strong> for the runtime the
+plan targets. §11.4.161 mandates rootless podman and this host has it.
+Docker’s absence is <strong>expected and correct</strong>, not a failure
+— any script in this feature that invokes <code>docker</code> is a
+portability defect, and <a
+href="#governance--the-gates-that-must-be-green"><code>scripts/audit-environment-assumptions.sh</code></a>
+is the gate that catches it.</p>
+<p>If <code>podman info</code> fails (for example, no user namespace
+mapping), report <code>2 UNDETERMINED</code> — do not infer rootlessness
+from the version string.</p>
+<h3 id="p6-local-gate-suite-reachable">P6 — local gate suite
+reachable</h3>
+<p><code>RUNNABLE NOW</code></p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--list</span></span></code></pre></div>
+<p><strong>Observed on this host (2026-09-01)</strong> — 8 gates,
+<code>E</code> and <code>0</code>–<code>6</code>:</p>
+<pre><code>ID  GATE                                                    COMMAND
+E   §11.4.156(E) no active root CI config                   git ls-files | grep -E &#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$&#39;   (must be EMPTY)
+0   hardcoded path audit                                    ./scripts/audit-hardcoded-paths.sh
+1   Go unit tests (_tools/gen)                              cd _tools/gen &amp;&amp; go test ./...
+...
+6   Playwright (chromium), excluding the all-language crawl cd _tests &amp;&amp; npx playwright test --project=chromium --grep-invert &#39;all-language&#39;</code></pre>
+<p><strong>Verdict: <code>0 PASS</code></strong> — the runner exists and
+can enumerate its own gates.</p>
+<blockquote>
+<p><strong>Not a pass for enforcement.</strong> <code>.git/hooks/</code>
+is untracked, so a fresh clone runs <strong>no</strong> gates until
+<code>bash scripts/pre-push-gates.sh --install</code> has been run, and
+<code>git push --no-verify</code> bypasses the hook with no record.
+Verify installation separately: <code>ls -l .git/hooks/pre-push</code>.
+Absent ⇒ <code>1 FAIL</code> for enforcement, regardless of P6
+passing.</p>
+</blockquote>
+<h3 id="preflight-summary-for-this-host">Preflight summary for this
+host</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Check</th>
+<th>Code</th>
+<th>One-line reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1 <code>ffprobe</code></td>
+<td><strong>1 FAIL</strong></td>
+<td>symlink to Playwright’s ffmpeg; rejects <code>-show_format</code>
+(rc=8)</td>
+</tr>
+<tr>
+<td>P2 <code>ffmpeg</code></td>
+<td><strong>1 FAIL</strong></td>
+<td>works, but resolves into an npx-managed cache — not a durable
+dependency</td>
+</tr>
+<tr>
+<td>P3 ASR engine</td>
+<td><strong>1 FAIL</strong></td>
+<td><code>/usr/bin/whisper</code> is an unrelated GUI; both Python
+imports fail</td>
+</tr>
+<tr>
+<td>P4 generative model</td>
+<td><strong>1 FAIL</strong></td>
+<td>two models, both the same 160 M embedding encoder</td>
+</tr>
+<tr>
+<td>P5 podman rootless</td>
+<td><strong>0 PASS</strong></td>
+<td>podman 5.7.1; docker correctly absent</td>
+</tr>
+<tr>
+<td>P6 gate suite</td>
+<td><strong>0 PASS</strong> (runner)</td>
+<td>8 gates enumerable; enforcement is a separate, per-checkout
+check</td>
+</tr>
+</tbody>
+</table>
+<p><strong>A preflight that reports anything other than four
+<code>1</code>s and two <code>0</code>s on this host has not understood
+the host.</strong> If a future run reports <code>0 PASS</code> for P1,
+P3 or P4, the first hypothesis is that the <em>check</em> regressed, not
+that the environment improved — verify the operator actually installed
+something before believing it.</p>
+<hr />
+<h2 id="us1-read-what-was-actually-said-the-transcript">US1 — Read what
+was actually said: the transcript</h2>
+<p><strong>Proves</strong>: SC-001 (100% coverage), SC-002 (accuracy
+measured over ≥30 sampled windows), SC-003 (timestamps within 5 s).
+Requirements FR-001…FR-007.</p>
+<h3 id="us1-step-1-reassemble-the-recording-from-its-36-parts">US1 step
+1 — reassemble the recording from its 36 parts</h3>
+<p><strong>Status: <code>RUNNABLE NOW</code>.</strong> This is the one
+part of US1 that works today, on tooling that already exists and already
+ships its own mutation proof.</p>
+<p><strong>Prerequisites</strong>: none beyond a checkout. No ASR, no
+ffmpeg, no containers. The reassembler uses <code>sha256sum</code>,
+<code>cat</code> and <code>tar</code> only.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm what is actually committed: 36 parts + one manifest, video git-ignored.</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> workshop/chapters/01/<span class="pp">*</span>.tar.gz.part-<span class="pp">*</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-5</span> workshop/chapters/01/<span class="pp">*</span>Recording.mp4.sha256</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Reassemble, hash-verified at every stage. Time it — SC-004 needs this number.</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="bu">time</span> bash workshop/scripts/extract-videos.sh</span></code></pre></div>
+<p><strong>Expected observable outcome</strong></p>
+<p><code>ls | wc -l</code> prints <code>36</code>. The manifest’s first
+five lines are <code># video-archive-manifest v1</code>,
+<code>video_sha256=345a7439…</code>, <code>video_size=1871981557</code>,
+<code>archive_sha256=67ee3b72…</code>, <code>part_size=50m</code> —
+<em>verified 2026-09-01</em>.</p>
+<p><code>extract-videos.sh</code> prints one of exactly two things per
+manifest, and never anything ambiguous:</p>
+<ul>
+<li><code>[extract] skip (intact): …/Recording.mp4</code> — the video is
+already present and its hash matches;</li>
+<li><code>[extract] extracting: …</code> then
+<code>[extract] ok: …/Recording.mp4 (36 part(s) verified)</code>.</li>
+</ul>
+<p>It exits <code>0</code>. Any hash mismatch exits non-zero with
+<code>[extract] ERROR: …</code> naming the failing stage
+(<code>hash mismatch on part</code>,
+<code>archive stream hash mismatch</code>, or
+<code>extracted video hash mismatch</code>).</p>
+<p><strong>Success criterion proved</strong>: <strong>FR-007</strong> —
+automatic reassembly with integrity verification that fails loudly. Four
+independent hash checks run: per-part (36), reassembled stream, and the
+extracted file against the manifest.</p>
+<p><strong>Its paired mutation proof already exists</strong> (this is
+the FR-032 / SC-012 half, and it predates this feature):</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/scripts/self-test.sh</span></code></pre></div>
+<p>Described rather than quoted — <strong>the private
+<code>workshop</code> carriers’ own wording of what this script does is
+private content and is not reproduced here</strong>; read it in that
+submodule at <code>AGENTS.md</code> (and its three sibling carriers).
+Independently: the script generates throwaway input, runs the archive
+and extract halves and checks that the round trip reproduces the input
+bit-for-bit, and then <strong>damages one part on purpose and requires
+the extractor to reject it</strong>. The seeded-damage half is the §1.1
+paired mutation: a green round trip on undamaged input is not evidence
+on its own, because a reassembler that never rejects anything would also
+produce it. The refusal is what carries the proof.</p>
+<p><strong>Timing, honestly.</strong> Measured on this host on
+2026-09-01: <code>sha256sum</code> on one 52,428,800-byte part took
+<strong>0.35 / 0.38 / 0.40 s</strong> warm (≈138 MB/s), at load average
+5.30 on 8 CPUs. The extractor hashes ≈5.4 GB in total (36 parts + the
+reassembled stream + the 1,871,981,557-byte output), then gunzips ≈1.79
+GB and writes ≈1.87 GB. <strong>Do not quote a predicted wall time from
+this</strong> — cold I/O dominates and this host was under load. Record
+the actual <code>time</code> output; it is an input to SC-004.</p>
+<h3 id="us1-step-2-transcribe-blocked">US1 step 2 — transcribe
+(BLOCKED)</h3>
+<p><strong>Status: <code>BLOCKED: OPERATOR</code> (P3, no ASR engine) +
+<code>BLOCKED: BUILD</code> (the pipeline does not exist) +
+<code>BLOCKED: U1, U2, U3</code>.</strong></p>
+<p>Do not run a transcription pipeline from this guide. There is nothing
+to run, and the engine it would need is not installed. The command shape
+below is the <strong>contract this scenario expects</strong>; it has
+never been executed.</p>
+<p><strong>Prerequisites that must be satisfied first</strong>, in
+order:</p>
+<ol type="1">
+<li><strong>Operator</strong>: install <code>faster-whisper</code>
+(CTranslate2, CPU int8, <code>large-v3-turbo</code>) into a
+project-local virtual environment — decision D-TRANS-1. This is an
+operator action, outside this repository, and it is <strong>not</strong>
+something this guide performs.</li>
+<li><strong>U1</strong> — whether the cp314 wheels for
+CTranslate2/faster-whisper install and run on this host (Python 3.14.6
+is what is present) is <strong>unknown</strong>. It closes by attempting
+the install.</li>
+<li><strong>U2</strong> — real transcription throughput on this CPU is
+<strong>unknown</strong>. It closes with a 5-minute calibration run on
+an already-extracted 300 s sample.</li>
+<li><strong>U3</strong> — <strong>nobody has listened to the recording
+and no ASR has run on it.</strong> That the recording contains
+intelligible speech in a known language is an assumption, not a finding.
+It closes in the same calibration run.</li>
+</ol>
+<p>U1, U2 and U3 all close in that one short calibration. It is the
+single recommended next action for this user story, and it must happen
+before any transcription estimate in this document is treated as a
+plan.</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CONTRACT ONLY — never executed. See contracts/ for the authoritative shape.</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/pipeline/transcribe/run.sh <span class="at">--chapter</span> 01 <span class="at">--calibrate</span> 300   <span class="co"># U1+U2+U3</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/pipeline/transcribe/run.sh <span class="at">--chapter</span> 01                   <span class="co"># full run</span></span></code></pre></div>
+<p><strong>Expected observable outcome (the acceptance target, not
+evidence)</strong></p>
+<ul>
+<li>A markdown transcript at
+<code>workshop/chapters/01/transcript/</code>, organised into navigable
+sections (FR-011), each passage carrying <code>pid</code>,
+<code>t_start_s</code>, <code>t_end_s</code>, <code>provenance</code>,
+<code>confidence</code> and <code>uncertain</code> per <a
+href="./data-model.md">data-model.md</a>.</li>
+<li>Passages the engine was not confident about are
+<strong>marked</strong>, not filled in (FR-003).</li>
+<li><code>speaker</code> is <code>null</code> unless a human attributed
+it — never machine-guessed. The audio is dual-mono (L−R difference −90.3
+dB) and uniformly AGC-compressed, so both cues diarization needs are
+measurably absent (D-TRANS-2). A transcript that arrives with
+machine-assigned speakers is a defect, not a bonus.</li>
+<li>Progress is reported and the run is resumable: atomic checkpoint per
+≤300 s chunk, cut inside measured silence,
+<code>condition_on_previous_text=False</code> (FR-029, D-TRANS-4).
+Killing it mid-run and restarting must not lose completed chunks —
+<strong>that interruption test is itself the mutation proof for
+FR-029</strong> and must be run, not assumed.</li>
+</ul>
+<p><strong>Timing, honestly.</strong> The estimate is <strong>40–80
+minutes idle</strong> for the 01:55:28.75 recording, and <strong>roughly
+double under load</strong> — this host sat at load average 5.30/8 CPUs
+while this guide was written, with a <code>lumen index --force</code>
+rebuild in flight. That estimate is <strong>UNVERIFIED</strong>; it is
+arithmetic from published throughput ratios, not a measurement of this
+machine. U2 exists precisely because nobody has measured it. Do not
+promise a number to a user until the calibration has run.</p>
+<h3 id="us1-step-3-prove-sc-001-100-coverage">US1 step 3 — prove SC-001
+(100% coverage)</h3>
+<p><strong>Status: <code>BLOCKED: BUILD</code></strong> (depends on step
+2).</p>
+<p>SC-001 is deliberately designed to be an <strong>arithmetic identity,
+not a judgement</strong> (D-TRANS-4). The check is:</p>
+<blockquote>
+<p>⋃ <code>[t_start_s, t_end_s]</code> over all transcript passages,
+unioned with the VAD non-speech spans, equals
+<code>[0, duration_s)</code> <strong>exactly</strong>, with
+<code>duration_s = 6928.75</code>.</p>
+</blockquote>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CONTRACT ONLY — never executed.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/pipeline/transcribe/verify-coverage.sh <span class="at">--chapter</span> 01</span></code></pre></div>
+<p><strong>Expected observable outcome</strong>: a report stating
+covered seconds, non-speech seconds, and
+<code>gap_seconds = 0.000</code>, or an enumeration of every gap with
+its start and end. Anything else — a percentage without the underlying
+spans, a “looks complete” — is not evidence and does not satisfy
+SC-001’s “every gap explicitly accounted for”.</p>
+<p><strong>Why this design matters</strong>: the 8 measured long
+silences totalling 41.33 s (0.597% of the recording) are a <strong>free
+test fixture</strong> for the VAD side of the identity. If the coverage
+checker reports zero non-speech spans, the checker is broken, not the
+recording.</p>
+<p><strong>Paired mutation proof (FR-032)</strong>: delete one passage
+from a copy of the transcript and re-run. The checker MUST report the
+resulting gap and exit non-zero. A coverage checker that still says
+<code>gap_seconds = 0.000</code> after a passage is removed is measuring
+nothing.</p>
+<h3
+id="us1-step-4-prove-sc-002-measured-accuracy-30-sampled-windows">US1
+step 4 — prove SC-002 (measured accuracy, ≥30 sampled windows)</h3>
+<p><strong>Status: <code>BLOCKED: BUILD</code> + blocked on 1–2 hours of
+human transcription.</strong></p>
+<p>This is the load-bearing measurement in the whole feature, and it is
+the one people are most tempted to fake. Read D-TRANS-3 before running
+it.</p>
+<p><strong>The sampling unit is the audio timeline, not the machine’s
+own passages.</strong> Word error rate is computed against a
+<strong>blind human reference</strong> over <strong>≥30 seeded,
+stratified 30-second audio windows</strong>.</p>
+<blockquote>
+<p><strong>Why not sample passages</strong> — and this is the point that
+must not be lost: sampling machine passages makes whole-region deletions
+<em>structurally invisible</em>. A span the recogniser dropped produces
+no passage, so it can never be sampled, and accuracy is biased upward
+precisely where the transcript is worst. Sampling the timeline cannot
+miss them. Thirty 30 s windows span well over 30 passages, so SC-002’s
+own wording is satisfied while the bias is removed.</p>
+</blockquote>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CONTRACT ONLY — never executed.</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/pipeline/transcribe/sample-windows.sh <span class="at">--chapter</span> 01 <span class="at">--n</span> 30 <span class="at">--seed</span> <span class="op">&lt;</span>recorded<span class="op">&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># → human transcribes the 30 windows BLIND (without seeing machine output). 1–2 hours.</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/pipeline/transcribe/measure-accuracy.sh <span class="at">--chapter</span> 01 <span class="at">--reference</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></span></code></pre></div>
+<p><strong>Expected observable outcome</strong>: a verification report
+published <strong>alongside the transcript</strong> (FR-004) stating the
+measured WER, the number of windows, the seed, and the <strong>hash of
+the normaliser, frozen before the first measurement</strong>. Companion
+metrics in the same report: coverage-gap rate (SC-001), timestamp error
+median and p95 against the 5 s bound (SC-003), and speaker attribution
+accuracy (FR-005).</p>
+<p><strong>Success criterion proved</strong>: <strong>SC-002</strong>,
+and only if all four of these are true — otherwise the number is
+decoration:</p>
+<ol type="1">
+<li>the human reference was produced <strong>blind</strong>;</li>
+<li>the seed is recorded, so the sample is re-drawable;</li>
+<li>the normaliser was hashed and frozen <strong>before</strong> the
+first measurement, not tuned afterwards;</li>
+<li>the report states the method, not just the figure (FR-004 requires
+the method).</li>
+</ol>
+<p><strong>Paired mutation proof</strong>: run the scorer against a
+reference that has had 10% of its words corrupted. The reported WER MUST
+move by a comparable amount. A scorer that returns a similar figure
+regardless of the reference is not measuring accuracy.</p>
+<h3 id="us1-step-5-prove-sc-003-timestamps-within-5-s">US1 step 5 —
+prove SC-003 (timestamps within 5 s)</h3>
+<p><strong>Status: <code>BLOCKED: BUILD</code></strong> (depends on step
+2, and shares step 4’s sampled windows).</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CONTRACT ONLY — never executed.</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/pipeline/transcribe/measure-timestamps.sh <span class="at">--chapter</span> 01 <span class="at">--reference</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></span></code></pre></div>
+<p><strong>Expected observable outcome</strong>: for each of the ≥30
+sampled windows, the absolute difference between the passage’s
+<code>t_start_s</code> and the human-marked onset of that speech. The
+report states median and <strong>p95</strong>, and the pass condition is
+the SC-003 bound: a reader lands <strong>within 5 seconds</strong> of
+the spoken content.</p>
+<p>Report the <strong>distribution</strong>, not a mean. A mean hides
+the tail, and the tail is where a reader lands on the wrong
+sentence.</p>
+<p><strong>Manual cross-check a reviewer can perform without any
+tooling</strong> — the spec’s own Independent Test for US1: pick five
+passages at random, open the reassembled <code>Recording.mp4</code> in
+any player, seek to each stated timestamp, and confirm the words match.
+Five hand-checks that disagree with a green automated report mean the
+report is wrong.</p>
+<p><strong>Success criterion proved</strong>:
+<strong>SC-003</strong>.</p>
+<hr />
+<h2 id="us2-browse-and-watch-the-curriculum">US2 — Browse and watch the
+curriculum</h2>
+<p><strong>Proves</strong>: SC-004 (fresh clone to running in under 15
+minutes). Requirements FR-008…FR-013.</p>
+<p><strong>Status: <code>PARTIALLY RUNNABLE</code> (updated
+2026-09-01).</strong> <del><code>BLOCKED: BUILD</code>. The platform
+does not exist yet.</del> That status is <strong>withdrawn</strong> —
+the control plane now exists and runs. Measured on this host at
+2026-09-01, not read off a document:</p>
+<pre><code>podman ps  →  workshop-curriculum_platform_1   Up (healthy)
+curl /api/health → {&quot;status&quot;:&quot;ok&quot;,&quot;pid&quot;:1,&quot;chapters&quot;:1,&quot;web&quot;:false,
+                    &quot;ollama&quot;:{&quot;configured&quot;:true,&quot;reachable&quot;:true}}</code></pre>
+<p><strong>Read the boundary precisely, because “runnable” is not “US2
+passes”.</strong> What is measured: the container stack starts, reports
+healthy, and serves the API. What is <strong>not</strong> measured and
+must not be inferred: <code>"web": false</code> in that same response
+says the browsing frontend is <strong>not being served yet</strong>, so
+outcomes 2–4 below (chapter list, inline playback, position and
+progress) remain <code>BLOCKED: BUILD</code>. The SC-004 end-to-end
+clock has also not been run from a genuinely fresh clone, which is the
+only measurement that proves SC-004. Nothing here claims it has.</p>
+<p>Still not blocking, as before: no ASR engine, no generative model,
+and no open research item.</p>
+<p><strong>Prerequisites</strong>: a fresh clone; Go 1.26 (verified
+present: <code>go1.26.2</code>); Node 20+ (verified present:
+<code>v22.19.0</code>) if the frontend is built rather than shipped
+prebuilt.</p>
+<p>The reference control plane is
+<code>ai_interviewing/platform/scripts/</code>, which already has
+<code>{build,ingest,restart,start,status,stop}.sh</code> — FR-013
+requires a person familiar with one module to navigate the other, so the
+workshop’s script <strong>names</strong> match.</p>
+<p><strong>Path corrected 2026-09-01.</strong> An earlier revision of
+this guide invoked <code>workshop/platform/scripts/…</code>, mirroring
+the reference’s directory nesting. That path is
+<strong>withdrawn</strong>: the contract settles the control plane at
+<strong><code>workshop/scripts/</code></strong>, alongside the
+pre-existing <code>extract-videos.sh</code> /
+<code>archive-videos.sh</code> / <code>self-test.sh</code> /
+<code>install-hooks.sh</code> that FR-007 already depends on. One script
+directory per module — a split would leave two with no rule for which
+holds what, which serves FR-013 worse than a structural echo serves it
+well. See <a
+href="./contracts/pipeline-cli.md">contracts/pipeline-cli.md §2.1</a>
+for the full decision. Note also what the old text got right and what it
+did not: the <em>names</em> were always correct; the <em>directory</em>
+was the mirror carried one level too deep.</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time the WHOLE block; SC-004 is a clock, not a feeling.</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule update <span class="at">--init</span> workshop            <span class="co"># or a fresh clone</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/scripts/extract-videos.sh         <span class="co"># RUNNABLE NOW — see US1 step 1</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/scripts/start.sh                  <span class="co"># RUNNABLE NOW — brings up the container stack</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="co"># → open the URL the start script prints (the API; the browsing UI is not served yet)</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/scripts/status.sh                 <span class="co"># RUNNABLE NOW</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/scripts/stop.sh                   <span class="co"># RUNNABLE NOW</span></span></code></pre></div>
+<p><code>start.sh</code> brings up a <strong>container stack</strong>;
+it is not a native process launch. The seam is the
+<code>workshop-boot</code> adapter over
+<code>submodules/containers</code>’ <code>pkg/compose</code> /
+<code>pkg/health</code> / <code>pkg/runtime</code> Go API —
+<strong>not</strong> that submodule’s <code>cmd/boot</code> CLI, which
+was measured unusable for this workload (no compose-file flag, no
+lifecycle verbs, a hardcoded <code>helixagent</code> endpoint, and an
+exit <code>0</code> after starting nothing). <a
+href="./contracts/pipeline-cli.md">contracts/pipeline-cli.md §4.8.0</a>
+records that measurement in full; the short version is that a wrapper
+trusting <code>cmd/boot</code>’s exit code would report a healthy stack
+that does not exist.</p>
+<p><code>start.sh</code> builds on demand, so a fresh clone needs no
+separate build step — which is what makes the SC-004 15-minute budget a
+single block rather than a sequence.</p>
+<p>One host note, so a reader is not surprised: the contract’s default
+port is <code>8080</code>, and this host is currently running the stack
+on <code>8087</code> via the documented <code>WORKSHOP_PORT</code>
+override. Read the actual address from
+<code>workshop/platform/run/server.json</code> rather than assuming
+either number.</p>
+<p><strong>Expected observable outcome</strong></p>
+<ol type="1">
+<li><code>start.sh</code> prints <code>UP: &lt;url&gt;</code> and is
+<strong>idempotent</strong> — a second invocation prints
+<code>already running — nothing to do</code> and exits <code>0</code>
+<strong>without recreating any container</strong>, matching the
+reference module’s behaviour in contract if not in mechanism.
+<em>(Corrected 2026-09-01: this line previously expected
+<code>already running (pid …)</code>. There is no host pid to print —
+the stack is containerised, and liveness is read from the container
+state and the resolved endpoint in
+<code>workshop/platform/run/server.json</code>, not from a pidfile. The
+idempotence guarantee is unchanged; the evidence behind it
+is.)</em></li>
+<li>The chapter list shows <strong>Chapter 1</strong> with its title and
+a summary (FR-008). One chapter is the current reality; a list that only
+works with several is not tested by this.</li>
+<li>Opening Chapter 1 shows its transcript and the notes PDF, and
+<strong>plays the recording inline</strong> (FR-009). The user is never
+asked about parts, archives or <code>tar</code> — reassembly is the
+platform’s problem (FR-007, decision D3: local file, no streaming
+server, no transcoding, no CDN).</li>
+<li>Navigating between sections and returning preserves position and
+progress (FR-010).</li>
+<li><code>stop.sh</code> exits <code>0</code> and <code>status.sh</code>
+then reports not-running.</li>
+</ol>
+<p><strong>Success criterion proved</strong>: <strong>SC-004</strong> —
+fresh clone to running curriculum in <strong>under 15 minutes</strong>,
+using only this guide.</p>
+<blockquote>
+<p><strong>The honest part of SC-004.</strong> The 15-minute clock
+<strong>must include the reassembly</strong> in step 2 — ≈5.4 GB of
+hashing plus ≈1.79 GB of gunzip plus a ≈1.87 GB write. Measured on this
+host, <code>sha256sum</code> ran at ≈138 MB/s warm under load average
+5.30. A validation run that starts the clock <em>after</em> the video is
+already extracted has not measured SC-004; it has measured something
+easier. If reassembly turns out to consume most of the budget, that is a
+finding to report, not a reason to move the start line.</p>
+</blockquote>
+<p><strong>Paired mutation proof (FR-032)</strong>: run
+<code>start.sh</code> with the reassembled video
+<strong>absent</strong>. It MUST report precisely what is missing and
+refuse, rather than starting a curriculum whose player silently 404s.
+“Starts anyway” is the failure this proof exists to catch.</p>
+<h3 id="accessibility-check-sc-017-runs-with-us2-and-us3">Accessibility
+check (SC-017) — runs with US2 and US3</h3>
+<p><strong>Status: <code>BLOCKED: BUILD</code></strong>, but the
+<em>instrument</em> already exists in this repository, so it does not
+need to be invented: <code>@axe-core/playwright</code>
+(<code>^4.11.3</code>) is already a dependency of <code>_tests/</code>,
+and <code>_tests/evidence/a11y-audit/run-audit.js</code> is the working
+precedent, with its JSON output retained under
+<code>_tests/evidence/a11y-audit/axe-json/</code>.</p>
+<p>Run an axe audit over the chapter list, a chapter page, and the
+search interface, and separately walk the whole search interaction
+<strong>keyboard-only</strong> — enter a query, move through
+suggestions, open a result — with no mouse. Expected outcome:
+<strong>zero violations at Level A or AA</strong>, and every search
+interaction completable from the keyboard (SC-017, FR-041, FR-042).</p>
+<p>The spec calls out two specific failure points to test rather than
+assume: suggestions appearing as the user types <strong>must be
+announced</strong> to a screen reader, and <strong>must not trap
+focus</strong>.</p>
+<hr />
+<h2 id="us3-find-anything-by-meaning">US3 — Find anything by
+meaning</h2>
+<p><strong>Proves</strong>: SC-005 (200 ms p95 suggestions), SC-006 (2 s
+p95 results), SC-007 (≥90% top-5 on ≥20 queries), SC-008 (≥80% on
+queries sharing no literal words). Requirements FR-014…FR-020.</p>
+<p><strong>Status: <code>BLOCKED: BUILD</code></strong> for all four.
+SC-007 and SC-008 are <strong>additionally
+<code>BLOCKED: U5</code></strong> — no corpus exists yet, so the
+benchmark set cannot be authored, let alone run.</p>
+<p><strong>Prerequisites</strong>: US1’s transcript exists and is
+ingested; the index has a <code>live</code> generation. Per D-SEARCH-2
+there are <strong>two search paths</strong>, and conflating them is how
+SC-005 gets failed:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Path</th>
+<th>Used for</th>
+<th>Backing</th>
+<th>Measured basis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lexical</td>
+<td>type-ahead, per keystroke</td>
+<td>SQLite FTS5 prefix index</td>
+<td>p50 0.25 ms / p95 9.58 ms / p99 19.2 ms over 58,726 real symbols;
+index builds in 0.93 s / 15.9 MB</td>
+</tr>
+<tr>
+<td>semantic</td>
+<td>results, on submit</td>
+<td>embedding vectors, 768-dim</td>
+<td>query embed <strong>18.2–21.0 s under load</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="us3-step-1-sc-005-suggestions-200-ms-p95">US3 step 1 — SC-005,
+suggestions ≤200 ms p95</h3>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CONTRACT ONLY — never executed.</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/scripts/bench-suggest.sh <span class="at">--keystrokes</span> 500 <span class="at">--report</span> <span class="op">&lt;</span>evidence-path<span class="op">&gt;</span></span></code></pre></div>
+<p><strong>Expected observable outcome</strong>: a latency report with
+p50, <strong>p95</strong> and p99, measured <strong>at the HTTP
+boundary</strong> — not inside the FTS5 call. SC-005’s budget is 200 ms
+end to end; the measured FTS5 p95 of 9.58 ms leaves roughly 190 ms for
+HTTP, serialisation and paint, and it is that remainder where the budget
+is actually spent or lost.</p>
+<p><strong>Success criterion proved</strong>: <strong>SC-005</strong>,
+if and only if the harness measures the whole round trip.</p>
+<blockquote>
+<p>Suggestions <strong>must not</strong> call the embedding path.
+SC-005’s 200 ms budget is unreachable semantically — a single query
+embedding measured 18.2–21.0 s under load, two orders of magnitude over
+budget — and comfortable lexically. Suggestions therefore return
+<em>navigational targets</em>; meaning-based ranking happens on submit.
+A suggest endpoint that awaits an embedding fails SC-005 by ~100×, and
+no amount of tuning closes that.</p>
+</blockquote>
+<h3 id="us3-step-2-sc-006-results-2-s-p95">US3 step 2 — SC-006, results
+≤2 s p95</h3>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CONTRACT ONLY — never executed.</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/scripts/bench-search.sh <span class="at">--queries</span> 20 <span class="at">--repeat</span> 5 <span class="at">--report</span> <span class="op">&lt;</span>evidence-path<span class="op">&gt;</span></span></code></pre></div>
+<p><strong>Expected observable outcome</strong>: p95 over the full
+submit path — retrieval, fusion of lexical and semantic, and response —
+under <strong>2 seconds</strong>. The report MUST also record
+<strong>host load average</strong> and <strong>whether an index build
+was in flight</strong>, because without those the number is not
+interpretable.</p>
+<p><strong>Success criterion proved</strong>: <strong>SC-006</strong> —
+with a stated risk, recorded here rather than discovered later.</p>
+<blockquote>
+<p><strong>SC-006 is the criterion most at risk in this feature, and
+this guide will not pretend otherwise.</strong> Three identical two-word
+embed calls, model resident, minutes apart, measured <strong>20.16 s /
+11.05 s / 0.10 s</strong> at load 8.25 — a <strong>200× spread driven
+purely by queue contention</strong>, not compute variance. ollama serves
+one queue and interactive queries contend directly with indexing. Two
+consequences for validation:</p>
+<ol type="1">
+<li><strong>A benchmark run taken while an index rebuild is in flight is
+not a valid SC-006 measurement.</strong> That is exactly the condition
+on this host right now — a <code>lumen index --force</code> rebuild was
+running while this guide was written. Record the condition; do not
+average across it.</li>
+<li><strong>U4 is open</strong>: idle embedding latency has never been
+measured, because the rebuild has not finished. Until U4 closes, no
+claim about SC-006 is supportable in either direction — not “it passes”,
+and not “it cannot pass”.</li>
+</ol>
+<p>The design mitigation is D-SEARCH-5’s <strong>reserved embedding
+capacity for interactive queries</strong>. Without it, SC-006 fails on
+every chapter ingest. The benchmark must therefore be run <strong>once
+while an ingest is deliberately in progress</strong> — if the reserved
+capacity works, that run passes too; if it only passes on an idle
+machine, the reservation is not doing its job.</p>
+</blockquote>
+<h3 id="us3-step-3-sc-007-and-sc-008-retrieval-quality">US3 step 3 —
+SC-007 and SC-008, retrieval quality</h3>
+<p><strong>Status: <code>BLOCKED: BUILD</code> +
+<code>BLOCKED: U5</code>.</strong></p>
+<p>The benchmark is <strong>≥20 meaning-based queries with known
+expected passages</strong>, of which a subset <strong>shares no literal
+words with its target</strong>. Neither the queries nor the corpus
+exist. U5 closes only after US1 produces a transcript and it is
+ingested.</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CONTRACT ONLY — never executed. Neither the script nor the benchmark file exists yet (T118, T064).</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/scripts/bench-retrieval.sh <span class="dt">\</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">--benchmark</span> workshop/platform/backend/testdata/benchmark/retrieval.tsv <span class="at">--report</span> <span class="op">&lt;</span>evidence-path<span class="op">&gt;</span></span></code></pre></div>
+<blockquote>
+<p><strong>BENCHMARK PATH CORRECTED 2026-09-01.</strong>
+<del><code>workshop/platform/qa/retrieval-benchmark.jsonl</code>.</del>
+Withdrawn, struck through rather than deleted. This guide and <a
+href="./tasks.md">tasks.md</a> named <strong>two different paths in two
+different formats</strong> for the same input — here
+<code>workshop/platform/qa/*.jsonl</code>, there
+<code>workshop/pipeline/benchmark/*.yaml</code> — and <code>ls</code> on
+2026-09-01 showed <strong>neither directory exists</strong>. A third
+location shipped in the meantime and is wired to a working gate
+(<code>workshop/platform/backend/testdata/benchmark/questions.tsv</code>,
+read by <code>workshop/platform/backend/gates/bench-answers.sh</code>),
+so the canonical location is that one, TSV, for both benchmarks. The
+full reasoning and the counts measured in the shipped file are recorded
+once, in <a href="./tasks.md">tasks.md</a>’s File Structure section,
+rather than restated here.</p>
+</blockquote>
+<p><strong>Expected observable outcome</strong>: per-query top-5
+hit/miss against the expected <code>pid</code>, and two headline
+figures:</p>
+<ul>
+<li><strong>SC-007</strong>: ≥90% of the ≥20 queries return the expected
+passage in the <strong>top five</strong>.</li>
+<li><strong>SC-008</strong>: ≥80% of the <strong>zero-literal-overlap
+subset</strong> succeed — the subset is what distinguishes meaning-based
+matching from keyword matching, and it must be identified in the
+benchmark file itself, verified by a mechanical check that the query and
+target share no token after normalisation. An “obviously different
+wording” judged by eye is not a measurement.</li>
+</ul>
+<p><strong>Success criteria proved</strong>: <strong>SC-007</strong>,
+<strong>SC-008</strong>.</p>
+<p><strong>Paired mutation proof</strong>: run the benchmark against an
+<strong>empty index generation</strong>. Both figures MUST collapse to
+0% and the run MUST exit non-zero. A benchmark that still scores well
+without an index is scoring the fixture, not the system.</p>
+<h3 id="us3-step-4-the-three-state-contract-fr-019-fr-020">US3 step 4 —
+the three-state contract (FR-019, FR-020)</h3>
+<p><strong>Status: <code>BLOCKED: BUILD</code>.</strong> Listed
+separately because this repository has <strong>already shipped this
+exact defect once</strong>:
+<code>ai_interviewing/.../search.component.ts</code> renders backend
+errors as the empty state, so a saturated backend reads to the user as
+“nothing found”.</p>
+<p>Three states must be distinguishable, end to end, in the UI and not
+merely in the API:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>State</th>
+<th>Shown as</th>
+<th>Never shown as</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>results</td>
+<td>ranked passages</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>no match</strong></td>
+<td>“nothing in the curriculum matches this” (FR-019)</td>
+<td>unrelated results presented as answers</td>
+</tr>
+<tr>
+<td><strong>degraded / unavailable</strong></td>
+<td>“search cannot answer right now” (FR-020)</td>
+<td>an empty result set</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How to force each state for the test</strong> — all three
+must be <em>provoked</em>, not waited for:</p>
+<ol type="1">
+<li>a query with known results;</li>
+<li>a query with known-zero results;</li>
+<li>the backend made unavailable, plus the Lumen-specific case: Lumen
+returns
+<code>"No results found. | Warning: Index is being updated in the background…"</code>
+as <strong>one unstructured string</strong>. The service MUST parse that
+and promote it to <strong>Degraded</strong> — forwarding it as “no
+results” is the failure. Test with that exact string.</li>
+</ol>
+<p><strong>Do not gate degradation on a health probe.</strong> Measured
+in a single MCP session: <code>health_check</code> returned
+<code>Status: OK / service is healthy</code> in 2 ms, and seconds later
+<code>semantic_search</code> failed with
+<code>all embedding servers exhausted … context deadline exceeded</code>.
+It is a liveness probe, not a saturation probe. The three-state verdict
+must be derived from <strong>the search call’s own result</strong>
+(D-SEARCH-4).</p>
+<hr />
+<h2 id="us4-ask-a-question-and-get-a-grounded-answer">US4 — Ask a
+question and get a grounded answer</h2>
+<p><strong>Proves</strong>: SC-009 (100% of citations genuinely support
+their claim), SC-010 (10/10 unanswerable questions declined).
+Requirements FR-021…FR-025.</p>
+<p><strong>There is no generative model on this host</strong> (preflight
+P4). This scenario is therefore written to run in <strong>two
+configurations</strong>, and the default one needs no generative model
+at all. A validation guide that could only be executed after an operator
+install would be untestable today, which is exactly the outcome to
+avoid.</p>
+<h3 id="config-a-the-extractive-adapter-the-default-working-path">Config
+A — the <code>extractive</code> adapter (the default working path)</h3>
+<p><strong>Status: <code>BLOCKED: BUILD</code> only.</strong> No
+operator action, no model pull, no open research item. This is the
+configuration a reviewer can actually execute once the code exists, and
+it is the default per D-LLM-5.</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CONTRACT ONLY — never executed. See contracts/ for the Provider interface.</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">WORKSHOP_ANSWER_PROVIDER</span><span class="op">=</span>extractive</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/scripts/start.sh</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/platform/backend/gates/bench-answers.sh</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># reads workshop/platform/backend/testdata/benchmark/questions.tsv by default;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co"># override with QUESTIONS=&lt;path&gt; and REPORT=&lt;evidence-path&gt;.</span></span></code></pre></div>
+<blockquote>
+<p><strong>BENCHMARK PATHS AND SCRIPT LOCATION CORRECTED
+2026-09-01.</strong>
+<del><code>bash workshop/scripts/bench-answers.sh --answerable workshop/platform/qa/answerable-20.jsonl --unanswerable workshop/platform/qa/unanswerable-10.jsonl --report &lt;evidence-path&gt;</code></del>
+Withdrawn, struck through rather than deleted. Three things measured on
+2026-09-01: <code>workshop/platform/qa/</code> <strong>does not
+exist</strong>; the harness shipped at
+<code>workshop/platform/backend/gates/bench-answers.sh</code>, not under
+<code>workshop/scripts/</code>; and it takes <strong>one</strong> file
+with a <code>class&lt;TAB&gt;question</code> schema (<code>A</code> =
+expected answerable, <code>U</code> = expected unanswerable) rather than
+two, because a filename that encodes its own row count is wrong the
+moment a row is added and two files can drift apart. Its
+<code>QUESTIONS=</code>/<code>REPORT=</code> environment overrides
+replace the
+<code>--answerable</code>/<code>--unanswerable</code>/<code>--report</code>
+flags this guide invented. <strong>This is a path correction
+only</strong> — the expected observable outcomes below are unchanged,
+and the shipped fixture holds <strong>8 <code>A</code> rows against
+SC-009’s ≥20</strong>, so the command above is runnable but does
+<strong>not</strong> yet satisfy SC-009. See <a
+href="./tasks.md">tasks.md</a>’s File Structure correction for the full
+reasoning and T077 for the remaining work.</p>
+</blockquote>
+<p><strong>Expected observable outcome</strong></p>
+<ul>
+<li><strong>≥20 answerable questions</strong> each return
+<code>status: answered</code>, <code>text</code>, and <strong>≥1
+citation</strong>. Zero citations while <code>answered</code> is
+<strong>structurally undecodable</strong> — the response schema sets
+<code>"minItems": 1</code> — so it cannot occur, rather than being
+caught after the fact.</li>
+<li><strong>≥10 unanswerable questions</strong> each return
+<code>status: declined</code> with a <code>reason</code> of
+<code>below_threshold</code>, <code>margin_too_small</code> or
+<code>unsupported</code>.</li>
+<li>Every response carries <code>retrieval</code> (top score <strong>and
+margin</strong>) <strong>even on success</strong>, so a 0.002-margin
+pass is visible as <em>fragile</em> rather than indistinguishable from a
+confident one.</li>
+</ul>
+<p><strong>Success criteria proved</strong>: <strong>SC-009</strong>,
+<strong>SC-010</strong> — under extraction.</p>
+<p><strong>How SC-009 is actually established</strong> (attaching a
+citation is easy; proving it supports the claim is the work). Four
+layers, and any one failing refuses the <strong>whole</strong> answer —
+claims are never silently stripped:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Check</th>
+<th>Determinism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1</td>
+<td>retrieval gate: <code>min_score</code> <strong>and</strong>
+<code>min_margin</code></td>
+<td>deterministic</td>
+</tr>
+<tr>
+<td>L2</td>
+<td>JSON-schema-constrained generation, <code>"minItems": 1</code> on
+citations</td>
+<td>structural</td>
+</tr>
+<tr>
+<td>L3</td>
+<td>every citation ID ∈ the <strong>live generation’s PID
+set</strong></td>
+<td>deterministic set membership</td>
+</tr>
+<tr>
+<td>L4</td>
+<td>support verification: embedding floor, then batched entailment</td>
+<td>probabilistic</td>
+</tr>
+</tbody>
+</table>
+<p><strong>SC-009 is unreachable without L3</strong>, and L3 is only
+possible because <code>pid</code> is a ULID minted at ingest rather than
+derived from content or position (D-SEARCH-1). This is why the
+passage-identity layer is a prerequisite for grounding, not a
+nicety.</p>
+<p>A reviewer verifies SC-009 by hand on a sample of <strong>at least 20
+answers</strong>: follow each citation to its passage and ask whether it
+supports the claim. Machine L3 membership proves the citation
+<em>resolves</em>; only human review proves it <em>supports</em>. Both
+are required by SC-009’s own wording (“verified by review of a sample of
+at least 20 answers”) — do not substitute one for the other.</p>
+<p><strong>How SC-010 is established, and the honest caveat.</strong>
+The ≥10 unanswerable questions are drawn from a 10-item
+<strong>adversarial taxonomy</strong> (D-LLM-3): near-miss attribute,
+false premise, uncomputable aggregate, misattributed speaker,
+lexically-overlapping-but-unanswerable, redacted passage, inaudible
+segment, and others. Ten astrophysics questions would pass any threshold
+and prove nothing; the near-miss case (“what Docker version did he
+say?”) is the one that scores high on similarity while being genuinely
+unanswerable, and the <strong>margin</strong> test is what catches
+it.</p>
+<blockquote>
+<p><strong>Two caveats that must travel with any SC-010 pass, and must
+not be dropped in a summary:</strong></p>
+<ol type="1">
+<li><strong>10/10 at temperature 0 is <em>reproducible</em>, not
+<em>generalising</em>.</strong> It must never be paraphrased as “the
+system never fabricates”.</li>
+<li><strong>The <code>extractive</code> adapter cannot fabricate by
+construction</strong> — it returns spans from the corpus. So a 10/10
+under config A proves the <strong>refusal plumbing and the calibrated
+thresholds</strong> are correct. It does <strong>not</strong> exercise a
+generator’s tendency to invent, because there is no generator. Reporting
+config A’s 10/10 as evidence that generation is safe would be a bluff.
+Config B is what tests that, and config B cannot run here.</li>
+</ol>
+</blockquote>
+<p><strong>Timing, honestly</strong>: the <code>extractive</code>
+adapter answers in <strong>~0.3 s</strong>. That is the one place in
+this feature where “fast” is defensible.</p>
+<h3
+id="config-b-a-generative-provider-blocked-on-an-operator-pull">Config B
+— a generative provider (blocked on an operator pull)</h3>
+<p><strong>Status: <code>BLOCKED: OPERATOR</code> +
+<code>BLOCKED: BUILD</code>.</strong> Runs only after an operator
+installs a generative model. Nothing below has been executed and it must
+not be presented as though it had.</p>
+<p><strong>Operator prerequisite</strong> (an operator action, not a
+step this guide performs):</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># OPERATOR ACTION — not run by this guide.</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> pull <span class="op">&lt;</span>a decoder model<span class="op">&gt;</span>       <span class="co"># P4 currently reports zero decoders present</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">WORKSHOP_ANSWER_PROVIDER</span><span class="op">=</span>ollama          <span class="co"># or openai_compatible</span></span></code></pre></div>
+<p>Re-run preflight <strong>P4</strong> afterwards. It must flip from
+<code>1 FAIL</code> to <code>0 PASS</code>, classified by family and
+role — a second embedding model would not change the verdict and must
+not be allowed to.</p>
+<p>Then run the <strong>same</strong> <code>bench-answers.sh</code>
+invocation as config A. The pass conditions are identical; what changes
+is that a real generator is now in the loop, so L2 and L4 are doing work
+they were not doing under extraction.</p>
+<p><strong>Expected observable outcome</strong>: identical verdicts,
+plus a <strong>markedly different latency profile</strong>. Estimated
+CPU-only generation, <strong>UNVERIFIED</strong>, with the method shown
+in <a href="./research.md">research.md</a> D-LLM-5: <strong>~21 s (1.5
+B) / ~42 s (3 B) / ~95 s (7 B) idle</strong>, ×1.4 with verification,
+and worse under load. “Instant answers” is off by two orders of
+magnitude and no prompt engineering closes that gap — answering is
+asynchronous by design.</p>
+<p><strong>Enabling the GPU to close it is rejected outright.</strong>
+This repository already refused that bargain once, after a Vulkan fault
+silently corrupted the index; <code>library=cpu</code> and
+<code>GGML_VK_VISIBLE_DEVICES=-1</code> are deliberate.</p>
+<h3 id="the-privacy-negative-control-fr-024">The privacy negative
+control (FR-024)</h3>
+<p><strong>Status: <code>BLOCKED: BUILD</code></strong>, but it uses
+podman, which preflight <strong>P5</strong> confirms is present and
+rootless.</p>
+<p>FR-024 forbids content leaving the machine when a local model is
+configured. A config flag is not a guarantee, so the validation is a
+<strong>negative control</strong> plus a packet capture (D-LLM-4):</p>
+<ol type="1">
+<li>resolved-address allowlist — <code>net.LookupIP</code> +
+<code>IsLoopback</code>, <strong>not</strong> hostname string matching,
+which is not a security boundary;</li>
+<li>run the answering path inside an <strong>egress-denied network
+namespace</strong>, and assert that
+<code>curl https://example.com</code> from <strong>inside that namespace
+FAILS</strong>. That failing curl is what upgrades “we observed no
+egress” into “egress was impossible” — without it, the capture proves
+only that nothing happened to be sent;</li>
+<li>packet capture asserting <strong>zero non-loopback packets</strong>
+across the full 20-answer and 10-refusal runs.</li>
+</ol>
+<p><strong>Success criterion proved</strong>: <strong>FR-024</strong>,
+and FR-023’s local-hosting half.</p>
+<h3 id="answering-unavailable-fr-025-sc-013">Answering unavailable
+(FR-025, SC-013)</h3>
+<p><strong>Status: <code>BLOCKED: BUILD</code>.</strong> With
+<code>WORKSHOP_ANSWER_PROVIDER=none</code> — which is the
+<strong>default for a fresh clone</strong>, so it cannot leak and cannot
+bluff — asking a question must return <code>status: unavailable</code>
+with <code>reason.code: no_provider</code>, while <strong>browsing and
+search continue to work</strong>.</p>
+<p><em>(Corrected 2026-09-01 under the C4 arbitration. This line
+previously read <code>verdict: unavailable</code> with
+<code>refusal_reason: no_provider</code> — the worst surviving instance
+of the forked Answer contract, because an <code>unavailable</code> state
+carrying a <strong>refusal</strong> reason conflates the exact two
+states the paragraph below insists are distinct.
+<code>no_provider</code> is a cause of <code>unavailable</code>, never a
+reason for a decline, and it is not a member of the <code>reason</code>
+enumeration that <code>declined</code> draws from.)</em></p>
+<p><code>unavailable</code> is a first-class third state, distinct from
+<code>declined</code>. Conflating them would make a missing provider
+look like a content gap — the same three-state discipline the preflight
+applies to itself. FR-025 is enforced by <strong>separate route
+trees</strong> (compile time), not a runtime check, so the test is that
+the browse and search routes are reachable and green while the answer
+route reports unavailable.</p>
+<hr />
+<h2 id="us5-add-a-chapter-and-run-it-twice">US5 — Add a chapter, and run
+it twice</h2>
+<p><strong>Proves</strong>: SC-011 (a maintainer adds a chapter with
+zero code or config changes, under 30 minutes hands-on), FR-026, FR-027
+(idempotency), FR-028, and SC-016 (cross-references survive correction
+and re-index).</p>
+<p><strong>Status: <code>BLOCKED: BUILD</code>.</strong> The end-to-end
+variant additionally inherits US1’s ASR block
+(<code>BLOCKED: OPERATOR</code>, P3), because FR-026’s procedure
+includes transcription.</p>
+<blockquote>
+<p><strong>Design note for <code>contracts/</code>, offered as an
+observation rather than a new requirement</strong>: if the ingest
+procedure accepts a <strong>pre-supplied transcript fixture</strong>,
+then the idempotency proof (FR-027 / SC-011) and the identity proof
+(SC-016) become runnable <strong>without any ASR engine</strong> — they
+are about ingest and identity, not about speech recognition. Without
+that seam, every part of US5 inherits the ASR block and none of it can
+be validated on this host. The seam is cheap and it is the difference
+between a testable and an untestable user story.</p>
+</blockquote>
+<h3 id="us5-step-1-place-materials-and-run-the-procedure">US5 step 1 —
+place materials and run the procedure</h3>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CONTRACT ONLY — never executed.</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> workshop/chapters/02</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co"># place the recording + materials per the documented procedure</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/pipeline/ingest/add-chapter.sh <span class="at">--chapter</span> 02</span></code></pre></div>
+<p><strong>Expected observable outcome</strong>: the chapter is
+transcribed, published, indexed and cross-linked <strong>with no code
+change and no configuration change</strong> (FR-026). Chapter numbering
+is ordinal and zero-padded, following the existing
+<code>chapters/01/</code> convention.</p>
+<p><strong>Success criterion proved</strong>: <strong>SC-011</strong> —
+measure <strong>hands-on</strong> time (the maintainer’s own minutes),
+not wall-clock. Transcription runs unattended for 40–80 minutes idle and
+roughly double under load; that is machine time, and SC-011’s 30-minute
+budget is about the human. State both numbers in the report so the
+distinction cannot be blurred in either direction.</p>
+<h3 id="us5-step-2-incomplete-materials-must-be-refused-fr-028">US5 step
+2 — incomplete materials must be refused (FR-028)</h3>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CONTRACT ONLY — never executed.</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> workshop/chapters/03           <span class="co"># deliberately missing the recording</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/pipeline/ingest/add-chapter.sh <span class="at">--chapter</span> 03<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;rc=</span><span class="va">$?</span><span class="st">&quot;</span></span></code></pre></div>
+<p><strong>Expected observable outcome</strong>: non-zero exit, a
+message naming <strong>precisely what is missing</strong>, and
+<strong>no chapter published</strong>. A partially ingested chapter
+appearing in the chapter list as though it were complete is the failure
+this step exists to catch. Per <a
+href="./data-model.md">data-model.md</a>, a chapter MUST NOT reach
+<code>published</code> with an incomplete material set.</p>
+<p><strong>Success criterion proved</strong>: <strong>FR-028</strong>.
+This step is <em>also</em> the paired mutation proof for step 1 — it is
+the demonstration that the ingest gate can fail.</p>
+<h3 id="us5-step-3-run-it-twice-fr-027-the-idempotency-proof">US5 step 3
+— run it twice (FR-027, the idempotency proof)</h3>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CONTRACT ONLY — never executed.</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/pipeline/ingest/add-chapter.sh <span class="at">--chapter</span> 02   <span class="co"># run 1</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sha256sum</span> workshop/curriculum/02/<span class="pp">**</span>/<span class="pp">*</span> <span class="op">&gt;</span> /tmp/run1.sums      <span class="co"># or the report&#39;s own digest</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/pipeline/ingest/add-chapter.sh <span class="at">--chapter</span> 02   <span class="co"># run 2</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sha256sum</span> workshop/curriculum/02/<span class="pp">**</span>/<span class="pp">*</span> <span class="op">&gt;</span> /tmp/run2.sums</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">diff</span> /tmp/run1.sums /tmp/run2.sums <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;IDEMPOTENT&quot;</span></span></code></pre></div>
+<p><strong>Expected observable outcome</strong>: <code>diff</code> is
+<strong>empty</strong>. No duplicate passages, no second set of
+<code>pid</code>s, no additional cross-references. Re-ingest is
+idempotent <strong>on <code>pid</code></strong> — the ULID minted at
+first ingest is reused, which is what makes the second run a no-op
+rather than a near-copy.</p>
+<p><strong>Success criterion proved</strong>: <strong>FR-027</strong>,
+and the “no duplicate content” half of SC-011.</p>
+<p>Compare artifacts by <strong>content hash</strong>, not by timestamps
+or file counts. Two runs that produce the same number of
+differently-worded files are not idempotent, and a file-count check
+would call them identical.</p>
+<h3
+id="us5-step-4-sc-016-cross-references-survive-correction-and-re-index">US5
+step 4 — SC-016: cross-references survive correction and re-index</h3>
+<p><strong>Status: <code>BLOCKED: BUILD</code>.</strong> This is the
+criterion the whole passage-identity design exists to satisfy, and it is
+the one that <strong>fails invisibly</strong> if it fails — links keep
+rendering, they just point at the wrong text.</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CONTRACT ONLY — never executed.</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. record every existing cross-reference and citation target</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. apply a human correction to a passage (a typo fix inside its text)</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. re-index</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. re-resolve every recorded reference</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/pipeline/crossref/verify-resolution.sh <span class="at">--before</span> <span class="op">&lt;</span>snapshot<span class="op">&gt;</span> --after <span class="op">&lt;</span>snapshot<span class="op">&gt;</span></span></code></pre></div>
+<p><strong>Expected observable outcome</strong>: <strong>100%</strong>
+of previously created cross-references and citations still resolve to
+the passage they originally referred to. Not “most”. Not “the ones that
+were checked”.</p>
+<p><strong>Why this is not optional, stated with the measurement behind
+it</strong> — a controlled three-run re-index measured Lumen’s chunk IDs
+directly:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Change</th>
+<th>Observed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fix one typo inside a section, line numbers unchanged</td>
+<td>ID changed <code>4b98e295c112a429</code> →
+<code>610e608a50f273a6</code></td>
+</tr>
+<tr>
+<td>prepend a section, shifting every later section by 4 lines</td>
+<td><strong>all IDs unchanged</strong>; line ranges moved</td>
+</tr>
+</tbody>
+</table>
+<p>The IDs are content-derived and position-independent — one of the
+exact two forms FR-037 forbids, and the one that breaks on the operation
+this feature performs most often (FR-038 human corrections). Built on
+them, <strong>SC-016 would score 0% for every corrected passage,
+silently</strong>. Built on positional keys, run 3 shows those move too.
+Both available keys fail, in opposite directions. Hence: ULIDs minted at
+ingest, written back as <code>&lt;!-- pid: … --&gt;</code> anchors,
+resolved through a committed registry whose <code>content_hash</code>
+column is <strong>named so nobody mistakes it for identity</strong>.</p>
+<p><strong>Paired mutation proof</strong>: deliberately swap the
+resolver to key on <code>content_hash</code>, re-run, and require the
+verifier to report <strong>&lt;100%</strong> and exit non-zero. If it
+still reports 100%, the verifier is not checking what it claims to check
+— and this is precisely the mutation that would otherwise ship
+unnoticed.</p>
+<p><strong>Success criterion proved</strong>:
+<strong>SC-016</strong>.</p>
+<h3 id="us5-step-5-search-spans-old-and-new-chapters">US5 step 5 —
+search spans old and new chapters</h3>
+<p><strong>Status: <code>BLOCKED: BUILD</code>.</strong> After Chapter 2
+is ingested, re-run the US3 retrieval benchmark extended with queries
+whose targets are in Chapter 2. Results MUST span both chapters. A
+search that returns only the newest chapter, or only the first, has an
+index-generation bug that a single-chapter benchmark cannot see.</p>
+<hr />
+<h2 id="governance-the-gates-that-must-be-green">Governance — the gates
+that must be green</h2>
+<p><strong>Status: <code>RUNNABLE NOW</code>, entirely.</strong> These
+are the only feature-adjacent checks that can be executed today in
+full.</p>
+<p>Run all of these before considering any step above complete. Run them
+from the repository root.</p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh                  <span class="co"># the 8-gate suite: E, 0..6</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh       <span class="co"># carrier lockstep across the owned fleet</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/continuation-check.sh              <span class="co"># CONTINUATION.md in sync (§12.10, FR-035)</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/audit-hardcoded-paths.sh           <span class="co"># no absolute paths (incl. inside workshop/)</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/audit-environment-assumptions.sh   <span class="co"># no undetected host assumptions</span></span></code></pre></div>
+<p><strong>Expected observable outcomes</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Pass looks like</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pre-push-gates.sh</code></td>
+<td>exits <code>0</code>.
+<code>bash scripts/pre-push-gates.sh --list</code> enumerates 8 gates
+(<code>E</code>, <code>0</code>–<code>6</code>) — <em>verified
+2026-09-01</em>. Gate <code>E</code> is the §11.4.156(E) check:
+<code>git ls-files \| grep -E '^\.github/workflows/.*\.ya?ml$\|^\.gitlab-ci\.yml$'</code>
+must return <strong>empty</strong>.</td>
+</tr>
+<tr>
+<td><code>verify-governance-cascade.sh</code></td>
+<td>exits <code>0</code> with FAIL count <code>0</code>. It reports
+<strong>PASS / FAIL / NOTE / ENV</strong> and exits <code>0</code> /
+<code>1</code> / <code>2</code> — an <code>ENV</code> result is an
+<em>instrument fault</em>, not a tree violation, and must never be
+reported as a governance failure.</td>
+</tr>
+<tr>
+<td><code>continuation-check.sh</code></td>
+<td>exits <code>0</code>. <code>CONTINUATION.md</code> is in sync
+(FR-035).</td>
+</tr>
+<tr>
+<td><code>audit-hardcoded-paths.sh</code></td>
+<td>exits <code>0</code>. Every script derives its root —
+<code>ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &amp;&amp; pwd)"</code>
+for bash, <code>path.resolve(__dirname, '..')</code> for node,
+<code>pathlib.Path(__file__).resolve().parents[N]</code> for
+python.</td>
+</tr>
+<tr>
+<td><code>audit-environment-assumptions.sh</code></td>
+<td>exits <code>0</code>. Every host capability is
+<strong>detected</strong>, never assumed.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Success criteria proved</strong>: <strong>SC-014</strong>
+(zero active server-side CI), <strong>FR-034</strong>,
+<strong>FR-035</strong>.</p>
+<h3 id="no-ci-may-be-added-including-inside-workshop">§11.4.156 — no CI
+may be added, including inside <code>workshop/</code></h3>
+<p>This is not a style preference and it has no escape hatch. The anchor
+<strong>names and refuses</strong> the exemption vocabulary — there is
+no <code>--allow-ci</code>, no <code>--ci-exempt</code> — and a consumer
+carrier may only <em>extend</em> inherited rules, never weaken them. A
+project-local <code>Override §11.4.156</code> is structurally
+impossible, not merely disfavoured. <strong>Do not propose one, and do
+not record this feature’s container work as one.</strong></p>
+<p>Concretely, for this feature:</p>
+<ul>
+<li><strong>No <code>.github/workflows/*.yml</code>, no
+<code>.gitlab-ci.yml</code>, anywhere in
+<code>workshop/</code>.</strong> The umbrella’s pre-push gate E was
+blind to submodules until it was fixed on 2026-09-01; it now derives the
+owned fleet from <code>helix-deps.yaml</code> and is mutation-proven
+against two submodules. So a CI file added inside <code>workshop/</code>
+<strong>will</strong> be caught — but the rule is the reason, not the
+gate.</li>
+<li><strong><code>if: false</code> does not count as disabled.</strong>
+Such jobs still queue provider-side runs.</li>
+<li>Enforcement is a <strong>local pre-push hook</strong>.
+<code>.git/hooks/</code> is untracked, so a fresh clone is unprotected
+until <code>bash scripts/pre-push-gates.sh --install</code> is run, and
+<code>git push --no-verify</code> bypasses it with no record.
+Verify:</li>
+</ul>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> .git/hooks/pre-push <span class="kw">||</span> <span class="bu">echo</span> <span class="st">&quot;NOT INSTALLED — this checkout runs no gates on push&quot;</span></span></code></pre></div>
+<p><strong>Two governance facts about <code>workshop/</code> worth
+recording, because the plan states one of them as still open.</strong>
+Measured 2026-09-01: <code>workshop/</code> <strong>now carries all four
+governance carriers</strong> — <code>CLAUDE.md</code>,
+<code>AGENTS.md</code>, <code>QWEN.md</code>, <code>GEMINI.md</code> —
+so <a href="./plan.md">plan.md</a>’s “the <code>workshop</code>
+submodule currently carries <strong>none</strong> of the four carriers”
+is <strong>out of date as a statement of the tree</strong>. Whether
+<code>scripts/verify-governance-cascade.sh</code> now passes C1 and C6
+on <code>workshop</code> is a separate question that this guide does
+<strong>not</strong> answer: run the cascade and read its own verdict.
+Do not infer a green cascade from the presence of four files.</p>
+<p>Second: §11.4.76 requires <code>vasic-digital/containers</code> as
+the sole orchestration layer. <del>And it is <strong>not</strong> a
+submodule of this tree. The container work in this feature must resolve
+that before adding a bespoke stack — it is a prerequisite, not a
+detail.</del></p>
+<p><strong>WITHDRAWN 2026-09-01 — kept visible rather than quietly
+replaced, so a reader can tell a corrected fact from one that was never
+wrong.</strong></p>
+<ul>
+<li><p><em>Believed when written (2026-08-31)</em>: no
+<code>vasic-digital/containers</code> gitlink was declared here, so
+§11.4.76(2) was an open prerequisite and the container work was blocked
+behind an operator decision.</p></li>
+<li><p><em>Measured now (2026-09-01)</em>, and re-derivable in one
+line:</p>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">-f</span> .gitmodules <span class="at">--get-regexp</span> containers</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># submodule.submodules/containers.path submodules/containers</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># submodule.submodules/containers.url  git@github.com:vasic-digital/containers.git</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> submodules/containers/cmd            <span class="co"># populated: boot/ among others</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-tree HEAD submodules/containers  <span class="co"># 160000 commit 4dab992… submodules/containers</span></span></code></pre></div></li>
+<li><p><em>When it changed</em>: during this feature’s own Phase 1 work,
+between the sentence above being written and this correction being
+made.</p></li>
+<li><p><em>What still holds</em>: a bespoke Containerfile or
+compose-only stack is still forbidden by §11.4.76(4). The prerequisite
+is satisfied; the prohibition is not lifted.</p></li>
+</ul>
+<p>The architecture is therefore <strong>settled and not open</strong>:
+the workshop is <strong>containerised</strong>, and it consumes
+<code>submodules/containers</code> — through its
+<code>pkg/compose</code> / <code>pkg/health</code> /
+<code>pkg/runtime</code> Go API, which is what §11.4.76(3) actually
+names, and <strong>not</strong> through its <code>cmd/boot</code> CLI,
+measured unusable for this workload. A thin <code>workshop-boot</code>
+adapter over that API plus thin bash wrappers over the adapter are
+<em>consumption</em> and so are §11.4.76-legal; anything beyond thin
+wrapping must be contributed upstream. Do not read the struck-through
+text above as a live open question.</p>
+<hr />
+<h2
+id="evidence-where-the-numbers-come-from-and-how-to-re-derive-them">Evidence
+— where the numbers come from, and how to re-derive them</h2>
+<h3 id="where-evidence-is-written">Where evidence is written</h3>
+<p>Per FR-040 and the Clarifications session, evidence goes to a
+<strong>versioned directory inside the repository, retained with the
+commit that produced it</strong> — never to transient logs. The
+repository’s existing practice is
+<code>_tests/evidence/&lt;gate&gt;/</code>, with raw instrument output
+kept alongside the verdict (for example
+<code>_tests/evidence/a11y-audit/axe-json/</code> next to
+<code>run-audit.js</code>).</p>
+<p>This feature follows the same convention under
+<code>workshop/evidence/&lt;check&gt;/</code>. The exact path is fixed
+by <code>contracts/</code>; this guide states the convention, not the
+authority.</p>
+<p>Each check writes, at minimum: the <strong>verdict</strong>
+(<code>0</code> / <code>1</code> / <code>2</code>), the <strong>raw
+instrument output</strong>, the <strong>command line</strong> that
+produced it, and the <strong>conditions</strong> — host load average,
+whether an index build was in flight, which provider was configured. For
+the benchmarks, the <strong>seed</strong> as well, so the sample is
+re-drawable.</p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># CONTRACT ONLY. Confirms SC-018 after a run: every check left evidence behind.</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-R</span> workshop/evidence/</span></code></pre></div>
+<p><strong>Success criterion proved</strong>: <strong>SC-018</strong> —
+100% of automated checks write evidence to the versioned location,
+verifiable by inspecting that location after a run.</p>
+<h3 id="how-a-reviewer-re-derives-every-claimed-number">How a reviewer
+re-derives every claimed number</h3>
+<p>No figure in this feature’s reports is to be taken on trust. Each one
+is re-derivable:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Re-derived by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>transcript accuracy (SC-002)</td>
+<td>re-draw the sample with the recorded seed, re-score against the
+retained blind human reference using the frozen, hashed normaliser</td>
+</tr>
+<tr>
+<td>coverage (SC-001)</td>
+<td>re-run the span-union identity against
+<code>duration_s = 6928.75</code></td>
+</tr>
+<tr>
+<td>timestamp error (SC-003)</td>
+<td>re-score the retained window onsets; also hand-check five passages
+against the reassembled video</td>
+</tr>
+<tr>
+<td>suggest p95 (SC-005)</td>
+<td>re-run <code>bench-suggest.sh</code>; compare against the retained
+per-request latencies, not the summary</td>
+</tr>
+<tr>
+<td>search p95 (SC-006)</td>
+<td>re-run <code>bench-search.sh</code> <strong>and read the recorded
+load conditions</strong> — a number without them is not
+interpretable</td>
+</tr>
+<tr>
+<td>retrieval quality (SC-007/008)</td>
+<td>re-run the benchmark file; the zero-overlap subset is mechanically
+checkable from the file itself</td>
+</tr>
+<tr>
+<td>citation soundness (SC-009)</td>
+<td>machine: re-run L3 set membership. Human: follow ≥20 citations by
+hand. <strong>Both</strong>, per SC-009’s wording</td>
+</tr>
+<tr>
+<td>refusals (SC-010)</td>
+<td>re-run the 10 adversarial questions at temperature 0</td>
+</tr>
+<tr>
+<td>idempotency (FR-027)</td>
+<td>re-run ingest twice, <code>diff</code> the content hashes</td>
+</tr>
+<tr>
+<td>reference resolution (SC-016)</td>
+<td>re-run resolution over the retained before/after snapshots</td>
+</tr>
+<tr>
+<td>reassembly integrity (FR-007)</td>
+<td><code>bash workshop/scripts/extract-videos.sh</code> —
+<strong>RUNNABLE NOW</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="mutation-proofs-the-half-that-is-usually-skipped">Mutation
+proofs — the half that is usually skipped</h3>
+<p>FR-032 and SC-012 require <strong>every</strong> automated check to
+carry a paired demonstration that it <strong>fails</strong> when its
+guarded condition is broken — 100%, no exceptions. A green run alone is
+not evidence; it is consistent with a check that cannot fail at all.
+§1.1 additionally requires the paired proof to include a real end-to-end
+run, not a stubbed one.</p>
+<p><strong>Runnable today</strong> — two existing scripts ship the
+mechanism, and running them is how a reviewer confirms the
+<em>pattern</em> works before the feature’s own gates exist:</p>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> workshop/scripts/self-test.sh                   <span class="co"># corrupts a part; extractor MUST refuse</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/continuation-check.sh <span class="at">--prove-failure</span>   <span class="co"># seeds violations; MUST report them</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh <span class="at">--prove-failure</span>   <span class="co"># seeds 5 violations; rc=1</span></span></code></pre></div>
+<p><em>Verified 2026-09-01</em>: <code>--prove-failure</code> exists on
+exactly two scripts under <code>scripts/</code> —
+<code>continuation-check.sh</code> and
+<code>verify-governance-cascade.sh</code>. The cascade’s proof catches 5
+seeded violations as <code>rc=1</code> and reports an
+<strong>environment fault as <code>rc=2</code></strong> rather than
+accusing the tree — that three-valued outcome is the same discipline the
+preflight applies to itself, and it is worth reading before writing this
+feature’s own proofs.</p>
+<p><strong>Owed by this feature</strong> — every one is
+<code>BLOCKED: BUILD</code>, and every one is listed so none is quietly
+dropped:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Check</th>
+<th>Its mutation proof</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>coverage (SC-001)</td>
+<td>delete a passage ⇒ gap reported, non-zero exit</td>
+</tr>
+<tr>
+<td>accuracy scorer (SC-002)</td>
+<td>corrupt 10% of the reference ⇒ WER moves comparably</td>
+</tr>
+<tr>
+<td>timestamp scorer (SC-003)</td>
+<td>shift a passage by 30 s ⇒ p95 breaches the 5 s bound</td>
+</tr>
+<tr>
+<td>fresh-clone start (SC-004)</td>
+<td>remove the reassembled video ⇒ start refuses, names what is
+missing</td>
+</tr>
+<tr>
+<td>suggest bench (SC-005)</td>
+<td>inject a 300 ms delay ⇒ p95 breaches 200 ms</td>
+</tr>
+<tr>
+<td>search bench (SC-006)</td>
+<td>run during a deliberate ingest ⇒ reserved capacity holds, or the
+failure is recorded</td>
+</tr>
+<tr>
+<td>retrieval bench (SC-007/008)</td>
+<td>empty index generation ⇒ 0%, non-zero exit</td>
+</tr>
+<tr>
+<td>three-state search</td>
+<td>feed Lumen’s
+<code>"No results found. \| Warning: Index is being updated…"</code>
+string ⇒ <strong>Degraded</strong>, never “no results”</td>
+</tr>
+<tr>
+<td>citation check (SC-009)</td>
+<td>cite a <code>pid</code> absent from the live generation ⇒
+refusal</td>
+</tr>
+<tr>
+<td>refusal check (SC-010)</td>
+<td>lower the margin threshold ⇒ a near-miss question is answered, and
+the proof catches it</td>
+</tr>
+<tr>
+<td>ingest idempotency (FR-027)</td>
+<td>mint a fresh <code>pid</code> on re-ingest ⇒ <code>diff</code>
+non-empty</td>
+</tr>
+<tr>
+<td>reference resolution (SC-016)</td>
+<td>key the resolver on <code>content_hash</code> ⇒ &lt;100%, non-zero
+exit</td>
+</tr>
+<tr>
+<td>a11y audit (SC-017)</td>
+<td>introduce a known Level-A violation ⇒ axe reports it</td>
+</tr>
+<tr>
+<td>evidence writing (SC-018)</td>
+<td>suppress one check’s evidence write ⇒ the SC-018 check fails</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="what-this-guide-does-not-prove">What this guide does not
+prove</h2>
+<p>Stated explicitly, because a quickstart that implies more than it
+demonstrates is worse than one that names its gaps.</p>
+<ol type="1">
+<li><strong>No success criterion in US1 step 2 onward, US2, US3, US4 or
+US5 has been demonstrated.</strong> Those components do not exist. Every
+command in those sections marked <code>CONTRACT ONLY</code> has
+<strong>never been executed</strong> and must not be quoted as a working
+invocation.</li>
+<li><strong>The recording has never been listened to and no ASR has ever
+run on it</strong> (U3). That it contains intelligible speech in a known
+language is an assumption. Every transcription estimate in this document
+rests on it.</li>
+<li><strong>Transcription throughput on this CPU is unmeasured</strong>
+(U2). The 40–80 minute idle figure — and roughly double under load — is
+arithmetic, not measurement.</li>
+<li><strong>Idle embedding latency is unmeasured</strong> (U4), because
+the <code>lumen index --force</code> rebuild has not finished. Until it
+does, SC-006 is neither supportable nor refutable.</li>
+<li><strong>Chapter 1’s media properties are not re-derivable on this
+host</strong> — <code>ffprobe</code> is not installed (P1). Duration,
+codec and channel layout are carried from an earlier measurement, not
+reproduced.</li>
+<li><strong>US4 under generation has no evidence at all.</strong> There
+is no decoder on this host (P4). Config A proves the refusal plumbing;
+it does not prove a generator behaves.</li>
+</ol>
+<h3
+id="success-criteria-with-no-runnable-validation-devised-here">Success
+criteria with no runnable validation devised here</h3>
+<p>Two, and both for the same honest reason:</p>
+<ul>
+<li><p><strong>SC-012</strong> (“every automated check has a paired
+demonstration that it fails — 100%”) and <strong>SC-013</strong> (“the
+system distinguishes ‘unable to verify’ from ‘passed’ and ‘failed’ in
+100% of its checks”) are <strong>universally quantified over a set of
+checks that does not exist yet</strong>. They cannot be validated by
+running something; they can only be validated by <strong>enumerating the
+finished check inventory and confirming each entry has both
+properties</strong>. The <a
+href="#mutation-proofs--the-half-that-is-usually-skipped">mutation-proof
+table above</a> is that enumeration in its current, partial form — it is
+the seed of the SC-012 inventory, not a substitute for it.</p>
+<p>What <em>can</em> be built, and what this guide recommends: a
+<strong>meta-check</strong> that walks the feature’s check registry and
+fails when any registered check lacks either a paired
+<code>--prove-failure</code> mode or a three-valued verdict. That
+meta-check would make SC-012 and SC-013 mechanically verifiable — and it
+would itself need a paired mutation proof: register a check with no
+proof, and require the meta-check to catch it.</p></li>
+<li><p><strong>SC-015</strong> (“the main repository and every submodule
+report a clean working tree”) is verifiable by
+<code>git status --porcelain</code> recursively, but it is a
+<strong>release-time</strong> condition, not a scenario outcome. It is
+deliberately not run from this guide: this guide performs no commits and
+no pushes, and the working tree was not clean while it was
+written.</p></li>
+</ul>
+</body>
+</html>

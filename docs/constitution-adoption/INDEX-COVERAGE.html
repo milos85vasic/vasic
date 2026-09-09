@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>INDEX-COVERAGE</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">INDEX-COVERAGE</h1>
+</header>
+<h1
+id="code-intelligence-index-coverage-verified-report">Code-Intelligence
+Index Coverage — Verified Report</h1>
+<p><strong>Repository:</strong>
+<code>&lt;ext-volume-host&gt;/Projects/vasic</code> <strong>Verification
+run:</strong> 2026-08-26, 20:37Z – 20:46Z (local 22:37 – 22:46, UTC+2)
+<strong>Mode:</strong> read-only. No index was built, rebuilt, purged,
+synced or deleted. Every number below comes from a command reproduced
+verbatim in this document.</p>
+<blockquote>
+<p><strong>Live-data warning.</strong> A <code>lumen index</code> run on
+this repository was <strong>in flight for the whole verification
+window</strong> (PID 1777428,
+<code>lumen index &lt;ext-volume-host&gt;/Projects/vasic</code>, elapsed
+11m47s at the last sample). All Lumen numbers are a <strong>moving
+snapshot</strong>, and are labelled with the sample timestamp. CodeGraph
+numbers are static — its index reports
+<code>index_state = complete</code>.</p>
+</blockquote>
+<hr />
+<h2 id="tldr">0. TL;DR</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Indexer</th>
+<th>Umbrella proper</th>
+<th>Submodules</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CodeGraph</strong> v1.5.0</td>
+<td>150 files</td>
+<td><strong>391 files across 6 of 7 submodules</strong></td>
+<td>Coverage is <strong>complete for the languages CodeGraph
+supports</strong>. Its file count matches the on-disk eligible count
+<em>exactly</em> (541 = 541). The gap is not “missing submodules”, it is
+a <strong>narrow language set</strong> (no Markdown / HTML / shell /
+TOML / JSON).</td>
+</tr>
+<tr>
+<td><strong>Lumen</strong> v0.0.41</td>
+<td>496 files (13% of target)</td>
+<td><strong>0 files — none, in any submodule</strong></td>
+<td>Submodules <strong>are</strong> in Lumen’s walk scope (proved by
+cross-project control), but the in-flight run has <strong>not reached a
+single submodule directory yet</strong>. ~1,840 umbrella files still sit
+ahead of the first submodule in walk order.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Single biggest gap:</strong> every one of the 7 direct
+submodules and all 7 nested constitution submodules has
+<strong>zero</strong> semantic (Lumen) coverage — 1,449 indexable files,
+0 indexed.</p>
+<hr />
+<h2 id="what-is-actually-in-the-repository">1. What is actually in the
+repository</h2>
+<p>7 direct submodules, from <code>.gitmodules</code>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> <span class="op">&lt;</span>ext-volume-host<span class="op">&gt;</span>/Projects/vasic submodule status</span></code></pre></div>
+<pre><code> 023abbfdfe12a604144cf420d1ec3d9efaa6e89c ai_interviewing (heads/main)
+ 16e4e76d57ab61b5f3b46fae3372b2e6d6cc73e3 design-toolkit (v0.2.2-4-g16e4e76)
+ 8385025500ce0595b1fad3ff3fb4c58e93b88504 milosvasic.ru (v1.8.0-5-g8385025)
+ 1f9f52042a81c9a2d0e0f2f42e3ca9fbf4d7fbfe monetization (heads/main)
+ 448981ae3498229c734dc60719f4b19f01d7a75f submodules/constitution (v1.0.0-51-g448981a)
+ c20ac6c1ba069cc9a72dacb8044b7b193d3dde81 submodules/superspec (v1.0.1-7-gc20ac6c)
+ 5a4c3bba8689e9d2c35887b77ee0a6c3da6248b6 vasic.digital (v1.8.0-4-g5a4c3bb)</code></pre>
+<p>All 7 are <strong>checked out and populated</strong> (no empty
+submodule directories). The 7 nested submodules under
+<code>submodules/constitution/submodules/</code> are likewise
+populated:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> submodules/constitution submodule status</span></code></pre></div>
+<pre><code> bcc7f3d… submodules/anti_bluff (heads/main)
+ d88a007… submodules/continuum (heads/main)
+ 16e4e76… submodules/design-toolkit (v0.2.2-4-g16e4e76)
+ 9510e01… submodules/docs_chain (helixcode-v1.1.0-9-g9510e01)
+ 6adcfb2… submodules/helix_perf_cache (heads/main)
+ 78b77bb… submodules/session_orchestrator (heads/main)
+ c0591b5… submodules/token_optimizer (heads/main)</code></pre>
+<hr />
+<h2 id="codegraph-coverage">2. CodeGraph coverage</h2>
+<h3 id="index-metadata">2.1 Index metadata</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">DB</span><span class="op">=</span><span class="st">&quot;file:&lt;ext-volume-host&gt;/Projects/vasic/.codegraph/codegraph.db?mode=ro&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;</span><span class="va">$DB</span><span class="st">&quot;</span> <span class="st">&quot;SELECT * FROM project_metadata;&quot;</span></span></code></pre></div>
+<pre><code>index_state|complete|1787769288918
+indexed_with_version|1.5.0|1787769288918
+indexed_with_extraction_version|24|1787769288918
+index_files_discovered|541|1787769288918
+index_files_accounted|541|1787769288918</code></pre>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;</span><span class="va">$DB</span><span class="st">&quot;</span> <span class="st">&quot;SELECT &#39;nodes&#39;,COUNT(*) FROM nodes UNION ALL SELECT &#39;edges&#39;,COUNT(*) FROM edges UNION ALL SELECT &#39;unresolved_refs&#39;,COUNT(*) FROM unresolved_refs;&quot;</span></span></code></pre></div>
+<pre><code>nodes|10286
+edges|39793
+unresolved_refs|33185</code></pre>
+<p>The index is <strong>complete and self-consistent</strong>:
+discovered 541, accounted 541, <code>files</code> table holds 541
+rows.</p>
+<h3 id="per-submodule-coverage-table">2.2 Per-submodule coverage
+table</h3>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- sqlite3 -header -column &quot;$DB&quot;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> s <span class="kw">AS</span> (</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a> <span class="kw">SELECT</span> path,language,indexed_at,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">CASE</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>   <span class="cf">WHEN</span> path <span class="kw">LIKE</span> <span class="st">&#39;ai_interviewing/%&#39;</span>         <span class="cf">THEN</span> <span class="st">&#39;ai_interviewing&#39;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>   <span class="cf">WHEN</span> path <span class="kw">LIKE</span> <span class="st">&#39;design-toolkit/%&#39;</span>          <span class="cf">THEN</span> <span class="st">&#39;design-toolkit&#39;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>   <span class="cf">WHEN</span> path <span class="kw">LIKE</span> <span class="st">&#39;milosvasic.ru/%&#39;</span>           <span class="cf">THEN</span> <span class="st">&#39;milosvasic.ru&#39;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>   <span class="cf">WHEN</span> path <span class="kw">LIKE</span> <span class="st">&#39;monetization/%&#39;</span>            <span class="cf">THEN</span> <span class="st">&#39;monetization&#39;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>   <span class="cf">WHEN</span> path <span class="kw">LIKE</span> <span class="st">&#39;submodules/constitution/%&#39;</span> <span class="cf">THEN</span> <span class="st">&#39;submodules/constitution&#39;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>   <span class="cf">WHEN</span> path <span class="kw">LIKE</span> <span class="st">&#39;submodules/superspec/%&#39;</span>    <span class="cf">THEN</span> <span class="st">&#39;submodules/superspec&#39;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>   <span class="cf">WHEN</span> path <span class="kw">LIKE</span> <span class="st">&#39;vasic.digital/%&#39;</span>           <span class="cf">THEN</span> <span class="st">&#39;vasic.digital&#39;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>   <span class="cf">ELSE</span> <span class="st">&#39;(umbrella proper)&#39;</span> <span class="cf">END</span> <span class="kw">AS</span> <span class="kw">scope</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a> <span class="kw">FROM</span> files)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="kw">scope</span>, <span class="fu">COUNT</span>(<span class="op">*</span>) n, GROUP_CONCAT(<span class="kw">DISTINCT</span> language) langs,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>       datetime(<span class="fu">MAX</span>(indexed_at)<span class="op">/</span><span class="dv">1000</span>,<span class="st">&#39;unixepoch&#39;</span>) newest</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> s <span class="kw">GROUP</span> <span class="kw">BY</span> <span class="kw">scope</span> <span class="kw">ORDER</span> <span class="kw">BY</span> n <span class="kw">DESC</span>;</span></code></pre></div>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 19%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+</colgroup>
+<thead>
+<tr>
+<th>Scope</th>
+<th style="text-align: right;">Indexed files</th>
+<th>Languages present</th>
+<th>Newest <code>indexed_at</code> (UTC)</th>
+<th style="text-align: right;">Tracked files on disk</th>
+<th style="text-align: right;">Coverage of tracked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>submodules/constitution</code> (incl. nested)</td>
+<td style="text-align: right;"><strong>331</strong></td>
+<td>yaml, python, go, javascript</td>
+<td>2026-08-26 18:34:43</td>
+<td style="text-align: right;">1,185 (+ nested)</td>
+<td style="text-align: right;">~28%</td>
+</tr>
+<tr>
+<td><em>(umbrella proper)</em></td>
+<td style="text-align: right;"><strong>150</strong></td>
+<td>yaml, python, javascript, xml, go</td>
+<td>2026-08-26 18:34:42</td>
+<td style="text-align: right;">5,677</td>
+<td style="text-align: right;">2.6%</td>
+</tr>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td style="text-align: right;"><strong>23</strong></td>
+<td>go, typescript</td>
+<td>2026-08-26 18:34:42</td>
+<td style="text-align: right;">911</td>
+<td style="text-align: right;">2.5%</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td style="text-align: right;"><strong>19</strong></td>
+<td>javascript</td>
+<td>2026-08-26 18:34:43</td>
+<td style="text-align: right;">90</td>
+<td style="text-align: right;">21%</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td style="text-align: right;"><strong>10</strong></td>
+<td>yaml, xml, javascript</td>
+<td>2026-08-26 18:34:43</td>
+<td style="text-align: right;">1,017</td>
+<td style="text-align: right;">1.0%</td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code></td>
+<td style="text-align: right;"><strong>5</strong></td>
+<td>yaml, python</td>
+<td>2026-08-26 18:34:43</td>
+<td style="text-align: right;">44</td>
+<td style="text-align: right;">11%</td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td style="text-align: right;"><strong>3</strong></td>
+<td>javascript, xml</td>
+<td>2026-08-26 18:34:43</td>
+<td style="text-align: right;">1,130</td>
+<td style="text-align: right;">0.3%</td>
+</tr>
+<tr>
+<td><strong><code>monetization</code></strong></td>
+<td style="text-align: right;"><strong>0</strong></td>
+<td>— (<strong>ZERO INDEXED FILES</strong>)</td>
+<td>—</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;"><strong>0%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Nested constitution submodules (166 of the 331 above):</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">WITH</span> x <span class="kw">AS</span> (<span class="kw">SELECT</span> <span class="fu">substr</span>(path,<span class="dv">36</span>) <span class="kw">AS</span> rest, language, indexed_at</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>           <span class="kw">FROM</span> files <span class="kw">WHERE</span> path <span class="kw">LIKE</span> <span class="st">&#39;submodules/constitution/submodules/%&#39;</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="fu">substr</span>(rest,<span class="dv">1</span>,<span class="fu">instr</span>(rest,<span class="st">&#39;/&#39;</span>)<span class="op">-</span><span class="dv">1</span>) <span class="kw">AS</span> <span class="kw">nested</span>, <span class="fu">COUNT</span>(<span class="op">*</span>) n,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>       GROUP_CONCAT(<span class="kw">DISTINCT</span> language) langs,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>       datetime(<span class="fu">MAX</span>(indexed_at)<span class="op">/</span><span class="dv">1000</span>,<span class="st">&#39;unixepoch&#39;</span>) newest</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> x <span class="kw">GROUP</span> <span class="kw">BY</span> <span class="kw">nested</span> <span class="kw">ORDER</span> <span class="kw">BY</span> n <span class="kw">DESC</span>;</span></code></pre></div>
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 23%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr>
+<th>Nested submodule</th>
+<th style="text-align: right;">Indexed files</th>
+<th>Languages</th>
+<th>Newest <code>indexed_at</code> (UTC)</th>
+<th style="text-align: right;">Tracked files</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>token_optimizer</code></td>
+<td style="text-align: right;">58</td>
+<td>yaml, go</td>
+<td>2026-08-26 18:34:43</td>
+<td style="text-align: right;">72</td>
+</tr>
+<tr>
+<td><code>docs_chain</code></td>
+<td style="text-align: right;">41</td>
+<td>yaml, go</td>
+<td>2026-08-26 18:34:43</td>
+<td style="text-align: right;">87</td>
+</tr>
+<tr>
+<td><code>continuum</code></td>
+<td style="text-align: right;">21</td>
+<td>go, yaml</td>
+<td>2026-08-26 18:34:43</td>
+<td style="text-align: right;">31</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td style="text-align: right;">19</td>
+<td>javascript</td>
+<td>2026-08-26 18:34:43</td>
+<td style="text-align: right;">90</td>
+</tr>
+<tr>
+<td><code>session_orchestrator</code></td>
+<td style="text-align: right;">13</td>
+<td>go, yaml</td>
+<td>2026-08-26 18:34:43</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr>
+<td><code>helix_perf_cache</code></td>
+<td style="text-align: right;">13</td>
+<td>go, yaml</td>
+<td>2026-08-26 18:34:43</td>
+<td style="text-align: right;">24</td>
+</tr>
+<tr>
+<td><code>anti_bluff</code></td>
+<td style="text-align: right;"><strong>1</strong></td>
+<td>yaml</td>
+<td>2026-08-26 18:34:43</td>
+<td style="text-align: right;">27</td>
+</tr>
+</tbody>
+</table>
+<p><code>submodules/constitution</code> proper (excluding nested):
+<strong>165</strong> files.</p>
+<h3 id="overall-language-distribution">2.3 Overall language
+distribution</h3>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;</span><span class="va">$DB</span><span class="st">&quot;</span> <span class="st">&quot;SELECT language, COUNT(*) FROM files GROUP BY language ORDER BY 2 DESC;&quot;</span></span></code></pre></div>
+<pre><code>go|287
+javascript|132
+python|47
+yaml|44
+xml|17
+typescript|14</code></pre>
+<p><strong>No <code>markdown</code>, no <code>html</code>, no
+<code>shell</code>, no <code>json</code>, no <code>toml</code>, no
+<code>css</code>.</strong></p>
+<hr />
+<h2 id="why-the-low-zero-codegraph-numbers-proven-not-guessed">3. WHY
+the low / zero CodeGraph numbers — proven, not guessed</h2>
+<p>The empirical CodeGraph extension set derived from the
+<code>language</code> column is
+<code>.go .js .mjs .cjs .jsx .py .yml .yaml .xml .ts .tsx</code>.
+Counting those on disk:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="op">&lt;</span>ext-volume-host<span class="op">&gt;</span>/Projects/vasic</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="va">CEXT</span><span class="op">=</span><span class="st">&#39;go|js|mjs|cjs|jsx|py|yml|yaml|xml|ts|tsx&#39;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="va">SKIP</span><span class="op">=</span><span class="st">&#39;-name .git -prune -o -name node_modules -prune -o -name .venv -prune -o -name __pycache__ -prune</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">      -o -name dist -prune -o -name build -prune -o -name target -prune -o -name out -prune</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="st">      -o -name vendor -prune -o -name .ptmp -prune&#39;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c()</span><span class="kw">{</span> <span class="fu">find</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span> <span class="va">$SKIP</span> <span class="at">-o</span> <span class="at">-type</span> f <span class="at">-print</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-Ei</span> <span class="st">&quot;\.(</span><span class="va">$CEXT</span><span class="st">)$&quot;</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span><span class="kw">;</span> <span class="kw">}</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="ex">c</span> .                            <span class="co"># -&gt; 541</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> ai_interviewing design-toolkit milosvasic.ru monetization <span class="dt">\</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>         submodules/constitution submodules/superspec vasic.digital<span class="kw">;</span> <span class="cf">do</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">: </span><span class="va">$(</span><span class="ex">c</span> ./<span class="va">$p)</span><span class="st">&quot;</span><span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th style="text-align: right;">Eligible on disk</th>
+<th style="text-align: right;">In CodeGraph DB</th>
+<th style="text-align: center;">Match?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>whole tree</td>
+<td style="text-align: right;"><strong>541</strong></td>
+<td style="text-align: right;"><strong>541</strong></td>
+<td style="text-align: center;">✅ exact</td>
+</tr>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td style="text-align: right;">23</td>
+<td style="text-align: right;">23</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td style="text-align: right;">19</td>
+<td style="text-align: right;">19</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td style="text-align: right;"><strong>0</strong></td>
+<td style="text-align: right;"><strong>0</strong></td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td style="text-align: right;">331</td>
+<td style="text-align: right;">331</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code></td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: center;">✅</td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: center;">✅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conclusion: CodeGraph is not missing any submodule.</strong>
+Every eligible file on disk is in the index. The apparent gaps are
+entirely explained by file <em>type</em>, proved per submodule:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> <span class="op">&lt;</span>submodule<span class="op">&gt;</span> ls-files <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/.*\.//&#39;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-rn</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-20</span></span></code></pre></div>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Submodule</th>
+<th>Dominant tracked file types</th>
+<th>Why CodeGraph coverage is low/zero</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>monetization</code></strong></td>
+<td><code>4 sh</code>, <code>2 md</code>, <code>1 txt</code>,
+<code>1 gitignore</code></td>
+<td><strong>Docs+shell-only repo.</strong> Contains literally zero files
+in any CodeGraph-supported language. Zero is <em>correct</em>, not a
+bug.</td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td><code>795 html</code>, <code>273 md</code>, <code>20 woff2</code>,
+<code>15 pdf</code>, <code>6 txt</code>, <code>5 css</code>,
+<code>3 json</code>, <code>3 js</code></td>
+<td>A static website. Only the 3 <code>.js</code> + 1 <code>.xml</code>
+are eligible; CodeGraph holds 3.</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td><code>707 html</code>, <code>193 md</code>, <code>52 pdf</code>,
+<code>12 woff2</code>, <code>7 css</code>, <code>6 js</code>,
+<code>4 sh</code>, <code>4 json</code>, <code>3 xml</code></td>
+<td>Same — static website; 6 js + 3 xml + yaml ⇒ 10.</td>
+</tr>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td><code>159 png</code>, <code>159 mmd</code>, <code>159 md</code>,
+<code>101 svg</code>, <code>81 json</code>, <code>69 pdf</code>,
+<code>69 html</code>, <code>68 docx</code>, <code>14 ts</code>,
+<code>14 sh</code>, <code>9 go</code></td>
+<td>Diagram/report-heavy. Only 14 ts + 9 go = 23 eligible.</td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td><code>194 sh</code>, <code>179 md</code>, <code>172 html</code>,
+<code>171 pdf</code>, <code>171 docx</code>, <code>125 go</code>,
+<code>36 toml</code>, <code>29 txt</code>, <code>23 yaml</code>,
+<code>16 py</code></td>
+<td>Governance repo: shell + Markdown + generated PDF/DOCX dominate;
+only Go/YAML/Python are eligible.</td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code></td>
+<td><code>31 md</code>, <code>3 yml</code>, <code>2 sh</code>,
+<code>2 py</code>, <code>2 png</code></td>
+<td>Spec/docs repo; 3 yml + 2 py = 5 eligible.</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td><code>43 md</code>, <code>19 mjs</code>, <code>7 txt</code>,
+<code>7 json</code>, <code>5 css</code>, <code>4 svg</code></td>
+<td>19 <code>.mjs</code> eligible ⇒ 19 indexed.</td>
+</tr>
+<tr>
+<td><code>…/anti_bluff</code></td>
+<td><code>13 sh</code>, <code>8 txt</code>, <code>2 sql</code>,
+<code>1 yaml</code>, <code>1 md</code></td>
+<td>Shell-only tooling; 1 yaml eligible ⇒ 1 indexed.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No submodule is “genuinely missed” by CodeGraph, and no
+submodule is excluded by a skip rule (<code>vendor/</code>,
+<code>dist/</code>, <code>node_modules/</code>).</strong> The single
+failure mode is that CodeGraph does not parse Markdown, HTML, shell or
+TOML — which is precisely the content that dominates
+<code>monetization</code>, <code>vasic.digital</code>,
+<code>milosvasic.ru</code> and <code>constitution</code>.</p>
+<hr />
+<h2 id="lumen-coverage">4. Lumen coverage</h2>
+<h3 id="where-the-index-lives-and-how-it-was-found">4.1 Where the index
+lives, and how it was found</h3>
+<p>Lumen keeps <strong>one index directory per project root</strong>,
+hashed, under <code>~/.local/share/lumen/&lt;16-hex&gt;/index.db</code>.
+763 such directories exist on this machine. The one for this repository
+was located by reading <code>project_meta</code> out of every one of
+them:</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="op">&lt;</span>home<span class="op">&gt;</span>/.local/share/lumen</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> d <span class="kw">in</span> <span class="pp">*</span>/<span class="kw">;</span> <span class="cf">do</span> <span class="va">d</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${d</span><span class="op">%</span>/<span class="va">}</span><span class="st">&quot;</span><span class="kw">;</span> <span class="bu">[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$d</span><span class="st">/index.db&quot;</span> <span class="bu">]</span> <span class="kw">||</span> <span class="cf">continue</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$d</span><span class="st">|</span><span class="va">$(</span><span class="ex">sqlite3</span> <span class="st">&quot;file:</span><span class="va">$PWD</span><span class="st">/</span><span class="va">$d</span><span class="st">/index.db?mode=ro&quot;</span> <span class="dt">\</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;SELECT (SELECT value FROM project_meta WHERE key=&#39;project_path&#39;)||&#39;|&#39;|| </span><span class="dt">\</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="st">            COALESCE((SELECT value FROM project_meta WHERE key=&#39;total_files&#39;),&#39;?&#39;)||&#39;|&#39;|| </span><span class="dt">\</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="st">            COALESCE((SELECT value FROM project_meta WHERE key=&#39;last_indexed_at&#39;),&#39;?&#39;);&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-i</span> <span class="st">&#39;Projects/vasic&#39;</span></span></code></pre></div>
+<pre><code>21bf1507a8925bcf|&lt;ext-volume-host&gt;/Projects/vasic|3815|2026-08-26T20:34:17Z</code></pre>
+<p><strong>Exactly one</strong> Lumen index exists for this project. A
+grep of all 763 project paths for any submodule name returns
+<strong>nothing</strong> — no submodule has its own Lumen index:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-Ei</span> <span class="st">&#39;ai_interviewing|design-toolkit|milosvasic\.ru|monetization|constitution|superspec|vasic\.digital|vasic-digital&#39;</span> lumen_projects.txt</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (no output)</span></span></code></pre></div>
+<h3 id="what-the-index-contains-right-now">4.2 What the index contains
+right now</h3>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="va">L</span><span class="op">=</span><span class="st">&quot;file:&lt;home&gt;/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro&quot;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;</span><span class="va">$L</span><span class="st">&quot;</span> <span class="st">&quot;SELECT * FROM project_meta;&quot;</span></span></code></pre></div>
+<pre><code>vec_dimensions|768
+root_hash|ba64d624e6a005a24c94642f37cbdcdba9b5b36f1ab2f575cbb1414e28894268
+embedding_model|ordis/jina-embeddings-v2-base-code
+project_path|&lt;ext-volume-host&gt;/Projects/vasic
+last_indexed_at|2026-08-26T20:34:17Z
+total_files|3815</code></pre>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="cf">CASE</span> <span class="cf">WHEN</span> <span class="fu">instr</span>(path,<span class="st">&#39;/&#39;</span>)<span class="op">&gt;</span><span class="dv">0</span> <span class="cf">THEN</span> <span class="fu">substr</span>(path,<span class="dv">1</span>,<span class="fu">instr</span>(path,<span class="st">&#39;/&#39;</span>)<span class="op">-</span><span class="dv">1</span>) <span class="cf">ELSE</span> <span class="st">&#39;(root file)&#39;</span> <span class="cf">END</span> <span class="kw">AS</span> top,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">COUNT</span>(<span class="op">*</span>) <span class="kw">FROM</span> files <span class="kw">GROUP</span> <span class="kw">BY</span> top <span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dv">2</span> <span class="kw">DESC</span>;</span></code></pre></div>
+<p>Sample at <strong>2026-08-26T20:39:20Z</strong> — 496 files, 29,221
+chunks:</p>
+<table>
+<thead>
+<tr>
+<th>Top-level dir</th>
+<th style="text-align: right;">Files</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_analysis</code></td>
+<td style="text-align: right;">73</td>
+</tr>
+<tr>
+<td><code>_content</code></td>
+<td style="text-align: right;">69</td>
+</tr>
+<tr>
+<td><code>.specify</code></td>
+<td style="text-align: right;">67</td>
+</tr>
+<tr>
+<td><code>_content_fa</code> / <code>_es</code> / <code>_de</code> /
+<code>_be</code> / <code>_ar</code></td>
+<td style="text-align: right;">38 each</td>
+</tr>
+<tr>
+<td><code>_content_fr</code></td>
+<td style="text-align: right;">36</td>
+</tr>
+<tr>
+<td><code>.test-evidence</code></td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr>
+<td><code>.opencode</code> / <code>.kimi-code</code> /
+<code>.claude</code></td>
+<td style="text-align: right;">10 each</td>
+</tr>
+<tr>
+<td><code>.github</code></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><em>(root file)</em></td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><strong>any submodule directory</strong></td>
+<td style="text-align: right;"><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Explicit per-submodule check:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> ai_interviewing design-toolkit milosvasic.ru monetization <span class="dt">\</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>         submodules/constitution submodules/superspec vasic.digital<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st"> = </span><span class="va">$(</span><span class="ex">sqlite3</span> <span class="st">&quot;</span><span class="va">$L</span><span class="st">&quot;</span> <span class="st">&quot;SELECT COUNT(*) FROM files WHERE path LIKE &#39;</span><span class="va">$p</span><span class="st">/%&#39;;&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<pre><code>ai_interviewing = 0
+design-toolkit = 0
+milosvasic.ru = 0
+monetization = 0
+submodules/constitution = 0
+submodules/superspec = 0
+vasic.digital = 0</code></pre>
+<h3 id="does-lumen-index-submodules-at-all-control-experiment">4.3 Does
+Lumen index submodules at all? — control experiment</h3>
+<p>This is the decisive question, and it is answered with a
+<strong>control</strong>, not an assumption. Two other repositories on
+this machine have completed Lumen indexes and use git submodules:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-E</span> <span class="st">&#39;^\s*path&#39;</span> <span class="op">&lt;</span>ext-volume-host<span class="op">&gt;</span>/Projects/lava/.gitmodules   <span class="co"># 20 submodules</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-E</span> <span class="st">&#39;^\s*path&#39;</span> <span class="op">&lt;</span>ext-volume-host<span class="op">&gt;</span>/Projects/boba/.gitmodules   <span class="co"># 6 submodules</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;file:&lt;home&gt;/.local/share/lumen/feaae19c7a38712e/index.db?mode=ro&quot;</span> <span class="dt">\</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a> <span class="st">&quot;SELECT CASE WHEN instr(path,&#39;/&#39;)&gt;0 THEN substr(path,1,instr(path,&#39;/&#39;)-1) ELSE &#39;(root)&#39; END t,</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="st">         COUNT(*) FROM files GROUP BY t ORDER BY 2 DESC LIMIT 5;&quot;</span></span></code></pre></div>
+<p><code>lava</code> (7,692 files indexed):</p>
+<pre><code>submodules|4292
+lava-api-go|1845
+constitution|586      &lt;- a git submodule
+.lava-ci-evidence|338
+docs|283</code></pre>
+<p><code>boba</code> (38,406 discovered):</p>
+<pre><code>submodules|12828
+constitution|617      &lt;- a git submodule
+docs|458</code></pre>
+<p><strong>Proof: Lumen walks <em>into</em> git submodule directories
+and indexes them as part of the umbrella project.</strong> Submodules do
+<strong>not</strong> need their own Lumen index.</p>
+<h3 id="second-proof-the-target-file-count-includes-submodules">4.4
+Second proof — the target file count includes submodules</h3>
+<p>Lumen’s supported extension set, derived empirically from the two
+<em>completed</em> control indexes, is:
+<code>.c .h .go .ts .tsx .js .jsx .mjs .rs .rb .cc .cs .cpp .cxx .hpp .php .py .java .dart .md .mdx .yml .yaml .json</code>
+(corroborated by literal blobs in the binary:
+<code>.ts.js.py.rs.rb.cc.cs.md</code>,
+<code>.tsx.jsx.mjs.cpp.cxx.hpp.php.mdx.yml</code>,
+<code>.java.dart.yaml.json</code>). Notably <strong>absent</strong>:
+<code>.sh</code>, <code>.html</code>, <code>.css</code>,
+<code>.kt</code>, <code>.toml</code>, <code>.sql</code>.</p>
+<p>Counting that set across this repository:</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="va">LEXT</span><span class="op">=</span><span class="st">&#39;c|h|go|ts|js|py|rs|rb|cc|cs|md|tsx|jsx|mjs|cpp|cxx|hpp|php|mdx|yml|java|dart|yaml|json&#39;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="va">SKIP</span><span class="op">=</span><span class="st">&#39;-name .git -prune -o -name node_modules -prune -o -name .venv -prune -o -name venv -prune</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="st">      -o -name __pycache__ -prune -o -name dist -prune -o -name build -prune -o -name target -prune</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="st">      -o -name out -prune -o -name .next -prune -o -name .nuxt -prune -o -name .eggs -prune</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="st">      -o -name .idea -prune -o -name vendor -prune -o -name coverage -prune -o -name .ptmp -prune&#39;</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c()</span><span class="kw">{</span> <span class="fu">find</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span> <span class="va">$SKIP</span> <span class="at">-o</span> <span class="at">-type</span> f <span class="at">-print</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-Ei</span> <span class="st">&quot;\.(</span><span class="va">$LEXT</span><span class="st">)$&quot;</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span><span class="kw">;</span> <span class="kw">}</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="ex">c</span> .   <span class="co"># 3863</span></span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Measure</th>
+<th style="text-align: right;">Files</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Whole tree, Lumen-eligible</td>
+<td style="text-align: right;"><strong>3,863</strong></td>
+</tr>
+<tr>
+<td>Lumen’s own <code>total_files</code> target</td>
+<td style="text-align: right;"><strong>3,815</strong> (98.8% of
+3,863)</td>
+</tr>
+<tr>
+<td>Umbrella proper only, Lumen-eligible</td>
+<td style="text-align: right;"><strong>2,414</strong></td>
+</tr>
+</tbody>
+</table>
+<p>3,815 matches the <strong>whole-tree</strong> figure,
+<strong>not</strong> the umbrella-only figure (2,414). The 48-file delta
+is <code>.gitignore</code> filtering (Lumen links
+<code>github.com/sabhiram/go-gitignore</code> and has
+<code>merkle.NewIgnoreTree</code> /
+<code>merkle.globalGitignorePath</code> symbols). <strong>Lumen has
+already discovered and planned to index the submodule files — it simply
+has not reached them yet.</strong></p>
+<h3 id="where-the-in-flight-run-currently-is">4.5 Where the in-flight
+run currently is</h3>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ps</span> <span class="at">-o</span> pid,etime,time,%cpu <span class="at">-p</span> 1777428</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co">#    PID     ELAPSED     TIME %CPU</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1777428       11:47 00:00:09  1.4</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="ex">sqlite3</span> <span class="st">&quot;</span><span class="va">$L</span><span class="st">&quot;</span> <span class="st">&quot;SELECT path FROM files ORDER BY rowid DESC LIMIT 3;&quot;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># _content_hi/products/HelixLLM.md</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co"># _content_hi/products/HelixGitpx.md</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="co"># _content_hi/products/HelixConstitution.md</span></span></code></pre></div>
+<p>The walk is alphabetical: dot-directories →
+<code>_</code>-directories → lowercase names. It is currently inside
+<code>_content_hi</code>. The first submodule in walk order is
+<code>ai_interviewing</code>.</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> d <span class="kw">in</span> _content_hi _content_ja _content_kk _content_ko _content_ru _content_sr <span class="dt">\</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>         _content_tr _content_zh _tests _tools<span class="kw">;</span> <span class="cf">do</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$d</span><span class="st">: </span><span class="va">$(</span><span class="ex">c</span> ./<span class="va">$d)</span><span class="st">&quot;</span><span class="kw">;</span> <span class="cf">done</span></span></code></pre></div>
+<pre><code>_content_hi: 38   _content_ja: 38   _content_kk: 38   _content_ko: 38
+_content_ru: 38   _content_sr: 38   _content_tr: 38   _content_zh: 38
+_tests: 1473      _tools: 63
+-&gt; ~1,840 files still ahead of the first submodule</code></pre>
+<p><strong>~1,840 files (dominated by <code>_tests/</code>, 1,473
+evidence JSON/MD files) must be embedded before Lumen touches
+<code>ai_interviewing</code>.</strong></p>
+<h3 id="measured-throughput-this-machine-right-now">4.6 Measured
+throughput (this machine, right now)</h3>
+<table>
+<thead>
+<tr>
+<th>Sample (UTC)</th>
+<th style="text-align: right;"><code>files</code></th>
+<th style="text-align: right;"><code>chunks</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20:37:56</td>
+<td style="text-align: right;">480</td>
+<td style="text-align: right;">28,962</td>
+</tr>
+<tr>
+<td>20:39:20</td>
+<td style="text-align: right;">496</td>
+<td style="text-align: right;">29,221</td>
+</tr>
+<tr>
+<td>20:42:15</td>
+<td style="text-align: right;">496</td>
+<td style="text-align: right;">29,221</td>
+</tr>
+<tr>
+<td>20:42:58</td>
+<td style="text-align: right;">496</td>
+<td style="text-align: right;">29,221</td>
+</tr>
+<tr>
+<td>20:43:44</td>
+<td style="text-align: right;">496</td>
+<td style="text-align: right;">29,221</td>
+</tr>
+<tr>
+<td>20:44:29</td>
+<td style="text-align: right;">496</td>
+<td style="text-align: right;">29,221</td>
+</tr>
+<tr>
+<td>20:46:11</td>
+<td style="text-align: right;">496</td>
+<td style="text-align: right;">29,221</td>
+</tr>
+<tr>
+<td>20:48:41</td>
+<td style="text-align: right;">508</td>
+<td style="text-align: right;">—</td>
+</tr>
+</tbody>
+</table>
+<p>Net observed: <strong>28 files in 10m45s ≈ 2.6 files/min</strong> —
+squarely inside the stated 1–3 files/min contended band.
+<code>cat /proc/loadavg</code> reported <code>31.40 27.96 24.70</code>
+(a concurrent Android emulator matrix is saturating the box); the
+<code>ollama runner</code> for
+<code>ordis/jina-embeddings-v2-base-code</code> has burned 1m56s CPU in
+11m wall.</p>
+<hr />
+<h2 id="the-honest-gap-list-ranked">5. The honest gap list (ranked)</h2>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 21%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Gap</th>
+<th>Indexer</th>
+<th>Evidence</th>
+<th style="text-align: right;">Files affected</th>
+<th>Fix command (<strong>NOT RUN</strong>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td><strong>All 7 direct + 7 nested submodules have ZERO semantic
+coverage</strong></td>
+<td><strong>Lumen</strong></td>
+<td><code>SELECT COUNT(*) FROM files WHERE path LIKE '&lt;sub&gt;/%'</code>
+returns <code>0</code> for every submodule (§4.2)</td>
+<td style="text-align: right;"><strong>1,449</strong></td>
+<td><code>lumen index &lt;ext-volume-host&gt;/Projects/vasic</code> —
+<strong>already running</strong> (PID 1777428). No new command needed;
+it needs <em>time</em>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>monetization</code> has zero CodeGraph coverage</td>
+<td>CodeGraph</td>
+<td>0 eligible files on disk = 0 in DB (§3)</td>
+<td style="text-align: right;">8 tracked / 2 Lumen-eligible</td>
+<td><strong>Unfixable &amp; not a defect.</strong> Repo is
+<code>4 sh + 2 md + 1 txt</code>. Lumen will cover the 2
+<code>.md</code>.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>vasic.digital</code> — 3 of 1,130 tracked files indexed by
+CodeGraph</td>
+<td>CodeGraph</td>
+<td><code>795 html, 273 md</code> vs. CodeGraph’s language set (§3)</td>
+<td style="text-align: right;">1,127</td>
+<td>No CodeGraph fix exists (it has no HTML/Markdown parser). Covered by
+Lumen once it reaches the directory: <strong>278</strong> eligible
+files.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>milosvasic.ru</code> — 10 of 1,017 tracked files indexed by
+CodeGraph</td>
+<td>CodeGraph</td>
+<td><code>707 html, 193 md</code> (§3)</td>
+<td style="text-align: right;">1,007</td>
+<td>Same as above. Lumen will cover <strong>207</strong> files.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>ai_interviewing</code> — 23 of 911 tracked files indexed by
+CodeGraph</td>
+<td>CodeGraph</td>
+<td><code>159 png/mmd/md, 101 svg, 81 json, 69 pdf/html, 68 docx</code>
+(§3)</td>
+<td style="text-align: right;">888</td>
+<td>Same. Lumen will cover <strong>264</strong> files.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>submodules/constitution</code> — 331 of 1,185+ tracked</td>
+<td>CodeGraph</td>
+<td><code>194 sh, 179 md, 172 html, 171 pdf, 171 docx, 36 toml</code>
+(§3)</td>
+<td style="text-align: right;">~850</td>
+<td>Same. Lumen will cover <strong>593</strong> files. <code>.sh</code>
+is covered by <strong>neither</strong> indexer.</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>…/anti_bluff</code> — 1 of 27 tracked</td>
+<td>CodeGraph</td>
+<td><code>13 sh, 8 txt, 2 sql, 1 yaml, 1 md</code> (§3)</td>
+<td style="text-align: right;">26</td>
+<td>Same. Lumen covers only the 1 <code>.md</code> + 1
+<code>.yaml</code>.</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Shell scripts are invisible to both indexers</strong></td>
+<td>Both</td>
+<td>CodeGraph <code>language</code> has no <code>shell</code>; Lumen ext
+set has no <code>.sh</code> (§2.3, §4.4)</td>
+<td style="text-align: right;">194 in constitution, 13 in anti_bluff, 14
+in ai_interviewing, 4 in monetization, …</td>
+<td>No supported fix in either tool at these versions.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>763 stale Lumen project dirs on disk (98 MB for this project
+alone)</td>
+<td>Lumen</td>
+<td><code>ls ~/.local/share/lumen \| wc -l</code> → 764
+(incl. <code>debug.log</code>)</td>
+<td style="text-align: right;">—</td>
+<td><code>lumen purge …</code> — <strong>not run</strong>, and out of
+scope of this task.</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="questions-that-cannot-be-answered-without-a-mutating-command">Questions
+that cannot be answered without a mutating command</h3>
+<ul>
+<li><strong>“Will the current Lumen run definitely complete all 3,815
+files?”</strong> — cannot be confirmed by observation; it depends on the
+run not being killed. Confirming would require waiting for exit, or
+<code>lumen index …</code> again (mutating).</li>
+<li><strong>“Is CodeGraph’s index stale relative to today’s working
+tree?”</strong> — <code>codegraph status</code> answers this but opens
+the DB <strong>for writing</strong> (migrations / FTS heal), so it was
+not run. The proxy evidence (<code>541 on disk == 541 in DB</code>,
+<code>index_state=complete</code>) says it is current.</li>
+<li><strong>“Would a CodeGraph re-index pick up more?”</strong> —
+<code>codegraph sync &lt;path&gt;</code> would answer it, and is
+mutating. Based on §3 the answer is almost certainly <em>no</em> — its
+file count already matches disk exactly.</li>
+</ul>
+<hr />
+<h2 id="cost-estimate-for-the-outstanding-lumen-work">6. Cost estimate
+for the outstanding Lumen work</h2>
+<p>Baseline: <strong>1–3 files/min</strong> contended (measured here:
+<strong>1.9 files/min</strong>); ~20 s for a 1–2 file fixture on an idle
+backend.</p>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 21%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr>
+<th>Work item</th>
+<th style="text-align: right;">Files</th>
+<th><span class="citation" data-cites="1">@1</span> file/min</th>
+<th><span class="citation" data-cites="1.9">@1.9</span> files/min
+(measured)</th>
+<th><span class="citation" data-cites="3">@3</span> files/min</th>
+<th>On an idle backend (~30 files/min)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Finish umbrella proper (reach first submodule)</td>
+<td style="text-align: right;">~1,840</td>
+<td>30.7 h</td>
+<td>16.1 h</td>
+<td>10.2 h</td>
+<td>~1.0 h</td>
+</tr>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td style="text-align: right;">264</td>
+<td>4.4 h</td>
+<td>2.3 h</td>
+<td>1.5 h</td>
+<td>~9 min</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td style="text-align: right;">69</td>
+<td>1.2 h</td>
+<td>36 min</td>
+<td>23 min</td>
+<td>~2 min</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td style="text-align: right;">207</td>
+<td>3.5 h</td>
+<td>1.8 h</td>
+<td>1.2 h</td>
+<td>~7 min</td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td style="text-align: right;">2</td>
+<td>2 min</td>
+<td>1 min</td>
+<td>&lt;1 min</td>
+<td>~20 s</td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code> (incl. 7 nested)</td>
+<td style="text-align: right;">593</td>
+<td>9.9 h</td>
+<td>5.2 h</td>
+<td>3.3 h</td>
+<td>~20 min</td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code></td>
+<td style="text-align: right;">36</td>
+<td>36 min</td>
+<td>19 min</td>
+<td>12 min</td>
+<td>~1 min</td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td style="text-align: right;">278</td>
+<td>4.6 h</td>
+<td>2.4 h</td>
+<td>1.5 h</td>
+<td>~9 min</td>
+</tr>
+<tr>
+<td><strong>All submodules</strong></td>
+<td style="text-align: right;"><strong>1,449</strong></td>
+<td><strong>24.2 h</strong></td>
+<td><strong>12.7 h</strong></td>
+<td><strong>8.1 h</strong></td>
+<td><strong>~48 min</strong></td>
+</tr>
+<tr>
+<td><strong>Everything still outstanding</strong> (3,815 − 496)</td>
+<td style="text-align: right;"><strong>3,319</strong></td>
+<td><strong>55.3 h</strong></td>
+<td><strong>29.1 h</strong></td>
+<td><strong>18.4 h</strong></td>
+<td><strong>~1.8 h</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Practical read:</strong> the dominant cost is not the
+submodules (1,449 files, 8–24 h) — it is <code>_tests/</code> (1,473
+evidence files) sitting <em>ahead</em> of them in walk order. The single
+highest-leverage, zero-risk action is to <strong>free the embedding
+backend</strong> (the concurrent Android emulator matrix is holding load
+average at ~31); at an idle-backend rate the entire remaining job is
+under two hours instead of over a day.</p>
+<p>Cost for CodeGraph: <strong>zero</strong>. It is complete for
+everything it is able to parse.</p>
+<hr />
+<h2 id="reproducibility-notes">7. Reproducibility notes</h2>
+<ul>
+<li>CodeGraph DB was opened <strong>read-only</strong> throughout:
+<code>file:…/.codegraph/codegraph.db?mode=ro</code>.
+<code>codegraph init</code> / <code>index</code> / <code>uninit</code> /
+<code>unlock</code> / <code>sync</code> / <code>status</code> were
+<strong>never</strong> invoked.</li>
+<li>Lumen DBs were opened <strong>read-only</strong>:
+<code>file:…/index.db?mode=ro</code>. <code>lumen index</code> /
+<code>lumen purge</code> / <code>lumen search</code> were
+<strong>never</strong> invoked. Only <code>lumen --help</code>,
+<code>lumen index --help</code>, <code>lumen search --help</code>,
+<code>lumen version</code> (all read-only) were run.</li>
+<li>Binary-literal inspection used <code>strings</code> on
+<code>~/.claude-shared/plugins/cache/claude-plugins-official/lumen/0.0.41/bin/lumen-linux-amd64</code>.</li>
+<li>The only file written by this verification is this document.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>spec</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">spec</h1>
+</header>
+<h1
+id="feature-specification-a-repository-that-clones-and-a-fleet-with-no-unexplained-red">Feature
+Specification: A Repository That Clones, and a Fleet With No Unexplained
+Red</h1>
+<p><strong>Feature Branch</strong>: <code>main</code> (this repository
+works on <code>main</code> only) <strong>Created</strong>: 2026-09-08
+<strong>Status</strong>: Draft</p>
+<p><strong>Input</strong>: “Every red gate across the fleet must be
+resolved or converted into a stated, justified state — and the workshop
+repository must be cloneable on a second host. […] Every fix must carry
+machine-produced deterministic evidence with three-valued gates, and no
+red may be closed by lowering a threshold, allow-listing a row, or
+re-baselining a count.”</p>
+<h2 id="why-this-specification-exists">Why this specification
+exists</h2>
+<p>A second engineer tried to clone the private curriculum repository
+and could not. That is a hard stop: work that cannot be obtained cannot
+be reviewed, run or contributed to, and every other quality property of
+that repository is unreachable behind it.</p>
+<p>Around that sits a second problem of a different kind. <strong>Eleven
+instruments across the fleet report red, and no reader can currently
+tell which reds are findings and which are the instruments working as
+designed.</strong> A red that is correct and a red that is a defect look
+identical from the outside, and a list where most entries are permanent
+is a list nobody reads.</p>
+<p><strong>This specification treats those as one problem</strong>,
+because they have one remedy: every red must end in a state that a
+reader can act on — repaired, or declared with its evidence and its
+reason.</p>
+<h3 id="the-measured-starting-state">The measured starting state</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Red</th>
+<th>Measurement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>R1</strong></td>
+<td><strong>The repository cannot be reliably cloned</strong></td>
+<td>54 tracked archive part files totalling <strong>2,624.8 MB</strong>;
+pack <strong>1.76 GiB</strong>. A second engineer’s clone failed with
+<code>curl 92 … CANCEL (err 8)</code>,
+<code>9055 bytes of body are still expected</code>,
+<code>early EOF</code>, <code>invalid index-pack output</code>.
+<strong>Root cause established by test, not inference</strong> — see
+<em>Root cause of R1</em> below. Only <strong>68.1 MB across 2
+blobs</strong> exists in history but not in the tree, so this is not
+history bloat.</td>
+</tr>
+<tr>
+<td><strong>R2</strong></td>
+<td>Continuation record stale</td>
+<td>Commits changed watched governance files without updating the
+resumption record in the same commit. 7 pass · <strong>1 drift</strong>
+· 15 notes.</td>
+</tr>
+<tr>
+<td><strong>R3</strong></td>
+<td>Hardcoded developer paths</td>
+<td>3 files, <strong>17 occurrences</strong>, plus <strong>387</strong>
+separately baselined. Two of the three are generated exports of one
+source document.</td>
+</tr>
+<tr>
+<td><strong>R4</strong></td>
+<td>Governance-source pin behind its remote</td>
+<td>1 of 13 gitlinks differs from its remote. Difference is determined;
+<strong>direction is not</strong>, because the remote commit is absent
+from the local object store.</td>
+</tr>
+<tr>
+<td><strong>R5</strong></td>
+<td>Provider-side triggering</td>
+<td><strong>1 confirmed</strong> standing trigger with no file-level
+remedy; <strong>6 unverified</strong> rows on hosts with no read-only
+adapter.</td>
+</tr>
+<tr>
+<td><strong>R6</strong></td>
+<td>Module gate suite red</td>
+<td>1 gate reports a violation and <strong>4 could not run at
+all</strong>.</td>
+</tr>
+<tr>
+<td><strong>R7</strong></td>
+<td>25 areas carry no assessment</td>
+<td>Not an evidence gap: <strong>25 of 37</strong> area documents were
+never sectioned into the passage registry, so no citation can resolve at
+their own source and no question can be authored.</td>
+</tr>
+<tr>
+<td><strong>R8</strong></td>
+<td>5 questions silently withheld</td>
+<td>They cite redacted passages; the server withholds each one. They are
+dead in production and nothing says so to a learner.</td>
+</tr>
+<tr>
+<td><strong>R9</strong></td>
+<td>Interface paints 2 hue families</td>
+<td>Against a floor of 6, measured on the served bundle by a corrected
+instrument whose three defects were fixed first — the count went
+<strong>down</strong> from 4 when the instrument became honest.</td>
+</tr>
+<tr>
+<td><strong>R10</strong></td>
+<td>3 documents fail publication review</td>
+<td><strong>62, 54 and 58</strong> uncited claim blocks. They remain
+unpublished.</td>
+</tr>
+<tr>
+<td><strong>R11</strong></td>
+<td>Content-boundary gate red by design</td>
+<td>~15,300 matches; a decision packet exists and <strong>~1,540
+rows</strong> are direction-measured as private-first and unread.</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="root-cause-of-r1-established-by-controlled-test-and-a-first-attempt-that-was-wrong">Root
+cause of R1 — established by controlled test, and a first attempt that
+was wrong</h3>
+<p><strong>A refuted hypothesis is recorded here rather than deleted,
+because the wrong mechanism pointed the remedy in a different direction
+and the next reader should see why it was abandoned.</strong></p>
+<p><strong>REFUTED: “GitHub’s HTTP/2 transport cancels on packs this
+large.”</strong> This was inferred from the <code>curl 92</code> error
+text and from a blob-filtered clone completing in 2.01 s. It was
+reported as a finding without being tested. Two arms were then run from
+a third host against the same repository, authenticated over HTTPS,
+identical except for the negotiated protocol version:</p>
+<table>
+<thead>
+<tr>
+<th>arm</th>
+<th><code>http.version</code></th>
+<th>result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>default (HTTP/2)</td>
+<td><strong>rc 0</strong>, 80 s, 2.6 GB</td>
+</tr>
+<tr>
+<td>B</td>
+<td>HTTP/1.1</td>
+<td><strong>rc 0</strong>, 82 s, 2.6 GB</td>
+</tr>
+</tbody>
+</table>
+<p><strong>A full HTTPS clone succeeds, over both protocol
+versions.</strong> HTTPS is not broken, HTTP/2 is not the cause, and
+“use SSH” is not a fix — it is a coincidence of which link happened to
+hold.</p>
+<p><strong>ESTABLISHED: git’s smart-HTTP transport cannot resume a
+failed fetch.</strong> A clone that dies at 90% restarts from zero. This
+repository therefore requires an <strong>uninterrupted</strong> 2.6 GB
+transfer to clone at all, and at that size the cumulative probability of
+at least one interruption somewhere in the network path is substantial
+on any marginal link. <code>9055 bytes of body are still expected</code>
+is that interruption caught mid-body — a transfer too long to survive,
+not a protocol refusing a large pack.</p>
+<p><strong>This mechanism explains every observation; the refuted one
+explained two.</strong> It accounts for success over HTTPS here, success
+over SSH here, instant success blob-filtered, and failure there — with
+one cause.</p>
+<p><strong>What it changes.</strong> The remedy is unchanged: the target
+is the 2,624.8 MB, because size is what converts a transient blip into a
+total failure. What changes is the reasoning recorded in every artefact,
+and one design consequence: <strong>a blob-filtered clone is worth
+documenting as ROBUST, not merely fast.</strong> A 540 KB transfer that
+fails costs nothing to retry; a 2.6 GB one costs everything. FR-004’s
+guard must therefore threshold on transfer size and state this mechanism
+in its own output, so the next reader does not re-derive the refuted
+one.</p>
+<h2 id="clarifications">Clarifications</h2>
+<h3 id="session-2026-09-08">Session 2026-09-08</h3>
+<ul>
+<li>Q: Where should recorded material live, given a 2,624.8 MB
+repository that HTTPS cannot clone? → A: <strong>Git LFS for the archive
+parts, going forward.</strong></li>
+<li>Q: Are the 387 baselined hardcoded-path occurrences in scope, or do
+they stay declared? → A: <strong>In scope — fix the 17 live ones AND
+work through the 387.</strong></li>
+<li>Q: Should the 6 provider rows on hosts with no read-only adapter get
+one? → A: <strong>Write read-only adapters for both hosts.</strong></li>
+<li>Q: May the governance-source pin’s direction be resolved, and the
+pin moved? → A: <strong>Authorise the fetch, then fast-forward only if
+it is genuinely behind.</strong></li>
+</ul>
+<h4 id="what-each-decision-obliges">What each decision obliges</h4>
+<p><strong>LFS, and its honest limit.</strong> History rewriting is
+forbidden, so the existing blobs stay where they are: <strong>a plain
+full clone remains large no matter what we do here.</strong> What LFS
+changes is everything from now on, and it makes the documented default
+clone instant. SC-002’s “under 250 MB to obtain” is therefore a claim
+about <strong>the documented obtaining path</strong>, not about the size
+of a naive <code>git clone</code> of full history — and the spec must
+say so rather than let the number imply something it cannot deliver. The
+existing archive tool already produces per-part and whole-file hashes,
+so integrity survives the move unchanged; that is what makes LFS viable
+here rather than a leap.</p>
+<p><strong>The 387 is a campaign, not a fix.</strong> The operator chose
+the larger option over the recommendation. Most of those occurrences sit
+<strong>inside consumed submodules</strong> and can only be repaired by
+upstream commits that return as gitlink bumps — so this spans
+repositories and cannot land in one change. Two obligations follow: the
+work must be <strong>partitioned by owning repository</strong> and
+reported per repository rather than as one number; and each row must
+first be <strong>re-derived</strong>, because a baseline that was never
+pruned overstates debt — a row fixed upstream and left in the baseline
+is counted as debt that no longer exists.</p>
+<p><strong>Adapters turn permanent unknowns into verdicts.</strong> Six
+rows have been rc 2 not because a check failed but because no instrument
+was ever registered for those hosts. Both expose public read-only APIs.
+The obligation: the adapters must report <strong>three-valued</strong>
+like every other probe, and an adapter that cannot reach its host must
+return 2 — replacing “never asked” with “asked and could not determine”
+is progress; replacing it with a green is not.</p>
+<p><strong>The pin fetch is authorised, and its sequence is
+fixed.</strong> Fetch to resolve direction, classify with
+<code>merge-base --is-ancestor</code> and a left/right count, then
+<code>merge --ff-only</code> — which refuses anything that is not a true
+fast-forward. The diff-stat must be filtered <strong>by name</strong>
+against every governance path before and after, because “no governance
+document changed” is a claim that must be measured rather than
+eyeballed. This pin has gone stale five times; the move closes an
+instance, not the class.</p>
+<h2 id="user-scenarios-testing-mandatory">User Scenarios &amp; Testing
+<em>(mandatory)</em></h2>
+<h3
+id="user-story-1---a-second-engineer-obtains-the-repository-priority-p1">User
+Story 1 - A second engineer obtains the repository (Priority: P1)</h3>
+<p>An engineer on a different machine clones the curriculum repository,
+follows its own written setup, and reaches a state its status command
+calls ready — without special flags, private knowledge, or a message to
+the author.</p>
+<p><strong>Why this priority</strong>: Nothing else in this
+specification is deliverable to anyone who cannot obtain the repository.
+It is the only red that blocks other people rather than degrading a
+signal.</p>
+<p><strong>Independent Test</strong>: Clone into an empty directory on a
+machine that has never held this work, run the documented bootstrap, and
+read the status output.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> a machine with no prior copy,
+<strong>When</strong> the engineer clones by the documented command,
+<strong>Then</strong> the clone completes without a transport
+error.</li>
+<li><strong>Given</strong> the clone, <strong>When</strong> they run the
+documented bootstrap, <strong>Then</strong> it obtains every dependency
+it needs, or names precisely what is missing and the exact command to
+obtain it.</li>
+<li><strong>Given</strong> a chapter’s recorded material,
+<strong>When</strong> they follow the documented step to obtain it,
+<strong>Then</strong> they get the recording, or a stated reason it is
+unavailable to them.</li>
+<li><strong>Given</strong> the documented clone command,
+<strong>When</strong> a reader looks for it, <strong>Then</strong> it is
+in the repository’s own front-door documentation, not in a chat
+message.</li>
+<li><strong>Given</strong> the repository over time,
+<strong>When</strong> its size approaches the point where clones fail,
+<strong>Then</strong> something says so <strong>before</strong> a person
+discovers it by failing to clone.</li>
+</ol>
+<hr />
+<h3
+id="user-story-2---a-reader-can-tell-a-finding-from-a-designed-state-priority-p1">User
+Story 2 - A reader can tell a finding from a designed state (Priority:
+P1)</h3>
+<p>Someone runs the fleet’s instruments and, for every red, can
+immediately tell whether it is a defect to fix, a known condition with a
+recorded reason, or a check that could not run — and what to do next in
+each case.</p>
+<p><strong>Why this priority</strong>: A list of eleven reds where most
+are permanent is a list nobody reads, and the reds that <em>are</em>
+defects then hide inside it. This is the difference between a gate suite
+that protects the work and one that decorates it.</p>
+<p><strong>Independent Test</strong>: Run every instrument, and for each
+red answer three questions from its output alone: is this a defect, what
+is the evidence, what happens next.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> any instrument reporting red,
+<strong>When</strong> a reader reads its output, <strong>Then</strong>
+it states whether the red is a defect, a declared condition, or an
+unrunnable check.</li>
+<li><strong>Given</strong> a declared condition, <strong>When</strong> a
+reader reads it, <strong>Then</strong> it carries the evidence and the
+reason it is declared, and names who may lift it.</li>
+<li><strong>Given</strong> a check that could not run,
+<strong>When</strong> it reports, <strong>Then</strong> it is
+distinguishable from both a pass and a failure, and it is
+<strong>never</strong> recorded as a pass.</li>
+<li><strong>Given</strong> the full suite, <strong>When</strong> it is
+run, <strong>Then</strong> a single summary states how many reds are
+defects and how many are declared, and those two counts are never
+merged.</li>
+</ol>
+<hr />
+<h3
+id="user-story-3---every-learner-facing-defect-is-repaired-or-disclosed-priority-p2">User
+Story 3 - Every learner-facing defect is repaired or disclosed
+(Priority: P2)</h3>
+<p>A learner never encounters content that is silently broken. Where
+something is missing or withheld, they are told, rather than shown a
+shorter test or an absent section with no explanation.</p>
+<p><strong>Why this priority</strong>: These are user-visible defects,
+but they degrade rather than block, and they sit behind Story 1 for
+delivery.</p>
+<p><strong>Independent Test</strong>: Walk one area end to end and
+confirm nothing is silently absent — every omission is either repaired
+or stated.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> a question whose supporting material is
+withheld, <strong>When</strong> the test is served,
+<strong>Then</strong> the question is repaired to cite available
+material, or removed with the removal recorded — never silently dropped
+from a learner’s test.</li>
+<li><strong>Given</strong> an area with no assessment,
+<strong>When</strong> a learner opens it, <strong>Then</strong> they are
+told it has none and why, rather than finding an absence.</li>
+<li><strong>Given</strong> an area document citing withheld material as
+its primary reference, <strong>When</strong> it is published,
+<strong>Then</strong> its references resolve to material a reader can
+actually reach.</li>
+<li><strong>Given</strong> the areas that could not carry a test for a
+structural reason, <strong>When</strong> that reason is removed,
+<strong>Then</strong> those areas become authorable and the coverage
+figure moves for a real cause.</li>
+</ol>
+<hr />
+<h3
+id="user-story-4---the-interface-looks-designed-on-the-surfaces-people-use-priority-p2">User
+Story 4 - The interface looks designed on the surfaces people use
+(Priority: P2)</h3>
+<p>A visitor perceives a varied, deliberate palette on the surfaces they
+spend their time looking at — not only on small indicators — while every
+pairing stays legible in both light and dark presentation.</p>
+<p><strong>Why this priority</strong>: It is the operator’s twice-raised
+complaint and it is now measured. It changes how existing capability is
+perceived rather than what exists.</p>
+<p><strong>Independent Test</strong>: Sample what is painted on
+principal surfaces in both presentations; count hue variety and measure
+contrast within each pairing.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> the served interface, <strong>When</strong>
+its principal surfaces are sampled, <strong>Then</strong> they carry
+materially more hue variety than a two-family scheme.</li>
+<li><strong>Given</strong> any hue that is added, <strong>When</strong>
+a reader asks what it means, <strong>Then</strong> it carries a stated
+classification job — no hue is added only to raise a count.</li>
+<li><strong>Given</strong> the measurement, <strong>When</strong> its
+population is defined, <strong>Then</strong> the population reflects the
+surfaces a visitor actually looks at, and any change to that population
+is justified independently of its effect on the count.</li>
+<li><strong>Given</strong> both presentations, <strong>When</strong>
+contrast is measured, <strong>Then</strong> every text and non-text
+pairing meets its floor in each, measured separately.</li>
+</ol>
+<hr />
+<h3 id="edge-cases">Edge Cases</h3>
+<ul>
+<li><strong>A red is fixed by making the instrument weaker.</strong>
+Forbidden and detectable: any change to a threshold, bucket, allow-list
+or baseline must be justified by a principle stated <em>before</em> the
+resulting count is known.</li>
+<li><strong>A repository shrinks below the failure threshold but keeps
+growing.</strong> The size guard must warn on the trend, not only on the
+breach.</li>
+<li><strong>A recording is unavailable to a particular
+engineer.</strong> Absence of permission is a stated reason, never a
+broken clone.</li>
+<li><strong>A check cannot run because a toolchain is missing.</strong>
+That is could-not-determine, never a failure of the thing being checked,
+and never a pass.</li>
+<li><strong>The direction of a difference cannot be established
+read-only.</strong> It is reported as determined-difference /
+undetermined-direction, and resolving it is an explicit decision, never
+an assumption.</li>
+<li><strong>A fix repairs the count but not the cause.</strong> Each
+repaired red must name the mechanism that produced it, not only the
+symptom.</li>
+<li><strong>Two instruments disagree.</strong> Both readings stand, with
+their populations stated; the disagreement is reported rather than
+resolved by preferring the convenient one.</li>
+<li><strong>A red is declared rather than fixed.</strong> It must name
+who may lift the declaration and what evidence would.</li>
+</ul>
+<h2 id="requirements-mandatory">Requirements <em>(mandatory)</em></h2>
+<h3 id="obtainability">Obtainability</h3>
+<ul>
+<li><strong>FR-001</strong>: The repository MUST be obtainable by a
+documented command that completes without a transport error on a machine
+that has never held it.</li>
+<li><strong>FR-002</strong>: Large recorded material MUST NOT be carried
+in the repository’s own object store in a way that makes obtaining the
+repository fail.</li>
+<li><strong>FR-003</strong>: The documented way to obtain recorded
+material MUST be in the repository’s front-door documentation, and MUST
+state what a reader gets and what they may not.</li>
+<li><strong>FR-004</strong>: An automated check MUST report the
+repository’s obtainability cost and MUST warn <strong>before</strong>
+the point at which obtaining it fails, not after.</li>
+<li><strong>FR-005</strong>: Existing published history MUST NOT be
+rewritten to achieve any of the above.</li>
+</ul>
+<h3 id="red-state-discipline">Red-state discipline</h3>
+<ul>
+<li><strong>FR-006</strong>: Every instrument reporting a non-clean
+result MUST state which of three states it is in: a defect, a declared
+condition, or a check that could not run.</li>
+<li><strong>FR-007</strong>: A declared condition MUST carry its
+evidence, its reason, and who may lift it.</li>
+<li><strong>FR-008</strong>: A check that could not run MUST be
+distinguishable from both a pass and a failure, and MUST NEVER be
+recorded as a pass.</li>
+<li><strong>FR-009</strong>: A summary of the fleet MUST report defect
+count and declared-condition count separately and MUST NOT merge
+them.</li>
+<li><strong>FR-010</strong>: No red may be closed by weakening the
+instrument. Any threshold, bucket, allow-list or baseline change MUST be
+justified by a principle stated independently of its effect on the
+resulting count.</li>
+<li><strong>FR-011</strong>: Every fix MUST name the mechanism that
+produced the red, not only the symptom it removed.</li>
+<li><strong>FR-011a</strong>: Debt spanning more than one repository
+MUST be partitioned by owning repository and reported per repository,
+never as a single number that hides where the work belongs.</li>
+<li><strong>FR-011b</strong>: A baselined row MUST be re-derived before
+it is counted as debt. A row fixed upstream and left in a baseline
+overstates debt and must be pruned, not carried.</li>
+<li><strong>FR-011c</strong>: An instrument added for a previously
+unprobed host MUST be three-valued, and MUST return could-not-determine
+when it cannot reach that host. Replacing “never asked” with “asked and
+could not determine” is progress; replacing it with a pass is not.</li>
+</ul>
+<h3 id="learner-facing-correctness">Learner-facing correctness</h3>
+<ul>
+<li><strong>FR-012</strong>: A question citing withheld material MUST be
+repaired to cite reachable material, or removed with the removal
+recorded. It MUST NOT remain silently withheld.</li>
+<li><strong>FR-013</strong>: An area with no assessment MUST tell a
+learner so, with the reason.</li>
+<li><strong>FR-014</strong>: A published document’s primary references
+MUST resolve to material a reader can reach.</li>
+<li><strong>FR-015</strong>: The structural obstacle preventing areas
+from carrying assessments MUST be removed, and the resulting coverage
+figure MUST move for that cause and be reported.</li>
+</ul>
+<h3 id="presentation">Presentation</h3>
+<ul>
+<li><strong>FR-016</strong>: The served interface MUST carry materially
+more hue variety on its principal surfaces than a two-family
+scheme.</li>
+<li><strong>FR-017</strong>: Every hue present MUST carry a stated
+classification job.</li>
+<li><strong>FR-018</strong>: The measured population MUST reflect the
+surfaces a visitor actually uses, and any change to it MUST be justified
+independently of its effect on the count.</li>
+<li><strong>FR-019</strong>: Contrast floors MUST hold for text and
+non-text pairings in both presentations, measured separately.</li>
+</ul>
+<h3 id="evidence">Evidence</h3>
+<ul>
+<li><strong>FR-020</strong>: Every requirement above MUST be covered by
+an automated check producing machine-readable evidence.</li>
+<li><strong>FR-021</strong>: Every such check MUST be three-valued and
+MUST ship a paired demonstration that it detects the defect it exists to
+catch, driven by <strong>data</strong> rather than by altering the
+check.</li>
+<li><strong>FR-022</strong>: Every check whose subject is a set MUST
+establish the set is non-empty before reporting the set contains no
+defects.</li>
+<li><strong>FR-023</strong>: Any count reported about a corpus MUST
+carry evidence the corpus did not change during the measurement.</li>
+</ul>
+<h3 id="key-entities">Key Entities</h3>
+<ul>
+<li><strong>Red state</strong> — one instrument’s non-clean result. Has
+a kind (defect / declared / unrunnable), evidence, a reason, and for a
+declared state, who may lift it.</li>
+<li><strong>Obtainability budget</strong> — the cost of obtaining the
+repository, with a warning threshold below the failure threshold.</li>
+<li><strong>Recorded material reference</strong> — a pointer from the
+repository to material held outside it, with instructions and a stated
+availability condition.</li>
+<li><strong>Declared condition</strong> — a red deliberately left
+standing, with its justification and lifting authority.</li>
+</ul>
+<h2 id="success-criteria-mandatory">Success Criteria
+<em>(mandatory)</em></h2>
+<h3 id="measurable-outcomes">Measurable Outcomes</h3>
+<ul>
+<li><strong>SC-001</strong>: An engineer on a machine that has never
+held the repository obtains it by the documented command, with
+<strong>0</strong> transport failures, in <strong>3 of 3</strong>
+attempts.</li>
+<li><strong>SC-002</strong>: Obtaining the repository <strong>by the
+documented command</strong> costs <strong>under 250 MB</strong>, down
+from 2,624.8 MB. This is a claim about the documented path, not about a
+naive full-history clone: history rewriting is forbidden, so existing
+blobs remain and a full clone stays large. The spec states this rather
+than letting the number imply a reduction it cannot deliver.</li>
+<li><strong>SC-003</strong>: <strong>100%</strong> of recorded material
+remains obtainable by a documented step, with <strong>0</strong> items
+lost.</li>
+<li><strong>SC-004</strong>: <strong>0</strong> commits rewrite existing
+published history.</li>
+<li><strong>SC-005</strong>: <strong>100%</strong> of non-clean
+instrument results state their kind; results whose kind cannot be
+determined from their output number <strong>0</strong>.</li>
+<li><strong>SC-006</strong>: <strong>0</strong> instruments record a
+could-not-run as a pass.</li>
+<li><strong>SC-007</strong>: <strong>0</strong> reds are closed by
+weakening an instrument; every threshold or baseline change carries a
+principle stated independently of the count it produces.</li>
+<li><strong>SC-008</strong>: The count of unexplained reds — red, with
+no stated kind and no reason — reaches <strong>0</strong>, from a
+baseline of <strong>11</strong>.</li>
+<li><strong>SC-009</strong>: <strong>0</strong> questions served to a
+learner cite material the server withholds, down from
+<strong>5</strong>.</li>
+<li><strong>SC-010</strong>: <strong>100%</strong> of areas without an
+assessment say so to a learner, with a reason.</li>
+<li><strong>SC-011</strong>: The number of areas that cannot carry an
+assessment <strong>for a structural reason</strong> reaches
+<strong>0</strong>, from <strong>25</strong>; the number that carry none
+because the corpus does not support one is reported separately and
+honestly.</li>
+<li><strong>SC-012</strong>: Principal surfaces carry at least
+<strong>6</strong> distinct hue families, up from <strong>2</strong>,
+and <strong>100%</strong> of hues present carry a stated job.</li>
+<li><strong>SC-013</strong>: <strong>100%</strong> of text and non-text
+pairings meet their floor in both presentations; failures number
+<strong>0</strong>.</li>
+<li><strong>SC-014</strong>: <strong>100%</strong> of requirements map
+to at least one automated check, and every such check ships a
+data-driven paired demonstration.</li>
+<li><strong>SC-015</strong>: A reader answers “is this a defect, what is
+the evidence, what happens next” for every red from instrument output
+alone, without consulting a person.</li>
+</ul>
+<h2 id="assumptions">Assumptions</h2>
+<ul>
+<li><strong>Recorded material may live outside the repository.</strong>
+No requirement here says the recordings must be inside it; only that
+they remain obtainable by a documented step.</li>
+<li><strong>Some reds are correct and will remain red.</strong>
+Content-boundary detection, unreviewed documents and areas the corpus
+cannot support are expected to stay red; the requirement is that they
+are <em>declared</em>, not that they go green.</li>
+<li><strong>History rewriting is unavailable.</strong> It is forbidden
+fleet-wide, so every obtainability fix must work forward from the
+current state.</li>
+<li><strong>Read-only probing is preferred.</strong> Where a direction
+cannot be established without a mutating operation, the undetermined
+state is reported and the operation is a separate decision.</li>
+<li><strong>The audience is engineers and the operator</strong>, not
+anonymous public users.</li>
+<li><strong>Two instruments measuring different populations may
+legitimately disagree</strong>; the requirement is that populations are
+stated, not that they agree.</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>A durable place to hold recorded material outside the repository’s
+object store, reachable by the documented step.</li>
+<li>The existing archive-and-verify mechanism, which already produces
+per-part and whole-file hashes and refuses a corrupted part.</li>
+<li>The passage registry and its sectioning tool, for the structural
+obstacle in FR-015.</li>
+<li>The corrected served-surface measurement, for FR-016 to FR-019.</li>
+</ul>
+<h2 id="out-of-scope">Out of Scope</h2>
+<ul>
+<li>Rewriting published history, in any repository.</li>
+<li>Making the content-boundary detector green; only its rows’
+disposition is in scope.</li>
+<li>Authoring assessments for areas whose evidence does not support
+them.</li>
+<li>Changing provider-side settings that only an operator can change in
+a provider interface — measuring and reporting them is in scope;
+changing them is not.</li>
+</ul>
+</body>
+</html>

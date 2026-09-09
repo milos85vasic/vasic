@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>spec</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">spec</h1>
+</header>
+<h1
+id="feature-specification-a-complete-session-record-per-chapter-and-a-platform-a-qa-team-can-test">Feature
+Specification: A Complete Session Record per Chapter, and a Platform a
+QA Team Can Test</h1>
+<p><strong>Feature Branch</strong>: <code>main</code> (this repository
+works on <code>main</code> only) <strong>Created</strong>: 2026-09-08
+<strong>Status</strong>: Draft</p>
+<p><strong>Input</strong>: “For each chapter we MUST HAVE filled in and
+fully prepared sections with proper content — Next meeting, Open
+questions, Meeting notes, TODO. […] All points which have not been
+covered in the current chapter, but they have been planned, they all
+MUST BE all passed to upcoming chapter, re-planned, and such points
+clearly marked with some proper indicator! All details screens MUST BE
+filled with real lessons (content) and tests. […] Make sure we as soon
+as possible get to the fully manually testable version of the workshop
+by the QA team! […] There MUST BE no gaps, shortcomings, any
+misalignments, weak spots, issues or danger zones!”</p>
+<h2 id="why-this-specification-exists">Why this specification
+exists</h2>
+<p>Two things are being asked for, and they are one problem.</p>
+<p><strong>First:</strong> each recorded working session must leave
+behind a record a person can act on — what was discussed, what remains
+open, what must be done, and what the next session will cover. That
+record must be <strong>cumulative</strong>: a session’s record is
+authored from that session <em>and every session before it</em>. And it
+must be <strong>honest about slippage</strong> — a point that was
+planned and not covered does not quietly disappear; it moves forward, is
+re-planned, and says on its face that it slipped.</p>
+<p><strong>Second:</strong> the platform must be in a state where a QA
+team can test it manually, end to end, and a client can be shown it —
+with the evidence to back every claim made about it.</p>
+<p>They are one problem because the second is unachievable while the
+first is missing: a QA team handed a chapter with four empty sections
+cannot tell whether the sections are broken or simply unwritten.</p>
+<h3 id="the-measured-starting-state">The measured starting state</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Finding</th>
+<th>Measurement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S1</strong></td>
+<td><strong>No chapter carries any of the four sections</strong></td>
+<td>3 chapters exist. Grepping every chapter document for the four
+section names returns <strong>0 matches inside
+<code>chapters/</code></strong>. Only one chapter has any notes document
+at all.</td>
+</tr>
+<tr>
+<td><strong>S2</strong></td>
+<td><strong>The chapter surface exposes almost nothing</strong></td>
+<td>A served chapter carries exactly three fields: an identifier, a
+hierarchy and a material count. There is nowhere for a session record to
+appear.</td>
+</tr>
+<tr>
+<td><strong>S3</strong></td>
+<td><strong>No carry-forward mechanism exists</strong></td>
+<td>Nothing records what was planned for a session, so nothing can
+detect what was planned and not covered, and nothing can move it
+forward.</td>
+</tr>
+<tr>
+<td><strong>S4</strong></td>
+<td><strong>Area detail is real but uneven — and the row below was
+WRONG, in an instructive way</strong></td>
+<td><strong>CORRECTED 2026-09-08.</strong> The original row read “39
+areas served, 30 carrying an assessment, 224 graded questions, 12
+carrying no test, each stating so to a learner”. Measured on the wire:
+<strong>39 served, 14 with an assessment, 116 questions, 25 with none,
+and NOT ONE stating why.</strong> Measured on disk at the same moment:
+<strong>42 areas, 30 with an assessment, 224 questions.</strong> Both
+readings are correct; they measure different things. The error was
+reporting a SOURCE measurement as though it described the SERVED
+product. See <em>The disk/wire distinction</em> below — it is the root
+cause of the platform’s largest live defect, not merely a bookkeeping
+slip.</td>
+</tr>
+<tr>
+<td><strong>S7</strong></td>
+<td><strong>The learning surface is unreachable from a
+browser</strong></td>
+<td>The learning client never sends the session header the routes
+require. Live: <code>GET /api/areas/{id}/lessons</code> without it →
+<strong>400</strong>, with it → <strong>200</strong>. Both learning
+panels render an error card on <strong>every</strong> area page. The API
+is correct; the omission is client-side.</td>
+</tr>
+<tr>
+<td><strong>S8</strong></td>
+<td><strong>No lesson carries teaching content</strong></td>
+<td>339 authored lessons, <strong>0</strong> with any body/content/text
+field at source or served. The builder parsed every section body, used
+it only to compute a reading-time estimate, and discarded it — because
+the shared library’s <code>Lesson</code> type had no field to hold
+it.</td>
+</tr>
+<tr>
+<td><strong>S5</strong></td>
+<td><strong>3 documents remain unpublished</strong></td>
+<td>62, 54 and 58 uncited claim blocks. Correctly withheld; a client
+sees 39 areas, not 42.</td>
+</tr>
+<tr>
+<td><strong>S6</strong></td>
+<td><strong>No QA-facing entry point exists</strong></td>
+<td>There is no document a QA team can be handed that says what to test,
+how, and what a correct result looks like.</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="the-diskwire-distinction-the-root-cause-of-the-platforms-largest-live-defect">The
+disk/wire distinction — the root cause of the platform’s largest live
+defect</h3>
+<p>Two measurements taken at the same moment, both correct:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">areas</th>
+<th style="text-align: right;">with an assessment</th>
+<th style="text-align: right;">questions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>on disk</strong> (the authored catalog)</td>
+<td style="text-align: right;">42</td>
+<td style="text-align: right;"><strong>30</strong></td>
+<td style="text-align: right;"><strong>224</strong></td>
+</tr>
+<tr>
+<td><strong>on the wire</strong> (the running process)</td>
+<td style="text-align: right;">39</td>
+<td style="text-align: right;"><strong>14</strong></td>
+<td style="text-align: right;"><strong>116</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The gap is not a bug in the loader and not a bad catalog. <strong>The
+server reads the catalog ONCE at process start</strong>, deliberately
+and documentedly. It then answered <em>“this area’s learning catalog
+carries no end-of-area test”</em> — a claim about the
+<strong>directory</strong> — from a snapshot taken hours earlier and
+never re-read. The 14 areas that worked had banks written at 07:13; the
+13 that failed had banks written at 10:47, after the process started at
+08:01. <strong>The discriminating condition was time.</strong></p>
+<p>Two obligations follow, and both are now requirements in this
+document:</p>
+<ol type="1">
+<li><strong>A process may only assert what its snapshot
+licenses.</strong> A determined negative about on-disk state, made from
+a stale snapshot, is a false claim however correct the code is. The
+remedy is not to reload constantly — it is to detect staleness and
+return could-not-determine, naming what changed.</li>
+<li><strong>A measurement of source is not evidence about the served
+product</strong>, and must never be reported as one. This specification
+made that error in its own S4 row. It is corrected above rather than
+quietly rewritten, because the same mistake has now occurred four times
+in this project — in a palette gate reading token files, in a build id
+hashed over an orphaned stylesheet, in a gate suite verified in-process,
+and here.</li>
+</ol>
+<h2 id="clarifications">Clarifications</h2>
+<h3 id="session-2026-09-08">Session 2026-09-08</h3>
+<ul>
+<li>Q: The four sections are served as a key on the chapter object, but
+four dedicated components exist whose routes 404. Which is the surface?
+→ A: <strong>Build the four routes to match the
+components.</strong></li>
+<li>Q: <code>covered: 0</code> because no coverage decision has been
+recorded by anybody. Who judges it? → A: <strong>An agent proposes
+coverage per point; the operator reviews.</strong></li>
+<li>Q: The QA documents were written before the rebuild and describe the
+pre-fix product. → A: <strong>Regenerate both against the current build
+before QA.</strong></li>
+<li>Q: 39 areas not 42, 12 without tests, every score indeterminate.
+What does the client see? → A: <strong>Disclose all three up front in
+the walkthrough.</strong></li>
+</ul>
+<h4 id="what-each-obliges-and-one-blocker">What each obliges, and one
+blocker</h4>
+<p><strong>The four routes are wiring, not new capability</strong> — the
+components exist and the data is derived. <strong>But one is blocked and
+the blocker is deliberate</strong>: the route manifest records that a
+meeting-notes withholding rule <em>may not be guessed</em>, because one
+note is a content judgement left undecided for the operator. That rule
+must be settled before <code>/api/chapters/{id}/meeting-notes</code> can
+be built correctly, and building it on a guessed rule would publish a
+judgement nobody made.</p>
+<p><strong>Coverage: proposed, never asserted.</strong> The operator
+chose agent-proposed review over judging cold — but the agent that built
+the record explicitly declined this work, on the grounds that matching
+one heuristic extraction against another is <em>“a guess wearing a
+decision’s clothes”</em> and every downstream percentage would inherit
+it. That refusal was correct and stands. So a proposal is admissible
+only if it carries, per point, the evidence it rests on and its own
+confidence, and is marked <strong>proposed</strong> in the artefact
+until a human confirms it. <code>coverage_state</code> stays
+<code>undecided</code> until then — a proposal is not a decision, and
+the served figure must not move because an agent drafted something.</p>
+<p><strong>The QA documents are regenerated, not patched.</strong> They
+describe 14 areas with tests and 0 lessons with content; live is 27 and
+318 of 318. A stale expected-result column does not merely mislead — it
+manufactures false defects and spends a tester’s time disproving our own
+fixes. Both must record the build id they were written against so they
+can be re-validated when the build moves.</p>
+<p><strong>Client disclosure is up front, not on discovery.</strong> The
+three facts — 39 areas rather than 42, 12 carrying no test, and every
+score indeterminate because all banks mix machine-marked and free-text
+questions — each have a good reason, and the reasons demonstrate the
+anti-bluff discipline rather than apologising for it. A gap discovered
+live is worse than one disclosed first.</p>
+<h2 id="user-scenarios-testing-mandatory">User Scenarios &amp; Testing
+<em>(mandatory)</em></h2>
+<h3
+id="user-story-1---a-participant-reads-what-a-session-produced-priority-p1">User
+Story 1 - A participant reads what a session produced (Priority:
+P1)</h3>
+<p>Someone who attended, or missed, a working session opens that chapter
+and reads four things: what was discussed, what is still open, what must
+be done, and what the next session will cover. Each is real content
+about that session, not a placeholder.</p>
+<p><strong>Why this priority</strong>: This is the operator’s stated
+requirement and the thing whose absence is most visible. It is also what
+makes a chapter presentable to a client.</p>
+<p><strong>Independent Test</strong>: Open each chapter and read all
+four sections. Delivers value if every section contains content specific
+to that session and none is empty or generic.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> any chapter, <strong>When</strong> a
+participant opens it, <strong>Then</strong> all four sections are
+present and each contains content specific to that session.</li>
+<li><strong>Given</strong> a chapter’s record, <strong>When</strong> a
+participant reads it, <strong>Then</strong> it reflects that session
+<strong>and every session before it</strong> — a question opened earlier
+and still unresolved appears as open.</li>
+<li><strong>Given</strong> an item in any section, <strong>When</strong>
+a participant reads it, <strong>Then</strong> they can tell which
+session it originated in.</li>
+<li><strong>Given</strong> a section with genuinely nothing to report,
+<strong>When</strong> it is presented, <strong>Then</strong> it says so
+explicitly with the reason — an empty section and an unwritten section
+are never indistinguishable.</li>
+</ol>
+<hr />
+<h3
+id="user-story-2---a-planned-point-that-slipped-is-visibly-carried-forward-priority-p1">User
+Story 2 - A planned point that slipped is visibly carried forward
+(Priority: P1)</h3>
+<p>A point planned for a session and not covered appears in the
+<strong>next</strong> chapter’s plan, re-planned, and marked so a reader
+sees at a glance that it slipped rather than being newly raised.</p>
+<p><strong>Why this priority</strong>: Shares P1 with Story 1 because a
+session record without carry-forward is a record that quietly loses
+commitments — the precise failure the operator is asking to prevent.</p>
+<p><strong>Independent Test</strong>: Take a point planned for one
+session and not covered; confirm it appears in the next chapter, marked
+as carried over, with its origin visible.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> a point planned for a session,
+<strong>When</strong> the session did not cover it,
+<strong>Then</strong> it appears in the next chapter’s plan.</li>
+<li><strong>Given</strong> a carried-forward point,
+<strong>When</strong> a reader sees it, <strong>Then</strong> it is
+<strong>visually distinguished</strong> from a point raised for the
+first time.</li>
+<li><strong>Given</strong> a point carried forward more than once,
+<strong>When</strong> a reader sees it, <strong>Then</strong> how many
+times it has slipped is visible.</li>
+<li><strong>Given</strong> a session’s plan, <strong>When</strong> the
+record is assembled, <strong>Then</strong> every planned point is
+accounted for as covered, carried forward, or explicitly dropped with a
+reason — <strong>no planned point may simply vanish</strong>.</li>
+<li><strong>Given</strong> the most recent chapter,
+<strong>When</strong> points carry forward from it,
+<strong>Then</strong> they land somewhere a reader can find them even
+though no later chapter exists yet.</li>
+</ol>
+<hr />
+<h3
+id="user-story-3---a-qa-team-can-test-the-platform-manually-end-to-end-priority-p1">User
+Story 3 - A QA team can test the platform manually, end to end
+(Priority: P1)</h3>
+<p>A tester who has never seen the platform is handed one document,
+follows it, and exercises every feature and flow — knowing for each step
+what a correct result looks like and how to report a wrong one.</p>
+<p><strong>Why this priority</strong>: The operator’s stated goal. It
+also converts every other claim in this specification from an assertion
+into something a second party can check.</p>
+<p><strong>Independent Test</strong>: Hand the document to someone
+unfamiliar with the platform and have them complete it without asking a
+question.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> the QA document, <strong>When</strong> a
+tester follows it, <strong>Then</strong> every feature and flow is
+covered, each with its expected result stated before the tester performs
+it.</li>
+<li><strong>Given</strong> any step, <strong>When</strong> the observed
+result differs from the expected one, <strong>Then</strong> the document
+says how to report it and what information to capture.</li>
+<li><strong>Given</strong> a capability that is deliberately absent or
+limited, <strong>When</strong> a tester reaches it,
+<strong>Then</strong> the document says so in advance — <strong>a tester
+must never discover a known limitation as if it were a
+defect</strong>.</li>
+<li><strong>Given</strong> the platform, <strong>When</strong> a tester
+begins, <strong>Then</strong> getting to a testable state requires only
+the documented steps.</li>
+</ol>
+<hr />
+<h3
+id="user-story-4---every-area-detail-screen-shows-real-teaching-and-a-real-test-priority-p2">User
+Story 4 - Every area detail screen shows real teaching and a real test
+(Priority: P2)</h3>
+<p>A learner opening any published area finds lessons with real content
+and, where one exists, a test they can take — and where no test exists,
+the area says why.</p>
+<p><strong>Why this priority</strong>: Largely delivered — 30 of 39
+areas carry assessments. What remains is completing coverage where
+evidence supports it and ensuring the interface presents it well.</p>
+<p><strong>Independent Test</strong>: Open every published area; confirm
+each shows lessons with content, and either a test or a stated reason
+there is none.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> any published area, <strong>When</strong> a
+learner opens it, <strong>Then</strong> they see lessons with real
+content, in order.</li>
+<li><strong>Given</strong> an area with a test, <strong>When</strong>
+the learner completes the required lessons, <strong>Then</strong> they
+can take it and receive a scored result with per-question feedback.</li>
+<li><strong>Given</strong> an area without a test, <strong>When</strong>
+a learner opens it, <strong>Then</strong> the reason is stated — never
+an unexplained absence.</li>
+<li><strong>Given</strong> any area, <strong>When</strong> its materials
+are presented, <strong>Then</strong> each renders with a caption and a
+text alternative.</li>
+</ol>
+<hr />
+<h3
+id="user-story-5---a-reviewer-can-confirm-no-claim-is-unearned-priority-p2">User
+Story 5 - A reviewer can confirm no claim is unearned (Priority:
+P2)</h3>
+<p>An independent reviewer takes any claim made about the platform and
+traces it to machine-produced evidence, or finds it explicitly marked as
+unverified.</p>
+<p><strong>Why this priority</strong>: The operator asked for no bluff
+of any kind. This is what makes that checkable rather than promised.</p>
+<p><strong>Independent Test</strong>: Sample claims from the QA document
+and the platform’s own reporting; each resolves to evidence or to a
+stated limitation.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> any claim that a capability works,
+<strong>When</strong> a reviewer asks for evidence,
+<strong>Then</strong> a machine-produced artefact supports it.</li>
+<li><strong>Given</strong> any check, <strong>When</strong> it reports,
+<strong>Then</strong> it distinguishes satisfied, a real finding, and
+could-not-determine — and a could-not-determine is
+<strong>never</strong> recorded as satisfied.</li>
+<li><strong>Given</strong> any evidence, <strong>When</strong> a
+reviewer re-runs its producer, <strong>Then</strong> the same inputs
+produce the same result.</li>
+<li><strong>Given</strong> a known gap, <strong>When</strong> a reviewer
+looks for it, <strong>Then</strong> it is recorded with its reason and
+who may lift it — not omitted.</li>
+</ol>
+<hr />
+<h3 id="edge-cases">Edge Cases</h3>
+<ul>
+<li><strong>A session covered something never planned.</strong> It is
+recorded as emergent, not silently folded into the plan as though it had
+been foreseen.</li>
+<li><strong>A point is carried forward indefinitely.</strong> The slip
+count is visible and rising; a point that has slipped repeatedly is
+surfaced rather than buried.</li>
+<li><strong>A session record would disclose private material.</strong>
+Sections are authored from private recordings while the umbrella is
+public — the record must exist without content crossing that
+boundary.</li>
+<li><strong>A chapter has no successor.</strong> Carry-forward from the
+latest chapter must still land somewhere findable.</li>
+<li><strong>An area’s test exists but its lessons do not.</strong> The
+test is unreachable; this must surface as a finding, not as an area that
+looks complete.</li>
+<li><strong>A QA step depends on a capability that is deliberately
+absent.</strong> Stated in advance, with the reason.</li>
+<li><strong>Two chapters disagree about an open question’s
+status.</strong> The later chapter’s record governs, and the transition
+is visible rather than a silent overwrite.</li>
+<li><strong>The evidence is stale.</strong> Evidence must identify the
+state it was produced from, or it cannot be trusted after that state
+moves.</li>
+<li><strong>A record is authored while its source material
+changes.</strong> Any count reported must carry evidence the source did
+not move during the measurement.</li>
+</ul>
+<h2 id="requirements-mandatory">Requirements <em>(mandatory)</em></h2>
+<h3 id="the-session-record">The session record</h3>
+<ul>
+<li><strong>FR-001</strong>: Every chapter MUST carry four sections —
+meeting notes, open questions, TODO, and next meeting — each with
+content specific to that session.</li>
+<li><strong>FR-002</strong>: A chapter’s record MUST be authored from
+that session <strong>and every session before it</strong>; an item
+raised earlier and unresolved MUST still appear.</li>
+<li><strong>FR-003</strong>: Every item MUST identify the session it
+originated in.</li>
+<li><strong>FR-004</strong>: A section with nothing to report MUST say
+so with the reason. <strong>An empty section and an unwritten section
+MUST NOT be indistinguishable.</strong></li>
+<li><strong>FR-005</strong>: The four sections MUST be served, not only
+present as files, and MUST be reachable at their own routes so a section
+can be linked to directly.</li>
+<li><strong>FR-005a</strong>: A withholding rule for any section MUST be
+settled by the operator before that section’s route is built. A route
+built on a guessed withholding rule publishes a judgement nobody
+made.</li>
+</ul>
+<h3 id="carry-forward">Carry-forward</h3>
+<ul>
+<li><strong>FR-006</strong>: Every session MUST have a recorded plan, so
+coverage can be determined at all.</li>
+<li><strong>FR-007</strong>: Every planned point MUST resolve to exactly
+one of: covered, carried forward, or explicitly dropped with a reason.
+<strong>A planned point MUST NOT simply vanish.</strong></li>
+<li><strong>FR-007a</strong>: A coverage verdict MAY be proposed by a
+machine but MUST carry, per point, the evidence it rests on and its own
+confidence, and MUST be marked PROPOSED until a human confirms it. The
+served coverage state MUST remain undecided until confirmation —
+<strong>a proposal is not a decision, and the published figure MUST NOT
+move because a draft exists.</strong></li>
+<li><strong>FR-008</strong>: A point not covered MUST appear in the next
+chapter’s plan, re-planned.</li>
+<li><strong>FR-009</strong>: A carried-forward point MUST be
+<strong>visually distinguished</strong> from a newly raised one.</li>
+<li><strong>FR-010</strong>: The number of times a point has slipped
+MUST be visible.</li>
+<li><strong>FR-011</strong>: Carry-forward from the latest chapter MUST
+land somewhere a reader can find, even with no successor chapter.</li>
+<li><strong>FR-012</strong>: Carry-forward MUST be derived from recorded
+plan and coverage, not hand-maintained — a hand-maintained list is a
+list that drifts.</li>
+</ul>
+<h3 id="learner-facing-completeness">Learner-facing completeness</h3>
+<ul>
+<li><strong>FR-013</strong>: Every published area MUST present lessons
+with real content, in order.</li>
+<li><strong>FR-014</strong>: Every published area with an authored
+question bank MUST present a takeable test with scored per-question
+feedback.</li>
+<li><strong>FR-015</strong>: An area without a test MUST state the
+reason to the learner.</li>
+<li><strong>FR-016</strong>: Every material MUST render with a caption
+and a text alternative.</li>
+<li><strong>FR-017</strong>: An area whose test exists but whose lessons
+do not MUST surface as a finding.</li>
+</ul>
+<h3 id="qa-readiness">QA readiness</h3>
+<ul>
+<li><strong>FR-018</strong>: A single QA document MUST exist covering
+every feature and flow, each step stating its expected result
+<strong>before</strong> the tester performs it.</li>
+<li><strong>FR-019</strong>: It MUST state how to report a discrepancy
+and what to capture.</li>
+<li><strong>FR-020</strong>: It MUST disclose every known limitation
+<strong>in advance</strong>. A tester MUST NOT discover a known
+limitation as if it were a defect.</li>
+<li><strong>FR-020a</strong>: The QA and client documents MUST record
+the build identifier they were written against, and MUST be regenerated
+— not patched — when that build moves. A stale expected-result column
+manufactures false defects and spends a tester’s time disproving
+fixes.</li>
+<li><strong>FR-020b</strong>: The client-facing walkthrough MUST
+disclose, before a client can encounter them: the served area count
+against the authored total, the count of areas carrying no test with the
+reason, and that scores are indeterminate while any bank mixes
+machine-marked and free-text questions.</li>
+<li><strong>FR-021</strong>: Reaching a testable state MUST require only
+the documented steps.</li>
+<li><strong>FR-022</strong>: It MUST cover edge cases and failure paths,
+not only the paths that succeed.</li>
+</ul>
+<h3 id="evidence-and-review">Evidence and review</h3>
+<ul>
+<li><strong>FR-023</strong>: Every claim that a capability works MUST be
+supported by a machine-produced artefact.</li>
+<li><strong>FR-024</strong>: Every check MUST be three-valued, and a
+could-not-determine MUST NEVER be recorded as satisfied.</li>
+<li><strong>FR-025</strong>: Every check MUST ship a paired
+demonstration that it detects the defect it exists to catch, driven by
+<strong>data</strong> rather than by altering the check.</li>
+<li><strong>FR-026</strong>: Evidence MUST identify the state it was
+produced from, and MUST state whether it measured SOURCE or the SERVED
+product. The two are different populations and a source measurement MUST
+NEVER be reported as evidence about what is served.</li>
+<li><strong>FR-026a</strong>: A process holding a cached snapshot of
+on-disk state MUST NOT assert a determined negative about that state
+once the snapshot may be stale. It MUST detect staleness and return
+could-not-determine, naming what changed. A snapshot licenses claims
+about the snapshot, never about the directory.</li>
+<li><strong>FR-027</strong>: Any count reported about source material
+MUST carry evidence the material did not change during the
+measurement.</li>
+<li><strong>FR-028</strong>: Every known gap MUST be recorded with its
+reason and who may lift it.</li>
+<li><strong>FR-029</strong>: An independent review MUST confirm that no
+claim is unearned, and its findings MUST be recorded whether or not they
+are acted on.</li>
+</ul>
+<h3 id="boundary">Boundary</h3>
+<ul>
+<li><strong>FR-030</strong>: Session records are authored from PRIVATE
+recorded material while the umbrella is PUBLIC. <strong>No recorded
+content, participant name, or verbatim transcript text may cross into
+the public repository.</strong> Records refer to private material by
+location, never by content.</li>
+</ul>
+<h3 id="key-entities">Key Entities</h3>
+<ul>
+<li><strong>Session record</strong> — the four sections for one chapter.
+Cumulative over all prior sessions.</li>
+<li><strong>Record item</strong> — one entry in a section. Has
+originating session, text, status, and for a carried item a slip
+count.</li>
+<li><strong>Session plan</strong> — what a session intended to cover.
+The thing coverage is measured against.</li>
+<li><strong>Carry-forward link</strong> — the relation from an uncovered
+planned point to its re-planned successor, carrying the slip count.</li>
+<li><strong>QA scenario</strong> — one testable step: what to do, the
+expected result, and how to report a discrepancy.</li>
+<li><strong>Evidence artefact</strong> — machine-produced output
+supporting a claim, identifying the state it came from.</li>
+</ul>
+<h2 id="success-criteria-mandatory">Success Criteria
+<em>(mandatory)</em></h2>
+<h3 id="measurable-outcomes">Measurable Outcomes</h3>
+<ul>
+<li><strong>SC-001</strong>: <strong>100%</strong> of chapters carry all
+four sections with session-specific content; chapters with an empty or
+generic section number <strong>0</strong>, against a baseline of 3 of 3
+having none.</li>
+<li><strong>SC-002</strong>: <strong>100%</strong> of record items
+identify their originating session.</li>
+<li><strong>SC-003</strong>: <strong>100%</strong> of planned points
+resolve to covered, carried forward, or explicitly dropped; points that
+vanish number <strong>0</strong>.</li>
+<li><strong>SC-004</strong>: <strong>100%</strong> of carried-forward
+points are visually distinguished and show their slip count.</li>
+<li><strong>SC-005</strong>: <strong>100%</strong> of published areas
+present lessons with real content.</li>
+<li><strong>SC-006</strong>: <strong>100%</strong> of published areas
+either present a takeable test or state why there is none; unexplained
+absences number <strong>0</strong>.</li>
+<li><strong>SC-007</strong>: A tester unfamiliar with the platform
+completes the QA document <strong>without asking a question</strong>,
+and every step’s expected result was stated before they performed
+it.</li>
+<li><strong>SC-008</strong>: <strong>100%</strong> of known limitations
+are disclosed in the QA document before a tester can reach them;
+limitations discovered as apparent defects number
+<strong>0</strong>.</li>
+<li><strong>SC-009</strong>: <strong>100%</strong> of capability claims
+resolve to a machine-produced artefact, or are explicitly marked
+unverified.</li>
+<li><strong>SC-010</strong>: <strong>0</strong> checks record a
+could-not-determine as satisfied.</li>
+<li><strong>SC-011</strong>: <strong>100%</strong> of checks ship a
+data-driven paired demonstration.</li>
+<li><strong>SC-012</strong>: Re-running any evidence producer on
+unchanged inputs reproduces its result <strong>100%</strong> of the
+time.</li>
+<li><strong>SC-013</strong>: <strong>0</strong> items of private
+recorded content appear in the public repository.</li>
+<li><strong>SC-014</strong>: An independent review completes and its
+findings are recorded; findings suppressed rather than recorded number
+<strong>0</strong>.</li>
+<li><strong>SC-015</strong>: A client-facing walkthrough of the platform
+completes with <strong>0</strong> steps that cannot be performed as
+described.</li>
+</ul>
+<h2 id="assumptions">Assumptions</h2>
+<ul>
+<li><strong>Session records are authored, not generated.</strong> They
+summarise what happened; a machine can enforce structure, completeness
+and carry-forward, but the content is authored.</li>
+<li><strong>A “chapter” is a recorded working session.</strong> Three
+exist.</li>
+<li><strong>The QA team is unfamiliar with the platform.</strong> The
+document assumes no prior knowledge.</li>
+<li><strong>Carry-forward is derived at build time</strong> from
+recorded plan and coverage, so it cannot drift from what actually
+happened.</li>
+<li><strong>12 areas will still carry no test</strong>, honestly,
+because their evidence does not support one. That is the correct state
+and SC-006 is written to accept it, provided the reason is stated.</li>
+<li><strong>3 documents remain unpublished</strong> pending a human
+reading their uncited claim blocks. A client sees 39 areas; that is
+disclosed rather than concealed.</li>
+<li><strong>“No gaps, no weak spots” means every gap is known and
+stated</strong>, not that none exists. A specification claiming zero
+gaps would be the first unearned claim in it.</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>The recorded sessions and their transcripts, referenced by location
+only.</li>
+<li>The existing area, lesson, material and assessment surfaces.</li>
+<li>The existing three-valued gate suite and its paired-proof
+discipline.</li>
+<li>The content-boundary instrument, which governs FR-030.</li>
+</ul>
+<h2 id="out-of-scope">Out of Scope</h2>
+<ul>
+<li>Authoring assessments for areas whose evidence does not support
+them.</li>
+<li>Publishing the 3 documents that fail review; that awaits a human
+reading.</li>
+<li>Rewriting published history in any repository.</li>
+<li>Automating the authorship of session content; only its structure,
+completeness and carry-forward are mechanised.</li>
+</ul>
+</body>
+</html>

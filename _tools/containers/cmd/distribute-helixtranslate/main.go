@@ -14,10 +14,10 @@
 // written on 2026-09-03 on a machine from which BOTH target hosts were
 // measured unreachable:
 //
-//	ssh -o BatchMode=yes -o ConnectTimeout=8 milosvasic@thinker.local ...
-//	  -> ssh: Could not resolve hostname thinker.local: Name or service not known   (rc 255)
-//	ssh -o BatchMode=yes -o ConnectTimeout=8 milosvasic@amber.local ...
-//	  -> ssh: Could not resolve hostname amber.local: Name or service not known     (rc 255)
+//	ssh -o BatchMode=yes -o ConnectTimeout=8 $HT_SSH_USER@$HT_BUILD_HOST ...
+//	  -> ssh: Could not resolve hostname <build host>: Name or service not known   (rc 255)
+//	ssh -o BatchMode=yes -o ConnectTimeout=8 $HT_SSH_USER@$HT_WORKER_HOST ...
+//	  -> ssh: Could not resolve hostname <worker host>: Name or service not known     (rc 255)
 //
 // That is a measured absence, not a broken resolver: avahi-daemon was active,
 // `hosts:` in /etc/nsswitch.conf carries mdns_minimal, and `avahi-browse -at`
@@ -332,8 +332,33 @@ func resolveSettings() (*settings, error) {
 			seedDB)
 	}
 
-	user := envOr("HT_SSH_USER", "milosvasic")
+	// The SSH account is DERIVED from the invoking environment, never frozen
+	// into the tree. $HT_SSH_USER wins; otherwise $USER, which is whoever is
+	// actually running this. An empty result is rc 2, not a guess.
+	user := envOr("HT_SSH_USER", os.Getenv("USER"))
+	if user == "" {
+		return nil, fmt.Errorf(
+			"no SSH account: set HT_SSH_USER (or run with $USER set). " +
+				"This tool deliberately carries no account name")
+	}
 	keyPath := os.Getenv("HT_SSH_KEY") // empty => ssh-agent / default identities
+
+	// Host names are DECLARED in the environment and never defaulted. Until
+	// 2026-09-08 these two carried a developer machine name each, so on any
+	// other checkout the tool resolved a host that does not exist and failed at
+	// ssh time as a DNS error rather than as a configuration error.
+	buildAddr := envOr("HT_BUILD_HOST", os.Getenv("BUILD_HOST"))
+	if buildAddr == "" {
+		return nil, fmt.Errorf(
+			"no build host: set HT_BUILD_HOST (or BUILD_HOST). " +
+				"This tool carries no host-name default; see _tools/lib/translation-fleet.sh")
+	}
+	workerAddr := os.Getenv("HT_WORKER_HOST")
+	if workerAddr == "" {
+		return nil, fmt.Errorf(
+			"no worker host: set HT_WORKER_HOST. " +
+				"This tool carries no host-name default; see _tools/lib/translation-fleet.sh")
+	}
 
 	return &settings{
 		srcDir:    srcDir,
@@ -345,14 +370,14 @@ func resolveSettings() (*settings, error) {
 		remoteImg: envOr("HT_REMOTE_IMG", "helixtranslate-img"),
 		buildHost: remote.RemoteHost{
 			Name:    "helixtranslate-build",
-			Address: envOr("HT_BUILD_HOST", envOr("BUILD_HOST", "thinker.local")),
+			Address: buildAddr,
 			User:    user,
 			KeyPath: keyPath,
 			Runtime: envOr("HT_BUILD_RUNTIME", "podman"),
 		},
 		workerHost: remote.RemoteHost{
 			Name:    "helixtranslate-worker",
-			Address: envOr("HT_WORKER_HOST", "amber.local"),
+			Address: workerAddr,
 			User:    user,
 			KeyPath: keyPath,
 			Runtime: envOr("HT_WORKER_RUNTIME", "docker"),

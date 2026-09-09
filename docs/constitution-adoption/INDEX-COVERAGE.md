@@ -1,12 +1,12 @@
 # Code-Intelligence Index Coverage — Verified Report
 
-**Repository:** `/run/media/milosvasic/DATA4TB/Projects/vasic`
+**Repository:** `<ext-volume-host>/Projects/vasic`
 **Verification run:** 2026-08-26, 20:37Z – 20:46Z (local 22:37 – 22:46, UTC+2)
 **Mode:** read-only. No index was built, rebuilt, purged, synced or deleted. Every
 number below comes from a command reproduced verbatim in this document.
 
 > **Live-data warning.** A `lumen index` run on this repository was **in flight for the
-> whole verification window** (PID 1777428, `lumen index /run/media/milosvasic/DATA4TB/Projects/vasic`,
+> whole verification window** (PID 1777428, `lumen index <ext-volume-host>/Projects/vasic`,
 > elapsed 11m47s at the last sample). All Lumen numbers are a **moving snapshot**, and are
 > labelled with the sample timestamp. CodeGraph numbers are static — its index reports
 > `index_state = complete`.
@@ -30,7 +30,7 @@ submodules has **zero** semantic (Lumen) coverage — 1,449 indexable files, 0 i
 7 direct submodules, from `.gitmodules`:
 
 ```bash
-git -C /run/media/milosvasic/DATA4TB/Projects/vasic submodule status
+git -C <ext-volume-host>/Projects/vasic submodule status
 ```
 
 ```
@@ -67,7 +67,7 @@ git -C submodules/constitution submodule status
 ### 2.1 Index metadata
 
 ```bash
-DB="file:/run/media/milosvasic/DATA4TB/Projects/vasic/.codegraph/codegraph.db?mode=ro"
+DB="file:<ext-volume-host>/Projects/vasic/.codegraph/codegraph.db?mode=ro"
 sqlite3 "$DB" "SELECT * FROM project_metadata;"
 ```
 
@@ -172,7 +172,7 @@ The empirical CodeGraph extension set derived from the `language` column is
 `.go .js .mjs .cjs .jsx .py .yml .yaml .xml .ts .tsx`. Counting those on disk:
 
 ```bash
-cd /run/media/milosvasic/DATA4TB/Projects/vasic
+cd <ext-volume-host>/Projects/vasic
 CEXT='go|js|mjs|cjs|jsx|py|yml|yaml|xml|ts|tsx'
 SKIP='-name .git -prune -o -name node_modules -prune -o -name .venv -prune -o -name __pycache__ -prune
       -o -name dist -prune -o -name build -prune -o -name target -prune -o -name out -prune
@@ -228,7 +228,7 @@ Lumen keeps **one index directory per project root**, hashed, under
 one for this repository was located by reading `project_meta` out of every one of them:
 
 ```bash
-cd /home/milosvasic/.local/share/lumen
+cd <home>/.local/share/lumen
 for d in */; do d="${d%/}"; [ -f "$d/index.db" ] || continue
   echo "$d|$(sqlite3 "file:$PWD/$d/index.db?mode=ro" \
     "SELECT (SELECT value FROM project_meta WHERE key='project_path')||'|'|| \
@@ -238,7 +238,7 @@ done | grep -i 'Projects/vasic'
 ```
 
 ```
-21bf1507a8925bcf|/run/media/milosvasic/DATA4TB/Projects/vasic|3815|2026-08-26T20:34:17Z
+21bf1507a8925bcf|<ext-volume-host>/Projects/vasic|3815|2026-08-26T20:34:17Z
 ```
 
 **Exactly one** Lumen index exists for this project. A grep of all 763 project paths for
@@ -252,7 +252,7 @@ grep -Ei 'ai_interviewing|design-toolkit|milosvasic\.ru|monetization|constitutio
 ### 4.2 What the index contains right now
 
 ```bash
-L="file:/home/milosvasic/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro"
+L="file:<home>/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro"
 sqlite3 "$L" "SELECT * FROM project_meta;"
 ```
 
@@ -260,7 +260,7 @@ sqlite3 "$L" "SELECT * FROM project_meta;"
 vec_dimensions|768
 root_hash|ba64d624e6a005a24c94642f37cbdcdba9b5b36f1ab2f575cbb1414e28894268
 embedding_model|ordis/jina-embeddings-v2-base-code
-project_path|/run/media/milosvasic/DATA4TB/Projects/vasic
+project_path|<ext-volume-host>/Projects/vasic
 last_indexed_at|2026-08-26T20:34:17Z
 total_files|3815
 ```
@@ -310,10 +310,10 @@ This is the decisive question, and it is answered with a **control**, not an ass
 Two other repositories on this machine have completed Lumen indexes and use git submodules:
 
 ```bash
-grep -E '^\s*path' /run/media/milosvasic/DATA4TB/Projects/lava/.gitmodules   # 20 submodules
-grep -E '^\s*path' /run/media/milosvasic/DATA4TB/Projects/boba/.gitmodules   # 6 submodules
+grep -E '^\s*path' <ext-volume-host>/Projects/lava/.gitmodules   # 20 submodules
+grep -E '^\s*path' <ext-volume-host>/Projects/boba/.gitmodules   # 6 submodules
 
-sqlite3 "file:/home/milosvasic/.local/share/lumen/feaae19c7a38712e/index.db?mode=ro" \
+sqlite3 "file:<home>/.local/share/lumen/feaae19c7a38712e/index.db?mode=ro" \
  "SELECT CASE WHEN instr(path,'/')>0 THEN substr(path,1,instr(path,'/')-1) ELSE '(root)' END t,
          COUNT(*) FROM files GROUP BY t ORDER BY 2 DESC LIMIT 5;"
 ```
@@ -425,7 +425,7 @@ Android emulator matrix is saturating the box); the `ollama runner` for
 
 | # | Gap | Indexer | Evidence | Files affected | Fix command (**NOT RUN**) |
 |---|---|---|---|---:|---|
-| **1** | **All 7 direct + 7 nested submodules have ZERO semantic coverage** | **Lumen** | `SELECT COUNT(*) FROM files WHERE path LIKE '<sub>/%'` returns `0` for every submodule (§4.2) | **1,449** | `lumen index /run/media/milosvasic/DATA4TB/Projects/vasic` — **already running** (PID 1777428). No new command needed; it needs *time*. |
+| **1** | **All 7 direct + 7 nested submodules have ZERO semantic coverage** | **Lumen** | `SELECT COUNT(*) FROM files WHERE path LIKE '<sub>/%'` returns `0` for every submodule (§4.2) | **1,449** | `lumen index <ext-volume-host>/Projects/vasic` — **already running** (PID 1777428). No new command needed; it needs *time*. |
 | 2 | `monetization` has zero CodeGraph coverage | CodeGraph | 0 eligible files on disk = 0 in DB (§3) | 8 tracked / 2 Lumen-eligible | **Unfixable & not a defect.** Repo is `4 sh + 2 md + 1 txt`. Lumen will cover the 2 `.md`. |
 | 3 | `vasic.digital` — 3 of 1,130 tracked files indexed by CodeGraph | CodeGraph | `795 html, 273 md` vs. CodeGraph's language set (§3) | 1,127 | No CodeGraph fix exists (it has no HTML/Markdown parser). Covered by Lumen once it reaches the directory: **278** eligible files. |
 | 4 | `milosvasic.ru` — 10 of 1,017 tracked files indexed by CodeGraph | CodeGraph | `707 html, 193 md` (§3) | 1,007 | Same as above. Lumen will cover **207** files. |

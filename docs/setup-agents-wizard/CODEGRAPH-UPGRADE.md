@@ -18,10 +18,10 @@ confirmed**: a full, destructive rebuild of every project index is required.
 | Fact | Value | Evidence |
 |---|---|---|
 | Installed version | **1.5.0** | `codegraph version` → `1.5.0` |
-| Installed package `version` field | **1.5.0** | `/home/milosvasic/.npm-global/lib/node_modules/@colbymchenry/codegraph/package.json` |
-| Binary on PATH | `/home/milosvasic/.npm-global/bin/codegraph` | `which codegraph` |
+| Installed package `version` field | **1.5.0** | `<home>/.npm-global/lib/node_modules/@colbymchenry/codegraph/package.json` |
+| Binary on PATH | `<home>/.npm-global/bin/codegraph` | `which codegraph` |
 | Latest published | **1.6.0** | `npm view @colbymchenry/codegraph version` → `1.6.0` |
-| Update-check cache agrees | `{"latest":"v1.6.0"}` | `/home/milosvasic/.codegraph/update-check.json` |
+| Update-check cache agrees | `{"latest":"v1.6.0"}` | `<home>/.codegraph/update-check.json` |
 | 1.6.0 publish date | 2026-08-26T17:11:06Z | `npm view … --json` (`time` map) — published *today* |
 
 Recent versions (tail of `npm view @colbymchenry/codegraph versions --json`):
@@ -201,7 +201,7 @@ static async recreate(projectRoot) {
 }
 ```
 
-**Practical consequence:** `/run/media/milosvasic/DATA4TB/Projects/vasic/.codegraph/codegraph.db`
+**Practical consequence:** `<ext-volume-host>/Projects/vasic/.codegraph/codegraph.db`
 (46 MB, 541 files, 10,286 nodes, 39,793 edges) is deleted and rebuilt from zero. There is no
 in-place migration path, and no partial/resumable rebuild. **Back the DB up first** — see §6.
 
@@ -462,7 +462,7 @@ nothing. Every target reports `unchanged`, and Kimi/Qwen are not targets at all.
 Yes — one exists, and it is what `codegraph upgrade` runs internally anyway.
 
 `lib/dist/upgrade/index.js` detects the install method as `{ kind: 'npm', scope: 'global' }` (the
-package lives under the global prefix `/home/milosvasic/.npm-global`) and then runs:
+package lives under the global prefix `<home>/.npm-global`) and then runs:
 
 ```js
 function upgradeNpm(method, versionSpec, deps) {
@@ -532,7 +532,7 @@ which -a codegraph                           # must show exactly ONE path
 ```
 
 Expect `1.5.0`, `builtWithExtractionVersion: 24`, and a single
-`/home/milosvasic/.npm-global/bin/codegraph`. More than one entry means a shadowing install — fix
+`<home>/.npm-global/bin/codegraph`. More than one entry means a shadowing install — fix
 that before upgrading.
 
 ### Phase 1 — back up everything the upgrade could plausibly touch
@@ -552,7 +552,7 @@ cp -a ~/.config/opencode/AGENTS.md          "$BK/opencode-AGENTS.md"
 cp -a ~/.qwen/settings.json                 "$BK/qwen-settings.json"
 
 # The expensive artifact: the project index
-cp -a /run/media/milosvasic/DATA4TB/Projects/vasic/.codegraph \
+cp -a <ext-volume-host>/Projects/vasic/.codegraph \
       "$BK/vasic-dot-codegraph"
 
 ls -la "$BK"
@@ -613,7 +613,7 @@ Expect `builtWithExtractionVersion: 24`, `currentExtractionVersion: 25`,
 Then, and only with the Phase 1 backup in hand:
 
 ```bash
-cd /run/media/milosvasic/DATA4TB/Projects/vasic
+cd <ext-volume-host>/Projects/vasic
 codegraph index
 ```
 
@@ -656,7 +656,7 @@ a target version and re-runs the surface self-heals. Plain `npm install -g` is t
 
 ```bash
 STAMP=...   # from Phase 1
-cd /run/media/milosvasic/DATA4TB/Projects/vasic
+cd <ext-volume-host>/Projects/vasic
 rm -rf .codegraph
 cp -a "$HOME/codegraph-upgrade-backup-$STAMP/vasic-dot-codegraph" .codegraph
 codegraph status --json | head -20     # expect builtWithExtractionVersion 24, 541 files

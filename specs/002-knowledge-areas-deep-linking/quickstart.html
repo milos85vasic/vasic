@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>quickstart</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">quickstart</h1>
+</header>
+<h1
+id="quickstart-validation-guide-knowledge-areas-bidirectional-deep-linking">Quickstart
+&amp; Validation Guide — Knowledge Areas &amp; Bidirectional Deep
+Linking</h1>
+<p><strong>Feature</strong>:
+<code>specs/002-knowledge-areas-deep-linking</code> |
+<strong>Date</strong>: 2026-09-01</p>
+<p>How to verify this feature is actually done, rather than looking
+done. Every success criterion appears below with the command or
+procedure that measures it. A criterion with no entry here is a
+specification defect — feature 001 shipped one and it was found late,
+which is why this document exists as a Phase 1 artifact rather than an
+afterthought.</p>
+<h2 id="before-anything-re-derive-the-starting-state">0. Before
+anything: re-derive the starting state</h2>
+<p>None of the figures in the specification may be quoted from a
+document. Each is re-derivable, and a stale figure is worse than none
+because it will be believed.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The platform is reachable and answering</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-o</span> /dev/null <span class="at">-w</span> <span class="st">&#39;%{http_code}\n&#39;</span> <span class="st">&quot;</span><span class="va">$WORKSHOP_BASE</span><span class="st">/api/health&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Corpus composition — 1,101 / 1,055 / 44 / 2, and 267 uncertain when last measured</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-r</span> .kind  workshop/curriculum/passages.jsonl <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-r</span> <span class="st">&#39;select(.uncertain) | .pid&#39;</span> workshop/curriculum/passages.jsonl <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="op">&lt;</span> workshop/curriculum/passages.jsonl</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Word-timing availability, per chapter — NOT corpus-wide (contract V2)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="st">&#39;.counts&#39;</span> workshop/curriculum/chapter-<span class="pp">*</span>/transcript.words.json</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># The extracted taxonomy — counts and coverage, re-derived not quoted</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="st">&#39;.track_count, .module_count&#39;</span> workshop/curriculum/chapter-<span class="pp">*</span>/knowledge/areas.json</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="st">&#39;.term_count&#39;</span>                 workshop/curriculum/chapter-<span class="pp">*</span>/knowledge/terms.json</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="st">&#39;.transcript_coverage&#39;</span>        workshop/curriculum/chapter-<span class="pp">*</span>/knowledge/coverage.json</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="op">&lt;</span> workshop/curriculum/chapter-<span class="pp">*</span>/knowledge/linkage.jsonl   <span class="co"># must equal the passage count</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># The endpoints this feature adds do not exist yet</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> /api/areas /api/terms /api/areas/x/questions<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="bu">printf</span> <span class="st">&#39;%s -&gt; %s\n&#39;</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$(</span><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-o</span> /dev/null <span class="at">-w</span> <span class="st">&#39;%{http_code}&#39;</span> <span class="st">&quot;</span><span class="va">$WORKSHOP_BASE$p</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Export and diagram tooling — probe CAPABILITY, never just the name (contract V1)</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> pandoc weasyprint pdftotext mmdc tesseract<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="bu">printf</span> <span class="st">&#39;%-12s %s\n&#39;</span> <span class="st">&quot;</span><span class="va">$t</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">command</span> <span class="at">-v</span> <span class="st">&quot;</span><span class="va">$t</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="bu">echo</span> ABSENT<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p><strong>The last one is not a formality.</strong> Every one of those
+tools resolves into a <em>user-local</em> directory on this host, and
+this repository has already shipped a defect where a name on
+<code>PATH</code> was a symlink into an unrelated cache: the binary
+answered a version query happily and rejected the flag that mattered. A
+probe that tests for a name reports a tool that is not there.</p>
+<h2 id="validating-the-taxonomy-us1">1. Validating the taxonomy
+(US1)</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>How to measure it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SC-001</strong> — every published area and term has
+evidence</td>
+<td>Join the taxonomy to the mention set; count entries with zero
+mentions. Must be <strong>0</strong>. Then run <strong>G-KG-10</strong>:
+publish one area with its mentions removed and confirm the check goes
+red.</td>
+</tr>
+<tr>
+<td><strong>SC-002</strong> — extracted terms are genuine, not
+noise</td>
+<td>Draw ≥30 terms with a <strong>recorded seed</strong>, have a
+reviewer judge each, require ≥90%. Store the seed with the judgements so
+the sample is reproducible and the verdict is challengeable. A sample
+drawn after seeing the result is not a measurement.</td>
+</tr>
+<tr>
+<td><strong>SC-003</strong> — every passage is accounted for</td>
+<td>Assert
+<code>attached + classified_unattached == registry_count</code>,
+exactly. Then <strong>publish the attached proportion</strong>. Do
+<strong>not</strong> compare it to a threshold — none exists, and
+research U2 says why.</td>
+</tr>
+<tr>
+<td><strong>SC-004</strong> — extraction is idempotent</td>
+<td>Run twice over unchanged content; diff the taxonomy file
+byte-for-byte; assert <strong>0</strong> identifiers reassigned. Then
+<strong>G-KG-13</strong>: make one identifier depend on content and
+confirm red.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The judgement call to watch for</strong>: SC-003 is the
+criterion most likely to be quietly “improved” by lowering what counts
+as attached. The check is arithmetic — a total, not a ratio — precisely
+so that it cannot be satisfied by redefining the numerator.</p>
+<h2 id="validating-the-materials-us1">2. Validating the materials
+(US1)</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>How to measure it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SC-005</strong> — every area has all seven skeleton
+sections</td>
+<td>Heading-presence check across every area source document. Any
+missing section fails.</td>
+</tr>
+<tr>
+<td><strong>SC-006</strong> — every substantive claim is cited or marked
+editorial</td>
+<td>Parse each document into claims, resolve every citation, assert no
+claim is both unmarked and uncited.</td>
+</tr>
+<tr>
+<td><strong>SC-007</strong> — nothing is published without a review</td>
+<td>Enumerate published areas; assert each has a review <strong>newer
+than the materials it reviews</strong>. A stale review fails; it does
+not warn.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="validating-the-deep-links-us2-the-heart-of-the-feature">3.
+Validating the deep links (US2) — the heart of the feature</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>How to measure it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SC-008</strong> — every relationship is bidirectional</td>
+<td>Enumerate <strong>every</strong> relationship, traverse it in
+reverse through the platform’s own interface, count failures. Must be
+<strong>0</strong>. Not a sample — the whole set, because a one-way link
+is indistinguishable from a two-way one when read forward.</td>
+</tr>
+<tr>
+<td><strong>SC-009</strong> — media links land inside the cited
+span</td>
+<td>For every media-backed citation assert
+<code>t_start ≤ landed &lt; t_end</code>. <strong>Publish the precision
+split</strong> — how many resolved at word precision and how many at
+segment — alongside the pass rate. A 100% pass rate at segment precision
+and at word precision are different products.</td>
+</tr>
+<tr>
+<td><strong>SC-010</strong> — links survive correction and
+insertion</td>
+<td>Replay the identifier-survival experiment already measured for
+passages, extended to the five new identifier kinds. Compare the full
+link set before and after <strong>by hash</strong>.</td>
+</tr>
+<tr>
+<td><strong>SC-011</strong> — unresolvable links fail loudly</td>
+<td>Delete a target; assert a loud outcome. <strong>G-KG-8</strong>
+paired mutation: make the resolver re-point by nearest match; confirm
+red.</td>
+</tr>
+<tr>
+<td><strong>SC-012</strong> — redaction reaches everything</td>
+<td>Redact a passage; assert its text is absent from <strong>all
+eight</strong> propagation targets. <strong>G-KG-7</strong> paired
+mutation: skip exactly one target; confirm red.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How SC-009 goes wrong silently</strong>: a test that only
+asserts “landed inside the span” passes equally for a word-precise link
+and a link that jumped to the start of a twenty-second segment. The
+precision split is what distinguishes them, which is why it is published
+rather than summarised.</p>
+<h2 id="validating-search-us3">4. Validating search (US3)</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>How to measure it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SC-013</strong> — every kind is actually searchable</td>
+<td>For each kind, plant a known target and require a query to return
+it. <strong>Not a row count</strong> — a row count cannot distinguish a
+populated index from a populated table nobody queries, and the corpus
+already advertises one kind with zero entries.</td>
+</tr>
+<tr>
+<td><strong>SC-014</strong> — every hit carries a resolving locus</td>
+<td>Assert the property on <strong>every</strong> hit of the benchmark
+run. A hit without a resolving locus fails the run, not just that
+hit.</td>
+</tr>
+<tr>
+<td><strong>SC-015</strong> — retrieval quality over the new kinds</td>
+<td>A stored benchmark of ≥20 query-to-expected-identifier pairs; the
+gate prints <strong>per-query</strong> outcomes, not only the aggregate
+— an aggregate hides which queries fail, and which ones fail is the
+useful information.</td>
+</tr>
+<tr>
+<td><strong>SC-016 / SC-017</strong> — latency survives corpus
+growth</td>
+<td>Re-run the existing latency harness and <strong>publish the before
+and after together</strong>. A single after-figure cannot show a
+regression that stayed inside the threshold.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Also verify, though it is a contract rule rather than a
+criterion</strong>: the suggestion path still holds no embedder.
+Type-ahead must remain lexical; the structural guarantee is easy to lose
+by adding “just one” semantic lookup for the new kinds.</p>
+<h2
+id="validating-assessment-us4-where-the-workshop-exceeds-its-reference">5.
+Validating assessment (US4) — where the workshop exceeds its
+reference</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>How to measure it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SC-018</strong> — every served question has a resolving
+citation</td>
+<td>Enumerate every served question, resolve every citation, count
+failures. Must be <strong>0</strong>. Record the reference module’s
+measured value for the same property — <strong>0 of 785</strong> —
+beside it, so the comparison is measured rather than claimed.</td>
+</tr>
+<tr>
+<td><strong>SC-019</strong> — question-to-moment round trip</td>
+<td>Traverse from question to cited moment and back for every eligible
+question; if exhaustive traversal is impractical, sample ≥30 with a
+recorded seed <strong>and publish the population size</strong>.</td>
+</tr>
+<tr>
+<td><strong>SC-020</strong> — assembled answers are marked</td>
+<td>Schema assertion over the whole set. An unmarked assembled answer
+fails.</td>
+</tr>
+<tr>
+<td><strong>SC-017a</strong> — short and long differ by depth</td>
+<td>Assert both sets exist per area; assert every long-set question
+cites <strong>more than one distinct</strong> passage.</td>
+</tr>
+<tr>
+<td><strong>SC-017b</strong> — every lesson section is assessed</td>
+<td>Join sections to questions; count sections with zero. Must be
+<strong>0</strong>.</td>
+</tr>
+<tr>
+<td><strong>SC-017c</strong> — coverage is honest</td>
+<td>Emit the <strong>per-area</strong> table. <strong>G-KG-12</strong>
+paired mutation: replace it with a mean; confirm red.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="validating-the-surface-us5">6. Validating the surface (US5)</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>How to measure it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SC-021</strong> — accessibility and keyboard
+operability</td>
+<td>Automated audit per view, zero Level A/AA violations; plus a
+keyboard-only traversal that <strong>visits every deep-link
+affordance</strong> and asserts each can be reached, activated and
+returned from.</td>
+</tr>
+<tr>
+<td><strong>SC-022</strong> — styling resolves through tokens</td>
+<td>Run the design toolkit’s own token conformance check
+<strong>and</strong> a literal-value scan. Both are required: the first
+proves the tokens are valid, the second proves they are actually used.
+Either alone passes a stylesheet that defines perfect tokens and ignores
+them.</td>
+</tr>
+<tr>
+<td><strong>SC-023</strong> — nothing existing was lost</td>
+<td>Enumerate the four existing capabilities <strong>before</strong> the
+change; assert each is still reachable <strong>after</strong>. A
+before-and-after list, written down first — not a recollection.</td>
+</tr>
+<tr>
+<td><strong>SC-029b</strong> — interaction decisions are sourced</td>
+<td>Traceability check over the interaction inventory; an entry with no
+named research finding fails.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="validating-export-us6">7. Validating export (US6)</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>How to measure it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SC-024</strong> — four formats, complete</td>
+<td>File-existence matrix over every published area. <strong>The
+reference achieves 25 of 34</strong>; this criterion requires complete,
+and the comparison is stated so nobody later matches the reference and
+calls it done.</td>
+</tr>
+<tr>
+<td><strong>SC-025</strong> — exports are reproducible</td>
+<td>Re-export unchanged material; <strong>extract text and
+diff</strong>. Extraction rather than byte comparison, because embedded
+timestamps make byte equality unachievable for some formats — and a
+criterion nobody can meet is worse than none.</td>
+</tr>
+</tbody>
+</table>
+<h2
+id="validating-the-pipeline-us7-the-criterion-that-proves-repeatability">8.
+Validating the pipeline (US7) — the criterion that proves
+repeatability</h2>
+<p>This is the one that distinguishes a finished chapter from a finished
+feature.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>How to measure it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SC-015a</strong> — all six traversals exercised</td>
+<td>For each row of the connectivity matrix, pick <strong>every</strong>
+eligible origin and assert a result, or an explicit “none exists”. A row
+with <strong>zero exercised origins fails</strong> — an unexercised
+traversal is unmeasured, not passing.</td>
+</tr>
+<tr>
+<td><strong>SC-015b</strong> — nothing is keyed on time</td>
+<td>Inspect every stored relationship for its join key.
+<strong>G-KG-6</strong> paired mutation: introduce one time-keyed link;
+confirm red.</td>
+</tr>
+<tr>
+<td><strong>SC-015c</strong> — a new chapter needs no hand-assembly</td>
+<td>Run the documented procedure against a <strong>small synthetic
+chapter</strong>; assert every output exists; assert the diff contains
+<strong>no manually created structural file</strong> and <strong>no code
+change</strong>.</td>
+</tr>
+<tr>
+<td><strong>SC-015d</strong> — the taxonomy is updated, not rebuilt</td>
+<td>Capture the taxonomy before and after; assert <strong>0</strong>
+established identifiers changed; assert the contradiction report is
+non-empty when a contradiction was seeded.</td>
+</tr>
+<tr>
+<td><strong>SC-015e</strong> — incomplete never ships as complete</td>
+<td>Withhold one required input; assert the run names exactly what is
+missing and publishes nothing.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Use a synthetic chapter, not the real one.</strong>
+Re-running the real chapter tests idempotency, which is SC-004. It
+cannot test whether a <em>new</em> chapter works, because every
+identifier it needs already exists — the run would pass by matching,
+never by minting, and the minting path is exactly what a second chapter
+exercises.</p>
+<h2 id="validating-honesty-and-governance">9. Validating honesty and
+governance</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>How to measure it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SC-026</strong> — limits document names every open
+defect</td>
+<td>Cross-check recorded defects against the limits document; an unnamed
+defect fails. <strong>Paired mutation</strong>: remove one; confirm red.
+The two that must appear are the measured fabrication rate on
+unanswerable questions and the undefended
+topically-related-but-non-answering case.</td>
+</tr>
+<tr>
+<td><strong>SC-027</strong> — every check has a paired proof</td>
+<td>The check registry. Note it prints known debt on every run
+<strong>by design</strong> — a zero exit means every check is accounted
+for, <strong>not</strong> that every check has a paired proof. Read the
+debt rows.</td>
+</tr>
+<tr>
+<td><strong>SC-028</strong> — every check is three-valued</td>
+<td>Drive each into a could-not-determine condition — remove a
+dependency, make a service unreachable — and assert the
+<strong>third</strong> state, not either of the other two.</td>
+</tr>
+<tr>
+<td><strong>SC-029</strong> — no workshop content in public
+repositories</td>
+<td>The content-boundary check across the public surface, including this
+specification directory.</td>
+</tr>
+<tr>
+<td><strong>SC-029a</strong> — no reference content in the workshop</td>
+<td>The same check run in the <strong>opposite direction</strong>.
+<strong>G-KG-16</strong> paired mutation: scope it to outbound only;
+confirm red.</td>
+</tr>
+<tr>
+<td><strong>SC-030</strong> — no server-side CI anywhere</td>
+<td>The existing fleet-wide gate.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-eighteen-gates-and-their-proofs">10. The eighteen gates and
+their proofs</h2>
+<p>Every gate in <a
+href="./contracts/knowledge-graph.md"><code>contracts/knowledge-graph.md</code></a>
+§8 owes a paired mutation that turns it red. They are
+<strong>owed</strong>, not assumed — listed here so that a missing one
+is visible rather than discovered.</p>
+<pre><code>G-KG-1  route manifest completeness          G-KG-10 unevidenced entity never served
+G-KG-2  unprovenanced question withheld      G-KG-11 advertised kind actually retrievable
+G-KG-3  long-set citation breadth            G-KG-12 coverage per area, never a mean
+G-KG-4  precision declared                   G-KG-13 idempotency: zero mints on re-run
+G-KG-5  offsets populated or field absent    G-KG-14 contradiction reported, not merged
+G-KG-6  no time-keyed relationship           G-KG-15 unjoined fraction measured
+G-KG-7  redaction reaches all eight targets  G-KG-16 content boundary, BOTH directions
+G-KG-8  unresolvable link fails loudly       G-KG-17 synthetic chapter, no hand-assembly
+G-KG-9  export unavailable ⇒ state 2         G-KG-18 incomplete names what is missing</code></pre>
+<p><strong>Every proof must include a case that runs the real entry
+point against the real tree.</strong> This repository has twice shipped
+a proof that could not fail: one whose control step failed so zero
+mutations were ever reached, and one that exercised only sandboxed
+copies while the real entry point could not start. Both reported
+green.</p>
+<h2 id="what-this-feature-will-not-be-able-to-claim">11. What this
+feature will not be able to claim</h2>
+<p>Stated here so it is not discovered during a review.</p>
+<ul>
+<li><strong>Answering is not fixed by this feature.</strong> The
+measured fabrication rate on unanswerable questions stands, and the
+topically-related-but-non-answering case remains undefended unless the
+third clarification is resolved towards closing it. Retrieval over the
+new kinds is safe because it refuses rather than generates; generation
+about the new kinds is gated.</li>
+<li><strong>Word precision is available, not uniform.</strong> 17.4% of
+words fall below the recorded confidence threshold and 0.48% of words
+join to no segment at all. Every mention states which precision it used;
+none claims more.</li>
+<li><strong>No coverage threshold is asserted.</strong> SC-003 and
+SC-017c publish measured figures with no target. Extraction has since
+measured chapter 01 at <strong>83.79% of transcript passages</strong>
+and <strong>91.54% of words</strong> covered — and that is a
+<em>measurement</em>, not a bar the next chapter must clear. The moment
+a measured figure becomes a target it starts being optimised toward,
+which is why the criterion requires publication rather than a
+threshold.</li>
+<li><strong>No area count is promised.</strong> Extraction has since
+produced <strong>7 tracks, 37 modules and 137 terms</strong> for chapter
+01 (research U3, settled). That 37 sits near the reference’s 34 is a
+coincidence of magnitude and <strong>must not be cited as
+parity</strong> — one is an interview-preparation corpus, the other an
+extraction from a single working session, and they are not comparable
+quantities. No count was aimed at, and matching the reference’s would
+have meant inventing coverage.</li>
+<li><strong>Prose generation cannot run on this host.</strong> There is
+no generative model here. Two of the three authorship options work
+today; the third needs an operator action first.</li>
+</ul>
+</body>
+</html>

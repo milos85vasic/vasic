@@ -94,8 +94,8 @@ ffprobe -v error -show_format \
 **Observed on this host (2026-09-01):**
 
 ```
-/home/milosvasic/bin/ffprobe
-/home/milosvasic/.cache/ms-playwright/ffmpeg-1011/ffmpeg-linux
+<home>/bin/ffprobe
+<home>/.cache/ms-playwright/ffmpeg-1011/ffmpeg-linux
 Unrecognized option 'show_format'.
 Error splitting the argument list: Option not found
 rc=8
@@ -132,8 +132,8 @@ esac
 **Observed on this host (2026-09-01):**
 
 ```
-/home/milosvasic/bin/ffmpeg
-/home/milosvasic/.cache/ms-playwright/ffmpeg-1011/ffmpeg-linux
+<home>/bin/ffmpeg
+<home>/.cache/ms-playwright/ffmpeg-1011/ffmpeg-linux
 ffmpeg version 7.0.2-static https://johnvansickle.com/ffmpeg/ ...
 FAIL: ffmpeg resolves into an npx-managed Playwright cache
 ```

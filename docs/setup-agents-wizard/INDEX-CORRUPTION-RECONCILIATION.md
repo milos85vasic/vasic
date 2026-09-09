@@ -4,10 +4,10 @@
 `OLLAMA-NAN-WEDGE.md` (Report B) infers it is contaminated. Which holds?
 
 **Database:** `~/.local/share/lumen/21bf1507a8925bcf/index.db` (118,620,160 bytes)
-**Project:** `/run/media/milosvasic/DATA4TB/Projects/vasic`
+**Project:** `<ext-volume-host>/Projects/vasic`
 **Investigated:** 2026-08-27, 01:40–02:25 (+02:00)
 **Method:** read-only. Every connection opened as
-`sqlite3.connect("file:/home/milosvasic/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro", uri=True)`
+`sqlite3.connect("file:<home>/.local/share/lumen/21bf1507a8925bcf/index.db?mode=ro", uri=True)`
 with `PRAGMA busy_timeout=300000`. No write was issued, no `lumen` subcommand was run, and
 **the ollama embedding API was never called** — a live `lumen index` (PID 2999211) was running
 throughout and a large probe could have wedged the backend it depends on.
@@ -557,7 +557,7 @@ All read-only. Chunk-size reconstruction:
 
 ```python
 import sqlite3, os
-con = sqlite3.connect("file:/home/milosvasic/.local/share/lumen/"
+con = sqlite3.connect("file:<home>/.local/share/lumen/"
                       "21bf1507a8925bcf/index.db?mode=ro", uri=True, timeout=300)
 con.execute("PRAGMA busy_timeout=300000")
 rows = con.execute("""SELECT r.rowid, c.file_path, c.symbol, c.start_line, c.end_line

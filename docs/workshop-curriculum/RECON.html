@@ -1,0 +1,3078 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>RECON</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">RECON</h1>
+</header>
+<h1 id="workshop-curriculum-reconnaissance-report">Workshop Curriculum —
+Reconnaissance Report</h1>
+<p><strong>Purpose.</strong> Input for a SpecKit <code>specify</code>
+phase. This document records <strong>what already exists</strong> in
+this repository so the specification is built on measured reality rather
+than assumption. It contains no design and no recommendations that are
+not clearly labelled as such.</p>
+<p><strong>Date of survey:</strong> 2026-08-31 <strong>Repository
+root:</strong> <code>&lt;ext-volume-host&gt;/Projects/vasic</code>
+<strong>Repository HEAD at survey time:</strong> <code>708c8b1</code>
+(branch <code>main</code>) <strong>Mode:</strong> read-only
+reconnaissance. Nothing outside this file was created or modified.</p>
+<h2 id="how-to-read-this-document-and-what-verified-means">§0 · How to
+read this document, and what “verified” means</h2>
+<p>Per Constitution §11.4.6, every statement below is one of three
+kinds, and they are never mixed:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Marker</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>(unmarked)</em></td>
+<td><strong>Measured.</strong> Produced by a command listed in <a
+href="#7--command-log">§7 Command log</a>. The command that produced it
+is named inline or in §7.</td>
+</tr>
+<tr>
+<td><strong>UNVERIFIED</strong></td>
+<td>Could not be established in this session. The reason is always
+given.</td>
+</tr>
+<tr>
+<td><em>(labelled “prose only”)</em></td>
+<td>Present in this tree <strong>as documentation</strong>, with
+<strong>no backing implementation here</strong>. This distinction is
+load-bearing for §3.</td>
+</tr>
+</tbody>
+</table>
+<p>Three constraints applied to this survey and shaped what could be
+measured:</p>
+<ol type="1">
+<li>A <code>lumen index --force</code> rebuild (PID 897646) and a
+constitution gate sweep were running. No indexing, no
+<code>ollama</code> restart, no heavy build was performed.</li>
+<li>Another agent was concurrently editing <code>helix-deps.yaml</code>,
+<code>scripts/verify-governance-cascade.sh</code> and
+<code>scripts/setup-agents-wizard.sh</code>, and adding governance
+carriers to <code>workshop/</code>. Those files were read, never
+written.</li>
+<li><strong>The <code>ai_interviewing</code> platform was not
+started.</strong> Its code, schema, scripts and test banks were read in
+full; its <em>runtime</em> behaviour is therefore <strong>UNVERIFIED by
+this survey</strong>. <code>curl http://localhost:8099/api/health</code>
+returned nothing (connection refused);
+<code>platform/run/server.json</code> is a stale artefact naming pid
+<code>49211</code>, which is not alive. Every runtime claim below is
+attributed to the code or to <code>platform/README.md</code>, never
+asserted as observed.</li>
+</ol>
+<hr />
+<h2 id="workshop-exhaustive-inventory">§1 · <code>workshop/</code> —
+exhaustive inventory</h2>
+<p><code>workshop/</code> is a git submodule declared in
+<code>.gitmodules</code>:</p>
+<pre><code>[submodule &quot;workshop&quot;]
+    path = workshop
+    url = git@github.com:milos85vasic/workshop_curriculum.git</code></pre>
+<p>Gitlink at superproject HEAD:
+<code>ff59fca320efd839c9322bcf6f683ccb74754da8</code> (heads/main,
+working tree clean). <code>workshop/.git</code> is a gitfile pointing at
+<code>../.git/modules/workshop</code>.</p>
+<h3 id="directory-tree-complete-every-path">1.1 Directory tree (complete
+— every path)</h3>
+<pre><code>workshop/
+├── .gitignore
+├── README.md
+├── chapters/
+│   └── 01/
+│       ├── Milos teaching … AI workflows - 2026_08_27 09_57 CEST - Notes by Gemini.PDF
+│       ├── Milos teaching … AI workflows - 2026_08_27 09_57 CEST - Recording.mp4
+│       ├── Milos teaching … AI workflows - 2026_08_27 09_57 CEST - Recording.mp4.sha256
+│       └── Milos teaching … AI workflows - 2026_08_27 09_57 CEST - Recording.mp4.tar.gz.part-000 … part-035
+├── docs/
+│   └── superpowers/
+│       └── specs/
+│           └── 2026-08-28-video-archive-pipeline-design.md
+├── scripts/
+│   ├── archive-videos.sh
+│   ├── extract-videos.sh
+│   ├── install-hooks.sh
+│   ├── self-test.sh
+│   └── git-hooks/
+│       ├── post-checkout
+│       └── post-commit
+└── upstreams/
+    └── GitHub.sh</code></pre>
+<blockquote>
+<p><strong>Redaction.</strong> The <code>…</code> inside the four
+<code>chapters/01/</code> filenames is a <strong>deliberate elision of a
+third party’s first name</strong>, not a truncated path. It is the only
+character removed from those four names; everything else — the subject,
+the date, the time, the zone and every extension — is verbatim. The
+recording is addressable without it: <code>workshop/chapters/01/</code>
+holds exactly one <code>*Recording.mp4</code>, and a passage inside it
+is addressed by chapter slug plus <code>pid</code>. See <a
+href="../content-boundary-incident-2026-09-01.md"><code>docs/content-boundary-incident-2026-09-01.md</code></a>
+§11.</p>
+</blockquote>
+<p>There are <strong>no</strong> governance carriers
+(<code>CLAUDE.md</code> / <code>AGENTS.md</code> / <code>QWEN.md</code>
+/ <code>GEMINI.md</code>), <strong>no</strong>
+<code>helix-deps.yaml</code>, <strong>no</strong>
+<code>Containerfile</code>/<code>Dockerfile</code>/compose file,
+<strong>no</strong> source code, <strong>no</strong> curriculum content
+of any kind. This state is <strong>in flux</strong> — another agent was
+adding carriers during this survey (<code>CONTINUATION.md</code> records
+G7 as “20 of 24 … <code>workshop/</code> onboarding in flight”).</p>
+<h3 id="file-counts-and-sizes-counted-items-not-line-counts">1.2 File
+counts and sizes (counted items, not line counts)</h3>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 28%" />
+<col style="width: 28%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Location</th>
+<th style="text-align: right;">Items</th>
+<th style="text-align: right;">Bytes on disk</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>workshop/</code> total working tree</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">3.5 G (<code>du -sh</code>)</td>
+<td>includes the extracted <code>.mp4</code></td>
+</tr>
+<tr>
+<td><code>.git/modules/workshop</code></td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">1.8 G</td>
+<td>history holds the 36 archive parts</td>
+</tr>
+<tr>
+<td>Files tracked by git (<code>git ls-files</code>)</td>
+<td style="text-align: right;"><strong>48</strong></td>
+<td style="text-align: right;">—</td>
+<td>the <code>.mp4</code> is <strong>not</strong> among them</td>
+</tr>
+<tr>
+<td><code>chapters/</code></td>
+<td style="text-align: right;">1 dir (<code>01/</code>), 39 files</td>
+<td style="text-align: right;">3.5 G</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>chapters/01/</code> — video (git-ignored)</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1,871,981,557</td>
+<td><code>*.mp4</code> is in <code>.gitignore</code></td>
+</tr>
+<tr>
+<td><code>chapters/01/</code> — archive parts (tracked)</td>
+<td style="text-align: right;"><strong>36</strong></td>
+<td style="text-align: right;">1,870,454,585</td>
+<td>35 × 52,428,800 + 1 × 35,446,585</td>
+</tr>
+<tr>
+<td><code>chapters/01/</code> — manifest (tracked)</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5,811</td>
+<td><code>*.mp4.sha256</code></td>
+</tr>
+<tr>
+<td><code>chapters/01/</code> — PDF (tracked)</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">417,800</td>
+<td>Gemini meeting notes</td>
+</tr>
+<tr>
+<td><code>docs/</code></td>
+<td style="text-align: right;">1 file</td>
+<td style="text-align: right;">4.0 K</td>
+<td>one design spec</td>
+</tr>
+<tr>
+<td><code>scripts/</code></td>
+<td style="text-align: right;">6 files</td>
+<td style="text-align: right;">28 K</td>
+<td>4 <code>.sh</code> + 2 git hooks</td>
+</tr>
+<tr>
+<td><code>upstreams/</code></td>
+<td style="text-align: right;">1 file</td>
+<td style="text-align: right;">4.0 K</td>
+<td><code>GitHub.sh</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-chapters-actually-contains">1.3 What <code>chapters/</code>
+actually contains</h3>
+<p><strong>Exactly one chapter — <code>01</code>.</strong> No
+<code>02</code>. No manifest, index, ordering file, metadata file, or
+naming convention beyond the two-digit directory name.</p>
+<p><strong>The video</strong> (measured with <code>ffprobe</code>):</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Container</td>
+<td><code>mov,mp4,m4a,3gp,3g2,mj2</code>,
+<code>major_brand: isom</code>, <code>encoder: Google</code></td>
+</tr>
+<tr>
+<td>Duration</td>
+<td><strong>01:55:28.75</strong> (6,928.75 s)</td>
+</tr>
+<tr>
+<td>Overall bitrate</td>
+<td>2,161 kb/s</td>
+</tr>
+<tr>
+<td>Video stream</td>
+<td>h264 (High), yuv420p, <strong>1920×1080</strong>, 2,029 kb/s,
+<strong>24 fps</strong></td>
+</tr>
+<tr>
+<td>Audio stream</td>
+<td><strong>AAC-LC, 48 000 Hz, stereo, 128 kb/s</strong></td>
+</tr>
+<tr>
+<td>Size</td>
+<td>1,871,981,557 bytes</td>
+</tr>
+<tr>
+<td>SHA-256 (from manifest)</td>
+<td><code>345a74398a440e2df3a8cacf8422e7712c3e5bab19147594811b44787dbed03f</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The PDF</strong> is <code>Notes by Gemini</code> — 8 pages,
+letter, produced 2026-08-27 19:33 CEST by <code>Skia/PDF m150</code>
+from a Yandex-Browser-on-Android print. <code>pdftotext -layout</code>
+yields <strong>3,044 words / 23,656 characters</strong>.</p>
+<blockquote>
+<p><strong>This is a summary, not a transcript.</strong> Its structure
+is Gemini’s meeting-notes format: a <code>✍️ Quick notes</code> section
+of thematic bullets grouped under <strong>six topic headings</strong>, a
+<code>Next steps</code> action list attributed to named participants,
+and a <code>Full notes</code> section of paragraph-length narrative
+bullets. There are <strong>no timestamps</strong>, <strong>no
+speaker-turn boundaries</strong>, and <strong>no verbatim
+utterances</strong> anywhere in the file. A 3,044-word summary of a
+115-minute conversation is roughly 26 words per minute; ordinary speech
+is 130–160 wpm. <strong>No verbatim transcript of chapter 1 exists in
+this repository.</strong></p>
+<p><strong>The six heading strings are not reproduced here.</strong>
+They are private content; see the content boundary note below. Read them
+from the source if you need them.</p>
+</blockquote>
+<p>Content signal relevant to the spec, <strong>described rather than
+quoted</strong> (see the content boundary note below). The notes
+identify two participants — the operator, and a third party whose full
+name is private content and is deliberately not written into this
+repository. They record a short list of assigned actions. In substance:
+the operator is the one who put forward the idea of turning the session
+recordings into an interactive curriculum that links references together
+and closes gaps in coverage; the intended end state is a canonical,
+maintainable body of knowledge with conversational access layered over
+it; and putting that material, together with the recordings, somewhere
+web-browsable is one of the assigned actions. The notes further confirm
+— again by description, not by quotation — that the tooling catalogued
+in §3 below is already in the operator’s daily working set: semantic
+code indexing, the spec-driven planning extension, the operator’s own QA
+harness, and local <code>llama.cpp</code> inference fronted by an
+OpenAI/Anthropic-compatible proxy.</p>
+<blockquote>
+<h3 id="content-boundary-read-before-adding-to-this-section">Content
+boundary — read before adding to this section</h3>
+<p>The source of everything in §1.3 is
+<code>workshop/chapters/01/… - Notes by Gemini.PDF</code>, inside the
+<strong>private</strong> <code>workshop</code> submodule. <strong>This
+repository is public.</strong> Three classes of material from that file
+must never appear here, in this document or any other: <strong>verbatim
+text</strong>, the <strong>section-heading list</strong>, and the
+<strong>third party’s name</strong>. Describe; do not reproduce.
+<code>bash scripts/verify-content-boundary.sh</code> enforces this. An
+earlier revision of this document violated all three — recorded, with
+the residual exposure, in <a
+href="../content-boundary-incident-2026-09-01.md"><code>docs/content-boundary-incident-2026-09-01.md</code></a>.</p>
+</blockquote>
+<h3 id="scripts-what-they-actually-do">1.4 <code>scripts/</code> — what
+they actually do</h3>
+<p><strong>None of these scripts build, run, serve, or containerize
+anything.</strong> All four exist solely to keep a multi-gigabyte video
+inside a git repository that rejects &gt;100 MB blobs. Every one is
+<code>set -euo pipefail</code> and carries a documented header block
+(§11.4.18-shaped).</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Script</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>archive-videos.sh [root] [--delete-source]</code></td>
+<td>Finds <code>*.{mp4,mov,mkv,webm,m4v,avi}</code> under root,
+<code>tar -czf - \| split -b $PART_SIZE</code> (default
+<code>50m</code>) into a temp dir, hashes each part and the reassembled
+stream, verifies the stream with <code>tar -tzf</code>, writes a
+<code>*.sha256</code> manifest, moves parts into place. Idempotent:
+re-runs print <code>skip (already archived)</code> when the video hash
+and every part hash still match.</td>
+</tr>
+<tr>
+<td><code>extract-videos.sh [root]</code></td>
+<td>For every <code>*.sha256</code>, verifies each part hash → the
+concatenated stream hash → extracts → verifies the extracted video hash.
+Three verification levels. Never deletes archives. Idempotent
+(<code>skip (intact)</code>).</td>
+</tr>
+<tr>
+<td><code>install-hooks.sh</code></td>
+<td>Symlinks <code>scripts/git-hooks/{post-commit,post-checkout}</code>
+into the resolved hooks dir. Gitfile-aware (reads <code>gitdir:</code>
+out of <code>.git</code> when it is a file).</td>
+</tr>
+<tr>
+<td><code>self-test.sh</code></td>
+<td>End-to-end proof: writes 8 MiB of <code>/dev/urandom</code> as a
+fake video, archives at <code>PART_SIZE=4m</code>, asserts the manifest
+hash, asserts archive idempotency, moves the source away, extracts,
+compares hashes, asserts extract idempotency, then <strong>corrupts a
+part and asserts the extractor rejects it</strong>. Exits non-zero on
+any failure.</td>
+</tr>
+<tr>
+<td><code>git-hooks/post-commit</code></td>
+<td><code>exec scripts/archive-videos.sh $ROOT</code></td>
+</tr>
+<tr>
+<td><code>git-hooks/post-checkout</code></td>
+<td><code>exec scripts/extract-videos.sh $ROOT</code> (also fires on
+clone)</td>
+</tr>
+</tbody>
+</table>
+<p><code>self-test.sh</code> is a genuine
+<strong>mutation-paired</strong> check in the §1.1 sense: the corruption
+case proves the verifier can FAIL. It is the only test in the
+submodule.</p>
+<p><strong>Manifest format</strong>
+(<code># video-archive-manifest v1</code>), as found on disk:</p>
+<pre><code># video-archive-manifest v1
+video_sha256=345a743…d03f
+video_size=1871981557
+archive_sha256=67ee3b7…3bf714
+part_size=50m
+&lt;sha256&gt;  &lt;part filename&gt;      ← one line per part
+…
+parts=36</code></pre>
+<h3 id="docs-and-upstreams">1.5 <code>docs/</code> and
+<code>upstreams/</code></h3>
+<p><code>docs/superpowers/specs/2026-08-28-video-archive-pipeline-design.md</code>
+is the design record for §1.4 — goal, layout, manifest format, decisions
+(tar+split, 50 MB parts “GitHub’s recommended ceiling”, SHA-256,
+git-hook triggers), error handling, and an explicit <strong>Out of
+scope</strong> section: <em>“PDFs and other chapter files are
+untouched”</em> and <em>“Nothing is committed or pushed by the
+scripts.”</em></p>
+<p><code>upstreams/GitHub.sh</code> is one line:
+<code>export UPSTREAMABLE_REPOSITORY="git@github.com:milos85vasic/workshop_curriculum.git"</code>
+— the §11.4.36 upstream-recipe convention. There is exactly one
+upstream.</p>
+<h3 id="readme.md-stated-purpose">1.6 <code>README.md</code> — stated
+purpose</h3>
+<p>The entire file is:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># The Workshop Curriculum</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>Tbd.</span></code></pre></div>
+<p><strong>There is no stated purpose.</strong> The submodule’s own
+commit history is six commits (<code>286e011</code> Initial commit →
+<code>ae4be7f</code> “Revise README title and add placeholder text” →
+<code>66248e1</code>/<code>960b0f9</code> the archive pipeline → two
+<code>Auto-commit</code>s). The only articulated intent for this
+submodule anywhere in the tree is the Gemini notes quoted in §1.3 and
+the operator’s brief that prompted this survey.</p>
+<hr />
+<h2 id="ai_interviewing-the-reference-implementation">§2 ·
+<code>ai_interviewing/</code> — the reference implementation</h2>
+<p>This is the module the operator named as the structural model. It is
+a git submodule
+(<code>git@github.com:milos85vasic/ai_interviewing.git</code>, gitlink
+<code>ed73d855</code>, clean) with <strong>915 tracked files</strong>.
+Its <code>docs/</code> tree is 206 MB.</p>
+<p>Two things must be separated up front, because the operator’s brief
+conflates them:</p>
+<ul>
+<li><strong><code>ai_interviewing/</code> the corpus</strong> — Markdown
+source + Mermaid diagrams + a four-format export pipeline. This is the
+<em>content</em> layer.</li>
+<li><strong><code>ai_interviewing/platform/</code> the app</strong> — a
+Go backend + Angular SPA that ingests that corpus into SQLite and serves
+it as a browsable, drillable curriculum. This is the <em>delivery</em>
+layer.</li>
+</ul>
+<p>The workshop needs both, and they are cleanly decoupled: the
+platform’s only input contract is “a directory of numbered Markdown
+files with <code>diagrams/*.png</code> beside them”.</p>
+<h3 id="curriculum-structure-on-disk">2.1 Curriculum structure on
+disk</h3>
+<pre><code>ai_interviewing/
+├── README.md / .html / .pdf / .docx        ← the corpus index, four formats
+├── AGENTS.md  CLAUDE.md  GEMINI.md  QWEN.md ← the four governance carriers
+├── assets/theme.css                         ← export theme
+├── scripts/                                 ← the CONTENT pipeline (§2.4)
+├── upstreams/GitHub.sh
+├── docs/
+│   ├── README.md
+│   ├── interview-preparation/
+│   │   ├── 00-Overview-and-Taxonomy.md
+│   │   ├── areas/NN-slug.md                 ← 34 files
+│   │   └── (areas/)diagrams/*.mmd|png|svg
+│   ├── company-research/NN-slug.md          ← 5 files
+│   ├── project-deep-dives/NN-slug.md        ← 37 files
+│   ├── improvement-plans/NN-slug.md         ← 37 files
+│   ├── validation-plans/NN-slug.md          ← 37 files
+│   └── */diagrams/
+└── platform/                                ← the DELIVERY layer (§2.2–§2.6)</code></pre>
+<p>Measured file counts under <code>docs/</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Extension</th>
+<th style="text-align: right;">Count</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.md</code></td>
+<td style="text-align: right;"><strong>156</strong></td>
+<td>source of truth (150 numbered + 6 <code>README.md</code>)</td>
+</tr>
+<tr>
+<td><code>.mmd</code></td>
+<td style="text-align: right;"><strong>159</strong></td>
+<td>Mermaid diagram sources</td>
+</tr>
+<tr>
+<td><code>.png</code></td>
+<td style="text-align: right;"><strong>159</strong></td>
+<td>rendered diagrams (1:1 with <code>.mmd</code>)</td>
+</tr>
+<tr>
+<td><code>.svg</code></td>
+<td style="text-align: right;">101</td>
+<td>bonus vector renders (not 1:1 — see §2.4)</td>
+</tr>
+<tr>
+<td><code>.html</code></td>
+<td style="text-align: right;">67</td>
+<td>export</td>
+</tr>
+<tr>
+<td><code>.pdf</code></td>
+<td style="text-align: right;">68</td>
+<td>export (67 + the root <code>README.pdf</code>)</td>
+</tr>
+<tr>
+<td><code>.docx</code></td>
+<td style="text-align: right;">67</td>
+<td>export</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The naming/manifest convention that makes it browsable is a
+filename convention, not a manifest.</strong> There is no
+<code>index.json</code>, no front-matter, no TOC file. Everything is
+derived:</p>
+<ul>
+<li><code>^(\d+)-(.+)\.md$</code> — the leading number is the
+<strong>ordinal</strong>, the remainder is the <strong>slug</strong>
+(<code>ingest.go:reFile</code>). Files that do not match get ordinal
+<code>999</code>.</li>
+<li><code>README.md</code> in any content directory is
+<strong>skipped</strong> — treated as navigation, not a learning module
+(<code>ingest.go:collectDocs</code>).</li>
+<li>The first <code>^#</code> heading becomes the <strong>module
+title</strong>; the first paragraph becomes the
+<strong>summary</strong>; <code>wordCount/200 + 1</code> becomes
+<strong>read minutes</strong>.</li>
+<li><code>^##</code> sections become <strong>lessons</strong>, in
+document order.</li>
+<li><code>^#### (Q\d+)\. (.+)$</code> items become
+<strong>flashcards</strong> (prompt = the Q line, answer = the body that
+follows).</li>
+<li><code>](diagrams/…)</code> links are rewritten to
+<code>/api/assets/&lt;module-slug&gt;__&lt;file&gt;</code> and the PNG
+is copied into the served assets dir.</li>
+<li><strong>Cross-file joins are by basename.</strong> A module built
+from <code>project-deep-dives/17-helixllm.md</code> automatically
+acquires the <em>improvement plan</em> at
+<code>improvement-plans/17-helixllm.md</code> and the <em>validation
+plan</em> at <code>validation-plans/17-helixllm.md</code>. This is the
+entire mechanism for attaching parallel document kinds to a module —
+worth copying, because it is how a workshop chapter would attach a
+transcript, a code walkthrough, and an exercise set.</li>
+<li>Authored question banks join by <strong>track + ordinal</strong>:
+<code>platform/content/mcq/&lt;track-slug&gt;-&lt;NN&gt;.json</code> and
+<code>platform/content/short/&lt;track-slug&gt;-&lt;NN&gt;.json</code> —
+<strong>34 files each</strong>, one per area.</li>
+</ul>
+<p>Tracks are <strong>hardcoded in Go</strong>, not discovered
+(<code>ingest.go</code>, <code>Run()</code>): three literals
+(<code>interview-preparation</code>, <code>employer-dossier</code>,
+<code>project-deep-dives</code>) each with a slug, title, subtitle,
+Material-icon name, and source directory. Domain grouping is also
+hardcoded, as a <code>switch</code> on the ordinal
+(<code>domainForArea</code>). <strong>Adding a track today requires
+editing and rebuilding Go.</strong> This is the single largest
+structural obstacle to “extensible by a repeatable prompt”.</p>
+<p><code>platform/README.md</code> states the published totals: 3
+tracks, 77 modules, 435 lessons, ~1,700 flashcards, ~473 short-answer,
+~302 MCQ, 37 + 37 plans, curriculum <code>ai-curriculum</code>
+v<code>1.0.0</code>. <strong>UNVERIFIED by this survey</strong> — the DB
+was not opened and the server was not started; these are the module’s
+own claims.</p>
+<h3 id="container-story-there-is-none">2.2 Container story —
+<strong>there is none</strong></h3>
+<p>This is the most important negative finding in §2.</p>
+<pre><code>$ find . -iname &#39;Dockerfile*&#39; -o -iname &#39;*compose*.y*ml&#39; -o -iname &#39;Containerfile*&#39;
+./_tools/helixtranslate-container/Containerfile
+./_tools/helixtranslate-container/Containerfile.translator
+./submodules/constitution/scripts/sonarqube/compose/docker-compose.sonarqube.yml</code></pre>
+<p><strong>Zero of those are in <code>ai_interviewing/</code>.</strong>
+The reference implementation ships <strong>no Dockerfile, no
+Containerfile, no compose file, and no container script.</strong> It
+runs as native host processes.</p>
+<p>What it ships instead is a <strong>six-script bash control
+plane</strong> in <code>platform/scripts/</code>, sourcing a shared
+<code>_common.sh</code>. The operator’s “runnable via containers with
+mandatory bash scripts” requirement gets the <em>bash scripts</em> half
+for free and the <em>containers</em> half not at all.</p>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th>Script</th>
+<th style="text-align: right;">Lines</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>_common.sh</code></td>
+<td style="text-align: right;">46</td>
+<td>Exports every path and address;
+<code>mkdir -p bin logs run data</code>; helpers
+<code>json_field</code>, <code>server_http_url</code>,
+<code>server_pid</code>. No <code>jq</code> dependency — a
+<code>sed</code> one-liner reads the state file.</td>
+</tr>
+<tr>
+<td><code>build.sh</code></td>
+<td style="text-align: right;">14</td>
+<td><code>go build -o bin/aicur ./cmd/server</code>; then, <strong>only
+if <code>frontend/package.json</code> exists</strong>,
+<code>npm ci \|\| npm install</code> +
+<code>npx ng build --configuration production</code>. Degrades to an
+API-only build otherwise.</td>
+</tr>
+<tr>
+<td><code>start.sh</code></td>
+<td style="text-align: right;">51</td>
+<td>Idempotent (<code>already running (pid N)</code> + exit 0). Clears
+stale pid/state files. Builds if <code>bin/aicur</code> is missing.
+<code>nohup</code> with 11 explicit flags. Then health-polls:
+<strong>fails immediately if the process dies</strong>, otherwise waits
+up to <code>HEALTH_TIMEOUT</code> (120 s, because a cold start
+re-ingests the corpus in ~20 s), printing “still starting (ingesting
+corpus)” at t=10.</td>
+</tr>
+<tr>
+<td><code>stop.sh</code></td>
+<td style="text-align: right;">27</td>
+<td>SIGTERM → poll 20 × 0.5 s → SIGKILL with an explanatory message.
+Cleans pid + state files.</td>
+</tr>
+<tr>
+<td><code>status.sh</code></td>
+<td style="text-align: right;">24</td>
+<td><code>RUNNING (pid N)</code> / <code>STOPPED</code>, the
+<strong>actually bound</strong> URLs, and a live
+<code>/api/health</code> fetch. Names a stale pidfile explicitly.</td>
+</tr>
+<tr>
+<td><code>restart.sh</code></td>
+<td style="text-align: right;">5</td>
+<td><code>stop.sh</code>; <code>sleep 1</code>;
+<code>exec start.sh</code></td>
+</tr>
+<tr>
+<td><code>ingest.sh</code></td>
+<td style="text-align: right;">5</td>
+<td><code>bin/aicur -ingest-only …</code> — rebuild the DB without
+serving.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ports, addresses and volumes</strong> (defaults from
+<code>_common.sh</code> + <code>main.go</code>):</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Thing</th>
+<th>Default</th>
+<th>Override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plain HTTP</td>
+<td><code>:8099</code></td>
+<td><code>AICUR_HTTP</code>, flag <code>-http</code></td>
+</tr>
+<tr>
+<td>HTTPS + HTTP/3</td>
+<td><code>:8443</code></td>
+<td><code>AICUR_HTTPS</code>, flag <code>-https</code></td>
+</tr>
+<tr>
+<td>Port fallback</td>
+<td>walk forward 20 ports if busy</td>
+<td><code>AICUR_PORT_FALLBACK</code>, <code>-port-fallback</code></td>
+</tr>
+<tr>
+<td>Health timeout</td>
+<td>120 s</td>
+<td><code>AICUR_HEALTH_TIMEOUT</code></td>
+</tr>
+<tr>
+<td>SQLite DB</td>
+<td><code>platform/data/curriculum.db</code></td>
+<td><code>-db</code></td>
+</tr>
+<tr>
+<td>Served diagram assets</td>
+<td><code>platform/data/assets/</code> (<strong>158 PNGs</strong>
+present)</td>
+<td><code>-assets</code></td>
+</tr>
+<tr>
+<td>TLS certs (self-signed, generated)</td>
+<td><code>platform/data/certs/</code></td>
+<td><code>-certs</code></td>
+</tr>
+<tr>
+<td>Angular build</td>
+<td><code>platform/frontend/dist/ai-curriculum/browser</code></td>
+<td><code>-web</code></td>
+</tr>
+<tr>
+<td>Corpus input</td>
+<td><code>../docs</code></td>
+<td><code>-docs</code></td>
+</tr>
+<tr>
+<td>Question banks</td>
+<td><code>../content/{mcq,short}</code></td>
+<td><code>-mcq</code>, <code>-short</code></td>
+</tr>
+<tr>
+<td>Plan inputs</td>
+<td><code>../../docs/{improvement,validation}-plans</code></td>
+<td><code>-plans</code>, <code>-validation</code></td>
+</tr>
+<tr>
+<td>PID / state / log</td>
+<td><code>run/server.pid</code>, <code>run/server.json</code>,
+<code>logs/server.log</code></td>
+<td><code>-state</code></td>
+</tr>
+</tbody>
+</table>
+<p>Two design points worth carrying forward verbatim:</p>
+<ul>
+<li><strong>The server publishes the address it actually bound</strong>
+to <code>run/server.json</code>, and the scripts health-check
+<em>that</em>, not the address they requested. This is what makes the
+port-fallback safe.</li>
+<li>Everything generated is git-ignored
+(<code>platform/.gitignore</code>: <code>frontend/node_modules/</code>,
+<code>frontend/dist/</code>, <code>frontend/.angular/</code>,
+<code>qa/e2e/node_modules/</code>, <code>bin/</code>,
+<code>data/curriculum.db*</code>, <code>data/assets/</code>,
+<code>data/certs/</code>, <code>logs/</code>, <code>run/</code>,
+<code>qa/evidence/</code>). <strong><code>qa/evidence/</code> does not
+exist on disk</strong> — evidence is produced by a run, never
+committed.</li>
+</ul>
+<p><strong>How a user actually starts it</strong> (from
+<code>platform/README.md</code>):</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/build.sh</span>      <span class="co"># backend + Angular</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/start.sh</span>      <span class="co"># ingest on first run, then serve; waits for health</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># → http://localhost:8099   |   https://localhost:8443 (HTTP/2 + HTTP/3, self-signed)</span></span></code></pre></div>
+<h3 id="uiux-layer">2.3 UI/UX layer</h3>
+<p><strong>Backend</strong> — Go 1.26.2, module
+<code>github.com/milos85vasic/ai_interviewing/platform/backend</code>.
+Direct dependencies (7): <code>gin-gonic/gin</code> v1.12,
+<code>gin-contrib/cors</code>, <code>andybalholm/brotli</code>,
+<code>quic-go/quic-go</code> v0.61 (HTTP/3), <code>yuin/goldmark</code>
+v1.8.5 (Markdown→HTML), <code>modernc.org/sqlite</code> v1.56
+(<strong>pure Go, no cgo</strong>).</p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 28%" />
+<col style="width: 28%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>Package</th>
+<th style="text-align: right;">Lines</th>
+<th style="text-align: right;">Test lines</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cmd/server</code></td>
+<td style="text-align: right;">156</td>
+<td style="text-align: right;">—</td>
+<td>flags, ingest-or-serve decision, state file, signal handling</td>
+</tr>
+<tr>
+<td><code>internal/store</code></td>
+<td style="text-align: right;">600</td>
+<td style="text-align: right;">251</td>
+<td>SQLite schema + all queries</td>
+</tr>
+<tr>
+<td><code>internal/ingest</code></td>
+<td style="text-align: right;">546</td>
+<td style="text-align: right;">191</td>
+<td>Markdown → curriculum</td>
+</tr>
+<tr>
+<td><code>internal/server</code></td>
+<td style="text-align: right;">367</td>
+<td style="text-align: right;">104</td>
+<td>dual HTTP/HTTPS listeners, TLS, HTTP/3, port fallback</td>
+</tr>
+<tr>
+<td><code>internal/api</code></td>
+<td style="text-align: right;">289</td>
+<td style="text-align: right;">188</td>
+<td>15 routes + SPA fallback</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Frontend</strong> — <strong>Angular 19.2</strong> standalone
+components with signals and lazy routes. Dependencies are Angular + rxjs
++ zone.js only; no UI library, no state library, no HTTP client wrapper.
+Six feature components, all in
+<code>platform/frontend/src/app/features/</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Route</th>
+<th>Component</th>
+<th style="text-align: right;">Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code></td>
+<td><code>home.component.ts</code></td>
+<td style="text-align: right;">123</td>
+</tr>
+<tr>
+<td><code>/module/:id</code></td>
+<td><code>module.component.ts</code></td>
+<td style="text-align: right;">186</td>
+</tr>
+<tr>
+<td><code>/practice/:id</code></td>
+<td><code>practice.component.ts</code></td>
+<td style="text-align: right;">248</td>
+</tr>
+<tr>
+<td><code>/plans</code></td>
+<td><code>plans.component.ts</code></td>
+<td style="text-align: right;">146</td>
+</tr>
+<tr>
+<td><code>/search</code></td>
+<td><code>search.component.ts</code></td>
+<td style="text-align: right;">61</td>
+</tr>
+<tr>
+<td><code>/progress</code></td>
+<td><code>progress.component.ts</code></td>
+<td style="text-align: right;">64</td>
+</tr>
+</tbody>
+</table>
+<p>Plus <code>core/api.ts</code> (88 lines — the typed HTTP client,
+session id in <code>localStorage</code>, i18n signal, theme toggle) and
+an 87-line <code>app.component.ts</code> shell. Styling is a single
+<code>styles.scss</code> built on the <strong>OpenDesign
+<code>--od-*</code> token contract</strong> with a <code>--lk-*</code>
+learning-kit layer on top, light default +
+<code>[data-theme="dark"]</code>.</p>
+<p><strong>Navigation</strong> is
+<code>/api/curricula/:slug/:version</code> returning the whole track →
+module tree in one response (no lesson or question bodies), rendered as
+cards; then per-module lazy fetches of <code>/lessons</code> and
+<code>/questions</code>.</p>
+<p><strong>Search — this is the weakest part of the reference
+implementation.</strong> <code>store.Search</code> lives in the
+<strong>private</strong> <code>ai_interviewing</code> repository at
+<code>platform/backend/internal/store/store.go</code> (function
+<code>Search</code>, around line 501). <strong>Its query text is private
+content and is deliberately not reproduced here</strong> — read it at
+that path if you need the exact statement.</p>
+<p>Described rather than quoted: it is a single hand-written statement
+that <code>UNION ALL</code>s three content tables (modules, lessons,
+questions), matching each with a bound <code>LIKE</code> pattern against
+a small number of short columns and truncating the returned excerpt to a
+fixed prefix length, with a bound row limit.</p>
+<p>That is a four-way <code>LIKE '%q%'</code> union, capped at 40,
+<strong>with no ranking, no scoring, no FTS index, no stemming, no
+snippet-around-match, and no semantic component whatsoever</strong>.
+Lesson <em>bodies</em> are not searched at all — only titles. The UI
+(<code>search.component.ts</code>) debounces 220 ms, requires ≥2
+characters, and renders flat cards; <strong>there is no autocomplete, no
+typeahead, no keyboard navigation, and no result grouping</strong>. A
+repository-wide grep for
+<code>deepwiki|autocomplete|typeahead|fts5</code> found <strong>no
+implementation anywhere in the tree</strong>.</p>
+<p>The full API surface (<code>api.go:Router()</code>), for reference
+when specifying the workshop’s:</p>
+<pre><code>GET  /api/health                          GET  /api/search?q=
+GET  /api/curricula                       GET  /api/i18n/:lang
+GET  /api/curricula/:slug/:version        GET  /api/langs
+GET  /api/modules/:id                     POST /api/progress
+GET  /api/modules/:id/lessons             GET  /api/progress?session=
+GET  /api/modules/:id/questions[?kind=]   GET  /api/assets/:name
+GET  /api/modules/:id/plan[?kind=]        (SPA fallback for everything else)
+GET  /api/modules/:id/plan/download[?kind=]
+GET  /api/plans[?kind=]</code></pre>
+<p>SQLite schema (<code>store.go:schema</code>), 10 tables:
+<code>curriculum</code> (UNIQUE slug+version), <code>track</code>,
+<code>module</code>, <code>lesson</code>, <code>question</code>,
+<code>asset</code>, <code>plan</code> (UNIQUE module+kind),
+<code>ui_string</code>, <code>content_i18n</code>, <code>progress</code>
+(UNIQUE session+type+item). Four indexes. WAL,
+<code>foreign_keys=ON</code>, <code>SetMaxOpenConns(1)</code>.</p>
+<p><strong>Two properties the workshop should inherit
+deliberately:</strong></p>
+<ul>
+<li><strong>Curriculum versioning.</strong>
+<code>curriculum(slug, version)</code> is unique, and the frontend pins
+<code>{slug:'ai-curriculum', version:'1.0.0'}</code> in one constant.
+New content ships as new rows; the app selects by slug+version. No code
+change to swap or upgrade content.</li>
+<li><strong>i18n-readiness with zero translations.</strong>
+<code>ui_string(lang,key,value)</code> and
+<code>content_i18n(entity,entity_id,field,lang,value)</code> exist and
+are wired to <code>/api/i18n/:lang</code> + <code>/api/langs</code>,
+with a language switcher in the UI. The platform is English-only today;
+adding a language is seeding rows.</li>
+</ul>
+<h3 id="content-pipeline-source-material-published-curriculum">2.4
+Content pipeline — source material → published curriculum</h3>
+<p><strong>Two pipelines, in series, with different owners.</strong></p>
+<p><strong>Pipeline A — corpus build
+(<code>ai_interviewing/scripts/</code>, 5 scripts + 2 configs).</strong>
+<code>build-all.sh</code> is the deterministic, re-runnable entry point
+and does exactly three things:</p>
+<ol type="1">
+<li><code>render-diagrams.sh docs</code> — every <code>*.mmd</code> →
+<code>mmdc -w 1600 --scale 2 -b white</code> → PNG, then a second pass →
+SVG. That script’s header explains the choice; <strong>the header text
+is private content and is not quoted here</strong> (read it in the
+private <code>ai_interviewing</code> repository at
+<code>scripts/render-diagrams.sh</code>). The reasoning, restated
+independently: the §11.4.168 export check counts embedded raster images
+in the produced PDF, so a diagram embedded only as vector art satisfies
+the reader but scores zero on that check. Raster is therefore the
+load-bearing format and vector is supplementary. Failures are collected
+and reported, not swallowed.</li>
+<li><code>export-doc.sh &lt;file.md&gt;</code> for
+<code>README.md</code> and every <code>docs/**/*.md</code> —
+<code>pandoc -f gfm+smart -t html5 -s --css assets/theme.css --embed-resources --toc --toc-depth=2</code>
+→ self-contained HTML; <code>weasyprint</code> that HTML → PDF;
+<code>pandoc -t docx</code> → DOCX. Title = first <code>^#</code>
+heading.</li>
+<li><code>validate-exports.sh .</code> — §11.4.168 independent
+validation (§2.5).</li>
+</ol>
+<p>Toolchain: <code>pandoc</code>, <code>weasyprint</code>,
+<code>mmdc</code>, plus <code>poppler</code> + <code>tesseract</code>
+for validation. <strong>All five are present on this host</strong>
+(§3.6).</p>
+<p><strong>Pipeline B — ingest (<code>platform/internal/ingest</code>,
+546 lines).</strong> Deterministic and re-runnable:
+<code>store.Reset()</code> wipes content tables (progress is preserved)
+and rebuilds from source. <code>RunFull()</code> takes seven paths and
+produces the whole curriculum. Per module it renders Markdown with
+goldmark (GFM + Typographer, <code>WithUnsafe()</code>), splits into
+lessons and flashcards, rewrites and copies diagram assets, then joins
+the four optional sidecars (MCQ, short-answer, improvement plan,
+validation plan). Malformed authored items are <strong>skipped with a
+stderr note, never inserted broken</strong> — e.g. an MCQ with
+<code>correctIndex</code> out of range, or a short-answer with an empty
+prompt or answer.</p>
+<p><strong>There is no transcode step, no media handling, and no
+index-building step of any kind.</strong> Pipeline B’s total media
+awareness is “copy a PNG and rewrite its link”.</p>
+<h3 id="test-validation-approach-and-the-evidence-it-produces">2.5 Test
+/ validation approach and the evidence it produces</h3>
+<p>Three banks, aggregated by
+<code>platform/qa/helixqa/run-suite.sh</code> (40 lines) in the
+<strong>private</strong> <code>ai_interviewing</code> repository. Its
+header states an anti-bluff rule; <strong>the wording is private content
+and is not quoted here</strong> — read it at that path. Restated in
+different words: a bank is credited as passing only when it actually
+terminated successfully <em>and</em> left evidence behind, so neither a
+skipped bank nor an assertion-free run can score as a pass. Evidence
+root is <code>platform/qa/evidence/</code> (git-ignored, absent until a
+run).</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Bank</th>
+<th>Command</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 · unit + integration</td>
+<td><code>cd backend &amp;&amp; go test ./...</code></td>
+<td>734 lines of Go tests across store / ingest / api / server</td>
+</tr>
+<tr>
+<td>2 · challenges</td>
+<td><code>qa/challenges/api-challenges.sh</code> (154 lines)</td>
+<td><strong>24 evidence-gated live assertions</strong></td>
+</tr>
+<tr>
+<td>3 · e2e + responsive</td>
+<td><code>cd qa/e2e &amp;&amp; npx playwright test</code></td>
+<td><strong>9 tests × 2 viewports = 18</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Bank 3 <strong>SKIPs with a reason</strong> when
+<code>qa/e2e/node_modules/@playwright</code> is absent — never a faked
+pass. Playwright config uses the <strong>system Chrome channel</strong>
+(no chromium download), <code>baseURL</code> from <code>AICUR_URL</code>
+(default <code>http://localhost:8099</code>), projects
+<code>desktop</code> (1280×900) and <code>mobile</code> (Pixel 5), HTML
+report to <code>../evidence/e2e/report</code>,
+<code>screenshot: only-on-failure</code>,
+<code>trace: retain-on-failure</code>. The config comment cites
+§11.4.190 for the dual-viewport requirement.</p>
+<p>The 24 challenges (C1–C24) are the pattern most worth copying,
+because each one <strong>asserts a real runtime property and prints the
+observed value</strong>: health <code>ok=true</code>; curriculum
+title+version string equality; tracks == 3; modules ≥ 60; questions ≥
+1600; MCQ integrity via direct SQL (<code>0</code> malformed across N
+modules); a live MCQ endpoint where every item has 4 choices and an
+in-range index; rendered lesson HTML with <strong>no raw
+<code>'#### '</code> leak</strong>; a diagram asset served with an
+<code>image/</code> content-type; <strong>Brotli</strong>
+(<code>content-encoding: br</code>); <strong>HTTP/3</strong> advertised
+via <code>Alt-Svc: h3=</code>; HTTPS+H2; SPA
+<code>&lt;app-root&gt;</code> present; SPA deep-link fallback; a
+progress POST→GET round-trip; search returning ≥1 hit for
+<code>reconciliation</code>; ≥10 i18n strings; short-answer integrity;
+plans ≥ 37 with slug+wordCount; plan download asserting
+<code>content-type: text/markdown</code>,
+<code>content-disposition: attachment</code>, and that the body starts
+with <code>"# "</code>; the same for the validation kind; and ≥9 modules
+in the newest domain.</p>
+<p>The 9 e2e tests: home loads with real stats · open a module and read
+a rendered lesson · flashcard reveals its answer · short-answer reveals
++ self-grades · plans hub browses + exposes a download · plans hub
+toggles kind and downloads it · quiz scores a real MCQ · search returns
+grounded results · theme toggle switches light/dark.</p>
+<p><strong>A real portability defect to avoid inheriting.</strong>
+<code>api-challenges.sh:11</code> is:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">SQLITE</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${SQLITE_BIN</span><span class="op">:-</span>&lt;home&gt;/Library/Android/sdk/platform-tools/sqlite3<span class="va">}</span><span class="st">&quot;</span></span></code></pre></div>
+<p>That default is a <strong>macOS</strong> path. On this Linux host
+<code>sqlite3</code> resolves to
+<code>&lt;home&gt;/Android/Sdk/platform-tools/sqlite3</code>, so
+<strong>7 of the 24 challenges (C6, C7, C18, C19, C24 and the DB lookups
+feeding C8/C9) silently degrade to <code>[FAIL]</code> here unless
+<code>SQLITE_BIN</code> is exported.</strong>
+<code>scripts/audit-hardcoded-paths.sh</code> exists at the umbrella
+root for exactly this class of bug; <code>ai_interviewing/</code> is a
+submodule and is not swept by it.</p>
+<h3 id="existing-search-indexing-llm-integration-in-ai_interviewing">2.6
+Existing search / indexing / LLM integration in
+<code>ai_interviewing</code></h3>
+<p><strong>Search:</strong> the SQL <code>LIKE</code> union of §2.3.
+Nothing else. <strong>Indexing:</strong> none. No FTS5, no vector table,
+no embeddings, no external index. <strong>LLM integration:</strong>
+<strong>none.</strong> There is no LLM call, no provider config, no API
+key handling, and no chat endpoint anywhere in
+<code>ai_interviewing/</code>. The <code>HelixLLM</code>,
+<code>HelixAgent</code>, <code>LLMProvider</code> and
+<code>LLMOrchestrator</code> material in
+<code>docs/project-deep-dives/</code> is <strong>prose only</strong> —
+interview-preparation writing <em>about</em> those systems, with no code
+here.</p>
+<p>So of the operator’s headline requirements, the reference
+implementation supplies <strong>zero</strong> of: semantic search,
+cross-modal search, cross-linking, autocomplete, ask-an-AI, LLM
+bridging, containers, and any media handling. It supplies
+<strong>all</strong> of: the content→SQLite→SPA architecture, the
+filename-convention curriculum model, the bash control plane, the
+versioning and i18n model, the four-format export pipeline, and the
+evidence-gated three-bank test discipline.</p>
+<hr />
+<h2 id="reusable-technology-already-in-this-tree">§3 · Reusable
+technology already in this tree</h2>
+<h3 id="lumen-semantic-search">3.1 Lumen — semantic search</h3>
+<p><strong>What it is here.</strong> Lumen is a <strong>Claude Code
+plugin/MCP tool</strong>, not a library or a service this repository
+owns. <code>lumen</code> on <code>PATH</code> is
+<code>&lt;home&gt;/.local/bin/lumen</code>, a 2,505-byte bash launcher
+(“Managed by Claude Code”) that resolves <code>uname</code> →
+<code>lumen-linux-amd64</code> and <code>sort -V</code>-picks the newest
+version under
+<code>~/.claude-shared/plugins/cache/*/lumen/*/bin/</code>. It currently
+resolves to <strong>v0.0.41</strong> at
+<code>~/.claude-shared/plugins/cache/claude-plugins-official/lumen/0.0.41/bin/lumen-linux-amd64</code>.
+<code>LUMEN_BIN</code> overrides. Go source for that version is on
+disk.</p>
+<p><strong>Nothing in this repository declares Lumen.</strong> There is
+no <code>.mcp.json</code> at the repo root (and <code>.mcp.json</code>
+is git-ignored). <code>.claude/settings.json</code> enables only
+<code>ashlr@ashlr-marketplace</code>;
+<code>.claude/settings.local.json</code> merely allow-lists two lumen
+MCP tool names. <code>.opencode/</code>, <code>.crush/</code>,
+<code>.kimi-code/</code> contain zero lumen references. The two live
+declarations are <strong>outside</strong> the repo:</p>
+<ul>
+<li>user-global <code>~/.claude.json</code> →
+<code>mcpServers.lumen = {"type":"stdio","command":"&lt;home&gt;/.local/bin/lumen","args":["stdio"]}</code>
+→ the <code>mcp__lumen__*</code> tools;</li>
+<li>the plugin’s own <code>plugin.json</code> →
+<code>${CLAUDE_PLUGIN_ROOT}/scripts/run stdio</code>, enabled in
+<code>~/.claude-claude4/settings.json</code> → the
+<code>mcp__plugin_lumen_lumen__*</code> tools.</li>
+</ul>
+<p>The plugin also installs a <code>PreToolUse</code> hook on
+<code>Grep|Bash</code> — the source of the “use
+<code>mcp__lumen__semantic_search</code> instead” nudges seen throughout
+this session.</p>
+<p><strong>Backend and model.</strong> Backend <code>ollama</code> at
+<code>http://localhost:11434</code> (<code>/api/embed</code>);
+<code>lmstudio</code> at <code>:1234</code> is the alternative. Model
+<strong><code>ordis/jina-embeddings-v2-base-code</code></strong>
+(768-dim). <code>~/.config/lumen/config.yaml</code> does
+<strong>not</strong> exist and every
+<code>LUMEN_*</code>/<code>OLLAMA_*</code> export in
+<code>~/.bashrc</code> is commented out, so everything falls through to
+built-in defaults.</p>
+<p><strong>Index store.</strong> <code>$XDG_DATA_HOME/lumen</code> →
+<code>&lt;home&gt;/.local/share/lumen/</code>, which holds <strong>764
+index directories</strong>. The directory name is
+<code>sha256(projectPath + "\0" + model + "\0" + IndexVersion)[:16]</code>
+with <code>IndexVersion="3"</code>. For this project that resolves — and
+was confirmed on disk — to
+<strong><code>&lt;home&gt;/.local/share/lumen/21bf1507a8925bcf/</code></strong>,
+<code>index.db</code> = 335,679,488 bytes plus WAL/SHM/lock. Consequence
+documented in both project scripts: <strong>changing the model name
+silently starts a second index instead of updating this
+one.</strong></p>
+<p><strong>CLI surface.</strong>
+<code>lumen [completion|hook|index|purge|search|stdio|version]</code>.
+<code>lumen search &lt;query&gt;</code> flags:
+<code>-b/--backend</code>, <code>--cwd</code>, <code>-f/--force</code>,
+<code>--max-lines</code>, <code>--min-score</code> (−1..1),
+<code>-m/--model</code>, <code>-n/--n-results</code> (default 8),
+<code>-p/--path</code>, <code>--summary</code>, <code>--trace</code>.
+<strong>There is no JSON output flag — plaintext only.</strong></p>
+<p><strong>MCP surface</strong> (schemas read from
+<code>cmd/stdio.go</code> at v0.0.41; all three
+<code>ReadOnlyHint: true</code>):</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Inputs</th>
+<th>Outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>semantic_search</code></td>
+<td><code>query</code> (req) · <code>path</code> · <code>cwd</code> ·
+<code>limit</code> (8) · <code>min_score</code> · <code>summary</code> ·
+<code>max_lines</code></td>
+<td><code>results[]{file_path, symbol, kind, start_line, end_line, score, content}</code>,
+<code>reindexed</code>, <code>indexed_files</code>,
+<code>filtered_hint</code>, <code>seed_warning</code>,
+<code>stale_warning</code>. <strong>Auto-indexes if
+stale/empty.</strong></td>
+</tr>
+<tr>
+<td><code>index_status</code></td>
+<td><code>path</code> · <code>cwd</code></td>
+<td><code>project_path, total_files, indexed_files, total_chunks, last_indexed_at, embedding_model, stale</code></td>
+</tr>
+<tr>
+<td><code>health_check</code></td>
+<td><strong>none</strong> (<code>struct{}</code>)</td>
+<td><code>backend, host, model, reachable, message</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>.lumenignore</code></strong> (repo root) excludes
+exactly one path: <code>_tests/evidence/</code>. The file’s own
+rationale: 4,526 tracked files there (1,353 json / 1,167 txt / 1,142 png
+/ 515 log) against 95 real source files, costing ~14 of the ~15 hours a
+full index needed. Everything else — all source, all submodules, all
+docs — is indexed. Skip precedence in
+<code>internal/merkle/ignore.go</code>: SkipDirs → SkipFiles →
+<code>.gitignore</code> → <code>.lumenignore</code> →
+<code>.gitattributes</code> → extension, so the repo
+<code>.gitignore</code> also constrains the index.</p>
+<p><strong>The repository’s two Lumen operations scripts</strong> are
+substantial and worth reading before writing any indexing task:</p>
+<ul>
+<li><code>scripts/lumen-reindex.sh</code> (17,175 B) —
+<code>[project-path] [--force] [--allow-gpu]</code>. Exit 0 indexed · 1
+gave up after <code>MAX_ROUNDS</code> (40) · 2 bad usage · <strong>3
+refused (Vulkan backend)</strong> · 4 backend unsafe · 5 prerequisite
+missing. Resolves backend/host/model in Lumen’s own precedence order
+(env → <code>config.yaml</code> → the <strong>existing index’s
+<code>project_meta.embedding_model</code></strong> →
+<code>/api/ps</code> then <code>/api/tags</code> when unambiguous →
+documented fallback), refuses to start when
+<code>journalctl -u ollama</code> reports <code>library=vulkan</code>,
+and runs a <strong>32-text batch distinctness probe</strong> (32
+distinct texts must yield 32 distinct vectors) before and between
+rounds, unloading a wedged runner via
+<code>POST /api/embed {keep_alive:0}</code>.</li>
+<li><code>scripts/lumen-index-doctor.sh</code> (22,276 B) —
+<code>[project-path] [--require-live-backend]</code>. Exit 0 healthy · 1
+corruption · 2 could-not-inspect. Opens every <code>index.db</code>
+<strong>read-only</strong>, brute-force <em>solves</em>
+<code>IndexVersion</code> (0..63) from a known triple rather than
+hardcoding it, derives vector width from three independent sources and
+<strong>refuses a verdict if they disagree</strong>, masks by the
+sqlite-vec validity bitmap, then runs distinctness + NaN/zero/L2-norm
+checks. Uses private exit codes 20–23 internally so a Python traceback
+can never be misread as “corruption found”.</li>
+</ul>
+<p><code>.lumen-reindex.log</code> (git-ignored, 883 B) records three
+forced rebuilds and one hard failure where ollama was not listening
+(<code>dial tcp 127.0.0.1:11434: connect: connection refused</code>),
+followed by a runner unload. All three entries report
+<code>backend library=cpu</code> and
+<code>batch probe OK: 32 distinct texts -&gt; 32 distinct vectors</code>.</p>
+<blockquote>
+<h3 id="the-single-most-consequential-finding-for-this-spec">⚠️ The
+single most consequential finding for this spec</h3>
+<p><strong>Lumen cannot index or query non-text assets. At all. There is
+no configuration knob.</strong></p>
+<p><code>internal/chunker/languages.go:35-52</code> is a
+<strong>compile-time extension allowlist</strong>, passed straight into
+the filesystem walk at <code>internal/index/index.go:150</code>
+(<code>merkle.MakeSkipWithExtra(projectDir, chunker.SupportedExtensions(), extraSkip)</code>),
+so unlisted extensions are never read; <code>index.go:290-293</code>
+additionally <strong>purges</strong> stored records whose extension is
+not in the set. The complete list is:</p>
+<pre><code>.go  .ts .tsx  .js .jsx .mjs  .py  .rs  .rb  .java  .c .h
+.cpp .cc .cxx .hpp  .php  .cs  .swift  .dart  .svelte
+.md .mdx  .yaml .yml .json</code></pre>
+<p><strong>No image, audio, video, PDF, HTML, CSS, SVG, or binary
+format</strong>, and no env or config override exists anywhere in the
+source.</p>
+<p>The operator’s requirement — <em>“semantic/contextual search across
+transcripts, code, diagrams, audio and video”</em> — is therefore
+<strong>reachable through Lumen only for the <code>.md</code> and
+source-code projections of that material</strong>. Every media asset
+must be reduced to text (transcript <code>.md</code>, diagram
+description <code>.md</code>, frame-OCR <code>.md</code>) with stable
+timestamped anchors before Lumen can see it. That reduction step does
+not exist and would have to be built.</p>
+</blockquote>
+<h3 id="llm-provider-bridging-what-is-actually-here">3.2 LLM-provider
+bridging — what is actually here</h3>
+<p><strong>There is no LLM provider-bridging layer implemented in this
+tree.</strong></p>
+<p>Searching for <code>HelixLLM</code>, <code>HelixAgent</code>,
+<code>LLMProvider</code>, <code>LLMOrchestrator</code> as <em>code</em>
+returns only <code>.md</code> and <code>.json</code> files.
+Specifically:</p>
+<p><strong>Prose only (documentation, no implementation
+here):</strong></p>
+<ul>
+<li><p><code>ai_interviewing/docs/project-deep-dives/</code> —
+<code>17-helixllm.md</code>, <code>18-llmprovider.md</code>,
+<code>19-llmorchestrator.md</code>, <code>04-helixagent.md</code>,
+<code>02-helixqa.md</code>, <code>16-helix-flow.md</code>, plus their
+<code>improvement-plans/</code> and <code>validation-plans/</code>
+mirrors and rendered exports and diagrams. These are
+<strong>high-quality, code-grounded write-ups of external
+repositories</strong> (each states which files were read via shallow
+clone), which makes them an excellent <em>design reference</em> — and
+still not an implementation.</p></li>
+<li><p><code>_content/products/{HelixLLM,HelixAgent,LLMProvider,LLMOrchestrator,…}.md</code>
+× 15 locales — website product briefs.</p></li>
+<li><p><code>_analysis/top20/*.readme.txt</code> — snapshots of
+<strong>other repositories’</strong> READMEs. Most
+<code>OLLAMA_BASE_URL</code> / <code>OPENAI_API_KEY</code> /
+<code>ANTHROPIC_API_KEY</code> strings in this tree live here and belong
+to repos that are not checked out.</p></li>
+<li><p><code>_analysis/github-helix-others.json</code> (<strong>56
+repos</strong>) and <code>_analysis/github-vasic-digital.json</code>
+(<strong>185 repos</strong>) are machine-readable inventories of the two
+organizations. The technology the operator refers to is catalogued here
+and <strong>not vendored</strong>:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Repo</th>
+<th>Language</th>
+<th>Description (verbatim from the inventory)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HelixDevelopment/HelixLLM</code></td>
+<td>Go</td>
+<td>“Helix LLM - Local running super model”</td>
+</tr>
+<tr>
+<td><code>vasic-digital/LLMProvider</code></td>
+<td>Go</td>
+<td>“Shared LLM provider interface, 40+ provider adapters, retry,
+circuit breaker, health monitoring”</td>
+</tr>
+<tr>
+<td><code>HelixDevelopment/LLMOrchestrator</code></td>
+<td>HTML</td>
+<td>“Headless CLI agent management for LLM orchestration”</td>
+</tr>
+<tr>
+<td><code>HelixDevelopment/HelixAgent</code></td>
+<td>Go</td>
+<td>“LLMs Agent”</td>
+</tr>
+<tr>
+<td><code>vasic-digital/LLMsVerifier</code></td>
+<td>Go</td>
+<td>“Benchmark and verify LLMs”</td>
+</tr>
+<tr>
+<td><code>vasic-digital/LLMGateway</code></td>
+<td>Go</td>
+<td><em>(no description)</em></td>
+</tr>
+<tr>
+<td><code>vasic-digital/{Embeddings,VectorDB,RAG,Memory}</code></td>
+<td>Go</td>
+<td>“Generic reusable Go module: digital.vasic.*”</td>
+</tr>
+<tr>
+<td><strong><code>vasic-digital/Courses-Creator</code></strong></td>
+<td>Go</td>
+<td><strong>“Courses creator toolkit”</strong></td>
+</tr>
+<tr>
+<td><code>vasic-digital/containers</code></td>
+<td>Go</td>
+<td><em>(no description)</em> — see §4.6</td>
+</tr>
+</tbody>
+</table>
+<p><code>Courses-Creator</code> deserves the spec author’s attention:
+<code>ai_interviewing</code>’s own deep-dive
+(<code>docs/project-deep-dives/22-courses-creator.md</code>) documents
+it, from a real clone, as <em>“markdown in, professional video course
+out”</em> — a Go core-processor with a multi-provider LLM manager
+(OpenAI / Anthropic / Ollama, each self-registering only when its key is
+present), a DB-persisted job queue with four workers, local Bark TTS
+with an OpenAI-TTS cascade, FFmpeg assembly, three clients on one
+<code>/api/v1</code> surface, and Docker Compose + nginx + JWT +
+Prometheus/Grafana. The same document also states, anti-bluff, that
+several advertised features are stubs and that provider “routing”
+computes a score and then ignores it. <strong>Whether any of this is
+reusable is UNVERIFIED</strong> — the repository is not present in this
+tree and was not fetched.</p></li>
+</ul>
+<p><strong>Actually present as code or config:</strong></p>
+<ol type="1">
+<li><strong>Ollama is the Lumen embedding backend and nothing
+else.</strong> Referenced by
+<code>scripts/{ollama-tune,ollama-vulkan-remediation,lumen-reindex,lumen-index-doctor,setup-agents-wizard,rollback-agents-wizard}.sh</code>.
+No chat or completion call anywhere.</li>
+<li><strong>The only literal provider registry in the tree</strong> is a
+five-entry Python dict at
+<code>_tools/review_translation.py:63-68</code> —
+<code>{groq, openrouter, mistral, zhipu, cohere}</code> → (endpoint, key
+env var, default model). It <strong>excludes</strong> OpenAI, Anthropic,
+Gemini and Ollama. Mirrored at
+<code>submodules/constitution/scripts/translation/review_translation.py</code>.</li>
+<li><strong>A translation pipeline that shells out to hosted
+APIs.</strong> <code>_tools/translate-pipeline.sh:60-63</code> — primary
+<code>mistral</code>/<code>mistral-large-latest</code>, fallback
+<code>groq</code>/<code>llama-3.3-70b-versatile</code>, overridable via
+<code>TRANSLATE_PRIMARY_PROVIDER</code>/<code>_MODEL</code>.
+<code>_tools/gen/translate_home.py</code> hardcodes the Groq and
+Cerebras chat-completions URLs. The <code>translate_ui_*.py</code>
+family invokes the container with
+<code>-provider zhipu -model glm-4.5-flash</code>.</li>
+<li><strong><code>_tools/gen/data/verified_models.db</code></strong>
+(12,288 B) — a real SQLite file with table
+<code>verified_models(provider_id, name, verification_status, can_see_code, overall_score, capabilities, pricing, verified_at)</code>
+and <strong>3 rows</strong>: <code>gemma-4-31b</code>/cerebras,
+<code>allam-2-7b</code>/groq, <code>codestral-2508</code>/mistral, all
+<code>verified</code>, scores ~0.906–0.919, dated 2026-08-06. It is an
+<strong>artefact produced by</strong> the external unified-translator
+engine, not by code in this tree.</li>
+<li><strong>Two real Go LLM clients — benchmark-only, inside the
+constitution submodule.</strong>
+<code>submodules/constitution/submodules/helix_perf_cache/pkg/backend/llamacpp.go</code>
+(a working llama.cpp HTTP client, <code>/health</code>, completion with
+<code>cache_prompt</code>, <code>/tokenize</code>, default
+<code>http://localhost:18434</code>) and
+<code>anthropic_promptcache.go</code> (a working Anthropic Messages
+client honouring <code>ANTHROPIC_BASE_URL</code> /
+<code>ANTHROPIC_MODEL</code> /
+<code>ANTHROPIC_API_KEY</code>|<code>ANTHROPIC_AUTH_TOKEN</code>). Both
+are wired only into <code>cmd/perfbench/main.go</code>. <strong>These
+are the closest thing in the tree to a local/external provider bridge,
+and they are a prompt-cache benchmark, not a routing
+layer.</strong></li>
+<li><code>submodules/constitution/scripts/llm-alias-health/</code>
+bridges to an external <code>claude-alias-probe</code> binary that is
+<strong>not in this tree</strong>; it cannot run as-is.</li>
+</ol>
+<p><strong>TLS / CA wiring for LLM egress: essentially absent.</strong>
+A repo-wide search for <code>SSL_CERT_FILE</code>,
+<code>CURL_CA_BUNDLE</code>, <code>REQUESTS_CA_BUNDLE</code>,
+<code>NODE_EXTRA_CA_CERTS</code>, <code>cacert</code>,
+<code>ca-bundle</code> returns <strong>zero hits</strong>. CA
+certificates for outbound LLM calls are handled <em>inside the container
+image</em>
+(<code>apk add ca-certificates &amp;&amp; update-ca-certificates</code>
+in both Containerfiles). The only TLS code in the tree is
+<code>ai_interviewing/platform/backend/internal/server/server.go:94</code>
+(<code>tls.Config{MinVersion: tls.VersionTLS12}</code>, local server,
+unrelated) and the constitution submodule’s self-signed HTTP/3
+helper.</p>
+<p><strong>Local model availability on this host</strong> (read-only
+inspection; nothing started, restarted or pulled):</p>
+<ul>
+<li><code>ollama serve</code> is running (PID 3781) plus one runner (PID
+889296).</li>
+<li><code>/etc/sysconfig/ollama</code> contains one line:
+<code>GGML_VK_VISIBLE_DEVICES=-1</code> — the Vulkan remediation is
+<strong>applied</strong>; ollama is <strong>CPU-only</strong>.
+<code>/etc/systemd/system/ollama.service.d/</code> does not exist, so
+<code>ollama-tune.sh --apply</code> has never been run.</li>
+<li>Model store is <code>/var/lib/ollama/.ollama/models/</code> (not
+<code>~/.ollama/models/</code>, which has no
+<code>manifests/</code>).</li>
+<li><strong>Exactly two models are present locally, and both are
+embedding-only:</strong>
+<code>ordis/jina-embeddings-v2-base-code:latest</code> and
+<code>library/jina-embeddings-code-cpu:latest</code>. They point at the
+<strong>same 322,997,312-byte blob</strong>; the <code>-cpu</code> tag
+differs only by <code>num_gpu: 0</code>.</li>
+<li><strong>No chat/instruct model is present</strong> — no llama3,
+qwen, mistral, gpt-oss. <strong>“Ask an AI a question and get an instant
+answer” cannot be served by a local model on this host today without
+pulling one</strong>, and pulling one was out of scope for this
+read-only survey.</li>
+</ul>
+<p><strong>Host-level provider bridging outside the repository</strong>
+(context, not a repository capability):
+<code>~/.claude-code-router/config.json</code> declares roughly
+<strong>40</strong> OpenAI-compatible providers with
+<code>Router.default = deepseek,deepseek-v4-pro</code>, several routed
+through a local shim at
+<code>http://127.0.0.1:3457/v1/chat/completions</code>; and ~90
+per-provider <code>CLAUDE_CONFIG_DIR</code> homes exist under
+<code>~/</code>, including <code>~/.claude-prov-helixagent</code>,
+<code>~/.claude-prov-helixagent-native</code> and
+<code>~/.claude-prov-helixllm-gateway</code>. Their
+<code>settings.json</code> files have <strong>empty <code>env</code>
+blocks and no <code>mcpServers</code></strong> —
+<strong>UNVERIFIED</strong> how those endpoints are actually supplied.
+<code>~/.config/helixcode/config.json</code> exists beside a
+<code>cookie_secret</code> and was deliberately <strong>not
+read</strong>.</p>
+<h3 id="design-system-design-system">3.3 Design system —
+<code>design-system/</code></h3>
+<p>The <code>platform/README.md</code> claim that
+<code>design-system/learning-kit/</code> exists is <strong>VERIFIED
+TRUE.</strong></p>
+<pre><code>design-system/
+├── README.md                          ← does NOT mention learning-kit/, motion/, or diagrams/
+├── components-extended.css            24,425 B — brand-agnostic, 278 --od-* refs, no :root
+├── brand-milosvasic/                  milosvasic.css 24,384 B (348 tokens) + DESIGN.md
+├── brand-vasic-digital/               vasic-digital.css 28,350 B (285 tokens) + DESIGN.md + fonts/
+├── learning-kit/                      ← the reusable curriculum UI kit
+│   ├── README.md          15,006 B — &quot;OpenDesign Learning Kit&quot;, lk- namespace over --od-*
+│   ├── kit-tokens.css      6,565 B — 96 token lines
+│   ├── learning-kit.css   31,715 B — cards, flashcards, quiz options, progress rings, pills
+│   └── demo.html          17,348 B
+├── motion/                animations.css, overlays.css, motion.js, vendor/lottie-mini.js, 3 lottie JSONs
+├── fonts/                 fonts.css + Inter / Space Grotesk / JetBrains Mono woff2 + OFL
+├── icons/icons.svg
+├── diagrams/              32 product SVGs + _prompts/ (32 prompts) + build-and-generate.sh
+└── preview/               3 HTML + 4 PNG proofs</code></pre>
+<p><strong>This is the single most directly reusable asset for a
+workshop UI</strong>: it is framework-free CSS, already consumed by the
+Angular reference implementation
+(<code>platform/frontend/src/styles.scss:40,91</code> layers
+<code>--lk-*</code> on <code>--od-*</code>), and already referenced by a
+governance gate
+(<code>scripts/verify-all-constitution-rules.sh:172-173</code>,
+<code>OD_THEME_GLOBS</code> / <code>OD_TOKEN_GLOBS</code>).</p>
+<p>Two hazards: (a) <strong>three on-disk copies of the kit
+exist</strong> — <code>design-toolkit/proposed/learning-kit/</code> and
+<code>submodules/constitution/submodules/design-toolkit/proposed/learning-kit/</code>
+are byte-identical to the <code>*.bak.20260827-183650</code> snapshots
+in <code>design-system/learning-kit/</code>, i.e. <strong>one revision
+behind the live files</strong>; (b)
+<code>design-system/README.md</code>’s “Structure” block omits
+<code>learning-kit/</code>, <code>motion/</code> and
+<code>diagrams/</code>.</p>
+<p><code>design-toolkit/</code> (submodule, <code>efd2c3fb</code> =
+<code>v0.2.2-6-gefd2c3f</code>, clean) carries all four governance
+carriers plus <code>agents/</code> (11 design-specialist recipes),
+<code>docs/</code>, <code>evidence/</code> (with
+<code>tokens/*.tokens.json</code> for helix / milosvasic /
+vasic-digital), <code>generators/</code> (<code>dtcg-to-od.mjs</code>,
+<code>gen-marks.mjs</code>, <code>gen-tokens.mjs</code>, one test),
+<code>knowledge/</code>, <code>qa/</code>
+(<code>check-tokens.mjs</code>, <code>run-checks.mjs</code>,
+<code>platform-metrics.mjs</code>,
+<code>lib/{apca,cam16,deltae,dnadist,platform}.mjs</code>), and
+<code>proposed/</code>. Note: <strong><code>mcp/</code> contains only
+<code>INSTALL.md</code></strong> — there is no MCP server implementation
+— and <strong><code>submodules/</code> contains only
+<code>PLAN.md</code></strong>.</p>
+<h3 id="the-go-generator-_toolsgen">3.4 The Go generator —
+<code>_tools/gen/</code></h3>
+<p>Module <code>vasic.digital/tools/gen</code>, <strong>go 1.26, zero
+external dependencies</strong> (no <code>require</code>, no
+<code>go.sum</code>), single <code>package main</code>, 15
+<code>.go</code> files, stdlib only.</p>
+<ul>
+<li><strong>Entry point:</strong>
+<code>gen -site &lt;vasic.digital|milosvasic.ru&gt; [-lang en] [-what all|products|portfolio|home] [-root &lt;repo&gt;] [-out &lt;dir&gt;]</code>.
+Deterministic footer year via
+<code>-ldflags "-X main.buildYear=YYYY"</code>.</li>
+<li><strong>Two hardcoded sites</strong>: <code>vasic.digital</code>
+(brand “Vasic Digital”, <code>Jekyll:false</code>, JSON-LD
+<code>Organization</code>) and <code>milosvasic.ru</code> (brand “Miloš
+Vasić”, <code>Jekyll:true</code> — pages emitted as Jekyll docs
+inheriting <code>_layouts/default.html</code>, JSON-LD
+<code>Person</code>).</li>
+<li><strong>There are no template files.</strong> No
+<code>text/template</code>, <code>html/template</code>,
+<code>ParseFiles</code>, <code>ParseGlob</code>, or <code>.tmpl</code>
+anywhere. HTML is assembled with
+<code>strings.Builder</code>/<code>fmt.Sprintf</code> in
+<code>home.go</code> (25 KB), <code>product.go</code> (17 KB),
+<code>portfolio.go</code> (13 KB), <code>seo.go</code> (13 KB),
+<code>shells.go</code> (10 KB). The only <code>//go:embed</code> is
+<code>ui-i18n.json</code> in <code>i18n.go:17</code> (86,674 B).
+<code>markdown.go</code> is a hand-rolled Markdown renderer.</li>
+<li><strong>Inputs:</strong> <code>_content/products/*.md</code>,
+<code>_content/portfolio/portfolio.json</code>,
+<code>_content/sites/*.home.json</code> (+ per-language), and
+<code>design-system/diagrams|icons</code>.</li>
+<li><strong>Localization:</strong>
+<code>seo.go:41 availableLangs()</code> discovers languages by scanning
+the repo root for <code>_content_&lt;code&gt;</code> directories → 14
+non-EN + EN = <strong>15 languages</strong> (ar be de es fa fr hi ja kk
+ko ru sr tr zh). EN is canonical and unprefixed; non-EN routes to
+<code>products/&lt;lang&gt;/&lt;slug&gt;.html</code>,
+<code>portfolio/&lt;lang&gt;/index.html</code>,
+<code>&lt;lang&gt;/index.html</code>. RTL handled by
+<code>htmlDir</code> in <code>i18n.go</code>.</li>
+<li><strong>What it can already render:</strong> product pages, a
+portfolio index, a home page, and — on <code>-what all</code> —
+<code>sitemap.xml</code> + <code>robots.txt</code> built by walking the
+emitted tree. A source comment cites “~288 translated product/portfolio
+pages”; that figure is <strong>UNVERIFIED</strong> (not an executed
+measurement).</li>
+<li><strong>Tests: yes</strong> — 6 <code>_test.go</code> files,
+<strong>30 <code>Test*</code> functions</strong> (<code>data_test</code>
+5, <code>home_test</code> 2, <code>markdown_test</code> 7,
+<code>portfolio_test</code> 4, <code>product_test</code> 4,
+<code>seo_test</code> 8). Not executed in this survey.</li>
+<li><code>_tools/gen/build.sh</code> pins <code>buildYear</code>
+(SOURCE_DATE_EPOCH → last commit year → now), <strong>copies</strong>
+design-system assets into <code>&lt;site&gt;/assets/od/</code>, runs
+<code>gen</code> for both sites, then rebuilds
+<code>milosvasic.ru/_site</code> with <code>jekyll build</code>.</li>
+</ul>
+<p><strong>Assessment for the spec:</strong> this generator is tightly
+bound to the two portfolio sites (hardcoded site table, no template
+layer, portfolio/product-shaped data model). It is a <strong>precedent
+for “Go + stdlib + deterministic + tested”</strong>, not a component a
+curriculum renderer can call. The reusable <em>idea</em> is
+<code>availableLangs()</code>-style discovery-by-directory and the i18n
+JSON split.</p>
+<h3 id="container-tooling-conventions-podman-vs-docker">3.5 Container
+tooling conventions — podman vs docker</h3>
+<p><strong>Measured on this host:</strong> <code>podman</code> =
+<code>/usr/bin/podman</code>, <strong>version 5.7.1</strong>,
+<code>rootless=true</code>, storage driver <code>overlay</code>.
+<strong><code>docker</code> is not installed</strong>
+(<code>command -v docker</code> → not found).</p>
+<p><strong>The repository’s convention is selection by <em>remote
+hostname</em>, never by probing the local host,</strong> and it is
+<strong>triplicated with no shared helper</strong> (there is no
+<code>lib/container-runtime.sh</code> anywhere):</p>
+<p><code>_tools/helixtranslate-container.sh:43-46</code>
+(canonical):</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">HOST</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${HT_HOST</span><span class="op">:-</span>thinker.local<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-n</span> <span class="st">&quot;</span><span class="va">${HT_RUNTIME</span><span class="op">:-</span><span class="va">}</span><span class="st">&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span> <span class="va">RUNTIME</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HT_RUNTIME</span><span class="st">&quot;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$HOST</span><span class="st">&quot;</span> <span class="ot">=</span> <span class="st">&quot;amber.local&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span> <span class="va">RUNTIME</span><span class="op">=</span><span class="st">&quot;docker&quot;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span> <span class="va">RUNTIME</span><span class="op">=</span><span class="st">&quot;podman&quot;</span><span class="kw">;</span> <span class="cf">fi</span></span></code></pre></div>
+<p><code>_tools/translate-fleet.sh:56</code> —
+<code>local rt="podman"; [ "$host" = "amber.local" ] &amp;&amp; rt="docker"</code>
+<code>_tools/distribute-helixtranslate.sh:74</code> —
+<code>rt=podman; [ "$H" = amber.local ] &amp;&amp; rt=docker</code>
+(plus hardcoded <code>podman build</code>,
+<code>podman save … | ssh … 'docker load'</code>,
+<code>docker tag</code>).</p>
+<p>Hardcoded, no selection:
+<code>_tools/helixtranslate-local.sh:32</code> is podman-only.
+<code>_tools/helixtranslate-container/run.sh:11</code> takes the runtime
+as <code>$1</code>.</p>
+<p>The <strong>only</strong> <code>command -v</code>-based selection is
+<code>scripts/ollama-tune.sh:294-309</code>, which tries <strong>docker
+first, then podman</strong> — the opposite of the constitutional
+preference (§4.6).</p>
+<p><strong>The only container definitions in the whole tree</strong> are
+<code>_tools/helixtranslate-container/Containerfile</code>
+(runtime-only: <code>alpine:3.20</code> + <code>ca-certificates</code> +
+a prebuilt static binary) and <code>Containerfile.translator</code> (the
+one actually built: multi-stage <strong>cgo</strong> build on
+<code>golang:1.26-alpine</code> with <code>sqlite-dev</code>, runtime
+<code>alpine:3.20</code> + <code>sqlite-libs</code>,
+<code>mkdir -p /data</code>; cgo is required because the binary opens a
+go-sqlite3 verified-models store at startup). Its header records the
+distribution model: <em>“Built natively on thinker.local (linux/amd64),
+then replicated to amber.local via
+<code>podman save | ssh … docker load</code>.”</em> <strong>The
+HelixTranslate engine source is not in this tree</strong> —
+<code>_tools/helixtranslate*.sh</code> are invocation shims around the
+image <code>helixtranslate:cli</code>. Whether that image exists locally
+is <strong>UNVERIFIED</strong> (<code>podman images</code> was not
+run).</p>
+<p><code>nerdctl</code>, <code>buildah</code>, and the env var
+<code>CONTAINER_RUNTIME</code> have <strong>zero occurrences</strong>
+anywhere.</p>
+<h3 id="host-toolchain-measured-with-command--v">3.6 Host toolchain
+(measured with <code>command -v</code>)</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Path</th>
+<th>Relevance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>podman</code></td>
+<td><code>/usr/bin/podman</code> (5.7.1, rootless)</td>
+<td>containers</td>
+</tr>
+<tr>
+<td><code>docker</code></td>
+<td><strong>MISSING</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>ffmpeg</code> / <code>ffprobe</code></td>
+<td><code>&lt;home&gt;/bin/</code> (7.0.2-static)</td>
+<td>media transcode / probe</td>
+</tr>
+<tr>
+<td><code>pandoc</code></td>
+<td><code>&lt;home&gt;/.local/bin/pandoc</code></td>
+<td>HTML + DOCX export</td>
+</tr>
+<tr>
+<td><code>weasyprint</code></td>
+<td><code>&lt;home&gt;/.local/bin/weasyprint</code></td>
+<td>PDF export</td>
+</tr>
+<tr>
+<td><code>mmdc</code></td>
+<td><code>&lt;home&gt;/.npm-global/bin/mmdc</code></td>
+<td>Mermaid → PNG/SVG</td>
+</tr>
+<tr>
+<td><code>pdftotext</code></td>
+<td><code>/usr/bin/pdftotext</code></td>
+<td>§11.4.168 textual layer</td>
+</tr>
+<tr>
+<td><code>tesseract</code></td>
+<td><code>&lt;home&gt;/.local/bin/tesseract</code></td>
+<td>§11.4.168 OCR layer</td>
+</tr>
+<tr>
+<td><code>go</code> / <code>node</code> / <code>npm</code> /
+<code>ruby</code> / <code>bundler</code> / <code>python3</code></td>
+<td>system paths</td>
+<td>build toolchains</td>
+</tr>
+<tr>
+<td><code>sqlite3</code></td>
+<td><code>&lt;home&gt;/Android/Sdk/platform-tools/sqlite3</code></td>
+<td>note the unusual path (§2.5)</td>
+</tr>
+<tr>
+<td><code>lumen</code></td>
+<td><code>&lt;home&gt;/.local/bin/lumen</code> (launcher → v0.0.41)</td>
+<td>semantic search</td>
+</tr>
+<tr>
+<td><code>ollama</code></td>
+<td><code>/usr/bin/ollama</code> (running, CPU-only, embeddings
+only)</td>
+<td>embeddings</td>
+</tr>
+<tr>
+<td><strong>ASR (speech-to-text)</strong></td>
+<td><strong>MISSING</strong></td>
+<td>see below</td>
+</tr>
+<tr>
+<td><code>yt-dlp</code></td>
+<td>MISSING</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong><code>/usr/bin/whisper</code> is NOT OpenAI Whisper.</strong>
+It is <code>whisper-1.3.1-alt1.noarch</code>, a GPL-3 Python utility by
+Lorenzo Paderi (<code>/usr/share/whisper/whisper/window.py</code>).
+<code>python3 -c "import whisper"</code> →
+<code>ModuleNotFoundError: No module named 'whisper'</code>.
+<strong>There is no ASR tooling on this host.</strong> Transcribing
+chapter 1 requires installing one (openai-whisper, faster-whisper,
+whisper.cpp, or a hosted API) — and note that ollama here is
+<strong>CPU-only</strong> with <strong>no GPU path</strong>, so local
+ASR of a 115-minute recording is a multi-hour CPU job that must respect
+the §12.6 60 % RAM cap.</p>
+</blockquote>
+<h3 id="the-umbrella-testevidence-conventions-_tests">3.7 The umbrella
+test/evidence conventions (<code>_tests/</code>)</h3>
+<p>The workshop’s “real test coverage with machine evidence” requirement
+has an existing house pattern, documented in
+<code>_tests/GATES.md</code> and <code>_tests/TEST-TYPES.md</code>:</p>
+<ul>
+<li><strong>Mutation-paired self-validation as a golden-good /
+golden-bad pair.</strong>
+<code>bash _tests/export/self-validate.sh</code> drives
+<code>_tests/export/validate-pdf.js</code> over
+<code>golden-good.pdf</code> (expect PASS) and
+<code>golden-bad.pdf</code> (expect FAIL) and <strong>exits 0 only if
+good=PASS <em>and</em> bad=FAIL</strong>.
+<code>bash _tests/visual/self-validate.sh</code> does the same for the
+visual oracle. This is §1.1 made runnable, and it is the template any
+new gate must follow.</li>
+<li><strong>Gate literals are greppable.</strong> Each satisfying script
+echoes its <code>CM-*</code> literal
+(<code>CM-HOST-RENDERED-UI-VISUAL-PROOF</code> §11.4.170,
+<code>CM-EXPORTED-DOC-VISUALLY-VALIDATED</code> §11.4.168,
+<code>CM-OPENDESIGN-UI-SYSTEM</code> §11.4.162), so a reviewer can go
+from a governance document to the runnable check.</li>
+<li><strong><code>_tests/GATES.md</code> openly declares
+<code>CM-OPENDESIGN-UI-SYSTEM</code> NOT green</strong>, lists its
+residual coverage gaps, and instructs the reader not to claim them. That
+honesty posture is the expected form for the workshop’s own gate
+documentation.</li>
+<li>Evidence lands under <code>_tests/evidence/…</code> (and is the one
+path <code>.lumenignore</code> excludes). <code>ai_interviewing</code>
+uses <code>platform/qa/evidence/</code>.
+<code>scripts/test-setup-agents-wizard.sh</code> uses
+<code>.test-evidence/&lt;UTC-timestamp&gt;/</code> with
+<code>results.tsv</code> + <code>run.log</code> +
+<code>summary.json</code> — <strong>73 such directories exist at the
+repo root</strong>, the newest written during this session.</li>
+</ul>
+<h3 id="speckit-state">3.8 SpecKit state</h3>
+<p><code>.specify/</code> is initialized: <code>templates/</code> (spec,
+plan, tasks, checklist, constitution), <code>scripts/bash/</code>
+(<code>create-new-feature.sh</code>, <code>setup-plan.sh</code>,
+<code>setup-tasks.sh</code>, <code>check-prerequisites.sh</code>,
+<code>common.sh</code>), <code>workflows/speckit/workflow.yml</code>,
+<code>integrations/</code> manifests for claude / kimi / opencode /
+speckit, and the <code>superspec</code> extension (also a submodule at
+<code>submodules/superspec</code>, third-party
+<code>WangX0111/superspec</code>, <strong>outside the owned-submodule
+set</strong>).</p>
+<p><code>.specify/memory/constitution.md</code> (v1.0.0, updated
+2026-08-31) is the <strong>SpecKit project constitution</strong> and
+already encodes five core principles — Evidence-Based Claims, Governance
+Fidelity, Isolation by Default, Comprehensive Documentation, Quality
+Over Speed — plus the project structure, the CI/CD policy, the testing
+commands and the deploy story. <strong>A <code>specify</code> run will
+inherit these.</strong> <code>.specify/feature.json</code> is currently
+untracked.</p>
+<hr />
+<h2 id="binding-constraints-the-spec-must-respect">§4 · Binding
+constraints the spec must respect</h2>
+<p>All quotes below are verbatim from
+<code>&lt;ext-volume-host&gt;/Projects/vasic/submodules/constitution/Constitution.md</code>
+(11,689 lines). Line numbers are that file’s.</p>
+<h3 id="the-ci-prohibition-release-blocker">4.1 §11.4.156 — the CI
+prohibition · <strong>release blocker</strong></h3>
+<p>Heading, L9552:
+<code>### §11.4.156 — All CI/CD automation (GitHub Actions / GitLab pipelines / equivalents) MUST be disabled (User mandate, 2026-06-15)</code></p>
+<blockquote>
+<p><strong>L9558</strong> — “Every repository this Constitution governs
+— the main repo, this constitution submodule, and every owned + nested
+submodule we author and push — MUST ship with ALL server-side CI/CD
+automation DISABLED. No push to any owned upstream may trigger a GitHub
+Actions run, a GitLab pipeline, or any equivalent provider-side
+automation (Jenkins, CircleCI, Travis, Drone, Woodpecker, Bitbucket
+Pipelines, Azure Pipelines, or any <code>on: push</code> /
+<code>schedule</code> / <code>workflow_dispatch</code> workflow).”</p>
+</blockquote>
+<blockquote>
+<p><strong>L9560</strong> — “<strong>(A) Zero active CI at the
+repository root.</strong> No active
+<code>.github/workflows/*.yml|*.yaml</code>, no
+<code>.gitlab-ci.yml</code>, no <code>.gitlab/**</code> pipeline
+include, nor any equivalent provider config may exist at the ROOT of any
+governed repository/submodule — the only location a provider executes.
+<strong>(B) Disabled means a push triggers ZERO runs.</strong>”</p>
+</blockquote>
+<blockquote>
+<p><strong>L9566</strong> — “Non-compliance is a release blocker
+regardless of context. No escape hatch — no <code>--allow-ci</code>,
+<code>--enable-workflow</code>, <code>--keep-pipeline</code>,
+<code>--remote-ci-OK</code>, <code>--ci-exempt</code> flag.”</p>
+</blockquote>
+<p><strong>Applied to this work.</strong> <code>workshop/</code> is an
+owned submodule and is therefore governed. <strong>No workflow file of
+any kind may be added to <code>workshop/</code>, and none may be added
+to the umbrella root.</strong> Measured current state: root holds only
+<code>.github/workflows/ci.yml.disabled</code>;
+<code>milosvasic.ru/.github/workflows/pages.yml</code> is
+<strong>ACTIVE</strong> and is a documented deviation that must not be
+touched (§4.7); <code>vasic.digital</code> has no
+<code>.github/workflows/</code> directory at all. <code>workshop/</code>
+has no <code>.github/</code> directory.</p>
+<p>Do <strong>not</strong> propose an <code>Override §11.4.156</code>.
+The root <code>Constitution.md</code> records at L114-129 that one was
+sought on 2026-08-27 and is structurally unavailable, drawing the
+distinction the spec must preserve:</p>
+<blockquote>
+<p>“An override claims a clause no longer applies; these admit the
+clause applies and is knowingly unmet, with the reason on the
+record.”</p>
+</blockquote>
+<h3 id="carrier-lockstep">4.2 §11.4.157 — carrier lockstep</h3>
+<p>Heading, L9568. <strong>L9576:</strong></p>
+<blockquote>
+<p>“<code>GEMINI.md</code> is a FIRST-CLASS governance context carrier,
+EQUAL to <code>CLAUDE.md</code> / <code>AGENTS.md</code> /
+<code>QWEN.md</code> — NEVER an optional or best-effort sibling. Every
+governance addition or edit MUST land in ALL FIVE carriers in lockstep:
+the canonical <code>Constitution.md</code> PLUS each per-agent mirror
+<code>CLAUDE.md</code> + <code>AGENTS.md</code> + <code>QWEN.md</code> +
+<code>GEMINI.md</code> … in the SAME change-window, each with its
+synchronized <code>.html</code>/<code>.pdf</code>/<code>.docx</code>
+exports per §11.4.65.”</p>
+</blockquote>
+<p>Clause (D), same line: <em>“The lockstep binds the consuming
+project’s repository-root context files … a project that maintains the
+other three but not <code>GEMINI.md</code> is non-compliant.”</em>
+<strong>L9582:</strong> <em>“No escape hatch — no
+<code>--skip-gemini-md</code>, <code>--gemini-optional</code>,
+<code>--gemini-lag-OK</code>, <code>--four-carrier-suffices</code>
+flag.”</em></p>
+<p><strong>Note for the spec author:</strong> the anchor says
+<strong>five</strong> (the canonical corpus plus four mirrors). The
+repository’s own carriers call it “four-carrier lockstep”, counting only
+the mirrors. Both are the same obligation; use the anchor’s wording.</p>
+<p><strong>Applied:</strong> <code>workshop/</code> currently has
+<strong>none</strong> of the four carriers, and
+<code>CONTINUATION.md</code> records this as gap <strong>G7 at
+20/24</strong>. Another agent is closing it. Any governance text the
+workshop spec introduces must land in all four <code>workshop/</code>
+carriers <em>and</em> any umbrella-root carrier it touches, in one
+change-window.</p>
+<h3 id="continuation.md-sync">4.3 §12.10 — CONTINUATION.md sync</h3>
+<p>Heading, L10079:
+<code>### §12.10 Continuation document — sacred invariant</code>.
+<strong>L10092-10096:</strong></p>
+<blockquote>
+<p>“A single, canonical, machine-readable handoff document —
+<code>docs/CONTINUATION.md</code> — must always reflect the live state
+of the project. Any agent … must be able to resume work <strong>exactly
+where the previous session left off</strong> by reading this single
+file.”</p>
+</blockquote>
+<p><strong>L10101-10105:</strong></p>
+<blockquote>
+<p>“1. <strong><code>docs/CONTINUATION.md</code> MUST exist</strong> at
+the project root. Its absence is a release blocker. 2. <strong>Every
+non-trivial state change</strong> MUST update this document in the same
+commit as the work itself.”</p>
+</blockquote>
+<p><strong>Applied:</strong> this repository resolves the anchor’s
+internal path inconsistency in favour of the repository root —
+<code>CONTINUATION.md</code> — and says so explicitly in its own header.
+Every non-trivial workshop commit must update it in the same commit,
+including the <code>Last-Updated</code> and <code>Synced-Commit</code>
+fields, which are machine-read by
+<code>scripts/continuation-check.sh</code> (a 30,425-byte checker with a
+<code>--prove-failure</code> mode and exit codes 0/1/2 where UNDET
+forces 2).</p>
+<h3 id="mutation-paired-gates-the-single-most-important-rule">4.4 §1.1 —
+mutation-paired gates · <em>“the single most important rule”</em></h3>
+<p>Heading, L147:
+<code>### 1.1 False-positive immunity is an invariant</code>.
+<strong>L149-152:</strong></p>
+<blockquote>
+<p>“A test that always returns PASS because its regex never matches, its
+input path is wrong, its assertion target does not exist, or its
+comparison is tautological is <strong>worse than no test</strong>. Every
+new gate MUST be paired with a mutation entry in the project’s meta-test
+harness that:”</p>
+</blockquote>
+<p><strong>L160-161:</strong> <em>“If the mutation round does not turn
+PASS → FAIL, the gate is a sham and must be rewritten.”</em>
+<strong>L163-164:</strong> <em>“This is the <strong>single most
+important rule in this Constitution.</strong> Every subsequent §11.4.x
+clause is downstream of it.”</em> <strong>L145:</strong> <em>“A change
+without all four layers of coverage is not ready to merge.”</em></p>
+<p><strong>Applied:</strong> every gate the workshop introduces needs a
+paired mutation. The existing templates to copy are
+<code>_tests/export/self-validate.sh</code> and
+<code>_tests/visual/self-validate.sh</code> (golden-good must PASS
+<strong>and</strong> golden-bad must FAIL), plus
+<code>workshop/scripts/self-test.sh</code>, which already does this for
+the archive pipeline by corrupting a part.</p>
+<h3 id="anti-bluff-no-guessing">4.5 §11.4.6 — anti-bluff / no
+guessing</h3>
+<p>Heading, L632. <strong>L634-639:</strong></p>
+<blockquote>
+<p>“Tests, gates, status reports, closure narratives, commit messages,
+and any operator-facing text MUST NOT use words like
+<code>likely</code>, <code>probably</code>, <code>maybe</code>,
+<code>might</code>, <code>possibly</code>, <code>presumably</code>,
+<code>seems</code>, <code>appears to</code>, <code>guess</code>,
+<code>seemingly</code>, <code>apparently</code>, <code>perhaps</code>,
+<code>supposedly</code>, <code>conjectured</code>, or their synonyms
+when describing CAUSES of test failures, system behaviour, or fix
+effectiveness.”</p>
+</blockquote>
+<p><strong>L649-651:</strong> <em>“Every ‘X likely caused Y’ sentence in
+the codebase or documentation is a §11.4.6 violation.”</em> The two
+permitted outs (L641-647): <strong>prove the cause</strong> with
+captured forensic evidence and state it as fact, <strong>or</strong>
+explicitly mark <strong>UNCONFIRMED + PENDING_FORENSICS</strong> with a
+tracked-task ID.</p>
+<h3 id="containers-11.4.76-11.4.161-12.3-new-to-this-work">4.6
+Containers — §11.4.76, §11.4.161, §12.3 · <strong>new to this
+work</strong></h3>
+<p>The operator’s “runnable via containers” requirement pulls in three
+anchors that no existing module in this repository satisfies.</p>
+<p><strong>§11.4.76 (L7113) — Containers-submodule mandate.</strong>
+<strong>L7121:</strong></p>
+<blockquote>
+<p>“For ANY containerized workload — Docker, Podman, Qemu, Kubernetes,
+container-backed emulators … — every consuming project MUST:”</p>
+</blockquote>
+<p>…(1) use <code>https://github.com/vasic-digital/containers</code> as
+the authoritative library, (2) install it <strong>as a git
+submodule</strong>, (3) <strong>L7125</strong> — <em>“Tests, CLI doctor
+commands, and local-development workflows that depend on Postgres /
+Redis / OTel / message-brokers / emulators MUST invoke the Containers
+Submodule’s <code>pkg/boot</code> + <code>pkg/compose</code> +
+<code>pkg/health</code> APIs to bring infra up automatically. Operators
+MUST NOT be required to manually start <code>podman machine</code> /
+<code>docker compose up</code> before tests”</em> (the
+<strong>on-demand-infra invariant</strong>), and (4) extend, never
+reimplement.</p>
+<p><strong>§11.4.161 (L9681) — Rootless container runtime
+mandate.</strong> <strong>L9685:</strong></p>
+<blockquote>
+<p>“Every project governed by this Constitution MUST use <strong>Podman
+in rootless mode</strong> (or an equivalent rootless container runtime)
+for ALL containerized workloads. Docker in rootful mode, sudo, or any
+escalation to root for container management is <strong>STRICTLY
+FORBIDDEN</strong> unless the target platform genuinely has no rootless
+container option AND that platform constraint is documented per
+§11.4.112.”</p>
+</blockquote>
+<p><strong>L9687:</strong> <em>“the
+<code>vasic-digital/containers</code> Submodule MUST be used as the
+<strong>sole container orchestration layer</strong> — every container
+operation MUST go through the Submodule’s <code>pkg/boot</code> /
+<code>pkg/compose</code> / <code>pkg/health</code> primitives. No ad-hoc
+docker/podman commands outside the Submodule.”</em>
+<strong>L9689:</strong> a test that silently depends on an
+already-running daemon <em>“is a §11.4 PASS-bluff at the
+test-infrastructure layer.”</em></p>
+<p><strong>§12.3 (L10038) — Container hygiene.</strong>
+<strong>L10040:</strong> <em>“Containers (Docker / Podman) the project
+owns or relies on MUST:”</em> (1) carry an explicit memory limit, (2)
+set <code>OOMPolicy=stop</code>, (3) use exponential-backoff restarts,
+(4) rebuild clean-slate after a host crash.</p>
+<p><strong>Measured compliance state, stated plainly:</strong></p>
+<ul>
+<li><code>vasic-digital/containers</code> <strong>exists as a
+repository</strong> (Go, public — confirmed in
+<code>_analysis/github-vasic-digital.json</code>) and is <strong>not a
+submodule of this repository</strong>
+(<code>grep -i containers .gitmodules</code> → no match). Satisfying
+§11.4.76(2) is therefore a <strong>new submodule addition</strong>, an
+operator-authorized act.</li>
+<li>Every existing container call site in this tree is an <strong>ad-hoc
+raw invocation</strong>, and the <code>amber.local</code> branch selects
+<strong>Docker unconditionally</strong> — on its face contrary to
+§11.4.161. <strong>UNVERIFIED</strong> whether a documented §11.4.112
+platform exception exists for <code>amber.local</code>; none was
+located.</li>
+<li>The host is podman-5.7.1-rootless with no docker, so the rootless
+mandate is satisfiable here today.</li>
+</ul>
+<h3 id="test-evidence-coverage-and-script-discipline">4.7 Test evidence,
+coverage, and script discipline</h3>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th>Anchor</th>
+<th style="text-align: right;">Line</th>
+<th>The binding sentence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>§11.4.262</strong> — machine-created evidence</td>
+<td style="text-align: right;">L11424</td>
+<td><em>“every claim by the System that something WORKS / PASSES / IS
+VERIFIED / IS PRODUCTION-READY MUST be backed by MACHINE-CREATED,
+MACHINE-VERIFIABLE evidence — a file / verdict / measurement produced by
+the gate itself, cited by path + content-hash + timestamp, with a schema
+an independent verifier can parse.”</em> Forbids
+<code>"I checked it works"</code> / <code>"looks fine"</code> /
+<code>"no error was reported"</code>. L11426 defines the three-gate
+coverage (CONFIRMATION / VALIDATION / VERIFICATION).</td>
+</tr>
+<tr>
+<td><strong>§11.4.169</strong> — test-type coverage</td>
+<td style="text-align: right;">L9951</td>
+<td><em>“Every project under this Constitution MUST be covered by the
+following CLOSED, ENUMERATED set of test types … with every PASS backed
+by <strong>rock-solid captured PHYSICAL evidence</strong> … A green
+result with no falsifiable captured evidence is a §11.4 PASS-bluff
+regardless of which layer reports it.”</em> The closed set: unit,
+integration, e2e, full automation, challenges, HelixQA, DDoS, security,
+stress+chaos, concurrency/atomicity, race/deadlock, memory,
+benchmarking.</td>
+</tr>
+<tr>
+<td><strong>§11.4.224</strong> — TDD + coverage floor</td>
+<td style="text-align: right;">L10736</td>
+<td>Operator mandate, verbatim: <em>“Any work we do MUST START by
+writing the test! … Bash scripts as well! Coverage with TDD MUST BE
+close to 100%, not less than 85% !!!”</em> — the only anchor stating a
+numeric floor, and it binds <strong>new bash scripts</strong>
+explicitly.</td>
+</tr>
+<tr>
+<td><strong>§11.4.2</strong> — recorded evidence</td>
+<td style="text-align: right;">L519</td>
+<td><em>“A test that emits PASS without <strong>captured visual or audio
+evidence of the user-visible feature actually working on the screen the
+user would see</strong> is a §11.4 PASS-bluff.”</em></td>
+</tr>
+<tr>
+<td><strong>§11.4.18</strong> — script documentation</td>
+<td style="text-align: right;">L1103</td>
+<td><em>“Every Bash / shell / POSIX-sh script ANYWHERE in a project …
+MUST carry:”</em> an in-source documentation block (Purpose one-liner;
+Usage with all flags, env vars, positional args, examples) plus complete
+user guides/manuals. <em>“No documentation ever can be out of sync with
+its codebase!”</em></td>
+</tr>
+<tr>
+<td><strong>§11.4.67</strong> — shell parseability</td>
+<td style="text-align: right;">L6188</td>
+<td>A script MUST parse under the shell it is actually invoked
+with.</td>
+</tr>
+<tr>
+<td><strong>§11.4.234</strong> — hook-validation script</td>
+<td style="text-align: right;">L10989</td>
+<td>Hook checks run as an explicit stage of a dedicated commit/push
+script, and the commit/push mechanism is ALWAYS unblocked.</td>
+</tr>
+</tbody>
+</table>
+<p>Export and validation:</p>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th>Anchor</th>
+<th style="text-align: right;">Line</th>
+<th>Obligation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>§11.4.65</strong></td>
+<td style="text-align: right;">L5978</td>
+<td><em>“any <em>other</em> <code>.md</code> file that documents the
+project — guides, research notes, plans … README files inside owned
+submodules — MUST also have <code>.html</code> + <code>.pdf</code>
+siblings, all three artefacts in sync at all times.”</em> Operator
+mandate L5962: <em>“Every time when Markdown document (file) is
+modified, its proper HTML and PDF versions MUST BE regenerated.”</em>
+<strong>§11.4.65 is HTML+PDF only — the string <code>DOCX</code> does
+not appear anywhere in its span.</strong></td>
+</tr>
+<tr>
+<td><strong>§11.4.153(6)</strong></td>
+<td style="text-align: right;">L9516</td>
+<td><em>“the feature Status set MUST export to HTML + PDF + DOCX (this
+doc class ADDS DOCX to the §11.4.65 universal HTML+PDF export set; the
+other doc classes are unchanged).”</em></td>
+</tr>
+<tr>
+<td><strong>§11.4.73</strong></td>
+<td style="text-align: right;">L6900</td>
+<td><strong>NOT an export anchor</strong> — it is
+<em>“Main-specification document versioning + revision discipline”</em>.
+Do not cite it for the export mandate. (The corpus’s own cross-reference
+from §11.4.168 mislabels it.)</td>
+</tr>
+<tr>
+<td><strong>§11.4.168</strong></td>
+<td style="text-align: right;">L9927</td>
+<td><em>“Every generated/exported document … MUST pass INDEPENDENT
+validation by a review agent structurally separate from the generator …
+NEVER the author/generator self-checking its own output … run on BOTH
+the source Markdown AND every exported artifact derived from it, ALWAYS
+— every export, not a sampled subset — across THREE layers, ALL of which
+MUST hold.”</em> Layers: CONTENT (L9929), TEXTUAL (L9931), FULL VISUAL
+(L9933, via <code>pdftotext</code> / <code>pdfimages</code> /
+<code>pdftoppm</code>→OCR), plus an anti-bluff validator (L9935). L9943:
+<em>“No escape hatch — no <code>--skip-visual-validation</code>,
+<code>--raw-source-in-pdf-ok</code>,
+<code>--textual-check-suffices</code>,
+<code>--self-validate-export</code>,
+<code>--diagram-source-as-text-ok</code> flag exists.”</em></td>
+</tr>
+</tbody>
+</table>
+<p>Other operational anchors:</p>
+<ul>
+<li><strong>§12.6 (L10049) — Memory-Budget Ceiling.</strong> L10057:
+<em>“Project procedures MUST NOT use more than <strong>60% of total
+system RAM</strong>.”</em> L10073: <em>“Heavy work MUST be wrapped in a
+bounded execution scope so the kernel OOM-kills only the scope.”</em>
+L10075: <em>“<strong>No escape hatch.</strong> §12.6 has NO
+operator-facing override flag.”</em> — <strong>directly binding on ASR,
+transcode, and embedding jobs over a 1.87 GB video.</strong></li>
+<li><strong>§9.3 (L421) — Hardlinked backup is the standard.</strong>
+L423: <em>“Any destructive operation without a fresh hardlinked backup
+is a Constitution violation regardless of how small the repo is or how
+confident the operator.”</em> Mechanics in §9.1 (L361-365):
+<code>cp -al .git &lt;backup&gt;/&lt;repo&gt;.git.mirror</code>
+<strong>before touching anything</strong>; §9.1.5 is the post-op gate.
+(Note the pre-existing <code>workshop-git-backup-2026-08-29/</code>
+directory at the repo root — evidence this practice is already applied
+to <code>workshop/</code>.)</li>
+<li><strong>§2 (L168)</strong> — <em>“All commit and push work uses the
+project’s official multi-remote commit wrapper … Direct
+<code>git commit</code> / <code>git push</code> / <code>git add</code>
+on the main repo is prohibited in normal workflow.”</em> <strong>§2.1
+(L187)</strong> — every project on multiple providers MUST push to ALL
+configured upstreams. <strong>§11.4.36 (L2971)</strong> — when an
+<code>upstreams/</code> directory with <code>*.sh</code> recipes is
+present, <code>install_upstreams</code> MUST be invoked; L2989: skipping
+it <em>“is a §11.4.36 violation — the next push from that working tree
+will land on only one upstream.”</em>
+(<code>workshop/upstreams/GitHub.sh</code> exists; §11.4.29 at L2227 is
+the <em>snake_case naming</em> anchor, <strong>not</strong> the
+upstreams convention — a common miscitation.)</li>
+<li><strong>§11.4.32 (L2038) — post-Constitution-pull sweep.</strong>
+<em>“Whenever a consuming project’s constitution submodule is fetched +
+pulled with <strong>any</strong> content change … the consuming project
+MUST execute a full-project + recursive-submodule validation sweep
+BEFORE the new constitution HEAD is treated as canonical for any other
+work.”</em> Implemented as
+<code>scripts/verify-all-constitution-rules.sh</code> → step 1
+<code>scripts/verify-governance-cascade.sh</code>.</li>
+</ul>
+<h3 id="the-local-pre-push-gates-every-one-must-stay-green">4.8 The
+local pre-push gates — every one must stay green</h3>
+<p><code>scripts/pre-push-gates.sh</code> (21,743 B) is the <strong>only
+enforcement that exists</strong>; there is no server-side CI.
+<code>.git/hooks/</code> is untracked, so a fresh clone runs nothing
+until <code>bash scripts/pre-push-gates.sh --install</code>, and
+<code>git push --no-verify</code> bypasses it with no record.</p>
+<p><code>GATE_IDS=(E 0 1 2 3 4 5 6)</code>, in order:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>exact command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>E</strong></td>
+<td>§11.4.156(E) no active root CI config</td>
+<td><code>git ls-files \| grep -E '^\.github/workflows/.*\.ya?ml$\|^\.gitlab-ci\.yml$'</code>
+— <strong>must be EMPTY</strong></td>
+</tr>
+<tr>
+<td>0</td>
+<td>hardcoded path audit</td>
+<td><code>./scripts/audit-hardcoded-paths.sh</code></td>
+</tr>
+<tr>
+<td>1</td>
+<td>Go unit tests (<code>_tools/gen</code>)</td>
+<td><code>cd _tools/gen &amp;&amp; go test ./...</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>hardcoding audit (builds the Go generator)</td>
+<td><code>bash _tools/audit-hardcoding.sh</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>HelixTranslate reproducibility self-test</td>
+<td><code>bash _tools/translate/reproducibility-selftest.sh</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>portfolio §1.1 data-integrity self-validation</td>
+<td><code>bash _tools/portfolio/self-validate.sh</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>harness self-validation (visual §11.4.170 + export §11.4.168)</td>
+<td><code>bash _tests/run-harness-selfvalidation.sh</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Playwright (chromium), excluding the all-language crawl</td>
+<td><code>cd _tests &amp;&amp; npx playwright test --project=chromium --grep-invert 'all-language'</code></td>
+</tr>
+</tbody>
+</table>
+<p>Gate E reads the <strong>captured text</strong>, not <code>$?</code>
+(under <code>pipefail</code> a no-match <code>grep</code> exits 1, and
+no-match is the PASS case). Untracked matching files raise an advisory
+WARNING only, because the commit wrapper runs <code>git add .</code>.
+Gates 5 and 6 <strong>SKIP</strong> when
+<code>_tests/node_modules/@playwright/test</code> is absent; gate 6
+additionally needs <code>milosvasic.ru/_site/index.html</code> and
+<code>vasic.digital/index.html</code>. <code>PREPUSH_STRICT=1</code>
+turns an unmet precondition into FAIL. <code>--install</code>
+hardlink-backs-up any pre-existing hook and writes a thin shim that
+<code>exec</code>s the tracked script, so edits take effect without
+reinstalling. <strong>There is deliberately no flag that skips gate
+E.</strong></p>
+<p>Env knobs: <code>PREPUSH_VERBOSE</code>,
+<code>PREPUSH_SKIP_SLOW</code>, <code>PREPUSH_STRICT</code>,
+<code>PREPUSH_ONLY</code>.</p>
+<p><strong>Implication:</strong> adding a curriculum platform must not
+break gates 1–6, and <strong>must not add any file matching gate E’s
+probe</strong> in the umbrella root. A <code>workshop/</code> workflow
+file would not be caught by gate E (which only sweeps the umbrella’s own
+<code>git ls-files</code>) but would still violate §11.4.156, which
+governs <em>“every owned + nested submodule”</em>.</p>
+<h3 id="two-production-websites-do-not-disturb">4.9 Two production
+websites — do not disturb</h3>
+<p>Measured:</p>
+<ul>
+<li><code>milosvasic.ru/.github/workflows/pages.yml</code> —
+<strong>present and ACTIVE</strong> (1,333 bytes).
+<code>CLAUDE.md</code> records the material fact:
+<code>gh api repos/milos85vasic/milosvasic.ru/pages</code> returns
+<code>build_type: "workflow"</code>, so this workflow is the
+<strong>sole publish path</strong> for the live site — there is no
+<code>gh-pages</code> branch and no <code>docs/</code> folder, and the
+repository root is Jekyll <em>source</em>, so it cannot be served raw.
+<code>_tools/deploy-langs.sh</code> generates, commits and pushes source
+and then sleeps waiting for a rebuild; <strong>it does not
+publish</strong>. Operator directive on record: <em>“Make sure all pages
+websites work flawlessly! No website can be broken! All websites we have
+here are running deployed in production!”</em> <strong>Do not disable,
+rename, or “fix” <code>pages.yml</code>.</strong></li>
+<li><code>vasic.digital</code> — <strong>no
+<code>.github/workflows/</code> directory at all</strong>; committed
+static HTML. Its Pages source is <code>build_type: "legacy"</code>, so
+every push still triggers a provider-side
+<code>pages build and deployment</code> run. Non-compliant at the
+<strong>provider</strong> level with <strong>no file-level
+remedy</strong>.</li>
+<li>Umbrella root — only
+<code>.github/workflows/ci.yml.disabled</code>.</li>
+</ul>
+<p>A documented deviation is <strong>not</strong> an override, and
+neither may be recorded, reported or rationalised as one.</p>
+<hr />
+<h2 id="gaps-and-risks">§5 · Gaps and risks</h2>
+<h3 id="what-does-not-exist-and-must-be-built">5.1 What does not exist
+and must be built</h3>
+<p>Ordered by how much of the operator’s brief depends on it.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Missing capability</th>
+<th>Evidence it is missing</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td><strong>A verbatim transcript of chapter 1</strong></td>
+<td>The only text asset is an 8-page, 3,044-word Gemini <em>summary</em>
+with no timestamps and no speaker turns (§1.3).</td>
+<td>“Transcribe chapter 1 into markdown” is an <strong>ASR
+project</strong>, not a conversion.</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><strong>Any ASR tooling</strong></td>
+<td><code>/usr/bin/whisper</code> is <code>whisper-1.3.1-alt1</code> by
+Lorenzo Paderi, not OpenAI Whisper; <code>import whisper</code> →
+<code>ModuleNotFoundError</code> (§3.6).</td>
+<td>Must install an engine and choose CPU-local vs hosted, under §12.6’s
+60 % RAM cap on a <strong>CPU-only</strong> host. 115 minutes of
+audio.</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>Semantic search over media</strong></td>
+<td>Lumen’s extension allowlist is compile-time and contains no media,
+image, PDF, HTML or SVG type (§3.1).</td>
+<td>Every non-text asset must first be reduced to timestamped text. That
+reduction pipeline does not exist.</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td><strong>Any LLM bridge</strong></td>
+<td>No provider registry, no chat call, no key handling, no CA wiring in
+this tree;
+<code>HelixLLM</code>/<code>HelixAgent</code>/<code>LLMProvider</code>
+are prose only (§3.2). Nearest real code is a prompt-cache benchmark in
+the constitution submodule.</td>
+<td>“Ask an AI, get an instant answer” starts from zero here.</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td><strong>A local generative model</strong></td>
+<td>Only two models on the host, both embedding-only, same blob; ollama
+is CPU-only via <code>GGML_VK_VISIBLE_DEVICES=-1</code> (§3.2).</td>
+<td>Local inference for Q&amp;A is not currently possible without
+pulling a chat model.</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td><strong>Containerization of anything curriculum-shaped</strong></td>
+<td><code>ai_interviewing</code> ships <strong>no</strong>
+Dockerfile/Containerfile/compose (§2.2); the only Containerfiles in the
+tree build an unrelated translator (§3.5).</td>
+<td>The “runnable via containers” half has no precedent to copy, and
+pulls in §11.4.76 + §11.4.161 + §12.3 (§4.6).</td>
+</tr>
+<tr>
+<td><strong>7</strong></td>
+<td><strong>The <code>vasic-digital/containers</code>
+submodule</strong></td>
+<td>Absent from <code>.gitmodules</code>; the repo exists in the org
+inventory (§4.6).</td>
+<td>§11.4.76 requires it as <em>the</em> orchestration layer before any
+container work is compliant.</td>
+</tr>
+<tr>
+<td><strong>8</strong></td>
+<td><strong>Ranked / autocomplete / cross-linked search</strong></td>
+<td><code>store.Search</code> is a 4-way <code>LIKE</code> union, no
+ranking, no FTS, bodies not searched; UI has no typeahead; repo-wide
+grep for <code>deepwiki\|autocomplete\|typeahead\|fts5</code> finds no
+implementation (§2.3).</td>
+<td>“deepwiki-class UX with fast autocomplete” and “navigate
+point-to-point” are entirely new.</td>
+</tr>
+<tr>
+<td><strong>9</strong></td>
+<td><strong>A media pipeline</strong></td>
+<td>Ingest’s only media operation is “copy a PNG, rewrite its link”
+(§2.4). No transcode, no thumbnails, no waveform, no chapter markers, no
+subtitle track.</td>
+<td>Audio/video playback with deep links to timestamps must be designed
+from scratch.</td>
+</tr>
+<tr>
+<td><strong>10</strong></td>
+<td><strong>Multi-track / multi-chapter extensibility without code
+edits</strong></td>
+<td>Tracks are a hardcoded Go literal slice; domain grouping is a
+<code>switch</code> on ordinal (§2.1).</td>
+<td>“Extensible by a repeatable prompt whenever a new chapter is added”
+is blocked until track/chapter discovery becomes data-driven.</td>
+</tr>
+<tr>
+<td><strong>11</strong></td>
+<td><strong>Governance carriers + <code>helix-deps.yaml</code> entry for
+<code>workshop/</code></strong></td>
+<td><code>workshop/</code> has none of the four carriers and is absent
+from <code>helix-deps.yaml</code>; G7 is 20/24 (§1.1, §4.2).</td>
+<td><strong>In flight by another agent</strong> — the spec should depend
+on it, not duplicate it.</td>
+</tr>
+<tr>
+<td><strong>12</strong></td>
+<td><strong>Four-format exports for <code>workshop/</code></strong></td>
+<td><code>workshop/README.md</code> has no
+<code>.html</code>/<code>.pdf</code> siblings; G8 is repo-wide OPEN
+(§4.7). <em>This RECON.md inherits that gap.</em></td>
+<td>§11.4.65 binds every documenting <code>.md</code> in an owned
+submodule.</td>
+</tr>
+<tr>
+<td><strong>13</strong></td>
+<td><strong>A <code>workshop/</code> test/evidence harness</strong></td>
+<td><code>self-test.sh</code> covers only the archive pipeline; no
+unit/integration/e2e/challenge banks; §11.4.169 names 13 test types and
+§11.4.224 sets an 85 % floor (§4.7).</td>
+<td>Substantial, and TDD-first per §11.4.224.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ambiguities-that-need-a-clarify-question">5.2 Ambiguities that
+need a <code>clarify</code> question</h3>
+<ol type="1">
+<li><strong>“Transcribe” — to what fidelity, by what engine, and is a
+hosted API acceptable?</strong> Verbatim diarized transcript with
+per-utterance timestamps, or a cleaned reading transcript? Local CPU
+Whisper (hours, §12.6-bounded) or a hosted ASR service (sends a 1.87 GB
+private recording of two named individuals off-host)? <strong>The
+privacy dimension is not a detail</strong> — the recording names
+participants and discusses commercial strategy and pricing.</li>
+<li><strong>Where does the curriculum live?</strong> Inside
+<code>workshop/</code> (self-contained, mirroring
+<code>ai_interviewing/</code>), or at the umbrella root with
+<code>workshop/</code> as content-only? This determines whether the
+umbrella pre-push gates ever see the new code.</li>
+<li><strong>What is a “chapter” as a data structure?</strong>
+<code>ai_interviewing</code> maps one Markdown file to one module. A
+workshop chapter is one 2-hour recording plus a transcript plus code
+plus diagrams plus exercises. Is a chapter a <em>track</em> (many
+lessons) or a <em>module</em> (many <code>##</code> sections)?</li>
+<li><strong>“Runnable via containers” — which surface?</strong> The
+whole platform in one container? Backend + frontend + an inference
+sidecar? And does §11.4.76’s on-demand-infra invariant mean the bash
+scripts must <em>start</em> the containers, so an operator never runs
+<code>podman</code> by hand?</li>
+<li><strong>“Lumen semantic integration” — as which of three
+things?</strong> (a) the platform shells out to
+<code>lumen search</code> and parses plaintext (no JSON output flag
+exists); (b) the platform speaks MCP to <code>lumen stdio</code>; (c)
+the platform builds its <strong>own</strong> embedding index
+(jina-v2-base-code via ollama) and Lumen stays a developer tool. These
+have radically different costs, and (a) inherits the whole-repo index at
+<code>~/.local/share/lumen/21bf1507a8925bcf/</code>, which is scoped to
+the <em>repository</em>, not to the curriculum.</li>
+<li><strong>Internal vs external LLM — what is the default, and where do
+keys live?</strong> No provider registry, no key handling and no CA
+wiring exist here (§3.2), and the host has no chat model. §11.4.10
+requires credentials be git-ignored, runtime-loaded, and separated per
+service.</li>
+<li><strong>What does “instant” mean numerically?</strong> An
+answer-latency budget is required before local-vs-hosted can be decided;
+a CPU-only host cannot serve sub-second generation.</li>
+<li><strong>Which languages?</strong> The umbrella renders 15;
+<code>ai_interviewing</code>’s platform is English-only-but-i18n-ready.
+A transcript is expensive to translate.</li>
+<li><strong>Is the 1.87 GB video the distribution artefact, or is a
+web-optimised rendition produced?</strong> 1080p24 at 2.16 Mb/s is not a
+streaming ladder, and a browsable player implies seekable delivery.</li>
+<li><strong>What exactly is the “repeatable prompt” contract for adding
+chapter N?</strong> A slash command? A skill? A script plus a prompt?
+Its output contract determines how much of the pipeline must be
+declarative.</li>
+</ol>
+<h3 id="where-the-ai_interviewing-pattern-will-not-transfer-cleanly">5.3
+Where the <code>ai_interviewing</code> pattern will <strong>not</strong>
+transfer cleanly</h3>
+<ol type="1">
+<li><strong>The ingest model is Markdown-only and lossy for
+media.</strong> <code>ingest.go</code> reads <code>.md</code>, splits on
+<code>##</code> and <code>#### Q</code>, and copies PNGs. It has no
+concept of a time axis. A transcript’s value is its
+<strong>timestamps</strong>, and nothing in the schema
+(<code>lesson</code>, <code>question</code>, <code>asset</code>) can
+hold one. <code>asset(name, mime, rel_path)</code> has no duration, no
+offset, no track.</li>
+<li><strong><code>LIKE</code>-based search does not survive a
+transcript.</strong> A 115-minute transcript is roughly 15,000–18,000
+words in one document. Lesson <strong>bodies are not searched at
+all</strong> today — only titles — so a <code>LIKE</code> search over a
+transcript-derived module would return the module title and nothing
+useful. The 40-row <code>LIMIT</code> with no ranking makes it
+worse.</li>
+<li><strong>Hardcoded tracks defeat “add a chapter with a
+prompt.”</strong> Three struct literals and a <code>switch</code> on
+ordinal must become data before chapter 02 can be added without a Go
+edit and rebuild.</li>
+<li><strong>One flat asset namespace.</strong>
+<code>/api/assets/:name</code> does <code>filepath.Base()</code> and
+serves from one directory (158 PNGs today). Video, audio, subtitle
+tracks and per-chapter media need namespacing, range requests
+(<code>Accept-Ranges</code>), and content-type handling that
+<code>c.File()</code> alone does not provide.</li>
+<li><strong><code>store.Reset()</code> wipes and rebuilds everything on
+every ingest.</strong> Fine for a 206 MB Markdown corpus that re-ingests
+in ~20 s; hostile to a corpus whose derived artefacts (embeddings,
+transcripts, transcodes) cost hours to produce. Incremental ingest is a
+new requirement.</li>
+<li><strong><code>SetMaxOpenConns(1)</code>.</strong> One writer keeps
+modernc-sqlite deterministic; it also serializes every read. Acceptable
+for a single-reader study app, a real constraint for a concurrent search
++ chat workload.</li>
+<li><strong>No auth of any kind, and
+<code>AllowAllOrigins: true</code>.</strong>
+<code>ai_interviewing</code> is a localhost study tool with a
+<code>localStorage</code> session id. Anything published, or anything
+holding a private recording of a named third party, needs a different
+posture.</li>
+<li><strong>The export pipeline scales by document, not by
+minute.</strong> <code>build-all.sh</code> exports every
+<code>.md</code> to HTML+PDF+DOCX and validates every PDF with OCR. A
+15,000-word transcript is fine; the §11.4.168 visual layer requires
+<strong>≥1 embedded raster image per doc that references a
+diagram</strong>, which is why <code>render-diagrams.sh</code> emits PNG
+rather than SVG — a constraint any new document class inherits.</li>
+<li><strong>The <code>SQLITE</code> macOS-path defect</strong> (§2.5) is
+a live example of the portability class that
+<code>scripts/audit-hardcoded-paths.sh</code> catches at the umbrella
+root but <strong>not inside submodules</strong>. New workshop scripts
+get no such sweep for free.</li>
+<li><strong>Three stale copies of the learning-kit</strong> (§3.3) mean
+“reuse the design system” needs an explicit source-of-truth decision
+before any UI work starts.</li>
+</ol>
+<h3 id="risk-register">5.4 Risk register</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Grounding</th>
+<th>Exposure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A workflow file added to <code>workshop/</code> blocks
+release</strong></td>
+<td>§11.4.156 governs <em>“every owned + nested submodule”</em>; gate E
+only sweeps the umbrella’s <code>git ls-files</code> and would
+<strong>not catch it</strong> (§4.8).</td>
+<td>High — an unguarded blind spot.</td>
+</tr>
+<tr>
+<td><strong>A hosted-ASR decision leaks a private
+recording</strong></td>
+<td>Named participants, commercial strategy, pricing (§1.3). No
+§11.4.10-shaped credential or data-egress policy exists for this.</td>
+<td>High.</td>
+</tr>
+<tr>
+<td><strong>Local ASR + embedding breaches the 60 % RAM
+cap</strong></td>
+<td>§12.6 has no override; the host is CPU-only; the video is 115 min /
+1.87 GB (§3.6, §4.7).</td>
+<td>Medium-high — needs a bounded execution scope from the first
+task.</td>
+</tr>
+<tr>
+<td><strong>Lumen index churn</strong></td>
+<td>Changing the embedding-model <em>name</em> silently starts a
+<strong>second</strong> index rather than updating
+<code>21bf1507a8925bcf</code> (§3.1); the existing index is already 335
+MB and one rebuild has taken ~15 h.</td>
+<td>Medium-high.</td>
+</tr>
+<tr>
+<td><strong>Container work lands non-compliant</strong></td>
+<td>§11.4.76 requires the <code>containers</code> submodule as the
+<em>sole</em> orchestration layer; every existing call site in this tree
+is ad-hoc and the <code>amber.local</code> branch picks Docker (§3.5,
+§4.6).</td>
+<td>Medium-high.</td>
+</tr>
+<tr>
+<td><strong>Repository weight</strong></td>
+<td><code>workshop/</code> is already 3.5 G working tree / 1.8 G
+<code>.git</code>. Adding transcodes, embeddings and per-chapter media
+multiplies it. The 50 MB part scheme is manual and hook-driven.</td>
+<td>Medium.</td>
+</tr>
+<tr>
+<td><strong><code>helix-deps.yaml</code> drift</strong></td>
+<td>Observed: <code>workshop</code> absent entirely, and
+<strong>every</strong> declared ref is stale against live
+<code>git submodule status</code> (constitution
+<code>448981ae</code>→<code>902979027</code>, design-toolkit
+<code>16e4e76</code>→<code>efd2c3fb</code>, ai_interviewing
+<code>023abbfd</code>→<code>ed73d855</code>, monetization
+<code>1f9f5204</code>→<code>54ed7b0f</code>, vasic.digital
+<code>5a4c3bba</code>→<code>6e5411c2</code>, milosvasic.ru
+v1.8.0-5→v1.8.0-9). <strong>Reported as observation only — another agent
+owns this file.</strong></td>
+<td>Medium.</td>
+</tr>
+<tr>
+<td><strong>Fresh clone is unprotected</strong></td>
+<td><code>.git/hooks/</code> untracked; nothing runs until
+<code>--install</code>; <code>--no-verify</code> bypasses silently
+(§4.8).</td>
+<td>Medium.</td>
+</tr>
+<tr>
+<td><strong><code>.lumenignore</code> may need extending</strong></td>
+<td>It excludes only <code>_tests/evidence/</code>. A
+<code>workshop/</code> full of transcripts and generated artefacts could
+inflate index time toward the ~15 h figure the file already
+documents.</td>
+<td>Medium.</td>
+</tr>
+<tr>
+<td><strong>Evidence directories are git-ignored
+everywhere</strong></td>
+<td><code>_tests/evidence</code>, <code>qa/evidence/</code>,
+<code>.test-evidence/</code> are all untracked. §11.4.262 demands
+machine evidence cited by path + hash + timestamp; untracked evidence is
+not reproducible by a reviewer on another clone.</td>
+<td>Medium — needs an explicit decision.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="summary-for-the-spec-author">§6 · Summary for the spec
+author</h2>
+<p><strong>What exists in <code>workshop/</code>:</strong> one chapter,
+one 115-minute 1080p recording (tracked as 36 verified archive parts),
+one 8-page AI <em>summary</em> PDF, a genuinely well-built and
+self-tested video archive/extract pipeline, an upstream recipe, and a
+README that says “Tbd.” <strong>No curriculum, no code, no containers,
+no carriers.</strong></p>
+<p><strong>What <code>ai_interviewing</code> gives for free:</strong>
+the whole content→SQLite→SPA architecture; a filename-convention
+curriculum model with basename joins for parallel document kinds; a
+seven-script bash control plane with health-gated idempotent
+start/stop/status and bound-address publication; curriculum versioning
+and i18n-readiness already in the schema; a deterministic re-runnable
+Markdown ingester; a four-format export pipeline with a validator-safe
+Mermaid→PNG step; and a three-bank, 24-challenge, 18-e2e, evidence-gated
+test discipline that is the house pattern for §1.1 and §11.4.169.</p>
+<p><strong>Top reusable components:</strong> (1)
+<code>design-system/learning-kit/</code> — 31.7 KB of framework-free
+curriculum UI CSS on the <code>--od-*</code> token contract, already
+consumed by the reference SPA; (2)
+<code>ai_interviewing/platform/scripts/</code> — the bash control-plane
+pattern; (3) <code>ai_interviewing/scripts/</code> —
+<code>build-all.sh</code> / <code>render-diagrams.sh</code> /
+<code>export-doc.sh</code> / <code>validate-exports.sh</code>; (4)
+<code>internal/ingest</code> + <code>internal/store</code> as the ingest
+and schema starting point; (5)
+<code>_tests/{export,visual}/self-validate.sh</code> as the
+mutation-paired gate template; (6) <code>scripts/lumen-reindex.sh</code>
+and <code>scripts/lumen-index-doctor.sh</code> as the model for careful,
+three-valued, evidence-producing operational scripts.</p>
+<p><strong>The five biggest gaps or risks:</strong></p>
+<ol type="1">
+<li><strong>There is no transcript and no ASR tooling</strong> — chapter
+1’s only text is a 3,044-word summary of a 115-minute recording, and the
+host has no speech-to-text engine and only CPU inference.</li>
+<li><strong>Lumen cannot see media</strong> — its extension allowlist is
+compile-time and text-only, so “semantic search across audio and video”
+requires a text-reduction pipeline that does not exist.</li>
+<li><strong>There is no LLM bridge and no local chat model</strong> —
+everything named <code>HelixLLM</code> / <code>HelixAgent</code> /
+<code>LLMProvider</code> in this tree is prose; the two local models are
+embedding-only.</li>
+<li><strong>Containers are entirely new territory and constitutionally
+constrained</strong> — the reference implementation has none, §11.4.76
+requires the absent <code>vasic-digital/containers</code> submodule as
+the sole orchestration layer, §11.4.161 forbids non-rootless Docker, and
+§11.4.156 forbids adding any CI workflow to <code>workshop/</code> (a
+<strong>release blocker</strong> that gate E would not catch).</li>
+<li><strong>The reference implementation’s search and extensibility are
+the two things the brief most depends on, and both are its weakest
+parts</strong> — a 4-way <code>LIKE</code> union with no ranking that
+never searches lesson bodies, and hardcoded Go track literals that make
+“add a chapter with a prompt” impossible without a code edit.</li>
+</ol>
+<hr />
+<h2 id="command-log">§7 · Command log</h2>
+<p>Every command run during this survey. All are read-only.
+<code>$ROOT</code> =
+<code>&lt;ext-volume-host&gt;/Projects/vasic</code>.</p>
+<p><strong>Repository shape</strong></p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-la</span> <span class="va">$ROOT</span><span class="kw">;</span> <span class="fu">cat</span> <span class="va">$ROOT</span>/.gitmodules</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> <span class="va">$ROOT</span> status <span class="at">--short</span><span class="kw">;</span> <span class="fu">git</span> <span class="at">-C</span> <span class="va">$ROOT</span> submodule status</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-la</span> <span class="va">$ROOT</span>/.github/workflows/ <span class="va">$ROOT</span>/milosvasic.ru/.github/workflows/ <span class="va">$ROOT</span>/vasic.digital/.github/workflows/</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="va">$ROOT</span>/docs <span class="at">-type</span> f <span class="kw">|</span> <span class="fu">sort</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="va">$ROOT</span>/.specify <span class="at">-maxdepth</span> 3 <span class="at">-type</span> f <span class="kw">|</span> <span class="fu">sort</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="va">$ROOT</span>/.test-evidence <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span> <span class="kw">;</span> <span class="fu">ls</span> <span class="at">-la</span> <span class="va">$ROOT</span>/.test-evidence/20260831T220<span class="pp">*</span>/</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-70</span> <span class="va">$ROOT</span>/.specify/memory/constitution.md</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-40</span> <span class="va">$ROOT</span>/CONTINUATION.md <span class="kw">;</span> <span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;1,80p&#39;</span> <span class="va">$ROOT</span>/README.md</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="at">-i</span> <span class="st">&#39;workshop&#39;</span> <span class="va">$ROOT</span>/CONTINUATION.md <span class="va">$ROOT</span>/README.md <span class="va">$ROOT</span>/CLAUDE.md</span></code></pre></div>
+<p><strong><code>workshop/</code></strong></p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="va">$ROOT</span>/workshop <span class="at">-path</span> ./.git <span class="at">-prune</span> <span class="at">-o</span> <span class="at">-print</span> <span class="kw">|</span> <span class="fu">sort</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> <span class="at">--exclude</span><span class="op">=</span>.git <span class="va">$ROOT</span>/workshop <span class="kw">;</span> <span class="fu">du</span> <span class="at">-sh</span> <span class="va">$ROOT</span>/workshop/<span class="dt">{chapters</span><span class="op">,</span><span class="dt">docs</span><span class="op">,</span><span class="dt">scripts</span><span class="op">,</span><span class="dt">upstreams}</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-sh</span> <span class="va">$ROOT</span>/.git/modules/workshop <span class="kw">;</span> <span class="fu">du</span> <span class="at">-cb</span> <span class="va">$ROOT</span>/workshop/chapters/01/<span class="pp">*</span>.part-<span class="pp">*</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-1</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> <span class="va">$ROOT</span>/workshop ls-files <span class="kw">;</span> <span class="fu">git</span> <span class="at">-C</span> <span class="va">$ROOT</span>/workshop ls-files <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> <span class="va">$ROOT</span>/workshop log <span class="at">--oneline</span> <span class="at">-15</span> <span class="kw">;</span> <span class="fu">git</span> <span class="at">-C</span> <span class="va">$ROOT</span>/workshop status <span class="at">--short</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-la</span> <span class="va">$ROOT</span>/workshop/chapters/01/</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/workshop/README.md <span class="va">$ROOT</span>/workshop/.gitignore <span class="va">$ROOT</span>/workshop/.git</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">&quot;</span><span class="va">$ROOT</span><span class="st">/workshop/chapters/01/…Recording.mp4.sha256&quot;</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/workshop/scripts/<span class="dt">{archive-videos</span><span class="op">,</span><span class="dt">extract-videos</span><span class="op">,</span><span class="dt">install-hooks</span><span class="op">,</span><span class="dt">self-test}</span>.sh</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/workshop/scripts/git-hooks/<span class="dt">{post-commit</span><span class="op">,</span><span class="dt">post-checkout}</span> <span class="va">$ROOT</span>/workshop/upstreams/GitHub.sh</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/workshop/docs/superpowers/specs/2026-08-28-video-archive-pipeline-design.md</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="ex">ffprobe</span> <span class="at">-i</span> <span class="st">&quot;</span><span class="va">$ROOT</span><span class="st">/workshop/chapters/01/…Recording.mp4&quot;</span>          <span class="co"># streams, duration</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="ex">pdfinfo</span> <span class="st">&quot;</span><span class="va">$ROOT</span><span class="st">/workshop/chapters/01/…Notes by Gemini.PDF&quot;</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="ex">pdftotext</span> <span class="at">-layout</span> <span class="st">&quot;…Notes by Gemini.PDF&quot;</span> <span class="at">-</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-120</span>          <span class="co"># and | wc -lwc</span></span></code></pre></div>
+<p><strong><code>ai_interviewing/</code></strong></p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="va">$ROOT</span>/ai_interviewing <span class="at">-path</span> <span class="st">&#39;*/node_modules&#39;</span> <span class="at">-prune</span> <span class="at">-o</span> <span class="at">-path</span> <span class="st">&#39;*/.angular&#39;</span> <span class="at">-prune</span> <span class="dt">\</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">-o</span> <span class="at">-path</span> <span class="st">&#39;*/dist&#39;</span> <span class="at">-prune</span> <span class="at">-o</span> <span class="at">-type</span> f <span class="at">-print</span> <span class="kw">|</span> <span class="fu">sort</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="va">$ROOT</span>/ai_interviewing/docs <span class="at">-type</span> f <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;s/.*\.//&#39;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">uniq</span> <span class="at">-c</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> <span class="va">$ROOT</span>/ai_interviewing ls-files <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="va">$ROOT</span>/ai_interviewing/platform/data/assets/<span class="pp">*</span>.png <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="va">$ROOT</span>/ai_interviewing/platform/content/<span class="dt">{mcq</span><span class="op">,</span><span class="dt">short}</span>/<span class="pp">*</span>.json <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="va">$ROOT</span>/ai_interviewing/docs/interview-preparation/areas/<span class="pp">*</span>.md <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="va">$ROOT</span>/ai_interviewing/docs/<span class="dt">{project-deep-dives</span><span class="op">,</span><span class="dt">improvement-plans</span><span class="op">,</span><span class="dt">validation-plans}</span>/<span class="pp">[</span><span class="ss">0</span><span class="pp">-</span><span class="ss">9</span><span class="pp">]*</span>.md <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/ai_interviewing/README.md <span class="va">$ROOT</span>/ai_interviewing/platform/README.md</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/ai_interviewing/platform/scripts/<span class="dt">{_common</span><span class="op">,</span><span class="dt">build</span><span class="op">,</span><span class="dt">start</span><span class="op">,</span><span class="dt">stop</span><span class="op">,</span><span class="dt">status</span><span class="op">,</span><span class="dt">restart</span><span class="op">,</span><span class="dt">ingest}</span>.sh</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/ai_interviewing/platform/backend/<span class="dt">{go.mod</span><span class="op">,</span><span class="dt">cmd/server/main.go}</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/ai_interviewing/platform/backend/internal/<span class="dt">{api/api.go</span><span class="op">,</span><span class="dt">store/store.go}</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-140</span> <span class="va">$ROOT</span>/ai_interviewing/platform/backend/internal/ingest/ingest.go</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;140,330p&#39;</span>  <span class="va">$ROOT</span>/ai_interviewing/platform/backend/internal/ingest/ingest.go</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/ai_interviewing/platform/frontend/<span class="dt">{package.json</span><span class="op">,</span><span class="dt">src/app/app.routes.ts}</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/ai_interviewing/platform/frontend/src/app/<span class="dt">{core/api.ts</span><span class="op">,</span><span class="dt">features/search.component.ts}</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-60</span> <span class="va">$ROOT</span>/ai_interviewing/platform/frontend/src/styles.scss</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/ai_interviewing/platform/qa/<span class="dt">{helixqa/run-suite.sh</span><span class="op">,</span><span class="dt">e2e/playwright.config.ts}</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/ai_interviewing/platform/qa/challenges/api-challenges.sh</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&quot;test(&quot;</span> <span class="va">$ROOT</span>/ai_interviewing/platform/qa/e2e/tests/smoke.spec.ts</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-45</span> <span class="va">$ROOT</span>/ai_interviewing/scripts/<span class="dt">{build-all</span><span class="op">,</span><span class="dt">render-diagrams</span><span class="op">,</span><span class="dt">export-doc</span><span class="op">,</span><span class="dt">validate-exports}</span>.sh</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/ai_interviewing/<span class="dt">{.gitignore</span><span class="op">,</span><span class="dt">platform/.gitignore</span><span class="op">,</span><span class="dt">platform/run/server.json}</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">--max-time</span> 3 http://localhost:8099/api/health      <span class="co"># → no response</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="op">&lt;</span>backend .go, frontend .ts, scripts, qa files<span class="op">&gt;</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;1,40p&#39;</span> <span class="va">$ROOT</span>/ai_interviewing/docs/project-deep-dives/22-courses-creator.md</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;1,32p&#39;</span> <span class="va">$ROOT</span>/ai_interviewing/docs/project-deep-dives/17-helixllm.md</span></code></pre></div>
+<p><strong>Cross-cutting</strong></p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="va">$ROOT</span> <span class="at">-path</span> <span class="st">&#39;*/node_modules&#39;</span> <span class="at">-prune</span> <span class="at">-o</span> <span class="at">-path</span> <span class="st">&#39;*/.git&#39;</span> <span class="at">-prune</span> <span class="dt">\</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">-o</span> <span class="dt">\(</span> <span class="at">-iname</span> <span class="st">&#39;Dockerfile*&#39;</span> <span class="at">-o</span> <span class="at">-iname</span> <span class="st">&#39;*compose*.y*ml&#39;</span> <span class="at">-o</span> <span class="at">-iname</span> <span class="st">&#39;Containerfile*&#39;</span> <span class="dt">\)</span> <span class="at">-print</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-rl</span> <span class="at">-E</span> <span class="st">&#39;\b(podman|docker)\b&#39;</span> <span class="at">--include</span><span class="op">=</span><span class="st">&#39;*.sh&#39;</span> <span class="at">--include</span><span class="op">=</span><span class="st">&#39;*.md&#39;</span> <span class="at">--include</span><span class="op">=</span><span class="st">&#39;*.yaml&#39;</span> <span class="va">$ROOT</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-rn</span> <span class="at">-i</span> <span class="at">-E</span> <span class="st">&#39;deepwiki|autocomplete|typeahead|fts5&#39;</span> <span class="at">--include</span><span class="op">=</span><span class="st">&#39;*.go&#39;</span> <span class="at">--include</span><span class="op">=</span><span class="st">&#39;*.ts&#39;</span> <span class="va">$ROOT</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="at">-i</span> <span class="st">&#39;containers&#39;</span> <span class="va">$ROOT</span>/.gitmodules                  <span class="co"># → no match</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> ffmpeg ffprobe whisper yt-dlp pandoc weasyprint mmdc pdftotext tesseract <span class="dt">\</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>         podman docker go node npm ruby bundler python3 sqlite3 lumen ollama<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="bu">printf</span> <span class="st">&#39;%-12s %s\n&#39;</span> <span class="st">&quot;</span><span class="va">$t</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$(</span><span class="bu">command</span> <span class="at">-v</span> <span class="va">$t</span> <span class="kw">||</span> <span class="bu">echo</span> MISSING<span class="va">)</span><span class="st">&quot;</span><span class="kw">;</span> <span class="cf">done</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-20</span> /usr/bin/whisper <span class="kw">;</span> <span class="ex">rpm</span> <span class="at">-qf</span> /usr/bin/whisper</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&quot;import whisper&quot;</span>                                <span class="co"># → ModuleNotFoundError</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="ex">podman</span> <span class="at">--version</span> <span class="kw">;</span> <span class="ex">podman</span> info <span class="at">--format</span> <span class="st">&#39;{{.Store.GraphDriverName}} rootless={{.Host.Security.Rootless}}&#39;</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-60</span> <span class="va">$ROOT</span>/_tests/GATES.md <span class="kw">;</span> <span class="fu">grep</span> <span class="at">-n</span> <span class="st">&#39;^#&#39;</span> <span class="va">$ROOT</span>/_tests/TEST-TYPES.md</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&quot;…&quot;</span>   <span class="co"># extract repo names + descriptions from _analysis/github-*.json</span></span></code></pre></div>
+<p><strong>Constitution anchors</strong> (delegated; <code>$C</code> =
+<code>$ROOT/submodules/constitution/Constitution.md</code>)</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&#39;^### §11\.4\.156 &#39;</span> <span class="va">$C</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;/^### §11\.4\.156 /{f=1} f{print} f&amp;&amp;/^### §11\.4\.157 /{exit}&#39;</span> <span class="va">$C</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># …repeated for §11.4.157, §12.10, §1.1, §11.4.6, §11.4.65, §11.4.153, §11.4.73,</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   §11.4.168, §11.4.32, §11.4.29, §11.4.36, §12.6, §9.1, §9.3, §11.4.262,</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   §11.4.169, §11.4.224, §11.4.2, §11.4.76, §11.4.161, §12.3, §11.4.18,</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   §11.4.67, §11.4.234, §2, §2.1</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&#39;^### §&#39;</span> <span class="va">$C</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-i</span> <span class="at">-E</span> <span class="st">&#39;evidence|container|script&#39;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;1,160p&#39;</span> <span class="va">$ROOT</span>/Constitution.md      <span class="co"># the project-local constitution</span></span></code></pre></div>
+<p><strong>Lumen / LLM / design-system / generator</strong> (delegated;
+read-only, no <code>lumen</code> command run)</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/scripts/lumen-reindex.sh <span class="va">$ROOT</span>/scripts/lumen-index-doctor.sh</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/.lumenignore <span class="va">$ROOT</span>/.lumen-reindex.log</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/.claude/settings.json <span class="va">$ROOT</span>/.claude/settings.local.json</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="ex">pgrep</span> <span class="at">-a</span> lumen <span class="kw">;</span> <span class="ex">pgrep</span> <span class="at">-a</span> ollama</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> /etc/sysconfig/ollama <span class="kw">;</span> <span class="fu">ls</span> /var/lib/ollama/.ollama/models/manifests/<span class="pp">**</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-la</span> <span class="op">&lt;</span>home<span class="op">&gt;</span>/.local/share/lumen/21bf1507a8925bcf/</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># lumen 0.0.41 source: cmd/stdio.go, internal/chunker/languages.go,</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   internal/index/index.go, internal/merkle/ignore.go, internal/config/{config,version}.go</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> <span class="va">$ROOT</span>/design-system <span class="va">$ROOT</span>/design-toolkit <span class="at">-maxdepth</span> 2</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/_tools/helixtranslate-container/<span class="dt">{Containerfile</span><span class="op">,</span><span class="dt">Containerfile.translator</span><span class="op">,</span><span class="dt">run.sh}</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;40,60p&#39;</span> <span class="va">$ROOT</span>/_tools/helixtranslate-container.sh</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/_tools/gen/<span class="dt">{main.go</span><span class="op">,</span><span class="dt">go.mod</span><span class="op">,</span><span class="dt">build.sh}</span> <span class="kw">;</span> <span class="fu">ls</span> <span class="va">$ROOT</span>/_tools/gen/<span class="pp">*</span>_test.go</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;160,230p;350,380p;470,490p&#39;</span> <span class="va">$ROOT</span>/scripts/pre-push-gates.sh</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="va">$ROOT</span>/helix-deps.yaml                  <span class="co"># READ ONLY — owned by another agent</span></span></code></pre></div>
+<hr />
+<h3 id="honest-boundary-on-this-document">Honest boundary on this
+document</h3>
+<p>Per §11.4.6 and §11.4.65: this file is a <code>.md</code> documenting
+the project, so §11.4.65 requires <code>.html</code> + <code>.pdf</code>
+siblings kept in sync. They <strong>do not exist</strong> — gap
+<strong>G8</strong> is open repository-wide, and this document inherits
+it. The brief for this survey authorised exactly one file, so the
+exports were not generated. Generating them is
+<code>bash ai_interviewing/scripts/export-doc.sh docs/workshop-curriculum/RECON.md</code>
+(the script is generic — it takes any <code>.md</code> path), followed
+by the §11.4.168 validation in <code>validate-exports.sh</code>.</p>
+</body>
+</html>

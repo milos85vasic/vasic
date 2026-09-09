@@ -555,7 +555,7 @@ Measured, quoted from the one propagation gate the sweep argv-resolved correctly
 
 ```
 CM-COVENANT-114-167-PROPAGATION: 4 PRESENT, 64 POINTER-INHERITANCE-SKIP, 5 MISSING
-  (anchor 11.4.167) under /run/media/milosvasic/DATA4TB/Projects/vasic
+  (anchor 11.4.167) under <ext-volume-host>/Projects/vasic
 ```
 
 and re-derived independently for a fence-aware member of the family
@@ -611,7 +611,7 @@ what it would take to fix.
 **What happens.** With no `--root` resolved, each gate falls back to its own
 default consumer root — `root="${CONSUMER_ROOT:-..}"` in
 `lib/covenant_propagation_engine.sh:182` — and `..` from the sweep's cwd is
-**`/run/media/milosvasic/DATA4TB/Projects`, the parent of this repository**: the
+**`<ext-volume-host>/Projects`, the parent of this repository**: the
 operator's entire projects directory, dozens of unrelated repositories.
 
 **Two distinct sub-defects, both in our resolver:**
@@ -661,7 +661,7 @@ operator's entire projects directory, dozens of unrelated repositories.
 4. **Two gates hit the 900 s `GATE_TIMEOUT` and scored ERROR rc=124** —
    `cm_dangerous_combination_fail_closed.sh` and `cm_killpg_pgid_guard.sh`. Both
    detail blocks open with
-   `find: '/run/media/milosvasic/DATA4TB/Projects/proxy/cache/squid/00': Permission denied`,
+   `find: '<ext-volume-host>/Projects/proxy/cache/squid/00': Permission denied`,
    which is the direct proof they were walking the parent tree. They are ERRORs
    because the wrong tree is enormous, not because anything here is wrong.
 

@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>SAFETY-AND-ROLLBACK</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SAFETY-AND-ROLLBACK</h1>
+</header>
+<h1 id="safety-and-rollback">Safety and Rollback</h1>
+<p>Authoritative reference for the transactional backup manifest written
+by <code>scripts/setup-agents-wizard.sh</code> and for the rollback tool
+that replays it, <code>scripts/rollback-agents-wizard.sh</code>.</p>
+<p>Every statement here was read out of those two scripts. For the
+wizard’s own reference see <a
+href="./MANUAL.md"><code>MANUAL.md</code></a>; for symptom-first fixes
+see <a
+href="./TROUBLESHOOTING.md"><code>TROUBLESHOOTING.md</code></a>.</p>
+<p>The short version:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--list</span>       <span class="co"># which runs can be undone</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--dry-run</span>    <span class="co"># what would change</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--yes</span>        <span class="co"># undo the newest run</span></span></code></pre></div>
+<hr />
+<h2 id="what-gets-backed-up-and-where">What gets backed up, and
+where</h2>
+<p>The wizard calls <code>backup_init</code> once, immediately after it
+prints the project root and <strong>before Step 1</strong>. That creates
+a fresh <strong>session directory</strong> named for the UTC start time
+and prints it:</p>
+<pre><code>ℹ️  Backup session: /home/&lt;you&gt;/.local/share/setup-agents-wizard/backups/20260826T210411Z
+ℹ️  Undo everything later with: /path/to/repo/scripts/rollback-agents-wizard.sh</code></pre>
+<p>Layout:</p>
+<pre><code>~/.local/share/setup-agents-wizard/            &lt;- WIZARD_STATE_DIR
+└── backups/                                   &lt;- BACKUP_ROOT
+    ├── 20260826T210411Z/                      &lt;- one session per wizard run
+    │   ├── manifest.tsv                       &lt;- the transaction log
+    │   ├── files/                             &lt;- byte-exact copies of the originals
+    │   │   ├── 9f2c1ab30e7d4415__.bashrc
+    │   │   ├── 4b7e0d9a1c6f2238__.bash_profile
+    │   │   └── 2d5ae8b17c034f90__settings.json
+    │   └── pre-rollback-20260826T221530Z/     &lt;- written by the rollback tool, not the wizard
+    ├── 20260827T090300Z/                      &lt;- the next run gets its own session
+    └── latest -&gt; 20260827T090300Z             &lt;- symlink to the newest session</code></pre>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Property</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">State directory</td>
+<td style="text-align: left;"><code>$WIZARD_STATE_DIR</code>, default
+<code>$HOME/.local/share/setup-agents-wizard</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Backup root</td>
+<td
+style="text-align: left;"><code>$WIZARD_STATE_DIR/backups</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Session id</td>
+<td style="text-align: left;"><code>date -u +%Y%m%dT%H%M%SZ</code> —
+e.g. <code>20260826T210411Z</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Manifest</td>
+<td style="text-align: left;"><code>&lt;session&gt;/manifest.tsv</code>,
+tab-separated, one header row</td>
+</tr>
+<tr>
+<td style="text-align: left;">Stored originals</td>
+<td
+style="text-align: left;"><code>&lt;session&gt;/files/&lt;first-16-hex-of-sha256(target-path)&gt;__&lt;basename&gt;</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Newest session</td>
+<td style="text-align: left;"><code>&lt;backup root&gt;/latest</code>, a
+symlink refreshed by <code>ln -sfn</code> on every run</td>
+</tr>
+<tr>
+<td style="text-align: left;">Copy mode</td>
+<td style="text-align: left;"><code>cp -p</code> — content, permissions
+and timestamps are preserved (test <strong>G7</strong>)</td>
+</tr>
+</tbody>
+</table>
+<p><code>WIZARD_STATE_DIR</code> is re-resolved <strong>inside
+<code>backup_init</code></strong>, not when the script is sourced, so
+exporting it after sourcing the wizard in library mode still takes
+effect:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">SETUP_WIZARD_LIB_ONLY</span><span class="op">=</span>1 <span class="bu">.</span> scripts/setup-agents-wizard.sh</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">WIZARD_STATE_DIR</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$PWD</span><span class="st">/.wizard-state&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">backup_init</span>            <span class="co"># session lands under $PWD/.wizard-state/backups/</span></span></code></pre></div>
+<p>The rollback tool reads the same variable, so both sides must
+agree:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">WIZARD_STATE_DIR</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$PWD</span><span class="st">/.wizard-state&quot;</span> <span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--list</span></span></code></pre></div>
+<h3 id="the-familiar-.bak.ts-siblings-are-still-written">The familiar
+<code>.bak.&lt;ts&gt;</code> siblings are still written</h3>
+<p><code>backup_file</code> does <strong>two</strong> things: it
+registers the file in the manifest <em>and</em> keeps the old sibling
+copy next to the original, <code>&lt;file&gt;.bak.YYYYMMDDHHMMSS</code>
+(local time, unlike the UTC session id). Those siblings accumulate —
+nothing rotates or removes them, including rollback. Prune them
+yourself:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> ~/.bashrc.bak.<span class="pp">*</span> ~/.bash_profile.bak.<span class="pp">*</span> ~/.local/bin/lumen.bak.<span class="pp">*</span> <span class="dt">\</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>      ~/.claude/<span class="pp">*</span>.bak.<span class="pp">*</span> ~/.kimi-code/<span class="pp">*</span>.bak.<span class="pp">*</span> ~/.qwen/<span class="pp">*</span>.bak.<span class="pp">*</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null</span></code></pre></div>
+<p><code>install_lumen_completion</code> uses
+<code>snapshot_before</code> directly rather than
+<code>backup_file</code>, so
+<code>~/.local/share/bash-completion/completions/lumen</code> is in the
+manifest but gets <strong>no</strong> <code>.bak.&lt;ts&gt;</code>
+sibling.</p>
+<p>In the other direction, <code>~/.bashrc</code> collects
+<strong>two</strong> siblings per run: both
+<code>configure_telemetry_optout</code> and
+<code>configure_lumen_shell</code> call <code>backup_file</code> on it.
+The manifest still holds a single row for it, because the first snapshot
+wins.</p>
+<h3 id="what-is-not-recorded">What is <em>not</em> recorded</h3>
+<p>The manifest covers what the wizard writes itself. It does not cover
+work delegated to third-party installers or to other tools:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Not recorded</th>
+<th style="text-align: left;">Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Bun (<code>~/.bun</code>), WOZCODE</td>
+<td style="text-align: left;">Vendor <code>curl \| bash</code>
+installers; they write their own files and may edit rc files
+themselves</td>
+</tr>
+<tr>
+<td style="text-align: left;">ashlr
+(<code>~/.claude/plugins/cache/ashlr-marketplace/ashlr/</code>)</td>
+<td style="text-align: left;">Vendor <code>curl \| bash</code>
+installer. It clones a plugin directory and creates <strong>no
+binary</strong> — remove it with <code>rm -rf</code> on that path.
+Whatever <code>/plugin install</code> then registers inside Claude Code
+is Claude Code’s state, not the wizard’s</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>&lt;project&gt;/MANUAL-STEPS.md</code></td>
+<td style="text-align: left;">Written on <strong>every</strong> run from
+the manual-step registry. It is a regenerated snapshot of what is still
+pending, not a wizard “edit” — <code>rm</code> it, or
+<code>.gitignore</code> it</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>&lt;project&gt;/.ashlrcode/genome/</code></td>
+<td style="text-align: left;">Created by
+<code>/ashlr:ashlr-genome-init</code> inside Claude Code. The wizard
+only detects its absence</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>&lt;project&gt;/.lumen-reindex.log</code></td>
+<td style="text-align: left;">Appended by
+<code>scripts/lumen-reindex.sh</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>/etc/sysconfig/ollama</code></td>
+<td style="text-align: left;">Written <strong>only</strong> by
+<code>scripts/ollama-vulkan-remediation.sh --apply</code>, never by the
+wizard (test <strong>A41</strong>). It has its own undo:
+<code>--rollback</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Ollama, its systemd unit, and the pulled
+embedding model</td>
+<td style="text-align: left;">Installed by
+<code>https://ollama.com/install.sh</code> / <code>brew</code>, enabled
+with <code>systemctl</code></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>~/.claude/plugins/marketplaces/Sagargupta16/…</code>
+and <code>…/JCodesMore/…</code></td>
+<td style="text-align: left;">Plain <code>git clone</code>s, skipped
+when the directory already exists</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>submodules/</code>,
+<code>submodules/superspec</code>, <code>.specify/</code>,
+<code>specs/</code></td>
+<td style="text-align: left;">Project content created in Step 6 — treat
+it as repository state, not wizard leftovers</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>~/.local/share/lumen/</code></td>
+<td style="text-align: left;">Index databases written by
+<code>lumen index</code>, never by the wizard. Use
+<code>lumen purge</code></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>&lt;project&gt;/.codegraph/</code></td>
+<td style="text-align: left;">The CodeGraph database, created by
+<code>codegraph init</code> in the opt-in Step 8 (and updated in place
+by <code>codegraph sync</code>). Written by CodeGraph, not the wizard.
+Remove with <code>rm -rf .codegraph</code></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>~/.codegraph/telemetry.json</code></td>
+<td style="text-align: left;">Written by
+<code>codegraph telemetry off</code> during the Step 3 telemetry
+opt-out. CodeGraph owns the file; the wizard only invokes the CLI</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><code>uv tool install specify-cli</code> used to be on this list. It
+is not any more — see <a href="#components">Components</a> — it records
+<code>ACTION uv tool uninstall specify-cli</code> under the
+<code>speckit</code> component, so <code>--run-actions</code>
+<strong>will</strong> uninstall SpecKit unless you scope the rollback
+with <code>--component</code>.</p>
+</blockquote>
+<hr />
+<h2 id="the-manifest-format">The manifest format</h2>
+<p><code>manifest.tsv</code> is tab-separated with exactly six columns
+and one header row:</p>
+<pre><code>component   action  target  backup  sha256_before   timestamp</code></pre>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Column</th>
+<th style="text-align: left;">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>component</code></td>
+<td style="text-align: left;">Which part of the wizard made the change —
+the unit <code>--component</code> filters on</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>action</code></td>
+<td style="text-align: left;"><code>MODIFIED</code>,
+<code>CREATED</code>, <code>ACTION</code> or <code>NOTE</code>
+(below)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>target</code></td>
+<td style="text-align: left;">Absolute path of the file,
+<strong>or</strong> for <code>ACTION</code> rows the literal undo
+command, <strong>or</strong> for <code>NOTE</code> rows the prose
+describing what cannot be undone</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>backup</code></td>
+<td style="text-align: left;">Absolute path of the stored original, or
+<code>-</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>sha256_before</code></td>
+<td style="text-align: left;"><code>sha256sum</code> of the file before
+the change, or <code>-</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>timestamp</code></td>
+<td style="text-align: left;"><code>date -u +%Y-%m-%dT%H:%M:%SZ</code>
+when the row was written</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-four-action-types">The four action types</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Action</th>
+<th style="text-align: left;">Recorded when</th>
+<th style="text-align: left;">Rollback does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>MODIFIED</code></td>
+<td style="text-align: left;">The target already existed</td>
+<td style="text-align: left;">Restores the stored copy over it with
+<code>cp -p</code> — byte-exact, mode preserved</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>CREATED</code></td>
+<td style="text-align: left;">The target did not exist</td>
+<td style="text-align: left;">Deletes the target
+(<code>rm -f</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ACTION</code></td>
+<td style="text-align: left;">The change is not a file at all — an
+<code>npm install -g</code>, a <code>claude mcp</code> registration, an
+<code>ollama-tune.sh --revert</code></td>
+<td style="text-align: left;"><strong>Prints</strong> the undo command.
+Executes it only with <code>--run-actions</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>NOTE</code></td>
+<td style="text-align: left;">The change is real and has <strong>no undo
+at all</strong></td>
+<td style="text-align: left;">Prints
+<code>⚠️ NOT UNDONE (no undo exists) [component] …</code>, counts it in
+the <code>NOT undone</code> tally, and <strong>never executes
+anything</strong>. It exists so the summary cannot imply a reversal that
+did not happen (§11.4.6)</td>
+</tr>
+</tbody>
+</table>
+<p>The only <code>NOTE</code> the wizard writes today comes from Step 7:
+applying the ollama concurrency tuning restarts the service, and
+<code>--revert</code> restarts it again but cannot resurrect the
+embedding requests the first restart aborted. Written by
+<code>record_note</code> immediately after the paired
+<code>record_action</code>, so a manifest that carries the undo also
+carries the honest limit of that undo.</p>
+<h3 id="worked-example">Worked example</h3>
+<p>A first run on a machine that has Claude Code, Kimi, Opencode and
+Qwen Code installed, and that was missing <code>glyphdown</code> and
+<code>specify</code>, produces a manifest like this (rows appear in
+execution order; <code>sha256_before</code> is a full 64-character
+digest, abbreviated here):</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">component</th>
+<th style="text-align: left;">action</th>
+<th style="text-align: left;">target</th>
+<th style="text-align: left;">backup</th>
+<th style="text-align: left;">sha256_before</th>
+<th style="text-align: left;">timestamp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>npm</code></td>
+<td style="text-align: left;"><code>ACTION</code></td>
+<td
+style="text-align: left;"><code>npm uninstall -g glyphdown</code></td>
+<td style="text-align: left;"><code>-</code></td>
+<td style="text-align: left;"><code>-</code></td>
+<td style="text-align: left;"><code>2026-08-26T21:04:19Z</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>speckit</code></td>
+<td style="text-align: left;"><code>ACTION</code></td>
+<td
+style="text-align: left;"><code>uv tool uninstall specify-cli</code></td>
+<td style="text-align: left;"><code>-</code></td>
+<td style="text-align: left;"><code>-</code></td>
+<td style="text-align: left;"><code>2026-08-26T21:04:22Z</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>shell</code></td>
+<td style="text-align: left;"><code>MODIFIED</code></td>
+<td style="text-align: left;"><code>/home/you/.bashrc</code></td>
+<td
+style="text-align: left;"><code>…/files/9f2c1ab30e7d4415__.bashrc</code></td>
+<td style="text-align: left;"><code>c1f9a4…</code></td>
+<td style="text-align: left;"><code>2026-08-26T21:04:24Z</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen</code></td>
+<td style="text-align: left;"><code>MODIFIED</code></td>
+<td
+style="text-align: left;"><code>/home/you/.qwen/settings.json</code></td>
+<td
+style="text-align: left;"><code>…/files/aa17bf3c25e60d84__settings.json</code></td>
+<td style="text-align: left;"><code>55c2ab…</code></td>
+<td style="text-align: left;"><code>2026-08-26T21:04:25Z</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>lumen</code></td>
+<td style="text-align: left;"><code>CREATED</code></td>
+<td
+style="text-align: left;"><code>/home/you/.local/bin/lumen</code></td>
+<td style="text-align: left;"><code>-</code></td>
+<td style="text-align: left;"><code>-</code></td>
+<td style="text-align: left;"><code>2026-08-26T21:04:26Z</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>lumen</code></td>
+<td style="text-align: left;"><code>CREATED</code></td>
+<td
+style="text-align: left;"><code>/home/you/.local/share/bash-completion/completions/lumen</code></td>
+<td style="text-align: left;"><code>-</code></td>
+<td style="text-align: left;"><code>-</code></td>
+<td style="text-align: left;"><code>2026-08-26T21:04:26Z</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>shell</code></td>
+<td style="text-align: left;"><code>MODIFIED</code></td>
+<td style="text-align: left;"><code>/home/you/.bash_profile</code></td>
+<td
+style="text-align: left;"><code>…/files/4b7e0d9a1c6f2238__.bash_profile</code></td>
+<td style="text-align: left;"><code>7a0233…</code></td>
+<td style="text-align: left;"><code>2026-08-26T21:04:27Z</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>claude</code></td>
+<td style="text-align: left;"><code>ACTION</code></td>
+<td
+style="text-align: left;"><code>claude mcp remove lumen -s user</code></td>
+<td style="text-align: left;"><code>-</code></td>
+<td style="text-align: left;"><code>-</code></td>
+<td style="text-align: left;"><code>2026-08-26T21:05:02Z</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>claude</code></td>
+<td style="text-align: left;"><code>MODIFIED</code></td>
+<td
+style="text-align: left;"><code>/home/you/.claude/settings.json</code></td>
+<td
+style="text-align: left;"><code>…/files/2d5ae8b17c034f90__settings.json</code></td>
+<td style="text-align: left;"><code>3e11bd…</code></td>
+<td style="text-align: left;"><code>2026-08-26T21:05:03Z</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>kimi</code></td>
+<td style="text-align: left;"><code>MODIFIED</code></td>
+<td
+style="text-align: left;"><code>/home/you/.kimi-code/mcp.json</code></td>
+<td
+style="text-align: left;"><code>…/files/8c04f2a99b1d3e57__mcp.json</code></td>
+<td style="text-align: left;"><code>1b7c40…</code></td>
+<td style="text-align: left;"><code>2026-08-26T21:05:03Z</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>opencode</code></td>
+<td style="text-align: left;"><code>MODIFIED</code></td>
+<td
+style="text-align: left;"><code>/home/you/.config/opencode/opencode.json</code></td>
+<td
+style="text-align: left;"><code>…/files/61ae3c008df4b912__opencode.json</code></td>
+<td style="text-align: left;"><code>d904e7…</code></td>
+<td style="text-align: left;"><code>2026-08-26T21:05:04Z</code></td>
+</tr>
+</tbody>
+</table>
+<p>Two things to read out of that shape:</p>
+<ul>
+<li><strong><code>~/.bashrc</code> and
+<code>~/.qwen/settings.json</code> are snapshotted in Step 3</strong>,
+by <code>configure_telemetry_optout</code>, before the Lumen block and
+the MCP merge touch them again in Steps 3 and 5. First snapshot wins, so
+one row covers every later edit to the same file.</li>
+<li><strong>Every <code>MODIFIED</code> above assumes the file already
+existed.</strong> On a clean machine
+<code>~/.claude/settings.json</code>, <code>~/.kimi-code/mcp.json</code>
+and <code>~/.qwen/settings.json</code> are recorded <code>CREATED</code>
+instead, and rollback deletes them rather than restoring an empty
+<code>{}</code>.</li>
+</ul>
+<p>Read it directly whenever you want to know what a run touched:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">column</span> <span class="at">-t</span> <span class="at">-s</span> <span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span> ~/.local/share/setup-agents-wizard/backups/latest/manifest.tsv</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F</span><span class="st">&#39;\t&#39;</span> <span class="st">&#39;NR&gt;1 {print $1, $2, $3}&#39;</span> ~/.local/share/setup-agents-wizard/backups/latest/manifest.tsv</span></code></pre></div>
+<h3 id="first-snapshot-wins">First snapshot wins</h3>
+<p><code>snapshot_before</code> skips a target that is already present
+in column 3 of this session’s manifest. Several wizard steps can touch
+the same file within one run; only the <strong>first</strong> snapshot
+is kept, so the stored copy is always the true pre-run original and
+rollback restores that, not an intermediate state. Test
+<strong>G6</strong> asserts exactly this.</p>
+<p>Consequently a session’s manifest holds <strong>at most one row per
+file path</strong>, and rows for a file whose <code>cp -p</code> failed
+are omitted entirely — the wizard prints
+<code>⚠️ Could not back up &lt;path&gt;</code> in that case.</p>
+<h3 id="components">Components</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Written by</th>
+<th style="text-align: left;">Covers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>lumen</code></td>
+<td style="text-align: left;"><code>install_lumen_wrapper</code>,
+<code>install_lumen_completion</code> (Step 3)</td>
+<td style="text-align: left;"><code>~/.local/bin/lumen</code>,
+<code>~/.local/share/bash-completion/completions/lumen</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>shell</code></td>
+<td style="text-align: left;"><code>configure_lumen_shell</code>
+<strong>and</strong> <code>configure_telemetry_optout</code> (both Step
+3)</td>
+<td style="text-align: left;"><code>~/.bashrc</code>,
+<code>~/.bash_profile</code>. Both functions call
+<code>backup_file "$HOME/.bashrc" shell</code>, so that file gets two
+<code>.bak.&lt;ts&gt;</code> siblings per run but only one manifest
+row</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>claude</code></td>
+<td style="text-align: left;">Step 5</td>
+<td style="text-align: left;"><code>ACTION</code>
+<code>claude mcp remove lumen -s user</code>,
+<code>~/.claude/settings.json</code> for the Glyphdown hooks,
+<strong>and <code>~/.claude.json</code></strong> for the Lumen mirror
+that MiMo and other inheritors read</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>kimi</code></td>
+<td style="text-align: left;">Step 5</td>
+<td style="text-align: left;"><code>~/.kimi-code/mcp.json</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>opencode</code></td>
+<td style="text-align: left;">Step 5</td>
+<td
+style="text-align: left;"><code>~/.config/opencode/opencode.json</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>qwen</code></td>
+<td style="text-align: left;">Step 3 (telemetry) and Step 5 (MCP)</td>
+<td style="text-align: left;"><code>~/.qwen/settings.json</code> —
+snapshotted by whichever step touches it first, so one row covers both
+the <code>.usageStatisticsEnabled</code> edit and the
+<code>.mcpServers</code> merge</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>npm</code></td>
+<td style="text-align: left;"><code>npm_install_if_missing</code> (Step
+2)</td>
+<td style="text-align: left;">One <code>ACTION</code>
+<code>npm uninstall -g &lt;pkg&gt;</code> per package the wizard
+actually installed</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>speckit</code></td>
+<td style="text-align: left;">The <code>uv</code> branch of Step 2</td>
+<td style="text-align: left;">One <code>ACTION</code>
+<code>uv tool uninstall specify-cli</code>, written only when
+<code>specify</code> was missing and the install succeeded</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ollama</code></td>
+<td style="text-align: left;"><code>tune_ollama_step</code> (Step 7),
+<strong>only when the tuning was actually applied</strong></td>
+<td style="text-align: left;">One <code>ACTION</code>
+<code>bash '&lt;resolved ollama-tune.sh&gt;' --revert</code> — the path
+is the one the wizard resolved at run time, not a stored literal — plus
+one <code>NOTE</code> for the in-flight embedding requests the restart
+aborted. Report-only runs write neither row, because they changed
+nothing</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>misc</code></td>
+<td style="text-align: left;">Fallback</td>
+<td style="text-align: left;">The default second argument of
+<code>backup_file</code> and third of
+<code>configure_mcp_for_agent</code>. Every call site in the current
+wizard passes an explicit component, so <code>misc</code> should not
+appear in a real manifest</td>
+</tr>
+</tbody>
+</table>
+<p>MiMo Code has no component of its own because there is no
+MiMo-specific file: it <strong>inherits</strong> MCP servers from
+<code>~/.claude.json</code>, which the <code>claude</code> component
+covers. Rolling back <code>claude</code> therefore removes Lumen from
+MiMo too — along with the Glyphdown hooks and the Claude Code
+registration. (An earlier revision of this document said the wizard
+“writes nothing for it and prints a manual-step warning”. The warning is
+gone; the mirror is what configures MiMo.)</p>
+<hr />
+<h2 id="rollback-cli-reference">Rollback CLI reference</h2>
+<pre><code>scripts/rollback-agents-wizard.sh [--list] [--session &lt;id|latest&gt;]
+                                  [--component &lt;name&gt;]... [--dry-run]
+                                  [--yes] [--run-actions] [--help]</code></pre>
+<p>Runs under <code>set -uo pipefail</code> (no <code>-e</code>). It
+takes no positional arguments.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Option</th>
+<th style="text-align: left;">Short</th>
+<th style="text-align: left;">Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>--list</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Print every session that has a
+<code>manifest.tsv</code>: id, change count, components. Exits
+immediately afterwards</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>--session &lt;id\|latest&gt;</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Choose a session by directory name,
+e.g. <code>20260826T210411Z</code>. <code>latest</code>, or omitting the
+option, selects the newest session by name</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>--component &lt;name&gt;</code></td>
+<td style="text-align: left;"><code>-c</code></td>
+<td style="text-align: left;">Restrict the rollback to one component.
+<strong>Repeatable.</strong> <code>all</code> matches everything.
+Default: every component in the manifest</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>--dry-run</code></td>
+<td style="text-align: left;"><code>-n</code></td>
+<td style="text-align: left;">Print the plan and exit <code>0</code>
+without changing anything (test <strong>G10</strong>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>--yes</code></td>
+<td style="text-align: left;"><code>-y</code></td>
+<td style="text-align: left;">Skip the
+<code>Apply this rollback? [y/N]</code> prompt</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>--run-actions</code></td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;">Also <code>eval</code> the undo command of
+every <code>ACTION</code> row. Without it those rows are printed
+only</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>--help</code></td>
+<td style="text-align: left;"><code>-h</code></td>
+<td style="text-align: left;">Print the script’s header comment as usage
+and exit <code>0</code></td>
+</tr>
+</tbody>
+</table>
+<p>Any other argument prints <code>❌ Unknown option: …</code> and exits
+<strong>2</strong>.</p>
+<h3 id="exit-codes">Exit codes</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Code</th>
+<th style="text-align: left;">Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>0</code></td>
+<td style="text-align: left;">Rollback applied with no failures. Also:
+<code>--list</code>, <code>--help</code>, <code>--dry-run</code>,
+“nothing to roll back for the selected components”, and answering
+<code>n</code> at the prompt</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>1</code></td>
+<td style="text-align: left;">At least one entry failed — a missing
+backup file, or a <code>cp</code>/<code>rm</code> that did not succeed.
+Also: no backup root at all, or no <code>manifest.tsv</code> for the
+chosen session</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>2</code></td>
+<td style="text-align: left;">An unrecognised option</td>
+</tr>
+</tbody>
+</table>
+<p>A failed <code>ACTION</code> undo command does not affect the exit
+code, but it is no longer reported as an equivocation. It prints
+<code>❌ NOT UNDONE [component] undo command exited N: …</code>, is
+counted in the <code>NOT undone</code> tally on the summary line, and is
+listed again at the end under
+<code>… change(s) were NOT undone by this run</code> followed by
+<code>⚠️ Do not record this rollback as a full reversal.</code></p>
+<p>The previous wording — <em>“undo command failed (may already be
+undone)”</em> — let a change that is still in place read as reversed.
+Whether something else undid it earlier is unknown, and unknown is now
+reported as unknown.</p>
+<h3 id="what-a-run-looks-like">What a run looks like</h3>
+<pre><code>$ ./scripts/rollback-agents-wizard.sh --dry-run
+
+========================================
+ Rollback plan
+========================================
+ℹ️  Session   : 20260826T210411Z
+ℹ️  Components: all
+⚠️  DRY RUN - nothing will be changed.
+  manual   [npm] npm uninstall -g glyphdown   (use --run-actions to execute)
+  delete   [lumen] /home/you/.local/bin/lumen
+  delete   [lumen] /home/you/.local/share/bash-completion/completions/lumen
+  restore  [shell] /home/you/.bashrc
+  restore  [shell] /home/you/.bash_profile
+  manual   [claude] claude mcp remove lumen -s user   (use --run-actions to execute)
+  restore  [claude] /home/you/.claude/settings.json
+  restore  [kimi] /home/you/.kimi-code/mcp.json
+  restore  [opencode] /home/you/.config/opencode/opencode.json
+  restore  [qwen] /home/you/.qwen/settings.json</code></pre>
+<p>Without <code>--dry-run</code> it asks once, then applies, then
+reports:</p>
+<pre><code>Apply this rollback? [y/N] y
+ℹ️  Current state is being saved to /home/you/.local/share/setup-agents-wizard/backups/20260826T210411Z/pre-rollback-20260826T221530Z
+
+========================================
+ Applying rollback
+========================================
+✅ restored [shell] /home/you/.bashrc
+…
+========================================
+ Rollback complete
+========================================
+ℹ️  restored/removed: 8    failures: 0
+ℹ️  Pre-rollback state kept at: …/pre-rollback-20260826T221530Z
+ℹ️  Open a new shell for PATH changes to take effect.</code></pre>
+<p><code>ACTION</code> rows are printed twice by design — once in the
+plan, once while applying — which is what test <strong>G14</strong> pins
+down. They are never executed without <code>--run-actions</code>.</p>
+<h3 id="rollback-is-itself-reversible">Rollback is itself
+reversible</h3>
+<p>Before touching anything (and only after the prompt is answered), the
+tool creates</p>
+<pre><code>&lt;session&gt;/pre-rollback-&lt;UTC timestamp&gt;/</code></pre>
+<p>and copies the <strong>current</strong> on-disk content of every file
+it is about to restore or delete into it, under the same
+<code>&lt;16-hex&gt;__&lt;basename&gt;</code> naming scheme as
+<code>files/</code>. Nothing the rollback overwrites or removes is lost.
+Test <strong>G13</strong> asserts the snapshot is created.</p>
+<p><code>ACTION</code> rows are not snapshotted — there is no file to
+copy. Redo them by hand (see <a href="#reversing-a-rollback">Reversing a
+rollback</a>).</p>
+<hr />
+<h2 id="recipes">Recipes</h2>
+<p>All commands are run from the repository root.</p>
+<h3 id="see-what-can-be-undone">See what can be undone</h3>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--list</span></span></code></pre></div>
+<pre><code>========================================
+ Backup sessions
+========================================
+  20260826T210411Z      11 changes   components: claude kimi lumen npm opencode qwen shell speckit
+  20260827T090300Z       4 changes   components: claude shell</code></pre>
+<p>Each session is <strong>one wizard run</strong> and contains only
+what <em>that</em> run changed.</p>
+<h3 id="undo-the-newest-run-completely">Undo the newest run
+completely</h3>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--dry-run</span>     <span class="co"># read the plan first</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--yes</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">exec</span> bash <span class="at">-l</span>                                      <span class="co"># pick up the restored PATH</span></span></code></pre></div>
+<p>Add <code>--run-actions</code> to also undo the
+<code>claude mcp</code> registration and the npm global installs:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--run-actions</span> <span class="at">--yes</span></span></code></pre></div>
+<h3 id="undo-only-the-shell-path-changes">Undo only the shell PATH
+changes</h3>
+<p>Restores <code>~/.bashrc</code> and <code>~/.bash_profile</code>
+byte-exactly as they were before the run — which removes the managed
+<code>lumen</code> and <code>user bin on PATH</code> blocks along with
+them, and preserves whatever else you had in those files.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--component</span> shell <span class="at">--dry-run</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--component</span> shell <span class="at">--yes</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">exec</span> bash <span class="at">-l</span></span></code></pre></div>
+<p>Nothing else is touched — test <strong>G11</strong> asserts that a
+component filter leaves other components alone.</p>
+<h3 id="remove-lumen-from-opencode-only">Remove Lumen from Opencode
+only</h3>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> opencode <span class="at">-n</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> opencode <span class="at">-y</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="st">&#39;.mcp.lumen&#39;</span> ~/.config/opencode/opencode.json     <span class="co"># -&gt; null</span></span></code></pre></div>
+<p>Restart Opencode afterwards; MCP servers are launched at session
+start.</p>
+<h3 id="undo-one-or-two-agents-keep-the-rest">Undo one or two agents,
+keep the rest</h3>
+<p><code>--component</code> is repeatable:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> kimi <span class="at">-c</span> qwen <span class="at">--yes</span></span></code></pre></div>
+<p><code>-c all</code> is accepted and is equivalent to passing no
+filter.</p>
+<h3 id="unregister-lumen-from-claude-code">Unregister Lumen from Claude
+Code</h3>
+<p>The registration is an <code>ACTION</code> row, so it needs
+<code>--run-actions</code>:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> claude <span class="at">--run-actions</span> <span class="at">--dry-run</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> claude <span class="at">--run-actions</span> <span class="at">--yes</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp get lumen        <span class="co"># -&gt; not found</span></span></code></pre></div>
+<p>Note that component <code>claude</code> also owns
+<code>~/.claude/settings.json</code> (the Glyphdown hooks), so that file
+is restored in the same pass. To undo <em>only</em> the MCP
+registration, run the undo command the manifest records, by hand:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp remove lumen <span class="at">-s</span> user</span></code></pre></div>
+<h3 id="undo-the-npm-global-installs">Undo the npm global installs</h3>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> npm <span class="at">--run-actions</span> <span class="at">--dry-run</span>   <span class="co"># see exactly which packages</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> npm <span class="at">--run-actions</span> <span class="at">--yes</span></span></code></pre></div>
+<p>Only packages the wizard actually installed have an
+<code>ACTION</code> row — <code>npm_install_if_missing</code> skips
+anything already on <code>PATH</code>, so a pre-existing
+<code>glyphdown</code> is never uninstalled.</p>
+<h3 id="undo-the-speckit-install">Undo the SpecKit install</h3>
+<p>SpecKit is not an npm package, so it has its own component:</p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> speckit <span class="at">--run-actions</span> <span class="at">--dry-run</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">-c</span> speckit <span class="at">--run-actions</span> <span class="at">--yes</span>    <span class="co"># uv tool uninstall specify-cli</span></span></code></pre></div>
+<p>The reverse matters too: a bare <code>--run-actions --yes</code> with
+<strong>no</strong> <code>--component</code> will uninstall SpecKit
+along with everything else. Scope the rollback if you want to keep
+it.</p>
+<h3 id="roll-back-an-older-run">Roll back an older run</h3>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--list</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--session</span> 20260826T210411Z <span class="at">--dry-run</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--session</span> 20260826T210411Z <span class="at">--yes</span></span></code></pre></div>
+<h3 id="undo-several-runs">Undo several runs</h3>
+<p>Sessions are independent snapshots taken at different times. Roll
+them back <strong>newest first</strong>, one at a time, so each restore
+lands on the state that session expected:</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--session</span> 20260827T090300Z <span class="at">--yes</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/rollback-agents-wizard.sh</span> <span class="at">--session</span> 20260826T210411Z <span class="at">--yes</span></span></code></pre></div>
+<p>Rolling back only the newest session returns you to the state
+immediately before <em>that</em> run — not to a pristine machine.</p>
+<hr />
+<h2 id="reversing-a-rollback">Reversing a rollback</h2>
+<p>Every applied rollback leaves
+<code>&lt;session&gt;/pre-rollback-&lt;UTC&gt;/</code> holding the
+content that was on disk at that moment. Files are named
+<code>&lt;first-16-hex-of-sha256(path)&gt;__&lt;basename&gt;</code>, the
+same scheme as <code>files/</code>.</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="va">SESSION</span><span class="op">=</span>~/.local/share/setup-agents-wizard/backups/20260826T210411Z</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> <span class="st">&quot;</span><span class="va">$SESSION</span><span class="st">&quot;</span>/pre-rollback-<span class="pp">*</span>/</span></code></pre></div>
+<p>To put one file back, compute its key and copy it over:</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="va">PRE</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$SESSION</span><span class="st">/pre-rollback-20260826T221530Z&quot;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="va">KEY</span><span class="op">=</span><span class="va">$(</span><span class="bu">printf</span> <span class="st">&#39;%s&#39;</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.bashrc&quot;</span> <span class="kw">|</span> <span class="fu">sha256sum</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-c1-16</span><span class="va">)</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$PRE</span><span class="st">/</span><span class="va">${KEY}</span><span class="st">__.bashrc&quot;</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.bashrc&quot;</span></span></code></pre></div>
+<p>To put everything back, walk the snapshot and match each file to its
+manifest target:</p>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="va">PRE</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$SESSION</span><span class="st">/pre-rollback-20260826T221530Z&quot;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F</span><span class="st">&#39;\t&#39;</span> <span class="st">&#39;NR&gt;1 &amp;&amp; ($2==&quot;MODIFIED&quot; || $2==&quot;CREATED&quot;) {print $3}&#39;</span> <span class="st">&quot;</span><span class="va">$SESSION</span><span class="st">/manifest.tsv&quot;</span> <span class="kw">|</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="at">-r</span> <span class="va">target</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">key</span><span class="op">=</span><span class="va">$(</span><span class="bu">printf</span> <span class="st">&#39;%s&#39;</span> <span class="st">&quot;</span><span class="va">$target</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sha256sum</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-c1-16</span><span class="va">)</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">src</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$PRE</span><span class="st">/</span><span class="va">${key}</span><span class="st">__</span><span class="va">$(</span><span class="fu">basename</span> <span class="st">&quot;</span><span class="va">$target</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$src</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="fu">cp</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$src</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$target</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;restored </span><span class="va">$target</span><span class="st">&quot;</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p><code>ACTION</code> rows have no snapshot. Redo them explicitly:</p>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add-json lumen <span class="st">&quot;{</span><span class="dt">\&quot;</span><span class="st">command</span><span class="dt">\&quot;</span><span class="st">:</span><span class="dt">\&quot;</span><span class="va">$HOME</span><span class="st">/.local/bin/lumen</span><span class="dt">\&quot;</span><span class="st">,</span><span class="dt">\&quot;</span><span class="st">args</span><span class="dt">\&quot;</span><span class="st">:[</span><span class="dt">\&quot;</span><span class="st">stdio</span><span class="dt">\&quot;</span><span class="st">]}&quot;</span> <span class="at">-s</span> user</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install <span class="at">-g</span> glyphdown</span></code></pre></div>
+<p>Or simply re-run the wizard — it is idempotent, and it opens a new
+backup session of its own.</p>
+<hr />
+<h2 id="manual-uninstall-if-the-manifest-is-lost">Manual uninstall, if
+the manifest is lost</h2>
+<p>Use this when <code>~/.local/share/setup-agents-wizard/</code> was
+deleted, when <code>WIZARD_STATE_DIR</code> pointed somewhere that no
+longer exists, or when you want to remove the wizard’s footprint without
+a session to replay. Each block is independent — skip anything you want
+to keep.</p>
+<h3 id="lumen-launcher-and-completions"><code>lumen</code> — launcher
+and completions</h3>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-f</span> ~/.local/bin/lumen ~/.local/bin/lumen.bak.<span class="pp">*</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-f</span> ~/.local/share/bash-completion/completions/lumen</span></code></pre></div>
+<h3 id="shell-the-managed-path-blocks"><code>shell</code> — the managed
+<code>PATH</code> blocks</h3>
+<p>Reuse the wizard’s own remover in library mode, so the markers (which
+contain regex metacharacters) and the file’s mode and inode are handled
+correctly:</p>
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /path/to/this/repo</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="va">SETUP_WIZARD_LIB_ONLY</span><span class="op">=</span>1 <span class="bu">.</span> scripts/setup-agents-wizard.sh</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="ex">strip_managed_block</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.bashrc&quot;</span>       <span class="st">&quot;</span><span class="va">$LUMEN_BLOCK_START</span><span class="st">&quot;</span>   <span class="st">&quot;</span><span class="va">$LUMEN_BLOCK_END</span><span class="st">&quot;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="ex">strip_managed_block</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.bashrc&quot;</span>       <span class="st">&quot;</span><span class="va">$PRIVACY_BLOCK_START</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$PRIVACY_BLOCK_END</span><span class="st">&quot;</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="ex">strip_managed_block</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.bash_profile&quot;</span> <span class="st">&quot;</span><span class="va">$USERBIN_BLOCK_START</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$USERBIN_BLOCK_END</span><span class="st">&quot;</span></span></code></pre></div>
+<p>There are three blocks, not two: <code>~/.bashrc</code> carries both
+the Lumen block and the telemetry opt-out block.</p>
+<p>Verify:</p>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;&gt;&gt;&gt; lumen semantic search&#39;</span> ~/.bashrc        <span class="co"># -&gt; 0</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;&gt;&gt;&gt; telemetry opt-out&#39;</span>     ~/.bashrc        <span class="co"># -&gt; 0</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;&gt;&gt;&gt; user bin on PATH&#39;</span>      ~/.bash_profile  <span class="co"># -&gt; 0</span></span></code></pre></div>
+<h3
+id="claude-mcp-registration-hooks-marketplace-clones"><code>claude</code>
+— MCP registration, hooks, marketplace clones</h3>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp remove lumen <span class="at">-s</span> user</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="va">tmp</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">jq</span> <span class="st">&#39;del(.mcpServers.lumen)&#39;</span> ~/.claude.json <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> ~/.claude.json</span></code></pre></div>
+<p>Two commands, because there are two places. <code>claude mcp</code>
+owns the registration in the <strong>active</strong>
+<code>CLAUDE_CONFIG_DIR</code>, and the wizard additionally
+<code>jq</code>-merges the single <code>.mcpServers.lumen</code> key
+into <code>~/.claude.json</code> so that tools inheriting from the
+default config — MiMo Code lists its servers as
+<code>claude:~/.claude.json</code> — can see it. Never hand-edit the
+rest of <code>~/.claude.json</code>; it also holds session and project
+state.</p>
+<p>A full <code>-c claude</code> rollback restores
+<code>~/.claude.json</code> byte-exactly, which removes the mirror along
+with the Glyphdown hooks and the <code>claude mcp</code>
+<code>ACTION</code>.</p>
+<p>Remove the Glyphdown <code>PreToolUse</code> /
+<code>PostToolUse</code> entries while preserving your own hooks:</p>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="va">tmp</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span><span class="va">)</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="st">&#39;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="st">  def strip: (. // []) | map(select(([.hooks[]?.command] | index(&quot;glyphdown&quot;)) | not));</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="st">  .hooks.PreToolUse |= strip | .hooks.PostToolUse |= strip</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span> ~/.claude/settings.json <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> ~/.claude/settings.json</span></code></pre></div>
+<p>The two marketplace repositories the wizard cloned:</p>
+<div class="sourceCode" id="cb35"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> ~/.claude/plugins/marketplaces/Sagargupta16/claude-cost-optimizer</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> ~/.claude/plugins/marketplaces/JCodesMore/jcodesmore-plugins</span></code></pre></div>
+<h3 id="kimi-.kimi-codemcp.json"><code>kimi</code> —
+<code>~/.kimi-code/mcp.json</code></h3>
+<div class="sourceCode" id="cb36"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="va">tmp</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span><span class="va">)</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="st">&#39;del(.mcpServers.lumen, .mcpServers.codegraph)&#39;</span> ~/.kimi-code/mcp.json <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> ~/.kimi-code/mcp.json</span></code></pre></div>
+<h3 id="opencode-.configopencodeopencode.json"><code>opencode</code> —
+<code>~/.config/opencode/opencode.json</code></h3>
+<p>Opencode uses a <code>.mcp</code> object, <strong>not</strong>
+<code>.mcpServers</code>, and the wizard only adds <code>lumen</code>
+there:</p>
+<div class="sourceCode" id="cb37"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="va">tmp</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span><span class="va">)</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="st">&#39;del(.mcp.lumen)&#39;</span> ~/.config/opencode/opencode.json <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> ~/.config/opencode/opencode.json</span></code></pre></div>
+<h3 id="qwen-.qwensettings.json"><code>qwen</code> —
+<code>~/.qwen/settings.json</code></h3>
+<p>Two separate edits live in this file: the MCP merge from Step 5 and
+the <code>.usageStatisticsEnabled</code> flag from the Step 3 telemetry
+opt-out. Remove whichever you want back:</p>
+<div class="sourceCode" id="cb38"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="va">tmp</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span><span class="va">)</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="st">&#39;del(.mcpServers.lumen, .mcpServers.codegraph)&#39;</span> ~/.qwen/settings.json <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> ~/.qwen/settings.json</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="va">tmp</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span><span class="va">)</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="st">&#39;del(.usageStatisticsEnabled)&#39;</span> ~/.qwen/settings.json <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="st">&quot;</span><span class="va">$tmp</span><span class="st">&quot;</span> ~/.qwen/settings.json      <span class="co"># back to Qwen&#39;s own default</span></span></code></pre></div>
+<h3 id="speckit-the-speckit-cli"><code>speckit</code> — the SpecKit
+CLI</h3>
+<div class="sourceCode" id="cb39"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> tool uninstall specify-cli</span></code></pre></div>
+<p>This is the exact command the manifest records under component
+<code>speckit</code>, so
+<code>./scripts/rollback-agents-wizard.sh -c speckit --run-actions --yes</code>
+does the same thing.</p>
+<h3 id="telemetry-settings">Telemetry settings</h3>
+<p>The <code>~/.bashrc</code> opt-out block is covered by the
+<code>shell</code> block above, and the Qwen flag by the
+<code>qwen</code> block. CodeGraph’s own switch is out of band — the
+wizard ran <code>codegraph telemetry off</code>, and CodeGraph persists
+that in <code>~/.codegraph/telemetry.json</code>:</p>
+<div class="sourceCode" id="cb40"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="ex">codegraph</span> telemetry <span class="at">--help</span>    <span class="co"># its own re-enable command</span></span></code></pre></div>
+<p>There is nothing to undo for Lumen: it ships no telemetry, so the
+wizard never set anything for it.</p>
+<h3 id="mimo-code">MiMo Code</h3>
+<p>There is no MiMo-specific config file to undo. MiMo
+<strong>inherits</strong> MCP servers from <code>~/.claude.json</code>
+(it lists them as <code>claude:~/.claude.json</code>), so removing the
+mirror is what removes Lumen from MiMo:</p>
+<div class="sourceCode" id="cb41"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="st">&#39;del(.mcpServers.lumen)&#39;</span> ~/.claude.json <span class="op">&gt;</span> /tmp/cj <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> /tmp/cj ~/.claude.json</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="ex">mimo</span> mcp list <span class="kw">|</span> <span class="fu">grep</span> lumen        <span class="co"># should now find nothing</span></span></code></pre></div>
+<p>Restart MiMo afterwards — MCP servers are launched at session
+start.</p>
+<h3 id="npm-and-uv-global-cli-tools"><code>npm</code> and
+<code>uv</code> — global CLI tools</h3>
+<p>Uninstall only what you want gone, and only if the wizard installed
+it (it skips anything already present):</p>
+<div class="sourceCode" id="cb42"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> uninstall <span class="at">-g</span> @colbymchenry/codegraph glyphdown @qwen-code/qwen-code</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> tool uninstall specify-cli</span></code></pre></div>
+<p>Kimi, Opencode and MiMo Code are <strong>not</strong> npm-installed
+by the wizard — they ship their own installers and are only detected.
+Remove them with their vendors’ instructions.</p>
+<h3 id="everything-else">Everything else</h3>
+<div class="sourceCode" id="cb43"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="ex">lumen</span> purge                                   <span class="co"># drop every index under ~/.local/share/lumen (do this before deleting the launcher)</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> ~/.local/share/setup-agents-wizard     <span class="co"># the backup sessions themselves — only once you are sure</span></span></code></pre></div>
+<p>Bun (<code>~/.bun</code>), the ashlr <strong>plugin</strong>
+(<code>~/.claude/plugins/cache/ashlr-marketplace/ashlr/</code> — a
+clone, not a binary), Ollama and the embedding model were installed by
+their own vendors’ scripts; see <a
+href="./FAQ.md#how-do-i-completely-uninstall-what-the-wizard-added"><code>FAQ.md</code></a>
+for the full ordered procedure. The wizard-adjacent project files it
+also leaves behind:</p>
+<div class="sourceCode" id="cb44"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-f</span>  MANUAL-STEPS.md .lumen-reindex.log     <span class="co"># regenerated artifacts, not in the manifest</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> .ashlrcode                             <span class="co"># the ashlr genome, if you ran /ashlr:ashlr-genome-init</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/ollama-vulkan-remediation.sh</span> <span class="at">--rollback</span>   <span class="co"># ONLY if you applied it; restores the defect</span></span></code></pre></div>
+<hr />
+<h2 id="safety-guarantees">Safety guarantees</h2>
+<h3 id="what-is-reversible">What is reversible</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Guarantee</th>
+<th style="text-align: left;">Mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">A file the wizard
+<strong>modified</strong> is restored byte-exactly, with its original
+permissions</td>
+<td style="text-align: left;"><code>cp -p</code> both ways;
+<code>sha256_before</code> records the original digest for verification
+(tests <strong>G5</strong>, <strong>G7</strong>,
+<strong>G8</strong>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">A file the wizard <strong>created</strong>
+is deleted</td>
+<td style="text-align: left;"><code>CREATED</code> rows (test
+<strong>G9</strong>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">An agent config the wizard had to
+<strong>create from scratch</strong> is deleted, not left behind as an
+empty <code>{}</code></td>
+<td style="text-align: left;"><code>configure_mcp_for_agent</code> and
+the Glyphdown hook step call <code>snapshot_before</code>
+<strong>before</strong> seeding <code>{}</code>, so the row is
+<code>CREATED</code>. Applies to <code>~/.kimi-code/mcp.json</code>,
+<code>~/.qwen/settings.json</code> and
+<code>~/.claude/settings.json</code> on a clean machine (tests
+<strong>G16</strong>, <strong>G17</strong>; <strong>G18</strong> checks
+a pre-existing config still restores to its real content)</td>
+</tr>
+<tr>
+<td style="text-align: left;">A file touched by several steps restores
+to its <strong>true</strong> pre-run original</td>
+<td style="text-align: left;">First snapshot wins in
+<code>snapshot_before</code> (test <strong>G6</strong>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Every install the wizard performs itself
+can be undone</td>
+<td style="text-align: left;"><code>npm_install_if_missing</code> writes
+an <code>ACTION</code> under <code>npm</code>, and the <code>uv</code>
+branch writes <code>uv tool uninstall specify-cli</code> under
+<code>speckit</code> (test <strong>A28</strong>). Only the third-party
+installers — Bun, ashlr, WOZCODE — record nothing</td>
+</tr>
+<tr>
+<td style="text-align: left;">You can preview any rollback without
+risk</td>
+<td style="text-align: left;"><code>--dry-run</code> changes nothing and
+exits <code>0</code> (test <strong>G10</strong>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">You can undo one part without disturbing
+the others</td>
+<td style="text-align: left;"><code>--component</code>, repeatable
+(tests <strong>G11</strong>, <strong>G12</strong>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">The rollback itself can be undone</td>
+<td
+style="text-align: left;"><code>&lt;session&gt;/pre-rollback-&lt;UTC&gt;/</code>
+is written before anything is touched (test <strong>G13</strong>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Non-file changes are never executed behind
+your back</td>
+<td style="text-align: left;"><code>ACTION</code> rows are printed;
+<code>--run-actions</code> is required to run them (test
+<strong>G14</strong>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Your own content in <code>~/.bashrc</code>
+/ <code>~/.bash_profile</code> survives both directions</td>
+<td style="text-align: left;">The wizard only rewrites its
+marker-delimited blocks; rollback restores the whole file from its
+snapshot</td>
+</tr>
+<tr>
+<td style="text-align: left;">Pre-existing MCP servers and config keys
+survive</td>
+<td style="text-align: left;">Every merge is a <code>jq</code> merge
+that preserves foreign keys (test <strong>D4</strong>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-is-not-reversible-or-not-covered">What is <em>not</em>
+reversible, or not covered</h3>
+<ul>
+<li><p><strong>Anything outside the manifest.</strong> Bun, ashlr,
+WOZCODE, Ollama, its systemd unit, the pulled embedding model, the two
+<code>git clone</code>d marketplaces, <code>specify init</code> output,
+the SuperSpec checkout, <code>&lt;project&gt;/.codegraph/</code>,
+<code>&lt;project&gt;/MANUAL-STEPS.md</code>,
+<code>&lt;project&gt;/.ashlrcode/genome/</code>,
+<code>&lt;project&gt;/.lumen-reindex.log</code> and
+<code>~/.codegraph/telemetry.json</code> have no rows and are untouched
+by rollback.</p></li>
+<li><p><strong>Nothing the three operational scripts do is in the
+manifest.</strong> They run outside the wizard’s transaction entirely,
+and each has its own undo:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Change</th>
+<th style="text-align: left;">Made by</th>
+<th style="text-align: left;">Undo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>GGML_VK_VISIBLE_DEVICES=-1</code> in
+<code>/etc/sysconfig/ollama</code>, plus a service restart</td>
+<td
+style="text-align: left;"><code>ollama-vulkan-remediation.sh --apply</code></td>
+<td
+style="text-align: left;"><code>./scripts/ollama-vulkan-remediation.sh --rollback</code>
+(needs <code>sudo</code>; <strong>restores the defect</strong>)</td>
+</tr>
+<tr>
+<td style="text-align: left;">A rebuilt Lumen index</td>
+<td style="text-align: left;"><code>lumen-reindex.sh</code></td>
+<td style="text-align: left;"><code>lumen purge &lt;path&gt;</code>,
+then re-index</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>&lt;project&gt;/.lumen-reindex.log</code></td>
+<td style="text-align: left;"><code>lumen-reindex.sh</code></td>
+<td style="text-align: left;"><code>rm</code> it</td>
+</tr>
+<tr>
+<td style="text-align: left;"><em>(nothing)</em></td>
+<td style="text-align: left;"><code>lumen-index-doctor.sh</code></td>
+<td style="text-align: left;">Read-only by construction — it opens the
+database <code>mode=ro</code> and never calls the embedding backend
+(tests <strong>I10</strong>, <strong>I14</strong>)</td>
+</tr>
+</tbody>
+</table>
+<p>See <a
+href="./OPERATIONAL-SCRIPTS.md"><code>OPERATIONAL-SCRIPTS.md</code></a>.</p></li>
+<li><p><strong>The telemetry opt-out is only <em>partly</em>
+covered.</strong> The <code>~/.bashrc</code> block is inside the
+<code>shell</code> snapshot and the <code>~/.qwen/settings.json</code>
+edit inside the <code>qwen</code> one, so both come back with a normal
+restore. But <code>codegraph telemetry off</code> is an out-of-band CLI
+call with no <code>ACTION</code> row — CodeGraph keeps that state in
+<code>~/.codegraph/telemetry.json</code>, and you re-enable it yourself
+(<code>codegraph telemetry --help</code>).</p></li>
+<li><p><strong>Changes you made after the wizard ran are
+overwritten</strong> by a <code>MODIFIED</code> restore. They are not
+lost — they are in the <code>pre-rollback-&lt;UTC&gt;</code> snapshot —
+but they do not survive in place. Run <code>--dry-run</code>
+first.</p></li>
+<li><p><strong><code>ACTION</code> failures do not fail the
+run.</strong> A failed undo command warns and the exit code stays
+<code>0</code>. Verify with <code>claude mcp get lumen</code> or
+<code>npm ls -g</code>.</p></li>
+<li><p><strong>The manifest stores absolute paths.</strong> Moving or
+renaming the state directory after a run breaks restore:
+<code>MODIFIED</code> rows fail with
+<code>❌ Backup missing for &lt;target&gt; (&lt;backup&gt;)</code> and
+the tool exits <code>1</code>.</p></li>
+<li><p><strong>A session is one run, not a machine state.</strong>
+Rolling back the newest session returns you to the state immediately
+before it, not to a pristine system.</p></li>
+<li><p><strong><code>.bak.&lt;ts&gt;</code> siblings are never
+removed</strong> by rollback, and neither are the session directories
+themselves.</p></li>
+<li><p><strong>Lumen indexes are out of scope.</strong>
+<code>~/.local/share/lumen/</code> is written by
+<code>lumen index</code>; use <code>lumen purge</code>.</p></li>
+<li><p><strong>Rollback does not restart anything.</strong> Open a new
+shell for <code>PATH</code> changes, and restart each agent for MCP
+changes — the tool prints the reminder for the shell case.</p></li>
+</ul>
+<hr />
+<h2 id="related">Related</h2>
+<ul>
+<li><a href="./README.md"><code>README.md</code></a> — what the wizard
+installs, and the doc index.</li>
+<li><a href="./MANUAL.md"><code>MANUAL.md</code></a> —
+function-by-function reference, including <code>backup_init</code>,
+<code>snapshot_before</code>, <code>record_action</code> and
+<code>_sha</code>.</li>
+<li><a
+href="./TROUBLESHOOTING.md#12-restoring-from-a-backup-session"><code>TROUBLESHOOTING.md</code></a>
+— restoring from a session, and <code>Backup missing</code>
+failures.</li>
+<li><a
+href="./FAQ.md#how-do-i-completely-uninstall-what-the-wizard-added"><code>FAQ.md</code></a>
+— the full uninstall procedure.</li>
+<li><a
+href="./OPERATIONAL-SCRIPTS.md"><code>OPERATIONAL-SCRIPTS.md</code></a>
+— the three post-install scripts, none of which is covered by this
+manifest, and how to undo each of them.</li>
+<li><a href="./ACTION-REQUIRED.md"><code>ACTION-REQUIRED.md</code></a> —
+<code>MANUAL-STEPS.md</code> and the other artifacts the rollback tool
+deliberately leaves alone.</li>
+<li><code>scripts/rollback-agents-wizard.sh</code> — the tool itself;
+<code>--help</code> prints its header comment.</li>
+</ul>
+</body>
+</html>

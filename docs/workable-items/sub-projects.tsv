@@ -1,0 +1,51 @@
+# sub-projects.tsv — the workable-item identifier roster (§11.4.54 / §11.4.148 D1).
+#
+# WHAT THIS FILE IS
+# -----------------
+# §11.4.148 makes the ticket-id PREFIX a consumer-supplied value, verbatim:
+#   "the consuming project supplies its concrete DB path, id prefix,
+#    external-tracker service + list/board id + field map + default-assignee
+#    env var, and docs_chain context per §11.4.35."
+# This file IS that supply. One row per identifier-bearing sub-project.
+#
+# THE FLEET IS DERIVED, THE NAMES ARE NOT.
+# The SET of sub-projects is derived at run time from `.gitmodules` plus
+# `helix-deps.yaml` — never from this file. This file supplies only the
+# three-letter NAME for each derived member, because a name is an operator
+# decision and cannot be measured. `workable-items roster` cross-checks the two:
+# a submodule declared in `.gitmodules` with no row here is rc 2 (COULD NOT
+# DETERMINE — never a pass), and a row here naming no declared submodule is a
+# finding. A new submodule therefore cannot be silently dropped from tracking.
+#
+# RATIFICATION. `ratified` is `operator` only for the five identifiers the
+# operator stated directly (2026-09-08: "Parent identifier: VSC, Identifiers for
+# sub-projects: Workshop - WSP, ai_interviewing - AII, milosvasic.ru - MVR,
+# vasic.digital - VDT, and for all others to be defined in same manner!").
+# Every other row is `proposed` and is NOT approved — it is this agent's
+# proposal awaiting operator ratification. `workable-items roster` prints the
+# split so a proposal is never mistaken for a decision (§11.4.6).
+#
+# FORMAT — TAB-separated, mirroring scripts/check-registry.tsv's convention.
+#   prefix   path                        class              ratified   note
+# `class` closed set:
+#   parent            the umbrella repository itself (not a submodule)
+#   owned             an owned consumer of the governance cascade
+#   governance-source the constitution submodule — the head of the cascade
+#   third-party       not ours; no workable items are filed against it
+#
+prefix	path	class	ratified	note
+VSC	.	parent	operator	The umbrella monorepo. Default owner of any item whose sub-project cannot be measured.
+WSP	workshop	owned	operator	Private submodule. Item titles must never carry its content.
+AII	ai_interviewing	owned	operator	Private submodule. Item titles must never carry its content.
+MVR	milosvasic.ru	owned	operator	Jekyll source site.
+VDT	vasic.digital	owned	operator	Committed static HTML site.
+MON	monetization	owned	proposed	Private submodule. First three letters of the path.
+DTK	design-toolkit	owned	proposed	D-T-K from design-ToolKit; DES/DSG were rejected as less distinctive.
+CNT	submodules/containers	owned	proposed	First three letters of the path basename.
+LLP	submodules/LLMProvider	owned	proposed	L-L-P from LLMProvider; LLM alone is a generic term, not a project name.
+RAG	submodules/RAG	owned	proposed	The path basename is already exactly three letters.
+VDC	submodules/verdict	owned	proposed	V-D-C from VerDiCt; VER collides in reading with VDT, VRD was harder to say.
+PSG	submodules/passage	owned	proposed	P-S-G from PaSsaGe; PAS reads as an abbreviation of "pass".
+CKT	submodules/curriculum-kit	owned	proposed	C-K-T from Curriculum-KiT; CUR collides with "current".
+CON	submodules/constitution	governance-source	proposed	Upstream we consume and do not own. A row exists so an item ABOUT the pin can be filed here; no item may be filed INTO that repository.
+SSP	submodules/superspec	third-party	proposed	Third-party (WangX0111/superspec). Reserved so the prefix is never reused; no items are filed against it.

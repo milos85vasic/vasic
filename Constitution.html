@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Constitution</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Constitution</h1>
+</header>
+<h1 id="vasic-constitution">vasic Constitution</h1>
+<h2 id="inherited-from-submodulesconstitutionconstitution.md">INHERITED
+FROM submodules/constitution/Constitution.md</h2>
+<p>This constitution <strong>extends</strong> the Helix Universal
+Constitution at <code>submodules/constitution/Constitution.md</code>.
+All clauses there apply unless explicitly overridden below.</p>
+<blockquote>
+<p><strong>Path note.</strong> The constitution’s own template and prose
+write the submodule path as <code>constitution/</code>. This repository
+places it at <code>submodules/constitution/</code> — the §11.4.28
+dependency-layout form that
+<code>submodules/constitution/find_constitution.sh</code> resolves
+natively (its candidate list is
+<code>( "constitution" "submodules/constitution" )</code>, lines 41–46).
+Every <code>constitution/&lt;file&gt;</code> in a quoted universal
+clause means <code>submodules/constitution/&lt;file&gt;</code> here.
+This substitution is the only systematic edit made while instantiating
+<code>submodules/constitution/templates/Constitution.project.md.template</code>.</p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Instantiated from</td>
+<td><code>submodules/constitution/templates/Constitution.project.md.template</code></td>
+</tr>
+<tr>
+<td>Created</td>
+<td>2026-08-26</td>
+</tr>
+<tr>
+<td>Last re-measured</td>
+<td>2026-09-01</td>
+</tr>
+<tr>
+<td>Governance submodule</td>
+<td><code>submodules/constitution</code> @
+<code>902979027a907051dc036668a9c353bd27aedf47</code>
+(<code>git describe</code> →
+<code>helixconstitution-v68-51-g9029790</code>); corpus measures 11,700
+lines / 1.7 MB / 252 <code>### §</code> anchors. The pin moved from
+<code>448981ae…</code> (<code>v1.0.0-51-g448981a</code>), which this row
+carried until 2026-09-01; whether that move was a fast-forward was not
+verified. <strong>The pin is BEHIND its remote — see the warning under
+“The set in detail”.</strong></td>
+</tr>
+<tr>
+<td>Peer carriers</td>
+<td><code>CLAUDE.md</code>, <code>AGENTS.md</code>,
+<code>QWEN.md</code>, <code>GEMINI.md</code> (bodies byte-identical from
+line 24; verify with <code>tail -n +24 &lt;file&gt; \| sha256sum</code>)
+— §11.4.157 five-carrier lockstep. Measured 2026-09-01: 520 lines each,
+shared digest
+<code>a1f3a936e0ff6817ce05a9c3ba59b4a84aa57ba3d4b15308a6818befdcc5e2b4</code>.</td>
+</tr>
+<tr>
+<td>Verification</td>
+<td><code>tests/test_constitution_inheritance.sh</code>,
+<code>scripts/verify-all-constitution-rules.sh</code></td>
+</tr>
+<tr>
+<td>Dependency manifest</td>
+<td><code>helix-deps.yaml</code> (§11.4.31)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>§11.4.65 disclosure.</strong> This document ships without its
+<code>.html</code> and <code>.pdf</code> siblings. That is a known,
+disclosed deviation of the same class
+<code>docs/constitution-adoption/INVENTORY.md</code> already records as
+gap G8 — not an oversight, and not a claim of compliance.</p>
+</blockquote>
+<hr />
+<h2 id="project-articles">Project Articles</h2>
+<h3
+id="the-constitution-submodule-lives-at-submodulesconstitution-and-nothing-is-copied-out-of-it">§101.
+The constitution submodule lives at
+<code>submodules/constitution/</code>, and nothing is copied out of
+it</h3>
+<p>Every governance artifact this repository relies on is inherited
+<strong>by reference</strong>: the universal
+<code>Constitution.md</code>, the four canonical per-agent mirrors,
+<code>find_constitution.sh</code>,
+<code>scripts/post_update_hook.sh</code>,
+<code>scripts/hooks/guard-forbidden-commands.sh</code>, and everything
+under <code>scripts/gates/</code>. No file in this repository restates
+the universal corpus.</p>
+<p>The one bounded exception is the nine-item “Critical base rules
+restated” block reproduced in the four root carriers. That block is
+authored by the constitution itself, at
+<code>submodules/constitution/templates/AGENTS.project.md.template</code>,
+for exactly that purpose. Reproducing it is the prescribed mechanism
+(§11.4.35 invariant 6 declares the native-import and pointer-block forms
+equivalent), not a duplication of the corpus.</p>
+<p>Consequence for agents: a rule that is not in one of the five root
+carriers is not absent — read it from
+<code>submodules/constitution/Constitution.md</code> before acting. Do
+not assume, and do not re-author a §11.4.X anchor at this layer
+(§11.4.35 invariant 7).</p>
+<h3
+id="owned-submodule-propagation-is-staged-in-the-umbrella-and-applied-by-the-operator-submodule-first">§102.
+Owned-submodule propagation is staged in the umbrella and applied by the
+operator, submodule-first</h3>
+<p>§3 of the universal constitution requires the submodule commit and
+push to land <strong>before</strong> the parent captures the pointer.
+This repository therefore never writes a governance carrier directly
+into an owned submodule working tree from the umbrella. Carriers are
+prepared as drafts under
+<code>docs/constitution-adoption/propagation/&lt;submodule&gt;/</code>
+with a <code>.staged</code> suffix (the suffix is required: the
+propagation gates discover carriers by exact filename, so a draft named
+<code>CLAUDE.md</code> inside this repository would be counted as a real
+carrier and fail the gate), and the operator applies them following
+<code>docs/constitution-adoption/propagation/APPLY.md</code>.</p>
+<p>Until that application happens, the propagation gaps are
+<strong>open</strong>, and this document says so rather than implying
+coverage that does not exist. See <a
+href="#known-open-gaps-1146-honest-boundary">Known open gaps</a>
+below.</p>
+<blockquote>
+<p><strong>Status update 2026-09-01: the application HAS
+happened.</strong> Propagation is no longer staged-and-unapplied. All
+<strong>seven</strong> owned submodules carry all four carriers —
+<strong>28 of 28</strong> — verified by
+<code>bash scripts/verify-governance-cascade.sh</code> (exit 0; C2
+presence, C3 canonical-predicate acceptance, C8 in-submodule lockstep).
+G7 is <strong>CLOSED</strong>. The staging mechanism and the
+submodule-first ordering described above remain the governing procedure
+for any <em>future</em> carrier change; only the “gaps are open”
+sentence is superseded.</p>
+</blockquote>
+<h3
+id="third-party-gitlinks-are-never-edited-from-this-repository">§103.
+Third-party gitlinks are never edited from this repository</h3>
+<p>Two repositories reachable from this checkout are outside the owned
+set and outside every operator-listed org:</p>
+<ul>
+<li><code>submodules/superspec</code> →
+<code>git@github.com:WangX0111/superspec.git</code></li>
+<li><code>milosvasic.ru/Upstreamable</code> →
+<code>git@github.com:red-elf/Upstreamable.git</code> (a gitlink of the
+<code>milosvasic.ru</code> submodule, i.e. a fourth-level
+repository)</li>
+</ul>
+<p>Neither receives a governance carrier, neither is tagged under §4,
+and neither is edited to make a gate pass. Files inside them that a
+propagation gate discovers and reports as MISSING are recorded as
+<strong>known-excluded</strong> in this document, never “fixed” by
+writing into a repository this project does not own (§11.4.156(C)
+applies the same reasoning to their CI config: a third-party config is
+out of scope and MUST NOT be mass-edited).</p>
+<hr />
+<h2 id="overrides-of-universal-constitution">Overrides of Universal
+Constitution</h2>
+<p>(rare — every override MUST be justified explicitly here)</p>
+<p><strong>None.</strong> No clause of the Helix Universal Constitution
+is overridden, weakened, or relaxed by this project. The four root
+carriers state the same thing in their closing section.</p>
+<p>Any future override MUST be recorded here in the template’s form:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">### Override §X.Y — &lt;reason&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">the</span><span class="ot"> override</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>An unresolved contradiction between this repository’s live state and
+a universal clause is <strong>not</strong> an override. Such a
+contradiction is recorded in <a
+href="#open-conflicts-with-the-universal-constitution">Open
+conflicts</a> below, which is where the active-CI conflict lived —
+precisely because nobody had decided to override anything.</p>
+<blockquote>
+<p><strong>Update 2026-08-27 — an <code>Override §11.4.156</code> was
+sought and found structurally unavailable.</strong> OC-1 and OC-2 below
+previously listed <em>“record an explicit
+<code>Override §11.4.156</code>”</em> as one of three resolutions. That
+resolution does not exist, for two independent reasons.
+<strong>(1)</strong> §11.4.156’s closing formula does not merely set a
+high bar; it names and refuses the exemption vocabulary — <em>“No escape
+hatch — no <code>--allow-ci</code>, <code>--enable-workflow</code>,
+<code>--keep-pipeline</code>, <code>--remote-ci-OK</code>,
+<code>--ci-exempt</code> flag.”</em> A project-local override is a
+<code>--ci-exempt</code> by another spelling. <strong>(2)</strong> The
+inheritance contract this repository’s carriers state —
+<em>“Project-specific rules below extend them — they do NOT weaken or
+override any universal clause”</em> — makes a project-local override of
+an inherited clause structurally impossible, not merely disfavoured.
+Compliance was therefore the only path left that does not amend shared
+governance, and the operator chose it. <strong>This section remains
+“None”, and it is now known that it cannot become anything else for
+§11.4.156.</strong> Full record: <a
+href="docs/constitution-adoption/DECISION-11-4-156-COMPLY.md"><code>docs/constitution-adoption/DECISION-11-4-156-COMPLY.md</code></a>.</p>
+<p><strong>Addendum, same day (revision 2).</strong> The compliance
+decision was then <strong>partially reversed</strong>:
+<code>milosvasic.ru/.github/workflows/pages.yml</code> is the sole
+publish path for a live production website, so it stays
+<strong>ACTIVE</strong>, and <code>vasic.digital</code> triggers
+provider-side Pages runs with no workflow file to disable. Both are
+recorded in <a
+href="#open-conflicts-with-the-universal-constitution">Open
+conflicts</a> as <strong>OC-2</strong> and <strong>OC-2b</strong>.
+<strong>Neither is an override, and neither may be written up as
+one.</strong> An override claims a clause no longer applies; these admit
+the clause applies and is knowingly unmet, with the reason on the
+record. That is exactly the distinction the paragraph above this box
+already draws — <em>“an unresolved contradiction … is
+<strong>not</strong> an override”</em> — and it is why this section
+still reads “None” even though two surfaces are now knowingly
+non-compliant.</p>
+</blockquote>
+<hr />
+<h2 id="owned-submodule-set">Owned-submodule set</h2>
+<p>(per Universal §4 — list the submodules this project owns and
+tags)</p>
+<pre><code>ai_interviewing
+design-toolkit
+milosvasic.ru
+monetization
+vasic.digital</code></pre>
+<p>Third-party submodules excluded.</p>
+<h3 id="the-set-in-detail">The set in detail</h3>
+<p>Pinned commits below were re-measured on <strong>2026-09-01</strong>
+with <code>git ls-tree HEAD</code> and each was re-checked against
+<code>git ls-remote &lt;url&gt; HEAD</code>. <strong>Eight of nine match
+their remote tip; <code>submodules/constitution</code> does NOT</strong>
+— see the warning under the table.
+<code>bash scripts/verify-manifest-pins.sh</code> reports 8 MATCH / 0
+DRIFT / 0 UNDETERMINED against <code>helix-deps.yaml</code>, but that
+measures the manifest against the <strong>local gitlink</strong>, not
+against the remote; the two questions are different and only one is
+gated. Two rows are new since this table was first written
+(<code>workshop</code>, <code>submodules/containers</code>) and every
+pre-existing row had moved — re-derive rather than trusting the
+table.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Path</th>
+<th>Upstream (<code>.gitmodules</code>)</th>
+<th>Pinned commit</th>
+<th>Owned?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td><code>git@github.com:milos85vasic/ai_interviewing.git</code></td>
+<td><code>5ef07e08f202f75f6c0a9d7eda193f6740a1a333</code></td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td><code>git@github.com:vasic-digital/design-toolkit.git</code></td>
+<td><code>efd2c3fb2f880aaf2baf7f4819ce28a1ce3609cb</code></td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td><code>git@github.com:milos85vasic/milosvasic.ru.git</code></td>
+<td><code>8166fdba295dedc3114188c56e84248717ee7167</code></td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td><code>git@github.com:milos85vasic/monetization.git</code></td>
+<td><code>54ed7b0f5add52821d18866facb5ee8c75adef69</code></td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td><code>git@github.com:vasic-digital/vasic-digital.github.io.git</code></td>
+<td><code>0bc25012cc33202ced47788a9c301b6a9c15e192</code></td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td><code>workshop</code></td>
+<td><code>git@github.com:milos85vasic/workshop_curriculum.git</code></td>
+<td><code>55076bf943a5158c91dede839ac319c43ddca1ab</code></td>
+<td><strong>Yes</strong></td>
+</tr>
+<tr>
+<td><code>submodules/containers</code></td>
+<td><code>git@github.com:vasic-digital/containers.git</code></td>
+<td><code>4dab992582666a64a4353cd593704cdc969aaa1e</code></td>
+<td><strong>Yes</strong> — added under §11.4.76</td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td><code>git@github.com:HelixDevelopment/HelixConstitution.git</code></td>
+<td><code>902979027a907051dc036668a9c353bd27aedf47</code></td>
+<td><strong>Governance submodule</strong> — see below</td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code></td>
+<td><code>git@github.com:WangX0111/superspec.git</code></td>
+<td><code>c20ac6c1ba069cc9a72dacb8044b7b193d3dde81</code></td>
+<td><strong>No — third-party, EXCLUDED</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>The governance source is pinned BEHIND its upstream (measured
+2026-09-01).</strong> <code>submodules/constitution</code> is checked
+out at <code>902979027a90</code> while
+<code>git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD</code>
+returns <code>f16ea779b82a</code>. Every anchor quotation, line count
+and gate population recorded anywhere in this repository describes
+<code>902979027a90</code>, <strong>not what upstream currently
+ships</strong>. Whether <code>f16ea779b82a</code> is a fast-forward of
+the pin is <strong>UNVERIFIED</strong> — answering it needs a
+<code>git fetch</code> inside the submodule, a mutating command that was
+not run without authorization. <strong>No cascade check catches
+this:</strong> C9 and <code>scripts/verify-manifest-pins.sh</code>
+compare the manifest to the <strong>local gitlink</strong>, so a pin
+stale against its remote passes both.</p>
+</blockquote>
+<p><code>submodules/containers</code>
+(<code>vasic-digital/containers</code>) is mandated by
+<strong>§11.4.76</strong> for ANY containerised workload, which also
+forbids reimplementing it — a hand-rolled <code>Containerfile</code>
+would be a violation, not merely an inferior choice. Its four carriers
+were a §11.4.157(B) lockstep break upstream and were repaired <strong>at
+source</strong> and pushed as <code>4dab992</code> (“govern(carriers):
+restore §11.4.157(B) four-carrier lockstep”); they now measure 703 lines
+each and cascade check C8 accepts them. <strong>Honest boundary
+(§11.4.6): nothing in this repository has yet been built or run in a
+container.</strong> The submodule is present for the workload
+<code>specs/001-workshop-curriculum-platform/</code> plans but has not
+implemented.</p>
+<h3
+id="submodulesconstitution-the-governance-submodule-itself"><code>submodules/constitution</code>
+— the governance submodule itself</h3>
+<p><code>submodules/constitution</code> is an own-org repository
+(<code>HelixDevelopment/HelixConstitution</code>), but it is
+<strong>not</strong> a product submodule of this project. It is the
+constitution this project consumes. It is listed above for completeness
+and is declared in <code>helix-deps.yaml</code> as a dependency, and it
+is deliberately <strong>not</strong> in the §4 tag-mirroring block:
+mirroring a <code>vasic</code> release tag onto the universal
+constitution would tag a repository whose release cadence belongs to a
+different project, and its own tag line (<code>v1.0.0…</code>) is
+unrelated to this repository’s (<code>v1.7.1</code>,
+<code>v1.7.2</code>, <code>v1.8.0</code>).</p>
+<p>The universal §4 wording is <em>“every owned submodule”</em> and does
+not carve out a governance submodule explicitly. <strong>This carve-out
+is therefore a project decision recorded here, not a universal
+rule.</strong> It is stated openly so it can be reversed by the operator
+rather than discovered later as an unexplained omission.</p>
+<h3
+id="submodulessuperspec-excluded-with-the-reason"><code>submodules/superspec</code>
+— excluded, with the reason</h3>
+<p><code>submodules/superspec</code> is a gitlink to
+<code>git@github.com:WangX0111/superspec.git</code>. The
+<code>WangX0111</code> account is outside every operator-listed org
+(<code>milos85vasic</code>, <code>vasic-digital</code>,
+<code>HelixDevelopment</code>), so the repository is third-party under
+the universal §4 sentence <em>“Third-party submodules (libraries not
+under the project’s control) are excluded.”</em></p>
+<p>Concretely, the exclusion means:</p>
+<ol type="1">
+<li><strong>No §4 tag mirroring.</strong> A <code>vasic</code> release
+tag is never pushed to it — this project has no push rights and no
+release authority over it.</li>
+<li><strong>No §11.4.157 carrier propagation.</strong> No
+<code>CLAUDE.md</code> / <code>AGENTS.md</code> / <code>QWEN.md</code> /
+<code>GEMINI.md</code> is written into it.</li>
+<li><strong>No §11.4.156 CI action.</strong> Its root
+<code>.github/workflows/ci.yml</code> is a third-party config this
+project neither authors nor pushes; §11.4.156(C) puts it explicitly out
+of scope and forbids mass-editing it.</li>
+<li><strong>No §11.4.31 manifest entry.</strong>
+<code>helix-deps.yaml</code> declares own-org deps; a third-party
+gitlink is recorded there as a comment, not as a <code>deps</code>
+entry.</li>
+</ol>
+<p>Two carriers vendored inside it —
+<code>submodules/superspec/examples/static-landing-page/CLAUDE.md</code>
+and its mirror at
+<code>.specify/extensions/superspec/examples/static-landing-page/CLAUDE.md</code>
+— are example fixtures of that third-party project. The propagation
+gates discover them by filename and report them MISSING. They are
+known-excluded; see <a
+href="#known-excluded-gate-findings">Known-excluded gate
+findings</a>.</p>
+<hr />
+<h2 id="project-specific-remotes">Project-specific remotes</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Repo</th>
+<th>Remotes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Main (<code>vasic</code>)</td>
+<td><code>origin</code>, <code>github</code>, <code>upstream</code> —
+all three fetch <strong>and</strong> push
+<code>git@github.com:milos85vasic/vasic.git</code>. <strong>One distinct
+URL.</strong></td>
+</tr>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td><code>origin</code>, <code>github</code>, <code>upstream</code> —
+all three fetch <strong>and</strong> push
+<code>git@github.com:milos85vasic/ai_interviewing.git</code>.
+<strong>One distinct URL.</strong></td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td><code>origin</code> only — fetch <strong>and</strong> push
+<code>git@github.com:vasic-digital/design-toolkit.git</code>.
+<strong>One distinct URL.</strong></td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td><code>origin</code> <strong>fetch</strong>
+<code>git@github.com:milos85vasic/milosvasic.ru.git</code>;
+<code>origin</code> <strong>push ×2</strong> →
+<code>git@gitflic.ru:milosvasic/milosvasic-net-v-2.git</code>,
+<code>git@github.com:milos85vasic/milosvasic.net.v2.git</code>.
+<code>gitflic</code> ↔︎
+<code>git@gitflic.ru:milosvasic/milosvasic-net-v-2.git</code>.
+<code>github</code> ↔︎
+<code>git@github.com:milos85vasic/milosvasic.net.v2.git</code>.
+<code>upstream</code> ↔︎
+<code>git@gitflic.ru:milosvasic/milosvasic-net-v-2.git</code>. <strong>⚠
+fetch/push asymmetry — see below.</strong></td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td><code>origin</code> <strong>fetch</strong>
+<code>git@github.com:milos85vasic/monetization.git</code>;
+<code>origin</code> <strong>push ×4</strong> →
+<code>git@gitflic.ru:milosvasic/monetization.git</code>,
+<code>git@github.com:milos85vasic/monetization.git</code>,
+<code>git@gitlab.com:milos85vasic/monetization.git</code>,
+<code>ssh://git@gitverse.ru:2222/milosvasic/monetization.git</code>.
+Named peers: <code>gitflic</code>, <code>github</code>,
+<code>gitlab</code>, <code>gitverse</code> (each fetch+push its own
+URL), <code>upstream</code> ↔︎ gitflic.</td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td><code>origin</code>, <code>github</code>, <code>upstream</code> —
+all three fetch <strong>and</strong> push
+<code>git@github.com:vasic-digital/vasic-digital.github.io.git</code>.
+<strong>One distinct URL.</strong></td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td><code>origin</code> <strong>fetch</strong>
+<code>git@github.com:HelixDevelopment/HelixConstitution.git</code>;
+<code>origin</code> <strong>push ×6</strong> →
+<code>git@gitflic.ru:helixdevelopment/helixconstitution.git</code>,
+<code>git@github.com:HelixDevelopment/HelixConstitution.git</code>,
+<code>git@gitlab.com:helixdevelopment1/helixconstitution.git</code>,
+<code>git@gitverse.ru:helixdevelopment/HelixConstitution.git</code>,
+<code>git@github.com:vasic-digital/HelixConstitution.git</code>,
+<code>git@gitlab.com:vasic-digital/HelixConstitution.git</code>. Named
+peers: <code>gitflic</code>, <code>github</code>, <code>gitlab</code>,
+<code>gitverse</code>, <code>vasic_digital_github</code>,
+<code>vasic_digital_gitlab</code>, <code>upstream</code> ↔︎ gitflic.</td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code> <em>(third-party, not
+ours)</em></td>
+<td><code>origin</code> only — fetch <strong>and</strong> push
+<code>git@github.com:WangX0111/superspec.git</code>. Recorded for
+completeness; this project pushes nothing here.</td>
+</tr>
+</tbody>
+</table>
+<p>Source: <code>git remote -v</code> run in each working tree on
+2026-08-26. All URLs are SSH; there is not one <code>https://</code>
+remote in the set.</p>
+<h3 id="hazard-milosvasic.ru-fetches-from-a-url-it-never-pushes-to">⚠
+Hazard — <code>milosvasic.ru</code> fetches from a URL it never pushes
+to</h3>
+<p><code>milosvasic.ru</code>’s <code>origin</code>
+<strong>fetches</strong> from
+<code>git@github.com:milos85vasic/milosvasic.ru.git</code> and
+<strong>pushes</strong> to two entirely different URLs
+(<code>gitflic.ru:milosvasic/milosvasic-net-v-2</code> and
+<code>github.com:milos85vasic/milosvasic.net.v2</code>).
+<code>milosvasic.ru.git</code> is not in <code>origin</code>’s push
+list, and no other remote in that working tree pushes to it.</p>
+<p>This is a real operational hazard, not a cosmetic naming quirk:</p>
+<ul>
+<li>Work pulled from <code>milosvasic.ru.git</code> and pushed back will
+<strong>never</strong> reach <code>milosvasic.ru.git</code>. The fetch
+source silently diverges from the three repositories that actually
+receive commits.</li>
+<li>The <code>.gitmodules</code> entry pins the submodule URL to
+<code>git@github.com:milos85vasic/milosvasic.ru.git</code>, so a fresh
+<code>git submodule update --init</code> clones the repository that
+receives <strong>no</strong> pushes. A fresh clone and a long-lived
+working tree can therefore be looking at different histories.</li>
+<li>§2.1 (“a commit that lives on only one remote is a future
+operational risk”) is satisfied on the push side — two remotes receive
+every commit — but the fetch side points at a third repository that
+receives none.</li>
+</ul>
+<p>Reconciling this is an <strong>operator decision</strong> (add
+<code>milosvasic.ru.git</code> to <code>origin</code>’s push list, or
+repoint the fetch URL / <code>.gitmodules</code> entry at
+<code>milosvasic.net.v2</code>). It is recorded here rather than
+silently normalised, because either fix rewrites remote configuration
+this project must not change on its own authority.</p>
+<h3
+id="honest-boundary-three-repositories-have-exactly-one-remote-url">§2.1
+honest boundary — three repositories have exactly one remote URL</h3>
+<p>§2.1 is a <strong>SHOULD</strong> for consuming projects
+(<em>“Consuming projects SHOULD do the same for their own multi-remote
+topology”</em>), so the single-URL topologies below are not violations.
+They are recorded because §11.4.6 forbids implying a multi-upstream
+posture that does not exist:</p>
+<ul>
+<li>Main <code>vasic</code> — three remote names, one URL. A GitHub
+outage makes the umbrella unreachable.</li>
+<li><code>ai_interviewing</code> — three remote names, one URL.</li>
+<li><code>vasic.digital</code> — three remote names, one URL.</li>
+<li><code>design-toolkit</code> — one remote, one URL.</li>
+</ul>
+<p><code>monetization</code> (4 push URLs),
+<code>submodules/constitution</code> (6 push URLs), and
+<code>milosvasic.ru</code> (2 push URLs) do have genuine fan-out.</p>
+<hr />
+<h2 id="open-conflicts-with-the-universal-constitution">Open conflicts
+with the Universal Constitution</h2>
+<blockquote>
+<p><strong>Not specified by
+<code>Constitution.project.md.template</code>.</strong> The template
+offers <code>## Overrides</code> and nothing else. An override is a
+decision; the items below are undecided contradictions, and recording
+them as overrides would claim an authorization nobody has given. §11.4.6
+forbids reporting a state that was not verified, and §11.4.156 names
+silence as the one option it does not allow — so this section exists. It
+is an addition to the template, marked as such.</p>
+</blockquote>
+<h3
+id="oc-1-active-ci-at-the-repository-root-contradicts-11.4.156a">OC-1 —
+Active CI at the repository root contradicts §11.4.156(A)</h3>
+<blockquote>
+<p><strong>RESOLVED 2026-08-27 by operator decision — the text below is
+retained as the original record and is no longer the current
+state.</strong> Decision, verbatim: <em>“Comply — disable both, enforce
+locally.”</em> <code>.github/workflows/ci.yml</code> is renamed to a
+non-active <code>.disabled</code> name per §11.4.156(B), and the gates
+it ran move to a <strong>local pre-push hook</strong>. <strong>⚠ Scope
+note (added 2026-08-27, revision 2): the <em>“disable both”</em> half of
+that decision now applies only to <code>ci.yml</code>.</strong> The
+<code>pages.yml</code> half was reversed the same day on an overriding
+operator directive — see <strong>OC-2</strong> below. OC-1 itself is
+unaffected: <code>ci.yml</code> publishes nothing, so disabling it costs
+no production uptime, and it remains disabled. <strong>Resolution 2
+below — record an <code>Override §11.4.156</code> — turned out not to
+exist.</strong> §11.4.156’s closing formula refuses the exemption
+vocabulary by name (<em>“No escape hatch …
+<code>--ci-exempt</code>”</em>), and the inheritance contract this
+repository’s carriers state (<em>“extend them — they do NOT weaken or
+override any universal clause”</em>) makes a project-local override of
+an inherited clause structurally impossible. With the override gone,
+compliance was the only remaining option that does not amend shared
+governance; no constitution amendment was made. Resolution 1’s
+precondition (“stand up the §11.4.75 layers first”) is honoured by C3 of
+the decision record, and resolution 3 was rejected because §11.4.156
+makes non-compliance <em>“a release blocker regardless of context”</em>.
+<strong>Honest boundary (§11.4.6):</strong> renaming the file stops
+FILE-triggered runs. It does <strong>not</strong> reach provider-side
+settings — org-default required workflows, branch-protection required
+checks, the GitHub Pages source setting, provider-side scheduled
+exports. Those are operator-only manual steps in the provider UI and are
+<strong>not done</strong>. G4 therefore moves to
+<strong>PARTIAL</strong>, not CLOSED. <strong>What is lost:</strong> no
+server-side enforcement on push or PR. The gates now depend on a local
+hook, and <code>.git/hooks/</code> is not tracked by git, so a fresh
+clone has <strong>no</strong> protection until the install step is run.
+Full record, including the four options and the complete loss analysis:
+<a
+href="docs/constitution-adoption/DECISION-11-4-156-COMPLY.md"><code>docs/constitution-adoption/DECISION-11-4-156-COMPLY.md</code></a>.
+CI surface inventory:
+<code>docs/constitution-adoption/CI-INVENTORY-11-4-156.md</code>.</p>
+</blockquote>
+<p><strong>Clause.</strong> §11.4.156(A)
+(<code>submodules/constitution/Constitution.md:9548</code>):</p>
+<blockquote>
+<p><strong>(A) Zero active CI at the repository root.</strong> No active
+<code>.github/workflows/*.yml|*.yaml</code>, no
+<code>.gitlab-ci.yml</code>, no <code>.gitlab/**</code> pipeline
+include, nor any equivalent provider config may exist at the ROOT of any
+governed repository/submodule — the only location a provider
+executes.</p>
+</blockquote>
+<p>and its closing formula:</p>
+<blockquote>
+<p>Non-compliance is a release blocker regardless of context. No escape
+hatch — no <code>--allow-ci</code>, <code>--enable-workflow</code>,
+<code>--keep-pipeline</code>, <code>--remote-ci-OK</code>,
+<code>--ci-exempt</code> flag.</p>
+</blockquote>
+<p><strong>Live state at the time this conflict was recorded.</strong>
+<code>.github/workflows/ci.yml</code> exists at this repository’s root
+(<del>9,526 bytes</del> — stale; measured <strong>12,421 B</strong> on
+2026-08-27) with live <code>on: push [main]</code> /
+<code>on: pull_request [main]</code> triggers, and
+<code>README.md:3</code> advertises it with a status badge. <em>(Both
+the file and the badge are removed by the 2026-08-27 decision.)</em></p>
+<p><strong>Why this is a conflict of intent and not neglect.</strong>
+The workflow’s own header records why it was added:</p>
+<blockquote>
+<p>Before this workflow existed, the ONLY GitHub Actions in play was
+milosvasic.ru/.github/workflows/pages.yml — a Jekyll <em>deploy</em>.
+Nothing ran the test suite, so a regression could only be caught by
+hand.</p>
+</blockquote>
+<p>Two documented purposes collide: §11.4.156 moves enforcement to the
+local §11.4.75 five-layer git-hook ritual; this repository has
+<strong>none</strong> of those five layers (INVENTORY gap G5 — no
+non-sample hook in <code>.git/hooks/</code>, no commit wrapper).
+Disabling the workflow today would remove the only mechanical check that
+exists here and put nothing in its place.</p>
+<p><strong>Status: <del>UNRESOLVED — operator decision. Deliberately not
+acted on.</del> SUPERSEDED 2026-08-27 — resolution 1 chosen; see the
+banner above.</strong> The three resolutions as originally recorded,
+none of which an agent could pick unilaterally (resolution 2 has since
+been shown not to exist at all):</p>
+<ol type="1">
+<li>Disable per §11.4.156(B) — rename to
+<code>ci.yml.disabled-local-only</code> — <strong>and</strong> stand up
+the §11.4.75 local layers first, so enforcement is moved rather than
+deleted.</li>
+<li>Record an explicit <code>Override §11.4.156</code> in the Overrides
+section above, with the operator’s justification.</li>
+<li>Keep both and accept the release-blocker state knowingly.</li>
+</ol>
+<p><del>Nothing in this repository disables, edits, or re-enables that
+workflow.</del> <strong>Superseded 2026-08-27:</strong> resolution 1 was
+chosen and the workflow is being renamed to a non-active
+<code>.disabled</code> name under the decision record.</p>
+<h3
+id="oc-2-milosvasic.ru.githubworkflowspages.yml-the-same-clause-in-an-owned-submodule">OC-2
+— <code>milosvasic.ru/.github/workflows/pages.yml</code> — the same
+clause, in an owned submodule</h3>
+<blockquote>
+<p><strong>STATUS: OPEN — PERMANENT DOCUMENTED DEVIATION (2026-08-27).
+NOT an override.</strong></p>
+<p><del><strong>RESOLVED 2026-08-27 by the same operator decision —
+<em>“Comply — disable both, enforce locally.”</em></strong>
+<code>pages.yml</code> is renamed to a non-active <code>.disabled</code>
+name per §11.4.156(B).</del> <strong>That half of the decision was
+reversed the same day.</strong> A material fact emerged after it was
+recorded:</p>
+<pre><code>$ gh api repos/milos85vasic/milosvasic.ru/pages
+... &quot;build_type&quot;:&quot;workflow&quot;, &quot;status&quot;:&quot;built&quot;, &quot;html_url&quot;:&quot;https://milosvasic.ru/&quot; ...</code></pre>
+<p><code>build_type: "workflow"</code> means GitHub Pages publishes that
+<strong>live production site</strong> exclusively by running
+<code>pages.yml</code>. There is no <code>gh-pages</code> branch, no
+<code>docs/</code> folder, and the repository root is Jekyll SOURCE
+(Liquid + front matter), so it cannot be served raw from a branch.
+<code>_tools/deploy-langs.sh</code> is <strong>not</strong> a substitute
+— it generates, commits and pushes source and then <code>sleep</code>s
+waiting for the server to rebuild; it covers none of the publish step.
+Disabling <code>pages.yml</code> does not downgrade the deploy to
+manual: it <strong>ends</strong> it.</p>
+<p><strong>Operator’s overriding directive, verbatim:</strong>
+<strong><em>“Make sure all pages websites work flawlessly! No website
+can be broken! All websites we have here are running deployed in
+production!”</em></strong></p>
+<p><strong>Current state (verified 2026-08-27): <code>pages.yml</code>
+is ACTIVE</strong>, byte-identical to the version publishing today
+(submodule <code>git status</code> clean, <code>git diff HEAD</code>
+empty, YAML parses, <code>build</code> and <code>deploy</code> jobs both
+intact). <strong>It will not be disabled.</strong></p>
+<p><strong>This is a DEVIATION, not an
+<code>Override §11.4.156</code>.</strong> §11.4.156 forbids an override
+by name (<em>“No escape hatch”</em>), and the Overrides section above
+explains why a project-local one is structurally impossible. An override
+would claim the clause no longer applies; it does apply, this repository
+is knowingly breaking it, and §11.4.156’s characterisation of that as
+<em>“a release blocker regardless of context”</em> is accepted here
+rather than argued away. <strong>Never record, report, or rationalise
+this as an override.</strong></p>
+<p>The recommendation in <a
+href="docs/constitution-adoption/REMOTE-ASYMMETRY.md"><code>docs/constitution-adoption/REMOTE-ASYMMETRY.md</code></a>
+§9 — to extend an <code>Override §11.4.156</code> to cover this file —
+remains <strong>void</strong>: there is no override to extend, and this
+deviation is not one either. Full record: <a
+href="docs/constitution-adoption/DECISION-11-4-156-COMPLY.md"><code>docs/constitution-adoption/DECISION-11-4-156-COMPLY.md</code></a>
+§0.</p>
+</blockquote>
+<h3
+id="oc-2b-vasic.digital-triggers-ci-with-no-workflow-file-at-all">OC-2b
+— <code>vasic.digital</code> triggers CI with no workflow file at
+all</h3>
+<blockquote>
+<p><strong>STATUS: OPEN — PROVIDER-LEVEL NON-COMPLIANCE WITH NO
+FILE-LEVEL REMEDY (verified 2026-08-27).</strong></p>
+<p><code>vasic.digital</code>
+(<code>vasic-digital/vasic-digital.github.io</code>) contains
+<strong>zero</strong> workflow files — it has no <code>.github/</code>
+directory. It is nonetheless §11.4.156-non-compliant, because its GitHub
+Pages source setting alone starts an Actions run on every push:</p>
+<pre><code>$ gh api repos/vasic-digital/vasic-digital.github.io/pages
+... &quot;build_type&quot;:&quot;legacy&quot;, &quot;status&quot;:&quot;built&quot;, &quot;html_url&quot;:&quot;https://vasic.digital/&quot; ...
+$ gh api &quot;repos/vasic-digital/vasic-digital.github.io/actions/runs?per_page=3&quot;
+pages build and deployment | dynamic/pages/pages-build-deployment | dynamic | 2026-08-27T00:14:51Z
+pages build and deployment | dynamic/pages/pages-build-deployment | dynamic | 2026-08-10T13:46:15Z</code></pre>
+<p>§11.4.156(A) is about files at a repository root; there is no file
+here to disable, so <strong>no change to that repository’s tree can make
+it compliant</strong>. Only the operator, in the GitHub Pages UI, could
+stop those runs, and doing so would unpublish a live production site —
+which the directive quoted in OC-2 forbids. Recorded, not resolved; and,
+like OC-2, <strong>not an override</strong>.</p>
+</blockquote>
+<p><code>milosvasic.ru</code> is an <strong>owned</strong> submodule and
+carries an active root workflow, so §11.4.156(A) and (C) apply to it
+exactly as they apply to OC-1. It is listed separately because resolving
+it means committing inside a submodule working tree, which §102 above
+reserves to the operator.</p>
+<p><code>submodules/superspec/.github/workflows/ci.yml</code> is
+<strong>not</strong> listed as a conflict: §11.4.156(C) scopes the
+clause to <em>“repositories we author + push”</em>, and superspec is
+third-party.</p>
+<h3
+id="oc-3-11.4.32-step-1-had-no-cascade-verifier-to-re-run-resolved-2026-08-27">OC-3
+— §11.4.32 step 1 had no cascade verifier to re-run — <strong>RESOLVED
+2026-08-27</strong></h3>
+<p>§11.4.32’s sweep contract, step 1, requires the sweep to <em>“Re-run
+the existing governance-cascade verifier
+(<code>scripts/verify-governance-cascade.sh</code>)”</em>.</p>
+<p><strong>Original conflict (retained for history):</strong> that file
+did not exist, so <code>scripts/verify-all-constitution-rules.sh</code>
+reported step 1 as an explicit <strong>SKIP with reason</strong> naming
+the missing file, never counting it as a pass.</p>
+<p><strong>Resolution.</strong>
+<code>scripts/verify-governance-cascade.sh</code> now exists, is tracked
+and executable, and was committed in <code>9ed96fb</code>. Measured:
+<strong>10 PASS, 0 FAIL, 0 ENV, 3 NOTE, exit 0</strong>. It is not a
+vacuous gate — <code>--prove-failure</code> runs a paired mutation proof
+against throwaway copies: a golden-good control passes, five seeded
+violations are each caught as rc=1, and a deliberately broken
+environment returns rc=2 rather than accusing the tree.</p>
+<p>Two honest boundaries are recorded rather than papered over. First,
+§11.4.32’s phrase <em>“every §11.9 + CONST-* anchor”</em> is not
+implementable against the pinned corpus: <code>§11.9</code> occurs
+exactly once — inside §11.4.32’s own sentence — and no
+<code>CONST-NNN</code> defining heading exists anywhere; the sixteen
+<code>CONST-*</code> ids appear only as cross-references. The verifier
+therefore proves the §11.4.35 <em>pointer</em> mechanism those anchors
+cascade through, rather than enumerating an anchor list that does not
+exist. Second, §11.4.32 clause 4’s Issues-tracker population (§11.4.15
+<code>Status: Reopened</code> / <code>Type: Bug</code>) is not
+implemented; the verifier prints directed FAIL lines with fixes, but
+writes to no tracker.</p>
+<p>The step-1 <strong>caller</strong> was fixed in the same pass: it had
+mapped any non-zero rc to <code>STEP1 FAIL</code>, collapsing this
+verifier’s documented three-valued contract (0 pass / 1 violation / 2
+could-not-verify) and so reporting a broken <em>check</em> as a
+violation of the <em>tree</em>. It now branches on rc, with a distinct
+ERROR state that exits non-zero without accusing the tree — consistent
+with the sweep’s existing <code>err</code> counter convention for blind
+instruments.</p>
+<hr />
+<h2 id="known-excluded-gate-findings">Known-excluded gate findings</h2>
+<p><code>scripts/verify-all-constitution-rules.sh</code> runs the
+constitution’s own gates against this checkout. Some findings are
+structural and are <strong>not</strong> this repository’s to fix. They
+are listed here so that a reader can tell an excluded finding from a
+real regression — and note that the sweep still <strong>exits
+non-zero</strong> on them. Exclusion means “not ours to fix”, never
+“suppressed”.</p>
+<p>Observed on 2026-08-26
+(<code>bash scripts/verify-all-constitution-rules.sh --quiet</code>,
+constitution HEAD
+<code>448981ae3498229c734dc60719f4b19f01d7a75f</code>): <strong>58 gates
+run — 37 PASS, 21 FAIL, 0 ERROR</strong>, sweep exit <code>1</code>. The
+21 failures are exactly the 17
+<code>cm_covenant_114_*_propagation.sh</code> gates (each reporting the
+same five carriers in section A below — 17 × 5 = 85 <code>MISSING</code>
+lines, and no sixth carrier anywhere) plus the four
+constitution-internal gates in section B. Nothing else failed.</p>
+<h3 id="a.-five-carriers-the-propagation-gates-report-missing">A. Five
+carriers the propagation gates report MISSING</h3>
+<p>Every <code>cm_covenant_114_*_propagation.sh</code> gate discovers
+governance carriers by filename under <code>--root</code> and reports
+these five:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Carrier</th>
+<th>Owning repository</th>
+<th>Why excluded</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>milosvasic.ru/Upstreamable/AGENTS.md</code></td>
+<td><code>red-elf/Upstreamable</code> (third-party, a gitlink
+<strong>of</strong> the <code>milosvasic.ru</code> submodule)</td>
+<td>§103 — this project does not own or push it</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru/Upstreamable/CLAUDE.md</code></td>
+<td><code>red-elf/Upstreamable</code> (same)</td>
+<td>§103</td>
+</tr>
+<tr>
+<td><code>submodules/superspec/examples/static-landing-page/CLAUDE.md</code></td>
+<td><code>WangX0111/superspec</code> (third-party)</td>
+<td>§103 — vendored example fixture</td>
+</tr>
+<tr>
+<td><code>.specify/extensions/superspec/examples/static-landing-page/CLAUDE.md</code></td>
+<td>vendored copy of the same superspec fixture</td>
+<td>§103</td>
+</tr>
+<tr>
+<td><code>vasic.digital/QWEN.md</code></td>
+<td><code>vasic-digital/vasic-digital.github.io</code> —
+<strong>owned</strong></td>
+<td>§102 — the fix is staged at
+<code>docs/constitution-adoption/propagation/vasic.digital/QWEN.insert-block.md</code>
+and awaits operator application; it is not applied from the
+umbrella</td>
+</tr>
+</tbody>
+</table>
+<p>Only the last is an owned-repository gap. The first four are
+third-party.</p>
+<h3
+id="b.-four-gate-failures-inside-the-constitution-submodules-own-tree">B.
+Four gate failures inside the constitution submodule’s own tree</h3>
+<p>These fail against <code>submodules/constitution</code> itself, are
+unrelated to this repository’s adoption, and cannot be fixed from here
+without writing into a submodule working tree:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Finding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cm_continuum_resume_engine_present.sh</code></td>
+<td>project-specific literal inside the engine:
+<code>submodules/continuum/test/e2e/e2e_test.go</code> (decoupling
+violation, §11.4.28(B))</td>
+</tr>
+<tr>
+<td><code>cm_gate_ledger_ratchet.sh</code></td>
+<td>ratchet violated — <code>unimplemented=432</code> exceeds checked-in
+<code>baseline=420</code></td>
+</tr>
+<tr>
+<td><code>cm_track_branch_label.sh</code></td>
+<td>ALIAS-VALIDATION: labeler yielded <code>xhigh</code>, not the
+expected synthetic alias</td>
+</tr>
+<tr>
+<td><code>cm_track_branch_label_mutation_test.sh</code></td>
+<td>its paired §1.1 mutation test, failing because the gate above
+fails</td>
+</tr>
+</tbody>
+</table>
+<p>Per §11.4.26 these belong upstream in
+<code>HelixDevelopment/HelixConstitution</code>, as does the missing
+<code>QWEN.project.md.template</code> /
+<code>GEMINI.project.md.template</code> pair (INVENTORY gap G7b) that
+forces every consumer to hand-derive two of the five carriers §11.4.157
+makes equal.</p>
+<hr />
+<h2 id="known-open-gaps-11.4.6-honest-boundary">Known open gaps (§11.4.6
+honest boundary)</h2>
+<p>This repository is <strong>not</strong> fully constitution-compliant.
+The full audit is <a
+href="docs/constitution-adoption/INVENTORY.md"><code>docs/constitution-adoption/INVENTORY.md</code></a>;
+identifiers below are the inventory’s own. Gaps closed since it was
+written are marked.</p>
+<p><strong>Authority note (added 2026-09-01).</strong> This table is
+<strong>not</strong> the authoritative gap ledger and is not
+machine-compared to anything. The authority is the
+<code>- G&lt;n&gt; — &lt;STATUS&gt;</code> lines in the four root
+carriers, which <code>scripts/continuation-check.sh</code> C4 holds in
+agreement with <code>CONTINUATION.md</code> §4 on every run. If this
+table disagrees with those, <strong>this table is the defect</strong>.
+Rows below were reconciled against the carriers on 2026-09-01.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gap</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1 — no consumer governance layer</td>
+<td><strong>CLOSED</strong> — <code>CLAUDE.md</code>,
+<code>AGENTS.md</code>, <code>QWEN.md</code>, <code>GEMINI.md</code> at
+the root</td>
+</tr>
+<tr>
+<td>G2 — no inheritance pointer</td>
+<td><strong>CLOSED</strong> — all four carriers plus this file open with
+<code>## INHERITED FROM</code></td>
+</tr>
+<tr>
+<td>G3 — no post-pull validation sweep</td>
+<td><strong>CLOSED</strong> —
+<code>scripts/verify-all-constitution-rules.sh</code> and
+<code>scripts/verify-governance-cascade.sh</code> both exist and run;
+step 1 re-measured 2026-09-01 as <strong>12 PASS / 0 FAIL / 0 ENV / 7
+NOTE, exit 0</strong>, mutation-proven — OC-3 resolved. Grew from 10 to
+12 checks with <strong>C8</strong> (four carriers INSIDE each owned
+submodule agree, per-agent header normalised) and <strong>C9</strong>
+(every <code>helix-deps.yaml</code> <code>deps[].ref</code> equals its
+live gitlink; standalone as
+<code>scripts/verify-manifest-pins.sh</code>). This closes the sweep
+<strong>contract</strong>; for the sweep’s own verdict see the note
+under this table.</td>
+</tr>
+<tr>
+<td>G4 — active CI contradicts §11.4.156</td>
+<td><del><strong>OPEN</strong> — OC-1 / OC-2, operator decision</del> →
+<strong>PARTIAL</strong> (2026-08-27, revised same day). Decided
+<em>“Comply — disable both, enforce locally.”</em>, then
+<strong>partially reversed</strong>. <strong>OC-1:
+<code>.github/workflows/ci.yml</code> → <code>ci.yml.disabled</code>,
+gates moved to a local pre-push hook — umbrella root compliant at file
+level.</strong> <strong>OC-2:
+<code>milosvasic.ru/.github/workflows/pages.yml</code> stays
+ACTIVE</strong> — it is the sole publish path
+(<code>build_type: "workflow"</code>) for a live production site;
+operator directive: <em>“Make sure all pages websites work flawlessly!
+No website can be broken! All websites we have here are running deployed
+in production!”</em> Permanent <strong>documented deviation, NOT an
+override</strong>. <strong>OC-2b: <code>vasic.digital</code></strong>
+triggers <code>pages build and deployment</code> on every push from its
+Pages source setting alone (<code>build_type: "legacy"</code>, zero
+workflow files) — <strong>non-compliant at the provider level with no
+file-level remedy</strong>. <strong>Not CLOSED and will not
+close</strong>: §11.4.156(B)’s real test is <em>“a push triggers ZERO
+runs”</em>, and the remaining provider-side settings (org-default
+required workflows, branch-protection required checks, scheduled
+exports) are operator-only and unverified. <a
+href="docs/constitution-adoption/DECISION-11-4-156-COMPLY.md">Decision
+record</a></td>
+</tr>
+<tr>
+<td>G5 — no §11.4.75 mechanical enforcement layers</td>
+<td><strong>PARTIALLY CLOSED</strong> (row corrected 2026-09-01; the
+previous “OPEN — no git hook, no commit wrapper at this root” was wrong
+on the wrapper half and is withdrawn). A commit <strong>wrapper</strong>
+exists: <code>commit</code> on PATH →
+<code>$SUBMODULES_HOME/Upstreamable/commit</code> →
+<code>Software-Toolkit/Utils/Git/commit.sh</code> +
+<code>push_all.sh</code>, driven by the tracked
+<code>upstreams/GitHub.sh</code>. It runs <code>git add .</code>, so
+keep <code>.gitignore</code> accurate before using it. What is still
+missing is git <strong>hooks as a tracked, travelling artefact</strong>:
+<code>.git/hooks/pre-push</code> is installed and executable in the
+current working tree, but <code>.git/hooks/</code> is not tracked, so a
+fresh clone runs nothing until
+<code>bash scripts/pre-push-gates.sh --install</code>.</td>
+</tr>
+<tr>
+<td>G6 — no <code>helix-deps.yaml</code></td>
+<td><strong>CLOSED</strong> — <code>helix-deps.yaml</code> at the
+root</td>
+</tr>
+<tr>
+<td>G7 — no propagation to owned submodules</td>
+<td><strong>CLOSED</strong> (measured 2026-09-01; <strong>28 of
+28</strong>). No longer staged — applied.
+<code>bash scripts/verify-governance-cascade.sh</code> exits
+<strong>0</strong>: C1 classifies all 9 declared gitlinks from evidence
+(7 owned, 1 governance source, 1 third-party, no hardcoded roster); C2
+finds all <strong>7 × 4 = 28</strong> owned-submodule carriers present
+and non-empty; C3 finds all 28 accepted by the canonical
+<code>is_pointer_carrier</code> predicate; C6 finds
+<code>helix-deps.yaml</code> and <code>.gitmodules</code> in agreement
+both ways; C8 finds every owned submodule internally in four-carrier
+lockstep. Superseded figures, withdrawn not restated: “20/20 CLOSED”
+(hardcoded five-submodule list, missed <code>workshop</code>), “PARTIAL
+20/24”, and a verbally circulated “24/24” (6 × 4, before
+<code>submodules/containers</code> joined the fleet).</td>
+</tr>
+<tr>
+<td>G8 — §11.4.65 markdown export mandate</td>
+<td><strong>OPEN</strong> — no <code>.html</code> / <code>.pdf</code>
+siblings anywhere, this file included</td>
+</tr>
+<tr>
+<td>G9 — §11.4.212 README-orphan</td>
+<td><strong>OPEN</strong> — <code>README.md</code> links to nothing but
+the CI badge</td>
+</tr>
+<tr>
+<td>G10 — §4 tag mirroring incomplete</td>
+<td><strong>OPEN</strong> — <code>v1.8.0</code> is on
+<code>milosvasic.ru</code> and <code>vasic.digital</code> only</td>
+</tr>
+<tr>
+<td>G11 — <code>design-toolkit</code> checked out twice</td>
+<td><strong>OPEN</strong> — declared in <code>helix-deps.yaml</code>;
+the shas match today</td>
+</tr>
+<tr>
+<td>G12 — §11.4.109 anti-forgetting layer absent</td>
+<td><strong>OPEN</strong> — the canonical guard script is present in the
+submodule and wired nowhere</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The sweep’s own verdict is not this table (added
+2026-09-01).</strong> G3 above closes the <em>contract</em> that a sweep
+exists, runs, and is mutation-proven. It says nothing about how many
+gates the sweep passes.
+<code>scripts/verify-all-constitution-rules.sh</code> discovers its
+gates dynamically and that population moved <strong>57 → 286</strong>
+when the constitution pin was fast-forwarded, so <strong>every split
+published before the fast-forward is withdrawn and none is comparable to
+a present-day run</strong>. The most recent measurement on record is
+<strong>186 PASS / 95 FAIL / 6 ERROR of 287 gates</strong>, recorded
+here as a <em>reported prior measurement</em>: a re-run started
+2026-09-01 had not completed when this text was written, so no fresh
+split is claimed. Its failures are known to include two classes no
+commit this repository can make will clear — (1) third-party and staged
+carriers (<code>submodules/superspec/examples/…</code>,
+<code>milosvasic.ru/Upstreamable/…</code>, the vendored spec-kit copy
+under <code>.specify/extensions/</code>), which
+<code>verify-governance-cascade.sh</code> reports as
+<em>known-unclearable</em> and excludes from its own verdict while the
+sweep’s propagation-gate family still counts them as FAILs — excluded
+means <strong>not double-counted, never suppressed</strong>; and (2)
+defects internal to the constitution submodule, which is upstream code
+this project consumes rather than owns.</p>
+<p><strong>Provider-side CI remains unverified (§11.4.6).</strong>
+File-level disabling stops FILE-triggered runs. It cannot reach
+org-default required workflows, branch-protection required checks, the
+GitHub Pages source setting, or provider-side scheduled exports. Those
+are <strong>operator-only, in a provider UI</strong>, and their current
+state is not known to this document.
+<code>bash scripts/verify-provider-ci.sh</code> measures on demand —
+<strong>exit 2 means COULD NOT DETERMINE and is never a
+pass.</strong></p>
+<p>Do not claim this repository passes a gate you have not actually run.
+Do not treat the absence of a gate as a pass.</p>
+<hr />
+</body>
+</html>

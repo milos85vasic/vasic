@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="description" content="Task breakdown for a repository that clones, and a fleet with no unexplained red" />
+  <title>tasks</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">tasks</h1>
+</header>
+<h1
+id="tasks-a-repository-that-clones-and-a-fleet-with-no-unexplained-red">Tasks:
+A Repository That Clones, and a Fleet With No Unexplained Red</h1>
+<p><strong>Input</strong>: <a href="spec.md">spec.md</a> · <a
+href="checklists/requirements.md">checklists/requirements.md</a></p>
+<h2 id="how-to-read-this-file">How to read this file</h2>
+<p><strong>This file was written AFTER much of the work landed, and it
+says so rather than pretending otherwise.</strong> Spec 005 had no
+<code>tasks.md</code> at all: its 26 FR and 15 SC were unmapped, its
+work was done ad-hoc by parallel agents, and completion was therefore
+not measurable. This file reconciles the requirements against what is
+actually in the tree — it is not a greenfield plan and must never be
+read as one.</p>
+<p><strong><code>[x]</code> means a command was run and its exit code or
+output observed</strong>, with the evidence on the task line.
+<strong><code>[ ]</code> carries an explicit state marker</strong> — one
+of <strong>PARTIAL</strong>, <strong>OPEN</strong> or
+<strong>BLOCKED</strong> — so that an unticked box says <em>which
+kind</em> of not-done it is. That distinction is FR-006 applied to this
+document itself.</p>
+<p><strong>Every ticked line carries its evidence, and every measurement
+claim carries its population</strong> — <code>source</code> (files in
+the tree), <code>in_process</code> (a program run outside the deployed
+service) or <code>served</code> (measured through the running service).
+Where a population could not be determined from the evidence as
+recorded, the line says <code>(population: unstated)</code> rather than
+guessing. A ticked box with no evidence is the bluff this project
+forbids, and an evidence line with no population is the defect the
+constitution principle <em>Source Is Not Served</em> exists to
+catch.</p>
+<p><strong>Dates.</strong> Every re-measurement below was taken
+<strong>2026-09-08</strong> from the umbrella root at
+<code>&lt;repo-root&gt;</code>. Three of them contradict an earlier
+recorded state, and the contradiction is written on the line rather than
+absorbed.</p>
+<h2 id="task-format">Task Format</h2>
+<pre><code>[ID] [P] [TDD] [REVIEW] [SUBAGENT] [Story] Description with file path (FR-…, SC-…)</code></pre>
+<p><code>[P]</code> parallelizable · <code>[TDD]</code>
+RED-GREEN-REFACTOR · <code>[REVIEW]</code> operator gate ·
+<code>[SUBAGENT]</code> delegable</p>
+<h2 id="paths">Paths</h2>
+<p>Repository-relative from the umbrella root. <code>workshop/</code> is
+the PRIVATE module; this umbrella and <code>specs/</code> are PUBLIC.
+Counts, paths and identifiers only.</p>
+<hr />
+<h2
+id="phase-1-user-story-1-a-second-engineer-obtains-the-repository-p1">Phase
+1: User Story 1 — a second engineer obtains the repository (P1)</h2>
+<p><strong>Goal</strong>: a clone that completes on a machine that has
+never held this work. <strong>Independent test</strong>: clone into an
+empty directory on a fresh machine, run the documented bootstrap, read
+the status output.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T001 [US1] Untrack the 54
+<code>*.tar.gz.part-*</code> archive chunks with
+<code>git rm --cached</code> and add the pattern to
+<code>workshop/.gitignore</code> (FR-002, FR-005, SC-002).
+<strong>Evidence</strong> (source):
+<code>git -C workshop ls-files '*.part*'</code> returns
+<strong>0</strong> tracked parts, down from 54 totalling 2,624.8 MB;
+<code>workshop/.gitignore:112</code> carries
+<code>*.tar.gz.part-*</code>, which is what stops the project’s
+<code>git add .</code> commit wrapper putting them back; commit
+<code>c182e6a</code> shows all 54 deletions at 52,428,800 bytes each.
+Files stay on disk — nothing was deleted.</label></li>
+<li><label><input type="checkbox" checked="" />T002 [US1] Keep the three
+<code>*.sha256</code> manifests TRACKED (≈9 KB) so a chunk fetched from
+elsewhere is still verifiable (FR-002, SC-003).
+<strong>Evidence</strong> (source): recorded in
+<code>workshop/scripts/verify-obtainability.sh</code> header — “without
+them a fetched file is unverifiable”. The integrity record is the thing
+that makes moving the bytes out survivable.</label></li>
+<li><label><input type="checkbox" checked="" />T003 [US1] Record that
+the Git LFS remedy the spec’s own clarification chose was
+<strong>prepared and WITHDRAWN before it was committed</strong>
+(FR-002). <strong>Evidence</strong> (source):
+<code>workshop/scripts/verify-obtainability.sh</code> quotes the
+superseding operator instruction verbatim — remove archives from git
+entirely, fetch them from storage servers in a later iteration.
+<strong>This is a divergence between spec.md’s Clarifications section
+and what was built, and it is stated here rather than left for a reader
+to trip over.</strong> The spec still records LFS as the answer; the
+tree does not implement it.</label></li>
+<li><label><input type="checkbox" checked="" />T004 [US1] Put the
+documented clone command in the repository’s front-door documentation
+(FR-001, FR-003, SC-001). <strong>Evidence</strong> (source):
+<code>workshop/README.md:57-60</code> carries
+<code>git clone --filter=blob:none …</code> with the single flag
+justified in the same document at lines 105-160, including the REFUTED
+HTTP/2 hypothesis and the established no-resume mechanism.</label></li>
+<li><label><input type="checkbox" checked="" />T005 [US1] Document
+<code>--filter=blob:none</code> as <strong>ROBUST, not merely
+fast</strong> (FR-001, FR-003). <strong>Evidence</strong> (source):
+<code>workshop/README.md:140</code> states it; the reasoning is that a
+540 KB transfer that fails costs nothing to retry while a 2.6 GB one
+costs everything. This is the design consequence the spec’s root-cause
+section demanded be written down.</label></li>
+<li><label><input type="checkbox" checked="" />T006 [US1] State plainly,
+in the guard itself, that untracking <strong>does not shrink the
+repository</strong> (FR-005, SC-004). <strong>Evidence</strong>
+(source): <code>workshop/scripts/verify-obtainability.sh</code> —
+“<code>git count-objects -vH</code> does not fall, and a naive
+full-history <code>git clone</code> still transfers all of it”;
+<code>workshop/README.md:159-160</code> repeats it. History rewriting is
+forbidden, so this limit is permanent and is printed rather than
+softened.</label></li>
+<li><label><input type="checkbox" checked="" />T007 [TDD] [US1] Ship
+<code>workshop/scripts/verify-obtainability.sh</code> — the
+obtainability-cost guard that warns <strong>before</strong> the failure
+point (FR-004, SC-002). <strong>Evidence</strong> (source): 3-valued
+exit contract documented in-file (0 below warning · 1
+WARN/BREACH/half-finished-untracking · 2 could-not-ask); ceiling
+<strong>adopted from SC-002’s 250 MB rather than selected</strong>,
+<code>WARN_AT = CEILING − (largest single blob at HEAD)</code> capped at
+80% of ceiling. <strong>Both threshold rules are stated without
+reference to any count</strong>, which is FR-010 applied to the guard’s
+own design.</label></li>
+<li><label><input type="checkbox" checked="" />T008 [US1] Make the guard
+measure the CHECKOUT PAYLOAD of the documented path, and report full
+history as a NOTE only (FR-004, SC-002). <strong>Evidence</strong>
+(source): recorded in-file — “a gate that failed on history would demand
+a remedy nobody is allowed to perform, and a gate whose remedy is
+forbidden is decoration.”</label></li>
+<li><label><input type="checkbox" checked="" />T009 [US1] Catch the
+half-finished untracking — a path <code>.gitignore</code> matches while
+git still tracks it (FR-002, FR-004). <strong>Evidence</strong>
+(source): that state is an explicit exit-1 finding in the guard’s
+contract. It is the failure mode where the rule was added and
+<code>git rm --cached</code> was not, so the rule does nothing and the
+bytes ship anyway.</label></li>
+<li><label><input type="checkbox" />T010 [TDD] [US1]
+<strong>PARTIAL</strong> — run
+<code>verify-obtainability.sh --prove-failure</code>, the §1.1 paired
+proof, and record its pass/mutation counts (FR-021, SC-014). The proof’s
+interface and mutation <strong>M7</strong> (a FINDING outranks an
+UNDETERMINED, never inverted) are declared in the guard’s header, but
+<strong>no run of it was captured in this session</strong>, so no count
+is claimed here.</label></li>
+<li><label><input type="checkbox" />T011 [US1] <strong>OPEN</strong> —
+perform SC-001’s actual trial: <strong>3 of 3</strong> clones by the
+documented command, on a machine that has never held the repository,
+with <strong>0</strong> transport failures (FR-001, SC-001). The
+refuting two-arm HTTPS test recorded in spec.md was run from a third
+host and proves the transport works; it is <strong>not</strong> the
+3-of-3 acceptance run, and must not be reported as one.</label></li>
+<li><label><input type="checkbox" />T012 [US1] <strong>BLOCKED —
+operator decision.</strong> Publish the documented step by which
+recorded material is obtained from storage outside the repository, with
+its stated availability condition (FR-003, SC-003). The superseding
+instruction was explicit that the fetch instructions come in a later
+iteration. <strong>Until it exists, SC-003’s “100% remains obtainable by
+a documented step” is NOT met</strong> — the bytes are on one disk and
+the step is unwritten.</label></li>
+<li><label><input type="checkbox" />T013 [US1] <strong>OPEN</strong> —
+warn on the growth TREND, not only on the breach (Edge case: <em>a
+repository shrinks below the threshold but keeps growing</em>). The
+guard thresholds on a point-in-time size; nothing reads a
+series.</label></li>
+</ul>
+<p><strong>Checkpoint</strong>: the documented path is small and
+guarded; the acceptance trial (T011) and the retrieval step (T012) are
+the two things standing between this and SC-001/SC-003.</p>
+<hr />
+<h2
+id="phase-2-user-story-2-a-reader-can-tell-a-finding-from-a-designed-state-p1">Phase
+2: User Story 2 — a reader can tell a finding from a designed state
+(P1)</h2>
+<p><strong>Goal</strong>: every red states whether it is a defect, a
+declared condition, or a check that could not run. <strong>Independent
+test</strong>: run every instrument; for each red, answer three
+questions from its output alone.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T014 [US2] Give
+<code>workshop/scripts/verify-obtainability.sh</code> a three-valued
+exit where <strong>2 is never a pass</strong> (FR-006, FR-008, SC-006).
+<strong>Evidence</strong> (source): contract stated in-file; precedence
+asserted by mutation <strong>M7</strong> so a moving tree cannot mask a
+breach already measured.</label></li>
+<li><label><input type="checkbox" checked="" />T015 [TDD] [US2] Make
+<code>_tools/watch-deploy.sh</code> read its exit codes and fold each
+cycle into a three-valued verdict (FR-006, FR-008, SC-006).
+<strong>Evidence</strong> (source, from
+<code>scripts/check-registry.tsv</code> and commit
+<code>f824cd1</code>): verdict is 0 clean / 2 a cycle could not run / 5
+a cycle ran and failed, <strong>failure outranking
+could-not-determine</strong>. Before this, the watcher discarded
+<code>$?</code> and could loop 240 times against a deploy failing every
+cycle and still exit 0.</label></li>
+<li><label><input type="checkbox" checked="" />T016 [TDD] [US2] Ship
+<code>_tools/prove-watch-deploy-verdict.sh</code>, the §1.1 paired
+proof, driven by <strong>data</strong> rather than by editing its
+subject (FR-021, SC-014). <strong>Evidence</strong> (in_process,
+recorded in <code>scripts/check-registry.tsv</code>): <strong>9 passed /
+0 failed / 8 mutations</strong> against the current watcher, and
+<strong>3 passed / 6 failed</strong> against a reconstruction of the
+pre-fix watcher — every one of the 6 reporting <code>got 0</code> where
+a verdict was owed. Mutations are stub exit codes via
+<code>WATCH_DEPLOY_CMD</code>; the watcher’s source <code>sha256</code>
+is captured before the battery and re-asserted after, so a mutation that
+edited the subject would fail the proof.</label></li>
+<li><label><input type="checkbox" checked="" />T017 [US2] Rewrite the
+<code>_tools/watch-deploy.sh</code> registry exemption to carry its
+evidence and WITHDRAW the expired reason (FR-007).
+<strong>Evidence</strong> (source):
+<code>scripts/check-registry.tsv</code> — the prior reason <em>“it
+judges nothing”</em> is marked WITHDRAWN by name, with the date and the
+change that expired it. <strong>An exemption whose justification expired
+still looks reviewed</strong>; this is the fix for that
+class.</label></li>
+<li><label><input type="checkbox" checked="" />T018 [US2] Write
+read-only provider adapters for the two hosts that had none —
+<code>gitflic.ru</code> and <code>gitverse.ru</code> (FR-011c, SC-005).
+<strong>Evidence</strong> (source):
+<code>scripts/verify-provider-ci.sh</code> grew 585 lines in commit
+<code>f824cd1</code>; both adapters speak HTTP directly because neither
+host ships a CLI, and each declares its own honest ceiling in-file
+(gitflic <strong>cannot</strong> reach a NONE verdict by construction
+and says so on every row; gitverse can, its route set established
+empirically).</label></li>
+<li><label><input type="checkbox" checked="" />T019 [TDD] [US2] Prove
+the two adapters with the M8..M13 battery, including the case that stops
+an adapter hardwired to refuse from passing (FR-011c, FR-021).
+<strong>Evidence</strong> (source):
+<code>scripts/verify-provider-ci.sh:408-540</code> — M8 unreachable ⇒ rc
+2 with the row UNVERIFIED; <strong>M9 a control that goes green</strong>
+⇒ rc 0 with the row NONE. Without M9 the battery would be satisfied by
+an adapter that can only ever say no.</label></li>
+<li><label><input type="checkbox" />T020 [US2] <strong>BLOCKED —
+operator credential.</strong> Turn the 6 UNVERIFIED provider rows into
+verdicts (FR-011c, SC-005). <strong>Re-measured 2026-09-08</strong>
+(served, provider APIs): <code>bash scripts/verify-provider-ci.sh</code>
+exits <strong>1</strong> — 22 repositories / 40 upstream rows, <strong>1
+CONFIRMED</strong>, and the 6 rows now report <em>“an adapter IS
+registered for this host but could not run”</em> rather than <em>“no
+adapter registered”</em>. <code>https://api.gitflic.ru</code> answers
+<strong>HTTP 403</strong> and <code>https://api.gitverse.ru</code>
+answers <strong>HTTP 401</strong>; both require a credential on every
+route and none is configured. <strong>This is FR-011c working exactly as
+written</strong> — “never asked” became “asked and could not determine”,
+which is progress, and it was NOT converted into a pass. Lifting it
+needs <code>GITFLIC_TOKEN</code> / <code>GITVERSE_TOKEN</code>, which
+only the operator can issue.</label></li>
+<li><label><input type="checkbox" checked="" />T021 [US2] Judge the
+content-boundary class A INWARD rows rather than allow-listing them
+(FR-007, FR-011, SC-007). <strong>Evidence</strong> (source):
+<code>docs/findings/content-boundary-class-a-judgement.jsonl</code>
+holds <strong>1,933 rows, every one
+<code>verdict: NOT_A_DISCLOSURE</code>, 0 unjudged</strong> — verified
+by counting the file’s own verdict field, not by transcription.
+<code>docs/content-boundary-class-a-judgement.md</code> groups them
+G1–G8 with a per-group reason. <strong>Nothing was redacted,
+allow-listed, re-baselined, and
+<code>scripts/verify-content-boundary.sh</code> was not edited. The gate
+still exits 1, and it should.</strong></label></li>
+<li><label><input type="checkbox" checked="" />T022 [US2] Judge the
+<strong>union</strong> of two gate runs’ INWARD rows, not the more
+convenient one (FR-023, SC-007). <strong>Evidence</strong> (source):
+both runs are tabled in
+<code>docs/content-boundary-class-a-judgement.md</code> — totals 16,155
+and 9,945, tied together with <code>--expect-corpus</code>; <strong>51
+rows appeared only in run 2</strong> and are included. Judging the union
+is what stops a moving tree quietly dropping a row out of the reading
+queue.</label></li>
+<li><label><input type="checkbox" checked="" />T023 [US2] Attribute the
+total’s fall rather than banking it (FR-011, FR-023).
+<strong>Evidence</strong> (source): the same document tests four
+candidate mechanisms for the 16,155 → 9,945 drop in 39 minutes and
+states <em>“nothing was silenced to achieve it”</em>. <strong>An
+unexplained fall is worse than a stable red.</strong></label></li>
+<li><label><input type="checkbox" checked="" />T024 [US2] Report the
+direction split across five populations whose totals differ by more than
+3,000 rows (FR-011, FR-018). <strong>Evidence</strong> (source): OUTWARD
+landed at 79.7 / 79.3 / 79.1 / 80.2 / 82.1 % every time. <strong>The
+totals move; the direction does not</strong> — that is the figure to act
+on, and it is what bounded the reading assignment.</label></li>
+<li><label><input type="checkbox" checked="" />T025 [TDD] [US2] Register
+<code>scripts/verify-content-boundary-judgement.sh</code> as a check
+with a <code>--prove-failure</code> paired proof (FR-020, FR-021,
+SC-014). <strong>Evidence</strong> (source): row added in
+<code>scripts/check-registry.tsv</code> in commit <code>f824cd1</code>;
+the gate is 450 lines.</label></li>
+<li><label><input type="checkbox" checked="" />T026 [US2] Install the
+pre-push gate hook, since <code>.git/hooks/</code> is untracked and a
+fresh clone runs no gates (FR-020). <strong>Evidence</strong> (source):
+<code>.git/hooks/pre-push</code> is present, executable, 1,224 bytes,
+dated 2026-09-08 10:58. <strong>Honest limit</strong>:
+<code>git push --no-verify</code> still bypasses it with no record, and
+this hook protects only this checkout.</label></li>
+<li><label><input type="checkbox" checked="" />T027 [US2] Take the R3
+hardcoded-path red to green by a real fix, not a re-baseline (FR-011,
+FR-011a, SC-007). <strong>Re-measured 2026-09-08</strong> (source):
+<code>bash scripts/audit-hardcoded-paths.sh</code> exits
+<strong>0</strong> — <em>“no machine-specific hardcoded paths”</em>, 16
+file(s) explicitly allowed. The R3 baseline of 17 live occurrences is
+cleared.</label></li>
+<li><label><input type="checkbox" />T028 [US2] <strong>PARTIAL</strong>
+— work through the 387 baselined path occurrences, partitioned by owning
+repository (FR-011a, FR-011b). <strong>Evidence so far</strong>
+(source): commit <code>f824cd1</code>’s own message records the
+partition and that <strong>51% can only be fixed by an upstream commit
+returning as a gitlink bump</strong>. The partition exists; the campaign
+does not. <strong>FR-011b’s re-derivation requirement is unmet</strong>:
+no row has been re-derived to prune debt already fixed upstream, so the
+387 is still an unpruned figure that overstates.</label></li>
+<li><label><input type="checkbox" checked="" />T029 [US2] Close the R2
+continuation red and the R4 governance-pin red (FR-011).
+<strong>Evidence</strong> (source): commit <code>f824cd1</code> updated
+<code>CONTINUATION.md</code> (+207 lines) and moved
+<code>submodules/constitution</code> three commits, the first move in
+six that was <strong>not</strong> corpus-neutral — the constitution
+gained anchor 11.4.272 and every recorded figure in the four carriers
+was stale and was updated in lockstep. <strong>BOTH REDS HAVE SINCE
+REOPENED, re-measured 2026-09-08 from the umbrella root</strong>
+(source): <code>bash scripts/continuation-check.sh</code> exits
+<strong>1</strong> at <em>7 PASS · 1 DRIFT · 0 UNDET · 15 NOTE</em> —
+“CONTINUATION.md IS STALE”;
+<code>bash scripts/verify-submodule-remote-sync.sh</code> exits
+<strong>1</strong> at <em>12 CURRENT / 1 DRIFT / 0 UNDETERMINED</em>,
+the single DRIFT row being <code>submodules/constitution</code> (gitlink
+<code>71ac4373…</code> vs remote <code>2db64ee8…</code>,
+<strong>difference DETERMINED, direction NOT</strong>, because the
+remote commit is absent from this object store). <strong>Closing an
+instance is not closing the class, and this pin has now gone stale six
+times. Do not read T029’s tick as a green fleet.</strong></label></li>
+<li><label><input type="checkbox" checked="" />T030 [US2] Confirm the
+manifest and gitlinks moved together (FR-011). <strong>Re-measured
+2026-09-08</strong> (source):
+<code>bash scripts/verify-manifest-pins.sh</code> exits
+<strong>0</strong> — <strong>13 MATCH / 0 DRIFT / 0
+UNDETERMINED</strong> of 13 declared deps. C9 caught the manifest
+lagging its gitlinks <strong>twice on 2026-09-08</strong> (commits
+<code>bfe2931</code>, <code>3922e35</code>) and both were repaired; that
+is the gate working.</label></li>
+<li><label><input type="checkbox" />T031 [US2] <strong>OPEN</strong> —
+build the fleet summary that reports <strong>defect count and
+declared-condition count separately and never merges them</strong>
+(FR-009, SC-008). <strong>No such instrument exists.</strong> Every gate
+reports its own verdict; nothing aggregates them into the two-number
+statement FR-009 requires, so SC-008’s “unexplained reds reaches 0, from
+a baseline of 11” is <strong>not computable today</strong>.</label></li>
+<li><label><input type="checkbox" />T032 [US2] <strong>OPEN</strong> —
+give every non-clean instrument an explicit KIND on its own output line:
+defect / declared / could-not-run (FR-006, SC-005). Several instruments
+do this well (T014, T015, T020); <strong>it is not universal</strong>,
+and SC-005’s “100% of non-clean results state their kind” has not been
+measured across the fleet.</label></li>
+<li><label><input type="checkbox" />T033 [US2] <strong>OPEN</strong> —
+make a declared condition name <strong>who may lift it and what evidence
+would</strong> (FR-007, SC-015). <code>scripts/check-registry.tsv</code>
+exemptions now carry evidence and reasons (T017), and T020’s row names
+the credential, but no instrument requires a lifting authority as a
+structural field.</label></li>
+<li><label><input type="checkbox" />T034 [TDD] [US2]
+<strong>OPEN</strong> — assert FR-010 mechanically: any threshold,
+bucket, allow-list or baseline change must carry a principle stated
+independently of the count it produces (FR-010, SC-007). Two guards do
+this in prose by construction — <code>verify-obtainability.sh</code>’s
+two threshold rules (T007) and the palette gate’s fixed floor — but
+<strong>nothing detects a weakening change</strong>. This is the
+requirement most exposed to being satisfied by assertion.</label></li>
+<li><label><input type="checkbox" />T035 [REVIEW] [US2]
+<strong>OPEN</strong> — run SC-015’s acceptance: a reader answers
+<em>“is this a defect, what is the evidence, what happens next”</em> for
+every red from instrument output alone, without consulting a person. Not
+attempted; it depends on T031–T033.</label></li>
+</ul>
+<hr />
+<h2
+id="phase-3-user-story-3-every-learner-facing-defect-is-repaired-or-disclosed-p2">Phase
+3: User Story 3 — every learner-facing defect is repaired or disclosed
+(P2)</h2>
+<p><strong>Goal</strong>: nothing silently broken; every omission
+stated. <strong>Independent test</strong>: walk one area end to end and
+confirm nothing is silently absent.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T036 [TDD] [US3] Ship the
+B6/B7 detector for questions citing withheld material in
+<code>workshop/pipeline/extract/verify_question_banks.py</code> (FR-012,
+SC-009). <strong>Evidence</strong> (source): 478 lines added in commit
+<code>c182e6a</code>; <strong>B6</strong> asserts every citation
+resolves in the registry AND is <code>redacted: false</code>,
+<strong>B7</strong> the same for every <code>lesson_sections</code> pid.
+The file records the mechanism in its own header: a question citing a
+redacted passage is withheld under
+<code>WithholdCitationRedacted</code>, <strong>so a learner opening
+those areas was served a shorter test with nothing saying
+so.</strong></label></li>
+<li><label><input type="checkbox" />T037 [US3] <strong>PARTIAL</strong>
+— repair or record the removal of every question citing withheld
+material (FR-012, SC-009). The <strong>detector</strong> landed (T036);
+<strong>whether the affected questions were repaired was NOT confirmed
+in this session</strong>, because confirming it means running the bank
+verifier against the private corpus. <strong>SC-009’s “0 questions cite
+material the server withholds, down from 5” is therefore UNVERIFIED
+here</strong> — the instrument that would answer it exists and was not
+run. <code>(population: unstated)</code> — the R8 baseline of 5 was a
+source count over the authored banks; the served count was never
+separately established.</label></li>
+<li><label><input type="checkbox" />T038 [US3] <strong>OPEN</strong> —
+tell a learner, in the interface, that an area has no assessment and why
+(FR-013, SC-010). No task in the tree implements the learner-facing
+disclosure; the platform’s absence-honesty gates
+(<code>workshop/platform/gates/verify-absence-honesty.sh</code>) govern
+what the <em>server</em> asserts, not what the <em>learner
+reads</em>.</label></li>
+<li><label><input type="checkbox" checked="" />T039 [US3] Remove R7’s
+structural obstacle — area documents never sectioned into the passage
+registry, so no citation could resolve and no question could be authored
+(FR-015, SC-011). <strong>Evidence</strong> (source):
+<code>git -C workshop ls-files 'docs/training/curriculum-areas/*.md'</code>
+returns <strong>37</strong> and <code>…*.sections.json</code> returns
+<strong>37</strong> — <strong>37 of 37 sectioned</strong>, against R7’s
+baseline of 25 of 37 unsectioned. The obstacle is gone at
+source.</label></li>
+<li><label><input type="checkbox" />T040 [US3] <strong>PARTIAL</strong>
+— report the resulting coverage figure, and report <strong>separately
+and honestly</strong> the areas that carry no assessment because the
+corpus cannot support one (FR-015, SC-011). The structural blocker is
+cleared (T039); <strong>the two populations have not been counted
+apart</strong>, and SC-011 requires exactly that separation. Merging
+them would let a corpus limitation be reported as progress.</label></li>
+<li><label><input type="checkbox" />T041 [REVIEW] [US3] <strong>BLOCKED
+— operator gate.</strong> Read the 3 documents failing publication
+review on <strong>62, 54 and 58</strong> uncited claim blocks and decide
+publish-or-not (FR-014, SC-010). They remain unpublished, so a client
+sees fewer areas than are authored. This is the same gate carried as
+T060 in <a
+href="../006-session-record-and-qa-readiness/tasks.md"><code>../006-session-record-and-qa-readiness/tasks.md</code></a>
+— <strong>one decision, recorded in two specs, not two
+decisions.</strong></label></li>
+<li><label><input type="checkbox" />T042 [US3] <strong>OPEN</strong> —
+assert FR-014 mechanically: a published document’s primary references
+resolve to material a reader can actually reach. T041 is a human read of
+three documents; <strong>no check enumerates published documents and
+resolves their primary references.</strong></label></li>
+</ul>
+<hr />
+<h2
+id="phase-4-user-story-4-the-interface-looks-designed-on-the-surfaces-people-use-p2">Phase
+4: User Story 4 — the interface looks designed on the surfaces people
+use (P2)</h2>
+<p><strong>Goal</strong>: materially more hue variety on principal
+surfaces; contrast floors hold in both presentations.
+<strong>Independent test</strong>: sample what is painted on principal
+surfaces in both presentations; count hue variety and measure contrast
+within each pairing.</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T043 [TDD] [US4] Make
+<code>workshop/platform/gates/verify-served-palette.sh</code> read the
+<strong>SERVED bundle only</strong>, through
+<code>lib/served_css.sh</code>, and never <code>src/styles/**</code>
+(FR-016, FR-018, SC-012). <strong>Evidence</strong> (source): stated as
+the gate’s entire reason for existing — measured defect
+<strong>D6</strong> was that the token source’s hue span was widened,
+nothing regenerated the served stylesheets, and the token measurement
+was then reported as evidence about the interface. <strong>“A check that
+read the token source to reach its verdict would have returned SUCCESS
+over exactly that defect.”</strong></label></li>
+<li><label><input type="checkbox" checked="" />T044 [US4] Family the
+colour an element <strong>paints of its own</strong>
+(<code>paint</code>), not only the ground behind it (<code>bg</code>) —
+defect <strong>D-A</strong> (FR-016, FR-018). <strong>Evidence</strong>
+(source): recorded in the same gate. For a <code>non-text</code> row the
+sampler sets <code>bg</code> to the ground <em>behind</em> the
+indicator, which is correct for contrast but meant <strong>a coloured
+chip, wash, rule or fill could not contribute a hue family AT ALL, by
+construction</strong>. The population excluded the very elements an
+interface uses to carry colour. A row with no <code>paint</code> still
+grades exactly as before, so an older sample is unaffected.</label></li>
+<li><label><input type="checkbox" checked="" />T045 [US4] Define a hue
+family as a 30° bucket (12 buckets), with imperceptible-chroma colours
+collapsing into ONE <code>neutral</code> family counted once (FR-016,
+FR-018, SC-012). <strong>Evidence</strong> (source): stated in-gate —
+<em>“counting each grey as its own hue would let a monochrome interface
+pass”</em>. Two colour spaces are used on purpose: HSL for the hue ANGLE
+(it need only partition colours that already have a hue), and a
+different measure for whether a colour has a hue at all, because HSL
+saturation divides by a span that vanishes near white and black.
+<strong>The floor of 6 is fixed by the specification, not chosen by the
+gate</strong> — FR-010 applied to the instrument.</label></li>
+<li><label><input type="checkbox" />T046 [US4] <strong>PARTIAL</strong>
+— re-measure the served hue-family count and record it against SC-012’s
+floor of 6, up from a baseline of 2 (FR-016, SC-012). The corrected
+instrument exists (T043–T045) and
+<code>workshop/platform/gates/sample-served-surfaces.mjs</code> takes
+the browser sample. <strong>No served run was captured in this session,
+so no post-fix count is claimed here.</strong>
+<code>CONTINUATION.md:646</code> still records the baseline <em>“the
+served interface paints 2 hue families against a floor of 6”</em>, and
+until a served run supersedes it, <strong>that is the last measured
+figure in this tree.</strong> Note the shape of the trap this gate was
+built against: when the instrument became honest the count went
+<strong>down</strong> from 4 to 2 — a corrected gate reporting a worse
+number than the broken one it replaced.</label></li>
+<li><label><input type="checkbox" />T047 [US4] <strong>OPEN</strong> —
+give every hue present a stated classification job, so no hue is added
+only to raise a count (FR-017, SC-012). The design-system documents
+landed in commit <code>f11a3c1</code>
+(<code>workshop/docs/design-system/TOKENS.md</code>,
+<code>RATIONALE.md</code>, <code>COMPONENTS.md</code>,
+<code>wk-semantic-tokens.css</code>), but <strong>nothing asserts the
+mapping from every painted hue to a declared job</strong>, which is what
+SC-012’s second half requires.</label></li>
+<li><label><input type="checkbox" checked="" />T048 [TDD] [US4] Ship
+<code>workshop/platform/gates/verify-served-contrast.sh</code> with its
+paired prover, measuring text and non-text pairings separately in both
+presentations (FR-019, SC-013). <strong>Evidence</strong> (source): both
+<code>verify-served-contrast.sh</code> and
+<code>prove-served-contrast.sh</code> are tracked;
+<code>workshop/docs/design-system/contrast.py</code> (245 lines, commit
+<code>f11a3c1</code>) is the measurement, and its own commit records
+that <strong>nine of the specification’s own colours were short</strong>
+— the spec was wrong and the instrument found it.</label></li>
+<li><label><input type="checkbox" />T049 [US4] <strong>PARTIAL</strong>
+— record the served contrast result: <strong>0</strong> failures across
+text and non-text pairings in both presentations (FR-019, SC-013). The
+gate and its prover exist; <strong>no served run was captured in this
+session.</strong></label></li>
+<li><label><input type="checkbox" />T050 [US4] <strong>OPEN</strong> —
+justify the measured population independently of its effect on the
+count, and record that justification whenever the population changes
+(FR-018, SC-012). T044 <strong>changed the population</strong> (adding
+<code>paint</code>) for a stated defect reason, which is the right shape
+— but no rule requires the next change to do the same, and the edge case
+<em>“a red is fixed by making the instrument weaker”</em> lives exactly
+here.</label></li>
+</ul>
+<hr />
+<h2 id="phase-5-evidence-discipline-cross-cutting">Phase 5: Evidence
+discipline — cross-cutting</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />T051 [TDD] Drive every
+palette mutation by <strong>data</strong>, not by altering the check
+(FR-021, SC-014). <strong>Evidence</strong> (source): 8 fixtures tracked
+under <code>workshop/platform/gates/fixtures/palette/</code> —
+<code>empty</code>, <code>flat</code>, <code>good</code>,
+<code>low-contrast</code>, <code>near-grey-ramp</code>,
+<code>scheme-split</code>, <code>indicator-only</code>,
+<code>boundary-ulp</code>. <code>indicator-only</code> is the fixture
+that pins defect D-A; <code>boundary-ulp</code> pins the bucket edge.
+<strong>A gate green by construction is the inoperative-proof defect
+this project has already caught once.</strong></label></li>
+<li><label><input type="checkbox" checked="" />T052 Make the
+content-boundary gate carry evidence its corpus did not move during the
+measurement (FR-023). <strong>Evidence</strong> (source): both runs in
+<code>docs/content-boundary-class-a-judgement.md</code> report
+<code>corpus MOVED</code> with the changed-file count (66 of 14,891; 4
+of 14,837) and are tied together by <code>--expect-corpus</code>.
+<strong>The gate reports its own instability instead of absorbing it
+silently.</strong></label></li>
+<li><label><input type="checkbox" />T053 [TDD] <strong>PARTIAL</strong>
+— make every check whose subject is a set establish the set is
+<strong>non-empty</strong> before reporting the set contains no defects
+(FR-022, SC-014). Two instruments do this:
+<code>verify-obtainability.sh</code> returns <strong>2</strong> when
+nothing is tracked to measure, and
+<code>workshop/platform/gates/verify-bank-reachability.sh</code> was
+written precisely because the prior gate checked one fixture area while
+89 questions were unreachable. <strong>It is not universal, and no sweep
+asserts it across the fleet.</strong></label></li>
+<li><label><input type="checkbox" />T054 <strong>OPEN</strong> — satisfy
+SC-014: <strong>100%</strong> of requirements map to at least one
+automated check, and every such check ships a data-driven paired
+demonstration (FR-020, SC-014). <strong>This file is the first half of
+that criterion and does not complete it.</strong> Every FR and SC in
+spec.md is now cited by at least one task above — but a task is not a
+check, and 22 of the 54 tasks here are not ticked. <strong>Requirements
+with no automated check at all: FR-009, FR-010, FR-013, FR-014, FR-017
+and SC-015.</strong> Those six are the real coverage gap.</label></li>
+</ul>
+<hr />
+<h2 id="status">Status</h2>
+<p>Counted from this file by script, not transcribed.</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th style="text-align: right;">tasks</th>
+<th style="text-align: right;">DONE</th>
+<th style="text-align: right;">PARTIAL</th>
+<th style="text-align: right;">OPEN</th>
+<th style="text-align: right;">BLOCKED</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 US1 obtainability</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>2 US2 red-state discipline</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>3 US3 learner-facing</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td>4 US4 presentation</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td>5 Evidence</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td style="text-align: right;"><strong>54</strong></td>
+<td style="text-align: right;"><strong>32</strong></td>
+<td style="text-align: right;"><strong>7</strong></td>
+<td style="text-align: right;"><strong>12</strong></td>
+<td style="text-align: right;"><strong>3</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;^- \[&#39;</span> specs/005-clone-and-clear-red/tasks.md      <span class="co"># 54</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;^- \[x\]&#39;</span> specs/005-clone-and-clear-red/tasks.md   <span class="co"># 32</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;PARTIAL&#39;</span> specs/005-clone-and-clear-red/tasks.md    <span class="co"># 7 task lines</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;BLOCKED&#39;</span> specs/005-clone-and-clear-red/tasks.md    <span class="co"># 3 task lines</span></span></code></pre></div>
+<p><strong>32 of 54 carry a captured run or an observed
+artefact.</strong> Of the 22 not ticked, <strong>3 are BLOCKED on an
+operator</strong> (T012 the storage-fetch instructions, T020 the two
+provider credentials, T041 the three unpublished documents), <strong>7
+are PARTIAL</strong> — the instrument exists and the measurement or the
+campaign does not — and <strong>12 are OPEN</strong>, with no
+implementation found in the tree.</p>
+<p><strong>Read the PARTIAL column before the DONE column.</strong> Five
+of the seven are the same shape: <em>a corrected instrument exists and
+was never run against the served product</em>. T037, T046 and T049 each
+name a number this specification claims to have moved, and <strong>none
+of the three post-fix figures was captured in this session.</strong></p>
+<h2 id="the-three-reds-that-reopened">The three reds that reopened</h2>
+<p><strong>T029’s tick is the most misreadable line in this file, so it
+is restated here.</strong> R2 and R4 were both closed in commit
+<code>f824cd1</code>, and both were measured RED again on 2026-09-08
+from the umbrella root:</p>
+<pre><code>bash scripts/continuation-check.sh            # rc 1 — 7 PASS · 1 DRIFT · 15 NOTE
+bash scripts/verify-submodule-remote-sync.sh  # rc 1 — 12 CURRENT / 1 DRIFT
+bash scripts/verify-manifest-pins.sh          # rc 0 — 13 MATCH / 0 DRIFT
+bash scripts/audit-hardcoded-paths.sh         # rc 0 — 16 file(s) allowed
+bash scripts/verify-provider-ci.sh            # rc 1 — 1 CONFIRMED, 6 could-not-run</code></pre>
+<p>The governance pin has now gone stale <strong>six</strong> times.
+<strong>Treat it as a standing operator decision that recurs, not a task
+that completes</strong> — and never quote a green from this document as
+current. Re-run the five commands.</p>
+<h2 id="dependencies">Dependencies</h2>
+<pre><code>T001 untrack ──&gt; T007 guard ──&gt; T010 proof
+                      └────────&gt; T011 the 3-of-3 trial      ← the SC-001 acceptance
+T012 storage-fetch instructions  ← BLOCKED, and SC-003 is unmet without it
+
+T014/T015/T018 three-valued instruments ──&gt; T031 the fleet summary ──&gt; T035 SC-015
+                                                  └──&gt; T032 kind on every red
+                                                  └──&gt; T033 lifting authority
+
+T039 sectioning ──&gt; T040 the two coverage populations, counted apart
+T043/T044/T045 corrected palette gate ──&gt; T046 the served re-measurement</code></pre>
+<p><strong>T031 blocks SC-008.</strong> Nothing today can state how many
+reds are defects and how many are declared, so the headline criterion of
+this specification — unexplained reds reaching 0 from a baseline of 11 —
+<strong>is not computable</strong>, however many individual gates are
+green.</p>
+<h2 id="requirement-coverage">Requirement coverage</h2>
+<p>Every FR and SC in <a href="spec.md">spec.md</a> is cited by at least
+one task above: <strong>26 of 26 FR</strong> and <strong>15 of 15
+SC</strong>, verified by script rather than transcribed.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-</span> <span class="op">&lt;&lt;&#39;PY&#39;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="st">import re</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">s=open(&#39;specs/005-clone-and-clear-red/spec.md&#39;).read()</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">t=open(&#39;specs/005-clone-and-clear-red/tasks.md&#39;).read()</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">ids=[]</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">for m in re.finditer(r&#39;\*\*(FR-[0-9]+[a-z]?|SC-[0-9]+[a-z]?)\*\*&#39;, s):</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">    if m.group(1) not in ids: ids.append(m.group(1))</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">un=[i for i in ids if not re.search(r&#39;(?&lt;![0-9a-z])&#39;+i+r&#39;(?![0-9a-z])&#39;, t)]</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">print(len(ids), &#39;ids ·&#39;, len(un), &#39;uncited&#39;); print(&#39; &#39;.join(un))</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="op">PY</span></span></code></pre></div>
+<p><strong>A citation is not a check.</strong> The six requirements with
+no automated check anywhere in the tree are named in T054, and that list
+— not the coverage percentage — is the finding this file exists to
+surface.</p>
+</body>
+</html>

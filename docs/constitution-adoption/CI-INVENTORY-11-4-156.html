@@ -1,0 +1,1379 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>CI-INVENTORY-11-4-156</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">CI-INVENTORY-11-4-156</h1>
+</header>
+<h1 id="ci-inventory-under-constitution-11.4.156">CI inventory under
+Constitution §11.4.156</h1>
+<blockquote>
+<p><strong>⚠ SUPERSEDED IN PART — read before acting on any “Action
+required” cell.</strong> This is a <strong>forensic snapshot</strong> of
+the audit window 21:15–21:34 on 2026-08-27, and every
+<em>measurement</em> in it stands exactly as recorded. What does
+<strong>not</strong> stand is its forward plan for
+<code>milosvasic.ru</code> (row 4, the standing-action paragraph, and §1
+of “Operator actions this audit cannot perform”).</p>
+<p>Later the same day the <em>“disable both”</em> decision was
+<strong>partially reversed</strong>:</p>
+<ul>
+<li><strong>Umbrella (<code>.</code>)</strong> —
+<code>.github/workflows/ci.yml</code> → <code>ci.yml.disabled</code>
+<strong>stands</strong>; the rename has since been staged as recorded
+and the gates run from a local pre-push hook
+(<code>scripts/pre-push-gates.sh</code> + an installed
+<code>.git/hooks/pre-push</code>).</li>
+<li><strong><code>milosvasic.ru</code> (row 4)</strong> — the staged
+<code>pages.yml</code> → <code>pages.yml.disabled</code> rename observed
+at T1 was <strong>never committed or pushed, and has been
+undone.</strong> <code>.github/workflows/pages.yml</code> is
+<strong>ACTIVE</strong> and will stay active.
+<code>gh api repos/milos85vasic/milosvasic.ru/pages</code> returns
+<code>build_type: "workflow"</code>: that workflow is the
+<strong>sole</strong> publish path for the live production site. There
+is no <code>gh-pages</code> branch, no <code>docs/</code> folder, and
+the repository root is Jekyll SOURCE, so it cannot be served raw from a
+branch; <code>_tools/deploy-langs.sh</code> pushes source and then
+<code>sleep</code>s waiting for that workflow, so it is not a fallback.
+Operator’s overriding directive, verbatim: <strong><em>“Make sure all
+pages websites work flawlessly! No website can be broken! All websites
+we have here are running deployed in production!”</em></strong>
+<code>milosvasic.ru</code> is a <strong>known, documented
+deviation</strong> from §11.4.156 — <strong>not</strong> an
+<code>Override §11.4.156</code>, which the rule forbids, and never to be
+recorded as one.</li>
+<li><strong><code>vasic.digital</code></strong> — classified <strong>(c)
+CLEAN</strong> below on the correct basis that it has no root CI
+<em>file</em>. That remains true and is not an error, but it is
+<strong>not the same as compliant</strong>: verified 2026-08-27,
+<code>gh api repos/vasic-digital/vasic-digital.github.io/pages</code>
+returns <code>build_type: "legacy"</code>, and
+<code>pages build and deployment</code>
+(<code>dynamic/pages/pages-build-deployment</code>) runs on every push.
+The probe this inventory uses is file-based and cannot see that.
+<strong>No file-level remedy exists</strong> — there is no file to
+disable.</li>
+</ul>
+<p>Full record: <a
+href="DECISION-11-4-156-COMPLY.md"><code>DECISION-11-4-156-COMPLY.md</code></a>
+§0. Appendix A’s raw output is a <strong>T1 snapshot</strong> and is
+preserved unedited as evidence of that moment, not as current state.</p>
+</blockquote>
+<p><strong>Scope:</strong> every git repository reachable from the
+<code>vasic</code> umbrella, fully recursively. <strong>Audit
+type:</strong> read-only. No CI file was created, edited, renamed or
+deleted by this audit. <strong>Audit window:</strong> 2026-08-27,
+approximately 21:15 → 21:29 +02:00 (Europe/Belgrade). <strong>Umbrella
+HEAD at close of audit:</strong>
+<code>f1e0c838bbabf14a47a13cd0ff209c3fa2db98df</code>
+<strong><code>milosvasic.ru</code> HEAD at close of audit:</strong>
+<code>66c8d607b20f0d9e984cb0e06f10a2020ebd9a10</code></p>
+<h2 id="the-rule-being-applied">The rule being applied</h2>
+<p>§11.4.156 (<code>submodules/constitution/Constitution.md</code>, line
+9552) mandates, in the parts that decide this inventory:</p>
+<ul>
+<li><strong>(A) Zero active CI at the repository ROOT.</strong> “the
+only location a provider executes”.</li>
+<li><strong>(B) Disabled means a push triggers ZERO runs.</strong>
+Delete, or rename to a non-active name (the §11.4.75
+<code>.disabled</code> / <code>.disabled-local-only</code> convention).
+<code>if: false</code> jobs under live <code>on:</code> triggers are NOT
+compliant.</li>
+<li><strong>(C) Scope = repositories we author + push.</strong> Vendored
+/ third-party source whose <code>.github/workflows</code> or
+<code>.gitlab-ci.yml</code> sit BELOW the repo root are
+<strong>INERT</strong> — “a provider never executes a non-root config” —
+so they are <strong>OUT of scope and MUST NOT be mass-edited</strong>
+(§11.4.29 vendor-name exemption + tree integrity). The decisive test is:
+<em>“does a push to one of OUR upstreams trigger a run?”</em> — yes ⇒
+disable; structurally inert ⇒ document and leave (§11.4.6 — verify
+inertness as FACT, never assume).</li>
+<li><strong>(E) Pre-push verification:</strong>
+<code>git ls-files | grep -E '^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$'</code>
+must return empty for authored repos.</li>
+</ul>
+<p>The probe used throughout this document is the §11.4.156(E) probe
+widened to also catch GitLab pipeline includes:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-E</span> <span class="st">&#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;</span></span></code></pre></div>
+<p>It is anchored to <code>^</code>, so it matches <strong>only</strong>
+root-level configuration — the only location a provider executes.</p>
+<h2
+id="repository-enumeration-how-the-16-repositories-were-found">Repository
+enumeration — how the 16 repositories were found</h2>
+<p><code>git submodule status --recursive</code> <strong>cannot</strong>
+enumerate this tree. It aborts:</p>
+<pre><code>fatal: no submodule mapping found in .gitmodules for path &#39;Upstreamable&#39;
+fatal: failed to recurse into submodule &#39;Upstreamable&#39;
+fatal: failed to recurse into submodule &#39;milosvasic.ru&#39;</code></pre>
+<p>Enumeration was therefore done with <code>find . -name .git</code>,
+which is gitlink-safe: a submodule’s <code>.git</code> is a
+<strong>FILE</strong>, not a directory. Every existence test in this
+audit used <code>-e</code>, never <code>-d</code>. <code>find</code>
+completed with <code>rc=0</code> (no permission-denied truncation) and
+<code>git worktree list</code> reports a single worktree, so no
+repository is hidden behind a linked worktree.</p>
+<p><code>find</code> returned <strong>17</strong> <code>.git</code>
+entries. <strong>16</strong> of them are functioning git repositories.
+The 17th is analysed in the “Non-repository <code>.git</code> file”
+section below.</p>
+<h2 id="ownership-determination">Ownership determination</h2>
+<p>“Ours” is decided from <code>git remote -v</code> only. Owned
+upstream namespaces: <code>github.com/HelixDevelopment</code>,
+<code>github.com/vasic-digital</code>,
+<code>gitlab.com/helixdevelopment1</code>,
+<code>gitlab.com/vasic-digital</code>,
+<code>gitflic.ru/helixdevelopment</code>,
+<code>gitverse.ru/helixdevelopment</code>, and the milosvasic-owned
+namespaces <code>github.com/milos85vasic</code>,
+<code>gitflic.ru/milosvasic</code>,
+<code>gitlab.com/milos85vasic</code>,
+<code>gitverse.ru/milosvasic</code>. Full remote URLs for every
+repository are in Appendix A.</p>
+<h2 id="inventory">Inventory</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Repository path (relative to umbrella root)</th>
+<th>Remotes — ours?</th>
+<th>Root-level CI files found (probe output)</th>
+<th>Classification</th>
+<th>Action required</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>.</code> (umbrella)</td>
+<td><strong>YES</strong> — <code>github.com/milos85vasic/vasic</code>
+(github, origin, upstream)</td>
+<td><strong>T0:</strong> <code>.github/workflows/ci.yml</code> —
+<strong>T1:</strong> none (staged rename to
+<code>ci.yml.disabled</code>) — <strong>T2:</strong>
+<code>.github/workflows/zz-probe.yml</code> (mutation probe, staged) —
+<strong>T3:</strong> none</td>
+<td><strong>(a) VIOLATION at T0 — remediated in flight, staged
+only</strong></td>
+<td>Commit + push the staged <code>ci.yml</code> →
+<code>ci.yml.disabled</code> rename. Concurrent-agent work; NOT touched
+by this audit.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>ai_interviewing</code></td>
+<td><strong>YES</strong> —
+<code>github.com/milos85vasic/ai_interviewing</code></td>
+<td><em>(none)</em></td>
+<td><strong>(c) CLEAN</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>design-toolkit</code></td>
+<td><strong>YES</strong> —
+<code>github.com/vasic-digital/design-toolkit</code></td>
+<td><em>(none)</em></td>
+<td><strong>(c) CLEAN</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>milosvasic.ru</code></td>
+<td><strong>YES</strong> —
+<code>github.com/milos85vasic/milosvasic.ru</code> +
+<code>gitflic.ru/milosvasic/milosvasic-net-v-2</code></td>
+<td><strong>T0:</strong> <code>.github/workflows/pages.yml</code> —
+<strong>T1:</strong> none (staged rename to
+<code>pages.yml.disabled</code>)</td>
+<td><strong>(a) VIOLATION at T0 — remediation observed in flight at T1,
+<del>then</del> </strong>REVERSED<strong>; now a documented
+deviation</strong></td>
+<td><del>Commit + push the staged <code>pages.yml</code> →
+<code>pages.yml.disabled</code> rename, then bump the umbrella
+gitlink.</del> <strong>DO NOT.</strong> The rename was never committed
+and has been undone; <code>pages.yml</code> is ACTIVE and stays active —
+it is the sole publish path for the live production site
+(<code>build_type: "workflow"</code>). See the banner at the head of
+this document. <strong>No action required; none permitted.</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>milosvasic.ru/Upstreamable</code></td>
+<td><strong>UNDETERMINED</strong> —
+<code>github.com/red-elf/Upstreamable</code> +
+<code>gitflic.ru/red-elf/upstreamable</code>; the <code>red-elf</code>
+namespace is not in the owned-upstream list and is not named as owned in
+<code>README.md</code> or <code>CLAUDE.md</code></td>
+<td><em>(none)</em></td>
+<td><strong>(c) CLEAN</strong> — ownership is moot because there is
+nothing to disable</td>
+<td>None. Ownership left UNDETERMINED rather than guessed
+(§11.4.6).</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>monetization</code></td>
+<td><strong>YES</strong> — <code>github.com/milos85vasic</code>,
+<code>gitflic.ru/milosvasic</code>,
+<code>gitlab.com/milos85vasic</code>,
+<code>gitverse.ru/milosvasic</code> (4 owned upstreams)</td>
+<td><em>(none)</em></td>
+<td><strong>(c) CLEAN</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>submodules/constitution</code></td>
+<td><strong>YES</strong> — <code>github.com/HelixDevelopment</code>,
+<code>gitflic.ru/helixdevelopment</code>,
+<code>gitlab.com/helixdevelopment1</code>,
+<code>gitverse.ru/helixdevelopment</code>,
+<code>github.com/vasic-digital</code>,
+<code>gitlab.com/vasic-digital</code> (6 owned upstreams)</td>
+<td><em>(none)</em></td>
+<td><strong>(c) CLEAN</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>submodules/constitution/submodules/anti_bluff</code></td>
+<td><strong>YES</strong> —
+<code>github.com/vasic-digital/anti_bluff</code></td>
+<td><em>(none)</em></td>
+<td><strong>(c) CLEAN</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>submodules/constitution/submodules/continuum</code></td>
+<td><strong>YES</strong> —
+<code>github.com/vasic-digital/continuum</code></td>
+<td><em>(none)</em></td>
+<td><strong>(c) CLEAN</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>submodules/constitution/submodules/design-toolkit</code></td>
+<td><strong>YES</strong> —
+<code>github.com/vasic-digital/design-toolkit</code></td>
+<td><em>(none)</em></td>
+<td><strong>(c) CLEAN</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>submodules/constitution/submodules/docs_chain</code></td>
+<td><strong>YES</strong> —
+<code>github.com/vasic-digital/docs_chain</code> +
+<code>gitlab.com/vasic-digital/docs_chain</code></td>
+<td><em>(none)</em></td>
+<td><strong>(c) CLEAN</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>submodules/constitution/submodules/helix_perf_cache</code></td>
+<td><strong>YES</strong> —
+<code>github.com/HelixDevelopment/helix_perf_cache</code></td>
+<td><em>(none)</em></td>
+<td><strong>(c) CLEAN</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>submodules/constitution/submodules/session_orchestrator</code></td>
+<td><strong>YES</strong> —
+<code>github.com/vasic-digital/session_orchestrator</code></td>
+<td><em>(none)</em></td>
+<td><strong>(c) CLEAN</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>submodules/constitution/submodules/token_optimizer</code></td>
+<td><strong>YES</strong> —
+<code>github.com/vasic-digital/token_optimizer</code></td>
+<td><em>(none)</em></td>
+<td><strong>(c) CLEAN</strong></td>
+<td>None</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>submodules/superspec</code></td>
+<td><strong>NO</strong> — sole remote
+<code>github.com/WangX0111/superspec</code></td>
+<td><code>.github/workflows/ci.yml</code></td>
+<td><strong>(b) THIRD-PARTY / VENDORED</strong></td>
+<td><strong>NONE — DO NOT EDIT.</strong> See analysis below.</td>
+</tr>
+<tr>
+<td>16</td>
+<td><code>vasic.digital</code></td>
+<td><strong>YES</strong> —
+<code>github.com/vasic-digital/vasic-digital.github.io</code></td>
+<td><em>(none)</em></td>
+<td><strong>(c) CLEAN</strong></td>
+<td>None</td>
+</tr>
+</tbody>
+</table>
+<h3 id="counts">Counts</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Classification</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Repositories scanned</td>
+<td><strong>16</strong></td>
+</tr>
+<tr>
+<td>(a) Ours, active root CI — <strong>VIOLATION</strong> (state at T0,
+start of audit)</td>
+<td><strong>2</strong></td>
+</tr>
+<tr>
+<td>(a) still uncommitted at T1 (staged <code>.disabled</code> renames,
+not yet pushed)</td>
+<td><strong>2</strong></td>
+</tr>
+<tr>
+<td>(b) Third-party / vendored, out of scope</td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td>(c) Clean — no root-level CI</td>
+<td><strong>13</strong></td>
+</tr>
+<tr>
+<td>Ownership UNDETERMINED</td>
+<td><strong>1</strong> (<code>milosvasic.ru/Upstreamable</code>; also
+CLEAN, so no action either way)</td>
+</tr>
+</tbody>
+</table>
+<p>Note on the arithmetic: 2 + 1 + 13 = 16.
+<code>milosvasic.ru/Upstreamable</code> is counted once, inside the 13
+CLEAN repositories; its UNDETERMINED ownership is an orthogonal
+attribute, not a fourth bucket.</p>
+<h2
+id="repository-15-submodulessuperspec-why-it-is-out-of-scope">Repository
+15 — <code>submodules/superspec</code>: why it is out of scope</h2>
+<p>This is the only case where an <strong>active, root-level</strong>
+workflow is being left in place. The reasoning, stated as fact rather
+than assumption:</p>
+<ol type="1">
+<li>Its root-level CI is real and active.
+<code>submodules/superspec/.github/workflows/ci.yml</code> declares
+<code>on: push: branches: [main]</code> and
+<code>on: pull_request</code>. A push to <em>its</em> upstream would
+trigger a run.</li>
+<li>The §11.4.156(C) test is <strong>“does a push to one of OUR
+upstreams trigger a run?”</strong> For this repository the answer is
+<strong>no</strong>, because it has no owned upstream:
+<code>git remote -v</code> reports exactly one remote,
+<code>origin</code>, fetch and push both
+<code>git@github.com:WangX0111/superspec.git</code>. There is no
+HelixDevelopment / vasic-digital / milosvasic remote configured on
+it.</li>
+<li>The umbrella’s own governance carrier corroborates this.
+<code>CLAUDE.md</code> (“Owned submodules”) states:
+<em>“<code>submodules/superspec</code> is third-party (upstream
+<code>WangX0111/superspec</code>) and is outside the owned-submodule set
+for tagging and propagation purposes.”</em></li>
+<li>The umbrella records this submodule as a <strong>gitlink</strong>
+(mode <code>160000</code>,
+<code>c20ac6c1ba069cc9a72dacb8044b7b193d3dde81</code>), i.e. a bare
+commit SHA. Pushing the umbrella to
+<code>github.com/milos85vasic/vasic</code> transmits the SHA, not the
+submodule’s file tree, and GitHub Actions does not execute a submodule’s
+workflows.</li>
+</ol>
+<p>Therefore: <strong>document and leave alone.</strong> Editing it
+would be a §11.4.29 / tree-integrity violation and would create a
+permanent diff against an upstream we do not control.</p>
+<p><strong>Honest boundary (§11.4.6):</strong> items 1–4 are verified
+locally from the git index, the remote configuration and the governance
+carrier. What was NOT verified — because it requires network access this
+audit did not perform — is whether the operator holds push credentials
+to <code>WangX0111/superspec</code>. If such a push right exists and is
+ever exercised, this repository moves into scope. That is recorded here
+rather than papered over.</p>
+<h2 id="non-root-.githubworkflows-verified-inert-out-of-scope">Non-root
+<code>.github/workflows</code> — verified inert, out of scope</h2>
+<p>Two distinct classes of non-root workflow exist in the tree. Both
+were checked for the trap the rule warns about: a config that
+<em>looks</em> nested but is actually sitting at some other repository’s
+root. Neither is.</p>
+<h3
+id="i-.specifyextensionssuperspec.githubworkflowsci.yml-tracked-in-the-umbrella">(i)
+<code>.specify/extensions/superspec/.github/workflows/ci.yml</code> —
+TRACKED in the umbrella</h3>
+<p>This is the case that most deserves scrutiny, because it
+<strong>is</strong> tracked in a repository we push
+(<code>git ls-files</code> in the umbrella returns it). It is
+nevertheless inert. Verified facts:</p>
+<ul>
+<li>The umbrella’s root is
+<code>&lt;ext-volume-host&gt;/Projects/vasic</code>
+(<code>git rev-parse --show-toplevel</code>). The file sits three
+directories below that root, at
+<code>.specify/extensions/superspec/.github/workflows/ci.yml</code>.
+GitHub Actions reads only <code>.github/workflows/</code>
+<strong>relative to the repository root</strong>.</li>
+<li><code>.specify/extensions/superspec</code> is <strong>not</strong> a
+repository root.
+<code>git -C .specify/extensions/superspec rev-parse --show-toplevel</code>
+fails with <code>fatal: not a git repository</code>. It contains a stray
+<code>.git</code> <strong>FILE</strong> whose content is
+<code>gitdir: ../../.git/modules/submodules/superspec</code>, which
+resolves to
+<code>.specify/extensions/.git/modules/submodules/superspec</code> — a
+path that does not exist. It is a <strong>broken gitlink</strong>, left
+behind by the spec-kit extension installer that copied the superspec
+tree into place (see <code>.specify/extensions/.registry</code>,
+<code>"source": "local"</code>, installed
+<code>2026-08-26T18:34:15Z</code>).</li>
+<li>It is <strong>not</strong> a submodule of the umbrella: it does not
+appear in <code>.gitmodules</code>, and the umbrella index holds its 59
+files as ordinary blobs (<code>git ls-files -s</code> shows modes
+<code>100644</code> / <code>100755</code> only — no <code>160000</code>
+gitlink for this path).</li>
+<li>The stray <code>.git</code> file is itself untracked
+(<code>git ls-files .specify/extensions/superspec/.git</code> returns
+nothing).</li>
+<li>No symlink aliases it up to the root: every <code>.github</code> and
+<code>workflows</code> path in the tree was tested with <code>-L</code>
+and all are real directories. The umbrella’s root
+<code>.github/workflows</code> is a real directory containing exactly
+one entry.</li>
+<li>Content check: this file is <strong>byte-identical</strong> to
+<code>submodules/superspec/.github/workflows/ci.yml</code>
+(<code>cmp -s</code> reports identical). It is a vendored copy of the
+same third-party workflow.</li>
+</ul>
+<p><strong>Conclusion: structurally inert, out of scope, MUST NOT be
+edited.</strong> A push to <code>github.com/milos85vasic/vasic</code>
+triggers zero runs from this file.</p>
+<h3
+id="ii-ai_interviewingplatformfrontendnode_modules-untracked-npm-packages">(ii)
+<code>ai_interviewing/platform/frontend/node_modules/**</code> —
+untracked npm packages</h3>
+<p><strong>6</strong> <code>.github/workflows</code> directories
+containing <strong>9</strong> workflow files, all under
+<code>ai_interviewing/platform/frontend/node_modules/</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Package</th>
+<th>Workflow files</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fast-uri</code></td>
+<td><code>ci.yml</code>, <code>lock-threads.yml</code>,
+<code>package-manager-ci.yml</code></td>
+</tr>
+<tr>
+<td><code>json-schema-traverse</code></td>
+<td><code>build.yml</code>, <code>publish.yml</code></td>
+</tr>
+<tr>
+<td><code>needle</code></td>
+<td><code>nodejs.yml</code></td>
+</tr>
+<tr>
+<td><code>reusify</code></td>
+<td><code>ci.yml</code></td>
+</tr>
+<tr>
+<td><code>rfdc</code></td>
+<td><code>ci.yml</code></td>
+</tr>
+<tr>
+<td><code>wildcard</code></td>
+<td><code>build.yml</code></td>
+</tr>
+</tbody>
+</table>
+<p>Doubly out of scope, both facts verified:</p>
+<ol type="1">
+<li><strong>Non-root.</strong> They sit far below the
+<code>ai_interviewing</code> repository root
+(<code>git rev-parse --show-toplevel</code> =
+<code>.../vasic/ai_interviewing</code>), and none of the intervening
+directories is a repository — <code>find . -name .git</code> reports no
+<code>.git</code> anywhere under <code>node_modules</code>.</li>
+<li><strong>Untracked.</strong>
+<code>git -C ai_interviewing ls-files</code> matches
+<strong>zero</strong> CI paths at any depth.
+<code>git check-ignore -v</code> confirms the exclusion rule:
+<code>platform/frontend/.gitignore:10:/node_modules</code>. They are
+never transmitted by a push at all.</li>
+</ol>
+<h2 id="other-ci-providers-checked-and-absent">Other CI providers —
+checked and absent</h2>
+<p>Each of the 16 repository roots was additionally checked, on disk,
+for <code>Jenkinsfile</code>, <code>.circleci/</code>,
+<code>.travis.yml</code>, <code>.drone.yml</code>,
+<code>.woodpecker.yml</code>, <code>.woodpecker/</code>,
+<code>bitbucket-pipelines.yml</code>, <code>azure-pipelines.yml</code>,
+<code>.azure-pipelines/</code>, <code>.gitlab-ci.yml</code>,
+<code>.gitlab/</code>, <code>appveyor.yml</code> and
+<code>.cirrus.yml</code>. Result: <strong>NONE</strong> at any of the 16
+roots. GitHub Actions is the only provider present anywhere in this
+tree.</p>
+<p><code>.specify/workflows/</code> exists at the umbrella but is a
+spec-kit workflow registry (<code>workflow-registry.json</code> + a
+<code>speckit/</code> directory), not a CI provider path.</p>
+<h2 id="concurrent-remediation-observed-in-flight">Concurrent
+remediation observed in flight</h2>
+<p>Two other agents were editing CI files while this audit ran. Both
+transitions were observed directly and are recorded rather than smoothed
+over, because the inventory rows above would otherwise be
+unreproducible.</p>
+<ul>
+<li><p><strong>T0</strong> (≈21:15–21:25 +02:00). Umbrella HEAD
+<code>f1e0c83</code>; probe returns
+<code>.github/workflows/ci.yml</code>;
+<code>git status --porcelain -- .github/workflows/</code> is empty
+(worktree matched HEAD). <code>milosvasic.ru</code> HEAD
+<code>66c8d60</code>; probe returns
+<code>.github/workflows/pages.yml</code>; status empty. <strong>Both are
+§11.4.156(A) violations at this point.</strong></p></li>
+<li><p><strong>T1</strong> (≈21:28 +02:00). Both probes return empty. On
+disk: <code>.github/workflows/ci.yml.disabled</code> (15164 bytes) and
+<code>milosvasic.ru/.github/workflows/pages.yml.disabled</code> (1333
+bytes). <code>git status --porcelain</code> reports
+<code>RM .github/workflows/ci.yml -&gt; .github/workflows/ci.yml.disabled</code>
+in the umbrella and
+<code>R  .github/workflows/pages.yml -&gt; .github/workflows/pages.yml.disabled</code>
+in <code>milosvasic.ru</code>. Both HEADs unchanged — <strong>the
+renames are STAGED, not committed, and not pushed.</strong></p></li>
+<li><p><strong>T2</strong> (21:32:57 +02:00). A <strong>new</strong>
+file appeared in the umbrella index:
+<code>git status --porcelain -- .github</code> now reports
+<code>A  .github/workflows/zz-probe.yml</code> alongside the
+<code>ci.yml</code> rename, and the §11.4.156(E) probe consequently
+returns <code>.github/workflows/zz-probe.yml</code> again. Its full
+staged content is 121 bytes:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> probe</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">branches</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">main</span><span class="kw">]</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">noop</span><span class="kw">:</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">run</span><span class="kw">:</span><span class="at"> echo probe</span></span></code></pre></div>
+<p>Read plainly, this is a §1.1 mutation-pair probe: a deliberately
+introduced active workflow whose purpose is to prove that a §11.4.156
+gate FAILS when a root workflow reappears. This audit did not create it
+and did not remove it.</p>
+<p>Had it survived into a commit it would have been a live violation on
+two counts: <code>on: push: branches: [main]</code> is a real trigger,
+so a pushed <code>zz-probe.yml</code> breaches §11.4.156(A) (active CI
+at the root) and §11.4.156(D) (no new CI may be added), and it would
+have silently undone the <code>ci.yml</code> remediation staged beside
+it. It did not survive — see T3.</p></li>
+<li><p><strong>T3</strong> (21:34:04 +02:00). <code>zz-probe.yml</code>
+is gone — removed from both the index and the working tree by whoever
+staged it, exactly as a mutation pair should end.
+<code>git status --porcelain -- .github</code> reports only
+<code>RM .github/workflows/ci.yml -&gt; .github/workflows/ci.yml.disabled</code>;
+the §11.4.156(E) probe returns empty; <code>ls .github/workflows/</code>
+shows one entry, <code>ci.yml.disabled</code>. The T2 hazard is
+therefore <strong>closed, not outstanding</strong> — it is recorded
+above because a reader re-running the sweep between 21:32 and 21:34
+would otherwise get a result this table could not explain, and because
+§11.4.6 forbids omitting an observed state.</p>
+<p>A concurrent agent also staged <code>scripts/pre-push-gates.sh</code>
+(new file) during this window. This audit did not read or evaluate it;
+whether it implements the §11.4.156(E) pre-push check is outside what
+was verified here.</p></li>
+</ul>
+<p><strong>Standing action at close of audit (21:34):</strong> the
+umbrella and <code>milosvasic.ru</code> each hold a STAGED, UNCOMMITTED
+<code>.disabled</code> rename. Neither is pushed. Until push, both
+upstreams still serve an active workflow.</p>
+<blockquote>
+<p><strong>T4 (post-audit, same day) — the two diverged.</strong> The
+umbrella’s rename stands and awaits commit + push.
+<strong><code>milosvasic.ru</code>’s rename was reverted</strong>:
+<code>.github/workflows/pages.yml</code> is back and ACTIVE (verified —
+submodule <code>git status</code> clean, <code>git diff HEAD</code>
+empty, YAML parses, <code>build</code> and <code>deploy</code> jobs
+intact), because it is the only thing that publishes the production
+site. Because that rename never reached a commit, <strong>the live site
+was never interrupted</strong>. See the banner at the head of this
+document.</p>
+</blockquote>
+<p>The <code>.disabled</code> suffix is the §11.4.75 convention
+§11.4.156(B) explicitly sanctions: GitHub Actions matches only
+<code>*.yml</code> / <code>*.yaml</code> under
+<code>.github/workflows/</code>, so <code>ci.yml.disabled</code>
+<del>and <code>pages.yml.disabled</code></del> is not a workflow file.
+<strong>Until the umbrella’s rename is committed and pushed, its pushed
+state still contains an active workflow and it remains
+non-compliant.</strong> Compliance is claimed for the umbrella only
+after push, verified by re-running the §11.4.156(E) probe post-commit —
+and is <strong>never</strong> claimed for <code>milosvasic.ru</code>,
+which is knowingly and permanently outside the clause.</p>
+<p>This audit did not touch either file.</p>
+<h2
+id="operator-actions-this-audit-cannot-perform-11.4.156-honest-boundary">Operator
+actions this audit cannot perform (§11.4.156 honest boundary)</h2>
+<p>File-level disabling stops FILE-triggered runs. It does not reach
+provider-side server settings. For <code>milosvasic.ru</code>
+specifically, the file being disabled is <code>pages.yml</code>, a
+<strong>GitHub Pages deployment</strong> workflow. Two consequences the
+operator must decide on, neither of which an agent can action from the
+filesystem:</p>
+<ol type="1">
+<li><p><del>Disabling <code>pages.yml</code> removes the mechanism that
+publishes <code>milosvasic.ru</code>. GitHub may fall back to its
+built-in “pages build and deployment” action, which the file’s own
+header comment says was replaced precisely because it fails on the
+broken <code>Upstreamable</code> nested gitlink. Whether Pages should be
+switched to a deploy-from-branch source, or turned off entirely, is an
+operator decision.</del> <strong>RESOLVED and REVERSED, same
+day.</strong> The “may fall back” was the open question and it has been
+answered: <code>gh api repos/milos85vasic/milosvasic.ru/pages</code>
+returns <strong><code>build_type: "workflow"</code></strong> — there is
+<strong>no</strong> fallback. Pages delegates publishing entirely to
+<code>pages.yml</code>, and switching to a deploy-from-branch source is
+not available either, because the repository root is Jekyll SOURCE
+(Liquid + front matter) with no <code>gh-pages</code> branch and no
+<code>docs/</code> folder to serve. Disabling <code>pages.yml</code>
+would leave the production site with no publisher at all. <strong>The
+operator decided: keep it.</strong> <em>“Make sure all pages websites
+work flawlessly! No website can be broken! All websites we have here are
+running deployed in production!”</em> <code>pages.yml</code> is ACTIVE
+and stays active; <code>milosvasic.ru</code> is a documented deviation
+from §11.4.156, not an override.</p></li>
+<li><p>Repository / organisation settings that no local file controls —
+org-default required workflows, branch-protection required checks, and
+provider-side scheduled exports — must be turned off in the provider UI.
+Changing them is still operator-only. <strong>Their state is no longer
+beyond this repository’s reach, though:</strong> it was the
+<em>file-level</em> probe used by this audit that could not see them,
+not the repository as a whole. Run</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-provider-ci.sh</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   0 = no provider-generated triggering found</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   1 = provider-side triggering CONFIRMED</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   2 = COULD NOT DETERMINE — not a pass, and never to be recorded as one</span></span></code></pre></div>
+<p>It discovers the owned repositories from this checkout’s own remotes
+rather than from a list baked into a script, and queries the provider
+for Pages <code>build_type</code>, provider-generated
+<code>pages build and deployment</code> runs, branch protection /
+required checks, and Actions enablement.
+<code>scripts/setup-agents-wizard.sh</code> runs it as Step 9 and
+surfaces a confirmed finding as a manual step, because acting on one
+means opening a provider UI. <strong>Every provider fact stated in this
+document is a dated observation.</strong> Re-measure with the command
+above instead of quoting a table row as current.</p></li>
+<li><p><strong><code>vasic.digital</code> — a surface this inventory’s
+probe structurally cannot see.</strong> It is classified <strong>(c)
+CLEAN</strong> in the table because it has no root CI <em>file</em>,
+which is true. It is nevertheless <strong>not compliant</strong>:
+verified 2026-08-27,
+<code>gh api repos/vasic-digital/vasic-digital.github.io/pages</code>
+returns <code>build_type: "legacy"</code>, and the Actions run list
+shows <code>pages build and deployment</code>
+(<code>dynamic/pages/pages-build-deployment</code>, event
+<code>dynamic</code>) on 2026-08-27 and 2026-08-10. Every push starts a
+run <strong>with zero workflow files in the tree</strong>. Nothing in
+that repository can change this, and turning it off in the Pages UI
+would unpublish a production site. This is the general lesson of the
+§11.4.156 honest boundary made concrete: a file probe measures files,
+and “no file” is not “no runs”.</p></li>
+</ol>
+<p>Related open gap: <code>CLAUDE.md</code> records <strong>G4</strong>
+— “<code>.github/workflows/ci.yml</code> is active at the repository
+root, which conflicts with anchor 11.4.156(A)”. This inventory is the
+evidence base for <strong>the umbrella half</strong> of G4; G4 is not
+closed by this document, only by the committed-and-pushed umbrella
+rename plus a re-run probe — and <strong>G4 as a whole will not close at
+all</strong>, because <code>milosvasic.ru</code> and
+<code>vasic.digital</code> remain knowingly non-compliant by decision
+and by provider mechanics respectively.</p>
+<hr />
+<h1 id="appendix-a-raw-per-repository-command-output">Appendix A — raw
+per-repository command output</h1>
+<p>Every row in the table above is reproducible from the commands below.
+Run them from <code>&lt;ext-volume-host&gt;/Projects/vasic</code>.</p>
+<h2 id="a.0-enumeration">A.0 — Enumeration</h2>
+<pre class="console"><code>$ git submodule status --recursive
+ ed73d8558e289ca0254b4ccc45e0df810767d3ae ai_interviewing (heads/main)
+ efd2c3fb2f880aaf2baf7f4819ce28a1ce3609cb design-toolkit (v0.2.2-6-gefd2c3f)
+ 66c8d607b20f0d9e984cb0e06f10a2020ebd9a10 milosvasic.ru (v1.8.0-6-g66c8d60)
+ 94f9831b8aa0a1d4df23671d2e4600886aad0dcf milosvasic.ru/Upstreamable (heads/main)
+fatal: no submodule mapping found in .gitmodules for path &#39;Upstreamable&#39;
+fatal: failed to recurse into submodule &#39;Upstreamable&#39;
+fatal: failed to recurse into submodule &#39;milosvasic.ru&#39;</code></pre>
+<p>Because the recursive walk aborts, enumeration used
+<code>find</code>:</p>
+<pre class="console"><code>$ find . -name .git | sort
+./ai_interviewing/.git
+./design-toolkit/.git
+./.git
+./milosvasic.ru/.git
+./milosvasic.ru/Upstreamable/.git
+./monetization/.git
+./.specify/extensions/superspec/.git      &lt;-- NOT a repository; broken gitlink, see body
+./submodules/constitution/.git
+./submodules/constitution/submodules/anti_bluff/.git
+./submodules/constitution/submodules/continuum/.git
+./submodules/constitution/submodules/design-toolkit/.git
+./submodules/constitution/submodules/docs_chain/.git
+./submodules/constitution/submodules/helix_perf_cache/.git
+./submodules/constitution/submodules/session_orchestrator/.git
+./submodules/constitution/submodules/token_optimizer/.git
+./submodules/superspec/.git
+./vasic.digital/.git
+
+$ find . -name .git &gt; /dev/null; echo &quot;rc=$?&quot;
+rc=0                                       # no permission-denied truncation
+
+$ git worktree list
+&lt;ext-volume-host&gt;/Projects/vasic  f1e0c83 [main]</code></pre>
+<p><code>.git</code> kind per repository (<code>-e</code>, never
+<code>-d</code>):</p>
+<pre><code>.                                                     DIRECTORY
+ai_interviewing                                       FILE -&gt; gitdir: ../.git/modules/ai_interviewing
+design-toolkit                                        FILE -&gt; gitdir: ../.git/modules/design-toolkit
+milosvasic.ru                                         FILE -&gt; gitdir: ../.git/modules/milosvasic.ru
+milosvasic.ru/Upstreamable                            FILE -&gt; gitdir: ../../.git/modules/milosvasic.ru/modules/Upstreamable
+monetization                                          FILE -&gt; gitdir: ../.git/modules/monetization
+.specify/extensions/superspec                         FILE -&gt; gitdir: ../../.git/modules/submodules/superspec   (BROKEN — target does not exist)
+submodules/constitution                               FILE -&gt; gitdir: ../../.git/modules/submodules/constitution
+submodules/constitution/submodules/anti_bluff         FILE -&gt; gitdir: ../../../../.git/modules/submodules/constitution/modules/submodules/anti_bluff
+submodules/constitution/submodules/continuum          FILE -&gt; gitdir: ../../../../.git/modules/submodules/constitution/modules/submodules/continuum
+submodules/constitution/submodules/design-toolkit     FILE -&gt; gitdir: ../../../../.git/modules/submodules/constitution/modules/design-toolkit
+submodules/constitution/submodules/docs_chain         FILE -&gt; gitdir: ../../../../.git/modules/submodules/constitution/modules/submodules/docs_chain
+submodules/constitution/submodules/helix_perf_cache   FILE -&gt; gitdir: ../../../../.git/modules/submodules/constitution/modules/submodules/helix_perf_cache
+submodules/constitution/submodules/session_orchestrator FILE -&gt; gitdir: ../../../../.git/modules/submodules/constitution/modules/submodules/session_orchestrator
+submodules/constitution/submodules/token_optimizer    FILE -&gt; gitdir: ../../../../.git/modules/submodules/constitution/modules/submodules/token_optimizer
+submodules/superspec                                  FILE -&gt; gitdir: ../../.git/modules/submodules/superspec
+vasic.digital                                         FILE -&gt; gitdir: ../.git/modules/vasic.digital</code></pre>
+<h2 id="a.1-.-umbrella">A.1 — <code>.</code> (umbrella)</h2>
+<pre class="console"><code>$ git -C . rev-parse --show-toplevel
+&lt;ext-volume-host&gt;/Projects/vasic
+
+$ git -C . remote -v
+github  git@github.com:milos85vasic/vasic.git (fetch)
+github  git@github.com:milos85vasic/vasic.git (push)
+origin  git@github.com:milos85vasic/vasic.git (fetch)
+origin  git@github.com:milos85vasic/vasic.git (push)
+upstream        git@github.com:milos85vasic/vasic.git (fetch)
+upstream        git@github.com:milos85vasic/vasic.git (push)
+
+# T0 (~21:15)
+$ git -C . ls-files | grep -E &#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;
+.github/workflows/ci.yml
+
+$ sed -n &#39;71,78p&#39; .github/workflows/ci.yml
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# T1 (~21:28) — concurrent agent staged the rename
+$ git -C . ls-files | grep -E &#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;
+(no output)
+
+$ git -C . status --porcelain -- .github
+RM .github/workflows/ci.yml -&gt; .github/workflows/ci.yml.disabled
+
+$ ls -la .github/workflows
+-rw-r--r-- 1 milosvasic milosvasic 15164 Aug 27 21:28 ci.yml.disabled</code></pre>
+<p>Non-root CI tracked in this repository:</p>
+<pre class="console"><code>$ git -C . ls-files | grep -E &#39;(^|/)\.github/workflows/.*\.ya?ml$|(^|/)\.gitlab-ci\.yml$|(^|/)\.gitlab/&#39;
+.specify/extensions/superspec/.github/workflows/ci.yml      # (T1; at T0 the root ci.yml also appeared)
+
+$ git -C . ls-files -s | awk &#39;$1==&quot;160000&quot;&#39;
+160000 ed73d8558e289ca0254b4ccc45e0df810767d3ae 0 ai_interviewing
+160000 efd2c3fb2f880aaf2baf7f4819ce28a1ce3609cb 0 design-toolkit
+160000 66c8d607b20f0d9e984cb0e06f10a2020ebd9a10 0 milosvasic.ru
+160000 54ed7b0f5add52821d18866facb5ee8c75adef69 0 monetization
+160000 902979027a907051dc036668a9c353bd27aedf47 0 submodules/constitution
+160000 c20ac6c1ba069cc9a72dacb8044b7b193d3dde81 0 submodules/superspec
+160000 6e5411c21b3cd9c6df5addb543b1a07930c3bfa9 0 vasic.digital</code></pre>
+<p>Note <code>.specify/extensions/superspec</code> is absent from the
+<code>160000</code> list — it is tracked as ordinary blobs, not a
+gitlink.</p>
+<h2 id="a.2-ai_interviewing">A.2 — <code>ai_interviewing</code></h2>
+<pre class="console"><code>$ git -C ai_interviewing remote -v
+github  git@github.com:milos85vasic/ai_interviewing.git (fetch)
+github  git@github.com:milos85vasic/ai_interviewing.git (push)
+origin  git@github.com:milos85vasic/ai_interviewing.git (fetch)
+origin  git@github.com:milos85vasic/ai_interviewing.git (push)
+upstream        git@github.com:milos85vasic/ai_interviewing.git (fetch)
+upstream        git@github.com:milos85vasic/ai_interviewing.git (push)
+
+$ git -C ai_interviewing ls-files | grep -E &#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;
+(no output)
+
+# any depth, to prove node_modules workflows are untracked:
+$ git -C ai_interviewing ls-files | grep -E &#39;(^|/)\.github/workflows/&#39;
+(no output)
+
+$ git -C ai_interviewing check-ignore -v platform/frontend/node_modules/needle/.github/workflows
+platform/frontend/.gitignore:10:/node_modules    platform/frontend/node_modules/needle/.github/workflows</code></pre>
+<h2 id="a.3-design-toolkit">A.3 — <code>design-toolkit</code></h2>
+<pre class="console"><code>$ git -C design-toolkit remote -v
+origin  git@github.com:vasic-digital/design-toolkit.git (fetch)
+origin  git@github.com:vasic-digital/design-toolkit.git (push)
+
+$ git -C design-toolkit ls-files | grep -E &#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;
+(no output)</code></pre>
+<h2 id="a.4-milosvasic.ru">A.4 — <code>milosvasic.ru</code></h2>
+<pre class="console"><code>$ git -C milosvasic.ru remote -v
+gitflic git@gitflic.ru:milosvasic/milosvasic-net-v-2.git (fetch)
+gitflic git@gitflic.ru:milosvasic/milosvasic-net-v-2.git (push)
+github  git@github.com:milos85vasic/milosvasic.ru.git (fetch)
+github  git@github.com:milos85vasic/milosvasic.ru.git (push)
+origin  git@github.com:milos85vasic/milosvasic.ru.git (fetch)
+origin  git@gitflic.ru:milosvasic/milosvasic-net-v-2.git (push)
+origin  git@github.com:milos85vasic/milosvasic.ru.git (push)
+upstream        git@gitflic.ru:milosvasic/milosvasic-net-v-2.git (fetch)
+upstream        git@gitflic.ru:milosvasic/milosvasic-net-v-2.git (push)
+
+# T0 (~21:15)
+$ git -C milosvasic.ru ls-files | grep -E &#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;
+.github/workflows/pages.yml
+
+$ git -C milosvasic.ru log -1 --format=&#39;%H %ad %s&#39; --date=iso -- .github/workflows/pages.yml
+fae3b2457900a6771949e1b2cb6bf930428031c9 2026-06-26 15:05:31 +0300 Add custom Pages workflow: submodules:false to fix broken Upstreamable gitlink</code></pre>
+<p>Trigger block of the T0 file (evidence it was ACTIVE, not
+<code>if: false</code>-neutered):</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> Deploy Jekyll to GitHub Pages</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">branches</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">main</span><span class="kw">]</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workflow_dispatch</span><span class="kw">:</span></span></code></pre></div>
+<pre class="console"><code># T1 (~21:28)
+$ git -C milosvasic.ru ls-files | grep -E &#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;
+(no output)
+
+$ git -C milosvasic.ru status --porcelain -- .github
+R  .github/workflows/pages.yml -&gt; .github/workflows/pages.yml.disabled
+
+$ ls -la milosvasic.ru/.github/workflows
+-rw-r--r-- 1 milosvasic milosvasic 1333 Aug 17 11:56 pages.yml.disabled</code></pre>
+<h2 id="a.5-milosvasic.ruupstreamable">A.5 —
+<code>milosvasic.ru/Upstreamable</code></h2>
+<pre class="console"><code>$ git -C milosvasic.ru/Upstreamable remote -v
+gitflic git@gitflic.ru:red-elf/upstreamable.git (fetch)
+gitflic git@gitflic.ru:red-elf/upstreamable.git (push)
+github  git@github.com:red-elf/Upstreamable.git (fetch)
+github  git@github.com:red-elf/Upstreamable.git (push)
+origin  git@github.com:red-elf/Upstreamable.git (fetch)
+origin  git@gitflic.ru:red-elf/upstreamable.git (push)
+origin  git@github.com:red-elf/Upstreamable.git (push)
+upstream        git@gitflic.ru:red-elf/upstreamable.git (fetch)
+upstream        git@gitflic.ru:red-elf/upstreamable.git (push)
+
+$ git -C milosvasic.ru/Upstreamable ls-files | grep -E &#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;
+(no output)</code></pre>
+<p>Ownership evidence searched and NOT found — hence UNDETERMINED, not
+guessed:</p>
+<pre class="console"><code>$ grep -rn &#39;red-elf\|Upstreamable&#39; README.md CLAUDE.md
+README.md:36:# (red-elf/Upstreamable) whose own .gitmodules is a broken 0-byte gitlink, so a
+CLAUDE.md:175:  `commit` resolves on PATH to `$SUBMODULES_HOME/Upstreamable/commit`, which</code></pre>
+<p>Neither line asserts ownership of the <code>red-elf</code> namespace,
+and <code>red-elf</code> is absent from <code>CLAUDE.md</code>’s “Owned
+submodules” list.</p>
+<h2 id="a.6-monetization">A.6 — <code>monetization</code></h2>
+<pre class="console"><code>$ git -C monetization remote -v
+gitflic git@gitflic.ru:milosvasic/monetization.git (fetch/push)
+github  git@github.com:milos85vasic/monetization.git (fetch/push)
+gitlab  git@gitlab.com:milos85vasic/monetization.git (fetch/push)
+gitverse ssh://git@gitverse.ru:2222/milosvasic/monetization.git (fetch/push)
+origin  git@github.com:milos85vasic/monetization.git (fetch)
+origin  git@gitflic.ru:milosvasic/monetization.git (push)
+origin  git@github.com:milos85vasic/monetization.git (push)
+origin  git@gitlab.com:milos85vasic/monetization.git (push)
+origin  ssh://git@gitverse.ru:2222/milosvasic/monetization.git (push)
+upstream        git@gitflic.ru:milosvasic/monetization.git (fetch/push)
+
+$ git -C monetization ls-files | grep -E &#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;
+(no output)</code></pre>
+<h2 id="a.7-submodulesconstitution">A.7 —
+<code>submodules/constitution</code></h2>
+<pre class="console"><code>$ git -C submodules/constitution remote -v
+gitflic git@gitflic.ru:helixdevelopment/helixconstitution.git (fetch/push)
+github  git@github.com:HelixDevelopment/HelixConstitution.git (fetch/push)
+gitlab  git@gitlab.com:helixdevelopment1/helixconstitution.git (fetch/push)
+gitverse        git@gitverse.ru:helixdevelopment/HelixConstitution.git (fetch/push)
+origin  git@github.com:HelixDevelopment/HelixConstitution.git (fetch)
+origin  git@gitflic.ru:helixdevelopment/helixconstitution.git (push)
+origin  git@github.com:HelixDevelopment/HelixConstitution.git (push)
+origin  git@gitlab.com:helixdevelopment1/helixconstitution.git (push)
+origin  git@gitverse.ru:helixdevelopment/HelixConstitution.git (push)
+origin  git@github.com:vasic-digital/HelixConstitution.git (push)
+origin  git@gitlab.com:vasic-digital/HelixConstitution.git (push)
+upstream        git@gitflic.ru:helixdevelopment/helixconstitution.git (fetch/push)
+vasic_digital_github    git@github.com:vasic-digital/HelixConstitution.git (fetch/push)
+vasic_digital_gitlab    git@gitlab.com:vasic-digital/HelixConstitution.git (fetch/push)
+
+$ git -C submodules/constitution ls-files | grep -E &#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;
+(no output)</code></pre>
+<p>This is the §11.4.75 posture already in effect: the constitution
+repo’s own compliance workflow is preserved under a non-active name and
+therefore does not appear in the probe.</p>
+<h2 id="a.8a.14-constitutions-nested-submodules">A.8–A.14 —
+constitution’s nested submodules</h2>
+<pre class="console"><code>$ git -C submodules/constitution/submodules/anti_bluff remote -v
+origin  git@github.com:vasic-digital/anti_bluff.git (fetch/push)
+
+$ git -C submodules/constitution/submodules/continuum remote -v
+origin  git@github.com:vasic-digital/continuum.git (fetch/push)
+
+$ git -C submodules/constitution/submodules/design-toolkit remote -v
+origin  git@github.com:vasic-digital/design-toolkit.git (fetch/push)
+
+$ git -C submodules/constitution/submodules/docs_chain remote -v
+github  git@github.com:vasic-digital/docs_chain.git (fetch/push)
+gitlab  git@gitlab.com:vasic-digital/docs_chain.git (fetch/push)
+origin  git@github.com:vasic-digital/docs_chain.git (fetch)
+origin  git@github.com:vasic-digital/docs_chain.git (push)
+origin  git@gitlab.com:vasic-digital/docs_chain.git (push)
+upstream        git@github.com:vasic-digital/docs_chain.git (fetch/push)
+
+$ git -C submodules/constitution/submodules/helix_perf_cache remote -v
+origin  git@github.com:HelixDevelopment/helix_perf_cache.git (fetch/push)
+
+$ git -C submodules/constitution/submodules/session_orchestrator remote -v
+origin  git@github.com:vasic-digital/session_orchestrator.git (fetch/push)
+
+$ git -C submodules/constitution/submodules/token_optimizer remote -v
+origin  git@github.com:vasic-digital/token_optimizer.git (fetch/push)</code></pre>
+<p>Probe result for all seven:</p>
+<pre class="console"><code>$ for p in anti_bluff continuum design-toolkit docs_chain helix_perf_cache \
+           session_orchestrator token_optimizer; do
+    echo &quot;--- $p&quot;
+    git -C submodules/constitution/submodules/$p ls-files \
+      | grep -E &#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;
+  done
+--- anti_bluff
+--- continuum
+--- design-toolkit
+--- docs_chain
+--- helix_perf_cache
+--- session_orchestrator
+--- token_optimizer</code></pre>
+<p>All empty.</p>
+<h2 id="a.15-submodulessuperspec-third-party-do-not-edit">A.15 —
+<code>submodules/superspec</code> (THIRD-PARTY — DO NOT EDIT)</h2>
+<pre class="console"><code>$ git -C submodules/superspec rev-parse --show-toplevel
+&lt;ext-volume-host&gt;/Projects/vasic/submodules/superspec
+
+$ git -C submodules/superspec remote -v
+origin  git@github.com:WangX0111/superspec.git (fetch)
+origin  git@github.com:WangX0111/superspec.git (push)
+
+$ git -C submodules/superspec ls-files | grep -E &#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;
+.github/workflows/ci.yml</code></pre>
+<p>Its trigger block (active — recorded for completeness, NOT to be
+edited):</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> CI</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">push</span><span class="kw">:</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">branches</span><span class="kw">:</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> main</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">pull_request</span><span class="kw">:</span></span></code></pre></div>
+<p>Identity with the vendored copy in <code>.specify</code>:</p>
+<pre class="console"><code>$ cmp -s submodules/superspec/.github/workflows/ci.yml \
+         .specify/extensions/superspec/.github/workflows/ci.yml &amp;&amp; echo IDENTICAL
+IDENTICAL</code></pre>
+<h2 id="a.16-vasic.digital">A.16 — <code>vasic.digital</code></h2>
+<pre class="console"><code>$ git -C vasic.digital remote -v
+github  git@github.com:vasic-digital/vasic-digital.github.io.git (fetch/push)
+origin  git@github.com:vasic-digital/vasic-digital.github.io.git (fetch/push)
+upstream        git@github.com:vasic-digital/vasic-digital.github.io.git (fetch/push)
+
+$ git -C vasic.digital ls-files | grep -E &#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;
+(no output)</code></pre>
+<hr />
+<h1 id="appendix-b-non-root-inertness-verification">Appendix B —
+non-root inertness verification</h1>
+<pre class="console"><code>$ git -C . rev-parse --show-toplevel
+&lt;ext-volume-host&gt;/Projects/vasic
+
+$ git -C .specify/extensions/superspec rev-parse --show-toplevel
+fatal: not a git repository: &lt;ext-volume-host&gt;/Projects/vasic/.specify/extensions/superspec/../../.git/modules/submodules/superspec
+
+$ cat .specify/extensions/superspec/.git
+gitdir: ../../.git/modules/submodules/superspec        # resolves to a path that does not exist
+
+$ git ls-files .specify/extensions/superspec/.git
+(no output — the stray .git file is untracked)
+
+$ git ls-files .specify/extensions/superspec | wc -l
+59
+
+$ git ls-files -s .specify/extensions/superspec | awk &#39;{print $1}&#39; | sort -u
+100644
+100755            # ordinary blobs only — no 160000 gitlink
+
+$ grep -n &#39;superspec&#39; .gitmodules      # .specify path is NOT registered as a submodule
+19:[submodule &quot;submodules/superspec&quot;]
+20: path = submodules/superspec
+21: url = git@github.com:WangX0111/superspec.git</code></pre>
+<p>Three matching LINES describing exactly ONE registered submodule
+(<code>submodules/superspec</code>). No <code>.gitmodules</code> stanza
+mentions <code>.specify/extensions/superspec</code>.
+<code>grep -n</code> is used here rather than <code>grep -c</code>
+precisely because <code>grep -c</code> would report <code>3</code> and
+invite the line-count-as- thing-count error the closing note in Appendix
+C warns about.</p>
+<p>Symlink check — every <code>.github</code> / <code>workflows</code>
+path in the tree, tested with <code>-L</code>:</p>
+<pre class="console"><code>$ find . -path ./.git -prune -o -name &#39;.github&#39; -print -o -name &#39;workflows&#39; -print \
+  | while read -r f; do
+      printf &#39;%s : &#39; &quot;$f&quot;
+      if [ -L &quot;$f&quot; ]; then echo &quot;SYMLINK -&gt; $(readlink &quot;$f&quot;)&quot;; else echo &quot;real $(stat -c %F &quot;$f&quot;)&quot;; fi
+    done
+./.github : real directory
+./.github/workflows : real directory
+./milosvasic.ru/.github : real directory
+./.specify/workflows : real directory
+./milosvasic.ru/.github/workflows : real directory
+./submodules/superspec/.github : real directory
+./submodules/superspec/.github/workflows : real directory
+./.specify/extensions/superspec/.github : real directory
+./.specify/extensions/superspec/.github/workflows : real directory
+... (remaining entries are all under ai_interviewing/platform/frontend/node_modules/, all &quot;real directory&quot;)</code></pre>
+<p>Zero symlinks. No non-root workflow is aliased up to any repository
+root.</p>
+<p>Complete on-disk census of workflow files (state at T1):</p>
+<pre class="console"><code>$ find . -path ./.git -prune -o -type f -path &#39;*/.github/workflows/*&#39; -print | sed &#39;s#^\./##&#39; | sort
+ai_interviewing/platform/frontend/node_modules/fast-uri/.github/workflows/ci.yml
+ai_interviewing/platform/frontend/node_modules/fast-uri/.github/workflows/lock-threads.yml
+ai_interviewing/platform/frontend/node_modules/fast-uri/.github/workflows/package-manager-ci.yml
+ai_interviewing/platform/frontend/node_modules/json-schema-traverse/.github/workflows/build.yml
+ai_interviewing/platform/frontend/node_modules/json-schema-traverse/.github/workflows/publish.yml
+ai_interviewing/platform/frontend/node_modules/needle/.github/workflows/nodejs.yml
+ai_interviewing/platform/frontend/node_modules/reusify/.github/workflows/ci.yml
+ai_interviewing/platform/frontend/node_modules/rfdc/.github/workflows/ci.yml
+ai_interviewing/platform/frontend/node_modules/wildcard/.github/workflows/build.yml
+.github/workflows/ci.yml.disabled
+milosvasic.ru/.github/workflows/pages.yml.disabled
+.specify/extensions/superspec/.github/workflows/ci.yml
+submodules/superspec/.github/workflows/ci.yml
+
+$ find . -path ./.git -prune -o -type f -path &#39;*/.github/workflows/*&#39; -print | wc -l
+13
+$ find . -path ./.git -prune -o -type f -path &#39;*/node_modules/*/.github/workflows/*&#39; -print | wc -l
+9
+$ find . -path ./.git -prune -o -type d -path &#39;*/node_modules/*&#39; -name workflows -print | wc -l
+6</code></pre>
+<p>13 files on disk = 9 untracked npm vendored + 2 already renamed
+<code>.disabled</code> + 1 vendored non-root tracked copy + 1
+third-party repo root. At T1, zero active, root-level, tracked workflow
+files remained in any repository we push — <strong>in the working
+tree</strong>. Two of those (rows 1 and 4) were staged but not yet
+committed or pushed.</p>
+<p><strong>Transiently superseded at T2 (21:32:57), restored at T3
+(21:34:04):</strong> for roughly 90 seconds a concurrent agent’s
+mutation probe <code>.github/workflows/zz-probe.yml</code> (121 bytes,
+live <code>on: push: branches: [main]</code>) raised the on-disk total
+to 14 and returned the umbrella’s §11.4.156(E) probe to non-empty. It
+was removed from both index and working tree at T3, and the census of 13
+above is the state at close of audit. See “Concurrent remediation
+observed in flight” for the full T2/T3 record.</p>
+<hr />
+<h1 id="appendix-c-the-exact-re-runnable-sweep">Appendix C — the exact
+re-runnable sweep</h1>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="op">&lt;</span>ext-volume-host<span class="op">&gt;</span>/Projects/vasic</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> p <span class="kw">in</span> . ai_interviewing design-toolkit milosvasic.ru milosvasic.ru/Upstreamable <span class="dt">\</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>         monetization submodules/constitution <span class="dt">\</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>         submodules/constitution/submodules/anti_bluff <span class="dt">\</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>         submodules/constitution/submodules/continuum <span class="dt">\</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>         submodules/constitution/submodules/design-toolkit <span class="dt">\</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>         submodules/constitution/submodules/docs_chain <span class="dt">\</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>         submodules/constitution/submodules/helix_perf_cache <span class="dt">\</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>         submodules/constitution/submodules/session_orchestrator <span class="dt">\</span></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>         submodules/constitution/submodules/token_optimizer <span class="dt">\</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>         submodules/superspec vasic.digital<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>  <span class="va">out</span><span class="op">=</span><span class="va">$(</span><span class="fu">git</span> <span class="at">-C</span> <span class="st">&quot;</span><span class="va">$p</span><span class="st">&quot;</span> ls-files <span class="dv">2</span><span class="op">&gt;</span>/dev/null <span class="dt">\</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-E</span> <span class="st">&#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$|^\.gitlab/&#39;</span><span class="va">)</span></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="st">&quot;--- </span><span class="va">$p</span><span class="st"> : </span><span class="va">${out</span><span class="op">:-</span>NONE<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>Expected compliant output: <code>NONE</code> for all 16 rows except
+<code>submodules/superspec</code>, which is permitted to report
+<code>.github/workflows/ci.yml</code> under §11.4.156(C) because it is
+third-party and has no owned upstream.</p>
+<p><strong>Counting caution:</strong> these outputs are file paths, one
+per line, and the counts in this document are counts of FILES, verified
+by listing them. <code>grep -c</code> counts matching LINES and must not
+be used as a file count where a single file could produce multiple
+matching lines.</p>
+</body>
+</html>

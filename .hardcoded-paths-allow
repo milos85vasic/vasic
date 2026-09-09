@@ -36,9 +36,9 @@ scripts/audit-hardcoded-paths.sh
 #
 # Scoped to these four files deliberately. `specs/**` is NOT allow-listed: any
 # future script or config under specs/ must still derive its paths.
-specs/001-workshop-curriculum-platform/research/llm-bridging.md
-specs/001-workshop-curriculum-platform/research/search-architecture.md
-specs/001-workshop-curriculum-platform/research/transcription.md
+#   TOMBSTONE 2026-09-08: specs/001-workshop-curriculum-platform/research/llm-bridging.md
+#   TOMBSTONE 2026-09-08: specs/001-workshop-curriculum-platform/research/search-architecture.md
+#   TOMBSTONE 2026-09-08: specs/001-workshop-curriculum-platform/research/transcription.md
 
 # ==============================================================================
 # BASELINED DEBT — surfaced 2026-09-01 when the submodule fleet sweep was
@@ -132,8 +132,8 @@ submodules/containers/scripts/resource-policy/apply-report.md
 # would delete the evidence and leave a claim.
 # Scoped to these two files; `specs/**` is NOT allow-listed, so any future SCRIPT
 # under specs/ must still derive its paths.
-specs/001-workshop-curriculum-platform/quickstart.md
-specs/001-workshop-curriculum-platform/contracts/pipeline-cli.md
+#   TOMBSTONE 2026-09-08: specs/001-workshop-curriculum-platform/quickstart.md
+#   TOMBSTONE 2026-09-08: specs/001-workshop-curriculum-platform/contracts/pipeline-cli.md
 
 # ==============================================================================
 # workshop/ — the 2026-09-01 gitlink bump
@@ -168,9 +168,9 @@ specs/001-workshop-curriculum-platform/contracts/pipeline-cli.md
 # `workshop/platform/backend/evidence/**` are NOT allow-listed as trees: a
 # future SCRIPT or CONFIG written under either must still derive its paths, and
 # a new evidence file must be justified on its own when it appears.
-workshop/evidence/phase2-passage-identity/README.md
-workshop/platform/backend/evidence/answering/entailment-e2e-before-after-2026-09-01.txt
-workshop/platform/backend/evidence/answering/entailment-e2e-four-configs-2026-09-01.txt
+#   TOMBSTONE 2026-09-08: workshop/evidence/phase2-passage-identity/README.md
+#   TOMBSTONE 2026-09-08: workshop/platform/backend/evidence/answering/entailment-e2e-before-after-2026-09-01.txt
+#   TOMBSTONE 2026-09-08: workshop/platform/backend/evidence/answering/entailment-e2e-four-configs-2026-09-01.txt
 
 # ==============================================================================
 # docs/ — the 2026-09-02 blanket-SKIP removal (operator decision 20)
@@ -212,7 +212,7 @@ workshop/platform/backend/evidence/answering/entailment-e2e-four-configs-2026-09
 # STATED RECALL COST: a genuine leak of an account literally named `you` or
 # `someone`, inside one of these six files, would now be invisible. That is
 # accepted deliberately and is scoped to six named files, never to a tree.
-docs/environment-adaptability/AUDIT.md
+#   TOMBSTONE 2026-09-08: docs/environment-adaptability/AUDIT.md
 docs/setup-agents-wizard/README.md
 docs/setup-agents-wizard/SAFETY-AND-ROLLBACK.md
 docs/setup-agents-wizard/TROUBLESHOOTING.md
@@ -242,26 +242,26 @@ docs/setup-agents-wizard/OPERATIONAL-SCRIPTS.md
 #      this change's business — and is recorded here so the next reader is not
 #      misled by it. A document that reasons from a blind spot is exactly the
 #      artefact that proves the blind spot was load-bearing.
-docs/constitution-adoption/CI-INVENTORY-11-4-156.md
-docs/constitution-adoption/GATE-TRIAGE.md
-docs/constitution-adoption/INDEX-COVERAGE.md
-docs/constitution-adoption/INVENTORY.md
-docs/constitution-adoption/POST-APPLY-STATE.md
-docs/constitution-adoption/propagation/APPLY.md
-docs/constitution-adoption/README.md
+#   TOMBSTONE 2026-09-08: docs/constitution-adoption/CI-INVENTORY-11-4-156.md
+#   TOMBSTONE 2026-09-08: docs/constitution-adoption/GATE-TRIAGE.md
+#   TOMBSTONE 2026-09-08: docs/constitution-adoption/INDEX-COVERAGE.md
+#   TOMBSTONE 2026-09-08: docs/constitution-adoption/INVENTORY.md
+#   TOMBSTONE 2026-09-08: docs/constitution-adoption/POST-APPLY-STATE.md
+#   TOMBSTONE 2026-09-08: docs/constitution-adoption/propagation/APPLY.md
+#   TOMBSTONE 2026-09-08: docs/constitution-adoption/README.md
 docs/content-boundary-incident-2026-09-01.md
 docs/SESSION-REPORT.md
-docs/setup-agents-wizard/CI-WORKFLOW-AUDIT.md
-docs/setup-agents-wizard/CODEGRAPH-UPGRADE.md
-docs/setup-agents-wizard/INDEPENDENT-VERIFICATION-2.md
-docs/setup-agents-wizard/INDEPENDENT-VERIFICATION.md
-docs/setup-agents-wizard/INDEX-CORRUPTION-RECONCILIATION.md
-docs/setup-agents-wizard/LUMEN-INDEX-INTEGRITY.md
-docs/setup-agents-wizard/LUMEN-STORE-INVENTORY.md
-docs/setup-agents-wizard/OLLAMA-REMEDIATION.md
+#   TOMBSTONE 2026-09-08: docs/setup-agents-wizard/CI-WORKFLOW-AUDIT.md
+#   TOMBSTONE 2026-09-08: docs/setup-agents-wizard/CODEGRAPH-UPGRADE.md
+#   TOMBSTONE 2026-09-08: docs/setup-agents-wizard/INDEPENDENT-VERIFICATION-2.md
+#   TOMBSTONE 2026-09-08: docs/setup-agents-wizard/INDEPENDENT-VERIFICATION.md
+#   TOMBSTONE 2026-09-08: docs/setup-agents-wizard/INDEX-CORRUPTION-RECONCILIATION.md
+#   TOMBSTONE 2026-09-08: docs/setup-agents-wizard/LUMEN-INDEX-INTEGRITY.md
+#   TOMBSTONE 2026-09-08: docs/setup-agents-wizard/LUMEN-STORE-INVENTORY.md
+#   TOMBSTONE 2026-09-08: docs/setup-agents-wizard/OLLAMA-REMEDIATION.md
 docs/setup-agents-wizard/RESIDUAL-PATHS-AUDIT.md
-docs/site-health/PRODUCTION-SITE-HEALTH.md
-docs/workshop-curriculum/RECON.md
+#   TOMBSTONE 2026-09-08: docs/site-health/PRODUCTION-SITE-HEALTH.md
+#   TOMBSTONE 2026-09-08: docs/workshop-curriculum/RECON.md
 
 # BASELINE: submodule docs/ — 39 files / 104 occurrences across five gitlinks
 # (submodules/constitution 24, ai_interviewing 8, workshop 4, design-toolkit 1,
@@ -388,6 +388,7 @@ workshop/docs/session-evidence/session-ledger.sections.json
 # 2026-09-04 — crawl capture bodies are THIRD-PARTY EVIDENCE, and byte-fidelity
 # is the whole point of them
 # ==============================================================================
+# REASON: third-party crawl capture; byte-fidelity is enforced by another gate.
 # workshop/docs/the-platform/ledger/captures/*/body holds the VERBATIM response
 # body of a page fetched from someone else's site. The first finding here was
 # cap_c56a6cfeb46e — 302 KB of pi.dev's "RPC Mode" documentation — and its three
@@ -418,3 +419,45 @@ workshop/docs/session-evidence/session-ledger.sections.json
 # BETTER property than a glob would be: a new capture cannot inherit this
 # pardon silently, and whoever adds one has to look at it.
 workshop/docs/the-platform/ledger/captures/cap_c56a6cfeb46e/body
+
+# ==============================================================================
+# TOMBSTONES — 25 rows RETIRED 2026-09-08 because the FILES NO LONGER OFFEND.
+#
+# WHAT HAPPENED. Operator directive, verbatim: "Nothing host related can be
+# hardcoded, paths, host names, all codebase MUST BE fully decoupled! macOS
+# paths MUST NOT exist in our shared codebases! Other host names as well!"
+# That overrides the baseline-as-debt posture for every file this repository
+# actually authors. The 25 rows above, each now commented out in place with a
+# `#   TOMBSTONE 2026-09-08:` prefix so the retirement is visible rather than
+# silent, named files whose machine-specific literals were REPLACED by
+# host-ROLE placeholders:
+#
+#     /Volumes/T7/Projects            -> <macos-host>/Projects
+#     /run/media/<user>/DATA4TB/...   -> <ext-volume-host>/...
+#     /home/<user>/Projects           -> <linux-host>/Projects
+#     /home/<user>/...                -> <home>/...
+#     /Users/<name>/...               -> <home>/...
+#
+# WHY A ROLE AND NOT A BARE `<path>`. Several of these are EVIDENCE RECORDS —
+# a Lumen store inventory that distinguishes four indexes BY their project
+# path, a session ledger recording that a macOS literal was found in a script.
+# Collapsing every prefix to one placeholder would have merged rows that the
+# record exists to keep apart, and would have made a measurement taken on
+# another machine read as though it had been taken here. Naming the host ROLE
+# keeps both facts: which machine, and no machine-specific string.
+#
+# THE ONE ENTRY WHOSE STATED REASON THIS CONTRADICTS, ADDRESSED HEAD ON. The
+# `specs/001-.../research/*.md` block above said "Rewriting them as
+# `$(command -v ...)` would destroy the evidence." It would have — and that is
+# NOT what was done. Only the home-directory PREFIX moved. The finding those
+# documents carry — that `~/bin/ffprobe` is a symlink into the Playwright
+# ffmpeg cache — survives verbatim as
+# `<home>/bin/ffprobe -> <home>/.cache/ms-playwright/ffmpeg-1011/ffmpeg-linux`.
+#
+# MEASURED, both sides: `bash scripts/audit-hardcoded-paths.sh` reported
+# 391 baselined occurrences / 16 files explicitly allowed BEFORE, and
+# 210 / 7 after the source fixes and before this prune.
+#
+# A dead entry silences the next real finding, which is why these are retired
+# rather than left standing.
+# ==============================================================================

@@ -1,5 +1,18 @@
 {
   "enabledPlugins": {
     "ashlr@ashlr-marketplace": true
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/submodules/constitution/scripts/hooks/guard-forbidden-commands.sh\""
+          }
+        ]
+      }
+    ]
   }
 }

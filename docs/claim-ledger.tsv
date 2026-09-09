@@ -1,0 +1,111 @@
+# claim-ledger.tsv — the §11.4.266 claim-vs-reality ledger for this repository.
+#
+# WHY THIS FILE EXISTS
+# --------------------
+# No instrument in this tree compared a RECORDED CLAIM against the thing it
+# describes. Nine instances were measured on 2026-09-07/08/09: a submodule
+# primitive shipped upstream and nine tracked files went on asserting the gap
+# for five days; three "actionable FAILs" that already existed; two gates
+# PASSING over a stale ledger while the README showed a friendlier picture than
+# the tree; a CLI flag recorded as unrecognised that had already landed; a
+# database table recorded as empty that had already materialised.
+#
+# Every gate in this tree verifies its SUBJECT. Not one verified what the
+# repository SAYS about its subject. §11.4.266 keys the enumeration from the
+# CLAIM side, and this file is that enumeration.
+#
+# HOW A ROW STAYS HONEST — read this before adding one
+# ----------------------------------------------------
+# The failure this gate must not become is instance ten: a green gate over
+# stale ground truth. Two rules keep it out.
+#
+#   1. A `prose` row stores NO measured figure. The CLAIMED value is read out
+#      of the document at run time by the anchor's capture group; the REAL
+#      value is re-measured by running the probe fresh. There is nothing
+#      cached here that can go stale, and no way to make the row green by
+#      editing this file — editing the anchor only re-points it at different
+#      prose.
+#   2. An `assert` row DOES store a value, and that is its honest boundary.
+#      It is for a qualitative claim ("the sweep keeps no expected-gate
+#      ledger") where no figure appears in the prose. Someone could make such
+#      a row green by editing `expected` here while the prose still asserts
+#      the old proposition. Prefer `prose`; use `assert` only when the claim
+#      states no number.
+#
+# EVERY OCCURRENCE OF THE ANCHOR IS CHECKED, NOT THE FIRST. A dead figure
+# written in a live figure's clothes is a finding. This repository records
+# superseded figures in prose deliberately, so an anchor must be specific
+# enough to match only the LIVE assertion — that specificity is the row
+# author's job, and a too-loose anchor surfaces as a FALSE, not as silence.
+#
+# FORMAT — TSV, TAB-separated, field 1 is the row type from a closed set.
+#
+#   surface  <path>
+#       A declared "advertised surface" per §11.4.266(A). Claims may only be
+#       registered against a declared surface.
+#
+#   claim  <id>  <surface>  <kind>  <bluff-type>  <severity>  <op>  <expected>  <anchor>  <probe>
+#       id          stable ASCII slug, unique in this file
+#       surface     must equal a declared `surface` path
+#       kind        `prose`  — anchor MUST carry exactly one capture group; the
+#                              captured text is the CLAIMED value, compared
+#                              against the probe's output. `expected` is `-`.
+#                   `assert` — anchor carries no capture group and only proves
+#                              the claim is still made; the probe's output is
+#                              compared against `expected`.
+#       bluff-type  one of the SEVEN-member closed vocabulary of §11.4.266(B):
+#                     green-but-broken  coverage-theater  rubber-stamp-verified
+#                     stubbed-core      doc-vs-code-drift
+#                     config-present-but-unwired            byte-identical-fork
+#                   An ad-hoc type is a FAIL, never a silent pass. The type is
+#                   a ROUTING KEY to the counter-gate that owns the type
+#                   (§11.4.266(C)), not a label.
+#       severity    consumer-supplied DATA per §11.4.266(B) — the corpus states
+#                   no scale. Here: blocker | major | minor.
+#       op          `eq`      claimed == real, after whitespace trim
+#                   `ne`      claimed != real
+#                   `matches` real matches the ERE in the claimed/expected slot
+#       expected    `assert` rows only; `-` for `prose`
+#       anchor      a Python `re` pattern matched against the surface file with
+#                   DOTALL off and MULTILINE on
+#       probe       a shell command, run fresh with cwd = repository root. Its
+#                   stdout is the REALITY. A non-zero exit is UNDETERMINED —
+#                   never a pass, never a finding.
+#
+# COVERAGE IS BOUNDED AND SAID SO. This slice is TEN rows. §11.4.266(A)
+# requires EVERY advertised capability to resolve to exactly one row, and that
+# is NOT satisfied here. `bash scripts/verify-claim-ledger.sh --completeness`
+# counts the unregistered countable-claim shapes on the declared surfaces and
+# reports them as waves. Do not read a green exit as ledger completeness.
+#
+# ---------------------------------------------------------------------------
+surface	CLAUDE.md
+surface	AGENTS.md
+surface	QWEN.md
+surface	GEMINI.md
+surface	README.md
+# ---------------------------------------------------------------------------
+# The four carriers are byte-identical from the measured convergence line down
+# and `verify-governance-cascade.sh` check C5 enforces that, so a claim in the
+# shared region is advertised FOUR TIMES by four files that cannot legally
+# disagree. Each such claim is registered ONCE, against `CLAUDE.md`, and the
+# other three are covered by C5's byte-identity rather than by a row here.
+#
+# THE HONEST BOUNDARY OF THAT CHOICE, STATED RATHER THAN IMPLIED: if C5 were
+# ever to go red, this gate would still be reading only `CLAUDE.md`, so a
+# now-false claim surviving in `AGENTS.md` alone would be invisible HERE. The
+# two gates are complements and neither substitutes for the other. `AGENTS.md`,
+# `QWEN.md` and `GEMINI.md` are declared surfaces above so that a claim unique
+# to one of them — anything above the convergence line — can be registered
+# without first amending this file.
+# ---------------------------------------------------------------------------
+claim	carriers-gitlink-count	CLAUDE.md	prose	doc-vs-code-drift	minor	eq	-	`\.gitmodules` declares \*\*(\d+)\*\* gitlinks	git config -f .gitmodules --get-regexp 'submodule\..*\.path' | wc -l
+claim	carriers-constitution-anchors	CLAUDE.md	prose	doc-vs-code-drift	minor	eq	-	grep -c '\^### §' submodules/constitution/Constitution\.md +# (\d+)	grep -c '^### §' submodules/constitution/Constitution.md
+claim	carriers-constitution-lines	CLAUDE.md	prose	doc-vs-code-drift	minor	eq	-	wc -l < submodules/constitution/Constitution\.md +# (\d+)	wc -l < submodules/constitution/Constitution.md
+claim	carriers-containers-consumer-files	CLAUDE.md	prose	doc-vs-code-drift	major	eq	-	with \*\*(\d+)\*\* tracked files as re-measured	git ls-files _tools/containers/ | wc -l
+claim	carriers-content-boundary-allow-pairs	CLAUDE.md	prose	doc-vs-code-drift	minor	eq	-	same \*\*(\d+) declared pairs\*\*	grep -Ecv '^[[:space:]]*(#|$)' .content-boundary-allow
+claim	carriers-mv-site-tracked-files	CLAUDE.md	prose	doc-vs-code-drift	minor	eq	-	ls-files _site` returns \*\*(\d+) files\*\*	git -C milosvasic.ru ls-files _site | wc -l
+claim	carriers-constitution-gate-ledger-rows	CLAUDE.md	prose	doc-vs-code-drift	major	eq	-	exists and holds \*\*(\d+)\*\* data rows	awk -F'\t' '!/^#/ && NF>1' scripts/constitution-gate-ledger.tsv | wc -l
+claim	readme-zero-findings-badge	README.md	prose	coverage-theater	blocker	eq	-	zero%20findings-(\d+)%20over%20ratchet	bash scripts/audit/zero_findings_sweep.sh 2>&1 | sed -nE 's/.*class=TOTAL[[:space:]]+live=([0-9]+).*/\1/p' | head -1
+claim	readme-carrier-lockstep-line	README.md	prose	doc-vs-code-drift	minor	eq	-	dentical from line (\d+) down	for N in $(seq 1 60); do c=$(for f in CLAUDE.md AGENTS.md QWEN.md GEMINI.md; do tail -n +$N "$f" | sha256sum; done | sort -u | wc -l); if [ "$c" = 1 ]; then echo "$N"; break; fi; done
+claim	readme-gen-go-version	README.md	prose	doc-vs-code-drift	minor	eq	-	`go (1\.\d+)`\)\. Renders localized pages	sed -nE 's/^go ([0-9.]+)$/\1/p' _tools/gen/go.mod

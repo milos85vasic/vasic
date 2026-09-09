@@ -256,14 +256,24 @@ measure_all() {
     if [ -f "$ledger" ] && [ -f "$ratchet" ]; then
         n="$(grep -c '"finding_id"' "$ledger" 2>/dev/null || true)"
         local tot; tot="$(awk -F'\t' '$1=="TOTAL"{print $2}' "$ratchet")"
+        # The RATIONALE must follow the colour actually computed above. It used
+        # to be a single hardcoded "AMBER because ..." sentence, which survived
+        # unchanged when the ledger rose past the ratchet and the badge turned
+        # RED — leaving the provenance explaining a colour the badge no longer
+        # carried. §11.4.259(C) makes provenance part of the badge's honesty,
+        # so a rationale that cannot disagree with its own colour is the point.
+        local why
         if [ "$n" -eq 0 ]; then
             col="green"; msg="0 findings"
+            why="GREEN because the §11.4.261 closed-vocabulary sweep found no unclosed-untracked finding"
         elif [ -n "$tot" ] && [ "$n" -le "$tot" ]; then
             col="amber"; msg="${n} tracked"
+            why="AMBER because the §11.4.261 invariant is ZERO and the ratchet is holding at a brownfield baseline, not because the sweep failed"
         else
             col="red"; msg="${n} over ratchet"
+            why="RED because the ledger has RISEN above the recorded ratchet ceiling — §11.4.261(C) refuses the seam, and the ceiling may only ever be lowered"
         fi
-        prov="docs/findings/zero_findings_ledger.jsonl (${n} rows) vs docs/findings/zero_findings_ratchet.tsv (TOTAL=${tot:-unset}); AMBER because the §11.4.261 invariant is ZERO and the ratchet is holding at a brownfield baseline, not because the sweep failed"
+        prov="docs/findings/zero_findings_ledger.jsonl (${n} rows) vs docs/findings/zero_findings_ratchet.tsv (TOTAL=${tot:-unset}); ${why}"
     else
         col="red"; msg="no ledger"
         prov="docs/findings/zero_findings_ledger.jsonl or zero_findings_ratchet.tsv is absent — run scripts/audit/zero_findings_sweep.sh --write-ledger"
@@ -277,9 +287,20 @@ measure_all() {
         ndebt="$(awk -F'\t' '$1=="debt"' "$reg" | grep -c . || true)"
         # Proofs are on target (every check carries one); the artifact-capture
         # half of §11.4.262 is not implemented, so this is AMBER, not GREEN.
-        if [ "$ndebt" -eq 0 ] && [ "$nchk" -gt 0 ]; then col="amber"; else col="red"; fi
+        # As with zero-findings above: the rationale follows the computed
+        # colour. AMBER is the ceiling this badge can reach (the artifact-capture
+        # half of §11.4.262 is unimplemented), but a registry carrying DEBT rows
+        # is RED, and saying "AMBER not GREEN" over a RED badge misdescribes it.
+        local why
+        if [ "$ndebt" -eq 0 ] && [ "$nchk" -gt 0 ]; then
+            col="amber"
+            why="AMBER not GREEN because §11.4.262 also requires a CAPTURED evidence ARTIFACT per PASS, and no artifact capture exists at this root — the proof count alone does not satisfy the anchor"
+        else
+            col="red"
+            why="RED because ${ndebt} registered row(s) still owe a paired proof; §11.4.262 coverage is incomplete before the artifact-capture half is even considered"
+        fi
         msg="${nchk}/$((nchk + ndebt)) proofs"
-        prov="scripts/check-registry.tsv: ${nchk} check row(s), ${ndebt} owing a proof. AMBER not GREEN because §11.4.262 also requires a CAPTURED evidence ARTIFACT per PASS, and no artifact capture exists at this root — the proof count alone does not satisfy the anchor"
+        prov="scripts/check-registry.tsv: ${nchk} check row(s), ${ndebt} owing a proof. ${why}"
     else
         col="red"; msg="no registry"; prov="scripts/check-registry.tsv is absent"
     fi

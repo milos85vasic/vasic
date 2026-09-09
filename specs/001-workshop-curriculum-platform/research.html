@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>research</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">research</h1>
+</header>
+<h1 id="phase-0-research-workshop-curriculum-platform">Phase 0 Research
+— Workshop Curriculum Platform</h1>
+<p><strong>Feature</strong>:
+<code>specs/001-workshop-curriculum-platform</code> |
+<strong>Date</strong>: 2026-09-01</p>
+<p>Consolidated from three research streams. Each stream’s full evidence
+— commands, real output, and its own UNVERIFIED register — is in
+<code>research/</code>:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Stream</th>
+<th>File</th>
+<th>Lines</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transcription</td>
+<td><a
+href="./research/transcription.md">research/transcription.md</a></td>
+<td>1,249</td>
+</tr>
+<tr>
+<td>Search architecture</td>
+<td><a
+href="./research/search-architecture.md">research/search-architecture.md</a></td>
+<td>837</td>
+</tr>
+<tr>
+<td>LLM bridging</td>
+<td><a
+href="./research/llm-bridging.md">research/llm-bridging.md</a></td>
+<td>735</td>
+</tr>
+<tr>
+<td>Reference recon</td>
+<td><a
+href="../../docs/workshop-curriculum/RECON.md">../../docs/workshop-curriculum/RECON.md</a></td>
+<td>1,544</td>
+</tr>
+</tbody>
+</table>
+<h2
+id="headline-four-assumptions-the-feature-request-rests-on-are-false">Headline:
+four assumptions the feature request rests on are false</h2>
+<p>Stated first because every downstream decision follows from them.</p>
+<ol type="1">
+<li><strong><code>ai_interviewing</code> is not containerised.</strong>
+Zero container definitions. It runs as a native Go binary
+(<code>platform/bin/aicur</code>) serving an Angular frontend. “Run it
+through the containers same way” describes something that does not
+exist.</li>
+<li><strong>No speech-recognition engine is installed.</strong>
+<code>/usr/bin/whisper</code> is <code>whisper-1.3.1-alt1</code>, a
+microphone-loopback GUI by a different author.
+<code>import whisper</code> fails.</li>
+<li><strong>No generative model exists.</strong> ollama serves exactly
+two models and they are the <em>same</em> embedding model
+(<code>jina-bert-v2</code>, 160.28M, an encoder with no LM head). The
+entire model store is 309 MB — too small to hold a decoder. User Story 4
+cannot run today under any design.</li>
+<li><strong>Lumen cannot index media, and its chunk IDs are
+content-derived.</strong> Both are disqualifying for requirements the
+spec states literally. See D-SEARCH-1 and D-SEARCH-2.</li>
+</ol>
+<hr />
+<h2 id="d-trans-1-speech-recognition-engine">D-TRANS-1 — Speech
+recognition engine</h2>
+<p><strong>Decision</strong>: <code>faster-whisper</code> (CTranslate2
+backend), CPU int8, model <code>large-v3-turbo</code>, installed into a
+project-local virtual environment.</p>
+<p><strong>Rationale</strong>: it is the only candidate that returns
+<code>avg_logprob</code>, <code>no_speech_prob</code>,
+<code>compression_ratio</code> and per-word probability. FR-003 requires
+unclear speech to be <em>marked</em> rather than guessed; without a
+confidence signal that requirement has nothing to key on and becomes
+editorial opinion. CTranslate2 also avoids the ~900 MB PyTorch
+wheel.</p>
+<p><strong>Alternatives considered</strong>: - <em>ollama
+<code>/v1/audio/transcriptions</code></em> — the endpoint is real
+(verified: it validates content-type, then model presence). But the
+binary’s Whisper strings are an <strong>encoder</strong> projecting
+audio into an LLM token space (<code>AudioProjector</code>,
+<code>&lt;|audio_bos|&gt;</code>); <code>word_timestamps</code>,
+<code>avg_logprob</code> and <code>no_speech_prob</code> appear nowhere
+in it. No timestamps kills FR-002/SC-003. Rejected on evidence, not
+assumption — “assume it can’t” would have been wrong about the endpoint
+existing. - <em><code>whisper.cpp</code> 1.9.1</em> — retained as
+fallback. Its ALT packaging hard-depends on the CUDA and Vulkan
+backends, on a machine where this repo deliberately excluded the GPU
+after an i915 fault silently corrupted embeddings. - <em>OpenAI hosted
+API</em> — rejected by decision D1 (local-only).</p>
+<p><strong>Measured</strong>: recording is <strong>01:55:28.75 (6928.75
+s)</strong>, H.264 1080p24, AAC-LC 48 kHz. The “stereo” is
+<strong>dual-mono</strong> (L−R difference −90.3 dB), so channel-based
+speaker separation is impossible. Uniformly AGC-compressed. 8 long
+silences totalling 41.33 s (0.597%).</p>
+<p><strong>Estimate</strong>: 40–80 minutes idle —
+<strong>UNVERIFIED</strong>, and roughly doubled under current load.
+Settled by a 5-minute calibration on an already-extracted 300 s
+sample.</p>
+<h2 id="d-trans-2-speaker-attribution-is-human-not-automatic">D-TRANS-2
+— Speaker attribution is human, not automatic</h2>
+<p><strong>Decision</strong>: attribute speakers by human review. Do not
+run diarization.</p>
+<p><strong>Rationale</strong>: both cues that make diarization tractable
+are <em>measurably absent</em> — no channel separation (dual-mono) and
+AGC has flattened loudness differences. pyannote would reintroduce the
+PyTorch dependency D-TRANS-1 avoids, plus a gated model token, to
+produce a result the audio does not support. FR-005 explicitly permits
+stating inability.</p>
+<h2
+id="d-trans-3-accuracy-is-measured-on-the-audio-timeline-not-on-passages">D-TRANS-3
+— Accuracy is measured on the audio timeline, not on passages</h2>
+<p><strong>Decision</strong>: word error rate against a blind human
+reference over <strong>≥30 seeded, stratified 30-second audio
+windows</strong>.</p>
+<p><strong>Rationale</strong>: this is the load-bearing choice in the
+whole measurement design. Sampling <em>machine passages</em> makes
+whole-region deletions structurally invisible — a dropped span produces
+no passage to sample, so accuracy is biased upward precisely where the
+transcript is worst. Sampling the timeline cannot miss them. Thirty 30 s
+windows span well over 30 passages, so SC-002’s wording is satisfied on
+its own terms while the bias is removed.</p>
+<p>Normaliser hashed and frozen before first measurement. Companion
+metrics: coverage-gap rate (SC-001), timestamp error median/p95 against
+the 5 s bound (SC-003), speaker accuracy (FR-005). Honest cost: 1–2
+hours of human transcription.</p>
+<h2 id="d-trans-4-coverage-is-provable-by-construction">D-TRANS-4 —
+Coverage is provable by construction</h2>
+<p><strong>Decision</strong>: chunk at ≤300 s cut <em>inside measured
+silence</em>, <code>condition_on_previous_text=False</code>, atomic
+checkpoint per chunk, resume by deterministic re-partition plus hash
+match.</p>
+<p><strong>Rationale</strong>: passage spans ∪ VAD non-speech spans must
+equal <code>[0, 6928.75)</code> exactly — so SC-001 becomes an
+arithmetic identity rather than a judgement. The same setting that makes
+it resumable (<code>condition_on_previous_text=False</code>) also
+suppresses Whisper’s repetition-loop hallucinations. The 8 measured
+silences are a free VAD test fixture.</p>
+<p>FR-007 is already implemented by
+<code>workshop/scripts/extract-videos.sh</code>, which verifies
+per-part, archive and extracted-video hashes. The pipeline
+<strong>invokes</strong> it; it does not reimplement it.</p>
+<h2
+id="d-trans-5-the-notes-pdf-is-a-cross-check-never-ground-truth">D-TRANS-5
+— The notes PDF is a cross-check, never ground truth</h2>
+<p><strong>Decision</strong>: use the PDF for section structure, a
+proper-noun gazetteer, and coverage cross-checking only.</p>
+<p><strong>Rationale</strong>: it has a real text layer (3,034 words —
+no OCR needed, so <code>tesseract</code> is not on the path) but it is a
+<strong>summary</strong>: ~26 words per minute of recording. It
+demonstrably errs, rendering “Spatkit” for SpecKit and “Llama CPP” for
+llama.cpp. That is concrete evidence for the spec’s rule that the
+recording wins.</p>
+<hr />
+<h2
+id="d-search-1-lumen-chunk-ids-cannot-carry-passage-identity">D-SEARCH-1
+— Lumen chunk IDs cannot carry passage identity</h2>
+<p><strong>Decision</strong>: build a passage-identity (PID) layer. Do
+<strong>not</strong> cite Lumen chunk IDs.</p>
+<p><strong>Rationale — measured, by controlled three-run
+re-index</strong>:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Change</th>
+<th>Observed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fix one typo inside a section, line numbers unchanged</td>
+<td>ID changed <code>4b98e295c112a429</code> →
+<code>610e608a50f273a6</code></td>
+</tr>
+<tr>
+<td>Prepend a section, shifting every later section by 4 lines</td>
+<td><strong>all IDs unchanged</strong>; line ranges moved</td>
+</tr>
+</tbody>
+</table>
+<p>The IDs are <strong>content-derived and position-independent</strong>
+— precisely one of the two forms FR-037 forbids, and the one that breaks
+on the operation this feature performs most often (FR-038 human
+corrections). Built on them, <strong>SC-016 would score 0% for every
+corrected passage, silently</strong> — links keep rendering, they just
+point elsewhere. The IDs are not exposed through the CLI or MCP anyway,
+leaving only a positional key, which run 3 shows moves. Both available
+keys fail, in opposite directions.</p>
+<p><strong>Design</strong>: ULIDs minted once at ingest, written back
+into the source artifact as <code>&lt;!-- pid: … --&gt;</code> anchors,
+plus a committed registry (<code>passages.jsonl</code> →
+<code>passages.db</code>) carrying a <code>content_hash</code> column
+<em>named so nobody mistakes it for identity</em>. Citations,
+cross-references and redactions all resolve through the registry. Code
+passages get honestly weaker identity (symbol-path keyed with a rename
+alias table), and that limit is documented rather than hidden.</p>
+<p><strong>Alternatives considered</strong>: reuse Lumen IDs (rejected
+on the measurement above); positional keys (rejected by run 3); content
+hashes (identical to the failing case).</p>
+<h2 id="d-search-2-two-search-paths-not-one">D-SEARCH-2 — Two search
+paths, not one</h2>
+<p><strong>Decision</strong>: lexical FTS5 prefix index for type-ahead;
+semantic embedding search on submit.</p>
+<p><strong>Rationale — measured under load</strong>: a query embedding
+takes <strong>18.2–21.0 s</strong>, plus a fixed ~2,202 ms indexer setup
+per CLI process. An FTS5 prefix index over the 58,726 real symbols
+builds in 0.93 s / 15.9 MB and answers at <strong>p50 0.25 ms, p95 9.58
+ms, p99 19.2 ms</strong>. SC-005’s 200 ms budget is unreachable
+semantically and comfortable lexically, leaving ~190 ms for HTTP and
+paint. FTS5 works in <code>modernc.org/sqlite</code>, already in
+<code>ai_interviewing</code>’s <code>go.mod</code> — no new
+dependency.</p>
+<p>Suggestions therefore return <em>navigational targets</em>; submit
+fuses lexical and semantic.</p>
+<h2
+id="d-search-3-media-is-indexed-via-text-reduction-or-not-claimed">D-SEARCH-3
+— Media is indexed via text reduction, or not claimed</h2>
+<p><strong>Decision</strong>: index transcripts, documentation, code and
+diagram <em>descriptions</em>. Audio and video are searchable
+<strong>through their transcripts and captions</strong>, not
+directly.</p>
+<p><strong>Rationale</strong>: Lumen’s extension allowlist is a
+compile-time <code>var</code> with no override — 25 code and doc
+extensions, and <strong>no</strong> image, audio, video, PDF, HTML or
+SVG. Measured: zero indexed files for
+<code>.sh .html .css .txt .svg .mmd .puml .vtt .srt .pdf</code>, against
+55 tracked <code>.sh</code>, 146 <code>.html</code> and 32
+<code>.css</code> in the root module. That is exclusion, not absence.
+The spec’s “all content indexed” is therefore satisfied by reduction to
+text, and the boundary is stated in the docs (FR-031) rather than
+implied away.</p>
+<h2 id="d-search-4-health-checks-must-not-gate-degradation">D-SEARCH-4 —
+Health checks must not gate degradation</h2>
+<p><strong>Decision</strong>: derive the three-state contract from the
+<em>search call’s</em> own result, never from a health probe.</p>
+<p><strong>Rationale — measured in one MCP session</strong>:
+<code>health_check</code> returned
+<code>Status: OK / service is healthy</code> in 2 ms, and seconds later
+<code>semantic_search</code> failed with
+<code>all embedding servers exhausted … context deadline exceeded</code>.
+It is a liveness probe, not a saturation probe. Separately, Lumen
+returns
+<code>"No results found. | Warning: Index is being updated in the background…"</code>
+as one unstructured string — the service must parse that and promote it
+to <code>Degraded</code>, never forward it as “no results”. The
+anti-pattern already ships in this repo:
+<code>ai_interviewing/.../search.component.ts</code> renders backend
+errors as the empty state.</p>
+<h2 id="d-search-5-generations-and-atomic-swap">D-SEARCH-5 — Generations
+and atomic swap</h2>
+<p><strong>Decision</strong>: index generations with a verification gate
+and atomic swap; ingest holds an exclusive lock; reserved embedding
+capacity for interactive queries.</p>
+<p><strong>Rationale</strong>: measured during the live rebuild,
+<code>chunks</code> moved 58,734 → 58,744 while
+<code>last_indexed_at</code>/<code>root_hash</code> still advertised the
+previous generation — a half-written, readable index. Reserved capacity
+is a hard requirement, not a nicety: SC-006 fails on every chapter
+ingest without it.</p>
+<hr />
+<h2 id="d-llm-1-provider-seam-with-four-adapters">D-LLM-1 — Provider
+seam with four adapters</h2>
+<p><strong>Decision</strong>: a three-method <code>Provider</code>
+interface with adapters <code>none</code> (default),
+<code>extractive</code>, <code>ollama</code>,
+<code>openai_compatible</code>. Config resolution mirrors
+<code>scripts/lumen-reindex.sh</code> (env → config → live probe →
+fallback), the repo’s existing precedent. Defaults
+<code>enabled: false</code>.</p>
+<p><strong>Rationale</strong>: <code>openai_compatible</code> covers LM
+Studio, HelixLLM (its own brief says OpenAI-compatible, and
+<code>SSL_CERT_FILE</code> already trusts its cert) and every external
+vendor — so FR-023 costs two adapters, not many. Defaulting to disabled
+means a fresh clone can neither leak nor bluff. FR-025 is enforced by
+<strong>separate route trees</strong> (compile-time), not a runtime
+check.</p>
+<p><strong>Alternatives considered</strong>: depend on
+<code>LLMProvider</code>
+(<code>git@github.com:HelixDevelopment/LLMProvider</code>), which
+genuinely exists at <code>…/Projects/helix_translate/LLMProvider</code>
+with 43 adapters and exactly the interface shape wanted — but its module
+path <code>digital.vasic.llmprovider</code> is unresolvable and it
+carries <code>replace digital.vasic.models =&gt; ../Models</code>, a
+relative-path dependency on a sibling checkout absent from
+<code>.gitmodules</code>. <strong>Copy the interface shape, not the
+dependency.</strong></p>
+<p><strong>Trap recorded</strong>: <code>~/helix-agent</code> is a 23.7
+MB Go binary that is <strong>not</strong> an LLM agent —
+<code>--help</code> shows <code>-bind-addr</code> (SWIM),
+<code>-wg-key</code> (WireGuard), <code>-etcd-endpoints</code>. It is a
+cluster mesh node. HelixLLM appears in this repository only as portfolio
+marketing copy.</p>
+<h2 id="d-llm-2-four-layer-grounding-refusal-by-default">D-LLM-2 —
+Four-layer grounding, refusal by default</h2>
+<p><strong>Decision</strong>: L1 calibrated retrieval gate
+(<code>min_score</code> <strong>and</strong> <code>min_margin</code>);
+L2 JSON-schema- constrained generation where <code>"minItems": 1</code>
+on citations makes an uncited claim structurally undecodable; L3
+deterministic citation-ID set membership against the PID registry; L4
+support verification (embedding floor, then batched entailment). Any
+layer failing ⇒ refuse the whole answer; never strip claims
+silently.</p>
+<p><strong>Rationale</strong>: the margin test is what catches the
+near-miss case (“what Docker version did he say?”) that scores high on
+similarity while being unanswerable. <strong>SC-009 is unreachable
+without L3</strong> — attaching a citation is easy, proving it points at
+a real passage requires a deterministic set check, which costs
+microseconds. The design deliberately inverts the usual trust
+relationship: deterministic checks gate a probabilistic generator.</p>
+<p><strong>Depends on D-SEARCH-1</strong>: L3 requires stable passage
+IDs. Since Lumen’s are not, the PID layer is a prerequisite for
+grounding, not an independent nicety.</p>
+<h2 id="d-llm-3-sc-010-needs-adversarial-questions">D-LLM-3 — SC-010
+needs adversarial questions</h2>
+<p><strong>Decision</strong>: the ≥10 unanswerable questions are drawn
+from a 10-item adversarial taxonomy — near-miss attribute, false
+premise, uncomputable aggregate, misattributed speaker,
+lexically-overlapping-but-unanswerable, redacted passage, inaudible
+segment, and others.</p>
+<p><strong>Rationale</strong>: ten astrophysics questions would pass any
+threshold and prove nothing. Recorded honestly: 10/10 at temperature 0
+is <em>reproducible</em>, not <em>generalising</em>, and must never be
+paraphrased as “never fabricates”.</p>
+<h2 id="d-llm-4-privacy-is-enforced-not-configured">D-LLM-4 — Privacy is
+enforced, not configured</h2>
+<p><strong>Decision</strong>: resolved-address allowlist
+(<code>net.LookupIP</code> + <code>IsLoopback</code>, not string
+matching); egress-denied network namespace with a <strong>negative
+control</strong> — <code>curl https://example.com</code> from inside the
+namespace MUST fail; packet capture asserting zero non-loopback packets
+across the full 20-answer and 10-refusal runs.</p>
+<p><strong>Rationale</strong>: a config flag is not a guarantee. The
+negative control is what upgrades “we observed no egress” into “egress
+was impossible”. Hostname string-matching is not a security boundary, so
+<code>locality</code> is <strong>declared</strong>, never inferred.</p>
+<h2
+id="d-llm-5-instant-answers-is-not-achievable-route-the-ambition">D-LLM-5
+— “Instant answers” is not achievable; route the ambition</h2>
+<p><strong>Decision</strong>: answering is asynchronous. The
+<code>extractive</code> adapter is the default <em>working</em>
+path.</p>
+<p><strong>Rationale — measured</strong>: three identical two-word embed
+calls, model resident, minutes apart: <strong>20.16 s / 11.05 s / 0.10
+s</strong> at load 8.25. That 200× spread is queue wait, not compute
+variance — ollama serves one queue and generation contends directly with
+indexing. Estimated CPU-only generation (UNVERIFIED, method shown): ~21
+s (1.5B) / ~42 s (3B) / ~95 s (7B) <strong>idle</strong>, ×1.4 with
+verification. So “instant” is off by two orders of magnitude and no
+prompt engineering closes it.</p>
+<p>Where the ambition <em>is</em> reachable: search and autocomplete
+(SC-005/SC-006 are comfortable). The <code>extractive</code> adapter
+answers in ~0.3 s, is genuinely grounded, <strong>cannot
+fabricate</strong>, and works today with zero generative capability.</p>
+<p>Enabling the GPU is rejected outright — this repository already
+refused that bargain once, after Vulkan silently corrupted the
+index.</p>
+<hr />
+<h2 id="open-items-carried-into-phase-1">Open items carried into Phase
+1</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Item</th>
+<th>Settles by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>U1</td>
+<td>cp314 wheels for CTranslate2/faster-whisper install and run on this
+host</td>
+<td>attempting the venv install</td>
+</tr>
+<tr>
+<td>U2</td>
+<td>Real transcription throughput on this CPU</td>
+<td>5-minute calibration on the extracted 300 s sample</td>
+</tr>
+<tr>
+<td>U3</td>
+<td>The recording contains intelligible speech in a known language</td>
+<td>same calibration run — nobody has listened and no ASR has run</td>
+</tr>
+<tr>
+<td>U4</td>
+<td>Idle embedding latency</td>
+<td>requires the rebuild to finish</td>
+</tr>
+<tr>
+<td>U5</td>
+<td>SC-007/SC-008 retrieval quality</td>
+<td>no corpus exists yet</td>
+</tr>
+</tbody>
+</table>
+<p>U1–U3 all close in the same short calibration, which is the single
+recommended next action.</p>
+<h2 id="constitution-constraints-confirmed-for-phase-1">Constitution
+constraints confirmed for Phase 1</h2>
+<ul>
+<li><strong>§11.4.156</strong> — no CI may be added, including inside
+<code>workshop/</code>. Note: the umbrella’s pre-push gate E was blind
+to submodules until fixed on 2026-09-01; it now derives the owned fleet
+from <code>helix-deps.yaml</code> and is mutation-proven against two
+submodules.</li>
+<li><strong>§11.4.76</strong> requires
+<code>vasic-digital/containers</code> as the sole orchestration layer.
+<del>It is <strong>not</strong> a submodule of this tree. Container work
+must resolve this before adding a bespoke stack.</del> <strong>WITHDRAWN
+2026-09-01 — not silently replaced.</strong> <em>What was believed when
+this line was written (2026-08-31): the tree declared no
+<code>vasic-digital/containers</code> gitlink, so the §11.4.76(2)
+submodule obligation was an unmet prerequisite and any container work
+was blocked behind an operator decision. What is measured now
+(2026-09-01):
+<code>git config -f .gitmodules --get-regexp containers</code> returns
+<code>submodule.submodules/containers.path submodules/containers</code>
+and
+<code>submodule.submodules/containers.url git@github.com:vasic-digital/containers.git</code>;
+<code>submodules/containers</code> is populated and the gitlink is
+pinned at <code>4dab992</code>.
+<code>scripts/verify-governance-cascade.sh</code> classifies
+<strong>9</strong> declared submodules — 7 owned (containers among
+them), 1 governance source, 1 third-party. When it changed: during this
+feature’s own Phase 1 work, after this line was written and before this
+correction. The prerequisite is therefore <strong>satisfied, not
+pending</strong>, and the architecture is settled: containerised,
+consuming <code>submodules/containers</code>. A bespoke stack remains
+forbidden by §11.4.76(4) — that half of the original sentence was, and
+is, correct.</em></li>
+<li><strong>§11.4.161</strong> mandates rootless podman. Host has podman
+5.7.1 rootless; docker is absent.</li>
+<li><strong>§1.1</strong> — every gate needs a paired mutation proof
+that includes a real end-to-end run.</li>
+</ul>
+</body>
+</html>

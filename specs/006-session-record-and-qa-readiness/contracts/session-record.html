@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>session-record</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">session-record</h1>
+</header>
+<h1 id="contract-the-session-record">Contract — The session record</h1>
+<p>Four sections per chapter, cumulative, with derived
+carry-forward.</p>
+<h2 id="two-surfaces-one-derivation">Two surfaces, ONE derivation</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Surface</th>
+<th>Shape</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET /api/chapters/{id}</code></td>
+<td>a <code>session_record</code> key carrying everything</td>
+</tr>
+<tr>
+<td><code>GET /api/chapters/{id}/{open-questions,todo,next-meeting}</code></td>
+<td>one section each, for deep-linking</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Both read <code>pkg/sessionrecord</code>. Neither
+re-derives.</strong> A gate asserts they serve the same items —
+<strong>a route and a key that agree today are exactly what
+drift</strong>, and this platform has the 819-vs-817 catalogue bug to
+prove it.</p>
+<h2
+id="meeting-notes-is-deliberately-not-built"><code>meeting-notes</code>
+is deliberately NOT built</h2>
+<p>Its withholding rule <strong>may not be guessed</strong>: one note is
+a content judgement left undecided for the operator. <strong>A route
+built on a guessed withholding rule publishes a judgement nobody
+made</strong> (FR-005a). Its DEBT row names that specific blocker rather
+than the general one.</p>
+<h2 id="section-shape">Section shape</h2>
+<pre><code>own_state    authored | empty
+own_count    items originating in THIS session
+carried_count items arriving from earlier sessions
+items[]      both
+reason       REQUIRED when own_state is empty</code></pre>
+<p><strong>An empty section and an unwritten section are never
+indistinguishable</strong> (FR-004). Two sections currently carry
+<code>own_count=0</code> with an authored reason; without the split they
+would read as productive sessions.</p>
+<h2 id="item-shape">Item shape</h2>
+<p><code>origin_chapter</code> (FR-003) · <code>slip_count</code>
+(FR-010) · <code>marker: CARRIED-FORWARD</code> (FR-009) ·
+<code>marker_label</code> e.g. <code>CARRIED-FORWARD x2</code>.</p>
+<p>Open questions keep the three-valued <code>resolution</code> the
+client already types: <code>answered_in_chapter</code> /
+<code>answered_by_research</code> / <code>unanswered</code>. <strong>The
+wire must not narrow it</strong> — the consumer already knows what it
+needs.</p>
+<h2 id="plan-and-carry-forward">Plan and carry-forward</h2>
+<p><code>plan(N) = unresolved(plan(N−1)) with slip+1  +  next-meeting points of N−1</code></p>
+<ul>
+<li>Every planned point resolves to <strong>covered / carried /
+dropped-with-reason</strong>.</li>
+<li><strong><code>vanished</code> is 0 by construction</strong> —
+<code>Resolve</code> has no fourth branch.</li>
+<li><strong>A drop without a reason is refused and carries
+instead.</strong></li>
+<li><code>basis: undetermined</code> ⇒ <strong>no coverage percentage is
+computed.</strong> Chapter 01 has no predecessor; a percentage over an
+invented plan is a fiction with a denominator.</li>
+<li>The latest chapter’s carry-forward is an <strong>outbox</strong>
+(<code>is_outbox: true</code>) with a stated reason (FR-011).</li>
+</ul>
+<h2 id="coverage-is-proposed-never-asserted">Coverage is proposed, never
+asserted</h2>
+<p><code>coverage_state</code> stays
+<strong><code>undecided</code></strong> until a human confirms. A
+proposal carries per-point evidence, confidence and
+<code>status: PROPOSED</code>. <strong>A draft must not move a published
+figure</strong> (FR-007a, I4) — and a check asserts the served state is
+still <code>undecided</code> after a proposal exists.</p>
+<h2 id="measured">Measured</h2>
+<p>39 chapters’ worth of items across 3 chapters: 12 of 12 sections
+present, <strong>0 empty-without-reason</strong>, 436 items, 210
+carried, <code>max_slip=2</code>, one outbox of 42. Plan: 66 planned · 0
+covered · 66 carried · 0 dropped · <strong>0 vanished</strong>.</p>
+<h2 id="asserted-by">Asserted by</h2>
+<p><code>verify-session-record.sh</code> rc 0 ·
+<code>prove-session-record.sh</code> 14 passed, including a control that
+goes green, a vacuity refusal exiting 2, a duplicate planned point
+caught as rc 1, and a reasonless drop refused.</p>
+</body>
+</html>

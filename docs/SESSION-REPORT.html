@@ -1,0 +1,2079 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>SESSION-REPORT</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SESSION-REPORT</h1>
+</header>
+<h1 id="session-report-lumen-setup-agents-wizard-hardening">Session
+Report — Lumen / setup-agents-wizard hardening</h1>
+<p><strong>Written for a reader who was not present.</strong> Every
+number below was either measured by the author of this report during the
+window stated, or is cited to the artifact that carries it. Where the
+session ledger (<code>.superpowers/sdd/progress.md</code>) makes a claim
+that could not be corroborated, this document says so rather than
+repeating it.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr>
+<td>Repository</td>
+<td><code>&lt;ext-volume-host&gt;/Projects/vasic</code></td>
+</tr>
+<tr>
+<td>HEAD at time of writing</td>
+<td><code>62706a9</code> — <code>git ls-remote github main</code>
+returns the same SHA, so local == remote</td>
+</tr>
+<tr>
+<td>Independent measurement window</td>
+<td><strong>2026-08-27 18:21Z – 18:29Z</strong> (20:21–20:29 CEST)</td>
+</tr>
+<tr>
+<td>Primary source</td>
+<td><code>.superpowers/sdd/progress.md</code> (~830 lines, written as
+the work happened)</td>
+</tr>
+<tr>
+<td>Method</td>
+<td>Ledger read first, then each load-bearing claim replayed against
+commits, scripts, docs and live state</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>The repository was not quiescent while this was
+written.</strong> <code>.github/workflows/ci.yml</code>,
+<code>scripts/setup-agents-wizard.sh</code> and
+<code>scripts/test-setup-agents-wizard.sh</code> were all modified by
+another actor at 20:05–20:06 CEST, mid-session. See <a
+href="#56-the-tree-moved-under-this-report">§5.6</a>.</p>
+</blockquote>
+<hr />
+<h2 id="executive-summary">1. Executive summary</h2>
+<p><strong>What was asked.</strong> Put Lumen on <code>PATH</code>
+properly; extend and harden <code>scripts/setup-agents-wizard.sh</code>;
+cover it with tests and machine-readable evidence; add backup/rollback;
+document it; commit and push; sync the code indexes. The scope grew
+during the session to include constitution adoption, a telemetry
+opt-out, an embedding-backend fault investigation, and the removal of
+hardcoded machine paths.</p>
+<p><strong>What was delivered.</strong></p>
+<ul>
+<li>A hardened wizard, a manifest-based rollback tool, and a
+<strong>147-assertion</strong> test suite across ten groups — 147 PASS,
+0 fail, 0 skipped, in the newest evidence run.</li>
+<li>Three operational scripts promoted out of scratch space
+(<code>ollama-vulkan-remediation.sh</code>,
+<code>lumen-reindex.sh</code>, <code>lumen-index-doctor.sh</code>), plus
+a repository-hygiene gate (<code>audit-hardcoded-paths.sh</code>).</li>
+<li>Root cause found, and fixed on the host, for a GPU fault that had
+been <strong>silently corrupting stored embedding vectors for roughly
+five weeks</strong>.</li>
+<li>Four constitution pointer carriers at the root, propagation applied
+to five owned submodules across ten push URLs on four providers, and a
+58-gate validation sweep.</li>
+<li>Every hardcoded <code>&lt;macos-host&gt;/Projects/vasic</code> path
+removed from executable code (18 files, 33 occurrences) behind a
+mutation-proven audit guard.</li>
+<li>18 documents under <code>docs/setup-agents-wizard/</code> and
+<code>docs/constitution-adoption/</code>, including two adversarial
+verification reports left deliberately unedited.</li>
+</ul>
+<p><strong>What remains open.</strong> The full Lumen rebuild is still
+running after <strong>10 h 40 m</strong> and has made no measurable
+forward progress in the last 7½ minutes of observation; <strong>169
+corrupt vectors survive in the live index</strong>; the constitution
+sweep sits at <strong>37 PASS / 21 FAIL</strong> with no umbrella-side
+change able to move it; three open conflicts (OC-1/2/3) await an
+operator ruling; and a substantial uncommitted workstream (a CI-workflow
+audit and a residual-paths audit) is in flight and is <strong>not
+covered by the ledger at all</strong>.</p>
+<hr />
+<h2 id="the-defects-found-ranked-by-consequence">2. The defects found,
+ranked by consequence</h2>
+<p>These are not equals. The first destroyed data silently for weeks.
+The last is a cosmetic <code>--help</code> bug. They are ordered by what
+would have happened had nobody looked.</p>
+<h3
+id="the-ollamavulkan-silent-corruption-chain-catastrophic-data-loss-undetected-for-5-weeks">2.1
+— The ollama/Vulkan silent-corruption chain <em>(catastrophic; data
+loss, undetected for ~5 weeks)</em></h3>
+<p><strong>Symptom.</strong> Lumen indexing runs kept dying with
+<code>HTTP 500 {"error":"failed to encode response: json: unsupported value: NaN"}</code>
+— and Lumen prints its <em>usage text</em> after the error, so it read
+as CLI misuse. A test “flake” (F6) and a chained reindex failure were
+both this, misattributed.</p>
+<p><strong>Root cause.</strong> <code>ollama 0.23.4</code> ran
+<code>library=Vulkan</code> on an Intel Iris Xe iGPU. A large embedding
+dispatch exceeds the i915 fence-wait timeout (~20 s); the kernel logs
+<code>Fence expiration time out</code> and abandons the dispatch —
+<strong>and ollama reads the result buffer anyway</strong>. Documented
+in <code>docs/setup-agents-wizard/OLLAMA-NAN-WEDGE.md</code> §4.1. The
+first hard NaN-500 landed at <strong>request 8 in both</strong>
+full-length reproductions; CPU passed the byte-for-byte identical
+payload 3/3. <code>OLLAMA_VULKAN=0</code> and
+<code>OLLAMA_LLM_LIBRARY=cpu</code> are both no-ops in this build; only
+<code>GGML_VK_VISIBLE_DEVICES=-1</code> yields
+<code>library=cpu</code>.</p>
+<p><strong>Four failure modes, worst last</strong>
+(<code>OLLAMA-REMEDIATION.md</code> §3):</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>What comes back</th>
+<th>HTTP</th>
+<th>Caught by a per-vector check?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>{"error":"…unsupported value: NaN"}</code></td>
+<td>500</td>
+<td>Yes — loud</td>
+</tr>
+<tr>
+<td>2</td>
+<td>An all-zero vector</td>
+<td><strong>200</strong></td>
+<td>Yes — a zero-norm test sees it</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Runner wedges; every later request returns NaN</td>
+<td>500</td>
+<td>Yes, but usually blamed on the caller</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>A repeated STALE vector</strong> — well-formed, 768 dims,
+unit norm</td>
+<td><strong>200</strong></td>
+<td><strong>No. Invisible to every per-vector test.</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Mode 4 is the one that mattered</strong>, and it is why the
+loud NaN was a red herring: the loud failure aborts a run, it does not
+store garbage. The silent one stores garbage that looks perfect.</p>
+<p><strong>Evidence.</strong>
+<code>INDEX-CORRUPTION-RECONCILIATION.md</code>: <strong>758 of 35,717
+stored vectors (2.12%) were byte-identical to one another while
+representing 695 distinct texts across 55 files</strong>, in a perfectly
+contiguous write range (<code>vec_chunks_rowids.rowid</code>
+28205–28962, zero gaps). <code>_content_fa/</code> was 508/508 corrupt;
+<code>_content_es/</code> 250/458. They pass everything: not NaN, not
+Inf, not all-zero, L2 norm 1.000000083. Proven semantically — the
+corrupt vectors score <strong>0.25–0.47</strong> cosine against their
+healthy <code>en/de/fr/ar</code> counterparts where the healthy
+cross-language baseline is <strong>median 0.967</strong>.</p>
+<p><strong>The near-miss inside the near-miss.</strong> An earlier full
+forensic audit, <code>LUMEN-INDEX-INTEGRITY.md</code>, concluded
+<em>“The index is <strong>NOT CORRUPT</strong>… <strong>Do NOT rebuild
+it.</strong>”</em> Every number in that report is correct and reproduces
+exactly. Its <strong>inference</strong> did not follow. Its one test
+that would have caught this — a distinctness check — was run on
+<strong>blocks 1–4 only (4,096 of 35,717 vectors)</strong>. The
+corruption lived in blocks 28–29. Acting on that report’s recommendation
+would have preserved the corruption permanently, because a corrupted
+file still carries a non-empty content hash and an incremental run skips
+it forever.</p>
+<p><strong>Fix.</strong> <code>GGML_VK_VISIBLE_DEVICES=-1</code> written
+to <code>/etc/sysconfig/ollama</code> (which the unit already sources
+via <code>EnvironmentFile=-</code>), applied by the operator with
+<code>sudo</code>, service restarted <strong>2026-08-27 09:44:18
+CEST</strong>. Verified by me at 18:2xZ: <code>library=cpu</code>,
+<strong>0 i915 faults since that restart</strong> (520 in the preceding
+24 h are pre-remediation history), and a 32-chunk batch probe returning
+<strong>32/32 distinct vectors</strong>.
+<code>scripts/ollama-vulkan-remediation.sh --check</code> exits 0.</p>
+<p><strong>Honest caveat carried from the source.</strong>
+<code>INDEX-CORRUPTION-RECONCILIATION.md</code> §8 item 4 states that
+the causal chain <em>“GPU fence timeout → stale buffer → repeated
+vector”</em> <strong>is inference from correlation, not
+reproduction</strong>, and explicitly cannot exclude <em>“a buffer-reuse
+bug in Lumen’s own <code>embedBatch</code> response handling.”</em> The
+observable effect and the remedy are identical either way. This report
+does not upgrade that inference to a proof.</p>
+<p><strong>A related falsified hypothesis, worth recording because it
+was the obvious one.</strong> Capping chunk size would
+<strong>not</strong> have prevented this. Chunk sizes are tiny — median
+99 chars, p99 1,941, max 6,065, <strong>zero over 8,000</strong>. Lumen
+batches <strong>32 chunks per request</strong>, and the operative
+quantity is the batch total: the corrupting requests carried
+<strong>16,698–31,364 characters each</strong>, and <strong>244 of 1,107
+requests (22%)</strong> exceeded the 12,800 chars ever validated as
+safe. <code>OLLAMA-NAN-WEDGE.md</code> still carries its now-falsified
+“cap chunk size under ~4000 characters” recommendation; the correction
+lives only in the two later documents.</p>
+<h3
+id="toolsdeploy-langs.sh-failed-silently-on-a-macos-path-then-committed-and-pushed-severe-a-live-site-deploy-running-from-an-arbitrary-directory">2.2
+— <code>_tools/deploy-langs.sh</code> failed silently on a macOS path,
+then committed and pushed <em>(severe; a live site deploy running from
+an arbitrary directory)</em></h3>
+<p><strong>Symptom.</strong> None. That is the defect.</p>
+<p><strong>Root cause.</strong> Verified verbatim from
+<code>git show 72dc135^:_tools/deploy-langs.sh</code>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-uo</span> pipefail                     <span class="co"># note: no -e</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">ROOT</span><span class="op">=</span><span class="st">&quot;&lt;macos-host&gt;/Projects/vasic&quot;</span>    <span class="co"># the original author&#39;s macOS box</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$ROOT</span><span class="st">&quot;</span>                           <span class="co"># no ||, no guard</span></span></code></pre></div>
+<p>Without <code>-e</code> the failed <code>cd</code> did not abort. The
+script therefore ran <strong>from the caller’s working
+directory</strong> with <code>GEN</code> and <code>PDF</code> pointing
+at nonexistent paths — and then went on, at lines 89–103, to
+<code>git -C "$s" commit</code> and
+<code>git -C "$s" push "$r" main</code> for <strong>both</strong> site
+submodules (<code>vasic.digital</code> and <code>milosvasic.ru</code>,
+both registered in <code>.gitmodules</code>).</p>
+<p><strong>Fix.</strong> <code>ROOT</code> derived from the script’s own
+location and the <code>cd</code> made fatal:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">ROOT</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="bu">cd</span> <span class="at">--</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">dirname</span> <span class="at">--</span> <span class="st">&quot;</span><span class="va">${BASH_SOURCE</span><span class="op">[</span><span class="dv">0</span><span class="op">]</span><span class="va">}</span><span class="st">&quot;</span><span class="va">)</span><span class="st">/..&quot;</span> <span class="kw">&amp;&amp;</span> <span class="bu">pwd</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$ROOT</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="kw">{</span> <span class="bu">echo</span> <span class="st">&quot;FATAL...&quot;</span> <span class="op">&gt;&amp;</span><span class="dv">2</span><span class="kw">;</span> <span class="bu">exit</span> 1<span class="kw">;</span> <span class="kw">}</span></span></code></pre></div>
+<p><strong>Evidence quality is worth noting.</strong> The ledger records
+that two verification attempts were themselves invalid —
+<code>BASH_SOURCE</code> cannot be faked via <code>bash -c</code> or
+process substitution — and that only tracing the <strong>real</strong>
+script with <code>bash -x</code>, invoked from <code>/tmp</code>, proved
+the fix. That is the correct standard and it was applied.</p>
+<p><code>_tools/watch-deploy.sh</code> carried the same defect and was
+the more dangerous of the two. Its before-state is a bare
+<code>cd &lt;macos-host&gt;/Projects/vasic</code> under
+<code>set -uo pipefail</code>, followed by
+<code>for i in $(seq 1 240); do ... bash _tools/deploy-langs.sh ... sleep 1200</code>.
+That is <strong>240 cycles × 20 minutes ≈ 80 hours</strong> of a watcher
+running in the caller’s directory, invoking a relative
+<code>_tools/deploy-langs.sh</code> that does not exist there. It now
+derives
+<code>ROOT="${VASIC_ROOT:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." &amp;&amp; pwd)}"</code>
+with a fatal <code>cd</code>.</p>
+<h3
+id="the-near-miss-a-correct-path-fix-alone-would-have-triggered-a-mass-paid-re-translation-severe-direct-financial-cost-and-the-trap-was-invisible">2.3
+— The near-miss: a correct path fix alone would have triggered a mass
+PAID re-translation <em>(severe; direct financial cost, and the trap was
+invisible)</em></h3>
+<p><strong>Symptom.</strong> Would have been a large, unexplained bill
+and 532 overwritten translations.</p>
+<p><strong>Root cause.</strong> <strong>537 review JSONs</strong> under
+<code>_tests/evidence/translate-new/</code> bake
+<code>"_translated": "&lt;macos-host&gt;/Projects/vasic/_content_&lt;lang&gt;/..."</code>
+<strong>into the data</strong> — I confirmed <strong>523</strong> of
+them carry such a path, exclusively under the <code>_translated</code>
+key. Three scripts gate on <code>os.path.isfile()</code> of that
+recorded absolute path: <code>_tools/translate/matrix.py</code> (via its
+<code>anchored()</code> helper) and inline Python in
+<code>_tools/translate/run-batch.sh</code> and
+<code>_tools/translate/finalize-review.sh</code>. The state machine
+is:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>State</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Before any fix</td>
+<td>broken root → <code>isfile()</code> false → silent no-op</td>
+</tr>
+<tr>
+<td><strong>Root fix alone</strong></td>
+<td>scripts now run for real → docs judged <em>“not PASS”</em> →
+<strong>mass re-translation against PAID APIs</strong></td>
+</tr>
+<tr>
+<td>Correct fix</td>
+<td>re-anchor the repo-relative tail onto the derived repo root,
+<strong>only</strong> when the recorded absolute path is missing, and
+<strong>only</strong> if the re-anchored file exists</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Correction to the ledger’s figure.</strong> The ledger states
+the root-fix-alone path <em>“would have RE-TRANSLATED all 532 (lang,
+doc) pairs.”</em> Measured directly by read-only simulation over the 38
+× 14 matrix: with re-anchoring, <strong>532 PASS</strong>; without it,
+<strong>10 PASS → 522 would have been judged not-PASS</strong>. The 10
+survivors recorded a <em>relative</em> <code>_translated</code> value,
+which resolves only because cwd is the repo root. So the near-miss is
+<strong>522</strong> paid re-translations, not 532. The mechanism and
+the order of magnitude are right; the number is off by ten.</p>
+</blockquote>
+<p>This is the most instructive defect of the session: <strong>fixing
+the bug correctly, and stopping there, would have been worse than
+leaving it broken.</strong> The no-op was load-bearing. The guard
+against faking a PASS — requiring the re-anchored file to actually exist
+— is what makes the fix safe. The guard reads, in
+<code>matrix.py:27-38</code>: <em>“This never fakes a PASS: the
+re-anchored file still has to actually exist.”</em></p>
+<p>Reproduced live during this report (both are read-only branches — no
+writes, no API calls):</p>
+<pre><code>python3 _tools/translate/matrix.py                    -&gt; MATRIX (docs=38, langs=14, pairs=532)
+                                                         ALL 532 0 0 0      (532 PASS / 0 FAIL / 0 ERROR)
+bash _tools/translate/finalize-review.sh --status ru  -&gt; ru current_PASS=38/38 stale_PASS=0
+                                                         need_action=0 missing_translation=0</code></pre>
+<h3
+id="the-superspec-submodule-was-deleted-on-every-wizard-run-severe-silent-repeated-data-loss">2.4
+— The SuperSpec submodule was deleted on every wizard run <em>(severe;
+silent, repeated data loss)</em></h3>
+<p><strong>Symptom.</strong> A registered submodule vanished on each
+run, with the wizard reporting success.</p>
+<p><strong>Root cause.</strong> For a registered submodule,
+<code>.git</code> is a <strong>file</strong> (a gitlink), not a
+directory. Verified verbatim from
+<code>git show 6148de3^:scripts/setup-agents-wizard.sh</code>:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">-d</span> <span class="st">&quot;</span><span class="va">$SUPERSPEC_PATH</span><span class="st">/.git&quot;</span> <span class="kw">]];</span> <span class="cf">then</span>          <span class="co"># ALWAYS false for a submodule</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="ex">print_success</span> <span class="st">&quot;SuperSpec already cloned.&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">[[</span> <span class="ot">-d</span> <span class="st">&quot;</span><span class="va">$SUPERSPEC_PATH</span><span class="st">&quot;</span> <span class="kw">]];</span> <span class="cf">then</span> <span class="fu">rm</span> <span class="at">-rf</span> <span class="st">&quot;</span><span class="va">$SUPERSPEC_PATH</span><span class="st">&quot;</span><span class="kw">;</span> <span class="cf">fi</span></span></code></pre></div>
+<p>The <code>-d</code> test can never be true for a gitlink, so the
+<code>rm -rf</code> fired on every single run, then replaced the
+submodule with a plain clone — corrupting the parent repository’s
+submodule state.</p>
+<p><strong>Fix.</strong> <code>setup_superspec()</code> now tests with
+<code>-e</code>, and adds a <code>git -C "$root" submodule status</code>
+branch that runs <code>submodule update --init</code> instead of
+deleting. <code>rm -rf</code> survives only in the <code>else</code>
+branch, guarded by <code>[[ -d "$sub_path" ]]</code>, for a genuinely
+stale non-git directory. Assertion <code>A6</code> pins the operator
+itself:
+<code>assert_contains "A6 submodule presence test uses -e (gitlink is a FILE)" '[[ -e "$sub_path/.git" ]]'</code>.</p>
+<p><strong>Regression cover.</strong> Group E is a genuine behavioural
+test, not a grep: it builds a throwaway parent repo, writes
+<code>submodules/superspec/.git</code> as a gitlink
+<strong>file</strong> plus an <code>IMPORTANT.txt</code> canary, sources
+the wizard in <code>SETUP_WIZARD_LIB_ONLY=1</code> mode, calls
+<code>setup_superspec</code>, and asserts the canary
+<code>SURVIVED</code>. Confirmed by me in the newest evidence file, all
+three green:</p>
+<pre><code>E1 REGRESSION: gitlink submodule is NOT deleted        [PASS]
+E2 gitlink submodule reported as a submodule           [PASS]
+E3 stale non-git directory is reported for removal     [PASS]</code></pre>
+<p>The first adversarial pass singled out <code>E1</code> as
+<em>“Load-bearing, and the strongest assertion in the suite.”</em></p>
+<h3
+id="seven-more-silent-wizard-false-positives-moderate-work-reported-as-done-that-was-never-done">2.5
+— Seven more silent wizard false-positives <em>(moderate; work reported
+as done that was never done)</em></h3>
+<p>All eight original wizard bugs shared one shape: <strong>a green
+summary line for work that did not happen.</strong> Besides SuperSpec:
+the Lumen MCP used a non-existent <code>serve</code> subcommand
+(correct: <code>stdio</code>); four npm package names 404’d; two bare
+names (<code>kimi</code>, <code>mimo</code>) resolved to unrelated
+packages; agent MCP configs were written to paths no agent reads;
+<code>ToolCall</code> is not a Claude Code hook event; an unguarded
+<code>curl|bash</code> could abort the run under <code>set -e</code>;
+and the qwen binary is <code>qwen</code>, not <code>qwen-code</code>.
+Two further defects were found <em>by the new tests rather than by
+inspection</em> — <code>WIZARD_STATE_DIR</code> was frozen at source
+time, and <code>rollback --list</code> double-counted sessions through
+the <code>latest</code> symlink.</p>
+<p>A ninth, of the same family, is worth naming separately because of
+its cause: <strong><code>jq</code>’s <code>//</code> operator returns
+the RHS when the LHS is <code>false</code></strong>, so the telemetry
+summary read a correctly-set <code>false</code> back as “unset” and
+reported “not disabled.” Regression tests H7 and A32.</p>
+<h3
+id="the-index-doctor-over-reports-corruption-by-10-moderate-found-by-this-report-not-previously-known">2.6
+— The index doctor over-reports corruption by ~10× <em>(moderate; found
+by this report, not previously known)</em></h3>
+<p>This one is new — found while writing this report. It is documented
+in full in <strong>§5.5</strong>, because it changes what the current
+headline numbers mean.</p>
+<p><code>scripts/lumen-index-doctor.sh</code> decodes
+<strong>every</strong> 768-float slot in every sqlite-vec block and
+never consults the <strong>validity bitmap</strong>. The index has 85
+blocks × 1024 = <strong>87,040 allocated slots</strong> but only
+<strong>52,516 live vectors</strong>. The 34,524 dead slots hold freed
+and uninitialised data, and the doctor counts them as stored vectors.
+Its reported “largest identical group: 943” is <strong>943 all-zero
+uninitialised slots</strong> — not stored data at all.</p>
+<p>The doctor’s <em>verdict</em> is nonetheless correct: real corruption
+does survive. Its <em>magnitude</em> is not. This is the third instance
+in this session of the same underlying error — <strong>scoping the
+vector population wrongly.</strong>
+<code>LUMEN-INDEX-INTEGRITY.md</code> scoped too narrow (4,096 of
+35,717) and declared the index clean; the doctor scopes too wide (87,040
+of 52,516) and overstates the damage.</p>
+<h3 id="two---help-defects-trivial-cosmetic-and-one-near-miss">2.7 — Two
+<code>--help</code> defects <em>(trivial; cosmetic and one
+near-miss)</em></h3>
+<p><code>ollama-vulkan-remediation.sh --help</code> ran
+<code>sed -n '2,40p' "$0"</code> while its header ends at line 34,
+leaking <strong>six extra lines</strong> —
+<code>set -uo pipefail</code>, colour variables and three function
+bodies. Fixed to <code>sed -n '2,34p'</code>.</p>
+<p>Filed alongside it because it was found in the same pass and is
+<em>not</em> trivial: <code>lumen-reindex.sh --help</code>
+<strong>started a full index run</strong>, and a <code>--forse</code>
+typo silently downgraded an intended rebuild to an incremental pass.
+Both fixed; <code>--forse</code> now exits 2, asserted behaviourally by
+<code>I15</code>.</p>
+<hr />
+<h2 id="what-adversarial-verification-caught">3. What adversarial
+verification caught</h2>
+<p>Two independent passes were commissioned with the explicit goal of
+falsifying the engineer’s claims. Between them they <strong>refuted five
+claims</strong> — three in pass 1
+(<code>INDEPENDENT-VERIFICATION.md</code>), two in pass 2
+(<code>INDEPENDENT-VERIFICATION-2.md</code>) — and found further
+defects. <strong>Every refuted claim was a real bug in the engineer’s
+own work</strong>, including a source comment that was itself false.</p>
+<h3 id="the-pattern">3.1 The pattern</h3>
+<p>Listing the five refutations flattens them. They are almost all one
+failure mode:</p>
+<blockquote>
+<p><strong>An assertion that checks whether the code <em>mentions</em>
+something, instead of whether the code <em>does</em>
+something.</strong></p>
+</blockquote>
+<p>A grep over a script’s source text is satisfied by a function
+definition, a printed banner, a comment, or a TODO. It is satisfied by
+the <em>description</em> of the behaviour rather than the behaviour.
+Such an assertion is green before the feature is written, stays green
+when the feature is deleted, and is therefore worth less than no
+assertion at all — because it is <em>believed</em>.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Assertion</th>
+<th>How the false-green worked</th>
+<th>How it was repaired</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A9</strong></td>
+<td><code>assert_contains … "ensure_lumen"</code> over the whole file.
+The <strong>function definition</strong> satisfies the grep. Deleting
+the sole call site (<code>sed '713d'</code>) left it
+<strong>PASS</strong>.</td>
+<td>Counts <em>call sites</em> with an anchored regex;
+<code>assert_eq … "1"</code></td>
+</tr>
+<tr>
+<td><strong>A20</strong></td>
+<td>Hook rewritten to <code>ensure("BogusEvent")</code> and the test
+stayed green — the word <code>PreToolUse</code> survives inside a
+<strong><code>print_success</code> banner string</strong>, which is
+executable and so not stripped by the comment filter. <em>A test kept
+green by the text of a success message.</em></td>
+<td>Counts <code>ensure\("(Pre\|Post)ToolUse"\)</code> occurrences == 2,
+matching the jq writer, not a banner</td>
+</tr>
+<tr>
+<td><strong>A27</strong></td>
+<td><code>assert_absent "codegraph index "</code> — a literal
+<strong>with a trailing space</strong>. <code>codegraph index</code> at
+end-of-line slips straight past it.</td>
+<td>Regex <code>codegraph[[:space:]]+index([[:space:]]\|$)</code>, count
+== 0</td>
+</tr>
+<tr>
+<td><strong>I21</strong></td>
+<td><code>assert_contains "could not complete" "$dsrc"</code> greps the
+<strong>doctor’s source</strong> and <strong>runs the doctor zero
+times</strong>. It was green while the behaviour it names was provably
+broken, and it stayed green when the entire guard was replaced by a
+<code># TODO</code> comment. <em>It asserts that a comment
+exists.</em></td>
+<td>Builds an index whose shadow tables are absent, runs the doctor,
+requires exit 2. Mutation-proven</td>
+</tr>
+<tr>
+<td><strong>C-2</strong></td>
+<td>Not a test, but the same shape: the wizard <strong>printed the word
+“verified”</strong> —
+<code>"(verified: no analytics strings in binary)"</code> — for a scan
+it never ran.</td>
+<td>Now probes the resolved binary with <code>strings(1)</code> at
+runtime</td>
+</tr>
+</tbody>
+</table>
+<p>Two further instances remain <strong>open</strong>, and this report
+does not paper over them:</p>
+<ul>
+<li><strong><code>I11</code></strong> —
+<code>assert_contains "…REFUSING TO START"</code> greps the refusal
+branch without ever exercising the detector. Pass 2 notes it was
+<em>“green throughout the entire lifetime of R1, which is exactly how R1
+shipped.”</em> Still a source grep.</li>
+<li><strong><code>I12</code></strong> — commented in the test file as
+<em>“Behavioural, not a grep”</em>, and described in
+<code>OPERATIONAL-SCRIPTS.md</code> and <code>MANUAL.md</code> as proven
+to <em>“actually reach <code>lumen index -f</code>”</em>. The
+implementation is <strong>two source greps</strong> and runs the
+reindexer zero times. This is the pattern with documentation asserting
+the opposite of the code.</li>
+</ul>
+<p>Pass 2’s own summary is the honest framing: <strong>54 of 141
+assertions (38%) were group-A static source greps</strong>, and <em>“a
+suite can be 141-green and still miss a live defect in the thing it is
+testing.”</em></p>
+<h3 id="the-two-refutations-that-were-self-inflicted-fixes">3.2 The two
+refutations that were self-inflicted fixes</h3>
+<p>Pass 2’s two refutations are notable because both were defects
+<em>introduced while fixing something else</em>:</p>
+<ul>
+<li><strong>R3 — the exit-code fix was a no-op.</strong> The doctor’s
+contract is <code>0 healthy / 1 corruption / 2 could not inspect</code>.
+The guard written to enforce it was
+<code>case $rc in 0|1|2) exit $rc ;; *) … exit 2 ;; esac</code>, with a
+comment correctly stating <em>“python maps an unhandled exception to 1,
+which is our corruption code.”</em> <strong>And <code>1</code> was
+placed in the pass-through arm.</strong> The comment described the bug;
+the code preserved it. A crash was still reported as “corruption found.”
+Fixed properly in <code>fbccc7a</code> using private python exit codes
+(20/21/22) that bash translates, so no interpreter status can collide
+with a verdict.</li>
+<li><strong>R5 — <code>I21</code></strong>, above.</li>
+</ul>
+<p><code>R1</code>, <code>R2</code> and <code>R4</code> were real when
+commissioned and had been patched mid-pass; the verifier re-tested and
+confirmed the fixes. Pass 2 records the principle explicitly: <em>“a
+claim that was false when made is not retroactively true because it was
+fixed afterwards.”</em></p>
+<h3 id="the-self-match-family-and-a-caveat-about-its-provenance">3.3 The
+self-match family — and a caveat about its provenance</h3>
+<p>The ledger names <strong>four occurrences</strong> of one shape: a
+process filter whose own command line contains the pattern it searches
+for, so it matches itself.</p>
+<ol type="1">
+<li>A watcher using <code>pgrep -f "...index /.../vasic"</code> matched
+its own cmdline and <strong>looped forever</strong>.</li>
+<li><code>pkill -f "resilient-index.sh"</code> matched the author’s own
+shell and <strong>killed it</strong> (exit 144), taking the monitor with
+it.</li>
+<li><code>A47</code>’s first draft matched command names inside
+<strong>printed instruction strings</strong> and
+<code>record_action</code> undo text — <strong>7 false
+positives</strong>.</li>
+<li>The verification agent’s own poller,
+<code>until ! pgrep -f probe2.py</code>, matched itself and reported
+<em>“still running”</em> about nothing but itself for ~10 minutes after
+the probe had finished.</li>
+</ol>
+<p>The mitigation now in use is the bracket trick —
+<code>pgrep -f "resilient-index[.]sh"</code> — which prevents the
+pattern from matching its own literal text. (This report used the same
+trick for every process check it ran.)</p>
+<p>Pass 2 itself names <code>R5</code> as the same family: <em>a check
+that looks like it observes behaviour but is really matching a
+string.</em> That is the through-line — <strong>items 3 and 4 above are
+the same bug as <code>A9</code>, <code>A20</code> and <code>I21</code>,
+expressed against a process table instead of a source file.</strong></p>
+<blockquote>
+<p>⚠ <strong>Provenance caveat.</strong> Occurrences 1, 2 and 4 are
+recorded <strong>only in the ledger’s own self-reported honesty
+section.</strong> Neither verification report documents them — a search
+of both for <code>probe2</code>, <code>pgrep</code> and any self-match
+caveat returns nothing. They are therefore <strong>uncorroborated by
+independent artifact</strong>, and are reproduced here on the engineer’s
+own testimony. Occurrence 3 <em>is</em> corroborated: the A47
+false-positive filtering
+(<code>echo|print_*|record_action|check_command</code>) is present in
+the test file.</p>
+<p>Worth noting in mitigation: the project’s own governance corpus
+carries the rule —
+<code>submodules/constitution/CLAUDE_ANCHORS_FULL.md</code> §11.4.174:
+<em>“Every pgrep/ps filter MUST exclude self-matches + other-project
+matches.”</em></p>
+</blockquote>
+<hr />
+<h2 id="the-honesty-ledger">4. The honesty ledger</h2>
+<p>Every claim that was stated and later corrected. <strong>This section
+is the point of the document.</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>What was claimed</th>
+<th>What was actually true</th>
+<th>How it was found</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><em>“The index is <strong>NOT CORRUPT</strong>. It is TRUSTWORTHY…
+<strong>Do NOT rebuild it.</strong>”</em>
+(<code>LUMEN-INDEX-INTEGRITY.md</code>)</td>
+<td><strong>758 vectors across 55 files were corrupt.</strong> The
+report’s numbers were all correct and reproduce exactly; the
+<strong>inference</strong> was wrong. Its distinctness check — the one
+test that would have caught it — ran on <strong>blocks 1–4 only (4,096
+of 35,717)</strong>. The corruption was in blocks 28–29.</td>
+<td>A follow-up reconciliation hashed <strong>all</strong> 35,717
+vectors instead of a sample</td>
+</tr>
+<tr>
+<td>2</td>
+<td><em>“NaN is absorbing under normalisation, so a tight unit-norm
+distribution PROVES no NaN reached the writer”</em> → index clean</td>
+<td>True <strong>and irrelevant</strong>. A stale-but-well-formed vector
+has a perfect norm. Health is not a per-vector property.</td>
+<td>Aggregate distinctness test: <em>N</em> distinct texts must give
+<em>N</em> distinct vectors</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Chunk-size overflow is the trigger; <em>“cap chunks under ~4000
+characters”</em></td>
+<td><strong>Falsified.</strong> Max chunk 6,065 chars, zero over 8,000;
+largest chunk in the corrupt range 2,832. The trigger is the
+<strong>32-chunk batch total</strong> (16,698–31,364 chars). Capping
+chunk size would not have prevented it.</td>
+<td>Measured the chunk-size distribution and reconstructed per-request
+batch totals</td>
+</tr>
+<tr>
+<td>4</td>
+<td><em>“No summary line prints ✅ on mere file existence”</em> —
+asserted in a <strong>source comment</strong> at line 946</td>
+<td><strong>False; four did</strong> (launcher <code>-x</code>,
+completions <code>-r</code>, SpecKit <code>-d</code> on an empty dir,
+SuperSpec <code>-e</code> on an empty <code>.git</code>). The comment
+asserting otherwise was untrue.</td>
+<td>Verifier replayed the four predicates against <strong>zero-byte
+targets</strong>: <em>“Four green checkmarks for four empty
+files”</em></td>
+</tr>
+<tr>
+<td>5</td>
+<td><em>“Only <code>codegraph sync</code> is invoked”</em></td>
+<td><strong>Half false.</strong> <code>codegraph init</code> is invoked
+on the no-DB branch. (<code>codegraph index</code>, the destructive
+rebuild, genuinely is not.)</td>
+<td>A single grep returning two lines</td>
+</tr>
+<tr>
+<td>6</td>
+<td><em>“Each assertion tests what its name says”</em></td>
+<td><strong>False for 2 of 3 audited.</strong> A9 matched a function
+definition; A20 was held green by a <code>print_success</code>
+banner.</td>
+<td><strong>Mutation testing</strong> — delete the call site, rewrite
+the hook, observe still-green</td>
+</tr>
+<tr>
+<td>7</td>
+<td><em>“✅ CodeGraph index step finished.”</em></td>
+<td>Printed <strong>unconditionally</strong>, including after a failure
+— <em>“a warning and a green check for the same failed operation, one
+line apart.”</em></td>
+<td>Verifier read the branch structure</td>
+</tr>
+<tr>
+<td>8</td>
+<td><em>“(verified: no analytics strings in binary)”</em></td>
+<td>A <strong>hardcoded string</strong>. No check ran.</td>
+<td>Verifier looked for the scan and found none</td>
+</tr>
+<tr>
+<td>9</td>
+<td><em>“Nothing here mutates the real environment”</em> (test-suite
+header)</td>
+<td>The suite writes <code>.test-evidence/&lt;stamp&gt;/</code>
+<strong>into the repo</strong>, and live mode runs real
+<code>lumen index</code>/<code>search</code>/<code>purge</code>.</td>
+<td>Verifier inspected what the suite actually writes</td>
+</tr>
+<tr>
+<td>10</td>
+<td><em>“Every probe is timeout-bounded”</em> (after the A47 fix)</td>
+<td><strong>Half-fixed.</strong> A47 covered <code>lumen search</code>
+<strong>only</strong>; unbounded
+<code>journalctl --since "-30 days"</code>, three
+<code>claude mcp</code> calls and <code>ollama list/ps</code> went
+unnoticed.</td>
+<td>Pass 2 ran a whole-wizard grep instead of a section-scoped one</td>
+</tr>
+<tr>
+<td>11</td>
+<td><em>“The doctor’s exit-code fix is in place”</em></td>
+<td><strong>A no-op.</strong> <code>1</code> was placed in the
+pass-through arm of the very <code>case</code> written to intercept it.
+The comment was right; the code did the opposite.</td>
+<td>Built an index with no shadow tables → traceback →
+<code>$? == 1</code></td>
+</tr>
+<tr>
+<td>12</td>
+<td><em>“<code>I21</code> proves the doctor maps crashes to 2”</em></td>
+<td><strong>Worthless.</strong> It greps the doctor’s source and runs it
+<strong>zero times</strong>; stayed green with the entire guard replaced
+by a TODO comment.</td>
+<td>Verifier deleted the guard and watched the test pass</td>
+</tr>
+<tr>
+<td>13</td>
+<td><em>“No commit wrapper exists at this root”</em> (in all four root
+carriers, gap G5)</td>
+<td><strong>False.</strong> <code>commit "&lt;msg&gt;"</code> →
+<code>Upstreamable/commit.sh</code> →
+<code>Software-Toolkit/Utils/Git/commit.sh</code> →
+<code>push_all.sh</code> works here; a tracked
+<code>upstreams/GitHub.sh</code> exists. What is actually missing is git
+<strong>hooks</strong>.</td>
+<td>The carriers’ own claim traced through the wrapper chain</td>
+</tr>
+<tr>
+<td>14</td>
+<td><em>“No <code>scripts/verify-all-constitution-rules.sh</code>; the
+validation sweep does not exist”</em> (gap G3)</td>
+<td><strong>False.</strong> It exists and runs — 37 PASS / 21 FAIL / 0
+ERROR of 58. Corrected to PARTIAL, naming the real gap
+(<code>verify-governance-cascade.sh</code> absent).</td>
+<td>Running it</td>
+</tr>
+<tr>
+<td>15</td>
+<td><em>“No <code>helix-deps.yaml</code> at the repository root”</em>
+(gap G6)</td>
+<td><strong>False.</strong> It exists and parses. Corrected to
+CLOSED.</td>
+<td>Looking</td>
+</tr>
+<tr>
+<td>16</td>
+<td><em>“The carriers are 191 lines each”</em>
+(<code>Constitution.md</code>)</td>
+<td>They were <strong>197</strong>. Replaced with a non-drifting
+instruction to verify by sha256 of line 24+.</td>
+<td>Counting. <em>(Now 200 lines, sha24+ <code>961f47134720080e</code>
+on all four — verified by me)</em></td>
+</tr>
+<tr>
+<td>17</td>
+<td>The Upstreamable <strong>conditional pointer form</strong> is the
+right model for the root carriers (<code>INVENTORY.md</code>)</td>
+<td>It would have <strong>FAILED all 17 propagation gates</strong> at a
+repo root.</td>
+<td>The carriers agent tested it before adopting it</td>
+</tr>
+<tr>
+<td>18</td>
+<td>The staged propagation is ready to apply</td>
+<td><strong>Defective — it would have REGRESSED the gates.</strong>
+Rev-1 drafts opened with a <code>&gt;</code> blockquote instead of a
+non-fenced <code>## INHERITED FROM</code> heading, so each applied file
+registered as a <strong>new anchor-less carrier</strong>: 85 →
+<strong>136</strong> MISSING lines (§4.6 only), or 85 →
+<strong>408</strong> on a full apply — <strong>4.8× worse</strong>.</td>
+<td>Measured in five temp roots with all 17 gates run, against a
+baseline control that reproduced 85/5 exactly</td>
+</tr>
+<tr>
+<td>19</td>
+<td><em>“37 PASS”</em> means 37 enforced gates</td>
+<td><strong>34 enforced + 2 honest SKIPs + 1 FALSE SKIP.</strong>
+<code>cm_opendesign_ui_system.sh</code> exits 0 claiming <em>“no UI
+surface detected”</em>, which is false — eight real CSS files exist
+under <code>design-system/</code>. Its default <code>OD_*_GLOBS</code>
+never match this layout and the umbrella never binds them. Binding them
+would move the sweep to an honest <strong>36 PASS / 22
+FAIL</strong>.</td>
+<td>Read the gate’s globs against the actual tree</td>
+</tr>
+<tr>
+<td>20</td>
+<td><em>“F5 completion count is 2”</em></td>
+<td>Asserted from a <strong>loose grep</strong>; the exact string
+appears once.</td>
+<td>Self-caught</td>
+</tr>
+<tr>
+<td>21</td>
+<td><em>“Index integrity verified clean, 0 corruption”</em> (stated in
+the ledger)</td>
+<td><strong>Retracted by the ledger itself</strong> — see row 1.
+Recorded here because the retraction is the point: the numbers survived,
+the conclusion did not.</td>
+<td>Self-corrected</td>
+</tr>
+<tr>
+<td>22</td>
+<td>The <code>design-toolkit</code> push succeeded — the wrapper printed
+<strong><code>'github': OK</code></strong></td>
+<td><strong>It pushed nothing.</strong> That repo has no
+<code>github</code> remote and no <code>upstreams/</code> recipe, so
+<code>push_all</code> walked <strong>up</strong> to the umbrella’s
+recipe and ran <code>git push github</code>, which does not exist there.
+Compounded by the repo being 1 commit behind a stale
+<code>origin/main</code>. Fixed by <code>git rebase origin/main</code>
+then <code>git push origin main</code> — <strong>no force
+push</strong>.</td>
+<td>Noticed during the apply; <strong>see the corroboration caveat
+below</strong></td>
+</tr>
+<tr>
+<td>23</td>
+<td><code>INDEPENDENT-VERIFICATION-2.md</code> closes with R3/R5
+<em>“still live”</em></td>
+<td>True when written, <strong>fixed afterwards in
+<code>fbccc7a</code></strong>. Handled correctly: an ADDENDUM was added
+at the top rather than editing the findings, because <em>“rewriting an
+adversarial report after the fact would defeat the purpose of
+commissioning one.”</em></td>
+<td>Re-proved against the current scripts: 1 / 2 / 2 on corrupt / absent
+/ crash</td>
+</tr>
+<tr>
+<td>24</td>
+<td><strong><code>43 duplicate-vector groups; 1,783 vectors (2.05%); largest group 943; 1 all-zero</code></strong>
+— the doctor’s current headline</td>
+<td><strong>Inflated ~10×.</strong> Masked to the validity bitmap, the
+live index has <strong>1 group of 169 vectors (0.32%)</strong>, 0 NaN, 0
+all-zero, 0 off-norm. The “943” group is 943 <strong>uninitialised dead
+slots</strong>.</td>
+<td><strong>Found by this report</strong> — see §5.5</td>
+</tr>
+<tr>
+<td>25</td>
+<td><em>“The CI ‘Bridge hardcoded config paths’ step is DEAD CODE.
+<strong>NOT removed</strong> — <code>.github/</code> is inside the OC-1
+governance conflict.”</em></td>
+<td><strong>The step does not exist and has not for some time.</strong>
+There is no <code>ln -s</code> anywhere in
+<code>.github/workflows/ci.yml</code>, at HEAD or in the working tree.
+It was removed by commit <strong><code>9aa95f2</code></strong>, which
+landed <em>before</em> <code>72dc135</code>; by <code>72dc135^</code>
+the workflow already carried <em>“the former /Volumes symlink bridge is
+no longer needed”</em>. What actually survived at HEAD is a
+<strong>stale header comment</strong> — the one containing
+<em>“Non-invasive and fully honest”</em> — describing a step that is
+gone.</td>
+<td><strong>Found by this report</strong>: searched <code>ci.yml</code>
+for the step and for <code>ln -s</code> at HEAD and in the tree, then
+bisected with <code>git log -S</code></td>
+</tr>
+<tr>
+<td>26</td>
+<td><em>“…would have RE-TRANSLATED all <strong>532</strong> (lang, doc)
+pairs”</em></td>
+<td><strong>522.</strong> Ten of the 532 pairs recorded a
+<em>relative</em> <code>_translated</code> value and resolve regardless.
+Measured by read-only simulation. (The <em>“532 PASS”</em> verification
+figure is separately correct — that is the full matrix size.)</td>
+<td><strong>Found by this report</strong> — see §2.3</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="self-inflicted-process-mistakes-the-ledger-records-against-itself">4.1
+Self-inflicted process mistakes the ledger records against itself</h3>
+<p>These are not defects in the product. They are recorded because the
+ledger recorded them, and removing them would make this report less
+honest than its source.</p>
+<ul>
+<li><code>| head -70</code> on the first wizard run sent SIGPIPE and
+killed it mid-Step-5.</li>
+<li>Probing the embedding backend with <code>ollama stop</code>
+<strong>while the indexer was mid-round</strong> corrupted the author’s
+own diagnosis; at least one “still unhealthy after unload” was
+self-caused.</li>
+<li><strong>Committing while agents were still writing, three times
+over:</strong> <code>f5626d6</code> swept in a propagation agent’s
+in-progress drafts (clean by luck); <code>72dc135</code> swept in three
+throwaway <code>__trace_probe__</code> files (not clean — needed a
+follow-up delete); and tracing <code>watch-deploy.sh</code> regenerated
+<code>milosvasic.ru/sitemap.xml</code> and
+<code>vasic.digital/sitemap.xml</code> (525 lines each, pure
+<code>lastmod</code> bumps) which <strong>nearly rode along into a live
+GitHub Pages deploy</strong>. Reverted with
+<code>git checkout --</code>. The stated rule: <em>wait for every agent
+to report before running <code>commit</code>.</em></li>
+</ul>
+<h3 id="ledger-claims-this-report-could-not-corroborate">4.2 Ledger
+claims this report could <strong>not</strong> corroborate</h3>
+<p>Stated explicitly rather than repeated as fact:</p>
+<ol type="1">
+<li><strong>The <code>design-toolkit</code> push incident (row 22) is
+documented nowhere in the repository.</strong> A search of all of
+<code>docs/</code>, the root carriers, <code>Constitution.md</code> and
+<code>.ashlrcode/genome</code> for <code>push_all</code>,
+<code>'github': OK</code>, “incident”, “rebase” and “force” returns
+nothing. <code>POST-APPLY-STATE.md</code> mentions
+<code>design-toolkit</code> 20 times, all about a different question,
+and records only the clean end state. <strong>The premises are
+corroborated</strong> — <code>design-toolkit</code> really has only an
+<code>origin</code> remote and really has no <code>upstreams/</code>
+directory — and <strong>the fix is reconstructable from
+<code>git reflog</code></strong>, which shows
+<code>rebase (start): checkout origin/main</code> →
+<code>rebase (pick)</code> → <code>rebase (finish)</code> with no force
+push. But the false <code>'github': OK</code> itself is attested only by
+the ledger. <strong>This is the single most operationally important
+lesson of the apply — “the commit wrapper is unsafe in a submodule that
+lacks its own <code>upstreams/</code> directory” — and it exists in no
+document that a future reader would find.</strong></li>
+<li><strong>Three of the four self-match occurrences (§3.3) are
+uncorroborated</strong> by either verification report.</li>
+<li><strong>Throughput.</strong> The ledger’s close-out states
+<em>“Measured throughput 15 files/min (~900/hour) =&gt; roughly 2 more
+hours.”</em> I could not reproduce this — see <a
+href="#61-the-lumen-rebuild">§6.1</a>.</li>
+<li><strong>The rebuild’s denominator is unsettled.</strong> The ledger
+says <em>“~3,800 files”</em>; <code>project_meta.total_files</code>
+reads <strong>2,413</strong>; <code>LUMEN-INDEX-INTEGRITY.md</code> says
+3,833/3,835. The ~1,420-file discrepancy is noted in no document. “How
+much is left” is therefore between 16% and 47% depending on which figure
+is right.</li>
+<li><strong>The CI symlink claim is refuted, not merely
+uncorroborated</strong> — honesty-ledger row 25. The ledger says the
+<em>“Bridge hardcoded config paths”</em> step is dead code that was
+deliberately left in place because <code>.github/</code> sits inside the
+OC-1 conflict. There is no such step. The real residue was a stale
+comment, and the concurrent actor has already replaced it and added a
+<code>Gate — hardcoded path audit</code> step that runs
+<code>./scripts/audit-hardcoded-paths.sh</code>.</li>
+<li>Minor: <code>docs/setup-agents-wizard/README.md</code>’s index
+describes <code>INDEPENDENT-VERIFICATION-2.md</code> as <em>“1
+refuted”</em>; the report itself records <strong>2</strong> (items 4 and
+6, i.e. R3 and R5).</li>
+</ol>
+<p><strong>For balance, the ledger claims that <em>did</em> survive
+replay unchanged</strong> include: the eight original wizard bugs; the
+before/after source of <code>deploy-langs.sh</code>,
+<code>watch-deploy.sh</code> and the SuperSpec <code>rm -rf</code>; the
+<em>“18 files, 33 occurrences”</em> hardcoded-path count (reproduced
+exactly at <code>72dc135^</code> under the audit’s own scope); the
+propagation temp-root measurements (85/5 → 136/8 → 408/24 → 68/4); the
+post-apply deltas (85→68 lines, 5→4 carriers, 11→31 pointer-skips) and
+all five submodule commit hashes; the 37/21/0-of-58 sweep result; the
+carrier lockstep sha <code>961f47134720080e</code>; and every number in
+the corruption forensics. The ledger is substantially reliable; the
+exceptions above are the exceptions.</p>
+<hr />
+<h2 id="current-verified-state">5. Current verified state</h2>
+<p>All measured by me between <strong>18:21Z and 18:29Z on
+2026-08-27</strong>, unless stated.</p>
+<h3 id="test-suite">5.1 Test suite</h3>
+<p>Newest evidence:
+<code>.test-evidence/20260827T173006Z/summary.json</code> (written 19:36
+CEST).</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;totals&quot;</span><span class="er">:</span> <span class="fu">{</span><span class="dt">&quot;total&quot;</span><span class="fu">:</span> <span class="dv">147</span><span class="fu">,</span> <span class="dt">&quot;passed&quot;</span><span class="fu">:</span> <span class="dv">147</span><span class="fu">,</span> <span class="dt">&quot;failed&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span> <span class="dt">&quot;skipped&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">}</span><span class="er">,</span> <span class="st">&quot;exit_code&quot;</span><span class="er">:</span> <span class="dv">0</span></span></code></pre></div>
+<p>Confirmed independently from <code>results.tsv</code>: the status
+column is <strong>147 × PASS</strong>, nothing else. Group split:</p>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr>
+<th>Group</th>
+<th style="text-align: right;">Assertions</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. Static analysis of the wizard</td>
+<td style="text-align: right;">55</td>
+<td></td>
+</tr>
+<tr>
+<td>B. Lumen launcher (isolated <code>$HOME</code>)</td>
+<td style="text-align: right;">8</td>
+<td></td>
+</tr>
+<tr>
+<td>C. Shell configuration (isolated <code>$HOME</code>)</td>
+<td style="text-align: right;">10</td>
+<td></td>
+</tr>
+<tr>
+<td>D. MCP configuration (isolated <code>$HOME</code>)</td>
+<td style="text-align: right;">5</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>E. SuperSpec submodule safety (data-loss
+regression)</strong></td>
+<td style="text-align: right;"><strong>3</strong></td>
+<td>all PASS</td>
+</tr>
+<tr>
+<td>F. Live integration (real environment)</td>
+<td style="text-align: right;">11</td>
+<td>including a real index + semantic search</td>
+</tr>
+<tr>
+<td>G. Backup manifest and rollback</td>
+<td style="text-align: right;">18</td>
+<td></td>
+</tr>
+<tr>
+<td>H. Telemetry opt-out</td>
+<td style="text-align: right;">7</td>
+<td></td>
+</tr>
+<tr>
+<td>I. Operational scripts</td>
+<td style="text-align: right;">22</td>
+<td></td>
+</tr>
+<tr>
+<td>J. Hardcoded-path audit</td>
+<td style="text-align: right;">8</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td style="text-align: right;"><strong>147</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>This is the first fully-green run <strong>including</strong> live
+integration: <code>F6/F7/F8</code> really did index a fixture and run a
+semantic search against the live backend, while the large rebuild
+competed for it. The two prior runs (<code>20260827T170932Z</code>,
+<code>20260827T164124Z</code>) were 143 total / 136 passed / <strong>7
+skipped</strong>.</p>
+<blockquote>
+<p>The suite grew <strong>96 → 103 → 117 → 122 → 126 → 134 → 143 →
+147</strong> during the session. Quote the figure with its evidence
+directory, not on its own.</p>
+</blockquote>
+<h3 id="constitution-sweep">5.2 Constitution sweep</h3>
+<p><code>./scripts/verify-all-constitution-rules.sh</code> —
+<strong>exit 1</strong>.</p>
+<pre><code>❌ SWEEP: FAIL — 21 FAIL + 0 ERROR out of 58 gate(s).</code></pre>
+<p>58 = 57 gates discovered under
+<code>submodules/constitution/scripts/gates/**</code> + this repo’s
+<code>tests/test_constitution_inheritance.sh</code>. 58 − 21 − 0 =
+<strong>37 PASS</strong>, matching the documented record in
+<code>README.md</code> §5.3, <code>GATE-TRIAGE.md</code> §2 and
+<code>POST-APPLY-STATE.md</code> §1. §11.4.32 step 1 is an explicit
+<strong>SKIP-with-reason</strong>
+(<code>verify-governance-cascade.sh</code> absent) and is never counted
+as a pass.</p>
+<blockquote>
+<p>⚠ <strong>This measurement has since been overtaken.</strong>
+<code>scripts/verify-governance-cascade.sh</code> was created
+(untracked) at 20:36, after this run. Step 1 will no longer be a SKIP.
+Re-run the sweep.</p>
+</blockquote>
+<p><strong>Read <code>37 PASS</code> as
+<code>34 enforced + 2 honest SKIPs + 1 false SKIP</code></strong> — see
+honesty ledger row 19.</p>
+<p>Separately verified green:
+<code>tests/test_constitution_inheritance.sh</code> → <strong>8 PASS, 0
+SKIP, 0 FAIL</strong>, exit 0, including
+<code>I8 PROPAGATION-GATES — 17/17 ... PASS on the root carriers</code>.
+The four root carriers are <strong>200 lines each</strong> with
+identical <code>sha256(line 24+) = 961f47134720080e</code>.
+<code>submodules/constitution/Constitution.md</code> is 11,101 lines; at
+the time of the run the submodule HEAD matched its pinned gitlink
+<code>448981ae3498229c734dc60719f4b19f01d7a75f</code>.</p>
+<blockquote>
+<p>⚠ <strong>That pin no longer holds.</strong> By 18:36Z the submodule
+had moved to <code>a09b1ea</code> and gone dirty while HEAD still pins
+<code>448981a</code> — so <code>I2 PINNED-REVISION</code> would now
+fail. See §5.6.</p>
+</blockquote>
+<h3 id="hardcoded-path-audit">5.3 Hardcoded-path audit</h3>
+<p><code>./scripts/audit-hardcoded-paths.sh</code> — <strong>exit
+0</strong>.</p>
+<pre><code>⚠️  allowed  scripts/audit-hardcoded-paths.sh
+✅ no machine-specific hardcoded paths (1 file(s) explicitly allowed)</code></pre>
+<p>The single allowlisted file is the detector itself, which necessarily
+contains the patterns it detects — <code>.hardcoded-paths-allow</code>
+holds exactly that one entry, with the reason written into it:
+<em>“Excluding it is not an exemption from the rule.”</em>
+<code>$HOME</code>, <code>~</code>, <code>/etc</code>, <code>/usr</code>
+and <code>/tmp</code> are deliberately <strong>not</strong> flagged;
+only machine-specific roots are.</p>
+<p>The <em>“18 files, 33 occurrences”</em> claim reproduces exactly.
+Replaying the audit’s own scope (<code>git ls-files</code> minus
+<code>docs/</code>, <code>_content*</code>, <code>_analysis/</code>,
+<code>_tests/evidence/</code>, <code>.test-evidence/</code>,
+<code>.superpowers/</code>, <code>.ashlrcode/</code>) at
+<code>72dc135^</code> yields 17 files / 32 lines carrying the literal
+<code>&lt;macos-host&gt;/Projects/vasic</code>, plus
+<code>_tools/distribute-helixtranslate.sh</code> with one generic
+<code>/Volumes/...</code> that the broader pattern also catches —
+<strong>18 / 33</strong>. The same scope at <code>72dc135</code> and at
+HEAD yields <strong>1 file / 1 occurrence</strong>, the detector.</p>
+<h3 id="backend-health">5.4 Backend health</h3>
+<p><code>./scripts/ollama-vulkan-remediation.sh --check</code> —
+<strong>exit 0</strong>.</p>
+<pre><code>✅ library=cpu - GPU is out of the inference path
+✅ /etc/sysconfig/ollama contains GGML_VK_VISIBLE_DEVICES=-1
+✅ 0 i915 faults since ollama started (Thu 2026-08-27 09:44:18 CEST)
+ℹ️  (520 in the last 24h are pre-remediation history)
+✅ batch probe: OK 32/32 distinct</code></pre>
+<p>Note the check takes <strong>over two minutes</strong> on a loaded
+host — a 120 s timeout was insufficient.</p>
+<p>Also verified: <code>codegraph version</code> →
+<strong>1.6.0</strong>; <code>bash -lc</code> yields
+<code>DO_NOT_TRACK=1</code> and <code>CODEGRAPH_TELEMETRY=0</code> (the
+non-interactive-shell gap is genuinely closed);
+<code>MANUAL-STEPS.md</code> exists at the project root.</p>
+<h3 id="the-index-doctors-current-verdict-and-why-it-overstates">5.5 The
+index doctor’s current verdict — and why it overstates</h3>
+<p><code>./scripts/lumen-index-doctor.sh</code> — <strong>exit 1,
+CORRUPTION DETECTED</strong>:</p>
+<pre><code>integrity_check: ok
+files: 2016 fully indexed, 95 queued placeholders | chunks: 52516
+vectors: 87040 total, 85300 distinct
+❌ 43 duplicate-vector group(s); 1783 vectors (2.05%) are not unique
+   largest identical group: 943 copies of ONE vector
+per-vector: 0 NaN/Inf, 1 all-zero, 0 off-norm, 0 ragged block(s)</code></pre>
+<p><strong>Those numbers are misleading, and I established why.</strong>
+The sqlite-vec store holds 85 blocks × 1024 = <strong>87,040 allocated
+slots</strong>, but <code>vec_chunks_chunks.validity</code> — the bitmap
+that says which slots are live — marks exactly <strong>52,516</strong>,
+which equals the chunk count precisely. The doctor decodes all 87,040
+and never reads the bitmap, so <strong>34,524 dead slots are counted as
+stored vectors.</strong></p>
+<p>Recomputing with the bitmap applied:</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 22%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Population</th>
+<th style="text-align: right;">Slots</th>
+<th style="text-align: right;">Duplicate groups</th>
+<th style="text-align: right;">Duplicated vectors</th>
+<th>Per-vector faults</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LIVE</strong> (real stored vectors)</td>
+<td style="text-align: right;">52,516</td>
+<td style="text-align: right;"><strong>1</strong></td>
+<td style="text-align: right;"><strong>169 (0.322%)</strong></td>
+<td>0 NaN/Inf, <strong>0 all-zero</strong>, 0 off-norm</td>
+</tr>
+<tr>
+<td>DEAD (freed / uninitialised)</td>
+<td style="text-align: right;">34,524</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1,532</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The doctor’s <em>“largest group: 943”</em> is <strong>943 all-zero
+uninitialised slots</strong>. Its <em>“1 all-zero”</em> is that same
+dead artifact. Neither is stored data.</li>
+<li>The other 40 of its 43 “groups” are a live vector counted together
+with its own stale ghost in a freed slot.</li>
+</ul>
+<p><strong>What the single live group actually is — and it is real
+corruption.</strong> The 169 vectors resolve to <strong>12 distinct
+files, 63 distinct symbols, 138 distinct line-spans</strong>, entirely
+within <code>_content_fa/</code> and <code>_content_es/</code>.
+Different headings, different line ranges, two different languages, one
+identical vector. That is failure mode 4, not boilerplate.</p>
+<p><strong>And it is provably the <em>original</em> fault, not new
+damage.</strong> Fingerprinting the vector:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Measured now</th>
+<th><code>INDEX-CORRUPTION-RECONCILIATION.md</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L2 norm</td>
+<td><strong>1.000000083</strong></td>
+<td>1.000000083</td>
+</tr>
+<tr>
+<td>Component range</td>
+<td><strong>−0.106444 … +0.107006</strong></td>
+<td>−0.106 … +0.107</td>
+</tr>
+<tr>
+<td>Distinct components</td>
+<td><strong>768</strong></td>
+<td>768</td>
+</tr>
+</tbody>
+</table>
+<p>The clincher — counting that exact vector across both
+populations:</p>
+<pre><code>LIVE  sha256[:16] = 66f94228aff02051  count = 169
+DEAD  sha256[:16] = 66f94228aff02051  count = 589
+                                      -----------
+                                      169 + 589 = 758   ← the documented original corruption</code></pre>
+<p><strong>So: of the 758 originally-corrupt vectors, the CPU rebuild
+has already repaired 589 (77.7%); 169 (22.3%) remain live. No new
+corruption has been introduced since the backend fix</strong> — the only
+live duplicate group is the original stale vector, byte-for-byte
+unchanged. The repaired 589 now sit in freed slots, which is exactly why
+the doctor’s unmasked “largest group” appeared to <em>grow</em> from 758
+to 943 while the backend was healthy.</p>
+<p>The doctor’s <strong>verdict is correct and its exit code is
+right</strong>; only its magnitude is wrong. Two fixes are indicated
+(neither made — this report changed no code): mask by
+<code>vec_chunks_chunks.validity</code>, and count all-zero/NaN by
+<em>occurrence</em> rather than by distinct byte-pattern.</p>
+<h3 id="the-tree-moved-under-this-report">5.6 The tree moved under this
+report</h3>
+<p><code>git status --short</code> shows <strong>14 modified/deleted
+tracked paths and 2 untracked files</strong> — uncommitted work by a
+concurrent actor, none of it covered by the ledger:</p>
+<pre><code> M .github/workflows/ci.yml            (+30/-6 vs HEAD)
+ M scripts/setup-agents-wizard.sh      (34 lines changed vs HEAD)
+ M scripts/test-setup-agents-wizard.sh (+28 vs HEAD)
+ M _tools/audit-hardcoding.sh
+ M .gitignore, _analysis/IMPLEMENTATION-REPORT.md, 6 × .ashlrcode/genome/*
+?? docs/setup-agents-wizard/CI-WORKFLOW-AUDIT.md      (209 lines)
+?? docs/setup-agents-wizard/RESIDUAL-PATHS-AUDIT.md   (396 lines)</code></pre>
+<p><strong>And it kept moving while this report was being
+written.</strong> A second check at 18:36Z found three further untracked
+files that did not exist at 18:26Z, plus another <code>ci.yml</code>
+revision:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Appeared</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scripts/verify-governance-cascade.sh</code> (736 lines,
+20:36)</td>
+<td><strong>The §11.4.32 step-1 verifier whose absence <em>is</em>
+OC-3.</strong> See §6.3.</td>
+</tr>
+<tr>
+<td><code>docs/constitution-adoption/REMOTE-ASYMMETRY.md</code> (271
+lines, 20:32)</td>
+<td>An OC-2 follow-up on the <code>milosvasic.ru</code> fetch/push URL
+asymmetry</td>
+</tr>
+<tr>
+<td><code>docs/setup-agents-wizard/LUMEN-STORE-INVENTORY.md</code>
+(1,625 lines, 20:34)</td>
+<td>A read-only inventory of <code>~/.local/share/lumen/</code>. It
+opens with <em>“STOP — four indexers are writing RIGHT NOW”</em> —
+<strong>independently confirming the contention I measured in
+§6.1</strong></td>
+</tr>
+<tr>
+<td><code>.github/workflows/ci.yml</code></td>
+<td>10,609 B <span class="citation" data-cites="20:05">@20:05</span> →
+<strong>12,421 B <span class="citation"
+data-cites="20:29">@20:29</span></strong>; md5 <code>29cfcdba…</code> →
+<code>9b17930e…</code></td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td>gitlink moved off its pin: <code>448981a</code> →
+<strong><code>a09b1ea</code>, and dirty</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>The submodule move breaks an invariant that was green when I
+measured it.</strong> At 18:2xZ
+<code>tests/test_constitution_inheritance.sh</code> reported
+<code>✅ PASS I2 PINNED-REVISION — submodules/constitution HEAD == pinned gitlink 448981ae…</code>.
+The working tree now has that submodule at <code>a09b1ea-dirty</code>
+while HEAD still pins <code>448981a</code>, so <strong>I2 would now FAIL
+and the inheritance test would no longer be 8/8.</strong> Whoever moved
+it needs to either commit the bump deliberately or restore the pin — an
+uncommitted, dirty governance submodule is the one state the
+constitution’s own cascade rules are designed to prevent.</p>
+<p>Measured drift in the two files I was instructed not to edit:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Earlier this session</th>
+<th>At 18:23Z / 18:26Z</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scripts/setup-agents-wizard.sh</code></td>
+<td>60,263 B, mtime 18:41</td>
+<td><strong>60,751 B, mtime 20:05:44</strong>, stable since</td>
+</tr>
+<tr>
+<td><code>scripts/test-setup-agents-wizard.sh</code></td>
+<td>48,535 B, mtime 18:41</td>
+<td><strong>50,074 B, mtime 20:06:29</strong></td>
+</tr>
+<tr>
+<td><code>.github/workflows/ci.yml</code></td>
+<td>—</td>
+<td><strong>10,609 B, mtime 20:05:58</strong>, stable since</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Consequence for the headline number:</strong> the 147/147
+evidence run was written at <strong>19:36 CEST</strong> and therefore
+measured a wizard <strong>~488 bytes smaller</strong> than the one now
+on disk. The suite is green <em>against the version it ran on</em>, not
+necessarily against the working tree. Re-run it before relying on the
+figure.</p>
+<p>The two new audits already contradict committed documentation:
+<code>CI-WORKFLOW-AUDIT.md</code> grades 46 claims in
+<code>ci.yml</code> as <strong>3 FALSE / 5 STALE / 4 UNVERIFIABLE / 34
+VERIFIED</strong>, and <code>RESIDUAL-PATHS-AUDIT.md</code> finds
+<strong>1,604 tracked files / 10,424 occurrences</strong> of
+<code>/Volumes</code> still present — with <strong>0
+load-bearing</strong>, confirming the executable fix is real, but
+<strong>6 genome files that still assert the bug is unfixed</strong>,
+which will actively mislead future agents.</p>
+<p>The in-flight <code>ci.yml</code> edit is a net improvement and worth
+recording: it replaces the stale <em>“Non-invasive and fully
+honest”</em> symlink comment (honesty-ledger row 25) with
+<code># ---- Path resolution (the former /Volumes symlink bridge is GONE)</code>,
+and promotes the hardcoded-path audit to a real fail-fast <strong>Gate
+0</strong>:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Gate — hardcoded path audit</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">run</span><span class="kw">:</span><span class="at"> ./scripts/audit-hardcoded-paths.sh</span></span></code></pre></div>
+<p>None of it is committed, and none of it is covered by the ledger.
+<strong>Anything this report says about <code>ci.yml</code>,
+<code>setup-agents-wizard.sh</code> or
+<code>test-setup-agents-wizard.sh</code> is true of a working tree that
+was still being edited — re-read them before acting.</strong></p>
+<hr />
+<h2 id="what-is-not-done">6. What is <strong>not</strong> done</h2>
+<h3 id="the-lumen-rebuild">6.1 The Lumen rebuild</h3>
+<p><code>./scripts/lumen-reindex.sh &lt;proj&gt; --force</code>, started
+<strong>09:48:16</strong>, still running at <strong>10 h 40 m</strong>
+elapsed (PIDs 839709 / 840271 / 840272). It is on its <strong>first
+round</strong> — <code>.lumen-reindex.log</code> has had no new line
+since <code>09:48:31</code>, and the script only logs between
+rounds.</p>
+<p><strong>I could not reproduce the ledger’s throughput
+figure.</strong> Four samples of
+<code>SELECT COUNT(*) FROM files WHERE hash&lt;&gt;''</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Sample</th>
+<th>UTC</th>
+<th style="text-align: right;">Fully indexed</th>
+<th style="text-align: right;">Chunks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>18:21:30Z</td>
+<td style="text-align: right;">2,016</td>
+<td style="text-align: right;">52,516</td>
+</tr>
+<tr>
+<td>2</td>
+<td>18:26:26Z</td>
+<td style="text-align: right;">2,016</td>
+<td style="text-align: right;">52,516</td>
+</tr>
+<tr>
+<td>3</td>
+<td>18:27:02Z</td>
+<td style="text-align: right;">2,016</td>
+<td style="text-align: right;">52,516</td>
+</tr>
+<tr>
+<td>4</td>
+<td>18:28:50Z</td>
+<td style="text-align: right;">2,016</td>
+<td style="text-align: right;">52,516</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Zero measurable forward progress over 7 min 20 s</strong>,
+against a ledger claim of ~15 files/min. The ledger’s own close-out
+snapshot (~17:35Z) recorded 1,995, so roughly <strong>+21 files in ~45
+minutes</strong>.</p>
+<p>It is <strong>not stalled</strong> — the ollama runner has burned
+<strong>1 d 17 h 56 m of CPU at 395%</strong>. It is
+<strong>starved</strong>. Four <code>lumen index</code> jobs are
+competing for one single-slot ollama backend (<code>vasic</code>,
+<code>lava</code>, <code>boba</code>, <code>boba/constitution</code>),
+on an 8-core host with a load average of <strong>17.8</strong>. This was
+independently confirmed while the report was being written: the new
+<code>docs/setup-agents-wizard/LUMEN-STORE-INVENTORY.md</code> opens
+with <em>“STOP — four indexers are writing RIGHT NOW… The brief warned
+about one active rebuild. There are in fact four concurrent
+<code>lumen index</code> processes.”</em> Progress may also be committed
+in batches rather than continuously; I did not establish which.
+<strong>The “roughly 2 more hours” estimate should not be relied
+on.</strong> Reduce the contention or accept that the ETA is
+unknown.</p>
+<p>The remaining work is also uncertain in size — see honesty ledger row
+4 (2,413 vs ~3,800).</p>
+<p><strong>Still to do when it finishes:</strong> re-run
+<code>./scripts/lumen-index-doctor.sh</code>. That is the only thing
+that settles it. Expect it to report corruption until the last of the
+169 live stale vectors is overwritten — <strong>and read its output with
+§5.5 in hand</strong>, because unmasked it will keep counting freed
+slots.</p>
+<h3 id="the-constitution-gates-37-pass-21-fail">6.2 The constitution
+gates: 37 PASS / 21 FAIL</h3>
+<p><code>GATE-TRIAGE.md</code>’s categorisation is unambiguous:
+<strong>zero of the 21 are fixable in the umbrella.</strong> <em>“There
+is no umbrella-side change that flips any of the 21.”</em></p>
+<ul>
+<li><p><strong>Rows 1–17</strong> are the 17
+<code>cm_covenant_114_*_propagation.sh</code> gates. Each is held FAIL
+by the <strong>same set of carriers simultaneously</strong>, so clearing
+one flips nothing. After the propagation apply, <strong>4 remain, all
+third-party:</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Carrier</th>
+<th>Owner</th>
+<th>Why it cannot be cleared here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>milosvasic.ru/Upstreamable/AGENTS.md</code></td>
+<td><code>red-elf/Upstreamable</code></td>
+<td>A gitlink inside a submodule; the <code>red-elf</code> namespace is
+not one this project pushes to</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru/Upstreamable/CLAUDE.md</code></td>
+<td><code>red-elf/Upstreamable</code></td>
+<td>Same. Also carries a self-referential gitlink with a <strong>0-byte
+<code>.gitmodules</code></strong>, which makes
+<code>git submodule status --recursive</code> abort rc=128</td>
+</tr>
+<tr>
+<td><code>submodules/superspec/examples/static-landing-page/CLAUDE.md</code></td>
+<td><code>WangX0111/superspec</code></td>
+<td>A 5-line SpecKit demo fixture, only <em>named</em> like a governance
+carrier</td>
+</tr>
+<tr>
+<td><code>.specify/extensions/superspec/examples/.../CLAUDE.md</code></td>
+<td>vendored copy of the above</td>
+<td>Physically writable, <strong>deliberately not written</strong> —
+editing it forks the vendored artifact and invalidates the pinned
+<code>manifest_hash</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>POST-APPLY-STATE.md</code>: <em>“Zero of the four can be
+cleared by any write into a repository the user owns.”</em> The durable
+remedy is upstream, in the gate family itself (§11.4.26). <strong>37/21
+is the honest ceiling, and it is not a defect in this session’s
+work.</strong></p></li>
+<li><p><strong>Rows 18/19</strong> are inside
+<code>submodules/constitution</code> (a project-specific literal in
+<code>continuum</code>; a gate-ledger ratchet where
+<code>unimplemented=432</code> exceeds a checked-in
+<code>baseline=420</code>).</p></li>
+<li><p><strong>Rows 20/21</strong> (<code>cm_track_branch_label*</code>)
+are unconditional drift inside the constitution submodule: the labeler
+emits more fields than it used to, while the gate’s
+<code>_label_alias()</code> still extracts the <strong>last</strong>
+field via <code>${_p##* - }</code> — so it reads the <em>effort</em>
+(<code>xhigh</code>) where it expects the <em>alias</em>
+(<code>cmgatechk</code>). <strong><code>POST-APPLY-STATE.md</code> §6
+corrects <code>GATE-TRIAGE.md</code> twice here:</strong> the emitted
+label has <strong>four</strong> <code>-</code>-separated fields, not
+five; and the one-line fix is <strong>necessary but not
+sufficient</strong> — the gate’s own mutation probe
+(<code>_head="${_correct% - *}"</code>) mutates the effort slot, so
+fixing <code>_label_alias</code> alone makes it reachable and the gate
+then falsely accuses a provably-correct hook. <strong>Two lines, both
+inside <code>submodules/constitution</code></strong>, which fans out to
+6 push URLs.</p></li>
+</ul>
+<h3 id="open-conflicts-oc-1-oc-2-oc-3">6.3 Open conflicts — OC-1, OC-2,
+OC-3</h3>
+<p>Recorded in <code>Constitution.md</code> and mirrored in
+<code>docs/constitution-adoption/README.md</code> §7. All three are
+deliberately filed as <strong>open conflicts, not overrides</strong>:
+<em>“an override is a decision; the items below are undecided
+contradictions, and recording them as overrides would claim an
+authorization nobody has given.”</em></p>
+<blockquote>
+<p><strong>SUPERSEDED for OC-1 and OC-2 — decided 2026-08-27, after this
+report was written.</strong> The table below is retained as the state at
+report time. Operator decision, verbatim: <strong><em>“Comply — disable
+both, enforce locally.”</em></strong> <del>Both
+<code>.github/workflows/ci.yml</code> and
+<code>milosvasic.ru/.github/workflows/pages.yml</code> are renamed to a
+non-active <code>.disabled</code> name per §11.4.156(B)</del> —
+<strong><code>.github/workflows/ci.yml</code> is</strong> — and the
+gates move to a <strong>local pre-push hook</strong>. <strong>Decision
+option (2) in the OC-1 row below — <em>“record an explicit
+<code>Override §11.4.156</code>”</em> — does not exist</strong>:
+§11.4.156’s closing formula names and refuses the exemption vocabulary
+(<em>“No escape hatch … <code>--ci-exempt</code>”</em>), and the
+inheritance contract (<em>“extend them — they do NOT weaken or override
+any universal clause”</em>) makes a project-local override structurally
+impossible. Compliance was the only remaining path that does not amend
+shared governance; no amendment was made. <strong>Honest boundary
+(§11.4.6):</strong> the rename stops FILE-triggered runs only.
+Provider-side settings — org-default required workflows,
+branch-protection required checks, provider-side scheduled exports — are
+operator-only manual steps and are unverified, so G4 moves to
+<strong>PARTIAL, not CLOSED</strong>. <strong>Cost:</strong> no
+server-side enforcement on push or PR; <code>.git/hooks/</code> is not
+tracked by git, so a fresh clone has <strong>no</strong> protection
+until <code>bash scripts/pre-push-gates.sh --install</code> is run, and
+<code>git push --no-verify</code> bypasses the hook. Full record: <a
+href="constitution-adoption/DECISION-11-4-156-COMPLY.md"><code>constitution-adoption/DECISION-11-4-156-COMPLY.md</code></a>.
+<strong>OC-3 is unaffected by this decision.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>⚠ PARTIAL REVERSAL, same day — read this with the banner
+above.</strong> The <em>“disable both”</em> decision applies to
+<code>ci.yml</code> <strong>only</strong>.
+<code>milosvasic.ru/.github/workflows/pages.yml</code> was
+<strong>restored to ACTIVE and will stay active</strong>. Material fact:
+<code>gh api repos/milos85vasic/milosvasic.ru/pages</code> returns
+<code>build_type: "workflow"</code> — GitHub Pages publishes the live
+production site <code>https://milosvasic.ru/</code> <em>exclusively</em>
+by running that workflow. There is no <code>gh-pages</code> branch, no
+<code>docs/</code> folder, and the repository root is Jekyll SOURCE
+(Liquid + front matter), so it cannot be served raw from a branch.
+<code>_tools/deploy-langs.sh</code> is <strong>not</strong> a
+substitute: it generates, commits and pushes source, then
+<code>sleep</code>s waiting for the server to rebuild — it covers none
+of the publish step. Disabling <code>pages.yml</code> would end
+publishing, not make it manual. <strong>Operator’s overriding directive,
+verbatim:</strong> <strong><em>“Make sure all pages websites work
+flawlessly! No website can be broken! All websites we have here are
+running deployed in production!”</em></strong> <strong>Net
+state:</strong> the umbrella root complies with §11.4.156 at file level;
+<strong><code>milosvasic.ru</code> does not and will not — a known,
+documented deviation, emphatically NOT an
+<code>Override §11.4.156</code></strong> (the rule forbids one).
+Additionally <strong><code>vasic.digital</code> is non-compliant at the
+provider level with no file-level remedy</strong>:
+<code>build_type: "legacy"</code> triggers a
+<code>pages build and deployment</code> Actions run on every push
+although the repository contains <strong>zero</strong> workflow files.
+See <a
+href="constitution-adoption/DECISION-11-4-156-COMPLY.md"><code>constitution-adoption/DECISION-11-4-156-COMPLY.md</code></a>
+§0.</p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>ID</th>
+<th>Conflict</th>
+<th>Why it is unresolved</th>
+<th>Decision needed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>OC-1</strong> <em>(⚠ DECIDED 2026-08-27 — see banner; option
+2 does not exist)</em></td>
+<td><code>.github/workflows/ci.yml</code> is live
+(<code>on: push</code>, <code>on: pull_request</code>) while
+§11.4.156(A) forbids <strong>any</strong> active CI at a governed repo
+root — <em>“a release blocker regardless of context. No escape
+hatch.”</em></td>
+<td>It is a conflict of <strong>intent, not neglect</strong>. §11.4.156
+moves enforcement to the §11.4.75 five-layer git-hook ritual, and this
+repo has <strong>none</strong> of those layers (gap G5). Disabling CI
+today deletes the only mechanical check and puts nothing in its
+place.</td>
+<td>One of three, none of which an agent may pick: (1) disable per
+§11.4.156(B) <strong>and</strong> stand up the §11.4.75 layers first;
+(2) record an explicit <code>Override §11.4.156</code> with
+justification; (3) keep both and knowingly accept the release-blocker
+state. ⚠ <code>Constitution.md</code>’s “9,526 bytes” for this file is
+<strong>stale</strong> — it is now 10,609 B.</td>
+</tr>
+<tr>
+<td><strong>OC-2</strong> <em>(⚠ DECIDED 2026-08-27 — see
+banner)</em></td>
+<td><code>milosvasic.ru/.github/workflows/pages.yml</code> — the same
+clause, inside an <strong>owned</strong> submodule</td>
+<td>Listed separately because resolving it means committing
+<strong>inside a submodule working tree</strong>, which §102 reserves to
+the operator.
+(<code>submodules/superspec/.github/workflows/ci.yml</code> is
+deliberately <em>not</em> listed: §11.4.156(C) scopes to repositories
+<em>“we author + push”</em>, and superspec is third-party.)</td>
+<td>Operator commit inside the submodule</td>
+</tr>
+<tr>
+<td><strong>OC-3</strong></td>
+<td>§11.4.32 step 1 requires re-running
+<code>scripts/verify-governance-cascade.sh</code>, which did not exist
+here</td>
+<td>The sweep reports step 1 as an explicit SKIP naming the missing
+file, and never as a pass — correct behaviour, but the step is genuinely
+unperformed.</td>
+<td>⚠ <strong>Being closed as this was written.</strong> A 736-line
+<code>scripts/verify-governance-cascade.sh</code> appeared
+<strong>untracked</strong> at 20:36, after my sweep run. My 37/21
+measurement therefore predates it and still shows step 1 as SKIP.
+<strong>Re-run the sweep</strong>; OC-3 may already be resolved, but the
+new script is uncommitted, unreviewed, and was not exercised by any
+measurement in this report.</td>
+</tr>
+</tbody>
+</table>
+<p>No fourth <code>OC-</code> identifier exists.</p>
+<h3 id="everything-else-the-ledger-or-the-artifacts-flag-as-pending">6.4
+Everything else the ledger or the artifacts flag as pending</h3>
+<ul>
+<li><strong><code>WOZCODE</code></strong> has no public installer.
+Reported honestly as <code>➖ n/a</code> rather than <code>❌</code>,
+with <code>WOZCODE_INSTALL_CMD</code> documented as the enable path.
+<strong>Needs operator input.</strong></li>
+<li><strong>The glyphdown hook</strong> is held back on operator request
+— a deliberate skip, not a gap.</li>
+<li><strong><code>I11</code> and <code>I12</code></strong> are still
+source greps that never execute what they name (§3.1), and
+<code>I12</code> is <em>documented</em> as behavioural.
+<code>A48/A49/A50</code> and <code>I16–I20</code> are the same shape.
+Pass 2’s recommendation 5 — make them execute the scripts with stubs —
+is <strong>not done</strong>.</li>
+<li><strong><code>C-3</code> is acknowledged but unfixed:</strong> the
+test-suite header still reads <em>“Nothing here mutates the real
+environment”</em> (I verified the line is unchanged), while the suite
+writes <code>.test-evidence/&lt;stamp&gt;/</code> into the repo and live
+mode runs real <code>lumen index</code>/<code>purge</code>.</li>
+<li><strong><code>G10</code></strong> still inspects one file to prove a
+whole-filesystem property.</li>
+<li><strong>The <code>cm_opendesign_ui_system.sh</code> false
+SKIP</strong> is knowingly left in place. Binding
+<code>OD_THEME_GLOBS</code> converts it to an honest FAIL and surfaces
+<strong>187 hardcoded six-digit hex literals</strong> across five theme
+files. Operator call.</li>
+<li><strong><code>Constitution.md</code>’s “Known-excluded gate
+findings” is stale in three places</strong> — still says five carriers /
+85 MISSING lines (now four / 68) and still describes the
+<code>vasic.digital/QWEN.md</code> fix as <em>“staged, awaits operator
+application”</em> when it was applied and pushed as
+<code>6e5411c</code>.</li>
+<li><strong><code>INDEX-COVERAGE.md</code> is a 2026-08-26
+snapshot</strong> and predates the propagation apply; all five submodule
+SHAs it records are superseded. Its CodeGraph identity (541 indexed ==
+541 eligible) probably still holds but was measured against a different
+tree. Its Lumen figures (496 files, zero submodule coverage) are long
+superseded — I measure <strong>465 submodule files</strong> indexed
+now.</li>
+<li><strong><code>ARCHITECTURE.md</code></strong> was flagged stale
+mid-session; it has since been rewritten (mtime 18:24), but the
+67-finding <code>DOC-AUDIT.md</code> (17 Critical / 41 Major / 9 Minor)
+has no closure record.</li>
+<li><strong><code>submodules/constitution</code> is ~60 commits behind
+its real upstream</strong>, with a stale <code>origin/main</code> making
+<code>git status</code> read “up to date” — <em>“a false
+reassurance.”</em></li>
+<li><strong><code>.ashlrcode/</code> is tracked, not
+gitignored</strong>, and
+<code>.ashlrcode/genome/knowledge/discoveries-auto.md</code> contains
+raw <code>{"stdout":...}</code> dumps that will dilute retrieval against
+the hand-written <code>discoveries.md</code>. A defensible decision, but
+a decision — and per <code>RESIDUAL-PATHS-AUDIT.md</code>, six genome
+files still assert the hardcoded-path bug is unfixed.</li>
+<li><strong>The uncommitted workstream in §5.6</strong> is unreviewed
+and unmerged.</li>
+</ul>
+<hr />
+<h2 id="operational-runbook">7. Operational runbook</h2>
+<p>The five scripts you reach for, and when.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Script</th>
+<th>One line</th>
+<th>When to reach for it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scripts/setup-agents-wizard.sh</code></td>
+<td>Installs and configures the five agent CLIs, wires Lumen
+(+CodeGraph) as MCP servers, opts out of telemetry, and ends with an
+<strong>ACTION REQUIRED</strong> block for what a shell script genuinely
+cannot do.</td>
+<td>First-time setup, or after any agent CLI upgrade. Idempotent; every
+mutation is recorded to a backup manifest.</td>
+</tr>
+<tr>
+<td><code>scripts/rollback-agents-wizard.sh</code></td>
+<td>Replays a wizard run’s manifest in reverse — restores byte-exact
+originals, deletes created files, prints (and with
+<code>--run-actions</code> executes) undo commands.</td>
+<td>The wizard changed something you did not want. Start with
+<code>--list</code>, then <code>--dry-run</code>, then
+<code>--yes</code>. Rolling back is itself reversible.</td>
+</tr>
+<tr>
+<td><code>scripts/ollama-vulkan-remediation.sh</code></td>
+<td>Takes the GPU out of ollama’s embedding path. <strong>Defaults to
+the read-only <code>--check</code>.</strong></td>
+<td><strong>Before every index run</strong>, and first whenever
+embeddings look wrong. <code>--apply</code>/<code>--rollback</code> need
+<code>sudo</code>. Allow it &gt;2 min on a loaded host. Do
+<strong>not</strong> run <code>--check</code> against a Vulkan backend
+while an index is in flight — its probe is large enough to cause the
+fault it detects.</td>
+</tr>
+<tr>
+<td><code>scripts/lumen-reindex.sh [path] [--force] [--allow-gpu]</code></td>
+<td>Rebuilds a Lumen index, <strong>refusing to start</strong> when
+ollama reports <code>library=Vulkan</code>, probing aggregate
+distinctness first, and resuming incrementally around transient
+faults.</td>
+<td>Any rebuild. <strong><code>--force</code> is mandatory after a
+corruption event</strong> — corrupted files carry a non-empty hash, so
+an incremental run skips them forever.</td>
+</tr>
+<tr>
+<td><code>scripts/lumen-index-doctor.sh [path]</code></td>
+<td>Detects the corruption class every per-vector test misses:
+<em>N</em> distinct texts must yield <em>N</em> distinct vectors.
+Read-only (<code>mode=ro</code>). Exit <code>0</code> healthy /
+<code>1</code> corruption / <code>2</code> could not inspect.</td>
+<td>After every rebuild, and whenever search quality is suspect.
+<strong>Read its magnitude with §5.5 in hand</strong> — it counts freed
+slots.</td>
+</tr>
+</tbody>
+</table>
+<p>Three more are verification gates rather than operations:
+<code>scripts/test-setup-agents-wizard.sh</code> (the 147-assertion
+suite; <code>--no-live</code> to skip network/daemon),
+<code>scripts/audit-hardcoded-paths.sh</code> (fails on machine-specific
+absolute paths; CI-suitable), and
+<code>scripts/verify-all-constitution-rules.sh</code> (the §11.4.32
+58-gate sweep; expect exit 1 at 37/21 until the third-party carriers are
+resolved upstream).</p>
+<p><strong>Two standing rules earned the hard way this
+session:</strong></p>
+<ol type="1">
+<li><strong>Never <code>commit</code> while agents are still
+writing.</strong> It happened three times; twice it swept artifacts into
+history and once it nearly pushed a regenerated sitemap to a live
+site.</li>
+<li><strong>The commit wrapper is unsafe in a submodule that lacks its
+own <code>upstreams/</code> directory</strong> — it silently walks up
+and targets the <em>parent’s</em> remote names, and still prints
+<code>OK</code>. Verify <code>local == remote</code> after every wrapper
+push.</li>
+</ol>
+<hr />
+<p><em>Prepared 2026-08-27. Measurements taken 18:21Z–18:36Z against
+HEAD <code>62706a9</code>, with a working tree that was being modified
+by another actor throughout — three new files and two
+<code>ci.yml</code> revisions landed during the writing. Re-measure
+before quoting any figure here as current. This report created exactly
+one file (<code>docs/SESSION-REPORT.md</code>) and modified
+none.</em></p>
+</body>
+</html>

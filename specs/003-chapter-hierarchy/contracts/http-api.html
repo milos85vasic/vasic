@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>http-api</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">http-api</h1>
+</header>
+<h1 id="http-api-contract-delta-for-chapter-hierarchy">HTTP API Contract
+— Delta for Chapter Hierarchy</h1>
+<p><strong>Feature</strong>: <code>specs/003-chapter-hierarchy</code> |
+<strong>Date</strong>: 2026-09-05</p>
+<p>This is a <strong>delta</strong>.
+<code>specs/001-workshop-curriculum-platform/contracts/http-api.md</code>
+remains authoritative for everything it already covers — the response
+envelope, the three-state contract, the header set, the error taxonomy,
+the malformed-request rules — and this document restates none of it, so
+the two cannot drift.</p>
+<p><strong>This feature adds NO endpoint.</strong> §3 changes two that
+exist. There is no §“Endpoints added”, and its absence is deliberate
+rather than an omission: see §5.</p>
+<h2 id="binding-rules-inherited-not-restated">1. Binding rules
+inherited, not restated</h2>
+<p>Every response below inherits, without exception:</p>
+<ol type="1">
+<li>The <strong>three states</strong> — <code>ok</code>,
+<code>no_match</code>, <code>unavailable</code> — and the rule that a
+degraded backend is never rendered as an empty result set.</li>
+<li>The <strong>four resolution outcomes</strong> — found, redacted, not
+present, could not determine — mapped to their existing status
+codes.</li>
+<li><strong>Malformed requests are a fourth thing</strong>, not a fourth
+state, and use the existing <code>4xx</code> error shape rather than
+borrowing the three-state vocabulary.</li>
+<li>The <strong>generation header</strong> and
+<code>Cache-Control: no-store</code> on the three-state endpoints.</li>
+<li><code>X-Workshop-Search-Status</code> mirrors
+<code>body.status</code> verbatim and is never the authority.</li>
+</ol>
+<h2 id="the-two-amendments-to-the-001-contract">2. The two amendments to
+the 001 contract</h2>
+<p>Both are <strong>prerequisites</strong>, not consequences. Neither
+may be enacted by implementing it, and every field marked
+<em>(provisional)</em> below is provisional on the first.</p>
+<ul>
+<li><p><strong>A1 — <code>Chapter.ordinal</code> is widened to
+<code>ordinal_path</code>.</strong>
+<code>specs/001-.../data-model.md:45</code> types <code>ordinal</code>
+as <code>int</code>. <code>02.01</code> has no <code>int</code> ordinal,
+and <code>ordinalOf</code> (<code>internal/api/chapters.go:736</code>)
+faithfully returns <strong><code>2</code></strong> for both
+<code>02</code> and <code>02.01</code>. The field becomes an ordered
+list of integers. <strong><code>ordinal</code> is removed, not
+deprecated</strong>: leaving it beside <code>ordinal_path</code>
+guarantees a client reads the one that collides.</p></li>
+<li><p><strong>A2 — <code>http-api.md:60</code> is amended to name the
+dotted id as the path key.</strong> It currently reads that the
+zero-padded <code>ordinal</code> is <em>“not accepted as a path key —
+one key, one meaning”</em>, while <code>route-manifest.tsv:72</code>
+declares the live route <code>GET /api/chapters/01</code> — which is
+exactly that string. The amendment makes the <strong>id</strong> the
+single key, so <em>“one key, one meaning”</em> becomes true rather than
+merely written. <code>{chapter}</code> continues to match one path
+segment; a chapter id contains no <code>/</code> because
+<code>SafeSlug</code> (<code>pkg/curriculum/curriculum.go:209</code>)
+rejects it.</p></li>
+</ul>
+<h2 id="the-route-manifest-obligation">3. The route-manifest
+obligation</h2>
+<p>The server-unity verifier reads the route manifest and this contract
+and fails when a contracted endpoint has no manifest row. Its exit is
+three-valued; an undetermined result is <strong>not</strong> a pass.</p>
+<ul>
+<li><strong>R1</strong> — both endpoints in §4 already have rows. Their
+<strong>contract citation must name both documents</strong> as a
+compound token — <code>3.2+003.4.1</code> and <code>3.3+003.4.2</code> —
+because a row naming only the 001 section still looks complete to a
+reviewer while the behaviour underneath it has changed. This is the same
+staleness R1b guards for feature 002, and it is a <em>stale</em> row
+rather than an <em>absent</em> one, which no existence check can
+see.</li>
+<li><strong>R2</strong> — <code>route-manifest.tsv:64</code> reads
+<code>#subst {chapter} 01</code>. <strong>One substitution value cannot
+exercise a hierarchy.</strong> The manifest must substitute at least a
+parent and a child, and the rows written with a literal
+<code>/api/chapters/01/</code> — <code>:72</code>–<code>:76</code>,
+<code>:85</code>, and the four <code>NOT_BUILT</code> rows at
+<code>:157</code>–<code>:160</code> — must be re-expressed against
+<code>{chapter}</code> so the substitution reaches them.</li>
+<li><strong>R3</strong> — no row is added. §5.</li>
+</ul>
+<h2 id="endpoints-changed">4. Endpoints changed</h2>
+<h3 id="get-apichapters-the-list-with-derived-ancestry">4.1
+<code>GET /api/chapters</code> — the list, with derived ancestry</h3>
+<p><strong>Today</strong> it returns
+<code>{"chapters": [{"id": …, "material_count": …}]}</code> and nothing
+else (<code>cmd/workshop-server/main.go:2078</code>–<code>2091</code>).
+The array is already sorted byte-lexicographically on <code>id</code>
+(<code>:2126</code>).</p>
+<p><strong>Changed</strong>: every row gains a <code>hierarchy</code>
+object; the endpoint gains three query parameters and a
+<code>filters</code> echo. <strong>The <code>chapters</code> value stays
+a FLAT ARRAY</strong> — <code>core/api.ts:88</code> reads it flat, and
+nesting it is a breaking change to a live consumer.</p>
+<pre class="jsonc"><code>// 200 — GET /api/chapters
+{
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;filters&quot;: {                      // ECHOED ON EVERY STATUS. See C4.1.4.
+    &quot;under&quot;: null,
+    &quot;depth&quot;: null,
+    &quot;include_self&quot;: false,
+    &quot;under_resolved&quot;: null          // null when `under` was not given
+  },
+  &quot;max_depth_present&quot;: 2,           // MEASURED, never a limit. H6.
+  &quot;unclassified&quot;: [],               // H1. See C4.1.6.
+  &quot;chapters&quot;: [
+    {
+      &quot;id&quot;: &quot;01&quot;,
+      &quot;material_count&quot;: 41,
+      &quot;hierarchy&quot;: {
+        &quot;parent_id&quot;: null,
+        &quot;depth&quot;: 1,
+        &quot;ancestor_ids&quot;: [],
+        &quot;child_ids&quot;: [],
+        &quot;ordinal_path&quot;: [1],        // (provisional on A1)
+        &quot;orphaned&quot;: false
+      }
+    },
+    {
+      &quot;id&quot;: &quot;02&quot;,
+      &quot;material_count&quot;: 20,
+      &quot;hierarchy&quot;: {
+        &quot;parent_id&quot;: null,
+        &quot;depth&quot;: 1,
+        &quot;ancestor_ids&quot;: [],
+        &quot;child_ids&quot;: [&quot;02.01&quot;],
+        &quot;ordinal_path&quot;: [2],
+        &quot;orphaned&quot;: false
+      }
+    },
+    {
+      &quot;id&quot;: &quot;02.01&quot;,
+      &quot;material_count&quot;: 5,
+      &quot;hierarchy&quot;: {
+        &quot;parent_id&quot;: &quot;02&quot;,
+        &quot;depth&quot;: 2,
+        &quot;ancestor_ids&quot;: [&quot;02&quot;],
+        &quot;child_ids&quot;: [],
+        &quot;ordinal_path&quot;: [2, 1],
+        &quot;orphaned&quot;: false
+      }
+    }
+  ]
+}</code></pre>
+<p><strong>C4.1.1 — the array is flat and stays flat.</strong> No
+element carries a nested chapter array. Ancestry travels per row. A
+client that wants a tree builds one from <code>parent_id</code>; a
+client that wants a list keeps working unchanged.</p>
+<p><strong>C4.1.2 — order is byte-lexicographic on <code>id</code>, and
+it is the same order the filesystem and a shell glob produce.</strong>
+Not a coincidence: it is asserted (H4). <code>02.01</code> falls
+immediately after <code>02</code> because <code>.</code> (0x2E) sorts
+below <code>0</code>–<code>9</code> (0x30–0x39).</p>
+<p><strong>C4.1.3 — every hierarchy field is derived and none is
+stored</strong> (H2). A client may recompute all of them from the id
+list alone and must get the same answer; a gate does exactly that.</p>
+<p><strong>C4.1.4 — <code>filters</code> is echoed on EVERY status,
+including <code>unavailable</code>.</strong> This is the load-bearing
+rule of this section. Without the echo, four situations are
+indistinguishable to a client: the branch is empty; the parameter was
+misspelled; the parameter was ignored by an older build; the backend
+could not read the tree. The first is a fact about the corpus and the
+other three are faults, and a client that cannot tell them apart will
+render the fault as the fact.</p>
+<pre class="jsonc"><code>// 503 — the chapter tree could not be read. FILTERS ARE STILL ECHOED.
+{
+  &quot;status&quot;: &quot;unavailable&quot;,
+  &quot;generation&quot;: null,
+  &quot;reason&quot;: {
+    &quot;code&quot;: &quot;curriculum_unreadable&quot;,
+    &quot;leg&quot;: &quot;curriculum&quot;,
+    &quot;message&quot;: &quot;The chapter tree could not be read, so no hierarchy can be derived.&quot;,
+    &quot;retry_after_s&quot;: null
+  },
+  &quot;filters&quot;: { &quot;under&quot;: &quot;02&quot;, &quot;depth&quot;: null, &quot;include_self&quot;: false, &quot;under_resolved&quot;: null }
+}</code></pre>
+<p>Note <code>under_resolved</code> is
+<strong><code>null</code></strong>, not <code>false</code>, here:
+<code>false</code> asserts that the branch was looked for and not found,
+and nothing was looked for. Collapsing the two is the same conflation
+the platform’s fourth resolution outcome exists to prevent.</p>
+<p><strong>C4.1.5 — the three query parameters.</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Form</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>under</code></td>
+<td>a chapter id</td>
+<td>returns the <strong>descendants</strong> of that id, at every depth.
+Filters on <strong>derived ancestry</strong>, so an orphan whose parent
+is absent is still returned under that parent’s id (C4.2.3)</td>
+</tr>
+<tr>
+<td><code>depth</code></td>
+<td>a positive integer</td>
+<td>returns only chapters at exactly that depth. Combines with
+<code>under</code> by intersection</td>
+</tr>
+<tr>
+<td><code>include_self</code></td>
+<td>boolean</td>
+<td>when <code>under</code> is given, includes the named chapter itself.
+Default <code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p>An unparseable <code>depth</code> or <code>include_self</code> is a
+<strong>malformed request</strong> — <code>4xx</code>, the existing
+error shape, no three-state vocabulary. It is not defaulted. The
+precedent is <code>boolParam</code>
+(<code>internal/api/chapters.go:819</code>–<code>821</code>), which
+already rejects rather than defaults, and its reasoning applies
+unchanged: a silently defaulted filter returns a correct-looking answer
+to a question nobody asked.</p>
+<p><strong>C4.1.6 — an unknown <code>under</code> is <code>200</code>,
+never <code>404</code>.</strong></p>
+<pre class="jsonc"><code>// 200 — GET /api/chapters?under=99
+{
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;filters&quot;: { &quot;under&quot;: &quot;99&quot;, &quot;depth&quot;: null, &quot;include_self&quot;: false, &quot;under_resolved&quot;: false },
+  &quot;max_depth_present&quot;: 2,
+  &quot;unclassified&quot;: [],
+  &quot;chapters&quot;: []
+}</code></pre>
+<p>The route exists and the request was well-formed. A <code>404</code>
+here says <em>“no such endpoint”</em> about a request whose true answer
+is <em>“no such branch”</em>. <code>under_resolved: false</code> is what
+carries the second meaning, and it is why the empty array is not
+ambiguous.</p>
+<p><strong>C4.1.7 — <code>unclassified</code> reports what the grammar
+refused</strong> (H1). A directory under <code>chapters/</code> whose
+name does not match <code>^[0-9]{2,}(\.[0-9]{2,})*$</code> appears here
+with a reason. It is <strong>never</strong> silently skipped and
+<strong>never</strong> silently listed as a chapter.</p>
+<pre class="jsonc"><code>&quot;unclassified&quot;: [
+  { &quot;name&quot;: &quot;02.2&quot;,     &quot;reason&quot;: &quot;component not zero-padded to at least two digits&quot; },
+  { &quot;name&quot;: &quot;drafts&quot;,   &quot;reason&quot;: &quot;not a numeric path&quot; }
+]</code></pre>
+<p>The reason is a <strong>classification</strong>, not a filename echo
+beyond the directory’s own name, which the existing list endpoint
+already returns as <code>id</code>. <code>listChapters</code>
+(<code>main.go:2094</code>) deliberately counts materials rather than
+naming them; that discipline is unchanged, and nothing in this feature
+puts a material filename on the wire.</p>
+<h3
+id="get-apichapterschapter-one-chapter-with-parent-and-child-hrefs">4.2
+<code>GET /api/chapters/{chapter}</code> — one chapter, with parent and
+child hrefs</h3>
+<p><strong>Changed</strong>: <code>ordinal</code> →
+<code>ordinal_path</code> (A1); <code>title</code> no longer collides;
+<code>derivation.ordinal</code> rewritten; a <code>hierarchy</code>
+object added. Everything else — <code>summary: null</code>,
+<code>materials</code>, <code>sections</code>, <code>status</code>, and
+the existing <code>derivation</code> entries for them — is
+unchanged.</p>
+<pre class="jsonc"><code>// 200 — GET /api/chapters/02.01
+{
+  &quot;slug&quot;: &quot;02.01&quot;,
+  &quot;ordinal_path&quot;: [2, 1],           // (provisional on A1) — REPLACES `ordinal`, never beside it
+  &quot;title&quot;: &quot;Chapter 2.1&quot;,
+  &quot;summary&quot;: null,
+  &quot;hierarchy&quot;: {
+    &quot;parent_id&quot;: &quot;02&quot;,
+    &quot;parent_href&quot;: &quot;/api/chapters/02&quot;,
+    &quot;depth&quot;: 2,
+    &quot;ancestor_ids&quot;: [&quot;02&quot;],
+    &quot;child_ids&quot;: [],
+    &quot;child_hrefs&quot;: [],
+    &quot;orphaned&quot;: false
+  },
+  &quot;materials&quot;: [ /* unchanged */ ],
+  &quot;status&quot;: &quot;draft&quot;,
+  &quot;sections&quot;: null,
+  &quot;derivation&quot;: {
+    &quot;ordinal_path&quot;: &quot;each dot-separated component of the chapter id, parsed as an integer, in order&quot;,
+    &quot;title&quot;: &quot;positional — no authored chapter title exists in this curriculum, so the title is the chapter&#39;s own ordinal path and nothing more&quot;,
+    &quot;summary&quot;: &quot;not authored — null rather than a placeholder, and rather than a generated stand-in: no summary was written and nothing local can write one&quot;,
+    &quot;hierarchy&quot;: &quot;derived from the chapter id by string operation; no parent, depth or child list is stored anywhere&quot;,
+    &quot;materials&quot;: { /* unchanged */ },
+    &quot;status&quot;: &quot;draft — no transcript has been produced for this chapter&quot;,
+    &quot;sections&quot;: { /* unchanged */ }
+  }
+}</code></pre>
+<p><strong>C4.2.1 — <code>derivation.ordinal</code> must be rewritten,
+not deleted.</strong> It currently reads <em>“parsed from the leading
+digits of the chapter slug”</em> (<code>chapters.go:141</code>), which
+is an <strong>accurate description of the defect</strong> — the endpoint
+is not lying, it is telling you exactly what it did. That honesty
+mechanism is the reason the defect is legible at all, and a derivation
+string left describing a replaced derivation would convert a working
+instrument into a stale one.</p>
+<p><strong>C4.2.2 — <code>title</code> must not collide.</strong>
+<code>chapterTitle</code> (<code>:755</code>) renders <code>02</code>
+and <code>02.01</code> both as <em>“Chapter 2”</em>. Two distinct
+chapters with one title is a wrong answer a reader will read as a
+cosmetic quirk.</p>
+<p><strong>C4.2.3 — an orphan is SERVED</strong> (H3).</p>
+<pre class="jsonc"><code>// 200 — GET /api/chapters/02.01, with chapters/02 absent
+{
+  &quot;slug&quot;: &quot;02.01&quot;,
+  &quot;ordinal_path&quot;: [2, 1],
+  &quot;title&quot;: &quot;Chapter 2.1&quot;,
+  &quot;hierarchy&quot;: {
+    &quot;parent_id&quot;: &quot;02&quot;,              // UNCHANGED by the parent&#39;s absence — it is derived
+    &quot;parent_href&quot;: null,            // there is nothing to link to
+    &quot;depth&quot;: 2,
+    &quot;ancestor_ids&quot;: [&quot;02&quot;],
+    &quot;child_ids&quot;: [],
+    &quot;child_hrefs&quot;: [],
+    &quot;orphaned&quot;: true,
+    &quot;missing_ancestor_ids&quot;: [&quot;02&quot;]
+  }
+}</code></pre>
+<p>Hiding it loses content that exists. Promoting it to a root silently
+rewrites the hierarchy. Serving it with <code>orphaned: true</code> and
+the missing id named is the only form that states what is true.</p>
+<p><strong>C4.2.4 — the four outcomes are unchanged.</strong> A chapter
+that does not exist is <code>404</code> with the existing error shape; a
+tree that cannot be read is <code>503</code> with
+<code>status: "unavailable"</code>; neither is collapsed into the other.
+Orphanhood is <strong>not</strong> a fourth outcome — the chapter was
+found.</p>
+<h2 id="why-no-route-is-added">5. Why no route is added</h2>
+<p>The obvious design is
+<code>GET /api/chapters/{chapter}/children</code>. It is refused, and
+the reason is a cost that is easy to miss: a new route is not one
+handler. It is a route-manifest row, a section in this contract, a
+server-unity verifier row, a negative assertion for the not-built case,
+and a permanent line in every future audit of the API surface — and the
+manifest already carries <strong>20</strong> <code>NOT_BUILT</code>
+rows, which is the measured evidence that declared-but-unbuilt routes
+accumulate.</p>
+<p>Every fact such a route would serve is derivable from data
+<code>GET /api/chapters</code> already returns. Adding one would create
+a second way to ask the same question, and the two would be free to
+disagree the first time a filter was added to one of them.</p>
+<h2 id="gates-and-their-paired-mutations">6. Gates and their paired
+mutations</h2>
+<p>Every gate is three-valued — <code>0</code> clean, <code>1</code> a
+real finding, <code>2</code> could not determine — and every one takes
+its chapter ids <strong>from the live tree</strong>, following
+<code>verify-absence-honesty.sh:127</code>–<code>134</code>, which
+already reads a chapter from <code>GET /api/chapters</code> rather than
+hardcoding one.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Asserts</th>
+<th>Paired mutation that must turn it red</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>G-CH-1</strong> grammar</td>
+<td>the validator accepts <code>01 02 02.01 02.01.01 100</code> and
+rejects <code>2 02.2 02. .01 ""</code></td>
+<td>relax the grammar to <code>[0-9]+</code></td>
+</tr>
+<tr>
+<td><strong>G-CH-2</strong> three orders</td>
+<td>API order, shell-glob order and filesystem byte order are identical
+over a fixture tree</td>
+<td>sort by <code>ordinal_path</code> numerically — must go red on
+<code>02.09</code> / <code>02.10</code></td>
+</tr>
+<tr>
+<td><strong>G-CH-3</strong> derived-only</td>
+<td>no persisted <code>parent_id</code>, depth or child list in the
+registry, the derived database or any serialised artifact</td>
+<td>persist one</td>
+</tr>
+<tr>
+<td><strong>G-CH-4</strong> no collision</td>
+<td>ordinal representations are pairwise distinct over every present id
+plus a synthetic set</td>
+<td>restore leading-digit parsing — must go red on <code>02</code> /
+<code>02.01</code></td>
+</tr>
+<tr>
+<td><strong>G-CH-5</strong> scope equality</td>
+<td>no chapter-scope comparison uses <code>HasSuffix</code>,
+<code>HasPrefix</code> or <code>Contains</code></td>
+<td>introduce one</td>
+</tr>
+<tr>
+<td><strong>G-CH-6</strong> two-scope redaction</td>
+<td>the review for <code>01</code> excludes <code>02.01</code>’s
+artifacts, on a <strong>two-scope</strong> fixture</td>
+<td>restore <code>strings.HasSuffix</code></td>
+</tr>
+<tr>
+<td><strong>G-CH-6b</strong> fixture blindness</td>
+<td>the same mutation against a <strong>one-scope</strong> fixture
+leaves the test <strong>green</strong></td>
+<td>— this gate asserts a <em>negative</em> about a test, and has no
+mutation of its own; it <strong>is</strong> the mutation</td>
+</tr>
+<tr>
+<td><strong>G-CH-7</strong> filters echo</td>
+<td><code>filters</code> is present on <code>ok</code>,
+<code>no_match</code> and <code>unavailable</code></td>
+<td>omit it on the unavailable path</td>
+</tr>
+<tr>
+<td><strong>G-CH-8</strong> unknown branch</td>
+<td>an unknown <code>under</code> returns <code>200</code> with
+<code>under_resolved: false</code></td>
+<td>return <code>404</code></td>
+</tr>
+<tr>
+<td><strong>G-CH-9</strong> orphan served</td>
+<td>an orphan is listed, flagged, and names its missing ancestor</td>
+<td>filter orphans out of the list</td>
+</tr>
+<tr>
+<td><strong>G-CH-10</strong> no special case</td>
+<td>no branch anywhere conditions on a chapter’s depth</td>
+<td>add <code>if depth &gt; 1</code> to any handler</td>
+</tr>
+<tr>
+<td><strong>G-CH-11</strong> flat array</td>
+<td><code>chapters</code> is a flat array in every response</td>
+<td>nest children under their parent</td>
+</tr>
+<tr>
+<td><strong>G-CH-12</strong> both directions</td>
+<td>both widened patterns match <code>chapter-01</code>
+<strong>and</strong> <code>chapter-02.01</code></td>
+<td>(a) revert to <code>chapter-\d+</code>; (b) narrow to
+<code>chapter-\d+\.\d+</code>. <strong>Both required</strong></td>
+</tr>
+<tr>
+<td><strong>G-CH-13</strong> ingest refusal</td>
+<td>ingestion with a chapter and no transcript export
+<strong>refuses</strong>, writing zero records</td>
+<td>restore the <code>full_ch01</code> default</td>
+</tr>
+<tr>
+<td><strong>G-CH-14</strong> no hardcoded chapter in gates</td>
+<td>every gate obtains its chapter from the live tree or from an
+argument</td>
+<td>hardcode <code>01</code> in one</td>
+</tr>
+</tbody>
+</table>
+<p><strong>G-CH-6b is the unusual one and is stated rather than folded
+in.</strong> It asserts that a cheaper test <em>fails to detect</em> the
+defect. Without it, a future maintainer replacing the two-scope fixture
+with a one-scope one sees every assertion still pass and concludes the
+fixture shape was incidental. It was not: <code>02.01</code> has the
+suffix <code>01</code>, so on a one-scope registry
+<code>HasSuffix</code> and <code>==</code> agree on every constructible
+input, and the narrowing fix is a <strong>no-op</strong> there.</p>
+<h2 id="traceability">7. Traceability</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Contract clause</th>
+<th>Requirement</th>
+<th>Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1, C4.2.1, C4.2.2</td>
+<td>FR-022, FR-023, FR-024</td>
+<td>SC-013</td>
+</tr>
+<tr>
+<td>A2, R2</td>
+<td>FR-002, FR-033</td>
+<td>SC-015, SC-025</td>
+</tr>
+<tr>
+<td>C4.1.1, C4.1.2</td>
+<td>FR-009, FR-010, FR-011, FR-027</td>
+<td>SC-003, SC-004, SC-016</td>
+</tr>
+<tr>
+<td>C4.1.3</td>
+<td>FR-006, FR-007</td>
+<td>SC-011, SC-012</td>
+</tr>
+<tr>
+<td>C4.1.4</td>
+<td>FR-028</td>
+<td>SC-017</td>
+</tr>
+<tr>
+<td>C4.1.5</td>
+<td>FR-028</td>
+<td>SC-017</td>
+</tr>
+<tr>
+<td>C4.1.6</td>
+<td>FR-029</td>
+<td>SC-018</td>
+</tr>
+<tr>
+<td>C4.1.7</td>
+<td>FR-004, FR-005</td>
+<td>SC-001, SC-002</td>
+</tr>
+<tr>
+<td>C4.2.3</td>
+<td>FR-031</td>
+<td>SC-019</td>
+</tr>
+<tr>
+<td>§5</td>
+<td>FR-026</td>
+<td>SC-015</td>
+</tr>
+<tr>
+<td>§6 G-CH-5, G-CH-6, G-CH-6b</td>
+<td>FR-012, FR-013</td>
+<td>SC-008, SC-009, SC-010</td>
+</tr>
+<tr>
+<td>§6 G-CH-10</td>
+<td>FR-032</td>
+<td>SC-020</td>
+</tr>
+<tr>
+<td>§6 G-CH-12</td>
+<td>FR-014</td>
+<td>SC-006</td>
+</tr>
+<tr>
+<td>§6 G-CH-13</td>
+<td>FR-016, FR-017</td>
+<td>SC-007</td>
+</tr>
+</tbody>
+</table>
+<h2 id="unverified-register">8. Unverified register</h2>
+<p>Recorded rather than answered, because each would be a guess.</p>
+<ul>
+<li><strong>U1 — the <code>material_count</code> values in §4.1’s
+example are measured for the LIST endpoint only.</strong> Counting
+non-directory, non-dotfile entries — which is what
+<code>listChapters</code> (<code>main.go:2111</code>–<code>:2123</code>)
+does — gives <strong>41</strong>, <strong>20</strong> and
+<strong>5</strong> on 2026-09-05. The single-chapter endpoint’s
+<code>materials</code> array is <strong>not</strong> the same set:
+<code>listMaterials</code> classifies by extension and excludes the
+recording, its archive members and its checksum manifest
+(<code>chapters.go:156</code>–<code>163</code>). <strong>The two numbers
+are not expected to agree</strong>, and neither is a count of “how much
+material a chapter has”.</li>
+<li><strong>U2 — whether <code>GET /api/chapters</code> carries a
+<code>status</code> field today.</strong> It returns a bare
+<code>{"chapters": …}</code> at <code>200</code> and a
+<code>{"error": …}</code> at <code>500</code>
+(<code>main.go:2085</code>–<code>2091</code>); it does not use
+<code>writeUnavailable</code>. §4.1’s <code>status: "ok"</code> and the
+<code>503</code> example therefore describe the <strong>target</strong>
+shape under FR-028, and bringing this endpoint onto the three-state
+envelope is part of the work, not a description of it.</li>
+<li><strong>U3 — the maximum depth this corpus will reach.</strong>
+<code>max_depth_present</code> is measured at <strong>2</strong> today.
+No limit is asserted (H6), and no figure here should be read as
+one.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>ARCHITECTURE</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">ARCHITECTURE</h1>
+</header>
+<h1 id="setup-wizard-architecture">🏗️ Setup Wizard Architecture</h1>
+<p>Visual reference for <code>scripts/setup-agents-wizard.sh</code> and
+its test-suite <code>scripts/test-setup-agents-wizard.sh</code>.</p>
+<p>Where the <a href="./README.md">README</a> tells you <strong>what to
+run</strong>, this document shows <strong>how the pieces fit
+together</strong>: the order of the nine steps, how <code>lumen</code>
+is actually resolved at call time, why two shell init files are written
+instead of one, everything the wizard touches on disk, what the test
+groups cover, and how the semantic index moves between states.</p>
+<p>Every diagram below is derived from the current code. Six facts are
+worth stating up front because they are easy to get wrong:</p>
+<ul>
+<li><strong>Lumen is not an npm package.</strong> It ships as a Claude
+Code <strong>plugin binary</strong> at
+<code>~/.claude-shared/plugins/cache/&lt;marketplace&gt;/lumen/&lt;version&gt;/bin/lumen-&lt;os&gt;-&lt;arch&gt;</code>.
+The wizard installs a version-agnostic wrapper on <code>PATH</code>
+instead of a pinned symlink.</li>
+<li><strong>Lumen’s MCP subcommand is <code>stdio</code></strong>, not
+<code>serve</code>. <code>serve</code> does not exist and fails with
+<code>Error: unknown command "serve" for "lumen"</code>.</li>
+<li><strong>Kimi, Opencode and MiMo Code are detected, never
+installed.</strong> They are not on npm under those names, so the wizard
+prints the vendor URL instead. The only agent CLI it installs is Qwen
+Code, from <code>@qwen-code/qwen-code</code> — whose binary is
+<code>qwen</code>, not <code>qwen-code</code>.</li>
+<li><strong>Each agent gets a different MCP shape</strong>, at a
+different path. There is no single config file the wizard writes for all
+five — but there <em>is</em> one file several of them
+<strong>inherit</strong> from, <code>~/.claude.json</code>, which is why
+the wizard mirrors Lumen into it rather than trusting
+<code>claude mcp add-json -s user</code> to have landed there.</li>
+<li><strong>ashlr is a Claude Code plugin with no binary.</strong>
+<code>command -v ashlr</code> never succeeds, by design; the wizard
+verifies its plugin directory instead. Turning the clone into a working
+plugin takes slash commands only a human can run.</li>
+<li><strong>The wizard ends by listing what it could NOT do.</strong>
+The <code>ACTION REQUIRED</code> section, the
+<code>MANUAL-STEPS.md</code> file and the Enter pause are a first-class
+part of the flow, not an epilogue — see §1.</li>
+</ul>
+<hr />
+<h2 id="end-to-end-wizard-flow">1. 🔁 End-to-end wizard flow</h2>
+<p>The wizard runs seven numbered steps top to bottom,
+non-interactively; the seventh is opt-in and only runs with
+<code>WIZARD_INDEX_PROJECT</code> set. Only <strong>Step 1</strong> can
+abort the run: missing
+<code>git</code>/<code>curl</code>/<code>node</code>/<code>npm</code>,
+or a <code>jq</code> install that cannot be completed, exits with status
+1. Everything after that is <em>best-effort</em> — a failed npm package,
+a missing Ollama daemon or a failed model pull produces a warning and
+the wizard keeps going, which is why the final summary is the
+authoritative report rather than the exit code.</p>
+<pre class="mermaid"><code>flowchart TD
+    START[&quot;run scripts/setup-agents-wizard.sh&quot;] --&gt; LIB{&quot;SETUP_WIZARD_LIB_ONLY set?&quot;}
+    LIB -- yes --&gt; RET[&quot;return 0&lt;br/&gt;library mode: definitions only,&lt;br/&gt;used by the test suite&quot;]
+    LIB -- no --&gt; DET[&quot;detect SCRIPT_DIR&lt;br/&gt;PROJECT_ROOT is its parent&quot;]
+    DET --&gt; BK[&quot;backup_init&lt;br/&gt;open the rollback session&lt;br/&gt;before anything is touched&quot;]
+    BK --&gt; P1
+
+    P1[&quot;Step 1 - prerequisites&lt;br/&gt;git, curl, node, npm&quot;] --&gt; P1Q{&quot;all four present?&quot;}
+    P1Q -- no --&gt; P1X[&quot;print_error&lt;br/&gt;exit 1&quot;]
+    P1Q -- yes --&gt; JQ{&quot;jq on PATH?&quot;}
+    JQ -- no --&gt; JQI[&quot;ensure_jq&lt;br/&gt;apt-get, else yum, else brew&lt;br/&gt;else exit 1&quot;]
+    JQI --&gt; JQ2{&quot;jq present now?&quot;}
+    JQ2 -- no --&gt; JQX[&quot;print_error&lt;br/&gt;exit 1&quot;]
+    JQ2 -- yes --&gt; G1
+    JQ -- yes --&gt; G1
+
+    G1[&quot;Step 2 - global CLI tools&quot;] --&gt; BUN{&quot;bun on PATH?&quot;}
+    BUN -- no --&gt; BUNI[&quot;curl bun.sh installer&lt;br/&gt;prepend HOME/.bun/bin&quot;]
+    BUN -- yes --&gt; NPM
+    BUNI --&gt; NPM
+    NPM[&quot;npm_install_if_missing codegraph @colbymchenry/codegraph&lt;br/&gt;npm_install_if_missing glyphdown glyphdown&lt;br/&gt;installs only what is MISSING,&lt;br/&gt;records an undo ACTION for each&lt;br/&gt;Lumen deliberately NOT from npm&quot;] --&gt; SPK
+    SPK{&quot;specify on PATH?&quot;}
+    SPK -- yes --&gt; AGT
+    SPK -- no --&gt; UVQ{&quot;uv available?&quot;}
+    UVQ -- yes --&gt; SPKI[&quot;uv tool install specify-cli&lt;br/&gt;a Python tool, not an npm package&lt;br/&gt;record_action speckit uv tool uninstall specify-cli&quot;]
+    UVQ -- no --&gt; SPKW[&quot;warn: install uv first&quot;]
+    SPKI --&gt; AGT
+    SPKW --&gt; AGT
+    AGT[&quot;npm_install_if_missing qwen @qwen-code/qwen-code&lt;br/&gt;package name is @qwen-code/qwen-code,&lt;br/&gt;the BINARY it provides is qwen&quot;] --&gt; ROLL
+    ROLL[&quot;roll call, detection only:&lt;br/&gt;kimi, opencode, mimo&lt;br/&gt;print the vendor URL when missing&lt;br/&gt;never npm-installed - those names&lt;br/&gt;are 404s or unrelated packages&quot;] --&gt; ASH
+    ASH{&quot;ashlr plugin dir&lt;br/&gt;already present?&quot;}
+    ASH -- yes --&gt; ASHOK[&quot;nothing to install&quot;]
+    ASH -- no --&gt; ASHB{&quot;bun available?&quot;}
+    ASHB -- yes --&gt; ASHI[&quot;curl plugin.ashlr.ai/install.sh&lt;br/&gt;clones into ~/.claude/plugins/cache/&lt;br/&gt;ashlr-marketplace/ashlr&lt;br/&gt;NO binary is created - by design&quot;]
+    ASHB -- no --&gt; ASHS[&quot;warn, skip ashlr&quot;]
+    ASHOK --&gt; WOZ
+    ASHI --&gt; WOZ
+    ASHS --&gt; WOZ
+    WOZ{&quot;wozcode present?&quot;}
+    WOZ -- yes --&gt; L1
+    WOZ -- no --&gt; WOZE{&quot;WOZCODE_INSTALL_CMD set?&quot;}
+    WOZE -- yes --&gt; WOZI[&quot;eval the provided install command&quot;]
+    WOZE -- no --&gt; WOZW[&quot;warn, skipped&quot;]
+    WOZI --&gt; L1
+    WOZW --&gt; L1
+
+    L1[&quot;Step 3 - ensure_lumen&quot;] --&gt; TEL{&quot;WIZARD_KEEP_TELEMETRY set?&quot;}
+    TEL -- yes --&gt; TELS[&quot;warn, telemetry settings left alone&quot;]
+    TEL -- no --&gt; TELD[&quot;configure_telemetry_optout&lt;br/&gt;THIRD managed block in ~/.bashrc:&lt;br/&gt;DO_NOT_TRACK=1 and CODEGRAPH_TELEMETRY=0&lt;br/&gt;codegraph telemetry off&lt;br/&gt;qwen usageStatisticsEnabled to false&lt;br/&gt;Lumen ships no telemetry: nothing to do&quot;]
+    TELS --&gt; LW
+    TELD --&gt; LW
+    LW[&quot;install_lumen_wrapper&lt;br/&gt;write ~/.local/bin/lumen, chmod 755&quot;]
+    LW --&gt; LC{&quot;wrapper executable?&quot;}
+    LC -- yes --&gt; LCG[&quot;lumen completion bash&lt;br/&gt;into ~/.local/share/bash-completion/completions&quot;]
+    LC -- no --&gt; LCS[&quot;warn, skip completions&quot;]
+    LCG --&gt; LS
+    LCS --&gt; LS
+    LS[&quot;configure_lumen_shell&lt;br/&gt;rewrite managed blocks in&lt;br/&gt;~/.bashrc and ~/.bash_profile&quot;] --&gt; OL{&quot;ollama on PATH?&quot;}
+    OL -- no --&gt; OLI[&quot;install ollama&lt;br/&gt;ollama.com script on Linux, brew on macOS&quot;]
+    OLI --&gt; OL2{&quot;ollama present now?&quot;}
+    OL2 -- no --&gt; OLW[&quot;warn: Lumen cannot index or search&lt;br/&gt;return 1, wizard continues&quot;]
+    OL2 -- yes --&gt; SVC
+    OL -- yes --&gt; SVC
+    SVC{&quot;systemctl available&lt;br/&gt;and service inactive?&quot;}
+    SVC -- yes --&gt; SVCE[&quot;sudo systemctl enable and start ollama&quot;]
+    SVC -- no --&gt; MDL
+    SVCE --&gt; MDL
+    MDL{&quot;embedding model already pulled?&quot;}
+    MDL -- yes --&gt; VER
+    MDL -- no --&gt; MDLP[&quot;ollama pull&lt;br/&gt;ordis/jina-embeddings-v2-base-code&lt;br/&gt;failure warns only&quot;]
+    MDLP --&gt; VER
+    OLW --&gt; VER
+    VER[&quot;verify_lumen&lt;br/&gt;wrapper responds to version,&lt;br/&gt;lumen resolves in a login shell,&lt;br/&gt;then a REAL embedding round-trip:&lt;br/&gt;api/tags reachable, then api/embed&lt;br/&gt;must return a vector - NaN means&lt;br/&gt;the runner is wedged, not merely busy&quot;] --&gt; V1
+
+    V1[&quot;Step 4 - verify CLI availability&lt;br/&gt;lumen codegraph glyphdown specify&lt;br/&gt;kimi opencode mimo qwen&lt;br/&gt;ashlr is NOT probed: it has no binary&quot;] --&gt; M1
+    M1[&quot;Step 5 - configure MCP servers&quot;] --&gt; MCQ{&quot;claude CLI present?&quot;}
+    MCQ -- no --&gt; MCW[&quot;warn, skip Claude Code&quot;]
+    MCQ -- yes --&gt; MCR{&quot;claude mcp get lumen already succeeds?&quot;}
+    MCR -- yes --&gt; MCOK[&quot;already registered, nothing to do&quot;]
+    MCR -- no --&gt; MCA[&quot;claude mcp add-json lumen ... -s user&lt;br/&gt;LUMEN ONLY, absolute wrapper path, args stdio&lt;br/&gt;writes into the ACTIVE CLAUDE_CONFIG_DIR&lt;br/&gt;record_action claude mcp remove lumen -s user&quot;]
+    MCW --&gt; CJ
+    MCOK --&gt; CJ
+    MCA --&gt; CJ
+    CJ{&quot;~/.claude.json exists&lt;br/&gt;and jq available?&quot;}
+    CJ -- no --&gt; MPL
+    CJ -- yes --&gt; CJ2{&quot;.mcpServers.lumen already there?&quot;}
+    CJ2 -- yes --&gt; CJOK[&quot;already present - inherited by MiMo et al&quot;]
+    CJ2 -- no --&gt; CJW[&quot;backup_file claude, then jq merge&lt;br/&gt;.mcpServers.lumen = type stdio + wrapper + stdio&lt;br/&gt;WHY: add-json -s user may have written&lt;br/&gt;elsewhere; inheritors read THIS file&quot;]
+    CJOK --&gt; MPL
+    CJW --&gt; MPL
+    MPL[&quot;clone marketplaces:&lt;br/&gt;claude-cost-optimizer, jcodesmore-plugins&quot;] --&gt; HK1{&quot;WIZARD_SKIP_GLYPHDOWN_HOOK set?&quot;}
+    HK1 -- yes --&gt; HKS[&quot;warn, hook NOT registered&lt;br/&gt;glyphdown itself stays installed&quot;]
+    HK1 -- no --&gt; HK2{&quot;glyphdown on PATH?&quot;}
+    HK2 -- no --&gt; HKW[&quot;warn, skip the hook&lt;br/&gt;a hook for a missing binary&lt;br/&gt;would fail on every tool call&quot;]
+    HK2 -- yes --&gt; HKJ[&quot;snapshot_before, seed an empty object if absent,&lt;br/&gt;then jq into ~/.claude/settings.json:&lt;br/&gt;hooks.PreToolUse and hooks.PostToolUse&lt;br/&gt;each gain matcher * command glyphdown&lt;br/&gt;guarded so re-runs never duplicate&quot;]
+    HKS --&gt; MK
+    HKW --&gt; MK
+    HKJ --&gt; MK
+    MK{&quot;~/.kimi-code directory exists?&quot;}
+    MK -- yes --&gt; MKC[&quot;configure_mcp_for_agent&lt;br/&gt;~/.kimi-code/mcp.json&lt;br/&gt;.mcpServers += lumen and codegraph&quot;]
+    MK -- no --&gt; MKW[&quot;warn, skip Kimi&quot;]
+    MKC --&gt; MO
+    MKW --&gt; MO
+    MO{&quot;~/.config/opencode/opencode.json exists?&quot;}
+    MO -- yes --&gt; MOC[&quot;jq: .mcp.lumen = local command array&lt;br/&gt;wrapper path plus stdio, enabled true&lt;br/&gt;the .mcp schema, NOT .mcpServers&lt;br/&gt;lumen only, no codegraph&quot;]
+    MO -- no --&gt; MOW[&quot;warn, skip Opencode&lt;br/&gt;the wizard never creates this file&quot;]
+    MOC --&gt; MM
+    MOW --&gt; MM
+    MM{&quot;~/.mimocode present?&quot;}
+    MM -- no --&gt; MMW[&quot;warn, skip MiMo&quot;]
+    MM -- yes --&gt; MMP[&quot;PROBE: timeout 25 mimo mcp list | grep lumen&lt;br/&gt;MiMo INHERITS from ~/.claude.json -&lt;br/&gt;it labels servers claude:~/.claude.json.&lt;br/&gt;Nothing MiMo-specific is written.&quot;]
+    MMW --&gt; MQ
+    MMP --&gt; MQ
+    MQ{&quot;~/.qwen directory exists?&quot;}
+    MQ -- yes --&gt; MQC[&quot;configure_mcp_for_agent&lt;br/&gt;~/.qwen/settings.json&lt;br/&gt;.mcpServers += lumen and codegraph&quot;]
+    MQ -- no --&gt; MQW[&quot;warn, skip Qwen Code&quot;]
+    MQC --&gt; PR1
+    MQW --&gt; PR1
+
+    PR1[&quot;Step 6 - project setup&lt;br/&gt;cd PROJECT_ROOT, mkdir submodules&quot;] --&gt; SK{&quot;specify CLI present?&quot;}
+    SK -- no --&gt; SKW[&quot;warn, skip SpecKit init&quot;]
+    SK -- yes --&gt; SKI{&quot;.specify or specs already there?&quot;}
+    SKI -- yes --&gt; SKOK[&quot;already initialized&quot;]
+    SKI -- no --&gt; SKR[&quot;specify init, force then -y fallback&quot;]
+    SKW --&gt; SS
+    SKOK --&gt; SS
+    SKR --&gt; SS
+    SS[&quot;setup_superspec&quot;] --&gt; SSQ{&quot;submodules/superspec/.git exists?&quot;}
+    SSQ -- yes --&gt; SSOK[&quot;leave it alone&lt;br/&gt;a FILE means submodule,&lt;br/&gt;a DIR means standalone clone&quot;]
+    SSQ -- no --&gt; SSR{&quot;git knows it as a&lt;br/&gt;registered submodule?&quot;}
+    SSR -- yes --&gt; SSI[&quot;git submodule update, init and recursive&quot;]
+    SSR -- no --&gt; SSC[&quot;remove stale non-git dir,&lt;br/&gt;then git clone superspec&quot;]
+    SSOK --&gt; EXT
+    SSI --&gt; EXT
+    SSC --&gt; EXT
+    EXT{&quot;specify present and path exists?&quot;}
+    EXT -- yes --&gt; EXTA[&quot;specify extension add&lt;br/&gt;./submodules/superspec as dev&quot;]
+    EXT -- no --&gt; EXTW[&quot;warn, skip extension&quot;]
+    EXTA --&gt; TUNE
+    EXTW --&gt; TUNE
+
+    TUNE[&quot;Step 7 - ollama concurrency tuning&quot;] --&gt; TQ{&quot;ollama-tune.sh present?&lt;br/&gt;ollama CLI or HTTP backend present?&quot;}
+    TQ -- no --&gt; TQW[&quot;say what is missing,&lt;br/&gt;manual_step with NO fabricated value,&lt;br/&gt;continue&quot;]
+    TQ -- yes --&gt; TR[&quot;run the delegate: report,&lt;br/&gt;then --print-commands&lt;br/&gt;= THIS host&#39;s exact commands&quot;]
+    TR --&gt; TOI{&quot;WIZARD_TUNE_OLLAMA set?&quot;}
+    TOI -- no --&gt; TOM[&quot;manual_step carrying those commands&lt;br/&gt;applying restarts ollama and kills&lt;br/&gt;in-flight embeddings - operator&#39;s call&quot;]
+    TOI -- yes --&gt; TBUSY{&quot;indexer in flight?&lt;br/&gt;yes / no / CANNOT TELL&quot;}
+    TBUSY -- &quot;yes or cannot tell&quot; --&gt; TOM
+    TBUSY -- no --&gt; TASK{&quot;confirmed at the prompt?&lt;br/&gt;(skipped when WIZARD_NONINTERACTIVE)&quot;}
+    TASK -- no --&gt; TOM
+    TASK -- yes --&gt; TAP[&quot;record_action ollama &#39;... --revert&#39;&lt;br/&gt;record_note ollama &#39;restart aborted&lt;br/&gt;in-flight embeddings - NOT revertible&#39;&lt;br/&gt;then --apply&quot;]
+    TQW --&gt; IDX
+    TOM --&gt; IDX
+    TAP --&gt; IDX
+
+    IDX{&quot;WIZARD_INDEX_PROJECT set?&quot;}
+    IDX -- no --&gt; IDXS[&quot;print: skipping project indexing&lt;br/&gt;the Step 8 header never appears&quot;]
+    IDX -- yes --&gt; IX7[&quot;Step 8 - indexing this project&quot;]
+    IX7 --&gt; CGQ{&quot;codegraph on PATH?&quot;}
+    CGQ -- no --&gt; CGW[&quot;warn, skip the CodeGraph index&quot;]
+    CGQ -- yes --&gt; CGD{&quot;.codegraph/codegraph.db already there?&quot;}
+    CGD -- yes --&gt; CGS[&quot;codegraph sync PROJECT_ROOT&lt;br/&gt;incremental&quot;]
+    CGD -- no --&gt; CGI[&quot;codegraph init PROJECT_ROOT&lt;br/&gt;creates .codegraph in the project root&quot;]
+    CGW --&gt; LXQ
+    CGS --&gt; LXQ
+    CGI --&gt; LXQ
+    LXQ{&quot;lumen on PATH?&quot;}
+    LXQ -- no --&gt; LXW[&quot;warn, skip the Lumen index&quot;]
+    LXQ -- yes --&gt; LXI[&quot;lumen index PROJECT_ROOT&lt;br/&gt;incremental, needs the embedding backend,&lt;br/&gt;can run for hours on a big repository&quot;]
+    LXW --&gt; PCI
+    LXI --&gt; PCI
+    IDXS --&gt; PCI
+
+    PCI[&quot;Step 9 - provider-side CI verification&quot;] --&gt; PQ{&quot;verify-provider-ci.sh present?&lt;br/&gt;gh present?&quot;}
+    PQ -- no --&gt; PUNV[&quot;UNVERIFIED - never &#39;clean&#39;,&lt;br/&gt;manual_step, continue&quot;]
+    PQ -- yes --&gt; PRUN[&quot;run it, read-only&quot;]
+    PRUN --&gt; PRC{&quot;exit code&quot;}
+    PRC -- 0 --&gt; POK[&quot;success line -&lt;br/&gt;the ONLY case that was measured clean&quot;]
+    PRC -- 1 --&gt; PCONF[&quot;manual_step carrying the&lt;br/&gt;verifier&#39;s OWN findings -&lt;br/&gt;operator-only, in the provider UI&quot;]
+    PRC -- &quot;2 / timeout / other&quot; --&gt; PUNV
+    POK --&gt; SUM
+    PCONF --&gt; SUM
+    PUNV --&gt; SUM
+
+    SUM[&quot;final summary - SIX sections&lt;br/&gt;commands, plugins/optional tools,&lt;br/&gt;MCP configs, Lumen state,&lt;br/&gt;telemetry, project state&quot;] --&gt; AR1
+
+    AR1[&quot;source section 9 - drain the manual-step registry&lt;br/&gt;(Steps 7 and 9 already added theirs)&quot;] --&gt; AR2{&quot;ashlr cache dir exists&lt;br/&gt;but marketplaces dir does NOT?&quot;}
+    AR2 -- yes --&gt; ARA[&quot;manual_step: activate ashlr&lt;br/&gt;/plugin marketplace add ...&lt;br/&gt;/plugin install ... /reload-plugins&quot;]
+    AR2 -- no --&gt; AR3{&quot;marketplaces dir exists&lt;br/&gt;but .ashlrcode/genome does NOT?&quot;}
+    AR3 -- yes --&gt; ARG[&quot;manual_step: /ashlr:ashlr-genome-init&quot;]
+    AR3 -- no --&gt; AR4
+    ARA --&gt; AR4
+    ARG --&gt; AR4
+    AR4{&quot;ollama journal since service start&lt;br/&gt;reports library=Vulkan?&quot;}
+    AR4 -- yes --&gt; ARV[&quot;manual_step: ollama-vulkan-remediation.sh&lt;br/&gt;--check then --apply&lt;br/&gt;the wizard NEVER runs it - test A41&quot;]
+    AR4 -- no --&gt; AR5
+    ARV --&gt; AR5
+    AR5{&quot;wozcode missing and&lt;br/&gt;WOZCODE_INSTALL_CMD unset?&quot;}
+    AR5 -- yes --&gt; ARW[&quot;manual_step: supply WOZCODE_INSTALL_CMD&quot;]
+    AR5 -- no --&gt; AR6
+    ARW --&gt; AR6
+    AR6{&quot;WIZARD_SKIP_GLYPHDOWN_HOOK set?&quot;}
+    AR6 -- yes --&gt; ARH[&quot;manual_step: re-run without the flag&quot;]
+    AR6 -- no --&gt; AR7
+    ARH --&gt; AR7
+    AR7{&quot;timeout 20 lumen search x&lt;br/&gt;cannot confirm an index?&quot;}
+    AR7 -- yes --&gt; ARI[&quot;manual_step: lumen-reindex.sh&lt;br/&gt;then lumen-index-doctor.sh&lt;br/&gt;timeout = could not confirm = suggest&quot;]
+    AR7 -- no --&gt; AR8
+    ARI --&gt; AR8
+    AR8[&quot;manual_step: exec bash -l&lt;br/&gt;ALWAYS - so the list is never empty&quot;] --&gt; ARF
+    ARF[&quot;write PROJECT_ROOT/MANUAL-STEPS.md&lt;br/&gt;print ACTION REQUIRED - N step(s)&lt;br/&gt;&#39;These are NOT done.&#39;&quot;] --&gt; ARP
+    ARP{&quot;stdin a TTY and&lt;br/&gt;WIZARD_NONINTERACTIVE unset?&quot;}
+    ARP -- yes --&gt; ARR[&quot;read -r: block until Enter&quot;]
+    ARP -- no --&gt; DONE
+    ARR --&gt; DONE[&quot;exit 0&quot;]
+
+    classDef fatal fill:#fdecea,stroke:#c62828,color:#b71c1c
+    classDef warn fill:#fff8e1,stroke:#f9a825,color:#7a5900
+    classDef manual fill:#f3e5f5,stroke:#7b1fa2,color:#4a148c
+    class P1X,JQX fatal
+    class OLW,WOZW,ASHS,SKW,EXTW,LCS,SPKW,MCW,HKS,HKW,MKW,MOW,MQW,MMW,CGW,LXW,TELS warn
+    class ARA,ARG,ARV,ARW,ARH,ARI,AR8,ARF,ARR manual</code></pre>
+<p><strong>Takeaway:</strong> the only hard gates are the four core
+prerequisites and <code>jq</code>; every later branch degrades to a
+warning. Step 3 is where the interesting work happens — the telemetry
+opt-out, the wrapper, the two shell files, the embedding backend and the
+verification pass are all one function, <code>ensure_lumen</code>, whose
+failures are explicitly swallowed with <code>|| true</code> so a broken
+Ollama never blocks the MCP wiring in Step 5. Step 5 is the branchiest:
+every agent is configured at its own path in its own schema, and each
+one is skipped rather than guessed at when the agent is not
+installed.</p>
+<p><strong>The purple tail is the other half of the design.</strong>
+Everything above it is work the wizard <em>did</em>; the manual-step
+registry is work it <strong>cannot</strong> do — Claude Code slash
+commands and privileged host changes — collected from live state and
+handed over explicitly, because the alternative is a green summary for
+work nobody performed. Two properties matter:</p>
+<ul>
+<li><strong>Detection is stateful, not a checklist.</strong>
+<code>plugins/cache/&lt;mkt&gt;/</code> means an installer cloned the
+bits; <code>plugins/marketplaces/&lt;mkt&gt;/</code> is written by
+Claude Code when a human runs <code>/plugin marketplace add</code>. Only
+the second means the plugin is wired in, so the entry clears itself once
+you have actually done the step (test <code>A50</code>).</li>
+<li><strong>A probe that times out raises the step, never skips
+it.</strong> The <code>lumen search</code>, <code>journalctl</code> and
+<code>systemctl</code> probes are all <code>timeout</code>-bounded — an
+unbounded <code>lumen search</code> once stalled the wizard for ten
+minutes behind a running index — and a timeout means <em>“could not
+confirm”</em> (test <code>A47</code>).</li>
+</ul>
+<p>Note also what is <em>absent</em> from the diagram: no
+<code>sudo</code>, no <code>systemctl restart</code>, no write under
+<code>/etc</code>, anywhere in the wizard. Applying the Vulkan
+remediation belongs to
+<code>scripts/ollama-vulkan-remediation.sh</code>, behind an explicit
+subcommand; test <code>A41</code> enforces the separation. See <a
+href="./ACTION-REQUIRED.md"><code>ACTION-REQUIRED.md</code></a> and <a
+href="./OPERATIONAL-SCRIPTS.md"><code>OPERATIONAL-SCRIPTS.md</code></a>.</p>
+<hr />
+<h2 id="lumen-resolution-sequence">2. 🔎 Lumen resolution sequence</h2>
+<p>Typing <code>lumen search "..."</code> never touches the plugin’s
+version-pinned path directly. <code>PATH</code> finds the wrapper, and
+the wrapper resolves the newest installed plugin binary <strong>at call
+time</strong>. That indirection is the whole point: the
+<code>&lt;version&gt;</code> directory is deleted on every plugin
+update, so a symlink or a hardcoded <code>PATH</code> entry would break
+silently the next time the plugin upgrades.</p>
+<pre class="mermaid"><code>sequenceDiagram
+    autonumber
+    participant U as you, in a shell
+    participant SH as bash PATH lookup
+    participant W as ~/.local/bin/lumen wrapper
+    participant FS as plugin cache on disk
+    participant B as lumen plugin binary
+    participant O as ollama on localhost:11434
+    participant IX as index store ~/.local/share/lumen
+
+    U-&gt;&gt;SH: lumen search &quot;how does auth work&quot;
+    SH-&gt;&gt;SH: scan PATH, HOME/.local/bin is first
+    SH-&gt;&gt;W: exec the wrapper
+    alt LUMEN_BIN is exported
+        alt LUMEN_BIN is not executable
+            W--&gt;&gt;U: error naming the path, exit 127
+        else executable
+            W-&gt;&gt;B: exec LUMEN_BIN with the same args
+        end
+    else no override
+        W-&gt;&gt;W: uname -s and uname -m map to os and arch
+        W-&gt;&gt;FS: glob HOME/.claude-shared/plugins/cache/*/lumen/*/bin/lumen-os-arch
+        FS--&gt;&gt;W: zero or more executable candidates
+        opt fast path found nothing
+            W-&gt;&gt;FS: glob HOME/.claude*/plugins/cache/*/lumen/*/bin/lumen-os-arch
+            FS--&gt;&gt;W: per-account cache candidates
+        end
+        W-&gt;&gt;W: take version segment, sort -V, keep the last
+        alt still nothing
+            W--&gt;&gt;U: actionable error naming both globs, exit 127
+        else resolved
+            W-&gt;&gt;B: exec the highest-version binary
+        end
+    end
+    B-&gt;&gt;O: embed the query with ordis/jina-embeddings-v2-base-code
+    O--&gt;&gt;B: query vector
+    B-&gt;&gt;IX: nearest-neighbour lookup over the project index
+    IX--&gt;&gt;B: ranked chunks with file and line spans
+    B--&gt;&gt;U: ranked results</code></pre>
+<p><strong>Takeaway:</strong> three things must line up for
+<code>lumen</code> to work — <code>~/.local/bin</code> on
+<code>PATH</code>, at least one plugin binary under a cache glob, and an
+Ollama backend that actually <em>embeds</em> (reachable is not the same
+as healthy: a wedged runner answers <code>/api/tags</code> with 200
+while returning <code>NaN</code> from <code>/api/embed</code> for every
+input, which is why <code>verify_lumen</code> does a real round-trip).
+The wrapper deliberately exits <strong>127</strong> rather than 0 when
+it cannot resolve a binary, so no caller mistakes a missing plugin for
+an empty result set. <code>sort -V</code> matters: a lexical sort would
+pick <code>0.0.9</code> over <code>0.0.100</code>.</p>
+<hr />
+<h2 id="path-wiring-why-two-files-are-needed">3. 🛤️ PATH wiring: why two
+files are needed</h2>
+<p><code>configure_lumen_shell</code> writes <strong>two</strong>
+managed blocks — a lumen block in <code>~/.bashrc</code> and a user-bin
+block in <code>~/.bash_profile</code>. (A third block, the telemetry
+opt-out, is written into <code>~/.bashrc</code> by
+<code>configure_telemetry_optout</code> earlier in the same step; it is
+unrelated to <code>PATH</code> and is covered in section 4 below and in
+the <a href="./README.md#-telemetry-opt-out">README</a>.) They are not
+redundant. Bash reads different init files depending on whether a shell
+is a <em>login</em> shell and whether it is <em>interactive</em>, and
+the third combination — login but non-interactive — is exactly how
+agents spawn MCP servers, how <code>ssh host 'cmd'</code> runs, and how
+cron and systemd user units execute.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph SA[&quot;A. interactive, non-login&lt;br/&gt;a new terminal tab&quot;]
+        A1[&quot;bash starts&quot;] --&gt; A2[&quot;reads ~/.bashrc&quot;]
+        A2 --&gt; A3[&quot;lumen block adds&lt;br/&gt;HOME/.local/bin to PATH&quot;]
+        A3 --&gt; A4[&quot;lumen resolves ✅&quot;]
+    end
+
+    subgraph SB[&quot;B. login + interactive&lt;br/&gt;ssh host, then a prompt&quot;]
+        B1[&quot;bash -l starts&quot;] --&gt; B2[&quot;/etc/profile&lt;br/&gt;sets a fresh PATH&quot;]
+        B2 --&gt; B3[&quot;~/.bash_profile&lt;br/&gt;user-bin block adds HOME/.local/bin&quot;]
+        B3 --&gt; B4[&quot;~/.bashrc is sourced too&lt;br/&gt;PATH guard sees it already there,&lt;br/&gt;no duplicate entry&quot;]
+        B4 --&gt; B5[&quot;lumen resolves ✅&quot;]
+    end
+
+    subgraph SC[&quot;C. login + NON-interactive&lt;br/&gt;ssh host cmd, cron, systemd user units,&lt;br/&gt;agents spawning MCP servers&quot;]
+        C1[&quot;bash -lc cmd&quot;] --&gt; C2[&quot;/etc/profile&lt;br/&gt;sets a fresh PATH&quot;]
+        C2 --&gt; C3[&quot;~/.bash_profile&lt;br/&gt;user-bin block adds HOME/.local/bin&quot;]
+        C3 --&gt; C4[&quot;~/.bashrc&lt;br/&gt;case $- in *i* ... else return&lt;br/&gt;RETURNS EARLY, never reached&quot;]
+        C4 --&gt; C5[&quot;lumen resolves ✅&lt;br/&gt;ONLY because of ~/.bash_profile&quot;]
+    end
+
+    C4 -.-&gt;|&quot;without the ~/.bash_profile block&quot;| X[&quot;lumen: command not found ❌&lt;br/&gt;every ~/.local/bin tool is invisible&lt;br/&gt;to cron, ssh commands and MCP spawns&quot;]
+
+    classDef ok fill:#dff5e1,stroke:#2e7d32,color:#1b5e20
+    classDef bad fill:#fdecea,stroke:#c62828,color:#b71c1c
+    class A4,B5,C5 ok
+    class C4,X bad</code></pre>
+<p><strong>Takeaway:</strong> path <strong>C</strong> is the one that
+breaks, and it breaks invisibly — an agent’s MCP server simply fails to
+launch. Both blocks use the same idempotent guard
+(<code>case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) export PATH=... ;; esac</code>),
+written to the file <em>unexpanded</em>, so path B picks up
+<code>~/.local/bin</code> exactly once and no user’s home directory is
+baked into anyone else’s shell. This is also why the MCP configs record
+an <strong>absolute</strong> command path: even with both blocks in
+place, an agent may spawn a server from a shell that read neither
+file.</p>
+<hr />
+<h2 id="files-touched">4. 📂 Files touched</h2>
+<p>Every pre-existing file is copied to
+<code>&lt;file&gt;.bak.&lt;YYYYMMDDHHMMSS&gt;</code> before
+modification, and every edit is either a <code>jq</code> merge or a
+marker-delimited block rewrite, so re-running is safe and
+non-destructive. One exception:
+<code>~/.local/share/bash-completion/completions/lumen</code> is
+registered with <code>snapshot_before</code> alone, so it lives in the
+rollback manifest but gets <strong>no</strong> <code>.bak</code>
+sibling.</p>
+<pre class="mermaid"><code>flowchart TD
+    W[&quot;setup-agents-wizard.sh&quot;] --&gt; SG
+    W --&gt; HG
+    W --&gt; IG
+    W --&gt; MG
+    W --&gt; DG
+    W --&gt; PG
+
+    subgraph SG[&quot;🗄️ Rollback state - created on every run&quot;]
+        S1[&quot;~/.local/share/setup-agents-wizard/backups/UTC-stamp/&lt;br/&gt;manifest.tsv, files/ with byte-exact copies,&lt;br/&gt;latest symlink. Override with WIZARD_STATE_DIR&quot;]
+    end
+
+    subgraph HG[&quot;🏠 Home shell config - block rewrite, 3 blocks in 2 files&quot;]
+        H1[&quot;~/.bashrc lumen block:&lt;br/&gt;PATH guard, completion fallback loader,&lt;br/&gt;commented-out tuning knobs&quot;]
+        H3[&quot;~/.bashrc telemetry opt-out block:&lt;br/&gt;DO_NOT_TRACK=1&lt;br/&gt;CODEGRAPH_TELEMETRY=0&quot;]
+        H2[&quot;~/.bash_profile user-bin block:&lt;br/&gt;login-shell PATH guard&quot;]
+    end
+
+    subgraph IG[&quot;⚙️ Installed artifacts&quot;]
+        I1[&quot;~/.local/bin/lumen&lt;br/&gt;version-agnostic wrapper, mode 755&quot;]
+        I2[&quot;~/.local/share/bash-completion/completions/lumen&lt;br/&gt;lazy-loaded; snapshot only, no .bak sibling&quot;]
+        I3[&quot;~/.claude/plugins/cache/ashlr-marketplace/ashlr&lt;br/&gt;cloned by the vendor installer&lt;br/&gt;NO binary - not in the manifest&quot;]
+    end
+
+    subgraph MG[&quot;🔌 Agent config - one shape per agent&quot;]
+        M0[&quot;active CLAUDE_CONFIG_DIR&lt;br/&gt;claude mcp add-json -s user writes HERE,&lt;br/&gt;which is not necessarily ~/.claude.json&quot;]
+        M1[&quot;~/.claude.json&lt;br/&gt;jq mirror of .mcpServers.lumen&lt;br/&gt;so INHERITORS can see it&lt;br/&gt;backed up, component claude&quot;]
+        M2[&quot;~/.claude/settings.json&lt;br/&gt;glyphdown PreToolUse + PostToolUse hooks&quot;]
+        M3[&quot;~/.kimi-code/mcp.json&lt;br/&gt;.mcpServers: lumen + codegraph&quot;]
+        M4[&quot;~/.config/opencode/opencode.json&lt;br/&gt;.mcp schema, command as an array&lt;br/&gt;lumen only, no codegraph&quot;]
+        M6[&quot;~/.qwen/settings.json&lt;br/&gt;.mcpServers: lumen + codegraph,&lt;br/&gt;plus usageStatisticsEnabled false&quot;]
+        M5[&quot;MiMo Code - nothing MiMo-specific&lt;br/&gt;it INHERITS from ~/.claude.json&lt;br/&gt;and is verified with mimo mcp list&quot;]
+    end
+
+    subgraph DG[&quot;🧠 Data - written by the tools, not the wizard&quot;]
+        D1[&quot;~/.local/share/lumen&lt;br/&gt;embedding index store, one dir per project&lt;br/&gt;written by lumen index&quot;]
+        D2[&quot;~/.codegraph/telemetry.json&lt;br/&gt;written by codegraph telemetry off&quot;]
+    end
+
+    subgraph PG[&quot;📁 Project root&quot;]
+        P1[&quot;submodules/&quot;]
+        P2[&quot;submodules/superspec&lt;br/&gt;submodule init or clone&quot;]
+        P3[&quot;.specify or specs&lt;br/&gt;SpecKit init&quot;]
+        P4[&quot;.codegraph&lt;br/&gt;Step 8 only, WIZARD_INDEX_PROJECT&quot;]
+        P5[&quot;MANUAL-STEPS.md&lt;br/&gt;rewritten EVERY run from the&lt;br/&gt;manual-step registry, not in the manifest&quot;]
+    end
+
+    subgraph OG[&quot;🔧 Written by the operational scripts, never by the wizard&quot;]
+        O1[&quot;/etc/sysconfig/ollama&lt;br/&gt;GGML_VK_VISIBLE_DEVICES=-1&lt;br/&gt;ollama-vulkan-remediation.sh --apply&lt;br/&gt;undo: --rollback&quot;]
+        O2[&quot;project/.lumen-reindex.log&lt;br/&gt;lumen-reindex.sh&quot;]
+        O3[&quot;project/.ashlrcode/genome/&lt;br/&gt;/ashlr:ashlr-genome-init, inside Claude Code&quot;]
+    end
+
+    M0 -.-&gt;|&quot;may NOT be ~/.claude.json&quot;| M1
+    M1 -.-&gt;|&quot;inherited by&quot;| M5
+    M1 -.-&gt;|&quot;command: absolute wrapper path&lt;br/&gt;args: stdio&quot;| I1
+    M3 -.-&gt; I1
+    M4 -.-&gt; I1
+    M6 -.-&gt; I1
+    H1 -.-&gt;|&quot;puts it on PATH&quot;| I1
+    H2 -.-&gt;|&quot;puts it on PATH&quot;| I1
+    I1 -.-&gt;|&quot;reads and writes&quot;| D1
+
+    classDef managed fill:#e8eefc,stroke:#3f51b5,color:#1a237e
+    classDef none fill:#f5f5f5,stroke:#9e9e9e,color:#424242
+    classDef state fill:#dff5e1,stroke:#2e7d32,color:#1b5e20
+    classDef outside fill:#f3e5f5,stroke:#7b1fa2,color:#4a148c
+    class H1,H2,H3,I1,I2,M1,M2,M3,M4,M6 managed
+    class M0,M5,I3,P5 none
+    class S1 state
+    class O1,O2,O3 outside</code></pre>
+<p>The agents do <strong>not</strong> all get the same block. Kimi and
+Qwen Code receive both servers in <code>.mcpServers</code> —
+<code>lumen</code> pointed at the absolute wrapper path with args
+<code>["stdio"]</code>, plus <code>codegraph</code> with args
+<code>["serve"]</code>. Claude Code and Opencode receive
+<strong><code>lumen</code> only</strong>, each in its own form: Claude
+Code through <code>claude mcp add-json … -s user</code>, Opencode as
+<code>{"type":"local","command":[&lt;wrapper&gt;,"stdio"],"enabled":true}</code>
+under <code>.mcp</code>. MiMo Code receives nothing MiMo-specific
+because it needs nothing: it <strong>inherits</strong> from
+<code>~/.claude.json</code>, which is exactly why the wizard mirrors the
+entry there rather than trusting <code>claude mcp add-json</code> to
+have landed in that file. <code>~/.local/share/lumen</code>,
+<code>~/.codegraph/telemetry.json</code> and
+<code>&lt;project&gt;/.codegraph</code> are the entries the wizard does
+not create itself — the tools write those.</p>
+<p><strong>The <code>~/.claude.json</code> mirror is not
+redundancy.</strong> <code>claude mcp add-json -s user</code> writes
+into the config directory the <em>session</em> is using —
+<code>$CLAUDE_CONFIG_DIR</code> when set, <code>~/.claude</code>
+otherwise. On a host running with a non-default config dir, Claude Code
+got Lumen and every tool inheriting from the default file did not. The
+mirror is a <code>jq</code> merge, guarded on the file already existing
+and on <code>.mcpServers.lumen</code> not already being present, backed
+up under component <code>claude</code> first. Tests <code>A44</code>,
+<code>A45</code>, <code>A46</code>.</p>
+<p><strong>Takeaway:</strong> the wizard’s footprint is three managed
+shell blocks in two files, two installed files, one rollback session
+directory, <strong>five</strong> JSON configs it edits directly
+(<code>~/.claude.json</code>, <code>~/.claude/settings.json</code>,
+<code>~/.kimi-code/mcp.json</code>,
+<code>~/.config/opencode/opencode.json</code>,
+<code>~/.qwen/settings.json</code>) plus whatever the
+<code>claude</code> CLI mutates on its behalf in the active config dir,
+and four project paths — five with the opt-in <code>.codegraph</code>.
+Every JSON edit preserves keys that were already there.</p>
+<p>The purple box is the boundary worth remembering:
+<code>/etc/sysconfig/ollama</code>,
+<code>&lt;project&gt;/.lumen-reindex.log</code> and
+<code>&lt;project&gt;/.ashlrcode/genome/</code> all exist on a fully
+configured host, and <strong>none of them is written by the
+wizard</strong> or recorded in its manifest. They belong to the
+operational scripts and to Claude Code respectively, each with its own
+undo — <a
+href="./OPERATIONAL-SCRIPTS.md"><code>OPERATIONAL-SCRIPTS.md</code></a>.</p>
+<p><strong>One documented exception to that boundary.</strong> Step 7
+can reach across it, but only on an explicit double opt-in, and when it
+does the change comes <em>back</em> inside the transaction: the wizard
+writes an <code>ACTION</code> row carrying
+<code>&lt;resolved ollama-tune.sh path&gt; --revert</code> and a
+<code>NOTE</code> row stating that the service restart aborted the
+embedding requests then in flight and that <code>--revert</code> cannot
+bring those back. Whatever ollama’s real config surface is on this host
+— the tuner parses the service unit to find it rather than assuming a
+path — the wizard itself never writes to it and never restarts anything;
+it delegates, and records how to undo the delegation. A report-only run
+(the default) writes neither row, because it changed nothing.</p>
+<hr />
+<h2 id="test-suite-coverage-map">5. ✅ Test suite coverage map</h2>
+<p><code>scripts/test-setup-agents-wizard.sh</code> runs <strong>ten
+groups, <code>A</code>–<code>J</code></strong>. Groups
+<strong>B</strong>, <strong>C</strong>, <strong>D</strong>,
+<strong>G</strong> and <strong>H</strong> source the wizard in
+<em>library mode</em> (<code>SETUP_WIZARD_LIB_ONLY=1</code>) against a
+throwaway <code>$HOME</code> — with <code>WIZARD_STATE_DIR</code>
+pointed inside it for G and H — so no unit test can touch your real
+dotfiles. Groups <strong>A</strong> and <strong>I</strong> only read
+source text. Groups <strong>E</strong> and <strong>J</strong> build
+throwaway git repositories. Only group <strong>F</strong> looks at the
+real machine, and <code>--no-live</code> skips it. Note that the file
+declares group <code>H</code> before group <code>G</code>, so the
+console order is A, B, C, D, E, F, H, G, I, J.</p>
+<p><strong>Derive the total; do not hardcode it.</strong> Current
+per-group <strong>record</strong> counts: A 54, B 8, C 10, D 5, E 3, F
+11 (7 with <code>--no-live</code>), G 18, H 7, I 14, J 8 —
+<strong>138</strong> for a full live run, 134 with
+<code>--no-live</code>. Three groups emit more records than they have
+distinct ids: <code>A12</code> loops over 5 bogus package names,
+<code>F2</code> over 3 shell kinds, and <code>I1</code>–<code>I3</code>
+over the 3 operational scripts. <code>summary.json</code> is
+authoritative for any given run.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Group</th>
+<th style="text-align: left;">Tests</th>
+<th style="text-align: left;">Exercises</th>
+<th style="text-align: left;">Environment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>A</strong> Static analysis</td>
+<td style="text-align: left;">A1–A50</td>
+<td style="text-align: left;"><code>bash -n</code>, absence of
+<code>@qoomon/lumen</code> and the other bogus names, <code>stdio</code>
+not <code>serve</code>, absolute command path, <code>-e</code> gitlink
+test, <code>qwen</code> not <code>qwen-code</code>,
+<code>PreToolUse</code> present and <code>"ToolCall"</code> absent, the
+<code>WIZARD_*</code> switches, <code>codegraph sync</code> not
+<code>codegraph index</code>, the <code>speckit</code> undo action,
+<code>DO_NOT_TRACK</code>, the <code>/api/embed</code> health
+round-trip, library guard, sequential step headers <code>1..7</code>,
+shellcheck. <strong>A35–A41</strong>: GPU residency via
+<code>/api/ps</code>, the <code>inference compute</code> line, an
+unreadable library reported as <em>unknown</em>, and that the wizard
+never applies the remediation itself. <strong>A42–A50</strong>: ashlr by
+plugin directory not <code>PATH</code>, the <code>~/.claude.json</code>
+mirror, MiMo probed with <code>mimo mcp list</code>,
+<code>timeout</code>-bounded <code>lumen search</code>,
+<code>ACTION REQUIRED</code>, <code>MANUAL-STEPS.md</code>, and the
+<code>plugins/marketplaces/</code> activation probe</td>
+<td style="text-align: left;">reads the wizard source only</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>B</strong> Launcher unit</td>
+<td style="text-align: left;">B1–B8</td>
+<td style="text-align: left;"><code>install_lumen_wrapper</code>:
+executable, valid bash, <code>sort -V</code> version pick,
+<code>~/.claude*</code> fallback, <code>LUMEN_BIN</code> override, exit
+127 paths</td>
+<td style="text-align: left;">throwaway <code>$HOME</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>C</strong> Shell config unit</td>
+<td style="text-align: left;">C1–C10</td>
+<td style="text-align: left;"><code>configure_lumen_shell</code>: one
+block per file, idempotence across re-runs, valid syntax, unexpanded
+<code>$PATH</code> guard, mode 600 preserved, user content
+preserved</td>
+<td style="text-align: left;">throwaway <code>$HOME</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>D</strong> MCP config unit</td>
+<td style="text-align: left;">D1–D5</td>
+<td style="text-align: left;"><code>configure_mcp_for_agent</code>:
+<code>stdio</code> args, absolute command, valid JSON, existing keys
+kept, no server duplication</td>
+<td style="text-align: left;">throwaway <code>$HOME</code>, needs
+<code>jq</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>E</strong> Submodule
+regression</td>
+<td style="text-align: left;">E1–E3</td>
+<td style="text-align: left;"><code>setup_superspec</code>: gitlink
+canary survives, submodule reported as such, stale non-git dir still
+replaced</td>
+<td style="text-align: left;">throwaway git repos</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>F</strong> Live integration</td>
+<td style="text-align: left;">F1–F8</td>
+<td style="text-align: left;">real <code>PATH</code> in three shell
+kinds, Ollama reachability, model presence, completion registration,
+index + search a fixture repo</td>
+<td style="text-align: left;">the real machine</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>H</strong> Telemetry opt-out</td>
+<td style="text-align: left;">H1–H7</td>
+<td style="text-align: left;"><code>configure_telemetry_optout</code>:
+exactly one opt-out block and still one after a re-run, generated
+<code>~/.bashrc</code> parses, sourcing it exports the two variables,
+<code>WIZARD_KEEP_TELEMETRY</code> writes nothing, Qwen
+<code>usageStatisticsEnabled</code> set to <code>false</code> without
+losing keys, and an already-<code>false</code> value read back
+correctly</td>
+<td style="text-align: left;">throwaway <code>$HOME</code>; H6/H7 need
+<code>jq</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>G</strong> Manifest and
+rollback</td>
+<td style="text-align: left;">G1–G18</td>
+<td
+style="text-align: left;"><code>snapshot_before</code>/<code>record_action</code>
+and the rollback script: TSV header, <code>MODIFIED</code> vs
+<code>CREATED</code>, original content and mode preserved,
+first-snapshot-wins, byte-exact restore, deletion of a created file,
+<code>--dry-run</code>, <code>--component</code>, the pre-rollback
+snapshot, <code>ACTION</code> never run without
+<code>--run-actions</code>, <code>--list</code>. G16–G18 guard the
+snapshot-before-seed ordering</td>
+<td style="text-align: left;">throwaway <code>$HOME</code>; G16–G18 need
+<code>jq</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>I</strong> Operational
+scripts</td>
+<td style="text-align: left;">I1–I14</td>
+<td style="text-align: left;">The three post-install scripts. I1–I3:
+each is executable and parses. I4–I7: the remediation script offers
+<code>--check</code> and <code>--rollback</code>, <strong>defaults to
+the read-only action</strong>, and probes aggregate
+<strong>distinctness</strong>. I8–I10: the doctor checks
+duplicate-vector groups, still runs the per-vector NaN/all-zero tests,
+and opens the DB <code>mode=ro</code>. I11–I13: the reindexer refuses to
+start on a Vulkan backend, <code>--force</code> provably reaches
+<code>lumen index -f</code>, and the reason it is required after
+corruption is documented in the script. I14: neither reindexer nor
+doctor calls <code>sudo</code></td>
+<td style="text-align: left;">reads source text only</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>J</strong> Hardcoded-path
+audit</td>
+<td style="text-align: left;">J1–J8</td>
+<td
+style="text-align: left;"><code>scripts/audit-hardcoded-paths.sh</code>:
+parses (J1), then is <em>exercised</em> rather than grepped — clean repo
+exits 0 (J2), a machine-specific path exits 1 (J3), a
+<strong>comment</strong> describing the historical bug is not a
+violation (J4), <code>$HOME</code>/<code>~</code> are allowed (J5),
+<code>.hardcoded-paths-allow</code> suppresses a listed file (J6),
+<code>/etc</code> <code>/usr</code> <code>/tmp</code> are not
+machine-specific (J7), and this repo’s own <code>scripts/*.sh</code> are
+clean with no exemptions (J8)</td>
+<td style="text-align: left;">throwaway git repos</td>
+</tr>
+</tbody>
+</table>
+<pre class="mermaid"><code>flowchart LR
+    A[&quot;A. static analysis&lt;br/&gt;A1 to A50&quot;] --&gt; AT[&quot;wizard source text&quot;]
+    B[&quot;B. launcher unit&lt;br/&gt;B1 to B8&quot;] --&gt; BT[&quot;~/.local/bin/lumen wrapper&quot;]
+    C[&quot;C. shell config unit&lt;br/&gt;C1 to C10&quot;] --&gt; CT[&quot;~/.bashrc and ~/.bash_profile blocks&quot;]
+    D[&quot;D. MCP config unit&lt;br/&gt;D1 to D5&quot;] --&gt; DT[&quot;agent JSON configs&quot;]
+    E[&quot;E. submodule regression&lt;br/&gt;E1 to E3&quot;] --&gt; ET[&quot;setup_superspec and submodules/superspec&quot;]
+    F[&quot;F. live integration&lt;br/&gt;F1 to F8&quot;] --&gt; FT[&quot;PATH in 3 shell kinds,&lt;br/&gt;ollama backend, real index and search&quot;]
+    H[&quot;H. telemetry opt-out&lt;br/&gt;H1 to H7&quot;] --&gt; HT[&quot;~/.bashrc opt-out block,&lt;br/&gt;~/.qwen/settings.json flag&quot;]
+    G[&quot;G. manifest and rollback&lt;br/&gt;G1 to G18&quot;] --&gt; GT[&quot;manifest.tsv, rollback script,&lt;br/&gt;MODIFIED, CREATED and ACTION rows&quot;]
+    I[&quot;I. operational scripts&lt;br/&gt;I1 to I14&quot;] --&gt; IT[&quot;ollama-vulkan-remediation.sh&lt;br/&gt;lumen-reindex.sh&lt;br/&gt;lumen-index-doctor.sh&quot;]
+    J[&quot;J. hardcoded-path audit&lt;br/&gt;J1 to J8&quot;] --&gt; JT[&quot;audit-hardcoded-paths.sh&lt;br/&gt;run against throwaway repos&quot;]
+
+    AT --&gt; EV[&quot;evidence: .test-evidence/UTC-stamp/&lt;br/&gt;results.tsv, run.log, summary.json&quot;]
+    BT --&gt; EV
+    CT --&gt; EV
+    DT --&gt; EV
+    ET --&gt; EV
+    FT --&gt; EV
+    HT --&gt; EV
+    GT --&gt; EV
+    IT --&gt; EV
+    JT --&gt; EV
+
+    classDef sandbox fill:#e8eefc,stroke:#3f51b5,color:#1a237e
+    classDef live fill:#fff8e1,stroke:#f9a825,color:#7a5900
+    classDef srconly fill:#f5f5f5,stroke:#9e9e9e,color:#424242
+    class BT,CT,DT,ET,HT,GT,JT sandbox
+    class FT live
+    class AT,IT srconly</code></pre>
+<p><strong>Takeaway:</strong> the map has no blind spot between groups —
+A guards the <em>shape</em> of the source (regressions that would
+reintroduce <code>serve</code>, the npm package, the
+<code>ToolCall</code> hook or the wrong <code>qwen-code</code> probe
+name), B–D and H guard the <em>behaviour</em> of each generated artifact
+in isolation, G guards that every one of those changes can be undone, E
+is a dedicated regression test for a real data-loss bug (a registered
+submodule’s <code>.git</code> is a <strong>file</strong>, so the old
+<code>[[ -d ]]</code> test was always false and <code>rm -rf</code>
+deleted the submodule on every run), and F proves the whole chain end to
+end by indexing a two-file fixture repo and asserting the semantic
+search returns <code>verify_password</code> and <em>not</em>
+<code>billing.py</code>. <strong>I</strong> closes the last gap: the
+wizard is read-only in the embedding path by design, so the scripts that
+<em>do</em> mutate the host get their own guards — that the remediation
+defaults to <code>--check</code>, that both backend probes test
+aggregate distinctness rather than per-vector health, that the doctor
+opens the database read-only, and that the reindexer refuses a known-bad
+backend. <strong>J</strong> guards a different class entirely — a
+repository-hygiene rule, tested behaviourally: the audit is <em>run
+against throwaway repositories</em> rather than grepped, so “a comment
+about the bug is not the bug” and “the allowlist actually suppresses”
+are proven rather than asserted. Every assertion writes expected value,
+actual value and a timestamp to
+<code>.test-evidence/&lt;UTC stamp&gt;/results.tsv</code>.</p>
+<p>Two wrinkles worth knowing when you read that file:</p>
+<ul>
+<li><code>--no-live</code> records <code>F1</code>–<code>F7</code> as
+skips, but <code>F5b</code> and <code>F8</code> are not recorded at all
+in that mode, so their absence is expected rather than a failure.</li>
+<li>The record count is not the id count. <code>A12</code> runs once per
+bogus package name (5), <code>F2</code> once per shell kind (3), and
+<code>I1</code>–<code>I3</code> are one loop over the three operational
+scripts.</li>
+</ul>
+<hr />
+<h2 id="indexing-state-machine">6. 🔄 Indexing state machine</h2>
+<p>The index is per-project and lives in
+<code>~/.local/share/lumen</code>. It is built by
+<code>lumen index &lt;path&gt;</code> — by you, by an agent, or by the
+wizard’s opt-in Step 8 when <code>WIZARD_INDEX_PROJECT</code> is set —
+and it is incremental: a re-index re-embeds only what changed.
+(CodeGraph keeps a separate database in
+<code>&lt;project&gt;/.codegraph</code>; Step 8 refreshes it with
+<code>codegraph sync</code>, never with the destructive
+<code>codegraph index</code>.)</p>
+<pre class="mermaid"><code>stateDiagram-v2
+    [*] --&gt; NoIndex
+    NoIndex --&gt; Indexing: lumen index PROJECT
+    Indexing --&gt; Fresh: walk, chunk, embed, persist
+    Fresh --&gt; Stale: files change, or the freshness TTL elapses
+    Stale --&gt; Reindexing: next lumen index run
+    Reindexing --&gt; Fresh: only changed files are re-embedded
+    Indexing --&gt; Indexing: search answered, flagged stale
+    Stale --&gt; Stale: search answered from the older index
+    Fresh --&gt; NoIndex: lumen purge PROJECT
+
+    Indexing --&gt; Poisoned: backend returns a well-formed&lt;br/&gt;but WRONG vector under HTTP 200
+    Reindexing --&gt; Poisoned: same, on any later run
+    Poisoned --&gt; Poisoned: incremental reindex SKIPS it -&lt;br/&gt;the file still has a valid hash
+    Poisoned --&gt; Rebuilding: lumen-reindex.sh PROJECT --force
+    Rebuilding --&gt; Fresh: every chunk re-embedded
+
+    note right of Indexing
+        Searches during a build still return results,
+        with a staleness warning attached.
+        Files created AFTER the tree walk starts are
+        picked up only by the NEXT index run.
+    end note
+
+    note right of Reindexing
+        Incremental. Cost scales with what changed,
+        not with repository size. Raise the reindex
+        timeout for very large repositories.
+    end note
+
+    note right of Poisoned
+        Looks exactly like Fresh. No error, no NaN,
+        no zero vector, correct 768 dims, unit norm.
+        Only lumen-index-doctor.sh can tell them
+        apart, by AGGREGATE distinctness.
+        Fixing the backend does NOT leave this state.
+    end note</code></pre>
+<p><strong>Takeaway:</strong> “indexing” is not a blocking state —
+searches keep working, they are just labelled stale, so an agent asking
+a question mid-build gets an answer plus a warning rather than an error.
+The important subtlety is the tree-walk boundary: a file written
+<em>after</em> the walk began is not in this run’s index at all, so a
+script that generates code and immediately searches for it must re-index
+first. Changing the embedding model mid-flight is the other trap — the
+wizard leaves <code>LUMEN_EMBED_MODEL</code> and friends
+<strong>commented out</strong> in <code>~/.bashrc</code> precisely
+because a CLI/MCP model mismatch makes Lumen build a <em>second</em>
+index per project.</p>
+<p><strong><code>Poisoned</code> is the state that makes this diagram
+worth redrawing.</strong> It is not a failure path:
+<code>lumen index</code> exits <code>0</code>, searches answer, and
+every conventional integrity check passes. It is entered whenever the
+embedding backend returns a well-formed <em>wrong</em> vector — which a
+GPU/Vulkan path does under HTTP 200 — and there are three things to know
+about it:</p>
+<ol type="1">
+<li><strong>It is indistinguishable from <code>Fresh</code> by
+inspection.</strong> Only aggregate distinctness (<em>N</em> distinct
+texts must yield <em>N</em> distinct vectors) separates them, which is
+what <code>scripts/lumen-index-doctor.sh</code> measures.</li>
+<li><strong>It is a fixed point under incremental reindexing.</strong> A
+poisoned file still carries a valid content hash, so Lumen treats it as
+done and skips it — forever. Only <code>-f</code> / <code>--force</code>
+leaves the state.</li>
+<li><strong>Fixing the backend does not leave it either.</strong> The
+backend controls what happens <em>next</em>; the bad vectors are already
+persisted.</li>
+</ol>
+<p>On this project it held 758 vectors across 55 files while a full
+forensic audit read the index as <code>Fresh</code>. See <a
+href="./INDEX-CORRUPTION-RECONCILIATION.md"><code>INDEX-CORRUPTION-RECONCILIATION.md</code></a>
+for the verdict and <a
+href="./OPERATIONAL-SCRIPTS.md"><code>OPERATIONAL-SCRIPTS.md</code></a>
+for the transitions out.</p>
+<hr />
+<h2 id="related">📎 Related</h2>
+<ul>
+<li><a href="./README.md">README.md</a> — installation, what gets
+installed, troubleshooting, uninstall.</li>
+<li><a href="./OPERATIONAL-SCRIPTS.md">OPERATIONAL-SCRIPTS.md</a> — the
+three post-install scripts (§6’s <code>Poisoned</code> →
+<code>Rebuilding</code> transitions live there).</li>
+<li><a href="./ACTION-REQUIRED.md">ACTION-REQUIRED.md</a> — the
+manual-step registry that ends §1’s flow.</li>
+<li><a
+href="./INDEX-CORRUPTION-RECONCILIATION.md">INDEX-CORRUPTION-RECONCILIATION.md</a>
+— the settled verdict on the <code>Poisoned</code> state. Historical
+record; do not edit.</li>
+<li><code>scripts/setup-agents-wizard.sh</code> — the wizard.</li>
+<li><code>scripts/test-setup-agents-wizard.sh</code> — the test suite;
+<code>--no-live</code> skips group F.</li>
+<li><code>scripts/ollama-vulkan-remediation.sh</code>,
+<code>scripts/lumen-reindex.sh</code>,
+<code>scripts/lumen-index-doctor.sh</code> — covered by test group
+I.</li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>learning-surface</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">learning-surface</h1>
+</header>
+<h1 id="contract-the-learning-surface">Contract — The learning
+surface</h1>
+<h2 id="routes">Routes</h2>
+<p><code>/api/areas/{id}/lessons</code> · <code>/lessons/{lesson}</code>
+· <code>/lessons/{lesson}/state</code> · <code>/materials</code> ·
+<code>/assessment</code> · <code>/assessment/submit</code></p>
+<p><strong>All six require the opaque <code>X-Session</code>
+header.</strong> One channel only — a sibling module accepts a session
+three ways, and three places to supply it are three places for them to
+disagree.</p>
+<p><strong>The client must send it.</strong> It did not, and every area
+page rendered an error card: <code>400</code> without, <code>200</code>
+with. The header builder is <strong>one exported function</strong>
+consumed by every client.</p>
+<h2 id="lessons-carry-content">Lessons carry content</h2>
+<p>Every served lesson of a published area carries a non-empty
+<strong><code>body</code></strong> — declared <strong>upstream in the
+kit</strong>, kept distinct from <code>summary</code>. Collapsing them
+was the semantic lie that caused 339 bodies to be discarded on every
+build.</p>
+<p><strong>Measured: 318 of 318 served, median 328 words, longest
+4,563.</strong> Twelve lessons under 100 words are <strong>short, not
+padded</strong>.</p>
+<h2 id="the-assessment-gate">The assessment gate</h2>
+<p>While locked: <strong>zero</strong> prompts, options and answers,
+with the remaining requirement stated and <code>pass_percent</code>
+shown <strong>before</strong> the attempt.</p>
+<p>Enforced <strong>by construction</strong>: the taking projection is a
+map with <strong>no answer field at all</strong>, so no future upstream
+field can leak by defaulting to present.</p>
+<p><strong>And the lock is not bypassable one route over.</strong> The
+practice deck and the graded bank are the same authored rows — 224 of
+224 match by prompt, 0 of 224 by id — so gating practice would delete a
+feature the contract intends. Graded rows are <strong>withheld from the
+open route, and the withholding says so.</strong></p>
+<p><strong>Fail-closed</strong>: nil, unreadable <strong>or
+stale</strong> catalog withholds every key. A graded prompt the snapshot
+never saw would look “graded nowhere” to a literal index and be
+published.</p>
+<h2 id="absence-must-be-true">Absence must be true</h2>
+<p>An area with no assessment states <strong>only what the server
+established</strong>. It may not claim “there is genuinely none” unless
+that has been determined — the snapshot may only license what it
+holds.</p>
+<p><strong>Measured: 27 of 39 areas serve a test, 205 questions; 12
+carry none and each says so with its evidence count.</strong></p>
+<h2 id="submission-validation">Submission validation</h2>
+<p><code>responses</code> is required and must be an array. A misspelled
+top-level key is refused <strong>400 naming the offending key</strong>,
+before the store is touched — it previously returned 200 and permanently
+recorded a 0% attempt. <strong><code>responses: []</code> still
+grades</strong>: a blank paper is a real submission.</p>
+<h2 id="asserted-by">Asserted by</h2>
+<p><code>verify-lesson-content.sh</code> (two arms: in-process
+<strong>and live</strong>) · prover 9 mutations ·
+<code>verify-bank-reachability.sh</code> + prover 9 ·
+<code>verify-answer-key-disclosure.sh</code> + prover
+<strong>16</strong> · <code>verify-submission-validation.sh</code> +
+prover <strong>11</strong>. Each carries a vacuity refusal exiting 2 and
+<strong>overreach mutations</strong> — a practice-only question stripped
+of its answer, a valid submission refused — which a gate written only
+against the leak would have certified as correct.</p>
+</body>
+</html>

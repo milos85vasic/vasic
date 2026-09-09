@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>ACTION-REQUIRED</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">ACTION-REQUIRED</h1>
+</header>
+<h1 id="action-required-the-manual-step-system">ACTION REQUIRED — the
+manual-step system</h1>
+<p>The wizard ends with a section it cannot fake:</p>
+<pre><code>========================================
+ ACTION REQUIRED — 3 step(s) only you can do
+========================================
+A shell script cannot run Claude Code slash commands or use your sudo.
+These are NOT done. Nothing above claims they are.
+
+1. Activate the ashlr plugin inside Claude Code
+     /plugin marketplace add ashlrai/ashlr-plugin
+     /plugin install ashlr@ashlr-marketplace
+     /reload-plugins
+     /ashlr:ashlr-status          # confirm it is live
+
+2. Build the Lumen semantic index for this project
+     ./scripts/lumen-reindex.sh &quot;/path/to/project&quot;
+     ./scripts/lumen-index-doctor.sh &quot;/path/to/project&quot;   # verify afterwards
+
+3. Refresh PATH in your existing terminals
+     exec bash -l      # or just open a new terminal
+
+ℹ️  Saved to /path/to/project/MANUAL-STEPS.md so you can come back to it.
+
+Read the 3 step(s) above. Press Enter to continue...</code></pre>
+<h2 id="why-it-exists">Why it exists</h2>
+<p>Some work is genuinely outside a shell script’s reach:</p>
+<ul>
+<li><strong>Claude Code slash commands</strong>
+(<code>/plugin marketplace add</code>, <code>/plugin install</code>,
+<code>/reload-plugins</code>, <code>/ashlr:ashlr-genome-init</code>) run
+<em>inside</em> a Claude Code session. There is no CLI equivalent a
+<code>bash</code> script can call.</li>
+<li><strong>Privileged host changes</strong> need the operator’s
+<code>sudo</code>. This machine has no passwordless sudo, and even where
+it exists, restarting a system service is not a decision an installer
+should make silently.</li>
+</ul>
+<p>The failure mode this replaces is the one that matters: a wizard that
+skips such steps quietly and then prints a green summary, so
+<strong>work that was never done reads as done</strong>. The section
+above states the opposite explicitly — <em>“These are NOT done. Nothing
+above claims they are.”</em></p>
+<p>Tests <code>A48</code> (the section exists) and <code>A49</code> (the
+steps are persisted to a file) keep it there.</p>
+<hr />
+<h2 id="the-detection-trick-cache-vs-marketplaces">The detection trick:
+<code>cache/</code> vs <code>marketplaces/</code></h2>
+<p><strong>This is the whole mechanism.</strong> Claude Code keeps two
+different directories under its config dir, and they mean two different
+things:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Path</th>
+<th style="text-align: left;">Written by</th>
+<th style="text-align: left;">Means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td
+style="text-align: left;"><code>&lt;claude-dir&gt;/plugins/cache/&lt;marketplace&gt;/&lt;plugin&gt;/</code></td>
+<td style="text-align: left;">the vendor’s <code>install.sh</code>, run
+by the wizard</td>
+<td style="text-align: left;"><strong>The bits are on disk.</strong>
+Nothing is wired into Claude Code.</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>&lt;claude-dir&gt;/plugins/marketplaces/&lt;marketplace&gt;/</code></td>
+<td style="text-align: left;">Claude Code itself, when the operator runs
+<code>/plugin marketplace add</code></td>
+<td style="text-align: left;"><strong>A human actually ran the slash
+command.</strong> The plugin is registered.</td>
+</tr>
+</tbody>
+</table>
+<p>So the wizard can distinguish “I downloaded it” from “you activated
+it” without asking, and without a state file of its own:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">CLAUDE_DIR</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${CLAUDE_CONFIG_DIR</span><span class="op">:-</span><span class="va">$HOME</span>/.claude<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">ASHLR_CACHE</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$CLAUDE_DIR</span><span class="st">/plugins/cache/ashlr-marketplace/ashlr&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">ASHLR_MKT</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$CLAUDE_DIR</span><span class="st">/plugins/marketplaces/ashlr-marketplace&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>   <span class="kw">[[</span> <span class="ot">-d</span> <span class="st">&quot;</span><span class="va">$ASHLR_CACHE</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="ot">!</span> <span class="ot">-d</span> <span class="st">&quot;</span><span class="va">$ASHLR_MKT</span><span class="st">&quot;</span> <span class="kw">]];</span> <span class="cf">then</span>   <span class="co"># cloned, not activated</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>     <span class="ex">→</span> <span class="st">&quot;Activate the ashlr plugin inside Claude Code&quot;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> <span class="kw">[[</span> <span class="ot">-d</span> <span class="st">&quot;</span><span class="va">$ASHLR_MKT</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="ot">!</span> <span class="ot">-d</span> <span class="st">&quot;</span><span class="va">$PROJECT_ROOT</span><span class="st">/.ashlrcode/genome&quot;</span> <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>     <span class="ex">→</span> <span class="st">&quot;Initialise the ashlr genome for this project&quot;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div>
+<p>The detection is <strong>stateful and self-clearing</strong>. Do the
+step, re-run the wizard, and the entry disappears — because the evidence
+of having done it is a directory that now exists. Nothing has to be
+ticked off, and nothing can drift out of sync with reality. Test
+<code>A50</code> asserts the
+<code>plugins/marketplaces/ashlr-marketplace</code> probe specifically,
+because checking only the cache directory would report the plugin as
+done the moment it was downloaded.</p>
+<blockquote>
+<p><strong>Note the asymmetry in the current code.</strong> The
+<code>CLAUDE_CONFIG_DIR</code> override is honoured in this detection
+block, but Step 2’s install check and the final summary both hardcode
+<code>$HOME/.claude/plugins/cache/ashlr-marketplace/ashlr</code>. On a
+host running with a non-default <code>CLAUDE_CONFIG_DIR</code>, those
+two can disagree with the ACTION REQUIRED section. Trust the ACTION
+REQUIRED section — it is the one that reads the active config dir.</p>
+</blockquote>
+<hr />
+<h2 id="every-step-the-wizard-can-raise">Every step the wizard can
+raise</h2>
+<p>In the order they are emitted. All conditions are re-evaluated on
+every run.</p>
+<p>The first two are registered <strong>during</strong> the run — Step 7
+and Step 9 — rather than in the drain block at the end, so they appear
+first in the list and first in <code>MANUAL-STEPS.md</code>.</p>
+<h3 id="apply-the-ollama-concurrency-setting-computed-for-this-host">1.
+Apply the ollama concurrency setting computed for THIS host</h3>
+<p><strong>When:</strong> <code>scripts/ollama-tune.sh</code> produced
+commands and the wizard did not apply them — which is the default, and
+remains the case when <code>WIZARD_TUNE_OLLAMA</code> is unset, when an
+indexer is in flight, when the indexer state cannot be determined, when
+you decline at the prompt, or when an attempted <code>--apply</code>
+failed.</p>
+<p>The body is <strong>the delegate’s own <code>--print-commands</code>
+output for this machine</strong>, followed by the opt-in and the
+undo:</p>
+<pre><code>&lt;the exact commands ollama-tune.sh generated for this host&gt;
+
+# Or let the wizard do it - it asks first and refuses while an indexer runs:
+#   WIZARD_TUNE_OLLAMA=1 ./scripts/setup-agents-wizard.sh
+# Undo at any time:
+#   ./scripts/ollama-tune.sh --revert
+#
+# WHY THIS IS NOT AUTOMATIC: applying RESTARTS the ollama service, which aborts
+# every in-flight embedding request. An index run in progress loses that work.</code></pre>
+<p><strong>No example is ever substituted.</strong> If the tuner is
+absent, fails, or ollama is not there at all, the step still appears —
+but it says that nothing was measured and offers the tuner, rather than
+printing a plausible number the wizard did not compute. Test
+<code>K2b</code> asserts that the absent-tuner step contains no
+concurrency value at all, and <code>K5b</code> asserts that the normal
+step carries the token the delegate generated on this run.</p>
+<h3 id="provider-side-ci-triggering">2. Provider-side CI triggering</h3>
+<p><strong>When:</strong> <code>scripts/verify-provider-ci.sh</code>
+exited <code>1</code> (confirmed), or the status could not be determined
+— exit <code>2</code>, a timeout, an unexpected status, a missing
+script, or a missing <code>gh</code>.</p>
+<p>Two distinct bodies, and they must not be confused:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Verifier said</th>
+<th style="text-align: left;">Title</th>
+<th style="text-align: left;">Body</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>confirmed</strong>
+(<code>1</code>)</td>
+<td
+style="text-align: left;"><code>Provider-side CI triggering was CONFIRMED just now - operator-only to change</code></td>
+<td style="text-align: left;">The verifier’s own findings, verbatim and
+timestamped, plus a reminder that no file in any of those repositories
+can turn them off — it is repo/org Settings → Actions, Pages,
+Branches</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>unknown</strong> (<code>2</code>,
+timeout, other, absent script, absent <code>gh</code>)</td>
+<td
+style="text-align: left;"><code>Provider-side CI status is UNVERIFIED …</code></td>
+<td style="text-align: left;">Why it could not reach a verdict, and the
+commands to find out (<code>gh auth status</code>, then the
+verifier)</td>
+</tr>
+</tbody>
+</table>
+<p>A <code>0</code> raises <strong>nothing</strong> — that is the only
+case where silence is correct, because it is the only case where
+something was actually measured and came back clean. Test
+<code>K16c</code> asserts that an exit <code>2</code> never renders the
+<code>0</code> success line.</p>
+<h3 id="activate-the-ashlr-plugin">3. Activate the ashlr plugin</h3>
+<p><strong>When:</strong>
+<code>plugins/cache/ashlr-marketplace/ashlr/</code> exists
+<strong>and</strong>
+<code>plugins/marketplaces/ashlr-marketplace/</code> does not.</p>
+<pre><code>/plugin marketplace add ashlrai/ashlr-plugin
+/plugin install ashlr@ashlr-marketplace
+/reload-plugins
+/ashlr:ashlr-status          # confirm it is live</code></pre>
+<p>See <a href="#ashlr-is-a-plugin-not-a-binary">ashlr is a plugin, not
+a binary</a> below.</p>
+<h3 id="initialise-the-ashlr-genome">4. Initialise the ashlr genome</h3>
+<p><strong>When:</strong> the marketplace <em>is</em> registered (step 1
+is done) <strong>and</strong>
+<code>&lt;project-root&gt;/.ashlrcode/genome/</code> does not exist.</p>
+<pre><code>/ashlr:ashlr-genome-init</code></pre>
+<p>Mutually exclusive with step 1 — it is the <code>elif</code> branch.
+You will never see both.</p>
+<h3 id="take-the-gpu-out-of-the-embedding-path">5. Take the GPU out of
+the embedding path</h3>
+<p><strong>When:</strong> <code>ollama</code> is on <code>PATH</code>
+<strong>and</strong> its journal, scanned from the service’s
+<code>ActiveEnterTimestamp</code>, reports <code>library=Vulkan</code>
+(or <code>vulkan</code>).</p>
+<pre><code>./scripts/ollama-vulkan-remediation.sh --check    # diagnosis, read-only
+./scripts/ollama-vulkan-remediation.sh --apply    # applies it, then verifies</code></pre>
+<p>The wizard <strong>delegates</strong> rather than inlining the
+privileged commands. Test <code>A41</code> asserts the wizard’s own
+source contains no <code>systemctl restart</code>, no write under
+<code>/etc</code>, and no <code>sudo</code> in this path — applying the
+fix is <a
+href="./OPERATIONAL-SCRIPTS.md"><code>ollama-vulkan-remediation.sh</code></a>’s
+job, behind an explicit subcommand. The step text states why in one
+line: <em>this backend silently writes stale duplicate vectors under
+HTTP 200, well-formed, unit-norm, and invisible to every per-vector
+check.</em></p>
+<p>Both journal probes here are <code>timeout</code>-bounded (20 s and
+10 s) so a hung <code>journalctl</code> or <code>systemctl</code> cannot
+stall the wizard.</p>
+<h3 id="wozcode-has-no-public-installer">6. WOZCODE has no public
+installer</h3>
+<p><strong>When:</strong> <code>wozcode</code> is not on
+<code>PATH</code> <strong>and</strong> <code>WOZCODE_INSTALL_CMD</code>
+is unset.</p>
+<pre><code>WOZCODE_INSTALL_CMD=&#39;&lt;your install command&gt;&#39; ./scripts/setup-agents-wizard.sh</code></pre>
+<h3 id="the-glyphdown-hook-was-skipped-on-request">7. The glyphdown hook
+was skipped on request</h3>
+<p><strong>When:</strong> <code>WIZARD_SKIP_GLYPHDOWN_HOOK</code> is
+set.</p>
+<pre><code># Re-run WITHOUT the flag to register it:
+./scripts/setup-agents-wizard.sh
+# It fires on EVERY tool call - enable deliberately.</code></pre>
+<h3 id="build-the-lumen-semantic-index">8. Build the Lumen semantic
+index</h3>
+<p><strong>When:</strong> <code>lumen</code> is on <code>PATH</code>
+<strong>and</strong> a bounded probe cannot confirm a usable index:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">timeout</span> 20 lumen search <span class="st">&quot;x&quot;</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$PROJECT_ROOT</span><span class="st">&quot;</span> <span class="at">--summary</span> <span class="at">-n</span> 1</span></code></pre></div>
+<pre><code>./scripts/lumen-reindex.sh &quot;&lt;project-root&gt;&quot;
+./scripts/lumen-index-doctor.sh &quot;&lt;project-root&gt;&quot;   # verify afterwards</code></pre>
+<p><strong>The <code>timeout</code> is load-bearing, not
+decoration.</strong> <code>lumen search</code> blocks while an index run
+holds the embedding backend, and an unbounded probe once stalled the
+wizard for ten minutes. Test <code>A47</code> asserts that every
+<code>lumen search</code> in the wizard is <code>timeout</code>-wrapped,
+by counting bounded against unbounded occurrences.</p>
+<p>A timeout is treated as <strong>“could not confirm”</strong>, so the
+step is offered rather than skipped. You may therefore see this step on
+a project whose index is perfectly healthy but busy. That is the
+intended bias: over-suggesting a safe, idempotent step beats silently
+omitting a necessary one.</p>
+<h3 id="refresh-path-in-your-existing-terminals">9. Refresh PATH in your
+existing terminals</h3>
+<p><strong>Always.</strong> There is no condition on it.</p>
+<pre><code>exec bash -l      # or just open a new terminal</code></pre>
+<p>Because this one is unconditional, the ACTION REQUIRED section always
+has <strong>at least one</strong> entry and <code>MANUAL-STEPS.md</code>
+is always written.</p>
+<hr />
+<h2 id="manual-steps.md"><code>MANUAL-STEPS.md</code></h2>
+<p>Written to <code>&lt;PROJECT_ROOT&gt;/MANUAL-STEPS.md</code> on
+<strong>every</strong> run, unconditionally overwriting the previous
+copy. Its shape:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Manual steps the setup wizard cannot perform</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>Generated 2026-08-27T15<span class="sc">:34:</span>23Z by scripts/setup-agents-wizard.sh</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1. &lt;title&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;commands&gt;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p>Points worth knowing:</p>
+<ul>
+<li><strong>It is a snapshot, not a checklist.</strong> Nothing marks a
+step done. The file is regenerated from scratch each run and shrinks as
+conditions clear.</li>
+<li><strong>It lands in your project root</strong>, next to
+<code>README.md</code>. If you do not want it committed, add
+<code>MANUAL-STEPS.md</code> to <code>.gitignore</code>.</li>
+<li><strong>It is not recorded in the rollback manifest.</strong>
+<code>scripts/rollback-agents-wizard.sh</code> will not remove it;
+<code>rm MANUAL-STEPS.md</code> if you want it gone.</li>
+<li><strong>Paths inside it are absolute</strong>, expanded at
+generation time — safe to paste into any shell.</li>
+</ul>
+<hr />
+<h2 id="the-pause">The pause</h2>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="ot">-t</span> 0 <span class="kw">&amp;&amp;</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">${WIZARD_NONINTERACTIVE</span><span class="op">:-</span><span class="va">}</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="va">${</span><span class="op">#</span><span class="va">MANUAL_TITLES</span><span class="op">[@]</span><span class="va">}</span> <span class="ot">-gt</span> 0 <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">read</span> <span class="at">-r</span> <span class="at">-p</span> <span class="st">&quot;Read the N step(s) above. Press Enter to continue...&quot;</span> <span class="va">_ack</span> <span class="kw">||</span> <span class="fu">true</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div>
+<p>Three conditions, all required:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Condition</th>
+<th style="text-align: left;">Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>-t 0</code></td>
+<td style="text-align: left;">stdin is a terminal. In a pipe, CI job or
+<code>\| tee</code> the wizard never blocks.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>WIZARD_NONINTERACTIVE</code>
+unset</td>
+<td style="text-align: left;">An explicit escape hatch for automation on
+a TTY.</td>
+</tr>
+<tr>
+<td style="text-align: left;">at least one step</td>
+<td style="text-align: left;">Vacuously true today — the last step,
+<em>Refresh PATH</em>, is unconditional.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>\|\| true</code> means an EOF on stdin is not an error
+under <code>set -euo pipefail</code>.</p>
+<blockquote>
+<p><strong>This is the wizard’s only blocking prompt.</strong>
+Everywhere else it is non-interactive; a <code>sudo</code> password
+prompt comes from <code>sudo</code> itself, not from the script. If you
+script the wizard, set <code>WIZARD_NONINTERACTIVE=1</code> — the
+section still prints and <code>MANUAL-STEPS.md</code> is still written,
+you simply are not asked to acknowledge it.</p>
+</blockquote>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">WIZARD_NONINTERACTIVE</span><span class="op">=</span>1 <span class="ex">./scripts/setup-agents-wizard.sh</span></span></code></pre></div>
+<hr />
+<h2 id="ashlr-is-a-plugin-not-a-binary">ashlr is a plugin, not a
+binary</h2>
+<p>The wizard used to run <code>check_command ashlr</code> and print a
+permanent, misleading <code>❌</code>. <strong>There is no
+<code>ashlr</code> binary and there never will be</strong> —
+<code>command -v ashlr</code> failing is correct behaviour, not a fault.
+Test <code>A42</code> asserts the wizard no longer probes
+<code>PATH</code> for it; <code>A43</code> asserts it verifies the
+plugin <strong>directory</strong> instead.</p>
+<p>What the vendor installer
+(<code>https://plugin.ashlr.ai/install.sh</code>, run via
+<code>bash</code>, requires <code>bun</code>) actually does is clone
+into:</p>
+<pre><code>~/.claude/plugins/cache/ashlr-marketplace/ashlr/</code></pre>
+<p>It deliberately creates no binary and does not touch
+<code>settings.json</code>. Turning that clone into a working plugin
+takes three slash commands inside Claude Code, plus one to confirm:</p>
+<pre><code>/plugin marketplace add ashlrai/ashlr-plugin
+/plugin install ashlr@ashlr-marketplace
+/reload-plugins
+/ashlr:ashlr-status</code></pre>
+<p>The wizard prints these in Step 2 as information, and again in ACTION
+REQUIRED as a <em>pending step</em> — the second one only when
+<code>plugins/marketplaces/ashlr-marketplace/</code> is still
+missing.</p>
+<h3 id="the-genome">The genome</h3>
+<p>Once the plugin is active, <code>/ashlr:ashlr-genome-init</code>
+builds a project genome at:</p>
+<pre><code>&lt;project-root&gt;/.ashlrcode/genome/</code></pre>
+<p>On this repository it holds <strong>15 sections</strong> listed in
+<code>manifest.json</code>, across five directories:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Directory</th>
+<th style="text-align: left;">Sections</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>vision/</code></td>
+<td style="text-align: left;"><code>north-star.md</code>,
+<code>architecture.md</code>, <code>principles.md</code>,
+<code>anti-patterns.md</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>milestones/</code></td>
+<td style="text-align: left;"><code>current.md</code>,
+<code>backlog.md</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>strategies/</code></td>
+<td style="text-align: left;"><code>active.md</code>,
+<code>graveyard.md</code>, <code>experiments.md</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>knowledge/</code></td>
+<td style="text-align: left;"><code>decisions.md</code>,
+<code>discoveries.md</code>, <code>dependencies.md</code>,
+<code>architecture.md</code>, <code>conventions.md</code>,
+<code>workspace.md</code></td>
+</tr>
+</tbody>
+</table>
+<p>(<code>knowledge/</code> carries six of the fifteen;
+<code>manifest.json</code> is the index, not a section, and
+<code>proposals.jsonl</code> and <code>evolution/</code> are runtime
+state.) <code>manifest.json</code> also records a
+<code>generation</code> counter and per-section token budgets, which is
+what lets ashlr route searches through genome RAG instead of re-reading
+the tree.</p>
+<p>The genome is <strong>optional</strong> — the wizard labels the step
+<em>“(optional, improves routing)”</em> — and it lives inside your
+project, so it is yours to commit or ignore.</p>
+<hr />
+<h2 id="mimo-mcp-and-a-claim-that-was-wrong">MiMo, MCP, and a claim that
+was wrong</h2>
+<p>Related to the same “never report work you did not do” principle, and
+corrected in the same pass:</p>
+<p><strong>The old claim:</strong> <em>“<code>~/.mimocode</code> exists
+but exposes no documented MCP config file”</em>, printed as a manual
+step telling you to add Lumen yourself.</p>
+<p><strong>The reality:</strong> MiMo Code <strong>inherits</strong> MCP
+servers from <code>~/.claude.json</code> — it labels them
+<code>claude:~/.claude.json</code> in <code>mimo mcp list</code>. There
+was never anything to configure by hand.</p>
+<p>That mattered because <code>claude mcp add-json -s user</code> writes
+into the <strong>active</strong> <code>CLAUDE_CONFIG_DIR</code>, which
+is <em>not</em> necessarily <code>~/.claude.json</code>. On a session
+running with a non-default config dir, Claude Code got Lumen and every
+tool inheriting from the default file stayed blind to it. The wizard now
+mirrors the registration into <code>~/.claude.json</code> directly
+(<code>.mcpServers.lumen = {"type":"stdio","command":&lt;wrapper&gt;,"args":["stdio"]}</code>,
+<code>jq</code>-merged, backed up under component <code>claude</code>)
+and probes MiMo honestly with <code>timeout 25 mimo mcp list</code>.</p>
+<p>Tests: <code>A44</code> (the mirror exists), <code>A45</code> (the
+stale “no documented MCP config” claim is gone), <code>A46</code> (MiMo
+status is <em>probed</em>, not assumed).</p>
+<p>Verify by hand:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">mimo</span> mcp list <span class="kw">|</span> <span class="fu">grep</span> lumen</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="ex">jq</span> <span class="at">-c</span> <span class="st">&#39;.mcpServers.lumen&#39;</span> ~/.claude.json</span></code></pre></div>
+<hr />
+<h2 id="related">Related</h2>
+<ul>
+<li><a
+href="./OPERATIONAL-SCRIPTS.md"><code>OPERATIONAL-SCRIPTS.md</code></a>
+— the three scripts these steps point at.</li>
+<li><a
+href="./OLLAMA-REMEDIATION.md"><code>OLLAMA-REMEDIATION.md</code></a> —
+the runbook behind step 3.</li>
+<li><a href="./USER_GUIDE.md"><code>USER_GUIDE.md</code></a> — what the
+rest of the run prints.</li>
+<li><a href="./MANUAL.md"><code>MANUAL.md</code></a> —
+<code>manual_step</code>,
+<code>MANUAL_TITLES</code>/<code>MANUAL_STEPS</code>, and the
+environment-variable reference.</li>
+</ul>
+</body>
+</html>

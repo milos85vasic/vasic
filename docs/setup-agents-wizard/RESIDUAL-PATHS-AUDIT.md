@@ -39,15 +39,15 @@ so the audit never sees it.
 ### §8 "Reproduction Commands" (lines 222–250) — 9 executable `/Volumes` paths
 
 ```
-224: cd /Volumes/T7/Projects/vasic/milosvasic.ru && jekyll build
-225: cd /Volumes/T7/Projects/vasic/_tests
-231: cd /Volumes/T7/Projects/helix_translate
-239: /Volumes/T7/Projects/vasic/_tools/translate-pipeline.sh \
-240:   --in  /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md \
-241:   --out /Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ru/helix-track-core.md \
-245: /Volumes/T7/Projects/vasic/_tools/render-articles.sh /Volumes/T7/Projects/vasic/milosvasic.ru en sr ru
-246: /Volumes/T7/Projects/vasic/_tools/render-articles.sh /Volumes/T7/Projects/vasic/vasic.digital en
-249: cd /Volumes/T7/Projects/vasic/milosvasic.ru/downloads/src && ./build-pdfs.sh
+224: cd <macos-host>/Projects/vasic/milosvasic.ru && jekyll build
+225: cd <macos-host>/Projects/vasic/_tests
+231: cd <macos-host>/Projects/helix_translate
+239: <macos-host>/Projects/vasic/_tools/translate-pipeline.sh \
+240:   --in  <macos-host>/Projects/vasic/milosvasic.ru/_article_src/en/helix-track-core.md \
+241:   --out <macos-host>/Projects/vasic/milosvasic.ru/_article_src/ru/helix-track-core.md \
+245: <macos-host>/Projects/vasic/_tools/render-articles.sh <macos-host>/Projects/vasic/milosvasic.ru en sr ru
+246: <macos-host>/Projects/vasic/_tools/render-articles.sh <macos-host>/Projects/vasic/vasic.digital en
+249: cd <macos-host>/Projects/vasic/milosvasic.ru/downloads/src && ./build-pdfs.sh
 ```
 
 Every one of these targets **does exist in this repo** under a derived root
@@ -61,7 +61,7 @@ or a relative invocation.**
 ### Line 179 — a factually FALSE statement about current behaviour
 
 > `_tools/translate-pipeline.sh` — … around the engine binary (`HELIX_TRANSLATE_BIN`,
-> default `/Volumes/T7/Projects/helix_translate/build/unified-translator`; binary
+> default `<macos-host>/Projects/helix_translate/build/unified-translator`; binary
 > confirmed present and executable on disk).
 
 The real current default is a container shim:
@@ -76,7 +76,7 @@ correct it or mark the section historical.**
 
 ### Remaining 20 occurrences in the same file (lines 6, 7, 11, 21, 22, 30, 44, 48, 54, 62, 66, 72, 114, 158, 193, 199)
 
-Narrative provenance ("Repo: `/Volumes/T7/Projects/vasic/milosvasic.ru`", "File:
+Narrative provenance ("Repo: `<macos-host>/Projects/vasic/milosvasic.ru`", "File:
 `/Volumes/…/assets/js/i18n.js`"). **PROSE** — harmless in isolation, but they are what
 makes §8 read as authoritative. Recommend a single "paths in this report are from the
 authoring machine; derive your own root" banner at the top.
@@ -86,12 +86,12 @@ authoring machine; derive your own root" banner at the top.
 ## 1.2 MISLEADING TO AGENTS — the genome asserts the bug is still open (6 files, 10 occurrences)
 
 `.ashlrcode/genome/` is consumed by ashlr as **retrieval context**. Six files state, in
-the present tense, that two scripts still hardcode `/Volumes/T7/Projects/vasic`. **They
+the present tense, that two scripts still hardcode `<macos-host>/Projects/vasic`. **They
 do not.** Verified against the live files:
 
 | Claim in genome | Reality |
 |---|---|
-| `_tools/deploy-langs.sh:8` — `ROOT="/Volumes/T7/Projects/vasic"` | Line 8 is now a **comment** describing the historical bug; line 14 is `ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"` with a **fatal** `cd` guard |
+| `_tools/deploy-langs.sh:8` — `ROOT="<macos-host>/Projects/vasic"` | Line 8 is now a **comment** describing the historical bug; line 14 is `ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"` with a **fatal** `cd` guard |
 | `_tests/playwright.config.js` hardcodes the same prefix | Line 7 is `const REPO = path.resolve(__dirname, '..');` — no `/Volumes` anywhere in the file |
 | "CI works around it by symlinking `/Volumes/… -> $GITHUB_WORKSPACE`" | `.github/workflows/ci.yml:164` records the symlink bridge is **no longer needed** |
 
@@ -100,12 +100,12 @@ comment that documents the fix, or will treat backlog item 11 as outstanding wor
 
 | File | Occ | Line(s) | What it says | Verdict |
 |---|---|---|---|---|
-| `.ashlrcode/genome/knowledge/discoveries.md` | 4 | 6, 8, 12, 14 | Section heading **"Two scripts hardcode `/Volumes/T7/Projects/vasic`"** with line-numbered specifics | **STALE — highest impact.** This is the canonical record every other genome file points at |
-| `.ashlrcode/genome/vision/anti-patterns.md` | 2 | 31–35 | "`_tools/deploy-langs.sh:8` sets `ROOT="/Volumes/T7/Projects/vasic"` … On any checkout not at that path these break" | **STALE** |
-| `.ashlrcode/genome/vision/architecture.md` | 1 | 64 | "two build scripts hardcode absolute `/Volumes/T7/...` paths" | **STALE** |
-| `.ashlrcode/genome/milestones/backlog.md` | 1 | 64 | Open backlog item **"11. Repair the two hardcoded `/Volumes/T7/...` paths"** | **STALE — work already done, item should close** |
-| `.ashlrcode/genome/knowledge/architecture.md` | 1 | 70 | Pointer: "Structural hazards (…, hardcoded `/Volumes/T7` paths) are in `knowledge/discoveries.md`" | **STALE pointer** (harmless once discoveries.md is corrected) |
-| `.ashlrcode/genome/meta/maintenance.md` | 1 | 59 | Routing rule: update discoveries.md "if the hardcoded `/Volumes/T7` paths are finally fixed" | **CONDITION HAS FIRED** — the rule is correct, it just needs executing |
+| `.ashlrcode/genome/knowledge/discoveries.md` | 4 | 6, 8, 12, 14 | Section heading **"Two scripts hardcode `<macos-host>/Projects/vasic`"** with line-numbered specifics | **STALE — highest impact.** This is the canonical record every other genome file points at |
+| `.ashlrcode/genome/vision/anti-patterns.md` | 2 | 31–35 | "`_tools/deploy-langs.sh:8` sets `ROOT="<macos-host>/Projects/vasic"` … On any checkout not at that path these break" | **STALE** |
+| `.ashlrcode/genome/vision/architecture.md` | 1 | 64 | "two build scripts hardcode absolute `<macos-host>/...` paths" | **STALE** |
+| `.ashlrcode/genome/milestones/backlog.md` | 1 | 64 | Open backlog item **"11. Repair the two hardcoded `<macos-host>/...` paths"** | **STALE — work already done, item should close** |
+| `.ashlrcode/genome/knowledge/architecture.md` | 1 | 70 | Pointer: "Structural hazards (…, hardcoded `<macos-host>` paths) are in `knowledge/discoveries.md`" | **STALE pointer** (harmless once discoveries.md is corrected) |
+| `.ashlrcode/genome/meta/maintenance.md` | 1 | 59 | Routing rule: update discoveries.md "if the hardcoded `<macos-host>` paths are finally fixed" | **CONDITION HAS FIRED** — the rule is correct, it just needs executing |
 
 **These are not INSTRUCTIONAL (nothing says "run this here") and not LOAD-BEARING (no
 runtime reads them), but they are the single highest-leverage residual: wrong genome
@@ -119,7 +119,7 @@ state propagates into agent behaviour by design.**
 
 | File | Occ | Evidence | Verdict |
 |---|---|---|---|
-| `_tools/deploy-langs.sh` | 1 | L8: `# ROOT was hardcoded to "/Volumes/T7/Projects/vasic" - a macOS path. On any other checkout the cd below failed…` | **CORRECTIVE.** Comment-only; the code below derives the root and makes `cd` fatal |
+| `_tools/deploy-langs.sh` | 1 | L8: `# ROOT was hardcoded to "<macos-host>/Projects/vasic" - a macOS path. On any other checkout the cd below failed…` | **CORRECTIVE.** Comment-only; the code below derives the root and makes `cd` fatal |
 | `scripts/audit-hardcoded-paths.sh` | 3 | L7, L13 comments; **L50 `PATTERN=` contains the literal `/Volumes/`** | **CORRECTIVE + necessarily literal.** This IS the detector. Allow-listed in `.hardcoded-paths-allow` with that exact reason. Audit prints `⚠️ allowed` and still exits 0 |
 | `.github/workflows/ci.yml` → **now `.github/workflows/ci.yml.disabled`** | 3 | L44–48 explain the historical symlink; **L164 states the bridge "is no longer needed"** | **CORRECTIVE.** Comment-only. *(Not modified — another actor is editing this file.)* **Path note (2026-08-27):** the file is renamed to a non-active `.disabled` name under the §11.4.156 compliance decision ([`../constitution-adoption/DECISION-11-4-156-COMPLY.md`](../constitution-adoption/DECISION-11-4-156-COMPLY.md)). The occurrences and the verdict are unchanged — only the path is. |
 | `docs/setup-agents-wizard/OPERATIONAL-SCRIPTS.md` | 2 | L331 describes the removed macOS root; L342 documents the detector's alternation | **CORRECTIVE / spec** |
@@ -142,11 +142,11 @@ All occurrences sit under a **"Source provenance:"** heading and cite *sibling r
 outside this checkout* that were read while authoring the brief:
 
 ```
-HelixQA.md:66  - /Volumes/T7/Projects/helixqa/README.md (status banner round 219, …)
-HelixQA.md:67  - /Volumes/T7/Projects/helixqa/CONSTITUTION.md (inheritance …)
-HelixConstitution.md:62-65  /Volumes/T7/Projects/constitution/{README.md,Constitution.md,find_constitution.sh,submodules-catalogue.md}
-Catalogizer.md:44  - Local working copy: /Volumes/T7/Projects/catalogizer (has private .env; …)
-HelixCode.md:59  - /Volumes/T7/Projects/helix_code/README.md (primary; version, architecture, …)
+HelixQA.md:66  - <macos-host>/Projects/helixqa/README.md (status banner round 219, …)
+HelixQA.md:67  - <macos-host>/Projects/helixqa/CONSTITUTION.md (inheritance …)
+HelixConstitution.md:62-65  <macos-host>/Projects/constitution/{README.md,Constitution.md,find_constitution.sh,submodules-catalogue.md}
+Catalogizer.md:44  - Local working copy: <macos-host>/Projects/catalogizer (has private .env; …)
+HelixCode.md:59  - <macos-host>/Projects/helix_code/README.md (primary; version, architecture, …)
 ```
 
 | File | Occ | | File | Occ |
@@ -171,7 +171,7 @@ from a sibling-checkout layout, not a path rewrite. **No action required.**
 
 ```
 L13: Every decision here traces to a Helix Constitution mandate
-     (`/Volumes/T7/Projects/constitution/Constitution.md`).
+     (`<macos-host>/Projects/constitution/Constitution.md`).
 ```
 
 **Verdict: PROSE, minor.** The constitution is vendored **in this repo** at
@@ -185,7 +185,7 @@ Skipped by the audit (`_tests/evidence/` in `SKIP`). Broken down and traced:
 
 ### `translate-new/` — 537 files (523 `*.review.json` + 14 `batch.log`) — **re-anchoring CONFIRMED**
 
-Every review JSON carries `"_translated": "/Volumes/T7/Projects/vasic/_content_<lang>/…"`.
+Every review JSON carries `"_translated": "<macos-host>/Projects/vasic/_content_<lang>/…"`.
 **All three live consumers re-anchor before use, and all three derive their own repo root:**
 
 | Consumer | Root derivation | Re-anchoring |
@@ -209,7 +209,7 @@ at `_article_src`, **not** `_content`:
 
 ```
 _tests/evidence/translate/review/milosvasic.ru/ar/android-toolkit.json
-  "_translated": "/Volumes/T7/Projects/vasic/milosvasic.ru/_article_src/ar/android-toolkit.md"
+  "_translated": "<macos-host>/Projects/vasic/milosvasic.ru/_article_src/ar/android-toolkit.md"
 ```
 
 The re-anchor regex `(_content[^/]*/.*)$` **would not match `_article_src`** — so if
@@ -229,7 +229,7 @@ population (total ≈ 961 JSON across both sets).
 
 ### `ui-l10n/reviews/*.json` (6) + `l10n-audit/reviews/de.review.json` (1)
 
-`"_translated": "/Volumes/T7/tmp/tmp<random>/tr.md"` — **ephemeral tempdirs** that never
+`"_translated": "<macos-host>/tmp/tmp<random>/tr.md"` — **ephemeral tempdirs** that never
 survived the run that produced them.
 
 Consumers `_tools/gen/review_ui_all.py` (L40) and `_tools/gen/translate-ui.py` (L124)
@@ -272,11 +272,11 @@ These are one-shot drivers left beside their output. They **do** hardcode `/Volu
 executable positions — `require()` targets, `REPO=` constants, `cd`:
 
 ```
-_tests/evidence/a11y-audit/run-audit.js:12       require(path.join('/Volumes/T7/Projects/vasic/_tests/node_modules/playwright'))
-_tests/evidence/a11y-fix3/render-axe.js:11       const ROOT = '/Volumes/T7/Projects/vasic/milosvasic.ru/_site'
-_tests/evidence/fix4docs/retry.sh:4              cd /Volumes/T7/Projects/vasic
-_tests/evidence/fix4docs/retry.sh:12             bash /Volumes/T7/Projects/vasic/_tools/translate/translate-content.sh …
-_tests/evidence/fix-pdf-chrome/{leak_matrix,review_chrome,translate_chrome}.py   REPO = "/Volumes/T7/Projects/vasic"
+_tests/evidence/a11y-audit/run-audit.js:12       require(path.join('<macos-host>/Projects/vasic/_tests/node_modules/playwright'))
+_tests/evidence/a11y-fix3/render-axe.js:11       const ROOT = '<macos-host>/Projects/vasic/milosvasic.ru/_site'
+_tests/evidence/fix4docs/retry.sh:4              cd <macos-host>/Projects/vasic
+_tests/evidence/fix4docs/retry.sh:12             bash <macos-host>/Projects/vasic/_tools/translate/translate-content.sh …
+_tests/evidence/fix-pdf-chrome/{leak_matrix,review_chrome,translate_chrome}.py   REPO = "<macos-host>/Projects/vasic"
 _tests/evidence/live-v1.3.1/scripts/{axe-live.js,interactive-live.js,l10n.sh,l10n-vasic.sh,pdf.sh,reach.sh,reach2.sh,scope.sh}
 _tests/evidence/live-v1.5.1/{a11y/run-axe.mjs,interactive/run-interactive.mjs}
 _tests/evidence/milos-ssr-chrome/playwright-check.js
@@ -321,7 +321,7 @@ only for `verdict`, `accuracy`, `fluency`, `completeness`, `script_ok`,
 ### 2. Do the genome files mislead an agent using the genome for routing?
 
 **Yes — see §1.2.** Six files assert in the present tense that `_tools/deploy-langs.sh`
-and `_tests/playwright.config.js` still hardcode `/Volumes/T7/Projects/vasic`, and that
+and `_tests/playwright.config.js` still hardcode `<macos-host>/Projects/vasic`, and that
 CI symlinks around it. All three claims are now false. `milestones/backlog.md` item 11
 tracks the repair as outstanding work that is already done. This is the most consequential
 residual in the repository, because the genome is retrieval context by design.

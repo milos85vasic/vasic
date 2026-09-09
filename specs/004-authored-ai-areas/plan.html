@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>plan</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">plan</h1>
+</header>
+<h1
+id="implementation-plan-authored-aiit-knowledge-areas-with-lessons-tests-and-video-anchors">Implementation
+Plan: Authored AI/IT Knowledge Areas with Lessons, Tests and Video
+Anchors</h1>
+<p><strong>Branch</strong>: <code>main</code> (this repository works on
+<code>main</code> only; <code>004-authored-ai-areas</code> is the spec
+directory, not a branch) <strong>Date</strong>: 2026-09-07
+<strong>Spec</strong>: <a href="spec.md">spec.md</a>
+<strong>Input</strong>: Feature specification from
+<code>specs/004-authored-ai-areas/spec.md</code></p>
+<h2 id="summary">Summary</h2>
+<p>Replace a catalogue of mined vocabulary with a catalogue of
+<strong>authored AI/IT subjects</strong>, each carrying lessons,
+supporting materials, video anchors into the recorded sessions, and a
+gated end-of-area test — and make every claim about that catalogue
+provable by a three-valued gate with a data-driven mutation proof.</p>
+<p><strong>A large part of this plan is already built and
+measured.</strong> This is not an estimate: the work landed from three
+parallel streams during the session that produced this specification.
+The plan therefore has an unusual shape — it records <strong>what is
+done and how it was verified</strong>, <strong>what is done but
+unverified against real content</strong>, and <strong>what is not
+done</strong> — because a plan that re-proposes finished work would hide
+the two gaps that actually matter.</p>
+<p>The technical approach in one line: <strong>one decision function,
+one authored content format, one time-link contract, and a gate for each
+— with the publication decision computed once and consumed by every
+surface.</strong></p>
+<h2 id="technical-context">Technical Context</h2>
+<p><strong>Language/Version</strong>: Go 1.26.2 (backend,
+<code>workshop/platform/backend</code>), TypeScript 5.x / Angular
+(frontend, <code>workshop/platform/frontend</code>), Python 3
+(curriculum pipeline, <code>workshop/pipeline/extract/</code>), Bash
+(gates, <code>workshop/platform/gates/</code>) <strong>Primary
+Dependencies</strong>: <code>submodules/curriculum-kit</code> (the
+reusable Catalog → Area → Lesson → Material + Assessment library), the
+existing passage registry
+(<code>workshop/curriculum/passages.jsonl</code>), the existing
+transcript segment sidecars (start/end times), the design token source
+under <code>design-system/</code> <strong>Storage</strong>: Files.
+Authored content as JSON under
+<code>workshop/curriculum/learning/</code>; taxonomy, materials, reviews
+and time links as JSONL/JSON siblings; learner progress as a
+session-keyed JSON store under the index volume
+<strong>Testing</strong>: Go <code>go test</code> (unit + handler
+gates), Playwright (frontend e2e), Bash three-valued gates with paired
+<code>prove-*.sh</code> mutation provers, Python <code>unittest</code>
+for the pipeline <strong>Target Platform</strong>: Linux container
+(<code>podman</code>), served on <code>127.0.0.1:8087</code>; frontend
+bundle staged into <code>platform/web/</code> <strong>Project
+Type</strong>: Web service + single-page application + content pipeline,
+inside a private module that must also clone standalone
+<strong>Performance Goals</strong>: A learner reaches a scored test
+result without any step reporting not-found; video anchors position
+within 1 s of the referenced moment (SC-008)
+<strong>Constraints</strong>: Content is PRIVATE and this umbrella is
+PUBLIC — no content may cross; the reusable library must stay
+project-unaware; every gate is three-valued and a 2 is never a pass; no
+CI, enforcement is local</p>
+<p><strong>NEEDS CLARIFICATION</strong>: none. The five open decisions
+were closed in <a href="spec.md">spec.md § Clarifications</a>, each
+against a measurement. Two are flagged there as most likely to want
+operator override (the area-set boundary and the 70% default pass
+threshold); neither blocks this plan, because the first changes
+<em>which</em> areas are in scope and the second changes one declared
+number.</p>
+<h2 id="constitution-check">Constitution Check</h2>
+<p><em>GATE: Must pass before proceeding. Re-checked after design — see
+the second table at the end of this document.</em></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Status</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Evidence-Based Claims</strong></td>
+<td>PASS</td>
+<td>Every figure in this plan is a captured run or a file measurement.
+The three items that are <strong>not</strong> verified are named in
+<em>Known gaps</em>, not omitted.</td>
+</tr>
+<tr>
+<td><strong>Honest Instruments</strong></td>
+<td>PASS</td>
+<td>All four new gates are three-valued and each ships a
+<code>prove-*.sh</code> whose mutations are DATA read from an env var,
+never code edits. Each prover carries a control mutation that must go
+green, and each carries a <strong>vacuity refusal that exits 2</strong>
+— asserted by the prover itself.</td>
+</tr>
+<tr>
+<td><strong>Governance Fidelity</strong></td>
+<td>PASS</td>
+<td>No universal clause is weakened. New gates register in
+<code>platform/gates/check-registry-002.tsv</code>;
+<code>verify-check-registry-002.sh</code> currently exits
+<strong>0</strong> at <code>checks=94 debt=3</code>.</td>
+</tr>
+<tr>
+<td><strong>Isolation by Default</strong></td>
+<td><strong>NEEDS ATTENTION</strong></td>
+<td><code>curriculum-kit</code> is consumed by a <code>replace</code>
+directive pointing outside the repository, because it is a plain
+directory rather than a git repository and has no commit to pin. Inside
+the umbrella this builds; a standalone clone does not. See <em>Known
+gaps</em> — the remedy is upstream and is an operator decision.</td>
+</tr>
+<tr>
+<td><strong>Comprehensive Documentation</strong></td>
+<td>PASS</td>
+<td>The time-link URL contract is written down
+(<code>platform/frontend/docs/time-links.md</code>) and is the
+producer’s authority, not a convention.</td>
+</tr>
+<tr>
+<td><strong>Environment Adaptability</strong></td>
+<td>PASS</td>
+<td>No absolute path is introduced. Gates build their own server from
+source on a kernel-assigned free port.</td>
+</tr>
+<tr>
+<td><strong>Authored Curriculum</strong></td>
+<td>PASS</td>
+<td>The published set is the 37 authored subjects. An evidence-frequency
+floor was <strong>measured and rejected</strong> as a selector, because
+it made topicality worse (0 of 36 at floor 2 vs 32 of 814 at floor
+1).</td>
+</tr>
+<tr>
+<td><strong>Published Means Served</strong></td>
+<td><strong>NEEDS ATTENTION</strong></td>
+<td>Now enforced in code by a single <code>AreaPublicationOf</code>, and
+asserted end to end. But the <strong>running container still serves the
+old binary and the old 819</strong>; the served state is undetermined
+until it reloads. That is the principle’s own failure mode and it is
+currently live.</td>
+</tr>
+<tr>
+<td><strong>Derived Presentation</strong></td>
+<td><strong>NEEDS ATTENTION</strong></td>
+<td>Titles, tags and summaries are derived rather than stored — which is
+exactly why null-titled mined areas rendered as single synthesised
+words. The derivation is correct; whether the <strong>served</strong>
+stylesheet reflects the widened palette is unverified.</td>
+</tr>
+<tr>
+<td><strong>Standalone Cloneable</strong></td>
+<td><strong>NEEDS ATTENTION</strong></td>
+<td><code>verify-standalone-clone.sh</code> went 2 gaps → 3, and the new
+row is the <code>curriculum-kit</code> replace target. This is the gate
+working, not drift.</td>
+</tr>
+<tr>
+<td><strong>Quality Over Speed</strong></td>
+<td>PASS</td>
+<td>Three areas fail publication review on 62, 54 and 58 uncited claim
+blocks and are <strong>left failing</strong>. Stamping them would be the
+bypass.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No principle is violated. Four need attention, and all four
+are recorded in <em>Known gaps</em> with the measurement behind
+them.</strong> None is silenced.</p>
+<h2 id="project-structure">Project Structure</h2>
+<h3 id="documentation-this-feature">Documentation (this feature)</h3>
+<pre class="text"><code>specs/004-authored-ai-areas/
+├── spec.md                      # Feature specification (393 lines)
+├── plan.md                      # This file
+├── research.md                  # Phase 0 — decisions, each with the measurement that decided it
+├── data-model.md                # Phase 1 — entities, invariants, state
+├── contracts/
+│   ├── catalogue.md             # Area list + detail, publication reasons
+│   ├── learning.md              # Lessons, materials, assessment, submission
+│   ├── time-links.md            # Video anchor URL grammar
+│   └── authored-document.md     # The on-disk authored content format
+├── quickstart.md                # Runnable end-to-end validation
+├── tasks.md                     # /speckit-tasks output
+└── checklists/
+    └── requirements.md          # Spec quality checklist (16/16)</code></pre>
+<h3 id="source-code-repository-root">Source Code (repository root)</h3>
+<pre class="text"><code>submodules/curriculum-kit/               # The reusable library — project-UNAWARE
+├── catalog.go  area.go  lesson.go       # Catalog → Area → Lesson → Material
+├── material.go  anchor.go               # VideoAnchor{chapterId,start,end,transcriptAnchor}
+├── assessment.go  question.go           # Answers by ID, never by index
+├── availability.go                      # AvailabilityOf — the single gate
+├── submit.go                            # Submit; returns no populated result when locked
+└── document.go                          # DecodeDocument — REJECTS unknown fields
+
+workshop/
+├── curriculum/
+│   ├── learning/NN-&lt;slug&gt;.json          # ← AUTHORED CONTENT (the remaining gap)
+│   ├── taxonomy.jsonl                   # extracted areas + terms
+│   ├── unpublished-areas.jsonl          # withheld rows, never deleted
+│   ├── area-materials.jsonl             # materials per area
+│   ├── publication-reviews.jsonl        # review per area
+│   ├── area-timelinks.json              # measured spans → video anchors
+│   └── questions/*.senior.json          # authored senior question banks
+├── docs/training/curriculum-areas/      # 37 authored area documents
+├── pipeline/extract/
+│   ├── measure_module_evidence.py       # evidence per module, all chapters
+│   ├── build_area_timelinks.py          # spans from segment sidecars
+│   ├── promote_curriculum_areas.py      # publication, via the real minting bridge
+│   ├── publication_policy.py            # the title-non-empty rule
+│   └── verify_curriculum_areas.py       # gate, 11 data mutations
+└── platform/
+    ├── backend/internal/api/
+    │   ├── area_publication.go          # AreaPublicationOf — THE decision, once
+    │   └── lessons.go                   # the six learning routes
+    ├── backend/pkg/learning/            # authoring layout, loader, session store
+    ├── frontend/src/app/                # area detail, lessons, test, transcript
+    ├── frontend/docs/time-links.md      # the URL contract
+    ├── gates/verify-*.sh prove-*.sh     # 23 gates / 27 proofs and growing
+    └── qa/fixtures/learning/            # synthetic corpus — every byte invented</code></pre>
+<p><strong>Structure Decision</strong>: The reusable shape lives in
+<code>curriculum-kit</code> and knows nothing about this project;
+<code>pkg/learning</code> is the only consumer that knows both. That
+boundary is enforced by construction rather than by discipline —
+<code>curriculum-kit</code> has an empty require set, so a project
+import would not compile. <code>pkg/learning</code> contains <strong>no
+second availability test, scoring routine or answer comparison</strong>;
+<code>AvailabilityOf</code> decides availability and <code>Submit</code>
+(never the ungated <code>Grade</code>) decides whether a submission is
+allowed and what it scores.</p>
+<h2 id="execution-strategy">Execution Strategy</h2>
+<h3 id="tdd-requirements">TDD Requirements</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" /><strong>The publication
+decision</strong> — TDD, and it is the reason D3 existed. Both handlers
+had passing unit tests; nothing tested the <em>pair</em>.
+<code>TestAreaListAndDetailAgree</code> is the test that had to exist.
+<strong>Done.</strong></label></li>
+<li><label><input type="checkbox" checked="" /><strong>The assessment
+gate</strong> — TDD. The load-bearing mutation is B4/M7, “the gate opens
+as soon as <em>any</em> lesson completes”: it passes B1, B2, B3, B5 and
+B7 and is caught <strong>only</strong> by B4, which is why the fixture’s
+required set must be a proper subset of its lessons. <strong>Done, 17
+mutations.</strong></label></li>
+<li><label><input type="checkbox" checked="" /><strong>Answer-key
+non-disclosure</strong> — TDD, with a leak check that fails if
+<code>correct_choices</code> or <code>explanation</code> appears on the
+taking path. <strong>Done.</strong></label></li>
+<li><label><input type="checkbox" /><strong>The authored-document loader
+against real content</strong> — the loader rejects unknown fields, so
+the first authored file either decodes or fails loudly. Write one file,
+prove it loads, then write the rest. <strong>In
+flight.</strong></label></li>
+<li><label><input type="checkbox" /><strong>Contrast and hue measurement
+of the SERVED bundle</strong> — the check must read what is served, not
+what is in the token source. <strong>Not done.</strong></label></li>
+</ul>
+<h3 id="parallel-execution-opportunities">Parallel Execution
+Opportunities</h3>
+<p>Four streams have run concurrently and their file sets were disjoint
+by construction. They are recorded because the partition is
+reusable:</p>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" /><strong>Content
+authoring</strong> (<code>docs/training/</code>,
+<code>curriculum/</code>, <code>pipeline/extract/</code>) — no
+<code>platform/**</code> writes.</label></li>
+<li><label><input type="checkbox" checked="" /><strong>Backend
+serving</strong> (<code>platform/backend/**</code>,
+<code>platform/gates/**</code>) — no <code>curriculum/**</code>
+writes.</label></li>
+<li><label><input type="checkbox" checked="" /><strong>Frontend</strong>
+(<code>platform/frontend/src/app/**</code>) — components and
+routes.</label></li>
+<li><label><input type="checkbox" checked="" /><strong>Theming</strong>
+(<code>platform/frontend/src/styles/**</code>) — stylesheets
+only.</label></li>
+</ul>
+<p><strong>One collision was observed and is the lesson</strong>: the
+frontend stream measured a stylesheet the theming stream was mid-rewrite
+of, and read a transiently unbalanced file. The partition held; the
+<em>timing</em> did not. Any stream that measures another stream’s
+output must rebuild immediately before measuring, and say which build it
+measured.</p>
+<h3 id="human-checkpoints">Human Checkpoints</h3>
+<ol type="1">
+<li><strong>Before the container restarts</strong> — the restart is what
+makes the on-disk work served, and it is also what invalidates every
+“before” measurement. Do it once, deliberately, after all writers have
+stopped.</li>
+<li><strong>Before any area is marked published without a
+review</strong> — three areas fail on uncited claim blocks. They stay
+failing until a human reads them.</li>
+<li><strong>Before <code>curriculum-kit</code> is published
+upstream</strong> — that closes the standalone gap and is an operator
+decision.</li>
+<li><strong>Before the 70% pass threshold is fixed</strong> — the only
+decided value in the spec with no measurement behind it.</li>
+</ol>
+<h3 id="review-gates">Review Gates</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" /><strong>The publication
+decision function</strong> — every surface consumes it; a second
+implementation is the defect class it exists to prevent.</label></li>
+<li><label><input type="checkbox" checked="" /><strong>The time-link URL
+grammar</strong> — a producer that emits a malformed span produces a
+link that looks fine and is broken.</label></li>
+<li><label><input type="checkbox" /><strong>The authored document
+format</strong> — reviewed before 37 files are written to it, not
+after.</label></li>
+</ul>
+<h2
+id="known-gaps-what-is-not-done-and-what-is-done-but-unverified">Known
+gaps — what is NOT done, and what is done but unverified</h2>
+<p>Recorded here rather than in a footnote, because these are the
+difference between this plan and a completion claim.</p>
+<p><strong>Not done:</strong></p>
+<ol type="1">
+<li><strong>No authored learning content exists.</strong> Every real
+area answers a determined <code>no_learning_catalog</code>. The six
+learning routes are proved against a synthetic bicycle-maintenance
+fixture and <strong>have never been exercised against authored
+curriculum content</strong>. Dispatched; in flight.</li>
+<li><strong>The served palette is unmeasured.</strong> Token files
+widened the hue span; no check reads the served stylesheet. SC-010 and
+SC-011 have no instrument yet.</li>
+<li><strong><code>difficulty</code> and <code>category</code> on
+questions cannot be closed here</strong> — no such field exists in
+<code>curriculum-kit</code>. Upstream change required. Not
+fabricated.</li>
+<li><strong>Spaced repetition is not ported.</strong> The kit declines
+it deliberately; the interviewing module writes
+<code>streak</code>/<code>due_at</code> and reads neither.</li>
+<li><strong>Chapter 02 was never mined into this taxonomy.</strong> A
+topic taught only there, in words the chapter-01 lexicon lacks, is
+invisible to every coverage figure.</li>
+</ol>
+<p><strong>Done but unverified, and therefore not a pass:</strong></p>
+<ol start="6" type="1">
+<li><strong>The running container serves the old binary and the old 819
+areas.</strong> <code>verify-server-unity.sh</code> is RED against it at
+6 FAIL — all six the new routes answering a plain-text 404. Against a
+server built from this tree the same gate is
+<code>PASS=43 FAIL=0 UNDET=0 DEBT=8</code>. This clears on restart.</li>
+<li><strong>The 8 diagram SVGs were not rasterised.</strong>
+Well-formedness, theming and absence of external references are
+verified; text fit at a given font metric is not.</li>
+<li><strong><code>unpublished-areas.jsonl</code> holds 1,128 rows, a
+superset of the 814 actually withheld.</strong> The exact 814 cannot be
+identified — the pre-filter taxonomy is git-ignored and was not
+retained.</li>
+</ol>
+<p><strong>Blocked on an operator decision:</strong></p>
+<ol start="9" type="1">
+<li><strong><code>submodules/curriculum-kit</code> is not a git
+repository.</strong> It has no commit, so no truthful
+<code>helix-deps.yaml</code> entry can be written and a fabricated
+<code>ref:</code> would be a bluff. Recorded verbatim in
+<code>go.mod</code>.</li>
+</ol>
+<h2 id="post-design-constitution-re-check">Post-design Constitution
+re-check</h2>
+<p>Re-evaluated after Phase 1 produced <code>data-model.md</code> and
+<code>contracts/</code>.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Principle</th>
+<th>Before design</th>
+<th>After design</th>
+<th>What changed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Evidence-Based Claims</td>
+<td>PASS</td>
+<td>PASS</td>
+<td>The contracts state which figures are measured and which are
+undetermined.</td>
+</tr>
+<tr>
+<td>Honest Instruments</td>
+<td>PASS</td>
+<td>PASS</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Governance Fidelity</td>
+<td>PASS</td>
+<td>PASS</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Isolation by Default</td>
+<td>NEEDS ATTENTION</td>
+<td>NEEDS ATTENTION</td>
+<td>Unchanged — the remedy is upstream.</td>
+</tr>
+<tr>
+<td>Comprehensive Documentation</td>
+<td>PASS</td>
+<td>PASS</td>
+<td>The authored-document format is now written down before 37 files are
+written to it.</td>
+</tr>
+<tr>
+<td>Environment Adaptability</td>
+<td>PASS</td>
+<td>PASS</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Authored Curriculum</td>
+<td>PASS</td>
+<td>PASS</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Published Means Served</td>
+<td>NEEDS ATTENTION</td>
+<td>NEEDS ATTENTION</td>
+<td>The design adds a served corpus revision (FR-023a) so the
+discrepancy becomes detectable; it does not by itself resolve the live
+one.</td>
+</tr>
+<tr>
+<td>Derived Presentation</td>
+<td>NEEDS ATTENTION</td>
+<td>NEEDS ATTENTION</td>
+<td>Unchanged until a served-bundle instrument exists.</td>
+</tr>
+<tr>
+<td>Standalone Cloneable</td>
+<td>NEEDS ATTENTION</td>
+<td>NEEDS ATTENTION</td>
+<td>Unchanged.</td>
+</tr>
+<tr>
+<td>Quality Over Speed</td>
+<td>PASS</td>
+<td>PASS</td>
+<td>Unchanged.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No gate failed. No unresolved clarification remains.</strong>
+Ready for <code>/speckit-tasks</code>.</p>
+</body>
+</html>

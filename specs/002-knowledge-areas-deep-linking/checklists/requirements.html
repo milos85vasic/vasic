@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>requirements</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">requirements</h1>
+</header>
+<h1
+id="specification-quality-checklist-knowledge-areas-bidirectional-deep-linking">Specification
+Quality Checklist: Knowledge Areas &amp; Bidirectional Deep Linking</h1>
+<p><strong>Purpose</strong>: Validate specification completeness and
+quality before proceeding to planning <strong>Created</strong>:
+2026-09-01 <strong>Feature</strong>: <a
+href="../spec.md">spec.md</a></p>
+<h2 id="content-quality">Content Quality</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />No implementation details
+(languages, frameworks, APIs)</label></li>
+<li><label><input type="checkbox" checked="" />Focused on user value and
+business needs</label></li>
+<li><label><input type="checkbox" checked="" />Written for non-technical
+stakeholders</label></li>
+<li><label><input type="checkbox" checked="" />All mandatory sections
+completed</label></li>
+</ul>
+<h2 id="requirement-completeness">Requirement Completeness</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />Requirements are testable
+and unambiguous</label></li>
+<li><label><input type="checkbox" checked="" />Success criteria are
+measurable</label></li>
+<li><label><input type="checkbox" checked="" />Every success criterion
+names its measurement method</label></li>
+<li><label><input type="checkbox" checked="" />Success criteria are
+technology-agnostic (with three recorded, justified
+exceptions)</label></li>
+<li><label><input type="checkbox" checked="" />All acceptance scenarios
+are defined</label></li>
+<li><label><input type="checkbox" checked="" />Edge cases are
+identified</label></li>
+<li><label><input type="checkbox" checked="" />Scope is clearly bounded
+(three open clarifications, each with its scope impact
+stated)</label></li>
+<li><label><input type="checkbox" checked="" />Dependencies and
+assumptions identified</label></li>
+<li><label><input type="checkbox" />No
+<code>[NEEDS CLARIFICATION]</code> markers remain — <strong>3 remain,
+deliberately</strong></label></li>
+</ul>
+<h2 id="feature-readiness">Feature Readiness</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />All functional
+requirements have clear acceptance criteria or a named success
+criterion</label></li>
+<li><label><input type="checkbox" checked="" />User scenarios cover
+primary flows</label></li>
+<li><label><input type="checkbox" checked="" />Feature meets measurable
+outcomes defined in Success Criteria</label></li>
+<li><label><input type="checkbox" checked="" />No content boundary is
+crossed in either direction</label></li>
+</ul>
+<h2 id="counts">Counts</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Functional requirements</td>
+<td><strong>74</strong></td>
+</tr>
+<tr>
+<td>Success criteria</td>
+<td><strong>40</strong></td>
+</tr>
+<tr>
+<td>User stories</td>
+<td><strong>7</strong></td>
+</tr>
+<tr>
+<td><code>[NEEDS CLARIFICATION]</code> markers</td>
+<td><strong>3</strong></td>
+</tr>
+<tr>
+<td>Resolved decisions recorded</td>
+<td><strong>4</strong></td>
+</tr>
+<tr>
+<td>Assumptions recorded</td>
+<td><strong>16</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Counts are produced by enumerating the markers in
+<code>spec.md</code>, not by reading them off this table. Re-derive:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">rg</span> <span class="at">-o</span> <span class="st">&#39;^\- \*\*FR-[0-9]+[a-z]?\*\*&#39;</span> spec.md <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">rg</span> <span class="at">-o</span> <span class="st">&#39;^\- \*\*SC-[0-9]+[a-z]?\*\*&#39;</span> spec.md <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">rg</span> <span class="at">-c</span> <span class="st">&#39;NEEDS CLARIFICATION&#39;</span> spec.md</span></code></pre></div>
+<h2 id="validation-record">Validation Record</h2>
+<p>Validation was run twice. Iteration 1 found six genuine issues; all
+six were addressed and iteration 2 passed, except for the three
+clarification markers, which are deliberate. Both iterations are
+recorded, because a checklist that shows only its final green state
+hides whether it was ever capable of failing.</p>
+<h3 id="iteration-1-6-items-failed">Iteration 1 — 6 items failed</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Finding</th>
+<th>Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requirements are testable</td>
+<td>An earlier draft asserted <strong>“word-level timings:
+absent”</strong> in the starting-state table. Measurement disproved it:
+a per-chapter word sidecar holds 15,610 word records with individual
+start and end times. Every precision requirement written against the
+false premise was therefore capped one level too coarse.</td>
+<td>The claim is <strong>withdrawn explicitly</strong> in the spec under
+its own heading rather than quietly edited, per the repository’s rule
+that a retracted figure is retracted visibly. FR-021 and SC-009 were
+rewritten to carry both precisions and to require each link to state
+which one it used.</td>
+</tr>
+<tr>
+<td>Scope is clearly bounded</td>
+<td>An earlier draft treated the workshop’s taxonomy as starting from
+nothing. It does not: <strong>5 areas already exist as prose</strong>,
+in an adapted form of the reference skeleton, with no machine-readable
+representation. A spec that ignores them would have specified
+duplicating documents that already exist.</td>
+<td>Added FR-008a: the existing prose areas are
+<strong>promoted</strong>, not ignored, duplicated or overwritten, and
+any disagreement between them and extraction is surfaced for a decision.
+Added to the starting-state table.</td>
+</tr>
+<tr>
+<td>Requirements are unambiguous</td>
+<td>“Search must say where a hit occurs” was written without noticing
+that the platform <strong>already advertises a match-offset list and
+always leaves it empty</strong>. Left as written, the requirement could
+have been signed off as already met by a field that is structurally
+incapable of carrying an answer.</td>
+<td>FR-029 now names the condition directly: the field is either
+populated or removed, and its absence stated. The measured fact is in
+the starting-state table under its own row.</td>
+</tr>
+<tr>
+<td>No implementation details</td>
+<td>FR-021 names a “word-timing sidecar” and SC-015b forbids links
+“keyed on a timestamp” — both closer to design than to user value.</td>
+<td><strong>Kept, as knowing exceptions.</strong> The first is the only
+honest way to state a precision requirement, because the two precisions
+have genuinely different availability and conflating them is the defect
+the requirement exists to prevent. The second is a correctness
+constraint with a measured basis: the passage identifier survives
+correction and insertion and a timestamp does not, so a time-keyed graph
+rots silently while continuing to render. Recorded here rather than
+passed over.</td>
+</tr>
+<tr>
+<td>Success criteria are technology-agnostic</td>
+<td><strong>SC-030</strong> (“zero active server-side CI workflows”)
+names a delivery mechanism rather than a user outcome.</td>
+<td><strong>Kept deliberately</strong>, on the same basis feature 001
+recorded: it is not a preference but a governing constraint whose
+violation is a release blocker with no exemption. Omitting it would let
+a later phase introduce one.</td>
+</tr>
+<tr>
+<td>All functional requirements have acceptance criteria</td>
+<td>The governance and evidence requirements (FR-053 to FR-059) appear
+in no user story’s acceptance scenarios; they are covered only by
+success criteria.</td>
+<td><strong>Accepted as covered, with the traceability made
+explicit</strong> rather than implied: FR-053 by SC-027, FR-054 by
+SC-028, FR-055 by SC-027 and the evidence location it names, FR-056 by
+SC-030, FR-057 by SC-029, FR-058 by the platform’s existing reuse
+criteria, FR-059 by SC-013 and the server-unity verifier it
+describes.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="iteration-2-pass-with-three-markers-deliberately-left">Iteration
+2 — pass, with three markers deliberately left</h3>
+<p>The three <code>[NEEDS CLARIFICATION]</code> markers are
+<strong>not</strong> defects. Each is a question that materially changes
+the size and the risk of the work, cannot be settled from evidence in
+the tree, and would be answered wrongly by a default:</p>
+<ol type="1">
+<li><strong>Prose authorship of area materials.</strong> The three
+options differ by an order of magnitude in scope, and the host has no
+generative model, so the choice is not academic.</li>
+<li><strong>Whether “in videos” includes on-screen content.</strong>
+Optical character recognition would add a second ingestion pipeline with
+its own accuracy obligation. The engine is present on the host, so the
+environment does not force the answer.</li>
+<li><strong>Whether the answering defect is closed in this
+feature.</strong> The measured fabrication rate on unanswerable
+questions and the undefended topically-related-but-non-answering case
+are real and open. The one option the spec forecloses is describing them
+as solved.</li>
+</ol>
+<p>Everything else the description left unstated was decided rather than
+deferred, and each decision records what was chosen, why it is the
+safest option, and what would reopen it — four under <strong>Resolved
+Decisions</strong> and sixteen under <strong>Assumptions</strong>.</p>
+<h2 id="content-boundary-checked-in-both-directions">Content boundary —
+checked in both directions</h2>
+<p>This specification lives in a <strong>public</strong> repository. Two
+boundaries apply and both were checked:</p>
+<ul>
+<li><strong>Outbound</strong>: no transcript text, participant name,
+chapter title, chapter material or recording filename appears anywhere
+in this directory. Content is referenced by identifier, by count, or by
+measured property only. Verified by scanning this directory for the
+known-sensitive patterns; 0 matches.</li>
+<li><strong>Inbound</strong>: the reference module is a separate
+<strong>private</strong> repository. No content, question, model answer
+or fixture of its is reproduced here or specified for reproduction into
+the workshop — FR-004 and FR-004a state the rule and SC-029a measures
+it.</li>
+</ul>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>Check items off as completed: <code>[x]</code></li>
+<li>The unchecked item is unchecked on purpose. It is not a to-do.</li>
+</ul>
+</body>
+</html>

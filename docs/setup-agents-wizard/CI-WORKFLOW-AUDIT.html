@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>CI-WORKFLOW-AUDIT</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">CI-WORKFLOW-AUDIT</h1>
+</header>
+<h1 id="ci-workflow-audit-.githubworkflowsci.yml">CI Workflow Audit —
+<code>.github/workflows/ci.yml</code></h1>
+<blockquote>
+<p><strong>The audited file is disabled (2026-08-27).</strong> By
+operator decision — <strong><em>“Comply — disable both, enforce
+locally.”</em></strong> — <code>.github/workflows/ci.yml</code> is
+renamed to a non-active <code>.disabled</code> name per §11.4.156(B),
+and the gates it ran move to a <strong>local pre-push hook</strong>.
+<strong>⚠ Scope correction, same day: only <code>ci.yml</code> was
+disabled.</strong> The <em>“disable both”</em> decision was partially
+reversed — <code>milosvasic.ru/.github/workflows/pages.yml</code> is
+<strong>ACTIVE and stays active</strong>, because it is the sole publish
+path for a live production site. That does not affect this audit, whose
+subject is <code>ci.yml</code> alone; it affects only the
+cross-references in §6. <strong>The path
+<code>.github/workflows/ci.yml</code> used throughout this document
+therefore no longer resolves</strong>; read every reference to it as the
+<code>.disabled</code> file. The audit’s <em>findings</em> are
+unaffected — they are about the accuracy of the file’s own claims, and
+they transfer to the renamed file and to the hook that inherits its gate
+definitions. In particular <strong>S2’s Gate 2 vacuous-pass finding is
+now more load-bearing, not less</strong>: it is about
+<code>_tools/audit-hardcoding.sh</code>, which the local hook will
+invoke, and it remains unfixed. See <a
+href="../constitution-adoption/DECISION-11-4-156-COMPLY.md"><code>../constitution-adoption/DECISION-11-4-156-COMPLY.md</code></a>.</p>
+</blockquote>
+<p><strong>Scope.</strong> Every comment, step name, and
+<code>run:</code> block in <code>.github/workflows/ci.yml</code>,
+verified against the actual repository contents.</p>
+<p><strong>Date:</strong> 2026-08-27 <strong>Method:</strong> read-only.
+Files read; <code>bash -n</code> / <code>node --check</code> on every
+script the workflow invokes; Gates 1, 2 and 3 executed locally (all
+three write only to <code>mktemp</code> dirs / the Go build cache, never
+to the working tree); Gates 4, 5 and 6 were <strong>not</strong>
+executed because they write evidence into <code>_tests/evidence/</code>.
+No file in the repository was modified by this audit except this
+report.</p>
+<p><strong>Line numbers refer to the 215-line revision of
+<code>ci.yml</code> present in the working tree at audit time</strong>
+(HEAD <code>62706a9</code> + the concurrent in-flight edit that rewrote
+the old lines 44–49 and inserted “Gate 0”). <code>ci.yml</code> is being
+edited concurrently; re-anchor before applying corrections.</p>
+<h3 id="verdict-counts">Verdict counts</h3>
+<table>
+<thead>
+<tr>
+<th>Verdict</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FALSE</strong></td>
+<td>3</td>
+</tr>
+<tr>
+<td><strong>STALE</strong></td>
+<td>5</td>
+</tr>
+<tr>
+<td><strong>UNVERIFIABLE</strong></td>
+<td>4</td>
+</tr>
+<tr>
+<td><strong>VERIFIED</strong></td>
+<td>34</td>
+</tr>
+<tr>
+<td><strong>Total claims checked</strong></td>
+<td><strong>46</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="false">1. FALSE</h2>
+<p>Claims that are contradicted by the repository as it stands.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Line</th>
+<th>Claim (quoted)</th>
+<th>What is actually true</th>
+<th>Suggested correction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td>79</td>
+<td><code># Playwright/chromium is happier with an explicit browsers path we cache-key on.</code></td>
+<td><strong>Nothing caches on it.</strong> There is no
+<code>actions/cache</code> step anywhere in the workflow, and the only
+cache in play is <code>cache: npm</code> on
+<code>actions/setup-node@v4</code> (L112), keyed on
+<code>_tests/package-lock.json</code> (L113) — that caches the npm
+cache, not <code>$GITHUB_WORKSPACE/.pw-browsers</code>.
+<code>npx playwright install --with-deps chromium</code> (L165)
+re-downloads chromium on <strong>every</strong> run.
+<code>.pw-browsers</code> is also not in <code>.gitignore</code>.</td>
+<td>Either drop the words “we cache-key on”
+(<code># Explicit browsers path so the install location is deterministic.</code>),
+or actually add an <code>actions/cache</code> step keyed on
+<code>${{ runner.os }}-pw-${{ hashFiles('_tests/package-lock.json') }}</code>
+with <code>path: ${{ github.workspace }}/.pw-browsers</code>, placed
+before L164. If the dir is kept, add <code>.pw-browsers/</code> to
+<code>.gitignore</code>.</td>
+</tr>
+<tr>
+<td>F2</td>
+<td>39–40</td>
+<td><code>`_site/` is git-ignored in that submodule (only a handful of asset files are force-tracked — NOT the rendered pages)</code></td>
+<td><code>milosvasic.ru/.gitignore:70</code> does ignore
+<code>_site/</code>, and 8 files are force-tracked — but <strong>three
+of them are rendered pages</strong>, not assets:
+<code>_site/index.html</code>, <code>_site/feed.xml</code>,
+<code>_site/pages/Cover_Letter.md</code>. (Full list:
+<code>_site/assets/css/style.css</code>,
+<code>_site/assets/images/milosvasic.png</code>, three PDFs under
+<code>_site/assets/pdf/</code>, plus the three above.) The
+<em>conclusion</em> — that a <code>jekyll build</code> is required
+because the rest of the site is not tracked — still holds.</td>
+<td><code>…`_site/` is git-ignored in that submodule; 8 files are force-tracked (assets, plus a stale `_site/index.html` and `_site/feed.xml`) but the localized page tree is not. So we run `jekyll build` here…</code></td>
+</tr>
+<tr>
+<td>F3</td>
+<td>35–36</td>
+<td><code>constitution/ and design-toolkit/ are governance/design submodules that no gate command reads, so they are intentionally not fetched.</code></td>
+<td><strong>There is no <code>constitution/</code> submodule.</strong>
+<code>.gitmodules</code> registers it at
+<code>submodules/constitution</code>. The enumeration is also
+incomplete: the repo has <strong>7</strong> submodules —
+<code>ai_interviewing</code>, <code>design-toolkit</code>,
+<code>milosvasic.ru</code>, <code>monetization</code>,
+<code>submodules/constitution</code>, <code>submodules/superspec</code>,
+<code>vasic.digital</code> — so <strong>five</strong> are deliberately
+not fetched, not two. (The “no gate command reads them” part is correct:
+no gate script or spec references any of the five.)</td>
+<td><code>The other five submodules — ai_interviewing, design-toolkit, monetization, submodules/constitution, submodules/superspec — are governance/design/product submodules that no gate command reads, so they are intentionally not fetched.</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="stale">2. STALE</h2>
+<p>Claims that were true once, or are true in outline but no longer
+describe the file or the tree accurately.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Line</th>
+<th>Claim (quoted)</th>
+<th>What is actually true</th>
+<th>Suggested correction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1</td>
+<td>13–22</td>
+<td><code>Gates wired here (each is a separate step, fail-fast):</code>
+followed by a list numbered <strong>1–6</strong></td>
+<td>The workflow now has <strong>seven</strong> gates.
+<code>Gate 0 — hardcoded path audit</code>
+(<code>./scripts/audit-hardcoded-paths.sh</code>) was added at L131–140
+and is <strong>absent from the header list</strong>. Every gate 0–6
+resolves to exactly one real step; none duplicated, none missing on the
+step side — the header index is what is out of date.</td>
+<td>Insert as the first list entry:
+<code>#   0. Hardcoded path audit   ./scripts/audit-hardcoded-paths.sh</code>
+and keep the header list adjacent to any future gate insertion.</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>9–10</td>
+<td><code>Every gate below is a REAL check that can genuinely fail — no vacuous always-pass steps.</code></td>
+<td>True for gates 0, 1, 3, 4, 5 (all mutation-paired or asserting on
+real content). <strong>Gate 2 has a vacuous-pass path</strong>:
+<code>_tools/audit-hardcoding.sh</code> uses
+<code>set -uo pipefail</code> <em>without</em> <code>-e</code> and runs
+the generator as <code>"$BIN" -site … &gt;/dev/null 2&gt;&amp;1</code>
+in a loop whose exit status is never checked. If the generator produced
+nothing, all four checks would grep an empty <code>$OUT</code> and
+report ✅, exiting 0. (It does currently produce output and does
+currently pass — verified by running it.)</td>
+<td>Either soften to
+<code>Every gate below is a REAL check that can genuinely fail</code>,
+or — better — fix the script: check the generator’s exit status inside
+the loop, and assert <code>$OUT</code> is non-empty before the four
+content checks. Then the header claim becomes fully true.</td>
+</tr>
+<tr>
+<td>S3</td>
+<td>188–189</td>
+<td><code>it is the spec designed to run LIVE against production (VD_BASE/MV_BASE) and is far too heavy for per-push CI</code></td>
+<td>The spec’s own header says
+<code>Default: runs against the locally-served build (playwright webServer on :8401 / :8082)</code>,
+and its inline comment says
+<code>Local build resolves in seconds; a LIVE GitHub-Pages crawl is thousands of network round-trips</code>
+— hence <code>test.setTimeout(isLive ? 1_800_000 : 600_000)</code>. CI
+sets neither <code>VD_BASE</code> nor <code>MV_BASE</code>, so it would
+run <strong>locally, in seconds</strong>, inside a 45-minute job. The
+exclusion may still be desirable (it is the slowest local spec), but
+“far too heavy for per-push CI” is contradicted by the spec.</td>
+<td><code>…it is the spec designed to run LIVE against production (VD_BASE/MV_BASE); we exclude it here so the local run stays a smoke of the shipped pages rather than a full sitemap crawl.</code>
+Or drop the exclusion — the honest reading is that it would pass
+locally.</td>
+</tr>
+<tr>
+<td>S4</td>
+<td>181–183</td>
+<td><code># (playwright.config.js now resolves its static roots relative to the repo # via __dirname, so the former /Volumes symlink bridge is no longer needed — # the suite runs from any checkout location, including a fresh clone.)</code></td>
+<td>Factually correct (<code>_tests/playwright.config.js:7</code> —
+<code>const REPO = path.resolve(__dirname, '..')</code>), but it is now
+a <strong>duplicate</strong> of the rewritten header block at L44–56,
+which says the same thing at greater length. Two copies of the same fact
+in one file are exactly how the previous <code>/Volumes</code> comment
+went stale.</td>
+<td>Delete L181–183. The header block L44–56 is the single place this
+belongs.</td>
+</tr>
+<tr>
+<td>S5</td>
+<td>22</td>
+<td><code>(see the note on step 6 below)</code></td>
+<td>There is no step called “step 6”. The block below is labelled
+<code># ---- Gate 6 ----</code> and the step is named
+<code>Gate — Playwright (chromium), excluding the live all-language crawl</code>.
+Cosmetic, but it is the kind of drift that makes a reader hunt.</td>
+<td><code>(see the note on Gate 6 below)</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="unverifiable">3. UNVERIFIABLE</h2>
+<p>Not checkable from a read-only offline audit of this checkout. Listed
+so the audit is honest about its own limits, not as defects.</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Line</th>
+<th>Claim</th>
+<th>Why unverifiable</th>
+<th>How to verify</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>U1</td>
+<td>32–33, 95</td>
+<td><code>(both are public GitHub Pages repos)</code> /
+<code>Both repos are public.</code></td>
+<td>No network access in this audit. The two HTTPS URLs at L97–98 do
+match the SSH URLs in <code>.gitmodules</code>, and both pinned commits
+(<code>6e5411c</code> vasic.digital, <code>66c8d60</code> milosvasic.ru)
+are contained in local <code>origin/main</code> /
+<code>github/main</code>, so the objects exist upstream — but anonymous
+readability is not provable offline.</td>
+<td><code>git clone --depth 1 https://github.com/vasic-digital/vasic-digital.github.io.git</code>
+from an unauthenticated shell.</td>
+</tr>
+<tr>
+<td>U2</td>
+<td>10–11</td>
+<td><code>Each was proven to pass locally before this file was committed (see the PR description / task evidence block).</code></td>
+<td>No PR description or “task evidence block” exists anywhere in the
+tree; the pointer dangles.</td>
+<td>Either link a concrete artifact under <code>_tests/evidence/</code>
+or drop the parenthetical. Note: gates 1, 2 and 3 <strong>were</strong>
+re-proven to pass during this audit (see §5).</td>
+</tr>
+<tr>
+<td>U3</td>
+<td>193–195</td>
+<td>Whether the full chromium Playwright suite (21 spec files, minus
+<code>all-language</code>) passes on a runner</td>
+<td>Executing it writes into <code>_tests/evidence/</code> and
+<code>_tests/test-results/</code>, which this audit was forbidden to do.
+Structurally it is sound (see §5 for the specific risk list).</td>
+<td>Run
+<code>npx playwright test --project=chromium --grep-invert "all-language"</code>
+on a throwaway clone.</td>
+</tr>
+<tr>
+<td>U4</td>
+<td>129</td>
+<td><code>sudo apt-get install -y --no-install-recommends poppler-utils tesseract-ocr</code>
+provides working OCR</td>
+<td>On Ubuntu, <code>tesseract-ocr</code> <strong>Depends</strong> on
+<code>tesseract-ocr-eng</code> + <code>tesseract-ocr-osd</code>, so
+<code>--no-install-recommends</code> should still yield English OCR —
+but this was not confirmed against the runner image’s package graph. If
+<code>eng</code> were only <em>Recommended</em>, <code>tesseract</code>
+would run and produce empty text.</td>
+<td><code>apt-cache depends tesseract-ocr</code> on
+<code>ubuntu-latest</code>. Low risk; note that
+<code>_tests/export/validate-pdf.js</code> treats a missing binary as
+SKIP-with-reason, but an <em>installed-yet-langless</em> tesseract would
+produce a real FAIL, not a SKIP.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="verified">4. VERIFIED</h2>
+<p>Explicitly checked and correct. Listed so this audit demonstrates
+coverage rather than only complaints.</p>
+<h3 id="referenced-files-exist">4.1 Referenced files exist</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Line</th>
+<th>Claim</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V1</td>
+<td>14, 143–145</td>
+<td><code>cd _tools/gen &amp;&amp; go test ./...</code></td>
+<td><code>_tools/gen/go.mod</code> exists; 15 <code>.go</code> files,
+<strong>6</strong> <code>*_test.go</code> (<code>data</code>,
+<code>home</code>, <code>markdown</code>, <code>portfolio</code>,
+<code>product</code>, <code>seo</code>). Not a vacuous package.</td>
+</tr>
+<tr>
+<td>V2</td>
+<td>15, 149</td>
+<td><code>bash _tools/audit-hardcoding.sh</code></td>
+<td>Exists, executable, <code>bash -n</code> clean.</td>
+</tr>
+<tr>
+<td>V3</td>
+<td>16, 153</td>
+<td><code>bash _tools/translate/reproducibility-selftest.sh</code></td>
+<td>Exists, <code>bash -n</code> clean.</td>
+</tr>
+<tr>
+<td>V4</td>
+<td>17, 157</td>
+<td><code>bash _tools/portfolio/self-validate.sh</code></td>
+<td>Exists, <code>bash -n</code> clean; its <code>validate.mjs</code>,
+<code>selfvalidate-fixtures/good.json</code> and <code>bad.json</code>
+all exist.</td>
+</tr>
+<tr>
+<td>V5</td>
+<td>18, 172</td>
+<td><code>bash _tests/run-harness-selfvalidation.sh</code></td>
+<td>Exists; delegates to <code>_tests/visual/self-validate.sh</code> and
+<code>_tests/export/self-validate.sh</code>, both of which exist and are
+<code>bash -n</code> clean.</td>
+</tr>
+<tr>
+<td>V6</td>
+<td>113</td>
+<td><code>cache-dependency-path: _tests/package-lock.json</code></td>
+<td>Exists, <code>lockfileVersion: 3</code>, and <strong>in
+sync</strong> with <code>_tests/package.json</code>
+(<code>@playwright/test@1.61.0</code>, <code>pixelmatch@7.2.0</code>,
+<code>pngjs@7.0.0</code>, <code>@axe-core/playwright@4.11.3</code> +
+transitives). <code>npm ci</code> will not reject it.</td>
+</tr>
+<tr>
+<td>V7</td>
+<td>100–101</td>
+<td><code>ls vasic.digital/index.html</code> /
+<code>ls milosvasic.ru/Gemfile</code></td>
+<td>Both exist. Both are the correct existence probes for the two
+submodules.</td>
+</tr>
+<tr>
+<td>V8</td>
+<td>140</td>
+<td><code>./scripts/audit-hardcoded-paths.sh</code></td>
+<td>Exists, executable, <code>bash -n</code> clean.
+<code>.hardcoded-paths-allow</code> exists and allow-lists exactly one
+file (the detector itself, with a stated reason).</td>
+</tr>
+<tr>
+<td>V9</td>
+<td>176–177</td>
+<td><code>bundle exec jekyll build</code> in
+<code>milosvasic.ru</code></td>
+<td><code>milosvasic.ru/Gemfile</code> pins
+<code>jekyll ~&gt; 4.4</code> + <code>jekyll-seo-tag</code>,
+<code>jekyll-feed</code>; <code>Gemfile.lock</code> present
+(<code>BUNDLED WITH 2.5.11</code>) with <code>x86_64-linux</code> in
+PLATFORMS — <code>bundler-cache: true</code> will resolve on the
+runner.</td>
+</tr>
+<tr>
+<td>V10</td>
+<td>203, 212</td>
+<td><code>path: _tests/evidence/**</code> /
+<code>path: _tests/test-results/**</code></td>
+<td><code>_tests/evidence/</code> exists;
+<code>playwright.config.js</code> writes its HTML report to
+<code>evidence/html-report</code> and (default <code>outputDir</code>)
+traces/screenshots to <code>_tests/test-results</code>. Both artifact
+paths resolve.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="scripts-do-what-the-comments-say">4.2 Scripts do what the
+comments say</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Line</th>
+<th>Claim</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V11</td>
+<td>15, 148</td>
+<td><code>(builds the Go generator)</code></td>
+<td><code>_tools/audit-hardcoding.sh</code> runs
+<code>go build -ldflags "-X main.buildYear=2099" -o "$BIN" .</code> in
+<code>_tools/gen</code>.</td>
+</tr>
+<tr>
+<td>V12</td>
+<td>16</td>
+<td><code>Reproducibility guard</code></td>
+<td><code>reproducibility-selftest.sh</code> is a pure static scan of
+<code>${HELIX_BIN:-…}</code> / <code>${HELIX_TRANSLATE_BIN:-…}</code>
+defaults in <code>_tools/**/*.sh</code> and
+<code>ENGINE=</code>/<code>HELIX_BIN=</code> in
+<code>_tools/**/*.py</code>, failing on any <code>/tmp/</code> default.
+It derives <code>REPO</code> from <code>$SELF_DIR/../..</code>; no
+network, no engine needed. Description matches.</td>
+</tr>
+<tr>
+<td>V13</td>
+<td>17, 156</td>
+<td><code>portfolio §1.1 data-integrity self-validation</code></td>
+<td><code>self-validate.sh</code> is genuinely mutation-paired:
+golden-good must exit 0, golden-bad must exit non-zero, and it prints
+<code>GATE: PORTFOLIO-DATA-INTEGRITY (§1.1)</code>. It needs only bare
+<code>node</code> (<code>node:fs</code>) — correctly placed
+<strong>before</strong> <code>npm ci</code>.</td>
+</tr>
+<tr>
+<td>V14</td>
+<td>19–20, 169–170</td>
+<td><code>visual §11.4.170 via headless chromium + export §11.4.168 via poppler + tesseract OCR</code></td>
+<td><code>_tests/visual/visual-oracle.js</code> uses
+<code>require('@playwright/test').chromium</code> (satisfied by
+<code>npm ci</code>, browser by <code>playwright install</code>);
+<code>_tests/export/validate-pdf.js</code> shells out to
+<code>pdftotext</code>, <code>pdfimages</code>, <code>pdftoppm</code>,
+<code>tesseract</code>. The §-numbers printed by both scripts match the
+ones in the step name.</td>
+</tr>
+<tr>
+<td>V15</td>
+<td>127–128</td>
+<td><code>The export validator SKIPs with a reason if a tool is missing, but we install them so the gate runs for real rather than degrading to SKIP.</code></td>
+<td><code>validate-pdf.js:43</code> <code>hasTool()</code> +
+<code>:85/:114/:125/:127</code> emit <code>SKIP</code> with an explicit
+reason string (“…missing — cannot…”, “SKIP-with-reason, not a PASS”).
+Exactly as described.</td>
+</tr>
+<tr>
+<td>V16</td>
+<td>170</td>
+<td><code>Fixtures are committed, so nothing is rebuilt.</code></td>
+<td><strong>Load-bearing and true.</strong>
+<code>_tests/export/fixtures/golden-good.pdf</code> and
+<code>golden-bad.pdf</code> are tracked (<code>git ls-files</code>), so
+<code>export/self-validate.sh</code>’s rebuild branch never fires. This
+matters: <code>build-fixtures.sh</code> needs <code>pandoc</code> +
+<code>weasyprint</code>, which the workflow does <strong>not</strong>
+install. Visual fixtures (<code>good.html</code>, <code>bad.html</code>)
+are tracked too.</td>
+</tr>
+<tr>
+<td>V17</td>
+<td>159</td>
+<td><code># ---- Node deps + browser (needed by gates 5 and 6) ----</code></td>
+<td>Correct and correctly placed. Gates 0–4 need no npm packages (Gate 4
+uses only Node builtins); Gate 5’s visual oracle needs
+<code>@playwright/test</code> + a chromium binary; Gate 6 needs
+both.</td>
+</tr>
+<tr>
+<td>V18</td>
+<td>133–136</td>
+<td><code>This repo previously carried 33 such paths across 18 files … one of them made _tools/deploy-langs.sh cd into a nonexistent directory SILENTLY (it sets -uo pipefail but not -e) and then commit and push both site submodules.</code></td>
+<td>Matches commit <code>72dc135</code> <em>“Remove all hardcoded
+machine paths (18 files, 33 occurrences) + audit guard”</em>.
+<code>git show 72dc135^:_tools/deploy-langs.sh</code> line 7 is
+<code>set -uo pipefail</code>, line 8 is
+<code>ROOT="&lt;macos-host&gt;/Projects/vasic"</code>; today’s line 14
+derives <code>ROOT</code> from <code>${BASH_SOURCE[0]}</code>. The
+script really does <code>git -C "$s" commit</code> (:96) and
+<code>git -C "$s" push "$r" main</code> (:100).</td>
+</tr>
+<tr>
+<td>V19</td>
+<td>137–138</td>
+<td><code>Comment-only mentions are ignored, $HOME/~ are fine, and genuine exceptions live in .hardcoded-paths-allow.</code></td>
+<td><code>audit-hardcoded-paths.sh</code> <code>strip_comments()</code>
+filters <code>#</code> / <code>//</code> / <code>*</code> /
+<code>/*</code> leading lines per extension; <code>PATTERN</code>
+deliberately omits <code>$HOME</code>/<code>~</code>;
+<code>is_allowed()</code> reads <code>.hardcoded-paths-allow</code>. All
+three sub-claims hold.</td>
+</tr>
+<tr>
+<td>V20</td>
+<td>49–52</td>
+<td><code>_tests/playwright.config.js now derives its static roots itself with path.resolve(__dirname, '..')</code></td>
+<td><code>playwright.config.js:7-9</code>:
+<code>const REPO = path.resolve(__dirname, '..')</code>,
+<code>VD_ROOT = path.join(REPO, 'vasic.digital')</code>,
+<code>MV_ROOT = path.join(REPO, 'milosvasic.ru', '_site')</code>. No
+absolute path in the file.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="toolchain-versions">4.3 Toolchain versions</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Line</th>
+<th>Claim</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V21</td>
+<td>103, 106</td>
+<td><code>Set up Go (matches _tools/gen/go.mod → go 1.26)</code> /
+<code>go-version: '1.26'</code></td>
+<td><code>_tools/gen/go.mod</code> reads exactly <code>go 1.26</code>.
+Comment and input agree. Verified locally against
+<code>go1.26.2</code>.</td>
+</tr>
+<tr>
+<td>V22</td>
+<td>108, 111</td>
+<td><code>Set up Node 20</code> / <code>node-version: '20'</code></td>
+<td>Consistent. Every locked package’s <code>engines</code> is
+satisfied: <code>@playwright/test</code>, <code>playwright</code>,
+<code>playwright-core</code> → <code>node &gt;=18</code>;
+<code>pngjs</code> → <code>&gt;=14.19.0</code>; <code>axe-core</code> →
+<code>&gt;=4</code>. <code>_tests/package.json</code> declares no
+<code>engines</code> constraint that Node 20 violates.</td>
+</tr>
+<tr>
+<td>V23</td>
+<td>115, 118</td>
+<td><code>Set up Ruby + Jekyll</code> /
+<code>ruby-version: '3.3'</code></td>
+<td>Matches the sibling deploy workflow
+<code>milosvasic.ru/.github/workflows/pages.yml</code>, which also pins
+<code>3.3</code>. <code>Gemfile</code> has no conflicting
+<code>ruby</code> directive.</td>
+</tr>
+<tr>
+<td>V24</td>
+<td>126, 129</td>
+<td><code>poppler-utils -&gt; pdftotext/pdfimages/pdftoppm ; tesseract-ocr -&gt; OCR.</code></td>
+<td>Exactly the four binaries <code>validate-pdf.js</code> probes
+(<code>:72</code>) — <code>pdftotext</code>, <code>pdfimages</code>,
+<code>pdftoppm</code> from poppler-utils, <code>tesseract</code> from
+tesseract-ocr. Package→binary mapping is correct.
+<code>visual-oracle.js:211</code> uses <code>tesseract</code> too,
+guarded by <code>hasTool</code> and wrapped in try/catch (OCR is a soft
+signal there, not a hard assertion).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="gate-numbering-naming-consistency">4.4 Gate numbering / naming
+consistency</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Line</th>
+<th>Claim</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V25</td>
+<td>131–195</td>
+<td>Gate markers resolve to real steps</td>
+<td><code>Gate 0</code> → <code>Gate — hardcoded path audit</code>
+(L139); <code>Gate 1</code> →
+<code>Gate — Go unit tests (_tools/gen)</code> (L143);
+<code>Gate 2</code> → <code>Gate — hardcoding audit</code> (L148);
+<code>Gate 3</code> →
+<code>Gate — HelixTranslate reproducibility self-test</code> (L152);
+<code>Gate 4</code> → <code>Gate — portfolio §1.1 …</code> (L156);
+<code>Gate 5</code> → <code>Gate — harness self-validation …</code>
+(L171); <code>Gate 6</code> →
+<code>Gate — Playwright (chromium) …</code> (L193). <strong>Seven
+markers, seven steps, no duplicates, no dangling markers.</strong> The
+only inconsistency is the header list omitting Gate 0 (→ S1).</td>
+</tr>
+<tr>
+<td>V26</td>
+<td>82</td>
+<td><code>Checkout (no auto-submodules — see deviation (a) in the header)</code></td>
+<td>Deviation (a) exists at L26–36 and does explain
+<code>submodules: false</code> (L85). Cross-reference resolves.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="paths-machine-environment-assumptions">4.5 Paths / machine /
+environment assumptions</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Line</th>
+<th>Claim</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V27</td>
+<td>96</td>
+<td><code>git submodule init vasic.digital milosvasic.ru</code></td>
+<td>Both are real submodule <strong>paths</strong> in
+<code>.gitmodules</code> (<code>path = milosvasic.ru</code>,
+<code>path = vasic.digital</code>), so
+<code>submodule init &lt;path&gt;</code> addresses them correctly.</td>
+</tr>
+<tr>
+<td>V28</td>
+<td>90–93, 97–98</td>
+<td><code>The gitlinks are registered with SSH URLs (git@github.com:...) which CI has no key for</code>
++ the two HTTPS overrides</td>
+<td><code>.gitmodules</code> registers
+<code>git@github.com:vasic-digital/vasic-digital.github.io.git</code>
+and <code>git@github.com:milos85vasic/milosvasic.ru.git</code>. The
+HTTPS URLs at L97–98 are the exact same repos over
+<code>https://</code>.
+<code>git config submodule.&lt;name&gt;.url</code> is the right override
+key and takes effect for <code>git submodule update</code>.</td>
+</tr>
+<tr>
+<td>V29</td>
+<td>26–29</td>
+<td><code>A recursive checkout of the umbrella is KNOWN to fail: milosvasic.ru embeds a nested submodule (red-elf/Upstreamable) whose own .gitmodules is a broken 0-byte gitlink.</code></td>
+<td>Substantively correct. <code>milosvasic.ru/.gitmodules</code>
+registers <code>Upstreamable</code> →
+<code>git@github.com:red-elf/Upstreamable.git</code>;
+<code>git ls-tree HEAD</code> in <code>milosvasic.ru</code> shows
+<code>160000 commit 94f9831… Upstreamable</code>. Inside it,
+<code>Upstreamable/.gitmodules</code> is <strong>0 bytes</strong> while
+<code>git ls-tree HEAD</code> still lists
+<code>160000 commit 3da1755… Upstreamable</code> — a gitlink with no
+URL, which is precisely what breaks <code>--recursive</code>.
+<em>Wording nit only:</em> a <code>.gitmodules</code> file is not itself
+“a gitlink”; suggest
+<code>…whose own .gitmodules is 0 bytes and therefore cannot resolve its nested Upstreamable gitlink.</code></td>
+</tr>
+<tr>
+<td>V30</td>
+<td>29–30</td>
+<td><code>This is the exact reason milosvasic.ru/.github/workflows/pages.yml sets submodules: false.</code></td>
+<td><code>pages.yml</code> header: <em>“The Upstreamable submodule has a
+broken nested gitlink (Upstreamable/Upstreamable with no .gitmodules
+URL) that causes the default recursive checkout to fail”</em>, and
+<code>submodules: false</code> with an inline comment saying the same.
+Verified.</td>
+</tr>
+<tr>
+<td>V31</td>
+<td>33–35</td>
+<td><code>Upstreamable is excluded from the Jekyll build anyway (milosvasic.ru/_config.yml exclude:), so nothing is lost.</code></td>
+<td><code>milosvasic.ru/_config.yml</code> <code>exclude:</code> lists
+<code>Upstreamable</code> and <code>Upstreams</code>. Verified.</td>
+</tr>
+<tr>
+<td>V32</td>
+<td>41–42</td>
+<td><code>vasic.digital, by contrast, is committed static HTML and is served directly — no build.</code></td>
+<td><code>vasic.digital/</code> contains committed
+<code>index.html</code>, <code>sitemap.xml</code>,
+<code>robots.txt</code> and per-language dirs
+(<code>ar be de es fa fr hi ja kk ko ru sr tr zh</code>) plus
+<code>products/</code>, <code>portfolio/</code>, <code>articles/</code>.
+Its <code>.gitignore</code> ignores only secrets,
+<code>node_modules/</code>, OS cruft — no HTML.
+<code>playwright.config.js</code> serves <code>VD_ROOT</code> directly
+with no build step.</td>
+</tr>
+<tr>
+<td>V33</td>
+<td>174, 186</td>
+<td><code>Build the Jekyll site Playwright will serve on :8082</code> /
+<code>The config auto-starts a python http.server for BOTH sites.</code></td>
+<td><code>playwright.config.js</code> <code>webServer</code> array:
+<code>python3 -m http.server 8401 --directory ${VD_ROOT}</code> and
+<code>python3 -m http.server 8082 --directory ${MV_ROOT}</code> where
+<code>MV_ROOT = milosvasic.ru/_site</code>. Port and build target both
+correct. <code>python3</code> is present on
+<code>ubuntu-latest</code>.</td>
+</tr>
+<tr>
+<td>V34</td>
+<td>187–192</td>
+<td><code>The title is "... exhaustive all-language link &amp; sitemap integrity", so the substring "all-language" (no trailing s) reliably excludes both its per-site variants and nothing else.</code></td>
+<td><code>_tests/tests/all-languages-link-integrity.spec.js:55</code> —
+<code>test(`${site.key} — exhaustive all-language link &amp; sitemap integrity`, …)</code>
+inside <code>for (const site of SITES)</code> with <code>SITES</code> =
+<code>vasic.digital</code> + <code>milosvasic.ru</code> → exactly two
+variants. <code>grep -rn "all-language" _tests/tests/</code> matches
+<strong>only</strong> that file. <code>VD_BASE</code> /
+<code>MV_BASE</code> are the real env vars (<code>:28</code>,
+<code>:33</code>). Correct on every particular, including the “no
+trailing s” detail (the file <em>name</em> is
+<code>all-languages-…</code>, the <em>title</em> is
+<code>all-language …</code>; the substring covers both).</td>
+</tr>
+</tbody>
+</table>
+<p>Additional environment checks that produced no finding:</p>
+<ul>
+<li><strong>No machine-specific absolute path reaches any executed
+code.</strong> <code>grep -rE "/Volumes|/Users/|/home/[a-z]"</code> over
+<code>_tests/tests/</code>, <code>_tools/</code>, <code>scripts/</code>
+and the live configs returns nothing. The remaining
+<code>&lt;macos-host&gt;/...</code> occurrences live in (a) two
+<strong>untracked</strong> <code>*.bak.20260827-180538</code> files and
+(b) <code>_tests/evidence/**</code> generated artifacts — none tracked,
+none executed, and <code>_tests/evidence/</code> is in the Gate 0
+<code>SKIP</code> list by design.</li>
+<li><strong><code>_tests/evidence/html-report/</code>,
+<code>_tests/test-results/</code> and <code>_tests/node_modules/</code>
+are gitignored</strong> at the umbrella root, with an explicit
+<code>!_tests/evidence/</code> negation keeping the curated evidence
+tree tracked. A fresh clone starts clean and CI’s writes stay
+untracked.</li>
+<li><strong>Submodule pins are reachable upstream.</strong>
+<code>git submodule status</code> is clean (no
+<code>+</code>/<code>-</code> prefixes);
+<code>vasic.digital@6e5411c</code> and
+<code>milosvasic.ru@66c8d60</code> are both contained in local
+<code>origin/main</code> / <code>github/main</code>, so
+<code>git submodule update</code> on a runner will find the
+commits.</li>
+<li><strong><code>_tests/visual-effects.spec.js</code> is not
+collected.</strong> It lives at <code>_tests/</code> root while
+<code>testDir: './tests'</code>, so the old
+<code>visual-effects.config.js</code> is not exercised by Gate 6.</li>
+<li><strong>This report’s own path is safe for Gate 0.</strong>
+<code>audit-hardcoded-paths.sh</code> skips <code>^docs/</code>, so
+quoting <code>&lt;macos-host&gt;/Projects/vasic</code> above cannot trip
+the gate it documents.</li>
+<li><strong>Header L4–6</strong> — <em>“the ONLY GitHub Actions in play
+was milosvasic.ru/.github/workflows/pages.yml”</em> — holds as written.
+Two other workflow files exist in the tree
+(<code>.specify/extensions/superspec/.github/workflows/ci.yml</code>,
+tracked; <code>submodules/superspec/.github/workflows/ci.yml</code>,
+behind a gitlink), but GitHub executes only root
+<code>.github/workflows/</code>, so neither is “in play”.
+<code>Constitution.md</code> reaches the same conclusion for superspec
+(third-party, out of §11.4.156(C) scope).</li>
+</ul>
+<hr />
+<h2 id="would-the-workflow-succeed-on-a-fresh-clone">5. Would the
+workflow succeed on a fresh clone?</h2>
+<p><strong>Gates 0–4: yes — three of them re-proven during this audit,
+two structurally sound.</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Status</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 — hardcoded path audit</td>
+<td><strong>PASS (executed)</strong></td>
+<td><code>✅ no machine-specific hardcoded paths (1 file(s) explicitly allowed)</code></td>
+</tr>
+<tr>
+<td>1 — Go unit tests</td>
+<td><strong>PASS (executed)</strong></td>
+<td><code>ok vasic.digital/tools/gen 0.019s</code> under
+<code>go1.26.2</code></td>
+</tr>
+<tr>
+<td>2 — hardcoding audit</td>
+<td><strong>PASS (executed)</strong></td>
+<td>All four checks ✅,
+<code>[audit] ✅ PASS — no hardcoded-content violations</code></td>
+</tr>
+<tr>
+<td>3 — reproducibility self-test</td>
+<td><strong>PASS (executed)</strong></td>
+<td>Both engine defaults repo-relative; no <code>/tmp</code> default in
+any <code>_tools/**/*.py</code></td>
+</tr>
+<tr>
+<td>4 — portfolio §1.1</td>
+<td><strong>Structurally sound (not executed)</strong></td>
+<td>Fixtures + validator present; needs only bare <code>node</code>,
+available from L108</td>
+</tr>
+<tr>
+<td>5 — harness self-validation</td>
+<td><strong>Structurally sound (not executed)</strong></td>
+<td>Fixtures committed so the pandoc/weasyprint path never fires;
+chromium + poppler + tesseract all installed by L164/L129 before it runs
+at L171</td>
+</tr>
+<tr>
+<td>6 — Playwright chromium</td>
+<td><strong>Not verifiable offline</strong></td>
+<td>See risks below</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step ordering is correct.</strong> Every dependency is
+installed before its consumer: submodules (L87) → Go (L103) → Node
+(L108) → Ruby (L115, <code>working-directory: milosvasic.ru</code>,
+which requires the submodule fetch to have already run — it has) → apt
+tools (L122) → gates 0–4 → <code>npm ci</code> (L160) →
+<code>playwright install</code> (L164) → Gate 5 (L171) →
+<code>jekyll build</code> (L175) → Gate 6 (L193). No step consumes
+something not yet present.</p>
+<p><strong>Residual risks for Gate 6</strong> (unverified, ordered by
+likelihood):</p>
+<ol type="1">
+<li><code>perf-budget.spec.js</code> asserts
+<code>maxBytes: 1_500_000</code> / <code>maxRequests: 45</code> against
+four pages including <code>/products/helixtrack.html</code> on both
+sites — those pages exist in both source trees, but byte budgets on a
+shared runner are the most plausible source of a first-run failure.</li>
+<li><code>retries: 1</code> is set globally, which absorbs timing flake
+but means a genuine failure costs double the wall time against
+<code>timeout-minutes: 45</code>.</li>
+<li><code>security-hardening.spec.js</code> and the a11y specs assert on
+shipped markup only (no server headers), so
+<code>python3 -m http.server</code> is an adequate host — but they were
+not run.</li>
+<li><code>--with-deps</code> requires <code>sudo</code> on the runner;
+fine on <code>ubuntu-latest</code>, would fail on a self-hosted runner
+without passwordless sudo.</li>
+<li>U4 above: an installed-but-langless <code>tesseract</code> would
+turn Gate 5’s export validator from SKIP into a hard FAIL.</li>
+</ol>
+<p><strong>Nothing found in this audit would block a fresh clone from
+running.</strong> The three FALSE items are all documentation defects,
+not execution defects: F1 costs a chromium re-download per run (no
+failure), F2 and F3 mis-describe the tree without changing
+behaviour.</p>
+<hr />
+<h2 id="out-of-scope-noted-not-resolved-resolved-2026-08-27">6. Out of
+scope — noted, <del>not resolved</del> <strong>resolved
+2026-08-27</strong></h2>
+<p><em>As written at audit time:</em></p>
+<blockquote>
+<p><code>.github/</code> at this repo root sits inside an unresolved
+governance conflict: <code>Constitution.md</code> §11.4.156(A) forbids
+an active CI workflow at a governed repo root, recorded as
+<strong>OC-1</strong> (<code>Constitution.md</code> §“OC-1 — Active CI
+at the repository root contradicts §11.4.156(A)”), with
+<strong>OC-2</strong> covering the same clause for
+<code>milosvasic.ru/.github/workflows/pages.yml</code> as an owned
+submodule, and gate <code>G4 — active CI contradicts §11.4.156</code>
+still marked <strong>OPEN — operator decision</strong>. This audit takes
+no position and changes nothing about it; every finding above is about
+the <em>accuracy</em> of the file’s own claims, and applies whether or
+not the workflow is ultimately disabled per §11.4.156(B).</p>
+</blockquote>
+<p><strong>Update.</strong> The operator decision has been made:
+<strong><em>“Comply — disable both, enforce locally.”</em></strong>
+<code>G4</code> is no longer <em>“OPEN — operator decision”</em>; it is
+<strong>PARTIAL</strong>. <del>Both <code>ci.yml</code> and
+<code>pages.yml</code> are renamed to a non-active
+<code>.disabled</code> name per §11.4.156(B)</del> —
+<strong><code>ci.yml</code> is</strong>, and the gates this document
+audits move to a <strong>local pre-push hook</strong>. The audit’s own
+closing caveat holds exactly as written: its findings are about the
+<em>accuracy</em> of the file’s claims and apply whether or not the
+workflow is disabled — so <strong>the three FALSE items and S1/S2 still
+need fixing</strong>, now in the renamed file and in the hook that
+inherits its gate definitions.</p>
+<p><strong>Second update, same day — OC-2 went the other way.</strong>
+<code>milosvasic.ru/.github/workflows/pages.yml</code> was
+<strong>not</strong> disabled and will not be.
+<code>gh api repos/milos85vasic/milosvasic.ru/pages</code> returns
+<code>build_type: "workflow"</code>, so that workflow is the
+<strong>sole</strong> publish path for the live production site (no
+<code>gh-pages</code> branch, no <code>docs/</code> folder, Jekyll
+source at the root; <code>_tools/deploy-langs.sh</code> pushes source
+and waits for that workflow rather than replacing it). Operator’s
+overriding directive, verbatim: <strong><em>“Make sure all pages
+websites work flawlessly! No website can be broken! All websites we have
+here are running deployed in production!”</em></strong> <strong>OC-2
+therefore stays OPEN as a known, documented deviation — not an
+override.</strong> A third surface, <code>vasic.digital</code>, is
+non-compliant at the <em>provider</em> level
+(<code>build_type: "legacy"</code>,
+<code>pages build and deployment</code> on every push) with <strong>no
+file-level remedy</strong>, since it has no workflow file at all.</p>
+<p>Note that this makes <strong>V30</strong> and the <strong>Header
+L4–6</strong> verification in §4 read correctly again for the present
+tense: <code>pages.yml</code> still exists, still sets
+<code>submodules: false</code>, and is still the only GitHub Actions
+workflow in play across the site submodules.</p>
+<p>An <code>Override §11.4.156</code> — the alternative this section
+anticipated — was sought and found not to exist: §11.4.156 refuses the
+exemption vocabulary by name, and a project carrier may only extend
+inherited rules, never weaken them. The OC-2 deviation is
+<strong>not</strong> an override either, and must not be written up as
+one. <strong>Honest boundary (§11.4.6):</strong> renaming
+<code>ci.yml</code> stops FILE-triggered runs only; org-default required
+workflows, branch-protection required checks and provider-side scheduled
+exports remain operator-only to change. They are no longer
+<em>unverified</em>, though — their state is measured on demand by
+<code>bash scripts/verify-provider-ci.sh</code> (0 = none found, 1 =
+confirmed, 2 = could not determine, which is <strong>not</strong> a
+pass), which the setup wizard runs as Step 9. Treat every provider fact
+in this report as a dated observation and re-measure. Full record: <a
+href="../constitution-adoption/DECISION-11-4-156-COMPLY.md"><code>../constitution-adoption/DECISION-11-4-156-COMPLY.md</code></a>
+§0.</p>
+<h2 id="concurrent-edit-note">7. Concurrent-edit note</h2>
+<p>Two items in this report describe content added by the in-flight edit
+that was already known and intentional, and are <strong>not</strong>
+raised as defects: the rewritten <code>/Volumes</code> header block
+(L44–56) and the new <code>Gate 0</code> step (L131–140). They were
+still audited on their merits — L44–56 verifies clean (V20), and Gate
+0’s factual claims verify clean (V18, V19) — but Gate 0’s insertion is
+what left the header gate list at L13–22 incomplete
+(<strong>S1</strong>), so that one correction should land with the same
+edit.</p>
+</body>
+</html>

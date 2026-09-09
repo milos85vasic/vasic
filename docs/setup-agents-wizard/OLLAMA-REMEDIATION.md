@@ -245,7 +245,7 @@ Lumen keys each index database by **(project path, embedding model)**. Evidence:
   vec_dimensions|768
   root_hash|3df357055b55bac731ba96837b817238d3476767ed0144d558e7358dda94641b
   embedding_model|ordis/jina-embeddings-v2-base-code
-  project_path|/run/media/milosvasic/DATA4TB/Projects/vasic
+  project_path|<ext-volume-host>/Projects/vasic
   last_indexed_at|...
   total_files|2413
   ```

@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>research</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">research</h1>
+</header>
+<h1 id="phase-0-research-chapter-hierarchy">Phase 0 Research — Chapter
+Hierarchy</h1>
+<p><strong>Feature</strong>: <code>specs/003-chapter-hierarchy</code> |
+<strong>Date</strong>: 2026-09-05</p>
+<p>Every decision below is labelled <code>D-CH-n</code> and carries the
+measurement that produced it. Where a question could not be settled from
+evidence in the tree, it appears in the <strong>Unverified
+register</strong> at the end rather than being answered by a plausible
+guess. One entry in that register blocks the whole feature.</p>
+<hr />
+<h2 id="d-ch-1-the-sort-order-is-a-measurement-not-an-argument">D-CH-1 —
+The sort order is a measurement, not an argument</h2>
+<p><strong>Question</strong>: given the dotted id, what order do
+chapters appear in, and does a parent land beside its children?</p>
+<p><strong>Measured</strong>, by running it rather than reasoning about
+it:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">&#39;10\n02.09\n01\n03\n02\n02.10\n02.01.01\n02.01\n&#39;</span> <span class="kw">|</span> <span class="va">LC_ALL</span><span class="op">=</span>C <span class="fu">sort</span></span></code></pre></div>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Position</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td><code>01</code></td>
+<td><code>02</code></td>
+<td><code>02.01</code></td>
+<td><code>02.01.01</code></td>
+<td><code>02.09</code></td>
+<td><code>02.10</code></td>
+<td><code>03</code></td>
+<td><code>10</code></td>
+</tr>
+</tbody>
+</table>
+<p>And the byte values that produce it:</p>
+<table>
+<thead>
+<tr>
+<th>character</th>
+<th>byte</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.</code></td>
+<td><strong>0x2E</strong></td>
+</tr>
+<tr>
+<td><code>0</code></td>
+<td>0x30</td>
+</tr>
+<tr>
+<td><code>9</code></td>
+<td>0x39</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Decision</strong>: ordering is <strong>byte-lexicographic on
+the id string</strong>, and a parent sorting immediately before its
+first child is a <strong>consequence</strong> of <code>.</code> sorting
+below every digit — not a rule anybody implements.</p>
+<p><strong>Three things this table settles that an argument would not
+have:</strong></p>
+<ol type="1">
+<li><strong><code>02.01.01</code> sorts before
+<code>02.09</code>.</strong> A reader reasoning about “depth” would
+expect grandchildren to come after all of <code>02</code>’s direct
+children. They do not, and the order is still correct — it is a
+depth-first walk, which is what a reader of a table of contents
+expects.</li>
+<li><strong><code>02.10</code> sorts after <code>02.09</code>.</strong>
+This is the case that distinguishes a padded-string comparison from a
+decimal one. Both orders agree here; they disagree at <code>02.9</code>,
+which the grammar rejects.</li>
+<li><strong><code>10</code> sorts last, not second.</strong> Two-digit
+padding is what makes this true. A corpus reaching <code>100</code>
+needs three-digit padding from the start, which is why the grammar is
+<code>[0-9]{2,}</code> rather than <code>[0-9]{2}</code>.</li>
+</ol>
+<p><strong>The load-bearing consequence, and it is not about sorting at
+all</strong>: the order is correct <strong>only because every component
+is zero-padded</strong>. <code>02.2</code> sorts <em>after</em>
+<code>02.10</code> and is wrong in a way no sorting test with
+well-formed input can detect. <strong>The validator, not the comparator,
+is what makes the ordering true.</strong> This is why the specification
+gates the grammar (SC-002) and forbids touching the comparator
+(FR-011).</p>
+<p><strong>Already implemented, and correct.</strong>
+<code>cmd/workshop-server/main.go:2126</code> reads
+<code>sort.Slice(out, func(i, j int) bool { return out[i].ID &lt; out[j].ID })</code>.
+The safest action on the sorting code is <strong>no action</strong>; the
+assertion goes on the ordering (H4), so a future rewrite into a numeric
+comparator is caught by a gate rather than by a reader noticing
+<code>02.10</code> in the wrong place.</p>
+<hr />
+<h2
+id="d-ch-2-the-four-embeddings-where-a-dotted-id-has-to-survive-and-whether-it-does">D-CH-2
+— The four embeddings: where a dotted id has to survive, and whether it
+does</h2>
+<p><strong>Question</strong>: the id is embedded in four independent
+layers, each written without a dot in mind. A scheme that breaks any of
+them is not viable. Which break?</p>
+<p><strong>Measured, 2026-09-05, one layer at a time. None
+breaks.</strong></p>
+<h3 id="embedding-1-the-filesystem-path">Embedding 1 — the filesystem
+path</h3>
+<p><code>SafeSlug</code> (<code>pkg/curriculum/curriculum.go:205</code>)
+is an <strong>allowlist</strong>, and <code>.</code> is in it:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">case</span> r <span class="op">&gt;=</span> <span class="ch">&#39;a&#39;</span> <span class="op">&amp;&amp;</span> r <span class="op">&lt;=</span> <span class="ch">&#39;z&#39;</span><span class="op">,</span> r <span class="op">&gt;=</span> <span class="ch">&#39;A&#39;</span> <span class="op">&amp;&amp;</span> r <span class="op">&lt;=</span> <span class="ch">&#39;Z&#39;</span><span class="op">,</span> r <span class="op">&gt;=</span> <span class="ch">&#39;0&#39;</span> <span class="op">&amp;&amp;</span> r <span class="op">&lt;=</span> <span class="ch">&#39;9&#39;</span><span class="op">:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">case</span> r <span class="op">==</span> <span class="ch">&#39;-&#39;</span><span class="op">,</span> r <span class="op">==</span> <span class="ch">&#39;_&#39;</span><span class="op">,</span> r <span class="op">==</span> <span class="ch">&#39;.&#39;</span><span class="op">:</span></span></code></pre></div>
+<p>It rejects <code>.</code> and <code>..</code> as whole strings,
+bounds the length at 128, and rejects <code>/</code> and <code>\</code>
+at <code>:209</code>. <code>ChapterDir</code> (<code>:187</code>) then
+tries <code>chapter-&lt;slug&gt;</code> and then
+<code>&lt;slug&gt;</code>, so <code>chapter-02.01</code> resolves with
+no change.</p>
+<p><strong>Verdict: SURVIVES, with no edit.</strong> And the rejection
+at <code>:209</code> is the strongest single argument against the
+<code>02/01</code> alternative — see D-CH-3.</p>
+<h3 id="embedding-2-the-http-route">Embedding 2 — the HTTP route</h3>
+<p>Six routes register a <code>{chapter}</code> wildcard:
+<code>main.go:547</code>, <code>:817</code>, <code>:818</code>,
+<code>:819</code>, <code>:841</code>, <code>:843</code>. Go’s
+<code>{name}</code> wildcard matches <strong>exactly one path
+segment</strong>, and <code>.</code> is an ordinary character within a
+segment — there is no dot delimiter in the pattern language, unlike some
+frameworks where <code>.</code> ends a match or introduces a format
+suffix.</p>
+<p><strong>Verdict: SURVIVES, with no edit.</strong></p>
+<h3 id="embedding-3-the-client-url">Embedding 3 — the client URL</h3>
+<p><code>core/api.ts:107</code>, <code>:122</code>, <code>:155</code>
+and others build paths as
+<code>`/api/chapters/${encodeURIComponent(slug)}`</code>. <code>.</code>
+is an <strong>unreserved</strong> character and
+<code>encodeURIComponent</code> leaves it as-is, so <code>02.01</code>
+travels literally and matches the wildcard.</p>
+<p><strong>Verdict: SURVIVES, with no edit.</strong></p>
+<h3
+id="embedding-4-the-search-catalogues-filename-shape-detector">Embedding
+4 — the search catalogue’s filename-shape detector</h3>
+<p>This one was checked because a false positive here would raise a
+content-boundary alarm on <strong>every</strong> sub-chapter id, and
+that is the kind of failure that gets “fixed” by adding an
+exemption.</p>
+<p><code>HasSourceFilenameShape</code>
+(<code>pkg/search/catalog.go:368</code>) compiles its pattern from a
+<strong>closed</strong> extension list
+(<code>:320</code>–<code>:323</code>) plus one archive-chunk alternative
+(<code>:338</code>):</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode go"><code class="sourceCode go"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>SourceFilenameShapeExtensions <span class="op">=</span> <span class="op">[]</span><span class="dt">string</span><span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;mp4&quot;</span><span class="op">,</span> <span class="st">&quot;mov&quot;</span><span class="op">,</span> <span class="st">&quot;mkv&quot;</span><span class="op">,</span> <span class="st">&quot;webm&quot;</span><span class="op">,</span> <span class="st">&quot;m4v&quot;</span><span class="op">,</span> <span class="st">&quot;avi&quot;</span><span class="op">,</span> <span class="st">&quot;mp3&quot;</span><span class="op">,</span> <span class="st">&quot;wav&quot;</span><span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;tar.gz&quot;</span><span class="op">,</span> <span class="st">&quot;tgz&quot;</span><span class="op">,</span> <span class="st">&quot;zip&quot;</span><span class="op">,</span> <span class="st">&quot;7z&quot;</span><span class="op">,</span> <span class="st">&quot;sha256&quot;</span><span class="op">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sourceFilenameShapePartFragment <span class="op">=</span> <span class="st">&quot;part&quot;</span> <span class="op">+</span> <span class="st">`-?\d{1,5}`</span></span></code></pre></div>
+<p><strong>No entry is numeric-only</strong>, and the archive
+alternative requires the literal <code>part</code>. So <code>.01</code>
+is matched by no alternative and <code>02.01</code> is not read as a
+filename.</p>
+<p><strong>Verdict: SURVIVES — and it survives by a property of the
+list, which is one edit from changing.</strong> An assertion is added
+rather than a comment, because “the list happens not to contain a
+numeric entry” is a fact about today’s list.</p>
+<h3 id="what-the-four-embeddings-settle">What the four embeddings
+settle</h3>
+<p><strong>Four of the five layers a dotted id must survive already
+survive it, none by design and all by measurement.</strong> The fifth —
+derivation, <code>ordinalOf</code> and everything downstream — does not,
+and that is where the entire implementation cost of this feature
+sits.</p>
+<p>This changes the shape of the work materially. The instinctive
+framing, <em>“add hierarchy support to the platform”</em>, implies a
+change to identity, routing and storage. The measurement says the change
+is <strong>one new grammar, one derivation replacement, and a set of
+frozen literals</strong>. Anything larger is a rewrite of code that is
+already correct, and rewriting correct code is how the four surviving
+layers would stop surviving.</p>
+<hr />
+<h2 id="d-ch-3-why-chapters0201-was-rejected">D-CH-3 — Why
+<code>chapters/02/01</code> was rejected</h2>
+<p><strong>Question</strong>: path segments read more naturally as a
+hierarchy than a dotted string does. Why not use them?</p>
+<p><strong>Measured</strong>: it requires <code>/</code> inside the
+chapter slug. <code>SafeSlug</code> rejects <code>/</code> and
+<code>\</code> at <code>curriculum.go:209</code>, and that rejection is
+a <strong>path-traversal boundary</strong> — the function’s own comment
+describes it as an allowlist chosen because <em>“the interesting inputs
+are the encoded and the exotic ones”</em>. Accepting <code>/</code> to
+support a naming preference trades a security property for
+aesthetics.</p>
+<p><strong>And it does not work anyway.</strong> Go’s
+<code>{chapter}</code> wildcard matches one segment.
+<code>GET /api/chapters/02/01</code> would not match
+<code>GET /api/chapters/{chapter}</code> at all, so all six routes would
+need a multi-segment form (<code>{chapter...}</code>), which changes
+their matching semantics for every existing chapter and reopens the
+traversal question at the routing layer as well as the filesystem
+one.</p>
+<p><strong>Decision: rejected.</strong> Two independent mechanisms — one
+security, one routing — would have to be weakened, and the only thing
+gained is that the id looks more like a tree in a URL bar.</p>
+<hr />
+<h2
+id="d-ch-4-why-a-flat-id-with-a-stored-parent_id-was-rejected">D-CH-4 —
+Why a flat id with a stored <code>parent_id</code> was rejected</h2>
+<p><strong>Question</strong>: the conventional relational answer is an
+opaque flat id plus a <code>parent_id</code> column. It is what most
+systems do. Why not here?</p>
+<p><strong>Measured, on the mechanism rather than on taste.</strong> A
+stored parent is a <strong>second source of truth about
+structure</strong>. The failure it enables is not an exception:</p>
+<blockquote>
+<p>a chapter whose id says <code>02.01</code> and whose stored parent
+says <code>03</code> is <strong>not a detectable error state</strong>.
+It is two facts, both readable, both plausible, with no symptom until
+something navigates — and then the navigation <em>succeeds</em>, into
+the wrong chapter.</p>
+</blockquote>
+<p><strong>It also loses the ordering property from D-CH-1.</strong>
+With an opaque flat id, byte order over ids carries no structure at all,
+so the sort must be reconstructed by walking parent links. Filesystem
+order and API order then agree only if a sorting step keeps them
+agreeing, where today they agree by construction. H4 becomes an
+assertion about two algorithms instead of a property of one string.</p>
+<p><strong>Decision: rejected.</strong> The argument <em>for</em> it is
+cost — derivation repeats work — and the work is a string split over
+<strong>3</strong> ids. The argument against is a class of bug with no
+symptom.</p>
+<p><strong>Recorded because it will be re-proposed.</strong> It arrives
+disguised as a performance improvement (“cache the child list”) or as
+normalisation hygiene (“ids should not be meaningful”). The second is a
+real principle and it is the right one for <em>content</em> identifiers,
+which is why passages, areas, terms and questions all carry minted
+ULIDs. A chapter id is a <strong>structural name under an operator’s
+control</strong>, not a content identifier, and the distinction is
+recorded in <code>data-model.md</code> §1.2.</p>
+<hr />
+<h2
+id="d-ch-5-the-root-cause-is-in-a-specification-and-it-cannot-be-fixed-by-code">D-CH-5
+— The root cause is in a specification, and it cannot be fixed by
+code</h2>
+<p><strong>Question</strong>: <code>ordinalOf("02.01")</code> returns
+<code>2</code>. Where is the defect?</p>
+<p><strong>Measured</strong>: not in <code>ordinalOf</code>.
+<code>specs/001-workshop-curriculum-platform/data-model.md:45</code>
+types <code>Chapter.ordinal</code> as <code>int</code>:</p>
+<pre><code>| `ordinal` | int | zero-padded on disk (`chapters/01/`), matching existing convention |</code></pre>
+<p><code>internal/api/chapters.go:736</code> is the faithful
+implementation of that type — it consumes leading digits and stops — and
+<code>chapterTitle</code> (<code>:755</code>) is the faithful consumer
+of <em>that</em>. <strong>Under an <code>int</code> ordinal there is no
+correct implementation for <code>02.01</code></strong>, so every ordinal
+collision in this feature is that one line reaching the surface, three
+call sites away.</p>
+<p><strong>A second contradiction surfaced with it, in the same
+feature’s contracts.</strong>
+<code>specs/001-.../contracts/http-api.md:60</code> reads:</p>
+<blockquote>
+<p><code>{chapter}</code> | chapter <code>slug</code> … The zero-padded
+<code>ordinal</code> is <strong>not</strong> accepted as a path key —
+one key, one meaning.</p>
+</blockquote>
+<p>while <code>platform/gates/route-manifest.tsv:72</code> declares the
+live route <code>GET /api/chapters/01</code> — and <code>01</code>
+<strong>is</strong> the zero-padded ordinal. <strong>The contract and
+the implementation have disagreed since before this feature
+existed</strong>, and the disagreement was invisible for a structural
+reason: with one chapter, the slug and the zero-padded ordinal are the
+same string. They stop being the same string the moment
+<code>ordinal</code> is not an <code>int</code>.</p>
+<p><strong>Decision: this is Phase 0, it is an operator decision, and it
+blocks everything.</strong> Both are inherited defects in published
+artifacts; neither was introduced here; neither may be inherited
+silently by writing an implementation that presumes an answer.</p>
+<p><strong>Why the apparently safe option is not safe.</strong> Three
+ways out were considered:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Option</th>
+<th>Diff size</th>
+<th>What it actually does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>widen to an ordered <code>ordinal_path</code></td>
+<td>one wire field, one derivation</td>
+<td>representable ordering at every depth</td>
+</tr>
+<tr>
+<td>keep <code>int</code>, sub-chapters have no ordinal</td>
+<td><strong>zero</strong></td>
+<td>makes every sub-chapter permanently unorderable and unlabelled — it
+names the problem and moves on. The front end’s existing
+<code>null</code>-versus-<code>2</code> disagreement becomes the
+<em>contracted</em> behaviour</td>
+</tr>
+<tr>
+<td>keep <code>int</code>, flatten sub-chapters into one number
+space</td>
+<td>small</td>
+<td>renumbers every existing chapter the first time a sub-chapter is
+inserted, breaking every deep link, every registry <code>scope</code>
+and every archived artifact</td>
+</tr>
+</tbody>
+</table>
+<p>The zero-diff option looks like the conservative one and is the only
+one that makes the defect permanent. That is recorded here because
+“change nothing” is the default an unexamined decision falls into.</p>
+<hr />
+<h2
+id="d-ch-6-why-the-redaction-defect-needs-a-two-scope-fixture-measured">D-CH-6
+— Why the redaction defect needs a two-scope fixture, measured</h2>
+<p><strong>Question</strong>:
+<code>cmd/workshop-redact/main.go:616</code> is now
+<code>*rec.Scope != chapter</code>, fixed in <code>266f443</code> from
+<code>strings.HasSuffix(*rec.Scope, chapter)</code>. What test guards
+it?</p>
+<p><strong>Measured, on the operators rather than on the code.</strong>
+For a chapter argument of <code>01</code>:</p>
+<table>
+<thead>
+<tr>
+<th>registry scope</th>
+<th><code>HasSuffix(scope, "01")</code></th>
+<th><code>scope == "01"</code></th>
+<th>agree?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01</code></td>
+<td>true</td>
+<td>true</td>
+<td><strong>yes</strong></td>
+</tr>
+<tr>
+<td><code>02.01</code></td>
+<td><strong>true</strong></td>
+<td><strong>false</strong></td>
+<td><strong>no</strong></td>
+</tr>
+<tr>
+<td><code>docs</code></td>
+<td>false</td>
+<td>false</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>On a registry whose only chapter scope is <code>01</code>,
+the two operators return the same answer for every input.</strong> The
+narrowing fix is a <strong>no-op</strong> there. Every existing test
+therefore passes with the old code and with the new code, which means
+the fix is currently protected by nothing at all.</p>
+<p><strong>Decision</strong>: the guard is a property of the
+<strong>fixture shape</strong>, not of the assertion. The test needs a
+registry holding at least two scopes, one a sub-chapter of the other,
+and the paired proof needs <strong>two</strong> cases:</p>
+<ol type="1">
+<li>two-scope fixture + <code>HasSuffix</code> mutation ⇒ the test must
+go <strong>red</strong>;</li>
+<li>one-scope fixture + the same mutation ⇒ the test must stay
+<strong>green</strong>.</li>
+</ol>
+<p>The second case is unusual — it asserts that a test <em>fails to
+detect</em> something — and it is the one that matters, because without
+it a maintainer who simplifies the fixture sees everything still pass
+and concludes the two-scope shape was incidental.</p>
+<p><strong>Why this is first in the phase order.</strong> The output of
+this path is a <strong>disclosure-control record</strong> — a document
+whose entire purpose is to state what was covered. A coverage claim that
+silently overstates itself is worse than a pipeline that produces
+nothing, because an absence gets noticed.</p>
+<hr />
+<h2
+id="d-ch-7-the-two-widenings-are-widenings-and-both-directions-must-be-proved">D-CH-7
+— The two widenings are widenings, and both directions must be
+proved</h2>
+<p><strong>Question</strong>: <code>meeting_notes.py:109</code> and
+<code>author.py:159</code> were widened in <code>266f443</code>. What
+does their proof have to assert?</p>
+<p><strong>Measured</strong>, the current patterns:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pipeline/extract/meeting_notes.py:109</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>_TRANSCRIPT_PATH_RE <span class="op">=</span> re.<span class="bu">compile</span>(<span class="vs">r&quot;</span><span class="dv">^</span><span class="kw">(</span><span class="vs">chapter-</span><span class="kw">(</span><span class="dv">\d</span><span class="op">+</span>(?:<span class="ch">\.</span><span class="dv">\d</span><span class="op">+</span>)<span class="op">*</span><span class="kw">))</span><span class="vs">/transcript</span><span class="ch">\.</span><span class="vs">md</span><span class="dv">$</span><span class="vs">&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># pipeline/extract/author.py:159</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>_ELIGIBLE_SOURCE <span class="op">=</span> re.<span class="bu">compile</span>(<span class="vs">r&quot;</span><span class="dv">^</span><span class="vs">chapter-</span><span class="dv">\d</span><span class="op">+</span>(?:<span class="ch">\.</span><span class="dv">\d</span><span class="op">+</span>)<span class="op">*</span><span class="vs">/</span><span class="kw">(</span><span class="vs">transcript</span><span class="ch">\.</span><span class="vs">md</span><span class="cf">|</span><span class="vs">exercise-</span><span class="dv">\d</span><span class="op">+</span><span class="ch">\.</span><span class="vs">md</span><span class="kw">)</span><span class="dv">$</span><span class="vs">&quot;</span>)</span></code></pre></div>
+<p>Both were <code>chapter-\d+</code>, and both call sites skip a
+non-match with <code>continue</code>. So before the fix, a sub-chapter
+was dropped <strong>silently, on a green run</strong> — no meeting notes
+extracted, and never a citable authoring source.</p>
+<p><strong>Decision</strong>: each paired mutation must assert
+<strong>both</strong> directions —</p>
+<ul>
+<li><strong>(a)</strong> revert to <code>chapter-\d+</code>: the
+assertion that <code>chapter-02.01/transcript.md</code> matches must
+fail;</li>
+<li><strong>(b)</strong> narrow to <code>chapter-\d+\.\d+</code>: the
+assertion that <code>chapter-01/transcript.md</code> matches must
+fail.</li>
+</ul>
+<p><strong>Why (b) is not redundant.</strong> A proof asserting only (a)
+passes against a pattern that has stopped matching the flat form — which
+would be a <em>worse</em> defect than the original, silent in exactly
+the same way, and introduced by the fix for it. The commit message for
+<code>266f443</code> records this reasoning independently: <em>“both
+directions asserted, because a widening that stopped matching the old
+form would be worse than the bug it fixed.”</em></p>
+<p><strong>Note what is deliberately NOT widened.</strong>
+<code>author.py:159</code> keeps <code>exercise-\d+\.md</code> flat.
+Exercise numbering is not a chapter path and has no hierarchy; widening
+it because it sits in the same regex would be a change with no reason
+behind it.</p>
+<hr />
+<h2
+id="d-ch-8-the-silent-content-defects-ranked-by-what-they-produce">D-CH-8
+— The silent-content defects, ranked by what they produce</h2>
+<p><strong>Question</strong>: several frozen chapter-01 literals remain.
+They are not equally dangerous. Which first?</p>
+<p><strong>Measured</strong>, by what each produces when it is
+wrong:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Location</th>
+<th>Frozen thing</th>
+<th>What a wrong run produces</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scripts/ingest.sh:93</code></td>
+<td><code>WORKSHOP_TRANSCRIPT_JSON</code> defaults to chapter 01’s
+transcript JSON</td>
+<td><strong>chapter 01’s content ingested under another chapter’s
+scope.</strong> Every downstream artifact then agrees with itself. This
+is the worst outcome in the feature</td>
+</tr>
+<tr>
+<td><code>scripts/ingest.sh:46</code></td>
+<td><code>CHAPTER="01"</code></td>
+<td>a run with no chapter argument ingests chapter 01 — recoverable, but
+indistinguishable in the output from an explicit choice</td>
+</tr>
+<tr>
+<td><code>pkg/search/suggest-sources.json:10,34,57,77,101,125</code></td>
+<td>six <code>chapter-01/...</code> rows, <code>//go:embed</code>-ed at
+<code>catalog.go:70</code>–<code>71</code></td>
+<td><strong>no new chapter ever reaches
+<code>/api/suggest</code></strong>, and because the file is compiled in,
+no amount of adding content changes it without a rebuild</td>
+</tr>
+<tr>
+<td><code>chapter-01/knowledge/build.py:363</code>,
+<code>:435</code></td>
+<td><code>/chapters/01/transcript#p-%s</code> deep links</td>
+<td>every deep link in a new chapter’s knowledge artifacts points into
+chapter 01</td>
+</tr>
+<tr>
+<td><code>chapter-01/knowledge/build.py:478</code>, <code>:564</code>,
+<code>:582</code>, <code>:592</code></td>
+<td><code>"chapter_slug": "01"</code> literals</td>
+<td>new chapters’ artifacts labelled as chapter 01’s</td>
+</tr>
+<tr>
+<td><code>pipeline/build_transcript.py:143</code>–<code>144</code></td>
+<td><code>default="chapter-01"</code>,
+<code>default="Chapter 1"</code></td>
+<td>a transcript built without explicit arguments is labelled chapter
+01</td>
+</tr>
+<tr>
+<td><code>pipeline/calibrate.sh:36</code></td>
+<td>a frozen absolute path to chapter 01’s recording</td>
+<td>calibration measures chapter 01 regardless of which chapter was
+asked about</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Decision</strong>: the ingest transcript default is fixed
+first within its phase, and the fix is a <strong>refusal</strong>, not a
+better default. Naming a chapter and omitting the transcript is an
+incomplete request, and the honest answer to an incomplete request is to
+say what is missing.</p>
+<p><strong>One line in this list is already right, and it is the model
+for the rest.</strong> <code>chapter-01/knowledge/build.py:415</code>
+reads <code>"chapter_slug": r["scope"]</code> — derived from the record
+being processed. The four literals in the same file are the same value,
+hardcoded, four lines apart from the correct form. That is what makes
+this file the clearest example in the feature: the right answer is
+already present in it.</p>
+<hr />
+<h2
+id="d-ch-9-the-precedent-for-a-gate-that-does-not-hardcode-a-chapter">D-CH-9
+— The precedent for a gate that does not hardcode a chapter</h2>
+<p><strong>Question</strong>: every new gate needs a chapter id. Where
+does it come from?</p>
+<p><strong>Measured</strong>:
+<code>platform/gates/verify-absence-honesty.sh:127</code>–<code>134</code>
+already solves this:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A chapter that exists, taken from the live tree rather than hardcoded.</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">CH</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">curl</span> <span class="at">-s</span> <span class="at">--max-time</span> 20 <span class="st">&quot;</span><span class="va">$BASE</span><span class="st">/api/chapters&quot;</span> <span class="dt">\</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>      <span class="kw">|</span> <span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;s/.*&quot;id&quot;[[:space:]]*:[[:space:]]*&quot;\([A-Za-z0-9._-]*\)&quot;.*/\1/p&#39;</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-1</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">$CH</span><span class="st">&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="ex">undet</span> <span class="st">&quot;A2 no chapter could be read from the live tree; §3.12 was NOT graded live&quot;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span></code></pre></div>
+<p>Two properties are worth copying and are named so they are copied
+deliberately: it takes the chapter from <code>GET /api/chapters</code>,
+and <strong>failing to get one is <code>undet</code> —
+could-not-determine — not a pass and not a failure.</strong> Its
+character class already includes <code>.</code>, so it reads a
+sub-chapter id correctly today.</p>
+<p><strong>Decision</strong>: every gate this feature adds follows this
+shape (FR-035, G-CH-14). The contrast is
+<code>route-manifest.tsv:64</code>, <code>#subst {chapter} 01</code>,
+where a single hardcoded value means <strong>the manifest cannot
+exercise a hierarchy at all</strong> — one substitution cannot produce a
+parent and a child.</p>
+<hr />
+<h2 id="unverified-register">Unverified register</h2>
+<p>An entry here is not a minor caveat. The first one blocks the
+feature.</p>
+<ul>
+<li><strong>U1 — the <code>ordinal</code> type and the path-key
+contradiction (D-CH-5). BLOCKING.</strong> Both are amendments to
+published feature-001 artifacts (<code>data-model.md:45</code>,
+<code>contracts/http-api.md:60</code>) and both are operator decisions.
+Every task depending on <code>ordinal_path</code> carries a
+<code>[BLOCKED: ordinal type]</code> marker. <strong>No implementation
+may settle this by shipping.</strong></li>
+<li><strong>U2 — whether <code>GET /api/chapters</code> should be
+brought onto the three-state envelope.</strong> It currently returns a
+bare <code>{"chapters": …}</code> at <code>200</code> and
+<code>{"error": …}</code> at <code>500</code>
+(<code>main.go:2085</code>–<code>2091</code>); it does not call
+<code>writeUnavailable</code>. FR-028 requires the <code>filters</code>
+echo on every status <em>including</em> could-not-determine, which
+presumes the envelope. Whether that is in scope here or is a separate
+correction to the 001 contract is <strong>not settled</strong>, and the
+contract’s §8 U2 records it as target shape rather than as
+description.</li>
+<li><strong>U3 — the maximum depth this corpus will reach.</strong>
+Measured at <strong>2</strong> today. H6 forbids asserting a limit;
+nothing here predicts one.</li>
+<li><strong>U4 — whether any consumer outside this repository reads
+<code>Chapter.ordinal</code>.</strong> The front end does
+(<code>models.ts:301</code>, <code>:357</code>) and is changed with it.
+Nothing else was found, but the search covered this repository only, and
+a public artifact carrying the field could exist outside it. Recorded
+because A1 <strong>removes</strong> the field rather than deprecating
+it.</li>
+<li><strong>U5 — whether <code>02</code> and <code>02.01</code> will
+ingest cleanly once the pipeline accepts them.</strong> Both are
+archived and hash-verified; <strong>neither has a transcript</strong>
+and neither holds a single passage. Nothing in this feature runs them
+through the pipeline, and no claim is made here about what will happen
+when something does.</li>
+</ul>
+</body>
+</html>

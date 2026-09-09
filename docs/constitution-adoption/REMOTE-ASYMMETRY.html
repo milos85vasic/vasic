@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>REMOTE-ASYMMETRY</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">REMOTE-ASYMMETRY</h1>
+</header>
+<h1
+id="remote-asymmetry-across-the-fleets-submodules-investigation-and-remediation">Remote
+asymmetry across the fleet’s submodules — investigation and
+remediation</h1>
+<p><strong>Scope.</strong> §§1–9 are the original OC-2 follow-up on
+<code>milosvasic.ru</code>: the reported hazard that its commits are
+invisible to a fresh clone because <code>origin</code> fetches from one
+URL and pushes to two others. <strong><a
+href="#10-design-toolkits-gitlab-mirror--measured-2026-09-02">§10</a>
+extends this document to <code>design-toolkit</code>’s GitLab
+mirror</strong> — the same defect class (an instrument that can only see
+the remotes it was told about), found one row lower in this document’s
+own §6 table.</p>
+<p><strong>Verified.</strong> §§1–9 on 2026-08-27, by direct
+<code>git ls-remote</code> against every configured URL and by GitHub
+REST identity lookup. §10 on 2026-09-02, by <code>git ls-remote</code>
+against a newly-declared <code>gitlab</code> remote plus authenticated
+and <strong>anonymous</strong> provider probes. Every claim in this file
+was measured, not inferred.</p>
+<p><strong>§6’s <code>design-toolkit</code> row is CORRECTED by §10 and
+must not be read on its own.</strong></p>
+<hr />
+<h2 id="the-reported-defect">1. The reported defect</h2>
+<blockquote>
+<p><code>origin</code> FETCHES from
+<code>git@github.com:milos85vasic/milosvasic.ru.git</code> but its
+configured push URLs are only
+<code>gitflic.ru:milosvasic/milosvasic-net-v-2</code> and
+<code>github.com:milos85vasic/milosvasic.net.v2</code>. A commit lands
+on GitFlic and <code>milosvasic.net.v2</code>, while
+<code>git submodule update --init</code> clones
+<code>milosvasic.ru.git</code>, which never receives it.</p>
+</blockquote>
+<p><strong>The configuration asymmetry is real. The hazard it was
+believed to cause is not.</strong> The reasoning above assumes
+<code>milosvasic.net.v2.git</code> and <code>milosvasic.ru.git</code>
+are two different repositories. They are one.</p>
+<hr />
+<h2 id="measured-configuration">2. Measured configuration</h2>
+<p><code>git -C milosvasic.ru remote -v</code>:</p>
+<pre><code>gitflic   git@gitflic.ru:milosvasic/milosvasic-net-v-2.git   (fetch)
+gitflic   git@gitflic.ru:milosvasic/milosvasic-net-v-2.git   (push)
+github    git@github.com:milos85vasic/milosvasic.net.v2.git  (fetch)
+github    git@github.com:milos85vasic/milosvasic.net.v2.git  (push)
+origin    git@github.com:milos85vasic/milosvasic.ru.git      (fetch)
+origin    git@gitflic.ru:milosvasic/milosvasic-net-v-2.git   (push)
+origin    git@github.com:milos85vasic/milosvasic.net.v2.git  (push)
+upstream  git@gitflic.ru:milosvasic/milosvasic-net-v-2.git   (fetch)
+upstream  git@gitflic.ru:milosvasic/milosvasic-net-v-2.git   (push)</code></pre>
+<p><code>git config --get-all remote.origin.pushurl</code>:</p>
+<pre><code>git@gitflic.ru:milosvasic/milosvasic-net-v-2.git
+git@github.com:milos85vasic/milosvasic.net.v2.git</code></pre>
+<p>Umbrella’s recorded gitlink —
+<code>git ls-tree HEAD milosvasic.ru</code>:</p>
+<pre><code>160000 commit 66c8d607b20f0d9e984cb0e06f10a2020ebd9a10   milosvasic.ru</code></pre>
+<p><code>.gitmodules</code> pins the submodule to
+<code>git@github.com:milos85vasic/milosvasic.ru.git</code>.</p>
+<hr />
+<h2 id="the-three-urls-actual-tips">3. The three URLs’ actual tips</h2>
+<p>All three were queried directly. <strong>All three are at the
+identical tip, which is exactly the umbrella’s recorded
+gitlink</strong>, and all three carry a byte-identical tag set
+(<code>pre-restyle</code>, <code>v0.9.0-baseline</code>,
+<code>v1.0.0</code> … <code>v1.8.0</code>):</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>URL</th>
+<th><code>refs/heads/main</code></th>
+<th>Holds gitlink <code>66c8d60</code>?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>git@github.com:milos85vasic/milosvasic.ru.git</code></td>
+<td><code>66c8d607b20f0d9e984cb0e06f10a2020ebd9a10</code></td>
+<td>yes — it <em>is</em> the tip</td>
+</tr>
+<tr>
+<td><code>git@gitflic.ru:milosvasic/milosvasic-net-v-2.git</code></td>
+<td><code>66c8d607b20f0d9e984cb0e06f10a2020ebd9a10</code></td>
+<td>yes — it <em>is</em> the tip</td>
+</tr>
+<tr>
+<td><code>git@github.com:milos85vasic/milosvasic.net.v2.git</code></td>
+<td><code>66c8d607b20f0d9e984cb0e06f10a2020ebd9a10</code></td>
+<td>yes — it <em>is</em> the tip</td>
+</tr>
+</tbody>
+</table>
+<p><strong>A fresh <code>git submodule update --init</code> resolves
+correctly today. There is no dangling gitlink and no invisible
+commit.</strong></p>
+<hr />
+<h2 id="mirrors-or-divergent-repos-the-decisive-finding">4. Mirrors or
+divergent repos? — the decisive finding</h2>
+<p>The three URLs are not three repositories. They are
+<strong>two</strong>:</p>
+<p><strong>(a) <code>milosvasic.ru.git</code> and
+<code>milosvasic.net.v2.git</code> are the SAME GitHub
+repository.</strong> The GitHub REST API resolves both names to one
+object:</p>
+<pre><code>GET /repos/milos85vasic/milosvasic.ru      -&gt; id 439095641, node_id R_kgDOGiwRWQ,
+                                              full_name &quot;milos85vasic/milosvasic.ru&quot;
+GET /repos/milos85vasic/milosvasic.net.v2  -&gt; id 439095641, node_id R_kgDOGiwRWQ,
+                                              full_name &quot;milos85vasic/milosvasic.ru&quot;</code></pre>
+<p>Same numeric id, same node id, same <code>created_at</code>
+(2021-12-16T18:51:56Z), same <code>pushed_at</code>, same size (42761
+KB), same <code>ssh_url</code>
+(<code>git@github.com:milos85vasic/milosvasic.ru.git</code>). The
+canonical name that GitHub reports for <em>both</em> lookups is
+<code>milosvasic.ru</code>.</p>
+<p>The repository was renamed <strong>from</strong>
+<code>milosvasic.net.v2</code> <strong>to</strong>
+<code>milosvasic.ru</code>. <code>milosvasic.net.v2.git</code> is a
+<strong>stale rename-alias</strong>, and GitHub’s permanent redirect for
+renamed repositories is what carries pushes through it. So the fetch URL
+<em>does</em> receive every push — indirectly, via that redirect.
+<code>gh repo list milos85vasic</code> confirms no separate
+<code>milosvasic.net.v2</code> repository exists.</p>
+<p><strong>(b) <code>gitflic.ru:milosvasic/milosvasic-net-v-2</code> is
+a genuine, separate mirror</strong> on a different host, carrying that
+host’s own legacy slug for the same project. It is <strong>in
+sync</strong> — identical <code>main</code> tip and identical tags. Not
+divergent.</p>
+<p><strong>Conclusion: mirrors, in sync. Nothing has diverged. No
+history reconciliation is needed or attempted.</strong></p>
+<hr />
+<h2 id="what-the-real-defect-is">5. What the real defect is</h2>
+<p>Not invisibility — <strong>fragile addressing</strong>. Two smaller,
+genuine problems remain:</p>
+<ol type="1">
+<li><p><strong>The GitHub push target is named by a stale
+alias.</strong> Pushes reach the canonical repository only because
+GitHub still honours the rename redirect. That redirect is not a
+permanent guarantee: it <strong>breaks the moment anyone creates a new
+repository at <code>milos85vasic/milosvasic.net.v2</code></strong>. At
+that point pushes would silently begin landing in the wrong repository
+while the fetch URL quietly fell behind — producing exactly the failure
+originally reported, for real. This is not hypothetical namespace
+pressure: a separate repository <code>milos85vasic/milosvasic.net</code>
+<strong>already exists</strong>.</p></li>
+<li><p><strong>The invariant “origin’s fetch URL appears among origin’s
+push URLs” is violated here and nowhere else</strong> (see §6). Even
+where it is currently harmless, it defeats inspection:
+<code>git remote -v</code> cannot be read as evidence that pushes reach
+the cloned URL.</p></li>
+</ol>
+<hr />
+<h2 id="same-shape-in-the-other-submodules">6. Same shape in the other
+submodules?</h2>
+<p>Checked all seven. <strong><code>milosvasic.ru</code> is the only
+submodule whose <code>origin</code> fetch URL is absent from its own
+push-URL list.</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Submodule</th>
+<th>Fetch URL in push set?</th>
+<th>Push targets</th>
+<th>Mirrors in sync?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td><strong>NO — only via rename alias</strong></td>
+<td>2</td>
+<td>yes (<code>66c8d60</code>)</td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td>yes</td>
+<td>4</td>
+<td>yes — all 4 at <code>54ed7b0</code></td>
+</tr>
+<tr>
+<td><code>submodules/constitution</code></td>
+<td>yes</td>
+<td>6</td>
+<td>yes — all 6 at <code>a09b1ea</code></td>
+</tr>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td>yes</td>
+<td>1</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td>yes</td>
+<td>1</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td>n/a (no pushurl; pushes to <code>origin.url</code>)</td>
+<td>—</td>
+<td><del>yes</del> <strong>NO — see §10</strong></td>
+</tr>
+<tr>
+<td><code>submodules/superspec</code></td>
+<td>n/a (no pushurl; third-party)</td>
+<td>—</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>The <code>design-toolkit</code> “Mirrors in sync? yes” above
+was FALSE when written, and the reason is this document’s own subject
+matter.</strong> It was measured by enumerating the remotes <em>this
+checkout declares</em>, and this checkout declared exactly one for
+<code>design-toolkit</code>: GitHub <code>origin</code>. A
+<strong>second</strong> mirror
+—<code>git@gitlab.com:vasic-digital/design-toolkit.git</code> — existed
+and was <strong>not</strong> in sync. An instrument that enumerates only
+the remotes it has been told about reports “in sync” about the remotes
+it can see and says nothing whatever about the ones it cannot. That is
+the same blind-instrument class §6 was written to close for
+<code>milosvasic.ru</code>, surviving one row lower in the same table.
+Measured and corrected 2026-09-02 in <a
+href="#10-design-toolkits-gitlab-mirror--measured-2026-09-02">§10</a>.</p>
+</blockquote>
+<p>Every umbrella gitlink was checked for presence on its remote:</p>
+<ul>
+<li><code>ai_interviewing</code> <code>ed73d855</code>,
+<code>design-toolkit</code> <code>efd2c3fb</code>,
+<code>submodules/superspec</code> <code>c20ac6c1</code>,
+<code>vasic.digital</code> <code>6e5411c2</code>,
+<code>monetization</code> <code>54ed7b0f</code>,
+<code>milosvasic.ru</code> <code>66c8d607</code> — all equal their
+remote <code>HEAD</code>.</li>
+<li><code>submodules/constitution</code> gitlink <code>448981a</code>
+differs from remote <code>main</code> (<code>a09b1ea</code>), but
+<code>merge-base --is-ancestor</code> confirms
+<strong><code>448981a</code> is an ancestor of
+<code>a09b1ea</code></strong> — reachable in a fresh clone. The
+submodule’s local branch is simply 62 commits behind. Pinning to an
+older ancestor is a version choice, not a hazard.</li>
+</ul>
+<p><strong>No submodule anywhere in this umbrella has an unreachable
+gitlink.</strong></p>
+<hr />
+<h2 id="recommended-remediation">7. Recommended remediation</h2>
+<p>The evidence matches the “all mirrors, in sync” branch — but the
+correct implementation is <strong>replacement, not
+addition</strong>.</p>
+<p>Adding <code>milosvasic.ru.git</code> as a <em>third</em> pushurl
+(the remediation proposed for that branch) would be wrong here: it and
+<code>milosvasic.net.v2.git</code> are the same repository, so every
+push would transmit to it <strong>twice</strong>, and the stale alias
+would survive as the latent trap described in §5.1.</p>
+<p><strong>Recommended — normalize the stale alias to the canonical
+name.</strong> Same repository, so it cannot redirect work anywhere new;
+it only removes the dependency on GitHub’s rename redirect and restores
+the readable invariant:</p>
+<pre><code>git -C milosvasic.ru config --replace-all remote.origin.pushurl \
+    git@github.com:milos85vasic/milosvasic.ru.git &#39;milosvasic\.net\.v2&#39;
+git -C milosvasic.ru remote set-url github git@github.com:milos85vasic/milosvasic.ru.git</code></pre>
+<p>This is local, reversible git config. It is strictly de-risking: the
+push destination is provably unchanged (id <code>439095641</code>), only
+the name used to address it changes.</p>
+<p><strong><code>.gitmodules</code> needs no change.</strong> It already
+names the canonical URL
+<code>git@github.com:milos85vasic/milosvasic.ru.git</code>. No umbrella
+commit is required for the remote fix.</p>
+<p><strong>Out of scope by constraint.</strong> Nothing is pushed into
+the submodule. Nothing needs to be: all mirrors already hold the
+umbrella’s gitlink.</p>
+<hr />
+<h2 id="applied">8. Applied</h2>
+<p>Applied 2026-08-27, exactly as recommended in §7. Post-change
+state:</p>
+<pre><code>gitflic   git@gitflic.ru:milosvasic/milosvasic-net-v-2.git  (fetch)
+gitflic   git@gitflic.ru:milosvasic/milosvasic-net-v-2.git  (push)
+github    git@github.com:milos85vasic/milosvasic.ru.git     (fetch)
+github    git@github.com:milos85vasic/milosvasic.ru.git     (push)
+origin    git@github.com:milos85vasic/milosvasic.ru.git     (fetch)
+origin    git@gitflic.ru:milosvasic/milosvasic-net-v-2.git  (push)
+origin    git@github.com:milos85vasic/milosvasic.ru.git     (push)
+upstream  git@gitflic.ru:milosvasic/milosvasic-net-v-2.git  (fetch)
+upstream  git@gitflic.ru:milosvasic/milosvasic-net-v-2.git  (push)</code></pre>
+<p><code>origin</code>’s fetch URL now appears among its push URLs. The
+GitFlic mirror is untouched and still receives every push.</p>
+<p><strong>To revert:</strong></p>
+<pre><code>git -C milosvasic.ru config --replace-all remote.origin.pushurl \
+    git@github.com:milos85vasic/milosvasic.net.v2.git &#39;milosvasic\.ru&#39;
+git -C milosvasic.ru remote set-url github git@github.com:milos85vasic/milosvasic.net.v2.git</code></pre>
+<p><strong>Still open for the operator (agent may not do
+these):</strong></p>
+<ul>
+<li>Nothing requires pushing. All three URLs already hold gitlink
+<code>66c8d60</code>.</li>
+<li>The <code>gitflic</code> / <code>upstream</code> remotes are
+duplicates of one another (same URL, two names). Harmless, but
+<code>upstream</code> conveys no information here. Left alone.</li>
+<li>The GitFlic slug <code>milosvasic-net-v-2</code> is that host’s own
+legacy name. Renaming it there is a GitFlic-side operation, not a
+git-config one, and was not done.</li>
+</ul>
+<hr />
+<h2 id="note-for-oc-2-not-acted-on-superseded-2026-08-27">9. Note for
+OC-2 — <del>not acted on</del> SUPERSEDED 2026-08-27</h2>
+<blockquote>
+<p><strong>This section’s recommendation is void.</strong> It recommends
+extending an <code>Override §11.4.156</code> to cover
+<code>pages.yml</code>. <strong>There is no override to extend.</strong>
+An override was sought and disqualified twice over: §11.4.156’s closing
+formula names and refuses the exemption vocabulary (<em>“No escape hatch
+— no <code>--allow-ci</code>, <code>--enable-workflow</code>,
+<code>--keep-pipeline</code>, <code>--remote-ci-OK</code>,
+<code>--ci-exempt</code> flag”</em>), and the inheritance contract
+(<em>“extend them — they do NOT weaken or override any universal
+clause”</em>) makes a project-local override of an inherited clause
+structurally impossible. Compliance was therefore the only remaining
+path that does not amend shared governance, and the operator chose it:
+<strong><em>“Comply — disable both, enforce locally.”</em></strong>
+<del><code>pages.yml</code> is renamed to a non-active
+<code>.disabled</code> name per §11.4.156(B), alongside the umbrella’s
+<code>ci.yml</code>; the gates move to a local pre-push hook.</del> No
+constitution amendment was made.</p>
+<p><strong>Second update, same day — <code>pages.yml</code> was NOT
+disabled after all.</strong> The deploy-vs-test asymmetry argued below
+is not merely correct; it is <em>stronger</em> than this document
+stated, and it reversed the decision.
+<code>gh api repos/milos85vasic/milosvasic.ru/pages</code> returns
+<code>build_type: "workflow"</code>: GitHub Pages publishes
+<code>https://milosvasic.ru/</code> <strong>exclusively</strong> by
+running that workflow. There is no <code>gh-pages</code> branch, no
+<code>docs/</code> folder, and the repository root is Jekyll SOURCE, so
+it cannot be served raw from a branch;
+<code>_tools/deploy-langs.sh</code> pushes source and then
+<code>sleep</code>s waiting for that workflow, so it is
+<strong>not</strong> a fallback. Disabling <code>pages.yml</code> would
+not make publishing manual — it would end it. Operator’s overriding
+directive, verbatim: <strong><em>“Make sure all pages websites work
+flawlessly! No website can be broken! All websites we have here are
+running deployed in production!”</em></strong></p>
+<p><strong><code>pages.yml</code> is ACTIVE and stays active.</strong>
+Only the umbrella’s <code>ci.yml</code> was disabled; its gates moved to
+a local pre-push hook. <code>milosvasic.ru</code> is a <strong>known,
+documented deviation</strong> from §11.4.156 — <strong>still not an
+override</strong>, and never to be recorded as one. <strong>Honest
+boundary (§11.4.6):</strong> the umbrella’s remaining provider-side
+surfaces (org-default required workflows, branch-protection required
+checks, scheduled exports) are operator-only and unverified, so even
+<code>ci.yml</code>’s rename does not by itself prove <em>“a push
+triggers ZERO runs”</em>. Full record: <a
+href="DECISION-11-4-156-COMPLY.md"><code>DECISION-11-4-156-COMPLY.md</code></a>
+§0.</p>
+</blockquote>
+<p><code>milosvasic.ru/.github/workflows/pages.yml</code> is an active
+root workflow in an owned submodule (<code>on: push [main]</code>,
+<code>workflow_dispatch</code>; it builds Jekyll and deploys to GitHub
+Pages). §11.4.156(A) forbids it and (C) scopes the clause to
+<em>“repositories we author + push”</em> — <code>milosvasic.ru</code> is
+authored and pushed here, so the clause applies exactly as it does to
+OC-1.</p>
+<p><strong>Should the <code>Override §11.4.156</code> recorded for OC-1
+extend to this workflow?</strong> An override should name it explicitly
+rather than absorb it silently:</p>
+<ul>
+<li><strong>The two are not the same case.</strong> OC-1’s
+<code>ci.yml</code> is a <em>test</em> workflow — the only mechanical
+check this root has, given INVENTORY gap G5. <code>pages.yml</code> is a
+<em>deploy</em> workflow: it publishes
+<code>https://milosvasic.ru/</code>. Disabling it does not weaken
+enforcement, it takes a live site offline. That is a stronger practical
+reason to keep it and a different justification, so it deserves its own
+sentence in the override rather than inheriting OC-1’s reasoning.</li>
+<li><strong>Scope differs.</strong> An override recorded in the
+umbrella’s <code>Constitution.md</code> governs the umbrella.
+<code>pages.yml</code> lives inside a submodule with its own working
+tree; §102 reserves committing there to the operator. An umbrella
+override should therefore state explicitly that it covers the owned
+submodule <code>milosvasic.ru</code>, or the file remains formally
+unresolved.</li>
+</ul>
+<p><del><strong>Recommendation: yes, extend it — but by naming
+<code>milosvasic.ru/.github/workflows/pages.yml</code> and its
+deploy-not-test justification explicitly in the same
+<code>Override §11.4.156</code> entry.</strong> A single unqualified
+override text would leave OC-2 ambiguous.</del></p>
+<p><strong>Withdrawn 2026-08-27</strong> — see the banner at the head of
+this section. The override never existed, so there was nothing to extend
+or to name. What the recommendation was actually protecting against —
+OC-2 being absorbed silently into OC-1’s reasoning — is instead honoured
+by giving <code>pages.yml</code> its own row and its own deploy-not-test
+justification in <a
+href="DECISION-11-4-156-COMPLY.md"><code>DECISION-11-4-156-COMPLY.md</code></a>
+§4, and by the separate treatment in its §0.</p>
+<p><strong>Vindicated in substance, though.</strong> The bullet above —
+<em>“Disabling it does not weaken enforcement, it takes a live site
+offline”</em> — was the correct reading, and it understated the case:
+with <code>build_type: "workflow"</code> there is no fallback publisher
+at all. That argument is what carried the reversal. The mechanism it
+proposed (an override) was unavailable; the conclusion it reached
+(<code>pages.yml</code> must keep running) is the one that stands,
+recorded as a <strong>documented deviation</strong> rather than an
+override.</p>
+<p><code>Constitution.md</code> was <strong>not</strong> edited <em>by
+this document</em> — another agent held it at the time. It has since
+been reconciled with the decision; its OC-1 and OC-2 sections now carry
+the reversal.</p>
+<hr />
+<h2 id="design-toolkits-gitlab-mirror-measured-2026-09-02">10.
+<code>design-toolkit</code>’s GitLab mirror — measured 2026-09-02</h2>
+<p><strong>Verdict: 1 — a real finding.</strong> The mirror is <strong>6
+commits behind</strong> the GitHub origin and is <strong>private while
+the origin is public</strong>. Both halves are measured, neither is
+inferred. Nothing was pushed, merged, or re-pinned to produce them.</p>
+<h3 id="why-this-needed-doing-at-all">10.1 Why this needed doing at
+all</h3>
+<p>Until 2026-09-02 this checkout declared <strong>no</strong> GitLab
+remote for <code>design-toolkit</code> —
+<code>git -C design-toolkit remote -v</code> returned
+<code>origin</code> only. So the mirror’s lag and the mirror’s
+visibility were both <strong>unmeasurable from this tree</strong>, and
+every statement about them in this repository was a <em>report</em>, not
+a measurement. <code>CLAUDE.md</code> said so explicitly, and was right
+to.</p>
+<p>Two consequences followed, and both were live defects:</p>
+<ol type="1">
+<li>The lag figure in circulation — “<strong>5 commits behind</strong>”,
+from 2026-09-01 — was measured against GitHub head
+<code>5467a888</code>, which is <strong>no longer the head</strong>. A
+lag stated against a moved reference point does not merely age; it
+becomes arithmetically wrong in a knowable direction (it can only
+understate).</li>
+<li><code>scripts/verify-submodule-remote-sync.sh</code> reported, and
+still reports, <code>design-toolkit</code> <strong>CURRENT</strong>.
+That verdict is <strong>true about GitHub</strong> and says nothing at
+all about the mirror — see §10.6.</li>
+</ol>
+<p><strong>Remedy applied: the mirror was added as a named
+remote.</strong> This is local git config only:</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit remote add gitlab git@gitlab.com:vasic-digital/design-toolkit.git</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit remote <span class="at">-v</span></span></code></pre></div>
+<pre><code>gitlab  git@gitlab.com:vasic-digital/design-toolkit.git  (fetch)
+gitlab  git@gitlab.com:vasic-digital/design-toolkit.git  (push)
+origin  git@github.com:vasic-digital/design-toolkit.git  (fetch)
+origin  git@github.com:vasic-digital/design-toolkit.git  (push)</code></pre>
+<p><strong>This change is NOT tracked and cannot be committed.</strong>
+A submodule’s config lives in the superproject’s
+<code>.git/modules/design-toolkit/config</code>, which is outside every
+working tree. A fresh clone therefore has <strong>no</strong>
+<code>gitlab</code> remote and reproduces the original blindness. That
+is a property of git, not an oversight, and it is exactly why the
+finding is written down here rather than left to live in one machine’s
+config.</p>
+<h3 id="the-two-heads">10.2 The two heads</h3>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit ls-remote gitlab HEAD</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit ls-remote origin HEAD</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> . ls-tree HEAD design-toolkit</span></code></pre></div>
+<pre><code>520c436c2c2a33ed3976856463347519b3a710d9  HEAD          # gitlab mirror
+e7f3815ec35c0940515296ffb3481cd0fab4bfa6  HEAD          # github origin
+160000 commit e7f3815ec35c0940515296ffb3481cd0fab4bfa6  design-toolkit   # gitlink</code></pre>
+<p>The gitlink <strong>equals</strong> the GitHub origin head. It is the
+<em>mirror</em> that is behind, not the pin.</p>
+<p><strong>No fetch was required.</strong> All three commits were
+already in the submodule’s object store, so ancestry is computed exactly
+rather than reported as undetermined:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit cat-file <span class="at">-t</span> 520c436c2c2a33ed3976856463347519b3a710d9   <span class="co"># commit</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit cat-file <span class="at">-t</span> e7f3815ec35c0940515296ffb3481cd0fab4bfa6   <span class="co"># commit</span></span></code></pre></div>
+<h3 id="ancestor-not-divergent-and-the-true-lag-is-6">10.3 Ancestor, not
+divergent — and the TRUE lag is 6</h3>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit merge-base <span class="at">--is-ancestor</span> 520c436c e7f3815e <span class="kw">;</span> <span class="bu">echo</span> <span class="va">$?</span>   <span class="co"># 0</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit merge-base <span class="at">--is-ancestor</span> e7f3815e 520c436c <span class="kw">;</span> <span class="bu">echo</span> <span class="va">$?</span>   <span class="co"># 1</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit rev-list <span class="at">--left-right</span> <span class="at">--count</span> 520c436c...e7f3815e      <span class="co"># 0   6</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit merge-base 520c436c e7f3815e                           <span class="co"># 520c436c…</span></span></code></pre></div>
+<p>The mirror head is a <strong>strict ancestor</strong> of the GitHub
+head: <strong>0</strong> commits exist on GitLab that GitHub lacks,
+<strong>6</strong> exist on GitHub that GitLab lacks, and the merge base
+<em>is</em> the mirror head. This is <strong>lag, not
+divergence</strong>. No history reconciliation is needed; a push would
+fast-forward.</p>
+<p><strong>TRUE lag = 6 commits</strong>, produced by
+<code>git -C design-toolkit rev-list --left-right --count 520c436c...e7f3815e</code>
+→ <code>0    6</code>.</p>
+<p>The superseded “5” is not contradicted, it is <strong>superseded and
+explained</strong>:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit rev-list <span class="at">--left-right</span> <span class="at">--count</span> 520c436c...5467a888   <span class="co"># 0  5</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit rev-list <span class="at">--count</span> 5467a888..e7f3815e                 <span class="co"># 1</span></span></code></pre></div>
+<p>5 + 1 = 6. The mirror did not move; the origin did. <strong>Do not
+restate the 5.</strong></p>
+<p>The six commits the mirror lacks
+(<code>git -C design-toolkit log --oneline 520c436c..e7f3815e</code>):</p>
+<pre><code>e7f3815 fix(upstreams): give this repository its own publication recipes
+5467a88 fix(§11.4.6): make the mirror-lag figure re-derivable instead of rotting
+7d9240e fix(§11.4.6): record the GitLab mirror; absence needs its own evidence
+efd2c3f Add constitution pointer carriers (AGENTS/CLAUDE/QWEN/GEMINI)
+725e456 cascade: feat(002): anti-slop spec — credential-seam sanitisation + 2 scanner findings
+16e4e76 feat(proposed): OpenDesign Learning Kit — reusable, decoupled component pack</code></pre>
+<p>Note what the mirror is missing: <strong>the four constitution
+pointer carriers</strong> (<code>efd2c3f</code>) and both §11.4.6 fixes
+about this very mirror. The GitLab copy of <code>design-toolkit</code>
+predates that submodule’s governance onboarding entirely.</p>
+<h3 id="the-visibility-asymmetry-confirmed-four-ways">10.4 The
+visibility asymmetry — CONFIRMED, four ways</h3>
+<p>The asymmetry is <strong>real and settled</strong>, not a footnote.
+It was measured authenticated <em>and</em> anonymously on both
+providers, because an authenticated answer alone cannot distinguish
+“private” from “you happen to have access”.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">glab</span> api <span class="st">&quot;projects/vasic-digital%2Fdesign-toolkit&quot;</span> <span class="kw">|</span> <span class="ex">jq</span> <span class="at">-r</span> .visibility</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="ex">gh</span>   api repos/vasic-digital/design-toolkit <span class="at">--jq</span> <span class="st">&#39;.visibility, .private&#39;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-o</span> /dev/null <span class="at">-w</span> <span class="st">&#39;%{http_code}\n&#39;</span> https://gitlab.com/api/v4/projects/vasic-digital%2Fdesign-toolkit</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="at">-o</span> /dev/null <span class="at">-w</span> <span class="st">&#39;%{http_code}\n&#39;</span> https://api.github.com/repos/vasic-digital/design-toolkit</span></code></pre></div>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>probe</th>
+<th>GitLab mirror</th>
+<th>GitHub origin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>authenticated API</td>
+<td><code>visibility = private</code></td>
+<td><code>visibility = public</code>, <code>private = false</code></td>
+</tr>
+<tr>
+<td><strong>unauthenticated</strong> HTTP status</td>
+<td><strong>404</strong></td>
+<td><strong>200</strong></td>
+</tr>
+</tbody>
+</table>
+<p><code>glab auth status</code> reported
+<code>Logged in to gitlab.com as milos85vasic (GITLAB_TOKEN)</code>, so
+the authenticated GitLab answer is a real read of the project, not a
+guess from a failure.</p>
+<p><strong>One repository, two provider identities, two different
+visibilities.</strong> The GitHub origin
+<code>vasic-digital/design-toolkit</code> is PUBLIC; the GitLab mirror
+<code>vasic-digital/design-toolkit</code> is PRIVATE. The 2026-09-01
+report that the mirror “is reported to remain private” is now
+<strong>measured</strong> and correct.</p>
+<p>Further measured project facts
+(<code>glab api projects/vasic-digital%2Fdesign-toolkit</code>):</p>
+<pre><code>default_branch     = main
+last_activity_at   = 2026-08-08T09:05:45.568Z
+archived           = False
+empty_repo         = False</code></pre>
+<p>against GitHub’s <code>pushed_at = 2026-09-01T14:14:56Z</code>. The
+mirror has not received a push in <strong>more than three
+weeks</strong>; the origin was pushed the previous day.</p>
+<h3
+id="does-the-private-mirror-hold-anything-the-public-origin-does-not">10.5
+Does the PRIVATE mirror hold anything the PUBLIC origin does not?</h3>
+<p><strong>No — measured, and bounded.</strong> This matters for <a
+href="../content-boundary.md"><code>../content-boundary.md</code></a>: a
+private repository is normally a place content must not flow
+<em>out</em> of. Here the flow is the other way, and the private side is
+a strict subset.</p>
+<p>Both remotes advertise a <strong>byte-identical tag set</strong>, and
+only <code>refs/heads/main</code> differs:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit ls-remote gitlab</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit ls-remote origin</span></code></pre></div>
+<pre><code>                      gitlab                                    origin
+HEAD                  520c436c…                                 e7f3815e…
+refs/heads/main       520c436c…                                 e7f3815e…
+refs/tags/v0.2.0      22b6b2db…  ^{} 13a76eb2…                  identical
+refs/tags/v0.2.1      ba55f5f1…  ^{} 74a037f5…                  identical
+refs/tags/v0.2.2      c99c0f5d…  ^{} 1ffcd55d…                  identical</code></pre>
+<p>Every commit the mirror advertises — its <code>main</code> tip and
+all three peeled tags — is reachable from the <strong>public</strong>
+GitHub head:</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> 13a76eb2 74a037f5 1ffcd55d 520c436c<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">git</span> <span class="at">-C</span> design-toolkit merge-base <span class="at">--is-ancestor</span> <span class="va">$c</span> e7f3815e <span class="kw">&amp;&amp;</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$c</span><span class="st"> ANCESTOR-OF-PUBLIC-HEAD&quot;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<p>All four print <code>ANCESTOR-OF-PUBLIC-HEAD</code>. The mirror
+declares exactly one branch
+(<code>glab api projects/…/repository/branches</code> →
+<code>['main']</code>).</p>
+<p>The mirror’s <strong>non-git</strong> stores were enumerated too,
+because a git-ref comparison says nothing about them:</p>
+<table>
+<thead>
+<tr>
+<th>GitLab store</th>
+<th>count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>merge requests (<code>state=all</code>)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>issues (<code>state=all</code>)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>wiki pages</td>
+<td>0</td>
+</tr>
+<tr>
+<td>snippets</td>
+<td>0</td>
+</tr>
+<tr>
+<td>container-registry repositories</td>
+<td>0</td>
+</tr>
+<tr>
+<td>packages</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Honest boundary (§11.4.6).</strong>
+<code>git ls-remote</code> reports only <strong>advertised</strong>
+refs, and the API counts above are what that token is permitted to see.
+This is therefore a measurement of the mirror’s <em>advertised and
+enumerable</em> content, not a proof about hidden refs, CI variables, or
+deploy secrets, which were not probed and are not claimed either
+way.</p>
+<h3
+id="the-remote-sync-gate-cannot-see-the-mirror-and-adding-a-remote-did-not-change-that">10.6
+The remote-sync gate CANNOT see the mirror, and adding a remote did not
+change that</h3>
+<p><strong>Stated plainly: adding the <code>gitlab</code> remote does
+not make the mirror visible to
+<code>scripts/verify-submodule-remote-sync.sh</code>. Not partially —
+not at all.</strong></p>
+<p>The gate never enumerates a submodule’s named remotes. It reads one
+URL per submodule straight out of <code>.gitmodules</code> and probes
+that:</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># scripts/verify-submodule-remote-sync.sh</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="va">IFS</span><span class="op">=</span><span class="st">$&#39;</span><span class="dt">\t</span><span class="st">&#39;</span> <span class="bu">read</span> <span class="at">-r</span> <span class="va">path</span> <span class="va">url</span><span class="kw">;</span> <span class="cf">do</span>          <span class="co"># url comes from .gitmodules</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="ex">...</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">remote_out</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">run_bounded</span> git ls-remote <span class="st">&quot;</span><span class="va">$url</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$ref_label</span><span class="st">&quot;</span> <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span><span class="va">)</span><span class="st">&quot;</span><span class="kw">;</span> <span class="va">lsrc</span><span class="op">=</span><span class="va">$?</span></span></code></pre></div>
+<p><code>.gitmodules</code> has <strong>one</strong> <code>url</code>
+key per submodule, and for <code>design-toolkit</code> it is
+<code>git@github.com:vasic-digital/design-toolkit.git</code>. A named
+remote in the submodule’s own config is never consulted, so the mirror
+is invisible to the gate by construction. Run <em>after</em> the remote
+was added, the gate confirms it — the <code>design-toolkit</code> row
+names the GitHub URL and nothing else:</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-submodule-remote-sync.sh</span></code></pre></div>
+<pre><code>   design-toolkit               e7f3815ec35c e7f3815ec35c CURRENT
+✅ PASS  REMOTE-SYNC design-toolkit — gitlink e7f3815ec35c… == HEAD at git@github.com:vasic-digital/design-toolkit.git</code></pre>
+<p><strong>That <code>CURRENT</code> is true and is not a bluff — it is
+a complete answer to a narrower question than a reader assumes it
+answers.</strong> It means “the gitlink equals the GitHub tip”. A reader
+looking for “this submodule is in sync everywhere” will misread it,
+which is precisely how the §6 table above came to record
+<code>design-toolkit</code> as “mirrors in sync: yes”.</p>
+<p>The gate documents four honest boundaries in its own header.
+<strong>This class is not among them.</strong> Boundary 4 says it
+compares against <em>one REF per submodule</em>; the undocumented limit
+is that it compares against <em>one REMOTE per submodule</em>. The same
+single-URL blindness is shared by
+<code>scripts/verify-content-boundary.sh</code>, which derives
+visibility from <code>submodule.&lt;name&gt;.url</code> — one URL — and
+therefore records <code>design-toolkit</code> as <strong>public</strong>
+with no way to see that a second identity for the same repository is
+<strong>private</strong>.</p>
+<p><strong>What would be needed — NOT DONE, and deliberately
+so.</strong> Closing this is a change to a registered gate’s contract
+and is a separate operator decision:</p>
+<ol type="1">
+<li><strong>A declared source of mirror URLs.</strong>
+<code>.gitmodules</code> has no schema for a second URL, so the
+declaration cannot live there. <code>helix-deps.yaml</code> is the
+natural home (e.g. a <code>mirrors:</code> list per <code>deps[]</code>
+entry), or a dedicated declaration file. It must be <em>declared</em>,
+never discovered from local config — local config is untracked (§10.1),
+so a discovering gate would give different verdicts on different
+machines, which is the defect it is meant to end.</li>
+<li><strong>Per-mirror probing and per-mirror verdicts</strong> in the
+gate, with an unreachable or unauthenticated mirror mapping to state
+<strong>2</strong>, never folded into CURRENT.</li>
+<li><strong>New verdict arithmetic.</strong> Today’s summary line counts
+“of N owned gitlink(s) probed”; with mirrors the denominator becomes
+remotes, not gitlinks.</li>
+<li><strong>A matching paired-mutation proof</strong> under
+<code>--prove-failure</code> (R5), including a case where origin is
+current and the mirror is behind — the exact state measured here — which
+<strong>must</strong> return 1 and not 0.</li>
+</ol>
+<p>None of that was done. Changing it alters a check registered in
+<code>scripts/check-registry.tsv</code> and its proof contract.</p>
+<h3 id="also-measured-and-not-caused-by-this-work">10.7 Also measured,
+and not caused by this work</h3>
+<p><code>bash scripts/verify-submodule-remote-sync.sh</code> exits
+<strong>0</strong> today — <em>12 CURRENT, 0 DRIFT, 0 UNDETERMINED of 12
+owned gitlink(s) probed, 13 declared</em>. The figure recorded in the
+root carriers (<em>exit 1; 6 CURRENT / 6 DRIFT</em>, 2026-09-01) is a
+<strong>dated observation that no longer holds</strong>; the gitlinks
+were bumped by other work between the two runs. Nothing in §10 moved a
+gitlink. Both runs are correct measurements of different days — which is
+the reason that gate re-measures instead of caching.</p>
+<h3 id="standing-state-after-this-section">10.8 Standing state after
+this section</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>question</th>
+<th>answer</th>
+<th>how</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mirror head</td>
+<td><code>520c436c2c2a33ed3976856463347519b3a710d9</code></td>
+<td><code>git ls-remote gitlab HEAD</code></td>
+</tr>
+<tr>
+<td>origin head = gitlink</td>
+<td><code>e7f3815ec35c0940515296ffb3481cd0fab4bfa6</code></td>
+<td><code>git ls-remote origin HEAD</code>;
+<code>git ls-tree HEAD design-toolkit</code></td>
+</tr>
+<tr>
+<td>relationship</td>
+<td>mirror is a <strong>strict ancestor</strong> — lag, not
+divergence</td>
+<td><code>merge-base --is-ancestor</code> → 0 / 1</td>
+</tr>
+<tr>
+<td><strong>TRUE lag</strong></td>
+<td><strong>6 commits</strong></td>
+<td><code>rev-list --left-right --count 520c436c...e7f3815e</code> →
+<code>0   6</code></td>
+</tr>
+<tr>
+<td>mirror visibility</td>
+<td><strong>PRIVATE</strong></td>
+<td><code>glab api</code> + anonymous <code>404</code></td>
+</tr>
+<tr>
+<td>origin visibility</td>
+<td><strong>PUBLIC</strong></td>
+<td><code>gh api</code> + anonymous <code>200</code></td>
+</tr>
+<tr>
+<td>private-only content</td>
+<td><strong>none advertised or enumerable</strong></td>
+<td>every mirror ref is an ancestor of the public head; 0
+MRs/issues/wiki/snippets/packages</td>
+</tr>
+<tr>
+<td>gate sees the mirror?</td>
+<td><strong>NO</strong>, and adding a remote did not change it</td>
+<td>gate probes <code>.gitmodules</code> <code>url</code>, one per
+submodule</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Nothing was pushed. Nothing was fetched</strong> (unnecessary
+— every commit was already local). <strong>No gitlink moved, no merge
+was performed, nothing was committed.</strong> The only mutation is the
+untracked <code>gitlab</code> remote in
+<code>.git/modules/design-toolkit/config</code>, reversible with:</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit remote remove gitlab</span></code></pre></div>
+<p><strong>Open for the operator, and only the operator.</strong>
+Pushing <code>main</code> to the mirror
+(<code>git -C design-toolkit push gitlab main</code> — a fast-forward,
+per §10.3) would close the 6-commit lag. Whether the mirror should be
+public, private, or retired is likewise an operator decision in a
+provider UI. Neither was done.</p>
+<hr />
+<h2 id="constraints-observed">Constraints observed</h2>
+<p>No push inside any submodule. No <code>lumen index</code> /
+<code>purge</code>, no <code>codegraph index</code>.
+<code>Constitution.md</code>, <code>scripts/</code>,
+<code>.github/workflows/ci.yml</code>, <code>.ashlrcode/</code> and
+<code>design-system/</code> untouched. The <code>commit</code> wrapper
+was deliberately <strong>not</strong> run: it performs
+<code>git add .</code>, which would stage another agent’s in-flight
+<code>Constitution.md</code> edits. This document is left uncommitted
+for the operator.</p>
+</body>
+</html>

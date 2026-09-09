@@ -5,9 +5,21 @@ description: docs/** guides, research, incident notes and procedures -> html + p
 # scripts/verify-docs-chain.sh FAILS while this file and the tree disagree.
 # Format set: .html + .pdf per constitution §11.4.65.
 nodes:
+  docs_agent_guardrails_md:   { kind: markdown, path: docs/AGENT_GUARDRAILS.md }
+  docs_agent_guardrails_html: { kind: html,     path: docs/AGENT_GUARDRAILS.html }
+  docs_agent_guardrails_pdf:  { kind: pdf,      path: docs/AGENT_GUARDRAILS.pdf }
   docs_badges_md:   { kind: markdown, path: docs/BADGES.md }
   docs_badges_html: { kind: html,     path: docs/BADGES.html }
   docs_badges_pdf:  { kind: pdf,      path: docs/BADGES.pdf }
+  docs_operator_decisions_2026_09_07_md:   { kind: markdown, path: docs/OPERATOR-DECISIONS-2026-09-07.md }
+  docs_operator_decisions_2026_09_07_html: { kind: html,     path: docs/OPERATOR-DECISIONS-2026-09-07.html }
+  docs_operator_decisions_2026_09_07_pdf:  { kind: pdf,      path: docs/OPERATOR-DECISIONS-2026-09-07.pdf }
+  docs_operator_decisions_2026_09_08_md:   { kind: markdown, path: docs/OPERATOR-DECISIONS-2026-09-08.md }
+  docs_operator_decisions_2026_09_08_html: { kind: html,     path: docs/OPERATOR-DECISIONS-2026-09-08.html }
+  docs_operator_decisions_2026_09_08_pdf:  { kind: pdf,      path: docs/OPERATOR-DECISIONS-2026-09-08.pdf }
+  docs_operator_decisions_2026_09_09_md:   { kind: markdown, path: docs/OPERATOR-DECISIONS-2026-09-09.md }
+  docs_operator_decisions_2026_09_09_html: { kind: html,     path: docs/OPERATOR-DECISIONS-2026-09-09.html }
+  docs_operator_decisions_2026_09_09_pdf:  { kind: pdf,      path: docs/OPERATOR-DECISIONS-2026-09-09.pdf }
   docs_session_report_md:   { kind: markdown, path: docs/SESSION-REPORT.md }
   docs_session_report_html: { kind: html,     path: docs/SESSION-REPORT.html }
   docs_session_report_pdf:  { kind: pdf,      path: docs/SESSION-REPORT.pdf }
@@ -50,12 +62,18 @@ nodes:
   docs_constitution_adoption_propagation_vasic_digital_qwen_insert_block_md:   { kind: markdown, path: docs/constitution-adoption/propagation/vasic.digital/QWEN.insert-block.md }
   docs_constitution_adoption_propagation_vasic_digital_qwen_insert_block_html: { kind: html,     path: docs/constitution-adoption/propagation/vasic.digital/QWEN.insert-block.html }
   docs_constitution_adoption_propagation_vasic_digital_qwen_insert_block_pdf:  { kind: pdf,      path: docs/constitution-adoption/propagation/vasic.digital/QWEN.insert-block.pdf }
+  docs_content_boundary_class_a_judgement_md:   { kind: markdown, path: docs/content-boundary-class-a-judgement.md }
+  docs_content_boundary_class_a_judgement_html: { kind: html,     path: docs/content-boundary-class-a-judgement.html }
+  docs_content_boundary_class_a_judgement_pdf:  { kind: pdf,      path: docs/content-boundary-class-a-judgement.pdf }
   docs_content_boundary_incident_2026_09_01_md:   { kind: markdown, path: docs/content-boundary-incident-2026-09-01.md }
   docs_content_boundary_incident_2026_09_01_html: { kind: html,     path: docs/content-boundary-incident-2026-09-01.html }
   docs_content_boundary_incident_2026_09_01_pdf:  { kind: pdf,      path: docs/content-boundary-incident-2026-09-01.pdf }
   docs_content_boundary_md:   { kind: markdown, path: docs/content-boundary.md }
   docs_content_boundary_html: { kind: html,     path: docs/content-boundary.html }
   docs_content_boundary_pdf:  { kind: pdf,      path: docs/content-boundary.pdf }
+  docs_directive_register_md:   { kind: markdown, path: docs/directive-register.md }
+  docs_directive_register_html: { kind: html,     path: docs/directive-register.html }
+  docs_directive_register_pdf:  { kind: pdf,      path: docs/directive-register.pdf }
   docs_docs_chain_md:   { kind: markdown, path: docs/docs-chain.md }
   docs_docs_chain_html: { kind: html,     path: docs/docs-chain.html }
   docs_docs_chain_pdf:  { kind: pdf,      path: docs/docs-chain.pdf }
@@ -65,6 +83,9 @@ nodes:
   docs_findings_tracked_md:   { kind: markdown, path: docs/findings/TRACKED.md }
   docs_findings_tracked_html: { kind: html,     path: docs/findings/TRACKED.html }
   docs_findings_tracked_pdf:  { kind: pdf,      path: docs/findings/TRACKED.pdf }
+  docs_push_topology_audit_md:   { kind: markdown, path: docs/push-topology-audit.md }
+  docs_push_topology_audit_html: { kind: html,     path: docs/push-topology-audit.html }
+  docs_push_topology_audit_pdf:  { kind: pdf,      path: docs/push-topology-audit.pdf }
   docs_session_instruction_audit_2026_09_01_md:   { kind: markdown, path: docs/session-instruction-audit-2026-09-01.md }
   docs_session_instruction_audit_2026_09_01_html: { kind: html,     path: docs/session-instruction-audit-2026-09-01.html }
   docs_session_instruction_audit_2026_09_01_pdf:  { kind: pdf,      path: docs/session-instruction-audit-2026-09-01.pdf }
@@ -131,12 +152,23 @@ nodes:
   docs_site_health_production_site_health_md:   { kind: markdown, path: docs/site-health/PRODUCTION-SITE-HEALTH.md }
   docs_site_health_production_site_health_html: { kind: html,     path: docs/site-health/PRODUCTION-SITE-HEALTH.html }
   docs_site_health_production_site_health_pdf:  { kind: pdf,      path: docs/site-health/PRODUCTION-SITE-HEALTH.pdf }
+  docs_workable_items_procedure_md:   { kind: markdown, path: docs/workable-items/PROCEDURE.md }
+  docs_workable_items_procedure_html: { kind: html,     path: docs/workable-items/PROCEDURE.html }
+  docs_workable_items_procedure_pdf:  { kind: pdf,      path: docs/workable-items/PROCEDURE.pdf }
   docs_workshop_curriculum_recon_md:   { kind: markdown, path: docs/workshop-curriculum/RECON.md }
   docs_workshop_curriculum_recon_html: { kind: html,     path: docs/workshop-curriculum/RECON.html }
   docs_workshop_curriculum_recon_pdf:  { kind: pdf,      path: docs/workshop-curriculum/RECON.pdf }
 edges:
+  - { type: derive-from, from: docs_agent_guardrails_md,   to: docs_agent_guardrails_html, transform: md2html }
+  - { type: derive-from, from: docs_agent_guardrails_html, to: docs_agent_guardrails_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_badges_md,   to: docs_badges_html, transform: md2html }
   - { type: derive-from, from: docs_badges_html, to: docs_badges_pdf,  transform: html2pdf }
+  - { type: derive-from, from: docs_operator_decisions_2026_09_07_md,   to: docs_operator_decisions_2026_09_07_html, transform: md2html }
+  - { type: derive-from, from: docs_operator_decisions_2026_09_07_html, to: docs_operator_decisions_2026_09_07_pdf,  transform: html2pdf }
+  - { type: derive-from, from: docs_operator_decisions_2026_09_08_md,   to: docs_operator_decisions_2026_09_08_html, transform: md2html }
+  - { type: derive-from, from: docs_operator_decisions_2026_09_08_html, to: docs_operator_decisions_2026_09_08_pdf,  transform: html2pdf }
+  - { type: derive-from, from: docs_operator_decisions_2026_09_09_md,   to: docs_operator_decisions_2026_09_09_html, transform: md2html }
+  - { type: derive-from, from: docs_operator_decisions_2026_09_09_html, to: docs_operator_decisions_2026_09_09_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_session_report_md,   to: docs_session_report_html, transform: md2html }
   - { type: derive-from, from: docs_session_report_html, to: docs_session_report_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_check_registry_md,   to: docs_check_registry_html, transform: md2html }
@@ -165,16 +197,22 @@ edges:
   - { type: derive-from, from: docs_constitution_adoption_propagation_risks_html, to: docs_constitution_adoption_propagation_risks_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_constitution_adoption_propagation_vasic_digital_qwen_insert_block_md,   to: docs_constitution_adoption_propagation_vasic_digital_qwen_insert_block_html, transform: md2html }
   - { type: derive-from, from: docs_constitution_adoption_propagation_vasic_digital_qwen_insert_block_html, to: docs_constitution_adoption_propagation_vasic_digital_qwen_insert_block_pdf,  transform: html2pdf }
+  - { type: derive-from, from: docs_content_boundary_class_a_judgement_md,   to: docs_content_boundary_class_a_judgement_html, transform: md2html }
+  - { type: derive-from, from: docs_content_boundary_class_a_judgement_html, to: docs_content_boundary_class_a_judgement_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_content_boundary_incident_2026_09_01_md,   to: docs_content_boundary_incident_2026_09_01_html, transform: md2html }
   - { type: derive-from, from: docs_content_boundary_incident_2026_09_01_html, to: docs_content_boundary_incident_2026_09_01_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_content_boundary_md,   to: docs_content_boundary_html, transform: md2html }
   - { type: derive-from, from: docs_content_boundary_html, to: docs_content_boundary_pdf,  transform: html2pdf }
+  - { type: derive-from, from: docs_directive_register_md,   to: docs_directive_register_html, transform: md2html }
+  - { type: derive-from, from: docs_directive_register_html, to: docs_directive_register_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_docs_chain_md,   to: docs_docs_chain_html, transform: md2html }
   - { type: derive-from, from: docs_docs_chain_html, to: docs_docs_chain_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_environment_adaptability_audit_md,   to: docs_environment_adaptability_audit_html, transform: md2html }
   - { type: derive-from, from: docs_environment_adaptability_audit_html, to: docs_environment_adaptability_audit_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_findings_tracked_md,   to: docs_findings_tracked_html, transform: md2html }
   - { type: derive-from, from: docs_findings_tracked_html, to: docs_findings_tracked_pdf,  transform: html2pdf }
+  - { type: derive-from, from: docs_push_topology_audit_md,   to: docs_push_topology_audit_html, transform: md2html }
+  - { type: derive-from, from: docs_push_topology_audit_html, to: docs_push_topology_audit_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_session_instruction_audit_2026_09_01_md,   to: docs_session_instruction_audit_2026_09_01_html, transform: md2html }
   - { type: derive-from, from: docs_session_instruction_audit_2026_09_01_html, to: docs_session_instruction_audit_2026_09_01_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_setup_agents_wizard_action_required_md,   to: docs_setup_agents_wizard_action_required_html, transform: md2html }
@@ -219,6 +257,8 @@ edges:
   - { type: derive-from, from: docs_setup_agents_wizard_user_guide_html, to: docs_setup_agents_wizard_user_guide_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_site_health_production_site_health_md,   to: docs_site_health_production_site_health_html, transform: md2html }
   - { type: derive-from, from: docs_site_health_production_site_health_html, to: docs_site_health_production_site_health_pdf,  transform: html2pdf }
+  - { type: derive-from, from: docs_workable_items_procedure_md,   to: docs_workable_items_procedure_html, transform: md2html }
+  - { type: derive-from, from: docs_workable_items_procedure_html, to: docs_workable_items_procedure_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_workshop_curriculum_recon_md,   to: docs_workshop_curriculum_recon_html, transform: md2html }
   - { type: derive-from, from: docs_workshop_curriculum_recon_html, to: docs_workshop_curriculum_recon_pdf,  transform: html2pdf }
 transforms:

@@ -99,7 +99,7 @@
 #     and is served directly — no build.
 #
 # ---- Path resolution (the former /Volumes symlink bridge is GONE) ----------
-#   HISTORY: this workflow used to symlink /Volumes/T7/Projects/vasic ->
+#   HISTORY: this workflow used to symlink <macos-host>/Projects/vasic ->
 #   $GITHUB_WORKSPACE because several in-repo configs hardcoded that absolute
 #   path (the original author's macOS machine). That bridge has been removed.
 #

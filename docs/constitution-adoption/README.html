@@ -1,0 +1,1839 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">README</h1>
+</header>
+<h1 id="constitution-adoption-start-here">Constitution Adoption — start
+here</h1>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Revision</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Created</td>
+<td>2026-08-27</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>active</td>
+</tr>
+<tr>
+<td>Status summary</td>
+<td>Reader’s guide to how the <code>vasic</code> umbrella inherits the
+Helix Universal Constitution: where the constitution lives, which parts
+of the prescribed adoption mechanism are wired, how the inheritance
+pointer is recognised, how to run the two verifiers, and what still
+fails.</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>Documentation only. This file describes artifacts; it does not add,
+weaken, or override any rule.</td>
+</tr>
+<tr>
+<td>Verifiers described</td>
+<td><code>tests/test_constitution_inheritance.sh</code>,
+<code>scripts/verify-all-constitution-rules.sh</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>§11.4.65 disclosure.</strong> This document ships without its
+<code>.html</code> and <code>.pdf</code> siblings, the same known and
+disclosed deviation <a href="INVENTORY.md"><code>INVENTORY.md</code></a>
+records for itself as gap <strong>G8</strong>. It is stated rather than
+left to be discovered.</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of contents</h2>
+<ul>
+<li><a href="#0-the-60-second-version">0. The 60-second version</a></li>
+<li><a href="#1-what-the-constitution-is-and-where-it-lives">1. What the
+constitution is, and where it lives</a></li>
+<li><a href="#2-the-five-part-adoption-mechanism-with-status">2. The
+five-part adoption mechanism, with status</a></li>
+<li><a href="#3-how-inheritance-actually-works-here">3. How inheritance
+actually works here</a></li>
+<li><a href="#4-the-114157-five-carrier-lockstep">4. The §11.4.157
+five-carrier lockstep</a></li>
+<li><a href="#5-running-the-verifiers">5. Running the verifiers</a></li>
+<li><a href="#6-current-honest-status--37-pass--21-fail">6. Current
+honest status — 37 PASS / 21 FAIL</a></li>
+<li><a href="#7-open-conflicts--operator-decisions-not-bugs">7. Open
+conflicts — operator decisions, not bugs</a></li>
+<li><a href="#8-document-index">8. Document index</a></li>
+</ul>
+<hr />
+<h2 id="the-60-second-version">0. The 60-second version</h2>
+<p>This repository <strong>consumes</strong> a shared, project-agnostic
+constitution that lives in a git submodule. Nothing from that corpus is
+copied into this repository. Five files at the repository root —
+<code>CLAUDE.md</code>, <code>AGENTS.md</code>, <code>QWEN.md</code>,
+<code>GEMINI.md</code>, <code>Constitution.md</code> — each open with a
+<code>## INHERITED FROM</code> heading that points at the submodule and
+declares its rules to apply unconditionally.</p>
+<p>Two scripts check that this wiring is real:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> tests/test_constitution_inheritance.sh              <span class="co"># 8 invariants; currently 8 PASS</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> tests/test_constitution_inheritance.sh <span class="at">--prove-failure</span>   <span class="co"># proves the gate can fail</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-all-constitution-rules.sh <span class="at">--quiet</span>    <span class="co"># the full sweep; currently exits 1</span></span></code></pre></div>
+<p>The sweep <strong>does not pass</strong>, and this documentation does
+not claim it does. See <a
+href="#6-current-honest-status--37-pass--21-fail">§6</a> for the 21
+failures and why each one is what it is.</p>
+<hr />
+<h2 id="what-the-constitution-is-and-where-it-lives">1. What the
+constitution is, and where it lives</h2>
+<p>The Helix Universal Constitution is a single, project-agnostic rule
+corpus maintained in its own repository and consumed here as a git
+submodule.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+<th>Verified by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path in this repository</td>
+<td><strong><code>submodules/constitution/</code></strong></td>
+<td><code>git submodule status</code></td>
+</tr>
+<tr>
+<td>Upstream</td>
+<td><code>git@github.com:HelixDevelopment/HelixConstitution.git</code></td>
+<td><code>.gitmodules</code></td>
+</tr>
+<tr>
+<td>Pinned commit</td>
+<td><code>448981ae3498229c734dc60719f4b19f01d7a75f</code></td>
+<td><code>git submodule status</code></td>
+</tr>
+<tr>
+<td><code>git describe</code></td>
+<td><code>v1.0.0-51-g448981a</code> — 51 commits <strong>past</strong>
+the only semver tag, i.e. not tag-pinned</td>
+<td><code>git describe</code></td>
+</tr>
+<tr>
+<td>Corpus size</td>
+<td><code>Constitution.md</code> — 11,101 lines / 1,534,735 bytes</td>
+<td><code>wc -l</code>, <code>ls -l</code></td>
+</tr>
+<tr>
+<td>Anchor count</td>
+<td>261 distinct numbered anchors (mechanically counted in <a
+href="INVENTORY.md"><code>INVENTORY.md</code> §2</a>)</td>
+<td>INVENTORY.md</td>
+</tr>
+</tbody>
+</table>
+<p>The files that matter most, all resolved <strong>by
+reference</strong> and never copied:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>What</th>
+<th>Canonical path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The universal constitution</td>
+<td><code>submodules/constitution/Constitution.md</code></td>
+</tr>
+<tr>
+<td>Claude Code carrier</td>
+<td><code>submodules/constitution/CLAUDE.md</code> (654,214 bytes)</td>
+</tr>
+<tr>
+<td>Codex / Cursor / Aider / OpenCode / Crush / Kimi CLI carrier</td>
+<td><code>submodules/constitution/AGENTS.md</code></td>
+</tr>
+<tr>
+<td>Qwen Code carrier</td>
+<td><code>submodules/constitution/QWEN.md</code></td>
+</tr>
+<tr>
+<td>Gemini CLI carrier</td>
+<td><code>submodules/constitution/GEMINI.md</code></td>
+</tr>
+<tr>
+<td>Parent-walk resolver</td>
+<td><code>submodules/constitution/find_constitution.sh</code></td>
+</tr>
+<tr>
+<td>Consumer scaffolds</td>
+<td><code>submodules/constitution/templates/</code></td>
+</tr>
+<tr>
+<td>The gate fleet</td>
+<td><code>submodules/constitution/scripts/gates/</code></td>
+</tr>
+</tbody>
+</table>
+<p>If <code>submodules/constitution/</code> is empty it was never
+initialised. Initialise it with
+<code>git submodule update --init submodules/constitution</code> — and
+note that this is a mutating git command, so an agent needs operator
+authorization first.</p>
+<h3 id="the-path-note-that-trips-everyone-up">1.1 The path note that
+trips everyone up</h3>
+<p>The constitution’s <strong>own prose and templates</strong> use a
+top-level <code>constitution/</code> directory as their worked example —
+e.g. <code>constitution/CLAUDE.md</code>,
+<code>@constitution/CLAUDE.md</code>. <strong>This repository does not
+use that layout.</strong> It places the submodule at
+<code>submodules/constitution/</code>, the §11.4.28 dependency-layout
+form (owned submodules grouped under a root <code>submodules/</code>
+directory).</p>
+<p>Both layouts are first-class:
+<code>submodules/constitution/find_constitution.sh</code> searches for
+either, walking up from any nested depth. Line 42:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">rels</span><span class="op">=</span><span class="va">(</span> <span class="st">&quot;constitution&quot;</span> <span class="st">&quot;submodules/constitution&quot;</span> <span class="va">)</span></span></code></pre></div>
+<p><strong>Translation rule.</strong> Wherever a quoted universal clause
+says <code>constitution/&lt;file&gt;</code>, the real path in this
+checkout is <code>submodules/constitution/&lt;file&gt;</code>. That
+substitution is the only systematic edit made when the project
+<code>Constitution.md</code> was instantiated from
+<code>submodules/constitution/templates/Constitution.project.md.template</code>,
+and the project <code>Constitution.md</code> says so in its own path
+note.</p>
+<p>Locate the submodule from anywhere:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> submodules/constitution/find_constitution.sh</span></code></pre></div>
+<hr />
+<h2 id="the-five-part-adoption-mechanism-with-status">2. The five-part
+adoption mechanism, with status</h2>
+<p>The constitution <strong>prescribes</strong> how a project adopts it.
+Nothing here was invented. <a
+href="INVENTORY.md"><code>INVENTORY.md</code> §5</a> is the source that
+identified the mechanism as five parts and quoted each one; the
+quotations below are from <code>submodules/constitution/README.md</code>
+(“How to consume”) and
+<code>submodules/constitution/Constitution.md</code>.</p>
+<p>The status column reflects what is on disk <strong>today</strong>,
+which is later than the state INVENTORY.md recorded — INVENTORY.md was
+written before parts 2, 4 and most of 5 landed, and still says so.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Part</th>
+<th>Prescribed by</th>
+<th>Status today</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Add the submodule</td>
+<td><code>README.md</code> “How to consume” §1</td>
+<td><strong>DONE</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Wire the inheritance</td>
+<td><code>README.md</code> §2 + §11.4.35 invariant 6</td>
+<td><strong>DONE</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Instantiate the templates</td>
+<td><code>submodules/constitution/templates/</code></td>
+<td><strong>PARTIAL</strong> — only 3 of 5 templates exist upstream</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Verify with an automated test</td>
+<td><code>README.md</code> §4 + §1.1</td>
+<td><strong>DONE</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>The post-pull transaction</td>
+<td>§11.4.164 + §11.4.32</td>
+<td><strong>PARTIAL</strong> — sweep exists; cascade verifier and hook
+wiring do not</td>
+</tr>
+</tbody>
+</table>
+<h3 id="part-1-add-the-submodule-done">Part 1 — add the submodule →
+DONE</h3>
+<blockquote>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> submodule add git@github.com:HelixDevelopment/HelixConstitution.git constitution</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Pin to a tag for reproducibility (recommended)</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> constitution</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout v1.0.0          <span class="co"># whatever the current stable tag is</span></span></code></pre></div>
+</blockquote>
+<p>Done, at <code>submodules/constitution</code> rather than
+<code>constitution</code> — the layout <code>find_constitution.sh</code>
+explicitly supports (see <a
+href="#11-the-path-note-that-trips-everyone-up">§1.1</a>).</p>
+<p><strong>Honest boundary.</strong> The quoted step recommends pinning
+to a tag. This repository pins a <strong>commit</strong>
+(<code>448981ae…</code>), which <code>git describe</code> resolves to
+<code>v1.0.0-51-g448981a</code> — 51 commits past the tag. The pin is
+reproducible and the inheritance test asserts it (invariant I2), but it
+is not the tag-pin the snippet recommends.</p>
+<h3 id="part-2-wire-the-inheritance-done">Part 2 — wire the inheritance
+→ DONE</h3>
+<blockquote>
+<p>Add a clearly-marked pointer at the top of your project’s root
+<code>CLAUDE.md</code>:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">## INHERITED FROM constitution/CLAUDE.md</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>All rules in <span class="in">`constitution/CLAUDE.md`</span> (and the <span class="in">`constitution/Constitution.md`</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>it references) apply unconditionally. Project-specific rules below</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>extend them.</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>@constitution/CLAUDE.md</span></code></pre></div>
+</blockquote>
+<p>and its normative form, §11.4.35 invariant 6:</p>
+<blockquote>
+<ol start="6" type="1">
+<li><strong><code>@constitution/CLAUDE.md</code> import
+(Claude-Code-style) and the pointer-block fallback
+(Aider/Codex/Gemini-style) are equivalent.</strong> The consumer’s
+CLAUDE.md MUST start with one of:
+<ul>
+<li>The native import: <code>@constitution/CLAUDE.md</code></li>
+<li>The portable pointer-block per the
+<code>## INHERITED FROM constitution/CLAUDE.md</code> heading defined in
+<code>constitution/CLAUDE.md</code> “How inheritance works”.</li>
+</ul></li>
+</ol>
+</blockquote>
+<p>All five root carriers now open with the pointer block form. The
+mechanics — and why the pointer was chosen over the import — are <a
+href="#3-how-inheritance-actually-works-here">§3</a>.</p>
+<h3 id="part-3-instantiate-the-templates-partial">Part 3 — instantiate
+the templates → PARTIAL</h3>
+<p>The submodule ships consumer scaffolds at
+<code>submodules/constitution/templates/</code>. There are exactly
+three:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Template</th>
+<th>Used here for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Constitution.project.md.template</code></td>
+<td>the root <code>Constitution.md</code></td>
+</tr>
+<tr>
+<td><code>AGENTS.project.md.template</code></td>
+<td>the root <code>AGENTS.md</code>, and the nine-item “Critical base
+rules restated” block reproduced in all four agent carriers</td>
+</tr>
+<tr>
+<td><code>CLAUDE.project.md.template</code></td>
+<td>the root <code>CLAUDE.md</code></td>
+</tr>
+</tbody>
+</table>
+<p>There is <strong>no</strong> <code>QWEN.project.md.template</code>
+and <strong>no</strong> <code>GEMINI.project.md.template</code>, even
+though §11.4.157 makes all five carriers equal. That is a gap in the
+constitution submodule itself, recorded as <strong>G7b</strong> in <a
+href="INVENTORY.md"><code>INVENTORY.md</code> §8</a> and repeated in the
+project <code>Constitution.md</code>; it forces every consuming project
+to hand-derive two of its five carriers. Per §11.4.26 the fix belongs
+upstream in <code>HelixDevelopment/HelixConstitution</code>, not
+here.</p>
+<p>The nine-item restated block is worth calling out because it looks
+like a copy of the corpus and is not. It is authored <strong>by the
+constitution</strong> in <code>AGENTS.project.md.template</code> for
+exactly this purpose (“for agents that don’t follow <span
+class="citation" data-cites="imports">@imports</span>”), so reproducing
+it is the prescribed mechanism. Everything else in the carriers is a
+pointer.</p>
+<h3 id="part-4-verify-with-an-automated-test-done">Part 4 — verify with
+an automated test → DONE</h3>
+<blockquote>
+<p>Every consuming project should ship a test that verifies the
+constitution submodule is present, at the expected pinned revision, and
+that the project’s CLAUDE.md / AGENTS.md / QWEN.md / Constitution all
+reference the submodule.</p>
+</blockquote>
+<p>Implemented as <code>tests/test_constitution_inheritance.sh</code>, 8
+invariants, plus a <code>--prove-failure</code> paired-mutation mode
+that satisfies §1.1 (“a gate that cannot be made to fail is a sham”).
+See <a href="#5-running-the-verifiers">§5</a>.</p>
+<p><strong>Honest boundary.</strong> The quoted step names two reference
+implementations (the ATMOSphere and Herald projects’ tests). Neither
+repository is present in this checkout, so neither was available to
+copy. The gate’s own header says so and cites, per invariant, the clause
+or shipped artifact each assertion comes from.</p>
+<h3 id="part-5-the-post-pull-transaction-partial">Part 5 — the post-pull
+transaction → PARTIAL</h3>
+<p>§11.4.32:</p>
+<blockquote>
+<p><strong>Validation sweep contract.</strong> The sweep is implemented
+as <code>scripts/verify-all-constitution-rules.sh</code> (canonical
+name) which:</p>
+<ol type="1">
+<li>Re-runs the existing governance-cascade verifier
+(<code>scripts/ verify-governance-cascade.sh</code>) covering every
+§11.9 + CONST-* anchor across every owned submodule (recursive per
+CONST-047).</li>
+<li>For each rule whose enforcement gate is implementable
+programmatically […] the sweep runs the corresponding gate against the
+post-pull tree.</li>
+<li>Any failure produces a directed FAIL entry naming the rule […]</li>
+</ol>
+</blockquote>
+<p>§11.4.164:</p>
+<blockquote>
+<p>The canonical hook script lives at
+<code>constitution/scripts/post_update_hook.sh</code> and is inherited
+by reference (§11.4.28) — NEVER copied locally.</p>
+</blockquote>
+<p>What exists and what does not:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Piece</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>scripts/verify-all-constitution-rules.sh</code> (step 2 +
+3)</td>
+<td><strong>exists</strong> — discovers gates dynamically, reports
+directed FAIL entries</td>
+</tr>
+<tr>
+<td><code>scripts/verify-governance-cascade.sh</code> (step 1)</td>
+<td><strong>does not exist</strong>; the sweep prints an explicit SKIP
+naming it — recorded as open conflict <strong>OC-3</strong></td>
+</tr>
+<tr>
+<td><code>submodules/constitution/scripts/post_update_hook.sh</code></td>
+<td><strong>present in the submodule, invoked from nowhere in this
+repository</strong> — INVENTORY gap <strong>G12</strong>’s sibling
+condition</td>
+</tr>
+<tr>
+<td>§11.4.75 five-layer git-hook ritual</td>
+<td><strong>absent</strong> — <code>.git/hooks/</code> contains only
+git’s own <code>*.sample</code> files (0 non-sample hooks) — INVENTORY
+gap <strong>G5</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="how-inheritance-actually-works-here">3. How inheritance actually
+works here</h2>
+<h3 id="the-literal-the-gates-key-on">3.1 The literal the gates key
+on</h3>
+<p>The whole mechanism rests on one exact string: a line-anchored
+heading</p>
+<pre><code>## INHERITED FROM &lt;anything&gt;</code></pre>
+<p>at the top of a carrier, <strong>outside any fenced code
+block</strong>. A file carrying it is a §11.4.35 <em>pointer-inheritance
+consumer</em>: it inherits every universal anchor by reference and is
+not required to restate anchor text verbatim.</p>
+<p>The single canonical predicate lives at
+<code>submodules/constitution/scripts/gates/lib/pointer_carrier.sh</code>.
+It is eight lines wrapping four lines of <code>awk</code>:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is_pointer_carrier()</span> <span class="kw">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">awk</span> <span class="st">&#39;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">        BEGIN { fenced = 0; found = 0 }</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">        /^(```|~~~)/ { fenced = !fenced; next }</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">        !fenced &amp;&amp; /^## INHERITED FROM / { found = 1; exit }</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">        END { exit !found }</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="st">    &#39;</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code></pre></div>
+<p>Every <code>cm_covenant_114_*_propagation.sh</code> gate sources it,
+and so does this repository’s
+<code>tests/test_constitution_inheritance.sh</code> (invariant I4) — by
+reference, never by copy. The practical effect, from a real run of one
+gate against this repository:</p>
+<pre><code>⏭ POINTER-INHERITANCE-SKIP  AGENTS.md  — §11.4.35 pointer consumer (inherits 11.4.213 by pointer)
+⏭ POINTER-INHERITANCE-SKIP  CLAUDE.md  — §11.4.35 pointer consumer (inherits 11.4.213 by pointer)
+⏭ POINTER-INHERITANCE-SKIP  GEMINI.md  — §11.4.35 pointer consumer (inherits 11.4.213 by pointer)
+⏭ POINTER-INHERITANCE-SKIP  QWEN.md  — §11.4.35 pointer consumer (inherits 11.4.213 by pointer)</code></pre>
+<p>Without the heading those four lines would read
+<code>❌ MISSING … lacks anchor literal 11.4.213</code>, once for every
+one of the 17 propagation gates.</p>
+<h3 id="the-fenced-code-block-trap-the-predicate-guards-against">3.2 The
+fenced-code-block trap the predicate guards against</h3>
+<p>Two details in that <code>awk</code> are load-bearing, and the file’s
+own header explains why each exists.</p>
+<p><strong>Fence tracking.</strong> A bare
+<code>grep -qE '^## INHERITED FROM '</code> would false-match the “How
+inheritance works” <strong>example</strong> that the canonical
+constitution mirrors quote inside a fenced block. That fenced text is a
+<em>carrier quoting the heading</em> — a full-restating mirror that must
+still be checked for every anchor — not a real pointer. A predicate
+fooled by it would silently skip the canonical files themselves. The
+<code>awk</code> therefore toggles a <code>fenced</code> flag on every
+fence-opening line — backtick <strong>or</strong> tilde — and only
+recognises the heading outside a fence. The tilde form is tracked too: a
+predicate that toggled on backticks alone would be fooled by a
+<code>~~~</code>-fenced decoy, and there is a golden-bad fixture for
+exactly that.</p>
+<p>The trap is not hypothetical.
+<code>submodules/constitution/CLAUDE.md</code> line 91 is a literal,
+column-zero <code>## INHERITED FROM constitution/CLAUDE.md</code> —
+sitting inside the fence opened on line 90:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">## How inheritance works</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>A consuming project&#39;s root <span class="in">`CLAUDE.md`</span> MUST start with a clearly-marked</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>inheritance pointer:</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="in">```markdown</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## INHERITED FROM constitution/CLAUDE.md</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<p><code>grep</code> says pointer. The predicate says otherwise, and can
+be checked directly:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> . submodules/constitution/scripts/gates/lib/pointer_carrier.sh</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> is_pointer_carrier submodules/constitution/CLAUDE.md<span class="kw">;</span> <span class="bu">echo</span> <span class="va">$?</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ex">1</span></span></code></pre></div>
+<p>Had it said <code>0</code>, every propagation gate would have skipped
+the canonical <code>CLAUDE.md</code> — the one file in the fleet that
+must be checked against every single anchor.</p>
+<p><strong>The <code>^</code> line-start anchor.</strong> The live
+<code>constitution/CLAUDE.md</code> mentions
+<code>`## INHERITED FROM constitution/CLAUDE.md`</code> mid-line, inside
+backticks, in prose. A substring match would read that as a pointer
+heading and skip a full mirror. The <code>^</code> anchor is what stops
+it, and again there is a golden-bad fixture named after exactly that
+shape.</p>
+<p>The predicate ships its own runnable proof:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> submodules/constitution/scripts/gates/lib/pointer_carrier.sh <span class="at">--selftest</span></span></code></pre></div>
+<p>It exercises five fixtures — one golden-good, three golden-bad decoys
+(fenced carrier, mid-line backticked mention, <code>~~~</code>-fenced),
+one negative control — and prints
+<code>pointer_carrier.sh selftest: PASS (5/5)</code>. The inheritance
+test runs this <strong>first</strong>, as invariant I7, on the
+§11.4.201(7)(b) principle that a null result is not evidence until the
+instrument is proven to see.</p>
+<h3 id="why-the-pointer-block-and-not-the-native-import">3.3 Why the
+pointer block and not the native <code>@import</code></h3>
+<p>§11.4.35 invariant 6 declares the two forms
+<strong>equivalent</strong> — a consumer carrier must start with either
+the native <code>@constitution/CLAUDE.md</code> import
+<strong>or</strong> the portable <code>## INHERITED FROM</code> pointer
+block. This repository chose the pointer, and the reason is stated in
+the carriers rather than left implicit:</p>
+<p><code>submodules/constitution/CLAUDE.md</code> is <strong>654,214
+bytes</strong> and <code>submodules/constitution/Constitution.md</code>
+is <strong>1,534,735 bytes</strong>. A native <code>@import</code>
+auto-loads the imported file into the agent’s context at session start,
+so every session — including ones that never touch governance — would
+begin by loading roughly 654 KB before any work starts. The pointer form
+carries the same authority at no standing cost, and it is the form the
+constitution’s own propagation gates recognise via the predicate
+above.</p>
+<p>The trade-off is real and worth stating: an agent that does
+<strong>not</strong> resolve pointers sees only the nine restated base
+rules, not the corpus. That is why each carrier says, in as many words,
+that a rule absent from the carriers is not absent — read it from
+<code>submodules/constitution/Constitution.md</code> before acting.</p>
+<p>Read one anchor instead of the whole corpus:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&#39;^### §11.4.35 &#39;</span> submodules/constitution/Constitution.md</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;/^### §11.4.35 /{f=1} f{print} f&amp;&amp;/^### §11.4.36 /{exit}&#39;</span> <span class="dt">\</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    submodules/constitution/Constitution.md</span></code></pre></div>
+<hr />
+<h2 id="the-11.4.157-five-carrier-lockstep">4. The §11.4.157
+five-carrier lockstep</h2>
+<p>§11.4.157
+(<code>submodules/constitution/Constitution.md:9566</code>):</p>
+<blockquote>
+<p><code>GEMINI.md</code> is a FIRST-CLASS governance context carrier,
+EQUAL to <code>CLAUDE.md</code> / <code>AGENTS.md</code> /
+<code>QWEN.md</code> — NEVER an optional or best-effort sibling. Every
+governance addition or edit MUST land in ALL FIVE carriers in lockstep:
+the canonical <code>Constitution.md</code> PLUS each per-agent mirror
+<code>CLAUDE.md</code> + <code>AGENTS.md</code> + <code>QWEN.md</code> +
+<code>GEMINI.md</code> […] <strong>(B) No silent drift.</strong> A
+<code>GEMINI.md</code> whose highest rule number lags the other mirrors
+is a §11.4.157 violation […] <strong>(D) Consumer projects too.</strong>
+The lockstep binds the consuming project’s repository-root context files
+[…] a project that maintains the other three but not
+<code>GEMINI.md</code> is non-compliant.</p>
+</blockquote>
+<p>The clause exists because of a real incident recorded in its own
+forensic case study: <code>GEMINI.md</code> once drifted fourteen
+mandates behind the other three mirrors, so a Gemini-CLI agent was
+operating under an out-of-date constitution while the fleet believed the
+rule was universally in force.</p>
+<p><strong>How this repository satisfies it.</strong> All four root
+agent carriers are 197 lines each. Lines 1–23 differ by design — the
+title, which base file the carrier points at, and one sentence naming
+which agent reads it. <strong>Line 24 onward is byte-identical across
+all four</strong>, which is what makes drift structurally impossible
+rather than merely discouraged: a governance edit either lands in all
+four or the check below fails.</p>
+<p>Verify it in one line — it must print <code>1</code>:</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> f <span class="kw">in</span> CLAUDE.md AGENTS.md QWEN.md GEMINI.md<span class="kw">;</span> <span class="cf">do</span> <span class="fu">tail</span> <span class="at">-n</span> +24 <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sha256sum</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span><span class="st">&#39; &#39;</span> <span class="at">-f1</span><span class="kw">;</span> <span class="cf">done</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-u</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div>
+<p>Real output, this checkout:</p>
+<pre><code>1</code></pre>
+<p>The shared digest is
+<code>d26e2c31252d8837870b559c90d0650709f903b74ceaedc45944bb623fa4f836</code>.
+A <code>2</code> means a carrier drifted;
+<code>diff &lt;(tail -n +24 CLAUDE.md) &lt;(tail -n +24 GEMINI.md)</code>
+names what.</p>
+<p>The fifth carrier, <code>Constitution.md</code>, is
+<strong>not</strong> byte-identical to the other four and is not meant
+to be — it is the project constitution, not a per-agent mirror. What
+binds it is invariants I3/I4/I5 of the inheritance test: it must exist,
+open with the pointer heading, and name
+<code>submodules/constitution/</code>.</p>
+<blockquote>
+<p><strong>Not specified.</strong> §11.4.157 mandates lockstep but does
+not prescribe <em>how</em> a consumer proves it, and names no
+byte-identity check. The line-24 split and the one-liner above are this
+project’s chosen mechanism, not a universal requirement.</p>
+</blockquote>
+<hr />
+<h2 id="running-the-verifiers">5. Running the verifiers</h2>
+<p>Two commands. Both are read-only: neither writes to this repository,
+neither writes into any submodule working tree, and neither runs a
+mutating git command.</p>
+<h3 id="teststest_constitution_inheritance.sh-the-inheritance-gate">5.1
+<code>tests/test_constitution_inheritance.sh</code> — the inheritance
+gate</h3>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> tests/test_constitution_inheritance.sh</span></code></pre></div>
+<p>Real output, this checkout:</p>
+<pre><code>CM-CONSTITUTION-INHERITANCE: checking &lt;ext-volume-host&gt;/Projects/vasic
+✅ PASS  I7 PREDICATE-NOT-BLIND — pointer_carrier.sh --selftest: pointer_carrier.sh selftest: PASS (5/5)
+✅ PASS  I1 SUBMODULE-PRESENT — canonical root complete at submodules/constitution/ (§11.4.35)
+✅ PASS  I2 PINNED-REVISION — submodules/constitution HEAD == pinned gitlink 448981ae3498229c734dc60719f4b19f01d7a75f
+✅ PASS  I3 FIVE-CARRIERS — CLAUDE.md AGENTS.md QWEN.md GEMINI.md Constitution.md all present (§11.4.157)
+✅ PASS  I4 POINTER-INHERITANCE — all five carriers open with a real, non-fenced &#39;## INHERITED FROM &#39; heading (§11.4.35 inv. 6)
+✅ PASS  I5 SUBMODULE-REFERENCED — all five carriers name &#39;submodules/constitution/&#39;
+✅ PASS  I6 ANCHOR-PRESENT — &#39;### §11.4 End-user quality guarantee&#39; present in the inherited corpus
+✅ PASS  I8 PROPAGATION-GATES — 17/17 cm_covenant_114_*_propagation gates PASS on the root carriers
+----------------------------------------------------------------------
+CM-CONSTITUTION-INHERITANCE: 8 PASS, 0 SKIP, 0 FAIL  (root &lt;ext-volume-host&gt;/Projects/vasic)
+✅ CM-CONSTITUTION-INHERITANCE: PASS — constitution inheritance is wired</code></pre>
+<p>Exit code <code>0</code>.</p>
+<p>The eight invariants, in the order they run:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Invariant</th>
+<th>Asserts</th>
+<th>Clause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I7 PREDICATE-NOT-BLIND</td>
+<td>the pointer predicate’s own 5-fixture selftest passes,
+<strong>before</strong> anything relies on it</td>
+<td>§11.4.201(7)(b)</td>
+</tr>
+<tr>
+<td>I1 SUBMODULE-PRESENT</td>
+<td>the canonical root’s six files are present and non-empty</td>
+<td>§11.4.35</td>
+</tr>
+<tr>
+<td>I2 PINNED-REVISION</td>
+<td>the submodule’s HEAD equals the gitlink recorded in this
+repository’s index</td>
+<td>README “How to consume” §4</td>
+</tr>
+<tr>
+<td>I3 FIVE-CARRIERS</td>
+<td>all five root carriers exist and are non-empty</td>
+<td>§11.4.157</td>
+</tr>
+<tr>
+<td>I4 POINTER-INHERITANCE</td>
+<td>each carries a real, non-fenced pointer heading — or a native
+<code>@import</code></td>
+<td>§11.4.35 inv. 6</td>
+</tr>
+<tr>
+<td>I5 SUBMODULE-REFERENCED</td>
+<td>each names <code>submodules/constitution/</code></td>
+<td>README “How to consume” §4</td>
+</tr>
+<tr>
+<td>I6 ANCHOR-PRESENT</td>
+<td>the inherited corpus still carries
+<code>### §11.4 End-user quality guarantee</code></td>
+<td>the exact literal <code>meta_test_inheritance.sh</code> deletes</td>
+</tr>
+<tr>
+<td>I8 PROPAGATION-GATES</td>
+<td>all 17 <code>cm_covenant_114_*_propagation.sh</code> gates pass
+against the four root carriers in isolation</td>
+<td>§11.4.35 inv. 5</td>
+</tr>
+</tbody>
+</table>
+<p>Note what I8 does <strong>not</strong> cover. It stages copies of the
+four root carriers into a temp directory and points the gate family
+there, so its verdict is about <em>this project’s own carriers</em>.
+Carriers belonging to third-party repositories that happen to be
+reachable from the umbrella are out of I8’s scope by construction — they
+are still reported, and still fail, in the full sweep (<a
+href="#6-current-honest-status--37-pass--21-fail">§6</a>).</p>
+<p><code>--root &lt;dir&gt;</code> and <code>--quiet</code> are also
+accepted.</p>
+<h3 id="prove-failure-the-1.1-paired-mutation-proof">5.2
+<code>--prove-failure</code> — the §1.1 paired mutation proof</h3>
+<p>A gate that always passes proves nothing. §1.1: a gate that cannot be
+made to fail “is a sham and must be rewritten”. This mode builds a
+throwaway <strong>copy</strong> of the governance surface in a
+<code>mktemp -d</code> sandbox, confirms the unmutated copy passes (the
+golden-good control, without which “the mutations failed” would be
+meaningless), then applies four single-point mutations one at a time and
+asserts the gate fails on each.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> tests/test_constitution_inheritance.sh <span class="at">--prove-failure</span></span></code></pre></div>
+<p>Real output, this checkout:</p>
+<pre><code>CM-CONSTITUTION-INHERITANCE §1.1 PAIRED MUTATION PROOF
+  sandbox: /tmp/.private/milosvasic/tmp.YfGy7PxL8j   (every mutation below is applied to a COPY;
+  neither this repository nor any submodule working tree is written to)
+----------------------------------------------------------------------
+✅ CONTROL golden-good  — unmutated sandbox copy PASSes (rc=0)
+✅ M1 pointer-stripped  — root CLAUDE.md loses its &#39;## INHERITED FROM &#39; pointer heading -&gt; gate FAILed (rc=1), as it must  [I4 + I8]
+✅ M2 carrier-deleted   — root GEMINI.md deleted (five-carrier lockstep broken)          -&gt; gate FAILed (rc=1), as it must  [I3 + I4 + I5]
+✅ M3 anchor-deleted    — &#39;### §11.4 ...&#39; anchor deleted from the inherited corpus       -&gt; gate FAILed (rc=1), as it must  [I6]
+✅ M4 canonical-emptied — submodules/constitution/GEMINI.md emptied (canonical root gap) -&gt; gate FAILed (rc=1), as it must  [I1]
+----------------------------------------------------------------------
+✅ CM-CONSTITUTION-INHERITANCE §1.1 MUTATION PROOF: PASS — control passed and all 4 mutations were caught</code></pre>
+<p>Exit code <code>0</code>. The sandbox path changes on every run.</p>
+<p>M3 deserves a note: it is the same mutation
+<code>submodules/constitution/meta_test_inheritance.sh</code> applies —
+deleting the <code>### §11.4</code> anchor line — except that harness
+mutates the <strong>real</strong>
+<code>submodules/constitution/Constitution.md</code> in place and
+restores it afterwards. This mode applies it to a copy instead, so the
+gate is proven non-bluff against the identical regression without ever
+writing into a submodule working tree.</p>
+<h3 id="scriptsverify-all-constitution-rules.sh-the-11.4.32-sweep">5.3
+<code>scripts/verify-all-constitution-rules.sh</code> — the §11.4.32
+sweep</h3>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-all-constitution-rules.sh            <span class="co"># full per-gate output</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-all-constitution-rules.sh <span class="at">--quiet</span>    <span class="co"># one line per gate; FAIL detail always shown</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-all-constitution-rules.sh <span class="at">--list</span>     <span class="co"># show what would run, run nothing, exit 0</span></span></code></pre></div>
+<p>Gates are <strong>discovered, never hardcoded</strong> —
+<code>find … -name '*.sh'</code> under
+<code>submodules/constitution/scripts/gates/</code>. Pull a new gate
+from upstream and the sweep picks it up with no edit here. That is a
+direct response to §11.4.32’s anti-bluff clause: <em>“A sweep that exits
+PASS without actually running every implementable gate is a §11.4.32
+violation.”</em></p>
+<p>Each gate’s invocation is resolved <strong>from the gate
+itself</strong>, because the family overloads <code>--root</code> for
+two different things: a gate whose usage header says
+<code>--root &lt;consumer-root&gt;</code> or
+<code>&lt;project-root&gt;</code> gets the project root, one that says
+<code>--root &lt;constitution-root&gt;</code> gets
+<code>submodules/constitution</code>, and one with no
+<code>--root</code> in its header runs on its own defaults.
+<code>--selftest</code> and <code>selfcheck &lt;tmpdir&gt;</code> are
+used where the script documents them. Every resolved argv is printed, so
+a reader can check the resolution rather than trust it.</p>
+<p>This run takes minutes, not seconds. <code>GATE_TIMEOUT</code>
+(default 900s) caps each gate when coreutils <code>timeout</code> is on
+PATH; when it is not, the sweep says so rather than pretending a cap is
+in force.</p>
+<p>Real output —
+<code>bash scripts/verify-all-constitution-rules.sh --quiet</code>, this
+checkout, constitution HEAD
+<code>448981ae3498229c734dc60719f4b19f01d7a75f</code>:</p>
+<pre><code>======================================================================
+§11.4.32 VALIDATION SWEEP — verify-all-constitution-rules.sh
+======================================================================
+project root        : &lt;ext-volume-host&gt;/Projects/vasic
+constitution        : &lt;ext-volume-host&gt;/Projects/vasic/submodules/constitution
+constitution HEAD   : 448981ae3498229c734dc60719f4b19f01d7a75f
+gates discovered    : 57 (dynamically, under scripts/gates/**)
+per-gate timeout    : 900s
+
+---- STEP 1 — governance-cascade verifier (§11.4.32 step 1) ----------
+⏭ STEP1 SKIP — scripts/verify-governance-cascade.sh does not exist in this
+               repository. §11.4.32 step 1 requires the sweep to re-run it;
+               writing it is outstanding work. This is an explicit SKIP with
+               a reason (§11.4.3), NOT a pass, and it is recorded as open
+               conflict OC-3 in Constitution.md.
+
+---- STEP 2 — every gate under submodules/constitution/scripts/gates --
+PASS   rc=0       656ms  cm_build_on_source_proven_not_test_side_mutation_test.sh    (gate defaults)
+PASS   rc=0        11ms  cm_build_on_source_proven_not_test_side.sh                  (gate defaults)
+PASS   rc=0     56079ms  cm_cli_agent_plugins_wired_mutation_test.sh                 (gate defaults)
+PASS   rc=0     12255ms  cm_cli_agent_plugins_wired.sh                               --root &lt;ext-volume-host&gt;/Projects/vasic/submodules/constitution --quiet
+PASS   rc=0       526ms  cm_continuum_resume_engine_present_mutation_test.sh         (gate defaults)
+FAIL   rc=1      1228ms  cm_continuum_resume_engine_present.sh                       --root &lt;ext-volume-host&gt;/Projects/vasic/submodules/constitution --quiet
+FAIL   rc=1       519ms  cm_covenant_114_162_propagation.sh                          --root &lt;ext-volume-host&gt;/Projects/vasic --quiet
+
+                        […] 48 further gate lines elided for length […]
+
+FAIL   rc=1        70ms  cm_track_branch_label.sh                                     --quiet
+PASS   rc=0       308ms  cm_version_increment_on_deploy_mutation_test.sh             (gate defaults)
+PASS   rc=0        38ms  cm_version_increment_on_deploy.sh                           (gate defaults)
+PASS   rc=0       650ms  gate_ledger.sh                                              selfcheck &lt;scratch&gt;
+PASS   rc=0       106ms  lib/pointer_carrier.sh                                      --selftest
+
+---- STEP 2b — project-side gates -------------------------------------
+PASS   rc=0      2275ms  tests/test_constitution_inheritance.sh                      --root &lt;root&gt; --quiet
+
+======================================================================
+SUMMARY
+======================================================================
+gates run           : 58
+  PASS              : 37
+  FAIL   (rc=1)     : 21
+  ERROR  (rc!=0,1)  : 0
+§11.4.32 step 1     : skip
+
+FAILED:
+  ❌ cm_continuum_resume_engine_present.sh
+  ❌ cm_covenant_114_162_propagation.sh
+  ❌ cm_covenant_114_167_propagation.sh
+  ❌ cm_covenant_114_176_propagation.sh
+  ❌ cm_covenant_114_187_propagation.sh
+  ❌ cm_covenant_114_191_propagation.sh
+  ❌ cm_covenant_114_196_propagation.sh
+  ❌ cm_covenant_114_199_propagation.sh
+  ❌ cm_covenant_114_200_propagation.sh
+  ❌ cm_covenant_114_201_propagation.sh
+  ❌ cm_covenant_114_202_propagation.sh
+  ❌ cm_covenant_114_207_propagation.sh
+  ❌ cm_covenant_114_213_propagation.sh
+  ❌ cm_covenant_114_230_propagation.sh
+  ❌ cm_covenant_114_231_propagation.sh
+  ❌ cm_covenant_114_232_propagation.sh
+  ❌ cm_covenant_114_233_propagation.sh
+  ❌ cm_covenant_114_235_propagation.sh
+  ❌ cm_gate_ledger_ratchet.sh
+  ❌ cm_track_branch_label_mutation_test.sh
+  ❌ cm_track_branch_label.sh
+
+======================================================================
+DETAIL — full output of every non-PASS gate
+======================================================================
+===== cm_continuum_resume_engine_present.sh  [FAIL rc=1]
+      argv: --root &lt;ext-volume-host&gt;/Projects/vasic/submodules/constitution --quiet
+❌ FOUND    project-specific literal(s) inside the engine (decoupling violation):
+            submodules/continuum/test/e2e/e2e_test.go
+----------------------------------------------------------------------
+❌ CM-CONTINUUM-RESUME-ENGINE-PRESENT: FAIL — one or more checks failed (see above)
+
+                        […] the other 20 FAIL details elided for length […]
+
+======================================================================
+❌ SWEEP: FAIL — 21 FAIL + 0 ERROR out of 58 gate(s).
+
+Before treating any of these as a regression, read
+  Constitution.md -&gt; &#39;Known-excluded gate findings&#39;
+which names the five third-party / staged carriers the propagation
+gates report, and the four failures internal to the constitution
+submodule&#39;s own tree. Those are recorded, NOT suppressed: they still
+FAIL here and they still make this sweep exit non-zero.</code></pre>
+<p>Exit code <code>1</code>. The transcript above is the real run,
+trimmed only where marked; elapsed times vary per run. The full run
+wrote 398 lines. <code>--quiet</code> still prints every FAIL in full —
+the elisions above are this document’s, not the sweep’s.</p>
+<p>Two counts to note. <code>gates discovered : 57</code> is the scripts
+found under <code>scripts/gates/**</code>; <code>gates run : 58</code>
+adds this repository’s own
+<code>tests/test_constitution_inheritance.sh</code> in step 2b. And step
+1 is <code>skip</code>, not <code>pass</code> — the sweep never counts a
+missing verifier as a passing one.</p>
+<h3 id="the-exit-code-contract">5.4 The exit-code contract</h3>
+<p>Both scripts use the same three-value contract, and neither ever
+treats a non-zero as “close enough”.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Exit</th>
+<th><code>tests/test_constitution_inheritance.sh</code></th>
+<th><code>scripts/verify-all-constitution-rules.sh</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>every invariant holds — or, in <code>--prove-failure</code>, the
+control passed and all four mutations were caught</td>
+<td>every discovered gate exited <code>0</code></td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>at least one invariant FAILed — or a mutation did
+<strong>not</strong> make the gate fail, i.e. this gate is a bluff
+gate</td>
+<td>at least one gate FAILed (<code>rc=1</code>) or ERRORed</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>environment error: root not found, canonical predicate unreadable,
+gate family not found</td>
+<td>the sweep could not run at all: root missing, submodule not
+initialised, gates directory absent, zero gates discovered</td>
+</tr>
+</tbody>
+</table>
+<p>Two rules the sweep applies that are easy to get wrong:</p>
+<ul>
+<li><strong>An <code>rc=2</code> gate is an ERROR, never a
+pass.</strong> §11.4.201(7)(b): a blind instrument produces no evidence.
+ERRORs are counted separately and still make the sweep exit
+<code>1</code>.</li>
+<li><strong>A known-excluded finding still FAILs.</strong> Nothing is
+suppressed. Exclusion (see <a
+href="#6-current-honest-status--37-pass--21-fail">§6</a>) means “not
+ours to fix”; it is a note for the reader, never a verdict change.</li>
+</ul>
+<hr />
+<h2 id="current-honest-status-37-pass-21-fail">6. Current honest status
+— 37 PASS / 21 FAIL</h2>
+<p><strong>The sweep does not pass.</strong> It exits <code>1</code>. Do
+not read anything in this directory as a compliance claim.</p>
+<p>58 gates run: <strong>37 PASS, 21 FAIL, 0 ERROR</strong>, plus
+§11.4.32 step 1 recorded as an explicit <strong>SKIP with a
+reason</strong>. The 58 are the 57 scripts discovered under
+<code>submodules/constitution/scripts/gates/**</code> plus this
+repository’s own
+<code>tests/test_constitution_inheritance.sh</code>.</p>
+<p>The 21 failures decompose exactly, with nothing left over:</p>
+<h3 id="a.-17-propagation-gates-the-same-five-carriers-every-time">A. 17
+propagation gates → the same five carriers, every time</h3>
+<p>All 17 <code>cm_covenant_114_*_propagation.sh</code> gates (anchors
+162, 167, 176, 187, 191, 196, 199, 200, 201, 202, 207, 213, 230, 231,
+232, 233, 235) fail, and each reports the <strong>same five</strong>
+carriers as <code>MISSING</code>. 17 × 5 = 85 <code>MISSING</code> lines
+in the sweep transcript, and no sixth carrier appears anywhere. (Counted
+from the run above: 12 of the 17 are the legacy bare-literal gates,
+reporting <em>“lacks anchor literal 11.4.N”</em>; the other 5 are the
+fence-aware §11.4.227(B) block-integrity gates, reporting <em>“zero
+11.4.N block-starts”</em>. 12 × 5 + 5 × 5 = 85.)</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Carrier</th>
+<th>Owning repository</th>
+<th>Why it is what it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>milosvasic.ru/Upstreamable/AGENTS.md</code></td>
+<td><code>red-elf/Upstreamable</code> — third-party, and a gitlink
+<strong>of</strong> the <code>milosvasic.ru</code> submodule (a
+fourth-level repository)</td>
+<td>project <code>Constitution.md</code> §103: not owned, not pushed,
+never edited from here</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru/Upstreamable/CLAUDE.md</code></td>
+<td>same</td>
+<td>§103</td>
+</tr>
+<tr>
+<td><code>submodules/superspec/examples/static-landing-page/CLAUDE.md</code></td>
+<td><code>WangX0111/superspec</code> — third-party</td>
+<td>§103 — a vendored example fixture of someone else’s project</td>
+</tr>
+<tr>
+<td><code>.specify/extensions/superspec/examples/static-landing-page/CLAUDE.md</code></td>
+<td>vendored copy of the same superspec fixture</td>
+<td>§103</td>
+</tr>
+<tr>
+<td><code>vasic.digital/QWEN.md</code></td>
+<td><code>vasic-digital/vasic-digital.github.io</code> —
+<strong>owned</strong></td>
+<td>§102 — the fix is staged, not applied</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Four of the five are third-party.</strong> Writing a
+governance carrier into a repository this project neither owns nor
+pushes to would be editing someone else’s tree to make a gate go
+green.</p>
+<p><strong>One is ours.</strong> <code>vasic.digital/QWEN.md</code>
+exists (55 lines) and references no anchor and no constitution. Its fix
+is prepared at <a
+href="propagation/vasic.digital/QWEN.insert-block.md"><code>propagation/vasic.digital/QWEN.insert-block.md</code></a>
+and awaits operator application, because §3 of the universal
+constitution requires the submodule commit and push to land
+<strong>before</strong> the parent captures the pointer — so the
+umbrella never writes a carrier into an owned submodule’s working tree.
+The procedure is <a
+href="propagation/APPLY.md"><code>propagation/APPLY.md</code></a>; read
+<a href="propagation/RISKS.md"><code>propagation/RISKS.md</code></a>
+first.</p>
+<p>That is also why every prepared carrier in <code>propagation/</code>
+carries a <code>.staged</code> suffix. The gates discover carriers by
+<strong>exact filename</strong>, so a draft named <code>CLAUDE.md</code>
+sitting inside this repository would be counted as a real carrier and
+would itself fail the gate.</p>
+<h3
+id="b.-4-gates-failing-inside-the-constitution-submodules-own-tree">B. 4
+gates failing inside the constitution submodule’s own tree</h3>
+<p>These are failures <strong>of the constitution repository</strong>,
+not of this repository’s adoption. They cannot be fixed from here
+without writing into a submodule working tree, and per §11.4.26 they
+belong upstream in <code>HelixDevelopment/HelixConstitution</code>.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Finding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cm_continuum_resume_engine_present.sh</code></td>
+<td>a project-specific literal inside a reusable engine:
+<code>submodules/continuum/test/e2e/e2e_test.go</code> — a §11.4.28(B)
+decoupling violation</td>
+</tr>
+<tr>
+<td><code>cm_gate_ledger_ratchet.sh</code></td>
+<td>ratchet violated — <code>unimplemented=432</code> exceeds the
+checked-in <code>baseline=420</code></td>
+</tr>
+<tr>
+<td><code>cm_track_branch_label.sh</code></td>
+<td>ALIAS-VALIDATION: the labeler yielded <code>xhigh</code>, not the
+expected synthetic alias</td>
+</tr>
+<tr>
+<td><code>cm_track_branch_label_mutation_test.sh</code></td>
+<td>its paired §1.1 mutation test, failing because the gate above
+fails</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-excluded-means-precisely">What “excluded” means,
+precisely</h3>
+<p>It means <strong>“not this repository’s to fix”</strong>. It does not
+mean suppressed, waived, or passing. All 21 still FAIL, all 21 still
+make the sweep exit <code>1</code>, and the list exists so a reader can
+tell a structural finding from a new regression — not so anyone can
+round <code>21 FAIL</code> down to zero.</p>
+<h3 id="the-wider-gap-picture">The wider gap picture</h3>
+<p>The sweep is one view. The full audit is <a
+href="INVENTORY.md"><code>INVENTORY.md</code></a>, whose G-identifiers
+the project <code>Constitution.md</code> tracks:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gap</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G1 no consumer governance layer</td>
+<td><strong>CLOSED</strong> — four root agent carriers</td>
+</tr>
+<tr>
+<td>G2 no inheritance pointer</td>
+<td><strong>CLOSED</strong> — all five carriers open with
+<code>## INHERITED FROM</code></td>
+</tr>
+<tr>
+<td>G3 no post-pull validation sweep</td>
+<td><strong>PARTIAL</strong> — sweep exists, cascade verifier does not
+(OC-3)</td>
+</tr>
+<tr>
+<td>G4 active CI contradicts §11.4.156</td>
+<td><del><strong>OPEN</strong> — OC-1 / OC-2, operator decision</del> →
+<strong>PARTIAL</strong> (2026-08-27) — decided <em>“Comply — disable
+both, enforce locally.”</em>, then <strong>partially reversed the same
+day</strong>. <code>ci.yml</code> → <code>ci.yml.disabled</code>, gates
+local (umbrella compliant at file level);
+<code>milosvasic.ru/.github/workflows/pages.yml</code> stays
+<strong>ACTIVE</strong> — sole publish path for a production site, a
+<strong>documented deviation, not an override</strong>;
+<code>vasic.digital</code> non-compliant at the
+<strong>provider</strong> level with no file-level remedy. <strong>Not
+CLOSED and will not close.</strong> <a
+href="DECISION-11-4-156-COMPLY.md">Decision record</a> §0</td>
+</tr>
+<tr>
+<td>G5 no §11.4.75 mechanical enforcement layers</td>
+<td><strong>OPEN</strong> — <code>.git/hooks/</code> holds only
+<code>*.sample</code> files</td>
+</tr>
+<tr>
+<td>G6 no <code>helix-deps.yaml</code></td>
+<td><strong>CLOSED</strong> — <code>helix-deps.yaml</code> at the
+root</td>
+</tr>
+<tr>
+<td>G7 no propagation to owned submodules</td>
+<td><strong>OPEN</strong> — staged under <code>propagation/</code>,
+unapplied</td>
+</tr>
+<tr>
+<td>G7b no <code>QWEN</code>/<code>GEMINI</code> project templates</td>
+<td><strong>OPEN, upstream</strong> — a gap in the constitution
+submodule</td>
+</tr>
+<tr>
+<td>G8 §11.4.65 markdown export mandate</td>
+<td><strong>OPEN</strong> — no <code>.html</code> / <code>.pdf</code>
+siblings anywhere, this file included</td>
+</tr>
+<tr>
+<td>G9 §11.4.212 README-orphan</td>
+<td><strong>OPEN</strong> — root <code>README.md</code> links to nothing
+but the CI badge</td>
+</tr>
+<tr>
+<td>G10 §4 tag mirroring incomplete</td>
+<td><strong>OPEN</strong> — <code>v1.8.0</code> is on
+<code>milosvasic.ru</code> and <code>vasic.digital</code> only</td>
+</tr>
+<tr>
+<td>G11 <code>design-toolkit</code> checked out twice</td>
+<td><strong>OPEN</strong> — declared in <code>helix-deps.yaml</code>;
+the shas match today</td>
+</tr>
+<tr>
+<td>G12 §11.4.109 anti-forgetting layer absent</td>
+<td><strong>OPEN</strong> — the canonical guard script is in the
+submodule and wired nowhere</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Reading note.</strong> The “Known open gaps” section inside
+the four root carriers was written before <code>helix-deps.yaml</code>
+and the two verifiers landed, and still lists <strong>G3</strong> and
+<strong>G6</strong> as open. The table above and the one in the project
+<code>Constitution.md</code> are the current state. Correcting the
+carriers is a five-carrier-lockstep edit and is therefore out of scope
+for a documentation change.</p>
+</blockquote>
+<hr />
+<h2 id="open-conflicts-operator-decisions-not-bugs">7. Open conflicts —
+operator decisions, not bugs</h2>
+<p>The project <code>Constitution.md</code> records three <strong>open
+conflicts</strong>: places where this repository’s live state
+contradicts a universal clause and <strong>nobody has decided what to
+do</strong>. They are deliberately not filed as overrides — an override
+is an authorization, and no one has given one.</p>
+<blockquote>
+<p><strong>Update 2026-08-27 — OC-1 is decided and closed at file level;
+OC-2 is decided the other way and stays OPEN.</strong> The operator’s
+first decision was <em>“Comply — disable both, enforce locally.”</em>
+<del>Both workflows are renamed to a non-active <code>.disabled</code>
+name per §11.4.156(B), and the gates move to a local pre-push
+hook.</del> <strong>That was partially reversed the same day.</strong>
+<code>pages.yml</code> turned out to be the <em>sole</em> publish path
+for a live production website (<code>build_type: "workflow"</code>; no
+<code>gh-pages</code> branch, no <code>docs/</code> folder, Jekyll
+source at the root, and <code>_tools/deploy-langs.sh</code> merely
+pushes source and waits for that workflow). The operator’s overriding
+directive, verbatim: <strong><em>“Make sure all pages websites work
+flawlessly! No website can be broken! All websites we have here are
+running deployed in production!”</em></strong></p>
+<p><strong>Net state:</strong> <code>.github/workflows/ci.yml</code> →
+<code>ci.yml.disabled</code>, gates in a local pre-push hook — OC-1
+resolved by compliance at file level.
+<code>milosvasic.ru/.github/workflows/pages.yml</code> is <strong>ACTIVE
+and stays active</strong> — OC-2 remains <strong>open as a permanent
+documented deviation</strong>. A third surface, <strong>OC-2b</strong>,
+is added below: <code>vasic.digital</code> triggers Pages Actions runs
+from its provider settings with no workflow file to disable.</p>
+<p>Crucially, <strong>the <code>Override §11.4.156</code> listed below
+as resolution 2 turned out not to exist</strong>: §11.4.156’s closing
+formula refuses the exemption vocabulary by name, and the inheritance
+contract (<em>“extend them — they do NOT weaken or override any
+universal clause”</em>) makes a project-local override structurally
+impossible. <strong>That still holds, and OC-2/OC-2b are not overrides
+either</strong> — a deviation admits the clause applies and is knowingly
+unmet; an override would claim it does not apply. No constitution
+amendment was made. The OC-1/OC-2 text below is kept as the original
+record. Full decision, honest boundary and loss analysis: <a
+href="DECISION-11-4-156-COMPLY.md"><code>DECISION-11-4-156-COMPLY.md</code></a>
+§0. <strong>OC-2, OC-2b and OC-3 all remain open</strong> — OC-3
+genuinely undecided, OC-2 and OC-2b decided-and-accepted rather than
+resolved.</p>
+</blockquote>
+<blockquote>
+<p>The template <code>Constitution.project.md.template</code> offers
+<code>## Overrides</code> and nothing else; an “Open conflicts” section
+is <strong>not specified</strong> by it. It is an addition, marked as
+such in the project <code>Constitution.md</code>, because §11.4.6
+forbids reporting a state that was not verified and §11.4.156 names
+silence as the one option it does not allow.</p>
+</blockquote>
+<h3
+id="oc-1-active-ci-at-the-repository-root-vs-11.4.156a-decided-2026-08-27">OC-1
+— active CI at the repository root vs §11.4.156(A) — ✅ DECIDED
+2026-08-27</h3>
+<p><em>Original record retained below. Current state: comply —
+<code>ci.yml</code> renamed to a non-active <code>.disabled</code> name,
+gates relocated to a local pre-push hook. Resolution 2
+(<code>Override §11.4.156</code>) is void; see the update banner in §7
+and <a
+href="DECISION-11-4-156-COMPLY.md"><code>DECISION-11-4-156-COMPLY.md</code></a>.</em></p>
+<p>§11.4.156(A):</p>
+<blockquote>
+<p><strong>(A) Zero active CI at the repository root.</strong> No active
+<code>.github/workflows/*.yml|*.yaml</code>, no
+<code>.gitlab-ci.yml</code>, no <code>.gitlab/**</code> pipeline
+include, nor any equivalent provider config may exist at the ROOT of any
+governed repository/submodule — the only location a provider
+executes.</p>
+</blockquote>
+<p>and its closing formula:</p>
+<blockquote>
+<p>Non-compliance is a release blocker regardless of context. No escape
+hatch — no <code>--allow-ci</code>, <code>--enable-workflow</code>,
+<code>--keep-pipeline</code>, <code>--remote-ci-OK</code>,
+<code>--ci-exempt</code> flag.</p>
+</blockquote>
+<p><strong>Live state.</strong> <code>.github/workflows/ci.yml</code>
+exists at this repository’s root (9,526 bytes) with live
+<code>on: push</code> / <code>on: pull_request</code> triggers, and
+<code>README.md</code> line 3 advertises it with a status badge.</p>
+<p><strong>Why it is a conflict of intent, not neglect.</strong>
+§11.4.156 moves enforcement to the local §11.4.75 five-layer git-hook
+ritual. This repository has <strong>none</strong> of those five layers
+(gap G5). Disabling the workflow today would delete the only mechanical
+check that exists here and put nothing in its place.</p>
+<p>Three resolutions exist; an agent may pick none of them
+unilaterally:</p>
+<ol type="1">
+<li>Disable per §11.4.156(B) (rename to
+<code>ci.yml.disabled-local-only</code>) <strong>and</strong> stand up
+the §11.4.75 local layers first, so enforcement moves rather than
+disappears. — ✅ <strong>CHOSEN 2026-08-27.</strong></li>
+<li>Record an explicit <code>Override §11.4.156</code> in the project
+<code>Constitution.md</code>, with the operator’s justification. — ❌
+<strong>This resolution does not exist.</strong> §11.4.156 refuses the
+exemption vocabulary by name, and a consumer carrier may only extend
+inherited rules, never weaken them.</li>
+<li>Keep both and accept the release-blocker state knowingly. — ❌
+Rejected; §11.4.156 makes non-compliance <em>“a release blocker
+regardless of context”</em>.</li>
+</ol>
+<p><del>Nothing in this repository disables, edits, or re-enables that
+workflow.</del> <strong>Superseded:</strong> the workflow is being
+renamed under the decision record.</p>
+<h3
+id="oc-2-the-same-clause-inside-an-owned-submodule-open-permanent-documented-deviation-2026-08-27">OC-2
+— the same clause, inside an owned submodule — ⚠ OPEN: PERMANENT
+DOCUMENTED DEVIATION (2026-08-27)</h3>
+<p><em><del>Decided with OC-1: <code>pages.yml</code> renamed to a
+non-active <code>.disabled</code> name.</del></em> <strong>Reversed the
+same day, before anything was committed or pushed.</strong> The
+asymmetry the original note flagged turned out to be the decisive fact,
+and sharper than recorded: <code>ci.yml</code> is a
+<strong>test</strong> workflow whose enforcement relocates to the local
+hook, while <code>pages.yml</code> is a <strong>deploy</strong> workflow
+— and <code>gh api repos/milos85vasic/milosvasic.ru/pages</code> returns
+<code>build_type: "workflow"</code>, so it is the <strong>sole</strong>
+publish path for <code>https://milosvasic.ru/</code>. There is no
+<code>gh-pages</code> branch, no <code>docs/</code> folder, and the
+repository root is Jekyll SOURCE, so it cannot be served raw from a
+branch. <code>_tools/deploy-langs.sh</code> is not a substitute — it
+pushes source, then <code>sleep</code>s waiting for that workflow to
+run. Disabling it does not relocate a check or downgrade a deploy to
+manual; it <strong>ends</strong> publishing for a live production
+site.</p>
+<p><strong>Operator’s overriding directive, verbatim:</strong>
+<strong><em>“Make sure all pages websites work flawlessly! No website
+can be broken! All websites we have here are running deployed in
+production!”</em></strong></p>
+<p><strong><code>pages.yml</code> is ACTIVE and stays active.</strong>
+<code>milosvasic.ru</code> is therefore a <strong>known, documented
+deviation</strong> from §11.4.156 — <strong>not</strong> an
+<code>Override §11.4.156</code>, which §11.4.156 forbids by name and
+which the inheritance contract makes structurally impossible. Never
+record it as one. The <a
+href="REMOTE-ASYMMETRY.md"><code>REMOTE-ASYMMETRY.md</code></a> §9
+recommendation to extend an override to this file remains void — there
+is no override to extend, and this is not one. Full record: <a
+href="DECISION-11-4-156-COMPLY.md"><code>DECISION-11-4-156-COMPLY.md</code></a>
+§0.</p>
+<p><code>milosvasic.ru/.github/workflows/pages.yml</code> is an active
+root workflow in an <strong>owned</strong> submodule, so §11.4.156(A)
+and (C) bind it exactly as they bind OC-1. It is listed separately
+because acting on it means committing inside a submodule working tree,
+which the project <code>Constitution.md</code> §102 reserves to the
+operator — and because, unlike OC-1, the operator has decided it will
+not be acted on.</p>
+<h3
+id="oc-2b-vasic.digital-triggers-ci-with-no-workflow-file-open-no-file-level-remedy">OC-2b
+— <code>vasic.digital</code> triggers CI with no workflow file — ⚠ OPEN:
+NO FILE-LEVEL REMEDY</h3>
+<p><code>vasic.digital</code>
+(<code>vasic-digital/vasic-digital.github.io</code>) has <strong>no
+<code>.github/</code> directory at all</strong>, yet it is
+§11.4.156-non-compliant: its GitHub Pages source setting alone starts an
+Actions run on every push. Verified 2026-08-27 —
+<code>gh api .../pages</code> returns <code>build_type: "legacy"</code>,
+and the run list shows <code>pages build and deployment</code>
+(<code>dynamic/pages/pages-build-deployment</code>) on 2026-08-27 and
+2026-08-10. §11.4.156(A) addresses files at a repository root; there is
+no file here to disable, so <strong>no change to that tree can make it
+compliant</strong>. Only the operator, in the Pages UI, could stop the
+runs, and that would unpublish a production site — which the directive
+quoted in OC-2 forbids. Recorded, not resolved; and, like OC-2,
+<strong>not an override</strong>.</p>
+<p>Those <code>build_type</code> values are dated observations.
+Re-measure them, and the rest of the provider surface, with
+<code>bash scripts/verify-provider-ci.sh</code> (0 = none found, 1 =
+confirmed, 2 = could not determine — <strong>not</strong> a pass); the
+setup wizard runs it as Step 9 and surfaces a confirmed finding as a
+manual step.</p>
+<p><code>submodules/superspec/.github/workflows/ci.yml</code> is
+deliberately <strong>not</strong> listed: §11.4.156(C) scopes the clause
+to <em>“repositories we author + push”</em>, and superspec is
+third-party.</p>
+<h3 id="oc-3-11.4.32-step-1-has-no-cascade-verifier-to-re-run">OC-3 —
+§11.4.32 step 1 has no cascade verifier to re-run</h3>
+<p>§11.4.32 step 1 requires the sweep to re-run
+<code>scripts/verify-governance-cascade.sh</code>. That file does not
+exist in this repository.
+<code>scripts/verify-all-constitution-rules.sh</code> therefore reports
+step 1 as an explicit <strong>SKIP naming the missing file</strong>, and
+never counts it as a pass. Writing that verifier is remaining work, not
+a resolved item.</p>
+<hr />
+<h2 id="document-index">8. Document index</h2>
+<p>Everything under <code>docs/constitution-adoption/</code>. Line
+counts as of 2026-08-27.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Lines</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="README.md"><code>README.md</code></a></td>
+<td>—</td>
+<td>This file. Entry point: mechanism, verifiers, status.</td>
+</tr>
+<tr>
+<td><a href="INVENTORY.md"><code>INVENTORY.md</code></a></td>
+<td>1104</td>
+<td>The original read-only gap analysis. Identifies the five-part
+adoption mechanism and quotes it, surveys agent files across the
+umbrella and every submodule, and ranks gaps G1–G12 (+G7b). Written
+<strong>before</strong> the carriers, manifest and verifiers landed; its
+per-gap statuses are historical, its quotations and measurements are
+not.</td>
+</tr>
+<tr>
+<td><a href="INDEX-COVERAGE.md"><code>INDEX-COVERAGE.md</code></a></td>
+<td>489</td>
+<td>Verified CodeGraph + Lumen index-coverage report for the checkout.
+Adjacent evidence, not part of the adoption chain: it is what proves
+which trees the code-intelligence indexers actually reached.</td>
+</tr>
+<tr>
+<td><a
+href="propagation/APPLY.md"><code>propagation/APPLY.md</code></a></td>
+<td>535</td>
+<td>The operator procedure for applying the staged carriers to the five
+owned submodules — survey, the conditional pointer form and why it
+differs from the root form, ordering (submodules first, umbrella last),
+per-submodule commands, post-apply verification, and an explicit list of
+what it does not do.</td>
+</tr>
+<tr>
+<td><a
+href="propagation/RISKS.md"><code>propagation/RISKS.md</code></a></td>
+<td>219</td>
+<td>Blast-radius and honesty register for that procedure: push fan-out
+per repository, the <code>milosvasic.ru</code> fetch/push asymmetry, the
+superspec exclusion, and what could not be verified read-only.
+<strong>Read before running anything in
+<code>APPLY.md</code>.</strong></td>
+</tr>
+<tr>
+<td><a
+href="DECISION-11-4-156-COMPLY.md"><code>DECISION-11-4-156-COMPLY.md</code></a></td>
+<td>—</td>
+<td><strong>The §11.4.156 decision record (2026-08-27, revision
+2).</strong> Why an <code>Override §11.4.156</code> was structurally
+unavailable, the four options and the choice, <strong>§0’s partial
+reversal</strong> (<code>ci.yml</code> → <code>.disabled</code> with
+gates on a local pre-push hook; <code>pages.yml</code> <strong>restored
+to ACTIVE</strong> because it is the sole publish path for a production
+site; <code>vasic.digital</code> non-compliant at the provider level
+with no file-level remedy), the §11.4.6 honest boundary on provider-side
+settings, and what is lost — no server-side enforcement,
+<code>.git/hooks/</code> untracked so a fresh clone is unprotected until
+<code>scripts/pre-push-gates.sh --install</code> is run, and
+<code>git push --no-verify</code> bypasses the hook.</td>
+</tr>
+<tr>
+<td><code>CI-INVENTORY-11-4-156.md</code></td>
+<td>—</td>
+<td>Per-file inventory of every CI surface considered under that
+decision, including the ones ruled structurally inert. Produced
+separately; <strong>not present when this index row was
+written.</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="staged-carriers-awaiting-operator-application">Staged carriers
+awaiting operator application</h3>
+<p>19 drafts plus 1 insert-block, none applied. The <code>.staged</code>
+suffix is required — see <a
+href="#a-17-propagation-gates--the-same-five-carriers-every-time">§6.A</a>.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Target submodule</th>
+<th>Files</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td><a
+href="propagation/ai_interviewing/AGENTS.md.staged"><code>AGENTS.md.staged</code></a>
+(25) · <a
+href="propagation/ai_interviewing/CLAUDE.md.staged"><code>CLAUDE.md.staged</code></a>
+(28) · <a
+href="propagation/ai_interviewing/GEMINI.md.staged"><code>GEMINI.md.staged</code></a>
+(25) · <a
+href="propagation/ai_interviewing/QWEN.md.staged"><code>QWEN.md.staged</code></a>
+(25)</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td><a
+href="propagation/design-toolkit/AGENTS.md.staged"><code>AGENTS.md.staged</code></a>
+(25) · <a
+href="propagation/design-toolkit/CLAUDE.md.staged"><code>CLAUDE.md.staged</code></a>
+(28) · <a
+href="propagation/design-toolkit/GEMINI.md.staged"><code>GEMINI.md.staged</code></a>
+(25) · <a
+href="propagation/design-toolkit/QWEN.md.staged"><code>QWEN.md.staged</code></a>
+(25)</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td><a
+href="propagation/milosvasic.ru/AGENTS.md.staged"><code>AGENTS.md.staged</code></a>
+(25) · <a
+href="propagation/milosvasic.ru/CLAUDE.md.staged"><code>CLAUDE.md.staged</code></a>
+(28) · <a
+href="propagation/milosvasic.ru/GEMINI.md.staged"><code>GEMINI.md.staged</code></a>
+(25) · <a
+href="propagation/milosvasic.ru/QWEN.md.staged"><code>QWEN.md.staged</code></a>
+(25)</td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td><a
+href="propagation/monetization/AGENTS.md.staged"><code>AGENTS.md.staged</code></a>
+(25) · <a
+href="propagation/monetization/CLAUDE.md.staged"><code>CLAUDE.md.staged</code></a>
+(28) · <a
+href="propagation/monetization/GEMINI.md.staged"><code>GEMINI.md.staged</code></a>
+(25) · <a
+href="propagation/monetization/QWEN.md.staged"><code>QWEN.md.staged</code></a>
+(25)</td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td><a
+href="propagation/vasic.digital/AGENTS.md.staged"><code>AGENTS.md.staged</code></a>
+(25) · <a
+href="propagation/vasic.digital/CLAUDE.md.staged"><code>CLAUDE.md.staged</code></a>
+(28) · <a
+href="propagation/vasic.digital/GEMINI.md.staged"><code>GEMINI.md.staged</code></a>
+(25) · <a
+href="propagation/vasic.digital/QWEN.insert-block.md"><code>QWEN.insert-block.md</code></a>
+(17) — a block to <strong>insert</strong> into the existing 55-line
+<code>vasic.digital/QWEN.md</code>, never a replacement</td>
+</tr>
+</tbody>
+</table>
+<h3 id="governed-artifacts-outside-this-directory">Governed artifacts
+outside this directory</h3>
+<p>Not part of <code>docs/constitution-adoption/</code>, but the things
+it documents:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Path</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Constitution.md</code></td>
+<td>The project constitution — §101–§103, owned-submodule set, remotes,
+open conflicts, known-excluded findings, gap table</td>
+</tr>
+<tr>
+<td><code>CLAUDE.md</code> · <code>AGENTS.md</code> ·
+<code>QWEN.md</code> · <code>GEMINI.md</code></td>
+<td>The four root agent carriers, byte-identical from line 24</td>
+</tr>
+<tr>
+<td><code>helix-deps.yaml</code></td>
+<td>The §11.4.31 dependency manifest</td>
+</tr>
+<tr>
+<td><code>tests/test_constitution_inheritance.sh</code></td>
+<td>The inheritance gate + its <code>--prove-failure</code> mutation
+proof</td>
+</tr>
+<tr>
+<td><code>scripts/verify-all-constitution-rules.sh</code></td>
+<td>The §11.4.32 validation sweep</td>
+</tr>
+<tr>
+<td><code>submodules/constitution/</code></td>
+<td>The canonical corpus. Read it; do not copy from it</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="related-documentation">Related documentation</h2>
+<ul>
+<li><a
+href="../setup-agents-wizard/README.md"><code>../setup-agents-wizard/README.md</code></a>
+— the AI-agents setup wizard, which is what installs and configures the
+agents that read the root carriers described here.</li>
+</ul>
+</body>
+</html>

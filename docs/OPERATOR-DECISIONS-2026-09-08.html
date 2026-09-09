@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>OPERATOR-DECISIONS-2026-09-08</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">OPERATOR-DECISIONS-2026-09-08</h1>
+</header>
+<h1 id="operator-decisions-2026-09-08">Operator decisions —
+2026-09-08</h1>
+<p>Recorded per §11.4.208 so a decision is not re-litigated and not
+silently reinterpreted. Each row states the question, the decision, and
+what it obliges.</p>
+<p><strong>CONTENT BOUNDARY.</strong> This is a PUBLIC repository. Every
+row below refers to private <code>workshop</code> material BY IDENTIFIER
+OR PATH ONLY. No transcript text, no note text, no area title, no
+question text and no person’s name appears here.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Question</th>
+<th>Decision</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Semantic-search leg needs an embedder; local models now off</td>
+<td><strong>Keep semantic OFF.</strong> Measured identical quality
+(top-1 18/22, top-5 19/22) at 9.4x the speed. Reversible with one env
+var</td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>meeting-notes</code> route deliberately NOT_BUILT on one
+undecided row</td>
+<td><strong>Brainstorm fully, then implement — including Meeting
+Notes</strong></td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3 documents unpublished on W2 violations</td>
+<td><strong>Cite them, then publish</strong></td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>4</td>
+<td>12 served areas carry no assessment</td>
+<td><strong>Fill / generate what is missing. “Stick to common
+sense”</strong></td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>5</td>
+<td>The one flagged span (id
+<code>01M1H9DKFTVEJMW5YFZ1GC7PYN</code>)</td>
+<td><strong>Serve it.</strong> Operator inspected the span and judged it
+carries nothing private. Add a reason code for “flagged withheld-only by
+corpus statistics, judged not private” and record the decision against
+the row</td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>6</td>
+<td>The word-run rule that flagged it</td>
+<td><strong>Keep the rule as-is.</strong> It caught 4 genuine rows
+because it is wide. Future flags route to the operator as
+judgements</td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>meeting-notes</code> contract shape</td>
+<td><strong>Match the three siblings exactly</strong> — same cumulative
+<code>count</code> vs <code>own_count</code> split, same status set</td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>8</td>
+<td>66 plan-coverage rows, 0 decided</td>
+<td><strong>Show all in one pass</strong></td>
+<td>DONE (sheet produced)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Sequencing against the QA session</td>
+<td><strong>One batch, then QA.</strong> Land everything, restart once,
+run the second adversarial review, then hand over</td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>10</td>
+<td>20-passage evidence floor sorts on the wrong quantity (r = -0.066
+against actual authorability)</td>
+<td><strong>Re-baseline the floor onto anchored usable citable passages
+at 8, and author the banks.</strong> REVISES decision #3 of 2026-09-07
+on measured grounds</td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Filling every area empties the M4 proof arm’s population</td>
+<td><strong>Fill everything, give M4 a synthetic no-bank
+fixture</strong> so the arm keeps detecting</td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>12</td>
+<td>8 rows read as likely covered</td>
+<td><strong>All 7 distinct points recorded COVERED</strong> (one appears
+in two chapters). 5 carry evidence locators; 1 rests on operator
+judgement with no locator and says so in its own reason field</td>
+<td>DONE</td>
+</tr>
+<tr>
+<td>13</td>
+<td>11 plan rows are ASR fragments naming no deliverable</td>
+<td><strong>Fix the extractor, retire the 11 as extraction
+defects</strong> — NOT as <code>dropped</code>, which would put them in
+the commitment ledger</td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>MIN_SEGMENTS_FOR_INFORMATIVE_ABSENCE = 500</code> makes
+<code>not_covered</code> unreachable for short chapters</td>
+<td><strong>Scale the guard to chapter length</strong>, with its own
+validation and a paired mutation</td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Document 04’s last 8 blocks cite evidence that has no passage
+id</td>
+<td><strong>Ingest
+<code>pipeline/{README,CALIBRATION,AUDIT}.md</code>.</strong> Operator
+rejected deleting the 8 measured claims and rejected the editorial
+exemption</td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>16</td>
+<td>264 pre-existing citations of unverified relevance</td>
+<td><strong>Audit them all</strong>, and the same pattern in the
+already-published areas 01 and 03. Depublication is an acceptable
+outcome</td>
+<td>DECIDED</td>
+</tr>
+<tr>
+<td>17</td>
+<td><code>publication-reviews.jsonl</code> /
+<code>area-materials.jsonl</code> gitignored — the files gating what is
+served are not in version control</td>
+<td><strong>Track them</strong></td>
+<td>DECIDED</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">18 | Every graded question answerable by shape
+alone: 138/138 keys are the longest option (100%), 122/138 at position 1
+(88%), pass mark 70%, no shuffle anywhere in the serving path |
+<strong>Fix properly: deterministic shuffle AND distractor
+rebalancing</strong>, plus a gate that fails if either heuristic beats
+chance, with a paired mutation and a control | DECIDED |<br />
+19 | The producer/verifier split is process-scoped only; two invocations
+2s apart publish on same-minted citations, and the prover’s key arm is
+inverted so it passes with the protection removed | <strong>Make it
+durable, fix the prover</strong>, register it in the check registry, and
+close the <code>promote_curriculum_areas.py --apply</code> path that
+wrote 37 of 41 live review rows with no citation checking | DECIDED
+|<br />
+20 | QA session timing given the above | <strong>Fix the blockers first,
+then QA.</strong> The shape leak and the split are fixable in hours;
+everything else is measured and sound | DECIDED |</div>
+<div class="line-block">21 | 32 answer keys appear verbatim in the
+lesson section the question links to (31 of 290) — all against
+area-document prose, never a transcript | <strong>Separate study mode
+from assessment mode.</strong> Keep the keys and the study links;
+suppress <code>lesson_sections</code> in assessment/interview rendering.
+Rewording 31 correct keys was rejected as degrading good prose to defend
+a property only one mode needs | DECIDED |<br />
+22 | Two questions carry answers the evidence contradicts (an asserted
+absence the corpus refutes; “appears in neither transcript” where a
+redacted passage names it) | <strong>Rewrite both to what the evidence
+supports</strong>, neither withdrawn. The second preserves the ABSENT vs
+WITHHELD distinction the platform is built on | DONE |<br />
+23 | 52 flagged rows in the 30 older committed banks, unread |
+<strong>Read and repair all 52.</strong> Result: 51 repaired, 1
+confirmed already supported — 98% PRECISION, which says nothing about
+recall | DONE |<br />
+24 | Areas 26 (5 anchored) and 23 (6) serve tests while 19 (5), 27 (6)
+and 28 (6) are refused — authorship date, not evidence, is the selector
+| <strong>Author banks for 19, 27 and 28 to match.</strong> Level up
+rather than withdraw two real banks. An agent may still decline any of
+the three if the evidence genuinely cannot support one | DECIDED |<br />
+25 | Four <code>kg_*</code> kinds (226 rows of TODOs, meeting notes,
+open questions, next-meeting points) exist in the index but were never
+in the advertised vocabulary | <strong>Make them first-class
+searchable.</strong> This is the session-record content built today —
+reachable through chapter routes but not through search | DECIDED
+|<br />
+26 | ROOT CAUSE: a bank obeying its own “cite nothing outside the
+evidence pack” constraint could not cite its own evidence |
+<strong>SUPERSEDED — see 26a.</strong> Originally “re-cut the packs on
+sentence boundaries”; the premise was measured false | WITHDRAWN |<br />
+26a | Re-measured: there is NO pack producer and NO artefact — the pack
+is derived by reading a Markdown file, and NO gate ever enforced
+membership (B1–B8 check resolution, redaction and lesson-section path,
+never pack membership). Only 30.6% of outside-pack citations sit at
+distance 1; the rest reach up to 644 segments away. Best closure admits
+41.3% at 3.75× pack growth. Corpus re-cut separately proven unsafe: one
+merged pair moves <code>root_hash</code> <code>62e62eea…</code> →
+<code>960db1d2…</code>, orphans an anchor, and models are off so nothing
+can be re-embedded | <strong>Withdraw the constraint entirely.</strong>
+Replacement rule: cite the passage that carries the fact; admissible iff
+it RESOLVES UNREDACTED and AN AUTHOR HAS READ IT against the prompt. The
+constraint is wrong in KIND, not granularity | DECIDED |<br />
+26b | The withdrawn constraint’s prose still stands verbatim in 6 banks,
+instructing future authors to obey the rule that caused the defect |
+<strong>The agent already reading those files corrects the 6
+<code>$comment</code> blocks in-pass</strong> — recording what the rule
+said, that it is withdrawn, and why, rather than deleting it silently |
+DECIDED |<br />
+27 | 182 older-bank questions the screen never flagged, unread.
+Precision is 98%; recall is known poor (reading found 73% where the
+screen flagged 37.5%) | <strong>Read all 182.</strong> The measured
+defect rate in the UNFLAGGED population is the first honest estimate of
+the screen’s recall | DECIDED |</div>
+<h2
+id="the-defect-behind-the-defect-recorded-because-the-pattern-repeated-six-times">The
+defect behind the defect — recorded because the pattern repeated six
+times</h2>
+<p>Every stream today found that the reported symptom was real and the
+stated mechanism was wrong. Fixing the stated mechanism would have
+produced a green gate over an unfixed product in at least three
+cases.</p>
+<ul>
+<li>Shuffling choices would NOT have fixed the shape leak: the choice
+<strong>id</strong> was itself the key (<code>-c1</code> on 88.4%), so
+the key would have moved with its label on.</li>
+<li>The graded path was not BYPASSING citation withholding — the type it
+uses has no citations field, so the protection is
+<strong>inapplicable</strong>, and wiring it would have shipped an
+inoperative gate reading green forever.</li>
+<li><code>proposer</code> was empty because a downstream check inferred
+independence from it; the field was lying to protect a
+<strong>proxy</strong>, and fixing the inference let the field tell the
+truth.</li>
+<li>The anchor defect was <strong>fleet-wide</strong>, not introduced
+this session — 34.2% in the older banks against 37.5% in the new
+ones.</li>
+<li>The evidence-pack constraint <strong>guaranteed</strong> the defect
+it existed to prevent.</li>
+<li>CK021 counted “no bank authored” and was read as “below the floor” —
+a correct number over the wrong set.</li>
+</ul>
+<h2
+id="claims-withdrawn-on-2026-09-08-after-an-adversarial-review">Claims
+WITHDRAWN on 2026-09-08 after an adversarial review</h2>
+<p>Recorded because a withdrawn claim is worth more than a quiet
+correction.</p>
+<ul>
+<li><strong>“01 and 03 serve on hand-verified citations.”</strong>
+OVERSTATED. The citations were hand-read, but the review artifact
+records only a MECHANICAL check and says so in its own stamped text: it
+establishes that a citation RESOLVES, not that the cited passage
+SUPPORTS the claim. <code>reviewer</code> is the pipeline, not a
+person.</li>
+<li><strong>“dropped 0, vanished 0.”</strong> <code>dropped=0</code> is
+a real measurement. <code>vanished=0</code> is arithmetically FORCED —
+it is a residual, every branch increments exactly one counter, and the
+gate asserting it is therefore a false-green control (§11.4.201). The
+two must never be reported together as if both were measured.</li>
+<li><strong>“5 areas below the evidence floor.”</strong> WRONG
+POPULATION. CK021 fires on “no bank was authored”, not “below the
+floor”. Seven areas are below 8; two areas serve 9-question banks on 6
+and 5 anchored passages because they predate the re-baseline and were
+grandfathered without a decision.</li>
+<li><strong>“261 questions across 34 banks”</strong>, reported as an
+achievement without ever checking whether the questions test anything.
+See decision 18.</li>
+<li><strong>“The producer has been split from the verifier.”</strong>
+REFUTED. See decision 19.</li>
+</ul>
+<h2 id="still-not-put-to-the-operator">Still not put to the
+operator</h2>
+<ul>
+<li>Document 05’s four umbrella-facts have no citation path from inside
+this private repo. Options: rewrite to what this corpus supports (losing
+true content), ingest public umbrella governance output into the private
+corpus, or leave 05 unpublished. None taken.</li>
+<li>Document 04’s nine calibration blocks stay uncitable while the
+ingest is stopped. The ingest is blocked by a DETERMINED NEGATIVE: with
+models off there is no embedding endpoint, so new passages would enter
+the index with no vectors and be silently absent from semantic
+retrieval.</li>
+<li>The served <code>redactions</code> table holds 0 rows while the log
+records 162 effective suppressions. No text is exposed; the artifact
+simply cannot state WHY a row is withheld. Materialising it is an index
+rebuild.</li>
+<li><code>-question-verify none</code> is not a recognised value
+(<code>focus|llm</code>), so L5 is unwired. The server reports it as
+unwired rather than silently selecting one.</li>
+</ul>
+<h2 id="decisions-that-overruled-a-recommendation">Decisions that
+overruled a recommendation</h2>
+<p>Recorded because a recommendation overruled is worth more than one
+accepted.</p>
+<ul>
+<li><strong>#12, the “three-hours web build” point.</strong> The
+coordinating session advised AGAINST recording it, because the session
+demonstrates a web surface but no instrument established it is the SAME
+artefact the planned point refers to. <strong>The operator recorded it
+anyway.</strong> Obligation, and it is discharged: the disposition row
+carries NO evidence locator and its <code>reason</code> field states in
+full that it rests on operator judgement alone and must not be cited as
+evidence-backed. A <code>covered</code> decision is the only
+irreversible direction here — an undecided point merely carries forward
+— so this row is the one to revisit first if the plan later looks
+short.</li>
+<li><strong>#11 vs #10.</strong> These two answers pull against each
+other: the re-baseline at 8 clears 8 of the 12 areas, while “fill
+everything” reaches all 12 including the 4 a measurement calls genuinely
+thin. Resolved as: fill every area the evidence honestly supports,
+fabricate nothing, and REPORT any area that cannot be authored
+truthfully. An honest empty bank beats a padded one, and the M4 fixture
+removes the proof-population objection either way.</li>
+</ul>
+<h2 id="not-yet-put-to-the-operator">Not yet put to the operator</h2>
+<ul>
+<li>The served database’s <code>redactions</code> table holds
+<strong>0</strong> rows while the log records <strong>162</strong>
+effective suppressions. No text is exposed — measured by S1 — but the
+served artifact cannot state WHY any row is withheld. Materialising it
+is an index rebuild.</li>
+<li><code>-question-verify none</code> is not a recognised value
+(<code>focus|llm</code>), so <strong>L5 is unwired</strong>. The server
+reports it as unwired rather than silently selecting one, which is
+correct; but “none” arguably ought to be a legal value meaning
+deliberately-off.</li>
+<li>The 8 weakest evidence rows still await confirmation.</li>
+</ul>
+</body>
+</html>

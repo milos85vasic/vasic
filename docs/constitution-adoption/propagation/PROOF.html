@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>PROOF</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">PROOF</h1>
+</header>
+<h1 id="constitution-propagation-proof-temp-dir-gate-run">Constitution
+Propagation — PROOF (temp-dir gate run)</h1>
+<blockquote>
+<p><strong>Note on filenames.</strong> The staged carrier drafts in this
+directory are stored with a <code>.staged</code> suffix
+(e.g. <code>AGENTS.md.staged</code>). The constitution’s propagation
+gates discover carriers by exact filename (<code>CLAUDE.md</code>,
+<code>AGENTS.md</code>, <code>QWEN.md</code>, <code>GEMINI.md</code>),
+so drafts named that way inside the repo are counted as real carriers
+and fail the gate. Drop the <code>.staged</code> suffix when you copy a
+file into its target submodule.</p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Revision</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Created</td>
+<td>2026-08-27</td>
+</tr>
+<tr>
+<td>Last modified</td>
+<td>2026-08-27</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>active</td>
+</tr>
+<tr>
+<td>Status summary</td>
+<td>Empirical before/after for the corrected staging in this directory,
+measured by running all 17 <code>CM-COVENANT-114-*-PROPAGATION</code>
+gates against temp directories that mirror the real fleet. Includes a
+control run on the uncorrected Revision-1 drafts, so the result is not
+vacuous. Nothing was applied; no submodule working tree was written to;
+no mutating git command was run.</td>
+</tr>
+<tr>
+<td>Continuation</td>
+<td>Operator reads this before executing <a
+href="APPLY.md"><code>APPLY.md</code></a> §4.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>§11.4.65 disclosure.</strong> This document ships without its
+<code>.html</code> and <code>.pdf</code> siblings — the same known,
+disclosed deviation <code>INVENTORY.md</code> records as gap
+<strong>G8</strong> and <a href="RISKS.md"><code>RISKS.md</code></a> R7
+records for this whole directory.</p>
+</blockquote>
+<hr />
+<h2 id="what-was-being-tested-and-against-what">1. What was being
+tested, and against what</h2>
+<p><a href="../GATE-TRIAGE.md"><code>GATE-TRIAGE.md</code></a> §6.1
+found that the Revision-1 staging in this directory would make the
+constitution gates <strong>strictly worse</strong>: applying
+<code>APPLY.md</code> §4.6 as written would take the fleet from 5
+MISSING carriers / 85 MISSING lines to 8 / 136. This document is the
+measurement that (a) reproduces that finding, (b) shows the corrected
+Revision-2 staging does the opposite, and (c) proves the harness can
+tell the two apart.</p>
+<p>The mechanism under test is one predicate, sourced by all 17 gates
+from
+<code>submodules/constitution/scripts/gates/lib/pointer_carrier.sh</code>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode awk"><code class="sourceCode awk"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">BEGIN</span> <span class="op">{</span> fenced <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> found <span class="op">=</span> <span class="dv">0</span> <span class="op">}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">/^(</span><span class="ss">```</span><span class="ot">|</span><span class="ss">~~~</span><span class="ot">)/</span> <span class="op">{</span> fenced <span class="op">=</span> <span class="op">!</span>fenced<span class="op">;</span> <span class="kw">next</span> <span class="op">}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>fenced <span class="op">&amp;&amp;</span> <span class="op">/^</span><span class="co">## INHERITED FROM / { found = 1; exit }</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">END</span> <span class="op">{</span> <span class="cf">exit</span> <span class="op">!</span>found <span class="op">}</span></span></code></pre></div>
+<p>A carrier that satisfies it is scored
+<code>POINTER-INHERITANCE-SKIP</code> (§11.4.35 pointer consumer —
+legitimately omits every anchor literal). A carrier that does not, and
+that also lacks the anchor literal, is scored <code>MISSING</code>.</p>
+<p>The Revision-1 drafts opened with a <code>&gt;</code> blockquote
+(<code>AGENTS.md</code>, <code>QWEN.md</code>, <code>GEMINI.md</code>,
+the <code>QWEN.insert-block.md</code>) or with
+<code># CLAUDE.md — &lt;module&gt;</code> +
+<code>## Helix Constitution inheritance</code> (<code>CLAUDE.md</code>).
+None of those is a line-anchored, non-fenced
+<code>## INHERITED FROM</code> heading, so every one of them registered
+as a <strong>new anchor-less carrier</strong>.</p>
+<h2
+id="the-first-thing-checked-does-the-claimed-resolution-actually-hold">2.
+The first thing checked — does the claimed resolution actually
+hold?</h2>
+<p>Before rewriting 19 files, one candidate file was built and run
+through the real predicate and two real gates. The claim being tested:
+<em>the gate requires the heading to be present, non-fenced, at column
+zero — it does not require the path written in that heading to resolve
+from the file’s own depth.</em></p>
+<pre><code>$ . submodules/constitution/scripts/gates/lib/pointer_carrier.sh
+$ is_pointer_carrier &lt;candidate with &#39;## INHERITED FROM constitution/CLAUDE.md&#39;&gt;
+PREDICATE: TRUE (pointer carrier)
+$ is_pointer_carrier docs/constitution-adoption/propagation/ai_interviewing/CLAUDE.md.staged
+STAGED-CONTROL: FALSE (as triaged)</code></pre>
+<p>and through the gates themselves, on a temp dir holding only that one
+file:</p>
+<pre><code>$ bash submodules/constitution/scripts/gates/cm_covenant_114_162_propagation.sh --root &lt;tmp&gt;
+⏭ POINTER-INHERITANCE-SKIP  CLAUDE.md  — §11.4.35 pointer consumer (inherits 11.4.162 by pointer)
+CM-COVENANT-114-162-PROPAGATION: 0 PRESENT, 1 POINTER-INHERITANCE-SKIP, 0 MISSING (anchor 11.4.162)
+✅ CM-COVENANT-114-162-PROPAGATION: PASS
+rc=0
+
+$ bash submodules/constitution/scripts/gates/cm_covenant_114_230_propagation.sh --root &lt;tmp&gt;
+⏭ POINTER-INHERITANCE-SKIP CLAUDE.md  — §11.4.35 pointer consumer (engine-rules-only mirror; zero 11.4.230 blocks expected, not a violation)
+CM-COVENANT-114-230-PROPAGATION: 0 single-block-PRESENT, 1 POINTER-INHERITANCE-SKIP, 0 MISSING/DUPLICATED, 0 DIVERGENT
+✅ CM-COVENANT-114-230-PROPAGATION: PASS
+rc=0</code></pre>
+<p>Both gate families — the 12 legacy bare-literal gates and the 5
+fence-aware §11.4.227(B) block-integrity gates — skip the file.
+<strong>The resolution holds.</strong> Only then were the remaining
+files rewritten.</p>
+<h2 id="the-harness">3. The harness</h2>
+<p>Five temp roots, each a directory tree of <code>CLAUDE.md</code> /
+<code>AGENTS.md</code> / <code>QWEN.md</code> / <code>GEMINI.md</code>
+files at the relative paths the real repository has them at. Nothing
+else is needed: the gates discover carriers by filename under
+<code>--root</code> and read nothing else.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Root</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>baseline</code></td>
+<td>byte-copies of all <strong>20</strong> carriers the real repository
+currently exposes to the gates (4 root PRESENT, 11 constitution-side
+pointer carriers, 5 MISSING)</td>
+</tr>
+<tr>
+<td><code>defective-46</code></td>
+<td><code>baseline</code> + <code>APPLY.md</code> §4.6 applied with the
+<strong>Revision-1</strong> files</td>
+</tr>
+<tr>
+<td><code>defective-full</code></td>
+<td><code>baseline</code> + <code>APPLY.md</code> §4.2 – §4.6 applied
+with the <strong>Revision-1</strong> files</td>
+</tr>
+<tr>
+<td><code>corrected-46</code></td>
+<td><code>baseline</code> + <code>APPLY.md</code> §4.6 applied with the
+<strong>Revision-2</strong> files</td>
+</tr>
+<tr>
+<td><code>corrected-full</code></td>
+<td><code>baseline</code> + <code>APPLY.md</code> §4.2 – §4.6 applied
+with the <strong>Revision-2</strong> files</td>
+</tr>
+</tbody>
+</table>
+<p><code>defective-46</code> and <code>defective-full</code> are the
+<strong>control</strong>: the same harness, the same gates, the
+uncorrected files. If the harness could not tell them from the corrected
+set, the proof would be worth nothing.</p>
+<p>The carrier list was produced with the gates’ own <code>find</code>
+expression, and the <code>§4.6</code> insertion used
+<code>APPLY.md</code>’s own recipe verbatim
+(<code>{ head -n 1 QWEN.md; echo; cat "$B"; tail -n +2 QWEN.md; }</code>).</p>
+<p>Then, for each root:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a <span class="kw">in</span> 162 167 176 187 191 196 199 200 201 202 207 213 230 231 232 233 235<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bash</span> submodules/constitution/scripts/gates/cm_covenant_114_<span class="va">${a}</span>_propagation.sh <span class="at">--root</span> <span class="op">&lt;</span>root<span class="op">&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<h3 id="control-needle-the-harness-reproduces-reality-exactly">3.1
+Control needle — the harness reproduces reality exactly</h3>
+<p>The same 17 gates were first run against the <strong>live repository
+root</strong>, read-only:</p>
+<pre><code>$ grep -c &#39;❌ MISSING&#39; &lt;live-run&gt;
+85
+$ grep &#39;❌ MISSING&#39; &lt;live-run&gt; | sed &#39;s/.*MISSING *//; s/  *—.*//&#39; | sort -u
+milosvasic.ru/Upstreamable/AGENTS.md
+milosvasic.ru/Upstreamable/CLAUDE.md
+.specify/extensions/superspec/examples/static-landing-page/CLAUDE.md
+submodules/superspec/examples/static-landing-page/CLAUDE.md
+vasic.digital/QWEN.md</code></pre>
+<p><code>CM-COVENANT-114-162-PROPAGATION: 4 PRESENT, 11 POINTER-INHERITANCE-SKIP, 5 MISSING</code>,
+17/17 gates FAIL. The <code>baseline</code> temp root reproduces those
+numbers exactly — 85 MISSING lines, the same 5 carriers, 17 FAIL — so a
+zero elsewhere in this document is a real zero, not a blind instrument
+(§11.4.201(7)(b)).</p>
+<p>The predicate library’s own golden test was also run, unmodified:
+<code>pointer_carrier.sh selftest: PASS (5/5)</code>, including the
+mid-line-backtick and <code>~~~</code>-fence decoys.</p>
+<h2 id="results">4. Results</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Root</th>
+<th>gates PASS / FAIL</th>
+<th>MISSING lines</th>
+<th>distinct MISSING carriers</th>
+<th>POINTER-INHERITANCE-SKIP lines</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>baseline</code> (= live repo)</td>
+<td>0 / 17</td>
+<td><strong>85</strong></td>
+<td><strong>5</strong></td>
+<td>204</td>
+</tr>
+<tr>
+<td><code>defective-46</code> (control)</td>
+<td>0 / 17</td>
+<td><strong>136</strong></td>
+<td><strong>8</strong></td>
+<td>204</td>
+</tr>
+<tr>
+<td><code>defective-full</code> (control)</td>
+<td>0 / 17</td>
+<td><strong>408</strong></td>
+<td><strong>24</strong></td>
+<td>204</td>
+</tr>
+<tr>
+<td><code>corrected-46</code></td>
+<td>0 / 17</td>
+<td><strong>68</strong></td>
+<td><strong>4</strong></td>
+<td>272</td>
+</tr>
+<tr>
+<td><code>corrected-full</code></td>
+<td>0 / 17</td>
+<td><strong>68</strong></td>
+<td><strong>4</strong></td>
+<td>544</td>
+</tr>
+</tbody>
+</table>
+<p>Read the two rows that matter side by side, on the same gate:</p>
+<pre><code>defective-full   CM-COVENANT-114-213-PROPAGATION: 4 PRESENT, 11 POINTER-INHERITANCE-SKIP, 24 MISSING (anchor 11.4.213)
+                 ❌ CM-COVENANT-114-213-PROPAGATION: FAIL — 24 owned carrier(s) missing §11.4.213 anchor
+
+corrected-full   CM-COVENANT-114-213-PROPAGATION: 4 PRESENT, 31 POINTER-INHERITANCE-SKIP, 4 MISSING (anchor 11.4.213)
+                 ❌ CM-COVENANT-114-213-PROPAGATION: FAIL — 4 owned carrier(s) missing §11.4.213 anchor</code></pre>
+<p>and on a fence-aware one:</p>
+<pre><code>defective-full   CM-COVENANT-114-230-PROPAGATION: 4 single-block-PRESENT, 11 POINTER-INHERITANCE-SKIP, 24 MISSING/DUPLICATED, 0 DIVERGENT
+corrected-full   CM-COVENANT-114-230-PROPAGATION: 4 single-block-PRESENT, 31 POINTER-INHERITANCE-SKIP, 4 MISSING/DUPLICATED, 0 DIVERGENT</code></pre>
+<p>Every one of the 20 applied carriers is skipped by name in the
+corrected run:</p>
+<pre><code>⏭ POINTER-INHERITANCE-SKIP ai_interviewing/AGENTS.md  — §11.4.35 pointer consumer …
+⏭ POINTER-INHERITANCE-SKIP ai_interviewing/CLAUDE.md  — …
+⏭ POINTER-INHERITANCE-SKIP ai_interviewing/GEMINI.md  — …
+⏭ POINTER-INHERITANCE-SKIP ai_interviewing/QWEN.md  — …
+⏭ POINTER-INHERITANCE-SKIP design-toolkit/{AGENTS,CLAUDE,GEMINI,QWEN}.md  — …
+⏭ POINTER-INHERITANCE-SKIP milosvasic.ru/{AGENTS,CLAUDE,GEMINI,QWEN}.md  — …
+⏭ POINTER-INHERITANCE-SKIP monetization/{AGENTS,CLAUDE,GEMINI,QWEN}.md  — …
+⏭ POINTER-INHERITANCE-SKIP vasic.digital/{AGENTS,CLAUDE,GEMINI,QWEN}.md  — …</code></pre>
+<p>(The <code>{…}</code> braces are this document’s abbreviation; the
+gate prints one line per file. 544 − 204 = 340 = 20 carriers × 17 gates,
+which is the arithmetic check that no carrier was missed.)</p>
+<h3 id="the-triages-exact-claim-reproduced">4.1 The triage’s exact
+claim, reproduced</h3>
+<p><code>GATE-TRIAGE.md</code> §6.1 said applying §4.6 as written takes
+the fleet <strong>from 5 MISSING carriers to 8 and from 85 MISSING lines
+to 136</strong>. <code>defective-46</code> measures exactly 136 / 8, and
+names the three new failures:</p>
+<pre><code>vasic.digital/AGENTS.md
+vasic.digital/CLAUDE.md
+vasic.digital/GEMINI.md</code></pre>
+<p>on top of the pre-existing five. The triage was right.</p>
+<h3 id="what-the-corrected-4.6-does-instead">4.2 What the corrected §4.6
+does instead</h3>
+<p><code>corrected-46</code> leaves <strong>68 / 4</strong>. The three
+new carriers are skipped, and <code>vasic.digital/QWEN.md</code> — one
+of the original five MISSING — leaves the failing set entirely, because
+the inserted block gives it a real pointer heading. The remaining four
+are exactly the category-(c) third-party carriers:</p>
+<pre><code>milosvasic.ru/Upstreamable/AGENTS.md
+milosvasic.ru/Upstreamable/CLAUDE.md
+.specify/extensions/superspec/examples/static-landing-page/CLAUDE.md
+submodules/superspec/examples/static-landing-page/CLAUDE.md</code></pre>
+<p>Applying the <em>full</em> §4.2 – §4.6 adds 16 more carriers and
+changes nothing else: still 68 / 4. Sixteen new files, zero new
+failures.</p>
+<h3 id="per-file-predicate-result-corrected-vs.-defective">4.3 Per-file
+predicate result, corrected vs. defective</h3>
+<p>All 20 target files, one command per file, both versions:</p>
+<pre><code>ai_interviewing/AGENTS.md                corrected=TRUE  defective=FALSE
+ai_interviewing/CLAUDE.md                corrected=TRUE  defective=FALSE
+ai_interviewing/QWEN.md                  corrected=TRUE  defective=FALSE
+ai_interviewing/GEMINI.md                corrected=TRUE  defective=FALSE
+design-toolkit/AGENTS.md                 corrected=TRUE  defective=FALSE
+design-toolkit/CLAUDE.md                 corrected=TRUE  defective=FALSE
+design-toolkit/QWEN.md                   corrected=TRUE  defective=FALSE
+design-toolkit/GEMINI.md                 corrected=TRUE  defective=FALSE
+milosvasic.ru/AGENTS.md                  corrected=TRUE  defective=FALSE
+milosvasic.ru/CLAUDE.md                  corrected=TRUE  defective=FALSE
+milosvasic.ru/QWEN.md                    corrected=TRUE  defective=FALSE
+milosvasic.ru/GEMINI.md                  corrected=TRUE  defective=FALSE
+monetization/AGENTS.md                   corrected=TRUE  defective=FALSE
+monetization/CLAUDE.md                   corrected=TRUE  defective=FALSE
+monetization/QWEN.md                     corrected=TRUE  defective=FALSE
+monetization/GEMINI.md                   corrected=TRUE  defective=FALSE
+vasic.digital/AGENTS.md                  corrected=TRUE  defective=FALSE
+vasic.digital/CLAUDE.md                  corrected=TRUE  defective=FALSE
+vasic.digital/QWEN.md                    corrected=TRUE  defective=FALSE
+vasic.digital/GEMINI.md                  corrected=TRUE  defective=FALSE</code></pre>
+<p>20 / 20 corrected TRUE, 20 / 20 defective FALSE. No partial credit
+anywhere.</p>
+<h2 id="vasic.digitalqwen.md-the-insertion-is-lossless">5.
+<code>vasic.digital/QWEN.md</code> — the insertion is lossless</h2>
+<p>Produced with <code>APPLY.md</code> §4.6’s own recipe, then
+checked:</p>
+<pre><code>orig lines: 55   new lines: 104
+first 3 lines:
+  # Vasic-Digital GitHub Pages Project
+  (blank)
+  ## INHERITED FROM constitution/QWEN.md
+&#39;## Project Overview&#39; now at line 52
+
+$ diff &lt;(tail -n +2 QWEN.md.orig) &lt;(tail -n +51 QWEN.md.new)
+IDENTICAL — all 55 original lines preserved, pure insertion
+
+$ is_pointer_carrier QWEN.md.new   -&gt; TRUE
+$ is_pointer_carrier QWEN.md.defective -&gt; FALSE</code></pre>
+<p>Zero deletions, zero modifications to the existing 55 lines. The
+pointer heading sits under the file’s existing H1 title, which is the
+shape of the four repository-root carriers that pass all 17 gates today
+and of the predicate’s own <code>golden-good</code> fixture;
+<code>is_pointer_carrier()</code> scans the whole file, so the heading
+is found either way.</p>
+<h2 id="apply.md-5-checks-run-against-the-corrected-set">6.
+<code>APPLY.md</code> §5 checks, run against the corrected set</h2>
+<pre><code>all 20 carriers: resolver named, no hardcoded parent path,
+                 no dangling @import, pointer heading present</code></pre>
+<p>i.e. every file contains <code>find_constitution.sh</code>, none
+contains the umbrella’s <code>submodules/constitution</code> layout
+string (a §11.4.28(B) violation), none opens with an
+<code>@constitution/</code> import (which would silently resolve to
+nothing inside a submodule), and every one carries the
+<code>## INHERITED FROM</code> heading.</p>
+<h2 id="honest-boundary-what-this-proof-does-not-show">7. Honest
+boundary — what this proof does <strong>not</strong> show</h2>
+<ul>
+<li><strong>It does not show the gates go green.</strong> They do not.
+All 17 still exit 1, held by the four category-(c) third-party carriers
+(<a href="../GATE-TRIAGE.md"><code>GATE-TRIAGE.md</code></a> §3.1, §7).
+No change confined to this directory can clear them, and none was
+attempted. What is proven is the direction: 85 → 68, 5 → 4, and 16–19
+new files that cost nothing.</li>
+<li><strong>It does not prove the propagation was applied.</strong>
+Nothing was applied. Every number above comes from temp directories; no
+submodule working tree was written to and no mutating git command was
+run.</li>
+<li><strong>It does not prove the carriers’ prose is correct</strong>,
+only that the gates score them as pointer consumers. Whether the
+conditional wording is the right governance answer is <a
+href="APPLY.md"><code>APPLY.md</code></a> §3’s argument, not a gate
+result.</li>
+<li><strong>It does not model the <code>design-toolkit</code> two-parent
+effect.</strong> <code>design-toolkit</code> is a gitlink of both the
+umbrella and the constitution, so after a commit + push + submodule
+update its four carriers would appear at a <em>second</em> path
+(<code>submodules/constitution/submodules/design-toolkit/</code>). Those
+copies would be pointer carriers too — the same files — so the direction
+does not change; the count of SKIP lines would grow by 4 × 17. This is
+projected, not measured (measuring it needs the commit this task must
+not make).</li>
+<li><strong>It does not evaluate
+<code>CM-CANONICAL-ROOT-CLARITY</code>.</strong> That §11.4.35 gate is
+<em>recommended</em> but not implemented (it appears in
+<code>scripts/gates/gate_ledger_prev_names.txt</code> with no gate
+script). Its clause
+<ol type="a">
+<li>— “consumer’s <code>CLAUDE.md</code> opens with the inheritance
+pointer” — would be satisfied by the corrected form and violated by the
+Revision-1 form, which is a second, independent reason for the change;
+but that is a reading of the anchor text, not a gate run.</li>
+</ol></li>
+</ul>
+</body>
+</html>

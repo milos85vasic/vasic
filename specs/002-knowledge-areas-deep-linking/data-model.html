@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>data-model</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">data-model</h1>
+</header>
+<h1 id="data-model-knowledge-areas-bidirectional-deep-linking">Data
+Model — Knowledge Areas &amp; Bidirectional Deep Linking</h1>
+<p><strong>Feature</strong>:
+<code>specs/002-knowledge-areas-deep-linking</code> |
+<strong>Date</strong>: 2026-09-01 <strong>Normative dependency</strong>:
+the knowledge-model contract in the workshop’s documentation is the
+authority on the ported hierarchy. This document defines the entities
+this feature adds and how they attach to what already exists; where the
+two describe the same thing, the contract wins (FR-005).</p>
+<h2 id="what-already-exists-and-is-not-redefined-here">0. What already
+exists and is not redefined here</h2>
+<p>Restated only to fix the boundary — none of this is changed by this
+feature.</p>
+<ul>
+<li><strong>Passage</strong> — the smallest addressable unit of source
+content. 1,101 of them. Carries a minted 26-character identifier, a
+kind, a chapter scope, an ordering key that is also its start time for
+transcript segments, a source reference with path and line range, its
+text, its immutable machine text, a provenance marking, a confidence
+value, an uncertainty flag and reason, a redaction flag, a
+change-detection hash that is explicitly <strong>not</strong> identity,
+a mint time and an ingest run.</li>
+<li><strong>Chapter</strong> and <strong>Section</strong> — chapters are
+identified by a zero-padded slug; sections are <strong>derived</strong>,
+never authored, and carry their own derivation rule and
+cross-check.</li>
+<li><strong>Cross-reference</strong> — an existing passage-to-passage
+relation with a relation type, an origin, a score and a depth.</li>
+<li><strong>Word timing sidecar</strong> — per chapter, 15,610 records
+for the chapter that exists, each a word, a start, an end and a
+probability. Derived; not part of the registry.</li>
+</ul>
+<h2 id="identity-one-rule-five-new-kinds">1. Identity — one rule, five
+new kinds</h2>
+<p>Every entity below mints its identifier through <strong>the same
+minter</strong> the passage registry uses (D-KG-2). The rule is stated
+once and applies to all of them:</p>
+<blockquote>
+<p>An identifier is minted once, at creation, and persisted. It is never
+derived from the entity’s text, its title, its slug, its ordinal, its
+position in a file, or a hash of any of these. It never changes. Two
+entities never share one.</p>
+</blockquote>
+<p><strong>What this forbids, concretely</strong>, because these are the
+forms that look reasonable:</p>
+<ul>
+<li>an area identified by its slug — breaks when the area is renamed,
+which is a normal editorial act;</li>
+<li>a term identified by its canonical form — breaks when the canonical
+form is corrected, which is the single most likely edit a term will ever
+receive;</li>
+<li>a question identified by an area code plus an ordinal, which is how
+the reference module does it — breaks when a question is inserted,
+deleted or reordered;</li>
+<li>a mention identified by a time — breaks on every re-transcription
+(D-KG-5);</li>
+<li>a lesson section identified by its heading text — breaks on every
+wording fix.</li>
+</ul>
+<p>Each of these is a <em>content-derived</em> or <em>positional</em>
+identifier, and the platform’s identity contract already forbids both,
+with paired mutation proofs demonstrating that it catches them.</p>
+<h2 id="entities">2. Entities</h2>
+<h3 id="area">2.1 Area</h3>
+<p>The workshop’s realisation of the reference module’s <em>module</em>
+level (D1).</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identifier</td>
+<td>minted, persisted</td>
+<td>§1</td>
+</tr>
+<tr>
+<td>title</td>
+<td>human-readable name</td>
+<td>non-empty</td>
+</tr>
+<tr>
+<td>summary</td>
+<td>one-paragraph statement of what the area covers</td>
+<td>non-empty when published</td>
+</tr>
+<tr>
+<td>ordinal</td>
+<td>display order</td>
+<td>unique within the curriculum; <strong>not</strong> identity</td>
+</tr>
+<tr>
+<td>origin</td>
+<td><code>promoted</code> — from the five existing prose areas — or
+<code>extracted</code></td>
+<td>closed vocabulary</td>
+</tr>
+<tr>
+<td>evidence</td>
+<td>the mentions that evidence it</td>
+<td><strong>at least one when published</strong> (FR-008)</td>
+</tr>
+<tr>
+<td>evidence certainty</td>
+<td><code>mixed</code> or <code>uncertain-only</code>, derived from the
+evidencing passages</td>
+<td>an area evidenced only by uncertain passages is
+<code>uncertain-only</code> (FR-012)</td>
+</tr>
+<tr>
+<td>lesson sections</td>
+<td>ordered</td>
+<td>may be empty before materials are authored; not publishable so</td>
+</tr>
+<tr>
+<td>question sets</td>
+<td>one short, one long</td>
+<td>both required when published (FR-034a)</td>
+</tr>
+<tr>
+<td>publication review</td>
+<td>the recorded review</td>
+<td><strong>publication and export are blocked without it</strong>
+(FR-016, FR-048)</td>
+</tr>
+<tr>
+<td>chapters</td>
+<td>the chapters this area draws evidence from</td>
+<td><strong>many-to-many.</strong> An area is never owned by a
+chapter</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The many-to-many relation to chapters is
+load-bearing</strong>, not future-proofing for its own sake. With one
+chapter present, a one-to-many shortcut is indistinguishable in
+behaviour and cheaper to build. It breaks at the second chapter, when a
+topic recurs — and it breaks after links exist.</p>
+<h3 id="term">2.2 Term</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identifier</td>
+<td>minted, persisted</td>
+<td>§1</td>
+</tr>
+<tr>
+<td>canonical form</td>
+<td>the term’s preferred name</td>
+<td>non-empty</td>
+</tr>
+<tr>
+<td>variants</td>
+<td>observed surface forms that resolve to this term</td>
+<td>may be empty</td>
+</tr>
+<tr>
+<td>areas</td>
+<td>the areas this term belongs to</td>
+<td>may be several</td>
+</tr>
+<tr>
+<td>significance</td>
+<td>the recorded measure and its inputs</td>
+<td><strong>inspectable</strong>; raw frequency alone is disqualified
+(FR-013, D-KG-6)</td>
+</tr>
+<tr>
+<td>certainty</td>
+<td><code>confident</code> or <code>uncertain</code></td>
+<td>an uncertain term is marked and never presented as confident
+(FR-011)</td>
+</tr>
+<tr>
+<td>evidence</td>
+<td>the mentions that evidence it</td>
+<td><strong>at least one when published</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>A term with no evidence does not exist.</strong> This is a
+stronger statement than “is not published”: if its last evidencing
+passage is redacted, the term is withdrawn from the taxonomy, not merely
+unlinked (edge case; FR-027).</p>
+<h3 id="lesson-section">2.3 Lesson Section</h3>
+<p>An addressable part of an area’s materials, so a link can name a part
+of an area rather than only the whole. This is what makes the operator’s
+<em>“proper chapters and part of the chapters”</em> navigable.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identifier</td>
+<td>minted, persisted</td>
+<td>§1</td>
+</tr>
+<tr>
+<td>area</td>
+<td>owning area</td>
+<td>exactly one</td>
+</tr>
+<tr>
+<td>heading</td>
+<td>the section’s title</td>
+<td>one of the seven skeleton sections, or a per-topic subsection within
+one</td>
+</tr>
+<tr>
+<td>ordinal</td>
+<td>order within the area</td>
+<td><strong>not</strong> identity</td>
+</tr>
+<tr>
+<td>authorship</td>
+<td><code>authored</code> or <code>assembled</code></td>
+<td>required (FR-017)</td>
+</tr>
+<tr>
+<td>citations</td>
+<td>the passages its claims rest on</td>
+<td>every substantive claim cited or marked editorial (FR-015)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="question">2.4 Question</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identifier</td>
+<td>minted, persisted</td>
+<td>§1</td>
+</tr>
+<tr>
+<td>area</td>
+<td>owning area</td>
+<td>exactly one</td>
+</tr>
+<tr>
+<td>set</td>
+<td><code>short</code> or <code>long</code></td>
+<td>closed</td>
+</tr>
+<tr>
+<td>kind</td>
+<td><code>mcq</code>, <code>short</code>, <code>flashcard</code></td>
+<td>ported vocabulary</td>
+</tr>
+<tr>
+<td>prompt</td>
+<td>the question</td>
+<td>non-empty</td>
+</tr>
+<tr>
+<td>choices, correct index</td>
+<td>multiple choice only</td>
+<td>present exactly when kind is <code>mcq</code></td>
+</tr>
+<tr>
+<td>answer</td>
+<td>model answer</td>
+<td>present for <code>short</code> and <code>flashcard</code></td>
+</tr>
+<tr>
+<td>explanation</td>
+<td>why the answer is right</td>
+<td>optional</td>
+</tr>
+<tr>
+<td>category, difficulty</td>
+<td>ported closed vocabularies</td>
+<td>difficulty is one of the reference’s three values</td>
+</tr>
+<tr>
+<td>answer authorship</td>
+<td><code>authored</code> or <code>assembled</code></td>
+<td>assembled answers are marked as such wherever shown (FR-038,
+SC-020)</td>
+</tr>
+<tr>
+<td><strong>citations</strong></td>
+<td><strong>the passages that teach the answer</strong></td>
+<td><strong>at least one, and every one must resolve, or the question is
+not served</strong> (FR-035, FR-036, D4)</td>
+</tr>
+<tr>
+<td>lesson sections</td>
+<td>the sections this question assesses</td>
+<td>at least one — this is what makes SC-017b measurable</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Two invariants distinguish the sets and are checkable rather
+than felt</strong> (D-KG-7):</p>
+<ul>
+<li>a <code>short</code>-set question may cite <strong>one</strong>
+passage;</li>
+<li>a <code>long</code>-set question <strong>must cite more than one
+distinct passage</strong>.</li>
+</ul>
+<p><strong>This entity is the feature’s one deliberate divergence from
+the reference.</strong> The reference’s equivalent has fields for
+prompt, choices, answer, explanation, category and difficulty — measured
+across 785 items — and <strong>no source field of any kind</strong>. The
+citations field is the difference, and making it mandatory rather than
+optional is the difference between a guarantee and a claim.</p>
+<h3 id="mention-the-join-that-carries-the-feature">2.5 Mention — the
+join that carries the feature</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identifier</td>
+<td>minted, persisted</td>
+<td>§1</td>
+</tr>
+<tr>
+<td>subject</td>
+<td>the term or area being mentioned</td>
+<td>exactly one</td>
+</tr>
+<tr>
+<td>passage</td>
+<td>the passage it occurs in</td>
+<td><strong>the join key.</strong> Never a time (FR-033b, D-KG-5)</td>
+</tr>
+<tr>
+<td>text span</td>
+<td>character offsets within the passage’s text</td>
+<td>required</td>
+</tr>
+<tr>
+<td>time span</td>
+<td>start and end, for media-backed passages</td>
+<td>present exactly when the passage is a transcript segment</td>
+</tr>
+<tr>
+<td><strong>precision</strong></td>
+<td><code>word</code> or <code>segment</code></td>
+<td><strong>required whenever a time span is present</strong> (FR-021,
+D-KG-1)</td>
+</tr>
+<tr>
+<td>timing confidence</td>
+<td>the word’s probability, when precision is <code>word</code></td>
+<td>carried, not discarded — 17.4% of words fall below the flag
+threshold</td>
+</tr>
+<tr>
+<td><strong>modality</strong></td>
+<td><code>spoken</code> or <code>on_screen</code></td>
+<td><strong>required on every mention</strong> (§2.9, D5). Derived from
+the passage’s kind, never guessed</td>
+</tr>
+<tr>
+<td><strong>interval bound</strong></td>
+<td>the sampling period the time span is accurate to, when the passage
+is <code>screen_text</code></td>
+<td>carried, not discarded — the on-screen analogue of timing confidence
+(§2.9)</td>
+</tr>
+<tr>
+<td>origin</td>
+<td>how the mention was found</td>
+<td>inspectable</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Precision is a field, not a convention.</strong> A mention
+resolved by joining the word sidecar has <code>word</code> precision;
+one resolved only against its enclosing segment has
+<code>segment</code>. Measured: 99.52% of words join to a segment and
+0.48% do not, so both branches are real and the second is not a
+theoretical fallback. Conflating them is forbidden because the failure
+is invisible — the link still plays, just in the wrong place.</p>
+<p><strong>A mention spanning a segment boundary produces one mention
+per segment it touches</strong> (FR-022). Attaching it to one silently
+loses half its evidence, and the evidence count is what publication
+decisions rest on.</p>
+<h3 id="publication-review">2.6 Publication Review</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>subject</td>
+<td>the area reviewed</td>
+<td>exactly one</td>
+</tr>
+<tr>
+<td>decision</td>
+<td>recorded outcome — including <em>“nothing to change”</em></td>
+<td><strong>required.</strong> Recording nothing to change is valid;
+skipping the review is not (FR-016)</td>
+</tr>
+<tr>
+<td>reviewer</td>
+<td>who</td>
+<td>non-empty</td>
+</tr>
+<tr>
+<td>time</td>
+<td>when</td>
+<td>must be <strong>newer than the materials it reviews</strong>, or it
+is stale and fails</td>
+</tr>
+</tbody>
+</table>
+<h3 id="progress">2.7 Progress</h3>
+<p>Ported from the reference, whose model already gets the important
+part right.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>session</td>
+<td>whose progress</td>
+<td>—</td>
+</tr>
+<tr>
+<td>item type, item</td>
+<td>what the progress is about</td>
+<td>an area, a question set, or a question</td>
+</tr>
+<tr>
+<td>status, grade, streak</td>
+<td>the learner’s state</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Survives re-ingest</strong> (FR-039). The reference
+deliberately preserves this table when it rebuilds everything else, and
+that is the behaviour to port: a learner’s history is not derived from
+the content and must not be discarded when the content is rebuilt.</p>
+<h3 id="locus">2.8 Locus</h3>
+<p>Not stored — computed, and returned with every search hit. Named as
+an entity because the specification requires it to <em>resolve</em>, and
+a thing that must resolve needs a defined shape.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>containing unit</td>
+<td>the area, chapter, lesson section or file that contains the hit</td>
+</tr>
+<tr>
+<td>position</td>
+<td>a time span for media-backed content; a text span with <strong>match
+offsets</strong> otherwise; a file and symbol position for code</td>
+</tr>
+<tr>
+<td>precision</td>
+<td>inherited from the mention model where the position is a time</td>
+</tr>
+</tbody>
+</table>
+<p>The same passage can be reached through more than one containing unit
+— it may evidence two areas — so the locus is a property of the
+<em>hit</em>, not of the passage.</p>
+<h3 id="on-screen-text-passage-the-screen_text-kind">2.9 On-Screen Text
+Passage — the <code>screen_text</code> kind</h3>
+<p><strong>Added 2026-09-02 by operator decision</strong> (spec
+§Clarifications, D5). The corpus holds only what was
+<strong>spoken</strong>; the substance of a screen recording is text
+that was <strong>shown</strong>. This kind is how that text becomes
+addressable. It is a new <strong>passage kind</strong>, not a new
+entity: it takes the existing Passage shape in §0 and fills it, so it
+inherits the minter, the four-outcome resolver, the redaction flag and
+the mention model without any of them being touched.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Registry field</th>
+<th>How <code>screen_text</code> fills it</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identifier</td>
+<td>minted through the <strong>same</strong> minter as every other
+passage</td>
+<td>§1. <strong>No second minter and no second identifier
+format</strong></td>
+</tr>
+<tr>
+<td>kind</td>
+<td><code>screen_text</code></td>
+<td>joins <code>transcript_segment</code>, <code>doc_section</code>,
+<code>code</code>, <code>diagram</code> — a fifth value, not a fifth
+registry</td>
+</tr>
+<tr>
+<td>chapter scope</td>
+<td>the chapter whose recording it was read from</td>
+<td>exactly one</td>
+</tr>
+<tr>
+<td>ordering key</td>
+<td>the <strong>visibility onset</strong> — its start time, exactly as a
+transcript segment’s ordering key is its start time</td>
+<td>media-backed, so the ordering key is a time</td>
+</tr>
+<tr>
+<td>source reference</td>
+<td>the recording, plus the <strong>sample range</strong> the text was
+observed across</td>
+<td>the registry’s existing path-plus-range shape; the range counts
+samples, not lines</td>
+</tr>
+<tr>
+<td>text</td>
+<td>the recognised text</td>
+<td>non-empty. An empty recognition is <strong>not a passage</strong> —
+it is a sample that recognised nothing, and is reported as such</td>
+</tr>
+<tr>
+<td>immutable machine text</td>
+<td>as for every passage</td>
+<td>unchanged</td>
+</tr>
+<tr>
+<td>provenance marking</td>
+<td><code>ocr</code>, and the engine and settings that produced it</td>
+<td><strong>distinct from <code>asr</code>.</strong> A reader must be
+able to tell which engine produced a passage without inferring it from
+the kind</td>
+</tr>
+<tr>
+<td>confidence</td>
+<td>the engine’s own confidence for the recognised text</td>
+<td><strong>carried, not discarded</strong> — the on-screen analogue of
+N3</td>
+</tr>
+<tr>
+<td>uncertainty flag and reason</td>
+<td>set when the engine’s confidence falls below the recorded
+threshold</td>
+<td>the threshold is recorded, never a literal in code</td>
+</tr>
+<tr>
+<td>redaction flag</td>
+<td>inherited unchanged</td>
+<td>§5 applies to this kind in full</td>
+</tr>
+<tr>
+<td>change-detection hash</td>
+<td>as for every passage — <strong>explicitly not identity</strong></td>
+<td>unchanged</td>
+</tr>
+<tr>
+<td>mint time, ingest run</td>
+<td>as for every passage</td>
+<td>unchanged</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Its time span is a visibility interval, and the interval has
+a bound.</strong> A transcript segment’s time span comes from the
+recogniser’s own alignment. An on-screen passage’s comes from a
+<strong>sampling grid</strong>: the text was first seen at one sample
+and last seen at another, so the true onset lies within one sampling
+period of the observed onset. That bound is a real quantity, it is not
+zero, and it is <strong>carried on the passage and on every mention
+derived from it</strong> rather than left for a reader to assume
+away.</p>
+<p><strong>Why this does not add a third precision value.</strong> The
+temptation is to mint <code>ocr</code> as a third value of the mention
+<code>precision</code> field. It is refused: <code>precision</code> is
+two-valued and every consumer switches on two values (§2.5, contract §3
+N1/N2), and a third value changes the wire, the storage and every switch
+— to express something the field does not mean. <code>precision</code>
+records <strong>how the time was derived</strong>: from a per-word
+timing record (<code>word</code>), or from the enclosing unit
+(<code>segment</code>). An on-screen mention’s time is derived from its
+enclosing visibility interval, so it declares
+<strong><code>segment</code></strong>, and the interval’s accuracy
+travels beside it as the <strong>interval bound</strong> — exactly as
+timing confidence travels beside <code>word</code>. The vocabulary stays
+two-valued; the honesty is carried in a field of its own rather than
+smuggled into an enum.</p>
+<p><strong>Honest boundary, measured 2026-09-02.</strong> The contract
+has always been two-valued and word precision is <em>reachable</em> —
+the chapter carries a word sidecar of 15,610 records. It is <strong>not
+produced in this deployment</strong>:
+<code>workshop/docs/limits.md</code> §10.1 and the defects row
+<code>precision-segment-only</code> in
+<code>workshop/platform/gates/defects-registry.tsv</code> record that
+every deep link resolves at <code>segment</code> precision today. This
+kind therefore joins a model whose second branch is contracted and
+currently unexercised. Do not read “joins the existing precision model”
+as “word precision is live”.</p>
+<h3 id="corroboration-group-what-stops-a-term-counting-twice">2.10
+Corroboration Group — what stops a term counting twice</h3>
+<p>A term said aloud <strong>and</strong> shown on screen at the same
+moment produces <strong>two</strong> mentions on <strong>two</strong>
+passages. Both are true and both must be navigable — but they are
+<strong>one teaching moment</strong>, and the evidence counts that
+publication rests on (§2.1 <em>at least one when published</em>, §2.2,
+the attached proportion in contract §2.4 A3, and the coverage
+distribution in contract §4.3 C2) must not silently double because the
+workshop happened to be recorded with a screen.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+<th>Invariant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>identifier</td>
+<td>minted, persisted</td>
+<td>§1</td>
+</tr>
+<tr>
+<td>subject</td>
+<td>the term or area corroborated</td>
+<td>exactly one</td>
+</tr>
+<tr>
+<td>members</td>
+<td>the mentions grouped</td>
+<td><strong>at least one</strong>; a lone mention is a group of one, so
+counting is uniform</td>
+</tr>
+<tr>
+<td>modalities</td>
+<td>the distinct modalities present across the members</td>
+<td>derived, never stored twice</td>
+</tr>
+<tr>
+<td>window</td>
+<td>the overlap tolerance the grouping used</td>
+<td><strong>recorded on the group</strong>, so the arithmetic can be
+audited</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Grouping is by subject and by overlapping time, within a
+measured window</strong> — never by text equality alone. Two occurrences
+of one term twenty minutes apart are two occurrences; deduplicating on
+text alone collapses a corpus into a vocabulary list.</li>
+<li><strong>Nothing is deleted.</strong> Both members remain
+individually retrievable and individually navigable — a learner who
+wants the moment the term was <em>shown</em> gets it. Grouping changes
+what is <strong>counted</strong>, not what exists.</li>
+<li><strong>Evidence counting is over groups; mention counting is over
+mentions</strong>, and the two figures are published side by side so the
+difference is visible rather than reconciled in someone’s head.</li>
+<li><strong>The window is measured, not assumed.</strong> A term is
+commonly displayed <em>before</em> it is discussed, so a coincidence
+test tuned to zero lag under-groups, and a window widened until the
+numbers look tidy over-groups. Its value is settled by measurement
+(<strong>U7</strong>, task T130) with a three-valued exit, and task T131
+implements the grouping against the value that measurement returns.</li>
+</ul>
+<p><strong>A subject evidenced only on screen is marked
+<code>on-screen-only</code></strong> — the modality analogue of
+<code>uncertain-only</code> (FR-012). It is a different fact from a
+subject the workshop actually talked about, and a reader who cannot tell
+them apart will over-read the taxonomy.</p>
+<h2 id="relationships-the-connectivity-matrix-and-its-storage">3.
+Relationships — the connectivity matrix, and its storage</h2>
+<p>FR-033a requires six traversals across four content kinds. Every one
+is <strong>derived from mentions and citations</strong>; none is a
+separately stored edge that could drift out of agreement with them.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>From</th>
+<th>To</th>
+<th>Derived through</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a moment in the recording</td>
+<td>area / lesson / question</td>
+<td>the enclosing segment’s passage → its mentions → their subjects; and
+passage → citations → questions</td>
+</tr>
+<tr>
+<td>an area, lesson or question</td>
+<td>a moment in the recording</td>
+<td>citations → passages → time spans, with precision</td>
+</tr>
+<tr>
+<td>a transcript passage</td>
+<td>area / lesson / question</td>
+<td>mentions and citations on that passage</td>
+</tr>
+<tr>
+<td>a code passage</td>
+<td>a transcript passage</td>
+<td>the existing cross-reference graph, plus shared area membership</td>
+</tr>
+<tr>
+<td>an area</td>
+<td>code passages</td>
+<td>mentions whose passage kind is code</td>
+</tr>
+<tr>
+<td>any kind</td>
+<td>any other, transitively</td>
+<td>traversal over the above, cycle-guarded</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Every traversal is bidirectional</strong> (FR-018), and
+bidirectionality is a property of the derivation rather than of a second
+stored edge: a mention read forward gives subject-to-passage and read
+backward gives passage-to-subject. Storing a reverse edge would be
+faster and would introduce the possibility of the two disagreeing, which
+is a class of bug with no symptom.</p>
+<p><strong>Cycle safety</strong> (FR-026): traversal carries a visited
+set and a depth bound, and reports truncation rather than silently
+stopping — the existing cross-reference response already carries a
+truncation field, and the same discipline applies here.</p>
+<h2 id="resolution-one-path-four-outcomes">4. Resolution — one path,
+four outcomes</h2>
+<p>Every link, citation, mention and cross-reference resolves through
+<strong>one</strong> function, the one the platform already uses, with
+four outcomes that are never collapsed:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Outcome</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>found</strong></td>
+<td>the target exists and is readable</td>
+</tr>
+<tr>
+<td><strong>redacted</strong></td>
+<td>the target exists and its content is suppressed — distinct from
+absent</td>
+</tr>
+<tr>
+<td><strong>not present</strong></td>
+<td>the target is not in the registry — a loud dead link</td>
+</tr>
+<tr>
+<td><strong>could not determine</strong></td>
+<td>the registry could not be read — <strong>never</strong> collapsed
+into “not present”</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why the fourth outcome is not optional</strong>: collapsing
+“could not determine” into “not present” makes an unreadable database
+look like a curriculum that never contained the passage. That is the
+conflation this repository has found and fixed four separate times, and
+it is why the platform’s resolver already has this shape.</p>
+<p><strong>No fallback of any kind</strong> (FR-023, FR-024): no fuzzy
+text matching, no nearest-neighbour lookup, no prefix matching, no
+same-content-hash lookup. An unresolvable link fails loudly. A silently
+re-pointed link is the one outcome the whole identity model exists to
+prevent.</p>
+<h2 id="redaction-propagation">5. Redaction propagation</h2>
+<p>FR-027 requires redaction to reach every artifact kind this feature
+introduces. The propagation targets, enumerated so that none is
+discovered missing later:</p>
+<ol type="1">
+<li><strong>Mentions</strong> on the redacted passage — withdrawn.</li>
+<li><strong>Terms</strong> whose last evidence was that passage — the
+term itself is withdrawn, not merely unlinked.</li>
+<li><strong>Areas</strong> whose last evidence was that passage —
+unpublished, and reported.</li>
+<li><strong>Questions</strong> citing it — <strong>withheld</strong>,
+because an unresolvable citation means the question is not served
+(FR-036).</li>
+<li><strong>Lesson sections</strong> citing it — the claim is marked as
+having lost its evidence, not silently left standing.</li>
+<li><strong>Index entries</strong> — removed; the existing index already
+excludes redacted rows and the new kinds must inherit that rather than
+reimplement it.</li>
+<li><strong>Exports</strong> — regenerated or withdrawn; an exported
+document is a copy that outlives the redaction if nothing acts on
+it.</li>
+<li><strong>Stored answers</strong> — any cached answer citing it.</li>
+</ol>
+<p>SC-012 measures all eight, with a paired mutation that skips exactly
+one.</p>
+<p><strong>The eight targets are unchanged by the
+<code>screen_text</code> kind, and that is the point</strong> — it is a
+passage kind, so redacting a <code>screen_text</code> passage withdraws
+its mentions through target 1 and cascades through the remaining seven
+by the same rules. What must be proven rather than assumed is that
+propagation is not written against ASR-derived mentions only; task
+<strong>T140</strong> asserts it and its paired mutation restricts
+propagation to the spoken modality.</p>
+<p><strong>On-screen text is a wider disclosure surface than the
+transcript, and the redaction path is not the whole answer to
+that.</strong> A screen recording shows what was never said: window
+titles, file paths, identifiers, a third party’s name in a title bar.
+The transcript can only carry what somebody spoke; OCR output carries
+whatever was visible. The boundary obligation this creates is stated as
+<strong>FR-065</strong> and gated by <strong>G-OCR-11</strong> (task
+T137), and it applies <em>before</em> any OCR-derived text reaches a
+public artifact — redaction removes what has been recognised as needing
+removal, and the boundary check is what recognises it.</p>
+<h2 id="invariants-the-model-must-not-be-able-to-violate">6. Invariants
+the model must not be able to violate</h2>
+<p>Stated as invariants rather than as tests, because a test can be
+deleted and an invariant enforced in the type cannot be — this is the
+“an assertion that greps is not a test” rule applied to shape.</p>
+<ul>
+<li><strong>I1</strong> — no entity carries an identifier derived from
+its own content or position.</li>
+<li><strong>I2</strong> — a mention with a time span always carries a
+precision.</li>
+<li><strong>I3</strong> — a served question always has at least one
+resolving citation.</li>
+<li><strong>I4</strong> — a long-set question always cites more than one
+distinct passage.</li>
+<li><strong>I5</strong> — a published area always has at least one
+evidencing mention and a review newer than its materials.</li>
+<li><strong>I6</strong> — a published term always has at least one
+evidencing mention.</li>
+<li><strong>I7</strong> — no stored relationship is keyed on a
+time.</li>
+<li><strong>I8</strong> — every relationship is traversable in both
+directions.</li>
+<li><strong>I9</strong> — resolution has exactly four outcomes, and
+“could not determine” is never one of the other three.</li>
+<li><strong>I10</strong> — every passage is either attached to an area
+or explicitly classified as unattached.</li>
+<li><strong>I11</strong> — the mention <code>precision</code> vocabulary
+has exactly <strong>two</strong> values. A <code>screen_text</code>
+mention declares <code>segment</code> and carries its interval bound; it
+never declares <code>word</code>, and no third value exists.</li>
+<li><strong>I12</strong> — every mention declares its
+<strong>modality</strong>, and every evidence count that a publication,
+coverage or attachment figure rests on is taken over
+<strong>corroboration groups</strong>, never over raw mentions.</li>
+<li><strong>I13</strong> — no OCR-derived mention is published for a
+chapter whose OCR accuracy has not been <strong>measured for that
+chapter</strong>. An unmeasured chapter yields could-not-determine,
+never a default pass.</li>
+</ul>
+<h2 id="what-this-model-deliberately-does-not-have">7. What this model
+deliberately does not have</h2>
+<ul>
+<li><strong>No area hierarchy.</strong> Areas are flat with an ordering.
+The reference has a track level above its modules, ported as the
+curriculum spine, but nesting areas inside areas is not modelled —
+nothing in the corpus evidences a need for it, and a hierarchy nobody
+needs is a navigation cost.</li>
+<li><strong>No authored chapter sections.</strong> Sections stay
+derived, with their existing rule and cross-check. Authoring them would
+create a second source of truth about a chapter’s structure.</li>
+<li><strong>No free-text grade.</strong> D3 keeps automatic grading out
+of scope; a grade field for short answers would invite it back in by
+accident.</li>
+<li><strong>No stored reverse edges.</strong> §3 explains why: two
+representations of one fact can disagree, and the disagreement has no
+symptom.</li>
+<li><strong>No third mention precision.</strong> §2.9 explains why:
+<code>precision</code> records how a time was derived, and an on-screen
+time is derived from its enclosing interval. Adding an <code>ocr</code>
+value would change the wire, the storage and every switch in order to
+express something the field does not mean, while the fact a reader
+actually needs — how wide the interval is — travels better as a number
+than as an enum.</li>
+<li><strong>No deletion of the duplicate occurrence.</strong> §2.10
+explains why: the on-screen occurrence is a real moment a learner may
+want to reach. Only the <strong>count</strong> is deduplicated, and both
+figures are published.</li>
+<li><strong>No text-equality deduplication.</strong> Two occurrences of
+one term at different times are two occurrences. Grouping is by subject
+<strong>and</strong> overlapping time within a measured window, or it is
+not grouping — it is a vocabulary list.</li>
+</ul>
+</body>
+</html>

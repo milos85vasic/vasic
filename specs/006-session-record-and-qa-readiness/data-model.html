@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>data-model</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">data-model</h1>
+</header>
+<h1 id="phase-1-data-model">Phase 1 — Data Model</h1>
+<p><strong>Feature</strong>: Session record + QA readiness ·
+<strong>Date</strong>: 2026-09-08</p>
+<p>Entities, invariants, and states. The wire form is in <a
+href="contracts/"><code>contracts/</code></a>.</p>
+<p><strong>Four invariants govern everything, and each exists because
+its absence was a measured defect:</strong></p>
+<ul>
+<li><strong>I1 — One derivation, many consumers.</strong> A fact is
+computed once. Two implementations that agree today produced this
+platform’s 819-listed-vs-817- openable catalogue bug.</li>
+<li><strong>I2 — Absence is a state, not a null.</strong> Every missing
+case is named and reported with a reason. A synthesised value standing
+in for an absent one is how 814 mined areas acquired names they never
+had.</li>
+<li><strong>I3 — A snapshot licenses only itself.</strong> A cached copy
+may assert what it holds, never a determined negative about the source
+it can no longer see.</li>
+<li><strong>I4 — A proposal is not a decision.</strong> A
+machine-drafted verdict may not move a published figure.</li>
+</ul>
+<hr />
+<h2 id="sessionrecord">SessionRecord</h2>
+<p>One chapter’s record, cumulative over that session and every prior
+one.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>chapter</code></td>
+<td>The chapter this record belongs to.</td>
+</tr>
+<tr>
+<td><code>prior_chapters</code></td>
+<td>The chapters folded in. Cumulativeness is data, not an
+assumption.</td>
+</tr>
+<tr>
+<td><code>sections</code></td>
+<td>The four, keyed by name.</td>
+</tr>
+<tr>
+<td><code>section_order</code></td>
+<td><code>meeting_notes</code>, <code>open_questions</code>,
+<code>todo</code>, <code>next_meeting</code> — one order, so no surface
+invents its own.</td>
+</tr>
+<tr>
+<td><code>plan</code></td>
+<td>What this session intended to cover.</td>
+</tr>
+<tr>
+<td><code>carry_forward</code></td>
+<td>Points moving to the successor, or the outbox.</td>
+</tr>
+<tr>
+<td><code>privacy</code></td>
+<td>The boundary statement carried with the record itself.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Invariants</strong></p>
+<ul>
+<li>All four sections present (FR-001). Cumulative over prior sessions
+(FR-002).</li>
+<li><strong>Both the embedded chapter key and the standalone routes read
+the same derivation</strong> (I1). A gate asserts they agree; agreeing
+today is what drifts.</li>
+</ul>
+<hr />
+<h2 id="section">Section</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>own_state</code></td>
+<td><code>authored</code> or <code>empty</code>.</td>
+</tr>
+<tr>
+<td><code>own_count</code></td>
+<td>Items originating in <strong>this</strong> session.</td>
+</tr>
+<tr>
+<td><code>carried_count</code></td>
+<td>Items arriving from earlier sessions.</td>
+</tr>
+<tr>
+<td><code>items[]</code></td>
+<td>Both, together.</td>
+</tr>
+<tr>
+<td><code>reason</code></td>
+<td>Required when <code>own_state</code> is <code>empty</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Invariant (FR-004, I2)</strong>: a section with nothing to
+report <strong>says so with its reason</strong>. <strong>An empty
+section and an unwritten section must never be
+indistinguishable</strong> — this is the single property that lets a QA
+team tell a defect from a blank.</p>
+<p><strong>The <code>own_count</code>/<code>carried_count</code> split
+is load-bearing.</strong> Two sections currently carry
+<code>own_count=0</code> with an authored reason. Without the split they
+would read as productive sessions.</p>
+<hr />
+<h2 id="recorditem">RecordItem</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code>, <code>text</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>origin_chapter</code></td>
+<td>Which session raised it (FR-003).</td>
+</tr>
+<tr>
+<td><code>slip_count</code></td>
+<td>How many times it has been carried (FR-010).</td>
+</tr>
+<tr>
+<td><code>marker</code></td>
+<td><code>CARRIED-FORWARD</code> when carried (FR-009).</td>
+</tr>
+<tr>
+<td><code>marker_label</code></td>
+<td>e.g. <code>CARRIED-FORWARD x2</code> — the count is visible, not
+merely stored.</td>
+</tr>
+<tr>
+<td><code>resolution</code></td>
+<td>Open questions only: <code>answered_in_chapter</code> /
+<code>answered_by_research</code> / <code>unanswered</code>. The client
+already types this; the wire must not narrow it.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="sessionplan">SessionPlan</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>basis</code></td>
+<td><code>predecessor_next_points</code> or
+<code>undetermined</code>.</td>
+</tr>
+<tr>
+<td><code>coverage_state</code></td>
+<td><code>undecided</code> until a human confirms (I4).</td>
+</tr>
+<tr>
+<td><code>coverage_source</code>, <code>coverage_reason</code></td>
+<td>Where a verdict came from, or why none exists.</td>
+</tr>
+<tr>
+<td><code>planned_count</code>, <code>covered_count</code>,
+<code>carried_count</code>, <code>dropped_count</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Invariants</strong></p>
+<ul>
+<li>Every planned point resolves to <strong>covered / carried /
+dropped-with-reason</strong> (FR-007). <strong><code>vanished</code> is
+0 by construction</strong> — <code>Resolve</code> has no fourth
+branch.</li>
+<li><strong>A drop without a reason is refused and carries
+instead</strong>, so “dropped” cannot become a quiet disposal
+route.</li>
+<li><strong><code>basis: undetermined</code> computes no coverage
+percentage.</strong> Chapter 01 has no predecessor and no recorded
+intent; a percentage over an invented plan would be a fiction with a
+denominator.</li>
+</ul>
+<hr />
+<h2 id="coverageproposal-new">CoverageProposal <em>(new)</em></h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>point_id</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>verdict</code></td>
+<td><code>covered</code> / <code>not_covered</code> /
+<strong><code>cannot_determine</code></strong> — a first-class
+answer.</td>
+</tr>
+<tr>
+<td><code>evidence[]</code></td>
+<td>Passage and section ids the verdict rests on.</td>
+</tr>
+<tr>
+<td><code>confidence</code></td>
+<td>The proposer’s own.</td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td>Always <code>PROPOSED</code> until a human confirms.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Invariant (I4, FR-007a)</strong>: a proposal <strong>MUST
+NOT</strong> move <code>coverage_state</code> or any served count. A
+check asserts the served state is still <code>undecided</code> after a
+proposal exists — that assertion is what makes the rule mechanical
+rather than aspirational.</p>
+<hr />
+<h2 id="carryforward">CarryForward</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>to_chapter</code></td>
+<td>Successor, or null when this is the outbox.</td>
+</tr>
+<tr>
+<td><code>is_outbox</code></td>
+<td>True for the latest chapter, which has no successor (FR-011).</td>
+</tr>
+<tr>
+<td><code>reason</code></td>
+<td>Why these points are here.</td>
+</tr>
+<tr>
+<td><code>max_slip_count</code></td>
+<td>The worst slip in the set — a point slipping repeatedly is surfaced,
+not buried.</td>
+</tr>
+<tr>
+<td><code>points[]</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="lesson">Lesson</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code>, <code>ord</code>, <code>title</code></td>
+<td><code>ord</code> drives one server-side sort; prev/next use the same
+slice.</td>
+</tr>
+<tr>
+<td><strong><code>body</code></strong></td>
+<td>The teaching content. Declared <strong>upstream in the kit</strong>,
+optional there by deliberate choice — a materials-only lesson is
+legitimate, so “every lesson has a body” is a <em>consumer</em>
+policy.</td>
+</tr>
+<tr>
+<td><code>summary</code></td>
+<td>A one-line blurb. <strong>Kept distinct from
+<code>body</code></strong>; collapsing them was the semantic lie that
+caused 339 bodies to be discarded.</td>
+</tr>
+<tr>
+<td><code>estimated_minutes</code>, <code>materials[]</code>,
+<code>required_for_assessment</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Invariant (FR-013)</strong>: every served lesson of a
+published area carries non-empty content. Asserted by a gate with
+<strong>two arms</strong> — in-process and live — because in-process
+alone is a source measurement.</p>
+<hr />
+<h2 id="assessment-question-attempt">Assessment · Question ·
+Attempt</h2>
+<p>Unchanged from spec 004 except three properties this feature
+added:</p>
+<ul>
+<li><strong>The taking projection has no answer field at all</strong> —
+built as a map, not as the domain type with fields omitted. Omission
+depends on every future field remembering to omit itself; absence does
+not.</li>
+<li><strong>Graded rows are withheld from the open practice
+route</strong>, and the withholding <strong>says so</strong>. The two
+decks are the same authored rows: 224 of 224 match by prompt, 0 of 224
+by id.</li>
+<li><strong>A malformed submission is refused</strong>, naming the
+offending key, before the store is touched. <code>responses: []</code>
+still grades — a blank paper is a real submission.</li>
+</ul>
+<p><strong>Fail-closed (I3)</strong>: a nil, unreadable <strong>or
+stale</strong> catalog withholds every answer key rather than risking
+one.</p>
+<hr />
+<h2 id="catalog-snapshot">Catalog snapshot</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>State</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Fresh</code></td>
+<td>Source unchanged since load.</td>
+</tr>
+<tr>
+<td><code>Stale</code></td>
+<td>Source changed — determined negatives are refused; 503 names the
+changed files.</td>
+</tr>
+<tr>
+<td><code>StalenessUnknown</code></td>
+<td>Cannot tell. Never a pass.</td>
+</tr>
+<tr>
+<td><code>NoSource</code></td>
+<td>No directory to have drifted from. <strong>Negatives still
+stand</strong> — an in-memory test catalog is legitimately authoritative
+about itself.</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>NoSource</code> is a separate state on
+purpose.</strong> Folding it into <code>Fresh</code> would license false
+negatives; folding it into <code>Unknown</code> would break every
+in-memory test.</p>
+<hr />
+<h2 id="qascenario-evidenceartefact">QAScenario · EvidenceArtefact</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>QAScenario</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>action</code></td>
+<td>What the tester does.</td>
+</tr>
+<tr>
+<td><code>expected</code></td>
+<td>Stated <strong>before</strong> the action (FR-018).</td>
+</tr>
+<tr>
+<td><code>report_procedure</code></td>
+<td>How to report a discrepancy and what to capture.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>EvidenceArtefact</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claim</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>population</code></td>
+<td><strong><code>source</code> / <code>in_process</code> /
+<code>served</code></strong> — required (FR-026). The same figure over
+different populations is a different fact.</td>
+</tr>
+<tr>
+<td><code>build_id</code></td>
+<td>What state it was produced from.</td>
+</tr>
+<tr>
+<td><code>corpus_fingerprint</code></td>
+<td>Proof the corpus did not move mid-measurement (FR-027).</td>
+</tr>
+<tr>
+<td><code>verdict</code></td>
+<td>satisfied / finding / <strong>could-not-determine</strong> — never
+recorded as satisfied (FR-024).</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

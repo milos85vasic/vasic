@@ -155,6 +155,17 @@ Re-measured before filing, against gitlink `d940b51fc247c285c805799452992da8d09c
 on podman 5.7.1 / Go 1.26.2. Filing it is not fixing it — this section stays
 until the submodule ships the change and the gitlink is bumped.
 
+**THE CODE DEFECT IS FIXED AT THE PIN THIS TREE CONSUMES TODAY, so the sentence
+immediately above has had its condition met and the section is kept as HISTORY,
+not as an open finding.** Re-measured 2026-09-09 at gitlink
+`7f5922563d8bec866b1a25eac483590c9a212817`: `pkg/runtime/podman.go:331-348`
+now carries the `strconv.Itoa` guard the paragraph below says already existed
+three times elsewhere in its own package, with the failing CLI line quoted in
+its own comment. The fix arrived in `6d13ad03528c` (2026-09-04). **Whether the
+GitHub issue itself is still open is UNCONFIRMED — the provider was not queried
+this session.** Everything below this paragraph describes the state at
+`d940b51`; it was true when written.
+
 Measured while filing, and worth recording here: `podman.go` is the **only**
 runtime in the package that forwards the `"all"` sentinel to a backend that
 cannot parse it. `crio.go:304-308` and `lxd.go:328-332` guard it with
@@ -340,19 +351,84 @@ the one an "it's all a violation" reading loses:
 | `_tools/helixtranslate-container/Containerfile.translator` | same | left as is |
 | `_tools/helixtranslate-local.sh` | **real violation.** Froze the literal `podman` for the LOCAL host — the module owns local runtime detection (`runtime.AutoDetect`) | **CONVERTED** to `cmd/runtime-probe`, verified on this host |
 | `_tools/distribute-helixtranslate.sh` | **real violation.** Raw `ssh`/`scp`/`rsync` + `podman build` + `save｜load` — `pkg/remote`, `pkg/remoteexec`, `pkg/distribution` own all of it | replacement written, **UNVERIFIED** (hosts unreachable); original kept |
-| `_tools/helixtranslate-container.sh` | **real violation** (raw `ssh`), **not closeable today** — it streams the document on remote STDIN and no executed module API accepts stdin | declared exception in its own header |
-| `_tools/helixtranslate-container/run.sh` | **not closeable today** — one-shot `run --rm -i` with stdin; takes its runtime from `$1`, so it detects nothing | declared exception added |
+| `_tools/helixtranslate-container.sh` | **real violation** (raw `ssh`), **not closeable today** — it streams the document on remote STDIN, and `remote.RemoteRuntime.Run` still explicitly refuses `WithRunStdin`. Verdict re-confirmed 2026-09-09 at gitlink `7f592256`; the REASON is narrowed to the remote-stdin gap specifically | declared exception STANDS, reason narrowed |
+| `_tools/helixtranslate-container/run.sh` | **"not closeable today" is WITHDRAWN — it was true when written, at gitlink `d940b51`.** It runs ON the remote host, so its one-shot `run --rm -i` is a LOCAL run there, and `runtime.Run` + `WithRunStdin` express it as of `6d13ad0` | exception reason WITHDRAWN in its header; **conversion NOT performed** — no image, hosts unreachable, rc 2 |
 | `_tools/translate-fleet.sh` | **not a violation.** Its `host == amber.local ? docker : podman` is per-host CONFIGURATION: `pkg/remote.RemoteHost` carries a declared `Runtime string` field and the module ships no remote runtime detector | note added, code unchanged |
 
-The single upstream change that would close the two "not closeable" rows is an
-**ephemeral-run primitive that accepts stdin** in `pkg/runtime` — §11.4.76(4)
-says add it to `vasic-digital/containers`, never as a parallel implementation
-here. Measured at gitlink `d940b51fc247c285c805799452992da8d09c75b9`:
-`ContainerRuntime` declares Name, Version, IsAvailable, Start, Stop, Remove,
-Status, List, Stats, Exec and Logs — **no Run, no Create** — `Exec` takes no
-stdin, and the only `WithStdin` in the module
-(`pkg/remote/connection/interface.go:146`) sits in an interfaces-and-options-only
-package that nothing implements and no constructor returns.
+**THE PARAGRAPH THAT STOOD HERE IS WITHDRAWN BY NAME. It was TRUE at the pin it
+named and is FALSE at the pin this tree consumes today.** It read: *"The single
+upstream change that would close the two 'not closeable' rows is an ephemeral-run
+primitive that accepts stdin in `pkg/runtime` … Measured at gitlink
+`d940b51fc247c285c805799452992da8d09c75b9`: `ContainerRuntime` declares Name,
+Version, IsAvailable, Start, Stop, Remove, Status, List, Stats, Exec and Logs —
+**no Run, no Create** — `Exec` takes no stdin, and the only `WithStdin` in the
+module (`pkg/remote/connection/interface.go:146`) sits in an
+interfaces-and-options-only package that nothing implements and no constructor
+returns."*
+
+**That upstream change LANDED, and this tree consumed it without noticing.**
+Re-measured **2026-09-09** at gitlink
+`7f5922563d8bec866b1a25eac483590c9a212817`. The primitive arrived in
+`6d13ad03528c` (2026-09-04), **two commits before the current pin** — so this
+document asserted a closed gap for five days. `pkg/runtime/runtime.go` now
+declares on the interface itself:
+
+```go
+Run(
+    ctx context.Context, image string, cmd []string, opts ...RunOption,
+) (*ExecResult, error)
+```
+
+`pkg/runtime/run.go` and `pkg/runtime/run_test.go` exist. `WithRunStdin(io.Reader)`
+supplies the document and is what puts `-i` on the argv (`run.go:119`;
+`args = append(args, "-i")` at `run.go:204`). `StdinExecutor` / `ExecuteWithStdin`
+is implemented for real, by `defaultExecutor` on the `os/exec` path (`run.go:53`);
+an executor lacking it makes `Run` fail with `ErrStdinUnsupported` **before the
+command runs**.
+
+**Two halves of the withdrawn paragraph SURVIVE, and they are why the two rows
+split rather than both closing:**
+
+* `Exec(ctx, id, cmd []string)` **still accepts no stdin** — the signature is
+  unchanged at the current pin.
+* **The REMOTE-stdin gap is still OPEN.** `remote.RemoteRuntime.Run`
+  (`pkg/remote/runtime.go`, ~line 240) explicitly REFUSES `WithRunStdin`,
+  because `RemoteExecutor` exposes `Execute` and `ExecuteStream` and neither
+  accepts an `io.Reader`; it returns an error wrapping
+  `runtime.ErrStdinUnsupported` rather than a zero-exit result produced with an
+  empty stdin. `pkg/remote/connection` remains four files of interfaces and
+  option builders, `WithStdin` at `interface.go:146` included, with nothing
+  implementing its `Connection` interface.
+
+**Consequence — a SPLIT, and both halves are stated because reporting only the
+good half would be the bluff:**
+
+* `_tools/helixtranslate-container/run.sh` runs ON the remote host, so from that
+  host's own view its `run --rm -i` is a LOCAL run. It is **convertible in
+  principle** today via `runtime.Run` + `WithRunStdin` / `WithRunVolumes` /
+  `WithRunEntrypoint` / `WithRunExtraArgs`. **Its declared exception REASON no
+  longer holds** and its header now says so.
+* `_tools/helixtranslate-container.sh` is the local half — a raw
+  `ssh … < "$IN"` — and is **still NOT convertible**. Its exception STANDS,
+  narrowed by measurement to the remote-stdin gap named above.
+
+**NEITHER SCRIPT WAS CONVERTED, deliberately.** Re-measured 2026-09-09 on this
+host: `podman images | grep -i helixtranslate` matches **zero** rows; `getent
+hosts` fails to resolve `thinker.local` and `amber.local`; `ssh -o
+BatchMode=yes` returns **rc 255** for both. Absent image, unreachable hosts —
+rc **2**, and **a 2 is never a pass**. A working script is not to be replaced by
+a rewrite that cannot be exercised end to end. *Convertible in principle* is not
+*verified in practice*, and this document will not spend one as the other.
+
+**One upstream observation, recorded as an observation and NOT as a defect
+(§11.4.6).** `defaultExecutor.ExecuteWithStdin` builds its child with
+`exec.CommandContext` and folds an `*exec.ExitError` into `exitCode` while
+setting `err = nil` (`run.go:53-73`). A CANCELLED run is killed by the context
+and so returns as a signal death: **`ExitCode = -1` with a nil error**. A caller
+must consult `ctx.Err()` to distinguish cancellation from a container that
+exited −1. **Cancellation genuinely works.** Whether reporting it this way is
+deliberate is **UNCONFIRMED** — nothing in the module states it and it was not
+asked upstream.
 
 **Unverified end to end, and labelled so here as well as in the file:** no
 `helixtranslate:cli` image exists on this host (`podman images` matches it zero

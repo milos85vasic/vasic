@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>INDEPENDENT-VERIFICATION-2</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">INDEPENDENT-VERIFICATION-2</h1>
+</header>
+<h1 id="independent-verification-pass-2">Independent Verification — Pass
+2</h1>
+<blockquote>
+<h2 id="addendum-added-after-this-report-was-written">ADDENDUM — added
+after this report was written</h2>
+<p>This report closes by recording <strong>R3</strong> (doctor exit-code
+contract) and <strong>R5</strong> (<code>I21</code> is a worthless
+assertion) as <em>still live</em>. That was accurate at the moment of
+writing. <strong>Both were fixed afterwards, in commit
+<code>fbccc7a</code>.</strong></p>
+<p>The report body is deliberately left unedited: it is the record of
+what the verification found, and rewriting findings after the fact would
+defeat the point of commissioning an adversarial pass.</p>
+<p>Verified after the fix (re-run against the current scripts):</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>path</th>
+<th>exit</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>corrupt index</td>
+<td><code>1</code></td>
+<td>corruption found</td>
+</tr>
+<tr>
+<td>no index present</td>
+<td><code>2</code></td>
+<td>could not inspect</td>
+</tr>
+<tr>
+<td>index missing shadow tables (the crash R3 describes)</td>
+<td><code>2</code></td>
+<td>could not inspect — <strong>was <code>1</code>, a false corruption
+verdict</strong></td>
+</tr>
+</tbody>
+</table>
+<p><code>I21</code> is now behavioural: it constructs an index whose
+shadow tables are absent and requires exit <code>2</code>. It is
+mutation-proven — deleting the guard turns it red. <code>I22</code> was
+added for the absent-index path.</p>
+<p>R3’s root cause is worth restating, because it is subtle: the first
+fix listed <code>1</code> in its own pass-through arm
+(<code>case $rc in 0|1|2) exit $rc</code>), so the very code the comment
+singled out was forwarded verbatim. The python block now uses private
+exit codes (20/21/22) that bash translates, so no interpreter status can
+collide with a verdict.</p>
+</blockquote>
+<p><strong>Verifier role:</strong> adversarial. Every claim below was
+treated as false until reproduced. <strong>Date:</strong> 2026-08-27
+(host <code>nezha</code>, bash 5.2.37, Linux/x86_64) <strong>Constraint
+honoured:</strong> read-only on the real environment. No mutating git,
+no writes to <code>~/.bashrc</code> / <code>~/.bash_profile</code> /
+agent configs / <code>/etc</code>, no <code>lumen index</code>, no
+<code>lumen purge</code>, no <code>codegraph index|init</code>, no
+service restarts. All sandbox work ran under a throwaway
+<code>$HOME</code> and a throwaway <code>$CLAUDE_CONFIG_DIR</code>. The
+only file created by this pass is this report.</p>
+<h2 id="scoreboard">Scoreboard</h2>
+<p>15 claims were put under test.</p>
+<table>
+<thead>
+<tr>
+<th>Verdict</th>
+<th>Claims</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❌ <strong>REFUTED</strong></td>
+<td><strong>2</strong> — items 4 and 6</td>
+</tr>
+<tr>
+<td>⚠️ VERIFIED WITH MATERIAL CAVEAT</td>
+<td>1 — item 10</td>
+</tr>
+<tr>
+<td>❔ UNVERIFIABLE</td>
+<td>1 — item 3</td>
+</tr>
+<tr>
+<td>✅ VERIFIED</td>
+<td>11 — items 1, 2, 5, 7, 8, 9, 11, 12, 13, 14, 15</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Distinct defects found: 5</strong> (R1-R5 below).
+<strong>Worthless assertions found: 1 — <code>I21</code></strong> (see
+<strong>R5</strong>). It is green today on code whose named behaviour is
+provably broken, and it stays green with the guard it checks for deleted
+outright.</p>
+<h3 id="this-verification-ran-against-a-moving-target">⚠️ This
+verification ran against a moving target</h3>
+<p>Three separate times during this pass the repository changed under
+me, by a <strong>concurrent actor, not by any command in this
+pass</strong>:</p>
+<ol type="1">
+<li>HEAD advanced <code>88ab20c</code> → <code>72dc135</code> (a push
+that also swept this in-progress report into a commit).</li>
+<li><code>scripts/test-setup-agents-wizard.sh</code> grew twice: 126 →
+134 → <strong>141</strong> assertions.</li>
+<li><code>lumen-reindex.sh</code>, <code>lumen-index-doctor.sh</code>
+and <code>ollama-vulkan-remediation.sh</code> were all <strong>patched
+on disk while this report was being written</strong> — patching, among
+other things, R1, R2 and R4 below.</li>
+</ol>
+<p>Every finding is therefore stamped with the state it was found in
+<strong>and</strong> re-tested against the current working tree. The
+status column below is the current one.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th>Defect</th>
+<th>Found at</th>
+<th>Status now</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td><code>lumen-reindex.sh</code> Vulkan guard blind on a busy host</td>
+<td><code>88ab20c</code></td>
+<td>✅ <strong>fixed mid-pass</strong> — re-verified</td>
+</tr>
+<tr>
+<td>R2</td>
+<td><code>lumen-reindex.sh --help</code> starts an index run</td>
+<td><code>88ab20c</code></td>
+<td>✅ <strong>fixed mid-pass</strong> — re-verified</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>doctor returns 1 (“corruption”) when it merely could not
+inspect</td>
+<td><code>88ab20c</code></td>
+<td>❌ <strong>STILL BROKEN — a fix was attempted and is a
+no-op</strong></td>
+</tr>
+<tr>
+<td>R4</td>
+<td>remediation <code>--help</code> prints 6 lines of source</td>
+<td><code>88ab20c</code></td>
+<td>✅ <strong>fixed mid-pass</strong> — re-verified</td>
+</tr>
+<tr>
+<td>R5</td>
+<td><code>I21</code> is a worthless assertion</td>
+<td>current tree</td>
+<td>❌ <strong>STILL GREEN on broken behaviour</strong></td>
+</tr>
+</tbody>
+</table>
+<p>R1, R2 and R4 were real when commissioned and are recorded with their
+original evidence — a claim that was false when made is not
+retroactively true because it was fixed afterwards. R3 and R5 are live
+right now.</p>
+<hr />
+<h1 id="still-broken-read-these-first">❌ STILL BROKEN — READ THESE
+FIRST</h1>
+<h2
+id="r3-the-doctor-still-returns-1-corruption-found-for-an-internal-error-and-the-fix-that-was-added-for-it-is-a-no-op">❌
+R3 — the doctor still returns <strong>1 (“corruption found”) for an
+internal error</strong>, and the fix that was added for it is a
+<strong>no-op</strong></h2>
+<p>The header contract (<code>scripts/lumen-index-doctor.sh:19</code>)
+is unchanged:</p>
+<blockquote>
+<p><code>Exit 0 = healthy · 1 = corruption found · 2 = could not inspect</code></p>
+</blockquote>
+<p>The vector scan is still unguarded — no
+<code>try</code>/<code>except</code> anywhere around it:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (blob,) <span class="kw">in</span> c.execute(<span class="st">&quot;SELECT vectors FROM vec_chunks_vector_chunks00&quot;</span>):</span></code></pre></div>
+<p>A guard <strong>was</strong> added at the bottom of the script during
+this pass, and its comment states the problem exactly right:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">rc</span><span class="op">=</span><span class="va">$?</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># python maps an unhandled exception to 1, which is our &quot;corruption&quot; code.</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Only 0 and our explicit 1/2 are meaningful; anything else means we could not</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect, so report 2 rather than a false corruption verdict.</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">case</span> <span class="va">$rc</span> <span class="kw">in</span> <span class="ss">0</span><span class="kw">|</span><span class="ss">1</span><span class="kw">|</span><span class="ss">2</span><span class="kw">)</span> <span class="bu">exit</span> <span class="va">$rc</span> <span class="cf">;;</span> <span class="pp">*</span><span class="kw">)</span> <span class="bu">echo</span> <span class="st">&quot;❌ doctor could not complete (rc=</span><span class="va">$rc</span><span class="st">)&quot;</span><span class="kw">;</span> <span class="bu">exit</span> 2 <span class="cf">;;</span> <span class="cf">esac</span></span></code></pre></div>
+<p><strong>The comment describes the bug; the code does not fix
+it.</strong> <code>1</code> is in the pass-through list, so the one code
+the comment singles out — <em>“python maps an unhandled exception to
+1”</em> — is forwarded verbatim. The <code>*)</code> arm can only fire
+for rc ∉ {0,1,2}, which an unhandled python exception never
+produces:</p>
+<pre class="console"><code>$ python3 -c &#39;raise RuntimeError(&quot;x&quot;)&#39; 2&gt;/dev/null; echo &quot;python unhandled-exception rc=$?&quot;
+python unhandled-exception rc=1</code></pre>
+<p>Re-tested against the patched script, on an index whose sqlite-vec
+shadow table is absent:</p>
+<pre class="console"><code>$ LUMEN_STORE=&quot;$SB/store&quot; bash scripts/lumen-index-doctor.sh &quot;$SB/novecproj&quot;
+files: 0 fully indexed, 0 queued placeholders | chunks: 0
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 49, in &lt;module&gt;
+sqlite3.OperationalError: no such table: vec_chunks_vector_chunks00
+
+$ LUMEN_STORE=&quot;$SB/store&quot; bash scripts/lumen-index-doctor.sh &quot;$SB/novecproj&quot; &gt;/dev/null 2&gt;&amp;1; echo $?
+1</code></pre>
+<p><strong>Still 1.</strong> Identical to the pre-patch behaviour. The
+other exit codes are correct and were re-confirmed on the patched
+script: <code>corruptproj → 1</code>, <code>healthyproj → 0</code>,
+<code>noindexproj → 2</code>.</p>
+<p><strong>Actual fix:</strong> wrap the python body in
+<code>try/except Exception</code> → print the reason →
+<code>sys.exit(2)</code>. The bash <code>case</code> cannot do this job,
+because bash cannot distinguish python’s <code>sys.exit(1)</code> from
+python’s crash-exit-1.</p>
+<hr />
+<h2
+id="r5-i21-doctor-maps-unexpected-failures-to-2-not-1-is-a-worthless-assertion">❌
+R5 — <code>I21 doctor maps unexpected failures to 2, not 1</code> is a
+<strong>worthless assertion</strong></h2>
+<p><code>scripts/test-setup-agents-wizard.sh</code>:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exit 1 must mean corruption, never an internal error.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">assert_contains</span> <span class="st">&quot;I21 doctor maps unexpected failures to 2, not 1&quot;</span> <span class="st">&quot;could not complete&quot;</span> <span class="st">&quot;</span><span class="va">$dsrc</span><span class="st">&quot;</span></span></code></pre></div>
+<p>It greps the doctor’s <strong>source text</strong> for the string
+<code>could not complete</code>. It asserts nothing about an exit code,
+runs the doctor zero times, and cannot observe behaviour at all.</p>
+<p><strong>Proof 1 — it is green right now, on code whose named
+behaviour is broken.</strong> R3 above shows the doctor returning 1 for
+an internal error. I21 passes anyway:</p>
+<pre><code>  ✅ [133] I21 doctor maps unexpected failures to 2, not 1
+  total=141 passed=134 failed=0 skipped=7</code></pre>
+<p><strong>Proof 2 — it survives deleting the entire guard it exists to
+protect.</strong> On a throwaway copy of <code>scripts/</code>, the
+<code>case $rc …</code> line was replaced by a bare
+<code>exit $rc</code> plus a comment that merely <em>mentions</em> the
+string:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: emit &quot;doctor could not complete&quot; and exit 2 on an internal error</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">exit</span> <span class="va">$rc</span></span></code></pre></div>
+<pre class="console"><code>  ✅ [133] I21 doctor maps unexpected failures to 2, not 1
+  total=141 passed=134 failed=0 skipped=7</code></pre>
+<p><strong>Green with the guard gone entirely.</strong> The assertion
+tests that a comment exists.</p>
+<p><strong>Fix:</strong> make it behavioural, the way its own neighbour
+<code>I15</code> already is —</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> <span class="st">&quot;</span><span class="va">$REIDX</span><span class="st">&quot;</span> /tmp <span class="at">--forse</span> <span class="op">&gt;</span>/dev/null <span class="dv">2</span><span class="op">&gt;&amp;</span><span class="dv">1</span><span class="kw">;</span> <span class="va">rc</span><span class="op">=</span><span class="va">$?</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">assert_eq</span> <span class="st">&quot;I15 reindex rejects an unknown flag instead of ignoring it&quot;</span> <span class="st">&quot;2&quot;</span> <span class="st">&quot;</span><span class="va">$rc</span><span class="st">&quot;</span></span></code></pre></div>
+<p>i.e. build a temp index DB with no
+<code>vec_chunks_vector_chunks00</code>, run the doctor against it, and
+assert <code>rc == 2</code>. That version would be red today.</p>
+<hr />
+<h1
+id="fixed-during-this-pass-recorded-because-they-were-real-when-commissioned">✅
+FIXED DURING THIS PASS — recorded because they were real when
+commissioned</h1>
+<h2
+id="r1-lumen-reindex.shs-vulkan-guard-could-not-fire-on-this-host-fixed">R1
+— <code>lumen-reindex.sh</code>’s Vulkan guard could not fire on this
+host <em>(fixed)</em></h2>
+<p><strong>As found at <code>88ab20c</code>.</strong>
+<code>backend_library()</code> read only the last 400 journal lines, but
+<code>library=</code> is logged <strong>exactly once, at service
+start</strong>. ollama had been up since 09:44:18 and had written 51,271
+journal lines since:</p>
+<pre class="console"><code>$ journalctl -u ollama --no-pager -n 400 2&gt;/dev/null | grep -cE &#39;library=&#39;
+0
+$ journalctl -u ollama --no-pager -n 400 | grep -oE &#39;library=[a-zA-Z]+&#39; | tail -1 | cut -d= -f2
+        &lt;EMPTY&gt;</code></pre>
+<p>The script took its <code>else</code> branch and continued. Forced
+with a <code>journalctl</code> stub reproducing exactly that shape:</p>
+<pre class="console"><code>[18:00:24] === lumen-reindex: .../sb6/proj (force=0) ===
+[18:00:24] backend library UNKNOWN (journal unreadable) - continuing</code></pre>
+<p>The sibling script had already fixed this and documented why
+(<code>ollama-vulkan-remediation.sh:50-51</code>):
+<em>“<code>library=</code> is logged once at service start, so scan from
+THAT moment rather than a fixed tail — a busy log otherwise pushes it
+out and reports UNKNOWN.”</em> <code>lumen-reindex.sh</code> had not
+been updated.</p>
+<p><strong>Now fixed.</strong> The current
+<code>backend_library()</code> scans from
+<code>ActiveEnterTimestamp</code>, is <code>timeout</code>-bounded, and
+deepens its fallback to <code>-n 4000</code>. Re-verified live on the
+same host:</p>
+<pre class="console"><code>$ since=$(timeout 10 systemctl show ollama -p ActiveEnterTimestamp --value)
+$ timeout 20 journalctl -u ollama --no-pager --since &quot;$since&quot; | grep -oE &#39;library=[a-zA-Z]+&#39; | tail -1 | cut -d= -f2
+cpu</code></pre>
+<p><code>&lt;EMPTY&gt;</code> → <code>cpu</code>. New assertions I16/I17
+cover it, and they are <code>assert_contains</code> on the source rather
+than behavioural — adequate here only because R1 was a <em>missing
+string</em>, not a missing behaviour.</p>
+<h2 id="r2-lumen-reindex.sh---help-started-a-full-index-run-fixed">R2 —
+<code>lumen-reindex.sh --help</code> started a full index run
+<em>(fixed)</em></h2>
+<p><strong>As found at <code>88ab20c</code>,</strong> in a fully stubbed
+sandbox (<code>env -i</code>, throwaway <code>$HOME</code>, sentinel
+stubs for
+<code>lumen</code>/<code>curl</code>/<code>ollama</code>/<code>journalctl</code>,
+so nothing real was indexed):</p>
+<pre class="console"><code>$ env -i PATH=&quot;$SB/bin:/usr/bin:/bin&quot; HOME=&quot;$SB/home&quot; LUMEN_REINDEX_LOG=&quot;$SB/reindex.log&quot; \
+      bash scripts/lumen-reindex.sh --help
+[18:06:53] === lumen-reindex: &lt;ext-volume-host&gt;/Projects/vasic (force=0) ===
+[18:06:53] === INDEX COMPLETE after 1 round(s) ===
+REAL_EXIT_CODE=0
+$ cat &quot;$SB/INDEXED_SENTINEL&quot;
+STUB LUMEN WAS INVOKED: index &lt;ext-volume-host&gt;/Projects/vasic</code></pre>
+<p>A <code>--forec</code>-style typo silently downgraded a rebuild to
+incremental — the one thing the header says cannot fix a corruption
+event.</p>
+<p><strong>Now fixed</strong> (<code>--help|-h</code> handler plus a
+<code>-*)</code> reject arm). Re-verified in the same sandbox:</p>
+<pre class="console"><code>$ bash scripts/lumen-reindex.sh --help | tail -3
+--force      full rebuild (`lumen index -f`). REQUIRED after a corruption
+             event: affected files carry a non-empty hash, so an incremental
+             run treats them as done and skips them forever.
+EXIT=0
+no index started — R2 FIXED
+
+$ bash scripts/lumen-reindex.sh --forse
+lumen-reindex: unknown option &#39;--forse&#39;
+usage: scripts/lumen-reindex.sh [project-path] [--force] [--allow-gpu]
+EXIT=2
+typo rejected — R2 FIXED</code></pre>
+<p>New assertion I15 is genuinely behavioural — it executes the script
+and asserts <code>rc == 2</code>.</p>
+<h2
+id="r4-remediation---help-printed-6-lines-of-its-own-source-fixed">R4 —
+remediation <code>--help</code> printed 6 lines of its own source
+<em>(fixed)</em></h2>
+<p><strong>As found at <code>88ab20c</code>:</strong>
+<code>sed -n '2,40p' "$0"</code> while the header comment ends at line
+<strong>34</strong>, so <code>--help</code> emitted
+<code>set -uo pipefail</code>, the colour variables and three function
+bodies.</p>
+<p><strong>Now fixed</strong> (<code>sed -n '2,34p'</code>).
+Re-verified:</p>
+<pre class="console"><code>$ bash scripts/ollama-vulkan-remediation.sh --help | tail -4
+  ./scripts/ollama-vulkan-remediation.sh --apply     # needs sudo + restart
+  ./scripts/ollama-vulkan-remediation.sh --verify    # prove it worked
+  ./scripts/ollama-vulkan-remediation.sh --rollback  # undo, needs sudo
+------------------------------------------------------------------------------</code></pre>
+<p>No source leakage.</p>
+<hr />
+<h1 id="claim-table">Claim table</h1>
+<p>Legend: ✅ VERIFIED · ⚠️ VERIFIED WITH MATERIAL CAVEAT · ❌ REFUTED ·
+❔ UNVERIFIABLE</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Claim</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td><code>/etc/sysconfig/ollama</code> contains
+<code>GGML_VK_VISIBLE_DEVICES=-1</code>; journal reports
+<code>library=cpu</code> since current start</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Zero i915 <code>fence expiration</code> / <code>GPU HANG</code>
+lines since that restart</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>One batch of 32 distinct texts → 32 distinct vectors</td>
+<td>❔ backend never answered — see below</td>
+</tr>
+<tr>
+<td>B4</td>
+<td>Each of the three scripts does what its <code>--help</code>/header
+claims</td>
+<td>❌ <strong>R2, R3, R4</strong> — R2/R4 fixed mid-pass, <strong>R3
+still live</strong></td>
+</tr>
+<tr>
+<td>B5</td>
+<td>Remediation with no args defaults to read-only <code>--check</code>,
+modifies nothing</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>B6</td>
+<td><code>lumen-reindex.sh</code> exits 3 without indexing on a Vulkan
+backend</td>
+<td>❌ mechanism ✅ but detector was dead — <strong>R1</strong>, fixed
+mid-pass</td>
+</tr>
+<tr>
+<td>B7</td>
+<td><code>lumen-index-doctor.sh</code> exits 1 on corruption (checked
+directly, no pipe)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>C8</td>
+<td>Wizard ACTION REQUIRED detection adapts to state, both
+directions</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>C9</td>
+<td><code>MANUAL-STEPS.md</code> is written and gitignored</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>C10</td>
+<td>All probes in that section are timeout-bounded</td>
+<td>⚠️ true in that section; <strong>not</strong> true of the wizard
+overall</td>
+</tr>
+<tr>
+<td>D11</td>
+<td><code>test-setup-agents-wizard.sh --no-live</code>: exit code,
+counts, groups, failures</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>D12</td>
+<td>Three untold assertions from different groups actually fail when
+mutated</td>
+<td>✅ all 3 load-bearing — but a 4th, <code>I21</code>, is
+<strong>worthless</strong> (<strong>R5</strong>)</td>
+</tr>
+<tr>
+<td>D13</td>
+<td>Sandboxed groups do not touch the real environment</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>E14</td>
+<td>Local HEAD == remote <code>main</code>; 5 constitution submodules ==
+their remotes</td>
+<td>✅ at both <code>88ab20c</code> and <code>72dc135</code> — repo
+moved mid-pass, see note</td>
+</tr>
+<tr>
+<td>E15</td>
+<td>Four root carriers byte-identical from line 24</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="evidence-claim-by-claim">Evidence, claim by claim</h1>
+<h2
+id="a1-vulkan-flag-present-backend-on-cpu-since-the-current-start">A1 ✅
+— Vulkan flag present, backend on CPU since the current start</h2>
+<pre class="console"><code>$ cat /etc/sysconfig/ollama
+GGML_VK_VISIBLE_DEVICES=-1
+
+$ sha256sum /etc/sysconfig/ollama
+713ad8ca3aec6cad10fd2ca85560e229e00694c7692056ff09ebbb7b8d970de6  /etc/sysconfig/ollama
+
+$ systemctl show ollama -p ActiveEnterTimestamp --value
+Thu 2026-08-27 09:44:18 CEST
+
+$ journalctl -u ollama --since &quot;2026-08-27 09:44:18&quot; | grep -oE &quot;library=[a-z]+&quot; | sort | uniq -c
+      1 library=cpu</code></pre>
+<p>The daemon confirms it read the override:</p>
+<pre><code>Aug 27 09:44:18 nezha ollama[832740]: level=WARN source=runner.go:536
+    msg=&quot;user overrode visible devices&quot; GGML_VK_VISIBLE_DEVICES=-1
+Aug 27 09:44:19 nezha ollama[832740]: source=types.go:60 msg=&quot;inference compute&quot;
+    id=cpu library=cpu compute=&quot;&quot; name=cpu ... total=&quot;62.6 GiB&quot; available=&quot;44.8 GiB&quot;</code></pre>
+<p><strong>Honest note (not a refutation):</strong> the Vulkan backend
+is still <em>linked in</em> and emits one complaint before falling back
+—
+<code>ggml_vulkan: Invalid device index 18446744073709551615 in GGML_VK_VISIBLE_DEVICES.</code>
+(once, 09:45:34). It is the only <code>ggml_vulkan</code> line since
+start, and inference compute is <code>library=cpu</code>. The GPU is out
+of the path; the message is cosmetic.</p>
+<h2 id="a2-zero-i915-faults-since-the-restart">A2 ✅ — zero i915 faults
+since the restart</h2>
+<pre class="console"><code>$ journalctl -k --since &quot;2026-08-27 09:44:18&quot; | grep -ciE &quot;fence expiration|GPU HANG&quot;
+0</code></pre>
+<p><strong>The pattern is not vacuous</strong> — it matches 622 lines
+earlier in the same boot, the last one 8 h 9 min before the restart:</p>
+<pre class="console"><code>$ journalctl -k -b | grep -ciE &quot;fence expiration|GPU HANG&quot;
+622
+$ journalctl -k -b | grep -iE &quot;fence expiration|GPU HANG&quot; | tail -1
+Aug 27 01:35:01 nezha kernel: Fence expiration time out i915-0000:00:02.0:ollama[2946134]:9afa!</code></pre>
+<p>The faulting process was <code>ollama</code> itself — 8 h 9 min
+before the restart. Nothing since 09:44:18. There are 4,041 kernel lines
+in the window, so the journal is being read.</p>
+<p>Counts are internally consistent (host booted
+<code>2026-08-25 11:45:22</code>, i.e. more than 24 h ago, so the boot
+total exceeds the 24 h window):</p>
+<table>
+<thead>
+<tr>
+<th>window</th>
+<th><code>fence expiration</code> / <code>GPU HANG</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>this boot</td>
+<td>622</td>
+</tr>
+<tr>
+<td>last 24 h</td>
+<td>520</td>
+</tr>
+<tr>
+<td><strong>since ollama started</strong></td>
+<td><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="a3-unverifiable-under-the-load-present-during-this-pass">A3 ❔ —
+UNVERIFIABLE under the load present during this pass</h2>
+<p><strong>Disclosure up front:</strong> the instruction was <em>exactly
+one</em> probe. The first probe was sent and <strong>the server did not
+answer within 300 s</strong>, so the client gave up without a result.
+Rather than report a self-inflicted client timeout as a finding, I
+re-sent the same batch <strong>once</strong> with a 1800 s ceiling and
+full disclosure here. Total added load: two batches of 32 short texts —
+negligible next to what is already queued (see below). No third attempt
+was made.</p>
+<h3 id="attempt-1-32-texts-15134-chars-timeout300">Attempt 1 — 32 texts,
+15,134 chars, <code>timeout=300</code></h3>
+<pre class="console"><code>num_texts: 32 distinct_texts: 32 total_chars: 15134
+...
+TimeoutError: timed out
+EXIT=1</code></pre>
+<h3 id="attempt-2-32-texts-17984-chars-timeout1800">Attempt 2 — 32
+texts, 17,984 chars, <code>timeout=1800</code></h3>
+<pre class="console"><code>num_texts: 32 distinct_texts: 32 total_chars: 17984
+started: 2026-08-27 17:58:09
+...
+  File &quot;/usr/lib64/python3.14/socket.py&quot;, line 730, in readinto
+    return self._sock.recv_into(b)
+TimeoutError: timed out</code></pre>
+<p><strong>The backend did not answer either probe.</strong> Attempt 2
+ran the full 1800 s (17:58:09 → 18:28:09) and timed out. Two independent
+attempts, 300 s and 1800 s, both with zero bytes of response.</p>
+<h3 id="why-the-backend-is-saturated-not-broken">Why: the backend is
+saturated, not broken</h3>
+<p><code>ollama serve</code> runs with
+<code>OLLAMA_NUM_PARALLEL:1</code> and
+<code>OLLAMA_MAX_QUEUE:512</code>. At the time of the probe there were
+<strong>four concurrent <code>lumen index</code> processes</strong>
+against the same single-slot daemon:</p>
+<pre class="console"><code>$ ps -eo pid,etime,pcpu,args --sort=-pcpu | grep &quot;lumen-linux-amd64 index&quot;
+ 834644  08:11:51  395   ollama runner --model .../sha256-33a8a1b6... --port 39653
+1693992     10:51  18.8  lumen-linux-amd64 index .../Projects/boba
+1692994     11:00  12.4  lumen-linux-amd64 index .../Projects/lava
+1789297     02:35   1.4  lumen-linux-amd64 index .../Projects/boba/constitution
+ 840272  08:08:53   0.2  lumen-linux-amd64 index -f .../Projects/vasic
+ 839709  08:09:08   0.0  bash ./scripts/lumen-reindex.sh .../Projects/vasic --force</code></pre>
+<p>A one-slot queue with that much work in front of it will not service
+an interactive probe in any bounded time, so
+<strong>32-distinct-vectors-in / 32-distinct-vectors-out could not be
+established in this pass.</strong> This is a statement about queue
+depth, not about vector quality — it neither confirms nor refutes the
+claim.</p>
+<p><strong>What can be said with evidence:</strong> the
+<em>conditions</em> the claim depends on hold. Inference is on
+<code>library=cpu</code> (A1), there have been zero i915 faults since
+the restart (A2), and the corrupting GPU path is out of the loop. The
+daemon is also visibly serving embeddings continuously — the journal
+shows a steady stream of
+<code>init: embeddings required but some input tokens were not marked as outputs -&gt; overriding</code>
+lines throughout, i.e. the four indexers are being served.</p>
+<p><strong>One adjacent observation, logged because it is real and not
+part of any claim:</strong> during the probe window the journal
+recorded</p>
+<pre><code>Aug 27 17:57:18 nezha ollama[832740]: level=INFO source=server.go:1795
+    msg=&quot;llm embedding error: the input length exceeds the context length&quot;</code></pre>
+<p>Attribution is ambiguous — four indexers plus my probe were in
+flight. It is a <em>loud</em> HTTP-level error, i.e. failure mode 1 in
+the scripts’ taxonomy, not the silent mode 4 that corrupts an index.
+Worth a follow-up on whichever caller is overlong on its chunks; not
+evidence of the Vulkan defect.</p>
+<p><strong>To close this claim later,</strong> run the probe when the
+queue is idle — or simply use the already-built tooling, which does
+exactly this check:</p>
+<pre><code>./scripts/ollama-vulkan-remediation.sh --check     # includes the 32-distinct-text batch probe
+./scripts/lumen-index-doctor.sh &lt;project&gt;          # the same property, over the stored index</code></pre>
+<h2
+id="b5-no-argument-run-is-the-read-only---check-and-mutates-nothing">B5
+✅ — no-argument run is the read-only <code>--check</code> and mutates
+nothing</h2>
+<p><code>case "${1:---check}"</code> (line 164) makes
+<code>--check</code> the default. Proved end-to-end. The built-in batch
+probe was suppressed by pointing <code>OLLAMA_HOST</code> at a dead
+port, so this run added <strong>zero</strong> embedding load to the
+concurrent rebuild — the <code>do_check</code> header line and the
+i915/envfile findings still prove which branch executed.</p>
+<pre class="console"><code>$ sha256sum /etc/sysconfig/ollama
+713ad8ca3aec6cad10fd2ca85560e229e00694c7692056ff09ebbb7b8d970de6  /etc/sysconfig/ollama
+$ systemctl show ollama -p NRestarts,ActiveEnterTimestamp,InvocationID --value
+Thu 2026-08-27 09:44:18 CEST
+5b04994aa5e94e20b6c371e38c4ff14e
+0
+
+$ OLLAMA_HOST=http://127.0.0.1:1 bash scripts/ollama-vulkan-remediation.sh
+── ollama embedding backend ──────────────────────────────
+✅ library=cpu - GPU is out of the inference path
+✅ /etc/sysconfig/ollama contains GGML_VK_VISIBLE_DEVICES=-1
+✅ 0 i915 faults since ollama started (Thu 2026-08-27 09:44:18 CEST)
+ℹ️  (520 in the last 24h are pre-remediation history)
+⚠️  backend unreachable at http://127.0.0.1:1 - cannot probe
+EXIT=0
+
+$ sha256sum /etc/sysconfig/ollama
+713ad8ca3aec6cad10fd2ca85560e229e00694c7692056ff09ebbb7b8d970de6  /etc/sysconfig/ollama
+$ systemctl show ollama -p NRestarts,ActiveEnterTimestamp,InvocationID --value
+Thu 2026-08-27 09:44:18 CEST
+5b04994aa5e94e20b6c371e38c4ff14e
+0
+=== DIFF ===
+SHA UNCHANGED
+SERVICE UNCHANGED</code></pre>
+<p>Re-run against the mid-pass-patched script:
+<code>/etc/sysconfig/ollama</code> sha256 and the service’s
+<code>NRestarts</code> / <code>ActiveEnterTimestamp</code> /
+<code>InvocationID</code> were <strong>still</strong> unchanged. Only
+the exit code moved, 0 → 1, because <code>do_check</code> was given a
+real return value during this pass (it previously always exited 0, so
+automation passed even on a corrupting backend — a good change, now
+covered by the new assertion I18). The read-only property, which is what
+item 5 claims, is unaffected.</p>
+<p><code>NRestarts=0</code> and an unchanged <code>InvocationID</code>
+prove the daemon was not restarted. <code>--bogus</code> correctly exits
+2. <code>--apply</code> and <code>--rollback</code> were <strong>not
+executed</strong> (they call
+<code>sudo tee</code>/<code>sudo sed -i</code> on
+<code>/etc/sysconfig/ollama</code> and
+<code>sudo systemctl restart ollama</code>) — code-reviewed only, as the
+read-only constraint requires.</p>
+<h2
+id="b6-the-exit-3-mechanism-is-real-the-detector-that-fed-it-was-not-see-r1-since-fixed">B6
+❌→✅ — the exit-3 mechanism is real; the detector that fed it was not
+(see <strong>R1</strong>, since fixed)</h2>
+<p>Forced with a stubbed <code>journalctl</code> reporting Vulkan, under
+<code>env -i</code> + throwaway <code>$HOME</code>, with
+<code>lumen</code>, <code>curl</code> and <code>ollama</code> all
+replaced by sentinel-writing stubs so no indexing and no embedding
+traffic was possible:</p>
+<pre class="console"><code>$ env -i PATH=&quot;$SB/bin:/usr/bin:/bin&quot; HOME=&quot;$SB/home&quot; STUB_LIB=Vulkan \
+      LUMEN_REINDEX_LOG=&quot;$SB/reindex.log&quot; bash scripts/lumen-reindex.sh &quot;$SB/proj&quot;
+[17:59:53] === lumen-reindex: .../sb6/proj (force=0) ===
+[17:59:53] REFUSING TO START: ollama reports library=Vulkan.
+[17:59:53] That path silently writes stale duplicate vectors. Fix it first:
+[17:59:53]   ./scripts/ollama-vulkan-remediation.sh --apply
+[17:59:53] Override with --allow-gpu if you accept the risk.
+REAL_EXIT_CODE=3
+--- did it index?  sentinel present? ---
+NO lumen invocation - did not index
+curl never called (no embed traffic)
+ollama never called</code></pre>
+<p>Controls proving the guard is not vacuous — it fires <em>only</em> on
+Vulkan without <code>--allow-gpu</code>:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>stub <code>library=</code></th>
+<th>flags</th>
+<th>exit</th>
+<th>guard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Vulkan</code></td>
+<td>—</td>
+<td><strong>3</strong></td>
+<td>fired, no indexing, no curl</td>
+</tr>
+<tr>
+<td><code>cpu</code></td>
+<td>—</td>
+<td>4</td>
+<td>did not fire (reached the batch probe)</td>
+</tr>
+<tr>
+<td><code>Vulkan</code></td>
+<td><code>--allow-gpu</code></td>
+<td>4</td>
+<td>did not fire (<code>WARNING … proceeding</code>)</td>
+</tr>
+<tr>
+<td><em>(none — real-world journal shape)</em></td>
+<td>—</td>
+<td>4</td>
+<td><strong>did not fire —
+<code>UNKNOWN … continuing</code></strong></td>
+</tr>
+</tbody>
+</table>
+<p>Exit 4 in the control rows is the stubbed batch probe failing,
+i.e. the script got <em>past</em> the guard. The last row is
+<strong>R1</strong>.</p>
+<h2 id="b7-doctor-exit-codes-checked-directly-no-pipe">B7 ✅ — doctor
+exit codes, checked directly (no pipe)</h2>
+<p>Against synthetic indexes built in a throwaway
+<code>LUMEN_STORE</code> (one with 50 identical unit-norm 768-dim
+vectors among 100, one clean, one absent):</p>
+<pre class="console"><code>$ LUMEN_STORE=&quot;$SB/store&quot; bash scripts/lumen-index-doctor.sh &quot;$SB/corruptproj&quot;
+index: .../sb7/store/proj-corrupt/index.db
+model: ordis/jina-embeddings-v2-base-code
+integrity_check: ok
+files: 60 fully indexed, 1 queued placeholders | chunks: 100
+vectors: 100 total, 51 distinct
+❌ 1 duplicate-vector group(s); 50 vectors (50.00%) are not unique
+   largest identical group: 50 copies of ONE vector
+per-vector: 0 NaN/Inf, 0 all-zero, 0 off-norm
+
+❌ CORRUPTION DETECTED
+
+$ LUMEN_STORE=&quot;$SB/store&quot; bash scripts/lumen-index-doctor.sh &quot;$SB/corruptproj&quot; &gt;/dev/null 2&gt;&amp;1; echo $?
+1
+$ LUMEN_STORE=&quot;$SB/store&quot; bash scripts/lumen-index-doctor.sh &quot;$SB/healthyproj&quot; &gt;/dev/null 2&gt;&amp;1; echo $?
+0
+$ LUMEN_STORE=&quot;$SB/store&quot; bash scripts/lumen-index-doctor.sh &quot;$SB/noindexproj&quot; &gt;/dev/null 2&gt;&amp;1; echo $?
+2</code></pre>
+<p>The duplicate group was invisible to every per-vector test
+(<code>0 NaN/Inf, 0 all-zero, 0 off-norm</code>) — exactly the failure
+mode the header describes. The <em>“never opens the DB for writing”</em>
+claim also holds: with the DB at mode <code>444</code> inside a
+mode-<code>555</code> directory it still returns 0, and leaves no
+<code>-wal</code>/<code>-shm</code>/journal side files.</p>
+<p>Caveat, by design but worth stating: the threshold is
+<code>groups[0] &gt;= 10</code>, so a stale-vector group of 2-9 copies
+is reported in the output but does <strong>not</strong> set the failure
+exit code.</p>
+<h2 id="c8-the-action-required-detection-adapts-in-both-directions">C8
+✅ — the ACTION REQUIRED detection adapts, in both directions</h2>
+<p>Driven through <code>SETUP_WIZARD_LIB_ONLY=1</code> with the
+detection block extracted <strong>verbatim</strong> from
+<code>scripts/setup-agents-wizard.sh:1249-1260</code>, under
+<code>env -i</code> with a throwaway <code>$HOME</code>,
+<code>$CLAUDE_CONFIG_DIR</code> and <code>$PROJECT_ROOT</code>:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th><code>$CLAUDE_CONFIG_DIR</code> state</th>
+<th>project genome</th>
+<th>manual steps emitted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>plugins/cache/ashlr-marketplace/ashlr</code> only</td>
+<td>—</td>
+<td><strong>1</strong> — <em>“Activate the ashlr plugin inside Claude
+Code”</em></td>
+</tr>
+<tr>
+<td><code>+ plugins/marketplaces/ashlr-marketplace</code></td>
+<td>absent</td>
+<td><strong>1</strong> — <em>“Initialise the ashlr genome for this
+project”</em> (activation step <strong>gone</strong>)</td>
+</tr>
+<tr>
+<td><code>+ plugins/marketplaces/ashlr-marketplace</code></td>
+<td>present</td>
+<td><strong>0</strong></td>
+</tr>
+</tbody>
+</table>
+<pre class="console"><code>################ DIRECTION 1 ################
+CLAUDE_DIR resolved to: .../sb8/cfg
+MANUAL_TITLES count: 1
+  TITLE: Activate the ashlr plugin inside Claude Code
+
+################ DIRECTION 2: now ALSO create plugins/marketplaces/ashlr-marketplace ################
+MANUAL_TITLES count: 1
+  TITLE: Initialise the ashlr genome for this project (optional, improves routing)
+
+################ DIRECTION 2b: marketplaces present AND project genome present ################
+MANUAL_TITLES count: 0</code></pre>
+<p>The distinction the comment claims — <em>cache = the installer cloned
+it; marketplaces = the operator actually activated it</em> — is real and
+correctly implemented.</p>
+<h2 id="c9-manual-steps.md-written-and-gitignored">C9 ✅ —
+<code>MANUAL-STEPS.md</code> written and gitignored</h2>
+<pre class="console"><code>$ ls -la MANUAL-STEPS.md
+-rw-r--r-- 1 milosvasic milosvasic 913 Aug 27 17:34 MANUAL-STEPS.md
+$ git check-ignore -v MANUAL-STEPS.md
+.gitignore:72:MANUAL-STEPS.md   MANUAL-STEPS.md
+$ git status --porcelain --ignored MANUAL-STEPS.md
+!! MANUAL-STEPS.md</code></pre>
+<p>Content is real, generated
+(<code>Generated 2026-08-27T15:34:23Z by scripts/setup-agents-wizard.sh</code>),
+5 steps, each with a runnable command block.</p>
+<h2 id="c10-bounded-in-that-section-the-wizard-as-a-whole-is-not">C10 ⚠️
+— bounded <em>in that section</em>; the wizard as a whole is not</h2>
+<p>Every probe <strong>inside the ACTION REQUIRED section</strong> is
+bounded:</p>
+<ul>
+<li><code>scripts/setup-agents-wizard.sh:1263</code> —
+<code>timeout 20 journalctl …</code> whose <code>--since</code> is
+itself <code>$(timeout 10 systemctl show …)</code></li>
+<li><code>scripts/setup-agents-wizard.sh:1296</code> —
+<code>timeout 20 lumen search "x" -p … --summary -n 1</code></li>
+</ul>
+<p>The section-scoped claim is therefore <strong>true</strong>. The
+broader grep you asked for is <strong>not</strong>:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>line</th>
+<th>invocation</th>
+<th>bounded?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>552</td>
+<td><code>journalctl -u ollama --no-pager -o cat --since "-30 days"</code></td>
+<td><strong>NO</strong> (measured 2.31 s here; unbounded by
+construction)</td>
+</tr>
+<tr>
+<td>870</td>
+<td><code>claude mcp get lumen</code></td>
+<td><strong>NO</strong></td>
+</tr>
+<tr>
+<td>872</td>
+<td><code>claude mcp add-json lumen …</code></td>
+<td><strong>NO</strong></td>
+</tr>
+<tr>
+<td>1076</td>
+<td><code>lumen index "$PROJECT_ROOT" 2&gt;&amp;1 \| tail -3</code></td>
+<td><strong>NO — a full index run with no timeout</strong></td>
+</tr>
+<tr>
+<td>1119</td>
+<td><code>claude mcp get lumen</code></td>
+<td><strong>NO</strong></td>
+</tr>
+<tr>
+<td>991, 1146</td>
+<td><code>timeout 25 mimo mcp list</code></td>
+<td>yes</td>
+</tr>
+<tr>
+<td>1263, 1296</td>
+<td><code>timeout 20 journalctl</code> /
+<code>timeout 20 lumen search</code></td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p>Line 1076 is the one that matters: <code>lumen index</code> on this
+project has been running for <strong>8 h 9 min</strong> at the time of
+writing. It is gated behind <code>WIZARD_INDEX_PROJECT</code> (test
+A25), so it is opt-in — but when opted in, the wizard has no upper bound
+at all.</p>
+<p>The guarding test is narrower than its name suggests:</p>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="va">unbounded</span><span class="op">=</span><span class="va">$(</span><span class="bu">printf</span> <span class="st">&#39;%s\n&#39;</span> <span class="st">&quot;</span><span class="va">$src_code</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-cE</span> <span class="st">&#39;(^|[^a-z0-9_-])lumen search &#39;</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-1</span><span class="va">)</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="va">bounded</span><span class="op">=</span><span class="va">$(</span><span class="bu">printf</span> <span class="st">&#39;%s\n&#39;</span> <span class="st">&quot;</span><span class="va">$src_code</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-cE</span> <span class="st">&#39;timeout [0-9]+ lumen search &#39;</span><span class="va">)</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="ex">assert_eq</span> <span class="st">&quot;A47 every &#39;lumen search&#39; probe in the wizard is timeout-bounded&quot;</span> <span class="st">&quot;</span><span class="va">$unbounded</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$bounded</span><span class="st">&quot;</span></span></code></pre></div>
+<p>It covers <code>lumen search</code> <strong>only</strong> — not
+<code>lumen index</code>, not <code>journalctl</code>, not
+<code>claude mcp</code>. (The trailing <code>| head -1</code> on a
+<code>grep -c</code> is a no-op.)</p>
+<h2
+id="d11-test-suite-run-three-times-the-repo-moved-mid-pass-see-the-note-below">D11
+✅ — test suite run (three times — the repo moved mid-pass, see the note
+below)</h2>
+<h3
+id="at-head-88ab20c-the-commit-this-verification-was-commissioned-against">At
+HEAD <code>88ab20c</code> (the commit this verification was commissioned
+against)</h3>
+<pre class="console"><code>$ bash scripts/test-setup-agents-wizard.sh --no-live
+REAL_EXIT_CODE=0
+  total=126 passed=119 failed=0 skipped=7</code></pre>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;timestamp_utc&quot;</span><span class="fu">:</span><span class="st">&quot;20260827T160219Z&quot;</span><span class="fu">,</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;host&quot;</span><span class="fu">:{</span><span class="dt">&quot;uname&quot;</span><span class="fu">:</span><span class="st">&quot;Linux/x86_64&quot;</span><span class="fu">,</span><span class="dt">&quot;bash&quot;</span><span class="fu">:</span><span class="st">&quot;5.2.37(1)-release&quot;</span><span class="fu">},</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;totals&quot;</span><span class="fu">:{</span><span class="dt">&quot;total&quot;</span><span class="fu">:</span><span class="dv">126</span><span class="fu">,</span><span class="dt">&quot;passed&quot;</span><span class="fu">:</span><span class="dv">119</span><span class="fu">,</span><span class="dt">&quot;failed&quot;</span><span class="fu">:</span><span class="dv">0</span><span class="fu">,</span><span class="dt">&quot;skipped&quot;</span><span class="fu">:</span><span class="dv">7</span><span class="fu">},</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;exit_code&quot;</span><span class="fu">:</span><span class="dv">0</span><span class="fu">}</span></span></code></pre></div>
+<h3 id="at-head-72dc135-after-a-concurrent-actor-pushed-mid-pass">At
+HEAD <code>72dc135</code> (after a concurrent actor pushed
+mid-pass)</h3>
+<pre class="console"><code>$ bash scripts/test-setup-agents-wizard.sh --no-live
+REAL_EXIT_CODE=0
+  total=134 passed=127 failed=0 skipped=7</code></pre>
+<h3
+id="current-working-tree-after-the-scripts-were-patched-mid-pass">Current
+working tree (after the scripts were patched mid-pass)</h3>
+<pre class="console"><code>$ bash scripts/test-setup-agents-wizard.sh --no-live
+REAL_EXIT_CODE=0
+  total=141 passed=134 failed=0 skipped=7</code></pre>
+<p>Group I grew from 14 to 21 assertions (I15-I21, added in response to
+R1/R2/R4). All green. <code>~/.bashrc</code>,
+<code>~/.bash_profile</code>, <code>~/.local/bin/lumen</code> and
+<code>~/.claude.json</code> were re-hashed around this run too —
+identical.</p>
+<p><strong>Groups: 10 — A B C D E F G H I J</strong> — emitted in the
+order A, B, C, D, E, F, <strong>H, G</strong>, I, J (cosmetic: H is
+printed before G).</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>group</th>
+<th></th>
+<th>n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Static analysis of the wizard</td>
+<td>54</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Lumen launcher unit tests (isolated <code>$HOME</code>)</td>
+<td>8</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Shell configuration unit tests (isolated <code>$HOME</code>)</td>
+<td>10</td>
+</tr>
+<tr>
+<td>D</td>
+<td>MCP configuration unit tests (isolated <code>$HOME</code>)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>E</td>
+<td>SuperSpec submodule safety (data-loss regression)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>F</td>
+<td>Live integration (real environment)</td>
+<td>7 — <strong>all 7 skipped</strong> by <code>--no-live</code></td>
+</tr>
+<tr>
+<td>G</td>
+<td>Backup manifest and rollback (isolated <code>$HOME</code>)</td>
+<td>18</td>
+</tr>
+<tr>
+<td>H</td>
+<td>Telemetry opt-out (isolated <code>$HOME</code>)</td>
+<td>7</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Operational scripts (remediation / reindex / doctor)</td>
+<td>14</td>
+</tr>
+<tr>
+<td>J</td>
+<td>Hardcoded-path audit <em>(new in <code>72dc135</code>)</em></td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Failures: 0 in both runs.</strong> The 7 skips are exactly
+F1-F7, the live-integration group, in both runs. Group J (J1-J8) is
+entirely new and entirely green.</p>
+<h3 id="the-repository-moved-underneath-this-verification">⚠️ The
+repository moved underneath this verification</h3>
+<p>At the start of this pass HEAD was <code>88ab20c</code>. Partway
+through, a <strong>concurrent actor</strong> committed and pushed
+<code>72dc135 "Remove all hardcoded machine paths (18 files, 33 occurrences) + audit guard"</code>
+— and swept this in-progress report file into that commit. <strong>No
+git command in this pass was mutating</strong>; the commit was not
+mine.</p>
+<p>I re-checked what that commit touched:</p>
+<pre class="console"><code>$ git diff 88ab20c 72dc135 --stat -- scripts/
+ scripts/audit-hardcoded-paths.sh    | 109 ++++++++++++++++++++++++++++++++++++
+ scripts/test-setup-agents-wizard.sh |  84 +++++++++++++++++++++++++++
+
+$ git diff 88ab20c 72dc135 --stat -- scripts/setup-agents-wizard.sh \
+      scripts/lumen-reindex.sh scripts/lumen-index-doctor.sh \
+      scripts/ollama-vulkan-remediation.sh AGENTS.md CLAUDE.md GEMINI.md QWEN.md
+(no output — unchanged)</code></pre>
+<p><strong>The wizard, the three operational scripts and the four
+carriers were NOT touched.</strong> Every finding in this report — R1,
+R2, R3, R4, and items 4-10, 12, 15 — therefore still applies verbatim at
+current HEAD. Only the test totals in this item moved (126 → 134), and
+item 14’s commit hash.</p>
+<h2
+id="d12-three-untold-assertions-mutation-tested-all-load-bearing-plus-one-worthless-assertion-found">D12
+✅ — three untold assertions mutation-tested (all load-bearing) — plus
+one <strong>worthless</strong> assertion found</h2>
+<p>Method: the whole <code>scripts/</code> tree was copied to a
+throwaway project root. The copy reproduced the baseline exactly
+(<code>total=126 passed=119 failed=0 skipped=7</code>). One mutation was
+applied at a time to the <strong>copy</strong>; the real wizard was
+never touched.</p>
+<h3
+id="b3-launcher-selects-highest-version-sort--v-not-lexical-group-b">1.
+<code>B3 launcher selects highest version (sort -V, not lexical)</code>
+— group B</h3>
+<p>Mutation at line 280: <code>sort -V -k1,1</code> →
+<code>sort -k1,1</code>.</p>
+<pre class="console"><code>&lt; done | sort -V -k1,1 | tail -n1 | cut -f2
+&gt; done | sort -k1,1 | tail -n1 | cut -f2
+(mutant still parses)
+  ❌ [57] B3 launcher selects highest version (sort -V, not lexical)
+  total=126 passed=118 failed=1 skipped=7</code></pre>
+<p>Behavioural: the test plants 0.0.9 / 0.0.41 / 0.0.100 launchers and
+executes the wrapper, asserting it prints <code>0.0.100</code>. Lexical
+sort picks <code>0.0.9</code>. <strong>Load-bearing.</strong></p>
+<h3
+id="c7-path-guard-written-literally-path-not-expanded-at-install-group-c">2.
+<code>C7 PATH guard written literally ($PATH not expanded at install)</code>
+— group C</h3>
+<p>Mutation at line 348: <code>case ":\$PATH:"</code> →
+<code>case ":$PATH:"</code> (expands at install time).</p>
+<pre class="console"><code>&lt; case &quot;:\$PATH:&quot; in *&quot;:\$HOME/.local/bin:&quot;*) ;; *) export PATH=&quot;\$HOME/.local/bin:\$PATH&quot;;; esac
+&gt; case &quot;:$PATH:&quot;  in *&quot;:\$HOME/.local/bin:&quot;*) ;; *) export PATH=&quot;\$HOME/.local/bin:\$PATH&quot;;; esac
+(mutant still parses)
+  ❌ [69] C7 PATH guard written literally ($PATH not expanded at install)
+  ❌ [70] C8 sourcing .bashrc adds ~/.local/bin exactly once
+  total=126 passed=117 failed=2 skipped=7</code></pre>
+<p>Two assertions caught it. <strong>Load-bearing.</strong></p>
+<h3 id="e1-regression-gitlink-submodule-is-not-deleted-group-e">3.
+<code>E1 REGRESSION: gitlink submodule is NOT deleted</code> — group
+E</h3>
+<p>Mutation: <code>if [[ -e "$sub_path/.git" ]]</code> →
+<code>if [[ -d "$sub_path/.git" ]]</code> — reintroducing the historical
+data-loss bug, since a checked-out submodule’s <code>.git</code> is a
+<strong>file</strong>.</p>
+<pre class="console"><code>&lt; if [[ -e &quot;$sub_path/.git&quot; ]]; then
+&gt; if [[ -d &quot;$sub_path/.git&quot; ]]; then
+(mutant still parses)
+  ❌ [6]  A6 submodule presence test uses -e (gitlink is a FILE)
+  ❌ [78] E1 REGRESSION: gitlink submodule is NOT deleted
+  ❌ [79] E2 gitlink submodule reported as a submodule
+  total=126 passed=116 failed=3 skipped=7</code></pre>
+<p>E1 builds a real git repo with a gitlink <code>.git</code> file plus
+a canary <code>IMPORTANT.txt</code>, runs <code>setup_superspec</code>,
+and asserts the canary <code>SURVIVED</code>. Under the mutation the
+canary is <code>rm -rf</code>’d. <strong>Load-bearing, and the strongest
+assertion in the suite.</strong></p>
+<p>After restoring the pristine copy:
+<code>total=126 passed=119 failed=0 skipped=7</code>.</p>
+<p><strong>Worthless assertions found among the three mutation-tested:
+none.</strong></p>
+<p><strong>But a fourth one is worthless — see R5.</strong> After the
+scripts were patched mid-pass I checked the newly added group-I
+assertions and found
+<code>I21 doctor maps unexpected failures to 2, not 1</code> green on
+provably broken behaviour, and still green with the guard it names
+deleted outright.</p>
+<p>Related weaknesses, noted without mutation testing:</p>
+<ul>
+<li><code>A48</code>/<code>A49</code>/<code>A50</code> and
+<code>I16</code>-<code>I21</code> are bare <code>assert_contains</code>
+greps over script source. They catch deletion of a literal; they assert
+nothing about behaviour.</li>
+<li><code>A47</code> is narrower than its name — it covers
+<code>lumen search</code> only (see C10).</li>
+<li><code>I11 reindex refuses to start on a Vulkan backend</code> greps
+for the refusal branch without ever exercising the detector. It was
+green throughout the entire lifetime of <strong>R1</strong>, which is
+exactly how R1 shipped.</li>
+<li><code>I15</code> is the counter-example worth copying: it
+<em>runs</em> the script and asserts an exit code.</li>
+</ul>
+<p>The suite’s ratio matters here: <strong>54 of 141 assertions (38%)
+are group A static source greps</strong>, and much of groups I and J are
+the same shape. A suite can be 141-green and still miss a live defect in
+the thing it is testing, as R3 and R5 together demonstrate.</p>
+<h2 id="d13-the-real-environment-is-untouched-by-a---no-live-run">D13 ✅
+— the real environment is untouched by a <code>--no-live</code> run</h2>
+<pre class="console"><code>=== BEFORE ===
+45dfceaf29b60c49da965895ee152a0ae2b4890ed18a8cfbb0940dfe2470f877  &lt;home&gt;/.bashrc
+5affcade3a9c2fe707518aabd7c635be9231f7d68845be94aca5daa6ecc1849b  &lt;home&gt;/.bash_profile
+ebf11baf1e6c90fccc8c630a32fd0a23d91cd190918f2f7d7e2a18918229ae7c  &lt;home&gt;/.local/bin/lumen
+52caecc09cf656a1b45bbd6e17f3cf07414157a556ef4b35541646038f9f6d21  &lt;home&gt;/.claude.json
+
+=== AFTER ===
+45dfceaf29b60c49da965895ee152a0ae2b4890ed18a8cfbb0940dfe2470f877  &lt;home&gt;/.bashrc
+5affcade3a9c2fe707518aabd7c635be9231f7d68845be94aca5daa6ecc1849b  &lt;home&gt;/.bash_profile
+ebf11baf1e6c90fccc8c630a32fd0a23d91cd190918f2f7d7e2a18918229ae7c  &lt;home&gt;/.local/bin/lumen
+52caecc09cf656a1b45bbd6e17f3cf07414157a556ef4b35541646038f9f6d21  &lt;home&gt;/.claude.json
+
+=== DIFF ===
+IDENTICAL - real environment untouched</code></pre>
+<p>The run’s only side effect is
+<code>.test-evidence/&lt;stamp&gt;/</code>, which is gitignored
+(<code>.gitignore:63</code>).</p>
+<h2 id="e14-head-remote-for-the-root-and-all-five-carriers">E14 ✅ —
+HEAD == remote for the root and all five carriers</h2>
+<p>Checked twice, because the root moved mid-pass (see D11). Equal both
+times.</p>
+<pre class="console"><code>=== ROOT, first check ===
+local HEAD : 88ab20c7c2b0f27db2d869148035a66b74c11e10
+branch     : main
+ls-remote  : 88ab20c7c2b0f27db2d869148035a66b74c11e10   refs/heads/main
+
+=== ROOT, re-check after the concurrent push ===
+$ git rev-parse HEAD
+72dc135e89a6879e37379bfed90c9b2366010ae8
+$ git ls-remote origin refs/heads/main
+72dc135e89a6879e37379bfed90c9b2366010ae8    refs/heads/main</code></pre>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>submodule</th>
+<th>local HEAD</th>
+<th>superproject gitlink</th>
+<th><code>ls-remote refs/heads/main</code></th>
+<th>match</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ai_interviewing</code></td>
+<td><code>ed73d8558e289ca0254b4ccc45e0df810767d3ae</code></td>
+<td>same</td>
+<td>same</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>design-toolkit</code></td>
+<td><code>efd2c3fb2f880aaf2baf7f4819ce28a1ce3609cb</code></td>
+<td>same</td>
+<td>same</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru</code></td>
+<td><code>66c8d607b20f0d9e984cb0e06f10a2020ebd9a10</code></td>
+<td>same</td>
+<td>same</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>monetization</code></td>
+<td><code>54ed7b0f5add52821d18866facb5ee8c75adef69</code></td>
+<td>same</td>
+<td>same</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td><code>6e5411c21b3cd9c6df5addb543b1a07930c3bfa9</code></td>
+<td>same</td>
+<td>same</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p>All six are on <code>main</code>; local HEAD, the superproject’s
+recorded gitlink, and the remote tip agree in every case.</p>
+<p>Re-verified after the concurrent push: the four carriers are still
+byte-identical from line 24 (<code>961f4713…</code>), and the five
+submodule gitlinks are unchanged by <code>72dc135</code>.</p>
+<p><strong>Note — the working tree went dirty during this verification
+pass, then was committed by someone else.</strong> Git status was
+reported clean at the start of this session; by 18:02 it read:</p>
+<pre><code> M _tools/deploy-langs.sh
+ M docs/setup-agents-wizard/OLLAMA-REMEDIATION.md
+ M docs/setup-agents-wizard/README.md
+ M milosvasic.ru
+ M vasic.digital
+?? .ashlrcode/
+?? _tools/deploy-langs.sh.bak.20260827180158
+?? docs/setup-agents-wizard/ACTION-REQUIRED.md
+?? docs/setup-agents-wizard/OPERATIONAL-SCRIPTS.md</code></pre>
+<p>None of it was mine — this pass created only this report. Another
+actor was writing to the repo concurrently (the
+<code>.bak.20260827180158</code> suffix timestamps it inside this
+session’s window), and subsequently committed and pushed it all as
+<code>72dc135</code>. The two <code>M</code> submodule entries were
+dirty <em>content</em> (<code>sitemap.xml</code> in each), not moved
+pointers; the gitlinks are unchanged, which is why E14 holds at both
+hashes. <strong>“HEAD equals remote” is true; “the repository is
+quiescent” is a different statement, and was false throughout this
+pass.</strong></p>
+<h2 id="e15-the-four-root-carriers-share-one-byte-identical-body">E15 ✅
+— the four root carriers share one byte-identical body</h2>
+<pre class="console"><code>$ for f in AGENTS.md CLAUDE.md GEMINI.md QWEN.md; do
+      printf &#39;%s  %s\n&#39; &quot;$(tail -n +24 &quot;$f&quot; | sha256sum | cut -d&#39; &#39; -f1)&quot; &quot;$f&quot;; done
+961f47134720080e69eafc5f7458702ad2af91dbaa7eb279f33e9d2f417851c9  AGENTS.md
+961f47134720080e69eafc5f7458702ad2af91dbaa7eb279f33e9d2f417851c9  CLAUDE.md
+961f47134720080e69eafc5f7458702ad2af91dbaa7eb279f33e9d2f417851c9  GEMINI.md
+961f47134720080e69eafc5f7458702ad2af91dbaa7eb279f33e9d2f417851c9  QWEN.md
+
+distinct body hashes: 1</code></pre>
+<p>Whole-file hashes differ (<code>8bd411ea…</code>,
+<code>e8b8511f…</code>, <code>96404cfc…</code>, <code>c49127da…</code>)
+— the only divergence is the 23-line per-tool header (tool name,
+inherited-from path, audience line). All four are at their committed
+state (<code>git status --porcelain</code> on them is empty).</p>
+<hr />
+<h1 id="recommended-fixes-in-priority-order">Recommended fixes, in
+priority order</h1>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Where</th>
+<th>Fix</th>
+<th>Why now</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><del>1</del></td>
+<td><code>scripts/lumen-reindex.sh</code>
+<code>backend_library()</code></td>
+<td><del>scan from <code>ActiveEnterTimestamp</code></del></td>
+<td><strong>R1 — DONE mid-pass</strong>, re-verified:
+<code>&lt;EMPTY&gt;</code> → <code>cpu</code></td>
+</tr>
+<tr>
+<td><del>2</del></td>
+<td><code>scripts/lumen-reindex.sh</code> arg loop</td>
+<td><del>add <code>--help\|-h</code> and reject unknown flags</del></td>
+<td><strong>R2 — DONE mid-pass</strong>, re-verified:
+<code>--help</code> exits 0 without indexing, <code>--forse</code> exits
+2</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>scripts/lumen-index-doctor.sh</code> python body</td>
+<td>Wrap it in <code>try/except Exception</code> → print reason →
+<code>sys.exit(2)</code>. <strong>The <code>case $rc in 0\|1\|2)</code>
+guard added mid-pass does not do this</strong> — it forwards rc=1, which
+is exactly what an unhandled python exception produces</td>
+<td><strong>R3, STILL LIVE</strong> — an uninspectable index reports as
+<em>corrupt</em> and triggers a needless full rebuild</td>
+</tr>
+<tr>
+<td><del>3b</del></td>
+<td><code>scripts/ollama-vulkan-remediation.sh</code>
+<code>--help</code></td>
+<td><del><code>sed -n '2,34p'</code></del></td>
+<td><strong>R4 — DONE mid-pass</strong>, re-verified: no source
+leakage</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>scripts/test-setup-agents-wizard.sh</code> (I21)</td>
+<td>Replace the <code>assert_contains "could not complete"</code> grep
+with a behavioural test: build a temp index DB with no
+<code>vec_chunks_vector_chunks00</code>, run the doctor, assert
+<code>rc == 2</code></td>
+<td><strong>R5, STILL LIVE</strong> — I21 is green today on broken
+behaviour and green with the guard deleted</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>scripts/test-setup-agents-wizard.sh</code> (I11, I16-I20)</td>
+<td>Make them <em>execute</em> the scripts with stubs instead of
+grepping source</td>
+<td>I11 was green for the entire lifetime of <strong>R1</strong>; a
+behavioural version would have caught it</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>scripts/setup-agents-wizard.sh:1076</code></td>
+<td>Bound <code>lumen index</code>
+(e.g. <code>timeout "${WIZARD_INDEX_TIMEOUT:-3600}"</code>) and widen
+A47 beyond <code>lumen search</code></td>
+<td>An unbounded index inside the wizard; the run on this host is at 8 h
+and counting</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>scripts/setup-agents-wizard.sh:552, 870, 872, 1119</code></td>
+<td>Wrap the 30-day <code>journalctl</code> and the
+<code>claude mcp</code> calls in <code>timeout</code></td>
+<td>Same class as 6, lower blast radius</td>
+</tr>
+</tbody>
+</table>
+<h2 id="method-notes-reproducibility">Method notes /
+reproducibility</h2>
+<ul>
+<li>Sandboxes: <code>env -i</code> with a throwaway <code>$HOME</code>,
+<code>$CLAUDE_CONFIG_DIR</code>, <code>$LUMEN_STORE</code>,
+<code>$LUMEN_REINDEX_LOG</code> and <code>$PROJECT_ROOT</code>.
+<code>lumen</code>, <code>curl</code>, <code>ollama</code> and
+<code>journalctl</code> were replaced by sentinel-writing stubs whenever
+a script under test could otherwise have reached the real system.</li>
+<li>Mutation testing ran against a <strong>copy</strong> of
+<code>scripts/</code> under a throwaway project root. The copy
+reproduced the baseline exactly before any mutation, and the pristine
+file was restored and re-verified after the last one.</li>
+<li>The detection block in item 8 was extracted byte-for-byte from the
+wizard (<code>sed -n '1249,1260p'</code>, sha256
+<code>74ead23e533a874ab19949d9e45ed70f1bed7fc7be1a1a5c239e12edcd0a4e60</code>)
+rather than re-typed, so what was tested is what ships.</li>
+<li><code>/etc/sysconfig/ollama</code>, <code>~/.bashrc</code>,
+<code>~/.bash_profile</code>, <code>~/.local/bin/lumen</code>,
+<code>~/.claude.json</code> and the ollama unit’s
+<code>InvocationID</code> were all hashed/recorded before and after
+every step that could conceivably have touched them. All identical
+afterwards.</li>
+</ul>
+<hr />
+<h2 id="final-state-at-the-close-of-this-pass">Final state at the close
+of this pass</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr>
+<td>Report closed</td>
+<td>2026-08-27 ~18:40 CEST</td>
+</tr>
+<tr>
+<td>Root HEAD</td>
+<td><code>72dc135</code> == <code>origin/main</code></td>
+</tr>
+<tr>
+<td>Working tree</td>
+<td><code>scripts/lumen-reindex.sh</code>,
+<code>lumen-index-doctor.sh</code>,
+<code>ollama-vulkan-remediation.sh</code>,
+<code>test-setup-agents-wizard.sh</code> modified <strong>by a
+concurrent actor, not by this pass</strong></td>
+</tr>
+<tr>
+<td>Test suite</td>
+<td>141 assertions, 134 pass, 0 fail, 7 skip (<code>--no-live</code>),
+exit 0</td>
+</tr>
+<tr>
+<td>ollama</td>
+<td><code>active (running)</code> since 09:44:18,
+<code>NRestarts=0</code>, <code>library=cpu</code>, 0 i915 faults since
+start</td>
+</tr>
+<tr>
+<td>Live defects</td>
+<td><strong>R3</strong> (doctor exit-code contract) and
+<strong>R5</strong> (worthless assertion <code>I21</code>)</td>
+</tr>
+<tr>
+<td>Open question</td>
+<td><strong>A3</strong> — the 32-distinct-vector probe, still unanswered
+by the backend</td>
+</tr>
+</tbody>
+</table>
+<p>Nothing in the real environment was modified by this pass.
+<code>/etc/sysconfig/ollama</code> (<code>713ad8ca…</code>),
+<code>~/.bashrc</code> (<code>45dfceaf…</code>),
+<code>~/.bash_profile</code> (<code>5affcade…</code>),
+<code>~/.local/bin/lumen</code> (<code>ebf11baf…</code>) and
+<code>~/.claude.json</code> (<code>52caecc0…</code>) are byte-identical
+to their values at the start, and the ollama unit’s
+<code>InvocationID</code> (<code>5b04994a…</code>) is unchanged.</p>
+</body>
+</html>

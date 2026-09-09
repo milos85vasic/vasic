@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>spec</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">spec</h1>
+</header>
+<h1 id="feature-specification-workshop-curriculum-platform">Feature
+Specification: Workshop Curriculum Platform</h1>
+<p><strong>Feature Branch</strong>:
+<code>001-workshop-curriculum-platform</code></p>
+<p><strong>Created</strong>: 2026-08-31</p>
+<p><strong>Status</strong>: Draft</p>
+<p><strong>Input</strong>: User description: “Create full transcription
+of the workshop’s chapter 1! Create it as markdown document and then
+with it, all materials we have in chapter 1 cover everything we have
+been talking about during the whole exercise 1. We MUST create under
+workshop same thing we did for ai interviewing module - the curriculum!
+It MUST BE properly and structurally organized! We MUST BE able to run
+it through the containers same way and having all mandatory bash
+scripts! Extend what we already have - the ideas and technology of ai
+curriculum for the workshop so users can browse and watch all chapters
+(we have just one for now), and create the prompt which we will be able
+to execute after we add every new chapter with materials (if any) which
+can be easily executed to extend the workshop curriculum with new data.
+We MUST extend the workshop solution to have semantic / contextual
+search which will cover all areas by meaning and context fully - all
+technology, everything discussed during the workshop calls / videos,
+whole transcriptions, and cross reference by proper linkings all this so
+we can go from point to point through whole content, semantics,
+contexts. All covered areas MUST BE fully documented with curriculum
+materials, same way we did with ai curriculum (interviewing module). Use
+the same technology as the base we used for ai_interviewing, however
+bring it to the new level by extending it for new powerful game-changer
+functionalities! We MUST HAVE interactive search by contexts or
+semantics, all codebases understood (integration of Lumen semantics too)
+same and better like it is possible to be done on the
+https://deepwiki.com !!! Extend UI / UX components for support of
+search! Search MUST offer blazing fast auto-completion and bringing
+together all pieces flawlessly! All codebase, all graphs, schemes,
+diagrams, textual content, audio and video content MUST BE fully indexed
+by content and semantics, context and searchable with possibility of
+asking the AI questions and getting instant answers! If bridging with
+LLM provider is required use all technology we have in HelixDevelopment
+and vasic-digital organizations so we can easily provide external or
+internal (local) models which can be connected with the solution and
+everything ran instantly and maximal UX achieved! Do deep research on
+all technology we MUST incorporate, create comprehensive documentation,
+user guides and manuals, FAQs, trainings and quick start tutorials.
+There MUST BE proper tests coverage which will validate and verify
+everything by asserting machine evidence produced and there MUST BE no
+false or faulty results of any kind and no bluff! Constitution MUST BE
+fully taken into the account, followed and respected with no violations
+or ignoring any of mandatory rules, points, guidelines! Make sure we do
+regularly commit and push all the changes - all submodules fully
+recursively and main repo so git status returns clean result for every
+single one of them all!”</p>
+<h2 id="context-verified-starting-state">Context: Verified Starting
+State</h2>
+<p>These facts were measured on 2026-08-31 and constrain the
+requirements below. They are recorded here because several requirements
+are only meaningful against them.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Measured value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chapter 1 source material</td>
+<td>One screen-recording,
+<code>Milos teaching … AI workflows - 2026_08_27 09_57 CEST - Recording.mp4</code>,
+<strong>1.8 GB</strong></td>
+</tr>
+<tr>
+<td>How the recording is stored in git</td>
+<td><strong>36 × 50 MB</strong> <code>tar.gz</code> parts, plus a
+<code>.sha256</code> manifest — the whole file is git-ignored</td>
+</tr>
+<tr>
+<td>Supporting material</td>
+<td>One AI-generated notes PDF (<strong>412 KB</strong>), “Notes by
+Gemini”</td>
+</tr>
+<tr>
+<td>Existing transcript</td>
+<td><strong>None</strong></td>
+</tr>
+<tr>
+<td><code>workshop/README.md</code></td>
+<td>Contains the single word “Tbd.”</td>
+</tr>
+<tr>
+<td>Existing tooling in <code>workshop/</code></td>
+<td><code>archive-videos.sh</code>, <code>extract-videos.sh</code>,
+<code>install-hooks.sh</code>, <code>self-test.sh</code>, git hooks, and
+a video-archive pipeline design document</td>
+</tr>
+<tr>
+<td>Reference module</td>
+<td><code>ai_interviewing/</code> — carries <code>platform/</code>,
+<code>assets/</code>, <code>docs/</code>, <code>scripts/</code>, and
+README in md/html/pdf/docx</td>
+</tr>
+<tr>
+<td>Chapters today</td>
+<td><strong>1</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Redaction.</strong> The <code>…</code> in the recording’s
+filename elides a third party’s first name and nothing else. The file is
+unambiguous without it — <code>workshop/chapters/01/</code> holds
+exactly one <code>*Recording.mp4</code> — and passages are addressed by
+chapter slug plus <code>pid</code>, never by filename. See <a
+href="../../docs/content-boundary-incident-2026-09-01.md"><code>docs/content-boundary-incident-2026-09-01.md</code></a>
+§11.</p>
+</blockquote>
+<h2 id="clarifications">Clarifications</h2>
+<h3 id="session-2026-08-31">Session 2026-08-31</h3>
+<p>Five ambiguities were found by a taxonomy scan and are resolved here.
+Per the operator’s standing instruction to choose the safest, most
+stable, risk-free option where a choice is mandatory, each was answered
+with the recommended best-practice option rather than deferred. The
+reasoning is recorded so any answer can be challenged later.</p>
+<ul>
+<li>Q: How are passages identified so cross-references and citations
+survive re-indexing and transcript correction? → A: Persisted stable
+identifiers, assigned once at ingest, never derived from position or
+content. <em>Why</em>: identifiers derived from position break whenever
+the transcript is re-cut; identifiers derived from content hash break
+whenever a typo is fixed. Either failure silently rots every
+cross-reference and every citation — the exact “confident but wrong”
+outcome the governing constitution forbids. A persisted identifier
+survives both.</li>
+<li>Q: May a human correct a machine-generated transcript, and what
+happens to the original? → A: Yes; corrections are layered, the machine
+output is kept immutable, and provenance is recorded per passage.
+<em>Why</em>: the machine transcript is evidence of what the recogniser
+produced; overwriting it destroys the ability to re-measure accuracy
+later (SC-002). Layering keeps both the claim and its evidence.</li>
+<li>Q: The recording features an identifiable third party. What privacy
+control is required? → A: Local-only operation (already decision D1),
+plus a documented redaction step that must run before any export or
+publication. <em>Why</em>: D1 removes the exposure today, but a future
+decision to publish would otherwise inherit no safeguard at all.
+Requiring the redaction path to exist now costs little and prevents an
+irreversible mistake later.</li>
+<li>Q: Where does the machine evidence required by the governance rules
+live, and for how long? → A: Written to a versioned evidence directory
+inside the repository, retained with the commit that produced it.
+<em>Why</em>: this mirrors the repository’s existing
+<code>_tests/evidence/</code> practice, so evidence is reviewable at the
+commit it describes rather than in transient logs that disappear.</li>
+<li>Q: What accessibility standard applies to the curriculum and its
+search interface? → A: WCAG 2.1 Level AA, with full keyboard operability
+for search. <em>Why</em>: AA is the common legal and institutional
+baseline; keyboard operability is called out explicitly because a
+type-ahead search box is a well-known accessibility failure point, and
+the interface’s primary interaction is typing.</li>
+</ul>
+<h2 id="user-scenarios-testing-mandatory">User Scenarios &amp; Testing
+<em>(mandatory)</em></h2>
+<h3
+id="user-story-1---read-what-was-actually-said-in-a-workshop-chapter-priority-p1">User
+Story 1 - Read what was actually said in a workshop chapter (Priority:
+P1)</h3>
+<p>A learner who could not attend the session opens the workshop
+curriculum and reads Chapter 1 as a structured written document. They
+can follow the whole exercise end to end in text, see who said what, and
+jump from any passage to the exact moment in the recording it came
+from.</p>
+<p><strong>Why this priority</strong>: Nothing else in this feature can
+exist without it. Search, cross-linking, question-answering and
+curriculum navigation are all built on top of a faithful written record.
+Today that record does not exist at all — the knowledge is locked inside
+a 1.8 GB video that nobody can grep, quote, or link to. This alone
+converts an unusable asset into a usable one.</p>
+<p><strong>Independent Test</strong>: Deliver only the transcript and
+its verification report. A reviewer can open the markdown document, read
+Chapter 1 in full, pick any five passages at random, and confirm against
+the recording that each is accurate and that its stated timestamp lands
+on the corresponding moment. Value is delivered even if no search, UI,
+or AI features are ever built.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> the Chapter 1 recording and its notes PDF are
+available, <strong>When</strong> the transcription process is run,
+<strong>Then</strong> a markdown transcript is produced covering the
+entire recording from start to end with no unexplained gaps.</li>
+<li><strong>Given</strong> a produced transcript, <strong>When</strong>
+a reader selects any passage, <strong>Then</strong> the passage carries
+a timestamp that locates it within the recording to within a few
+seconds.</li>
+<li><strong>Given</strong> a produced transcript, <strong>When</strong>
+the accuracy verification is run, <strong>Then</strong> it reports a
+measured accuracy figure derived from a sampled comparison against the
+source audio, rather than asserting correctness without evidence.</li>
+<li><strong>Given</strong> the recording contains segments where speech
+is unclear or inaudible, <strong>When</strong> the transcript is
+produced, <strong>Then</strong> those segments are explicitly marked as
+uncertain rather than silently guessed at or omitted.</li>
+<li><strong>Given</strong> the transcript is complete,
+<strong>When</strong> a reader looks for the topics covered,
+<strong>Then</strong> the document is organised into navigable sections
+rather than presented as one undifferentiated block of text.</li>
+</ol>
+<hr />
+<h3
+id="user-story-2---browse-and-watch-the-curriculum-like-a-course-priority-p2">User
+Story 2 - Browse and watch the curriculum like a course (Priority:
+P2)</h3>
+<p>A learner opens the workshop curriculum and sees the available
+chapters. They pick Chapter 1, read its materials, watch the recording,
+and move through the chapter’s sections in a deliberate order, the same
+way they would work through the existing AI-interviewing module.</p>
+<p><strong>Why this priority</strong>: This is what makes the transcript
+a <em>curriculum</em> rather than a file. It is second because it
+depends on Story 1’s output existing, and because a reader can already
+extract value from a well-structured transcript without a browsing
+interface.</p>
+<p><strong>Independent Test</strong>: Start the curriculum with the
+documented command, open it, and confirm that Chapter 1 is listed, its
+materials are readable, and the recording plays. Testable with exactly
+one chapter present, which is the current reality.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> the curriculum is started using its
+documented start command, <strong>When</strong> a user opens it,
+<strong>Then</strong> every existing chapter is listed with its title
+and a summary of what it covers.</li>
+<li><strong>Given</strong> a user has opened a chapter,
+<strong>When</strong> they view it, <strong>Then</strong> they can read
+its transcript and supporting materials and play its recording without
+leaving the curriculum.</li>
+<li><strong>Given</strong> a user is partway through a chapter,
+<strong>When</strong> they navigate between its sections,
+<strong>Then</strong> their position and progress are preserved.</li>
+<li><strong>Given</strong> the curriculum is started on a machine that
+has never run it before, <strong>When</strong> the documented start
+command is used, <strong>Then</strong> it starts successfully without
+manual setup steps beyond those the documentation states.</li>
+<li><strong>Given</strong> a chapter’s recording is stored in split
+parts, <strong>When</strong> a user plays it, <strong>Then</strong>
+playback works without the user needing to know about or manually
+reassemble those parts.</li>
+</ol>
+<hr />
+<h3
+id="user-story-3---find-anything-by-meaning-not-by-keyword-priority-p3">User
+Story 3 - Find anything by meaning, not by keyword (Priority: P3)</h3>
+<p>A learner remembers that something was discussed about a topic but
+not the words used. They type what they mean, get relevant results
+ranked by meaning across transcripts, documentation, diagrams and code,
+see them as they type, and follow cross-references from a result to
+related material elsewhere in the curriculum.</p>
+<p><strong>Why this priority</strong>: This is the “game-changer”
+capability and the largest body of work. It is third because it is only
+valuable once there is indexed content (Story 1) and a place to present
+results (Story 2). Delivering it last keeps the earlier stories
+shippable.</p>
+<p><strong>Independent Test</strong>: With Chapter 1 indexed, issue a
+set of meaning-based queries whose expected material is known in
+advance, and confirm the expected passages are returned and ranked
+sensibly — including queries that share no literal words with the target
+text.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> the curriculum content is indexed,
+<strong>When</strong> a user searches using words that do not literally
+appear in the target passage, <strong>Then</strong> the passage is still
+returned because it matches by meaning.</li>
+<li><strong>Given</strong> a user is typing a query,
+<strong>When</strong> each character is entered, <strong>Then</strong>
+suggestions appear quickly enough to feel instantaneous.</li>
+<li><strong>Given</strong> a search result, <strong>When</strong> the
+user selects it, <strong>Then</strong> they are taken to the exact
+passage in its source material, with surrounding context visible.</li>
+<li><strong>Given</strong> a passage of content, <strong>When</strong>
+the user views it, <strong>Then</strong> related material elsewhere in
+the curriculum is offered as cross-references, so they can move from
+point to point.</li>
+<li><strong>Given</strong> the curriculum includes source code,
+<strong>When</strong> a user searches for a concept implemented in that
+code, <strong>Then</strong> the relevant code is returned alongside
+prose results.</li>
+<li><strong>Given</strong> a search returns no relevant match,
+<strong>When</strong> results are shown, <strong>Then</strong> the
+interface says so plainly rather than presenting unrelated results as
+though they were answers.</li>
+</ol>
+<hr />
+<h3
+id="user-story-4---ask-a-question-and-get-a-grounded-answer-priority-p4">User
+Story 4 - Ask a question and get a grounded answer (Priority: P4)</h3>
+<p>A learner asks a natural-language question about the workshop content
+and receives a direct answer, together with citations pointing to the
+passages the answer was drawn from, so they can verify it.</p>
+<p><strong>Why this priority</strong>: Highest-risk item for
+correctness. It depends on everything above and is the easiest place for
+the system to produce confident-sounding falsehoods, which the project’s
+governance explicitly forbids. Sequencing it last means it is built on
+already-verified foundations.</p>
+<p><strong>Independent Test</strong>: Ask a set of questions with known
+correct answers drawn from Chapter 1, plus a set of questions the
+content genuinely cannot answer. Confirm the first set is answered
+correctly with working citations, and the second set is refused rather
+than fabricated.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> a question answerable from the indexed
+content, <strong>When</strong> the user asks it, <strong>Then</strong>
+the answer is returned with citations to the specific passages it came
+from.</li>
+<li><strong>Given</strong> a citation in an answer,
+<strong>When</strong> the user follows it, <strong>Then</strong> it
+lands on material that genuinely supports the claim made.</li>
+<li><strong>Given</strong> a question the content cannot answer,
+<strong>When</strong> the user asks it, <strong>Then</strong> the system
+states that it does not know instead of inventing an answer.</li>
+<li><strong>Given</strong> an operator has configured a locally-hosted
+model, <strong>When</strong> questions are asked, <strong>Then</strong>
+they are answered without content being sent to any external
+service.</li>
+<li><strong>Given</strong> no model is configured or reachable,
+<strong>When</strong> a user asks a question, <strong>Then</strong> the
+system reports that answering is unavailable, and search and browsing
+continue to work.</li>
+</ol>
+<hr />
+<h3
+id="user-story-5---add-a-new-chapter-without-redesigning-anything-priority-p5">User
+Story 5 - Add a new chapter without redesigning anything (Priority:
+P5)</h3>
+<p>A maintainer receives the recording and materials for Chapter 2. They
+follow one documented, repeatable procedure, and the new chapter is
+transcribed, added to the curriculum, indexed, and cross-linked
+alongside Chapter 1.</p>
+<p><strong>Why this priority</strong>: The curriculum’s long-term value
+depends on cheap extension, but it cannot be validated until at least
+one chapter has been through the pipeline end to end.</p>
+<p><strong>Independent Test</strong>: Run the documented procedure
+against a small synthetic chapter and confirm it appears fully
+integrated — browsable, searchable, cross-linked — with no edits to code
+or configuration beyond the new chapter’s own materials.</p>
+<p><strong>Acceptance Scenarios</strong>:</p>
+<ol type="1">
+<li><strong>Given</strong> a new chapter’s materials are placed where
+the procedure specifies, <strong>When</strong> the procedure is
+executed, <strong>Then</strong> the chapter is transcribed, published,
+indexed and cross-linked without any code change.</li>
+<li><strong>Given</strong> a new chapter has been added,
+<strong>When</strong> a user searches, <strong>Then</strong> results
+span both old and new chapters.</li>
+<li><strong>Given</strong> the procedure is executed twice on the same
+chapter, <strong>When</strong> the second run completes,
+<strong>Then</strong> the result is identical to the first and no
+duplicate content appears.</li>
+<li><strong>Given</strong> a chapter’s materials are incomplete,
+<strong>When</strong> the procedure runs, <strong>Then</strong> it
+reports precisely what is missing and does not publish a partial chapter
+as though it were complete.</li>
+</ol>
+<hr />
+<h3 id="edge-cases">Edge Cases</h3>
+<ul>
+<li><strong>The recording is only available as split parts.</strong> A
+fresh clone has 36 archive parts and no playable video. Reassembly must
+be automatic and integrity-checked; a corrupted or partial reassembly
+must fail loudly rather than yield a truncated video that appears to
+work.</li>
+<li><strong>Transcription is expensive and long-running.</strong> A 1.8
+GB recording cannot be transcribed within a normal interactive wait. The
+process must be resumable, must report progress, and must not lose
+completed work if interrupted.</li>
+<li><strong>Speech is unclear, overlapping, or in mixed
+languages.</strong> Marked as uncertain, never silently invented.</li>
+<li><strong>The notes PDF and the transcript disagree.</strong> The
+recording is the authority; the disagreement is surfaced, not silently
+resolved.</li>
+<li><strong>Indexing runs while content is being edited.</strong>
+Results must never be served from a half-written index; a
+stale-but-consistent index is preferable to an inconsistent one.</li>
+<li><strong>The indexing backend is unavailable or saturated.</strong>
+Search must degrade honestly — reporting that it cannot answer right now
+— rather than returning empty results that read as “nothing found”.
+<em>(This failure has already occurred in this repository. Corrected
+figure: the “75 s” first written here was not a measurement — it was the
+<code>timeout 75</code> value of the probe that killed the query, so it
+recorded the observer, not the system. The real recorded measurements
+are <strong>&gt;90 s</strong> for a serialised embed call and
+<strong>~10 min</strong> elsewhere; a controlled re-measurement under
+load saw three identical two-word embed calls take <strong>20.16 s /
+11.05 s / 0.10 s</strong>, a 200x spread driven purely by queue
+contention. The conclusion stands; the number was wrong and is withdrawn
+rather than quietly replaced.)</em></li>
+<li><strong>A search returns a passage the user is not expecting to
+exist.</strong> Because the recording is a private teaching session
+naming a specific individual, access scope must be explicit rather than
+assumed.</li>
+<li><strong>Two chapters cover the same topic.</strong> Cross-references
+must not create loops that trap a reader.</li>
+<li><strong>A very large or very small query.</strong> An empty query, a
+single character, and a multi-paragraph query must all behave
+predictably.</li>
+<li><strong>A transcript passage is corrected after cross-references
+already point at it.</strong> The references must continue to resolve; a
+correction must not orphan them.</li>
+<li><strong>A passage is redacted after it has been indexed and
+cited.</strong> The redaction must propagate to the index and to any
+stored answers, not merely to the displayed transcript.</li>
+<li><strong>A screen-reader user searches.</strong> Suggestions
+appearing as the user types must be announced, and must not trap
+focus.</li>
+<li><strong>The curriculum is started on a machine with no GPU, or with
+a different container runtime.</strong> It must run or state precisely
+what is missing — this repository already contains host-dependent
+container logic that has caused portability defects.</li>
+</ul>
+<h2 id="requirements-mandatory">Requirements <em>(mandatory)</em></h2>
+<h3 id="functional-requirements">Functional Requirements</h3>
+<p><strong>Transcription and source material</strong></p>
+<ul>
+<li><strong>FR-001</strong>: System MUST produce a complete written
+transcript of each chapter’s recording, covering the recording from
+beginning to end.</li>
+<li><strong>FR-002</strong>: System MUST associate each transcript
+passage with a timestamp locating it in the recording.</li>
+<li><strong>FR-003</strong>: System MUST explicitly mark passages that
+could not be transcribed with confidence, and MUST NOT substitute
+invented text for them.</li>
+<li><strong>FR-004</strong>: System MUST produce a verification report
+stating measured transcript accuracy and the method used to measure
+it.</li>
+<li><strong>FR-005</strong>: System MUST attribute passages to distinct
+speakers where the recording allows it, and state where it cannot.</li>
+<li><strong>FR-006</strong>: System MUST preserve the original recording
+and all supporting materials unmodified.</li>
+<li><strong>FR-007</strong>: System MUST reassemble split recordings
+automatically and verify their integrity against the recorded checksum
+before use, failing loudly on mismatch.</li>
+</ul>
+<p><strong>Curriculum structure and browsing</strong></p>
+<ul>
+<li><strong>FR-008</strong>: System MUST present chapters as a browsable
+curriculum with titles and summaries.</li>
+<li><strong>FR-009</strong>: Users MUST be able to read a chapter’s
+transcript and materials, and play its recording, from within the
+curriculum.</li>
+<li><strong>FR-010</strong>: System MUST preserve a user’s position and
+progress within a chapter.</li>
+<li><strong>FR-011</strong>: System MUST organise each chapter’s content
+into navigable sections rather than a single undifferentiated
+document.</li>
+<li><strong>FR-012</strong>: System MUST be startable and stoppable
+through documented commands that require no manual setup beyond what the
+documentation states.</li>
+<li><strong>FR-013</strong>: System MUST follow the organisational
+conventions already established by the existing AI-interviewing module,
+so that a person familiar with one can navigate the other.</li>
+</ul>
+<p><strong>Search and cross-referencing</strong></p>
+<ul>
+<li><strong>FR-014</strong>: System MUST return results matching a query
+by meaning, including when the query shares no literal words with the
+matched passage.</li>
+<li><strong>FR-015</strong>: System MUST offer suggestions as the user
+types.</li>
+<li><strong>FR-016</strong>: System MUST index all curriculum content
+types: transcripts, written documentation, source code, diagrams and
+schematics, and the recordings themselves.</li>
+<li><strong>FR-017</strong>: System MUST take a user from a search
+result to the exact passage in its source, with surrounding
+context.</li>
+<li><strong>FR-018</strong>: System MUST offer cross-references from any
+passage to related material elsewhere in the curriculum.</li>
+<li><strong>FR-019</strong>: System MUST state plainly when a search has
+no relevant match, and MUST NOT present unrelated results as
+answers.</li>
+<li><strong>FR-020</strong>: System MUST report honestly when search is
+unavailable or degraded, and MUST NOT render an unavailable backend as
+an empty result set.</li>
+</ul>
+<p><strong>Question answering</strong></p>
+<ul>
+<li><strong>FR-021</strong>: System MUST answer natural-language
+questions about indexed content, returning citations to the passages
+supporting each answer.</li>
+<li><strong>FR-022</strong>: System MUST decline to answer when the
+indexed content does not support an answer, rather than producing an
+unsupported one.</li>
+<li><strong>FR-023</strong>: System MUST support both locally-hosted and
+externally-hosted answering models, selected by operator
+configuration.</li>
+<li><strong>FR-024</strong>: System MUST NOT transmit curriculum content
+outside the machine when configured to use a local model.</li>
+<li><strong>FR-025</strong>: System MUST continue to serve browsing and
+search when answering is unavailable.</li>
+</ul>
+<p><strong>Extension</strong></p>
+<ul>
+<li><strong>FR-026</strong>: System MUST provide a single documented,
+repeatable procedure that ingests a new chapter end to end — transcribe,
+publish, index, cross-link — without requiring code changes.</li>
+<li><strong>FR-027</strong>: The extension procedure MUST be idempotent:
+running it twice on the same chapter MUST NOT duplicate content.</li>
+<li><strong>FR-028</strong>: The extension procedure MUST report
+precisely what is missing when a chapter’s materials are incomplete, and
+MUST NOT publish a partial chapter as complete.</li>
+<li><strong>FR-029</strong>: Long-running processing MUST be resumable
+and MUST report progress, without losing completed work if
+interrupted.</li>
+</ul>
+<p><strong>Documentation</strong></p>
+<ul>
+<li><strong>FR-030</strong>: System MUST ship user-facing documentation
+covering: a quick-start tutorial, a user guide, an operator manual, and
+an FAQ.</li>
+<li><strong>FR-031</strong>: Documentation MUST state honestly what the
+system cannot do, including any content it does not index and any
+capability that requires operator configuration.</li>
+</ul>
+<p><strong>Evidence and governance</strong></p>
+<ul>
+<li><strong>FR-032</strong>: Every automated check MUST be accompanied
+by evidence that it can fail — a paired demonstration that the check
+reports failure when the condition it guards is broken.</li>
+<li><strong>FR-033</strong>: System MUST NOT report a check as passed
+when it could not actually run; “unable to verify” MUST be
+distinguishable from both “passed” and “failed”.</li>
+<li><strong>FR-034</strong>: The feature MUST NOT introduce any
+server-side continuous-integration automation, which the governing
+constitution prohibits without exception.</li>
+<li><strong>FR-035</strong>: All governance carrier documents MUST
+remain synchronised, and the continuation document MUST be updated
+alongside non-trivial changes.</li>
+<li><strong>FR-036</strong>: All work MUST be committed and pushed
+across the main repository and every submodule, leaving no uncommitted
+state.</li>
+</ul>
+<p><strong>Identity, correction and privacy</strong></p>
+<ul>
+<li><strong>FR-037</strong>: Every passage MUST carry a stable
+identifier assigned at ingest that is neither positional nor
+content-derived, so that cross-references and citations remain valid
+across re-indexing and transcript correction.</li>
+<li><strong>FR-038</strong>: System MUST preserve machine-generated
+transcript output immutably, and MUST record for each passage whether
+its current text is machine-produced or human-corrected.</li>
+<li><strong>FR-039</strong>: System MUST provide a documented redaction
+step capable of suppressing identified passages, and MUST require it to
+have been run before any export or publication of chapter content.</li>
+</ul>
+<p><strong>Decoupling and reuse</strong></p>
+<ul>
+<li><strong>FR-043</strong>: Every component and service this feature
+produces MUST be usable independently of the workshop curriculum. A
+component MUST NOT depend on curriculum-specific types to function.</li>
+<li><strong>FR-044</strong>: Components MUST be placed where another
+project can consume them. Language mechanisms that forbid external
+import (for example a Go <code>internal/</code> package) MUST NOT be
+used for anything identified as reusable.</li>
+<li><strong>FR-045</strong>: Each reusable component MUST be
+independently testable — its test suite MUST pass without the curriculum
+present.</li>
+<li><strong>FR-046</strong>: Before scaffolding any new component, the
+canonical submodule catalogue (<code>vasic-digital</code> +
+<code>HelixDevelopment</code>, ~142 repos) MUST be surveyed. Where an
+existing submodule provides the capability, or 80% of it, it MUST be
+consumed rather than reimplemented; where it is close but incomplete,
+the gap MUST be contributed upstream (§11.4.74).</li>
+<li><strong>FR-047</strong>: Each genuinely new reusable component MUST
+live in <strong>its own repository</strong> under
+<code>vasic-digital</code> or <code>HelixDevelopment</code>, mirrored to
+GitHub and GitLab, and be consumed as a git submodule mounted at the
+<strong>project root</strong> (<code>submodules/&lt;name&gt;</code>).
+Nested submodules are forbidden (§11.4.28).</li>
+<li><strong>FR-048</strong>: Every such reusable repository MUST be
+<strong>public</strong>. It therefore MUST NOT contain any workshop
+content — no transcript text, no participant speech, no chapter
+material. Its fixtures MUST be synthetic. The curriculum’s own content
+stays in the private <code>workshop_curriculum</code> repository.</li>
+</ul>
+<p><strong>Evidence and accessibility</strong></p>
+<ul>
+<li><strong>FR-040</strong>: System MUST write the evidence produced by
+its automated checks to a versioned location within the repository,
+retained alongside the commit that produced it, rather than to transient
+logs.</li>
+<li><strong>FR-041</strong>: The curriculum interface MUST meet WCAG 2.1
+Level AA.</li>
+<li><strong>FR-042</strong>: Search MUST be fully operable by keyboard
+alone, including entering a query, moving through suggestions, and
+opening a result.</li>
+</ul>
+<h3 id="key-entities">Key Entities</h3>
+<ul>
+<li><strong>Chapter</strong>: One workshop session. Has an ordinal, a
+title, a summary, a recording, supporting materials, and a transcript.
+Chapters are ordered and independently navigable.</li>
+<li><strong>Recording</strong>: The source audiovisual asset for a
+chapter. Large; stored split; has a checksum for integrity
+verification.</li>
+<li><strong>Transcript</strong>: The written record of a recording.
+Composed of timestamped, optionally speaker-attributed passages, each
+carrying a confidence indication. Exists in two layers: the
+<strong>immutable machine output</strong> (evidence of what the
+recogniser produced) and an optional <strong>human correction
+layer</strong> on top. Each passage records which layer it came
+from.</li>
+<li><strong>Passage</strong>: The smallest addressable unit of content —
+a span of transcript, a documentation section, a code region, or a
+diagram. The unit that is indexed, returned by search, cited by answers,
+and linked by cross-references. Carries a <strong>persisted stable
+identifier</strong> assigned once at ingest, which is neither positional
+nor content-derived, so cross-references and citations survive both
+re-indexing and transcript correction.</li>
+<li><strong>Cross-reference</strong>: A directed relationship between
+two passages, enabling point-to-point navigation.</li>
+<li><strong>Index</strong>: The derived searchable representation of all
+passages. Rebuildable from source; never authoritative over it.</li>
+<li><strong>Supporting Material</strong>: Non-recording chapter content
+— notes, documents, diagrams, code.</li>
+<li><strong>Query</strong>: A user’s natural-language input, resolved
+either to ranked passages or to a cited answer.</li>
+</ul>
+<h2 id="success-criteria-mandatory">Success Criteria
+<em>(mandatory)</em></h2>
+<h3 id="measurable-outcomes">Measurable Outcomes</h3>
+<ul>
+<li><strong>SC-001</strong>: A reader can read the complete Chapter 1
+session as text, covering 100% of the recording’s duration with every
+gap explicitly accounted for.</li>
+<li><strong>SC-002</strong>: Transcript accuracy is measured on a random
+sample of at least 30 passages, and the measured figure is published
+alongside the transcript.</li>
+<li><strong>SC-003</strong>: A reader can move from any transcript
+passage to the corresponding moment in the recording, landing within 5
+seconds of the spoken content.</li>
+<li><strong>SC-004</strong>: A new user can go from a fresh clone to a
+running curriculum in under 15 minutes using only the quick-start
+tutorial.</li>
+<li><strong>SC-005</strong>: Search suggestions appear within 200
+milliseconds of a keystroke, measured at the 95th percentile.</li>
+<li><strong>SC-006</strong>: Search results return within 2 seconds at
+the 95th percentile.</li>
+<li><strong>SC-007</strong>: On a benchmark set of at least 20
+meaning-based queries with known expected results, at least 90% return
+the expected passage in the top five results.</li>
+<li><strong>SC-008</strong>: At least 80% of the benchmark queries
+succeed when the query shares no literal words with the target passage,
+demonstrating meaning-based rather than keyword matching.</li>
+<li><strong>SC-009</strong>: 100% of citations in generated answers
+resolve to passages that genuinely support the claim, verified by review
+of a sample of at least 20 answers.</li>
+<li><strong>SC-010</strong>: On a set of at least 10 questions the
+content cannot answer, the system declines 100% of them and fabricates
+none.</li>
+<li><strong>SC-011</strong>: A maintainer can add a new chapter using
+only the documented procedure, with zero code or configuration changes,
+in under 30 minutes of hands-on time.</li>
+<li><strong>SC-012</strong>: Every automated check in the feature has a
+paired demonstration that it fails when the guarded condition is broken
+— 100%, with no exceptions.</li>
+<li><strong>SC-013</strong>: The system distinguishes “unable to verify”
+from “passed” and “failed” in 100% of its checks.</li>
+<li><strong>SC-014</strong>: The repository introduces zero active
+server-side CI workflows.</li>
+<li><strong>SC-015</strong>: After completion, the main repository and
+every submodule report a clean working tree.</li>
+<li><strong>SC-016</strong>: After a transcript is corrected and the
+content re-indexed, <strong>100%</strong> of previously created
+cross-references and citations to passages the curriculum OWNS —
+transcripts and its own documentation — still resolve to the passage
+they originally referred to. This holds by construction, because a
+minted identifier is anchored into the source artifact itself.</li>
+<li><strong>SC-016a</strong>: For passages in source code the curriculum
+does NOT own, where an identifier anchor cannot be written into the
+file, identity is keyed on symbol path with a rename alias table. The
+guarantee is weaker and is stated rather than overclaimed: <strong>100%
+of stale code references fail loudly</strong> — an unresolvable
+identifier returns not-found and is never silently re-pointed at
+different code. A rename inside the curriculum’s own tree without an
+alias fails ingest rather than shipping a broken link. <em>Why
+split</em>: an unqualified 100% across all passage kinds would have been
+unachievable, and discovering that during implementation would have
+produced either a quiet exception or a silently wrong link — the exact
+failure this criterion exists to prevent. The boundary is drawn where
+the mechanism actually changes.</li>
+<li><strong>SC-017</strong>: The curriculum interface passes an
+automated WCAG 2.1 Level AA audit with zero violations at Level A or AA,
+and every search interaction is completable using only the
+keyboard.</li>
+<li><strong>SC-018</strong>: 100% of automated checks write their
+evidence to the repository’s versioned evidence location, verifiable by
+inspecting that location after a run.</li>
+<li><strong>SC-019</strong>: Every component identified as reusable can
+be imported and exercised by a consumer outside the curriculum,
+demonstrated by a test that builds and runs it with the curriculum
+absent. A component that cannot be imported from outside its own module
+fails this criterion by construction, regardless of how it is
+written.</li>
+<li><strong>SC-020</strong>: 100% of reusable components resolve from a
+public repository under an owned organisation, mounted at the project
+root, with zero nested submodules — verifiable by enumerating
+<code>.gitmodules</code> and querying each remote’s visibility.</li>
+<li><strong>SC-021</strong>: 100% of public reusable repositories
+contain zero workshop content, verified by a content-boundary check that
+fails when private-submodule material appears in a public repo.</li>
+</ul>
+<h2 id="assumptions">Assumptions</h2>
+<p>These are reasonable defaults chosen where the description did not
+specify. Each is a decision that can be revisited.</p>
+<ul>
+<li><strong>Reference implementation</strong>: The existing
+<code>ai_interviewing/</code> module is the structural and technical
+template. Its conventions are followed unless a workshop-specific
+requirement (notably video-heavy content) makes them unsuitable.</li>
+<li><strong>Container runtime</strong>: The curriculum runs in
+containers, started by bash scripts, consistent with existing repository
+practice. Host-dependent runtime differences are detected rather than
+assumed.</li>
+<li><strong>Transcription approach</strong>: Automatic speech
+recognition over the recording’s audio, with the recording treated as
+the authority when it disagrees with the notes PDF.</li>
+<li><strong>Answering models are pluggable</strong>: Both locally-hosted
+and external models are supported, with the choice made by operator
+configuration; local operation is the privacy-preserving default.</li>
+<li><strong>Existing semantic search is reused</strong>: The repository
+already operates a local semantic code-search capability; the feature
+builds on it rather than introducing a competing one.</li>
+<li><strong>Chapter numbering</strong>: Chapters are ordinal and
+zero-padded, following the existing <code>chapters/01/</code>
+convention.</li>
+<li><strong>Recordings stay out of version control whole</strong>: They
+remain split into size-bounded parts with checksums, as they are
+today.</li>
+<li><strong>The design system is reused</strong>: New interface
+components adopt the repository’s existing shared design tokens and
+components rather than introducing a new visual language.</li>
+<li><strong>Governance is binding, not aspirational</strong>: The
+constitution submodule governs this work. Specifically, no server-side
+CI may be added; every gate needs a paired mutation proof; governance
+carriers stay in lockstep; and the continuation document is updated
+alongside non-trivial changes.</li>
+<li><strong>Scale</strong>: The design targets the current reality of
+one chapter, growing to tens of chapters — not thousands.</li>
+<li><strong>Audience</strong>: Readers are technical practitioners
+comfortable with a terminal, consistent with the existing module’s
+audience.</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>The Chapter 1 recording and its notes PDF, already present in
+<code>workshop/chapters/01/</code>.</li>
+<li>The existing <code>ai_interviewing/</code> module, as the structural
+reference.</li>
+<li>The repository’s existing semantic-search capability and its
+embedding backend, over the corpus fixed by D2.</li>
+<li>The repository’s shared design system.</li>
+<li>An answering model, either locally hosted or externally reachable,
+for User Story 4 only. Stories 1–3 do not depend on it.</li>
+<li>The constitution submodule, which governs the work.</li>
+</ul>
+<h2 id="out-of-scope">Out of Scope</h2>
+<ul>
+<li>Public internet publication of the curriculum (decided:
+local/internal only — see D1).</li>
+<li>Editing or re-recording the source recordings.</li>
+<li>Live transcription of sessions as they happen.</li>
+<li>Authoring content for chapters that do not yet exist.</li>
+<li>Translating the curriculum into other languages.</li>
+<li>Replacing or re-architecting the existing
+<code>ai_interviewing/</code> module.</li>
+</ul>
+<h2 id="resolved-decisions">Resolved Decisions</h2>
+<p>Three questions materially affected scope. Per the operator’s
+standing instruction to choose the safest, most stable and most
+risk-free option where a choice is mandatory, each is resolved here
+rather than left open. Each records what was chosen, why, and what would
+reopen it.</p>
+<h3 id="d1-audience-and-publication-scope-local-internal-only">D1 —
+Audience and publication scope: <strong>local / internal
+only</strong></h3>
+<p><em>The question</em>: the Chapter 1 recording is a private teaching
+session between two named individuals. Should the curriculum run locally
+only, or be published like the repository’s two production sites?</p>
+<p><em>Decision</em>: <strong>local and internal only.</strong> The
+curriculum is served on the operator’s own machine or internal network.
+It is NOT published to the public internet, and no requirement in this
+specification implies public hosting.</p>
+<p><em>Why this is the safe choice</em>: publishing a recording of an
+identifiable third party without recorded consent creates a privacy
+exposure that cannot be undone once indexed by search engines.
+Local-only carries no such risk, requires no consent workflow, no
+access-control system, and no public hosting infrastructure — it is
+strictly less to build and strictly less to get wrong. It also keeps the
+feature clear of the two live production sites, which must not be
+disturbed.</p>
+<p><em>What would reopen it</em>: an explicit operator decision to
+publish, accompanied by recorded consent from every identifiable
+participant. That would add access control, consent tracking and public
+hosting to scope.</p>
+<h3 id="d2-search-corpus-the-workshop-module-plus-the-vasic-monorepo">D2
+— Search corpus: <strong>the workshop module plus the <code>vasic</code>
+monorepo</strong></h3>
+<p><em>The question</em>: “all codebases understood” — workshop only,
+the whole <code>vasic</code> monorepo, or repositories across the wider
+HelixDevelopment and vasic-digital organisations?</p>
+<p><em>Decision</em>: <strong>the <code>workshop/</code> module and the
+<code>vasic</code> monorepo that contains it.</strong> Repositories
+outside this working tree are out of scope.</p>
+<p><em>Why this is the safe choice</em>: this corpus is already indexed
+by the repository’s existing semantic search today, so the capability is
+proven rather than speculative, and its cost is known. Reaching into
+other organisations’ repositories would require credentials this feature
+does not have, would index content whose licensing and privacy status
+has not been reviewed, and would make index size and refresh cost
+unbounded. Choosing the already-working corpus removes all three
+risks.</p>
+<p><em>What would reopen it</em>: a named list of additional
+repositories, with confirmed read access and a decision on how their
+content is refreshed.</p>
+<h3
+id="d3-video-delivery-local-reassembly-played-from-the-curriculum">D3 —
+Video delivery: <strong>local reassembly, played from the
+curriculum</strong></h3>
+<p><em>The question</em>: must the curriculum stream the 1.8 GB
+recording, or simply hand it to the user’s own player?</p>
+<p><em>Decision</em>: the recording is <strong>reassembled locally from
+its split parts, integrity-checked against its recorded checksum, and
+played back from within the curriculum interface from that local
+file.</strong> No streaming server, transcoding pipeline, adaptive
+bitrate ladder, or content delivery network is in scope.</p>
+<p><em>Why this is the safe choice</em>: reassembly already exists in
+<code>workshop/scripts/</code> and is already checksum-verified, so this
+reuses proven tooling instead of adding infrastructure. Serving a local
+file needs no new moving parts, and — because D1 makes the curriculum
+local-only — there is no bandwidth or concurrency problem that streaming
+would solve. Timestamped navigation from transcript to recording
+(FR-002, SC-003) works against a local file without any of it.</p>
+<p><em>What would reopen it</em>: publishing the curriculum (D1), or
+recordings large enough that local reassembly becomes impractical.</p>
+</body>
+</html>

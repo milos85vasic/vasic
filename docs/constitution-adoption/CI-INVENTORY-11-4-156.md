@@ -186,7 +186,7 @@ This is the case that most deserves scrutiny, because it **is** tracked in a
 repository we push (`git ls-files` in the umbrella returns it). It is
 nevertheless inert. Verified facts:
 
-- The umbrella's root is `/run/media/milosvasic/DATA4TB/Projects/vasic`
+- The umbrella's root is `<ext-volume-host>/Projects/vasic`
   (`git rev-parse --show-toplevel`). The file sits three directories below that
   root, at `.specify/extensions/superspec/.github/workflows/ci.yml`. GitHub
   Actions reads only `.github/workflows/` **relative to the repository root**.
@@ -410,7 +410,7 @@ mechanics respectively.
 # Appendix A — raw per-repository command output
 
 Every row in the table above is reproducible from the commands below. Run them
-from `/run/media/milosvasic/DATA4TB/Projects/vasic`.
+from `<ext-volume-host>/Projects/vasic`.
 
 ## A.0 — Enumeration
 
@@ -451,7 +451,7 @@ $ find . -name .git > /dev/null; echo "rc=$?"
 rc=0                                       # no permission-denied truncation
 
 $ git worktree list
-/run/media/milosvasic/DATA4TB/Projects/vasic  f1e0c83 [main]
+<ext-volume-host>/Projects/vasic  f1e0c83 [main]
 ```
 
 `.git` kind per repository (`-e`, never `-d`):
@@ -480,7 +480,7 @@ vasic.digital                                         FILE -> gitdir: ../.git/mo
 
 ```console
 $ git -C . rev-parse --show-toplevel
-/run/media/milosvasic/DATA4TB/Projects/vasic
+<ext-volume-host>/Projects/vasic
 
 $ git -C . remote -v
 github  git@github.com:milos85vasic/vasic.git (fetch)
@@ -739,7 +739,7 @@ All empty.
 
 ```console
 $ git -C submodules/superspec rev-parse --show-toplevel
-/run/media/milosvasic/DATA4TB/Projects/vasic/submodules/superspec
+<ext-volume-host>/Projects/vasic/submodules/superspec
 
 $ git -C submodules/superspec remote -v
 origin  git@github.com:WangX0111/superspec.git (fetch)
@@ -787,10 +787,10 @@ $ git -C vasic.digital ls-files | grep -E '^\.github/workflows/.*\.ya?ml$|^\.git
 
 ```console
 $ git -C . rev-parse --show-toplevel
-/run/media/milosvasic/DATA4TB/Projects/vasic
+<ext-volume-host>/Projects/vasic
 
 $ git -C .specify/extensions/superspec rev-parse --show-toplevel
-fatal: not a git repository: /run/media/milosvasic/DATA4TB/Projects/vasic/.specify/extensions/superspec/../../.git/modules/submodules/superspec
+fatal: not a git repository: <ext-volume-host>/Projects/vasic/.specify/extensions/superspec/../../.git/modules/submodules/superspec
 
 $ cat .specify/extensions/superspec/.git
 gitdir: ../../.git/modules/submodules/superspec        # resolves to a path that does not exist
@@ -884,7 +884,7 @@ in flight" for the full T2/T3 record.
 # Appendix C — the exact re-runnable sweep
 
 ```bash
-cd /run/media/milosvasic/DATA4TB/Projects/vasic
+cd <ext-volume-host>/Projects/vasic
 for p in . ai_interviewing design-toolkit milosvasic.ru milosvasic.ru/Upstreamable \
          monetization submodules/constitution \
          submodules/constitution/submodules/anti_bluff \

@@ -567,7 +567,7 @@ environment.
 
 **The single load-bearing change is binding `OD_THEME_GLOBS` in the environment
 the sweep hands to the gate**, i.e. in
-`/run/media/milosvasic/DATA4TB/Projects/vasic/scripts/verify-all-constitution-rules.sh`
+`<ext-volume-host>/Projects/vasic/scripts/verify-all-constitution-rules.sh`
 at the gate-invocation site (`run_one … bash "$g" $argv`, **line 249**) — or, if
 the operator prefers a per-gate override table, in a new resolution branch
 alongside `resolve_argv()` (**lines 139–160**). It must NOT be changed inside

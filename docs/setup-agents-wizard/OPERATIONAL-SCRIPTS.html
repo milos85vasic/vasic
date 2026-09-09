@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>OPERATIONAL-SCRIPTS</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">OPERATIONAL-SCRIPTS</h1>
+</header>
+<h1 id="operational-scripts">Operational Scripts</h1>
+<p>Four scripts sit beside the wizard. Three handle what goes wrong
+<em>after</em> installation — a corrupting embedding backend, an index
+that has to be rebuilt because of it, and the question “is this index
+actually trustworthy?” The fourth is a repository-hygiene gate.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Script</th>
+<th style="text-align: left;">One line</th>
+<th style="text-align: left;">Mutates anything?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><a
+href="#ollama-vulkan-remediationsh"><code>scripts/ollama-vulkan-remediation.sh</code></a></td>
+<td style="text-align: left;">Take the GPU out of ollama’s embedding
+path</td>
+<td style="text-align: left;">Only with <code>--apply</code> /
+<code>--rollback</code> (both need <code>sudo</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a
+href="#lumen-reindexsh"><code>scripts/lumen-reindex.sh</code></a></td>
+<td style="text-align: left;">Rebuild a Lumen index, refusing to run on
+a backend known to corrupt it</td>
+<td style="text-align: left;">Yes — writes the index and a log file</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a
+href="#lumen-index-doctorsh"><code>scripts/lumen-index-doctor.sh</code></a></td>
+<td style="text-align: left;">Detect <strong>silently</strong> corrupt
+embeddings in an existing index</td>
+<td style="text-align: left;">No. Read-only, always</td>
+</tr>
+<tr>
+<td style="text-align: left;"><a
+href="#audit-hardcoded-pathssh"><code>scripts/audit-hardcoded-paths.sh</code></a></td>
+<td style="text-align: left;">Fail the build on machine-specific
+absolute paths</td>
+<td style="text-align: left;">No. Read-only, always</td>
+</tr>
+</tbody>
+</table>
+<p>They are deliberately separate from
+<code>scripts/setup-agents-wizard.sh</code>. The wizard <strong>observes
+and reports</strong>; it never restarts a service, never writes under
+<code>/etc</code>, and never calls <code>sudo</code> in the embedding
+path. Test <code>A41</code> enforces that. Anything privileged lives
+here, behind an explicit subcommand, so applying a host-wide change is
+always a decision someone made on purpose.</p>
+<p>Test coverage: group <strong>I</strong> for the first three, group
+<strong>J</strong> for the fourth. Both are covered in <a
+href="#test-coverage--groups-i-and-j">Test coverage</a> below.</p>
+<blockquote>
+<p><strong>Why these exist at all:</strong> on 2026-08-26 this project’s
+Lumen index was found to contain <strong>758 stale duplicate
+vectors</strong> spanning <strong>695 distinct texts across 55
+files</strong>, written under HTTP 200 by an ollama runner using
+<code>library=Vulkan</code> on an Intel iGPU. Read <a
+href="./INDEX-CORRUPTION-RECONCILIATION.md"><code>INDEX-CORRUPTION-RECONCILIATION.md</code></a>
+for the settled forensic verdict and <a
+href="./OLLAMA-REMEDIATION.md"><code>OLLAMA-REMEDIATION.md</code></a>
+for the runbook.</p>
+</blockquote>
+<hr />
+<h2 id="the-four-failure-modes-these-scripts-are-built-around">The four
+failure modes these scripts are built around</h2>
+<p>All three scripts share one model of the defect. A large embedding
+batch trips an i915 fence timeout; the kernel abandons the dispatch and
+<strong>ollama reads the result buffer anyway</strong>. What comes back
+depends on what was in that buffer:</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">#</th>
+<th style="text-align: left;">Signature</th>
+<th style="text-align: left;">HTTP</th>
+<th style="text-align: left;">Visible to a per-vector check?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">1</td>
+<td
+style="text-align: left;"><code>{"error":"…unsupported value: NaN"}</code></td>
+<td style="text-align: left;">500</td>
+<td style="text-align: left;">Yes — loud, impossible to miss</td>
+</tr>
+<tr>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">All-zero vector</td>
+<td style="text-align: left;"><strong>200</strong></td>
+<td style="text-align: left;">Yes — a zero-norm test catches it</td>
+</tr>
+<tr>
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Runner wedges; every later request returns
+<code>NaN</code> until the model is unloaded</td>
+<td style="text-align: left;">500</td>
+<td style="text-align: left;">Yes, but usually
+<strong>misattributed</strong> to the caller</td>
+</tr>
+<tr>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;"><strong>A repeated STALE vector</strong> —
+well-formed, 768 dims, unit norm</td>
+<td style="text-align: left;"><strong>200</strong></td>
+<td style="text-align: left;"><strong>NO.</strong> Invisible to NaN,
+Inf, all-zero and L2-norm checks alike</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Mode 4 is the one that matters.</strong> It is what corrupted
+the index, and it is why every probe in these scripts tests
+<strong>aggregate distinctness</strong> — <em>N</em> distinct input
+texts must produce <em>N</em> distinct output vectors — instead of
+inspecting vectors one at a time. Tests <code>I7</code> and
+<code>I8</code> exist specifically to stop that check being quietly
+removed.</p>
+<hr />
+<h2
+id="ollama-vulkan-remediation.sh"><code>ollama-vulkan-remediation.sh</code></h2>
+<pre><code>./scripts/ollama-vulkan-remediation.sh [--check | --apply | --verify | --rollback | --help]</code></pre>
+<p><strong>Default is <code>--check</code></strong> — running it with no
+argument does a read-only diagnosis and nothing else (test
+<code>I6</code> asserts the literal <code>case "${1:---check}"</code>).
+You cannot accidentally reconfigure your host by forgetting an
+argument.</p>
+<h3 id="what-the-fix-actually-is">What the fix actually is</h3>
+<p>One line appended to <code>/etc/sysconfig/ollama</code>:</p>
+<pre><code>GGML_VK_VISIBLE_DEVICES=-1</code></pre>
+<p>The packaged unit already sources that file optionally
+(<code>EnvironmentFile=-</code>), so nothing packaged is edited and no
+drop-in is created. After a service restart ollama never discovers the
+Vulkan device, and its own journal reports <code>library=cpu</code>.</p>
+<blockquote>
+<p><strong><code>OLLAMA_VULKAN=false</code> and
+<code>OLLAMA_LLM_LIBRARY=cpu</code> are both NO-OPS on this
+build.</strong> They were tested. <code>OLLAMA_VULKAN</code> is
+<em>already</em> false in the running service and Vulkan is used anyway.
+<code>GGML_VK_VISIBLE_DEVICES=-1</code> is the only variable that
+changes the outcome.</p>
+</blockquote>
+<p>The model <strong>name</strong> does not change, which is the whole
+point: Lumen keys each index database by
+<code>project_meta.embedding_model</code>, so switching
+<code>LUMEN_EMBED_MODEL</code> to a CPU-pinned copy would start a second
+index from zero and orphan the existing one. Disabling Vulkan
+daemon-wide keeps the model name <em>and</em> the index.</p>
+<h3 id="the-subcommands">The subcommands</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Flag</th>
+<th style="text-align: left;">Privileged?</th>
+<th style="text-align: left;">What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>--check</code>
+<em>(default)</em></td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">Reports the backend library, whether
+<code>/etc/sysconfig/ollama</code> carries the flag, the i915 fault
+count, and runs the 32-vector batch probe. Writes nothing.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>--apply</code></td>
+<td style="text-align: left;"><strong>yes —
+<code>sudo</code></strong></td>
+<td style="text-align: left;">Appends the flag to
+<code>/etc/sysconfig/ollama</code> if absent,
+<code>sudo systemctl restart ollama</code>, sleeps 6 s, then runs
+<code>--verify</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>--verify</code></td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">Asserts <code>library=cpu</code>
+<em>and</em> a clean batch probe. This is the only subcommand whose exit
+status is a meaningful pass/fail.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>--rollback</code></td>
+<td style="text-align: left;"><strong>yes —
+<code>sudo</code></strong></td>
+<td style="text-align: left;"><code>sed</code>s the flag line out of
+<code>/etc/sysconfig/ollama</code>, restarts ollama, warns that the
+corrupting path is back, then runs <code>--check</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>--help</code> / <code>-h</code></td>
+<td style="text-align: left;">no</td>
+<td style="text-align: left;">Prints the script’s comment header.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-four-things---check-reports">The four things
+<code>--check</code> reports</h3>
+<ol type="1">
+<li><strong>Backend library.</strong> Read from ollama’s own journal,
+scanned <strong>from the service’s
+<code>ActiveEnterTimestamp</code></strong> rather than a fixed
+<code>tail</code>. <code>library=</code> is logged once at start-up, so
+a fixed tail on a busy log pushes it out of range and reports
+<code>UNKNOWN</code>. An unreadable journal is reported as
+<code>UNKNOWN</code> — never guessed at.</li>
+<li><strong>Whether <code>/etc/sysconfig/ollama</code> contains the
+flag.</strong> Three outcomes: present, file exists without the flag,
+file absent entirely.</li>
+<li><strong>i915 fault count <em>since ollama started</em>.</strong>
+Deliberately not a 24-hour window: on a host that was just remediated,
+the last 24 h still contain the pre-fix history, and a 24 h count would
+cry wolf forever. When the since-start count is 0 and the 24 h count is
+not, the older number is printed as informational context.</li>
+<li><strong>The batch probe.</strong> 32 distinct short functions, each
+repeated 12×, sent as one <code>/api/embed</code> request. It requires
+<strong>32 of 32 distinct vectors back</strong>.
+<code>DEGENERATE n/32</code> means mode 4. <code>MALFORMED</code> means
+the response could not be parsed as embeddings at all.</li>
+</ol>
+<h3 id="exit-codes">Exit codes</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Code</th>
+<th style="text-align: left;">When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>0</code></td>
+<td style="text-align: left;"><code>--check</code>,
+<code>--rollback</code>, <code>--help</code>, and a
+<code>--verify</code> / <code>--apply</code> that passed</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>1</code></td>
+<td style="text-align: left;"><code>--verify</code> failed the batch
+probe; or <code>--apply</code> / <code>--rollback</code> could not write
+<code>/etc/sysconfig/ollama</code> or could not restart the service</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>2</code></td>
+<td style="text-align: left;">Unrecognised option</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong><code>--check</code> does not signal through its exit
+status.</strong> It ends <code>0</code> whatever it finds — even
+<code>library=Vulkan</code> with a degenerate probe. Read its output, or
+use <code>--verify</code>, which does fail loudly. Automating on
+<code>--check</code>’s exit code will silently pass on a corrupting
+host.</p>
+</blockquote>
+<h3 id="what-it-will-not-do">What it will <strong>not</strong> do</h3>
+<ul>
+<li><strong>It will not change <code>LUMEN_EMBED_MODEL</code>.</strong>
+That would orphan your index.</li>
+<li><strong>It will not repair vectors already written.</strong> It
+changes what happens next. Everything written while Vulkan was active
+stays wrong — see <a
+href="#lumen-reindexsh"><code>lumen-reindex.sh</code></a>.</li>
+<li><strong>It will not fix the upstream bug</strong> (llama.cpp <a
+href="https://github.com/ggml-org/llama.cpp/issues/18969">#18969</a>, <a
+href="https://github.com/ggml-org/llama.cpp/issues/26044">#26044</a>;
+ollama <a
+href="https://github.com/ollama/ollama/issues/13086">#13086</a>, <a
+href="https://github.com/ollama/ollama/issues/15248">#15248</a>). It
+avoids it. Upgrading ollama does not help.</li>
+<li><strong>It will not run <code>--apply</code> for you.</strong> No
+subcommand escalates on its own, and the wizard never invokes this
+script — it only <em>tells you to</em>.</li>
+<li><strong>It will not scope the change to embeddings.</strong>
+<code>GGML_VK_VISIBLE_DEVICES=-1</code> disables Vulkan for
+<strong>everything</strong> the daemon serves, chat models included.
+That is the stated price.</li>
+</ul>
+<h3 id="when-to-reach-for-it">When to reach for it</h3>
+<p>Run <code>--check</code> whenever a search returns something that
+feels wrong, whenever the wizard prints the <code>library=Vulkan</code>
+warning, or as the first step of any embedding investigation. Run
+<code>--apply</code> once, deliberately, when <code>--check</code>
+confirms <code>library=Vulkan</code>. Run <code>--verify</code> after
+any ollama upgrade or host reboot — a package update that replaces the
+unit or the environment file puts you straight back on the corrupting
+path with no other warning.</p>
+<hr />
+<h2 id="lumen-reindex.sh"><code>lumen-reindex.sh</code></h2>
+<pre><code>./scripts/lumen-reindex.sh [project-path] [--force] [--allow-gpu]</code></pre>
+<p>A resilient wrapper around <code>lumen index</code>.
+<code>project-path</code> defaults to <code>$(pwd)</code>; a leading
+<code>--</code> argument is recognised as a flag rather than a path, so
+<code>./scripts/lumen-reindex.sh --force</code> targets the current
+directory as expected.</p>
+<h3 id="it-refuses-to-start-on-a-vulkan-backend">It refuses to start on
+a Vulkan backend</h3>
+<p>This is its defining behaviour and test <code>I11</code> guards
+it:</p>
+<pre><code>REFUSING TO START: ollama reports library=Vulkan.
+That path silently writes stale duplicate vectors. Fix it first:
+  ./scripts/ollama-vulkan-remediation.sh --apply
+Override with --allow-gpu if you accept the risk.</code></pre>
+<p>→ <strong>exit 3.</strong> <code>--allow-gpu</code> downgrades the
+refusal to a warning and proceeds.</p>
+<blockquote>
+<p><strong>Caveat, from the code:</strong> this script reads the backend
+library from the <strong>last 400 journal lines</strong>
+(<code>journalctl -u ollama -n 400</code>), not from the service start
+timestamp the way <code>ollama-vulkan-remediation.sh</code> does.
+<code>library=</code> is logged once at start-up, so on a host whose
+ollama has been up a long time under load, that line has scrolled out
+and the script logs
+<code>backend library UNKNOWN (journal unreadable) - continuing</code>
+and runs anyway. <strong>The refusal is best-effort, not a
+guarantee.</strong> The batch probe below is the check that always
+runs.</p>
+</blockquote>
+<h3 id="then-it-probes-for-mode-4-before-writing-anything">Then it
+probes for mode 4 before writing anything</h3>
+<p>Independently of the journal, it sends the same 32-distinct-texts
+batch and requires 32 distinct vectors. On failure it unloads the model
+(<code>ollama stop</code>) to clear a wedged runner, waits 5 s and
+retries once. Still failing → <strong>exit 4</strong>, nothing
+indexed.</p>
+<h3 id="then-it-loops">Then it loops</h3>
+<p>Up to <code>MAX_ROUNDS</code> (default 40) rounds. Each round:</p>
+<ol type="1">
+<li>Health-check <code>/api/embed</code> with a trivial input; reset the
+runner if unhealthy.</li>
+<li>Run <code>lumen index</code> (with <code>-f</code> on the first
+round if <code>--force</code> was given).</li>
+<li><code>rc=0</code> → done, exit 0.</li>
+<li>Otherwise: drop <code>-f</code> (a forced rebuild only needs forcing
+once — later rounds resume), then either reset the runner (if the output
+mentions <code>NaN</code> or <code>embedding servers exhausted</code>)
+or back off 30 s.</li>
+</ol>
+<p>Every round is appended to the log <strong>and</strong> echoed to
+stdout.</p>
+<h3
+id="force-is-not-optional-after-a-corruption-event"><code>--force</code>
+is not optional after a corruption event</h3>
+<p>A corrupted file still carries a non-empty content hash in the index,
+so an <strong>incremental</strong> run treats it as already done and
+skips it — <em>forever</em>. <code>--force</code> maps to
+<code>lumen index -f</code>, which re-embeds everything. Tests
+<code>I12</code> (the flag really reaches <code>lumen index -f</code>)
+and <code>I13</code> (the reason is documented in the script) guard
+this.</p>
+<h3 id="flags-environment-and-exit-codes">Flags, environment and exit
+codes</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Argument</th>
+<th style="text-align: left;">Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>[project-path]</code></td>
+<td style="text-align: left;">Project to index. Default
+<code>$(pwd)</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>--force</code></td>
+<td style="text-align: left;">Full rebuild — <code>lumen index -f</code>
+on round 1. <strong>Required after corruption.</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>--allow-gpu</code></td>
+<td style="text-align: left;">Proceed despite
+<code>library=Vulkan</code>. Off by default, on purpose.</td>
+</tr>
+</tbody>
+</table>
+<p>Unrecognised flags are <strong>silently ignored</strong>; there is no
+argument validation. A typo like <code>--forse</code> gets you an
+incremental run with no complaint.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Variable</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>MAX_ROUNDS</code></td>
+<td style="text-align: left;"><code>40</code></td>
+<td style="text-align: left;">Retry rounds before giving up</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>LUMEN_REINDEX_LOG</code></td>
+<td
+style="text-align: left;"><code>&lt;project&gt;/.lumen-reindex.log</code></td>
+<td style="text-align: left;">Where the run log is appended</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>LUMEN_EMBED_MODEL</code></td>
+<td
+style="text-align: left;"><code>ordis/jina-embeddings-v2-base-code</code></td>
+<td style="text-align: left;">Model used by both probes</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>OLLAMA_HOST</code></td>
+<td style="text-align: left;"><code>http://localhost:11434</code></td>
+<td style="text-align: left;">Backend endpoint</td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Code</th>
+<th style="text-align: left;">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>0</code></td>
+<td style="text-align: left;">Index completed (<code>lumen index</code>
+returned 0)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>1</code></td>
+<td style="text-align: left;">Gave up after <code>MAX_ROUNDS</code>
+rounds</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>3</code></td>
+<td style="text-align: left;"><strong>Refused to start</strong>: backend
+reports <code>library=Vulkan</code> and <code>--allow-gpu</code> was not
+given</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>4</code></td>
+<td style="text-align: left;">Batch probe still failing after a runner
+reset — the backend is not safe to index with</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-it-will-not-do-1">What it will <strong>not</strong> do</h3>
+<ul>
+<li><strong>It will not use <code>sudo</code>.</strong> Test
+<code>I14</code> asserts the string is absent from this script and the
+doctor alike.</li>
+<li><strong>It will not fix the backend.</strong> It refuses, and points
+at the remediation script.</li>
+<li><strong>It will not purge.</strong> It never calls
+<code>lumen purge</code>; nothing here deletes an index.</li>
+<li><strong>It will not verify the result.</strong> Run
+<code>lumen-index-doctor.sh</code> afterwards — a
+<code>lumen index</code> exit code of 0 says the run finished, not that
+the vectors are good.</li>
+<li><strong>It will not install Lumen.</strong> It prepends
+<code>~/.local/bin</code> to <code>PATH</code> and assumes the wizard
+put the launcher there. With <code>lumen</code> genuinely missing, every
+round fails and you wait out 40 rounds of 30 s back-off (~20 minutes)
+before exit 1.</li>
+</ul>
+<h3 id="when-to-reach-for-it-1">When to reach for it</h3>
+<p>After applying the Vulkan remediation (<code>--force</code>,
+mandatory). After <code>lumen-index-doctor.sh</code> exits 1
+(<code>--force</code>, mandatory). And as the general-purpose way to run
+a long index unattended, because it survives the transient backend
+faults that make a bare <code>lumen index</code> die halfway with
+Lumen’s usage text on screen.</p>
+<hr />
+<h2 id="lumen-index-doctor.sh"><code>lumen-index-doctor.sh</code></h2>
+<pre><code>./scripts/lumen-index-doctor.sh [project-path]</code></pre>
+<p>Read-only inspection of the index a project actually uses. It globs
+<code>${LUMEN_STORE:-$HOME/.local/share/lumen}/*/index.db</code>, opens
+each <strong><code>file:…?mode=ro</code></strong> (test
+<code>I10</code>), and picks the one whose
+<code>project_meta.project_path</code> resolves to your project. No
+write is ever issued and no <code>lumen</code> subcommand is invoked, so
+it is safe to run while an index is building.</p>
+<h3 id="what-it-reports">What it reports</h3>
+<pre><code>index: /home/you/.local/share/lumen/&lt;hash&gt;/index.db
+model: ordis/jina-embeddings-v2-base-code
+integrity_check: ok
+files: 2413 fully indexed, 0 queued placeholders | chunks: 35717
+vectors: 35717 total, 34959 distinct
+❌ 1 duplicate-vector group(s); 758 vectors (2.12%) are not unique
+   largest identical group: 758 copies of ONE vector
+per-vector: 0 NaN/Inf, 0 all-zero, 0 off-norm</code></pre>
+<ul>
+<li><strong><code>integrity_check</code></strong> — SQLite’s own
+<code>PRAGMA integrity_check</code>.</li>
+<li><strong>File accounting</strong> — a row in <code>files</code> with
+an empty <code>hash</code> is a queued placeholder, not an indexed file.
+This is how you tell “2413 files” from “2413 files <em>done</em>”.</li>
+<li><strong>Aggregate distinctness</strong> — the shadow table
+<code>vec_chunks_vector_chunks00</code> is decoded directly as
+contiguous little-endian float32, 768 dims per vector, and identical
+byte sequences are counted. <strong>This is the test the earlier
+forensic audit did not complete</strong>, and the only one that sees
+failure mode 4.</li>
+<li><strong>Per-vector checks</strong> — NaN/Inf, all-zero, and L2 norm
+outside <code>0.99–1.01</code>, retained because they catch the louder
+modes. Note these are computed over <strong>distinct</strong> vectors,
+so the numbers are counts of distinct bad vectors, not of affected
+chunks.</li>
+</ul>
+<h3 id="exit-codes-1">Exit codes</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Code</th>
+<th style="text-align: left;">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>0</code></td>
+<td style="text-align: left;">Healthy — or “no vectors stored yet”,
+which also exits 0 with a warning line</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>1</code></td>
+<td style="text-align: left;"><strong>Corruption found</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>2</code></td>
+<td style="text-align: left;">Could not inspect: no index found for that
+project under the store</td>
+</tr>
+</tbody>
+</table>
+<p><strong>What actually sets exit 1</strong> — read this before wiring
+it into anything:</p>
+<ul>
+<li>any NaN/Inf, all-zero, or off-norm vector; <strong>or</strong></li>
+<li>a duplicate-vector group whose <strong>largest</strong> member count
+is <strong>≥ 10</strong>.</li>
+</ul>
+<p>A handful of genuinely identical vectors (real duplicated
+boilerplate) is plausible, so small groups are <strong>printed with a ❌
+line but do not set the exit code</strong>. If you are gating on this
+script, gate on the output as well as the status.</p>
+<blockquote>
+<p><strong>Two caveats the code makes plain.</strong> The decoder
+hardcodes <code>DIM = 768</code> and the shadow-table name
+<code>vec_chunks_vector_chunks00</code>. If a future Lumen changes
+either, the embedded Python raises, and an unhandled exception also
+exits <code>1</code> — indistinguishable from “corruption found” unless
+you read the traceback. Separately, the script initialises a
+<code>wrongdim</code> counter that is never incremented or printed:
+<strong>wrong-dimension vectors are not actually checked</strong>,
+despite being one of the columns in the forensic report.</p>
+</blockquote>
+<h3 id="what-it-will-not-do-2">What it will <strong>not</strong> do</h3>
+<ul>
+<li><strong>It will not write, repair, or purge anything.</strong> It
+has no remediation path at all.</li>
+<li><strong>It will not use <code>sudo</code></strong> (test
+<code>I14</code>).</li>
+<li><strong>It will not call the embedding backend.</strong> It reads
+the database only — which is precisely why it is safe to run
+mid-index.</li>
+<li><strong>It will not tell you <em>which files</em> are
+affected.</strong> It reports group sizes and percentages. The
+file-level breakdown lives in <a
+href="./INDEX-CORRUPTION-RECONCILIATION.md"><code>INDEX-CORRUPTION-RECONCILIATION.md</code></a>
+§5.</li>
+</ul>
+<h3 id="when-to-reach-for-it-2">When to reach for it</h3>
+<p>Before trusting a search result you find surprising. After any
+<code>lumen-reindex.sh --force</code>. After
+<code>ollama-vulkan-remediation.sh --apply</code>, to confirm the
+<em>index</em> is clean and not merely the <em>backend</em>. And
+periodically on any host that has ever run embeddings on a GPU — a
+per-vector health check will keep telling you everything is fine.</p>
+<hr />
+<h2
+id="audit-hardcoded-paths.sh"><code>audit-hardcoded-paths.sh</code></h2>
+<pre><code>./scripts/audit-hardcoded-paths.sh                 # audit this repository
+./scripts/audit-hardcoded-paths.sh /path/to/repo   # audit another checkout
+./scripts/audit-hardcoded-paths.sh --list          # show the first 50 files it scans</code></pre>
+<p>Unrelated to embeddings. It exists because <strong>18 tracked files
+hardcoded one author’s <code>/Volumes/…</code> macOS root</strong>,
+which on every other checkout pointed at nonexistent directories. The
+worst case was a deploy script running <code>set -uo pipefail</code>
+<em>without</em> <code>-e</code>: its <code>cd "$ROOT"</code> failed
+silently, the script carried on in the caller’s working directory, and
+it then committed and pushed both site submodules. CI had been papering
+over the whole class by symlinking that path to the workspace.</p>
+<h3 id="what-counts-as-a-violation">What counts as a violation</h3>
+<p>A machine-specific <em>home</em> root, matched by:</p>
+<pre><code>/Volumes/ | /Users/&lt;letter&gt; | /home/&lt;name&gt;/ | /run/media/&lt;letter&gt; | /mnt/&lt;name&gt;/</code></pre>
+<p>Explicitly <strong>not</strong> flagged: <code>/etc</code>,
+<code>/usr</code>, <code>/opt</code>, <code>/var</code>,
+<code>/tmp</code> — standard system locations, not somebody’s home
+directory (test <code>J7</code>). Nor <code>$HOME</code> or
+<code>~</code>, which are portable by construction
+(<code>J5</code>).</p>
+<p>Paths must be <strong>derived</strong>, never literal:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">ROOT</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="bu">cd</span> <span class="at">--</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">dirname</span> <span class="at">--</span> <span class="st">&quot;</span><span class="va">${BASH_SOURCE</span><span class="op">[</span><span class="dv">0</span><span class="op">]</span><span class="va">}</span><span class="st">&quot;</span><span class="va">)</span><span class="st">/..&quot;</span> <span class="kw">&amp;&amp;</span> <span class="bu">pwd</span><span class="va">)</span><span class="st">&quot;</span>     <span class="co"># bash</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pathlib.Path(<span class="va">__file__</span>).resolve().parents[N]                        <span class="co"># python</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode js"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>path<span class="op">.</span><span class="fu">resolve</span>(<span class="bu">__dirname</span><span class="op">,</span> <span class="st">&#39;..&#39;</span>)                                      <span class="co">// node CJS</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>path<span class="op">.</span><span class="fu">dirname</span>(<span class="fu">fileURLToPath</span>(<span class="im">import</span><span class="op">.</span><span class="at">meta</span><span class="op">.</span><span class="at">url</span>))                       <span class="co">// node ESM</span></span></code></pre></div>
+<h3 id="two-exemptions-both-principled">Two exemptions, both
+principled</h3>
+<ul>
+<li><strong>Comment-only lines are stripped before matching</strong>,
+per language (<code>#</code> for shell/python/yaml, <code>//</code>
+<code>*</code> <code>/*</code> for C-family). Documenting the historical
+bug is not the bug. Test <code>J4</code> proves it with a file whose
+only occurrence is inside a comment.</li>
+<li><strong><code>.hardcoded-paths-allow</code></strong> at the
+repository root lists genuinely unavoidable files, one path per line,
+with the reason on the preceding <code>#</code> line. Test
+<code>J6</code> proves a listed file is really suppressed; allowed files
+are reported as <code>⚠️ allowed</code>, not hidden.</li>
+</ul>
+<p>Whole directory trees are skipped as <em>prose or generated evidence,
+not source</em>: <code>docs/</code>, <code>_content*</code>,
+<code>_analysis</code>, <code>_tests/evidence/</code>,
+<code>.test-evidence/</code>, <code>.superpowers/</code>,
+<code>.ashlrcode/</code> and <code>MANUAL-STEPS.md</code>. Binary
+extensions are skipped too. <strong>This is why the documentation you
+are reading may quote a real absolute path without failing the
+audit.</strong></p>
+<h3 id="exit-codes-2">Exit codes</h3>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Code</th>
+<th style="text-align: left;">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>0</code></td>
+<td style="text-align: left;">No machine-specific paths (allowed files
+are reported but do not fail). Also <code>--list</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>1</code></td>
+<td style="text-align: left;">Violations found — the count and up to 3
+sample lines per file are printed, followed by the
+derive-instead-of-writing recipes. Also returned if it cannot
+<code>cd</code> into the resolved root.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>2</code></td>
+<td style="text-align: left;">The directory passed as <code>$1</code>
+does not exist</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-it-will-not-do-3">What it will <strong>not</strong> do</h3>
+<ul>
+<li><strong>It will not fix anything.</strong> It reports and exits;
+there is no <code>--fix</code>.</li>
+<li><strong>It will not scan untracked files.</strong> The file list
+comes from <code>git ls-files</code>, so a violation you have not
+<code>git add</code>-ed yet is invisible to it. Group <code>J</code>’s
+fixtures <code>git add -A</code> for exactly this reason.</li>
+<li><strong>It will not catch a path assembled at runtime</strong> from
+fragments — which is precisely how the test suite writes its own
+bad-path literals, so that the file testing the rule does not violate
+it.</li>
+<li><strong>It will not use <code>sudo</code>, or write
+anything.</strong></li>
+</ul>
+<h3 id="when-to-reach-for-it-3">When to reach for it</h3>
+<p>Before any commit that touches a script with a path in it, and as a
+CI gate. <code>J8</code> already runs the rule over this repository’s
+own <code>scripts/*.sh</code> on every test run, with no exemptions —
+the detector itself is excluded by name rather than exempted, because it
+necessarily contains the patterns it searches for.</p>
+<hr />
+<h2 id="the-standard-sequence">The standard sequence</h2>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Is the backend safe?</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/ollama-vulkan-remediation.sh</span> <span class="at">--check</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. If it reports library=Vulkan — fix it (sudo, one restart), then prove it</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/ollama-vulkan-remediation.sh</span> <span class="at">--apply</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Is the existing index already poisoned?</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-index-doctor.sh</span> <span class="st">&quot;</span><span class="va">$PWD</span><span class="st">&quot;</span>          <span class="co"># exit 1 =&gt; yes</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Rebuild. --force is mandatory: corrupted files keep their hash and are</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#    skipped forever by an incremental run.</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-reindex.sh</span> <span class="st">&quot;</span><span class="va">$PWD</span><span class="st">&quot;</span> <span class="at">--force</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Confirm</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="ex">./scripts/lumen-index-doctor.sh</span> <span class="st">&quot;</span><span class="va">$PWD</span><span class="st">&quot;</span>          <span class="co"># exit 0 =&gt; clean</span></span></code></pre></div>
+<p>Step 3 is the one people skip, and it is the one that matters: the
+backend being fixed today says nothing about the vectors written last
+week.</p>
+<hr />
+<h2 id="two-delegates-the-wizard-does-call">Two delegates the wizard
+DOES call</h2>
+<p>The four scripts above are invoked by hand. Two others are
+<strong>called by the wizard</strong>, because the question they answer
+is per-host or per-provider and must never be answered from a stored
+constant:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Script</th>
+<th style="text-align: left;">Wizard step</th>
+<th style="text-align: left;">Contract the wizard relies on</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>scripts/ollama-tune.sh</code></td>
+<td style="text-align: left;">Step 7, <code>tune_ollama_step</code></td>
+<td style="text-align: left;">Default run = report only.
+<strong>Three-valued exit, and the wizard preserves all three:
+<code>0</code> fine (nothing to apply), <code>1</code> a real problem /
+action required — i.e. there IS a recommendation — <code>2</code> could
+not determine.</strong> <code>--print-commands</code> prints the exact
+commands <strong>for this host</strong> under the same contract;
+<code>--apply</code> applies them (and restarts ollama);
+<code>--revert</code> undoes them. Path override:
+<code>OLLAMA_TUNE_SCRIPT</code></td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>scripts/verify-provider-ci.sh</code></td>
+<td style="text-align: left;">Step 9,
+<code>verify_provider_ci_step</code></td>
+<td style="text-align: left;">Read-only. Exit <strong>0</strong> = no
+provider-generated triggering found, <strong>1</strong> = confirmed,
+<strong>2</strong> = could not determine. Path override:
+<code>PROVIDER_CI_SCRIPT</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>1</code> is the trap. It reads like failure and is not: it is
+the tuner saying <em>there is something to do</em>. An integration that
+maps every non-zero to “broken” throws the recommendation away and
+reports a host that needs tuning as one whose state is unknown. That bug
+existed in the first revision of Step 7, was caught by running it
+against the real script, and is now pinned by assertions
+<code>K23</code>–<code>K25</code>.</p>
+<p><strong>Neither is required for the wizard to run.</strong> If the
+file is absent, or <code>ollama</code> / <code>gh</code> is absent, the
+wizard says so, records a manual step, and carries on. It never fills
+the gap with an example value: a concurrency figure that was not
+measured on <em>this</em> machine is worse than none, and a provider
+status that was not queried is <code>UNVERIFIED</code>, never a pass.
+That degradation path is asserted behaviourally by test group
+<code>K</code>, not by grepping for a filename.</p>
+<h2
+id="relationship-to-the-wizard-and-the-rollback-manifest">Relationship
+to the wizard and the rollback manifest</h2>
+<p><code>scripts/setup-agents-wizard.sh</code> never calls the four
+scripts documented above. When it detects <code>library=Vulkan</code> it
+adds an <strong>ACTION REQUIRED</strong> entry naming the remediation
+commands, and when it cannot confirm a usable index it adds one naming
+the reindex and doctor commands — see <a
+href="./ACTION-REQUIRED.md"><code>ACTION-REQUIRED.md</code></a>.
+<code>audit-hardcoded-paths.sh</code> is not referenced by the wizard at
+all; it is a repository gate, enforced by test group <code>J</code>.</p>
+<p><strong>None of those four writes to the wizard’s rollback
+manifest.</strong> They are outside that transaction, so
+<code>scripts/rollback-agents-wizard.sh</code> will not undo them:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Change</th>
+<th style="text-align: left;">How to undo it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>GGML_VK_VISIBLE_DEVICES=-1</code> in
+<code>/etc/sysconfig/ollama</code></td>
+<td
+style="text-align: left;"><code>./scripts/ollama-vulkan-remediation.sh --rollback</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">A rebuilt Lumen index</td>
+<td style="text-align: left;"><code>lumen purge &lt;path&gt;</code>,
+then re-index</td>
+</tr>
+<tr>
+<td
+style="text-align: left;"><code>&lt;project&gt;/.lumen-reindex.log</code></td>
+<td style="text-align: left;"><code>rm</code> it; nothing reads it
+back</td>
+</tr>
+<tr>
+<td style="text-align: left;"><em>(nothing)</em> —
+<code>lumen-index-doctor.sh</code> and
+<code>audit-hardcoded-paths.sh</code></td>
+<td style="text-align: left;">Read-only by construction</td>
+</tr>
+</tbody>
+</table>
+<p>The two delegates are the exception. <code>ollama-tune.sh</code>
+<strong>is</strong> inside the transaction whenever the wizard applied
+it: Step 7 writes an <code>ACTION</code> row carrying
+<code>&lt;resolved path&gt; --revert</code> plus a <code>NOTE</code> row
+stating that the service restart aborted whatever embedding requests
+were in flight and that <code>--revert</code> cannot bring those back. A
+report-only run writes neither row, because it changed nothing.
+<code>verify-provider-ci.sh</code> writes no rows at all — it only
+reads.</p>
+<hr />
+<h2 id="test-coverage-groups-i-and-j">Test coverage — groups
+<code>I</code> and <code>J</code></h2>
+<p><code>scripts/test-setup-agents-wizard.sh</code> covers the three
+embedding scripts in group <strong>I</strong>:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Test</th>
+<th style="text-align: left;">Asserts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>I1</code>–<code>I3</code></td>
+<td style="text-align: left;">Each script is executable and parses
+(<code>bash -n</code>) — one record per script</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>I4</code>, <code>I5</code></td>
+<td style="text-align: left;">The remediation script offers
+<code>--check</code> and <code>--rollback</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>I6</code></td>
+<td style="text-align: left;">It <strong>defaults</strong> to the
+read-only action</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>I7</code></td>
+<td style="text-align: left;">Its probe tests aggregate
+<strong>distinctness</strong>, not per-vector health</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>I8</code></td>
+<td style="text-align: left;">The doctor checks duplicate-vector
+groups</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>I9</code></td>
+<td style="text-align: left;">The doctor still runs the per-vector NaN /
+all-zero checks</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>I10</code></td>
+<td style="text-align: left;">The doctor opens the database
+<code>mode=ro</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>I11</code></td>
+<td style="text-align: left;">Reindex refuses to start on a Vulkan
+backend</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>I12</code></td>
+<td style="text-align: left;"><code>--force</code> is parsed
+<strong>and</strong> actually reaches <code>lumen index -f</code>
+(behavioural, not a grep)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>I13</code></td>
+<td style="text-align: left;">Reindex documents why <code>--force</code>
+is required after corruption</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>I14</code></td>
+<td style="text-align: left;">Neither reindex nor doctor calls
+<code>sudo</code></td>
+</tr>
+</tbody>
+</table>
+<p>Fourteen records in total: eleven assertions plus the three-script
+parse loop.</p>
+<p>Group <strong>J</strong> covers the path audit, and does so
+<em>behaviourally</em> — the script is run against throwaway git
+repositories rather than grepped, so each verdict is proven:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Test</th>
+<th style="text-align: left;">Asserts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>J1</code></td>
+<td style="text-align: left;">The audit script is executable and
+parses</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>J2</code></td>
+<td style="text-align: left;">Exits <code>0</code> on a repo with no
+hardcoded paths</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>J3</code></td>
+<td style="text-align: left;">Exits <code>1</code> when a
+machine-specific path is present</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>J4</code></td>
+<td style="text-align: left;">A <strong>comment</strong> describing the
+historical bug is not a violation</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>J5</code></td>
+<td style="text-align: left;"><code>$HOME</code> and <code>~</code> are
+not flagged</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>J6</code></td>
+<td style="text-align: left;"><code>.hardcoded-paths-allow</code> really
+suppresses a listed file</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>J7</code></td>
+<td style="text-align: left;"><code>/etc</code>, <code>/usr</code>,
+<code>/tmp</code> are not treated as machine-specific</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>J8</code></td>
+<td style="text-align: left;">This repository’s own
+<code>scripts/*.sh</code> are clean — no exemptions</td>
+</tr>
+</tbody>
+</table>
+<p>Note the test file builds its bad-path literals from
+<strong>concatenated fragments</strong> (<code>"/Vol""umes/…"</code>),
+so that the file testing the rule does not itself violate
+<code>J8</code>.</p>
+<hr />
+<h2 id="known-rough-edges">Known rough edges</h2>
+<p>Verified against the current sources, and listed here so nobody
+re-reports them:</p>
+<ul>
+<li><strong><code>--help</code> over-prints.</strong>
+<code>ollama-vulkan-remediation.sh --help</code> runs
+<code>sed -n '2,40p'</code> over itself, but the comment header ends at
+line 34 — so the last six lines of “help” are the script’s own
+<code>set -uo pipefail</code> and colour definitions. Harmless,
+confusing.</li>
+<li><strong>The applied file is bare.</strong> <code>--apply</code>
+appends the single line <code>GGML_VK_VISIBLE_DEVICES=-1</code>. The
+runbook’s Step 2 heredoc writes the same line with an explanatory
+comment block and <code>chmod 0644</code>. If
+<code>/etc/sysconfig/ollama</code> on your host has no comment header,
+it was written by the script, not by hand.</li>
+<li><strong><code>--check</code> always exits 0</strong> (see
+above).</li>
+<li><strong>The doctor does not check dimensions</strong> despite the
+dead <code>wrongdim</code> counter.</li>
+<li><strong><code>lumen-reindex.sh</code> ignores unknown flags</strong>
+and reads the journal by fixed tail.</li>
+<li><strong><code>audit-hardcoded-paths.sh</code> only sees tracked
+files</strong> (<code>git ls-files</code>), so a violation you have not
+staged yet does not fail it.</li>
+</ul>
+<hr />
+<h2 id="related">Related</h2>
+<ul>
+<li><a
+href="./OLLAMA-REMEDIATION.md"><code>OLLAMA-REMEDIATION.md</code></a> —
+the full operator runbook, all three tiers, and the resolution record
+for this host.</li>
+<li><a
+href="./INDEX-CORRUPTION-RECONCILIATION.md"><code>INDEX-CORRUPTION-RECONCILIATION.md</code></a>
+— the settled verdict on what was in the index. <strong>Historical
+record; do not edit.</strong></li>
+<li><a href="./OLLAMA-NAN-WEDGE.md"><code>OLLAMA-NAN-WEDGE.md</code></a>
+— the original evidence and harness for the loud failure modes.
+<strong>Historical record; do not edit.</strong></li>
+<li><a
+href="./LUMEN-INDEX-INTEGRITY.md"><code>LUMEN-INDEX-INTEGRITY.md</code></a>
+— the earlier audit that concluded “TRUSTWORTHY”. Its measurements are
+correct; its conclusion is <strong>superseded</strong>.
+<strong>Historical record; do not edit.</strong></li>
+<li><a
+href="./INDEPENDENT-VERIFICATION-2.md"><code>INDEPENDENT-VERIFICATION-2.md</code></a>
+— an adversarial pass that put 15 claims about this stack under test.
+<strong>Historical record; do not edit.</strong></li>
+<li><a href="./ACTION-REQUIRED.md"><code>ACTION-REQUIRED.md</code></a> —
+how the wizard surfaces these scripts.</li>
+<li><a href="./TROUBLESHOOTING.md"><code>TROUBLESHOOTING.md</code></a> —
+symptom-first entry points.</li>
+</ul>
+</body>
+</html>

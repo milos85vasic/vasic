@@ -298,7 +298,7 @@ missing" applies to tooling too).
 
 ### 3.2 The `ffprobe` capability probe — a named check, because of a measured trap
 
-Corrected premise 3 (plan.md): `/home/milosvasic/bin/ffprobe` is a **symlink to Playwright's ffmpeg
+Corrected premise 3 (plan.md): `<home>/bin/ffprobe` is a **symlink to Playwright's ffmpeg
 binary**. It accepts `--version` — so a naive probe reports it present — and rejects `-show_format`
 with *"Unrecognized option"*, which reads like a bad-argument error rather than a missing tool.
 Both `ffmpeg` and `ffprobe` resolve into `~/.cache/ms-playwright/ffmpeg-1011/`, an npx-managed

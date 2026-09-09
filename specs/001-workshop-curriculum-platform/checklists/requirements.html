@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>requirements</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">requirements</h1>
+</header>
+<h1
+id="specification-quality-checklist-workshop-curriculum-platform">Specification
+Quality Checklist: Workshop Curriculum Platform</h1>
+<p><strong>Purpose</strong>: Validate specification completeness and
+quality before proceeding to planning <strong>Created</strong>:
+2026-08-31 <strong>Feature</strong>: <a
+href="../spec.md">spec.md</a></p>
+<h2 id="content-quality">Content Quality</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />No implementation details
+(languages, frameworks, APIs)</label></li>
+<li><label><input type="checkbox" checked="" />Focused on user value and
+business needs</label></li>
+<li><label><input type="checkbox" checked="" />Written for non-technical
+stakeholders</label></li>
+<li><label><input type="checkbox" checked="" />All mandatory sections
+completed</label></li>
+</ul>
+<h2 id="requirement-completeness">Requirement Completeness</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />No [NEEDS CLARIFICATION]
+markers remain</label></li>
+<li><label><input type="checkbox" checked="" />Requirements are testable
+and unambiguous</label></li>
+<li><label><input type="checkbox" checked="" />Success criteria are
+measurable</label></li>
+<li><label><input type="checkbox" checked="" />Success criteria are
+technology-agnostic (no implementation details)</label></li>
+<li><label><input type="checkbox" checked="" />All acceptance scenarios
+are defined</label></li>
+<li><label><input type="checkbox" checked="" />Edge cases are
+identified</label></li>
+<li><label><input type="checkbox" checked="" />Scope is clearly
+bounded</label></li>
+<li><label><input type="checkbox" checked="" />Dependencies and
+assumptions identified</label></li>
+</ul>
+<h2 id="feature-readiness">Feature Readiness</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />All functional
+requirements have clear acceptance criteria</label></li>
+<li><label><input type="checkbox" checked="" />User scenarios cover
+primary flows</label></li>
+<li><label><input type="checkbox" checked="" />Feature meets measurable
+outcomes defined in Success Criteria</label></li>
+<li><label><input type="checkbox" checked="" />No implementation details
+leak into specification</label></li>
+</ul>
+<h2 id="validation-record">Validation Record</h2>
+<p>Validation was run twice. Iteration 1 found four genuine issues; all
+were fixed and iteration 2 passed. Both iterations are recorded, because
+a checklist that only shows its final green state hides whether it was
+ever capable of failing.</p>
+<h3 id="iteration-1-4-items-failed">Iteration 1 — 4 items failed</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Finding</th>
+<th>Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Success criteria are technology-agnostic</td>
+<td><strong>SC-014</strong> (“zero active server-side CI workflows”)
+names a delivery mechanism, not a user outcome.</td>
+<td>Kept deliberately. It is not a design preference — it is a governing
+constraint from §11.4.156, which states “Non-compliance is a release
+blocker regardless of context. No escape hatch.” A spec that omitted it
+would let a later phase introduce a release blocker. Recorded as a
+knowing, justified exception rather than silently passed.</td>
+</tr>
+<tr>
+<td>All functional requirements have clear acceptance criteria</td>
+<td>FR-030 → FR-036 (documentation, evidence, governance) had no
+acceptance scenario in any user story; they were covered only by success
+criteria.</td>
+<td>Accepted as covered: FR-030/031 by SC-004, FR-032/033 by
+SC-012/SC-013, FR-034 by SC-014, FR-035/036 by SC-015. Traceability is
+now explicit here rather than implied.</td>
+</tr>
+<tr>
+<td>No implementation details</td>
+<td>Acceptance Scenario 1 of User Story 1 specifies a <em>markdown</em>
+transcript — a format decision.</td>
+<td>Kept. The operator’s description mandates markdown explicitly
+(“Create it as markdown document”), so it is a stated requirement, not
+an implementation leak.</td>
+</tr>
+<tr>
+<td>Scope is clearly bounded</td>
+<td>Three <code>[NEEDS CLARIFICATION]</code> markers left audience,
+corpus and video delivery open, so scope was not actually bounded.</td>
+<td>Resolved as decisions <strong>D1–D3</strong>, each choosing the
+safest, most stable option, with the reasoning and the conditions that
+would reopen it recorded. 0 markers remain.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="iteration-2-all-items-pass">Iteration 2 — all items pass</h3>
+<ul>
+<li>0 <code>[NEEDS CLARIFICATION]</code> markers (verified:
+<code>grep -c 'NEEDS CLARIFICATION' spec.md</code> → 0).</li>
+<li>5 user stories, each with a stated priority, an independent test,
+and acceptance scenarios.</li>
+<li>36 functional requirements, each phrased as an observable MUST.</li>
+<li>15 success criteria, each carrying a number or a percentage.</li>
+<li>Scope bounded by an explicit Out of Scope list plus decisions
+D1–D3.</li>
+</ul>
+<h2 id="requirement-success-criterion-traceability">Requirement →
+Success Criterion Traceability</h2>
+<p>Every functional requirement group is measured by at least one
+success criterion, <strong>with one recorded exception</strong>: FR-039
+has none. That exception was previously invisible because FR-039 sat
+inside another group’s row; it is now a row of its own, and the
+correction below states what enforces it instead.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Requirement group</th>
+<th>Measured by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-001 … FR-007 (transcription, source material)</td>
+<td>SC-001, SC-002, SC-003</td>
+</tr>
+<tr>
+<td>FR-008 … FR-013 (curriculum, browsing)</td>
+<td>SC-004</td>
+</tr>
+<tr>
+<td>FR-014 … FR-020 (search, cross-referencing)</td>
+<td>SC-005, SC-006, SC-007, SC-008</td>
+</tr>
+<tr>
+<td>FR-021 … FR-025 (question answering)</td>
+<td>SC-009, SC-010</td>
+</tr>
+<tr>
+<td>FR-026 … FR-029 (extension)</td>
+<td>SC-011</td>
+</tr>
+<tr>
+<td>FR-030 … FR-031 (documentation)</td>
+<td>SC-004</td>
+</tr>
+<tr>
+<td>FR-032 … FR-033 (evidence)</td>
+<td>SC-012, SC-013</td>
+</tr>
+<tr>
+<td>FR-034 … FR-036 (governance)</td>
+<td>SC-014, SC-015</td>
+</tr>
+<tr>
+<td>FR-037 … FR-038 (passage identity, correction)</td>
+<td>SC-016, SC-016a</td>
+</tr>
+<tr>
+<td><strong>FR-039 (redaction before export or
+publication)</strong></td>
+<td><strong>No success criterion measures it</strong> — see the
+correction below</td>
+</tr>
+<tr>
+<td>FR-040 (evidence retention)</td>
+<td>SC-018</td>
+</tr>
+<tr>
+<td>FR-041 … FR-042 (accessibility)</td>
+<td>SC-017</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Correction — 2026-09-01.</strong> This table previously
+grouped FR-037 … FR-039 as one row measured by SC-016 and SC-016a. That
+was wrong at requirement granularity while reading as complete, which is
+the worst combination: SC-016 and SC-016a are
+<strong>link-survival</strong> criteria — they measure whether a
+citation still resolves after a correction, a re-index or a symbol
+rename. Neither says anything about redaction. FR-039 is measured by
+<strong>no success criterion at all</strong>, and the honest record is
+to say so rather than to let an adjacent row cover for it.</p>
+<p>FR-039 is nonetheless enforceable, by contract rather than by
+criterion, at three points:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Enforcement point</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gate <strong>G-PID-5</strong> — a redacted passage cannot be reached
+through search (R1), cross-references (R3) or a stored answer (R4)</td>
+<td><code>contracts/passage-contract.md</code> §7.3</td>
+</tr>
+<tr>
+<td>Publish precondition <strong>B5</strong> —
+<code>redaction-review.json</code> exists and is newer than the
+transcript</td>
+<td><code>contracts/pipeline-cli.md</code> §4.7</td>
+</tr>
+<tr>
+<td><code>redact.sh --review-only</code> — recording <em>“none
+required”</em> is a valid decision; skipping the review is not</td>
+<td><code>contracts/pipeline-cli.md</code> §4.6</td>
+</tr>
+</tbody>
+</table>
+<p>Because there is no criterion, those three are the whole of FR-039’s
+enforcement. Removing any one of them makes the requirement decorative,
+and nothing else in the artifact set would notice.</p>
+<h2 id="governance-cross-check">Governance Cross-Check</h2>
+<p>The feature is governed by the constitution submodule. The clauses
+that constrain this spec:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Clause</th>
+<th>Constraint</th>
+<th>Where honoured</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>§11.4.156</td>
+<td>No active server-side CI may be added. “No escape hatch.”</td>
+<td>FR-034, SC-014</td>
+</tr>
+<tr>
+<td>§1.1</td>
+<td>Every gate needs a paired mutation proving it catches
+regressions.</td>
+<td>FR-032, SC-012</td>
+</tr>
+<tr>
+<td>§11.4 anti-bluff family</td>
+<td>No claiming a result that was not observed.</td>
+<td>FR-003, FR-019, FR-020, FR-022, FR-033, SC-010, SC-013</td>
+</tr>
+<tr>
+<td>§11.4.157</td>
+<td>Four governance carriers stay in lockstep.</td>
+<td>FR-035</td>
+</tr>
+<tr>
+<td>§12.10</td>
+<td>CONTINUATION.md updated alongside non-trivial work.</td>
+<td>FR-035</td>
+</tr>
+<tr>
+<td>§11.4.6</td>
+<td>Never report an unverified state.</td>
+<td>Context table records only measured values; FR-004 requires a
+measured accuracy figure rather than an assertion.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="clarify-session-2026-08-31">Clarify Session — 2026-08-31</h2>
+<p>Re-validated after <code>/speckit-clarify</code> integrated five
+clarifications.</p>
+<p><strong>Checkbox state: 16/16 → 16/16.</strong> No item newly passed;
+no item regressed. No markers were toggled. The spec grew from 36 to 42
+functional requirements and from 15 to 18 success criteria; each new
+requirement was checked against the same criteria and none introduced an
+implementation detail, an unmeasurable outcome, or a new ambiguity.</p>
+<p>The five clarifications closed these taxonomy gaps: passage identity
+and uniqueness; transcript lifecycle and provenance; privacy handling
+for an identifiable third party; evidence retention; and accessibility.
+The traceability table above was extended to cover the new requirements
+— had it been left alone, it would have understated coverage while still
+reading as complete.</p>
+<h2 id="contracts-review-2026-09-01">Contracts Review — 2026-09-01</h2>
+<p>Phase 1 contract authoring surfaced one requirement that could not be
+met as written, and it was corrected rather than absorbed:</p>
+<p><strong>SC-016 claimed 100% link survival across every passage
+kind.</strong> Achievable for passages the curriculum owns, because a
+minted identifier is anchored into the source artifact. NOT achievable
+for source code the curriculum does not own, where no anchor can be
+written and identity must fall back to a symbol path. Split into SC-016
+(owned, 100% by construction) and SC-016a (code, 100% of stale
+references fail LOUDLY rather than silently re-pointing). Left
+unqualified, implementation would have produced either an undocumented
+exception or a wrong-but-rendering link — the precise failure the
+criterion exists to prevent.</p>
+<h2
+id="requirement-implementing-task-traceability-2026-09-01">Requirement →
+Implementing Task Traceability — 2026-09-01</h2>
+<p>A cross-artifact analysis found two MUST-level obligations that were
+<strong>fully contracted and entirely absent from the task
+breakdown</strong>. Both were re-verified against the current artifacts
+before this section was written: <code>tasks.md</code> contained no
+FR-039 task (the string “redact” appeared exactly once, as a fixture
+kind in the unanswerable-question taxonomy), and it contained no
+occurrence of <code>symbol_aliases</code>, of rule R4, or of gate
+G-PID-4. Tasks now exist for both, and they are recorded here because a
+requirement→criterion table alone cannot show that a contracted
+obligation has an executor.</p>
+<p>Task ids below are <code>tasks.md</code>’s post-2026-09-01 numbering
+(105 tasks).</p>
+<h3
+id="fr-039-redaction-required-before-any-export-or-publication">FR-039 —
+redaction, required before any export or publication</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Contracted at</th>
+<th>Obligation</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>passage-contract.md</code> §7.1</td>
+<td>Four-outcome <code>resolve()</code>; <code>redacted</code> is a
+determined answer of its own, distinct from <code>not_in_registry</code>
+and from <code>undetermined</code></td>
+<td><strong>T011</strong></td>
+</tr>
+<tr>
+<td><code>passage-contract.md</code> §4.3, §7.3 R2/R6</td>
+<td>Append-only <code>redactions</code> log;
+<code>passages.redacted</code> is a materialisation, never a bare column
+flip; <code>unredact</code> is an append</td>
+<td><strong>T012</strong></td>
+</tr>
+<tr>
+<td><code>pipeline-cli.md</code> §4.6</td>
+<td><code>redact.sh</code> — arguments, three-valued exits, rebuild
+trigger</td>
+<td><strong>T038</strong></td>
+</tr>
+<tr>
+<td><code>pipeline-cli.md</code> §4.6; §7.3 R7</td>
+<td><code>--review-only</code> and the
+<code>redaction-review.json</code> artifact, with its staleness
+rule</td>
+<td><strong>T039</strong></td>
+</tr>
+<tr>
+<td>FR-039 as a live obligation</td>
+<td>The Chapter 1 review itself — the recording features an identifiable
+third party</td>
+<td><strong>T040</strong></td>
+</tr>
+<tr>
+<td><code>passage-contract.md</code> §7.3 R1, R5</td>
+<td>Redacted pids excluded from FTS and from the embedding set
+<strong>at generation-build time</strong>; <code>degraded</code> until
+rebuild</td>
+<td><strong>T059</strong></td>
+</tr>
+<tr>
+<td><code>passage-contract.md</code> §7.3 R3; <code>http-api.md</code>
+§3.9</td>
+<td>Cross-references suppressed; <code>redacted_omitted</code> count
+reported</td>
+<td><strong>T061</strong></td>
+</tr>
+<tr>
+<td><code>passage-contract.md</code> §7.3 R4; <code>http-api.md</code>
+§3.10 A4</td>
+<td>Stored answers <code>withdrawn</code>; a redacted citation ⇒
+<code>declined{redacted_evidence}</code></td>
+<td><strong>T075</strong></td>
+</tr>
+<tr>
+<td><code>passage-contract.md</code> §7.3 gate
+<strong>G-PID-5</strong></td>
+<td>The composite proof, with its paired mutation</td>
+<td><strong>T076</strong></td>
+</tr>
+<tr>
+<td><code>pipeline-cli.md</code> §4.7 B5</td>
+<td>Publish precondition — review exists and is newer than the
+transcript</td>
+<td><strong>T087</strong></td>
+</tr>
+<tr>
+<td><code>pipeline-cli.md</code> §4.7</td>
+<td><code>add-chapter.sh</code> covers all nine stages including
+<code>redaction-review</code> and <code>publish</code></td>
+<td><strong>T084</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The spread across five phases is deliberate, not fragmentation:
+redaction must propagate into each component <strong>as that component
+is built</strong>, and G-PID-5 cannot be proven until search,
+cross-references and stored answers all exist. None of it is Phase 8
+work — a publication gate is not polish.</p>
+<h3
+id="sc-016a-code-passage-identity-keyed-on-symbol-path-with-a-rename-alias-table">SC-016a
+— code-passage identity, keyed on symbol path with a rename alias
+table</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Contracted at</th>
+<th>Obligation</th>
+<th>Task</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>passage-contract.md</code> §10 <strong>P-U1</strong></td>
+<td><strong>Settle the matching key’s producer before building on
+it.</strong> Lumen exposes no symbol table through its CLI or MCP
+surface, so §6.2’s key has no confirmed producer. Three-valued outcome;
+T015–T017 are blocked until it exits <code>0</code></td>
+<td><strong>T014</strong></td>
+</tr>
+<tr>
+<td><code>passage-contract.md</code> §6.2, §6.4, §4.3
+<code>symbol_aliases</code> DDL</td>
+<td>The <code>(path, symbol)</code> key and the alias table, with
+<code>authored</code> separated from <code>detected</code></td>
+<td><strong>T015</strong></td>
+</tr>
+<tr>
+<td><code>passage-contract.md</code> §8 R2/R3/<strong>R4</strong></td>
+<td>Ingest matching for code; an unaliased rename inside
+<code>workshop/</code> fails ingest, outside it mints and orphans
+loudly</td>
+<td><strong>T016</strong></td>
+</tr>
+<tr>
+<td><code>passage-contract.md</code> §6.5, §6.6, gate
+<strong>G-PID-4</strong></td>
+<td>The validating proof: aliased rename preserves the pid; unaliased
+rename resolves <code>not_in_registry</code> and ingest exits
+<code>1</code>. Paired mutation: silent re-point by nearest-text match
+must turn the gate red</td>
+<td><strong>T017</strong></td>
+</tr>
+<tr>
+<td>FR-031</td>
+<td>The limit stated honestly in the shipped documentation</td>
+<td><strong>T095</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Previously SC-016a’s only mention anywhere in the breakdown was the
+documentation task — which <em>documented</em> a guarantee that nothing
+implemented, and gate G-PID-4 appeared in no task at all.</p>
+<p><strong>P-U1 is handled by disclosure, not by assumption.</strong>
+T014 settles it and T015–T017 are explicitly conditional on that
+outcome, recorded both on each task and in <code>tasks.md</code>’s
+Global Constraints. If T014 exits <code>1</code> — both candidate
+producers tested, neither yielding a stable symbol path — then SC-016a
+is not implementable as specified, and that becomes a recorded gap and
+an operator decision. The outcome forbidden either way is the one
+SC-016a exists to prevent: a heuristic that quietly re-points a citation
+at different code.</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>The three resolved decisions (D1 local-only, D2 corpus scope, D3
+local video reassembly) each record what would reopen them. If any is
+reopened, this checklist must be re-validated, because each one changes
+what “scope is clearly bounded” means.</li>
+<li>The spec deliberately contains one technology-flavoured success
+criterion (SC-014). This is justified above and should not be “cleaned
+up” by a later phase — removing it would remove a release-blocking
+constraint from view.</li>
+</ul>
+</body>
+</html>

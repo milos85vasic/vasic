@@ -115,7 +115,13 @@ write_config "[{name:'chromium'}]" "null"
 write_spec 'ok.spec.js' "const { VD_BASE: VD } = require('../env.js');
 test('a', async ({ page }) => { await page.goto(\`\${VD}/\`); });"
 rm -rf "$T/repo/milosvasic.ru/_site"
-assert "M3 absent served root is caught" 2 'jekyll build' --project=chromium
+# The needle is the CONTAINER remedy. It was 'jekyll build' — the host command —
+# until 2026-09-09, when the milosvasic.ru build was containerised through
+# submodules/containers and preflight.js was corrected to stop naming a command
+# that is not on this host (`bundle`, `bundler` and `jekyll` are all absent from
+# PATH). The assertion is unchanged in STRENGTH: an absent served root must still
+# exit 2 AND name a remedy the reader can actually run. Only the remedy moved.
+assert "M3 absent served root is caught" 2 'site-build -workload jekyll' --project=chromium
 
 # ---- M4: testIgnore is HONOURED ---------------------------------------------
 # A route requested only by an ignored spec must NOT be demanded. Without this,

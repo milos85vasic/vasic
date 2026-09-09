@@ -2100,11 +2100,17 @@ workshop/platform/frontend/src/app/core/vocabulary.ts MODEL Renaming an operator
 # host (getent fails, ssh -o BatchMode=yes returns rc 255), which is precisely
 # why the override exists rather than being hypothetical.
 
-# REASON: envOr("HT_BUILD_HOST", envOr("BUILD_HOST", "<literal>")) — a TWO-deep
-# env chain before the literal is reached.
-_tools/containers/cmd/distribute-helixtranslate/main.go HOSTNAME envOr("HT_BUILD_HOST"
-# REASON: envOr("HT_WORKER_HOST", "<literal>") — as above, one level.
-_tools/containers/cmd/distribute-helixtranslate/main.go HOSTNAME envOr("HT_WORKER_HOST"
+# TOMBSTONE 2026-09-08 — both rows RETIRED: the literals they pardoned are gone.
+# They read:
+#     _tools/containers/cmd/distribute-helixtranslate/main.go HOSTNAME envOr("HT_BUILD_HOST"
+#     _tools/containers/cmd/distribute-helixtranslate/main.go HOSTNAME envOr("HT_WORKER_HOST"
+# and pardoned `envOr("HT_BUILD_HOST", envOr("BUILD_HOST", "<machine>"))` and
+# `envOr("HT_WORKER_HOST", "<machine>")`. An env chain that ENDS in a machine
+# name is still a machine name in the tree: it is what gets used whenever the
+# variable is unset, which was every checkout but one. Both now read the
+# environment with NO fallback and return rc 2 naming the variable to set.
+# Measured: `HT_BUILD_HOST` unset -> "no build host: set HT_BUILD_HOST (or
+# BUILD_HOST)", rc 2; set, `HT_WORKER_HOST` unset -> "no worker host", rc 2.
 
 # ==============================================================================
 # 2026-09-04 (later) — the multi-provider registry and two CONTROL tests

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>research</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">research</h1>
+</header>
+<h1
+id="phase-0-research-knowledge-areas-bidirectional-deep-linking">Phase 0
+Research — Knowledge Areas &amp; Bidirectional Deep Linking</h1>
+<p><strong>Feature</strong>:
+<code>specs/002-knowledge-areas-deep-linking</code> |
+<strong>Date</strong>: 2026-09-01</p>
+<p>Every decision below is labelled <code>D-KG-n</code> and carries the
+measurement that produced it. Where a question could not be settled from
+evidence in the tree, it appears in the <strong>Unverified
+register</strong> at the end rather than being answered by a plausible
+guess. An entry in that register is not a minor caveat: three tasks in
+the breakdown are explicitly blocked on one.</p>
+<hr />
+<h2
+id="d-kg-1-word-level-mention-precision-is-reachable-and-the-join-is-measured">D-KG-1
+— Word-level mention precision is reachable, and the join is
+measured</h2>
+<p><strong>Question</strong>: the specification requires mention
+positions to be as precise as the data supports and to state which
+precision they used. Is word precision actually reachable, and at what
+cost?</p>
+<p><strong>Measured</strong>, on the one chapter that exists:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Word records in the chapter’s word sidecar</td>
+<td><strong>15,610</strong></td>
+</tr>
+<tr>
+<td>Fields per record</td>
+<td>a word, a start time, an end time, a probability</td>
+</tr>
+<tr>
+<td>Word starts monotonically ordered</td>
+<td><strong>yes</strong></td>
+</tr>
+<tr>
+<td>Span covered by the word sidecar</td>
+<td>0.00 s to 6,924.10 s</td>
+</tr>
+<tr>
+<td>Span covered by the segment set</td>
+<td>0.00 s to 6,924.10 s — <strong>identical</strong></td>
+</tr>
+<tr>
+<td>Words locatable to a segment by time</td>
+<td><strong>15,535 of 15,610 = 99.52%</strong></td>
+</tr>
+<tr>
+<td>Words <strong>not</strong> locatable to any segment</td>
+<td><strong>75 = 0.48%</strong></td>
+</tr>
+<tr>
+<td>Word probability, 5th / 50th / 95th percentile</td>
+<td>0.559 / 0.997 / 1.000</td>
+</tr>
+<tr>
+<td>Words below the recorded flag threshold</td>
+<td>2,717 = 17.4%</td>
+</tr>
+<tr>
+<td>Independent cross-check</td>
+<td>the segment sidecar’s own word count is 15,610 — the two files
+agree</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Decision</strong>: mention positions are resolved at
+<strong>word precision by a time join</strong> from the word sidecar
+onto the segment set, and from the segment onto its passage identifier.
+Where a word does not fall inside any segment span — 0.48% of them,
+occupying the gaps between segments — the mention resolves at
+<strong>segment precision</strong> against the nearest enclosing
+segment, and is labelled as such.</p>
+<p><strong>Why this and not the alternatives</strong>:</p>
+<ul>
+<li>Storing word offsets <em>in</em> the registry was rejected: the
+registry is the source of truth and its byte-stability is a proven
+property with its own gates. Adding 15,610 rows of derived data per
+chapter to a file whose stability is load-bearing trades a measured
+guarantee for a convenience.</li>
+<li>Discarding the sidecar and using segment precision everywhere was
+rejected on measurement: the segment distribution is median 6.74 s and
+maximum 20.22 s, so a “jump to where this was said” could land 20
+seconds away while the data to land on the word was sitting unused.</li>
+<li>Silently mixing the two was rejected as the worst option and is
+forbidden by FR-021. A segment-derived position displayed as
+word-accurate is a confident wrong answer, and it is invisible — the
+link still renders and still plays.</li>
+</ul>
+<p><strong>The honest limit, stated rather than discovered
+later</strong>: word precision is <em>available</em>, not <em>uniformly
+trustworthy</em>. The median word probability is 0.997, but the 5th
+percentile is 0.559 and 17.4% of words fall below the recorded flag
+threshold. A mention anchored on a low-confidence word inherits that
+uncertainty and must carry it, exactly as an uncertain passage does.</p>
+<hr />
+<h2
+id="d-kg-2-identity-one-minter-five-new-kinds-no-second-scheme">D-KG-2 —
+Identity: one minter, five new kinds, no second scheme</h2>
+<p><strong>Question</strong>: areas, terms, lesson sections, questions
+and mentions all need identifiers. Reuse the passage minter, or give
+each kind its own scheme?</p>
+<p><strong>Measured</strong>: the existing minter produces 26-character
+sortable identifiers, monotonic within a process, and attaches identity
+through an anchor key with a deliberate hard edge — an anchor that is
+present but unknown to the registry is an <strong>error</strong>, never
+a silent mint and never an adoption. Its paired mutation proofs exist
+and pass for all three ways this can go wrong: content-derived identity,
+positional identity, and unconditional minting on every run. Identity
+survival is measured at 1,101 of 1,101 across a content correction and a
+section insertion.</p>
+<p><strong>Decision</strong>: <strong>one minter, five new
+kinds.</strong> Every new entity mints through the existing library. No
+kind derives its identifier from its own text, its position, its title,
+its slug, or its ordinal.</p>
+<p><strong>Why</strong>: the property the whole feature rests on — that
+a link survives a correction — is a property of <em>that minter</em>,
+proven by <em>those</em> mutation tests. An identifier scheme invented
+for areas would inherit none of that and would be tested, at best, by
+tests written by the same person who wrote the scheme. The failure mode
+is also the specific one this repository has already measured elsewhere:
+a content-derived identifier changes when a typo is fixed, which is the
+operation a curriculum performs most.</p>
+<p><strong>Consequence recorded now rather than discovered</strong>: the
+reference module links a question to its area by a <strong>positional
+code</strong>. That linkage form is exactly what this decision forbids,
+so the question-bank layout is ported and its linkage is
+<strong>upgraded</strong> to a minted identifier. This is recorded in
+the plan’s port register as an adaptation, not as a port.</p>
+<hr />
+<h2
+id="d-kg-3-the-taxonomy-is-promoted-first-extracted-second-and-reconciled-visibly">D-KG-3
+— The taxonomy is promoted first, extracted second, and reconciled
+visibly</h2>
+<p><strong>Question</strong>: five areas already exist as prose.
+Extraction will derive its own. Which wins?</p>
+<p><strong>Measured</strong>: the workshop’s training documentation
+carries <strong>5 area documents</strong>, identified <code>01</code>
+through <code>05</code>, already following an adapted form of the
+reference’s seven-section skeleton. They have no identifier, no schema,
+no database representation and no endpoint. The corpus they describe is
+the same 1,101 passages extraction would read.</p>
+<p><strong>Decision</strong>: a three-step order, and the order is the
+decision.</p>
+<ol type="1">
+<li><strong>Promote.</strong> The five prose areas become first-class
+entities with minted identifiers, and are evidenced against the corpus —
+every one must acquire at least one evidencing passage or it fails
+promotion loudly rather than being published unevidenced.</li>
+<li><strong>Extract.</strong> Derivation runs over the whole corpus and
+proposes areas and terms.</li>
+<li><strong>Reconcile, visibly.</strong> Where extraction proposes
+something the promoted set already covers, it attaches as evidence.
+Where it proposes something new, it is added. Where it
+<strong>contradicts</strong> a promoted area — different scope,
+different boundary — it is reported for a decision and is neither merged
+nor discarded.</li>
+</ol>
+<p><strong>Why this order</strong>: the prose areas encode human
+judgement about what the workshop teaches. Extraction encodes statistics
+about what words occur. Running extraction first and merging prose in
+afterwards inverts the authority, and the merge would happen at the
+moment when the machine’s proposal already has links pointing at it.
+Promoting first means the human judgement holds the identifiers, and
+extraction enriches it.</p>
+<p><strong>Rejected</strong>: extracting fresh and treating the prose as
+documentation to be rewritten. Simpler to build, and it produces two
+competing sets of areas whose reconciliation is the same work done later
+with more links to break.</p>
+<hr />
+<h2
+id="d-kg-4-match-offsets-must-be-produced-the-field-cannot-stay-as-it-is">D-KG-4
+— Match offsets must be produced; the field cannot stay as it is</h2>
+<p><strong>Question</strong>: the specification requires a search hit to
+say where within its text the match occurred. What exists?</p>
+<p><strong>Measured</strong>: the hit already declares a list of offset
+pairs, and the construction path sets it to the empty list
+<strong>unconditionally</strong> — there is no branch in which it is
+populated. The snippet is generated with <strong>empty</strong> match
+delimiters, so the snippet carries no in-string marker either. The
+relevance floor is uncalibrated and the response says so honestly.</p>
+<p><strong>Decision</strong>: <strong>offsets are produced.</strong> The
+lexical leg computes them, because it is the only leg that knows which
+terms matched; the semantic leg carries no offsets and must say so
+rather than returning an empty list that reads like “no matches
+inside”.</p>
+<p><strong>Why this matters more than it looks</strong>: an empty list
+and “this leg cannot produce offsets” are different facts, and the
+current field cannot express the difference. A consumer reading the
+schema would reasonably build a highlighter against it and ship a
+highlighter that never highlights. This is the blind-instrument shape
+the governing principles name, sitting in the exact field the operator’s
+“link exactly where they appear” requirement lands on.</p>
+<p><strong>The alternative, which is also acceptable and must be chosen
+deliberately</strong>: remove the field and state its absence. What is
+<em>not</em> acceptable is leaving a field that promises a position and
+never carries one. FR-029 admits both outcomes and forbids the
+third.</p>
+<p><strong>Unverified</strong>: whether the index’s full-text engine
+exposes match positions directly, or whether offsets must be recomputed
+from the query against the matched text. See <strong>U1</strong> — this
+determines whether offsets are cheap or whether they are a second
+pass.</p>
+<hr />
+<h2
+id="d-kg-5-the-graph-is-keyed-on-the-passage-identifier-never-on-time">D-KG-5
+— The graph is keyed on the passage identifier, never on time</h2>
+<p><strong>Question</strong>: a mention has a time. A citation has a
+time. Why not key the graph on time?</p>
+<p><strong>Measured</strong>: identity survival across a content
+correction and a structural insertion is 1,101 of 1,101 for the passage
+identifier. Timestamps have no such measurement and could not have one —
+a re-transcription with a different segmentation moves every boundary,
+and the segment set is already known to be derived rather than
+authored.</p>
+<p><strong>Decision</strong>: <strong>every relationship is keyed on the
+passage identifier.</strong> Time is carried as a <em>position</em>,
+never as a key. SC-015b measures this by inspecting every stored
+relationship, with a paired mutation that introduces one time-keyed
+link.</p>
+<p><strong>Why the distinction is not pedantic</strong>: a time-keyed
+graph does not break loudly. After a re-transcription every link still
+resolves, still renders, and points a few seconds off — or, where
+segmentation changed more, at a different topic entirely. There is no
+error, no missing target, and no symptom until a learner notices the
+video is discussing something else. That is precisely the class of
+failure the identity contract exists to prevent, and it would be
+reintroduced by a shortcut that looks natural.</p>
+<hr />
+<h2
+id="d-kg-6-term-significance-is-demonstrated-not-asserted-and-frequency-alone-is-disqualified">D-KG-6
+— Term significance is demonstrated, not asserted, and frequency alone
+is disqualified</h2>
+<p><strong>Question</strong>: how is a term distinguished from a common
+word?</p>
+<p><strong>Measured constraint</strong>: the corpus is a single spoken
+session. Spoken language is dominated by function words and by
+domain-neutral verbs. A frequency-ranked term list over 15,610 words
+would be led by words that carry no knowledge.</p>
+<p><strong>Decision</strong>: significance is a <strong>recorded,
+re-derivable measure</strong> combining at minimum distinctiveness
+against a general-language baseline, distribution across the corpus (a
+term concentrated in one passage is a mention, not an area’s
+vocabulary), and — where available — the term’s presence in the
+workshop’s own written material as corroboration. Raw frequency alone is
+explicitly disqualified by FR-013. The measure’s inputs are printed so
+the arithmetic can be audited, per the repository’s adaptability
+principle.</p>
+<p><strong>Why it is specified as “a recorded measure” rather than a
+named algorithm</strong>: the specification is technology-agnostic by
+requirement, and the choice of measure is a Phase 1 design decision.
+What is fixed here is that the measure must be <em>inspectable</em> and
+that a reviewer must be able to disagree with a specific term and see
+why it scored as it did. SC-002 makes this concrete: a sample of at
+least 30 terms is reviewed against a recorded seed, so the verdict is
+reproducible and the sample is not chosen after the fact.</p>
+<p><strong>Rejected</strong>: a hand-curated term list. It would be
+better on day one and stale on day two, and it would violate the rule
+that the fleet is derived rather than hardcoded — the same rule, applied
+to a different set.</p>
+<hr />
+<h2
+id="d-kg-7-question-sets-short-and-long-are-distinguished-structurally-not-by-feel">D-KG-7
+— Question sets: short and long are distinguished structurally, not by
+feel</h2>
+<p><strong>Question</strong>: the operator requires “exhaustive long and
+short tests / quizzes”. What makes a set long rather than merely
+larger?</p>
+<p><strong>Measured, in the reference</strong>: 312 multiple-choice and
+473 short-answer items across 34 areas, with a closed difficulty
+vocabulary of three values and a measured distribution skewed to the
+middle value. <strong>None of the 785 carries any source
+reference.</strong></p>
+<p><strong>Decision</strong>: the distinction is <strong>structural and
+checkable</strong>. A short-set question tests recall of an area’s core
+concepts and may cite a single passage. A long-set question requires
+reasoning across evidence and <strong>must cite more than one distinct
+passage</strong>. SC-017a measures exactly that.</p>
+<p><strong>Why structural</strong>: “harder” is not reproducible. Two
+reviewers disagree, the same reviewer disagrees with themselves a week
+later, and a criterion that cannot be re-measured cannot be a success
+criterion. Citation breadth is a proxy, and it is an honest one — a
+question that genuinely requires connecting two parts of the material
+has two parts to cite, and a question that does not cannot manufacture
+them without the citation check catching it.</p>
+<p><strong>And the anti-gaming clause</strong>: coverage is measured
+<strong>per lesson section</strong>, not per area (SC-017b), and the
+per-area ratio of cited evidencing passages is published as a
+<strong>distribution, not a mean</strong> (SC-017c). A hundred questions
+about one popular topic satisfies neither.</p>
+<p><strong>No threshold is set for the coverage ratio,
+deliberately.</strong> The density of assessable substance per passage
+has not been measured for this corpus. Naming a percentage would be a
+guess presented as a target, and a guessed target is worse than a
+measured figure with no target, because the guess gets optimised
+toward.</p>
+<hr />
+<h2
+id="d-kg-8-materials-authorship-is-bounded-by-the-host-and-that-is-why-it-is-a-clarification">D-KG-8
+— Materials authorship is bounded by the host, and that is why it is a
+clarification</h2>
+<p><strong>Question</strong>: can the platform write area prose?</p>
+<p><strong>Measured</strong>: the local inference host serves exactly
+two models and both are embedding models — encoders with no capacity to
+generate text. Separately, the platform already implements
+entailment-based support verification behind a configured model
+directory, with lexical overlap as a fallback, and it refuses to degrade
+silently from the former to the latter.</p>
+<p><strong>Finding, not a decision</strong>: run-time prose generation
+is <strong>not possible on this host today</strong>. This is not an
+argument against option (c) in the specification’s first clarification;
+it is the fact that makes the clarification necessary. Options (a) and
+(b) run here today; option (c) requires an operator action first, and
+that is an operator decision rather than an implementation detail.</p>
+<p><strong>What is decided, because it holds under all three
+options</strong>: every unit of prose records whether it was
+<strong>authored</strong> or <strong>assembled</strong> (FR-017), and
+assembled model answers are marked as such (FR-038, SC-020). Under
+option (a) everything is assembled; under (b) everything is authored;
+under (c) both appear and the distinction becomes load-bearing. Building
+the distinction now costs one field and makes all three options
+shippable.</p>
+<hr />
+<h2
+id="d-kg-9-export-port-the-toolchain-exceed-the-reference-on-coverage">D-KG-9
+— Export: port the toolchain, exceed the reference on coverage</h2>
+<p><strong>Measured on this host</strong>: a Markdown converter, an
+HTML-to-PDF renderer, an office suite, a PDF text extractor, an OCR
+engine and a Mermaid renderer <strong>all resolve on
+<code>PATH</code></strong> — and all of them resolve into
+<strong>user-local directories</strong>, not system ones.</p>
+<p><strong>Measured in the reference</strong>: a per-file four-format
+generator, a diagram renderer from text source, an export validator, and
+an orchestrator that runs the three in order. Coverage achieved:
+<strong>25 of 34 areas complete; 9 are Markdown only.</strong></p>
+<p><strong>Decision</strong>: port the toolchain design as-is, and
+require <strong>complete</strong> coverage (SC-024) — explicitly a
+higher bar than the model it is taken from, stated so nobody later
+“matches the reference” and calls it done.</p>
+<p><strong>Adaptability requirement that follows from the measurement,
+not from principle</strong>: because every tool resolves into a
+user-local directory, the pipeline <strong>must detect its export
+tooling and probe its capability</strong>, not test for a name on
+<code>PATH</code>. This repository has already been bitten by exactly
+this: a media tool that answered a version query and rejected the flag
+that mattered, because the name on <code>PATH</code> was a symlink into
+a browser-automation cache. FR-049 requires an absent toolchain to
+report that export could not be performed, never that it succeeded over
+empty output.</p>
+<hr />
+<h2
+id="d-kg-10-search-extends-it-is-not-replaced-and-the-references-search-is-not-ported">D-KG-10
+— Search extends; it is not replaced, and the reference’s search is not
+ported</h2>
+<p><strong>Measured, reference</strong>: a substring scan across three
+tables joined by union, a fixed result limit, no relevance ordering, and
+a hit carrying a type, an area id, a title and a snippet — <strong>no
+position of any kind</strong>.</p>
+<p><strong>Measured, workshop</strong>: a lexical leg over a full-text
+index with a real ranking function, a semantic leg over stored vectors
+keyed by identifier and scoped by index generation, a third leg for
+code, fused and reranked through a consumed library rather than a local
+reimplementation, with an honest three-state envelope and an explicitly
+uncalibrated relevance floor.</p>
+<p><strong>Decision</strong>: the new content kinds join the
+<strong>existing</strong> index. The reference’s search is <strong>not
+ported</strong>, and the omission is recorded in the plan’s register so
+it is not later read as an oversight.</p>
+<p><strong>One thing the reference does that is worth taking</strong>:
+it searches <em>derived</em> lesson and question text, not only source
+documents — which is why its search finds a question by its prompt. The
+workshop must index the new kinds’ own text for the same reason, rather
+than relying on the passages they cite. A question that can only be
+found through its citations is not findable by anyone who does not
+already know the answer.</p>
+<hr />
+<h2
+id="d-kg-11-answering-retrieval-extends-now-generation-waits-on-a-decision">D-KG-11
+— Answering: retrieval extends now, generation waits on a decision</h2>
+<p><strong>Measured</strong>: the answering path already runs four
+verification layers — a retrieval gate that refuses before any model
+runs, a schema constraint, a two-part citation check that separates
+“cited an identifier never retrieved” from “cited an identifier that no
+longer resolves”, and a support verifier with two implementations. Any
+layer failing refuses the <strong>whole</strong> answer; no layer may
+strip a claim and return the rest. The four resolution outcomes are kept
+distinct.</p>
+<p><strong>Also measured, and open</strong>: on the unanswerable set,
+<strong>3 of 33</strong> questions were answered rather than declined.
+And every one of those four layers verifies the claim against the
+<strong>passage</strong>. <strong>None verifies the claim against the
+question.</strong> A fragment that is topically related and does not
+answer what was asked passes lexical overlap, passes entailment against
+its passage, and passes the citation check — because all three are true
+statements about a fragment that is nonetheless not an answer.</p>
+<p><strong>Decision, bounded by the third clarification</strong>:
+retrieval over the new kinds is extended now, and that is safe because
+retrieval refuses rather than generates. Generation <em>about</em>
+areas, lessons and questions waits on the operator’s answer. If the
+answer is to close the defect, the verification layer required by FR-051
+checks the answer against the question, and it has a seam to live in —
+the existing support-verifier interface is the natural place, and the
+entailment implementation shows the shape.</p>
+<p><strong>What is decided regardless</strong>: the defect is named in
+the shipped limits document and SC-026 fails if it is not. The one
+option this feature forecloses is describing it as solved.</p>
+<hr />
+<h2 id="unverified-register">Unverified register</h2>
+<p>Entries that could <strong>not</strong> be settled from evidence in
+the tree. Each names what would settle it. A task that depends on an
+entry names the entry and names the task that settles it.</p>
+<ul>
+<li><strong>U1 — Do match offsets come from the index, or must they be
+recomputed?</strong> D-KG-4 requires offsets to be produced. Whether the
+full-text engine exposes match positions through a supported interface,
+or whether the matched terms must be re-located within the matched text
+as a second pass, determines the cost and the correctness boundary — a
+recomputation can disagree with what the index actually matched,
+particularly under prefix matching, which the lexical leg uses on the
+final query token. <em>Settled by</em>: probing the engine’s available
+functions against the real index and comparing the positions it reports
+with a recomputation over the same query.</li>
+<li><strong>U2 — SETTLED 2026-09-01, for chapter 01.</strong> <em>The
+question was</em>: what is the corpus’s actual topical density?
+<em>Measured</em>, by the taxonomy extraction that landed while this
+document was being written: of 1,055 transcript passages, <strong>884
+are covered (83.79%)</strong> and <strong>171 carry no area</strong>; by
+words, <strong>14,290 of 15,610 are covered (91.54%)</strong>. Every
+uncovered passage carries a <strong>stated reason</strong> — the
+extraction classifies them rather than dropping them, which is what
+FR-010 requires. Of the 267 uncertain passages, <strong>211 are
+covered</strong>. <em>What remains open</em>: this is one chapter. The
+figure is a measurement, <strong>not a target</strong>, and SC-003 still
+sets no threshold — a second chapter may differ, and the moment a number
+becomes a target it starts being optimised toward. The criterion
+continues to require the figure be published, not that it clear a
+bar.</li>
+<li><strong>U3 — SETTLED 2026-09-01.</strong> <em>The question was</em>:
+how many areas does this corpus evidence? The reference has 34 and the
+workshop had 5 in prose, so the answer could plausibly have been
+anywhere between. <em>Measured</em>: the landed taxonomy carries
+<strong>7 tracks, 37 modules and 137 terms</strong> for the one chapter
+that exists. <em>Recorded because it is easy to misread</em>: 37 against
+the reference’s 34 is a coincidence of similar magnitude,
+<strong>not</strong> a target that was met. No area count was aimed at,
+and the closeness of the two numbers must not be cited as evidence of
+parity — one is a 34-area interview corpus and the other is a 37-module
+extraction from a single working session, and they are not comparable
+quantities.</li>
+<li><strong>U4 — Is an entailment model actually loadable on this
+host?</strong> The platform’s entailment verifier is selected when a
+model directory is configured, and the fallback is lexical. Whether a
+model is present and loads here has not been measured for this feature.
+<em>Settled by</em>: attempting the load and observing the result. It
+must report could-not-determine rather than degrading, and this is the
+exact behaviour to verify rather than assume — the platform’s own code
+claims it, and a claim is not a measurement.</li>
+<li><strong>U5 — Do the 75 unlocatable words cluster or
+scatter?</strong> 0.48% of words fall outside every segment span. If
+they scatter across inter-segment gaps, the segment-precision fallback
+is uninteresting. If they cluster in one region, that region has a
+segmentation problem worth knowing about before mentions are built on
+it. <em>Settled by</em>: plotting their time distribution against the
+measured silence spans.</li>
+</ul>
+</body>
+</html>

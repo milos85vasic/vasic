@@ -349,7 +349,7 @@ rewrite cannot disturb either before pushing.
 ## 8A · The remediation, REHEARSED ON A CLONE — NOT EXECUTED, REQUIRES OPERATOR AUTHORIZATION
 
 > **Status: REHEARSED ON A CLONE, NOT EXECUTED — REQUIRES OPERATOR AUTHORIZATION.**
-> Nothing in this section was done to `/run/media/milosvasic/DATA4TB/Projects/vasic`.
+> Nothing in this section was done to `<ext-volume-host>/Projects/vasic`.
 > No `git push`, no `--force`, no `filter-repo`, no `fetch` touched the real repository.
 > Constitution §11.4.113 still requires explicit per-session operator authorization for the
 > force-push, and it has still not been given. §8 above is **unchanged**; this section sits
@@ -401,9 +401,9 @@ Two further facts, both measured rather than assumed:
 
 ### 8A.2 · Tooling — `git filter-repo` is present
 
-`git-filter-repo` resolves on `PATH` at `/home/milosvasic/.local/bin/git-filter-repo`, backed by
+`git-filter-repo` resolves on `PATH` at `<home>/.local/bin/git-filter-repo`, backed by
 the importable module `git_filter_repo` at
-`/home/milosvasic/.local/lib/python3/site-packages/git_filter_repo.py`, against `git 2.50.1`.
+`<home>/.local/lib/python3/site-packages/git_filter_repo.py`, against `git 2.50.1`.
 **No fallback was needed**: neither `git filter-branch` nor BFG was used, and neither should be.
 `filter-branch` is deprecated and would have been dramatically slower on a 3.96 GiB pack, and
 BFG is not installed on this host.
@@ -431,7 +431,7 @@ real object store. That property is what makes the rest of this safe.
 
 ```bash
 git clone --no-local --no-single-branch \
-  file:///run/media/milosvasic/DATA4TB/Projects/vasic "$SCRATCH/vasic-clone"
+  file://<ext-volume-host>/Projects/vasic "$SCRATCH/vasic-clone"
 ```
 **Measured: 557.04 s (9 m 17 s), peak RSS 2.26 GB, 4.6 GB on disk, 3.96 GiB pack.**
 *Verify:* `HEAD` = `ee3933d…`; 103 commits; 7,505 reachable objects; all four leak blobs
@@ -825,7 +825,7 @@ is not "not happened".
 ## 8B · The remediation, EXECUTED — 2026-09-01, under explicit operator authorization
 
 > **Status: EXECUTED AND FORCE-PUSHED.** This was done to
-> `/run/media/milosvasic/DATA4TB/Projects/vasic` and to
+> `<ext-volume-host>/Projects/vasic` and to
 > `git@github.com:milos85vasic/vasic.git`. §8 and §8A are left **exactly as written**;
 > this section sits beside them and records what running the plan for real produced,
 > including where the live tree had moved out from under §8A's measurements.
@@ -1496,7 +1496,7 @@ holds the name.
 ### 11.4 · The SECOND rewrite — executed 2026-09-02, in place, under §11.4.113 authorization
 
 > **Status: EXECUTED AND FORCE-PUSHED.** This was done to
-> `/run/media/milosvasic/DATA4TB/Projects/vasic` and to
+> `<ext-volume-host>/Projects/vasic` and to
 > `git@github.com:milos85vasic/vasic.git`. §8, §8A and §8B are left **exactly as written**.
 
 **Preconditions, re-verified rather than inherited.**

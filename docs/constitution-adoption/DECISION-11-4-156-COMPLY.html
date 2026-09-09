@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>DECISION-11-4-156-COMPLY</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">DECISION-11-4-156-COMPLY</h1>
+</header>
+<h1
+id="decision-11.4.156-comply-at-the-umbrella-root-pages.yml-stays-active">Decision
+— §11.4.156: comply at the umbrella root; <code>pages.yml</code> stays
+ACTIVE</h1>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Revision</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Created</td>
+<td>2026-08-27</td>
+</tr>
+<tr>
+<td>Last modified</td>
+<td>2026-08-27 (revision 2 — partial reversal, see §0)</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>active — decision made and then <strong>partially reversed the same
+day</strong>; C1/C3 applied and measured, <strong>C2 REVERSED</strong>
+(<code>pages.yml</code> restored to ACTIVE and staying active),
+provider-side steps (§5) <strong>not done</strong></td>
+</tr>
+<tr>
+<td>Status summary</td>
+<td>The operator decided the §11.4.156 conflict recorded as
+<strong>OC-1</strong> and <strong>OC-2</strong>. First decision:
+<strong>comply — disable both, enforce locally.</strong> A material fact
+then emerged (§0) and the operator issued an overriding directive
+prioritising production uptime. <strong>Net result:</strong>
+<code>.github/workflows/ci.yml</code> (umbrella root) is renamed to
+<code>ci.yml.disabled</code> and its gates are wired into a
+<strong>local pre-push hook</strong> — the umbrella root complies.
+<code>milosvasic.ru/.github/workflows/pages.yml</code> is
+<strong>RESTORED TO ACTIVE and will not be disabled</strong>, because it
+is the sole publish path for a live production website; that submodule
+is a <strong>known, documented deviation</strong>. <strong>No amendment
+to the shared constitution is made, and no project-local
+<code>Override §11.4.156</code> is recorded</strong> — the second was
+sought and found structurally unavailable, and the deviation in §0 is
+emphatically <strong>not</strong> one.</td>
+</tr>
+<tr>
+<td>Supersedes</td>
+<td>The plan previously recorded in <code>Constitution.md</code> OC-1
+option 2, <code>docs/constitution-adoption/README.md</code> §7 OC-1
+option 2, <code>docs/constitution-adoption/INVENTORY.md</code> G4, and
+<code>docs/constitution-adoption/REMOTE-ASYMMETRY.md</code> §9 — all of
+which describe recording an <code>Override §11.4.156</code> as an
+available resolution. It is not.</td>
+</tr>
+<tr>
+<td>Cross-reference</td>
+<td><a
+href="CI-INVENTORY-11-4-156.md"><code>CI-INVENTORY-11-4-156.md</code></a>
+— the per-file CI surface inventory for this decision, produced
+separately. It did not exist when this record was first drafted; it is
+now present (40,232 B, 2026-08-27 21:34) and is the authority for the
+per-file surface list. This record does not restate its contents.</td>
+</tr>
+<tr>
+<td>Continuation</td>
+<td>Operator-only provider-side steps (§5) and the hook-install step
+(§6) remain open. The <code>milosvasic.ru</code> deviation (§0) is
+<strong>not</strong> scheduled for closure.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2
+id="revision-2-the-partial-reversal-read-this-before-anything-below">0.
+Revision 2 — the partial reversal (read this before anything below)</h2>
+<p>Revision 1 of this record, and roughly a dozen documents reconciled
+with it, stated that <strong>both</strong> workflows were disabled.
+<strong>That is no longer true, and for <code>milosvasic.ru</code> it
+will not become true again.</strong> Revision 1’s text is retained below
+rather than deleted, so the decision history stays legible; every place
+it is now falsified carries an inline correction.</p>
+<h3 id="the-material-fact-that-forced-the-reversal">0.1 The material
+fact that forced the reversal</h3>
+<p><code>milosvasic.ru/.github/workflows/pages.yml</code> is not merely
+<em>a</em> publish path for <code>https://milosvasic.ru/</code>. It is
+the <strong>only</strong> one. Measured 2026-08-27:</p>
+<pre><code>$ gh api repos/milos85vasic/milosvasic.ru/pages
+{... &quot;status&quot;:&quot;built&quot;, &quot;cname&quot;:&quot;milosvasic.ru&quot;, &quot;html_url&quot;:&quot;https://milosvasic.ru/&quot;,
+ &quot;build_type&quot;:&quot;workflow&quot;, &quot;source&quot;:{&quot;branch&quot;:&quot;main&quot;,&quot;path&quot;:&quot;/&quot;}, ...}</code></pre>
+<p><code>build_type: "workflow"</code> means GitHub Pages publishes that
+site <strong>exclusively</strong> by running that workflow. Three facts
+close every alternative:</p>
+<ol type="1">
+<li>There is <strong>no <code>gh-pages</code> branch</strong> and
+<strong>no <code>docs/</code> folder</strong> to serve from.</li>
+<li>The repository root is Jekyll <strong>SOURCE</strong> — Liquid
+templates and YAML front matter — so it cannot be served raw from a
+branch even if the source setting were switched. The built output
+(<code>_site/</code>) is git-ignored by design.</li>
+<li><strong><code>_tools/deploy-langs.sh</code> is NOT a
+substitute.</strong> It regenerates content, commits, and pushes the
+source, and then <code>sleep</code>s waiting for the server to rebuild.
+It covers generation and push; it covers <strong>none</strong> of the
+publish step. Reading it as a replacement deploy path was the error that
+made revision 1 look survivable.</li>
+</ol>
+<p>Renaming <code>pages.yml</code> to <code>pages.yml.disabled</code>
+therefore does not “remove an automated deploy” that a human could
+perform by hand later. It <strong>takes a live production website
+offline at its next content change</strong> — the site freezes at
+whatever was last published and never updates again.</p>
+<h3 id="the-operators-overriding-directive-verbatim">0.2 The operator’s
+overriding directive, verbatim</h3>
+<blockquote>
+<p><strong>“Make sure all pages websites work flawlessly! No website can
+be broken! All websites we have here are running deployed in
+production!”</strong></p>
+</blockquote>
+<p>That directive overrides the <code>pages.yml</code> half of
+<em>“Comply — disable both, enforce locally.”</em> It does not touch the
+<code>ci.yml</code> half, which publishes nothing and therefore costs no
+uptime.</p>
+<h3 id="the-state-that-actually-stands">0.3 The state that actually
+stands</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Surface</th>
+<th>State</th>
+<th>§11.4.156 posture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.github/workflows/ci.yml</code> (umbrella root)</td>
+<td><strong>DISABLED</strong> — renamed <code>ci.yml.disabled</code>;
+gates relocated to tracked <code>scripts/pre-push-gates.sh</code> + an
+installed <code>.git/hooks/pre-push</code> shim. Stands.</td>
+<td><strong>COMPLIANT at file level</strong> (clause (A)+(B)); clause
+(B)’s <em>“a push triggers ZERO runs”</em> still unproven pending
+§5</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru/.github/workflows/pages.yml</code></td>
+<td><strong>ACTIVE.</strong> Restored, byte-identical to the version
+publishing today. Verified 2026-08-27: <code>git status</code> clean,
+<code>git diff HEAD</code> empty, YAML parses, both <code>build</code>
+and <code>deploy</code> jobs intact, <code>on: push [main]</code> +
+<code>workflow_dispatch</code>. <strong>It will NOT be
+disabled.</strong></td>
+<td><strong>NOT COMPLIANT — known, documented deviation</strong></td>
+</tr>
+<tr>
+<td><code>vasic.digital</code></td>
+<td><strong>Zero workflow files in its tree.</strong> Pages source is
+<code>build_type: "legacy"</code>, and every push triggers a
+provider-side <code>pages build and deployment</code> run
+(<code>dynamic/pages/pages-build-deployment</code>; runs observed
+2026-08-27, 2026-08-10).</td>
+<td><strong>NOT COMPLIANT at the PROVIDER level — no file-level remedy
+exists</strong></td>
+</tr>
+</tbody>
+</table>
+<h3
+id="this-is-a-deviation-not-an-override-and-the-distinction-is-load-bearing">0.4
+This is a DEVIATION, not an Override — and the distinction is
+load-bearing</h3>
+<p>§11.4.156’s closing formula forbids an exemption by name: <em>“No
+escape hatch — no <code>--allow-ci</code>,
+<code>--enable-workflow</code>, <code>--keep-pipeline</code>,
+<code>--remote-ci-OK</code>, <code>--ci-exempt</code> flag.”</em> §2 of
+this record shows at length why an <code>Override §11.4.156</code> is
+structurally unavailable. <strong>Nothing in revision 2 changes
+that.</strong> The <code>milosvasic.ru</code> state is not an override,
+not an exemption, and not a resolution:</p>
+<ul>
+<li>An <strong>override</strong> would claim the rule no longer applies.
+It still applies.</li>
+<li>A <strong>deviation</strong> admits the rule applies, is being
+knowingly broken, and says why. §11.4.156 makes that <em>“a release
+blocker regardless of context”</em> — that characterisation is accepted
+here, not argued away.</li>
+</ul>
+<p><code>milosvasic.ru</code> is therefore recorded as
+<strong>permanently non-compliant with §11.4.156(A) by explicit operator
+decision, prioritising production uptime over the clause</strong>.
+Anyone writing this up as an <code>Override §11.4.156</code> — in this
+file, in the project <code>Constitution.md</code>, in a carrier, or in a
+report — is introducing a governance error. Do not do it.</p>
+<p><code>vasic.digital</code> cannot be made compliant by any change to
+its tree at all: it has no workflow file to disable, and the runs come
+from the Pages <strong>source setting</strong>. Only the operator, in
+the GitHub UI, could change that, and doing so would unpublish the
+site.</p>
+<hr />
+<h2 id="the-conflict-stated-precisely">1. The conflict, stated
+precisely</h2>
+<p>§11.4.156 — <em>“All CI/CD automation (GitHub Actions / GitLab
+pipelines / equivalents) MUST be disabled”</em> (User mandate,
+2026-06-15) — clause (A):</p>
+<blockquote>
+<p><strong>(A) Zero active CI at the repository root.</strong> No active
+<code>.github/workflows/*.yml|*.yaml</code>, no
+<code>.gitlab-ci.yml</code>, no <code>.gitlab/**</code> pipeline
+include, nor any equivalent provider config may exist at the ROOT of any
+governed repository/submodule — the only location a provider
+executes.</p>
+</blockquote>
+<p>clause (B), which defines what “disabled” means:</p>
+<blockquote>
+<p><strong>(B) Disabled means a push triggers ZERO runs.</strong> Delete
+the config OR rename it to a non-active name (the §11.4.75
+<code>.disabled</code> / <code>.disabled-local-only</code> convention —
+a provider ignores any name that is not its exact trigger filename); a
+workflow left with live <code>on:</code> triggers but
+<code>if: false</code> jobs still queues runs and is NOT compliant.</p>
+</blockquote>
+<p>clause (C), which scopes it:</p>
+<blockquote>
+<p><strong>(C) Scope = repositories we author + push.</strong> […] the
+test is “does a push to one of OUR upstreams trigger a run?” — yes ⇒
+disable, structurally-inert ⇒ document + leave (§11.4.6 — verify
+inertness as FACT, never assume).</p>
+</blockquote>
+<p>and its closing formula, which is the sentence that killed the
+previous plan:</p>
+<blockquote>
+<p>Non-compliance is a release blocker regardless of context. No escape
+hatch — no <code>--allow-ci</code>, <code>--enable-workflow</code>,
+<code>--keep-pipeline</code>, <code>--remote-ci-OK</code>,
+<code>--ci-exempt</code> flag.</p>
+</blockquote>
+<p><strong>The two files in conflict</strong>, as measured in the
+working tree on 2026-08-27 before any rename landed:</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>File</th>
+<th>Size</th>
+<th>Triggers</th>
+<th>§11.4.156(C) test</th>
+<th>Conflict ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.github/workflows/ci.yml</code></td>
+<td>12,421 B</td>
+<td><code>on: push [main]</code>,
+<code>on: pull_request [main]</code></td>
+<td>authored and pushed by this project ⇒ <strong>in scope</strong></td>
+<td><strong>OC-1</strong></td>
+</tr>
+<tr>
+<td><code>milosvasic.ru/.github/workflows/pages.yml</code></td>
+<td>1,333 B</td>
+<td><code>on: push [main]</code>, <code>workflow_dispatch</code></td>
+<td>owned submodule, authored and pushed ⇒ <strong>in
+scope</strong></td>
+<td><strong>OC-2</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Revision 2 note.</strong> OC-2 remains in scope and remains a
+conflict. What changed is the resolution, not the diagnosis:
+<code>pages.yml</code> is the sole publish path for a live production
+site (§0.1), so it stays <strong>ACTIVE</strong> and OC-2 stays
+<strong>open as a documented deviation</strong> (§0.4). OC-1 is
+unaffected and was resolved by compliance.</p>
+</blockquote>
+<p><code>submodules/superspec/.github/workflows/ci.yml</code> remains
+<strong>out of scope</strong> and is not touched: §11.4.156(C) scopes
+the clause to <em>“repositories we author + push”</em>, and
+<code>superspec</code> (<code>WangX0111/superspec</code>) is
+third-party. The same holds for its vendored mirror under
+<code>.specify/extensions/superspec/.github/</code>, which is not at a
+repository root and is therefore structurally inert.</p>
+<hr />
+<h2 id="why-an-override-was-not-available">2. Why an Override was not
+available</h2>
+<p>The previously recorded plan — visible in
+<code>Constitution.md</code> OC-1 option 2 and mirrored in three other
+documents — was to <em>“record an explicit
+<code>Override §11.4.156</code> in the project
+<code>Constitution.md</code>, with the operator’s justification.”</em>
+That option does not exist. Two independent reasons, either of which
+alone is sufficient:</p>
+<p><strong>Reason 1 — the rule forbids one by name.</strong> §11.4.156’s
+closing formula does not merely set a high bar for exemption; it
+enumerates and refuses the exemption vocabulary: <em>“No escape hatch —
+no <code>--allow-ci</code>, <code>--enable-workflow</code>,
+<code>--keep-pipeline</code>, <code>--remote-ci-OK</code>,
+<code>--ci-exempt</code> flag.”</em> A project-local
+<code>Override §11.4.156</code> is precisely a <code>--ci-exempt</code>
+by another spelling. Writing one would not resolve the conflict; it
+would restate it in the document that is supposed to resolve it.</p>
+<p><strong>Reason 2 — the inheritance contract makes a project-local
+override structurally impossible.</strong> This repository inherits by
+the portable pointer form, and every carrier states the contract in the
+same words. From this repository’s own <code>CLAUDE.md</code> /
+<code>AGENTS.md</code> / <code>QWEN.md</code> /
+<code>GEMINI.md</code>:</p>
+<blockquote>
+<p>Project-specific rules below extend them — they do NOT weaken or
+override any universal clause.</p>
+<p>When this file disagrees with the constitution submodule, the
+constitution wins.</p>
+</blockquote>
+<p>and from the constitution’s own consumer scaffold
+<code>submodules/constitution/templates/AGENTS.project.md.template</code>:</p>
+<blockquote>
+<p>This file extends them with project-specific rules; it never weakens
+them.</p>
+</blockquote>
+<p>A project carrier that recorded an <code>Override §11.4.156</code>
+would be weakening an inherited universal clause, which is the one thing
+the inheritance contract says a consumer carrier cannot do. The project
+<code>Constitution.md</code> had already reached the same conclusion in
+general terms before this decision, in its <code>## Overrides</code>
+section:</p>
+<blockquote>
+<p>An unresolved contradiction between this repository’s live state and
+a universal clause is <strong>not</strong> an override.</p>
+</blockquote>
+<p>So the override path was never a path. Recording one would have been
+a governance error dressed as a resolution.</p>
+<p><strong>Consequence.</strong> Once the override is unavailable,
+compliance is the only remaining option that does not amend shared
+governance. That is the whole of the reasoning: not that compliance was
+preferred on its merits over an override, but that there was nothing to
+prefer it over.</p>
+<hr />
+<h2 id="the-four-options-and-the-choice">3. The four options and the
+choice</h2>
+<p>Options 1, 3 and 4 below are the three already on record in
+<code>Constitution.md</code> OC-1; option 2 is the amendment path, which
+becomes the only alternative once the project-local override is
+disqualified. The operator’s decision is quoted verbatim; the option
+framing is reconstructed from the recorded conflict plus the two
+disqualifiers in §2 above, and is labelled as such rather than presented
+as a transcript.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Option</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Comply.</strong> Disable both workflows per §11.4.156(B)
+(rename to a <code>.disabled</code> name), and move the same gates to
+the local §11.4.75 layer so enforcement is <em>relocated</em> rather
+than deleted.</td>
+<td>✅ <strong>CHOSEN — then partially reversed the same day
+(§0).</strong> Applied to <code>ci.yml</code> and standing. Reversed for
+<code>pages.yml</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Amend the shared constitution.</strong> Edit
+<code>submodules/constitution/Constitution.md</code> to create an
+exemption for this class of workflow.</td>
+<td>❌ Not taken. It would change governance for every consuming
+project, not just this one, and <code>submodules/constitution</code>
+fans out to <strong>six push URLs</strong>. The decision explicitly
+states no constitution amendment is being made.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Record a project-local
+<code>Override §11.4.156</code>.</strong></td>
+<td>❌ <strong>Structurally unavailable</strong> — see §2.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Keep both workflows and knowingly accept the release-blocker
+state.</strong></td>
+<td>❌ Not taken. §11.4.156 makes non-compliance <em>“a release blocker
+regardless of context”</em>, and names silence as the one posture it
+does not permit.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Operator decision, verbatim:</strong> <em>“Comply — disable
+both, enforce locally.”</em></p>
+<p><strong>Overriding operator directive, issued later the same day,
+verbatim:</strong></p>
+<blockquote>
+<p><strong>“Make sure all pages websites work flawlessly! No website can
+be broken! All websites we have here are running deployed in
+production!”</strong></p>
+</blockquote>
+<p>The second directive does not reopen the option table. It removes
+<code>pages.yml</code> from the scope of option 1 on a ground the table
+never weighed — that disabling it takes a <strong>production
+website</strong> offline, because it is the site’s only publish path
+(§0.1). Option 1 stands for <code>ci.yml</code>. For
+<code>pages.yml</code> the outcome is a <strong>fifth</strong> posture
+the original table did not contain: <strong>knowing, documented
+non-compliance</strong>, which is option 4’s <em>state</em> accepted
+deliberately and on the record, without option 3’s false claim of an
+override.</p>
+<hr />
+<h2 id="what-is-changed-as-a-result">4. What is changed as a result</h2>
+<p>Three mechanical changes, all applied by other actors in the same
+work window. Each row states what was <strong>measured</strong>, and
+when.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Change</th>
+<th>Clause satisfied</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>C1</td>
+<td><code>.github/workflows/ci.yml</code> →
+<code>.github/workflows/ci.yml.disabled</code></td>
+<td>§11.4.156(A) + (B)</td>
+<td>✅ <strong>APPLIED.</strong> Measured 2026-08-27 21:36 —
+<code>.github/workflows/</code> contains exactly one entry,
+<code>ci.yml.disabled</code> (15,164 B); no
+<code>.yml</code>/<code>.yaml</code> remains. <code>git status</code>
+shows the rename staged as <code>RM</code>. <em>(Earlier in this same
+session the file was still <code>ci.yml</code>, 12,421 B, with live
+<code>on: push</code> / <code>on: pull_request</code> triggers — this
+row was rewritten from PENDING once the rename landed.)</em></td>
+</tr>
+<tr>
+<td>C2</td>
+<td><del><code>milosvasic.ru/.github/workflows/pages.yml</code> →
+<code>pages.yml.disabled</code></del></td>
+<td><del>§11.4.156(A) + (B), in an owned submodule</del></td>
+<td>❌ <strong>REVERSED — NOT APPLIED, and will not be.</strong> The
+rename was briefly present in the submodule working tree (measured
+2026-08-27 21:28) and was <strong>never committed or pushed</strong>, so
+the live site was never interrupted. It has been undone. Verified
+2026-08-27 21:41: <code>milosvasic.ru/.github/workflows/</code> contains
+exactly one entry, <strong><code>pages.yml</code> (1,333 B,
+ACTIVE)</strong>; <code>git status</code> in the submodule is clean and
+<code>git diff HEAD</code> is empty, i.e. the file is byte-identical to
+the version publishing today; the YAML parses and both the
+<code>build</code> and <code>deploy</code> jobs are intact. Reason:
+<code>build_type: "workflow"</code> makes this the <strong>sole</strong>
+publish path for a production website — see §0.</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>The gates the umbrella workflow ran are wired into a <strong>local
+pre-push hook</strong></td>
+<td>§11.4.75 Layer 5 / §11.4.156’s <em>“Enforcement migrates to the
+LOCAL §11.4.75 five-layer git-hook ritual”</em></td>
+<td>✅ <strong>APPLIED on this machine.</strong> Measured 2026-08-27
+21:30 — <code>.git/hooks/pre-push</code> exists (1,224 B, executable).
+It is a thin shim that <code>exec</code>s the tracked
+<code>scripts/pre-push-gates.sh</code>, installed by
+<code>bash scripts/pre-push-gates.sh --install</code>. The runner
+reproduces the disabled workflow’s gates in order and adds a
+<strong>gate E</strong> implementing §11.4.156(E)’s own pre-push
+self-check. ⚠ <strong>The hook is per-clone local state — see
+§6.</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>§11.4.156(E) self-check, executed 2026-08-27:</strong></p>
+<pre><code>$ git ls-files | grep -E &#39;^\.github/workflows/.*\.ya?ml$&#39;
+(no output)</code></pre>
+<p>Empty output is the compliant result for clause (E) at the umbrella
+root. Note what this proves and what it does not: it proves no
+<em>tracked, root-level, actively-named</em> workflow file remains. It
+does not prove clause (B)’s actual test — <em>“a push triggers ZERO
+runs”</em> — which depends on the provider-side settings in §5.</p>
+<p>The gate set relocated by C3 is the one the umbrella workflow ran,
+which <code>README.md</code> documents as runnable from a fresh clone
+and which <code>scripts/pre-push-gates.sh</code> now runs in the same
+order — Gate 0 (hardcoded path audit), Gate 1 (Go unit tests), Gate 2
+(hardcoding audit), Gate 3 (translate reproducibility self-test), Gate 4
+(portfolio §1.1 self-validation), Gate 5 (harness self-validation), Gate
+6 (Playwright chromium) — <strong>plus a gate E</strong> that the remote
+runner could not perform: §11.4.156(E)’s own pre-push check that no
+root-level active CI file has reappeared.</p>
+<p>One audit finding carries over and should be tracked against the
+runner rather than the retired workflow:
+<code>CI-WORKFLOW-AUDIT.md</code> <strong>S2</strong> records that Gate
+2’s <code>_tools/audit-hardcoding.sh</code> has a <strong>vacuous-pass
+path</strong> (<code>set -uo pipefail</code> without <code>-e</code>,
+and a generator loop whose exit status is never checked). That finding
+is now more load-bearing, not less, because the local hook is the only
+thing running it.</p>
+<p><strong><code>pages.yml</code> is not a test workflow.</strong> It is
+a Jekyll <em>deploy</em> — it publishes
+<code>https://milosvasic.ru/</code>. Disabling it does not relocate an
+enforcement check; it removes an automated deploy. <del>Publishing that
+site becomes a local/manual step (<code>_tools/deploy-langs.sh</code> is
+the existing local deploy path).</del></p>
+<blockquote>
+<p><strong>Corrected in revision 2 — this was the decisive
+error.</strong> <code>_tools/deploy-langs.sh</code> is
+<strong>not</strong> a local deploy path for the <em>published</em>
+site. It regenerates content, commits, and pushes
+<strong>source</strong>, then <code>sleep</code>s waiting for the server
+to rebuild. The rebuild it waits for <strong>is</strong> the workflow.
+With <code>build_type: "workflow"</code> and no <code>gh-pages</code>
+branch, no <code>docs/</code> folder, and a Jekyll-source repository
+root, there is <strong>no</strong> manual or local substitute at all —
+disabling <code>pages.yml</code> does not degrade the deploy to manual,
+it <strong>ends</strong> it. That is why C2 was reversed (§0).</p>
+</blockquote>
+<p>That asymmetry between OC-1 and OC-2 was already recorded in <a
+href="REMOTE-ASYMMETRY.md"><code>REMOTE-ASYMMETRY.md</code></a> §9 and
+survives this decision unchanged — indeed revision 2 sharpens it into
+the reason the two conflicts now end differently. Only the override
+recommendation in that section is superseded.</p>
+<p>The per-file inventory of every CI surface considered under this
+decision — including the ones ruled structurally inert — is <a
+href="CI-INVENTORY-11-4-156.md"><code>CI-INVENTORY-11-4-156.md</code></a>,
+produced separately and not yet present when this record was
+written.</p>
+<hr />
+<h2 id="honest-boundary-11.4.6-what-this-decision-does-not-reach">5.
+Honest boundary (§11.4.6) — what this decision does NOT reach</h2>
+<p>§11.4.156 states this boundary itself, and it is reproduced here
+because it is the difference between “compliant” and “the file was
+renamed”:</p>
+<blockquote>
+<p>Honest boundary (§11.4.6): file-level disabling stops FILE-triggered
+runs; it does NOT disable provider-side server settings the agent cannot
+reach (org-default required workflows, branch-protection required
+checks, provider-side scheduled exports) — those MUST be turned off in
+provider settings by the operator, and the agent documents what it
+cannot reach rather than claiming a completeness it did not achieve.</p>
+</blockquote>
+<p>Applied to this repository, the following are <strong>operator-only
+manual steps in a provider web UI</strong>. None of them is done. None
+of them can be done from this working tree, and no rename in §4 touches
+any of them.</p>
+<p><strong>What HAS changed since this table was written: the “State”
+column is no longer the only way to know.</strong> Every row below is a
+dated observation from 2026-08-27. Changing a provider setting is still
+operator-only, but <em>reading</em> one is not — it was the file-level
+checks that were blind to these surfaces, not the repository. Re-measure
+before quoting any row as current:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-provider-ci.sh</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   0 = no provider-generated triggering found</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   1 = provider-side triggering CONFIRMED</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   2 = COULD NOT DETERMINE — not a pass, and never to be recorded as one</span></span></code></pre></div>
+<p>It enumerates the owned repositories from this checkout’s own remotes
+(so a new remote is covered without editing a list) and queries the
+provider for Pages <code>build_type</code>, provider-generated
+<code>pages build and deployment</code> runs, branch protection /
+required checks, and Actions enablement.
+<code>scripts/setup-agents-wizard.sh</code> runs it as Step 9 and turns
+a confirmed finding into a manual step. A <code>NOT VERIFIED</code>
+below therefore means “nobody has run the check since”, not
+“unknowable”.</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Provider-side surface</th>
+<th>Where it lives</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1</td>
+<td><strong>Org-default / required workflows</strong> that GitHub can
+inject into a repository without a file in that repository’s tree</td>
+<td>GitHub org settings for <code>milos85vasic</code>,
+<code>vasic-digital</code>, <code>HelixDevelopment</code></td>
+<td><strong>NOT VERIFIED, NOT DISABLED.</strong> Not reachable from the
+working tree.</td>
+</tr>
+<tr>
+<td>P2</td>
+<td><strong>Branch-protection required status checks</strong> on
+<code>main</code> — a required check whose workflow no longer exists
+blocks merges rather than passing them</td>
+<td>GitHub repo settings → Branches</td>
+<td><strong>NOT VERIFIED, NOT DISABLED.</strong> If <code>CI</code> is
+configured as a required check, renaming <code>ci.yml</code> will make
+PRs unmergeable until the requirement is removed.</td>
+</tr>
+<tr>
+<td>P3</td>
+<td><strong>The GitHub Pages “source” setting</strong> for
+<code>milosvasic.ru</code></td>
+<td>GitHub repo settings → Pages</td>
+<td>✅ <strong>NOW VERIFIED (2026-08-27), and deliberately NOT
+DISABLED.</strong>
+<code>gh api repos/milos85vasic/milosvasic.ru/pages</code> →
+<code>build_type: "workflow"</code>,
+<code>source: {branch: main, path: /}</code>,
+<code>status: "built"</code>, <code>cname: milosvasic.ru</code>. This is
+the finding that reversed C2: the setting does <strong>not</strong> fall
+back to the built-in action — it delegates publishing entirely to
+<code>pages.yml</code>. Disabling the workflow would leave the site with
+no publisher. <strong>Permanent documented deviation, not an override
+(§0.4).</strong></td>
+</tr>
+<tr>
+<td>P3b</td>
+<td><strong>The GitHub Pages “source” setting</strong> for
+<code>vasic.digital</code></td>
+<td>GitHub repo settings → Pages</td>
+<td>✅ <strong>VERIFIED (2026-08-27), NOT DISABLED and not disable-able
+from the tree.</strong>
+<code>gh api repos/vasic-digital/vasic-digital.github.io/pages</code> →
+<code>build_type: "legacy"</code>, and the Actions run list shows
+<code>pages build and deployment</code>
+(<code>dynamic/pages/pages-build-deployment</code>, event
+<code>dynamic</code>) on 2026-08-27 and 2026-08-10. So
+<code>vasic.digital</code> triggers provider-side Actions runs on every
+push <strong>with zero workflow files in its tree</strong>. §11.4.156(A)
+is unsatisfiable there by any file-level change; only the operator, in
+the Pages UI, could stop it, and that would unpublish the site.
+<strong>Documented provider-level non-compliance.</strong></td>
+</tr>
+<tr>
+<td>P4</td>
+<td><strong>Provider-side scheduled exports / cron-like
+automation</strong> not expressed as a workflow file</td>
+<td>Provider settings, per host</td>
+<td><strong>NOT VERIFIED, NOT DISABLED.</strong> Note that
+<code>milosvasic.ru</code>, <code>monetization</code> and
+<code>submodules/constitution</code> push to GitFlic, GitLab and
+GitVerse as well as GitHub; each host has its own automation
+settings.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Therefore: this repository is not §11.4.156-compliant, and
+will not become so.</strong> Stated per surface, so no reader can round
+it up:</p>
+<ul>
+<li><strong>Umbrella root</strong> — <em>file-level</em> compliant after
+C1+C3. Clause (B)’s actual test, <em>“a push triggers ZERO runs”</em>,
+remains unproven until <strong>P1, P2 and P4</strong> are checked in the
+provider UIs by the operator. <strong>PARTIAL</strong>, never
+CLOSED.</li>
+<li><strong><code>milosvasic.ru</code></strong> — <strong>NOT compliant,
+permanently, by decision.</strong> P3 is verified and the answer is that
+the workflow must stay. Documented deviation (§0.4), not an
+override.</li>
+<li><strong><code>vasic.digital</code></strong> — <strong>NOT compliant
+at the provider level</strong>, verified at P3b, with <strong>no
+file-level remedy</strong> available to any agent or to this tree.</li>
+</ul>
+<p>Recording any of this as “§11.4.156 CLOSED” would be exactly the
+completeness claim §11.4.6 forbids. G4 moves from <strong>OPEN</strong>
+to <strong>PARTIAL</strong> and stays there.</p>
+<hr />
+<h2 id="what-is-lost-by-this-decision">6. What is lost by this
+decision</h2>
+<p>Stated plainly, because it is the real cost and the operator should
+read it here rather than discover it later:</p>
+<p><strong>There is no longer any server-side enforcement on push or
+pull request.</strong></p>
+<p><strong>The headline cost, stated once and up front so it is not
+buried in the list below:</strong> the umbrella’s seven gates now depend
+on a hook living in <strong><code>.git/hooks/</code>, which git does not
+track</strong>. Two consequences follow directly, and neither has a
+technical fix inside this repository:</p>
+<blockquote>
+<ol type="1">
+<li><strong>A fresh clone has NO enforcement whatsoever</strong> until
+somebody runs <code>bash scripts/pre-push-gates.sh --install</code> by
+hand. Not weaker enforcement — none. Nothing in the repository can
+detect a clone where that step was skipped, and nothing warns the person
+pushing.</li>
+<li><strong><code>git push --no-verify</code> bypasses the hook
+entirely</strong>, silently, leaving no record that anything was
+skipped.</li>
+</ol>
+<p>The enforcement guarantee this repository now has is therefore
+<strong>“someone remembered, and chose not to skip”</strong> — not “the
+system checks”. That is a categorically weaker property than the
+workflow provided, and it is the price of §11.4.156 compliance at this
+root.</p>
+</blockquote>
+<p>The itemised breakdown follows.</p>
+<ol type="1">
+<li><p><strong>The gates become opt-in.</strong> They run only if the
+local pre-push hook is installed on the machine doing the push. Nothing
+on the server checks anything. A push from a machine without the hook is
+unchecked, and the provider will accept it silently.</p></li>
+<li><p><strong><code>.git/hooks/</code> is not tracked by git.</strong>
+It is per-clone local state; it is not part of the repository’s content
+and cannot be. <strong>A fresh clone therefore has zero protection until
+this is run by hand:</strong></p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--install</span></span></code></pre></div>
+<p>The design mitigates this as far as it can — the <em>logic</em> lives
+in the tracked, reviewable <code>scripts/pre-push-gates.sh</code>, and
+only a thin shim is written into <code>.git/hooks/pre-push</code> — but
+the shim itself can never be tracked. This is not a defect in the hook;
+it is a property of git. It means the enforcement guarantee this
+repository now has is <strong>“someone remembered”</strong>, not “the
+system checks”. Nothing in the repository can detect a clone where the
+install step was skipped.</p></li>
+<li><p><strong>Pull requests lose their check entirely.</strong> A
+pre-push hook fires on the push that <em>creates or updates</em> a
+branch; it does not run when a PR is opened, when a PR is merged through
+the GitHub UI, or on any push made from a different clone, from a web
+editor, or by a bot. The umbrella workflow ran on
+<code>pull_request</code>. Nothing replaces that.</p></li>
+<li><p><strong>A pre-push hook is bypassable by design.</strong>
+<code>git push --no-verify</code> skips it, with no record that it was
+skipped.</p></li>
+<li><p><strong>The gap this workflow was created to fill
+returns.</strong> The workflow’s own header records why it was added:
+<em>“Before this workflow existed, the ONLY GitHub Actions in play was
+milosvasic.ru/.github/workflows/pages.yml — a Jekyll deploy. Nothing ran
+the test suite, so a regression could only be caught by hand.”</em>
+Compliance with §11.4.156 restores that condition, mitigated only by the
+local hook and by the §11.4.40 pre-tag sweep.</p></li>
+<li><p><del><strong><code>milosvasic.ru</code> loses its automated
+deploy</strong> (see the note in §4). The site is published by whoever
+runs the local deploy path, when they run it.</del> <strong>Revision 2:
+this cost is NOT paid, because it turned out to be
+unaffordable.</strong> There is no “local deploy path” for the published
+site to fall back to (§0.1). The real cost of disabling
+<code>pages.yml</code> was not a downgrade to manual publishing but the
+<strong>permanent freezing of a live production website</strong>, and
+that is why C2 was reversed. What is lost instead is compliance:
+<code>milosvasic.ru</code> stays knowingly outside §11.4.156(A), on the
+record, indefinitely.</p></li>
+<li><p><strong>The repository can no longer claim §11.4.156 as a
+whole.</strong> Two of three surfaces are non-compliant and are staying
+that way — one by decision (<code>milosvasic.ru</code>), one by provider
+mechanics with no file-level remedy (<code>vasic.digital</code>). Any
+future gate, report, or release checklist that asserts “§11.4.156
+satisfied” for this repository is asserting something false. It may only
+assert it of the <strong>umbrella root</strong>, and only at file
+level.</p></li>
+</ol>
+<p>The <code>ci.yml</code> half of the decision is still correct — the
+rule permits nothing else there, and §11.4.156 makes that trade
+deliberately, moving enforcement from a remote runner to a local ritual.
+But the trade is real, and the mitigation (item 2) is the weakest link:
+<strong>install the hook on every clone, or the compliance is
+nominal.</strong> The <code>pages.yml</code> half is no longer claimed
+at all: it was attempted, found to cost a production outage, and
+withdrawn under the operator’s directive quoted in §0.2.</p>
+<hr />
+<h2 id="documents-reconciled-with-this-decision">7. Documents reconciled
+with this decision</h2>
+<p>Every document below previously stated something this decision
+falsifies. Each now carries the reversal alongside the original text;
+none was silently rewritten.</p>
+<blockquote>
+<p><strong>Revision 2 addendum.</strong> The same documents were
+reconciled a <em>second</em> time on 2026-08-27, because revision 1
+propagated the claim that <strong>both</strong> workflows were disabled.
+Every one of them now states: <code>ci.yml</code> disabled with gates
+local; <code>pages.yml</code> <strong>ACTIVE and staying
+active</strong>; <code>milosvasic.ru</code> a <strong>documented
+deviation, not an override</strong>; <code>vasic.digital</code>
+non-compliant at the provider level with no file-level remedy. The stale
+“both disabled” text is struck through in place rather than deleted, so
+the decision history remains readable.</p>
+</blockquote>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Document</th>
+<th>What was stale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Constitution.md</code> (project)</td>
+<td>OC-1 / OC-2 recorded as unresolved with an
+<code>Override §11.4.156</code> among the resolutions;
+<code>## Overrides</code> reasoning; G4 gap row</td>
+</tr>
+<tr>
+<td><code>docs/constitution-adoption/README.md</code></td>
+<td>§7 OC-1 / OC-2, and the G4 row in the gap table</td>
+</tr>
+<tr>
+<td><code>docs/constitution-adoption/INVENTORY.md</code></td>
+<td>G4 (<em>“or record an explicit
+<code>Override §11.4.156</code>”</em>) and the §11.4.156 compliance
+row</td>
+</tr>
+<tr>
+<td><code>docs/constitution-adoption/REMOTE-ASYMMETRY.md</code></td>
+<td>§9 — a recommendation to extend the <code>Override §11.4.156</code>
+to <code>pages.yml</code></td>
+</tr>
+<tr>
+<td><code>docs/SESSION-REPORT.md</code></td>
+<td>§6.3 OC-1 / OC-2 rows, which list the override as decision option
+2</td>
+</tr>
+<tr>
+<td><code>docs/setup-agents-wizard/CI-WORKFLOW-AUDIT.md</code></td>
+<td>§6 — <em>“still marked OPEN — operator decision”</em></td>
+</tr>
+<tr>
+<td><code>README.md</code> (root)</td>
+<td>CI status badge; the <code>.github/workflows/ci.yml</code> path row;
+<em>“The commands below mirror <code>.github/workflows/ci.yml</code>
+exactly”</em>; <em>“versions match CI”</em></td>
+</tr>
+<tr>
+<td><code>docs/setup-agents-wizard/RESIDUAL-PATHS-AUDIT.md</code></td>
+<td>§2.1 CORRECTIVE row naming <code>.github/workflows/ci.yml</code> —
+path note only; occurrences and verdict unchanged</td>
+</tr>
+<tr>
+<td><code>CLAUDE.md</code>, <code>AGENTS.md</code>,
+<code>QWEN.md</code>, <code>GEMINI.md</code></td>
+<td><em>“The gates mirror <code>.github/workflows/ci.yml</code>”</em>
+and the G4 bullet naming the override as an option — corrected in
+lockstep per §11.4.157</td>
+</tr>
+</tbody>
+</table>
+<p><code>docs/constitution-adoption/GATE-TRIAGE.md</code> and
+<code>docs/constitution-adoption/POST-APPLY-STATE.md</code> were
+searched and make <strong>no</strong> §11.4.156, CI, workflow, OC-1,
+OC-2 or G4 claim. They needed no change.</p>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-08T13:01:00Z
+    Last-Updated: 2026-09-09T00:00:00Z
     Synced-Commit: 3922e35c12c3
     Authority-Root: submodules/constitution
 
@@ -181,7 +181,7 @@ comment in the manifest, not a `deps[]` entry, and C6 checks that both ways.)
 | `submodules/verdict` | `477dc35afe60f5f2f94d0c902a5a7a7ce0e4ec6b` | match · remote CURRENT |
 | `submodules/LLMProvider` | `3c1cef79eb95039ed9a414e1c568a815df6dcde9` | match · remote CURRENT |
 | `submodules/RAG` | `8aee628e473160c76b9eca99404978c02dd992eb` | match · remote CURRENT |
-| `submodules/containers` | `d940b51fc247c285c805799452992da8d09c75b9` | match · remote CURRENT |
+| `submodules/containers` | `7f5922563d8bec866b1a25eac483590c9a212817` | **The `d940b51fc247c285c805799452992da8d09c75b9` this row carried is WITHDRAWN — it was true when written and is FALSE today.** Re-measured 2026-09-09: `git ls-files -s submodules/containers` and `git -C submodules/containers rev-parse HEAD` both return `7f592256`. The intervening commits are `6d13ad0` (2026-09-04, the ephemeral-run primitive and the log-reader fix) and `7f592256`. **The remote was NOT probed this session, so "remote CURRENT" is WITHDRAWN as unmeasured rather than restated** — run `bash scripts/verify-submodule-remote-sync.sh`. **No other row in this table was re-measured; treat them all as dated.** |
 | `submodules/superspec` | `c20ac6c1ba069cc9a72dacb8044b7b193d3dde81` | match — third-party, not a `deps[]` entry; reported as a NOTE, never a verdict input |
 | `milosvasic.ru` | `1823d62c314af3b26ae41d8a7c9e0bc699189d26` | match · remote CURRENT |
 | `vasic.digital` | `31928364a43ed7984fe6999ae958dde87bde3fed` | match · remote CURRENT |
@@ -473,6 +473,96 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### EIGHT TRACKED FILES ASSERTED A GAP THAT UPSTREAM HAD ALREADY CLOSED, 2026-09-09
+
+**The finding is not "the documents were stale". It is that this tree CONSUMED
+the fix and went on asserting the gap for five days.** The ephemeral-run
+primitive landed in `submodules/containers` at `6d13ad03528c` on **2026-09-04**,
+**two commits before the gitlink this repository is pinned at today**. Nothing
+in this tree noticed, because nothing here reads the consumed submodule's
+interface — the gate family compares gitlinks and manifests to each other, never
+a recorded CLAIM to the code it describes.
+
+**Re-measured 2026-09-09**, and every figure below was taken this session:
+
+    git ls-files -s submodules/containers        -> 7f5922563d8bec866b1a25eac483590c9a212817
+    git -C submodules/containers rev-parse HEAD  -> 7f5922563d8bec866b1a25eac483590c9a212817
+    (the pin the documents were written against: d940b51fc247c285c805799452992da8d09c75b9)
+
+`pkg/runtime/runtime.go` declares, ON the `ContainerRuntime` interface itself:
+
+```go
+Run(
+    ctx context.Context, image string, cmd []string, opts ...RunOption,
+) (*ExecResult, error)
+```
+
+`pkg/runtime/run.go` and `run_test.go` exist. `WithRunStdin(io.Reader)` supplies
+the document and is what puts `-i` on the argv (`run.go:119`, `run.go:204`).
+`StdinExecutor` / `ExecuteWithStdin` is implemented for real, by
+`defaultExecutor` on the `os/exec` path (`run.go:53`).
+
+**So the recorded claim — "`pkg/runtime` has NO `Run`, NO `Create`, `Exec`
+accepts no stdin, and the only `WithStdin` sits in an interfaces-only package
+nothing implements" — is FALSE at the current pin FOR THE LOCAL RUN PATH.** It
+was TRUE at `d940b51`. It is withdrawn by name in all eight files, never
+silently rewritten.
+
+**WHAT REMAINS TRUE, and the correction deliberately does not flatten it:**
+
+* `Exec(ctx, id, cmd []string)` **still accepts no stdin** — signature unchanged.
+* **The REMOTE-stdin gap is OPEN.** `remote.RemoteRuntime.Run`
+  (`pkg/remote/runtime.go`, ~line 240) explicitly REFUSES `WithRunStdin`,
+  returning an error wrapping `runtime.ErrStdinUnsupported`, because
+  `RemoteExecutor` exposes no `io.Reader` seam. `pkg/remote/connection` is still
+  four files of interfaces and option builders with nothing implementing
+  `Connection`. **Refusing rather than silently running with an empty stdin is
+  good practice and is recorded as such.**
+
+**The consequence is a SPLIT, and reporting only the closed half would have been
+the bluff:**
+
+| Script | §11.4.76 exception | Why |
+|---|---|---|
+| `_tools/helixtranslate-container/run.sh` | **REASON WITHDRAWN** | Runs ON the remote host, so its `run --rm -i` is a LOCAL run there. Convertible in principle via `runtime.Run` + `WithRunStdin` / `WithRunVolumes` / `WithRunEntrypoint` / `WithRunExtraArgs`. |
+| `_tools/helixtranslate-container.sh` | **STANDS**, reason NARROWED | The local half, raw `ssh … < "$IN"`. Still not convertible — the remote-stdin gap above is its whole and only reason now. |
+
+**NEITHER SCRIPT WAS CONVERTED, and that is the decision, not an omission.**
+Re-measured 2026-09-09 on this host: `podman images | grep -i helixtranslate`
+matches **zero** rows; `getent hosts` fails to resolve `thinker.local` and
+`amber.local`; `ssh -o BatchMode=yes` returns **rc 255** for both. Absent image,
+unreachable hosts — rc **2**, and **a 2 is never a pass**. A working script must
+not be replaced by a rewrite that cannot be exercised end to end. *Convertible
+in principle* is not *verified in practice*, and no file in this tree now spends
+one as the other.
+
+**One upstream observation, recorded as an observation and NOT a defect
+(§11.4.6).** `defaultExecutor.ExecuteWithStdin` builds its child with
+`exec.CommandContext` and folds an `*exec.ExitError` into `exitCode` while
+setting `err = nil` (`run.go:53-73`). A CANCELLED run is killed by the context
+and returns as a signal death: **`ExitCode = -1` with a nil error**, so a caller
+must consult `ctx.Err()` to tell cancellation from a container that exited −1.
+**Cancellation genuinely works.** Whether reporting it this way is deliberate is
+**UNCONFIRMED** — nothing in the module states it, and it was not asked upstream.
+
+**Files corrected (nine, not eight — the ninth is named because the brief did
+not).** The four carriers `CLAUDE.md` / `AGENTS.md` / `QWEN.md` / `GEMINI.md`
+(edited as ONE artifact from the measured convergence line 19 down, then
+recomposed, so C5 stays green), `CONTINUATION.md`, `_tools/containers/README.md`,
+`_tools/helixtranslate-local.sh`, `_tools/helixtranslate-container/run.sh`, and
+**`_tools/helixtranslate-container.sh`** — whose "Every executed path in
+`digital.vasic.containers` is stdin-less" was equally false as a general
+statement and had to be narrowed rather than left standing.
+
+**NOTHING INSIDE `submodules/containers` WAS TOUCHED.** It is consumed, not
+owned. **Nothing was committed or pushed.**
+
+**The hole this leaves open, stated rather than closed:** no instrument in this
+tree compares a RECORDED CLAIM about a consumed submodule against that
+submodule's actual code. The gitlink moved, every gate stayed green, and eight
+documents kept asserting a gap that had been closed. **This correction is an
+instance, not the class.**
 
 ### TWO PROVIDER HOSTS HAD NEVER BEEN ASKED, AND THIS RECORD HAD FALLEN BEHIND ITS OWN HISTORY, 2026-09-08
 
@@ -4598,7 +4688,9 @@ rule most at risk in ITS task:
 
 **Tree state at resume, measured:** umbrella `1130` untracked / `4` modified;
 `workshop` at `7b07807` with **13** dirty paths; `submodules/containers` at
-`d940b51` with **10**. `submodules/constitution` clean at `2887b42e` and equal to
+`d940b51` with **10**. **The `d940b51` in this sentence is a DATED
+observation and the gitlink has since moved to `7f592256`; the sentence was true
+when written and is kept unaltered as the record of that resume.** `submodules/constitution` clean at `2887b42e` and equal to
 its remote. The empty `submodules/helix_code/` that the constitution agent
 accidentally created and reverted is confirmed gone — `submodules/` holds the
 expected **7** entries.
@@ -4702,7 +4794,7 @@ list of which other agents are touching which paths.
 | 6 | **Multi-provider** wiring | `platform/backend/pkg/answer`, `cmd/workshop-server` |
 | 7 | **UI label sweep** | `platform/frontend/` |
 | 8 | **`verify-redaction-propagation.sh` asserts over the WRONG artifact** | that gate + its proof |
-| 9 | `submodules/containers`: the log reader returns 0 bytes with a nil error; and the missing stdin/ephemeral-run primitive | `submodules/containers` |
+| 9 | `submodules/containers`: the log reader returns 0 bytes with a nil error; and the missing stdin/ephemeral-run primitive — **BOTH FIXED UPSTREAM in `6d13ad03528c` and consumed at gitlink `7f592256`, re-measured 2026-09-09; the LOCAL half only. The REMOTE-stdin gap is still OPEN** | `submodules/containers` |
 
 **Agent 1's brief names the hypothesis to test first, and it is testable:** the
 server logs `doc-prefix "search_document: ", query-prefix "search_query: "`.

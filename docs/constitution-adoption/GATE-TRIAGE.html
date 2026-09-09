@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>GATE-TRIAGE</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">GATE-TRIAGE</h1>
+</header>
+<h1 id="gate-triage-sweep-failures">Gate triage — sweep failures</h1>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Revision</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Created</td>
+<td>2026-08-27</td>
+</tr>
+<tr>
+<td>Last modified</td>
+<td>2026-09-02</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>active</td>
+</tr>
+<tr>
+<td>Status summary</td>
+<td>Triage of every FAIL reported by
+<code>scripts/verify-all-constitution-rules.sh</code>. <strong>§1–§8 are
+the 2026-08-27 triage of a 58-gate sweep at the PRE-fast-forward
+constitution and are SUPERSEDED — they are kept because the reasoning is
+still sound and the arithmetic in §3.1 is still instructive, not because
+the numbers are current.</strong> <a
+href="#9-2026-09-02--the-first-completed-post-fast-forward-sweep"><strong>§9
+is the current measurement</strong></a>: the first sweep to run to
+completion after the constitution was fast-forwarded, <strong>186 PASS /
+95 FAIL / 6 ERROR of 287 gates, exit 1</strong>, triaged into (a)
+third-party &amp; staged carriers, (b) constitution-internal defects,
+(c) genuinely ours. No verdict was suppressed, allowlisted or downgraded
+in either round.</td>
+</tr>
+<tr>
+<td>Sweep under triage</td>
+<td><code>scripts/verify-all-constitution-rules.sh</code> — 58 gates in
+§1–§8; <strong>287 gates in §9</strong></td>
+</tr>
+<tr>
+<td>Constitution HEAD</td>
+<td><code>448981ae3498229c734dc60719f4b19f01d7a75f</code> in §1–§8;
+<strong><code>f5876a3b700eb9a8792c1f19baca77959a2a7e88</code> in
+§9</strong></td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>Triage only. No submodule working tree was written to. No mutating
+git command was run. §1–§8 additionally carried one comment-accuracy
+correction in the umbrella’s own sweep script.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>§11.4.65 disclosure.</strong> This document ships without its
+<code>.html</code> and <code>.pdf</code> siblings — the same known,
+disclosed deviation <a href="INVENTORY.md"><code>INVENTORY.md</code></a>
+records as gap <strong>G8</strong>. Stated rather than left to be
+discovered.</p>
+</blockquote>
+<blockquote>
+<p><strong>Reading order (§11.4.6).</strong> The document’s original H1
+was <em>“the 21 sweep failures”</em>. That title is now wrong — the
+completed post-fast-forward sweep reports 95 FAIL and 6 ERROR — so it
+was corrected rather than left to mislead a reader who stops at the
+heading. <strong>Every count in §1–§8 is withdrawn as a statement about
+the present tree</strong>; not one of them is comparable to §9, because
+the gate population moved 57 → 286 when the constitution submodule was
+fast-forwarded. §1–§8 remain readable as the record of a different,
+earlier corpus.</p>
+</blockquote>
+<hr />
+<h2 id="how-the-sweep-was-run">1. How the sweep was run</h2>
+<pre><code>bash scripts/verify-all-constitution-rules.sh 2&gt;&amp;1 | tee /tmp/sweep.txt</code></pre>
+<p>Every failing gate was then re-run <strong>directly</strong>, with
+the argv the gate’s own usage header dictates. <code>--root</code> means
+three different things across this family, and passing the wrong one
+produces a false verdict in <em>both</em> directions — verified, not
+assumed:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gate family</th>
+<th>Header says</th>
+<th>Correct root</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cm_covenant_114_*_propagation.sh</code></td>
+<td><code>--root &lt;consumer-root&gt;</code></td>
+<td>repo root</td>
+</tr>
+<tr>
+<td><code>cm_continuum_resume_engine_present.sh</code>,
+<code>cm_gate_ledger_ratchet.sh</code></td>
+<td><code>--root &lt;constitution-root&gt;</code></td>
+<td><code>submodules/constitution</code></td>
+</tr>
+<tr>
+<td><code>cm_track_branch_label*.sh</code></td>
+<td>no <code>--root</code></td>
+<td>gate defaults</td>
+</tr>
+<tr>
+<td><code>lib/pointer_carrier.sh</code></td>
+<td>—</td>
+<td><code>--selftest</code></td>
+</tr>
+<tr>
+<td><code>gate_ledger.sh</code></td>
+<td>—</td>
+<td><code>selfcheck &lt;scratchdir&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>Proof that the root matters (both runs are read-only):</p>
+<pre><code>$ bash submodules/constitution/scripts/gates/cm_covenant_114_162_propagation.sh --root submodules/constitution
+CM-COVENANT-114-162-PROPAGATION: 4 PRESENT, 7 POINTER-INHERITANCE-SKIP, 0 MISSING (anchor 11.4.162)
+✅ CM-COVENANT-114-162-PROPAGATION: PASS — every owned carrier carries §11.4.162     &lt;-- FALSE PASS
+
+$ bash submodules/constitution/scripts/gates/cm_continuum_resume_engine_present.sh --root .   ; echo rc=$?
+❌ MISSING  engine directory: submodules/continuum (expected under …/vasic)
+rc=1                                                                                  &lt;-- FALSE FAIL</code></pre>
+<p>The sweep resolves both correctly — its <code>--list</code> output
+prints every resolved argv, and it matches the table above for all 57
+discovered gates plus the project-side inheritance test.</p>
+<h3
+id="gate_ledger.sh-the-sweep-handles-it-correctly"><code>gate_ledger.sh</code>
+— the sweep handles it correctly</h3>
+<p><code>gate_ledger.sh</code> is a multi-subcommand tool, not a gate
+with a default action. The sweep detects its <code>selfcheck)</code>
+branch and invokes
+<code>bash gate_ledger.sh selfcheck &lt;scratch&gt;</code> — confirmed
+in the run log:</p>
+<pre><code>PASS   rc=0       679ms  gate_ledger.sh                         selfcheck &lt;scratch&gt;</code></pre>
+<p>Two corrections to the premise, both verified on 2026-08-27:</p>
+<ul>
+<li>Invoked <strong>bare</strong>, <code>gate_ledger.sh</code> exits
+<strong>2</strong>, not 0 (<code>usage &gt;&amp;2; exit 2</code>). Under
+this sweep an rc=2 scores <strong>ERROR</strong> — “a blind instrument,
+never a pass” (§11.4.201(7)(b)) — so a bare invocation could not have
+produced a false PASS here either. It still proves nothing, so using the
+documented self-test is right regardless.</li>
+<li>The sweep’s own header comment claimed the bare exit was
+<code>0</code>. That claim was false. It is corrected in §4 below.</li>
+</ul>
+<p><code>lib/pointer_carrier.sh --selftest</code> is a real 5-fixture
+golden test, not a formality:
+<code>pointer_carrier.sh selftest: PASS (5/5)</code>, including the two
+decoys (mid-line backticked heading, <code>~~~</code>-fenced heading)
+that would otherwise let a non-pointer carrier be silently skipped.</p>
+<hr />
+<h2 id="before-the-sweep-as-found">2. Before — the sweep as found</h2>
+<pre><code>gates run           : 58
+  PASS              : 37
+  FAIL   (rc=1)     : 21
+  ERROR  (rc!=0,1)  : 0
+§11.4.32 step 1     : skip
+❌ SWEEP: FAIL — 21 FAIL + 0 ERROR out of 58 gate(s).</code></pre>
+<p>The 21 are exactly: the 17
+<code>cm_covenant_114_*_propagation.sh</code> gates, plus
+<code>cm_continuum_resume_engine_present.sh</code>,
+<code>cm_gate_ledger_ratchet.sh</code>,
+<code>cm_track_branch_label.sh</code>,
+<code>cm_track_branch_label_mutation_test.sh</code>.</p>
+<p><strong>Verified, not assumed:</strong> the 17 propagation gates emit
+<strong>85 <code>MISSING</code> lines</strong> in total, and those 85
+resolve to exactly <strong>five distinct carriers</strong> (17 × 5 = 85,
+no sixth carrier anywhere):</p>
+<pre><code>$ grep -c &quot;❌ MISSING&quot; /tmp/sweep.txt
+85
+$ grep &quot;❌ MISSING&quot; /tmp/sweep.txt | sed &#39;s/.*MISSING *//; s/ *— .*//&#39; | sort -u | wc -l
+5</code></pre>
+<p>All 17 report the identical shape:
+<code>4 PRESENT, 11 POINTER-INHERITANCE-SKIP, 5 MISSING</code>, and the
+five fence-aware ones (230/231/232/233/235) additionally report
+<code>0 DIVERGENT</code> — i.e. <strong>no carrier holds a corrupted or
+duplicated anchor block</strong>; the only defect is absence.</p>
+<hr />
+<h2 id="the-21-rows">3. The 21 rows</h2>
+<p>Category key — <strong>(a)</strong> fixable inside this umbrella repo
+· <strong>(b)</strong> requires writing into a submodule working tree
+(operator decision, push blast radius) · <strong>(c)</strong> genuinely
+upstream / third-party, not ours.</p>
+<p>The 17 propagation gates are <strong>mixed (b + c)</strong>: each one
+is held FAIL by five carriers at once — one owned-submodule carrier (b)
+and four third-party carriers (c). Clearing the (b) carrier alone does
+<strong>not</strong> flip any of them.</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Gate</th>
+<th>Exact failing assertion (quoted from its own output)</th>
+<th>File(s) named</th>
+<th>Cat.</th>
+<th>Category (a) fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>cm_covenant_114_162_propagation.sh</code></td>
+<td><code>❌ CM-COVENANT-114-162-PROPAGATION: FAIL — 5 owned carrier(s) missing §11.4.162 anchor</code>
+—
+<code>❌ MISSING  &lt;carrier&gt;  — lacks anchor literal 11.4.162</code>
+×5</td>
+<td>the five carriers of §3.1</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>cm_covenant_114_167_propagation.sh</code></td>
+<td><code>❌ MISSING  &lt;carrier&gt;  — lacks anchor literal 11.4.167</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>cm_covenant_114_176_propagation.sh</code></td>
+<td><code>❌ MISSING  &lt;carrier&gt;  — lacks anchor literal 11.4.176</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>cm_covenant_114_187_propagation.sh</code></td>
+<td><code>❌ MISSING  &lt;carrier&gt;  — lacks anchor literal 11.4.187</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>cm_covenant_114_191_propagation.sh</code></td>
+<td><code>❌ MISSING  &lt;carrier&gt;  — lacks anchor literal 11.4.191</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>cm_covenant_114_196_propagation.sh</code></td>
+<td><code>❌ MISSING  &lt;carrier&gt;  — lacks anchor literal 11.4.196</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>cm_covenant_114_199_propagation.sh</code></td>
+<td><code>❌ MISSING  &lt;carrier&gt;  — lacks anchor literal 11.4.199</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>cm_covenant_114_200_propagation.sh</code></td>
+<td><code>❌ MISSING  &lt;carrier&gt;  — lacks anchor literal 11.4.200</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>cm_covenant_114_201_propagation.sh</code></td>
+<td><code>❌ MISSING  &lt;carrier&gt;  — lacks anchor literal 11.4.201</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>10</td>
+<td><code>cm_covenant_114_202_propagation.sh</code></td>
+<td><code>❌ MISSING  &lt;carrier&gt;  — lacks anchor literal 11.4.202</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>11</td>
+<td><code>cm_covenant_114_207_propagation.sh</code></td>
+<td><code>❌ MISSING  &lt;carrier&gt;  — lacks anchor literal 11.4.207</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>12</td>
+<td><code>cm_covenant_114_213_propagation.sh</code></td>
+<td><code>❌ MISSING  &lt;carrier&gt;  — lacks anchor literal 11.4.213</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>13</td>
+<td><code>cm_covenant_114_230_propagation.sh</code></td>
+<td><code>❌ CM-COVENANT-114-230-PROPAGATION: FAIL — anchor-block integrity violated for §11.4.230</code>;
+<code>❌ MISSING     &lt;carrier&gt;  — zero 11.4.230 block-starts (bare-literal citations elsewhere do not count, §11.4.201(7)(a))</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>14</td>
+<td><code>cm_covenant_114_231_propagation.sh</code></td>
+<td><code>❌ MISSING     &lt;carrier&gt;  — zero 11.4.231 block-starts (…§11.4.201(7)(a))</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>15</td>
+<td><code>cm_covenant_114_232_propagation.sh</code></td>
+<td><code>❌ MISSING     &lt;carrier&gt;  — zero 11.4.232 block-starts (…§11.4.201(7)(a))</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>16</td>
+<td><code>cm_covenant_114_233_propagation.sh</code></td>
+<td><code>❌ MISSING     &lt;carrier&gt;  — zero 11.4.233 block-starts (…§11.4.201(7)(a))</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>17</td>
+<td><code>cm_covenant_114_235_propagation.sh</code></td>
+<td><code>❌ MISSING     &lt;carrier&gt;  — zero 11.4.235 block-starts (…§11.4.201(7)(a))</code>
+×5</td>
+<td>same five</td>
+<td>b+c</td>
+<td>—</td>
+</tr>
+<tr>
+<td>18</td>
+<td><code>cm_continuum_resume_engine_present.sh</code></td>
+<td><code>❌ FOUND    project-specific literal(s) inside the engine (decoupling violation):</code>
+/ <code>submodules/continuum/test/e2e/e2e_test.go</code></td>
+<td><code>submodules/constitution/submodules/continuum/test/e2e/e2e_test.go</code>
+line 118</td>
+<td>b</td>
+<td>—</td>
+</tr>
+<tr>
+<td>19</td>
+<td><code>cm_gate_ledger_ratchet.sh</code></td>
+<td><code>LEDGER-FAIL: ratchet violated — unimplemented=432 exceeds checked-in baseline=420 (a CM-* gate was named with neither an implementation nor a registered deferral…)</code></td>
+<td><code>submodules/constitution/scripts/gates/gate_ledger_baseline.txt</code>,
+<code>…/gate_ledger_deferrals.tsv</code>,
+<code>submodules/constitution/Constitution.md</code></td>
+<td>b</td>
+<td>—</td>
+</tr>
+<tr>
+<td>20</td>
+<td><code>cm_track_branch_label.sh</code></td>
+<td><code>❌ ALIAS-VALIDATION: labeler did not yield the known synthetic alias (got 'xhigh' from '(T1/main - cmgatechk - ? - xhigh)')</code></td>
+<td><code>submodules/constitution/scripts/gates/cm_track_branch_label.sh</code>
+(<code>_label_alias</code>, lines 91–97) vs
+<code>submodules/constitution/scripts/multitrack/track_branch_label.sh:268</code></td>
+<td>b</td>
+<td>—</td>
+</tr>
+<tr>
+<td>21</td>
+<td><code>cm_track_branch_label_mutation_test.sh</code></td>
+<td><code>❌ META FAIL: clean fixture (real hook validates the alias field) — gate FAILed unexpectedly (false alarm!)</code>;
+<code>❌ META FAIL: RESTORED fixture (real hook re-audited) — gate FAILed unexpectedly (false alarm!)</code>;
+<code>❌ META FAIL: CM-TRACK-BRANCH-LABEL failed the §1.1 discriminator</code></td>
+<td>same two files as #20</td>
+<td>b</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Row-level counts: (a) 0 · pure (b) 4 · pure (c) 0 · mixed (b
++ c) 17.</strong></p>
+<p><strong>Root-cause counts</strong> (the five carriers behind rows
+1–17, plus the three constitution-internal defects behind rows 18–21):
+<strong>(a) 0 · (b) 4 · (c) 4.</strong></p>
+<h3 id="the-five-carriers-behind-rows-117">3.1 The five carriers behind
+rows 1–17</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Carrier</th>
+<th>Lives in</th>
+<th>Owning repo</th>
+<th>Cat.</th>
+<th>Why it is not an umbrella fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>milosvasic.ru/Upstreamable/AGENTS.md</code></td>
+<td>gitlink <strong>inside</strong> the <code>milosvasic.ru</code>
+submodule</td>
+<td><code>red-elf/Upstreamable</code>
+(<code>milosvasic.ru/.gitmodules:3</code>)</td>
+<td>c</td>
+<td>Third-party, two levels down. This project neither owns nor pushes
+it.</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru/Upstreamable/CLAUDE.md</code></td>
+<td>same</td>
+<td><code>red-elf/Upstreamable</code></td>
+<td>c</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>submodules/superspec/examples/static-landing-page/CLAUDE.md</code></td>
+<td><code>submodules/superspec</code> submodule</td>
+<td><code>WangX0111/superspec</code></td>
+<td>c</td>
+<td>Third-party. A 5-line demo fixture that points at
+<code>specs/001-static-landing-page/plan.md</code>; it is not a
+governance carrier, it is only <em>named</em> like one.</td>
+</tr>
+<tr>
+<td><code>.specify/extensions/superspec/examples/static-landing-page/CLAUDE.md</code></td>
+<td><strong>umbrella working tree</strong> (<code>git ls-files</code>
+tracks it)</td>
+<td>vendored copy of <code>WangX0111/superspec</code> v1.0.2</td>
+<td>c</td>
+<td><strong>Physically writable here — deliberately not
+written.</strong> It is one of 59 tracked files of a vendored
+third-party spec-kit extension
+(<code>.specify/extensions/.registry</code> pins
+<code>manifest_hash: sha256:6e23ee6c…</code>), byte-identical to the
+submodule copy. Injecting 17 constitution anchor blocks into a
+third-party demo fixture would fork the vendored artifact from its
+upstream and invalidate its manifest hash, to satisfy a gate that is
+misreading a demo file as a governance carrier. Recorded as a non-fix,
+not as an impossibility.</td>
+</tr>
+<tr>
+<td><code>vasic.digital/QWEN.md</code></td>
+<td><code>vasic.digital</code> submodule</td>
+<td><code>vasic-digital/vasic-digital.github.io</code> —
+<strong>owned</strong></td>
+<td>b</td>
+<td>The only owned gap. Requires writing into a submodule working tree
+and a push that redeploys a live GitHub Pages site — see §6.</td>
+</tr>
+</tbody>
+</table>
+<p>Note the arithmetic that decides rows 1–17: even if the operator
+applies the (b) fix to <code>vasic.digital/QWEN.md</code>, <strong>four
+(c) carriers remain and all 17 gates still FAIL.</strong> There is no
+umbrella-side change that flips any of the 21.</p>
+<hr />
+<h2 id="what-was-actually-fixed">4. What was actually fixed</h2>
+<p><strong>One change, in the umbrella repo,
+verdict-neutral.</strong></p>
+<p><code>scripts/verify-all-constitution-rules.sh</code> — the header
+comment describing how <code>gate_ledger.sh</code> is invoked stated
+that a bare invocation “prints its usage and exits 0, which would be a
+false PASS”. Measured behaviour is <code>exit 2</code>. Under this sweep
+rc=2 scores ERROR (§11.4.201(7)(b)), never PASS, so the comment
+misdescribed both the exit code and the hazard it was warning about.
+§11.4.6 forbids leaving a verified-false statement in place. The comment
+now reads:</p>
+<pre><code>#   2. Else if it offers a `selfcheck)` subcommand    -&gt; run `selfcheck &lt;tmpdir&gt;`.
+#      (`gate_ledger.sh` is a multi-subcommand tool: invoked bare it prints its
+#      usage and exits 2 — verified 2026-08-27 — so the sweep would score it
+#      ERROR (a blind instrument, §11.4.201(7)(b)), never PASS. Either way a
+#      bare invocation proves nothing, so its documented self-test is used
+#      instead.)</code></pre>
+<p><code>bash -n scripts/verify-all-constitution-rules.sh</code> →
+clean. Executable logic untouched: the resolution branch it documents
+(<code>grep -qE '^[[:space:]]*selfcheck\)'</code>) is unchanged, and
+<code>gate_ledger.sh</code> still runs as
+<code>selfcheck &lt;scratch&gt;</code>.</p>
+<p><strong>Nothing else was changed.</strong> In particular:</p>
+<ul>
+<li>No submodule working tree was written to.</li>
+<li>No mutating git command was run (no
+<code>add</code>/<code>commit</code>/<code>push</code>/<code>fetch</code>/
+<code>checkout</code>/<code>submodule update</code>).</li>
+<li>The four root carriers <code>CLAUDE.md</code> /
+<code>AGENTS.md</code> / <code>QWEN.md</code> / <code>GEMINI.md</code>
+were <strong>not</strong> modified by this triage — no fix required it.
+§11.4.157 lockstep verified twice with
+<code>tail -n +24 &lt;f&gt; | sha256sum</code>:
+<code>d26e2c31252d8837…</code> for all four at the start of the triage,
+<code>961f47134720080e…</code> for all four at the end. The bodies
+changed under this task — an edit from work outside it, visible as
+<code>9 ++---</code> on each of the four plus one line of
+<code>Constitution.md</code> in <code>git status</code>. All four moved
+together, so the lockstep held; it is recorded here because a reader
+comparing digests would otherwise think this task moved them.</li>
+<li>No gate verdict was suppressed, allowlisted or downgraded.</li>
+</ul>
+<hr />
+<h2 id="after-the-sweep-re-run">5. After — the sweep re-run</h2>
+<pre><code>gates run           : 58
+  PASS              : 37
+  FAIL   (rc=1)     : 21
+  ERROR  (rc!=0,1)  : 0
+§11.4.32 step 1     : skip
+❌ SWEEP: FAIL — 21 FAIL + 0 ERROR out of 58 gate(s).</code></pre>
+<p>Sweep exit code: <code>1</code>. The failure <strong>set</strong> is
+byte-identical to the before run, not merely the same size:</p>
+<pre><code>$ diff &lt;(sed -n &#39;/^FAILED:/,/^$/p&#39; /tmp/sweep.txt) \
+       &lt;(sed -n &#39;/^FAILED:/,/^$/p&#39; /tmp/sweep-after.txt) &amp;&amp; echo IDENTICAL
+IDENTICAL
+$ grep -c &quot;❌ MISSING&quot; /tmp/sweep-after.txt
+85</code></pre>
+<p><strong>Before → after: 37 PASS / 21 FAIL / 0 ERROR → 37 PASS / 21
+FAIL / 0 ERROR.</strong> Unchanged, and that is the correct outcome:
+every one of the 21 is blocked behind a submodule write or a third-party
+repository. A number that improved here would have meant a verdict was
+gamed.</p>
+<hr />
+<h2 id="requires-operator-decision-the-category-b-items">6. Requires
+operator decision — the category (b) items</h2>
+<p>Each item below needs a write into a submodule working tree and a
+push. The push fan-out is stated because it is the real cost of the
+decision.</p>
+<h3 id="vasic.digitalqwen.md-blocks-rows-117-partially">6.1
+<code>vasic.digital/QWEN.md</code> — blocks rows 1–17 (partially)</h3>
+<ul>
+<li><strong>Change:</strong> give <code>vasic.digital/QWEN.md</code> the
+17 anchors (or make it a genuine §11.4.35 pointer consumer so the
+propagation gates skip it).</li>
+<li><strong>Push blast radius:</strong> <code>vasic.digital</code> —
+<code>origin</code>, <code>github</code>, <code>upstream</code> all
+fetch <strong>and</strong> push the single URL
+<code>git@github.com:vasic-digital/vasic-digital.github.io.git</code>.
+<strong>One distinct URL — and it is a live GitHub Pages site: a push
+redeploys the site.</strong></li>
+<li><strong>⚠ The staged fix does not do what the record
+claims.</strong> <code>Constitution.md</code> → “Known-excluded gate
+findings” says the fix “is staged at
+<code>docs/constitution-adoption/propagation/vasic.digital/QWEN.insert-block.md</code>”.
+Read as staged, it would <strong>not</strong> clear a single propagation
+gate:
+<ul>
+<li><code>QWEN.insert-block.md</code> contains <strong>none</strong> of
+the 17 anchor literals (<code>11.4.162</code>, <code>11.4.167</code>, …
+<code>11.4.235</code>) — it cites only §11.4.28.</li>
+<li>It opens <code>&gt; **Base agent rules:** …</code>, a blockquote —
+<strong>not</strong> a real, non-fenced, line-anchored
+<code>## INHERITED FROM</code> heading — so
+<code>is_pointer_carrier()</code> will not recognise it and the gates
+will not skip the file.</li>
+<li>Worse, <code>APPLY.md</code> §4.6 also copies
+<code>AGENTS.md.staged</code>, <code>CLAUDE.md.staged</code> and
+<code>GEMINI.md.staged</code> into <code>vasic.digital/</code>. Those
+three open <code># CLAUDE.md — vasic.digital</code> /
+<code>## Helix Constitution inheritance</code> — again not
+<code>## INHERITED FROM</code>. Applying §4.6 as written would create
+<strong>three new discovered carriers that also lack every
+anchor</strong>, taking the fleet from 5 MISSING carriers to 8 and the
+total from <strong>85 MISSING lines to 136</strong>. The 17 gates would
+still FAIL, louder.</li>
+<li><strong>Operator action required before applying §4.6:</strong>
+either add the anchors to all four vasic.digital carriers, or
+restructure them to start with a real <code>## INHERITED FROM</code>
+heading. Applying the staged files unchanged makes the sweep worse.</li>
+</ul></li>
+</ul>
+<h3 id="cm_continuum_resume_engine_present.sh-row-18">6.2
+<code>cm_continuum_resume_engine_present.sh</code> — row 18</h3>
+<ul>
+<li><strong>Change:</strong> remove the single ATMOSphere literal from
+the resume engine —
+<code>submodules/constitution/submodules/continuum/test/e2e/e2e_test.go:118</code>:
+<code>b, err := resume.Render(fresh, "", resume.Options{Title: "ATMOSphere fleet resume"})</code>.
+The gate’s denylist is
+<code>atmosphere|rockchip|kinopoisk|orange[[:space:]]*pi|/mnt/track</code>;
+this is the only hit in the whole engine. Everything else in the gate
+passes, including <code>go test -race ./...</code> and the continuum
+selfcheck.</li>
+<li><strong>Push blast radius:</strong>
+<code>submodules/constitution/submodules/continuum</code> —
+<code>origin</code> only,
+<code>git@github.com:vasic-digital/continuum.git</code>. <strong>One
+URL.</strong> A <strong>nested</strong> submodule (a gitlink of
+<code>submodules/constitution</code>), so landing it also bumps the
+constitution’s gitlink → §6.4’s 6-URL fan-out.</li>
+</ul>
+<h3 id="cm_track_branch_label.sh-its-mutation-test-rows-20-and-21">6.3
+<code>cm_track_branch_label.sh</code> + its mutation test — rows 20 and
+21</h3>
+<ul>
+<li><strong>Root cause (a real defect, not an environment
+quirk):</strong> the reference labeler
+<code>submodules/constitution/scripts/multitrack/track_branch_label.sh:268</code>
+now emits a <strong>five</strong>-field label —
+<code>printf '(T%s/%s - %s - %s - %s)\n' "$_n" "$_br" "$_al" "$_mo" "$_ef"</code>
+→ <code>(T1/main - cmgatechk - ? - xhigh)</code> — while the gate’s
+helper <code>_label_alias()</code>
+(<code>cm_track_branch_label.sh:91-97</code>) still extracts the alias
+with <code>${_p##* - }</code>, i.e. the <strong>last</strong> field. It
+therefore reads the <em>effort</em> (<code>xhigh</code>) where it
+expects the <em>alias</em> (<code>cmgatechk</code>). This is
+unconditional: whatever the effort field resolves to, the last field is
+never the alias. The gate/labeler pair drifted apart; the gate was not
+updated when the label grew model + effort fields.</li>
+<li><strong>Change:</strong> in <code>_label_alias()</code>, select the
+alias <strong>positionally</strong> (field 2 of the
+<code>-</code>-separated label) instead of taking the trailing
+field.</li>
+<li><strong>Row 21 is a consequence, not an independent defect.</strong>
+The mutation test’s own output proves it: its two
+<code>❌ META FAIL</code> lines are both on the <em>clean</em> and the
+<em>RESTORED</em> fixtures (“gate FAILed unexpectedly (false alarm!)”),
+while all three genuine mutations were caught (<code>✅ META OK</code>
+×3). The discriminator is intact; it fails only because the gate it
+audits false-alarms. Fixing #20 fixes #21.</li>
+<li><strong>Push blast radius:</strong>
+<code>submodules/constitution</code> — see §6.4.</li>
+</ul>
+<h3 id="cm_gate_ledger_ratchet.sh-row-19">6.4
+<code>cm_gate_ledger_ratchet.sh</code> — row 19</h3>
+<ul>
+<li><strong>Change:</strong> inside
+<code>submodules/constitution</code>, either land the ~12 missing gate
+implementations, register their deferrals in
+<code>scripts/gates/gate_ledger_deferrals.tsv</code> against tracked
+items, or make an explicit, reviewable commit raising
+<code>scripts/gates/gate_ledger_baseline.txt</code> from
+<code>420</code>. Every input — <code>Constitution.md</code>,
+<code>scripts/</code>, and the three registries — lives inside the
+submodule. <strong>Nothing in the umbrella can move this
+number.</strong></li>
+<li><strong>Push blast radius:</strong>
+<code>submodules/constitution</code> — <code>origin</code>
+<strong>pushes to 6 URLs</strong> in one command:
+<code>git@gitflic.ru:helixdevelopment/helixconstitution.git</code>,
+<code>git@github.com:HelixDevelopment/HelixConstitution.git</code>,
+<code>git@gitlab.com:helixdevelopment1/helixconstitution.git</code>,
+<code>git@gitverse.ru:helixdevelopment/HelixConstitution.git</code>,
+<code>git@github.com:vasic-digital/HelixConstitution.git</code>,
+<code>git@gitlab.com:vasic-digital/HelixConstitution.git</code>. Rows
+18, 19, 20 and 21 all land here, and each one changes the constitution
+every consuming project inherits.</li>
+</ul>
+<h3 id="for-completeness-other-owned-submodules-named-in-apply.md">6.5
+For completeness — other owned submodules named in
+<code>APPLY.md</code></h3>
+<p>Not implicated in any of the 21 failures, but the same operator
+decision governs them, and their fan-out is larger:</p>
+<ul>
+<li><code>monetization</code> — <code>origin</code> <strong>pushes to 4
+URLs</strong>: <code>git@gitflic.ru:milosvasic/monetization.git</code>,
+<code>git@github.com:milos85vasic/monetization.git</code>,
+<code>git@gitlab.com:milos85vasic/monetization.git</code>,
+<code>ssh://git@gitverse.ru:2222/milosvasic/monetization.git</code>.</li>
+<li><code>milosvasic.ru</code> — <code>origin</code> <strong>pushes to 2
+URLs</strong> it does <strong>not</strong> fetch from
+(<code>gitflic.ru:milosvasic/milosvasic-net-v-2</code>,
+<code>github.com:milos85vasic/milosvasic.net.v2</code>), while fetching
+from a third that receives nothing. That fetch/push asymmetry is already
+recorded in <code>Constitution.md</code> as an open operator
+decision.</li>
+</ul>
+<hr />
+<h2 id="category-c-upstream-third-party-not-ours">7. Category (c) —
+upstream / third-party, not ours</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Item</th>
+<th>Repo</th>
+<th>Where it would have to be fixed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>milosvasic.ru/Upstreamable/AGENTS.md</code></td>
+<td><code>red-elf/Upstreamable</code></td>
+<td>upstream, a gitlink of a submodule</td>
+</tr>
+<tr>
+<td><code>milosvasic.ru/Upstreamable/CLAUDE.md</code></td>
+<td><code>red-elf/Upstreamable</code></td>
+<td>upstream, same</td>
+</tr>
+<tr>
+<td><code>submodules/superspec/examples/static-landing-page/CLAUDE.md</code></td>
+<td><code>WangX0111/superspec</code></td>
+<td>upstream</td>
+</tr>
+<tr>
+<td><code>.specify/extensions/superspec/examples/static-landing-page/CLAUDE.md</code></td>
+<td>vendored <code>WangX0111/superspec</code> v1.0.2</td>
+<td>upstream — writable here, deliberately not written (see §3.1)</td>
+</tr>
+</tbody>
+</table>
+<p>The more durable fix for all four is <strong>upstream in the gate
+family</strong>, per §11.4.26: the propagation gates discover carriers
+by bare filename and prune only
+<code>node_modules|.git|out|build|dist|prebuilts|external|vendor|target</code>.
+A third-party submodule tree and a vendored extension’s demo fixture are
+neither owned nor governance carriers, yet both are scored as owned
+carriers. Any in-repo workaround for that would be an allowlist, which
+this triage will not write.</p>
+<hr />
+<h2 id="false-failures-and-false-passes-found">8. False failures and
+false passes found</h2>
+<h3 id="no-false-failure-among-the-21">8.1 No false failure among the
+21</h3>
+<p>All 21 were reproduced by hand, with the argv each gate’s own usage
+header dictates. Every failing assertion is a true statement about the
+tree. Two false-verdict <em>hazards</em> exist but the sweep avoids
+both:</p>
+<ul>
+<li><strong>Wrong <code>--root</code> → false PASS.</strong>
+<code>cm_covenant_114_162_propagation.sh --root submodules/constitution</code>
+reports <code>0 MISSING</code> and exits 0, because it then only sees
+the constitution’s own carriers. The sweep passes the repo root.</li>
+<li><strong>Wrong <code>--root</code> → false FAIL.</strong>
+<code>cm_continuum_resume_engine_present.sh --root .</code> reports the
+engine, <code>go.mod</code> and <code>helix-deps.yaml</code> all MISSING
+and exits 1. The sweep passes <code>submodules/constitution</code>.</li>
+</ul>
+<p>Every gate that accepts <code>--root</code> declares its kind in its
+usage header — checked across all 57 — so the sweep’s header-driven
+resolution has no undeclared case to fall through on.</p>
+<h3 id="cm-opendesign-ui-system-is-a-false-pass">8.2
+<code>CM-OPENDESIGN-UI-SYSTEM</code> is a false PASS</h3>
+<pre><code>PASS  rc=0  cm_opendesign_ui_system.sh  --root /run/media/…/vasic
+  ⏭️  SKIP CM-OPENDESIGN-UI-SYSTEM: no UI surface detected under …/vasic
+      (no theme/token/visreg sources matched OD_*_GLOBS) — §11.4.3
+      SKIP-with-reason, not a fake PASS</code></pre>
+<p>The skip <strong>reason is factually false for this
+repository.</strong> There is a real UI surface —
+<code>design-system/learning-kit/kit-tokens.css</code>,
+<code>design-system/brand-vasic-digital/vasic-digital.css</code>,
+<code>design-system/brand-milosvasic/milosvasic.css</code>,
+<code>design-system/components-extended.css</code>,
+<code>design-system/motion/*.css</code>,
+<code>design-system/fonts/fonts.css</code>. The gate’s defaults
+(<code>OD_THEME_GLOBS="src/theme/* src/styles/* styles/* theme/* …"</code>,
+<code>OD_TOKEN_GLOBS="tokens.json design-tokens/* …"</code>) simply do
+not describe this repo’s layout, and the umbrella never binds
+<code>OD_*_GLOBS</code>. The gate is therefore scored PASS while never
+having looked at the design system §11.4.162 governs.</p>
+<p><strong>Not changed here</strong>, for two reasons: it is not one of
+the 21 under triage, and binding <code>OD_*_GLOBS</code> would turn a
+PASS into a FAIL — the honest direction, but a scope and configuration
+decision for the operator, not a silent edit. Recorded as the
+outstanding action.</p>
+<h3 id="the-37-pass-figure-includes-3-reasoned-skips">8.3 The “37 PASS”
+figure includes 3 reasoned SKIPs</h3>
+<p>Three gates exit 0 via an explicit §11.4.3 skip and are counted as
+PASS, because the sweep’s SUMMARY has no SKIP column:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Skip reason</th>
+<th>Honest?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cm_build_on_source_proven_not_test_side.sh</code></td>
+<td><code>feature_disabled_by_config: no consumer marker-binding config</code></td>
+<td>yes — the feature genuinely is unbound</td>
+</tr>
+<tr>
+<td><code>cm_version_increment_on_deploy.sh</code></td>
+<td><code>feature_disabled_by_config: no consumer deploy-ledger binding</code></td>
+<td>yes — same</td>
+</tr>
+<tr>
+<td><code>cm_opendesign_ui_system.sh</code></td>
+<td><code>no UI surface detected</code></td>
+<td><strong>no</strong> — see §8.2</td>
+</tr>
+</tbody>
+</table>
+<p>So <code>37 PASS</code> is more precisely <strong>34 enforced PASS +
+2 honest unbound-feature SKIPs + 1 false SKIP</strong>. Adding a SKIP
+column to the sweep’s summary would make the sweep’s own reporting
+§11.4.6-honest; it is a reporting change with no verdict impact, and is
+left as an operator call alongside §8.2.</p>
+<h3 id="the-constitution.md-staged-fix-claim-is-optimistic">8.4 The
+<code>Constitution.md</code> “staged fix” claim is optimistic</h3>
+<p>Section 6.1 above. The record says the
+<code>vasic.digital/QWEN.md</code> fix “is staged and awaits operator
+application”; the staged artefact would not clear the gates, and
+applying <code>APPLY.md</code> §4.6 unchanged would raise the MISSING
+count from 85 to 136. This is the one item in the existing record that a
+reader could act on and be worse off for.</p>
+<hr />
+<h2 id="the-first-completed-post-fast-forward-sweep">9. 2026-09-02 — the
+first completed post-fast-forward sweep</h2>
+<p>Everything above this line describes a <strong>58-gate</strong> sweep
+against the pre-fast-forward constitution. This section is the first
+sweep to <strong>run to completion</strong> after the fast-forward, and
+it supersedes §1–§8 entirely.</p>
+<h3 id="how-it-was-run">9.1 How it was run</h3>
+<pre><code>bash scripts/verify-all-constitution-rules.sh &gt; &lt;scratch&gt;/sweep-2026-09-02.txt 2&gt;&amp;1</code></pre>
+<p>No flags. No <code>--quiet</code>. Nothing silenced, nothing
+narrowed. The run was launched detached and polled to completion; wall
+clock <strong>≈ 2 h 45 min</strong>, output <strong>718,345 lines /
+105,209,937 bytes</strong> (see §9.6 — 714,162 of those lines come from
+a single gate that was pointed at the wrong tree).</p>
+<p>Evidence file, preserved:
+<code>&lt;scratch&gt;/sweep-2026-09-02.txt</code> under
+<code>/tmp/.private/milosvasic/claude-1000/-run-media-milosvasic-DATA4TB-Projects-vasic/8b2dcbd5-36ee-4998-811b-54668193abff/scratchpad/</code>.</p>
+<h3 id="the-exact-split">9.2 The exact split</h3>
+<p>Quoted verbatim from the run’s own <code>SUMMARY</code> block (lines
+3305–3312):</p>
+<pre><code>gates run           : 287
+  PASS              : 186
+  FAIL   (rc=1)     : 95
+  ERROR  (rc!=0,1)  : 6
+§11.4.32 step 1     : pass</code></pre>
+<p>Closing line and exit code, verbatim:</p>
+<pre><code>❌ SWEEP: FAIL — 95 FAIL + 6 ERROR out of 287 gate(s).
+EXIT_CODE=1</code></pre>
+<ul>
+<li><strong>287 gates</strong> = 286 discovered dynamically under
+<code>submodules/constitution/scripts/gates/**</code> + 1 project-side
+<code>tests/test_constitution_inheritance.sh</code> (which
+<strong>PASSed</strong>, 8 PASS / 0 SKIP / 0 FAIL).</li>
+<li><strong>§11.4.32 step 1 = pass</strong> —
+<code>scripts/verify-governance-cascade.sh</code> returned rc=0 inside
+the sweep. Step 1 is no longer a SKIP; OC-3 stays resolved.</li>
+<li><strong>Constitution HEAD at run time:
+<code>f5876a3b700eb9a8792c1f19baca77959a2a7e88</code></strong>, as the
+sweep’s own header line records.</li>
+</ul>
+<blockquote>
+<p><strong>The pin moved under this measurement, and that is stated
+rather than hidden (§11.4.6).</strong> Re-measured immediately after the
+run, <code>git -C submodules/constitution rev-parse HEAD</code> returns
+<strong><code>3be10826f3d236edcdb62b7cba81cda4e6d0d47a</code></strong> —
+a different commit from the <code>f5876a3b700e</code> the sweep ran
+against, and different again from the <code>f16ea779b82a</code> the root
+carriers record. Concurrent work moved the gitlink while this sweep was
+running. <strong>The split in §9.2 is a measurement of
+<code>f5876a3b700e</code> and of nothing else</strong>; a re-run today
+may differ, and the honest response is to re-run, not to quote this
+number as standing fact.</p>
+</blockquote>
+<p>The prior figure on record — <em>“186 PASS / 95 FAIL / 6 ERROR of 287
+gates”</em>, carried in the root carriers as a <strong>reported prior
+measurement</strong> from a run that never finished — is now
+<strong>CONFIRMED by a completed run</strong>. It was accurate. It is no
+longer a report of somebody else’s number.</p>
+<h3 id="the-three-buckets">9.3 The three buckets</h3>
+<p>Row-level assignment — each of the 101 non-PASS rows gets exactly one
+primary bucket, so nothing is double-counted:</p>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+</colgroup>
+<thead>
+<tr>
+<th>Bucket</th>
+<th style="text-align: right;">Rows</th>
+<th style="text-align: right;">Of which FAIL</th>
+<th style="text-align: right;">Of which ERROR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>(a)</strong> third-party and staged carriers</td>
+<td style="text-align: right;"><strong>82</strong></td>
+<td style="text-align: right;">82</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td><strong>(b)</strong> defects internal to the constitution
+submodule</td>
+<td style="text-align: right;"><strong>5</strong></td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr>
+<td><strong>(c)</strong> genuinely ours</td>
+<td style="text-align: right;"><strong>14</strong></td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td style="text-align: right;"><strong>101</strong></td>
+<td style="text-align: right;">95</td>
+<td style="text-align: right;">6</td>
+</tr>
+</tbody>
+</table>
+<p>Four of the fourteen (c) rows are <strong>mixed (b + c)</strong> and
+are counted in (c) deliberately — see §9.5 item <strong>C6</strong>: an
+upstream path-derivation defect points them at the wrong directory,
+<em>and</em> the artifact they look for does not exist at the right
+directory either, so clearing the upstream half alone would not flip any
+of them.</p>
+<p><strong>Neither (a) nor (b) licenses treating this sweep as
+green.</strong> Both classes still FAIL, both still make the sweep exit
+1, and both are still printed in full. Excluded from
+<code>verify-governance-cascade.sh</code>’s own verdict means <em>not
+double-counted there</em>, never <em>suppressed anywhere</em>
+(§11.4.6).</p>
+<h3 id="bucket-a-third-party-and-staged-carriers-82-rows">9.4 Bucket (a)
+— third-party and staged carriers · 82 rows</h3>
+<p>Every one of the 82 rows is a
+<code>cm_covenant_114_&lt;N&gt;_propagation.sh</code> gate. Run at the
+correct root, each reports the <strong>identical shape</strong> and is
+held FAIL by <strong>exactly five carriers</strong>, none of which any
+commit in this repository can change:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Carrier</th>
+<th>Owning repository</th>
+<th>Why it is not ours</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>milosvasic.ru/Upstreamable/AGENTS.md</code></td>
+<td><code>red-elf/Upstreamable</code></td>
+<td>third-party, a gitlink <strong>inside</strong> the
+<code>milosvasic.ru</code> submodule — two levels down</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>milosvasic.ru/Upstreamable/CLAUDE.md</code></td>
+<td><code>red-elf/Upstreamable</code></td>
+<td>same</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>submodules/superspec/examples/static-landing-page/CLAUDE.md</code></td>
+<td><code>WangX0111/superspec</code></td>
+<td>third-party; a 5-line demo fixture only <em>named</em> like a
+governance carrier</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>.specify/extensions/superspec/examples/static-landing-page/CLAUDE.md</code></td>
+<td>vendored <code>WangX0111/superspec</code> v1.0.2</td>
+<td>tracked here and physically writable — <strong>deliberately not
+written</strong> (§3.1 of this document explains why: it would fork the
+vendored artifact from upstream and invalidate its manifest hash)</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>workshop/pipeline/engines/whisper.cpp/AGENTS.md</code></td>
+<td>upstream <strong>whisper.cpp</strong></td>
+<td><strong>NEW since the 2026-08-27 triage</strong> — the vendored
+whisper.cpp build tree inside the private <code>workshop</code>
+submodule. It is a third-party inference engine’s own repository file,
+not a governance carrier; it was pulled in when the ASR stack was
+built</td>
+</tr>
+</tbody>
+</table>
+<p>Measured, quoted from the one propagation gate the sweep
+argv-resolved correctly
+(<code>cm_covenant_114_167_propagation.sh</code>):</p>
+<pre><code>CM-COVENANT-114-167-PROPAGATION: 4 PRESENT, 64 POINTER-INHERITANCE-SKIP, 5 MISSING
+  (anchor 11.4.167) under &lt;ext-volume-host&gt;/Projects/vasic</code></pre>
+<p>and re-derived independently for a fence-aware member of the family
+(<code>cm_covenant_114_162_propagation.sh --root &lt;repo&gt;</code>):</p>
+<pre><code>CM-COVENANT-114-162-PROPAGATION: 4 single-block-PRESENT, 64 POINTER-INHERITANCE-SKIP,
+  5 MISSING/DUPLICATED, 0 DIVERGENT (anchor 11.4.162) under /run/media/…/vasic</code></pre>
+<p><strong><code>0 DIVERGENT</code> — no carrier holds a corrupted or
+duplicated anchor block. The only defect in this family is
+absence.</strong></p>
+<p><strong>One real improvement since 2026-08-27, measured not
+assumed:</strong> <code>vasic.digital/QWEN.md</code> — the single
+<em>owned</em> carrier §3.1 named as the lone category-(b) gap —
+<strong>no longer appears in any MISSING list</strong>. The owned half
+of the propagation problem is closed; what remains is entirely
+third-party. The <code>POINTER-INHERITANCE-SKIP</code> count also moved
+11 → 64 as the fleet grew and the new carriers were authored as genuine
+§11.4.35 pointer consumers.</p>
+<h3 id="bucket-b-internal-to-the-constitution-submodule-5-rows">9.5
+Bucket (b) — internal to the constitution submodule · 5 rows</h3>
+<p>Upstream code this repository consumes rather than owns. <strong>No
+commit made here can clear any of these.</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Gate</th>
+<th>Verdict</th>
+<th>The defect, quoted from its own output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>cm_continuum_resume_engine_present.sh</code></td>
+<td>FAIL</td>
+<td><code>❌ FOUND project-specific literal(s) inside the engine (decoupling violation):</code>
+naming <code>submodules/continuum/pkg/chain/exec_call_test.go</code>
+<strong>and</strong>
+<code>submodules/continuum/test/e2e/e2e_test.go</code>. Everything else
+in the gate passes (<code>go test -race ./...</code> race-clean;
+continuum selfcheck good=PASS bad=FAIL negctrl=PASS). <strong>Two files
+now, not one</strong> — §6.2 of this document recorded only
+<code>e2e_test.go</code>. Both live in a <em>nested</em> gitlink of the
+constitution.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>cm_opendesign_ui_system_mutation_test.sh</code></td>
+<td>FAIL</td>
+<td><code>❌ META FAIL: propagation gate / clean fleet — gate FAILed on a clean fixture (false alarm!)</code>.
+Three of its four meta-assertions pass. This is a <strong>§11.4.201(1)
+false-positive refusal inside the constitution’s own §1.1 mutation
+pair</strong> — the gate accuses a clean fixture.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>cm_dependency_register_verdicts_mutation_test.sh</code></td>
+<td>FAIL</td>
+<td><code>[FAIL] baseline DRV-A4-NAME-COLLISION-AMBIGUOUS = ABSENT_ID — a mutation cannot be shown to flip an assertion that is not passing to begin with</code>,
+and the same for <code>DRV-A2</code>, <code>DRV-A3</code>,
+<code>DRV-A5</code>. The mutation test cannot establish a surgical
+control because its own gate has no consumer register to assert against
+(§9.5 C6).</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>cm_instrument_trap_scan_mutation_test.sh</code></td>
+<td>FAIL</td>
+<td><code>PAIR-NOT-DEMONSTRATED: required file absent: …/submodules/scripts/testing/anti_slop/us2_trap_scan_red.sh</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>lib/instrument_trap_scan.sh</code></td>
+<td>ERROR rc=2</td>
+<td><code>SELFTEST-BLIND fixtures not found at …/scripts/gates/lib/../../../../scripts/testing/anti_slop/fixtures/traps — reporting blindness, not compliance</code>.
+The <code>../../../../</code> walk assumes the constitution sits at
+<code>&lt;consumer&gt;/constitution</code>; this repository places it at
+<code>&lt;consumer&gt;/submodules/constitution</code>, so the walk lands
+one level short. Honest of the gate to report blindness rather than pass
+— the defect is the hardcoded walk, and it is upstream.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="bucket-c-genuinely-ours-14-rows">9.6 Bucket (c) — genuinely ours
+· 14 rows</h3>
+<p><strong>This is the actionable output.</strong> Every item below
+names the gate, the file, and what it would take to fix.</p>
+<hr />
+<h4
+id="c1-resolve_argv-in-our-own-sweep-points-85-of-287-gates-at-the-wrong-tree-fixed-2026-09-02-see-the-block-at-the-end-of-this-item">C1
+— <code>resolve_argv</code> in our own sweep points 85 of 287 gates at
+the WRONG TREE — <strong>FIXED 2026-09-02, see the block at the end of
+this item</strong></h4>
+<p><strong>This is the largest finding in the run, and it is entirely
+ours.</strong></p>
+<ul>
+<li><strong>Gate(s) affected:</strong> 81
+<code>cm_covenant_114_*_propagation.sh</code> +
+<code>cm_oracle_strategy_named_and_independent.sh</code> +
+<code>cm_test_mock_pid_explicit_int.sh</code> +
+<code>cm_dangerous_combination_fail_closed.sh</code> +
+<code>cm_killpg_pgid_guard.sh</code> = <strong>85 gates</strong>.</li>
+<li><strong>File:</strong>
+<code>scripts/verify-all-constitution-rules.sh</code>,
+<code>resolve_argv()</code>, lines 199–219.</li>
+</ul>
+<p><strong>What happens.</strong> With no <code>--root</code> resolved,
+each gate falls back to its own default consumer root —
+<code>root="${CONSUMER_ROOT:-..}"</code> in
+<code>lib/covenant_propagation_engine.sh:182</code> — and
+<code>..</code> from the sweep’s cwd is
+<strong><code>&lt;ext-volume-host&gt;/Projects</code>, the parent of
+this repository</strong>: the operator’s entire projects directory,
+dozens of unrelated repositories.</p>
+<p><strong>Two distinct sub-defects, both in our resolver:</strong></p>
+<ul>
+<li><strong>C1a — the header lookup is gated behind a case-branch
+grep.</strong> <code>resolve_argv</code> only consults a gate’s usage
+header <em>after</em> <code>grep -qE '^[[:space:]]*--root\)' "$g"</code>
+succeeds. The propagation family was refactored upstream into
+<strong>thin wrappers</strong> (§11.4.251 role-as-data-pack): 61 lines
+each, arg parsing delegated to the sourced
+<code>lib/covenant_propagation_engine.sh</code>, so <strong>no
+<code>--root)</code> branch exists in the wrapper file</strong> — even
+though its usage header plainly says
+<code>--root &lt;consumer-root&gt;</code>. Measured:
+<code>grep -c '^\s*--root)'</code> returns <strong>0</strong> for
+<code>cm_covenant_114_162_propagation.sh</code> (61 lines) and
+<strong>1</strong> for the one non-wrapper
+<code>cm_covenant_114_167_propagation.sh</code> (127 lines) — which is
+exactly why 81 of 82 got no root and one did.</li>
+<li><strong>C1b — the <code>root_kind</code> case has an unhandled
+vocabulary.</strong> The case handles <code>constitution-root</code> and
+<code>consumer-root|project-root</code> only.
+<code>cm_oracle_strategy_named_and_independent.sh</code> and
+<code>cm_test_mock_pid_explicit_int.sh</code> both declare
+<strong><code>--root &lt;dir&gt;</code></strong>, which falls through to
+<code>*) argv=""</code> and takes the gate’s default.</li>
+</ul>
+<p><strong>Measured consequences — four separate harms, none of them
+hypothetical:</strong></p>
+<ol type="1">
+<li><p><strong>81 propagation gates FAIL with ZERO BYTES of
+output.</strong> Reproduced directly:</p>
+<pre><code>$ bash submodules/constitution/scripts/gates/cm_covenant_114_162_propagation.sh
+rc=1  output_bytes=0          # stdout AND stderr both empty</code></pre>
+<p>The engine dies under <code>set -euo pipefail</code> mid-scan of the
+parent directory — it has no <code>exit 1</code> path of its own
+(<code>grep -nE 'exit [0-9]' engine</code> returns one line, an
+<code>exit 2</code>). A silent rc=1 is scored <strong>FAIL</strong> by
+the sweep, i.e. <strong>a blind instrument is being reported as an
+accusation against this tree</strong> — the §11.4.201(7)(b) hazard,
+inverted.</p></li>
+<li><p><strong><code>cm_test_mock_pid_explicit_int.sh</code> is a FALSE
+FAIL.</strong> At the correct root it <strong>PASSES</strong>:</p>
+<pre><code>$ bash …/cm_test_mock_pid_explicit_int.sh --root /run/media/…/vasic
+rc=0
+✅ CM-TEST-MOCK-PID-EXPLICIT-INT: PASS — every &#39;.pid&#39;-read Mock/MagicMock/AsyncMock
+   in scanned test files sets &#39;.pid&#39; explicitly as an int (§11.4.263)</code></pre>
+<p>A §11.4.201(1) false-positive refusal produced by our own
+instrument.</p></li>
+<li><p><strong><code>cm_oracle_strategy_named_and_independent.sh</code>
+emitted 714,162 lines</strong> — the 105 MB in §9.1 is almost entirely
+this one gate reading unrelated projects. At the correct root it emits
+<strong>15,156</strong> and reaches a verdict about <em>this</em> tree
+(see <strong>C5</strong>).</p></li>
+<li><p><strong>Two gates hit the 900 s <code>GATE_TIMEOUT</code> and
+scored ERROR rc=124</strong> —
+<code>cm_dangerous_combination_fail_closed.sh</code> and
+<code>cm_killpg_pgid_guard.sh</code>. Both detail blocks open with
+<code>find: '&lt;ext-volume-host&gt;/Projects/proxy/cache/squid/00': Permission denied</code>,
+which is the direct proof they were walking the parent tree. They are
+ERRORs because the wrong tree is enormous, not because anything here is
+wrong.</p></li>
+</ol>
+<p><strong>Proof the diagnosis is right, not merely
+plausible:</strong></p>
+<pre><code>$ CONSUMER_ROOT=/run/media/…/vasic bash …/cm_covenant_114_162_propagation.sh
+rc=1  lines=76
+CM-COVENANT-114-162-PROPAGATION: 4 single-block-PRESENT, 64 POINTER-INHERITANCE-SKIP,
+  5 MISSING/DUPLICATED, 0 DIVERGENT (anchor 11.4.162) under /run/media/…/vasic</code></pre>
+<p>Zero bytes → a full, readable, correctly-scoped verdict.</p>
+<p><strong>The fix (three lines of our own script, no submodule
+write):</strong></p>
+<ol type="1">
+<li>In <code>resolve_argv</code>, consult the gate’s <strong>usage
+header first</strong> — the
+<code>grep -oE -- '--root &lt;[a-z-]+&gt;'</code> lookup already exists;
+<strong>ungate it</strong> from the <code>--root)</code> case-branch
+grep so a thin wrapper that documents <code>--root</code> gets one.</li>
+<li>Add <strong><code>dir</code></strong> to the <code>root_kind</code>
+case as a consumer root, alongside
+<code>consumer-root|project-root</code>.</li>
+<li>Belt and braces: <code>export CONSUMER_ROOT="$root"</code> next to
+the existing <code>OD_*_GLOBS</code> exports, so any gate reading that
+variable defaults correctly even if its header says nothing.</li>
+</ol>
+<p><del><strong>Until this is fixed, 85 of the 287 verdicts in §9.2 are
+statements about the wrong directory and must not be read as findings
+about this repository.</strong> The 95/6 split is a true report of what
+the sweep did; it is not yet a true report of what this tree
+is.</del></p>
+<p><strong>FIXED 2026-09-02, and re-measured by a completed sweep. The
+strike-through above is kept because the number it carries is what the
+fix had to move.</strong></p>
+<p><strong>The change.</strong> <code>resolve_argv</code> in
+<code>scripts/verify-all-constitution-rules.sh</code> no longer gates
+the usage-header lookup behind the gate’s own <code>--root)</code> case
+arm. It now asks three questions of the gate, each with a real
+counter-example in this pin’s corpus, and one of the three was NOT in
+the remedy as written above:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th>Question</th>
+<th>Why it is not optional</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Is the <code>--root &lt;kind&gt;</code> text in the gate’s OWN
+leading comment header?</td>
+<td><code>covenant_propagation_wrappers_generate.sh</code> carries
+<code>--root &lt;consumer-root&gt;</code> inside the <strong>heredoc
+template it emits</strong> — the interface of the wrappers it generates,
+not its own. A file-wide grep reads generated text as a declaration.
+Header-scoping changes the answer for exactly <strong>1</strong> file of
+286, and it is that one.</td>
+</tr>
+<tr>
+<td>B</td>
+<td>Will some parser actually RECEIVE it — its own <code>--root)</code>
+arm, or one in a <code>lib/*.sh</code> it names?</td>
+<td><strong>Not in the prescribed remedy, and required.</strong>
+<code>covenant_propagation_suite.sh</code> documents
+<code>suite gates [--root &lt;consumer-root&gt;]</code> but parses no
+flags and needs a subcommand first; handing it a root turns a usage
+refusal into an rc=2 ERROR scored against this tree. Ungating without
+this test trades one wrong verdict for another.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Which root does the generic <code>&lt;dir&gt;</code> mean?</td>
+<td><code>cm_first_refusal_observed.sh</code> declares
+<code>--root &lt;dir&gt;</code> and means the
+<strong>constitution</strong> root
+(<code>root="${CONSTITUTION_ROOT:-…}"</code>);
+<code>cm_oracle_strategy_named_and_independent.sh</code> declares the
+same <code>&lt;dir&gt;</code> and means the tree under test. The
+discriminator is the gate’s own description on that line, folded across
+every <code>--root &lt;dir&gt;</code> header line — the first such line
+is usually the bare SYNOPSIS, which describes nothing.</td>
+</tr>
+</tbody>
+</table>
+<p>Plus <code>export CONSUMER_ROOT="$root"</code> as prescribed —
+authoritative, not <code>${CONSUMER_ROOT:-$root}</code>, so a stale
+value in the caller’s shell cannot redirect 286 gates at another
+tree.</p>
+<p><strong>Root resolution, before and after</strong>
+(<code>--list</code>, counted from its own output):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">project root</th>
+<th style="text-align: right;">constitution root</th>
+<th style="text-align: right;">own default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>before</td>
+<td style="text-align: right;">17</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">266</td>
+</tr>
+<tr>
+<td>after</td>
+<td style="text-align: right;"><strong>104</strong></td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">179</td>
+</tr>
+</tbody>
+</table>
+<p><strong>87 gates newly receive a root; nothing lost one and no gate’s
+resolved root changed side.</strong> 81 are the propagation wrappers;
+the other 6 are <code>cm_dangerous_combination_fail_closed</code>,
+<code>cm_killpg_pgid_guard</code>,
+<code>cm_ledger_row_typed_from_closed_vocabulary</code>,
+<code>cm_oracle_strategy_named_and_independent</code>,
+<code>cm_test_mock_pid_explicit_int</code> and
+<code>cm_unchallenged_capability_blocks_release</code>. The last two of
+those six were not in the 85: their own default is
+<code>${CONSUMER_ROOT:-.}</code>, which was already the right directory
+when the sweep is run from the repository root. They are now explicit
+rather than accidentally correct.</p>
+<p><strong>All four measured harms are cleared, each re-measured rather
+than inferred:</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Harm (as recorded above)</th>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>81 propagation gates FAIL emitting zero bytes</td>
+<td><strong>81</strong> zero-output detail blocks</td>
+<td><strong>0</strong></td>
+</tr>
+<tr>
+<td><code>cm_test_mock_pid_explicit_int.sh</code> FALSE FAIL</td>
+<td>FAIL rc=1</td>
+<td><strong>PASS rc=0</strong></td>
+</tr>
+<tr>
+<td><code>cm_oracle_strategy…</code> output volume</td>
+<td>714,162 lines</td>
+<td><strong>15,158</strong></td>
+</tr>
+<tr>
+<td>two gates at the 900 s timeout</td>
+<td>ERROR rc=124 ×2</td>
+<td><strong>FAIL rc=1</strong> in 62 s and 65 s — real findings about
+this tree</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The re-run split, and the whole diff between the two
+runs.</strong> Same command, no flags, nothing silenced:</p>
+<pre><code>gates run           : 287
+  PASS              : 187
+  FAIL   (rc=1)     : 96
+  ERROR  (rc!=0,1)  : 4
+§11.4.32 step 1     : pass
+expected-gate ledger: clean
+❌ SWEEP: FAIL — 96 FAIL + 4 ERROR out of 287 gate(s).</code></pre>
+<p>Against §9.2’s <strong>186 / 95 / 6</strong>, exactly
+<strong>three</strong> rows changed verdict, and they are the three the
+fix predicted:</p>
+<pre><code>cm_dangerous_combination_fail_closed.sh   ERROR rc=124 -&gt; FAIL rc=1
+cm_killpg_pgid_guard.sh                   ERROR rc=124 -&gt; FAIL rc=1
+cm_test_mock_pid_explicit_int.sh          FAIL  rc=1   -&gt; PASS rc=0</code></pre>
+<p>Wall clock <strong>867 s</strong> (14 m 27 s) against ≈2 h 45 min,
+output <strong>3,676,727 bytes / 25,970 lines</strong> against
+105,209,937 bytes / 718,345 lines. Evidence file:
+<code>&lt;scratch&gt;/sweep-2026-09-02-postC1.txt</code>; the pre-fix
+run is preserved beside it. Constitution HEAD at run time
+<code>3be10826f3d2</code> — a different pin from the
+<code>f5876a3b700e</code> §9.2 ran against, so <strong>the two splits
+are not a controlled comparison of this fix alone</strong>; the
+three-row diff above is, because it is a per-gate join of the two
+runs.</p>
+<p><strong>Still 96 FAIL, and that is the point.</strong> Nothing was
+made green by pointing a gate somewhere convenient. The 81 propagation
+gates still FAIL at the correct root — they now say so in 76 readable
+lines each instead of in silence, and what holds them red is the same
+five third-party carriers §9.4 names.</p>
+<p><strong>Proved, not asserted.</strong> <code>--prove-failure</code>
+grew four cases, M16–M19, and its summary count is now DERIVED from the
+cases that ran (it said “16 mutations” while 18 were running — the
+§11.4.6 defect this sweep exists to catch elsewhere). It reports
+<strong>22 mutations, 25/25 green, exit 0</strong>. Each new case reads
+the gate in BOTH directions — the control shows the right root arriving,
+the mutation changes what the specimen gate DECLARES and requires the
+resolved root to follow, so a resolver with any of these answers written
+down would pass the control and fail the mutation. Four regressed copies
+of the sweep were built and run to confirm the battery is not
+inoperative:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Regression applied to a scratch copy</th>
+<th>Caught by</th>
+<th>Exit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>re-gate the header lookup behind the gate’s own <code>--root)</code>
+arm (the original C1a)</td>
+<td><strong>M16</strong></td>
+<td>1</td>
+</tr>
+<tr>
+<td>delete the <code>dir</code> arm from the <code>root_kind</code> case
+(the original C1b)</td>
+<td><strong>M17</strong></td>
+<td>1</td>
+</tr>
+<tr>
+<td>ungate without the parser-evidence test (test B)</td>
+<td><strong>M18</strong></td>
+<td>1</td>
+</tr>
+<tr>
+<td>remove <code>export CONSUMER_ROOT</code></td>
+<td><strong>M19</strong></td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>M17 earned its keep during development rather than after it: the
+first implementation read only the FIRST header line mentioning
+<code>--root &lt;dir&gt;</code>, which is the bare synopsis, and M17
+failed on the spot.</p>
+<p><strong>Honest boundary (§11.4.6).</strong> The
+<code>&lt;dir&gt;</code> → constitution-root branch is correct and is
+proved by M17 on a specimen, but it changes no real gate at this pin:
+<code>cm_first_refusal_observed.sh</code> is the only gate that would
+take it, and it declares <code>--selftest</code>, which
+<code>resolve_argv</code> prefers and returns on first. The branch is a
+guard against the next gate of that shape, not a change to this run.</p>
+<p><strong>FOUND WHILE FIXING, NOT FIXED — the sweep WRITES into the
+submodule it consumes.</strong>
+<code>covenant_propagation_wrappers_generate.sh</code> is discovered as
+a gate and invoked bare, and bare is its WRITE mode
+(<code>--check</code> is the read-only one its own header documents).
+Its row in the run above reads
+<code>covenant_propagation_wrappers_generate.sh: wrote 162 wrapper file(s)</code>
+and it is scored <strong>PASS</strong>. No damage today — the generated
+bytes are identical to what is already there, and
+<code>git -C submodules/constitution status --short</code> is unchanged
+after the run — but a read-only verification sweep is mutating a
+consumed submodule on every invocation, and only idempotence is standing
+between that and a real edit. This belongs with <strong>C8</strong>
+(non-gate files invoked as gates) and is left for that item rather than
+folded into C1.</p>
+<hr />
+<h4 id="c2-readme.md-has-no-badge-row">C2 — <code>README.md</code> has
+no badge row</h4>
+<ul>
+<li><strong>Gate:</strong> <code>cm_readme_badge_row_at_top.sh</code>
+(§11.4.259), argv <code>--root &lt;repo&gt;</code> — correctly resolved,
+so this is a real finding.</li>
+<li><strong>Output:</strong>
+<code>FAIL — no badge row found at the top of …/README.md (first non-blank line after the H1 must be a pure badge row)</code>.</li>
+<li><strong>File:</strong> <code>README.md</code>. Measured: the first
+non-blank line after <code># vasic</code> is a blockquote
+(<code>&gt; **No server-side CI at this umbrella root…**</code>).</li>
+<li><strong>Fix:</strong> author a machine-derived badge row per
+§11.4.259 (each badge derived from a real source, never hand-typed
+colours), or record the gap as a tracked §11.4.197 item. Note the
+existing blockquote is load-bearing content and should move below the
+badge row, not be deleted.</li>
+</ul>
+<hr />
+<h4 id="c3-scriptsauditzero_findings_sweep.sh-does-not-exist">C3 —
+<code>scripts/audit/zero_findings_sweep.sh</code> does not exist</h4>
+<ul>
+<li><strong>Gate:</strong> <code>cm_zero_findings_audit_sweep.sh</code>
+(§11.4.261), argv <code>--root &lt;repo&gt;</code>.</li>
+<li><strong>Output:</strong>
+<code>FAIL … reason=SWEEP_SCRIPT_MISSING (§11.4.261 mandates a mechanical audit sweep — none declared/found)</code>.</li>
+<li><strong>File:</strong>
+<code>scripts/audit/zero_findings_sweep.sh</code> — <strong>verified
+absent</strong> at the repository root.</li>
+<li><strong>Fix:</strong> write the sweep (closed 10-class finding
+vocabulary, machine-readable ledger), or record the gap. If written it
+must also be registered in <code>scripts/check-registry.tsv</code> or R5
+will fail the registry check.</li>
+</ul>
+<hr />
+<h4 id="c4-docsfindingszero_findings_ratchet.tsv-does-not-exist">C4 —
+<code>docs/findings/zero_findings_ratchet.tsv</code> does not exist</h4>
+<ul>
+<li><strong>Gate:</strong>
+<code>cm_zero_findings_monotone_ratchet.sh</code> (§11.4.261(C)), argv
+<code>--root &lt;repo&gt;</code>.</li>
+<li><strong>Output:</strong>
+<code>FAIL … reason=RATCHET_SNAPSHOT_MISSING (§11.4.261(C) mandates a checked-in brownfield ceiling -- none found)</code>.</li>
+<li><strong>File:</strong>
+<code>docs/findings/zero_findings_ratchet.tsv</code> — <strong>verified
+absent</strong>.</li>
+<li><strong>Fix:</strong> snapshot the brownfield ceiling. <strong>This
+is an operator decision, not an agent one</strong> — §11.4.224(E) /
+§11.4.66 require the adoption question (immediate hard floor vs one-time
+ratchet vs phase-in) to be put to the operator before first enforcement.
+Depends on C3 existing first.</li>
+</ul>
+<hr />
+<h4 id="c5-7577-test-functions-carry-no-oracle-strategy-annotation">C5 —
+7,577 test functions carry no oracle-strategy annotation</h4>
+<ul>
+<li><p><strong>Gate:</strong>
+<code>cm_oracle_strategy_named_and_independent.sh</code>
+(§11.4.245).</p></li>
+<li><p><strong>Output at the CORRECT root</strong> (the run’s own figure
+is invalid per C1):</p>
+<pre><code>❌ CM-ORACLE-STRATEGY-NAMED-AND-INDEPENDENT: FAIL — 7577 test function(s)
+   with no valid closed-set oracle-strategy annotation (§11.4.245)</code></pre></li>
+<li><p><strong>Files:</strong> distributed across the owned fleet’s test
+corpora.</p></li>
+<li><p><strong>Fix, in order:</strong> (i) fix C1 so the number is
+measured against this tree on every run; (ii) decide the corpus scope —
+the gate currently walks every owned submodule, and §11.4.35 lets a
+consumer bind a scoped corpus as DATA; (iii) annotate each test with its
+closed-set oracle strategy, or adopt a §11.4.135-style
+monotone-decreasing ratchet. <strong>7,577 is not a one-session fix and
+should not be presented as one.</strong></p></li>
+</ul>
+<hr />
+<h4
+id="c6-four-consumer-side-artifacts-the-11.4.268-family-gates-require-were-never-created">C6
+— four consumer-side artifacts the §11.4.268-family gates require were
+never created</h4>
+<p>Mixed <strong>(b + c)</strong>, counted in (c). The upstream half:
+these gates derive the consumer root as
+<code>&lt;constitution&gt;/..</code>, which under this repository’s
+<code>submodules/constitution/</code> layout resolves to
+<strong><code>&lt;repo&gt;/submodules/</code></strong> instead of
+<code>&lt;repo&gt;/</code> — so their error messages name a path that
+could never exist. Measured: neither <code>--root</code> nor
+<code>CONSUMER_ROOT</code> overrides it. <strong>The ours half, and the
+reason these rows sit in (c): the artifacts are absent at the correct
+path too</strong>, so fixing the upstream walk alone would flip
+nothing.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Missing artifact (checked at BOTH <code>&lt;repo&gt;/</code> and
+<code>&lt;repo&gt;/submodules/</code> — absent at both)</th>
+<th>Verdict detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cm_dependency_register_verdicts.sh</code></td>
+<td><code>docs/requests/dependency_register.jsonl</code>
+(§11.4.270)</td>
+<td><code>DRV-A0-SEAM-PRESENT FAIL — the E6 register is absent or unreadable</code></td>
+</tr>
+<tr>
+<td><code>cm_mechanism_observed_refusing.sh</code></td>
+<td><code>docs/requests/verification_mechanisms.jsonl</code></td>
+<td><code>MOR-A0-REGISTRY-PRESENT FAIL</code> +
+<code>MOR-A4-REAL-REGISTRY-RESOLVES FAIL</code>; A1/A2/A3 all PASS</td>
+</tr>
+<tr>
+<td><code>cm_control_needle_required.sh</code></td>
+<td><code>scripts/lib/critical_blocker_gate.sh</code> (the §11.4.236
+acceptance seam)</td>
+<td><code>CNR-A5-WIRED-AT-SEAM BLIND — the wiring question is UNDECIDED, and undecided is never reported as wired</code>;
+A0–A4 all PASS (5 PASS / 0 FAIL / 1 BLIND)</td>
+</tr>
+<tr>
+<td><code>cm_instrument_trap_scan.sh</code></td>
+<td><code>scripts/testing/anti_slop/fixtures/traps</code></td>
+<td><code>ITS-A0-SCANNER-SIGHTED BLIND — this scanner cannot be shown to see anything, so no corpus result below can be believed</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fix:</strong> create the four artifacts (or record each as a
+tracked §11.4.197 gap). Note the honesty of these gates — three of the
+four report <strong>BLIND</strong>, not PASS, when they cannot see. That
+is §11.4.201(7)(b) working correctly and should not be “fixed” by making
+them quieter. <code>cm_control_needle_required.sh</code> is 5 PASS / 0
+FAIL / 1 BLIND: it is one artifact away from green.</p>
+<hr />
+<h4
+id="c7-cm_healthcheck_covers_served_ports.sh-has-no-consumer-binding">C7
+— <code>cm_healthcheck_covers_served_ports.sh</code> has no consumer
+binding</h4>
+<ul>
+<li><strong>Verdict:</strong> ERROR rc=2 —
+<code>ERROR — both --compose and --manifest are required (this engine is project-agnostic: it never guesses a consumer's paths, §11.4.28/§11.4.35)</code>.</li>
+<li><strong>File:</strong>
+<code>scripts/verify-all-constitution-rules.sh</code> — the §11.4.35
+consumer-registered block that already binds <code>OD_THEME_GLOBS</code>
+/ <code>OD_TOKEN_GLOBS</code> / <code>OD_VISREG_GLOBS</code> /
+<code>OD_MANIFEST_GLOBS</code>.</li>
+<li><strong>Fix:</strong> bind <code>--compose</code> /
+<code>--manifest</code> the same way the <code>OD_*</code> inputs are
+bound. <strong>Honest boundary:</strong> nothing in this repository has
+been built or run in a container yet (<code>submodules/containers</code>
+is present but unused), so the correct binding today may be an explicit
+§11.4.3 SKIP-with-reason rather than an invented compose file. rc=2 is
+COULD-NOT-DETERMINE and is <strong>never a pass</strong> — it must not
+be silenced into one.</li>
+</ul>
+<hr />
+<h4
+id="c8-the-sweep-discovers-library-files-and-batch-runners-as-if-they-were-gates">C8
+— the sweep discovers library files and batch runners as if they were
+gates</h4>
+<ul>
+<li><strong>Rows:</strong> <code>lib/wiring_sweep_precondition.sh</code>
+(ERROR rc=2) and <code>covenant_propagation_suite.sh</code> (ERROR
+rc=2).</li>
+<li><strong>File:</strong>
+<code>scripts/verify-all-constitution-rules.sh</code>, the discovery
+line <code>find "$GATES_DIR" -type f -name '*.sh'</code>.</li>
+<li><strong>What they actually are:</strong>
+<ul>
+<li><code>lib/wiring_sweep_precondition.sh</code> is a <strong>sourced
+helper</strong>, not a gate. Bare invocation:
+<code>REFUSE: command_field_ABSENT — wiring_sweep_precondition needs &lt;result-tsv&gt; and &lt;current-fingerprint&gt;; got result="" fingerprint=""</code>.
+It is behaving correctly; we are calling it wrongly.</li>
+<li><code>covenant_propagation_suite.sh</code> is a
+<strong>multi-subcommand batch runner</strong> (<code>suite gates</code>
+/ <code>suite mutations</code>) that prints its usage and exits 2 when
+invoked bare — exactly the shape <code>gate_ledger.sh</code> has, which
+the sweep already special-cases.</li>
+</ul></li>
+<li><strong>Fix:</strong> extend the existing special-case pattern in
+<code>resolve_argv</code> — it already has <code>--selftest)</code> and
+<code>selfcheck)</code> branches. Add a <code>gates)</code> subcommand
+branch for the suite, and either give <code>lib/*.sh</code> helpers a
+<code>--selftest</code> invocation or exclude non-gate library files
+from discovery with a stated reason. <strong>Do not simply prune
+<code>lib/</code> blindly</strong> —
+<code>lib/pointer_carrier.sh --selftest</code> is a real 5-fixture
+golden test the sweep correctly runs and should keep running.</li>
+</ul>
+<blockquote>
+<p><strong>FIXED 2026-09-02, together with C8a below — see that item for
+the design, the signals chosen and rejected with counts, and the
+measured before/after.</strong> The suite is EXCLUDED rather than given
+a <code>gates)</code> branch, and the reason is measurable rather than
+stylistic: <strong>all 81</strong> gate names in the suite’s data pack
+<code>covenant_propagation_anchors.tsv</code> resolve to a
+<code>cm_covenant_114_&lt;N&gt;_propagation.sh</code> wrapper that is
+ALREADY ledgered and run individually (81 pack rows, 81 matched, 0
+missing), so a <code>gates)</code> branch would run the whole family a
+second time and report 81 duplicate verdicts. (The suite’s own header
+still says “29 script names”; that is stale upstream prose, not a count
+of this pin.) The <code>lib/</code> warning in the fix above was heeded
+exactly: 8 of the 15 <code>lib/</code> files expose
+<code>--selftest</code> or <code>selfcheck</code> and every one of them
+is still discovered and still run, <code>lib/pointer_carrier.sh</code>
+among them.</p>
+</blockquote>
+<hr />
+<h4
+id="c8a-the-sweep-invoked-a-generator-whose-bare-mode-writes-into-the-consumed-constitution-submodule">C8a
+— the sweep invoked a GENERATOR whose bare mode WRITES into the consumed
+constitution submodule</h4>
+<ul>
+<li><strong>Row:</strong>
+<code>covenant_propagation_wrappers_generate.sh</code>, invoked with
+<code>argv: (gate defaults)</code> — and <strong>bare is its WRITE
+mode</strong>. Its sweep row read <code>wrote 162 wrapper file(s)</code>
+and was scored <strong>PASS</strong>.</li>
+<li><strong>File:</strong>
+<code>scripts/verify-all-constitution-rules.sh</code>, the same
+discovery line as C8:
+<code>find "$GATES_DIR" -type f -name '*.sh'</code>.</li>
+<li><strong>Damage measured: none.</strong> The generator is idempotent
+— a re-run over an unchanged data pack rewrites byte-identical files —
+and <code>git -C submodules/constitution status --porcelain</code>
+showed only the pre-existing nested
+<code>submodules/design-toolkit</code> dirt, never a wrapper.
+<strong>That is the whole finding.</strong> The only thing standing
+between a read-only audit and a mutated consumed submodule was
+IDEMPOTENCE: not a guard, not a read-only mode, not intent. This
+repository does not commit to the constitution submodule at all, so any
+write there is outside what it owns.</li>
+<li><strong>Fix (landed 2026-09-02):</strong> a non-gate classifier
+above the discovery block in
+<code>scripts/verify-all-constitution-rules.sh</code>. It reads EVIDENCE
+out of each file — never a name list, because the gate population moved
+57 → 286 on one fast-forward and a list written into the sweep is wrong
+at the next pin.
+<ul>
+<li><strong>RESCUE, evaluated first:</strong> a file parsing
+<code>--selftest</code> or <code>selfcheck</code> exposes a
+self-verifying entry point and is never excluded. 18 of 286 files
+qualify; the rescue is what keeps <code>gate_ledger.sh</code> and 8
+<code>lib/</code> files in.</li>
+<li><strong>N1 FIXTURE</strong> — a <code>fixtures/</code> path
+component. 6 matched, 6 excluded.</li>
+<li><strong>N2 SOURCED</strong> — the file’s own Usage shows
+<code>. &lt;file&gt;</code> / <code>source &lt;file&gt;</code>. 5
+matched, 3 rescued, <strong>2 excluded</strong>.</li>
+<li><strong>N3 HELPER</strong> — a <code>lib/</code> component or
+<code>lib_</code> prefix, <strong>and</strong> a sibling names it as a
+path on a non-comment line, <strong>and</strong> no self-verifying entry
+point. 7 excluded.</li>
+<li><strong>N4 SUBCOMMAND</strong> — the Usage declares a mandatory bare
+positional. 3 matched, 2 rescued, <strong>1 excluded</strong> (the C8
+suite).</li>
+<li><strong>N5 WRITES-BARE</strong> — one header line binds
+<code>(no args)</code>/<code>(default)</code> to a write verb. <strong>1
+matched</strong>, and it is the generator. It correctly spares
+<code>cm_instrument_trap_scan.sh</code>, whose <code>(no args)</code>
+line is a read-only mode.</li>
+</ul></li>
+<li><strong>Signals rejected, with the counts that killed them:</strong>
+the executable bit (278/286 are +x; all three C8/C8a offenders are among
+them); a <code>lib/</code> path alone (15 files, 8 of them real
+self-verifying checks — excluding on the path would have been a coverage
+cut); a <code>GATE=</code> self-name assignment (58/286 carry none and
+many are unambiguous gates, and the generator DOES carry one inside the
+heredoc it emits, so it classifies the dangerous file as a gate); a
+<code>Side-effects</code> block mentioning writing (102/286, because
+every mutation test honestly documents its temp fixture);
+<code>chmod +x</code> in the body (~280/286); a missing <code>CM-</code>
+token (20/286, and it flags a real gate while missing both offenders,
+which name the token in prose).</li>
+<li><strong>Direction of error, chosen deliberately:</strong> wrongly
+excluding a real gate silently reduces coverage — the blind-instrument
+failure this repository polices. Wrongly including a non-gate produces a
+visible bad row. So every rule demands positive evidence, a file
+matching nothing is KEPT, and the excluded set is printed with its
+reason by the run header and by <code>--list</code>.</li>
+<li><strong>Measured result:</strong> discovery 286 →
+<strong>270</strong>, with <strong>16 excluded</strong> and every one
+named. The expected-gate ledger was re-baselined through the deliberate
+<code>--update-ledger</code> path (286 → 270 rows, 16 removals, 0
+additions, pin <code>3be10826f3d2</code> unchanged).
+<code>--prove-failure</code> grew from 22 to <strong>25</strong>
+mutations, still exit 0: <strong>M20</strong> proves the generator is
+not executed (by a sentinel it writes when it runs, not by reading the
+sweep’s own summary), that it is NAMED as excluded, that a real gate in
+the SAME run is still discovered AND executed, and that deleting the one
+declaration line re-admits it and the write happens;
+<strong>M20b</strong> proves the SUBCOMMAND class from the same file
+with only its usage line changed; <strong>M20c</strong> proves the
+excluded set is reported rather than dropped in silence.</li>
+<li><strong>The new split, measured twice.</strong>
+<code>bash scripts/verify-all-constitution-rules.sh</code> now reports
+<strong>173 PASS / 96 FAIL / 2 ERROR of 271</strong> (270 discovered
+gates plus the project-side inheritance test), exit <strong>1</strong>,
+step 1 PASS, ledger clean. The post-C1 baseline it replaces was
+<strong>187 PASS / 96 FAIL / 4 ERROR of 287</strong>, and the delta
+reconciles exactly and only against the exclusions: 287 − 271 =
+<strong>16</strong>, 187 − 173 = <strong>14</strong>, 4 − 2 =
+<strong>2</strong>, 14 + 2 = 16, and <strong>FAIL is unchanged at
+96</strong>. So the 16 excluded rows were 14 PASSes (the generator’s
+<code>wrote 162 wrapper file(s)</code> among them) and the 2 C8 ERRORs.
+<strong>No FAIL was removed, and no failing gate was hidden by this
+change.</strong> The figure was measured twice because the first run
+overlapped two comment-only edits to the sweep and an in-place edit of a
+running shell script is a real hazard; the second, clean run reproduced
+it byte for byte.
+<code>git -C submodules/constitution status --porcelain</code> shows
+only the pre-existing <code>M submodules/design-toolkit</code> after
+both full sweeps — no wrapper file was written.</li>
+<li><strong>The 2 surviving ERRORs are left VISIBLE, not
+excluded:</strong> <code>cm_healthcheck_covers_served_ports.sh</code>
+(C7 above, an unbound consumer input) and
+<code>lib/instrument_trap_scan.sh</code>, which is rescued by its own
+<code>--selftest</code> and exits 2. Both are rc-2 could-not-determine
+and neither is a pass. A <code>lib/</code> file that returns a real
+verdict keeps returning it.</li>
+<li><strong>Regression caught by the existing battery:</strong> the new
+SUBCOMMAND rule excluded M18’s own specimen, which had borrowed the
+suite’s <code>g8_suite.sh gates [--root …]</code> header. M18 went red
+and the specimen was re-cut to isolate the
+withhold-until-a-parser-exists property, which is independent of the
+subcommand shape. <strong>The proof caught the coverage cut in its own
+harness before any human did.</strong></li>
+</ul>
+<hr />
+<h3 id="what-this-run-does-and-does-not-establish">9.7 What this run
+does and does not establish</h3>
+<p><strong>Establishes.</strong> The sweep runs to completion; §11.4.32
+step 1 is a measured PASS; the project-side inheritance test passes; the
+propagation family’s owned carrier gap is closed (§9.4); and the tree’s
+own §11.4.259 / §11.4.261 / §11.4.245 / §11.4.268-family obligations are
+unmet in four concretely-named ways (C2–C6).</p>
+<p><strong>Does not establish.</strong> <strong>85 of the 101 non-PASS
+verdicts are about the wrong directory</strong> (C1). Until that is
+fixed, this split measures the sweep’s argv resolution as much as it
+measures this repository. A future run after the C1 fix will produce a
+different — and for the first time meaningful — 95-equivalent figure,
+and that run’s number must be measured, never extrapolated from this
+one.</p>
+<blockquote>
+<p><strong>Superseded the same day — C1 is FIXED and the successor run
+is measured, not extrapolated.</strong> The paragraph above stands as
+written about the §9.2 run and is kept unedited, because “this number is
+not yet about this tree” is exactly the statement a later reader needs
+in order to know why a second run exists. The successor figure is
+<strong>187 PASS / 96 FAIL / 4 ERROR of 287</strong>, exit 1, and the
+per-gate join of the two runs shows exactly <strong>three</strong>
+changed verdicts. See the FIXED block at the end of <strong>C1</strong>
+for the change, the before/after root-resolution counts, all four
+cleared harms and the four regression proofs. Both run files are
+preserved side by side; do not quote either split as a standing
+fact.</p>
+</blockquote>
+<p><strong>Nothing was suppressed, allowlisted, downgraded or silenced
+to produce this section.</strong> No <code>2&gt;/dev/null</code> was
+used anywhere in the run. No scan was narrowed. No gate was skipped. The
+exit code is 1 and stays 1.</p>
+</body>
+</html>
