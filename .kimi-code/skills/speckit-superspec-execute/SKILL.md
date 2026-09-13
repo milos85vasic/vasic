@@ -1,1 +1,0 @@
-../../../.specify/extensions/superspec/.specify-dev/agent-commands/kimi/speckit-superspec-execute/SKILL.md

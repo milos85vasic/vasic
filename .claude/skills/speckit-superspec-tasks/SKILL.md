@@ -1,1 +1,0 @@
-../../../.specify/extensions/superspec/.specify-dev/agent-commands/claude/speckit-superspec-tasks/SKILL.md

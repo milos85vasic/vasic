@@ -57,7 +57,7 @@ violation this contract exists to make impossible, so caching is removed rather 
 
 | Parameter | Form | Notes |
 |---|---|---|
-| `{chapter}` | chapter `slug` (data-model `Chapter.slug`) | Immutable once published. The zero-padded `ordinal` is **not** accepted as a path key — one key, one meaning. |
+| `{chapter}` | dotted chapter id (e.g. `01`, `02.01`) | Immutable once published. The **dotted id** is the single path key — one key, one meaning. The zero-padded ordinal is never accepted as a path key. |
 | `{pid}` | canonical uppercase ULID, 26 chars | See [passage-contract.md §2](./passage-contract.md). Lowercase input is accepted and canonicalised; responses always carry uppercase. |
 | `{job_id}` | opaque string | Answer job handle. Not a ULID; carries no meaning. |
 

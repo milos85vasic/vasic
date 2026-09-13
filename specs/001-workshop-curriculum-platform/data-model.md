@@ -43,6 +43,7 @@ form that survives both operations, which is why it is the root of this model.
 | Field | Type | Notes |
 |---|---|---|
 | `ordinal` | int | zero-padded on disk (`chapters/01/`), matching existing convention |
+| `ordinal_path` | []int | derived from the dotted id; the real ordering key — `[2,1]` for `02.01` |
 | `slug` | string | stable, URL-safe; never reused |
 | `title` | string | human title |
 | `summary` | string | shown in the chapter list (FR-008) |

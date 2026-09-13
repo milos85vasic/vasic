@@ -54,11 +54,15 @@ git submodule update --init --recursive
 
 # Verify submodule refs match helix-deps.yaml
 bash scripts/verify-manifest-pins.sh
-# Expected: 12 MATCH / 0 DRIFT / 0 UNDET
+# Expected: 13 MATCH / 0 DRIFT / 0 UNDET
+
+# Verify governance cascade passes
+bash scripts/verify-governance-cascade.sh
+# Expected: 12 PASS / 0 FAIL / 0 ENV / 8 NOTE
 
 # Verify submodules at latest remote
 bash scripts/verify-submodule-remote-sync.sh
-# Expected: 12 CURRENT / 0 DRIFT / 0 UNDET
+# Expected: 13 CURRENT / 0 DRIFT / 0 UNDET
 
 # Build backend
 bash platform/scripts/build.sh
@@ -111,8 +115,8 @@ cd ai_interviewing-standalone
 git submodule update --init --recursive
 
 # Verify submodules
-bash scripts/verify-manifest-pins.sh
-bash scripts/verify-submodule-remote-sync.sh
+bash scripts/verify-manifest-pins.sh  # Expected: 13 MATCH / 0 DRIFT / 0 UNDET
+bash scripts/verify-governance-cascade.sh  # Expected: 12 PASS / 0 FAIL
 
 # Build backend
 bash platform/scripts/build.sh
@@ -292,12 +296,16 @@ go test ./... -v -json > evidence.json
 bash ../vasic/scripts/validate-evidence.sh evidence.json
 # Expected: All tests pass
 
-# Verify public visibility
+# Verify public visibility and dual remotes
 gh repo view vasic-digital/$SUBMODULE --json visibility
 # Expected: "PUBLIC"
-
 glab repo view vasic-digital/$SUBMODULE --json visibility
 # Expected: "public"
+
+# Verify governance cascade
+cd "$PROJECTS_DIR/vasic"
+bash scripts/verify-governance-cascade.sh
+# Expected: 12 PASS / 0 FAIL
 ```
 
 **Success Criteria** (per submodule):
