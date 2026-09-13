@@ -70,8 +70,8 @@ description: "Task list template for feature implementation"
 
 **Independent Test**: Login works as both users; RBAC restrictions enforced per module acceptance scenarios
 
--[x] T005 [TDD] [US3] Setup shared DB schema and migrations for auth (users milosvasic/rami, roles admin/user)
--[x] T006 [TDD] [US3] Implement login form and RBAC on both modules (workshop: full access; ai_interviewing: rami restricted on employer_data/github_analysis)
+-[ ] T005 [TDD] [US3] Setup shared DB schema and migrations for auth (users milosvasic/rami, roles admin/user)
+-[ ] T006 [TDD] [US3] Implement login form and RBAC on both modules (workshop: full access; ai_interviewing: rami restricted on employer_data/github_analysis)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -83,8 +83,8 @@ description: "Task list template for feature implementation"
 
 **Independent Test**: Progress persists across restarts; deterministic JSON evidence on both modules
 
--[x] T007 [TDD] [US4] Implement progress tracking on workshop module (areas, lessons, tests, exercises)
--[x] T008 [TDD] [US4] Implement progress tracking on ai_interviewing module (areas, lessons, tests, exercises)
+-[ ] T007 [TDD] [US4] Implement progress tracking on workshop module (areas, lessons, tests, exercises)
+-[ ] T008 [TDD] [US4] Implement progress tracking on ai_interviewing module (areas, lessons, tests, exercises)
 
 **Checkpoint**: At this point, progress tracking should be fully implemented and persisting on both modules
 
@@ -96,8 +96,8 @@ description: "Task list template for feature implementation"
 
 **Independent Test**: Each reusable submodule can be cloned and used independently; 44 of 44 governance cascade satisfied
 
--[x] T009 [P] [US5] Extract reusable code from workshop to submodules vasic-digital
--[x] T010 [P] [US5] Extract reusable code from ai_interviewing to submodules vasic-digital
+-[ ] T009 [P] [US5] Extract reusable code from workshop to submodules vasic-digital
+-[ ] T010 [P] [US5] Extract reusable code from ai_interviewing to submodules vasic-digital
 
 **Checkpoint**: At this point, all 14 reusables should be independent public submodules with governance cascade satisfied
 
@@ -107,8 +107,8 @@ description: "Task list template for feature implementation"
 
 **Goal**: Update all existing submodules to latest main branches and verify working
 
--[x] T011 [P] [US6] Update all 14 existing submodules to latest main branch
--[x] T012 [P] [US6] Verify updated submodules build with no version conflicts
+-[ ] T011 [P] [US6] Update all 14 existing submodules to latest main branch
+-[ ] T012 [P] [US6] Verify updated submodules build with no version conflicts
 
 **Checkpoint**: All submodules at latest main; zero version conflicts
 
@@ -118,8 +118,8 @@ description: "Task list template for feature implementation"
 
 **Goal**: Extend and update documentation for both standalone modules
 
--[x] T013 [P] [US7] Extend and update documentation for both standalone modules (user guides, manuals, graphs, diagrams, schemes, FR-029/030 guides)
--[x] T014 [P] [US7] Create architecture diagrams and SQL definitions for module boundaries and data flows
+-[ ] T013 [P] [US7] Extend and update documentation for both standalone modules (user guides, manuals, graphs, diagrams, schemes, FR-029/030 guides)
+-[ ] T014 [P] [US7] Create architecture diagrams and SQL definitions for module boundaries and data flows
 
 **Checkpoint**: Documentation enables fresh user to clone→install→run→test each module without external help
 
@@ -129,8 +129,8 @@ description: "Task list template for feature implementation"
 
 **Goal**: Full test coverage with deterministic evidence on both modules; every test produces machine-verifiable deterministic evidence
 
--[x] T015 [TDD] [US8] Implement test suite for workshop with deterministic evidence (unit, integration, e2e, contract, performance, security, accessibility)
--[x] T016 [TDD] [US8] Implement test suite for ai_interviewing with deterministic evidence (unit, integration, e2e, contract, performance, security, accessibility)
+-[ ] T015 [TDD] [US8] Implement test suite for workshop with deterministic evidence (unit, integration, e2e, contract, performance, security, accessibility)
+-[ ] T016 [TDD] [US8] Implement test suite for ai_interviewing with deterministic evidence (unit, integration, e2e, contract, performance, security, accessibility)
 
 **Checkpoint**: All work covered by constitution-supported test types; every test produces machine-verifiable deterministic evidence; zero false positives
 

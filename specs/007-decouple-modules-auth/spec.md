@@ -193,7 +193,7 @@
 
 #### Git & Deployment
 - **FR-039**: All work MUST be committed and pushed to all upstreams recursively (submodules + main repo)
-- **FR-040**: Both modules MUST be cloned to /home/milosvasic/Projects/ as separate projects outside vasic
+- **FR-040**: Both modules MUST be cloned to sibling directories outside the vasic umbrella
 - **FR-041**: Both cloned modules MUST be set up, installed, tested, and validated on LIVE running instances
 
 ### Key Entities
@@ -230,7 +230,7 @@
 
 ## Assumptions
 
-- Workshop curriculum content exists in `/home/milosvasic/Projects/vasic/workshop/curriculum/` and can form basis of ai_interviewing
+- Workshop curriculum content exists in the `workshop/curriculum/` directory within the vasic umbrella and can form basis of ai_interviewing
 - Database for user authentication is PostgreSQL (common choice for such systems) - can be local or shared
 - Both modules are web applications (based on workshop having pipeline/platform structure)
 - Constitution test types include: unit, integration, e2e, contract, performance, security, accessibility

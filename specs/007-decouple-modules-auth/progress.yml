@@ -4,9 +4,9 @@ completed_at: null
 duration: null
 
 phase_status:
-  phase_1_setup: complete         # T001, T002: workshop cloned to /home/milosvasic/Projects/workshop; standalone bootstrap + build PASS
-  phase_2_foundational: in_progress      # T003, T004: ai_interviewing clone + standalone build in progress
-  phase_3_us3_auth_rbac: pending     # T005, T006: auth with RBAC on both modules (milosvasic full access; rami restricted)
+  phase_1_setup: complete         # T001, T002: workshop cloned to sibling directory outside umbrella; standalone bootstrap + build PASS
+  phase_2_foundational: complete  # T003, T004: ai_interviewing cloned to sibling directory outside umbrella; standalone build PASS
+  phase_3_us3_auth_rbac: in_progress     # T005, T006: auth with RBAC on both modules (milosvasic full access; rami restricted)
   phase_4_us4_progress: pending      # T007, T008: progress tracking on both modules, JSON evidence persisted
   phase_5_extract_reusables: pending # T009, T010: 14 reusables extracted to vasic-digital; 44/44 governance cascade
   phase_6_submodule_updates: pending # T011, T012: all 14 submodules at latest main, zero version conflicts
@@ -16,10 +16,10 @@ phase_status:
 task_status:
   T001: complete [P] [US1]
   T002: complete [P] [US1]
-  T003: in_progress [TDD] [US2]
-  T004: pending [TDD] [US2]
-  T005: pending [TDD] [US3]
-  T006: pending [TDD] [US3]
+  T003: complete [TDD] [US2]
+  T004: complete [TDD] [US2]
+  T005: in_progress [TDD] [US3]
+  T006: in_progress [TDD] [US3]
   T007: pending [TDD] [US4]
   T008: pending [TDD] [US4]
   T009: pending [P] [US5]
@@ -48,7 +48,7 @@ superpowers_adaptation:
   test-driven-development: not installed; falling back to manual RED-GREEN-REFACTOR
 
 phase_1_evidence:
-  clone_path: /home/milosvasic/Projects/workshop
+  clone_path: sibling directory outside umbrella
   remote: git@github.com:milos85vasic/workshop_curriculum.git
   commit_pushed: c4c2a65
   change: helix-deps.yaml curriculum-kit ref bumped 52f08af -> 1a4dde9 (latest main)
@@ -57,14 +57,24 @@ phase_1_evidence:
   bootstrap_command: bash scripts/bootstrap-standalone.sh
   bootstrap_result: VERDICT 0
 
+phase_2_evidence:
+  clone_path: sibling directory outside umbrella
+  remote: git@github.com:milos85vasic/ai_interviewing.git
+  commit_pushed: null
+  change: none required; standalone build passed cleanly
+  build_command: bash scripts/build.sh
+  build_result: BUILD COMPLETE
+  bootstrap_command: bash scripts/bootstrap-standalone.sh
+  bootstrap_result: VERDICT 0
+
 human_checkpoints:
   checkpoint_1_setup: approved (auto-continued in permission mode)
-  checkpoint_2_foundational: in_progress
-  checkpoint_3_us3_auth: pending
+  checkpoint_2_foundational: approved (auto-continued in permission mode)
+  checkpoint_3_us3_auth: in_progress
   checkpoint_4_us4_progress: pending
   checkpoint_5_extract_reusables: pending
   checkpoint_6_submodule_updates: pending
   checkpoint_7_documentation: pending
   checkpoint_8_test_coverage: pending
 
-final_status: Phase 1 COMPLETE — Phase 2 in progress.
+final_status: Phase 1 COMPLETE — Phase 2 COMPLETE — Phase 3 in progress.
