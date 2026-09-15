@@ -106,21 +106,38 @@ submodules/constitution/scripts/translation/review-translations.sh
 # that this gitlink is STAGED BUT NOT YET COMMITTED at the time of writing
 # (`git ls-tree HEAD submodules/containers` is empty), so these entries describe
 # a submodule that is mid-onboarding.
-submodules/containers/internal/buildpkg/artifacts_test.go
-submodules/containers/internal/buildpkg/executor_test.go
+#   TOMBSTONE 2026-09-15: submodules/containers/internal/buildpkg/artifacts_test.go
+#   TOMBSTONE 2026-09-15: submodules/containers/internal/buildpkg/executor_test.go
+# BASELINE (RETAINED — captured real `xcrun simctl list devices -j` output,
+# pinned so a format change is caught rather than silently mis-parsed; see the
+# file's own header comment). Not rewritten.
 submodules/containers/pkg/applesim/applesim_test.go
-submodules/containers/pkg/crossbuild/apple_container_test.go
+#   TOMBSTONE 2026-09-15: submodules/containers/pkg/crossbuild/apple_container_test.go
+# BASELINE (RETAINED — captured real avdmanager output, pinned to the exact
+# baked-AVD image format per the file's own header comment; the /home/emulator
+# path is the CONTAINER's internal home, not a host path). Not rewritten.
 submodules/containers/pkg/emulator/avdresolve_test.go
+# BASELINE (RETAINED — /home/emulator/... is the CONTAINERIZED user's home
+# INSIDE the built image (ENV/COPY --chown/ENTRYPOINT), never resolved on the
+# host filesystem. False positive of the audit's host-path PATTERN; rewriting
+# it would be wrong, not merely unnecessary. Investigated 2026-09-15.)
 submodules/containers/pkg/emulator/Containerfile
+# BASELINE (RETAINED — same reasoning: containerADBKeyPath names a path
+# INSIDE the running container's mount namespace, not this host. Investigated
+# 2026-09-15, same false-positive class as the Containerfile above.)
 submodules/containers/pkg/emulator/containerized.go
-submodules/containers/pkg/envconfig/dotenv_test.go
-submodules/containers/pkg/envconfig/parser_test.go
-submodules/containers/pkg/genymotion/genymotion_test.go
-submodules/containers/pkg/network/tunnel_coverage_test.go
-submodules/containers/pkg/remote/bootstrap_test.go
-submodules/containers/pkg/remote/connection/types_test.go
-submodules/containers/pkg/remoteexec/wave20_rx2hard_test.go
-submodules/containers/pkg/remote/types_test.go
+#   TOMBSTONE 2026-09-15: submodules/containers/pkg/envconfig/dotenv_test.go
+#   TOMBSTONE 2026-09-15: submodules/containers/pkg/envconfig/parser_test.go
+#   TOMBSTONE 2026-09-15: submodules/containers/pkg/genymotion/genymotion_test.go
+#   TOMBSTONE 2026-09-15: submodules/containers/pkg/network/tunnel_coverage_test.go
+#   TOMBSTONE 2026-09-15: submodules/containers/pkg/remote/bootstrap_test.go
+#   TOMBSTONE 2026-09-15: submodules/containers/pkg/remote/connection/types_test.go
+#   TOMBSTONE 2026-09-15: submodules/containers/pkg/remoteexec/wave20_rx2hard_test.go
+#   TOMBSTONE 2026-09-15: submodules/containers/pkg/remote/types_test.go
+# BASELINE (RETAINED — a GENERATED report recording an actual resource-policy
+# application run against real compose files on the operator's host; the path
+# IS the finding, same class as the workshop session-evidence reports below.
+# Rewriting it would falsify the record. Investigated 2026-09-15.)
 submodules/containers/scripts/resource-policy/apply-report.md
 
 # REASON: SpecKit 001 evidence documents. Same justification as the research/
@@ -299,21 +316,21 @@ submodules/constitution/docs/research/reactive_submodule_sync/DESIGN.html
 submodules/constitution/docs/research/reactive_submodule_sync/DESIGN.md
 submodules/constitution/docs/research/speckit_lifecycle/SPECKIT_SUPERPOWERS_LIFECYCLE_ANCHOR_DRAFT.html
 submodules/constitution/docs/research/speckit_lifecycle/SPECKIT_SUPERPOWERS_LIFECYCLE_ANCHOR_DRAFT.md
-ai_interviewing/docs/improvement-plans/01-helixconstitution.md
-ai_interviewing/docs/improvement-plans/02-helixqa.md
-ai_interviewing/docs/project-deep-dives/01-helixconstitution.html
-ai_interviewing/docs/project-deep-dives/01-helixconstitution.md
-ai_interviewing/docs/project-deep-dives/02-helixqa.html
-ai_interviewing/docs/project-deep-dives/02-helixqa.md
-ai_interviewing/docs/project-deep-dives/04-helixagent.html
-ai_interviewing/docs/project-deep-dives/04-helixagent.md
+#   TOMBSTONE 2026-09-15: ai_interviewing/docs/improvement-plans/01-helixconstitution.md
+#   TOMBSTONE 2026-09-15: ai_interviewing/docs/improvement-plans/02-helixqa.md
+#   TOMBSTONE 2026-09-15: ai_interviewing/docs/project-deep-dives/01-helixconstitution.html
+#   TOMBSTONE 2026-09-15: ai_interviewing/docs/project-deep-dives/01-helixconstitution.md
+#   TOMBSTONE 2026-09-15: ai_interviewing/docs/project-deep-dives/02-helixqa.html
+#   TOMBSTONE 2026-09-15: ai_interviewing/docs/project-deep-dives/02-helixqa.md
+#   TOMBSTONE 2026-09-15: ai_interviewing/docs/project-deep-dives/04-helixagent.html
+#   TOMBSTONE 2026-09-15: ai_interviewing/docs/project-deep-dives/04-helixagent.md
 workshop/docs/session-evidence/phase1-report.md
 workshop/docs/session-evidence/phase2b-report.md
 workshop/docs/session-evidence/phase5-report.md
 workshop/docs/session-evidence/session-ledger.md
-design-toolkit/docs/hybrid-pipeline.md
-submodules/containers/docs/REMOTE_DEPLOYMENT.html
-submodules/containers/docs/REMOTE_DEPLOYMENT.md
+#   TOMBSTONE 2026-09-15: design-toolkit/docs/hybrid-pipeline.md
+#   TOMBSTONE 2026-09-15: submodules/containers/docs/REMOTE_DEPLOYMENT.html
+#   TOMBSTONE 2026-09-15: submodules/containers/docs/REMOTE_DEPLOYMENT.md
 
 # BASELINE: workshop/curriculum/passages.jsonl is a GENERATED corpus, not source.
 # Its rows quote the text of documents that are themselves already baselined above

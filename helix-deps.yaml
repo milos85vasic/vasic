@@ -205,7 +205,7 @@ deps:
   # ─── Infrastructure library submodule (grouped layout, submodules/<name>/) ─
   - name: containers
     ssh_url: git@github.com:vasic-digital/containers.git
-    ref: "7f5922563d8bec866b1a25eac483590c9a212817"   # gitlink tracks heads/main; tags exist upstream but none names this commit, so a sha is the only exact pin
+    ref: "9b4d1f6616e4692def7d2d96da14bb2af85872b8"   # gitlink tracks heads/main; tags exist upstream but none names this commit, so a sha is the only exact pin; spec-008 T106: host-shaped hardcoded paths removed from 13 test/doc files
     # ⚠ STAGED, NOT YET COMMITTED (2026-09-01). This gitlink is
     # `git submodule add`-ed and staged, so `git ls-tree HEAD
     # submodules/containers` is still empty. That is precisely why
@@ -420,7 +420,7 @@ deps:
 
   - name: design-toolkit
     ssh_url: git@github.com:vasic-digital/design-toolkit.git
-    ref: "e721b3c7eba8fad21311f3a066da53eb53ea87cd"   # a v0.2.2 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    ref: "4ddc9645d140a71ef33cf399801c3ae26307ed9e"   # a v0.2.2 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact; spec-008 T106: hardcoded macOS dev path removed from hybrid-pipeline.md
     # Moved 2026-09-08 from ddb9b6510e7513c628613bd326453a721d0efbb3 by operator
     # decision #15: `upstreams/gitlab.sh.disabled` was renamed to
     # `upstreams/gitlab.sh` and the PRIVATE GitLab mirror was synced. Measured
@@ -448,7 +448,7 @@ deps:
 
   - name: ai_interviewing
     ssh_url: git@github.com:milos85vasic/ai_interviewing.git
-    ref: "b6ab1c91f4218d48911d08585f5929314ab78dd6"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
+    ref: "bf4280a8cd65f814da9db71acfbb145cf2541aee"   # NO tag exists anywhere in this repository; gitlink tracks heads/main; spec-008 T106: hardcoded macOS dev path removed from grounding-note citations; merges an unrelated concurrent upstream commit (auth scaffolding)
     why: "Interview-preparation corpus and employer due-diligence kit — a self-contained research/preparation body of work carried as an owned submodule of the umbrella."
     layout: flat
 
@@ -463,7 +463,7 @@ deps:
 
   - name: workshop
     ssh_url: git@github.com:milos85vasic/workshop_curriculum.git
-    ref: "8d59f2f4b846db42a937f2a3a150ac04c11c7f51"   # NO tag exists anywhere in this repository; gitlink tracks heads/main; adds spec-008 Phase 2 T037/T039/T040/T051/T060/T069/T070 (G-CLI-9/10/12, G-KG-19, publication-gate divergence fix, non-owner-participant policy)
+    ref: "20a6f77d7a04261d484dfeaf256505560e9912d8"   # NO tag exists anywhere in this repository; gitlink tracks heads/main; adds spec-008 Phase 3 T087-T091 (LFS obtainability docs + trend/boundary/retry gates)
     why: "The Workshop Curriculum — a teaching corpus of recorded sessions and their written materials under chapters/<NN>/ and nested sub-chapters chapters/<NN>.<NN>/, carried as an owned submodule of the umbrella. Its one mechanism is the SHA-256-verified multi-part video-archive pipeline in scripts/ (archive-videos.sh / extract-videos.sh / install-hooks.sh / self-test.sh), which used to keep gigabyte recordings in git as <=50 MB *.tar.gz.part-NNN chunks. SUPERSEDED 2026-09-08 on an operator decision: the 54 parts (2,624.8 MB) were UNTRACKED with `git rm --cached` and the pattern gitignored, so no new archive byte enters and a fresh checkout drops from ~2.7 GB to small. The *.sha256 manifests stay TRACKED at ~9 KB — they are the integrity record any future fetch verifies against. History rewriting is forbidden, so the already-committed blobs remain and size-pack did not fall; that limit is stated in the module README and printed by scripts/verify-obtainability.sh rather than glossed. The fetch mechanism is deliberately NOT invented: extract-videos.sh returns rc 2 COULD-NOT-DETERMINE with a TODO(storage-fetch) marker naming exactly what is missing, and a present-but-corrupt part still returns rc 1."
     layout: flat
     # Live topology: github, origin and upstream ALL resolve to the single URL
