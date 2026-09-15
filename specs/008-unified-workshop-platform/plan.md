@@ -69,7 +69,7 @@ These are plan-level, distinct from the eight specification-level contradictions
 | # | Disagreement | Resolution |
 |---|---|---|
 | **P1** | **Go version.** Plans 001, 002 and 003 name **Go 1.26.2**, measured from the module's own `go.mod`. Plan 007 names **"Go 1.22+"** for both modules. | **1.26.2 governs as the measured actual**; 007's figure is a *floor*, which 1.26.2 satisfies. No downgrade is implied by the merge, and a plan that names a floor is not evidence that the floor is what is installed. Re-derive from `go.mod` rather than quoting either number. |
-| **P2** | **Auth datastore.** The baseline plans state **"no external database — the system is single-machine"** and use SQLite for the derived index. Plan 007 names **PostgreSQL** as a shared auth database across both modules. | **Unresolved by design, and deferred to OQ-9.** The specification's FR-295 requires only that the user store be *its own described, independently-provisionable component* and explicitly forbids it defaulting to the umbrella's database. Whether that component is one shared engine or two synchronised stores — and which engine — is the open product decision. **This plan does not pick one**, because doing so would settle OQ-9 silently. Note that 007's own Assumptions call PostgreSQL *"a common choice for such systems"*, which is a default, not a measurement. |
+| **P2** | **Auth datastore.** The baseline plans state **"no external database — the system is single-machine"** and use SQLite for the derived index. Plan 007 names **PostgreSQL** as a shared auth database across both modules. | **RESOLVED by OQ-9 — operator decision, 2026-09-15.** The store is **genuinely shared: one identity store, its own independently-hosted component**, consumed by both modules over the network — never the `vasic` umbrella's database (FR-295's own standing constraint), and never either module's own store. The signal that carried it was already in the document: FR-296 – FR-299 require the **same two seed identities** on **both** modules with **different** per-module authorization, and two independent stores would mean the same credentials hand-kept in sync across both, doubling the rotation and attack surface for no product benefit. **Accepted cost, stated rather than hidden:** each "standalone" module therefore carries **exactly one external runtime dependency** — this store — in exchange for a single identity across both. **The deferral this cell carried is WITHDRAWN and was correct when written**: it read *"Unresolved by design, and deferred to OQ-9 … This plan does not pick one, because doing so would settle OQ-9 silently."* OQ-9 has since been put to the operator directly and answered, so restating the plan's decision is no longer settling it silently — it is recording what was decided. **The engine is still not named here**, and that is deliberate, not an omission: 007's own Assumptions call PostgreSQL *"a common choice for such systems"*, which is a default, not a measurement, and the resolution fixed the store's **shape and ownership**, not its implementation. |
 | **P3** | **Frontend/Angular version.** Plans 002 and 003 name **Angular 19.2**; plan 007 names **"Angular 18+"**; plan 004 names "TypeScript 5.x / Angular" without a version. | Same resolution as P1 — the measured version in the module's own manifest governs, and the "+" forms are floors. Recorded rather than harmonised, because a plan that harmonises unmeasured version strings has invented a fact. |
 | **P4** | **Container runtime.** Plan 001 measured **podman present, docker absent** on the development host. Plan 007 names **"Podman/Docker"** via the shared containers module. | Both stand: the *module* supports either runtime through its own auto-detection, and the *host* has one. The requirement is that the runtime is **detected, not assumed** — plan 001 recorded a host-dependent container defect as the reason. Consuming the shared containers module rather than hand-rolling runtime logic is the standing rule. |
 
@@ -210,8 +210,14 @@ Projects/ai_interviewing/                  standalone
 ├── auth/                                  login surface · module-scoped sessions · RBAC
 └── (its own existing structure)
 
-<user store>                               independently provisionable — shape is OQ-9
+shared identity store                      ONE store, independently hosted, consumed by BOTH
+                                           modules over the network — never the umbrella's
+                                           database, never either module's own (OQ-9, resolved)
 ```
+
+The line above previously read `<user store>  independently provisionable — shape is OQ-9`. **That
+placeholder is WITHDRAWN**: the shape is decided (see P1 – P4, row **P2**), and the one dependency
+each standalone module now carries is named here rather than left as a blank.
 
 **No nested submodules, in either state** (FR-285). Every reusable repository is public, mounted at
 a project root, and carries synthetic fixtures only.
@@ -223,14 +229,40 @@ a project root, and carries synthetic fixtures only.
 Six source plans each sequenced their own feature. The merge's own contribution is sequencing them
 against each other. Three dependencies are hard and are the migration gates in `spec.md` § III.2.
 
-### M0 — the blocking decision, before anything else in the hierarchy
+### M0 — the decision that had to come first, and is now made
 
-**OQ-3 must be settled first.** Every ordinal collision — the parent and child returning the same
-integer, two chapters rendering the same title, the front end's two shapes disagreeing — follows
-from one line typing `Chapter.ordinal` as an integer, plus a contract that says the zero-padded
-ordinal is *not* accepted as a path key while the implementation uses exactly that as the path key.
-**No amount of implementation work resolves either.** Ten `[BLOCKED]` markers in `tasks.md` wait on
-it.
+**OQ-3 is RESOLVED, and M0 is satisfied.** The decision was taken on **2026-09-13** in
+[`specs/003-chapter-hierarchy/decision-record.md`](../003-chapter-hierarchy/decision-record.md) —
+*before this merge began* — and was confirmed and documented here on **2026-09-15**: keep
+`Chapter.ordinal` typed as `int`, **unchanged** (zero-diff); add **`ordinal_path` (`[]int`)** as the
+canonical, collision-free ordering key that anything depth-sensitive must use instead; and the
+**dotted chapter id is the single path key**, which closes the "not accepted as a path key"
+contradiction outright. Both implied amendments were already applied to `001`'s `data-model.md` and
+`contracts/http-api.md`. See `spec.md` → *Clarifications → "OQ-3 resolved during this pass"* for the
+full evidence, including the one residual gap it does **not** claim to resolve — the live wire
+comment scoping the transitional both-fields state to *"one release"* with no version or date named
+anywhere, which is a distinct gap carried on task T184, not a reopening of OQ-3.
+
+**The claim this section carried is WITHDRAWN, and it was written in good faith on the evidence then
+in hand.** It read, verbatim: *"**OQ-3 must be settled first.** Every ordinal collision — the parent
+and child returning the same integer, two chapters rendering the same title, the front end's two
+shapes disagreeing — follows from one line typing `Chapter.ordinal` as an integer, plus a contract
+that says the zero-padded ordinal is not accepted as a path key while the implementation uses
+exactly that as the path key. **No amount of implementation work resolves either.** Ten `[BLOCKED]`
+markers in `tasks.md` wait on it."* Its **diagnosis** survives intact — those collisions do follow
+from that typing, and the decision-record itself concedes *"the zero-diff option is the only one
+that makes the defect permanent"*, because `ordinalOf` still returns the same int for `02` and
+`02.01`. What is withdrawn is the **status**: this merge drafted OQ-3 as BLOCKING from `003`'s own
+stale pre-decision text, having not yet read the decision-record that settles it. Drafting a blocker
+from a source document that a later artifact had already superseded was this merge's own error, and
+it is recorded rather than quietly repaired.
+
+**The figure "ten" is separately WITHDRAWN AS WRONG BY MEASUREMENT — it is three.** Counted directly
+against the seven source `tasks.md` files, exactly **three** `[BLOCKED: ordinal type]` markers ever
+existed — **T176, T177 and T184, all originating from source spec `003`** — and none elsewhere.
+`tasks.md`'s own execution-marker legend already carries this correction. With OQ-3 resolved, all
+three are **cleared**; each task's own note states what that leaves of its remaining work, which is
+unwritten work rather than blocked work.
 
 ### M1 — obtainability, before decoupling can mean anything
 
@@ -279,8 +311,19 @@ transcript work touches the pipeline. Phase 4's QA document depends on the platf
 but not on Phases 5–14 being finished — which is exactly why OQ-15 matters. Phase 16 is independent
 of Phases 3–15 in its *setup* half and dependent on all of them in its *cutover* half.
 
-Tasks marked `[P]` within a phase touch different files and carry no intra-phase dependency; 107 of
-the 573 tasks carry that marker.
+Tasks marked `[P]` within a phase touch different files and carry no intra-phase dependency; **106**
+of the 573 tasks carry that marker. **The figure "107" this sentence carried is WITHDRAWN as wrong
+by measurement**, and the counting rule is stated so the discrepancy is reproducible rather than
+arbitrated: a naive `grep -c '\[P\]' tasks.md` returns **108**, of which two occurrences are not
+task lines — the execution-marker **legend** entry defining `[P]`, and one inside task **T376**'s
+evidence prose. Counting only lines that begin a task (`^- [ ] T<n>` or `^- [x] T<n>`) and carrying
+the marker gives **106**, and the distinct task ids among them also number **106**, so no task is
+double-counted. Re-derive rather than quoting this figure:
+
+```bash
+grep -cE '^- \[[ x]\] T[0-9]+ .*\[P\]' tasks.md   # 106 — task lines only
+grep -c '\[P\]' tasks.md                          # 108 — includes the legend and T376's prose
+```
 
 ---
 
@@ -295,8 +338,8 @@ Carried from all six source plans, deduplicated:
 | **Coverage verdicts on session plans** (FR-200) | A machine may **propose** with per-point evidence and confidence, marked PROPOSED. The served figure does not move until a human confirms. Matching one heuristic extraction against another is a guess wearing a decision's clothes. |
 | **The meeting-notes withholding rule** (FR-197, OQ-8) | A content judgement the source specification's own text says *"may not be guessed."* Until settled, the route defaults to **withheld** (FR-279). |
 | **Every gitlink pin move** (FR-326, C8) | The check reports and proposes; the move is an operator decision. |
-| **The `ordinal` type and the path key** (OQ-3) | Both recorded in specification 001's own artifacts, both contradicted today, and nothing downstream is implementable until they are amended explicitly. |
-| **Repository visibility for both standalone modules** (OQ-7, OQ-14) | A disclosure decision about real private material, including a recording of an identifiable third party. |
+| ~~**The `ordinal` type and the path key** (OQ-3)~~ — **DISCHARGED** | **WITHDRAWN as a pending checkpoint.** It read *"Both recorded in specification 001's own artifacts, both contradicted today, and nothing downstream is implementable until they are amended explicitly."* The human decision this row asked for **was taken**, on 2026-09-13 in `specs/003-chapter-hierarchy/decision-record.md`, and both amendments were applied to `001`'s artifacts before this merge began. The row is kept, struck, for traceability — M0 above states the decision. |
+| **Repository visibility for the `workshop` standalone module** (OQ-14) | A disclosure decision about real private material — a recording of a private teaching session with an identifiable third party — and additionally blocked on **OQ-1**, the still-open third-party consent question. **Narrowed 2026-09-15**: this row previously read *"for both standalone modules (OQ-7, OQ-14)"*. **OQ-7 is RESOLVED** — the operator chose that **`ai_interviewing` stays PRIVATE**, with invited/credentialed collaborator access; FR-288's *"no access to the `vasic` umbrella repository"* is satisfied by a credential to the standalone repository itself, which is not umbrella access. **The two are not one decision and must not be conflated**: different repositories, different content, and OQ-7's answer implies nothing about OQ-14. |
 | **Credential rotation** (OQ-13) | Two passwords are permanently in a public repository's history. This plan resolves only the safe default — treat as compromised, hash everything, never re-print. |
 
 ---
@@ -330,4 +373,4 @@ Carried from all six source plans, deduplicated:
 | Task remap | **Complete** — `tasks.md`, 573 of 573, states preserved and verified |
 | Plan | **Complete** — this document |
 | Implementation | **Not started by this merge.** No code, no build, no git operation was performed. 344 of 573 tasks were already marked complete in their source files before it. |
-| M0 (OQ-3) | **Open — blocking** |
+| M0 (OQ-3) | **Satisfied** — OQ-3 resolved. Decided 2026-09-13 in `specs/003-chapter-hierarchy/decision-record.md`; confirmed and documented in this merge 2026-09-15. `ordinal` stays `int` unchanged, `ordinal_path` is the canonical ordering key, the dotted id is the path key. The **"Open — blocking"** this row carried is **WITHDRAWN** — it was drafted from `003`'s stale pre-decision text, not from the decision-record that supersedes it. One residual gap is carried on task T184 and is *not* OQ-3: no artifact names a version or date for retiring the transitional both-fields wire state. |
