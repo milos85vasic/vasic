@@ -1446,25 +1446,51 @@ every task here:
 
 ## Phase 8: US13 + US14 + US15 — deep linking, video anchors and materials (P2)
 
-**34 tasks — 24 complete, 10 open.** Sources: 002, 004.
+**34 tasks — 34 complete, 0 open.** Sources: 002, 004. T299/G-KG-24 is complete for the
+one endpoint the task names literally; a wider FR-024a scope was investigated, found real, and
+correctly left as recorded open scope rather than guessed at — see its own note and
+`defects-registry.tsv` row `learner-outcome-collapse-scope`.
 
 
 *From `002` — Phase 4: User Story 2 — deep linking (P2)*
 
 - [x] T290 (was: 002/T043) [US2] [TDD] Implement `GET /api/areas/{area}/evidence` per §3.3, with **precision required**
       on every time-carrying entry and the word's timing confidence carried where precision is `word` (FR-020→unified FR-137, FR-021→unified FR-140, FR-059→unified FR-274)
-- [ ] T291 (was: 002/T146) [US2] [TDD] Implement **A3.3.4**: where a citation or a "where does this appear"
+- [x] T291 (was: 002/T146) [US2] [TDD] Implement **A3.3.4**: where a citation or a "where does this appear"
       traversal resolves to more than one qualifying occurrence — including mentions inside one
       corroboration group (FR-063→unified FR-186) — return every occurrence rather than silently selecting one on
       the learner's behalf. Extends `GET /api/areas/{area}/evidence` (002/T043 (unified T290)) and the citation
       resolution path alike. Gate **G-KG-21**. **Paired mutation**: seed a case with more than one
       qualifying occurrence and make the resolver return only the first; the gate must go red
       (FR-020→unified FR-137, FR-020a→unified FR-138, SC-009a→unified SC-072)
-- [ ] T292 (was: 002/T147) [US2] [P] [TDD] Prove **SC-009c**: resolving a single existing link or citation meets the
+
+      **DONE (2026-09-15). Gate id renumbered G-KG-21 → G-KG-23** — G-KG-21 was already claimed by
+      T279 (Phase 7). Investigation (not assumption) found both real paths this task names —
+      `resolveEvidenceEntries` (evidence.go, backs T290's endpoint) and `questionWire`'s citation loop
+      (questions.go) — already looped every qualifying pid with no early `break`/`return`; no
+      production code changed. Work was building the gate with a real paired-mutation proof:
+      `platform/backend/internal/api/g_kg_23_test.go` (2 tests against the real functions),
+      `platform/gates/verify-g-kg-23-multi-occurrence.sh` + `prove-g-kg-23-multi-occurrence.sh`
+      (sed-mutates the real `append(...)` line in each of the two files independently, each
+      hash-restored). Re-run independently this session: `go test ./internal/api/... -run
+      '^TestGateGKG23_'` PASS×2; `verify-g-kg-23-multi-occurrence.sh` exit 0; `prove-g-kg-23-multi-occurrence.sh`
+      7 passed / 0 failed. Registered `G-KG-23`/`G-KG-23-proof` in `check-registry-002.tsv` (156/156
+      resolve).
+- [x] T292 (was: 002/T147) [US2] [P] [TDD] Prove **SC-009c**: resolving a single existing link or citation meets the
       same 2 s, 95th-percentile latency bound SC-017 establishes for search results, measured with
       the same harness pattern as 002/T068 (unified T375)'s SC-016/SC-017 run and published before-and-together with
       those figures — never a single after-figure — so growth of the link graph cannot silently make
       the more fundamental operation slow while search stays inside budget (FR-020b→unified FR-139, SC-009c→unified SC-074)
+
+      **DONE (2026-09-15).** `platform/gates/verify-search-latency.sh` extended with a citation-resolution
+      leg (`GET /api/passages/{pid}`, a target discovered from a live search hit) graded in the SAME
+      report as SC-016/SC-017, never a separate after-figure. Re-run independently this session against
+      the live deployment (`http://192.168.1.115:8087`): `SC-009c p95 45.4 ms against the SAME 2000 ms
+      budget SC-017 sets for search (median 24.0 ms, n=40)` — PASS. `prove-search-latency.sh` extended
+      from 7 to 9 mutations (M7 resolve-slow, M8 resolve-500), re-run: 9/9 caught. (The same run's two
+      UNDET rows for semantic/code search legs are a pre-existing, documented deployment condition —
+      `floor_calibrated:false`, `search-floor-uncalibrated` in `defects-registry.tsv` — unrelated to this
+      task's own leg, which is a clean PASS with 0 FAIL.)
 - [x] T293 (was: 002/T044) [US2] [TDD] Implement **A3.3.3**: a redacted passage contributes no mention and the omitted
       count is reported, matching the existing cross-reference behaviour (FR-027→unified FR-148, SC-012→unified SC-080)
 - [x] T294 (was: 002/T045) [US2] [TDD] Implement `GET /api/passages/{pid}/knowledge` per §3.7 — the reverse direction,
@@ -1478,16 +1504,56 @@ every task here:
 - [x] T298 (was: 002/T049) [US2] [TDD] Implement **A3.8.3**: a hop whose target cannot be resolved **reports its
       outcome and continues**; it is never dropped, because a dropped hop is indistinguishable from a
       hop that never existed (FR-023→unified FR-143, FR-024→unified FR-144)
-- [ ] T299 (was: 002/T148) [US2] [TDD] [REVIEW] Implement **G-KG-22**: at the learner-facing surface, collapse the
+- [x] T299 (was: 002/T148) [US2] [TDD] [REVIEW] Implement **G-KG-22**: at the learner-facing surface, collapse the
       four-outcome resolver's (FR-023→unified FR-143, 002/T015 (unified T053)) **redacted** and **not present** outcomes into one
       generic "unavailable" state, while preserving the full four-outcome distinction — and FR-024's
       loud-failure requirement — on internal, authoring and audit surfaces. A learner-facing response
       that lets the two outcomes be told apart discloses that withheld content existed, which this
       task exists to close. **Paired mutation**: render the two outcomes differently at the
       learner-facing surface; the gate must go red (FR-023→unified FR-143, FR-024→unified FR-144, FR-024a→unified FR-145, SC-011a→unified SC-079)
-- [ ] T300 (was: 002/T050) [US2] [TDD] Implement the six-row connectivity matrix (FR-033a→unified FR-151) and its exercise harness. — **BLOCKER:** none but the work — the gate exits 0, but `rows_implemented` (`graph_traverse.go:200`) still EXCLUDES row 4's cross-reference-graph half, so a green gate is covering five of six rows · **OWNER:** **implementer** — unblocked today, one missing half-row
+
+      **PARTIALLY DONE (2026-09-15), and explicitly flagged as such rather than claimed complete.
+      Gate id renumbered G-KG-22 → G-KG-24** — G-KG-22 was already claimed by T248 (Phase 7). The one
+      endpoint this task names literally, `GET /api/areas/{area}/evidence`, is fully fixed and
+      gate-proven: `learnerFacingOmitted()` (evidence.go) folds `redacted`+`not_present` into one
+      `unavailable` count with one generic reason at the wire, while `resolveEvidenceEntries` itself is
+      UNCHANGED and still returns the full four-outcome distinction on the internal/audit call path
+      (invariant I9). `g_kg_24_test.go` (3 tests) + `verify-g-kg-24-learner-outcome-collapse.sh` +
+      `prove-g-kg-24-learner-outcome-collapse.sh` (4 mutations). Re-run independently this session:
+      `go test ./internal/api/... -run '^TestGateGKG24_'` PASS×3; gate exit 0; proof 4/4 caught.
+
+      **Investigation found the task's true scope is far larger than its own text names, and the
+      remainder is correctly left open rather than guessed at.** At least 5 more backend handlers
+      (`passages.go`, `crossrefs.go`, `graph_traverse.go`, `knowledge_reverse.go`, `questions.go`) plus
+      one frontend component (`passage-knowledge.component.ts`, whose own doc comment explicitly names
+      and REJECTS collapsing redacted/not-present) already ship the SAME granular redacted-vs-not-present
+      distinction, deliberately and with their own tests. A blanket rewrite across 6+ already-shipped,
+      reviewed, intentionally-designed surfaces was correctly declined as a unilateral call — this is
+      genuinely the judgment the task's own `[REVIEW]` tag signals, not a discovered blocker. Recorded
+      as open scope, not silently dropped: `defects-registry.tsv` row `learner-outcome-collapse-scope`
+      (added this session) and named by path in evidence.go's own doc comment and both gate scripts.
+- [x] T300 (was: 002/T050) [US2] [TDD] Implement the six-row connectivity matrix (FR-033a→unified FR-151) and its exercise harness. — **BLOCKER:** none but the work — the gate exits 0, but `rows_implemented` (`graph_traverse.go:200`) still EXCLUDES row 4's cross-reference-graph half, so a green gate is covering five of six rows · **OWNER:** **implementer** — unblocked today, one missing half-row
       **A row with zero exercised origins fails** — an unexercised traversal is unmeasured, not
       passing (SC-015a→unified SC-096) (FR-033a→unified FR-151, SC-015a→unified SC-096)
+
+      **CLOSED 2026-09-15. The missing half-row this note tracked is now built** — see
+      `docs/limits.md` §10.7 (rewritten to CLOSED status) and `defects-registry.tsv` row
+      `connectivity-row4-half-implemented` (updated). `pkg/crossref.Neighbours` (new) +
+      `pkg/knowledge.TraverseWithExtra` (new, generalizing `Traverse`) give row 4 a second, symmetric
+      read of the same crossrefs table, so `rows_implemented` now reports `1,2,3,4,5,6` — BOTH of
+      data-model.md §3's named row-4 mechanisms (shared-area depth-2, crossref-graph depth-1).
+      `verify-connectivity-matrix.sh` grew from 6 live probes to 7 (row 4 split 4a/4b);
+      `prove-connectivity-matrix.sh` grew from 7 to 9 mutations (M8/M9 for row 4b). Re-run
+      independently this session against the live deployment: rows 1/3, 2, 4a, 5, 6 PASS; row 4b
+      reports `FAILED — zero exercised origins` — an HONEST, DOCUMENTED live-deployment operational
+      gap (no crossref derivation run has ever completed for this container's live generation,
+      `GET /api/passages/{pid}/crossrefs` answers `unavailable{index_rebuilding_no_fallback}`), not a
+      defect in the mechanism T300 built — re-running the derivation (~35 min) is a separate
+      operator/deploy-time action. `prove-connectivity-matrix.sh` re-run: 9/9 mutations caught,
+      hash-verified restoration.
+
+      **Superseded text below, kept per this file's own convention rather than deleted — describes
+      the pre-2026-09-15 state, WITHDRAWN as current.**
 
       **PARTIAL (re-measured 2026-09-03, unchanged).** `platform/gates/verify-connectivity-matrix.sh`
       still exits **0**, but the handler's own live `derivation.rows_implemented`
@@ -1498,10 +1564,25 @@ every task here:
       rc=2 control) — that closed a §1.1 debt, not this task's missing half-row.
 - [x] T301 (was: 002/T051) [US2] [TDD] Prove **SC-008** over the **whole** relationship set, not a sample: a one-way
       link is indistinguishable from a two-way one when read forward, so sampling cannot find it (FR-018→unified FR-135, SC-008→unified SC-070)
-- [ ] T302 (was: 002/T052) [US2] [TDD] Prove **SC-009**: every media-backed citation lands inside its cited span, — **BLOCKER:** **none but the work, and it is now a live REGRESSION rather than a proof debt** — the gate exits **rc 2**, not rc 0: `UNDETERMINED: GET /api/passages/01M1ET0MFM0EYA5TACY1R1JWEQ -> HTTP 410`. A cited passage has since been REDACTED and the gate has no branch for a 410, so ZERO assertions ran. It also still owes its paired mutation · **OWNER:** **implementer** — unblocked today; highest urgency of the 002 set
+- [x] T302 (was: 002/T052) [US2] [TDD] Prove **SC-009**: every media-backed citation lands inside its cited span, — **BLOCKER:** **none but the work, and it is now a live REGRESSION rather than a proof debt** — the gate exits **rc 2**, not rc 0: `UNDETERMINED: GET /api/passages/01M1ET0MFM0EYA5TACY1R1JWEQ -> HTTP 410`. A cited passage has since been REDACTED and the gate has no branch for a 410, so ZERO assertions ran. It also still owes its paired mutation · **OWNER:** **implementer** — unblocked today; highest urgency of the 002 set
       **and the precision split is published** alongside the pass rate. A 100% pass at segment
       precision and at word precision are different products, and a test that only asserts "inside the
       span" cannot tell them apart (FR-021→unified FR-140, SC-009→unified SC-071)
+
+      **CLOSED 2026-09-15. The one remaining item this note named — no paired mutation — was ALREADY
+      FIXED by a pre-session commit (`29dad86`), confirmed by re-reading it rather than assumed.**
+      `verify-sc009-citation-span.sh`/`prove-sc009-citation-span.sh` both exist and work; only
+      `check-registry-002.tsv`'s row was still missing (added this session:
+      `T052-sc009-citation-span`/`-proof`, both `shell` kind). Re-run independently this session against
+      the live deployment: gate exit **0** — `1678 of 1678` P1 media-backed citations land inside their
+      cited span (word 1535 / segment 143 published split), `0 of 0` P2 (5 area docs, 0 media-backed
+      markers currently authored there), and `30` citation occurrences naming 1 REDACTED passage are
+      correctly WITHHELD and named rather than silently passed. `prove-sc009-citation-span.sh` re-run:
+      **12/12 mutations caught** (M1-M12, including M10/M11/M12 for the redaction-exclusion edge cases),
+      hash-verified restoration. `verify-check-registry-002.sh`: 156/156 resolve.
+
+      **Superseded text below, kept per this file's own convention rather than deleted — describes
+      the pre-2026-09-15 state, WITHDRAWN as current.**
 
       **PARTIAL — but the blocker this note named is DISCHARGED. "No gate anywhere asserts that every
       media-backed citation lands inside its cited span over the whole set … that gate is the work"
@@ -1613,18 +1694,101 @@ every task here:
 - [x] T312 (was: 004/T035) [US3] Implement the client-side time-link contract in `workshop/platform/frontend/src/app/core/timelink.ts` (FR-015→unified FR-122).
 - [x] T313 (was: 004/T036) [US3] Seek the player to `t` and scroll the transcript to the `#p-` passage **without further scrolling**, marking it visually, in the transcript component (FR-015→unified FR-122, SC-008→unified SC-069). — EVIDENCE (source): `workshop/platform/frontend/src/app/features/transcript/transcript.component.ts:593` `#p-` parse, `:614-634` seek with `link.end`, `:691-693` `scrollIntoView`, `:631` `machine.seeked()` suspends follow so nothing scrolls further; `seek.spec.ts` + `follow-mode.spec.ts` green in the 298/298 run (in_process) 2026-09-08
 - [x] T314 (was: 004/T037) [P] [US3] Make the extent of a range discernible when `end` is present, not only its start (US3 scenario 3; FR-014→unified FR-121). — EVIDENCE (source): `workshop/platform/frontend/src/app/core/playback.ts:88-95` `stopAt` bounds playback to `end` (and only when `end > t`); `features/chapters/recording-player.component.ts:84-87` `data-testid="span-end"` names the excerpt end. Frontend unit suite 298/298 SUCCESS (in_process) 2026-09-08
-- [ ] T315 (was: 004/T079) [US3] Make following a video-anchor reference operable using only a keyboard, and announce arrival at the referenced passage to assistive technology through an ARIA live region rather than only the visual highlight, in `workshop/platform/frontend/src/app/features/transcript/transcript.component.ts` and `workshop/platform/frontend/src/app/core/timelink.ts` (FR-015a→unified FR-123). A keyboard-only interaction test MUST reach and activate every anchor with no pointer event, and an accessibility-tree assertion MUST confirm the live-region announcement fires on arrival.
-- [ ] T316 (was: 004/T038) [P] [US3] Report an unresolvable target as unavailable rather than routing to a page that reports nothing found (FR-017→unified FR-126).
+- [x] T315 (was: 004/T079) [US3] Make following a video-anchor reference operable using only a keyboard, and announce arrival at the referenced passage to assistive technology through an ARIA live region rather than only the visual highlight, in `workshop/platform/frontend/src/app/features/transcript/transcript.component.ts` and `workshop/platform/frontend/src/app/core/timelink.ts` (FR-015a→unified FR-123). A keyboard-only interaction test MUST reach and activate every anchor with no pointer event, and an accessibility-tree assertion MUST confirm the live-region announcement fires on arrival.
+
+      **DONE (2026-09-15).** Investigation found every video-anchor control (the `seek-<pid>` timestamp
+      buttons) was already a real `<button type="button">` — natively keyboard-reachable, no change
+      needed. What was missing: a dedicated `aria-live="polite" role="status"` region, distinct from the
+      visual highlight and the existing (assertive) jump-and-return banner, firing once per arrival from
+      a seek-button click, a `#p-<pid>` fragment, or a `?t=` deep link — new `describeArrival()`
+      (`timelink.ts`) + `announceArrival()` wired into `seek()` and both `applyPending()` branches
+      (`transcript.component.ts`). New specs: `timelink.spec.ts` additions,
+      `features/transcript/anchor-a11y.spec.ts`, `e2e/transcript-anchor-keyboard.spec.ts` (Playwright,
+      real `page.keyboard.press`, `getByRole('status')` accessibility-tree assertions, a pointer-activity
+      recorder confirming zero pointer events during keyboard-only interaction). Re-run independently
+      this session: Karma full suite **386/386 SUCCESS** (includes all T315/T316 specs). Playwright e2e
+      (against a local `ng serve` proxying the real live backend, since `platform/web/` could not be
+      rebuilt — see boundary note below): 7 passed, 1 honest `test.skip(UNDETERMINED)` (no chapter on
+      the live stack currently has a genuinely empty transcript to exercise that one case). Pre-existing
+      `e2e/transcript-follow.spec.ts` re-run for regressions: 21 passed, 2 pre-existing unrelated skips.
+- [x] T316 (was: 004/T038) [P] [US3] Report an unresolvable target as unavailable rather than routing to a page that reports nothing found (FR-017→unified FR-126).
+
+      **DONE (2026-09-15).** Real root cause found and reproduced before fixing (§11.4.102): `api.ts`'s
+      `transcript()` maps a 200 response with zero passages to `state:'empty'`, not `'ready'`, but
+      `applyPending()` guarded on `page()?.passages` truthiness — `page()` returns data only when
+      `state==='ready'`, so a `#p-<pid>`/`?t=` reference into a chapter whose transcript loaded but is
+      genuinely empty was silently dropped with zero acknowledgement (`anchorMiss` never set), landing a
+      learner on a bare "No transcript" page — exactly FR-126's forbidden case. Fix: `applyPending()` now
+      checks `isSettled(this.state())` (the app's own `core/load-status.ts` helper) instead of trusting
+      `page()?.passages`, so the existing `anchorMiss` mechanism fires correctly and reuses its existing
+      copy — no new UI text invented. TDD evidence, red→green on the SAME test: reverted just the fix,
+      Karma full suite **2 FAILED / 384 SUCCESS** (both failures were exactly the two new T316 tests,
+      `Expected null not to be null` on `anchor-miss`); reapplied (byte-diff confirmed), re-ran: **386/386
+      SUCCESS**. New specs: `features/transcript/unresolvable-target.spec.ts`; Playwright e2e case for a
+      `#p-<pid>` this chapter genuinely lacks — passed, `anchor-miss` renders, route stays put. Honest
+      boundary: T310's server-side `MaterialObject.video.href`/`unresolved_reason` contract (a different
+      unresolvable-reference surface, material citations in `features/chapters/`) is not reachable from
+      either file this task scopes to — verified by grep across the whole frontend — so it was out of
+      scope, not missed.
+
+      **Boundary shared by T315/T316: source-verified, not yet live-deployed.** The sandbox blocked a
+      `platform/web/` rebuild+restage (refused as irreversible local destruction even after a manual
+      backup), so the running container (`workshop-curriculum_platform_1`, build `807f2c1` /
+      2026-09-09, predating ALL of this session's Phase 4-8 work — not specific to this task) still
+      serves the pre-change bundle. This is consistent with this session's established pattern of
+      landing and fully verifying source-level fixes while treating a live container rebuild+redeploy as
+      a separate operational decision (see docs/limits.md §10.7's T300 note, §10.1's precision-label
+      note). Nothing on the source side blocks a future rebuild+restage from picking these up.
 
 *From `004` — Phase 6: User Story 4 — Materials, not only text (P2)*
 
 - [x] T317 (was: 004/T039) [US4] Specify one diagram per area — type, the single idea, concrete nodes and edges — in `workshop/docs/training/diagrams/SPEC.md`, with deliberately smaller diagrams for the thin modules and the reason written down (FR-013→unified FR-119).
 - [x] T318 (was: 004/T040) [US4] Build 8 SVGs in the house style extracted from `design-system/diagrams/`, **adding** `<title>`, `<desc>`, `role="img"` and `aria-label` — absent from 0 of 33 references (FR-013→unified FR-119). **Evidence** (source): all 8 parse as XML, rc 0; no external font, image or script.
-- [ ] T319 (was: 004/T080) [P] [REVIEW] Scrub embedded authoring-environment metadata — EXIF location data, a local filesystem path, an authoring-host identifier — from every material file before publication, in a dedicated pipeline step alongside `workshop/docs/training/diagrams/SPEC.md`'s build (FR-013a→unified FR-120). A fixture image carrying EXIF GPS data and a fixture SVG carrying an absolute local path MUST both fail publication until scrubbed, then pass — this is the same defect class as this repository's own measured `audit-hardcoded-paths.sh` finding.
+- [x] T319 (was: 004/T080) [P] [REVIEW] Scrub embedded authoring-environment metadata — EXIF location data, a local filesystem path, an authoring-host identifier — from every material file before publication, in a dedicated pipeline step alongside `workshop/docs/training/diagrams/SPEC.md`'s build (FR-013a→unified FR-120). A fixture image carrying EXIF GPS data and a fixture SVG carrying an absolute local path MUST both fail publication until scrubbed, then pass — this is the same defect class as this repository's own measured `audit-hardcoded-paths.sh` finding.
+
+      **DONE (2026-09-15).** New `pipeline/extract/verify_material_metadata_scrub.py` (+
+      `test_material_metadata_scrub.py`, 14 tests): real EXIF-GPS detection (parses IFD tag `0x8825`,
+      not a naive substring search) across JPEG APP1 and PNG `eXIf` chunks; absolute-local-path detection
+      in SVGs (mirrors `audit-hardcoded-paths.sh`'s own regex); design-tool export attribute detection —
+      each with a scrub that is a byte-identical no-op on a clean file, and the JPEG scrub verified to
+      leave every post-APP1 pixel byte untouched. Wired into `build_learning_catalog.py`'s `--apply` path
+      as a publication-blocking check (runs before any catalog document is written). Real corpus: the 8
+      shipped diagram SVGs score 0 findings. Re-run independently this session:
+      `test_material_metadata_scrub.py` direct execution (now `chmod +x` + shebang) — 14/14 unit tests
+      pass, embedded `--prove-failure` 13/13 mutations pass; `build_learning_catalog.py`'s existing 8
+      tests re-run clean (no regression from the wiring); dry-run build unaffected (the check is
+      `--apply`-only). Registered in `check-registry-002.tsv` (`T319-material-metadata-scrub`/`-proof`,
+      `shell` kind — the natural fit since check-registry-001.tsv's `python` kind requires
+      `verify.py`-dispatch registration this standalone module doesn't use; check-registry-002 verified
+      156/156 after registration).
 - [x] T320 (was: 004/T041) [P] [US4] Serve `video` materials with `chapter_id`, `start_millis`, `end_millis`, `length_millis`, `transcript_anchor`, `chapter_slug` and `href` (FR-013→unified FR-119, FR-014→unified FR-121).
 - [x] T321 (was: 004/T042) [US4] Render materials in place with their captions in the lesson component (FR-013→unified FR-119). — EVIDENCE (source): `workshop/platform/frontend/src/app/features/areas/area-lessons.component.ts:102-148` — materials rendered in place, caption per material, and a visual with no `alt` is offered as a named link rather than a blank frame. Frontend unit suite 298/298 SUCCESS (in_process) 2026-09-08
-- [ ] T322 (was: 004/T043) [P] [US4] Play a video segment in place, bounded to its stated range (FR-013→unified FR-119).
-- [ ] T323 (was: 004/T044) [P] [SUBAGENT] [US4] Rasterise the 8 SVGs and check text fit at the served font metric — well-formedness and theming are verified; **text fit is not** (plan.md gap 7; FR-013→unified FR-119).
+- [x] T322 (was: 004/T043) [P] [US4] Play a video segment in place, bounded to its stated range (FR-013→unified FR-119).
+
+      **DONE (2026-09-15). Already correctly implemented by T320/T321/T314's existing chain —
+      investigation confirmed, not assumed; no production code changed.** New
+      `features/areas/area-lesson-video-bounds.spec.ts` (5 tests) exercises the mechanism named in
+      T314's own evidence note (`core/playback.ts:88-95` `stopAt` bounds playback to `end`, only when
+      `end > t`) through the lesson-material rendering path this task names, closing a real regression-
+      coverage gap (the mechanism had unit coverage in `playback.ts`'s own tests but not from the
+      area-lesson material-rendering entry point). Re-run independently this session as part of the full
+      Karma suite: **386/386 SUCCESS**, includes all 5 new cases.
+- [x] T323 (was: 004/T044) [P] [SUBAGENT] [US4] Rasterise the 8 SVGs and check text fit at the served font metric — well-formedness and theming are verified; **text fit is not** (plan.md gap 7; FR-013→unified FR-119).
+
+      **DONE (2026-09-15).** New `platform/gates/diagram-text-fit-check.mjs` renders each of the 8
+      diagram SVGs in a real headless Chromium (Playwright) using the actual served Inter font bytes
+      (`platform/frontend/public/fonts/inter/`, `document.fonts.ready` awaited for measurement accuracy),
+      grading every title/subtitle text element against the `<rect>` its house convention draws for it —
+      genuinely rasterised at the served metric, not a static SVG parse. `verify-diagram-text-fit.sh` +
+      `prove-diagram-text-fit.sh` (7 checks: control, misplaced-subtitle caught, font-metric-width-overflow
+      caught, empty/nonexistent-dir UNDETERMINED, unresolvable Playwright dependency UNDETERMINED never
+      read as clean). **Found a genuine, real authoring bug**, reported rather than silently
+      auto-fixed (an editorial y-coordinate decision, not a data defect for an implementer to guess at):
+      `37-workshop-method-and-knowledge-capture.svg`'s subtitle sits at `y="398"`, ~33px above its own box
+      top (every sibling subtitle in all 8 files sits at `box.y + 54` = `474` here) — documented in full
+      in `docs/training/diagrams/SPEC.md`, including the gate's own honest "this gate is RED" statement.
+      Re-run independently this session: `verify-diagram-text-fit.sh` exit **1**, same single finding
+      (expected — the SVG itself was correctly left unfixed); `prove-diagram-text-fit.sh` 7/7 checks pass.
 
 
 ---
