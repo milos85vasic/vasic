@@ -2522,7 +2522,11 @@ note — not a pure operator item).
 
 ## Phase 12: US25 — four-format export (P6)
 
-**8 tasks — 6 complete, 2 open.** Sources: 002.
+**8 tasks — 7 complete, 1 open.** Sources: 002. Genuinely open: T422 (diagram rendering —
+operator-blocked: the toolchain (`mmdc`) is measurably broken on a real render despite a
+successful version query, zero area documents currently carry diagram source, and nobody has
+decided where a diagram lives in the seven-section skeleton — a content/contract placement
+decision, not a coding one).
 
 
 *From `002` — Phase 8: User Story 6 — four-format export (P6)*
@@ -2633,13 +2637,63 @@ note — not a pure operator item).
 - [x] T424 (was: 002/T103) [US6] [TDD] Prove **SC-025** by **extracting text and diffing**, not by byte comparison —
       embedded timestamps make byte equality unachievable for some formats, and a criterion nobody can
       meet is worse than none (FR-046→unified FR-219, SC-025→unified SC-123)
-- [ ] T425 (was: 002/T150) [US6] [TDD] [REVIEW] Extend the content-boundary check (002/T076 (unified T383), G-KG-16) to every exported
+- [x] T425 (was: 002/T150) [US6] [TDD] [REVIEW] Extend the content-boundary check (002/T076 (unified T383), G-KG-16) to every exported
       area document per **FR-049a**, run before the export leaves the platform's own storage — the
       same check FR-065 requires of OCR output before publication, applied here to export instead.
       Coverage MUST include extracted taxonomy labels (area titles, term canonical forms), not prose
       alone. Gate **G-KG-24**. **Paired mutation**: scope the check to prose only, excluding area
       titles and term names; the gate must go red, because that is precisely the scoping that would
       let a name through (FR-004a→unified FR-067, FR-049a→unified FR-223, SC-024a→unified SC-124)
+
+      **GATE ID CORRECTED TO G-KG-26.** G-KG-24 was already claimed the same session
+      (Phase 8, T299, §10.22) and G-KG-25 the session after that (Phase 9, T369). G-KG-26 was
+      confirmed free by grepping every `G-KG-[0-9]+` occurrence across `pipeline/extract/verify.py`,
+      `platform/gates/`, `platform/backend/`, `scripts/` and `docs/limits.md` immediately before
+      this task started.
+
+      **BUILT 2026-09-16 as a Python port of G-KG-16's mechanism** (not a new detector, §11.4.74):
+      new `pipeline/extract/export_boundary.py` reproduces `boundary.go`'s normalisation and default
+      outbound markers character-for-character, fingerprinting per NAMED FIELD (title,
+      `AreaRecord.MemberTerms` from `curriculum/taxonomy.jsonl`, prose) rather than one whole-record
+      tuple, because an exported document has no fixed record shape. Wired as a publish-blocking
+      guard inside `export.export_area`, checked FIRST — ahead of SC-012 and the FR-048 publication
+      precondition — refusing all four formats and writing no file on a violation.
+
+      Full design rationale, the honest boundary on `member_terms` (nil for every real "promoted"
+      area today) and on `reference_bank` (no real reference-module content is accessible from this
+      repository, matching G-KG-16's own real-world situation), and the measured evidence: see
+      docs/limits.md §10.24.
+
+      **Paired mutation, T425's own named one, EXECUTED on real production code**
+      (`verify_export.py::prove_g_kg_26_content_boundary_blocks_export`): a synthetic document's
+      TITLE (never its prose) is planted with a reference-bank-matching string, with a valid review,
+      an all-usable toolchain and no redacted citation. `export_boundary.build_fields` mutated to
+      `{"prose": prose}` only (exactly "scope the check to prose only") — the mutant LEAKS (4/4
+      `produced`); unmutated, the real function BLOCKS (4/4 `PRECONDITION_BLOCKED` naming G-KG-26).
+      `python3 verify_export.py --prove-failure` exits 0.
+
+      Tests: `pipeline/extract/test_export_boundary.py`, 21 cases (new) — 21 passed, including the
+      same paired mutation applied directly to `check_inbound`. The mutation was ALSO applied by
+      hand at the source level and reverted (10/21 tests observably fail under it, confirming the
+      test suite itself is exercising the intended gap). Pre-existing
+      `pipeline/extract/test_export.py` (23 cases) re-run unmodified after the `export_area` change:
+      23 passed / 0 failed — no regression. `platform/backend`'s `pkg/assessment` Go suite (G-KG-16
+      itself, untouched by this task) re-run: `go test ./pkg/assessment/...` passes.
+
+      Registered as `G-KG-26-export-content-boundary` in `platform/gates/check-registry-002.tsv`
+      (python kind, since exports are produced Python-side and the boundary-check logic was ported
+      there rather than called out to the Go binary, which exposes no such CLI/subprocess surface).
+      `bash platform/gates/verify-check-registry-002.sh` exits 0 at 180 registered entry points (was
+      179), all present.
+
+      **[REVIEW] tag — independent review performed 2026-09-16, by the coordinating session rather
+      than the implementing subagent, per §11.4.142/§11.4.92.** Re-ran everything independently
+      rather than trusting the report: `test_export_boundary.py` (21/21), pre-existing
+      `test_export.py` (23/23, no regression), `verify_export.py`'s default gates and
+      `--prove-failure` (all 4 gates including G-KG-26, all rc=0), `go build`/`go vet`/`go test
+      ./pkg/assessment/...` (confirms the Go-side G-KG-16 mechanism this task extends is genuinely
+      untouched), and both `check-registry-002.tsv` (180/180) and `verify-limits-completeness.sh`
+      (17/17). No discrepancy found between the report and the actual state of the tree.
 
 
 ---
