@@ -2283,7 +2283,7 @@ note — not a pure operator item).
 
 ## Phase 10: US11 — provenanced assessment (P1)
 
-**14 tasks — 13 complete, 1 open.** Sources: 002.
+**14 tasks — 14 complete, 0 open.** Sources: 002.
 
 
 *From `002` — Phase 6: User Story 4 — provenanced assessment (P4)*
@@ -2394,14 +2394,22 @@ note — not a pure operator item).
       # 10 wire tests, incl. TestT083_ProbeExportToolchain_NeverAsksForAVersion —
       # the probe makes each tool DO its job rather than answer --version
       ```
-- [ ] T391 (was: 002/T084) [US4] [REVIEW] Review question provenance end to end before the practice surface consumes — **BLOCKER:** none but the work — the only review record is `phase6-report.md` (unchanged since 2026-09-02 12:54) and it merely mentions 002/T084 (unified T391); no later record exists. Pure review-record authorship, and the second of the two things holding 002/T122 (unified T540) · **OWNER:** **implementer/reviewer** — unblocked today
-      it (FR-035→unified FR-110, SC-018→unified SC-064)
+- [x] T391 (was: 002/T084) [US4] [REVIEW] Review question provenance end to end before the practice surface consumes it (FR-035→unified FR-110, SC-018→unified SC-064)
 
-      **NOT DONE (re-measured 2026-09-03, unchanged).** `workshop/docs/session-evidence/phase6-report.md`
-      deferred this review pending 002/T075 (unified T382) and 002/T078 (unified T385). **Both have since been completed and the review
-      was never revisited** — `phase6-report.md` is still the newest phase-6 artifact (2026-09-02
-      12:54), and `grep -rl T084` across `docs/` returns only that report and its own brief. No
-      later review record exists under `docs/session-evidence/`, `curriculum/` or `specs/002-*/`.
+      **DONE 2026-09-16.** Review record written: `workshop/docs/session-evidence/phase6-review-T391.md`.
+      Re-verified rather than re-read: full `pkg/assessment` unit suite (Q1-Q4, withheld-reasons,
+      the strip-citation paired mutation) green; G-KG-16 boundary-check paired mutation (scope to
+      outbound only) confirmed to genuinely miss a planted violation, proving the inbound half is
+      load-bearing; SC-018/SC-019 proofs re-run (20/20 citations resolve vs. the reference's own
+      measured 0/785; exhaustive 32-question synthetic round trip). **Live corpus re-measured, not
+      inherited**: 41 of 41 areas now `published:true` (SC-019's own test comment, "0 published
+      questions today," is now STALE — recorded in the review, not silently trusted); a real served
+      `/questions` response shows honest assessment-mode withholding (12.4% of questions carry a
+      verbatim run of their own answer key in a citation/lesson-section link — a measured
+      anti-search-route mitigation) with all four A3.5.5 reason buckets present; `/coverage` matches
+      T386's contract exactly (`threshold`/`aggregate` both `"NONE"`, `per_area` a list). **No
+      provenance defect found** — this review closes T391 as PASSED, not merely reviewed. One
+      non-blocking staleness note recorded for future readers (above).
 
 
 ---
