@@ -525,3 +525,17 @@ docs/content-boundary-incident-2026-09-01.html
 # above). Both are scoped by name; a NEW planted fixture elsewhere still fails.
 workshop/platform/gates/prove-material-metadata-disclosure.sh
 workshop/platform/gates/prove-material-metadata-disclosure.sections.json
+
+# REASON: TWO of this file's classes, both already-established exemption
+# reasoning, not a new one. (1) `_HOME_PATH_PREFIX` (and the doc comment /
+# docstring that quote it) IS THE DETECTOR — the same class as
+# scripts/audit-hardcoded-paths.sh's own self-exemption above: a path-prefix
+# detector's PATTERN variable must literally contain the path prefixes it
+# searches for, deliberately mirroring that script's own alternation rather
+# than reinventing it (T319, spec 008 Phase 8). (2) the
+# `/home/testuser/Desktop/diagram.svg` bytes are a SYNTHETIC FIXTURE PAYLOAD
+# inside a --prove-failure mutation case (M1: "SVG with a local path in a
+# comment is caught") — the same class as prove-material-metadata-
+# disclosure.sh above: the string EXISTS to be caught by the gate it proves;
+# no machine named `testuser` exists and no path is derived from it.
+workshop/pipeline/extract/verify_material_metadata_scrub.py
