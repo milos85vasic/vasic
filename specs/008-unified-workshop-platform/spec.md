@@ -247,7 +247,8 @@ Projects/
 │   ├── submodules/<name>/
 │   ├── install / test scripts
 │   └── auth/                   login surface + module-scoped sessions + RBAC
-└── <shared user store>         an independently-provisionable component — see OQ-9
+└── <shared user store>         an independently-provisionable component, shared across both
+                                modules per OQ-9's resolution (2026-09-15)
 ```
 
 ### II.2 What changes, stated as a delta rather than a restatement
@@ -1807,7 +1808,7 @@ depends on them. Where a Part II requirement supersedes a Part I one, both say s
 #### Authentication and authorization
 
 - **FR-294** *(was: 007/FR-007)*: Both modules MUST have a login form as the entry point — **no content accessible without authentication**. *(This supersedes FR-014, which required authentication only beyond the operator's loopback interface. In the target architecture there is no unauthenticated path at all.)*
-- **FR-295** *(was: 007/FR-008)*: Users MUST be defined in a shared user store accessible to both modules, and that store MUST be its own described, independently-provisionable component. It MUST NOT be "the `vasic` umbrella's database" by default — a database shared with a still-coupled module would silently re-couple the two modules FR-288 requires to be independent. *(Whether the store is genuinely shared or per-module is OQ-9.)*
+- **FR-295** *(was: 007/FR-008)*: Users MUST be defined in a shared user store accessible to both modules, and that store MUST be its own described, independently-provisionable component. It MUST NOT be "the `vasic` umbrella's database" by default — a database shared with a still-coupled module would silently re-couple the two modules FR-288 requires to be independent. **RESOLVED by OQ-9 (2026-09-15, operator decision): genuinely shared, confirmed as written above** — one identity store, its own independently-hosted component, consumed by both modules over the network. Each of the two standalone modules therefore carries exactly one external runtime dependency (this store) in exchange for a single identity across both — the trade-off explicitly accepted; see Clarifications, "OQ-9 resolved during this pass".
 - **FR-296** *(was: 007/FR-009)*: The system MUST support two predefined seed users, one privileged and one restricted. *(The source requirement embedded two plaintext passwords in a public specification. **Those literal values are not restated here**, are treated as compromised by FR-302, and MUST NOT be used as real production secrets.)*
 - **FR-297** *(was: 007/FR-010)*: On the workshop module, **both** users MUST have full, equal access to all features and data.
 - **FR-298** *(was: 007/FR-011)*: On the `ai_interviewing` module, the privileged user MUST have full access to all features and data.
@@ -2425,16 +2426,45 @@ actually provisioned for this corpus — 1.8GB+ per chapter today, growing with 
 — was not checked as part of this decision. That is an operational capacity question, distinct from
 the privacy question OQ-5 asked, and is not resolved here.
 
+### OQ-9 resolved during this pass
+
+Like OQ-5, genuinely undecided — no auth or user-store code exists yet in either `workshop` or
+`ai_interviewing` (spec 007's whole purpose is adding it), and no decision-record equivalent to
+`003`'s exists anywhere in `specs/007` or either module. Investigated first for a load-bearing
+signal already in the document rather than treated as a coin flip: FR-296–FR-299 already require
+the SAME two seed identities to be recognized on BOTH modules, with DIFFERENT per-module
+authorization — `milosvasic` full access on both, `rami` full on workshop but restricted on
+`ai_interviewing`. That is a real signal in favour of one shared identity: the alternative (two
+independent stores) would need the same credentials hand-kept in sync across both, doubling the
+credential-rotation and attack surface for no product benefit, purely to avoid one shared
+dependency.
+
+**Put to the operator directly** with that investigated recommendation, rather than resolved
+unilaterally — the document's own OQ-9 entry already classified this as "a product decision about
+how tightly two independent modules are allowed to stay coupled," not a safe default either way.
+**The operator chose the recommended option: genuinely shared, as its own independently-hosted
+component** — never the `vasic` umbrella's database (FR-295's own existing constraint), never
+either module's own store. FR-295 now states this as resolved; the target-architecture directory
+sketch and the Assumptions section are updated to match.
+
+**Accepted cost, stated rather than hidden:** each of the two "standalone" modules now carries
+exactly one external runtime dependency — this shared store — in exchange for one identity working
+across both. This is the same shape of trade-off C3 (anonymous learners vs. mandatory auth,
+resolved earlier in this document) already accepted for a different requirement pair: decoupling is
+a spectrum, not an absolute, and this document now records two places on it explicitly rather than
+pretending the modules are dependency-free.
+
 ---
 
 ## Open Questions
 
-**Thirteen** genuinely unresolved items across the seven specifications, deduplicated, plus two
-raised by the merge itself (fifteen total rows below, two — OQ-3 and OQ-5 — since **RESOLVED**, see
-Clarifications "OQ-3 resolved during this pass" and "OQ-5 resolved during this pass"; kept in this
-table, not renumbered, for traceability). **None of the thirteen open rows is a clarification
-marker left in the text**; each is an owned decision awaiting an operator, and each states why it
-could not be resolved under the safest-option rule.
+**Twelve** genuinely unresolved items across the seven specifications, deduplicated, plus two
+raised by the merge itself (fifteen total rows below, three — OQ-3, OQ-5 and OQ-9 — since
+**RESOLVED**, see Clarifications "OQ-3 resolved during this pass", "OQ-5 resolved during this
+pass" and "OQ-9 resolved during this pass"; kept in this table, not renumbered, for traceability).
+**None of the twelve open rows is a clarification marker left in the text**; each is an owned
+decision awaiting an operator, and each states why it could not be resolved under the
+safest-option rule.
 
 | # | Question | Origin | Why it cannot be resolved here |
 |---|---|---|---|
@@ -2446,7 +2476,7 @@ could not be resolved under the safest-option rule.
 | **OQ-6** | Should the AI/IT **topical judgement** remain a named human checkpoint (Amendment A2's provisional resolution, carried as FR-070), or should an automated topical classifier be built and given its own review? | 004, Amendment A2 | A curriculum call rather than an engineering one, and the only amendment in the family that explicitly awaits an operator. Two measurements bear on it: a term-in-name probe scores 64.3% AI-or-IT, and its own author records that it **understates** the result because it cannot see areas whose titles carry no jargon. An automated classifier would inherit that blind spot; a human reading the area does not. |
 | **OQ-7** | Should the standalone `ai_interviewing` (`ai_curriculum`) repository be **PUBLIC** — to satisfy FR-288's "clonable by a user with no access to the umbrella" — or remain **PRIVATE** with invited or credentialed access, given it holds employer information the restricted user is explicitly denied (FR-299)? | 007/OQ-1 | FR-288 and FR-299 pull in opposite directions and only the operator can decide which one bends. This is a visibility and business decision about real private content, not a technical default. |
 | **OQ-8** | Which specific content in the meeting-notes section must be withheld from the public record? | 006/OQ-1 | A content judgement about what one note may say publicly — not a technical choice with a safe default. The source specification's own text says it **"may not be guessed."** Only the operator has the information needed to decide it. **Interim state, resolved**: the route and any dependent content default to **withheld** (FR-279) — nothing publishes on a guess. |
-| **OQ-9** | Is the user store (FR-295) genuinely **shared** across both standalone modules — requiring a new, independently-hosted shared component once neither module has umbrella access — or does each decoupled module get its **own copy** of the user table? | 007/OQ-2 | Both readings satisfy the literal requirement; the choice changes the architecture (a new shared service versus two independent stores kept in sync) and is a product decision about how tightly two "independent" modules are allowed to stay coupled. |
+| **OQ-9** | **RESOLVED 2026-09-15** (operator decision). Is the user store (FR-295) genuinely **shared** across both standalone modules — requiring a new, independently-hosted shared component once neither module has umbrella access — or does each decoupled module get its **own copy** of the user table? **Decided**: genuinely shared, as its own independently-hosted component (never the umbrella's database, never either module's own store). The same two seed identities (FR-296) need recognizable identity on both modules with different per-module authorization (FR-297–FR-299), which a shared identity store serves directly; a per-module store would require the same credentials kept manually in sync across two independent copies. Accepted cost: each standalone module now carries exactly one external runtime dependency for authentication. | 007/OQ-2 | **No longer applicable** — retained for traceability. Investigated first (no precedent existed — genuinely undecided, like OQ-5), then put to the operator directly given the real, non-obvious architectural trade-off; not resolved unilaterally. |
 | **OQ-10** | What are the concrete session and token lifetime, idle-timeout, and "remember me" policies? | 007/OQ-3 | The *direction* is resolved as a safe default (short-lived over long-lived, FR-308/FR-309), but the actual numeric values are a security-versus-convenience trade-off only the operator can set. |
 | **OQ-11** | Which authentication mechanism is used — self-hosted password authentication, or an external identity provider? Does the answer differ between the equal-access module and the RBAC one? | 007/OQ-4 | A real build-versus-integrate decision with cost and maintenance implications. The Assumptions defer technology to "each module's native stack" but name no auth library or provider. |
 | **OQ-12** | Is multi-factor authentication required for either or both users at launch, or only planned for the future refinement FR-303 already anticipates? | 007/OQ-6 | A scope and timeline decision about how much security investment ships now versus later, not a technical default with one obviously-safe answer. |
@@ -2564,7 +2594,7 @@ so it can be challenged in clarification rather than discovered later.
 - The corrected served-surface measurement instrument, for the presentation requirements. *(005)*
 - The content-boundary instrument, which governs FR-276 – FR-279. *(002, 006)*
 - The constitution submodule, which governs all of this work. *(001)*
-- **Target architecture only**: the shared containers module with a rootless runtime, for the live local instances FR-293 requires; the GitHub and GitLab command-line interfaces, authenticated for the owned organisation (FR-323); and the user store component of FR-295, whose shape is OQ-9. *(007)*
+- **Target architecture only**: the shared containers module with a rootless runtime, for the live local instances FR-293 requires; the GitHub and GitLab command-line interfaces, authenticated for the owned organisation (FR-323); and the user store component of FR-295, **shared per OQ-9's resolution (2026-09-15)**. *(007)*
 
 ## Out of Scope
 
@@ -2607,7 +2637,7 @@ records are the history this document inherits.
 | **004 — Authored AI/IT Knowledge Areas** *(2026-09-07, 51 FR, 21 SC, 21 edge cases, 6 stories, 82 tasks)* | The remedy for a catalogue of mined vocabulary: authored subjects rather than extracted terms, lessons with real bodies, end-of-area tests with disclosed thresholds and upward rounding, materials and keyboard-operable video anchors, catalogue integrity computed in exactly one place, and the palette work that must be measured on what is **served**. Carries three recorded Amendments, one of which awaits an operator. | FR-069 – FR-076, FR-093 – FR-106, FR-119 – FR-134, FR-224 – FR-230; US10, US11, US14, US15, US19, US26/US27 (its US6); EC-029, EC-032 – EC-043, EC-054, EC-072, EC-073, EC-090, EC-091, EC-096 – EC-098; SC-037 – SC-042, SC-051, SC-052, SC-057 – SC-060, SC-067 – SC-069, SC-116, SC-117, SC-145; OQ-4, OQ-6. |
 | **005 — A Repository That Clones, and a Fleet With No Unexplained Red** *(2026-09-08, 30 FR, 17 SC, 15 edge cases, 4 stories; **no plan.md**)* | Two problems with one remedy. **Obtainability** — the repository could not be cloned, root-caused by controlled test (smart-HTTP cannot resume, so a large transfer is a total failure) after a first hypothesis was refuted and recorded as refuted — which serves **both** architectural states. **Red-state discipline** — every red must end as a defect, a declared condition, or an unrunnable check, never merged into one count and never closed by weakening the instrument. Also the learner-facing disclosure requirements and the corrected palette measurement. Its once-open storage-backend question was resolved by direct operator decision during this pass — see Clarifications, "OQ-5 resolved during this pass". | FR-092, FR-112, FR-115, FR-116, FR-224 – FR-227, FR-241 – FR-258, FR-259 – FR-263; US1, US9, US17, US19; EC-074 – EC-088; SC-054 – SC-056, SC-116, SC-117, SC-125 – SC-136; OQ-5 (resolved 2026-09-15). |
 | **006 — A Complete Session Record per Chapter, and a Platform a QA Team Can Test** *(2026-09-08, 44 FR, 15 SC, 16 edge cases, 5 stories, 70 tasks)* | **The operator's stated absolute priority.** The four cumulative session sections with derived carry-forward and visible slip counts; the single QA document with expected results stated before the tester acts, limitations disclosed in advance, and a resumption point; the client walkthrough's up-front disclosures; and the SOURCE-versus-SERVED discipline whose root cause — a process asserting a determined negative from a stale snapshot — is now an architectural rule. | FR-093, FR-096, FR-115, FR-117, FR-119, FR-192 – FR-217, FR-259 – FR-263, FR-265 – FR-270, FR-277 – FR-279; **US2**, US4, US5, US17, US18; EC-061 – EC-071, EC-072, EC-073, EC-093, EC-094; SC-053, SC-054, SC-109 – SC-115, SC-136 – SC-143; OQ-8. |
-| **007 — Decouple Modules, Add Authentication & Extract Reusables** *(2026-09-12, 55 FR, 14 SC, 16 edge cases, 8 stories, 31 tasks)* | **The entire target architecture.** Both modules standalone and independently cloneable; database-backed authentication with module-scoped tokens, default-deny authorization and fail-closed availability; user-bound durable progress; extraction of reusables into public repositories under an owned organisation, gated by content-boundary review; and the credential posture that treats two already-published passwords as compromised. Its CI/CD requirement is the one source requirement this merge **resolved against**. | Part II in full — FR-286 – FR-337; US26 – US33; EC-099, EC-102 – EC-116; SC-146 – SC-159; OQ-7, OQ-9 – OQ-13; and Clarifications C1, C3, C8. |
+| **007 — Decouple Modules, Add Authentication & Extract Reusables** *(2026-09-12, 55 FR, 14 SC, 16 edge cases, 8 stories, 31 tasks)* | **The entire target architecture.** Both modules standalone and independently cloneable; database-backed authentication with module-scoped tokens, default-deny authorization and fail-closed availability; user-bound durable progress; extraction of reusables into public repositories under an owned organisation, gated by content-boundary review; and the credential posture that treats two already-published passwords as compromised. Its CI/CD requirement is the one source requirement this merge **resolved against**. Its shared-vs-per-module user store question was resolved by direct operator decision during this pass — see Clarifications, "OQ-9 resolved during this pass". | Part II in full — FR-286 – FR-337; US26 – US33; EC-099, EC-102 – EC-116; SC-146 – SC-159; OQ-7, OQ-9 (resolved 2026-09-15) – OQ-13; and Clarifications C1, C3, C8. |
 
 **Two items belong to no single source and were raised by the merge itself**: OQ-14 (the visibility
 of the standalone **workshop** repository, which 007 asked only of `ai_interviewing`) and OQ-15 (whether
