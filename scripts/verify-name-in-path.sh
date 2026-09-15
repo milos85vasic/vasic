@@ -776,7 +776,7 @@ if [[ $violations -eq 0 ]]; then
     echo
     exit 0
 fi
-printf "${RED}❌ %d personal-name-shaped final path component(s) under a role-container directory${NC}\n" "$violations"
+printf "${RED}❌ [DEFECT] %d personal-name-shaped final path component(s) under a role-container directory${NC}\n" "$violations"
 echo
 echo "The token is NOT reprinted here on purpose. Open the file at the line shown."
 echo "If it names a real person: REMOVE it from the working tree, and remember that"

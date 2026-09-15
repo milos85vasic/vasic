@@ -237,7 +237,7 @@ fi
 
 echo "----------------------------------------------------------------------"
 if [ "$fail" -ne 0 ]; then
-  echo "RESULT: FAIL — an engine default still points at ephemeral /tmp (§11.4.77 gap)."
+  echo "RESULT: FAIL [DEFECT] — an engine default still points at ephemeral /tmp (§11.4.77 gap)."
   echo "Fix: default the engine var to a repo-relative path, e.g."
   echo "     HELIX_BIN=\"\${HELIX_BIN:-\$TOOLS/helixtranslate-container.sh}\""
   exit 1

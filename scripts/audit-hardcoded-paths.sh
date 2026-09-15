@@ -773,7 +773,7 @@ if [[ $violations -eq 0 ]]; then
     echo
     exit 0
 fi
-printf "${RED}❌ %d occurrence(s) across %d file(s)${NC}\n" "$violations" "$files_hit"
+printf "${RED}❌ [DEFECT] %d occurrence(s) across %d file(s)${NC}\n" "$violations" "$files_hit"
 echo
 echo "Derive the path instead of writing it:"
 echo "  bash    ROOT=\"\$(cd -- \"\$(dirname -- \"\${BASH_SOURCE[0]}\")/..\" && pwd)\""

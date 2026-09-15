@@ -1,0 +1,66 @@
+# declared-reds.tsv — the umbrella fleet's DECLARED-RED ledger.
+#
+# WHY THIS FILE EXISTS
+# --------------------
+# scripts/fleet-summary.sh (T109, unified 005/T031) reports the fleet's state
+# as TWO numbers, never merged (FR-009→unified FR-251): the count of
+# UNEXPLAINED reds ("defect") and the count of reds that are a DECLARED,
+# evidenced, STILL-VALID condition ("declared"). SC-008 (unified SC-132) wants
+# "unexplained reds reaches 0, from a baseline of 11" to be computable — which
+# requires a durable answer to "is THIS check's current red a defect or a
+# declaration", separate from check-registry.tsv's `debt`/`exempt` rows (those
+# describe whether a SCRIPT is registered as a check at all, not whether a
+# registered check's live run currently exits non-zero).
+#
+# A row here does NOT mean "ignore this red forever". It means "as of
+# next_review, a human or agent read the evidence and it still explained the
+# red". fleet-summary.sh treats an EXPIRED next_review exactly like no
+# declaration at all — an expired declaration reverts to DEFECT until it is
+# re-verified and re-dated, mirroring the same cadence discipline
+# scripts/check-registry.tsv's declared-condition rows use (T116).
+#
+# FORMAT: TAB-separated, one row per declared-red check.
+#   id                 the `check` id exactly as it appears in
+#                       scripts/check-registry.tsv (field 2 of a `check` row)
+#   lifting_authority   a ROLE (e.g. "operator"), never a named individual
+#   evidence            free text: WHY this check's current red is a declared
+#                       condition rather than a defect, and what would change
+#                       that (mirrors the check-registry.tsv lifting_evidence
+#                       convention)
+#   next_review         ISO-8601 date (YYYY-MM-DD). Past this date the row is
+#                       IGNORED by fleet-summary.sh and the check reverts to
+#                       being counted as a defect if it is still red.
+#
+# A check id NOT listed here that comes back red is a DEFECT by default — the
+# absence of a row is never itself evidence of anything, per §11.4.6.
+#
+# PROVENANCE. Seeded 2026-09-15 from the umbrella root CLAUDE.md's own
+# "Governance and adaptability instruments" section, which is the most
+# recently re-measured account of which fleet members are red BY DESIGN. Two
+# checks CLAUDE.md documents as currently red are DELIBERATELY left OFF this
+# list rather than declared wholesale:
+#
+#   constitution-rules-sweep   CLAUDE.md's own words: "Neither class licenses
+#                              treating the sweep as green" — of its 96 FAIL +
+#                              2 ERROR (of 271), some are known-unclearable
+#                              (third-party/staged carriers, defects internal
+#                              to the consumed constitution submodule) but no
+#                              CURRENT per-gate breakdown was re-measured this
+#                              session to say which FAILs those are. Declaring
+#                              the whole gate "declared" would hide whatever
+#                              fraction of the 96 is a genuine, actionable,
+#                              in-tree defect. It is intentionally left to
+#                              default to DEFECT until that breakdown exists.
+#   push-topology              exits 1 on `monetization` (private repo, push
+#                              urls on gitflic.ru/gitverse.ru with no
+#                              read-only adapter registered) per CLAUDE.md,
+#                              but that reading was not re-measured THIS
+#                              session and this ledger does not assert a
+#                              stale reading. Left undeclared on purpose.
+#
+# Re-derive rather than trusting any row below — the operator can extend this
+# ledger at any time, and fleet-summary.sh's own README section documents how.
+
+content-boundary	operator	RED BY DESIGN, not a defect: umbrella CLAUDE.md's "Content boundary" section documents a fully-attributed-by-path (never judged/redacted) surviving-match population across the fleet, following the 2026-09-01 content-boundary incident. The number moves every run because the corpus and the detector both keep improving; it is not expected to reach 0 until the judged-population work (a documented, unstarted operator decision) is done.	2026-10-15
+hardcoded-paths	operator	1 real occurrence, inside the PRIVATE `workshop` submodule at chapters/01/transcript/accuracy-plan.json (a developer-host absolute path frozen into tracked JSON). Not fixable from THIS tree — the fix must land inside `workshop` and return here as a gitlink bump, per umbrella CLAUDE.md's "Build and test entry points" section.	2026-12-14
+provider-ci	operator	1 CONFIRMED standing provider-side trigger, on vasic-digital/vasic-digital.github.io (GitHub Pages `build_type=legacy`, no file-level remedy — the repository has zero workflow files, so nothing here can silence it). This is the documented G4 "known, documented deviation" in umbrella CLAUDE.md, not an override.	2026-12-14

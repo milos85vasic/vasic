@@ -433,7 +433,7 @@ check_remote_sync() {
         return 2
     fi
     if [ "$fail" -gt 0 ]; then
-        echo "❌ ${GATE}: FAIL — ${fail} owned gitlink(s) are out of sync with their remote."
+        echo "❌ ${GATE}: FAIL [DEFECT] — ${fail} owned gitlink(s) are out of sync with their remote."
         return 1
     fi
     echo "✅ ${GATE}: PASS — every one of the ${owned_n} owned gitlink(s) equals its remote tip, measured just now."

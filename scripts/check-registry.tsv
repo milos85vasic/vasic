@@ -25,13 +25,48 @@
 # TAB-separated. Field 1 is the ROW TYPE, drawn from a CLOSED vocabulary:
 #
 #   scanroot   <dir>
-#   exempt     <path>   <reason>
+#   exempt     <path>   <reason>   <lifting_authority>  <lifting_evidence>  <next_review>  <fact_sha256>
 #   check      <id>  <entry-point>  <proof-kind>  <proof-arg>  <undet-probe>
-#   debt       <id>  <entry-point>  <owed>        <reason>
+#   debt       <id>  <entry-point>  <owed>  <reason>  <lifting_authority>  <lifting_evidence>  <next_review>  <fact_sha256>
 #
 # An unrecognised field-1 token is a MALFORMED registry and makes the meta-check
 # exit 2 (could not determine) — never 0. Comment (`#`) and blank lines are
 # inert: the parser keys on field 1, which no "#"-prefixed line can match.
+#
+# ── SCHEMA MIGRATION, 2026-09-15 (unified T111 + T116, one coherent change) ──
+# `exempt` and `debt` rows are this registry's DECLARED CONDITIONS — a row
+# asserting "this is not a defect needing a fix" rather than "this defect is
+# absent". FR-007/SC-015 (unified T111) requires a declared condition to name
+# WHO may lift it and WHAT EVIDENCE would lift it; FR-027 (unified T116)
+# requires it to carry a re-verification cadence and to be flagged when the
+# fact it cites has itself moved. Both land as ONE schema change, not two, so
+# the two column sets cannot drift out of sync with each other:
+#
+#   lifting_authority   a ROLE, never a named individual (this project's
+#                       convention throughout — "operator", not a person).
+#   lifting_evidence    free text: the CONCRETE change that would make this
+#                       row's classification wrong and force it to be
+#                       re-registered as a check or promoted out of debt.
+#   next_review         an ISO-8601 date (YYYY-MM-DD). scripts/verify-check-
+#                       registry.sh FAILS a row whose next_review has elapsed
+#                       — "declared" does not mean "declared once, forever".
+#   fact_sha256         sha256 of the row's own file (its `path` for exempt,
+#                       its `entry-point` for debt) AS OF THE LAST TIME A
+#                       HUMAN OR AGENT VERIFIED THIS ROW'S REASON. The
+#                       meta-check re-hashes the file on every run and FAILS
+#                       when it no longer matches: the row's stated FACT has
+#                       moved and the reason was not re-read against the new
+#                       content. This is not hypothetical — the reason on the
+#                       `_tools/watch-deploy.sh` row below already changed
+#                       once, on 2026-09-08, because the file grew a verdict
+#                       the row's older text did not describe. A content-hash
+#                       mismatch is exactly the shape of that event, generic
+#                       across every declared-condition row instead of relying
+#                       on someone happening to notice.
+#
+# `check` rows are unaffected: a check is ACTIVELY re-verified every run (its
+# paired proof, its rc-2 probe), so it is not a "declared" condition in the
+# sense these columns exist for.
 #
 # WHY TSV AND NOT YAML. Three reasons, in order of weight:
 #   1. It is this project's existing convention for exactly this artefact.
@@ -56,11 +91,12 @@
 #     Repo-relative directory swept for `*.sh`. Every file found must be
 #     accounted for by a check, debt, or exempt row. Missing directory -> rc 2.
 #
-# exempt <path> <reason>
+# exempt <path> <reason> <lifting_authority> <lifting_evidence> <next_review> <fact_sha256>
 #     A `*.sh` under a scanroot that is NOT a check (an installer, a mutator, a
 #     remediation tool). The reason is mandatory and free text. This mirrors the
 #     `.hardcoded-paths-allow` convention already used at this root: an
-#     exemption always carries its justification inline.
+#     exemption always carries its justification inline. The four trailing
+#     fields are the 2026-09-15 schema migration described above.
 #
 # check <id> <entry-point> <proof-kind> <proof-arg> <undet-probe>
 #     A check asserted to satisfy BOTH SC-012 and SC-013.
@@ -78,9 +114,10 @@
 #                    "bad usage" is not "unable to verify". The meta-check
 #                    rejects such a probe rather than crediting it.
 #
-# debt <id> <entry-point> <owed> <reason>
+# debt <id> <entry-point> <owed> <reason> <lifting_authority> <lifting_evidence> <next_review> <fact_sha256>
 #     A REGISTERED, non-conforming check. `owed` is a comma-separated subset of
-#     {proof, three-valued, executable} naming which property is missing.
+#     {proof, three-valued, executable} naming which property is missing. The
+#     four trailing fields are the 2026-09-15 schema migration described above.
 #     Modelled directly on §11.4.227(A)'s registered-deferral ledger
 #     (submodules/constitution/scripts/gates/gate_ledger_deferrals.tsv): silent
 #     debt is forbidden, so debt is DECLARED and counted rather than hidden by
@@ -149,14 +186,15 @@ scanroot	_tools/portfolio
 scanroot	_tools/containers
 
 # ── Files under a scanroot that are not checks ───────────────────────────────
-exempt	_tools/prove-translation-fleet.sh	IS a paired §1.1 mutation proof, not a check needing one: it guards the 2026-09-08 fleet-config decoupling (_tools/lib/translation-fleet.sh plus the three shell drivers and cmd/distribute-helixtranslate) and carries both arms in its body rather than behind a --prove-failure flag. CONTROL: the five guarded files carry no machine name and no frozen ssh account; a declared HT_FLEET resolves per-host runtimes; the ssh account comes from $USER; an UNDECLARED fleet is rc 2 in all three drivers. MUTATION: five throwaway copies re-freeze a host name in five different shapes and each MUST be caught, plus a sixth control proving a fully derived form is NOT flagged. Three-valued (0 all controls passed and all mutations caught, 1 a control failed or a mutation slipped through, 2 the guarded tree is missing — never a pass). Its own mutation arm found three real detector defects on first run and they were fixed before it went green.
-exempt	_tools/containers/prove-ocr.sh	IS a paired §1.1 mutation proof, not a check needing one: it drives _tools/containers/cmd/ocr against 7 data-only mutations plus a 2-part control, so its own mutation arm is its body rather than a --prove-failure flag. Three-valued (0 all caught + control passed, 1 a mutation slipped through or the control failed, 2 no go / no pdftoppm / no container runtime — never a pass). Written because cmd/ocr shipped with its mutations exercised BY HAND and recorded only as README prose, while its sibling cmd/runtime-probe ships main_test.go
-exempt	scripts/install_skills.sh	installer: shells out to `npx skills add` to populate global skills; asserts nothing about this repository
-exempt	scripts/lumen-reindex.sh	mutator: rebuilds the Lumen index; its verdict is the index, not a pass/fail judgement about the tree
-exempt	scripts/ollama-vulkan-remediation.sh	remediation tool: takes the GPU out of ollama's embedding path; it changes host state rather than judging it
-exempt	scripts/rollback-agents-wizard.sh	rollback tool: replays a setup-agents-wizard manifest in reverse
-exempt	scripts/setup-agents-wizard.sh	interactive installer wizard: mutates $HOME and agent configuration
-exempt	scripts/gen-docs-chain-contexts.sh	generator: DERIVES the Docs Chain contexts from the tree so a document added later is bound; it writes configuration rather than judging the tree. Its output IS judged — scripts/verify-docs-chain.sh re-derives it and FAILS on any difference
+exempt	_tools/prove-translation-fleet.sh	IS a paired §1.1 mutation proof, not a check needing one: it guards the 2026-09-08 fleet-config decoupling (_tools/lib/translation-fleet.sh plus the three shell drivers and cmd/distribute-helixtranslate) and carries both arms in its body rather than behind a --prove-failure flag. CONTROL: the five guarded files carry no machine name and no frozen ssh account; a declared HT_FLEET resolves per-host runtimes; the ssh account comes from $USER; an UNDECLARED fleet is rc 2 in all three drivers. MUTATION: five throwaway copies re-freeze a host name in five different shapes and each MUST be caught, plus a sixth control proving a fully derived form is NOT flagged. Three-valued (0 all controls passed and all mutations caught, 1 a control failed or a mutation slipped through, 2 the guarded tree is missing — never a pass). Its own mutation arm found three real detector defects on first run and they were fixed before it went green.	operator	the file stops being invoked as a --prove-failure/mutation-proof sibling by any check row and starts asserting a verdict about this tree on its own behalf, independent of the check it currently proves	2027-03-14	5ac3a4bf0657c5009918e060406c8e5799430148ff1fd81c670f86a51871974e
+exempt	_tools/containers/prove-ocr.sh	IS a paired §1.1 mutation proof, not a check needing one: it drives _tools/containers/cmd/ocr against 7 data-only mutations plus a 2-part control, so its own mutation arm is its body rather than a --prove-failure flag. Three-valued (0 all caught + control passed, 1 a mutation slipped through or the control failed, 2 no go / no pdftoppm / no container runtime — never a pass). Written because cmd/ocr shipped with its mutations exercised BY HAND and recorded only as README prose, while its sibling cmd/runtime-probe ships main_test.go	operator	the file stops being invoked as a --prove-failure/mutation-proof sibling by any check row and starts asserting a verdict about this tree on its own behalf, independent of the check it currently proves	2027-03-14	425deca8216e90378ecbf6bfa02ed2f4120008d56044ce62d278d9f424049d14
+exempt	scripts/install_skills.sh	installer: shells out to `npx skills add` to populate global skills; asserts nothing about this repository	operator	the file's diff adds an exit-code-bearing pass/fail verdict ABOUT this repository's current state (the shape a check row's proof-kind requires) rather than remaining an installer/mutator/generator/remediation tool that only changes host or repository STATE	2027-03-14	41be2c58d0e2c74da77b5876a94fb4b1c8c46efb36cff73d71e21628eacd1f1c
+exempt	scripts/lumen-reindex.sh	mutator: rebuilds the Lumen index; its verdict is the index, not a pass/fail judgement about the tree	operator	the file's diff adds an exit-code-bearing pass/fail verdict ABOUT this repository's current state (the shape a check row's proof-kind requires) rather than remaining an installer/mutator/generator/remediation tool that only changes host or repository STATE	2027-03-14	1aea273270d688e5647421ac26e04ac0e917064a64c9f3156bdad4704bb92dd0
+exempt	scripts/ollama-vulkan-remediation.sh	remediation tool: takes the GPU out of ollama's embedding path; it changes host state rather than judging it	operator	the file's diff adds an exit-code-bearing pass/fail verdict ABOUT this repository's current state (the shape a check row's proof-kind requires) rather than remaining an installer/mutator/generator/remediation tool that only changes host or repository STATE	2027-03-14	d37976fa39ebcee9aebe07834d07330f481749c92e349719188cbf66e5d2a5a4
+exempt	scripts/rollback-agents-wizard.sh	rollback tool: replays a setup-agents-wizard manifest in reverse	operator	the file's diff adds an exit-code-bearing pass/fail verdict ABOUT this repository's current state (the shape a check row's proof-kind requires) rather than remaining an installer/mutator/generator/remediation tool that only changes host or repository STATE	2027-03-14	f60f31fad6f392b53ff43cd0d759d527694b19903725576fc983023891e5c172
+exempt	scripts/setup-agents-wizard.sh	interactive installer wizard: mutates $HOME and agent configuration	operator	the file's diff adds an exit-code-bearing pass/fail verdict ABOUT this repository's current state (the shape a check row's proof-kind requires) rather than remaining an installer/mutator/generator/remediation tool that only changes host or repository STATE	2027-03-14	4d87be43c30a7b027f82059880e0442b89d8c0e1c27c26592e545bbff3271919
+exempt	scripts/gen-docs-chain-contexts.sh	generator: DERIVES the Docs Chain contexts from the tree so a document added later is bound; it writes configuration rather than judging the tree. Its output IS judged — scripts/verify-docs-chain.sh re-derives it and FAILS on any difference	operator	the file stops re-DERIVING the Docs Chain contexts from the tree and starts asserting a pass/fail verdict about them itself — that judging role belongs to scripts/verify-docs-chain.sh, named in this row's own reason, and would need to move there instead	2027-03-14	4d0d9534c232eb7949a01c559598fa17def1f4851741237887644da1121b2c09
+exempt	scripts/record-reopen.sh	T114 (unified 005/T058) reopen-ledger writer: appends ONE validated line to docs/findings/reopened-reds.jsonl per invocation and refuses a duplicate reopen_id; it MUTATES a ledger rather than asserting a verdict about this repository, the same role gen-docs-chain-contexts.sh above plays for Docs Chain contexts. It does carry its own §1.1 paired proof (--prove-failure, 7 assertions) even though nothing in this row's classification requires one — the append-only guarantee is exactly the kind of property worth proving mechanically.	operator	the file stops being a pure append-only writer and starts asserting a pass/fail verdict about this repository on its own behalf (that judging role belongs to scripts/fleet-summary.sh, which detects reopen CANDIDATES; this script only records one once a human or that instrument has decided it is real)	2027-03-14	8dc63833cfc4ff1f90006414c20ee3b0d29e97ffa722a9f4bbd1838e5e7ca68f
 
 # ── Conforming checks: paired proof AND three-valued exit, both verified ─────
 check	constitution-inheritance	tests/test_constitution_inheritance.sh	flag	--prove-failure	--root /nonexistent
@@ -256,20 +294,20 @@ check	workable-items	scripts/verify-workable-items.sh	flag	--prove-failure	--db 
 # not by whether registering it would be convenient. A script that PRODUCES a
 # verdict is not exempt here even when it is inconvenient — see the `debt` row
 # for _tools/review-translations.sh below.
-exempt	_tools/deploy-langs.sh	deploy driver: regenerates both sites, commits and pushes them, then validates the LIVE sites. It MUTATES two production repositories, and it remains a producer rather than a check OF THIS REPOSITORY — the sweep may not run it, because running it publishes to two live sites. THE OLD REASON'S CLOSING CLAUSE — "its output is a deployment, not a judgement about this tree" — IS WITHDRAWN as of 2026-09-08, and the row is kept exempt on the narrower ground above rather than on that one. What changed: commit 738fbf1 (2026-09-08) added a BUILD GATE to this script that judges this repository's own build steps and ABORTS the deploy before anything is staged, committed or pushed. Until that commit every build step ended in `|| build_warn`, which only incremented a counter, so `--dry-run` printed success having built nothing. It is now three-valued and the contract is written into the source: build_warn -> tolerated, exit unchanged; build_fail -> exit 5 (ran and failed); build_undet -> exit 2 (could not run), with FAIL outranking UNDET so an absent toolchain can never launder a real failure. It ships its own §1.1 paired battery, `bash _tools/deploy-langs.sh --prove-build-fatality`, which drives every branch through the pure `build_gate` function without building, staging, committing or pushing. So this file DOES now judge, and the exemption's ground has moved from "it judges nothing" to "it may not be executed by a sweep"; re-validated by reading the source on 2026-09-08. HONEST BOUNDARY: that proof was NOT executed during this re-validation — running a live production deploy driver was out of scope for the exemption audit that found this — so the verdict rests on reading lines 226-300 and 370 of the file, not on a captured run. The live-site verdict (classify_live_result, exit 1/2/0) is OLDER than today and was already about the deployed sites rather than about this tree; it is not what expired this row
-exempt	_tools/distribute-helixtranslate.sh	distribution tool: ships the HelixTranslate container assets to remote hosts over ssh/scp/rsync. It moves files to other machines and asserts nothing about this repository
-exempt	_tools/helixtranslate-container.sh	engine shim: a one-shot `podman run --rm -i` wrapper that streams a document through the translation engine. It is the SUBJECT of the translate-reproducibility check, not a check itself
-exempt	_tools/helixtranslate-local.sh	engine shim, local variant: resolves the container runtime through the Containers submodule and runs the engine. Same role as the shim above — a subject, not a judge
-exempt	_tools/render-articles.sh	generator: renders article Markdown into HTML fragments. It writes content; the content it writes is judged elsewhere (_tools/audit-hardcoding.sh)
-exempt	_tools/translate-all-defresfr.sh	translation batch driver (de/es/fr): resumable content producer. Deliberately no `set -e` so one failure does not abort the batch, which is the opposite of a gate's contract
-exempt	_tools/translate-all-langs.sh	translation batch driver, generic-language form: same producer role as the de/es/fr driver above
-exempt	_tools/translate-fleet.sh	parallel translation driver: dispatches translation jobs to containers on two remote hosts. An orchestrator of work, not an assertion about the tree
-exempt	_tools/translate-pipeline.sh	translation pipeline: turns one Markdown file into a translated one. It is the SUBJECT of the translate-reproducibility check (its line 55 engine default is one of the two defaults that check reads)
-exempt	_tools/watch-deploy.sh	watcher daemon: loops calling deploy-langs.sh until the translation batch finishes. It schedules a mutator rather than judging this tree, so it is not a check of the repository — BUT it is no longer verdict-free: as of 2026-09-08 it folds each cycle's exit code into a three-valued verdict of its own (0 clean / 2 a cycle could not run / 5 a cycle ran and failed, with failure outranking could-not-determine) and exits with it, because discarding those codes meant it could loop 240 times against a deploy failing every cycle and still exit 0. That contract is proved by _tools/prove-watch-deploy-verdict.sh, registered below. The earlier reason on this row — "it judges nothing" — was true until that change and is WITHDRAWN
-exempt	_tools/prove-watch-deploy-verdict.sh	the §1.1 paired mutation proof FOR _tools/watch-deploy.sh, exempt for the same reason its subject is: it judges the watcher's exit-code contract, not this repository. Mutations are DATA (stub exit codes via WATCH_DEPLOY_CMD and the WATCH_* knobs); the watcher's source sha256 is captured before the battery and re-asserted after, so a mutation that edited the subject would fail the proof. Verified in BOTH directions on 2026-09-08: 9 passed / 0 failed / 8 mutations against the current watcher, and 3 passed / 6 failed against a reconstruction of the pre-fix watcher that discarded $? — every one of the 6 reporting 'got 0' where a verdict was owed
-exempt	_tools/translate/finalize-review.sh	remediation driver: re-runs the recalibrated reviewer over the docs a superseded reviewer false-FAILed, to bring each language to a full count. It CHANGES recorded verdicts rather than producing one
-exempt	_tools/translate/run-batch.sh	orchestrator: decides WHAT to (re)run and records per-(lang,doc) status. Its own header states it "does NOT translate or review itself" — it neither performs nor judges the work
-exempt	_tools/translate/translate-content.sh	content translation utility: the committed driver the batch orchestrator calls. It is the SUBJECT of the translate-reproducibility check (its line 61 engine default is the other of the two defaults that check reads)
+exempt	_tools/deploy-langs.sh	deploy driver: regenerates both sites, commits and pushes them, then validates the LIVE sites. It MUTATES two production repositories, and it remains a producer rather than a check OF THIS REPOSITORY — the sweep may not run it, because running it publishes to two live sites. THE OLD REASON'S CLOSING CLAUSE — "its output is a deployment, not a judgement about this tree" — IS WITHDRAWN as of 2026-09-08, and the row is kept exempt on the narrower ground above rather than on that one. What changed: commit 738fbf1 (2026-09-08) added a BUILD GATE to this script that judges this repository's own build steps and ABORTS the deploy before anything is staged, committed or pushed. Until that commit every build step ended in `|| build_warn`, which only incremented a counter, so `--dry-run` printed success having built nothing. It is now three-valued and the contract is written into the source: build_warn -> tolerated, exit unchanged; build_fail -> exit 5 (ran and failed); build_undet -> exit 2 (could not run), with FAIL outranking UNDET so an absent toolchain can never launder a real failure. It ships its own §1.1 paired battery, `bash _tools/deploy-langs.sh --prove-build-fatality`, which drives every branch through the pure `build_gate` function without building, staging, committing or pushing. So this file DOES now judge, and the exemption's ground has moved from "it judges nothing" to "it may not be executed by a sweep"; re-validated by reading the source on 2026-09-08. HONEST BOUNDARY: that proof was NOT executed during this re-validation — running a live production deploy driver was out of scope for the exemption audit that found this — so the verdict rests on reading lines 226-300 and 370 of the file, not on a captured run. The live-site verdict (classify_live_result, exit 1/2/0) is OLDER than today and was already about the deployed sites rather than about this tree; it is not what expired this row	operator	the row's own text records an open HONEST BOUNDARY: its --prove-build-fatality battery was not executed during the audit that most recently touched this row. Running that battery, or a sweep beginning to invoke this driver as part of pre-push, is the evidence that would move it	2026-12-14	33539bb761ffa4bf09929a091b20ae4ea04b43f2ef0cf03e5b1e03b5faa65ce2
+exempt	_tools/distribute-helixtranslate.sh	distribution tool: ships the HelixTranslate container assets to remote hosts over ssh/scp/rsync. It moves files to other machines and asserts nothing about this repository	operator	the file starts asserting a pass/fail verdict ABOUT this repository with its own exit-code contract, the same shape change _tools/watch-deploy.sh's row underwent on 2026-09-08 — until then it produced/moved/remediated content only and carried no verdict of its own	2026-12-14	d89bbe699e88991780c45c783a5322c40ae9825157f5010ca042ac03d62939b5
+exempt	_tools/helixtranslate-container.sh	engine shim: a one-shot `podman run --rm -i` wrapper that streams a document through the translation engine. It is the SUBJECT of the translate-reproducibility check, not a check itself	operator	the file becomes the entry point a registered check's proof-kind references directly (rather than remaining input READ by an existing check), or the check that reads its default/line is removed without a replacement	2026-12-14	791af42c84691742cc4df6c9545f02f6f504e4617369d0a82bedef5f79108948
+exempt	_tools/helixtranslate-local.sh	engine shim, local variant: resolves the container runtime through the Containers submodule and runs the engine. Same role as the shim above — a subject, not a judge	operator	the file becomes the entry point a registered check's proof-kind references directly (rather than remaining input READ by an existing check), or the check that reads its default/line is removed without a replacement	2026-12-14	4e386a3e493b1e08ca1ddbf1fea329a3911aefbe59f7ce09578ea8c4adb3fb32
+exempt	_tools/render-articles.sh	generator: renders article Markdown into HTML fragments. It writes content; the content it writes is judged elsewhere (_tools/audit-hardcoding.sh)	operator	the file becomes the entry point a registered check's proof-kind references directly (rather than remaining input READ by an existing check), or the check that reads its default/line is removed without a replacement	2026-12-14	4590f7770ea2386f0aba2a3b816abbd09e26ad2ebf68047936e384714b6a9a67
+exempt	_tools/translate-all-defresfr.sh	translation batch driver (de/es/fr): resumable content producer. Deliberately no `set -e` so one failure does not abort the batch, which is the opposite of a gate's contract	operator	the file starts asserting a pass/fail verdict ABOUT this repository with its own exit-code contract, the same shape change _tools/watch-deploy.sh's row underwent on 2026-09-08 — until then it produced/moved/remediated content only and carried no verdict of its own	2026-12-14	1aca2f3fdc094f5817823b349c4f3baecf7fbb8d2ff395dbf7da4a92fd2992b7
+exempt	_tools/translate-all-langs.sh	translation batch driver, generic-language form: same producer role as the de/es/fr driver above	operator	the file starts asserting a pass/fail verdict ABOUT this repository with its own exit-code contract, the same shape change _tools/watch-deploy.sh's row underwent on 2026-09-08 — until then it produced/moved/remediated content only and carried no verdict of its own	2026-12-14	c7fa35f5f05e8f70e8dcb7f1779b6c69c4f28f510678f950477949dc4f338aaa
+exempt	_tools/translate-fleet.sh	parallel translation driver: dispatches translation jobs to containers on two remote hosts. An orchestrator of work, not an assertion about the tree	operator	the file starts asserting a pass/fail verdict ABOUT this repository with its own exit-code contract, the same shape change _tools/watch-deploy.sh's row underwent on 2026-09-08 — until then it produced/moved/remediated content only and carried no verdict of its own	2026-12-14	edb2147efd5f56ac2805cdb258ffeb717de75b5b18ab82a6c04ab2e013b13fa4
+exempt	_tools/translate-pipeline.sh	translation pipeline: turns one Markdown file into a translated one. It is the SUBJECT of the translate-reproducibility check (its line 55 engine default is one of the two defaults that check reads)	operator	the file becomes the entry point a registered check's proof-kind references directly (rather than remaining input READ by an existing check), or the check that reads its default/line is removed without a replacement	2026-12-14	48dcf57ec034c3b252f81333ee1cad76636487a3247a2e445936f877e639fd82
+exempt	_tools/watch-deploy.sh	watcher daemon: loops calling deploy-langs.sh until the translation batch finishes. It schedules a mutator rather than judging this tree, so it is not a check of the repository — BUT it is no longer verdict-free: as of 2026-09-08 it folds each cycle's exit code into a three-valued verdict of its own (0 clean / 2 a cycle could not run / 5 a cycle ran and failed, with failure outranking could-not-determine) and exits with it, because discarding those codes meant it could loop 240 times against a deploy failing every cycle and still exit 0. That contract is proved by _tools/prove-watch-deploy-verdict.sh, registered below. The earlier reason on this row — "it judges nothing" — was true until that change and is WITHDRAWN	operator	the watcher's three-valued exit contract (0 clean / 2 could-not-run / 5 confirmed failure) is removed, or _tools/prove-watch-deploy-verdict.sh stops passing against it — either is the shape that already forced this row's reason to change once, on 2026-09-08	2026-10-15	bc92bde8c24cc064f001d4810d97ac26dd0d423a5179d2cd5cf1f1b917712447
+exempt	_tools/prove-watch-deploy-verdict.sh	the §1.1 paired mutation proof FOR _tools/watch-deploy.sh, exempt for the same reason its subject is: it judges the watcher's exit-code contract, not this repository. Mutations are DATA (stub exit codes via WATCH_DEPLOY_CMD and the WATCH_* knobs); the watcher's source sha256 is captured before the battery and re-asserted after, so a mutation that edited the subject would fail the proof. Verified in BOTH directions on 2026-09-08: 9 passed / 0 failed / 8 mutations against the current watcher, and 3 passed / 6 failed against a reconstruction of the pre-fix watcher that discarded $? — every one of the 6 reporting 'got 0' where a verdict was owed	operator	the proof stops verifying the SUBJECT's exit-code contract and starts asserting something about this repository directly, or its own captured sha256 self-check of the subject watcher is removed	2026-10-15	a2c86a2d264ee59f8a342acd86e41c3aa140623a12e382ce615dea992b977541
+exempt	_tools/translate/finalize-review.sh	remediation driver: re-runs the recalibrated reviewer over the docs a superseded reviewer false-FAILed, to bring each language to a full count. It CHANGES recorded verdicts rather than producing one	operator	the file starts asserting a pass/fail verdict ABOUT this repository with its own exit-code contract, the same shape change _tools/watch-deploy.sh's row underwent on 2026-09-08 — until then it produced/moved/remediated content only and carried no verdict of its own	2026-12-14	718bbd3f11b5f6db060f53cc4e92b56a9a65373fcc13a9b9bd31774bd0ace6a8
+exempt	_tools/translate/run-batch.sh	orchestrator: decides WHAT to (re)run and records per-(lang,doc) status. Its own header states it "does NOT translate or review itself" — it neither performs nor judges the work	operator	the file starts asserting a pass/fail verdict ABOUT this repository with its own exit-code contract, the same shape change _tools/watch-deploy.sh's row underwent on 2026-09-08 — until then it produced/moved/remediated content only and carried no verdict of its own	2026-12-14	83bf989b3aac5f17985e363b10b7fc6fc214ae4f422d5d7b73366da1af8b41df
+exempt	_tools/translate/translate-content.sh	content translation utility: the committed driver the batch orchestrator calls. It is the SUBJECT of the translate-reproducibility check (its line 61 engine default is the other of the two defaults that check reads)	operator	the file becomes the entry point a registered check's proof-kind references directly (rather than remaining input READ by an existing check), or the check that reads its default/line is removed without a replacement	2026-12-14	e80a44cdddd2ecac093a31f1cd98e1a38c36b2591a5b1813996397d9516f55ab
 
 # ── _tools/ gates — registered 2026-09-06, each fixed before it was registered ─
 # scripts/pre-push-gates.sh has run all three since long before the registry
@@ -313,6 +351,25 @@ check	translate-reproducibility	_tools/translate/reproducibility-selftest.sh	fla
 # working tree every time the registry is verified.
 check	portfolio-data-integrity	_tools/portfolio/self-validate.sh	flag	--prove-failure	--fixtures /nonexistent
 check	pretooluse-guard	scripts/verify-pretooluse-guard.sh	flag	--prove-failure	--root /nonexistent
+#
+# fleet-summary — T109 (unified 005/T031). Reports the fleet's live state as
+# the FR-009 two-number statement (defect vs declared-condition reds, never
+# merged), by actually RUNNING every OTHER `check` row bare and classifying
+# each non-clean result against docs/findings/declared-reds.tsv. It does not
+# run itself as part of that sweep (it has no `check` row for its own id to
+# recurse into) — it IS one, registered here so R5 anti-drift does not flag
+# it as an unregistered script under the `scripts` scanroot.
+check	fleet-summary	scripts/fleet-summary.sh	flag	--prove-failure	--root /nonexistent
+#
+# threshold-principles — T112 (unified 005/T034). Asserts FR-010 mechanically:
+# a git diff that changes a numeric threshold/baseline/allow-list literal
+# must also touch a principle marker (a REASON:/BASELINE: comment, or a
+# derived-formula shape) in the SAME diff, or it is flagged. A heuristic by
+# its own header's admission — it reads what changed in the diff BODY, never
+# a commit message — but it is the first instrument in this fleet that
+# detects the CLASS mechanically rather than relying on two existing guards'
+# prose-by-construction discipline.
+check	threshold-principles	scripts/verify-threshold-principles.sh	flag	--prove-failure	--range nonexistent-ref..HEAD
 
 # ── _tools/ debt — declared, counted, NOT fixed ──────────────────────────────
 # review-translations.sh is NOT exempt, and calling it one would have been the
@@ -325,4 +382,4 @@ check	pretooluse-guard	scripts/verify-pretooluse-guard.sh	flag	--prove-failure	-
 # root", "reviewer not found") are precisely could-not-determine conditions and
 # both exit 1. Bringing it to conformance needs a reviewer backend this pass
 # did not have, so it is declared rather than hidden.
-debt	translation-review	_tools/review-translations.sh	proof,three-valued	produces PASS/FAIL/ERROR verdicts per translated article but has no paired mutation proof (no --prove-failure/--selftest arm exists) and no rc-2 path: it takes no options, and both of its "cannot run" guards — unresolvable repository root, missing reviewer — exit 1, reporting could-not-determine as a finding. Conformance needs a reviewer model backend, which was not available in the pass that registered it
+debt	translation-review	_tools/review-translations.sh	proof,three-valued	produces PASS/FAIL/ERROR verdicts per translated article but has no paired mutation proof (no --prove-failure/--selftest arm exists) and no rc-2 path: it takes no options, and both of its "cannot run" guards — unresolvable repository root, missing reviewer — exit 1, reporting could-not-determine as a finding. Conformance needs a reviewer model backend, which was not available in the pass that registered it	operator	a reviewer model backend is wired (the two guard clauses — unresolvable repository root, missing reviewer — stop being the ONLY rc-1 paths) and a --prove-failure/--selftest arm plus a genuine rc-2 path are added, at which point this row promotes to a `check` row per the ratchet rule	2026-12-14	861b9022f5ec2c293c30eae2002b18f3e23108c0ae21b471b5b6a09a1f0ee109

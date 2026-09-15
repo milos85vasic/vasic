@@ -300,7 +300,7 @@ run_invariants() {
     echo "----------------------------------------------------------------------"
     echo "${GATE}: ${pass} PASS, ${skip} SKIP, ${fail} FAIL  (root ${root})"
     if [ "$fail" -gt 0 ]; then
-        echo "❌ ${GATE}: FAIL — ${fail} invariant(s) violated"
+        echo "❌ ${GATE}: FAIL [DEFECT] — ${fail} invariant(s) violated"
         return 1
     fi
     echo "✅ ${GATE}: PASS — constitution inheritance is wired"

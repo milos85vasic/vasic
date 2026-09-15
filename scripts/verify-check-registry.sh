@@ -137,6 +137,24 @@ _file_mode() {
     return 1
 }
 
+# sha256 of a file, portably: prefer GNU/BusyBox `sha256sum`, fall back to the
+# BSD/macOS `shasum -a 256` spelling. Output is validated as 64 hex digits
+# before it is accepted — the same "validate the output, never trust the exit
+# status alone" discipline _file_mode uses above, for the same reason: a tool
+# that prints something unexpected while exiting 0 must not be laundered into
+# a fabricated hash. Used by R8 (fact_sha256 drift, 2026-09-15 schema
+# migration) to notice when a declared-condition row's own file changed since
+# its reason was last verified.
+_sha256() {
+    local _h
+    _h="$(sha256sum "$1" 2>/dev/null | awk '{print $1}')"
+    if [[ "$_h" =~ ^[0-9a-f]{64}$ ]]; then printf '%s' "$_h"; return 0; fi
+    _h="$(shasum -a 256 "$1" 2>/dev/null | awk '{print $1}')"
+    if [[ "$_h" =~ ^[0-9a-f]{64}$ ]]; then printf '%s' "$_h"; return 0; fi
+    printf '?'
+    return 1
+}
+
 
 SELF_NAME="$(basename -- "${BASH_SOURCE[0]}")"
 SELF_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)" || {
@@ -527,16 +545,27 @@ FAKE
     cp "$SELF" "$SB/scripts/verify-check-registry.sh"
     chmod 755 "$SB/scripts/verify-check-registry.sh"
 
+    # Fixture fields for the 2026-09-15 declared-condition schema (R6/R7/R8):
+    # a next_review far in the future so CONTROL never trips R7 on its own,
+    # and fact_sha256 computed from the ACTUAL fixture files so CONTROL never
+    # trips R8 on its own. Recomputed each write_registry() call in case a
+    # prior mutation changed gamma/delta's content (none currently does, but
+    # computing it fresh is cheap and removes that as a future trap).
+    DECL_NEXT_REVIEW="2099-01-01"
     write_registry() {
+        local gamma_sha delta_sha self_sha
+        gamma_sha="$(_sha256 "$SB/scripts/gamma-install.sh")"
+        delta_sha="$(_sha256 "$SB/scripts/delta-audit.sh")"
+        self_sha="$(_sha256 "$SB/scripts/verify-check-registry.sh")"
         cat >"$SB/scripts/check-registry.tsv" <<EOF
 # synthetic registry (proof sandbox)
 scanroot	scripts
 scanroot	tests
-exempt	scripts/gamma-install.sh	installer, not a check
-exempt	scripts/verify-check-registry.sh	the instrument itself is exercised by the real registry, not this synthetic one
+exempt	scripts/gamma-install.sh	installer, not a check	operator	the file adds a pass/fail verdict about the repository	${DECL_NEXT_REVIEW}	${gamma_sha}
+exempt	scripts/verify-check-registry.sh	the instrument itself is exercised by the real registry, not this synthetic one	operator	the instrument stops being self-exercised	${DECL_NEXT_REVIEW}	${self_sha}
 check	alpha	scripts/alpha-check.sh	flag	--prove-failure	--root /nonexistent
 check	beta	tests/beta-check.sh	flag	--prove-failure	--root /nonexistent
-debt	delta	scripts/delta-audit.sh	proof	synthetic debt row: no paired proof yet
+debt	delta	scripts/delta-audit.sh	proof	synthetic debt row: no paired proof yet	operator	a paired proof is added	${DECL_NEXT_REVIEW}	${delta_sha}
 EOF
     }
 
@@ -629,6 +658,36 @@ EOF
     # ---- M10 --strict turns registered debt into a failure ---------------------
     expect "M10 strict-debt-fails" 1 "delta" run_sb --strict
 
+    # ---- M11 a declared-condition row is missing a required field (R6) --------
+    # 2026-09-15 schema migration (unified T111/T116). Written directly with
+    # real tab bytes ($'\t') rather than a sed pattern containing '\t' — GNU
+    # sed treats that as a tab but the portability notes atop this file are
+    # explicit that a BSD/POSIX sed is not guaranteed to, and this mutation
+    # gains nothing from risking it.
+    delta_sha_m11="$(_sha256 "$SB/scripts/delta-audit.sh")"
+    printf 'scanroot\tscripts\nscanroot\ttests\nexempt\tscripts/gamma-install.sh\tinstaller, not a check\toperator\tevidence\t%s\t%s\ncheck\talpha\tscripts/alpha-check.sh\tflag\t--prove-failure\t--root /nonexistent\ncheck\tbeta\ttests/beta-check.sh\tflag\t--prove-failure\t--root /nonexistent\ndebt\tdelta\tscripts/delta-audit.sh\tproof\tsynthetic debt row: no paired proof yet\t\ta paired proof is added\t%s\t%s\n' \
+        "$DECL_NEXT_REVIEW" "$(_sha256 "$SB/scripts/gamma-install.sh")" "$DECL_NEXT_REVIEW" "$delta_sha_m11" \
+        >"$SB/scripts/check-registry.tsv"
+    expect "M11 missing-declared-field" 1 "missing required field" run_sb
+    write_registry
+
+    # ---- M12 a declared condition's cadence has elapsed (R7) -------------------
+    delta_sha_m12="$(_sha256 "$SB/scripts/delta-audit.sh")"
+    printf 'scanroot\tscripts\nscanroot\ttests\nexempt\tscripts/gamma-install.sh\tinstaller, not a check\toperator\tevidence\t%s\t%s\ncheck\talpha\tscripts/alpha-check.sh\tflag\t--prove-failure\t--root /nonexistent\ncheck\tbeta\ttests/beta-check.sh\tflag\t--prove-failure\t--root /nonexistent\ndebt\tdelta\tscripts/delta-audit.sh\tproof\tsynthetic debt row: no paired proof yet\toperator\ta paired proof is added\t2020-01-01\t%s\n' \
+        "$DECL_NEXT_REVIEW" "$(_sha256 "$SB/scripts/gamma-install.sh")" "$delta_sha_m12" \
+        >"$SB/scripts/check-registry.tsv"
+    expect "M12 cadence-elapsed" 1 "CADENCE ELAPSED" run_sb
+    write_registry
+
+    # ---- M13 a declared condition's cited fact has changed underneath it (R8) --
+    # The row's fact_sha256 still names the ORIGINAL content; the file itself
+    # is edited without re-verifying the row — precisely the shape that forced
+    # the real _tools/watch-deploy.sh row to change its reason on 2026-09-08.
+    printf '\n# mutated after the declared condition was last verified\n' >>"$SB/scripts/delta-audit.sh"
+    expect "M13 fact-drift" 1 "FACT DRIFT" run_sb
+    mk_debt_check "$SB/scripts/delta-audit.sh" 0
+    write_registry
+
     # ---- RESTORED CONTROL ------------------------------------------------------
     expect "CONTROL restored" 0 "" run_sb --quiet
     expect "CONTROL restored (--run-proofs)" 0 "" run_sb --run-proofs --quiet
@@ -703,30 +762,44 @@ registry_undet() {
 [[ -s "$REGISTRY" ]] || registry_undet "registry is empty: $REGISTRY"
 
 SCANROOTS=(); EXEMPT_PATHS=(); EXEMPT_REASONS=()
+EXEMPT_AUTH=(); EXEMPT_EVIDENCE=(); EXEMPT_NEXTREVIEW=(); EXEMPT_SHA256=()
 CHK_ID=(); CHK_ENTRY=(); CHK_KIND=(); CHK_ARG=(); CHK_PROBE=()
 DEBT_ID=(); DEBT_ENTRY=(); DEBT_OWED=(); DEBT_REASON=()
+DEBT_AUTH=(); DEBT_EVIDENCE=(); DEBT_NEXTREVIEW=(); DEBT_SHA256=()
 
 lineno=0
 while IFS= read -r raw || [[ -n "$raw" ]]; do
     lineno=$((lineno+1))
     [[ -z "${raw//[[:space:]]/}" ]] && continue
     [[ "${raw:0:1}" == "#" ]] && continue
-    IFS=$'\t' read -r f1 f2 f3 f4 f5 f6 _rest <<<"$raw"
+    IFS=$'\t' read -r f1 f2 f3 f4 f5 f6 f7 f8 f9 _rest <<<"$raw"
     case "$f1" in
         scanroot)
             [[ -n "${f2:-}" ]] || registry_undet "line $lineno: scanroot row with no directory"
             SCANROOTS+=("$f2") ;;
         exempt)
+            # <path> <reason> are the original mandatory pair; <lifting_authority>
+            # <lifting_evidence> <next_review> <fact_sha256> are the 2026-09-15
+            # schema migration (unified T111/T116) and are validated for
+            # PRESENCE by R6 below, not here — a row missing them is a real,
+            # reportable FAIL (rc 1), not an unreadable registry (rc 2).
             [[ -n "${f2:-}" && -n "${f3:-}" ]] || registry_undet "line $lineno: exempt row needs <path> and <reason>"
-            EXEMPT_PATHS+=("$f2"); EXEMPT_REASONS+=("$f3") ;;
+            EXEMPT_PATHS+=("$f2"); EXEMPT_REASONS+=("$f3")
+            EXEMPT_AUTH+=("${f4:-}"); EXEMPT_EVIDENCE+=("${f5:-}")
+            EXEMPT_NEXTREVIEW+=("${f6:-}"); EXEMPT_SHA256+=("${f7:-}") ;;
         check)
             [[ -n "${f2:-}" && -n "${f3:-}" && -n "${f4:-}" && -n "${f5:-}" && -n "${f6:-}" ]] \
                 || registry_undet "line $lineno: check row needs <id> <entry> <proof-kind> <proof-arg> <undet-probe>"
             CHK_ID+=("$f2"); CHK_ENTRY+=("$f3"); CHK_KIND+=("$f4"); CHK_ARG+=("$f5"); CHK_PROBE+=("$f6") ;;
         debt)
+            # <id> <entry> <owed> <reason> are the original mandatory quartet;
+            # the four trailing fields are the same 2026-09-15 migration as
+            # exempt rows, validated for presence by R6 below.
             [[ -n "${f2:-}" && -n "${f3:-}" && -n "${f4:-}" && -n "${f5:-}" ]] \
                 || registry_undet "line $lineno: debt row needs <id> <entry> <owed> <reason>"
-            DEBT_ID+=("$f2"); DEBT_ENTRY+=("$f3"); DEBT_OWED+=("$f4"); DEBT_REASON+=("$f5") ;;
+            DEBT_ID+=("$f2"); DEBT_ENTRY+=("$f3"); DEBT_OWED+=("$f4"); DEBT_REASON+=("$f5")
+            DEBT_AUTH+=("${f6:-}"); DEBT_EVIDENCE+=("${f7:-}")
+            DEBT_NEXTREVIEW+=("${f8:-}"); DEBT_SHA256+=("${f9:-}") ;;
         *)
             registry_undet "line $lineno: unrecognised row type '$f1' — the vocabulary is closed {scanroot,exempt,check,debt}" ;;
     esac
@@ -974,6 +1047,62 @@ if [[ ${#unregistered[@]} -gt 0 ]]; then
     done
 else
     ok "R5" "anti-drift: every *.sh under $(printf '%s ' "${SCANROOTS[@]}")is registered as a check, debt, or exemption"
+fi
+
+# ──────────────────────────────────────────────────────────────────────────────
+# R6/R7/R8  DECLARED-CONDITION SCHEMA — 2026-09-15 migration (unified T111+T116)
+#
+# Every `exempt` and `debt` row is a DECLARED CONDITION: an assertion that a
+# red, or a non-check file, is not a defect needing a fix. FR-007/SC-015
+# require each one to name WHO may lift it and WHAT EVIDENCE would lift it
+# (R6, presence); FR-027 requires a re-verification cadence (R7) and a flag
+# when the fact the row cites has itself moved (R8). All three are FAILs
+# (rc 1), not UNDET — a declared condition that has gone stale is a real,
+# actionable, nameable defect, exactly like an unregistered file under R5.
+# ──────────────────────────────────────────────────────────────────────────────
+TODAY="$(date -u +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d)"
+
+check_declared_row() {
+    local label="$1" path="$2" auth="$3" evidence="$4" nr="$5" sha="$6"
+    local missing=() m
+    [[ -n "$auth" ]]     || missing+=("lifting_authority")
+    [[ -n "$evidence" ]] || missing+=("lifting_evidence")
+    [[ -n "$nr" ]]       || missing+=("next_review")
+    [[ -n "$sha" ]]      || missing+=("fact_sha256")
+    if [[ ${#missing[@]} -gt 0 ]]; then
+        m="$(IFS=,; printf '%s' "${missing[*]}")"
+        bad "$label" "declared-condition row is missing required field(s) {$m} — a declared condition with no lifting authority, no evidence, no cadence or no fact anchor is exactly what FR-007/FR-027 exist to forbid"
+        return
+    fi
+    if [[ ! "$nr" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+        bad "$label" "next_review '$nr' is not a valid YYYY-MM-DD date"
+    elif [[ "$nr" < "$TODAY" ]]; then
+        bad "$label" "CADENCE ELAPSED — next_review was $nr, today is $TODAY; this declared condition is due for re-verification (FR-027)"
+    fi
+    if [[ -f "$ROOT/$path" ]]; then
+        local cur
+        cur="$(_sha256 "$ROOT/$path")"
+        if [[ "$cur" != "?" && "$cur" != "$sha" ]]; then
+            bad "$label" "FACT DRIFT — $path's content no longer matches the fact_sha256 recorded when this row's reason was last verified (recorded ${sha:0:12}…, now ${cur:0:12}…); the file changed and the declared reason was not re-checked against it (FR-027)"
+        fi
+    fi
+}
+
+r6_before=$N_FAIL
+i=0
+while [[ $i -lt ${#EXEMPT_PATHS[@]} ]]; do
+    check_declared_row "DECL:${EXEMPT_PATHS[$i]}" "${EXEMPT_PATHS[$i]}" "${EXEMPT_AUTH[$i]:-}" \
+        "${EXEMPT_EVIDENCE[$i]:-}" "${EXEMPT_NEXTREVIEW[$i]:-}" "${EXEMPT_SHA256[$i]:-}"
+    i=$((i+1))
+done
+i=0
+while [[ $i -lt ${#DEBT_ID[@]} ]]; do
+    check_declared_row "DECL:${DEBT_ID[$i]}" "${DEBT_ENTRY[$i]}" "${DEBT_AUTH[$i]:-}" \
+        "${DEBT_EVIDENCE[$i]:-}" "${DEBT_NEXTREVIEW[$i]:-}" "${DEBT_SHA256[$i]:-}"
+    i=$((i+1))
+done
+if [[ $N_FAIL -eq $r6_before ]]; then
+    ok "R6" "declared-condition schema: all $(( ${#EXEMPT_PATHS[@]} + ${#DEBT_ID[@]} )) exempt/debt row(s) name a lifting authority, evidence, an unexpired next_review, and a fact_sha256 that still matches their file"
 fi
 
 # ──────────────────────────────────────────────────────────────────────────────

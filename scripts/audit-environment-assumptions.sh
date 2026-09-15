@@ -1415,7 +1415,7 @@ if [ "$HITS" -eq 0 ]; then
     exit 0
 fi
 
-printf '%s❌ %d frozen environment assumption(s)%s\n' "$RED" "$HITS" "$NC"
+printf '%s❌ [DEFECT] %d frozen environment assumption(s)%s\n' "$RED" "$HITS" "$NC"
 echo
 echo "Derive it from the environment instead of freezing it:"
 echo "  shell   HOST=\"\${OLLAMA_HOST:-http://localhost:11434}\""

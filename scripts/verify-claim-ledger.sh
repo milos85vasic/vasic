@@ -556,7 +556,7 @@ printf 'the remaining waves. Do NOT read a green exit as ledger completeness.\n\
 
 # PRECEDENCE: a finding outranks an unmeasurable row.
 if [ $((FALSE + ORPHAN + MALFORMED)) -gt 0 ]; then
-    printf '❌ CLAIM-VS-REALITY: %d recorded claim(s) do not survive re-measurement.\n' \
+    printf '❌ CLAIM-VS-REALITY [DEFECT]: %d recorded claim(s) do not survive re-measurement.\n' \
         $((FALSE + ORPHAN + MALFORMED))
     exit 1
 fi

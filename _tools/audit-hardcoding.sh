@@ -166,7 +166,7 @@ run_checks() {
     echo "[audit] ✅ PASS — no hardcoded-content violations"
     return 0
   fi
-  echo "[audit] ❌ FAIL — $FAILS violation(s)"
+  echo "[audit] ❌ FAIL [DEFECT] — $FAILS violation(s)"
   return 1
 }
 

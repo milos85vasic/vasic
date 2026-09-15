@@ -657,7 +657,7 @@ check_pins() {
         return 2
     fi
     if [ "$fail" -gt 0 ]; then
-        echo "❌ ${GATE}: FAIL — ${fail} recorded ref(s) do not match the live gitlink (§11.4.31)"
+        echo "❌ ${GATE}: FAIL [DEFECT] — ${fail} recorded ref(s) do not match the live gitlink (§11.4.31)"
         return 1
     fi
     echo "✅ ${GATE}: PASS — all ${n_entries} recorded ref(s) equal the gitlink this repository will commit"

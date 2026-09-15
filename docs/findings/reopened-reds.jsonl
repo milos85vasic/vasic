@@ -1,0 +1,18 @@
+# reopened-reds.jsonl — T114/FR-026 (unified FR-257) reopen-event ledger.
+# ONE JSON object per line (JSONL). APPEND-ONLY — the sole writer is
+# scripts/record-reopen.sh, which contains no code path that truncates this
+# file; a prior entry is NEVER edited or removed, only referenced by a later
+# one via "supersedes". See that script's own header for the full schema and
+# its §1.1 paired proof (`bash scripts/record-reopen.sh --prove-failure`).
+#
+# R2 and R4 below are SEEDED (T115, was 005/T059) from
+# specs/005-clone-and-clear-red/tasks.md T029 (unified specs/008 T107): two
+# reds genuinely CLOSED by commit f824cd1, both found red AGAIN on
+# 2026-09-08 by a routine re-measurement — not by any automated reopen
+# detector, since none existed before this file. Backdated to that
+# measurement date so the ledger launches carrying real history rather than
+# an empty file. Every future entry should instead come from a live
+# scripts/fleet-summary.sh REOPEN CANDIDATE (see its own header) or from a
+# human/agent who independently found one.
+{"reopen_id":"R2","instrument":"continuation-sync","prior_closure_kind":"fixed","contradicting_evidence":"bash scripts/continuation-check.sh exits 1 at 7 PASS · 1 DRIFT · 0 UNDET · 15 NOTE — CONTINUATION.md IS STALE","original_closure_ref":"specs/005-clone-and-clear-red/tasks.md T029 (unified specs/008 T107): closed via commit f824cd1 (CONTINUATION.md +207 lines; submodules/constitution moved three commits)","reopened_at":"2026-09-08T00:00:00Z","supersedes":null}
+{"reopen_id":"R4","instrument":"submodule-remote-sync","prior_closure_kind":"fixed","contradicting_evidence":"bash scripts/verify-submodule-remote-sync.sh exits 1 at 12 CURRENT / 1 DRIFT / 0 UNDETERMINED — DRIFT row submodules/constitution (gitlink 71ac4373… vs remote 2db64ee8…, difference DETERMINED, direction NOT)","original_closure_ref":"specs/005-clone-and-clear-red/tasks.md T029 (unified specs/008 T107): closed via commit f824cd1 (CONTINUATION.md +207 lines; submodules/constitution moved three commits)","reopened_at":"2026-09-08T00:00:00Z","supersedes":null}
