@@ -300,7 +300,7 @@ deps:
 
   - name: passage
     ssh_url: git@github.com:vasic-digital/passage.git
-    ref: "ad5504dcb3de251c23df81c15ef6896fd4ec24e7"   # HEAD is PAST tag v0.2.0 (which points at 729cd96a); the sha is the exact pin
+    ref: "1e361bd6d6faf6a73813a038c1f6f78088a9cc43"   # adds symbol.go/ingest_match.go/symbol_test.go, spec-008 tasks T031-T033 (§8 R2/R3/R4 code-passage matching, G-PID-4)
     why: "Stable identity for citable spans of text: a pid is a ULID minted ONCE at ingest, derived from neither content nor position. Both alternatives were measured and both fail in opposite directions — a content-derived id changed when one typo was fixed, and a positional key moved every range when a section was prepended; under either, citations break WHILE THE UI KEEPS RENDERING LINKS to the wrong text. Ships PID/Minter, three anchor modes (inline / sidecar / registry_only), a JSONL-authoritative Registry with a derived SQLite+FTS5 index, and a four-state Outcome in which an unreadable registry surfaces as 503 rather than a 404 claiming the passage does not exist. Extracted from workshop/platform/libs/ and published PUBLIC for the same §11.4.28 reason as verdict. Go module `github.com/vasic-digital/passage`. Catalogue-check §11.4.74: Embeddings is provider adapters only with no identity seam, RAG's chunker is positional (Start/End — the design passage measured and rejected), Document models whole files not spans, and docs_chain is content-hashed — the property passage exists to avoid."
     layout: grouped
     # Live topology: origin fetches AND pushes github.com:vasic-digital/passage.git;
@@ -463,7 +463,7 @@ deps:
 
   - name: workshop
     ssh_url: git@github.com:milos85vasic/workshop_curriculum.git
-    ref: "923392370f16eb82a85e61575599874ac173547e"   # NO tag exists anywhere in this repository; gitlink tracks heads/main
+    ref: "8d59f2f4b846db42a937f2a3a150ac04c11c7f51"   # NO tag exists anywhere in this repository; gitlink tracks heads/main; adds spec-008 Phase 2 T037/T039/T040/T051/T060/T069/T070 (G-CLI-9/10/12, G-KG-19, publication-gate divergence fix, non-owner-participant policy)
     why: "The Workshop Curriculum — a teaching corpus of recorded sessions and their written materials under chapters/<NN>/ and nested sub-chapters chapters/<NN>.<NN>/, carried as an owned submodule of the umbrella. Its one mechanism is the SHA-256-verified multi-part video-archive pipeline in scripts/ (archive-videos.sh / extract-videos.sh / install-hooks.sh / self-test.sh), which used to keep gigabyte recordings in git as <=50 MB *.tar.gz.part-NNN chunks. SUPERSEDED 2026-09-08 on an operator decision: the 54 parts (2,624.8 MB) were UNTRACKED with `git rm --cached` and the pattern gitignored, so no new archive byte enters and a fresh checkout drops from ~2.7 GB to small. The *.sha256 manifests stay TRACKED at ~9 KB — they are the integrity record any future fetch verifies against. History rewriting is forbidden, so the already-committed blobs remain and size-pack did not fall; that limit is stated in the module README and printed by scripts/verify-obtainability.sh rather than glossed. The fetch mechanism is deliberately NOT invented: extract-videos.sh returns rc 2 COULD-NOT-DETERMINE with a TODO(storage-fetch) marker naming exactly what is missing, and a present-but-corrupt part still returns rc 1."
     layout: flat
     # Live topology: github, origin and upstream ALL resolve to the single URL

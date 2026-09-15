@@ -156,6 +156,18 @@ gaps between segments. The second branch is not a theoretical fallback.
   wrong link.
 - **N4** — the join is by **time into segment**, and the segment yields the **passage identifier**.
   The identifier is what is stored. The time is a position (FR-033b).
+- **N5** — every position this feature produces — the text span above, the time span above, and a
+  search-match offset pair (§4.1's C4.1.3, `pkg/search/offsets.go`) — is **one documented
+  half-open interval**, `[start, end)`: start **inclusive**, end **exclusive** (FR-021b, SC-009b).
+  A value exactly equal to `end` belongs to whatever unit begins there, never to this one. No
+  producer or consumer may read `end` as inclusive, and none may adopt a different convention
+  locally — a closed-interval reading of a half-open bound is the mechanism, not a hypothetical
+  one: `internal/api/chapters.go`'s `inSection` did exactly this (`t <= sec.TEndS`) and served a
+  section boundary's own next segment twice, under two different section ids, whenever
+  `DeriveSections`' `tooLong` split fired on a run of segments with zero inter-segment silence —
+  fixed under G-KG-19. `TimeSpan` additionally admits `EndS == StartS` (a zero-length span, for an
+  effectively instantaneous word timestamp — T014); that is a narrower admission rule for that one
+  type, not a second interval convention, and it does not change how `end` is read.
 
 **Gate G-KG-4** (shared with the wire contract) — assert every time-carrying mention declares its
 precision. **Paired mutation**: omit precision and default it to `word`; the gate must go red.
@@ -165,6 +177,14 @@ precision. **Paired mutation**: omit precision and default it to `word`; the gat
 the gate must go red. Research **U5** asks whether the 75 unjoined words cluster or scatter; the
 answer changes nothing about this contract but changes whether there is a segmentation defect worth
 fixing.
+
+**Gate G-KG-19** — one documented half-open interval convention (N5, FR-021b) for every text-match
+offset pair and media time span this feature produces, applied uniformly by every producer and
+every consumer, with no component permitted to adopt a different convention locally. **Paired
+mutation**: seed a match or a mention whose start exactly equals the previous unit's end and
+require a consumer reading a closed interval to land in the wrong unit; the gate must go red
+(FR-021b, SC-009b). Implemented at `pkg/knowledge/g_kg_19_test.go`; registered in
+`check-registry-002.tsv`.
 
 ## 4. Authorship — materials and questions
 
@@ -293,9 +313,10 @@ Requirements that follow from measurement on this host, not from principle:
 | G-KG-16 | content boundary enforced **in both directions** | here §4.2 Q5 |
 | G-KG-17 | synthetic chapter produces every output, no hand-assembly | here §5 |
 | G-KG-18 | incomplete chapter names what is missing, publishes nothing | here §5 |
+| G-KG-19 | one documented half-open interval convention, applied uniformly | here §3 N5 |
 | G-OCR-2 | `screen_text` is a fifth kind, not a fifth registry | here §1.1 |
 
-Nineteen gates, nineteen paired mutations. A gate that has never been observed failing is not known
+Twenty gates, twenty paired mutations. A gate that has never been observed failing is not known
 to work, and this repository has twice shipped a proof that could not fail — one whose control
 failed so zero mutations ever ran, one that exercised only sandboxed copies while the real entry
 point could not start. **Every proof here must include a case that runs the real entry point against
