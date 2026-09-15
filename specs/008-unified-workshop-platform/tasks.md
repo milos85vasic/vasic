@@ -95,9 +95,14 @@ Carried through from the source files, unchanged:
   first, on the broken artifact.
 - **`[REVIEW]`** — requires an independent code or content review before it is accepted.
 - **`[SUBAGENT]`** — delegable to a subagent working in isolation.
-- **`[BLOCKED]`** — cannot start until a named prerequisite is resolved. Ten `[BLOCKED]` markers are
-  carried in, most of them waiting on **OQ-3**, the chapter-`ordinal` type decision, which is
-  migration gate **M0** in the specification.
+- **`[BLOCKED]`** — cannot start until a named prerequisite is resolved. **RESOLVED 2026-09-15**:
+  this legend originally claimed "ten `[BLOCKED]` markers... waiting on OQ-3" — measured directly
+  against the seven source `tasks.md` files, that count was wrong: three `[BLOCKED: ordinal type]`
+  markers exist in total (T176, T177, T184, all from `003`), none elsewhere. OQ-3 is now resolved
+  (see spec.md Clarifications, "OQ-3 resolved during this pass") — the decision it names was in
+  fact already made and partially implemented on 2026-09-13, before this merge, in
+  `specs/003-chapter-hierarchy/decision-record.md`. The three tags below are cleared accordingly;
+  see each task's own note for what that means for its remaining work.
 - **`[UNBUILT]`** — specified and deliberately not yet built, as distinct from blocked.
 - **`[USn]`** — the source specification's own user-story tag. **These refer to the numbering of the
   source specification, not to this document's unified user stories** — a `[US1]` on a task from
@@ -599,7 +604,7 @@ every task here:
 
 *From `003` — Phase 4: Visible defects*
 
-- [ ] T176 (was: 003/T025) [TDD] [BLOCKED: ordinal type] Replace `ordinalOf`
+- [ ] T176 (was: 003/T025) [TDD] Replace `ordinalOf`
       (`workshop/platform/backend/internal/api/chapters.go:736`) with a call into `pkg/chapterid`.
       Today it consumes leading digits and returns **`2`** for both `02` and `02.01`. Gate
       **G-CH-4**: ordinal representations are **pairwise distinct** over every present id plus a
@@ -608,7 +613,8 @@ every task here:
       `specs/001-.../data-model.md:45`, not this function** — which is why T001 blocks this
       (FR-022, FR-034, SC-013)
       — AUDIT 2026-09-08: PARTIAL — AND THE REQUIREMENT WAS DELIBERATELY NOT MET. `ordinalOf` (internal/api/chapters.go:783) was NOT replaced; it is kept UNCHANGED and marked DEPRECATED, with `OrdinalPath` added beside it for backward compatibility (rationale in the comment at :775). It still returns 2 for BOTH `02` and `02.01`. G-CH-4 (ordinal representations pairwise distinct over every present id) is NOT asserted for `ordinal` — only titles are, by `TestTitle_DoesNotCollide`. This is a design decision that contradicts the task text; it needs recording, not reimplementing.
-- [x] T177 (was: 003/T026) [BLOCKED: ordinal type] Fix `chapterTitle` (`chapters.go:755`), which renders `02` and
+      — RESOLUTION 2026-09-15: the 2026-09-08 audit's "needs recording, not reimplementing" call was acted on — `specs/003-chapter-hierarchy/decision-record.md` (2026-09-13) formally chose "keep `int`, add `ordinal_path`" (zero-diff) over replacing `ordinalOf`, specifically because `int` is load-bearing for existing consumers (front-end `models.ts`, the registry schema, archived artifacts) and the two alternatives were worse (permanently-unorderable sub-chapters, or unbounded non-reversible renumbering). This task's literal instruction — replace `ordinalOf` — is SUPERSEDED, not done and not owed: `ordinalOf` stays deprecated-but-present by design. Left unchecked because the literal ask was not performed; it is not pending work either. G-CH-4 not asserting `ordinal` is therefore also by design, not a gap.
+- [x] T177 (was: 003/T026) Fix `chapterTitle` (`chapters.go:755`), which renders `02` and
       `02.01` both as `"Chapter 2"`. Two distinct chapters with one title is a wrong answer a reader
       will misread as a cosmetic quirk (FR-023)
       — EVIDENCE: DONE-UNTICKED — `chapterTitle` (internal/api/chapters.go:809) is now a one-line forward to `curriculum.ChapterID.Title`; `TestTitle_DoesNotCollide` (chapterid_test.go:119) asserts `Title("02.01") != Title("02")`. LIVE: `GET /api/chapters/02.01` 200 returns `"title": "Chapter 2.1"` (served).
@@ -654,11 +660,12 @@ every task here:
       `null`, not `false`, when `under` was not given or could not be looked for
       (FR-029, FR-034, SC-018)
       — AUDIT 2026-09-08: GENUINELY OPEN — `?under=99` does return 200, but only because `under` is ignored (see T031). There is no `under_resolved` field on the response at all, so the distinction between "no such branch" and "parameter not implemented" cannot be made by a client.
-- [ ] T184 (was: 003/T033) [BLOCKED: ordinal type] Add `hierarchy` with `parent_href` and `child_hrefs` to
+- [ ] T184 (was: 003/T033) Add `hierarchy` with `parent_href` and `child_hrefs` to
       `GET /api/chapters/{chapter}`, replace `ordinal` with `ordinal_path` — **replace, never place
       beside**, or a client reads the one that collides — and carry the rewritten
       `derivation.hierarchy`. Contract §4.2 (FR-022, FR-024, FR-030)
       — AUDIT 2026-09-08: PARTIAL — `hierarchy` with `parent_href` and `child_hrefs` IS served (LIVE: `GET /api/chapters/02.01` 200 returns `parent_href: "/api/chapters/02"`, `child_hrefs: []`, plus `missing_ancestor_ids`), and `derivation.hierarchy` is carried. **BUT the task says "replace `ordinal` with `ordinal_path` — replace, never place beside", and the server places them BESIDE**: the same response carries `ordinal: 2` AND `ordinal_path: [2,1]`. The code states this is deliberate, for one release (chapters.go:147-155). Reconcile with T001/T025 rather than reimplementing.
+      — RESOLUTION 2026-09-15: reconciled per decision-record.md — the `hierarchy`/`parent_href`/`child_hrefs`/`derivation.hierarchy` portion of this task is DONE (see the AUDIT evidence above). The "replace, never place beside" portion is SUPERSEDED by the ratified zero-diff decision: placing `ordinal` and `ordinal_path` beside each other is now the intended behaviour, not a defect. One open point the decision-record does not address, carried forward honestly rather than assumed: `chapters.go:147-155`'s own comment scopes this to **"for one release"** — a sunset date or follow-up removal of `ordinal` was implied but not stated anywhere in the decision-record or this task family. That gap is worth an operator note; not invented here (§11.4.6).
 - [ ] T185 (was: 003/T034) [TDD] Prove **G-CH-9** (H3): a sub-chapter whose parent directory is absent is **served**,
       with `orphaned: true`, `parent_href: null` and `missing_ancestor_ids` naming what was not
       found — and `parent_id` **unchanged**, because it is derived. `?under=<missing parent>` still
