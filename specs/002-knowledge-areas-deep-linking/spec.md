@@ -229,6 +229,69 @@ into a single "resolved".
   document and answering held to retrieval over the new kinds without generating answers about them.
   **The one option that is not available is to describe it as solved.**
 
+### Session 2026-09-15 — Brainstorm and resolve pass (deep-linking/citation/anchoring focus)
+
+A structured gap scan across five categories — boundary conditions, error scenarios, scale and
+performance, security and privacy, and user experience — run against this specification as it stood
+at 1,333 lines, with depth weighted toward deep-linking, citation and anchoring correctness because
+that is where this project's own governance record shows the historical defect concentration
+(off-by-one anchoring, bracketing, withheld-text carry). Unlike the three questions in the
+2026-09-01 session, every gap found here had a safe, conservative, reversible resolution available,
+so **none is left open**: the standing instruction to take the safest, most stable, risk-free option
+whenever a choice is forced (stated above for the 2026-09-01 session) applies again here, and every
+item below is a decision, not a question.
+
+Ten new functional requirements (FR-008b, FR-020a, FR-020b, FR-021b, FR-024a, FR-027a, FR-033h,
+FR-033i, FR-033j, FR-049a), eight new success criteria (SC-007a, SC-009a, SC-009b, SC-009c, SC-011a,
+SC-012a, SC-015f, SC-015g, SC-024a — see below, the count is nine because SC-015g also measures
+FR-033j), and seven new Edge Cases were added. Each new requirement and edge case carries its own
+reasoning inline; this entry records the shape of the pass rather than repeating that reasoning.
+
+- **Boundary / anchoring**: an unstated byte-offset and time-boundary interval convention (FR-029's
+  "match offsets" and the media-precision model) is exactly the shape of defect that produces
+  off-by-one highlighting and off-by-one landings — resolved by FR-021b, mandating one documented
+  half-open convention applied uniformly. A published area whose evidence is reduced to zero *after*
+  publication (by later redaction) was governed at publish time (FR-008) but not afterward — resolved
+  by FR-008b.
+- **Error scenarios**: a chapter-processing run that crashes mid-write, and a code passage whose
+  underlying file drifts independently in the live monorepo, were both unaddressed — resolved by
+  FR-033h (drift detection) and FR-033i (atomic publish). Index corruption and partial-ingestion
+  staleness were checked and found **already covered** by FR-033 (three-state search), FR-023
+  (four-outcome resolver) and the existing "taxonomy re-extracted while served" edge case, so no new
+  requirement was added for those — adding one would have duplicated an existing guarantee.
+- **Scale and performance**: search latency (SC-016, SC-017) had no counterpart for the simpler,
+  more fundamental operation of following a single existing link — resolved by FR-020b, which reuses
+  SC-017's existing threshold rather than inventing a new number, since a single-link resolution is a
+  strictly simpler operation than a ranked query. Chapter processing had no stated non-blocking
+  guarantee for the currently-served taxonomy — resolved by FR-033j.
+- **Security and privacy**: this is where the deepest gap sat, and it is one this repository's own
+  history makes concrete — a documented content-boundary incident already exists in this monorepo's
+  governance carrier. FR-065 requires the content-boundary check to run on OCR output before it
+  reaches a public artifact, but the same check was never required of **exported area documents**,
+  which carry the same private material through a second, equally real disclosure surface — resolved
+  by FR-049a, which extends FR-065's discipline to export and explicitly covers extracted labels
+  (area titles, term canonical forms), not prose alone. Separately, a cached or precomputed search
+  offset/snippet computed before a passage is redacted could keep serving withheld text until the
+  next full reindex, which is narrower than what FR-027 already promises — resolved by FR-027a,
+  making the propagation synchronous for cached representations. And the four-outcome resolver
+  (FR-023) distinguishing "redacted" from "not present" is, at the learner-facing layer, itself a
+  one-bit disclosure that *something existed and was censored* — resolved by FR-024a, which collapses
+  both to one generic outcome for learners while preserving the distinction for internal/authoring
+  and audit surfaces. **No existing requirement was found to make private content easier to leak on
+  its own** — FR-049a and FR-027a close surfaces that were silent, not surfaces that were wrong.
+- **User experience**: when a citation target has more than one qualifying occurrence — the
+  corroboration-group mechanic added 2026-09-02 makes this routine, not rare — no requirement said
+  what a learner following "where it appears" would be shown. Silently picking one would be the
+  fastest thing to build and the wrong thing to ship, matching the pattern D4 already rejected for
+  unprovenanced questions — resolved by FR-020a: show every occurrence, choose nothing on the
+  learner's behalf.
+
+**Duplicates deliberately not added**, so a later reader does not re-raise them: index-corruption
+detection (covered by FR-033/FR-023), an "area with zero terms" boundary case (low value relative to
+the citation/anchoring items above and not evidence of a defect class), and a multi-hop
+navigation-stack requirement (already covered generically by FR-037 and User Story 5's Acceptance
+Scenario 6).
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - The workshop teaches areas, not just chapters (Priority: P1)
@@ -502,6 +565,39 @@ that every output appears and that the diff contains no hand-created structural 
 - **A screen-reader user follows a deep link into the recording.** The jump changes context; the
   change must be announced, and returning must restore focus, not dump the user at the top of the
   page.
+- **A landing timestamp falls exactly on a boundary** — the last instant of one word or segment and
+  the first instant of the next. Without one documented convention, the same timestamp can be
+  rendered as belonging to either neighbour depending on which producer or consumer computed it,
+  which is an off-by-one defect that a test suite comparing "inside the span" to itself will never
+  catch. See FR-021b.
+- **A published area's evidence is reduced to zero after publication**, not before it — a later
+  redaction removes the last passage that evidenced an already-published area. FR-008 governs
+  publish time only; an area left displaying as published with no live evidence behind it is a
+  smaller version of the same failure SC-001 already guards against at extraction time. See FR-008b.
+- **A citation or a "where does this appear" traversal resolves to more than one occurrence** —
+  several mentions, or a corroboration group spanning spoken and on-screen evidence of the same
+  moment. Picking one silently is faster to build and indistinguishable, to the learner, from having
+  picked the only one. See FR-020a.
+- **A code passage's underlying file is edited, moved or deleted independently**, by unrelated work
+  elsewhere in the monorepo, after the code passage was minted. The workshop's own content did not
+  change, but what the citation points at did — this is a source of staleness the existing
+  correction-and-reindex guarantee (FR-025, SC-010) does not cover, because it is not the workshop
+  that edited the content. See FR-033h.
+- **A search hit's match offsets or snippet are computed and cached before the passage they were
+  drawn from is redacted.** FR-027 already requires redaction to propagate to "index entries"; a
+  cached or precomputed representation sitting ahead of the next full reindex is a gap in that
+  promise wide enough for withheld text to keep being served after the redaction that was supposed
+  to stop it. See FR-027a.
+- **A chapter-processing pipeline run is interrupted — killed, crashed, or the host loses power —
+  partway through minting passages, extracting areas, or writing links for a new chapter.** FR-033g
+  already forbids publishing an *incomplete* chapter; a *crashed* run is a different failure, because
+  the material may have been complete and the process still left partially-written state behind it.
+  See FR-033i.
+- **An exported area document leaves the platform's own storage** — copied into a wiki, attached to
+  a message, or committed into a repository this monorepo's content-boundary check does not scan.
+  FR-065 already treats OCR output as a new disclosure surface requiring a check before publication;
+  an exported document carrying the same private material through a different door is the same class
+  of surface and was, until this pass, ungoverned. See FR-049a.
 
 ## Requirements *(mandatory)*
 
@@ -554,6 +650,15 @@ that every output appears and that the diff contains no hand-created structural 
   overwritten by a fresh extraction. Where extraction and the existing prose disagree about what an
   area is, the disagreement MUST be surfaced for a decision, not silently resolved in either
   direction.
+- **FR-008b**: An already-published area whose evidencing passages are reduced to zero by a later
+  redaction MUST be automatically unpublished — or held for an explicit republication decision — and
+  MUST NOT continue to display, export or resolve as though it still carried live evidence. FR-008
+  states the publish-time precondition; this extends the same guarantee to hold continuously after
+  publication, because a redaction can happen to a passage an already-published area depends on, and
+  nothing about "published" should make that dependency stop being checked.
+  *Why this is the safe choice*: the alternative — leaving a previously-published area displayed
+  until the next full extraction notices the gap — reintroduces exactly the silent-drift failure
+  FR-008 exists to prevent, only shifted later in time.
 - **FR-009**: Extraction MUST be idempotent: a second run over unchanged content MUST produce an
   identical taxonomy and MUST change no identifier.
 - **FR-010**: Extraction MUST account for every passage — each is either attached to at least one
@@ -594,18 +699,54 @@ that every output appears and that the diff contains no hand-created structural 
   the questions attached to it, each reachable in a single step.
 - **FR-020**: From any area, lesson section or question, the system MUST return every passage that
   evidences it, with the position at which the evidence occurs.
+- **FR-020a**: Where a citation or a "where does this appear" traversal resolves to more than one
+  qualifying occurrence — including mentions inside one corroboration group (FR-063) — the system
+  MUST present every occurrence. It MUST NOT silently select one on the learner's behalf.
+  *Why this is the safe choice*: picking a "best" or "first" occurrence invents a judgement the
+  system has no grounds for, and it is indistinguishable from a bug that only ever finds one. Showing
+  the full set costs nothing structurally, since every occurrence must already resolve individually
+  under FR-020, and it matches the precedent D4 already set for questions — withhold a guess rather
+  than serve one silently.
+- **FR-020b**: Resolving a single existing link or citation (as distinct from running a search query)
+  MUST meet the same 2-second, 95th-percentile latency bound SC-017 already establishes for search
+  results, measured and published the same way, so growth of the link graph cannot silently make the
+  more fundamental operation slow while search stays within budget.
+  *Why this is the safe choice*: reusing SC-017's existing, already-justified threshold is
+  conservative — a single-link resolution does strictly less work than a ranked query over the whole
+  corpus, so the same bound cannot be a stretch, and inventing a separate, tighter number would be a
+  guess with no measurement behind it.
 - **FR-021**: For evidence that is media-backed, the position MUST be a time span, and following it
   MUST land within that span. Two precisions exist and the system MUST NOT conflate them: **word
   level**, available where a word-timing sidecar covers the material, and **segment level**,
   available everywhere else. Every media-backed link MUST record which precision produced it, MUST
   NOT present segment precision as word precision, and MUST NOT treat a word whose timing
   confidence is below the recorded threshold as though it were confident.
+- **FR-021b**: Every position — a text-match offset pair (FR-029) and a media time span alike — MUST
+  use one documented half-open interval convention (start inclusive, end exclusive), applied
+  uniformly by every producer and every consumer of that position. No component MAY adopt a
+  different convention locally.
+  *Why this is the safe choice*: a position that means "inside the span" only if every reader agrees
+  what "inside" means at the boundary is exactly the off-by-one class of defect this project's own
+  governance record names as its historical concentration. Fixing the convention once, in the
+  contract, is cheaper and more reversible than discovering the disagreement per-component through
+  mislanded jumps or mis-highlighted snippets.
 - **FR-022**: A mention that spans a segment boundary MUST be attached to every segment it touches.
 - **FR-023**: Every link MUST resolve through one shared resolution path with four distinct
   outcomes — found, redacted, not present, and could not determine — with no fuzzy fallback, no
   nearest-match, and no second path.
 - **FR-024**: An unresolvable link MUST fail loudly and MUST NEVER be silently re-pointed at a
   different target.
+- **FR-024a**: At the learner-facing surface, the resolver's **redacted** and **not present**
+  outcomes (FR-023) MUST be presented as one generic "unavailable" state. The full four-outcome
+  distinction MUST be preserved for internal, authoring and audit surfaces, where it remains subject
+  to FR-024's loud-failure requirement.
+  *Why this is the safe choice*: FR-023 correctly keeps the two outcomes distinct internally, so
+  audit and authoring tooling can tell a missing target from a censored one. But showing that
+  distinction to a learner discloses one bit of information about withheld content — *that something
+  was here and was removed* — which this repository's own active content-boundary posture treats as
+  exactly the kind of signal that should not be surfaced by default. Collapsing the two at the
+  learner layer only, while keeping the distinction where it is needed, is reversible and costs
+  nothing FR-023 or FR-024 already requires.
 - **FR-025**: All links MUST continue to resolve to their original targets after a passage's text
   is corrected and the content re-indexed.
 - **FR-026**: Traversal of the relationship graph MUST terminate on cyclic material and MUST NOT
@@ -613,6 +754,15 @@ that every output appears and that the diff contains no hand-created structural 
 - **FR-027**: Redaction MUST propagate to every artifact kind this feature introduces — taxonomy,
   materials, questions, index entries, exports and stored answers — not only to displayed
   transcript.
+- **FR-027a**: Redaction propagation (FR-027) MUST include every cached or precomputed
+  representation of a passage's text — including search match offsets and snippets computed ahead of
+  a query — synchronously with the redaction. It MUST NOT wait for the next full reindex to take
+  effect.
+  *Why this is the safe choice*: FR-027 already names "index entries" as covered, but a cache or a
+  precomputed snippet sitting ahead of the persisted index is a real, separate representation of the
+  same withheld text, and the gap between "redacted" and "next full reindex" is exactly the window in
+  which a stale cached snippet could keep serving what SC-012 already requires to disappear
+  everywhere at once.
 
 **Search**
 
@@ -676,6 +826,32 @@ that every output appears and that the diff contains no hand-created structural 
   area that a new chapter contradicts is surfaced for a decision rather than silently rewritten.
 - **FR-033g**: The pipeline MUST report precisely what is missing when a chapter cannot be fully
   processed, and MUST NOT publish a partially processed chapter as though it were complete.
+- **FR-033h**: A code passage MUST carry enough information — at minimum, a content hash or
+  equivalent anchor of the code location it cites — to detect when the underlying file has changed
+  independently of the workshop's own content. Resolving a code passage whose anchor no longer
+  matches MUST report **could not determine** or **stale** through the same four-outcome resolver
+  (FR-023), and MUST NOT silently point the learner at code that has since changed.
+  *Why this is the safe choice*: the correction-and-reindex guarantee (FR-025, SC-010) covers content
+  the workshop itself edits; it says nothing about a code file that unrelated work elsewhere in the
+  monorepo moves, renames or rewrites. Detecting the drift and reporting it honestly is the same
+  discipline FR-023/FR-024 already apply everywhere else, extended to a source this feature does not
+  control.
+- **FR-033i**: A chapter-processing run's outputs — minted passages, extracted areas, materials,
+  question sets, cross-references, index entries and links — MUST become visible together or not at
+  all. An interrupted run (crash, kill, power loss) MUST NOT leave partially-written state reachable
+  by a learner or by search.
+  *Why this is the safe choice*: FR-033g already forbids publishing a chapter whose *input* was
+  incomplete; a *process* that stops partway through writing a complete chapter's outputs is a
+  distinct failure the same forbidding language does not reach on its own. Atomic publication is the
+  same "stale but coherent is preferable to incoherent" principle the Edge Cases already state for
+  re-extraction, applied to a crash instead of a planned rerun.
+- **FR-033j**: Processing a new chapter MUST NOT block or degrade interactive serving of the
+  existing, already-published taxonomy, materials, questions or search index while the run is in
+  progress.
+  *Why this is the safe choice*: this is a direct consequence of FR-033i rather than a new idea — if
+  publication is atomic and the previous state stays visible until the new state is ready, then
+  serving that previous state during the run is already implied. Stating it as its own requirement
+  makes it independently measurable rather than leaving it to be inferred.
 
 **Assessment with provenance**
 
@@ -731,6 +907,16 @@ that every output appears and that the diff contains no hand-created structural 
   MUST be reported.
 - **FR-049**: When the export toolchain is unavailable, the system MUST report that export could not
   be performed, and MUST NOT report success over an empty or partial output.
+- **FR-049a**: Every exported area document MUST pass the same content-boundary check FR-065
+  requires of on-screen text before it is written to any location outside the platform's own storage.
+  The check MUST cover extracted taxonomy labels — area titles and term canonical forms — as well as
+  prose, not prose alone.
+  *Why this is the safe choice*: FR-065 already recognises that OCR output is a new disclosure
+  surface and gates it before publication. An exported document carries the same private material
+  through a second, equally real door — and this repository's own governance record documents an
+  active incident in which exported or copied material crossed exactly this kind of boundary. Gating
+  export the same way OCR is already gated closes a surface that was silent, using a mechanism this
+  specification already requires elsewhere; it does not invent a new one.
 
 **Answering over the new material**
 
@@ -890,6 +1076,11 @@ found late.
 - **SC-007**: 0 areas are published without a recorded publication review. **Measured by**: a
   publication precondition check that enumerates published areas and asserts each has a review that
   is newer than the materials it reviews.
+- **SC-007a**: 0 published areas display with zero live evidencing passages. **Measured by**:
+  redacting an already-published area's last evidencing passage and asserting the area is
+  automatically unpublished or flagged, rather than continuing to display, export or resolve as
+  published. Paired mutation: skip the post-publish check and leave the area displayed — the check
+  must go red.
 
 **Deep linking**
 
@@ -901,6 +1092,20 @@ found late.
   every such citation. The precision this delivers is the segment, whose measured distribution is
   median 6.74 s, p95 10.78 s and maximum 20.22 s; that distribution is published with the result
   rather than being smoothed into a single number.
+- **SC-009a**: For every citation or traversal with more than one qualifying occurrence, 100% of
+  qualifying occurrences are returned. **Measured by**: seeding a case with more than one qualifying
+  mention (including one corroboration group) and asserting the full set is returned, not a subset of
+  size 1. Paired mutation: make the resolver return only the first occurrence — the check must go
+  red.
+- **SC-009b**: 100% of positions — text-match offsets and media time spans alike — are interpreted
+  under one documented half-open convention by every producer and consumer. **Measured by**: a
+  boundary-case test that plants a match or a mention whose start exactly equals the previous unit's
+  end, and asserts it lands in the unit the convention assigns rather than either component
+  disagreeing with the other.
+- **SC-009c**: Resolving a single existing link meets the same 2 s, 95th-percentile bound SC-017
+  establishes for search. **Measured by**: the same latency harness pattern as SC-016/SC-017, run
+  against link resolution instead of search, with the before-and-after figure published alongside the
+  search figures.
 - **SC-010**: After a content correction and a structural insertion, 100% of area, term, lesson,
   question and mention links still resolve to the same targets. **Measured by**: replaying the
   identifier-survival experiment already measured for passages, extended to the new identifier
@@ -908,10 +1113,20 @@ found late.
 - **SC-011**: 100% of unresolvable links fail loudly; 0 are silently re-pointed. **Measured by**: a
   mutation that deletes a link target and asserts the resolver returns a loud outcome; the paired
   proof makes the resolver re-point by nearest match and requires the check to go red.
+- **SC-011a**: 100% of learner-facing resolver outcomes for a **redacted** target and a **not
+  present** target render identically. **Measured by**: seeding one of each and asserting the
+  learner-facing surface shows the same generic "unavailable" state for both, while the internal
+  audit log still records which of the four outcomes actually occurred. Paired mutation: render the
+  two states differently — the check must go red.
 - **SC-012**: 100% of redactions propagate to every artifact kind this feature introduces.
   **Measured by**: redacting a passage and asserting its text is absent from the taxonomy, the
   materials, the questions, the index, the exports and any stored answer; paired mutation: skip one
   propagation target — the check must go red.
+- **SC-012a**: A redaction is absent from cached and precomputed search offsets and snippets
+  **within the same request cycle**, not only after the next full reindex. **Measured by**: redacting
+  a passage, immediately issuing a search that would have matched it, and asserting no withheld text
+  appears in the response. Paired mutation: serve from a cache that is only invalidated on the next
+  scheduled reindex — the check must go red.
 
 **Search**
 
@@ -961,6 +1176,17 @@ found late.
   withholding one required input, running the procedure, and asserting it names precisely what is
   missing and publishes nothing. Paired mutation: make the missing input a warning — the check must
   go red.
+- **SC-015f**: 100% of code passages whose underlying file has changed independently are reported as
+  **could not determine** or **stale** rather than resolved as though nothing changed. **Measured
+  by**: mutating the file a code passage cites outside the workshop pipeline, then resolving the
+  citation and asserting the honest outcome; paired mutation: resolve it as a normal hit anyway — the
+  check must go red.
+- **SC-015g**: A chapter-processing run killed partway through leaves the previously-published state
+  fully intact and fully servable, with 0 partially-written artifacts reachable by a learner or by
+  search. **Measured by**: killing the pipeline mid-run against a synthetic chapter, then asserting
+  the prior taxonomy, materials, questions and index are unchanged and still served, and that no
+  new-but-incomplete area, question or link is reachable. Paired mutation: make publication
+  non-atomic — the check must go red.
 
 **Assessment**
 
@@ -1017,6 +1243,11 @@ found late.
   the previous run. **Measured by**: extracting text from each output and diffing; extraction rather
   than byte comparison, because embedded timestamps make byte equality unachievable for some formats
   and a criterion nobody can meet is worse than none.
+- **SC-024a**: 100% of exported area documents pass the content-boundary check, including their
+  extracted taxonomy labels, before leaving the platform's own storage. **Measured by**: running the
+  boundary check over a full export batch and asserting zero findings; paired mutation: scope the
+  check to prose only, excluding area titles and term names — it must go red, because that is
+  precisely the scoping that would let a name through.
 
 **Honesty and governance**
 

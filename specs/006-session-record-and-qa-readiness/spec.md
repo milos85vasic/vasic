@@ -101,6 +101,116 @@ banks mix machine-marked and free-text questions — each have a good reason, an
 the reasons demonstrate the anti-bluff discipline rather than apologising for it.
 A gap discovered live is worse than one disclosed first.
 
+### Session 2026-09-15 — brainstorm-and-resolve pass
+
+This spec carried no formal "Open Questions" table before this pass — only the
+Session 2026-09-08 Clarifications above (already resolved) and one explicitly
+flagged blocker, described in prose under "What each obliges, and one
+blocker": the meeting-notes withholding rule, which the spec's own text says
+"may not be guessed." That blocker is the one item carried into the Open
+Questions section below as genuinely open — it is a content judgement about
+what a specific note may not say publicly, and only the operator holds the
+information needed to make it. Everything else found in this pass was
+resolved here, per the operator's standing instruction (§ house style,
+spec 001's Clarifications) to choose the safest, most conservative,
+most reversible, most standard-practice option wherever a choice is
+mandatory and no operator-only information is required.
+
+Five categories were scanned for gaps: boundary conditions, error scenarios,
+scale & performance, security & privacy, and user experience. Findings and
+resolutions:
+
+- **Boundary — tester headcount.** Nothing said whether QA-readiness depends
+  on having more than one tester available, or what "ready" means with zero
+  testers on hand. → **Resolved**: readiness is a property of the document and
+  platform, not of who is available to run it; every scenario MUST be
+  completable by one tester acting alone (FR-022a). *Why*: the safest reading —
+  it never assumes concurrency nobody asked for, and it means a QA session can
+  start the moment one person is free rather than waiting on a roster.
+- **Error — platform unreachable when a QA session starts.** Not addressed at
+  all, and it is not hypothetical: **confirmed this session** (`podman ps -a`,
+  run 2026-09-15) that no `workshop-curriculum_platform_1` container is
+  running on this host — the platform is down right now. → **Resolved**:
+  treated as a blocking precondition failure, not a partial test; the tester
+  records the environment as unavailable and reports it, and no unreachable
+  step is recorded as passed (FR-022b). *Why*: fail-closed is the conservative,
+  reversible default — it costs nothing when the platform is up and prevents a
+  tester from guessing at a result they never actually observed. No attempt
+  was made to restart the platform or the container — restarting it is
+  explicitly out of scope for this documentation-only pass.
+- **Error — a QA session is interrupted before completion.** Not addressed. →
+  **Resolved**: the QA document MUST state how a tester resumes from the last
+  completed, evidenced step rather than restarting from zero (FR-022c). *Why*:
+  standard test-execution practice; the alternative (mandatory full restart)
+  wastes a volunteer or client tester's time for no safety benefit.
+- **Error — evidence capture itself fails** (a screenshot, log, or recording
+  tool errors out on a given step). Not addressed, and it is a direct gap in
+  the anti-bluff chain FR-023–FR-026 already establish for every other
+  artefact. → **Resolved**: such a step is recorded as observed-but-unevidenced
+  — a could-not-determine — and MUST NEVER be recorded as satisfied merely
+  because the tester watched it happen (FR-029a). *Why*: this is the existing
+  three-valued discipline (FR-024) extended to the one place it did not yet
+  reach — the human capturing the evidence, not just the machine producing it.
+- **Scale — concurrent QA sessions.** Not addressed. → **Resolved**: not
+  required; each tester works against their own environment instance or at a
+  separate time, and shared-environment concurrent testing is recorded as out
+  of scope rather than silently assumed. *Why*: inventing an unrequested
+  concurrency guarantee would be the riskier, less reversible choice — nothing
+  in the operator's input asked for simultaneous testers, and a false
+  concurrency claim is exactly the kind of unearned claim FR-023 forbids.
+- **Scale — evidence storage growth** across repeated QA runs. Not addressed.
+  → **Resolved**: evidence is retained, never silently deleted as volume
+  grows; archiving older evidence out of the live directory, if it becomes a
+  concern, is an operator decision (FR-029b). *Why*: matches this
+  repository's own standing rule against silently removing an existing
+  artefact without an explicit operator decision.
+- **Security & privacy — QA evidence capturing private workshop content.**
+  FR-030 already binds session records to the PUBLIC/PRIVATE boundary but says
+  nothing about QA evidence artefacts (screenshots, logs, recordings), which
+  are a genuinely new pathway for private material to reach the public
+  repository. → **Resolved**: the same boundary rule now explicitly covers QA
+  evidence (FR-030a) — an artefact that would disclose private recorded
+  material, a participant's name, or verbatim private transcript text MUST NOT
+  be committed; it is captured by reference instead. *Why*: this closes a real
+  gap rather than assuming FR-030 was "obviously" already covering it — a
+  screenshot of a private chapter's notes is exactly the kind of leak this
+  project's own incident history (see root CLAUDE.md) warns is easy to make
+  while documenting diligently.
+- **User experience — a non-technical client-side tester.** The Assumptions
+  section already states the QA team is unfamiliar with the platform, but
+  nothing required the document's own language to match that assumption. →
+  **Resolved**: the QA document MUST be written in plain, non-technical
+  language, defining any unavoidable technical term at first use (FR-022d).
+  *Why*: a direct, low-risk consequence of an assumption this spec already
+  made — it does not add a new commitment, it closes the gap between stating
+  the assumption and honoring it.
+- **User experience — accessibility of the QA document itself.** FR-016
+  requires captions and text alternatives for platform materials but the QA
+  document was not held to any standard itself. → **Resolved**: the QA
+  document MUST meet the same baseline this spec family already uses
+  elsewhere (WCAG 2.1 Level AA — see spec 001's Clarifications precedent):
+  screen-reader-navigable structure, no meaning conveyed by color alone
+  (FR-022e). *Why*: matches established precedent in this spec family rather
+  than inventing a new standard.
+- **Boundary/security — the meeting-notes withholding rule (the one blocker).**
+  Left **OPEN** (see Open Questions below), but its *procedural* half was
+  resolvable without the operator: until the rule is settled, the affected
+  route and content MUST default to withheld, never to guessed-and-published
+  (FR-030b). *Why*: this is the safe, reversible, standard "fail closed until
+  decided" default — it changes nothing about the substantive judgement the
+  operator still owns, and it makes the interim state (withheld) an explicit
+  requirement rather than an implicit one.
+
+No item in this pass required irreversible action, touched safety, or could
+be resolved without operator-only business information — except the one
+carried into Open Questions below.
+
+## Open Questions
+
+| # | Question | Why it cannot be resolved here |
+|---|---|---|
+| **OQ-1** | Which specific content in the meeting-notes section must be withheld from the public record, per the withholding rule referenced in "What each obliges, and one blocker" (above) and FR-005a? | This is a content judgement about what one note may say publicly — not a technical choice with a safe default. The spec's own text says it "may not be guessed." Only the operator has the information (what the note contains, and whether it is fit for public disclosure) needed to decide it. **Interim state, resolved**: the route and any dependent content default to withheld until this is settled (FR-030b) — nothing publishes on a guess. |
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - A participant reads what a session produced (Priority: P1)
@@ -200,6 +310,13 @@ An independent reviewer takes any claim made about the platform and traces it to
 - **Two chapters disagree about an open question's status.** The later chapter's record governs, and the transition is visible rather than a silent overwrite.
 - **The evidence is stale.** Evidence must identify the state it was produced from, or it cannot be trusted after that state moves.
 - **A record is authored while its source material changes.** Any count reported must carry evidence the source did not move during the measurement.
+- **A scheduled QA session begins while the platform is unreachable.** The precondition fails outright; the tester records "environment unavailable" and reports it, rather than attempting a partial test against a service that cannot be reached — no step that could not actually be exercised is recorded as passed.
+- **A QA session is interrupted before completion.** The tester resumes from the last completed, evidenced step rather than restarting from zero; the QA document names the resumption point explicitly.
+- **Evidence capture itself fails for a step** (a screenshot, log, or recording tool errors, or produces an unreadable artefact). That step is recorded as observed-but-unevidenced, never silently as passed — a capture failure is a could-not-determine, exactly as an unproducible machine artefact is treated everywhere else in this specification.
+- **A QA evidence artefact would itself disclose private recorded material.** It is withheld or captured by reference instead, under the same rule FR-030 applies to session records — evidence capture is a new pathway into the same public/private boundary and is held to the same standard, never treated as a shortcut around it.
+- **Only one tester is available for a session.** QA readiness does not depend on tester headcount; every scenario in the QA document must be completable by a single person acting alone.
+- **Multiple testers attempt to use the QA document against the same running environment at the same time.** Not required to be supported; each tester works against their own environment instance or at a separate time — concurrent shared-environment testing is out of scope, not silently assumed to work.
+- **Evidence accumulates across repeated QA runs.** Nothing is silently deleted; archiving older evidence out of the live directory, if volume becomes a concern, is an operator decision, not an automatic housekeeping step.
 
 ## Requirements *(mandatory)*
 
@@ -240,6 +357,11 @@ An independent reviewer takes any claim made about the platform and traces it to
 - **FR-020b**: The client-facing walkthrough MUST disclose, before a client can encounter them: the served area count against the authored total, the count of areas carrying no test with the reason, and that scores are indeterminate while any bank mixes machine-marked and free-text questions.
 - **FR-021**: Reaching a testable state MUST require only the documented steps.
 - **FR-022**: It MUST cover edge cases and failure paths, not only the paths that succeed.
+- **FR-022a**: Every scenario in the QA document MUST be completable by a single tester acting alone; the platform MUST NOT require concurrent multiple testers to reach or exercise a documented testable state.
+- **FR-022b**: If the platform is unreachable when a QA session begins, this MUST be treated as a blocking precondition failure. The tester records the environment as unavailable and reports it; no step that could not actually be exercised MUST be recorded as passed.
+- **FR-022c**: The QA document MUST state how a tester resumes an interrupted session from the last completed, evidenced step, rather than requiring a full restart.
+- **FR-022d**: The QA document MUST be written in plain, non-technical language, consistent with the assumption that the QA team is unfamiliar with the platform; any unavoidable technical term MUST be defined at first use.
+- **FR-022e**: The QA document itself MUST meet the same accessibility baseline FR-016 requires of platform materials (screen-reader-navigable structure; no meaning conveyed by color alone).
 
 ### Evidence and review
 
@@ -251,10 +373,14 @@ An independent reviewer takes any claim made about the platform and traces it to
 - **FR-027**: Any count reported about source material MUST carry evidence the material did not change during the measurement.
 - **FR-028**: Every known gap MUST be recorded with its reason and who may lift it.
 - **FR-029**: An independent review MUST confirm that no claim is unearned, and its findings MUST be recorded whether or not they are acted on.
+- **FR-029a**: If evidence capture fails for a QA step (the capture tool errors, produces no output, or produces an unreadable artefact), that step MUST be recorded as observed-but-unevidenced — a could-not-determine — and MUST NEVER be recorded as satisfied merely because the tester observed it happen.
+- **FR-029b**: Evidence artefacts MUST be retained, never silently deleted as volume grows. Archiving older evidence out of the live directory, if storage becomes a concern, is an operator decision, not an automated step.
 
 ### Boundary
 
 - **FR-030**: Session records are authored from PRIVATE recorded material while the umbrella is PUBLIC. **No recorded content, participant name, or verbatim transcript text may cross into the public repository.** Records refer to private material by location, never by content.
+- **FR-030a**: A QA evidence artefact (screenshot, log excerpt, recording) MUST be subject to the same boundary rule FR-030 applies to session records. An artefact that would disclose private recorded material, a participant's name, or verbatim private transcript text MUST NOT be committed to the public repository; it is captured by reference (path, timestamp, redacted excerpt) instead.
+- **FR-030b**: Until the operator settles the meeting-notes withholding rule referenced in FR-005a and Open Question OQ-1, the affected route and any content depending on it MUST default to withheld. It MUST NOT default to guessed-and-published.
 
 ### Key Entities
 
@@ -308,3 +434,5 @@ An independent reviewer takes any claim made about the platform and traces it to
 - Publishing the 3 documents that fail review; that awaits a human reading.
 - Rewriting published history in any repository.
 - Automating the authorship of session content; only its structure, completeness and carry-forward are mechanised.
+- Supporting concurrent testers against one shared running environment instance at the same time; each tester works against their own instance or at a separate time.
+- Restarting or redeploying the platform as part of this specification's own resolution — that is deployment work, not documentation.

@@ -1,7 +1,12 @@
+---
+name: speckit-superspec-brainstorm
+description: 'Spec-kit workflow command: speckit-superspec-brainstorm'
+compatibility: Requires spec-kit project structure with .specify/ directory
+metadata:
+  author: Superspec Contributors
+  source: superspec:commands/brainstorm.md
+---
 
-
-<!-- Extension: superspec -->
-<!-- Config: .specify/extensions/superspec/ -->
 # speckit.superspec.brainstorm
 
 Deep-dive edge cases and refine a spec document using brainstorming skills.

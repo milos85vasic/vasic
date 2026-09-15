@@ -127,6 +127,96 @@ after, because "no governance document changed" is a claim that must be measured
 rather than eyeballed. This pin has gone stale five times; the move closes an
 instance, not the class.
 
+### Session 2026-09-15
+
+A structured brainstorm pass scanned this specification for remaining
+ambiguities across five categories — boundary conditions, error scenarios,
+scale/performance, security/privacy, and operator-facing user experience.
+Six ambiguities were resolved with the safest, most conservative, most
+reversible option available, matching this repository's standing instruction
+for mandatory choices. **One is left as a genuine Open Question** rather than
+resolved unilaterally, because resolving it would require choosing or
+verifying a specific external storage backend for recorded material — a
+decision that touches this repository's private/public content boundary and
+is therefore an operator decision, not one an agent should make silently.
+Nothing below implies, authorises, or performs any destructive git operation
+(no force-push, reset, history rewrite, or `rm`); FR-005's prohibition on
+rewriting published history is unchanged and unaffected by any item here.
+
+- Q: Recorded material is moving to storage outside this repository's object
+  store (2026-09-08 decided "Git LFS, going forward"). Must that new storage
+  preserve the access-control boundary the material had before the move? →
+  A: **Yes — the boundary MUST NOT weaken.** Nothing reachable only privately
+  today may become reachable more broadly as a side effect of fixing
+  obtainability.
+  *Why*: this repository's own governance carrier documents a real,
+  already-occurred incident in which private material crossed a public
+  boundary and could not be un-published once pushed — history is not
+  editable after a push. An obtainability fix that solves R1 by
+  accidentally loosening privacy would trade one hard stop for a
+  worse, irreversible one. Preserving the existing boundary is the
+  conservative default; weakening it is never implied by anything in
+  this spec and is now stated as forbidden (FR-024).
+- Q: Does splitting the transfer into per-object LFS pulls actually fix the
+  resumability defect that root-caused R1 (smart-HTTP cannot resume a failed
+  fetch), or does it only make each failure cheaper to retry? → A: **Treat it
+  as unproven until measured against the actual mechanism.** The claim "a
+  540 KB transfer that fails costs nothing to retry" (already in this spec)
+  bounds the *cost* of a failure; it does not by itself establish that the
+  chosen transport *resumes* rather than *restarts* a single large part.
+  *Why*: the refuted-hypothesis lesson earlier in this document exists
+  precisely because an inference from symptom text was reported as a finding
+  without being tested. Assuming LFS inherits resumability from the
+  pack-transfer diagnosis would repeat that mistake in the other direction.
+  FR-025 requires the property be verified against what was actually shipped.
+- Q: If a multi-repository campaign like the 387 baselined occurrences is only
+  half done, how is that reported? → A: **Per repository, as a remaining
+  count — never collapsed into one aggregate red, and never given a fourth
+  status outside defect / declared / unrunnable.** An unrepaired occurrence
+  stays a defect until it is fixed or re-baselined with a stated principle;
+  "in progress" is not a new state, it is a defect count that is falling.
+  *Why*: FR-011a already requires per-repository partitioning; this makes
+  explicit that partial progress does not get a status of its own, which
+  would be a fourth bucket FR-006 does not define and could be used to hide
+  slow-moving debt inside an ambiguous label.
+- Q: Does an instrument that already reports clean still appear in the fleet
+  summary? → A: **Yes, at zero.** A clean instrument is reported, not omitted.
+  *Why*: FR-009 requires the summary to separate defect and declared counts;
+  an omitted row is indistinguishable from an unrun check, which FR-008
+  already forbids conflating with a pass. Reporting zero costs nothing and
+  closes that ambiguity.
+- Q: Can a red that was closed — fixed, or declared — be reopened later? →
+  A: **Yes, and reopening is itself a recorded event, carrying the
+  contradicting evidence and when it was found.** A closure is never silently
+  overwritten (FR-026).
+  *Why*: this mirrors the reopened-source attribution and recurrence-tracking
+  discipline this repository already applies to workable items elsewhere
+  (see this repository's own governance carrier, referenced by anchor and
+  path only). A closure that can be silently revised is not evidence; it is
+  an assertion with a timestamp problem.
+- Q: Must a declared condition's justification be re-checked after it is
+  written? → A: **Yes — on a stated review cadence, or whenever the fact it
+  cites changes** (FR-027).
+  *Why*: several declared conditions in this spec cite a fact that can itself
+  change (a provider setting, an upstream fix landing, a threshold decision).
+  Without a re-verification trigger, "declared" degrades from "known and
+  justified today" to "asserted once and never revisited," which is exactly
+  the unreadable-red-list problem this specification exists to solve.
+
+**Open Question — not resolved here, operator decision required:** which
+external storage backend holds the recorded material once it leaves this
+repository's object store, and has that backend's own access configuration
+been verified to keep private material private *before* any pointer or
+content referencing it is pushed? The 2026-09-08 clarification fixed the
+*mechanism* (Git LFS) but not the *host* or its privacy posture, and R1's
+subject repository is itself one of this fleet's private submodules. Getting
+this wrong is a push-time, irreversible event — the same class of mistake
+already recorded elsewhere in this repository's governance carrier as an
+incident that could not be undone once public. This is deliberately left open
+rather than resolved with a conservative default, because "conservative" here
+depends on which backend the operator actually intends to use, and no such
+choice has been stated in this specification or its clarifications to date.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - A second engineer obtains the repository (Priority: P1)
@@ -229,6 +319,13 @@ presentations; count hue variety and measure contrast within each pairing.
 - **A fix repairs the count but not the cause.** Each repaired red must name the mechanism that produced it, not only the symptom.
 - **Two instruments disagree.** Both readings stand, with their populations stated; the disagreement is reported rather than resolved by preferring the convenient one.
 - **A red is declared rather than fixed.** It must name who may lift the declaration and what evidence would.
+- **Recorded material moves to storage outside this repository's object store.** The new storage's access-control boundary MUST be at least as strict as what it replaces — nothing that was private (unreachable to a given engineer, or entirely outside the public repository) becomes newly reachable merely because the obtainability path changed.
+- **An individual recorded-material transfer (e.g. one LFS object) is interrupted mid-download.** The root cause established for R1 was that a monolithic pack transfer cannot resume; splitting into per-object transfers is expected to bound the blast radius of one failure, but that property must be demonstrated for the actual mechanism chosen, not inherited by assumption from the pack-transfer diagnosis.
+- **A multi-repository campaign (such as the 387 baselined occurrences) is only partially complete.** Partial progress is reported per repository as a remaining-defect count, never collapsed into one aggregate red and never described as a fourth, undefined state outside defect / declared / unrunnable.
+- **An instrument already reports clean, with nothing to declare or fix.** It still appears in the fleet summary at zero, so silence is never misread as "not yet run."
+- **A red previously closed as fixed or declared is contradicted by new evidence.** Reopening it is itself a recorded event, carrying the contradicting evidence and when it was found — never a silent overwrite of the prior closure.
+- **A declared condition's justification is never re-checked after it is written.** The fact that justified leaving something red can itself go stale; without a re-verification trigger, a justification can silently stop matching reality while the red stays masked as "declared."
+- **The external storage now holding recorded material approaches its own capacity or cost limit.** FR-004's obtainability-cost warning covers the repository; nothing here extends an equivalent warning to the storage that now holds the material moved out of it, so a second budget can silently fill while the first stays comfortably below threshold.
 
 ## Requirements *(mandatory)*
 
@@ -239,6 +336,8 @@ presentations; count hue variety and measure contrast within each pairing.
 - **FR-003**: The documented way to obtain recorded material MUST be in the repository's front-door documentation, and MUST state what a reader gets and what they may not.
 - **FR-004**: An automated check MUST report the repository's obtainability cost and MUST warn **before** the point at which obtaining it fails, not after.
 - **FR-005**: Existing published history MUST NOT be rewritten to achieve any of the above.
+- **FR-024**: Moving recorded material to storage outside the repository's object store MUST NOT weaken the access-control boundary that material had before the move; nothing reachable only to a private audience today may become reachable more broadly as a side effect of solving obtainability.
+- **FR-025**: The per-object (or per-part) retryability assumed of the chosen recorded-material transfer mechanism MUST be independently verified against the actual mechanism used, not inferred from the pack-transfer diagnosis that motivated the move.
 
 ### Red-state discipline
 
@@ -251,6 +350,8 @@ presentations; count hue variety and measure contrast within each pairing.
 - **FR-011a**: Debt spanning more than one repository MUST be partitioned by owning repository and reported per repository, never as a single number that hides where the work belongs.
 - **FR-011b**: A baselined row MUST be re-derived before it is counted as debt. A row fixed upstream and left in a baseline overstates debt and must be pruned, not carried.
 - **FR-011c**: An instrument added for a previously unprobed host MUST be three-valued, and MUST return could-not-determine when it cannot reach that host. Replacing "never asked" with "asked and could not determine" is progress; replacing it with a pass is not.
+- **FR-026**: A red closed as fixed or declared MUST be reopenable, and reopening MUST record the contradicting evidence and when it was found; a closure MUST NEVER be silently overwritten.
+- **FR-027**: A declared condition's evidence MUST be re-verified whenever the fact it cites changes, or on a stated review cadence, so its justification cannot go stale while the red stays silently masked.
 
 ### Learner-facing correctness
 
@@ -299,6 +400,8 @@ presentations; count hue variety and measure contrast within each pairing.
 - **SC-013**: **100%** of text and non-text pairings meet their floor in both presentations; failures number **0**.
 - **SC-014**: **100%** of requirements map to at least one automated check, and every such check ships a data-driven paired demonstration.
 - **SC-015**: A reader answers "is this a defect, what is the evidence, what happens next" for every red from instrument output alone, without consulting a person.
+- **SC-016**: **0** items of recorded material that were unreachable to a given audience before the obtainability fix become reachable to that audience afterward, verified by comparing the new storage's access rules to the old boundary before any push of pointers to it.
+- **SC-017**: **100%** of reopened reds carry the contradicting evidence and a timestamp for when it was found.
 
 ## Assumptions
 

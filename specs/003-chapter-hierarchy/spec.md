@@ -175,6 +175,60 @@ read the requirements below as implementable, and they are not.
 Everything else the change left unstated was decided, and those decisions are recorded under
 **Assumptions** and **Resolved Decisions** with their reasoning.
 
+### Session 2026-09-15
+
+A structured brainstorm-and-resolve pass across five categories — boundary conditions, error
+scenarios, scale, security/privacy, and user experience — found eight gaps not covered by the
+2026-09-05 session or by the Edge Cases already on file. Per the same standing instruction as feature
+001's Clarifications (choose the safest, most conservative, most reversible option rather than
+defer), all eight were resolved. None met the bar for a genuine Open Question — none is irreversible,
+and none needs a decision only an operator can make — because the spec's own governing principles
+(no silent omission, no renumbering, no special-casing, measure-don't-assert) already determined the
+answer in every case.
+
+- Q: Grammar-valid siblings can differ in digit-width (`02.09` next to `02.100`); does that break the
+  ordering guarantee? → A: Yes, and it is not forbidden — a gate reports the mismatch by name instead
+  (FR-036/SC-026).
+  *Why*: rejecting wide corpora would assert a limit the spec elsewhere refuses to assert (FR-003);
+  silently mis-sorting would repeat the exact defect class D2 exists to prevent. A reporting gate
+  gets both properties.
+- Q: A passage still references a chapter id whose directory was removed — is that the same as the
+  `orphaned` case? → A: No; it is a distinct dangling-reference condition, reported and not hidden,
+  with the registry record kept intact (FR-037/SC-027).
+  *Why*: `orphaned` names a missing ancestor of a chapter that still exists; this is a missing chapter
+  whose content still exists in the registry. Conflating them would hide one or the other.
+- Q: Can the derived hierarchy ever contain a cycle? → A: No — structurally impossible by
+  construction, recorded as an Assumption rather than a gate.
+  *Why*: `parent_id` is always a strict prefix of its own id, so no malformed tree can produce a cycle;
+  a gate for an unconstructible input would be gold-plating, not coverage.
+- Q: What does `GET /api/chapters` return when `chapters/` is empty? → A: `200` with `chapters: []`,
+  distinct from the could-not-determine state reserved for an unreadable directory (FR-038/SC-028).
+  *Why*: an empty corpus is a legitimate state, not an error, and conflating it with
+  could-not-determine would make a genuinely empty tree indistinguishable from a broken one.
+- Q: In what order does `ancestor_ids` list a chapter's ancestors? → A: Root-first (FR-039/SC-029).
+  *Why*: that is breadcrumb order. Leaving it unspecified means every client either guesses the same
+  way by luck or reverses the array differently, and a wrong guess renders backwards silently.
+- Q: What do the `depth` and `include_self` parameters named in FR-028 actually mean? → A: `depth` is
+  the maximum number of levels below `under` to include, unbounded if omitted; `include_self` defaults
+  to `false` and adds exactly `under`'s own row when `true` (FR-040/SC-030).
+  *Why*: FR-028 named the parameters without defining them, which is not yet implementable. The chosen
+  meanings match how every comparable tree API in this codebase's own idiom already reads.
+- Q: Does a syntactically invalid `under` value (`02.2`) get a different response than a
+  well-formed-but-absent one (`99`)? → A: No — identical `200` / empty array / `under_resolved: false`
+  (FR-041/SC-031).
+  *Why*: D5's own reasoning for avoiding `404` — "the request was well-formed" — must not become a
+  loophole where a malformed id gets a *third*, undefined response shape. Folding it into the existing
+  "does not exist" case keeps one shape instead of inventing two.
+- Q: `02` and `02.01` are archived, verified and not yet ingested, but already listed by
+  `GET /api/chapters` — should an unpublished chapter's existence stay visible before its content is
+  reviewed? → A: Yes, unchanged from today's behavior; a draft/published visibility gate is explicitly
+  out of scope for this feature (FR-042, new Out of Scope entry).
+  *Why*: FR-004 already commits to listing every directory with no silent omission, for the same
+  reason a pipeline stage must not silently skip a chapter (User Story 2). Carving out an exception
+  here for "not ready yet" would contradict that principle and would itself be the kind of
+  depth-conditioned special case FR-032 forbids. A visibility/publication-state feature, if wanted, is
+  separate work with its own spec — this feature does not invent it as a side effect.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - A sub-chapter is a chapter (Priority: P1)
@@ -325,6 +379,38 @@ the child is present, marked `orphaned: true`, and names the id it could not fin
 - **The client's two chapter shapes disagreeing.** They already do: `null` from one, `2` from the
   other. Whatever the ordinal decision is, both shapes must produce the same value or the mismatch
   must be impossible to express.
+- **Sibling ids whose final component width differs** (`02.09` next to `02.100`). Both are
+  grammar-valid, but three digits sorts *before* two once the first differing character is compared,
+  breaking the ordering guarantee in D2. The grammar does not forbid it, because a wider corpus is not
+  itself an error — a gate reports the mismatch instead of silently sorting it wrong.
+- **A passage or search-index record whose `scope` names a chapter id with no corresponding directory
+  at all.** This is not the orphan case in User Story 5 — that is a missing *ancestor*. This is a
+  missing *self*: content was ingested and the chapter directory was later removed. The registry
+  record is not deleted and the chapter list carries no row for the missing id; the two facts must
+  coexist without either silently disappearing.
+- **Two derived ids can never collide into a cycle.** `parent_id` is always a strict prefix of its own
+  id, one component shorter, so the derivation is a well-founded partial order by construction — no
+  directory tree, however malformed, can produce an id whose ancestor is its own descendant. Recorded
+  here because "circular references" is exactly the kind of defect this document exists to rule out
+  explicitly rather than by silence.
+- **`chapters/` exists and is empty, or contains only dotfiles.** The list endpoint returns `200` with
+  an empty array — not an error, and not the could-not-determine state, which is reserved for a
+  directory that cannot be *read* at all.
+- **A client renders a breadcrumb trail from `ancestor_ids`.** The array's order was never specified.
+  Read root-first — nearest-first would put the trail backwards on screen without every client
+  reimplementing the same reversal.
+- **`?under=` and `?depth=` combined.** Neither parameter's semantics were specified together. A
+  depth-limited branch query needs both "how many levels down" and "does the branch root itself count"
+  resolved the same way for every client, or two clients will disagree about what one URL returns.
+- **`?under=02.2`** — a syntactically invalid id passed as a filter, distinct from a syntactically
+  valid one that names nothing. Treating it as a different failure class than SC-018's "well-formed,
+  absent" case would mean the `404`-avoidance reasoning in D5 stops applying the moment the input is
+  merely malformed instead of merely missing.
+- **`02` and `02.01` are archived and verified but not ingested (see Context table), and are still
+  listed today.** Whether an unpublished chapter's existence should be visible before its content is
+  reviewed is a real question this feature does not get to answer by accident — FR-004's own
+  no-silent-omission rule already answers it for every other directory, and this feature does not
+  carve out an exception.
 
 ## Requirements *(mandatory)*
 
@@ -451,6 +537,41 @@ the child is present, marked `orphaned: true`, and names the id it could not fin
 - **FR-035**: Every gate that needs a chapter id MUST take it from the live tree, as
   `verify-absence-honesty.sh:127`–`134` already does, rather than hardcoding one.
 
+**Hierarchy exposure & scale** *(added 2026-09-15, see Clarifications)*
+
+- **FR-036**: A gate MUST detect when sibling chapter ids at the same level do not share equal
+  digit-width in their final component (for example `02.09` alongside `02.100`), because unequal
+  width breaks the byte-lexicographic ordering guarantee in FR-009/D2. The gate MUST report the
+  offending ids by name. It MUST NOT reject the directories at validation time and MUST NOT
+  auto-renumber them — see the "no renumbering, ever" Assumption.
+- **FR-037**: A passage or search-index record whose `scope` names a chapter id with no corresponding
+  directory under `chapters/` MUST be reported as a dangling reference, distinct from `orphaned`
+  (FR-031), which names a missing *ancestor* rather than a missing *self*. Enumeration and hierarchy
+  derivation MUST NOT synthesize a chapter row for an id that exists only in the registry, and MUST
+  NOT delete or hide the registry record — it remains evidence that ingestion occurred.
+- **FR-038**: An empty `chapters/` directory, or one containing only dotfiles, MUST yield `200` with
+  an empty `chapters` array. Only a `chapters/` directory that cannot be read MUST enter the existing
+  could-not-determine state.
+- **FR-039**: `ancestor_ids` MUST be ordered root-first — the top-level ancestor first, the immediate
+  parent last — because that is the order a breadcrumb trail renders in and the one ordering a client
+  never has to reverse.
+- **FR-040**: `depth` MUST be interpreted as the maximum number of hierarchy levels below `under` to
+  include, with an omitted value meaning unbounded descendants. `include_self` MUST default to
+  `false` and, when `true`, MUST add exactly one row — `under`'s own — to the returned array. Both
+  meanings MUST be documented in the same contract section as `under`.
+- **FR-041**: An `under` value that fails the FR-001 grammar MUST be treated identically to one that
+  is grammar-valid but names no existing chapter: `200`, empty array, `under_resolved: false`. It
+  MUST NOT be distinguished with a different status or error shape — a malformed id is a special case
+  of "does not exist," not a different failure class.
+- **FR-042**: Whether a chapter is listed by `GET /api/chapters` MUST continue to depend only on
+  whether its directory exists under `chapters/` (FR-004), never on ingestion state, review state, or
+  any other readiness signal. This feature MUST NOT introduce a draft/published visibility
+  distinction — doing so is a separate feature (see Out of Scope) and would itself be a special case
+  FR-032 forbids.
+- **FR-043**: The cost of deriving `hierarchy` fields for every row MUST be measured against the
+  corpus size present at the time of measurement. No requirement in this feature MAY assert a maximum
+  number of chapters or siblings.
+
 ### Key Entities
 
 - **Chapter**: unchanged in kind, changed in identity. Its identifier becomes the dotted numeric
@@ -575,6 +696,32 @@ names the mutation that must turn it red.
 - **SC-025**: 0 gates hardcode a chapter id. **Measured by**: a check over the gate scripts
   asserting each obtains its chapter from the live tree or from an argument.
 
+**Hierarchy exposure & scale** *(added 2026-09-15)*
+
+- **SC-026**: A gate detects a same-level digit-width mismatch and reports the offending ids by name.
+  **Measured by**: a fixture tree containing `02.09` and `02.100` as siblings, asserting the gate
+  names both. Paired mutation: remove the width check — the gate must go silent on the same fixture.
+- **SC-027**: A passage whose `scope` names a chapter id with no corresponding directory is reported,
+  and no chapter row is synthesized for it. **Measured by**: a fixture registry carrying a `scope`
+  value naming an absent directory; asserting the chapter list omits a row for it while a dedicated
+  dangling-reference report names it. Paired mutation: make the enumerator trust the registry over the
+  filesystem — the check must go red.
+- **SC-028**: An empty, readable `chapters/` directory yields `200` and `chapters: []`. **Measured
+  by**: a fixture tree with zero chapter directories, asserted distinct from the could-not-determine
+  state exercised separately for an unreadable directory.
+- **SC-029**: `ancestor_ids` is root-first for 100% of chapters with at least one ancestor.
+  **Measured by**: for a chapter at depth 3, asserting the array reads top-level-ancestor-first,
+  nearest-parent-last. Paired mutation: reverse the array — the check must go red.
+- **SC-030**: `depth=1` under a given parent returns exactly its direct children and no grandchildren;
+  `include_self=true` adds exactly one row, the parent's own. **Measured by**: a fixture tree three
+  levels deep, asserting both parameters independently and together.
+- **SC-031**: A grammar-invalid `under` value returns the same shape as a well-formed-but-absent one.
+  **Measured by**: probing both `?under=02.2` and `?under=99` and asserting identical status,
+  `under_resolved: false`, and an empty array.
+- **SC-032**: The per-request hierarchy-derivation cost is measured and published at the corpus size
+  present. **Measured by**: timing `GET /api/chapters` against the live corpus and recording the
+  figure; no assertion of a maximum chapter count exists anywhere in the codebase.
+
 ## Assumptions
 
 - **The dotted id is a path, not a decimal.** `02.10` sorts after `02.09` because both are
@@ -599,6 +746,10 @@ names the mutation that must turn it red.
 - **Governance is binding.** Three-valued checks, paired mutation proofs, no server-side CI, the
   content boundary in both directions, and the continuation document updated alongside non-trivial
   changes.
+- **A cycle in the derived hierarchy is structurally impossible.** `parent_id` is always a strict
+  prefix of its own id, one component shorter, so the parent relation is a well-founded partial order
+  by construction — no directory tree, however malformed, can make an id its own ancestor. No gate is
+  added to prove this; nothing can construct the input that would need one. *(2026-09-15)*
 
 ## Dependencies
 
@@ -628,6 +779,10 @@ names the mutation that must turn it red.
 - **Re-recording, re-transcribing or editing source material.**
 - **A hierarchy for anything other than chapters.** Knowledge areas are flat by feature 002's own
   decision and nothing here changes that.
+- **A draft/published visibility distinction for chapters.** `GET /api/chapters` lists every directory
+  that exists (FR-004, FR-042), regardless of ingestion or review state, exactly as it does today.
+  Gating chapter visibility on readiness is a separate feature, not this one, and inventing it here
+  would be the scope creep FR-032 exists to forbid. *(2026-09-15)*
 
 ## Resolved Decisions
 

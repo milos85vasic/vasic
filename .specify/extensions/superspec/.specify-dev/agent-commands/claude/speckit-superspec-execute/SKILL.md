@@ -1,7 +1,12 @@
+---
+name: speckit-superspec-execute
+description: 'Spec-kit workflow command: speckit-superspec-execute'
+compatibility: Requires spec-kit project structure with .specify/ directory
+metadata:
+  author: Superspec Contributors
+  source: superspec:commands/execute.md
+---
 
-
-<!-- Extension: superspec -->
-<!-- Config: .specify/extensions/superspec/ -->
 # speckit.superspec.execute
 
 Orchestrate implementation with TDD, subagents, and review gates.

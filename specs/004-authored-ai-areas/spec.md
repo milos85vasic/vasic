@@ -102,6 +102,48 @@ instead of invisible.
 The requirement is that the threshold is stated per area and shown before the
 attempt. An undisclosed threshold makes a result unfalsifiable to the learner.
 
+### Session 2026-09-15
+
+A structured ambiguity scan across five categories — boundary conditions,
+error scenarios, scale/performance, security/privacy, and user experience —
+against this spec's Edge Cases and Requirements as they stood after the
+2026-09-07 session. **Every resolution below is the safest, most reversible
+option available**: none invents a numeric ceiling this spec cannot justify,
+none proposes a mechanism that would touch or re-derive private corpus
+content, and none downgrades an existing requirement. One genuine ambiguity
+is left open rather than force-resolved; it is marked as such below.
+
+- Q: How is a lesson's reading-time estimate kept honest as content is authored and re-authored? → A: **Computed from the body, not authored as a separate field.** An independently-authored number can drift from the content it describes with no check catching the drift.
+- Q: Does an extremely short, near-empty lesson body need its own minimum-length rule? → A: **No — it is caught by the same structural validation that catches malformed content (FR-012c)**, not a new word-count threshold. Inventing an arbitrary minimum would be exactly the kind of automated judgement Amendment A2 already declined to make for topicality; content substance is a reviewable finding, not a number to tune.
+- Q: What does the catalogue show when zero areas are currently publishable? → A: **An explicit empty state, distinguished from an error, and not itself a build failure.** The alternative — an ambiguous blank page — is indistinguishable from D3's "listed but broken" failure mode this whole specification exists to remedy.
+- Q: How is a pass threshold rounded when it does not divide evenly into a small question bank? → A: **Round up, never down.** Rounding down would let a learner pass below the threshold that was shown to them before the attempt, which contradicts the disclosure guarantee FR-008b already makes (see Q5, 2026-09-07).
+- Q: What happens to content left mid-authored when a session is interrupted? → A: **An explicit draft/placeholder marker excludes the area from publication automatically**, by the same determination as FR-018. Relying on an author to remember to delete a marker before committing is the same class of failure that produced D3 — two separately-trusted mechanisms instead of one.
+- Q: What happens when authored content is structurally malformed — a broken reference, an unparseable field? → A: **It is a build-time finding, never a learner-facing runtime error.** This is FR-018c's existing principle ("an inconsistent build MUST be distinguishable from an editorial refusal") applied to content shape rather than publication logic.
+- Q: Can a lesson or a test assert something that contradicts another lesson or the assessment for the same area? → A: **Left as a genuine Open Question — see below.** Automated contradiction-detection across authored prose is not a check this specification can respect (FR-026–FR-029 all require a deterministic, three-valued, paired-proof check); a heuristic "contradiction finder" would produce exactly the confident-but-wrong verdicts Amendment A2 already refused for topicality, at higher stakes because the subject is a graded test.
+- Q: Does this feature need to assume a fixed ceiling on the number of areas or the size of the corpus? → A: **No — growth is measured, not assumed.** The Assumptions section already states scale is 37 subjects today and the design must not assume that number; this session extends the same principle to response time: report the measurement, do not invent an untested SLA number.
+- Q: Can authored lesson or question text reach a learner through a channel this specification's publication gate does not cover — a share preview, an export, a feed? → A: **No — every such channel is covered by the same FR-018 determination as the primary route.** This is the highest-priority resolution in this session given the repository's ACTIVE, unremedied content-boundary incident (see root `CLAUDE.md`): a second, unreviewed path to the same text is exactly the shape of risk that incident describes, and closing it here costs nothing already built.
+- Q: May authored content name a private individual who took part in a recording? → A: **No — role or pseudonym only, never a real name.** This restates, as a functional requirement of this feature rather than only a repository-wide incident finding, the same protection the content-boundary incident documentation already requires. It does not weaken or duplicate that documentation; FR-005c is the feature-level enforcement point.
+- Q: Can a material file (image, diagram) carry metadata from the machine it was authored on? → A: **No — it MUST be scrubbed before publication.** The umbrella repository has an independently measured, real finding of exactly this shape (`audit-hardcoded-paths.sh`, a developer-host path frozen into a tracked private-submodule file); requiring scrubbing here prevents the same class of defect from recurring inside this feature's own material pipeline.
+- Q: How does a learner tell authored teaching prose apart from a quoted transcript passage in the same lesson? → A: **They are visually and structurally distinguished (FR-016b, SC-020).** This is not a new idea so much as the presentation-layer expression of why this feature exists at all — D1 names the defect as mined vocabulary presented as authored subject matter; a lesson that quotes its source material without marking the quote as a quote would reintroduce the same confusion one layer up.
+- Q: Is a video-anchor jump usable without a mouse, and does assistive technology learn that the jump happened? → A: **Yes to both — keyboard-only operation and an announced arrival, not only a visual highlight (FR-015a).** FR-013's existing text-alternative requirement covers static materials; this closes the equivalent gap for the interactive jump itself, which FR-015 as originally written did not address.
+- Q: Is per-question test correctness legible to a learner who cannot perceive colour? → A: **No colour-alone indicators (FR-022a).** FR-022 already sets a contrast floor; contrast alone does not help a learner who cannot distinguish red from green regardless of contrast ratio, so an icon or text label is required alongside colour.
+
+**The one genuine Open Question this session did not resolve:** whether, and
+how, to detect a substantive contradiction between two pieces of authored
+content about the same subject (for example a lesson stating one trade-off and
+the assessment's explanation stating the opposite). This is left open rather
+than resolved because it is irreversible in the same way Amendment A2's
+topicality judgement is irreversible — building an automated "contradiction
+checker" and trusting its verdicts risks a confident false pass on a genuinely
+conflicting pair, or a confident false finding on two claims that are merely
+differently framed, and either failure mode reaches a learner as either a
+silent defect or an eroded trust in every other automated check this
+specification relies on. The safe default already in force is human review at
+authoring time (the same review checkpoint FR-002 and Amendment A2 already
+require for topicality); this session did not invent a new mechanism beyond
+that, and does not claim one is needed — only that automating it further is a
+decision for an operator, not a specification default.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - A learner finds a subject they recognise (Priority: P1)
@@ -260,6 +302,18 @@ command calls ready.
 - **A material file is missing.** The lesson states the material is unavailable rather than rendering a broken element.
 - **A visitor uses reduced-motion or high-contrast settings.** Both are honoured; neither degrades legibility below the stated floors.
 - **The interface is measured but the served bundle was not rebuilt.** Any interface claim must establish that what was measured is what is served.
+- **A lesson body is extremely long or extremely short.** Its stated reading time MUST be computed from the body it actually describes rather than authored as an independent guess (FR-007a); a body so short it carries no substantive content MUST fail the same structural check that catches malformed content (FR-012c), not a separate word-count rule.
+- **The catalogue has zero publishable areas.** It MUST show an explicit empty state, not an error and not a blank page, and that state alone MUST NOT be read as a build failure.
+- **A test's question bank is very small.** Where the stated pass threshold applied to the question count does not land on a whole number, the required correct-answer count MUST round up, never down — a learner is never told they passed on a downward rounding of the stated bar.
+- **Authoring is interrupted before an area is finished**, leaving a lesson, question or field carrying an explicit draft/placeholder marker. That marker MUST be detected automatically and MUST exclude the area from publication by the same determination as FR-018 — it MUST NOT rely on the author remembering to delete it before committing.
+- **Authored content is malformed** — broken structure, an unparseable reference, a field the schema does not expect. This MUST surface as a build-time finding, never as a runtime error shown to a learner.
+- **The catalogue or the corpus grows far beyond its current 37-area scale.** The effect on catalogue and reference-resolution response time MUST be measured as scale changes; the design MUST NOT assume a fixed ceiling, and a measured slowdown MUST be reported rather than silently absorbed.
+- **Authored content reaches a channel outside the primary reviewed route** — a share/link preview, an export, a machine-readable feed. That channel MUST be covered by the same FR-018 publication determination as the primary route; there is no bypass for authored text.
+- **Authored content would need to reference a private individual who took part in a recording.** It MUST do so by role or pseudonym, never by that person's real name — the same protection the standing content-boundary incident already requires of this repository's own documents.
+- **A material file (illustration, diagram, scheme, graph) carries embedded authoring-environment metadata** — EXIF location data, a local filesystem path, an authoring-host identifier. It MUST be scrubbed before publication.
+- **A learner cannot tell authored teaching prose from a quoted transcript passage inside the same lesson.** The two MUST be visually and structurally distinguished — this is the presentation-layer expression of the reason this feature exists (D1): the platform publishes authored subjects, not mined material, and a reader must be able to see that distinction, not just be told it in a specification.
+- **A learner follows a video-anchor reference using only a keyboard or a screen reader.** The jump MUST be reachable without a pointing device, and arrival at the referenced passage MUST be announced to assistive technology rather than conveyed only by a visual highlight.
+- **A test result is read by a learner who cannot perceive colour.** Per-question correctness MUST be conveyed by an icon or text label in addition to colour, never by colour alone.
 
 ## Requirements *(mandatory)*
 
@@ -274,26 +328,34 @@ command calls ready.
 - **FR-005**: The set of published areas MUST be derived from the recorded source material's actual AI/IT content, and the coverage relationship between the source material and the published set MUST be recorded so gaps are visible.
 - **FR-005a**: The published set MUST be the authored subject set, and MUST NOT be selected by ranking areas on how often their terms occur. Evidence volume MUST be reported per area, including for thinly-evidenced areas, rather than used as a publication filter.
 - **FR-005b**: An area whose supporting evidence is thin MUST still state its evidence volume rather than presenting itself as equally supported.
+- **FR-005c**: Authored content — lesson text, questions, captions — MUST NOT name, quote, or otherwise identify a private individual who took part in a recording but is not the corpus owner. Where such a participant must be referenced, the reference MUST use a role or a pseudonym, never a real name.
 
 #### Lessons and assessment
 
 - **FR-006**: Every published area MUST carry at least one lesson, and lessons MUST have a defined order.
 - **FR-007**: Every lesson MUST carry a title, body content and an estimated reading time, and MUST be navigable to its neighbours without returning to the area.
+- **FR-007a**: A lesson's estimated reading time MUST be computed deterministically from its actual body content, not authored as a separate value that can drift from the content it describes.
 - **FR-008**: Every published area for which an authored question bank exists MUST carry an end-of-area test drawn from senior-level interview questions on that subject, and an area with no such bank MUST carry no assessment rather than a generated one. **AMENDED 2026-09-07** — see *Amendment A1* below.
 - **FR-008a**: Assessment questions MUST be authored against this corpus. Framing and structure may be adopted from the established interviewing module; question text, options and answers MUST NOT be imported from it.
 - **FR-008b**: Every assessment MUST declare a pass threshold, and that threshold MUST be shown to the learner before the attempt begins.
+- **FR-008c**: Where a stated pass threshold applied to a question bank's size does not produce a whole number of required correct answers, the required count MUST round up, never down.
 - **FR-009**: A learner MUST be able to submit answers to a test and receive a score together with, for each question, whether their answer was correct and what the correct answer is.
 - **FR-010**: Until an area's lessons are complete, its test MUST be reported as unavailable with the remaining requirement stated, and the response MUST NOT contain question text, options, or correct answers.
 - **FR-011**: A submitted test result MUST be stable — re-reading it returns the same result, asserted by an automated check rather than by a manual validation step.
 - **FR-012**: Answers MUST be identified in a way that does not depend on the order options are presented in.
 - **FR-012a**: Test availability MUST be enforced where the content is served, not where it is displayed. A learner record held only in the browser MAY decide what is shown; it MUST NOT be what prevents an answer key from being sent.
+- **FR-012b**: Authored content carrying an explicit incomplete/placeholder marker (for example a stated draft or TODO indicator) MUST be excluded from publication by the same automated determination that governs FR-018, not by an author remembering to remove it before commit.
+- **FR-012c**: Authored content MUST validate against its defined structure before publication — including a lesson body so short it carries no substantive content beyond restating its title. A structural validation failure MUST be reported as a build-time finding and MUST NEVER be surfaced to a learner as a runtime error.
 
 #### Materials and video anchors
 
 - **FR-013**: A lesson MUST be able to carry supporting materials — illustration, diagram, scheme, graph, and video segment — each with a caption and a text alternative.
+- **FR-013a**: A material file MUST be scrubbed of embedded authoring-environment metadata — for example EXIF location data, a local filesystem path, or an authoring-host identifier — before publication.
 - **FR-014**: A lesson MUST be able to reference a moment or a range in a recorded session, identifying the recording, a start position, optionally an end position, and the transcript passage that corresponds to it.
 - **FR-015**: Following such a reference MUST position the recording at the referenced start, scroll the transcript so the referenced passage is in view, and visually distinguish that passage.
+- **FR-015a**: Following a video-anchor reference MUST be achievable using only a keyboard, and arrival at the referenced passage MUST be announced to assistive technology, not conveyed only by a visual highlight.
 - **FR-016**: Every reference in every published lesson MUST resolve to an existing recording and an existing passage; an unresolvable reference MUST prevent publication of that lesson rather than surfacing to a learner.
+- **FR-016b**: Every published lesson MUST visually and structurally distinguish its own authored prose from any quoted or transcribed passage it includes, so a learner cannot mistake one for the other.
 - **FR-017**: A reference that cannot be satisfied at reading time MUST tell the learner the target is unavailable rather than presenting an empty or not-found page.
 
 #### Catalogue integrity
@@ -302,13 +364,17 @@ command calls ready.
 - **FR-018a**: The publication decision MUST be computed in exactly one place and consumed by every surface that needs it. Sharing a vocabulary of reasons between separately-implemented decisions does NOT satisfy this — the measured cause of D3 was two implementations that shared their reason strings and differed in their *sequence of tests*, each passing its own unit tests because nothing asserted the pair.
 - **FR-018b**: An area withheld from the catalogue MUST still be identifiable — its identifier and the reason it was withheld MUST remain retrievable, and where a name is derivable it MUST be disclosed. Withholding an area is not a reason to withhold what it is called.
 - **FR-018c**: An inconsistent build MUST be distinguishable from an editorial refusal, and one bad record MUST NOT take the catalogue down.
+- **FR-018d**: A catalogue with zero publishable areas MUST present an explicit empty state rather than an error or a blank page, and that state MUST NOT by itself be treated as a build failure.
+- **FR-018e**: Any surface capable of exposing authored lesson or question text outside the primary reviewed route — a share or link preview, an export, a machine-readable feed — MUST be covered by the same publication determination as FR-018. There is no bypass route for authored content.
 - **FR-019**: Descriptive fields present in the catalogue listing MUST survive to the interface that presents them; a field carried by the listing and discarded before display is a defect.
 - **FR-020**: The catalogue MUST expose each subject once.
+- **FR-020a**: The effect of catalogue or corpus growth beyond its current scale on catalogue and reference-resolution response time MUST be measured, not assumed; the design MUST NOT assume a fixed ceiling, and a measured slowdown MUST be reported rather than silently tolerated.
 
 #### Presentation
 
 - **FR-021**: The served interface MUST present a palette spanning a materially wider range of distinct hues than a two-tone scheme, across its principal surfaces.
 - **FR-022**: Every text pairing in the served interface MUST meet the normal-text contrast floor and every non-text indicator the non-text floor, in both light and dark presentation.
+- **FR-022a**: Per-question correctness in a test result MUST be conveyed by a means other than colour alone — for example an icon or a text label — so it is legible without colour perception.
 - **FR-023**: Design decisions recorded in the design source MUST be reflected in the served interface; a claim about the interface MUST be supported by a measurement of what is served.
 - **FR-023a**: The served catalogue MUST declare the corpus revision it was built from, and any claim about served content MUST cite that revision. A verified on-disk state is not evidence about what is being served.
 
@@ -424,6 +490,8 @@ behaviour would have copied a defect.
 - **SC-016**: **100%** of published areas report their supporting evidence volume, including the thinly-evidenced ones; areas presenting no evidence figure number **0**.
 - **SC-017**: **100%** of assessments declare a pass threshold that is visible before the attempt begins.
 - **SC-018**: The served catalogue declares the corpus revision it was built from in **100%** of responses, so a served-versus-on-disk discrepancy is detectable rather than silent.
+- **SC-019**: **0** authored lesson or question characters reach a learner through a channel that bypassed the FR-018 publication determination — share previews, exports, machine-readable feeds — measured by an automated check.
+- **SC-020**: **100%** of published lessons that include a quoted or transcribed passage visually and structurally distinguish it from the lesson's own authored prose, measured by an automated structural check.
 
 ## Assumptions
 

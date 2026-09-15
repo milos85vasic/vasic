@@ -48,6 +48,118 @@ The reasoning is recorded so any answer can be challenged later.
 - Q: What accessibility standard applies to the curriculum and its search interface? → A: WCAG 2.1 Level AA, with full keyboard operability for search.
   *Why*: AA is the common legal and institutional baseline; keyboard operability is called out explicitly because a type-ahead search box is a well-known accessibility failure point, and the interface's primary interaction is typing.
 
+### Session 2026-09-15 — Brainstorm and resolve pass
+
+A structured scan across five categories — boundary conditions, error scenarios, scale &
+performance, security & privacy, and user experience — found eleven ambiguities not covered by
+the 2026-08-31 clarifications or the existing Edge Cases list. Per the same standing instruction
+to choose the safest, most stable, risk-free option where a choice is mandatory, ten are resolved
+below with the reasoning recorded. One is left as a genuine operator decision, recorded in Open
+Questions rather than resolved here, because it concerns an actual named third party's consent
+rather than a re-openable engineering default.
+
+- Q: What must the curriculum show when zero chapters have completed ingestion — for example, on
+  first deployment, before Chapter 1 finishes processing? → A: An explicit "no chapters available
+  yet" state, never an empty or broken page.
+  *Why*: an unhandled empty state either looks like a startup failure, eroding trust in SC-004's
+  15-minute clean-start promise, or renders a blank page a screen reader announces nothing about.
+  An explicit, honest empty state costs one UI state and closes both failure modes. (FR-049;
+  Edge Cases)
+- Q: Where must automated-check evidence for this feature be written, given the recording is a
+  private teaching session and the repository's existing evidence convention
+  (`_tests/evidence/`) lives in the **public** `vasic` monorepo? → A: Evidence that could contain
+  transcript excerpts, speaker attribution, or other content derived from the private `workshop`
+  submodule MUST be written inside that submodule's own evidence location, never into the public
+  monorepo's shared evidence path. Only evidence provably free of such content (for example a
+  bare pass/fail count with no quoted text) may use the shared convention.
+  *Why*: this repository has an on-the-record incident
+  ([`docs/content-boundary-incident-2026-09-01.md`](../../docs/content-boundary-incident-2026-09-01.md))
+  of exactly this failure mode — private material copied into a public path. FR-040 as written
+  says evidence goes "within the repository" but not which one, and the practice it cites by
+  analogy is public. Naming the private submodule as the default destination for anything that
+  could carry private content closes a gap this repository has already paid for once, at no cost
+  to FR-040's own guarantee — evidence is still written and versioned, just inside the correct
+  boundary. (FR-050)
+- Q: Does D1's "local and internal" scope permit unauthenticated access from other devices on the
+  operator's network, or only from the operator's own machine? → A: Any access from other than
+  the operator's own loopback interface (127.0.0.1) MUST require authentication before the
+  recording, transcript, or search content is served.
+  *Why*: D1 already names the exposure — an identifiable third party — and commits to
+  "local/internal" as the mitigation, but "internal network" reaches every device that network can
+  reach unless narrowed. Requiring authentication beyond loopback is the same low-cost,
+  high-value category of mitigation D1 itself uses, and it tightens the boundary D1 already drew
+  rather than reopening it. (FR-051)
+- Q: How must a passage marked "uncertain" (FR-003) be conveyed in the interface, given the
+  WCAG 2.1 AA commitment? → A: With a text label or an icon carrying an accessible name — never by
+  color alone.
+  *Why*: WCAG 2.1 Success Criterion 1.4.1 ("Use of Color") forbids color as the only means of
+  conveying information. A colored highlight alone would satisfy FR-003's marking requirement
+  functionally while failing the WCAG commitment FR-041 already makes; stating the accessible form
+  now costs nothing and prevents the defect from surfacing only during audit. (FR-052)
+- Q: What must happen if answer generation (Story 4) starts producing output and then fails or
+  disconnects partway through? → A: The partial output MUST be discarded from what is shown as the
+  answer; the system reports a failure, not a truncated answer.
+  *Why*: a half-generated answer is, by construction, likely to be missing the citations FR-021
+  requires — they are typically emitted alongside or after the prose — so presenting it would look
+  like a completed, uncited claim: the exact combination this feature's governance forbids.
+  (FR-053; Edge Cases)
+- Q: Can the extension procedure (FR-026/FR-027) be invoked twice genuinely concurrently against
+  the same chapter, rather than sequentially as FR-027 already covers? → A: No — the procedure
+  MUST detect a concurrent invocation against the same chapter and refuse the second one rather
+  than interleave writes.
+  *Why*: FR-027's idempotency guarantee assumes each run completes before the next starts; two
+  simultaneous runs can interleave partial writes to the same transcript and index files in a way
+  a strictly sequential idempotency check never observes. Refusing the second invocation is the
+  cheapest safe response. (FR-054; Edge Cases)
+- Q: How many concurrent users must the curriculum support, given D1 permits "internal network"
+  access rather than a single machine only? → A: A small, fixed number — at least 5 concurrent
+  users performing search and browsing without missing the SC-005/SC-006 latency targets. No
+  larger figure is assumed.
+  *Why*: the described audience is workshop participants and the operator, not a public or
+  organisation-wide user base — consistent with the existing "tens of chapters, not thousands"
+  scale assumption. Committing to a large concurrency figure would imply infrastructure this
+  local/internal tool does not need; leaving it unstated would silently default to zero. A small,
+  explicit, testable number closes the gap cheaply. (FR-055; SC-022)
+- Q: What must happen if the host runs out of disk space mid-reassembly or mid-transcription? → A:
+  The operation MUST fail loudly with a clear "insufficient disk space" report and MUST NOT leave
+  a partially written recording or transcript file that could later be mistaken for complete.
+  *Why*: this is the same "fail loudly rather than yield something that appears to work" principle
+  the existing checksum-mismatch edge case already applies to corrupted reassembly. Disk
+  exhaustion is a distinct trigger for the identical failure mode — a truncated file that looks
+  legitimate — and deserves the same explicit guarantee. (FR-056; Edge Cases)
+- Q: If the checksum manifest used to verify a reassembled recording is itself missing or
+  corrupted, what should happen? → A: Reassembly MUST refuse to proceed and report that the
+  manifest is missing or corrupt, rather than falling back to serving an unverified file.
+  *Why*: the manifest is the only thing that makes FR-007's integrity guarantee meaningful;
+  treating its absence as "skip verification" would silently downgrade a hard integrity guarantee
+  to none — the silent degradation this project's governance forbids. (FR-057; Edge Cases)
+- Q: As the chapter count grows toward the assumed "tens, not thousands," must adding one chapter
+  re-index the whole corpus, or only the new chapter? → A: Indexing MUST be incremental — adding
+  one chapter indexes only that chapter's content and MUST NOT require rebuilding the index for
+  chapters already indexed.
+  *Why*: SC-011 commits to under 30 minutes of hands-on time per new chapter. A full-corpus
+  rebuild cost that grows with every prior chapter would eventually violate that bound even though
+  the procedure itself never changed, silently breaking a success criterion this spec already
+  promises. (FR-058; SC-023)
+- Q: Does the WCAG 2.1 AA commitment (FR-041) extend to the recording's playback controls, or only
+  to the search interface named in FR-042? → A: It extends to playback. Play, pause, seek, and
+  jumping to a timestamp from a transcript passage MUST be operable by keyboard alone and MUST
+  expose accessible names, to the same standard already required of search.
+  *Why*: FR-042 singled out search because a type-ahead box is a well-known failure point, but User
+  Story 1's own acceptance criteria make timestamp-to-recording navigation core functionality, not
+  a bonus. Leaving the player unaddressed would let the loudest accessibility risk get fixed while
+  the interface's second interactive surface silently failed the same WCAG commitment already made
+  for the whole interface. (FR-059)
+
+#### Open Questions
+
+One item is intentionally left unresolved because it is a consent question about an actual named
+third party, not a technical default with a safe reversible answer.
+
+| # | Question | Why it is not resolved here |
+|---|---|---|
+| OQ-1 | If the third party identifiable in the Chapter 1 recording requests that their contribution be removed, or withdraws consent, what specific action must the system take — full deletion of the source material, redaction-only, or something else — and within what timeframe? | This is a consent and privacy question about a real relationship and a real possible request, not a re-openable engineering default. The technically "safest" answer (support full deletion) has a real cost: it conflicts with FR-006's "preserve the original recording... unmodified" guarantee and with SC-002's requirement that accuracy remain re-measurable against the source. Only the operator, weighing the actual relationship and any actual request, can decide which guarantee yields. Resolving this unilaterally would risk exactly the kind of privacy misstep D1 and the existing redaction requirements (FR-039) exist to prevent. |
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Read what was actually said in a workshop chapter (Priority: P1)
@@ -155,6 +267,12 @@ A maintainer receives the recording and materials for Chapter 2. They follow one
 - **A passage is redacted after it has been indexed and cited.** The redaction must propagate to the index and to any stored answers, not merely to the displayed transcript.
 - **A screen-reader user searches.** Suggestions appearing as the user types must be announced, and must not trap focus.
 - **The curriculum is started on a machine with no GPU, or with a different container runtime.** It must run or state precisely what is missing — this repository already contains host-dependent container logic that has caused portability defects.
+- **Zero chapters have completed ingestion.** On first deployment, or if every chapter is withdrawn, the curriculum must show an explicit empty state rather than a blank or broken page.
+- **The extension procedure is invoked twice at the same time against the same chapter.** This is genuinely concurrent, not the sequential re-run FR-027 already covers; the second invocation must be refused rather than allowed to interleave writes with the first.
+- **The host runs out of disk space mid-reassembly or mid-transcription.** The operation must fail loudly with a clear report, never leave a partially written file that could be mistaken for complete.
+- **The checksum manifest needed to verify a reassembled recording is itself missing or corrupted.** Reassembly must refuse to proceed rather than serve an unverified file.
+- **Answer generation (Story 4) starts producing output and then fails or disconnects partway through.** The partial output must be discarded, not shown as a truncated answer that appears complete but is missing citations.
+- **The curriculum is reached from a device other than the operator's own machine, over the internal network D1 permits.** That access must be authenticated; unauthenticated loopback-only access is not sufficient once the network boundary is crossed.
 
 ## Requirements *(mandatory)*
 
@@ -169,6 +287,8 @@ A maintainer receives the recording and materials for Chapter 2. They follow one
 - **FR-005**: System MUST attribute passages to distinct speakers where the recording allows it, and state where it cannot.
 - **FR-006**: System MUST preserve the original recording and all supporting materials unmodified.
 - **FR-007**: System MUST reassemble split recordings automatically and verify their integrity against the recorded checksum before use, failing loudly on mismatch.
+- **FR-056**: If the host runs out of disk space during reassembly or transcription, the operation MUST fail loudly with a clear report and MUST NOT leave a partially written recording or transcript file that could later be mistaken for complete.
+- **FR-057**: If the checksum manifest required by FR-007 is itself missing or corrupted, reassembly MUST refuse to proceed and report that the manifest is unavailable, rather than serving an unverified file.
 
 **Curriculum structure and browsing**
 
@@ -178,6 +298,8 @@ A maintainer receives the recording and materials for Chapter 2. They follow one
 - **FR-011**: System MUST organise each chapter's content into navigable sections rather than a single undifferentiated document.
 - **FR-012**: System MUST be startable and stoppable through documented commands that require no manual setup beyond what the documentation states.
 - **FR-013**: System MUST follow the organisational conventions already established by the existing AI-interviewing module, so that a person familiar with one can navigate the other.
+- **FR-049**: System MUST present an explicit "no chapters available yet" state when zero chapters have completed ingestion, rather than an empty or broken page.
+- **FR-055**: System MUST support at least 5 concurrent users performing search and browsing without missing the SC-005 and SC-006 latency targets.
 
 **Search and cross-referencing**
 
@@ -188,6 +310,7 @@ A maintainer receives the recording and materials for Chapter 2. They follow one
 - **FR-018**: System MUST offer cross-references from any passage to related material elsewhere in the curriculum.
 - **FR-019**: System MUST state plainly when a search has no relevant match, and MUST NOT present unrelated results as answers.
 - **FR-020**: System MUST report honestly when search is unavailable or degraded, and MUST NOT render an unavailable backend as an empty result set.
+- **FR-058**: Indexing MUST be incremental: adding one chapter MUST index only that chapter's content and MUST NOT require rebuilding the index for chapters already indexed.
 
 **Question answering**
 
@@ -196,6 +319,7 @@ A maintainer receives the recording and materials for Chapter 2. They follow one
 - **FR-023**: System MUST support both locally-hosted and externally-hosted answering models, selected by operator configuration.
 - **FR-024**: System MUST NOT transmit curriculum content outside the machine when configured to use a local model.
 - **FR-025**: System MUST continue to serve browsing and search when answering is unavailable.
+- **FR-053**: If answer generation fails or disconnects after it has started producing output, the system MUST discard the partial output rather than presenting it as the answer, and MUST report a failure.
 
 **Extension**
 
@@ -203,6 +327,7 @@ A maintainer receives the recording and materials for Chapter 2. They follow one
 - **FR-027**: The extension procedure MUST be idempotent: running it twice on the same chapter MUST NOT duplicate content.
 - **FR-028**: The extension procedure MUST report precisely what is missing when a chapter's materials are incomplete, and MUST NOT publish a partial chapter as complete.
 - **FR-029**: Long-running processing MUST be resumable and MUST report progress, without losing completed work if interrupted.
+- **FR-054**: The extension procedure MUST detect a concurrent invocation against the same chapter and refuse the second one, rather than interleaving writes from two simultaneous runs.
 
 **Documentation**
 
@@ -216,12 +341,14 @@ A maintainer receives the recording and materials for Chapter 2. They follow one
 - **FR-034**: The feature MUST NOT introduce any server-side continuous-integration automation, which the governing constitution prohibits without exception.
 - **FR-035**: All governance carrier documents MUST remain synchronised, and the continuation document MUST be updated alongside non-trivial changes.
 - **FR-036**: All work MUST be committed and pushed across the main repository and every submodule, leaving no uncommitted state.
+- **FR-050**: Automated-check evidence that could contain transcript excerpts, speaker attribution, or other content derived from the private `workshop` submodule MUST be written to a location inside that submodule's own boundary, never into the public monorepo's shared evidence path. Only evidence provably free of such content MAY use the shared convention.
 
 **Identity, correction and privacy**
 
 - **FR-037**: Every passage MUST carry a stable identifier assigned at ingest that is neither positional nor content-derived, so that cross-references and citations remain valid across re-indexing and transcript correction.
 - **FR-038**: System MUST preserve machine-generated transcript output immutably, and MUST record for each passage whether its current text is machine-produced or human-corrected.
 - **FR-039**: System MUST provide a documented redaction step capable of suppressing identified passages, and MUST require it to have been run before any export or publication of chapter content.
+- **FR-051**: Any access to the curriculum from other than the operator's own loopback interface MUST require authentication before recording, transcript, or search content is served.
 
 **Decoupling and reuse**
 
@@ -250,6 +377,8 @@ A maintainer receives the recording and materials for Chapter 2. They follow one
 - **FR-040**: System MUST write the evidence produced by its automated checks to a versioned location within the repository, retained alongside the commit that produced it, rather than to transient logs.
 - **FR-041**: The curriculum interface MUST meet WCAG 2.1 Level AA.
 - **FR-042**: Search MUST be fully operable by keyboard alone, including entering a query, moving through suggestions, and opening a result.
+- **FR-052**: A passage marked uncertain (FR-003) MUST be conveyed with a text label or an icon carrying an accessible name, and MUST NOT be conveyed by color alone.
+- **FR-059**: Playback controls — play, pause, seek, and jumping to a timestamp from a transcript passage — MUST be operable by keyboard alone and MUST expose accessible names, to the same standard as FR-042 requires of search.
 
 ### Key Entities
 
@@ -295,6 +424,12 @@ A maintainer receives the recording and materials for Chapter 2. They follow one
   enumerating `.gitmodules` and querying each remote's visibility.
 - **SC-021**: 100% of public reusable repositories contain zero workshop content, verified by a
   content-boundary check that fails when private-submodule material appears in a public repo.
+- **SC-022**: At least 5 concurrent users can search and browse simultaneously without the SC-005
+  (200ms suggestion) or SC-006 (2s result) latency targets degrading beyond their stated
+  thresholds.
+- **SC-023**: Adding a new chapter re-indexes only that chapter — index-build time for the new
+  chapter does not increase as prior chapters accumulate, verifiable by comparing build time for a
+  chapter added when 1 chapter exists against one added when several exist.
 
 ## Assumptions
 
