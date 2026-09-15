@@ -50,6 +50,8 @@ anything is authored against them.
 - [x] T002 Keep the library project-unaware by construction in `submodules/curriculum-kit/go.mod` — an empty require set, so a project import would not compile (FR-?). **Evidence**: compiler-enforced, not convention.
 - [x] T003 [P] Implement `DecodeDocument` with `DisallowUnknownFields()` in `submodules/curriculum-kit/pkg/curriculum/document.go` (FR-?). **Evidence**: a misspelled key fails the load loudly instead of dropping its material silently.
 - [x] T004 [P] Make `Area.Assessment` a pointer so "under construction" is representable, and have `Validate` emit `CK021` for it rather than letting the absence pass unnoticed (FR-008, SC-004a). **Evidence** (population: unstated): 37 CK021 findings raised, none suppressed.
+- [ ] T071 [TDD] Extend `Validate` in `submodules/curriculum-kit/pkg/curriculum/document.go` to detect an explicit draft/placeholder marker on any lesson, question or field (for example a stated `draft: true` or TODO indicator) and emit a distinct `CK0xx` finding, so an area carrying one is excluded from publication by the same determination as FR-018 rather than by an author remembering to delete it (FR-012b). A fixture carrying the marker MUST fail `Validate`; the same fixture with the marker removed MUST pass.
+- [ ] T072 [TDD] Extend the same `Validate` function to reject a lesson body that is structurally too short to carry substantive content beyond restating its title, and to report any other structural malformation — a broken reference, an unparseable field — as a build-time `CK0xx` finding rather than a learner-facing runtime error (FR-012c). A short-body fixture and a malformed-reference fixture MUST both fail `Validate`; a normal-length, well-formed fixture MUST pass.
 
 **Execution notes**: T003 is the load-bearing decision of this phase. Everything
 authored later either decodes or fails at load; there is no partial-success path.
@@ -67,6 +69,8 @@ complete**, because every story's visibility derives from T007.
 - [x] T007 [TDD] [REVIEW] Compute the publication decision **once** in `workshop/platform/backend/internal/api/area_publication.go` (`AreaPublicationOf`) and consume it from all three surfaces (FR-018, FR-018a, SC-001). **Evidence** (in_process): `verify-area-publication-consistency.sh` rc 0 (6 passed); `prove-area-publication-consistency.sh` rc 0 (7 passed / 7 mutations); Go `TestAreaListAndDetailAgree` asserts the **pair**, which is what was missing while both handlers' own tests passed.
 - [x] T008 [P] Promote the 37 authored subjects through the real minting bridge in `workshop/pipeline/extract/promote_curriculum_areas.py`, supplying a lexicon evidence finder instead of the title-keyword default (FR-001, FR-002, FR-005a, SC-002). **Evidence** (source): rc 0, 37 published / 0 failed; reviews 2 → 39.
 - [x] T009 [P] Keep `proposer` and `reviewer` distinct in the review store, both defaulting to the pipeline string (FR-002). **Evidence**: honest description of a run with no independent audit; `--reviewer` is passed only when a human has read them.
+- [ ] T073 [P] [REVIEW] Reject authored content — lesson text, questions, captions — that names, quotes or otherwise identifies a private individual who took part in a recording but is not the corpus owner, in `workshop/pipeline/extract/publication_policy.py`, requiring a role or pseudonym reference instead (FR-005c). A fixture area naming such an individual by their real name MUST fail publication; the same fixture rewritten to a role/pseudonym MUST pass.
+- [ ] T074 [TDD] [P] [REVIEW] Extend the single `AreaPublicationOf` decision in `workshop/platform/backend/internal/api/area_publication.go` to cover every surface capable of exposing authored lesson or question text outside the primary reviewed route — a share/link preview, an export, a machine-readable feed — so none of them can bypass the FR-018 determination (FR-018e, SC-019). A mutation proof MUST add a stub bypass surface and confirm the gate catches it before the fix and passes after; **0** lesson/question characters MUST reach any such surface for a withheld area.
 
 **Checkpoint**: The catalogue is honest about itself. **T007 is the checkpoint** —
 `areas[]` is now exactly the set whose detail answers 200, asserted end to end.
@@ -85,6 +89,7 @@ complete**, because every story's visibility derives from T007.
 - [x] T014 [US1] Derive titles, tags and summaries in `workshop/platform/backend/pkg/knowledge/presentation.go` (FR-003, FR-018b).
 - [x] T015 [US1] Add a `tags` field to the client area model in `workshop/platform/frontend/src/app/core/knowledge.ts` — it models `terms` and **has no field for tags at all**, so tags are discarded before any component can ask for them (FR-019, SC-005). — EVIDENCE (source): `workshop/platform/frontend/src/app/features/areas/curriculum-model.ts:487,505` (`AreaCard.tags`, `normaliseAreaCard`) + `area-detail.component.ts:451` — PATH DRIFT: delivered in a second normaliser, not in `core/knowledge.ts`, which still drops `tags`; the capability (FR-019) holds. Frontend unit suite 298/298 SUCCESS (in_process) 2026-09-08
 - [x] T016 [US1] Render title, summary and tags on the area detail page in `workshop/platform/frontend/src/app/features/` — 3 of 4 render branches emit the raw identifier as the heading (SC-003, FR-003, FR-019, SC-005). — EVIDENCE (source): `workshop/platform/frontend/src/app/features/areas/area-detail.component.ts:111` single `<h1 data-testid="area-title">{{ displayTitle() }}</h1>`, `:442` title chain with the slug as LAST resort, `:446` summary, `:115-121,451` tags list. Frontend unit suite 298/298 SUCCESS (in_process) 2026-09-08
+- [ ] T075 [US1] Serve an explicit empty-catalogue state — distinguished from an error and never itself treated as a build failure — when zero areas are publishable, in the same handler as T010 (FR-018d). A fixture with zero publishable areas MUST return the explicit empty state, not a 5xx response and not a bare empty array indistinguishable from an error.
 
 **Checkpoint**: A learner can open every listed area and read what it is.
 
@@ -113,7 +118,10 @@ complete**, because every story's visibility derives from T007.
 - [x] T025 [US2] Resolve each bank's `correct_index` to a choice **id** during the build (FR-012). **Evidence**: the kit rejects the index form by design.
 - [x] T026 [US2] Exclude the 10 `flashcard` rows rather than mapping them onto graded items, and report the exclusion (FR-008). **Evidence**: mapping a study aid onto a test question is a silent promotion.
 - [x] T027 [US2] Pass `-learning-catalog /opt/workshop/curriculum/learning` in `workshop/platform/compose.yml` (SC-006). **Evidence** (source): the flag defaults to EMPTY and empty is a *determined* state — every learning route would answer `no_learning_catalog` cleanly after a restart, with nothing in any log to notice. YAML re-parsed; the path is inside the existing read-only bind, so no volume change.
+- [ ] T076 [P] [US2] Compute each lesson's estimated reading time deterministically from its actual body content in `workshop/pipeline/extract/build_learning_catalog.py`, removing any separately-authored reading-time value so it cannot drift from the body it describes (FR-007a). Re-running the build after editing only a lesson's body, with no other input touched, MUST change the reported reading time to match.
+- [ ] T077 [P] [US2] Round the required correct-answer count up, never down, whenever a bank's size and its declared pass threshold do not produce a whole number, in the assessment scoring logic in `workshop/platform/backend/internal/api/lessons.go` (FR-008c). A fixture bank whose threshold × size is not a whole number MUST report the ceiling as the required count, and a learner scoring exactly at the floor below that ceiling MUST be reported as failing.
 - [ ] T028 [US2] Render the lesson list and lesson body with prev/next in `workshop/platform/frontend/src/app/features/`, using the same sorted slice the list uses (FR-007, SC-006).
+- [ ] T078 [US2] Visually and structurally distinguish a lesson's own authored prose from a quoted or transcribed passage it includes, in the lesson body renderer in `workshop/platform/frontend/src/app/features/areas/area-lessons.component.ts` (FR-016b, SC-020). An automated structural check MUST confirm every quoted passage in the rendered output carries a marker distinct from the surrounding authored prose, across 100% of published lessons that include a quote.
 - [x] T029 [US2] Render the test — availability message before completion, questions after, result after submission — in the same feature directory, showing `pass_percent` **before** the attempt begins (FR-008b, FR-009, FR-010, SC-017). — EVIDENCE (source): `workshop/platform/frontend/src/app/features/areas/area-test.component.ts:75-112` availability + `passPercent` shown before the attempt, `:169-181` result panel with the determinate/lower-bound split. Frontend unit suite 298/298 SUCCESS (in_process) 2026-09-08
 
 **Checkpoint**: The full learner journey works against authored content.
@@ -133,6 +141,7 @@ complete**, because every story's visibility derives from T007.
 - [x] T035 [US3] Implement the client-side time-link contract in `workshop/platform/frontend/src/app/core/timelink.ts` (FR-015).
 - [x] T036 [US3] Seek the player to `t` and scroll the transcript to the `#p-` passage **without further scrolling**, marking it visually, in the transcript component (FR-015, SC-008). — EVIDENCE (source): `workshop/platform/frontend/src/app/features/transcript/transcript.component.ts:593` `#p-` parse, `:614-634` seek with `link.end`, `:691-693` `scrollIntoView`, `:631` `machine.seeked()` suspends follow so nothing scrolls further; `seek.spec.ts` + `follow-mode.spec.ts` green in the 298/298 run (in_process) 2026-09-08
 - [x] T037 [P] [US3] Make the extent of a range discernible when `end` is present, not only its start (US3 scenario 3; FR-014). — EVIDENCE (source): `workshop/platform/frontend/src/app/core/playback.ts:88-95` `stopAt` bounds playback to `end` (and only when `end > t`); `features/chapters/recording-player.component.ts:84-87` `data-testid="span-end"` names the excerpt end. Frontend unit suite 298/298 SUCCESS (in_process) 2026-09-08
+- [ ] T079 [US3] Make following a video-anchor reference operable using only a keyboard, and announce arrival at the referenced passage to assistive technology through an ARIA live region rather than only the visual highlight, in `workshop/platform/frontend/src/app/features/transcript/transcript.component.ts` and `workshop/platform/frontend/src/app/core/timelink.ts` (FR-015a). A keyboard-only interaction test MUST reach and activate every anchor with no pointer event, and an accessibility-tree assertion MUST confirm the live-region announcement fires on arrival.
 - [ ] T038 [P] [US3] Report an unresolvable target as unavailable rather than routing to a page that reports nothing found (FR-017).
 
 ---
@@ -144,6 +153,7 @@ complete**, because every story's visibility derives from T007.
 
 - [x] T039 [US4] Specify one diagram per area — type, the single idea, concrete nodes and edges — in `workshop/docs/training/diagrams/SPEC.md`, with deliberately smaller diagrams for the thin modules and the reason written down (FR-013).
 - [x] T040 [US4] Build 8 SVGs in the house style extracted from `design-system/diagrams/`, **adding** `<title>`, `<desc>`, `role="img"` and `aria-label` — absent from 0 of 33 references (FR-013). **Evidence** (source): all 8 parse as XML, rc 0; no external font, image or script.
+- [ ] T080 [P] [REVIEW] Scrub embedded authoring-environment metadata — EXIF location data, a local filesystem path, an authoring-host identifier — from every material file before publication, in a dedicated pipeline step alongside `workshop/docs/training/diagrams/SPEC.md`'s build (FR-013a). A fixture image carrying EXIF GPS data and a fixture SVG carrying an absolute local path MUST both fail publication until scrubbed, then pass — this is the same defect class as this repository's own measured `audit-hardcoded-paths.sh` finding.
 - [x] T041 [P] [US4] Serve `video` materials with `chapter_id`, `start_millis`, `end_millis`, `length_millis`, `transcript_anchor`, `chapter_slug` and `href` (FR-013, FR-014).
 - [x] T042 [US4] Render materials in place with their captions in the lesson component (FR-013). — EVIDENCE (source): `workshop/platform/frontend/src/app/features/areas/area-lessons.component.ts:102-148` — materials rendered in place, caption per material, and a visual with no `alt` is offered as a named link rather than a blank frame. Frontend unit suite 298/298 SUCCESS (in_process) 2026-09-08
 - [ ] T043 [P] [US4] Play a video segment in place, bounded to its stated range (FR-013).
@@ -160,6 +170,7 @@ complete**, because every story's visibility derives from T007.
 - [x] T046 [TDD] [SUBAGENT] [US5] Write a hue-family check that reads the **served** stylesheet — not the token source — asserting ≥6 distinct hue families across principal surfaces (SC-010). A check that reads the token source commits D6 inside the instrument meant to catch it (SC-010, FR-021, FR-023, FR-026). — EVIDENCE (served): `bash workshop/platform/gates/verify-served-palette.sh` rc **0** — reads the SERVED stylesheets over http://127.0.0.1:8087, not the token source; `PASS: 7 distinct hue family/families across principal surfaces (floor 6)`
 - [x] T047 [TDD] [P] [SUBAGENT] [US5] Write a contrast check asserting the normal-text and non-text floors in **both** light and dark presentation, over the served bundle (SC-011, FR-022, FR-023, FR-026). — EVIDENCE (served): `bash workshop/platform/gates/verify-served-contrast.sh` rc **0** — `PASS: all 200 pairing(s) clear their floor, in each scheme independently` (8 unusable reported, not counted as passes)
 - [x] T048 [P] [SUBAGENT] [US5] Pair T046 and T047 with data-driven mutation proofs, each carrying a control and a vacuity refusal that exits 2 (FR-027, FR-028, FR-029, SC-013, SC-014). — EVIDENCE (in_process): `bash workshop/platform/gates/prove-served-palette.sh` rc **0**, 8 passed / 0 failed / 8 mutations (M2 and M3 are rc-2 vacuity refusals, N1 the non-vacuity control); `prove-served-contrast.sh` rc **0**, 6 passed / 0 failed / 6 mutations (M0 control, M2 rc-2 vacuity refusal, M3 the light-passes/dark-fails split). Gate source byte-identical across each battery
+- [ ] T081 [P] [US5] Convey per-question correctness in the test result panel by an icon or text label in addition to colour, in `workshop/platform/frontend/src/app/features/areas/area-test.component.ts` (FR-022a). A structural check over the served bundle MUST confirm every per-question result carries a non-colour indicator, in both light and dark presentation.
 - [ ] T049 [US5] Emit `corpus_revision` on the served catalogue and cite it in every interface claim (FR-023a, SC-018). **Analysis finding F7 — MISPLACED**: this is a catalogue concern owned by the backend stream, not a presentation one. Execute it with Phase 3 (US1); it is listed here only because the superspec blueprint's Track A carries a *bundle* build id, which is a different artefact, and this task must not be assumed covered by it.
 
 **Execution note**: rebuild immediately before measuring and **state which build
@@ -201,6 +212,7 @@ own phase so the distinction is never quietly dropped.
 - [ ] T066 [TDD] Assert **corpus stability during measurement** in every corpus-counting run (FR-030, FR-027) — fingerprint the enumerated set before and after the analysis passes, sharing the enumeration with the analysis by construction, and emit `undet` rows **naming the changed paths** when they differ. **Analysis finding F2: this requirement had zero task coverage.** It was promoted from a real incident — a gate reporting 12939 / 12939 / 13058 / 12968 for the same command on a tree another agent was editing. The umbrella's `scripts/verify-content-boundary.sh` already implements exactly this; reuse its approach rather than inventing one.
 - [ ] T067 [TDD] [P] Assert **result stability** (FR-011, FR-026) in `workshop/platform/gates/prove-assessment-gate.sh` — submit, re-read, require a byte-identical result. **Analysis finding F4: FR-011 appeared only as a manual quickstart step, so nothing asserted it.**
 - [ ] T068 [P] Detect **duplicate subjects** (FR-020, FR-026) in `workshop/pipeline/extract/verify_curriculum_areas.py`, or record FR-020 as deferred with its reason. **Analysis finding F5**: an existing mutation catches one *area* in two files; nothing catches two areas covering one *subject*.
+- [ ] T082 [TDD] [P] Measure catalogue and reference-resolution response time as the corpus/catalogue grows beyond its current 37-subject scale, and report the measurement rather than assuming a fixed ceiling, in `workshop/platform/gates/` (FR-020a). **Analysis finding**: no existing task measures this; a synthetic-scale fixture (a multiple of the current area count) MUST produce a reported response-time figure, never a pass/fail verdict against an invented SLA number.
 - [x] T069 [P] Report **question-bank coverage** on every run as a fraction of published areas (SC-004a, FR-008), currently 5 of 42. A tracked figure, never a floor. — EVIDENCE (source): `workshop/pipeline/extract/build_learning_catalog.py:506-510` prints the fraction on every run; dry run 2026-09-08 rc **0**: `areas considered 42 / with lessons 42 / with an assessment 30 / WITHOUT assessment 12 (each a CK021 finding; no question generated to hide one)`. NOTE: SC-004a and Amendment A1 both say **5 of 42**; the measured figure is **30 of 42** (`verify_question_banks.py` rc 0, 30 banks / 234 questions / 597 citations resolved) — the spec figure is superseded
 - [ ] T070 [P] Append the governing FR/SC identifiers to each task line in this file (SC-013). **Analysis finding F8**: 33 of 39 FRs and 14 of 18 SCs are cited nowhere by id, so **SC-013 ("100% of requirements map to a check") is mechanically unverifiable** — it can be argued but not computed. With ids present it becomes a `grep`.
 - [ ] T065 [SUBAGENT] Investigate the redaction-pipeline report: one segment is marked `redacted: true` while the same sentence survives in the merged transcript. Reported, not acted on (FR-?).
@@ -233,9 +245,9 @@ Four streams with disjoint file sets, as actually run:
 
 | Stream | Writes | Tasks |
 |---|---|---|
-| Content | `workshop/docs/training/`, `workshop/curriculum/`, `workshop/pipeline/` | T005, T006, T008, T024–T026, T031, T039, T040, T063, T064 |
-| Backend | `workshop/platform/backend/`, `workshop/platform/gates/` | T007, T010–T014, T017–T023, T032–T034, T041, T058 |
-| Frontend | `workshop/platform/frontend/src/app/` | T015, T016, T028, T029, T035–T038, T042, T043 |
+| Content | `workshop/docs/training/`, `workshop/curriculum/`, `workshop/pipeline/` | T005, T006, T008, T024–T026, T031, T039, T040, T063, T064, T073, T076, T080 |
+| Backend | `workshop/platform/backend/`, `workshop/platform/gates/` | T007, T010–T014, T017–T023, T032–T034, T041, T058, T074, T075, T077, T082 |
+| Frontend | `workshop/platform/frontend/src/app/` | T015, T016, T028, T029, T035–T038, T042, T043, T078, T079, T081 |
 | Theming | `workshop/platform/frontend/src/styles/` | T045–T048 |
 
 **Cross-stream rule**: any stream measuring another stream's output must rebuild
@@ -266,16 +278,24 @@ a catalogue whose list disagrees with its detail route.
 
 | | tasks | done | remaining |
 |---|---:|---:|---:|
-| Phase 1 Setup | 4 | 4 | 0 |
-| Phase 2 Foundational | 5 | 5 | 0 |
-| Phase 3 US1 | 7 | 7 | 0 |
-| Phase 4 US2 | 13 | 12 | 1 |
-| Phase 5 US3 | 9 | 8 | 1 |
-| Phase 6 US4 | 6 | 4 | 2 |
-| Phase 7 US5 | 5 | 4 | 1 |
+| Phase 1 Setup | 6 | 4 | 2 |
+| Phase 2 Foundational | 7 | 5 | 2 |
+| Phase 3 US1 | 8 | 7 | 1 |
+| Phase 4 US2 | 16 | 12 | 4 |
+| Phase 5 US3 | 10 | 8 | 2 |
+| Phase 6 US4 | 7 | 4 | 3 |
+| Phase 7 US5 | 6 | 4 | 2 |
 | Phase 8 US6 | 4 | 4 | 0 |
-| Phase 9 Polish | 17 | 7 | 10 |
-| **Total** | **70** | **55** | **15** |
+| Phase 9 Polish | 18 | 7 | 11 |
+| **Total** | **82** | **55** | **27** |
+
+**12 tasks (T071–T082) were added by an additive task-generation pass on
+2026-09-15**, covering the 12 new Functional Requirements from that session's
+brainstorm-and-resolve pass on `spec.md` (FR-005c, FR-007a, FR-008c, FR-012b,
+FR-012c, FR-013a, FR-015a, FR-016b, FR-018d, FR-018e, FR-020a, FR-022a) plus
+SC-019 and SC-020. None is done. Every pre-existing task line — its id, text,
+markers and checked state — was left untouched; the new tasks were inserted
+into the phase each FR's own text places it in, not appended in a block.
 
 **Re-audited 2026-09-08 against evidence, not against task text.** 18 tasks were
 found already delivered and are ticked above with the run that proves each. Two
@@ -300,7 +320,7 @@ they are untracked, exactly the umbrella's own `_site` defect).
 Re-derive rather than trusting the table:
 
 ```bash
-grep -c '^- \[' specs/004-authored-ai-areas/tasks.md    # 70
+grep -c '^- \[' specs/004-authored-ai-areas/tasks.md    # 82
 grep -c '^- \[x\]' specs/004-authored-ai-areas/tasks.md  # 55
 ```
 

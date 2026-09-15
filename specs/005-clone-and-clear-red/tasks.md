@@ -64,8 +64,11 @@ this umbrella and `specs/` are PUBLIC. Counts, paths and identifiers only.
 - [ ] T011 [US1] **OPEN** — perform SC-001's actual trial: **3 of 3** clones by the documented command, on a machine that has never held the repository, with **0** transport failures (FR-001, SC-001). The refuting two-arm HTTPS test recorded in spec.md was run from a third host and proves the transport works; it is **not** the 3-of-3 acceptance run, and must not be reported as one.
 - [ ] T012 [US1] **BLOCKED — operator decision.** Publish the documented step by which recorded material is obtained from storage outside the repository, with its stated availability condition (FR-003, SC-003). The superseding instruction was explicit that the fetch instructions come in a later iteration. **Until it exists, SC-003's "100% remains obtainable by a documented step" is NOT met** — the bytes are on one disk and the step is unwritten.
 - [ ] T013 [US1] **OPEN** — warn on the growth TREND, not only on the breach (Edge case: *a repository shrinks below the threshold but keeps growing*). The guard thresholds on a point-in-time size; nothing reads a series.
+- [ ] T055 [TDD] [REVIEW] [US1] **OPEN** — Ship `workshop/scripts/verify-recorded-material-boundary.sh`, a pre-push gate that, before any commit references or points at storage outside this repository's object store, diffs that storage's declared access configuration against the current private/public boundary (this repository is PUBLIC; `workshop` is PRIVATE) and exits non-zero if anything reachable only privately today would become reachable more broadly as a side effect of the move (FR-024, SC-016). No such comparison exists in the tree today; `workshop/scripts/verify-obtainability.sh` (T007) measures transfer size only and has no privacy-boundary check.
+- [ ] T056 [US1] **OPEN** — Until an external storage backend is actually chosen (the spec's still-open 2026-09-15 Open Question), make T055's gate report **could-not-determine**, never a pass, because it has no external configuration to compare against yet (FR-024, FR-006, FR-008). This keeps the new gate itself from becoming the kind of false-green instrument this project's red-state discipline forbids.
+- [ ] T057 [TDD] [REVIEW] [US1] **BLOCKED — operator decision.** Ship `workshop/scripts/verify-transfer-retryability.sh`, which induces a mid-transfer interruption of exactly one per-object (or per-part) fetch under whichever mechanism the operator selects for recorded material, and asserts the retry resumes or restarts **only that one object**, never the whole set (FR-025). Blocked on the same Open Question as T012 — no storage backend or transfer mechanism has been chosen yet, so there is nothing concrete to interrupt and measure; per the spec's 2026-09-15 clarification, this property must be verified against what is actually shipped and must not be inferred from the pack-transfer diagnosis that root-caused R1.
 
-**Checkpoint**: the documented path is small and guarded; the acceptance trial (T011) and the retrieval step (T012) are the two things standing between this and SC-001/SC-003.
+**Checkpoint**: the documented path is small and guarded; the acceptance trial (T011) and the retrieval step (T012) are the two things standing between this and SC-001/SC-003. T055–T057 (FR-024, FR-025, added 2026-09-15) depend on the same unresolved storage-backend Open Question as T012 and cannot close before it does.
 
 ---
 
@@ -96,6 +99,10 @@ this umbrella and `specs/` are PUBLIC. Counts, paths and identifiers only.
 - [ ] T033 [US2] **OPEN** — make a declared condition name **who may lift it and what evidence would** (FR-007, SC-015). `scripts/check-registry.tsv` exemptions now carry evidence and reasons (T017), and T020's row names the credential, but no instrument requires a lifting authority as a structural field.
 - [ ] T034 [TDD] [US2] **OPEN** — assert FR-010 mechanically: any threshold, bucket, allow-list or baseline change must carry a principle stated independently of the count it produces (FR-010, SC-007). Two guards do this in prose by construction — `verify-obtainability.sh`'s two threshold rules (T007) and the palette gate's fixed floor — but **nothing detects a weakening change**. This is the requirement most exposed to being satisfied by assertion.
 - [ ] T035 [REVIEW] [US2] **OPEN** — run SC-015's acceptance: a reader answers *"is this a defect, what is the evidence, what happens next"* for every red from instrument output alone, without consulting a person. Not attempted; it depends on T031–T033.
+- [ ] T058 [TDD] [REVIEW] [SUBAGENT] [US2] **OPEN** — Add a reopen-event ledger, `docs/findings/reopened-reds.jsonl` (one JSON object per reopen: instrument, prior-closure kind [fixed/declared], contradicting evidence, and a timestamp for when it was found), and wire the sweep so a prior closure record is never overwritten in place — a reopen appends a new entry referencing the original rather than replacing it (FR-026, SC-017). No such ledger exists today; T029's own two reopens live only as prose inside this file.
+- [ ] T059 [US2] **OPEN** — Seed `docs/findings/reopened-reds.jsonl` with T029's two already-measured reopens (R2 `continuation-check.sh`, reopened 2026-09-08, evidence `7 PASS · 1 DRIFT · 15 NOTE`; R4 `verify-submodule-remote-sync.sh`, reopened 2026-09-08, evidence `12 CURRENT / 1 DRIFT`), backdated to their actual measurement date, so the mechanism launches carrying real data rather than empty (FR-026, SC-017).
+- [ ] T060 [TDD] [REVIEW] [US2] **OPEN** — Add a `next_review` (cadence) field to every declared-condition row in `scripts/check-registry.tsv`, and ship a checker that fails when a row's stated cadence has elapsed, or flags the row when the fact it cites (an upstream commit, a provider setting, a threshold decision) has itself changed since the row's last verification (FR-027). No re-verification trigger exists today; T017's rewritten exemption states its reason but nothing re-checks that reason automatically.
+- [ ] T061 [US2] **OPEN** — Apply T060's `next_review` field retroactively to the two declared/blocked rows already in the tree that FR-027 exists to keep honest — the `_tools/watch-deploy.sh` registry exemption (T017) and the two-provider-credential BLOCKED row (T020) — so the mechanism is exercised against real rows on day one rather than only future ones (FR-027).
 
 ---
 
@@ -145,25 +152,34 @@ Counted from this file by script, not transcribed.
 
 | Phase | tasks | DONE | PARTIAL | OPEN | BLOCKED |
 |---|---:|---:|---:|---:|---:|
-| 1 US1 obtainability | 13 | 9 | 1 | 2 | 1 |
-| 2 US2 red-state discipline | 22 | 15 | 1 | 5 | 1 |
+| 1 US1 obtainability | 16 | 9 | 1 | 4 | 2 |
+| 2 US2 red-state discipline | 26 | 15 | 1 | 9 | 1 |
 | 3 US3 learner-facing | 7 | 2 | 2 | 2 | 1 |
 | 4 US4 presentation | 8 | 4 | 2 | 2 | 0 |
 | 5 Evidence | 4 | 2 | 1 | 1 | 0 |
-| **Total** | **54** | **32** | **7** | **12** | **3** |
+| **Total** | **61** | **32** | **7** | **18** | **4** |
+
+**Phase 1 and Phase 2 grew by 7 tasks (T055–T061, added 2026-09-15)** covering the
+four FRs the 2026-09-15 brainstorm-and-resolve pass added to spec.md — FR-024,
+FR-025 (Obtainability) and FR-026, FR-027 (Red-state discipline) — and SC-016,
+SC-017. All seven are new and unimplemented; none was ticked. See "Requirement
+coverage" below.
 
 ```bash
-grep -c '^- \[' specs/005-clone-and-clear-red/tasks.md      # 54
+grep -c '^- \[' specs/005-clone-and-clear-red/tasks.md      # 61
 grep -c '^- \[x\]' specs/005-clone-and-clear-red/tasks.md   # 32
-grep -c 'PARTIAL' specs/005-clone-and-clear-red/tasks.md    # 7 task lines
-grep -c 'BLOCKED' specs/005-clone-and-clear-red/tasks.md    # 3 task lines
+grep -c '^- \[ \].*\*\*PARTIAL\*\*' specs/005-clone-and-clear-red/tasks.md   # 7 task lines
+grep -c '^- \[ \].*\*\*BLOCKED' specs/005-clone-and-clear-red/tasks.md       # 4 task lines
+grep -c '^- \[ \].*\*\*OPEN\*\*' specs/005-clone-and-clear-red/tasks.md      # 18 task lines
 ```
 
-**32 of 54 carry a captured run or an observed artefact.** Of the 22 not ticked,
-**3 are BLOCKED on an operator** (T012 the storage-fetch instructions, T020 the
-two provider credentials, T041 the three unpublished documents), **7 are PARTIAL**
-— the instrument exists and the measurement or the campaign does not — and
-**12 are OPEN**, with no implementation found in the tree.
+**32 of 61 carry a captured run or an observed artefact.** Of the 29 not ticked,
+**4 are BLOCKED on an operator** (T012 the storage-fetch instructions, T020 the
+two provider credentials, T041 the three unpublished documents, T057 the
+retryability check — the last blocked on the same unresolved storage-backend
+Open Question as T012), **7 are PARTIAL** — the instrument exists and the
+measurement or the campaign does not — and **18 are OPEN**, with no
+implementation found in the tree.
 
 **Read the PARTIAL column before the DONE column.** Five of the seven are the same
 shape: *a corrected instrument exists and was never run against the served
@@ -194,6 +210,8 @@ green from this document as current. Re-run the five commands.
 T001 untrack ──> T007 guard ──> T010 proof
                       └────────> T011 the 3-of-3 trial      ← the SC-001 acceptance
 T012 storage-fetch instructions  ← BLOCKED, and SC-003 is unmet without it
+T012 (same Open Question) ──> T057 retryability check       ← also BLOCKED
+T055 boundary gate ──> T056 could-not-determine until a backend is chosen
 
 T014/T015/T018 three-valued instruments ──> T031 the fleet summary ──> T035 SC-015
                                                   └──> T032 kind on every red
@@ -201,6 +219,9 @@ T014/T015/T018 three-valued instruments ──> T031 the fleet summary ──> T
 
 T039 sectioning ──> T040 the two coverage populations, counted apart
 T043/T044/T045 corrected palette gate ──> T046 the served re-measurement
+
+T058 reopen ledger ──> T059 seeded with T029's two already-measured reopens
+T060 declared-condition staleness checker ──> T061 applied to T017's and T020's rows
 ```
 
 **T031 blocks SC-008.** Nothing today can state how many reds are defects and how
@@ -211,7 +232,11 @@ individual gates are green.
 ## Requirement coverage
 
 Every FR and SC in [spec.md](spec.md) is cited by at least one task above:
-**26 of 26 FR** and **15 of 15 SC**, verified by script rather than transcribed.
+**30 of 30 FR** and **17 of 17 SC**, verified by script rather than transcribed.
+The 2026-09-15 brainstorm-and-resolve pass added FR-024 through FR-027 and
+SC-016/SC-017 (up from 26 FR / 15 SC); T055–T061 cite all four new FRs and both
+new SCs, so the 100% citation figure holds after the addition — re-run the
+script below rather than trusting either count as a standing fact.
 
 ```bash
 python3 - <<'PY'

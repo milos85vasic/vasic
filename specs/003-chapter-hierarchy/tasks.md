@@ -8,10 +8,13 @@ description: "Task list for Chapter Hierarchy"
 > This file, [`specs/001-workshop-curriculum-platform/tasks.md`](../001-workshop-curriculum-platform/tasks.md)
 > and [`specs/002-knowledge-areas-deep-linking/tasks.md`](../002-knowledge-areas-deep-linking/tasks.md)
 > each number their tasks independently from `T001`, so **every id in this file — `T001` through
-> `T037` — already names two other unrelated pieces of work.** 002's own header records that its
-> `T001`–`T120` collide with 001's in full; this file adds a third meaning to the first 37 of them.
+> `T045` — already names two other unrelated pieces of work.** 002's own header records that its
+> `T001`–`T120` collide with 001's in full; this file adds a third meaning to the first 45 of them.
+> *(T038–T045 were added 2026-09-15, for the FR-036–FR-043 hierarchy-exposure-and-scale requirements
+> added by the same brainstorm pass; the collision holds for them too — both 001 and 002 already
+> define `FR-036`–`FR-043` with different meanings, and 002 additionally defines `SC-026`–`SC-032`.)*
 >
-> **The requirement ids collide the same way.** `FR-001`–`FR-035` and `SC-001`–`SC-025` are defined
+> **The requirement ids collide the same way.** `FR-001`–`FR-043` and `SC-001`–`SC-032` are defined
 > in all three specifications with different meanings. This feature's `SC-009` measures a test's
 > blindness to a suffix defect; 002's `SC-009` is a media-backed citation landing inside its span;
 > 001's `SC-009` is citation support over generated answers. **Nothing here is unique on its own.**
@@ -186,6 +189,19 @@ question with a single answer.
        has been reviewed: it matches the spec, the derivations (ParentID, Depth, AncestorIDs, OrdinalPath)
        are pure string operations on the id alone, and the test suite covers all four roles.
       — AUDIT 2026-09-08: UNVERIFIABLE — no review record found under `specs/003-chapter-hierarchy/`. Resolved by a recorded review, or by the reviewer stating it happened.
+- [ ] T038 [TDD] Prove **G-CH-15** in `verify-chapter-hierarchy.sh`: a gate detects when sibling
+      chapter ids at the same level do not share equal digit-width in their final component
+      (`02.09` beside `02.100`) and reports the offending ids **by name**, without rejecting the
+      directories at validation time and without auto-renumbering them. Over a fixture tree holding
+      `02.09` and `02.100` as siblings, assert the gate names both. **Paired mutation**: remove the
+      width check — the gate must go silent on the same fixture. This is a report, not a grammar
+      change: FR-005's validator already accepts both widths, and the "no renumbering, ever"
+      Assumption forbids the obvious alternative fix (FR-036, FR-034, SC-026)
+- [ ] T039 [P] [TDD] Prove **G-CH-16**: `AncestorIDs` in `pkg/chapterid` returns ids **root-first** —
+      the top-level ancestor first, the immediate parent last — for every chapter at depth 2 or
+      more. Extend the derivation table from T006 with a depth-3 fixture and assert element
+      **order**, not just set membership. **Paired mutation**: reverse the returned slice — the
+      check must go red (FR-039, FR-034, SC-029)
 
 **Checkpoint**: there is one definition of a chapter id and one derivation of its ancestry. **Stop
 for human approval.**
@@ -275,6 +291,14 @@ the phase by what a wrong run produces (`research.md` D-CH-8), worst first.
       any spec, commit message or test fixture** — it is private-tree content (standing rule 5).
       Resolve the recording through the chapter directory the script was asked about (FR-019)
       — AUDIT 2026-09-08: GENUINELY OPEN — workshop/pipeline/calibrate.sh:36 still assigns `REC` from a frozen absolute path into chapter 01. (Path deliberately not reproduced here: private-tree content, standing rule 5.)
+- [ ] T040 [P] [TDD] Prove **G-CH-17** in `verify-chapter-hierarchy.sh`: build a fixture passage
+      registry carrying a `scope` value naming a chapter id with no corresponding directory under
+      `chapters/`, and assert (a) the chapter list carries no synthesized row for that id, (b) a
+      dedicated dangling-reference report names the id by its `scope` value, and (c) the registry
+      record itself is neither deleted nor hidden. This is **not** the orphaned case (FR-031, T034):
+      that names a missing *ancestor* of a chapter that still exists; this names a missing *chapter
+      itself* whose content still exists in the registry. **Paired mutation**: make the enumerator
+      trust the registry over the filesystem — the check must go red (FR-037, FR-034, SC-027)
 
 **Checkpoint**: no stage can process the wrong chapter's content, and no stage can drop a chapter
 without saying so. **Stop for human approval** — the diff changes what the pipeline writes.
@@ -357,6 +381,29 @@ added** (FR-026, contract §5).
       out of the list — the gate must go red. Hiding it loses content that exists; promoting it to a
       root silently rewrites the hierarchy (FR-031, FR-034, SC-019)
       — AUDIT 2026-09-08: PARTIAL — the serving half is proven: `TestGCH9_OrphanIsServed` (internal/api/chapters_hierarchy_test.go:228) and `TestGCH9_OrphanIsListed` (cmd/workshop-server/chapters_hierarchy_test.go:244) PASS, with the paired mutation documented at :225/:243, and `missing_ancestor_ids` is served. MISSING: the `?under=<missing parent>` half cannot be proven because `under` is not implemented (T031).
+- [ ] T041 [TDD] Prove **G-CH-18**: an empty, readable `chapters/` directory, or one containing only
+      dotfiles, yields `200` from `listChapters` (`cmd/workshop-server/main.go:2094`) with an empty
+      `chapters` array, distinct from the existing could-not-determine state reserved for a
+      directory that cannot be read. Assert both against two separate fixtures — zero chapter
+      directories, and a directory the process cannot read (e.g. permission-denied) — and that the
+      two responses differ. **Paired mutation**: fold the empty-but-readable case into
+      could-not-determine — the check must go red on the readable-empty fixture (FR-038, FR-034,
+      SC-028)
+- [ ] T042 [TDD] Implement and prove **G-CH-19**, completing the `depth` and `include_self`
+      semantics T031 introduced without defining: `depth` is the maximum number of hierarchy levels
+      below `under` to include, unbounded when omitted; `include_self` defaults to `false` and, when
+      `true`, adds exactly one row — `under`'s own — to the returned array. Document both meanings
+      in contract §4.1 immediately beside `under`. Over a fixture tree three levels deep, assert
+      `depth=1` under a parent returns exactly its direct children and no grandchildren,
+      `include_self=true` alone adds exactly the parent's own row, and both together compose
+      correctly. **Paired mutation**: drop the `depth` cutoff — a grandchild leaks through and the
+      check must go red (FR-040, FR-034, SC-030)
+- [ ] T043 [TDD] Prove **G-CH-20**: a syntactically invalid `under` value (`02.2`, fails the FR-001
+      grammar) returns the **identical** response shape as a grammar-valid but absent one (`99`)
+      from T032's fixture — same status, `under_resolved: false`, empty `chapters` array. Probe both
+      `?under=02.2` and `?under=99` and assert the response bodies are equal modulo the echoed
+      `filters.under` value. **Paired mutation**: give the malformed case a distinct status or error
+      body — the check must go red (FR-041, FR-034, SC-031)
 
 ---
 
@@ -387,6 +434,21 @@ added** (FR-026, contract §5).
       ingests them; update `CONTINUATION.md` in the same change; and run the gate-coverage check
       below to confirm every contracted gate is carried by a task (FR-003, SC-021)
       — AUDIT 2026-09-08: PARTIAL — `max_depth_present` IS published as a measurement (LIVE: `GET /api/chapters` 200 returns `"max_depth_present": 2`, computed by `MaxDepthPresent`, pkg/curriculum/chapterid.go:325). MISSING: `workshop/docs/limits.md` exists but records nothing about hierarchy, the archived/uningested status of `02` and `02.01`, or a no-constant-bounds-depth assertion; and no gate-coverage check confirms every contracted gate is carried by a task.
+- [ ] T044 [TDD] Prove **G-CH-21** in `verify-chapter-hierarchy.sh`, alongside G-CH-10 (T036):
+      whether a chapter is listed by `GET /api/chapters` depends **only** on whether its directory
+      exists under `chapters/` (FR-004), never on ingestion state, review state or any other
+      readiness signal. Scan `listChapters` and its call path for a conditional keyed on an
+      ingestion, review or publication flag, and report each hit with its location rather than
+      counting. **Paired mutation**: add an `if !ingested { continue }` filter to the listing path —
+      the gate must go red. This is the negative-space companion to the new Out of Scope entry — a
+      draft/published visibility distinction is explicitly not this feature — so a later change
+      cannot introduce it as a silent side effect (FR-042, FR-034)
+- [ ] T045 [REVIEW] Measure and publish the per-request cost of deriving `hierarchy` fields for
+      every row of `GET /api/chapters`, at the corpus size present at measurement time, in the same
+      closure documentation T037 writes (`workshop/docs/limits.md`) — the figure and the corpus size
+      it was measured against, side by side. Confirm no requirement, gate or code comment anywhere
+      in the tree asserts a maximum number of chapters or siblings: a search for a hardcoded
+      chapter-count ceiling must return nothing (FR-043, SC-032)
 
 ---
 
@@ -400,11 +462,18 @@ T001 T002 T003          (Phase 0 — BLOCKING, operator decision)
                               ├─> T013 ─> T014 ─> T015     (fixture before its proofs)
                               │      └─> T016
                               ├─> T017 T018 T019 T020 T021 T022 T023 T024
+                              │      └─> T040                              (dangling reference)
                               ├─> T025 ─> T026 T027        (T025 also needs T001)
                               │      └─> T028 T029
                               ├─> T030 ─> T031 T032
+                              │      │      └─> T042                       (depth/include_self, needs T031)
+                              │      │      └─> T043                       (malformed under, needs T032)
+                              │      ├─> T041                              (empty directory)
                               │      └─> T033 ─> T034      (T033 also needs T001)
-                              └─> T035 T036 ─> T037
+                              ├─> T035 T036 ─> T037
+                              │      └─> T044                              (no visibility distinction, needs T036)
+                              │             └─> T045                       (hierarchy-cost measurement, needs T037)
+                              └─> T038 T039                                (digit-width gate, ancestor-order gate)
 ```
 
 **Hard blocks:**
@@ -416,6 +485,10 @@ T001 T002 T003          (Phase 0 — BLOCKING, operator decision)
 - **T013 blocks T014 and T015.** The fixture is the guard; writing the assertion first invites a
   fixture shaped to pass it.
 - **T029 blocks T030.** Prove the flat-array contract before adding fields to the rows inside it.
+- **T031 blocks T042, and T032 blocks T043.** *(added 2026-09-15)* Both new tasks complete a
+  semantics gap in the task they extend rather than introduce a new surface; writing them first
+  would define `depth`, `include_self` or the malformed-`under` shape against filters that do not
+  exist yet.
 
 ## Parallel opportunities
 
@@ -425,6 +498,10 @@ Marked `[P]`. These share no files.
   shell script. Four languages, four directories.
 - **T028** with any Phase 3 task — TypeScript against Python and Bash.
 - **T011** with T008/T009/T010 — assertions over four independent packages.
+- **T039** with T038, T008, T009 and T010 — `pkg/chapterid`'s own derivation table against the
+  shared gate script and its siblings. *(added 2026-09-15)*
+- **T040** with T021–T024 — a Go gate/registry fixture against a Go-embedded manifest, a Python
+  builder, a Python CLI and a shell script. *(added 2026-09-15)*
 
 ## Independent test criteria
 
@@ -458,6 +535,13 @@ Marked `[P]`. These share no files.
 | G-CH-13 ingest refusal | T017 |
 | G-CH-14 no hardcoded chapter in gates | T036 |
 | H1 unclassified reporting | T010 |
+| G-CH-15 sibling digit-width mismatch reported | T038 |
+| G-CH-16 ancestor_ids root-first | T039 |
+| G-CH-17 dangling registry reference reported | T040 |
+| G-CH-18 empty directory distinct from could-not-determine | T041 |
+| G-CH-19 depth/include_self semantics | T042 |
+| G-CH-20 malformed under == well-formed-but-absent | T043 |
+| G-CH-21 no draft/published visibility distinction | T044 |
 
 ```bash
 # THE CLOSURE CHECK. A contract gate must be carried by a TASK BLOCK — the

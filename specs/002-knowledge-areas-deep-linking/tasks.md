@@ -231,6 +231,15 @@ complete**, because every later artifact points at something through the mechani
 - [x] T013 [TDD] Implement segment-boundary spanning: an occurrence crossing a seam emits **one
       mention per segment it touches** (FR-022). Attaching it to one loses half its evidence, and
       evidence counts are what publication decisions rest on (FR-022)
+- [ ] T144 [TDD] [REVIEW] Implement **G-KG-19**: one documented half-open interval convention
+      (start inclusive, end exclusive) for every position this feature produces — text-match offset
+      pairs (FR-029) and media time spans alike — applied uniformly by every producer and every
+      consumer, with no component permitted to adopt a different convention locally. Record the
+      convention in the knowledge-model contract (FR-005) and audit the already-built producers and
+      consumers (T010–T013 mentions, T060–T062 offsets and locus) against it, correcting any that
+      disagree. **Paired mutation**: seed a match or a mention whose start exactly equals the
+      previous unit's end and require a consumer reading a closed interval to land in the wrong
+      unit; the gate must go red (FR-021b, SC-009b)
 - [x] T014 [REVIEW] Settle **U5** — do the 75 unjoined words cluster or scatter? Plot their time
       distribution against the measured silence spans. Three-valued exit. A cluster indicates a
       segmentation defect worth knowing about **before** mentions are built on it; scatter means the
@@ -376,6 +385,14 @@ seven-section skeleton and that every substantive claim carries a citation that 
       handler is not the fix. `term-significance-inputs-unavailable` remains a registered defect.
 - [x] T039 [US1] [TDD] Implement **A3.4.2**: a term whose last evidence is redacted is **withdrawn
       from the taxonomy**, not merely unlinked (FR-008, FR-027, SC-012)
+- [ ] T145 [US1] [TDD] Implement continuous publication-liveness for areas per **FR-008b**: an
+      already-published area whose evidencing passages are reduced to zero by a later redaction is
+      automatically unpublished — or held for an explicit republication decision — and MUST NOT
+      continue to display, export or resolve as though it still carried live evidence. This extends
+      the publish-time precondition FR-008/T024 already enforces into a continuous check, so a
+      redaction is caught without waiting on the next full extraction. Gate **G-KG-20**. **Paired
+      mutation**: redact an already-published area's last evidencing passage and skip the
+      post-publish check, leaving the area displayed; the gate must go red (FR-008, FR-008b, SC-007a)
 - [x] T040 [US1] Add route-manifest rows and contract sections for every endpoint above (FR-059).
       Gate **G-KG-1**. An endpoint built but undeclared fails the server-unity verifier by
       construction — that is deliberate and must not be "fixed" by loosening the verifier (FR-059)
@@ -532,6 +549,18 @@ back. No interface required.
 
 - [x] T043 [US2] [TDD] Implement `GET /api/areas/{area}/evidence` per §3.3, with **precision required**
       on every time-carrying entry and the word's timing confidence carried where precision is `word` (FR-020, FR-021, FR-059)
+- [ ] T146 [US2] [TDD] Implement **A3.3.4**: where a citation or a "where does this appear"
+      traversal resolves to more than one qualifying occurrence — including mentions inside one
+      corroboration group (FR-063) — return every occurrence rather than silently selecting one on
+      the learner's behalf. Extends `GET /api/areas/{area}/evidence` (T043) and the citation
+      resolution path alike. Gate **G-KG-21**. **Paired mutation**: seed a case with more than one
+      qualifying occurrence and make the resolver return only the first; the gate must go red
+      (FR-020, FR-020a, SC-009a)
+- [ ] T147 [US2] [P] [TDD] Prove **SC-009c**: resolving a single existing link or citation meets the
+      same 2 s, 95th-percentile latency bound SC-017 establishes for search results, measured with
+      the same harness pattern as T068's SC-016/SC-017 run and published before-and-together with
+      those figures — never a single after-figure — so growth of the link graph cannot silently make
+      the more fundamental operation slow while search stays inside budget (FR-020b, SC-009c)
 - [x] T044 [US2] [TDD] Implement **A3.3.3**: a redacted passage contributes no mention and the omitted
       count is reported, matching the existing cross-reference behaviour (FR-027, SC-012)
 - [x] T045 [US2] [TDD] Implement `GET /api/passages/{pid}/knowledge` per §3.7 — the reverse direction,
@@ -545,6 +574,13 @@ back. No interface required.
 - [x] T049 [US2] [TDD] Implement **A3.8.3**: a hop whose target cannot be resolved **reports its
       outcome and continues**; it is never dropped, because a dropped hop is indistinguishable from a
       hop that never existed (FR-023, FR-024)
+- [ ] T148 [US2] [TDD] [REVIEW] Implement **G-KG-22**: at the learner-facing surface, collapse the
+      four-outcome resolver's (FR-023, T015) **redacted** and **not present** outcomes into one
+      generic "unavailable" state, while preserving the full four-outcome distinction — and FR-024's
+      loud-failure requirement — on internal, authoring and audit surfaces. A learner-facing response
+      that lets the two outcomes be told apart discloses that withheld content existed, which this
+      task exists to close. **Paired mutation**: render the two outcomes differently at the
+      learner-facing surface; the gate must go red (FR-023, FR-024, FR-024a, SC-011a)
 - [ ] T050 [US2] [TDD] Implement the six-row connectivity matrix (FR-033a) and its exercise harness. — **BLOCKER:** none but the work — the gate exits 0, but `rows_implemented` (`graph_traverse.go:200`) still EXCLUDES row 4's cross-reference-graph half, so a green gate is covering five of six rows · **OWNER:** **implementer** — unblocked today, one missing half-row
       **A row with zero exercised origins fails** — an unexercised traversal is unmeasured, not
       passing (SC-015a) (FR-033a, SC-015a)
@@ -797,6 +833,13 @@ back. No interface required.
       collapse this contract exists to prevent (FR-029, FR-033)
 - [x] T062 [US3] [TDD] Implement the locus on every hit per **C4.1.2**, and withhold any hit whose
       locus does not resolve (FR-030) (FR-029, FR-030)
+- [ ] T149 [US3] [TDD] [REVIEW] Extend redaction propagation (T021, FR-027) to every cached or
+      precomputed representation of a passage's text this phase introduces — the search match
+      offsets and snippets T060/T061 compute ahead of a query — **synchronously with the redaction**,
+      never waiting for the next full reindex. Gate **G-KG-23**. **Paired mutation**: redact a
+      passage, immediately issue a search that would have matched it, and serve from a
+      representation only invalidated on the next scheduled reindex; the gate must go red (FR-027,
+      FR-027a, SC-012, SC-012a)
 - [x] T063 [US3] [TDD] Prove **SC-014** over **every** hit of the benchmark run — a hit without a
       resolving locus fails the run, not merely itself (FR-030, SC-014)
 
@@ -1349,6 +1392,13 @@ back. No interface required.
 - [x] T103 [US6] [TDD] Prove **SC-025** by **extracting text and diffing**, not by byte comparison —
       embedded timestamps make byte equality unachievable for some formats, and a criterion nobody can
       meet is worse than none (FR-046, SC-025)
+- [ ] T150 [US6] [TDD] [REVIEW] Extend the content-boundary check (T076, G-KG-16) to every exported
+      area document per **FR-049a**, run before the export leaves the platform's own storage — the
+      same check FR-065 requires of OCR output before publication, applied here to export instead.
+      Coverage MUST include extracted taxonomy labels (area titles, term canonical forms), not prose
+      alone. Gate **G-KG-24**. **Paired mutation**: scope the check to prose only, excluding area
+      titles and term names; the gate must go red, because that is precisely the scoping that would
+      let a name through (FR-004a, FR-049a, SC-024a)
 
 ---
 
@@ -1393,6 +1443,25 @@ chapter from a finished feature.
 - [x] T112 [US7] [TDD] Prove **S8**: evidence is written for every outcome, **especially** could not
       determine — the run that determined nothing is the one a reader most needs the record of.
       **Paired mutation**: skip evidence writing on the could-not-determine path (FR-054, FR-055)
+- [ ] T151 [US7] [P] [TDD] Implement code-passage drift detection per **FR-033h**: every code
+      passage carries a content hash or equivalent anchor of the code location it cites; resolving a
+      code passage whose anchor no longer matches reports **could not determine** or **stale**
+      through the existing four-outcome resolver (T015), never a silent hit against code that has
+      since changed independently, elsewhere in the monorepo. Gate **G-KG-25**. **Paired mutation**:
+      mutate the file a code passage cites outside the workshop pipeline, then resolve the citation
+      as a normal hit anyway; the gate must go red (FR-023, FR-033h, SC-015f)
+- [ ] T152 [US7] [TDD] Implement atomic publication per **FR-033i**: a chapter-processing run's
+      outputs — minted passages, extracted areas, materials, question sets, cross-references, index
+      entries and links — become visible together or not at all; an interrupted run (crash, kill,
+      power loss) leaves no partially-written state reachable by a learner or by search. Gate
+      **G-KG-26**. **Paired mutation**: kill the pipeline mid-run against T108's synthetic chapter and
+      assert the previously published state is unchanged and no new-but-incomplete artifact is
+      reachable; make publication non-atomic and the gate must go red (FR-033i, SC-015g)
+- [ ] T153 [US7] Prove **SC-015g**'s serving half: processing a new chapter does not block or
+      degrade interactive serving of the existing, already-published taxonomy, materials, questions
+      or search index while the run is in progress — a direct consequence of T152's atomicity rather
+      than a second mechanism, made independently measurable rather than left to be inferred
+      (FR-033j, SC-015g)
 
 **Checkpoint**: the pipeline is observed producing a complete chapter, not reported as doing so.
 
@@ -2163,6 +2232,14 @@ regardless of how many checkboxes above it are ticked.
   note, so the history survives without the standing claim. The rule in force now is the plain one:
   **a `[BLOCKED: …]` marker means the task is blocked TODAY.** Discharge it by removing the marker
   and recording what discharged it — never by redefining what the marker means.
+- **Added 2026-09-15, from the brainstorm-and-resolve pass's ten new functional requirements.**
+  **T144 blocks nothing new but must be settled before T060/T062 are trusted** — it is a contract
+  audit over already-built offset and span producers, not a prerequisite for building them. **T151
+  blocks T152; T152 blocks T153** — drift detection is independent of the other two, but atomic
+  publication must exist before the non-blocking-serving consequence built on it can be
+  independently measured. **T146 and T149 both extend T043 and T021 respectively rather than
+  replacing them** — read each as an additive gate over an existing, already-shipped mechanism, not
+  as new plumbing.
 
 ## Parallel opportunities
 
@@ -2208,8 +2285,25 @@ regardless of how many checkboxes above it are ticked.
 | G-KG-17 | T109, T141 |
 | G-KG-18 | T110 |
 | G-KG-1-changed | T143 |
+| G-KG-19 | T144 |
+| G-KG-20 | T145 |
+| G-KG-21 | T146 |
+| G-KG-22 | T148 |
+| G-KG-23 | T149 |
+| G-KG-24 | T150 |
+| G-KG-25 | T151 |
+| G-KG-26 | T152 |
 
-**19 gates, 19 paired mutations, all owed. The `18 gates, 18 paired mutations` figure this line
+**Added 2026-09-15, from the brainstorm-and-resolve pass's ten new functional requirements: eight
+further gates (G-KG-19..G-KG-26), taking the total to 27 gates, 27 paired mutations, all owed.**
+T147 (SC-009c, a latency proof) and T153 (SC-015g's serving half) carry no gate id of their own,
+matching the precedent of T068 (SC-016/SC-017) and T091 (SC-023) elsewhere in this table, which
+prove a success criterion directly rather than building a named G-KG gate. T153 is proven under
+T152's G-KG-26 paired mutation, not a second one, because SC-015g measures both FR-033i and FR-033j
+together (see `spec.md`'s 2026-09-15 Clarifications entry).
+
+**19 gates, 19 paired mutations, all owed, as of the 2026-09-03 count below — retained as the
+historical reading and not rewritten. The `18 gates, 18 paired mutations` figure this line
 carried is WITHDRAWN, not restated** — it was the population the OLD, blind extractor could see, and
 the nineteenth id (`G-KG-1-changed`, defined in `contracts/http-api-delta.md` §5) was missing from
 this table for the same reason it was missing from the closure check: an extractor that stopped at
@@ -2364,4 +2458,26 @@ grep -c '^- \[x\] T' tasks.md    # 104
 grep -c '^- \[ \] T' tasks.md    # 39
 grep -c '^- \[[ xX]\] T' tasks.md  # 143
 grep '^- \[ \] T' tasks.md | grep -c '\[UNBUILT\]'   # 21 — the 20 Phase 11 OCR tasks plus T143
+```
+
+**Superseded 2026-09-15, and the correction has two independent parts, kept separate rather than
+merged.** First: re-measured immediately before this pass began, the `104/39` figure above was
+**already stale** — the tree read **110 ticked / 33 not / 143 total** — the identical failure mode
+this block already names twice (a tick landing without this block being updated). No claim is made
+here about which task ticked between the two readings; re-deriving that is not this pass's job.
+Second, and additive rather than corrective: this pass — the 2026-09-15 brainstorm-and-resolve gap
+scan over `spec.md`'s deep-linking, citation and anchoring surface — added **ten** new tasks,
+`T144`–`T153`, one per new functional requirement (FR-008b, FR-020a, FR-020b, FR-021b, FR-024a,
+FR-027a, FR-033h, FR-033i, FR-033j, FR-049a). All ten are freshly authored and unticked; none carries
+an `[UNBUILT]` marker, because none of them was ever blocked on a clarification that is now settled —
+they are newly specified work, the same state every task in Phases 2–10 started in before anything
+was built. **Every one of the 143 pre-existing task lines — 110 ticked, 33 not — is preserved
+byte-for-byte**; nothing above `T143` was touched, renumbered or re-checked.
+
+```bash
+cd specs/002-knowledge-areas-deep-linking
+grep -c '^- \[x\] T' tasks.md    # 110
+grep -c '^- \[ \] T' tasks.md    # 43
+grep -c '^- \[[ xX]\] T' tasks.md  # 153
+grep '^- \[ \] T' tasks.md | grep -c '\[UNBUILT\]'   # 21 — unchanged: none of T144-T153 carries the marker
 ```

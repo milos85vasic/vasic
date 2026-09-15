@@ -48,6 +48,7 @@ description: "Task list template for feature implementation"
 
 -[x] T001 [P] [US1] Clone workshop repo outside umbrella vasic
 -[x] T002 [P] [US1] Initialize submodules and verify build passes independently
+- [ ] T030 [P] [US1] Add decommission gate for workshop: the umbrella-hosted `workshop/` copy remains the operative one and MUST NOT be removed/decommissioned until the standalone workshop clone independently passes `install` and the full test suite on its own (FR-052)
 
 ---
 
@@ -59,6 +60,7 @@ description: "Task list template for feature implementation"
 
 -[x] T003 [TDD] [US2] Clone ai_interviewing repo outside umbrella vasic
 -[x] T004 [TDD] [US2] Initialize submodules and verify build passes independently
+- [ ] T031 [P] [US2] Add decommission gate for ai_interviewing: the umbrella-hosted `ai_interviewing/` copy remains the operative one and MUST NOT be removed/decommissioned until the standalone ai_interviewing clone independently passes `install` and the full test suite on its own (FR-052)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -98,6 +100,8 @@ description: "Task list template for feature implementation"
 
 - [x] T009 [P] [US5] Extract reusable code from workshop to submodules vasic-digital
 - [x] T010 [P] [US5] Extract reusable code from ai_interviewing to submodules vasic-digital
+- [ ] T028 [REVIEW] [US5] Add a mandatory content-boundary review gate to the reusable-code extraction pipeline: run the `scripts/verify-content-boundary.sh`-class check against each candidate extraction from workshop/ai_interviewing and block creation/push of the new public vasic-digital repository until it confirms zero private data (FR-051)
+- [ ] T029 [P] [US5] Implement additive-then-cutover extraction pattern: keep each existing in-tree reusable code path functional in workshop/ai_interviewing until the corresponding consumer is confirmed migrated to, and re-tested against, the extracted public submodule (FR-053)
 
 **Checkpoint**: At this point, all 14 reusables should be independent public submodules with governance cascade satisfied
 
@@ -136,6 +140,28 @@ description: "Task list template for feature implementation"
 
 ---
 
+## Phase 9: Security & Privacy Hardening (FR-042–FR-055, added 2026-09-15 brainstorm pass)
+
+**Goal**: Harden the authentication/authorization implementation from Phase 3 against the security/privacy edge cases and Functional Requirements added in the 2026-09-15 brainstorm pass on spec.md. This spec has real, live security stakes: FR-009's example credentials (`milosvasic`/`WhiteSnake8587`, `rami`/`Test12345`) are already committed to this public repository's history and MUST be treated as compromised, never as real production secrets.
+
+**Independent Test**: Each control below has its own automated, deterministic test that fails RED against an unhardened implementation and passes GREEN once the control is implemented, on both workshop and ai_interviewing.
+
+- [ ] T017 [TDD] [REVIEW] [US3] Implement salted password hashing (Argon2id or bcrypt) for the shared user store on both modules; verify by test that no plaintext or reversibly-encrypted password value exists in any table, log, or fixture (FR-042)
+- [ ] T018 [P] [REVIEW] [US3] Add a pre-deployment boot guard that refuses to start a production-flagged environment while the FR-009 example password hashes (for `milosvasic`/`WhiteSnake8587` and `rami`/`Test12345`) are still active, and document in each module's README that these already-committed values are compromised and MUST NOT be reused as real secrets (FR-043)
+- [ ] T019 [TDD] [REVIEW] [US3] Add automated log/error-output scanning (unit + integration test) asserting that session tokens, session identifiers, and passwords never appear in application logs, error responses, crash reports, or URL/query strings on either module (FR-044)
+- [ ] T020 [TDD] [REVIEW] [US3] Implement session-ID regeneration on successful login on both modules; add a regression test proving the pre-authentication session id is discarded and cannot become the authenticated session id (session-fixation protection) (FR-045)
+- [ ] T021 [TDD] [REVIEW] [US3] Implement audience-scoped (module-restricted) tokens; add a contract test proving a token minted by workshop is rejected by ai_interviewing and vice versa, even though both modules read the shared user store (FR-046)
+- [ ] T022 [TDD] [REVIEW] [US3] Implement fail-closed behavior on both modules when the auth provider/user database is unreachable; add an integration test that simulates database unavailability and asserts every protected route denies access (never grants it) during the outage (FR-047)
+- [ ] T023 [TDD] [P] [US3] Implement per-account and per-source login rate limiting/throttling on both modules; add a test that exceeds the threshold and asserts subsequent attempts are throttled/blocked (FR-048)
+- [ ] T024 [TDD] [P] [US3] Implement generic ("invalid username or password") authentication failure messages on both modules; add a test asserting byte-identical response content/shape for an unknown username vs. a known username with a wrong password (username-enumeration prevention) (FR-049)
+- [ ] T025 [TDD] [P] [US3] Exempt health-check/readiness endpoints from authentication on both modules; add a test asserting these endpoints return HTTP 200 with no content or user data of any kind (FR-050)
+- [ ] T026 [TDD] [REVIEW] [US3] Implement default-deny access for any user record with no assigned role/permission on both modules; add a test creating a roleless user and asserting zero access is granted — never admin-equivalent or inherited access (FR-054)
+- [ ] T027 [TDD] [REVIEW] [US3] Implement cutover invalidation of any session/cookie issued before secure session handling (FR-017) was enforced; add a migration test proving a pre-rollout session cookie is rejected post-cutover on both modules (FR-055)
+
+**Checkpoint**: Every security/privacy edge case resolved in the 2026-09-15 brainstorm pass has a corresponding implemented control and a deterministic passing test on both modules; FR-009's committed example credentials are confirmed non-functional as production secrets.
+
+---
+
 ## Dependencies & Execution Order
 
 ### Phase Dependencies
@@ -149,6 +175,7 @@ description: "Task list template for feature implementation"
 - **Submodule Updates (Phase 5)**: Depends on code completion
 - **Documentation (Phase 6)**: Depends on code completion
 - **Test Coverage (Phase 8)**: Depends on all user story implementation
+- **Security & Privacy Hardening (Phase 9)**: Depends on Phase 3 (Auth/RBAC) for the tasks it hardens (T017, T019-T027) and on Phase 5 (Extract Reusables) for the content-boundary/extraction tasks (T028, T029); FR-052 decommission-gate tasks (T030, T031) depend only on Phase 1/Phase 2 completion respectively
 
 ### User Story Dependencies
 
@@ -176,6 +203,7 @@ description: "Task list template for feature implementation"
 - Once Foundational phase completes, all user stories can start in parallel (if team capacity allows)
 - All tests for a user story marked [P] can run in parallel
 - Different user stories can be worked on in parallel by different team members
+- Phase 9 security-hardening tasks marked [P] (T018, T023, T024, T025, T029, T030, T031) can run in parallel with each other once their respective prerequisite phase is complete
 
 ---
 

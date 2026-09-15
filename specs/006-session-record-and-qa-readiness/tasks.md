@@ -76,6 +76,8 @@ correctness derives from them.
 - [ ] T017 [P] [US1] Build `GET /api/chapters/{id}/next-meeting` reading `pkg/sessionrecord` (FR-005).
 - [ ] T018 [TDD] [US1] Assert the routes and the embedded key serve the **same items** in `workshop/platform/gates/verify-session-record.sh` (FR-005, FR-023). **This is the pair assertion** — a route and a key that agree today are exactly what drift, and that class produced the 819-vs-817 catalogue bug.
 - [ ] T019 [REVIEW] [US1] **BLOCKED — operator decision.** `GET /api/chapters/{id}/meeting-notes` is NOT built. Its withholding rule **may not be guessed** (FR-005a): one note is a content judgement left undecided. Update its DEBT row in `workshop/platform/gates/route-manifest.tsv` to name that specific blocker rather than the general one (FR-028).
+- [ ] T061 [TDD] [US1] Enforce FR-030b's interim default on the *embedded* `session_record.meeting_notes` key served by `GET /api/chapters/{id}` — not only the still-unbuilt standalone route T019 blocks — so it reports `withheld: pending_operator_decision`, never a guessed value, in `workshop/platform/backend/internal/api/chapters.go`; assert the negative in `workshop/platform/gates/verify-meeting-notes-withheld-default.sh` (FR-030b, FR-005a).
+- [ ] T062 [P] [US1] Record the FR-030b interim-withheld contract — naming OQ-1 as the lifting condition — in `workshop/platform/gates/route-manifest.tsv`'s meeting-notes DEBT row (extending, not overwriting, T019's entry) and in `specs/006-session-record-and-qa-readiness/contracts/session-record.md` (FR-028, FR-030b).
 
 ---
 
@@ -107,6 +109,13 @@ correctness derives from them.
 - [ ] T032 [US3] Record the build identifier in both — served-CSS `sha256`, served area count, index generation — and state they must be regenerated when it moves (FR-020a, FR-026).
 - [ ] T033 [US3] Disclose up front (FR-020, FR-020b): 39 served against 42 authored; 12 areas carrying no test with the reason; every score indeterminate while banks mix machine-marked and free-text questions.
 - [ ] T034 [P] [US3] Disclose that `/meeting-notes` is deliberately unbuilt and that three sibling routes may or may not be live — **check, do not assume** (FR-020, FR-028, SC-008).
+- [ ] T063 [US3] Add a "one tester, acting alone" scope statement to `workshop/docs/qa/MANUAL-TEST-PLAN.md` §0, and confirm no scenario's stated expected result presumes a second, concurrent tester (FR-022a).
+- [ ] T064 [TDD] [US3] Make platform reachability the QA document's first mandatory precondition step in `workshop/docs/qa/MANUAL-TEST-PLAN.md`, with expected result "environment unavailable → stop and report", backed by `workshop/platform/gates/verify-platform-reachable.sh` (FR-022b). **Evidence needed**: confirmed 2026-09-15 via `podman ps -a` that no `workshop-curriculum_platform_1` container is running on this host — the precondition check must correctly detect exactly this state, not merely pass on a healthy host.
+- [ ] T065 [US3] Add a "resume from here" convention to `workshop/docs/qa/MANUAL-TEST-PLAN.md` — the last-completed, evidenced-step marker a tester records so an interrupted session resumes without a full restart (FR-022c).
+- [ ] T066 [SUBAGENT] [US3] Editorial pass over `workshop/docs/qa/MANUAL-TEST-PLAN.md` and `workshop/docs/qa/CLIENT-WALKTHROUGH.md` for plain, non-technical language; add a glossary defining every unavoidable technical term at first use (FR-022d).
+- [ ] T067 [P] [TDD] [US3] Ship `workshop/platform/gates/verify-qa-doc-accessibility.sh` asserting `MANUAL-TEST-PLAN.md` and `CLIENT-WALKTHROUGH.md` meet the FR-016 baseline — screen-reader-navigable heading/table structure, no meaning conveyed by color alone (FR-022e).
+- [ ] T068 [US3] Add an "evidence capture failed" outcome to `workshop/docs/qa/MANUAL-TEST-PLAN.md` §3's defect-report fields: a step whose capture tool errors, produces no output, or produces an unreadable artefact MUST be recorded as observed-but-unevidenced (could-not-determine), never as passed (FR-029a, FR-024).
+- [ ] T069 [REVIEW] [US3] Extend `workshop/docs/qa/MANUAL-TEST-PLAN.md`'s evidence-capture instructions so a screenshot, log excerpt or recording that would disclose private recorded material, a participant's name, or verbatim private transcript text is captured by reference (path, timestamp, redacted excerpt) instead of committed to the public repository, under the same rule FR-030 applies to session records (FR-030a). **Security-relevant** — closes a leak vector for screenshots/logs of private chapter content; requires independent review before merge.
 
 ---
 
@@ -149,6 +158,7 @@ correctness derives from them.
 - [x] T053 [P] Return **rc 2** with `TODO(storage-fetch)` when archive parts are absent, and keep **rc 1** for a present-but-corrupt part (FR-024, SC-010). **Evidence**: a missing download is not a corrupt archive, and conflating them sent a previous investigation at the wrong thing.
 - [x] T054 [P] Make `_tools/watch-deploy.sh` read its exit codes (FR-023, FR-025). **Evidence** (in_process): it could loop 240 times against a deploy failing every cycle and exit 0; the proof fails **6 of 8** against a reconstruction of the pre-fix watcher.
 - [x] T055 [P] Fix the hardcoded checkout path in `workshop/docs/training/curriculum-areas/16-*.md` and regenerate its four derived artefacts (FR-?). **Evidence** (source): the document teaches pointer discipline and broke it; audit 22 occurrences → rc 0; 597 citations still resolve; 18 of 18 sidecar pids present in the registry.
+- [ ] T070 Document the FR-029b evidence-retention policy for QA-run evidence artefacts under `workshop/docs/qa/`: never silently delete as volume grows; archiving older evidence out of the live directory, if it becomes a concern, is an explicit operator decision, recorded in `workshop/docs/qa/MANUAL-TEST-PLAN.md` §0 and cross-referenced in `CONTINUATION.md` (FR-029b).
 - [ ] T056 Restart once when every writer has stopped, verified by two `git status` readings 30 s apart (FR-027). **A restart triggers a 45-minute cross-reference derivation** over 24,929 passages, during which `verify-crossref-currency.sh` correctly reports rc 1.
 - [ ] T057 Re-run the full gate sweep against the rebuilt container and record each figure with its **population** — `source`, `in_process` or `served` (FR-023, FR-026).
 - [ ] T058 [P] [SUBAGENT] Register every new gate in `workshop/platform/gates/check-registry-006.tsv` (FR-?). **Evidence needed**: an unregistered gate fails the registry's own R5 anti-drift rule, which caught one of mine today.
@@ -181,9 +191,9 @@ session** — handing over stale documents is worse than handing over none.
 | Stream | Owns | Tasks |
 |---|---|---|
 | Content | `docs/training/`, `curriculum/`, `pipeline/` | T010, T020–T026, T035, T055 |
-| Backend | `platform/backend/`, `platform/gates/` | T005–T009, T011–T018, T036, T042, T045–T050 |
+| Backend | `platform/backend/`, `platform/gates/` | T005–T009, T011–T018, T036, T042, T045–T050, T061, T062, T067 |
 | Frontend | `platform/frontend/src/app/` | T037, T039–T041, T043, T044 |
-| QA docs | `docs/qa/` | T029–T034 |
+| QA docs | `docs/qa/` | T029–T034, T063–T066, T068–T070 |
 | Umbrella | `_tools/`, `scripts/` | T052–T054 |
 
 **Cross-stream rule**: any stream measuring another's output must **rebuild
@@ -213,22 +223,26 @@ Counted from this file by script, not transcribed.
 |---|---:|---:|---:|
 | 1 Setup | 4 | 4 | 0 |
 | 2 Foundational | 5 | 5 | 0 |
-| 3 US1 session record | 10 | 5 | 5 |
+| 3 US1 session record | 12 | 5 | 7 |
 | 4 US2 carry-forward | 9 | 6 | 3 |
-| 5 US3 QA readiness | 6 | 2 | 4 |
+| 5 US3 QA readiness | 13 | 2 | 11 |
 | 6 US4 area completeness | 10 | 9 | 1 |
 | 7 US5 evidence | 7 | 5 | 2 |
-| 8 Polish | 9 | 4 | 5 |
-| **Total** | **60** | **40** | **20** |
+| 8 Polish | 10 | 4 | 6 |
+| **Total** | **70** | **40** | **30** |
 
 ```bash
-grep -c '^- \[' specs/006-session-record-and-qa-readiness/tasks.md     # 60
+grep -c '^- \[' specs/006-session-record-and-qa-readiness/tasks.md     # 70
 grep -c '^- \[x\]' specs/006-session-record-and-qa-readiness/tasks.md  # 40
 ```
 
-**40 of 60 carry a captured run.** Of the 20 open, **3 are operator gates**
+**40 of 70 carry a captured run.** Of the 30 open, **3 are operator gates**
 (T019, T028, T060) and **2 require the single restart** (T056, T057). The
-remaining 15 are engineering work, and T031 is the one that blocks the QA session.
+remaining 25 are engineering work, and T031 is the one that blocks the QA session.
+**10 of the 30 open tasks (T061–T070) were added 2026-09-15**, implementing the
+nine new FRs from that session's brainstorm-and-resolve pass (FR-022a–e,
+FR-029a, FR-029b, FR-030a, FR-030b) — none of them run yet, so the done count is
+unchanged at 40.
 
 ---
 
