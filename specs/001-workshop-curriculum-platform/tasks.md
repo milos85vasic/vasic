@@ -4,6 +4,8 @@ description: "Task list for Workshop Curriculum Platform"
 
 # Workshop Curriculum Platform Implementation Plan
 
+> **SUPERSEDED 2026-09-15** by [specs/008-unified-workshop-platform/spec.md](../008-unified-workshop-platform/spec.md) — this document is preserved for historical/traceability reasons; the unified spec is the active source of truth.
+
 > **TASK IDS ARE PER-FEATURE AND ARE NOT GLOBALLY UNIQUE — CITE THEM QUALIFIED.**
 > This file and [`specs/002-knowledge-areas-deep-linking/tasks.md`](../002-knowledge-areas-deep-linking/tasks.md)
 > number their tasks independently from `T001`, so the same id names two unrelated pieces of work

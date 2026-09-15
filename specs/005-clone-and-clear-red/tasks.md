@@ -4,6 +4,8 @@ description: "Task breakdown for a repository that clones, and a fleet with no u
 
 # Tasks: A Repository That Clones, and a Fleet With No Unexplained Red
 
+> **SUPERSEDED 2026-09-15** by [specs/008-unified-workshop-platform/spec.md](../008-unified-workshop-platform/spec.md) — this document is preserved for historical/traceability reasons; the unified spec is the active source of truth.
+
 **Input**: [spec.md](spec.md) · [checklists/requirements.md](checklists/requirements.md)
 
 ## How to read this file

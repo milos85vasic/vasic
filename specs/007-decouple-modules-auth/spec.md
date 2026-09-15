@@ -1,5 +1,7 @@
 # Feature Specification: Decouple Modules, Add Authentication & Extract Reusables
 
+> **SUPERSEDED 2026-09-15** by [specs/008-unified-workshop-platform/spec.md](../008-unified-workshop-platform/spec.md) — this document is preserved for historical/traceability reasons; the unified spec is the active source of truth.
+
 **Feature Branch**: `007-decouple-modules-auth`
 
 **Created**: 2026-09-12

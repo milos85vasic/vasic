@@ -1,5 +1,7 @@
 # Feature Specification: Authored AI/IT Knowledge Areas with Lessons, Tests and Video Anchors
 
+> **SUPERSEDED 2026-09-15** by [specs/008-unified-workshop-platform/spec.md](../008-unified-workshop-platform/spec.md) — this document is preserved for historical/traceability reasons; the unified spec is the active source of truth.
+
 **Feature Branch**: `main` (no feature branch; this repository works on `main` only)
 
 **Created**: 2026-09-07

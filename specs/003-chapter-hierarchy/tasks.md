@@ -4,6 +4,8 @@ description: "Task list for Chapter Hierarchy"
 
 # Chapter Hierarchy — Implementation Plan
 
+> **SUPERSEDED 2026-09-15** by [specs/008-unified-workshop-platform/spec.md](../008-unified-workshop-platform/spec.md) — this document is preserved for historical/traceability reasons; the unified spec is the active source of truth.
+
 > **TASK IDS ARE PER-FEATURE AND ARE NOT GLOBALLY UNIQUE — CITE THEM QUALIFIED.**
 > This file, [`specs/001-workshop-curriculum-platform/tasks.md`](../001-workshop-curriculum-platform/tasks.md)
 > and [`specs/002-knowledge-areas-deep-linking/tasks.md`](../002-knowledge-areas-deep-linking/tasks.md)

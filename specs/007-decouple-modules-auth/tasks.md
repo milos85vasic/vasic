@@ -4,6 +4,8 @@ description: "Task list template for feature implementation"
 
 # Tasks: Decouple Modules, Add Authentication & Extract Reusables
 
+> **SUPERSEDED 2026-09-15** by [specs/008-unified-workshop-platform/spec.md](../008-unified-workshop-platform/spec.md) — this document is preserved for historical/traceability reasons; the unified spec is the active source of truth.
+
 **Input**: Design documents from `/specs/007-decouple-modules-auth/`
 
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/

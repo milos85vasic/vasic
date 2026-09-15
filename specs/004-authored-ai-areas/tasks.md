@@ -4,6 +4,8 @@ description: "Task breakdown for authored AI/IT knowledge areas with lessons, te
 
 # Tasks: Authored AI/IT Knowledge Areas with Lessons, Tests and Video Anchors
 
+> **SUPERSEDED 2026-09-15** by [specs/008-unified-workshop-platform/spec.md](../008-unified-workshop-platform/spec.md) — this document is preserved for historical/traceability reasons; the unified spec is the active source of truth.
+
 **Input**: Design documents from `specs/004-authored-ai-areas/`
 **Prerequisites**: [plan.md](plan.md), [spec.md](spec.md), [research.md](research.md), [data-model.md](data-model.md), [contracts/](contracts/), [quickstart.md](quickstart.md)
 

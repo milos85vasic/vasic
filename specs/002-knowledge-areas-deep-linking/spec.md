@@ -1,5 +1,7 @@
 # Feature Specification: Knowledge Areas & Bidirectional Deep Linking
 
+> **SUPERSEDED 2026-09-15** by [specs/008-unified-workshop-platform/spec.md](../008-unified-workshop-platform/spec.md) — this document is preserved for historical/traceability reasons; the unified spec is the active source of truth.
+
 **Feature Branch**: `002-knowledge-areas-deep-linking`
 
 **Created**: 2026-09-01

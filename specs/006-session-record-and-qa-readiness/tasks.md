@@ -4,6 +4,8 @@ description: "Task breakdown for the per-chapter session record and QA readiness
 
 # Tasks: A Complete Session Record per Chapter, and a Platform a QA Team Can Test
 
+> **SUPERSEDED 2026-09-15** by [specs/008-unified-workshop-platform/spec.md](../008-unified-workshop-platform/spec.md) — this document is preserved for historical/traceability reasons; the unified spec is the active source of truth.
+
 **Input**: [spec.md](spec.md) · [plan.md](plan.md) · [research.md](research.md) · [data-model.md](data-model.md) · [contracts/](contracts/) · [quickstart.md](quickstart.md)
 
 ## How to read this file
