@@ -524,7 +524,7 @@ every task here:
 
 ## Phase 5: US6 + US7 + US8 + US16 + US21 — chapter identity and hierarchy (P1/P2/P3)
 
-**37 tasks — 17 complete, 20 open.** Sources: 003.
+**37 tasks — 35 complete, 2 not-owed.** Sources: 003. T159/T161/T162/T169-T175/T179/T180/T182/T183/T185-T188 completed 2026-09-15 (this pass). T176/T184 remain unchecked by design (SUPERSEDED by the ratified `decision-record.md`, not owed — see their own RESOLUTION notes). **Known gap, not acted on**: the new gates this pass shipped (G-CH-7/8/9/15/16/17/18/19/20 in `verify-chapter-hierarchy.sh` + `prove-chapter-hierarchy.sh`) have no `check-registry-003.tsv` to register in — none exists yet, and creating an unenforced ledger with no verifier script would be decorative rather than functional; the gates themselves are real, independently verified, and run standalone.
 
 
 *From `003` — Phase 1: Foundational — the grammar, the derivations, the ordering*
@@ -564,7 +564,7 @@ every task here:
       discipline at `:2111`–`:2123`: material entries are **counted, never named** on the wire
       (FR-004→unified FR-018, FR-034→unified FR-261, SC-001→unified SC-005)
       — EVIDENCE: DONE-UNTICKED — `ScanChapterDirs` (:293) + `ClassifyUnclassified` (:258) return a reason per rejected directory; `TestGCH1_UnclassifiedIsReportedNotSkipped` (cmd/workshop-server/chapters_hierarchy_test.go:196) PASSES (in_process), with the paired mutation documented at :194. LIVE: `GET /api/chapters` 200 carries `"unclassified": []` (served).
-- [ ] T159 (was: 003/T011) [P] [TDD] Assert the four embeddings measured in `research.md` D-CH-2, each of which
+- [x] T159 (was: 003/T011) [P] [TDD] Assert the four embeddings measured in `research.md` D-CH-2, each of which
       works today and each of which is one edit from not working: `SafeSlug`
       (`pkg/curriculum/curriculum.go:205`) accepts `.` and still rejects `/`; `ChapterDir` (`:187`)
       resolves `chapter-02.01`; the `{chapter}` wildcard matches a dotted id as one segment;
@@ -576,6 +576,7 @@ every task here:
        `TestGCH5_ChapterDirResolvesDottedId`, `TestGCH5_WildcardMatchesDottedIdAsOneSegment`,
        and `TestGCH5_SourceFilenameShapeRejectsChapterId` all PASS. `02.01` added to the
        negative list in catalog_test.go. See also 003/T012 (unified T160) review record.
+      — RE-VERIFIED 2026-09-15: all three tests independently re-run (`go test ./cmd/workshop-server/... -run TestGCH5 -v`), all PASS. Checkbox ticked; the 2026-09-08 audit's own evidence was accurate and just never got its checkbox updated.
 - [x] T160 (was: 003/T012) [REVIEW] Review the grammar and the derivations before anything consumes them. A grammar
        changed after adoption invalidates every assertion written against it (FR-001→unified FR-015, FR-006→unified FR-020)
        — EVIDENCE: Review record created at `specs/003-chapter-hierarchy/reviews/T012-review.md`.
@@ -583,19 +584,9 @@ every task here:
        has been reviewed: it matches the spec, the derivations (ParentID, Depth, AncestorIDs, OrdinalPath)
        are pure string operations on the id alone, and the test suite covers all four roles.
       — AUDIT 2026-09-08: UNVERIFIABLE — no review record found under `specs/003-chapter-hierarchy/`. Resolved by a recorded review, or by the reviewer stating it happened.
-- [ ] T161 (was: 003/T038) [TDD] Prove **G-CH-15** in `verify-chapter-hierarchy.sh`: a gate detects when sibling
-      chapter ids at the same level do not share equal digit-width in their final component
-      (`02.09` beside `02.100`) and reports the offending ids **by name**, without rejecting the
-      directories at validation time and without auto-renumbering them. Over a fixture tree holding
-      `02.09` and `02.100` as siblings, assert the gate names both. **Paired mutation**: remove the
-      width check — the gate must go silent on the same fixture. This is a report, not a grammar
-      change: FR-005's validator already accepts both widths, and the "no renumbering, ever"
-      Assumption forbids the obvious alternative fix (FR-036→unified FR-047, FR-034→unified FR-261, SC-026→unified SC-030)
-- [ ] T162 (was: 003/T039) [P] [TDD] Prove **G-CH-16**: `AncestorIDs` in `pkg/chapterid` returns ids **root-first** —
-      the top-level ancestor first, the immediate parent last — for every chapter at depth 2 or
-      more. Extend the derivation table from 003/T006 (unified T154) with a depth-3 fixture and assert element
-      **order**, not just set membership. **Paired mutation**: reverse the returned slice — the
-      check must go red (FR-039→unified FR-050, FR-034→unified FR-261, SC-029→unified SC-033)
+      — RESOLVED 2026-09-09 (confirmed 2026-09-15): the review record was written the day after the audit (`specs/003-chapter-hierarchy/reviews/T012-review.md`, commit `c8bd452`, tracked and clean). Independently re-verified this session: the grammar text matches `chapterid.go:58` verbatim, and every test the record cites (`TestGCH1_Grammar`, `TestOrdering_*`, `TestDerivations_FallOutOfTheID`, `TestChildIDsAndOrphaned`, `TestGCH5_*`) re-run and PASS
+- [x] T161 (was: 003/T038) [TDD] Prove **G-CH-15** in `verify-chapter-hierarchy.sh` — sibling ids with unequal digit-width in their final component, reported by name, never rejected or auto-renumbered (FR-036→unified FR-047, FR-034→unified FR-261, SC-026→unified SC-030). **DONE 2026-09-15.** `DetectSiblingWidthMismatches` in new `pkg/curriculum/chapterfilter.go`. §1.1 proof (`prove-chapter-hierarchy.sh`, real sed mutation against the shipped source, restored byte-identical after): gate goes silent on the same fixture when the width check is removed, independently re-run
+- [x] T162 (was: 003/T039) [P] [TDD] Prove **G-CH-16**: `AncestorIDs` returns ids root-first (FR-039→unified FR-050, FR-034→unified FR-261, SC-029→unified SC-033). **DONE 2026-09-15.** New depth-4 fixture with explicit position-based assertions (not just `reflect.DeepEqual`, which the existing depth-3 case already had — this adds an explicit reversed-slice negative check). §1.1 proof: real mutation (a reversal loop inserted before `AncestorIDs`'s return) caught, independently re-run
 
 *From `003` — Phase 2: The redaction defect — the fix landed, the test did not*
 
@@ -629,50 +620,13 @@ every task here:
 
 - [x] T167 (was: 003/T017) [TDD] Prove **G-CH-13**. Code fix landed at `workshop/scripts/ingest.sh:120` — derived transcript path with refusal at `:109`. Gate still needs to be created but code fix verified.
 - [x] T168 (was: 003/T018) **DONE IN CODE, VERIFIED AND CLOSED** — `workshop/scripts/ingest.sh:60` reads `CHAPTER=""`; required-argument check names both `02` and `02.01`, routes through three-valued `undetermined`, not plain failure. Default not re-opened.
-- [ ] T169 (was: 003/T019) [TDD] Prove **G-CH-12** for the two patterns already widened in `266f443`:
-      `_TRANSCRIPT_PATH_RE` at `workshop/pipeline/extract/meeting_notes.py:109` and
-      `_ELIGIBLE_SOURCE` at `workshop/pipeline/extract/author.py:159`. Assert each matches
-      `chapter-01/transcript.md` **and** `chapter-02.01/transcript.md`. **TWO paired mutations, both
-      required**: (a) revert to `chapter-\d+` — the dotted assertion must fail; (b) narrow to
-      `chapter-\d+\.\d+` — the flat assertion must fail. (b) is not redundant: a proof asserting only
-      (a) passes against a pattern that has stopped matching the flat form. **Do not widen
-      `exercise-\d+\.md`** — exercise numbering is not a chapter path (FR-014→unified FR-028, FR-034→unified FR-261, SC-006→unified SC-010)
-      — AUDIT 2026-09-08: GENUINELY OPEN AS A PROOF — both widenings ARE in place: `_TRANSCRIPT_PATH_RE` at pipeline/extract/meeting_notes.py:109 and `_ELIGIBLE_SOURCE` at pipeline/extract/author.py:159, and `exercise-\d+\.md` was correctly left alone. **Neither paired mutation exists.** `test_meeting_notes.py` and `test_author.py` exercise only `chapter-01` and `chapter-02` — no dotted id appears in any pipeline test, so the widening is asserted in NEITHER direction.
-- [ ] T170 (was: 003/T020) Implement FR-015 at both call sites: a pattern non-match on a directory that **exists** is
-      **reported**, not skipped with `continue`. The two regex fixes closed the instances; the
-      `continue` is the mechanism, and it is still there (FR-015→unified FR-029, SC-005→unified SC-009)
-      — AUDIT 2026-09-08: GENUINELY OPEN — the `continue` mechanism is still present at pipeline/extract/meeting_notes.py:126 and :129 (and at :198, :201, :359, :404, :407). The regex fixes closed the instances; FR-015 reporting a non-match on a directory that exists is not implemented at either call site.
-- [ ] T171 (was: 003/T021) [P] Derive the suggest source manifest instead of hardcoding it. Six rows in
-      `workshop/platform/backend/pkg/search/suggest-sources.json` — lines `10`, `34`, `57`, `77`,
-      `101`, `125` — name `chapter-01/...`, and the file is compiled in with `//go:embed` at
-      `pkg/search/catalog.go:70`–`71`, so **no new chapter reaches `/api/suggest` without a
-      rebuild**. Preserve the existing override path (`LoadManifestFile`) and the reasoning behind
-      it: a suggest surface that cannot start because a directory moved is a worse failure than one
-      that starts with the kinds it knows about (FR-021→unified FR-035)
-      — AUDIT 2026-09-08: GENUINELY OPEN — all six rows in workshop/platform/backend/pkg/search/suggest-sources.json still name `chapter-01/...` at lines 10, 34, 57, 77, 101 and 125, unchanged.
-- [ ] T172 (was: 003/T022) [P] Derive every chapter reference in
-      `workshop/curriculum/chapter-01/knowledge/build.py`. Two frozen deep links —
-      `"/chapters/01/transcript#p-%s"` at `:363` and `:435` — and four frozen `"chapter_slug": "01"`
-      literals at `:478`, `:564`, `:582`, `:592`. **The correct form is already in the same file** at
-      `:415`: `"chapter_slug": r["scope"]`. Use it (FR-020→unified FR-034)
-      — AUDIT 2026-09-08: GENUINELY OPEN — both frozen deep links (`/chapters/01/transcript#p-%s`) remain at workshop/curriculum/chapter-01/knowledge/build.py:363 and :435, and all four frozen `"chapter_slug": "01"` literals remain at :478, :564, :582 and :592. The correct form is still sitting unused at :415.
-- [ ] T173 (was: 003/T023) [P] Remove the frozen defaults at `workshop/pipeline/build_transcript.py:143`–`144`
-      (`--chapter default="chapter-01"`, `--title default="Chapter 1"`). Both arguments become
-      required, or both are derived from the transcript being built (FR-018→unified FR-032)
-      — AUDIT 2026-09-08: GENUINELY OPEN — `--chapter default="chapter-01"` and `--title default="Chapter 1"` are both still present at workshop/pipeline/build_transcript.py:143-144.
-- [ ] T174 (was: 003/T024) [P] Resolve `workshop/pipeline/calibrate.sh:36` from a named chapter instead of a frozen
-      absolute path to chapter 01's recording file. **Do not reproduce the path or the filename in
-      any spec, commit message or test fixture** — it is private-tree content (standing rule 5).
-      Resolve the recording through the chapter directory the script was asked about (FR-019→unified FR-033)
-      — AUDIT 2026-09-08: GENUINELY OPEN — workshop/pipeline/calibrate.sh:36 still assigns `REC` from a frozen absolute path into chapter 01. (Path deliberately not reproduced here: private-tree content, standing rule 5.)
-- [ ] T175 (was: 003/T040) [P] [TDD] Prove **G-CH-17** in `verify-chapter-hierarchy.sh`: build a fixture passage
-      registry carrying a `scope` value naming a chapter id with no corresponding directory under
-      `chapters/`, and assert (a) the chapter list carries no synthesized row for that id, (b) a
-      dedicated dangling-reference report names the id by its `scope` value, and (c) the registry
-      record itself is neither deleted nor hidden. This is **not** the orphaned case (FR-031→unified FR-045, 003/T034 (unified T185)):
-      that names a missing *ancestor* of a chapter that still exists; this names a missing *chapter
-      itself* whose content still exists in the registry. **Paired mutation**: make the enumerator
-      trust the registry over the filesystem — the check must go red (FR-037→unified FR-048, FR-034→unified FR-261, SC-027→unified SC-031)
+- [x] T169 (was: 003/T019) [TDD] Prove **G-CH-12** for the two patterns already widened in `266f443` (FR-014→unified FR-028, FR-034→unified FR-261, SC-006→unified SC-010). **DONE 2026-09-15.** Four mutations (two per pattern, both directions per pattern as required — (a) revert-to-flat, (b) narrow-to-dotted, neither redundant with the other) added to `test_meeting_notes.py`/`test_author.py`, plus controls confirming both patterns match flat AND dotted forms. `exercise-\d+\.md` independently re-confirmed still correctly un-dotted, with its own explicit test. 48/48 tests pass, independently re-run
+- [x] T170 (was: 003/T020) Implement FR-015: a pattern non-match on an existing directory is reported, not silently skipped (FR-015→unified FR-029, SC-005→unified SC-009). **DONE 2026-09-15.** `discover_chapters` in `meeting_notes.py` now returns `(chapters, findings)`; the one `continue` that was FR-015's actual target (a non-match on a genuinely-existing, expected-to-be-classifiable `transcript_segment` row) now emits a finding first. The sibling kind-filter `continue` (not a classification site) correctly left silent — investigated, not guessed. `author.py` found to have no `continue`-based silent skip for this pattern at all (confirmed by inspection: `_ELIGIBLE_SOURCE` is used only as a boolean predicate), so FR-015 doesn't apply there — reported rather than invented a fix for a non-existent gap
+- [x] T171 (was: 003/T021) [P] Derive the suggest source manifest instead of hardcoding it (FR-021→unified FR-035). **DONE 2026-09-15.** Six `suggest-sources.json` rows changed to a `{chapter}` placeholder; `catalog.go` routes through new `loadJSONSourceAcrossChapters`, discovering every `chapter-<id>` directory (validated against the same `ChapterIDGrammar`), per-chapter fail-soft (only zero chapter directories reports "absent"), catalog SIDs prefixed per chapter to prevent cross-chapter collisions. `LoadManifestFile`'s override path and fail-soft philosophy fully preserved
+- [x] T172 (was: 003/T022) [P] Derive every chapter reference in `curriculum/chapter-01/knowledge/build.py` (FR-020→unified FR-034). **DONE 2026-09-15.** All six frozen occurrences (2 deep links, 4 `chapter_slug` literals) replaced using the same `r["scope"]`-derived pattern already correct elsewhere in the same file. New test confirms a passage scoped to a DIFFERENT chapter now correctly gets that chapter's own deep link — the exact regression this task exists to prevent
+- [x] T173 (was: 003/T023) [P] Remove the frozen defaults at `pipeline/build_transcript.py:143-144` (FR-018→unified FR-032). **DONE 2026-09-15.** Both `--chapter`/`--title` made `required=True` — chosen over derivation because the real caller (`scripts/ingest.sh`) already passes both explicitly on every invocation and itself refuses an empty chapter slug, so this is fully non-disruptive to the actual calling convention
+- [x] T174 (was: 003/T024) [P] Resolve `pipeline/calibrate.sh:36` from a named chapter, not a frozen absolute path (FR-019→unified FR-033). **DONE 2026-09-15, privacy requirement independently re-verified.** New required `<chapter>` positional argument; the recording is resolved by globbing the six raw-video extensions (module-local rule 1) under `chapters/<chapter>/`, refusing (exit 2) on zero or multiple matches rather than guessing. No private path or filename appears anywhere in the diff, tests, or task notes — grepped and confirmed clean both by the implementing agent and independently by this session
+- [x] T175 (was: 003/T040) [P] [TDD] Prove **G-CH-17** — a registry `scope` naming a chapter id with no corresponding directory is neither synthesized into the chapter list nor hidden, and is named by a dedicated dangling-reference report (FR-037→unified FR-048, FR-034→unified FR-261, SC-027→unified SC-031). **DONE 2026-09-15.** `DetectDanglingChapterScopes` in new `pkg/curriculum/chapterfilter.go`, explicitly distinguished from T185's orphaned-ancestor case (this is a missing chapter itself, not a missing ancestor of an extant one). Paired mutation (trust-the-registry) executed inline as a sub-assertion, following this codebase's existing G-CH-6b convention for a mutation cheapest to run in-test rather than via external source mutation
 
 *From `003` — Phase 4: Visible defects*
 
@@ -697,18 +651,8 @@ every task here:
       string left describing a replaced derivation converts a working instrument into a stale one
       (contract C4.2.1) (FR-024→unified FR-038, FR-030→unified FR-044)
       — EVIDENCE: DONE-UNTICKED — `derivation.ordinal` rewritten at internal/api/chapters.go:172 to describe the collision rather than the replaced derivation, and `derivation.ordinal_path` / `derivation.hierarchy` added beside it. LIVE: `GET /api/chapters/02.01` 200 carries the rewritten strings (served).
-- [ ] T179 (was: 003/T028) [P] [TDD] Reconcile the front end's two chapter shapes in
-      `workshop/platform/frontend/src/app/core/models.ts`. The minimal shape at `:301` is
-      `ordinal: /^\d+$/.test(key) ? Number(key) : null` and yields **`null`** for `02.01`; the full
-      shape at `:357` is `ordinal: num(raw['ordinal'])` and yields **`2`**. **They disagree today.**
-      Assert field-by-field equality for every present chapter. **Paired mutation**: restore the
-      `/^\d+$/` test — must go red on `02.01` (003:SC-014→unified SC-018, FR-025→unified FR-039, FR-034→unified FR-261)
-      — AUDIT 2026-09-08: GENUINELY OPEN — the two shapes still disagree. `workshop/platform/frontend/src/app/core/models.ts:301` is `ordinal: /^\d+$/.test(key) ? Number(key) : null` (yields `null` for `02.01`) and `:357` is `ordinal: num(raw['ordinal'])` (yields `2`). `models.spec.ts` exercises no dotted id and asserts no field-by-field equality.
-- [ ] T180 (was: 003/T029) [TDD] Prove **G-CH-11**: `core/api.ts:88` reads `body['chapters']` as a flat array and
-      must keep working unchanged. Assert the JSON type and assert no element carries a nested
-      chapter array. **Paired mutation**: nest children under their parent — the gate must go red
-      (FR-027→unified FR-041, FR-034→unified FR-261, SC-016→unified SC-020)
-      — AUDIT 2026-09-08: GENUINELY OPEN — `core/api.ts:88` does read `body['chapters']` flat and the live response IS flat, but nothing asserts it: no spec in `src/app/core/` checks the JSON type or that no element carries a nested chapter array, and no paired mutation nests children.
+- [x] T179 (was: 003/T028) [P] [TDD] Reconcile the front end's two chapter shapes in `models.ts` (003:SC-014→unified SC-018, FR-025→unified FR-039, FR-034→unified FR-261). **DONE 2026-09-15, more precisely than the task's suggested fix.** Live-measured the actual served shapes first: the list/minimal response has NO top-level `ordinal` at all (only `hierarchy.ordinal_path`), so reading `raw['ordinal']` in both branches (the naive fix) would have left them disagreeing (`null` vs a number) rather than reconciled. New shared `deriveOrdinal(raw)` helper: prefer `raw['ordinal']` when present, else fall back to `ordinal_path[0]` from wherever the shape puts it — correct by construction, verified against all 4 live chapters that `ordinalOf(slug) === OrdinalPath()[0]` always. Field-by-field equality test added; paired mutation (restore the old regex) independently re-run: 3 failures, exactly on the dotted `02.01`/`02.02` cases as required
+- [x] T180 (was: 003/T029) [TDD] Prove **G-CH-11**: the served `chapters` array stays flat, never nested (FR-027→unified FR-041, FR-034→unified FR-261, SC-016→unified SC-020). **DONE 2026-09-15.** New `api-chapters-flat.spec.ts`: a structural validator distinguishing an allowed array of plain id strings (`child_ids`) from a forbidden array of full chapter objects; control against the live-measured fixture, two paired mutations (object-keyed-by-id, and a `children: [...]` array of full objects, the latter proving the top-level `Array.isArray` check ALONE cannot catch a same-level nesting — only the deeper structural check does), plus an end-to-end `WorkshopApi.chapters()` test through `HttpTestingController`. Full `src/app/core/` suite (233 tests) independently re-run, no regressions
 
 *From `003` — Phase 5: The API surface*
 
@@ -716,57 +660,18 @@ every task here:
       `ancestor_ids`, `child_ids`, `ordinal_path`, `orphaned` — computed from `pkg/chapterid`.
       **The array stays flat** (003/T029 (unified T180)). Contract §4.1 (FR-006→unified FR-020, FR-027→unified FR-041)
       — EVIDENCE (served): DONE-UNTICKED — `chapterHierarchy` at internal/api/chapters.go:812. LIVE: `GET /api/chapters` 200 returns per-row `hierarchy` with `parent_id`, `depth`, `ancestor_ids`, `child_ids`, `ordinal_path`, `orphaned`, and the array is FLAT. Measured 2026-09-08 against 127.0.0.1:8087.
-- [ ] T182 (was: 003/T031) [TDD] Add `under`, `depth` and `include_self`, and echo the applied `filters` on **every**
-      status including `unavailable`. Gate **G-CH-7**; **paired mutation**: omit the echo on the
-      unavailable path. Without it, four situations are indistinguishable to a client — empty branch,
-      misspelled parameter, parameter ignored by an older build, backend unreadable — and the first
-      is a fact while the other three are faults. Reject an unparseable `depth` or `include_self` as
-      a **malformed request** rather than defaulting it, following `boolParam`
-      (`chapters.go:819`–`821`), which already rejects for exactly this reason
-      (FR-028→unified FR-042, FR-034→unified FR-261, SC-017→unified SC-021)
-      — AUDIT 2026-09-08: GENUINELY OPEN — MEASURED, not inferred. `GET /api/chapters?under=02`, `?under=02&depth=2`, `?under=99` and `?under=02&include_self=true` all return 200 with the SAME unfiltered three ids, and NO `filters` key is echoed on any of them. The parameters are ignored entirely. **This is the largest open capability in the feature and it blocks 003/T032 (unified T183) and half of 003/T034 (unified T185).**
-- [ ] T183 (was: 003/T032) [TDD] Prove **G-CH-8**: an `under` naming a chapter that does not exist returns **`200`**
-      with an empty array and `under_resolved: false` — **never `404`**. The route exists and the
-      request was well-formed; a `404` answers *"no such endpoint"* to a question whose answer is
-      *"no such branch"*. **Paired mutation**: return `404`. Note also that `under_resolved` is
-      `null`, not `false`, when `under` was not given or could not be looked for
-      (FR-029→unified FR-043, FR-034→unified FR-261, SC-018→unified SC-022)
-      — AUDIT 2026-09-08: GENUINELY OPEN — `?under=99` does return 200, but only because `under` is ignored (see 003/T031 (unified T182)). There is no `under_resolved` field on the response at all, so the distinction between "no such branch" and "parameter not implemented" cannot be made by a client.
+- [x] T182 (was: 003/T031) [TDD] Add `under`, `depth` and `include_self`, and echo the applied `filters` on every status including `unavailable` — Gate **G-CH-7** (FR-028→unified FR-042, FR-034→unified FR-261, SC-017→unified SC-021). **DONE 2026-09-15 — this was the largest open capability in the feature, blocking T183 and half of T185.** Re-measured first: the 2026-09-08 finding still held (all three params fully ignored, no `filters` key echoed anywhere). Implemented with validation-before-scan (malformed `depth`/`include_self` → 400, never defaulted, matching the existing `boolParam` precedent); `filters` echoed identically on both `ok` and `unavailable` via one shared `filtersJSON` helper. Live-verified against a locally-built binary of the exact fixed source (the deployed container itself was correctly left un-redeployed, out of scope): `?under=02&depth=1` → 200 with `filters` echoed and `under_resolved: true`. §1.1 proof (real mutation stripping the echo on the 503 path) caught, independently re-run
+- [x] T183 (was: 003/T032) [TDD] Prove **G-CH-8**: `under` naming a nonexistent chapter returns 200 with `under_resolved: false`, never 404; `null` (not `false`) when `under` wasn't given (FR-029→unified FR-043, FR-034→unified FR-261, SC-018→unified SC-022). **DONE 2026-09-15**, now that T182 exists to prove it against. §1.1 proof (real mutation: 200→404) caught, independently re-run
 - [ ] T184 **[SUPERSEDED — see RESOLUTION note below, not owed]** (was: 003/T033) Add `hierarchy` with `parent_href` and `child_hrefs` to
       `GET /api/chapters/{chapter}`, replace `ordinal` with `ordinal_path` — **replace, never place
       beside**, or a client reads the one that collides — and carry the rewritten
       `derivation.hierarchy`. Contract §4.2 (FR-022→unified FR-036, FR-024→unified FR-038, FR-030→unified FR-044)
       — AUDIT 2026-09-08: PARTIAL — `hierarchy` with `parent_href` and `child_hrefs` IS served (LIVE: `GET /api/chapters/02.01` 200 returns `parent_href: "/api/chapters/02"`, `child_hrefs: []`, plus `missing_ancestor_ids`), and `derivation.hierarchy` is carried. **BUT the task says "replace `ordinal` with `ordinal_path` — replace, never place beside", and the server places them BESIDE**: the same response carries `ordinal: 2` AND `ordinal_path: [2,1]`. The code states this is deliberate, for one release (chapters.go:147-155). Reconcile with T001/T025 rather than reimplementing.
       — RESOLUTION 2026-09-15: reconciled per decision-record.md — the `hierarchy`/`parent_href`/`child_hrefs`/`derivation.hierarchy` portion of this task is DONE (see the AUDIT evidence above). The "replace, never place beside" portion is SUPERSEDED by the ratified zero-diff decision: placing `ordinal` and `ordinal_path` beside each other is now the intended behaviour, not a defect. One open point the decision-record does not address, carried forward honestly rather than assumed: `chapters.go:147-155`'s own comment scopes this to **"for one release"** — a sunset date or follow-up removal of `ordinal` was implied but not stated anywhere in the decision-record or this task family. That gap is worth an operator note; not invented here (§11.4.6).
-- [ ] T185 (was: 003/T034) [TDD] Prove **G-CH-9** (H3): a sub-chapter whose parent directory is absent is **served**,
-      with `orphaned: true`, `parent_href: null` and `missing_ancestor_ids` naming what was not
-      found — and `parent_id` **unchanged**, because it is derived. `?under=<missing parent>` still
-      returns it, because the filter runs on derived ancestry. **Paired mutation**: filter orphans
-      out of the list — the gate must go red. Hiding it loses content that exists; promoting it to a
-      root silently rewrites the hierarchy (FR-031→unified FR-045, FR-034→unified FR-261, SC-019→unified SC-023)
-      — AUDIT 2026-09-08: PARTIAL — the serving half is proven: `TestGCH9_OrphanIsServed` (internal/api/chapters_hierarchy_test.go:228) and `TestGCH9_OrphanIsListed` (cmd/workshop-server/chapters_hierarchy_test.go:244) PASS, with the paired mutation documented at :225/:243, and `missing_ancestor_ids` is served. MISSING: the `?under=<missing parent>` half cannot be proven because `under` is not implemented (003/T031 (unified T182)).
-- [ ] T186 (was: 003/T041) [TDD] Prove **G-CH-18**: an empty, readable `chapters/` directory, or one containing only
-      dotfiles, yields `200` from `listChapters` (`cmd/workshop-server/main.go:2094`) with an empty
-      `chapters` array, distinct from the existing could-not-determine state reserved for a
-      directory that cannot be read. Assert both against two separate fixtures — zero chapter
-      directories, and a directory the process cannot read (e.g. permission-denied) — and that the
-      two responses differ. **Paired mutation**: fold the empty-but-readable case into
-      could-not-determine — the check must go red on the readable-empty fixture (FR-038→unified FR-049, FR-034→unified FR-261, SC-028→unified SC-032)
-- [ ] T187 (was: 003/T042) [TDD] Implement and prove **G-CH-19**, completing the `depth` and `include_self`
-      semantics 003/T031 (unified T182) introduced without defining: `depth` is the maximum number of hierarchy levels
-      below `under` to include, unbounded when omitted; `include_self` defaults to `false` and, when
-      `true`, adds exactly one row — `under`'s own — to the returned array. Document both meanings
-      in contract §4.1 immediately beside `under`. Over a fixture tree three levels deep, assert
-      `depth=1` under a parent returns exactly its direct children and no grandchildren,
-      `include_self=true` alone adds exactly the parent's own row, and both together compose
-      correctly. **Paired mutation**: drop the `depth` cutoff — a grandchild leaks through and the
-      check must go red (FR-040→unified FR-051, FR-034→unified FR-261, SC-030→unified SC-034)
-- [ ] T188 (was: 003/T043) [TDD] Prove **G-CH-20**: a syntactically invalid `under` value (`02.2`, fails the FR-001
-      grammar) returns the **identical** response shape as a grammar-valid but absent one (`99`)
-      from 003/T032 (unified T183)'s fixture — same status, `under_resolved: false`, empty `chapters` array. Probe both
-      `?under=02.2` and `?under=99` and assert the response bodies are equal modulo the echoed
-      `filters.under` value. **Paired mutation**: give the malformed case a distinct status or error
-      body — the check must go red (FR-041→unified FR-052, FR-034→unified FR-261, SC-031→unified SC-035)
+- [x] T185 (was: 003/T034) [TDD] Prove **G-CH-9** (H3): an orphan is served, and `?under=<missing parent>` still returns it, because the filter runs on derived ancestry (FR-031→unified FR-045, FR-034→unified FR-261, SC-019→unified SC-023). **DONE 2026-09-15 — the serving half was already proven; the `?under=` half completed now that T182 exists.** New test: tree `{01, 02.01}` (02 absent), `?under=02` → `under_resolved:false` but `chapters:["02.01"]`, `orphaned:true`. §1.1 proof (real mutation forcing `under`-presence) caught, independently re-run
+- [x] T186 (was: 003/T041) [TDD] Prove **G-CH-18**: an empty-but-readable `chapters/` directory yields 200/empty array, distinct from the could-not-determine state for an unreadable one (FR-038→unified FR-049, FR-034→unified FR-261, SC-028→unified SC-032). **DONE 2026-09-15.** Two genuinely distinct fixtures (dotfile-only directory vs. a real permission-denied directory — this host is not root, so the permission test actually exercises the OS check, not a no-op). §1.1 proof (real mutation folding empty-readable into could-not-determine) caught, independently re-run
+- [x] T187 (was: 003/T042) [TDD] Implement and prove **G-CH-19**, completing `depth`/`include_self` semantics (FR-040→unified FR-051, FR-034→unified FR-261, SC-030→unified SC-034). **DONE 2026-09-15.** `depth` implemented as "maximum levels below `under`" (documented in `specs/003-chapter-hierarchy/contracts/http-api.md` §C4.1.5, immediately beside `under`, as required). Four-subtest fixture at 3 levels deep confirms `depth=1`/`include_self=true`/both-together/neither all compose correctly; malformed values rejected as 400. §1.1 proof (real mutation neutralizing the depth cutoff) caught a leaked grandchild exactly as predicted, independently re-run
+- [x] T188 (was: 003/T043) [TDD] Prove **G-CH-20**: a syntactically invalid `under` returns the identical response shape as a valid-but-absent one (FR-041→unified FR-052, FR-034→unified FR-261, SC-031→unified SC-035). **DONE 2026-09-15.** `reflect.DeepEqual` on both decoded response bodies with `filters.under` stripped from each. §1.1 proof (real mutation giving the malformed case a distinct `under_resolved` value) caught, independently re-run
 
 
 ---

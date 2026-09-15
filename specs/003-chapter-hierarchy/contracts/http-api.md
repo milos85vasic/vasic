@@ -163,14 +163,36 @@ platform's fourth resolution outcome exists to prevent.
 | Parameter | Form | Behaviour |
 |---|---|---|
 | `under` | a chapter id | returns the **descendants** of that id, at every depth. Filters on **derived ancestry**, so an orphan whose parent is absent is still returned under that parent's id (C4.2.3) |
-| `depth` | a positive integer | returns only chapters at exactly that depth. Combines with `under` by intersection |
-| `include_self` | boolean | when `under` is given, includes the named chapter itself. Default `false` |
+| `depth` | a positive integer | caps how many hierarchy levels **below `under`** are returned. See below — this is completed by G-CH-19; it is a MAXIMUM, not an exact-depth match |
+| `include_self` | boolean | when `under` is given **and is itself present**, includes the named chapter's own row. Default `false` |
+
+**`depth` — completed semantics (G-CH-19, unified spec 008/T187).** `depth` is **the maximum number
+of hierarchy levels below `under` to include, unbounded when omitted.** It is **not** "return only
+chapters at exactly that depth" — a chapter two levels below `under` is included by `depth=2` and
+excluded by `depth=1`, the same way a filesystem `find -maxdepth` bounds a walk rather than matching
+one level. Concretely, for a chapter `c` that is a descendant of `under`: `c` is included when
+`c.Depth() - under.Depth() <= depth`. `depth=1` under a parent therefore returns exactly its **direct
+children** and excludes every grandchild. When `under` is **not** given, `depth` bounds the ABSOLUTE
+depth from the root (the natural reading with the root as the implicit anchor) — untested by this
+feature's own fixtures, since G-CH-19's fixture always combines `depth` with `under`, and documented
+here so the choice is not left implicit.
+
+**`include_self` — completed semantics (G-CH-19).** Defaults `false`. When `true` **and `under`
+names a chapter that is actually present** (`under_resolved: true`), adds **exactly one row** —
+`under`'s own — to the returned array, in addition to whatever `depth` and the descendant filter
+already select. `include_self=true` against an `under` that does **not** resolve (C4.1.6's `99`, or
+a grammar-invalid value, C4.1.6's `02.2`/G-CH-20) adds **no** row — there is no real chapter to add a
+row for, and synthesizing one would misrepresent the tree the same way a chapter-list row synthesized
+from a registry scope would (see G-CH-17). `depth` and `include_self` **compose**: `under=02&depth=1
+&include_self=true` over a tree `02`, `02.01`, `02.01.01`, `02.02` returns `["02", "02.01", "02.02"]`
+— the parent, its two direct children, and no grandchild.
 
 An unparseable `depth` or `include_self` is a **malformed request** — `4xx`, the existing error
 shape, no three-state vocabulary. It is not defaulted. The precedent is `boolParam`
 (`internal/api/chapters.go:819`–`821`), which already rejects rather than defaults, and its reasoning
 applies unchanged: a silently defaulted filter returns a correct-looking answer to a question nobody
-asked.
+asked. `depth` additionally rejects any integer less than `1` — depth is a COUNT OF LEVELS, and `0`
+or a negative count has no meaning as one.
 
 **C4.1.6 — an unknown `under` is `200`, never `404`.**
 
