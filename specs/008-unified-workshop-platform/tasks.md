@@ -2871,7 +2871,14 @@ decision, not a coding one).
 
 ## Phase 14: On-screen text (OCR) ingestion — specified and unbuilt
 
-**21 tasks — 2 complete, 19 open.** Sources: 002.
+**21 tasks — 3 complete, 18 open.** Sources: 002. **18 of 18 remaining are genuinely blocked** —
+directly on an operator decision (U6 sampling period, T447; U7 corroboration window, T453;
+hand-truthing a ground-truth sample over a private recording, T455 — "irreducible HUMAN LABOUR",
+explicitly not delegable to a machine) or transitively downstream of one of those three. T462
+(contract sections) is deliberately deferred by its own stated reasoning, unaffected by T461
+landing: moving all eleven `G-OCR-*` ids into `contracts/` while 9 of 11 still have no gate would
+repeat the exact defect the task exists to avoid. No further phase-14 work is agent-actionable
+until an operator settles U6, U7, or performs the T455 hand-truthing.
 
 
 *From `002` — Phase 11: On-screen text — OCR ingestion (added 2026-09-02, decision D5)*
@@ -3202,12 +3209,50 @@ decision, not a coding one).
       widest disclosure surface in the phase, and the umbrella repository is public while this
       material is not, so it must land BEFORE 002/T141 (unified T464) wires the stage into the chapter-addition path —
       not after
-- [ ] T461 (was: 002/T138) [UNBUILT] [TDD] Index `screen_text` on its own text and prove **G-KG-11** for it — an — **BLOCKER:** **predecessor 002/T126 (unified T449)** — nothing to index until `screen_text` mentions are produced · **OWNER:** **implementer**, after 002/T126 (unified T449)
+- [x] T461 (was: 002/T138) [UNBUILT] [TDD] Index `screen_text` on its own text and prove **G-KG-11** for it — an
       advertised kind must be **retrievable**, proven by a planted known target, **never** by a row
       count. Do not advertise the kind until it is retrievable (FR-066→unified FR-191). The corpus already
       advertises `diagram` with **0** entries, and this task exists so a second such kind is not
       created (FR-028→unified FR-156, FR-066→unified FR-191, SC-013→unified SC-087)
-      **BLOCKED ON 002/T125 (unified T448) — measured 2026-09-03.** Nothing to index until the kind exists. Not blocked
+      **[DONE 2026-09-16] The blocker recorded below is STALE and this task is UNBLOCKED, not
+      deferred.** Its stated blocker was "002/T125 (unified T448)", which was itself completed and
+      ticked earlier this session — this line was simply never revisited after that landed. Building
+      the retrievability proof needed no `screen_text` mentions to exist in the real corpus at all:
+      T461's own words are "proven by a planted known target, never by a row count", the identical
+      pattern the four `kg_*` session-record kinds already used in
+      `pkg/search/kg_session_kinds_test.go` before any of THEIR real corpus rows existed either.
+      **Built, mirroring that precedent exactly:** `screen_text` added to `kindVocabulary`
+      (`pkg/search/kind_population.go`) and to the CANDIDATE list `baseIndexedKinds`
+      (`pkg/search/service.go`) — both additive, changing no other kind's behavior. New
+      `pkg/search/screentext_kind_test.go`, 5 tests: vocabulary membership + its closed-vocabulary
+      control; the evidence-checked-advertisement property (present arm: a corpus holding one row and
+      a disclosing gate advertises it; empty arm: **today's real corpus, holding zero, does NOT
+      advertise it** — proving this task's own stated purpose, that a second `diagram`-shaped defect
+      was not created); the three-valued census property (present/empty/undetermined, with
+      undetermined failing open); and the retrievability proof itself — a planted synthetic row in a
+      real SQLite+FTS5 fixture, queried through the package's own `scopeFromQuery`/`Lexical.Retrieve`
+      path exactly as a live `?kinds=screen_text` request would be, asserting the row actually comes
+      back rather than merely existing in the table.
+      **Registered** in `check-registry-002.tsv` as `G-KG-11-screentext` and
+      `G-KG-11-screentext-evidence`, following the existing `G-KG-11-question`/`G-KG-11-withhold`
+      naming precedent for a G-KG-11 extension over a new kind. `verify-check-registry-002.sh`:
+      188/188 (was 186/186 before this task), 0 missing.
+      **Every mutation independently verified catching a real regression, then every file restored
+      byte-identical**: (1) removing the vocabulary entry — `TestScreenTextKindIsInTheVocabulary`
+      goes red naming the exact defect; (2) bypassing the live-evidence check specifically for
+      `screen_text` inside `corpusBlock`'s loop (the diagram-shaped regression this task exists to
+      prevent) — `TestScreenTextAdvertisedOnlyWithEvidence` goes red; (3) omitting the FTS insert so
+      the planted row cannot actually be found — `TestScreenTextKindIsRetrievable` goes red, proving
+      that test is not vacuous.
+      **Full backend re-verified after the change**: `go build ./...` and `go vet ./...` clean;
+      `go test -count=1 ./...` — every package OK, 24 packages, `pkg/search` 5.960s, no regressions.
+      **Honest boundary, stated rather than implied.** No `screen_text` passage exists in the real
+      corpus and none is advertised on the running deployment today — that remains exactly correct,
+      and is asserted BY this task's own empty-arm test, not merely left true by omission. What this
+      task closes is the RETRIEVAL PATH's readiness: the day 002/T126 (unified T449, still
+      operator-blocked behind T447/U6) produces a real `screen_text` row, it is indexed, advertised
+      and retrievable with no further code change — nothing here waits on that landing a second time.
+      **BLOCKED ON 002/T125 (unified T448) — measured 2026-09-03. STALE, see [DONE] above; T448 landed and this task is unblocked.** Nothing to index until the kind exists. Not blocked
       on capability
 - [ ] T462 (was: 002/T139) [UNBUILT] [P] Add the contract sections and route-manifest rows for the `screen_text` — **BLOCKER:** none but the work — contract sections and route-manifest rows can be written ahead of the implementation, and doing so early is cheap · **OWNER:** **implementer** — unblocked today
       kind, its evidence entries and the modality and interval-bound fields (FR-059→unified FR-274). Gate
