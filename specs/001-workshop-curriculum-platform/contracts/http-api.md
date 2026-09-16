@@ -22,7 +22,7 @@ unverified, it is marked and the settling measurement is named (§8) rather than
 |---|---|---|
 | Base path | `/api` | FR-013 — matches `ai_interviewing/platform/backend/internal/api/api.go:36` |
 | Bind address | loopback by default | D1 (local/internal only) |
-| Authentication | **none** | D1 — single machine, single user; no accounts are in the data model |
+| Authentication | **required, per-user, since 008/Phase 16 (2026-09-16)** | superseding D1's "none" — see §1.6 |
 | Request encoding | `application/json` for bodies; query string for reads | |
 | Response encoding | `application/json; charset=utf-8`, except recording/material bytes | |
 | Versioning | none in the path. The contract is versioned with the repository. Breaking changes bump `X-Workshop-Api-Contract`. | |
@@ -77,6 +77,44 @@ result branches.
   }
 }
 ```
+
+### 1.6 Authentication — SUPERSEDES D1's "none", 008/Phase 16 (2026-09-16)
+
+**D1's premise — "single machine, single user; no accounts are in the data model" — no longer
+holds.** `specs/008-unified-workshop-platform` built and wired a shared auth/RBAC layer
+(`pkg/authstore` + `pkg/authhttp`) across both `workshop` and `ai_interviewing`. Every route in
+this catalogue **except** [`GET /api/health`](#31-get-apihealth--process-liveness-only) and the
+`/api/auth/*` routes themselves now requires a valid session before the router runs at all:
+
+```jsonc
+// 401 — no token, or an invalid/expired one. Answered by pkg/authhttp.Middleware
+// BEFORE the request reaches any handler in this catalogue, so it is NOT one of
+// the three states in §2 and NOT a 4xx malformed-request error (§1.5) — it is a
+// boundary the request never crossed.
+{ "error": "unauthorized", "message": "authentication required" }
+```
+
+| Property | Value |
+|---|---|
+| Credential | Bearer token in `Authorization: Bearer <token>`, or a `session` cookie — either is accepted (`authhttp.ExtractToken`) |
+| Obtaining one | `POST /api/auth/login` with `{"username","password"}` — see `pkg/authhttp.LoginSession` |
+| Public without a token | `GET /api/health` only. Liveness must stay observable by a caller that cannot yet authenticate. |
+| Not gated by this layer, but still gated by `internal/api.LoopbackOnly` (G-HTTP-9, Phase 6) | nothing — `LoopbackOnly` wraps the auth-gated mux as a second, outer boundary; a loopback caller with no session still gets 401 from the auth layer, it just never needed a bearer credential to reach that layer in the first place |
+
+**Why this is not a §2 state and not a §1.5 malformed-request 4xx.** Both of those describe
+outcomes of a request the router accepted and dispatched. A 401 here is produced by
+`authhttp.Middleware`, mounted at `authMux.Handle("/", authhttp.Middleware(authDB)(content))` in
+`cmd/workshop-server/main.go` — strictly *before* any route in this catalogue's own handler runs.
+No route below promises a 401 in its own "Responses" table; assume it as an implicit
+precondition on every one of them except §3.1.
+
+**Consequence for every endpoint below.** Every `expect` code documented per route (§3) is the
+code returned **to an authenticated caller**. `platform/gates/route-manifest.tsv` and
+`platform/gates/verify-server-unity.sh` U5 encode this: probing without a session now answers 401
+on every row and is reported `UNDET` (not `PASS`, not `FAIL`) unless the probe supplies
+`WORKSHOP_VERIFY_AUTH_TOKEN`. This is deliberate — an unauthenticated 401 is neither evidence the
+route works as declared nor evidence it does not; §1.1 note is the enforcement's paper trail
+tying this section back to the table's "Authentication" row.
 
 ---
 

@@ -386,3 +386,4 @@ debt	translation-review	_tools/review-translations.sh	proof,three-valued	produce
 check	decommission-precondition	scripts/verify-decommission-precondition.sh	flag	--prove-failure	workshop --clone /nonexistent
 check	extraction-content-boundary	scripts/verify-extraction-content-boundary.sh	flag	--prove-failure	--candidate /nonexistent
 check	additive-cutover	scripts/verify-additive-cutover.sh	flag	--prove-failure	--consumer /nonexistent
+check	sc162-requirement-traceability	scripts/verify-sc162-requirement-traceability.sh	flag	--prove-failure	--root /nonexistent

@@ -11023,3 +11023,24 @@ convergence line 19 by a concurrent agent, between the first cascade run and the
 last, which invalidated a digest this document had already recorded. When you
 quote a gate's output, quote the window as well as the number — and re-run the
 gate after any session in which another agent touched `scripts/`.
+
+### `workshop` T568 (was: 006/T070): QA-run evidence retention policy documented, FR-029b (unified FR-270) — 2026-09-16
+
+**No existing section of this file discussed QA evidence retention for `workshop`, so
+this is a new dated entry rather than an append to a prior one** (searched for
+`retention`, `FR-029b`, `docs/qa` across this file — zero prior hits). The policy this
+task asked for is now written into `workshop/docs/qa/MANUAL-TEST-PLAN.md` as new
+subsection **§0d**, placed after the existing §0a–§0c (known-correct / assessment-fix /
+known-defects) and before "Two things to know before you begin", matching that
+document's own lettered-subsection convention rather than inventing a new numbered
+section. Its substance, stated once here rather than duplicated: QA-run evidence
+artefacts under `workshop/docs/qa/` are **never silently deleted as volume grows**;
+archiving older evidence out of the live directory, if that ever becomes a real
+concern, is an **explicit operator decision** taken and recorded at the time, not an
+automatic or unilateral cleanup — the same standing discipline this repository already
+applies to `curriculum/redactions.jsonl`'s append-only log (grows monotonically, never
+pruned). As of this writing `docs/qa/` holds the test-plan document family only; there
+is no live `docs/qa/evidence/`-style directory yet, so this is a policy stated ahead of
+the volume it anticipates, not a description of an existing cleanup problem. This entry
+touched two files: `workshop/docs/qa/MANUAL-TEST-PLAN.md` (new §0d) and this document
+(this entry). Nothing was committed or pushed.
