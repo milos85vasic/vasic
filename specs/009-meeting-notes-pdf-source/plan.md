@@ -74,7 +74,10 @@ workshop/
 │   │   ├── publication_policy.py      # UNCHANGED: reused as-is (is_publishable_content / check_content)
 │   │   ├── test_meeting_notes.py      # MODIFY: add PDF-sourced-fixture and redaction-gate test cases
 │   │   └── test_meeting_notes_pdf.py  # NEW: unit tests for the new module in isolation
-│   └── run_faster_whisper.py          # REUSE, no changes: existing, chapter-agnostic (`wav` in, `out` json) — already produced chapter-02/02.01's transcripts; chapter 02.02 needs an ffmpeg video→wav step before this, and the existing JSON→curriculum/chapter-XX/ ingestion mechanism (used for chapter-02/02.01) needs to be located and reused — a research item for tasks.md Task 1, not yet fully identified
+│   ├── run_faster_whisper.py          # REUSE, no changes: existing, chapter-agnostic (`wav` in, `out` json) — already produced chapter-02/02.01's transcripts; chapter 02.02 needs an ffmpeg video→wav step before this
+│   └── build_transcript.py            # REUSE, no changes: turns the faster-whisper JSON into curriculum/chapter-XX/'s transcript artifacts — found by tasks.md T001, confirmed via git log on the chapter-02/02.01 introducing commits
+├── scripts/
+│   └── ingest.sh                      # REUSE, no changes: orchestrates build_transcript.py + md_sections.py + platform/bin/ingest-transcript to mint transcript_segment passages — this is what T023 invokes for chapter 02.02
 ├── chapters/
 │   └── 02.02/                        # UNCHANGED input: raw video + sidecars, already present
 └── curriculum/

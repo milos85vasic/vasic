@@ -200,15 +200,27 @@ Implement the `PdfExtractionError` exception class and raise it from `extract_pd
 
 **Goal**: Chapter 02.02 stops reporting "unwritten."
 
-**Depends on**: T001's research finding (Phase 1) for the exact ingestion mechanism to reuse.
+**Depends on**: T001's research finding (Phase 1) — RESOLVED. The real
+mechanism, confirmed via `git log` on the introducing commits (`9af0876`,
+`d599131`), not inferred: `pipeline/build_transcript.py` (top-level
+`pipeline/`, not `pipeline/extract/`) turns a `*.faster-whisper.json` into
+`curriculum/chapter-XX/transcript.md` + `transcript.segments.json` +
+`transcript.words.json`; `scripts/ingest.sh` orchestrates that plus
+`pipeline/md_sections.py` plus the Go binary
+`platform/backend/cmd/ingest-transcript` (built to `platform/bin/ingest-transcript`),
+which mints `transcript_segment`-kind rows (`passagestore.KindTranscriptSegment`)
+into `curriculum/passages.jsonl` with stable ULID `pid`s, idempotently. `run_pipeline.py`
+and `corpus.py` are NOT involved (confirmed: no ingestion stage/function in
+either). Reuse `scripts/ingest.sh <chapter-slug>` directly — do not invent a
+new ingestion path.
 
 **Independent Test**: `quickstart.md`'s Scenario 5.
 
-- [ ] **T021 [US3]** Using T001's finding, produce a WAV extraction from `chapters/02.02/2026-09-09 20-45-25.mp4` (via `ffmpeg`, matching whatever invocation the chapter-02/02.01 precedent used, if T001 found one — otherwise the simplest correct extraction: mono, 16kHz, matching `run_faster_whisper.py`'s documented input expectations, read its docstring/argparse help first).
+- [ ] **T021 [US3]** Produce a WAV extraction from `chapters/02.02/2026-09-09 20-45-25.mp4` via `ffmpeg`, matching `run_faster_whisper.py`'s documented input expectations (read its docstring/argparse help first — mono, expected sample rate).
 
-- [ ] **T022 [US3]** Run `pipeline/run_faster_whisper.py` against that WAV file, producing `pipeline/transcripts/chapter-02.02.faster-whisper.json`, exactly mirroring the existing chapter-02/02.01 invocation (read their real invocation from this repo's own history — `git log -p -- pipeline/transcripts/chapter-02.faster-whisper.json`'s introducing commit likely shows the command in its message, or `docs/`/`CALIBRATION.md` may document it — do not guess the model/compute-type flags).
+- [ ] **T022 [US3]** Run `pipeline/run_faster_whisper.py` against that WAV file, producing `pipeline/transcripts/chapter-02.02.faster-whisper.json`. Read `scripts/ingest.sh`'s own header comments (T001 found they narrate the exact chapter-02/02.01 runs, including flags used) for the real invocation to mirror — do not guess the model/compute-type flags.
 
-- [ ] **T023 [US3]** Apply T001's identified ingestion mechanism to turn `chapter-02.02.faster-whisper.json` into `curriculum/chapter-02.02/` `transcript_segment` passages, discoverable by the existing `discover_chapters()`. If T001 found no existing reusable mechanism, this task's scope grows to writing the minimal ingestion step needed — treat that discovery as a BLOCKED-and-report condition first, since it changes this task's size significantly and should not be absorbed silently.
+- [ ] **T023 [US3]** Run `scripts/ingest.sh 02.02` (T001's identified mechanism — reuse directly, do not reimplement `pipeline/build_transcript.py`'s or `platform/backend/cmd/ingest-transcript`'s logic). This builds `curriculum/chapter-02.02/`'s transcript artifacts and mints `transcript_segment` passages into `curriculum/passages.jsonl`, discoverable by the existing `discover_chapters()`. Confirm `platform/bin/ingest-transcript` exists and is built before running (build it first via whatever this repo's own build step for `platform/backend/cmd/*` binaries is, if it isn't already present).
 
 - [ ] **T024 [US3]** Run `quickstart.md`'s Scenario 5 for real: confirm chapter 02.02 is now discovered by `discover_chapters()`, run the meeting-notes pipeline stage against it, and confirm it no longer reports `state: "unwritten"` for any of the four entity kinds. Paste the real `grep` output into this task's completion note.
 
