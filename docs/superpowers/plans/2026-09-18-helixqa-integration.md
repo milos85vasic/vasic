@@ -10,6 +10,13 @@
 
 **Spec:** [`docs/superpowers/specs/2026-09-18-helixqa-integration-design.md`](../specs/2026-09-18-helixqa-integration-design.md)
 
+**Note on paths:** every command below uses `$VASIC_ROOT` for the umbrella
+repo's own root — set it once per shell before starting, e.g.
+`VASIC_ROOT="$(git rev-parse --show-toplevel)"` run from anywhere inside this
+checkout. No path in this plan is a specific developer's home directory —
+that would not survive a different clone location (this is a public repo;
+`scripts/audit-hardcoded-paths.sh` enforces exactly this).
+
 ## Global Constraints
 
 - No `tools/opensource/*` nested submodule of `submodules/qa` is ever initialized (`git submodule update --init` targets only `submodules/qa` and `submodules/challenges` themselves).
@@ -25,7 +32,7 @@
 
 **Files:**
 - Create (via `git submodule add`): `.gitmodules` entries for `submodules/qa` and `submodules/challenges`
-- Modify: `/home/milosvasic/Projects/vasic/helix-deps.yaml`
+- Modify: `$VASIC_ROOT/helix-deps.yaml`
 
 **Interfaces:**
 - Produces: `submodules/qa` (checked out at `HelixDevelopment/qa`'s current `main` HEAD) and `submodules/challenges` (checked out at `HelixDevelopment/challenges`'s current `main` HEAD), both siblings of the existing `submodules/containers`, all three directly under `submodules/`.
@@ -33,7 +40,7 @@
 - [ ] **Step 1: Add the two submodules**
 
 ```bash
-cd /home/milosvasic/Projects/vasic
+cd $VASIC_ROOT
 git submodule add git@github.com:HelixDevelopment/qa.git submodules/qa
 git submodule add git@github.com:HelixDevelopment/challenges.git submodules/challenges
 ```
@@ -126,7 +133,7 @@ Do NOT push yet — Task 2 needs the binary built before the pre-push Playwright
 - [ ] **Step 1: Confirm the Go toolchain resolves the workspace**
 
 ```bash
-cd /home/milosvasic/Projects/vasic/submodules/qa
+cd $VASIC_ROOT/submodules/qa
 go version
 cat go.work
 ```
@@ -136,11 +143,11 @@ Expected: Go reports 1.26.x or later (matches `go 1.26` in `submodules/qa/go.mod
 - [ ] **Step 2: Build**
 
 ```bash
-cd /home/milosvasic/Projects/vasic/submodules/qa
+cd $VASIC_ROOT/submodules/qa
 make build
 ```
 
-Expected: exits 0, produces `bin/helixqa`. If `make build` fails on a missing `../challenges` or `../containers` resolution (the `go.mod replace` paths), verify Task 1 actually placed both as direct siblings under `submodules/` (`ls -d /home/milosvasic/Projects/vasic/submodules/{qa,challenges,containers}`) before trying anything else — this is the most likely failure mode and Task 1's own layout is the fix, not a code change here.
+Expected: exits 0, produces `bin/helixqa`. If `make build` fails on a missing `../challenges` or `../containers` resolution (the `go.mod replace` paths), verify Task 1 actually placed both as direct siblings under `submodules/` (`ls -d $VASIC_ROOT/submodules/{qa,challenges,containers}`) before trying anything else — this is the most likely failure mode and Task 1's own layout is the fix, not a code change here.
 
 - [ ] **Step 3: Confirm the binary runs**
 
@@ -169,7 +176,7 @@ Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 - Create: `submodules/qa/banks/workshop/spa-routing.yaml`
 
 **Interfaces:**
-- Consumes: `helixqa` binary from Task 2 (`submodules/qa/bin/helixqa`); the live workshop server at `http://127.0.0.1:8087` (already running per this session — confirm with `curl -sS http://127.0.0.1:8087/api/health`, and if it is not running, `cd /home/milosvasic/Projects/vasic/workshop && bash scripts/restart.sh` first, loopback-only, no `WORKSHOP_HTTP_BIND` override).
+- Consumes: `helixqa` binary from Task 2 (`submodules/qa/bin/helixqa`); the live workshop server at `http://127.0.0.1:8087` (already running per this session — confirm with `curl -sS http://127.0.0.1:8087/api/health`, and if it is not running, `cd $VASIC_ROOT/workshop && bash scripts/restart.sh` first, loopback-only, no `WORKSHOP_HTTP_BIND` override).
 - Produces: a bank file later tasks (Task 5) point the gate script at.
 
 - [ ] **Step 1: Write the bank, encoding the already-fixed dotted-slug regression as a golden-good check**
@@ -225,7 +232,7 @@ test_cases:
 - [ ] **Step 2: List the bank to confirm HelixQA parses it**
 
 ```bash
-cd /home/milosvasic/Projects/vasic/submodules/qa
+cd $VASIC_ROOT/submodules/qa
 ./bin/helixqa list --banks banks/workshop/
 ```
 
@@ -242,7 +249,7 @@ Expected: both cases PASS. Capture the actual output.
 - [ ] **Step 4: Prove the bank actually bites — golden-bad control**
 
 ```bash
-cd /home/milosvasic/Projects/vasic/workshop
+cd $VASIC_ROOT/workshop
 FIX_COMMIT="$(git log --format=%H --all -- platform/backend/cmd/workshop-server/main.go \
     | xargs -I{} sh -c 'git show {}:platform/backend/cmd/workshop-server/main.go 2>/dev/null | grep -q looksLikeAssetExtension && echo {}' \
     | tail -1)"
@@ -253,19 +260,19 @@ git show "${FIX_COMMIT}^..${FIX_COMMIT}" -- platform/backend/cmd/workshop-server
 `FIX_COMMIT` now holds the real commit that introduced `looksLikeAssetExtension`. Temporarily check out the PRE-fix version of `main.go`, rebuild, restart workshop against it, re-run the bank, and confirm `WK-ROUTE-001` now FAILS (`WK-ROUTE-002` should still pass, since that fix did not change genuine-404 behavior). Then restore the real, fixed `main.go`, rebuild, and restart:
 
 ```bash
-cd /home/milosvasic/Projects/vasic/workshop
+cd $VASIC_ROOT/workshop
 git status --short  # confirm clean before mutating — should be nothing pending
 git checkout "${FIX_COMMIT}^" -- platform/backend/cmd/workshop-server/main.go
 bash scripts/build.sh
 bash scripts/restart.sh
-cd /home/milosvasic/Projects/vasic/submodules/qa
+cd $VASIC_ROOT/submodules/qa
 ./bin/helixqa run --banks banks/workshop/ --platform web
 # Expected: WK-ROUTE-001 FAILS, WK-ROUTE-002 still PASSES
-cd /home/milosvasic/Projects/vasic/workshop
+cd $VASIC_ROOT/workshop
 git checkout HEAD -- platform/backend/cmd/workshop-server/main.go
 bash scripts/build.sh
 bash scripts/restart.sh
-cd /home/milosvasic/Projects/vasic/submodules/qa
+cd $VASIC_ROOT/submodules/qa
 ./bin/helixqa run --banks banks/workshop/ --platform web
 # Expected: both PASS again
 ```
@@ -273,7 +280,7 @@ cd /home/milosvasic/Projects/vasic/submodules/qa
 - [ ] **Step 5: Commit**
 
 ```bash
-cd /home/milosvasic/Projects/vasic
+cd $VASIC_ROOT
 git add submodules/qa
 git commit -m "$(cat <<'EOF'
 qa: real HelixQA web test bank for workshop's SPA routing
@@ -297,12 +304,12 @@ Note: this commits INSIDE `submodules/qa` (a gitlink bump for the umbrella is a 
 - Create: `submodules/qa/banks/ai_interviewing/rbac.yaml`
 
 **Interfaces:**
-- Consumes: `helixqa` binary from Task 2; the live `ai_interviewing` server at `http://127.0.0.1:8099` (confirm with `curl -sS http://127.0.0.1:8099/api/health`; if not running, `cd /home/milosvasic/Projects/vasic/ai_interviewing && bash platform/scripts/restart.sh`). Requires the seeded `rami`/user-role credential from `specs/007-decouple-modules-auth/spec.md` and a valid session cookie obtained via `POST /api/auth/login` — HelixQA's `action`/`expected` steps describe the HTTP exchange; if HelixQA's own executor cannot itself perform a stateful login-then-request sequence from a YAML step list (check `ARCHITECTURE.md`'s `pkg/navigator` docs for what its web executor actually supports before assuming), fall back to a two-step bank (login step asserts 200 + Set-Cookie, second step is a manual curl-style HTTP assertion) and record precisely which form HelixQA's real executor required — do not guess ahead of reading its own navigator code.
+- Consumes: `helixqa` binary from Task 2; the live `ai_interviewing` server at `http://127.0.0.1:8099` (confirm with `curl -sS http://127.0.0.1:8099/api/health`; if not running, `cd $VASIC_ROOT/ai_interviewing && bash platform/scripts/restart.sh`). Requires the seeded `rami`/user-role credential from `specs/007-decouple-modules-auth/spec.md` and a valid session cookie obtained via `POST /api/auth/login` — HelixQA's `action`/`expected` steps describe the HTTP exchange; if HelixQA's own executor cannot itself perform a stateful login-then-request sequence from a YAML step list (check `ARCHITECTURE.md`'s `pkg/navigator` docs for what its web executor actually supports before assuming), fall back to a two-step bank (login step asserts 200 + Set-Cookie, second step is a manual curl-style HTTP assertion) and record precisely which form HelixQA's real executor required — do not guess ahead of reading its own navigator code.
 
 - [ ] **Step 1: Read `submodules/qa/pkg/navigator`'s web executor before writing steps that assume a capability it may not have**
 
 ```bash
-cd /home/milosvasic/Projects/vasic/submodules/qa
+cd $VASIC_ROOT/submodules/qa
 grep -rn "func.*Execute\|type.*Executor" pkg/navigator/*.go | head -20
 ```
 
@@ -350,7 +357,7 @@ test_cases:
 - [ ] **Step 3: List and run**
 
 ```bash
-cd /home/milosvasic/Projects/vasic/submodules/qa
+cd $VASIC_ROOT/submodules/qa
 ./bin/helixqa list --banks banks/ai_interviewing/
 ./bin/helixqa run --banks banks/ai_interviewing/ --platform web
 ```
@@ -359,12 +366,12 @@ Expected: `AI-RBAC-001` PASSes against the current, fixed code.
 
 - [ ] **Step 4: Golden-bad control**
 
-Same pattern as Task 3 Step 4: find this session's commit fixing the 403-as-outage bug in `ai_interviewing` (`git -C /home/milosvasic/Projects/vasic/ai_interviewing log --oneline | grep -i "forbidden\|403"`), temporarily check out `module.component.ts` and `load-status.ts` from the parent of that commit, rebuild (`cd /home/milosvasic/Projects/vasic/ai_interviewing && bash platform/scripts/build.sh`), restart, re-run the bank (expect FAIL), then restore and confirm PASS again.
+Same pattern as Task 3 Step 4: find this session's commit fixing the 403-as-outage bug in `ai_interviewing` (`git -C $VASIC_ROOT/ai_interviewing log --oneline | grep -i "forbidden\|403"`), temporarily check out `module.component.ts` and `load-status.ts` from the parent of that commit, rebuild (`cd $VASIC_ROOT/ai_interviewing && bash platform/scripts/build.sh`), restart, re-run the bank (expect FAIL), then restore and confirm PASS again.
 
 - [ ] **Step 5: Commit**
 
 ```bash
-cd /home/milosvasic/Projects/vasic
+cd $VASIC_ROOT
 git add submodules/qa
 git commit -m "$(cat <<'EOF'
 qa: real HelixQA web test bank for ai_interviewing's RBAC
@@ -387,12 +394,12 @@ EOF
 - Modify: `workshop/scripts/verify.sh` (workshop's own gate aggregator — confirm the exact registration mechanism by reading how an existing gate like `verify-server-unity.sh` is invoked from it before writing this)
 
 **Interfaces:**
-- Consumes: `submodules/qa/bin/helixqa` (built in Task 2) and `submodules/qa/banks/workshop/` (written in Task 3) — both live OUTSIDE the `workshop` git repository, at `/home/milosvasic/Projects/vasic/submodules/qa`. The gate script must locate them via a path relative to the umbrella root, not assume a fixed absolute path (mirror how `workshop`'s existing scripts resolve `WORKSHOP_HOME`/`PLATFORM_HOME` via `BASH_SOURCE`-relative `cd`, per this module's own established convention — read `workshop/scripts/_common.sh`'s header for the exact pattern before writing this).
+- Consumes: `submodules/qa/bin/helixqa` (built in Task 2) and `submodules/qa/banks/workshop/` (written in Task 3) — both live OUTSIDE the `workshop` git repository, at `$VASIC_ROOT/submodules/qa`. The gate script must locate them via a path relative to the umbrella root, not assume a fixed absolute path (mirror how `workshop`'s existing scripts resolve `WORKSHOP_HOME`/`PLATFORM_HOME` via `BASH_SOURCE`-relative `cd`, per this module's own established convention — read `workshop/scripts/_common.sh`'s header for the exact pattern before writing this).
 
 - [ ] **Step 1: Read `workshop/scripts/verify.sh` to learn the registration pattern**
 
 ```bash
-grep -n "verify-server-unity\|run_gate\|GATES" /home/milosvasic/Projects/vasic/workshop/scripts/verify.sh | head -20
+grep -n "verify-server-unity\|run_gate\|GATES" $VASIC_ROOT/workshop/scripts/verify.sh | head -20
 ```
 
 - [ ] **Step 2: Write the gate script**
@@ -515,9 +522,9 @@ Fill in `FIX_COMMIT` with the real hash before running.
 - [ ] **Step 4: Run the proof**
 
 ```bash
-chmod +x /home/milosvasic/Projects/vasic/workshop/platform/gates/verify-helixqa-web.sh
-chmod +x /home/milosvasic/Projects/vasic/workshop/platform/gates/prove-helixqa-web.sh
-bash /home/milosvasic/Projects/vasic/workshop/platform/gates/prove-helixqa-web.sh
+chmod +x $VASIC_ROOT/workshop/platform/gates/verify-helixqa-web.sh
+chmod +x $VASIC_ROOT/workshop/platform/gates/prove-helixqa-web.sh
+bash $VASIC_ROOT/workshop/platform/gates/prove-helixqa-web.sh
 ```
 
 Expected: `CAUGHT`, exit 0. If `MISSED`, do not proceed to Step 5 — the gate itself needs fixing first (this is the systematic-debugging discipline: a mutation proof that doesn't catch its own mutation means the gate under test is not actually testing what it claims to).
@@ -525,7 +532,7 @@ Expected: `CAUGHT`, exit 0. If `MISSED`, do not proceed to Step 5 — the gate i
 - [ ] **Step 5: Register in `verify.sh` per the pattern read in Step 1, and run the full aggregator**
 
 ```bash
-cd /home/milosvasic/Projects/vasic/workshop
+cd $VASIC_ROOT/workshop
 bash scripts/verify.sh
 ```
 
@@ -534,7 +541,7 @@ Expected: the new gate appears in the aggregator's own output and its result is 
 - [ ] **Step 6: Commit**
 
 ```bash
-cd /home/milosvasic/Projects/vasic/workshop
+cd $VASIC_ROOT/workshop
 git add platform/gates/verify-helixqa-web.sh platform/gates/prove-helixqa-web.sh scripts/verify.sh
 git commit -m "$(cat <<'EOF'
 gates: wire HelixQA web checks into mandatory validation
@@ -567,7 +574,7 @@ Then independently verify: `LOCAL=$(git rev-parse main); REMOTE=$(git ls-remote 
 - [ ] **Step 1: Read one existing `ai_interviewing` gate for its exact conventions**
 
 ```bash
-cat /home/milosvasic/Projects/vasic/ai_interviewing/platform/backend/gates/verify-g-rbac-1-ai-interviewing.sh | head -40
+cat $VASIC_ROOT/ai_interviewing/platform/backend/gates/verify-g-rbac-1-ai-interviewing.sh | head -40
 ```
 
 Note its exit-code contract and how it locates the live server, and match both exactly.
@@ -577,20 +584,20 @@ Note its exit-code contract and how it locates the live server, and match both e
 - [ ] **Step 3: Run it directly and confirm it passes against the current, fixed code**
 
 ```bash
-bash /home/milosvasic/Projects/vasic/ai_interviewing/platform/backend/gates/verify-helixqa-web.sh
+bash $VASIC_ROOT/ai_interviewing/platform/backend/gates/verify-helixqa-web.sh
 ```
 
 - [ ] **Step 4: Find and run whatever aggregates `ai_interviewing`'s own gates (if one exists — check for a `Makefile` target or a `scripts/verify.sh` equivalent; if none exists, this gate is registered by being present in `platform/backend/gates/` alone, matching the existing siblings' own discoverability — do not invent a new aggregator this project has never had)**
 
 ```bash
-find /home/milosvasic/Projects/vasic/ai_interviewing -maxdepth 2 -iname 'verify*.sh' -not -path '*/gates/*'
-grep -rn "gates/verify" /home/milosvasic/Projects/vasic/ai_interviewing/Makefile 2>/dev/null
+find $VASIC_ROOT/ai_interviewing -maxdepth 2 -iname 'verify*.sh' -not -path '*/gates/*'
+grep -rn "gates/verify" $VASIC_ROOT/ai_interviewing/Makefile 2>/dev/null
 ```
 
 - [ ] **Step 5: Commit**
 
 ```bash
-cd /home/milosvasic/Projects/vasic/ai_interviewing
+cd $VASIC_ROOT/ai_interviewing
 git add platform/backend/gates/verify-helixqa-web.sh
 git commit -m "$(cat <<'EOF'
 gates: wire HelixQA web checks into validation
@@ -612,7 +619,7 @@ Independently verify the push the same way as Task 5 Step 6.
 ### Task 7: Create the `independent-content-review` skill
 
 **Files:**
-- Create: `/home/milosvasic/Projects/vasic/.claude/skills/independent-content-review/SKILL.md`
+- Create: `$VASIC_ROOT/.claude/skills/independent-content-review/SKILL.md`
 
 **Interfaces:**
 - Produces: a user-invocable and model-invocable Claude Code skill. Its output contract: a JSON verdict file HelixQA's evidence conventions can read (mirrors HelixQA's own `pkg/evidence`/`pkg/ticket` shape — reviewer identity, content reference, verdict, reason).
@@ -732,13 +739,13 @@ for MODEL-GENERATED content specifically.
 - [ ] **Step 2: Confirm the skill is discoverable**
 
 ```bash
-ls /home/milosvasic/Projects/vasic/.claude/skills/independent-content-review/SKILL.md
+ls $VASIC_ROOT/.claude/skills/independent-content-review/SKILL.md
 ```
 
 - [ ] **Step 3: Commit**
 
 ```bash
-cd /home/milosvasic/Projects/vasic
+cd $VASIC_ROOT
 git add .claude/skills/independent-content-review/SKILL.md
 git commit -m "$(cat <<'EOF'
 skills: add independent-content-review
@@ -762,7 +769,7 @@ Independently verify the push.
 ### Task 8: Bump the umbrella's submodule pins and final verification
 
 **Files:**
-- Modify: `/home/milosvasic/Projects/vasic/helix-deps.yaml`
+- Modify: `$VASIC_ROOT/helix-deps.yaml`
 
 **Interfaces:**
 - Consumes: the final commit SHAs of `submodules/qa` (after Tasks 3 and 5's commits inside it) and `workshop`/`ai_interviewing` (after Tasks 5 and 6's commits inside them).
@@ -770,7 +777,7 @@ Independently verify the push.
 - [ ] **Step 1: Stage every moved gitlink together with the manifest**
 
 ```bash
-cd /home/milosvasic/Projects/vasic
+cd $VASIC_ROOT
 git add submodules/qa submodules/challenges workshop ai_interviewing
 ```
 
