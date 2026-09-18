@@ -226,6 +226,18 @@ deps:
     # that `workshop` had. It also ships NO .github/workflows/ (only
     # .github/FUNDING.yml), so it adds no §11.4.156 CI surface to the fleet.
 
+  - name: qa
+    ssh_url: git@github.com:HelixDevelopment/qa.git
+    ref: "6ccb2152f39126aa2faa17d185a5a3a27599a219"   # gitlink tracks heads/main; `git tag --points-at HEAD` is empty, so a sha is the only exact pin; bumped 2026-09-18 to bring the four agent carriers into lockstep (closes C8)
+    why: "HelixQA — the anti-bluff QA orchestration framework Helix Constitution §11.4.160/§11.4.27 mandates every governed project run generated/served content through. Provides YAML test banks, cross-platform (incl. web, via Playwright) execution, LLM-powered issue detection, evidence collection, and an autonomous vision-verification QA session mode. Added 2026-09-18 per docs/superpowers/specs/2026-09-18-helixqa-integration-design.md — no helixqa submodule existed in this umbrella before this, despite the constitutional mandate. Its own go.mod declares `replace digital.vasic.challenges => ../challenges` and `replace digital.vasic.containers => ../containers`, so it MUST be checked out as a sibling of both submodules/challenges and submodules/containers, never nested. Its own tools/opensource/* nested submodules (scrcpy, appium, docker-android, leakcanary, etc. — Android/mobile device tooling) are deliberately NOT initialized: neither workshop nor ai_interviewing is a mobile app, and pulling that tree in would be a large, irrelevant dependency footprint for pure web QA."
+    layout: grouped
+
+  - name: challenges
+    ssh_url: git@github.com:vasic-digital/challenges.git
+    ref: "8a352b971d07ff6b3cda192f7ad6322eebef348a"   # gitlink tracks heads/main; `git tag --points-at HEAD` is empty, so a sha is the only exact pin; bumped 2026-09-18 to bring the four agent carriers into lockstep (closes C8)
+    why: "digital.vasic.challenges — the test-execution/reporting foundation HelixQA (submodules/qa) is built on, per its own go.mod replace directive. Added alongside submodules/qa 2026-09-18 for the same reason; not independently consumed by anything else in this umbrella yet."
+    layout: grouped
+
   - name: LLMProvider
     ssh_url: git@github.com:vasic-digital/LLMProvider.git
     ref: "4c73c8b0dfc69d9fc5efe1a6a83665163161e8c6"   # gitlink tracks heads/master; `git tag --points-at HEAD` is empty, so a sha is the only exact pin
@@ -544,6 +556,47 @@ language_specific_subtree: false
 #     A gitlink OF the milosvasic.ru submodule (a fourth-level repository), not
 #     of this root. Its AGENTS.md and CLAUDE.md are the other two
 #     known-excluded propagation-gate findings.
+#
+#   submodules/qa's own 27 nested gitlinks (CONST-047 / §11.4.32 recursive
+#   scope — cascade check C7). Declared in HelixDevelopment/qa's own
+#   .gitmodules under tools/opensource/* and tools/test-apps/*: Android/mobile
+#   device QA tooling (device control, emulation, app automation, evidence and
+#   report generation). Deliberately NOT initialized in this checkout — see
+#   Step 2 of docs/superpowers/plans/2026-09-18-helixqa-integration.md: neither
+#   `workshop` nor `ai_interviewing` is a mobile app, so pulling any of these in
+#   would be a large, irrelevant dependency footprint for pure web QA. None of
+#   the 27 accounts below is in an operator-listed org (milos85vasic,
+#   vasic-digital, HelixDevelopment); each receives no §4 tag, no §11.4.157
+#   carrier, and no §11.4.156 CI action (out of scope per §11.4.156(C)), same
+#   as `submodules/superspec` above.
+#
+#   submodules/qa/tools/opensource/scrcpy -> git@github.com:Genymobile/scrcpy.git
+#   submodules/qa/tools/opensource/allure2 -> git@github.com:allure-framework/allure2.git
+#   submodules/qa/tools/opensource/leakcanary -> git@github.com:square/leakcanary.git
+#   submodules/qa/tools/opensource/docker-android -> git@github.com:budtmo/docker-android.git
+#   submodules/qa/tools/opensource/appium -> git@github.com:appium/appium.git
+#   submodules/qa/tools/opensource/midscene -> git@github.com:web-infra-dev/midscene.git
+#   submodules/qa/tools/opensource/mem0 -> git@github.com:mem0ai/mem0.git
+#   submodules/qa/tools/opensource/moondream -> git@github.com:vikhyat/moondream.git
+#   submodules/qa/tools/opensource/ui-tars -> git@github.com:bytedance/UI-TARS.git
+#   submodules/qa/tools/opensource/perfetto -> git@github.com:google/perfetto.git
+#   submodules/qa/tools/opensource/chroma -> git@github.com:chroma-core/chroma.git
+#   submodules/qa/tools/opensource/shortest -> git@github.com:antiwork/shortest.git
+#   submodules/qa/tools/opensource/marker -> git@github.com:VikParuchuri/marker.git
+#   submodules/qa/tools/opensource/kiwi-tcms -> git@github.com:kiwitcms/Kiwi.git
+#   submodules/qa/tools/opensource/testdriverai -> git@github.com:testdriverai/testdriverai.git
+#   submodules/qa/tools/opensource/stagehand -> git@github.com:browserbase/stagehand.git
+#   submodules/qa/tools/opensource/unstructured -> git@github.com:Unstructured-IO/unstructured.git
+#   submodules/qa/tools/opensource/redroid -> git@github.com:remote-android/redroid-doc.git
+#   submodules/qa/tools/opensource/signoz -> git@github.com:SigNoz/signoz.git
+#   submodules/qa/tools/opensource/docling -> git@github.com:DS4SD/docling.git
+#   submodules/qa/tools/opensource/llama-index -> git@github.com:run-llama/llama_index.git
+#   submodules/qa/tools/opensource/appcrawler -> git@github.com:nicetester/AppCrawler.git
+#   submodules/qa/tools/test-apps/rest-demo -> git@github.com:nicehash/rest-clients-demo.git
+#   submodules/qa/tools/opensource/browser-use -> git@github.com:browser-use/browser-use.git
+#   submodules/qa/tools/opensource/skyvern -> git@github.com:Skyvern-AI/skyvern.git
+#   submodules/qa/tools/opensource/anthropic-quickstarts -> git@github.com:anthropics/anthropic-quickstarts.git
+#   submodules/qa/tools/opensource/ui-tars-desktop -> git@github.com:bytedance/UI-TARS-desktop.git
 #
 # ─── Verification recipe (operator-runnable, §11.4.6 anti-bluff) ────────────
 #
