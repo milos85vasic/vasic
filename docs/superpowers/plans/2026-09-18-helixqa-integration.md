@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add the real `HelixDevelopment/qa` (HelixQA) framework and its `HelixDevelopment/challenges` dependency as submodules of the `vasic` umbrella, make it actually run web QA against `workshop` and `ai_interviewing`, wire it into each project's mandatory pre-push validation, and create a new `independent-content-review` Claude Code skill for dispatching independent reviewer subagents against model-generated content.
+**Goal:** Add the real `HelixDevelopment/qa` (HelixQA) framework and its `vasic-digital/challenges` dependency as submodules of the `vasic` umbrella, make it actually run web QA against `workshop` and `ai_interviewing`, wire it into each project's mandatory pre-push validation, and create a new `independent-content-review` Claude Code skill for dispatching independent reviewer subagents against model-generated content.
 
 **Architecture:** HelixQA is consumed as a sibling-submodule Go module (`submodules/qa`, module `digital.vasic.helixqa`) alongside `submodules/challenges` (`digital.vasic.challenges`) and the already-present `submodules/containers` (`digital.vasic.containers`) — its own `go.mod` `replace` directives resolve all three as `../challenges` / `../containers` from `submodules/qa`, so all three must be siblings directly under `submodules/`. HelixQA's own Android/mobile `tools/opensource/*` nested submodules are never initialized — only `web`/`api`-platform test banks are written. A new gate script per project (`workshop/platform/gates/verify-helixqa-web.sh`, `ai_interviewing/platform/backend/gates/verify-helixqa-web.sh`) invokes the built `helixqa` CLI against each project's live, loopback-bound server and is wired into that project's existing verification aggregator.
 
@@ -35,14 +35,14 @@ that would not survive a different clone location (this is a public repo;
 - Modify: `$VASIC_ROOT/helix-deps.yaml`
 
 **Interfaces:**
-- Produces: `submodules/qa` (checked out at `HelixDevelopment/qa`'s current `main` HEAD) and `submodules/challenges` (checked out at `HelixDevelopment/challenges`'s current `main` HEAD), both siblings of the existing `submodules/containers`, all three directly under `submodules/`.
+- Produces: `submodules/qa` (checked out at `HelixDevelopment/qa`'s current `main` HEAD) and `submodules/challenges` (checked out at `vasic-digital/challenges`'s current `main` HEAD), both siblings of the existing `submodules/containers`, all three directly under `submodules/`.
 
 - [ ] **Step 1: Add the two submodules**
 
 ```bash
 cd $VASIC_ROOT
 git submodule add git@github.com:HelixDevelopment/qa.git submodules/qa
-git submodule add git@github.com:HelixDevelopment/challenges.git submodules/challenges
+git submodule add git@github.com:vasic-digital/challenges.git submodules/challenges
 ```
 
 - [ ] **Step 2: Confirm neither pulled in nested submodules**
@@ -69,13 +69,13 @@ Find the existing `submodules/containers` entry in `helix-deps.yaml` (`grep -n '
     ssh_url: git@github.com:HelixDevelopment/qa.git
     ref: "<real HEAD from Step 3>"
     why: "HelixQA — the anti-bluff QA orchestration framework Helix Constitution §11.4.160/§11.4.27 mandates every governed project run generated/served content through. Provides YAML test banks, cross-platform (incl. web, via Playwright) execution, LLM-powered issue detection, evidence collection, and an autonomous vision-verification QA session mode. Added 2026-09-18 per docs/superpowers/specs/2026-09-18-helixqa-integration-design.md — no helixqa submodule existed in this umbrella before this, despite the constitutional mandate. Its own go.mod declares `replace digital.vasic.challenges => ../challenges` and `replace digital.vasic.containers => ../containers`, so it MUST be checked out as a sibling of both submodules/challenges and submodules/containers, never nested. Its own tools/opensource/* nested submodules (scrcpy, appium, docker-android, leakcanary, etc. — Android/mobile device tooling) are deliberately NOT initialized: neither workshop nor ai_interviewing is a mobile app, and pulling that tree in would be a large, irrelevant dependency footprint for pure web QA."
-    layout: flat
+    layout: grouped
 
   - name: challenges
-    ssh_url: git@github.com:HelixDevelopment/challenges.git
+    ssh_url: git@github.com:vasic-digital/challenges.git
     ref: "<real HEAD from Step 3>"
     why: "digital.vasic.challenges — the test-execution/reporting foundation HelixQA (submodules/qa) is built on, per its own go.mod replace directive. Added alongside submodules/qa 2026-09-18 for the same reason; not independently consumed by anything else in this umbrella yet."
-    layout: flat
+    layout: grouped
 ```
 
 - [ ] **Step 4: Verify manifest pins and governance cascade**
@@ -104,7 +104,7 @@ Expected: exit 0, no new findings beyond the existing baselined ones.
 ```bash
 git add .gitmodules submodules/qa submodules/challenges helix-deps.yaml
 git commit -m "$(cat <<'EOF'
-add HelixDevelopment/qa and HelixDevelopment/challenges submodules
+add HelixDevelopment/qa and vasic-digital/challenges submodules
 
 Per docs/superpowers/specs/2026-09-18-helixqa-integration-design.md.
 Neither Android/mobile tools/opensource/* nested submodule is

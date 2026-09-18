@@ -52,7 +52,7 @@ directives (per its own CONST-051(C) rule: it must not nest its own copies of
 these — the *consuming* project adds them):
 
 - `digital.vasic.challenges => ../challenges` — confirmed as
-  `github.com:HelixDevelopment/challenges.git` (`git ls-remote` succeeds).
+  `github.com:vasic-digital/challenges.git` (`git ls-remote` succeeds).
   Provides the test-execution/reporting foundation HelixQA is "built on".
 - `digital.vasic.containers => ../containers` — **already satisfied**. This
   umbrella's existing `submodules/containers` (`vasic-digital/containers`)
@@ -75,7 +75,7 @@ needs Android/mobile QA, that is a separate, explicitly-scoped decision.
 1. **Add two new submodules** at the umbrella root, alongside the existing
    `submodules/containers`:
    - `submodules/qa` → `git@github.com:HelixDevelopment/qa.git`
-   - `submodules/challenges` → `git@github.com:HelixDevelopment/challenges.git`
+   - `submodules/challenges` → `git@github.com:vasic-digital/challenges.git`
 
    Both go through the same process every other owned submodule in this
    umbrella already went through: `.gitmodules` entry, `helix-deps.yaml`
@@ -140,7 +140,7 @@ needs Android/mobile QA, that is a separate, explicitly-scoped decision.
 - It does not initialize any `tools/opensource/*` Android/mobile submodule.
 - It does not touch `vasic.digital`/`milosvasic.ru`'s existing `_tests/`
   Challenge-bank setup — that stays as is; a future, separately-scoped pass
-  could migrate it onto the same `HelixDevelopment/challenges` foundation
+  could migrate it onto the same `vasic-digital/challenges` foundation
   HelixQA itself uses, but that is not part of this work.
 - It does not resolve the open `verify-suppressed-residue.sh` G5
   redaction-integrity finding from earlier this session — that remains
