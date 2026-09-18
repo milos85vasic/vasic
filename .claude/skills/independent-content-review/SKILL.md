@@ -36,10 +36,13 @@ for MODEL-GENERATED content specifically.
    material) and `tone` (is it written the way this project's other
    published content is); anything touching `chapters/`/`curriculum/`
    private source material needs `redaction-safety` (does it leak
-   anything a redaction rule should have withheld — this is NOT
-   optional given this session's own open `verify-suppressed-residue.sh`
-   G5 finding); a generated QA ticket or report needs `accuracy`
-   (are its claims actually backed by the evidence it cites).
+   anything a redaction rule should have withheld — redaction-safety
+   review matters whenever generated content touches private source
+   material, independent of whether any particular redaction gate
+   happens to be open at the time; this dimension is NOT optional for
+   that class of content); a generated QA ticket or report needs
+   `accuracy` (are its claims actually backed by the evidence it
+   cites).
 
 2. **Dispatch ONE fresh subagent per dimension**, never the
    conversation that produced the content. Use the `Agent` tool with a
@@ -60,8 +63,10 @@ for MODEL-GENERATED content specifically.
      reason. A reviewer that hedges without picking one of the three
      has not finished its job; ask it to commit to one.
 
-3. **Write the verdict file.** For content at `<path>`, write
-   `<path>.review.json` (sibling file, same directory) with this exact
+3. **Write the verdict file.** For content at `<path>` reviewed on
+   dimension `<dimension>`, write `<path>.review.<dimension>.json`
+   (sibling file, same directory — the same naming rule step 5 uses for
+   multiple dimensions, so there is one rule, not two) with this exact
    shape:
 
    ```json
@@ -90,8 +95,9 @@ for MODEL-GENERATED content specifically.
 5. **Multiple dimensions:** if content needs more than one dimension
    reviewed, dispatch one subagent PER dimension (in parallel is fine
    — they are independent of each other, not just of the generator),
-   and write one verdict file per dimension:
-   `<path>.review.<dimension>.json`.
+   and write one verdict file per dimension, using the same
+   `<path>.review.<dimension>.json` naming step 3 uses even for a
+   single dimension.
 
 ## What this skill deliberately does NOT do
 
