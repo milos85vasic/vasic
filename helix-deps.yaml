@@ -491,6 +491,56 @@ deps:
     # first mutation, because the golden-good control inherits this same
     # .gitmodules. Both halves are closed by this entry plus the four carriers.
 
+  # ─── HelixQA's own-org dependencies (submodules/qa/go.mod replace targets),
+  #     added 2026-09-18 per Task 2 of the HelixQA integration plan. qa's own
+  #     go.mod requires these 6 directly (cmd/helixqa/main.go plus core
+  #     packages, not confined to the optional autonomous-session feature), so
+  #     the binary cannot build without them. Directory names below are the
+  #     literal relative-path targets qa's go.mod `replace` directives name
+  #     (../doc_processor, ../llm_orchestrator, ../llm_provider,
+  #     ../llms_verifier/llm-verifier, ../security, ../vision_engine) resolved
+  #     from submodules/qa/ — a hard filesystem-path correctness constraint,
+  #     not this repo's usual submodules/<UpstreamRepoName> casing habit.
+  #     Each of the 6 needed C2 (missing GEMINI.md) and/or C8
+  #     (carrier-body divergence) remediation before onboarding; see each
+  #     commit below and .superpowers/sdd/2026-09-18-helixqa-integration/
+  #     task-2-report.md for the full account. ────────────────────────────
+  - name: doc_processor
+    ssh_url: git@github.com:HelixDevelopment/DocProcessor.git
+    ref: "5692e52713df732ddde68b62b6780f7c28ffcf36"   # gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    why: "Document-processing dependency consumed by submodules/qa via go.mod replace digital.vasic.docprocessor => ../doc_processor. A standalone, project-not-aware Go module (Go 1.25) that loads project documentation, builds structured feature maps, and tracks verification coverage for QA automation; imported directly by cmd/helixqa/main.go and several of qa's core packages."
+    layout: grouped
+
+  - name: llm_orchestrator
+    ssh_url: git@github.com:HelixDevelopment/LLMOrchestrator.git
+    ref: "55d2dde25386483649224cd2f966e949881b46b5"   # gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    why: "LLM-agent-orchestration dependency consumed by submodules/qa via go.mod replace digital.vasic.llmorchestrator => ../llm_orchestrator. A standalone Go module (Go 1.25) for spawning, managing, and communicating with multiple headless CLI LLM agents through a hybrid pipe+file protocol; used by qa's autonomous QA session feature."
+    layout: grouped
+
+  - name: llm_provider
+    ssh_url: git@github.com:HelixDevelopment/LLMProvider.git
+    ref: "f29fe2439c81a56520432d5b0b2cfc2b60486f3e"   # gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    why: "LLM-provider-abstraction dependency consumed by submodules/qa via go.mod replace digital.vasic.llmprovider => ../llm_provider. A DIFFERENT repository from the already-owned submodules/LLMProvider (vasic-digital/LLMProvider) — HelixDevelopment/LLMProvider, going into a different directory, deliberately: both coexist because qa's go.mod names this one specifically and the two are never compiled into the same build. Provides the core LLMProvider interface plus circuit breaker, health monitor, retry logic, and lazy loading for fault-tolerant provider integration."
+    layout: grouped
+
+  - name: llms_verifier
+    ssh_url: git@github.com:vasic-digital/LLMsVerifier.git
+    ref: "2c6602c7893153188c3c94e348e94cf924917fd8"   # gitlink tracks heads/main; bumped 2026-09-18 to bring the four agent carriers into lockstep (closes C8)
+    why: "LLM verification/scoring dependency consumed by submodules/qa via go.mod replace digital.vasic.llmsverifier => ../llms_verifier/llm-verifier — note the Go module lives in this repo's llm-verifier/ subdirectory, not its root, matching the replace target's literal path. An enterprise-grade platform for verifying, monitoring, and optimizing LLM performance across multiple providers; used by qa's autonomous QA session to select and score LLMs."
+    layout: grouped
+
+  - name: security
+    ssh_url: git@github.com:vasic-digital/security.git
+    ref: "79151f23063336b4e63f463709f4f01c0c46aea0"   # gitlink tracks heads/main; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    why: "Content-safety dependency consumed by submodules/qa via go.mod replace digital.vasic.security => ../security. A standalone Go security module providing content guardrails, PII detection and redaction, content filtering, and policy enforcement across five independent packages."
+    layout: grouped
+
+  - name: vision_engine
+    ssh_url: git@github.com:HelixDevelopment/VisionEngine.git
+    ref: "ce16f929304826ee98aac8fa1fa18985141d4c3c"   # gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    why: "Computer-vision dependency consumed by submodules/qa via go.mod replace digital.vasic.visionengine => ../vision_engine. A standalone, project-not-aware Go module providing computer-vision and LLM-vision building blocks for UI screenshot analysis and navigation-graph construction; used by qa's vision-based issue detection and autonomous QA session."
+    layout: grouped
+
 transitive_handling:
   # §11.4.31: "Each declared dep itself ships a helix-deps.yaml. The
   # incorporator tooling MUST recurse — top-level project gets the union of all

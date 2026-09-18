@@ -584,3 +584,81 @@ submodules/challenges/pkg/userflow/espresso_adapter_test.go
 submodules/challenges/pkg/userflow/options_test.go
 submodules/challenges/pkg/userflow/robolectric_adapter_test.go
 submodules/challenges/pkg/userflow/tauri_cli_adapter_test.go
+
+# BASELINE: submodules/llms_verifier — 47 files / 923 occurrences at gitlink
+# 2c6602c7893153188c3c94e348e94cf924917fd8 (measured 2026-09-18, onboarded
+# alongside submodules/doc_processor, submodules/llm_orchestrator,
+# submodules/llm_provider, submodules/security, and submodules/vision_engine
+# per Task 2 of the HelixQA integration plan — these six are the own-org
+# dependencies submodules/qa/go.mod requires directly). Pre-existing content
+# this integration did not introduce: dozens of root-level OpenCode-config
+# generation/validation reports and scripts (`*_REPORT.md`, `create_*.py`,
+# `generate_*.py`, `*_test_fix.py`, shell test/validation scripts) that quote
+# a prior maintainer's developer-host absolute paths
+# (`/home/milosvasic/Downloads/opencode.json`,
+# `/home/milosvasic/.config/opencode/opencode.json`) as recorded run output or
+# example content, a handful of `llm-verifier/` challenge scripts and Go test
+# fixtures doing the same, and one committed compiled binary
+# (`llm-verifier/test-tui`, an `ar` archive) whose embedded debug-info strings
+# carry the same developer-host paths. Untriaged beyond that, exactly as the
+# other submodule baselines above. This tree consumes LLMsVerifier BY
+# REFERENCE and cannot fix any of them here — the fix is an upstream
+# vasic-digital/LLMsVerifier change plus a gitlink bump.
+submodules/llms_verifier/ACTUAL_CONFIG_CONTENT.md
+submodules/llms_verifier/CHALLENGE_EXECUTION_REPORT.md
+submodules/llms_verifier/COMPLETE_FINAL_REPORT.md
+submodules/llms_verifier/COMPLETE_TESTING_REPORT.md
+submodules/llms_verifier/FINAL_ANSWER.txt
+submodules/llms_verifier/FINAL_CLEAN_TEST_REPORT.md
+submodules/llms_verifier/FINAL_CORRECTED_SUMMARY.md
+submodules/llms_verifier/FINAL_IMPLEMENTATION_REPORT.md
+submodules/llms_verifier/FINAL_LLMVERIFIER_OPENCODE_SUCCESS.md
+submodules/llms_verifier/FINAL_VALIDATION_COMPLETE.txt
+submodules/llms_verifier/LLMVERIFIER_OPENCODE_SUCCESS.md
+submodules/llms_verifier/MASSIVE_TESTING_REPORT.md
+submodules/llms_verifier/MODELS_DEV_IMPLEMENTATION.md
+submodules/llms_verifier/OPENCODE_EXPORT_FIXES.md
+submodules/llms_verifier/OPENSLATE_VALIDATION_SUCCESS.md
+submodules/llms_verifier/TESTING_SUMMARY.md
+submodules/llms_verifier/ULTIMATE_BINARY_RUN_SUMMARY.md
+submodules/llms_verifier/ULTIMATE_COMPLETE_REPORT.md
+submodules/llms_verifier/ULTIMATE_SUCCESS_REPORT.md
+submodules/llms_verifier/ULTIMATE_TESTING_COMPLETE.md
+submodules/llms_verifier/build_and_test_fixed.sh
+submodules/llms_verifier/create_complete_models_config.py
+submodules/llms_verifier/create_complete_real_config.py
+submodules/llms_verifier/create_complete_suffixes_all_features.py
+submodules/llms_verifier/create_complete_suffixes_final.py
+submodules/llms_verifier/create_exact_opencode_config.py
+submodules/llms_verifier/create_final_llmverifier_config.py
+submodules/llms_verifier/create_suffixes_config.py
+submodules/llms_verifier/final_fix.py
+submodules/llms_verifier/final_llmverifier_opencode.py
+submodules/llms_verifier/final_test_fix.py
+submodules/llms_verifier/generate_llmverifier_valid_opencode.py
+submodules/llms_verifier/generate_opencode_config.py
+submodules/llms_verifier/generate_opencode_config_fixed.py
+submodules/llms_verifier/generate_ultimate_opencode_enhanced.py
+submodules/llms_verifier/llm-verifier/challenges/codebase/challenge_runners/provider_models_discovery/run.sh
+submodules/llms_verifier/llm-verifier/challenges/scripts/run_all_providers_challenge.sh
+submodules/llms_verifier/llm-verifier/challenges/scripts/run_comprehensive_challenge.sh
+submodules/llms_verifier/llm-verifier/cmd/fixed-ultimate-challenge/fixed_ultimate_challenge.go
+submodules/llms_verifier/llm-verifier/cmd/ultimate-challenge/main.go
+submodules/llms_verifier/llm-verifier/providers/claudecode_test.go
+submodules/llms_verifier/rerun_all_clean.sh
+submodules/llms_verifier/scripts/full_model_verification.py
+submodules/llms_verifier/scripts/validate_opencode_config.py
+submodules/llms_verifier/validate_and_test.sh
+submodules/llms_verifier/verify_providerinit_fix.sh
+submodules/llms_verifier/llm-verifier/test-tui
+
+# BASELINE: submodules/vision_engine — 1 file / 2 occurrences at gitlink
+# ce16f929304826ee98aac8fa1fa18985141d4c3c (measured 2026-09-18, onboarded
+# alongside the other five HelixQA own-org dependencies per Task 2 of the
+# HelixQA integration plan). Pre-existing content this integration did not
+# introduce: a Dockerfile quoting a developer-host absolute path as example
+# content. Untriaged beyond that, exactly as the other submodule baselines
+# above. This tree consumes VisionEngine BY REFERENCE and cannot fix it here
+# — the fix is an upstream HelixDevelopment/VisionEngine change plus a
+# gitlink bump.
+submodules/vision_engine/Dockerfile.vision
