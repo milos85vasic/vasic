@@ -1,0 +1,23 @@
+# stackhawk.yml — HawkScan DAST configuration for local, on-demand scanning.
+#
+# This config targets the workshop server (loopback, live during local
+# development). Override the host with -e app.host=<url> for other targets
+# (e.g. ai_interviewing at http://127.0.0.1:8099).
+#
+# applicationId below is a REQUIRED placeholder: an "Application" must be
+# created in the StackHawk web UI (app.stackhawk.com) after signup, which
+# then issues a real applicationId. This cannot be automated from the CLI
+# alone — it requires the same interactive account setup as obtaining the
+# API key itself. See _tools/hawkscan/README.md for the exact steps.
+app:
+  applicationId: "REPLACE_WITH_REAL_STACKHAWK_APPLICATION_ID"
+  env: Development
+  host: http://127.0.0.1:8087
+
+hawk:
+  spider:
+    base: true
+    maxDurationMinutes: 5
+  # Business-logic-only by default (BOLA/BFLA checks) for a fast local loop;
+  # a full policy scan takes considerably longer and is better suited to a
+  # deliberate, scheduled run than every local invocation.
