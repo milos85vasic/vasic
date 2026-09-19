@@ -3,6 +3,10 @@ _tests/node_modules/
 _tests/evidence/html-report/
 _tests/test-results/
 
+# ── Dynamic port-discovery registry (per-host runtime state, never tracked) ──
+# Written by _tools/containers/cmd/port-discover, consumed by _tests/env.js.
+.service-registry/
+
 # ── Secrets & credentials (Helix Constitution §11.4.10 — no secrets in VCS) ──
 # MCP server configs frequently embed API keys / tokens.
 .mcp.json
