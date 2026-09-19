@@ -49,6 +49,61 @@
 //	0  a port was resolved (reused or freshly allocated) and printed
 //	1  a real failure (bad usage, registry unwritable)
 //	2  COULD NOT DETERMINE — no free port found in range
+//
+// CROSS-PROCESS LOCKING (added 2026-09-19 — root cause + fix for a live race).
+//
+// Two independent subagents, working on unrelated tasks the same day, each
+// separately observed net::ERR_CONNECTION_REFUSED at a discovered port while
+// multiple Claude Code sessions ran the Playwright suite concurrently against
+// the same checkout, and both flagged it as a race in reading/writing the
+// shared `.service-registry/services.json` file. Root cause, confirmed by a
+// reproduction in concurrency_race_test.go (this package):
+// `pkg/serviceregistry.ServiceRegistry` (submodules/containers,
+// reviewed 2026-09-19) protects its OWN in-memory state with r.mu/persistMu,
+// but each OS process running this binary constructs its OWN fresh
+// `*ServiceRegistry` via New() — a separate in-memory map loaded once from
+// disk with no re-read before persist() overwrites the shared file. Two
+// concrete, reproduced failure shapes follow directly from that:
+//
+//  1. loadFromDisk()'s crash-recovery reaper (SR2-3, reapOrphanedTempFiles)
+//     globs and deletes any `services-*.json.tmp` file on EVERY New() call,
+//     with no way to tell "orphaned from a crashed process" apart from
+//     "being actively written by a concurrent, live process right now". A
+//     second process's New() can delete a first process's in-flight temp
+//     file out from under it, so the first process's persist() then fails
+//     outright: `rename ... services-NNNN.json.tmp ...: no such file or
+//     directory`. Register() propagates that as an error (SR-HARD-3), so
+//     resolvePort returns an error, run() reports exitUndetermined, and
+//     env.js's discoverPortRaw() (its caller) falls back to the hardcoded
+//     literal port on ANY non-zero exit — silently re-introducing exactly
+//     the collision-with-whatever-else-is-listening class this whole
+//     discovery mechanism exists to avoid.
+//  2. Even absent a hard failure, two processes whose New() both loaded the
+//     registry before either had persisted can each persist() a snapshot
+//     that is missing the other's just-written registration — a classic
+//     last-writer-wins lost update, since persist() always writes
+//     r.services wholesale rather than merging against whatever is on disk
+//     right now.
+//
+// Neither hazard is fixable by anything internal to a single
+// *ServiceRegistry instance, because the defect is that DIFFERENT instances,
+// in different processes, are not coordinated at all. This binary is the
+// SOLE writer of `.service-registry/services.json` in this repository (env.js
+// only ever shells out to it; nothing else imports pkg/serviceregistry
+// against this directory — verified 2026-09-19), so the fix belongs here,
+// at the consumption layer: acquire an exclusive, cross-process advisory file
+// lock (flock(2), via golang.org/x/sys/unix — already an indirect dependency
+// of this module, so no new external dependency) on a dedicated lockfile
+// inside the registry directory, held for the ENTIRE
+// New()-through-Register() sequence. That makes the whole
+// load-decide-persist cycle atomic with respect to every other invocation of
+// this binary against the same directory, which closes BOTH hazards above:
+// no New() can run its reaper while another process's persist() has an
+// in-flight temp file, and no persist() can run against a stale snapshot
+// while another process's write is landing. flock is held via the file
+// descriptor, not a PID, so a crashed holder can never wedge a future
+// invocation — the kernel releases the lock the moment the fd is closed
+// (including on process death), unlike a stale-PID lockfile scheme.
 package main
 
 import (
@@ -62,6 +117,7 @@ import (
 	"time"
 
 	"digital.vasic.containers/pkg/serviceregistry"
+	"golang.org/x/sys/unix"
 )
 
 const (
@@ -100,6 +156,19 @@ func run(args []string, stdout, stderr *os.File) int {
 	if dir == "" {
 		dir = defaultRegistryDir()
 	}
+
+	// Acquire the cross-process lock BEFORE constructing the registry (see
+	// the package-level "CROSS-PROCESS LOCKING" doc above): New() itself
+	// reads the directory (loadFromDisk + the orphaned-temp-file reaper), so
+	// the lock must cover that too, not just the later Register() call, or a
+	// second process's New() could still run its reaper concurrently with a
+	// first process's in-flight persist().
+	unlock, err := acquireRegistryLock(dir)
+	if err != nil {
+		fmt.Fprintf(stderr, "port-discover: could not acquire cross-process registry lock in %s: %v\n", dir, err)
+		return exitFail
+	}
+	defer unlock()
 
 	reg := serviceregistry.New(serviceregistry.WithRegistryDir(dir))
 
@@ -176,4 +245,50 @@ func defaultRegistryDir() string {
 		cur = parent
 	}
 	return filepath.Join(dir, ".service-registry")
+}
+
+// acquireRegistryLock takes an exclusive, blocking, cross-process advisory
+// file lock (flock(2)) on a dedicated lockfile inside dir, and returns a
+// function that releases it. See the package-level "CROSS-PROCESS LOCKING"
+// doc comment above for why this exists and exactly what it closes.
+//
+// A DEDICATED lockfile (".port-discover.lock"), never services.json itself:
+// pkg/serviceregistry's own persist() opens services.json only via
+// os.CreateTemp + os.Rename — it never flocks services.json — so flocking
+// that path would protect nothing (a concurrent persist() would not
+// participate in the same lock) and would also fight the atomic-rename
+// replacement, which swaps the underlying inode out from under any fd
+// holding a lock on it. A separate, stable file is immune to both problems:
+// it is never replaced, so a lock held on its fd remains meaningful for as
+// long as this process holds it.
+//
+// BLOCKING (LOCK_EX, no LOCK_NB): correctness over latency here. Every
+// resolvePort call this binary makes is a handful of syscalls plus at most a
+// 10000-port bind/close scan — milliseconds, not seconds — so a contending
+// process waits briefly rather than needing its own timeout/retry policy.
+// *flagTimeout already bounds the free-port scan itself once the lock is
+// held; it is not meant to bound queueing for the lock.
+//
+// CRASH SAFETY: flock is associated with the open file DESCRIPTION, not a
+// PID recorded in the file's contents, so the kernel releases it
+// automatically the instant the holding process's file descriptor is closed
+// — including on a crash or SIGKILL. Unlike a stale-PID lockfile scheme,
+// there is no way for a dead holder to wedge every future invocation.
+func acquireRegistryLock(dir string) (unlock func(), err error) {
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		return nil, fmt.Errorf("create registry dir: %w", err)
+	}
+	lockPath := filepath.Join(dir, ".port-discover.lock")
+	f, err := os.OpenFile(lockPath, os.O_CREATE|os.O_RDWR, 0644)
+	if err != nil {
+		return nil, fmt.Errorf("open lock file %s: %w", lockPath, err)
+	}
+	if err := unix.Flock(int(f.Fd()), unix.LOCK_EX); err != nil {
+		_ = f.Close()
+		return nil, fmt.Errorf("flock %s: %w", lockPath, err)
+	}
+	return func() {
+		_ = unix.Flock(int(f.Fd()), unix.LOCK_UN)
+		_ = f.Close()
+	}, nil
 }

@@ -169,6 +169,40 @@ for (const site of SITES) {
       // ---- 1. Header nav links actually navigate (per page type) --------------
       for (const pg of site.chromePages) {
         test(`header nav links act (no dead links) — ${pg.type}`, async ({ page }) => {
+          // Force reduced motion BEFORE any navigation, same technique as the
+          // "back-to-top" test below. Root-caused this session: a header-nav
+          // link that targets a hash on the HOME page (e.g. vasic.digital's
+          // "Products" -> `/#products`, milosvasic.ru's "Experience" ->
+          // `/#experience`) makes the browser jump straight to a section that
+          // may be far down a long, `.od-reveal`/`.od-stagger`-heavy showcase
+          // page. The destination anchor is NOT missing and NOT stale — it was
+          // confirmed present in the actual served markup, in git history, and
+          // via a JS-disabled render, every time. What this suite instead
+          // measured, repeatedly and non-flakily (`page.on('crash', ...)`
+          // firing at exactly this assertion, matching Playwright's own
+          // "Received: undefined" symptom for a `toHaveCount` poll whose page
+          // died mid-retry), is that landing on vasic.digital's home page —
+          // via this exact header-nav click, or via a plain same-page
+          // `window.scrollTo` to the same offset, with or without the site's
+          // own JavaScript — can crash the renderer under host memory
+          // pressure. The precise rendering-engine mechanism was NOT
+          // conclusively isolated (stripping only `will-change: transform`
+          // from the reveal rules did not stop it, and neither did disabling
+          // the site's JavaScript outright — so the reveal *animation* alone
+          // is not a sufficient explanation). The one intervention that
+          // measurably and repeatably reduced the crash rate in this
+          // session's testing is `prefers-reduced-motion: reduce`, which
+          // takes an entirely different code path in initReveal(): every
+          // `.od-reveal`/`.od-stagger` element is marked `is-visible`
+          // synchronously at boot, with no IntersectionObserver and no
+          // `will-change` layer promotion at all. That changes nothing this
+          // test asserts (the anchor's existence and scroll position) — only
+          // removes a measured source of renderer instability while getting
+          // there. On a sufficiently memory-starved host this alone may still
+          // not be 100% sufficient; a persisting `page.on('crash')` in that
+          // case is the same known environmental class documented at the top
+          // of this file, not a content regression.
+          await page.emulateMedia({ reducedMotion: 'reduce' });
           await page.goto(site.base + pg.path, { waitUntil: 'load' });
           const links = page.locator(site.navLinkSel);
           const n = await links.count();
