@@ -121,7 +121,42 @@ function hasTool(n) { try { execFileSync('which', [n], { stdio: 'pipe' }); retur
 // literal — LOUDLY, on stderr, never silently, matching this file's own
 // standing rule above ("silently binding a port... is the precise
 // silent-misbehaviour class... this file exists to prevent").
+// PROCESS-TREE STABILITY (found live, 2026-09-19): Playwright's default
+// config spawns multiple WORKER child processes, each with its own Node
+// module cache, so each worker's own `require('./env.js')` re-runs
+// discoverPort() from scratch. By the time a worker does, the
+// config-loading PARENT process may already have started the real
+// webServer bound to the port THIS function resolved for it — at which
+// point re-discovering asks "is this port still free to bind", which
+// answers "no", because a legitimately-running server of OUR OWN is not
+// distinguishable, by a bind check alone, from an unrelated process
+// squatting on it. Without a fix, a worker would "reallocate" to a
+// DIFFERENT free port that nothing is actually listening on, and every
+// page.goto() in that worker fails with net::ERR_CONNECTION_REFUSED —
+// measured live, 454 failures, one per navigation, in exactly this shape.
+//
+// Fix: discoverPort's caller, port(), already only invokes discovery when
+// process.env[name] is UNSET (see the explicit-value branch above) — so
+// the moment discoverPort resolves a value here, in whichever process
+// resolves it FIRST (the config-loading parent, always, since it
+// require()s env.js before spawning any worker), that value is written
+// straight back into process.env[name] before returning. Node's
+// child_process spawning inherits the parent's env by default, so every
+// worker's own later call to port(process.env[name], ...) sees it already
+// set and takes the explicit-value branch, never re-invoking discovery —
+// and never re-litigating whether the now-running server's own port looks
+// "free".
 function discoverPort(fallback, name) {
+  const resolved = discoverPortRaw(fallback, name);
+  // Exported unconditionally — on the fallback path too, so a worker process
+  // that inherits this env sees the SAME degraded literal its parent used,
+  // rather than independently re-attempting (and possibly failing
+  // differently at) discovery itself.
+  process.env[name] = String(resolved);
+  return resolved;
+}
+
+function discoverPortRaw(fallback, name) {
   const root = findRepoRoot(__dirname);
   if (!root) {
     process.stderr.write(`[env.js] WARNING: could not locate the umbrella root from ${__dirname}; ` +
