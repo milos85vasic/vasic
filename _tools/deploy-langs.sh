@@ -654,7 +654,27 @@ elif command -v bundle >/dev/null 2>&1 && ( cd milosvasic.ru && bundle exec jeky
   JEKYLL_RUNNER="bundle exec jekyll"
 fi
 if [ -z "$JEKYLL_RUNNER" ]; then
-  build_undet "jekyll _site rebuild (no jekyll on PATH and no working 'bundle exec jekyll')"
+  # THIRD RUNNER (2026-09-22): the containerised build. With no host Jekyll this
+  # step used to end as COULD NOT RUN on every run, although a working build
+  # path exists — _tools/containers/cmd/site-build drives the ruby image through
+  # the Containers Submodule (§11.4.76) and verifies a FRESH _site artifact
+  # itself. It pins the same footer year through the same _config.deploy.yml,
+  # so the host and container paths render the same bytes. Its exit is
+  # three-valued like this gate: 1 a real build failure, 2 could not run.
+  SITE_BUILD="$ROOT/_tools/containers/bin/site-build"
+  if [ ! -x "$SITE_BUILD" ] && command -v go >/dev/null 2>&1; then
+    ( cd "$ROOT/_tools/containers" && GOPROXY=off go build -o bin/site-build ./cmd/site-build ) >/dev/null 2>&1
+  fi
+  if [ -x "$SITE_BUILD" ]; then
+    "$SITE_BUILD" -workload jekyll -build-year "$BUILD_YEAR" >/dev/null 2>&1
+    case $? in
+      0) echo "[deploy-langs] jekyll _site rebuilt in a container (site-build)" ;;
+      1) build_fail "jekyll _site rebuild (container)" ;;
+      *) build_undet "jekyll _site rebuild (no host jekyll; container build could not run)" ;;
+    esac
+  else
+    build_undet "jekyll _site rebuild (no jekyll on PATH, no working 'bundle exec jekyll', no site-build)"
+  fi
 else
   ( cd milosvasic.ru && $JEKYLL_RUNNER build --quiet --config _config.yml,_config.deploy.yml ) >/dev/null 2>&1 \
     || build_fail "jekyll _site rebuild"

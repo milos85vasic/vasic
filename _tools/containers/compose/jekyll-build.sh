@@ -31,9 +31,12 @@ echo "[jekyll-build] bundler:  $(bundle -v)"
 echo "[jekyll-build] site:     ${PWD}"
 
 # Gems land in BUNDLE_PATH (/bundle, a named volume). The host's own
-# vendor/bundle is deliberately NOT reused: the host is ALT Linux and the image
-# is Debian, so native extensions built in one are not guaranteed loadable in
-# the other. Keeping the two gem trees separate is the point, not an oversight.
+# vendor/bundle is deliberately NOT reused: the host and the image are different
+# distributions (measured 2026-09-22: host Ubuntu 26.04 LTS, image ruby:3.3 =
+# Debian 13 trixie — an earlier revision of this comment named the host "ALT
+# Linux", which was wrong), with different system libraries, so native
+# extensions built in one are not guaranteed loadable in the other. Keeping
+# the two gem trees separate is the point, not an oversight.
 echo "[jekyll-build] bundle install (path=${BUNDLE_PATH:-<unset>}) ..."
 bundle install
 

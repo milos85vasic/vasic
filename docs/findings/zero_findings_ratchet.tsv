@@ -8,17 +8,17 @@
 # These are MEASURED counts from a real sweep, not a seeded zero. A ratchet
 # whose first row is a lie is worse than no ratchet at all.
 #
-# Recorded: 2026-09-04T17:09:54Z (UTC) at commit 50a9367
+# Recorded: 2026-09-22T20:17:35Z (UTC) at commit 4e95446
 # Format: <class>\t<max-count>. "TOTAL" ceilings the sum.
 #
 shortcomings	0
-gaps	7
+gaps	6
 weak-spots	1
 danger-zones	9
 todo-fixme	0
-skipped-tests	9
+skipped-tests	7
 bluffs	0
 unresolved	0
 divergent-stale-orphan	0
 uncatalogued	0
-TOTAL	26
+TOTAL	23

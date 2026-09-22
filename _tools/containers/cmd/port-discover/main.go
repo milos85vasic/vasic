@@ -137,12 +137,14 @@ func run(args []string, stdout, stderr *os.File) int {
 				"resolved from this binary's own working directory's git toplevel)")
 		flagTimeout = fs.Duration("timeout", 5*time.Second,
 			"Wall-clock budget for the free-port scan")
+		flagUDP = fs.Bool("udp", false,
+			"Also require the port to be free on UDP (HTTPS + HTTP/3 bind one port on both)")
 	)
 	if err := fs.Parse(args); err != nil {
 		return exitFail
 	}
 	if fs.NArg() != 2 {
-		fmt.Fprintf(stderr, "usage: port-discover [-registry-dir DIR] NAME DEFAULT_PORT\n")
+		fmt.Fprintf(stderr, "usage: port-discover [-registry-dir DIR] [-udp] NAME DEFAULT_PORT\n")
 		return exitFail
 	}
 	name := fs.Arg(0)
@@ -175,7 +177,7 @@ func run(args []string, stdout, stderr *os.File) int {
 	ctx, cancel := context.WithTimeout(context.Background(), *flagTimeout)
 	defer cancel()
 
-	port, err := resolvePort(ctx, reg, name, defaultPort)
+	port, err := resolvePortWith(ctx, reg, name, defaultPort, *flagUDP)
 	if err != nil {
 		fmt.Fprintf(stderr, "port-discover: COULD NOT DETERMINE a free port for %q near %d: %v\n",
 			name, defaultPort, err)
@@ -189,13 +191,50 @@ func run(args []string, stdout, stderr *os.File) int {
 // resolvePort implements the discover-or-allocate semantics documented in
 // the package comment above.
 func resolvePort(ctx context.Context, reg *serviceregistry.ServiceRegistry, name string, defaultPort int) (int, error) {
-	if svc, ok := reg.Get(name); ok && isFreeToBind(svc.Host, svc.Port) {
+	return resolvePortWith(ctx, reg, name, defaultPort, false)
+}
+
+// resolvePortWith is resolvePort with an optional UDP requirement. needUDP is
+// for servers that bind ONE port on TCP AND UDP (HTTPS + HTTP/3 advertise the
+// TCP port as the QUIC endpoint): FindAvailablePort tests TCP only, so without
+// this a port whose UDP side is held was handed out and the server came up
+// HTTP-only (measured 2026-09-22). With needUDP, a candidate — including the
+// name's own registered port — qualifies only if it is free on both.
+func resolvePortWith(ctx context.Context, reg *serviceregistry.ServiceRegistry, name string, defaultPort int, needUDP bool) (int, error) {
+	if svc, ok := reg.Get(name); ok && isFreeToBind(svc.Host, svc.Port) && (!needUDP || isUDPFree(svc.Host, svc.Port)) {
 		return svc.Port, nil
 	}
 
-	free := reg.FindAvailablePort(defaultPort)
+	// FindAvailablePort tests only the SOCKET. A port can be free to bind yet
+	// claimed in the registry by ANOTHER name whose process has exited — and
+	// Register (SR2-4) rightly refuses to hand it out twice. So a candidate
+	// claimed by another name is skipped here, and the claim is left intact;
+	// without this, one stale claim made the whole lookup fail (measured
+	// 2026-09-22: 8401 claimed by vasic-tests-vd_port blocked scripts/qa-up.sh).
+	claimed := map[int]bool{}
+	for otherName, svc := range reg.GetAll() {
+		if otherName != name {
+			claimed[svc.Port] = true
+		}
+	}
+	limit := defaultPort + 10000
+	free := 0
+	for start := defaultPort; start < limit; {
+		if err := ctx.Err(); err != nil {
+			return 0, err
+		}
+		candidate := reg.FindAvailablePort(start)
+		if candidate == 0 || candidate >= limit {
+			break
+		}
+		if !claimed[candidate] && (!needUDP || isUDPFree("", candidate)) {
+			free = candidate
+			break
+		}
+		start = candidate + 1
+	}
 	if free == 0 {
-		return 0, fmt.Errorf("no free port found in [%d, %d)", defaultPort, defaultPort+10000)
+		return 0, fmt.Errorf("no free, unclaimed port found in [%d, %d)", defaultPort, limit)
 	}
 	select {
 	case <-ctx.Done():
@@ -206,6 +245,20 @@ func resolvePort(ctx context.Context, reg *serviceregistry.ServiceRegistry, name
 		return 0, fmt.Errorf("register %s at port %d: %w", name, free, err)
 	}
 	return free, nil
+}
+
+// isUDPFree reports whether a UDP socket can bind host:port right now (bind,
+// then immediately close — the same probe isFreeToBind uses for TCP).
+func isUDPFree(host string, port int) bool {
+	if host == "" {
+		host = "localhost"
+	}
+	pc, err := net.ListenPacket("udp", net.JoinHostPort(host, strconv.Itoa(port)))
+	if err != nil {
+		return false
+	}
+	_ = pc.Close()
+	return true
 }
 
 // isFreeToBind mirrors serviceregistry's own isPortAvailable check (bind,

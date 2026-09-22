@@ -321,7 +321,7 @@ detect_weak_spots() {
 # gate bypasses, unquoted recursive deletes, and `eval` of a variable.
 detect_danger_zones() {
     DETECTOR_BASIS="in tracked shell source, outside comments: force-push, --no-verify, 'rm -rf' with an unquoted target, and 'eval' applied to a variable"
-    DETECTOR_RECALL="pattern-based; a harmful operation composed at runtime from parts is not matched"
+    DETECTOR_RECALL="pattern-based; a harmful operation composed at runtime from parts is not matched, and a line carrying a 'DANGER-OK:' marker is not reported (the marker is visible in the diff that adds it)"
     local f n text
     while IFS= read -r f; do
         [ -n "$f" ] || continue
@@ -329,6 +329,12 @@ detect_danger_zones() {
         while IFS=: read -r n text; do
             [ -n "${n:-}" ] || continue
             case "$(printf '%s' "$text" | sed 's/^[[:space:]]*//')" in '#'*) continue ;; esac
+            # A line that carries a harmful pattern as DATA (a guard's probe, a
+            # synthetic fixture) is marked `DANGER-OK: <reason>` ON THAT LINE —
+            # the line-level twin of §11.4.3's SKIP-OK. A file-scope exclusion
+            # was tried first (2026-09-22) and replaced: it would also have
+            # hidden a REAL force-push added to that file later.
+            case "$text" in *DANGER-OK:*) continue ;; esac
             printf 'danger-zones\t%s\t%s\t%s\t\n' "$f" "$n" "$(jsan "$text")"
         # `-[a-zA-Z]*r` requires the RECURSIVE flag: `rm -f <literal>` deletes
         # one named file and is not the danger this class names. Matching it
@@ -367,8 +373,8 @@ detect_todo_fixme() {
 # the file level — this repository has a tracked, deliberately-disabled CI
 # workflow, and it must appear here rather than be quietly forgotten.
 detect_skipped_tests() {
-    DETECTOR_BASIS="skip constructs (.skip(, xit(, xdescribe(, t.Skip(, @pytest.mark.skip, playwright testIgnore) without a SKIP-OK marker on the same line, plus tracked '*.disabled' files"
-    DETECTOR_RECALL="a test that passes vacuously, or a gate whose assertions were deleted rather than skipped, is not a 'skip' and is not reported"
+    DETECTOR_BASIS="skip constructs (.skip(, xit(, xdescribe(, t.Skip(, @pytest.mark.skip) without a SKIP-OK marker on the same line, a 'testIgnore:' key in a playwright*.config.* file, plus tracked '*.disabled' files"
+    DETECTOR_RECALL="a test that passes vacuously, or a gate whose assertions were deleted rather than skipped, is not a 'skip' and is not reported. RECALL COST of the 2026-09-22 testIgnore precision fix: testIgnore is matched only as a line-leading key in a playwright*.config.* file, so a testIgnore inside a one-line project object ({ name: 'x', testIgnore: /y/ }) or in a Playwright config under another file name is not reported"
     local f n text
     while IFS= read -r f; do
         [ -n "$f" ] || continue
@@ -377,8 +383,23 @@ detect_skipped_tests() {
             [ -n "${n:-}" ] || continue
             case "$text" in *SKIP-OK:*) continue ;; esac
             printf 'skipped-tests\t%s\t%s\t%s\t\n' "$f" "$n" "$(jsan "$text")"
-        done < <(grep -nE '(test|it|describe)\.skip\(|\bxit\(|\bxdescribe\(|\bt\.Skip\(|@pytest\.mark\.skip|testIgnore' "$ROOT/$f" 2>/dev/null || true)
+        done < <(grep -nE '(test|it|describe)\.skip\(|\bxit\(|\bxdescribe\(|\bt\.Skip\(|@pytest\.mark\.skip' "$ROOT/$f" 2>/dev/null || true)
     done < <(scan_source | drop_self)
+
+    # `testIgnore` is a SKIP only where Playwright reads it: as a key in a
+    # playwright*.config.* file. Matching the bare word anywhere (as this
+    # detector did until 2026-09-22) counted comments ABOUT testIgnore and code
+    # that HONOURS a config's testIgnore — measured: 8 of 17 findings, none of
+    # them a skipped test.
+    while IFS= read -r f; do
+        [ -n "$f" ] || continue
+        [ -f "$ROOT/$f" ] || continue
+        while IFS=: read -r n text; do
+            [ -n "${n:-}" ] || continue
+            case "$text" in *SKIP-OK:*) continue ;; esac
+            printf 'skipped-tests\t%s\t%s\t%s\t\n' "$f" "$n" "$(jsan "$text")"
+        done < <(grep -nE '^[[:space:]]*testIgnore[[:space:]]*:' "$ROOT/$f" 2>/dev/null || true)
+    done < <(scan_source | drop_self | grep -E '(^|/)playwright[^/]*\.config\.[cm]?[jt]s$' || true)
 
     while IFS= read -r f; do
         [ -n "$f" ] || continue
@@ -795,6 +816,15 @@ EOS
     printf 'scanroot\tscripts\n' > "$d/scripts/check-registry.tsv"
     printf 'exempt\tscripts/clean.sh\tfixture entry point\n' >> "$d/scripts/check-registry.tsv"
     printf 'exempt\tscripts/check-registry.tsv\tfixture registry file\n' >> "$d/scripts/check-registry.tsv"
+    printf 'exempt\tscripts/verify-pretooluse-guard.sh\tfixture probe carrier\n' >> "$d/scripts/check-registry.tsv"
+
+    # Both flavours: things that are NOT findings and must stay unreported.
+    # A probe-carrying guard validator (danger-zones exclusion), a comment that
+    # merely mentions testIgnore, and code that reads a config's testIgnore key.
+    printf '#!/usr/bin/env bash\nset -u\nwhile read -r p; do :; done <<'"'"'PROBES'"'"'\ngit push --for''ce origin main|DANGER''-OK: probe data\nPROBES\n' > "$d/scripts/verify-pretooluse-guard.sh"
+    chmod +x "$d/scripts/verify-pretooluse-guard.sh"
+    printf '// the config below honours testIgnore; this comment is not a skip\n' > "$d/tests/comment.js"
+    printf 'const cfg = { testIgnore: c.testIgnore || null };\n' > "$d/tests/reader.js"
 
     if [ "$flavour" = "bad" ]; then
         # 1 shortcomings
@@ -810,6 +840,14 @@ EOS
         # 6 skipped-tests
         printf 'test.skip("unfinished", () => {});\n' > "$d/tests/skip.js"
         printf 'inert\n' > "$d/scripts/thing.sh.disabled"
+        # a REAL skip declaration: testIgnore as a key in a Playwright config
+        printf 'module.exports = {\n  testIgnore: /flaky\\.spec\\.js/,\n};\n' > "$d/tests/playwright.config.js"
+        # an UNMARKED force-push in the very file that carries marked probes
+        printf 'git push --for''ce origin main\n' >> "$d/scripts/verify-pretooluse-guard.sh"
+        # the same basename elsewhere, unmarked, is of course caught too
+        mkdir -p "$d/other"
+        printf '#!/usr/bin/env bash\nset -u\ngit push --for''ce origin main\n' > "$d/other/verify-pretooluse-guard.sh"
+        printf 'exempt\tother/verify-pretooluse-guard.sh\tfixture\n' >> "$d/scripts/check-registry.tsv"
         # 7 bluffs
         printf 'check\tghost\tscripts/ghost.sh\tnone\tx\ty\n' >> "$d/scripts/check-registry.tsv"
         # 8 unresolved
@@ -866,6 +904,36 @@ selftest() {
             printf '  ❌ golden-bad       %-24s planted finding NOT detected (got %s)\n' "$cls" "$b"; fail=$((fail+1))
         fi
     done
+
+    # ---- targeted: the 2026-09-22 false-positive fixes ------------------------
+    # The per-class counts above cannot tell WHICH planted line was found, so a
+    # fix that silenced the real Playwright skip, or widened the danger-zones
+    # exclusion to a basename, would still pass them. These name the lines.
+    local saved_root="$ROOT" hits
+    ROOT="$tmp/golden-bad"
+    hits="$(detect_skipped_tests | cut -f2)"
+    if printf '%s\n' "$hits" | grep -qx 'tests/playwright.config.js'; then
+        printf '  ✅ targeted         a testIgnore KEY in playwright.config.js is still a skip\n'; pass=$((pass+1))
+    else
+        printf '  ❌ targeted         testIgnore key in playwright.config.js NOT reported\n'; fail=$((fail+1))
+    fi
+    if printf '%s\n' "$hits" | grep -qE '^tests/(comment|reader)\.js$'; then
+        printf '  ❌ targeted         a testIgnore mention outside a config was reported as a skip\n'; fail=$((fail+1))
+    else
+        printf '  ✅ targeted         testIgnore in a comment / non-config code is not a skip\n'; pass=$((pass+1))
+    fi
+    hits="$(detect_danger_zones | cut -f2)"
+    if [ "$(printf '%s\n' "$hits" | grep -cx 'scripts/verify-pretooluse-guard.sh')" = 1 ]; then
+        printf '  ✅ targeted         in one file: the DANGER-OK-marked probe is skipped, the UNMARKED force-push is caught\n'; pass=$((pass+1))
+    else
+        printf '  ❌ targeted         marked/unmarked lines in the probe carrier not told apart (got %s rows)\n' "$(printf '%s\n' "$hits" | grep -cx 'scripts/verify-pretooluse-guard.sh')"; fail=$((fail+1))
+    fi
+    if printf '%s\n' "$hits" | grep -qx 'other/verify-pretooluse-guard.sh'; then
+        printf '  ✅ targeted         an unmarked force-push under the same basename elsewhere is caught\n'; pass=$((pass+1))
+    else
+        printf '  ❌ targeted         an unmarked force-push elsewhere was missed\n'; fail=$((fail+1))
+    fi
+    ROOT="$saved_root"
 
     # ---- negative-control ---------------------------------------------------
     # Without this, every assertion above could be satisfied by a detector that

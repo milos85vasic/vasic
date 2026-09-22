@@ -204,7 +204,9 @@ verify_tree() {
                              # name. It did, and the mutation battery's own
                              # report went blank until this line was added.
       # Each probe names a class §11.4.109(A) makes mandatory.
-      while IFS='|' read -r label cmd; do
+      # A third '|' field carries the zero-findings `DANGER-OK:` marker; reading
+      # it into `_marker` keeps the command sent to the guard byte-identical.
+      while IFS='|' read -r label cmd _marker; do
         [ -n "$label" ] || continue
         p="$(printf '{"tool_name":"Bash","tool_input":{"command":"%s"}}' "$cmd")"
         printf '%s' "$p" | bash "$guard_path" >/dev/null 2>&1
@@ -214,9 +216,9 @@ verify_tree() {
           detail="${detail}${detail:+, }$label(rc=$rc)"
         fi
       done <<'PROBES'
-force-push|git push --force origin main
-force-with-lease|git push --force-with-lease origin main
-no-verify|git push --no-verify origin main
+force-push|git push --force origin main|DANGER-OK: probe DATA piped to the guard's stdin, never executed
+force-with-lease|git push --force-with-lease origin main|DANGER-OK: probe DATA piped to the guard's stdin, never executed
+no-verify|git push --no-verify origin main|DANGER-OK: probe DATA piped to the guard's stdin, never executed
 privilege-escalation|sudo apt-get install something
 host-power|systemctl suspend
 PROBES
@@ -396,7 +398,7 @@ PY
 p="$(cat)"
 case "$p" in
   *'guardrails:allow'*) exit 0 ;;
-  *'--force'*|*'--no-verify'*|*sudo*|*suspend*) exit 2 ;;
+  *'--force'*|*'--no-verify'*|*sudo*|*suspend*) exit 2 ;;  # DANGER-OK: pattern inside a synthetic guard fixture
 esac
 exit 0
 EOF

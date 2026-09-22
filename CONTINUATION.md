@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-09T00:00:00Z
-    Synced-Commit: 3922e35c12c3
+    Last-Updated: 2026-09-22T21:00:00Z
+    Synced-Commit: 4e95446a1141
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,91 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### MANUAL-QA BOOT + DYNAMIC PORTS + SEVEN GATES TAKEN BACK TO GREEN, 2026-09-22
+
+**State at hand-off: COMMITTED AND PUSHED on the operator's instruction.** The
+`ai_interviewing` fix is `db3bee2` on that submodule's `main` (pushed as a
+fast-forward from `0861f64`); the umbrella commit carries the gitlink bump and
+the matching `helix-deps.yaml` ref together (C9). Re-derive with `git log -1`
+and `git -C ai_interviewing log -1`.
+
+**Resume the QA stack with ONE command** — it is idempotent and reuses anything
+it already started:
+
+    bash scripts/qa-up.sh            # prints SERVICE / URL for vd, mv, workshop, ai
+    bash scripts/qa-up.sh --stop     # stops ONLY what qa-up.sh itself started
+
+Ports are DISCOVERED through `_tools/containers/cmd/port-discover` (Containers
+Submodule `pkg/serviceregistry`, §11.4.76) and recorded in
+`.service-registry/services.json` under `vasic-qa-*`; never quote a port from
+this file. On the hand-off run they were vd 8402, mv 8089, workshop 8087,
+ai 8099 + HTTPS 8445 — 8401/8084 are claimed by the Playwright harness's own
+registry names and 8443 is held by an unrelated `helixllm`.
+
+**What changed, each with its evidence taken this session:**
+
+1. `scripts/qa-up.sh` (NEW, registered `exempt` lifecycle tool). Ownership of a
+   static server = the kernel's listener pid (`ss -ltnp`), not "something
+   answers"; workshop/ai are adopted only when the listener is the right
+   program and (ai) HTTPS came up; `--stop` touches only stacks carrying a
+   `.started` marker, granted only when a NEW process was started. Two
+   independent reviews (NO-GO, NO-GO) found F1-F6 and NEW-1..5; every one was
+   reproduced RED and closed GREEN in an isolated `QA_AI_HOME` sandbox with a
+   tripwire on the live instance. **Incident, owned:** one sandbox `--stop`
+   stopped the LIVE ai_interviewing (the stop path ignored `QA_AI_HOME`); it
+   was restored on the same URLs within ~2 min and the cause fixed (one
+   `AI_HOME` definition used by both paths).
+2. `_tools/containers/cmd/port-discover`: skips ports CLAIMED by another
+   registry name (Register SR2-4 refused them and the whole lookup failed);
+   consults `ctx.Err()` inside the scan; new `-udp` flag requires TCP AND UDP
+   free (HTTPS + HTTP/3 share one port). Tests added, each mutation-checked RED
+   then GREEN; `go test -race` clean.
+3. `ai_interviewing/platform/scripts/start.sh` (SUBMODULE, uncommitted there):
+   a health-timeout `fail()` now stops the process it launched — it used to
+   delete the pidfile and ORPHAN a serving server that `stop.sh` then could
+   not stop. RED/GREEN reproduced in the sandbox. Returns to this repo as a
+   gitlink bump — an operator decision.
+4. `_tools/review-translations.sh`: exited 0 even with FAILs and 1 when it
+   could not run. Now 0/1/2 with FAIL > ERROR precedence, plus a 9-mutation
+   `--prove-failure`; the registry row `translation-review` promoted
+   `debt` -> `check` (registry: 82 PASS / 0 FAIL / 0 DEBT).
+5. `scripts/audit/zero_findings_sweep.sh`: two detector false positives fixed
+   (bare `testIgnore` anywhere; guard-validator probe data as danger), each
+   with golden fixtures and two mutation checks; ratchet LOWERED 26 -> 23
+   (§11.4.261(C)), ledger re-snapshotted, README badges regenerated with
+   `scripts/badges/compute_badges.sh --write`.
+6. `_tools/deploy-langs.sh`: third Jekyll runner (containerised `site-build`)
+   when no host Jekyll exists; mapped onto the same three-valued build gate.
+7. `helix-deps.yaml` workshop ref resynced to the committed gitlink `c4dec26`
+   (`scripts/verify-manifest-pins.sh --fix`); four carriers + README + 
+   `docs/claim-ledger.tsv` corrected so every recorded claim re-measures true.
+8. `milosvasic.ru/_site` rebuilt in a container (705 pages; 525/525 sitemap
+   URLs 200); workshop binaries rebuilt from clean HEAD without any package
+   install (the running server was PROVED byte-identical to committed source
+   except its build-id notes, so it was not restarted).
+
+**Round-3 independent review: GO, and its four low findings were fixed anyway**
+(plus one pre-existing issue it flagged): `owned_pid` now also requires the
+served `--directory` (a recycled pid record could name another http.server on
+the same port — reproduced, then shown fixed); the danger-zones FILE-scope
+exclusion was REPLACED by a line-level `DANGER-OK:` marker so a real
+force-push added to `scripts/verify-pretooluse-guard.sh` would still be caught
+(guard validator re-run 8 PASS, its battery green); the skipped-tests recall
+cost of the `testIgnore` precision fix is now printed; the proof's GNU-only
+`sed -i` is gone; and `review-translations.sh` no longer reuses a cached PASS
+older than the texts it judged (mutation M10, 12/12).
+
+**Gates at hand-off (re-run, never quote):** check-registry 0, manifest-pins 0,
+governance-cascade C5/C9 PASS, claim-ledger 0, zero-findings sweep 0 (23 <= 23).
+
+**OPEN — operator actions, not done:**
+- WebKit cannot launch (gate 6 preflight rc 2): run
+  `sudo apt-get install -y libmanette-0.2-0 libwoff1` (Ubuntu 26.04 names).
+  The agent was given authority to run it and did NOT: the §11.4.109
+  PreToolUse guard refused `sudo` ("BLOCKED — §6.U no-sudo"), which is the
+  guard doing its job. It is an operator command, run from the operator's shell.
+- HawkScan post-commit hook fired but `HAWK_API_KEY` is unset on this host.
 
 ### EIGHT TRACKED FILES ASSERTED A GAP THAT UPSTREAM HAD ALREADY CLOSED, 2026-09-09
 

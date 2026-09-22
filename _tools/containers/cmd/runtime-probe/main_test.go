@@ -2,8 +2,10 @@ package main
 
 import (
 	"errors"
+	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -49,11 +51,9 @@ func TestParsePriority(t *testing.T) {
 // and a build that silently reported "podman" regardless of the environment
 // would fail it.
 func TestExitCodesAreThreeValued(t *testing.T) {
-	if _, err := exec.LookPath("go"); err != nil {
-		t.Skip("no go toolchain on PATH; cannot build the binary under test")
-	}
+	goBin := goTool(t)
 	bin := filepath.Join(t.TempDir(), "runtime-probe")
-	build := exec.Command("go", "build", "-o", bin, ".")
+	build := exec.Command(goBin, "build", "-o", bin, ".")
 	if out, err := build.CombinedOutput(); err != nil {
 		t.Fatalf("go build: %v\n%s", err, out)
 	}
@@ -116,4 +116,23 @@ func runBinOut(t *testing.T, bin string, env []string, args ...string) (string, 
 		t.Fatalf("running %s %v: %v", bin, args, err)
 	}
 	return string(out), 0
+}
+
+// goTool locates the Go toolchain that is running this test. `go test` IS the
+// toolchain, so it can always be found — on PATH, or under runtime.GOROOT()
+// when the test binary was launched with a PATH that lacks it. Not finding it
+// means the environment is broken, which is a FAILURE to report, not a reason
+// to SKIP (a skip here was counted by the zero-findings sweep as a skipped
+// test, and it could only ever hide that breakage).
+func goTool(t *testing.T) string {
+	t.Helper()
+	if p, err := exec.LookPath("go"); err == nil {
+		return p
+	}
+	p := filepath.Join(runtime.GOROOT(), "bin", "go") //nolint:staticcheck // GOROOT of the running toolchain is exactly what is wanted here
+	if _, err := os.Stat(p); err == nil {
+		return p
+	}
+	t.Fatalf("go test is running but no go toolchain can be located (not on PATH, not at %s)", p)
+	return ""
 }

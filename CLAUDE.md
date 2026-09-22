@@ -303,7 +303,7 @@ git -C submodules/constitution rev-parse HEAD                   # the local pin
 git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD
 git -C submodules/constitution rev-parse HEAD:Constitution.md   # blob identity
 grep -c '^### §' submodules/constitution/Constitution.md        # 255
-wc -l < submodules/constitution/Constitution.md                 # 11794
+wc -l < submodules/constitution/Constitution.md                 # 11814 (re-measured 2026-09-22 at pin 61b0c69; 11794 SUPERSEDED)
 bash scripts/verify-manifest-pins.sh                            # 0 = ref == gitlink
 ```
 
@@ -840,7 +840,7 @@ agent does not have to guess. The authoritative source for each is `README.md`.
 
 ### Owned submodules
 
-`.gitmodules` declares **14** gitlinks (measured 2026-09-01). **11** are owned
+`.gitmodules` declares **22** gitlinks (re-measured 2026-09-22; the 14 measured 2026-09-01 is SUPERSEDED, and the roster sentence that follows is the 2026-09-01 roster — re-derive the current one with the commands below rather than reading it). **11** are owned
 consumers of the governance cascade: `milosvasic.ru`, `vasic.digital`,
 `design-toolkit`, `ai_interviewing`, `monetization`, `workshop`,
 `submodules/containers`, `submodules/LLMProvider`, `submodules/RAG`,
@@ -1003,7 +1003,7 @@ false in the direction that flattered the tree.**
 
 - *"The submodule is present for the workload `specs/001-…` plans."* **It has a
   real consumer now.** `_tools/containers/` was committed 2026-09-03 (`460266c`)
-  with **18** tracked files as re-measured 2026-09-09 — among them `go.mod`
+  with **21** tracked files as re-measured 2026-09-22 (18 on 2026-09-09, SUPERSEDED) — among them `go.mod`
   requiring `digital.vasic.containers`, `go.sum`, `cmd/site-build/main.go`,
   `compose/compose.sites.yml` and `compose/jekyll-build.sh`. **The "7 tracked
   files" this sentence carried is WITHDRAWN BY MEASUREMENT, and it was true when
@@ -2070,6 +2070,43 @@ A figure of "86" circulates for this suite. It is a Playwright **test-case pass
 count** ("86 passed / 2 failed") observed across the four-spec live run — not a
 count of assertions in the three deferred specs, which is 97. Both are real;
 they do not measure the same thing.
+
+**RE-MEASURED 2026-09-22 — THE FRAGMENT DEFECT BELOW IS CLOSED, AND ITS
+HEADLINE CLAIMS ARE WITHDRAWN AS CURRENT. They were true when written.**
+*"`_site` simply holds 8 tracked files and exactly one rendered page"*,
+*"Served alone it answers 1 of 525 sitemap URLs"* and *"Jekyll cannot build on
+this host at all"* no longer describe this tree. What changed is the BUILD PATH,
+not the host: `bundle`, `bundler` and `jekyll` are STILL absent from PATH, but
+`_tools/containers/bin/site-build -workload jekyll` builds the site inside the
+`ruby:3.3` image (Debian 13) through the Containers Submodule (§11.4.76), with
+gems in the named volume `vasic-sites_jekyll-bundle`, and itself asserts a
+FRESH `_site/index.html`. Measured 2026-09-22:
+
+```bash
+_tools/containers/bin/site-build -workload jekyll -build-year 2026   # rc 0, "wrote 807 file(s)", footer "© 2026"
+find milosvasic.ru/_site -name '*.html' | wc -l                        # 705
+# every sitemap URL served from _site: 525 / 525 HTTP 200, all 525 carry a <title>
+node _tests/preflight.js                                               # rc 2 — "routes checked: 66", no route failure
+```
+
+**Gate 6's remaining blocker is WEBKIT, not the site.** The preflight now fails
+on exactly one line — `browser BLOCKED webkit: Host system is missing
+dependencies`; chromium and firefox launch. The host is **Ubuntu 26.04 LTS**
+(an earlier comment in `_tools/containers/compose/jekyll-build.sh` called it
+ALT Linux; corrected), and the missing system libraries are exactly
+`libmanette-0.2-0` and `libwoff1` (every other `ldd` "not found" is bundled by
+Playwright). Remedy — a host package install, therefore an OPERATOR action:
+`sudo apt-get install -y libmanette-0.2-0 libwoff1`.
+
+**`_tools/deploy-langs.sh` gained a THIRD Jekyll runner the same day**: with no
+host `jekyll` and no working `bundle exec jekyll` it now calls `site-build`
+instead of ending the step as COULD NOT RUN, mapping its exit onto the same
+three-valued build gate (1 -> `build_fail`, 2 -> `build_undet`);
+`--prove-build-fatality` still passes 7 assertions. **Local QA entry point:**
+`bash scripts/qa-up.sh` boots vasic.digital, milosvasic.ru (rebuilt when stale),
+the workshop platform and ai_interviewing on ports discovered through
+`_tools/containers/cmd/port-discover`; re-derive rather than trusting any port
+number written anywhere.
 
 **OPEN DEFECT, recorded and NOT fixed — gate 6 validates a FRAGMENT for
 `milosvasic.ru`, and a failing build step is silently tolerated. The word
