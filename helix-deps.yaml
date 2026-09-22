@@ -212,7 +212,7 @@ deps:
   # ─── Infrastructure library submodule (grouped layout, submodules/<name>/) ─
   - name: containers
     ssh_url: git@github.com:vasic-digital/containers.git
-    ref: "9b4d1f6616e4692def7d2d96da14bb2af85872b8"   # gitlink tracks heads/main; tags exist upstream but none names this commit, so a sha is the only exact pin; spec-008 T106: host-shaped hardcoded paths removed from 13 test/doc files
+    ref: "4a8f04e05f3535d77c48f69b89687f9fcc896fbf"   # gitlink tracks heads/main; tags exist upstream but none names this commit, so a sha is the only exact pin; spec-008 T106: host-shaped hardcoded paths removed from 13 test/doc files
     # ⚠ STAGED, NOT YET COMMITTED (2026-09-01). This gitlink is
     # `git submodule add`-ed and staged, so `git ls-tree HEAD
     # submodules/containers` is still empty. That is precisely why

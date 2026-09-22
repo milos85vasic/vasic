@@ -554,9 +554,12 @@ the STANDING authorization's terms: ancestor TRUE, 0 divergent / 3 behind,
 tooling, the nested design-toolkit gitlink) and NOT Constitution.md, which is
 the SAME blob 77388e60cfaa on both sides (11,814 lines, 255 anchors,
 1,812,355 bytes, sha256 49b6a2cc7ab3c0d9). Gitlink and helix-deps ref moved
-together. `submodules/containers` is ALSO behind its remote (9b4d1f6 vs
-4a8f04e, direction undetermined) and was NOT bumped: that gitlink needs its own
-operator decision.
+together. `submodules/containers` was then fast-forwarded 9b4d1f6 -> 4a8f04e on
+an explicit per-bump OPERATOR decision (it is outside the standing
+authorization): ancestor TRUE, 0 divergent / 2 behind, --ff-only; the two
+commits add `pkg/network` ListenEphemeral and emulator-matrix flags and touch
+none of serviceregistry / runtime / compose; every `_tools/containers` consumer
+rebuilt and `go test -race` green on the new pin; qa-up.sh re-verified live.
 
 **Gates at hand-off (re-run, never quote):** check-registry 0, manifest-pins 0,
 governance-cascade C5/C9 PASS, claim-ledger 0, zero-findings sweep 0 (23 <= 23).
