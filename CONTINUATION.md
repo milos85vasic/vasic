@@ -548,6 +548,16 @@ cost of the `testIgnore` precision fix is now printed; the proof's GNU-only
 `sed -i` is gone; and `review-translations.sh` no longer reuses a cached PASS
 older than the texts it judged (mutation M10, 12/12).
 
+**Constitution pin fast-forwarded 61b0c69 -> 10aa984 the same evening**, under
+the STANDING authorization's terms: ancestor TRUE, 0 divergent / 3 behind,
+`git merge --ff-only`; diff --stat 7 files (+346/-3: gate scripts, skill
+tooling, the nested design-toolkit gitlink) and NOT Constitution.md, which is
+the SAME blob 77388e60cfaa on both sides (11,814 lines, 255 anchors,
+1,812,355 bytes, sha256 49b6a2cc7ab3c0d9). Gitlink and helix-deps ref moved
+together. `submodules/containers` is ALSO behind its remote (9b4d1f6 vs
+4a8f04e, direction undetermined) and was NOT bumped: that gitlink needs its own
+operator decision.
+
 **Gates at hand-off (re-run, never quote):** check-registry 0, manifest-pins 0,
 governance-cascade C5/C9 PASS, claim-ledger 0, zero-findings sweep 0 (23 <= 23).
 
