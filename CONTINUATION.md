@@ -519,6 +519,8 @@ never exercised /api/plans. The QA banks were also repaired (they had broken whe
 new standing check `scripts/verify-shell-continuations.sh`); 29 workshop gate
 fixes (gates that graded only 401s or only the login page) — workshop `a31729d`.
 
+**Constitution pin fast-forwarded again, 10aa984 -> 6f6fb55** (standing authorization; ancestor TRUE, 0 divergent / 2 behind, --ff-only): 2 files, both the upstream `cm_dangerous_combination_fail_closed` gate + its new mutation test (+846/-46); Constitution.md the SAME blob 77388e60cfaa on both sides (11,814 lines, 255 anchors).
+
 **OPEN — operator decisions, recorded, not taken:**
 - Workshop crossrefs 503 on generation 15: the prebuilt bundle covers gen 12;
   regenerating needs the host model + a re-embed of 33,278 passages on a copy

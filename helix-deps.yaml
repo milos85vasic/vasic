@@ -123,7 +123,7 @@ deps:
   # ─── Governance submodule (grouped layout, submodules/<name>/) ──────────
   - name: constitution
     ssh_url: git@github.com:HelixDevelopment/HelixConstitution.git
-    ref: "10aa984c2208d30760c20d62635eaa39eec5af80"   # gitlink tracks helixconstitution's main; no tag names this commit, so a sha is the only exact pin
+    ref: "6f6fb555f42abb9dde6e7d2ca8bf2d77036448c1"   # gitlink tracks helixconstitution's main; no tag names this commit, so a sha is the only exact pin
     # REF FIELD RESYNCED 2026-09-19: this field had drifted from the live gitlink,
     # which the umbrella's own commit 026a95e ("gitlink: bump constitution —
     # §11.4.184(I) HawkScan/ZAP/gitleaks/Trivy security tooling") had already
