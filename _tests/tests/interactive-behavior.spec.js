@@ -144,7 +144,7 @@ async function collectBrokenImages(page) {
   // Force any lazy images to start loading, then wait for decode.
   await page.evaluate(async () => {
     for (const img of document.querySelectorAll('img')) {
-      try { img.loading = 'eager'; } catch (e) {}
+      try { img.loading = 'eager'; } catch (e) { console.warn('[collectBrokenImages] could not force eager load on', img.currentSrc || img.src, String(e)); }
     }
     window.scrollTo(0, document.body.scrollHeight);
   });

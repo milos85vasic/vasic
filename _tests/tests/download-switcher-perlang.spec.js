@@ -25,7 +25,7 @@ test.describe('milosvasic.ru — download popup honours the current UI language'
     test(`UI lang = ${ui} → CV popup pre-selects ${PDF} and it resolves 200`, async ({ page }) => {
       // Set the UI language BEFORE first paint (same mechanism the site uses:
       // localStorage "mv-lang" applied to <html lang> by the head bootstrap).
-      await page.addInitScript((l) => { try { localStorage.setItem('mv-lang', l); } catch (e) {} }, ui);
+      await page.addInitScript((l) => { try { localStorage.setItem('mv-lang', l); } catch (e) { console.warn('[init] localStorage.setItem(mv-lang) failed in', location.href, String(e)); } }, ui);
       await page.goto(MV);
       await expect(page.locator('html')).toHaveAttribute('lang', ui);
 

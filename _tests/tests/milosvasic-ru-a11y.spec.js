@@ -118,7 +118,8 @@ test.describe('milosvasic.ru — accessibility', () => {
             }
           }
         } catch (e) {
-          // Cross-origin stylesheets may throw — skip them
+          // Cross-origin stylesheets may throw — skip them, but say so (§11.4.252)
+          console.warn('[reduced-motion] skipped unreadable stylesheet', sheet.href, String(e));
         }
       }
       return false;

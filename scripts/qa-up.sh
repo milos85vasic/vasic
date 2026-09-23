@@ -91,17 +91,26 @@ mkdir -p "$STATE_DIR"
 # ss is needed by BOTH the start and the --stop paths (ownership = listener pid).
 command -v ss   >/dev/null 2>&1 || undetermined "ss absent; cannot prove which process owns a port"
 
+# ---- /proc read that is silent when the pid has already exited ----
+# `tr < /proc/$pid/cmdline 2>/dev/null` is NOT silent: bash opens the `<` file
+# first and reports its failure to the ORIGINAL stderr, so a pid that exits
+# between the liveness check and the read printed "No such file or directory".
+# The read runs inside a group whose stderr is closed BEFORE the redirect opens.
+proc_cmdline() {   # $1 pid, $2 tr replacement for NUL -> cmdline on stdout, rc 1 if gone
+    { tr '\0' "$2" < "/proc/$1/cmdline"; } 2>/dev/null
+}
+
 # ---- ownership: is the pid in <svc>.pid OUR static server on <svc>.port? ----
 owned_pid() {   # prints pid if the recorded process is alive AND is ours
     local svc="$1" pid port root
     pid="$(cat "$STATE_DIR/$svc.pid" 2>/dev/null)" || return 1
     port="$(cat "$STATE_DIR/$svc.port" 2>/dev/null)" || return 1
     [ -r "/proc/$pid/cmdline" ] || return 1
-    tr '\0' ' ' < "/proc/$pid/cmdline" | grep -q -- "http.server $port " || return 1
+    proc_cmdline "$pid" ' ' | grep -q -- "http.server $port " || return 1
     # ...and serving OUR directory: a stale/recycled pid record can otherwise
     # name ANOTHER python http.server on the same port (found by round-3 review).
     root="$(cat "$STATE_DIR/$svc.root" 2>/dev/null)" || return 1
-    tr '\0' '\n' < "/proc/$pid/cmdline" | grep -qxF -- "$root" || return 1
+    proc_cmdline "$pid" '\n' | grep -qxF -- "$root" || return 1
     # Alive-and-named is not ownership: a process that is about to fail its
     # bind looks exactly like that while a FOREIGN program already holds the
     # port. Ownership is the kernel's answer — the pid owning the listener.
@@ -314,7 +323,7 @@ ai_check() {    # prints "OK <addr> <https>" | "HALF <addr> <tls_error>" | "NO"
     local pid addr port https tlserr
     pid="$(json_num "$ai_state" pid)"; addr="$(json_str "$ai_state" http)"
     [ -n "$pid" ] && [ -n "$addr" ] || { echo NO; return; }
-    tr '\0' ' ' < "/proc/$pid/cmdline" 2>/dev/null | grep -q -- "/bin/aicur " || { echo NO; return; }
+    proc_cmdline "$pid" ' ' | grep -q -- "/bin/aicur " || { echo NO; return; }
     port="$(url_port "$addr")"
     [ -n "$port" ] && [ "$(listener_pid_any "$port")" = "$pid" ] || { echo NO; return; }
     answers "$addr/api/health" || { echo NO; return; }

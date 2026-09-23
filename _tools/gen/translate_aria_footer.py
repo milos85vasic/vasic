@@ -6,7 +6,7 @@ nor _tools/translate/. Writes a combined translations file + per-lang review
 verdicts under _tests/evidence/aria-footer-l10n/. A separate merge step wires
 the values into the three destinations.
 """
-import json, os, re, time, urllib.request, urllib.error
+import json, os, re, sys, time, urllib.request, urllib.error
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 EV = os.path.abspath(os.path.join(HERE, "..", "..", "_tests", "evidence", "aria-footer-l10n"))
@@ -198,7 +198,8 @@ def retry_key(name, key, guidance=""):
     )
     try:
         return parse_json(call(TRANSLATOR, system, user, temperature=0.2, provider=TRANSLATOR_PROVIDER)).get("value", "")
-    except Exception:
+    except Exception as e:
+        print(f"[translate_aria_footer.py] WARN retry_key: translator call/parse failed; returning empty value (caller treats it as untranslated): {type(e).__name__}: {e}", file=sys.stderr)  # §11.4.252: failure made visible, fallback unchanged
         return ""
 
 
@@ -211,12 +212,14 @@ def main():
     if os.path.exists(TRANS_PATH):
         try:
             out.update(json.load(open(TRANS_PATH, encoding="utf-8")))
-        except Exception:
+        except Exception as e:
+            print(f"[translate_aria_footer.py] WARN main (resume): cannot parse {TRANS_PATH!r}; resuming WITHOUT prior translations: {type(e).__name__}: {e}", file=sys.stderr)  # §11.4.252: failure made visible, fallback unchanged
             pass
     if os.path.exists(SUM_PATH):
         try:
             summary.update(json.load(open(SUM_PATH, encoding="utf-8")))
-        except Exception:
+        except Exception as e:
+            print(f"[translate_aria_footer.py] WARN main (resume): cannot parse {SUM_PATH!r}; resuming WITHOUT prior summary: {type(e).__name__}: {e}", file=sys.stderr)  # §11.4.252: failure made visible, fallback unchanged
             pass
     for lang, name in LANGS.items():
         if lang in out and all(k in out[lang] and out[lang][k] for k in KEYS):

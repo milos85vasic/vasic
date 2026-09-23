@@ -65,7 +65,9 @@ for (const site of SITES) {
         els[i].setAttribute('data-test-below', '1');
         return els[i].classList.contains('is-visible') ? 1 : 0;
       });
-      test.skip(below === -1, 'this page has no reveal below the fold to exercise');
+      // A CONTROL that can skip proves nothing (§11.4.201 / §11.4.252): if the page
+      // has no below-the-fold reveal, the control cannot run, and that must be red.
+      expect(below, 'CONTROL precondition: the page must have a below-the-fold reveal to exercise').not.toBe(-1);
       expect(below, 'a below-the-fold reveal must NOT be pre-revealed').toBe(0);
       await page.locator('[data-test-below="1"]').scrollIntoViewIfNeeded();
       await expect(page.locator('[data-test-below="1"]')).toHaveClass(/is-visible/);

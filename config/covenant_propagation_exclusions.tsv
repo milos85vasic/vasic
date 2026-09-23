@@ -1,0 +1,38 @@
+# covenant_propagation_exclusions.tsv — consumer-declared carrier exclusions for the
+# constitution's covenant-propagation gate family (cm_covenant_114_N_propagation.sh).
+#
+# Format (read by submodules/constitution/scripts/gates/lib/covenant_propagation_engine.sh):
+#   <find -path glob> TAB <class> TAB <justification>
+# The class MUST come from the engine's closed set
+#   {vendored-third-party | generated-code | non-shipping-fixtures | filename-collision};
+# a row without a justification, or with any other class, makes every gate return 2
+# (BLIND) — fail closed. Every applied row is PRINTED by every gate on every run
+# ("⊘ EXCLUDED"), so this file narrows the audited set VISIBLY, never silently.
+# Globs are matched against the ABSOLUTE path `find` prints, hence the leading `*/`.
+#
+# Operator decision 2026-09-23: fix the propagation-gate FAILs by DECLARED, REASONED
+# EXCLUSION — reversible (delete a row to re-audit), and NOT by deleting any tree or
+# de-initialising any submodule. Nothing listed here is authored by this umbrella.
+# Re-derive every fact below before relying on it; the commands are in the rows.
+*/monetization/_harvest	generated-code	Machine output of monetization's own harvester (monetization/tools/harvest/main.go): a git-IGNORED tree (`git -C monetization check-ignore -v _harvest/output/x` -> .gitignore:38 `_harvest/`), 0 tracked files (`git -C monetization ls-files _harvest` is empty), 191,584 files measured 2026-09-23. Its CLAUDE/AGENTS/QWEN/GEMINI.md are harvested copies of OTHER repositories' carriers, not carriers of any repository in this fleet; they never ship and no commit here can make them conform.
+*/submodules/qa/tools/opensource	vendored-third-party	HelixDevelopment/qa's nested tools/opensource/* gitlinks (26 of the 27 in its .gitmodules; the 27th is tools/test-apps/rest-demo, which carries no governance carrier): allure2, appium, browser-use, chroma, docling, leakcanary, mem0, midscene, perfetto, signoz, ... — every URL is outside the operator-listed orgs (milos85vasic, vasic-digital, HelixDevelopment), as helix-deps.yaml's third-party roster records. Their carriers are upstream projects' own agent files; out of scope per §11.4.156(C) exactly like submodules/superspec. All 27 ARE initialised (`git -C submodules/qa submodule status` shows no '-' prefix, measured 2026-09-23).
+*/submodules/constitution/submodules/verification	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:ArcBlock/agent-skills.git (third-party; `git -C submodules/constitution config -f .gitmodules --get-regexp url`). Upstream of an upstream: no commit this umbrella can make changes it.
+*/submodules/constitution/submodules/verify	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:KeyValueSoftwareSystems/maestro.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/repo-qa	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:okwinds/skills-runtime-sdk.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/repo-proof	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:Gary06868/repo-proof.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/donespec	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:xryv/DoneSpec.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/kedge	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:SturdyRobot/kedge.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/agentic-validation	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:Tyler-R-Kendrick/agentic_validation.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/skill-doctor	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:KalarisLabs/Skill-Doctor.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/verfix	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:verfix-dev/verfix.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/MVT	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:rdkcentral/MVT.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/wave-dpctf	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:cta-wave/device-observation-framework.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/mcp-audio-tweaker	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:DeveloperZo/mcp-audio-tweaker.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/polyscreen-mcp	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:Zyzto/polyscreen-mcp.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/video-quality-mcp	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:hlpsxc/video-quality-mcp.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/claude-video	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:bradautomates/claude-video.git (third-party). No commit this umbrella can make changes it.
+*/submodules/constitution/submodules/watch-skill	vendored-third-party	Nested gitlink of the constitution submodule, URL git@github.com:oxbshw/watch-skill.git (third-party). No commit this umbrella can make changes it.
+*/milosvasic.ru/Upstreamable/AGENTS.md	vendored-third-party	R1 KNOWN-UNCLEARABLE in scripts/verify-governance-cascade.sh: carrier of red-elf/Upstreamable, a nested gitlink of milosvasic.ru that this project does not own. Already reported-and-excluded by the cascade; listed here so the propagation family stops double-counting it.
+*/milosvasic.ru/Upstreamable/CLAUDE.md	vendored-third-party	R1 KNOWN-UNCLEARABLE in scripts/verify-governance-cascade.sh: carrier of red-elf/Upstreamable (nested gitlink of milosvasic.ru, not owned here). Same reason as the AGENTS.md row.
+*/submodules/superspec/examples/static-landing-page/CLAUDE.md	vendored-third-party	R1 KNOWN-UNCLEARABLE in scripts/verify-governance-cascade.sh: an example file inside WangX0111/superspec, the third-party submodule (helix-deps.yaml: outside the owned set).
+*/.specify/extensions/superspec/examples/static-landing-page/CLAUDE.md	vendored-third-party	R1 KNOWN-UNCLEARABLE in scripts/verify-governance-cascade.sh: the same WangX0111/superspec example file, in the vendored spec-kit extension copy under .specify/extensions/.

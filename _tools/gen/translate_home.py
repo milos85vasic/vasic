@@ -353,7 +353,8 @@ def retry_one(name, en_val, guidance=""):
     )
     try:
         return parse_json(translator_call(system, user, max_tokens=2000)).get("value", "")
-    except Exception:
+    except Exception as e:
+        print(f"[translate_home.py] WARN retry_one: translator call/parse failed; returning empty value (caller treats it as untranslated): {type(e).__name__}: {e}", file=sys.stderr)  # §11.4.252: failure made visible, fallback unchanged
         return ""
 
 
@@ -385,7 +386,8 @@ def retry_batch(name, bad_list, script_hint, guidance=""):
     )
     try:
         d = parse_json(translator_call(system, user, max_tokens=8000))
-    except Exception:
+    except Exception as e:
+        print(f"[translate_home.py] WARN retry_batch: translator call/parse failed; no repairs applied for this batch: {type(e).__name__}: {e}", file=sys.stderr)  # §11.4.252: failure made visible, fallback unchanged
         return {}
     out = {}
     for i, s in enumerate(bad_list):
@@ -444,7 +446,8 @@ def existing_complete(site, lang, en_root):
         return False
     try:
         data = json.load(open(p, encoding="utf-8"))
-    except Exception:
+    except Exception as e:
+        print(f"[translate_home.py] WARN existing_complete: cannot parse {p!r}; treating it as incomplete (will re-translate): {type(e).__name__}: {e}", file=sys.stderr)  # §11.4.252: failure made visible, fallback unchanged
         return False
     # rebuild the value-map from the translated file by walking both trees
     tmap = {}

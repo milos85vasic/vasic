@@ -28,7 +28,7 @@ const { UI_L10N2_BASE: BASE } = require('./env.js');
   // 4. stored choice (de) must NOT be overridden on a ru page
   p=await b.newPage();
   await p.goto(BASE+'/products/ru/helixcode.html',{waitUntil:'domcontentloaded'});
-  await p.evaluate(()=>{try{localStorage.setItem('mv-lang','de')}catch(e){}});
+  await p.evaluate(()=>{try{localStorage.setItem('mv-lang','de')}catch(e){throw new Error('precondition failed: cannot store mv-lang=de, so ru-with-stored-de would measure nothing: '+e)}});
   await p.goto(BASE+'/products/ru/helixcode.html',{waitUntil:'networkidle'}); await p.waitForTimeout(350);
   out['ru-with-stored-de']=await grab(p); await p.close();
   console.log(JSON.stringify(out,null,2));

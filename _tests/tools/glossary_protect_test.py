@@ -53,6 +53,7 @@ def _restore(text, map_path):
 
 class GlossaryProtectTest(unittest.TestCase):
     def test_roundtrip_identity(self):
+        # oracle: METAMORPHIC — inverse relation restore(protect(x)) == x; no hand-computed expected output
         original = (
             "HelixTrack is built in Go with PostgreSQL and Redis. "
             "It speaks the Model Context Protocol (MCP) over HTTP/3."
@@ -70,6 +71,7 @@ class GlossaryProtectTest(unittest.TestCase):
             os.remove(map_path)
 
     def test_restore_tolerates_llm_case_mutation(self):
+        # oracle: METAMORPHIC — a case-mutated sentinel must restore to the same term as the unmutated one
         original = "HelixTrack ships today."
         protected, m, map_path = _protect(original)
         try:
@@ -82,6 +84,7 @@ class GlossaryProtectTest(unittest.TestCase):
             os.remove(map_path)
 
     def test_whole_token_case_sensitive_no_false_positive(self):
+        # oracle: SPECIFIED — the spec (whole-token, case-sensitive) fixes the expected output: unchanged text, "AI" unmatched
         # "AI" is a glossary term but must NOT match inside "email"/"available",
         # and lowercase "ai" must not match the uppercase acronym.
         original = "Please email me when it is available."
@@ -93,6 +96,7 @@ class GlossaryProtectTest(unittest.TestCase):
             os.remove(map_path)
 
     def test_longest_term_first(self):
+        # oracle: SPECIFIED — the longest-term-first rule fixes which glossary term must be matched
         original = "We use the Model Context Protocol here."
         protected, m, map_path = _protect(original)
         try:
@@ -106,6 +110,7 @@ class GlossaryProtectTest(unittest.TestCase):
             os.remove(map_path)
 
     def test_restore_fails_loud_on_unknown_sentinel(self):
+        # oracle: SPECIFIED — the CLI contract fixes exit code 1 on an unknown sentinel
         original = "HelixTrack."
         protected, m, map_path = _protect(original)
         try:

@@ -102,7 +102,8 @@ def _extract_json(content):
     if m:
         try:
             return json.loads(m.group(0))
-        except Exception:
+        except Exception as e:
+            print(f"[review_translation.py] WARN _extract_json: regex-extracted JSON did not parse; reporting verdict=ERROR: {type(e).__name__}: {e}", file=sys.stderr)  # §11.4.252: failure made visible, fallback unchanged
             pass
     return {"verdict": "ERROR", "raw": content[:300]}
 
@@ -120,7 +121,8 @@ def load_glossary_terms(path):
     try:
         with open(path, encoding="utf-8") as f:
             g = json.load(f)
-    except Exception:
+    except Exception as e:
+        print(f"[review_translation.py] WARN load_glossary_terms: cannot read glossary {path!r}; proceeding with NO protected terms: {type(e).__name__}: {e}", file=sys.stderr)  # §11.4.252: failure made visible, fallback unchanged
         return []
     terms, seen = [], set()
     for val in g.values():

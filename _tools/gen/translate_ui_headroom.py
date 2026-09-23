@@ -184,7 +184,8 @@ def retry_key(lang, name, key, en_val, guidance=""):
     try:
         d = parse_json(call(TRANSLATOR, system, user, temperature=0.2))
         return d.get("value", "")
-    except Exception:
+    except Exception as e:
+        print(f"[translate_ui_headroom.py] WARN retry_key: translator call/parse failed; returning empty value (caller treats it as untranslated): {type(e).__name__}: {e}", file=sys.stderr)  # §11.4.252: failure made visible, fallback unchanged
         return ""
 
 

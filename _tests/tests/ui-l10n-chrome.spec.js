@@ -55,7 +55,7 @@ test.describe('milosvasic.ru — client-side apply on load (html-lang fix)', () 
   test('ru product page renders Russian chrome on load, no manual switch', async ({ page, context }) => {
     await context.clearCookies();
     // fresh visitor: no stored mv-lang
-    await page.addInitScript(() => { try { localStorage.removeItem('mv-lang'); } catch (e) {} });
+    await page.addInitScript(() => { try { localStorage.removeItem('mv-lang'); } catch (e) { console.warn('[init] localStorage.removeItem(mv-lang) failed in', location.href, String(e)); } });
     const r = await page.goto(`${MV}/products/ru/catalogizer.html`);
     expect(r.status()).toBe(200);
     await expect(page.locator('html')).toHaveAttribute('lang', 'ru');
@@ -65,7 +65,7 @@ test.describe('milosvasic.ru — client-side apply on load (html-lang fix)', () 
   });
 
   test('stored user choice (de) still wins over the page lang (ru)', async ({ page }) => {
-    await page.addInitScript(() => { try { localStorage.setItem('mv-lang', 'de'); } catch (e) {} });
+    await page.addInitScript(() => { try { localStorage.setItem('mv-lang', 'de'); } catch (e) { console.warn('[init] localStorage.setItem(mv-lang) failed in', location.href, String(e)); } });
     await page.goto(`${MV}/products/ru/catalogizer.html`);
     await expect(page.locator('html')).toHaveAttribute('lang', 'de');
     const nav = page.locator('#nav-links a');

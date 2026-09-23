@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-23T10:10:00Z
-    Synced-Commit: 4e95446a1141
+    Last-Updated: 2026-09-23T16:40:00Z
+    Synced-Commit: 7b1bccfa52c6
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,41 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### WORKSHOP CROSSREFS + CONTRAST DEPLOYED, REDACTION TOOL DEFECT FIXED, RESIDUE DECISION OPEN, 2026-09-23 (evening)
+
+**Live now (workshop, measured this session):** the gen 15 prebuilt bundle is
+imported (`prebuilt crossrefs: imported 665560 row(s) into generation 15`;
+`verify-prebuilt-artifacts.sh` 6 PASS / 0 FAIL; crossrefs endpoint 200). The
+form-control contrast token `--wk-rule-control` (#847a6d) is served
+(`verify-served-contrast.sh` against the live server: all pairings clear, per
+scheme). Workshop commit `0b678e6` (pushed, fast-forward); gitlink and
+`helix-deps.yaml` ref moved together (C9: 21 MATCH / 0 DRIFT).
+
+**Redaction tool defect fixed (uncommitted before 0b678e6, now in it):** the
+generator's own `term:` kind prefix formed a phrase run with the path value, a
+false positive that made `workshop-redact` refuse and never converge. RED->GREEN
+test plus control; independent review GO.
+
+**OPEN, OPERATOR DECISION (not taken):** the suppressed-content residue
+(`verify-suppressed-residue.sh` G3/G5) is NOT closed. On a scratch copy G5 rises
+with every round (30 -> 45 -> 72) because each suppressed carrier row creates more
+carriers; finishing means suppressing about 512 more doc_section rows. Also:
+`root_hash` covers non-redacted rows, so ANY redaction set beyond the live one makes
+the deployed crossrefs bundle stale (re-embed about 1h37m, UNMEASURED; whether a
+bundle can be re-cut without re-embedding is UNCONFIRMED). Live carries the bundle;
+nothing redacted was deployed. Scratch state: session scratchpad `w2/`.
+
+**Host caveats measured:** the workshop crash-looped on boot under host memory
+pressure (load 80-200, other sessions' processes) because its healthcheck start
+window is too tight; recovered unaided. rootless podman needed `podman system
+migrate` (it panics one container at a time; four restarts were needed and the
+four stopped containers were restarted). `.git/index.lock` went stale a fourth
+time (security-guidance plugin SIGKILL; mitigation `GIT_OPTIONAL_LOCKS=0` awaits the
+operator's decision).
+
+**Not verified:** `motion-above-fold.spec.js` after its control was tightened (host
+too loaded to run it); the full constitution sweep re-run was still in progress.
 
 ### GATE 6 GREEN ON THREE BROWSERS, TWO SECURITY HOLES CLOSED LIVE, TWO SITE DEFECTS SHIPPED, 2026-09-23
 

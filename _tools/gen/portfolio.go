@@ -207,7 +207,7 @@ func renderPortfolio(root string, p *Portfolio, site *Site, langs []string, lang
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <script>(function(){try{var t=localStorage.getItem('od-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+  <script>(function(){try{var t=localStorage.getItem('od-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){if(window.console&&console.debug)console.debug('od-theme: localStorage unavailable',e);}})();</script>
 %s
 %s
 %s
@@ -238,7 +238,7 @@ func renderPortfolio(root string, p *Portfolio, site *Site, langs []string, lang
       var btn=document.getElementById('pf-theme-toggle');
       if(!btn)return;
       function cur(){var a=document.documentElement.getAttribute('data-theme');if(a)return a;return (window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)?'dark':'light';}
-      btn.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem('od-theme',n);}catch(e){}});
+      btn.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem('od-theme',n);}catch(e){if(window.console&&console.debug)console.debug('od-theme: localStorage unavailable',e);}});
     })();
   </script>
 %s

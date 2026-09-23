@@ -440,7 +440,7 @@ func renderHomeStandalone(doc *HomeDoc, p *Portfolio, site *Site, langs []string
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<script>(function(){try{var t=localStorage.getItem('od-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem('od-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){if(window.console&&console.debug)console.debug('od-theme: localStorage unavailable',e);}})();</script>
 %s
 %s
 %s

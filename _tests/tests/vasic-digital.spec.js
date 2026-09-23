@@ -42,7 +42,7 @@ test.describe('vasic.digital — AI company site (OpenDesign)', () => {
   });
 
   test('no-FOUC bootstrap applies a stored theme before paint', async ({ page }) => {
-    await page.addInitScript(() => { try { localStorage.setItem('od-theme', 'dark'); } catch (e) {} });
+    await page.addInitScript(() => { try { localStorage.setItem('od-theme', 'dark'); } catch (e) { console.warn('[init] localStorage.setItem(od-theme) failed in', location.href, String(e)); } });
     await page.goto(BASE);
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   });
