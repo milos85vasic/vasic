@@ -873,7 +873,8 @@ DEPS
     printf '2\n' > "$SPEC/scripts/audit-hardcoded-paths.sh.rc"
     assert "M2 gate-blind-is-UNDET     " 1 "COULD NOT DETERMINE a verdict"
     out="$(run_spec)"
-    if grep -qE 'passed=1[[:space:]]+failed=0[[:space:]]+undetermined=1' <<<"$out" \       && grep -qF "NOT a failure of this tree and NOT a pass" <<<"$out"; then
+    if grep -qE 'passed=1[[:space:]]+failed=0[[:space:]]+undetermined=1' <<<"$out" \
+       && grep -qF "NOT a failure of this tree and NOT a pass" <<<"$out"; then
         p_ok "M2b blind-is-not-a-FAIL   " "counters read failed=0 undetermined=1, and it refuses to accuse the tree"
     else
         p_bad "M2b blind-is-not-a-FAIL  " "an rc=2 gate was conflated with a FAILURE"

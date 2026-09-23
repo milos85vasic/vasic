@@ -19,7 +19,7 @@ a project whose badge row is honestly red is compliant with it — the reader
 gets the truth. Omitting the classes with no instrument would be the
 §11.4.201(6) false-null the anchor forbids by name.
 
-Recorded: 2026-09-22T20:18:07Z (UTC) at commit 4e95446
+Recorded: 2026-09-23T10:04:30Z (UTC) at commit c90ddee
 
 ---
 
@@ -86,8 +86,8 @@ Source: docs/findings/zero_findings_ledger.jsonl (23 rows) vs docs/findings/zero
 ## evidence
 
 Colour: amber
-Value: 38/38 proofs
-Source: scripts/check-registry.tsv: 38 check row(s), 0 owing a proof. AMBER not GREEN because §11.4.262 also requires a CAPTURED evidence ARTIFACT per PASS, and no artifact capture exists at this root — the proof count alone does not satisfy the anchor
+Value: 39/39 proofs
+Source: scripts/check-registry.tsv: 39 check row(s), 0 owing a proof. AMBER not GREEN because §11.4.262 also requires a CAPTURED evidence ARTIFACT per PASS, and no artifact capture exists at this root — the proof count alone does not satisfy the anchor
 
 ## production-readiness
 

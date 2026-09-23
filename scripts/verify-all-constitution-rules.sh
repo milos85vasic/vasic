@@ -606,7 +606,8 @@ G4
     chmod 755 "$GD/g4_added.sh"
     after_n="$(run_spec --list | sed -n 's/^Discovered \([0-9]*\) gate script(s).*/\1/p')"
     out="$(run_spec --quiet)"; rc=$?
-    if [ "$rc" -eq 1 ] && grep -qF "g4_added.sh" <<<"$out" \       && [ "${after_n:-0}" -eq $(( ${before_n:-0} + 1 )) ]; then
+    if [ "$rc" -eq 1 ] && grep -qF "g4_added.sh" <<<"$out" \
+       && [ "${after_n:-0}" -eq $(( ${before_n:-0} + 1 )) ]; then
         p_ok "M9 new-gate-discovered    " "the count moved ${before_n} -> ${after_n} and the added gate's failure made the sweep rc=1, with no edit to the sweep"
     else
         p_bad "M9 new-gate-discovered   " "adding a gate did not change the sweep: count ${before_n} -> ${after_n}, rc=${rc}"
@@ -615,7 +616,8 @@ G4
 
     # ---- M10 the resolved argv is DERIVED from each gate, not written down ----
     out="$(run_spec)"
-    if grep -qF "g2_selftest RESOLVED-AS=--selftest" <<<"$out" \       && grep -qF "g3_projectroot RESOLVED-ROOT=${SPEC}" <<<"$out"; then
+    if grep -qF "g2_selftest RESOLVED-AS=--selftest" <<<"$out" \
+       && grep -qF "g3_projectroot RESOLVED-ROOT=${SPEC}" <<<"$out"; then
         p_ok "M10 argv-resolution       " "--selftest was preferred where declared, and '--root <project-root>' resolved to the PROJECT root"
     else
         p_bad "M10 argv-resolution      " "resolve_argv did not hand each gate the invocation its own source declares"
@@ -631,7 +633,9 @@ G4
     mv "$GD/g1_plain.sh" "$SB/g1-dropped.sh"
     lim_after="$(run_spec --list | sed -n 's/^Discovered \([0-9]*\) gate script(s).*/\1/p')"
     out="$(run_spec --quiet)"; rc=$?
-    if [ "$rc" -eq 1 ] && grep -qF "LEDGER DROP" <<<"$out" \       && grep -qF "g1_plain.sh" <<<"$out" \       && [ "${lim_after:-0}" -eq $(( ${lim_before:-0} - 1 )) ]; then
+    if [ "$rc" -eq 1 ] && grep -qF "LEDGER DROP" <<<"$out" \
+       && grep -qF "g1_plain.sh" <<<"$out" \
+       && [ "${lim_after:-0}" -eq $(( ${lim_before:-0} - 1 )) ]; then
         p_ok "M11 dropped-gate CAUGHT   " "the count fell ${lim_before} -> ${lim_after}, the sweep exited 1 and NAMED the vanished gate. Same pin, so the deletion is DETERMINED, not inferred."
     else
         p_bad "M11 dropped-gate CAUGHT  " "a deleted gate was not caught: rc=${rc}, count ${lim_before} -> ${lim_after}"
@@ -661,7 +665,8 @@ G4
         spec_git rm -q -- scripts/gates/g1_plain.sh
         spec_git commit -qm "upstream removes a gate"
         out="$(run_spec --quiet)"; rc=$?
-        if [ "$rc" -eq 0 ] && grep -qF "upstream removal" <<<"$out" \           && ! grep -qF "LEDGER DROP" <<<"$out"; then
+        if [ "$rc" -eq 0 ] && grep -qF "upstream removal" <<<"$out" \
+           && ! grep -qF "LEDGER DROP" <<<"$out"; then
             p_ok "M13 upstream-removal NOTE " "the pin MOVED and git reports the path as no longer tracked, so it is reported as an upstream removal and does NOT gate"
         else
             p_bad "M13 upstream-removal NOTE" "a legitimate upstream removal was not distinguished from a deletion (rc=${rc})"
@@ -675,7 +680,8 @@ G4
         spec_git commit -qm "upstream moves on"
         mv "$GD/g2_selftest.sh" "$SB/g2-dropped.sh"
         out="$(run_spec --quiet)"; rc=$?
-        if [ "$rc" -eq 1 ] && grep -qF "LEDGER DROP" <<<"$out" \           && grep -qF "g2_selftest.sh" <<<"$out"; then
+        if [ "$rc" -eq 1 ] && grep -qF "LEDGER DROP" <<<"$out" \
+           && grep -qF "g2_selftest.sh" <<<"$out"; then
             p_ok "M14 drop-survives-a-bump  " "the pin MOVED, yet a gate deleted from the working tree is still TRACKED at the new commit — caught as a drop and NAMED, not pardoned by the bump"
         else
             p_bad "M14 drop-survives-a-bump " "a local deletion was pardoned because the pin had moved (rc=${rc})"
@@ -729,7 +735,8 @@ G4
     if [ "$ok16a" -eq 1 ] && [ "$ok16b" -eq 1 ]; then
         emit_g7 'scan root (default: $G7_ROOT or "..")'   # mutate ONLY the words
         out="$(run_spec)"
-        if grep -qF "g7_dir_const RESOLVED-ROOT=${SPEC}" <<<"$out" \           && ! grep -qF "g7_dir_const RESOLVED-ROOT=${SPEC}/submodules/constitution" <<<"$out"; then
+        if grep -qF "g7_dir_const RESOLVED-ROOT=${SPEC}" <<<"$out" \
+           && ! grep -qF "g7_dir_const RESOLVED-ROOT=${SPEC}/submodules/constitution" <<<"$out"; then
             p_ok "M17 dir-vocabulary split  " "'--root <dir>' resolved to the PROJECT root where the gate said 'scan root' and to the CONSTITUTION root where it said 'constitution root'; rewording the one line moved it, so the split is read from the gate and not from a list in this script"
         else
             p_bad "M17 dir-vocabulary split " "rewording the gate's own --root description did not change the root it was handed"
@@ -746,7 +753,8 @@ G4
     # this test hands `--root` to a batch runner that cannot take one, turning a
     # usage refusal into an rc=2 ERROR the sweep would score against this tree.
     out="$(run_spec)"
-    if grep -qF "g8_suite ARGV=[]" <<<"$out" \       && ! grep -qF "g8_suite REFUSED" <<<"$out"; then
+    if grep -qF "g8_suite ARGV=[]" <<<"$out" \
+       && ! grep -qF "g8_suite REFUSED" <<<"$out"; then
         emit_g8 "parser"                    # give it a parser, change nothing else
         out="$(run_spec)"
         if grep -qF "g8_suite RESOLVED-ROOT=${SPEC}" <<<"$out"; then
@@ -768,7 +776,8 @@ G4
     out="$(run_spec)"
     if grep -qF "g9_env_default CONSUMER_ROOT=[${SPEC}]" <<<"$out"; then
         out="$(CONSUMER_ROOT="$SB/poisoned-root" bash "$0" --root "$SPEC" 2>&1)"
-        if grep -qF "g9_env_default CONSUMER_ROOT=[${SPEC}]" <<<"$out" \           && ! grep -qF "poisoned-root" <<<"$out"; then
+        if grep -qF "g9_env_default CONSUMER_ROOT=[${SPEC}]" <<<"$out" \
+           && ! grep -qF "poisoned-root" <<<"$out"; then
             p_ok "M19 CONSUMER_ROOT exported" "a gate declaring no --root at all saw the sweep's own project root, and a poisoned CONSUMER_ROOT in the caller's environment was OVERRIDDEN rather than inherited"
         else
             p_bad "M19 CONSUMER_ROOT exported" "an inherited CONSUMER_ROOT survived into the gates — the sweep's own --root is not authoritative"
@@ -1824,10 +1833,12 @@ if [ $((fail + err)) -gt 0 ] || [ "$step1_state" = "fail" ] || [ "$step1_state" 
     echo
     echo "Before treating any of these as a regression, read"
     echo "  Constitution.md -> 'Known-excluded gate findings'"
-    echo "which names the five third-party / staged carriers the propagation"
-    echo "gates report, and the four failures internal to the constitution"
-    echo "submodule's own tree. Those are recorded, NOT suppressed: they still"
-    echo "FAIL here and they still make this sweep exit non-zero."
+    echo "and the KNOWN_UNCLEARABLE list in scripts/verify-governance-cascade.sh."
+    echo "Neither is a count of today's causes: the sets they record were measured"
+    echo "on earlier pins and the fleet has moved since, so re-derive from the"
+    echo "detail blocks above rather than trusting any number written down."
+    echo "Excluded findings are recorded, NOT suppressed: they still FAIL here"
+    echo "and they still make this sweep exit non-zero."
     exit 1
 fi
 echo "✅ SWEEP: PASS — all ${GATE_COUNT} gate(s) exited 0."

@@ -359,6 +359,22 @@ if [ "$PROVE" -eq 1 ]; then
 
     DECOY_FLAGGED=0
     grep -qE "(FINDING|UNDET).*$DECOY" "$LAB/r.out" 2>/dev/null && DECOY_FLAGGED=1
+
+    # ---- E5 must be SEEN on the RED store, not merely possible ---------------
+    # The seeded store is a copy of a real `.git/`, so its `config` blob carries
+    # `[core]` and `repositoryformatversion`: E5 MUST fire and provenance MUST
+    # come from that captured config. Added 2026-09-23 after E5 was measured
+    # DEAD in the shipped guard: a mechanical `printf | grep` -> `grep <<<`
+    # rewrite (commit 59ea607) had joined the two-line `\`-continuation onto one
+    # line, so `\<spaces>` became a literal " " FILE argument, the first grep
+    # exited 2, and E5 could never be set. Every earlier assertion here stayed
+    # green because none of them read which evidence classes fired.
+    R_E5=0
+    grep -qF 'E5(git config)' "$LAB/r.out" 2>/dev/null \
+        && grep -qF 'provenance, from its own captured config' "$LAB/r.out" 2>/dev/null \
+        && R_E5=1
+    printf '    E5 (git config) named on the RED store, with provenance read from it: %s\n\n' \
+        "$( [ "$R_E5" -eq 1 ] && echo yes || echo NO )"
     if [ "$DECOY_FLAGGED" -eq 0 ]; then
         printf -- '--- DECOY: "%s" carries a packfile-shaped path, an idx-shaped path, a\n' "$DECOY"
         printf '    loose-object-shaped path, a HEAD, a config and a packed-refs — every one\n'
@@ -426,6 +442,8 @@ if [ "$PROVE" -eq 1 ]; then
     [ "$G1" -eq 0 ] || { printf 'PROBLEM: an ordinary repository did not yield 0 (got %s)\n' "$G1" >&2; FAILS=1; }
     [ "$R"  -eq 1 ] || { printf 'PROBLEM: a committed foreign object store did not yield 1 (got %s). A\n' "$R" >&2
                          printf 'broken subject must be a DETERMINED finding, never could-not-determine.\n' >&2; FAILS=1; }
+    [ "$R_E5" -eq 1 ] || { printf 'PROBLEM: the RED store carries a genuine git config, yet evidence class\n' >&2
+                           printf 'E5 was not named (or provenance was not read from it). E5 is dead code.\n' >&2; FAILS=1; }
     [ "$DECOY_FLAGGED" -eq 0 ] || { printf 'PROBLEM: the plain-text decoy at a packfile-shaped path WAS flagged —\n' >&2
                                     printf 'the detector matches names, so the RED above proves nothing.\n' >&2; FAILS=1; }
     [ "$RF" -eq 0 ] || { printf 'PROBLEM: a reflog-only store did not yield 0 (got %s). An object no ref\n' "$RF" >&2
@@ -450,8 +468,9 @@ if [ "$PROVE" -eq 1 ]; then
     printf 'as reflog-only; the pruned tree returned to a silent rc=0; the scan wrote\n'
     printf 'nothing; and all three could-not-determine shapes returned rc=2 — including\n'
     printf 'the empty nested directory that `rev-parse --git-dir` calls healthy.\n'
-    printf 'MUTATION PROOF: PASS — 6 mutations each produced the verdict they must, over 13\n'
-    printf 'assertions: a genuine foreign object store -> 1; a same-shaped plain-text decoy\n'
+    printf 'MUTATION PROOF: PASS — 6 mutations each produced the verdict they must, over 14\n'
+    printf 'assertions: a genuine foreign object store -> 1, with evidence class E5 (its\n'
+    printf 'captured git config) NAMED; a same-shaped plain-text decoy\n'
     printf '-> NOT flagged; a reflog-only store -> 0 and still NAMED; an uninitialised\n'
     printf 'nested submodule -> 2; a missing root -> 2; a non-repository root -> 2. Controls:\n'
     printf 'an ordinary repository -> 0, the pruned tree -> 0, zero worktree dirt, subject\n'
@@ -591,7 +610,8 @@ while IFS= read -r store; do
                 esac ;;
             config)
                 t="$(blob_text_head "$sha" 4096)"
-                if grep -q '\[core\]' <<<"$t" \                   && grep -q 'repositoryformatversion' <<<"$t"; then
+                if grep -q '\[core\]' <<<"$t" \
+                   && grep -q 'repositoryformatversion' <<<"$t"; then
                     e_config=1; config_sha="$sha"
                 fi ;;
             packed-refs)

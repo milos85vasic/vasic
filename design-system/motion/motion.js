@@ -56,6 +56,37 @@
       return;
     }
 
+    // Content ALREADY IN VIEW at init is shown in its final state with the
+    // transition suppressed for that one frame — it never slides. Revealing it
+    // through the observer made the above-the-fold hero (and its Download CV /
+    // Cover Letter / Portfolio buttons) move under the pointer on every page
+    // load, and on a slow device the observer callback can land AFTER a tap was
+    // aimed: measured 2026-09-22/23 as a click that "performed" yet missed its
+    // button (Playwright call log: "element is not stable" x3, then a click at
+    // the pre-slide position). Scroll-reveal below the fold is unchanged.
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var pending = [];
+    // `transition` does not inherit, and animations.css puts the stagger's
+    // transition on `.od-stagger > *`, not the container — so for a stagger the
+    // CHILDREN are what must be held still (an independent review measured the
+    // hero stats strip still sliding when only the container was frozen).
+    function freeze(el) { el.style.transition = 'none'; pending.push(el); }
+    revealEls.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < vh) {
+        freeze(el);
+        if (el.classList.contains('od-stagger')) {
+          Array.prototype.forEach.call(el.children, freeze);
+        }
+        el.classList.add('is-visible');
+      }
+    });
+    if (pending.length) {
+      // Commit the final state before transitions come back.
+      void document.body.offsetHeight;
+      pending.forEach(function (el) { el.style.transition = ''; });
+    }
+
     var obs = new IO(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -65,7 +96,9 @@
       });
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
 
-    revealEls.forEach(function (el) { obs.observe(el); });
+    revealEls.forEach(function (el) {
+      if (!el.classList.contains('is-visible')) obs.observe(el);
+    });
   }
 
   /* ----------------------------------------------------------------------- *

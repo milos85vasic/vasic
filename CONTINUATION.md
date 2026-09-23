@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-22T21:00:00Z
+    Last-Updated: 2026-09-23T10:10:00Z
     Synced-Commit: 4e95446a1141
     Authority-Root: submodules/constitution
 
@@ -473,6 +473,66 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### GATE 6 GREEN ON THREE BROWSERS, TWO SECURITY HOLES CLOSED LIVE, TWO SITE DEFECTS SHIPPED, 2026-09-23
+
+**Gate 6 is green for the first time on this host, on all three browsers.** The
+operator installed WebKit's two missing system libraries (`libmanette-0.2-0`,
+`libwoff1`); `node _tests/preflight.js` went rc 2 -> **rc 0 READY**. Gate 6
+verbatim (chromium): **239 passed / 0 failed**. The full three-browser suite
+with retries OFF: **725 passed / 0 failed / 0 flaky** (4 skips are the
+chromium-only evidence screenshots, by design). The last recorded gate-6
+figure, 69 failed, is SUPERSEDED — those were the `_site` fragment.
+
+**Found by the suite, root-caused from a Playwright trace, fixed, shipped:**
+1. *Download buttons could miss under load.* The whole hero was an
+   `.od-reveal` that slid in when an IntersectionObserver fired; the call log
+   showed "element is not stable" x3 then a click that landed where the button
+   used to be (Firefox under load: 3 and 2 failures in two runs; 241/241 twice
+   after). Fix in the CANONICAL `design-system/motion/motion.js`: in-view
+   reveals — and a stagger's CHILDREN — take their final state with the
+   transition suppressed for one frame. Test `_tests/tests/motion-above-fold.spec.js`
+   (event-based, non-vacuous, stagger-aware): RED 6/6 before, GREEN 12/12;
+   restoring the stagger-children defect turns it red on all three browsers.
+2. *Hindi/Arabic/Persian PDF labels were broken.* CSS letter-spacing split
+   combining scripts (production PDFs extract as "स ा क्ष् य", "V A S I C"),
+   and the Hindi eyebrow fell to a per-character monospace fallback. Fix in
+   `_tools/pdf/build-pdfs.sh`: zero tracking + a script-capable eyebrow font for
+   complex scripts, and a FAIL-CLOSED build guard (FreeMono in a complex-script
+   PDF -> exit 1; no pdffonts -> exit 2) that renders to a temp file and moves it
+   into place only on pass, so a tolerated failure republishes the previous good
+   file. Latin/Cyrillic output byte-identical (review-verified).
+Shipped through `_tools/deploy-langs.sh` on explicit operator approval:
+vasic.digital `c529e87..91d3a76`, milosvasic.ru `e786ccd..ca0bcde`; LIVE suite
+88 passed; production motion.js hash and the live HI/AR PDFs re-verified by hand.
+
+**ai_interviewing security (deployed live on operator approval):** `GET
+/api/plans` ignored RBAC (rami listed 74 project-deep-dives plan rows) and
+`/api/auth/switch` bypassed the login rate limit (unlimited password guessing).
+Fixed, reviewed GO twice with mutation proofs; the rebuilt binary is live
+(re-verified: rami 0 rows, admin 74, /switch 401x8 then 429). **This corrects the
+2026-09-22 claim that rami's restrictions held "with no leaks"** — that check
+never exercised /api/plans. QA-bank fixes in that submodule are under review.
+
+**Also fixed today:** 10 shell line-continuations silently broken by 59ea607
+(one made evidence class E5 of `verify-private-object-exposure.sh` dead code;
+new standing check `scripts/verify-shell-continuations.sh`); 29 workshop gate
+fixes (gates that graded only 401s or only the login page) — workshop `a31729d`.
+
+**OPEN — operator decisions, recorded, not taken:**
+- Workshop crossrefs 503 on generation 15: the prebuilt bundle covers gen 12;
+  regenerating needs the host model + a re-embed of 33,278 passages on a copy
+  (time unmeasured) + a redeploy. Semantic/code search 503 is BY DESIGN
+  (compose.yml decision "(a)", no local model).
+- Workshop suppressed-residue G3/G5 + redaction R8 (72 citations of 13
+  suppressed pids in 32 published files): redact carriers or re-cite.
+- Workshop `/login` dark-mode input border 1.83:1 (WCAG 1.4.11 needs 3:1):
+  use `--wk-rule-strong` for inputs, or raise `--od-border` at the source.
+- Constitution sweep 176/91/4: 82 of the 91 are one propagation-engine scope
+  question (`monetization/_harvest` 191k git-ignored files, the 27 initialized
+  `submodules/qa` opensource tools helix-deps says are NOT initialized).
+- Recurring stale `.git/index.lock` (2x, no holder): SIGKILL mid-git suspected,
+  UNCONFIRMED; commits now fail loudly on it (Software-Toolkit 6f0d512).
 
 ### MANUAL-QA BOOT + DYNAMIC PORTS + SEVEN GATES TAKEN BACK TO GREEN, 2026-09-22
 

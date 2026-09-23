@@ -116,6 +116,28 @@ case "$LANG_CODE" in
   *)           HTML_DIR="ltr" ;;
 esac
 
+# Letter-spacing (tracking) is WRONG for scripts whose characters combine:
+# spacing individual code points detaches Devanagari vowel signs (matras) from
+# their consonants and breaks Arabic joining. Measured 2026-09-23: the Hindi
+# CV's cover eyebrow rendered "बायोडाटा" as "ब ा य ो ड ा ट ा" once the
+# host's Noto Devanagari font was used, and the Arabic eyebrow had been
+# letter-spaced (unjoined) all along. For these scripts every tracking value is
+# zero; Latin/Cyrillic output is unchanged.
+case "$LANG_CODE" in
+  ar|fa|he|ur|hi|mr|ne|bn|pa|gu|ta|te|kn|ml|si|th|lo|km|my|bo)
+    TRACK_HEAD="0"
+    # ...and no monospace stack on translated labels: the mono fonts lack these
+    # scripts, so the renderer fell back PER CHARACTER and a matra drawn by a
+    # different font run cannot attach to its consonant (the Hindi eyebrow
+    # stayed "ब ा य ो ड ा ट ा" with tracking alone removed). For ar/fa this
+    # rule is later overridden by lang_font_css's own eyebrow stack, which
+    # already carries Noto Arabic — there the tracking reset is what fixes it.
+    COMPLEX_SCRIPT_CSS='/* complex script: no tracking, script-capable font on labels */ * { letter-spacing: 0 !important; } .od-cover__eyebrow { font-family: inherit !important; }' ;;
+  *)
+    TRACK_HEAD="0.06em"
+    COMPLEX_SCRIPT_CSS='' ;;
+esac
+
 # ---- portable file mtime ----------------------------------------------------
 # A CHAIN OF `||` IS NOT ENOUGH, and the obvious repair is itself broken.
 # `stat -f %m "$f" 2>/dev/null || stat -c %Y "$f" 2>/dev/null` LOOKS like a
@@ -412,9 +434,9 @@ brand_css() {
 @page {
   size: A4;
   margin: 24mm 17mm 20mm 17mm;
-  @top-left     { content: "${hleft}"; font-size: 7.5pt; letter-spacing: 0.06em;
+  @top-left     { content: "${hleft}"; font-size: 7.5pt; letter-spacing: ${TRACK_HEAD};
                   text-transform: uppercase; color: var(--od-text-muted); }
-  @top-right    { content: "${hright}"; font-size: 7.5pt; letter-spacing: 0.06em;
+  @top-right    { content: "${hright}"; font-size: 7.5pt; letter-spacing: ${TRACK_HEAD};
                   text-transform: uppercase; color: ${accent}; }
   @bottom-left  { content: "milosvasic.ru · vasic.digital"; font-size: 7.5pt;
                   color: var(--od-text-muted); }
@@ -539,6 +561,7 @@ brand_css() {
   padding-left: 3mm; border-left: 2px solid ${accent};
 }
 .od-figure figcaption b { color: var(--od-text); font-weight: 700; }
+${COMPLEX_SCRIPT_CSS}
 CSS
 }
 
@@ -725,7 +748,43 @@ RTLCSS
     echo '</div></body></html>'
   } > "$WORK/${out}.html"
 
-  weasyprint "$WORK/${out}.html" "$outdir/${out}.pdf" >/dev/null 2>&1
+  # Rendered to a temp file and moved into place only after the shaping guard
+  # below passes: a caller that tolerates a failed PDF step (deploy-langs.sh
+  # counts it as a warning) must then publish the PREVIOUS good file, never a
+  # broken one that was already written over it.
+  local pdf_tmp="$WORK/${out}.guard.pdf"
+  weasyprint "$WORK/${out}.html" "$pdf_tmp" >/dev/null 2>&1
+
+  # REGRESSION GUARD (2026-09-23). For a complex script, a MONOSPACE fallback
+  # font in the PDF means some label was set cell-by-cell and its vowel signs /
+  # joins broke — exactly how the Hindi eyebrow shipped as "ब ा य ो ड ा ट ा".
+  # Text extraction cannot see this (the code points are right; only their
+  # placement is wrong), so the embedded-font list is the observable. FreeMono
+  # is the fallback that carries these scripts; Liberation Mono is Latin-only
+  # and legitimately sets code.
+  # FAIL-CLOSED: an absent or failing pdffonts means the shaping could NOT be
+  # verified, which is never a pass — the step exits 2 and leaves the previous
+  # good PDF in place. LIMIT (stated, not hidden): the FreeMono signature is a
+  # measurement of THIS host's fontconfig (`fc-match monospace:lang=hi` ->
+  # FreeMono); for th/bn/ta the mono fallback resolves to FreeSerif here, which
+  # also legitimately appears in correct output, so a mono regression in those
+  # not-yet-built scripts would not be caught by this guard.
+  if [ "$TRACK_HEAD" = "0" ]; then
+    if ! command -v pdffonts >/dev/null 2>&1; then
+      echo "UNDETERMINED: pdffonts absent — cannot verify complex-script shaping of ${out}.pdf; $outdir/${out}.pdf left unchanged" >&2
+      exit 2
+    fi
+    local fonts_out
+    if ! fonts_out="$(pdffonts "$pdf_tmp" 2>/dev/null)"; then
+      echo "UNDETERMINED: pdffonts failed on the rendered ${out}.pdf — shaping not verified; $outdir/${out}.pdf left unchanged" >&2
+      exit 2
+    fi
+    if printf '%s\n' "$fonts_out" | awk 'NR>2{print $1}' | grep -q 'FreeMono'; then
+      echo "FATAL: ${out}.pdf would set ${LANG_CODE} text in a monospace fallback (FreeMono) — complex-script shaping is broken; $outdir/${out}.pdf left unchanged" >&2
+      exit 1
+    fi
+  fi
+  mv -f "$pdf_tmp" "$outdir/${out}.pdf"
   echo "  -> $outdir/${out}.pdf ($(du -h "$outdir/${out}.pdf" | cut -f1))"
 }
 
