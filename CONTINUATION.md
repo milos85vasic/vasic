@@ -512,7 +512,7 @@ vasic.digital `c529e87..91d3a76`, milosvasic.ru `e786ccd..ca0bcde`; LIVE suite
 Fixed, reviewed GO twice with mutation proofs; the rebuilt binary is live
 (re-verified: rami 0 rows, admin 74, /switch 401x8 then 429). **This corrects the
 2026-09-22 claim that rami's restrictions held "with no leaks"** — that check
-never exercised /api/plans. QA-bank fixes in that submodule are under review.
+never exercised /api/plans. The QA banks were also repaired (they had broken when login became required) and committed with the fixes as ai_interviewing 097a5eb after four independent review rounds.
 
 **Also fixed today:** 10 shell line-continuations silently broken by 59ea607
 (one made evidence class E5 of `verify-private-object-exposure.sh` dead code;
