@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-23T16:40:00Z
-    Synced-Commit: 7b1bccfa52c6
+    Last-Updated: 2026-09-23T20:20:00Z
+    Synced-Commit: 0f8323a97db8
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -498,16 +498,41 @@ the deployed crossrefs bundle stale (re-embed about 1h37m, UNMEASURED; whether a
 bundle can be re-cut without re-embedding is UNCONFIRMED). Live carries the bundle;
 nothing redacted was deployed. Scratch state: session scratchpad `w2/`.
 
-**Host caveats measured:** the workshop crash-looped on boot under host memory
-pressure (load 80-200, other sessions' processes) because its healthcheck start
-window is too tight; recovered unaided. rootless podman needed `podman system
-migrate` (it panics one container at a time; four restarts were needed and the
-four stopped containers were restarted). `.git/index.lock` went stale a fourth
-time (security-guidance plugin SIGKILL; mitigation `GIT_OPTIONAL_LOCKS=0` awaits the
-operator's decision).
+**Host caveats measured (CORRECTS an earlier claim in this session):** the workshop
+crash-loop was NOT the healthcheck. `compose.yml` already sets `start_period: 600s`
+(sized from a measured 329 s boot). The journal shows `systemd-oomd` killed the
+container scope 8 times (17:38 - 18:44) (oomd's own journal lines name the scope at each of the 8 stop times,
+matching `RestartCount=8`). The memory-pressure figures (86-89%, swap full) were
+REPORTED by the deploy agent and are UNCONFIRMED here (swap read 6.8 of 8.2 GB later). Fix in workshop `36cdfa7`:
+`workshop/scripts/protect-from-oomd.sh` (ManagedOOMPreference=avoid drop-in, applied by
+`start.sh` during up, after up on success and failure, and when already running).
+INDEPENDENT REVIEW: GO. UNPROVEN: oomd behaviour under real memory pressure
+(forbidden by 12.6); the during-up watcher is not discriminated by the proof (path b
+masks it). The LIVE container is NOT protected yet: applying it is
+`bash workshop/scripts/protect-from-oomd.sh` (no restart) and is an OPERATOR decision
+because it edits host systemd configuration and shifts kills onto other sessions'
+containers. A proof-development mistake killed the live container twice at 21:27
+(RestartCount 8 -> 10); guards were added so the proof refuses the live container.
+Chromium int3 crashes on font-CSS pages coincided with /tmp (a 16G tmpfs = RAM) at 13G;
+after freeing about 6G of stale scratch they stopped (correlation, cause UNCONFIRMED).
+rootless podman needed `podman system migrate` (it panics one container at a time;
+the four stopped containers were restarted). `.git/index.lock` went stale FIVE times
+(security-guidance plugin SIGKILL; `GIT_OPTIONAL_LOCKS=0` awaits the operator).
 
-**Not verified:** `motion-above-fold.spec.js` after its control was tightened (host
-too loaded to run it); the full constitution sweep re-run was still in progress.
+**Gate results this evening:** gate 6 green on all three browsers (725 passed / 0
+failed / 4 skipped; the 4 skips are the two `evidence screenshots (chromium)` tests
+on firefox and webkit, by design); `motion-above-fold` 4/4 on each browser. The full
+constitution sweep finished: 10 FAIL + 4 ERROR of 271, all upstream (REPO off-by-one
+in gates that assume a top-level `constitution/`, missing register/fixture data),
+third-party trees, or 900 s timeouts (the two timeouts are unclassified until run
+on an unloaded host); none fixable inside the umbrella tree. Two need a submodule
+commit plus gitlink bump (operator decision): `submodules/containers` (gate 12, 20
+hits) and `workshop/platform/gates/model-call-sink.py:152`. Two of the 14 are
+upstream test/gate defects (opendesign meta-test fixture; the standalone 114/167
+gate ignores the exclusion file).
+
+**Not verified:** the `vasic.digital` pages still carry the old empty `catch(e){}`
+(regeneration is a production `deploy-langs.sh` ship, not authorised).
 
 ### GATE 6 GREEN ON THREE BROWSERS, TWO SECURITY HOLES CLOSED LIVE, TWO SITE DEFECTS SHIPPED, 2026-09-23
 
