@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-23T20:20:00Z
-    Synced-Commit: 0f8323a97db8
+    Last-Updated: 2026-09-24T04:40:00Z
+    Synced-Commit: 2c0a9dd5ae0d
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -518,6 +518,25 @@ after freeing about 6G of stale scratch they stopped (correlation, cause UNCONFI
 rootless podman needed `podman system migrate` (it panics one container at a time;
 the four stopped containers were restarted). `.git/index.lock` went stale FIVE times
 (security-guidance plugin SIGKILL; `GIT_OPTIONAL_LOCKS=0` awaits the operator).
+
+**Product defect found by the extended gate, fixed and live (workshop `8f6e8cb`):** the
+contrast gate's default sample never covered `/areas/:id` or `/practice/:id`; adding them
+exposed that the `Submit answers` button rendered as a browser-default button (the
+`.wk-btn` rules lived only in `login.component.ts`'s scoped styles, so Angular's emulated
+encapsulation never matched `area-test`). Fix: shared `.wk-btn` family in
+`styles/workshop.css` (tokens only). A first version regressed `/login` (line-height 1.25
+hard-coded; independent review NO-GO, button 4px shorter) and was corrected; the second
+review measured 0 differences over 5664 computed-style comparisons against a HEAD build.
+Staged into `platform/web` (read-only mount, NO restart, `RestartCount` still 10): live
+`verify-served-contrast.sh` rc 0, 380 pairings clear floors per scheme (was rc 1, 1
+finding of 382). NOT confirmed directly: the live computed style of the Submit button
+(the gate's pass on `/areas/:id` is the evidence). Retake/ghost-link styling is proven by
+component specs and synthetic elements only (submitting would mutate live data).
+
+**oomd work still UNCOMMITTED in `workshop/scripts/`:** the during-`up` watcher case
+(P10a/P10b), per-writer temp name and `timeout` bounds were added after the GO review and
+have NOT been re-reviewed; the agent's full-proof tally is pending. The live container is
+still unprotected.
 
 **Gate results this evening:** gate 6 green on all three browsers (725 passed / 0
 failed / 4 skipped; the 4 skips are the two `evidence screenshots (chromium)` tests
