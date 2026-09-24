@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-24T04:40:00Z
-    Synced-Commit: 2c0a9dd5ae0d
+    Last-Updated: 2026-09-24T09:30:00Z
+    Synced-Commit: 5db4b8f6cf19
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -533,10 +533,15 @@ finding of 382). NOT confirmed directly: the live computed style of the Submit b
 (the gate's pass on `/areas/:id` is the evidence). Retake/ghost-link styling is proven by
 component specs and synthetic elements only (submitting would mutate live data).
 
-**oomd work still UNCOMMITTED in `workshop/scripts/`:** the during-`up` watcher case
-(P10a/P10b), per-writer temp name and `timeout` bounds were added after the GO review and
-have NOT been re-reviewed; the agent's full-proof tally is pending. The live container is
-still unprotected.
+**oomd protection, committed (workshop `36cdfa7` + `a2c14c4`):** the during-`up` watcher is
+now proven on its own (P10a real=protected / P10b watcher-removed mutant=unprotected,
+sampled while `up` is blocked); a stale-drop-in sweep (P11a-e, two mutants RED) removes only
+`libpod-<id>.scope.d` dirs whose container id is absent, and removes nothing on a failed or
+empty listing (a killed proof run had left two inert drop-ins). Full proof: 29 assertions, 0
+failed, live container `RestartCount`/`StartedAt` identical before and after; independent
+review GO (twice). UNPROVEN, unchanged: oomd behaviour under real memory pressure (forbidden
+by 12.6). The LIVE container is still NOT protected: `bash workshop/scripts/protect-from-oomd.sh`
+(no restart) is an OPERATOR decision (host systemd config; shifts kills onto other sessions).
 
 **Gate results this evening:** gate 6 green on all three browsers (725 passed / 0
 failed / 4 skipped; the 4 skips are the two `evidence screenshots (chromium)` tests
