@@ -70,7 +70,7 @@ Phase-1 task rather than an assumption.
   stream_ref outside VCS, truncation and redaction flags`) and verify with the shipped chain gates
   (`cm_chain_integrity_detects_alteration.sh`, `cm_anchor_detects_tail_truncation.sh`,
   `cm_anchor_record_complete.sh`; the shipped verifier binary is
-  `submodules/continuum/cmd/continuum-integrity` — `execution_record.sh` is the RECORDER, not the
+  `submodules/constitution/submodules/continuum/cmd/continuum-integrity` — `execution_record.sh` is the RECORDER, not the
   verifier; the chain gate was run read-only by the reviewer: exit 0, 8 PASS). Build only the thin
   adapter (state fingerprint + population field + item link).
 - **Evidence**: those files exist in the pinned submodule; §11.4.268 requires detection of deletion,

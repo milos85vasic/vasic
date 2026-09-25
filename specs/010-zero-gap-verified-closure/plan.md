@@ -20,7 +20,7 @@ and the constitution already ship** (constitution §11.4.74, extend rather than 
    from `check-registry.tsv` entries and declared data; an empty population is a gap.
 4. **Evidence (US4, FR-012..017, FR-020)** — an append-only, sealed evidence chain built from the
    constitution's own shipped recorder (`scripts/gates/lib/execution_record.sh`), chain verifier
-   (`submodules/continuum/cmd/continuum-integrity`) and chain gates
+   (`submodules/constitution/submodules/continuum/cmd/continuum-integrity`) and chain gates
    (`cm_chain_integrity_detects_alteration.sh`, `cm_anchor_detects_tail_truncation.sh`; the chain gate
    ran clean, 8 PASS). UNCONFIRMED until the adapter task: that the verifier can read our store shape, fed from
    `pre-push-gates.sh`'s `run_gate` and the sweep.
@@ -164,9 +164,9 @@ constitution submodule and consumed read-only.
 | FR-019, SC-009 | `zero-gap-daily.sh` + systemd user timer; reopen logic in `workable-items` |
 | FR-020, SC-008 | `zero-gap-scan-records.sh` (release gate) |
 | FR-021 | classification `third-party` + validator refuses edits under third-party gitlink paths (pre-push gate rule) |
-| FR-022 | review verdict stored as an `item_history` row with reviewer identity; validator requires it for closure |
+| FR-022 | review verdict stored in `item_verdicts` (`role='reviewer'`, actor identity); validator V-G3 requires it for closure |
 | FR-023 | `scripts/zero-gap-guard-checks.sh` (new, registered): a diff that removes a `check-registry.tsv` row, deletes a check, or adds an allow-list/exempt entry without a paired proof fails; run from the pre-push gates |
-| FR-002, FR-006, FR-009 | validator V-G1 (owner, location, evidence ref), V-G10 (`plan_due` for open items), `operator_block_details` options+cost for `Operator-blocked` |
+| FR-002, FR-006, FR-009 | validator V-G1 (owner, location, evidence ref), V-G10 (`plan_due` for open items), V-G11 (`operator_block_details` options+cost for `Operator-blocked`) |
 | FR-017 | records with `population_kind=wire` MUST carry a wire-capture digest (HTTP response or socket capture) the adapter validates; source-only measurements are labelled `source` |
 | SC-010 | `workable-items-vsc report --by-module` generated page + a timed manual walk-through recorded once per cycle |
 | FR-025, SC-011 | validator: Feature/improvement items require non-empty `measurable_target` |
