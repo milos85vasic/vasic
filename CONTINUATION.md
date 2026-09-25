@@ -487,8 +487,11 @@ two false sentences about the force-push history (the 2026-09-01/02 rewrites hap
 §11.4.113 forbade them absolutely, 2026-06-03) and they were corrected before commit. The four
 carriers gained a note that §11.4.113 overrides the scaffold's per-session-authorization wording.
 Also committed: workshop `e076fa6` (T508 test-only fix), ai_interviewing `a34e364` (static-asset
-strong ETag; **NOT DEPLOYED — the running `aicur` predates it**; deploying needs an operator
-decision). Open: the `PreToolUse` guard was measured NOT to block `git checkout --`, `restore`,
+strong ETag; **DEPLOYED 2026-09-25 afternoon** — rebuilt with `platform/scripts/build.sh` (start.sh
+only builds a MISSING binary), restarted once; measured live: `/styles-*.css` 200 with strong ETag,
+If-None-Match 304, wrong tag 200, br client gets `<etag>-br`, `/` still 304. HTTPS moved to
+**8444** by port fallback; pre-deploy binary saved as
+`~/.cache/vasic-session-scratch/aicur.pre-etag-2026-09-25`). Open: the `PreToolUse` guard was measured NOT to block `git checkout --`, `restore`,
 `stash`, `clean -fd` or `add -A`; `LLMProvider`, `llm_provider` and `llms_verifier` differ from
 their remotes and are awaiting a per-bump operator decision.
 
