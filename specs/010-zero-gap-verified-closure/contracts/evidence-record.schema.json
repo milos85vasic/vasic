@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "zero-gap evidence record",
+  "type": "object",
+  "required": [
+    "seq",
+    "prev_digest",
+    "ts",
+    "cwd",
+    "argv",
+    "exit_status",
+    "duration_ms",
+    "stdout_digest",
+    "stderr_digest",
+    "stdout_bytes",
+    "stderr_bytes",
+    "stream_ref",
+    "stream_truncated",
+    "stream_redacted",
+    "item_id",
+    "check_id",
+    "state_fingerprint_before",
+    "state_fingerprint_after",
+    "population_kind",
+    "outcome",
+    "verdict_role"
+  ],
+  "properties": {
+    "seq": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "prev_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$|^GENESIS$"
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "cwd": {
+      "type": "string"
+    },
+    "argv": {
+      "type": "string",
+      "description": "canonically serialised argument vector, as the constitution recorder writes it"
+    },
+    "exit_status": {
+      "type": "integer"
+    },
+    "duration_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "stdout_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "sha256 over the FULL stream, before truncation"
+    },
+    "stderr_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "stdout_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "stderr_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "stream_ref": {
+      "type": "string",
+      "description": "directory OUTSIDE version control"
+    },
+    "stream_truncated": {
+      "type": "boolean"
+    },
+    "stream_redacted": {
+      "type": "boolean"
+    },
+    "item_id": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}-[0-9]{3,}$|^SWEEP$"
+    },
+    "check_id": {
+      "type": "string"
+    },
+    "state_fingerprint_before": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "state_fingerprint_after": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "population_kind": {
+      "enum": [
+        "source",
+        "process",
+        "wire"
+      ]
+    },
+    "outcome": {
+      "enum": [
+        0,
+        1,
+        2
+      ],
+      "description": "0 holds, 1 violated, 2 could not determine"
+    },
+    "verdict_role": {
+      "enum": [
+        "author",
+        "verifier"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "$comment": "Invariant not expressible in JSON Schema: outcome 0 or 1 requires state_fingerprint_before == state_fingerprint_after; otherwise outcome MUST be 2. Enforced by the adapter and its Go/shell test."
+}

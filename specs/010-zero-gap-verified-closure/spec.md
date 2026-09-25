@@ -151,7 +151,9 @@ confirm they reach the same verdict.
 **Acceptance Scenarios**:
 
 1. **Given** a closed item whose fix is later reverted, **When** the daily or on-demand re-measurement
-   runs, **Then** the item is reopened automatically with the failing evidence attached.
+   runs, **Then** the item is flagged reopen-pending automatically with the failing evidence attached,
+   and the register is updated at the next explicit commit (the re-measurement itself never edits the
+   tracked register).
 2. **Given** a recorded figure in any governance document, **When** the re-measurement runs,
    **Then** a figure that no longer matches the measured value is flagged as stale.
 3. **Given** a closed item, **When** a different automated agent re-runs its evidence, **Then**
@@ -240,7 +242,7 @@ confirm they reach the same verdict.
   item's evidence and record an independent verdict; a disagreement MUST block closure. No human
   sign-off step is required for closure (operator-owned actions remain the operator's).
 - **FR-019**: After closure, the system MUST re-measure itself in full once a day and on demand,
-  reopen any closed item whose evidence now fails, and flag any recorded figure that no longer
+  flag reopen-pending (applied to the register by an explicit commit) any closed item whose evidence now fails, and flag any recorded figure that no longer
   matches its measured value. The schedule MUST run locally on the operator's own host; it MUST
   NOT rely on server-side or hosted automation.
 - **FR-020**: No record produced by this programme MAY contain an unmeasured assertion, guessing
@@ -300,8 +302,9 @@ confirm they reach the same verdict.
 - **SC-008**: A scan of every report and record the programme produces finds zero unmeasured
   assertions, zero guessing terms in causal statements, zero credentials and zero copied private
   content.
-- **SC-009**: A closed item that is deliberately reverted in a disposable copy is reopened by the
-  next re-measurement within 24 hours, with its failing evidence attached.
+- **SC-009**: A closed item that is deliberately reverted in a disposable copy is flagged
+  reopen-pending by the next re-measurement within 24 hours, with its failing evidence attached, and
+  is reopened in the register by the next explicit commit.
 - **SC-010**: An operator can open one place and, within two minutes, answer for any module
   "what is open, what is closed and how do I know" without reading source or asking an author.
 - **SC-011**: 100% of improvement items carry a measurable target, and 100% of those closed have

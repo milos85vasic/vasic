@@ -302,7 +302,7 @@ above, a `--fetch` may then be run to classify WHICH WAY:
 git -C submodules/constitution rev-parse HEAD                   # the local pin
 git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD
 git -C submodules/constitution rev-parse HEAD:Constitution.md   # blob identity
-grep -c "^### §" submodules/constitution/Constitution.md        # 256 (re-measured 2026-09-25; new §11.4.275; 255 SUPERSEDED)
+grep -c '^### §' submodules/constitution/Constitution.md        # 256 (re-measured 2026-09-25; new §11.4.275; 255 SUPERSEDED)
 wc -l < submodules/constitution/Constitution.md                 # 11894 (re-measured 2026-09-25 at pin f8afb98ab0eb; 11814 SUPERSEDED)
 bash scripts/verify-manifest-pins.sh                            # 0 = ref == gitlink
 ```

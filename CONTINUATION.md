@@ -474,6 +474,24 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+### SPEC 010 PLANNED (zero-gap verified closure), CARRIER QUOTING REGRESSION FIXED — 2026-09-25 (late)
+
+`specs/010-zero-gap-verified-closure/` now has `spec.md` (clarified, 5 decisions), `plan.md`,
+`research.md`, `data-model.md`, `contracts/` and `quickstart.md`. The plan REUSES the canonical
+workable-items store (`docs/workable_items.db`, additive columns + an `item_verdicts` add-on table),
+the check registry, the claim ledger and the constitution's recorder / `continuum-integrity` chain
+verifier; it adds only small scripts (`scripts/zero-gap-*.sh`), sweep-class data and a daily local
+`systemd --user` timer whose installation is an OPERATOR action. **Implementation MUST run through
+`/speckit-superspec-execute` with the superpowers skills (operator directive 2026-09-25).** The plan's
+independent review was NO-GO on the first draft (four blockers: an `item_history` value canon does not
+allow, a job that both reopened items and claimed never to touch tracked files, an overstated
+"multi-upstream" anchor claim, and an unstorable `Queued — BLOCKED` status) — all fixed before commit.
+Also fixed: my own carrier edit had changed `grep -c '^### §'` from single to double quotes and
+silently orphaned claim-ledger row `carriers-constitution-anchors`; restored, the ledger reads
+10 VERIFIED / 0 ORPHAN. Open, unchanged: the three behind-remote submodules and every operator item
+listed above. Unconfirmed until the first task group: that `continuum-integrity` can read the planned
+evidence store shape, and that the canonical validator tolerates the added columns.
+
 ### CONSTITUTION v1.5.0, ai ETag, T508 FIX — 2026-09-25 (afternoon)
 
 `.specify/memory/constitution.md` amended **1.4.0 -> 1.5.0** (MINOR) by `/speckit-constitution`:
