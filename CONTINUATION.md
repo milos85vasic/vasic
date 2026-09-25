@@ -474,6 +474,42 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+### CONSTITUTION v1.5.0, ai ETag, T508 FIX — 2026-09-25 (afternoon)
+
+`.specify/memory/constitution.md` amended **1.4.0 -> 1.5.0** (MINOR) by `/speckit-constitution`:
+ten principles added (restart-runs-what-was-built, ship-off-when-harm-measured,
+non-readable-equals-nonexistent, headers-from-served-bytes, cache-re-runs-filters, content
+boundary, pointer+manifest together, decision-updates-carriers, pipefail idioms, shared-tree
+discipline), the fleet roster re-derived (22 declared / 21 in `helix-deps.yaml` / 20 owned), toolchains
+re-measured, and a Push-and-integration paragraph. Withdrawn: the "13 declared, 11 owned" roster,
+the "plain directory" claim for curriculum-kit, the stale pin figures. An independent review found
+two false sentences about the force-push history (the 2026-09-01/02 rewrites happened AFTER
+§11.4.113 forbade them absolutely, 2026-06-03) and they were corrected before commit. The four
+carriers gained a note that §11.4.113 overrides the scaffold's per-session-authorization wording.
+Also committed: workshop `e076fa6` (T508 test-only fix), ai_interviewing `a34e364` (static-asset
+strong ETag; **NOT DEPLOYED — the running `aicur` predates it**; deploying needs an operator
+decision). Open: the `PreToolUse` guard was measured NOT to block `git checkout --`, `restore`,
+`stash`, `clean -fd` or `add -A`; `LLMProvider`, `llm_provider` and `llms_verifier` differ from
+their remotes and are awaiting a per-bump operator decision.
+
+### CONSTITUTION PIN FAST-FORWARDED eba38e8 -> f8afb98 (STANDING AUTHORIZATION), 2026-09-25
+
+Classified first: `merge-base --is-ancestor` TRUE, `rev-list --left-right --count`
+**0 divergent / 9 behind**; performed with `git merge --ff-only`; nothing pushed to
+the constitution repository. **This bump is NOT corpus-neutral** (measured on both
+sides): `Constitution.md` blob `77388e60cfaa` -> `55b787e431e1`, lines 11,814 ->
+**11,894**, `### §` anchors 255 -> **256** (new **§11.4.275**, Lumen index +
+indexing-efficiency gate), bytes 1,812,355 -> **1,847,001**, sha256 `49b6a2cc…` ->
+`e764f149…`. `diff --stat` over the range: 144 files, 21,888 insertions / 1,196
+deletions; governance paths touched: `Constitution.md` (86), the four carriers (13
+each), `submodules/constitution/scripts/gates/cm_dangerous_combination_fail_closed.sh` (+ a new mutation
+test). Gitlink and `helix-deps.yaml` staged together (21 MATCH / 0 DRIFT);
+cascade 12 PASS / 0 FAIL. `verify-submodule-remote-sync.sh` reads 18 CURRENT / 3
+DRIFT: `submodules/LLMProvider`, `submodules/llm_provider` and
+`submodules/llms_verifier` DIFFER from their remotes with direction UNDETERMINED
+(objects not fetched). **Those three are NOT covered by the standing authorization
+(constitution only) and need a per-bump operator decision.**
+
 ### ANSWERING OFF, SUGGEST 503 FIXED LIVE, REBUILD TRAP CLOSED, SITES SHIPPED WITH A REAL FEED, 2026-09-25
 
 **State at handoff (all measured 2026-09-25, not inherited):** workshop container
@@ -513,8 +549,8 @@ applied); benchmark result tables and the umbrella `CLAUDE.md` are INDEXED passa
 in the served corpus (retrieval contamination, decision pending); oomd protection
 (`workshop/scripts/protect-from-oomd.sh`, declined for now — the crash-loop root cause is
 oomd kills, not the healthcheck); the workshop Lumen leg is off by design (needs a
-`lumen` binary, `-lumen-root`, `-lumen-scope`); `floor-domain` rc 2; 2
-`cmd/workshop-server` T508 tests fail only under `-race`, identically on `HEAD`;
+`lumen` binary, `-lumen-root`, `-lumen-scope`); `floor-domain` rc 2; the 2
+`cmd/workshop-server` T508 tests that failed only under `-race` are FIXED (workshop `e076fa6`, test-only: bcrypt-12 is ~10x slower under `-race`, so 3 logins outlasted the 2s window; not a data race);
 `GIT_OPTIONAL_LOCKS=0` in `.claude/settings.json` awaits a decision (the stale
 `.git/index.lock` recurred 5+ times); an upstream constitution `REPO` off-by-one
 report is drafted, not filed; the shared sudo password should be rotated; the

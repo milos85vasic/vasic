@@ -302,8 +302,8 @@ above, a `--fetch` may then be run to classify WHICH WAY:
 git -C submodules/constitution rev-parse HEAD                   # the local pin
 git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD
 git -C submodules/constitution rev-parse HEAD:Constitution.md   # blob identity
-grep -c '^### §' submodules/constitution/Constitution.md        # 255
-wc -l < submodules/constitution/Constitution.md                 # 11814 (re-measured 2026-09-22 at pin 61b0c69; 11794 SUPERSEDED)
+grep -c "^### §" submodules/constitution/Constitution.md        # 256 (re-measured 2026-09-25; new §11.4.275; 255 SUPERSEDED)
+wc -l < submodules/constitution/Constitution.md                 # 11894 (re-measured 2026-09-25 at pin f8afb98ab0eb; 11814 SUPERSEDED)
 bash scripts/verify-manifest-pins.sh                            # 0 = ref == gitlink
 ```
 
@@ -404,6 +404,13 @@ corpus. The corpus itself is never duplicated here.
 - **CONTINUATION.md kept in sync** in every non-trivial commit. Constitution §12.10.
 - **60% RAM cap.** Heavy work wrapped in bounded execution scope.
   Constitution §12.6.
+
+**Correction to the restated force-push item (2026-09-25).** The scaffold's wording above
+permits a force-push under per-session authorization. Canon §11.4.113 (operator mandate
+2026-06-03) is ABSOLUTE: no `--force`, no `--force-with-lease`, no `+ref`, no history rewrite,
+with or without approval. Where the two disagree, §11.4.113 governs; the scaffold text is
+upstream (`submodules/constitution/templates/`) and is reproduced verbatim on purpose, so this
+note corrects the reading without editing the quotation.
 
 Anything not covered by those nine items is covered by the canonical files. Go
 read them; do not guess.

@@ -1,63 +1,38 @@
 <!--
-SYNC IMPACT REPORT — .specify/memory/constitution.md
-====================================================
-Version change: 1.1.0 → 1.2.0  (MINOR)
-
-Bump rationale: four principles added, no principle removed or redefined. The
-additions are materially new rules rather than wording, so not PATCH; nothing is
-backward-incompatible, so not MAJOR.
-
-Added principles:
-  + "Authored Curriculum"    — a published area is authored, never auto-mined vocabulary
-  + "Published Means Served" — never advertise what the API will refuse to serve
-  + "Derived Presentation"   — theme comes from seeded derivation; contrast floors are gates
-  + "Standalone Cloneable"   — every owned module builds and runs from a fresh clone
-
-Why these four, and why now. Each encodes a defect MEASURED in this repository on
-2026-09-07, not an aspiration:
-
-  ! 814 of 819 published knowledge areas were single mined transcript terms —
-    "Bazillion", "Sillier", "Blinks". Only 32 of 814 titles (3.9%) contained any
-    AI/ML term, and raising the evidence floor made it WORSE (0 of 36 at floor 2,
-    0 of 8 at floor 3). The miner emits every unlinked term by explicit design;
-    nothing selected between it and the API.
-  ! The list route served 819 areas while the detail route refused 817 with
-    `area_not_published` — 2 publication reviews existed for 819 areas.
-  ! The token derivation was widened (hue span 120° → 150–180°) and NOTHING
-    regenerated the consuming app's stylesheets, so the measured improvement was
-    invisible to every user.
-  ! `workshop` did not build outside the umbrella at all: five dependencies
-    resolved through relative `replace` paths escaping the repository, declared
-    nowhere — and `setup.sh` printed a remedy that could not work.
-
-Factual corrections, called out rather than silently applied:
-  ! fleet was "8 submodules declared … six owned" → measured 2026-09-07:
-    13 declared in `.gitmodules`, 12 recorded in `helix-deps.yaml`, 11 owned
-  ! `submodules/curriculum-kit` exists as a PLAIN DIRECTORY (82 tracked files),
-    not a gitlink; wiring it as a submodule is an unperformed operator step
-
-Templates requiring updates — verified by reading, not assumed:
-  ✅ .specify/extensions/superspec/templates/plan-template.md — its Constitution
-     Check is a table of generic `[Principle N from constitution]` rows, so the
-     four new principles slot in with no template edit.
-  ✅ .specify/templates/plan-template.md — Constitution Check is the
-     principle-agnostic placeholder `[Gates determined based on constitution file]`.
-  ✅ .specify/templates/spec-template.md — no principle-specific section.
-  ✅ .specify/templates/tasks-template.md — task categories are principle-agnostic.
-
-Deferred: none. No unexplained placeholder tokens remain.
+SYNC IMPACT REPORT — .specify/memory/constitution.md (temporary review scratch)
+Version change: 1.4.0 -> 1.5.0 (MINOR: principles added and guidance materially expanded; none
+removed or redefined). The prior file carried three disagreeing version labels (front-matter
+1.1.0, report 1.1.0->1.2.0, footer 1.4.0); all now read 1.5.0.
+Added principles: A Restart Runs What Was Built; A Capability With Measured Harm Ships Off;
+Non-Readable Is Indistinguishable From Nonexistent; Security Headers Come From the Served Bytes;
+A Cache in Front of a Filtered Read Re-Runs the Filters; The Content Boundary Is a Standing
+Invariant; Stage the Pointer and Its Manifest Together; A Decision, Once Executed, Updates Its
+Carriers; Shell Idioms Must Survive pipefail; Shared-Tree Discipline Is Wider Than stash.
+Changed sections: Governance Fidelity (fleet roster re-derived), Project Structure and
+toolchains (re-measured), Verification Scripts (six added), Governance (push/integration and
+independent-review paragraphs added; footer).
+WITHDRAWN figures: "pin 90297902, 11,700 lines, 252 anchors" -> f8afb98ab0eb, 11,894 / 256;
+"13 declared, 11 owned" -> 22 declared, 20 owned; curriculum-kit "plain directory" -> gitlink;
+toolchain versions (Go 1.26.2/Node 22/ffmpeg 7.0.2 etc.) -> measured 2026-09-25 values.
+Templates: .specify/templates/*.md have principle-agnostic Constitution Checks — no edit needed.
+Deferred: none. Unverified items are marked UNCONFIRMED in the text where they occur.
 -->
 ---
-version: 1.1.0
+version: 1.5.0
 ratified: '2026-08-26'
-last_updated: '2026-08-31'
+last_updated: '2026-09-25'
 ---
 
 # vasic Constitution
 
 This project constitution EXTENDS the universal Helix Constitution mounted at
 `submodules/constitution/`. It never weakens or overrides an inherited clause — where the two
-disagree, the submodule wins. Measured at pin `90297902`: **11,700 lines, 252 anchors**.
+disagree, the submodule wins. Measured 2026-09-25 at pin `f8afb98ab0eb`: **11,894 lines, 256 `### §`
+anchors** (`Constitution.md` blob `55b787e431e1`, 1,847,001 bytes, sha256 `e764f149a458…`). Canon
+also carries anchors in a bold-opener form that a `### §` count omits — the bare count is a floor,
+not the census. Re-derive rather than trusting these figures: the pin moves, and recent moves have
+changed
+the corpus.
 
 ## Core Principles
 
@@ -100,17 +75,18 @@ truth; no carrier may weaken or override a universal clause.
 
 Every owned submodule MUST carry the four carriers, each opening with a real, non-fenced
 `## INHERITED FROM ` pointer heading (§11.4.35 invariant 6). The fleet is DERIVED from
-`.gitmodules`, never hardcoded. Measured 2026-09-07: **13 submodules are declared** and
-`helix-deps.yaml` records **12** — `submodules/constitution` (the governance source),
-`submodules/superspec` (third-party, out of scope per §11.4.156(C)), and **11 owned**:
-`milosvasic.ru`, `vasic.digital`, `design-toolkit`, `ai_interviewing`, `monetization`,
-`workshop`, `submodules/containers`, `submodules/LLMProvider`, `submodules/RAG`,
-`submodules/verdict`, `submodules/passage`. The earlier "8 declared, six owned" figure is
-WITHDRAWN as measured false, not silently replaced.
+`.gitmodules` and `helix-deps.yaml`, never hardcoded. Measured 2026-09-25: **22 gitlinks are
+declared**, `helix-deps.yaml` records **21**, and `scripts/verify-governance-cascade.sh` (C1)
+classifies them from evidence as **20 owned, 1 governance source (`submodules/constitution`) and
+1 third-party (`submodules/superspec`, out of scope per §11.4.156(C))**. Every earlier roster in
+this file — "8 declared, six owned", then "13 declared, 11 owned" — is WITHDRAWN as measured
+false, not silently replaced, and `submodules/curriculum-kit` is a gitlink, not the plain
+directory a previous revision recorded. Re-derive the roster with:
 
-`submodules/curriculum-kit` is present as a PLAIN DIRECTORY of 82 tracked files, NOT a gitlink.
-It is therefore outside the cascade until an operator creates its upstream and runs
-`git submodule add`. Counting it as owned would be a claim the tree does not support.
+```
+git config -f .gitmodules --get-regexp 'submodule\..*\.path'
+bash scripts/verify-governance-cascade.sh
+```
 
 ### Isolation by Default
 
@@ -436,6 +412,23 @@ snapshot. Therefore a post-write verification MUST diff against the file's
 CURRENT content, never against the copy the writer began from. A regeneration
 step with no narrow mode is this hazard in permanent form.
 
+### Shared-Tree Discipline Is Wider Than `stash`
+
+The rule above is not about one command. On a tree other actors write, `git checkout -- <path>`,
+`git restore`, `git stash`, `git clean` and a blind `git add -A`/`git add .` are all unbounded
+across the tree. Measured: `git checkout --` destroyed +173/-44 lines of another agent's work
+(`9b7cf6a`); `commit_fully`'s `git add -A` swept a planted mutation seed into shipped source
+(`3623e05`); `CONTINUATION.md` was wiped by a concurrent write (`7bda6e3`). Therefore: stage
+EXPLICIT paths; run a paired mutation on a throwaway COPY with trap-restore, never on shipped
+source; commit handoff state early; and when a commit-time stash is unavoidable, isolate by
+pathspec and confirm the pop restored what the stash held. The `commit` wrapper runs `git add .`,
+so `.gitignore` MUST be accurate first and a dirty submodule MUST be reviewed before the wrapper
+runs. The PreToolUse guard (`scripts/verify-pretooluse-guard.sh`) blocks force-push, `--no-verify`,
+privilege escalation and host-power commands; it was measured 2026-09-25 NOT to block the commands
+above (`checkout --`, `restore`, `stash`,
+`clean -fd`, `add -A` all returned rc 0; `push --force` returned rc 2), so this rule is enforced by
+discipline and review only.
+
 ### A Statistic a Fix Can Overshoot Requires a Two-Sided Check
 
 **Where a gate drives a measured statistic toward a target, the check MUST bound
@@ -455,6 +448,154 @@ one-sided bound is usually to overshoot it.** A paired control proving the gate
 still PASSES a legitimate population is therefore mandatory, so that "catches the
 defect" is proved separately from "rejects everything".
 
+### A Restart Runs What Was Built
+
+**A service start, restart or deploy MUST refuse to run a stale or dirty-tree build, and the
+artifact it runs MUST carry a stamp naming the source it was built from.** A restart that never
+rebuilds is a redeploy of the past.
+
+Rationale, measured: `workshop`'s `start.sh` built the server only when the binary was missing and
+`restart.sh` never rebuilt, so a "restart" launched a binary days older than the source under test
+(workshop `185fb15`; the serving container ran an 18-hour-old binary in umbrella `738fbf1`). The
+guard is
+`ensure_fresh_server` / `prepare_fresh_server` / `commit_prepared_server`, refusing a dirty
+input tree (including `replace`-module directories, embed assets and hidden git state) and stamping
+`build=<sha>-<utc> dirty=<bool>` into `/api/health`. The override
+(`WORKSHOP_SKIP_SERVER_FRESHNESS`) is permitted only for throwaway `workshop-oomprobe-*` projects.
+`ai_interviewing`'s `platform/scripts/start.sh` still has the original `[ -x "$BIN" ] || build.sh`
+shape; that gap is recorded here, not closed.
+
+A prover or test that runs a real start script MUST NOT be able to replace a live, mounted
+binary: it MUST hash the live artifact before and after each case, abort on the first change, and
+use throwaway containers only (workshop `prove-oomd-protection.sh`, tripwire cases). The live
+binary was swapped by a prover twice in one day. The build id from the health endpoint MUST be
+quoted in every QA note.
+
+### A Capability With Measured Harm Ships Off
+
+**A capability whose measured error rate violates a stated success criterion MUST default to OFF,
+and its default MUST be enforced by a gate, not by a comment.** Turning it on is an operator
+decision that cites the measurement.
+
+Rationale, measured 2026-09-24/25 on generation 15 (57 questions x 3 repeats, Wilson 95%): the
+workshop answering funnel answered 14/72 = 19.4% (12-30%) of answerable questions and fabricated
+4/87 = 4.6% (2-11%) of unanswerable ones, so SC-010/SC-094 (spec 001: declines 100% of unanswerable
+questions and fabricates none) is UNMET. Answering was switched ON on 2026-09-24 and OFF the next
+day; `calibrated: true`
+was found to mean only `MinScore>0`. The compose file now defaults answering to `none` while the
+embedding pair stays wired, and gate G29 (`verify-compose-answering-consistency.sh`) requires the
+file's claims to equal its rendered flags, an ON default to cite an evidence path, and no
+half-set opt-in. Evaluation tooling MUST run on a scratch server with a private index copy and
+exit 2 when the capability is not enabled. An evaluation artefact MUST NOT be indexed into the
+corpus it evaluates (the benchmark tables and a carrier are currently indexed; decision pending).
+
+### Non-Readable Is Indistinguishable From Nonexistent
+
+**A response to a caller who may not read a resource MUST be byte-identical, in body and headers,
+to the response for a resource that does not exist, and the authorization lookup MUST run before
+the existence verdict.** Anything else is an existence oracle.
+
+Rationale, measured: `ai_interviewing` served all 158 assets to a user-role account, 81 of them in
+restricted tracks. After the fix a restricted asset returns 404 `{"error":"asset not found"}` with
+no ETag, Last-Modified or range headers, identical to a missing one (11 name classes x 6 request
+forms; 5 mutants RED; live re-check 2026-09-25: 77 assets 200 for both roles, 81 200/404, none
+403). Search MUST apply the access filter BEFORE the LIMIT and escape `%`, `_` and backslash (a
+user saw 26 of 1,212 visible hits). Every `/api` route MUST be classified in a route-authorization
+guard test. QA banks MUST sign in with a dedicated non-seed account and pass secrets by stdin or a
+required environment variable, never a literal, and PASS MUST NOT be derived from a client exit
+code alone (`helixqa http` exits 0 with zero cases executed).
+
+### Security Headers Come From the Served Bytes
+
+**A content-security policy, cookie attribute or transport header MUST be derived from what is
+actually served on the actual connection, not from a configuration copy of it.**
+
+- The CSP MUST hash the inline scripts of the exact `index.html` bytes served, from an atomically
+  swapped immutable snapshot; a stale hard link fails closed.
+- The session cookie's `Secure` flag MUST follow the real connection; `X-Forwarded-Proto` MUST NOT
+  be trusted, and logout MUST use the same attributes.
+- HSTS MUST be sent only over TLS to a public dotted DNS name, never `localhost`.
+- Security headers MUST appear on EVERY response class (200, 206, 304, 4xx, 405, HEAD, compressed,
+  panic-500, SPA fallback). Before the fix 781 of 4,373 sampled responses carried a CSP that did
+  not cover their own body; after, 0.
+- ETags MUST be per content-coding (`-br`), `If-None-Match` translated, `If-Range` never
+  translated. Authenticated API assets are `private, no-cache` by design and carry no ETag.
+
+Rationale: `ai_interviewing` `92c5c17` (46/46 mutants RED, 282,784 requests, 0 errors). Firefox,
+Safari and HTTP/3 remain UNCONFIRMED.
+
+### A Cache in Front of a Filtered Read Re-Runs the Filters
+
+**A cache MUST NOT return a result without re-applying redaction, publication and access checks
+on every hit, stale hits included; its key MUST include the data generation; errors, timeouts and
+panics MUST NOT be cached.** Detached work behind a cache MUST be bounded and its panics recovered.
+
+Rationale, measured: `/api/suggest` returned 503 for 339/662 requests at 8 clients and 1,265/1,269
+at 16 because ranking was CPU-bound and every pooled connection `pread()` a 1.6 GB index. The fix
+(workshop `25ce01d`: mmap on the index connections, a generation-keyed stale-while-revalidate cache,
+a 39-prefix boot pre-warm) took it to 0/38,716 and 0/44,651 non-200. The contract forbids a
+minimum prefix length, so the cost was fixed and the contract was not. A crash-loop cause MUST be
+MEASURED before it is blamed (the 2026-09-23 root cause was `systemd-oomd`, not the healthcheck).
+
+### The Content Boundary Is a Standing Invariant
+
+**Nothing from a private module may enter a public repository, and a boundary gate MUST state its
+corpus fingerprint and its recall on every run.** Naming a private path is permitted; copying what
+is inside it is not. Public history is not editable after a push.
+
+Rationale: private material was written into and pushed to this public repository on 2026-09-01
+(incident record: `docs/content-boundary-incident-2026-09-01.md`); the tree was redacted and the
+history was rewritten twice (umbrella `ebac0d8`, 2026-09-01; `2d629e9`, 2026-09-02) under operator
+authorization that §11.4.113 already forbade — a violation, never a precedent (see **Governance**,
+Push and integration). The incident is recorded as NOT CLOSED.
+`scripts/verify-content-boundary.sh` is RED BY DESIGN: it exits 1 today over rows an operator must
+read. It MUST NOT be silenced by allow-listing a class — an allow-list entry hides the row from the
+next reader — and a smaller number after a subtraction pass is not a cleanup. Gates over "the
+repository" MUST state whether they scan untracked-not-ignored files; the write-to-`git add`
+window is a blind spot the boundary gate found in itself.
+
+### Stage the Pointer and Its Manifest Together
+
+**A gitlink bump and the `helix-deps.yaml` ref that records it MUST land in ONE change.**
+`scripts/verify-manifest-pins.sh` (cascade C9) compares the manifest to the INDEX, so staging one
+without the other fails it — correctly — and it has caught this four times (`bfe2931`, `3922e35`,
+`1e1d4b2`, `3623e05`). A ref comment that restates a sha goes stale on the next bump; a comment
+MUST say "current" and be re-derived, not carry a bare sha as if it were live.
+
+**The constitution pin is a standing operator decision, not a task that completes.** Under the
+standing authorization recorded in the carriers (2026-09-09) an agent MAY fast-forward
+`submodules/constitution` and NOTHING else, ONLY when `merge-base --is-ancestor` is TRUE and
+`rev-list --left-right --count` shows 0 divergent, ONLY via `git merge --ff-only`, reporting the
+`diff --stat` and re-measuring `Constitution.md` (blob, lines, anchors, bytes, sha256) on BOTH
+sides — corpus neutrality is a measurement, not a property (the 2026-09-08 and 2026-09-25 bumps
+both changed the corpus). Nothing is ever pushed to the constitution repository. Every other
+gitlink needs a per-bump operator decision.
+
+### A Decision, Once Executed, Updates Its Carriers
+
+**A reversal or an executed operator decision MUST edit every document that asserts the old state,
+in the same commit.** A carrier that describes the pre-decision world cannot be told from a false
+one.
+
+Rationale, measured: the `_site` "tracked / ignored" claim flipped twice and was reversed a third
+time by an executed decision nobody propagated; the DECISION-11-4-156 record was reversed in part
+within a day; workshop answering was recorded ON on the morning it was reversed. Figures in
+carriers MUST be re-measured before restating, and a stale figure is WITHDRAWN in place with its
+reason, never replaced. `scripts/verify-claim-ledger.sh` (§11.4.266) re-measures recorded claims
+and is the enforcement point for the class it covers; a claim it does not cover has no
+enforcement and, under §11.4.266, is a release blocker until a ledger row covers it.
+
+### Shell Idioms Must Survive `pipefail`
+
+**Under `set -o pipefail`, a check MUST NOT be written `producer | grep -q PATTERN`.** `grep -q`
+exits on first match, the producer receives SIGPIPE, and the pipeline reports failure for a
+condition that holds. Use `grep -q PATTERN <<<"$var"` or capture first.
+
+Rationale: `59ea607` fixed 75 sites in 21 files after the pattern corrupted a badge script and
+mis-reported ports; the constitution sweep's 96 FAILs were hypothesised to be SIGPIPE artefacts
+and that hypothesis was REFUTED by measurement (`CONTINUATION.md`, 2026-09-06) — the class is real
+and it is not the explanation for everything. State which claim you tested.
+
 ### Quality Over Speed
 
 60% RAM cap on heavy work. TDD where possible. Lint and typecheck before claiming done. No
@@ -467,24 +608,35 @@ cyclic gitlink that had been deliberately removed.
 
 ## Project Structure
 
-The vasic umbrella monorepo owns two personal/portfolio sites, a curriculum module, and shared
-tooling:
+The vasic umbrella monorepo owns two personal/portfolio sites, a curriculum platform, and shared
+tooling. The submodule roster is derived (see **Governance Fidelity**); the directories that carry
+project-specific rules are:
 
 - **vasic.digital/** — committed static HTML served as-is (no build step)
-- **milosvasic.ru/** — Jekyll source; rendered `_site/` is git-ignored; self-publishes on push
-  via `.github/workflows/pages.yml` (ACTIVE, do not disable)
-- **workshop/** — workshop curriculum; chapter recordings stored as size-bounded split parts
-- **ai_interviewing/** — curriculum reference implementation: Go backend + Angular frontend,
-  run as a native binary (`platform/bin/aicur`). It defines **no containers**.
-- **_tools/gen/** — Go generator rendering localized pages for both sites
-- **design-system/** — shared per-brand tokens and component CSS
+- **milosvasic.ru/** — Jekyll source; rendered `_site/` is git-ignored and untracked (0 files,
+  `git -C milosvasic.ru ls-files _site`); self-publishes on push via `.github/workflows/pages.yml`
+  (ACTIVE, do not disable). Local builds run in a container:
+  `_tools/containers/bin/site-build -workload jekyll` (§11.4.76, Containers submodule).
+- **workshop/** — PRIVATE. Angular SPA (`platform/frontend`) + Go backend (`platform/backend`),
+  served from the podman container `workshop-curriculum_platform_1` on port 8087 by default
+  (discovered, not fixed — `_tools/containers/cmd/port-discover`). Answering is OFF by default.
+- **ai_interviewing/** — PRIVATE. Go (gin) `aicur` + Angular, run as a native binary
+  (`platform/bin/aicur`), HTTP 8099 / HTTPS 8445 by default with port fallback.
+- **_tools/gen/** — Go generator rendering localized pages and the Atom feeds for both sites
+- **design-system/** — shared per-brand tokens and component CSS; `motion.js` is canonical here
+  and copied to both sites
 - **_tests/** — Playwright plus self-validating harness
 - **_content/** — English source; `_content_<lang>/` siblings for translations
+- **specs/** — Spec Kit feature specifications 001–009
 - **submodules/constitution/** — the universal constitution (see measurement above)
 
-Toolchains, measured on this host: Go 1.26.2, Node 22.19.0, npm 10.9.3, Ruby 3.3.8,
-Python 3.14.6, ffmpeg/ffprobe 7.0.2, podman + podman-compose (**docker is absent**),
-poppler-utils, tesseract-ocr.
+`bash scripts/qa-up.sh` boots all services for manual QA on discovered ports.
+
+Toolchains, MEASURED 2026-09-25 on this host (re-derive, do not trust): Go 1.26.0, Node 26.8.1,
+npm 11.19.0, system Python 3.14.4, ffmpeg 8.0.1, podman
+(**docker, tesseract, bundle and jekyll are absent**), poppler-utils present. Two consequences are
+recorded rather than hidden: gate 5 exits 2 without `tesseract`, and gate 6's webkit project needs
+`libmanette-0.2-0` and `libwoff1` (an operator package install). An rc 2 is never a pass.
 
 ## CI/CD Policy
 
@@ -514,7 +666,8 @@ demand by `scripts/verify-provider-ci.sh`, not asserted here.
 
 ## Local Gate Suite
 
-`scripts/pre-push-gates.sh` registers 8 gates. A SKIP is never a PASS; `PREPUSH_STRICT=1`
+`scripts/pre-push-gates.sh` registers 8 gates (the registry in `scripts/check-registry.tsv`
+holds many more checks that are not pre-push gates). A SKIP is never a PASS; `PREPUSH_STRICT=1`
 converts skips to failures for release use.
 
 | ID | Gate |
@@ -530,7 +683,8 @@ converts skips to failures for release use.
 
 ## Verification Scripts
 
-Governance and adaptability instruments. Each is three-valued per **Honest Instruments**.
+Governance and adaptability instruments (the full list is `scripts/check-registry.tsv`). Each
+is three-valued per **Honest Instruments**.
 
 | Script | Verifies |
 |---|---|
@@ -542,6 +696,12 @@ Governance and adaptability instruments. Each is three-valued per **Honest Instr
 | `scripts/verify-provider-ci.sh` | provider-side CI triggers that file checks cannot see |
 | `scripts/ollama-tune.sh` | local inference concurrency, derived from host facts |
 | `scripts/lumen-index-doctor.sh` | semantic index integrity |
+| `scripts/verify-manifest-pins.sh` | every `helix-deps.yaml` ref equals its gitlink (C9) |
+| `scripts/verify-submodule-remote-sync.sh` | gitlinks vs their `origin` — the only remote-facing check |
+| `scripts/verify-content-boundary.sh` | private content in public files (RED BY DESIGN) |
+| `scripts/verify-claim-ledger.sh` | re-measures recorded claims (§11.4.266) |
+| `scripts/verify-pretooluse-guard.sh` | the wired forbidden-command guard actually refuses |
+| `scripts/verify-check-registry.sh` | every check has a paired proof; `--run-proofs` executes them |
 
 ## Testing Strategy
 
@@ -586,12 +746,29 @@ than silently applied.
 - **MINOR** — a principle is added, or guidance is materially expanded.
 - **PATCH** — clarifications, wording, typo and factual corrections that change no rule.
 
+**Push and integration.** Force-push is ABSOLUTELY forbidden (§11.4.113): no `--force`, no
+`--force-with-lease`, no `+ref`, no history rewrite, with or without approval. Integrate by
+fetching every remote, basing on the most-advanced upstream tip, merging, and pushing
+fast-forward to every upstream. The 2026-09-01 history rewrite (`ebac0d8`) was performed under an
+explicit per-session authorization that this project's own carriers then permitted, although canon
+§11.4.113 (operator mandate 2026-06-03) already forbade it absolutely; it is recorded as a
+deviation from canon, not as precedent. Older carrier wording that allows a per-session authorized
+force-push
+is superseded by §11.4.113 and MUST be corrected wherever found. Never push to third-party
+gitlinks (`submodules/superspec`) or to the constitution repository. A push to
+`milosvasic.ru` deploys a live production site.
+
+**Independent review.** Every change, including a one-line doc edit, passes an independent review
+before it is accepted (§11.4.142); the model and effort are those §11.4.209 currently names — do
+not restate them here, because canon has already reversed that ordering once. A reviewer's
+report is the reviewer's word: verify what it claims before acting on it.
+
 **Compliance review.** The local gate suite is the enforcement point; there is no server-side
 check. Before a release or a tag, run the full sweep plus the verification scripts above, and
 record the result. An unrunnable check is reported as such — never as a pass. Claims of
 compliance require the command output that demonstrates it.
 
-**Version**: 1.4.0 | **Ratified**: 2026-08-26 | **Last Amended**: 2026-09-08
+**Version**: 1.5.0 | **Ratified**: 2026-08-26 | **Last Amended**: 2026-09-25
 
 Ratification date is DERIVED, not asserted: `git log --reverse --format=%cs --
 .specify/memory/constitution.md` returns 2026-08-26, the first commit that
