@@ -24,7 +24,7 @@ const ROOTS = [
 // not visibility. Found 2026-09-24: milosvasic.ru/assets/js/i18n.js wrapped its
 // whole apply routine in `catch (e) { /* never block page render on i18n */ }`,
 // which the whitespace-only pattern passed.
-const EMPTY_CATCH = /catch\s*(\(\s*\w*\s*\))?\s*\{(?:\s|\/\*[\s\S]*?\*\/|\/\/[^\n]*\n)*\}/g;
+const EMPTY_CATCH = /catch\s*(\([^)]*\))?\s*\{(?:\s|;|\/\*[\s\S]*?\*\/|\/\/[^\n]*\n)*\}/g;
 const EXEMPT = [
   { re: /(^|\/)node_modules\//, why: 'third-party dependencies' },
 ];
@@ -60,8 +60,9 @@ for (const root of ROOTS) {
 test('the pattern itself: matches every empty-swallow spelling, ignores handled catches', () => {
   const bad = ['} catch (e) {}', 'catch(e){}', 'catch (_) { }', 'catch {}', 'catch (e) {\n  }', 'catch(err){ \t }',
     'catch (e) { /* ignore */ }', 'catch (e) { /* never block page render on i18n */ }',
-    'catch (e) {\n  // ignore\n}', 'catch(e){/*a*/ /*b*/}', 'catch (e) {\n  /* multi\n  line */\n  // and a line\n}'];
-  const good = ['catch(e){console.debug(e)}', 'catch (e) { return null; }', 'catch (e) { x(); }',
+    'catch (e) {\n  // ignore\n}', 'catch(e){/*a*/ /*b*/}', 'catch (e) {\n  /* multi\n  line */\n  // and a line\n}',
+    'catch(e){;}', 'catch({a}){}', 'catch ({ message }) { ; }'];
+  const good = ['catch(e){console.debug(e)}', 'catch(e){handle(e)}', 'catch({a}){use(a)}', 'catch (e) { return null; }', 'catch (e) { x(); }',
     'catch (e) { /* note */ console.debug(e); }', 'catch (e) {\n // note\n log(e);\n}', "catch (e) { var u = 'http://x'; }"];
   for (const s of bad) expect(s.match(EMPTY_CATCH), `must match: ${JSON.stringify(s)}`).not.toBeNull();
   for (const s of good) expect(s.match(EMPTY_CATCH), `must NOT match: ${JSON.stringify(s)}`).toBeNull();

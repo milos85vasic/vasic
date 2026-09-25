@@ -28,8 +28,8 @@ import (
 // replaces. Only Jekyll sites (front-matter pages carrying title/description) get
 // one; vasic.digital's self-contained pages are not touched.
 //
-// DETERMINISM. <updated> is the source page's own date at day granularity (the
-// same rule as the sitemap's <lastmod>), never the time of the feed write, so two
+// DETERMINISM. <updated> is the rendered file's mtime (the generation day) at day
+// granularity (the same rule as seo.go's sitemap <lastmod>), never the time of the feed write, so two
 // generations on the same day are byte-identical and the feed files' own mtimes
 // cannot leak into their content. Entries are sorted by id.
 func writeFeeds(site *Site, out string) error {

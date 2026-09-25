@@ -518,9 +518,17 @@ oomd kills, not the healthcheck); the workshop Lumen leg is off by design (needs
 `GIT_OPTIONAL_LOCKS=0` in `.claude/settings.json` awaits a decision (the stale
 `.git/index.lock` recurred 5+ times); an upstream constitution `REPO` off-by-one
 report is drafted, not filed; the shared sudo password should be rotated; the
-`submodules/qa` working tree carries an uncommitted `banks/workshop/search.yaml`
-edit that is NOT this session's to commit. The environment audit stays RED for
-other repositories' code.
+`submodules/qa` bank `workshop/search.yaml` (WK-SEARCH-012 now expects crossrefs
+200 ok) was committed as qa `86cf4b1` after a live check. **Live retest
+2026-09-25 (read-only): both sites 525/525 sitemap URLs 200, 33-entry feed + 14
+language feeds valid; ai_interviewing HTTPS headers, Secure cookie, brotli
+ETags and `/` 304 all PASS; RBAC over all 158 assets: 77 both-200, 81
+admin-200/rami-404, no 403, no existence oracle. ONE OPEN OBSERVATION: the SPA
+static assets (`/styles-*.css`, `/chunk-*.js`) send no ETag, so If-None-Match
+gives 200 and revalidation works only through If-Modified-Since (Last-Modified);
+`/api/assets/*` is `private, no-cache` without an ETag (by design in code) —
+whether static assets should get ETags is undecided.** The environment audit
+stays RED for other repositories' code.
 
 **Resume:** `bash scripts/qa-up.sh` boots everything; services are left RUNNING for
 manual QA (workshop 8087, vasic.digital 8402, milosvasic.ru 8089, ai 8099/8445).
