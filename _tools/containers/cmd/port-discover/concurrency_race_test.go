@@ -179,7 +179,11 @@ func TestConcurrentSameNameRegistration_ConvergesOnOnePort(t *testing.T) {
 	dir := t.TempDir()
 	const n = 24
 	const name = "race-shared-svc"
-	const defaultPort = 22800
+	// The preferred port is asked from the kernel, not frozen at a literal:
+	// the assertion below is convergence on ONE port, which holds whatever
+	// number that is, so nothing here should depend on 22800 being free.
+	defaultPort, released := listenOnAFreePort(t)
+	_ = released.Close()
 
 	type result struct {
 		rc       int

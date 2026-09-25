@@ -33,7 +33,7 @@
 
 - [ ] **Step 3: Confirm live, current values before writing cases** — `curl` both routes (health unauthenticated, index-status authenticated) and record the REAL current `ollama.configured` value, the REAL current index `state`/`unavailable` reason, and the REAL current `chapters` count vs. a live `GET /api/chapters` count. Do not assume any specific value from the design doc; confirm what THIS run of the live server actually reports.
 
-- [ ] **Step 4: Write the bank** with cases for: `/api/health`'s full field set (unauthenticated), the `chapters`-count cross-check against `GET /api/chapters`, the `web:true`/`GET /` agreement check, `ollama.configured` reflecting the real live state, `/api/index/status`'s real current response (whichever of `ok`/`unavailable` it currently is), the `state` enum membership check if `ok`, unauthenticated `/api/index/status` → 401.
+- [x] **Step 4: Write the bank** with cases for: `/api/health`'s full field set (unauthenticated), the `chapters`-count cross-check against `GET /api/chapters`, the `web:true`/`GET /` agreement check, `ollama.configured` reflecting the real live state, `/api/index/status`'s real current response (whichever of `ok`/`unavailable` it currently is), the `state` enum membership check if `ok`, unauthenticated `/api/index/status` → 401.
 
 - [ ] **Step 5: Investigate the `degraded`-state live trigger** (design doc case 8, the highest-value case in this bank) — read `pkg/index/degraded_test.go`'s real mechanism (`index.MarkDegraded`, recording a redaction against the currently-live generation) and determine whether an HTTP-level equivalent can be safely, revertibly constructed against the live shared corpus. If yes, build it. If no safe mechanism exists without risking real corruption to shared state other sub-projects depend on, say so precisely with the specific blocker, and `_skip` the case with that reason — do not force a risky mutation against the shared live index.
 
@@ -41,7 +41,7 @@
 
 - [ ] **Step 7: Golden-bad controls** where safely possible — the cross-check cases (2, chapters count; the web-flag agreement) are naturally strong even without an explicit mutation, since they compare two independently-computed live values.
 
-- [ ] **Step 8: Commit** (own file only, never pushed).
+- [x] **Step 8: Commit** (own file only, never pushed).
 
 ---
 
@@ -64,3 +64,14 @@
 - [ ] **Step 4: Re-run the affected bank(s) AND the full gate live** after each fix.
 - [ ] **Step 5: If zero real findings surfaced beyond the two named, documented gaps** (session-expiry wording, empty-corpus probing), state that explicitly.
 - [ ] **Step 6: Commit each fix separately**, never pushed.
+
+---
+
+## Completion evidence — 2026-09-24 (bookkeeping audit)
+
+Only two step types are ticked, and only where the artifact is provable from the repositories: **Write/Create the bank** (the bank file exists and is tracked in `submodules/qa`) and **Commit** (a `submodules/qa` commit touches that bank). Every OBSERVATION step (confirm the server, read handlers, run live, capture output, golden-bad controls, wire and run the gate, triage) is deliberately left unticked: it happened in a past session and cannot be re-proven from the tree. Unticked therefore means "not provable here", not "not done".
+
+| Task | Step | Kind | Bank | `submodules/qa` commit |
+|---|---|---|---|---|
+| Task 1 | Step 4 | write | `diagnostics-status.yaml` | e42fdb1 fix(diagnostics-status): relax chapters-count assertions to survive a sibling bank's fixture |
+| Task 1 | Step 8 | commit | `diagnostics-status.yaml` | e42fdb1 fix(diagnostics-status): relax chapters-count assertions to survive a sibling bank's fixture |

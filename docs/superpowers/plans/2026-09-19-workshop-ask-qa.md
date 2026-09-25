@@ -50,7 +50,7 @@ sed -n '1,50p' pkg/answer/http.go
 ```
 Read `pkg/answer/http.go`'s `Mount` function and both handlers in full. Note: the exact JSON field names `/api/ask/status` returns (`enabled`, `suspended`, `calibrated`, `verifier_kind`, `question_verifier_kind`, `estimated_seconds`, `latency_note` — confirm these are the REAL field names, don't assume from this list); the exact `reason.code` value for the no-provider case (research says `no_provider` — confirm live); `MaxQuestionBytes` (research says 2000) and `MaxWait` (research says 200s) — read the real constants, don't assume the research doc's numbers are still current.
 
-- [ ] **Step 3: Write the bank**
+- [x] **Step 3: Write the bank**
 
 Cases:
 - `WK-ASK-001`: `GET /api/ask/status` (authenticated) returns 200 with the real capability fields reflecting the live `none` provider state.
@@ -75,7 +75,7 @@ Expected: every case PASSes.
 
 For WK-ASK-002 (auth required) and WK-ASK-007 (auth required) — invert the real auth check, confirm genuine FAIL, restore, confirm PASS again, matching the established pattern. For WK-ASK-003/004/005 (input validation / no-provider response), find a real, revertible way to invert the specific check being asserted WITHOUT touching the provider setting (e.g., temporarily changing `MaxQuestionBytes`'s comparison operator, or the `empty_query` check's condition) — read the real code first to find a genuinely revertible mutation, don't force one that isn't clean. If no safe golden-bad exists for a given case without touching deployment config, say so precisely.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 cd $VASIC_ROOT/submodules/qa
@@ -119,3 +119,14 @@ Expected: PASS, reporting the full, now-larger case count.
 - [ ] **Step 5: If zero real findings surfaced**, state that explicitly and precisely.
 
 - [ ] **Step 6: Commit each fix separately**, never pushed by the implementer.
+
+---
+
+## Completion evidence — 2026-09-24 (bookkeeping audit)
+
+Only two step types are ticked, and only where the artifact is provable from the repositories: **Write/Create the bank** (the bank file exists and is tracked in `submodules/qa`) and **Commit** (a `submodules/qa` commit touches that bank). Every OBSERVATION step (confirm the server, read handlers, run live, capture output, golden-bad controls, wire and run the gate, triage) is deliberately left unticked: it happened in a past session and cannot be re-proven from the tree. Unticked therefore means "not provable here", not "not done".
+
+| Task | Step | Kind | Bank | `submodules/qa` commit |
+|---|---|---|---|---|
+| Task 1 | Step 3 | write | `ask.yaml` | 6488b63 qa: HelixQA bank for workshop's ask/Q&A surface (scoped to the live no_provider state) |
+| Task 1 | Step 6 | commit | `ask.yaml` | 6488b63 qa: HelixQA bank for workshop's ask/Q&A surface (scoped to the live no_provider state) |

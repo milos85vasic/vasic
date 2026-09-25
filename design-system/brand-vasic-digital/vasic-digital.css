@@ -169,7 +169,8 @@
   --vd-hard: rgba(224, 107, 115, 0.85);
   --vd-hairline: rgba(255, 255, 255, 0.06);
   --od-shadow-lg: 0 0 0 1px var(--od-border), 10px 10px 0 -1px var(--vd-hard);
-  --od-badge-success-bg: #2b8a3e;
+  /* --od-badge-success-bg is NOT re-declared in the dark blocks (see the status
+     pill rule): it is theme-INVARIANT. */
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -190,9 +191,7 @@
     --od-shadow-color: rgba(0, 0, 0, 0.5);
     --vd-grid-line: rgba(224, 107, 115, 0.14);
     --vd-hairline: rgba(255, 255, 255, 0.06);
-  
-    --od-badge-success-bg: #2b8a3e;
-}
+  }
 }
 
 /* ---- Base reset ---------------------------------------------------------- */
@@ -507,7 +506,12 @@ body {
 .od-badge--status--roadmap { background-color: var(--od-surface-2); color: var(--od-text); }
 .od-badge--status--in-development { background-color: var(--od-warning); color: var(--od-status-fg-dark); }
 .od-badge--status--beta { background-color: var(--od-accent); color: var(--od-on-accent); }
-/* Green "shipped" pills: fixed WHITE on darker green (5.14:1 → AA both themes). */
+/* Green "shipped" pills: fixed WHITE on a THEME-INVARIANT darker green
+   (--od-badge-success-bg #1e7e34 = 5.14:1, AA). It must NOT be redeclared in a
+   dark block: a fixed foreground over a fill that flips with the theme cannot
+   clear AA in both — the flipped dark fill #2b8a3e measured 4.37:1 (audit
+   2026-09-24; the previous comment here claimed "AA both themes" and was FALSE
+   for dark). design-toolkit/generators/dtcg-to-od.mjs documents the same rule. */
 .od-badge--status.od-badge--status--production,
 .od-badge--status.od-badge--status--shipped,
 .od-badge--status.od-badge--status--active,

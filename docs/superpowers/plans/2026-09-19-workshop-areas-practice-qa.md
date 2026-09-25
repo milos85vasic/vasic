@@ -35,13 +35,13 @@
 
 - [ ] **Step 3: Confirm live, current corpus state before writing cases** — which real areas are published vs held-back (query `GET /api/areas` live, cross-reference detail routes), which have completed-vs-locked assessment gates. Do not assume the 819/817 figures from the research still hold; that was a historical measurement, re-derive current state.
 
-- [ ] **Step 4: Write the TAXONOMY and LEARNING-PATH case groups** (design doc cases 1-13): published/held-back/malformed/unknown area ids, `?include=held_back` validation, unauthenticated access, locked/unlocked assessment gates, the 403-no-result-key locked-submission case, and the cross-session `unknown_choice` isolation case (investigate the framework's session-addressing limitations first per the Global Constraints — if genuinely inexpressible in one bank case, `_skip` with a precise reason and independently verify the underlying server property via direct curl in your own verification session, matching the auth-session sub-project's WK-AUTH-005 resolution).
+- [x] **Step 4: Write the TAXONOMY and LEARNING-PATH case groups** (design doc cases 1-13): published/held-back/malformed/unknown area ids, `?include=held_back` validation, unauthenticated access, locked/unlocked assessment gates, the 403-no-result-key locked-submission case, and the cross-session `unknown_choice` isolation case (investigate the framework's session-addressing limitations first per the Global Constraints — if genuinely inexpressible in one bank case, `_skip` with a precise reason and independently verify the underlying server property via direct curl in your own verification session, matching the auth-session sub-project's WK-AUTH-005 resolution).
 
 - [ ] **Step 5: Run it against the live server, capture real output.**
 
 - [ ] **Step 6: Golden-bad controls** for the cross-session isolation case (highest value) and the publication-asymmetry case.
 
-- [ ] **Step 7: Commit** (own file only, never pushed).
+- [x] **Step 7: Commit** (own file only, never pushed).
 
 ---
 
@@ -56,13 +56,13 @@
 
 - [ ] **Step 3: Confirm live which real areas/questions currently exhibit each of the three withholding mechanisms** — don't assume; query the practice-deck route for a real area and inspect the actual response shape.
 
-- [ ] **Step 4: Write the PRACTICE-DECK case group** (design doc cases 14-17): sessionless access confirmed live, a citation-resolvability-withheld question, an answer-key-disclosure-withheld question with `citations_withheld: true`, and a disclosed question with real citations as the contrast case. Keep these three mechanisms in three separate assertions, never conflated.
+- [x] **Step 4: Write the PRACTICE-DECK case group** (design doc cases 14-17): sessionless access confirmed live, a citation-resolvability-withheld question, an answer-key-disclosure-withheld question with `citations_withheld: true`, and a disclosed question with real citations as the contrast case. Keep these three mechanisms in three separate assertions, never conflated.
 
 - [ ] **Step 5: Run the full bank against the live server, capture real output.**
 
 - [ ] **Step 6: Golden-bad controls** for at least one of the three withholding mechanisms.
 
-- [ ] **Step 7: Commit.**
+- [x] **Step 7: Commit.**
 
 ---
 
@@ -83,3 +83,16 @@
 - [ ] **Step 4: Re-run the affected bank(s) AND the full gate live** after each fix.
 - [ ] **Step 5: If zero real findings surfaced**, state that explicitly and precisely.
 - [ ] **Step 6: Commit each fix separately**, never pushed.
+
+---
+
+## Completion evidence — 2026-09-24 (bookkeeping audit)
+
+Only two step types are ticked, and only where the artifact is provable from the repositories: **Write/Create the bank** (the bank file exists and is tracked in `submodules/qa`) and **Commit** (a `submodules/qa` commit touches that bank). Every OBSERVATION step (confirm the server, read handlers, run live, capture output, golden-bad controls, wire and run the gate, triage) is deliberately left unticked: it happened in a past session and cannot be re-proven from the tree. Unticked therefore means "not provable here", not "not done".
+
+| Task | Step | Kind | Bank | `submodules/qa` commit |
+|---|---|---|---|---|
+| Task 1 | Step 4 | write | `areas-practice.yaml` | 4074093 qa: HelixQA bank for workshop's areas taxonomy + learning-path surface |
+| Task 1 | Step 7 | commit | `areas-practice.yaml` | 4074093 qa: HelixQA bank for workshop's areas taxonomy + learning-path surface |
+| Task 2 | Step 4 | write | `areas-practice.yaml` | ca77e56 qa: extend workshop areas-practice bank with practice-deck cases (WK-PRACTICE-*) |
+| Task 2 | Step 7 | commit | `areas-practice.yaml` | ca77e56 qa: extend workshop areas-practice bank with practice-deck cases (WK-PRACTICE-*) |

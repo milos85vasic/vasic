@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-24T09:30:00Z
-    Synced-Commit: 5db4b8f6cf19
+    Last-Updated: 2026-09-25T09:09:00Z
+    Synced-Commit: a0e6ac811c18
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,166 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### ANSWERING OFF, SUGGEST 503 FIXED LIVE, REBUILD TRAP CLOSED, SITES SHIPPED WITH A REAL FEED, 2026-09-25
+
+**State at handoff (all measured 2026-09-25, not inherited):** workshop container
+`workshop-curriculum_platform_1` runs a binary built from a clean committed tree
+(workshop `185fb15`, `dirty=false`), args `-answer-provider none … -question-verify
+none -ollama http://127.0.0.1:11434`; `/api/ask` -> 503 `no_provider`; semantic
+search `legs.semantic = ok`; `/api/suggest` 200/200 at 16-way concurrency;
+`verify-prebuilt-artifacts` 6 PASS, `verify-served-contrast` 382 pairings PASS,
+`verify-search-determinism` 26 queries identical over 5 runs, `verify-search-latency`
+2 PASS + code leg NOT CONFIGURED (rc 0; it is a statement about the deployment).
+ai_interviewing (`92c5c17`) and both websites (`vasic.digital` `d4e741c`,
+`milosvasic.ru` `04cf165`) are deployed; `milosvasic.ru/feed.xml` is a valid Atom
+feed of 33 entries (14 language feeds 200).
+
+**Decisions taken by the operator (AskUserQuestion, 2026-09-25):** answering OFF,
+semantic search stays (measurement: 19% recall upper bound, 4.6% fabrication ->
+workshop `467b15f`); delete the two bad ai_interviewing progress rows with a DB
+backup (rows 181/182 gone; row 180 `test-session-123` remains, optional); deploy the
+ai RBAC fixes and answer 404 for both restricted-asset cases; ship the websites;
+build a real feed; oomd protection NOT applied ("not now").
+
+**What changed this session:** workshop `25ce01d` (suggest cache + mmap), `467b15f`
+(measurement + `gates/answer-eval`), `981c76e` (Lumen gate NOT CONFIGURED
+classification), `185fb15` (answering OFF default + gate G29, rebuild-trap guard
+`ensure_fresh_server`, oomd prover tripwire, contrast tokens, small defects).
+**The rebuild trap:** `start.sh` built the server only if the binary was missing and
+`restart.sh` never rebuilt, so a "restart" ran a stale binary; an earlier statement
+that `restart.sh` compiles HEAD was WRONG and is withdrawn. Now a stale or
+dirty-tree build is refused (`WORKSHOP_SKIP_SERVER_FRESHNESS` only for
+`workshop-oomprobe-*` projects). **The binary incident:** a prover swapped the live
+mounted `platform/bin/workshop-server`; it was restored atomically and provers now
+carry a `platform/bin` tripwire and must not run concurrently.
+
+**OPEN, nothing decided or applied:** G3/G5 residue (Option 2); the question-shape
+leak (57/150 keys have the most negations, z=+3.78; remediation proposed, not
+applied); benchmark result tables and the umbrella `CLAUDE.md` are INDEXED passages
+in the served corpus (retrieval contamination, decision pending); oomd protection
+(`workshop/scripts/protect-from-oomd.sh`, declined for now — the crash-loop root cause is
+oomd kills, not the healthcheck); the workshop Lumen leg is off by design (needs a
+`lumen` binary, `-lumen-root`, `-lumen-scope`); `floor-domain` rc 2; 2
+`cmd/workshop-server` T508 tests fail only under `-race`, identically on `HEAD`;
+`GIT_OPTIONAL_LOCKS=0` in `.claude/settings.json` awaits a decision (the stale
+`.git/index.lock` recurred 5+ times); an upstream constitution `REPO` off-by-one
+report is drafted, not filed; the shared sudo password should be rotated; the
+`submodules/qa` working tree carries an uncommitted `banks/workshop/search.yaml`
+edit that is NOT this session's to commit. The environment audit stays RED for
+other repositories' code.
+
+**Resume:** `bash scripts/qa-up.sh` boots everything; services are left RUNNING for
+manual QA (workshop 8087, vasic.digital 8402, milosvasic.ru 8089, ai 8099/8445).
+
+### EXHAUSTIVE LIVE AUDIT, TWO SERVICES FIXED AND DEPLOYED, ANSWERING TURNED ON, 2026-09-24
+
+**Method.** Seven read-only audit streams on the LIVE services (superpowers
+systematic-debugging: evidence, then root cause, then a test-first fix, then an
+independent review, then a commit). Measured, not asserted: workshop API
+(`verify-server-unity.sh` 48 PASS / 0 FAIL / 0 UNDET / 4 DEBT plus about 41 live
+routes as anonymous, admin and user; FR-297 equal access held); workshop UI (128
+chromium and 14 firefox/webkit cases); workshop spec ledger (spec 008: 538 done,
+**44 distinct open tasks** = 2 superseded, 18 unbuilt OCR chain, 12 blocked on an
+operator decision, 12 open or partial, including T344 incremental index rebuild
+and T356 SC-010 UNMET); workshop ops and data; the two websites (1,050 pages, 1,118
+internal link targets, 75 PDFs, 0 failures); ai_interviewing (route x role); and a
+repo-wide ledger. The constitution sweep finished at **10 FAIL + 4 ERROR of 271**,
+all outside what the umbrella can fix (a `REPO` derivation class in gates that
+assume a top-level `constitution/`, third-party trees, two 900 s timeouts).
+
+**FIXED AND COMMITTED (each independently reviewed; RED shown first).**
+- **workshop `8f6e8cb` .. `00a4dac`:** six UI defects (a false `/status` FAULT from a
+  hard-coded probe id, mobile overflow at `/areas/:id`, dark code-block contrast,
+  an unnamed progressbar, nested landmarks, a silent recording failure); the
+  contrast gate now samples code blocks and highlighted lines, a coverage refusal
+  no longer outranks a finding, and the sampler composites translucent backgrounds;
+  CLI-contract, gate-honesty and stale-doc defects (`ff579df`); the `llamacpp`
+  KindLocal answering provider (`14a6ca6`); answering ON by default (`00a4dac`).
+- **ai_interviewing `06f70af` + `18b6cdb`:** the user could read all 158 assets,
+  including 81 of the two restricted tracks; search truncated before the RBAC
+  filter; `itemType` was unvalidated; a non-readable asset now answers exactly like
+  a missing one (404, by operator decision). **DEPLOYED live**, pid 1254737, started
+  2026-09-24 20:05:27, backup of the previous binary kept in the session scratch
+  cache. Two bad progress rows (ids 181 and 182) were deleted with a verified
+  database backup; row 180 (session `test-session-123`, empty itemType) was
+  **deliberately left**: it is a TEST FIXTURE that wrote into the live database.
+- **constitution pin** fast-forwarded `6f6fb555f42a` -> `eba38e8938f0` under the
+  standing authorization (0 divergent / 1 behind; two gate files; `Constitution.md`
+  blob `77388e60cfaa` unchanged on both sides; nothing pushed to that repository).
+- **umbrella:** the six umbrella-owned environment-audit findings fixed (real fixes
+  or reasoned allow rows, no baseline rows); the stale ollama claim in the four
+  carriers (corrected again below); spec 009 ticked 25 of 27 and the superpowers
+  plans 26 of 206, each tick only against committed evidence.
+
+**Workshop answering is ON since 2026-09-24.** Operator answer "Do 2"; workshop
+`00a4dac`; Ollama for embeddings (`nomic-embed-text`) and answers
+(`qwen2.5:3b-instruct-q4_K_M`) with `-question-verify llm`. The container is a NEW
+one (started 2026-09-24 21:04:31, `RestartCount` reads 0; the previous container
+read 10). Measured live after the restart: `/api/ask/status` `enabled: true`,
+`/api/health` ollama configured and reachable, `mode=semantic` search
+`legs.semantic = "ok"`. A first probe answered **0 of 3** answerable questions
+(the lexical L4 floor rejected two at 0.38 and 0.48 against 0.50, one was
+`margin_too_small`) and correctly refused **3 of 3** out-of-corpus questions.
+**Recall at scale is UNMEASURED and SC-010 / SC-094 stays UNMET: answering is
+best-effort.** `llmctl` is NOT running on this host and has no embedding model;
+`llamacpp` was never run against a real llama-server. `floor-domain` still exits 2
+(the calibration corpus is gone) and `search-latency` exits 2 (the Lumen leg is
+skipped, unrelated to answering). The switch back is
+`WORKSHOP_ANSWER_PROVIDER=none WORKSHOP_QUESTION_VERIFY=none` plus a restart.
+
+**ROOT-CAUSED, FIX NOT DONE: the one-off `/api/suggest` 503.** It is
+`suggest_timeout`: a single-letter prefix costs about 0.38 CPU-seconds per request
+(the lexical query ranks about 10,700 matching rows before the LIMIT), so 4 or more
+concurrent clients fail (77 of 120 at four, 160 of 160 at eight) while sequential
+use never does (0 of 600). The container is not throttled. The original roughly
+1,017 ms stall is **UNCONFIRMED** (hypothesis: auth-store `SetMaxOpenConns(1)`
+contention, untested).
+
+**Host.** Swap was exhausted and `/tmp` (a 16 GB tmpfs, i.e. RAM) held 13 GB; the
+oomd kills of the workshop scope on 2026-09-23 came under the same memory pressure
+(the tmpfs-to-swap link is a correlation, UNCONFIRMED as the cause). Finished scratch
+was moved to the on-disk session cache, and `/tmp` fell to about 4.5 GB. **`/tmp`
+scratch growth recurs**, so treat it as a standing hazard. The `.git/index.lock`
+went stale a fifth time (security-guidance plugin SIGKILL); `GIT_OPTIONAL_LOCKS=0`
+is recommended and undecided.
+
+**OPEN DECISIONS (operator).** (1) G3/G5 suppressed-content residue: Option 2 in
+force (bundle stays live, gates stay red); finishing means suppressing about 512
+more carrier rows and a re-embed. (2) oomd protection of the live workshop
+container: the operator said not now. (3) `GIT_OPTIONAL_LOCKS=0` in
+`.claude/settings.json`. (4) A production `deploy-langs.sh` ship for vasic.digital:
+dark "shipped" badges at 4.36:1, 525 pages still carrying the old empty
+`catch(e){}`, an empty Atom feed on milosvasic.ru, and the hero divider hidden in
+the bottom 8% band (`motion.js` rootMargin); not authorised. (5) Filing the
+constitution `REPO` report (a draft exists in the session scratch; nothing filed).
+(6) Removing ai_interviewing row 180.
+
+**OPEN, KNOWN, NOT FIXED.**
+- workshop: the `question-shape` LEAK (correct keys have the most negations in 57
+  of 150 questions, z = +3.78; the served catalogue passes by only 0.19;
+  remediation proposed, not applied); `.pf-diff__num` contrast 4.18 to 4.40:1
+  ungraded; the recording Download link on a 401; `workshop-ask` still defaults
+  `-answer-endpoint` to the Ollama URL; the `llamacpp` health check at boot means
+  answering stays off if `llmctl` is down; a symlinked-sidecar resolution edge and
+  no containment check on `source_file` in `ingest-transcript`; `workshop/scripts/start.sh`
+  logs "oomd protection applied" even when the helper opted out (misleading).
+- ai_interviewing: deferred design items (security headers, cookie `Secure`, CORS,
+  `HEAD /api/health`); follow-ups (pin a readable-track missing name in the test,
+  give the QA bank's C9 an entitled account).
+- GitHub Pages sends no security headers (platform limit); Arabic PDF text
+  extraction looks scrambled in `pdftotext` (UNCONFIRMED, likely an RTL artifact).
+- **Docs and banks that still assert the old off state** (they go stale or RED
+  now): `workshop/docs/qa/MANUAL-TEST-PLAN.md` (lines 718 to 728, 11.7, K11),
+  `workshop/docs/qa/KNOWN-LIMITATIONS.md` L17, `workshop/docs/qa/CLIENT-WALKTHROUGH.md`
+  line 435, the demo script, their `*.sections.json` sidecars, and
+  `submodules/qa/banks/workshop/ask.yaml` (another repository, with its own
+  uncommitted change). **DO NOT re-ingest until this is batched:** an ingest
+  changes the edited sections' `content_hash`, hence the corpus `root_hash`, and
+  stales the deployed gen-15 crossrefs bundle (about 1h37m to re-derive).
+- The environment audit stays RED: 6,146 findings, **none umbrella-owned**
+  (`llms_verifier` 4,459, `qa` 669, `llm_provider` 452, `challenges` 246,
+  `workshop` 105, `vision_engine` 104, and smaller); their owners fix them upstream.
 
 ### WORKSHOP CROSSREFS + CONTRAST DEPLOYED, REDACTION TOOL DEFECT FIXED, RESIDUE DECISION OPEN, 2026-09-23 (evening)
 

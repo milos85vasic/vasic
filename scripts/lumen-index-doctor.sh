@@ -36,8 +36,50 @@
 #   LM_STUDIO_HOST       LM Studio base URL
 #   LUMEN_CONFIG         lumen config.yaml (default $XDG_CONFIG_HOME/lumen/config.yaml)
 #   LUMEN_DUP_THRESHOLD  identical-group size that means corruption (default 10)
-#   LUMEN_NORM_MIN/MAX   accepted L2 norm band (default 0.99 / 1.01)
+#   LUMEN_NORM_MIN/MAX   accepted L2 norm band (default 0.99 / 1.01). float32
+#                        indexes ONLY: int8 vectors are stored scaled to their own
+#                        maximum, so their raw L2 norm is 428..1312 on the real
+#                        store and no unit-norm band can apply (see INT8 below).
+#   LUMEN_INT8_SCALE_DOMINANCE  share of distinct live vectors that must sit on
+#                        ONE max|component| for the int8 scale check to apply
+#                        (default 0.90)
+#   LUMEN_INT8_SCALE_TOP the int8 saturation value that scale must equal
+#                        (default 127; max-abs quantisation puts the largest
+#                        component AT it). A legitimate int8 store that is NOT
+#                        quantised max-abs (different scheme or scale) will read
+#                        rc 2 "scale invariant not established" until this is
+#                        set to that store's own top; the doctor cannot guess it.
+#   A set-but-non-numeric value of ANY numeric LUMEN_* tuning variable is rc 2
+#   naming the variable; it is never silently replaced by the default.
+#   LUMEN_INT8_MIN_VECTORS  fewest distinct live vectors that can state a scale
+#                        (default 10)
+#   LUMEN_DOCTOR_PREFLIGHT_TIMEOUT  seconds --prove-failure allows its live
+#                        pre-flight run against the real store (default 900; the
+#                        real run took 157 s on a 1.25M-vector store). 0 DISABLES
+#                        the timeout, i.e. the run is UNBOUNDED. Applies to
+#                        --prove-failure only.
 #   LUMEN_PROBE_TIMEOUT  seconds for backend probes (default 5)
+#
+# INT8 STORAGE — WHAT IS CHECKED, AND THE RECALL COST (measured on specimens of
+# 1000 vectors, 2026-09-24). The scale invariant is derived from the data and
+# then held to a fixed anchor: it is ESTABLISHED only if (1) at least
+# LUMEN_INT8_MIN_VECTORS distinct live vectors exist, (2) one max|component|
+# covers >= LUMEN_INT8_SCALE_DOMINANCE of them, and (3) that value is
+# LUMEN_INT8_SCALE_TOP. Established: vectors on any other scale are "off-scale"
+# and are corruption (rc 1). NOT established: rc 2, COULD NOT DETERMINE — the
+# same principle as the width / no-vector-table cases, never a clean bill.
+#
+#     off-scale share of vectors      verdict
+#     0.5%                            DETECTED   rc 1
+#     exactly 10%                     DETECTED   rc 1
+#     11%                             not established   rc 2
+#     60%                             not established   rc 2
+#     100% (all rescaled together)    not established   rc 2 (mode != top)
+#     N < 10 distinct live vectors    not established   rc 2
+#
+# So above 10% the doctor cannot say WHICH side is right and says so, rather than
+# reading a broken index as healthy. Duplicate, all-zero and ragged-block checks
+# run regardless. Corruption (1) outranks could-not-determine (2).
 #
 # THE VECTOR WIDTH IS NEVER A LITERAL. It is taken from the vec0 virtual-table
 # declaration (`embedding float[768]`), cross-checked against the block bytes on
@@ -120,7 +162,11 @@ if [[ $PROVE -eq 1 ]]; then
     P_PASS=0; P_FAIL=0
 
     # ---- PRE-FLIGHT: the REAL entry point against the REAL store -------------
-    pf_out="$(timeout 120 bash "$SELF" "$PROJ" 2>&1)"; pf_rc=$?
+    # The real run's cost grows with the index (measured 157 s on a 1.25M-vector
+    # store, 2026-09-24), so a fixed 120 s cap turned "the index grew" into
+    # "the real instrument cannot start" and aborted the whole proof. Tunable;
+    # a real hang still fails, just later.
+    pf_out="$(timeout "${LUMEN_DOCTOR_PREFLIGHT_TIMEOUT:-900}" bash "$SELF" "$PROJ" 2>&1)"; pf_rc=$?
     case "$pf_rc" in
         0) printf 'ℹ %-30s the real instrument ran against the real store and returned rc=0 (healthy)\n' "PRE-FLIGHT live-run" ;;
         1) printf 'ℹ %-30s the real instrument RAN and returned rc=1 (real corruption). REPORTED,\n' "PRE-FLIGHT live-run"
@@ -150,7 +196,11 @@ import os, sqlite3, struct, math, shutil
 
 store = os.environ["STORE_DIR"]; mode = os.environ["MODE"]
 proj  = os.path.realpath(os.environ["SPEC_PROJ"])
-DIM, N = 8, 16
+# Population-size specimens (int8): the scale invariant is a PERCENTAGE claim,
+# so its cases need a population. Everything else keeps the small 16-vector one.
+BIGN = {"int8off05": 1000, "int8off10": 1000, "int8off11": 1000,
+        "int8off60": 1000, "int8uniform": 1000, "int8tiny": 6}
+DIM, N = 8, BIGN.get(mode, 16)
 shutil.rmtree(store, ignore_errors=True)
 d = os.path.join(store, "aaaaaaaaaaaaaaaa")
 os.makedirs(d)
@@ -162,12 +212,39 @@ def unit(seed):
     return [x / n for x in v]
 
 vecs = [unit(i) for i in range(N)]
+INT8 = mode.startswith("int8")
+def q8(v, top=127):
+    # lumen-style per-vector max-abs quantisation: the largest |component| is
+    # scaled to `top`, so the L2 norm of the STORED bytes is NOT 1 (measured on
+    # the real index 2026-09-24: 428..1312, and max|component| == 127 for
+    # every vector). A unit-norm band cannot hold for int8.
+    m = max(abs(x) for x in v) or 1.0
+    return [int(round(x / m * top)) for x in v]
+if INT8 and mode in BIGN:
+    import random
+    rng = random.Random(4242)
+    raw = [[rng.gauss(0, 1) for _ in range(DIM)] for _ in range(N)]
+    vecs = [q8(v) for v in raw]
+    off = {"int8off05": 5, "int8off10": 100, "int8off11": 110, "int8off60": 600}.get(mode, 0)
+    for i in range(off):
+        vecs[i] = q8(raw[i], top=40)              # a different max scale
+    if mode == "int8uniform":
+        vecs = [q8(v, top=60) for v in raw]       # EVERY vector on one wrong scale
+elif INT8:
+    vecs = [q8(v) for v in vecs]
+    if   mode == "int8dup":      vecs = [q8(unit(0))] * 12 + [q8(unit(i)) for i in range(1, N - 11)]
+    elif mode == "int8zero":     vecs[5] = [0] * DIM
+    elif mode == "int8offscale": vecs[7] = q8(unit(7), top=40)      # one vector on the wrong scale
+    elif mode == "int8noscale":  vecs = [q8(unit(i), top=20 + (i * 37) % 108) for i in range(N)]   # no dominant scale
 if   mode == "dup":     vecs = [unit(0)] * 12 + [unit(i) for i in range(1, N - 11)]
 elif mode == "nan":     vecs[3] = [float("nan")] * DIM
 elif mode == "zero":    vecs[5] = [0.0] * DIM
 elif mode == "offnorm": vecs[7] = [x * 2.0 for x in vecs[7]]
 
-blob = b"".join(struct.pack("<%df" % DIM, *v) for v in vecs)
+if INT8:
+    blob = b"".join(struct.pack("<%db" % DIM, *v) for v in vecs)
+else:
+    blob = b"".join(struct.pack("<%df" % DIM, *v) for v in vecs)
 if mode == "ragged":
     blob += b"\x01\x02\x03"          # not a whole number of vectors
 
@@ -186,6 +263,10 @@ c.executemany("INSERT INTO chunks VALUES (?)", [(i,) for i in range(N)])
 c.execute("CREATE TABLE %s(vectors BLOB)" % vec_name)
 c.execute("INSERT INTO %s(rowid, vectors) VALUES (1, ?)" % vec_name, (blob,))
 # sqlite-vec's per-block validity bitmap: every one of the N slots is live.
+if INT8:
+    # The doctor derives the element type from the vec0 declaration
+    # (`name type[N]`); plain sqlite accepts any type name, so this is enough.
+    c.execute("CREATE TABLE items(embedding int8[%d])" % DIM)
 c.execute("CREATE TABLE items_chunks(validity BLOB, size INTEGER)")
 c.execute("INSERT INTO items_chunks(rowid, validity, size) VALUES (1, ?, ?)",
           (bytes([0xFF] * ((N + 7) // 8)), N))
@@ -210,6 +291,16 @@ MKPY
     p_ok()  { P_PASS=$((P_PASS+1)); printf '✅ %-30s %s\n' "$1" "$2"; }
     p_bad() { P_FAIL=$((P_FAIL+1)); printf '❌ %-30s %s\n' "$1" "$2"; }
 
+    # assert_absent <label> <needle>: the LAST assert_case output must NOT contain
+    # <needle> (used to prove a could-not-determine run never printed a clean bill).
+    assert_absent() {
+        if grep -qF -- "$2" <<<"${LAST_OUT:-}"; then
+            p_bad "$1" "the output contained '$2' — a could-not-determine run read as healthy"
+        else
+            p_ok "$1" "and it never printed '$2'"
+        fi
+    }
+
     # assert_case <label> <mode> <want-rc> <needle> [extra argv...]
     assert_case() {
         local label="$1" mode="$2" want="$3" needle="$4"; shift 4
@@ -219,6 +310,7 @@ MKPY
             return
         fi
         out="$(run_doctor "$store" "$@")"; rc=$?
+        LAST_OUT="$out"
         if [[ $rc -ne $want ]]; then
             p_bad "$label" "expected rc=$want, got rc=$rc (mode=$mode)"
             printf '%s\n' "$out" | tail -5 | sed 's/^/        /'
@@ -233,8 +325,13 @@ MKPY
     }
 
     # ---- CONTROL: synthetic, healthy by construction -------------------------
+    # Only a failure of THE CONTROL aborts the battery. An earlier pre-flight
+    # failure is already reported on its own line and must not be blamed on the
+    # control (it was: "the synthetic control did not pass" over a control that
+    # had just printed a green line).
+    _control_before=$P_FAIL
     assert_case "CONTROL synthetic-healthy" clean 0 "index healthy"
-    if [[ $P_FAIL -gt 0 ]]; then
+    if [[ $P_FAIL -gt $_control_before ]]; then
         echo "----------------------------------------------------------------------"
         echo "❌ LUMEN-INDEX-DOCTOR §1.1 PROOF: ABORTED — the synthetic control did not pass,"
         echo "   so ZERO mutations ran and nothing below would have been proved."
@@ -250,9 +347,57 @@ MKPY
     assert_case "M3 all-zero-vector         " zero     1 "all-zero"
     assert_case "M4 off-norm-vector         " offnorm  1 "off-norm"
     assert_case "M5 ragged-block            " ragged   1 "ragged block"
+    # M5b-M5f — int8 storage (what lumen actually writes). The float unit-norm
+    # band does not hold for int8, so a HEALTHY int8 index must not read as
+    # corrupt (it did: every vector was "off-norm"), and the four real faults
+    # must still be caught.
+    assert_case "M5b int8-healthy           " int8ok        0 "index healthy"
+    assert_case "M5c int8-stale-duplicates  " int8dup       1 "duplicate-vector group"
+    assert_case "M5d int8-all-zero-vector   " int8zero      1 "all-zero"
+    assert_case "M5e int8-off-scale-vector  " int8offscale  1 "off-scale"
+    # M5f-M5k — the scale invariant NOT ESTABLISHED is could-not-determine
+    # (rc 2, never a clean bill). Measured recall (specimens above, N=1000):
+    # 0.5% and exactly 10% off-scale are DETECTED (rc 1); 11%, 60% off-scale and a
+    # uniform rescale of EVERY vector are not established (rc 2), as is a
+    # population too small (N<10) to state a scale at all.
+    assert_case "M5f int8-no-dominant-scale " int8noscale   2 "not established"
+    assert_absent "M5f2 never-healthy        " "index healthy"
+    assert_case "M5g int8 0.5% off-scale    " int8off05     1 "off-scale"
+    assert_case "M5h int8 10% off-scale     " int8off10     1 "off-scale"
+    assert_case "M5i int8 11% off-scale     " int8off11     2 "not established"
+    assert_absent "M5i2 never-healthy        " "index healthy"
+    assert_case "M5j int8 60% off-scale     " int8off60     2 "not established"
+    assert_absent "M5j2 never-healthy        " "index healthy"
+    assert_case "M5k int8 uniform rescale   " int8uniform   2 "not established"
+    assert_absent "M5k2 never-healthy        " "index healthy"
+    assert_case "M5l int8 tiny population   " int8tiny      2 "not established"
+    assert_absent "M5l2 never-healthy        " "index healthy"
     # M6/M7 are the SC-013 half: could-not-inspect must never read as healthy.
     assert_case "M6 width-disagreement      " geomclash 2 "disagrees with itself"
     assert_case "M7 no-vector-table         " novec    2 "no sqlite-vec vector table"
+
+    # M11 — a non-numeric tuning value must FAIL LOUDLY (rc 2, naming the
+    #       variable), never fall back to the strict default in silence: the run
+    #       would then judge the index by a threshold the operator did not choose
+    #       and did not know had been ignored.
+    env_case() {   # env_case <label> <specimen-mode> <VAR> <bad-value>
+        local label="$1" mode="$2" var="$3" val="$4" out rc
+        build_specimen "$SB/store" "$mode" >/dev/null 2>&1
+        out="$(env HOME="$SB" LUMEN_STORE="$SB/store" LUMEN_CONFIG="$SB/no-such-config.yaml" \
+                   OLLAMA_HOST="127.0.0.1:1" LUMEN_PROBE_TIMEOUT=1 "$var=$val" \
+                   timeout 120 bash "$SELF" "$SB_PROJ" 2>&1)"; rc=$?
+        if [[ $rc -eq 2 ]] && grep -qF -- "$var" <<<"$out" && ! grep -qF "index healthy" <<<"$out"; then
+            p_ok "$label" "rc=2, named $var, no clean bill"
+        else
+            p_bad "$label" "expected rc=2 naming $var and no 'index healthy', got rc=$rc"
+            printf '%s\n' "$out" | tail -3 | sed 's/^/        /'
+        fi
+    }
+    env_case "M11a bad-INT8-DOMINANCE     " int8ok LUMEN_INT8_SCALE_DOMINANCE  abc
+    env_case "M11b bad-INT8-TOP           " int8ok LUMEN_INT8_SCALE_TOP        12x
+    env_case "M11c bad-INT8-MIN-VECTORS   " int8ok LUMEN_INT8_MIN_VECTORS      ten
+    env_case "M11d bad-NORM-MIN (float32) " clean  LUMEN_NORM_MIN              abc
+    env_case "M11e bad-NORM-MAX (float32) " clean  LUMEN_NORM_MAX              1,01
 
     # M8 — the element type is pinned to something that cannot be decoded. It
     #      needs an env override rather than a specimen change, so it is driven
@@ -297,10 +442,12 @@ MKPY
     fi
     echo "✅ LUMEN-INDEX-DOCTOR §1.1 MUTATION PROOF: PASS — the real entry point ran against"
     echo "   the real store (reported, never gating), a synthetic control that is healthy by"
-    echo "   construction passed, and 10 mutations were each caught with the right"
-    echo "   three-valued verdict: 5 real corruptions as rc=1 — including the well-formed"
-    echo "   duplicate-vector fault every conventional per-vector test passes — and 5"
-    echo "   could-not-inspect states as rc=2 rather than as a clean bill of health."
+    echo "   construction passed, and all ${P_PASS} checks above held with the required"
+    echo "   three-valued verdict (the count is the live pass counter, not a literal):"
+    echo "   real corruptions as rc=1 — including the well-formed duplicate-vector fault"
+    echo "   every conventional per-vector test passes, on float32 AND int8 storage —"
+    echo "   could-not-inspect states as rc=2 rather than a clean bill of health, and"
+    echo "   healthy specimens as rc=0."
     exit 0
 fi
 
@@ -317,18 +464,26 @@ def env(name, default=None):
     return v if v else default
 
 def envint(name, default):
+    # A SET but non-numeric value is an operator error and FAILS LOUDLY (rc 2,
+    # naming the variable). It used to fall back to the default in silence, so
+    # the index was judged by a threshold the operator had not chosen and did not
+    # know had been ignored. Unset or empty still means "use the default".
     v = os.environ.get(name, "")
     try:
         return int(v) if v else default
     except ValueError:
-        return default
+        print("❌ %s='%s' is not a whole number; refusing to guess a threshold "
+              "(unset it to use the default %s)" % (name, v, default))
+        sys.exit(E_UNKNOWNGEOM)
 
 def envfloat(name, default):
     v = os.environ.get(name, "")
     try:
         return float(v) if v else default
     except ValueError:
-        return default
+        print("❌ %s='%s' is not a number; refusing to guess a threshold "
+              "(unset it to use the default %s)" % (name, v, default))
+        sys.exit(E_UNKNOWNGEOM)
 
 # ── exit codes are PRIVATE (see the bash mapping at the bottom) ───────────────
 E_HEALTHY, E_NOINDEX, E_CORRUPT, E_UNKNOWNGEOM = 20, 21, 22, 23
@@ -702,16 +857,72 @@ else:
 import struct, math
 nmin = envfloat("LUMEN_NORM_MIN", 0.99)
 nmax = envfloat("LUMEN_NORM_MAX", 1.01)
-nan = zero = badnorm = 0
-for v in counts:
-    f = struct.unpack("<%d%s" % (DIM, packfmt), v)
-    if any(math.isnan(x) or math.isinf(x) for x in f): nan += 1; continue
-    n = math.sqrt(sum(x*x for x in f))
-    if n == 0.0: zero += 1
-    elif not (nmin <= n <= nmax): badnorm += 1
-print("per-vector: %d NaN/Inf, %d all-zero, %d off-norm (band %.3f-%.3f), %d ragged block(s)"
-      % (nan, zero, badnorm, nmin, nmax, ragged))
-if nan or zero or badnorm or ragged: bad = True
+nan = zero = badnorm = offscale = 0
+scale_unestablished = None
+if packfmt == "b":
+    # int8 STORAGE. The float unit-norm band does not hold for it, and applying
+    # it made EVERY vector of a healthy index "off-norm" and the verdict
+    # CORRUPTION DETECTED (measured 2026-09-24 on the real 1.25M-vector store:
+    # raw L2 norm 428..1312, and max|component| == 127 for every vector, i.e.
+    # lumen scales each vector to its own maximum). So the invariant is DERIVED
+    # FROM THE DATA instead of assumed: the modal max|component| across the
+    # distinct live vectors. If one value covers >= LUMEN_INT8_SCALE_DOMINANCE
+    # (default 0.90) of them, a vector on any other scale is a finding
+    # ("off-scale"). If none dominates, the scale check is NOT applied and the
+    # output says so — it never claims a check it did not run. Duplicates,
+    # all-zero and ragged blocks are unaffected. (NaN/Inf cannot exist in int8.)
+    import collections
+    tops = collections.Counter()
+    for v in counts:
+        f = struct.unpack("<%d%s" % (DIM, packfmt), v)
+        if not any(f):
+            zero += 1
+            continue
+        tops[max(abs(x) for x in f)] += 1
+    live = sum(tops.values())
+    dom = envfloat("LUMEN_INT8_SCALE_DOMINANCE", 0.90)
+    scale_top = envint("LUMEN_INT8_SCALE_TOP", 127)
+    min_live = envint("LUMEN_INT8_MIN_VECTORS", 10)
+    mode_top, mode_n = tops.most_common(1)[0] if live else (0, 0)
+    # The invariant is ESTABLISHED only when all three hold; anything else is
+    # COULD NOT DETERMINE (rc 2), never a clean bill — the same principle as the
+    # width / no-vector-table cases. Each condition closes a false-negative
+    # window that a purely data-derived mode leaves open (measured on
+    # specimens): (1) enough vectors to state a scale at all, (2) ONE scale
+    # dominates, (3) that scale is the int8 saturation value — max-abs
+    # quantisation puts the largest component AT it (127 on the real store,
+    # 100% of vectors), so an index whose vectors ALL sit on some other scale,
+    # which a modal check alone would call self-consistent, is refused.
+    why = None
+    if live < min_live:
+        why = ("only %d distinct live vector(s); at least %d are needed to state a scale"
+               % (live, min_live))
+    elif mode_n < dom * live:
+        why = ("no single max|component| covers >= %.0f%% of the %d distinct live vectors "
+               "(most common: %d at %.1f%%)" % (100 * dom, live, mode_top, 100.0 * mode_n / live))
+    elif mode_top != scale_top:
+        why = ("the dominant max|component| is %d (%.1f%% of vectors), not the int8 "
+               "saturation value %d that max-abs quantisation produces"
+               % (mode_top, 100.0 * mode_n / live, scale_top))
+    if why is None:
+        offscale = live - mode_n
+        print("per-vector: NaN/Inf n/a (int8), %d all-zero, %d off-scale (max|component| != %d; "
+              "%.2f%% of live vectors share it), %d ragged block(s)"
+              % (zero, offscale, mode_top, 100.0 * mode_n / live, ragged))
+    else:
+        scale_unestablished = why
+        print("per-vector: NaN/Inf n/a (int8), %d all-zero, int8 scale invariant not established "
+              "(see below), %d ragged block(s)" % (zero, ragged))
+else:
+    for v in counts:
+        f = struct.unpack("<%d%s" % (DIM, packfmt), v)
+        if any(math.isnan(x) or math.isinf(x) for x in f): nan += 1; continue
+        n = math.sqrt(sum(x*x for x in f))
+        if n == 0.0: zero += 1
+        elif not (nmin <= n <= nmax): badnorm += 1
+    print("per-vector: %d NaN/Inf, %d all-zero, %d off-norm (band %.3f-%.3f), %d ragged block(s)"
+          % (nan, zero, badnorm, nmin, nmax, ragged))
+if nan or zero or badnorm or offscale or ragged: bad = True
 
 c.close()
 for n in notes: print("NOTE: %s" % n)
@@ -721,6 +932,12 @@ if bad:
     print("   Then REBUILD (not incremental - affected files have a hash and are skipped):")
     print("     ./scripts/lumen-reindex.sh %s --force" % proj)
     sys.exit(E_CORRUPT)
+if scale_unestablished:
+    print("\n⚠️  COULD NOT DETERMINE — int8 scale invariant not established: %s." % scale_unestablished)
+    print("   Duplicate, all-zero and ragged checks ran and found nothing, but a vector on the wrong")
+    print("   scale cannot be ruled out, so this is NOT a clean bill of health. Inspect the index,")
+    print("   or set LUMEN_INT8_SCALE_TOP / LUMEN_INT8_SCALE_DOMINANCE if this store legitimately differs.")
+    sys.exit(E_UNKNOWNGEOM)
 print("\n✅ index healthy")
 sys.exit(E_HEALTHY)
 PY

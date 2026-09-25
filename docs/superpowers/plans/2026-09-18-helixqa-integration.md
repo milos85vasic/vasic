@@ -179,7 +179,7 @@ Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>"
 - Consumes: `helixqa` binary from Task 2 (`submodules/qa/bin/helixqa`); the live workshop server at `http://127.0.0.1:8087` (already running per this session — confirm with `curl -sS http://127.0.0.1:8087/api/health`, and if it is not running, `cd $VASIC_ROOT/workshop && bash scripts/restart.sh` first, loopback-only, no `WORKSHOP_HTTP_BIND` override).
 - Produces: a bank file later tasks (Task 5) point the gate script at.
 
-- [ ] **Step 1: Write the bank, encoding the already-fixed dotted-slug regression as a golden-good check**
+- [x] **Step 1: Write the bank, encoding the already-fixed dotted-slug regression as a golden-good check**
 
 ```yaml
 # SPDX-FileCopyrightText: 2026 Milos Vasic
@@ -277,7 +277,7 @@ cd $VASIC_ROOT/submodules/qa
 # Expected: both PASS again
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd $VASIC_ROOT
@@ -315,7 +315,7 @@ grep -rn "func.*Execute\|type.*Executor" pkg/navigator/*.go | head -20
 
 Note exactly what an `action` string can describe for the `web` platform (a bare HTTP request? a Playwright page action? both?) before writing Step 2.
 
-- [ ] **Step 2: Write the bank**
+- [x] **Step 2: Write the bank**
 
 Using whatever step shape Step 1 established as real (adjust the `action`/`expected` wording to match, but keep the `id`/structure below):
 
@@ -368,7 +368,7 @@ Expected: `AI-RBAC-001` PASSes against the current, fixed code.
 
 Same pattern as Task 3 Step 4: find this session's commit fixing the 403-as-outage bug in `ai_interviewing` (`git -C $VASIC_ROOT/ai_interviewing log --oneline | grep -i "forbidden\|403"`), temporarily check out `module.component.ts` and `load-status.ts` from the parent of that commit, rebuild (`cd $VASIC_ROOT/ai_interviewing && bash platform/scripts/build.sh`), restart, re-run the bank (expect FAIL), then restore and confirm PASS again.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd $VASIC_ROOT
@@ -823,3 +823,16 @@ MV_PORT=9082 git push origin main
 LOCAL=$(git rev-parse main); REMOTE=$(git ls-remote origin refs/heads/main | cut -f1)
 [ "$LOCAL" = "$REMOTE" ] && echo "MATCH — verified: $LOCAL" || echo "MISMATCH"
 ```
+
+---
+
+## Completion evidence — 2026-09-24 (bookkeeping audit)
+
+Only two step types are ticked, and only where the artifact is provable from the repositories: **Write/Create the bank** (the bank file exists and is tracked in `submodules/qa`) and **Commit** (a `submodules/qa` commit touches that bank). Every OBSERVATION step (confirm the server, read handlers, run live, capture output, golden-bad controls, wire and run the gate, triage) is deliberately left unticked: it happened in a past session and cannot be re-proven from the tree. Unticked therefore means "not provable here", not "not done".
+
+| Task | Step | Kind | Bank | `submodules/qa` commit |
+|---|---|---|---|---|
+| Task 3 | Step 1 | write | `spa-routing.yaml` | a14ef79 qa: real HelixQA web test bank for workshop's SPA routing |
+| Task 3 | Step 5 | commit | `spa-routing.yaml` | a14ef79 qa: real HelixQA web test bank for workshop's SPA routing |
+| Task 4 | Step 2 | write | `rbac.yaml` | 9248125 fix(banks): correct rbac.yaml overclaim + broken doc pointer (findings 9-10) |
+| Task 4 | Step 5 | commit | `rbac.yaml` | 9248125 fix(banks): correct rbac.yaml overclaim + broken doc pointer (findings 9-10) |

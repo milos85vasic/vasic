@@ -51,7 +51,7 @@ Read `authLoginHandler`, `authLogoutHandler`, `authSwitchHandler`, `authMeHandle
 
 Read `specs/007-decouple-modules-auth/spec.md` at the umbrella root (`$VASIC_ROOT/specs/007-decouple-modules-auth/spec.md`, FR-009) for both seeded users' real values.
 
-- [ ] **Step 4: Write the bank**
+- [x] **Step 4: Write the bank**
 
 Using the exact field/message values from Step 2 and the real credentials from Step 3, write a bank with these cases (fill in real values from what Step 2 actually found — do not invent field names):
 
@@ -236,7 +236,7 @@ Expected: all cases PASS. Some cases (WK-AUTH-002, 004, 005, 007, 008) issue the
 
 For each of: WK-AUTH-002 (account enumeration), WK-AUTH-004 (logout revocation), WK-AUTH-005 (mass-revoke-on-switch), WK-AUTH-006 (auth gating), WK-AUTH-007 (loopback+cookie) — find a real, revertible way to invert the actual code path, rebuild, restart, confirm genuine FAIL, restore, rebuild, restart, confirm PASS again. If the sandbox guardrail refuses a live restart onto any of these mutations (same class as chapter-browsing's WK-CHLIST-002), accept a code-level-only verification for that specific case and say so precisely — do not force a workaround.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 cd $VASIC_ROOT/submodules/qa
@@ -292,3 +292,14 @@ Expected: PASS, reporting the full, now-larger case count. Paste the real output
 - [ ] **Step 5: If zero real findings surfaced**, state that explicitly and precisely in this task's report.
 
 - [ ] **Step 6: Commit each fix separately**, scoped to its own repository, never pushed by the implementer.
+
+---
+
+## Completion evidence — 2026-09-24 (bookkeeping audit)
+
+Only two step types are ticked, and only where the artifact is provable from the repositories: **Write/Create the bank** (the bank file exists and is tracked in `submodules/qa`) and **Commit** (a `submodules/qa` commit touches that bank). Every OBSERVATION step (confirm the server, read handlers, run live, capture output, golden-bad controls, wire and run the gate, triage) is deliberately left unticked: it happened in a past session and cannot be re-proven from the tree. Unticked therefore means "not provable here", not "not done".
+
+| Task | Step | Kind | Bank | `submodules/qa` commit |
+|---|---|---|---|---|
+| Task 1 | Step 4 | write | `auth-session.yaml` | 5c6999e qa: HelixQA bank for workshop's core auth/session mechanics |
+| Task 1 | Step 7 | commit | `auth-session.yaml` | 5c6999e qa: HelixQA bank for workshop's core auth/session mechanics |

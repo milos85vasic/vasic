@@ -19,23 +19,33 @@ test.describe('vasic.digital — accessibility', () => {
     { name: 'portfolio', url: `${BASE}/portfolio/` },
   ];
 
-  for (const p of PAGES) {
-    test(`axe-core accessibility scan — ${p.name} (no critical/serious violations)`, async ({ page }) => {
-      await page.goto(p.url);
-      const results = await new AxeBuilder({ page })
-        .disableRules(['heading-order', 'link-in-text-block'])
-        .analyze();
-      const critical = results.violations.filter(v => v.impact === 'critical' || v.impact === 'serious');
-      // Surface the exact offending nodes so any failure is precisely actionable.
-      if (critical.length > 0) {
-        console.log(`AXE ${p.name} critical/serious:`, JSON.stringify(
-          critical.map(v => ({ id: v.id, impact: v.impact, help: v.help,
-            nodes: v.nodes.slice(0, 6).map(n => ({ target: n.target, summary: n.failureSummary })) })), null, 2));
+  // BOTH colour schemes are scanned. Until 2026-09-24 this scan ran in the
+  // browser default (light) only, so a dark-mode-only contrast failure — the
+  // 'shipped' status pills measured 4.37:1 on vasic.digital, white on the
+  // flipped dark fill #2b8a3e — passed every gate while shipping to production.
+  for (const scheme of ['light', 'dark']) {
+    test.describe(`colour scheme: ${scheme}`, () => {
+      test.use({ colorScheme: scheme });
+
+      for (const p of PAGES) {
+        test(`axe-core accessibility scan — ${p.name} [${scheme}] (no critical/serious violations)`, async ({ page }) => {
+          await page.goto(p.url);
+          const results = await new AxeBuilder({ page })
+            .disableRules(['heading-order', 'link-in-text-block'])
+            .analyze();
+          const critical = results.violations.filter(v => v.impact === 'critical' || v.impact === 'serious');
+          // Surface the exact offending nodes so any failure is precisely actionable.
+          if (critical.length > 0) {
+            console.log(`AXE ${p.name} [${scheme}] critical/serious:`, JSON.stringify(
+              critical.map(v => ({ id: v.id, impact: v.impact, help: v.help,
+                nodes: v.nodes.slice(0, 6).map(n => ({ target: n.target, summary: n.failureSummary })) })), null, 2));
+          }
+          if (results.violations.length > 0) {
+            console.log(`INFO ${p.name} non-critical:`, JSON.stringify(results.violations.map(v => ({ id: v.id, impact: v.impact, help: v.help }))));
+          }
+          expect(critical, `${p.name} [${scheme}] must have no critical/serious a11y violations`).toEqual([]);
+        });
       }
-      if (results.violations.length > 0) {
-        console.log(`INFO ${p.name} non-critical:`, JSON.stringify(results.violations.map(v => ({ id: v.id, impact: v.impact, help: v.help }))));
-      }
-      expect(critical, `${p.name} must have no critical/serious a11y violations`).toEqual([]);
     });
   }
 

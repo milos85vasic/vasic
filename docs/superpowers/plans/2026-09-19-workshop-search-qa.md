@@ -57,7 +57,7 @@ Using an authenticated `curl` against the live server (real credentials from `sp
 - A real `kinds=` value that is currently valid but has zero indexed rows right now (branch 4, `kind_not_indexed`) — the research notes `kg_*` kinds may not even be valid `kinds=` values since they're excluded from `indexed_kinds` entirely; read the real allow-list from Step 2 and confirm live which kind (if any) is currently empty-but-valid. If NO such kind currently exists, say so precisely in your report and write this case as best-effort against whatever real gap you can find, or mark it `_skip` with a precise reason — do not invent a kind name that doesn't exist in the allow-list.
 - A pure-punctuation query — confirm live which branch it actually lands in (the design doc flags this as unconfirmed; find out for real).
 
-- [ ] **Step 4: Write the bank**
+- [x] **Step 4: Write the bank**
 
 Using the exact field names and confirmed branch-triggering inputs from Steps 2-3, write a bank with cases for:
 - `WK-SEARCH-001`: a real query returns real results (branch `ok`), asserting `"status": "ok"` and at least one hit with the documented fields.
@@ -89,7 +89,7 @@ Expected: every non-skipped case PASSes.
 
 For each case, especially WK-SEARCH-010 (redaction) — the highest-value target in this bank — find a real, revertible way to invert the actual code path (e.g., temporarily disable the `redacted = 0` filter or the wrapping redaction check the research names), rebuild, restart, confirm genuine FAIL (the redacted content now leaks), restore, rebuild, restart, confirm PASS again. If the sandbox guardrail refuses any specific mutation's live restart, accept a code-level-only verification for that case and say so precisely.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 cd $VASIC_ROOT/submodules/qa
@@ -138,3 +138,14 @@ Expected: PASS, reporting the full, now-larger case count. If any case from an E
 - [ ] **Step 5: If zero real findings surfaced**, state that explicitly and precisely.
 
 - [ ] **Step 6: Commit each fix separately**, scoped to its own repository, never pushed by the implementer.
+
+---
+
+## Completion evidence — 2026-09-24 (bookkeeping audit)
+
+Only two step types are ticked, and only where the artifact is provable from the repositories: **Write/Create the bank** (the bank file exists and is tracked in `submodules/qa`) and **Commit** (a `submodules/qa` commit touches that bank). Every OBSERVATION step (confirm the server, read handlers, run live, capture output, golden-bad controls, wire and run the gate, triage) is deliberately left unticked: it happened in a past session and cannot be re-proven from the tree. Unticked therefore means "not provable here", not "not done".
+
+| Task | Step | Kind | Bank | `submodules/qa` commit |
+|---|---|---|---|---|
+| Task 1 | Step 4 | write | `search.yaml` | 1e2264d qa: HelixQA bank for workshop's search/suggest/crossrefs surface |
+| Task 1 | Step 7 | commit | `search.yaml` | 1e2264d qa: HelixQA bank for workshop's search/suggest/crossrefs surface |

@@ -51,7 +51,7 @@ Read the full handler function this finds — its exact JSON field names, and wh
 
 Read `specs/007-decouple-modules-auth/spec.md` at the **umbrella root** (`$VASIC_ROOT/specs/007-decouple-modules-auth/spec.md` — this path does not resolve from inside `workshop/` or `submodules/qa/`, exactly as this session already found and fixed for the `ai_interviewing` RBAC bank) for the seeded credential to use against workshop's own login endpoint. If workshop's seeded credential differs from `ai_interviewing`'s, find workshop's own real one — check `platform/backend/gates/` for an existing `--admin-user`/`--admin-pass` invocation of a workshop gate that already authenticates, and mirror it exactly.
 
-- [ ] **Step 4: Write the bank**
+- [x] **Step 4: Write the bank**
 
 Using the exact field names from Step 2 and the real credential mechanism from Step 3, write a bank with these cases (fill in real `expect_body_contains`/`expect_json_path` values from what Step 2 actually found — do not invent field names):
 
@@ -122,7 +122,7 @@ Expected: both cases PASS. Capture the real output.
 
 Find a real, revertible way to make the auth check fail open (e.g., temporarily commenting out the auth middleware wrapper for this one route in `main.go`, or the equivalent this codebase actually uses — read how the route is wired first). Rebuild, restart, re-run the bank, confirm WK-CHLIST-002 now FAILs (a 200 where 401 was expected). Restore, rebuild, restart, confirm PASS again. If no clean, safely-revertible mutation exists for this specific case, say so precisely rather than forcing one — this is itself a valid finding.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 cd $VASIC_ROOT/submodules/qa
@@ -149,13 +149,13 @@ Do NOT push — the controller decides on pushing after task review.
 
 - [ ] **Step 2: Read `chapter-detail.component.ts`'s recording section and its backing API** to learn the exact contract for `recording.present`/absent, and find the real API route the frontend calls for a chapter's recording data/probe (`/api/chapters/:slug/recording`, `/api/chapters/:slug/recording/probe` — confirmed to exist as real registered routes earlier this session; read their handlers for exact response shape).
 
-- [ ] **Step 3: Write the bank** with cases for: a chapter WITH a real recording (pick one of 01/02/02.01/02.02 — confirm via the live API which ones have `recording.present: true` right now, do not assume), the recording-probe endpoint's real response shape, and a nonexistent chapter slug against this same endpoint (expect a genuine 404). Mirror Task 1's exact `http:`/`auth:` structure.
+- [x] **Step 3: Write the bank** with cases for: a chapter WITH a real recording (pick one of 01/02/02.01/02.02 — confirm via the live API which ones have `recording.present: true` right now, do not assume), the recording-probe endpoint's real response shape, and a nonexistent chapter slug against this same endpoint (expect a genuine 404). Mirror Task 1's exact `http:`/`auth:` structure.
 
 - [ ] **Step 4: Run against the live server, capture real output.**
 
 - [ ] **Step 5: Golden-bad control** for at least the nonexistent-slug 404 case (a real, revertible way to make chapter-slug validation fail open — read the routing code first, do not guess).
 
-- [ ] **Step 6: Commit** (same pattern as Task 1 Step 7, own file only).
+- [x] **Step 6: Commit** (same pattern as Task 1 Step 7, own file only).
 
 ---
 
@@ -174,7 +174,7 @@ Do NOT push — the controller decides on pushing after task review.
 
 - [ ] **Step 2: Read the four knowledge sub-endpoints' handlers** (`/api/chapters/01/meeting-notes`, `/api/chapters/01/open-questions`, `/api/chapters/01/todo`, and the next-meeting equivalent — confirm its exact route name, it was not in the earlier grep's result set, find it) for their real response shape, specifically the `state` field's real possible values (`unwritten`/`authored`/whatever the real enum is — do not assume the exact string, read it).
 
-- [ ] **Step 3: Write cases for each of the 4 real chapters against each of the 4 knowledge endpoints** (16 combinations), asserting the real, currently-live `state` value for each — pull the real values via a live authenticated `curl` first, do not guess, and record what you found in your report.
+- [x] **Step 3: Write cases for each of the 4 real chapters against each of the 4 knowledge endpoints** (16 combinations), asserting the real, currently-live `state` value for each — pull the real values via a live authenticated `curl` first, do not guess, and record what you found in your report.
 
 - [ ] **Step 4: Add the one synthetic case: an "unwritten" state.**
 
@@ -184,7 +184,7 @@ No real chapter currently has this state (all 4 were populated earlier this sess
 
 - [ ] **Step 6: Golden-bad control** for at least one `state` assertion (temporarily rename or move a real chapter's knowledge file to simulate the state changing, confirm the bank catches it, restore immediately, confirm PASS, verify via `git status`/`diff` that the real chapter content is byte-identical to before the mutation).
 
-- [ ] **Step 7: Commit** (own file only; the fixture chapter must NOT be part of this commit — confirm it was already deleted in Step 4).
+- [x] **Step 7: Commit** (own file only; the fixture chapter must NOT be part of this commit — confirm it was already deleted in Step 4).
 
 ---
 
@@ -201,13 +201,13 @@ No real chapter currently has this state (all 4 were populated earlier this sess
 
 - [ ] **Step 2: Read the transcript route's real backing API** (likely `/api/chapters/:slug/transcript` or similar — confirm the exact path from `main.go`'s route table, do not assume it matches the frontend path) for its response shape, specifically how `uncertain_count` and `passage_count` are represented (confirmed present in the frontend component's template).
 
-- [ ] **Step 3: Write cases**: a chapter with a real transcript (all 4 currently qualify — pick 02.02 since it's the freshest, least-previously-tested one), the passage/uncertain counts matching real live values (pull them live, don't guess), and a nonexistent chapter slug against this endpoint (expect genuine 404, matching Task 2's discipline).
+- [x] **Step 3: Write cases**: a chapter with a real transcript (all 4 currently qualify — pick 02.02 since it's the freshest, least-previously-tested one), the passage/uncertain counts matching real live values (pull them live, don't guess), and a nonexistent chapter slug against this endpoint (expect genuine 404, matching Task 2's discipline).
 
 - [ ] **Step 4: Run against the live server, capture real output.**
 
 - [ ] **Step 5: Golden-bad control** for the nonexistent-slug case, mirroring Task 2's approach.
 
-- [ ] **Step 6: Commit** (own file only).
+- [x] **Step 6: Commit** (own file only).
 
 ---
 
@@ -255,3 +255,20 @@ Expected: PASS, reporting the full, now-larger case count (4 bank files' worth) 
 - [ ] **Step 5: If zero real findings surfaced** (every bank passed exactly as each task's own Step 2 predicted from reading the real handlers), state that explicitly and precisely in this task's report — an empty findings list from genuinely thorough testing is a legitimate, valuable result, not something to pad with manufactured findings.
 
 - [ ] **Step 6: Commit each fix separately**, scoped to its own repository (workshop, or the umbrella if the fix somehow touches umbrella-level code — unlikely for this sub-project's scope), following the same never-push-without-controller-review discipline as every other task.
+
+---
+
+## Completion evidence — 2026-09-24 (bookkeeping audit)
+
+Only two step types are ticked, and only where the artifact is provable from the repositories: **Write/Create the bank** (the bank file exists and is tracked in `submodules/qa`) and **Commit** (a `submodules/qa` commit touches that bank). Every OBSERVATION step (confirm the server, read handlers, run live, capture output, golden-bad controls, wire and run the gate, triage) is deliberately left unticked: it happened in a past session and cannot be re-proven from the tree. Unticked therefore means "not provable here", not "not done".
+
+| Task | Step | Kind | Bank | `submodules/qa` commit |
+|---|---|---|---|---|
+| Task 1 | Step 4 | write | `chapter-list.yaml` | 6a7c1f9 qa: HelixQA bank for workshop's chapter list endpoint |
+| Task 1 | Step 7 | commit | `chapter-list.yaml` | 6a7c1f9 qa: HelixQA bank for workshop's chapter list endpoint |
+| Task 2 | Step 3 | write | `chapter-detail-recording.yaml` | 1d57faa qa: HelixQA bank for workshop's chapter-detail recording surface |
+| Task 2 | Step 6 | commit | `chapter-detail-recording.yaml` | 1d57faa qa: HelixQA bank for workshop's chapter-detail recording surface |
+| Task 3 | Step 3 | write | `chapter-detail-content.yaml` | efb5a3a fix(chapter-detail-content): correct WK-CHDETCONT-001 for chapter 01's real, fixed meeting-n |
+| Task 3 | Step 7 | commit | `chapter-detail-content.yaml` | efb5a3a fix(chapter-detail-content): correct WK-CHDETCONT-001 for chapter 01's real, fixed meeting-n |
+| Task 4 | Step 3 | write | `chapter-transcript-route.yaml` | 041ed03 test(workshop): add chapter-transcript-route HelixQA bank |
+| Task 4 | Step 6 | commit | `chapter-transcript-route.yaml` | 041ed03 test(workshop): add chapter-transcript-route HelixQA bank |

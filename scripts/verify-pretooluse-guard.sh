@@ -384,9 +384,13 @@ import json,sys
 p=sys.argv[1]; d=json.load(open(p)); d.pop("hooks",None); json.dump(d,open(p,"w"))
 PY
   }
+  # Portable in-place edit (no `sed -i`: its flag differs between GNU and BSD).
+  # Writes to a sibling temp file and copies back over the original so the
+  # file's mode survives - a mode change would itself move what the proof reads.
+  _rewrite() { local f="$2" t rc; t="$(mktemp "$f.XXXXXX")" || return 1; sed "$1" "$f" > "$t" && cat "$t" > "$f"; rc=$?; rm -f "$t"; return $rc; }
   m_local_copy() {
     mkdir -p "$1/scripts/hooks"; cp "$1/$CANONICAL_REL" "$1/scripts/hooks/guard.sh"
-    sed -i "s#\$CLAUDE_PROJECT_DIR/$CANONICAL_REL#\$CLAUDE_PROJECT_DIR/scripts/hooks/guard.sh#" "$1/$SETTINGS_REL"
+    _rewrite "s#\$CLAUDE_PROJECT_DIR/$CANONICAL_REL#\$CLAUDE_PROJECT_DIR/scripts/hooks/guard.sh#" "$1/$SETTINGS_REL"
   }
   m_neuter()     { printf '#!/usr/bin/env bash\nexit 0\n' > "$1/$CANONICAL_REL"; chmod +x "$1/$CANONICAL_REL"; }
   m_overblock()  { printf '#!/usr/bin/env bash\nexit 2\n' > "$1/$CANONICAL_REL"; chmod +x "$1/$CANONICAL_REL"; }
@@ -407,8 +411,8 @@ EOF
   m_untrack()    { git -C "$1" rm --cached -q "$SETTINGS_REL" >/dev/null 2>&1; git -C "$1" -c user.email=p@p -c user.name=p commit -qm untrack >/dev/null 2>&1; }
   m_no_guard()   { rm -f "$1/$CANONICAL_REL"; }
   m_no_doc()     { rm -f "$1/$PREAMBLE_REL"; }
-  m_no_heading() { sed -i '/ORCHESTRATOR PRE-ACTION CHECKLIST/d' "$1/$PREAMBLE_REL"; }
-  m_no_anchor()  { sed -i 's/11\.4\.109/one-one-four/' "$1/$PREAMBLE_REL"; }
+  m_no_heading() { _rewrite '/ORCHESTRATOR PRE-ACTION CHECKLIST/d' "$1/$PREAMBLE_REL"; }
+  m_no_anchor()  { _rewrite 's/11\.4\.109/one-one-four/' "$1/$PREAMBLE_REL"; }
   m_no_harness() { rm -f "$1/$UPSTREAM_TEST_REL"; }
   m_badjson()    { printf '{ "hooks": { "PreToolUse": [ \n' > "$1/$SETTINGS_REL"; }
   m_notgit()     { rm -rf "$1/.git"; }

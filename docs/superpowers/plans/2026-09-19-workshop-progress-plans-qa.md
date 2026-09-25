@@ -35,13 +35,13 @@
 
 - [ ] **Step 3: Confirm live, current account state before writing cases** — check whether `milosvasic` and `rami` currently have stored progress positions (a case asserting 404-on-fresh-account needs a genuinely empty account; if both accounts already have positions from earlier testing this session, note this and adapt the case, e.g. by using a definitely-fresh `chapter_slug` that has never been posted for either account, rather than assuming a blank slate).
 
-- [ ] **Step 4: Write the bank** with cases for: POST/GET round-trip (real field-name asymmetry asserted), overwrite-not-accumulate, malformed bodies → 400 (path-traversal chapter_slug, malformed pid, missing/negative t_seconds), `t_seconds: 0` stored as a real value, `/api/areas` requiring auth (contrast with the stale 2026-09-01 frontend comment claiming 404), cross-account isolation (milosvasic's progress never reflects rami's), unauthenticated access → 401, and one case establishing current observable behavior for a stored position referencing a since-redacted pid (feeding Task 3's investigation — read `curriculum/redactions.jsonl` for a real redacted pid to use, don't invent one).
+- [x] **Step 4: Write the bank** with cases for: POST/GET round-trip (real field-name asymmetry asserted), overwrite-not-accumulate, malformed bodies → 400 (path-traversal chapter_slug, malformed pid, missing/negative t_seconds), `t_seconds: 0` stored as a real value, `/api/areas` requiring auth (contrast with the stale 2026-09-01 frontend comment claiming 404), cross-account isolation (milosvasic's progress never reflects rami's), unauthenticated access → 401, and one case establishing current observable behavior for a stored position referencing a since-redacted pid (feeding Task 3's investigation — read `curriculum/redactions.jsonl` for a real redacted pid to use, don't invent one).
 
 - [ ] **Step 5: Run it against the live server, capture real output.**
 
 - [ ] **Step 6: Golden-bad controls** — at minimum for the malformed-body validation and cross-account isolation cases.
 
-- [ ] **Step 7: Commit** (own file only, in `submodules/qa`, never pushed).
+- [x] **Step 7: Commit** (own file only, in `submodules/qa`, never pushed).
 
 ---
 
@@ -63,3 +63,14 @@
 - [ ] **Step 5: Re-run the affected bank(s) AND the full gate live** after each fix.
 - [ ] **Step 6: If the redaction gap investigation concludes it is NOT exploitable** (e.g., `t_start_s` alone is deemed insufficiently precise to constitute a real disclosure, or some other mitigating factor), state this conclusion explicitly with the evidence behind it — this is an acceptable outcome if genuinely investigated, not merely asserted.
 - [ ] **Step 7: Commit each fix separately**, never pushed.
+
+---
+
+## Completion evidence — 2026-09-24 (bookkeeping audit)
+
+Only two step types are ticked, and only where the artifact is provable from the repositories: **Write/Create the bank** (the bank file exists and is tracked in `submodules/qa`) and **Commit** (a `submodules/qa` commit touches that bank). Every OBSERVATION step (confirm the server, read handlers, run live, capture output, golden-bad controls, wire and run the gate, triage) is deliberately left unticked: it happened in a past session and cannot be re-proven from the tree. Unticked therefore means "not provable here", not "not done".
+
+| Task | Step | Kind | Bank | `submodules/qa` commit |
+|---|---|---|---|---|
+| Task 1 | Step 4 | write | `progress-plan.yaml` | eb3c5b1 fix(progress-plan): update WK-PROG-010 to confirm the redaction-leak fix, not the bug |
+| Task 1 | Step 7 | commit | `progress-plan.yaml` | eb3c5b1 fix(progress-plan): update WK-PROG-010 to confirm the redaction-leak fix, not the bug |

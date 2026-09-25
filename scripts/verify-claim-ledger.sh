@@ -252,10 +252,10 @@ SURF
 
     # -- L4: the closed vocabulary of §11.4.266(B).
     arm "M5  an INVENTED bluff type outside the seven-member closed set" 1 1 \
-        "sed -i 's/doc-vs-code-drift/made-up-type/' docs/l.tsv"
+        "sed 's/doc-vs-code-drift/made-up-type/' docs/l.tsv > docs/l.tsv.new && mv docs/l.tsv.new docs/l.tsv"
 
     arm "M6  a MALFORMED row — fewer fields than the format requires" 1 1 \
-        "sed -i '2s/\t[^\t]*\$//' docs/l.tsv"
+        "sed '2s/\t[^\t]*\$//' docs/l.tsv > docs/l.tsv.new && mv docs/l.tsv.new docs/l.tsv"
 
     # -- an `assert` row whose REALITY moved: the qualitative half of M2.
     arm "M7  an ASSERT row's reality moves — the thing it denies now exists" 1 1 \
@@ -263,7 +263,7 @@ SURF
 
     # -- L5 / rc 2: unable to verify is not a pass.
     arm "U1  a probe that WILL NOT RUN is UNDETERMINED, never verified" 2 1 \
-        "sed -i 's|wc -l < data/widgets.txt|definitely-not-a-real-binary-xyzzy|' docs/l.tsv"
+        "sed 's|wc -l < data/widgets.txt|definitely-not-a-real-binary-xyzzy|' docs/l.tsv > docs/l.tsv.new && mv docs/l.tsv.new docs/l.tsv"
 
     arm "U2  an ABSENT SURFACE is UNDETERMINED — nothing was measured" 2 1 "rm -f surf.md"
 
@@ -274,7 +274,7 @@ SURF
     #    unmeasurable row AND a measurably false one must exit 1. If 2 won,
     #    one broken probe anywhere would mask every false claim in the file.
     arm "P1  PRECEDENCE — a FALSE claim outranks an UNDETERMINED one (1, not 2)" 1 1 \
-        "printf 'delta\n' >> data/widgets.txt; sed -i 's|test -f data/gate-ledger.tsv \&\& echo present |absolutely-not-a-binary-qqq |' docs/l.tsv"
+        "printf 'delta\n' >> data/widgets.txt; sed 's|test -f data/gate-ledger.tsv \&\& echo present |absolutely-not-a-binary-qqq |' docs/l.tsv > docs/l.tsv.new && mv docs/l.tsv.new docs/l.tsv"
 
     printf '\n== %d passed / %d failed / 13 arms ==\n' "$passed" "$failed"
     [ "$failed" -eq 0 ] || exit 1

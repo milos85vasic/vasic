@@ -2003,20 +2003,45 @@ restated.** What follows constrains what can actually be built here:
   which makes the trap worse, not better: the name on `PATH` still resolves to
   the wrong program. A capability probe that tests only for a name on `PATH`
   will report an engine that is not there while missing the two that are.
-- **A generative model IS available locally, and it is not merely present —
-  it is wired in.** `ollama list` holds **three** models, not two:
-  `qwen2.5:3b-instruct-q4_K_M` (1.9 GB / 1841 MiB, **generative**, pulled
-  2026-09-01) alongside the two **embedding** models
-  `ordis/jina-embeddings-v2-base-code` and `jina-embeddings-code-cpu` (323 MB
-  each). "Nothing local can generate prose" is false as of that pull. What a
-  3B q4 instruct model is fit FOR is a separate question this line does not
-  answer. **Re-measured 2026-09-02:** the running container
-  `workshop-curriculum_platform_1` has this model in its own argv —
+- **A generative model IS available locally, and the workshop IS wired to it
+  again since 2026-09-24.** `ollama list` holds **three** models (re-measured
+  2026-09-24): `qwen2.5:3b-instruct-q4_K_M` (1.9 GB, **generative**, pulled
+  2026-09-01 per the earlier record) and the two **embedding** models
+  `ordis/jina-embeddings-v2-base-code` (323 MB) and `nomic-embed-text` (274 MB).
+  The earlier text of this bullet named `jina-embeddings-code-cpu` as the second
+  embedder; it is **no longer listed** and that name is WITHDRAWN. "Nothing local
+  can generate prose" is false as of the 2026-09-01 pull. What a 3B q4 instruct
+  model is fit FOR is a separate question this line does not answer.
+  **Three earlier readings are WITHDRAWN as current, each true when written:**
+  the 2026-09-02 reading ("the answer path is actually wired to this model
+  today"), the 2026-09-24 morning reading (answering off) and the 2026-09-24
+  evening reading (answering ON since the operator's "Do 2", workshop
+  `00a4dac`). **The operator then decided, 2026-09-25, "Turn answering OFF, keep
+  semantic search"** on the strength of a measurement (workshop `467b15f`,
+  `platform/backend/evidence/answering/MEASUREMENT-generation-15-2026-09-24.md`):
+  the deployed funnel answers **14/72 = 19.4%** (Wilson 95% 12-30%) of the 24
+  original answerable questions (an upper bound; ~14% if 9 now-answerable rows
+  count) and **fabricates 4/87 = 4.6%** (2-11%) of the 29 unanswerable ones, 3 of
+  the 4 being ONE question repeated. `calibrated: true` means only `MinScore>0`.
+  **SC-010 / SC-094 ("decline 100% of unanswerable, fabricate none") is UNMET.**
+  Re-measured 2026-09-25 after ONE restart from a clean committed tree (workshop
+  `185fb15`, build stamp `dirty=false`):
   `podman inspect workshop-curriculum_platform_1 --format '{{.Config.Cmd}}'`
-  shows `/opt/workshop/bin/workshop-server … -ollama http://127.0.0.1:11434
-  -answer-provider ollama -answer-model qwen2.5:3b-instruct-q4_K_M …` — so the
-  workshop platform's answer path is actually wired to this model today, not
-  merely capable of being wired to it.
+  shows `-ollama http://127.0.0.1:11434 … -embed-model nomic-embed-text …
+  -answer-provider none … -question-verify none`; an authenticated `GET /api/ask` returns HTTP 503
+  `reason.code no_provider` ("Browsing and search are unaffected"); a live search
+  reports `legs {lexical ok, lumen skipped, semantic ok}`; and `GET /api/suggest`
+  answered **200 of 200** requests at 16-way concurrency (the 503 root cause —
+  uncached FTS bm25 over ~10,700 matches — is fixed by workshop `25ce01d`).
+  **The compose default is now OFF** (`${WORKSHOP_ANSWER_PROVIDER:-none}`); gate
+  G29 keeps the file's claims equal to its rendered flags. Turning it back ON is
+  an operator action: `WORKSHOP_ANSWER_PROVIDER=ollama WORKSHOP_QUESTION_VERIFY=llm
+  bash scripts/restart.sh`. `floor-domain` still exits 2 (the calibration corpus
+  no longer exists) and `search-latency` reports the code leg NOT CONFIGURED (the
+  Lumen leg is off by design; the text legs PASS at p95 41 ms).
+  **`llmctl` is NOT running on this host and has no embedding model**, so
+  embeddings stay on Ollama. An `llamacpp` `KindLocal` answering provider exists
+  (workshop `14a6ca6`) but has **never been run against a real llama-server**.
 - `podman` is present; `docker` is absent (`command -v podman docker`). No image
   for this repository exists.
 
@@ -2031,7 +2056,7 @@ workshop/pipeline/venv/bin/python -c 'import faster_whisper, ctranslate2; \
   print(faster_whisper.__version__, ctranslate2.__version__)'
 git -C workshop/pipeline/engines/whisper.cpp describe --tags
 workshop/pipeline/engines/whisper.cpp/build/bin/whisper-cli --help | head -3
-podman inspect workshop-curriculum_platform_1 --format '{{.Config.Cmd}}'   # confirms -answer-model wiring
+podman inspect workshop-curriculum_platform_1 --format '{{.Config.Cmd}}'   # shows -answer-provider none and -ollama (answering OFF since 2026-09-25)
 ```
 
 ### Live-production test coverage moved out of gate 6, into deploy

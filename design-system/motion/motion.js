@@ -87,6 +87,14 @@
       pending.forEach(function (el) { el.style.transition = ''; });
     }
 
+    // rootMargin is 0 on purpose. It used to be '0px 0px -8% 0px', which EXCLUDED
+    // the bottom 8% of the viewport: an element that landed in that band after
+    // the in-view pass above had run (layout shifts as fonts settle) was neither
+    // frozen-final nor observed as intersecting, so it stayed hidden until the
+    // page scrolled — and at the very end of a page an element in that band can
+    // never scroll out of it, so it stayed hidden for good. Measured 2026-09-24:
+    // the hero divider on /ar/ at 1280x800 (y=744 of 800) and a section at 900px
+    // (top=839 of 900). threshold 0.05 alone keeps "reveal as it enters".
     var obs = new IO(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -94,7 +102,7 @@
           obs.unobserve(entry.target);
         }
       });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    }, { rootMargin: '0px', threshold: 0.05 });
 
     revealEls.forEach(function (el) {
       if (!el.classList.contains('is-visible')) obs.observe(el);

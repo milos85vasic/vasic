@@ -1642,8 +1642,10 @@ workshop/platform/backend/pkg/search/lumenvec_live_test.go OSPATH /proc/loadavg
 # BASELINE: F32 - flag default only; no WORKSHOP_* env override, unlike the two
 # servers this benchmark targets.
 workshop/platform/backend/cmd/bench/main.go ENDPOINT flag.String("base", "http://127.0.0.1:8087"
-# BASELINE: F32 - positional argument only; no env override.
-workshop/platform/backend/gates/bench-answers.sh ENDPOINT BASE="${1:-http://127.0.0.1:8091}"
+# DELETED 2026-09-24 - the F32 rule `bench-answers.sh ENDPOINT BASE="${1:-http://127.0.0.1:8091}"`
+# stood here and the gate reported it STALE: that exact line no longer exists in
+# the workshop file (it now reads BASE="${BASE_FLAG:-${BASE_POSITIONAL:-...}}").
+# Whether the new spelling is still a finding is measured by the audit, not assumed.
 # BASELINE: F32 - a bare literal fallback inside package code. cfg.Endpoint is
 # overridable upstream, but the default itself lives in the package rather than
 # in a settings seam.

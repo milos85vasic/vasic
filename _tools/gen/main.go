@@ -217,6 +217,9 @@ func main() {
 		if err := writeSitemapRobots(site, out); err != nil {
 			fatal(fmt.Errorf("sitemap/robots: %w", err))
 		}
+		if err := writeFeeds(site, out); err != nil {
+			fatal(fmt.Errorf("feeds: %w", err))
+		}
 	}
 
 	fmt.Printf("[gen] site=%s lang=%s what=%s out=%s products=%d\n", site.Key, lang, what, out, nProducts)

@@ -683,9 +683,12 @@ design-system/diagrams/_prompts/build-and-generate.sh * *
 # and is bash 3.2 on macOS.
 upstreams/GitHub.sh SHEBANG *
 
-# BASELINE: known defect F20 - docs/environment-adaptability/AUDIT.md.
-# Fixed worker/parallelism counts and a 1200s sleep tuned to one machine.
-_tools/watch-deploy.sh PARALLEL *
+# DELETED 2026-09-24 - the rule `_tools/watch-deploy.sh PARALLEL *` (BASELINE F20)
+# stood here. The gate reported it STALE and the claim was re-derived by hand
+# before deleting: grep for parallel, -P N, xargs -P and nproc in that file returns
+# nothing, so the fixed worker counts the baseline recorded are gone. A rule is an
+# exemption at a PATH: recreate the literal and it would have been pardoned
+# silently, so it must come back, if ever, with a precise MATCH and a fresh reason.
 
 # REASON: .specify/extensions/superspec is THIRD-PARTY vendored upstream
 # (WangX0111/superspec), outside the owned-submodule set. Its pinned
@@ -736,6 +739,47 @@ scripts/test-setup-agents-wizard.sh OSPATH printf
 # REASON: test fixture - port 1 is deliberately unreachable, proving the wizard
 # survives an absent ollama backend. A reachable value would break the test.
 scripts/test-setup-agents-wizard.sh ENDPOINT OLLAMA_HOST="http://127.0.0.1:1"
+
+# REASON: port-discover tests, Go test files only (go build excludes _test.go from
+# every binary). net.Listen on port 0 ASKS THE KERNEL for a free port and the
+# test reads the assigned number back with Addr(); nothing is frozen, the literal
+# 0 is the request for a dynamic port. This is the override being exercised, the
+# same judgement already recorded for the workshop suggest_gates_test.go rule.
+_tools/containers/cmd/port-discover/main_test.go ENDPOINT net.Listen("tcp", "localhost:0")
+# REASON: as above for UDP - ListenPacket on port 0 holds a kernel-assigned UDP
+# port so the test can prove the -udp probe refuses a port whose UDP half is taken.
+_tools/containers/cmd/port-discover/main_test.go ENDPOINT net.ListenPacket("udp", "localhost:0")
+
+# REASON: this yml is the DEFAULT target of a local on-demand scan of the workshop.
+# The override is implemented, not merely documented: _tools/hawkscan/run.sh passes
+# -e app.host=$TARGET whenever TARGET is set (run.sh lines ~52-54), and the header
+# of this file says so. UNCONFIRMED: whether HawkScan interpolates env references
+# with defaults inside the yml, so no config-level rewrite is attempted on syntax
+# that has not been run here (hawk is not installed on this host).
+_tools/hawkscan/stackhawk.yml ENDPOINT host: http://127.0.0.1:8087
+
+# REASON: mutation DATA for the frozen-host detector, not configuration. Each line
+# is appended to a scratch copy of translate-fleet.sh to prove detect_frozen_host
+# CATCHES that spelling; the M6 control right below proves a derived form is NOT
+# flagged. Deriving these literals would delete the very case being proved.
+_tools/prove-translation-fleet.sh HOSTNAME [ "$host" = "amber.local" ]
+# REASON: as above - mutation M3, a frozen account-at-host ssh target the detector must catch.
+_tools/prove-translation-fleet.sh HOSTNAME milosvasic@amber.local
+# REASON: as above - mutation M5, a .lan host proving the rule is not a two-name list.
+_tools/prove-translation-fleet.sh HOSTNAME WORKER=fileserver.lan
+
+# REASON: fixture text written with printf into a THROWAWAY directory for the
+# sweep self-test, then scanned by the sweep and never executed. The words spell a
+# forbidden push on purpose so the danger-zones detector has something to catch
+# (or, in the marked probe file, to correctly leave alone). The remote and branch
+# names are part of that text, not a target this script pushes to.
+scripts/audit/zero_findings_sweep.sh GITREF ce origin main
+
+# REASON: probe DATA piped to the PreToolUse guard on stdin to prove the guard
+# REFUSES each forbidden command. Every line carries the DANGER-OK marker saying
+# so, and the guard reads it as text; nothing here is ever executed. The literal
+# forbidden command is the whole point of the probe.
+scripts/verify-pretooluse-guard.sh GITREF origin main|DANGER-OK: probe DATA piped to the guard
 ALLOW_EOF
 )"
 
