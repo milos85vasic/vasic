@@ -474,6 +474,22 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+### SPEC 010 PHASE 2 COMPLETE (foundation), 2026-09-25 (night) — awaiting the operator's phase checkpoint
+
+Phase 2 (T006–T016) built and independently reviewed: the additive gap-register store and validator (`_tools/workable-items`: `gap migrate`, rules
+V-G1..V-G12, `gap add/classify/verdict/close/reopen/link/apply-queue/freeze/summary`), the fixture corpus, the fingerprint library
+(`scripts/zero-gap-lib.sh`) and the two-file evidence adapter + chain/anchor verifier (`scripts/zero-gap-evidence.sh`,
+`scripts/zero-gap-evidence-chain.sh`, `_tools/zero-gap-chain/`). The review loops ran 4 rounds on the store and 4 on the evidence stream, each round
+attacked by a fresh reviewer; the bypasses they found (backdated reopen cuts, stale-evidence re-close, FIFO hangs, partial-migration gate-off,
+canary credential left after SIGKILL, secret shapes on argv, locally forgeable git witness, stray 4.3 MB build binary) are all fixed and tested.
+**Honest state:** "closed" in the register means structurally consistent + self-recorded digests — NOT independently proven until T068 binds
+closure evidence to the chain (FR-016/FR-018 are NOT claimed met). The live `docs/workable_items.db` is UNCHANGED and MUST stay unmigrated until T047
+(migrating flips `verify-workable-items.sh` G5 from rc 2 to rc 1, 8 V-G8 roster findings). `docs/zero-gap/anchor.json` does not exist yet (the strict
+verify returns rc 2 until it is written with `--anchor-write --remote origin` and committed). Upstream defects to report (do not patch): the constitution's
+recorder writes `command` unescaped, silently records `stream_redacted=false` when its scanner cannot load and forks sed/tr/sed per argument; its credential
+scanner takes ~95 s on one 70 KB line and misses `pass=`/`token=`/short passwords/Bearer/URL credentials; the canonical workable-items `close` wipes the
+14 gap columns. Phase 3 (the sweep runner and 16 classes) has NOT started; the operator approves it explicitly.
+
 ### SPEC 010 EXECUTION STARTED — PHASE 1 COMPLETE (via /speckit-superspec-execute), 2026-09-25 (evening)
 
 Phase 1 (T001–T005) ran as parallel research subagents plus an independent review and a scoped re-review; ledger at

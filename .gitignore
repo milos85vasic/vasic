@@ -210,3 +210,9 @@ docs/workable_items.db-shm
 # Compiled Go binaries under _tools/ are build artefacts (§11.4.30). The source
 # and the regeneration command are tracked; the binary is not.
 _tools/workable-items/bin/
+# The zero-gap chain shim (feature 010): its scripts build into temp dirs only,
+# but a plain `go build` in the module dir drops ./zero-gap-chain and
+# `go test -c` drops *.test; `bin/` is the --build-bins convention.
+_tools/zero-gap-chain/zero-gap-chain
+_tools/zero-gap-chain/*.test
+_tools/zero-gap-chain/bin/

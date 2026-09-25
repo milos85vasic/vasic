@@ -1,0 +1,6 @@
+[submodule "workshop"]
+	path = workshop
+	url = git@example.invalid:owner/workshop.git
+[submodule "unrostered"]
+	path = submodules/unrostered
+	url = git@example.invalid:owner/unrostered.git

@@ -1,0 +1,7 @@
+{
+  "summary": "chain=PASS sidecar=VIOLATED anchor=PASS",
+  "invariants": [
+    "I1-byte-rule"
+  ],
+  "note": "last byte is not \\n"
+}

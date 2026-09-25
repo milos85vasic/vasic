@@ -97,35 +97,35 @@ without a captured RED is not done.
 
 **Purpose**: the store, its validator and the shared libraries.
 
-- [ ] T010 [P] [TDD] (FIRST in this phase — T006–T008 consume it) Fixture corpus: CREATE golden-good and golden-bad registers plus a frozen-cycle fixture in
+- [x] T010 [P] [TDD] (FIRST in this phase — T006–T008 consume it) Fixture corpus: CREATE golden-good and golden-bad registers plus a frozen-cycle fixture in
   `_tests/fixtures/zero-gap/registers/`; used by T007/T008 and by every later prover.
-- [ ] T006 [TDD] Additive schema migration `gap migrate` (idempotent, `--dry-run`): columns
+- [x] T006 [TDD] Additive schema migration `gap migrate` (idempotent, `--dry-run`): columns
   `kind, category, disposition, classification_reason, classification_owner, classification_recheck,
   plan_due, research_ref, measurable_target, recurrence_of, reopens_count, cycle, sweep_class,
   first_seen_fingerprint` on `items` and add-on table `item_verdicts` per data-model.md. Files:
   `_tools/workable-items/internal/wi/gapschema.go`, `_tools/workable-items/internal/wi/gapschema_test.go`, `_tools/workable-items/main.go`.
   RED: migrating twice changes nothing on the second run; an `item_verdicts` row whose `item_id` does not exist is rejected by a NEW validator rule V-G12 (T002's review showed the tables accept an orphan today); a migrated DB still opens under the canonical tool.  _Covers: FR-002._
-- [ ] T007 [TDD] Validator rules V-G1..V-G10 with `--as-of`, one RED test and one mutation each
+- [x] T007 [TDD] Validator rules V-G1..V-G10 with `--as-of`, one RED test and one mutation each
   (contracts/register-cli.md): `_tools/workable-items/internal/wi/validate_gap.go`, `validate_gap_test.go`.
   Includes the closed severity/category/kind sets and the four classification reasons; refuses
   `accepted-as-is`; rejects any item-set change in a frozen cycle; **V-G11**: every `Operator-blocked`
   item has `operator_block_details` listing unblock options AND the cost of each (FR-009).  _Covers: FR-002, FR-006, FR-008, FR-009, FR-025, FR-026, SC-003, SC-011._
-- [ ] T008 [TDD] `gap` subcommands `add, classify, close, reopen, link, apply-queue, freeze, summary`
+- [x] T008 [TDD] `gap` subcommands `add, classify, close, reopen, link, apply-queue, freeze, summary`
   (`--json` byte-stable for an unchanged DB): `_tools/workable-items/internal/wi/gapcmd.go`, `gapcmd_test.go`,
   `_tools/workable-items/main.go`. RED first: `close` exits 1 unless RED+GREEN evidence for the same
   check id, an `item_verdicts` row from a different actor, a review verdict, a closure check authored
   by someone other than the fixer, and `research_ref` all exist. The review verdict is stored in `item_verdicts` with `role='reviewer'` (never `item_history`).  _Covers: FR-002, FR-006, FR-007, FR-008, FR-022, FR-024._
-- [ ] T009 [REVIEW] Independent review of T006–T008 (schema additivity, canon vocabulary conflicts,
+- [x] T009 [REVIEW] Independent review of T006–T008 (schema additivity, canon vocabulary conflicts,
   determinism of `summary`). Blocks T010+ consumers.
 - ~~T011~~ **Withdrawn and moved to the T047 governance wave** (review finding): closing G4 before the register exists would skip this list's own closure rules, and `seed-roster` only copies existing rows.
-- [ ] T012 [TDD] Shared library `scripts/zero-gap-lib.sh`: sha256 state fingerprint over a
+- [x] T012 [TDD] Shared library `scripts/zero-gap-lib.sh`: sha256 state fingerprint over a
   (path, blob-sha) population taken before AND after a check; UNSTABLE ⇒ rc 2; three-valued helpers;
   deterministic sorting. Register as an `exempt` library row with its reason. Prover
   `scripts/zero-gap-lib.sh --prove-failure` (mutating a file mid-run must yield rc 2).  _Covers: FR-012._
-- [ ] T013 [TDD] Evidence adapter `scripts/zero-gap-evidence.sh`: wraps the constitution recorder and emits TWO files — a verifier-native chain file (9 fields, genesis `""`, via upstream `chain.ExecRow.ToRecord`, which is library-only: T013 therefore includes a small Go shim `_tools/zero-gap-chain/` (imports the nested `continuum` chain package; the caller computes `PrevDigest` with `chain.Digest`; `ToRecord` needs a canonical-decimal STRING `exit_status` and records only `argv[0]` as `command`)) and a sidecar bound by `artifact_path = sha256:<sidecar line>` (T001 finding);
+- [x] T013 [TDD] Evidence adapter `scripts/zero-gap-evidence.sh`: wraps the constitution recorder and emits TWO files — a verifier-native chain file (9 fields, genesis `""`, via upstream `chain.ExecRow.ToRecord`, which is library-only: T013 therefore includes a small Go shim `_tools/zero-gap-chain/` (imports the nested `continuum` chain package; the caller computes `PrevDigest` with `chain.Digest`; `ToRecord` needs a canonical-decimal STRING `exit_status` and records only `argv[0]` as `command`)) and a sidecar bound by `artifact_path = sha256:<sidecar line>` (T001 finding);
   adds `item_id, check_id, fingerprints, population_kind, outcome, verdict_role`, redacts streams
   before write, validates every record against `contracts/evidence-record.schema.json`.  _Covers: FR-014._
-- [ ] T014 [TDD] Evidence chain + anchor (the adapter re-hashes every sidecar line against the chain's `artifact_path` —
+- [x] T014 [TDD] Evidence chain + anchor (the adapter re-hashes every sidecar line against the chain's `artifact_path` —
   the verifier never reads the sidecar): seal records into an append-only chain; write the anchor with
   `continuum-integrity anchor write` in its upstream format (`{head_digest, entry_count, anchor_strength}`,
   our honest value `policy`); a git-history verifier asserts PER-COMMIT forward-only (entry_count never drops;
@@ -133,8 +133,8 @@ without a captured RED is not done.
   corpus (mutation, deletion, reorder, absent store, unwalkable chain ⇒ REFUSE; healthy ⇒ PASS; tail-truncation
   and delete+re-chain ⇒ caught ONLY by the anchor) PLUS the sidecar attacks and invariants listed in
   data-model.md "Adapter invariants". Files: `scripts/zero-gap-evidence-chain.sh`.  _Covers: FR-016._
-- [ ] T015 [REVIEW] Independent review of T012–T014, including the honest-strength wording of the anchor.
-- [ ] T016 Register T012–T014's scripts and library in `scripts/check-registry.tsv` (R5) with paired
+- [x] T015 [REVIEW] Independent review of T012–T014, including the honest-strength wording of the anchor.
+- [x] T016 Register T012–T014's scripts and library in `scripts/check-registry.tsv` (R5) with paired
   proofs; `bash scripts/verify-check-registry.sh` must stay exit 0. EVERY later script task registers
   its own row in its own task (R5 fails the registry the moment an unregistered `*.sh` appears).  _Covers: FR-013._
 
@@ -333,6 +333,13 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 - [ ] T068 [TDD] [US5] Independent-verdict flow: `item_verdicts` rows require `actor ≠ fixer`
   (`actor_kind` agent|script); RED: a verdict whose actor equals the fixer is rejected; disagreement blocks `gap close`; uses the constitution
   `independence_tier.sh` where applicable.  _Covers: FR-018._
+  **Before T068 runs the witness fetch daily, fix T014 finding N3** (no submodule recursion, no auto-maintenance, pin `remote.<r>.uploadpack`; see progress.yml). **T068 MUST ALSO bind closure evidence to the evidence chain** (T009 re-review rulings, 2026-09-25): `gap close` and `gap verdict`
+  require, for every cited RED/GREEN/verifier record, that `sha256(record bytes)` equals the `artifact_path` of the chain record whose
+  `seq = chain_seq` in a store that `scripts/zero-gap-evidence-chain.sh --verify` passes (rc 0); the verifier record's
+  `author_session_id` must differ from the GREEN's; a closed item is re-verified against the chain on every `validate`. Until T068
+  lands, **"closed" means structurally consistent and self-asserted, NOT proof of an independent run** (an unsigned verifier record can be
+  forged by editing a copy of the GREEN — demonstrated in review); the operator inherits that residual risk and FR-016/FR-018 are NOT
+  claimed met by the register alone. (FR-016, FR-018)
 - [ ] T069 [TDD] [US5] `scripts/zero-gap-daily.sh` per `contracts/daily-job.md`: `flock` single-instance,
   long-op registered BEFORE it runs in `.remember/logs/zero-gap/ops-registry.jsonl` with the exact
   §11.4.232(A) terminal states, heartbeat and no-progress budget, host-pressure refusal (rc 2),

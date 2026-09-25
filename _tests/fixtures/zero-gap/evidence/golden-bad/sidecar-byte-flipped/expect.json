@@ -1,0 +1,7 @@
+{
+  "summary": "chain=PASS sidecar=VIOLATED anchor=PASS",
+  "invariants": [
+    "I3-positional-binding"
+  ],
+  "note": "one byte of sidecar line 2 changed; the chain is untouched"
+}

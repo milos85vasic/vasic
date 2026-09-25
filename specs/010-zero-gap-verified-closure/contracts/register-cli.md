@@ -30,3 +30,23 @@ from a different actor + review verdict + the closure check authored by someone 
 identifier (closes the G4 finding); **V-G9** no closed item whose latest evidence outcome ≠ 0.
 
 Output (`gap summary --json`) is derived from rows and is byte-stable for an unchanged DB.
+
+## Amendments accepted after the T009 review (2026-09-25)
+
+- **New subcommand `gap verdict`** — the only writer of `item_verdicts`:
+  `gap verdict --id --role verifier|reviewer --actor --actor-kind agent|script --outcome 0|1|2 --evidence <path> --on <date>`.
+  A `verifier` verdict's evidence is PARSED as a sidecar EvidenceRecord (same item_id, the GREEN check id, outcome 0,
+  `verdict_role=verifier`, ts ≥ GREEN); a `reviewer` verdict's evidence must be a non-empty REGULAR file.
+- **Extra flags** on `add`, `classify`, `close`, `reopen`, `apply-queue`, `freeze` exist so an item can satisfy V-G1/V-G10 when written;
+  `--verdict-ref` on `close` is the evidence path of the verifier's verdict row. `validate` takes `--as-of <date>` (UTC everywhere;
+  the date used is printed).
+- **Rules** are V-G1..V-G12 (not V-G1..V-G9). Only evidence and verdict rows NEWER than the latest `Reopened` row count toward V-G3.
+- **Exit codes**: `reopen` and `apply-queue` exit 1 (invalid request) or 2; `freeze` exits 1 on a membership change; `link` exits 1 to a CLOSED
+  head (it would commit a state the validator rejects); every command exits 2 when the DB is unmigrated, read-only or locked (never 1).
+- **`item_verdicts`** columns are all NOT NULL (stricter than the first data-model draft).
+- **Ordering constraint**: do NOT migrate the LIVE `docs/workable_items.db` before T047. Migrating flips `scripts/verify-workable-items.sh` G5
+  from rc 2 to rc 1 (8 V-G8 roster findings) and its `--prove-failure` control (which copies the live DB and expects rc 0) cannot pass until the
+  roster gap is closed. T047 closes it, and G5 must then pass `--as-of`.
+- **Upstream defect (report, do not patch)**: the canonical tool's `close` wipes all 14 gap columns and skips closure checks. Mitigated on our side
+  (any item whose history has a `zero-gap:` row stays in scope; a 'closed outside gap close' finding). Whether canonical `sync`/`move` also wipe
+  the columns is UNCONFIRMED.

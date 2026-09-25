@@ -1,0 +1,8 @@
+{
+  "summary": "chain=PASS sidecar=VIOLATED anchor=PASS",
+  "invariants": [
+    "I5-artifact-path-unique",
+    "I4-chain-seq"
+  ],
+  "note": "line 1 replayed; a properly linked tail record binds it (the anchor sees a lagging, healthy chain)"
+}

@@ -124,7 +124,7 @@ cell whose last run executed zero cases (FR-011).
 IN ('agent','script')), on_date, outcome CHECK(outcome IN (0,1,2)), evidence_path)`. The constitution's
 `item_history` CHECK fixes its `event_type` set (Opened/Updated/Reopened/Fixed/Implemented/Completed/
 Obsolete) and its `by` column only allows `AI|User`, so neither can carry a new event or distinguish
-two agents; a separate table can. Disagreement with the author's verdict blocks closure (FR-018).
+two agents; a separate table can. Disagreement with the author's verdict blocks closure (FR-018). The first seven columns are NOT NULL; an EIGHTH nullable column `evidence_sha256` (added in T008 fix round 3, migration additive and idempotent) records the digest of the cited evidence file at verdict time, and the sha256 of every cited RED/GREEN/verifier/reviewer/research file is also recorded at close time so a post-close swap is a V-G3 finding (FR-016 for the register; chain binding is still T068). `item_id` is checked against `items` by validator rule V-G12 (the table has no foreign key).
 
 ### CycleFreeze (`docs/zero-gap/cycles/<cycle>/freeze.json` + DB `meta`)
 `{cycle, frozen_at, register_sha256, sweep_manifest_sha256, chain_head, entry_count, item_count}`.

@@ -72,6 +72,9 @@ type Report struct {
 	Items        int
 	Findings     []Finding
 	Undetermined []string
+	// Notes are stated facts that do not change the exit code (for example an
+	// empty gap population), printed so nothing is implied clean by silence.
+	Notes []string
 }
 
 // Validate walks every item and asserts the §11.4.148(D1) integrity contract —

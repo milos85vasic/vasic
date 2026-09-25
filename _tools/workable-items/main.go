@@ -27,6 +27,7 @@ package main
 
 import (
 	"database/sql"
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -34,6 +35,7 @@ import (
 	"sort"
 	"strings"
 	"text/tabwriter"
+	"time"
 
 	"digital.vasic/vasic/workableitems/internal/wi"
 )
@@ -67,8 +69,23 @@ usage: workable-items-vsc <subcommand> [flags]
                 --dry-run prints what would be written and writes nothing.
   validate      Assert the §11.4.148(D1) status+type+id contract over every item,
                 plus §11.4.33 closure vocabulary, §11.4.91 description floor,
-                §11.4.54 id uniqueness/sequence, and prefix-in-roster membership.
+                §11.4.54 id uniqueness/sequence, and prefix-in-roster membership;
+                on a migrated register also the zero-gap rules V-G1..V-G12.
+                --as-of <YYYY-MM-DD> fixes the date the date rules use (default:
+                today in UTC; the date used is always printed).
+                NOTE (feature 010, I4): once "gap migrate" has been run on a register,
+                V-G8 turns a declared submodule without a roster row into a FINDING, so
+                the G5 check of scripts/verify-workable-items.sh moves from rc 2 to rc 1
+                (measured on a copy of the live register: 8 V-G8 findings). Do NOT
+                migrate the live register before task T047 closes the roster gap.
   report        Read-only tallies by status, type, sub-project and evidence class.
+  gap           Zero-gap register (feature 010): migrate | add | classify | verdict |
+                close | reopen | link | apply-queue | freeze | summary.
+                See specs/010-zero-gap-verified-closure/contracts/register-cli.md.
+                A register that carries only PART of the zero-gap schema (a
+                dropped column or table, an older migration, or zero-gap history
+                rows with no schema) is rc 2 naming the missing DDL — never OK.
+                `+wi.HonestyNotice+`
 
 Common flags:
   --repo <dir>   repository root (default: discovered by walking up from CWD)
@@ -94,6 +111,8 @@ func run(args []string) int {
 		return cmdValidate(args[1:])
 	case "report":
 		return cmdReport(args[1:])
+	case "gap":
+		return wi.RunGap(args[1:], os.Stdout, os.Stderr)
 	case "-h", "--help", "help":
 		usage()
 		return exitClean
@@ -406,9 +425,21 @@ func cmdValidate(args []string) int {
 	fs := flag.NewFlagSet("validate", flag.ContinueOnError)
 	repo := fs.String("repo", "", "repository root")
 	dbPath := fs.String("db", "", "database path")
+	asOf := fs.String("as-of", "", "ISO date (YYYY-MM-DD) every date rule is evaluated at (default: today in UTC; always printed)")
 	if err := fs.Parse(args); err != nil {
 		return exitUndetermined
 	}
+	day, note := *asOf, ""
+	if day == "" {
+		// UTC, as every `gap` subcommand uses: a local default made the date
+		// rules depend on the host's zone (fix round 1).
+		day, note = time.Now().UTC().Format("2006-01-02"), " (default: today, UTC)"
+	}
+	if _, err := wi.ParseAsOf(day); err != nil {
+		fmt.Fprintf(os.Stderr, "COULD NOT DETERMINE: %v\n", err)
+		return exitUndetermined
+	}
+	fmt.Printf("as-of: %s%s\n", day, note)
 	root, dbp, err := resolve(fs, repo, dbPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "COULD NOT DETERMINE: %v\n", err)
@@ -431,6 +462,28 @@ func cmdValidate(args []string) int {
 		fmt.Fprintf(os.Stderr, "COULD NOT DETERMINE: %v\n", err)
 		return exitUndetermined
 	}
+	// Feature 010: the zero-gap rules V-G1..V-G12, on a migrated register only.
+	// An unmigrated register can hold no gap item; that is stated, not scored.
+	gap, gerr := wi.ValidateGap(db, wi.GapOptions{AsOf: day, Root: root, Roster: r})
+	var partial *wi.PartialSchemaError
+	switch {
+	case errors.Is(gerr, wi.ErrNotMigrated):
+		rep.Notes = append(rep.Notes, "V-G1..V-G12 not evaluated: the register carries no zero-gap schema (run `gap migrate`)")
+	case errors.As(gerr, &partial):
+		// Fix round 4, F1: a PARTIAL schema is not "unmigrated"; the V-G
+		// rules cannot run and the verdict is 2, naming the DDL to run.
+		rep.Undetermined = append(rep.Undetermined, "V-G1..V-G12 could not be evaluated: "+gerr.Error())
+	case gerr != nil:
+		rep.Undetermined = append(rep.Undetermined, "V-G rules could not be evaluated: "+gerr.Error())
+	default:
+		rep.Findings = append(rep.Findings, gap.Findings...)
+		rep.Undetermined = append(rep.Undetermined, gap.Undetermined...)
+		rep.Notes = append(rep.Notes, gap.Notes...)
+		rep.Notes = append(rep.Notes, fmt.Sprintf("V-G1..V-G12 evaluated over %d gap item(s) at as-of %s", gap.Items, day))
+	}
+	for _, n := range rep.Notes {
+		fmt.Println("NOTE     " + n)
+	}
 	for _, f := range rep.Findings {
 		fmt.Println("FINDING  " + f.String())
 	}
@@ -440,6 +493,10 @@ func cmdValidate(args []string) int {
 	rc := rep.ExitCode()
 	switch rc {
 	case exitClean:
+		if gap != nil {
+			// F6: printed BEFORE the verdict line, which stays last (gates read tail -1).
+			fmt.Println(wi.HonestyNotice)
+		}
 		fmt.Printf("OK — %d item(s); every item carries a valid status, a valid type and a unique id whose prefix names a roster sub-project.\n", rep.Items)
 	case exitFinding:
 		fmt.Printf("FAIL — %d item(s), %d finding(s).\n", rep.Items, len(rep.Findings))
