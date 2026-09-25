@@ -22,7 +22,7 @@ Validator rules (each has a Go test RED-first and a mutation). Every date rule i
 explicit `--as-of <date>` (default: the run's recorded date, stored in the evidence record), so an
 unchanged state gives the same verdict on every repeat (SC-006). **V-G1** every gap item has
 type+status+id+kind+category+severity(closed set)+owner+location(`forensic_anchor`)+an evidence reference;
-**V-G10** every `open` item has a `plan_due` date; **V-G11** every `Operator-blocked` item lists unblock options and the cost of each in `operator_block_details`; **V-G2** `classified` ⇒ reason ∈ 4 + owner + `recheck` not elapsed at `--as-of`; **V-G3** `closed` ⇒ RED+GREEN evidence for the same check id + independent verdict (`item_verdicts`)
+**V-G10** every `open` item has a `plan_due` date; **V-G12** every `item_verdicts.item_id` resolves to an existing item; **V-G11** every `Operator-blocked` item lists unblock options and the cost of each in `operator_block_details`; **V-G2** `classified` ⇒ reason ∈ 4 + owner + `recheck` not elapsed at `--as-of`; **V-G3** `closed` ⇒ RED+GREEN evidence for the same check id + independent verdict (`item_verdicts`)
 from a different actor + review verdict + the closure check authored by someone other than the fixer
 (§11.4.240(C)(1)) + `research_ref` (§11.4.150); **V-G4** `kind='improvement'` ⇒ non-empty `measurable_target`;
 **V-G5** `recurrence_of` acyclic, resolves to a head; **V-G6** no item-set change in a frozen cycle;

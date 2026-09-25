@@ -1,10 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "zero-gap evidence record",
+  "title": "zero-gap evidence SIDECAR record (the chain file itself is the verifier-native JSONL; see data-model.md)",
   "type": "object",
   "required": [
-    "seq",
-    "prev_digest",
     "ts",
     "cwd",
     "argv",
@@ -23,17 +21,12 @@
     "state_fingerprint_after",
     "population_kind",
     "outcome",
-    "verdict_role"
+    "verdict_role",
+    "chain_seq",
+    "independence_tier",
+    "evidence_class"
   ],
   "properties": {
-    "seq": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "prev_digest": {
-      "type": "string",
-      "pattern": "^[0-9a-f]{64}$|^GENESIS$"
-    },
     "ts": {
       "type": "string",
       "format": "date-time"
@@ -42,8 +35,12 @@
       "type": "string"
     },
     "argv": {
-      "type": "string",
-      "description": "canonically serialised argument vector, as the constitution recorder writes it"
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "description": "argument vector as a JSON array of strings (upstream ExecRow.Argv is []string; the recorder writes an array; a joined string is forbidden by \u00a711.4.115(H)(1))"
     },
     "exit_status": {
       "type": "integer"
@@ -114,8 +111,21 @@
         "author",
         "verifier"
       ]
+    },
+    "chain_seq": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "LOAD-BEARING: MUST equal the `seq` of the chain record whose artifact_path binds this sidecar line; the adapter fails on any mismatch"
+    },
+    "independence_tier": {
+      "type": "string",
+      "description": "supplied to the chain record (instance|model|capability per the constitution's independence_tier lib)"
+    },
+    "evidence_class": {
+      "type": "string",
+      "description": "supplied to the chain record (runtime|artifact|source); distinct from population_kind"
     }
   },
   "additionalProperties": false,
-  "$comment": "Invariant not expressible in JSON Schema: outcome 0 or 1 requires state_fingerprint_before == state_fingerprint_after; otherwise outcome MUST be 2. Enforced by the adapter and its Go/shell test."
+  "$comment": "Invariant not expressible in JSON Schema: outcome 0 or 1 requires state_fingerprint_before == state_fingerprint_after; otherwise outcome MUST be 2. Enforced by the adapter and its Go/shell test. The verifier-native chain record has EXACTLY nine fields (seq, ts, command, exit_status, artifact_path, evidence_class, author_session_id, independence_tier, prev_digest), unknown fields are REFUSED, genesis prev_digest is the empty string, and artifact_path = \"sha256:<hex of the exact sidecar line bytes>\" binds the two files. The adapter MUST verify that binding itself (the verifier never reads the sidecar)."
 }

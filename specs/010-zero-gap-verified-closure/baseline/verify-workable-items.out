@@ -1,0 +1,11 @@
+workable-items gate — §11.4.93 / §11.4.95 / §11.4.148
+
+OK       G1 database present at docs/workable_items.db (2490368 bytes)
+OK       G2 docs/workable_items.db is NOT gitignored (§11.4.95)
+OK       G3 docs/workable_items.db is tracked by git
+UNDET    G4 roster: COULD NOT DETERMINE — 8 declared submodule(s) carry no identifier: submodules/challenges, submodules/doc_processor, submodules/llm_orchestrator, submodules/llm_provider, submodules/llms_verifier, submodules/qa, submodules/security, submodules/vision_engine
+UNDET    G5 umbrella validate could not determine: COULD NOT DETERMINE — 530 item(s), 1 unresolved condition(s). A 2 is never a pass.
+OK       G6 canonical validate (independent verifier): validate: OK — 530 items, all invariants satisfied
+
+⚠️  workable-items: COULD NOT DETERMINE — 2 unresolved condition(s). A 2 is never a pass.
+rc=2

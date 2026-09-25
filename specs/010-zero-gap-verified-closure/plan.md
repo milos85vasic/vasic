@@ -39,7 +39,7 @@ Go 1.26.0 for `_tools/workable-items` (measured `go version`, 2026-09-25); SQLit
 gate_mutation_harness,control_needle}.sh` and the chain/anchor gates.
 **Storage**: (a) `docs/workable_items.db` — TRACKED, canonical (§11.4.93/95); (b) per-cycle tracked
 records `docs/zero-gap/cycles/<cycle>/` (freeze fingerprint, register export, chain head + anchor
-record); (c) daily raw run output UNTRACKED under `.remember/logs/zero-gap/` (`.remember/` is
+record); (b') the evidence store is TWO files — a verifier-native chain JSONL plus a sidecar bound by `artifact_path = sha256:<sidecar line>` (Phase 1 T001: `continuum-integrity` refuses unknown fields); (c) daily raw run output UNTRACKED under `.remember/logs/zero-gap/` (`.remember/` is
 git-ignored: `.remember/.gitignore` is `*`), with captured streams outside version control as the
 recorder already requires (`stream_ref`).
 **Testing**: Go unit tests for the store extension; shell provers with `--prove-failure` for every
@@ -53,9 +53,8 @@ the pure-Go `modernc.org/sqlite` driver and shells out only to `git` (verified b
 tool + data files); no new service.
 **Performance Goals**: cheap subset (manifest pins, continuation check, registry structure, cascade,
 claim ledger) measured at ≈25 s total and <100 MB each (2026-09-25); daily FULL run budget is a
-ceiling of 3 h wall-clock, dominated by `verify-check-registry.sh --run-proofs` (recorded ≈1 h in
-CLAUDE.md, not re-measured today — the first baseline run MUST measure it before the ceiling is
-accepted).
+ceiling of 3 h wall-clock, dominated by `verify-check-registry.sh --run-proofs` (MEASURED 2026-09-25: 33 min 24.6 s, ~1.13 GiB peak RSS,
+exit 1 with 120 PASS / 2 FAIL / 1 UNDET — the ceiling is accepted; see research.md T003).
 **Constraints**: ≤60% RAM (§12.6; host 30 GiB → `MemoryMax=16G`), thread-limit check before
 parallelism (§12.12), `nice`/`ionice`, single instance via `flock` on a purpose-key file, registered
 long-op with heartbeat and terminal verdict (§11.4.232), no CI/CD (§11.4.156), no force-push
@@ -228,7 +227,7 @@ implemented by hand outside that command.
 - [ ] Store schema + validator: independent review before any consumer is written.
 - [ ] Sweep runner contract and each class's recall claim: review before its findings seed the register.
 - [ ] Evidence store integration (chain/anchor): review, including the honest-strength statement of
-  the anchor (git history + multi-upstream mirrors; append-only by policy, not cryptographically).
+  the anchor (`anchor_strength: policy`: append-only by policy on a SINGLE upstream, not cryptographic, no mirror set).
 - [ ] Anything touching a private module's content or a third-party gitlink: review before merge.
 - [ ] Every closure fix: independent review + independent verdict (FR-018/FR-022).
 

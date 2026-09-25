@@ -72,20 +72,20 @@ without a captured RED is not done.
 
 **Purpose**: turn every UNCONFIRMED in research.md into a measured fact BEFORE design work depends on it.
 
-- [ ] T001 [P] [SUBAGENT] Run the constitution's chain attack corpus and determine whether
+- [x] T001 [P] [SUBAGENT] Run the constitution's chain attack corpus and determine whether
   `continuum-integrity` can read a store shaped like `contracts/evidence-record.schema.json`; write the
   finding (and, if shapes differ, the adaptation on OUR side) into an addendum at the end of
   `specs/010-zero-gap-verified-closure/research.md`. Files: `submodules/constitution/scripts/gates/cm_chain_integrity_detects_alteration.sh`, `submodules/constitution/submodules/continuum/cmd/continuum-integrity` (Go source; the chain gate builds it with `go build` into `$TMP`).
-- [ ] T002 [P] [SUBAGENT] On a COPY of `docs/workable_items.db` in scratch, apply the planned additive
+- [x] T002 [P] [SUBAGENT] On a COPY of `docs/workable_items.db` in scratch, apply the planned additive
   columns and the `item_verdicts` table, then run the canonical validator
   (`submodules/constitution/scripts/workable-items/bin/workable-items-linux validate`, G6 of
   `scripts/verify-workable-items.sh`); record whether it tolerates them. Addendum in research.md.
-- [ ] T003 [P] Re-measure `bash scripts/verify-check-registry.sh --run-proofs` wall time and peak RSS on
+- [x] T003 [P] Re-measure `bash scripts/verify-check-registry.sh --run-proofs` wall time and peak RSS on
   a quiet tree under `systemd-run --user --scope -p MemoryMax=16G`; accept or reject the 3 h ceiling in
   plan.md Performance Goals with the figures.
-- [ ] T004 [P] Decide extend-vs-sibling for the SIGPIPE idiom check: read
+- [x] T004 [P] Decide extend-vs-sibling for the SIGPIPE idiom check: read
   `scripts/verify-shell-continuations.sh`; record the decision and evidence in research.md.
-- [ ] T005 Capture the pre-implementation baseline: `docs/workable_items.db` sha256, `git rev-parse` of
+- [x] T005 Capture the pre-implementation baseline: `docs/workable_items.db` sha256, `git rev-parse` of
   every gitlink, and the output of `verify-workable-items.sh`, `verify-claim-ledger.sh`,
   `verify-manifest-pins.sh` into `specs/010-zero-gap-verified-closure/baseline/` (small text files, absolute paths normalised to `<repo>`; run `bash scripts/audit-hardcoded-paths.sh` before committing).
 
@@ -104,7 +104,7 @@ without a captured RED is not done.
   plan_due, research_ref, measurable_target, recurrence_of, reopens_count, cycle, sweep_class,
   first_seen_fingerprint` on `items` and add-on table `item_verdicts` per data-model.md. Files:
   `_tools/workable-items/internal/wi/gapschema.go`, `_tools/workable-items/internal/wi/gapschema_test.go`, `_tools/workable-items/main.go`.
-  RED: migrating twice changes nothing on the second run; a migrated DB still opens under the canonical tool.  _Covers: FR-002._
+  RED: migrating twice changes nothing on the second run; an `item_verdicts` row whose `item_id` does not exist is rejected by a NEW validator rule V-G12 (T002's review showed the tables accept an orphan today); a migrated DB still opens under the canonical tool.  _Covers: FR-002._
 - [ ] T007 [TDD] Validator rules V-G1..V-G10 with `--as-of`, one RED test and one mutation each
   (contracts/register-cli.md): `_tools/workable-items/internal/wi/validate_gap.go`, `validate_gap_test.go`.
   Includes the closed severity/category/kind sets and the four classification reasons; refuses
@@ -122,14 +122,17 @@ without a captured RED is not done.
   (path, blob-sha) population taken before AND after a check; UNSTABLE ⇒ rc 2; three-valued helpers;
   deterministic sorting. Register as an `exempt` library row with its reason. Prover
   `scripts/zero-gap-lib.sh --prove-failure` (mutating a file mid-run must yield rc 2).  _Covers: FR-012._
-- [ ] T013 [TDD] Evidence adapter `scripts/zero-gap-evidence.sh`: wraps the constitution recorder,
+- [ ] T013 [TDD] Evidence adapter `scripts/zero-gap-evidence.sh`: wraps the constitution recorder and emits TWO files — a verifier-native chain file (9 fields, genesis `""`, via upstream `chain.ExecRow.ToRecord`, which is library-only: T013 therefore includes a small Go shim `_tools/zero-gap-chain/` (imports the nested `continuum` chain package; the caller computes `PrevDigest` with `chain.Digest`; `ToRecord` needs a canonical-decimal STRING `exit_status` and records only `argv[0]` as `command`)) and a sidecar bound by `artifact_path = sha256:<sidecar line>` (T001 finding);
   adds `item_id, check_id, fingerprints, population_kind, outcome, verdict_role`, redacts streams
   before write, validates every record against `contracts/evidence-record.schema.json`.  _Covers: FR-014._
-- [ ] T014 [TDD] Evidence chain + anchor: seal records into an append-only store, write an anchor
-  (`mechanism: append-only-by-policy (single upstream)`), and a verifier that walks the anchor file's
-  git history and fails if any commit removes or rewrites a line. RED: run the constitution attack
-  corpus (mutation, deletion, reorder, absent store, unwalkable chain ⇒ REFUSE; healthy ⇒ PASS;
-  tail-truncation and re-chain ⇒ caught ONLY by the anchor). Files: `scripts/zero-gap-evidence-chain.sh`.  _Covers: FR-016._
+- [ ] T014 [TDD] Evidence chain + anchor (the adapter re-hashes every sidecar line against the chain's `artifact_path` —
+  the verifier never reads the sidecar): seal records into an append-only chain; write the anchor with
+  `continuum-integrity anchor write` in its upstream format (`{head_digest, entry_count, anchor_strength}`,
+  our honest value `policy`); a git-history verifier asserts PER-COMMIT forward-only (entry_count never drops;
+  each earlier head_digest equals the digest of the chain record at that position). RED: the constitution attack
+  corpus (mutation, deletion, reorder, absent store, unwalkable chain ⇒ REFUSE; healthy ⇒ PASS; tail-truncation
+  and delete+re-chain ⇒ caught ONLY by the anchor) PLUS the sidecar attacks and invariants listed in
+  data-model.md "Adapter invariants". Files: `scripts/zero-gap-evidence-chain.sh`.  _Covers: FR-016._
 - [ ] T015 [REVIEW] Independent review of T012–T014, including the honest-strength wording of the anchor.
 - [ ] T016 Register T012–T014's scripts and library in `scripts/check-registry.tsv` (R5) with paired
   proofs; `bash scripts/verify-check-registry.sh` must stay exit 0. EVERY later script task registers

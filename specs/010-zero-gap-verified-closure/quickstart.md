@@ -55,7 +55,8 @@ Expected: every (subject × test kind) cell is `check|n/a|gap|could-not-run`; ze
 
 ```bash
 bash scripts/zero-gap-determinism.sh --check verify-manifest-pins   # 5 repeats → 5 identical sha256 (SC-006)
-bash submodules/constitution/scripts/gates/cm_chain_integrity_detects_alteration.sh   # [EXISTS] upstream attack corpus
+bash submodules/constitution/scripts/gates/cm_chain_integrity_detects_alteration.sh   # [EXISTS] upstream attack corpus (native chain only)
+bash scripts/zero-gap-evidence-chain.sh --verify <store>    # [TARGET] adapter: chain + sidecar binding + anchor; the upstream gate alone cannot see sidecar tampering
 bash scripts/zero-gap-scan-records.sh docs/zero-gap specs/010-zero-gap-verified-closure   # FR-020: expect zero hits (SC-008)
 ```
 Expected: altering, deleting, reordering an evidence record is detected; a truncated tail is caught

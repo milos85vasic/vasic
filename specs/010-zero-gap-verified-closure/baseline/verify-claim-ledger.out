@@ -1,0 +1,14 @@
+
+== claim-vs-reality ledger — §11.4.266 ==
+   ledger:  docs/claim-ledger.tsv
+   rows:    10 claim row(s) over 5 declared surface(s)
+   verdict: 10 VERIFIED · 0 FALSE · 0 ORPHAN · 0 MALFORMED/UNTYPED · 0 UNDETERMINED
+
+COVERAGE — BOUNDED AND STATED. §11.4.266(A) requires EVERY advertised
+capability to resolve to exactly one row. This ledger is a slice of 10.
+CM-CLAIM-REALITY-LEDGER-COMPLETE is NOT satisfied; run --completeness for
+the remaining waves. Do NOT read a green exit as ledger completeness.
+
+✅ every one of the 10 recorded claim(s) is still made and still agrees
+   with a measurement taken during THIS run.
+rc=0

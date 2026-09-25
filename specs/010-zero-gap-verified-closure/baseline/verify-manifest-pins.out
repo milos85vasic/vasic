@@ -1,0 +1,48 @@
+  dep               manifest ref                               live gitlink (index)                       verdict
+  ----------------- ------------------------------------------ ------------------------------------------ -------
+  constitution      f8afb98ab0ebf23083c35aee4be5a9d81691ce2f   f8afb98ab0ebf23083c35aee4be5a9d81691ce2f   MATCH
+✅ PASS  PIN-SYNC constitution — recorded ref f8afb98ab0ebf23083c35aee4be5a9d81691ce2f == index gitlink f8afb98ab0ebf23083c35aee4be5a9d81691ce2f
+  containers        4a8f04e05f3535d77c48f69b89687f9fcc896fbf   4a8f04e05f3535d77c48f69b89687f9fcc896fbf   MATCH
+✅ PASS  PIN-SYNC containers — recorded ref 4a8f04e05f3535d77c48f69b89687f9fcc896fbf == index gitlink 4a8f04e05f3535d77c48f69b89687f9fcc896fbf
+  qa                86cf4b15c410ad851022457a84eb6c57d53321db   86cf4b15c410ad851022457a84eb6c57d53321db   MATCH
+✅ PASS  PIN-SYNC qa — recorded ref 86cf4b15c410ad851022457a84eb6c57d53321db == index gitlink 86cf4b15c410ad851022457a84eb6c57d53321db
+  challenges        8a352b971d07ff6b3cda192f7ad6322eebef348a   8a352b971d07ff6b3cda192f7ad6322eebef348a   MATCH
+✅ PASS  PIN-SYNC challenges — recorded ref 8a352b971d07ff6b3cda192f7ad6322eebef348a == index gitlink 8a352b971d07ff6b3cda192f7ad6322eebef348a
+  LLMProvider       4c73c8b0dfc69d9fc5efe1a6a83665163161e8c6   4c73c8b0dfc69d9fc5efe1a6a83665163161e8c6   MATCH
+✅ PASS  PIN-SYNC LLMProvider — recorded ref 4c73c8b0dfc69d9fc5efe1a6a83665163161e8c6 == index gitlink 4c73c8b0dfc69d9fc5efe1a6a83665163161e8c6
+  RAG               2dffc735f3d8233396a88c8ea2c973ac3b105bc2   2dffc735f3d8233396a88c8ea2c973ac3b105bc2   MATCH
+✅ PASS  PIN-SYNC RAG — recorded ref 2dffc735f3d8233396a88c8ea2c973ac3b105bc2 == index gitlink 2dffc735f3d8233396a88c8ea2c973ac3b105bc2
+  verdict           e4b2f6ec5fc6109ba869a4494718a9186d435424   e4b2f6ec5fc6109ba869a4494718a9186d435424   MATCH
+✅ PASS  PIN-SYNC verdict — recorded ref e4b2f6ec5fc6109ba869a4494718a9186d435424 == index gitlink e4b2f6ec5fc6109ba869a4494718a9186d435424
+  passage           1e361bd6d6faf6a73813a038c1f6f78088a9cc43   1e361bd6d6faf6a73813a038c1f6f78088a9cc43   MATCH
+✅ PASS  PIN-SYNC passage — recorded ref 1e361bd6d6faf6a73813a038c1f6f78088a9cc43 == index gitlink 1e361bd6d6faf6a73813a038c1f6f78088a9cc43
+  curriculum-kit    a57d6f157f18f1ea056b6a8d491bc5d915ad07d7   a57d6f157f18f1ea056b6a8d491bc5d915ad07d7   MATCH
+✅ PASS  PIN-SYNC curriculum-kit — recorded ref a57d6f157f18f1ea056b6a8d491bc5d915ad07d7 == index gitlink a57d6f157f18f1ea056b6a8d491bc5d915ad07d7
+  vasic.digital     d4e741c438c25222dfdcb1e06ea63ff5742904ee   d4e741c438c25222dfdcb1e06ea63ff5742904ee   MATCH
+✅ PASS  PIN-SYNC vasic.digital — recorded ref d4e741c438c25222dfdcb1e06ea63ff5742904ee == index gitlink d4e741c438c25222dfdcb1e06ea63ff5742904ee
+  milosvasic.ru     04cf16559bbd67cef860b897044d01735f031eac   04cf16559bbd67cef860b897044d01735f031eac   MATCH
+✅ PASS  PIN-SYNC milosvasic.ru — recorded ref 04cf16559bbd67cef860b897044d01735f031eac == index gitlink 04cf16559bbd67cef860b897044d01735f031eac
+  design-toolkit    4ddc9645d140a71ef33cf399801c3ae26307ed9e   4ddc9645d140a71ef33cf399801c3ae26307ed9e   MATCH
+✅ PASS  PIN-SYNC design-toolkit — recorded ref 4ddc9645d140a71ef33cf399801c3ae26307ed9e == index gitlink 4ddc9645d140a71ef33cf399801c3ae26307ed9e
+  ai_interviewing   a34e3642db7b7dd2b3a89f8685d20a72838bc90d   a34e3642db7b7dd2b3a89f8685d20a72838bc90d   MATCH
+✅ PASS  PIN-SYNC ai_interviewing — recorded ref a34e3642db7b7dd2b3a89f8685d20a72838bc90d == index gitlink a34e3642db7b7dd2b3a89f8685d20a72838bc90d
+  monetization      6f04c72ac418ed9ebe10191bf1d0acd759fb1f68   6f04c72ac418ed9ebe10191bf1d0acd759fb1f68   MATCH
+✅ PASS  PIN-SYNC monetization — recorded ref 6f04c72ac418ed9ebe10191bf1d0acd759fb1f68 == index gitlink 6f04c72ac418ed9ebe10191bf1d0acd759fb1f68
+  workshop          e076fa6aa26f1bb923570fcf7805c0f375394a3b   e076fa6aa26f1bb923570fcf7805c0f375394a3b   MATCH
+✅ PASS  PIN-SYNC workshop — recorded ref e076fa6aa26f1bb923570fcf7805c0f375394a3b == index gitlink e076fa6aa26f1bb923570fcf7805c0f375394a3b
+  doc_processor     5692e52713df732ddde68b62b6780f7c28ffcf36   5692e52713df732ddde68b62b6780f7c28ffcf36   MATCH
+✅ PASS  PIN-SYNC doc_processor — recorded ref 5692e52713df732ddde68b62b6780f7c28ffcf36 == index gitlink 5692e52713df732ddde68b62b6780f7c28ffcf36
+  llm_orchestrator  55d2dde25386483649224cd2f966e949881b46b5   55d2dde25386483649224cd2f966e949881b46b5   MATCH
+✅ PASS  PIN-SYNC llm_orchestrator — recorded ref 55d2dde25386483649224cd2f966e949881b46b5 == index gitlink 55d2dde25386483649224cd2f966e949881b46b5
+  llm_provider      f29fe2439c81a56520432d5b0b2cfc2b60486f3e   f29fe2439c81a56520432d5b0b2cfc2b60486f3e   MATCH
+✅ PASS  PIN-SYNC llm_provider — recorded ref f29fe2439c81a56520432d5b0b2cfc2b60486f3e == index gitlink f29fe2439c81a56520432d5b0b2cfc2b60486f3e
+  llms_verifier     2c6602c7893153188c3c94e348e94cf924917fd8   2c6602c7893153188c3c94e348e94cf924917fd8   MATCH
+✅ PASS  PIN-SYNC llms_verifier — recorded ref 2c6602c7893153188c3c94e348e94cf924917fd8 == index gitlink 2c6602c7893153188c3c94e348e94cf924917fd8
+  security          79151f23063336b4e63f463709f4f01c0c46aea0   79151f23063336b4e63f463709f4f01c0c46aea0   MATCH
+✅ PASS  PIN-SYNC security — recorded ref 79151f23063336b4e63f463709f4f01c0c46aea0 == index gitlink 79151f23063336b4e63f463709f4f01c0c46aea0
+  vision_engine     ce16f929304826ee98aac8fa1fa18985141d4c3c   ce16f929304826ee98aac8fa1fa18985141d4c3c   MATCH
+✅ PASS  PIN-SYNC vision_engine — recorded ref ce16f929304826ee98aac8fa1fa18985141d4c3c == index gitlink ce16f929304826ee98aac8fa1fa18985141d4c3c
+----------------------------------------------------------------------
+CM-MANIFEST-PIN-SYNC: 21 MATCH, 0 DRIFT, 0 UNDETERMINED  of 21 declared dep(s)  (root <repo>)
+✅ CM-MANIFEST-PIN-SYNC: PASS — all 21 recorded ref(s) equal the gitlink this repository will commit
+rc=0

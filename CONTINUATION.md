@@ -474,6 +474,19 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+### SPEC 010 EXECUTION STARTED — PHASE 1 COMPLETE (via /speckit-superspec-execute), 2026-09-25 (evening)
+
+Phase 1 (T001–T005) ran as parallel research subagents plus an independent review and a scoped re-review; ledger at
+`specs/010-zero-gap-verified-closure/progress.yml`, baseline at `specs/010-zero-gap-verified-closure/baseline/`. Findings:
+(1) the constitution's chain verifier REFUSES the planned evidence schema (exactly nine fields, unknown fields refused) — the plan now uses a
+two-file store (native chain + sidecar bound by `artifact_path = sha256:<line>`), anchors in the upstream format with honest strength `policy`;
+(2) the additive columns and `item_verdicts` table are tolerated by both validators (copy only; repo DB untouched);
+(3) `verify-check-registry.sh --run-proofs` measured **33 min 24.6 s / 1.13 GiB** and exits 1: **120 PASS / 2 FAIL (`provider-ci` selftest,
+`workable-items` proof control) / 1 UNDET (`content-boundary` proof hit its 900 s timeout)** — the older "65 PASS / 0 FAIL" figure in the carriers is stale;
+(4) the SIGPIPE idiom check will be a SIBLING script (33 regex hits in pipefail scripts, 15 with a non-`printf` producer; whether `printf` producers are
+exempt is an open policy decision). Tasks T001–T005 are checked off. **Phase 2 has not started; the operator's "continue everything" is being treated as
+approval to enter it (ledgered ruling).**
+
 ### SPEC 010 PLANNED (zero-gap verified closure), CARRIER QUOTING REGRESSION FIXED — 2026-09-25 (late)
 
 `specs/010-zero-gap-verified-closure/` now has `spec.md` (clarified, 5 decisions), `plan.md`,

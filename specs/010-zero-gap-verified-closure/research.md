@@ -82,12 +82,11 @@ Phase-1 task rather than an assumption.
 - **Honest limit (recorded, not hidden)**: the anchor location is a tracked file in git. An ordinary
   commit CAN rewrite that file without any force-push, and `git remote -v` shows `github`, `origin`
   and `upstream` all pointing at the SAME repository (`upstreams/` holds only `GitHub.sh`), so there is
-  one upstream, not a mirror set. The `mechanism` field therefore says
-  `append-only-by-policy (single upstream)`, NOT "cryptographically enforced", and the verifier
-  additionally walks the anchor file's git history and fails if any commit removes or rewrites a line.
-- **UNCONFIRMED → task**: nobody has yet checked that `continuum-integrity` can read a store shaped
-  like `evidence-record.schema.json`; the adapter task begins by running the constitution's attack
-  corpus against a scratch store and, if the shapes differ, adapting OUR side to the verifier.
+  one upstream, not a mirror set. The claim is therefore worded
+  `append-only-by-policy (single upstream)`, which is prose only; the stored value is the upstream enum `anchor_strength: policy`
+  (NOT "cryptographically enforced"), and the git-history verifier checks PER-COMMIT forward-only: `entry_count` never drops and each
+  earlier `head_digest` equals the digest of the chain record at that position (see data-model.md AnchorRecord).
+- ~~UNCONFIRMED~~ **SUPERSEDED by the Phase 1 addendum (T001)**: the verifier REFUSES our schema; the two-file design (D6a) adapts OUR side. Anchors use the upstream format `{head_digest, entry_count, anchor_strength}` with our honest value `policy`; the mechanism string `append-only-by-policy (single upstream)` is prose, not a stored enum value.
 
 ### D7 — State fingerprint generalises the content-boundary mechanism
 - **Decision**: fingerprint = sha256 over the sorted (path, blob-sha) list of the population a check
@@ -198,3 +197,61 @@ ORPHAN after restoring the quoting).
 - Confirm `verify-shell-continuations.sh` can be extended to the SIGPIPE idiom or add a sibling check.
 - Decide whether the daily report is also mirrored into a tracked per-cycle summary at cycle close
   (planned: yes, by an explicit commit).
+
+
+## Phase 1 addendum — measured 2026-09-25 (tasks T001–T005; each was run by a separate subagent)
+
+### T001 — the verifier CANNOT read the planned store shape (plan change required)
+`continuum-integrity` (built from `submodules/constitution/submodules/continuum/cmd/continuum-integrity`) refused a
+store in our proposed shape with rc 4 (`unknown field "cwd"`). Its native format is 9 fields, JSONL, unknown fields
+refused, genesis `""`, digest = sha256 of the decoded record. The constitution's own gates ran clean:
+`cm_chain_integrity_detects_alteration.sh` 8 PASS / 0 FAIL / 0 BLIND, `cm_anchor_detects_tail_truncation.sh` 7/7,
+`cm_anchor_record_complete.sh` 16/16. A native-shape store verified rc 0 healthy; mutation, deletion and reorder
+were DETECTED (rc 3); tail truncation and delete+re-chain PASS the chain alone (documented limit) and are caught
+only by `anchor verify` (rc 3); an absent file REFUSES (rc 4). **Decision D6a:** two files — a native chain file
+plus a sidecar bound by `artifact_path = sha256:<sidecar line>`; the adapter verifies the binding; reuse
+`chain.ExecRow.ToRecord`. Recorded in data-model.md and `contracts/evidence-record.schema.json`. UNCONFIRMED:
+`execution_record.sh` was not run (upstream `ExecRow` types `argv` as an array and byte counts as strings, unlike our
+schema); anchor `--remote` strength probing was not exercised, so anchors recorded `anchor_strength: unknown` — the
+honest mechanism string stays `append-only-by-policy (single upstream)`.
+
+### T002 — the canonical and umbrella validators tolerate the additive columns and the new table
+On a COPY of `docs/workable_items.db` (repo original sha256 unchanged), all 14 planned columns were added with
+`ALTER TABLE` (`items` 23 → 37 columns; composite PK unaffected) and `item_verdicts` was created. Canonical validator
+(`workable-items-linux validate --db`, the G6 invocation): rc 0, "validate: OK — 530 items" both before and after.
+Umbrella validator (`workable-items-vsc validate --repo . --db`): rc 2 both before and after, from the ALREADY-KNOWN
+roster gap (8 declared submodules without a roster row) — not from the new schema. Limits: only `validate` was
+exercised; write paths (backfill, CRUD, db→md) were not, so any `SELECT *` into a fixed struct is UNCONFIRMED; the
+prebuilt `workable-items-vsc` binary is dated Sep 8 and was not rebuilt from current source.
+
+### T004 — SIGPIPE idiom: build a SIBLING check
+Decision: a new registered script (working name `verify-shell-pipefail-sigpipe.sh`) copying the skeleton of
+`verify-shell-continuations.sh` (enumeration over `git ls-files '*.sh'`, three-valued rc, `--prove-failure` lab),
+NOT an in-place extension: that gate's F1/F2 are context-free zero-tolerance syntax defects, while this idiom is
+pipefail-conditional and producer-dependent and needs an allow-list. Measured candidates over 95 tracked `*.sh`:
+33 `| grep -q*` REGEX hits in files that set pipefail (at least 2 are not pipes: `verify-shell-continuations.sh:164` and `_tools/prove-watch-deploy-verdict.sh:21`) (15 with a non-`printf` producer, e.g. `verify-content-boundary.sh:1144`,
+`verify-provider-ci.sh:349,378`, `verify-workable-items.sh:121`, `qa-up.sh:109,113,326`, several in
+`setup-agents-wizard.sh`); `printf` is a builtin and only SIGPIPEs above the ~64 KB pipe buffer, so a purely
+syntactic detector over-reports it. No output size was measured per site, so NO exploitable count is claimed.
+**Open policy decision (operator/Phase 2):** whether `printf`/`echo` producers are exempt.
+
+### T005 — baseline captured (path-normalised) in `baseline/`
+Files: `workable_items.db.sha256`, `gitlinks.txt` (22), `umbrella-head.txt`, and the outputs of
+`verify-workable-items.sh` (rc 2: COULD NOT DETERMINE, 2 unresolved), `verify-claim-ledger.sh` (rc 0) and
+`verify-manifest-pins.sh` (rc 0), with `rc=` appended.
+
+### T003 — `--run-proofs` measured (2026-09-25, in place, `systemd-run --user --scope -p MemoryMax=16G`, nice + ionice)
+Exit 1 after **33 min 24.6 s** wall, peak RSS **1,181,344 KB (~1.13 GiB)**, 440 s user + 651 s system CPU; available memory stayed
+16–18 GiB (swap was already ~7955/8191 MB used before the run — not caused by it). Summary line:
+`CM-CHECK-REGISTRY: 120 PASS, 2 FAIL, 0 DEBT, 1 UNDET, 0 NOTE`. **The tree was unchanged**: `git status --porcelain` for the umbrella and all 22
+submodules matches the pre-run capture (excluding this spec directory). Planning figure: budget ~35 min and ~1.2 GiB per full run, so the
+3 h daily ceiling in plan.md is accepted with wide margin.
+The run is NOT green, and each of these is a baseline finding for the register (none was investigated in Phase 1):
+- FAIL `provider-ci`: its `--selftest` proof exited rc 1 (check M3 wanted 0 clean rows, got 2).
+- FAIL `workable-items`: its `--prove-failure` proof exited rc 1 — the CONTROL ("well-formed copy validates clean") wanted rc 0 and got rc 2
+  (consistent with the known roster gap; UNCONFIRMED).
+- UNDET `content-boundary`: its paired proof hit the script's own 900 s per-proof timeout, so whether the proof works is unknown.
+- The log carries no per-proof timings (a long quiet stretch of ~33 lines between minutes 7 and 14), so any other slow proof is UNCONFIRMED;
+  the sweep's evidence records should capture per-proof duration.
+**A recorded claim is now stale:** CLAUDE.md records `--run-proofs` as exiting 0 at "65 PASS / 0 FAIL" (2026-09-03); today it is 120 PASS / 2 FAIL / 1 UNDET.
+The claim-ledger extension (T019/T066) must cover it.
