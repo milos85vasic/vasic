@@ -5,7 +5,7 @@ Two kinds of command appear below and they are labelled, because this plan produ
 group is implemented and is the acceptance test for it. Nothing here is a claim that a target
 command already works.
 
-Prerequisites: repo root `/home/milosvasic/Projects/vasic`, Go 1.26, `flock`, `systemd-run`; a
+Prerequisites: the repository root as the current directory, Go 1.26, `flock`, `systemd-run`; a
 working tree that is clean apart from files you are deliberately reviewing. Never run these against a
 moving tree — the
 runners refuse (rc 2) when the fingerprint changes mid-run.
