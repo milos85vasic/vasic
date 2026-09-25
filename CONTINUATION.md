@@ -512,6 +512,13 @@ DRIFT: `submodules/LLMProvider`, `submodules/llm_provider` and
 `submodules/llms_verifier` DIFFER from their remotes with direction UNDETERMINED
 (objects not fetched). **Those three are NOT covered by the standing authorization
 (constitution only) and need a per-bump operator decision.**
+**Classified 2026-09-25 (operator chose "fetch and classify, no move"; nothing bumped):** all
+three are strictly BEHIND with 0 divergent — `submodules/LLMProvider` `4c73c8b0dfc6` is 4 behind
+`e05ec64ebc48` (6 files, +1253/-257); `submodules/llm_provider` `f29fe2439c81` is 19 behind
+`e05ec64ebc48` (119 files, +7731/-671); `submodules/llms_verifier` `2c6602c78931` is 2 behind
+`8f2090acb907`. `LLMProvider` and `llm_provider` share one remote head, which is a fact worth a
+look before either is bumped. Each is a clean `merge --ff-only` whenever the operator chooses;
+gitlink and `helix-deps.yaml` ref must be staged together.
 
 ### ANSWERING OFF, SUGGEST 503 FIXED LIVE, REBUILD TRAP CLOSED, SITES SHIPPED WITH A REAL FEED, 2026-09-25
 
