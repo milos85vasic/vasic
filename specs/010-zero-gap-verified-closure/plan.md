@@ -91,7 +91,7 @@ Checked against `.specify/memory/constitution.md` v1.5.0 and the universal const
 | The Content Boundary Is a Standing Invariant | PASS | Register/evidence describe private modules by path and description only; FR-020 scan is a release gate. `verify-content-boundary.sh` stays RED BY DESIGN — this feature does not allow-list it; its rows become register items. |
 | Stage the Pointer and Its Manifest Together | PASS | Gitlink + `helix-deps.yaml` moved together; three behind-remote submodules stay operator decisions. |
 | A Decision, Once Executed, Updates Its Carriers | PASS | Every closure that changes a stated fact edits its carrier in the same commit; the claim ledger (today a slice of 10) is widened toward `--completeness`. |
-| Shell Idioms Must Survive `pipefail` | PASS | New scripts avoid `producer | grep -q`; covered by `verify-shell-continuations.sh` extension. |
+| Shell Idioms Must Survive `pipefail` | PASS | New scripts avoid `producer | grep -q`; enforced by an extension of `verify-shell-continuations.sh` OR a sibling check — T004 decides. |
 | Independent review (§11.4.142/§11.4.209) | PASS | Every change reviewed by a different agent; model/effort per §11.4.209 as it currently reads. |
 | No CI/CD (§11.4.156) | PASS | Daily job is a local user timer, not hosted automation (Clarification 3). |
 | No force-push (§11.4.113) | PASS | Integration by merge + fast-forward only. |
@@ -133,13 +133,20 @@ scripts/
 ├── zero-gap-daily.sh             # full re-measurement wrapper (flock, bounded, registered long-op)
 ├── zero-gap-determinism.sh       # N-repeat harness (SC-006)
 ├── zero-gap-scan-records.sh      # FR-020: guessing language / credential / private-text scan
+├── zero-gap-lib.sh               # fingerprint + three-valued helpers (sourced; registered as an `exempt` library row)
+├── zero-gap-evidence.sh          # adapter over the constitution recorder (sealed records)
+├── zero-gap-evidence-chain.sh    # chain + anchor writer and verifier wrapper
+├── zero-gap-guard-checks.sh      # FR-023: no check removed / allow-list added without a paired proof
+├── zero-gap-class-<id>.sh        # one script per sweep class (16 classes; corpora under _tests/fixtures/zero-gap/<id>/)
 └── check-registry.tsv            # + rows registering every script above (R5)
 docs/zero-gap/
+├── CLOSURE.md                    # hand-written closure procedure + severity/category rubric (all counts generated)
 ├── sweep-classes.tsv             # DATA: class id, population, window, planted-corpus path, recall
 ├── coverage.tsv                  # DATA: (subject, test kind) → check id | n/a reason | gap
 └── cycles/<cycle>/               # freeze fingerprint, register export, chain head + anchor
 _tests/fixtures/zero-gap/         # planted-defect corpora + golden-good / golden-bad registers
 ops/systemd/                      # zero-gap-daily.{service,timer} recipes (install is an operator action)
+specs/010-zero-gap-verified-closure/baseline/   # T005 pre-implementation baseline (path-normalised text)
 ```
 
 **Structure Decision**: extend the existing SSoT and check registry instead of a new database or
@@ -169,7 +176,7 @@ constitution submodule and consumed read-only.
 | FR-002, FR-006, FR-009 | validator V-G1 (owner, location, evidence ref), V-G10 (`plan_due` for open items), V-G11 (`operator_block_details` options+cost for `Operator-blocked`) |
 | FR-017 | records with `population_kind=wire` MUST carry a wire-capture digest (HTTP response or socket capture) the adapter validates; source-only measurements are labelled `source` |
 | SC-010 | `workable-items-vsc report --by-module` generated page + a timed manual walk-through recorded once per cycle |
-| FR-025, SC-011 | validator: Feature/improvement items require non-empty `measurable_target` |
+| FR-025, SC-011 | validator V-G4 (`kind='improvement'` ⇒ non-empty `measurable_target`); intake via the `improvement-candidates` class and manual `gap add` (T081) |
 | FR-026, SC-011 | `cycle freeze` records fingerprint; validator rejects membership change after freeze |
 
 ## Execution Strategy

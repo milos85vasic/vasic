@@ -18,13 +18,16 @@ then `COULD-NOT-INSPECT <part> <reason>` lines, then a per-class table
 `CLASS <id> population=<n> inspected=<n> recall=<0..1|UNKNOWN>`, then the fingerprint pair and the
 verdict line. Two runs on an unchanged fingerprinted state MUST be byte-identical (SC-001).
 
-Initial class set (each a separate subagent-sized unit; corpora required before a class may print a
-numeric recall): stale/false recorded figures (extends claim ledger toward `--completeness`);
-vacuous/empty-population gates; gates without paired proofs; carriers/manifest/gitlink drift;
-submodule-vs-remote drift (all remotes, not only `origin`); content-boundary rows (registered, never
-allow-listed); live-vs-source drift (running binary/stamp vs HEAD); build-only-if-missing start
-scripts; missing toolchain → rc-2 gates; unbounded/unregistered scripts (R5); unsealed evidence;
-untracked-file blind windows; private-content in public records; documentation counts vs measured
-counts; test-kind coverage cells that are gaps.
+Initial class set (16; each a separate subagent-sized unit named as in tasks T019–T034 and T081; corpora
+required before a class may print a numeric recall): `stale-figures` (extends the claim ledger toward
+`--completeness`); `vacuous-gates` (empty population / zero cases); `unproven-checks` (no paired proof);
+`pointer-drift` (gitlink vs `helix-deps.yaml` vs carriers vs ALL configured remotes, not only `origin`);
+`content-boundary-rows` (registered, never allow-listed); `live-vs-source` (running binary/stamp vs `HEAD`,
+population `wire`); `build-if-missing` (start scripts that build only a missing binary);
+`missing-toolchain` (rc-2 gates → `Operator-blocked`); `unregistered-scripts` (R5); `unsealed-evidence`;
+`untracked-blind-window`; `private-in-public` (FR-020); `doc-count-drift`; `coverage-gaps` (each `gap` cell
+of the coverage map); `guard-gaps` (destructive commands the PreToolUse guard does not block; upstream code,
+classified `third-party` with a reporting route); `known-open-decisions` (the operator-decision backlog with
+options and cost, FR-009); plus `improvement-candidates` (T081).
 
 Never mutates tracked files. `--out` writes only under `.remember/logs/zero-gap/`.

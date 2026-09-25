@@ -63,7 +63,8 @@ without a captured RED is not done.
 4. A closed item whose fix is reverted → reopen-pending queued; the tracked register is untouched by the job.
 5. A check that passes on both pre-fix and post-fix state (a hollow check) → closure refused (RED required).
 6. A record containing a credential, guessing language, or private text → FR-020 gate fails the release.
-7. Date-dependent rules (recheck, plan_due) evaluated against `--as-of`, so repeats stay identical.
+7. A snapshot made with hardlinks lets an in-place writer alter the LIVE tree → snapshots are real copies, and T012's prover asserts the live tree is byte-identical before and after.
+8. Date-dependent rules (recheck, plan_due) evaluated against `--as-of`, so repeats stay identical.
 
 ---
 
@@ -103,36 +104,36 @@ without a captured RED is not done.
   plan_due, research_ref, measurable_target, recurrence_of, reopens_count, cycle, sweep_class,
   first_seen_fingerprint` on `items` and add-on table `item_verdicts` per data-model.md. Files:
   `_tools/workable-items/internal/wi/gapschema.go`, `_tools/workable-items/internal/wi/gapschema_test.go`, `_tools/workable-items/main.go`.
-  RED: migrating twice changes nothing on the second run; a migrated DB still opens under the canonical tool.
+  RED: migrating twice changes nothing on the second run; a migrated DB still opens under the canonical tool.  _Covers: FR-002._
 - [ ] T007 [TDD] Validator rules V-G1..V-G10 with `--as-of`, one RED test and one mutation each
   (contracts/register-cli.md): `_tools/workable-items/internal/wi/validate_gap.go`, `validate_gap_test.go`.
   Includes the closed severity/category/kind sets and the four classification reasons; refuses
   `accepted-as-is`; rejects any item-set change in a frozen cycle; **V-G11**: every `Operator-blocked`
-  item has `operator_block_details` listing unblock options AND the cost of each (FR-009).
+  item has `operator_block_details` listing unblock options AND the cost of each (FR-009).  _Covers: FR-002, FR-006, FR-008, FR-009, FR-025, FR-026, SC-003, SC-011._
 - [ ] T008 [TDD] `gap` subcommands `add, classify, close, reopen, link, apply-queue, freeze, summary`
   (`--json` byte-stable for an unchanged DB): `_tools/workable-items/internal/wi/gapcmd.go`, `gapcmd_test.go`,
   `_tools/workable-items/main.go`. RED first: `close` exits 1 unless RED+GREEN evidence for the same
   check id, an `item_verdicts` row from a different actor, a review verdict, a closure check authored
-  by someone other than the fixer, and `research_ref` all exist. The review verdict is stored in `item_verdicts` with `role='reviewer'` (never `item_history`).
+  by someone other than the fixer, and `research_ref` all exist. The review verdict is stored in `item_verdicts` with `role='reviewer'` (never `item_history`).  _Covers: FR-002, FR-006, FR-007, FR-008, FR-022, FR-024._
 - [ ] T009 [REVIEW] Independent review of T006–T008 (schema additivity, canon vocabulary conflicts,
   determinism of `summary`). Blocks T010+ consumers.
 - ~~T011~~ **Withdrawn and moved to the T047 governance wave** (review finding): closing G4 before the register exists would skip this list's own closure rules, and `seed-roster` only copies existing rows.
 - [ ] T012 [TDD] Shared library `scripts/zero-gap-lib.sh`: sha256 state fingerprint over a
   (path, blob-sha) population taken before AND after a check; UNSTABLE ⇒ rc 2; three-valued helpers;
   deterministic sorting. Register as an `exempt` library row with its reason. Prover
-  `scripts/zero-gap-lib.sh --prove-failure` (mutating a file mid-run must yield rc 2).
+  `scripts/zero-gap-lib.sh --prove-failure` (mutating a file mid-run must yield rc 2).  _Covers: FR-012._
 - [ ] T013 [TDD] Evidence adapter `scripts/zero-gap-evidence.sh`: wraps the constitution recorder,
   adds `item_id, check_id, fingerprints, population_kind, outcome, verdict_role`, redacts streams
-  before write, validates every record against `contracts/evidence-record.schema.json`.
+  before write, validates every record against `contracts/evidence-record.schema.json`.  _Covers: FR-014._
 - [ ] T014 [TDD] Evidence chain + anchor: seal records into an append-only store, write an anchor
   (`mechanism: append-only-by-policy (single upstream)`), and a verifier that walks the anchor file's
   git history and fails if any commit removes or rewrites a line. RED: run the constitution attack
   corpus (mutation, deletion, reorder, absent store, unwalkable chain ⇒ REFUSE; healthy ⇒ PASS;
-  tail-truncation and re-chain ⇒ caught ONLY by the anchor). Files: `scripts/zero-gap-evidence-chain.sh`.
+  tail-truncation and re-chain ⇒ caught ONLY by the anchor). Files: `scripts/zero-gap-evidence-chain.sh`.  _Covers: FR-016._
 - [ ] T015 [REVIEW] Independent review of T012–T014, including the honest-strength wording of the anchor.
 - [ ] T016 Register T012–T014's scripts and library in `scripts/check-registry.tsv` (R5) with paired
   proofs; `bash scripts/verify-check-registry.sh` must stay exit 0. EVERY later script task registers
-  its own row in its own task (R5 fails the registry the moment an unregistered `*.sh` appears).
+  its own row in its own task (R5 fails the registry the moment an unregistered `*.sh` appears).  _Covers: FR-013._
 
 **Checkpoint**: store, validator, fingerprint, evidence chain and their proofs are green — user stories may start.
 
@@ -151,51 +152,57 @@ defect per class appears; an uninspectable part is listed, never clean.
 - [ ] T017 [TDD] [US1] (pre-seeds ALL class rows in `docs/zero-gap/sweep-classes.tsv` and their `scripts/check-registry.tsv` rows so class tasks share no file) Runner `scripts/zero-gap-sweep.sh` per `contracts/sweep-runner.md`
   (`--class --json --out --expect-fingerprint --prove-failure`; findings sorted; per-class table;
   fingerprint pair; `COULD-NOT-INSPECT` lines) and the data file `docs/zero-gap/sweep-classes.tsv`
-  (schema in data-model.md). RED: an empty class list, a missing entrypoint, and a moving tree each yield rc 2.
+  (schema in data-model.md). RED: an empty class list, a missing entrypoint, and a moving tree each yield rc 2.  _Covers: FR-001, FR-003, FR-005, FR-012._
 - [ ] T018 [TDD] [US1] (same file as T017, so serial) Recall engine inside the runner: recall = planted-found / planted from each
-  class's corpus; `recall=UNKNOWN` printed next to every "no findings" for a class without a corpus.
+  class's corpus; `recall=UNKNOWN` printed next to every "no findings" for a class without a corpus.  _Covers: FR-004, SC-002._
 - [ ] T019 [P] [SUBAGENT] [TDD] [US1] Class `stale-figures`: extends `scripts/verify-claim-ledger.sh`
-  toward `--completeness` (recorded counts in carriers, CONTINUATION.md, docs) with a planted-stale corpus.
+  toward `--completeness` (recorded counts in carriers, CONTINUATION.md, docs) with a planted-stale corpus.  _Covers: FR-001._
 - [ ] T020 [P] [SUBAGENT] [TDD] [US1] Class `vacuous-gates`: gates that pass on an empty population or run
-  zero cases; corpus of empty-population fixtures.
+  zero cases; corpus of empty-population fixtures.  _Covers: FR-001._
 - [ ] T021 [P] [SUBAGENT] [TDD] [US1] Class `unproven-checks`: any check without a paired
-  `--prove-failure`; built on `check-registry.tsv`.
+  `--prove-failure`; built on `check-registry.tsv`.  _Covers: FR-001, FR-013, SC-007._
 - [ ] T022 [P] [SUBAGENT] [TDD] [US1] Class `pointer-drift`: gitlink vs `helix-deps.yaml` vs remote for
-  ALL configured remotes (not only `origin`), and vs carriers.
+  ALL configured remotes (not only `origin`), and vs carriers.  _Covers: FR-001._
 - [ ] T023 [P] [SUBAGENT] [TDD] [US1] Class `content-boundary-rows`: registers the RED rows of
-  `scripts/verify-content-boundary.sh` as items by count and path class; NEVER allow-lists them.
+  `scripts/verify-content-boundary.sh` as items by count and path class; NEVER allow-lists them.  _Covers: FR-001._
 - [ ] T024 [P] [SUBAGENT] [TDD] [US1] Class `live-vs-source`: running binary/stamp vs `HEAD` for workshop
-  (`/api/health` build id) and ai_interviewing; population_kind `wire`.
+  (`/api/health` build id) and ai_interviewing; population_kind `wire`.  _Covers: FR-001, FR-017._
 - [ ] T025 [P] [SUBAGENT] [TDD] [US1] Class `build-if-missing`: start scripts that build only a missing
-  binary (ai_interviewing `platform/scripts/start.sh:17` is the known seed).
+  binary (ai_interviewing `platform/scripts/start.sh:17` is the known seed).  _Covers: FR-001._
 - [ ] T026 [P] [SUBAGENT] [TDD] [US1] Class `missing-toolchain`: gates that exit 2 for an absent tool
-  (tesseract, webkit libraries, bundle, jekyll, docker) → `Operator-blocked` items with the exact install command.
-- [ ] T027 [P] [SUBAGENT] [TDD] [US1] Class `unregistered-scripts`: R5 as a sweep class across all owned scanroots.
-- [ ] T028 [P] [SUBAGENT] [TDD] [US1] Class `unsealed-evidence`: gates that produce no sealed record.
+  (tesseract, webkit libraries, bundle, jekyll, docker) → `Operator-blocked` items with the exact install command.  _Covers: FR-001._
+- [ ] T027 [P] [SUBAGENT] [TDD] [US1] Class `unregistered-scripts`: R5 as a sweep class across all owned scanroots.  _Covers: FR-001._
+- [ ] T028 [P] [SUBAGENT] [TDD] [US1] Class `unsealed-evidence`: gates that produce no sealed record.  _Covers: FR-001._
 - [ ] T029 [P] [SUBAGENT] [TDD] [US1] Class `untracked-blind-window`: gates over "the repo" that ignore
-  untracked-not-ignored files without stating it.
+  untracked-not-ignored files without stating it.  _Covers: FR-001._
 - [ ] T030 [P] [SUBAGENT] [TDD] [US1] Class `private-in-public`: FR-020 scan reused as a sweep class
-  (credentials, guessing language, private text) over public records.
+  (credentials, guessing language, private text) over public records.  _Covers: FR-001, FR-020._
 - [ ] T031 [P] [SUBAGENT] [TDD] [US1] Class `doc-count-drift`: documented counts vs measured counts
-  (e.g. workshop `CLAUDE.md` gate counts).
+  (e.g. workshop `CLAUDE.md` gate counts).  _Covers: FR-001._
 - [ ] T032 [P] [SUBAGENT] [TDD] [US1] Class `coverage-gaps`: registers every `gap` cell from the
-  coverage map (needs T052's coverage data; until then the baseline T036 records this class as `COULD-NOT-INSPECT`, never clean).
+  coverage map (needs T052's coverage data; until then the baseline T036 records this class as `COULD-NOT-INSPECT`, never clean).  _Covers: FR-001._
 - [ ] T033 [P] [SUBAGENT] [TDD] [US1] Class `guard-gaps`: destructive commands the PreToolUse guard does
   not block (`git checkout --`, `restore`, `stash`, `clean -fd`, `add -A`) — third-party/constitution code,
-  so registered `classified: third-party` with the reporting route (FR-021).
+  so registered `classified: third-party` with the reporting route (FR-021).  _Covers: FR-001, FR-021._
 - [ ] T034 [P] [SUBAGENT] [TDD] [US1] Class `known-open-decisions`: the operator-decision backlog
   (behind-remote submodules, indexed evaluation artefacts, question-shape leak, oomd, Lumen leg,
-  `GIT_OPTIONAL_LOCKS`, provider-CI unverified rows) as items with options and cost (FR-009).
+  `GIT_OPTIONAL_LOCKS`, provider-CI unverified rows) as items with options and cost (FR-009).  _Covers: FR-001, FR-009._
 - [ ] T035 [TDD] [US1] Determinism harness `scripts/zero-gap-determinism.sh` (`--check <id>`; N=5
-  repeats; sha256 of normalised output; any difference ⇒ registered UNSTABLE, not evidence).
-- [ ] T036 [US1] BASELINE sweep on a quiet tree (frozen `cp -al` snapshot if the live tree moves) and the
-  per-class recall table. Nothing is seeded yet.
+  repeats; sha256 of normalised output; any difference ⇒ registered UNSTABLE, not evidence).  _Covers: FR-003, FR-015, SC-001, SC-006._
+- [ ] T036 [US1] BASELINE sweep on a quiet tree (on a frozen REAL COPY — `rsync -a` of the tracked tree plus needed untracked inputs, never hardlinks — if the live tree moves) and the
+  per-class recall table. Nothing is seeded yet.  _Covers: FR-001._
 - [ ] T037 [P] [TDD] [US1] CREATE `workable-items-vsc report --by-module` (does not exist yet) generating a per-module page (SC-010) — RED: golden-bad register yields rc 1;
-  timed walk-through recorded once.
+  timed walk-through recorded once.  _Covers: FR-024, SC-010._
+- [ ] T081 [TDD] [US1] (after T037; numbered out of sequence to keep earlier ids stable) Improvement intake:
+  CREATE sweep class `improvement-candidates` (`scripts/zero-gap-class-improvement-candidates.sh`, corpus
+  `_tests/fixtures/zero-gap/improvement-candidates/`) that harvests improvement candidates from recorded
+  operator decisions, KNOWN-LIMITATIONS-style documents and `Operator-blocked` items, PLUS a manual intake
+  path (`gap add --kind improvement --measurable-target ...`). RED: a candidate with no measurable target is
+  rejected (V-G4). The operator sets the cycle-1 improvement cap at the T038 checkpoint. (FR-001, FR-025)  _Covers: FR-001, FR-025._
 - [ ] T038 [REVIEW] [US1] Independent review of the runner, each class's recall claim and the baseline
   output. ONLY THEN: seed the register with `gap add`, publish the recall table, and take the **human
   checkpoint** (operator sizes the improvement scope), and run `gap freeze --cycle 1` immediately
-  (FR-026) — discoveries made during the closure waves are assigned to cycle 2.
+  (FR-026) — discoveries made during the closure waves are assigned to cycle 2.  _Covers: FR-025, FR-026, SC-011._
 
 **Checkpoint**: the register is complete relative to its stated recall and byte-stable; MVP delivered.
 
@@ -224,14 +231,14 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 
 - [ ] T039 [TDD] [US2] `scripts/zero-gap-verify.sh --item <id>`: re-runs the recorded check against the
   pre-fix ref (scratch worktree) and the current ref; both captured as sealed records; a hollow check
-  (passes on both) refuses closure.
+  (passes on both) refuses closure.  _Covers: FR-007, SC-004._
 - [ ] T040 [TDD] [US2] `scripts/zero-gap-guard-checks.sh` (FR-023): a diff that removes a
   `check-registry.tsv` row, deletes a check, or adds an allow-list/exempt entry without a paired proof
-  fails; wired into `scripts/pre-push-gates.sh`. Files: `scripts/zero-gap-guard-checks.sh`, `scripts/pre-push-gates.sh`.
+  fails; wired into `scripts/pre-push-gates.sh`. Files: `scripts/zero-gap-guard-checks.sh`, `scripts/pre-push-gates.sh`.  _Covers: FR-013, FR-023, SC-007._
 - [ ] T041 [TDD] [US2] (after T040; serial on `scripts/pre-push-gates.sh`) Third-party edit guard as a
   pre-push gate check: refuse a push whose diff modifies files under `submodules/superspec` or any
-  gitlink classified third-party; classification data in `docs/zero-gap/`.
-- [ ] T042 [US2] Closure procedure document `docs/zero-gap/CLOSURE.md` (hand-written rules only; every
+  gitlink classified third-party; classification data in `docs/zero-gap/`.  _Covers: FR-021._
+- [ ] T042 [US2] Closure procedure document `docs/zero-gap/CLOSURE.md` (hand-written rules only — including the severity/category rubric from data-model.md; every
   status and count is generated): RED-first, evidence capture, independent verdict, review, `research_ref`.
 - [ ] T043 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `security` — every item of category `security`
   (credential handling and any destructive-command guard gap that IS fixable project-side; editing
@@ -253,8 +260,8 @@ Each wave task MUST follow this, verbatim, or stop and queue:
   `Operator-blocked` install items (tesseract, webkit libs); verify everything else.
 - [ ] T050 [US2] Operator queue: every `Operator-blocked` and `classified` item lists its unblock options,
   cost, exact command, owner and recheck date (FR-009); present the queue to the operator. Includes the
-  gitlink bumps that end each wave and the three behind-remote submodules.
-- [ ] T051 [REVIEW] [US2] Independent review of all closed items' evidence pairs.
+  gitlink bumps that end each wave and the three behind-remote submodules.  _Covers: FR-006, FR-009, SC-003._
+- [ ] T051 [REVIEW] [US2] Independent review of all closed items' evidence pairs.  _Covers: FR-022._
 
 **Checkpoint**: zero items lack a state, owner or evidence (SC-003); no item is classified except for the four reasons.
 
@@ -267,11 +274,11 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 
 - [ ] T052 [TDD] [US3] Generator `scripts/zero-gap-coverage.sh` + data `docs/zero-gap/coverage.tsv`
   (`subject`, `test_kind`, `status ∈ {check,n/a,gap,could-not-run}`, `ref`); a `check` cell whose last
-  recorded run executed zero cases becomes a gap; missing tool ⇒ `could-not-run:<tool>`; `--prove-failure`.
+  recorded run executed zero cases becomes a gap; missing tool ⇒ `could-not-run:<tool>`; `--prove-failure`.  _Covers: FR-010, FR-011, SC-005._
 - [ ] T053 [SUBAGENT] [US3] Re-measure every cell of the seed matrix from research D10 with real runs
   (not name counts) and write the true map; extra kinds proposed: content-boundary, claim-ledger, gate
   paired-mutation, SEO/i18n completeness, link integrity, export validation, provider-CI,
-  host-capability, fuzz, visual-diff.
+  host-capability, fuzz, visual-diff.  _Covers: FR-010._
 - [ ] T054 [P] [SUBAGENT] [TDD] [US3] Close gap cells: contract tests for workshop and ai_interviewing HTTP APIs.
 - [ ] T055 [P] [SUBAGENT] [TDD] [US3] Close gap cells: load/perf for workshop and ai_interviewing
   (bounded, `MemoryMax`, against a scratch server — never the live one).
@@ -299,17 +306,17 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 
 - [ ] T062 [TDD] [US4] `scripts/zero-gap-scan-records.sh` (FR-020): guessing language in causal
   statements, credentials, private-text leakage over `docs/zero-gap/`, `specs/010-*/`, the register export
-  and evidence streams; release gate wired into `gap freeze` and the pre-push gates (coordinated with the T065 serial order); corpus of planted violations.
+  and evidence streams; release gate wired into `gap freeze` and the pre-push gates (coordinated with the T065 serial order); corpus of planted violations.  _Covers: FR-020, SC-008._
 - [ ] T063 [TDD] [US4] Wire-evidence rule (FR-017): records with `population_kind=wire` MUST carry a
-  wire-capture digest (HTTP response or socket capture); source-only measurements are labelled `source`. RED: a `wire` record without a capture digest is rejected.
+  wire-capture digest (HTTP response or socket capture); source-only measurements are labelled `source`. RED: a `wire` record without a capture digest is rejected.  _Covers: FR-014, FR-017._
 - [ ] T064 [US4] Run the five-repeat determinism harness over every registered check; register each
-  UNSTABLE check as an item and exclude it from evidence until fixed.
+  UNSTABLE check as an item and exclude it from evidence until fixed.  _Covers: FR-015, SC-006._
 - [ ] T065 [TDD] [REVIEW] [US4] (after T041; the LAST task touching the push path) Feed sealed records from `run_gate` in `scripts/pre-push-gates.sh`
   (timestamp, fingerprints, seal) — careful: the gate runner is the push path; RED first, then a
   dry-run push; revert plan documented. Files: `scripts/pre-push-gates.sh`.
 - [ ] T066 [SUBAGENT] [TDD] [US4] (after T019; same ledger) Widen `docs/claim-ledger.tsv` toward `--completeness`: register the
   carriers' and CONTINUATION.md's recorded counts as ledger rows with their re-measure commands.
-- [ ] T067 [US4] Verify SC-006/SC-007/SC-008 across the whole tree and record the tables.
+- [ ] T067 [US4] Verify SC-006/SC-007/SC-008 across the whole tree and record the tables.  _Covers: SC-007, SC-008._
 
 **Checkpoint**: zero unmeasured assertions, zero unsealed evidence, every check proven able to fail.
 
@@ -322,21 +329,21 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 
 - [ ] T068 [TDD] [US5] Independent-verdict flow: `item_verdicts` rows require `actor ≠ fixer`
   (`actor_kind` agent|script); RED: a verdict whose actor equals the fixer is rejected; disagreement blocks `gap close`; uses the constitution
-  `independence_tier.sh` where applicable.
+  `independence_tier.sh` where applicable.  _Covers: FR-018._
 - [ ] T069 [TDD] [US5] `scripts/zero-gap-daily.sh` per `contracts/daily-job.md`: `flock` single-instance,
   long-op registered BEFORE it runs in `.remember/logs/zero-gap/ops-registry.jsonl` with the exact
   §11.4.232(A) terminal states, heartbeat and no-progress budget, host-pressure refusal (rc 2),
   fingerprint before/after, sealed records, untracked report, `notify-send` on RED/STALE, reopen requests
-  appended to `.remember/logs/zero-gap/reopen-queue.jsonl` — and NEVER any write to tracked files. It runs on a frozen `cp -al` snapshot (the live tree moves constantly). RED: `git status --porcelain`, recursing into submodules, is byte-identical before and after a run that includes `--run-proofs`. `--now` for on-demand.
+  appended to `.remember/logs/zero-gap/reopen-queue.jsonl` — and NEVER any write to tracked files. It runs on a frozen REAL COPY (`rsync -a`, never `cp -al`/hardlinks: gates rewrite tracked evidence files in place — the pre-push run regenerated tracked PNGs and `perf-budget.json` on 2026-09-25 — and a hardlink snapshot would write through into the live tree; the live tree also moves constantly). RED: `git status --porcelain`, recursing into submodules, is byte-identical before and after a run that includes `--run-proofs`. `--now` for on-demand.  _Covers: FR-019._
 - [ ] T070 [P] [US5] Prepare `ops/systemd/zero-gap-daily.service` and `zero-gap-daily.timer`
   (`OnCalendar=daily`, `Persistent=true`, `RandomizedDelaySec=900`, `MemoryMax=16G`, `Nice=10`,
-  `IOSchedulingClass=idle`) and their install/uninstall notes — NOT installed.
+  `IOSchedulingClass=idle`) and their install/uninstall notes — NOT installed.  _Covers: FR-019._
 - [ ] T071 [TDD] [REVIEW] [US5] Revert test (SC-009) in a disposable copy: revert a closed item's fix →
-  daily run queues reopen-pending with the failing evidence; `gap apply-queue` inside a commit reopens it.
+  daily run queues reopen-pending with the failing evidence; `gap apply-queue` inside a commit reopens it.  _Covers: FR-019, SC-009._
 - [ ] T072 [US5] Queue the timer installation as an `Operator-blocked` item with the exact commands
   (`systemctl --user daemon-reload`, `enable --now`) and the rollback.
 - [ ] T073 [US5] Independent verification pass: a different agent re-runs the evidence of EVERY closed
-  item and records its verdict; any disagreement reopens the item.
+  item and records its verdict; any disagreement reopens the item.  _Covers: FR-018, SC-004._
 
 **Checkpoint**: SC-004 and SC-009 hold; the daily job runs on demand and is ready for the operator to install.
 
@@ -346,7 +353,7 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 
 - [ ] T074 Close cycle 1: verify the T038 freeze still re-derives byte-identically, write
   `docs/zero-gap/cycles/1/` (freeze.json, register export, chain head + anchor); items discovered during the waves are
-  already in cycle 2.
+  already in cycle 2.  _Covers: FR-026, SC-011._
 - [ ] T075 Update every carrier and document whose stated fact changed (same commit as its cause):
   CLAUDE.md/AGENTS.md/QWEN.md/GEMINI.md (lockstep), `CONTINUATION.md`, `docs/check-registry.md`,
   workshop `CLAUDE.md` counts; run `scripts/verify-claim-ledger.sh` and `scripts/continuation-check.sh`.
@@ -367,7 +374,7 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 - Phase 1 → Phase 2 → everything else. T006 depends on T002; T014 on T001; T012–T014 are independent of T006–T008.
 - T009 gates T010+ consumers; T015 gates T016 and later consumers of the evidence chain.
 - **US1 (Phase 3) is the MVP.** T017 → T018; T019–T034 are independent classes (parallel after T017/T018);
-  T035 after T017; T036 after T019–T034; T038 after T036. T032 needs T052's data (stub first).
+  T035 after T017; T081 after T037; T036 after T019–T034 (T032 as COULD-NOT-INSPECT until T052); T038 after T036. T032 needs T052's data (stub first).
 - **US2 (Phase 4)** needs a seeded register (T036) and the verify/guard scripts (T039–T041); closure waves
   T043–T049 are parallel per category with ONE committer per repository and explicit-path staging.
 - **US3 (Phase 5)** T052 first, then T053, then T054–T060 in parallel; T061 last.

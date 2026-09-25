@@ -15,7 +15,7 @@ commit_ref, parent_atm_id, created_at, last_modified, …`). New nullable column
 | `category` | TEXT | closed set (see research D4); required for every gap item |
 | `kind` | TEXT | `defect` \| `unfinished-promise` \| `weak-spot` \| `danger-zone` \| `improvement`; required; V-G4 keys on `kind='improvement'`, not on `type` |
 | `disposition` | TEXT | `open` \| `closed` \| `classified`; derived-checked against `status` |
-| `classification_reason` | TEXT | required iff `disposition='classified'`: `operator-decision` \| `operator-action` \| `third-party` \| `documented-deviation` |
+| `classification_reason` | TEXT | required iff `disposition='classified'`: `operator-decision` \| `operator-action` \| `third-party` \| `documented-deviation`. `third-party` means code the project does not own — third-party gitlinks AND upstream governance sources such as `submodules/constitution` — matching FR-021's "third-party or upstream"; the reporting route is recorded in `classification_owner` |
 | `plan_due` | TEXT (date) | required for `open` items: the dated plan (FR-006); an elapsed date is a validator finding |
 | `research_ref` | TEXT | path of the §11.4.150 deep-research record, required before closure |
 | `classification_owner` | TEXT | required iff classified; who can lift it |
@@ -31,6 +31,19 @@ Severity is constrained to `critical|high|medium|low` by the validator (column s
 `type` follows research D3 (defects and danger zones → Bug; unfinished promises that add a
 capability → Feature; improvements to existing capabilities and hygiene → Task, so the closure word
 stays type-bound per §11.4.33 and §11.4.16's "Feature = new capability" is respected).
+
+### Severity and category rubric (also reproduced in `docs/zero-gap/CLOSURE.md`, T042)
+Severity is judged by consequence, not by effort; it orders work and never lowers the closure bar.
+- **critical**: exposes private or credential material; a release/PASS gate can report success over a broken
+  product; a live service is down or serving wrong data; an integrity check (evidence chain, boundary) is defeated.
+- **high**: a user-reachable wrong result; a fix or claim recorded as verified without evidence; a gate that
+  can pass vacuously; a destructive command left unguarded.
+- **medium**: recorded figures or documents that drifted from measured fact; a missing test kind that hides
+  no known defect; a build or start script that can run stale code.
+- **low**: cosmetic or wording defects with no effect on results.
+Category is the item's ROOT CAUSE class (not its symptom); an item spanning categories belongs to the primary
+category, chosen in the order `security`, `data-integrity`, `false-evidence`, `content-boundary`, `availability`,
+`build-freshness`, `governance-drift`, `docs-drift`, `test-coverage`, `ux-accessibility`, `host-capability`, `other`.
 
 ### StateMachine (validator-enforced)
 ```

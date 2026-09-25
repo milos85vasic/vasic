@@ -491,10 +491,14 @@ silently orphaned claim-ledger row `carriers-constitution-anchors`; restored, th
 10 VERIFIED / 0 ORPHAN. Open, unchanged: the three behind-remote submodules and every operator item
 listed above. Unconfirmed until the first task group: that `continuum-integrity` can read the planned
 evidence store shape, and that the canonical validator tolerates the added columns.
-`tasks.md` (79 tasks, 8 phases, closure-wave protocol) was written via `/speckit-superspec-tasks`; its first independent
+`tasks.md` (80 tasks, 8 phases, closure-wave protocol, every FR/SC cited by id) was written via `/speckit-superspec-tasks`; its first independent
 review was NO-GO (wrong `continuum-integrity` path — it lives under `submodules/constitution/submodules/continuum/` —, a wrong
 roster mechanism for finding G4, a cycle freeze that came too late, shared-file `[P]` tasks, and a task that would have pushed a
 live site) and all 16 findings were fixed before commit.
+`/speckit-analyze` then found 0 CRITICAL / 2 HIGH (a `cp -al` hardlink snapshot would let in-place gate writes reach the
+live tree; no source for improvement ideas) and 6 MEDIUM/LOW findings; all were remediated: real-copy snapshots, a T081
+improvement-intake task, FR/SC ids on every task, the 16-class contract list, the plan's file tree, a severity/category
+rubric and a widened `third-party` definition.
 
 ### CONSTITUTION v1.5.0, ai ETag, T508 FIX — 2026-09-25 (afternoon)
 

@@ -223,7 +223,7 @@ confirm they reach the same verdict.
   cell MUST be a runnable check with recorded evidence, a declared not-applicable reason, or a
   declared gap.
 - **FR-011**: A check that executes zero cases, or whose subject population is empty, MUST be
-  reported as a gap or "could not determine", never as covered or passing.
+  reported as a gap or "could not determine", never as covered or passing. (This is the coverage-map case of FR-012's general three-outcome rule.)
 - **FR-012**: Every check MUST report one of three outcomes — condition holds, condition
   violated, condition could not be checked — and MUST NOT report the third as either of the
   first two.

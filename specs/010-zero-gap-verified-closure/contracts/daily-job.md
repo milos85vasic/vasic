@@ -14,7 +14,9 @@ Install is an OPERATOR action (host configuration). Prepared, documented, not in
    monotonic heartbeat; a no-progress budget kills a hung run and records `failed`;
 3. check thread and memory headroom (§12.12/§12.6) and refuse (rc 2) if the host is already under
    pressure — a sweep must not become the incident;
-4. fingerprint the tree; run the cheap subset, then the full set (`verify-check-registry.sh
+4. take a frozen REAL COPY of the tree (`rsync -a`; never hardlinks — gates rewrite tracked evidence files in
+   place, so a hardlink snapshot would write through to the live tree), fingerprint the LIVE tree and the
+   copy, and run everything against the copy; run the cheap subset, then the full set (`verify-check-registry.sh
    --run-proofs`, sweep, coverage, claim ledger, determinism sample); fingerprint again;
 5. append sealed evidence records; write `.remember/logs/zero-gap/<date>.json`; on RED or STALE
    raise `notify-send`; for any closed item whose recorded check now fails, APPEND a reopen request
