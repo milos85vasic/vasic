@@ -5,6 +5,16 @@
 **Status**: Draft
 **Input**: User description: "Investigate anything unfinished, uncompleted, any gap or shortcoming, find all issues, weak spots and danger zones and make sure we tackle every single of these items! We MUST tackle it completely and cover everything with all supported test types which will produce ONLY machine rock-solid evidence used for bullet-proof validation and verification fully deterministically! There MUST BE no false or faulty results or bluff or AI slop of any kind or in any form ANYWHERE!!!"
 
+## Clarifications
+
+### Session 2026-09-25
+
+- Q: Must every register item be fixed before the programme counts as done, or may low-severity items be closed as "classified and accepted"? → A: Every item, whatever its severity, must be fixed and verified; "classified" is allowed only for items that cannot be fixed from here (third-party, operator-blocked).
+- Q: Who or what is the "independent verifier" that re-runs each closed item's evidence? → A: A different automated agent (never the author of the fix) verifies every item; no human sign-off step is required.
+- Q: How often does the system re-measure itself after closure? → A: A full re-measurement once a day (and on demand); not on every push.
+- Q: Does the register hold only defects and broken or unfinished promises, or also improvement ideas? → A: Both — defects, broken or unfinished promises, weak spots and danger zones, PLUS improvement ideas; every improvement item is tracked and fixed too (see FR-025).
+- Q: Is the list of test kinds the complete required set? → A: No — the twelve listed kinds PLUS any further kind the sweep finds a defect class would need; a newly needed kind enters the coverage map as a declared gap (subject to the cycle freeze, FR-026).
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - One complete, machine-derived register of every gap (Priority: P1)
@@ -42,9 +52,10 @@ planted defect appears in the register. Deliverable value: the operator has one 
 ### User Story 2 - Every item closed with proof, or explicitly classified (Priority: P1)
 
 Every register item ends in exactly one of three states: **closed with verified evidence**,
-**explicitly classified** (cannot be fixed from here, needs an operator decision, belongs to a
-third party, or is a deliberate documented deviation) with a stated reason and an owner, or
-**still open** with a dated plan. No item disappears, is re-labelled without a reason, or is
+**explicitly classified** (cannot be fixed from here: it needs an operator decision or action,
+belongs to a third party, or is a deliberate documented deviation) with a stated reason and an
+owner, or **still open** with a dated plan. Severity never lowers the bar: a cosmetic item is
+fixed and verified exactly like a critical one, and "accepted as is" is not a state. No item disappears, is re-labelled without a reason, or is
 reported closed on the strength of a statement rather than a measurement.
 
 **Why this priority**: The operator's instruction is that every single item is tackled. The value
@@ -71,7 +82,8 @@ the pre-fix state and observe it fail, then on the current state and observe it 
 
 For each owned module and each running service, the operator can see which kinds of testing apply
 (unit, integration, end-to-end in a real browser or client, contract, security, accessibility,
-performance and load, stress and chaos, mutation, determinism, regression, and manual-QA readiness)
+performance and load, stress and chaos, mutation, determinism, regression, and manual-QA readiness,
+plus any further kind the sweep finds a defect class would need, such as fuzzing or visual-diff)
 and, for each combination, one of: a runnable check that produced recorded evidence, a declared
 reason it does not apply, or a declared gap. A gap is itself a register item.
 
@@ -124,8 +136,8 @@ and confirm five identical verdicts; then break the thing it guards and confirm 
 
 ### User Story 5 - Independent verification and no silent regression (Priority: P2)
 
-A party other than the one that made a fix verifies it, from the recorded evidence, without
-trusting the author's summary. After closure, the system keeps re-measuring itself so that a
+A different automated agent — never the one that made the fix — verifies it from the recorded
+evidence, without trusting the author's summary; no human sign-off step is required. After closure, the system keeps re-measuring itself so that a
 closed item that reopens, a recorded figure that goes stale, or a new gap is detected without
 anyone remembering to look.
 
@@ -133,17 +145,17 @@ anyone remembering to look.
 snapshot. Independent verification is what separates a fix from a claim of a fix.
 
 **Independent Test**: Reopen a closed item in a disposable copy (revert its fix) and confirm the
-next scheduled re-measurement flags it; separately, hand a verifier only an item's evidence and
+next daily re-measurement (or an on-demand one) flags it; separately, hand a verifier only an item's evidence and
 confirm they reach the same verdict.
 
 **Acceptance Scenarios**:
 
-1. **Given** a closed item whose fix is later reverted, **When** the periodic re-measurement
+1. **Given** a closed item whose fix is later reverted, **When** the daily or on-demand re-measurement
    runs, **Then** the item is reopened automatically with the failing evidence attached.
 2. **Given** a recorded figure in any governance document, **When** the re-measurement runs,
    **Then** a figure that no longer matches the measured value is flagged as stale.
-3. **Given** a closed item, **When** an independent verifier re-runs its evidence, **Then** their
-   verdict is recorded next to the author's and any disagreement blocks closure.
+3. **Given** a closed item, **When** a different automated agent re-runs its evidence, **Then**
+   its verdict is recorded next to the author's and any disagreement blocks closure.
 
 ---
 
@@ -180,7 +192,8 @@ confirm they reach the same verdict.
 
 - **FR-001**: The system MUST produce one gap register by a repeatable sweep of the whole estate,
   covering the umbrella repository, every owned module, every running service, every governance
-  instrument and every recorded operator decision.
+  instrument and every recorded operator decision. The register MUST hold defects, broken or
+  unfinished promises, weak spots, danger zones AND improvement ideas for existing capabilities.
 - **FR-002**: Every register item MUST carry an identifier, location, description, severity,
   category, evidence reference, owner, status and creation and last-change dates.
 - **FR-003**: The sweep MUST be deterministic: two runs on an unchanged system MUST produce
@@ -191,7 +204,10 @@ confirm they reach the same verdict.
 - **FR-005**: The sweep MUST list any part of the estate it could not inspect, with the reason,
   and MUST NOT count it as clean.
 - **FR-006**: Every item MUST end in exactly one of: closed-with-evidence, classified (with reason
-  and owner), or open (with a dated plan); an item MUST NOT be removed from the register.
+  and owner), or open (with a dated plan); an item MUST NOT be removed from the register. "Classified"
+  MUST be used only for items that cannot be fixed from here (third-party, operator decision or
+  action, deliberate documented deviation); severity MUST NOT be grounds for classifying an
+  otherwise fixable item, and "accepted as is" MUST NOT exist as a state.
 - **FR-007**: An item MUST NOT be closed without a recorded check that fails on the pre-fix state
   and passes on the current state, both captured by machine.
 - **FR-008**: A recurrence of a closed item MUST link to the earlier record rather than create a
@@ -200,8 +216,10 @@ confirm they reach the same verdict.
   and the cost of each, and MUST NOT be counted as closed until the decision is executed and
   verified.
 - **FR-010**: The system MUST maintain a coverage map of every owned module and running service
-  against every supported test kind, each cell being a runnable check with recorded evidence, a
-  declared not-applicable reason, or a declared gap.
+  against every supported test kind: the twelve named in User Story 3 plus any further kind the
+  sweep shows a defect class needs. A newly needed kind MUST enter the map as a declared gap. Each
+  cell MUST be a runnable check with recorded evidence, a declared not-applicable reason, or a
+  declared gap.
 - **FR-011**: A check that executes zero cases, or whose subject population is empty, MUST be
   reported as a gap or "could not determine", never as covered or passing.
 - **FR-012**: Every check MUST report one of three outcomes — condition holds, condition
@@ -218,11 +236,13 @@ confirm they reach the same verdict.
   detectable.
 - **FR-017**: Any claim about the running product MUST be supported by evidence captured from the
   running product; a source-only measurement MUST be labelled as such.
-- **FR-018**: A verifier independent of the author MUST re-run each closed item's evidence and
-  record an independent verdict; a disagreement MUST block closure.
-- **FR-019**: After closure, the system MUST re-measure itself on a schedule and on demand,
+- **FR-018**: A different automated agent, never the author of the fix, MUST re-run each closed
+  item's evidence and record an independent verdict; a disagreement MUST block closure. No human
+  sign-off step is required for closure (operator-owned actions remain the operator's).
+- **FR-019**: After closure, the system MUST re-measure itself in full once a day and on demand,
   reopen any closed item whose evidence now fails, and flag any recorded figure that no longer
-  matches its measured value.
+  matches its measured value. The schedule MUST run locally on the operator's own host; it MUST
+  NOT rely on server-side or hosted automation.
 - **FR-020**: No record produced by this programme MAY contain an unmeasured assertion, guessing
   language, a credential, or copied private content; a scan for these MUST be part of every
   release of the register.
@@ -234,10 +254,16 @@ confirm they reach the same verdict.
   result; a check that is wrong MUST be fixed with its own paired proof.
 - **FR-024**: The register MUST be readable by a person in one place, and its summary counts
   (total, closed, classified, open, could-not-inspect) MUST be derived from the items, never typed.
+- **FR-025**: Every improvement item MUST state the measurable target it delivers and MUST be closed
+  only when that target is met and verified under FR-007; an improvement with no measurable target
+  MUST be rewritten with one or recorded as not verifiable and therefore not closable.
+- **FR-026**: The register for a programme cycle MUST be frozen at a recorded fingerprint so that
+  "zero unfinished items" is reachable; items discovered after the freeze MUST be recorded and
+  assigned to the next cycle, never silently added to or dropped from the current one.
 
 ### Key Entities
 
-- **Gap item**: a single defect, shortcoming, weak spot or danger zone — location, severity,
+- **Gap item**: a single defect, unfinished promise, weak spot, danger zone or improvement idea — location, severity,
   category, evidence, owner, status, history, and link to any earlier occurrence.
 - **Register**: the complete, ordered set of gap items plus the sweep metadata that says what was
   and was not inspected and how sure the sweep is.
@@ -246,8 +272,8 @@ confirm they reach the same verdict.
   not-applicable reason, or a declared gap.
 - **Evidence record**: the machine-captured proof for one check — command, state fingerprint,
   population measured, outcome, time, and a tamper-evident seal.
-- **Independent verdict**: a second party's re-run outcome for a closed item, recorded beside the
-  author's.
+- **Independent verdict**: a different automated agent's re-run outcome for a closed item,
+  recorded beside the author's.
 - **Classification**: the recorded reason an item is not closed — operator decision needed,
   third-party, deliberate documented deviation, or operator-blocked action.
 
@@ -259,7 +285,9 @@ confirm they reach the same verdict.
 - **SC-002**: For every defect class the sweep claims to cover, 100% of deliberately planted
   defects appear in the register; classes with no planted-defect proof are listed as unproven.
 - **SC-003**: 100% of register items are in exactly one final state (closed-with-evidence,
-  classified, or open-with-dated-plan); zero items lack a state, an owner or evidence.
+  classified, or open-with-dated-plan); zero items lack a state, an owner or evidence; and zero
+  items classified for any reason other than not-fixable-from-here (third-party, operator decision
+  or action, documented deviation).
 - **SC-004**: 100% of items marked closed have a check that fails on the pre-fix state and passes
   on the current state, and 100% of those have a second, independent verdict recorded that agrees.
 - **SC-005**: 100% of coverage-map cells are a runnable check with recorded evidence, a declared
@@ -273,13 +301,18 @@ confirm they reach the same verdict.
   assertions, zero guessing terms in causal statements, zero credentials and zero copied private
   content.
 - **SC-009**: A closed item that is deliberately reverted in a disposable copy is reopened by the
-  next re-measurement within one scheduled cycle, with its failing evidence attached.
+  next re-measurement within 24 hours, with its failing evidence attached.
 - **SC-010**: An operator can open one place and, within two minutes, answer for any module
   "what is open, what is closed and how do I know" without reading source or asking an author.
+- **SC-011**: 100% of improvement items carry a measurable target, and 100% of those closed have
+  evidence that the target was met; zero items were added to or removed from a cycle after its
+  recorded freeze.
 
 ## Assumptions
 
-- **Scope**: "Everything" means every repository and running service the project owns (the
+- **Scope**: The register holds defects, unfinished promises, weak spots, danger zones and
+  improvement ideas for capabilities that already exist. A wholly new capability is still specified
+  through its own `/speckit-specify` and enters the register only once it exists. "Everything" means every repository and running service the project owns (the
   umbrella, the two sites, the workshop platform, the interviewing platform, the shared modules
   and their governance instruments). Third-party and upstream code is in scope only to be
   registered and classified, never edited.
@@ -313,7 +346,7 @@ confirm they reach the same verdict.
 |---|----------|--------|------------|
 | Q1 | Does "everything" include defects inside third-party submodules? | Resolved | Registered and classified only; never edited (FR-021). |
 | Q2 | May the programme perform operator-owned actions such as package installs? | Resolved | No; it prepares them and marks items operator-blocked (Assumptions). |
-| Q3 | How often does post-closure re-measurement run? | Open | Default: on every push and once daily; to be confirmed at planning. |
+| Q3 | How often does post-closure re-measurement run? | Resolved | A full re-measurement once a day and on demand, run locally (Clarifications 2026-09-25). |
 
 ## Brainstorm Log
 

@@ -14,8 +14,8 @@
 ## Requirement Completeness
 
 - [x] No [NEEDS CLARIFICATION] markers remain (`grep -c` = 0)
-- [x] Requirements are testable and unambiguous (FR-001..FR-024, each verifiable by a stated check)
-- [x] Success criteria are measurable (SC-001..SC-010 carry counts, percentages or a time bound)
+- [x] Requirements are testable and unambiguous (FR-001..FR-026, each verifiable by a stated check)
+- [x] Success criteria are measurable (SC-001..SC-011 carry counts, percentages or a time bound)
 - [x] Success criteria are technology-agnostic (no tool, language or framework named)
 - [x] All acceptance scenarios are defined (5 stories, 19 Given/When/Then scenarios)
 - [x] Edge cases are identified (10)
@@ -37,3 +37,4 @@
   seed the sweep, not requirements, and the spec states they must be re-measured, not trusted.
 - Open Question Q3 (re-measurement cadence) has a stated default and is not a blocking
   clarification; resolve it in `/speckit-plan`.
+- Re-validated after /speckit-clarify (2026-09-25, 5 questions): 16/16 -> 16/16 items passing; no newly passing items, no regressions. Two stale count parentheticals (FR and SC ranges) were corrected to match the spec.
