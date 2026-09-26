@@ -16,3 +16,9 @@ prove-verdict-in-helper.sh:15	loop in a proof helper whose `|| return 1` chain c
 prove-verdict-in-helper.sh:23	loop in a proof helper whose `cmd || return 1` names a failure word (check_drift): a verdict, fed by < <(git ls-files), no emptiness refusal
 prove-verdict-in-helper.sh:28	a detect_* loop inside a proof harness (its rows are findings; no failure word, so nothing marks it setup), fed by < <(git ls-files), no emptiness refusal
 prove-verdict-in-helper.sh:35	loop in a proof helper whose bare `return 1` answers `if ! check_one` (a verdict, not a `|| return 1` setup error), fed by < <(git ls-files), no emptiness refusal
+approve-release-substring.sh:7	loop in approve_release() (prov only as a substring, not a proof harness): gpg --verify || return 1 over < <(git ls-files), no emptiness refusal
+prove-syntax-judging.sh:6	loop in a proof harness whose chain JUDGES (bash -n || return 1): not a fixture builder, over $(git ls-files), no emptiness refusal
+approve-builder-substring.sh:6	builder-only loop (cp || return 1) in approve_bundle(): prov is a substring, not a proof harness ({ body)
+approve-builder-substring.sh:12	builder-only loop (mkdir || exit 1) in improve_cache(): prov is a substring, not a proof harness (( body)
+prove-devnull-read.sh:5	proof-harness loop whose chain reads each file to /dev/null (cat >/dev/null || return 1): a check, not a fixture build
+prove-syntax-judging.sh:12	proof-harness chain cp && bash -n || return 1: the first command builds, a later one judges, so the chain is a verdict

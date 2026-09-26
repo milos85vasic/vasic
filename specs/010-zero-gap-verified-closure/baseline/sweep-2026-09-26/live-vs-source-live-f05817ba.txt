@@ -1,0 +1,7 @@
+FINDING live-vs-source medium build-freshness service:compose/workshop-curriculum/platform:started container 42c12e533a91 started 2026-09-25T09:06:32Z running /opt/workshop/bin/workshop-server, bind-mounted from workshop, but source HEAD e076fa6aa26f was committed later (2026-09-25T10:18:12Z): the binary it loaded predates that commit workshop/platform/compose.yml
+FINDING live-vs-source medium false-evidence service:qa-up/ai:stamp the running binary's vcs.revision 923779e06397 does not identify its source: it is a commit of the repository at --root, not of ai_interviewing; /api/health carries no source_commit, so the served build cannot be tied to ai_interviewing scripts/qa-up.sh
+FINDING live-vs-source high build-freshness service:qa-up/workshop:commit served build 185fb15-20260925T090616Z reports source_commit 185fb158c4f4 but source HEAD of workshop is e076fa6aa26f (HEAD is 1 commit(s) ahead of it) scripts/qa-up.sh
+CLASS live-vs-source population=5 inspected=5 recall=1.0 findings=3 status=findings
+FINGERPRINT before=616287f9a993184c01db6aeacbaf5720b2f19ebc579a4b97060cf3f5e2dd0b98 files=8447
+FINGERPRINT after=616287f9a993184c01db6aeacbaf5720b2f19ebc579a4b97060cf3f5e2dd0b98 files=8447
+VERDICT VIOLATED rc=1 findings=3 could-not-inspect=0 classes=1 unknown-recall=0

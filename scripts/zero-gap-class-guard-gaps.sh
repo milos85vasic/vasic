@@ -35,7 +35,7 @@
 # extended regex, empty catalogue, guard missing, unreadable, timing out or erroring). A finding outranks
 # an undetermined.
 #
-# MEASURED ON THE LIVE TREE (2026-09-26, fix round F2): 26 catalogue rows, 52 population items (26 guarded +
+# MEASURED ON THE LIVE TREE (2026-09-26, fix round F2; re-measured F3 after re-sourcing, identical): 26 catalogue rows, 52 population items (26 guarded +
 # 26 candidate); the live guard refuses the five push/sudo/host-power rows and exits 0 on the other 21 (git
 # checkout -- ., git restore ., git stash, git clean -fd, git add -A, git reset --hard, poweroff, pkill -f,
 # killall, rm -rf /, git filter-branch, git branch -D, git update-ref -d, git clean -fdx, git checkout .,
@@ -54,7 +54,16 @@
 # destructive command is caught only when someone adds the row); how the guard treats a compound command
 # that hides a destructive one inside quoting or a script file (each catalogue row is one plain command
 # line); whether the harness actually invokes the guard (scripts/verify-pretooluse-guard.sh checks the
-# wiring); the guard's behaviour on other hosts.
+# wiring); the guard's behaviour on other hosts. CANDIDATE EREs ARE BROAD (review rev-f, measured): 3 of 8
+# benign commands match one — `echo will reboot later` and `grep -n halt build.log` match the reboot/halt
+# class, `rm -rf ~/Projects/x/build` matches the remove-home class. No impact: a candidate is tested ONLY
+# against the catalogue's own command cells (to prove a refused row covers the class), never against a
+# command the guard sees, so a broad ERE can neither hide a finding nor invent one.
+# SOURCING WORDING (fix round F3): a row whose rule names only the command CLASS (Constitution.md §9
+# "history rewrite, force-push, branch deletion, bulk file removal"; the §11.4.109 "Host power management"
+# row, which names `systemctl ...`) says "class named; bare command inferred", and CONST-033 is cited with
+# docs/AGENT_GUARDRAILS.md, the tracked file that states it (the canon Constitution.md does not carry that
+# identifier) — proof L4.
 #
 # USAGE  zero-gap-class-guard-gaps.sh --root <abs dir> [--corpus <dir>] [--emit-population]
 #        zero-gap-class-guard-gaps.sh --prove-failure      (paired proof on throwaway copies)
@@ -242,6 +251,19 @@ prove_failure() {
         awk -F'\t' -v c="$want_cmd" '!/^#/ && $2 == c && $3 == "refused" { f = 1 } END { exit !f }' "$SELF_ROOT/$CAT_REL" || missing_cmd="$missing_cmd [$want_cmd]"
     done
     if [ -z "$missing_cmd" ]; then ok "L3 reboot, halt, both remote-branch deletions and rm -rf ~ are catalogued refused"; else bad "L3 not catalogued refused:$missing_cmd"; fi
+
+    # L4 (fix round F3, review rev-f) honest sourcing: a row whose source is a rule that names only the
+    # command CLASS (Constitution §9 "branch deletion, bulk file removal, history rewrite"; the §11.4.109
+    # "Host power management" row, which names `systemctl …`) says "class named; bare command inferred",
+    # and CONST-033 is cited with the file that states it (docs/AGENT_GUARDRAILS.md; the canon
+    # Constitution.md does not carry the identifier).
+    local l4="" l4id l4src
+    while IFS=$'\t' read -r l4id _ _ l4src _; do
+        case "$l4id" in ''|'#'*|id) continue ;; esac
+        if grep -qE '§9( |\(|$)|11\.4\.109 class table' <<<"$l4src" && ! grep -qF 'class named; bare command inferred' <<<"$l4src"; then l4="$l4 $l4id(class-only)"; fi
+        if grep -qF 'CONST-033' <<<"$l4src" && ! grep -qF 'docs/AGENT_GUARDRAILS.md' <<<"$l4src"; then l4="$l4 $l4id(CONST-033-file)"; fi
+    done <"$SELF_ROOT/$CAT_REL"
+    if [ -z "$l4" ]; then ok "L4 class-only sources say 'class named; bare command inferred'; CONST-033 cites docs/AGENT_GUARDRAILS.md"; else bad "L4 dishonest sourcing:$l4"; fi
 
     # I1 the live tree and the corpus are byte-identical before and after.
     after=$( { find "$FIX" "$SELF_ROOT/$CAT_REL" -type f -print0 2>/dev/null | LC_ALL=C sort -z | xargs -0 sha256sum 2>/dev/null; } | sha256sum | cut -d' ' -f1)

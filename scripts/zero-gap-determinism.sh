@@ -279,7 +279,7 @@ det_main() {
             scratch=$(realpath -m -- "$DET_DISK_FALLBACK") || undet "cannot resolve $DET_DISK_FALLBACK"
             case "$scratch/" in "$root/"*) undet "--scratch $scratch lies inside --root: the copy would be part of the tree it copies" ;; esac
         else
-            undet "scratch $scratch is on a RAM-backed tmpfs/ramfs (the copy of this repository is ~14 GB, measured 2026-09-26): pass a disk-backed directory, e.g. --scratch /var/tmp/<private-dir>, or --allow-tmpfs for a small tree"
+            undet "scratch $scratch is on a RAM-backed filesystem ($(det_fstype "$(det_existing "$scratch")"); tmpfs and ramfs are refused) (the copy of this repository is ~14 GB, measured 2026-09-26): pass a disk-backed directory, e.g. --scratch /var/tmp/<private-dir>, or --allow-tmpfs for a small tree"
         fi
     fi
     if [ -n "$reports" ]; then
@@ -648,6 +648,9 @@ prove_failure() (
     ovr_fstype() { echo ramfs; }
     DI_ARGS="--scratch $T/s --allow-tmpfs" deti --root "$T/c0" --runs 2
     if [ "$RC" -eq 0 ] && has '^DETERMINISM IDENTICAL rc=0 '; then okc "S1b --allow-tmpfs overrides the refusal (tiny fixture)"; else bad "S1b rc=$RC $(why)"; fi
+    ovr_fstype() { echo ramfs; }
+    DI_ARGS="--scratch $T/s" deti --root "$T/c0" --runs 2
+    if [ "$RC" -eq 2 ] && has '^DETERMINISM UNDETERMINED rc=2 .*ramfs.*--scratch /var/tmp' && [ -z "$(zgin "$T/s")" ]; then ok "S1f explicit RAMFS --scratch => rc 2 (not only tmpfs), nothing created"; else bad "S1f rc=$RC $(why)"; fi
     mkdir -p "$T/disk"
     ovr_fstype() { case "$1" in "$T/disk"*) echo ext4 ;; *) echo tmpfs ;; esac; }
     DI_ARGS="" deti --root "$T/c0" --runs 2
@@ -701,7 +704,10 @@ prove_failure() (
     ln -s ../notes "$T/c0/_site/inlink"
     rm -rf "$T"/s/zg-determinism.*; det --root "$T/c0" --runs 2 --include _site/inlink --keep
     if [ "$RC" -eq 2 ] && has 'is a symlink' && [ -z "$(zgin "$T/s")" ]; then ok "I3 --include through a symlink resolving INSIDE --root => still rc 2 (every symlink component refused)"; else bad "I3 rc=$RC $(why)"; fi
-    rm -f "$T/c0/_site/ext" "$T/c0/_site/inlink"; rm -rf "$T"/s/zg-determinism.*
+    mkdir -p "$T/c0/_site/real/sub" && echo x >"$T/c0/_site/real/sub/f.txt" && ln -s real "$T/c0/_site/dirlink"
+    rm -rf "$T"/s/zg-determinism.*; det --root "$T/c0" --runs 2 --include _site/dirlink/sub --keep
+    if [ "$RC" -eq 2 ] && has "component '_site/dirlink' is a symlink" && [ -z "$(zgin "$T/s")" ]; then ok "I4 an INTERMEDIATE in-root symlink component (_site/dirlink/sub) => rc 2"; else bad "I4 rc=$RC $(why)"; fi
+    rm -rf "$T/c0/_site/real"; rm -f "$T/c0/_site/ext" "$T/c0/_site/inlink" "$T/c0/_site/dirlink"; rm -rf "$T"/s/zg-determinism.*
     det --root "$T/c0" --runs 2 --include _site/ --keep
     c=$(zgin "$T/s")/copy
     if [ "$RC" -eq 0 ] && [ -f "$c/_site/index.html" ] && [ ! -e "$c/_site/_site" ]; then okc "I2 --include with a trailing slash copies the ignored dir once"; else bad "I2 rc=$RC $(why)"; fi

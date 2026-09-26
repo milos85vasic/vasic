@@ -32,16 +32,19 @@
 #   (skip/skipped/SKIP incremented): such a case runs on every invocation, so zero executed cases is
 #   impossible. A counter reached only from inside a data loop, or a battery whose cases can all be
 #   recorded as skipped, stays a finding.
-#   PROOF-HELPER SETUP LOOP (fix round F2, review rev-base-A): a loop inside a PROOF HARNESS (a function
-#   whose name holds prov/proof, with a `{` body or a `name() (` subshell body closed by a `)` line at
-#   the indentation of its def line) is FIXTURE SETUP, not a verdict, when every verdict-keyword line
-#   of its body is a setup-error propagation: `cmd || return 1` / `|| exit 1` whose command chain (the
-#   line plus the &&/||/backslash continuation lines before it) runs no test ([ [[ test grep cmp diff
-#   jq awk) and names no failure word. Such a loop is not reported. A loop in a proof helper that
-#   JUDGES (grep -q ... || return 1, a test on a continuation line, a failure word such as check_drift,
-#   a bare `return 1` under `if ! cmd`, a detect_* loop) stays a finding, and the setup shape OUTSIDE a
-#   proof harness (for f in $(git ls-files); do jq . "$f" || exit 1; done) is a gate verdict and stays
-#   a finding.
+#   PROOF-HELPER SETUP LOOP (fix round F2, tightened in F3 after review rev-f): a loop inside a PROOF
+#   HARNESS — a function whose name is prove/proof as a whole `_`-separated word ((^|_)(prove|proof)(_|$):
+#   prove_failure, prove_x, run_proof; NOT approve_release or improve_cache, where "prov" is a substring),
+#   with a `{` body or a `name() (` subshell body closed by a `)` line at the indentation of its def
+#   line — is FIXTURE SETUP, not a verdict, when every verdict-keyword line of its body is
+#   `chain || return 1` / `|| exit 1` and EVERY command of the chain (the line plus the &&/||/backslash
+#   continuation lines before it, split at && || ; |) is a fixture BUILDER: git init/add/commit (with
+#   -C/-c options), cp, mkdir, ln, or printf/cat writing through a redirect to a file (a redirect to
+#   /dev/null or an fd duplication builds nothing). This is a whitelist: any other command — bash -n,
+#   gpg --verify, grep, [ -s ], cat >/dev/null, a failure word such as check_drift, a bare `return 1`
+#   under `if ! cmd`, a detect_* loop — makes the loop a verdict, reported. The builder shape OUTSIDE a
+#   proof harness (for f in $(git ls-files); do cp "$f" out/ || return 1; done) is the gate's own pass
+#   path and is reported.
 #
 # PRECISION / RECALL (honest header, measured by hand on the live tree)
 #   Recall loss (by design, conservative): any refusal token near ANY emptiness test in the region
@@ -62,9 +65,10 @@
 #   its --prove-failure harness) is gone by the proof-helper rule above: live 3 -> 2. The previous round
 #   measured 0.20 on zero-fail-pass (9 of 10 hits were fixed proof batteries); the exemption above
 #   removed them, and the exact-body loop-procsub scan removed a cleanup loop and a stated-SKIP search
-#   loop. Planted-corpus detection: 1.0 (N = 16 planted rows), a regression check of known patterns;
-#   live-population recall UNMEASURED (16 planted rows incl. data-loop / skippable batteries and the
-#   five judging-in-a-proof-helper shapes).
+#   loop. Re-measured after F3 (whitelist + whole-word harness name): the same 2 live findings, rc 1,
+#   byte-identical over 3 runs. Planted-corpus detection: 1.0 (N = 22 planted rows), a regression check
+#   of known patterns; live-population recall UNMEASURED (22 planted rows incl. data-loop / skippable
+#   batteries, the judging-in-a-proof-helper shapes and the prov-substring shapes).
 #
 # POPULATION (docs/zero-gap/sweep-classes.tsv row `vacuous-gates`)
 #   Every entry point named in column 3 of a `check` or `debt` row of scripts/check-registry.tsv,
@@ -143,7 +147,7 @@ analyze_file() {
     # indentation of the def line)
     function inproof(j,   k) {
         for (k = 1; k <= npr; k++) if (PS_[k] <= j && j <= PE_[k]) return 1
-        for (k = 1; k <= nfn; k++) if (FS_[k] <= j && j <= FE_[k] && FN_[k] ~ /prov|proof/) return 1
+        for (k = 1; k <= nfn; k++) if (FS_[k] <= j && j <= FE_[k] && FN_[k] ~ /(^|_)(prove|proof)(_|$)/) return 1
         return 0
     }
     # setuploop <lo> <hi>: 1 when the loop is FIXTURE SETUP inside a proof harness, not a verdict:
@@ -152,7 +156,19 @@ analyze_file() {
     # runs no test ([ [[ test grep cmp diff jq awk) and names no failure word. A loop that judges
     # anything (grep -q ... || return 1) stays a verdict. Fix round F2 (review rev-base-A): the
     # mkrepo helper of zero-gap-class-doc-count-drift.sh --prove-failure read as a vacuous gate.
-    function setuploop(lo, hi,   j, k, t, nv) {
+    # builder <command>: 1 when the command only BUILDS a fixture: git init/add/commit (with -C/-c options),
+    # cp, mkdir, ln, or printf/cat writing through a redirect to a file (not /dev/null; fix round F3: a whitelist, so a judging
+    # command such as bash -n, gpg --verify or grep is never read as setup)
+    function builder(c) {
+        sub(/^[ \t({!]+/, "", c); sub(/[ \t)}]+$/, "", c)
+        if (c == "") return 1
+        if (c ~ /^git([ \t]+-[Cc][ \t]+[^ \t]+)*[ \t]+(init|add|commit)([ \t]|$)/) return 1
+        if (c ~ /^(cp|mkdir|ln)([ \t]|$)/) return 1
+        gsub(/[0-9]*>>?[ \t]*\/dev\/null|[0-9]*>&[0-9-]/, "", c)   # a discard or fd duplication writes no fixture
+        if (c ~ /^(printf|cat)([ \t]|$)/ && c ~ />/) return 1
+        return 0
+    }
+    function setuploop(lo, hi,   j, k, t, nv, ch, np, pc, q) {
         if (!inproof(lo)) return 0
         if (lo < 1) lo = 1
         if (hi > n) hi = n
@@ -163,10 +179,16 @@ analyze_file() {
             if (L[j] ~ /FAIL|[Ff]ail|[Bb]ad |assert|[Ff]inding|[Vv]iolation|[Mm]ismatch|DRIFT|[Dd]rift|ERR|[Mm]issing/) return 0
             t = unq(L[j])
             if (t !~ /\|\|[ \t]*(return|exit)[ \t]+1([^0-9]|$)/) return 0
-            for (k = j; k >= lo; k--) {
-                if (k < j && (skip[k] || unq(L[k]) !~ /(&&|\|\||\\)[ \t]*$/)) break
-                if (unq(L[k]) ~ /(^|[ \t;&|(!{])(\[|\[\[|test|grep|cmp|diff|jq|awk)([ \t]|$)/) return 0
+            # the command chain: this line plus the &&/||/backslash continuation lines before it
+            ch = t
+            for (k = j - 1; k >= lo; k--) {
+                if (skip[k] || unq(L[k]) !~ /(&&|\|\||\\)[ \t]*$/) break
+                ch = unq(L[k]) " " ch
             }
+            gsub(/\\[ \t]*/, " ", ch)
+            sub(/\|\|[ \t]*(return|exit)[ \t]+1([^0-9].*)?$/, "", ch)
+            np = split(ch, pc, /&&|\|\||;|\|/)
+            for (q = 1; q <= np; q++) if (!builder(pc[q])) return 0
         }
         return (nv > 0)
     }
@@ -305,7 +327,7 @@ analyze_file() {
         for (i = 1; i <= n; i++) {
             if (skip[i] || L[i] !~ /^[ \t]*(function[ \t]+)?[A-Za-z_][A-Za-z_0-9:.-]*[ \t]*\(\)[ \t]*\([ \t]*$/) continue
             nm = L[i]; sub(/^[ \t]*(function[ \t]+)?/, "", nm); sub(/[ \t]*\(.*$/, "", nm)
-            if (nm !~ /prov|proof/) continue
+            if (nm !~ /(^|_)(prove|proof)(_|$)/) continue
             ind = L[i]; sub(/[^ \t].*$/, "", ind)
             for (j = i + 1; j <= n; j++) if (!skip[j] && substr(L[j], 1, length(ind) + 1) == ind ")" && L[j] ~ /^[ \t]*\)[ \t]*$/) break
             npr++; PS_[npr] = i; PE_[npr] = (j <= n ? j : n)

@@ -13,3 +13,4 @@ p11_stamp_in_message.sh:6	stamp/HEAD words only in echo/log messages and an inli
 p12_revparse_uncompared.sh:6	rev-parse HEAD read but never compared; a stamp file only tested for existence
 p13_if_condition_build.sh:6	if [ ! -x BIN ] && ! build_tool; then <refusal> fi: the build runs in the if-CONDITION only when the binary is absent
 p14_if_condition_or_build.sh:4	if [ -x BIN ] || make server; then: the build runs in the if-CONDITION only when the binary is absent
+p15_long_condition_build.sh:5	if [ ! -x BIN ] && command -v go ... && ! go build ...; then <refusal>: the build is late in a long if-condition

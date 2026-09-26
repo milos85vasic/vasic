@@ -23,3 +23,5 @@ rows.tsv:2	guessing word "likely" in a TSV row whose recall cell reads UNKNOWN (
 report.json:4	escaped quotation (\") inside a JSON string value on a line naming a private path
 report.json:5	quotation written as \u201c...\u201d escapes inside a JSON string value on a line naming a private path
 report.json:6	literal curly quotation marks inside a JSON string value on a line naming a private path
+truncated.jsonl:1	quotation written as \u0022...\u0022 escapes inside a JSON string value on a line naming a private path
+truncated.jsonl:2	quotation inside an UNTERMINATED (truncated) JSON string value on a line naming a private path

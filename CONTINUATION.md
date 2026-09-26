@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-26T06:40:00Z
-    Synced-Commit: 3532d730a919
+    Last-Updated: 2026-09-26T11:45:00Z
+    Synced-Commit: f05817ba3c7a
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,27 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### SPEC 010 BASELINE TAKEN, T035/T037 DONE, AT THE T038 CHECKPOINT — 2026-09-26 — awaiting the operator
+
+Delivered and pushed through `f05817ba3c7a`, plus the F3 round committed after it: the T035 determinism harness
+(`scripts/zero-gap-determinism.sh`, default 5 runs, `--check <class_id>`, 50 of 50 proof cases, two independent
+reviews), the T036 baseline in `specs/010-zero-gap-verified-closure/baseline/sweep-2026-09-26/` (frozen real copy of
+`f05817ba3c7a`; composed baseline 1,239 rows / 1,237 distinct keys; 223 high, 755 medium, 261 low; 10
+could-not-inspect; nothing seeded), and T037 `report --by-module` (full `validate` parity, WAL/journal refusal;
+317 of 318 Go tests pass, the one failure is the pre-existing roster test). The baseline was independently
+reviewed by two Opus reviewers (per-class precision sampled by hand; private-text audit clean).
+Open, needs the operator:
+1. T038 human checkpoint: size the improvement scope and the cycle-1 cap, then seed the register with `gap add` and run
+   `gap freeze --cycle 1` (FR-026). Nothing is seeded and `docs/workable_items.db` is unmigrated (sha256 prefix
+   `9413fd96f2647c63`) until T047.
+2. T037 stays unticked: the SC-010 HUMAN timed walk-through is pending (`docs/zero-gap/module-page-walkthrough.md`).
+3. Recall wording is binding: 'Planted-corpus detection: 1.0 (N=5-22 per class), a regression check of known
+   patterns; live-population recall UNMEASURED.'
+4. `content-boundary-rows` is a point-in-time snapshot from copy `50470448`; its cache is stale by design and
+   refreshing it needs a 36-minute gate run on a frozen copy (copy recipe loses `.remember/.gitignore`: known defect).
+5. Known residuals: an escapee that drops `ZG_RUN` and leaves its process group escapes the runner (cgroup scope is the
+   containment, a design decision); `live-vs-source` is blind on a copy and was run on the live tree.
 
 ### SPEC 010 PHASE 3 IMPLEMENTED AND REVIEWED (runner + 17 sweep classes), 2026-09-26 — awaiting the wave commit result, then T035-T038
 

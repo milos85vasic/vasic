@@ -21,13 +21,13 @@
 #       "forbid" IS read (no wholesale skip). Inline `code` spans and a term that is itself
 #       quoted ("probably", 'probably', “probably”) are removed before matching. Granularity is
 #       the LINE, not the sentence. One finding per line (the first term matched is named).
-#       Precision (re-measured 2026-09-26, fix round F2): NOT a semantic parser — a normative
-#       "X should be Y" is reported like a causal guess. Live tree: 7 hits, all 7 hand-read,
-#       1 real (sweep-classes.tsv:21 "least likely to drift", an unmeasured probability) and 6
-#       not: progress.yml:43 a normative "should be"; progress.yml:72 and :86 review lines naming
-#       the vocabulary unquoted; and 3 SELF-REFERENCE rows — the baseline report.txt:465,
-#       FINDINGS-BY-CLASS.tsv:466 and report.json:468 each carry another class's finding whose
-#       description copies progress.yml:43, so a report of a sweep re-reports the term: 1/7.
+#       Precision (re-measured 2026-09-26, fix round F3): NOT a semantic parser — a normative
+#       "X should be Y" is reported like a causal guess. Live tree: 8 hits, all 8 hand-read,
+#       1 real (sweep-classes.tsv:21 "least likely to drift", an unmeasured probability) and 7
+#       not: progress.yml:43 a normative "should be"; progress.yml:72, :86 and :95 review lines
+#       naming the vocabulary unquoted; and 3 SELF-REFERENCE rows — the re-baselined report.txt,
+#       FINDINGS-BY-CLASS.tsv and report.json each carry another class's finding whose
+#       description copies progress.yml:43, so a report of a sweep re-reports the term: 1/8.
 #       Wider sample specs/002-009 (outside the population): 47 hits, 10 hand-read, 2 real
 #       (a "presumably true" status and a "likely result" prediction), 8 normative or
 #       comparative ("most likely to", "should be read"): 2/10. Recall: 9 of 9 planted.
@@ -101,15 +101,20 @@
 #           values made each such line a quotation (123 false CRITICALs from one baseline
 #           report.json). Each string value is decoded (\" and \u0022 -> ", \u201c/\u201d -> the
 #           curly quotes, other escapes -> a space) and only its CONTENT is read for a quotation,
-#           so a quoted sentence INSIDE a value is still found. The file type is decided by the
-#           NAME only: JSON written into a record of another extension gets the line rules above.
+#           so a quoted sentence INSIDE a value is still found; an UNTERMINATED string (a truncated
+#           record) is read too. The file type is decided by the NAME only: JSON written into a
+#           record of another extension gets the line rules above. Two limits (review rev-f, both
+#           unchanged behaviour): a SINGLE-QUOTED span ('…') never counts as a quotation, in any
+#           record; and the rule is LINE-level, so pretty-printed JSON that puts "location" and
+#           "description" on separate lines is never a private-path-plus-quotation line — a
+#           quotation in such a description is not seen unless the same line names the path.
 #       A PATH-ONLY reference is allowed and is not reported (workshop/chapters/01/x.mp4).
 #       Precision (re-measured 2026-09-26, fix round F2): live tree 0 hits over 31 records,
 #       including the baseline report.json that gave 123 false CRITICALs before the JSON rule
-#       (live total 130 -> 7, every removed row one of those 123); specs/002-009 sample 0 hits
+#       (live total 130 -> 7 at F2, every removed row one of those 123); specs/002-009 sample 0 hits
 #       (was 55, 0/5 real: 48 backticked paths, 4 paths inside the quote, 3 python -c
-#       arguments). Recall: 9 of 9 planted shapes (3 of them JSON: \", \u201c escapes, literal
-#       curly quotes); corpus clean/ holds a sweep-report-shaped report.json and a rows.jsonl
+#       arguments). Recall: 11 of 11 planted shapes (5 of them JSON: \", \u201c and \u0022
+#       escapes, literal curly quotes, an unterminated string); corpus clean/ holds a sweep-report-shaped report.json and a rows.jsonl
 #       that name private paths in string values and must stay silent. NOT seen: copied
 #       private prose with no quotation marks, attribution or transcript shape; a
 #       backticked private path followed by a quotation; a quotation passed as a -x option

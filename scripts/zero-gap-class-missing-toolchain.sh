@@ -42,7 +42,8 @@
 #                even a low one: the gate runs through the route, so there is no Operator-blocked item.
 #                The route check is STRUCTURAL: it does not check the compose provider, the image, the
 #                network or that the workload succeeds end to end (UNCONFIRMED by this class).
-#                A symlinked route source/binary is COULD-NOT-INSPECT (never followed).
+#                A route whose src= or bin= path has ANY symlinked component (the leaf or a directory
+#                such as tools/bin -> outside the tree) is COULD-NOT-INSPECT (never followed; P21d/g/h).
 #                A row whose gate column starts with UNCONFIRMED is registered only when a scanned
 #                script names the tool as a precondition; otherwise it is inspected and not
 #                reported (no measured gate exits 2 on it — docker on this host).
@@ -89,6 +90,9 @@
 #   * Library dependencies not listed in the catalogue (only dpkg-probed names are checked).
 #   * Untracked scripts (the scan set is tracked files only, plus the catalogue read from disk).
 #   * A precondition written only inside a scripts/zero-gap-class-*.sh (excluded by name, above).
+#     The exclusion is total: it also hides those class scripts' REAL preconditions (e.g. a class
+#     that genuinely needs perl or git), not only their proof text; the class scripts' own fail-closed
+#     need-tool checks are what guard those, and this class does not audit them.
 #   * Whether a usable container route actually runs: compose provider, image, network and the
 #     workload's own exit are outside the structural route check; the resolver binary is a stat of
 #     an untracked build output (its freshness against the source is not compared).
@@ -296,6 +300,16 @@ prove_failure() {
     fresh; sed -i.bak 's#src=tools/contained/main.go#src=../contained/main.go#' "$work/w/clean/docs/zero-gap/toolchains.tsv"; rm -f "$work/w/clean/docs/zero-gap/toolchains.tsv.bak"
     out=$(run --corpus "$work/w/clean" 2>&1); rc=$?
     if [ "$rc" -eq 2 ] && ! grep -q '^FINDING' <<<"$out" && grep -q 'unparseable container_route for containedtool' <<<"$out"; then ok "P21e route path with '..' => row COULD-NOT-INSPECT, rc 2"; else bad "P21e rc=$rc: $(tr '\n' '|' <<<"$out" | cut -c1-300)"; fi
+    # P21g/P21h (review rev-f) no component of a route path is ever followed: a symlinked resolver binary,
+    # and a symlinked DIRECTORY component (tools/bin -> outside the tree) holding a real executable
+    fresh; rm -f "$work/w/clean/tools/bin/contained"; mkdir -p "$work/outside"; printf '#!/bin/sh\nexit 0\n' >"$work/outside/contained"; chmod +x "$work/outside/contained"
+    ln -s "$work/outside/contained" "$work/w/clean/tools/bin/contained"
+    out=$(run --corpus "$work/w/clean" 2>&1); rc=$?
+    if [ "$rc" -eq 2 ] && ! grep -q '^FINDING' <<<"$out" && grep -q '^COULD-NOT-INSPECT tool:containedtool .*symlink' <<<"$out"; then ok "P21g symlinked resolver binary => COULD-NOT-INSPECT, rc 2, never followed"; else bad "P21g rc=$rc: $(tr '\n' '|' <<<"$out" | cut -c1-300)"; fi
+    fresh; rm -rf "$work/w/clean/tools/bin"; ln -s "$work/outside" "$work/w/clean/tools/bin"
+    out=$(run --corpus "$work/w/clean" 2>&1); rc=$?
+    if [ "$rc" -eq 2 ] && ! grep -q '^FINDING' <<<"$out" && grep -q '^COULD-NOT-INSPECT tool:containedtool .*symlink' <<<"$out"; then ok "P21h symlinked directory component (tools/bin -> outside) => COULD-NOT-INSPECT, rc 2, never followed"; else bad "P21h rc=$rc: $(tr '\n' '|' <<<"$out" | cut -c1-300)"; fi
+
     fresh; rm -f "$work/w/clean/bin/podman"; printf '#!/bin/sh\nexit 0\n' >"$work/w/clean/bin/containedtool"; chmod +x "$work/w/clean/bin/containedtool"
     out=$(run --corpus "$work/w/clean" 2>&1); rc=$?
     if [ "$rc" -eq 1 ] && [ "$(locs "$out")" = "tool:buildabletool" ]; then ok "P21f host binary present => its route is irrelevant (only buildabletool reported)"; else bad "P21f rc=$rc got=[$(locs "$out" | tr '\n' ' ')]"; fi
@@ -510,14 +524,24 @@ dpkg_state() { # -> prints present|absent|error
 # regular file; the resolver binary is a built regular executable OR its build tool is on the probe PATH;
 # at least one catalogued container runtime is on the probe PATH. A symlinked source or binary is never
 # followed (rc 2). Whether the container workload then SUCCEEDS end to end is not measured here.
+# link_in <relpath> -> rc 0 when ANY prefix component under BASE (each directory, then the leaf) is a
+# symlink; accumulates component by component like the determinism harness's acc loop
+link_in() {
+    local acc=$BASE c
+    local IFS=/
+    for c in $1; do acc=$acc/$c; [ -L "$acc" ] && return 0; done
+    return 1
+}
 route_state() {
     local t=$1 s=${RT_SRC[$1]} b=${RT_BIN[$1]} bt=${RT_BUILD[$1]} rt r have="" built
-    if [ -L "$BASE/$s" ]; then echo "its resolver source $s is a symlink (not followed)"; return 2; fi
+    # every component of src= and bin= is checked, not only the leaf: a symlinked directory
+    # (tools/bin -> outside the tree) is refused exactly like a symlinked file (review rev-f)
+    if link_in "$s"; then echo "a component of its resolver source path $s is a symlink (not followed)"; return 2; fi
+    if link_in "$b"; then echo "a component of its resolver binary path $b is a symlink (not followed)"; return 2; fi
     if ! awk -v p="$s" 'BEGIN { RS = "\0" } $0 == p { f = 1; exit } END { exit !f }' "$W/files.z"; then
         echo "its resolver source $s is not a tracked file"; return 1
     fi
-    if [ -L "$BASE/$s" ] || [ ! -f "$BASE/$s" ]; then echo "its resolver source $s is a symlink or not a regular file (not followed)"; return 2; fi
-    if [ -L "$BASE/$b" ]; then echo "its resolver binary $b is a symlink (not followed)"; return 2; fi
+    if [ ! -f "$BASE/$s" ]; then echo "its resolver source $s is not a regular file"; return 2; fi
     if [ -f "$BASE/$b" ] && [ -x "$BASE/$b" ]; then built="binary $b built"
     elif have_path "$bt"; then built="binary $b not built, build tool $bt on PATH"
     else echo "its resolver binary $b is not built and its build tool $bt is not on the probe PATH"; return 1; fi

@@ -80,7 +80,8 @@
 #   at :128 was already reported; no freshness guard anywhere in the file).
 #   1 COULD-NOT-INSPECT: submodules/qa/scripts/anti-bluff-scan.sh is a tracked
 #   symlink and is never followed, so the live rc is 1 (findings outrank it).
-#   Planted-corpus detection: 1.0 (N = 14 planted rows), a regression check of known patterns;
+#   Re-measured after F3 (a long-condition planted case; no detector change): the same 8.
+#   Planted-corpus detection: 1.0 (N = 15 planted rows), a regression check of known patterns;
 #   live-population recall UNMEASURED.  Runtime about 6 s.
 #
 # WHAT IT DOES NOT SEE (honest limits, §11.4.6)
@@ -91,6 +92,9 @@
 #   - freshness is decided PER FILE: one stamp comparison anywhere makes the whole
 #     file CLEAN, so a second unrelated guarded build in it is not reported; and the
 #     indicator is textual, not proof that the comparison gates THIS build;
+#   - a freshness check written INTO the existence condition, `if [ ! -x B ] || ! make -q; then
+#     make; fi`, is not recognised as a guard (make -q is not in the freshness indicator list):
+#     the file is REPORTED, a false positive (behaviour older than fix round F3, review rev-f);
 #   - a stamp compared through three or more variable hops is not recognised (the
 #     file is then REPORTED, a false positive, never a silent miss);
 #   - uninitialised submodules (not on disk), untracked files, third-party trees
@@ -498,7 +502,7 @@ prove_failure() {
     if [ "$(sha256sum <"$T/emit.txt" | cut -d' ' -f1)" = "$(sed -n 's/^POPULATION-SHA //p' <<<"$out")" ]; then ok "M7b POPULATION-SHA equals the emitted set"; else bad "M7b population sha differs from --emit-population"; fi
 
     # M8 forms the detector must not miss: negated-and, group, if/else, function, comment-only freshness
-    for f in p2_nested_if p3_function p4_test_form p5_negated_and p6_block_or p7_comment_freshness p8_if_else p9_env_prefix p10_timestamp_log p11_stamp_in_message p12_revparse_uncompared p13_if_condition_build p14_if_condition_or_build; do
+    for f in p2_nested_if p3_function p4_test_form p5_negated_and p6_block_or p7_comment_freshness p8_if_else p9_env_prefix p10_timestamp_log p11_stamp_in_message p12_revparse_uncompared p13_if_condition_build p14_if_condition_or_build p15_long_condition_build; do
         rm -f "$T/pl/scripts/"*; cp "$corpus/planted/$f.sh" "$T/pl/scripts/start.sh"; git -C "$T/pl" add -A
         out=$(bash "$SELF" --root "$T/pl"); rc=$?
         if [ $rc -eq 1 ]; then ok "M8 form $f => FINDING"; else bad "M8 form $f rc=$rc: $out"; fi
