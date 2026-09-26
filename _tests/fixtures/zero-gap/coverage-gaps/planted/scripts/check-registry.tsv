@@ -1,0 +1,8 @@
+# fixture registry
+scanroot	scripts
+check	chk-real	scripts/entry.sh	flag	--prove-failure	--root /nonexistent
+debt	chk-owed	scripts/owed.sh	proof	owed proof	operator	evidence	2030-01-01	abc
+exempt	scripts/exempt.sh	reason	operator	evidence	2030-01-01	abc
+# a registry id shaped like a path escape: only the ref-safety rule (never resolve ../, ./ or /) keeps
+# the svc-b e2e cell (ref ../outside.sh) from resolving to it
+check	../outside.sh	scripts/entry.sh	flag	--prove-failure	--root /nonexistent

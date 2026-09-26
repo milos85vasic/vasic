@@ -1,0 +1,9 @@
+# fixture registry (clean): no debt, no gate-like exemption, every proof arm real
+scanroot	scripts
+scanroot	tools
+check	ok-real	scripts/ok-real.sh	flag	--prove-failure	--root /nonexistent
+check	ok-second	scripts/ok-second.sh	flag	--prove-failure	--root /nonexistent
+check	ok-third	scripts/ok-third.sh	flag	--selftest	--root /nonexistent
+check	ok-sibling	scripts/ok-second.sh	sibling	scripts/ok_mutation_test.sh	--root /nonexistent
+exempt	scripts/install-thing.sh	an installer, not a check	operator	the file becomes a gate	2999-12-31	deadbeef
+check	ok-heredoc	scripts/ok-heredoc.sh	flag	--prove-failure	--root /nonexistent

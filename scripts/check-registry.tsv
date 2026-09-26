@@ -398,3 +398,65 @@ exempt	scripts/zero-gap-lib.sh	sourced LIBRARY for feature 010 (state fingerprin
 # it, and its --prove-failure also drives the adapter end to end on throwaway stores.
 exempt	scripts/zero-gap-evidence.sh	T013 evidence ADAPTER (a writer): runs one check through the constitution recorder (execution_record.sh) and appends one sealed record to a two-file evidence store — a verifier-native 9-field chain produced by upstream chain.ExecRow.ToRecord and linked by chain.Digest, plus a sidecar validated against contracts/evidence-record.schema.json, bound by artifact_path = sha256 of the exact sidecar line — and one strict FR-045 row to exec_rows.jsonl that upstream DecodeExecRows reads. Store + streams live untracked under .remember/logs/zero-gap/evidence (operator ruling). It MUTATES a store rather than asserting a verdict about this repository; judging the store is scripts/zero-gap-evidence-chain.sh's role (registered as a check below). It carries its own §1.1 paired proof (--prove-failure, 37 cases on throwaway stores, streams and work trees: outcome is the check's own verdict, never an exit code alone; a moved state fingerprint forces outcome 2; digests cover the FULL stream before truncation; streams are redacted before storage by the upstream scanner, a stream over the scan size cap or time bound is replaced whole with a placeholder naming that cause; the command line is refused BEFORE the command runs, with nothing written, when (a) the argv NAME/SHAPE policy (zg-chain argv-policy, one process) matches any argument or any whitespace-separated WORD inside one AFTER normalisation — shell quotes removed, $'…' / \xHH / \uHHHH / octal escapes decoded, other \c read as c, zero-width characters dropped, full-width ASCII folded, Cyrillic/Greek look-alike letters folded onto Latin when a name is judged, a name mixing Latin with Cyrillic/Greek refused as a look-alike — so '--password', "--password", \--password, $'--pass\x77ord', -''p and --раssword read as their plain form: a flag whose name, or a KEY in any key=value / key:value segment split on = : , ; & ? INCLUDING a flag's value and a URL query (--build-arg=TOKEN=, --header=Cookie:s=, --opt=a:b,token=, --set=db.password=, ?access_token=, ?key=), contains secret/password/passwd/passphrase/token/apikey/api-key/api_key/credential/cookie/authoriz, has a segment that is pw, starts with pass/pwd or ends in pass/pwd (db-pass, DB_PASS, MYSQL_PWD, storepass, keypass), or is key or a qualified key (access-key, secret_key, apikey); -p/-pVALUE and -P/-PVALUE; -u/--user with a user:password value; Authorization:; Bearer <word>; scheme://user:pass@host and the token-only scheme://TOKEN@host (git@ exempt) — or (b) the upstream scanner finds a credential in argv/cwd (per argument, windows of three, name=value pairs). NOT caught (stated in the header, registered as an upstream limitation): a NAME-LESS value — redis-cli -a X (-a is refused by no rule; recipe REDISCLI_AUTH), a positional or bare secret; obfuscated, encoded or computed secrets (base64, piped or read at run time); the scheme-less ssh user@host form; and on STREAMS the upstream scanner alone applies, which misses token=, pass:, bare Bearer, URL credentials and short passwords. Accepted false positives: every -p…/-P… single-dash option (go test -p 1: use GOFLAGS=-p=1 or a wrapper script; grep -P, mysql -P, scp -P, rsync -P), --passes, --max-tokens, --key and any KEY=value segment, a legitimate username in a URL (https://alice@host). UPSTREAM LIMITATION (registered): the recorder forks sed/tr/sed per argument, so a 3000-argument record takes ~31 s of which ~28 s is upstream (the adapter's own gates ~2.3 s; printed as a NOTE by every proof run) — the daily job runs records ONE AT A TIME or sets ZG_LOCK_TIMEOUT above its longest check, because the exclusive store lock is held for the whole record and a parallel sweep gets rc 2 refusals. The exclusive store lock is taken before pre-flight and the run and held through sealing (a lock not obtained within the bound refuses the run: rc 2, not executed, nothing written); the held mode of an inherited lock is read from /proc/self/fdinfo, never from ZG_LOCK_MODE, and no flock is ever issued on an inherited descriptor; a SIGTERM leaves nothing on disk, a SIGKILL remnant is scrubbed by the next run unless the wrapped command still runs; a store failing pre-flight never runs the check; a tracked --verdict-file is never deleted; concurrent appends; 3000 arguments clear both argv gates in < 5 s; every build artefact the shim module can drop inside the repository (zero-gap-chain, *.test, bin/) is git-ignored; the produced store verified by the upstream verifier). Three-valued: 0 every case passed, 1 a case failed, 2 cannot determine (go/jq absent, fixture unbuildable, or the live inputs moved while the proof ran).	operator	the file stops being a writer of evidence records and starts asserting a pass/fail verdict about this repository on its own behalf — that judging role belongs to scripts/zero-gap-evidence-chain.sh	2027-03-14	1492ef170f1d94760a76f32714c0229d95f8b3857c29e200652195db85c24316
 check	zero-gap-evidence-chain	scripts/zero-gap-evidence-chain.sh	flag	--prove-failure	--verify /nonexistent
+#
+# zero-gap-sweep — feature 010 T017/T018: the sweep RUNNER and its recall engine
+# (docs/zero-gap/README.md). Its --prove-failure builds THROWAWAY repositories from
+# _tests/fixtures/zero-gap/sweep/ (a fixture-only demonstration class, ONE golden
+# corpus, golden output) and asserts, each as a numbered case: control rc 0 equal to
+# the golden output; 5 repeats cmp-identical; empty class list, missing entrypoint,
+# moving tree (UNSTABLE naming the class), zero population, malformed output, partial
+# inspection, a different population walked (POPULATION-SHA), corpus fixtures in a
+# live population, malformed corpus, absent root, unknown flag, every TSV defect =>
+# rc 2; a finding outranks an undetermined class (rc 1); blind class => recall 0.5
+# with the miss named; clean-control finding and stale published recall => rc 1;
+# percent-encoded blank/UTF-8/%/newline locations and a rejected unencoded blank;
+# hostile GIT_DIR/GIT_INDEX_FILE/POSIXLY_CORRECT/LC_ALL/GREP_OPTIONS/BASH_ENV/ENV/
+# CDPATH cannot change the report; ESC/BEL/invalid UTF-8 never reach it and --json
+# stays valid; write-then-restore, git commit, git config, a write during
+# --emit-population => UNSTABLE naming the class; an ignored-path write is reported;
+# class and sweep budgets end a TERM-ignoring child; the README's encoding snippet
+# equals the fixture's; the live class list names an existing tracked source for
+# each disputed population; and the LIVE tree is byte-identical before and after
+# (a concurrent editor makes the proof rc 2, never 1).
+check	zero-gap-sweep	scripts/zero-gap-sweep.sh	flag	--prove-failure	--root /nonexistent
+#
+# ── zero-gap SWEEP CLASSES (T019–T034, T081) — APPEND-ONLY ROWS, ONE WAVE COMMIT ──
+# Each class script scripts/zero-gap-class-<id>.sh sits under the `scripts` scanroot,
+# so R5 requires a row the moment the file exists, and R3 fails a row whose script
+# does not exist. T017 could NOT pre-seed these rows: measured 2026-09-26 on a
+# git-archive copy of this tree, a `check` row whose entry point is absent fails R3
+# ("registered entry point does not exist") and an `exempt` row fails R2 — both
+# rc 1. Git also commits per FILE, not per class: staging this file ships every
+# other class's appended row while their scripts may be uncommitted (HEAD then
+# fails R3). The protocol (controller ruling, 010 T017 fix round 1):
+#   1. docs/zero-gap/sweep-classes.tsv rows are PRE-SEEDED; a class task never edits it.
+#   2. The class task APPENDS its own row here, exactly one line, never an edit:
+#   ID=<class_id>; printf 'check\tzero-gap-class-%s\tscripts/zero-gap-class-%s.sh\tflag\t--prove-failure\t--root /nonexistent\n' "$ID" "$ID" >> scripts/check-registry.tsv
+#   3. A class implementer never stages or commits anything (script, corpus or row).
+#   4. The controller makes ONE commit for the whole class wave, after every class
+#      script and row exist and verify-check-registry.sh exits 0.
+# One bash printf is ONE write(2) on an O_APPEND descriptor (strace-measured); 300
+# trials of 17 concurrent appenders left every line intact on this ext4 tree. A
+# concurrent read-modify-write of this file (an editor, sed -i) can drop an
+# appended row, so nobody edits this file during the wave; a dropped row is never
+# silent — R5 reports that class script UNREGISTERED. The class contract every row
+# relies on (--prove-failure arm on its own line, --root with rc 2 on an absent
+# root) is in docs/zero-gap/README.md. Rows below, in completion order; the order
+# carries no meaning.
+check	zero-gap-class-unregistered-scripts	scripts/zero-gap-class-unregistered-scripts.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-guard-gaps	scripts/zero-gap-class-guard-gaps.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-untracked-blind-window	scripts/zero-gap-class-untracked-blind-window.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-known-open-decisions	scripts/zero-gap-class-known-open-decisions.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-missing-toolchain	scripts/zero-gap-class-missing-toolchain.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-build-if-missing	scripts/zero-gap-class-build-if-missing.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-vacuous-gates	scripts/zero-gap-class-vacuous-gates.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-improvement-candidates	scripts/zero-gap-class-improvement-candidates.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-coverage-gaps	scripts/zero-gap-class-coverage-gaps.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-stale-figures	scripts/zero-gap-class-stale-figures.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-live-vs-source	scripts/zero-gap-class-live-vs-source.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-unproven-checks	scripts/zero-gap-class-unproven-checks.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-private-in-public	scripts/zero-gap-class-private-in-public.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-unsealed-evidence	scripts/zero-gap-class-unsealed-evidence.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-doc-count-drift	scripts/zero-gap-class-doc-count-drift.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-pointer-drift	scripts/zero-gap-class-pointer-drift.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-class-content-boundary-rows	scripts/zero-gap-class-content-boundary-rows.sh	flag	--prove-failure	--root /nonexistent

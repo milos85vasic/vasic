@@ -1,0 +1,3 @@
+# point-in-time.tsv (fixture copy): documents whose recorded counts were true when written.
+path	reason
+docs/report.md	fixture session report: every count in it is dated to the session that wrote it

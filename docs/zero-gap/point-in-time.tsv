@@ -1,0 +1,32 @@
+# docs/zero-gap/point-in-time.tsv — documents whose recorded counts were TRUE WHEN WRITTEN
+# (feature 010, class doc-count-drift, review fix (c)). A document listed here is still enumerated
+# (its count claims are population items) but a count in it is never reported as drift or as an
+# unmeasurable count: it is dated to the moment the document records. Every row names the evidence
+# (read from the document's own header) that makes it point-in-time; a row without a reason, or a
+# row that matches no scanned document, is COULD-NOT-INSPECT (never a silent exemption).
+# Columns: path (repository-relative; an exact path or an fnmatch pattern) <TAB> reason.
+# Deliberately NOT listed: docs/constitution-adoption/INVENTORY.md (its header declares a CURRENT
+# status ledger beside the historical record), workshop/docs/work-register.md (a living register),
+# specs/008-unified-workshop-platform/tasks.md (the live task list).
+path	reason
+docs/SESSION-REPORT.md	a session report: its header states the measurement window (2026-08-27) and the HEAD at time of writing
+docs/setup-agents-wizard/CI-WORKFLOW-AUDIT.md	a dated audit (Date 2026-08-27 in its header) of a workflow file disabled the same day
+specs/001-workshop-curriculum-platform/analysis.md	a cross-artifact analysis dated 2026-09-01 in its header
+specs/001-workshop-curriculum-platform/spec.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+specs/001-workshop-curriculum-platform/tasks.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+specs/002-knowledge-areas-deep-linking/spec.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+specs/002-knowledge-areas-deep-linking/tasks.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+specs/003-chapter-hierarchy/spec.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+specs/003-chapter-hierarchy/tasks.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+specs/004-authored-ai-areas/spec.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+specs/004-authored-ai-areas/tasks.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+specs/005-clone-and-clear-red/spec.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+specs/005-clone-and-clear-red/tasks.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+specs/006-session-record-and-qa-readiness/spec.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+specs/006-session-record-and-qa-readiness/tasks.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+specs/007-decouple-modules-auth/spec.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+specs/007-decouple-modules-auth/tasks.md	carries a SUPERSEDED 2026-09-15 notice (superseded by specs/008-unified-workshop-platform) and is preserved for history
+workshop/docs/session-evidence/session-ledger.md	a per-session progress ledger: an append-only record of past sessions
+workshop/docs/session-evidence/content-port-map.md	a planning snapshot in session-evidence/: its header marks it analysis and planning only
+workshop/docs/research/ux-research-2026-09-01.md	a research note dated 2026-09-01 in its title and file name
+workshop/docs/ai-interviewing-port/PLAN.md	a plan whose header dates every figure to the working trees read on 2026-09-04

@@ -1,0 +1,11 @@
+# fleet.tsv — the SYNTHETIC fleet of this corpus, read by scripts/zero-gap-class-content-boundary-rows.sh --corpus.
+# <directory under this corpus><TAB><role: public|private><TAB><commit date, UTC, ISO-8601>
+# Each directory becomes a throwaway git repository in $TMPDIR, committed once at that date. The entry `.` is the
+# UMBRELLA: the corpus's other top-level entries (everything except fleet.tsv and the listed directories) become a
+# repository at the fleet root itself, so its path classes carry no repository prefix.
+# EVERY STRING IN THIS CORPUS IS SYNTHETIC AND WAS WRITTEN FOR IT; nothing is taken from any real private document.
+# Private committed BEFORE public: every co-occurring row is private-first, so the gate's direction pass KEEPS it.
+priv	private	2020-01-01T00:00:00Z
+pub	public	2021-01-01T00:00:00Z
+priv2	private	2020-01-01T00:00:00Z
+.	public	2021-01-01T00:00:00Z

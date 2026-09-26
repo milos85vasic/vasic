@@ -1,0 +1,11 @@
+# expect.tsv — planted defects: <location relative to planted/>	<what is planted>
+cell:svc-a:integration	gap cell: no integration test for svc-a
+cell:svc-a:contract	check cell whose ref names a check id absent from check-registry.tsv
+cell:svc-a:security	n/a cell without a reason
+cell:svc-a:mutation	check cell with an empty ref
+cell:svc-a:determinism	gap cell: no determinism test for svc-a
+cell:svc-b:accessibility	the matrix has no row at all for a required kind of svc-b (blank cell)
+cell:svc-b:fuzz	gap cell in an extra (non-required) test kind
+cell:svc-b:unit	check cell whose ref is a path that is not a file
+cell:svc-b:e2e	check cell whose ref escapes the root with ..
+cell:svc-a:visual-diff	gap cell carrying a note in its status (gap:<note>) is still a gap

@@ -1,0 +1,9 @@
+# lab claim ledger (planted corpus of the stale-figures class)
+surface	CLAUDE.md
+claim	lab-widgets	CLAUDE.md	prose	doc-vs-code-drift	minor	eq	-	declares \*\*(\d+)\*\* widgets	wc -l < data/widgets.txt
+claim	lab-run-proofs	CLAUDE.md	prose	green-but-broken	major	eq	-	^  \*\*(\d+) PASS / 0 FAIL	sed -n 's/^PASS=//p' data/run-proofs.txt
+claim	lab-orphan	CLAUDE.md	prose	doc-vs-code-drift	minor	eq	-	holds \*\*(\d+)\*\* gadgets	wc -l < data/widgets.txt
+claim	lab-untyped	CLAUDE.md	prose	made-up-type	minor	eq	-	declares \*\*(\d+)\*\* widgets	wc -l < data/widgets.txt
+claim	lab-dup	CLAUDE.md	prose	doc-vs-code-drift	minor	eq	-	declares \*\*(\d+)\*\* widgets	wc -l < data/widgets.txt
+claim	lab-dup	CLAUDE.md	prose	doc-vs-code-drift	minor	eq	-	declares \*\*(\d+)\*\* widgets	wc -l < data/widgets.txt
+claim	lab-malformed	CLAUDE.md	prose	doc-vs-code-drift	minor	eq	declares \*\*(\d+)\*\* widgets	wc -l < data/widgets.txt

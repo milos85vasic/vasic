@@ -1,0 +1,4 @@
+CLASS demo population=2 inspected=2 recall=1.0 findings=0 status=clean
+FINGERPRINT before=<sha256> files=10
+FINGERPRINT after=<sha256> files=10
+VERDICT HOLDS rc=0 findings=0 could-not-inspect=0 classes=1 unknown-recall=0

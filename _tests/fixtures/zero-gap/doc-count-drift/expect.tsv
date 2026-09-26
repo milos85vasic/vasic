@@ -1,0 +1,21 @@
+# expect.tsv — planted defects of the doc-count-drift corpus: <location relative to planted/>\t<what is planted>
+# <doc>:<line> is a measured DRIFT (one finding per line; module-root carriers high, else medium);
+# figures:<doc> is the ONE aggregate LOW finding of that document's unmeasurable counts
+# (--prove-failure asserts its line list). Near-misses that must stay silent: the umbrella root
+# CLAUDE.md/AGENTS.md/README.md (class stale-figures owns them, boundary ruling), docs/report.md
+# (listed in docs/zero-gap/point-in-time.tsv), mod/AGENTS.md and mod/QWEN.md (lockstep copies of
+# mod/CLAUDE.md: one finding with an `also in` list), docs/near.md (~20 and a dot-file).
+docs/submodules.md:3	records 3 submodules next to .gitmodules, which declares 4 (submodules noun; moved out of the umbrella carrier)
+docs/glob.md:3	records 2 *.txt files directly in data/, measured 3 (glob form; moved out of the umbrella README)
+docs/files.md:3	records 7 tracked files in data/, measured 4 recursively (files-in-directory form)
+docs/lines.md:3	records 12 lines for data/table.txt, measured 5 (lines form)
+docs/anchors.md:3	records 5 anchors for const/Constitution.md, measured 2 (anchors form)
+docs/specs.md:3	records 5 specs, measured 2 NNN- directories under specs/ (specs form)
+mod/CLAUDE.md:3	owned-module carrier: 5 verify-*.sh gates split across a line break, measured 2 (glob form); also in mod/AGENTS.md mod/GEMINI.md mod/QWEN.md
+mod/CLAUDE.md:4	owned-module carrier: 4 prove-*.sh proofs, measured 1 direct (glob form; gates/lib/prove-helper.sh is not direct); lockstep copies collapsed
+mod/CLAUDE.md:6	owned-module carrier: 6 verify / 7 prove pair, measured 2 / 1; mod/AGENTS.md and mod/QWEN.md are lockstep copies
+mod/GEMINI.md:6	a module carrier line that DRIFTED from its lockstep siblings (6 verify / 8 prove): reported on its own
+mod/docs/scripts.md:3	owned-module doc: 9 verify scripts and 3 prove scripts, measured 2 and 1
+figures:docs/unmeasurable.md	LOW aggregate: unmeasurable tests (3), commits (5), rows (7)
+figures:docs/scope.md	LOW aggregate: subset count (3), bare file name (5), glob scope with no match (7), specs outside specs/ (9), unbackticked .gitmodules (11)
+figures:mod/docs/scripts.md	LOW aggregate: a bare .gitmodules in a module without one never falls back to the umbrella's (5)

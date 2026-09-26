@@ -1,0 +1,28 @@
+# planted coverage matrix — every defect below is listed in ../../../expect.tsv
+subject	test_kind	status	ref
+svc-a	unit	check	chk-real
+svc-a	integration	gap	item-101
+svc-a	e2e	check	scripts/entry.sh
+svc-a	contract	check	chk-ghost
+svc-a	security	n/a	
+svc-a	accessibility	n/a:no-ui-surface	
+svc-a	perf-load	n/a	no load path exists
+svc-a	stress-chaos	check	chk-real
+svc-a	mutation	check	
+svc-a	determinism	gap	item-102
+svc-a	regression	check	chk-real
+svc-a	manual-qa-readiness	check	chk-real
+
+svc-b	unit	check	scripts/nonexistent.sh
+svc-b	integration	check	chk-real
+svc-b	e2e	check	../outside.sh
+svc-b	contract	check	chk-real
+svc-b	security	check	chk-real
+svc-b	perf-load	could-not-run:k6	
+svc-b	stress-chaos	check	chk-real
+svc-b	mutation	check	chk-real
+svc-b	determinism	check	chk-real
+svc-b	regression	check	chk-real
+svc-b	manual-qa-readiness	check	chk-real
+svc-b	fuzz	gap	item-103
+svc-a	visual-diff	gap:needs-a-screenshot-harness	item-104

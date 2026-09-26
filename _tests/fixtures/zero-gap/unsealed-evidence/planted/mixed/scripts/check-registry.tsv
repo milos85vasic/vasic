@@ -1,0 +1,13 @@
+# FIXTURE (feature 010, class unsealed-evidence, planted case "mixed").
+# sealed-x: sealed by scripts/daily-runner.sh with a literal --check-id over
+#           continuation lines (NOT a finding).
+# commented-y: its only sealing line is commented out (PLANTED unsealed).
+# computed-z: sealed only through a computed --check-id "$id", which a static
+#           reader cannot resolve (PLANTED unsealed: never credited).
+# The exempt and debt rows are not check rows and are outside the population.
+scanroot	scripts
+check	sealed-x	scripts/x.sh	flag	--prove-failure	--root /nonexistent
+check	commented-y	scripts/y.sh	flag	--prove-failure	--root /nonexistent
+check	computed-z	scripts/z.sh	flag	--prove-failure	--root /nonexistent
+exempt	scripts/lib.sh	sourced library	operator	a CLI entry point	2099-01-01	0000000000000000000000000000000000000000000000000000000000000000
+debt	owed-w	scripts/w.sh	paired-proof	not written yet	operator	a proof lands	2099-01-01	0000000000000000000000000000000000000000000000000000000000000000

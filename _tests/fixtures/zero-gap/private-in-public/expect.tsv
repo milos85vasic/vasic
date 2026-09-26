@@ -1,0 +1,22 @@
+# expect.tsv — planted defects of the private-in-public corpus: <location relative to planted/>\t<what is planted>
+# Locations are path:line (the class reports the line of the offending statement or block).
+# secret.md stores PLACEHOLDERS (@@ZG-...@@); the class expands them in a $TMPDIR copy under --corpus.
+guess.md:3	guessing word "probably" in a cause statement
+guess.md:4	guessing word "seems" in a cause statement
+guess.md:12	guessing phrase "should be" in a cause statement
+guess.md:13	guessing word "probably" on a line that also names the rule word "guess" (no wholesale skip)
+guess.md:14	guessing word "apparently"
+guess.md:15	guessing word "possibly"
+guess.md:16	guessing phrase "it appears" (a bare factual "appears in" is not a guess)
+secret.md:3	fake AWS access key id (AKIA shape), from placeholder @@ZG-AKIA@@
+secret.md:4	private-key armour header, from placeholder @@ZG-PRIVKEY-HEADER@@
+secret.md:5	high-entropy token (fake), from placeholder @@ZG-ENTROPY@@
+secret.md:6	URL with an embedded password (fake), from placeholder @@ZG-URLPASS@@
+transcript.md:3	transcript line with a [hh:mm:ss] timestamp and a SPEAKER turn
+transcript.md:4	second transcript line
+transcript.md:6	private path cited with a quotation
+transcript.md:10	blockquote attributed to a private path
+transcript.md:13	fenced block attributed to a private path
+ruling.yml:3	escaped quotation inside a YAML scalar, attributed to a private path
+CONTINUATION.md:7	guessing word inside a zero-gap CONTINUATION entry
+rows.tsv:2	guessing word "likely" in a TSV row whose recall cell reads UNKNOWN (a bare UNKNOWN cell is not a marker)

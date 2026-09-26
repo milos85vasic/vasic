@@ -1,0 +1,5 @@
+# FIXTURE (feature 010, class unsealed-evidence, planted case "unsealed").
+# Two check rows; no runner in this case seals either of them. PLANTED unsealed.
+scanroot	scripts
+check	alpha	scripts/alpha.sh	flag	--prove-failure	--root /nonexistent
+check	beta	scripts/beta.sh	flag	--prove-failure	--root /nonexistent

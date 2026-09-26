@@ -1,0 +1,9 @@
+# expect.tsv — planted defects of class unregistered-scripts: <location relative to planted/>	<what is planted>
+# Planted NON-defects that must stay unreported (RECALL-UNEXPECTED otherwise): other/unreferenced.sh (exec, no shebang, unreferenced),
+# scripts/quiet.sh (not executable, unreferenced), scripts/zero-gap-class-other.sh (owned by the runner), the script under a fixtures path,
+# and the script under .specify/extensions/vend/ (third-party, derived from the helix-deps.yaml comment block).
+scripts/unregistered.sh	an executable script with a shebang at depth 1 of a declared scanroot that no registry row lists
+scripts/deep/blind.sh	a script two levels below the declared scanroot scripts: R5 (maxdepth 1) cannot see it
+other/referenced.sh	an executable shebang-less script outside every scanroot, named by docs/README.md, that no registry row lists
+scripts/check-registry.tsv:5	a check row whose entrypoint scripts/gone.sh does not exist
+.specify/scripts/unmarked.sh	an executable .specify/scripts helper outside the ruled spec-kit bash/ tree that no row lists

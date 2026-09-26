@@ -1,0 +1,28 @@
+# clean coverage matrix — no defect; extra kinds and both n/a and could-not-run spellings are legal elsewhere
+subject	test_kind	status	ref
+
+svc-c	unit	check	chk-real
+svc-c	integration	check	scripts/entry.sh
+svc-c	e2e	check	chk-owed
+svc-c	contract	check	chk-real,scripts/entry.sh
+svc-c	security	check	chk-real
+svc-c	accessibility	n/a:no-ui-surface	
+svc-c	perf-load	n/a	no load path exists
+svc-c	stress-chaos	check	chk-real
+svc-c	mutation	check	chk-real
+svc-c	determinism	check	chk-real
+svc-c	regression	check	chk-real
+svc-c	manual-qa-readiness	check	chk-real
+svc d	unit	check	chk-real
+svc d	integration	check	scripts/entry.sh
+svc d	e2e	check	chk-owed
+svc d	contract	check	chk-real,scripts/entry.sh
+svc d	security	check	chk-real
+svc d	accessibility	n/a:no-ui-surface	
+svc d	perf-load	n/a	no load path exists
+svc d	stress-chaos	check	chk-real
+svc d	mutation	check	chk-real
+svc d	determinism	check	chk-real
+svc d	regression	check	chk-real
+svc d	manual-qa-readiness	check	chk-real
+svc-c	fuzz	check	chk-real

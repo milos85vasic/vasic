@@ -1,0 +1,5 @@
+rulings:
+  - "Ruling: something decided. Cost if wrong: none."
+  - "minor (deferred) T001: the demo validator accepts a blank name"
+  - "REQUIRED BEFORE T099: the demo fetch recurses. Fix: pass --no-recurse. Cost if skipped: a marker executes."
+  - "decision pending T100: whether the demo archive moves to cold storage."

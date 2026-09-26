@@ -72,7 +72,7 @@ Rules:
 ### SweepClass (data file `docs/zero-gap/sweep-classes.tsv`)
 | Field | Meaning |
 |---|---|
-| `class_id` | stable id, e.g. `SC-gates-vacuous`, `SC-stale-figures` |
+| `class_id` | stable id, e.g. `vacuous-gates`, `stale-figures` |
 | `population` | what it enumerates (derived, not a hand list) and why that set is right |
 | `window` | comparison window if bounded, else `none` |
 | `entrypoint` | runnable command producing findings |

@@ -1,0 +1,17 @@
+# expect.tsv — planted defects of class unsealed-evidence (feature 010, T028).
+# <canonical location relative to planted/> TAB <what is planted>
+# In corpus mode every immediate subdirectory of planted/ (and clean/) is one
+# mini-root ("case"); a location is <case>/<typed population token>.
+# NOT planted (the class must stay silent): mixed/gate:S (sealed in its own
+# body), mixed/check:sealed-x (literal --check-id over continuation lines),
+# mixed/anchor:docs/zero-gap/anchor.json (present), and everything in clean/.
+unsealed/gate:E	pre-push gate E runs with only a temp log + in-memory SUMMARY row, never through the adapter
+unsealed/gate:0	pre-push gate 0 runs with only a temp log + in-memory SUMMARY row, never through the adapter
+unsealed/check:alpha	check row alpha is sealed by no runner
+unsealed/check:beta	check row beta is sealed by no runner
+unsealed/store:.remember/logs/zero-gap/evidence	no evidence store exists in this case
+unsealed/anchor:docs/zero-gap/anchor.json	no evidence anchor exists in this case
+mixed/gate:A	gate A unsealed; run_gate names the adapter only inside a comment
+mixed/check:commented-y	the only sealing line for commented-y is commented out
+mixed/check:computed-z	sealed only through a computed --check-id "$id" (never credited statically)
+mixed/store:.remember/logs/zero-gap/evidence	store tampered: sidecar line 2 exit_status altered, so the chain verify reports VIOLATED

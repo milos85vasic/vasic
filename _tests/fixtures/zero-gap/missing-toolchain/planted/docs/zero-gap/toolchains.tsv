@@ -1,0 +1,9 @@
+# scratch catalogue for the missing-toolchain corpus
+tool	probe	gate_that_needs_it	install_command	source
+ghosttool	command -v ghosttool	gate alpha (the ghost step)	sudo apt-get install -y ghosttool	CLAUDE.md, ghost section
+presenttool	command -v presenttool	gate beta	sudo apt-get install -y presenttool	CLAUDE.md, present section
+docdrifttool	command -v docdrifttool	gate gamma	sudo apt-get install -y docdrifttool	CLAUDE.md, drift section
+libghost	dpkg-query -W libghost	gate delta (webkit-like launch)	sudo apt-get install -y libghost	CLAUDE.md, lib section
+libpresent	dpkg-query -W libpresent	gate delta (webkit-like launch)	sudo apt-get install -y libpresent	CLAUDE.md, lib section
+maybetool	command -v maybetool	UNCONFIRMED: no local gate measured to exit 2 on it	operator decision: none	CLAUDE.md, maybe section
+confirmedtool	command -v confirmedtool	UNCONFIRMED: no local gate measured to exit 2 on it	sudo apt-get install -y confirmedtool	CLAUDE.md, confirmed section

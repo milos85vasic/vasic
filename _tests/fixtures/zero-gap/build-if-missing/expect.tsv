@@ -1,0 +1,13 @@
+# expect.tsv — planted defects, one per row: <location relative to planted/>\t<what is planted> (location = the line of the guard)
+p1_start_exists.sh:5	[ -x BIN ] || bash build.sh, existence guard only
+p2_nested_if.sh:4	if [ ! -x BIN ]; then go build ... fi (nested form, build two lines below the guard)
+p3_function.sh:5	guarded make hidden behind an ensure_built function
+p4_test_form.sh:3	test -x ... || npm run build (test(1) spelling)
+p5_negated_and.sh:3	[ ! -e X ] && cargo build (negated test with &&)
+p6_block_or.sh:4	[ -x BIN ] || { ...; go build ...; } (multi-line group)
+p7_comment_freshness.sh:5	freshness words only in a comment; the executable guard is existence-only
+p8_if_else.sh:4	if [ -x BIN ]; then ... else bash build.sh; fi (build on the miss branch)
+p9_env_prefix.sh:4	if [ ! -x BIN ] && command -v go; then ( cd ... && GOPROXY=off go build ... ) (env-assignment prefix)
+p10_timestamp_log.sh:8	a `local timestamp=` in a log helper must not count as a build-stamp comparison (live false negative at run_all_providers_challenge.sh:79)
+p11_stamp_in_message.sh:6	stamp/HEAD words only in echo/log messages and an inline comment
+p12_revparse_uncompared.sh:6	rev-parse HEAD read but never compared; a stamp file only tested for existence

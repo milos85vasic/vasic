@@ -1,0 +1,6 @@
+# FIXTURE (feature 010, class unsealed-evidence, clean case "sealed").
+# Both checks are sealed by scripts/daily-runner.sh with a literal --check-id.
+scanroot	scripts
+check	sealed-a	scripts/a.sh	flag	--prove-failure	--root /nonexistent
+check	sealed-b	scripts/b.sh	flag	--prove-failure	--root /nonexistent
+exempt	scripts/lib.sh	sourced library	operator	a CLI entry point	2099-01-01	0000000000000000000000000000000000000000000000000000000000000000

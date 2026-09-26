@@ -1,0 +1,3 @@
+# fixture claim ledger (doc-count-drift corpus)
+surface	docs/ledgered.md
+claim	fixture-ledgered	docs/ledgered.md	prose	doc-vs-code-drift	minor	eq	-	is (\d+) files exactly	echo 9

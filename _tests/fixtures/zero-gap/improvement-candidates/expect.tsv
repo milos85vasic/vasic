@@ -1,0 +1,15 @@
+# expect.tsv - planted improvement candidates: <location relative to planted/>\t<what is planted>
+# Not planted on purpose: prose line 3, table row 13, the fenced line 16, the header row 21 (it carries the word "limitation" but a table header is not a record), row 23 (no limitation vocabulary), the mid-line mention on progress.yml line 5, SYN-003 (a Queued item without limitation vocabulary: a population member, not a candidate), SYN-004 (completed: out of scope), and the progress.yml line 4 duplicate of OD line 18 (dedupe keeps the first source in sorted order).
+# Target rule: only a comparator, a `target:`/`goal:` phrase or an improvement verb followed by `to <figure>` is a measurable target; any other figure is reported as `figure in source (not a target)` with the target MISSING.
+candidate:docs/OPERATOR-DECISIONS-2026-01-01.md:7	limitation bullet whose target is "under 30 seconds" (the earlier "90 seconds" is today's state)
+candidate:docs/OPERATOR-DECISIONS-2026-01-01.md:8	deferred bullet with no figure at all: target MISSING
+candidate:docs/OPERATOR-DECISIONS-2026-01-01.md:12	table row candidate: "40%" describes today's state, so target MISSING with the figure labelled
+candidate:docs/OPERATOR-DECISIONS-2026-01-01.md:14	deferred minor bullet, no target
+candidate:docs/OPERATOR-DECISIONS-2026-01-01.md:18	bullet duplicated on progress.yml line 4
+candidate:docs/OPERATOR-DECISIONS-2026-01-01.md:19	deferred bullet where a later target rule (verb "cut ... to 5 minutes") matches earlier in the text than the comparator "below 9 minutes": the earliest target wins
+candidate:docs/sub/KNOWN-LIMITATIONS-synthetic.md:5	KNOWN-LIMITATIONS bullet, every bullet counts, no target
+candidate:docs/sub/KNOWN-LIMITATIONS-synthetic.md:6	KNOWN-LIMITATIONS bullet with a stated target (target: p95 under 200 ms)
+candidate:specs/010-zero-gap-verified-closure/progress.yml:2	minor (deferred) line whose "rc 0" is a behaviour, not a target: target MISSING with the figure labelled
+candidate:specs/010-zero-gap-verified-closure/progress.yml:3	minor (deferred) line with no target
+candidate:docs/workable_items.db:SYN-001	operator-blocked item, no target
+candidate:docs/workable_items.db:SYN-002	queued limitation item: "800 ms" is today's latency, so target MISSING with the figure labelled

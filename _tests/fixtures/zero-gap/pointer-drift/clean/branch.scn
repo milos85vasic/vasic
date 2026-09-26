@@ -1,0 +1,12 @@
+# pointer-drift scenario (feature 010, T022). The class materialises this file into a scratch
+# umbrella under $TMPDIR with LOCAL bare repositories as remotes (no network) and inspects it.
+# Grammar: docs in the header of scripts/zero-gap-class-pointer-drift.sh ("Corpus scenario grammar").
+# Commits: c1..cN linear on main; x1 on a side branch forked at c1 (present in the checkout);
+# y1 = a commit created in ONE remote only (absent from the checkout object store).
+# CLEAN: .gitmodules declares branch dev (at c2); the gitlink c2 equals dev on every remote even
+# though main is at c3 (proves the declared branch, not HEAD, is compared).
+sub gamma 3
+gmbranch gamma dev c2
+gitlink gamma c2
+remote gamma mirror c2
+dep gamma flat c2

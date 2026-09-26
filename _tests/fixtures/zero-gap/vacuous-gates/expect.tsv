@@ -1,0 +1,12 @@
+# expect.tsv — planted defects: <location relative to planted/>	<what is planted>
+# recall = rows whose location the class reports / rows.
+verify-forloop.sh:4	for over $(git ls-files) then PASS with no emptiness guard
+verify-findwhile.sh:4	find piped into while, zero files passes
+audit-absence.sh:4	-z "$(grep ...)" absence assertion, subject set never shown non-empty
+check-zerocount.sh:5	zero count of an enumeration reported as PASS
+prove-glob.sh:4	glob loop whose empty match is skipped, then PASS
+check-nocases.sh:8	failure counter zero => exit 0 with no count of executed cases tested
+check-dataloop-cases.sh:10	failure counter incremented only through a function called inside a data loop; zero input => exit 0
+check-skippable.sh:13	straight-line cases that can all be skipped (skip counter); zero executed => exit 0
+verify-procsub.sh:6	while loop fed by < <(git ls-files) process substitution, zero files => PASS
+audit-absence-unrefused.sh:7	empty case recorded in a variable that is only printed, never refused

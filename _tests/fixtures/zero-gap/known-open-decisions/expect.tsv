@@ -1,0 +1,13 @@
+# expect.tsv - planted operator decisions lacking options or cost: <location relative to planted/> <what is planted>
+# Not planted on purpose (non-members): progress.yml line 3 `minor (deferred)` (improvement-candidates owns deferred minors) and line 4 `REQUIRED BEFORE` (a review fix, not an operator decision); clean/ carries one of each with neither options nor cost.
+decision:docs/OPERATOR-DECISIONS-2099-01-01.md:5	pending table row with neither options nor cost
+decision:docs/OPERATOR-DECISIONS-2099-01-01.md:6	pending table row with options but no cost
+decision:docs/OPERATOR-DECISIONS-2099-01-01.md:7	OPEN table row with a cost but no options
+decision:docs/constitution-adoption/DECISION-demo.md:5	prose decision pending with neither
+decision:docs/constitution-adoption/DECISION-demo.md:9	prose decision pending whose text says unresolved (must not read as resolved)
+decision:CONTINUATION.md:9	OPEN nothing decided segment, remediation not applied, neither
+decision:CONTINUATION.md:9.2	awaits a decision segment, neither
+decision:CONTINUATION.md:9.3	drafted not filed segment, neither
+decision:specs/900-demo/progress.yml:5	decision pending progress.yml entry with neither
+decision:docs/workable_items.db:DEM-001	Operator-blocked item with no detail row
+decision:docs/workable_items.db:DEM-004	Operator-blocked item whose detail states no option and no cost

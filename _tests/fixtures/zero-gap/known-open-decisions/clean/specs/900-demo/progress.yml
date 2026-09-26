@@ -1,0 +1,5 @@
+rulings:
+  - "Ruling: something decided. Cost if wrong: none."
+  - "REQUIRED BEFORE T099: the demo fetch recurses. Fix: pass --no-recurse. Cost if skipped: a marker executes."
+  - "minor (deferred) T002: the demo parser trims trailing blanks"
+  - "REQUIRED BEFORE T098: the demo cache is not cleared."

@@ -1,0 +1,4 @@
+# expect.tsv — the planted defects of this corpus, one per row: <location relative to planted/>\t<what is planted>
+# recall = (rows whose location the class reports) / (rows). A finding on a location not listed here is RECALL-UNEXPECTED.
+alpha.txt	the PLANTED-DEFECT marker inside a .txt file
+beta.md	the PLANTED-DEFECT marker inside a .md file

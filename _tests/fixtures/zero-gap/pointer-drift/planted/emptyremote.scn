@@ -1,0 +1,10 @@
+# pointer-drift scenario (feature 010, T022). The class materialises this file into a scratch
+# umbrella under $TMPDIR with LOCAL bare repositories as remotes (no network) and inspects it.
+# Grammar: docs in the header of scripts/zero-gap-class-pointer-drift.sh ("Corpus scenario grammar").
+# Commits: c1..cN linear on main; x1 on a side branch forked at c1 (present in the checkout);
+# y1 = a commit created in ONE remote only (absent from the checkout object store).
+# PLANTED: remote mirror advertises no HEAD and no branch at all (ls-remote succeeds, empty)
+sub e 2
+remote e mirror c2
+nohead e mirror empty
+dep e flat c2

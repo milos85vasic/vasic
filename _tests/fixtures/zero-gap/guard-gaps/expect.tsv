@@ -1,0 +1,6 @@
+# expect.tsv — planted defects: <location relative to planted/>	<what is planted>
+guarded:stash-all	catalogued as refused, the stub guard allows git stash
+guarded:add-all	catalogued as refused, the stub guard allows git add -A
+guarded:legit-diff	catalogued as allowed, the stub guard blocks git diff
+candidate:reset-hard	the row's command was softened to git reset, so no refused row covers the git reset --hard class
+candidate:update-ref-delete	the git update-ref -d class is catalogued allowed, so no refused row covers it

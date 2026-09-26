@@ -1,0 +1,5 @@
+# fixture registry
+scanroot	scripts
+check	chk-real	scripts/entry.sh	flag	--prove-failure	--root /nonexistent
+debt	chk-owed	scripts/owed.sh	proof	owed proof	operator	evidence	2030-01-01	abc
+exempt	scripts/exempt.sh	reason	operator	evidence	2030-01-01	abc

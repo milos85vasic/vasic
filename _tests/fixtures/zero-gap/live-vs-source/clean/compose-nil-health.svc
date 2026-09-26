@@ -1,0 +1,8 @@
+# live-vs-source corpus fixture: one service. Keys are read by scripts/zero-gap-class-live-vs-source.sh (corpus mode).
+# health_status=nil: the container has NO healthcheck object at all (podman 5.x .State.Health is a nil pointer);
+# an unguarded {{.State.Health.Status}} template fails on it, so the class must guard the template
+probe=compose
+status=running
+health_status=nil
+started=after
+exe=bind

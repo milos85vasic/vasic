@@ -1,0 +1,10 @@
+# pointer-drift scenario (feature 010, T022). The class materialises this file into a scratch
+# umbrella under $TMPDIR with LOCAL bare repositories as remotes (no network) and inspects it.
+# Grammar: docs in the header of scripts/zero-gap-class-pointer-drift.sh ("Corpus scenario grammar").
+# Commits: c1..cN linear on main; x1 on a side branch forked at c1 (present in the checkout);
+# y1 = a commit created in ONE remote only (absent from the checkout object store).
+# PLANTED: CLAUDE.md quotes only c1 of k (stale); AGENTS.md quotes the current gitlink c3 (clean).
+sub k 3
+dep k flat c3
+carrier CLAUDE.md k c1
+carrier AGENTS.md k c3

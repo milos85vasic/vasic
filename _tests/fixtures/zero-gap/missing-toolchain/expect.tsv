@@ -1,0 +1,13 @@
+# expect.tsv — planted defects: <location relative to planted/>	<what is planted>
+# recall = reported/planted; a finding elsewhere is RECALL-UNEXPECTED
+tool:ghosttool	catalogued tool absent from PATH (command -v probe)
+tool:libghost	catalogued library not installed (dpkg-query probe)
+tool:confirmedtool	absent tool whose UNCONFIRMED gate is confirmed by a verify script referencing it
+tool:docdrifttool	present tool that scratch CLAUDE.md still records as NOT INSTALLED (docs drift)
+derived:uncatalogued	verify script probes a tool that has no catalogue row and is absent
+derived:needtool	prove script needs a tool that has no catalogue row and is absent
+derived:whichtool	prove script which-probes a tool that has no catalogue row and is absent
+derived:multitool	probe followed two lines later by an undet call (severity high)
+derived:softtool	probe whose miss only prints a message (severity low)
+derived:twolinetool	probe whose exit 2 is two lines later, after a message line (severity high)
+derived:optionaltool	probe whose if-block only warns; an unrelated exit 2 after `fi` does not count (severity low)

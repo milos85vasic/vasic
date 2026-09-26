@@ -1,0 +1,21 @@
+# expect.tsv — planted defects of the pointer-drift corpus: <location relative to planted/>\t<what is planted>
+# A location is <scenario file>:<the location the class reports inside the scratch umbrella>.
+behind.scn:gitlink:be%20hind@origin	gitlink c2 is behind origin c3 (path with a blank)
+diverged.scn:gitlink:d@origin	gitlink c3 and origin x1 diverged
+undetermined.scn:gitlink:u@origin	origin tip y1 absent from the object store: differs, direction undetermined
+mirror-lag.scn:gitlink:m@mirror	second remote mirror lags (its tip c2 is an ancestor of the gitlink c3)
+second-remote.scn:gitlink:s@upstream	origin current, remote upstream ahead of the gitlink
+ahead-clone.scn:gitlink:a@origin	gitlink c3 not on the clone URL (origin tip c2 is its ancestor)
+pin-mismatch.scn:helix-deps:p	helix-deps.yaml ref c1 differs from the gitlink c3
+pushurl.scn:gitlink:q@origin:pushurl2	origin pushes to repository name helixq while fetching q
+undeclared.scn:gitlink:orphan	gitlink without a helix-deps.yaml entry or third-party record
+phantom-dep.scn:helix-deps:ghost	helix-deps.yaml dep whose path has no gitlink
+carrier.scn:carrier:CLAUDE.md@k	CLAUDE.md quotes commits of k, none of which is the gitlink
+thirdparty.scn:gitlink:vendor/lib@origin	third-party gitlink behind its origin (low)
+gmurl.scn:gitlink:g:gitmodules-url	the .gitmodules URL, fetched by no remote, is ahead of the gitlink
+noref.scn:helix-deps:n	helix-deps.yaml dep with no ref line
+nomanifest.scn:gitlink:z	helix-deps.yaml absent: the gitlink has no deps[] entry
+nobranch.scn:gitlink:b@mirror	remote mirror lacks the branch .gitmodules declares (dev)
+emptyremote.scn:gitlink:e@mirror	remote mirror advertises no HEAD and no branch
+pushtip.scn:gitlink:t@origin:pushurl1	origin pushurl 1 (same repository name) has a tip c1 that lags the gitlink c3
+lockstep.scn:carrier:CLAUDE.md@k2	four lockstep carriers quote a stale pin: one finding, also in AGENTS.md GEMINI.md QWEN.md

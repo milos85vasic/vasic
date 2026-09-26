@@ -1,0 +1,20 @@
+# pointer-drift scenario (feature 010, T022). The class materialises this file into a scratch
+# umbrella under $TMPDIR with LOCAL bare repositories as remotes (no network) and inspects it.
+# Grammar: docs in the header of scripts/zero-gap-class-pointer-drift.sh ("Corpus scenario grammar").
+# Commits: c1..cN linear on main; x1 on a side branch forked at c1 (present in the checkout);
+# y1 = a commit created in ONE remote only (absent from the checkout object store).
+# CLEAN: every remote, pushurl, dep ref, carrier and third-party entry agrees with the gitlink;
+# remote "mirror" advertises no HEAD and has one branch (that branch is its line, as on a gitflic mirror).
+sub alpha 3
+sub submodules/beta 2
+sub vendor/x 2
+remote alpha mirror c3
+nohead alpha mirror
+pushurl alpha origin ALPHA
+pushurl alpha mirror alpha
+dep alpha flat c3
+dep beta grouped c2
+thirdparty vendor/x
+carrier CLAUDE.md alpha c1
+carrier CLAUDE.md alpha c3
+carrier GEMINI.md submodules/beta c2

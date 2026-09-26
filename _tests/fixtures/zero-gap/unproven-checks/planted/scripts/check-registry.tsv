@@ -1,0 +1,19 @@
+# fixture registry (planted): every row below is a planted defect except ok-real
+scanroot	scripts
+scanroot	tools
+check	ok-real	scripts/ok-real.sh	flag	--prove-failure	--root /nonexistent
+check	miss-arm	scripts/miss-arm.sh	flag	--prove-failure	--root /nonexistent
+check	stub-arm	scripts/stub-arm.sh	flag	--prove-failure	--root /nonexistent
+check	dead-flag	scripts/dead-flag.sh	flag	--prove-failure	--root /nonexistent
+check	no-entry	scripts/no-entry.sh	flag	--prove-failure	--root /nonexistent
+check	no-sibling	scripts/ok-second.sh	sibling	scripts/absent_mutation_test.sh	--root /nonexistent
+check	bad-probe	scripts/bad-probe.sh	flag	--prove-failure	--root /nonexistent
+check	non-exec	scripts/nonexec.sh	flag	--prove-failure	--root /nonexistent
+debt	owed-proof	scripts/owed.sh	proof	fixture debt, review date in the future	operator	a paired proof lands	2999-12-31	deadbeef
+debt	lapsed-debt	scripts/lapsed.sh	proof	fixture debt, review date elapsed	operator	a paired proof lands	2020-01-01	deadbeef
+exempt	scripts/verify-lapsed-ex.sh	fixture exemption	operator	the file stops being a gate	2020-01-01	deadbeef
+exempt	scripts/verify-gatey.sh	fixture exemption	operator	the file stops being a gate	2999-12-31	deadbeef
+check	odd-kind	scripts/ok-real.sh	magic	--prove-failure	--root /nonexistent
+debt	bad-date	scripts/owed.sh	proof	fixture debt, review date malformed	operator	a paired proof lands	soon	deadbeef
+exempt	scripts/gone-exempt.sh	fixture exemption over a file that does not exist	operator	the file stops being a gate	2999-12-31	deadbeef
+exempt	scripts/exempt-baddate.sh	fixture exemption with a malformed review date	operator	the file stops being a gate	31/12/2999	deadbeef

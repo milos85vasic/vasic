@@ -1,0 +1,13 @@
+# toolchains.tsv — the tracked catalogue of host tools whose ABSENCE makes a gate exit 2 (feature 010).
+# Population source of the `missing-toolchain` sweep class (docs/zero-gap/sweep-classes.tsv): the class
+# probes each row on the host and registers every absent tool as an Operator-blocked item carrying the
+# install command below. Adding a tool is a data change here plus the class's corpus; nothing is hard-coded
+# in the class. `source` names the tracked document or gate that states the dependency (section, not line
+# number, because line numbers drift). The install commands are operator actions and are never run by a sweep.
+tool	probe	gate_that_needs_it	install_command	source
+tesseract	command -v tesseract	pre-push gate 5 (export validator visual.ocr check)	sudo apt-get install -y tesseract-ocr	CLAUDE.md, "Build and test entry points" (tesseract NOT INSTALLED, gate 5 exits 2)
+bundle	command -v bundle	pre-push gate 6 precondition (Jekyll build of milosvasic.ru)	gem install bundler (then bundle install inside milosvasic.ru)	CLAUDE.md, "Build and test entry points" (bundle, bundler and jekyll all absent)
+jekyll	command -v jekyll	pre-push gate 6 precondition (Jekyll build of milosvasic.ru)	bundle install inside milosvasic.ru	CLAUDE.md, "Build and test entry points" (bundle, bundler and jekyll all absent)
+libmanette-0.2-0	dpkg-query -W libmanette-0.2-0	pre-push gate 6 (Playwright webkit launch)	sudo apt-get install -y libmanette-0.2-0	CLAUDE.md, "Live-production test coverage" section: webkit blocked on libmanette-0.2-0 and libwoff1
+libwoff1	dpkg-query -W libwoff1	pre-push gate 6 (Playwright webkit launch)	sudo apt-get install -y libwoff1	CLAUDE.md, "Live-production test coverage" section: webkit blocked on libmanette-0.2-0 and libwoff1
+docker	command -v docker	UNCONFIRMED: no local gate measured to exit 2 on it; the class must establish whether any does before registering an item	operator decision: podman is the local runtime (docker is absent by design)	specs/010-zero-gap-verified-closure/tasks.md T026 (names docker) and CLAUDE.md "Host capability" (podman present, docker absent)

@@ -1,0 +1,12 @@
+[submodule "mod"]
+	path = mod
+	url = git@github.com:acme/mod.git
+[submodule "mod2"]
+	path = mod2
+	url = git@github.com:acme/mod2.git
+[submodule "ext"]
+	path = ext
+	url = git@github.com:other/ext.git
+[submodule "gov"]
+	path = gov
+	url = git@github.com:acme/gov.git

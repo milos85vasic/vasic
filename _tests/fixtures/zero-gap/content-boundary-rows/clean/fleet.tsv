@@ -1,0 +1,7 @@
+# fleet.tsv — the SYNTHETIC fleet of this CLEAN control, read by scripts/zero-gap-class-content-boundary-rows.sh --corpus.
+# <directory under this corpus><TAB><role: public|private><TAB><commit date, UTC, ISO-8601>
+# EVERY STRING IN THIS CORPUS IS SYNTHETIC AND WAS WRITTEN FOR IT; nothing is taken from any real private document.
+# Public committed BEFORE private: the shared text below is PROVABLY PUBLIC-FIRST, so the gate's direction pass
+# subtracts every co-occurring row and no row survives. A class that registered subtracted rows would fire here.
+priv	private	2020-01-01T00:00:00Z
+pub	public	2019-01-01T00:00:00Z

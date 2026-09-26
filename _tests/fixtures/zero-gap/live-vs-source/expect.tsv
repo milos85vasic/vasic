@@ -1,0 +1,14 @@
+# live-vs-source planted defects: <location relative to planted/> TAB <what is planted>
+stack-commit-mismatch.svc:commit	/api/health source_commit is the OLD commit, source HEAD is newer
+stack-dirty.svc:dirty	/api/health source_dirty=true (built from an uncommitted tree)
+stack-stamp-mismatch.svc:commit	no identity in /api/health; the running binary's vcs.revision is the OLD commit
+stack-stamp-dirty.svc:dirty	the running binary's vcs.modified=true
+stack-stamp-foreign.svc:stamp	the running binary's vcs.revision is not a commit of the source repository
+stack-no-identity-old.svc:stamp	neither /api/health nor the binary carries a source identity
+stack-no-identity-old.svc:build-age	with no identity, the binary is older than the source HEAD commit
+compose-unhealthy.svc:health	container running but its healthcheck reports unhealthy
+compose-started-before.svc:started	container with a bind-mounted source binary started before the source HEAD commit
+static-index-differs.svc:index	served / differs from HEAD:index.html of the tracked docroot
+static-build-stale.svc:build-age	a tracked source file is newer than the built docroot index.html
+static-build-wrong-root.svc:index	served / is not the built docroot index.html
+stack-no-identity-noexe.svc:stamp	no source_commit in /api/health and no running binary to read a stamp from

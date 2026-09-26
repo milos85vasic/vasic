@@ -1,0 +1,4 @@
+# lab claim ledger (clean control of the stale-figures class)
+surface	CLAUDE.md
+claim	lab-widgets	CLAUDE.md	prose	doc-vs-code-drift	minor	eq	-	declares \*\*(\d+)\*\* widgets	wc -l < data/widgets.txt
+claim	lab-checks	CLAUDE.md	prose	doc-vs-code-drift	minor	eq	-	holds \*\*(\d+)\*\* checks	grep -c . data/checks.txt

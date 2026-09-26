@@ -1,0 +1,14 @@
+# guarded-commands.tsv — corpus catalogue. DANGER-OK: every command cell is probe DATA piped to a stub guard, never executed.
+# candidate: the ERE naming the dangerous command class the row stands for (`-` = none); a refused row's command must match it.
+id	command	expected	source	candidate
+checkout-discard	git checkout -- .	refused	corpus	git checkout --( |$)
+restore-discard	git restore .	refused	corpus	git restore
+stash-all	git stash	refused	corpus (stub guard lets this through: planted)	git stash
+clean-force-dirs	git clean -fd	refused	corpus	git clean -fd
+add-all	git add -A	refused	corpus (stub guard lets this through: planted)	git add -A
+reset-hard	git reset	refused	corpus (command softened below its class: planted candidate drift)	git reset --hard
+force-push	git push --force origin main	refused	corpus	git push --force( |$)
+force-with-lease	git push --force-with-lease origin main	refused	corpus	--force-with-lease
+no-verify	git push --no-verify origin main	refused	corpus	--no-verify
+update-ref-delete	git update-ref -d refs/heads/main	allowed	corpus (dangerous class flipped to allowed: planted candidate drift)	git update-ref -d
+legit-diff	git diff --stat	allowed	corpus (stub guard wrongly blocks this: planted)	-

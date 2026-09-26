@@ -1,0 +1,5 @@
+deferred:
+  - "minor (deferred) T001: parser stores NULL when the file changes mid-read (refuse with rc 0 when the digest is empty)"
+  - "minor (deferred) T002 N1: percent-encoded keys pass the policy"
+  - "minor (deferred) T003: Improvement: the audit walk misses symlinked directories."
+  - "Ruling (T999): the row was widened to add the `minor (deferred)` lines of this file, mid-line mention only."

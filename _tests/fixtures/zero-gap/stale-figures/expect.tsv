@@ -1,0 +1,21 @@
+# expect.tsv — planted defects of the stale-figures corpus: <location relative to planted/>	<what is planted>
+# figure:<doc>:<line> is one recorded figure on that line (a ledger-verified FALSE figure, or an
+# unledgered figure stating a verification status / rc: medium); figures:<doc> is the ONE aggregate
+# finding for every LOW unledgered figure of that document (--prove-failure asserts its line list);
+# claim:<id> is a row of planted/docs/claim-ledger.tsv. planted/docs/** holds near-misses only: since
+# the boundary ruling (progress.yml reconcile 6) docs/**/*.md belongs to doc-count-drift.
+figure:CLAUDE.md:5	the seed's own unledgered "exits 0" on the line before the ledgered figure (rc shape, medium)
+figure:CLAUDE.md:6	KNOWN SEED (2026-09-25): ledgered --run-proofs figure 65 PASS, re-measure says 120 (ledger row FALSE, severity high)
+figures:CLAUDE.md	LOW aggregate: 42 checks (line 8), 7 anchors (line 12; its identical mirror line in AGENTS.md is deduped onto this one), 1,804,638 bytes (line 14)
+figure:CLAUDE.md:16	the exit/rc shape: an unledgered "exits **1**" (medium)
+figures:AGENTS.md	LOW aggregate: a mirror-carrier line that DRIFTED from CLAUDE.md (40 vs 42 checks), so it is not deduped
+figures:QWEN.md	LOW aggregate: the NN of NN shape with no ledger row
+figures:GEMINI.md	LOW aggregate: the NN/NN shape with no ledger row
+figure:README.md:3	KNOWN SEED as an unledgered line: 65 PASS / 0 FAIL recorded with no re-measure command (medium)
+figures:README.md	LOW aggregate: a comma-grouped count (line 5); the hex-only line 7 is NOT a figure
+figure:README.md:9	the rc=N shape with no ledger row (medium)
+figure:CONTINUATION.md:3	an unledgered CURRENT/DRIFT split (medium)
+claim:lab-orphan	a ledger row whose anchor matches nothing (ORPHAN)
+claim:lab-untyped	a ledger row whose bluff type is outside the closed vocabulary (UNTYPED)
+claim:lab-malformed	a ledger row with 9 tab-separated fields (MALFORMED)
+claim:lab-dup	a ledger claim id used by two rows (not unique)

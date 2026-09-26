@@ -145,49 +145,53 @@ without a captured RED is not done.
 ## Phase 3: User Story 1 — one complete, machine-derived register (P1) 🎯 MVP
 
 Each class task T019–T034 owns ONLY `scripts/zero-gap-class-<id>.sh` plus its corpus under
-`_tests/fixtures/zero-gap/<id>/`; the TSV and registry rows were pre-seeded by T017.
+`_tests/fixtures/zero-gap/<id>/`; its `docs/zero-gap/sweep-classes.tsv` row was pre-seeded by T017, and its
+`scripts/check-registry.tsv` row is APPENDED by the class task itself as exactly one line (the command is in
+`docs/zero-gap/README.md` "Registering a class"). Class implementers never stage or commit anything; the
+controller makes ONE commit for the whole class wave once every script and row exist and
+`bash scripts/verify-check-registry.sh` exits 0.
 
 **Goal**: one deterministic sweep that produces the register, states each class's recall, and lists
 what it could not inspect.
 **Independent Test**: two sweeps on an unchanged fingerprinted state are byte-identical; a planted
 defect per class appears; an uninspectable part is listed, never clean.
 
-- [ ] T017 [TDD] [US1] (pre-seeds ALL class rows in `docs/zero-gap/sweep-classes.tsv` and their `scripts/check-registry.tsv` rows so class tasks share no file) Runner `scripts/zero-gap-sweep.sh` per `contracts/sweep-runner.md`
+- [x] T017 [TDD] [US1] (pre-seeds ALL class rows in `docs/zero-gap/sweep-classes.tsv`; registry rows cannot be pre-seeded for scripts that do not exist yet (R3/R2 fail, measured), so each class task appends its own one-line `scripts/check-registry.tsv` row, nobody stages, and the controller makes one wave commit) Runner `scripts/zero-gap-sweep.sh` per `contracts/sweep-runner.md`
   (`--class --json --out --expect-fingerprint --prove-failure`; findings sorted; per-class table;
   fingerprint pair; `COULD-NOT-INSPECT` lines) and the data file `docs/zero-gap/sweep-classes.tsv`
   (schema in data-model.md). RED: an empty class list, a missing entrypoint, and a moving tree each yield rc 2.  _Covers: FR-001, FR-003, FR-005, FR-012._
-- [ ] T018 [TDD] [US1] (same file as T017, so serial) Recall engine inside the runner: recall = planted-found / planted from each
+- [x] T018 [TDD] [US1] (same file as T017, so serial) Recall engine inside the runner: recall = planted-found / planted from each
   class's corpus; `recall=UNKNOWN` printed next to every "no findings" for a class without a corpus.  _Covers: FR-004, SC-002._
-- [ ] T019 [P] [SUBAGENT] [TDD] [US1] Class `stale-figures`: extends `scripts/verify-claim-ledger.sh`
+- [x] T019 [P] [SUBAGENT] [TDD] [US1] Class `stale-figures`: extends `scripts/verify-claim-ledger.sh`
   toward `--completeness` (recorded counts in carriers, CONTINUATION.md, docs) with a planted-stale corpus.  _Covers: FR-001._
-- [ ] T020 [P] [SUBAGENT] [TDD] [US1] Class `vacuous-gates`: gates that pass on an empty population or run
+- [x] T020 [P] [SUBAGENT] [TDD] [US1] Class `vacuous-gates`: gates that pass on an empty population or run
   zero cases; corpus of empty-population fixtures.  _Covers: FR-001._
-- [ ] T021 [P] [SUBAGENT] [TDD] [US1] Class `unproven-checks`: any check without a paired
+- [x] T021 [P] [SUBAGENT] [TDD] [US1] Class `unproven-checks`: any check without a paired
   `--prove-failure`; built on `check-registry.tsv`.  _Covers: FR-001, FR-013, SC-007._
-- [ ] T022 [P] [SUBAGENT] [TDD] [US1] Class `pointer-drift`: gitlink vs `helix-deps.yaml` vs remote for
+- [x] T022 [P] [SUBAGENT] [TDD] [US1] Class `pointer-drift`: gitlink vs `helix-deps.yaml` vs remote for
   ALL configured remotes (not only `origin`), and vs carriers.  _Covers: FR-001._
-- [ ] T023 [P] [SUBAGENT] [TDD] [US1] Class `content-boundary-rows`: registers the RED rows of
+- [x] T023 [P] [SUBAGENT] [TDD] [US1] Class `content-boundary-rows`: registers the RED rows of
   `scripts/verify-content-boundary.sh` as items by count and path class; NEVER allow-lists them.  _Covers: FR-001._
-- [ ] T024 [P] [SUBAGENT] [TDD] [US1] Class `live-vs-source`: running binary/stamp vs `HEAD` for workshop
+- [x] T024 [P] [SUBAGENT] [TDD] [US1] Class `live-vs-source`: running binary/stamp vs `HEAD` for workshop
   (`/api/health` build id) and ai_interviewing; population_kind `wire`.  _Covers: FR-001, FR-017._
-- [ ] T025 [P] [SUBAGENT] [TDD] [US1] Class `build-if-missing`: start scripts that build only a missing
+- [x] T025 [P] [SUBAGENT] [TDD] [US1] Class `build-if-missing`: start scripts that build only a missing
   binary (ai_interviewing `platform/scripts/start.sh:17` is the known seed).  _Covers: FR-001._
-- [ ] T026 [P] [SUBAGENT] [TDD] [US1] Class `missing-toolchain`: gates that exit 2 for an absent tool
+- [x] T026 [P] [SUBAGENT] [TDD] [US1] Class `missing-toolchain`: gates that exit 2 for an absent tool
   (tesseract, webkit libraries, bundle, jekyll, docker) → `Operator-blocked` items with the exact install command.  _Covers: FR-001._
-- [ ] T027 [P] [SUBAGENT] [TDD] [US1] Class `unregistered-scripts`: R5 as a sweep class across all owned scanroots.  _Covers: FR-001._
-- [ ] T028 [P] [SUBAGENT] [TDD] [US1] Class `unsealed-evidence`: gates that produce no sealed record.  _Covers: FR-001._
-- [ ] T029 [P] [SUBAGENT] [TDD] [US1] Class `untracked-blind-window`: gates over "the repo" that ignore
+- [x] T027 [P] [SUBAGENT] [TDD] [US1] Class `unregistered-scripts`: R5 as a sweep class across all owned scanroots.  _Covers: FR-001._
+- [x] T028 [P] [SUBAGENT] [TDD] [US1] Class `unsealed-evidence`: gates that produce no sealed record.  _Covers: FR-001._
+- [x] T029 [P] [SUBAGENT] [TDD] [US1] Class `untracked-blind-window`: gates over "the repo" that ignore
   untracked-not-ignored files without stating it.  _Covers: FR-001._
-- [ ] T030 [P] [SUBAGENT] [TDD] [US1] Class `private-in-public`: FR-020 scan reused as a sweep class
+- [x] T030 [P] [SUBAGENT] [TDD] [US1] Class `private-in-public`: FR-020 scan reused as a sweep class
   (credentials, guessing language, private text) over public records.  _Covers: FR-001, FR-020._
-- [ ] T031 [P] [SUBAGENT] [TDD] [US1] Class `doc-count-drift`: documented counts vs measured counts
+- [x] T031 [P] [SUBAGENT] [TDD] [US1] Class `doc-count-drift`: documented counts vs measured counts
   (e.g. workshop `CLAUDE.md` gate counts).  _Covers: FR-001._
-- [ ] T032 [P] [SUBAGENT] [TDD] [US1] Class `coverage-gaps`: registers every `gap` cell from the
+- [x] T032 [P] [SUBAGENT] [TDD] [US1] Class `coverage-gaps`: registers every `gap` cell from the
   coverage map (needs T052's coverage data; until then the baseline T036 records this class as `COULD-NOT-INSPECT`, never clean).  _Covers: FR-001._
-- [ ] T033 [P] [SUBAGENT] [TDD] [US1] Class `guard-gaps`: destructive commands the PreToolUse guard does
+- [x] T033 [P] [SUBAGENT] [TDD] [US1] Class `guard-gaps`: destructive commands the PreToolUse guard does
   not block (`git checkout --`, `restore`, `stash`, `clean -fd`, `add -A`) — third-party/constitution code,
   so registered `classified: third-party` with the reporting route (FR-021).  _Covers: FR-001, FR-021._
-- [ ] T034 [P] [SUBAGENT] [TDD] [US1] Class `known-open-decisions`: the operator-decision backlog
+- [x] T034 [P] [SUBAGENT] [TDD] [US1] Class `known-open-decisions`: the operator-decision backlog
   (behind-remote submodules, indexed evaluation artefacts, question-shape leak, oomd, Lumen leg,
   `GIT_OPTIONAL_LOCKS`, provider-CI unverified rows) as items with options and cost (FR-009).  _Covers: FR-001, FR-009._
 - [ ] T035 [TDD] [US1] Determinism harness `scripts/zero-gap-determinism.sh` (`--check <id>`; N=5

@@ -1,0 +1,10 @@
+# expect.tsv — planted defects of the content-boundary-rows corpus: <location relative to planted/><TAB><what is planted>
+# A location is <public path class>:<gate class>; the path class is the public repository path plus at most two leading
+# directory segments of the file inside it (a file at the repository's top level is its own path class).
+# Every string is SYNTHETIC. planted/fleet.tsv commits the private side first, so every row below is private-first and KEPT.
+pub/docs/guide:prose	two private prose runs quoted in pub/docs/guide/leak.md, one from priv (harbour lanterns) and one from priv2 (ferry timetable): ONE group whose description names BOTH private sources
+pub/README.md:prose	a ten-token private prose run (mill wheel sentence) quoted in a top-level public file
+pub/notes:short	a private HEADING (five to nine tokens) reproduced as a public list item in pub/notes/log.md
+pub/people.md:name	an invented private-only personal name reproduced in a public file (counted, never printed)
+pub/data:fingerprint	a synthetic serial-like identifier (fingerprint class) from priv reproduced in a public table (counted, never printed)
+handbook/crew:prose	a private prose run (ropewalk sentence) quoted in the UMBRELLA repository `.`: its path class carries no repository prefix

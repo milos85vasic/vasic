@@ -1,0 +1,6 @@
+# clean control: a YAML record whose rulings are double-quoted sentences (synthetic)
+rulings:
+  - "Ruling: the class reads tracked and untracked-not-ignored files. Cost if wrong: a record written but not committed is missed."
+  - "Measured: 2 hits on the live tree, recorded by count and path only."
+  - "Ruling: the start script ai_interviewing/platform/scripts/start.sh rebuilds a missing binary; it is reported by path and line only, never quoted."
+  - "Real defects surfaced so far: workshop/platform/scripts/restart.sh:17 and monetization/tools/build.sh:4 (paths only, nothing copied)."

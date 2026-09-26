@@ -1,0 +1,19 @@
+# expect.tsv - planted defects: <location relative to planted/> TAB <what is planted>
+check:miss-arm	proof-arg names --prove-failure but the entry has no such case arm
+check:stub-arm	proof arm only echoes and exits 0
+check:dead-flag	proof arm sets a variable nothing reads
+check:no-entry	entry-point file does not exist
+check:no-sibling	sibling proof path does not exist
+check:bad-probe	undetermined probe exits 0 instead of 2
+check:non-exec	entry-point is not executable
+debt:owed-proof	debt row: declared without proof
+debt:lapsed-debt	debt row with elapsed next_review
+exempt:scripts/verify-lapsed-ex.sh	exempt row with elapsed next_review
+exempt:scripts/verify-gatey.sh	gate-like exempt row declared without proof
+tools/sub/verify-noproof.sh	gate-like script outside R5 depth with no proof arm
+check:odd-kind	proof-kind outside the closed vocabulary flag|sibling
+debt:bad-date	debt row whose next_review is not an ISO date
+exempt:scripts/gone-exempt.sh	exempt row naming a file that does not exist
+exempt:scripts/exempt-baddate.sh	exempt row whose next_review is not an ISO date
+tools/sub/verify-stubarm.sh	gate-like script outside R5 depth whose proof arm is a stub
+.specify/scripts/check-unmarked.sh	gate-like .specify/scripts helper outside the ruled spec-kit bash/ tree, with no proof

@@ -1,0 +1,5 @@
+#!/bin/sh
+# scratch stub: reports libpresent as installed, every other package as unknown
+for a in "$@"; do p=$a; done
+if [ "$p" = libpresent ]; then printf 'install ok installed'; exit 0; fi
+exit 1

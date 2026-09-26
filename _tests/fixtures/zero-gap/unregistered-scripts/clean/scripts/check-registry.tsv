@@ -1,0 +1,6 @@
+# check-registry.tsv (corpus copy)
+scanroot	scripts
+check	registered	scripts/registered.sh	flag	--prove-failure	--root /nonexistent
+exempt	scripts/exempted.sh	installer, not a check	operator	evidence	2099-01-01	deadbeef
+check	referenced	other/referenced.sh	flag	--prove-failure	--root /nonexistent
+check	deepok	scripts/deep/ok.sh	flag	--prove-failure	--root /nonexistent

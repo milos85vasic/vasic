@@ -1,0 +1,7 @@
+# live-vs-source corpus fixture: one service. Keys are read by scripts/zero-gap-class-live-vs-source.sh (corpus mode).
+probe=stack
+health={"ok":true,"version":"1.0.0"}
+exe=present
+stamp_revision=@FOREIGN@
+stamp_modified=false
+exe_age=new

@@ -1,0 +1,6 @@
+# location (relative to planted/)	what is planted
+audit-command-substitution.sh:3	content audit enumerates tracked files via command substitution, no untracked read, no documented limit
+audit-loop-over-list.sh:8	content audit loops over ls-files output only, no untracked read, no documented limit
+audit-piped-list.sh:5	content audit lists files through a piped ls-files function, no untracked read, no documented limit
+echo-mentions-others.sh:4	an echo line naming --others must not count as a covering read
+xargs-in-assignment.sh:3	var=$(git ls-files | xargs ...) opens every tracked file inside the assignment

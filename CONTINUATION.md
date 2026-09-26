@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-25T09:09:00Z
-    Synced-Commit: a0e6ac811c18
+    Last-Updated: 2026-09-26T06:40:00Z
+    Synced-Commit: 3532d730a919
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,30 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### SPEC 010 PHASE 3 IMPLEMENTED AND REVIEWED (runner + 17 sweep classes), 2026-09-26 — awaiting the wave commit result, then T035-T038
+
+Delivered through `/speckit-superspec-execute` with subagent-driven development: the sweep runner
+(`scripts/zero-gap-sweep.sh`, contract in `specs/010-zero-gap-verified-closure/contracts/sweep-runner.md`,
+README rev 4) and all 17 class scripts `scripts/zero-gap-class-<id>.sh`, each with a planted and a clean
+corpus under `_tests/fixtures/zero-gap/<id>/`, a `--prove-failure` proof and one registry row.
+Every class had an independent Opus review and one fix round; the runner had three rounds and a scoped
+re-review. Measured this session: `bash scripts/verify-check-registry.sh` rc 0 at 122 PASS, and
+`bash scripts/audit-hardcoded-paths.sh` rc 0. The runner battery was 128 passed / 0 failed in a quiet
+mirror. The live register `docs/workable_items.db` is unchanged (sha256 prefix `9413fd96f2647c63`).
+
+Rulings and the full review trail are in `specs/010-zero-gap-verified-closure/progress.yml`. Standing facts:
+1. `content-boundary-rows` reports rc 2 (cache absent) in every sweep until the ONE-TIME cache refresh
+   (a 36-minute gate run on a frozen copy) done inside T036.
+2. Baseline sweep (T036) MUST run on a quiet or frozen real copy; a moving tree makes the runner report UNSTABLE rc 2.
+3. Residual runner limits, documented: an escapee that drops `ZG_RUN` and leaves its process group is not
+   found (a cgroup scope is the only containment; adopting it is a design decision), and `BASH_ENV`/`ENV`/
+   `SHELLOPTS=noexec` reach the runner's first bash, so consumers must require the `VERDICT HOLDS rc=0` line.
+4. Real defects the classes surfaced (feed T038, none fixed here): guard-gaps 16 live guard gaps (upstream
+   guard, REPORT not patch); a literal password in a public spec; vacuous gate `scripts/test-setup-agents-wizard.sh:1543`
+   and `scripts/audit/zero_findings_sweep.sh:525`; rebuild traps in several start/ingest scripts; stale carrier figures.
+Next: T035 determinism harness, T036 baseline sweep on a frozen copy, T037 `report --by-module`, T038 review
+checkpoint (operator sizes the improvement scope), then the operator's phase approval for Phase 4.
 
 ### SPEC 010 PHASE 2 COMPLETE (foundation), 2026-09-25 (night) — awaiting the operator's phase checkpoint
 
