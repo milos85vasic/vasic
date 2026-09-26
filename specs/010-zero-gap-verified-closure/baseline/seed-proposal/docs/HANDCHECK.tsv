@@ -1,0 +1,75 @@
+item_id	location	verdict	how
+DROPPED	decision:specs/010-zero-gap-verified-closure/progress.yml:68	PASS (drop confirmed)	line 68 of progress.yml at f05817ba is the rev-register class-review log entry, not an operator decision
+DROPPED	decision:specs/010-zero-gap-verified-closure/progress.yml:77	PASS (drop confirmed)	line 77 of progress.yml at f05817ba is the register class fix-round report, not an operator decision
+G-doc-count-drift-01	workshop/CLAUDE.md:101	PASS	workshop/CLAUDE.md:101 records 23 verify-*.sh; git -C workshop ls-files platform/gates/verify-*.sh (direct entries) = 101; AGENTS/QWEN/GEMINI copies share the line
+G-doc-count-drift-01	workshop/CLAUDE.md:167	PASS	workshop/CLAUDE.md:167 records 20 *.sh; git -C workshop ls-files scripts/*.sh (direct entries) = 47
+G-doc-count-drift-01	workshop/docs/work-register.md:26	PASS	records 1,373 lines; wc -l of workshop/docs/knowledge-model-contract.md = 1372
+G-doc-count-drift-02	docs/constitution-adoption/INVENTORY.md:137	PASS	records 7 submodules; submodules/constitution/.gitmodules path entries = 23
+G-doc-count-drift-02	docs/constitution-adoption/INVENTORY.md:81	PASS	records 11,101 lines; wc -l submodules/constitution/Constitution.md = 11894
+G-doc-count-drift-03	docs/zero-gap/module-page-walkthrough.md:91	PASS (false positive confirmed)	"8 submodules" counts the V-G8 roster gaps (a subset), not the .gitmodules total the class compares with
+G-doc-count-drift-03	specs/008-unified-workshop-platform/tasks.md:3607	PASS (dated confirmed)	the task note on this line carries "Measured 2026-09-03": a dated measurement
+G-doc-count-drift-03	specs/008-unified-workshop-platform/tasks.md:3608	PASS (dated confirmed)	the task note on this line carries "Measured 2026-09-03": a dated measurement
+G-doc-count-drift-04	figures:docs/BADGES.md	PASS	document docs/BADGES.md exists (umbrella@f05817ba) and its first listed line 84 carries a number
+G-doc-count-drift-04	figures:docs/setup-agents-wizard/ARCHITECTURE.md	PASS	document docs/setup-agents-wizard/ARCHITECTURE.md exists (umbrella@f05817ba) and its first listed line 429 carries a number
+G-doc-count-drift-04	figures:docs/zero-gap/module-page-walkthrough.md	PASS	document docs/zero-gap/module-page-walkthrough.md exists (umbrella@f05817ba) and its first listed line 84 carries a number
+G-doc-count-drift-05	figures:specs/001-workshop-curriculum-platform/checklists/requirements.md	PASS	document specs/001-workshop-curriculum-platform/checklists/requirements.md exists (umbrella@f05817ba) and its first listed line 38 carries a number
+G-doc-count-drift-05	figures:specs/004-authored-ai-areas/plan.md	PASS	document specs/004-authored-ai-areas/plan.md exists (umbrella@f05817ba) and its first listed line 72 carries a number
+G-doc-count-drift-05	figures:specs/010-zero-gap-verified-closure/tasks.md	PASS	document specs/010-zero-gap-verified-closure/tasks.md exists (umbrella@f05817ba) and its first listed line 230 carries a number
+G-doc-count-drift-06	figures:workshop/CLAUDE.md	PASS	document workshop/CLAUDE.md exists (checkout) and its first listed line 89 carries a number
+G-doc-count-drift-06	figures:workshop/docs/session-evidence/phase3e-r3-decisions-29-32.md	PASS	document workshop/docs/session-evidence/phase3e-r3-decisions-29-32.md exists (checkout) and its first listed line 29 carries a number
+G-doc-count-drift-06	figures:workshop/docs/work-register.md	PASS	document workshop/docs/work-register.md exists (checkout) and its first listed line 48 carries a number
+G-doc-count-drift-07	figures:ai_interviewing/docs/improvement-plans/02-helixqa.md	PASS	document ai_interviewing/docs/improvement-plans/02-helixqa.md exists (checkout) and its first listed line 18 carries a number
+G-doc-count-drift-07	figures:ai_interviewing/docs/project-deep-dives/03-helixtrack.md	PASS	document ai_interviewing/docs/project-deep-dives/03-helixtrack.md exists (checkout) and its first listed line 167 carries a number
+G-doc-count-drift-07	figures:ai_interviewing/docs/validation-plans/37-atmosphere-android-15.md	PASS	document ai_interviewing/docs/validation-plans/37-atmosphere-android-15.md exists (checkout) and its first listed line 16 carries a number
+G-doc-count-drift-08	figures:submodules/qa/README.md	PASS	document submodules/qa/README.md exists (checkout) and its first listed line 300 carries a number
+G-doc-count-drift-08	figures:submodules/qa/docs/plans/2026-04-18-openclawing2-integration-plan.md	PASS	document submodules/qa/docs/plans/2026-04-18-openclawing2-integration-plan.md exists (checkout) and its first listed line 5 carries a number
+G-doc-count-drift-08	figures:submodules/qa/docs/upgrade.md	PASS	document submodules/qa/docs/upgrade.md exists (checkout) and its first listed line 1142 carries a number
+G-doc-count-drift-09	figures:monetization/specs/001-monetization-portfolio-analysis/checklists/requirements.md	PASS	document monetization/specs/001-monetization-portfolio-analysis/checklists/requirements.md exists (checkout) and its first listed line 71 carries a number
+G-doc-count-drift-09	figures:monetization/specs/001-monetization-portfolio-analysis/quickstart.md	PASS	document monetization/specs/001-monetization-portfolio-analysis/quickstart.md exists (checkout) and its first listed line 119 carries a number
+G-doc-count-drift-09	figures:monetization/specs/001-monetization-portfolio-analysis/tasks.md	PASS	document monetization/specs/001-monetization-portfolio-analysis/tasks.md exists (checkout) and its first listed line 154 carries a number
+G-doc-count-drift-10	figures:submodules/challenges/docs/qa/w1_two_sum_vector_uniqueness_fix_20260711T160538Z/README.md	PASS	document submodules/challenges/docs/qa/w1_two_sum_vector_uniqueness_fix_20260711T160538Z/README.md exists (checkout) and its first listed line 49 carries a number
+G-doc-count-drift-10	figures:submodules/llms_verifier/docs/qa/fallback_models_cache_race_20260711/EVIDENCE.md	PASS	document submodules/llms_verifier/docs/qa/fallback_models_cache_race_20260711/EVIDENCE.md exists (checkout) and its first listed line 33 carries a number
+G-doc-count-drift-10	figures:submodules/verdict/README.md	PASS	document submodules/verdict/README.md exists (checkout) and its first listed line 131 carries a number
+G-improvement-candidates-01	candidate:docs/OPERATOR-DECISIONS-2026-09-08.md:27	PASS	row 16 of the 2026-09-08 decision table: decided ("Audit them all"), status DECIDED, no execution evidence in the row
+G-improvement-candidates-01	candidate:docs/workable_items.db:VSC-028	PASS	DB copy (mode=ro, immutable): VSC-028 Task, status Queued; same decision (2026-09-08 #16) as the document row => one item
+G-improvement-candidates-02	candidate:docs/OPERATOR-DECISIONS-2026-09-09.md:461	PASS	the bullet names three findings from #12 "not yet decided" and states row repair is a separate operator decision
+G-improvement-candidates-03	candidate:specs/010-zero-gap-verified-closure/progress.yml:42	PASS	line 42 at f05817ba is the T008 minor (deferred) evidence_sha256-NULL entry
+G-improvement-candidates-03	candidate:specs/010-zero-gap-verified-closure/progress.yml:45	PASS	line 45 at f05817ba is the T008 minor (deferred) duplicate-JSON-keys entry
+G-improvement-candidates-03	candidate:specs/010-zero-gap-verified-closure/progress.yml:47	PASS	line 47 at f05817ba is the T008 minor (deferred) O_NOFOLLOW parent-component entry
+G-improvement-candidates-04	candidate:specs/010-zero-gap-verified-closure/progress.yml:51	PASS	line 51 at f05817ba is T014 N1 (percent-encoded query keys)
+G-improvement-candidates-04	candidate:specs/010-zero-gap-verified-closure/progress.yml:52	PASS	line 52 at f05817ba is T014 N2 (names outside the list)
+G-improvement-candidates-05	candidate:specs/010-zero-gap-verified-closure/progress.yml:55	PASS	line 55 at f05817ba is T014 N5 (fact_sha256 covers only the adapter)
+G-improvement-candidates-06	candidate:specs/010-zero-gap-verified-closure/progress.yml:54	PASS	line 54 at f05817ba is T014 N4 (--build-bins drops an un-ignored binary)
+G-improvement-candidates-07	candidate:docs/workable_items.db:VSC-285	PASS	DB copy: status Queued, title carries BLOCKED; 0 items in the DB have status Operator-blocked
+G-improvement-candidates-07	candidate:docs/workable_items.db:WSP-151	PASS	DB copy: status Queued, title carries BLOCKED
+G-improvement-candidates-08	candidate:docs/workable_items.db:VSC-070	PASS	DB copy: Task, Queued
+G-improvement-candidates-08	candidate:docs/workable_items.db:WSP-028	PASS	DB copy: Task, Queued
+G-improvement-candidates-08	candidate:docs/workable_items.db:WSP-125	PASS	DB copy: Task, Queued
+G-known-open-decisions-01	decision:docs/OPERATOR-DECISIONS-2026-09-07.md:30	PASS	row 16 of the 2026-09-07 table has status PENDING and names one action, no option list or cost
+G-pointer-drift-01	carrier:CLAUDE.md@design-toolkit	PASS	git ls-files -s design-toolkit = 4ddc9645d140; grep -c 4ddc964 CLAUDE.md = 0
+G-pointer-drift-01	carrier:CLAUDE.md@submodules/curriculum-kit	PASS	gitlink a57d6f157f18; grep -c a57d6f1 CLAUDE.md = 0
+G-pointer-drift-01	carrier:CLAUDE.md@workshop	PASS	gitlink e076fa6aa26f; grep -c e076fa6 CLAUDE.md = 0; tail -n +19 CLAUDE.md == tail -n +19 AGENTS.md (lockstep)
+G-pointer-drift-02	gitlink:milosvasic.ru@origin:pushurl1	PASS	git -C milosvasic.ru remote -v: origin fetches milosvasic.ru, pushes to two differently named repositories
+G-pointer-drift-02	gitlink:submodules/qa@origin:pushurl1	PASS	remote.origin.pushurl (3 values) name helixqa/HelixQA while origin fetches qa
+G-pointer-drift-02	gitlink:submodules/qa@origin:pushurl3	PASS	third pushurl present (github vasic-digital/HelixQA)
+G-pointer-drift-03	gitlink:submodules/LLMProvider@github	PASS	gitlink 4c73c8b0dfc6; ls-remote origin HEAD e05ec64ebc48 (read-only, 2026-09-26)
+G-pointer-drift-03	gitlink:submodules/LLMProvider@origin	PASS	same as above
+G-pointer-drift-03	gitlink:submodules/LLMProvider@upstream	PASS	upstream URL = the same github repository as origin/github
+G-pointer-drift-04	gitlink:submodules/llm_provider@origin	PASS	gitlink f29fe2439c81; ls-remote origin HEAD e05ec64ebc48
+G-pointer-drift-05	gitlink:submodules/llms_verifier@origin	PASS	gitlink 2c6602c78931; ls-remote origin HEAD 8f2090acb907
+G-pointer-drift-06	gitlink:submodules/constitution@gitflic	PASS	gitlink f8afb98ab0eb; remote tip MOVED again since the baseline
+G-pointer-drift-06	gitlink:submodules/constitution@origin	PASS	ls-remote origin HEAD now 0ff780dc4e4f (baseline read 647f7553533a): still differs
+G-pointer-drift-06	gitlink:submodules/constitution@vasic_digital_gitlab	PASS (pin re-read; this remote not re-probed today)	gitlink f8afb98ab0eb re-read; only origin was re-probed with ls-remote
+G-stale-figures-01	figure:README.md:3	PASS	line 3 of README.md at f05817ba carries the figure token '23'; README.md:3 at HEAD still reads zero%20findings-23; the ledger re-measure command (bash scripts/audit/zero_findings_sweep.sh | class=TOTAL live=) printed 41 on 2026-09-26 in this session
+G-stale-figures-02	figure:CLAUDE.md:110	PASS	line 110 of CLAUDE.md at f05817ba carries the figure token '1 DRIFT'
+G-stale-figures-02	figure:CLAUDE.md:1607	PASS	line 1607 of CLAUDE.md at f05817ba carries the figure token 'exits 1'
+G-stale-figures-02	figures:CLAUDE.md	PASS	document CLAUDE.md exists (umbrella@f05817ba) and its first listed line 148 carries a number
+G-stale-figures-03	figure:CONTINUATION.md:10029	PASS	line 10029 of CONTINUATION.md at f05817ba carries the figure token 'exit 0'
+G-stale-figures-03	figure:CONTINUATION.md:4316	PASS	line 4316 of CONTINUATION.md at f05817ba carries the figure token 'rc 0'
+G-stale-figures-03	figure:CONTINUATION.md:985	PASS	line 985 of CONTINUATION.md at f05817ba carries the figure token '8 PASS'
+G-stale-figures-04	figure:CONTINUATION.md:11134	PASS	line 11134 of CONTINUATION.md at f05817ba carries the figure token 'rc=1'
+G-stale-figures-04	figure:CONTINUATION.md:167	PASS	line 167 of CONTINUATION.md at f05817ba carries the figure token 'exit 0'
+G-stale-figures-04	figures:CONTINUATION.md	PASS	document CONTINUATION.md exists (umbrella@f05817ba) and its first listed line 131 carries a number
+G-stale-figures-05	figure:README.md:373	PASS	line 373 of README.md at f05817ba carries the figure token 'exits 1'
+G-stale-figures-05	figure:README.md:436	PASS	line 436 of README.md at f05817ba carries the figure token 'exits 1'
+G-stale-figures-05	figure:README.md:714	PASS	line 714 of README.md at f05817ba carries the figure token 'exits 1'

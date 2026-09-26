@@ -492,7 +492,14 @@ Open, needs the operator:
    patterns; live-population recall UNMEASURED.'
 4. `content-boundary-rows` is a point-in-time snapshot from copy `50470448`; its cache is stale by design and
    refreshing it needs a 36-minute gate run on a frozen copy (copy recipe loses `.remember/.gitignore`: known defect).
-5. Known residuals: an escapee that drops `ZG_RUN` and leaves its process group escapes the runner (cgroup scope is the
+5. CRITICAL, operator-owned: two account passwords are stated in plain text in public spec 007 (15 lines across 5 files,
+   first committed 2026-09-12, pushed to all three remotes; the same values sit in test files of two private
+   submodules). Whether they are live is UNCONFIRMED. Rotation of both is the only remedy (§11.4.113). Details and
+   the register item: `specs/010-zero-gap-verified-closure/progress.yml`, seed-build entry; values are recorded nowhere.
+6. Seed dry-run proposals (76 items covering all 1,239 baseline rows, register untouched) are in
+   `specs/010-zero-gap-verified-closure/baseline/seed-proposal/`; the seeding deadlock (`gap add` needs a migrated
+   register, migration is planned at T047) needs an operator decision at the T038 checkpoint.
+7. Known residuals: an escapee that drops `ZG_RUN` and leaves its process group escapes the runner (cgroup scope is the
    containment, a design decision); `live-vs-source` is blind on a copy and was run on the live tree.
 
 ### SPEC 010 PHASE 3 IMPLEMENTED AND REVIEWED (runner + 17 sweep classes), 2026-09-26 — awaiting the wave commit result, then T035-T038

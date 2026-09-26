@@ -1,0 +1,12 @@
+unproven-checks	baseline_rows=103	assigned=103	OK
+unregistered-scripts	baseline_rows=16	assigned=16	OK
+vacuous-gates	baseline_rows=2	assigned=2	OK
+unsealed-evidence	baseline_rows=69	assigned=69	OK
+untracked-blind-window	baseline_rows=4	assigned=4	OK
+coverage-gaps	baseline_rows=0	assigned=0	OK
+guard-gaps	baseline_rows=21	assigned=21	OK
+total	baseline_rows=215	assigned=215
+duplicate_assignments=0	unassigned_rows=0	member_ids_without_item=[]
+rows_dropped=0 (no baseline row of these classes was dropped; the first-pass vacuous-gates proof-helper FP (zero-gap-class-doc-count-drift.sh setup loop, precision 2/3 in rev-base-A) was removed by fix round F2 before the f05817ba re-baseline (baseline README.md:153, vacuous-gates minus 1), so it is not a row of this baseline and needs no drop)
+could_not_inspect_lines=7 (coverage-gaps 2 -> G-coverage-gaps-01; unproven-checks 2 -> G-unproven-checks-08; vacuous-gates 3 -> G-vacuous-gates-03)
+VERDICT	COVERED

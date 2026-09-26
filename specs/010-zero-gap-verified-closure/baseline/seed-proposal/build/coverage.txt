@@ -1,0 +1,39 @@
+COVERAGE — every baseline row of the five assigned classes mapped to exactly one proposed item
+baseline: specs/010-zero-gap-verified-closure/baseline/sweep-2026-09-26/FINDINGS-BY-CLASS.tsv (read-only)
+
+build-if-missing: baseline_rows=8 mapped_members=8 dropped=0 OK
+missing-toolchain: baseline_rows=4 mapped_members=4 dropped=0 OK
+live-vs-source: baseline_rows=3 mapped_members=3 dropped=0 OK
+private-in-public: baseline_rows=7 mapped_members=7 dropped=0 OK
+content-boundary-rows: baseline_rows=186 mapped_members=186 dropped=0 OK
+
+TOTAL baseline rows=208 mapped=208 unassigned=0 OK
+live-only members (not in the baseline TSV, measured on the live tree this session): 1
+
+members per item (baseline + live-only):
+  G-build-if-missing-01	2
+  G-build-if-missing-02	3
+  G-build-if-missing-03	1
+  G-build-if-missing-04	2
+  G-content-boundary-rows-02	22
+  G-content-boundary-rows-03	43
+  G-content-boundary-rows-04	45
+  G-content-boundary-rows-05	6
+  G-content-boundary-rows-06	32
+  G-content-boundary-rows-07	11
+  G-content-boundary-rows-08	27
+  G-live-vs-source-01	2
+  G-live-vs-source-02	1
+  G-missing-toolchain-01	4
+  G-private-in-public-01	1
+  G-private-in-public-02	7
+
+content-boundary-rows surviving gate rows per group (sum must be 14621):
+  G-content-boundary-rows-02	9268
+  G-content-boundary-rows-03	779
+  G-content-boundary-rows-04	1912
+  G-content-boundary-rows-05	68
+  G-content-boundary-rows-06	1239
+  G-content-boundary-rows-07	11
+  G-content-boundary-rows-08	1344
+  TOTAL	14621

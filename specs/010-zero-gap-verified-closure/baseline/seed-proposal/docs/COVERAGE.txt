@@ -1,0 +1,40 @@
+COVERAGE CHECK — dry-run seed proposal (classes: stale-figures, doc-count-drift, pointer-drift, known-open-decisions, improvement-candidates)
+baseline file: specs/010-zero-gap-verified-closure/baseline/sweep-2026-09-26/FINDINGS-BY-CLASS.tsv (1239 data rows total)
+stale-figures            baseline= 522  in-items= 522  dropped=0  unassigned=0  sum= 522  OK
+    G-stale-figures-01                1
+    G-stale-figures-02               97
+    G-stale-figures-03              394
+    G-stale-figures-04               24
+    G-stale-figures-05                6
+doc-count-drift          baseline= 238  in-items= 238  dropped=0  unassigned=0  sum= 238  OK
+    G-doc-count-drift-01              5
+    G-doc-count-drift-02              2
+    G-doc-count-drift-03              6
+    G-doc-count-drift-04             47
+    G-doc-count-drift-05             32
+    G-doc-count-drift-06             59
+    G-doc-count-drift-07             53
+    G-doc-count-drift-08             22
+    G-doc-count-drift-09              5
+    G-doc-count-drift-10              7
+pointer-drift            baseline=  23  in-items=  23  dropped=0  unassigned=0  sum=  23  OK
+    G-pointer-drift-01                4
+    G-pointer-drift-02                5
+    G-pointer-drift-03                4
+    G-pointer-drift-04                1
+    G-pointer-drift-05                1
+    G-pointer-drift-06                8
+known-open-decisions     baseline=   3  in-items=   1  dropped=2  unassigned=0  sum=   3  OK
+    DROPPED                           2
+    G-known-open-decisions-01         1
+improvement-candidates   baseline=  30  in-items=  30  dropped=0  unassigned=0  sum=  30  OK
+    G-improvement-candidates-01       2
+    G-improvement-candidates-02       1
+    G-improvement-candidates-03       6
+    G-improvement-candidates-04       2
+    G-improvement-candidates-05       1
+    G-improvement-candidates-06       1
+    G-improvement-candidates-07       2
+    G-improvement-candidates-08      15
+TOTAL baseline rows of the five classes = 816; accounted = 816; unassigned = 0
+VERDICT COVERED rc=0 (every row in exactly one item or DROPPED with a reason)
