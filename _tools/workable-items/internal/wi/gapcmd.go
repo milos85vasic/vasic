@@ -96,6 +96,38 @@ func adoptRaceWindow() {
 	}
 }
 
+// setCyclePreBeginHook, when set, runs right after `gap set-cycle`'s single-id
+// refusal checks (it.gap / it.cycle=="") and immediately before its write
+// transaction opens — the same TOCTOU window adoptPreBeginHook exercises for
+// `gap adopt`, applied to the analogous one-time write here. Nil in
+// production; see TestGapSetCycleRaceRefusesConcurrentDoubleStamp.
+var setCyclePreBeginHook func()
+
+// setCycleRaceWindow sleeps for WI_GAP_SETCYCLE_RACE_MS milliseconds (when
+// that environment variable names a positive integer) at the same TOCTOU
+// point as setCyclePreBeginHook, so the goroutine race that hook drives can
+// also be reproduced with two real, independent OS processes racing the
+// compiled binary on the same id — see
+// TestGapSetCycleRaceRefusesConcurrentDoubleStamp's comment for the recipe.
+// Inert in every normal invocation.
+func setCycleRaceWindow() {
+	if v := os.Getenv("WI_GAP_SETCYCLE_RACE_MS"); v != "" {
+		if n, err := strconv.Atoi(v); err == nil && n > 0 {
+			time.Sleep(time.Duration(n) * time.Millisecond)
+		}
+	}
+}
+
+// setCycleBulkMidHook, when set, runs inside `gap set-cycle
+// --gap-items-without-cycle`'s write transaction, once per target id, right
+// after that target's own UPDATE+history write and before the next target is
+// processed. Returning a non-nil error aborts the whole transaction — a test
+// seam proving the bulk write is genuinely atomic: a failure on any single
+// target (including a genuine SQL constraint violation) rolls back every
+// target already written in the SAME transaction, not just the one that
+// failed. Nil in production.
+var setCycleBulkMidHook func(tx *sql.Tx, id string) error
+
 var actorRe = regexp.MustCompile(`^[A-Za-z0-9][A-Za-z0-9._@:+-]*$`)
 var cycleRe = regexp.MustCompile(`^[A-Za-z0-9][A-Za-z0-9._-]*$`)
 
@@ -107,14 +139,14 @@ var reopenReasons = []string{"test-failed", "manual-testing-detected", "captured
 // RunGap dispatches `workable-items-vsc gap <subcommand>`.
 func RunGap(args []string, stdout, stderr io.Writer) int {
 	if len(args) == 0 {
-		fmt.Fprintln(stderr, "usage: workable-items-vsc gap <migrate|add|adopt|classify|verdict|close|reopen|link|apply-queue|freeze|summary> [flags]")
+		fmt.Fprintln(stderr, "usage: workable-items-vsc gap <migrate|add|adopt|classify|verdict|close|reopen|link|apply-queue|set-cycle|freeze|summary> [flags]")
 		fmt.Fprintln(stderr, HonestyNotice)
 		return rcUndet
 	}
 	cmds := map[string]func([]string, io.Writer, io.Writer) int{
 		"migrate": gapMigrate, "add": gapAdd, "adopt": gapAdopt, "classify": gapClassify, "verdict": gapVerdict,
 		"close": gapClose, "reopen": gapReopen, "link": gapLink, "apply-queue": gapApplyQueue,
-		"freeze": gapFreeze, "summary": gapSummary,
+		"set-cycle": gapSetCycle, "freeze": gapFreeze, "summary": gapSummary,
 	}
 	f, ok := cmds[args[0]]
 	if !ok {
@@ -476,7 +508,7 @@ func history(tx *sql.Tx, id, event, onDate, reason, evidence string) error {
 // itemRow is the subset of one item row the commands read.
 type itemRow struct {
 	id, loc, typ, status, severity, title, description, createdBy, assignedTo, body string
-	disposition, anchor, closureCriteria                                            string
+	disposition, anchor, closureCriteria, cycle                                     string
 	gap                                                                             bool
 }
 
@@ -485,7 +517,7 @@ type itemRow struct {
 func loadItem(q queryer, id string) (*itemRow, error) {
 	rows, err := q.Query(`SELECT atm_id, current_location, type, status, COALESCE(severity,''), title, description,
         COALESCE(created_by,''), COALESCE(assigned_to,''), COALESCE(body_md,''), COALESCE(disposition,''),
-        COALESCE(forensic_anchor,''), COALESCE(closure_criteria,''),
+        COALESCE(forensic_anchor,''), COALESCE(closure_criteria,''), COALESCE(cycle,''),
         (`+gapPredicate+`)
         FROM items WHERE atm_id = ? ORDER BY current_location DESC`, id)
 	if err != nil {
@@ -497,7 +529,7 @@ func loadItem(q queryer, id string) (*itemRow, error) {
 	}
 	var r itemRow
 	if err := rows.Scan(&r.id, &r.loc, &r.typ, &r.status, &r.severity, &r.title, &r.description,
-		&r.createdBy, &r.assignedTo, &r.body, &r.disposition, &r.anchor, &r.closureCriteria, &r.gap); err != nil {
+		&r.createdBy, &r.assignedTo, &r.body, &r.disposition, &r.anchor, &r.closureCriteria, &r.cycle, &r.gap); err != nil {
 		return nil, err
 	}
 	return &r, nil
@@ -1520,6 +1552,222 @@ func gapLink(args []string, stdout, stderr io.Writer) int {
 	}
 	fmt.Fprintf(stdout, "gap link: %s recurs %s\n", *id, *of)
 	return rcOK
+}
+
+// ── gap set-cycle ──────────────────────────────────────────────────────────
+//
+// progress.yml "gap freeze BLOCKED (impl-freeze)": `gap freeze` selects
+// cycleMembers via `items.cycle = ?`, but no existing CLI path stamps `cycle`
+// onto a PRE-EXISTING gap item — only `gap add`'s INSERT accepts --cycle, and
+// neither `gap adopt` nor any other subcommand does. `gap set-cycle` is that
+// path. It mirrors `gap adopt`'s discipline exactly (contracts/register-cli.md
+// Amendment): a column-preserving UPDATE that touches ONLY items.cycle (plus
+// last_modified, the same bookkeeping every write command here bumps) —
+// nothing else about the row changes. Two forms:
+//
+//   - `--id <id> --cycle <N>` stamps one gap item.
+//   - `--gap-items-without-cycle --cycle <N>` stamps EVERY item the gap
+//     predicate currently selects with cycle IS NULL, inside ONE transaction,
+//     atomically: any single row failing (a concurrent stamp, or a validator
+//     finding across the whole batch) rolls back the entire batch, never a
+//     partial re-stamp. This is the path the 91 seeded gap items (all
+//     cycle IS NULL today) are re-stamped through.
+func gapSetCycle(args []string, stdout, stderr io.Writer) int {
+	fs, repo, dbFlag := newFlags("set-cycle", stderr)
+	id := fs.String("id", "", "existing gap item id to stamp with a cycle (mutually exclusive with --gap-items-without-cycle)")
+	cycle := fs.String("cycle", "", "programme cycle id to stamp")
+	bulk := fs.Bool("gap-items-without-cycle", false, "stamp EVERY gap item with cycle IS NULL, atomically, instead of one --id")
+	asOf := fs.String("as-of", "", "ISO date the date rules use (default: today)")
+	if err := fs.Parse(args); err != nil {
+		return rcUndet
+	}
+	var problems []string
+	if strings.TrimSpace(*cycle) == "" {
+		problems = append(problems, "--cycle is required")
+	} else if !cycleRe.MatchString(*cycle) {
+		problems = append(problems, fmt.Sprintf("--cycle %q is not a plain identifier", *cycle))
+	}
+	switch {
+	case *bulk && strings.TrimSpace(*id) != "":
+		problems = append(problems, "--id and --gap-items-without-cycle are mutually exclusive")
+	case !*bulk && strings.TrimSpace(*id) == "":
+		problems = append(problems, "--id is required (or use --gap-items-without-cycle for the bulk path)")
+	}
+	if len(problems) > 0 {
+		return refuse(stderr, problems)
+	}
+	e, rc := openGap(*repo, *dbFlag, *asOf, false, stdout, stderr)
+	if rc != rcOK {
+		return rc
+	}
+	defer e.close()
+	if *bulk {
+		return gapSetCycleBulk(e, *cycle, stdout, stderr)
+	}
+	return gapSetCycleOne(e, *id, *cycle, stdout, stderr)
+}
+
+// gapSetCycleOne stamps a single gap item. The concurrency guard is the exact
+// shape of gap adopt's §11.4.253 fix: the pre-write refusal check (it.gap,
+// it.cycle) is read via loadItem before any write lock is held (a TOCTOU
+// window in principle), so the UPDATE itself carries its own DB-level guard —
+// `AND cycle IS NULL` — and RowsAffected() is checked rather than trusted: a
+// concurrent stamp of the same id commits first, flips cycle to non-NULL, and
+// this UPDATE then touches 0 rows instead of silently re-applying a
+// now-stale write.
+func gapSetCycleOne(e *gapEnv, id, cycle string, stdout, stderr io.Writer) int {
+	it, err := loadItem(e.db, id)
+	if err != nil {
+		fmt.Fprintf(stderr, "COULD NOT DETERMINE: %v\n", err)
+		return rcUndet
+	}
+	switch {
+	case it == nil:
+		return refuse(stderr, []string{fmt.Sprintf("no item %q", id)})
+	case !it.gap:
+		return refuse(stderr, []string{id + " is not a gap item; only a gap item can be stamped with a cycle (adopt or add it first)"})
+	case it.cycle != "":
+		return refuse(stderr, []string{fmt.Sprintf("%s is already assigned to cycle %q", id, it.cycle)})
+	}
+
+	// TOCTOU window: it.cycle above was read before any write lock is held.
+	// Widen it deliberately (test hook, or a real OS-process race via
+	// WI_GAP_SETCYCLE_RACE_MS) so a second concurrent set-cycle of the same id
+	// can land its own loadItem read here before this one's write commits —
+	// exactly gap adopt's pattern.
+	if setCyclePreBeginHook != nil {
+		setCyclePreBeginHook()
+	}
+	setCycleRaceWindow()
+
+	tx, brc := e.begin()
+	if brc != rcOK {
+		return brc
+	}
+	defer tx.Rollback()
+	res, err := tx.Exec(`UPDATE items SET cycle=?, last_modified=? WHERE atm_id=? AND current_location=? AND cycle IS NULL`,
+		cycle, stamp(), it.id, it.loc)
+	if err != nil {
+		return envFail(stderr, "setting the cycle on "+it.id, err)
+	}
+	switch n, _ := res.RowsAffected(); {
+	case n == 0:
+		// Never partial-apply: nothing else in this transaction has run yet,
+		// and the deferred tx.Rollback() above discards it untouched.
+		return refuse(stderr, []string{fmt.Sprintf(
+			"%s was assigned a cycle concurrently by another process between this command's check and its write (cycle is no longer NULL); nothing was written — re-run to see its current state", it.id)})
+	case n != 1:
+		return envFail(stderr, "setting the cycle on "+it.id, fmt.Errorf("setting cycle on %s touched %d rows", it.id, n))
+	}
+	if err := history(tx, it.id, "Updated", e.opts.AsOf, "zero-gap:cycle-set cycle="+cycle, ""); err != nil {
+		fmt.Fprintf(stderr, "COULD NOT DETERMINE: %v\n", err)
+		return rcUndet
+	}
+	if rc, _ := e.commitIfClean(tx, it.id, "gap set-cycle"); rc != rcOK {
+		return rc
+	}
+	fmt.Fprintf(stdout, "gap set-cycle: %s stamped with cycle %s\n", it.id, cycle)
+	return rcOK
+}
+
+// gapSetCycleBulk stamps every gap item with cycle IS NULL in one transaction.
+// It is genuinely atomic: every row is written inside the SAME tx as every
+// other, so a failure on any one of them (the concurrency guard below, an
+// I/O fault, or a ValidateGap finding surfacing after the whole batch is
+// applied) discards the batch's deferred tx.Rollback() before anything
+// commits — never a partial re-stamp of some items but not others.
+func gapSetCycleBulk(e *gapEnv, cycle string, stdout, stderr io.Writer) int {
+	rows, err := e.db.Query(`SELECT atm_id, current_location FROM items WHERE ` + gapPredicate + ` AND cycle IS NULL ORDER BY atm_id, current_location`)
+	if err != nil {
+		fmt.Fprintf(stderr, "COULD NOT DETERMINE: %v\n", err)
+		return rcUndet
+	}
+	type target struct{ id, loc string }
+	var targets []target
+	for rows.Next() {
+		var t target
+		if err := rows.Scan(&t.id, &t.loc); err != nil {
+			rows.Close()
+			fmt.Fprintf(stderr, "COULD NOT DETERMINE: %v\n", err)
+			return rcUndet
+		}
+		targets = append(targets, t)
+	}
+	if err := rows.Err(); err != nil {
+		fmt.Fprintf(stderr, "COULD NOT DETERMINE: %v\n", err)
+		return rcUndet
+	}
+	if len(targets) == 0 {
+		fmt.Fprintln(stderr, "COULD NOT DETERMINE: no gap item has cycle IS NULL; nothing to stamp")
+		return rcUndet
+	}
+	tx, brc := e.begin()
+	if brc != rcOK {
+		return brc
+	}
+	defer tx.Rollback()
+	ids := make([]string, 0, len(targets))
+	for _, t := range targets {
+		res, err := tx.Exec(`UPDATE items SET cycle=?, last_modified=? WHERE atm_id=? AND current_location=? AND cycle IS NULL`,
+			cycle, stamp(), t.id, t.loc)
+		if err != nil {
+			return envFail(stderr, "setting the cycle on "+t.id, err)
+		}
+		switch n, _ := res.RowsAffected(); {
+		case n == 0:
+			return refuse(stderr, []string{fmt.Sprintf(
+				"%s was assigned a cycle concurrently by another process during this bulk stamp; nothing was written — re-run to see the register's current state", t.id)})
+		case n != 1:
+			return envFail(stderr, "setting the cycle on "+t.id, fmt.Errorf("setting cycle on %s touched %d rows", t.id, n))
+		}
+		if err := history(tx, t.id, "Updated", e.opts.AsOf, "zero-gap:cycle-set cycle="+cycle, ""); err != nil {
+			fmt.Fprintf(stderr, "COULD NOT DETERMINE: %v\n", err)
+			return rcUndet
+		}
+		ids = append(ids, t.id)
+		if setCycleBulkMidHook != nil {
+			if err := setCycleBulkMidHook(tx, t.id); err != nil {
+				return envFail(stderr, "bulk-setting the cycle (target "+t.id+")", err)
+			}
+		}
+	}
+	if rc, _ := e.commitIfCleanMulti(tx, ids, "gap set-cycle"); rc != rcOK {
+		return rc
+	}
+	fmt.Fprintf(stdout, "gap set-cycle: %d gap item(s) stamped with cycle %s\n", len(ids), cycle)
+	return rcOK
+}
+
+// commitIfCleanMulti is commitIfClean generalised to more than one touched
+// item id — the bulk `gap set-cycle --gap-items-without-cycle` path stamps
+// every cycle-less gap item inside one transaction and must judge the whole
+// batch (every touched id, not just the last one written) before committing
+// any of it.
+func (e *gapEnv) commitIfCleanMulti(tx *sql.Tx, ids []string, verb string) (int, []Finding) {
+	blocking, _, undet, err := e.problemsAfter(tx, ids)
+	if err != nil {
+		fmt.Fprintf(e.errw, "COULD NOT DETERMINE: validating after %s: %v\n", verb, err)
+		return rcUndet, nil
+	}
+	if len(blocking) > 0 {
+		fmt.Fprintf(e.errw, "REFUSED: %s would leave %d finding(s) across %d item(s); nothing was written:\n", verb, len(blocking), len(ids))
+		for _, f := range blocking {
+			fmt.Fprintln(e.errw, "  FINDING  "+f.String())
+		}
+		return rcFind, nil
+	}
+	if len(undet) > 0 {
+		fmt.Fprintf(e.errw, "COULD NOT DETERMINE: %s: %d condition(s) could not be checked across %d item(s); nothing was written:\n", verb, len(undet), len(ids))
+		for _, u := range undet {
+			fmt.Fprintln(e.errw, "  UNDET    "+u)
+		}
+		return rcUndet, nil
+	}
+	if err := tx.Commit(); err != nil {
+		fmt.Fprintf(e.errw, "COULD NOT DETERMINE: commit: %v\n", err)
+		return rcUndet, nil
+	}
+	return rcOK, nil
 }
 
 // ── gap freeze ─────────────────────────────────────────────────────────────

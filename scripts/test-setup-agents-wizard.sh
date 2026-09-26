@@ -1520,13 +1520,26 @@ rm -rf "$KBOX" "$KTUNE" "$KPG" "$KPGBUSY" "$KPGNONE" "$KPROV"
 # Evidence summary
 # ==============================================================================
 TOTAL=$((PASS+FAIL+SKIP))
+# EXECUTED excludes SKIP on purpose: a skipped case asserted nothing, so a
+# battery where every case was skipped has verified nothing about the wizard
+# even though FAIL stayed at 0. Requiring EXECUTED>0 before a PASS/exit-0
+# verdict closes that vacuous-pass path (§11.4.6 / SC-013): an empty run must
+# report its own emptiness (rc=2, COULD NOT DETERMINE), never a silent PASS.
+EXECUTED=$((PASS+FAIL))
+if [[ $EXECUTED -eq 0 ]]; then
+    VERDICT_RC=2
+elif [[ $FAIL -eq 0 ]]; then
+    VERDICT_RC=0
+else
+    VERDICT_RC=1
+fi
 cat > "$EVIDENCE_DIR/summary.json" <<JSON
 {
   "timestamp_utc": "$STAMP",
   "wizard": "$WIZARD",
   "host": {"uname": "$(uname -s)/$(uname -m)", "bash": "$BASH_VERSION"},
-  "totals": {"total": $TOTAL, "passed": $PASS, "failed": $FAIL, "skipped": $SKIP},
-  "exit_code": $([[ $FAIL -eq 0 ]] && echo 0 || echo 1)
+  "totals": {"total": $TOTAL, "passed": $PASS, "failed": $FAIL, "skipped": $SKIP, "executed": $EXECUTED},
+  "exit_code": $VERDICT_RC
 }
 JSON
 
@@ -1536,8 +1549,13 @@ echo "================= EVIDENCE ================="
 echo "  results.tsv : $RESULTS"
 echo "  run.log     : $RUNLOG"
 echo "  summary.json: $EVIDENCE_DIR/summary.json"
-echo "  total=$TOTAL passed=$PASS failed=$FAIL skipped=$SKIP"
+echo "  total=$TOTAL passed=$PASS failed=$FAIL skipped=$SKIP executed=$EXECUTED"
+if [[ $EXECUTED -eq 0 ]]; then
+    echo "  COULD NOT DETERMINE: every one of the $TOTAL case(s) was skipped; zero"
+    echo "  assertions executed, so this run certifies nothing about the wizard"
+    echo "  (§11.4.6 / SC-013). Neither a pass nor a failure."
+fi
 echo "============================================"
 } | tee -a "$RUNLOG"
 
-[[ $FAIL -eq 0 ]] && exit 0 || exit 1
+exit "$VERDICT_RC"

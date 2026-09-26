@@ -124,8 +124,11 @@ main_check() {
     undet "G3 $db_rel exists and is not ignored, but is neither tracked nor staged — it is not yet in history, and a file that is merely present is not a source of truth anyone else can read"
   fi
 
-  # Tool availability.
-  if [ ! -x "$TOOL_BIN" ]; then
+  # Tool availability. Rebuilt when missing OR STALE (build-if-missing class
+  # fix, T025): an existence-only guard would run a stale workable-items-vsc
+  # binary — and therefore report a stale G4/G5 verdict — after every source
+  # change under _tools/workable-items/ that did not also delete the binary.
+  if [ ! -x "$TOOL_BIN" ] || [ -n "$(find "$TOOL_SRC" -name '*.go' -newer "$TOOL_BIN" -print -quit 2>/dev/null)" ]; then
     build_tool
     case "$?" in
       2) undet "G4/G5 the umbrella tool is not built and no go toolchain is on PATH"; ;;
@@ -182,7 +185,10 @@ prove_failure() {
     echo "PROOF COULD NOT RUN: no database at $DB_REL to copy from"
     return 2
   fi
-  if [ ! -x "$TOOL_BIN" ] && ! build_tool; then
+  # Same freshness fix as the main_check leg above, applied to the build-in-
+  # condition form: without the -newer arm, a stale binary present on disk
+  # short-circuits past `! build_tool` and the proof runs against stale code.
+  if { [ ! -x "$TOOL_BIN" ] || [ -n "$(find "$TOOL_SRC" -name '*.go' -newer "$TOOL_BIN" -print -quit 2>/dev/null)" ]; } && ! build_tool; then
     echo "PROOF COULD NOT RUN: the umbrella tool is not available"
     return 2
   fi

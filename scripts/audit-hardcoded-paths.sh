@@ -430,7 +430,11 @@ trap 'rm -rf "$WORK"' EXIT INT TERM
 repo_candidates() {   # $1 = repo path relative to $ROOT ("" = the root itself)
     local rel="$1" dir="$ROOT" pfx=""
     if [[ -n "$rel" ]]; then dir="$ROOT/$rel"; pfx="$rel/"; fi
-    git -C "$dir" ls-files 2>/dev/null | grep -vE "$SKIP" | awk -v p="$pfx" '$0 != "" {print p $0}'
+    # --cached --others --exclude-standard: tracked files PLUS untracked-but-
+    # not-ignored files. A bare `ls-files` reads tracked files only, so a file
+    # written to disk but not yet `git add`ed carried a hardcoded path
+    # invisibly until its first commit (zero-gap class untracked-blind-window).
+    git -C "$dir" ls-files --cached --others --exclude-standard 2>/dev/null | grep -vE "$SKIP" | awk -v p="$pfx" '$0 != "" {print p $0}'
 }
 
 : > "$WORK/cand.txt"

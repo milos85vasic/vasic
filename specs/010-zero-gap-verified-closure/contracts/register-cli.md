@@ -15,6 +15,7 @@ Exit codes everywhere: **0** condition holds, **1** condition violated, **2** co
 | `gap reopen` | reopen with failing evidence | `--id --evidence` | 0; increments `reopens_count` |
 | `gap link` | set `recurrence_of` | `--id --of` | 1 on cycle / unresolved id |
 | `gap apply-queue` | apply queued reopen requests from `.remember/logs/zero-gap/reopen-queue.jsonl` (run inside an explicit commit) | `--queue --as-of` | 0 |
+| `gap set-cycle` (impl-setcycle) | stamp `items.cycle` onto an existing gap item that has none yet, one item or in bulk — the only CLI path that back-fills `cycle` after `gap add`'s INSERT time; see the dedicated amendment below | `--id <id> --cycle <N>` OR `--gap-items-without-cycle --cycle <N>` (mutually exclusive) `[--as-of]` | 0 / 1 invalid, not a gap item, already assigned, or assigned concurrently / 2 environment fault or nothing left to stamp |
 | `gap freeze` | freeze a cycle | `--cycle` | 0 writes freeze.json; 2 if tree unstable |
 | `gap summary` | derived counts + per-class recall | `--json` | 0 |
 | `report --by-module` (T037) | per-module Markdown page (FR-024, SC-010): one section per roster module (sorted by prefix), gap items grouped open / classified / closed with status, disposition, severity, kind, category, evidence and verdicts; every finding of the `validate` rule set (base rules + V-G1..V-G12) named; items the base rules report `id/prefix-not-in-roster` / `id/malformed` listed under "Unplaced items"; no timestamps | `--as-of <date>` (default today UTC, printed on stderr) | 0 page + no finding / 1 page + named finding(s) / 2 no page when the register cannot be read (absent, unreadable, non-SQLite, unmigrated, partial schema, non-empty `-wal` or any `-journal` beside the symlink-resolved file, changed while read, unreadable roster, bad `--as-of`), page printed when a rule row is undetermined, or the page cannot be written |
@@ -136,3 +137,69 @@ Behaviour and refusals:
   `TestGapAdoptRaceRefusesConcurrentDoubleAdopt` (goroutines + a transaction-ordering hook) and,
   independently, by two real OS processes racing the compiled binary (see that test's comment for the
   exact recipe).
+
+## Amendment: `gap set-cycle` (impl-setcycle, 2026-09-26)
+
+`gap freeze` selects a cycle's membership via `items.cycle = ?` (`cycleMembers`), but until this
+command existed no CLI path stamped `cycle` onto a PRE-EXISTING gap item: only `gap add`'s INSERT
+accepts `--cycle`, and none of `adopt`/`classify`/`verdict`/`close`/`reopen`/`link`/`apply-queue`
+does. `gap set-cycle` back-fills `cycle` in place, one item or in bulk, discipline mirrored
+directly from `gap adopt`'s amendment above: a column-preserving `UPDATE` (touching only
+`items.cycle` and `last_modified`), DB-guarded against the same class of TOCTOU race.
+
+```
+gap set-cycle --id <existing-gap-item-id> --cycle <N> [--as-of YYYY-MM-DD]
+gap set-cycle --gap-items-without-cycle --cycle <N> [--as-of YYYY-MM-DD]
+```
+
+The two forms are mutually exclusive; exactly one of `--id` or `--gap-items-without-cycle` is
+required. `--cycle` is required in both and must match `cycleRe` (the same "plain identifier"
+pattern `gap add --cycle` and `gap freeze --cycle` already enforce).
+
+Flags:
+
+| Flag | Meaning |
+|---|---|
+| `--id` | the existing item's `atm_id`; must already be a gap item and must NOT already carry a cycle |
+| `--cycle` | the programme cycle id to stamp; a plain identifier (`cycleRe`) |
+| `--gap-items-without-cycle` | bulk form: stamp EVERY item the gap predicate selects with `cycle IS NULL`, atomically, instead of one `--id` |
+| `--as-of` | the date rules use; default today |
+
+Behaviour and refusals (single-item form, `--id`):
+
+- **Refuses a nonexistent id**: `"no item \"<id>\""`.
+- **Refuses a non-gap item**: `"<id> is not a gap item; only a gap item can be stamped with a cycle
+  (adopt or add it first)"` — the same `gapPredicate`-derived `it.gap` check `adopt`/`classify` use.
+- **Refuses an already-cycled item** with a clear, specific message naming the existing value:
+  `"<id> is already assigned to cycle \"<N>\""` — never a silent overwrite.
+- **Isolation.** The write is a single `UPDATE items SET cycle=?, last_modified=? WHERE atm_id=? AND
+  current_location=? AND cycle IS NULL` — no other column of the row, and no other row, is touched.
+- **Concurrency (§11.4.253) — the identical guard shape `gap adopt` uses.** The one-time refusal
+  above (`it.cycle == ""`) is read via `loadItem` BEFORE the write transaction opens (a TOCTOU window
+  in principle, exactly as it is for `adopt`'s `it.gap` check), so the `UPDATE` itself carries the
+  DB-level guard `AND cycle IS NULL`, and `RowsAffected()` is checked rather than trusted: `0` rows
+  means a concurrent stamp of the same id committed first, and this call rolls back and refuses with
+  `"<id> was assigned a cycle concurrently by another process between this command's check and its
+  write (cycle is no longer NULL); nothing was written — re-run to see its current state"`. Proven by
+  `TestGapSetCycleRaceRefusesConcurrentDoubleStamp` (goroutines + a transaction-ordering hook,
+  `setCyclePreBeginHook`, the same shape as `adoptPreBeginHook`) and, independently, by two real OS
+  processes racing the compiled binary via `WI_GAP_SETCYCLE_RACE_MS` (see that test's comment for the
+  exact recipe; run in a scratch fixture repository, never against the live register).
+
+Behaviour (bulk form, `--gap-items-without-cycle`):
+
+- Selects every `(atm_id, current_location)` the gap predicate matches with `cycle IS NULL`, then
+  stamps all of them with the same `--cycle` value inside **one transaction**. **Atomic**: every
+  target's `UPDATE` and `item_history` insert runs in that single transaction, so any single target
+  failing — its own concurrent-stamp guard tripping, an I/O fault, or a `ValidateGap` finding surfacing
+  across the whole batch — rolls back every target already written in the same call, never a partial
+  re-stamp of some items but not others. Proven by `TestGapSetCycleBulkIsAtomicOnPartialFailure`,
+  which forces a genuine SQL CHECK-constraint violation after the first of two targets has already
+  been written and confirms neither target's `cycle` was left set.
+- Already-cycled items are left alone (the `cycle IS NULL` selection excludes them); a non-gap item is
+  never selected (the gap predicate excludes it).
+- An empty population (nothing has `cycle IS NULL`) is refused before any write:
+  `"COULD NOT DETERMINE: no gap item has cycle IS NULL; nothing to stamp"` (rc 2 — an empty population
+  is never silently treated as success, the same discipline `gap freeze` uses for an empty cycle).
+- Judged as one batch by `commitIfCleanMulti` (the multi-id generalisation of `commitIfClean`): a
+  `ValidateGap` finding against ANY touched id blocks the WHOLE commit, not just that one row.

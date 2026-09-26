@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-26T13:30:00Z
-    Synced-Commit: ae485a1979fa
+    Last-Updated: 2026-09-26T15:40:00Z
+    Synced-Commit: 99a47228ef01
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,39 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### SPEC 010 T038 CHECKPOINT COMPLETE — CYCLE 1 FROZEN, 91 GAP ITEMS — 2026-09-26 (evening)
+
+The T038 human checkpoint is done. Register migrated live (T084), 76 reviewed proposed items seeded
+(73 `gap add` + 18 `gap adopt`) into 91 register items, every step independently reviewed with a real
+critical finding fixed at each of the three tool-building steps (§11.4.253 concurrency race in `gap adopt`,
+a count-extraction defect in the T052 coverage generator, and a missing `cycle`-stamping tool that blocked
+`gap freeze` outright — a new `gap set-cycle` subcommand was built, reviewed and used). `gap freeze --cycle 1`
+ran clean: 91 items, `docs/zero-gap/cycles/1/freeze.json` records register+members digests. Discoveries from
+this point (the closure waves) are assigned to cycle 2 — the frozen 91 are not reopened by later sweeps.
+
+Also delivered and reviewed this session: the T014 N3 witness-fetch security fix (with a real defect in the
+originally-dispatched flag text caught and corrected — `--upload-pack=...` not `-c remote.<r>.uploadpack=...`),
+`private-in-public` extended to `specs/002-*/`-`specs/009-*/` with a masked-output rule, the `CONTINUATION.md`
+§3 point-in-time exemption rule (this section), and four code-level umbrella-repo fixes (two rebuild traps
+that let a restart run a stale binary, three gates blind to untracked files, two gates that could report a
+clean pass over zero executed cases).
+
+Standing residuals, recorded rather than fixed (per the operator's 2026-09-26 scope decision — excluded:
+submodule-internal changes, credentials, host packages, provider settings):
+1. Two account passwords remain live in public `specs/007-*/spec.md:184` and are now register item VSC-387
+   (critical, operator-blocked, redact + rotate). Rotation is an operator action this session cannot perform.
+2. The PreToolUse guard also lets `reboot`, `halt`, `git push origin :main`, `git push --delete origin main`
+   and `rm -rf ~` through (upstream constitution code — report, do not patch from this tree).
+3. `audit-environment-assumptions.sh` now reports 6230 findings (was ~666 baselined) because the 5
+   newly-onboarded owned submodules from T084's roster ratification widened its owned-fleet derivation —
+   needs its own baseline/allow-list pass in a later wave.
+4. Rebuild traps and stale figures inside the private `ai_interviewing`/`llms_verifier` submodules, and the
+   5 owned-module gitlink bumps (doc_processor/llm_orchestrator/llm_provider/vision_engine/qa) are queued —
+   each bump is a per-module operator decision.
+5. 21 unregistered executables (12 loose + 9 R5 blind-spot scripts) need registry rows — its own wave.
+6. The 4 root carriers' stale figures (README badge, "--run-proofs 65 PASS" claims) — deferred, high
+   blast-radius given the carrier lockstep gate, not touched this session.
 
 ### SPEC 010 BASELINE TAKEN, T035/T037 DONE, AT THE T038 CHECKPOINT — 2026-09-26 — awaiting the operator
 

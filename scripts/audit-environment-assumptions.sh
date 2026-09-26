@@ -833,7 +833,12 @@ fi
 repo_filelist() {   # $1 = repo path relative to $ROOT ("" = the root itself)
     _rel="$1"; _dir="$ROOT"; _pfx=""
     if [ -n "$_rel" ]; then _dir="$ROOT/$_rel"; _pfx="$_rel/"; fi
-    git -C "$_dir" ls-files 2>/dev/null \
+    # --cached --others --exclude-standard: tracked files PLUS untracked-but-
+    # not-ignored files. A bare `ls-files` reads tracked files only, so a file
+    # written to disk but not yet `git add`ed carried a frozen environment
+    # assumption invisibly until its first commit (zero-gap class
+    # untracked-blind-window).
+    git -C "$_dir" ls-files --cached --others --exclude-standard 2>/dev/null \
         | grep -Ev "$SKIP_PREFIX" \
         | grep -E "$KEEP_SUFFIX" \
         | grep -Ev "$SKIP_NAME" \

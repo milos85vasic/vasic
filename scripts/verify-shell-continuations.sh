@@ -40,9 +40,12 @@
 # Lines whose first non-blank character is `#` are comments and never flagged.
 #
 # ── Scope ────────────────────────────────────────────────────────────────────
-# Every `*.sh` that `git ls-files` lists at --root. A submodule is ONE gitlink
-# entry to `git ls-files`, so its files are not in scope: they are another
-# repository's to fix, and a finding there returns as a gitlink bump.
+# Every `*.sh` that `git ls-files --cached --others --exclude-standard` lists
+# at --root — tracked files PLUS untracked-but-not-ignored files, so a script
+# written to disk but not yet `git add`ed is not invisible to this check (zero-
+# gap class untracked-blind-window). A submodule is ONE gitlink entry to
+# `git ls-files`, so its files are not in scope: they are another repository's
+# to fix, and a finding there returns as a gitlink bump.
 #
 # ── Usage ────────────────────────────────────────────────────────────────────
 #   scripts/verify-shell-continuations.sh [--root <repo-root>]
@@ -103,7 +106,10 @@ run_check() {
         printf 'UNDETERMINED: %s is not a git work tree; the tracked set cannot be enumerated\n' "$root" >&2; return 2; }
 
     local list n=0 unread=0 hits="" f out
-    list="$(git -C "$root" ls-files -- '*.sh' 2>/dev/null)" || {
+    # --cached --others --exclude-standard: tracked PLUS untracked-but-not-
+    # ignored *.sh files, so a file written before its first `git add` is not
+    # a blind spot (zero-gap class untracked-blind-window).
+    list="$(git -C "$root" ls-files --cached --others --exclude-standard -- '*.sh' 2>/dev/null)" || {
         printf 'UNDETERMINED: git ls-files failed at %s\n' "$root" >&2; return 2; }
     while IFS= read -r f; do
         [ -n "$f" ] || continue

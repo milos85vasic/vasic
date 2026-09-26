@@ -512,9 +512,18 @@ detect_uncatalogued() {
     [ -f "$ROOT/$reg" ] || return 2
     local known d f base
     known="$(awk -F'\t' '$1=="check"{print $3} $1=="debt"{print $3} $1=="exempt"{print $2}' "$ROOT/$reg")"
+    local missing_roots=()
     while IFS= read -r d; do
         [ -n "$d" ] || continue
-        [ -d "$ROOT/$d" ] || continue
+        if [ ! -d "$ROOT/$d" ]; then
+            # A declared scanroot that is missing on disk MUST NOT be silently
+            # skipped: a verdict reached while a whole declared root went
+            # uninspected is indistinguishable, downstream, from a genuinely
+            # clean root. Name it and force this class UNDETERMINED rather
+            # than let the sweep look complete when a root never got scanned.
+            missing_roots+=("$d")
+            continue
+        fi
         while IFS= read -r f; do
             [ -n "$f" ] || continue
             base="${f#"$ROOT"/}"
@@ -524,6 +533,12 @@ detect_uncatalogued() {
             fi
         done < <(find "$ROOT/$d" -mindepth 1 -maxdepth 1 -type f -name '*.sh' 2>/dev/null | sort)
     done < <(awk -F'\t' '$1=="scanroot"{print $2}' "$ROOT/$reg")
+    if [ "${#missing_roots[@]}" -gt 0 ]; then
+        DETECTOR_RECALL="${DETECTOR_RECALL}; SKIPPED scanroot(s) not present on disk and therefore NOT scanned: ${missing_roots[*]}"
+        printf 'uncatalogued: %d declared scanroot(s) missing on disk and skipped (UNDETERMINED, not zero): %s\n' \
+            "${#missing_roots[@]}" "${missing_roots[*]}" >&2
+        return 2
+    fi
     return 0
 }
 

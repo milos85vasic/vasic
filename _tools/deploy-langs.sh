@@ -662,7 +662,13 @@ if [ -z "$JEKYLL_RUNNER" ]; then
   # so the host and container paths render the same bytes. Its exit is
   # three-valued like this gate: 1 a real build failure, 2 could not run.
   SITE_BUILD="$ROOT/_tools/containers/bin/site-build"
-  if [ ! -x "$SITE_BUILD" ] && command -v go >/dev/null 2>&1; then
+  # Rebuilt when missing OR STALE (build-if-missing class fix, T025): an
+  # existence-only guard here would run a stale site-build binary forever after
+  # a source change under _tools/containers/ (cmd/site-build's own package plus
+  # any local package it imports), the exact "restart runs a stale binary" trap
+  # this class exists to catch — this binary is not a restart target, but a
+  # deploy that never rebuilds it is the same defect one step removed.
+  if { [ ! -x "$SITE_BUILD" ] || [ -n "$(find "$ROOT/_tools/containers" -path "$ROOT/_tools/containers/bin" -prune -o -type f -newer "$SITE_BUILD" -print -quit 2>/dev/null)" ]; } && command -v go >/dev/null 2>&1; then
     ( cd "$ROOT/_tools/containers" && GOPROXY=off go build -o bin/site-build ./cmd/site-build ) >/dev/null 2>&1
   fi
   if [ -x "$SITE_BUILD" ]; then

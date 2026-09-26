@@ -49,3 +49,11 @@ PSG	submodules/passage	owned	proposed	P-S-G from PaSsaGe; PAS reads as an abbrev
 CKT	submodules/curriculum-kit	owned	proposed	C-K-T from Curriculum-KiT; CUR collides with "current".
 CON	submodules/constitution	governance-source	proposed	Upstream we consume and do not own. A row exists so an item ABOUT the pin can be filed here; no item may be filed INTO that repository.
 SSP	submodules/superspec	third-party	proposed	Third-party (WangX0111/superspec). Reserved so the prefix is never reused; no items are filed against it.
+HQA	submodules/qa	owned	operator	Ratified 2026-09-26 (all 8 rows below).
+CHA	submodules/challenges	owned	operator	Ratified 2026-09-26.
+DOC	submodules/doc_processor	owned	operator	Ratified 2026-09-26.
+LLO	submodules/llm_orchestrator	owned	operator	Ratified 2026-09-26.
+HLP	submodules/llm_provider	owned	operator	Ratified 2026-09-26 despite visual closeness to LLP=submodules/LLMProvider (vasic-digital); operator kept HLP deliberately.
+LMV	submodules/llms_verifier	owned	operator	Ratified 2026-09-26.
+SEC	submodules/security	owned	operator	Ratified 2026-09-26.
+VSE	submodules/vision_engine	owned	operator	Ratified 2026-09-26.

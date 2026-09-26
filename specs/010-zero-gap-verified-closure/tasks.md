@@ -220,7 +220,7 @@ defect per class appears; an uninspectable part is listed, never clean.
   path (`gap add --kind improvement --measurable-target ...`). RED: a candidate with no measurable target is
   rejected (V-G4). Operator decision 2026-09-26: cycle-1 improvement scope is **all 10** proposed
   improvement items (no cap); T038 records this at the checkpoint and **T090** closes them.  _Covers: FR-001, FR-025._
-- [ ] T084 [US1] (after T081; BEFORE T038 — operator decision 2026-09-26 pulls this forward from T047 to
+- [x] T084 [US1] (after T081; BEFORE T038 — operator decision 2026-09-26 pulls this forward from T047 to
   resolve the T038 vs `contracts/register-cli.md:46-50` deadlock: `gap add` refuses an unmigrated DB, but
   migrating flips `verify-workable-items.sh` G5 rc 2 to rc 1 until the roster gap is filled) EARLY
   live-register migration + roster ratification: run `gap migrate` (T006) against the LIVE
@@ -230,7 +230,7 @@ defect per class appears; an uninspectable part is listed, never clean.
   `submodules/llm_provider` (HelixDevelopment) duplicates `submodules/LLMProvider` (vasic-digital) and is
   registered as its own item. Capture G5's rc before and after. This satisfies T047's roster-row/migration
   steps; T047 continues with the rest of its governance-drift/docs-drift closure only.  _Covers: FR-002, FR-006._
-- [ ] T038 [REVIEW] [US1] (after **T084**'s early migration + roster ratification) Independent review of
+- [x] T038 [REVIEW] [US1] (after **T084**'s early migration + roster ratification) Independent review of
   the runner, each class's recall claim and the baseline output. ONLY THEN: seed the now-migrated LIVE
   register with `gap add`, publish the recall table, and take the **human checkpoint** -- operator decision
   2026-09-26: cycle-1 improvement scope is all 10 proposed improvement items -- and run `gap freeze --cycle 1`
