@@ -460,3 +460,4 @@ check	zero-gap-class-unsealed-evidence	scripts/zero-gap-class-unsealed-evidence.
 check	zero-gap-class-doc-count-drift	scripts/zero-gap-class-doc-count-drift.sh	flag	--prove-failure	--root /nonexistent
 check	zero-gap-class-pointer-drift	scripts/zero-gap-class-pointer-drift.sh	flag	--prove-failure	--root /nonexistent
 check	zero-gap-class-content-boundary-rows	scripts/zero-gap-class-content-boundary-rows.sh	flag	--prove-failure	--root /nonexistent
+check	zero-gap-determinism	scripts/zero-gap-determinism.sh	flag	--prove-failure	--root /nonexistent

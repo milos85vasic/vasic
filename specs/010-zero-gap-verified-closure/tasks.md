@@ -194,7 +194,7 @@ defect per class appears; an uninspectable part is listed, never clean.
 - [x] T034 [P] [SUBAGENT] [TDD] [US1] Class `known-open-decisions`: the operator-decision backlog
   (behind-remote submodules, indexed evaluation artefacts, question-shape leak, oomd, Lumen leg,
   `GIT_OPTIONAL_LOCKS`, provider-CI unverified rows) as items with options and cost (FR-009).  _Covers: FR-001, FR-009._
-- [ ] T035 [TDD] [US1] Determinism harness `scripts/zero-gap-determinism.sh` (`--check <id>`; N=5
+- [x] T035 [TDD] [US1] Determinism harness `scripts/zero-gap-determinism.sh` (`--check <id>`; N=5
   repeats; sha256 of normalised output; any difference ⇒ registered UNSTABLE, not evidence).  _Covers: FR-003, FR-015, SC-001, SC-006._
 - [ ] T036 [US1] BASELINE sweep on a quiet tree (on a frozen REAL COPY — `rsync -a` of the tracked tree plus needed untracked inputs, never hardlinks — if the live tree moves) and the
   per-class recall table. Nothing is seeded yet.  _Covers: FR-001._
