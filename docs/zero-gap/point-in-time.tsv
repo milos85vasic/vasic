@@ -8,6 +8,19 @@
 # Deliberately NOT listed: docs/constitution-adoption/INVENTORY.md (its header declares a CURRENT
 # status ledger beside the historical record), workshop/docs/work-register.md (a living register),
 # specs/008-unified-workshop-platform/tasks.md (the live task list).
+#
+# CAPTION-GATED ROWS (feature 010, T091): a row whose reason contains the literal phrase
+# "own dated caption" is NOT a whole-document exemption. It exempts only a line that sits inside
+# a "### ... — YYYY-MM-DD" entry heading (or deeper text under one) of the document's own "§3"
+# section, AND only when that entry heading itself carries the dated caption (an entry heading
+# with no date is not exempt: it remains a finding, "true when written" is a claim the document
+# itself must make). Both scripts that read this file (stale-figures, doc-count-drift) implement
+# the identical caption/section detection; see each script's own header for it. A caption-gated
+# row is applied only by the class whose scanned-document set actually contains the path it
+# names — CONTINUATION.md is stale-figures' document (doc-count-drift never scans it per the
+# boundary ruling above), so the row below is, in practice, stale-figures' mechanism; a
+# caption-gated row matching no document in a given class's own population is not reported by
+# that class as a stale exemption (it may be another class's row).
 path	reason
 docs/SESSION-REPORT.md	a session report: its header states the measurement window (2026-08-27) and the HEAD at time of writing
 docs/setup-agents-wizard/CI-WORKFLOW-AUDIT.md	a dated audit (Date 2026-08-27 in its header) of a workflow file disabled the same day
@@ -30,3 +43,4 @@ workshop/docs/session-evidence/session-ledger.md	a per-session progress ledger: 
 workshop/docs/session-evidence/content-port-map.md	a planning snapshot in session-evidence/: its header marks it analysis and planning only
 workshop/docs/research/ux-research-2026-09-01.md	a research note dated 2026-09-01 in its title and file name
 workshop/docs/ai-interviewing-port/PLAN.md	a plan whose header dates every figure to the working trees read on 2026-09-04
+CONTINUATION.md	§3 ("Active work") entries carrying their own dated caption (a "### ... — YYYY-MM-DD" entry heading) are point-in-time status notes, true when written; an entry with no dated caption in its own heading is NOT exempt and remains a finding (T091, FR-020/FR-024)

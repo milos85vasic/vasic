@@ -48,6 +48,18 @@
 #   document, is COULD-NOT-INSPECT `docs/zero-gap/point-in-time.tsv:<n>` — no exemption lives in
 #   this code.
 #
+#   CAPTION-GATED ROWS (T091): a row whose reason contains the literal phrase "own dated caption"
+#   is NOT the whole-document exemption above. It exempts only a claim line that sits inside a
+#   "### ... — YYYY-MM-DD" ENTRY heading of the document's own "§3" SECTION ("## ... §3 ...");
+#   the entry heading itself must carry the date (an entry with no dated caption stays a finding;
+#   text before the section's first entry is never exempt). Both classes that read this file
+#   (this one and stale-figures) implement the identical detection. Such a row is applied only by
+#   the class whose own scanned-document set contains the path it names: a caption-gated row
+#   matching none of THIS class's documents is not reported (it may be another class's row — e.g.
+#   the CONTINUATION.md row is stale-figures' document, since this class never scans it per the
+#   boundary ruling above); the "row matches no scanned document" staleness check above applies
+#   only to whole-document rows.
+#
 # THE NOUN -> MEASURE TABLE (a claim is re-measured ONLY by one of these; each states how it
 # counts; "tracked" = `git ls-files` of the repository holding the path; in --corpus mode
 # "tracked" = present on disk under the corpus)
@@ -317,6 +329,32 @@ def read_text(path):
     with open(os.path.join(base, path), 'rb') as fh:
         return fh.read().decode('utf-8', 'surrogateescape')
 
+# ---- point-in-time §3 caption gating (T091; see the header) ---------------------------------
+CAPTION_MARK = 'own dated caption'
+SECTION_MARK = '§3'
+ENTRY_RE = re.compile(r'^###[ \t]+\S')     # an entry heading (exactly level 3)
+SECTION_RE = re.compile(r'^##[ \t]+\S')    # a section heading (exactly level 2)
+DATE_CAPTION_RE = re.compile(r'\b(?:19|20)\d{2}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])\b')
+
+
+def captioned(doclines, line):
+    """True when the 1-indexed `line` of `doclines` sits inside a "§3" section's own entry (the
+    nearest preceding "### " heading) AND that entry heading itself carries a YYYY-MM-DD date.
+    Mirrors the identical rule in zero-gap-class-stale-figures.sh (T091)."""
+    entry = None
+    for k in range(line - 1, -1, -1):
+        if k >= len(doclines): continue
+        if ENTRY_RE.match(doclines[k]):
+            entry = k; break
+        if SECTION_RE.match(doclines[k]):
+            return False
+    if entry is None or not DATE_CAPTION_RE.search(doclines[entry]):
+        return False
+    for k in range(entry - 1, -1, -1):
+        if SECTION_RE.match(doclines[k]):
+            return SECTION_MARK in doclines[k]
+    return False
+
 # ---- documents --------------------------------------------------------------------------------
 def is_doc(f, m):
     # BOUNDARY RULING (progress.yml reconcile 6 / (a)): the UMBRELLA's root carriers, README.md and
@@ -334,7 +372,7 @@ for m in [''] + owned:
 
 # ---- point-in-time exemptions (docs/zero-gap/point-in-time.tsv; tracked DATA with a reason per row) --
 PIT = 'docs/zero-gap/point-in-time.tsv'
-pit = []
+pit_blanket, pit_gated = [], []
 if os.path.lexists(os.path.join(base, PIT)):
     why = unsafe(PIT)
     if why:
@@ -346,10 +384,13 @@ if os.path.lexists(os.path.join(base, PIT)):
             if len(f) >= 2 and f[0] == 'path' and f[1].strip() == 'reason': continue
             if len(f) < 2 or not f[0].strip() or not f[1].strip():
                 cni('%s:%d' % (PIT, n), 'row carries no path or no reason: not applied (an exemption without its reason is refused)'); continue
-            pit.append((n, f[0].strip()))
-        for n, pat in pit:
+            patpath, reason = f[0].strip(), f[1]
+            (pit_gated if CAPTION_MARK in reason.lower() else pit_blanket).append((n, patpath))
+        for n, pat in pit_blanket:
             if not any(fnmatch.fnmatchcase(d, pat) for d, _ in docs):
                 cni('%s:%d' % (PIT, n), 'row matches no scanned document: a stale exemption is reported, never silently kept')
+        # a caption-gated row (T091) matching none of THIS class's documents is out of scope here
+        # (it may be another class's row, e.g. stale-figures' CONTINUATION.md) and is not reported.
 
 # ---- ledger-backed spans (docs/claim-ledger.tsv; class stale-figures owns these) -------------
 backed = {}
@@ -532,7 +573,9 @@ for d, m in docs:
     T = Ticks(text, paras)
     spans = backed.get(d, [])
     carrier = posixpath.basename(d) in CARRIERS and posixpath.dirname(d) == m and m != ''
-    exempt = any(fnmatch.fnmatchcase(d, pat) for _, pat in pit)
+    exempt = any(fnmatch.fnmatchcase(d, pat) for _, pat in pit_blanket)
+    gated = any(fnmatch.fnmatchcase(d, pat) for _, pat in pit_gated)
+    doclines = text.split('\n') if gated else None
     perline = {}     # line -> (line_text, historical?, key, normalised text): computed ONCE per line
     for start in sorted(got):
         c = got[start]; e = start + len(c['num'])
@@ -540,7 +583,8 @@ for d, m in docs:
         line = bisect.bisect_left(nl, start) + 1
         items.add('%s:%d' % (d, line)); items.add('figures:' + d)
         if mode == 'emit': continue
-        if exempt: continue          # point-in-time: true when written (docs/zero-gap/point-in-time.tsv)
+        if exempt: continue          # point-in-time: whole document, true when written
+        if gated and captioned(doclines, line): continue   # point-in-time: this entry's own dated caption (T091)
         if line not in perline:
             ls = nl[line - 2] + 1 if line >= 2 else 0
             le = nl[line - 1] if line - 1 < len(nl) else len(text)
@@ -781,6 +825,24 @@ prove_failure() (
     mkrepo "$CORP/clean" "$T/uc" && sed -i.bak 's/declares 4 submodules/declares 9 submodules/' "$T/uc/CLAUDE.md" && rm -f "$T/uc/CLAUDE.md.bak" && git -C "$T/uc" add -A 2>/dev/null
     run "$T/uc.out" --root "$T/uc"
     if [ "$RC" -eq 0 ] && ! grep -q '^FINDING' "$T/uc.out"; then ok "P6c a drifting umbrella CLAUDE.md count yields nothing here"; else bad "P6c rc=$RC"; fi
+
+    echo "P15 point-in-time §3 caption gating (T091): a captioned entry under a matching row is exempt; an UNCAPTIONED near-miss with IDENTICAL text in the same document, same section, is not"
+    mkrepo "$CORP/clean" "$T/s3" || und "P15 cannot build"
+    printf '## §3 Active work\n\n### CAPTIONED STATUS NOTE — 2026-09-25 (evening)\n\nThere are 5 tracked files in `data/`.\n\n### UNCAPTIONED STATUS NOTE WITH NO DATE\n\nThere are 5 tracked files in `data/`.\n' >"$T/s3/docs/section3.md"
+    printf 'docs/section3.md\town dated caption entries of section §3 are point-in-time, true when written (T091 test)\n' >>"$T/s3/docs/zero-gap/point-in-time.tsv"
+    git -C "$T/s3" add -A 2>/dev/null
+    run "$T/s3.out" --root "$T/s3"
+    if [ "$RC" -eq 1 ] && [ "$(locs "$T/s3.out")" = "docs/section3.md:9" ]; then ok "P15 the captioned line (5) is exempt; the uncaptioned near-miss (9) remains the only finding"
+    else bad "P15 rc=$RC got '$(locs "$T/s3.out" | tr '\n' ' ')' want 'docs/section3.md:9'"; fi
+
+    echo "P15b RED baseline: with NO matching point-in-time row at all, a dated caption alone exempts nothing (both lines fire)"
+    mkrepo "$CORP/clean" "$T/s3b" || und "P15b cannot build"
+    printf '## §3 Active work\n\n### CAPTIONED STATUS NOTE — 2026-09-25 (evening)\n\nThere are 5 tracked files in `data/`.\n\n### UNCAPTIONED STATUS NOTE WITH NO DATE\n\nThere are 5 tracked files in `data/`.\n' >"$T/s3b/docs/section3.md"
+    git -C "$T/s3b" add -A 2>/dev/null
+    run "$T/s3b.out" --root "$T/s3b"
+    want_s3b=$(printf 'docs/section3.md:5\ndocs/section3.md:9')
+    if [ "$RC" -eq 1 ] && [ "$(locs "$T/s3b.out")" = "$want_s3b" ]; then ok "P15b both the captioned (5) and uncaptioned (9) lines fire with no exemption row present"
+    else bad "P15b rc=$RC got '$(locs "$T/s3b.out" | tr '\n' ' ')' want 'docs/section3.md:5 docs/section3.md:9'"; fi
 
     echo "P7 empty population => rc 2, never clean"
     mkdir -p "$T/e" && printf '# Nothing to count\n\nNo figure here.\n' >"$T/e/README.md" && git -C "$T/e" init -q && git -C "$T/e" add -A

@@ -99,26 +99,57 @@
 #   branch, authentication) or a HEAD that does not descend from the fetched
 #   tip is rc 2 `UNWITNESSED` (a NOTE only with --allow-untracked-anchor, which
 #   is refused for the tracked default anchor). The FETCH is itself an
-#   execution surface, so it is pinned (review T015d F3): hooks off
-#   (`-c core.hooksPath=/dev/null`, so a reference-transaction hook never
-#   fires on the ref write), transports limited to `file`, `https` and `ssh`
-#   (GIT_ALLOW_PROTOCOL — `file` because this repository's proofs and any
-#   local mirror are path remotes; `ext::`, `fd::`, `git://` and cleartext
-#   `http://` are refused whatever protocol.<x>.allow says), prompts off,
-#   and the config-redirecting environment DROPPED (GIT_CONFIG_COUNT /
-#   GIT_CONFIG_KEY_* / GIT_CONFIG_VALUE_* / GIT_CONFIG_GLOBAL /
-#   GIT_CONFIG_SYSTEM / GIT_CONFIG_PARAMETERS) so a caller's environment
-#   cannot steer it; the remote URL is printed with any userinfo AND any
-#   secret-named query value (`?access_token=`, `?token=`, `?key=`) redacted.
-#   RESIDUAL: whoever controls the remote (or can rewrite this clone's
-#   remote URL configuration) can rewrite what is fetched; the repository's
-#   own .git/config and the user's REAL global config still apply — a
-#   `url.<x>.insteadOf` rewrite there redirects the witness, and
-#   `core.sshCommand` / `credential.helper` there, or GIT_SSH_COMMAND /
-#   GIT_PROXY_COMMAND / GIT_EXEC_PATH / PATH in the environment, still name
-#   programs the fetch runs; the REMOTE repository's own upload-pack hooks
-#   run on the remote's side; anchor history not yet pushed is witnessed by
-#   nothing outside this clone.
+#   execution surface, so it is pinned (review T015d F3, review T014 N3):
+#   hooks off (`-c core.hooksPath=/dev/null`, so a reference-transaction hook
+#   never fires on the ref write), `--no-recurse-submodules` (measured: an
+#   unfixed fetch recurses into every populated submodule — this repository
+#   owns 22 — and re-runs every one of these vectors again against THAT
+#   submodule's own config; it ALSO turns out to be the reason a plain fetch
+#   invokes a configured `core.fsmonitor` hook — that call is part of git's
+#   own submodule-recursion decision, measured to already stop once recursion
+#   is off), `-c core.fsmonitor=false` on both this fetch AND the separate
+#   `git ls-files` call this script's binary makes to locate the tracked
+#   anchor (kept as defense in depth; `ls-files` invokes fsmonitor on its own,
+#   independently of submodule recursion), `--no-auto-maintenance` (no unwanted background
+#   `git maintenance --auto` after a witness check), `--upload-pack=git-
+#   upload-pack` (measured: `-c remote.<r>.uploadpack=...` does NOT win —
+#   git reports "more than one uploadpack given, using the first" and still
+#   runs the config file's program; the `--upload-pack` command-line flag is
+#   the construct that actually overrides it), transports limited to `file`,
+#   `https` and `ssh` (GIT_ALLOW_PROTOCOL — `file` because this repository's
+#   proofs and any local mirror are path remotes; `ext::`, `fd::`, `git://`
+#   and cleartext `http://` are refused whatever protocol.<x>.allow says, and
+#   this holds even when an `insteadOf` rewrite RETARGETS the URL to `ext::`:
+#   the allowlist is checked against the resolved URL, not the configured
+#   one), prompts off, and the config-redirecting environment DROPPED
+#   (GIT_CONFIG_COUNT / GIT_CONFIG_KEY_* / GIT_CONFIG_VALUE_* /
+#   GIT_CONFIG_GLOBAL / GIT_CONFIG_SYSTEM / GIT_CONFIG_PARAMETERS) so a
+#   caller's environment cannot steer it; the remote URL is printed with any
+#   userinfo AND any secret-named query value (`?access_token=`, `?token=`,
+#   `?key=`) redacted.
+#   RESIDUAL, deliberately NOT neutralised (review T014 N3 ruling; rev-n3
+#   independent re-review): whoever controls the remote (or can rewrite this
+#   clone's remote URL configuration) can rewrite what is fetched; a
+#   `url.<x>.insteadOf` rewrite still redirects the witness to a different
+#   URL (never to a different, disallowed protocol — see above). TWO
+#   transport-specific execution points, each pinned by its own test rather
+#   than only documented here: `core.sshCommand` (ssh://) still names a
+#   program the fetch runs (H19 / TestN3_..SshCommand..), and
+#   `credential.helper` (https://) likewise still runs a configured program —
+#   genuinely invoked only once the connection reaches a real, reachable 401,
+#   never on a mere DNS failure, which is why H20 /
+#   TestN3_..CredentialHelper.. run an actual local TLS server that answers
+#   401 rather than pointing at an unreachable host. Pinning either was
+#   rejected: it would break a legitimate operator's own ssh/credential setup
+#   for the three real umbrella remotes, which this fetch must keep reaching.
+#   Also residual: GIT_SSH_COMMAND / GIT_PROXY_COMMAND / GIT_EXEC_PATH / PATH
+#   in the environment still name programs the fetch runs; anchor history not
+#   yet pushed is witnessed by nothing outside this clone; and if
+#   `.git/refs/zero-gap/witness` is already a symlink to somewhere outside
+#   `.git` — which needs pre-existing write access to this clone's `.git` —
+#   the fetch follows it and writes the loose-ref file at the symlink's
+#   target, exactly as any other git ref write would: not a new privilege
+#   this fetch grants.
 #   CONSISTENCY: the four parts (and --anchor-write's verify-then-write) run
 #   under ONE shared lock on the store directory that the function takes
 #   itself, on a descriptor this shell holds — so it holds whether the script
@@ -377,6 +408,8 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"strconv"
 
@@ -439,6 +472,16 @@ func main() {
 		k, _ := strconv.Atoi(a[3])
 		d, _ := chain.Digest(rs[k-1])
 		fmt.Println(d)
+	case "httpsrv401": // review T014 N3 rev-n3: a REAL reachable https 401 so
+		// credential.helper is genuinely invoked (DNS failure alone never
+		// reaches the credential subsystem). Prints the base URL, then blocks
+		// until killed by the caller.
+		srv := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("WWW-Authenticate", `Basic realm="zero-gap-n3"`)
+			w.WriteHeader(http.StatusUnauthorized)
+		}))
+		fmt.Println(srv.URL)
+		select {}
 	}
 }
 GOEOF
@@ -655,6 +698,55 @@ GOEOF
     git -C "$H" config protocol.ext.allow always; git -C "$H" remote set-url origin "ext::$T/h15.helper"
     expect "H15b an ext:: witness remote is refused (UNWITNESSED, rc 2), never executed" 2 'history=UNWITNESSED' -- STRICT "$H/store"
     [ ! -e "$T/h15.ext-ran" ] && ok "H15b (marker) the ext:: helper was not executed" || bad "H15b the ext:: remote helper RAN"
+    # H16-H19 — review T014 N3: the witness fetch used to recurse into
+    # populated submodules, trigger auto-maintenance, and let this
+    # repository's OWN config execute an upload-pack program during a
+    # local-transport fetch. H16-H18 must now be closed (marker absent);
+    # H19 pins the DOCUMENTED residual (core.sshCommand): still runs,
+    # deliberately, because pinning it would break a real ssh operator setup.
+    H="$T/h16"; newh "$H" 2 && AW "$H/store" && hc "$H" a2 && remote_of "$H" || { echo "  UNDETERMINED: cannot build the uploadpack fixture"; exit 2; }
+    printf '#!/bin/sh\n: > "%s"\nexit 1\n' "$T/h16.marker" > "$T/h16.upload.sh"; chmod +x "$T/h16.upload.sh"
+    git -C "$H" config remote.origin.uploadpack "$T/h16.upload.sh"
+    expect "H16 remote.origin.uploadpack named by the repository's OWN config is overridden (--upload-pack=git-upload-pack), never executed" 0 'history=HOLDS' -- STRICT "$H/store"
+    [ ! -e "$T/h16.marker" ] && ok "H16 (marker) the configured uploadpack program was not executed" || bad "H16 the configured uploadpack program RAN"
+    H="$T/h17"; newh "$H" 2 && AW "$H/store" && hc "$H" a2 && remote_of "$H" || { echo "  UNDETERMINED: cannot build the fsmonitor fixture"; exit 2; }
+    printf '#!/bin/sh\n: > "%s"\necho '"'"'{"version":2,"clock":"c:0:0","is_fresh_instance":true,"files":[]}'"'"'\nexit 0\n' "$T/h17.marker" > "$T/h17.fsmon.sh"; chmod +x "$T/h17.fsmon.sh"
+    git -C "$H" config core.fsmonitor "$T/h17.fsmon.sh"
+    expect "H17 a core.fsmonitor hook named by the repository's OWN config does not run on the witness fetch" 0 'history=HOLDS' -- STRICT "$H/store"
+    [ ! -e "$T/h17.marker" ] && ok "H17 (marker) the fsmonitor hook was not executed" || bad "H17 the fsmonitor hook RAN"
+    H="$T/h18"; newh "$H" 2 && AW "$H/store" && hc "$H" a2 && remote_of "$H" || { echo "  UNDETERMINED: cannot build the insteadOf fixture"; exit 2; }
+    printf '#!/bin/sh\n: > "%s"\nexit 1\n' "$T/h18.marker" > "$T/h18.helper"; chmod +x "$T/h18.helper"
+    origin_url=$(git -C "$H" remote get-url origin)
+    git -C "$H" config protocol.ext.allow always
+    git -C "$H" config "url.ext::$T/h18.helper.insteadOf" "$origin_url"
+    expect "H18 an insteadOf rewrite RETARGETING origin to ext:: is refused before the helper runs (allowlist checks the resolved URL)" 2 'history=UNWITNESSED' -- STRICT "$H/store"
+    [ ! -e "$T/h18.marker" ] && ok "H18 (marker) the insteadOf-redirected ext:: helper was not executed" || bad "H18 the insteadOf-redirected ext:: helper RAN"
+    H="$T/h19"; newh "$H" 2 && AW "$H/store" && hc "$H" a2 && remote_of "$H" || { echo "  UNDETERMINED: cannot build the sshCommand fixture"; exit 2; }
+    printf '#!/bin/sh\n: > "%s"\nexit 1\n' "$T/h19.marker" > "$T/h19.ssh.sh"; chmod +x "$T/h19.ssh.sh"
+    git -C "$H" config core.sshCommand "$T/h19.ssh.sh"
+    git -C "$H" remote set-url origin "ssh://nosuchhost.invalid/x/y.git"
+    V STRICT "$H/store" >"$T/h19.out" 2>&1
+    [ -e "$T/h19.marker" ] && ok "H19 (documented residual, review T014 N3) core.sshCommand still names a program the fetch runs — pinning it would break a real ssh operator setup, so it is intentionally NOT neutralised" \
+        || bad "H19 core.sshCommand no longer ran on the witness fetch — either the residual was silently closed (good, but update the header) or this fixture broke"
+    H="$T/h20"; newh "$H" 2 && AW "$H/store" && hc "$H" a2 && remote_of "$H" || { echo "  UNDETERMINED: cannot build the credential-helper fixture"; exit 2; }
+    "$ATTK" httpsrv401 > "$T/h20.url" 2>"$T/h20.srv.log" &
+    h20_pid=$!
+    for _i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20; do [ -s "$T/h20.url" ] && break; sleep 0.1; done
+    h20_url=$(cat "$T/h20.url" 2>/dev/null)
+    if [ -z "$h20_url" ]; then
+        echo "  UNDETERMINED: the local TLS 401 test server did not start: $(cat "$T/h20.srv.log" 2>/dev/null | tr '\n' ' ')"
+        kill "$h20_pid" 2>/dev/null || true
+    else
+        printf '#!/bin/sh\n: > "%s"\ncat >/dev/null\necho username=x\necho password=y\nexit 0\n' "$T/h20.marker" > "$T/h20.cred.sh"; chmod +x "$T/h20.cred.sh"
+        git -C "$H" config http.sslVerify false
+        git -C "$H" config credential.helper "$T/h20.cred.sh"
+        git -C "$H" remote set-url origin "$h20_url/repo.git"
+        V STRICT "$H/store" >"$T/h20.out" 2>&1
+        [ -e "$T/h20.marker" ] && ok "H20 (documented residual, review T014 N3 rev-n3) credential.helper still names a program the fetch runs against a REAL reachable 401 over https — pinning it would break a real credential-helper operator setup, so it is intentionally NOT neutralised" \
+            || bad "H20 credential.helper did NOT run against a real reachable 401 — either the residual was silently closed (good, but update the header) or this fixture broke"
+        kill "$h20_pid" 2>/dev/null || true
+    fi
+    wait "$h20_pid" 2>/dev/null || true
     # L3 — review T015d F4: a FORGED ZG_LOCK_MODE=exclusive on a descriptor
     # held SHARED must not convert the lock (a failed conversion DROPS it and
     # the holder then runs unlocked). A second reader makes the conversion

@@ -33,6 +33,7 @@ import (
 	"path/filepath"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -64,6 +65,37 @@ func futureDated(rec *EvidenceRecord) bool { return rec.time.After(nowFn()) }
 // freeze` — a test seam for the "register moved during the freeze" case.
 var freezeMidHook func()
 
+// adoptMidHook, when set, runs inside `gap adopt`'s write transaction, between
+// the items UPDATE and the history/provenance inserts, and returning a
+// non-nil error aborts the transaction — a test seam that proves the write is
+// atomic: whatever the hook did to the transaction (including a genuine SQL
+// constraint violation) is rolled back with everything else.
+var adoptMidHook func(tx *sql.Tx) error
+
+// adoptPreBeginHook, when set, runs right after `gap adopt`'s it.gap refusal
+// check and immediately before its write transaction opens — the exact TOCTOU
+// window the rev-adopt review exploited (loadItem runs before the write
+// transaction begins, so a second process can read the same "not yet a gap
+// item" snapshot before the first one commits). It is nil in production and
+// exists purely as a test seam, matching adoptMidHook's pattern; see
+// TestGapAdoptRaceRefusesConcurrentDoubleAdopt.
+var adoptPreBeginHook func()
+
+// adoptRaceWindow sleeps for WI_GAP_ADOPT_RACE_MS milliseconds (when that
+// environment variable names a positive integer) at the same TOCTOU point as
+// adoptPreBeginHook. It is inert in every normal invocation — the tracked
+// wrapper scripts and the live register never set the variable — and exists
+// solely so the race adoptPreBeginHook exercises with goroutines can also be
+// reproduced with two real, independent OS processes racing on the same id;
+// see TestGapAdoptRaceRefusesConcurrentDoubleAdopt's comment for the recipe.
+func adoptRaceWindow() {
+	if v := os.Getenv("WI_GAP_ADOPT_RACE_MS"); v != "" {
+		if n, err := strconv.Atoi(v); err == nil && n > 0 {
+			time.Sleep(time.Duration(n) * time.Millisecond)
+		}
+	}
+}
+
 var actorRe = regexp.MustCompile(`^[A-Za-z0-9][A-Za-z0-9._@:+-]*$`)
 var cycleRe = regexp.MustCompile(`^[A-Za-z0-9][A-Za-z0-9._-]*$`)
 
@@ -75,12 +107,12 @@ var reopenReasons = []string{"test-failed", "manual-testing-detected", "captured
 // RunGap dispatches `workable-items-vsc gap <subcommand>`.
 func RunGap(args []string, stdout, stderr io.Writer) int {
 	if len(args) == 0 {
-		fmt.Fprintln(stderr, "usage: workable-items-vsc gap <migrate|add|classify|verdict|close|reopen|link|apply-queue|freeze|summary> [flags]")
+		fmt.Fprintln(stderr, "usage: workable-items-vsc gap <migrate|add|adopt|classify|verdict|close|reopen|link|apply-queue|freeze|summary> [flags]")
 		fmt.Fprintln(stderr, HonestyNotice)
 		return rcUndet
 	}
 	cmds := map[string]func([]string, io.Writer, io.Writer) int{
-		"migrate": gapMigrate, "add": gapAdd, "classify": gapClassify, "verdict": gapVerdict,
+		"migrate": gapMigrate, "add": gapAdd, "adopt": gapAdopt, "classify": gapClassify, "verdict": gapVerdict,
 		"close": gapClose, "reopen": gapReopen, "link": gapLink, "apply-queue": gapApplyQueue,
 		"freeze": gapFreeze, "summary": gapSummary,
 	}
@@ -444,7 +476,7 @@ func history(tx *sql.Tx, id, event, onDate, reason, evidence string) error {
 // itemRow is the subset of one item row the commands read.
 type itemRow struct {
 	id, loc, typ, status, severity, title, description, createdBy, assignedTo, body string
-	disposition                                                                     string
+	disposition, anchor, closureCriteria                                            string
 	gap                                                                             bool
 }
 
@@ -453,6 +485,7 @@ type itemRow struct {
 func loadItem(q queryer, id string) (*itemRow, error) {
 	rows, err := q.Query(`SELECT atm_id, current_location, type, status, COALESCE(severity,''), title, description,
         COALESCE(created_by,''), COALESCE(assigned_to,''), COALESCE(body_md,''), COALESCE(disposition,''),
+        COALESCE(forensic_anchor,''), COALESCE(closure_criteria,''),
         (`+gapPredicate+`)
         FROM items WHERE atm_id = ? ORDER BY current_location DESC`, id)
 	if err != nil {
@@ -464,7 +497,7 @@ func loadItem(q queryer, id string) (*itemRow, error) {
 	}
 	var r itemRow
 	if err := rows.Scan(&r.id, &r.loc, &r.typ, &r.status, &r.severity, &r.title, &r.description,
-		&r.createdBy, &r.assignedTo, &r.body, &r.disposition, &r.gap); err != nil {
+		&r.createdBy, &r.assignedTo, &r.body, &r.disposition, &r.anchor, &r.closureCriteria, &r.gap); err != nil {
 		return nil, err
 	}
 	return &r, nil
@@ -708,6 +741,216 @@ func gapClassify(args []string, stdout, stderr io.Writer) int {
 		return rc
 	}
 	fmt.Fprintf(stdout, "gap classify: %s classified %s (status %s), owner %s, recheck %s\n", it.id, *reason, status, *owner, *recheck)
+	return rcOK
+}
+
+// ── gap adopt ──────────────────────────────────────────────────────────────
+//
+// `gap adopt` is the mirror image of `gap add`: `add` INSERTs a brand-new row;
+// `adopt` UPDATEs an EXISTING non-gap row in place, setting it.gap=true and
+// filling the 14 zero-gap columns (gapschema.go's GapColumns) so the item can
+// be classified/verdicted/closed like any item `add` opened. It never changes
+// atm_id, type, status or current_location — a pre-existing row's identity and
+// lifecycle position are exactly what adoption preserves (plan-migrate finding
+// 4, progress.yml: 18 register rows already exist and would otherwise need a
+// duplicate id or a canonical `close` that wipes every gap column). It DOES
+// update title/description/closure_criteria/forensic_anchor when the operator
+// supplies better text at adoption time (a one-time backfill, not just a
+// column fill) but leaves body_md untouched: no V-G rule or base rule reads
+// body_md, and regenerating the Markdown heading is a job for a documented
+// regeneration mechanism (§11.4.77), not for this command.
+func gapAdopt(args []string, stdout, stderr io.Writer) int {
+	fs, repo, dbFlag := newFlags("adopt", stderr)
+	id := fs.String("id", "", "existing item id to adopt as a gap item (must not already be one)")
+	kind := fs.String("kind", "", strings.Join(GapKinds, " | "))
+	severity := fs.String("severity", "", strings.Join(GapSeverities, " | "))
+	category := fs.String("category", "", "root-cause category (research D4 closed set)")
+	title := fs.String("title", "", "one-line title (overwrites items.title)")
+	rootCause := fs.String("root-cause", "", "root-cause narrative (folded into items.description)")
+	proposedFix := fs.String("proposed-fix", "", "proposed-fix narrative (folded into items.description)")
+	crit := fs.String("closure-criteria", "", "what must be true to close it (default: keep the item's existing value)")
+	target := fs.String("measurable-target", "", "required for kind=improvement (FR-025)")
+	anchor := fs.String("anchor", "", "location of the defect (items.forensic_anchor); default: keep the item's existing value")
+	owner := fs.String("owner", "", "owner handle (items.assigned_to); default: keep the item's existing value — V-G1 needs a non-empty one either way")
+	evidence := fs.String("evidence", "", "path of evidence supporting the adoption (repository-relative)")
+	planDue := fs.String("plan-due", "", "dated plan YYYY-MM-DD (FR-006; required by V-G10 when --disposition=open)")
+	disposition := fs.String("disposition", "open", "open | classified — adopt never closes an item")
+	reason := fs.String("classification-reason", "", strings.Join(GapClassificationReason, " | ")+" (required iff --disposition=classified)")
+	cowner := fs.String("classification-owner", "", "who can lift the classification (required iff classified)")
+	recheck := fs.String("classification-recheck", "", "recheck date YYYY-MM-DD (required iff classified)")
+	what := fs.String("block-what", "", "operator reasons: the decision or action needed")
+	why := fs.String("block-why", "", "operator reasons: why no alternative remains")
+	options := fs.String("block-options", "", "operator reasons: one list line per option, each with \"cost: …\"")
+	who := fs.String("block-who", "", "operator reasons: who acts (default: --classification-owner)")
+	asOf := fs.String("as-of", "", "ISO date the date rules use (default: today)")
+	if err := fs.Parse(args); err != nil {
+		return rcUndet
+	}
+	e, rc := openGap(*repo, *dbFlag, *asOf, false, stdout, stderr)
+	if rc != rcOK {
+		return rc
+	}
+	defer e.close()
+	it, err := loadItem(e.db, *id)
+	if err != nil {
+		fmt.Fprintf(stderr, "COULD NOT DETERMINE: %v\n", err)
+		return rcUndet
+	}
+	var problems []string
+	switch {
+	case it == nil:
+		return refuse(stderr, []string{fmt.Sprintf("no item %q", *id)})
+	case it.gap:
+		problems = append(problems, *id+" is already a gap item; adopt is one-time — use classify/verdict/close to change it")
+	}
+	for name, v := range map[string]string{"--kind": *kind, "--severity": *severity, "--category": *category,
+		"--title": *title, "--root-cause": *rootCause, "--proposed-fix": *proposedFix, "--closure-criteria": *crit} {
+		if strings.TrimSpace(v) == "" {
+			problems = append(problems, name+" is required")
+		}
+	}
+	description := strings.TrimSpace(*rootCause)
+	if pf := strings.TrimSpace(*proposedFix); pf != "" {
+		if description != "" {
+			description += "\n\n"
+		}
+		description += "Proposed fix: " + pf
+	}
+	if d := description; d != "" && len(d) < 40 && len(strings.Fields(d)) < 6 {
+		problems = append(problems, "--root-cause/--proposed-fix together are below the §11.4.91 floor (≥6 words or ≥40 chars)")
+	}
+	if *evidence != "" {
+		if err := e.resolveFile(*evidence); err != nil {
+			problems = append(problems, "--evidence "+err.Error())
+		}
+	}
+	if !inSet([]string{"open", "classified"}, *disposition) {
+		problems = append(problems, fmt.Sprintf("--disposition %q is not open or classified; adopt never closes an item", *disposition))
+	}
+	operator := false
+	if it != nil && *disposition == "classified" {
+		if !inSet(GapClassificationReason, *reason) {
+			problems = append(problems, fmt.Sprintf("--classification-reason %q is not one of {%s}", *reason, strings.Join(GapClassificationReason, ", ")))
+		}
+		operator = *reason == "operator-decision" || *reason == "operator-action"
+		if operator && (strings.TrimSpace(*what) == "" || strings.TrimSpace(*why) == "" || strings.TrimSpace(*options) == "") {
+			problems = append(problems, "an operator reason needs --block-what, --block-why and --block-options (FR-009)")
+		}
+	}
+	// Adopt never changes status (it preserves atm_id/type/status/location), so
+	// the requested disposition must already agree with the status the item
+	// carries today — the same agreement V-G7 enforces after the write, stated
+	// up front with a clear reason instead of a bare post-commit finding.
+	if it != nil && len(problems) == 0 {
+		switch *disposition {
+		case "open":
+			if !inSet(openStatuses, it.status) {
+				problems = append(problems, fmt.Sprintf("%s has status %q, not an open status; adopt does not change status — fix the status first or use --disposition classified", *id, it.status))
+			}
+		case "classified":
+			switch {
+			case operator && it.status != StatusBlocked:
+				problems = append(problems, fmt.Sprintf("classified %s must carry status Operator-blocked, not %q; adopt does not change status", *reason, it.status))
+			case !operator && it.status != StatusQueued:
+				problems = append(problems, fmt.Sprintf("classified %s must carry the exact status Queued, not %q; adopt does not change status", *reason, it.status))
+			}
+		}
+	}
+	if len(problems) > 0 {
+		return refuse(stderr, problems)
+	}
+
+	// TOCTOU window: it.gap above was read before any write lock is held.
+	// Widen it deliberately (test hook, or a real OS-process race via
+	// WI_GAP_ADOPT_RACE_MS) so a second concurrent adopt of the same id can
+	// land its own loadItem read here before this one's write commits.
+	if adoptPreBeginHook != nil {
+		adoptPreBeginHook()
+	}
+	adoptRaceWindow()
+
+	tx, brc := e.begin()
+	if brc != rcOK {
+		return brc
+	}
+	defer tx.Rollback()
+
+	newAnchor := it.anchor
+	if strings.TrimSpace(*anchor) != "" {
+		newAnchor = *anchor
+	}
+	newCrit := it.closureCriteria
+	if strings.TrimSpace(*crit) != "" {
+		newCrit = *crit
+	}
+	newOwner := it.assignedTo
+	if strings.TrimSpace(*owner) != "" {
+		newOwner = *owner
+	}
+	// AND kind IS NULL closes the TOCTOU window above at the database level
+	// (§11.4.253): kind is one of the 14 additive zero-gap columns
+	// (gapschema.go), gapPredicate's COALESCE treats a NULL kind (among
+	// others) as "not yet a gap item", and gapAdopt is the only writer that
+	// ever sets it — so an item this command's own it.gap check found clean
+	// has kind IS NULL at that instant, and stays matchable by this UPDATE
+	// only until some transaction (this one or a concurrent one) commits a
+	// non-NULL kind for it. A concurrent adopt of the same id that already
+	// committed its own UPDATE first flips kind to non-NULL, so this
+	// transaction's UPDATE (serialised behind BEGIN IMMEDIATE per e.begin's
+	// comment, so it sees that commit) touches zero rows instead of
+	// re-applying a stale, already-superseded write.
+	res, err := tx.Exec(`UPDATE items SET title=?, description=?, severity=?, forensic_anchor=?, closure_criteria=?,
+        assigned_to=?, kind=?, category=?, disposition=?, classification_reason=?, classification_owner=?, classification_recheck=?,
+        plan_due=?, measurable_target=?, sweep_class=COALESCE(sweep_class,'adopted'), reopens_count=COALESCE(reopens_count,0),
+        last_modified=? WHERE atm_id=? AND current_location=? AND kind IS NULL`,
+		*title, description, *severity, nullable(newAnchor), nullable(newCrit),
+		newOwner, *kind, *category, *disposition, nullable(*reason), nullable(*cowner), nullable(*recheck),
+		nullable(*planDue), nullable(*target), stamp(), it.id, it.loc)
+	if err != nil {
+		return envFail(stderr, "adopting "+it.id, err)
+	}
+	switch n, _ := res.RowsAffected(); {
+	case n == 0:
+		// Never partial-apply: nothing else in this transaction has run yet,
+		// and the deferred tx.Rollback() above discards it untouched.
+		return refuse(stderr, []string{fmt.Sprintf(
+			"%s was adopted concurrently by another process between this command's check and its write (kind is no longer NULL); nothing was written — re-run to see its current state", it.id)})
+	case n != 1:
+		return envFail(stderr, "adopting "+it.id, fmt.Errorf("adopting %s touched %d rows", it.id, n))
+	}
+	if operator {
+		w := *who
+		if w == "" {
+			w = *cowner
+		}
+		if _, err := tx.Exec(`INSERT OR REPLACE INTO operator_block_details (atm_id,what,why_exhausted_alternatives,unblock_condition,who)
+            VALUES (?,?,?,?,?)`, it.id, *what, *why, *options, nullable(w)); err != nil {
+			return envFail(stderr, "adopting "+it.id, err)
+		}
+	}
+	if adoptMidHook != nil {
+		if err := adoptMidHook(tx); err != nil {
+			return envFail(stderr, "adopting "+it.id, err)
+		}
+	}
+	// Preserve whatever provenance already exists (adoption is not a new
+	// creation event); only an item with none gets one, and it names the
+	// adoption itself as the source, not a fabricated original source.
+	if _, err := tx.Exec(`INSERT OR IGNORE INTO item_provenance (atm_id,source_kind,source_path,source_locator,evidence_class,status_note)
+        VALUES (?,?,?,?,?,?)`, it.id, "session-work", nullable(*evidence), "gap adopt", "undetermined",
+		"adopted into the zero-gap register by `gap adopt`; no earlier provenance row existed"); err != nil {
+		fmt.Fprintf(stderr, "COULD NOT DETERMINE: %v\n", err)
+		return rcUndet
+	}
+	if err := history(tx, it.id, "Updated", e.opts.AsOf,
+		fmt.Sprintf("zero-gap:adopted kind=%s category=%s severity=%s disposition=%s", *kind, *category, *severity, *disposition), *evidence); err != nil {
+		fmt.Fprintf(stderr, "COULD NOT DETERMINE: %v\n", err)
+		return rcUndet
+	}
+	if rc, _ := e.commitIfClean(tx, it.id, "gap adopt"); rc != rcOK {
+		return rc
+	}
+	fmt.Fprintf(stdout, "gap adopt: %s adopted as a gap item (%s, %s/%s), disposition %s\n", it.id, *kind, *severity, *category, *disposition)
 	return rcOK
 }
 

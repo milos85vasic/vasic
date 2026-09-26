@@ -89,7 +89,11 @@ func VerifyAnchorHistoryWith(chainPath, anchorPath string, opt HistoryOptions) H
 		return undet("git rev-parse --show-toplevel: %v", err)
 	}
 	top = strings.TrimSpace(top)
-	full, err := git(dir, "ls-files", "--full-name", "--error-unmatch", "--", base)
+	// -c core.fsmonitor=false (review T014 N3): measured, `git ls-files`
+	// invokes a configured fsmonitor hook even for this existence probe,
+	// independently of anything gitFetch does later — a config-driven
+	// execution point of its own, on the same possibly-untrusted repository.
+	full, err := git(dir, "-c", "core.fsmonitor=false", "ls-files", "--full-name", "--error-unmatch", "--", base)
 	if err != nil {
 		res.Verdict = HistNotApplicable
 		say("the anchor is not tracked by git, so it has no committed history to check")
@@ -381,16 +385,80 @@ func fetchEnv() []string {
 // gitFetch fetches one refspec with prompts disabled, hooks pinned off, the
 // transport set restricted, the config-redirecting environment dropped and a
 // bounded time, so an unreachable, credential-requiring or forbidden remote
-// fails (UNWITNESSED), never hangs and never executes anything on this host.
-// RESIDUAL: the repository's own and the user's global config still apply
-// (`url.<x>.insteadOf`, `core.sshCommand`, `credential.helper`), as do
-// GIT_SSH_COMMAND / GIT_PROXY_COMMAND / GIT_EXEC_PATH / PATH and the REMOTE
-// repository's upload-pack configuration.
+// fails (UNWITNESSED), never hangs. It ALSO closes three config-driven
+// execution vectors this repository's (or a populated submodule's) OWN
+// config can name (review T014 N3, reproduced empirically 2026-09-26 before
+// this fix — a marker script named by each vector really ran):
+//   - `--no-recurse-submodules` — an unfixed fetch recurses into every
+//     populated submodule (this repository owns 22) and re-runs the whole
+//     vector set there too, against that submodule's own config;
+//   - `--no-auto-maintenance` — a fetch otherwise runs `git maintenance
+//     --auto` afterwards, unwanted background work this check has no reason
+//     to trigger;
+//   - `--upload-pack=git-upload-pack` — NOT `-c remote.<r>.uploadpack=...`:
+//     measured, that `-c` form does NOT win; git reports "more than one
+//     uploadpack given, using the first" and still runs the config file's
+//     program. The `--upload-pack` command-line flag is the one construct
+//     that actually overrides `remote.<r>.uploadpack`, which for a local
+//     (file-transport) remote — exactly what this repository's own proofs
+//     and any local mirror are — is a program THIS repository's or a
+//     submodule's own config names and git spawns directly, on THIS host,
+//     with no ssh and no remote server involved. It never runs "on the
+//     remote's side" for that transport.
+//   - `-c core.fsmonitor=false` — measured root cause: a plain `git fetch`
+//     invokes a configured `core.fsmonitor` hook as PART OF deciding whether
+//     to recurse into submodules, so `--no-recurse-submodules` above already
+//     removes this call site in practice (measured: with only
+//     `--no-recurse-submodules` added, the fsmonitor marker no longer runs;
+//     with only `--upload-pack=...` or only `--no-auto-maintenance` added,
+//     it still does). The `-c` is kept anyway as defense in depth against a
+//     git version that reintroduces another index-refresh path fetch may
+//     take, and because the SEPARATE `git ls-files` call this function's
+//     caller makes to locate the anchor file (line ~92) invokes fsmonitor
+//     independently of submodule recursion and needs its own `-c` there.
+//
+
+// RESIDUAL, deliberately NOT neutralised (review T014 N3 ruling, progress.yml;
+// rev-n3 independent re-review): TWO DIFFERENT transports, each with its own
+// pinned test.
+//   - `core.sshCommand` (the ssh:// transport) still runs whatever program
+//     the repository's own or the user's real global config names —
+//     pinning it would break a legitimate operator's own ssh setup for the
+//     three real umbrella remotes, which this fetch must keep working
+//     (TestN3_WitnessFetchSshCommandResidualIsDocumentedNotClosed).
+//   - `credential.helper` (the https:// transport) likewise still runs
+//     whatever program is configured — pinning it would break a real
+//     credential-helper setup for the same three remotes. This is
+//     genuinely invoked only once the HTTP layer gets as far as a 401 from
+//     a REACHABLE server; a mere DNS failure never reaches the credential
+//     subsystem at all, so the test that pins this (rev-n3 requirement)
+//     runs a real local TLS server that answers 401
+//     (TestN3_WitnessFetchCredentialHelperResidualIsDocumentedNotClosed).
+// `url.<x>.insteadOf` can still redirect the witness to a different URL, but
+// not to a different PROTOCOL: GIT_ALLOW_PROTOCOL below is checked against
+// the resolved (post-insteadOf) URL and already refuses `ext::`, `fd::`,
+// `git://` and cleartext `http://` (measured: an insteadOf-redirected
+// `ext::` helper is refused before it can run). Also still residual:
+// GIT_SSH_COMMAND / GIT_PROXY_COMMAND / GIT_EXEC_PATH / PATH in the
+// environment name programs the fetch runs. And: if
+// `.git/refs/zero-gap/witness` (or an ancestor directory of it) is already a
+// symlink to somewhere outside `.git` — which requires pre-existing WRITE
+// access to this clone's `.git`, i.e. the attacker already has as much
+// access as this process — the fetch follows it and writes the loose-ref
+// file at the symlink's target. That is ordinary git ref-write behaviour for
+// any ref, not a new privilege this fetch grants; it is not neutralised
+// because it needs no involvement from this fetch to begin with (an
+// attacker with that access can write anywhere directly).
 func gitFetch(dir, remote, refspec string) (string, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
-	cmd := exec.CommandContext(ctx, "git", "-C", dir, "-c", "core.hooksPath=/dev/null",
-		"fetch", "--quiet", "--no-tags", "--no-write-fetch-head", remote, refspec)
+	cmd := exec.CommandContext(ctx, "git", "-C", dir,
+		"-c", "core.hooksPath=/dev/null",
+		"-c", "core.fsmonitor=false",
+		"fetch", "--quiet", "--no-tags", "--no-write-fetch-head",
+		"--no-recurse-submodules", "--no-auto-maintenance",
+		"--upload-pack=git-upload-pack",
+		remote, refspec)
 	cmd.Env = fetchEnv()
 	var out, errb bytes.Buffer
 	cmd.Stdout, cmd.Stderr = &out, &errb

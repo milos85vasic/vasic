@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# zero-gap-class-private-in-public.sh — sweep class `private-in-public` (feature 010, task T030, FR-020).
+# zero-gap-class-private-in-public.sh — sweep class `private-in-public` (feature 010, task T030,
+# extended by T085, FR-020).
 #
 # WHAT IT DETECTS. FR-020: "No record produced by this programme MAY contain an unmeasured
 # assertion, guessing language, a credential, or copied private content." Three detectors run
@@ -21,16 +22,20 @@
 #       "forbid" IS read (no wholesale skip). Inline `code` spans and a term that is itself
 #       quoted ("probably", 'probably', “probably”) are removed before matching. Granularity is
 #       the LINE, not the sentence. One finding per line (the first term matched is named).
-#       Precision (re-measured 2026-09-26, fix round F3): NOT a semantic parser — a normative
-#       "X should be Y" is reported like a causal guess. Live tree: 8 hits, all 8 hand-read,
-#       1 real (sweep-classes.tsv:21 "least likely to drift", an unmeasured probability) and 7
-#       not: progress.yml:43 a normative "should be"; progress.yml:72, :86 and :95 review lines
-#       naming the vocabulary unquoted; and 3 SELF-REFERENCE rows — the re-baselined report.txt,
-#       FINDINGS-BY-CLASS.tsv and report.json each carry another class's finding whose
-#       description copies progress.yml:43, so a report of a sweep re-reports the term: 1/8.
-#       Wider sample specs/002-009 (outside the population): 47 hits, 10 hand-read, 2 real
-#       (a "presumably true" status and a "likely result" prediction), 8 normative or
-#       comparative ("most likely to", "should be read"): 2/10. Recall: 9 of 9 planted.
+#       Precision (re-measured 2026-09-26, fix round F3; population re-measured again same day,
+#       fix round F4 / T085, after the specs/002-009 extension below): NOT a semantic parser — a
+#       normative "X should be Y" is reported like a causal guess. Original-population rows: 8
+#       hits, all 8 hand-read, 1 real (sweep-classes.tsv:21 "least likely to drift", an
+#       unmeasured probability) and 7 not: progress.yml:43 a normative "should be"; progress.yml:
+#       72, :86 and :95 review lines naming the vocabulary unquoted; and 3 SELF-REFERENCE rows —
+#       the re-baselined report.txt, FINDINGS-BY-CLASS.tsv and report.json each carry another
+#       class's finding whose description copies progress.yml:43, so a report of a sweep
+#       re-reports the term: 1/8. specs/002-009 rows (T085: now INSIDE the population, was a
+#       "wider sample" taken outside it): 47 hits, 10 hand-read, 2 real (a "presumably true"
+#       status and a "likely result" prediction), 8 normative or comparative ("most likely to",
+#       "should be read"): 2/10. Combined live tree total with both ranges: 55 hits (re-measured
+#       2026-09-26 after T085; the two component counts above are unchanged, only their scope
+#       label moved). Recall: 9 of 9 planted.
 #       NOT seen, by design: a term on a line that carries a marker or the 11.4.6 anchor, or
 #       inside a fence or blockquote; the excluded words above.
 #
@@ -60,16 +65,27 @@
 #           and letter<->digit boundaries, average under 3 characters. Go test names, CamelCase
 #           identifiers, run directories and ULID routes average 3.4-5 and are not secrets;
 #           a random token averages about 2).
-#       THE MATCHED VALUE IS NEVER PRINTED: a finding names the shape and a 12-hex prefix
-#       of the sha256 of the WHOLE LINE (the line's context makes the digest useless for
-#       a dictionary attack on a short value). Precision (re-measured 2026-09-26): live tree
-#       0 hits; specs/002-009 sample 1 hit, hand-read 1 real (a literal password in a spec
-#       requirement line) — before the identifier rule the sample gave 71 hits, 67 of them
-#       Go test names, paths and ULIDs. Recall: 4 of 4 planted shapes; the constitution
-#       library alone finds 2 of those 4 (measured), which is why layer (b) exists. NOT
-#       seen: name-less short passwords, encoded/computed secrets, a secret split across
-#       lines, a token < 32 chars in no known shape, a base64 secret none of whose
-#       /-components mixes all three character classes.
+#       THE MATCHED VALUE IS NEVER PRINTED, anywhere (a finding, --json output or a register
+#       item description): T085 masked-output rule — a finding names the shape and a
+#       "[REDACTED len=N]" marker, N being the length of the WITHHELD value only (never a
+#       digest, excerpt or anything else derived from the value); a shape whose length this
+#       class cannot itself measure (the constitution scanner reports hit/clean only) gets a
+#       bare "[REDACTED]". The prior convention — a 12-hex sha256 prefix of the WHOLE LINE —
+#       is dropped: it named no value either, but the length marker is what FR-020's
+#       masked-output rule asks for and a line digest added nothing a location does not
+#       already give. Precision (re-measured 2026-09-26, fix round F4 / T085, population now
+#       including specs/002-009 per the extension below): live tree 1 hit, hand-read real (the
+#       literal password at specs/007-decouple-modules-auth/spec.md:184, caught by layer (a) —
+#       none of the generic shapes in layer (b) matches it) — before the identifier rule a
+#       specs/002-009 sample gave 71 hits, 67 of them Go test names, paths and ULIDs. Recall on
+#       the planted corpus: 4 of 4 planted shapes; the constitution library alone finds 2 of
+#       those 4 (measured), which is why layer (b) exists. On the REAL specs/007-*/ passwords
+#       (2 accounts, 15 lines across 5 files per the seed-build finding, T086 queues their
+#       rotation): only 1 of 15 lines is recall — a real, accepted gap, out of scope for T085
+#       and unchanged by it (population and masking are orthogonal to shape recall). NOT seen:
+#       name-less short passwords, encoded/computed secrets, a secret split across lines, a
+#       token < 32 chars in no known shape, a base64 secret none of whose /-components mixes
+#       all three character classes.
 #       CORPUS PLACEHOLDERS: the planted corpus stores NO secret-shaped text at rest (a
 #       secret scanner may refuse the push, and history is permanent). It stores
 #       @@ZG-AKIA@@, @@ZG-PRIVKEY-HEADER@@, @@ZG-ENTROPY@@ and @@ZG-URLPASS@@; --corpus mode
@@ -109,9 +125,12 @@
 #           "description" on separate lines is never a private-path-plus-quotation line — a
 #           quotation in such a description is not seen unless the same line names the path.
 #       A PATH-ONLY reference is allowed and is not reported (workshop/chapters/01/x.mp4).
-#       Precision (re-measured 2026-09-26, fix round F2): live tree 0 hits over 31 records,
-#       including the baseline report.json that gave 123 false CRITICALs before the JSON rule
-#       (live total 130 -> 7 at F2, every removed row one of those 123); specs/002-009 sample 0 hits
+#       Precision (re-measured 2026-09-26, fix round F2; population re-measured again same day,
+#       fix round F4 / T085): live tree 0 hits over 149 records (was 31 before the specs/002-009
+#       extension below; the specs/002-009 rows are now folded into this same live figure and
+#       remain 0), including the baseline report.json that gave 123 false CRITICALs before the
+#       JSON rule (live total 130 -> 7 at F2, every removed row one of those 123); specs/002-009
+#       rows (T085: now INSIDE the population, was a "wider sample" taken outside it) 0 hits
 #       (was 55, 0/5 real: 48 backticked paths, 4 paths inside the quote, 3 python -c
 #       arguments). Recall: 11 of 11 planted shapes (5 of them JSON: \", \u201c and \u0022
 #       escapes, literal curly quotes, an unterminated string); corpus clean/ holds a sweep-report-shaped report.json and a rows.jsonl
@@ -120,10 +139,17 @@
 #       backticked private path followed by a quotation; a quotation passed as a -x option
 #       argument (that is scripts/verify-content-boundary.sh's job, which compares text).
 #
-# POPULATION (row `private-in-public` of docs/zero-gap/sweep-classes.tsv, binding): every
-# public record the feature produces. Derived at run time, never listed:
+# POPULATION (row `private-in-public` of docs/zero-gap/sweep-classes.tsv — row wording NOT YET
+# updated for the T085 extension below; the controller who owns sweep-classes.tsv should append
+# "plus specs/002-*/ through specs/009-*/ (T085)" to that row's population column): every
+# public record the feature produces, PLUS (T085, FR-020) the numbered spec directories
+# specs/002-*/ through specs/009-*/ — previously out of scope, extended because a scan run
+# manually over them during the T085 seed-build check found two real, live account passwords
+# exposed in public specs/007-*/ text (T086 queues their rotation). specs/001-*/ and any
+# specs/010-*/ OTHER than specs/010-zero-gap-verified-closure/ stay OUT of scope; only the
+# literal range 002-009 is added. Derived at run time, never listed:
 #   git ls-files --cached --others --exclude-standard -- docs/zero-gap \
-#       specs/010-zero-gap-verified-closure CONTINUATION.md
+#       specs/010-zero-gap-verified-closure CONTINUATION.md 'specs/00[2-9]-*'
 # i.e. TRACKED plus UNTRACKED-NOT-IGNORED files (the set `zg_manifest` fingerprints): a
 # record written but not yet committed is exactly what must be caught before it is pushed,
 # and docs/zero-gap/ is untracked until the class-wave commit. Every path that exists (a tracked
@@ -355,24 +381,32 @@ BEGIN {
     isfence = (raw ~ /^[ \t]*(```|~~~)/)
     code = raw; gsub(/`[^`]*`/, " ", code)
 
-    # ---- (2) credentials: every line, fenced or not (a secret in a code block still leaks)
+    # ---- (2) credentials: every line, fenced or not (a secret in a code block still leaks).
+    # T085 masked-output rule (FR-020): each shape tag carries "shape:len" — len is the length
+    # of the WITHHELD value only, so the finding can name a redaction marker ([REDACTED len=N])
+    # without ever printing, or letting a caller recover, the value itself.
     k = ""
-    if (raw ~ re_aws) k = k ",aws-access-key-id"
-    if (raw ~ re_pem) k = k ",private-key-armour"
-    if (raw ~ re_gh || raw ~ re_ghp) k = k ",github-token"
-    if (raw ~ re_gl) k = k ",gitlab-token"
-    if (raw ~ re_sl) k = k ",slack-token"
-    if (raw ~ re_jwt) k = k ",jwt"
+    # re_aws alone wraps its credential in boundary-consuming groups ((^|[^A-Z0-9]) ... ([^A-Z0-9]|$)),
+    # so RLENGTH would over-count by the boundary character; the credential itself is always exactly
+    # a 4-letter prefix (AKIA/ASIA/AGPA/AIDA/AROA/ANPA/ANVA/AIPA) + 16 = 20 chars, a constant by
+    # construction of the pattern, so it is stated directly rather than taken from RLENGTH.
+    if (raw ~ re_aws) k = k ",aws-access-key-id:20"
+    if (match(raw, re_pem)) k = k ",private-key-armour:" RLENGTH
+    if (match(raw, re_gh)) k = k ",github-token:" RLENGTH
+    else if (match(raw, re_ghp)) k = k ",github-token:" RLENGTH
+    if (match(raw, re_gl)) k = k ",gitlab-token:" RLENGTH
+    if (match(raw, re_sl)) k = k ",slack-token:" RLENGTH
+    if (match(raw, re_jwt)) k = k ",jwt:" RLENGTH
     rest = raw
     while (match(rest, /[A-Za-z][A-Za-z0-9+.-]*:\/\/[^\/ \t:@]+:[^\/ \t@]+@/)) {
         u = substr(rest, RSTART, RLENGTH); rest = substr(rest, RSTART + RLENGTH)
         sub(/^[^:]*:\/\/[^:]*:/, "", u); sub(/@$/, "", u)
-        if (!placeholder(u)) { k = k ",url-userinfo-password"; break }
+        if (!placeholder(u)) { k = k ",url-userinfo-password:" length(u); break }
     }
     rest = raw
     while (match(rest, /[A-Za-z0-9+\/_=-]+/)) {
         t = substr(rest, RSTART, RLENGTH); rest = substr(rest, RSTART + RLENGTH)
-        if (length(t) >= 32 && mixed_component(t) && entropy(t) >= 4.2 && !ascending_run(t)) { k = k ",high-entropy-token"; break }
+        if (length(t) >= 32 && mixed_component(t) && entropy(t) >= 4.2 && !ascending_run(t)) { k = k ",high-entropy-token:" length(t); break }
     }
     if (k != "") print FNR "\tC\t" substr(k, 2)
 
@@ -426,7 +460,7 @@ raw_items() {
         ( cd "$CORPUS" && find . ! -type d -print0 ) | sed -z 's|^\./||'
     else
         git -C "$ROOT" ls-files -z --cached --others --exclude-standard -- \
-            docs/zero-gap specs/010-zero-gap-verified-closure CONTINUATION.md \
+            docs/zero-gap specs/010-zero-gap-verified-closure CONTINUATION.md 'specs/00[2-9]-*' \
             | awk 'BEGIN { RS = ORS = "\0" } !/^_tests\/fixtures\/zero-gap\//' \
             | while IFS= read -r -d '' p; do if [ -e "$ROOT/$p" ] || [ -L "$ROOT/$p" ]; then printf '%s\0' "$p"; fi; done
     fi
@@ -486,7 +520,8 @@ cred_lib_lines() {
 
 # ---------------------------------------------------------------- main
 main() {
-    local tok raw full region hits libl n found=0 inspected=0 walked priv b cont rc l line cat detail desc dig ln json
+    local tok raw full region hits libl n found=0 inspected=0 walked priv b cont rc l line cat detail desc ln json
+    local cshape clen marks
     ROOT="" CORPUS="" EMIT=0
     while [ $# -gt 0 ]; do
         case "$1" in
@@ -574,8 +609,19 @@ main() {
             case "$cat" in
                 G) desc="guessing term \"$detail\" (§11.4.6) in a statement outside code fences, quotes and UNCONFIRMED/hypothesis lines: a cause or status must be measured, or marked UNCONFIRMED"
                    printf '%s\t1\tFINDING %s medium false-evidence %s:%s %s %s:%s\n' "$line" "$ID" "$tok" "$line" "$desc" "$tok" "$line" ;;
-                C) dig=$(sed -n "${line}p" "$region" | sha256sum | cut -c1-12)
-                   desc="credential-shaped value ($detail) in a public record; the value is withheld, line digest sha256:$dig"
+                C) # T085 masked-output rule (FR-020): the description carries ONLY the location
+                   # (already in the FINDING line), the class name ($ID, already in the FINDING
+                   # line) and one "[REDACTED len=N]" marker per shape — N is the length of the
+                   # WITHHELD value, never the value itself; a shape with no known length (the
+                   # constitution scanner, which reports hit/clean only) gets a bare "[REDACTED]".
+                   # No line digest, no excerpt: nothing here can be used to recover the secret.
+                   marks=""
+                   while IFS=: read -r cshape clen; do
+                       [ -n "$cshape" ] || continue
+                       if [ -n "$clen" ]; then marks="${marks}${marks:+, }$cshape [REDACTED len=$clen]"
+                       else marks="${marks}${marks:+, }$cshape [REDACTED]"; fi
+                   done < <(printf '%s\n' "$detail" | tr ',' '\n')
+                   desc="credential-shaped value in a public record: $marks; the value is never printed (finding, --json output or register description)"
                    printf '%s\t2\tFINDING %s critical security %s:%s %s %s:%s\n' "$line" "$ID" "$tok" "$line" "$desc" "$tok" "$line" ;;
                 P) desc="private-content shape ($detail) in a public record: a private repository may be cited by path only, never quoted or transcribed"
                    printf '%s\t3\tFINDING %s critical content-boundary %s:%s %s %s:%s\n' "$line" "$ID" "$tok" "$line" "$desc" "$tok" "$line" ;;
@@ -659,9 +705,16 @@ prove_failure() (
     run "$T/m2.out" -- --root "$T/m2"; rc=$?
     if [ "$rc" -eq 1 ] && has "$T/m2.out" "^FINDING private-in-public critical security specs/010-zero-gap-verified-closure/rule\\.md:$n "; then ok "M2a rc 1, critical security at rule.md:$n"; else bad "M2a rc=$rc $(head -c 600 "$T/m2.out")"; fi
     if ! grep -qF -- "FAKEFAKE" "$T/m2.out" "$T/m2.out.err"; then ok "M2b the matched value is not in stdout or stderr"; else bad "M2b the value leaked into the output"; fi
+    # T085 masked-output rule (FR-020): a credential FINDING's description carries ONLY the
+    # location (already in the FINDING line), the class name (private-in-public, field 2) and a
+    # redaction marker "[REDACTED len=N]" (N = the length of the withheld value) — no line digest,
+    # no recoverable secret text of any kind, in the finding, --json or a register description.
+    if has "$T/m2.out" '\[REDACTED len=20\]'; then ok "M2d the finding carries a [REDACTED len=20] marker for the 20-char AKIA shape"; else bad "M2d rc=$rc $(head -c 600 "$T/m2.out")"; fi
+    if ! has "$T/m2.out" 'sha256:'; then ok "M2e no line-digest disclosure remains in the description"; else bad "M2e a sha256 line digest is still printed"; fi
     mkroot "$T/m2e"; printf 'session %s here\n' "$ENTTOK" >>"$T/m2e/docs/zero-gap/notes.md"
     run "$T/m2e.out" -- --root "$T/m2e"; rc=$?
     if [ "$rc" -eq 1 ] && has "$T/m2e.out" '^FINDING private-in-public critical security docs/zero-gap/notes\.md:2 ' && ! grep -qF -- "$ENTTOK" "$T/m2e.out" "$T/m2e.out.err"; then ok "M2c high-entropy token found, value not printed"; else bad "M2c rc=$rc $(head -c 600 "$T/m2e.out")"; fi
+    if has "$T/m2e.out" '\[REDACTED len=34\]'; then ok "M2f the high-entropy finding also carries [REDACTED len=34]"; else bad "M2f rc=$rc $(head -c 600 "$T/m2e.out")"; fi
 
     echo "M3 private text: a transcript-shaped passage"
     mkroot "$T/m3"; printf '[00:03:04] SPEAKER 1: a synthetic turn\n' >>"$T/m3/docs/zero-gap/notes.md"
@@ -676,6 +729,21 @@ prove_failure() (
 It broke, probably because of X.' "$T/m4b/CONTINUATION.md"; rm -f "$T/m4b/CONTINUATION.md.bak"
     run "$T/m4b.out" -- --root "$T/m4b"; rc=$?
     if [ "$rc" -eq 1 ] && has "$T/m4b.out" '^FINDING private-in-public medium false-evidence CONTINUATION\.md:8 '; then ok "M4b inside a zero-gap entry => rc 1 at CONTINUATION.md:8"; else bad "M4b rc=$rc $(head -c 600 "$T/m4b.out")"; fi
+
+    echo "M16 population extension (T085): specs/002-*/ through specs/009-*/ are in scope; specs/001-*/ and any specs/010-*/ other than specs/010-zero-gap-verified-closure/ stay out"
+    mkroot "$T/m16"
+    mkdir -p "$T/m16/specs/002-fake-feature" "$T/m16/specs/009-fake-feature" "$T/m16/specs/001-fake-feature" "$T/m16/specs/010-other-feature"
+    printf 'It broke, probably because of Q.\n' >"$T/m16/specs/002-fake-feature/notes.md"
+    printf 'It broke, probably because of Q.\n' >"$T/m16/specs/009-fake-feature/notes.md"
+    printf 'It broke, probably because of Q.\n' >"$T/m16/specs/001-fake-feature/notes.md"
+    printf 'It broke, probably because of Q.\n' >"$T/m16/specs/010-other-feature/notes.md"
+    run "$T/m16.out" -- --root "$T/m16"; rc=$?
+    if has "$T/m16.out" '^FINDING private-in-public medium false-evidence specs/002-fake-feature/notes\.md:1 ' \
+       && has "$T/m16.out" '^FINDING private-in-public medium false-evidence specs/009-fake-feature/notes\.md:1 '; then ok "M16a specs/002-*/ and specs/009-*/ records are now read"; else bad "M16a rc=$rc $(grep -c '^FINDING' "$T/m16.out")"; fi
+    if ! has "$T/m16.out" 'specs/001-fake-feature/notes\.md'; then ok "M16b specs/001-*/ stays out of scope"; else bad "M16b specs/001-*/ leaked into the population"; fi
+    if ! has "$T/m16.out" 'specs/010-other-feature/notes\.md'; then ok "M16c a specs/010-*/ directory other than specs/010-zero-gap-verified-closure/ stays out of scope"; else bad "M16c specs/010-other-feature/ leaked into the population"; fi
+    run "$T/m16.pop" -- --root "$T/m16" --emit-population
+    if [ "$(wc -l <"$T/m16.pop")" -eq 6 ]; then ok "M16d --emit-population counts exactly the 4 clean-control records plus the 2 in-scope specs/00[2-9]-*/ records"; else bad "M16d $(cat "$T/m16.pop")"; fi
 
     echo "M5 empty / absent population"
     mkdir -p "$T/m5/docs"; cp "$CB" "$T/m5/docs/content-boundary.md"; git -C "$T/m5" init -q >/dev/null 2>&1

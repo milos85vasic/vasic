@@ -184,10 +184,22 @@ defect per class appears; an uninspectable part is listed, never clean.
   untracked-not-ignored files without stating it.  _Covers: FR-001._
 - [x] T030 [P] [SUBAGENT] [TDD] [US1] Class `private-in-public`: FR-020 scan reused as a sweep class
   (credentials, guessing language, private text) over public records.  _Covers: FR-001, FR-020._
+- [x] T085 [P] [SUBAGENT] [TDD] [US1] Extend class `private-in-public` (T030) population to the numbered
+  spec directories `specs/002-*/` through `specs/009-*/` (previously out of scope), and add a
+  masked-output rule: the class MUST NEVER print a matched credential value — in its findings, its
+  `--json` output, or any register item description — only a location, the class name, and a redaction
+  marker (e.g. `[REDACTED len=N]`). RED: an unmasked run against a credential-shaped corpus row fails;
+  GREEN: the same row's finding carries no recoverable secret text. Corpus follows the placeholder-token
+  convention already ruled for T030 (no secret-shaped strings at rest).  _Covers: FR-020._
+- [ ] T086 [US2] Operator queue item (feeds the `security` wave T043 and the T050 queue): rotate the two
+  account passwords T085's extended scan found exposed in the public `specs/007-*/` tree. Once a
+  credential reaches public history, rotation is the only remedy (§11.4.10); name the affected accounts by
+  reference only — never the credential value — with an exact rotation command and a recheck date.  _Covers: FR-009, FR-020._
 - [x] T031 [P] [SUBAGENT] [TDD] [US1] Class `doc-count-drift`: documented counts vs measured counts
   (e.g. workshop `CLAUDE.md` gate counts).  _Covers: FR-001._
 - [x] T032 [P] [SUBAGENT] [TDD] [US1] Class `coverage-gaps`: registers every `gap` cell from the
-  coverage map (needs T052's coverage data; until then the baseline T036 records this class as `COULD-NOT-INSPECT`, never clean).  _Covers: FR-001._
+  coverage map (needs T052's coverage data; until then the baseline T036 records this class as `COULD-NOT-INSPECT`, never clean). Re-swept by **T087** once T052 exists; new findings from that
+  re-sweep are cycle-2 items (the register freezes at T038).  _Covers: FR-001._
 - [x] T033 [P] [SUBAGENT] [TDD] [US1] Class `guard-gaps`: destructive commands the PreToolUse guard does
   not block (`git checkout --`, `restore`, `stash`, `clean -fd`, `add -A`) — third-party/constitution code,
   so registered `classified: third-party` with the reporting route (FR-021).  _Covers: FR-001, FR-021._
@@ -206,11 +218,23 @@ defect per class appears; an uninspectable part is listed, never clean.
   `_tests/fixtures/zero-gap/improvement-candidates/`) that harvests improvement candidates from recorded
   operator decisions, KNOWN-LIMITATIONS-style documents and `Operator-blocked` items, PLUS a manual intake
   path (`gap add --kind improvement --measurable-target ...`). RED: a candidate with no measurable target is
-  rejected (V-G4). The operator sets the cycle-1 improvement cap at the T038 checkpoint. (FR-001, FR-025)  _Covers: FR-001, FR-025._
-- [ ] T038 [REVIEW] [US1] Independent review of the runner, each class's recall claim and the baseline
-  output. ONLY THEN: seed the register with `gap add`, publish the recall table, and take the **human
-  checkpoint** (operator sizes the improvement scope), and run `gap freeze --cycle 1` immediately
-  (FR-026) — discoveries made during the closure waves are assigned to cycle 2.  _Covers: FR-025, FR-026, SC-011._
+  rejected (V-G4). Operator decision 2026-09-26: cycle-1 improvement scope is **all 10** proposed
+  improvement items (no cap); T038 records this at the checkpoint and **T090** closes them.  _Covers: FR-001, FR-025._
+- [ ] T084 [US1] (after T081; BEFORE T038 — operator decision 2026-09-26 pulls this forward from T047 to
+  resolve the T038 vs `contracts/register-cli.md:46-50` deadlock: `gap add` refuses an unmigrated DB, but
+  migrating flips `verify-workable-items.sh` G5 rc 2 to rc 1 until the roster gap is filled) EARLY
+  live-register migration + roster ratification: run `gap migrate` (T006) against the LIVE
+  `docs/workable_items.db`, not a copy; add the operator-ratified 8 roster rows -- `challenges,
+  doc_processor, llm_orchestrator, llm_provider, llms_verifier, qa, security, vision_engine` -- to
+  `docs/workable-items/sub-projects.tsv`, then run `roster` and `seed-roster`; record that
+  `submodules/llm_provider` (HelixDevelopment) duplicates `submodules/LLMProvider` (vasic-digital) and is
+  registered as its own item. Capture G5's rc before and after. This satisfies T047's roster-row/migration
+  steps; T047 continues with the rest of its governance-drift/docs-drift closure only.  _Covers: FR-002, FR-006._
+- [ ] T038 [REVIEW] [US1] (after **T084**'s early migration + roster ratification) Independent review of
+  the runner, each class's recall claim and the baseline output. ONLY THEN: seed the now-migrated LIVE
+  register with `gap add`, publish the recall table, and take the **human checkpoint** -- operator decision
+  2026-09-26: cycle-1 improvement scope is all 10 proposed improvement items -- and run `gap freeze --cycle 1`
+  immediately (FR-026) -- discoveries made during the closure waves are assigned to cycle 2.  _Covers: FR-025, FR-026, SC-011._
 
 **Checkpoint**: the register is complete relative to its stated recall and byte-stable; MVP delivered.
 
@@ -258,18 +282,43 @@ Each wave task MUST follow this, verbatim, or stop and queue:
   (ai_interviewing start-script trap; live-vs-source drift).
 - [ ] T047 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `governance-drift` and `docs-drift`
   (carrier/CONTINUATION/README counts, workshop CLAUDE.md counts, badge row §11.4.259, zero-findings
-  sweep §11.4.261 items actionable in this tree), INCLUDING the roster gap G4: add 8 `proposed`
-  rows to `docs/workable-items/sub-projects.tsv` for challenges, doc_processor, llm_orchestrator,
-  llm_provider, llms_verifier, qa, security, vision_engine (prefixes need operator ratification — queue it), then run
-  `roster` and `seed-roster`; note `submodules/llm_provider` (HelixDevelopment) duplicates
-  `submodules/LLMProvider` (vasic-digital) and is registered as its own item.
+  sweep §11.4.261 items actionable in this tree). The roster rows and live-register migration for the G4
+  gap were pulled forward to **T084** (run BEFORE T038 seeding, operator decision 2026-09-26); this wave
+  closes the remaining roster classification only: per that same operator decision, `doc_processor`,
+  `llm_orchestrator`, `llm_provider`, `vision_engine` and `qa` are **OWNED** modules -- their findings stay
+  `open` here, are fixed inside each module's own repository, and each is closed by ONE gitlink bump per
+  module (T050, each bump its own operator decision); `challenges`, `llms_verifier` and `security` close
+  in-tree by this wave. `submodules/llm_provider` (HelixDevelopment) duplicates `submodules/LLMProvider`
+  (vasic-digital) and is registered as its own item. See also **T091** (CONTINUATION.md §3 point-in-time
+  rule).
+- [x] T091 [TDD] [US2] Add a "CONTINUATION.md §3 point-in-time rule" row to
+  `docs/zero-gap/point-in-time.tsv` (the doc-count-drift/stale-figures exemption list): CONTINUATION.md §3
+  ("active work") entries are point-in-time status notes, true when written, and MUST NOT be re-flagged as
+  stale-figures or doc-count-drift findings on every later re-measure -- only an entry carrying its own
+  dated caption is exempt; an entry without one remains a finding. RED: an existing captioned §3 line still
+  registers as a finding before the rule is wired in; GREEN: the same captioned line is excluded while an
+  uncaptioned line in the same section remains a finding. Wire the rule into the `stale-figures` (T019) and
+  `docs-drift`/`governance-drift` (T047) classes.  _Covers: FR-020, FR-024._
 - [ ] T048 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `ux-accessibility` (workshop, ai_interviewing, sites).
-- [ ] T049 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `host-capability` — prepare and queue the
+- [ ] T049 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `host-capability` -- prepare and queue the
   `Operator-blocked` install items (tesseract, webkit libs); verify everything else.
+- [ ] T088 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `test-coverage` (data-model.md:45-46) -- every item
+  of that category via the wave protocol above.  _Covers: FR-006, FR-007._
+- [ ] T089 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `other` (data-model.md:45-46) -- every item of that
+  category via the wave protocol above.  _Covers: FR-006, FR-007._
+- [ ] T090 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `kind=improvement` -- cycle-1 scope is ALL 10
+  proposed improvement items (operator decision 2026-09-26, T081/T038); each closes only once its stated
+  `measurable_target` (FR-025) is met and independently verified, regardless of which category it primarily
+  belongs to.  _Covers: FR-025, FR-006._
 - [ ] T050 [US2] Operator queue: every `Operator-blocked` and `classified` item lists its unblock options,
   cost, exact command, owner and recheck date (FR-009); present the queue to the operator. Includes the
-  gitlink bumps that end each wave and the three behind-remote submodules.  _Covers: FR-006, FR-009, SC-003._
-- [ ] T051 [REVIEW] [US2] Independent review of all closed items' evidence pairs.  _Covers: FR-022._
+  gitlink bumps that end each wave -- one bump per **OWNED** module from T047 (`doc_processor`,
+  `llm_orchestrator`, `llm_provider`, `vision_engine`, `qa`) and the three behind-remote submodules -- plus
+  **T086**'s credential-rotation item.  _Covers: FR-006, FR-009, SC-003._
+- [ ] T051 [REVIEW] [US2] Independent review of all closed items' evidence pairs: for each item closed in
+  Phase 4, confirm the recorded pre-fix (RED) and post-fix (GREEN) records are genuine, correctly paired
+  and reviewed by an actor different from the fixer -- a ONE-TIME audit of the CAPTURED records, not a
+  re-execution of the underlying checks (T073 re-runs those).  _Covers: FR-022._
 
 **Checkpoint**: zero items lack a state, owner or evidence (SC-003); no item is classified except for the four reasons.
 
@@ -280,9 +329,13 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 **Goal**: a generated module × test-kind matrix with zero blank or unexplained cells.
 **Independent Test**: delete one kind's checks in a disposable copy — the cell becomes a gap.
 
-- [ ] T052 [TDD] [US3] Generator `scripts/zero-gap-coverage.sh` + data `docs/zero-gap/coverage.tsv`
+- [x] T052 [TDD] [US3] Generator `scripts/zero-gap-coverage.sh` + data `docs/zero-gap/coverage.tsv`
   (`subject`, `test_kind`, `status ∈ {check,n/a,gap,could-not-run}`, `ref`); a `check` cell whose last
   recorded run executed zero cases becomes a gap; missing tool ⇒ `could-not-run:<tool>`; `--prove-failure`.  _Covers: FR-010, FR-011, SC-005._
+- [ ] T087 [US3] (after T052) Coverage re-sweep: re-run sweep class `coverage-gaps` (T032) against T052's
+  real coverage data, replacing its `COULD-NOT-INSPECT` baseline reading. Any new `gap` item this re-sweep
+  finds is assigned to **cycle 2** (the register was frozen at cycle 1 in T038); it does not reopen a
+  frozen item.  _Covers: FR-010, FR-026._
 - [ ] T053 [SUBAGENT] [US3] Re-measure every cell of the seed matrix from research D10 with real runs
   (not name counts) and write the true map; extra kinds proposed: content-boundary, claim-ledger, gate
   paired-mutation, SEO/i18n completeness, link integrity, export validation, provider-CI,
@@ -314,7 +367,8 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 
 - [ ] T062 [TDD] [US4] `scripts/zero-gap-scan-records.sh` (FR-020): guessing language in causal
   statements, credentials, private-text leakage over `docs/zero-gap/`, `specs/010-*/`, the register export
-  and evidence streams; release gate wired into `gap freeze` and the pre-push gates (coordinated with the T065 serial order); corpus of planted violations.  _Covers: FR-020, SC-008._
+  and evidence streams; release gate wired into `gap freeze` and the pre-push gates (after T041, before
+  T065; part of the push-path order T040 -> T041 -> T062 -> T065); corpus of planted violations.  _Covers: FR-020, SC-008._
 - [ ] T063 [TDD] [US4] Wire-evidence rule (FR-017): records with `population_kind=wire` MUST carry a
   wire-capture digest (HTTP response or socket capture); source-only measurements are labelled `source`. RED: a `wire` record without a capture digest is rejected.  _Covers: FR-014, FR-017._
 - [ ] T064 [US4] Run the five-repeat determinism harness over every registered check; register each
@@ -335,17 +389,39 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 **Goal**: a different automated agent verifies every closed item; the system re-measures daily.
 **Independent Test**: revert a closed item's fix in a disposable copy — the next run flags reopen-pending with failing evidence.
 
-- [ ] T068 [TDD] [US5] Independent-verdict flow: `item_verdicts` rows require `actor ≠ fixer`
+- [x] T082 [TDD] [SUBAGENT] [US5] Fix T014 finding N3 in the witness-fetch guard (before T069 runs the
+  witness fetch daily): add `--no-recurse-submodules --no-auto-maintenance --upload-pack=git-upload-pack
+  -c core.fsmonitor=false` to the fetch invocation (and to the separate `git ls-files` call that locates
+  the tracked anchor), and correct the header text and `history.go:384` comment that wrongly claim the
+  fetch runs on the remote's side / never executes anything on this host. CORRECTED 2026-09-26: `-c
+  remote.<r>.uploadpack=...` does NOT override a hostile config (git errors "more than one uploadpack
+  given" and still runs the configured program) — `--upload-pack=git-upload-pack` is the flag that
+  actually wins; measured, not guessed. `core.sshCommand` and `credential.helper` are DELIBERATELY LEFT
+  OPEN and test-pinned (closing either breaks real operator ssh/credential setup for the three umbrella
+  remotes). RED: an unfixed fetch against a crafted origin with a populated submodule and a
+  `remote.<r>.uploadpack` override executes the marker; GREEN: the same origin no longer executes it and
+  the corrected comment matches the verified behaviour. STATUS 2026-09-26: implemented (84/0 proof, 6 new
+  Go tests, 5 mutations caught) — independent review pending; ticked only after review passes.  _Covers: FR-018._
+- [ ] T083 [P] [US5] Bootstrap the first TRACKED `docs/zero-gap/anchor.json` (the STORE LOCATION ruling in
+  progress.yml requires it tracked, no paths inside): prepare the exact `continuum-integrity anchor write`
+  invocation and the expected `{head_digest, entry_count, anchor_strength: "policy"}` shape, and confirm
+  `scripts/zero-gap-evidence-chain.sh --verify` reads it. The first commit is `Operator-blocked` (FR-009,
+  exact command queued) -- until it lands, `--verify` MUST report rc 2, never rc 0. Gates T068's
+  `--verify rc 0` requirement and T074's cycle-1 anchor export.  _Covers: FR-009, FR-016._
+- [ ] T068 [TDD] [US5] (after T082, T083) Independent-verdict flow: `item_verdicts` rows require `actor ≠ fixer`
   (`actor_kind` agent|script); RED: a verdict whose actor equals the fixer is rejected; disagreement blocks `gap close`; uses the constitution
   `independence_tier.sh` where applicable.  _Covers: FR-018._
-  **Before T068 runs the witness fetch daily, fix T014 finding N3** (no submodule recursion, no auto-maintenance, pin `remote.<r>.uploadpack`; see progress.yml). **T068 MUST ALSO bind closure evidence to the evidence chain** (T009 re-review rulings, 2026-09-25): `gap close` and `gap verdict`
+  **T082 fixes T014 finding N3 before T069 runs the witness fetch daily** (no submodule recursion, no
+  auto-maintenance, pin `remote.<r>.uploadpack`; see progress.yml). T068 also depends on **T083**'s tracked
+  anchor existing, so `scripts/zero-gap-evidence-chain.sh --verify` can return rc 0 rather than rc 2.
+  **T068 MUST ALSO bind closure evidence to the evidence chain** (T009 re-review rulings, 2026-09-25): `gap close` and `gap verdict`
   require, for every cited RED/GREEN/verifier record, that `sha256(record bytes)` equals the `artifact_path` of the chain record whose
   `seq = chain_seq` in a store that `scripts/zero-gap-evidence-chain.sh --verify` passes (rc 0); the verifier record's
   `author_session_id` must differ from the GREEN's; a closed item is re-verified against the chain on every `validate`. Until T068
   lands, **"closed" means structurally consistent and self-asserted, NOT proof of an independent run** (an unsigned verifier record can be
   forged by editing a copy of the GREEN — demonstrated in review); the operator inherits that residual risk and FR-016/FR-018 are NOT
   claimed met by the register alone. (FR-016, FR-018)
-- [ ] T069 [TDD] [US5] `scripts/zero-gap-daily.sh` per `contracts/daily-job.md`: `flock` single-instance,
+- [ ] T069 [TDD] [US5] (after T082's N3 fix) `scripts/zero-gap-daily.sh` per `contracts/daily-job.md`: `flock` single-instance,
   long-op registered BEFORE it runs in `.remember/logs/zero-gap/ops-registry.jsonl` with the exact
   §11.4.232(A) terminal states, heartbeat and no-progress budget, host-pressure refusal (rc 2),
   fingerprint before/after, sealed records, untracked report, `notify-send` on RED/STALE, reopen requests
@@ -357,8 +433,10 @@ Each wave task MUST follow this, verbatim, or stop and queue:
   daily run queues reopen-pending with the failing evidence; `gap apply-queue` inside a commit reopens it.  _Covers: FR-019, SC-009._
 - [ ] T072 [US5] Queue the timer installation as an `Operator-blocked` item with the exact commands
   (`systemctl --user daemon-reload`, `enable --now`) and the rollback.
-- [ ] T073 [US5] Independent verification pass: a different agent re-runs the evidence of EVERY closed
-  item and records its verdict; any disagreement reopens the item.  _Covers: FR-018, SC-004._
+- [ ] T073 [US5] Independent verification pass: after Phases 5-7 have run (the tree may have changed since
+  Phase 4 closed each item), a different agent RE-RUNS the recorded CHECK COMMAND of EVERY closed item
+  against the current tree and records its verdict -- unlike T051's one-time evidence-pairing audit, this
+  re-executes; any disagreement reopens the item.  _Covers: FR-018, SC-004._
 
 **Checkpoint**: SC-004 and SC-009 hold; the daily job runs on demand and is ready for the operator to install.
 
@@ -389,13 +467,26 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 - Phase 1 → Phase 2 → everything else. T006 depends on T002; T014 on T001; T012–T014 are independent of T006–T008.
 - T009 gates T010+ consumers; T015 gates T016 and later consumers of the evidence chain.
 - **US1 (Phase 3) is the MVP.** T017 → T018; T019–T034 are independent classes (parallel after T017/T018);
-  T035 after T017; T081 after T037; T036 after T019–T034 (T032 as COULD-NOT-INSPECT until T052); T038 after T036. T032 needs T052's data (stub first).
-- **US2 (Phase 4)** needs a seeded register (T036) and the verify/guard scripts (T039–T041); closure waves
-  T043–T049 are parallel per category with ONE committer per repository and explicit-path staging.
-- **US3 (Phase 5)** T052 first, then T053, then T054–T060 in parallel; T061 last.
-- **US4 (Phase 6)** T062–T063 independent; T065 after T013–T015 and is the only task touching the push path.
-- **US5 (Phase 7)** T068 → T069 → T071; T070 parallel; T073 after all closure waves.
-- Phase 8 last; T074 needs every wave finished and the register frozen-eligible.
+  T035 after T017; T081 after T037; T036 after T019–T034 (T032 as COULD-NOT-INSPECT until T052, re-swept by
+  T087); T084 (early live-register migration + roster ratification) after T081, BEFORE T038; T038 after
+  T036 AND T084. T032 needs T052's data (stub first; T087 re-sweeps it).
+- **US2 (Phase 4)** needs a seeded, MIGRATED register (T038, itself gated on T084) and the verify script +
+  closure procedure (T039, T042) before any wave starts; T040/T041 guard the PUSH PATH (FR-023, FR-021)
+  and are not preconditions for closing an item, though the protocol's step (b) still calls
+  `scripts/zero-gap-verify.sh` (T039) per item. Closure waves T043–T049, T088–T090 are parallel per
+  category with ONE committer per repository and explicit-path staging; T085/T086 feed the `security`
+  wave (T043).
+- **US3 (Phase 5)** T052 first, then T087 (coverage re-sweep; cycle-2 findings only), then T053, then
+  T054–T060 in parallel; T061 last.
+- **US4 (Phase 6)** T062–T063 independent; the push-path order is serial: T040 → T041 → T062 → T065 (T065
+  is the LAST task touching the push path, not the only one — T040/T041/T062 precede it per the Global
+  Constraints push-path rule).
+- **US5 (Phase 7)** T082 (T014 finding N3 fix) → T068 → T069 → T071; T083 (first tracked anchor.json,
+  Operator-blocked) before T068's `--verify` and before T074; T070 parallel; T073 after all closure waves
+  — T051 re-checks the EVIDENCE PAIRS captured at each item's closure time (Phase 4 only), while T073
+  RE-RUNS the checks themselves for every closed item after Phase 5–7 work, reopening on disagreement
+  (SC-004).
+- Phase 8 last; T074 needs every wave finished, the register frozen-eligible, and T083's anchor committed.
 
 ## Parallel Example: Phase 3 classes
 
@@ -407,7 +498,13 @@ Subagent D: T022 pointer-drift      Subagent E: T023 content-boundary  Subagent 
 
 ## Implementation Strategy
 
-1. **MVP**: Phases 1–3 → a complete, deterministic register with measured recall (stop and validate; operator checkpoint at T036).
+1. **MVP**: Phases 1–3 → a complete, deterministic register with measured recall (stop and validate;
+   operator checkpoint at T038, gated on T084's early migration + roster ratification).
 2. **Increment**: Phase 4 closure waves — value is items reaching zero unexplained; Phase 5–7 add coverage, evidence hardening and drift detection in parallel streams.
 3. **Never**: hand-implement outside `/speckit-superspec-execute`; skip a RED; edit a third-party gitlink; install the timer or bump a gitlink unasked; touch the live workshop binary (`platform/bin`).
 4. Each task ends with: captured RED, captured GREEN, independent review where marked, explicit-path commit through the wrapper.
+5. **RECOMMENDED FIRST WAVE** (operator-endorsed order, 2026-09-26): (1) T082 — fix T014 finding N3;
+   (2) T084 — roster rows + early live-register migration (resolves the T038-vs-register-cli.md deadlock,
+   operator ratifies the 8 prefixes); (3) T038 — seed/checkpoint/freeze; (4) T039+T040+T042 in parallel,
+   then T041; (5) T043, T044, T046 (disjoint files, highest severity); (6) T045 then T047 serially (both
+   edit the lockstep carriers and the claim ledger); (7) T048/T049 last.

@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-26T11:45:00Z
-    Synced-Commit: f05817ba3c7a
+    Last-Updated: 2026-09-26T13:30:00Z
+    Synced-Commit: ae485a1979fa
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -501,6 +501,46 @@ Open, needs the operator:
    register, migration is planned at T047) needs an operator decision at the T038 checkpoint.
 7. Known residuals: an escapee that drops `ZG_RUN` and leaves its process group escapes the runner (cgroup scope is the
    containment, a design decision); `live-vs-source` is blind on a copy and was run on the live tree.
+
+### SPEC 010 T038-CHECKPOINT PREP: N3/gap-adopt/coverage-map DELIVERED AND REVIEWED, credentials masked — 2026-09-26 (afternoon) — awaiting operator seeding decision
+
+All items the earlier checkpoint entry queued are now done and independently reviewed (two rounds each
+where a critical finding surfaced):
+1. **T082** — the T014 N3 witness-fetch fix. The dispatched fix text named the wrong git flag (`-c
+   remote.<r>.uploadpack=...` does not override a hostile config); `--upload-pack=git-upload-pack` is the
+   flag that wins, measured not guessed. `core.sshCommand`/`credential.helper` residuals are deliberately
+   left open (closing either breaks real operator ssh/credential setup) and now both carry real,
+   independently-reproduced pinning tests. Accepted after 2 review rounds.
+2. **`gap adopt`** — the new CLI subcommand that fills gap-register columns on a PRE-EXISTING item without
+   minting a duplicate id (closes the tooling gap the migration dry-run found). Round-1 review found a
+   real §11.4.253 concurrency defect (two racing `gap adopt` calls on the same id could both succeed);
+   fixed with a `WHERE ... AND kind IS NULL` guard + RowsAffected check, reproduced with real OS processes
+   both before and after the fix. Accepted after 2 review rounds — safe for concurrent seeding.
+3. **T052** — the coverage-map generator (`scripts/zero-gap-coverage.sh` + `docs/zero-gap/coverage.tsv`),
+   taking `coverage-gaps` out of permanent could-not-inspect (now 249 real gap cells, 3 real check cells).
+   Review found a count-extraction specificity defect in `parse_count`; fixed and re-verified against 6
+   real proof-output shapes from this repo's own scripts. Accepted after 2 review rounds. A known,
+   logged, non-blocking gap remains: a fabricated `coverage.tsv` is not fully detectable downstream
+   (deferred to T053/T087).
+4. **T085/T091** — `private-in-public` extended to `specs/002-*/`-`specs/009-*/` with a masked-output rule
+   (no class may ever print a matched credential — confirmed by 3 repeated live runs); the real password
+   exposure in public `specs/007-*/` is now surfaced as `[REDACTED]`, never the value. The
+   `CONTINUATION.md` §3 point-in-time exemption rule (this section) is wired into `stale-figures` and
+   `doc-count-drift`, caption-gated (a dated §3 entry is exempt, an undated one still flags).
+5. **Migration plan + roster ratification** — demonstrated end-to-end on copies; the operator ratified all
+   8 roster prefixes (HQA/CHA/DOC/LLO/HLP/LMV/SEC/VSE) and confirmed the migration ordering (roster before
+   migrate) avoids ever showing the red G5 state.
+6. **`tasks.md`** — corrected (80 -> 90 tasks) with the operator's 3 decisions encoded: early migration
+   before seeding, all 10 improvement items in cycle 1 (no cap), and the 5 HelixDevelopment modules
+   (doc_processor, llm_orchestrator, llm_provider, vision_engine, qa) ruled OWNED (fixed per-repo, one
+   gitlink bump each).
+
+Nothing is staged, seeded, or committed yet as this section is written; the wave commit for this batch
+follows immediately. `docs/workable_items.db` is unchanged (sha256 `9413fd96f2647c637d1581a54dd7038…`).
+**Still open before T038's human checkpoint can close:** T084 (run the real migration on the live register
+— demonstrated safe on copies, not yet executed live) and the actual seeding of the 76 proposed register
+items (dry-run proposals exist in `specs/010-zero-gap-verified-closure/baseline/seed-proposal/`, nothing
+written to the live DB yet) plus `gap freeze --cycle 1`.
 
 ### SPEC 010 PHASE 3 IMPLEMENTED AND REVIEWED (runner + 17 sweep classes), 2026-09-26 — awaiting the wave commit result, then T035-T038
 
