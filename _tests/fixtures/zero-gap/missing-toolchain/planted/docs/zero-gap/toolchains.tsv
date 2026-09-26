@@ -1,9 +1,13 @@
 # scratch catalogue for the missing-toolchain corpus
-tool	probe	gate_that_needs_it	install_command	source
-ghosttool	command -v ghosttool	gate alpha (the ghost step)	sudo apt-get install -y ghosttool	CLAUDE.md, ghost section
-presenttool	command -v presenttool	gate beta	sudo apt-get install -y presenttool	CLAUDE.md, present section
-docdrifttool	command -v docdrifttool	gate gamma	sudo apt-get install -y docdrifttool	CLAUDE.md, drift section
-libghost	dpkg-query -W libghost	gate delta (webkit-like launch)	sudo apt-get install -y libghost	CLAUDE.md, lib section
-libpresent	dpkg-query -W libpresent	gate delta (webkit-like launch)	sudo apt-get install -y libpresent	CLAUDE.md, lib section
-maybetool	command -v maybetool	UNCONFIRMED: no local gate measured to exit 2 on it	operator decision: none	CLAUDE.md, maybe section
-confirmedtool	command -v confirmedtool	UNCONFIRMED: no local gate measured to exit 2 on it	sudo apt-get install -y confirmedtool	CLAUDE.md, confirmed section
+tool	probe	gate_that_needs_it	remedy	source	container_route
+ghosttool	command -v ghosttool	gate alpha (the ghost step)	sudo apt-get install -y ghosttool	CLAUDE.md, ghost section	none
+presenttool	command -v presenttool	gate beta	sudo apt-get install -y presenttool	CLAUDE.md, present section	none
+docdrifttool	command -v docdrifttool	gate gamma	sudo apt-get install -y docdrifttool	CLAUDE.md, drift section	none
+libghost	dpkg-query -W libghost	gate delta (webkit-like launch)	sudo apt-get install -y libghost	CLAUDE.md, lib section	none
+libpresent	dpkg-query -W libpresent	gate delta (webkit-like launch)	sudo apt-get install -y libpresent	CLAUDE.md, lib section	none
+maybetool	command -v maybetool	UNCONFIRMED: no local gate measured to exit 2 on it	operator decision: none	CLAUDE.md, maybe section	none
+confirmedtool	command -v confirmedtool	UNCONFIRMED: no local gate measured to exit 2 on it	sudo apt-get install -y confirmedtool	CLAUDE.md, confirmed section	none
+containedtool	command -v containedtool	gate epsilon (host binary OR its container route)	containerised: build and run tools/bin/contained; no host package	decision record, epsilon	src=tools/contained/main.go bin=tools/bin/contained build=go runtime=podman,docker
+routelesstool	command -v routelesstool	gate zeta	containerised: tools/missing (never written)	decision record, zeta	src=tools/missing/main.go bin=tools/bin/missing build=go runtime=podman,docker
+unbuilttool	command -v unbuilttool	gate eta	containerised: build tools/bin/unbuilt with go	decision record, eta	src=tools/unbuilt/main.go bin=tools/bin/unbuilt build=go runtime=podman,docker
+noruntimetool	command -v noruntimetool	gate theta	containerised: tools/bin/noruntime	decision record, theta	src=tools/noruntime/main.go bin=tools/bin/noruntime build=go runtime=zgnoruntime

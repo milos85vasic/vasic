@@ -196,10 +196,11 @@ defect per class appears; an uninspectable part is listed, never clean.
   `GIT_OPTIONAL_LOCKS`, provider-CI unverified rows) as items with options and cost (FR-009).  _Covers: FR-001, FR-009._
 - [x] T035 [TDD] [US1] Determinism harness `scripts/zero-gap-determinism.sh` (`--check <id>`; N=5
   repeats; sha256 of normalised output; any difference ⇒ registered UNSTABLE, not evidence).  _Covers: FR-003, FR-015, SC-001, SC-006._
-- [ ] T036 [US1] BASELINE sweep on a quiet tree (on a frozen REAL COPY — `rsync -a` of the tracked tree plus needed untracked inputs, never hardlinks — if the live tree moves) and the
+- [x] T036 [US1] BASELINE sweep on a quiet tree (on a frozen REAL COPY — `rsync -a` of the tracked tree plus needed untracked inputs, never hardlinks — if the live tree moves) and the
   per-class recall table. Nothing is seeded yet.  _Covers: FR-001._
 - [ ] T037 [P] [TDD] [US1] CREATE `workable-items-vsc report --by-module` (does not exist yet) generating a per-module page (SC-010) — RED: golden-bad register yields rc 1;
   timed walk-through recorded once.  _Covers: FR-024, SC-010._
+  STATUS 2026-09-26: code + tests delivered and reviewed (rc 0/1/2 proven, script timing 35 ms); the SC-010 HUMAN timed walk-through is PENDING and is taken at the T038 checkpoint — this task is ticked only when that walk-through is recorded.
 - [ ] T081 [TDD] [US1] (after T037; numbered out of sequence to keep earlier ids stable) Improvement intake:
   CREATE sweep class `improvement-candidates` (`scripts/zero-gap-class-improvement-candidates.sh`, corpus
   `_tests/fixtures/zero-gap/improvement-candidates/`) that harvests improvement candidates from recorded

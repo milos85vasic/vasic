@@ -35,12 +35,20 @@
 # extended regex, empty catalogue, guard missing, unreadable, timing out or erroring). A finding outranks
 # an undetermined.
 #
-# MEASURED ON THE LIVE TREE (2026-09-26, fix round): 21 catalogue rows, 42 population items; the live guard
-# refuses the five push/sudo/host-power rows and exits 0 on the other 16 (git checkout -- ., git restore .,
-# git stash, git clean -fd, git add -A, git reset --hard, poweroff, pkill -f, killall, rm -rf /,
-# git filter-branch, git branch -D, git update-ref -d, git clean -fdx, git checkout ., git add .): 16 high
-# findings, every one a verdict read from the guard's exit code (precision is exact by construction: a
-# finding is the guard's own rc 0 on a row the catalogue sources to a governance document).
+# MEASURED ON THE LIVE TREE (2026-09-26, fix round F2): 26 catalogue rows, 52 population items (26 guarded +
+# 26 candidate); the live guard refuses the five push/sudo/host-power rows and exits 0 on the other 21 (git
+# checkout -- ., git restore ., git stash, git clean -fd, git add -A, git reset --hard, poweroff, pkill -f,
+# killall, rm -rf /, git filter-branch, git branch -D, git update-ref -d, git clean -fdx, git checkout .,
+# git add ., and — added in F2 after review rev-base-A found them uncatalogued, each probed as data first —
+# reboot, halt, git push origin :main, git push --delete origin main, rm -rf ~): 21 high findings (16 before
+# F2), every one a verdict read from the guard's exit code (precision is exact by construction: a finding is
+# the guard's own rc 0 on a row the catalogue sources to a governance document). The guard blocks
+# `systemctl reboot|halt` but not the bare commands; it blocks force-push but not a remote-branch deletion.
+# SOURCING (F2): every row cites an existing tracked document other than this feature's tasks.md (proof L2);
+# the five shared-tree rows (checkout --, restore, stash, clean -fd, add -A) cite the project constitution
+# .specify/memory/constitution.md "Shared-Tree Discipline Is Wider Than stash", which names each of them.
+# Relative --root / --corpus paths are resolved first (proof R1): before F2 a relative --root made every
+# probe exit 127 and the class reported COULD-NOT-INSPECT instead of the 16 verdicts.
 #
 # WHAT IT DOES NOT SEE. Commands the catalogue does not list (a governance document naming a new
 # destructive command is caught only when someone adds the row); how the guard treats a compound command
@@ -188,6 +196,18 @@ prove_failure() {
     t1=$(date +%s)
     if [ "$rc" -eq 2 ] && [ $((t1 - t0)) -lt 8 ] && ! grep -q '^FINDING' <<<"$out"; then ok "K1 TERM-ignoring guard killed by timeout -k (rc 2 in $((t1 - t0)) s)"; else bad "K1 rc=$rc elapsed=$((t1 - t0)) s"; fi
 
+    # R1 (fix round F2) RELATIVE --root / --corpus paths are resolved before the probe changes directory:
+    # a relative guard path used to make every probe exit 127 (COULD-NOT-INSPECT) instead of a verdict.
+    out=$(cd "$T" && bash "$SELF_DIR/$(basename "$SELF")" --root root --corpus fix/planted 2>/dev/null); rc=$?
+    if [ "$rc" -eq 1 ] && [ "$(grep -c '^FINDING' <<<"$out")" -eq "$(grep -vc '^#' "$T/fix/expect.tsv")" ] && ! grep -q '^COULD-NOT-INSPECT' <<<"$out"; then ok "R1 relative --root/--corpus give the same verdicts as absolute ones"; else bad "R1 rc=$rc: $(head -c 300 <<<"$out")"; fi
+
+    # R2 the same in LIVE mode: a throwaway root holding the planted catalogue and stub guard at their live
+    # paths, named by a relative --root.
+    mkdir -p "$T/lr/docs/zero-gap" "$T/lr/submodules/constitution/scripts/hooks"
+    cp "$T/fix/planted/guarded-commands.tsv" "$T/lr/$CAT_REL"; cp "$T/fix/planted/guard.sh" "$T/lr/$GUARD_REL"
+    out=$(cd "$T" && bash "$SELF_DIR/$(basename "$SELF")" --root lr 2>/dev/null); rc=$?
+    if [ "$rc" -eq 1 ] && [ "$(grep -c '^FINDING' <<<"$out")" -eq "$(grep -vc '^#' "$T/fix/expect.tsv")" ] && ! grep -q '^COULD-NOT-INSPECT' <<<"$out"; then ok "R2 relative --root in live mode gives the planted verdicts"; else bad "R2 rc=$rc: $(head -c 300 <<<"$out")"; fi
+
     # A1 the clean control carries an ALLOWED row, and the class reads it as allowed (no finding).
     if grep -q $'\tallowed\t' "$T/fix/clean/guarded-commands.tsv"; then ok "A1 clean corpus holds an allowed row and C0 was clean"; else bad "A1 clean corpus has no allowed row"; fi
 
@@ -200,6 +220,28 @@ prove_failure() {
     nrows=$(grep -v '^#' "$T/l1/guarded-commands.tsv" | tail -n +2 | grep -c .)
     ncand=$(grep -v '^#' "$T/l1/guarded-commands.tsv" | tail -n +2 | awk -F'\t' '$5 != "-"' | grep -c .)
     if [ "$rc" -eq 0 ] && grep -qx "INSPECTED $((nrows + ncand))" <<<"$out" && [ "$nrows" -ge 21 ]; then ok "L1 live catalogue: $nrows rows, $ncand named classes, all covered, rc 0 under an all-refusing guard"; else bad "L1 rc=$rc rows=$nrows cand=$ncand: $out"; fi
+
+    # L2 (fix round F2, review rev-base-A) every LIVE row is SOURCED: its source cell names at least one
+    # tracked-path token that exists under the root and is not this feature's own tasks.md (a row that
+    # cites only the feature's task list states no governance rule).
+    local unsourced="" sid ssrc tok okrow
+    while IFS=$'\t' read -r sid _ _ ssrc _; do
+        case "$sid" in ''|'#'*|id) continue ;; esac
+        okrow=0
+        for tok in $(grep -oE '[A-Za-z0-9_.][A-Za-z0-9_./-]*\.(md|sh|tsv|yml|yaml|json)' <<<"$ssrc"); do
+            [ "$tok" = specs/010-zero-gap-verified-closure/tasks.md ] && continue
+            [ -f "$SELF_ROOT/$tok" ] && { okrow=1; break; }
+        done
+        [ "$okrow" -eq 1 ] || unsourced="$unsourced $sid"
+    done <"$SELF_ROOT/$CAT_REL"
+    if [ -z "$unsourced" ]; then ok "L2 every live row cites an existing tracked document other than the feature's own tasks.md"; else bad "L2 rows sourced only to the feature's tasks.md or to no existing path:$unsourced"; fi
+
+    # L3 (fix round F2) the destructive classes rev-base-A found uncatalogued are catalogued refused.
+    local want_cmd missing_cmd=""
+    for want_cmd in 'reboot' 'halt' 'git push origin :main' 'git push --delete origin main' 'rm -rf ~'; do
+        awk -F'\t' -v c="$want_cmd" '!/^#/ && $2 == c && $3 == "refused" { f = 1 } END { exit !f }' "$SELF_ROOT/$CAT_REL" || missing_cmd="$missing_cmd [$want_cmd]"
+    done
+    if [ -z "$missing_cmd" ]; then ok "L3 reboot, halt, both remote-branch deletions and rm -rf ~ are catalogued refused"; else bad "L3 not catalogued refused:$missing_cmd"; fi
 
     # I1 the live tree and the corpus are byte-identical before and after.
     after=$( { find "$FIX" "$SELF_ROOT/$CAT_REL" -type f -print0 2>/dev/null | LC_ALL=C sort -z | xargs -0 sha256sum 2>/dev/null; } | sha256sum | cut -d' ' -f1)
@@ -228,6 +270,9 @@ fi
 # ---------------------------------------------------------------------------------------------
 if [ -z "$ROOT" ] || [ ! -d "$ROOT" ]; then echo "COULD-NOT-INSPECT - --root is not a directory"; exit 2; fi
 if [ -n "$CORPUS" ] && [ ! -d "$CORPUS" ]; then echo "COULD-NOT-INSPECT - --corpus is not a directory"; exit 2; fi
+# absolute paths: the probe runs the guard from a scratch cwd, so a relative guard path would exit 127
+ROOT="$(cd "$ROOT" && pwd)" || { echo "COULD-NOT-INSPECT - --root cannot be resolved"; exit 2; }
+if [ -n "$CORPUS" ]; then CORPUS="$(cd "$CORPUS" && pwd)" || { echo "COULD-NOT-INSPECT - --corpus cannot be resolved"; exit 2; }; fi
 if [ -n "$CORPUS" ]; then
     CAT_FILE="$CORPUS/guarded-commands.tsv"; GUARD_FILE="$CORPUS/guard.sh"
     CAT_SHOW="guarded-commands.tsv"; GUARD_SHOW="guard.sh"

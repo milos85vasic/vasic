@@ -11,3 +11,7 @@ derived:multitool	probe followed two lines later by an undet call (severity high
 derived:softtool	probe whose miss only prints a message (severity low)
 derived:twolinetool	probe whose exit 2 is two lines later, after a message line (severity high)
 derived:optionaltool	probe whose if-block only warns; an unrelated exit 2 after `fi` does not count (severity low)
+derived:regtool	a registered `check` entrypoint (not verify-/prove-) probes an uncatalogued absent tool (severity high)
+tool:routelesstool	host tool absent and its container route's resolver source does not exist
+tool:unbuilttool	host tool absent, resolver not built and its build tool (go) absent
+tool:noruntimetool	host tool absent, route built but none of its container runtimes is on the probe PATH

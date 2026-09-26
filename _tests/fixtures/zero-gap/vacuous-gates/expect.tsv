@@ -10,3 +10,9 @@ check-dataloop-cases.sh:10	failure counter incremented only through a function c
 check-skippable.sh:13	straight-line cases that can all be skipped (skip counter); zero executed => exit 0
 verify-procsub.sh:6	while loop fed by < <(git ls-files) process substitution, zero files => PASS
 audit-absence-unrefused.sh:7	empty case recorded in a variable that is only printed, never refused
+prove-verdict-in-helper.sh:11	judging loop (grep -q || return 1) inside a proof helper, fed by < <(git ls-files), no emptiness refusal
+verify-setup-shape-toplevel.sh:4	setup-error-shaped loop (cmd || exit 1) outside a proof helper is a gate verdict (jq validates), no emptiness guard
+prove-verdict-in-helper.sh:15	loop in a proof helper whose `|| return 1` chain carries a test on a continuation line ([ -s ] &&), fed by $(git ls-files), no emptiness refusal
+prove-verdict-in-helper.sh:23	loop in a proof helper whose `cmd || return 1` names a failure word (check_drift): a verdict, fed by < <(git ls-files), no emptiness refusal
+prove-verdict-in-helper.sh:28	a detect_* loop inside a proof harness (its rows are findings; no failure word, so nothing marks it setup), fed by < <(git ls-files), no emptiness refusal
+prove-verdict-in-helper.sh:35	loop in a proof helper whose bare `return 1` answers `if ! check_one` (a verdict, not a `|| return 1` setup error), fed by < <(git ls-files), no emptiness refusal

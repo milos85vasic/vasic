@@ -10,11 +10,11 @@
 # matches it, so a row softened below its class or a class flipped to `allowed` is a drift finding. This
 # column replaces the hand CANDIDATES list the class used to carry (class review rev-safety ruling).
 id	command	expected	source	candidate
-checkout-discard	git checkout -- .	refused	specs/010-zero-gap-verified-closure/tasks.md T033; plan.md "Shared-Tree Discipline" (guard does not block checkout --, measured)	git checkout --( |$)
-restore-discard	git restore .	refused	specs/010-zero-gap-verified-closure/tasks.md T033; plan.md "Shared-Tree Discipline" (guard does not block restore, measured)	git restore
-stash-all	git stash	refused	specs/010-zero-gap-verified-closure/tasks.md T033	git stash
-clean-force-dirs	git clean -fd	refused	specs/010-zero-gap-verified-closure/tasks.md T033	git clean -fd
-add-all	git add -A	refused	specs/010-zero-gap-verified-closure/tasks.md T033; plan.md "Shared-Tree Discipline" (guard does not block add -A, measured)	git add -A
+checkout-discard	git checkout -- .	refused	.specify/memory/constitution.md "Shared-Tree Discipline Is Wider Than stash" (git checkout -- <path> is unbounded across a shared tree; measured destroying another agent's work, 9b7cf6a); specs/010-zero-gap-verified-closure/plan.md "Shared-Tree Discipline" (guard does not block checkout --, measured)	git checkout --( |$)
+restore-discard	git restore .	refused	.specify/memory/constitution.md "Shared-Tree Discipline Is Wider Than stash" (git restore is unbounded across a shared tree); specs/010-zero-gap-verified-closure/plan.md "Shared-Tree Discipline" (guard does not block restore, measured)	git restore
+stash-all	git stash	refused	.specify/memory/constitution.md "Shared-Tree Discipline Is Wider Than stash" (git stash is unbounded across a shared tree; a commit-time stash is isolated by pathspec, so a bare git stash is the refused form); guard measured not to block it: CONTINUATION.md 2026-09-25 entry	git stash
+clean-force-dirs	git clean -fd	refused	.specify/memory/constitution.md "Shared-Tree Discipline Is Wider Than stash" (git clean is unbounded across a shared tree); submodules/constitution/Constitution.md §11.4.96 (α) (`git clean -df` on the source tree)	git clean -fd
+add-all	git add -A	refused	.specify/memory/constitution.md "Shared-Tree Discipline Is Wider Than stash" (a blind git add -A is unbounded across a shared tree; measured sweeping a planted mutation seed into shipped source, 3623e05); submodules/constitution/Constitution.md §11.4.22 (NEVER `git add -A`)	git add -A
 reset-hard	git reset --hard	refused	CLAUDE.md "Critical base rules restated" (hardlinked backup before any destructive op)	git reset --hard
 force-push	git push --force origin main	refused	scripts/verify-pretooluse-guard.sh V4 probe force-push (DANGER-OK: probe data)	git push --force( |$)
 force-with-lease	git push --force-with-lease origin main	refused	scripts/verify-pretooluse-guard.sh V4 probe force-with-lease (DANGER-OK: probe data)	--force-with-lease
@@ -31,3 +31,8 @@ ref-delete	git update-ref -d refs/heads/main	refused	submodules/constitution/Con
 clean-ignored	git clean -fdx	refused	submodules/constitution/Constitution.md §11.4.30 composition (never `git clean` an operator's working tree); §11.4.96 (α)	git clean -fdx
 checkout-dot	git checkout .	refused	submodules/constitution/Constitution.md §11.4.96 (α) (`git checkout` / `git reset --hard` / `git clean -df` on the source tree)	git checkout \.( |$)
 add-dot	git add .	refused	CLAUDE.md G5 (the commit wrapper runs `git add .`, which stages everything untracked); submodules/constitution/Constitution.md §11.4.22 (NEVER `git add -A`)	git add \.( |$)
+host-reboot	reboot	refused	submodules/constitution/Constitution.md §11.4.109 class table, row "Host power management" (systemctl suspend/hibernate/poweroff/reboot/halt; §12 host-session safety); CONST-033	(^| )reboot( |$)
+host-halt	halt	refused	submodules/constitution/Constitution.md §11.4.109 class table, row "Host power management" (systemctl suspend/hibernate/poweroff/reboot/halt; §12 host-session safety); CONST-033	(^| )halt( |$)
+remote-branch-delete-refspec	git push origin :main	refused	submodules/constitution/Constitution.md §9 (branch deletion is a safety-critical destructive operation; an empty-source refspec deletes the remote branch for every clone)	git push [^ ]+ :
+remote-branch-delete-flag	git push --delete origin main	refused	submodules/constitution/Constitution.md §9 (branch deletion is a safety-critical destructive operation; push --delete removes the remote branch)	git push (.* )?(--delete|-d)( |$)
+remove-home	rm -rf ~	refused	submodules/constitution/Constitution.md §9 (bulk file removal is a safety-critical destructive operation; ~ is the operator home directory, which on this host holds this checkout)	rm -rf (~|\$HOME)( |/|$)

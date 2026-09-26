@@ -1,6 +1,8 @@
 # scratch catalogue for the missing-toolchain corpus
-tool	probe	gate_that_needs_it	install_command	source
-presenttool	command -v presenttool	gate beta	sudo apt-get install -y presenttool	CLAUDE.md, present section
-docsoundtool	command -v docsoundtool	gate gamma	sudo apt-get install -y docsoundtool	CLAUDE.md, sound section
-libpresent	dpkg-query -W libpresent	gate delta (webkit-like launch)	sudo apt-get install -y libpresent	CLAUDE.md, lib section
-maybetool	command -v maybetool	UNCONFIRMED: no local gate measured to exit 2 on it	operator decision: none	CLAUDE.md, maybe section
+tool	probe	gate_that_needs_it	remedy	source	container_route
+presenttool	command -v presenttool	gate beta	sudo apt-get install -y presenttool	CLAUDE.md, present section	none
+docsoundtool	command -v docsoundtool	gate gamma	sudo apt-get install -y docsoundtool	CLAUDE.md, sound section	none
+libpresent	dpkg-query -W libpresent	gate delta (webkit-like launch)	sudo apt-get install -y libpresent	CLAUDE.md, lib section	none
+maybetool	command -v maybetool	UNCONFIRMED: no local gate measured to exit 2 on it	operator decision: none	CLAUDE.md, maybe section	none
+containedtool	command -v containedtool	gate epsilon (host binary OR its container route)	containerised: build and run tools/bin/contained; no host package	decision record, epsilon	src=tools/contained/main.go bin=tools/bin/contained build=go runtime=podman,docker
+buildabletool	command -v buildabletool	gate iota (host binary OR its container route)	containerised: go build tools/bin/buildable, then run it; no host package	decision record, iota	src=tools/buildable/main.go bin=tools/bin/buildable build=go runtime=docker,podman

@@ -1,0 +1,3 @@
+kind	id	entrypoint	proof_kind	proof	undet
+check	zero-gap-class-selfscan	scripts/zero-gap-class-selfscan.sh	flag	--prove-failure	--root /nonexistent
+check	gate-registered	scripts/gate-registered.sh	flag	--prove-failure	-

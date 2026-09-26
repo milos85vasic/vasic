@@ -9,6 +9,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"testing"
 	"time"
@@ -286,5 +287,86 @@ DELETE FROM item_verdicts WHERE item_id='VSC-004'; UPDATE items SET research_ref
 	rc, out := capture(t, "validate", "--repo", repo, "--db", db, "--as-of", "2026-09-25")
 	if rc != 2 || !strings.Contains(out, "ALTER TABLE item_verdicts ADD COLUMN evidence_sha256 TEXT;") || strings.Contains(out, "OK — ") {
 		t.Fatalf("partially migrated register: want rc 2 naming the missing DDL and no OK, got %d\n%s", rc, out)
+	}
+}
+
+// ── T037: `report --by-module` is dispatched through the existing `report` ──
+
+func TestReportByModuleThroughTheCLI(t *testing.T) {
+	repo := tempRepo(t)
+	good := buildDB(t, true, "golden-good.sql")
+	want, err := os.ReadFile(filepath.Join(realRoot(t), fxRel, "module-page-golden-good.md"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	rc, out := capture(t, "report", "--by-module", "--repo", repo, "--db", good, "--as-of", "2026-09-25")
+	if rc != 0 || out != string(want) {
+		t.Fatalf("golden-good via the CLI: want rc 0 and the golden page, got rc %d:\n%s", rc, out)
+	}
+	bad := buildDB(t, true, "golden-good.sql", "golden-bad/module-page.sql")
+	if rc, out := capture(t, "report", "--by-module", "--repo", repo, "--db", bad, "--as-of", "2026-09-25"); rc != 1 ||
+		!strings.Contains(out, "FINDING id/prefix-not-in-roster ZZZ-001") || !strings.Contains(out, "FINDING V-G3 VSC-004") ||
+		!strings.Contains(out, "FINDING V-G1 VSC-005 — kind is missing") {
+		t.Fatalf("golden-bad via the CLI: want rc 1 naming each problem, got rc %d:\n%s", rc, out)
+	}
+	legacy := buildDB(t, false, "legacy-register.sql")
+	if rc, out := capture(t, "report", "--by-module", "--repo", repo, "--db", legacy, "--as-of", "2026-09-25"); rc != 2 || out != "" {
+		t.Fatalf("unmigrated register via the CLI: want rc 2 and no page, got rc %d:\n%s", rc, out)
+	}
+	if rc, _ := capture(t, "report", "--repo", repo, "--db", legacy, "--as-of", "2026-09-25"); rc != 2 {
+		t.Fatalf("--as-of without --by-module must be rc 2, got %d", rc)
+	}
+	// The plain tallies are unchanged by the new flag.
+	if rc, out := capture(t, "report", "--repo", repo, "--db", legacy); rc != 0 || !strings.Contains(out, "BY STATUS") {
+		t.Fatalf("plain report: want rc 0 with its tallies, got rc %d:\n%s", rc, out)
+	}
+}
+
+func prefixed(s, p string) []string {
+	var out []string
+	for _, l := range strings.Split(s, "\n") {
+		if strings.HasPrefix(l, p) {
+			out = append(out, l)
+		}
+	}
+	sort.Strings(out)
+	return out
+}
+
+// T037 fix round C1: `report --by-module` names exactly the findings `validate`
+// names — on the golden-bad register and on one missing a provenance row.
+func TestReportByModuleFindingsEqualValidateThroughTheCLI(t *testing.T) {
+	cases := map[string]string{
+		"golden-bad":         "",
+		"provenance-missing": `DELETE FROM item_provenance WHERE atm_id = 'VSC-001'`,
+	}
+	for name, stmt := range cases {
+		t.Run(name, func(t *testing.T) {
+			repo := tempRepo(t)
+			files := []string{"golden-good.sql"}
+			if name == "golden-bad" {
+				files = append(files, "golden-bad/module-page.sql")
+			}
+			db := buildDB(t, true, files...)
+			if stmt != "" {
+				h, err := sql.Open("sqlite", db)
+				if err != nil {
+					t.Fatal(err)
+				}
+				if _, err := h.Exec(stmt); err != nil {
+					t.Fatal(err)
+				}
+				h.Close()
+			}
+			rrc, _, rerr := captureBoth(t, "report", "--by-module", "--repo", repo, "--db", db, "--as-of", "2026-09-25")
+			vrc, vout, _ := captureBoth(t, "validate", "--repo", repo, "--db", db, "--as-of", "2026-09-25")
+			if rrc != 1 || vrc != 1 {
+				t.Fatalf("want rc 1 from both, got report %d validate %d", rrc, vrc)
+			}
+			got, want := prefixed(rerr, "FINDING  "), prefixed(vout, "FINDING  ")
+			if len(want) == 0 || strings.Join(got, "\n") != strings.Join(want, "\n") {
+				t.Fatalf("finding sets differ\n--- report ---\n%s\n--- validate ---\n%s", strings.Join(got, "\n"), strings.Join(want, "\n"))
+			}
+		})
 	}
 }

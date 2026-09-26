@@ -20,3 +20,6 @@ transcript.md:13	fenced block attributed to a private path
 ruling.yml:3	escaped quotation inside a YAML scalar, attributed to a private path
 CONTINUATION.md:7	guessing word inside a zero-gap CONTINUATION entry
 rows.tsv:2	guessing word "likely" in a TSV row whose recall cell reads UNKNOWN (a bare UNKNOWN cell is not a marker)
+report.json:4	escaped quotation (\") inside a JSON string value on a line naming a private path
+report.json:5	quotation written as \u201c...\u201d escapes inside a JSON string value on a line naming a private path
+report.json:6	literal curly quotation marks inside a JSON string value on a line naming a private path

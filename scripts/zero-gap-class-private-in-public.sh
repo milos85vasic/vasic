@@ -21,10 +21,13 @@
 #       "forbid" IS read (no wholesale skip). Inline `code` spans and a term that is itself
 #       quoted ("probably", 'probably', “probably”) are removed before matching. Granularity is
 #       the LINE, not the sentence. One finding per line (the first term matched is named).
-#       Precision (re-measured 2026-09-26, fix round): NOT a semantic parser — a normative
-#       "X should be Y" is reported like a causal guess. Live tree: 3 hits, hand-read 1 real
-#       (sweep-classes.tsv "least likely to drift", an unmeasured probability) and 2 not
-#       (a normative "should be"; a review line listing the vocabulary unquoted): 1/3.
+#       Precision (re-measured 2026-09-26, fix round F2): NOT a semantic parser — a normative
+#       "X should be Y" is reported like a causal guess. Live tree: 7 hits, all 7 hand-read,
+#       1 real (sweep-classes.tsv:21 "least likely to drift", an unmeasured probability) and 6
+#       not: progress.yml:43 a normative "should be"; progress.yml:72 and :86 review lines naming
+#       the vocabulary unquoted; and 3 SELF-REFERENCE rows — the baseline report.txt:465,
+#       FINDINGS-BY-CLASS.tsv:466 and report.json:468 each carry another class's finding whose
+#       description copies progress.yml:43, so a report of a sweep re-reports the term: 1/7.
 #       Wider sample specs/002-009 (outside the population): 47 hits, 10 hand-read, 2 real
 #       (a "presumably true" status and a "likely result" prediction), 8 normative or
 #       comparative ("most likely to", "should be read"): 2/10. Recall: 9 of 9 planted.
@@ -91,11 +94,23 @@
 #           argument (python -c "…"), and the outer quotes of a line that IS one YAML/JSON
 #           double-quoted scalar (- "…", key: "…", "k": "…") — its content is read instead,
 #           with \" unescaped, so an escaped quotation inside a ruling is still found.
+#           JSON DOCUMENTS (a record named *.json, *.jsonl or *.ndjson; fix round F2, review
+#           rev-base-B C1): EVERY string literal's delimiters are record syntax, never a
+#           quotation — a sweep report.json names private paths in "location" values next to a
+#           many-word "description" value, and before this rule the pairing of delimiters across
+#           values made each such line a quotation (123 false CRITICALs from one baseline
+#           report.json). Each string value is decoded (\" and \u0022 -> ", \u201c/\u201d -> the
+#           curly quotes, other escapes -> a space) and only its CONTENT is read for a quotation,
+#           so a quoted sentence INSIDE a value is still found. The file type is decided by the
+#           NAME only: JSON written into a record of another extension gets the line rules above.
 #       A PATH-ONLY reference is allowed and is not reported (workshop/chapters/01/x.mp4).
-#       Precision (re-measured 2026-09-26): live tree 0 hits (the two former false CRITICALs,
-#       progress.yml rulings naming ai_interviewing/platform/scripts/start.sh, are gone);
-#       specs/002-009 sample 0 hits (was 55, 0/5 real: 48 backticked paths, 4 paths inside
-#       the quote, 3 python -c arguments). Recall: 6 of 6 planted shapes. NOT seen: copied
+#       Precision (re-measured 2026-09-26, fix round F2): live tree 0 hits over 31 records,
+#       including the baseline report.json that gave 123 false CRITICALs before the JSON rule
+#       (live total 130 -> 7, every removed row one of those 123); specs/002-009 sample 0 hits
+#       (was 55, 0/5 real: 48 backticked paths, 4 paths inside the quote, 3 python -c
+#       arguments). Recall: 9 of 9 planted shapes (3 of them JSON: \", \u201c escapes, literal
+#       curly quotes); corpus clean/ holds a sweep-report-shaped report.json and a rows.jsonl
+#       that name private paths in string values and must stay silent. NOT seen: copied
 #       private prose with no quotation marks, attribution or transcript shape; a
 #       backticked private path followed by a quotation; a quotation passed as a -x option
 #       argument (that is scripts/verify-content-boundary.sh's job, which compares text).
@@ -250,6 +265,32 @@ function long_quote(s,   inner) {
     }
     return spans(s)
 }
+function json_quote(s,   i, n, c, e, hex, instr, buf) {
+    # A JSON/JSONL record: every string literal is record syntax, never a quotation. Each string
+    # value is decoded (\" -> ", \\ -> \, \u201c/\u201d -> the curly quotes, \u0022 -> ", other escapes
+    # -> a space) and its CONTENT is read by spans(), so a quotation inside a value is still found.
+    n = length(s); instr = 0; buf = ""
+    for (i = 1; i <= n; i++) {
+        c = substr(s, i, 1)
+        if (!instr) { if (c == "\"") { instr = 1; buf = "" } ; continue }
+        if (c == "\\") {
+            e = substr(s, i + 1, 1); i++
+            if (e == "u") {
+                hex = tolower(substr(s, i + 1, 4)); i += 4
+                if (hex == "201c") buf = buf "\342\200\234"
+                else if (hex == "201d") buf = buf "\342\200\235"
+                else if (hex == "0022") buf = buf "\""
+                else buf = buf " "
+            } else if (e == "n" || e == "t" || e == "r" || e == "b" || e == "f") buf = buf " "
+            else buf = buf e
+            continue
+        }
+        if (c == "\"") { instr = 0; if (spans(buf)) return 1; continue }
+        buf = buf c
+    }
+    if (instr && spans(buf)) return 1   # an unterminated string: its content is still read
+    return 0
+}
 function segmean(t,   i, n, c, cls, pcls, segs, chars) {   # mean length of word/digit segments (identifier shape)
     n = length(t); segs = 0; chars = 0; pcls = ""
     for (i = 1; i <= n; i++) {
@@ -340,7 +381,7 @@ BEGIN {
         if (info !~ /^(bash|sh|shell|zsh|console)$/ && prevnb ~ privre) p = p ",fenced-block-attributed-to-private-path"
     }
     if (!fence && isq && !prevq && prevnb ~ privre) p = p ",blockquote-attributed-to-private-path"
-    if (code ~ privre && long_quote(code)) p = p ",private-path-cited-with-quotation"
+    if (code ~ privre && (json ? json_quote(raw) : long_quote(code))) p = p ",private-path-cited-with-quotation"
     if (p != "") print FNR "\tP\t" substr(p, 2)
 
     # ---- (1) guessing language
@@ -440,7 +481,7 @@ cred_lib_lines() {
 
 # ---------------------------------------------------------------- main
 main() {
-    local tok raw full region hits libl n found=0 inspected=0 walked priv b cont rc l line cat detail desc dig ln
+    local tok raw full region hits libl n found=0 inspected=0 walked priv b cont rc l line cat detail desc dig ln json
     ROOT="" CORPUS="" EMIT=0
     while [ $# -gt 0 ]; do
         case "$1" in
@@ -511,7 +552,8 @@ main() {
         while IFS= read -r ln; do
             [ -n "$ln" ] && cni "$tok:$ln" "line exceeds $MAXLINE bytes; no detector read it (the credential scanner takes minutes on such lines)"
         done <"$TMPW/long"
-        if ! hits=$(awk -v priv="$priv" "$AWK_DETECT" "$region" 2>/dev/null); then
+        json=0; case "$raw" in *.json|*.jsonl|*.ndjson) json=1 ;; esac
+        if ! hits=$(awk -v priv="$priv" -v json="$json" "$AWK_DETECT" "$region" 2>/dev/null); then
             cni "$tok" "the detector program failed on this record"; continue
         fi
         if [ "$LIBOK" -eq 1 ]; then
@@ -717,6 +759,24 @@ It broke, probably because of X.' "$T/m4b/CONTINUATION.md"; rm -f "$T/m4b/CONTIN
     mkroot "$T/q1"; printf '  - "Ruling: the notes in workshop/chapters/01/notes.md say \\"a planted synthetic sentence copied verbatim here\\" today."\n' >>"$T/q1/specs/010-zero-gap-verified-closure/progress.yml"
     run "$T/q1.out" -- --root "$T/q1"; rc=$?
     if [ "$rc" -eq 1 ] && has "$T/q1.out" '^FINDING private-in-public critical content-boundary specs/010-zero-gap-verified-closure/progress\.yml:[0-9]+ '; then ok "Q1 an escaped quotation inside a YAML scalar attributed to a private path IS found"; else bad "Q1 rc=$rc $(head -c 400 "$T/q1.out")"; fi
+    # Q2/Q3 (fix round F2, rev-base-B C1): a sweep report.json names private paths inside JSON string
+    # values; the string delimiters are record syntax, never a quotation — only a quotation INSIDE a
+    # string value (\" or “...”) is one.
+    mkroot "$T/q2"; mkdir -p "$T/q2/specs/010-zero-gap-verified-closure/baseline"
+    {   printf '{\n  "findings": [\n'
+        printf '    {"class": "build-if-missing", "severity": "medium", "location": "workshop/platform/scripts/restart.sh:17", "description": "builds only when the artefact is absent with no freshness guard", "evidence_ref": "workshop/platform/scripts/restart.sh:17"},\n'
+        printf '    {"class": "x", "location": "ai_interviewing/docs/planted.md", "description": "a path only reference in a many word value"}\n  ]\n}\n'
+    } >"$T/q2/specs/010-zero-gap-verified-closure/baseline/report.json"
+    printf '{"location": "monetization/plan.txt:3", "description": "one JSON line naming a private path by path only"}\n' >"$T/q2/docs/zero-gap/rows.jsonl"
+    run "$T/q2.out" -- --root "$T/q2"; rc=$?
+    if [ "$rc" -eq 0 ] && [ "$(nfind "$T/q2.out")" -eq 0 ]; then ok "Q2 JSON/JSONL string values naming private paths are NOT a quotation (rc 0)"; else bad "Q2 rc=$rc $(grep '^FINDING' "$T/q2.out" | cut -d' ' -f5 | tr '\n' ' ')"; fi
+    mkroot "$T/q3"
+    {   printf '{"location": "workshop/chapters/01/notes.md:3", "description": "the notes say \\"a planted synthetic sentence copied verbatim here\\" today"}\n'
+        printf '{"location": "workshop/chapters/01/notes.md:4", "description": "the notes say \\u201ca planted synthetic unicode escaped quotation\\u201d today"}\n'
+    } >"$T/q3/docs/zero-gap/rows.jsonl"
+    run "$T/q3.out" -- --root "$T/q3"; rc=$?
+    if [ "$rc" -eq 1 ] && has "$T/q3.out" '^FINDING private-in-public critical content-boundary docs/zero-gap/rows\.jsonl:1 ' \
+       && has "$T/q3.out" '^FINDING private-in-public critical content-boundary docs/zero-gap/rows\.jsonl:2 '; then ok "Q3 a quotation INSIDE a JSON string value (\\\" and \\u201c escapes) IS found"; else bad "Q3 rc=$rc $(head -c 400 "$T/q3.out")"; fi
 
     echo "L live population (read-only)"
     run "$T/lp.out" -- --root "$LIVE_ROOT" --emit-population; rc=$?

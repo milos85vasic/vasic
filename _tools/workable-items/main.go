@@ -79,6 +79,14 @@ usage: workable-items-vsc <subcommand> [flags]
                 (measured on a copy of the live register: 8 V-G8 findings). Do NOT
                 migrate the live register before task T047 closes the roster gap.
   report        Read-only tallies by status, type, sub-project and evidence class.
+                --by-module [--as-of <YYYY-MM-DD>] prints instead the per-module
+                Markdown page of the zero-gap register (FR-024, SC-010): one section
+                per roster module, every gap item with status, disposition, severity,
+                kind, evidence and verdicts, and every finding of the validate rule set
+                (base rules + V-G1..V-G12) named. The register is read with plain file
+                reads and only a private copy is opened. 0 no finding · 1 a named
+                finding · 2 could not determine (no page when the register cannot be
+                read; the page is printed when a rule row is undetermined).
   gap           Zero-gap register (feature 010): migrate | add | classify | verdict |
                 close | reopen | link | apply-queue | freeze | summary.
                 See specs/010-zero-gap-verified-closure/contracts/register-cli.md.
@@ -510,12 +518,28 @@ func cmdReport(args []string) int {
 	fs := flag.NewFlagSet("report", flag.ContinueOnError)
 	repo := fs.String("repo", "", "repository root")
 	dbPath := fs.String("db", "", "database path")
+	byModule := fs.Bool("by-module", false, "print the per-module Markdown page (feature 010, T037; read-only: the register is copied, never opened in place)")
+	asOf := fs.String("as-of", "", "with --by-module: ISO date (YYYY-MM-DD) the V-G date rules use (default: today in UTC; printed on stderr)")
 	if err := fs.Parse(args); err != nil {
 		return exitUndetermined
 	}
-	_, dbp, err := resolve(fs, repo, dbPath)
+	root, dbp, err := resolve(fs, repo, dbPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "COULD NOT DETERMINE: %v\n", err)
+		return exitUndetermined
+	}
+	if *byModule {
+		day := *asOf
+		if day == "" {
+			day = time.Now().UTC().Format("2006-01-02")
+			fmt.Fprintf(os.Stderr, "as-of: %s (default: today, UTC)\n", day)
+		} else {
+			fmt.Fprintf(os.Stderr, "as-of: %s\n", day)
+		}
+		return wi.ReportByModule(wi.ModuleReportOptions{Root: root, DBPath: dbp, AsOf: day}, os.Stdout, os.Stderr)
+	}
+	if *asOf != "" {
+		fmt.Fprintln(os.Stderr, "COULD NOT DETERMINE: --as-of applies to --by-module only")
 		return exitUndetermined
 	}
 	db, err := wi.Open(dbp)

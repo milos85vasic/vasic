@@ -1,0 +1,8 @@
+{
+  "note": "planted: an escaped quotation inside a JSON string value, attributed to a private path (synthetic)",
+  "findings": [
+    {"location": "workshop/chapters/01/notes.md:3", "description": "the notes say \"a planted synthetic sentence copied verbatim here\" today"},
+    {"location": "ai_interviewing/docs/planted.md", "description": "the notes say \u201ca planted synthetic unicode escaped quotation\u201d today"},
+    {"location": "monetization/plan.txt:3", "description": "the notes say “a planted synthetic literal curly quotation” today"}
+  ]
+}

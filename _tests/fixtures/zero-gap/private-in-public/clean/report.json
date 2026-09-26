@@ -1,0 +1,13 @@
+{
+  "schema": "zero-gap-sweep/1",
+  "note": "clean control: a sweep report whose string values name private paths; JSON string delimiters are record syntax, not a quotation (synthetic)",
+  "findings": [
+    {"class": "build-if-missing", "severity": "medium", "category": "build-freshness", "location": "workshop/platform/scripts/restart.sh:17", "description": "builds only when the artefact is absent with no freshness guard, so a run after a source change uses a stale build", "evidence_ref": "workshop/platform/scripts/restart.sh:17"},
+    {"class": "pointer-drift", "severity": "low", "category": "governance-drift", "location": "gitlink:ai_interviewing", "description": "the recorded gitlink ai_interviewing/docs/x.md is two commits behind its remote head", "evidence_ref": "monetization/tools/build.sh:4"},
+    {
+      "class": "stale-figures",
+      "location": "monetization/plan.txt:3",
+      "description": "a recorded figure with no re-measure command, reported by path and line only"
+    }
+  ]
+}

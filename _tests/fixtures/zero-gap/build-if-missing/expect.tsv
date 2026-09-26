@@ -11,3 +11,5 @@ p9_env_prefix.sh:4	if [ ! -x BIN ] && command -v go; then ( cd ... && GOPROXY=of
 p10_timestamp_log.sh:8	a `local timestamp=` in a log helper must not count as a build-stamp comparison (live false negative at run_all_providers_challenge.sh:79)
 p11_stamp_in_message.sh:6	stamp/HEAD words only in echo/log messages and an inline comment
 p12_revparse_uncompared.sh:6	rev-parse HEAD read but never compared; a stamp file only tested for existence
+p13_if_condition_build.sh:6	if [ ! -x BIN ] && ! build_tool; then <refusal> fi: the build runs in the if-CONDITION only when the binary is absent
+p14_if_condition_or_build.sh:4	if [ -x BIN ] || make server; then: the build runs in the if-CONDITION only when the binary is absent

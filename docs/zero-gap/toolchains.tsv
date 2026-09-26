@@ -1,13 +1,20 @@
-# toolchains.tsv — the tracked catalogue of host tools whose ABSENCE makes a gate exit 2 (feature 010).
+# toolchains.tsv — the tracked catalogue of host tools whose ABSENCE can make a gate exit 2 (feature 010).
 # Population source of the `missing-toolchain` sweep class (docs/zero-gap/sweep-classes.tsv): the class
-# probes each row on the host and registers every absent tool as an Operator-blocked item carrying the
-# install command below. Adding a tool is a data change here plus the class's corpus; nothing is hard-coded
-# in the class. `source` names the tracked document or gate that states the dependency (section, not line
-# number, because line numbers drift). The install commands are operator actions and are never run by a sweep.
-tool	probe	gate_that_needs_it	install_command	source
-tesseract	command -v tesseract	pre-push gate 5 (export validator visual.ocr check)	sudo apt-get install -y tesseract-ocr	CLAUDE.md, "Build and test entry points" (tesseract NOT INSTALLED, gate 5 exits 2)
-bundle	command -v bundle	pre-push gate 6 precondition (Jekyll build of milosvasic.ru)	gem install bundler (then bundle install inside milosvasic.ru)	CLAUDE.md, "Build and test entry points" (bundle, bundler and jekyll all absent)
-jekyll	command -v jekyll	pre-push gate 6 precondition (Jekyll build of milosvasic.ru)	bundle install inside milosvasic.ru	CLAUDE.md, "Build and test entry points" (bundle, bundler and jekyll all absent)
-libmanette-0.2-0	dpkg-query -W libmanette-0.2-0	pre-push gate 6 (Playwright webkit launch)	sudo apt-get install -y libmanette-0.2-0	CLAUDE.md, "Live-production test coverage" section: webkit blocked on libmanette-0.2-0 and libwoff1
-libwoff1	dpkg-query -W libwoff1	pre-push gate 6 (Playwright webkit launch)	sudo apt-get install -y libwoff1	CLAUDE.md, "Live-production test coverage" section: webkit blocked on libmanette-0.2-0 and libwoff1
-docker	command -v docker	UNCONFIRMED: no local gate measured to exit 2 on it; the class must establish whether any does before registering an item	operator decision: podman is the local runtime (docker is absent by design)	specs/010-zero-gap-verified-closure/tasks.md T026 (names docker) and CLAUDE.md "Host capability" (podman present, docker absent)
+# probes each row on the host. An absent tool is an Operator-blocked item ONLY when no usable container
+# route exists: `container_route` is `none` (the host tool is the only path) or
+# `src=<tracked resolver source> bin=<built resolver> build=<build tool> runtime=<rt>[,<rt>...]`, and a
+# routed tool is reported only when its resolver source is not tracked, OR it is neither built nor
+# buildable (build tool absent), OR none of the runtimes is on the probe PATH. The route check is
+# structural (it builds, starts and pulls nothing), so a usable route is not proof the workload succeeds.
+# Rows for tools the operator decided to provide as CONTAINER WORKLOADS carry the containerised remedy,
+# never a host package (docs/OPERATOR-DECISIONS-2026-09-07.md #10, docs/OPERATOR-DECISIONS-2026-09-09.md #4).
+# Adding a tool is a data change here plus the class's corpus; nothing is hard-coded in the class.
+# `source` names the tracked document or gate that states the dependency (section, not line number,
+# because line numbers drift). Remedies are operator actions and are never run by a sweep.
+tool	probe	gate_that_needs_it	remedy	source	container_route
+tesseract	command -v tesseract	pre-push gate 5, export validator FULL-VISUAL/visual.ocr: needs host tesseract OR the containerised OCR engine that _tests/export/validate-pdf.js resolveOcrEngine() builds and runs; with neither the check SKIPs and gate 5 is rc 2	containerised, no host package: (cd _tools/containers && go build -o bin/ocr ./cmd/ocr) with a container runtime on PATH; validate-pdf.js builds the engine itself when go is on PATH	docs/OPERATOR-DECISIONS-2026-09-07.md #10 (toolchains CONTAINERISED through submodules/containers, not host packages); _tests/export/validate-pdf.js resolveOcrEngine; _tools/containers/cmd/ocr	src=_tools/containers/cmd/ocr/main.go bin=_tools/containers/bin/ocr build=go runtime=podman,docker,nerdctl
+bundle	command -v bundle	pre-push gate 6 precondition (milosvasic.ru/_site built by the Jekyll workload): needs host bundle OR the containerised site-build	containerised, no host gem: (cd _tools/containers && go build -o bin/site-build ./cmd/site-build && ./bin/site-build -workload jekyll)	docs/OPERATOR-DECISIONS-2026-09-07.md #10 and docs/OPERATOR-DECISIONS-2026-09-09.md #4 (Jekyll build containerised, no host install); _tests/preflight.js MV_BASE remedy	src=_tools/containers/cmd/site-build/main.go bin=_tools/containers/bin/site-build build=go runtime=podman,docker,nerdctl
+jekyll	command -v jekyll	pre-push gate 6 precondition (milosvasic.ru/_site built by the Jekyll workload): needs host jekyll OR the containerised site-build	containerised, no host gem: (cd _tools/containers && go build -o bin/site-build ./cmd/site-build && ./bin/site-build -workload jekyll)	docs/OPERATOR-DECISIONS-2026-09-07.md #10 and docs/OPERATOR-DECISIONS-2026-09-09.md #4 (Jekyll build containerised, no host install); _tests/preflight.js MV_BASE remedy	src=_tools/containers/cmd/site-build/main.go bin=_tools/containers/bin/site-build build=go runtime=podman,docker,nerdctl
+libmanette-0.2-0	dpkg-query -W libmanette-0.2-0	pre-push gate 6 (Playwright webkit launch)	sudo apt-get install -y libmanette-0.2-0	CLAUDE.md, "Live-production test coverage" section: webkit blocked on libmanette-0.2-0 and libwoff1 (host library; no container route is decided for webkit)	none
+libwoff1	dpkg-query -W libwoff1	pre-push gate 6 (Playwright webkit launch)	sudo apt-get install -y libwoff1	CLAUDE.md, "Live-production test coverage" section: webkit blocked on libmanette-0.2-0 and libwoff1 (host library; no container route is decided for webkit)	none
+docker	command -v docker	UNCONFIRMED: no local gate measured to exit 2 on it; the class must establish whether any does before registering an item	operator decision: podman is the local runtime (docker is absent by design)	specs/010-zero-gap-verified-closure/tasks.md T026 (names docker) and CLAUDE.md "Host capability" (podman present, docker absent)	none

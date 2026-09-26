@@ -16,6 +16,7 @@ Exit codes everywhere: **0** condition holds, **1** condition violated, **2** co
 | `gap apply-queue` | apply queued reopen requests from `.remember/logs/zero-gap/reopen-queue.jsonl` (run inside an explicit commit) | `--queue --as-of` | 0 |
 | `gap freeze` | freeze a cycle | `--cycle` | 0 writes freeze.json; 2 if tree unstable |
 | `gap summary` | derived counts + per-class recall | `--json` | 0 |
+| `report --by-module` (T037) | per-module Markdown page (FR-024, SC-010): one section per roster module (sorted by prefix), gap items grouped open / classified / closed with status, disposition, severity, kind, category, evidence and verdicts; every finding of the `validate` rule set (base rules + V-G1..V-G12) named; items the base rules report `id/prefix-not-in-roster` / `id/malformed` listed under "Unplaced items"; no timestamps | `--as-of <date>` (default today UTC, printed on stderr) | 0 page + no finding / 1 page + named finding(s) / 2 no page when the register cannot be read (absent, unreadable, non-SQLite, unmigrated, partial schema, non-empty `-wal` or any `-journal` beside the symlink-resolved file, changed while read, unreadable roster, bad `--as-of`), page printed when a rule row is undetermined, or the page cannot be written |
 | `validate` (extended) | adds rules V-G1..V-G9 below | — | 0/1/2 |
 
 Validator rules (each has a Go test RED-first and a mutation). Every date rule is evaluated against an
@@ -50,3 +51,14 @@ Output (`gap summary --json`) is derived from rows and is byte-stable for an unc
 - **Upstream defect (report, do not patch)**: the canonical tool's `close` wipes all 14 gap columns and skips closure checks. Mitigated on our side
   (any item whose history has a `zero-gap:` row stays in scope; a 'closed outside gap close' finding). Whether canonical `sync`/`move` also wipe
   the columns is UNCONFIRMED.
+
+## Amendment: `report --by-module` (T037, 2026-09-26; fix round after review rev-t037)
+
+- Read-only on the register: its path is resolved through symlinks, it is read twice with plain file
+  reads (sha256 compared) and copied into a private temporary directory that is removed on return and
+  on SIGINT/SIGTERM. Only the copy is opened by SQLite — first the way `validate` opens a register (so
+  the umbrella extension tables exist exactly as `validate` would see them), then `mode=ro&immutable=1`.
+- The finding set equals `validate`'s on the same register (tested on the golden-bad register and on a
+  register missing a provenance row); the page has no rule of its own.
+- Register text is rendered on one line and HTML-escaped; a malformed identifier is shown quoted
+  (`strconv.Quote`) in a code span; titles are truncated to 200 characters; `|` is escaped in table cells.

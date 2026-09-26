@@ -32,6 +32,16 @@
 #   (skip/skipped/SKIP incremented): such a case runs on every invocation, so zero executed cases is
 #   impossible. A counter reached only from inside a data loop, or a battery whose cases can all be
 #   recorded as skipped, stays a finding.
+#   PROOF-HELPER SETUP LOOP (fix round F2, review rev-base-A): a loop inside a PROOF HARNESS (a function
+#   whose name holds prov/proof, with a `{` body or a `name() (` subshell body closed by a `)` line at
+#   the indentation of its def line) is FIXTURE SETUP, not a verdict, when every verdict-keyword line
+#   of its body is a setup-error propagation: `cmd || return 1` / `|| exit 1` whose command chain (the
+#   line plus the &&/||/backslash continuation lines before it) runs no test ([ [[ test grep cmp diff
+#   jq awk) and names no failure word. Such a loop is not reported. A loop in a proof helper that
+#   JUDGES (grep -q ... || return 1, a test on a continuation line, a failure word such as check_drift,
+#   a bare `return 1` under `if ! cmd`, a detect_* loop) stays a finding, and the setup shape OUTSIDE a
+#   proof harness (for f in $(git ls-files); do jq . "$f" || exit 1; done) is a gate verdict and stays
+#   a finding.
 #
 # PRECISION / RECALL (honest header, measured by hand on the live tree)
 #   Recall loss (by design, conservative): any refusal token near ANY emptiness test in the region
@@ -41,16 +51,20 @@
 #   one fixed case plus an empty data-driven loop is not reported by zero-fail-pass. Precision loss:
 #   a glob loop over a directory that is required to exist, a zero-count test inside a check whose
 #   subject is guarded by other means (a `set -e` trap, a fixture built one function away), or a
-#   fixture-building loop that `return 1`s on a setup error reads as a hit.
-#   MEASURED 2026-09-26 (fix round) on the live population (61 items: 59 files + 2 non-shell gates):
-#   3 findings, all 3 read by hand: 2 real (scripts/test-setup-agents-wizard.sh:1543 - a battery
-#   whose cases can all be SKIPPED exits 0 with zero executed; scripts/audit/zero_findings_sweep.sh:525
-#   - a declared scanroot that does not exist is skipped by `[ -d ] || continue` and yields no row)
-#   and 1 false (scripts/zero-gap-class-doc-count-drift.sh:516 - a fixture-building loop whose
-#   `return 1` is a setup error) = precision 2/3. The previous round measured 0.20 on
-#   zero-fail-pass (9 of 10 hits were fixed proof batteries); the exemption above removed them, and
-#   the exact-body loop-procsub scan removed a cleanup loop and a stated-SKIP search loop. Recall is
-#   UNMEASURED beyond the planted corpus (10 planted kinds incl. data-loop / skippable batteries).
+#   fixture-building loop that `return 1`s on a setup error OUTSIDE a proof harness reads as a hit.
+#   MEASURED 2026-09-26 (fix round F2) on the live population (62 items: 60 files + 2 non-shell gates):
+#   2 findings, both read by hand: 1 real (scripts/audit/zero_findings_sweep.sh:525 - a declared
+#   scanroot that does not exist is skipped by `[ -d ] || continue` and yields no row) and 1 true by
+#   the rule but weak (scripts/test-setup-agents-wizard.sh:1543 - the battery has a skip counter, so
+#   by the rule every case could be SKIPPED and exit 0 with zero executed; its assert_* cases are also
+#   called inline, so zero executed does not arise on an ordinary run) = precision 1 real + 1 weak of 2.
+#   The former false hit (scripts/zero-gap-class-doc-count-drift.sh:687, the mkrepo setup loop inside
+#   its --prove-failure harness) is gone by the proof-helper rule above: live 3 -> 2. The previous round
+#   measured 0.20 on zero-fail-pass (9 of 10 hits were fixed proof batteries); the exemption above
+#   removed them, and the exact-body loop-procsub scan removed a cleanup loop and a stated-SKIP search
+#   loop. Planted-corpus detection: 1.0 (N = 16 planted rows), a regression check of known patterns;
+#   live-population recall UNMEASURED (16 planted rows incl. data-loop / skippable batteries and the
+#   five judging-in-a-proof-helper shapes).
 #
 # POPULATION (docs/zero-gap/sweep-classes.tsv row `vacuous-gates`)
 #   Every entry point named in column 3 of a `check` or `debt` row of scripts/check-registry.tsv,
@@ -123,6 +137,38 @@ analyze_file() {
         f = fnof(lo)
         if (f ~ /^detect[_-]/) return 1
         return 0
+    }
+    # inproof <line>: the line sits inside a PROOF HARNESS — a function named *prov*/*proof* with a
+    # `{` body (fnof chain) or a `name() (` subshell body (PR_ ranges, closed by a `)` line at the
+    # indentation of the def line)
+    function inproof(j,   k) {
+        for (k = 1; k <= npr; k++) if (PS_[k] <= j && j <= PE_[k]) return 1
+        for (k = 1; k <= nfn; k++) if (FS_[k] <= j && j <= FE_[k] && FN_[k] ~ /prov|proof/) return 1
+        return 0
+    }
+    # setuploop <lo> <hi>: 1 when the loop is FIXTURE SETUP inside a proof harness, not a verdict:
+    # every verdict-keyword line of its body is a setup-error propagation — `cmd || return 1` /
+    # `|| exit 1` whose command chain (the line plus the && / || / \ continuation lines before it)
+    # runs no test ([ [[ test grep cmp diff jq awk) and names no failure word. A loop that judges
+    # anything (grep -q ... || return 1) stays a verdict. Fix round F2 (review rev-base-A): the
+    # mkrepo helper of zero-gap-class-doc-count-drift.sh --prove-failure read as a vacuous gate.
+    function setuploop(lo, hi,   j, k, t, nv) {
+        if (!inproof(lo)) return 0
+        if (lo < 1) lo = 1
+        if (hi > n) hi = n
+        nv = 0
+        for (j = lo; j <= hi; j++) {
+            if (skip[j] || L[j] !~ /exit[ \t]+1|return[ \t]+1|FAIL|[Ff]ail|[Bb]ad |assert|[Ff]inding|[Vv]iolation|[Mm]ismatch|DRIFT|[Dd]rift|ERR|[Mm]issing/) continue
+            nv++
+            if (L[j] ~ /FAIL|[Ff]ail|[Bb]ad |assert|[Ff]inding|[Vv]iolation|[Mm]ismatch|DRIFT|[Dd]rift|ERR|[Mm]issing/) return 0
+            t = unq(L[j])
+            if (t !~ /\|\|[ \t]*(return|exit)[ \t]+1([^0-9]|$)/) return 0
+            for (k = j; k >= lo; k--) {
+                if (k < j && (skip[k] || unq(L[k]) !~ /(&&|\|\||\\)[ \t]*$/)) break
+                if (unq(L[k]) ~ /(^|[ \t;&|(!{])(\[|\[\[|test|grep|cmp|diff|jq|awk)([ \t]|$)/) return 0
+            }
+        }
+        return (nv > 0)
     }
     # loopstart <line of `done`> -> the line that opens the loop closed there (backward depth scan)
     function loopstart(i,   j, d, t, m) {
@@ -253,6 +299,17 @@ analyze_file() {
                 nfn++; FN_[nfn] = nm; FS_[nfn] = i; FE_[nfn] = braceend(i); FDEF[nm] = i; FEND[nm] = FE_[nfn]
             }
         }
+        # proof harnesses written as `name() (` subshell bodies (not in FN_: the fixed-battery
+        # exemption reads `{` functions only)
+        npr = 0
+        for (i = 1; i <= n; i++) {
+            if (skip[i] || L[i] !~ /^[ \t]*(function[ \t]+)?[A-Za-z_][A-Za-z_0-9:.-]*[ \t]*\(\)[ \t]*\([ \t]*$/) continue
+            nm = L[i]; sub(/^[ \t]*(function[ \t]+)?/, "", nm); sub(/[ \t]*\(.*$/, "", nm)
+            if (nm !~ /prov|proof/) continue
+            ind = L[i]; sub(/[^ \t].*$/, "", ind)
+            for (j = i + 1; j <= n; j++) if (!skip[j] && substr(L[j], 1, length(ind) + 1) == ind ")" && L[j] ~ /^[ \t]*\)[ \t]*$/) break
+            npr++; PS_[npr] = i; PE_[npr] = (j <= n ? j : n)
+        }
         nlp = 0
         for (i = 1; i <= n; i++) {
             if (skip[i]) continue
@@ -290,20 +347,20 @@ analyze_file() {
             if (line ~ /(^|[ \t;&|(])for[ \t]+[A-Za-z_][A-Za-z_0-9]*[ \t]+in[ \t]/) {
                 if (line ~ /(\$\(|`)[ \t]*(git([ \t]+-C[ \t]+[^ \t]+)?[ \t]+(ls-files|grep)|find[ \t]|ls[ \t]|ls\))/) kind = "loop-enum"
                 else { g = q; match(g, /for[ \t]+[A-Za-z_][A-Za-z_0-9]*[ \t]+in[ \t]+/); g = substr(g, RSTART + RLENGTH); sub(/;.*$/, "", g); if (g ~ /[*?]/ && g !~ /\$\(/) kind = "loop-glob" }
-                if (kind != "") { e = loopend(i); if (verdictbody(i, e) && !guarded(i - 12, e + 12, i)) print i "\t" kind }
+                if (kind != "") { e = loopend(i); if (verdictbody(i, e) && !setuploop(i, e) && !guarded(i - 12, e + 12, i)) print i "\t" kind }
                 continue
             }
             if (line ~ /(git([ \t]+-C[ \t]+[^ \t]+)?[ \t]+ls-files|(^|[ \t;&|(])find[ \t])[^|]*\|[ \t]*while[ \t]/) {
-                e = loopend(i); if (verdictbody(i, e) && !guarded(i - 12, e + 12, i)) print i "\t" "loop-pipe"
+                e = loopend(i); if (verdictbody(i, e) && !setuploop(i, e) && !guarded(i - 12, e + 12, i)) print i "\t" "loop-pipe"
                 continue
             }
             if (line ~ /(^|[ \t;&|(])done[ \t]*<[ \t]*<\((git|find)/) {
                 ls = loopstart(i)
-                if (verdictbody(ls, i) && !guarded(ls - 12, i + 12, i)) print i "\t" "loop-procsub"
+                if (verdictbody(ls, i) && !setuploop(ls, i) && !guarded(ls - 12, i + 12, i)) print i "\t" "loop-procsub"
                 continue
             }
             if (line ~ /(^|[ \t;&|(])while[ \t].*<\((git([ \t]+-C[ \t]+[^ \t]+)?[ \t]+ls-files|find[ \t])/) {
-                e = loopend(i); if (verdictbody(i, e) && !guarded(i - 12, e + 12, i)) print i "\t" "loop-procsub"
+                e = loopend(i); if (verdictbody(i, e) && !setuploop(i, e) && !guarded(i - 12, e + 12, i)) print i "\t" "loop-procsub"
                 continue
             }
             if (line ~ /-z[ \t]+"?\$\(/ && line ~ /(find[ \t]|git([ \t]+-C[ \t]+[^ \t]+)?[ \t]+(ls-files|grep)|grep[ \t])/) {

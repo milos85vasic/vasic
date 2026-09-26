@@ -39,6 +39,11 @@
 #   [ ... ] || { ...; BUILD; }                    multi-line group (12 lines)
 #   if [ ! -x ARTEFACT ]; then ... BUILD ... fi   negated test: build in the then-branch
 #   if [ -x ARTEFACT ]; then ... else BUILD fi    positive test: build in the else-branch
+#   if [ ! -x ARTEFACT ] && [!] BUILD; then       the build IN THE if-CONDITION (fix round F2;
+#   if [ -x ARTEFACT ] || [!] BUILD; then          rev-base-A's false negative at
+#                                                  scripts/verify-workable-items.sh:185)
+#   (the condition arm counts only with the connector that runs it when the artefact is ABSENT:
+#   `&&` after a negated test, `||` after a positive one; `[ -x ] && make -q` is not the trap)
 #   A guard inside a function body is found where it is written, so a build
 #   "hidden behind a function" is seen.  BUILD is a command whose word is one of
 #   build*.sh / build_*, go build|install, make, cmake, ninja, cargo, mvn, gradle,
@@ -64,14 +69,19 @@
 #                candidate that is not a regular file, ...).  A finding outranks an
 #                undetermined.  Every rc prints INSPECTED and POPULATION-SHA.
 #
-# MEASURED (live tree, 2026-09-26, re-measured in the review fix round)
-#   13 population items, 7 FINDINGs (1 high, 4 medium, 2 low); all 7 hand-read and
-#   all 7 are real existence-only guarded builds (precision 7/7), including
-#   submodules/llms_verifier/.../run_all_providers_challenge.sh:79, the false
-#   negative the class review found (a `local timestamp=` used to count as a stamp).
+# MEASURED (live tree, 2026-09-26, re-measured in fix round F2)
+#   13 population items, 8 FINDINGs (1 high, 5 medium, 2 low); all 8 hand-read and
+#   all 8 are real existence-only guarded builds (precision 8/8), including
+#   submodules/llms_verifier/.../run_all_providers_challenge.sh:79 (the earlier class review's
+#   false negative: a `local timestamp=` used to count as a stamp) and, new in F2,
+#   scripts/verify-workable-items.sh:185 (medium): its --prove-failure path runs
+#   `if [ ! -x "$TOOL_BIN" ] && ! build_tool; then <refusal>`, so the proof exercises a stale
+#   workable-items binary after a change under _tools/workable-items/ (the same file's G4/G5 leg
+#   at :128 was already reported; no freshness guard anywhere in the file).
 #   1 COULD-NOT-INSPECT: submodules/qa/scripts/anti-bluff-scan.sh is a tracked
 #   symlink and is never followed, so the live rc is 1 (findings outrank it).
-#   Runtime about 6 s.
+#   Planted-corpus detection: 1.0 (N = 14 planted rows), a regression check of known patterns;
+#   live-population recall UNMEASURED.  Runtime about 6 s.
 #
 # WHAT IT DOES NOT SEE (honest limits, §11.4.6)
 #   - a build behind indirection: `[ -x "$BIN" ] || "$BUILD_CMD"`, `|| eval ...`, or a
@@ -149,7 +159,7 @@ function has_build(text,   n, i, c, w, b, k, parts) {
         c = trim(parts[i])
         if (c == "") continue
         # strip wrappers
-        while (c ~ /^(exec|sudo|nohup|env|time|command|then|do|else)[ \t]+/ || c ~ /^[A-Za-z_][A-Za-z0-9_]*=[^ \t]*[ \t]+/) { sub(/^[^ \t]+[ \t]+/, "", c) }
+        while (c ~ /^(exec|sudo|nohup|env|time|command|then|do|else|!)[ \t]+/ || c ~ /^[A-Za-z_][A-Za-z0-9_]*=[^ \t]*[ \t]+/) { sub(/^[^ \t]+[ \t]+/, "", c) }
         if (c ~ /^(bash|sh|source|\.)[ \t]+/) { sub(/^[^ \t]+[ \t]+/, "", c); while (c ~ /^-[A-Za-z-]+[ \t]+/) sub(/^[^ \t]+[ \t]+/, "", c) }
         w = c; sub(/[ \t].*$/, "", w)
         if (is_msg_word(w)) continue
@@ -240,6 +250,12 @@ function process(f,   i, j, s, m, neg, rest, action, depth, mode, hit, lim, t, i
             }
             if (!hit) hit = has_build(part)
             form = neg ? "if-negated-test-then-build" : "if-test-else-build"
+            # the build sits IN THE CONDITION (fix round F2, review rev-base-A):
+            # `if [ ! -x B ] && ! build_tool; then <refusal>` or `if [ -x B ] || make; then`
+            cond = rest; if (match(cond, /;?[ \t]*then([ \t;]|$)/)) cond = substr(cond, 1, RSTART - 1)
+            if (!hit && ((neg && cond ~ /^&&/) || (!neg && cond ~ /^\|\|/)) && has_build(substr(cond, 3))) {
+                hit = 1; form = neg ? "if-negated-test-and-build-in-condition" : "if-test-or-build-in-condition"
+            }
         } else {
             action = ""
             if (!neg && rest ~ /^\|\|/) { action = substr(rest, 3); form = "test-or-build" }
@@ -482,7 +498,7 @@ prove_failure() {
     if [ "$(sha256sum <"$T/emit.txt" | cut -d' ' -f1)" = "$(sed -n 's/^POPULATION-SHA //p' <<<"$out")" ]; then ok "M7b POPULATION-SHA equals the emitted set"; else bad "M7b population sha differs from --emit-population"; fi
 
     # M8 forms the detector must not miss: negated-and, group, if/else, function, comment-only freshness
-    for f in p2_nested_if p3_function p4_test_form p5_negated_and p6_block_or p7_comment_freshness p8_if_else p9_env_prefix p10_timestamp_log p11_stamp_in_message p12_revparse_uncompared; do
+    for f in p2_nested_if p3_function p4_test_form p5_negated_and p6_block_or p7_comment_freshness p8_if_else p9_env_prefix p10_timestamp_log p11_stamp_in_message p12_revparse_uncompared p13_if_condition_build p14_if_condition_or_build; do
         rm -f "$T/pl/scripts/"*; cp "$corpus/planted/$f.sh" "$T/pl/scripts/start.sh"; git -C "$T/pl" add -A
         out=$(bash "$SELF" --root "$T/pl"); rc=$?
         if [ $rc -eq 1 ]; then ok "M8 form $f => FINDING"; else bad "M8 form $f rc=$rc: $out"; fi
