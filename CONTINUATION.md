@@ -534,9 +534,9 @@ Commits, each independently reviewed (base `316ac998c9a4395a2ff446fe55b880ea5a7b
   rounded up): `verify-answer-question` needs a live authenticated session this gate run
   couldn't obtain; `verify-served-correctness-indicator` needed the fresh bundle T065 then
   produced — not re-run after, should be re-checked next session.
-- T065: `scripts/build.sh` run (Angular bundle was stale from 2026-09-30, predating every fix
-  in this batch — `scripts/restart.sh` alone only rebuilds the Go binary, never the frontend),
-  then `scripts/restart.sh`. Final build: `35eb099-20261001T154852Z-dirty`,
+- T065: `workshop/scripts/build.sh` run (Angular bundle was stale from 2026-09-30, predating
+  every fix in this batch — `workshop/scripts/restart.sh` alone only rebuilds the Go binary,
+  never the frontend), then `workshop/scripts/restart.sh`. Final build: `35eb099-20261001T154852Z-dirty`,
   source_commit `35eb09981f1e97afc316684c5a18887d98932b75`, built_at `2026-10-01T15:48:52Z`,
   RUNNING/healthy. `source_dirty=true` is the known pre-existing untracked
   `chapters/03/*.pdf.pre-redaction-backup` file, unrelated to this batch.
