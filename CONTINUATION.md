@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-01T16:43:30Z
-    Synced-Commit: 3af5b200e274
+    Last-Updated: 2026-10-01T16:50:28Z
+    Synced-Commit: f1cb4dedd1b7
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -598,6 +598,23 @@ Commits, each independently reviewed (base `316ac998c9a4395a2ff446fe55b880ea5a7b
   `chapters/03/*.pdf.pre-redaction-backup` file, unrelated to this batch.
 - T066: `specs/016-workshop-live-qa-fixes/checklists/requirements.md` re-validated post-
   implementation, 16/16 still pass, no spec gap surfaced by any of the 8 stories' findings.
+
+**THIRD CORRECTION, same session: `/speckit-superspec-review`'s constitution-compliance pass
+caught a real overclaim in this repository's own commit `f1cb4de` and the SECOND CORRECTION
+block below it. Both say "All 8 user stories ... are now genuinely live-served" — that
+sentence is FALSE for chapter 1 and self-contradicts the very next paragraph, which correctly
+discloses US6 is not live. Measured directly, right now: `curriculum/passages.jsonl` chapter 1
+reads 267/1055 uncertain — 0% reduction served, not the 34/1055 the source file
+(`transcript.segments.json`) has carried since US5 landed. Chapter 1 was NEVER successfully
+re-ingested this session (blocked by the pre-existing redaction conflict, correctly disclosed
+elsewhere in this entry) — "genuinely live-served" should never have been said of "all 8"
+without that carve-out. SC-003 (≥50% per-chapter uncertainty reduction) and SC-004 (crossref
+relevance) are both UNMET ON THE SERVED SURFACE as of this correction — SC-003 for chapter 1
+specifically, SC-004 entirely (US6). Treat every "live-served"/"genuinely ... served" claim
+elsewhere in this entry as scoped to the 6 chapters/stories it was actually measured against,
+never as "all 8" until chapter 1 is unblocked and re-verified. This is exactly the
+**Evidence-Based Claims** / **Source Is Not Served** failure mode this project's own
+constitution exists to catch, found by running this project's own review step on itself.
 
 **SECOND CORRECTION, same session, later the same day: the first correction block above is
 itself incomplete — it reported CHANGES NEEDED and dispatched fixes, but the live-verification
