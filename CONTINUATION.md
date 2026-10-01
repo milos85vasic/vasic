@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-01T17:25:00Z
-    Synced-Commit: 10498e12afa1
+    Last-Updated: 2026-10-01T17:24:07Z
+    Synced-Commit: 06c0af2a1272
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -632,7 +632,7 @@ APPROVED across the board, zero CHANGES_NEEDED:**
   passage registry's `Sync` has no delete path (attach-or-mint only), and both search legs
   filter solely on `redacted = 0`. A standing regression test was added (confirmed genuinely
   RED). **Remedy execution surfaced something bigger than scoped**: running the recommended
-  `scripts/redact.sh` command aborted transactionally with a real finding — suppressing these 4
+  `workshop/scripts/redact.sh` command aborted transactionally with a real finding — suppressing these 4
   rows has a TRANSITIVE CLOSURE of 426 OTHER minted rows (glossary/taxonomy terms derived from
   the now-to-be-suppressed text) that would also need suppressing to avoid a half-applied
   redaction. **This session deliberately did NOT cascade into 430 rows unreviewed** — that is a
@@ -645,7 +645,7 @@ APPROVED across the board, zero CHANGES_NEEDED:**
   how to proceed with the full 430-row transitive closure — the 4-row editorial fix remains
   open.
 - **I5 — closes the ROOT CAUSE of this session's own near-miss** (the accidental chapter-3
-  re-transcription). `scripts/ingest.sh` had documented the hazard in comments but enforced
+  re-transcription). `workshop/scripts/ingest.sh` had documented the hazard in comments but enforced
   nothing. Fixed: a new precondition-0 guard refuses (real exit 2, nothing written) a
   re-transcription of any chapter with an applied redaction, unless `--skip-transcript-build`
   or a new explicit `--force-retranscribe-redacted` override is given. Reviewer independently
@@ -654,7 +654,7 @@ APPROVED across the board, zero CHANGES_NEEDED:**
   before/after, confirmed the common (unredacted) case is completely unaffected.
 - **I6 — a `git checkout --` revert during the near-miss remedy might have touched a concurrent
   agent's work**, not just the ingest's own output. Resolved by the dispatcher via code tracing
-  (not re-litigated by a subagent): `scripts/ingest.sh`'s exercise-section-splitting step runs,
+  (not re-litigated by a subagent): `workshop/scripts/ingest.sh`'s exercise-section-splitting step runs,
   for the GIVEN chapter argument, before the suppression check that failed — so the reverted
   file was genuinely this session's own chapter-1 ingest attempt's byproduct, confirmed safe.
 
