@@ -73,12 +73,27 @@ scripts/audit-hardcoded-paths.sh
 # confirmed, so all are carried at the same honesty level. This tree consumes
 # the constitution BY REFERENCE (§11.4.28 / §11.4.177) and cannot fix any of
 # them here — the fix is an upstream HelixConstitution change plus a bump.
+#
+# 7 files ADDED 2026-10-01 at gitlink c715cfb (same `/mnt/track<N>/...`
+# multi-track-example-path shape, now also covering CLAUDE_ANCHORS_FULL.md,
+# the multi-track-and-parallelism doc pair, and four fastcycle test
+# fixtures/scripts under scripts/fastcycle/tests/ — all upstream content,
+# same untriaged status, same BY-REFERENCE non-fixability as above. The
+# 25-file/43-occurrence count above is now stale by this addition and not
+# re-totaled; re-run the audit for the live count.
 submodules/constitution/AGENTS.html
+submodules/constitution/CLAUDE_ANCHORS_FULL.md
 submodules/constitution/CLAUDE.html
 submodules/constitution/Constitution.html
 submodules/constitution/Constitution.md
 submodules/constitution/GEMINI.html
+submodules/constitution/groups/multi-track-and-parallelism.html
+submodules/constitution/groups/multi-track-and-parallelism.md
 submodules/constitution/QWEN.html
+submodules/constitution/scripts/fastcycle/tests/fixtures/consumer_audit/consumers_3.json
+submodules/constitution/scripts/fastcycle/tests/fixtures/consumer_enumerate/known_needles.json
+submodules/constitution/scripts/fastcycle/tests/fixtures/core_ondemand/baseline_lines_sorted.txt
+submodules/constitution/scripts/fastcycle/tests/test_consumer_audit_red.sh
 submodules/constitution/scripts/gates/cm_continuum_resume_engine_present_mutation_test.sh
 submodules/constitution/scripts/gates/cm_feature_directive_mutation_test.sh
 submodules/constitution/scripts/gates/cm_multitrack_engine_in_constitution_mutation_test.sh
@@ -351,6 +366,18 @@ workshop/docs/session-evidence/session-ledger.md
 # of the exclusion alone.
 # Re-derive before trusting this: bash scripts/audit-hardcoded-paths.sh
 workshop/curriculum/passages.jsonl
+
+# REASON: the two files below are deliberately UNTRACKED (gitignored
+# 2026-10-01, see workshop/.gitignore), split out of curriculum/passages.jsonl
+# pending a future decision — chapter-03's rows held back for a redaction
+# review, and ~263 ambiguous kg_term/kg_area rows held back for scope
+# clarification. They are scratch state kept in-place on purpose, not content:
+# never committed, never pushed. Their absolute-path content is the ORIGINAL
+# (pre-fix) source_ref/external_key shape from before today's path-
+# normalization fix, preserved as-is so the split can be reversed precisely
+# once the holdback is resolved.
+workshop/curriculum/.chapter-03-held-back-passages.jsonl
+workshop/curriculum/.unclear-chapter-scope-held-back-passages.jsonl
 
 # BASELINE: the four `.sections.json` files below are docs_chain EXPORTS, not source.
 # scripts/ingest.sh writes a `${f%.md}.sections.json` sidecar next to every markdown
