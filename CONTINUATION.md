@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-09-26T15:40:00Z
-    Synced-Commit: 99a47228ef01
+    Last-Updated: 2026-10-01T15:55:17Z
+    Synced-Commit: 8490e94678f6
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,121 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### SPEC 016 WORKSHOP LIVE-QA FIX BATCH — ALL 8 STORIES COMPLETE, REVIEWED, LIVE-VERIFIED — 2026-10-01
+
+Full SpecKit chain (`specs/016-workshop-live-qa-fixes/`: spec, clarify, plan, tasks, analyze,
+superspec-execute) for 9 user-reported live-QA bugs against the `workshop` submodule's served
+platform, now **committed and tracked** in this umbrella repo (was sitting untracked on disk
+until this session — see commit `8490e94`). Executed via `subagent-driven-development`: one
+fresh implementer subagent per user story, one independent fresh-context reviewer per story
+(never the implementer self-certifying), manual ledger at
+`workshop/.superpowers/sdd/016-workshop-live-qa-fixes/progress.md` (git-ignored scratch, the
+record now lives in git history + this entry).
+
+**Result: 8 of 8 stories complete, all independently reviewed, ZERO CHANGES_NEEDED verdicts,
+ZERO fix-loop rounds needed.** 3 minor parked findings across all 8 (none touching FR/SC
+acceptance criteria, all explicitly judged zero/near-zero functional risk by their reviewer):
+US3 (Go-side untyped string constants, stylistic only), US5 (one float value re-serialized to
+scientific notation on rewrite, numerically identical), US6 (a stale code comment on an
+unrelated DDL mirror, functionally unreachable).
+
+Commits, each independently reviewed (base `316ac998c9a4395a2ff446fe55b880ea5a7b6a54` in the
+`workshop` submodule):
+- **US1** `3025ee9a2` — practice MCQ selection was disabled whenever the answer key was withheld
+  (the disabled-binding and the `pick()` guard shared the same over-broad condition); fixed by
+  decoupling "can select" from "is the key known".
+- **US2** `b67af5f9b` — lesson/section completion checkmarks: the server already returned the
+  learner's real per-lesson `state`, but the frontend normaliser dropped it and a pre-existing,
+  never-called `adoptServerView` method was wired in.
+- **US3** `f13e64498` — landing-page chapter recordings: added a backend `recording_state`
+  classification (available/processing/none_by_design) reusing the SAME evidence the actual
+  recording probe/serve route uses (Published Means Served), replacing frontend logic that only
+  ever auto-expanded whichever chapter sat at list index 0.
+- **US4** `5b00c30` — deleted a hardcoded "Not in this build" placeholder badge that rendered
+  over the backend's own honest derivation sentence on every passage.
+- **US5** `5e25ef7` — transcript "uncertain" flag over-triggered on a single low-probability
+  outlier word dragging a segment's mean down; switched to a majority-of-words-individually-fail
+  rule. All 5 reprocessed chapters exceed the clarified 50%-per-chapter SC-003 bar (chapter-01:
+  267→34 uncertain segments, 87% reduction).
+- **US6** `22fde1d87` — crossref carry-forward bypassed population scoping for a source run
+  predating an earlier same-day scoping fix (G-XREF-24); added a 6th required match condition,
+  `population_key` equality. See OPEN ITEM below — this fix is code-correct but not yet visible
+  in what generation 17 actually serves.
+- **US7** `7f9da229f` — progress-screen first-column labels clipped mid-word at narrow
+  viewports; CSS fix scoped to `.wk-gutter-cell .wk-tag` only (`white-space:normal;
+  overflow-wrap:anywhere`), verified not to affect sibling chip rows.
+- **US8** `1a46788` — chapter 4 (text-only, real Slack conversation as source) rewritten
+  third-person via a new reusable `pipeline/extract/rewrite_text_chapter_sections.py` +
+  per-chapter JSON rewrite map, not a one-off hand edit. Human-reviewed directly by the
+  dispatcher (not delegated) against the real source conversation — all 10 rewrites accurate,
+  all 4 omissions correctly identified as non-conclusive.
+- `35eb099` — `.gitignore` addition for the `.superpowers/` scratch workspace.
+
+**Phase 11 (Polish) status — T063-T066 DONE, T067 is this entry:**
+- T063 full regression: backend all packages `ok` (zero failures); frontend 541/541 SUCCESS
+  (was 518 baseline, +23 new); pipeline 499/499 passed (was 485, +14 new).
+- T064 relevant gates: 9 of 11 PASS clean (`verify-answer-key-disclosure`,
+  `verify-submission-validation`, `verify-submit-key-disclosure`, `verify-crossref-cli`,
+  `verify-crossref-currency`, `verify-crossref-navigation`, `verify-absence-honesty`,
+  `verify-lesson-content`, `verify-ui-labels`); 2 genuinely UNDETERMINED (not failures, not
+  rounded up): `verify-answer-question` needs a live authenticated session this gate run
+  couldn't obtain; `verify-served-correctness-indicator` needed the fresh bundle T065 then
+  produced — not re-run after, should be re-checked next session.
+- T065: `scripts/build.sh` run (Angular bundle was stale from 2026-09-30, predating every fix
+  in this batch — `scripts/restart.sh` alone only rebuilds the Go binary, never the frontend),
+  then `scripts/restart.sh`. Final build: `35eb099-20261001T154852Z-dirty`,
+  source_commit `35eb09981f1e97afc316684c5a18887d98932b75`, built_at `2026-10-01T15:48:52Z`,
+  RUNNING/healthy. `source_dirty=true` is the known pre-existing untracked
+  `chapters/03/*.pdf.pre-redaction-backup` file, unrelated to this batch.
+- T066: `specs/016-workshop-live-qa-fixes/checklists/requirements.md` re-validated post-
+  implementation, 16/16 still pass, no spec gap surfaced by any of the 8 stories' findings.
+
+**T065 live-verification evidence, against the fresh build above** (no browser available in
+this environment — neither the Playwright nor chrome-devtools MCP tool could find a Chrome
+binary, same limitation several implementer subagents already hit; substituted direct
+authenticated-API checks plus served-bundle inspection, disclosed here rather than claiming
+browser clicks that did not happen):
+- US1: confirmed live in the SERVED (minified) bundle — `pick(n){let e=this.current();!e||
+  this.answered()||(...)}`, no answer-key-null clause remains.
+- US2: confirmed `GET /api/areas/{id}/lessons` serves real `state` values live
+  (`complete`/etc.), and `adoptServerView` call site confirmed present in the served bundle.
+- US3: confirmed live — `GET /api/chapters` serves `01/02/02.01/02.02/03 -> available`,
+  `04 -> none_by_design`; `GET /api/chapters/{id}/recording/probe` returns 200 for every
+  `available` chapter and 404 for 04 — listing and serve route agree exactly, live.
+- US4: zero occurrences of "Not in this build" anywhere across all 162 served JS chunks.
+- US5: confirmed live — `GET /api/chapters/01/transcript` serves `sidecar_uncertain: 34` of
+  `sidecar_segments: 1055` (3.2%), matching the committed post-fix data exactly.
+- US6: **NOT yet visible in what generation 17 serves — see OPEN ITEM below.**
+- US7: confirmed the exact fixed CSS rule
+  (`.wk-gutter-cell .wk-tag{white-space:normal;text-align:right;overflow-wrap:anywhere}`)
+  present in the served bundle.
+- US8: content-level story, already closed by direct human review (not a live-serving check).
+
+**OPEN ITEM — operator decision needed, not closed this session.** US6's fix is code-correct
+(independently verified by its reviewer tracing the real control flow in `main.go`) but the
+LIVE generation (17) was never visibly corrected: `crossref.CarryForwardCrossrefs` short-
+circuits on `AlreadyDerived` — a run row already exists for generation 17 (recorded BEFORE the
+fix landed), so neither restart re-derived it. The population-scoping fix only prevents a
+FUTURE generation from carrying forward a stale run; it does not retroactively correct
+generation 17's own already-recorded row. A live sample against generation 17 still shows the
+originally-reported noise example ("Term: pull request" scored 0.70 against a RAG passage,
+pid `01M1GH7D0B9NBF0P150CND2562`). The only ways to make this visible live are: (a) a new real
+ingest that changes `passages.jsonl` content and therefore bumps the generation naturally (no
+new content exists to ingest right now), or (b) a direct `crossref_runs` database row deletion/
+invalidation for generation 17, forcing a genuine re-derivation on next boot. (b) is a
+production data mutation and was correctly NOT performed without separate, explicit operator
+authorization — restarting the service was authorized, mutating its database was not.
+**Resume here**: get the operator's decision on (a)/(b)/defer, then re-run the US6 quickstart
+scenario (`specs/016-workshop-live-qa-fixes/quickstart.md` §US6) against whatever generation
+results, and re-run `bash workshop/platform/gates/verify-served-correctness-indicator.sh`
+against the now-fresh bundle (it was UNDETERMINED before T065's rebuild, untested after).
+
+**Remaining Phase 11 step**: the final whole-branch review (`subagent-driven-development`'s
+closing step — a fresh-context review of the FULL `316ac998..HEAD` diff in the `workshop`
+submodule, on the most capable available model) has not yet run. Nothing has been pushed to
+any remote for this feature — "do not push" was in every dispatch brief, consistent with this
+project's push discipline.
 
 ### SPEC 010 T038 CHECKPOINT COMPLETE — CYCLE 1 FROZEN, 91 GAP ITEMS — 2026-09-26 (evening)
 
