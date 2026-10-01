@@ -599,6 +599,151 @@ Commits, each independently reviewed (base `316ac998c9a4395a2ff446fe55b880ea5a7b
 - T066: `specs/016-workshop-live-qa-fixes/checklists/requirements.md` re-validated post-
   implementation, 16/16 still pass, no spec gap surfaced by any of the 8 stories' findings.
 
+**SIXTH ENTRY, same session: the fifth entry's two open threads both landed, fully fixed and
+reviewed. One correction to the fifth entry's own Part 1 (below), plus the real fix for Part
+2's tool bug, plus a second, more important correction to the ORIGINAL plan for unblocking
+I4.**
+
+**Part 1 correction**: chapter 1's ingest-guard refusal was real after all (not a false
+alarm as the fifth entry's "Part 1" framing suggested while the precise coordinate question
+was still open). Precise investigation confirmed: the guard's "observed at
+chapter-01/transcript.md:233" message genuinely means segment-index-232-plus-1 (not a literal
+markdown line), AND the substance was real — `transcript.segments.json` already held the
+literal `[REDACTED]` marker for that segment, while the registry still held the full original
+102-char text (flagged but never replaced). Resolved with `--skip-suppressed` (same proven
+pattern as chapter 3's 32 suppressed rows): 86 suppressed rows left untouched, 969
+non-suppressed rows corrected (212 uncertain-flag demotions, 0 mismatches independently
+verified after). Chapter 1's uncertain rate: 55/1055 total (33/969 non-suppressed), both well
+past SC-003's 50% bar. Commit `dcfdf7a`. **Live-verified**: a chapter-1 pid's served value now
+matches the registry exactly.
+
+**Part 2 — the real tool bug, fixed and reviewed (two commits, both APPROVED_WITH_NOTES)**:
+1. `dcfdf7a..8320801` — `platform/backend/cmd/workshop-redact/main.go` wrote a redaction
+   decision to the append-only log BEFORE the transactional `Apply()` step, so a decision
+   could be permanently logged even when `Apply()` subsequently aborted and wrote nothing else
+   — the confirmed root cause of the 483-pid false-apply state. Fixed: the log entry is now
+   written INSIDE `Apply()`'s own commit sequence, immediately after corpus files are
+   confirmed written (never on an abort or dry-run) — chosen over the simpler "append after
+   Apply returns OK" because `Apply` can return non-zero AFTER already writing files, which the
+   simpler fix would have left silently unlogged. Reviewer stress-tested the "fails safe"
+   claim directly against `Materialise`'s code and confirmed it holds (with 3 narrow,
+   non-blocking qualifications, parked as follow-ups) — and found a genuinely new, separate
+   hazard: `--ratify` checks "in force" against LOG STATE ONLY, so it could ratify any of the
+   483 already-logged-but-unapplied pids; not touched by this fix, not currently in use by
+   this session, ticketed as a follow-up.
+2. `8320801..69cab0a` — the registry-derived-leak abort check was GLOBAL (any pre-existing
+   undecided backlog blocks every future request, however unrelated). **A critical, more
+   important correction surfaced while fixing this**: the obvious-looking fix (scope the abort
+   to "the log minus this run's own pids") would have been UNSAFE, because every `redact.sh`
+   run re-applies the ENTIRE pending log, not just the newly-requested pids — so a naive fix
+   would have let I4's harmless 4-pid request through while SILENTLY also materializing the
+   483-pid batch as a side effect, which is what actually creates the 426-row exposure. The
+   correct fix instead baselines against what the REGISTRY FILE ON DISK already shows (measured:
+   0 undecided rows right now), so a run only aborts on genuinely NEW undecided leaks it would
+   itself create — I4's 4 pids still correctly abort (since applying them necessarily also
+   applies the 483 batch, which does create 426 new undecided rows), and the backlog is now
+   visibly reported every run ("PRE-EXISTING backlog … NOT resolved") rather than silently
+   either blocking everything forever or being bypassed unsafely. Reviewer independently
+   re-derived the full measured table (677 logged / 194 registry-flagged / 483 log-only / 0
+   on-disk-undecided / 426 once the log is applied, unchanged by the 4 US8 pids) and explicitly
+   assessed whether any safe automatic path was missed — concluded no, this is genuinely an
+   operator content decision now, not a code problem.
+
+**OPEN ITEM — explicit operator decision needed, not closed this session, correctly not
+guessed at.** Both I4's 4-pid editorial redaction and the 483-pid real-privacy-redaction batch
+are now blocked on the SAME single decision: what to do about the 426 rows (mostly single-word
+`kg_term`/`kg_area` glossary/taxonomy entries — 420 of 426 — whose only remaining "evidence" of
+ingestion would sit in now-suppressed content once the 483 batch and/or the 4 pids are
+applied) that would become newly exposed. Options, as found by the investigation: (a) review
+and suppress the genuinely-warranted ones via `--pids-file` (NOT the tool's own raw
+`-list-derived-leaks` output, which returns 2,039 pids across 3 unrelated passes — only the
+first ~436 are the actual token-pass closure); (b) add `unredact` entries for any of the 483
+later judged over-broad; (c) build a token-pass judgement mechanism (parallel to the
+phrase-pass's existing `disclosure-judgements.jsonl`) so a reviewed-fine row doesn't block
+every future unrelated request forever. **This document will not make this call. Resume here
+once the operator decides**, then re-run the exact recommended commands (already captured in
+the I4 and 483-remediation investigation reports) with the now-fixed, now-safe tooling.
+
+**Build/restart status**: fresh build+restart on `69cab0a-20261001T175638Z`, healthy. Generation
+is unchanged (18, same root_hash) because none of today's fixes changed the registry's PID SET
+or triggered a new embedding build — only in-place text/flag corrections, which (as established
+earlier this session) this server's generation bookkeeping doesn't key on; passage-level reads
+confirmed live and correct directly against the registry regardless.
+
+---
+
+**FIFTH ENTRY, same session: exhaustive root-cause investigation into the two remaining open
+items (chapter-1's redaction state, I4's 426-row complication), per the operator's explicit
+"full systematic investigation... all root causes... exhaustive fully deterministic validation"
+and "investigate this and resolve it carefully" directives. This found something materially
+bigger and more important than either original open item — a REAL, CURRENTLY-ACTIVE
+content-exposure gap caused by a genuine tool bug, not a documentation/process issue.**
+
+**Part 1 — the specific pid-level chapter-1 finding this document previously flagged was a
+FALSE ALARM, root-caused and resolved by precise investigation (not re-ingested yet — see Part
+3).** `source_ref.line_start` on a transcript passage is a SEGMENT NUMBER, not a literal
+`curriculum/chapter-01/transcript.md` line number — these are two different coordinate systems
+that don't map 1:1 (markdown headers/turn-markers/blank lines shift the offset). Passage
+`01M1ET0MFJ4NDK0ZECKNTQFW41` (redaction log seq 13, `client_engagement_fingerprint`,
+2026-09-03) sits at segment 232 in `curriculum/chapter-01/transcript.segments.json`, and that
+segment's text is correctly, exactly `[REDACTED]` — this ONE pid's own redaction was genuinely,
+fully applied, by design (registry rows are flagged-not-purged by default — `Purge` is a
+separate, deliberately irreversible opt-in, rule R6 in the underlying passage library — and
+that reversibility is correct, not a bug). All 194 registry-flagged pids system-wide were
+checked and have zero leftover text in the files they were exported to. **The original ingest
+guard refusal that blocked this pid specifically — "observed at chapter-01/transcript.md:233"
+— is still being precisely reconciled** (a follow-up investigation is resolving whether that
+guard trigger is ALSO the same line/segment coordinate confusion, or a genuinely separate
+conflict at transcript.md's true line 233) **before any re-ingest of chapter 1 is attempted.**
+Re-derive, do not trust a stale figure here.
+
+**Part 2 — the REAL finding: 483 of 677 logged redaction decisions were never actually
+applied, anywhere, and 407 of them still expose their original text right now.** All 483 are
+from ONE earlier batch (commit `e5734aa`, by `agent-g5-residue-remediation-20261001`, reason
+`derived_from_withheld_passage` — a DIFFERENT, privacy-motivated redaction reason than
+chapter-1's, unrelated to Part 1). 324 of the 407 still-exposed rows sit in plain exported docs
+(`chapter-01/knowledge/TAXONOMY.md`, `docs/training/curriculum-areas/*`, `exercise-01.md`); 83
+sit in transcript segments (81 chapter-1, 2 chapter-2). **That commit's own message admits
+this**: "the registry and the `.md` exports were not rewritten… even though the tool reports
+APPLIED" — a known, previously-unfixed defect from that earlier session, now root-caused.
+
+**Root cause, confirmed by code reading**: `platform/backend/cmd/workshop-redact/main.go` (the
+`redact.sh` wrapper's underlying Go tool) appends a redaction decision to the append-only
+`curriculum/redactions.jsonl` log BEFORE calling the transactional `Apply()` step. `Apply()`
+itself is correctly all-or-nothing across its 8 propagation targets (registry, the
+registry-derived transitive-closure check, exports, taxonomy, questions, materials, mentions,
+spans, derived-db) — but because the LOG WRITE sits OUTSIDE that transaction, a decision can be
+permanently recorded as "logged" even when `Apply()` subsequently aborts and writes NOTHING
+anywhere else. This is the EXACT mechanism — reconciled against the server's own boot-log
+"log and registry DISAGREE" message (194 flagged vs. 677 logged = 483 the gap), which has been
+visible and unexplained in this project's own operational logs for a while.
+
+**It is also the SAME mechanism blocking I4.** Every `Apply()` attempt since at least 12:34
+today (including this session's own I4 attempt and, independently, the earlier batch that
+produced the 483) reports the identical class of PROBLEM: a transitive closure of derived rows
+(426 for I4's 4 chapter-4 pids; a different, not-yet-measured count for the 483) that would be
+left exposed if the requested pids were suppressed without also suppressing what's derived from
+them. **This blocker needs resolving once, not once per batch** — see "Resume here" below.
+
+**In progress, same session, not yet landed**: (a) a precise follow-up investigation into the
+exact chapter-1 ingest-guard trigger (coordinate-mapping question from Part 1); (b) a TDD fix
+for the log-before-apply ordering bug itself (code + test, `cmd/workshop-redact`), explicitly
+scoped to NOT touch the 483 already-affected pids — that remediation is separate and larger;
+(c) a careful categorization of I4's 426-row transitive closure, to determine whether blanket
+suppression is correct or overreach.
+
+**Resume here, in order**: 1) let the three in-flight investigations/fixes above land and be
+reviewed; 2) resolve the 426-row (and whatever the 483's own count turns out to be) transitive-
+closure question — likely an operator decision on category-by-category suppression rather than
+blanket; 3) once the ordering-bug fix lands, re-materialize the 483 WITHOUT re-appending to the
+log (the existing CLI has no confirmed "re-apply existing log entries only" mode — this needs
+checking, not assuming, before use); 4) only re-attempt chapter 1's ingest once Part 1's
+remaining coordinate question is conclusively resolved. **No `--purge` has been used or is
+believed necessary anywhere in this investigation** — every affected row's correct remedy is
+completing the EXISTING flag-and-propagate step, not irreversible deletion.
+
+---
+
 **FOURTH ENTRY, same session: `/speckit-superspec-review` ran its full 5-dimension built-in
 protocol (no `requesting-code-review` superpower installed) over the WHOLE feature, found 1
 CRITICAL (the overclaim this THIRD CORRECTION block already addresses) and 6 Important
