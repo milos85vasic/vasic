@@ -74,15 +74,11 @@ scripts/audit-hardcoded-paths.sh
 # the constitution BY REFERENCE (§11.4.28 / §11.4.177) and cannot fix any of
 # them here — the fix is an upstream HelixConstitution change plus a bump.
 submodules/constitution/AGENTS.html
-submodules/constitution/AGENTS.md
 submodules/constitution/CLAUDE.html
-submodules/constitution/CLAUDE.md
 submodules/constitution/Constitution.html
 submodules/constitution/Constitution.md
 submodules/constitution/GEMINI.html
-submodules/constitution/GEMINI.md
 submodules/constitution/QWEN.html
-submodules/constitution/QWEN.md
 submodules/constitution/scripts/gates/cm_continuum_resume_engine_present_mutation_test.sh
 submodules/constitution/scripts/gates/cm_feature_directive_mutation_test.sh
 submodules/constitution/scripts/gates/cm_multitrack_engine_in_constitution_mutation_test.sh
