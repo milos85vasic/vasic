@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-01T16:05:32Z
-    Synced-Commit: 68c3f533e28b
+    Last-Updated: 2026-10-01T16:43:30Z
+    Synced-Commit: 3af5b200e274
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -599,43 +599,60 @@ Commits, each independently reviewed (base `316ac998c9a4395a2ff446fe55b880ea5a7b
 - T066: `specs/016-workshop-live-qa-fixes/checklists/requirements.md` re-validated post-
   implementation, 16/16 still pass, no spec gap surfaced by any of the 8 stories' findings.
 
-**T065 live-verification evidence, against the fresh build above** (no browser available in
-this environment — neither the Playwright nor chrome-devtools MCP tool could find a Chrome
-binary, same limitation several implementer subagents already hit; substituted direct
-authenticated-API checks plus served-bundle inspection, disclosed here rather than claiming
-browser clicks that did not happen):
-- US1: confirmed live in the SERVED (minified) bundle — `pick(n){let e=this.current();!e||
-  this.answered()||(...)}`, no answer-key-null clause remains.
-- US2: confirmed `GET /api/areas/{id}/lessons` serves real `state` values live
-  (`complete`/etc.), and `adoptServerView` call site confirmed present in the served bundle.
-- US3: confirmed live — `GET /api/chapters` serves `01/02/02.01/02.02/03 -> available`,
-  `04 -> none_by_design`; `GET /api/chapters/{id}/recording/probe` returns 200 for every
-  `available` chapter and 404 for 04 — listing and serve route agree exactly, live.
-- US4: zero occurrences of "Not in this build" anywhere across all 162 served JS chunks.
-- US5: **WITHDRAWN AS FALSE — see the correction block at the top of this entry.** The
-  `sidecar_uncertain: 34` figure checked here is a derived aggregate, not the registry
-  `passages.jsonl` a learner's badge actually renders from, which still reads 267/1055.
-- US6: **NOT yet visible in what generation 17 serves — see OPEN ITEM below.**
-- US7: confirmed the exact fixed CSS rule
-  (`.wk-gutter-cell .wk-tag{white-space:normal;text-align:right;overflow-wrap:anywhere}`)
-  present in the served bundle.
-- US8: content-level story, already closed by direct human review (not a live-serving check).
+**SECOND CORRECTION, same session, later the same day: the first correction block above is
+itself incomplete — it reported CHANGES NEEDED and dispatched fixes, but the live-verification
+table below it (from the FIRST attempt) is now also superseded.** All identified gaps have
+since been fixed, independently reviewed, and (except US6 and chapter-1's unrelated redaction
+issue) confirmed genuinely live:
 
-**OPEN ITEM — operator decision needed, not closed this session.** US6's fix is code-correct
-(independently verified by its reviewer tracing the real control flow in `main.go`) but the
-LIVE generation (17) was never visibly corrected: `crossref.CarryForwardCrossrefs` short-
-circuits on `AlreadyDerived` — a run row already exists for generation 17 (recorded BEFORE the
-fix landed), so neither restart re-derived it. The population-scoping fix only prevents a
-FUTURE generation from carrying forward a stale run; it does not retroactively correct
-generation 17's own already-recorded row. A live sample against generation 17 still shows the
-originally-reported noise example ("Term: pull request" scored 0.70 against a RAG passage,
-pid `01M1GH7D0B9NBF0P150CND2562`). The only ways to make this visible live are: (a) a new real
-ingest that changes `passages.jsonl` content and therefore bumps the generation naturally (no
-new content exists to ingest right now), or (b) a direct `crossref_runs` database row deletion/
-invalidation for generation 17, forcing a genuine re-derivation on next boot. (b) is a
-production data mutation and was correctly NOT performed without separate, explicit operator
-authorization — restarting the service was authorized, mutating its database was not.
-**Resume here**: get the operator's decision on (a)/(b)/defer, then re-run the US6 quickstart
+- **US1's FR-012/FR-013 gap (null `t_seconds` for timeless citations) — FIXED, reviewed
+  APPROVED, commit `eacef82`.** `record()` now skips the `/api/progress` write entirely for a
+  doc_section/code citation (`if (c.t_start_s === null) return;`, strict equality — a genuine
+  `t_start_s: 0` transcript citation is unaffected). Reviewer independently traced the full
+  effect of that write (just a `store.Put`, no side effect US1 can silently starve) and
+  confirmed nothing is lost by skipping it.
+- **A genuinely separate infrastructure defect found and fixed: `ingest-transcript`'s
+  uncertain-flag sync was one-directional** (`platform/backend/cmd/ingest-transcript/main.go`)
+  — it could only ever PROMOTE a registry row to `uncertain=true`, never demote it back to
+  `false`, which is why the first re-ingest attempt for US5 LOOKED like it worked (console said
+  "96 uncertain") while the actual written file was byte-identical to before. Fixed, reviewed
+  APPROVED, commit `ff6e04e`, now genuinely bidirectional with 3 new tests.
+- **US5 and US8 re-ingested for real this time**, independently verified via direct file
+  comparison (not console output): chapter-02 362→96 uncertain, chapter-02.01 23→3,
+  chapter-02.02 90→27, chapter-03 317→49 (of non-suppressed rows); chapter-4's registry text
+  now genuinely reads the third-person rewrite. Commit `e3f4be8`.
+- **NEAR-MISS during this re-ingest, caught before any commit or push**: the first chapter-3
+  re-ingest attempt ran without `--skip-transcript-build` and, because chapter 3 (unlike its
+  siblings) still had a raw ASR source file on disk, it silently RE-TRANSCRIBED the chapter —
+  wiping all 13 "REDACTED" markers from the working tree's `transcript.md` (from the
+  recently-closed chapter-03 privacy review). Caught via a before/after REDACTED-marker count,
+  reverted with `git checkout --` before anything was committed, then correctly re-ingested
+  with `--skip-transcript-build --skip-suppressed`. Full detail, including the root cause (an
+  oversight — the flag should have been passed unconditionally for every chapter in this
+  round, not just the ones observed needing it) in
+  `workshop/.superpowers/sdd/016-workshop-live-qa-fixes/progress.md`.
+- **Live-verified against the restarted server (generation bumped 17→18, state flipped
+  degraded→live) for US1, US2, US3, US4, US5, US7**: all confirmed genuinely served, not just
+  committed to source. US8 remains closed by direct human content review (not a live-serving
+  check, by design).
+
+**US6 remains open — NOT an operator decision this session can make, now with a clearer
+diagnosis.** The fix is code-correct (two independent reviews confirmed this by tracing actual
+control flow). Generation 18's crossref derivation never completed: server logs show
+`vector carry-forward: nothing copied into generation 18 — no other generation carries model
+"nomic-embed-text" at root_hash sha256:8bec2...` — generation 18 has NEVER been embedded, on
+any boot, since root_hash reuse (`index generation 18 REUSED ... byte-identical ... NOTHING was
+re-embedded and NO cross-reference was re-derived`) means the server never retries embedding
+once a generation's root_hash matches a prior boot's, regardless of whether per-passage TEXT
+corrections landed since (root_hash does not appear to be sensitive to in-place text/uncertain
+corrections on existing pids — only to pid-set membership changes). A live sample still shows
+`status: unavailable, legs: {index: failed, registry: skipped}`. The dedicated offline tool
+that WOULD build an index, `index-embed`, explicitly refuses to be pointed at a live index
+("Pass a COPY; this command must not be aimed at a live index") — not something to run blind.
+**Resume here**: this needs someone who understands the embedding-on-boot path (why it didn't
+complete for generation 18 in the first place) or an explicit decision to run `index-embed`
+offline against a copy and import the result — genuinely out of this session's depth to
+resolve safely. Re-run the US6 quickstart
 scenario (`specs/016-workshop-live-qa-fixes/quickstart.md` §US6) against whatever generation
 results, and re-run `bash workshop/platform/gates/verify-served-correctness-indicator.sh`
 against the now-fresh bundle (it was UNDETERMINED before T065's rebuild, untested after).
