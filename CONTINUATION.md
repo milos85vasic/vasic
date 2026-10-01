@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-01T16:50:28Z
-    Synced-Commit: f1cb4dedd1b7
+    Last-Updated: 2026-10-01T17:25:00Z
+    Synced-Commit: 10498e12afa1
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -598,6 +598,73 @@ Commits, each independently reviewed (base `316ac998c9a4395a2ff446fe55b880ea5a7b
   `chapters/03/*.pdf.pre-redaction-backup` file, unrelated to this batch.
 - T066: `specs/016-workshop-live-qa-fixes/checklists/requirements.md` re-validated post-
   implementation, 16/16 still pass, no spec gap surfaced by any of the 8 stories' findings.
+
+**FOURTH ENTRY, same session: `/speckit-superspec-review` ran its full 5-dimension built-in
+protocol (no `requesting-code-review` superpower installed) over the WHOLE feature, found 1
+CRITICAL (the overclaim this THIRD CORRECTION block already addresses) and 6 Important
+findings (I1-I6). All were triaged, fixed where actionable, and independently reviewed —
+APPROVED across the board, zero CHANGES_NEEDED:**
+
+- **I1 — the SC-003 test only checked SOURCE, never the REGISTRY, and had no two-sided check.**
+  Fixed: added a registry-vs-source parity test for the 4 genuinely-fixed chapters (chapter 1
+  isolated as a documented `@unittest.expectedFailure`, proven RED before being wrapped — not a
+  silent skip), plus a recompute-oracle test that imports the REAL `segment_uncertain()` and
+  re-derives the flag from stored inputs across all 5 chapters. Reviewer independently
+  confirmed this is not circular (one accurate caveat: it validates self-consistency with
+  current code, not independent correctness of the threshold itself — standard limitation of
+  this test shape).
+- **I2 — a practice answer was lost (and re-answering double-counted the score) on reload
+  BEFORE clicking Next**, a real gap in FR-014 the original test never exercised (it clicked
+  Next before reloading). Fixed: `{picked, answered}` now persist alongside `index` in
+  lockstep with every answer-mutating call site; `pick()`'s existing guard then naturally
+  prevents the double-count once `answered` is correctly restored. A genuine bonus: implementing
+  the fix surfaced and fixed a pre-existing test-isolation bug (two describe blocks leaked
+  `sessionStorage` state across tests). Reviewer stress-tested the index-matching-correctness
+  concern specifically and confirmed it's not a new latent bug — `PracticeStore` already gates
+  the whole restore path on deck-length match before this fix's narrower check is ever reached.
+- **I3 — a failed answer-save retry showed the same generic message whether offline or a real
+  server error**, masking the actual cause. Fixed: the classification already existed in
+  `api.ts` (`network_unreachable` vs. a real server reason) but was discarded when building the
+  retry queue — now wired through to the existing `[code]`-driven `<app-state>` vocabulary
+  mechanism (confirmed by the reviewer as the established app idiom, 15+ other components
+  already use it this way — not hand-rolled).
+- **I4 — US8's 4 correctly-omitted non-conclusive spans were still served.** Confirmed: the
+  passage registry's `Sync` has no delete path (attach-or-mint only), and both search legs
+  filter solely on `redacted = 0`. A standing regression test was added (confirmed genuinely
+  RED). **Remedy execution surfaced something bigger than scoped**: running the recommended
+  `scripts/redact.sh` command aborted transactionally with a real finding — suppressing these 4
+  rows has a TRANSITIVE CLOSURE of 426 OTHER minted rows (glossary/taxonomy terms derived from
+  the now-to-be-suppressed text) that would also need suppressing to avoid a half-applied
+  redaction. **This session deliberately did NOT cascade into 430 rows unreviewed** — that is a
+  materially larger action than what was investigated and approved. A leftover side effect WAS
+  caught and fixed: the aborted run still appended 4 entries to the append-only
+  `curriculum/redactions.jsonl` log (recording intent) even though the registry itself was
+  correctly untouched — reverted via `git checkout --` (verified the diff was exactly those 4
+  trailing lines, nothing else) so the log and registry stay consistent (both say "not
+  redacted") rather than silently disagreeing. **Resume here**: an operator decision on whether/
+  how to proceed with the full 430-row transitive closure — the 4-row editorial fix remains
+  open.
+- **I5 — closes the ROOT CAUSE of this session's own near-miss** (the accidental chapter-3
+  re-transcription). `scripts/ingest.sh` had documented the hazard in comments but enforced
+  nothing. Fixed: a new precondition-0 guard refuses (real exit 2, nothing written) a
+  re-transcription of any chapter with an applied redaction, unless `--skip-transcript-build`
+  or a new explicit `--force-retranscribe-redacted` override is given. Reviewer independently
+  ran the real paired-mutation test suite against a scratch fixture (never the real
+  `curriculum/` tree) — 10/10 green, confirmed a real refusal with byte-identical transcript.md
+  before/after, confirmed the common (unredacted) case is completely unaffected.
+- **I6 — a `git checkout --` revert during the near-miss remedy might have touched a concurrent
+  agent's work**, not just the ingest's own output. Resolved by the dispatcher via code tracing
+  (not re-litigated by a subagent): `scripts/ingest.sh`'s exercise-section-splitting step runs,
+  for the GIVEN chapter argument, before the suppression check that failed — so the reverted
+  file was genuinely this session's own chapter-1 ingest attempt's byproduct, confirmed safe.
+
+**Current true state, re-verified after everything above landed**: backend all packages `ok`;
+frontend 546/546 SUCCESS; pipeline 503 passed / 1 xfailed (chapter 1, documented) / **1 FAILED
+by design** (I4's standing regression test, honestly reporting the still-open 426-row
+complication — not silently masked). Fresh build + restart: `aebb8ca-20261001T172049Z-dirty`,
+RUNNING/healthy. `curriculum/redactions.jsonl` and `curriculum/passages.jsonl` are consistent
+with each other for the I4 pids (both say not-redacted) and for chapter-1 (untouched, as
+documented). Nothing has been pushed to any remote.
 
 **THIRD CORRECTION, same session: `/speckit-superspec-review`'s constitution-compliance pass
 caught a real overclaim in this repository's own commit `f1cb4de` and the SECOND CORRECTION
