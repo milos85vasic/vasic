@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-01T15:55:17Z
-    Synced-Commit: 8490e94678f6
+    Last-Updated: 2026-10-01T16:05:32Z
+    Synced-Commit: 68c3f533e28b
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -474,7 +474,59 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
-### SPEC 016 WORKSHOP LIVE-QA FIX BATCH — ALL 8 STORIES COMPLETE, REVIEWED, LIVE-VERIFIED — 2026-10-01
+### SPEC 016 WORKSHOP LIVE-QA FIX BATCH — NOT DONE — FINAL REVIEW FOUND 3 REAL GAPS — 2026-10-01
+
+**CORRECTION, same day, same session: the headline below ("ALL 8 STORIES COMPLETE, REVIEWED,
+LIVE-VERIFIED") IS WITHDRAWN. The final whole-branch review (dispatched on opus, per
+subagent-driven-development's closing protocol) returned CHANGES NEEDED BEFORE MERGE, not
+BRANCH APPROVED. All 3 findings below were independently re-verified by the dispatcher
+(reading the actual files/code) before being accepted — not taken on the reviewer's word.**
+
+1. **US5's fix never reached what's served.** `curriculum/passages.jsonl` — the registry the
+   per-passage "Transcriber unsure" badge actually reads — still carries the PRE-FIX uncertain
+   counts. Measured directly: chapter-01 **267/1055**, chapter-02 362/1206, chapter-02.01
+   23/42, chapter-02.02 90/202, chapter-03 317/1100 — exactly the pre-fix numbers, not the
+   fixed `transcript.segments.json` counts (34 for chapter-01). **The "US5: confirmed live"
+   line further down this entry is WITHDRAWN AS FALSE — it checked `sidecar_uncertain`, an
+   aggregate derived counter, not the registry passages a learner's badge actually renders
+   from. That was the wrong surface to check, and this dispatcher should have caught it the
+   first time.**
+2. **US8's rewrite never reached what's served either.** Measured directly: pid
+   `01M3SPSADEVVFZPX08Y4CDEYAN`'s entry in `curriculum/chapter-04/knowledge/todos.jsonl`
+   correctly holds the rewritten third-person text, but the SAME pid in
+   `curriculum/passages.jsonl` still holds the old first-person text verbatim.
+3. **A genuine, previously-unfound defect in US1's FR-012/013 scope.** `citationWire()`
+   (`workshop/platform/backend/internal/api/questions.go:574-599`) omits `t_start_s`/
+   `t_end_s` entirely for `doc_section`/`code` kind citations (only `transcript_segment`
+   citations carry a time span). `practice.component.ts`'s `record()` (lines 669-676) reads
+   `c.t_start_s` unconditionally and POSTs it as `t_seconds`, which the backend's progress
+   endpoint requires and rejects when absent/invalid (400). `retrySaves()` resends the
+   identical body, so the retry fails identically, forever — matching the original bug
+   report's "Send again does not help" precisely. US1's claim that ONE root cause (the
+   disabled-picker guard) explains both reported symptoms was wrong for this subset: a
+   disabled button click never reaches `record()`, so it cannot share a mechanism with an
+   already-clickable MCQ whose first citation happens to be a doc_section/code passage.
+   Scale: 67 of 311 bank questions cite a doc/code passage first; the originally-reported
+   area has this on every question.
+
+**What was checked and is genuinely clean** (no new action needed there): the US5×US8
+pre-flight collision risk did not materialize; no cross-story file conflicts; US1/US2/US7's
+combined UI changes are internally consistent; every FR-001..017 is addressed by at least one
+commit — the gap is served-vs-source for FR-005/006/007/012/013/015/016, not missing code.
+
+**Remediation in progress, same session**: (a) a fresh implementer is being dispatched to
+root-cause-fix the null-`t_seconds` defect, TDD'd and reviewed the same way as every other
+story in this batch; (b) `bash workshop/scripts/ingest.sh` for chapters 01/02/02.01/02.02/03
+(US5) and 04 (US8), to regenerate `passages.jsonl` from the now-fixed source content, then a
+restart — **BLOCKED by the permission classifier as "Modify Shared Resources"**, the same
+category as the database mutation already flagged for US6 below; needs fresh, explicit
+operator authorization beyond the restart already granted. (c) re-verify all three live
+against the actual registry/passage surface (not an aggregate counter) once (a) and (b) land;
+(d) re-run the final whole-branch review. **Do not read anything below this correction block
+as a true "done" state — it describes what was ATTEMPTED and INDEPENDENTLY FOUND WRONG, kept
+for the detail on what each commit actually changed.**
+
+---
 
 Full SpecKit chain (`specs/016-workshop-live-qa-fixes/`: spec, clarify, plan, tasks, analyze,
 superspec-execute) for 9 user-reported live-QA bugs against the `workshop` submodule's served
@@ -485,9 +537,13 @@ fresh implementer subagent per user story, one independent fresh-context reviewe
 `workshop/.superpowers/sdd/016-workshop-live-qa-fixes/progress.md` (git-ignored scratch, the
 record now lives in git history + this entry).
 
-**Result: 8 of 8 stories complete, all independently reviewed, ZERO CHANGES_NEEDED verdicts,
-ZERO fix-loop rounds needed.** 3 minor parked findings across all 8 (none touching FR/SC
-acceptance criteria, all explicitly judged zero/near-zero functional risk by their reviewer):
+**Result (per-story reviews only — SUPERSEDED by the whole-branch review above, kept for
+detail): 8 of 8 stories complete, all independently reviewed, ZERO CHANGES_NEEDED verdicts at
+the per-story level, ZERO fix-loop rounds needed at that level.** Per-story review cannot see
+cross-story/served-surface problems by construction — that is exactly what the whole-branch
+review step exists to catch, and did. 3 minor parked findings across all 8 (none touching
+FR/SC acceptance criteria, all explicitly judged zero/near-zero functional risk by their
+per-story reviewer — unrelated to the 3 real findings above):
 US3 (Go-side untyped string constants, stylistic only), US5 (one float value re-serialized to
 scientific notation on rewrite, numerically identical), US6 (a stale code comment on an
 unrelated DDL mirror, functionally unreachable).
@@ -556,8 +612,9 @@ browser clicks that did not happen):
   `04 -> none_by_design`; `GET /api/chapters/{id}/recording/probe` returns 200 for every
   `available` chapter and 404 for 04 — listing and serve route agree exactly, live.
 - US4: zero occurrences of "Not in this build" anywhere across all 162 served JS chunks.
-- US5: confirmed live — `GET /api/chapters/01/transcript` serves `sidecar_uncertain: 34` of
-  `sidecar_segments: 1055` (3.2%), matching the committed post-fix data exactly.
+- US5: **WITHDRAWN AS FALSE — see the correction block at the top of this entry.** The
+  `sidecar_uncertain: 34` figure checked here is a derived aggregate, not the registry
+  `passages.jsonl` a learner's badge actually renders from, which still reads 267/1055.
 - US6: **NOT yet visible in what generation 17 serves — see OPEN ITEM below.**
 - US7: confirmed the exact fixed CSS rule
   (`.wk-gutter-cell .wk-tag{white-space:normal;text-align:right;overflow-wrap:anywhere}`)
