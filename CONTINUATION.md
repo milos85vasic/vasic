@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-01T17:24:07Z
-    Synced-Commit: 06c0af2a1272
+    Last-Updated: 2026-10-01T17:58:35Z
+    Synced-Commit: 4b5efd4cf77a
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
