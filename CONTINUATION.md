@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-01T17:58:35Z
-    Synced-Commit: 4b5efd4cf77a
+    Last-Updated: 2026-10-01T18:11:11Z
+    Synced-Commit: e70746718d63
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -598,6 +598,24 @@ Commits, each independently reviewed (base `316ac998c9a4395a2ff446fe55b880ea5a7b
   `chapters/03/*.pdf.pre-redaction-backup` file, unrelated to this batch.
 - T066: `specs/016-workshop-live-qa-fixes/checklists/requirements.md` re-validated post-
   implementation, 16/16 still pass, no spec gap surfaced by any of the 8 stories' findings.
+
+**SEVENTH ENTRY, same session: push was blocked once, investigated, fixed, retried.** Pushing
+both repos (per operator direction, after everything above landed) tripped the umbrella's own
+pre-push gate 0 (`audit-hardcoded-paths.sh`): `workshop/curriculum/chapter-01/
+exercise-01.sections.json:293` held an ABSOLUTE, host-specific `source_file` path. Investigated
+before fixing: confirmed via `git log`/`git show HEAD~1` this PRE-DATES this entire session
+(present before today's chapter-1 re-ingest touched the file at all) — the Go anchor
+write-back step preserves this field as-is rather than recomputing it, so a stale value from
+an earlier run was silently carried forward. `pipeline/md_sections.py`'s own documented
+contract computes this field relative to the sidecar's own directory (bare filename when
+co-located, as these two files are) — fixed to match. Verified GREEN via the actual gate
+script (not assumption) before committing. Workshop commit `1c84730`, pushed. Also found and
+discarded (not committed) a stray `_tests/evidence/homepages/milos-desktop-light.png` diff —
+incidental diagnostic output from the FAILED gate-6 Playwright run, left on disk by design
+("the evidence-guard restore only runs when gates pass," per the gate's own note) — correctly
+not mistaken for real work.
+
+---
 
 **SIXTH ENTRY, same session: the fifth entry's two open threads both landed, fully fixed and
 reviewed. One correction to the fifth entry's own Part 1 (below), plus the real fix for Part
