@@ -81,15 +81,19 @@ scripts/audit-hardcoded-paths.sh
 # same untriaged status, same BY-REFERENCE non-fixability as above. The
 # 25-file/43-occurrence count above is now stale by this addition and not
 # re-totaled; re-run the audit for the live count.
-submodules/constitution/AGENTS.html
+#
+# 4 ENTRIES REMOVED 2026-10-02 at gitlink 8fcdb7d: AGENTS.html, CLAUDE.html,
+# GEMINI.html, QWEN.html no longer match anything (flagged `stale baseline(s)`
+# by the audit itself after an upstream gitlink bump) — a dead allow-list
+# entry silences the next real finding in that file, so removed rather than
+# left. CLAUDE_ANCHORS_FULL.html (the rendered HTML twin of the already-listed
+# .md) ADDED the same day, same gitlink, same shape, same BY-REFERENCE
+# non-fixability — see its own BASELINE comment below.
 submodules/constitution/CLAUDE_ANCHORS_FULL.md
-submodules/constitution/CLAUDE.html
 submodules/constitution/Constitution.html
 submodules/constitution/Constitution.md
-submodules/constitution/GEMINI.html
 submodules/constitution/groups/multi-track-and-parallelism.html
 submodules/constitution/groups/multi-track-and-parallelism.md
-submodules/constitution/QWEN.html
 submodules/constitution/scripts/fastcycle/tests/fixtures/consumer_audit/consumers_3.json
 submodules/constitution/scripts/fastcycle/tests/fixtures/consumer_enumerate/known_needles.json
 submodules/constitution/scripts/fastcycle/tests/fixtures/core_ondemand/baseline_lines_sorted.txt
@@ -693,3 +697,15 @@ submodules/llms_verifier/llm-verifier/test-tui
 # — the fix is an upstream HelixDevelopment/VisionEngine change plus a
 # gitlink bump.
 submodules/vision_engine/Dockerfile.vision
+
+# BASELINE: submodules/constitution/CLAUDE_ANCHORS_FULL.html — 8 occurrences at
+# gitlink 8fcdb7d (brought in by an automated gitlink sync, 2026-10-02). Not a
+# hardcoded operational path: this is rendered HTML documentation prose for
+# anchor §11.4.176/§11.4.178 (multi-track work-division), illustrating the
+# multi-project-per-track NAMING CONVENTION with concrete worked examples
+# (/mnt/track1/atmosphere/, /mnt/track1/helix_ota/) — real paths from other
+# HelixDevelopment-org projects, quoted as documentation, not this repo's own
+# machine-specific path. This tree consumes the constitution BY REFERENCE and
+# cannot edit its governance content from here — the remedy, if any, is an
+# upstream HelixConstitution change plus a gitlink bump.
+submodules/constitution/CLAUDE_ANCHORS_FULL.html
