@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-01T18:11:11Z
-    Synced-Commit: e70746718d63
+    Last-Updated: 2026-10-02T16:21:54Z
+    Synced-Commit: af5c756
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,33 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### SUBMODULE FAST-FORWARD + MANIFEST SYNC + FULL-FLEET PUSH — 2026-10-02
+
+Per explicit operator instruction ("pull latest Submodules version and merge it all to our
+branches so we can push all of our commits to all upstreams"): a full deterministic
+`git status` + `git rev-list --left-right --count` sweep across the umbrella + all 21
+submodules found 4 submodules genuinely behind their own upstream with zero local-only
+commits — `submodules/constitution`, `submodules/LLMProvider`, `submodules/llm_provider`,
+`submodules/llms_verifier` — each confirmed a TRUE fast-forward (`merge-base --is-ancestor`
+TRUE, 0 divergent) before `git merge --ff-only` was applied (never rebase, never force).
+`submodules/constitution`'s bump is under the project's own standing fast-forward-only
+authorization (see root `CLAUDE.md`'s "STANDING AUTHORIZATION" section); the other three are
+plain upstream-tracking bumps with nothing of this project's own to push to them.
+
+Separately, `helix-deps.yaml`'s `workshop` entry had drifted stale independently (recorded ref
+`316ac998`, the pre-session base commit, while the live gitlink had already moved to
+`1b449e83` via the earlier automated "Auto-commit" process this session investigated and
+confirmed benign) — fixed in the same batch.
+
+All 5 touched `helix-deps.yaml` refs updated with dated, reasoned comments; all 5 gitlinks
+staged into the umbrella's index; `bash scripts/verify-manifest-pins.sh` now reports
+**21 MATCH, 0 DRIFT, 0 UNDETERMINED of 21 declared dep(s)** (was 16 MATCH / 5 DRIFT
+immediately before this fix). This commit + push is the next step; the full pre-push gate
+suite runs as part of it, investigated-and-fixed-not-bypassed on any red exactly as required
+twice already this session, followed by a final whole-fleet `git status` sweep confirming
+zero dirty files and zero unpushed commits everywhere there is something of this project's
+own to push.
 
 ### SPEC 016 WORKSHOP LIVE-QA FIX BATCH — NOT DONE — FINAL REVIEW FOUND 3 REAL GAPS — 2026-10-01
 
