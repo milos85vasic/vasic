@@ -709,3 +709,17 @@ submodules/vision_engine/Dockerfile.vision
 # cannot edit its governance content from here — the remedy, if any, is an
 # upstream HelixConstitution change plus a gitlink bump.
 submodules/constitution/CLAUDE_ANCHORS_FULL.html
+
+# BASELINE: submodules/constitution/scripts/gates/covenant_propagation_anchors.tsv
+# — 1 occurrence at gitlink a71b176 (brought in by the 2026-10-05 fast-forward,
+# 8fcdb7d9->a71b1767). Not a hardcoded operational path: this TSV's own header
+# comment (lines 160-176) documents the §11.4.157 lockstep-gap remediation for
+# anchors §11.4.272/273/274, naming "/mnt/track1/atmosphere-t1" as the scratch
+# main-repo root used for a ONE-ROW TEST DATA PACK run through this engine
+# during that remediation's own verification — a worked-example path from a
+# different HelixDevelopment-org project, quoted as documentation prose
+# exactly like the CLAUDE_ANCHORS_FULL.html entry above, not this repo's own
+# machine-specific path. This tree consumes the constitution BY REFERENCE and
+# cannot edit its governance content from here — the remedy, if any, is an
+# upstream HelixConstitution change plus a gitlink bump.
+submodules/constitution/scripts/gates/covenant_propagation_anchors.tsv
