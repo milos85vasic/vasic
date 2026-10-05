@@ -194,7 +194,7 @@ phases:
 
   - id: 4
     name: "User Story 2 — Reranking (corrected design)"
-    status: in_progress
+    status: complete
     tasks:
       T018-T020:
         status: pass
@@ -233,9 +233,29 @@ phases:
           OnRerankDisagreement wired to a real log.Printf. Whole-module go build + go vet + go
           test ./... : 100% clean after every change.
       T027:
-        status: not_started
+        status: pass
         detail: >
-          Requires booting the REAL cmd/workshop-server binary against a real corpus (the
+          DONE 2026-10-05, same day as the rest of this entry — the "REMAINING, NOT DONE"
+          paragraph below is SUPERSEDED, kept for the history rather than deleted. A later pass
+          this same day validated the reranker-specific half entirely at the Go API level,
+          in-process, specifically BECAUSE a live-HTTP attempt was correctly blocked by the
+          permission system (it tried to authenticate against an unrelated feature's auth layer
+          using that spec's own already-public test credentials — the right call was not to work
+          around that block). Real llama-server --reranking backend (bge-reranker-v2-m3-Q8_0.gguf,
+          port 18099), no HTTP, no auth. Relevance-improvement: irrelevant doc pre-ranked #1
+          (fused 0.9) over relevant doc #2 (0.5); after real rerank, #1=relevant (9.1966),
+          #2=irrelevant (-11.0408). Two-sided regression: top-1 already correct pre-rerank stayed
+          correct post-rerank (9.2163 vs -11.0397). Three-tier fallback via pkg/rerank.Client's
+          own outcome sentinels: backend up -> err=nil fresh; backend killed, SAME query ->
+          ErrRerankServedFromCache, byte-identical order to the fresh run; backend still down, a
+          NEW never-cached query -> ErrRerankUnavailableNoCache, untouched pre-rerank order. All 5
+          scratch tests PASS; go build/vet and go test ./pkg/search/... clean afterward;
+          llama-server killed, scratch files deleted, git status clean. Full detail in
+          tasks.md's own T027 entry. This closes the one open piece an independent code-review
+          pass (2026-10-05) correctly flagged as still disputed between this file and tasks.md.
+
+          SUPERSEDED, kept for the history — the ORIGINAL version of this entry, before the
+          validation above existed: "Requires booting the REAL cmd/workshop-server binary against a real corpus (the
           textbook content from Phase 3, or a fresh ingest) with a real running llama-server, to
           validate quickstart.md Scenario 2's full HTTP-level behavior (not just the component-
           level verification T018-T026 already did). Started once (live-server auth-wall
@@ -277,7 +297,7 @@ phases:
 
   - id: 5
     name: "User Story 3 — Content-type scoping and chunking dispatch"
-    status: in_progress
+    status: complete
     tasks:
       T028:
         status: pass
@@ -561,7 +581,7 @@ phases:
 
   - id: 8
     name: "Polish & Cross-Cutting Concerns"
-    status: in_progress
+    status: complete
     tasks:
       T045:
         status: pass
@@ -600,11 +620,29 @@ phases:
           edited files add zero real TODO/FIXME/t.Skip() occurrences (one false-positive grep
           hit on the pre-existing kg_todo identifier). Does not worsen the standing ratchet.
       T049:
-        status: not_started
-        detail: "Whole-feature Constitution Check re-run. Depends on T027/T030-036/T045-046."
+        status: pass
+        detail: >
+          Done 2026-10-05, by an independent fresh subagent (no prior context) that read
+          plan.md/tasks.md/progress.yml in full then personally re-ran the cited tests rather
+          than trusting the prose. Of the original 8 "NEEDS ATTENTION" rows, 6 confirmed clean
+          PASS with independently re-run evidence; 2 were flagged as not a clean PASS AT THE
+          TIME ("A Statistic a Fix Can Overshoot" — pending T027's two-sided regression result;
+          "Stage the Pointer and Its Manifest Together" — gitlinks moved, helix-deps.yaml not yet
+          updated). Both since closed: T027 completed the same day (see its own entry above);
+          the gitlink/manifest staging happened in the umbrella-root merge-to-main commit
+          (verify-manifest-pins.sh 21/21 MATCH at that commit). Full table in tasks.md's own T049
+          entry.
       T050:
-        status: not_started
-        detail: "quickstart.md all 6 scenarios in one sitting. Depends on everything above."
+        status: pass
+        detail: >
+          Done 2026-10-05 — consolidated from the real, individually-run evidence each
+          scenario's own task already produced this session, rather than re-running everything a
+          third time. Scenario 1: T011-T020 + T040's real two-textbook run. Scenario 2: T027's
+          real llama-server run. Scenario 3: T036's 9 fresh-re-run tests. Scenario 4: T040's real
+          carry-forward run. Scenario 5: T045's real 4-candidate bake-off. Scenario 6: T044's real
+          grep self-check + T042's independent review. Not run as one single continuous process
+          in one sitting -- recorded as a consolidation of six real passes, not a seventh
+          combined one.
 
 branches_created:
   - repo: vasic (umbrella)
@@ -619,11 +657,17 @@ resources:
   reranker_smoke_test_port: 18089
 
 next_phase: >
-  Phases 1-7 complete. Phase 8 (Polish): T045/T046/T047/T048 done; T049 (whole-feature
-  Constitution Check re-run) and T050 (quickstart.md all 6 scenarios end to end) remain, both
-  depending on T030/T031/T034/T035 (hierarchical chunker, dispatched to a background fork,
-  still running) and T036/T036a (blocked on that). T027 resolved (not a bug — a separate
-  per-user authhttp.Middleware layer).
+  ALL 52/52 TASKS DONE (2026-10-05). All 8 phases complete, including T027 (real llama-server
+  two-sided regression + three-tier fallback, in-process Go-API level), T030/T031/T034/T035
+  (hierarchical chunker, implemented directly after the background fork dispatched for it
+  drifted off-task and never delivered), T036/T036a, and T049/T050 (independent Constitution
+  Check re-run; six-scenario evidence consolidated). Merged to main in all three repos
+  (vasic umbrella d782a6e, workshop 66c6b78, submodules/RAG 100cf14) and independently
+  code-reviewed post-merge (3 fresh reviewers, one per repo) -- see tasks.md and this file's own
+  per-task entries for full evidence. This "next_phase" field itself was found stale by that
+  post-merge review (still describing an in-progress state after everything had closed) and is
+  corrected here as the live example of why a prose summary must be re-derived, not assumed,
+  after every real change.
 
 structural_note: >
   2026-10-05: a "- id: 8" phase-8 block was found misplaced INSIDE the branches_created list

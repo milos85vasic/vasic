@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-05T20:10:00Z
-    Synced-Commit: a960f71
+    Last-Updated: 2026-10-05T21:40:00Z
+    Synced-Commit: d782a6e
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -474,50 +474,53 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
-### SPEC 017 "EXHAUSTIVE RAG EXPANSION" — IN PROGRESS, MULTI-PHASE, MULTI-AGENT — 2026-10-05
+### SPEC 017 "EXHAUSTIVE RAG EXPANSION" — COMPLETE, 52/52, MERGED TO MAIN — 2026-10-05
+
+**This entry replaces an earlier version of itself that this same feature's own post-merge
+independent review (below) correctly flagged as stale — it described an in-progress state after
+every phase had actually closed. Recorded as a correction, not a quiet edit, per this project's
+own disclosure norm.**
 
 Branch `017-exhaustive-rag-expansion` (both `vasic` umbrella and `workshop` submodule). Full
 detail lives in `specs/017-exhaustive-rag-expansion/` (`spec.md`, `plan.md`, `research.md`,
-`tasks.md`, `progress.yml` — `progress.yml` is the authoritative, continuously-updated per-task
-log; this entry is a pointer, not a restatement). Driven via `/speckit-superspec-execute`, working
-through 8 phases: Foundational content-type dimension; US1 textbook ingestion; US2 cross-encoder
-reranking; US3 content-type-aware retrieval; US4 incremental re-indexing; US5 Jordan correction;
-Polish.
+`tasks.md` at 52/52, `progress.yml`). All 8 phases (plus an ad-hoc Phase 5.5 and an unplanned
+Phase 2.5 architecture correction) are **complete**: Setup; Foundational content-type dimension;
+US1 textbook ingestion; US2 cross-encoder reranking; US3 content-type-aware retrieval; US4
+incremental re-indexing; US5 Jordan correction; Polish.
 
-**State as of this entry, phase by phase** (re-derive from `progress.yml` rather than trusting
-this list to stay current): Phases 1/2/2.5/3 (Setup, Foundational, an unplanned architecture
-correction, and US1 textbook ingestion) are **complete**. Phase 4 (US2 reranking) is
-**in_progress** — the component-level work (cross-encoder client, cache, probe, wiring) is done
-and tested; T027 (full live-server HTTP validation) remains not started. Phase 5 (US3
-content-type scoping) is **in_progress** — the scoping mechanism and its full `Query`/`Service`/
-HTTP wiring (T028/T029/T032/T033) are done, tested, and verified; the hierarchical chunker
-(T030/T031/T034/T035) is dispatched to a background fork, still running as of this entry — do not
-assume complete without re-checking `progress.yml`. Phase 6 (US4 incremental re-indexing) is
-**complete**: T037/T038 each surfaced a REAL gap (G-IDX-2 — adding content forced a full-corpus
-re-embed, violating FR-011/SC-004 — and a same-dimension-different-model vector comparison hole),
-and BOTH were fixed, not merely confirmed. The FR-011 fix is `pkg/search/carryforward.go`'s new
-`carryForwardPerPID`: a per-pid `content_hash` match (via a migrated `embeddings.content_hash`
-column, `ensureEmbeddingsSchema` in `semantic.go`) that fires whenever the whole-generation
-`root_hash` match finds nothing, so a corpus that genuinely grew still spares every unchanged
-member from re-embedding. Verified with real unit tests AND a real end-to-end run (T040, no
-mocks): adding a real second textbook to an already-embedded real first textbook via a real
-running Ollama embedder carried 179 unchanged vectors per-pid with ZERO embedder calls and
-embedded exactly the 513 genuinely new ones. `research.md` §4 corrected in place (superseded text
-kept). Phase 7 (US5 Jordan correction) is **complete**: `workshop` commits `315567f` (rename) and
-`5dc8ce3` (correction-only pass + Wave-2 re-grounding) landed inside the private submodule only;
-an independent fresh-subagent review (required by this phase's own `[REVIEW]` marker, performed
-under an explicit content-boundary briefing) confirmed SC-006's two conditions PASS with no
-silent relabeling. **A real content-boundary near-miss was self-caught and fixed same day**: this
-feature's own `tasks.md` T043/T044 write-up initially quoted several of the real private
-candidate-company names directly into this PUBLIC file — redacted immediately on discovery;
-re-verified clean with a fresh grep across the full public tree (all 8,485 tracked umbrella files
-outside every submodule) after the fix. Ad-hoc Phase 5.5 (textbook diagram/graphics extraction, a
-mid-session user-directed addition outside the normal spec→plan→tasks flow) is **complete**:
-`workshop/pipeline/pdf_textbook_diagrams.py` plus 10 real tests, verified end to end against a
-real licensed textbook PDF (94 diagram candidates found, 87 high/7 low quality, captions
-correctly matched). Remaining open items: T027 (live-server HTTP validation), T030/T031/T034/T035
-(hierarchical chunker, dispatched), T036/T036a (depend on the chunker), and Phase 8 Polish
-(T045-T050, bake-off/CONTINUATION-sync/final review not yet started).
+**Merged to `main` in all three repos**: `vasic` umbrella `d782a6e`, `workshop` `66c6b78` (9
+commits), `submodules/RAG` `100cf14` (1 commit) — all three fast-forward, no conflicts, no force.
+Gitlinks and `helix-deps.yaml` staged together per gate C9 (`verify-manifest-pins.sh`: 21/21
+MATCH, 0 DRIFT both before and after).
+
+**Independently code-reviewed POST-merge** (three fresh subagents, one per repo, per
+`requesting-code-review`'s template — none had prior session context):
+- **workshop diff** (`1b449e8..66c6b78`): reviewed, build/vet/test re-confirmed clean.
+- **`submodules/RAG`'s `HierarchicalChunker`**: found a REAL bug — byte-slicing at a raw
+  `ChunkSize` offset could cut a multi-byte UTF-8 rune in half, demonstrated corrupting 20/33
+  chunks on a Cyrillic fixture. Fixed same day (`runeBoundaryAtOrBefore`, snaps every
+  start/end to a valid rune boundary; new exhaustive `utf8.ValidString` test). Also added the
+  missing `NewHierarchicalChunker` normalization-branch test the review flagged as a parity gap
+  against the package's three sibling chunkers.
+- **The umbrella merge commit**: manifest integrity and content-boundary safety both
+  independently re-verified clean (ran `verify-manifest-pins.sh` itself; grepped the full diff
+  for client-identifying content/credentials — found none). Found that `CONTINUATION.md` (this
+  entry, before this rewrite) and `progress.yml` (phase-level `status:` fields, `T027`/`T049`/
+  `T050` status keys, the `next_phase` summary) had NOT been re-synced after T027/T030-036a/
+  T045-050 actually closed — fixed in both files the same day this was found.
+
+**Real findings closed during this feature, kept here as the summary** (full detail in
+`progress.yml`'s per-task entries): a genuine FR-011 violation (adding a textbook forced a
+full-corpus re-embed; fixed with a per-pid `content_hash` carry-forward, verified end-to-end with
+zero embedder calls on 179 unchanged vectors and exactly 513 new ones); a same-dimension-
+different-model vector-mixing hole in retrieval ranking; a cross-content-type near-duplicate
+passage detector that did not exist before (spec.md's own Edge Case); a real UTF-8 chunking bug
+(above); a content-boundary near-miss in this feature's own `tasks.md` draft (private
+candidate-company names briefly quoted into this public file, self-caught, redacted, re-verified
+clean — never committed); and 64MB of licensed textbook PDFs that were one `git add -A` away from
+entering git history (now `.gitignore`d). The hierarchical-chunker work was originally dispatched
+to a background fork that drifted off-task over 45 tool calls and never produced the file —
+implemented directly once that was discovered, rather than continuing to wait on it.
 
 ### CONSTITUTION FULL RECURSIVE PULL — 2026-10-05
 
