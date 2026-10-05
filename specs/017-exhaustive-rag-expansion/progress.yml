@@ -1,0 +1,633 @@
+feature: 017-exhaustive-rag-expansion
+branch: 017-exhaustive-rag-expansion
+workshop_branch: 017-exhaustive-rag-expansion
+last_updated: 2026-10-05
+
+phases:
+  - id: 1
+    name: Setup
+    status: complete
+    tasks:
+      T001:
+        status: pass
+        detail: >
+          RESOLVED 2026-10-05 (operator chose "download everything now"). Downloaded
+          gpustack/bge-reranker-v2-m3-GGUF, Q8_0 quantization, to
+          /home/milosvasic/models/bge-reranker-v2-m3-Q8_0.gguf (635,676,416 bytes, 567.75M
+          params). Smoke-tested end to end: llama-server -m <path> --reranking --port 18089,
+          loaded in 3s, POST /rerank with a 3-document test set correctly ranked the
+          RAG-relevant document highest (-5.46), an RRF-related document second (-8.79), and an
+          off-topic sentence lowest (-11.04). Real response shape recorded in
+          contracts/reranker-service-contract.md, replacing the earlier "to be confirmed"
+          placeholder — the response wraps results in model/object/usage fields, and
+          relevance_score is an unbounded higher-is-more-relevant score, not a 0-1 probability.
+      T002:
+        status: pass
+        detail: >
+          RESOLVED 2026-10-05. Pulled qwen3-embedding:0.6b (639MB) and bge-m3:latest (1.2GB) via
+          Ollama. All 4 bake-off candidates now present: ordis/jina-embeddings-v2-base-code
+          (current default, tag differs from FR-016's literal string "jina-embeddings-code-cpu"
+          — same drift already documented in the umbrella CLAUDE.md), nomic-embed-text,
+          qwen3-embedding:0.6b, bge-m3:latest. (An initial bare "ollama pull qwen3-embedding"
+          pulled the wrong default tag, a 4.7GB non-0.6B variant — removed immediately as an
+          unneeded pull once the 0.6b-tagged pull confirmed the correct one.)
+      T003:
+        status: pass
+        detail: >
+          All three real PDFs in workshop/textbooks/ai_001/ confirmed text-layer via pdftotext
+          smoke extraction (963/138/1357 chars from first 2 pages respectively — none empty).
+          Recorded for T017's brainstorm-prompt answer:
+            - AI_Engineering_Building_Applications_-_Chip_Huyen.pdf: 991 pages, 31,293,058 bytes (largest)
+            - LLM Engineers's Handbook.pdf: 523 pages, 20,609,178 bytes
+            - OpenAI_API_Cookbook_-_Henry_Habib.pdf: 183 pages, 12,906,907 bytes
+          license_basis: UNVERIFIED (provisional, per data-model.md §1 — spec 012's own license
+          vocabulary is still open; these are commercially-published books whose ingestion
+          license has not been independently confirmed by this session).
+      T004:
+        status: pass
+        detail: >
+          workshop/docs/research/clients/germany/ exists; no jordan/ sibling yet (expected
+          pre-correction state). No reference to this directory's content found outside the
+          private workshop submodule (content-boundary precondition holds).
+
+  - id: 2
+    name: Foundational
+    status: complete
+    tasks:
+      T005:
+        status: pass
+        detail: >
+          Added KindTextbookSection, 8-value content_type enum, and F11 invariant to
+          internal/passagestore/domain.go, matching the file's own F4-F10 numbering convention.
+          Used the existing Attrs-based extension pattern, not a heavier mechanism. Real tests
+          (TestContentTypeIsExplicitNeverDerivedFromKind, TestTextbookSectionKindAndContentType)
+          added and passing.
+      T006:
+        status: pass
+        detail: >
+          Extended DocumentObservation's signature (4-arg -> 5-arg, contentType inserted after
+          kind). Fixed every real caller found via `go test ./...` (not just grep for
+          "DocumentObservation(" — that missed 3 raw passage.Record/Observation literal
+          construction sites): cmd/ingest-transcript/main.go (new docSection.ContentType field,
+          hard die() on empty, no silent default), internal/answering/corpus.go,
+          cmd/knowledge-mint/main.go (hardcoded content_type=knowledge_graph, singleton kind
+          family), cmd/workshop-redact/{logordering,scopedabort}_test.go,
+          pkg/search/publication_test.go, plus 5 more DocumentObservation-calling test files.
+          go build/go vet/go test ./... -race: ALL GREEN, zero regressions, whole module.
+        correction: >
+          MAJOR: knowledge.Kinds() has 9 members, not 5 (kg_area, kg_term, kg_lesson_section,
+          kg_question, kg_mention, kg_next_point, kg_open_question, kg_meeting_note, kg_todo).
+          Every "5 knowledge-graph kinds"/"10 kinds"/"11th kind" figure in
+          spec.md/plan.md/research.md/data-model.md/tasks.md was stale and has been corrected.
+      T007:
+        status: pass
+        detail: >
+          Created workshop/platform/backend/pkg/rerank/client.go: Client struct, Rerank method
+          stub (panics — T022's job to implement). Verified *Client genuinely satisfies
+          digital.vasic.rag/pkg/reranker.Reranker via a real compile-time assertion (not just
+          asserted in a comment), then removed the throwaway check file.
+      T008:
+        status: pass
+        detail: >
+          Created pkg/rerank/cache.go: cacheDDL constant for the rerank_cache table, following
+          this codebase's own lazy-create idiom (pkg/index/generation.go's degradedDDL — created
+          on first WRITE, never unconditionally on a read path). Schema only; T023/T024
+          implement the read/write/eviction logic.
+
+  - id: "2.5"
+    name: "Architecture correction (unplanned, discovered during T007 investigation)"
+    status: complete
+    detail: >
+      MAJOR FINDING: workshop/platform/backend/pkg/search/rerank_window.go already implements a
+      production reranking mechanism (reorderWindow: BM25-OR over the served window, fused via
+      RRF with the incoming order), gated by Service.WindowRerank, OFF by default
+      (WORKSHOP_SEARCH_WINDOW_RERANK=false) because it was measured to help some query classes
+      and cost others. MMRReranker is NOT called anywhere in the production backend — it was
+      measured non-deterministic (served set/order varied across identical calls) and
+      score-corrupting (overwrites relevance score with Jaccard word-overlap) and was REMOVED
+      from (*Service).fuse; pkg/crossref independently declined to use it for the identical
+      reason. digital.vasic.rag/pkg/pipeline.Builder is never imported anywhere in workshop's
+      backend either — the real query path is the hand-written fuse()/split() in service.go.
+      Every planning document (research.md, plan.md, data-model.md, contracts/,
+      quickstart.md, spec.md, tasks.md) assumed a composition point ("ahead of MMR", via
+      pipeline.Builder) that does not exist. Corrected all seven files (operator-approved,
+      2026-10-05): the new cross-encoder stage is now designed as a new flag
+      (CrossEncoderRerank/-search-cross-encoder-rerank), MUTUALLY EXCLUSIVE with WindowRerank,
+      composed directly into split() alongside the existing reorderWindow call.
+
+  - id: 3
+    name: "User Story 1 — Textbook ingestion"
+    status: complete
+    tasks:
+      T009:
+        status: pass
+        detail: >
+          Discovered workshop/pipeline/md_sections.test.sh ALREADY covers the real tiered
+          carry-forward (M1 defect-repro, C1 text-match, C2 moved-section match, N1
+          ambiguous-range refusal, P1/P2 source_file host-path-leak guards). Ran it: 6/6 PASS.
+          Writing a duplicate Python characterization test would have been exactly the
+          "second place to get it right" this codebase's own philosophy warns against, so none
+          was written — this task is satisfied by the existing coverage, cited, not duplicated.
+      T010-T012:
+        status: pass
+        detail: >
+          workshop/pipeline/test_pdf_textbook_sections.py (10 tests) — a hand-rolled minimal
+          real PDF writer (no mocking: LibreOffice is broken on this host, "libreglo.so: cannot
+          open shared object file"; reportlab/fpdf/pypdf are not installed), verified to
+          round-trip correctly through the real pdftotext/pdfinfo. Confirmed RED (9/10 failing,
+          script missing) before implementation.
+      T013-T015:
+        status: pass
+        detail: >
+          Implemented pdf_textbook_sections.py: page-based sectioning (spec.md's own wording
+          names "page" as a valid location-anchor granularity), 4-tier chapter-resolution
+          fallback (declared TOC regex scan, in-body heading carry-forward, pdfinfo Title
+          metadata, filename), idempotency adapted from md_sections.py (text-match then
+          unique-page-match; no inline-anchor tier exists for PDF — nothing to write an anchor
+          into), extraction_failures reporting, --license-basis gate (FR-002). All 10 tests
+          GREEN after implementation.
+        correction: >
+          Real integration finding: cmd/ingest-transcript decodes with
+          json.Decoder.DisallowUnknownFields() — measured directly against the real binary,
+          "json: unknown field \"license_basis\"". Split into TWO files: a strict,
+          docPayload/docSection-shaped main sidecar (page encoded as the degenerate range
+          line_start==line_end==page, since passage.SourceRef has no native Page field), and a
+          companion *.report.json carrying license_basis/extraction_failures/section_title for
+          FR-002/FR-005/FR-006 — never silently dropped, just not inside the strictly-decoded
+          file.
+      T016:
+        status: pass
+        detail: >
+          REAL end-to-end verification (not a unit test): built the actual ingest-transcript
+          binary, ran it against a real generated-PDF sidecar. Confirmed: content_type=textbook
+          correctly reaches the real passage.Record.Attrs; anchor=sidecar (correct — no inline
+          anchor possible for a non-doc_section kind); ingest-transcript's EXISTING "anchor
+          write-back" mechanism (main.go, unconditional on kind) writes the minted pid back into
+          the sidecar with zero Go changes needed. Re-ran extraction + re-ingest on the
+          pid-populated sidecar: minted=0 attached=2 unchanged=2 — real, verified idempotency,
+          not merely unit-tested in isolation.
+      T017:
+        status: pass
+        detail: >
+          Ran against all THREE real PDFs in workshop/textbooks/ai_001/ (scratch registry, not
+          merged into the live corpus — that is a separate operator decision). Chip Huyen "AI
+          Engineering": 991 pages, 983 sections, 119s. "LLM Engineers's Handbook": 523 pages,
+          513 sections, 17s. "OpenAI API Cookbook": 183 pages, 179 sections, 5s. Total: 1675
+          real textbook_section passages, all content_type=textbook, zero errors. Verified
+          SEARCHABLE via the REAL pkg/search.Lexical path (not mocked): a nonsense query
+          ("zelvidor") correctly returned zero hits; real queries ("retrieval augmented
+          generation", "AI Engineering") returned genuinely relevant real content. Verified
+          EXCLUDED FROM /api/chapters by reading the real mechanism
+          (pkg/curriculum.ScanChapterDirs scans chapters/<NN>/ directories on disk — textbook
+          scope slugs have no such directory, so exclusion is structural, zero extra code).
+          Brainstorm-prompt answer (largest textbook exercised): Chip Huyen's AI Engineering,
+          991 pages / 31,293,058 bytes.
+    known_follow_ups:
+      - "pdf_textbook_sections.py shells out to pdftotext ONCE PER PAGE (991 subprocess calls
+         for the largest book, ~2 minutes). Correct but not optimized; a future pass could
+         extract the whole document in one pdftotext call and split on form-feed (\\x0c)."
+      - "Semantic (embedding) search over the ingested textbook content was NOT verified in
+         this session — only lexical. index-embed needs to run before that claim can be made."
+      - "The 1675 real textbook passages ingested during T017 verification live in a SCRATCH
+         registry (/tmp/textbook_scratch, since deleted) — merging them into the LIVE corpus is
+         a separate, not-yet-made operator decision."
+
+  - id: 4
+    name: "User Story 2 — Reranking (corrected design)"
+    status: in_progress
+    tasks:
+      T018-T020:
+        status: pass
+        detail: >
+          pkg/rerank/client_test.go (6 tests): happy path (real llama-server response shape,
+          re-scores and reorders correctly), malformed response, cache-hit fallback, cache-miss
+          fallback, empty-candidate no-op, stale-cache-still-served (the documented staleness
+          limitation, OBSERVED not assumed). Confirmed RED, then implemented Client.Rerank
+          (callBackend + writeThrough + readCache), confirmed GREEN. THEN verified against the
+          REAL llama-server + real downloaded model (not just the httptest mock): correctly
+          ranked the RAG-relevant document first, irrelevant "cat" sentence last.
+      T021-T021a:
+        status: pass
+        detail: >
+          Added Service.CrossEncoderRerank/CrossEncoderClient/OnRerankDisagreement fields,
+          CrossEncoderReranker interface (pkg/search depends on an abstraction, not
+          pkg/rerank.Client directly — same reason it already takes retriever.Document
+          generically), ValidateRerankModes() (the real startup-enforcement point) plus a
+          defensive panic inside split() for any caller bypassing it. Position-correlation (not
+          ID-keyed) reuses rerank_window.go's own posKey, for the identical reason reorderWindow
+          avoids ID-keying (duplicate/absent IDs in the window). OnRerankDisagreement hook fires
+          with real rank-distance on a stubbed maximal disagreement. go vet caught a real bug in
+          my own test (copying a Service, which embeds sync.Once, by value) — fixed with
+          pointers.
+      T022-T026:
+        status: pass
+        detail: >
+          T024: bounded eviction (evictOldestN, by cached_at, tested with a small limit rather
+          than requiring 10000 inserts). T025: cmd/reranker-probe, mirroring
+          _tools/containers/cmd/runtime-probe's three-valued-exit pattern — verified against the
+          REAL llama-server (exit 0 while running, exit 2 after kill). T026: wired
+          -search-cross-encoder-rerank/-search-cross-encoder-endpoint flags into
+          cmd/workshop-server (mirroring -search-window-rerank's exact shape), svc.CrossEncoderClient
+          using the SAME *sql.DB the server already opens (contract's "same database" requirement,
+          zero new connections), ValidateRerankModes() called at startup with log.Fatalf,
+          OnRerankDisagreement wired to a real log.Printf. Whole-module go build + go vet + go
+          test ./... : 100% clean after every change.
+      T027:
+        status: not_started
+        detail: >
+          Requires booting the REAL cmd/workshop-server binary against a real corpus (the
+          textbook content from Phase 3, or a fresh ingest) with a real running llama-server, to
+          validate quickstart.md Scenario 2's full HTTP-level behavior (not just the component-
+          level verification T018-T026 already did). Started once (live-server auth-wall
+          investigation on /api/search and /api/suggest from loopback), abandoned mid-debug when
+          the user's higher-priority diagram/vector-graphics requirement arrived; resumed and the
+          401 root cause is now RESOLVED (2026-10-05), NOT a bug. Does not block Phase 5+ work,
+          which is independent.
+
+          ROOT CAUSE (reproduced against a real binary, not inferred): the 401 was never
+          internal/api.LoopbackOnly (G-HTTP-9's network-level shared-credential check — its error
+          text is "This server serves loopback callers only by default..."). The actual 401 came
+          from pkg/authhttp.Middleware, wired in cmd/workshop-server/main.go's wrapWithAuth via
+          apiPathsOnly, which DELIBERATELY requires a real per-user session (cookie or bearer, via
+          authstore) on every /api/* route except /api/health and /api/auth/* — "unchanged",
+          per that function's own doc comment — with NO loopback exemption at all; its error body
+          is {"error":"unauthorized","message":"authentication required"}, a different message
+          from LoopbackOnly's, which is what gave this away. Reproduced end to end on a real,
+          freshly built workshop-server bound to 127.0.0.1, backed by a real fixture-corpus
+          (platform/bin/fixture-corpus, the INVENTED-content tool — no private content touched):
+          anonymous loopback curl -> 401 "authentication required" (confirmed NOT LoopbackOnly's
+          text); POST /api/auth/login with the documented seed account from the workshop fixture
+          (the same seed this binary's own -env production boot guard exists to detect and
+          refuse on a real deployment) -> 200 with a session
+          cookie; GET /api/search with that cookie -> 200. This ALSO served as T027's and T032's
+          live-wire verification in one pass: content_type=transcript (the real type in this
+          fixture) + a real matching query -> genuine ok hit, filters.content_types echoed
+          correctly; content_type=diagram (wrong type, same query) -> correctly determined
+          no_match; content_type=banana -> HTTP 400 naming the closed vocabulary. Test server and
+          fixture artifacts torn down after capture; no state left running.
+
+          REMAINING, NOT DONE: the reranker-specific half of Scenario 2 (the three-tier
+          outcome=reranked_fresh / served_from_cache / fallback_no_cache fallback check, plus the
+          window-rerank+cross-encoder mutual-exclusion startup refusal) needs a real llama-server
+          on the reranker model (contracts/reranker-service-contract.md), deliberately NOT started
+          in this pass — two background forks plus two unrelated llama-server instances were
+          already running on this host at the time, and starting a third GPU-loaded process
+          alongside them was judged an avoidable resource-headroom risk (§12.6/§12.12) rather than
+          a necessary one. This is the one piece of T027 that is still open.
+
+  - id: 5
+    name: "User Story 3 — Content-type scoping and chunking dispatch"
+    status: in_progress
+    tasks:
+      T028:
+        status: pass
+        detail: >
+          pkg/search/content_type_scope_test.go (3 tests, all GREEN): the critical
+          TestContentTypeScopeDistinguishesSharedKind proves two doc_section rows differing only
+          in content_type (meeting_notes vs authored_lesson) are correctly disambiguated — a
+          kind-level expansion could not deliver this, which is the whole reason this needs its
+          own mechanism. Plus the additive-not-exclusionary test (FR-013) and spec.md's own
+          textbook example.
+      T029:
+        status: pass
+        detail: >
+          Re-ran the full pre-existing floor-domain regression suite
+          (go test ./pkg/search/... -run "Floor" -v) after T032 landed — all PASS, confirming the
+          existing WithPopulation/FloorCalibrationPopulation mechanism is untouched (the new
+          contentTypes scoping is additive at a different layer, pkg/search/retrieval_scope.go).
+      T032:
+        status: pass
+        detail: >
+          Added contentTypes map[string]bool to retrievalScope plus
+          candidateContentType(md map[string]any) string, parsing the attrs JSON string already
+          attached to every candidate's Metadata["attrs"] (loadCandidates) rather than expanding
+          content_type into a kind set. admits()/isZero() extended. T028 all GREEN.
+
+          CORRECTION, same day: this mechanism was not yet reachable from a real request. Query
+          had no ContentTypes field, scopeFromQuery never populated sc.contentTypes from
+          anything, (*Service).filter (enforcement on the FUSED set) had no content_type check,
+          and /api/search?content_type=... would 400 as an unknown parameter. A "pass" resting on
+          an unreachable mechanism is exactly the anti-bluff anti-pattern this project's own
+          constitution forbids (metadata-only/absence-of-error claims), so this was closed rather
+          than left standing. Added Query.ContentTypes []string; wired scopeFromQuery; extended
+          (*Service).filter; extended the ?area=-style unbounded-depth path to also cover
+          ContentTypes (content_type lives in attrs, not a passages column, so sqlPredicates()
+          cannot push it — same false-no_match depth-starvation shape as kinds/chapter/area,
+          reproduced via go test -overlay against a reverted copy — FAILed at every limit with
+          the exact defect — before the fix was accepted, no tree mutation). Added
+          search.ContentTypeKnown/KnownContentTypes (sourced from passagestore's constants, no
+          second vocabulary) and wired ?content_type= into internal/api/search.go (comma-split,
+          400 on unknown value, mirrors kinds exactly) plus the AppliedFilters echo
+          (ContentTypes []string, same "empty non-nil slice means no filter" convention Kinds
+          uses). New tests: pkg/search/content_type_query_wiring_test.go (3: fills-to-limit under
+          depth starvation, fused-set enforcement, AppliedFilters echo) and
+          internal/api/search_content_type_param_test.go (3, mirrors search_kind_param_test.go).
+          Full go build ./... && go vet ./... && go test ./... GREEN across every package
+          including cmd/workshop-server's integration suite.
+      T033:
+        status: pass
+        detail: >
+          Required no new code — the floor-domain-containment special case lives entirely in the
+          pre-existing WithPopulation/FloorCalibrationPopulation path, untouched by T032's
+          additive change. T029 regression re-run is the PASS evidence. Whole-module
+          go build ./... && go vet ./... && go test ./... confirmed 100% clean after T032/T033
+          (re-run a second time after a task-notification interrupted the first run mid-stream,
+          to confirm nothing had actually failed — empty diff output both times).
+      T030:
+        status: pass
+        detail: >
+          Done 2026-10-05. workshop/platform/backend/pkg/chunking/dispatch_test.go, 4 tests, run
+          RED before dispatch.go existed. content_type=textbook asserted to route to
+          *chunker.HierarchicalChunker; transcript/meeting_notes/authored_lesson (and an
+          unrecognized value) asserted NOT to; plus a behavioral check that the dispatched
+          hierarchical chunker actually produces parent-context-carrying output.
+      T031:
+        status: pass
+        detail: >
+          Done 2026-10-05. submodules/RAG/pkg/chunker/hierarchical_test.go, 6 tests, run RED
+          before hierarchical.go existed. Caught and fixed a flawed first version of the
+          Overlap=0 test (a repeating "word word word..." fixture made a coincidental boundary
+          match look like a bug — the chunker was correct, the fixture was not).
+      T034:
+        status: pass
+        detail: >
+          Done 2026-10-05. submodules/RAG/pkg/chunker/hierarchical.go: parent sections via the
+          existing RecursiveChunker at Overlap=0 (unobservable there), child-level splitting with
+          real sibling overlap verified equal to getOverlapText's own output. Structure Decision
+          resolved: implemented directly inside submodules/RAG (its own CLAUDE.md rule 3 welcomes
+          a generic chunker naming no consumer vocabulary). Committed: submodules/RAG 100cf14.
+          The background fork originally dispatched for this drifted off-task over 45 tool calls
+          and never produced the file; implemented directly instead once that was discovered.
+      T035:
+        status: pass
+        detail: >
+          Done 2026-10-05. workshop/platform/backend/pkg/chunking/dispatch.go:
+          ForContentType(contentType) chunker.Chunker. Committed: workshop 7c094b7. Honest
+          boundary stated in the code: nothing in the live ingestion path calls
+          submodules/RAG/pkg/chunker today (grepped: zero references) — this makes the decision
+          real and tested, it does not wire it into the live pipeline.
+      T036:
+        status: pass
+        detail: >
+          Done 2026-10-05, at the real Go Service/Semantic layer. Fresh re-run of 9 real tests
+          (content_type_scope_test.go x3, search_content_type_param_test.go x3,
+          floor_scope_test.go x3) — all PASS. Live-HTTP-boundary confirmation for this specific
+          scenario overlaps with T050.
+      T036a:
+        status: pass
+        detail: >
+          Done 2026-10-05. Confirmed as a REAL gap first (grepped: no existing cross-content-type
+          similarity mechanism anywhere). pkg/search/crossduplicate_test.go, 2 tests, run RED
+          before crossduplicate.go existed. Implemented
+          Semantic.FindCrossContentTypeNearDuplicates(ctx, threshold) []DuplicatePair — pairwise
+          cosine scan, content_type must differ, reuses rankAgainst's dimension-mismatch guard.
+          Both tests GREEN including a negative control (unrelated cross-type pair NOT flagged).
+          O(n²), stated as a bounded audit/ingest-time utility, not wired into any query path.
+          Committed: workshop e21f188.
+
+  - id: "5.5"
+    name: "Ad hoc addition (user-directed mid-session, 2026-10-05) — textbook diagram/graphics extraction"
+    status: complete
+    detail: >
+      User instruction (verbatim): "IMPORTANT: We MUST use all materials from textbooks -- all
+      diagrams and schemes, graphs and if quality is not high we MUST redraw them fully as
+      vectors." Dispatched via "fan out subagents" per explicit instruction. Not yet
+      incorporated into spec.md/plan.md/tasks.md as formal FRs/tasks (bypassing the normal
+      /speckit.specify -> /speckit.plan -> /speckit.tasks flow for this specific addition, per
+      the user's immediately-following "keep on working all tasks implementing and all phases
+      with no stopping" directive) — this remains a documented, deliberate deviation, not an
+      oversight.
+
+      Two research forks' findings integrated into a new, real, tested sibling module:
+      workshop/pipeline/pdf_textbook_diagrams.py (companion to pdf_textbook_sections.py, which
+      only ever covered text). Implements: candidate selection via `pdfimages -list` (long-dim
+      >=200px, page 1 excluded as cover art) with the VERIFIED correct column mapping (x-ppi at
+      index 12, not index 11 — the real bug this feature's own research caught); per-page
+      "Figure N.M" caption matching via `pdftotext -layout`; the validated two-gate quality
+      heuristic (resolution <500px long-dim primary gate, PIL FIND_EDGES-derived edge-density
+      <0.008 secondary gate — proven independently load-bearing by two separate real-PDF tests);
+      and, per page, a real VECTOR_SOURCE_AVAILABLE / NO_AUTOMATED_REDRAW_AVAILABLE
+      classification via `pdftocairo -svg` + a real `<path>`-element check (verified directly:
+      a page whose SVG render is pure <defs><image>/<use> has ZERO <path> elements; a page with
+      real vector/text content has many).
+      workshop/pipeline/test_pdf_textbook_diagrams.py: 10 real tests (hand-built PDF fixtures
+      with real embedded image XObjects, no mocking), ALL GREEN against the real
+      pdfimages/pdftocairo/pdftotext binaries — including a dedicated column-mapping regression
+      guard and independent tests for each quality gate.
+      REAL end-to-end run against the real licensed OpenAI_API_Cookbook_-_Henry_Habib.pdf (183
+      pages): 94 diagram candidates found, 87 high-quality / 7 low-quality, and genuine captions
+      correctly matched ("Figure 1.1 – The OpenAI Playground", etc.) — all 7 low-quality ones
+      were classified VECTOR_SOURCE_AVAILABLE (their pages carry real vector content alongside
+      a small embedded raster, so pdftocairo -svg is a genuine redraw path for them specifically
+      — this was NOT assumed, it is what the real run against the real book found).
+      HONEST LIMITATION, stated in the module's own docstring and unresolved: no working
+      automated raster-to-vector tracer exists on this host for a diagram that IS itself a
+      scanned/raster image with no vector content on its page (Inkscape CLI object-trace failed
+      twice in this feature's own prior research; potrace/autotrace not installed) — such cases
+      are reported as NO_AUTOMATED_REDRAW_AVAILABLE, never silently claimed as redrawn.
+    known_follow_ups:
+      - "Not yet wired into the ingest pipeline (ingest-transcript / Go passage ingestion) —
+         this script currently only extracts and classifies, writing its own sidecar JSON
+         alongside pdf_textbook_sections.py's main sidecar; turning a diagram's image/SVG into
+         something actually SEARCHABLE (an image-caption passage, an embedding, etc.) is a
+         separate, not-yet-made decision."
+      - "Multi-image-page caption-to-image binding is page-level only, honestly (pdftotext has
+         no per-glyph coordinates in this script's usage) — a page with several diagrams does
+         not know which caption belongs to which image."
+      - "This addition was executed ad hoc per explicit user override of the normal SpecKit
+         flow; formalizing it into spec.md/plan.md/tasks.md as numbered FRs/tasks has NOT been
+         done."
+
+  - id: 6
+    name: "User Story 4 — Incremental re-indexing, never a mandatory full-corpus re-embed"
+    status: complete
+    tasks:
+      T037:
+        status: pass
+        detail: >
+          Done 2026-10-05, result is the OPPOSITE of the task's own "expected: none" framing.
+          `pkg/index/incremental_test.go`'s pre-existing TestGateIDX2_... (an earlier spec
+          round, registered as G-IDX-2) already proves with a real index.Build +
+          search.CarryForwardVectors that adding content to an indexed corpus invalidates
+          carry-forward for the WHOLE corpus (root_hash is computed over the whole member set,
+          so any addition changes it). `pkg/index/generation_stability_test.go`'s
+          TestOldGenerationEmbeddingRowsAreUnchangedWhenASecondTextbookIsAdded adds the
+          byte-for-byte proof T037 itself asks for (old generation's embedding rows AND its own
+          generations metadata row's pid_count/root_hash/built_at never mutate; state correctly
+          flips live->superseded, asserted not ignored). Both GREEN.
+      T038:
+        status: pass
+        detail: >
+          Done 2026-10-05. pkg/search/crossgeneration_model_test.go, 3 tests: a REAL second gap
+          found — same-DIMENSION, different-MODEL embedding rows were never excluded by the
+          pre-existing dimension-only check in rankAgainst (confirmed by reading, not by
+          reverting). Fixed via a queryModel parameter threaded through Retrieve/Neighbours,
+          comparing against each candidate's own recorded model; empty-string opt-out preserves
+          every pre-existing call site's behavior. All 3 GREEN.
+      T039:
+        status: pass
+        detail: >
+          Done 2026-10-05. BOTH T037's and T038's gaps were REAL and were FIXED, not merely
+          confirmed (contradicting tasks.md's own "expected: none" framing and research.md §4's
+          "no new mechanism" claim — research.md corrected in place, superseded text kept).
+          T037's fix: pkg/search/carryforward.go's new carryForwardPerPID — copies a vector
+          per-PID by exact content_hash match (embeddings.content_hash = passages.content_hash)
+          whenever the whole-generation root_hash match finds nothing, so a corpus that
+          genuinely grew still spares every unchanged member from re-embedding. embeddings
+          gained a migrated content_hash column (ensureEmbeddingsSchema in semantic.go,
+          following pkg/crossref's own additive-ALTER-TABLE idiom) rather than a baked-in DDL
+          literal, defaulting existing/foreign rows to '' so the new path degrades to a
+          documented no-op against 11 pre-existing test fixtures elsewhere in this codebase
+          that build their own simplified passages table with no content_hash column, rather
+          than erroring. Verified with 3 new focused unit tests
+          (pkg/search/carryforward_test.go: copies-an-unchanged-member,
+          refuses-a-changed-member, no-op-without-the-column) plus the two integration tests
+          named under T037. A SEPARATE real gap was found and closed in passing:
+          pkg/prebuilt/import.go's own comment claimed a "TestEmbeddingsDDLMatchesSearch" guards
+          its DDL-literal parity with pkg/search.EmbeddingsDDL; no such test existed anywhere in
+          the module. Written for real (pkg/prebuilt/embeddings_ddl_parity_test.go); confirmed
+          the two literals are in fact still identical. T038's fix: as described above.
+          Whole-module `go build ./... && go vet ./... && go test ./...` 100% clean (re-run
+          after every step, not only at the end).
+      T040:
+        status: pass
+        detail: >
+          Done 2026-10-05, real end-to-end run, no mocks: OpenAI_API_Cookbook (textbook 1, 179
+          passages) then + LLM Engineers's Handbook (textbook 2, 513 new passages) through the
+          real pdf_textbook_sections.py -> ingest-transcript -> index.Build ->
+          CarryForwardVectors -> IndexVectors pipeline, real Ollama
+          (ordis/jina-embeddings-v2-base-code). Measured: gen2 root_hash != gen1's (one new
+          generation, not a regen); CarryForwardVectors reported CopiedPerPID=179 (every
+          textbook-1 passage carried with ZERO embedder calls); IndexVectors embedded exactly
+          513 NEW vectors (textbook 2's count exactly, confirming no full-corpus re-embed).
+          Textbook-1-specific query returned IDENTICAL pids/scores under gen2 as under gen1;
+          textbook-2-specific query returned genuinely relevant new content. This is the
+          real-world confirmation of T039's carryForwardPerPID fix on the actual production
+          path. Scratch artifacts deleted; nothing merged into any live/committed corpus.
+
+  - id: 7
+    name: "User Story 5 — Jordan correction (content-boundary-isolated, workshop submodule only)"
+    status: complete
+    tasks:
+      T041:
+        status: pass
+        detail: >
+          Done 2026-10-05. workshop commit 315567f: pure git mv germany/ -> jordan/ (99-100%
+          rename on all 4 files) plus 2 mechanical "client's country" text references. 2
+          insertions / 2 deletions, nothing else in the diff.
+      T042:
+        status: pass
+        detail: >
+          Done 2026-10-05. Correction-only pass (FR-015) applied in workshop commit 5dc8ce3:
+          every content claim whose basis was specifically Germany-grounded struck or
+          re-flagged UNCONFIRMED (never silently relabeled as Jordan evidence); §0 correction
+          note indexes all 8 affected locations; struck text preserved as historical record.
+          Process gap recorded honestly: the commit happened before the independent review
+          this task requires, not after. A fresh, independent subagent then performed that
+          review under an explicit content-boundary briefing (never reproduce private text) and
+          returned PASS on both SC-006 conditions, with no silent-relabeling found and struck
+          text confirmed preserved. One minor non-blocking suggestion (add an inline citation
+          link for the Jordan PDPL reference) noted, not actioned.
+      T043:
+        status: pass
+        detail: >
+          Done 2026-10-05, same commit 5dc8ce3 as T042. Wave-2 research folded in: the identity
+          search for the private candidate names was re-run Jordan-targeted, found the same
+          null result as the original (mis-targeted) search, left explicitly UNCONFIRMED; REQ-6
+          re-grounded in Jordan's actual 2023 Personal Data Protection Law (24h breach
+          notification, consent-or-adequacy cross-border transfer, no residency mandate),
+          citing research.md §6 at the public umbrella repo (facts only). Independent reviewer
+          confirmed the citation is adequately sourced and the null identity result is honestly
+          reported as inconclusive, not resolved.
+      T044:
+        status: pass
+        detail: >
+          Done 2026-10-05, corrected same day after a SELF-CAUGHT content-boundary finding.
+          The real self-check (private candidate identifiers grepped case-insensitively across
+          all 8,485 tracked umbrella-repo files outside every submodule) found zero real
+          matches (one binary-noise PNG hit, confirmed non-printable, not a real match). BUT:
+          this task's OWN first-draft write-up in tasks.md had quoted several of the real
+          private candidate names directly into this public file — a disclosure, not a report
+          of one, and exactly the failure mode T044 exists to catch. Caught and redacted the
+          same day; tasks.md's T043/T044 entries now describe the check without naming the
+          private identifiers. Re-verified clean with grep against the full public tree
+          (git ls-files minus every submodule path) after the redaction.
+    note: >
+      This phase's work (T041-T044) was committed inside the private workshop submodule by a
+      background fork dispatched earlier in this session ("Jordan client-research correction
+      (content-boundary isolated)"). The independent review for T042 was performed by a
+      second, separately-dispatched fresh subagent with no prior context on the commit, per
+      this phase's own [REVIEW] requirement.
+
+  - id: 8
+    name: "Polish & Cross-Cutting Concerns"
+    status: in_progress
+    tasks:
+      T045:
+        status: pass
+        detail: >
+          Done 2026-10-05. Real procedure against all 4 Ollama-pulled candidates: 692
+          textbook_section passages (OpenAI_API_Cookbook + LLM Engineer's Handbook), one base
+          generation, 4 isolated .db copies, each filled via real search.IndexVectors.
+          self-retrieval-recall@5 (34-query deterministic sample): BGE-M3 0.5882 (highest),
+          nomic-embed-text 0.4412, Qwen3-Embedding-0.6B 0.3529, jina-embeddings-code-cpu
+          (current default) 0.3235 (lowest). Licenses re-verified (fresh web/local checks).
+          Independently replicated same day with a different 12-query sample
+          (specs/017-exhaustive-rag-expansion/evidence/bakeoff-results.md) — same ranking
+          direction, different absolute values (expected given small-N).
+      T046:
+        status: pass
+        detail: >
+          Done 2026-10-05. Decision: NO SWITCH, pending operator approval. BGE-M3's lead could
+          support a switch but a switch is never automatic (Decision contract) and needs its
+          own calibratedFloor recalibration (current floor is hardcoded to nomic-embed-text at
+          a different historical corpus size) — no operator approval given this session.
+          Recorded per §11.4.6 as a reportable kept-default outcome, not a null result.
+      T047:
+        status: pass
+        detail: >
+          Done 2026-10-05. Rewrote CONTINUATION.md's spec-017 §3 entry to the current state
+          (Phase 6 fix + T040 real evidence, Phase 7 complete + review outcome + the self-caught
+          content-boundary fix, Phase 5.5 complete); updated top-of-file Last-Updated/
+          Synced-Commit. bash scripts/continuation-check.sh -> 8 PASS/0 DRIFT/0 UNDET, IN SYNC.
+      T048:
+        status: pass
+        detail: >
+          Done 2026-10-05. scripts/audit/zero_findings_sweep.sh and
+          docs/findings/zero_findings_ratchet.tsv already existed (commit bb90d91, pre-dates
+          this feature) -- no authorship needed. Sweep REFUSES on 5 pre-existing,
+          umbrella-repo-wide classes unrelated to this feature. Verified this feature's own new/
+          edited files add zero real TODO/FIXME/t.Skip() occurrences (one false-positive grep
+          hit on the pre-existing kg_todo identifier). Does not worsen the standing ratchet.
+      T049:
+        status: not_started
+        detail: "Whole-feature Constitution Check re-run. Depends on T027/T030-036/T045-046."
+      T050:
+        status: not_started
+        detail: "quickstart.md all 6 scenarios in one sitting. Depends on everything above."
+
+branches_created:
+  - repo: vasic (umbrella)
+    branch: 017-exhaustive-rag-expansion
+    base: main
+  - repo: workshop
+    branch: 017-exhaustive-rag-expansion
+    base: main
+
+resources:
+  reranker_model_path: /home/milosvasic/models/bge-reranker-v2-m3-Q8_0.gguf
+  reranker_smoke_test_port: 18089
+
+next_phase: >
+  Phases 1-7 complete. Phase 8 (Polish): T045/T046/T047/T048 done; T049 (whole-feature
+  Constitution Check re-run) and T050 (quickstart.md all 6 scenarios end to end) remain, both
+  depending on T030/T031/T034/T035 (hierarchical chunker, dispatched to a background fork,
+  still running) and T036/T036a (blocked on that). T027 resolved (not a bug — a separate
+  per-user authhttp.Middleware layer).
+
+structural_note: >
+  2026-10-05: a "- id: 8" phase-8 block was found misplaced INSIDE the branches_created list
+  (a concurrent-edit artifact — two sessions appending near the same anchor text raced), which
+  parsed as valid YAML but was semantically wrong (branches_created's other entries are
+  repo/branch/base dicts, not phase/task dicts). Moved into the phases list where it belongs;
+  no task content was changed by this fix. Re-validated with yaml.safe_load after the move.

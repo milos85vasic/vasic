@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-05T13:04:15Z
-    Synced-Commit: c5bf9ea
+    Last-Updated: 2026-10-05T20:10:00Z
+    Synced-Commit: a960f71
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,51 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### SPEC 017 "EXHAUSTIVE RAG EXPANSION" — IN PROGRESS, MULTI-PHASE, MULTI-AGENT — 2026-10-05
+
+Branch `017-exhaustive-rag-expansion` (both `vasic` umbrella and `workshop` submodule). Full
+detail lives in `specs/017-exhaustive-rag-expansion/` (`spec.md`, `plan.md`, `research.md`,
+`tasks.md`, `progress.yml` — `progress.yml` is the authoritative, continuously-updated per-task
+log; this entry is a pointer, not a restatement). Driven via `/speckit-superspec-execute`, working
+through 8 phases: Foundational content-type dimension; US1 textbook ingestion; US2 cross-encoder
+reranking; US3 content-type-aware retrieval; US4 incremental re-indexing; US5 Jordan correction;
+Polish.
+
+**State as of this entry, phase by phase** (re-derive from `progress.yml` rather than trusting
+this list to stay current): Phases 1/2/2.5/3 (Setup, Foundational, an unplanned architecture
+correction, and US1 textbook ingestion) are **complete**. Phase 4 (US2 reranking) is
+**in_progress** — the component-level work (cross-encoder client, cache, probe, wiring) is done
+and tested; T027 (full live-server HTTP validation) remains not started. Phase 5 (US3
+content-type scoping) is **in_progress** — the scoping mechanism and its full `Query`/`Service`/
+HTTP wiring (T028/T029/T032/T033) are done, tested, and verified; the hierarchical chunker
+(T030/T031/T034/T035) is dispatched to a background fork, still running as of this entry — do not
+assume complete without re-checking `progress.yml`. Phase 6 (US4 incremental re-indexing) is
+**complete**: T037/T038 each surfaced a REAL gap (G-IDX-2 — adding content forced a full-corpus
+re-embed, violating FR-011/SC-004 — and a same-dimension-different-model vector comparison hole),
+and BOTH were fixed, not merely confirmed. The FR-011 fix is `pkg/search/carryforward.go`'s new
+`carryForwardPerPID`: a per-pid `content_hash` match (via a migrated `embeddings.content_hash`
+column, `ensureEmbeddingsSchema` in `semantic.go`) that fires whenever the whole-generation
+`root_hash` match finds nothing, so a corpus that genuinely grew still spares every unchanged
+member from re-embedding. Verified with real unit tests AND a real end-to-end run (T040, no
+mocks): adding a real second textbook to an already-embedded real first textbook via a real
+running Ollama embedder carried 179 unchanged vectors per-pid with ZERO embedder calls and
+embedded exactly the 513 genuinely new ones. `research.md` §4 corrected in place (superseded text
+kept). Phase 7 (US5 Jordan correction) is **complete**: `workshop` commits `315567f` (rename) and
+`5dc8ce3` (correction-only pass + Wave-2 re-grounding) landed inside the private submodule only;
+an independent fresh-subagent review (required by this phase's own `[REVIEW]` marker, performed
+under an explicit content-boundary briefing) confirmed SC-006's two conditions PASS with no
+silent relabeling. **A real content-boundary near-miss was self-caught and fixed same day**: this
+feature's own `tasks.md` T043/T044 write-up initially quoted several of the real private
+candidate-company names directly into this PUBLIC file — redacted immediately on discovery;
+re-verified clean with a fresh grep across the full public tree (all 8,485 tracked umbrella files
+outside every submodule) after the fix. Ad-hoc Phase 5.5 (textbook diagram/graphics extraction, a
+mid-session user-directed addition outside the normal spec→plan→tasks flow) is **complete**:
+`workshop/pipeline/pdf_textbook_diagrams.py` plus 10 real tests, verified end to end against a
+real licensed textbook PDF (94 diagram candidates found, 87 high/7 low quality, captions
+correctly matched). Remaining open items: T027 (live-server HTTP validation), T030/T031/T034/T035
+(hierarchical chunker, dispatched), T036/T036a (depend on the chunker), and Phase 8 Polish
+(T045-T050, bake-off/CONTINUATION-sync/final review not yet started).
 
 ### CONSTITUTION FULL RECURSIVE PULL — 2026-10-05
 
