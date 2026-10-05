@@ -1,34 +1,34 @@
 <!--
 SYNC IMPACT REPORT — .specify/memory/constitution.md (temporary review scratch)
-Version change: 1.4.0 -> 1.5.0 (MINOR: principles added and guidance materially expanded; none
-removed or redefined). The prior file carried three disagreeing version labels (front-matter
-1.1.0, report 1.1.0->1.2.0, footer 1.4.0); all now read 1.5.0.
-Added principles: A Restart Runs What Was Built; A Capability With Measured Harm Ships Off;
-Non-Readable Is Indistinguishable From Nonexistent; Security Headers Come From the Served Bytes;
-A Cache in Front of a Filtered Read Re-Runs the Filters; The Content Boundary Is a Standing
-Invariant; Stage the Pointer and Its Manifest Together; A Decision, Once Executed, Updates Its
-Carriers; Shell Idioms Must Survive pipefail; Shared-Tree Discipline Is Wider Than stash.
-Changed sections: Governance Fidelity (fleet roster re-derived), Project Structure and
-toolchains (re-measured), Verification Scripts (six added), Governance (push/integration and
-independent-review paragraphs added; footer).
-WITHDRAWN figures: "pin 90297902, 11,700 lines, 252 anchors" -> f8afb98ab0eb, 11,894 / 256;
-"13 declared, 11 owned" -> 22 declared, 20 owned; curriculum-kit "plain directory" -> gitlink;
-toolchain versions (Go 1.26.2/Node 22/ffmpeg 7.0.2 etc.) -> measured 2026-09-25 values.
+Version change: 1.5.0 -> 1.6.0 (MINOR: one principle added recording the constitution submodule's
+newly-landed anchors and their local disposition; no principle removed or redefined).
+Added principles: Newly Inherited Anchors Await Local Instantiation.
+Changed sections: opening pin-measurement paragraph (re-measured at the new pin); Governance
+(Independent review paragraph extended with one non-duplicating cross-reference sentence); footer.
+WITHDRAWN figures: "pin f8afb98ab0eb, 11,894 lines, 256 anchors, blob 55b787e431e1, 1,847,001
+bytes, sha256 e764f149a458..." -> pin a71b1767b402, 11,965 lines, 257 anchors, blob 303cdf80b3ec,
+1,908,339 bytes, sha256 95117cf3d96e.... Fleet roster (22 declared / 21 in helix-deps.yaml / 20
+owned + 1 governance source + 1 third-party) RE-VERIFIED via scripts/verify-governance-cascade.sh
+(C1/C2/C3/C4/C6/C7 all PASS) and found UNCHANGED — restated, not silently assumed.
 Templates: .specify/templates/*.md have principle-agnostic Constitution Checks — no edit needed.
-Deferred: none. Unverified items are marked UNCONFIRMED in the text where they occur.
+Deferred: §11.4.272 (dynamic skill/extension activation) and §11.4.274 (mechanical-work
+extraction) and §11.4.276 (review-round budget) are recorded as NOT YET LOCALLY INSTANTIATED —
+each needs its own candidate §11.4.197 follow-up item before it could be claimed enforced here.
+§11.4.273 (measuring-instrument verification / control-needle discipline) is recorded as
+ALREADY-COVERED by three existing principles and is cited, not duplicated.
 -->
 ---
-version: 1.5.0
+version: 1.6.0
 ratified: '2026-08-26'
-last_updated: '2026-09-25'
+last_updated: '2026-10-05'
 ---
 
 # vasic Constitution
 
 This project constitution EXTENDS the universal Helix Constitution mounted at
 `submodules/constitution/`. It never weakens or overrides an inherited clause — where the two
-disagree, the submodule wins. Measured 2026-09-25 at pin `f8afb98ab0eb`: **11,894 lines, 256 `### §`
-anchors** (`Constitution.md` blob `55b787e431e1`, 1,847,001 bytes, sha256 `e764f149a458…`). Canon
+disagree, the submodule wins. Measured 2026-10-05 at pin `a71b1767b402`: **11,965 lines, 257 `### §`
+anchors** (`Constitution.md` blob `303cdf80b3ec`, 1,908,339 bytes, sha256 `95117cf3d96e…`). Canon
 also carries anchors in a bold-opener form that a `### §` count omits — the bare count is a floor,
 not the census. Re-derive rather than trusting these figures: the pin moves, and recent moves have
 changed
@@ -87,6 +87,31 @@ directory a previous revision recorded. Re-derive the roster with:
 git config -f .gitmodules --get-regexp 'submodule\..*\.path'
 bash scripts/verify-governance-cascade.sh
 ```
+
+### Newly Inherited Anchors Await Local Instantiation
+
+The 2026-10-05 fast-forward to pin `a71b1767` brought four anchors into local scope for the first
+time: §11.4.272 (dynamic skill/extension activation — the active capability surface is the
+minimum needed now, everything else stays discoverable), §11.4.273 (measuring-instrument
+verification — a decision-bearing census needs a positive AND a negative control before its
+result is believed), §11.4.274 (mechanical work belongs in a tested script, never performed
+turn-by-turn in an agent's context), and §11.4.276 (a reviewed work item converges within a
+5–7-round budget, with a binding methodology change forced at round 3).
+
+§11.4.273 is **already covered** by this document: **Honest Instruments**, **A Screen's
+Precision Is Not Its Recall**, and **A Gate's Population Is Part of Its Claim** together state
+its substance. Citing it here rather than restating it is exactly what this document already does
+elsewhere when a universal anchor catches up to a local lesson — see **Shell Idioms Must Survive
+pipefail**'s own "state which claim you tested" closing line.
+
+§11.4.272, §11.4.274 and §11.4.276 are **NOT YET LOCALLY INSTANTIATED**. §11.4.272 governs the
+host Claude Code session's active skill/MCP catalogue, a surface this repository's own gates
+neither inspect nor control. §11.4.274 and §11.4.276 describe disciplines this repository already
+practises informally — mechanical work is already extracted into `scripts/*.sh` at scale, and
+every change already passes the independent-review loop **Governance** names — but neither has a
+gate or a measured incident of its OWN here yet. Recording a principle with no instrument behind
+it is the exact failure **A Rule Enforced by Nothing Is Not a Rule** forbids; these three are
+named as DEFERRED, each a candidate §11.4.197 follow-up item, never claimed as already enforced.
 
 ### Isolation by Default
 
@@ -760,15 +785,18 @@ gitlinks (`submodules/superspec`) or to the constitution repository. A push to
 
 **Independent review.** Every change, including a one-line doc edit, passes an independent review
 before it is accepted (§11.4.142); the model and effort are those §11.4.209 currently names — do
-not restate them here, because canon has already reversed that ordering once. A reviewer's
-report is the reviewer's word: verify what it claims before acting on it.
+not restate them here, because canon has already reversed that ordering once. A review loop MUST
+converge within the round budget §11.4.276 currently names — do not restate that number here
+either, for the same reason; this repository has no local gate for it yet (see **Newly Inherited
+Anchors Await Local Instantiation**). A reviewer's report is the reviewer's word: verify what it
+claims before acting on it.
 
 **Compliance review.** The local gate suite is the enforcement point; there is no server-side
 check. Before a release or a tag, run the full sweep plus the verification scripts above, and
 record the result. An unrunnable check is reported as such — never as a pass. Claims of
 compliance require the command output that demonstrates it.
 
-**Version**: 1.5.0 | **Ratified**: 2026-08-26 | **Last Amended**: 2026-09-25
+**Version**: 1.6.0 | **Ratified**: 2026-08-26 | **Last Amended**: 2026-10-05
 
 Ratification date is DERIVED, not asserted: `git log --reverse --format=%cs --
 .specify/memory/constitution.md` returns 2026-08-26, the first commit that
