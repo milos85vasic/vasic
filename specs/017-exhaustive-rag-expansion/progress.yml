@@ -43,6 +43,14 @@ phases:
           license_basis: UNVERIFIED (provisional, per data-model.md §1 — spec 012's own license
           vocabulary is still open; these are commercially-published books whose ingestion
           license has not been independently confirmed by this session).
+        correction: >
+          CORRECTED 2026-10-05, independent review. tasks.md's T003 entry previously mislabeled
+          a RE-RUN of the FIRST book (OpenAI_API_Cookbook, 183 pages) as if it were an extraction
+          of the THIRD book — the third book (Chip Huyen's AI_Engineering, 991 pages) had never
+          actually been extracted/ingested by that statement. WITHDRAWN explicitly in tasks.md,
+          not silently deleted. Now genuinely closed: all three books extracted and ingested for
+          real (book3: 983 sections from 991 pages, zero extraction failures) — see T017's and
+          T040's corrections for the full evidence.
       T004:
         status: pass
         detail: >
@@ -125,9 +133,18 @@ phases:
           Discovered workshop/pipeline/md_sections.test.sh ALREADY covers the real tiered
           carry-forward (M1 defect-repro, C1 text-match, C2 moved-section match, N1
           ambiguous-range refusal, P1/P2 source_file host-path-leak guards). Ran it: 6/6 PASS.
-          Writing a duplicate Python characterization test would have been exactly the
-          "second place to get it right" this codebase's own philosophy warns against, so none
-          was written — this task is satisfied by the existing coverage, cited, not duplicated.
+        correction: >
+          CORRECTED 2026-10-05, independent review. The "no duplicate Python characterization
+          test needed, existing shell coverage suffices" judgment above left the task checked
+          off with no `test_md_sections_characterization.py` ever created — a checked-off task
+          with no artifact, a real gap, not a documentation lag. Now closed for real: the file
+          exists, with 8 real tests covering all 4 documented tiers (PRIORITY 0 inline anchor,
+          PRIORITY 1 exact text match, PRIORITY 1b fence-elision repair bridge, PRIORITY 2 unique
+          line-range match with its two safety guards), all passing against `md_sections.py`
+          genuinely UNCHANGED (`git diff` on that file is empty). Committed in workshop as
+          `b0b27b6`. One real bug was caught and fixed in the test itself during development — a
+          hand-typed "elided text" fixture had the wrong blank-line count, fixed by deriving it
+          programmatically instead.
       T010-T012:
         status: pass
         detail: >
@@ -182,15 +199,41 @@ phases:
           scope slugs have no such directory, so exclusion is structural, zero extra code).
           Brainstorm-prompt answer (largest textbook exercised): Chip Huyen's AI Engineering,
           991 pages / 31,293,058 bytes.
+        correction: >
+          CORRECTED 2026-10-05, independent review. This entry's own lexical-only scratch run
+          (since deleted, embedding search never verified — see the known_follow_ups below) did
+          not amount to the generation/embedding-level ingestion spec.md's own Independent Test
+          for US1 requires, and no task anywhere in this feature had exercised that level against
+          the real three-book corpus — only two of the three (T040) had. Now closed for real with
+          a genuine end-to-end run mirroring T040's own methodology, extended to the true 3-book
+          corpus: pdf_textbook_sections.py extracted all three real PDFs (book1 179 sections/183
+          pages, book2 513 sections/523 pages, book3 983 sections from 991 pages, zero extraction
+          failures). A base registry+generation was built from books 1+2 (692 passages,
+          generation 1, real root_hash), embedded via a real running Ollama
+          (nomic-embed-text); book 3 was added via a real cmd/ingest-transcript run (983 new
+          passages, registry total 1675); generation 2 was built from the full 1675-passage
+          registry, confirmed as a genuinely NEW generation (different root_hash from generation
+          1, not a regeneration). search.CarryForwardVectors reported CopiedPerPID=692 — all of
+          books 1+2's existing passages carried forward with ZERO embedder calls — and
+          search.IndexVectors then embedded exactly 983 NEW vectors, book 3's exact count. A
+          query unique to book 3 ("AI engineering evaluation metrics for retrieval augmented
+          generation systems") returned 5 real hits under generation 2, with a real top pid
+          (01M46T336XVEJQKVGSKZ61XFT4). The whole real run took 30.99 seconds and passed. Scratch
+          test file and scratch corpus deleted afterward; nothing left uncommitted; go
+          build/vet/test confirmed clean on the real codebase afterward.
     known_follow_ups:
       - "pdf_textbook_sections.py shells out to pdftotext ONCE PER PAGE (991 subprocess calls
          for the largest book, ~2 minutes). Correct but not optimized; a future pass could
          extract the whole document in one pdftotext call and split on form-feed (\\x0c)."
-      - "Semantic (embedding) search over the ingested textbook content was NOT verified in
-         this session — only lexical. index-embed needs to run before that claim can be made."
+      - "Semantic (embedding) search over the ORIGINAL T017 lexical-only scratch ingestion was
+         NOT verified in that session — only lexical. The 2026-10-05 correction above closes this
+         specifically for the real generation/embedding pipeline run; the original scratch run
+         described below remains unverified at the embedding level and was never relied upon
+         after the correction."
       - "The 1675 real textbook passages ingested during T017 verification live in a SCRATCH
          registry (/tmp/textbook_scratch, since deleted) — merging them into the LIVE corpus is
-         a separate, not-yet-made operator decision."
+         a separate, not-yet-made operator decision. (Unrelated SEPARATE scratch artifacts from
+         the 2026-10-05 correction above were also deleted after that run, per the same policy.)"
 
   - id: 4
     name: "User Story 2 — Reranking (corrected design)"
@@ -524,6 +567,17 @@ phases:
           textbook-2-specific query returned genuinely relevant new content. This is the
           real-world confirmation of T039's carryForwardPerPID fix on the actual production
           path. Scratch artifacts deleted; nothing merged into any live/committed corpus.
+        correction: >
+          SC-001/US1 completeness note, added 2026-10-05 — this task's own two-book evidence
+          above is UNCHANGED and remains the genuine evidence for US4's incremental-reindexing
+          claim specifically. A separate independent review found that no task anywhere in this
+          feature had run this same carry-forward methodology against the full, real THREE-book
+          corpus that spec.md's own Independent Test for US1 requires — this task's two-book run
+          is correct and sufficient evidence for US4, but was, on its own, insufficient for
+          SC-001's three-book completeness requirement. That gap is now closed for real by the
+          same methodology extended to all three books — see T017's correction above for the full
+          evidence (983 new vectors for book 3, CopiedPerPID=692 for books 1+2, a genuinely new
+          generation 2, and a real query hit unique to book 3).
 
   - id: 7
     name: "User Story 5 — Jordan correction (content-boundary-isolated, workshop submodule only)"
@@ -632,6 +686,15 @@ phases:
           the gitlink/manifest staging happened in the umbrella-root merge-to-main commit
           (verify-manifest-pins.sh 21/21 MATCH at that commit). Full table in tasks.md's own T049
           entry.
+        note: >
+          There were TWO independent review passes on this feature, not one. This T049 entry
+          describes the FIRST, which already ran and passed before the gaps below existed to be
+          found. A SECOND, LATER independent review pass (2026-10-05, same day) found two further
+          real Critical anti-bluff violations this first pass did not catch: T009's characterization
+          test file did not exist despite being checked off, and SC-001's Independent Test for US1
+          had never actually been exercised against the real third textbook (only two of three
+          books had gone through the full generation/embedding pipeline). Both are now fixed for
+          real — see T009's and T017's own corrections above.
       T050:
         status: pass
         detail: >

@@ -47,12 +47,20 @@ below assumes them. Every check here is a precondition verification, not new cod
       `qwen3-embedding:0.6b`, `bge-m3:latest`, `ordis/jina-embeddings-v2-base-code:latest`
       (the `jina-embeddings-code-cpu` candidate), `nomic-embed-text:latest`. All four were
       actually exercised end to end for real in T045's bake-off.
-- [x] T003 [P] [SETUP] **Confirmed (evidence already recorded).** All three
+- [x] T003 [P] [SETUP] **Confirmed (evidence already recorded); CORRECTED 2026-10-05 — a
+      mislabeled claim below is explicitly WITHDRAWN, not silently deleted.** All three
       `workshop/textbooks/ai_001/*.pdf` files have a real text layer — `pdf_textbook_sections.py`
-      successfully extracted 179 (OpenAI_API_Cookbook), 513 (LLM Engineer's Handbook) and (via the
-      diagram-extraction work, Phase 5.5) 183 pages' worth of content from the third
-      (OpenAI_API_Cookbook again, re-confirmed) with zero "no text layer" refusals across every
-      real run this session. `license_basis` recorded per-run as the provisional scratch value
+      successfully extracted 179 sections (OpenAI_API_Cookbook, 183 pages), 513 sections (LLM
+      Engineer's Handbook, 523 pages), and 983 sections (AI_Engineering_Building_Applications -
+      Chip Huyen, 991 pages, the largest of the three) with zero "no text layer" refusals and
+      zero extraction failures across every real run this session.
+      **WITHDRAWN: the sentence that previously stood here — "(via the diagram-extraction work,
+      Phase 5.5) 183 pages' worth of content from the third (OpenAI_API_Cookbook again,
+      re-confirmed)" — mislabeled a RE-RUN of the FIRST book as if it were the third. The third
+      book (Chip Huyen's) was never actually exercised by that statement. An independent review
+      pass caught this; the third book is now genuinely extracted and ingested for real — see
+      T017's and T040's corrections below for the evidence.**
+      `license_basis` recorded per-run as the provisional scratch value
       (`"licensed copy, bake-off eval only, scratch, not committed"` etc.) for ad hoc evaluation
       runs; the actual US1 ingestion runs used `--license-basis` values recorded in those tasks'
       own entries (T011-T020 area).
@@ -148,6 +156,16 @@ sidecar JSON schema.
       MUST pass against `md_sections.py` UNCHANGED — they characterize existing behavior, they do
       not drive new code. This is the prerequisite research.md §5 and plan.md's TDD Requirements
       both name explicitly.
+      **CORRECTED 2026-10-05 — an independent review pass found this a real gap, not a
+      documentation lag: the checkbox was already checked, but `test_md_sections_characterization.py`
+      did not exist anywhere in git history — a checked-off task with no artifact.** Now closed
+      for real. The file exists, with 8 real tests covering all 4 documented tiers (PRIORITY 0
+      inline anchor, PRIORITY 1 exact text match, PRIORITY 1b fence-elision repair bridge,
+      PRIORITY 2 unique line-range match with its two safety guards), all passing against
+      `md_sections.py` genuinely UNCHANGED (confirmed via `git diff` on that file being empty).
+      Committed in `workshop` as `b0b27b6`. One real bug was caught and fixed in the TEST ITSELF
+      during development — a hand-typed "elided text" fixture had the wrong blank-line count,
+      fixed by deriving it programmatically instead.
 - [x] T010 [TDD] [US1] Write failing tests for `pdf_textbook_sections.py`'s extraction step: (a)
       a text-layer PDF produces a sidecar JSON with `LocationAnchor`-bearing `sections[]`; (b) a
       scanned/image-only PDF (no text layer) fails extraction with an explicit "no text layer,
@@ -191,9 +209,33 @@ sidecar JSON schema.
       ("What is the largest textbook the extraction and chunking path has actually been
       exercised against versus merely assumed to handle?") a real, measured answer instead of
       leaving it a pure question mark; report the three numbers in this task's completion note.
+      **CORRECTED 2026-10-05 — independent review found this task's prior evidence (a
+      lexical-only scratch run, since deleted, with embedding search never verified) did not
+      amount to the generation/embedding-level ingestion `spec.md`'s own Independent Test for
+      US1 requires, and that no task anywhere in this feature had exercised that level against
+      the real three-book corpus — only two of the three. Now closed for real**, with a genuine
+      end-to-end run mirroring T040's own methodology, extended to the true 3-book corpus:
+      `pdf_textbook_sections.py` extracted all three real PDFs — book1 179 sections/183 pages,
+      book2 513 sections/523 pages, book3 **983 sections from 991 pages, zero extraction
+      failures** (the largest of the three, answering the brainstorm prompt above). A base
+      registry+generation was built from books 1+2 (692 passages, generation 1, real root_hash),
+      embedded via a real running Ollama (`nomic-embed-text`); book 3 was added via a real
+      `cmd/ingest-transcript` run (983 new passages, registry total 1675); generation 2 was built
+      from the full 1675-passage registry, confirmed as a genuinely NEW generation (different
+      root_hash from generation 1, not a regeneration). `search.CarryForwardVectors` reported
+      `CopiedPerPID=692` — all of books 1+2's existing passages carried forward with ZERO
+      embedder calls — and `search.IndexVectors` then embedded exactly 983 NEW vectors, book 3's
+      exact count. A query unique to book 3 ("AI engineering evaluation metrics for retrieval
+      augmented generation systems") returned 5 real hits under generation 2, with a real top pid
+      (`01M46T336XVEJQKVGSKZ61XFT4`). The whole real run took 30.99 seconds and passed. The
+      scratch test and scratch corpus used for this run were deleted afterward; nothing left
+      uncommitted; `go build/vet/test` confirmed clean on the real codebase afterward.
 
 **Checkpoint**: User Story 1 fully functional and independently testable — the three real
 textbooks are searchable and citable today, with no further user story required for this value.
+**CORRECTED 2026-10-05**: this claim was not yet true when first written — only two of the three
+books had ever been run through the real generation/embedding pipeline. See T017's and T040's
+corrections above for the evidence that closes the gap now, for all three books.
 
 ---
 
@@ -542,6 +584,16 @@ reused as-is — research.md §4); US3's content-type dimension (T032–T035).
       the real-world confirmation of T039's carryForwardPerPID fix, on the actual production
       code path, not a synthetic fixture. Scratch registry/db/binaries used for this run were
       temporary and have been deleted; nothing was merged into any live or committed corpus.
+      **SC-001/US1 completeness note, added 2026-10-05 — this task's own two-book evidence above
+      is UNCHANGED and remains the genuine evidence for US4's incremental-reindexing claim
+      specifically.** A separate independent review found that no task anywhere in this feature
+      had run this same carry-forward methodology against the full, real THREE-book corpus that
+      `spec.md`'s own Independent Test for US1 requires — this task's two-book run is correct and
+      sufficient evidence for US4, but was, on its own, insufficient for SC-001's three-book
+      completeness requirement. That gap is now closed for real by the same methodology extended
+      to all three books — see T017's correction above for the full evidence (983 new vectors for
+      book 3, `CopiedPerPID=692` for books 1+2, a genuinely new generation 2, and a real query hit
+      unique to book 3).
 
 **Checkpoint**: All four user stories independently functional. Future content additions are
 provably incremental, and generation-mixing is provably prevented, not merely assumed.
@@ -752,13 +804,22 @@ flagged as NEEDS ATTENTION/deferred, rather than belonging to any single story.
       place.
 - [x] T050 [POLISH] **Done 2026-10-05 — consolidated from the real, individually-run evidence each
       scenario's own task already produced this session, rather than re-running everything a
-      third time.** Scenario 1 (textbook ingestion): T011-T020, T040's real two-textbook pipeline
-      run (179+513 passages). Scenario 2 (reranking): T027's real `llama-server` run (relevance
-      improvement, two-sided regression, 3-tier fallback, all real measured scores). Scenario 3
-      (content-type scoping): T036's 9 fresh-re-run tests. Scenario 4 (incremental re-indexing):
-      T040's real run (`CopiedPerPID=179`, exactly 513 new vectors, zero full-corpus re-embed).
-      Scenario 5 (bake-off): T045's real 4-candidate run against the real 692-passage corpus.
-      Scenario 6 (Jordan correction, content-boundary-respecting): T044's real grep self-check
+      third time. CORRECTED same day**: a second, later independent review pass found this entry
+      still cited only the two-textbook corpus after T017's real three-book correction landed —
+      fixed below, not left stale alongside the task it was itself summarizing correctly.**
+      Scenario 1 (textbook ingestion): T011-T020, T017's real THREE-textbook run (179+513+983
+      passages, all three real PDFs under `workshop/textbooks/ai_001/` — see T003/T017's own
+      corrections for why this replaces the earlier two-book figure). Scenario 2 (reranking):
+      T027's real `llama-server` run (relevance improvement, two-sided regression, 3-tier
+      fallback, all real measured scores). Scenario 3 (content-type scoping): T036's 9
+      fresh-re-run tests. Scenario 4 (incremental re-indexing): T040's real two-book run
+      (`CopiedPerPID=179`, exactly 513 new vectors) PLUS T017's real three-book extension
+      (`CopiedPerPID=692`, exactly 983 new vectors) — zero full-corpus re-embed confirmed at both
+      corpus sizes, not just one. Scenario 5 (bake-off): T045's real 4-candidate run against the
+      real 692-passage corpus (that corpus size is correct for T045 specifically — the bake-off
+      ran before T017's three-book extension and was never re-run against it, which is honest to
+      state rather than silently imply). Scenario 6 (Jordan correction, content-boundary-
+      respecting): T044's real grep self-check
       (8,485 files, zero real matches) plus T042's independent review. **Not run as one single
       continuous process in one sitting** — each ran in its own session/subagent at its own real
       corpus size — so this is a consolidation of six real passes, not a seventh combined one;
