@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-02T16:21:54Z
-    Synced-Commit: af5c756
+    Last-Updated: 2026-10-05T13:04:15Z
+    Synced-Commit: c5bf9ea
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,34 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### CONSTITUTION FULL RECURSIVE PULL — 2026-10-05
+
+Per explicit operator instruction ("Fetch and pull the latest version of the constitution
+Submodule fully recursively - Submodule and all its Submodule dependencies!"): `submodules/constitution`
+fetched and fast-forwarded (under this project's standing fast-forward-only authorization)
+`8fcdb7d9` → `a71b1767`, confirmed a true fast-forward first (`merge-base --is-ancestor` TRUE,
+`rev-list --left-right --count` `0`/`85` — 0 divergent, 85 ahead), applied via `merge --ff-only`.
+
+**This bump DOES touch `Constitution.md`** (re-measured on both sides, both sides read
+directly from the git blob, not trusted from a stale carrier claim): 11,900 → 11,965 lines,
+256 → 257 `### §` anchor blocks, 1,853,250 → 1,908,339 bytes, sha256
+`d915a5c1...` → `95117cf3...`. New content includes §11.4.272/273/274/276 propagation gates +
+their paired mutations, plus a large `scripts/fastcycle/` review/tower-detector/precheck-pack
+tooling drop (133 files changed, 37,926 insertions / 15,318 deletions in the fast-forward diff).
+
+Constitution's own 23 nested submodule dependencies (MVT, agentic-validation, anti_bluff,
+claude-video, continuum, design-toolkit, docs_chain, donespec, helix_perf_cache, kedge,
+mcp-audio-tweaker, polyscreen-mcp, repo-proof, repo-qa, session_orchestrator, skill-doctor,
+token_optimizer, verfix, verification, verify, video-quality-mcp, watch-skill, wave-dpctf)
+were updated recursively via `git submodule update --init --recursive` inside the constitution
+checkout, to whichever SHAs this new constitution commit itself records for them — confirmed
+clean afterward (`git status --short` empty, no dirty nested submodule).
+
+`helix-deps.yaml`'s `constitution` ref updated with a dated, reasoned comment carrying both
+measurement tables; `bash scripts/verify-manifest-pins.sh` reports **21 MATCH, 0 DRIFT,
+0 UNDETERMINED of 21 declared dep(s)**. This commit + push (through the full pre-push gate
+suite, never bypassed) is the next step.
 
 ### SUBMODULE FAST-FORWARD + MANIFEST SYNC + FULL-FLEET PUSH — 2026-10-02
 
