@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-07T10:46:08Z
-    Synced-Commit: e11ba69
+    Last-Updated: 2026-10-07T21:38:15Z
+    Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,32 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### REVIEW-HARDENING WAVE COMMITTED; REDACTION RUN, SIBLING REGEN AND HUMAN DECISIONS STILL OPEN — 2026-10-07 (night)
+
+Committed this session (workshop `19700b9`..`05b9b8b`, qa `45b4e14`/`0f831ac`, umbrella `684078e`/`afef1bb` and the gitlink bump
+that follows this entry): `/api/ask` suppression filter on every exit incl. an SSE hold-back (no suppressed run reaches the
+wire, up to 6-7 trailing words of a stream are held and dropped at the end; the final `result` is complete), `workshop-ask`
+installs the same index, explicit `content_type` stamping + the restamp migration (already applied live, 34,817 rows),
+seed-password scrub to `WORKSHOP_TEST_SEED_PASSWORD[_RAMI]` + the `workshop-passwd` rotation tool, journaled prover recovery +
+contract gates, plain-English UI error wording, `scripts/hostdeps.sh` (auto-install of tesseract/webkit libs when privileged),
+helixqa `expect_body_not_contains`.
+
+NOT DONE (do not read the commits as completion):
+- **Redaction apply + full re-embed** (operator-approved: 483 flags + 426 derived, `by`=milosvasic, 4 GB cap, 82 GB free disk):
+  runbook `/tmp/claude-1000/redaction-plan/RUNBOOK.md` (scratch, may be gone — rebuild from `workshop-redact -help`). Needs a CLEAN
+  committed tree and `WORKSHOP_HTTP_BIND=0.0.0.0 bash workshop/scripts/restart.sh` to keep LAN access. The running container is still the
+  OLD dirty build bound to 127.0.0.1:8087 and does NOT have the SSE hold-back.
+- **Gates still red**: G2/G77/G78 (human review; ids-only packets were in `/tmp/claude-1000/packets/out/`), G20 (16 in-fence
+  illustrations, floor), G61 (WK-DIAG-006 until re-embed), G83/G103 (until the redaction run; `R8`: 81 published docs cite
+  suppressed pids, needs a decision), G45 (stale calibration baseline pid_count 2478), G1/G47/G59/G97/G102 need
+  `WORKSHOP_TEST_SEED_PASSWORD_RAMI`.
+- **Lagging generated siblings** of `docs/training/*` markdown: regeneration is safe on copies (`md_sections.py` + `workshop/scripts/build-exports.sh --areas-dir ... --force`), but must come AFTER the redaction run, then `workshop/scripts/ingest.sh --corpus`, then regenerate `curriculum/citation-coverage.jsonl`.
+- **Operator actions**: run `bash scripts/hostdeps.sh harness` (firefox/webkit download) before the umbrella push; ROTATE both seeded
+  passwords (one value was printed unmasked in a tool output during this session; a copy remains in `ai_interviewing`'s
+  `login.component.spec.ts`).
+- Backend `go test` needs both seed variables exported; `verify.sh` with `WORKSHOP_CHROMIUM_NO_SANDBOX=1` lets G-HTTP-7 run on this host.
+
 
 ### WORKSHOP LAN LOGIN FIXED, EVERY SIGN-IN ERROR NOW PLAIN ENGLISH, SITES ON THE LAN — 2026-10-07
 
