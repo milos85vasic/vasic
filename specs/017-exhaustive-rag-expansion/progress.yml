@@ -13,7 +13,7 @@ phases:
         detail: >
           RESOLVED 2026-10-05 (operator chose "download everything now"). Downloaded
           gpustack/bge-reranker-v2-m3-GGUF, Q8_0 quantization, to
-          /home/milosvasic/models/bge-reranker-v2-m3-Q8_0.gguf (635,676,416 bytes, 567.75M
+          ~/models/bge-reranker-v2-m3-Q8_0.gguf (635,676,416 bytes, 567.75M
           params). Smoke-tested end to end: llama-server -m <path> --reranking --port 18089,
           loaded in 3s, POST /rerank with a 3-document test set correctly ranked the
           RAG-relevant document highest (-5.46), an RRF-related document second (-8.79), and an
@@ -716,7 +716,7 @@ branches_created:
     base: main
 
 resources:
-  reranker_model_path: /home/milosvasic/models/bge-reranker-v2-m3-Q8_0.gguf
+  reranker_model_path: ~/models/bge-reranker-v2-m3-Q8_0.gguf
   reranker_smoke_test_port: 18089
 
 next_phase: >

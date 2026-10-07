@@ -46,6 +46,9 @@
 #   QA_WORKSHOP_DEFAULT_PORT  preferred port for workshop  (default 8087)
 #   QA_AI_HTTP_DEFAULT_PORT   preferred HTTP port for ai   (default 8099)
 #   QA_AI_HTTPS_DEFAULT_PORT  preferred HTTPS port for ai  (default 8443)
+#   QA_BIND                   address every service binds  (default 127.0.0.1;
+#                             0.0.0.0 exposes ALL of them to the LAN, including
+#                             the workshop's recording of a third party)
 #   QA_NAME_PREFIX            registry name prefix         (default vasic-qa)
 #   QA_STATE_DIR              pid/port files               (default $ROOT/.service-registry/qa)
 #   QA_REGISTRY_DIR           port-discover registry       (default $ROOT/.service-registry)
@@ -65,7 +68,7 @@ SITE_BUILD="$CONTAINERS_DIR/bin/site-build"
 PREFIX="${QA_NAME_PREFIX:-vasic-qa}"
 STATE_DIR="${QA_STATE_DIR:-$ROOT/.service-registry/qa}"
 REGISTRY_DIR="${QA_REGISTRY_DIR:-$ROOT/.service-registry}"
-BIND=127.0.0.1
+BIND="${QA_BIND:-127.0.0.1}"
 # ONE definition, used by BOTH the start and the --stop paths: an override that
 # only one path honours stopped the LIVE instance from a sandbox run (2026-09-22).
 AI_HOME="${QA_AI_HOME:-$ROOT/ai_interviewing/platform}"
@@ -118,9 +121,32 @@ owned_pid() {   # prints pid if the recorded process is alive AND is ours
     printf '%s' "$pid"
 }
 
-listener_pid() {  # $1 port -> pid owning the TCP listener on $BIND:$1 (empty if none)
-    ss -ltnpH "sport = :$1" 2>/dev/null | grep -F "$BIND:$1 " \
+listener_pid() {  # $1 port -> pid owning a TCP listener on that port, at ANY address (empty if none)
+    # NOT pinned to $BIND: --stop runs with the default BIND even when the
+    # servers were started with QA_BIND=0.0.0.0, and a check pinned to the
+    # wrong address found no owner and silently left LAN-exposed servers
+    # running. Ownership is "this pid holds a listener on this port"; the
+    # cmdline and docroot checks in owned_pid say it is OUR server.
+    ss -ltnpH "sport = :$1" 2>/dev/null \
         | sed -n 's/.*pid=\([0-9][0-9]*\).*/\1/p' | head -1
+}
+
+# Say so when a REUSED instance listens somewhere other than QA_BIND asks for:
+# reuse never rebinds, so the mismatch would otherwise be silent in both
+# directions (a loopback instance stays unreachable from the LAN; a LAN-bound
+# one stays exposed under the default).
+bind_note() {   # $1 label, $2 port
+    local addr want_loop=1 have_loop=1
+    addr="$(ss -ltnH "sport = :$2" 2>/dev/null | awk '{print $4}' | head -1)"
+    [ -n "$addr" ] || return 0
+    case "$BIND" in 127.*|localhost|::1) ;; *) want_loop=0 ;; esac
+    case "$addr" in 127.*|"[::1]"*) ;; *) have_loop=0 ;; esac
+    [ "$want_loop" -ne "$have_loop" ] || return 0
+    if [ "$have_loop" -eq 1 ]; then
+        warn "$1: the reused instance listens on $addr (this machine only) although QA_BIND=$BIND asks for LAN access — run --stop, then start again"
+    else
+        warn "$1: the reused instance listens on $addr (EVERY interface) although QA_BIND=$BIND asks for this machine only — it is still reachable from the LAN"
+    fi
 }
 
 stop_static() {
@@ -190,6 +216,7 @@ start_static() {    # $1 svc, $2 docroot, $3 preferred port
         port="$(cat "$STATE_DIR/$svc.port")"
         if answers "http://$BIND:$port/"; then
             log "$svc: already running (pid $pid) on $port — reused"
+            bind_note "$svc" "$port"
             URL[$svc]="http://$BIND:$port/"; return
         fi
         kill "$pid" 2>/dev/null
@@ -292,10 +319,11 @@ if wants workshop; then
     [ -n "$ws_state" ] || undetermined "workshop: could not resolve its state file from workshop/scripts/_common.sh"
     if ws_addr="$(ws_adoptable "$ws_state")"; then
         log "workshop: already running on $ws_addr — reused"
+        bind_note workshop "$(url_port "$ws_addr")"
         URL[workshop]="$ws_addr/"
     else
         port="$(discover "$PREFIX-workshop" "${QA_WORKSHOP_DEFAULT_PORT:-8087}")" || exit 2
-        ws_out="$(bash "$ROOT/workshop/scripts/start.sh" --port "$port" 2>&1)"; rc=$?
+        ws_out="$(bash "$ROOT/workshop/scripts/start.sh" --port "$port" --bind "$BIND" 2>&1)"; rc=$?
         printf '%s\n' "$ws_out"
         if [ "$rc" -eq 2 ]; then undetermined "workshop start.sh could not determine the stack state"; fi
         # start.sh is idempotent: rc 0 also means "it was ALREADY up". Only a
@@ -346,6 +374,7 @@ if wants ai; then
     verdict="$(ai_check)"
     if [ "${verdict%% *}" != NO ]; then
         log "ai: found a running instance on $(echo "$verdict" | cut -d' ' -f2) — checking it"
+        bind_note ai "$(url_port "$(echo "$verdict" | cut -d' ' -f2)")"
         ai_report "$verdict"
     else
         before_pid="$(cat "$AI_HOME/run/server.pid" 2>/dev/null)"

@@ -126,7 +126,7 @@ ls workshop/docs/research/clients/jordan/
 Gates):
 
 ```bash
-cd /home/milosvasic/Projects/vasic
+cd "$(git rev-parse --show-toplevel)"
 grep -riE '<replace with the actual private client/candidate identifiers from workshop/docs/research/clients/jordan/ at review time>' \
   specs/017-exhaustive-rag-expansion/ docs/ CONTINUATION.md 2>/dev/null
 # Expected: zero matches, every time this story's commits are reviewed

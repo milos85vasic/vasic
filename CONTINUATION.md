@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-05T21:40:00Z
-    Synced-Commit: d782a6e
+    Last-Updated: 2026-10-07T10:46:08Z
+    Synced-Commit: e11ba69
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -473,6 +473,48 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### WORKSHOP LAN LOGIN FIXED, EVERY SIGN-IN ERROR NOW PLAIN ENGLISH, SITES ON THE LAN — 2026-10-07
+
+Operator asked for all four sites on the local network and a working workshop
+login. **Root cause (measured):** `POST /api/auth/login` sat behind the shared-secret
+network gate (G-HTTP-9), which a browser form cannot satisfy, so every LAN sign-in
+answered 401 although the account was valid (200 from loopback); the UI printed
+`http_401` because the gate's `{error:{code,message}}` shape was never read.
+Fixed in workshop `0969135` (pushed; origin, github and upstream all equal it):
+the gate admits exactly `POST /api/auth/login` and any request whose session the
+user store accepts; `core/auth-messages.ts` owns one plain sentence per failure;
+`textbook_section` finally has wording. Independent review: three passes, last
+verdict GO. Committed tree validated in an isolated worktree: Go 31/31 packages,
+Angular 586/586; mutations prove the new tests bite. `scripts/qa-up.sh` gained
+`QA_BIND` (default stays 127.0.0.1; `QA_BIND=0.0.0.0` exposes all four to the
+LAN), an address-agnostic ownership check so `--stop` works whichever bind was
+used, and a warning when a REUSED instance listens somewhere other than asked.
+
+**HONEST OPEN ITEMS — none resolved by this entry:**
+
+1. **Earlier containment decision is now overridden for this session.** On
+   2026-09-18 the workshop's LAN bind was reverted to loopback as containment
+   for the G5 suppressed-residue findings. G5 (`verify-suppressed-residue.sh`)
+   is still RED today. The operator asked for LAN exposure again on 2026-10-07
+   after being told the workshop serves a recording of an identifiable third
+   party. Stop it with `bash scripts/qa-up.sh --stop` when testing ends.
+2. **Live passage pages answer 503.** `curriculum/passages.jsonl` rows carry no
+   `content_type`, which the spec-017 code at HEAD refuses
+   (`registry_unreadable`): `/api/passages/{pid}`, `.../crossrefs` and
+   `.../knowledge` are unavailable on the live server; search is unaffected.
+   `knowledge-registry-backfill` is the likely tool; not run (private data).
+3. **A foreign uncommitted edit to `workshop/platform/backend/pkg/answer/outcome.go`**
+   (drops the top-score check) appeared mid-session and makes two `pkg/answer`
+   tests fail. Not made by this work, not committed, not reverted.
+4. **`workshop/scripts/verify.sh` = RESULT 1** (21 FAIL rows, 20 could not run)
+   on 2026-10-07; the reds are spec-017 state (unregistered pipeline files,
+   SC-015 retrieval 0/22, G5, route manifest) plus `prove-ui-vocabulary-mutation`
+   case M6, red at clean HEAD too. G100 was red at HEAD and is green now.
+5. The running workshop server is a DIRTY build (`WORKSHOP_ALLOW_DIRTY_SERVER=1`,
+   stamp records it); rebuild from a clean commit to clear that.
+6. The seeded development account's password literal appears in about ten
+   tracked workshop test/gate files; rotate before anything leaves the LAN.
 
 ### SPEC 017 "EXHAUSTIVE RAG EXPANSION" — COMPLETE, 52/52, MERGED TO MAIN — 2026-10-05
 

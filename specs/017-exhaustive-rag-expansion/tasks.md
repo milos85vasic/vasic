@@ -40,7 +40,7 @@ below assumes them. Every check here is a precondition verification, not new cod
 
 - [x] T001 [SETUP] **Confirmed (evidence already recorded, closing the checkbox retroactively).**
       `progress.yml`'s `resources` block records `reranker_model_path:
-      /home/milosvasic/models/bge-reranker-v2-m3-Q8_0.gguf` and `reranker_smoke_test_port: 18089`
+      ~/models/bge-reranker-v2-m3-Q8_0.gguf` and `reranker_smoke_test_port: 18089`
       — Phase 4's reranker work (`cmd/reranker-probe`) was built and tested against a real running
       llama-server on this exact path/port.
 - [x] T002 [P] [SETUP] **Confirmed 2026-10-05.** `ollama list`: all four present —
