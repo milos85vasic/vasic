@@ -202,13 +202,50 @@ gate_cmd_text() {
 # ---- Preconditions -----------------------------------------------------------
 # A gate whose toolchain is absent must SKIP with a stated reason (§11.4.3),
 # never silently pass. `precondition` echoes the reason and returns 1 when the
-# gate cannot honestly run.
+# gate cannot honestly run (SKIP), or 2 when a host-dependency INSTALL ran and
+# failed (a hard FAIL — see the hostdeps note below).
 precondition() {
     case "$1" in
         5|6)
             if [[ ! -d "$ROOT/_tests/node_modules/@playwright/test" ]]; then
                 echo "_tests/node_modules/@playwright/test is absent — run: (cd _tests && npm ci && npx playwright install chromium)"
                 return 1
+            fi
+            ;;
+    esac
+    # Host dependencies the gate itself needs are installed AUTOMATICALLY when
+    # missing (operator rule, 2026-10-07), through scripts/hostdeps.sh: present
+    # is a no-op; missing installs only when running as root or `sudo -n`
+    # succeeds, and otherwise refuses with the exact command. It never waits on a
+    # password prompt.
+    #
+    # Opt out with HOSTDEPS_AUTO_INSTALL=0 (system packages AND browser
+    # downloads). The helper announces any install on stderr, which is left
+    # UNCAPTURED so a push that spends time installing says so live, and each
+    # installer call is bounded by HOSTDEPS_INSTALL_TIMEOUT (180 s here, so a
+    # push cannot hang for the helper's 15-minute interactive default).
+    #
+    # The helper's rc maps onto this runner's contract like this:
+    #   rc 2 (cannot install without a prompt / no package manager) -> return 1 =
+    #        SKIP, with the rc named in the reason; PREPUSH_STRICT=1 promotes it.
+    #   rc 1 (an install RAN and failed, or a probe still reads absent) -> return 2
+    #        = a hard FAIL regardless of STRICT, because a real failure outranks
+    #        an undetermined one and must not be hidden behind a SKIP.
+    case "$1" in
+        5|6)
+            if [[ -f "$ROOT/scripts/hostdeps.sh" ]]; then
+                local hd_out hd_rc
+                if [[ "$1" == "5" ]]; then
+                    hd_out="$(HOSTDEPS_INSTALL_TIMEOUT="${HOSTDEPS_INSTALL_TIMEOUT:-180}" bash "$ROOT/scripts/hostdeps.sh" ensure tesseract poppler)"; hd_rc=$?
+                else
+                    hd_out="$(HOSTDEPS_INSTALL_TIMEOUT="${HOSTDEPS_INSTALL_TIMEOUT:-180}" bash "$ROOT/scripts/hostdeps.sh" ensure-browsers "$ROOT/_tests" chromium)"; hd_rc=$?
+                fi
+                if [[ "$hd_rc" != "0" ]]; then
+                    echo "a host dependency this gate needs is missing and could not be provided automatically (scripts/hostdeps.sh exited rc=$hd_rc; opt out of installs with HOSTDEPS_AUTO_INSTALL=0):"
+                    printf '%s\n' "$hd_out" | sed 's/^/    /'
+                    if [[ "$hd_rc" == "1" ]]; then return 2; fi
+                    return 1
+                fi
             fi
             ;;
     esac
@@ -516,7 +553,16 @@ run_gate() {
     log="$LOGDIR/gate-$id.log"
 
     reason="$(precondition "$id")"
-    if [[ $? -ne 0 ]]; then
+    local prc=$?
+    if [[ $prc -eq 2 ]]; then
+        # An install RAN and failed: a real failure, never a SKIP (see precondition).
+        printf '%s✖ FAIL%s  gate %-2s %s\n' "$RED" "$NC" "$id" "$name"
+        printf '        a host dependency install failed: %s\n' "$reason"
+        FAILED=$((FAILED + 1))
+        SUMMARY+=("FAIL|$id|$name|host dependency install failed: $reason")
+        return 1
+    fi
+    if [[ $prc -ne 0 ]]; then
         if [[ "$STRICT" == "1" ]]; then
             printf '%s✖ FAIL%s  gate %-2s %s\n' "$RED" "$NC" "$id" "$name"
             printf '        PREPUSH_STRICT=1 and the gate cannot run: %s\n' "$reason"
@@ -932,6 +978,27 @@ DEPS
     assert "M7 precondition-skips      " 0 "SKIPPED with a stated reason" PREPUSH_ONLY="5" --
     assert "M7b strict-turns-SKIP-FAIL " 1 "PREPUSH_STRICT=1 and the gate cannot run" \
            PREPUSH_ONLY="5" PREPUSH_STRICT=1 --
+
+    # ---- M7c-e  host-dependency outcomes map onto SKIP / FAIL, not all onto SKIP
+    # The specimen's scripts/hostdeps.sh stub exits with a rc held in a sidecar.
+    # With the precondition's own toolchain check satisfied, rc 2 ("cannot install
+    # without a prompt") is a SKIP that NAMES the rc, STRICT promotes it, and rc 1
+    # ("an install ran and failed") is a hard FAIL that STRICT never needs to
+    # promote — a real failure must not hide behind a SKIP.
+    mkdir -p "$SPEC/_tests/node_modules/@playwright/test"
+    cat > "$SPEC/scripts/hostdeps.sh" <<'STUBHD'
+#!/usr/bin/env bash
+f="${BASH_SOURCE[0]}.rc"; rc=0; [ -f "$f" ] && rc="$(cat "$f")"
+echo "synthetic hostdeps rc=${rc}"
+exit "$rc"
+STUBHD
+    printf '2\n' > "$SPEC/scripts/hostdeps.sh.rc"
+    assert "M7c hostdeps-rc2-is-SKIP   " 0 "scripts/hostdeps.sh exited rc=2" PREPUSH_ONLY="5" --
+    assert "M7d hostdeps-rc2-strict    " 1 "PREPUSH_STRICT=1 and the gate cannot run" \
+           PREPUSH_ONLY="5" PREPUSH_STRICT=1 --
+    printf '1\n' > "$SPEC/scripts/hostdeps.sh.rc"
+    assert "M7e hostdeps-rc1-is-FAIL   " 1 "a host dependency install failed" PREPUSH_ONLY="5" --
+    rm -rf "$SPEC/_tests/node_modules" "$SPEC/scripts/hostdeps.sh" "$SPEC/scripts/hostdeps.sh.rc"
 
     # ---- M8  the runner cannot create its workspace -> rc 2, never 0 --------
     assert "M8 no-log-dir-is-rc2       " 2 "cannot create a log directory" TMPDIR=/nonexistent --
