@@ -405,10 +405,10 @@ All clarifications resolved during `/speckit.clarify`:
 3. **Authentication Flow**
    ```bash
    # Login as milosvasic
-   curl -X POST http://localhost:8087/api/auth/login -d '{"username":"milosvasic","password":"WhiteSnake8587"}'
+   curl -X POST http://localhost:8087/api/auth/login -d '{"username":"milosvasic","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD>"}'
    # Verify: token returned, can access all endpoints
    # Login as rami
-   curl -X POST http://localhost:8087/api/auth/login -d '{"username":"rami","password":"Test12345"}'
+   curl -X POST http://localhost:8087/api/auth/login -d '{"username":"rami","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>"}'
    # Verify: token returned, full access on workshop
    # On ai_interviewing: rami denied employer_data, github_analysis; allowed knowledge_base, progress
    ```
@@ -427,7 +427,7 @@ All clarifications resolved during `/speckit.clarify`:
    # Logout
    curl -X POST http://localhost:8087/api/auth/logout -H "Authorization: Bearer $TOKEN"
    # Login as different user
-   curl -X POST http://localhost:8087/api/auth/login -d '{"username":"rami","password":"Test12345"}'
+   curl -X POST http://localhost:8087/api/auth/login -d '{"username":"rami","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>"}'
    # Verify: new token, new permissions
    ```
 

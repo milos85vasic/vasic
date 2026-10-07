@@ -175,7 +175,7 @@ bash platform/scripts/start.sh
 # Test login as milosvasic (admin)
 TOKEN_MILOS=$(curl -s -X POST http://localhost:8087/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"username":"milosvasic","password":"WhiteSnake8587"}' | jq -r .token)
+  -d '{"username":"milosvasic","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD>"}' | jq -r .token)
 
 echo "milosvasic token: $TOKEN_MILOS"
 
@@ -186,7 +186,7 @@ curl -s -H "Authorization: Bearer $TOKEN_MILOS" http://localhost:8087/api/auth/m
 # Test login as rami (user)
 TOKEN_RAMI=$(curl -s -X POST http://localhost:8087/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"username":"rami","password":"Test12345"}' | jq -r .token)
+  -d '{"username":"rami","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>"}' | jq -r .token)
 
 echo "rami token: $TOKEN_RAMI"
 
@@ -197,7 +197,7 @@ curl -s -H "Authorization: Bearer $TOKEN_RAMI" http://localhost:8087/api/auth/me
 # Test ai_interviewing permissions
 TOKEN_RAMI_AI=$(curl -s -X POST http://localhost:8099/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"username":"rami","password":"Test12345"}' | jq -r .token)
+  -d '{"username":"rami","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>"}' | jq -r .token)
 
 curl -s -H "Authorization: Bearer $TOKEN_RAMI_AI" http://localhost:8099/api/auth/me | jq .
 # Expected: role=user, permissions=[knowledge_base:read, progress:read/write]
@@ -211,7 +211,7 @@ curl -s -X POST http://localhost:8087/api/auth/logout \
 # Test account switch
 TOKEN_SWITCH=$(curl -s -X POST http://localhost:8087/api/auth/switch \
   -H "Content-Type: application/json" \
-  -d '{"username":"rami","password":"Test12345"}' | jq -r .token)
+  -d '{"username":"rami","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>"}' | jq -r .token)
 
 curl -s -H "Authorization: Bearer $TOKEN_SWITCH" http://localhost:8087/api/auth/me | jq .
 # Expected: role=user, new token

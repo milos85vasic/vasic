@@ -28,8 +28,8 @@
 **Seed Data**:
 ```sql
 INSERT INTO users (username, password_hash, role) VALUES 
-('milosvasic', '<bcrypt-hash-of-WhiteSnake8587>', 'admin'),
-('rami', '<bcrypt-hash-of-Test12345>', 'user');
+('milosvasic', '<bcrypt-hash-of-the-seed-password>', 'admin'),
+('rami', '<bcrypt-hash-of-<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>>', 'user');
 ```
 
 ---
