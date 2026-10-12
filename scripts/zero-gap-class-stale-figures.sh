@@ -44,34 +44,75 @@
 #
 # ── "<n> declared" vs .gitmodules (VSC-353 clause B) ──────────────────────────
 # The count of paths .gitmodules declares is read from the working tree AT --root
-# (lines `path = ...`; never from carrier prose). For every figure line that survives
-# the skip rule below (so the historical-skip runs BEFORE the comparison), each
-# "<n> declared" on it (markup allowed) is compared with that count. A line whose n
-# differs is a medium FINDING at figure:<doc>:<line> reading "claims <n> declared but
-# .gitmodules declares <m> (mismatch): ..." (names BOTH figures); equal counts add
-# nothing. A mirror line byte-identical to a CLAUDE.md figure line is not compared
-# again (CLAUDE.md carries it). No .gitmodules, or one with no path => comparison
-# skipped, no finding, and a "NOTE:" line on STDERR (the stdout class contract has no
-# NOTE token); an unreadable/special .gitmodules is COULD-NOT-INSPECT. There is NO
+# (lines `path = ...`; never from carrier prose). Every figure line that is still in the
+# population after the exclusions below is searched for three shapes (markup [*`_] allowed
+# around the number and the word):
+#   S1  "<n> declared" followed by end of line, closing punctuation/markup, or a fleet noun
+#       (submodule(s), gitlink(s), module(s), repo(s), repositories, path(s), "in total",
+#       "in all")                                          e.g. "13 declared." "13 declared submodules"
+#   B1  "<n> <fleet noun> (is|are|were) declared"           e.g. "13 gitlinks are declared"
+#       (fleet noun: submodule(s), gitlink(s), module(s), repo(s), repositories, path(s)).
+#       This shape ALSO enters the figure population: a line whose only figure is
+#       "13 gitlinks are declared" is a figure line (it matches no other figure shape).
+#   B2  "<n> declared <adverb>", adverb one of today, now, currently, "so far"
+#                                                           e.g. "**14** declared today"
+# Each such n that differs from the .gitmodules path count is a medium FINDING at
+# figure:<doc>:<line> reading "claims <n> declared but .gitmodules declares <m> (mismatch):
+# ..." (names BOTH figures); equal counts add nothing. No .gitmodules, or one with no path
+# => comparison skipped, no finding, and a "NOTE:" line on STDERR (the stdout class contract
+# has no NOTE token); an unreadable/special .gitmodules is COULD-NOT-INSPECT. There is NO
 # "owned" comparison: no honest source for an owned count exists in a bare tree.
-# NARROWED (2026-10-12): the comparison fires only when "declared" is followed by end of
-# line, closing punctuation/markup, or a fleet noun (submodule(s), gitlink(s), module(s),
-# repo(s), repositories, path(s), "in total", "in all"). "9 declared pairs" and
-# "76 declared members" (live false positives) are no longer compared.
-# RECALL COST: a real fleet claim phrased "<n> declared <other noun>" (e.g. "13 declared
-# entries", "13 declared owned") or whose noun wraps onto the next physical line is NOT
-# compared; a false-positive of the same wording is equally not reported; and a stale
-# figure only inside a (historical)/WITHDRAWN-marked line is, by design, not compared.
+# EXCLUSIONS APPLIED BEFORE THE COMPARISON (a line removed by any of them is never compared;
+# the full text of each is under THE SKIP RULE and the sections after it):
+#   1. a skip word (withdrawn superseded historical obsolete) anywhere on the line, even
+#      when it withdraws a DIFFERENT figure than the "declared" one on that same line;
+#   2. the deictic next-line rule: the NEXT physical line opens with "That/This/It/...
+#      <...> WITHDRAWN|SUPERSEDED|HISTORICAL|OBSOLETE" in its first sentence;
+#   3. exit-code-meaning-only lines ("exit 0 = clean, exit 1 = finding");
+#   4. the dated "§3" caption gate (docs/zero-gap/point-in-time.tsv rows whose reason holds
+#      "own dated caption"): an exempt line leaves the population entirely;
+#   5. mirror dedup: a line of AGENTS.md/QWEN.md/GEMINI.md byte-identical to a CLAUDE.md
+#      figure line is not compared again (CLAUDE.md carries it);
+#   plus the text of any `~~struck~~` span, which is blanked before the shapes are tried.
+# RECALL COST (every shape the comparison does not see; each is pinned silent by probe
+# clause H or by a G-case):
+#   * "declared: 14" (the number AFTER the word);
+#   * "14 submodules declared" (noun between the number and "declared", no is/are/were);
+#   * number words ("fourteen declared"), and a number wrapped onto the previous physical
+#     line before "declared" ("has 14" / "declared.");
+#   * "13 declared in <place>" and any "<n> declared <other noun or word>" outside S1/B2,
+#     e.g. "13 declared entries", "13 declared owned", "9 declared pairs", "76 declared
+#     members" (the last two are deliberate: they are not fleet counts);
+#   * a fleet claim whose noun or verb wraps onto the next physical line;
+#   * a stale figure on a line that carries a skip word for an UNRELATED figure (exclusion
+#     1 is line-level and cannot tell which figure the word withdraws), or on a line the
+#     next-line rule or the caption gate exempts; and "owned" figures, which are detected
+#     as figures but never compared with a real count.
+# The same false-negative price is paid by a false positive of the same wording: it is
+# equally not reported.
 #
 # ── THE SKIP RULE (historical / withdrawn text), PRECISELY ────────────────────
 # A scanned line whose text — after `~~...~~` spans are removed — contains, as a
 # whole word and case-insensitively, one of  withdrawn  superseded  historical
 # obsolete  is an ANNOTATED HISTORICAL line: it is not a live claim and is NOT
 # part of the unledgered-figure population. A figure that only occurs inside a
-# `~~...~~` span is likewise not a figure. The rule is LINE-level: a withdrawal
-# stated on the previous line does not cover the next one (this repository often
+# `~~...~~` span is likewise not a figure. The base rule is LINE-level: a withdrawal
+# stated on the PREVIOUS line does not cover the next one (this repository often
 # puts a withdrawn and a live figure in one paragraph, so a paragraph-level rule
-# would hide live figures). Lines matched by a ledger anchor are ALWAYS in the
+# would hide live figures), with TWO narrow, measured extensions (VSC-353):
+#   DEICTIC NEXT-LINE RULE: a figure line is also dropped when the line IMMEDIATELY AFTER
+#     it opens (after optional blanks, ">", "*", "_", backtick, "(" or "[") with a deictic
+#     subject (that, this, the above, it, which, those, these, the figure, the reading,
+#     the sentence) and names withdrawn/superseded/historical/obsolete within 100
+#     characters of it WITHOUT passing a sentence end (. ! ?). "That figure is WITHDRAWN
+#     and kept as a record." annotates the line above; a bare marker anywhere else on the
+#     next line does NOT, and a withdrawal two lines below does NOT.
+#   EXIT-MEANING RULE: a line whose every figure is an exit/rc shape immediately followed
+#     by "=", an arrow (-> or the unicode arrow) or "means" ("exit 0 = clean, exit 1 =
+#     finding") states what a code MEANS and is dropped. A measured status ("exits 0 at 12
+#     CURRENT") has a different tail and stays a figure, as does any line that also carries
+#     a non-rc figure.
+# Lines matched by a ledger anchor are ALWAYS in the
 # population, annotated or not, because the ledger gate checks every occurrence.
 #
 # ── THE MIRROR RULE ───────────────────────────────────────────────────────────
@@ -132,7 +173,29 @@
 # every surface itself) is NOT run and every row is undetermined. The gate run
 # is bounded by `timeout -k 5 300`.
 #
-# ── MEASURED ON THE LIVE TREE (2026-09-26, after the review fix round) ──────
+# ── MEASURED ON THE LIVE TREE (2026-10-12, after the VSC-353 B1/B2 round) ───
+# `bash scripts/zero-gap-class-stale-figures.sh --root .` (date -u +%F = 2026-10-12): rc 1,
+# 1 high (the ledger row), 294 medium (CONTINUATION.md 293, README.md 1) and 2 low
+# aggregates (CONTINUATION.md, README.md); INSPECTED 675, was 674 before B1 (+1 item: figure:README.md:457,
+# the one line only the new shape puts in the population; its low aggregate is the new
+# README.md low finding).
+# CLAUDE.md, AGENTS.md, QWEN.md and GEMINI.md carry no FINDING in this run (cause NOT
+# investigated here). The ONE new mismatch finding B1/B2 produced is README.md:457
+# ("13 gitlinks are declared" against 22 .gitmodules paths, a line dated 2026-09-03); B2
+# produced none live. Hand-read precision, 12 medium findings sampled every 25th
+# in order and read with one line of context on each side: 7 true positives (a measured
+# exit/PASS/FAIL figure or a dated reading: CONTINUATION.md 11297 dated table row,
+# 4315 build "exit 0", 5218 live rc table, 6255 gate table, 8380 exit-code readings, 9177
+# quoted gate output, 9705 audit exit), 5 false positives, all one class: a line
+# describing exit-code or rc BEHAVIOUR as a contract rather than a measured value
+# (CONTINUATION.md 10273 "print STOPPED and exit 1", 10901 "its rc=2 is UNDETERMINED", 2393
+# an infrastructure fault's exit 1, 4831 a mutant case "program exits 1", 6762 "refused
+# with exit 1"). Precision 7/12 = 58 percent (small sample, wide interval); the aggregate
+# "recorded figure without a re-measure command" findings are reported as unledgered, not
+# as proven stale. The 2026-09-26 block below is HISTORICAL: it predates the deictic
+# next-line and exit-meaning rules.
+#
+# ── MEASURED ON THE LIVE TREE (2026-09-26, after the review fix round; HISTORICAL) ──
 # rc 1 in 9 s: 1 high (the ledger row the KNOWN SEED describes), 514 medium
 # (CONTINUATION.md 412, CLAUDE.md 96, README.md 7 — AGENTS/QWEN/GEMINI lines are
 # byte-identical to CLAUDE.md and deduped) and 2 low aggregates (CLAUDE.md 59
@@ -140,7 +203,7 @@
 # 2676 findings over docs/** with hex ids counted. Hand-read of 10 medium hits
 # (every 52nd): 7 are recorded figures stated as measured facts; 3 are not (a
 # withdrawn quote whose WITHDRAWN marker is on the next line; two lines stating
-# exit-code SEMANTICS, "exit 0 = push OK", "a skip exits 0"). Precision 7/10.
+# exit-code SEMANTICS, "exit 0 = push OK", "a skip exits 0"). Precision 7/10 (HISTORICAL).
 #
 # ── WHAT IT DOES NOT SEE ─────────────────────────────────────────────────────
 #   * Whether an UNLEDGERED figure is actually stale: it reports that nothing
@@ -152,9 +215,17 @@
 #     printed, not that the probe measures the right thing (§11.4.245).
 #   * docs/**/*.md (class doc-count-drift), submodule carriers, specs/**, other
 #     Markdown — except lines a ledger anchor matches.
-#   * A withdrawal stated on a different line from the figure it withdraws (the
-#     figure is then reported); an unannotated historical figure (reported);
-#     an exit-code SEMANTICS line ("exit 0 = pass") is reported as a figure.
+#   * A withdrawal stated on a different line from the figure it withdraws is honoured
+#     ONLY by the deictic next-line rule (THE SKIP RULE); a withdrawal two or more lines
+#     away, or on the previous line, leaves the figure REPORTED. An unannotated
+#     historical figure is reported. An exit-code MEANING line ("exit 0 = clean, exit 1 =
+#     finding") is SUPPRESSED; an exit/rc line that describes BEHAVIOUR without
+#     "=", an arrow or "means" ("refused with exit 1") is still reported (a measured
+#     false-positive class, see the 2026-10-12 sample).
+#   * Every "<n> declared" shape the comparison misses (see the RECALL COST list under
+#     the clause-B section): "declared: 14", "14 submodules declared", number words,
+#     a number wrapped onto the previous line, "13 declared in <place>", and a skip
+#     word that withdraws an unrelated figure on the same line.
 #   * The <n>/<n> shape also matches non-claims (a fraction in a URL): such a
 #     line is reported as unledgered, never silently dropped.
 #   * A lone CR (not CRLF) is read as a line break, the same open mode the ledger
