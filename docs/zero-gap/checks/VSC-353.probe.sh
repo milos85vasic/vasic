@@ -150,4 +150,52 @@ echo "G: B2 planted mismatches detected $gl of 4 (need 4)"
 if anymismatch "$T/ge.out"; then echo "G: FAIL equal-count control (22) reported as mismatch"; bad=1; else echo "G: PASS equal-count control silent"; fi
 if anymismatch "$T/gh.out"; then echo "G: FAIL (historical) control reported as mismatch"; bad=1; else echo "G: PASS (historical) control silent"; fi
 if anymismatch "$T/hk.out"; then echo "H: FAIL known-invisible shapes now produce a mismatch finding (recall cost pin changed; update deliberately)"; bad=1; else echo "H: PASS known-invisible shapes stay silent (pinned recall cost)"; fi
+# ---- Clause I (round 4): case-insensitive comparison and the B1 verb forms. Box ci: every line must be a mismatch vs 22.
+#   "14 Declared." / "13 GITLINKS ARE DECLARED" / "13 gitlinks are Declared"; "have been", "has been", "are now", "were now".
+mkbox ci '14 Declared.' '13 GITLINKS ARE DECLARED' '13 gitlinks are Declared.' 'The fleet: 13 gitlinks have been declared.' 'The fleet: 14 submodules has been declared.' 'The fleet: 13 gitlinks are now declared.' 'The fleet: 14 submodules were now declared.' || { echo "box ci setup failed"; exit 2; }
+mkbox ce 'The fleet: 22 Gitlinks Have Been Declared.' '22 DECLARED' 'The fleet: 22 submodules are now declared.' || { echo "box ce setup failed"; exit 2; }
+for x in ci ce; do
+  rc=$(run "$T/$x" "$T/$x.out")
+  case "$rc" in 0|1) ;; *) echo "class rc $rc on sandbox $x"; exit 2 ;; esac
+  grep -q '^INSPECTED [1-9]' "$T/$x.out" || { echo "sandbox $x: class inspected no document"; exit 2; }
+done
+il=0
+for spec in 3:14 5:13 7:13 9:13 11:14 13:13 15:14; do
+  n=${spec%%:*}; v=${spec##*:}
+  if mismatch "$T/ci.out" CLAUDE.md "$n" "$v" 22; then il=$((il+1)); else echo "I: NOT detected: ci line $n (claim $v vs 22)"; fi
+done
+echo "I: case/verb-form planted mismatches detected $il of 7 (need 7)"
+[ "$il" -ge 7 ] || bad=1
+if anymismatch "$T/ce.out"; then echo "I: FAIL equal-count (22) control in mixed case / new verb forms reported as mismatch"; bad=1; else echo "I: PASS equal-count control silent"; fi
+# ---- Clause H2 (round 4): every recall cost listed in the class header is pinned silent HERE, each with a paired control
+#   (the same claim without the exemption IS a mismatch), so the silence is caused by the listed cost and not by a dead box.
+#   box hs: lines 3 '13 declared in <place>', 5 '13 declared entries', 7 '13 declared owned', 9-10 noun wrapped onto the next
+#   line, 12-13 verb wrapped onto the next line, 15 an unrelated skip word on the same line, 17-18 deictic next-line exemption;
+#   controls: 20 '13 declared today' without a skip word is detected, 22-23 the same B1 line followed by a non-deictic line is detected.
+mkbox hs 'The fleet: 13 declared in .gitmodules.' 'The fleet: 13 declared entries.' 'The fleet: 13 declared owned.' 'The fleet has 13
+gitlinks are declared.' 'The fleet: 13 gitlinks are
+declared.' 'The fleet: 13 declared today; the old 99 checks reading is WITHDRAWN.' 'The fleet: 13 gitlinks are declared.
+That figure is WITHDRAWN.' 'The fleet: 13 declared today; the old 99 checks reading is current.' 'The fleet: 13 gitlinks are declared.
+That is the current reading.' || { echo "box hs setup failed"; exit 2; }
+# box hc: dated section-3 caption exemption in CONTINUATION.md (point-in-time.tsv row with the marker phrase)
+mkbox hc 'unused' || { echo "box hc setup failed"; exit 2; }
+printf 'path\treason\nCONTINUATION.md\town dated caption entries of section 3 are point-in-time, true when written\n' >"$T/hc/docs/zero-gap-pit.tmp" && mkdir -p "$T/hc/docs/zero-gap" && mv "$T/hc/docs/zero-gap-pit.tmp" "$T/hc/docs/zero-gap/point-in-time.tsv" || exit 2
+printf '## §3 Active work\n\n### DATED ENTRY — 2026-09-03\n\nThe fleet: 13 gitlinks are declared.\n\n### UNDATED ENTRY\n\nThe fleet: 13 gitlinks are declared.\n' >"$T/hc/CONTINUATION.md" || exit 2
+mk "$T/hc" || { echo "box hc commit failed"; exit 2; }
+for x in hs hc; do
+  rc=$(run "$T/$x" "$T/$x.out")
+  case "$rc" in 0|1) ;; *) echo "class rc $rc on sandbox $x"; exit 2 ;; esac
+  grep -q '^INSPECTED [1-9]' "$T/$x.out" || { echo "sandbox $x: class inspected no document"; exit 2; }
+done
+hb=0
+for n in 20 22; do
+  if mismatch "$T/hs.out" CLAUDE.md "$n" 13 22; then :; else echo "H2: control line $n NOT detected (box is dead; silences below prove nothing)"; hb=1; fi
+done
+if mismatch "$T/hc.out" CONTINUATION.md 9 13 22; then :; else echo "H2: control line CONTINUATION.md:9 (undated entry) NOT detected"; hb=1; fi
+for spec in 3:in-place 5:entries 7:owned 9:noun-wrap 12:verb-wrap 15:unrelated-skip-word 17:deictic-next-line; do
+  n=${spec%%:*}; w=${spec##*:}
+  if mismatch "$T/hs.out" CLAUDE.md "$n" 13 22; then echo "H2: FAIL '$w' (line $n) now produces a mismatch; the header recall cost is no longer true"; hb=1; else echo "H2: PASS '$w' pinned silent"; fi
+done
+if mismatch "$T/hc.out" CONTINUATION.md 5 13 22; then echo "H2: FAIL dated section-3 caption line now produces a mismatch"; hb=1; else echo "H2: PASS dated section-3 caption exemption pinned silent"; fi
+[ "$hb" -eq 0 ] || bad=1
 exit "$bad"
