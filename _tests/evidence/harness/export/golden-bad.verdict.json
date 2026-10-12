@@ -10,8 +10,8 @@
     "tesseract": true
   },
   "ocrEngine": {
-    "kind": "container",
-    "reason": "containerised tesseract via _tools/containers/bin/ocr (Containers Submodule, §11.4.76)"
+    "kind": "host",
+    "reason": "host tesseract binary on PATH"
   },
   "thresholds": {
     "minWords": 40,
@@ -57,7 +57,7 @@
       "id": "visual.ocr",
       "family": "FULL-VISUAL",
       "status": "PASS",
-      "detail": "OCR (container) of 1 rendered page(s) [page-1.png] recovered 79 legible words (min 15)"
+      "detail": "OCR (host) of 1 rendered page(s) [page-1.png] recovered 79 legible words (min 15)"
     }
   ],
   "verdict": "FAIL",
