@@ -546,6 +546,59 @@ prove_failure() {
         if mmhit "$lab/out.g10" "figure:README.md:$gl10" 13 22; then ok "G10 '13 declared.' (sentence-final) is still a mismatch naming 13 and 22"; else bad "G10 planted sentence-final '13 declared.' not reported" "$lab/out.g10"; fi
     else bad "G10 inoperative mutation"; fi
 
+    # G11-G16 — VSC-353 B1/B2: the two added shapes, each with a planted mismatch arm (finding names BOTH
+    #     figures), an equal-count control and a (historical) control, plus a paired mutant per shape.
+    #     B1 "<n> <fleet noun> (is|are|were) declared" must ENTER the figure population and be compared;
+    #     B2 "<n> declared <today|now|currently|so far>" (markup allowed) must be compared.
+    mklab g11 "$corp/clean"
+    if mutate g11 "$GM22; printf 'The fleet: 13 gitlinks are declared.\n' >> README.md"; then
+        gl11=$(wc -l <"$lab/g11/README.md" | tr -d ' ')
+        runc "$lab/out.g11" "$SELF" --root "$lab/g11" --corpus "$lab/g11"
+        if mmhit "$lab/out.g11" "figure:README.md:$gl11" 13 22; then ok "G11 B1 planted '13 gitlinks are declared' vs 22 paths: finding names 13 and 22 and says mismatch"
+        else bad "G11 B1 planted '13 gitlinks are declared' not reported as a mismatch naming 13 and 22" "$lab/out.g11"; fi
+    else bad "G11 inoperative mutation"; fi
+    mklab g12 "$corp/clean"
+    if mutate g12 "$GM22; printf 'The fleet: 22 gitlinks are declared.\n' >> README.md"; then
+        runc "$lab/out.g12" "$SELF" --root "$lab/g12" --corpus "$lab/g12"
+        if anymm "$lab/out.g12"; then bad "G12 B1 CONTROL: 22 gitlinks are declared vs 22 paths was reported as a mismatch" "$lab/out.g12"; else ok "G12 B1 CONTROL: equal count (22 vs 22) is not a mismatch"; fi
+    else bad "G12 inoperative mutation"; fi
+    mklab g13 "$corp/clean"
+    if mutate g13 "$GM22; printf 'The fleet: 13 gitlinks are declared (historical).\n' >> README.md"; then
+        runc "$lab/out.g13" "$SELF" --root "$lab/g13" --corpus "$lab/g13"
+        if anymm "$lab/out.g13"; then bad "G13 B1 a (historical)-marked '13 gitlinks are declared' was compared" "$lab/out.g13"; else ok "G13 B1 CONTROL: (historical)-marked line is not compared"; fi
+    else bad "G13 inoperative mutation"; fi
+    mklab g14 "$corp/clean"
+    if mutate g14 "$GM22; printf 'The fleet: **14** declared today\n' >> README.md"; then
+        gl14=$(wc -l <"$lab/g14/README.md" | tr -d ' ')
+        runc "$lab/out.g14" "$SELF" --root "$lab/g14" --corpus "$lab/g14"
+        if mmhit "$lab/out.g14" "figure:README.md:$gl14" 14 22; then ok "G14 B2 planted '**14** declared today' vs 22 paths: finding names 14 and 22 and says mismatch"
+        else bad "G14 B2 planted '**14** declared today' not reported as a mismatch naming 14 and 22" "$lab/out.g14"; fi
+    else bad "G14 inoperative mutation"; fi
+    mklab g15 "$corp/clean"
+    if mutate g15 "$GM22; printf 'The fleet: **22** declared today\n' >> README.md"; then
+        runc "$lab/out.g15" "$SELF" --root "$lab/g15" --corpus "$lab/g15"
+        if anymm "$lab/out.g15"; then bad "G15 B2 CONTROL: 22 declared today vs 22 paths was reported as a mismatch" "$lab/out.g15"; else ok "G15 B2 CONTROL: equal count (22 vs 22) is not a mismatch"; fi
+    else bad "G15 inoperative mutation"; fi
+    mklab g16 "$corp/clean"
+    if mutate g16 "$GM22; printf 'The fleet: 14 declared so far (historical).\n' >> README.md"; then
+        runc "$lab/out.g16" "$SELF" --root "$lab/g16" --corpus "$lab/g16"
+        if anymm "$lab/out.g16"; then bad "G16 B2 a (historical)-marked '14 declared so far' was compared" "$lab/out.g16"; else ok "G16 B2 CONTROL: (historical)-marked line is not compared"; fi
+    else bad "G16 inoperative mutation"; fi
+    # G17/G18 — paired mutants: the comparison skipped for ONE new shape must lose that shape's finding.
+    mkdir -p "$lab/mut17" "$lab/mut18"
+    cp "$gate" "$lab/mut17/"; cp "$gate" "$lab/mut18/"
+    sed 's/ + DECLARED_ARE_RE[.]findall(_ls)//' "$SELF" >"$lab/mut17/zero-gap-class-$CLASS_ID.sh"
+    sed 's/|today|now|currently|so\\s+far//' "$SELF" >"$lab/mut18/zero-gap-class-$CLASS_ID.sh"
+    if cmp -s "$SELF" "$lab/mut17/zero-gap-class-$CLASS_ID.sh" || cmp -s "$SELF" "$lab/mut18/zero-gap-class-$CLASS_ID.sh"; then bad "G17/G18 inoperative mutation (a sed anchor no longer matches)"
+    else
+        runc "$lab/out.g17" "$lab/mut17/zero-gap-class-$CLASS_ID.sh" --root "$lab/g11" --corpus "$lab/g11"
+        if mmhit "$lab/out.g17" "figure:README.md:$gl11" 13 22; then bad "G17 the B1-comparison-skipped mutant still reported the mismatch (G11 would not catch it)" "$lab/out.g17"
+        else ok "G17 mutant that skips the comparison for the B1 shape loses the G11 finding: G11 detects it"; fi
+        runc "$lab/out.g18" "$lab/mut18/zero-gap-class-$CLASS_ID.sh" --root "$lab/g14" --corpus "$lab/g14"
+        if mmhit "$lab/out.g18" "figure:README.md:$gl14" 14 22; then bad "G18 the B2-adverb-dropped mutant still reported the mismatch (G14 would not catch it)" "$lab/out.g18"
+        else ok "G18 mutant that drops the B2 adverbs loses the G14 finding: G14 detects it"; fi
+    fi
+
     fp1=$(live_fp)
     if [ "$fp0" = "$fp1" ]; then ok "L1 the live corpus, this script and the ledger gate are byte-identical after the battery"
     else bad "L1  the live files moved during the battery"; fi
@@ -623,12 +676,16 @@ MK = r'[*`_]*'
 NUM = r'[0-9][0-9,]*'
 # A hex id (a commit/blob sha) is NOT a figure (reconcile 5): a line whose only number-like
 # token is a hex id is not in the population. `bytes` and the exit/rc shape are (review RULING 2).
+FLEET_NOUN = r'(?:submodules?|gitlinks?|modules?|repos?|repositories|paths?)'
 RC = r'\b(?:exit(?:s|ed)?|rc)' + MK + r'(?:\s+|\s*=\s*)' + MK + r'[0-9]+\b'
 SHAPES = [
     re.compile(r'\b' + NUM + MK + r'\s+' + MK + r'(?:files?|tests?|gates?|scripts?|anchors?|lines?|commits?|items?|rows?|checks?|submodules?|bytes?|declared|owned|PASS|FAIL|CURRENT|DRIFT)\b'),
     re.compile(r'\b' + NUM + MK + r'\s+of\s+' + MK + NUM + r'\b'),
     re.compile(r'\b[0-9]+/[0-9]+\b'),
     re.compile(RC, re.I),
+    # VSC-353 B1 (appended LAST: code indexes SHAPES[3] as the exit/rc shape and SHAPES[:3] as the rest):
+    # "<n> <fleet noun> (is|are|were) declared" ("13 gitlinks are declared") is a figure line.
+    re.compile(r'\b' + NUM + MK + r'\s+' + MK + FLEET_NOUN + MK + r'\s+(?:is|are|were)\s+declared\b'),
 ]
 STRIKE = re.compile(r'~~.*?~~')
 SKIP = re.compile(r'\b(?:withdrawn|superseded|historical|obsolete)\b', re.I)
@@ -646,7 +703,9 @@ RC_MEANING_TAIL = re.compile(r'^[*`_]*\s*(?:=|->|\u2192|means\b)')
 # Narrowed (2026-10-12): "declared" must be followed by end of line / closing punctuation / markup,
 # or by a fleet noun (submodule, gitlink, module, repo, repository, path), or "in total/all".
 # "declared pairs", "declared members" etc. are not submodule counts and are not compared.
-DECLARED_RE = re.compile(r'\b(' + NUM + r')' + MK + r'\s+' + MK + r'declared\b(?=' + MK + r'\s*(?:$|[.,;:)\]*_`|—–]|\s(?:submodules?|gitlinks?|modules?|repos?|repositories|paths?|in\s+total|in\s+all)\b))')
+DECLARED_RE = re.compile(r'\b(' + NUM + r')' + MK + r'\s+' + MK + r'declared\b(?=' + MK + r'\s*(?:$|[.,;:)\]*_`|—–]|\s(?:submodules?|gitlinks?|modules?|repos?|repositories|paths?|in\s+total|in\s+all|today|now|currently|so\s+far)\b))')
+# VSC-353 B1: "<n> <fleet noun> (is|are|were) declared" is compared with the same count.
+DECLARED_ARE_RE = re.compile(r'\b(' + NUM + r')' + MK + r'\s+' + MK + FLEET_NOUN + MK + r'\s+(?:is|are|were)\s+declared\b')
 GITMODULES_REL = '.gitmodules'
 GM_PATH_RE = re.compile(r'^[ \t]*path[ \t]*=[ \t]*\S', re.M)
 AGG_MAX = 30        # an aggregate lists at most this many line numbers
@@ -745,7 +804,7 @@ def exit_meaning_only(s):
     rcs = list(SHAPES[3].finditer(s))
     if not rcs:
         return False
-    for rx in SHAPES[:3]:
+    for rx in SHAPES[:3] + SHAPES[4:]:
         if rx.search(s):
             return False
     return all(RC_MEANING_TAIL.match(s[m.end():]) for m in rcs)
@@ -1049,7 +1108,8 @@ def main():
     low = defaultdict(list)     # doc -> [(line, figure text)] of LOW unledgered figures
     for t, (doc, i, l, m) in fig.items():
         if decl is not None and not (doc in MIRRORS and l in cl_texts):
-            claimed = sorted({int(x.replace(',', '')) for x in DECLARED_RE.findall(STRIKE.sub(' ', l))})
+            _ls = STRIKE.sub(' ', l)
+            claimed = sorted({int(x.replace(',', '')) for x in DECLARED_RE.findall(_ls) + DECLARED_ARE_RE.findall(_ls)})
             if decl is not None and any(n != decl for n in claimed):  # DECL-COMPARE
                 findings.add(('medium', t, 'claims %s declared but .gitmodules declares %d (mismatch): the recorded figure disagrees with the real count of declared submodule paths' % (' and '.join(str(n) for n in claimed if n != decl), decl), '%s:%d' % (e(doc), i)))
         if t in covered:
