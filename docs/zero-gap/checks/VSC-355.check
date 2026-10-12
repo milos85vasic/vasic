@@ -1,0 +1,4 @@
+# VSC-355 closure check (author: t090-check-author, not the fixer). RED until the doc-count-drift class dates a claim line ("Measured <date>" / commit anchor) and skips subset-qualified counts, without losing a planted detection.
+check_id=chk-vsc-355-line-level-dating
+pre_fix_ref=c827c66
+cmd=bash /home/milosvasic/Projects/vasic/docs/zero-gap/checks/VSC-355.probe.sh

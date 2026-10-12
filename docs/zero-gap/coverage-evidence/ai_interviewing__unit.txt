@@ -1,0 +1,10 @@
+subject=ai_interviewing kind=unit status=check-red cases=119 failed=62 rc=1
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:27Z
+cmd=(cd ai_interviewing/platform/backend && go test -count=1 -json -short <7 pkgs>)
+passed=57 failed=62 skipped=0 over 1 module(s); worst module rc=1
+---
+## ai_interviewing/platform/backend: rc=1 passed=57 failed=62 skipped=0 seconds=3.2 build_fail=False
+
+## /home/milosvasic/Projects/vasic/ai_interviewing/platform/backend/gates/cmd/glive: go list rc=0, no packages
+github.com/milos85vasic/ai_interviewing/platform/backend/gates/cmd/glive
+

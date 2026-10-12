@@ -1,0 +1,34 @@
+subject=submodules/RAG kind=integration status=check cases=6 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:14Z
+cmd=go test -count=1 -json ./tests/integration/...
+passed=6 failed=0 skipped=0 seconds=0.4
+---
+{"Time":"2026-10-12T12:51:14.355362637+02:00","Action":"start","Package":"digital.vasic.rag/tests/integration"}
+{"Time":"2026-10-12T12:51:14.359620693+02:00","Action":"run","Package":"digital.vasic.rag/tests/integration","Test":"TestChunkerRerankerIntegration"}
+{"Time":"2026-10-12T12:51:14.359668713+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Test":"TestChunkerRerankerIntegration","Output":"=== RUN   TestChunkerRerankerIntegration\n"}
+{"Time":"2026-10-12T12:51:14.359694974+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Test":"TestChunkerRerankerIntegration","Output":"--- PASS: TestChunkerRerankerIntegration (0.00s)\n"}
+{"Time":"2026-10-12T12:51:14.359700774+02:00","Action":"pass","Package":"digital.vasic.rag/tests/integration","Test":"TestChunkerRerankerIntegration","Elapsed":0}
+{"Time":"2026-10-12T12:51:14.359706224+02:00","Action":"run","Package":"digital.vasic.rag/tests/integration","Test":"TestKeywordRetrieverRerankerIntegration"}
+{"Time":"2026-10-12T12:51:14.359709774+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Test":"TestKeywordRetrieverRerankerIntegration","Output":"=== RUN   TestKeywordRetrieverRerankerIntegration\n"}
+{"Time":"2026-10-12T12:51:14.359715014+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Test":"TestKeywordRetrieverRerankerIntegration","Output":"--- PASS: TestKeywordRetrieverRerankerIntegration (0.00s)\n"}
+{"Time":"2026-10-12T12:51:14.359720734+02:00","Action":"pass","Package":"digital.vasic.rag/tests/integration","Test":"TestKeywordRetrieverRerankerIntegration","Elapsed":0}
+{"Time":"2026-10-12T12:51:14.359724594+02:00","Action":"run","Package":"digital.vasic.rag/tests/integration","Test":"TestHybridRetrieverIntegration"}
+{"Time":"2026-10-12T12:51:14.359728754+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Test":"TestHybridRetrieverIntegration","Output":"=== RUN   TestHybridRetrieverIntegration\n"}
+{"Time":"2026-10-12T12:51:14.359869874+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Test":"TestHybridRetrieverIntegration","Output":"--- PASS: TestHybridRetrieverIntegration (0.00s)\n"}
+{"Time":"2026-10-12T12:51:14.359887854+02:00","Action":"pass","Package":"digital.vasic.rag/tests/integration","Test":"TestHybridRetrieverIntegration","Elapsed":0}
+{"Time":"2026-10-12T12:51:14.359896054+02:00","Action":"run","Package":"digital.vasic.rag/tests/integration","Test":"TestPipelineWithRetrieverAndRerankerIntegration"}
+{"Time":"2026-10-12T12:51:14.359899704+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Test":"TestPipelineWithRetrieverAndRerankerIntegration","Output":"=== RUN   TestPipelineWithRetrieverAndRerankerIntegration\n"}
+{"Time":"2026-10-12T12:51:14.359946985+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Test":"TestPipelineWithRetrieverAndRerankerIntegration","Output":"--- PASS: TestPipelineWithRetrieverAndRerankerIntegration (0.00s)\n"}
+{"Time":"2026-10-12T12:51:14.359951625+02:00","Action":"pass","Package":"digital.vasic.rag/tests/integration","Test":"TestPipelineWithRetrieverAndRerankerIntegration","Elapsed":0}
+{"Time":"2026-10-12T12:51:14.359956685+02:00","Action":"run","Package":"digital.vasic.rag/tests/integration","Test":"TestChunkerVariantsIntegration"}
+{"Time":"2026-10-12T12:51:14.359960385+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Test":"TestChunkerVariantsIntegration","Output":"=== RUN   TestChunkerVariantsIntegration\n"}
+{"Time":"2026-10-12T12:51:14.360010455+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Test":"TestChunkerVariantsIntegration","Output":"--- PASS: TestChunkerVariantsIntegration (0.00s)\n"}
+{"Time":"2026-10-12T12:51:14.360014985+02:00","Action":"pass","Package":"digital.vasic.rag/tests/integration","Test":"TestChunkerVariantsIntegration","Elapsed":0}
+{"Time":"2026-10-12T12:51:14.360018785+02:00","Action":"run","Package":"digital.vasic.rag/tests/integration","Test":"TestFusionStrategiesIntegration"}
+{"Time":"2026-10-12T12:51:14.360021785+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Test":"TestFusionStrategiesIntegration","Output":"=== RUN   TestFusionStrategiesIntegration\n"}
+{"Time":"2026-10-12T12:51:14.360048595+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Test":"TestFusionStrategiesIntegration","Output":"--- PASS: TestFusionStrategiesIntegration (0.00s)\n"}
+{"Time":"2026-10-12T12:51:14.360052875+02:00","Action":"pass","Package":"digital.vasic.rag/tests/integration","Test":"TestFusionStrategiesIntegration","Elapsed":0}
+{"Time":"2026-10-12T12:51:14.360056625+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Output":"PASS\n"}
+{"Time":"2026-10-12T12:51:14.360324046+02:00","Action":"output","Package":"digital.vasic.rag/tests/integration","Output":"ok  \tdigital.vasic.rag/tests/integration\t0.005s\n"}
+{"Time":"2026-10-12T12:51:14.360340586+02:00","Action":"pass","Package":"digital.vasic.rag/tests/integration","Elapsed":0.005}
+

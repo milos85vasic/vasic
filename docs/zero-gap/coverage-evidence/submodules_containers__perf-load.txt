@@ -1,0 +1,22 @@
+subject=submodules/containers kind=perf-load status=check cases=2 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:47:41Z
+cmd=go test -count=1 -json -run . -bench . -benchtime 1x ./tests/benchmark/...
+passed=2 failed=0 skipped=0 seconds=0.4
+---
+{"Time":"2026-10-12T12:47:41.284723847+02:00","Action":"start","Package":"digital.vasic.containers/tests/benchmark"}
+{"Time":"2026-10-12T12:47:41.289710957+02:00","Action":"output","Package":"digital.vasic.containers/tests/benchmark","Output":"goos: linux\n"}
+{"Time":"2026-10-12T12:47:41.289767957+02:00","Action":"output","Package":"digital.vasic.containers/tests/benchmark","Output":"goarch: amd64\n"}
+{"Time":"2026-10-12T12:47:41.289773637+02:00","Action":"output","Package":"digital.vasic.containers/tests/benchmark","Output":"pkg: digital.vasic.containers/tests/benchmark\n"}
+{"Time":"2026-10-12T12:47:41.289778807+02:00","Action":"output","Package":"digital.vasic.containers/tests/benchmark","Output":"cpu: AMD Ryzen 7 2700X Eight-Core Processor         \n"}
+{"Time":"2026-10-12T12:47:41.289785417+02:00","Action":"run","Package":"digital.vasic.containers/tests/benchmark","Test":"BenchmarkResourceScorer_Score"}
+{"Time":"2026-10-12T12:47:41.289789707+02:00","Action":"output","Package":"digital.vasic.containers/tests/benchmark","Test":"BenchmarkResourceScorer_Score","Output":"=== RUN   BenchmarkResourceScorer_Score\n"}
+{"Time":"2026-10-12T12:47:41.289797837+02:00","Action":"output","Package":"digital.vasic.containers/tests/benchmark","Test":"BenchmarkResourceScorer_Score","Output":"BenchmarkResourceScorer_Score\n"}
+{"Time":"2026-10-12T12:47:41.290230769+02:00","Action":"output","Package":"digital.vasic.containers/tests/benchmark","Test":"BenchmarkResourceScorer_Score","Output":"BenchmarkResourceScorer_Score-4      \t       1\t       500.0 ns/op\t       0 B/op\t       0 allocs/op\n"}
+{"Time":"2026-10-12T12:47:41.290240099+02:00","Action":"run","Package":"digital.vasic.containers/tests/benchmark","Test":"BenchmarkScheduler_ScheduleBatch"}
+{"Time":"2026-10-12T12:47:41.290242649+02:00","Action":"output","Package":"digital.vasic.containers/tests/benchmark","Test":"BenchmarkScheduler_ScheduleBatch","Output":"=== RUN   BenchmarkScheduler_ScheduleBatch\n"}
+{"Time":"2026-10-12T12:47:41.290246859+02:00","Action":"output","Package":"digital.vasic.containers/tests/benchmark","Test":"BenchmarkScheduler_ScheduleBatch","Output":"BenchmarkScheduler_ScheduleBatch\n"}
+{"Time":"2026-10-12T12:47:41.29056245+02:00","Action":"output","Package":"digital.vasic.containers/tests/benchmark","Test":"BenchmarkScheduler_ScheduleBatch","Output":"BenchmarkScheduler_ScheduleBatch-4   \t       1\t     20840 ns/op\t    2960 B/op\t      26 allocs/op\n"}
+{"Time":"2026-10-12T12:47:41.290607861+02:00","Action":"output","Package":"digital.vasic.containers/tests/benchmark","Output":"PASS\n"}
+{"Time":"2026-10-12T12:47:41.290936692+02:00","Action":"output","Package":"digital.vasic.containers/tests/benchmark","Output":"ok  \tdigital.vasic.containers/tests/benchmark\t0.006s\n"}
+{"Time":"2026-10-12T12:47:41.290973192+02:00","Action":"pass","Package":"digital.vasic.containers/tests/benchmark","Elapsed":0.006}
+

@@ -1,0 +1,21 @@
+# umbrella.tsv - mutants for scripts/prove-umbrella-mutants.sh (spec 010 T057 / T058). TAB-separated.
+# columns: id, set, module (repo-relative), file (module-relative), old (must occur EXACTLY once), new, go-test args.
+# set=fuzz: must be killed by the FuzzXxx seed corpus alone (-run ^Fuzz...). set=mutation: must be killed by the module's
+# PRE-EXISTING tests (fuzz seeds skipped). <NL> and <TAB> inside old/new are decoded; an empty new is written <EMPTY> (tab is IFS whitespace). Mutations are applied to a COPY in a
+# temp dir; the real tree is never edited.
+FZ1-argv-reason-leaks-value	fuzz	_tools/zero-gap-chain	argvpolicy.go	return true, at(k) + " is a flag with a " + why + " name"	return true, at(k) + " is a flag with a " + why + " name: " + w	-run ^FuzzArgvPolicy$ .
+FZ2-normalize-writes-raw-bytes	fuzz	_tools/zero-gap-chain	argvpolicy.go	b.WriteRune(foldRune(r))<NL><TAB><TAB><TAB>}<NL><TAB><TAB><TAB>i += n	b.WriteString(s[i : i+n])<NL><TAB><TAB><TAB>}<NL><TAB><TAB><TAB>i += n	-run ^FuzzNormalizeArg$ .
+FZ3-sidecar-accepts-invalid-utf8	fuzz	_tools/zero-gap-chain	sidecar.go	if !utf8.ValidString(v) {	if false && !utf8.ValidString(v) {	-run ^FuzzMarshalSidecarLine$ .
+FZ4-recorder-row-flag-inverted	fuzz	_tools/zero-gap-chain	rawrow.go	Truncated:    string(tl[8]) == "true",	Truncated:    string(tl[8]) == "false",	-run ^FuzzParseRecorderRow$ .
+FZ5-evidence-dup-key-ignored	fuzz	_tools/workable-items	internal/wi/validate_gap.go	if k, dup := firstDuplicateKey(b); dup {	if k, dup := firstDuplicateKey(b); dup && false {	-run ^FuzzParseEvidenceRecord$ ./internal/wi
+FZ6-confine-lexical-escape-allowed	fuzz	_tools/workable-items	internal/wi/validate_gap.go	if !within(rootAbs, full) {	if false && !within(rootAbs, full) {	-run ^FuzzConfine$ ./internal/wi
+FZ7-asof-returns-altered-value	fuzz	_tools/workable-items	internal/wi/validate_gap.go	return s, nil<NL>}<NL><NL>func validDate	return s + " ", nil<NL>}<NL><NL>func validDate	-run ^FuzzParseAsOf$ ./internal/wi
+FZ8-esc-drops-lt	fuzz	_tools/gen	data.go	"<", "&lt;", 	<EMPTY>	-run ^FuzzEsc$ .
+FZ9-inline-skips-escape	fuzz	_tools/gen	markdown.go	func inline(s string) string {<NL><TAB>s = escText(s)<NL>	func inline(s string) string {<NL>	-run ^(FuzzInline|FuzzRenderBody)$ .
+FZ10-yamlquote-skips-backslash	fuzz	_tools/gen	data.go	strings.NewReplacer(`\`, `\\`, `"`, `\"`)	strings.NewReplacer(`"`, `\"`)	-run ^FuzzYamlQuote$ .
+FZ11-frontmatter-scalar-altered	fuzz	_tools/gen	data.go	fm.scalars[key] = val<NL>	fm.scalars[key] = strings.ToUpper(val)<NL>	-run ^FuzzParseFrontmatter$ .
+MG1-esc-drops-lt	mutation	_tools/gen	data.go	"<", "&lt;", 	<EMPTY>	-skip ^Fuzz ./...
+MG2-inline-skips-escape	mutation	_tools/gen	markdown.go	func inline(s string) string {<NL><TAB>s = escText(s)<NL>	func inline(s string) string {<NL>	-skip ^Fuzz ./...
+MG3-yamlquote-skips-backslash	mutation	_tools/gen	data.go	strings.NewReplacer(`\`, `\\`, `"`, `\"`)	strings.NewReplacer(`"`, `\"`)	-skip ^Fuzz ./...
+MG4-langpath-portfolio-prefix-order	mutation	_tools/gen	seo.go	return "portfolio/" + lang + "/"	return lang + "/portfolio/"	-skip ^Fuzz ./...
+MG5-translation-fallback-to-en-disabled	mutation	_tools/gen	i18n.go	m, ok := uiDict["en"]; ok {	m, ok := uiDict["en"]; ok && false {	-skip ^Fuzz ./...

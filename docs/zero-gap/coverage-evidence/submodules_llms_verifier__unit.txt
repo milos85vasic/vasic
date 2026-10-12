@@ -1,0 +1,33 @@
+subject=submodules/llms_verifier kind=unit status=check-red cases=6558 failed=0 rc=1
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:50:14Z
+cmd=(cd submodules/llms_verifier && go test -count=1 -json -short <11 pkgs>); (cd submodules/llms_verifier/llm-verifier && go test -count=1 -json -short <66 pkgs>); (cd submodules/llms_verifier/examples/scoring && go test -count=1 -json -short <1 pkgs>)
+passed=6558 failed=0 skipped=19 over 3 module(s); worst module rc=1
+---
+## submodules/llms_verifier: rc=1 passed=530 failed=0 skipped=2 seconds=13.0 build_fail=True
+portPath":"github.com/segmentio/kafka-go","Action":"build-output","Output":"# llmsverifier/internal/messaging/kafka\n"}
+{"ImportPath":"github.com/segmentio/kafka-go","Action":"build-output","Output":"internal/messaging/kafka/broker.go:11:2: module lookup disabled by GOPROXY=off\n"}
+{"ImportPath":"github.com/segmentio/kafka-go","Action":"build-fail"}
+{"ImportPath":"github.com/segmentio/kafka-go/sasl","Action":"build-output","Output":"# llmsverifier/internal/messaging/kafka\n"}
+{"ImportPath":"github.com/segmentio/kafka-go/sasl","Action":"build-output","Output":"internal/messaging/kafka/broker.go:12:2: module lookup disabled by GOPROXY=off\n"}
+{"ImportPath":"github.com/segmentio/kafka-go/sasl","Action":"build-fail"}
+{"ImportPath":"github.com/segmentio/kafka-go/sasl/plain","Action":"build-output","Output":"# llmsverifier/internal/messaging/kafka\n"}
+{"ImportPath":"github.com/segmentio/kafka-go/sasl/plain","Action":"build-output","Output":"internal/messaging/kafka/broker.go:13:2: module lookup disabled by GOPROXY=off\n"}
+{"ImportPath":"github.com/segmentio/kafka-go/sasl/plain","Action":"build-fail"}
+{"ImportPath":"github.com/segmentio/kafka-go/sasl/scram","Action":"build-output","Output":"# llmsverifier/internal/messaging/kafka\n"}
+{"ImportPath":"github.com/segmentio/kafka-go/sasl/scram","Action":"build-output","Output":"internal/messaging/kafka/broker.go:14:2: module lookup disabled by GOPROXY=off\n"}
+{"ImportPath":"github.com/segmentio/kafka-go/sasl/scram","Action":"build-fail"}
+## submodules/llms_verifier/llm-verifier: rc=1 passed=6028 failed=0 skipped=17 seconds=26.3 build_fail=True
+sic.llmsverifier/enhanced/checkpointing\n"}
+{"ImportPath":"github.com/aws/aws-sdk-go-v2/credentials","Action":"build-output","Output":"enhanced/checkpointing/cloud_providers.go:14:2: module lookup disabled by GOPROXY=off\n"}
+{"ImportPath":"github.com/aws/aws-sdk-go-v2/credentials","Action":"build-fail"}
+{"ImportPath":"github.com/aws/aws-sdk-go-v2/service/s3","Action":"build-output","Output":"# digital.vasic.llmsverifier/enhanced/checkpointing\n"}
+{"ImportPath":"github.com/aws/aws-sdk-go-v2/service/s3","Action":"build-output","Output":"enhanced/checkpointing/cloud_providers.go:15:2: module lookup disabled by GOPROXY=off\n"}
+{"ImportPath":"github.com/aws/aws-sdk-go-v2/service/s3","Action":"build-fail"}
+{"ImportPath":"github.com/aws/aws-sdk-go-v2/service/s3/types","Action":"build-output","Output":"# digital.vasic.llmsverifier/enhanced/checkpointing\n"}
+{"ImportPath":"github.com/aws/aws-sdk-go-v2/service/s3/types","Action":"build-output","Output":"enhanced/checkpointing/s3_provider.go:13:2: module lookup disabled by GOPROXY=off\n"}
+{"ImportPath":"github.com/aws/aws-sdk-go-v2/service/s3/types","Action":"build-fail"}
+{"ImportPath":"google.golang.org/api/option","Action":"build-output","Output":"# digital.vasic.llmsverifier/enhanced/checkpointing\n"}
+{"ImportPath":"google.golang.org/api/option","Action":"build-output","Output":"enhanced/checkpointing/cloud_providers.go:16:2: module lookup disabled by GOPROXY=off\n"}
+{"ImportPath":"google.golang.org/api/option","Action":"build-fail"}
+## submodules/llms_verifier/examples/scoring: rc=0 passed=0 failed=0 skipped=0 seconds=0.3 build_fail=False
+

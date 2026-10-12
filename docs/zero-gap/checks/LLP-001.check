@@ -1,0 +1,5 @@
+# LLP-001 closure check (author: closure-wave T047 fixer; independent verifier re-runs via scripts/zero-gap-verify.sh)
+# pre_fix_ref is the parent of c5bf9ea, the commit that fast-forwarded the gitlink (git log -1 c5bf9ea).
+check_id=chk-llp-gitlink-current
+pre_fix_ref=c5bf9ea^
+cmd=bash /home/milosvasic/Projects/vasic/docs/zero-gap/checks/remote-sync-row.probe.sh submodules/LLMProvider

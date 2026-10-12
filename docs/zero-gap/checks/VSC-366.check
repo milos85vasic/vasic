@@ -1,0 +1,4 @@
+# VSC-366 closure check (author: closure-wave T089 fixer; independent verifier re-runs via scripts/zero-gap-verify.sh)
+check_id=chk-vsc-366-build-bins-module-dir-ignored
+pre_fix_ref=c827c664c24e90a2b12b352618d579a3c631749d
+cmd=bash -c 'rc=0; for p in _tools/zero-gap-chain/zg-chain _tools/zero-gap-chain/continuum-integrity; do git check-ignore -q -- "$p" || { echo "NOT ignored: $p"; rc=1; }; done; exit $rc'

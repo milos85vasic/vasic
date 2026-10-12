@@ -43,7 +43,7 @@ Output (`gap summary --json`) is derived from rows and is byte-stable for an unc
 - **Extra flags** on `add`, `classify`, `close`, `reopen`, `apply-queue`, `freeze` exist so an item can satisfy V-G1/V-G10 when written;
   `--verdict-ref` on `close` is the evidence path of the verifier's verdict row. `validate` takes `--as-of <date>` (UTC everywhere;
   the date used is printed).
-- **Rules** are V-G1..V-G12 (not V-G1..V-G9). Only evidence and verdict rows NEWER than the latest `Reopened` row count toward V-G3.
+- **Rules** are V-G1..V-G12 (not V-G1..V-G9). Only evidence and verdict rows NEWER than the latest `Reopened` row count toward V-G3. **V-G3(c)**: per item and role (`verifier`, `reviewer`) only the NEWEST verdict row (by `on_date`, then `rowid`) is evaluated; older rows remain as history and neither satisfy nor block closure; a newer failure (outcome 1/2) supersedes an older approval; the newest row must still pass every V-G3 check unchanged (strictly later than the GREEN, actor != fixer, regular-file reviewer evidence) and `close --verdict-ref` must name the newest verifier row. A fresh row with a non-ISO or after-`--as-of` `on_date` is excluded from the ordering and is itself a finding. Full text: data-model.md, `IndependentVerdict`.
 - **Exit codes**: `reopen` and `apply-queue` exit 1 (invalid request) or 2; `freeze` exits 1 on a membership change; `link` exits 1 to a CLOSED
   head (it would commit a state the validator rejects); every command exits 2 when the DB is unmigrated, read-only or locked (never 1).
 - **`item_verdicts`** columns are all NOT NULL (stricter than the first data-model draft).

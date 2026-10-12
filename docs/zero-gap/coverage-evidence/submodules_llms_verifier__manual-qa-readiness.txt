@@ -1,0 +1,9 @@
+subject=submodules/llms_verifier kind=manual-qa-readiness status=check cases=3 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:49:31Z
+cmd=git -C submodules/llms_verifier ls-files -- docs/qa
+tracked files in module docs/qa: 3
+---
+docs/qa/fallback_models_cache_race_20260711/EVIDENCE.md
+docs/qa/phase4_extended_providers_20260707/EVIDENCE.md
+docs/qa/phase4_extended_providers_20260707/reachability_evidence.jsonl
+

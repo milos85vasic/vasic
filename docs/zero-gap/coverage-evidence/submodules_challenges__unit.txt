@@ -1,0 +1,14 @@
+subject=submodules/challenges kind=unit status=check-red cases=2062 failed=0 rc=1
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:45:13Z
+cmd=(cd submodules/challenges && go test -count=1 -json -short <17 pkgs>); (cd submodules/challenges/challenges/fixtures/memprobe && go test -count=1 -json -short <1 pkgs>)
+passed=2062 failed=0 skipped=6 over 2 module(s); worst module rc=1
+---
+## submodules/challenges: rc=0 passed=2062 failed=0 skipped=6 seconds=15.2 build_fail=False
+
+## submodules/challenges/challenges/fixtures/memprobe: rc=1 passed=0 failed=0 skipped=0 seconds=0.1 build_fail=True
+{"ImportPath":"digital.vasic.helixmemory/pkg/localstore","Action":"build-output","Output":"# digital.vasic.challenges.memprobe\n"}
+{"ImportPath":"digital.vasic.helixmemory/pkg/localstore","Action":"build-output","Output":"main.go:20:2: digital.vasic.helixmemory@v0.0.0-00010101000000-000000000000: replacement directory ../../../../helix_memory does not exist\n"}
+{"ImportPath":"digital.vasic.helixmemory/pkg/localstore","Action":"build-fail"}
+{"ImportPath":"digital.vasic.memory/pkg/store","Action":"build-output","Output":"# digital.vasic.challenges.memprobe\n"}
+{"ImportPath":"digital.vasic.memory/pkg/store","Action":"build-output","Output":"main.go:21:2: digital.vasic.memory@v0.0.0-00010101000000-000000000000: replacement directory ../../../../memory does not exist\n"}
+{"ImportPath":"digital.vasic.memory/pkg/store","Action":"build-fail"}

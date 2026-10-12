@@ -1,0 +1,25 @@
+subject=root kind=manual-qa-readiness status=could-not-run:zero-gap-qa-readiness.sh cases=0 failed=0 rc=2
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:57:33Z
+cmd=bash scripts/zero-gap-qa-readiness.sh
+rc 2 is never a pass
+---
+PASS     S1 qa-up.sh exists and is executable
+PASS     S1 qa-up.sh parses (bash -n)
+PASS     S2 header documents flow (WHAT IT BOOTS / USAGE / EXIT) and all four services
+PASS     S3 discovery CLI source present (_tools/containers/cmd/port-discover/main.go)
+PASS     S3 qa-up.sh defines discover() over port-discover
+PASS     S3 start_static obtains its port from discover
+PASS     S4 no frozen port literal in non-comment code
+PASS     S4 all 5 port preferences are passed through discover/start_static
+INFO     preferred-default literal (discovery may override): start_static vd "$ROOT/vasic.digital" "${QA_VD_DEFAULT_PORT:-8401}"
+INFO     preferred-default literal (discovery may override): start_static mv "$ROOT/milosvasic.ru/_site" "${QA_MV_DEFAULT_PORT:-8084}"
+INFO     preferred-default literal (discovery may override): port="$(discover "$PREFIX-workshop" "${QA_WORKSHOP_DEFAULT_PORT:-8087}")" || exit 2
+INFO     preferred-default literal (discovery may override): http_port="$(discover "$PREFIX-ai-http" "${QA_AI_HTTP_DEFAULT_PORT:-8099}")" || exit 2
+INFO     preferred-default literal (discovery may override): https_port="$(discover "$PREFIX-ai-https" "${QA_AI_HTTPS_DEFAULT_PORT:-8443}" -udp)" || exit 2
+NOTUP    D vd did not answer at http://127.0.0.1:8402/ (connection refused/timeout)
+NOTUP    D mv did not answer at http://127.0.0.1:8089/ (connection refused/timeout)
+NOTUP    D workshop did not answer at http://127.0.0.1:8087/api/health (connection refused/timeout)
+NOTUP    D ai did not answer at http://localhost:8099/api/health (connection refused/timeout)
+SUMMARY  static findings+dynamic non-200: 0 ; dynamic: 0 answered, 4 not up
+VERDICT: COULD NOT DETERMINE — static half clean, but readiness of the running stack is not established (not a pass)
+

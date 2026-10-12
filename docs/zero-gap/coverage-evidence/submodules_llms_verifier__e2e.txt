@@ -1,0 +1,54 @@
+subject=submodules/llms_verifier kind=e2e status=check cases=8 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:50:24Z
+cmd=go test -count=1 -json ./tests/e2e/...
+passed=8 failed=0 skipped=0 seconds=0.5
+---
+{"Time":"2026-10-12T12:50:24.330748309+02:00","Action":"start","Package":"llmsverifier/tests/e2e"}
+{"Time":"2026-10-12T12:50:24.335604098+02:00","Action":"run","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_BasicFlow"}
+{"Time":"2026-10-12T12:50:24.335647438+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_BasicFlow","Output":"=== RUN   TestCompleteWorkflow_BasicFlow\n"}
+{"Time":"2026-10-12T12:50:24.3385937+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_BasicFlow","Output":"--- PASS: TestCompleteWorkflow_BasicFlow (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.3386174+02:00","Action":"pass","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_BasicFlow","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.33862423+02:00","Action":"run","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers"}
+{"Time":"2026-10-12T12:50:24.33862765+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers","Output":"=== RUN   TestCompleteWorkflow_MultipleUsers\n"}
+{"Time":"2026-10-12T12:50:24.339296482+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers","Output":"    complete_workflow_test.go:153: User 0: Model gpt-4 scored 8.50\n"}
+{"Time":"2026-10-12T12:50:24.339314883+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers","Output":"    complete_workflow_test.go:153: User 0: Model gpt-3.5-turbo scored 8.50\n"}
+{"Time":"2026-10-12T12:50:24.339592054+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers","Output":"    complete_workflow_test.go:153: User 1: Model gpt-4 scored 8.50\n"}
+{"Time":"2026-10-12T12:50:24.339598494+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers","Output":"    complete_workflow_test.go:153: User 1: Model gpt-3.5-turbo scored 8.50\n"}
+{"Time":"2026-10-12T12:50:24.339939245+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers","Output":"    complete_workflow_test.go:153: User 2: Model gpt-4 scored 8.50\n"}
+{"Time":"2026-10-12T12:50:24.340069896+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers","Output":"    complete_workflow_test.go:153: User 2: Model gpt-3.5-turbo scored 8.50\n"}
+{"Time":"2026-10-12T12:50:24.340382247+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers","Output":"    complete_workflow_test.go:153: User 3: Model gpt-4 scored 8.50\n"}
+{"Time":"2026-10-12T12:50:24.340390107+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers","Output":"    complete_workflow_test.go:153: User 3: Model gpt-3.5-turbo scored 8.50\n"}
+{"Time":"2026-10-12T12:50:24.340713168+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers","Output":"    complete_workflow_test.go:153: User 4: Model gpt-4 scored 8.50\n"}
+{"Time":"2026-10-12T12:50:24.340719108+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers","Output":"    complete_workflow_test.go:153: User 4: Model gpt-3.5-turbo scored 8.50\n"}
+{"Time":"2026-10-12T12:50:24.341720962+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers","Output":"--- PASS: TestCompleteWorkflow_MultipleUsers (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.341742502+02:00","Action":"pass","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_MultipleUsers","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.341748402+02:00","Action":"run","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_ProviderFailures"}
+{"Time":"2026-10-12T12:50:24.341752342+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_ProviderFailures","Output":"=== RUN   TestCompleteWorkflow_ProviderFailures\n"}
+{"Time":"2026-10-12T12:50:24.342385115+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_ProviderFailures","Output":"--- PASS: TestCompleteWorkflow_ProviderFailures (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.342404335+02:00","Action":"pass","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_ProviderFailures","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.342410055+02:00","Action":"run","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_ConfigurationChanges"}
+{"Time":"2026-10-12T12:50:24.342413595+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_ConfigurationChanges","Output":"=== RUN   TestCompleteWorkflow_ConfigurationChanges\n"}
+{"Time":"2026-10-12T12:50:24.34373804+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_ConfigurationChanges","Output":"--- PASS: TestCompleteWorkflow_ConfigurationChanges (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.34375819+02:00","Action":"pass","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_ConfigurationChanges","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.34376583+02:00","Action":"run","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Caching"}
+{"Time":"2026-10-12T12:50:24.34376992+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Caching","Output":"=== RUN   TestCompleteWorkflow_Caching\n"}
+{"Time":"2026-10-12T12:50:24.344568743+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Caching","Output":"--- PASS: TestCompleteWorkflow_Caching (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.344585743+02:00","Action":"pass","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Caching","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.344592843+02:00","Action":"run","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Security"}
+{"Time":"2026-10-12T12:50:24.344597533+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Security","Output":"=== RUN   TestCompleteWorkflow_Security\n"}
+{"Time":"2026-10-12T12:50:24.346950213+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Security","Output":"--- PASS: TestCompleteWorkflow_Security (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.346973673+02:00","Action":"pass","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Security","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.347005673+02:00","Action":"run","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Performance"}
+{"Time":"2026-10-12T12:50:24.347017213+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Performance","Output":"=== RUN   TestCompleteWorkflow_Performance\n"}
+{"Time":"2026-10-12T12:50:24.348196588+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Performance","Output":"    complete_workflow_test.go:435: Discovery completed in 146.211µs for 2 models\n"}
+{"Time":"2026-10-12T12:50:24.348236298+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Performance","Output":"    complete_workflow_test.go:436: Verification completed in 334.401µs for 2 models\n"}
+{"Time":"2026-10-12T12:50:24.348466039+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Performance","Output":"--- PASS: TestCompleteWorkflow_Performance (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.348485509+02:00","Action":"pass","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_Performance","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.348501849+02:00","Action":"run","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_ErrorScenarios"}
+{"Time":"2026-10-12T12:50:24.348513869+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_ErrorScenarios","Output":"=== RUN   TestCompleteWorkflow_ErrorScenarios\n"}
+{"Time":"2026-10-12T12:50:24.349750624+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_ErrorScenarios","Output":"--- PASS: TestCompleteWorkflow_ErrorScenarios (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.349807594+02:00","Action":"pass","Package":"llmsverifier/tests/e2e","Test":"TestCompleteWorkflow_ErrorScenarios","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.349814564+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Output":"PASS\n"}
+{"Time":"2026-10-12T12:50:24.350109005+02:00","Action":"output","Package":"llmsverifier/tests/e2e","Output":"ok  \tllmsverifier/tests/e2e\t0.019s\n"}
+{"Time":"2026-10-12T12:50:24.350122415+02:00","Action":"pass","Package":"llmsverifier/tests/e2e","Elapsed":0.019}
+

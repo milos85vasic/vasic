@@ -1,0 +1,5 @@
+check_id=VSC377-wizard-suite-all-skip-not-pass
+pre_fix_ref=99a47228ef017c2e9ac9091fb0019500b7688723
+cmd=R=$(cd "$(git rev-parse --git-common-dir)/.." && pwd) && bash "$R/docs/zero-gap/checks/probes/vsc-377.sh"
+population_kind=process
+evidence_class=runtime

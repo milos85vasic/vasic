@@ -1,0 +1,7 @@
+# VSC-382: umbrella helper binaries rebuilt only when absent. Fixed in bb90d91 (T025 umbrella fixes).
+# Holds when the build-if-missing detector finds no unguarded build in the three cited sites.
+check_id=VSC-382-build-freshness
+pre_fix_ref=99a47228ef017c2e9ac9091fb0019500b7688723
+cmd=t=$(mktemp -d) && mkdir "$t/scripts" "$t/_tools" && cp scripts/verify-workable-items.sh "$t/scripts/" && cp _tools/deploy-langs.sh "$t/_tools/" && bash scripts/zero-gap-class-build-if-missing.sh --root "$PWD" --corpus "$t" > "$t/out" 2>&1; rc=$?; grep -c '^FINDING' "$t/out" | sed 's/^/findings=/'; rm -rf "$t"; exit $rc
+population_kind=source
+evidence_class=source

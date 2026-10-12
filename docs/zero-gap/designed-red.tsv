@@ -1,0 +1,6 @@
+# designed-red.tsv - gates whose NON-ZERO exit is the documented, intended state (feature 010, T061 fix 2).
+# DATA read by scripts/zero-gap-coverage.sh. A coverage cell becomes `designed-red` ONLY when its (subject, kind) is
+# declared here AND the measured rc EQUALS expected_rc; any other red stays `check-red`. Never declare a genuinely
+# failing suite here to keep a count high: each row needs a reason that cites where the red is documented as intended.
+# Columns (tab-separated): subject  kind  expected_rc  reason  ref
+root	content-boundary	1	scripts/verify-content-boundary.sh exits 1 BY DESIGN: it is a reading assignment over a population no commit can clear (README/CLAUDE.md "RED BY DESIGN - do not make it green"); a 0 would mean the detector went blind	CLAUDE.md#content-boundary

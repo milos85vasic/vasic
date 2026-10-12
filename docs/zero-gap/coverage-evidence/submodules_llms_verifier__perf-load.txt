@@ -1,0 +1,56 @@
+subject=submodules/llms_verifier kind=perf-load status=check cases=12 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:50:34Z
+cmd=go test -count=1 -json -run . -bench . -benchtime 1x ./tests/performance/...
+passed=12 failed=0 skipped=0 seconds=5.9
+---
+{"Time":"2026-10-12T12:50:29.300985924+02:00","Action":"start","Package":"llmsverifier/tests/performance"}
+{"Time":"2026-10-12T12:50:29.307724801+02:00","Action":"run","Package":"llmsverifier/tests/performance","Test":"TestPerformanceUnderLoad"}
+{"Time":"2026-10-12T12:50:29.307761601+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"TestPerformanceUnderLoad","Output":"=== RUN   TestPerformanceUnderLoad\n"}
+{"Time":"2026-10-12T12:50:29.307769461+02:00","Action":"run","Package":"llmsverifier/tests/performance","Test":"TestPerformanceUnderLoad/Concurrency_1"}
+{"Time":"2026-10-12T12:50:29.307772311+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"TestPerformanceUnderLoad/Concurrency_1","Output":"=== RUN   TestPerformanceUnderLoad/Concurrency_1\n"}
+{"Time":"2026-10-12T12:50:29.319359647+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"TestPerformanceUnderLoad/Concurrency_1","Output":"    benchmark_test.go:253: Concurrency 1: Completed 1 requests in 11.171524ms\n"}
+{"Time":"2026-10-12T12:50:29.319451098+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"TestPerformanceUnderLoad/Concurrency_1","Output":"--- PASS: TestPerformanceUnderLoad/Concurrency_1 (0.01s)\n"}
+{"Time":"2026-10-12T12:50:29.319459438+02:00","Action":"pass","Package":"llmsverifier/tests/performance","Test":"TestPerformanceUnderLoad/Concurrency_1","Elapsed":0.01}
+{"Time":"2026-10-12T12:50:29.319465928+02:00","Action":"run","Package":"llmsverifier/tests/performance","Test":"TestPerformanceUnderLoad/Concurrency_10"}
+{"Time":"2026-10-12T12:50:29.319469668+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"TestPerformanceUnderLoad/Concurrency_10","Output":"=== RUN   TestPerformanceUnderLoad/Concurrency_10\n"}
+... [62 lines elided] ...
+{"Time":"2026-10-12T12:50:34.730579755+02:00","Action":"run","Package":"llmsverifier/tests/performance","Test":"BenchmarkDatabaseOperations"}
+{"Time":"2026-10-12T12:50:34.730587115+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkDatabaseOperations","Output":"=== RUN   BenchmarkDatabaseOperations\n"}
+{"Time":"2026-10-12T12:50:34.730598495+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkDatabaseOperations","Output":"BenchmarkDatabaseOperations\n"}
+{"Time":"2026-10-12T12:50:34.731638299+02:00","Action":"run","Package":"llmsverifier/tests/performance","Test":"BenchmarkDatabaseOperations/Insert"}
+{"Time":"2026-10-12T12:50:34.731653859+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkDatabaseOperations/Insert","Output":"=== RUN   BenchmarkDatabaseOperations/Insert\n"}
+{"Time":"2026-10-12T12:50:34.731661439+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkDatabaseOperations/Insert","Output":"BenchmarkDatabaseOperations/Insert\n"}
+{"Time":"2026-10-12T12:50:34.732297482+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkDatabaseOperations/Insert","Output":"BenchmarkDatabaseOperations/Insert-4         \t       1\t     21530 ns/op\t     792 B/op\t       8 allocs/op\n"}
+{"Time":"2026-10-12T12:50:34.732321002+02:00","Action":"run","Package":"llmsverifier/tests/performance","Test":"BenchmarkDatabaseOperations/Query"}
+{"Time":"2026-10-12T12:50:34.732327612+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkDatabaseOperations/Query","Output":"=== RUN   BenchmarkDatabaseOperations/Query\n"}
+{"Time":"2026-10-12T12:50:34.732336692+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkDatabaseOperations/Query","Output":"BenchmarkDatabaseOperations/Query\n"}
+{"Time":"2026-10-12T12:50:34.73444425+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkDatabaseOperations/Query","Output":"BenchmarkDatabaseOperations/Query-4          \t       1\t     36250 ns/op\n"}
+{"Time":"2026-10-12T12:50:34.734538741+02:00","Action":"run","Package":"llmsverifier/tests/performance","Test":"BenchmarkCachePerformance"}
+{"Time":"2026-10-12T12:50:34.734545431+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkCachePerformance","Output":"=== RUN   BenchmarkCachePerformance\n"}
+{"Time":"2026-10-12T12:50:34.734549731+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkCachePerformance","Output":"BenchmarkCachePerformance\n"}
+{"Time":"2026-10-12T12:50:34.73688743+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkCachePerformance","Output":"BenchmarkCachePerformance-4                  \t       1\t     16020 ns/op\n"}
+{"Time":"2026-10-12T12:50:34.73690311+02:00","Action":"run","Package":"llmsverifier/tests/performance","Test":"BenchmarkJSONSerialization"}
+{"Time":"2026-10-12T12:50:34.73690709+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkJSONSerialization","Output":"=== RUN   BenchmarkJSONSerialization\n"}
+{"Time":"2026-10-12T12:50:34.73691955+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkJSONSerialization","Output":"BenchmarkJSONSerialization\n"}
+{"Time":"2026-10-12T12:50:34.737784223+02:00","Action":"run","Package":"llmsverifier/tests/performance","Test":"BenchmarkJSONSerialization/Marshal"}
+{"Time":"2026-10-12T12:50:34.737794703+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkJSONSerialization/Marshal","Output":"=== RUN   BenchmarkJSONSerialization/Marshal\n"}
+{"Time":"2026-10-12T12:50:34.737799033+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkJSONSerialization/Marshal","Output":"BenchmarkJSONSerialization/Marshal\n"}
+{"Time":"2026-10-12T12:50:34.738317095+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkJSONSerialization/Marshal","Output":"BenchmarkJSONSerialization/Marshal-4         \t       1\t     61720 ns/op\t    2920 B/op\t      53 allocs/op\n"}
+{"Time":"2026-10-12T12:50:34.738369766+02:00","Action":"run","Package":"llmsverifier/tests/performance","Test":"BenchmarkJSONSerialization/Unmarshal"}
+{"Time":"2026-10-12T12:50:34.738378226+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkJSONSerialization/Unmarshal","Output":"=== RUN   BenchmarkJSONSerialization/Unmarshal\n"}
+{"Time":"2026-10-12T12:50:34.738382216+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkJSONSerialization/Unmarshal","Output":"BenchmarkJSONSerialization/Unmarshal\n"}
+{"Time":"2026-10-12T12:50:34.738931878+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkJSONSerialization/Unmarshal","Output":"BenchmarkJSONSerialization/Unmarshal-4       \t       1\t     30841 ns/op\t    2688 B/op\t      64 allocs/op\n"}
+{"Time":"2026-10-12T12:50:34.738965738+02:00","Action":"run","Package":"llmsverifier/tests/performance","Test":"BenchmarkStringOperations"}
+{"Time":"2026-10-12T12:50:34.738971428+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkStringOperations","Output":"=== RUN   BenchmarkStringOperations\n"}
+{"Time":"2026-10-12T12:50:34.738975158+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkStringOperations","Output":"BenchmarkStringOperations\n"}
+{"Time":"2026-10-12T12:50:34.7393784+02:00","Action":"run","Package":"llmsverifier/tests/performance","Test":"BenchmarkStringOperations/ParseSuffixes"}
+{"Time":"2026-10-12T12:50:34.73938559+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkStringOperations/ParseSuffixes","Output":"=== RUN   BenchmarkStringOperations/ParseSuffixes\n"}
+{"Time":"2026-10-12T12:50:34.73938974+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkStringOperations/ParseSuffixes","Output":"BenchmarkStringOperations/ParseSuffixes\n"}
+{"Time":"2026-10-12T12:50:34.739822222+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkStringOperations/ParseSuffixes","Output":"BenchmarkStringOperations/ParseSuffixes-4    \t       1\t      1570 ns/op\n"}
+{"Time":"2026-10-12T12:50:34.739835552+02:00","Action":"run","Package":"llmsverifier/tests/performance","Test":"BenchmarkStringOperations/GenerateDisplayName"}
+{"Time":"2026-10-12T12:50:34.739839012+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkStringOperations/GenerateDisplayName","Output":"=== RUN   BenchmarkStringOperations/GenerateDisplayName\n"}
+{"Time":"2026-10-12T12:50:34.739843742+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkStringOperations/GenerateDisplayName","Output":"BenchmarkStringOperations/GenerateDisplayName\n"}
+{"Time":"2026-10-12T12:50:34.740351804+02:00","Action":"output","Package":"llmsverifier/tests/performance","Test":"BenchmarkStringOperations/GenerateDisplayName","Output":"BenchmarkStringOperations/GenerateDisplayName-4         \t       1\t     24430 ns/op\n"}
+{"Time":"2026-10-12T12:50:34.740437964+02:00","Action":"output","Package":"llmsverifier/tests/performance","Output":"PASS\n"}
+{"Time":"2026-10-12T12:50:34.744892461+02:00","Action":"output","Package":"llmsverifier/tests/performance","Output":"ok  \tllmsverifier/tests/performance\t5.444s\n"}
+{"Time":"2026-10-12T12:50:34.744914602+02:00","Action":"pass","Package":"llmsverifier/tests/performance","Elapsed":5.444}

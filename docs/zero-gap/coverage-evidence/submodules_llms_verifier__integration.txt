@@ -1,0 +1,46 @@
+subject=submodules/llms_verifier kind=integration status=check cases=9 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:50:23Z
+cmd=go test -count=1 -json ./tests/integration/...
+passed=9 failed=0 skipped=0 seconds=9.2
+---
+{"Time":"2026-10-12T12:50:16.14395303+02:00","Action":"start","Package":"llmsverifier/tests/integration"}
+{"Time":"2026-10-12T12:50:16.150074744+02:00","Action":"run","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_CompleteWorkflow"}
+{"Time":"2026-10-12T12:50:16.150116514+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_CompleteWorkflow","Output":"=== RUN   TestProviderIntegration_CompleteWorkflow\n"}
+{"Time":"2026-10-12T12:50:16.818960333+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_CompleteWorkflow","Output":"--- PASS: TestProviderIntegration_CompleteWorkflow (0.67s)\n"}
+{"Time":"2026-10-12T12:50:16.818993203+02:00","Action":"pass","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_CompleteWorkflow","Elapsed":0.67}
+{"Time":"2026-10-12T12:50:16.818998323+02:00","Action":"run","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_MultipleProviders"}
+{"Time":"2026-10-12T12:50:16.819001033+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_MultipleProviders","Output":"=== RUN   TestProviderIntegration_MultipleProviders\n"}
+{"Time":"2026-10-12T12:50:19.731185905+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_MultipleProviders","Output":"--- PASS: TestProviderIntegration_MultipleProviders (2.91s)\n"}
+{"Time":"2026-10-12T12:50:19.731331595+02:00","Action":"pass","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_MultipleProviders","Elapsed":2.91}
+{"Time":"2026-10-12T12:50:19.731352295+02:00","Action":"run","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Failover"}
+{"Time":"2026-10-12T12:50:19.731358146+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Failover","Output":"=== RUN   TestProviderIntegration_Failover\n"}
+{"Time":"2026-10-12T12:50:21.048760502+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Failover","Output":"--- PASS: TestProviderIntegration_Failover (1.32s)\n"}
+{"Time":"2026-10-12T12:50:21.048781652+02:00","Action":"pass","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Failover","Elapsed":1.32}
+{"Time":"2026-10-12T12:50:21.048789742+02:00","Action":"run","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Authentication"}
+{"Time":"2026-10-12T12:50:21.048793232+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Authentication","Output":"=== RUN   TestProviderIntegration_Authentication\n"}
+{"Time":"2026-10-12T12:50:21.381715631+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Authentication","Output":"--- PASS: TestProviderIntegration_Authentication (0.33s)\n"}
+{"Time":"2026-10-12T12:50:21.381738251+02:00","Action":"pass","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Authentication","Elapsed":0.33}
+{"Time":"2026-10-12T12:50:21.381746861+02:00","Action":"run","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_RateLimiting"}
+{"Time":"2026-10-12T12:50:21.381750171+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_RateLimiting","Output":"=== RUN   TestProviderIntegration_RateLimiting\n"}
+{"Time":"2026-10-12T12:50:21.7351397+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_RateLimiting","Output":"--- PASS: TestProviderIntegration_RateLimiting (0.35s)\n"}
+{"Time":"2026-10-12T12:50:21.73516364+02:00","Action":"pass","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_RateLimiting","Elapsed":0.35}
+{"Time":"2026-10-12T12:50:21.7351726+02:00","Action":"run","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Timeout"}
+{"Time":"2026-10-12T12:50:21.7351815+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Timeout","Output":"=== RUN   TestProviderIntegration_Timeout\n"}
+{"Time":"2026-10-12T12:50:22.083104148+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Timeout","Output":"--- PASS: TestProviderIntegration_Timeout (0.35s)\n"}
+{"Time":"2026-10-12T12:50:22.083128258+02:00","Action":"pass","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Timeout","Elapsed":0.35}
+{"Time":"2026-10-12T12:50:22.083135398+02:00","Action":"run","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Caching"}
+{"Time":"2026-10-12T12:50:22.083141978+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Caching","Output":"=== RUN   TestProviderIntegration_Caching\n"}
+{"Time":"2026-10-12T12:50:22.398907329+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Caching","Output":"--- PASS: TestProviderIntegration_Caching (0.32s)\n"}
+{"Time":"2026-10-12T12:50:22.398928799+02:00","Action":"pass","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_Caching","Elapsed":0.32}
+{"Time":"2026-10-12T12:50:22.398934389+02:00","Action":"run","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_ErrorRecovery"}
+{"Time":"2026-10-12T12:50:22.398937129+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_ErrorRecovery","Output":"=== RUN   TestProviderIntegration_ErrorRecovery\n"}
+{"Time":"2026-10-12T12:50:23.13147296+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_ErrorRecovery","Output":"--- PASS: TestProviderIntegration_ErrorRecovery (0.73s)\n"}
+{"Time":"2026-10-12T12:50:23.13149885+02:00","Action":"pass","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_ErrorRecovery","Elapsed":0.73}
+{"Time":"2026-10-12T12:50:23.13151185+02:00","Action":"run","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_ConcurrentOperations"}
+{"Time":"2026-10-12T12:50:23.13151741+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_ConcurrentOperations","Output":"=== RUN   TestProviderIntegration_ConcurrentOperations\n"}
+{"Time":"2026-10-12T12:50:23.785312959+02:00","Action":"output","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_ConcurrentOperations","Output":"--- PASS: TestProviderIntegration_ConcurrentOperations (0.65s)\n"}
+{"Time":"2026-10-12T12:50:23.785341519+02:00","Action":"pass","Package":"llmsverifier/tests/integration","Test":"TestProviderIntegration_ConcurrentOperations","Elapsed":0.65}
+{"Time":"2026-10-12T12:50:23.785348159+02:00","Action":"output","Package":"llmsverifier/tests/integration","Output":"PASS\n"}
+{"Time":"2026-10-12T12:50:23.807170505+02:00","Action":"output","Package":"llmsverifier/tests/integration","Output":"ok  \tllmsverifier/tests/integration\t7.663s\n"}
+{"Time":"2026-10-12T12:50:23.807196065+02:00","Action":"pass","Package":"llmsverifier/tests/integration","Elapsed":7.663}
+

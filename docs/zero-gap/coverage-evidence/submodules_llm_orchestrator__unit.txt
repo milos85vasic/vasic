@@ -1,0 +1,7 @@
+subject=submodules/llm_orchestrator kind=unit status=check cases=524 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:47:52Z
+cmd=(cd submodules/llm_orchestrator && go test -count=1 -json -short <9 pkgs>)
+passed=524 failed=0 skipped=3 over 1 module(s); worst module rc=0
+---
+## submodules/llm_orchestrator: rc=0 passed=524 failed=0 skipped=3 seconds=3.1 build_fail=False
+

@@ -1,0 +1,18 @@
+subject=submodules/containers kind=stress-chaos status=check cases=2 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:47:41Z
+cmd=go test -count=1 -json -tags stress ./tests/stress/...
+passed=2 failed=0 skipped=0 seconds=0.4
+---
+{"Time":"2026-10-12T12:47:41.867122183+02:00","Action":"start","Package":"digital.vasic.containers/tests/stress"}
+{"Time":"2026-10-12T12:47:41.874230342+02:00","Action":"run","Package":"digital.vasic.containers/tests/stress","Test":"TestDistribution_ConcurrentStatus"}
+{"Time":"2026-10-12T12:47:41.874290322+02:00","Action":"output","Package":"digital.vasic.containers/tests/stress","Test":"TestDistribution_ConcurrentStatus","Output":"=== RUN   TestDistribution_ConcurrentStatus\n"}
+{"Time":"2026-10-12T12:47:41.874654453+02:00","Action":"output","Package":"digital.vasic.containers/tests/stress","Test":"TestDistribution_ConcurrentStatus","Output":"--- PASS: TestDistribution_ConcurrentStatus (0.00s)\n"}
+{"Time":"2026-10-12T12:47:41.874677523+02:00","Action":"pass","Package":"digital.vasic.containers/tests/stress","Test":"TestDistribution_ConcurrentStatus","Elapsed":0}
+{"Time":"2026-10-12T12:47:41.874690863+02:00","Action":"run","Package":"digital.vasic.containers/tests/stress","Test":"TestScheduler_ConcurrentSchedule"}
+{"Time":"2026-10-12T12:47:41.874697474+02:00","Action":"output","Package":"digital.vasic.containers/tests/stress","Test":"TestScheduler_ConcurrentSchedule","Output":"=== RUN   TestScheduler_ConcurrentSchedule\n"}
+{"Time":"2026-10-12T12:47:41.875217015+02:00","Action":"output","Package":"digital.vasic.containers/tests/stress","Test":"TestScheduler_ConcurrentSchedule","Output":"--- PASS: TestScheduler_ConcurrentSchedule (0.00s)\n"}
+{"Time":"2026-10-12T12:47:41.875226046+02:00","Action":"pass","Package":"digital.vasic.containers/tests/stress","Test":"TestScheduler_ConcurrentSchedule","Elapsed":0}
+{"Time":"2026-10-12T12:47:41.875232676+02:00","Action":"output","Package":"digital.vasic.containers/tests/stress","Output":"PASS\n"}
+{"Time":"2026-10-12T12:47:41.875496377+02:00","Action":"output","Package":"digital.vasic.containers/tests/stress","Output":"ok  \tdigital.vasic.containers/tests/stress\t0.008s\n"}
+{"Time":"2026-10-12T12:47:41.875513527+02:00","Action":"pass","Package":"digital.vasic.containers/tests/stress","Elapsed":0.008}
+

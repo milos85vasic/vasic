@@ -1,0 +1,13 @@
+subject=workshop kind=unit status=check-red cases=1572 failed=7 rc=1
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:52:00Z
+cmd=(cd workshop/pipeline/symbols && go test -count=1 -json -short <1 pkgs>); (cd workshop/platform/backend && go test -count=1 -json -short <28 pkgs>)
+passed=1565 failed=7 skipped=17 over 2 module(s); worst module rc=1
+---
+## workshop/pipeline/symbols: rc=0 passed=0 failed=0 skipped=0 seconds=0.1 build_fail=False
+
+## workshop/platform/backend: rc=1 passed=1565 failed=7 skipped=17 seconds=19.1 build_fail=False
+
+## /home/milosvasic/Projects/vasic/workshop/platform/orchestration: go list rc=0, no packages
+github.com/milos85vasic/workshop_curriculum/platform/orchestration/cmd/containers-status-probe
+github.com/milos85vasic/workshop_curriculum/platform/orchestration/cmd/workshop-boot
+

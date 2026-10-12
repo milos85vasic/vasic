@@ -1,0 +1,18 @@
+subject=submodules/qa kind=unit status=check-red cases=3959 failed=1 rc=1
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:08Z
+cmd=(cd submodules/qa && go test -count=1 -json -short <130 pkgs>)
+passed=3958 failed=1 skipped=21 over 1 module(s); worst module rc=1
+---
+## submodules/qa: rc=1 passed=3958 failed=1 skipped=21 seconds=28.5 build_fail=True
+ction":"build-output","Output":"# digital.vasic.helixqa/pkg/vision/cheaper/wire\n"}
+{"ImportPath":"github.com/failsafe-go/failsafe-go/retrypolicy","Action":"build-output","Output":"pkg/vision/cheaper/executor.go:16:2: module lookup disabled by GOPROXY=off\n"}
+{"ImportPath":"github.com/failsafe-go/failsafe-go/retrypolicy","Action":"build-fail"}
+{"ImportPath":"github.com/failsafe-go/failsafe-go/timeout","Action":"build-output","Output":"# digital.vasic.helixqa/pkg/vision/cheaper/wire\n"}
+{"ImportPath":"github.com/failsafe-go/failsafe-go/timeout","Action":"build-output","Output":"pkg/vision/cheaper/executor.go:17:2: module lookup disabled by GOPROXY=off\n"}
+{"ImportPath":"github.com/failsafe-go/failsafe-go/timeout","Action":"build-fail"}
+{"ImportPath":"github.com/philippgille/chromem-go","Action":"build-output","Output":"# digital.vasic.helixqa/pkg/vision/cheaper/wire\n"}
+{"ImportPath":"github.com/philippgille/chromem-go","Action":"build-output","Output":"pkg/vision/cheaper/memory/vector_store.go:20:2: module lookup disabled by GOPROXY=off\n"}
+{"ImportPath":"github.com/philippgille/chromem-go","Action":"build-fail"}
+{"ImportPath":"github.com/patrickmn/go-cache","Action":"build-output","Output":"# digital.vasic.helixqa/pkg/vision/cheaper/wire\n"}
+{"ImportPath":"github.com/patrickmn/go-cache","Action":"build-output","Output":"pkg/vision/cheaper/cache/differential.go:18:2: module lookup disabled by GOPROXY=off\n"}
+{"ImportPath":"github.com/patrickmn/go-cache","Action":"build-fail"}

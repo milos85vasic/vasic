@@ -1,0 +1,7 @@
+subject=submodules/vision_engine kind=unit status=check cases=503 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:22Z
+cmd=(cd submodules/vision_engine && go test -count=1 -json -short <9 pkgs>)
+passed=503 failed=0 skipped=11 over 1 module(s); worst module rc=0
+---
+## submodules/vision_engine: rc=0 passed=503 failed=0 skipped=11 seconds=1.1 build_fail=False
+

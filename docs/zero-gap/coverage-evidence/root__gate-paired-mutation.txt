@@ -1,0 +1,24 @@
+subject=root kind=gate-paired-mutation status=check cases=13 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:52:46Z
+cmd=bash scripts/verify-claim-ledger.sh --prove-failure
+seconds=4.3 failed=0 (parsed from the gate output; rc is authoritative)
+---
+== prove-failure: this gate must be seen distinguishing a TRUE claim
+   from a FALSE one, in BOTH directions, and refusing to guess ==
+
+PASS C0  CONTROL — a fully TRUE ledger over a matching tree fires nothing  (rc 0)
+PASS C1  CONTROL — a SUPERSEDED figure recorded in prose, outside the anchor, stays green  (rc 0)
+PASS M1  the DOCUMENT'S asserted figure is falsified — claim != reality  (rc 1)
+PASS M2  REALITY MOVES while the claim stays put — THE measured defect class  (rc 1)
+PASS M3  ORPHAN — the claim is deleted from the document, the row survives  (rc 1)
+PASS M4  a SECOND occurrence of the claim shape carries a DEAD figure  (rc 1)
+PASS M5  an INVENTED bluff type outside the seven-member closed set  (rc 1)
+PASS M6  a MALFORMED row — fewer fields than the format requires  (rc 1)
+PASS M7  an ASSERT row's reality moves — the thing it denies now exists  (rc 1)
+PASS U1  a probe that WILL NOT RUN is UNDETERMINED, never verified  (rc 2)
+PASS U2  an ABSENT SURFACE is UNDETERMINED — nothing was measured  (rc 2)
+PASS U3  VACUITY — a ledger with zero claim rows certifies nothing  (rc 2)
+PASS P1  PRECEDENCE — a FALSE claim outranks an UNDETERMINED one (1, not 2)  (rc 1)
+
+== 13 passed / 0 failed / 13 arms ==
+

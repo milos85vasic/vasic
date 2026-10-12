@@ -1,0 +1,17 @@
+# guard-waivers.tsv - paired-proof waivers for scripts/zero-gap-guard-checks.sh (FR-013). TAB-separated: kind, subject, paired_check, reason.
+# A row is valid only in the diff that adds it; paired_check must be a check row that still carries a proof.
+add-exempt	_tests/prove-preflight.sh	zero-gap-class-unregistered-scripts	VSC-374: a paired mutation proof, registered as exempt-as-proof; the unregistered-scripts class re-derives it every sweep
+add-exempt	_tests/export/self-validate.sh	harness-selfvalidation-aggregator	VSC-374: the export self-validation is run and aggregated by the aggregator, whose precedence has its own --prove-failure
+add-exempt	_tests/visual/self-validate.sh	harness-selfvalidation-aggregator	VSC-374: the visual self-validation is run and aggregated by the aggregator, whose precedence has its own --prove-failure
+add-exempt	_tests/export/build-fixtures.sh	harness-selfvalidation-aggregator	VSC-374: fixture generator whose output the aggregated export self-validation judges
+add-exempt	_tests/evidence/fix4docs/retry.sh	zero-gap-class-unregistered-scripts	VSC-374: historical evidence helper, judged nothing; retirement is an operator decision (section 11.4.122)
+add-exempt	upstreams/GitHub.sh	zero-gap-class-unregistered-scripts	VSC-374: push recipe, asserts nothing
+add-exempt	_tools/containers/compose/jekyll-build.sh	check-registry	VSC-373: container-service entrypoint, never run on the host (bind-mounted into the jekyll-build service, driven by site-build); builds the site and judges nothing about the repository
+add-exempt	_tools/containers/compose/ocr-run.sh	check-registry	VSC-373: container-service entrypoint, never run on the host (tesseract-ocr service, driven by cmd/ocr); produces OCR text that the export validator judges
+add-exempt	_tools/gen/build.sh	check-registry	VSC-373: builder/generator that renders site content; writes output rather than judging the tree, and its output is judged by the Playwright harness and export validators
+add-exempt	_tools/hawkscan/run.sh	check-registry	VSC-373: scanner wrapper that is not a gate (exits 0 without HAWK_API_KEY, run by no pre-push gate); registering it as a check would need a proof it cannot give
+add-exempt	_tools/lib/translation-fleet.sh	check-registry	VSC-373: sourced library with no entry point of its own, the single source of truth for fleet hosts; scanned by _tools/prove-translation-fleet.sh
+add-exempt	_tools/od/generate.sh	check-registry	VSC-373: generator wrapper for a reproducible OpenDesign call; writes a generated file and judges nothing about the repository
+add-exempt	_tools/od/start-daemon.sh	check-registry	VSC-373: daemon launcher that changes host state (starts the OpenDesign daemon) rather than judging the tree
+add-exempt	_tools/pdf/build-pdfs.sh	check-registry	VSC-373: PDF generator; its output is judged by the section 11.4.168 export validators (gate 5), not by this script
+add-exempt	_tools/helixtranslate-container/run.sh	check-registry	VSC-373: remote-host entrypoint installed and run outside this checkout (declared section 11.4.76 exception); a one-shot stdin run that judges nothing about the repository

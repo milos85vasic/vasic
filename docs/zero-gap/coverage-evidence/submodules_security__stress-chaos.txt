@@ -1,0 +1,34 @@
+subject=submodules/security kind=stress-chaos status=check cases=6 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:19Z
+cmd=go test -count=1 -json ./tests/stress/...
+passed=6 failed=0 skipped=0 seconds=0.4
+---
+{"Time":"2026-10-12T12:51:19.511651425+02:00","Action":"start","Package":"digital.vasic.security/tests/stress"}
+{"Time":"2026-10-12T12:51:19.515779961+02:00","Action":"run","Package":"digital.vasic.security/tests/stress","Test":"TestGuardrailsEngine_ConcurrentChecks_Stress"}
+{"Time":"2026-10-12T12:51:19.515830471+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Test":"TestGuardrailsEngine_ConcurrentChecks_Stress","Output":"=== RUN   TestGuardrailsEngine_ConcurrentChecks_Stress\n"}
+{"Time":"2026-10-12T12:51:19.516373154+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Test":"TestGuardrailsEngine_ConcurrentChecks_Stress","Output":"--- PASS: TestGuardrailsEngine_ConcurrentChecks_Stress (0.00s)\n"}
+{"Time":"2026-10-12T12:51:19.516401744+02:00","Action":"pass","Package":"digital.vasic.security/tests/stress","Test":"TestGuardrailsEngine_ConcurrentChecks_Stress","Elapsed":0}
+{"Time":"2026-10-12T12:51:19.516420984+02:00","Action":"run","Package":"digital.vasic.security/tests/stress","Test":"TestGuardrailsEngine_ConcurrentAddAndCheck_Stress"}
+{"Time":"2026-10-12T12:51:19.516427984+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Test":"TestGuardrailsEngine_ConcurrentAddAndCheck_Stress","Output":"=== RUN   TestGuardrailsEngine_ConcurrentAddAndCheck_Stress\n"}
+{"Time":"2026-10-12T12:51:19.516819665+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Test":"TestGuardrailsEngine_ConcurrentAddAndCheck_Stress","Output":"--- PASS: TestGuardrailsEngine_ConcurrentAddAndCheck_Stress (0.00s)\n"}
+{"Time":"2026-10-12T12:51:19.516835085+02:00","Action":"pass","Package":"digital.vasic.security/tests/stress","Test":"TestGuardrailsEngine_ConcurrentAddAndCheck_Stress","Elapsed":0}
+{"Time":"2026-10-12T12:51:19.516845315+02:00","Action":"run","Package":"digital.vasic.security/tests/stress","Test":"TestPIIRedactor_ConcurrentRedaction_Stress"}
+{"Time":"2026-10-12T12:51:19.516851225+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Test":"TestPIIRedactor_ConcurrentRedaction_Stress","Output":"=== RUN   TestPIIRedactor_ConcurrentRedaction_Stress\n"}
+{"Time":"2026-10-12T12:51:19.519418406+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Test":"TestPIIRedactor_ConcurrentRedaction_Stress","Output":"--- PASS: TestPIIRedactor_ConcurrentRedaction_Stress (0.00s)\n"}
+{"Time":"2026-10-12T12:51:19.519431616+02:00","Action":"pass","Package":"digital.vasic.security/tests/stress","Test":"TestPIIRedactor_ConcurrentRedaction_Stress","Elapsed":0}
+{"Time":"2026-10-12T12:51:19.519461776+02:00","Action":"run","Package":"digital.vasic.security/tests/stress","Test":"TestContentFilterChain_ConcurrentChecks_Stress"}
+{"Time":"2026-10-12T12:51:19.519466126+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Test":"TestContentFilterChain_ConcurrentChecks_Stress","Output":"=== RUN   TestContentFilterChain_ConcurrentChecks_Stress\n"}
+{"Time":"2026-10-12T12:51:19.519554236+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Test":"TestContentFilterChain_ConcurrentChecks_Stress","Output":"--- PASS: TestContentFilterChain_ConcurrentChecks_Stress (0.00s)\n"}
+{"Time":"2026-10-12T12:51:19.519562826+02:00","Action":"pass","Package":"digital.vasic.security/tests/stress","Test":"TestContentFilterChain_ConcurrentChecks_Stress","Elapsed":0}
+{"Time":"2026-10-12T12:51:19.519567596+02:00","Action":"run","Package":"digital.vasic.security/tests/stress","Test":"TestPolicyEnforcer_ConcurrentEvaluation_Stress"}
+{"Time":"2026-10-12T12:51:19.519570426+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Test":"TestPolicyEnforcer_ConcurrentEvaluation_Stress","Output":"=== RUN   TestPolicyEnforcer_ConcurrentEvaluation_Stress\n"}
+{"Time":"2026-10-12T12:51:19.519835957+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Test":"TestPolicyEnforcer_ConcurrentEvaluation_Stress","Output":"--- PASS: TestPolicyEnforcer_ConcurrentEvaluation_Stress (0.00s)\n"}
+{"Time":"2026-10-12T12:51:19.519843067+02:00","Action":"pass","Package":"digital.vasic.security/tests/stress","Test":"TestPolicyEnforcer_ConcurrentEvaluation_Stress","Elapsed":0}
+{"Time":"2026-10-12T12:51:19.519872307+02:00","Action":"run","Package":"digital.vasic.security/tests/stress","Test":"TestPolicyEnforcer_ConcurrentLoadAndEvaluate_Stress"}
+{"Time":"2026-10-12T12:51:19.519877777+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Test":"TestPolicyEnforcer_ConcurrentLoadAndEvaluate_Stress","Output":"=== RUN   TestPolicyEnforcer_ConcurrentLoadAndEvaluate_Stress\n"}
+{"Time":"2026-10-12T12:51:19.520373379+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Test":"TestPolicyEnforcer_ConcurrentLoadAndEvaluate_Stress","Output":"--- PASS: TestPolicyEnforcer_ConcurrentLoadAndEvaluate_Stress (0.00s)\n"}
+{"Time":"2026-10-12T12:51:19.520397839+02:00","Action":"pass","Package":"digital.vasic.security/tests/stress","Test":"TestPolicyEnforcer_ConcurrentLoadAndEvaluate_Stress","Elapsed":0}
+{"Time":"2026-10-12T12:51:19.520402289+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Output":"PASS\n"}
+{"Time":"2026-10-12T12:51:19.520700981+02:00","Action":"output","Package":"digital.vasic.security/tests/stress","Output":"ok  \tdigital.vasic.security/tests/stress\t0.009s\n"}
+{"Time":"2026-10-12T12:51:19.520727561+02:00","Action":"pass","Package":"digital.vasic.security/tests/stress","Elapsed":0.009}
+

@@ -115,9 +115,15 @@ replay a line under a new tail record; truncate BOTH tails (only the anchor catc
 recorder row so the constitution's `continuum-unionrule` can be reused.
 
 ### CoverageCell (data file `docs/zero-gap/coverage.tsv`)
-`subject \t test_kind \t status \t ref` where `status ∈ {check, n/a, gap, could-not-run}` and `ref` is
+`subject \t test_kind \t status \t ref` where `status ∈ {check, check-red, designed-red, n/a, gap, could-not-run}` and `ref` is
 a registered check id / a reason / a gap item id / the missing tool. The generator FAILS a `check`
-cell whose last run executed zero cases (FR-011).
+cell whose last run executed zero cases (FR-011). **Amendment 2026-10-12 (T061 review):** `check` requires
+cases>0 AND failed==0 AND rc==0; a kind that ran but is red is `check-red` (applied, not proven, a finding),
+and `designed-red` is emitted ONLY for a (subject, kind) declared in `docs/zero-gap/designed-red.tsv` whose
+declared `expected_rc` equals the measured rc. A `check`/`check-red`/`designed-red` cell resting on evidence
+that is not bound to its row (subject/kind/cases/failed/rc plus `head=`/`tree=`/`ts=` in the evidence header)
+becomes `gap:evidence-mismatch`. Every `gap*`, `check-red` and `could-not-run` cell is also written to the
+DERIVED file `docs/zero-gap/cycle-2-candidates.tsv` (cycle-2 intake; the register stays frozen at cycle 1).
 
 ### IndependentVerdict (NEW add-on table `item_verdicts`, the same pattern as `item_provenance`)
 `item_verdicts(item_id, role CHECK(role IN ('verifier','reviewer')), actor, actor_kind CHECK(actor_kind
@@ -125,6 +131,8 @@ IN ('agent','script')), on_date, outcome CHECK(outcome IN (0,1,2)), evidence_pat
 `item_history` CHECK fixes its `event_type` set (Opened/Updated/Reopened/Fixed/Implemented/Completed/
 Obsolete) and its `by` column only allows `AI|User`, so neither can carry a new event or distinguish
 two agents; a separate table can. Disagreement with the author's verdict blocks closure (FR-018). The first seven columns are NOT NULL; an EIGHTH nullable column `evidence_sha256` (added in T008 fix round 3, migration additive and idempotent) records the digest of the cited evidence file at verdict time, and the sha256 of every cited RED/GREEN/verifier/reviewer/research file is also recorded at close time so a post-close swap is a V-G3 finding (FR-016 for the register; chain binding is still T068). `item_id` is checked against `items` by validator rule V-G12 (the table has no foreign key).
+
+**V-G3(c) — the newest verdict per role is the one evaluated** (amendment of 2026-10-08, operator decision; FR-018/FR-022 unchanged in force). For each item, after the reopen cut has removed stale rows, and for each role (`verifier`, `reviewer`) separately, the NEWEST `item_verdicts` row is the one V-G3 evaluates. "Newest" is ordered by `on_date` (ISO date, compared as text), ties broken by `rowid` (insertion order; the later insert is newer). Every older row of that role stays in the table as history and is never deleted or altered; it neither satisfies nor blocks closure. Consequently: (i) a newer row with `outcome` 1 or 2 supersedes an older approving row, so a regression is never masked by an old approval; (ii) a newer approving row supersedes an older disagreement or an older row that failed a check; (iii) `close --verdict-ref` must name the newest verifier row's evidence path. **Anti-weakening:** the newest row is held to EVERY existing check unchanged - verifier evidence must be strictly later than the GREEN it confirms (N2), must be an own-item `verdict_role=verifier` record with outcome 0, must not be a RED/GREEN record or byte copy of one, and its actor must differ from the fixer recorded in the closure (FR-018; the fixer != check-author rule is enforced at close time and is untouched); the reviewer row must still be an independent, non-empty regular file, dated no earlier than the GREEN day (VSC-363), with an actor other than the fixer (FR-022). A newest row that fails any of these is a finding and NOTHING older can rescue it; a role with no row remains a finding. This rule only removes older rows from the evaluation set; it adds no way for a row that fails a check to pass it. **Dates (amendment 2026-10-08, review fix).** Before the newest row is chosen, every fresh row (after the reopen cut) whose `on_date` is not an ISO `YYYY-MM-DD` date (including empty, `~`, `2026-10-8`) or is dated after the register's `--as-of` day is EXCLUDED from the ordering, for both roles, and each excluded row is itself a V-G3 finding. Such a row can therefore neither win the ordering (a `9999-12-31` approval never masks a genuine later rejection) nor be silently skipped; the closure stays refused until the row is dealt with. **Limitation, stated explicitly:** history rows are not re-validated once superseded; a superseded row's evidence digest and content are not re-checked, and tamper-evidence of history is the evidence chain's job (T068).
 
 ### CycleFreeze (`docs/zero-gap/cycles/<cycle>/freeze.json` + DB `meta`)
 `{cycle, frozen_at, register_sha256, sweep_manifest_sha256, chain_head, entry_count, item_count}`.

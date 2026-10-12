@@ -1,0 +1,14 @@
+subject=root kind=umbrella-mutation status=check cases=5 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:56:54Z
+cmd=bash scripts/prove-umbrella-mutants.sh --set mutation
+seconds=6.0 failed=0 (parsed from the gate output; rc is authoritative)
+---
+BASELINE-OK   _tools/gen (-skip ^Fuzz ./...)
+KILLED        MG1-esc-drops-lt by TestEscEscapesQuotes
+KILLED        MG2-inline-skips-escape by TestInline
+KILLED        MG3-yamlquote-skips-backslash by TestYamlQuoteEscapesBackslashAndQuote
+KILLED        MG4-langpath-portfolio-prefix-order by TestHomeCTAHref,TestHomeCTAHref/sr_portfolio_localized
+KILLED        MG5-translation-fallback-to-en-disabled by TestTFallsBackToEnglishThenKey
+----
+summary: 5 mutant(s): 5 killed, 0 survived, 0 not applied, 0 build-broken, 0 red baseline/finding
+

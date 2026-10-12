@@ -1,0 +1,17 @@
+subject=monetization kind=unit status=check cases=227 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:37Z
+cmd=(cd monetization/tools/repodb && go test -count=1 -json -short <3 pkgs>); (cd monetization/tools/report && go test -count=1 -json -short <1 pkgs>); (cd monetization/tools/harvest && go test -count=1 -json -short <2 pkgs>); (cd monetization/tools/analysis && go test -count=1 -json -short <9 pkgs>); (cd monetization/tools/validator && go test -count=1 -json -short <1 pkgs>); (cd monetization/tools/fix_evidence && go test -count=1 -json -short <1 pkgs>)
+passed=227 failed=0 skipped=4 over 6 module(s); worst module rc=0
+---
+## monetization/tools/repodb: rc=0 passed=217 failed=0 skipped=4 seconds=3.0 build_fail=False
+
+## monetization/tools/report: rc=0 passed=0 failed=0 skipped=0 seconds=0.2 build_fail=False
+
+## monetization/tools/harvest: rc=0 passed=7 failed=0 skipped=0 seconds=0.3 build_fail=False
+
+## monetization/tools/analysis: rc=0 passed=3 failed=0 skipped=0 seconds=0.5 build_fail=False
+
+## monetization/tools/validator: rc=0 passed=0 failed=0 skipped=0 seconds=0.1 build_fail=False
+
+## monetization/tools/fix_evidence: rc=0 passed=0 failed=0 skipped=0 seconds=0.2 build_fail=False
+

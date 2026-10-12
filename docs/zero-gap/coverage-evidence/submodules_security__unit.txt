@@ -1,0 +1,7 @@
+subject=submodules/security kind=unit status=check cases=543 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:17Z
+cmd=(cd submodules/security && go test -count=1 -json -short <12 pkgs>)
+passed=543 failed=0 skipped=0 over 1 module(s); worst module rc=0
+---
+## submodules/security: rc=0 passed=543 failed=0 skipped=0 seconds=1.2 build_fail=False
+

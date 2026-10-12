@@ -1,0 +1,56 @@
+subject=submodules/challenges kind=stress-chaos status=check cases=32 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:45:14Z
+cmd=go test -count=1 -json ./tests/stress/... ./tests/chaos/...
+passed=32 failed=0 skipped=0 seconds=0.3
+---
+{"Time":"2026-10-12T12:45:14.140600995+02:00","Action":"start","Package":"digital.vasic.challenges/tests/stress"}
+{"Time":"2026-10-12T12:45:14.144072868+02:00","Action":"run","Package":"digital.vasic.challenges/tests/stress","Test":"TestStressConcurrentBaseChallengeLifecycle"}
+{"Time":"2026-10-12T12:45:14.144109669+02:00","Action":"output","Package":"digital.vasic.challenges/tests/stress","Test":"TestStressConcurrentBaseChallengeLifecycle","Output":"=== RUN   TestStressConcurrentBaseChallengeLifecycle\n"}
+{"Time":"2026-10-12T12:45:14.144119799+02:00","Action":"output","Package":"digital.vasic.challenges/tests/stress","Test":"TestStressConcurrentBaseChallengeLifecycle","Output":"=== PAUSE TestStressConcurrentBaseChallengeLifecycle\n"}
+{"Time":"2026-10-12T12:45:14.144126629+02:00","Action":"pause","Package":"digital.vasic.challenges/tests/stress","Test":"TestStressConcurrentBaseChallengeLifecycle"}
+{"Time":"2026-10-12T12:45:14.144130689+02:00","Action":"run","Package":"digital.vasic.challenges/tests/stress","Test":"TestStressConcurrentAntiBluffValidation"}
+{"Time":"2026-10-12T12:45:14.144135149+02:00","Action":"output","Package":"digital.vasic.challenges/tests/stress","Test":"TestStressConcurrentAntiBluffValidation","Output":"=== RUN   TestStressConcurrentAntiBluffValidation\n"}
+{"Time":"2026-10-12T12:45:14.144138879+02:00","Action":"output","Package":"digital.vasic.challenges/tests/stress","Test":"TestStressConcurrentAntiBluffValidation","Output":"=== PAUSE TestStressConcurrentAntiBluffValidation\n"}
+{"Time":"2026-10-12T12:45:14.144144799+02:00","Action":"pause","Package":"digital.vasic.challenges/tests/stress","Test":"TestStressConcurrentAntiBluffValidation"}
+{"Time":"2026-10-12T12:45:14.144148399+02:00","Action":"run","Package":"digital.vasic.challenges/tests/stress","Test":"TestStressSustainedAssertionEvaluation"}
+... [125 lines elided] ...
+{"Time":"2026-10-12T12:45:14.149836361+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosNilAndEmptyInputs","Output":"--- PASS: TestChaosNilAndEmptyInputs (0.00s)\n"}
+{"Time":"2026-10-12T12:45:14.149842741+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosNilAndEmptyInputs","Elapsed":0}
+{"Time":"2026-10-12T12:45:14.149845461+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosConfigEdgeCases/invalid-path-degrades-gracefully","Output":"--- PASS: TestChaosConfigEdgeCases/invalid-path-degrades-gracefully (0.00s)\n"}
+{"Time":"2026-10-12T12:45:14.149850391+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosConfigEdgeCases/invalid-path-degrades-gracefully","Elapsed":0}
+{"Time":"2026-10-12T12:45:14.149854431+02:00","Action":"run","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosAntiBluffCorruption/all-assertions-failed"}
+{"Time":"2026-10-12T12:45:14.149857161+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosAntiBluffCorruption/all-assertions-failed","Output":"=== RUN   TestChaosAntiBluffCorruption/all-assertions-failed\n"}
+{"Time":"2026-10-12T12:45:14.149860191+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosAntiBluffCorruption/all-assertions-failed","Output":"--- PASS: TestChaosAntiBluffCorruption/all-assertions-failed (0.00s)\n"}
+{"Time":"2026-10-12T12:45:14.149867141+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosAntiBluffCorruption/all-assertions-failed","Elapsed":0}
+{"Time":"2026-10-12T12:45:14.149869701+02:00","Action":"run","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosAntiBluffCorruption/valid-result"}
+{"Time":"2026-10-12T12:45:14.149872421+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosAntiBluffCorruption/valid-result","Output":"=== RUN   TestChaosAntiBluffCorruption/valid-result\n"}
+{"Time":"2026-10-12T12:45:14.149877101+02:00","Action":"run","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosConfigEdgeCases/unconfigured-validate"}
+{"Time":"2026-10-12T12:45:14.149882031+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosConfigEdgeCases/unconfigured-validate","Output":"=== RUN   TestChaosConfigEdgeCases/unconfigured-validate\n"}
+{"Time":"2026-10-12T12:45:14.149885011+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosConfigEdgeCases/unconfigured-validate","Output":"--- PASS: TestChaosConfigEdgeCases/unconfigured-validate (0.00s)\n"}
+{"Time":"2026-10-12T12:45:14.149888871+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosConfigEdgeCases/unconfigured-validate","Elapsed":0}
+{"Time":"2026-10-12T12:45:14.149892181+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosConfigEdgeCases","Output":"--- PASS: TestChaosConfigEdgeCases (0.00s)\n"}
+{"Time":"2026-10-12T12:45:14.149895102+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosConfigEdgeCases","Elapsed":0}
+{"Time":"2026-10-12T12:45:14.149899792+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosAntiBluffCorruption/valid-result","Output":"--- PASS: TestChaosAntiBluffCorruption/valid-result (0.00s)\n"}
+{"Time":"2026-10-12T12:45:14.149903552+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosAntiBluffCorruption/valid-result","Elapsed":0}
+{"Time":"2026-10-12T12:45:14.149906822+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosAntiBluffCorruption","Output":"--- PASS: TestChaosAntiBluffCorruption (0.00s)\n"}
+{"Time":"2026-10-12T12:45:14.150017462+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosAntiBluffCorruption","Elapsed":0}
+{"Time":"2026-10-12T12:45:14.150023822+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosProgressReporterBoundaries/rapid-1000-updates","Output":"--- PASS: TestChaosProgressReporterBoundaries/rapid-1000-updates (0.00s)\n"}
+{"Time":"2026-10-12T12:45:14.150026972+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosProgressReporterBoundaries/rapid-1000-updates","Elapsed":0}
+{"Time":"2026-10-12T12:45:14.150031162+02:00","Action":"run","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosProgressReporterBoundaries/close-is-idempotent"}
+{"Time":"2026-10-12T12:45:14.150033632+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosProgressReporterBoundaries/close-is-idempotent","Output":"=== RUN   TestChaosProgressReporterBoundaries/close-is-idempotent\n"}
+{"Time":"2026-10-12T12:45:14.150072242+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosProgressReporterBoundaries/close-is-idempotent","Output":"--- PASS: TestChaosProgressReporterBoundaries/close-is-idempotent (0.00s)\n"}
+{"Time":"2026-10-12T12:45:14.150077612+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosProgressReporterBoundaries/close-is-idempotent","Elapsed":0}
+{"Time":"2026-10-12T12:45:14.150083212+02:00","Action":"run","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosProgressReporterBoundaries/concurrent-read-and-write"}
+{"Time":"2026-10-12T12:45:14.150086102+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosProgressReporterBoundaries/concurrent-read-and-write","Output":"=== RUN   TestChaosProgressReporterBoundaries/concurrent-read-and-write\n"}
+{"Time":"2026-10-12T12:45:14.150397563+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosProgressReporterBoundaries/concurrent-read-and-write","Output":"--- PASS: TestChaosProgressReporterBoundaries/concurrent-read-and-write (0.00s)\n"}
+{"Time":"2026-10-12T12:45:14.150404073+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosProgressReporterBoundaries/concurrent-read-and-write","Elapsed":0}
+{"Time":"2026-10-12T12:45:14.150407584+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosProgressReporterBoundaries","Output":"--- PASS: TestChaosProgressReporterBoundaries (0.00s)\n"}
+{"Time":"2026-10-12T12:45:14.150414694+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/chaos","Test":"TestChaosProgressReporterBoundaries","Elapsed":0}
+{"Time":"2026-10-12T12:45:14.150417584+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Output":"PASS\n"}
+{"Time":"2026-10-12T12:45:14.150683805+02:00","Action":"output","Package":"digital.vasic.challenges/tests/chaos","Output":"ok  \tdigital.vasic.challenges/tests/chaos\t0.005s\n"}
+{"Time":"2026-10-12T12:45:14.150701855+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/chaos","Elapsed":0.006}
+{"Time":"2026-10-12T12:45:14.156527998+02:00","Action":"output","Package":"digital.vasic.challenges/tests/stress","Test":"TestStressConcurrentBaseChallengeLifecycle","Output":"--- PASS: TestStressConcurrentBaseChallengeLifecycle (0.01s)\n"}
+{"Time":"2026-10-12T12:45:14.156550438+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/stress","Test":"TestStressConcurrentBaseChallengeLifecycle","Elapsed":0.01}
+{"Time":"2026-10-12T12:45:14.156554878+02:00","Action":"output","Package":"digital.vasic.challenges/tests/stress","Output":"PASS\n"}
+{"Time":"2026-10-12T12:45:14.156746579+02:00","Action":"output","Package":"digital.vasic.challenges/tests/stress","Output":"ok  \tdigital.vasic.challenges/tests/stress\t0.016s\n"}
+{"Time":"2026-10-12T12:45:14.156774439+02:00","Action":"pass","Package":"digital.vasic.challenges/tests/stress","Elapsed":0.016}

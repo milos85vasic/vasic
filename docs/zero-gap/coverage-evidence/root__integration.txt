@@ -1,0 +1,56 @@
+subject=root kind=integration status=check cases=12 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:52:20Z
+cmd=bash scripts/verify-governance-cascade.sh
+seconds=6.5 failed=0 (parsed from the gate output; rc is authoritative)
+---
+CM-GOVERNANCE-CASCADE: verifying the governance cascade under /home/milosvasic/Projects/vasic
+  §11.4.32 step 1 · predicate reused by reference from submodules/constitution/scripts/gates/lib/pointer_carrier.sh
+----------------------------------------------------------------------
+✅ PASS  C0 PREDICATE-NOT-BLIND — pointer_carrier.sh selftest: PASS (5/5) (§11.4.201(7)(b))
+✅ PASS  ENV GOVERNANCE-SOURCE — submodules/constitution/ populated (Constitution.md + 4 mirrors); the cascade has a head
+ℹ NOTE  C1 · governance source — submodules/constitution (derived from the target tree: it supplies scripts/gates/lib/pointer_carrier.sh)
+ℹ NOTE  C1 · owned namespace — github.com/helixdevelopment  [evidence: tree-shared(6 declared submodules)]
+ℹ NOTE  C1 · owned namespace — github.com/milos85vasic  [evidence: tree-shared(4 declared submodules)]
+ℹ NOTE  C1 · owned namespace — github.com/vasic-digital  [evidence: tree-shared(11 declared submodules)]
+✅ PASS  C1 FLEET-CLASSIFIED — all 22 declared submodule(s) classified FROM EVIDENCE: 20 owned, 1 governance source, 1 third-party (no hardcoded roster)
+... [15 lines elided] ...
+ℹ NOTE  C7 · submodules/qa/tools/opensource/midscene — nested gitlink in namespace github.com/web-infra-dev; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/mem0 — nested gitlink in namespace github.com/mem0ai; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/moondream — nested gitlink in namespace github.com/vikhyat; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/ui-tars — nested gitlink in namespace github.com/bytedance; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/perfetto — nested gitlink in namespace github.com/google; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/chroma — nested gitlink in namespace github.com/chroma-core; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/shortest — nested gitlink in namespace github.com/antiwork; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/marker — nested gitlink in namespace github.com/vikparuchuri; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/kiwi-tcms — nested gitlink in namespace github.com/kiwitcms; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/testdriverai — nested gitlink in namespace github.com/testdriverai; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/stagehand — nested gitlink in namespace github.com/browserbase; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/unstructured — nested gitlink in namespace github.com/unstructured-io; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/redroid — nested gitlink in namespace github.com/remote-android; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/signoz — nested gitlink in namespace github.com/signoz; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/docling — nested gitlink in namespace github.com/ds4sd; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/llama-index — nested gitlink in namespace github.com/run-llama; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/appcrawler — nested gitlink in namespace github.com/nicetester; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/test-apps/rest-demo — nested gitlink in namespace github.com/nicehash; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/browser-use — nested gitlink in namespace github.com/browser-use; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/skyvern — nested gitlink in namespace github.com/skyvern-ai; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/anthropic-quickstarts — nested gitlink in namespace github.com/anthropics; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+ℹ NOTE  C7 · submodules/qa/tools/opensource/ui-tars-desktop — nested gitlink in namespace github.com/bytedance; not an owned namespace, documented as third-party in helix-deps.yaml, excluded from the cascade
+✅ PASS  C7 RECURSION — 28 nested gitlink(s) under the 20 owned submodules, all classified from evidence (CONST-047 recursive scope)
+✅ PASS  C8 IN-SUBMODULE-LOCKSTEP — all 20 owned submodule(s) carry four agent carriers with byte-identical bodies once the per-agent header is normalised (§11.4.157(B))
+✅ PASS  C9 MANIFEST-PIN-SYNC — every helix-deps.yaml deps[].ref equals its live gitlink (§11.4.31); re-derive with scripts/verify-manifest-pins.sh
+----------------------------------------------------------------------
+REPORT — known-unclearable third-party carriers (NOT a verdict input)
+   present  milosvasic.ru/Upstreamable/AGENTS.md                            owned by red-elf/Upstreamable (nested gitlink of milosvasic.ru)
+   present  milosvasic.ru/Upstreamable/CLAUDE.md                            owned by red-elf/Upstreamable (nested gitlink of milosvasic.ru)
+   present  submodules/superspec/examples/static-landing-page/CLAUDE.md     owned by WangX0111/superspec (third-party submodule)
+   present  .specify/extensions/superspec/examples/static-landing-page/CLAUDE.md  owned by WangX0111/superspec (vendored spec-kit extension copy)
+   4 present, 0 absent. No commit this repository can make changes any of
+   them; the umbrella's only lever is the gitlink, and no upstream commit carries the
+   anchors. Forensics: docs/constitution-adoption/POST-APPLY-STATE.md §3 and
+   Constitution.md -> 'Known-excluded gate findings'. They are still reported as FAILs by
+   the propagation-gate family inside scripts/verify-all-constitution-rules.sh — excluded
+   here means not double-counted, never suppressed (§11.4.6).
+----------------------------------------------------------------------
+CM-GOVERNANCE-CASCADE: 12 PASS, 0 FAIL, 0 ENV, 35 NOTE  (root /home/milosvasic/Projects/vasic)
+✅ CM-GOVERNANCE-CASCADE: PASS — governance cascades to every owned submodule; third-party roots excluded by name; root lockstep intact; manifest matches the fleet

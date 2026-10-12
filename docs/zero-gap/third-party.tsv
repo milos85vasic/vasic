@@ -1,0 +1,8 @@
+# third-party.tsv -- classification data for scripts/zero-gap-third-party-guard.sh (feature 010, T041, FR-021).
+# DERIVED, not authored: regenerate the rows with `bash scripts/zero-gap-third-party-guard.sh --derive` and review
+# the gitlink_bump column deliberately. refuse = the push gate rejects a pointer move; allow = a recorded standing
+# decision permits pointer moves (file edits under the path are refused regardless). A derived path with no row
+# here is a gate FINDING (stale data) and defaults to refuse.
+path	classification	gitlink_bump	evidence
+submodules/constitution	governance-source	allow	governance source (carries scripts/gates/lib/pointer_carrier.sh); pointer moves follow the standing fast-forward-only authorization recorded in CLAUDE.md; the "allow" is the operator STANDING AUTHORIZATION of 2026-09-09 for fast-forward-only constitution pin bumps (CLAUDE.md), and applies to this path only
+submodules/superspec	third-party	refuse	declared in .gitmodules; URL namespace hosts one declared submodule and is not a helix-deps.yaml ssh_url namespace

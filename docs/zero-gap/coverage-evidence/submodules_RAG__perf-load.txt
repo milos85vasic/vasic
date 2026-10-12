@@ -1,0 +1,46 @@
+subject=submodules/RAG kind=perf-load status=check cases=8 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:15Z
+cmd=go test -count=1 -json -run . -bench . -benchtime 1x ./tests/benchmark/...
+passed=8 failed=0 skipped=0 seconds=0.3
+---
+{"Time":"2026-10-12T12:51:15.460298822+02:00","Action":"start","Package":"digital.vasic.rag/tests/benchmark"}
+{"Time":"2026-10-12T12:51:15.463842796+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Output":"goos: linux\n"}
+{"Time":"2026-10-12T12:51:15.463915316+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Output":"goarch: amd64\n"}
+{"Time":"2026-10-12T12:51:15.463920076+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Output":"pkg: digital.vasic.rag/tests/benchmark\n"}
+{"Time":"2026-10-12T12:51:15.463924926+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Output":"cpu: AMD Ryzen 7 2700X Eight-Core Processor         \n"}
+{"Time":"2026-10-12T12:51:15.463935456+02:00","Action":"run","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkFixedSizeChunker"}
+{"Time":"2026-10-12T12:51:15.463939236+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkFixedSizeChunker","Output":"=== RUN   BenchmarkFixedSizeChunker\n"}
+{"Time":"2026-10-12T12:51:15.463947136+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkFixedSizeChunker","Output":"BenchmarkFixedSizeChunker\n"}
+{"Time":"2026-10-12T12:51:15.464465718+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkFixedSizeChunker","Output":"BenchmarkFixedSizeChunker-4   \t       1\t     25240 ns/op\n"}
+{"Time":"2026-10-12T12:51:15.464481039+02:00","Action":"run","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkRecursiveChunker"}
+{"Time":"2026-10-12T12:51:15.464484089+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkRecursiveChunker","Output":"=== RUN   BenchmarkRecursiveChunker\n"}
+{"Time":"2026-10-12T12:51:15.464487649+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkRecursiveChunker","Output":"BenchmarkRecursiveChunker\n"}
+{"Time":"2026-10-12T12:51:15.46481339+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkRecursiveChunker","Output":"BenchmarkRecursiveChunker-4   \t       1\t     35761 ns/op\n"}
+{"Time":"2026-10-12T12:51:15.46483753+02:00","Action":"run","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkSentenceChunker"}
+{"Time":"2026-10-12T12:51:15.46484144+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkSentenceChunker","Output":"=== RUN   BenchmarkSentenceChunker\n"}
+{"Time":"2026-10-12T12:51:15.46484501+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkSentenceChunker","Output":"BenchmarkSentenceChunker\n"}
+{"Time":"2026-10-12T12:51:15.465252381+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkSentenceChunker","Output":"BenchmarkSentenceChunker-4    \t       1\t    144330 ns/op\n"}
+{"Time":"2026-10-12T12:51:15.465263591+02:00","Action":"run","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkKeywordRetrieval"}
+{"Time":"2026-10-12T12:51:15.465267172+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkKeywordRetrieval","Output":"=== RUN   BenchmarkKeywordRetrieval\n"}
+{"Time":"2026-10-12T12:51:15.465271652+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkKeywordRetrieval","Output":"BenchmarkKeywordRetrieval\n"}
+{"Time":"2026-10-12T12:51:15.46741093+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkKeywordRetrieval","Output":"BenchmarkKeywordRetrieval-4   \t       1\t    273521 ns/op\n"}
+{"Time":"2026-10-12T12:51:15.46743353+02:00","Action":"run","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkScoreReranker"}
+{"Time":"2026-10-12T12:51:15.46743762+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkScoreReranker","Output":"=== RUN   BenchmarkScoreReranker\n"}
+{"Time":"2026-10-12T12:51:15.46744161+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkScoreReranker","Output":"BenchmarkScoreReranker\n"}
+{"Time":"2026-10-12T12:51:15.467763781+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkScoreReranker","Output":"BenchmarkScoreReranker-4      \t       1\t      3800 ns/op\n"}
+{"Time":"2026-10-12T12:51:15.467772222+02:00","Action":"run","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkMMRReranker"}
+{"Time":"2026-10-12T12:51:15.467774672+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkMMRReranker","Output":"=== RUN   BenchmarkMMRReranker\n"}
+{"Time":"2026-10-12T12:51:15.467777462+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkMMRReranker","Output":"BenchmarkMMRReranker\n"}
+{"Time":"2026-10-12T12:51:15.468516784+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkMMRReranker","Output":"BenchmarkMMRReranker-4        \t       1\t    434281 ns/op\n"}
+{"Time":"2026-10-12T12:51:15.468525004+02:00","Action":"run","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkRRFFusion"}
+{"Time":"2026-10-12T12:51:15.468527434+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkRRFFusion","Output":"=== RUN   BenchmarkRRFFusion\n"}
+{"Time":"2026-10-12T12:51:15.468530214+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkRRFFusion","Output":"BenchmarkRRFFusion\n"}
+{"Time":"2026-10-12T12:51:15.468930066+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkRRFFusion","Output":"BenchmarkRRFFusion-4          \t       1\t     73731 ns/op\n"}
+{"Time":"2026-10-12T12:51:15.468961166+02:00","Action":"run","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkLinearFusion"}
+{"Time":"2026-10-12T12:51:15.468966956+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkLinearFusion","Output":"=== RUN   BenchmarkLinearFusion\n"}
+{"Time":"2026-10-12T12:51:15.468971986+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkLinearFusion","Output":"BenchmarkLinearFusion\n"}
+{"Time":"2026-10-12T12:51:15.469301277+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Test":"BenchmarkLinearFusion","Output":"BenchmarkLinearFusion-4       \t       1\t     74290 ns/op\n"}
+{"Time":"2026-10-12T12:51:15.469314268+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Output":"PASS\n"}
+{"Time":"2026-10-12T12:51:15.469579579+02:00","Action":"output","Package":"digital.vasic.rag/tests/benchmark","Output":"ok  \tdigital.vasic.rag/tests/benchmark\t0.009s\n"}
+{"Time":"2026-10-12T12:51:15.469597499+02:00","Action":"pass","Package":"digital.vasic.rag/tests/benchmark","Elapsed":0.009}
+

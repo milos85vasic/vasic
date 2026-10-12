@@ -1,0 +1,15 @@
+subject=root kind=vsc375-runtime-probe status=check cases=8 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:57:33Z
+cmd=bash docs/zero-gap/checks/VSC-375.probe.sh
+seconds=4.4 failed=0 (parsed from the gate output; rc is authoritative)
+---
+OK   audit-hardcoded-paths reports untracked planted violation (rc=1)
+OK   audit-hardcoded-paths ignores the git-ignored file
+OK   audit-hardcoded-paths does not report the clean untracked file
+OK   audit-environment-assumptions reports untracked planted violation (rc=1)
+OK   audit-environment-assumptions ignores the git-ignored file
+OK   audit-environment-assumptions does not report the clean untracked file
+OK   verify-provider-ci counts the untracked workflow (file_ci_active=1)
+OK   verify-provider-ci ignores the git-ignored CI config
+RESULT: all three audits see untracked, skip ignored
+

@@ -1,0 +1,26 @@
+subject=submodules/containers kind=security status=check cases=4 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:47:40Z
+cmd=go test -count=1 -json -tags security ./tests/security/...
+passed=4 failed=0 skipped=0 seconds=4.4
+---
+{"Time":"2026-10-12T12:47:36.932885094+02:00","Action":"start","Package":"digital.vasic.containers/tests/security"}
+{"Time":"2026-10-12T12:47:36.937580033+02:00","Action":"run","Package":"digital.vasic.containers/tests/security","Test":"TestSSHExecutor_InvalidHost"}
+{"Time":"2026-10-12T12:47:36.937623463+02:00","Action":"output","Package":"digital.vasic.containers/tests/security","Test":"TestSSHExecutor_InvalidHost","Output":"=== RUN   TestSSHExecutor_InvalidHost\n"}
+{"Time":"2026-10-12T12:47:38.949699891+02:00","Action":"output","Package":"digital.vasic.containers/tests/security","Test":"TestSSHExecutor_InvalidHost","Output":"--- PASS: TestSSHExecutor_InvalidHost (2.01s)\n"}
+{"Time":"2026-10-12T12:47:38.949726911+02:00","Action":"pass","Package":"digital.vasic.containers/tests/security","Test":"TestSSHExecutor_InvalidHost","Elapsed":2.01}
+{"Time":"2026-10-12T12:47:38.949735961+02:00","Action":"run","Package":"digital.vasic.containers/tests/security","Test":"TestSSHExecutor_EmptyCommand"}
+{"Time":"2026-10-12T12:47:38.949739781+02:00","Action":"output","Package":"digital.vasic.containers/tests/security","Test":"TestSSHExecutor_EmptyCommand","Output":"=== RUN   TestSSHExecutor_EmptyCommand\n"}
+{"Time":"2026-10-12T12:47:40.959103318+02:00","Action":"output","Package":"digital.vasic.containers/tests/security","Test":"TestSSHExecutor_EmptyCommand","Output":"--- PASS: TestSSHExecutor_EmptyCommand (2.01s)\n"}
+{"Time":"2026-10-12T12:47:40.959125188+02:00","Action":"pass","Package":"digital.vasic.containers/tests/security","Test":"TestSSHExecutor_EmptyCommand","Elapsed":2.01}
+{"Time":"2026-10-12T12:47:40.959135038+02:00","Action":"run","Package":"digital.vasic.containers/tests/security","Test":"TestConnectionPool_InvalidSocket"}
+{"Time":"2026-10-12T12:47:40.959139858+02:00","Action":"output","Package":"digital.vasic.containers/tests/security","Test":"TestConnectionPool_InvalidSocket","Output":"=== RUN   TestConnectionPool_InvalidSocket\n"}
+{"Time":"2026-10-12T12:47:40.959399499+02:00","Action":"output","Package":"digital.vasic.containers/tests/security","Test":"TestConnectionPool_InvalidSocket","Output":"--- PASS: TestConnectionPool_InvalidSocket (0.00s)\n"}
+{"Time":"2026-10-12T12:47:40.959411429+02:00","Action":"pass","Package":"digital.vasic.containers/tests/security","Test":"TestConnectionPool_InvalidSocket","Elapsed":0}
+{"Time":"2026-10-12T12:47:40.959416599+02:00","Action":"run","Package":"digital.vasic.containers/tests/security","Test":"TestHostManager_DuplicateHost"}
+{"Time":"2026-10-12T12:47:40.959420759+02:00","Action":"output","Package":"digital.vasic.containers/tests/security","Test":"TestHostManager_DuplicateHost","Output":"=== RUN   TestHostManager_DuplicateHost\n"}
+{"Time":"2026-10-12T12:47:40.959431339+02:00","Action":"output","Package":"digital.vasic.containers/tests/security","Test":"TestHostManager_DuplicateHost","Output":"--- PASS: TestHostManager_DuplicateHost (0.00s)\n"}
+{"Time":"2026-10-12T12:47:40.959437929+02:00","Action":"pass","Package":"digital.vasic.containers/tests/security","Test":"TestHostManager_DuplicateHost","Elapsed":0}
+{"Time":"2026-10-12T12:47:40.959442739+02:00","Action":"output","Package":"digital.vasic.containers/tests/security","Output":"PASS\n"}
+{"Time":"2026-10-12T12:47:40.960780184+02:00","Action":"output","Package":"digital.vasic.containers/tests/security","Output":"ok  \tdigital.vasic.containers/tests/security\t4.028s\n"}
+{"Time":"2026-10-12T12:47:40.960803715+02:00","Action":"pass","Package":"digital.vasic.containers/tests/security","Elapsed":4.028}
+

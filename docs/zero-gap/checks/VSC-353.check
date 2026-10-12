@@ -1,0 +1,4 @@
+# VSC-353 closure check (author: t353-check-author-2, not the fixer). RED until the stale-figures class (A) reports the "<n> declared/<n> owned" shapes without the two false-positive families AND (B) reports a MISMATCH finding naming both figures when a current-tense "<n> declared" disagrees with the number of paths .gitmodules declares, while (C) equal counts and (D) historical-marked lines are not reported as a mismatch. 'owned' has no honest source of truth in a bare repo, so no owned-mismatch clause exists.
+check_id=chk-vsc-353-declared-owned-shapes
+pre_fix_ref=c827c664c24e90a2b12b352618d579a3c631749d
+cmd=bash /home/milosvasic/Projects/vasic/docs/zero-gap/checks/VSC-353.probe.sh

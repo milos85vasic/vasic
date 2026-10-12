@@ -1,0 +1,34 @@
+subject=submodules/security kind=e2e status=check cases=6 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:18Z
+cmd=go test -count=1 -json ./tests/e2e/...
+passed=6 failed=0 skipped=0 seconds=0.4
+---
+{"Time":"2026-10-12T12:51:18.253636623+02:00","Action":"start","Package":"digital.vasic.security/tests/e2e"}
+{"Time":"2026-10-12T12:51:18.260743701+02:00","Action":"run","Package":"digital.vasic.security/tests/e2e","Test":"TestFullSecurityPipeline_E2E"}
+{"Time":"2026-10-12T12:51:18.260788041+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Test":"TestFullSecurityPipeline_E2E","Output":"=== RUN   TestFullSecurityPipeline_E2E\n"}
+{"Time":"2026-10-12T12:51:18.260969912+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Test":"TestFullSecurityPipeline_E2E","Output":"--- PASS: TestFullSecurityPipeline_E2E (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.260984002+02:00","Action":"pass","Package":"digital.vasic.security/tests/e2e","Test":"TestFullSecurityPipeline_E2E","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.260990522+02:00","Action":"run","Package":"digital.vasic.security/tests/e2e","Test":"TestDangerousInputBlocked_E2E"}
+{"Time":"2026-10-12T12:51:18.260993612+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Test":"TestDangerousInputBlocked_E2E","Output":"=== RUN   TestDangerousInputBlocked_E2E\n"}
+{"Time":"2026-10-12T12:51:18.261029982+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Test":"TestDangerousInputBlocked_E2E","Output":"--- PASS: TestDangerousInputBlocked_E2E (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.261038232+02:00","Action":"pass","Package":"digital.vasic.security/tests/e2e","Test":"TestDangerousInputBlocked_E2E","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.261044072+02:00","Action":"run","Package":"digital.vasic.security/tests/e2e","Test":"TestRedactionStrategies_E2E"}
+{"Time":"2026-10-12T12:51:18.261050522+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Test":"TestRedactionStrategies_E2E","Output":"=== RUN   TestRedactionStrategies_E2E\n"}
+{"Time":"2026-10-12T12:51:18.261340724+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Test":"TestRedactionStrategies_E2E","Output":"--- PASS: TestRedactionStrategies_E2E (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.261349434+02:00","Action":"pass","Package":"digital.vasic.security/tests/e2e","Test":"TestRedactionStrategies_E2E","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.261355534+02:00","Action":"run","Package":"digital.vasic.security/tests/e2e","Test":"TestScannerEndToEndWorkflow_E2E"}
+{"Time":"2026-10-12T12:51:18.261359594+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Test":"TestScannerEndToEndWorkflow_E2E","Output":"=== RUN   TestScannerEndToEndWorkflow_E2E\n"}
+{"Time":"2026-10-12T12:51:18.266566824+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Test":"TestScannerEndToEndWorkflow_E2E","Output":"--- PASS: TestScannerEndToEndWorkflow_E2E (0.01s)\n"}
+{"Time":"2026-10-12T12:51:18.266584434+02:00","Action":"pass","Package":"digital.vasic.security/tests/e2e","Test":"TestScannerEndToEndWorkflow_E2E","Elapsed":0.01}
+{"Time":"2026-10-12T12:51:18.266590914+02:00","Action":"run","Package":"digital.vasic.security/tests/e2e","Test":"TestGuardrailsStopOnFirstFailure_E2E"}
+{"Time":"2026-10-12T12:51:18.266593854+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Test":"TestGuardrailsStopOnFirstFailure_E2E","Output":"=== RUN   TestGuardrailsStopOnFirstFailure_E2E\n"}
+{"Time":"2026-10-12T12:51:18.266627104+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Test":"TestGuardrailsStopOnFirstFailure_E2E","Output":"--- PASS: TestGuardrailsStopOnFirstFailure_E2E (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.266631504+02:00","Action":"pass","Package":"digital.vasic.security/tests/e2e","Test":"TestGuardrailsStopOnFirstFailure_E2E","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.266638954+02:00","Action":"run","Package":"digital.vasic.security/tests/e2e","Test":"TestPolicyOperators_E2E"}
+{"Time":"2026-10-12T12:51:18.266644545+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Test":"TestPolicyOperators_E2E","Output":"=== RUN   TestPolicyOperators_E2E\n"}
+{"Time":"2026-10-12T12:51:18.266668015+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Test":"TestPolicyOperators_E2E","Output":"--- PASS: TestPolicyOperators_E2E (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.266672595+02:00","Action":"pass","Package":"digital.vasic.security/tests/e2e","Test":"TestPolicyOperators_E2E","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.266676845+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Output":"PASS\n"}
+{"Time":"2026-10-12T12:51:18.266929286+02:00","Action":"output","Package":"digital.vasic.security/tests/e2e","Output":"ok  \tdigital.vasic.security/tests/e2e\t0.013s\n"}
+{"Time":"2026-10-12T12:51:18.266949376+02:00","Action":"pass","Package":"digital.vasic.security/tests/e2e","Elapsed":0.013}
+

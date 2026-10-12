@@ -191,7 +191,7 @@ defect per class appears; an uninspectable part is listed, never clean.
   marker (e.g. `[REDACTED len=N]`). RED: an unmasked run against a credential-shaped corpus row fails;
   GREEN: the same row's finding carries no recoverable secret text. Corpus follows the placeholder-token
   convention already ruled for T030 (no secret-shaped strings at rest).  _Covers: FR-020._
-- [ ] T086 [US2] Operator queue item (feeds the `security` wave T043 and the T050 queue): rotate the two
+- [x] T086 [US2] Operator queue item (feeds the `security` wave T043 and the T050 queue): rotate the two
   account passwords T085's extended scan found exposed in the public `specs/007-*/` tree. Once a
   credential reaches public history, rotation is the only remedy (§11.4.10); name the affected accounts by
   reference only — never the credential value — with an exact rotation command and a recheck date.  _Covers: FR-009, FR-020._
@@ -213,7 +213,7 @@ defect per class appears; an uninspectable part is listed, never clean.
 - [ ] T037 [P] [TDD] [US1] CREATE `workable-items-vsc report --by-module` (does not exist yet) generating a per-module page (SC-010) — RED: golden-bad register yields rc 1;
   timed walk-through recorded once.  _Covers: FR-024, SC-010._
   STATUS 2026-09-26: code + tests delivered and reviewed (rc 0/1/2 proven, script timing 35 ms); the SC-010 HUMAN timed walk-through is PENDING and is taken at the T038 checkpoint — this task is ticked only when that walk-through is recorded.
-- [ ] T081 [TDD] [US1] (after T037; numbered out of sequence to keep earlier ids stable) Improvement intake:
+- [x] T081 [TDD] [US1] (after T037; numbered out of sequence to keep earlier ids stable) Improvement intake:
   CREATE sweep class `improvement-candidates` (`scripts/zero-gap-class-improvement-candidates.sh`, corpus
   `_tests/fixtures/zero-gap/improvement-candidates/`) that harvests improvement candidates from recorded
   operator decisions, KNOWN-LIMITATIONS-style documents and `Operator-blocked` items, PLUS a manual intake
@@ -261,16 +261,16 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 **Goal**: each item ends closed-with-evidence, classified (four reasons), or open with a dated plan.
 **Independent Test**: pick a closed item; its check fails on the pre-fix ref and passes on the current ref.
 
-- [ ] T039 [TDD] [US2] `scripts/zero-gap-verify.sh --item <id>`: re-runs the recorded check against the
+- [x] T039 [TDD] [US2] `scripts/zero-gap-verify.sh --item <id>`: re-runs the recorded check against the
   pre-fix ref (scratch worktree) and the current ref; both captured as sealed records; a hollow check
   (passes on both) refuses closure.  _Covers: FR-007, SC-004._
-- [ ] T040 [TDD] [US2] `scripts/zero-gap-guard-checks.sh` (FR-023): a diff that removes a
+- [x] T040 [TDD] [US2] `scripts/zero-gap-guard-checks.sh` (FR-023): a diff that removes a
   `check-registry.tsv` row, deletes a check, or adds an allow-list/exempt entry without a paired proof
   fails; wired into `scripts/pre-push-gates.sh`. Files: `scripts/zero-gap-guard-checks.sh`, `scripts/pre-push-gates.sh`.  _Covers: FR-013, FR-023, SC-007._
-- [ ] T041 [TDD] [US2] (after T040; serial on `scripts/pre-push-gates.sh`) Third-party edit guard as a
+- [x] T041 [TDD] [US2] (after T040; serial on `scripts/pre-push-gates.sh`) Third-party edit guard as a
   pre-push gate check: refuse a push whose diff modifies files under `submodules/superspec` or any
   gitlink classified third-party; classification data in `docs/zero-gap/`.  _Covers: FR-021._
-- [ ] T042 [US2] Closure procedure document `docs/zero-gap/CLOSURE.md` (hand-written rules only — including the severity/category rubric from data-model.md; every
+- [x] T042 [US2] Closure procedure document `docs/zero-gap/CLOSURE.md` (hand-written rules only — including the severity/category rubric from data-model.md; every
   status and count is generated): RED-first, evidence capture, independent verdict, review, `research_ref`.
 - [ ] T043 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `security` — every item of category `security`
   (credential handling and any destructive-command guard gap that IS fixable project-side; editing
@@ -330,7 +330,7 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 **Independent Test**: delete one kind's checks in a disposable copy — the cell becomes a gap.
 
 - [x] T052 [TDD] [US3] Generator `scripts/zero-gap-coverage.sh` + data `docs/zero-gap/coverage.tsv`
-  (`subject`, `test_kind`, `status ∈ {check,n/a,gap,could-not-run}`, `ref`); a `check` cell whose last
+  (`subject`, `test_kind`, `status ∈ {check,check-red,designed-red,n/a,gap,could-not-run}`, `ref`); a `check` cell whose last
   recorded run executed zero cases becomes a gap; missing tool ⇒ `could-not-run:<tool>`; `--prove-failure`.  _Covers: FR-010, FR-011, SC-005._
 - [ ] T087 [US3] (after T052) Coverage re-sweep: re-run sweep class `coverage-gaps` (T032) against T052's
   real coverage data, replacing its `COULD-NOT-INSPECT` baseline reading. Any new `gap` item this re-sweep

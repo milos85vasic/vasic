@@ -1,0 +1,46 @@
+subject=submodules/security kind=security status=check cases=9 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:18Z
+cmd=go test -count=1 -json ./tests/security/...
+passed=9 failed=0 skipped=0 seconds=0.4
+---
+{"Time":"2026-10-12T12:51:18.672831083+02:00","Action":"start","Package":"digital.vasic.security/tests/security"}
+{"Time":"2026-10-12T12:51:18.677386081+02:00","Action":"run","Package":"digital.vasic.security/tests/security","Test":"TestGuardrails_XSSInjection_Security"}
+{"Time":"2026-10-12T12:51:18.677437841+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestGuardrails_XSSInjection_Security","Output":"=== RUN   TestGuardrails_XSSInjection_Security\n"}
+{"Time":"2026-10-12T12:51:18.677462491+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestGuardrails_XSSInjection_Security","Output":"--- PASS: TestGuardrails_XSSInjection_Security (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.677472041+02:00","Action":"pass","Package":"digital.vasic.security/tests/security","Test":"TestGuardrails_XSSInjection_Security","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.677478601+02:00","Action":"run","Package":"digital.vasic.security/tests/security","Test":"TestGuardrails_SQLInjection_Security"}
+{"Time":"2026-10-12T12:51:18.677481791+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestGuardrails_SQLInjection_Security","Output":"=== RUN   TestGuardrails_SQLInjection_Security\n"}
+{"Time":"2026-10-12T12:51:18.677537622+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestGuardrails_SQLInjection_Security","Output":"--- PASS: TestGuardrails_SQLInjection_Security (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.677544222+02:00","Action":"pass","Package":"digital.vasic.security/tests/security","Test":"TestGuardrails_SQLInjection_Security","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.677549632+02:00","Action":"run","Package":"digital.vasic.security/tests/security","Test":"TestPIIRedactor_NilAndEmptyInput_Security"}
+{"Time":"2026-10-12T12:51:18.677553242+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestPIIRedactor_NilAndEmptyInput_Security","Output":"=== RUN   TestPIIRedactor_NilAndEmptyInput_Security\n"}
+{"Time":"2026-10-12T12:51:18.677701232+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestPIIRedactor_NilAndEmptyInput_Security","Output":"--- PASS: TestPIIRedactor_NilAndEmptyInput_Security (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.677708752+02:00","Action":"pass","Package":"digital.vasic.security/tests/security","Test":"TestPIIRedactor_NilAndEmptyInput_Security","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.677713962+02:00","Action":"run","Package":"digital.vasic.security/tests/security","Test":"TestPIIRedactor_NilConfig_Security"}
+{"Time":"2026-10-12T12:51:18.677717522+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestPIIRedactor_NilConfig_Security","Output":"=== RUN   TestPIIRedactor_NilConfig_Security\n"}
+{"Time":"2026-10-12T12:51:18.677850713+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestPIIRedactor_NilConfig_Security","Output":"--- PASS: TestPIIRedactor_NilConfig_Security (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.677857833+02:00","Action":"pass","Package":"digital.vasic.security/tests/security","Test":"TestPIIRedactor_NilConfig_Security","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.677862553+02:00","Action":"run","Package":"digital.vasic.security/tests/security","Test":"TestContentFilter_LargeInput_Security"}
+{"Time":"2026-10-12T12:51:18.677872703+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestContentFilter_LargeInput_Security","Output":"=== RUN   TestContentFilter_LargeInput_Security\n"}
+{"Time":"2026-10-12T12:51:18.678479836+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestContentFilter_LargeInput_Security","Output":"--- PASS: TestContentFilter_LargeInput_Security (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.678492716+02:00","Action":"pass","Package":"digital.vasic.security/tests/security","Test":"TestContentFilter_LargeInput_Security","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.678496646+02:00","Action":"run","Package":"digital.vasic.security/tests/security","Test":"TestContentFilter_EmptyKeywordList_Security"}
+{"Time":"2026-10-12T12:51:18.678499726+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestContentFilter_EmptyKeywordList_Security","Output":"=== RUN   TestContentFilter_EmptyKeywordList_Security\n"}
+{"Time":"2026-10-12T12:51:18.678506136+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestContentFilter_EmptyKeywordList_Security","Output":"--- PASS: TestContentFilter_EmptyKeywordList_Security (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.678509796+02:00","Action":"pass","Package":"digital.vasic.security/tests/security","Test":"TestContentFilter_EmptyKeywordList_Security","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.678515156+02:00","Action":"run","Package":"digital.vasic.security/tests/security","Test":"TestPatternFilter_InvalidRegex_Security"}
+{"Time":"2026-10-12T12:51:18.678520436+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestPatternFilter_InvalidRegex_Security","Output":"=== RUN   TestPatternFilter_InvalidRegex_Security\n"}
+{"Time":"2026-10-12T12:51:18.678526496+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestPatternFilter_InvalidRegex_Security","Output":"--- PASS: TestPatternFilter_InvalidRegex_Security (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.678530246+02:00","Action":"pass","Package":"digital.vasic.security/tests/security","Test":"TestPatternFilter_InvalidRegex_Security","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.678534206+02:00","Action":"run","Package":"digital.vasic.security/tests/security","Test":"TestPolicyEnforcer_NilPolicy_Security"}
+{"Time":"2026-10-12T12:51:18.678537176+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestPolicyEnforcer_NilPolicy_Security","Output":"=== RUN   TestPolicyEnforcer_NilPolicy_Security\n"}
+{"Time":"2026-10-12T12:51:18.678541766+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestPolicyEnforcer_NilPolicy_Security","Output":"--- PASS: TestPolicyEnforcer_NilPolicy_Security (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.678545116+02:00","Action":"pass","Package":"digital.vasic.security/tests/security","Test":"TestPolicyEnforcer_NilPolicy_Security","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.678550086+02:00","Action":"run","Package":"digital.vasic.security/tests/security","Test":"TestPolicyEnforcer_NonexistentPolicy_Security"}
+{"Time":"2026-10-12T12:51:18.678553146+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestPolicyEnforcer_NonexistentPolicy_Security","Output":"=== RUN   TestPolicyEnforcer_NonexistentPolicy_Security\n"}
+{"Time":"2026-10-12T12:51:18.678562296+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Test":"TestPolicyEnforcer_NonexistentPolicy_Security","Output":"--- PASS: TestPolicyEnforcer_NonexistentPolicy_Security (0.00s)\n"}
+{"Time":"2026-10-12T12:51:18.678571036+02:00","Action":"pass","Package":"digital.vasic.security/tests/security","Test":"TestPolicyEnforcer_NonexistentPolicy_Security","Elapsed":0}
+{"Time":"2026-10-12T12:51:18.678575216+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Output":"PASS\n"}
+{"Time":"2026-10-12T12:51:18.678849677+02:00","Action":"output","Package":"digital.vasic.security/tests/security","Output":"ok  \tdigital.vasic.security/tests/security\t0.006s\n"}
+{"Time":"2026-10-12T12:51:18.678866097+02:00","Action":"pass","Package":"digital.vasic.security/tests/security","Elapsed":0.006}
+

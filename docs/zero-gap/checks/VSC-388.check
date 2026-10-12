@@ -1,0 +1,5 @@
+# VSC-388 closure check: the credentials-public-tree class exists and its paired proof holds
+# (planted shapes found exactly, clean controls silent, mutation detected, no secret-shaped text at rest).
+check_id=chk-vsc-388-credentials-public-tree
+pre_fix_ref=c827c664c24e90a2b12b352618d579a3c631749d
+cmd=test -x scripts/zero-gap-class-credentials-public-tree.sh || exit 1; bash scripts/zero-gap-class-credentials-public-tree.sh --prove-failure

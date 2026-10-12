@@ -1,0 +1,23 @@
+subject=submodules/containers kind=e2e status=check cases=2 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:47:36Z
+cmd=go test -count=1 -json -tags e2e ./tests/e2e/...
+passed=2 failed=0 skipped=1 seconds=3.5
+---
+{"Time":"2026-10-12T12:47:33.300185989+02:00","Action":"start","Package":"digital.vasic.containers/tests/e2e"}
+{"Time":"2026-10-12T12:47:33.304682537+02:00","Action":"run","Package":"digital.vasic.containers/tests/e2e","Test":"TestRemoteHost_SkipWithoutConfig"}
+{"Time":"2026-10-12T12:47:33.304724077+02:00","Action":"output","Package":"digital.vasic.containers/tests/e2e","Test":"TestRemoteHost_SkipWithoutConfig","Output":"=== RUN   TestRemoteHost_SkipWithoutConfig\n"}
+{"Time":"2026-10-12T12:47:33.304733178+02:00","Action":"output","Package":"digital.vasic.containers/tests/e2e","Test":"TestRemoteHost_SkipWithoutConfig","Output":"    remote_e2e_test.go:28: skipping remote host test: CONTAINERS_REMOTE_ENABLED is not true\n"}
+{"Time":"2026-10-12T12:47:33.304740968+02:00","Action":"output","Package":"digital.vasic.containers/tests/e2e","Test":"TestRemoteHost_SkipWithoutConfig","Output":"--- SKIP: TestRemoteHost_SkipWithoutConfig (0.00s)\n"}
+{"Time":"2026-10-12T12:47:33.304744628+02:00","Action":"skip","Package":"digital.vasic.containers/tests/e2e","Test":"TestRemoteHost_SkipWithoutConfig","Elapsed":0}
+{"Time":"2026-10-12T12:47:33.304748808+02:00","Action":"run","Package":"digital.vasic.containers/tests/e2e","Test":"TestLocalRuntime_Detection"}
+{"Time":"2026-10-12T12:47:33.304751358+02:00","Action":"output","Package":"digital.vasic.containers/tests/e2e","Test":"TestLocalRuntime_Detection","Output":"=== RUN   TestLocalRuntime_Detection\n"}
+{"Time":"2026-10-12T12:47:36.062473638+02:00","Action":"output","Package":"digital.vasic.containers/tests/e2e","Test":"TestLocalRuntime_Detection","Output":"--- PASS: TestLocalRuntime_Detection (2.76s)\n"}
+{"Time":"2026-10-12T12:47:36.062530838+02:00","Action":"pass","Package":"digital.vasic.containers/tests/e2e","Test":"TestLocalRuntime_Detection","Elapsed":2.76}
+{"Time":"2026-10-12T12:47:36.062547738+02:00","Action":"run","Package":"digital.vasic.containers/tests/e2e","Test":"TestLocalCompose_StatusOnMissing"}
+{"Time":"2026-10-12T12:47:36.062551588+02:00","Action":"output","Package":"digital.vasic.containers/tests/e2e","Test":"TestLocalCompose_StatusOnMissing","Output":"=== RUN   TestLocalCompose_StatusOnMissing\n"}
+{"Time":"2026-10-12T12:47:36.434443781+02:00","Action":"output","Package":"digital.vasic.containers/tests/e2e","Test":"TestLocalCompose_StatusOnMissing","Output":"--- PASS: TestLocalCompose_StatusOnMissing (0.37s)\n"}
+{"Time":"2026-10-12T12:47:36.434470271+02:00","Action":"pass","Package":"digital.vasic.containers/tests/e2e","Test":"TestLocalCompose_StatusOnMissing","Elapsed":0.37}
+{"Time":"2026-10-12T12:47:36.434479861+02:00","Action":"output","Package":"digital.vasic.containers/tests/e2e","Output":"PASS\n"}
+{"Time":"2026-10-12T12:47:36.435963317+02:00","Action":"output","Package":"digital.vasic.containers/tests/e2e","Output":"ok  \tdigital.vasic.containers/tests/e2e\t3.136s\n"}
+{"Time":"2026-10-12T12:47:36.436004277+02:00","Action":"pass","Package":"digital.vasic.containers/tests/e2e","Elapsed":3.136}
+

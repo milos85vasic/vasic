@@ -1,0 +1,4 @@
+# VSC-365 closure check (author: t090-check-author, not the fixer). RED until an edit of argvpolicy.go is seen as FACT DRIFT by the exempt row that covers the evidence adapter.
+check_id=chk-vsc-365-exempt-row-covers-argvpolicy
+pre_fix_ref=c827c66
+cmd=bash /home/milosvasic/Projects/vasic/docs/zero-gap/checks/VSC-365.probe.sh

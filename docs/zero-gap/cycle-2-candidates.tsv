@@ -1,0 +1,212 @@
+subject	test_kind	status	reason	ref
+ai_interviewing	accessibility	gap	measured: no invocation or zero cases	-
+ai_interviewing	contract	gap	no registered or measured test for this kind	-
+ai_interviewing	determinism	gap	no registered or measured test for this kind	-
+ai_interviewing	e2e	gap	no registered or measured test for this kind	-
+ai_interviewing	integration	gap	no registered or measured test for this kind	-
+ai_interviewing	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+ai_interviewing	mutation	gap	no registered or measured test for this kind	-
+ai_interviewing	perf-load	gap	no registered or measured test for this kind	-
+ai_interviewing	regression	gap	no registered or measured test for this kind	-
+ai_interviewing	security	gap	no registered or measured test for this kind	-
+ai_interviewing	stress-chaos	gap	no registered or measured test for this kind	-
+ai_interviewing	unit	check-red	cases=119 failed=62 rc=1 (red kind is applied, not proven)	docs/zero-gap/coverage-evidence/ai_interviewing__unit.txt
+design-toolkit	accessibility	gap	measured: no invocation or zero cases	-
+design-toolkit	contract	gap	no registered or measured test for this kind	-
+design-toolkit	determinism	gap	no registered or measured test for this kind	-
+design-toolkit	e2e	gap	no registered or measured test for this kind	-
+design-toolkit	integration	gap	no registered or measured test for this kind	-
+design-toolkit	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+design-toolkit	mutation	gap	no registered or measured test for this kind	-
+design-toolkit	perf-load	gap	no registered or measured test for this kind	-
+design-toolkit	regression	gap	no registered or measured test for this kind	-
+design-toolkit	security	gap	no registered or measured test for this kind	-
+design-toolkit	stress-chaos	gap	no registered or measured test for this kind	-
+design-toolkit	unit	gap	no registered or measured test for this kind	-
+milosvasic.ru	accessibility	gap	measured: no invocation or zero cases	-
+milosvasic.ru	contract	gap	no registered or measured test for this kind	-
+milosvasic.ru	determinism	gap	no registered or measured test for this kind	-
+milosvasic.ru	e2e	gap	no registered or measured test for this kind	-
+milosvasic.ru	integration	gap	no registered or measured test for this kind	-
+milosvasic.ru	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+milosvasic.ru	mutation	gap	no registered or measured test for this kind	-
+milosvasic.ru	perf-load	gap	no registered or measured test for this kind	-
+milosvasic.ru	regression	gap	no registered or measured test for this kind	-
+milosvasic.ru	security	gap	no registered or measured test for this kind	-
+milosvasic.ru	stress-chaos	gap	no registered or measured test for this kind	-
+milosvasic.ru	unit	gap	no registered or measured test for this kind	-
+monetization	accessibility	gap	measured: no invocation or zero cases	-
+monetization	contract	gap	no registered or measured test for this kind	-
+monetization	determinism	gap	no registered or measured test for this kind	-
+monetization	e2e	gap	no registered or measured test for this kind	-
+monetization	integration	gap	no registered or measured test for this kind	-
+monetization	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+monetization	mutation	gap	no registered or measured test for this kind	-
+monetization	perf-load	gap	no registered or measured test for this kind	-
+monetization	regression	gap	no registered or measured test for this kind	-
+monetization	security	gap	no registered or measured test for this kind	-
+monetization	stress-chaos	gap	no registered or measured test for this kind	-
+root	accessibility	could-not-run:playwright-preflight	tool playwright-preflight unusable in the measured run	-
+root	claim-ledger	check-red	cases=10 failed=0 rc=1 (red kind is applied, not proven)	docs/zero-gap/coverage-evidence/root__claim-ledger.txt
+root	content-boundary	could-not-run:timeout	tool timeout unusable in the measured run	-
+root	e2e	could-not-run:playwright-preflight	tool playwright-preflight unusable in the measured run	-
+root	host-capability	could-not-run:hostdeps.sh	tool hostdeps.sh unusable in the measured run	-
+root	link-integrity	could-not-run:playwright-preflight	tool playwright-preflight unusable in the measured run	-
+root	manual-qa-readiness	could-not-run:zero-gap-qa-readiness.sh	tool zero-gap-qa-readiness.sh unusable in the measured run	-
+root	perf-load	could-not-run:playwright-preflight	tool playwright-preflight unusable in the measured run	-
+root	provider-ci	check-red	cases=1 failed=0 rc=1 (red kind is applied, not proven)	docs/zero-gap/coverage-evidence/root__provider-ci.txt
+root	regression	gap	no registered or measured test for this kind	-
+root	seo-i18n-completeness	could-not-run:playwright-preflight	tool playwright-preflight unusable in the measured run	-
+root	stress-chaos	gap	no registered or measured test for this kind	-
+root	visual-diff	could-not-run:playwright-preflight	tool playwright-preflight unusable in the measured run	-
+submodules/LLMProvider	accessibility	gap	measured: no invocation or zero cases	-
+submodules/LLMProvider	contract	gap	no registered or measured test for this kind	-
+submodules/LLMProvider	determinism	gap	no registered or measured test for this kind	-
+submodules/LLMProvider	e2e	gap	no registered or measured test for this kind	-
+submodules/LLMProvider	integration	gap	no registered or measured test for this kind	-
+submodules/LLMProvider	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+submodules/LLMProvider	mutation	gap	no registered or measured test for this kind	-
+submodules/LLMProvider	perf-load	gap	no registered or measured test for this kind	-
+submodules/LLMProvider	regression	gap	no registered or measured test for this kind	-
+submodules/LLMProvider	security	gap	no registered or measured test for this kind	-
+submodules/LLMProvider	stress-chaos	gap	no registered or measured test for this kind	-
+submodules/RAG	contract	gap	no registered or measured test for this kind	-
+submodules/RAG	determinism	gap	no registered or measured test for this kind	-
+submodules/RAG	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+submodules/RAG	mutation	gap	no registered or measured test for this kind	-
+submodules/RAG	regression	gap	no registered or measured test for this kind	-
+submodules/challenges	accessibility	gap	measured: no invocation or zero cases	-
+submodules/challenges	contract	gap	no registered or measured test for this kind	-
+submodules/challenges	determinism	gap	no registered or measured test for this kind	-
+submodules/challenges	e2e	gap	no registered or measured test for this kind	-
+submodules/challenges	integration	gap	no registered or measured test for this kind	-
+submodules/challenges	mutation	gap	no registered or measured test for this kind	-
+submodules/challenges	perf-load	gap	no registered or measured test for this kind	-
+submodules/challenges	regression	gap	no registered or measured test for this kind	-
+submodules/challenges	security	gap	no registered or measured test for this kind	-
+submodules/challenges	unit	check-red	cases=2062 failed=0 rc=1 (red kind is applied, not proven)	docs/zero-gap/coverage-evidence/submodules_challenges__unit.txt
+submodules/containers	accessibility	gap	measured: no invocation or zero cases	-
+submodules/containers	contract	gap	no registered or measured test for this kind	-
+submodules/containers	determinism	gap	no registered or measured test for this kind	-
+submodules/containers	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+submodules/containers	mutation	gap	no registered or measured test for this kind	-
+submodules/containers	regression	gap	no registered or measured test for this kind	-
+submodules/containers	unit	check-red	cases=2835 failed=1 rc=1 (red kind is applied, not proven)	docs/zero-gap/coverage-evidence/submodules_containers__unit.txt
+submodules/curriculum-kit	contract	gap	no registered or measured test for this kind	-
+submodules/curriculum-kit	determinism	gap	no registered or measured test for this kind	-
+submodules/curriculum-kit	e2e	gap	no registered or measured test for this kind	-
+submodules/curriculum-kit	integration	gap	no registered or measured test for this kind	-
+submodules/curriculum-kit	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+submodules/curriculum-kit	mutation	gap	no registered or measured test for this kind	-
+submodules/curriculum-kit	perf-load	gap	no registered or measured test for this kind	-
+submodules/curriculum-kit	regression	gap	no registered or measured test for this kind	-
+submodules/curriculum-kit	security	gap	no registered or measured test for this kind	-
+submodules/curriculum-kit	stress-chaos	gap	no registered or measured test for this kind	-
+submodules/doc_processor	accessibility	gap	measured: no invocation or zero cases	-
+submodules/doc_processor	contract	gap	no registered or measured test for this kind	-
+submodules/doc_processor	determinism	gap	no registered or measured test for this kind	-
+submodules/doc_processor	e2e	gap	no registered or measured test for this kind	-
+submodules/doc_processor	integration	gap	no registered or measured test for this kind	-
+submodules/doc_processor	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+submodules/doc_processor	mutation	gap	no registered or measured test for this kind	-
+submodules/doc_processor	perf-load	gap	no registered or measured test for this kind	-
+submodules/doc_processor	regression	gap	no registered or measured test for this kind	-
+submodules/doc_processor	security	gap	no registered or measured test for this kind	-
+submodules/doc_processor	stress-chaos	gap	no registered or measured test for this kind	-
+submodules/llm_orchestrator	accessibility	gap	measured: no invocation or zero cases	-
+submodules/llm_orchestrator	contract	gap	no registered or measured test for this kind	-
+submodules/llm_orchestrator	determinism	gap	no registered or measured test for this kind	-
+submodules/llm_orchestrator	e2e	gap	no registered or measured test for this kind	-
+submodules/llm_orchestrator	integration	gap	no registered or measured test for this kind	-
+submodules/llm_orchestrator	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+submodules/llm_orchestrator	mutation	gap	no registered or measured test for this kind	-
+submodules/llm_orchestrator	perf-load	gap	no registered or measured test for this kind	-
+submodules/llm_orchestrator	regression	gap	no registered or measured test for this kind	-
+submodules/llm_orchestrator	security	gap	no registered or measured test for this kind	-
+submodules/llm_orchestrator	stress-chaos	gap	no registered or measured test for this kind	-
+submodules/llm_provider	accessibility	gap	measured: no invocation or zero cases	-
+submodules/llm_provider	contract	gap	no registered or measured test for this kind	-
+submodules/llm_provider	determinism	gap	no registered or measured test for this kind	-
+submodules/llm_provider	e2e	gap	no registered or measured test for this kind	-
+submodules/llm_provider	integration	gap	no registered or measured test for this kind	-
+submodules/llm_provider	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+submodules/llm_provider	mutation	gap	no registered or measured test for this kind	-
+submodules/llm_provider	perf-load	gap	no registered or measured test for this kind	-
+submodules/llm_provider	regression	gap	no registered or measured test for this kind	-
+submodules/llm_provider	security	gap	no registered or measured test for this kind	-
+submodules/llm_provider	stress-chaos	gap	no registered or measured test for this kind	-
+submodules/llms_verifier	accessibility	gap	measured: no invocation or zero cases	-
+submodules/llms_verifier	contract	gap	no registered or measured test for this kind	-
+submodules/llms_verifier	determinism	gap	no registered or measured test for this kind	-
+submodules/llms_verifier	mutation	gap	no registered or measured test for this kind	-
+submodules/llms_verifier	regression	gap	no registered or measured test for this kind	-
+submodules/llms_verifier	stress-chaos	gap	no registered or measured test for this kind	-
+submodules/llms_verifier	unit	check-red	cases=6558 failed=0 rc=1 (red kind is applied, not proven)	docs/zero-gap/coverage-evidence/submodules_llms_verifier__unit.txt
+submodules/passage	contract	gap	no registered or measured test for this kind	-
+submodules/passage	determinism	gap	no registered or measured test for this kind	-
+submodules/passage	e2e	gap	no registered or measured test for this kind	-
+submodules/passage	integration	gap	no registered or measured test for this kind	-
+submodules/passage	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+submodules/passage	mutation	gap	no registered or measured test for this kind	-
+submodules/passage	perf-load	gap	no registered or measured test for this kind	-
+submodules/passage	regression	gap	no registered or measured test for this kind	-
+submodules/passage	security	gap	no registered or measured test for this kind	-
+submodules/passage	stress-chaos	gap	no registered or measured test for this kind	-
+submodules/qa	accessibility	gap	measured: no invocation or zero cases	-
+submodules/qa	contract	gap	no registered or measured test for this kind	-
+submodules/qa	determinism	gap	no registered or measured test for this kind	-
+submodules/qa	e2e	could-not-run:go-build	tool go-build unusable in the measured run	-
+submodules/qa	fuzz	check-red	cases=38 failed=0 rc=1 (red kind is applied, not proven)	docs/zero-gap/coverage-evidence/submodules_qa__fuzz.txt
+submodules/qa	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+submodules/qa	mutation	gap	no registered or measured test for this kind	-
+submodules/qa	regression	gap	no registered or measured test for this kind	-
+submodules/qa	unit	check-red	cases=3959 failed=1 rc=1 (red kind is applied, not proven)	docs/zero-gap/coverage-evidence/submodules_qa__unit.txt
+submodules/security	contract	gap	no registered or measured test for this kind	-
+submodules/security	determinism	gap	no registered or measured test for this kind	-
+submodules/security	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+submodules/security	mutation	gap	no registered or measured test for this kind	-
+submodules/security	regression	gap	no registered or measured test for this kind	-
+submodules/verdict	contract	gap	no registered or measured test for this kind	-
+submodules/verdict	determinism	gap	no registered or measured test for this kind	-
+submodules/verdict	e2e	gap	no registered or measured test for this kind	-
+submodules/verdict	integration	gap	no registered or measured test for this kind	-
+submodules/verdict	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+submodules/verdict	mutation	gap	no registered or measured test for this kind	-
+submodules/verdict	perf-load	gap	no registered or measured test for this kind	-
+submodules/verdict	regression	gap	no registered or measured test for this kind	-
+submodules/verdict	security	gap	no registered or measured test for this kind	-
+submodules/verdict	stress-chaos	gap	no registered or measured test for this kind	-
+submodules/vision_engine	accessibility	gap	measured: no invocation or zero cases	-
+submodules/vision_engine	contract	gap	no registered or measured test for this kind	-
+submodules/vision_engine	determinism	gap	no registered or measured test for this kind	-
+submodules/vision_engine	e2e	gap	no registered or measured test for this kind	-
+submodules/vision_engine	integration	gap	no registered or measured test for this kind	-
+submodules/vision_engine	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+submodules/vision_engine	mutation	gap	no registered or measured test for this kind	-
+submodules/vision_engine	perf-load	gap	no registered or measured test for this kind	-
+submodules/vision_engine	regression	gap	no registered or measured test for this kind	-
+submodules/vision_engine	security	gap	no registered or measured test for this kind	-
+submodules/vision_engine	stress-chaos	gap	no registered or measured test for this kind	-
+vasic.digital	accessibility	gap	measured: no invocation or zero cases	-
+vasic.digital	contract	gap	no registered or measured test for this kind	-
+vasic.digital	determinism	gap	no registered or measured test for this kind	-
+vasic.digital	e2e	gap	no registered or measured test for this kind	-
+vasic.digital	integration	gap	no registered or measured test for this kind	-
+vasic.digital	manual-qa-readiness	gap	measured: no invocation or zero cases	-
+vasic.digital	mutation	gap	no registered or measured test for this kind	-
+vasic.digital	perf-load	gap	no registered or measured test for this kind	-
+vasic.digital	regression	gap	no registered or measured test for this kind	-
+vasic.digital	security	gap	no registered or measured test for this kind	-
+vasic.digital	stress-chaos	gap	no registered or measured test for this kind	-
+vasic.digital	unit	gap	no registered or measured test for this kind	-
+workshop	accessibility	gap	measured: no invocation or zero cases	-
+workshop	contract	gap	no registered or measured test for this kind	-
+workshop	determinism	gap	no registered or measured test for this kind	-
+workshop	e2e	gap	no registered or measured test for this kind	-
+workshop	integration	gap	no registered or measured test for this kind	-
+workshop	mutation	gap	no registered or measured test for this kind	-
+workshop	perf-load	gap	no registered or measured test for this kind	-
+workshop	regression	gap	no registered or measured test for this kind	-
+workshop	security	gap	no registered or measured test for this kind	-
+workshop	stress-chaos	gap	no registered or measured test for this kind	-
+workshop	unit	check-red	cases=1572 failed=7 rc=1 (red kind is applied, not proven)	docs/zero-gap/coverage-evidence/workshop__unit.txt

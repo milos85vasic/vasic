@@ -1,0 +1,7 @@
+subject=submodules/doc_processor kind=unit status=check cases=264 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:47:48Z
+cmd=(cd submodules/doc_processor && go test -count=1 -json -short <9 pkgs>)
+passed=264 failed=0 skipped=0 over 1 module(s); worst module rc=0
+---
+## submodules/doc_processor: rc=0 passed=264 failed=0 skipped=0 seconds=4.6 build_fail=False
+

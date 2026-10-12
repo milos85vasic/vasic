@@ -1,0 +1,46 @@
+subject=submodules/security kind=perf-load status=check cases=8 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:19Z
+cmd=go test -count=1 -json -run . -bench . -benchtime 1x ./tests/benchmark/...
+passed=8 failed=0 skipped=0 seconds=0.4
+---
+{"Time":"2026-10-12T12:51:19.094777664+02:00","Action":"start","Package":"digital.vasic.security/tests/benchmark"}
+{"Time":"2026-10-12T12:51:19.099730304+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Output":"goos: linux\n"}
+{"Time":"2026-10-12T12:51:19.099763764+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Output":"goarch: amd64\n"}
+{"Time":"2026-10-12T12:51:19.099769044+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Output":"pkg: digital.vasic.security/tests/benchmark\n"}
+{"Time":"2026-10-12T12:51:19.099773384+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Output":"cpu: AMD Ryzen 7 2700X Eight-Core Processor         \n"}
+{"Time":"2026-10-12T12:51:19.099781634+02:00","Action":"run","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkGuardrailsEngine_Check"}
+{"Time":"2026-10-12T12:51:19.099786994+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkGuardrailsEngine_Check","Output":"=== RUN   BenchmarkGuardrailsEngine_Check\n"}
+{"Time":"2026-10-12T12:51:19.099795094+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkGuardrailsEngine_Check","Output":"BenchmarkGuardrailsEngine_Check\n"}
+{"Time":"2026-10-12T12:51:19.100329636+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkGuardrailsEngine_Check","Output":"BenchmarkGuardrailsEngine_Check-4                \t       1\t      4380 ns/op\n"}
+{"Time":"2026-10-12T12:51:19.100337796+02:00","Action":"run","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkGuardrailsEngine_Check_LargeContent"}
+{"Time":"2026-10-12T12:51:19.100341236+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkGuardrailsEngine_Check_LargeContent","Output":"=== RUN   BenchmarkGuardrailsEngine_Check_LargeContent\n"}
+{"Time":"2026-10-12T12:51:19.100348616+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkGuardrailsEngine_Check_LargeContent","Output":"BenchmarkGuardrailsEngine_Check_LargeContent\n"}
+{"Time":"2026-10-12T12:51:19.100710638+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkGuardrailsEngine_Check_LargeContent","Output":"BenchmarkGuardrailsEngine_Check_LargeContent-4   \t       1\t      7580 ns/op\n"}
+{"Time":"2026-10-12T12:51:19.100722658+02:00","Action":"run","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPIIRedactor_Detect"}
+{"Time":"2026-10-12T12:51:19.100727658+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPIIRedactor_Detect","Output":"=== RUN   BenchmarkPIIRedactor_Detect\n"}
+{"Time":"2026-10-12T12:51:19.100733708+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPIIRedactor_Detect","Output":"BenchmarkPIIRedactor_Detect\n"}
+{"Time":"2026-10-12T12:51:19.101179589+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPIIRedactor_Detect","Output":"BenchmarkPIIRedactor_Detect-4                    \t       1\t     81930 ns/op\n"}
+{"Time":"2026-10-12T12:51:19.101201999+02:00","Action":"run","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPIIRedactor_Redact"}
+{"Time":"2026-10-12T12:51:19.101207039+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPIIRedactor_Redact","Output":"=== RUN   BenchmarkPIIRedactor_Redact\n"}
+{"Time":"2026-10-12T12:51:19.101210919+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPIIRedactor_Redact","Output":"BenchmarkPIIRedactor_Redact\n"}
+{"Time":"2026-10-12T12:51:19.101637321+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPIIRedactor_Redact","Output":"BenchmarkPIIRedactor_Redact-4                    \t       1\t    120681 ns/op\n"}
+{"Time":"2026-10-12T12:51:19.101647741+02:00","Action":"run","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkContentFilter_ChainCheck"}
+{"Time":"2026-10-12T12:51:19.101651031+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkContentFilter_ChainCheck","Output":"=== RUN   BenchmarkContentFilter_ChainCheck\n"}
+{"Time":"2026-10-12T12:51:19.101656401+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkContentFilter_ChainCheck","Output":"BenchmarkContentFilter_ChainCheck\n"}
+{"Time":"2026-10-12T12:51:19.101943612+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkContentFilter_ChainCheck","Output":"BenchmarkContentFilter_ChainCheck-4              \t       1\t     10840 ns/op\n"}
+{"Time":"2026-10-12T12:51:19.101948872+02:00","Action":"run","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPolicyEnforcer_Evaluate"}
+{"Time":"2026-10-12T12:51:19.101951302+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPolicyEnforcer_Evaluate","Output":"=== RUN   BenchmarkPolicyEnforcer_Evaluate\n"}
+{"Time":"2026-10-12T12:51:19.101954832+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPolicyEnforcer_Evaluate","Output":"BenchmarkPolicyEnforcer_Evaluate\n"}
+{"Time":"2026-10-12T12:51:19.102288774+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPolicyEnforcer_Evaluate","Output":"BenchmarkPolicyEnforcer_Evaluate-4               \t       1\t      6360 ns/op\n"}
+{"Time":"2026-10-12T12:51:19.102308334+02:00","Action":"run","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPolicyEnforcer_EvaluateAll"}
+{"Time":"2026-10-12T12:51:19.102311494+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPolicyEnforcer_EvaluateAll","Output":"=== RUN   BenchmarkPolicyEnforcer_EvaluateAll\n"}
+{"Time":"2026-10-12T12:51:19.102317204+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPolicyEnforcer_EvaluateAll","Output":"BenchmarkPolicyEnforcer_EvaluateAll\n"}
+{"Time":"2026-10-12T12:51:19.102686255+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkPolicyEnforcer_EvaluateAll","Output":"BenchmarkPolicyEnforcer_EvaluateAll-4            \t       1\t      9580 ns/op\n"}
+{"Time":"2026-10-12T12:51:19.102704875+02:00","Action":"run","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkScannerReport_FilterBySeverity"}
+{"Time":"2026-10-12T12:51:19.102708075+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkScannerReport_FilterBySeverity","Output":"=== RUN   BenchmarkScannerReport_FilterBySeverity\n"}
+{"Time":"2026-10-12T12:51:19.102711385+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkScannerReport_FilterBySeverity","Output":"BenchmarkScannerReport_FilterBySeverity\n"}
+{"Time":"2026-10-12T12:51:19.103709079+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Test":"BenchmarkScannerReport_FilterBySeverity","Output":"BenchmarkScannerReport_FilterBySeverity-4        \t       1\t     10450 ns/op\n"}
+{"Time":"2026-10-12T12:51:19.103727869+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Output":"PASS\n"}
+{"Time":"2026-10-12T12:51:19.10399929+02:00","Action":"output","Package":"digital.vasic.security/tests/benchmark","Output":"ok  \tdigital.vasic.security/tests/benchmark\t0.009s\n"}
+{"Time":"2026-10-12T12:51:19.104030351+02:00","Action":"pass","Package":"digital.vasic.security/tests/benchmark","Elapsed":0.009}
+

@@ -1,0 +1,66 @@
+subject=submodules/qa kind=integration status=check cases=14 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:09Z
+cmd=go test -count=1 -json -tags integration ./tests/integration/...
+passed=14 failed=0 skipped=0 seconds=1.3
+---
+{"Time":"2026-10-12T12:51:09.727510141+02:00","Action":"start","Package":"digital.vasic.helixqa/tests/integration"}
+{"Time":"2026-10-12T12:51:09.732693481+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Automation_SequenceCapture_Click_Analyze_RecordClip"}
+{"Time":"2026-10-12T12:51:09.732757651+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Automation_SequenceCapture_Click_Analyze_RecordClip","Output":"=== RUN   TestOCU_Automation_SequenceCapture_Click_Analyze_RecordClip\n"}
+{"Time":"2026-10-12T12:51:09.732800912+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Automation_SequenceCapture_Click_Analyze_RecordClip","Output":"--- PASS: TestOCU_Automation_SequenceCapture_Click_Analyze_RecordClip (0.00s)\n"}
+{"Time":"2026-10-12T12:51:09.732812252+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Automation_SequenceCapture_Click_Analyze_RecordClip","Elapsed":0}
+{"Time":"2026-10-12T12:51:09.732823352+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Automation_Bridge_FullSequence"}
+{"Time":"2026-10-12T12:51:09.732833682+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Automation_Bridge_FullSequence","Output":"=== RUN   TestOCU_Automation_Bridge_FullSequence\n"}
+{"Time":"2026-10-12T12:51:09.732857272+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Automation_Bridge_FullSequence","Output":"--- PASS: TestOCU_Automation_Bridge_FullSequence (0.00s)\n"}
+{"Time":"2026-10-12T12:51:09.732866812+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Automation_Bridge_FullSequence","Elapsed":0}
+{"Time":"2026-10-12T12:51:09.732874822+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Automation_AllElapsed_NonZero"}
+{"Time":"2026-10-12T12:51:09.732893292+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Automation_AllElapsed_NonZero","Output":"=== RUN   TestOCU_Automation_AllElapsed_NonZero\n"}
+{"Time":"2026-10-12T12:51:09.732923112+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Automation_AllElapsed_NonZero","Output":"--- PASS: TestOCU_Automation_AllElapsed_NonZero (0.00s)\n"}
+{"Time":"2026-10-12T12:51:09.732932932+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Automation_AllElapsed_NonZero","Elapsed":0}
+{"Time":"2026-10-12T12:51:09.732940972+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Capture_FactoryKindsRegistered"}
+{"Time":"2026-10-12T12:51:09.732950152+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Capture_FactoryKindsRegistered","Output":"=== RUN   TestOCU_Capture_FactoryKindsRegistered\n"}
+{"Time":"2026-10-12T12:51:09.732968062+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Capture_FactoryKindsRegistered","Output":"--- PASS: TestOCU_Capture_FactoryKindsRegistered (0.00s)\n"}
+{"Time":"2026-10-12T12:51:09.732990442+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Capture_FactoryKindsRegistered","Elapsed":0}
+{"Time":"2026-10-12T12:51:09.732999202+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Capture_OpenEachKind"}
+{"Time":"2026-10-12T12:51:09.733008542+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Capture_OpenEachKind","Output":"=== RUN   TestOCU_Capture_OpenEachKind\n"}
+{"Time":"2026-10-12T12:51:09.733032843+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Capture_OpenEachKind","Output":"--- PASS: TestOCU_Capture_OpenEachKind (0.00s)\n"}
+{"Time":"2026-10-12T12:51:09.733041783+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Capture_OpenEachKind","Elapsed":0}
+{"Time":"2026-10-12T12:51:09.733052123+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Foundation_ProbeCLI"}
+{"Time":"2026-10-12T12:51:09.733059443+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Foundation_ProbeCLI","Output":"=== RUN   TestOCU_Foundation_ProbeCLI\n"}
+{"Time":"2026-10-12T12:51:09.889358312+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Foundation_ProbeCLI","Output":"--- PASS: TestOCU_Foundation_ProbeCLI (0.16s)\n"}
+{"Time":"2026-10-12T12:51:09.889386562+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Foundation_ProbeCLI","Elapsed":0.16}
+{"Time":"2026-10-12T12:51:09.889392772+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Interact_FactoryKindsRegistered"}
+{"Time":"2026-10-12T12:51:09.889395492+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Interact_FactoryKindsRegistered","Output":"=== RUN   TestOCU_Interact_FactoryKindsRegistered\n"}
+{"Time":"2026-10-12T12:51:09.889401432+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Interact_FactoryKindsRegistered","Output":"--- PASS: TestOCU_Interact_FactoryKindsRegistered (0.00s)\n"}
+{"Time":"2026-10-12T12:51:09.889404702+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Interact_FactoryKindsRegistered","Elapsed":0}
+{"Time":"2026-10-12T12:51:09.889407892+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Interact_OpenEachKind"}
+{"Time":"2026-10-12T12:51:09.889413912+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Interact_OpenEachKind","Output":"=== RUN   TestOCU_Interact_OpenEachKind\n"}
+{"Time":"2026-10-12T12:51:09.890055044+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Interact_OpenEachKind","Output":"--- PASS: TestOCU_Interact_OpenEachKind (0.00s)\n"}
+{"Time":"2026-10-12T12:51:09.890076655+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Interact_OpenEachKind","Elapsed":0}
+{"Time":"2026-10-12T12:51:09.890084845+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Interact_WrapWithNoOp"}
+{"Time":"2026-10-12T12:51:09.890111815+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Interact_WrapWithNoOp","Output":"=== RUN   TestOCU_Interact_WrapWithNoOp\n"}
+{"Time":"2026-10-12T12:51:09.890687737+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Interact_WrapWithNoOp","Output":"--- PASS: TestOCU_Interact_WrapWithNoOp (0.00s)\n"}
+{"Time":"2026-10-12T12:51:09.890696887+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Interact_WrapWithNoOp","Elapsed":0}
+{"Time":"2026-10-12T12:51:09.890704817+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Observe_FactoryKindsRegistered"}
+{"Time":"2026-10-12T12:51:09.890708137+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Observe_FactoryKindsRegistered","Output":"=== RUN   TestOCU_Observe_FactoryKindsRegistered\n"}
+{"Time":"2026-10-12T12:51:09.890715387+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Observe_FactoryKindsRegistered","Output":"--- PASS: TestOCU_Observe_FactoryKindsRegistered (0.00s)\n"}
+{"Time":"2026-10-12T12:51:09.890719217+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Observe_FactoryKindsRegistered","Elapsed":0}
+{"Time":"2026-10-12T12:51:09.890723737+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Observe_OpenEachKind"}
+{"Time":"2026-10-12T12:51:09.890727377+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Observe_OpenEachKind","Output":"=== RUN   TestOCU_Observe_OpenEachKind\n"}
+{"Time":"2026-10-12T12:51:09.890771967+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Observe_OpenEachKind","Output":"--- PASS: TestOCU_Observe_OpenEachKind (0.00s)\n"}
+{"Time":"2026-10-12T12:51:09.890778107+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Observe_OpenEachKind","Elapsed":0}
+{"Time":"2026-10-12T12:51:09.890782937+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Record_InMemorySource"}
+{"Time":"2026-10-12T12:51:09.890790817+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Record_InMemorySource","Output":"=== RUN   TestOCU_Record_InMemorySource\n"}
+{"Time":"2026-10-12T12:51:09.891008138+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Record_InMemorySource","Output":"--- PASS: TestOCU_Record_InMemorySource (0.00s)\n"}
+{"Time":"2026-10-12T12:51:09.891014898+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Record_InMemorySource","Elapsed":0}
+{"Time":"2026-10-12T12:51:09.891019008+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Record_EncoderKindsRegistered"}
+{"Time":"2026-10-12T12:51:09.891031348+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Record_EncoderKindsRegistered","Output":"=== RUN   TestOCU_Record_EncoderKindsRegistered\n"}
+{"Time":"2026-10-12T12:51:09.891038228+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Record_EncoderKindsRegistered","Output":"--- PASS: TestOCU_Record_EncoderKindsRegistered (0.00s)\n"}
+{"Time":"2026-10-12T12:51:09.891047238+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Record_EncoderKindsRegistered","Elapsed":0}
+{"Time":"2026-10-12T12:51:09.891051708+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Vision_CPUFallback_AllFourMethods"}
+{"Time":"2026-10-12T12:51:09.891054658+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Vision_CPUFallback_AllFourMethods","Output":"=== RUN   TestOCU_Vision_CPUFallback_AllFourMethods\n"}
+{"Time":"2026-10-12T12:51:09.891066658+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Vision_CPUFallback_AllFourMethods","Output":"--- PASS: TestOCU_Vision_CPUFallback_AllFourMethods (0.00s)\n"}
+{"Time":"2026-10-12T12:51:09.891072738+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Test":"TestOCU_Vision_CPUFallback_AllFourMethods","Elapsed":0}
+{"Time":"2026-10-12T12:51:09.891076998+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Output":"PASS\n"}
+{"Time":"2026-10-12T12:51:09.892668605+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/integration","Output":"ok  \tdigital.vasic.helixqa/tests/integration\t0.165s\n"}
+{"Time":"2026-10-12T12:51:09.892698365+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/integration","Elapsed":0.165}
+

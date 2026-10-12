@@ -1,0 +1,34 @@
+subject=submodules/RAG kind=e2e status=check cases=6 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:14Z
+cmd=go test -count=1 -json ./tests/e2e/...
+passed=6 failed=0 skipped=0 seconds=0.4
+---
+{"Time":"2026-10-12T12:51:14.798876983+02:00","Action":"start","Package":"digital.vasic.rag/tests/e2e"}
+{"Time":"2026-10-12T12:51:14.80331077+02:00","Action":"run","Package":"digital.vasic.rag/tests/e2e","Test":"TestFullRAGPipelineE2E"}
+{"Time":"2026-10-12T12:51:14.8033609+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Test":"TestFullRAGPipelineE2E","Output":"=== RUN   TestFullRAGPipelineE2E\n"}
+{"Time":"2026-10-12T12:51:14.803384741+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Test":"TestFullRAGPipelineE2E","Output":"--- PASS: TestFullRAGPipelineE2E (0.00s)\n"}
+{"Time":"2026-10-12T12:51:14.803389481+02:00","Action":"pass","Package":"digital.vasic.rag/tests/e2e","Test":"TestFullRAGPipelineE2E","Elapsed":0}
+{"Time":"2026-10-12T12:51:14.803394861+02:00","Action":"run","Package":"digital.vasic.rag/tests/e2e","Test":"TestMultiRetrieverE2E"}
+{"Time":"2026-10-12T12:51:14.803397901+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Test":"TestMultiRetrieverE2E","Output":"=== RUN   TestMultiRetrieverE2E\n"}
+{"Time":"2026-10-12T12:51:14.803541541+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Test":"TestMultiRetrieverE2E","Output":"--- PASS: TestMultiRetrieverE2E (0.00s)\n"}
+{"Time":"2026-10-12T12:51:14.803561961+02:00","Action":"pass","Package":"digital.vasic.rag/tests/e2e","Test":"TestMultiRetrieverE2E","Elapsed":0}
+{"Time":"2026-10-12T12:51:14.803570381+02:00","Action":"run","Package":"digital.vasic.rag/tests/e2e","Test":"TestHybridSearchWithRerankerE2E"}
+{"Time":"2026-10-12T12:51:14.803573971+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Test":"TestHybridSearchWithRerankerE2E","Output":"=== RUN   TestHybridSearchWithRerankerE2E\n"}
+{"Time":"2026-10-12T12:51:14.803695262+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Test":"TestHybridSearchWithRerankerE2E","Output":"--- PASS: TestHybridSearchWithRerankerE2E (0.00s)\n"}
+{"Time":"2026-10-12T12:51:14.803702122+02:00","Action":"pass","Package":"digital.vasic.rag/tests/e2e","Test":"TestHybridSearchWithRerankerE2E","Elapsed":0}
+{"Time":"2026-10-12T12:51:14.803708062+02:00","Action":"run","Package":"digital.vasic.rag/tests/e2e","Test":"TestPipelineWithCustomStageE2E"}
+{"Time":"2026-10-12T12:51:14.803713732+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Test":"TestPipelineWithCustomStageE2E","Output":"=== RUN   TestPipelineWithCustomStageE2E\n"}
+{"Time":"2026-10-12T12:51:14.803718662+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Test":"TestPipelineWithCustomStageE2E","Output":"--- PASS: TestPipelineWithCustomStageE2E (0.00s)\n"}
+{"Time":"2026-10-12T12:51:14.803723172+02:00","Action":"pass","Package":"digital.vasic.rag/tests/e2e","Test":"TestPipelineWithCustomStageE2E","Elapsed":0}
+{"Time":"2026-10-12T12:51:14.803727782+02:00","Action":"run","Package":"digital.vasic.rag/tests/e2e","Test":"TestKeywordRetrieverRemoveE2E"}
+{"Time":"2026-10-12T12:51:14.803731272+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Test":"TestKeywordRetrieverRemoveE2E","Output":"=== RUN   TestKeywordRetrieverRemoveE2E\n"}
+{"Time":"2026-10-12T12:51:14.803753902+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Test":"TestKeywordRetrieverRemoveE2E","Output":"--- PASS: TestKeywordRetrieverRemoveE2E (0.00s)\n"}
+{"Time":"2026-10-12T12:51:14.803758482+02:00","Action":"pass","Package":"digital.vasic.rag/tests/e2e","Test":"TestKeywordRetrieverRemoveE2E","Elapsed":0}
+{"Time":"2026-10-12T12:51:14.803762922+02:00","Action":"run","Package":"digital.vasic.rag/tests/e2e","Test":"TestChunkerPreservesContent"}
+{"Time":"2026-10-12T12:51:14.803767842+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Test":"TestChunkerPreservesContent","Output":"=== RUN   TestChunkerPreservesContent\n"}
+{"Time":"2026-10-12T12:51:14.803785432+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Test":"TestChunkerPreservesContent","Output":"--- PASS: TestChunkerPreservesContent (0.00s)\n"}
+{"Time":"2026-10-12T12:51:14.803789942+02:00","Action":"pass","Package":"digital.vasic.rag/tests/e2e","Test":"TestChunkerPreservesContent","Elapsed":0}
+{"Time":"2026-10-12T12:51:14.803794172+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Output":"PASS\n"}
+{"Time":"2026-10-12T12:51:14.804095273+02:00","Action":"output","Package":"digital.vasic.rag/tests/e2e","Output":"ok  \tdigital.vasic.rag/tests/e2e\t0.005s\n"}
+{"Time":"2026-10-12T12:51:14.804111843+02:00","Action":"pass","Package":"digital.vasic.rag/tests/e2e","Elapsed":0.005}
+

@@ -1,0 +1,6 @@
+# VSC-383: export self-validation fixtures rebuilt only when absent. Behavioural: a recipe newer than the PDFs must trigger the rebuild.
+check_id=VSC-383-build-freshness
+pre_fix_ref=c827c664c24e90a2b12b352618d579a3c631749d
+cmd=t=$(mktemp -d) && cp -r _tests/export "$t/export" && mkdir "$t/bin" && printf '#!/bin/sh\nexit 0\n' > "$t/bin/node" && chmod +x "$t/bin/node" && printf '#!/bin/sh\ntouch "%s/built"\n' "$t" > "$t/export/build-fixtures.sh" && touch -d 2000-01-01 "$t"/export/fixtures/golden-good.pdf "$t"/export/fixtures/golden-bad.pdf && touch "$t/export/build-fixtures.sh" && PATH="$t/bin:$PATH" timeout 60 bash "$t/export/self-validate.sh" "$t/out" >/dev/null 2>&1; if [ -e "$t/built" ]; then rc=0; else rc=1; fi; rm -rf "$t"; exit $rc
+population_kind=process
+evidence_class=runtime

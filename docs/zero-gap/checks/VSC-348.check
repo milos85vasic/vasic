@@ -1,0 +1,5 @@
+check_id=VSC348-badge-refuses-stale-ledger
+pre_fix_ref=c827c664c24e90a2b12b352618d579a3c631749d
+cmd=R=$(cd "$(git rev-parse --git-common-dir)/.." && pwd) && bash "$R/docs/zero-gap/checks/probes/vsc-348.sh"
+population_kind=process
+evidence_class=runtime

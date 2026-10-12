@@ -1,0 +1,6 @@
+# VSC-375 closure check (author: t375-check-author; runtime probe replaces the source-class comment oracle)
+check_id=VSC375-audits-enumerate-untracked
+pre_fix_ref=99a47228ef017c2e9ac9091fb0019500b7688723
+cmd=bash /home/milosvasic/Projects/vasic/docs/zero-gap/checks/VSC-375.probe.sh
+population_kind=process
+evidence_class=runtime

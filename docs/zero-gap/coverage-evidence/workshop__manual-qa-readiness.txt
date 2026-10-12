@@ -1,0 +1,18 @@
+subject=workshop kind=manual-qa-readiness status=check cases=12 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:37Z
+cmd=git -C workshop ls-files -- docs/qa
+tracked files in module docs/qa: 12
+---
+docs/qa/CLIENT-WALKTHROUGH.md
+docs/qa/CLIENT-WALKTHROUGH.sections.json
+docs/qa/DEMO-SCRIPT.md
+docs/qa/DEMO-SCRIPT.sections.json
+docs/qa/KNOWN-LIMITATIONS.md
+docs/qa/KNOWN-LIMITATIONS.sections.json
+docs/qa/MANUAL-TEST-PLAN.md
+docs/qa/MANUAL-TEST-PLAN.sections.json
+docs/qa/PASS-FAIL-CHECKLIST.md
+docs/qa/PASS-FAIL-CHECKLIST.sections.json
+docs/qa/README.md
+docs/qa/README.sections.json
+

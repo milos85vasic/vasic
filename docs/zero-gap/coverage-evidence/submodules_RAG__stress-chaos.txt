@@ -1,0 +1,34 @@
+subject=submodules/RAG kind=stress-chaos status=check cases=6 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:16Z
+cmd=go test -count=1 -json ./tests/stress/...
+passed=6 failed=0 skipped=0 seconds=0.5
+---
+{"Time":"2026-10-12T12:51:15.93195335+02:00","Action":"start","Package":"digital.vasic.rag/tests/stress"}
+{"Time":"2026-10-12T12:51:15.936750038+02:00","Action":"run","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentKeywordRetrieval"}
+{"Time":"2026-10-12T12:51:15.936786338+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentKeywordRetrieval","Output":"=== RUN   TestConcurrentKeywordRetrieval\n"}
+{"Time":"2026-10-12T12:51:15.938686526+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentKeywordRetrieval","Output":"--- PASS: TestConcurrentKeywordRetrieval (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.938712946+02:00","Action":"pass","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentKeywordRetrieval","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.938721066+02:00","Action":"run","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentChunking"}
+{"Time":"2026-10-12T12:51:15.938724796+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentChunking","Output":"=== RUN   TestConcurrentChunking\n"}
+{"Time":"2026-10-12T12:51:15.93960382+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentChunking","Output":"--- PASS: TestConcurrentChunking (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.93962592+02:00","Action":"pass","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentChunking","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.93963258+02:00","Action":"run","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentMultiRetriever"}
+{"Time":"2026-10-12T12:51:15.93963574+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentMultiRetriever","Output":"=== RUN   TestConcurrentMultiRetriever\n"}
+{"Time":"2026-10-12T12:51:15.942350341+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentMultiRetriever","Output":"--- PASS: TestConcurrentMultiRetriever (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.942374541+02:00","Action":"pass","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentMultiRetriever","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.942382901+02:00","Action":"run","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentReranking"}
+{"Time":"2026-10-12T12:51:15.942386371+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentReranking","Output":"=== RUN   TestConcurrentReranking\n"}
+{"Time":"2026-10-12T12:51:15.958509355+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentReranking","Output":"--- PASS: TestConcurrentReranking (0.02s)\n"}
+{"Time":"2026-10-12T12:51:15.958539525+02:00","Action":"pass","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentReranking","Elapsed":0.02}
+{"Time":"2026-10-12T12:51:15.958545375+02:00","Action":"run","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentHybridRetrieval"}
+{"Time":"2026-10-12T12:51:15.958549245+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentHybridRetrieval","Output":"=== RUN   TestConcurrentHybridRetrieval\n"}
+{"Time":"2026-10-12T12:51:15.959415288+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentHybridRetrieval","Output":"--- PASS: TestConcurrentHybridRetrieval (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.959443348+02:00","Action":"pass","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentHybridRetrieval","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.959450908+02:00","Action":"run","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentIndexAndRetrieve"}
+{"Time":"2026-10-12T12:51:15.959463889+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentIndexAndRetrieve","Output":"=== RUN   TestConcurrentIndexAndRetrieve\n"}
+{"Time":"2026-10-12T12:51:15.95988+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentIndexAndRetrieve","Output":"--- PASS: TestConcurrentIndexAndRetrieve (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.95989857+02:00","Action":"pass","Package":"digital.vasic.rag/tests/stress","Test":"TestConcurrentIndexAndRetrieve","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.95990344+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Output":"PASS\n"}
+{"Time":"2026-10-12T12:51:15.961695267+02:00","Action":"output","Package":"digital.vasic.rag/tests/stress","Output":"ok  \tdigital.vasic.rag/tests/stress\t0.030s\n"}
+{"Time":"2026-10-12T12:51:15.961711047+02:00","Action":"pass","Package":"digital.vasic.rag/tests/stress","Elapsed":0.03}
+

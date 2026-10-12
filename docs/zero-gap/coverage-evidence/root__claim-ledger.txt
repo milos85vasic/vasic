@@ -1,0 +1,21 @@
+subject=root kind=claim-ledger status=check-red cases=10 failed=0 rc=1
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:52:41Z
+cmd=bash scripts/verify-claim-ledger.sh
+seconds=15.9 failed=0 (parsed from the gate output; rc is authoritative)
+---
+
+== claim-vs-reality ledger — §11.4.266 ==
+   ledger:  docs/claim-ledger.tsv
+   rows:    10 claim row(s) over 5 declared surface(s)
+   verdict: 9 VERIFIED · 1 FALSE · 0 ORPHAN · 0 MALFORMED/UNTYPED · 0 UNDETERMINED
+
+FALSE   [blocker/coverage-theater] readme-zero-findings-badge — occurrence 1 of the claim in README.md says '23'; a fresh measurement says '47'.
+                  probe: bash scripts/audit/zero_findings_sweep.sh 2>&1 | sed -nE 's/.*class=TOTAL[[:space:]]+live=([0-9]+).*/\1/p' | head -1
+
+COVERAGE — BOUNDED AND STATED. §11.4.266(A) requires EVERY advertised
+capability to resolve to exactly one row. This ledger is a slice of 10.
+CM-CLAIM-REALITY-LEDGER-COMPLETE is NOT satisfied; run --completeness for
+the remaining waves. Do NOT read a green exit as ledger completeness.
+
+❌ CLAIM-VS-REALITY [DEFECT]: 1 recorded claim(s) do not survive re-measurement.
+

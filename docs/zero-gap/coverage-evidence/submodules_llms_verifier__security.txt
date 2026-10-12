@@ -1,0 +1,56 @@
+subject=submodules/llms_verifier kind=security status=check cases=56 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:50:28Z
+cmd=go test -count=1 -json ./tests/security/...
+passed=56 failed=0 skipped=0 seconds=4.5
+---
+{"Time":"2026-10-12T12:50:24.824044502+02:00","Action":"start","Package":"llmsverifier/tests/security"}
+{"Time":"2026-10-12T12:50:24.829609454+02:00","Action":"run","Package":"llmsverifier/tests/security","Test":"TestSQLInjectionPrevention"}
+{"Time":"2026-10-12T12:50:24.829661134+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestSQLInjectionPrevention","Output":"=== RUN   TestSQLInjectionPrevention\n"}
+{"Time":"2026-10-12T12:50:24.829675304+02:00","Action":"run","Package":"llmsverifier/tests/security","Test":"TestSQLInjectionPrevention/SQL_Injection_';_DROP_TABLE_models;_--"}
+{"Time":"2026-10-12T12:50:24.829682934+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestSQLInjectionPrevention/SQL_Injection_';_DROP_TABLE_models;_--","Output":"=== RUN   TestSQLInjectionPrevention/SQL_Injection_';_DROP_TABLE_models;_--\n"}
+{"Time":"2026-10-12T12:50:24.829693474+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestSQLInjectionPrevention/SQL_Injection_';_DROP_TABLE_models;_--","Output":"--- PASS: TestSQLInjectionPrevention/SQL_Injection_';_DROP_TABLE_models;_-- (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.829699394+02:00","Action":"pass","Package":"llmsverifier/tests/security","Test":"TestSQLInjectionPrevention/SQL_Injection_';_DROP_TABLE_models;_--","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.829704835+02:00","Action":"run","Package":"llmsverifier/tests/security","Test":"TestSQLInjectionPrevention/SQL_Injection_'_OR_'1'='1"}
+{"Time":"2026-10-12T12:50:24.829709345+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestSQLInjectionPrevention/SQL_Injection_'_OR_'1'='1","Output":"=== RUN   TestSQLInjectionPrevention/SQL_Injection_'_OR_'1'='1\n"}
+{"Time":"2026-10-12T12:50:24.829714305+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestSQLInjectionPrevention/SQL_Injection_'_OR_'1'='1","Output":"--- PASS: TestSQLInjectionPrevention/SQL_Injection_'_OR_'1'='1 (0.00s)\n"}
+... [178 lines elided] ...
+{"Time":"2026-10-12T12:50:24.835428547+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestInputValidation/Valid_URL","Output":"=== RUN   TestInputValidation/Valid_URL\n"}
+{"Time":"2026-10-12T12:50:24.835432727+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestInputValidation/Valid_URL","Output":"--- PASS: TestInputValidation/Valid_URL (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.835436777+02:00","Action":"pass","Package":"llmsverifier/tests/security","Test":"TestInputValidation/Valid_URL","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.835441937+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestInputValidation","Output":"--- PASS: TestInputValidation (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.835445637+02:00","Action":"pass","Package":"llmsverifier/tests/security","Test":"TestInputValidation","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.835448417+02:00","Action":"run","Package":"llmsverifier/tests/security","Test":"TestSecureHeaders"}
+{"Time":"2026-10-12T12:50:24.835454317+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestSecureHeaders","Output":"=== RUN   TestSecureHeaders\n"}
+{"Time":"2026-10-12T12:50:24.835750758+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestSecureHeaders","Output":"--- PASS: TestSecureHeaders (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.835755778+02:00","Action":"pass","Package":"llmsverifier/tests/security","Test":"TestSecureHeaders","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.835758768+02:00","Action":"run","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption"}
+{"Time":"2026-10-12T12:50:24.835761138+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption","Output":"=== RUN   TestEncryptionDecryption\n"}
+{"Time":"2026-10-12T12:50:24.835765439+02:00","Action":"run","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption/Encrypt_sk-secret-"}
+{"Time":"2026-10-12T12:50:24.835768849+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption/Encrypt_sk-secret-","Output":"=== RUN   TestEncryptionDecryption/Encrypt_sk-secret-\n"}
+{"Time":"2026-10-12T12:50:24.835788629+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption/Encrypt_sk-secret-","Output":"--- PASS: TestEncryptionDecryption/Encrypt_sk-secret- (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.835793059+02:00","Action":"pass","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption/Encrypt_sk-secret-","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.835816429+02:00","Action":"run","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption/Encrypt_db-passwor"}
+{"Time":"2026-10-12T12:50:24.835819939+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption/Encrypt_db-passwor","Output":"=== RUN   TestEncryptionDecryption/Encrypt_db-passwor\n"}
+{"Time":"2026-10-12T12:50:24.835841429+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption/Encrypt_db-passwor","Output":"--- PASS: TestEncryptionDecryption/Encrypt_db-passwor (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.835845509+02:00","Action":"pass","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption/Encrypt_db-passwor","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.835849159+02:00","Action":"run","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption/Encrypt_jwt-secret"}
+{"Time":"2026-10-12T12:50:24.835855659+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption/Encrypt_jwt-secret","Output":"=== RUN   TestEncryptionDecryption/Encrypt_jwt-secret\n"}
+{"Time":"2026-10-12T12:50:24.835859709+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption/Encrypt_jwt-secret","Output":"--- PASS: TestEncryptionDecryption/Encrypt_jwt-secret (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.835867009+02:00","Action":"pass","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption/Encrypt_jwt-secret","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.835870049+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption","Output":"--- PASS: TestEncryptionDecryption (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.835873329+02:00","Action":"pass","Package":"llmsverifier/tests/security","Test":"TestEncryptionDecryption","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.835877689+02:00","Action":"run","Package":"llmsverifier/tests/security","Test":"TestLoggingSecurity"}
+{"Time":"2026-10-12T12:50:24.835880079+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestLoggingSecurity","Output":"=== RUN   TestLoggingSecurity\n"}
+{"Time":"2026-10-12T12:50:24.835904339+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestLoggingSecurity","Output":"--- PASS: TestLoggingSecurity (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.835911439+02:00","Action":"pass","Package":"llmsverifier/tests/security","Test":"TestLoggingSecurity","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.835929239+02:00","Action":"run","Package":"llmsverifier/tests/security","Test":"TestCSRFProtection"}
+{"Time":"2026-10-12T12:50:24.835932719+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestCSRFProtection","Output":"=== RUN   TestCSRFProtection\n"}
+{"Time":"2026-10-12T12:50:24.836803222+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestCSRFProtection","Output":"--- PASS: TestCSRFProtection (0.00s)\n"}
+{"Time":"2026-10-12T12:50:24.836817173+02:00","Action":"pass","Package":"llmsverifier/tests/security","Test":"TestCSRFProtection","Elapsed":0}
+{"Time":"2026-10-12T12:50:24.836822083+02:00","Action":"run","Package":"llmsverifier/tests/security","Test":"TestSessionSecurity"}
+{"Time":"2026-10-12T12:50:24.836825793+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestSessionSecurity","Output":"=== RUN   TestSessionSecurity\n"}
+{"Time":"2026-10-12T12:50:28.838075621+02:00","Action":"output","Package":"llmsverifier/tests/security","Test":"TestSessionSecurity","Output":"--- PASS: TestSessionSecurity (4.00s)\n"}
+{"Time":"2026-10-12T12:50:28.838108151+02:00","Action":"pass","Package":"llmsverifier/tests/security","Test":"TestSessionSecurity","Elapsed":4}
+{"Time":"2026-10-12T12:50:28.838120012+02:00","Action":"output","Package":"llmsverifier/tests/security","Output":"PASS\n"}
+{"Time":"2026-10-12T12:50:28.839274166+02:00","Action":"output","Package":"llmsverifier/tests/security","Output":"ok  \tllmsverifier/tests/security\t4.015s\n"}
+{"Time":"2026-10-12T12:50:28.839286486+02:00","Action":"pass","Package":"llmsverifier/tests/security","Elapsed":4.015}

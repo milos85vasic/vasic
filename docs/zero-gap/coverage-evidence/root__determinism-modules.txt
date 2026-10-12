@@ -1,0 +1,11 @@
+subject=root kind=determinism-modules status=check cases=5 rc=0
+cmd=bash scripts/zero-gap-determinism-modules.sh --runs 2
+seconds=7.1
+---
+PASS   gen-vd-all: 2 runs, 1 distinct sha256 323d8188c87e04ab…, 3512 bytes
+PASS   gen-mv-all: 2 runs, 1 distinct sha256 d5aadeb0262f33d4…, 3589 bytes
+PASS   wi-gap-summary: 2 runs, 1 distinct sha256 c53fc2b7cf791a5d…, 4920 bytes
+PASS   wi-report-module: 2 runs, 1 distinct sha256 b4f383eea78c4010…, 96681 bytes
+PASS   repro-selftest: 2 runs, 1 distinct sha256 b0e5922d7eb366d1…, 770 bytes
+VERDICT: PASS — every target byte-identical across 2 runs
+

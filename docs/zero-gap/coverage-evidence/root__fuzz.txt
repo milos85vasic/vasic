@@ -1,0 +1,30 @@
+subject=root kind=fuzz status=check cases=11 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:57:29Z
+cmd=bash scripts/prove-umbrella-mutants.sh --set fuzz
+seconds=34.4 failed=0 (parsed from the gate output; rc is authoritative)
+---
+BASELINE-OK   _tools/zero-gap-chain (-run ^FuzzArgvPolicy$ .)
+KILLED        FZ1-argv-reason-leaks-value by FuzzArgvPolicy,FuzzArgvPolicy/seed#0
+BASELINE-OK   _tools/zero-gap-chain (-run ^FuzzNormalizeArg$ .)
+KILLED        FZ2-normalize-writes-raw-bytes by FuzzNormalizeArg,FuzzNormalizeArg/seed#4
+BASELINE-OK   _tools/zero-gap-chain (-run ^FuzzMarshalSidecarLine$ .)
+KILLED        FZ3-sidecar-accepts-invalid-utf8 by FuzzMarshalSidecarLine,FuzzMarshalSidecarLine/seed#2
+BASELINE-OK   _tools/zero-gap-chain (-run ^FuzzParseRecorderRow$ .)
+KILLED        FZ4-recorder-row-flag-inverted by FuzzParseRecorderRow,FuzzParseRecorderRow/seed#0
+BASELINE-OK   _tools/workable-items (-run ^FuzzParseEvidenceRecord$ ./internal/wi)
+KILLED        FZ5-evidence-dup-key-ignored by FuzzParseEvidenceRecord,FuzzParseEvidenceRecord/seed#0
+BASELINE-OK   _tools/workable-items (-run ^FuzzConfine$ ./internal/wi)
+KILLED        FZ6-confine-lexical-escape-allowed by FuzzConfine,FuzzConfine/seed#1
+BASELINE-OK   _tools/workable-items (-run ^FuzzParseAsOf$ ./internal/wi)
+KILLED        FZ7-asof-returns-altered-value by FuzzParseAsOf,FuzzParseAsOf/seed#0
+BASELINE-OK   _tools/gen (-run ^FuzzEsc$ .)
+KILLED        FZ8-esc-drops-lt by FuzzEsc,FuzzEsc/seed#2
+BASELINE-OK   _tools/gen (-run ^(FuzzInline|FuzzRenderBody)$ .)
+KILLED        FZ9-inline-skips-escape by FuzzInline,FuzzInline/seed#2
+BASELINE-OK   _tools/gen (-run ^FuzzYamlQuote$ .)
+KILLED        FZ10-yamlquote-skips-backslash by FuzzYamlQuote,FuzzYamlQuote/seed#1
+BASELINE-OK   _tools/gen (-run ^FuzzParseFrontmatter$ .)
+KILLED        FZ11-frontmatter-scalar-altered by FuzzParseFrontmatter,FuzzParseFrontmatter/seed#0
+----
+summary: 11 mutant(s): 11 killed, 0 survived, 0 not applied, 0 build-broken, 0 red baseline/finding
+

@@ -1,0 +1,5 @@
+# VSC-367 closure check: the project-level PreToolUse catalogue hook exists, refuses every refused catalogue
+# row, allows the benign controls and evasion shapes behave (its own --prove-failure, rc 0 = all held).
+check_id=chk-vsc-367-project-catalogue-hook
+pre_fix_ref=c827c664c24e90a2b12b352618d579a3c631749d
+cmd=test -x scripts/hooks/guard-project-catalogue.sh || exit 1; bash scripts/hooks/guard-project-catalogue.sh --prove-failure

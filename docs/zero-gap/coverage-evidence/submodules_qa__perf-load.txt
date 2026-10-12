@@ -1,0 +1,42 @@
+subject=submodules/qa kind=perf-load status=check cases=7 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:11Z
+cmd=go test -count=1 -json -run . -bench . -benchtime 1x ./tests/benchmark/...
+passed=7 failed=0 skipped=0 seconds=0.7
+---
+{"Time":"2026-10-12T12:51:11.496355185+02:00","Action":"start","Package":"digital.vasic.helixqa/tests/benchmark"}
+{"Time":"2026-10-12T12:51:11.501642686+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Output":"goos: linux\n"}
+{"Time":"2026-10-12T12:51:11.501706626+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Output":"goarch: amd64\n"}
+{"Time":"2026-10-12T12:51:11.501712087+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Output":"pkg: digital.vasic.helixqa/tests/benchmark\n"}
+{"Time":"2026-10-12T12:51:11.501715937+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Output":"cpu: AMD Ryzen 7 2700X Eight-Core Processor         \n"}
+{"Time":"2026-10-12T12:51:11.501728627+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkKnowledgeBase_AddScreen"}
+{"Time":"2026-10-12T12:51:11.501734987+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkKnowledgeBase_AddScreen","Output":"=== RUN   BenchmarkKnowledgeBase_AddScreen\n"}
+{"Time":"2026-10-12T12:51:11.501744027+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkKnowledgeBase_AddScreen","Output":"BenchmarkKnowledgeBase_AddScreen\n"}
+{"Time":"2026-10-12T12:51:11.50522818+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkKnowledgeBase_AddScreen","Output":"BenchmarkKnowledgeBase_AddScreen-4                 \t       1\t      1090 ns/op\n"}
+{"Time":"2026-10-12T12:51:11.505257071+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkKnowledgeBase_Summary"}
+{"Time":"2026-10-12T12:51:11.505260621+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkKnowledgeBase_Summary","Output":"=== RUN   BenchmarkKnowledgeBase_Summary\n"}
+{"Time":"2026-10-12T12:51:11.505275341+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkKnowledgeBase_Summary","Output":"BenchmarkKnowledgeBase_Summary\n"}
+{"Time":"2026-10-12T12:51:11.506596606+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkKnowledgeBase_Summary","Output":"BenchmarkKnowledgeBase_Summary-4                   \t       1\t      3090 ns/op\n"}
+{"Time":"2026-10-12T12:51:11.506637296+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkMemoryStore_CreateFinding"}
+{"Time":"2026-10-12T12:51:11.506641646+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkMemoryStore_CreateFinding","Output":"=== RUN   BenchmarkMemoryStore_CreateFinding\n"}
+{"Time":"2026-10-12T12:51:11.506645516+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkMemoryStore_CreateFinding","Output":"BenchmarkMemoryStore_CreateFinding\n"}
+{"Time":"2026-10-12T12:51:11.509592148+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkMemoryStore_CreateFinding","Output":"BenchmarkMemoryStore_CreateFinding-4               \t       1\t     74960 ns/op\n"}
+{"Time":"2026-10-12T12:51:11.509615628+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkPriorityRanker_Rank"}
+{"Time":"2026-10-12T12:51:11.509619838+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkPriorityRanker_Rank","Output":"=== RUN   BenchmarkPriorityRanker_Rank\n"}
+{"Time":"2026-10-12T12:51:11.509622858+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkPriorityRanker_Rank","Output":"BenchmarkPriorityRanker_Rank\n"}
+{"Time":"2026-10-12T12:51:11.511671596+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkPriorityRanker_Rank","Output":"BenchmarkPriorityRanker_Rank-4                     \t       1\t   1162175 ns/op\n"}
+{"Time":"2026-10-12T12:51:11.511693266+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkBankReconciler_Reconcile"}
+{"Time":"2026-10-12T12:51:11.511696896+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkBankReconciler_Reconcile","Output":"=== RUN   BenchmarkBankReconciler_Reconcile\n"}
+{"Time":"2026-10-12T12:51:11.511700026+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkBankReconciler_Reconcile","Output":"BenchmarkBankReconciler_Reconcile\n"}
+{"Time":"2026-10-12T12:51:11.513511323+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkBankReconciler_Reconcile","Output":"BenchmarkBankReconciler_Reconcile-4                \t       1\t    268541 ns/op\n"}
+{"Time":"2026-10-12T12:51:11.513532353+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkVisionAnalyzer_ParseFindings"}
+{"Time":"2026-10-12T12:51:11.513535043+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkVisionAnalyzer_ParseFindings","Output":"=== RUN   BenchmarkVisionAnalyzer_ParseFindings\n"}
+{"Time":"2026-10-12T12:51:11.513538103+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkVisionAnalyzer_ParseFindings","Output":"BenchmarkVisionAnalyzer_ParseFindings\n"}
+{"Time":"2026-10-12T12:51:11.513945635+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkVisionAnalyzer_ParseFindings","Output":"BenchmarkVisionAnalyzer_ParseFindings-4            \t       1\t     98441 ns/op\n"}
+{"Time":"2026-10-12T12:51:11.513969995+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkVisionAnalyzer_ParseFindings_JSONOnly"}
+{"Time":"2026-10-12T12:51:11.513973185+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkVisionAnalyzer_ParseFindings_JSONOnly","Output":"=== RUN   BenchmarkVisionAnalyzer_ParseFindings_JSONOnly\n"}
+{"Time":"2026-10-12T12:51:11.513998575+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkVisionAnalyzer_ParseFindings_JSONOnly","Output":"BenchmarkVisionAnalyzer_ParseFindings_JSONOnly\n"}
+{"Time":"2026-10-12T12:51:11.514329187+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Test":"BenchmarkVisionAnalyzer_ParseFindings_JSONOnly","Output":"BenchmarkVisionAnalyzer_ParseFindings_JSONOnly-4   \t       1\t     40500 ns/op\n"}
+{"Time":"2026-10-12T12:51:11.514345707+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Output":"PASS\n"}
+{"Time":"2026-10-12T12:51:11.514593518+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Output":"ok  \tdigital.vasic.helixqa/tests/benchmark\t0.018s\n"}
+{"Time":"2026-10-12T12:51:11.514608228+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/benchmark","Elapsed":0.018}
+

@@ -1,0 +1,46 @@
+subject=submodules/RAG kind=security status=check cases=9 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:15Z
+cmd=go test -count=1 -json ./tests/security/...
+passed=9 failed=0 skipped=0 seconds=0.4
+---
+{"Time":"2026-10-12T12:51:15.204110457+02:00","Action":"start","Package":"digital.vasic.rag/tests/security"}
+{"Time":"2026-10-12T12:51:15.208483715+02:00","Action":"run","Package":"digital.vasic.rag/tests/security","Test":"TestEmptyInputHandling"}
+{"Time":"2026-10-12T12:51:15.208537085+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestEmptyInputHandling","Output":"=== RUN   TestEmptyInputHandling\n"}
+{"Time":"2026-10-12T12:51:15.208566535+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestEmptyInputHandling","Output":"--- PASS: TestEmptyInputHandling (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.208572975+02:00","Action":"pass","Package":"digital.vasic.rag/tests/security","Test":"TestEmptyInputHandling","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.208579815+02:00","Action":"run","Package":"digital.vasic.rag/tests/security","Test":"TestEmptyDocumentReranking"}
+{"Time":"2026-10-12T12:51:15.208583185+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestEmptyDocumentReranking","Output":"=== RUN   TestEmptyDocumentReranking\n"}
+{"Time":"2026-10-12T12:51:15.208587725+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestEmptyDocumentReranking","Output":"--- PASS: TestEmptyDocumentReranking (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.208592145+02:00","Action":"pass","Package":"digital.vasic.rag/tests/security","Test":"TestEmptyDocumentReranking","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.208595815+02:00","Action":"run","Package":"digital.vasic.rag/tests/security","Test":"TestNoRetrieversPipeline"}
+{"Time":"2026-10-12T12:51:15.208613355+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestNoRetrieversPipeline","Output":"=== RUN   TestNoRetrieversPipeline\n"}
+{"Time":"2026-10-12T12:51:15.208618265+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestNoRetrieversPipeline","Output":"--- PASS: TestNoRetrieversPipeline (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.208622805+02:00","Action":"pass","Package":"digital.vasic.rag/tests/security","Test":"TestNoRetrieversPipeline","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.208626555+02:00","Action":"run","Package":"digital.vasic.rag/tests/security","Test":"TestNilRetrieverInPipeline"}
+{"Time":"2026-10-12T12:51:15.208629765+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestNilRetrieverInPipeline","Output":"=== RUN   TestNilRetrieverInPipeline\n"}
+{"Time":"2026-10-12T12:51:15.208634315+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestNilRetrieverInPipeline","Output":"--- PASS: TestNilRetrieverInPipeline (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.208638045+02:00","Action":"pass","Package":"digital.vasic.rag/tests/security","Test":"TestNilRetrieverInPipeline","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.208645735+02:00","Action":"run","Package":"digital.vasic.rag/tests/security","Test":"TestNilRerankerInPipeline"}
+{"Time":"2026-10-12T12:51:15.208648865+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestNilRerankerInPipeline","Output":"=== RUN   TestNilRerankerInPipeline\n"}
+{"Time":"2026-10-12T12:51:15.208656115+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestNilRerankerInPipeline","Output":"--- PASS: TestNilRerankerInPipeline (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.208665045+02:00","Action":"pass","Package":"digital.vasic.rag/tests/security","Test":"TestNilRerankerInPipeline","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.208669475+02:00","Action":"run","Package":"digital.vasic.rag/tests/security","Test":"TestLargeInputChunking"}
+{"Time":"2026-10-12T12:51:15.208672476+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestLargeInputChunking","Output":"=== RUN   TestLargeInputChunking\n"}
+{"Time":"2026-10-12T12:51:15.209514589+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestLargeInputChunking","Output":"--- PASS: TestLargeInputChunking (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.209534699+02:00","Action":"pass","Package":"digital.vasic.rag/tests/security","Test":"TestLargeInputChunking","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.209539219+02:00","Action":"run","Package":"digital.vasic.rag/tests/security","Test":"TestMultiRetrieverAllFail"}
+{"Time":"2026-10-12T12:51:15.209542319+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestMultiRetrieverAllFail","Output":"=== RUN   TestMultiRetrieverAllFail\n"}
+{"Time":"2026-10-12T12:51:15.209548259+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestMultiRetrieverAllFail","Output":"--- PASS: TestMultiRetrieverAllFail (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.209553999+02:00","Action":"pass","Package":"digital.vasic.rag/tests/security","Test":"TestMultiRetrieverAllFail","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.209557559+02:00","Action":"run","Package":"digital.vasic.rag/tests/security","Test":"TestChunkerEdgeCaseConfigs"}
+{"Time":"2026-10-12T12:51:15.209560469+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestChunkerEdgeCaseConfigs","Output":"=== RUN   TestChunkerEdgeCaseConfigs\n"}
+{"Time":"2026-10-12T12:51:15.209565729+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestChunkerEdgeCaseConfigs","Output":"--- PASS: TestChunkerEdgeCaseConfigs (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.209569499+02:00","Action":"pass","Package":"digital.vasic.rag/tests/security","Test":"TestChunkerEdgeCaseConfigs","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.209574249+02:00","Action":"run","Package":"digital.vasic.rag/tests/security","Test":"TestMMRLambdaBoundaries"}
+{"Time":"2026-10-12T12:51:15.209577219+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestMMRLambdaBoundaries","Output":"=== RUN   TestMMRLambdaBoundaries\n"}
+{"Time":"2026-10-12T12:51:15.209610409+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Test":"TestMMRLambdaBoundaries","Output":"--- PASS: TestMMRLambdaBoundaries (0.00s)\n"}
+{"Time":"2026-10-12T12:51:15.209631679+02:00","Action":"pass","Package":"digital.vasic.rag/tests/security","Test":"TestMMRLambdaBoundaries","Elapsed":0}
+{"Time":"2026-10-12T12:51:15.209649459+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Output":"PASS\n"}
+{"Time":"2026-10-12T12:51:15.20993034+02:00","Action":"output","Package":"digital.vasic.rag/tests/security","Output":"ok  \tdigital.vasic.rag/tests/security\t0.006s\n"}
+{"Time":"2026-10-12T12:51:15.20994707+02:00","Action":"pass","Package":"digital.vasic.rag/tests/security","Elapsed":0.006}
+

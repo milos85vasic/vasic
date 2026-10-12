@@ -1,0 +1,56 @@
+subject=root kind=provider-ci status=check-red cases=1 failed=0 rc=1
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=5555a013cb8e2615482f0ea52b3a3b2107e269d86516846b533961d4943bbf1f ts=2026-10-12T11:12:17Z
+cmd=bash scripts/verify-provider-ci.sh
+seconds=252.4 failed=0 (parsed from the gate output; rc is authoritative)
+---
+Provider-side CI verification   root: /home/milosvasic/Projects/vasic
+window: last 30 day(s) (since 2026-09-12T11:08:02Z)   repos: 77   upstream rows: 101
+adapters: github.com -> gh [ready: authenticated as milos85vasic]
+          gitlab.com -> glab [ready: authenticated as milos85vasic]
+          gitflic.ru -> http [unauth: host reachable (https://api.gitflic.ru answered HTTP 403) but its API requires a credential for every route; none is configured — set GITFLIC_TOKEN to a read-only personal access token]
+          gitverse.ru -> http [unauth: host reachable (https://api.gitverse.ru answered HTTP 401) but its API requires a credential for every route; none is configured — set GITVERSE_TOKEN to a read-only personal access token]
+          any other host -> none registered (rows reported UNVERIFIED)
+
+REPO                                           HOST        UPSTREAM                              OURS        FILE-CI           TRIGGER      VERDICT
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+... [483 lines elided] ...
+  submodules/qa/tools/opensourc… OURS  github.com/bytedance=tree-shared(2 repos)
+  submodules/constitution/submo… THIRD-PARTY  github.com/stagingrdkm/js_mse_eme=push-perm(provider reports push=false) — §11.4.156(C) out of scope
+  submodules/qa/tools/opensourc… OURS  github.com/mem0ai=tree-shared(2 repos)
+  submodules/qa/tools/opensourc… OURS  github.com/skyvern-ai=tree-shared(2 repos)
+
+Operator-only remediation that applies to what was found on THIS host
+  1. [MANUAL] An adapter IS registered for this host but could not run: host reachable (https://api.gitflic.ru answered HTTP 403) but its API requires a credential for every route; none is configured — set GITFLIC_TOKEN to a read-only personal access token. Until it can, verify by hand in that provider's web UI: CI/CD settings, pipeline schedules, pages/publishing settings, webhooks, and required checks on the default branch.
+     applies to: gitflic.ru/helixdevelopment/helixconstitution, gitflic.ru/milosvasic/milosvasic-net-v-2, gitflic.ru/milosvasic/monetization, gitflic.ru/red-elf/upstreamable
+  2. [MANUAL] An adapter IS registered for this host but could not run: host reachable (https://api.gitverse.ru answered HTTP 401) but its API requires a credential for every route; none is configured — set GITVERSE_TOKEN to a read-only personal access token. Until it can, verify by hand in that provider's web UI: CI/CD settings, pipeline schedules, pages/publishing settings, webhooks, and required checks on the default branch.
+     applies to: gitverse.ru/helixdevelopment/HelixConstitution, gitverse.ru/milosvasic/monetization
+  3. [FILE] Active root-level CI config(s) in the tree: .github/workflows/pages.yml — file-level, visible to file gates, a §11.4.156(A)/(B) matter rather than a provider-side one.
+     applies to: milos85vasic/milosvasic.net.v2, milos85vasic/milosvasic.ru
+  4. [PROVIDER] GitHub Pages is in legacy (deploy-from-a-branch) mode, so the provider builds on every push with no workflow file involved. Operator-only, Settings > Pages: (a) leave it and record a documented deviation, (b) change the source, or (c) disable Pages. (b) and (c) change or stop publishing — decide what serves the live site before touching either.
+     applies to: vasic-digital/vasic-digital.github.io
+  5. [HARDEN] Actions are enabled at repository level while the tree declares zero active workflow files. Disabling Actions (Settings > Actions > General > Disable actions) is the only file-independent way to stop provider-generated runs — but it also stops any Pages workflow build, so check what publishes each repository before switching it off.
+     applies to: vasic-digital/vasic-digital.github.io, HelixDevelopment/helixqa, HelixDevelopment/qa, vasic-digital/HelixQA, vasic-digital/challenges, HelixDevelopment/DocProcessor, HelixDevelopment/LLMOrchestrator, HelixDevelopment/LLMProvider, vasic-digital/LLMsVerifier, vasic-digital/security, HelixDevelopment/VisionEngine
+  6. [REVIEW] 12 provider-generated Actions run(s) occurred in the window (newest 2026-10-12T00:57:54Z) but no standing provider setting readable now explains them. Operator-only: confirm which setting produced them and that it is genuinely gone, rather than assuming the change stuck.
+     applies to: Skyvern-AI/skyvern
+  7. [REVIEW] 12 provider-generated Actions run(s) occurred in the window (newest 2026-10-09T01:29:54Z) but no standing provider setting readable now explains them. Operator-only: confirm which setting produced them and that it is genuinely gone, rather than assuming the change stuck.
+     applies to: bytedance/UI-TARS-desktop
+
+Could NOT verify (§11.4.6 — recorded, never silently omitted)
+  · submodules/constitution @ gitflic.ru/helixdevelopment/helixconstitution — host reachable (https://api.gitflic.ru answered HTTP 403) but its API requires a credential for every route; none is configured — set GITFLIC_TOKEN to a read-only personal access token
+  · submodules/constitution @ gitverse.ru/helixdevelopment/HelixConstitution — host reachable (https://api.gitverse.ru answered HTTP 401) but its API requires a credential for every route; none is configured — set GITVERSE_TOKEN to a read-only personal access token
+  · milosvasic.ru @ gitflic.ru/milosvasic/milosvasic-net-v-2 — host reachable (https://api.gitflic.ru answered HTTP 403) but its API requires a credential for every route; none is configured — set GITFLIC_TOKEN to a read-only personal access token
+  · monetization @ gitflic.ru/milosvasic/monetization — host reachable (https://api.gitflic.ru answered HTTP 403) but its API requires a credential for every route; none is configured — set GITFLIC_TOKEN to a read-only personal access token
+  · monetization @ gitverse.ru/milosvasic/monetization — host reachable (https://api.gitverse.ru answered HTTP 401) but its API requires a credential for every route; none is configured — set GITVERSE_TOKEN to a read-only personal access token
+  · submodules/constitution/submodules/kedge @ github.com/SturdyRobot/kedge — ownership undetermined: github.com/SturdyRobot/kedge=provider did not answer the push-permission query
+  · milosvasic.ru/Upstreamable @ gitflic.ru/red-elf/upstreamable — host reachable (https://api.gitflic.ru answered HTTP 403) but its API requires a credential for every route; none is configured — set GITFLIC_TOKEN to a read-only personal access token
+  · submodules/qa/tools/opensource/mem0 @ github.com/mem0ai/mem0 — Actions repo-level permission unreadable ({"message":"You must have repository read permissions or have the repository Actions policies fine-grained permission.","documentation_url":"https://docs.githu…); 
+  · submodules/qa/tools/opensource/ui-tars @ github.com/bytedance/UI-TARS — Actions repo-level permission unreadable ({"message":"You must have repository read permissions or have the repository Actions policies fine-grained permission.","documentation_url":"https://docs.githu…); 
+  · submodules/qa/tools/opensource/skyvern @ github.com/Skyvern-AI/skyvern — Actions repo-level permission unreadable ({"message":"You must have repository read permissions or have the repository Actions policies fine-grained permission.","documentation_url":"https://docs.githu…); 
+  · submodules/qa/tools/opensource/ui-tars-desktop @ github.com/bytedance/UI-TARS-desktop — Actions repo-level permission unreadable ({"message":"You must have repository read permissions or have the repository Actions policies fine-grained permission.","documentation_url":"https://docs.githu…); 
+  · submodules/qa/tools/opensource/mem0/evaluation @ github.com/mem0ai/memory-benchmarks — Actions repo-level permission unreadable ({"message":"You must have repository read permissions or have the repository Actions policies fine-grained permission.","documentation_url":"https://docs.githu…); 
+  · submodules/qa/tools/opensource/skyvern/integrations/n8n @ github.com/Skyvern-AI/skyvern-n8n — Actions repo-level permission unreadable ({"message":"You must have repository read permissions or have the repository Actions policies fine-grained permission.","documentation_url":"https://docs.githu…); 
+  · This script reads provider settings it has scope for. Settings behind
+    permissions this token does not hold are reported above by their error,
+    never by an assumed value.
+
+VERDICT: provider-side triggering CONFIRMED on 1 upstream row(s). (rc=1)

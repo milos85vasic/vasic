@@ -1,0 +1,7 @@
+subject=root kind=host-capability status=could-not-run:hostdeps.sh cases=0 failed=0 rc=2
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:52:48Z
+cmd=bash scripts/hostdeps.sh
+rc 2 is never a pass
+---
+usage: scripts/hostdeps.sh ensure|--check [id ...] | ensure-browsers <testsdir> <browser ...> | --prove-failure
+

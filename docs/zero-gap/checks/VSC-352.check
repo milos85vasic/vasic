@@ -1,0 +1,4 @@
+# VSC-352 closure check (author: closure-wave T047 fixer; independent verifier re-runs via scripts/zero-gap-verify.sh)
+check_id=chk-vsc-352-readme-rc-figures
+pre_fix_ref=c827c664c24e90a2b12b352618d579a3c631749d
+cmd=bash /home/milosvasic/Projects/vasic/docs/zero-gap/checks/VSC-352.probe.sh

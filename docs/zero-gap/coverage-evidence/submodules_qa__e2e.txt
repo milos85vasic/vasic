@@ -1,0 +1,14 @@
+subject=submodules/qa kind=e2e status=could-not-run:go-build cases=0 failed=0 rc=1
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:10Z
+cmd=go test -count=1 -json ./tests/e2e/...
+
+---
+go: downloading github.com/nats-io/nats.go v1.37.0
+go: downloading github.com/pion/webrtc/v4 v4.2.11
+{"ImportPath":"github.com/nats-io/nats.go","Action":"build-output","Output":"# digital.vasic.helixqa/tests/e2e\n"}
+{"ImportPath":"github.com/nats-io/nats.go","Action":"build-output","Output":"pkg/distributed/state.go:12:2: module lookup disabled by GOPROXY=off\n"}
+{"ImportPath":"github.com/nats-io/nats.go","Action":"build-fail"}
+{"Time":"2026-10-12T12:51:10.01774242+02:00","Action":"start","Package":"digital.vasic.helixqa/tests/e2e"}
+{"Time":"2026-10-12T12:51:10.01777534+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/e2e","Output":"FAIL\tdigital.vasic.helixqa/tests/e2e [setup failed]\n"}
+{"Time":"2026-10-12T12:51:10.01779038+02:00","Action":"fail","Package":"digital.vasic.helixqa/tests/e2e","Elapsed":0,"FailedBuild":"github.com/nats-io/nats.go"}
+

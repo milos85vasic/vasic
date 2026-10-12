@@ -1,0 +1,58 @@
+subject=submodules/qa kind=stress-chaos status=check cases=6 failed=0 rc=0
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:12Z
+cmd=go test -count=1 -json ./tests/stress/...
+passed=6 failed=0 skipped=0 seconds=0.8
+---
+{"Time":"2026-10-12T12:51:12.293728823+02:00","Action":"start","Package":"digital.vasic.helixqa/tests/stress"}
+{"Time":"2026-10-12T12:51:12.297737509+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentSessionCreation"}
+{"Time":"2026-10-12T12:51:12.297789639+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentSessionCreation","Output":"=== RUN   TestMemory_ConcurrentSessionCreation\n"}
+{"Time":"2026-10-12T12:51:12.297799329+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentSessionCreation","Output":"=== PAUSE TestMemory_ConcurrentSessionCreation\n"}
+{"Time":"2026-10-12T12:51:12.297805369+02:00","Action":"pause","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentSessionCreation"}
+{"Time":"2026-10-12T12:51:12.297809649+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentFindingCreation"}
+{"Time":"2026-10-12T12:51:12.297813039+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentFindingCreation","Output":"=== RUN   TestMemory_ConcurrentFindingCreation\n"}
+{"Time":"2026-10-12T12:51:12.297816069+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentFindingCreation","Output":"=== PAUSE TestMemory_ConcurrentFindingCreation\n"}
+{"Time":"2026-10-12T12:51:12.297820449+02:00","Action":"pause","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentFindingCreation"}
+{"Time":"2026-10-12T12:51:12.297823329+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls"}
+{"Time":"2026-10-12T12:51:12.297827419+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls","Output":"=== RUN   TestLLM_AdaptiveProviderConcurrentCalls\n"}
+{"Time":"2026-10-12T12:51:12.297830389+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls","Output":"=== PAUSE TestLLM_AdaptiveProviderConcurrentCalls\n"}
+{"Time":"2026-10-12T12:51:12.297833399+02:00","Action":"pause","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls"}
+{"Time":"2026-10-12T12:51:12.297836399+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls_Fallback"}
+{"Time":"2026-10-12T12:51:12.297840839+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls_Fallback","Output":"=== RUN   TestLLM_AdaptiveProviderConcurrentCalls_Fallback\n"}
+{"Time":"2026-10-12T12:51:12.297843709+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls_Fallback","Output":"=== PAUSE TestLLM_AdaptiveProviderConcurrentCalls_Fallback\n"}
+{"Time":"2026-10-12T12:51:12.297847529+02:00","Action":"pause","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls_Fallback"}
+{"Time":"2026-10-12T12:51:12.297854359+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/stress","Test":"TestKnowledgeBase_LargeProjectIngestion"}
+{"Time":"2026-10-12T12:51:12.297859109+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestKnowledgeBase_LargeProjectIngestion","Output":"=== RUN   TestKnowledgeBase_LargeProjectIngestion\n"}
+{"Time":"2026-10-12T12:51:12.297861869+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestKnowledgeBase_LargeProjectIngestion","Output":"=== PAUSE TestKnowledgeBase_LargeProjectIngestion\n"}
+{"Time":"2026-10-12T12:51:12.297865899+02:00","Action":"pause","Package":"digital.vasic.helixqa/tests/stress","Test":"TestKnowledgeBase_LargeProjectIngestion"}
+{"Time":"2026-10-12T12:51:12.297868659+02:00","Action":"run","Package":"digital.vasic.helixqa/tests/stress","Test":"TestPlanReconciler_LargeBankLoad"}
+{"Time":"2026-10-12T12:51:12.297872809+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestPlanReconciler_LargeBankLoad","Output":"=== RUN   TestPlanReconciler_LargeBankLoad\n"}
+{"Time":"2026-10-12T12:51:12.297875549+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestPlanReconciler_LargeBankLoad","Output":"=== PAUSE TestPlanReconciler_LargeBankLoad\n"}
+{"Time":"2026-10-12T12:51:12.297880829+02:00","Action":"pause","Package":"digital.vasic.helixqa/tests/stress","Test":"TestPlanReconciler_LargeBankLoad"}
+{"Time":"2026-10-12T12:51:12.297884279+02:00","Action":"cont","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentSessionCreation"}
+{"Time":"2026-10-12T12:51:12.297887079+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentSessionCreation","Output":"=== CONT  TestMemory_ConcurrentSessionCreation\n"}
+{"Time":"2026-10-12T12:51:12.2979379+02:00","Action":"cont","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls_Fallback"}
+{"Time":"2026-10-12T12:51:12.29795445+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls_Fallback","Output":"=== CONT  TestLLM_AdaptiveProviderConcurrentCalls_Fallback\n"}
+{"Time":"2026-10-12T12:51:12.29816512+02:00","Action":"cont","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls"}
+{"Time":"2026-10-12T12:51:12.29817316+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls","Output":"=== CONT  TestLLM_AdaptiveProviderConcurrentCalls\n"}
+{"Time":"2026-10-12T12:51:12.298221701+02:00","Action":"cont","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentFindingCreation"}
+{"Time":"2026-10-12T12:51:12.298226951+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentFindingCreation","Output":"=== CONT  TestMemory_ConcurrentFindingCreation\n"}
+{"Time":"2026-10-12T12:51:12.298395841+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls_Fallback","Output":"--- PASS: TestLLM_AdaptiveProviderConcurrentCalls_Fallback (0.00s)\n"}
+{"Time":"2026-10-12T12:51:12.298403341+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls_Fallback","Elapsed":0}
+{"Time":"2026-10-12T12:51:12.298409921+02:00","Action":"cont","Package":"digital.vasic.helixqa/tests/stress","Test":"TestPlanReconciler_LargeBankLoad"}
+{"Time":"2026-10-12T12:51:12.298415391+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestPlanReconciler_LargeBankLoad","Output":"=== CONT  TestPlanReconciler_LargeBankLoad\n"}
+{"Time":"2026-10-12T12:51:12.298450882+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls","Output":"--- PASS: TestLLM_AdaptiveProviderConcurrentCalls (0.00s)\n"}
+{"Time":"2026-10-12T12:51:12.298458612+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/stress","Test":"TestLLM_AdaptiveProviderConcurrentCalls","Elapsed":0}
+{"Time":"2026-10-12T12:51:12.298462232+02:00","Action":"cont","Package":"digital.vasic.helixqa/tests/stress","Test":"TestKnowledgeBase_LargeProjectIngestion"}
+{"Time":"2026-10-12T12:51:12.298465522+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestKnowledgeBase_LargeProjectIngestion","Output":"=== CONT  TestKnowledgeBase_LargeProjectIngestion\n"}
+{"Time":"2026-10-12T12:51:12.308462471+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentSessionCreation","Output":"--- PASS: TestMemory_ConcurrentSessionCreation (0.01s)\n"}
+{"Time":"2026-10-12T12:51:12.309757306+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentSessionCreation","Elapsed":0.01}
+{"Time":"2026-10-12T12:51:12.309777686+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestPlanReconciler_LargeBankLoad","Output":"--- PASS: TestPlanReconciler_LargeBankLoad (0.01s)\n"}
+{"Time":"2026-10-12T12:51:12.311363533+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/stress","Test":"TestPlanReconciler_LargeBankLoad","Elapsed":0.01}
+{"Time":"2026-10-12T12:51:12.311376303+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentFindingCreation","Output":"--- PASS: TestMemory_ConcurrentFindingCreation (0.01s)\n"}
+{"Time":"2026-10-12T12:51:12.328067268+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/stress","Test":"TestMemory_ConcurrentFindingCreation","Elapsed":0.01}
+{"Time":"2026-10-12T12:51:12.328101719+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Test":"TestKnowledgeBase_LargeProjectIngestion","Output":"--- PASS: TestKnowledgeBase_LargeProjectIngestion (0.03s)\n"}
+{"Time":"2026-10-12T12:51:12.328112009+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/stress","Test":"TestKnowledgeBase_LargeProjectIngestion","Elapsed":0.03}
+{"Time":"2026-10-12T12:51:12.328115609+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Output":"PASS\n"}
+{"Time":"2026-10-12T12:51:12.330397038+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Output":"ok  \tdigital.vasic.helixqa/tests/stress\t0.037s\n"}
+{"Time":"2026-10-12T12:51:12.330418978+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/stress","Elapsed":0.037}
+

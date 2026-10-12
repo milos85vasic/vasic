@@ -1,0 +1,12 @@
+subject=root kind=accessibility status=could-not-run:playwright-preflight cases=0 failed=0 rc=2
+head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T11:07:36Z
+cmd=node _tests/preflight.js
+preflight rc=2 blockers=["BLOCKED firefox: browserType.launch: Executable doesn't exist at /home/milosvasic/.cache/ms-playwright/firefox-1532/firefox/firefox Looks like Playwright was just installed or updated. — run: (cd _tests && npx playwright install --with-deps firefox)", "BLOCKED webkit: browserType.launch: Executable doesn't exist at /home/milosvasic/.cache/ms-playwright/webkit-2311/pw_run.sh Looks like Playwright was just installed or updated. — run: (cd _tests && npx playwright install --with-deps webkit)"]
+---
+=== harness preflight ===
+  browser OK      chromium: launched and closed cleanly
+  browser BLOCKED firefox: browserType.launch: Executable doesn't exist at /home/milosvasic/.cache/ms-playwright/firefox-1532/firefox/firefox Looks like Playwright was just installed or updated. — run: (cd _tests && npx playwright install --with-deps firefox)
+  browser BLOCKED webkit: browserType.launch: Executable doesn't exist at /home/milosvasic/.cache/ms-playwright/webkit-2311/pw_run.sh Looks like Playwright was just installed or updated. — run: (cd _tests && npx playwright install --with-deps webkit)
+  routes checked: 66
+CANNOT DETERMINE (2) — the suite cannot honestly run. Nothing above is a claim about site content.
+
