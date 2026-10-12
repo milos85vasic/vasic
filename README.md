@@ -370,12 +370,12 @@ Reference: [`docs/check-registry.md`](docs/check-registry.md).
 
 ### Two of these are expected to be non-zero
 
-- **`verify-content-boundary.sh` exits `1` by design.** See
+- **`verify-content-boundary.sh` exits non-zero by design.** See
   [Content boundary](#content-boundary). A finding there is a reading
   assignment. Do not silence it, do not allow-list your way to green.
-- **`verify-submodule-remote-sync.sh` exits `1` whenever a pin is behind its
+- **`verify-submodule-remote-sync.sh` exits non-zero whenever a pin is behind its
   remote.** Bumping a pin is an operator decision, and this instrument does not
-  make one. It exits `1` until an operator acts.
+  make one. It exits non-zero until an operator acts.
 
 Neither is a reason to weaken the instrument.
 
@@ -433,7 +433,7 @@ bash scripts/verify-provider-ci.sh
 ```
 
 It enumerates the owned repositories from this checkout's own remotes and asks
-each provider directly. Measured 2026-09-03 it exits `1`, with the confirmed
+each provider directly. Historical reading, 2026-09-03 (re-measure with `bash scripts/verify-provider-ci.sh; echo $?`): it exited `1`, with the confirmed
 standing trigger being the `vasic.digital` Pages source setting, and six rows
 reported as unverified because no read-only API adapter is registered for those
 hosts. Note the shape of that output: a confirmed finding does not suppress the
@@ -566,7 +566,7 @@ and reports what survives with both sides named. Legitimate cross-boundary flows
 are declared as private/public **pairs** with a mandatory reason in
 `.content-boundary-allow`.
 
-**It exits `1`, and that is the designed state. Do not make it green.** The
+**It exits non-zero, and that is the designed state. Do not make it green.** The
 surviving matches are left visible rather than allow-listed, because an
 allow-list entry buys a green exit at the price of hiding the row from the next
 reader.
@@ -711,7 +711,7 @@ Only one instrument here looks at a remote:
 bash scripts/verify-submodule-remote-sync.sh
 ```
 
-Measured 2026-09-03 it exits `1`: the constitution gitlink differs from its
+Historical reading, 2026-09-03 (re-measure with the command above): it exited `1`, the constitution gitlink differing from its
 remote head, with the *difference* determined and the *direction* not, because
 the remote commit is not in this checkout's object store. Classifying the
 direction requires a fetch, and a fetch is a mutating command and an operator

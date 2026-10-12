@@ -27,7 +27,7 @@ DONE (executed with captured evidence).
 | 13 | `milosvasic.ru/_site/` tracked: 8 files, 1 page, answers 1 of 525 sitemap URLs | **Untrack it, keep the ignore rule** | DECIDED |
 | 14 | 21 repositories have Actions enabled while declaring zero workflow files | **Sweep the 20, exclude `milosvasic.ru`** — its `pages.yml` is the sole publish path for the live site | DECIDED |
 | 15 | `design-toolkit` GitLab mirror 7 commits behind, recipe deliberately `.disabled` | **Enable the recipe and sync the mirror** | DECIDED |
-| 16 | Nothing committed this session; container serves the old binary | Restart once when all writers stop, then commit and push recursively | PENDING |
+| 16 | Nothing committed this session; container serves the old binary | Restart once when all writers stop, then commit and push recursively | SUPERSEDED by #13 of docs/OPERATOR-DECISIONS-2026-09-09.md (the same action re-decided) and EXECUTED: `git log e1de4d5..HEAD --oneline` lists the commits and `git rev-parse HEAD` equals `git ls-remote origin HEAD` (both re-derived 2026-10-08); the restart from a clean committed tree is recorded in CLAUDE.md ("after ONE restart from a clean committed tree", 2026-09-25) |
 
 ## Decisions that reversed a recommendation
 

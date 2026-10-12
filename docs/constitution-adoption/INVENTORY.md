@@ -78,7 +78,7 @@ front because the task allowed for the opposite finding.
 | Pinned commit | `448981ae3498229c734dc60719f4b19f01d7a75f` (`git ls-files -s`) |
 | `git describe` | `v1.0.0-51-g448981a` — 51 commits **past** the only semver tag, i.e. **not pinned to a tag** |
 | Checked out? | Yes, fully, including all 7 of its own nested submodules |
-| Canonical rule text | `submodules/constitution/Constitution.md` — 11,101 lines / 1.53 MB |
+| Canonical rule text | `submodules/constitution/Constitution.md` — 11,101 lines / 1.53 MB (historical: measured at the 2026-08-26 pin `448981ae3498`; current value: `wc -l submodules/constitution/Constitution.md`) |
 
 Top-level governing documents (each also exported to `.html`, `.pdf`, `.docx`
 per its own §11.4.65):
@@ -134,7 +134,7 @@ be wired into.
 
 ## 3. Nested submodules of the constitution
 
-`submodules/constitution/.gitmodules` registers 7 submodules. All 7 are
+`submodules/constitution/.gitmodules` registers 7 submodules (historical: counted at the 2026-08-26 pin `448981ae3498`; current value: `git -C submodules/constitution config -f .gitmodules --get-regexp path`). All 7 are
 populated. An eighth directory, `clickup_sync`, exists on disk but is **not a
 git submodule** — it has no `.git` file and no `.gitmodules` entry.
 
