@@ -164,16 +164,17 @@ KINDS="unit integration e2e contract security accessibility perf-load stress-cha
 
 usage() {
     cat <<'EOF'
-zero-gap-coverage.sh [--root <dir>] [--out <file>] [--max-behind N]
+zero-gap-coverage.sh [--root <dir>] [--out <file>] [--max-behind N] [--allow-dirty-evidence]
 zero-gap-coverage.sh --prove-failure
 zero-gap-coverage.sh --help
 EOF
 }
 
-ROOT="" OUT="" PROVE=0 HELP=0 MAX_BEHIND="${ZERO_GAP_COVERAGE_MAX_BEHIND:-}"
+ROOT="" OUT="" PROVE=0 HELP=0 MAX_BEHIND="${ZERO_GAP_COVERAGE_MAX_BEHIND:-}" ALLOW_DIRTY="${ZERO_GAP_COVERAGE_ALLOW_DIRTY:-0}"
 while [ $# -gt 0 ]; do
     case "$1" in
         --max-behind) MAX_BEHIND="${2:-}"; shift 2 ;;
+        --allow-dirty-evidence) ALLOW_DIRTY=1; shift ;;
         --root) ROOT="${2:-}"; shift 2 ;;
         --out) OUT="${2:-}"; shift 2 ;;
         --prove-failure) PROVE=1; shift ;;
@@ -238,19 +239,31 @@ parse_count() {
 }
 
 
-# ── evidence_mismatch <file> <subj> <kind> <cases> <failed> <rc> <tsv-head> <tsv-tree> <root> ─ prints a comma
-#    list of the header fields that do NOT bind the evidence file to its TSV row (empty output = bound). The
-#    evidence header written by scripts/zero-gap-coverage-measure.py carries `subject= kind= status= cases=
-#    failed= rc=` on line 1 and `head= tree= ts= limit=` on line 2. Beyond format, head/tree must EQUAL the TSV
-#    row's, be non-zero, and the head must be a commit in <root>'s object store that is HEAD or an ancestor of
-#    HEAD (T061 round 2, F1). An old or hand-copied file lacks or contradicts them: `gap:evidence-mismatch`.
+# ── evidence_mismatch <file> <subj> <kind> <status> <cases> <failed> <rc> <tsv-head> <tsv-tree> <tsv-evsha> <tsv-dirty> <root>
+#    prints a comma list of the fields that do NOT bind the evidence file to its TSV row (empty output = bound). The
+#    evidence file written by scripts/zero-gap-coverage-measure.py carries `subject= kind= status= cases= failed= rc=`
+#    on line 1 and `head= tree= ts= limit= dirty= dirtydigest=` on line 2. Required (T061 rounds 2-3):
+#      * every line-1 field EQUALS the TSV row's, status included (a TSV-only relabel, in either direction, is refused);
+#      * head/tree non-zero, equal to the TSV's, and head a commit of <root> that is HEAD or an ancestor of HEAD;
+#      * the sha256 of the SEALED region (everything after line 1) EQUALS the TSV `evsha` column: a replaced body, or an
+#        edited ts/limit/dirty line, no longer matches;
+#      * the sealed region's `recorded: status= cases= failed= rc=` line EQUALS the TSV row (header, TSV and body must
+#        state ONE verdict: editing the rc in header+TSV alone is refused);
+#      * header `dirty=` equals the TSV `dirty` column (`?` = legacy evidence sealed after the fact, header carries none);
+#      * the listed `failing-tests (N...)` block: N == failed=, and the lines actually listed == N minus the omitted count;
+#      * a `could-not-run:go-build:<cause>` label: every cause is environmental (goproxy-off | missing-replace-dir) and
+#        the evidence lists no DEFECT package, no compile error, no package-level failure and no failing test.
+#    HONEST LIMIT (§11.4.6): an actor who recomputes EVERY column (header, TSV, recorded line, evsha) consistently is not
+#    detected by this check; the binding is to the head recorded in the row plus the COMMITTED TSV / evidence files, i.e.
+#    the git history is where such a rewrite shows. An unsigned file proves no more than that.
 evidence_mismatch() {
-    local f="$1" subj="$2" kind="$3" cases="$4" failed="$5" rc="$6" thead="$7" ttree="$8" root="$9" hdr bad="" v eh et
+    local f="$1" subj="$2" kind="$3" status="$4" cases="$5" failed="$6" rc="$7" thead="$8" ttree="$9" tevsha="${10}" tdirty="${11}" root="${12}" hdr bad="" v eh et ed rec act c fb
     if [ ! -f "$f" ]; then printf 'file-absent'; return 0; fi
     hdr=$(head -2 "$f" 2>/dev/null | tr ' ' '\n')
     kv() { printf '%s\n' "$hdr" | sed -n "s/^$1=//p" | head -1; }
     [ "$(kv subject)" = "$subj" ] || bad="$bad,subject"
     [ "$(kv kind)" = "$kind" ] || bad="$bad,kind"
+    [ "$(kv status)" = "$status" ] || bad="$bad,status"
     [ "$(kv cases)" = "$cases" ] || bad="$bad,cases"
     [ "$(kv failed)" = "$failed" ] || bad="$bad,failed"
     [ "$(kv rc)" = "$rc" ] || bad="$bad,rc"
@@ -264,6 +277,33 @@ evidence_mismatch() {
     if ! printf '%s' "$et" | grep -qE '^[0-9a-f]{64}$' || printf '%s' "$et" | grep -qE '^0{64}$'; then bad="$bad,tree"
     else [ "$et" = "$ttree" ] || bad="$bad,tree-differs-from-tsv"; fi
     v=$(kv ts); printf '%s' "$v" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$' || bad="$bad,ts"
+    # sealed region
+    if ! printf '%s' "$tevsha" | grep -qE '^[0-9a-f]{64}$'; then bad="$bad,evsha-absent"
+    else
+        act=$(tail -n +2 "$f" | sha256sum | cut -d' ' -f1)
+        [ "$act" = "$tevsha" ] || bad="$bad,evidence-body-sha"
+    fi
+    ed=$(kv dirty)
+    if [ -n "$ed" ]; then [ "$ed" = "$tdirty" ] || bad="$bad,dirty-differs-from-tsv"
+    else [ "$tdirty" = "?" ] || bad="$bad,dirty-absent-in-header"; fi
+    rec=$(tail -n +2 "$f" | sed -n 's/^recorded: //p' | head -1)
+    if [ -n "$rec" ]; then [ "$rec" = "status=$status cases=$cases failed=$failed rc=$rc" ] || bad="$bad,recorded-line-differs"
+    elif [ "$tdirty" != "?" ]; then bad="$bad,recorded-line-absent"; fi
+    # failing-tests block: count it against failed=
+    c=$(awk '/^---$/ {exit} /^failing-tests \(/ { m = $0; sub(/^failing-tests \(/, "", m); n = m + 0; om = 0; if (match(m, /; [0-9]+ omitted/)) { o = substr(m, RSTART + 2, RLENGTH - 2); om = o + 0 } blk = 1; next }
+                 blk && /^  / { l++; next } blk { blk = 0 } END { if (n != "") printf "%d %d %d", n, om, l }' "$f")
+    if [ -n "$c" ]; then
+        set -- $c
+        [ "$1" = "$failed" ] || bad="$bad,failing-tests-count-differs-from-failed"
+        [ "$3" = "$(($1 - $2))" ] || bad="$bad,failing-tests-listed-differs-from-count"
+    fi
+    # environment label discipline
+    case "$status" in could-not-run:go-build:*)
+        for fb in $(printf '%s' "${status#could-not-run:go-build:}" | tr '+' ' '); do
+            case "$fb" in goproxy-off|missing-replace-dir) ;; *) bad="$bad,go-build-label-not-environmental"; break ;; esac
+        done
+        if sed -n '1,/^---$/p' "$f" | grep -qE '\[DEFECT:|^compile-error=yes|^package-level-failures|^failing-tests \([1-9]'; then bad="$bad,env-label-with-defect-evidence"; fi ;;
+    esac
     printf '%s' "${bad#,}"
 }
 
@@ -294,31 +334,51 @@ designed_red() {
 }
 
 # ── measured_cell <measured.tsv> <subject> <kind> <root> ─ prints "<status>\t<ref>\t<reason>" for a
-#    REAL-RUN row of scripts/zero-gap-coverage-measure.py (T053; columns subject kind status cases
-#    failed rc evidence cmd), re-derived here from the numbers (the measurer's label is never trusted
-#    upward) and bound to its evidence file. Prints nothing when the cell was never measured.
+#    REAL-RUN row of scripts/zero-gap-coverage-measure.py (T053; columns subject kind status cases failed rc evidence
+#    cmd head tree evsha dirty), re-derived here from the numbers (the measurer's label is never trusted upward) and
+#    bound to its evidence file for EVERY status that cites evidence (check, check-red, gap, could-not-run:* alike: a
+#    TSV-only downgrade to could-not-run is refused exactly like an upgrade to check). A row that cites no evidence while
+#    the canonical evidence file of that cell exists in coverage-evidence/ is refused too (an evidence reference cannot be
+#    dropped to dodge the binding). Prints nothing when the cell was never measured. Side output: one line per bound
+#    cell is appended to $FRESH_FILE (subject kind head12 behind dirty) for the freshness / cleanliness report; the
+#    cell's own reason never embeds "N commits behind HEAD" (that is a property of the run, not of the cell).
 measured_cell() {
-    local f="$1" subj="$2" kind="$3" root="$4" st cases failed rc ev mhead mtree mm cs rf behind lim
+    local f="$1" subj="$2" kind="$3" root="$4" st cases failed rc ev mhead mtree mevsha mdirty mm cs rf behind lim canon note=""
     [ -f "$f" ] || return 0
-    IFS=$'\t' read -r st cases failed rc ev mhead mtree < <(awk -F'\t' -v s="$subj" -v k="$kind" '$1==s && $2==k {print $3 "\t" $4 "\t" $5 "\t" $6 "\t" $7 "\t" $9 "\t" $10; exit}' "$f")
+    IFS=$'\t' read -r st cases failed rc ev mhead mtree mevsha mdirty < <(awk -F'\t' -v s="$subj" -v k="$kind" '$1==s && $2==k {print $3 "\t" $4 "\t" $5 "\t" $6 "\t" ($7==""?"-":$7) "\t" $9 "\t" $10 "\t" ($11==""?"-":$11) "\t" ($12==""?"-":$12); exit}' "$f")
     [ -n "${st:-}" ] || return 0
-    case "$st" in
-        check|check-red)
-            mm=$(evidence_mismatch "$root/$ev" "$subj" "$kind" "${cases:-}" "${failed:-}" "${rc:-}" "${mhead:-}" "${mtree:-}" "$root")
-            if [ -n "$mm" ]; then printf 'gap:evidence-mismatch\t-\tevidence-mismatch: %s\n' "$mm"; return 0; fi
-            behind=$(git -C "$root" rev-list --count "${mhead}..HEAD" 2>/dev/null); behind="${behind:-0}"
+    if [ "$ev" = "-" ]; then
+        canon="docs/zero-gap/coverage-evidence/$(printf '%s__%s' "$subj" "$kind" | sed 's/[^A-Za-z0-9._-]\{1,\}/_/g').txt"
+        if [ -f "$root/$canon" ]; then printf 'gap:evidence-mismatch\t-\tevidence-mismatch: evidence-reference-dropped (the row cites no evidence but %s exists)\n' "$canon"; return 0; fi
+    else
+        mm=$(evidence_mismatch "$root/$ev" "$subj" "$kind" "$st" "${cases:-}" "${failed:-}" "${rc:-}" "${mhead:-}" "${mtree:-}" "${mevsha:-}" "${mdirty:-}" "$root")
+        if [ -n "$mm" ]; then printf 'gap:evidence-mismatch\t-\tevidence-mismatch: %s\n' "$mm"; return 0; fi
+        behind=$(git -C "$root" rev-list --count "${mhead}..HEAD" 2>/dev/null); behind="${behind:-0}"
+        printf '%s\t%s\t%s\t%s\t%s\n' "$subj" "$kind" "${mhead:0:12}" "$behind" "${mdirty:-?}" >>"${FRESH_FILE:-/dev/null}"
+        case "$st" in check|check-red)
             if [ -n "$MAX_BEHIND" ] && [ "$behind" -gt "$MAX_BEHIND" ]; then
                 printf 'gap:evidence-stale\t-\tevidence-stale: measured at %s, %s commit(s) behind HEAD (allowance %s): re-measure\n' "${mhead:0:12}" "$behind" "$MAX_BEHIND"; return 0
-            fi
+            fi ;;
+        esac
+    fi
+    case "${mdirty:-?}" in 1) note="measured on a DIRTY working tree (allowed by --allow-dirty-evidence)" ;; \?) note="dirty state UNKNOWN: legacy evidence sealed after measurement" ;; esac
+    case "$st" in
+        check|check-red)
             IFS=$'\t' read -r cs rf < <(red_or_check "${cases:-0}" "${failed:-0}" "${rc:-0}" "$ev")
+            if [ "$st" = "check-red" ] && [ "$cs" = "gap" ] && [ "${rc:-0}" != "0" ] && [ "${cases:-0}" = "0" ]; then cs="check-red-zero"; fi
             case "$cs" in
-                check) printf 'check\t%s\tfailed=0 rc=0 cases=%s; measured at %s, %s commit(s) behind HEAD\n' "$rf" "$cases" "${mhead:0:12}" "$behind" ;;
+                check)
+                    if [ "${mdirty:-?}" = "1" ] && [ "$ALLOW_DIRTY" != "1" ]; then
+                        printf 'gap:evidence-dirty\t-\tevidence-dirty: measured on a DIRTY working tree: not fully trusted; re-measure from a clean checkout (or pass --allow-dirty-evidence)\n'; return 0
+                    fi
+                    printf 'check\t%s\tfailed=0 rc=0 cases=%s%s\n' "$rf" "$cases" "${note:+; $note}" ;;
                 gap) printf 'gap\t-\tinvocation executed zero cases\n' ;;
+                check-red-zero) printf 'check-red\t%s\tzero cases ran and rc=%s: a build/compile defect or an unexplained failure stopped every case (see evidence); applied, not proven%s\n' "$ev" "$rc" "${note:+; $note}" ;;
                 *)
                     if designed_red "$root/docs/zero-gap/designed-red.tsv" "$subj" "$kind" "$rc"; then
-                        printf 'designed-red\tdocs/zero-gap/designed-red.tsv\tdeclared designed-red, rc=%s cases=%s failed=%s; measured at %s, %s commit(s) behind HEAD\n' "$rc" "$cases" "$failed" "${mhead:0:12}" "$behind"
+                        printf 'designed-red\tdocs/zero-gap/designed-red.tsv\tdeclared designed-red, rc=%s cases=%s failed=%s%s\n' "$rc" "$cases" "$failed" "${note:+; $note}"
                     else
-                        printf 'check-red\t%s\tcases=%s failed=%s rc=%s (red kind is applied, not proven); measured at %s, %s commit(s) behind HEAD\n' "$ev" "$cases" "$failed" "$rc" "${mhead:0:12}" "$behind"
+                        printf 'check-red\t%s\tcases=%s failed=%s rc=%s (red kind is applied, not proven)%s\n' "$ev" "$cases" "$failed" "$rc" "${note:+; $note}"
                     fi ;;
             esac ;;
         gap) printf 'gap\t-\tmeasured: no invocation or zero cases\n' ;;
@@ -331,6 +391,15 @@ measured_cell() {
         could-not-run:*) printf '%s\t-\ttool %s unusable in the measured run\n' "$st" "${st#could-not-run:}" ;;
         *) printf 'gap\t-\tmeasured status %s is outside the vocabulary\n' "$st" ;;
     esac
+}
+
+# cell_note <root> <subject> <kind> ─ the reviewed annotation of a cell from docs/zero-gap/cell-notes.tsv (subject, kind,
+#    note, ref): data, never a status change. It is appended to the cell's reason in cycle-2-candidates.tsv so an
+#    UNCONFIRMED hypothesis about a red cell travels with the cell without softening it.
+cell_note() {
+    local f="$1/docs/zero-gap/cell-notes.tsv"
+    [ -f "$f" ] || return 0
+    awk -F'\t' -v s="$2" -v k="$3" '$0 !~ /^#/ && $1==s && $2==k && $3!="" {print $3; exit}' "$f"
 }
 
 # ── ownership derivation (reused verbatim from zero-gap-class-doc-count-drift.sh's
@@ -420,19 +489,23 @@ duplicate_subjects() {
     done <"$f"
 }
 
-# ── totals <rows-file> <dups-file> ─ per-status counts, RAW and DE-DUPLICATED (rows of a duplicate subject are
-#    kept in coverage.tsv but not counted in the de-duplicated column). Printed by the generator; nothing hand-typed.
+# ── totals <rows-file> <dups-file> <fresh-file> ─ per-status counts, RAW and DE-DUPLICATED (rows of a duplicate subject
+#    are kept in coverage.tsv but not counted in the de-duplicated column), then the evidence-freshness lines (per measured
+#    head: how many commits behind HEAD, how many cells) and the evidence-cleanliness line with every cell measured on a
+#    DIRTY tree named. Printed by the generator; nothing hand-typed.
 totals() {
     awk -F'\t' '
         FILENAME == ARGV[1] { dup[$1] = $2; next }
-        { if (match($5, /measured at [0-9a-f]+, [0-9]+ commit\(s\) behind HEAD/)) { t = substr($5, RSTART, RLENGTH); split(t, w, /[ ,]+/); fresh[w[3] " behind=" w[4]]++ }
-          raw[$3]++; nraw++; sraw[$1] = 1; if (!($1 in dup)) { dd[$3]++; ndd++; sdd[$1] = 1 } }
+        FILENAME == ARGV[3] { fresh[$3 " behind=" $4]++; if ($5 == "1") { dirty++; dl = dl (dl == "" ? "" : ", ") $1 "/" $2 } else if ($5 == "0") clean++; else unknown++; next }
+        { raw[$3]++; nraw++; sraw[$1] = 1; if (!($1 in dup)) { dd[$3]++; ndd++; sdd[$1] = 1 } }
         END {
             for (k in sraw) cr++; for (k in sdd) cd++; for (k in dup) nd++
             printf "coverage totals: RAW %d cell(s) over %d subject(s); DE-DUPLICATED %d cell(s) over %d subject(s) (%d duplicate subject(s) excluded from the de-duplicated count)\n", nraw, cr, ndd, cd, nd
             for (k in raw) printf "  %-48s raw=%-4d dedup=%d\n", k, raw[k], dd[k] + 0
-            for (k in fresh) printf "  evidence-freshness measured-at=%s cells=%d\n", k, fresh[k]
-        }' "$2" "$1" | { IFS= read -r first; printf '%s\n' "$first"; LC_ALL=C sort; }
+            for (k in fresh) { split(k, w, " "); printf "  evidence-freshness measured-at=%s %s cells=%d\n", w[1], w[2], fresh[k] }
+            printf "  evidence-cleanliness clean=%d dirty=%d unknown=%d (cells with bound evidence; unknown = legacy evidence sealed after measurement)\n", clean + 0, dirty + 0, unknown + 0
+            if (dirty > 0) printf "  evidence-dirty-cells (%d): %s\n", dirty, dl
+        }' "$2" "$1" "$3" | { IFS= read -r first; printf '%s\n' "$first"; LC_ALL=C sort; }
 }
 
 # ── the generator itself ─────────────────────────────────────────────────────────────────────
@@ -449,10 +522,10 @@ generate() { # <root> <outfile> -> rc 0 written, 2 could not generate
     subjects=("root")
     while IFS= read -r m; do [ -n "$m" ] && subjects+=("$m"); done < <(owned_subjects "$root")
 
-    : >"$W/rows"
+    : >"$W/rows"; : >"$W/fresh"; export FRESH_FILE="$W/fresh"
     row() { printf '%s\t%s\t%s\t%s\t%s\n' "$1" "$2" "$3" "$4" "${5:-}" >>"$W/rows"; }
 
-    local subj kind status ref reason
+    local subj kind status ref reason note
     for subj in "${subjects[@]}"; do
         for kind in $KINDS; do
             status="gap"; ref="-"; reason="no registered or measured test for this kind"
@@ -518,6 +591,7 @@ generate() { # <root> <outfile> -> rc 0 written, 2 could not generate
                 local mc; mc=$(measured_cell "$root/docs/zero-gap/coverage-measured.tsv" "$subj" "$kind" "$root")
                 [ -n "$mc" ] && IFS=$'\t' read -r status ref reason <<<"$mc" ;;
             esac
+            note=$(cell_note "$root" "$subj" "$kind"); [ -n "$note" ] && reason="$reason; NOTE: $note"
             row "$subj" "$kind" "$status" "$ref" "$reason"
         done
         # extra kinds (T053; allowed by FR-010 clarification 5): any measured kind outside KINDS
@@ -525,7 +599,7 @@ generate() { # <root> <outfile> -> rc 0 written, 2 could not generate
         while IFS= read -r xk; do
             [ -n "$xk" ] || continue
             local mc2; mc2=$(measured_cell "$root/docs/zero-gap/coverage-measured.tsv" "$subj" "$xk" "$root")
-            [ -n "$mc2" ] && { IFS=$'\t' read -r status ref reason <<<"$mc2"; row "$subj" "$xk" "$status" "$ref" "$reason"; }
+            [ -n "$mc2" ] && { IFS=$'\t' read -r status ref reason <<<"$mc2"; note=$(cell_note "$root" "$subj" "$xk"); [ -n "$note" ] && reason="$reason; NOTE: $note"; row "$subj" "$xk" "$status" "$ref" "$reason"; }
         done < <(awk -F'\t' -v s="$subj" -v K=" $KINDS " 'NR>1 && $1==s && index(K, " " $2 " ")==0 {print $2}' "$root/docs/zero-gap/coverage-measured.tsv" 2>/dev/null | LC_ALL=C sort -u)
     done
 
@@ -541,7 +615,7 @@ generate() { # <root> <outfile> -> rc 0 written, 2 could not generate
     echo "zero-gap-coverage: wrote $out ($(($(wc -l <"$out") - 1)) cell(s), $(printf '%s\n' "${subjects[@]}" | wc -l) subject(s) x $(printf '%s\n' $KINDS | wc -l) kind(s))"
     duplicate_subjects "$root" "${subjects[@]}" >"$W/dups"
     : >>"$W/dups"
-    totals "$W/rows" "$W/dups"
+    totals "$W/rows" "$W/dups" "$W/fresh"
     return 0
 }
 
@@ -700,17 +774,26 @@ GM
     mkdir -p "$T/foreign" && ( cd "$T/foreign" && git init -q . && git config user.email t@t && git config user.name t && printf 'f\n' >f && git add f && git commit -q -m foreign ) >/dev/null 2>&1
     FOREIGN=$(git -C "$T/foreign" rev-parse HEAD)   # a real commit of an UNRELATED repository: absent from $M's object store
     mkdir -p "$M/docs/zero-gap/coverage-evidence"
-    printf 'subject\tkind\tstatus\tcases\tfailed\trc\tevidence\tcmd\thead\ttree\n' >"$M/docs/zero-gap/coverage-measured.tsv"
+    printf 'subject\tkind\tstatus\tcases\tfailed\trc\tevidence\tcmd\thead\ttree\tevsha\tdirty\n' >"$M/docs/zero-gap/coverage-measured.tsv"
     # mkev <subj> <kind> <cases> <failed> <rc> <hdr-cases> <bound 1|0>   (TSV row + evidence file); the head/tree written
     # to the evidence header (hh/ht) and to the TSV row (th/tt) default to the real HEAD / a fixed tree and can be
     # overridden per call to build each tamper case.
+    # extra knobs (env, per call): st=<tsv+header status> hd=<header dirty> td=<tsv dirty> recrc=<rc in the recorded line>
+    # ft=<failing-tests block text> noevsha=1 (TSV evsha '-') nodirtyhdr=1 (legacy header without dirty=)
     mkev() {
-        local f="docs/zero-gap/coverage-evidence/$1__$2.txt"
-        hh="${hh:-$H40}"; ht="${ht:-$H64}"; th="${th:-$hh}"; tt="${tt:-$ht}"
-        { printf 'subject=%s kind=%s status=check cases=%s failed=%s rc=%s\n' "$1" "$2" "$6" "$4" "$5"
-          [ "$7" = 1 ] && printf 'head=%s tree=%s ts=2026-10-12T10:00:00Z limit=240\n' "$hh" "$ht"
-          printf 'cmd=x\n---\nout\n'; } >"$M/$f"
-        printf '%s\t%s\tcheck\t%s\t%s\t%s\t%s\tx\t%s\t%s\n' "$1" "$2" "$3" "$4" "$5" "$f" "$th" "$tt" >>"$M/docs/zero-gap/coverage-measured.tsv"
+        local f="docs/zero-gap/coverage-evidence/$1__$2.txt" _st="${st:-check}" _hd="${hd:-0}" _td _es
+        hh="${hh:-$H40}"; ht="${ht:-$H64}"; th="${th:-$hh}"; tt="${tt:-$ht}"; _td="${td:-$_hd}"
+        { printf 'subject=%s kind=%s status=%s cases=%s failed=%s rc=%s\n' "$1" "$2" "$_st" "$6" "$4" "$5"
+          if [ "$7" = 1 ]; then
+              if [ -n "${nodirtyhdr:-}" ]; then printf 'head=%s tree=%s ts=2026-10-12T10:00:00Z limit=240\n' "$hh" "$ht"
+              else printf 'head=%s tree=%s ts=2026-10-12T10:00:00Z limit=%s dirty=%s dirtydigest=-\n' "$hh" "$ht" "${lim:-240}" "$_hd"; fi
+          fi
+          printf 'cmd=x\n'
+          [ -z "${nodirtyhdr:-}" ] && printf 'recorded: status=%s cases=%s failed=%s rc=%s\n' "$_st" "$3" "$4" "${recrc:-$5}"
+          [ -n "${ft:-}" ] && printf '%b\n' "$ft"
+          printf -- '---\nout\n'; } >"$M/$f"
+        _es=$(tail -n +2 "$M/$f" | sha256sum | cut -d' ' -f1); [ -n "${noevsha:-}" ] && _es="-"
+        printf '%s\t%s\t%s\t%s\t%s\t%s\t%s\tx\t%s\t%s\t%s\t%s\n' "$1" "$2" "$_st" "$3" "$4" "$5" "$f" "$th" "$tt" "$_es" "$_td" >>"$M/docs/zero-gap/coverage-measured.tsv"
         hh=""; ht=""; th=""; tt=""
     }
     mkev modA integration 5 0 0 5 1      # green and bound            => check
@@ -721,7 +804,7 @@ GM
     mkev modA stress-chaos 5 0 0 9 1     # header cases differ         => gap:evidence-mismatch
     mkev modA regression 5 0 0 5 0       # no head/tree/ts             => gap:evidence-mismatch
     mkev modA unit 0 0 0 0 1             # zero cases                  => gap
-    printf 'modA\tdeterminism\tcheck\t4\t0\t0\tdocs/zero-gap/coverage-evidence/nope.txt\tx\t%s\t%s\n' "$H40" "$H64" >>"$M/docs/zero-gap/coverage-measured.tsv"   # file absent => gap:evidence-mismatch
+    printf 'modA\tdeterminism\tcheck\t4\t0\t0\tdocs/zero-gap/coverage-evidence/nope.txt\tx\t%s\t%s\t-\t0\n' "$H40" "$H64" >>"$M/docs/zero-gap/coverage-measured.tsv"   # file absent => gap:evidence-mismatch
     # F1 tamper cases (extra kinds are allowed by FR-010 clarification 5): each is an otherwise GREEN, bound row
     hh=0000000000000000000000000000000000000000 mkev modA zero-head 5 0 0 5 1                                      # all-zero head in header AND TSV (consistent edit)
     hh=zzzznotahexcommitzzzznotahexcommitzzzzzz mkev modA garbage-head 5 0 0 5 1                                   # malformed head
@@ -732,10 +815,30 @@ GM
     ht=0000000000000000000000000000000000000000000000000000000000000000 mkev modA zero-tree 5 0 0 5 1             # all-zero tree
     tt=cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc mkev modA tree-ne-tsv 5 0 0 5 1            # header tree differs from the TSV row's
     # F2/F4 pass-through statuses written by the measurer
-    printf 'modA\tgo-env\tcould-not-run:go-build:goproxy-off\t6558\t0\t1\tdocs/zero-gap/coverage-evidence/modA__go-env.txt\tx\t%s\t%s\n' "$H40" "$H64" >>"$M/docs/zero-gap/coverage-measured.tsv"
-    printf 'subject=modA kind=go-env status=could-not-run:go-build:goproxy-off cases=6558 failed=0 rc=1\nhead=%s tree=%s ts=2026-10-12T10:00:00Z limit=240\ncmd=x\n---\nunbuilt\n' "$H40" "$H64" >"$M/docs/zero-gap/coverage-evidence/modA__go-env.txt"
-    printf 'modA\ttimeout-gate\tcould-not-run:timeout\t0\t0\t124\tdocs/zero-gap/coverage-evidence/modA__timeout-gate.txt\tx\t%s\t%s\n' "$H40" "$H64" >>"$M/docs/zero-gap/coverage-measured.tsv"
-    printf 'subject=modA kind=timeout-gate status=could-not-run:timeout cases=0 failed=0 rc=124\nhead=%s tree=%s ts=2026-10-12T10:00:00Z limit=600\ncmd=x\n---\n' "$H40" "$H64" >"$M/docs/zero-gap/coverage-evidence/modA__timeout-gate.txt"
+    st=could-not-run:go-build:goproxy-off ft='build-failure-causes=goproxy-off\nunbuilt-packages (1):\n  m/bad [goproxy-off]' mkev modA go-env 6558 0 1 6558 1
+    lim=600 st=could-not-run:timeout mkev modA timeout-gate 0 0 124 0 1
+    # ── round 3 (T061/T087) fixtures: body binding, rc consistency, failing-list counts, downgrades, dirty, notes ──
+    mkev modA r3-body 5 0 0 5 1;  sed -i 's/^out$/tampered-after-measurement/' "$M/docs/zero-gap/coverage-evidence/modA__r3-body.txt"     # body replaced, TSV evsha and header untouched
+    recrc=1 mkev modA r3-rc 5 0 0 5 1                                                                                                       # header+TSV say rc 0, the sealed recorded line says rc 1 (a CONSISTENT header+TSV rc edit)
+    ft='failing-tests (3):\n  a :: T1\n  b :: T2\n  c :: T3' mkev modA r3-ft-count 5 2 1 5 1                                                  # lists 3, failed=2
+    ft='failing-tests (2):\n  a :: T1' mkev modA r3-ft-listed 5 2 1 5 1                                                                    # says 2, lists 1
+    ft='failing-tests (2):\n  a :: T1\n  b :: T2' mkev modA r3-ft-ok 5 2 1 5 1                                                              # consistent
+    ft='failing-tests (4; 2 omitted from this list):\n  a :: T1\n  b :: T2' mkev modA r3-ft-omit 5 4 1 5 1                                    # consistent with an omitted count
+    mkev modA r3-relabel 5 0 0 5 1                                                                                                          # then: TSV-only relabel to an env could-not-run
+    mkev modA r3-relabel-gap 5 0 0 5 1                                                                                                      # then: TSV-only relabel to gap
+    awk -F'\t' -v OFS='\t' '$1=="modA" && $2=="r3-relabel" {$3="could-not-run:go-build:goproxy-off"} $1=="modA" && $2=="r3-relabel-gap" {$3="gap"} {print}' "$M/docs/zero-gap/coverage-measured.tsv" >"$M/m.n" && mv "$M/m.n" "$M/docs/zero-gap/coverage-measured.tsv"
+    st=could-not-run:go-build:compile-error mkev modA r3-label-compile 6 0 1 6 1                                                            # a code defect labelled as environment
+    st=could-not-run:go-build:missing-module mkev modA r3-label-missmod 6 0 1 6 1                                                           # the removed label
+    st=could-not-run:go-build:goproxy-off ft='unbuilt-packages (2):\n  m/a [goproxy-off]\n  m/c [DEFECT:compile-error]' mkev modA r3-env-defect 6 0 1 6 1   # env label, defect package listed
+    st=check-red mkev modA r3-zero-red 0 0 1 0 1                                                                                            # zero cases, rc 1: a defect, not a gap
+    hd=1 mkev modA r3-dirty 5 0 0 5 1                                                                                                       # green but measured on a dirty tree
+    hd=1 td=0 mkev modA r3-dirty-differs 5 0 0 5 1                                                                                          # header says dirty, TSV says clean
+    nodirtyhdr=1 td='?' mkev modA r3-legacy 5 0 0 5 1                                                                                       # legacy evidence sealed after the fact
+    nodirtyhdr=1 mkev modA r3-nodirty 5 0 0 5 1                                                                                             # header lacks dirty= but TSV claims 0
+    noevsha=1 mkev modA r3-noevsha 5 0 0 5 1                                                                                                # no sealed hash
+    mkdir -p "$M/docs/zero-gap/coverage-evidence"; printf 'subject=modA kind=r3-unref\n' >"$M/docs/zero-gap/coverage-evidence/modA__r3-unref.txt"
+    printf 'modA\tr3-unref\tcheck\t5\t0\t0\t\tx\t%s\t%s\t%s\t0\n' "$H40" "$H64" "$H64" >>"$M/docs/zero-gap/coverage-measured.tsv"                # evidence reference dropped
+    printf '# subject\tkind\tnote\tref\nmodA\te2e\tUNCONFIRMED: the failure may depend on the host (proof fixture)\tCLAUDE.md\n' >"$M/docs/zero-gap/cell-notes.tsv"
     printf '# subject\tkind\texpected_rc\treason\tref\nmodA\tsecurity\t1\tdeclared red by design for the proof\tCLAUDE.md\nmodA\tperf-load\t1\tdeclared rc 1\tCLAUDE.md\n' >"$M/docs/zero-gap/designed-red.tsv"
     ( cd "$M" && git add -A && git commit -q -m fixture-evidence ) >/dev/null 2>&1   # HEAD moves ONE commit past $H40: every evidence row is 1 commit behind
     bash "$SELF" --root "$M" --out "$M/out.tsv" >"$T/m.stdout" 2>"$T/m.stderr"; mrc=$?
@@ -773,6 +876,29 @@ GM
     [ "$(cell modA go-env)" = "could-not-run:go-build:goproxy-off" ] && ok "C33 F2 could-not-run:go-build:goproxy-off passes through the generator unchanged and is listed as cycle-2 intake" || bad "C33 got '$(cell modA go-env)'"
     if reasonof modA go-env | grep -q 'environment build failure (goproxy-off), not a test failure: cases=6558'; then ok "C33b F2 the cycle-2 reason states it is an environment failure and keeps the passing-case count"; else bad "C33b got '$(reasonof modA go-env)'"; fi
     if [ "$(cell modA timeout-gate)" = "could-not-run:timeout" ] && reasonof modA timeout-gate | grep -q 'limit of 600s'; then ok "C34 F4 could-not-run:timeout states the configured limit (600s) recorded in the evidence"; else bad "C34 got '$(reasonof modA timeout-gate)'"; fi
+    # ── round 3 assertions ──
+    r3() { [ "$(cell modA "$1")" = "$2" ] && reasonof modA "$1" | grep -q "$3"; }
+    r3 r3-body gap:evidence-mismatch 'evidence-body-sha' && ok "C40 R3 evidence BODY replaced after measurement (TSV evsha + header untouched) => gap:evidence-mismatch: evidence-body-sha" || bad "C40 got '$(cell modA r3-body)' / '$(reasonof modA r3-body)'"
+    r3 r3-rc gap:evidence-mismatch 'recorded-line-differs' && ok "C41 R3 header+TSV rc edited CONSISTENTLY to 0 while the sealed body still records rc 1 => gap:evidence-mismatch: recorded-line-differs" || bad "C41 got '$(cell modA r3-rc)' / '$(reasonof modA r3-rc)'"
+    r3 r3-ft-count gap:evidence-mismatch 'failing-tests-count-differs-from-failed' && ok "C42 R3 failing-tests list size != failed= => gap:evidence-mismatch" || bad "C42 got '$(reasonof modA r3-ft-count)'"
+    r3 r3-ft-listed gap:evidence-mismatch 'failing-tests-listed-differs-from-count' && ok "C43 R3 failing-tests (2) but one name listed => gap:evidence-mismatch" || bad "C43 got '$(reasonof modA r3-ft-listed)'"
+    [ "$(cell modA r3-ft-ok)" = "check-red" ] && [ "$(cell modA r3-ft-omit)" = "check-red" ] && ok "C44 R3 a consistent failing-tests block (also with an omitted count) is accepted: check-red" || bad "C44 got '$(cell modA r3-ft-ok)' '$(cell modA r3-ft-omit)'"
+    r3 r3-relabel gap:evidence-mismatch 'status' && r3 r3-relabel-gap gap:evidence-mismatch 'status' && ok "C45 R3 a TSV-only downgrade of a green cell to could-not-run:* (or gap) is refused: header status differs => gap:evidence-mismatch: status" || bad "C45 got '$(cell modA r3-relabel)' '$(cell modA r3-relabel-gap)'"
+    r3 r3-label-compile gap:evidence-mismatch 'go-build-label-not-environmental' && r3 r3-label-missmod gap:evidence-mismatch 'go-build-label-not-environmental' && ok "C46 R3 could-not-run:go-build:compile-error / :missing-module is refused (only goproxy-off and missing-replace-dir are environmental)" || bad "C46 got '$(reasonof modA r3-label-compile)' '$(reasonof modA r3-label-missmod)'"
+    r3 r3-env-defect gap:evidence-mismatch 'env-label-with-defect-evidence' && ok "C47 R3 an environment label whose evidence lists a [DEFECT:...] package is refused" || bad "C47 got '$(reasonof modA r3-env-defect)'"
+    [ "$(cell modA r3-zero-red)" = "check-red" ] && ok "C48 R3 zero cases + rc 1 recorded by the measurer as check-red stays check-red (a build defect is not a gap)" || bad "C48 got '$(cell modA r3-zero-red)'"
+    [ "$(cell modA r3-dirty)" = "gap:evidence-dirty" ] && ok "C49 R3 a green cell measured on a DIRTY tree is NOT classed check by default (gap:evidence-dirty)" || bad "C49 got '$(cell modA r3-dirty)'"
+    r3 r3-dirty-differs gap:evidence-mismatch 'dirty-differs-from-tsv' && ok "C50 R3 header dirty=1 vs TSV dirty=0 => gap:evidence-mismatch: dirty-differs-from-tsv" || bad "C50 got '$(reasonof modA r3-dirty-differs)'"
+    r3 r3-nodirty gap:evidence-mismatch 'dirty-absent-in-header' && ok "C51 R3 header without dirty= while the TSV claims a measured dirty state => gap:evidence-mismatch" || bad "C51 got '$(reasonof modA r3-nodirty)'"
+    r3 r3-noevsha gap:evidence-mismatch 'evsha-absent' && ok "C52 R3 a row without a sealed evsha is refused" || bad "C52 got '$(reasonof modA r3-noevsha)'"
+    r3 r3-unref gap:evidence-mismatch 'evidence-reference-dropped' && ok "C53 R3 a row that drops its evidence reference while the canonical evidence file exists is refused" || bad "C53 got '$(reasonof modA r3-unref)'"
+    local dm lm
+    dm=$(ALLOW_DIRTY=1 FRESH_FILE=/dev/null measured_cell "$M/docs/zero-gap/coverage-measured.tsv" modA r3-dirty "$M"); lm=$(FRESH_FILE=/dev/null measured_cell "$M/docs/zero-gap/coverage-measured.tsv" modA r3-legacy "$M")
+    case "$dm" in check*DIRTY*) ok "C54 R3 --allow-dirty-evidence keeps the cell check with a visible DIRTY note in its reason" ;; *) bad "C54 got '$dm'" ;; esac
+    case "$lm" in check*UNKNOWN*) ok "C55 R3 legacy evidence (dirty '?', sealed after the fact) stays check with a visible dirty-UNKNOWN note" ;; *) bad "C55 got '$lm'" ;; esac
+    if grep -q 'evidence-cleanliness clean=' "$T/m.stdout" && grep -q 'evidence-dirty-cells ([0-9]*): .*modA/r3-dirty' "$T/m.stdout"; then ok "C56 R3 the generator prints an evidence-cleanliness line and NAMES every dirty cell ($(grep -E 'evidence-cleanliness' "$T/m.stdout" | head -1 | tr -s ' '))"; else bad "C56 no cleanliness/dirty line: $(grep -i 'evidence-' "$T/m.stdout" | head -5)"; fi
+    if ! awk -F'\t' 'NR>1 && $4 ~ /behind HEAD/ {x=1} END{exit x}' "$M/cycle-2-candidates.tsv"; then bad "C57 a cycle-2 reason embeds 'N commits behind HEAD'"; else ok "C57 R3 no cycle-2 reason embeds 'N commit(s) behind HEAD' (freshness is a separate generated line)"; fi
+    if [ "$(cell modA e2e)" = "check-red" ] && reasonof modA e2e | grep -q 'NOTE: UNCONFIRMED'; then ok "C58 R3 docs/zero-gap/cell-notes.tsv annotates a red cell with an UNCONFIRMED note without changing its status"; else bad "C58 got '$(cell modA e2e)' / '$(reasonof modA e2e)'"; fi
     # F5 duplicate subjects: both rows stay, totals print raw and de-duplicated, and only an identical pin is honoured
     ( cd "$M/modB" && git commit -q --allow-empty -m diverge-from-modA ) >/dev/null 2>&1   # the fixture's modA/modB commits can hash identically; make modB's pin really differ
     printf 'duplicate\tof\treason\nmodB\tmodA\tdeclared although the pins differ\n' >"$M/docs/zero-gap/duplicate-subjects.tsv"
@@ -801,10 +927,10 @@ GM
 
     # C22b one assertion per T061-round-2 rule must be PRESENT and PASSING in the measurer's own selftest
     local rule miss=""
-    for rule in 'F2 env-only' 'F2 failed>0 PLUS env build failure => stays check-red' 'F2 a compile error' 'F2 timeout (rc 124) after a real failed test' 'F3 620 failing tests' 'F3 62 failures are all listable' 'F3 gate: failing case identifiers' 'records the limit'; do
+    for rule in 'F2 env-only' 'F2 failed>0 PLUS env build failure => stays check-red' 'F2 a compile error' 'F2 timeout (rc 124) after a real failed test' 'F3 620 failing tests' 'F3 62 failures are all listable' 'F3 gate: failing case identifiers' 'records the limit' 'R3 P1 compile error' 'R3 P2 typo import' 'R3 P3 missing go.sum' 'R3 P4 init panic' 'R3 mixed unbuilt' 'R3 evidence names every unbuilt package' 'R3 the sealed region'; do
         grep -F "$rule" "$T/mst.out" | grep -q '^  PASS' || miss="$miss [$rule]"
     done
-    [ -z "$miss" ] && ok "C22b measurer selftest carries and passes a case for each round-2 rule (F2 env vs real failure, F3 failing names, F4 limit recorded)" || bad "C22b missing/failed in the measurer selftest:$miss"
+    [ -z "$miss" ] && ok "C22b measurer selftest carries and passes a case for each round-2 rule (F2 env vs real failure, F3 failing names, F4 limit recorded) and the four round-3 reviewer probes P1-P4 plus per-package cause and the sealed region" || bad "C22b missing/failed in the measurer selftest:$miss"
 
     # ── live tree: contract-shaped output, live tree left untouched by this proof ────────────
     h0=$(find "$LIVE/scripts/zero-gap-coverage.sh" "$LIVE/docs/zero-gap/coverage.tsv" -type f -exec sha256sum {} + 2>/dev/null | LC_ALL=C sort | sha256sum)
