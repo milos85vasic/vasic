@@ -10689,7 +10689,7 @@ four more submodules joined on 2026-09-01. Re-measured 2026-09-01 by
 `bash scripts/verify-governance-cascade.sh`, exit 0 (12 PASS / 0 FAIL / 0 ENV /
 8 NOTE):
 
-- **C1** classified all **13** declared submodules from evidence — **11 owned**,
+- **C1** classified all **13** declared submodules (historical, 2026-09-01 reading) from evidence — **11 owned**,
   1 governance source, 1 third-party — with no hardcoded roster.
 - **C2** found all **11 × 4 = 44** owned-submodule carriers present and non-empty.
 - **C3** found all 44 recognised by the canonical `is_pointer_carrier` predicate.
@@ -11306,7 +11306,7 @@ because the remote commit was not in this checkout's object store. **The
 operator authorized the fetch**, which classified it as **2 behind, 0
 divergent**, and `git merge --ff-only` closed it. `submodules/superspec` is
 probed and reported as a third-party NOTE, never a verdict input, which is why
-12 are probed of 13 declared.
+12 are probed of 13 declared (historical; the fleet is re-derived with `git config -f .gitmodules --get-regexp 'submodule\..*\.path'`).
 
 **Do not bank the green.** The gate prints its own caveat — *"Dated observation,
 not a standing fact: remotes move"* — and this pin went stale within a day on
