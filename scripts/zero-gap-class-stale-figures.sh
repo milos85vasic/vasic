@@ -54,11 +54,14 @@
 # skipped, no finding, and a "NOTE:" line on STDERR (the stdout class contract has no
 # NOTE token); an unreadable/special .gitmodules is COULD-NOT-INSPECT. There is NO
 # "owned" comparison: no honest source for an owned count exists in a bare tree.
-# RECALL COST: the shape is "<n> declared" whatever the noun that follows, so
-# "9 declared pairs" or "76 declared members" are reported as mismatches although they
-# do not count submodules (3 such false positives on the live tree 2026-10-12, CLAUDE.md
-# and CONTINUATION.md); and a stale figure only inside a (historical)/WITHDRAWN-marked
-# line is, by design, not compared.
+# NARROWED (2026-10-12): the comparison fires only when "declared" is followed by end of
+# line, closing punctuation/markup, or a fleet noun (submodule(s), gitlink(s), module(s),
+# repo(s), repositories, path(s), "in total", "in all"). "9 declared pairs" and
+# "76 declared members" (live false positives) are no longer compared.
+# RECALL COST: a real fleet claim phrased "<n> declared <other noun>" (e.g. "13 declared
+# entries", "13 declared owned") or whose noun wraps onto the next physical line is NOT
+# compared; a false-positive of the same wording is equally not reported; and a stale
+# figure only inside a (historical)/WITHDRAWN-marked line is, by design, not compared.
 #
 # ── THE SKIP RULE (historical / withdrawn text), PRECISELY ────────────────────
 # A scanned line whose text — after `~~...~~` spans are removed — contains, as a
@@ -518,6 +521,31 @@ prove_failure() {
         else bad "G6  the wrong-count mutant stayed silent on the equal-count control (G2 would not catch it)" "$lab/out.g6"; fi
     fi
 
+    # G7-G10 — the noun after "declared" must denote the submodule fleet (or nothing): other nouns
+    #     ("declared pairs", "declared members") are NOT submodule counts and must not be compared.
+    mklab g7 "$corp/clean"
+    if mutate g7 "$GM22; printf 'The allow file carries 9 declared pairs today.\n' >> README.md"; then
+        runc "$lab/out.g7" "$SELF" --root "$lab/g7" --corpus "$lab/g7"
+        if anymm "$lab/out.g7"; then bad "G7  '9 declared pairs' was compared against the submodule count" "$lab/out.g7"; else ok "G7  '<n> declared pairs' is not a submodule claim: no mismatch finding"; fi
+    else bad "G7  inoperative mutation"; fi
+    mklab g8 "$corp/clean"
+    if mutate g8 "$GM22; printf 'verify-ui-vocabulary.sh  0   76 declared members\n' >> README.md"; then
+        runc "$lab/out.g8" "$SELF" --root "$lab/g8" --corpus "$lab/g8"
+        if anymm "$lab/out.g8"; then bad "G8  '76 declared members' was compared against the submodule count" "$lab/out.g8"; else ok "G8  '<n> declared members' is not a submodule claim: no mismatch finding"; fi
+    else bad "G8  inoperative mutation"; fi
+    mklab g9 "$corp/clean"
+    if mutate g9 "$GM22; printf 'C1 classified all 13 declared submodules from evidence.\n' >> README.md"; then
+        gl9=$(wc -l <"$lab/g9/README.md" | tr -d ' ')
+        runc "$lab/out.g9" "$SELF" --root "$lab/g9" --corpus "$lab/g9"
+        if mmhit "$lab/out.g9" "figure:README.md:$gl9" 13 22; then ok "G9  '13 declared submodules' (planted fleet claim) is still a mismatch naming 13 and 22"; else bad "G9  planted '13 declared submodules' not reported" "$lab/out.g9"; fi
+    else bad "G9  inoperative mutation"; fi
+    mklab g10 "$corp/clean"
+    if mutate g10 "$GM22; printf 'Of these, 12 are probed of 13 declared.\n' >> README.md"; then
+        gl10=$(wc -l <"$lab/g10/README.md" | tr -d ' ')
+        runc "$lab/out.g10" "$SELF" --root "$lab/g10" --corpus "$lab/g10"
+        if mmhit "$lab/out.g10" "figure:README.md:$gl10" 13 22; then ok "G10 '13 declared.' (sentence-final) is still a mismatch naming 13 and 22"; else bad "G10 planted sentence-final '13 declared.' not reported" "$lab/out.g10"; fi
+    else bad "G10 inoperative mutation"; fi
+
     fp1=$(live_fp)
     if [ "$fp0" = "$fp1" ]; then ok "L1 the live corpus, this script and the ledger gate are byte-identical after the battery"
     else bad "L1  the live files moved during the battery"; fi
@@ -615,7 +643,10 @@ NEXT_WITHDRAWN = re.compile(r'^[\s>*_`(\[]*(?:that|this|the above|it|which|those
 # different tail and stays a figure; so does any line carrying a non-rc figure.
 RC_MEANING_TAIL = re.compile(r'^[*`_]*\s*(?:=|->|\u2192|means\b)')
 # VSC-353 clause B: "<n> declared" is compared with the number of paths .gitmodules declares.
-DECLARED_RE = re.compile(r'\b(' + NUM + r')' + MK + r'\s+' + MK + r'declared\b')
+# Narrowed (2026-10-12): "declared" must be followed by end of line / closing punctuation / markup,
+# or by a fleet noun (submodule, gitlink, module, repo, repository, path), or "in total/all".
+# "declared pairs", "declared members" etc. are not submodule counts and are not compared.
+DECLARED_RE = re.compile(r'\b(' + NUM + r')' + MK + r'\s+' + MK + r'declared\b(?=' + MK + r'\s*(?:$|[.,;:)\]*_`|—–]|\s(?:submodules?|gitlinks?|modules?|repos?|repositories|paths?|in\s+total|in\s+all)\b))')
 GITMODULES_REL = '.gitmodules'
 GM_PATH_RE = re.compile(r'^[ \t]*path[ \t]*=[ \t]*\S', re.M)
 AGG_MAX = 30        # an aggregate lists at most this many line numbers
