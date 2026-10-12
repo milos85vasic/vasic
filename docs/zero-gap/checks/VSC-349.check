@@ -1,4 +1,10 @@
-# VSC-349 closure check (author: closure-wave T047 fixer; independent verifier re-runs via scripts/zero-gap-verify.sh)
+# VSC-349 closure check, REWRITTEN (author: t349-351-check-author-2, not the fixer). Replaces the T047 wave probe
+# VSC-349.probe.sh + fig-population.py, which an independent verifier refused: its oracle mirrored the
+# stale-figures class (a marker anywhere on a line hid the line, `# 0 -` exit codes were invisible) and it
+# hardcoded an absolute path. Those two files stay in the tree UNREFERENCED (nothing is deleted).
+# New method: a fixed explicit claim table re-measured LIVE and compared at CLAUSE level (probes/carrier_claims.py).
+# pre_fix_ref is the HEAD at which the live counterexamples (CLAUDE.md lines 30, 45, 1212, 1213, 1215, 1217,
+# 1898-1903) are all present and unmarked; the defects pre-date it and the carriers are unchanged since.
 check_id=chk-vsc-349-carrier-figures-marked
-pre_fix_ref=c827c664c24e90a2b12b352618d579a3c631749d
-cmd=bash /home/milosvasic/Projects/vasic/docs/zero-gap/checks/VSC-349.probe.sh
+pre_fix_ref=34948a7efef3d702488dedb0ceeb66b95b3b758e
+cmd=python3 -I "$(git rev-parse --path-format=absolute --git-common-dir)/../docs/zero-gap/checks/probes/carrier_claims.py" --suite 349
