@@ -128,6 +128,13 @@
 #   4. It compares against ONE ref per submodule (the declared branch, else
 #      HEAD). A commit living only on some other branch is invisible to it, by
 #      design — that is the operator's declaration doing its job.
+#   6. (VSC-360) `origin` may PUSH to repositories other than the one it fetches from
+#      (`remote.origin.pushurl`, read from the checked-out submodule). Each distinct push
+#      target is probed with the same ref and compared with the same gitlink; a push target
+#      that lags is DRIFT, one that cannot be read is state 2, one that is current is a PASS.
+#      A submodule that is not checked out has no readable pushurl: that is a NOTE, because
+#      the information does not exist in this checkout, and the fetch URL is then the only
+#      remote compared. Credentials embedded in an http(s) URL are masked in every message.
 #   5. Third-party modules never gate. If that is ever wrong for a given vendor,
 #      the remedy is to stop documenting it as third-party in the manifest, not
 #      to special-case it here.
@@ -270,6 +277,77 @@ in_list() {
     return 1
 }
 
+
+# VSC-360 -- push targets. `git push` from the submodule's origin goes to every
+# remote.origin.pushurl, which may name a DIFFERENT repository from the fetch URL; a lagging
+# push target read as CURRENT because only the fetch URL was ever asked.
+# Read one ref from a remote. Sets RR_RC, RR_OUT, RR_SHA, RR_REF (the ref actually read: what the messages name).
+# A remote may exit 0 from `ls-remote <url> HEAD` with ZERO lines (HEAD is a symref to a branch that does not exist, so
+# nothing is advertised). When ref_label is HEAD and rc is 0 with no line, fall back to the full listing ONLY when it is
+# unambiguous: exactly ONE refs/heads/* line, whatever that branch is called. With several branches and no HEAD symref the
+# default branch is unknowable and guessing main/master reads a stale branch as CURRENT (the reviewer's false green), so
+# RR_SHA stays empty and the caller reports state 2. A declared branch needs no fallback (ref_label is already that branch).
+# rc != 0 is never retried or softened: it stays a read failure (state 2).
+read_remote_ref() {
+    local url="$1" ref_label="$2" full heads
+    RR_REF="$ref_label"
+    RR_OUT="$(run_bounded git ls-remote "$url" "$ref_label" 2>&1)"; RR_RC=$?
+    RR_SHA="$(printf '%s\n' "$RR_OUT" | awk '/^[0-9a-f]{40}[[:space:]]/{print $1; exit}')"
+    if [ "$RR_RC" -eq 0 ] && [ -z "$RR_SHA" ] && [ "$ref_label" = "HEAD" ]; then
+        full="$(run_bounded git ls-remote "$url" 2>&1)" || return 0
+        heads="$(printf '%s\n' "$full" | awk '$2 ~ /^refs\/heads\// && $1 ~ /^[0-9a-f]{40}$/')"
+        if [ -n "$heads" ] && [ "$(printf '%s\n' "$heads" | wc -l)" -eq 1 ]; then
+            RR_SHA="$(printf '%s\n' "$heads" | awk '{print $1}')"
+            RR_REF="$(printf '%s\n' "$heads" | awk '{print $2}')"
+        fi
+    fi
+    return 0
+}
+
+mask_url() { printf '%s' "$1" | sed -E 's#(https?://)[^/@]*@#\1***@#'; }
+probe_pushurls() {
+    local path="$1" local_sha="$2" fetch_url="$3" ref_label="$4" owned="$5"
+    local sub_dir="${root}/${path}" pushes pu i=0 out prc rsha rref direction mu
+    [ "$owned" -eq 1 ] || return 0
+    if [ ! -d "$sub_dir" ] || ! git -C "$sub_dir" rev-parse --git-dir >/dev/null 2>&1; then
+        inf "REMOTE-SYNC · ${path} — not checked out, so its push targets (remote.origin.pushurl) cannot be read; the fetch URL is the only remote compared"
+        return 0
+    fi
+    pushes="$(git -C "$sub_dir" config --get-all remote.origin.pushurl 2>/dev/null)"
+    [ -n "$pushes" ] || return 0
+    while IFS= read -r pu; do
+        [ -n "$pu" ] || continue
+        i=$((i + 1))
+        [ "$pu" = "$fetch_url" ] && continue
+        mu="$(mask_url "$pu")"
+        read_remote_ref "$pu" "$ref_label"; out="$RR_OUT"; prc=$RR_RC; rsha="$RR_SHA"; rref="$RR_REF"
+        if [ "$prc" -ne 0 ] || [ -z "$rsha" ]; then
+            [ -n "$quiet" ] || printf '   %-28s %-12.12s %-12s %s\n' "${path}@push${i}" "$local_sha" "unreachable" "UNDETERMINED"
+            und "REMOTE-SYNC ${path} push target ${i} — could not read ${ref_label} from ${mu} (rc=${prc}; rc 0 with no line = no HEAD symref and zero or several branches, so the default branch is not decidable). OFFLINE / AUTH / GONE are indistinguishable here and all three are state 2, NEVER 'current'."
+            continue
+        fi
+        if [ "$rsha" = "$local_sha" ]; then
+            [ -n "$quiet" ] || printf '   %-28s %-12.12s %-12.12s %s\n' "${path}@push${i}" "$local_sha" "$rsha" "CURRENT"
+            ok "REMOTE-SYNC ${path} push target ${i} — gitlink ${local_sha} == ${rref} at ${mu}"
+            continue
+        fi
+        direction="DIFFERS"
+        if git -C "$sub_dir" cat-file -e "${local_sha}^{commit}" 2>/dev/null && git -C "$sub_dir" cat-file -e "${rsha}^{commit}" 2>/dev/null; then
+            if git -C "$sub_dir" merge-base --is-ancestor "$rsha" "$local_sha" 2>/dev/null; then direction="LAGS"
+            elif git -C "$sub_dir" merge-base --is-ancestor "$local_sha" "$rsha" 2>/dev/null; then direction="BEHIND"
+            else direction="DIVERGED"; fi
+        fi
+        [ -n "$quiet" ] || printf '   %-28s %-12.12s %-12.12s %s\n' "${path}@push${i}" "$local_sha" "$rsha" "$direction"
+        case "$direction" in
+            LAGS)     bad "REMOTE-SYNC ${path} push target ${i} — LAGS the gitlink: ${rref} ${rsha} at ${mu} is an ancestor of ${local_sha} (a push target missing the commit this repository points at)."
+                      echo "           fix: push the submodule to that target — git -C ${path} push origin — then re-run." ;;
+            BEHIND)   bad "REMOTE-SYNC ${path} push target ${i} — BEHIND: gitlink ${local_sha} is an ancestor of ${rref} ${rsha} at ${mu}." ;;
+            DIVERGED) bad "REMOTE-SYNC ${path} push target ${i} — DIVERGED from the gitlink (${local_sha} vs ${rsha} at ${mu}); NOT fast-forwardable and MUST NOT be automated." ;;
+            *)        bad "REMOTE-SYNC ${path} push target ${i} — DIFFERS from the gitlink: ${local_sha} vs ${rsha} at ${mu}; the direction is not decidable without the objects (fetch ${path} first)." ;;
+        esac
+    done <<< "$pushes"
+}
+
 # ─────────────────────────────────────────────────────────────────────────────
 # The check.
 # ─────────────────────────────────────────────────────────────────────────────
@@ -277,7 +355,7 @@ check_remote_sync() {
     local gm="${root}/.gitmodules" hd="${root}/${MANIFEST_NAME}"
     local excl="" entries="" line path url branch ref_label
     local local_sha remote_sha remote_out lsrc rc=0 n=0 owned_n=0
-    local direction sub_dir have_local have_remote
+    local direction sub_dir have_local have_remote rref
 
     if ! command -v git >/dev/null 2>&1; then
         und "REMOTE-SYNC — git is not on PATH; no remote can be consulted"
@@ -339,8 +417,9 @@ check_remote_sync() {
         branch="$(gitmodules_branch "$gm" "$path")"
         if [ -n "$branch" ]; then ref_label="refs/heads/${branch}"; else ref_label="HEAD"; fi
 
-        remote_out="$(run_bounded git ls-remote "$url" "$ref_label" 2>&1)"; lsrc=$?
-        remote_sha="$(printf '%s\n' "$remote_out" | awk '/^[0-9a-f]{40}[[:space:]]/{print $1; exit}')"
+        probe_pushurls "$path" "$local_sha" "$url" "$ref_label" "$owned"
+
+        read_remote_ref "$url" "$ref_label"; remote_out="$RR_OUT"; lsrc=$RR_RC; remote_sha="$RR_SHA"; rref="$RR_REF"
 
         if [ "$lsrc" -ne 0 ] || [ -z "$remote_sha" ]; then
             # THE CRITICAL BRANCH. Unreachable is state 2 for an owned module.
@@ -351,7 +430,7 @@ check_remote_sync() {
             if [ "$owned" -eq 1 ]; then
                 local why="rc=${lsrc}"
                 [ -n "$HAVE_TIMEOUT" ] && [ "$lsrc" -eq 124 ] && why="timed out after ${probe_timeout}s"
-                und "REMOTE-SYNC ${path} — could not read ${ref_label} from ${url} (${why}). OFFLINE / AUTH / GONE are indistinguishable here and all three are state 2, NEVER 'current'."
+                und "REMOTE-SYNC ${path} — could not read ${ref_label} from ${url} (${why}; rc=0 with no line = no HEAD symref and zero or several branches, so the default branch is not decidable). OFFLINE / AUTH / GONE are indistinguishable here and all three are state 2, NEVER 'current'."
                 printf '%s\n' "$remote_out" | sed 's/^/           /' | head -n 4
             else
                 inf "REMOTE-SYNC · ${path} — third-party remote unreadable (${url}); reported, never gating"
@@ -362,7 +441,7 @@ check_remote_sync() {
         if [ "$local_sha" = "$remote_sha" ]; then
             [ -n "$quiet" ] || printf '   %-28s %-12.12s %-12.12s %s\n' "$path" "$local_sha" "$remote_sha" "CURRENT"
             if [ "$owned" -eq 1 ]; then
-                ok "REMOTE-SYNC ${path} — gitlink ${local_sha} == ${ref_label} at ${url}"
+                ok "REMOTE-SYNC ${path} — gitlink ${local_sha} == ${rref} at ${url}"
             else
                 inf "REMOTE-SYNC · ${path} — third-party, and current at ${remote_sha}"
             fi
@@ -403,12 +482,12 @@ check_remote_sync() {
 
         case "$direction" in
             BEHIND)
-                bad "REMOTE-SYNC ${path} — BEHIND upstream: gitlink ${local_sha} is an ancestor of ${ref_label} ${remote_sha}. Fast-forwardable."
+                bad "REMOTE-SYNC ${path} — BEHIND upstream: gitlink ${local_sha} is an ancestor of ${rref} ${remote_sha}. Fast-forwardable."
                 echo "           fix: git -C ${path} fetch && git -C ${path} checkout ${remote_sha}"
                 echo "                then re-record the pin: bash scripts/verify-manifest-pins.sh --fix"
                 ;;
             AHEAD)
-                bad "REMOTE-SYNC ${path} — AHEAD of upstream: gitlink ${local_sha} is NOT on ${ref_label} (${remote_sha}). The commit this repository points at is UNPUSHED, so this tree does not clone for anyone else."
+                bad "REMOTE-SYNC ${path} — AHEAD of upstream: gitlink ${local_sha} is NOT on ${rref} (${remote_sha}). The commit this repository points at is UNPUSHED, so this tree does not clone for anyone else."
                 echo "           fix: push the submodule first — git -C ${path} push — then re-run."
                 ;;
             DIVERGED)
@@ -416,7 +495,7 @@ check_remote_sync() {
                 echo "           fix: operator reconciliation inside ${path} (§11.4.31 conflict_resolution: operator-required)."
                 ;;
             *)
-                bad "REMOTE-SYNC ${path} — DIFFERS from ${ref_label}: gitlink ${local_sha} vs remote ${remote_sha}. The difference is DETERMINED; the direction is NOT, because the remote commit is not in this checkout's object store."
+                bad "REMOTE-SYNC ${path} — DIFFERS from ${rref}: gitlink ${local_sha} vs remote ${remote_sha}. The difference is DETERMINED; the direction is NOT, because the remote commit is not in this checkout's object store."
                 echo "           fix: re-run with --fetch to classify behind/ahead/diverged, or fetch ${path} by hand."
                 ;;
         esac
@@ -618,6 +697,90 @@ prove_failure() {
     clone_into_specimen "${sandbox}/p6" vend vend
     assert_case "P6 third-party        — documented vendor is behind; reported, never gating " 0 "third-party" "${sandbox}/p6"
 
+    # ── P7/P8/P9 (VSC-360) PUSH TARGETS: origin pushes to a repository other than the one it fetches from.
+    #    P7 a push target that LAGS the gitlink must be DRIFT (it read CURRENT before: only the fetch URL was asked);
+    #    P8 a push target that is current stays green; P9 an unreadable push target is state 2, never 0.
+    local pt_ok=1
+    git "${G[@]}" clone -q "${sandbox}/up/mod" "${sandbox}/up/mirror_lag" >/dev/null 2>&1 \
+        && git "${G[@]}" -C "${sandbox}/up/mirror_lag" reset -q --hard HEAD~2 >/dev/null 2>&1 || pt_ok=0
+    git "${G[@]}" clone -q "${sandbox}/up/mod" "${sandbox}/up/mirror_ok" >/dev/null 2>&1 || pt_ok=0
+    if [ "$pt_ok" -eq 1 ]; then
+        build_specimen "${sandbox}/p7" "mod|mod|${tip}|" || { echo "${GATE}: cannot verify — specimen p7" >&2; return 2; }
+        clone_into_specimen "${sandbox}/p7" mod mod
+        git -C "${sandbox}/p7/mod" config --add remote.origin.pushurl "file://${sandbox}/up/mirror_lag"
+        assert_case "P7 push target lags   — origin fetches the tip, one push target is behind  " 1 "push target" "${sandbox}/p7"
+        build_specimen "${sandbox}/p8" "mod|mod|${tip}|" || { echo "${GATE}: cannot verify — specimen p8" >&2; return 2; }
+        clone_into_specimen "${sandbox}/p8" mod mod
+        git -C "${sandbox}/p8/mod" config --add remote.origin.pushurl "file://${sandbox}/up/mirror_ok"
+        assert_case "P8 push target current— a second push target at the tip stays green        " 0 "PASS" "${sandbox}/p8"
+        build_specimen "${sandbox}/p9" "mod|mod|${tip}|" || { echo "${GATE}: cannot verify — specimen p9" >&2; return 2; }
+        clone_into_specimen "${sandbox}/p9" mod mod
+        git -C "${sandbox}/p9/mod" config --add remote.origin.pushurl "file://${sandbox}/up/does_not_exist"
+        assert_case "P9 push target gone   — an unreadable push target MUST be 2, never 0       " 2 "CANNOT VERIFY" "${sandbox}/p9"
+    else
+        echo "❌ P7-P9 push-target fixtures could not be built"
+        mut_fails=$((mut_fails+1))
+    fi
+
+    # ── P10-P14 (VSC-360 follow-up) NO HEAD SYMREF: a remote may exit 0 from `ls-remote <url> HEAD` with ZERO lines
+    #    (HEAD names a branch that does not exist) while `ls-remote <url>` lists refs/heads/main. That is a readable remote,
+    #    not an unreadable one. A genuine failure (rc != 0) and a remote with no usable branch stay state 2.
+    mk_nohead() {   # <name> <source-upstream> [branch] : bare remote carrying <branch> (default main) whose HEAD dangles
+        local nm="$1" src="$2" br="${3:-main}"
+        git "${G[@]}" clone -q --bare "${sandbox}/up/${src}" "${sandbox}/up/${nm}" >/dev/null 2>&1 || return 1
+        if [ "$br" != "main" ]; then
+            git -C "${sandbox}/up/${nm}" branch -m main "$br" >/dev/null 2>&1 || return 1
+        fi
+        git -C "${sandbox}/up/${nm}" symbolic-ref HEAD refs/heads/dangling_head >/dev/null 2>&1 || return 1
+    }
+    local nh_ok=1
+    mk_nohead nohead mod || nh_ok=0
+    mk_nohead nohead_dev mod dev || nh_ok=0
+    if [ "$nh_ok" -eq 1 ] && [ -n "$(git ls-remote "file://${sandbox}/up/nohead" refs/heads/main 2>/dev/null)" ] \
+       && [ -z "$(git ls-remote "file://${sandbox}/up/nohead" HEAD 2>/dev/null)" ]; then
+        build_specimen "${sandbox}/p10" "mod|nohead|${tip}|" || { echo "${GATE}: cannot verify — specimen p10" >&2; return 2; }
+        assert_case "P10 no HEAD symref    — fetch URL lists main only; gitlink at tip is CURRENT   " 0 "PASS" "${sandbox}/p10"
+        build_specimen "${sandbox}/p11" "mod|nohead|${behind_sha}|" || { echo "${GATE}: cannot verify — specimen p11" >&2; return 2; }
+        clone_into_specimen "${sandbox}/p11" mod mod
+        assert_case "P11 no HEAD, behind   — fetch URL lists main only; gitlink behind is BEHIND  " 1 "BEHIND" "${sandbox}/p11"
+        build_specimen "${sandbox}/p12" "mod|mod|${tip}|" || { echo "${GATE}: cannot verify — specimen p12" >&2; return 2; }
+        clone_into_specimen "${sandbox}/p12" mod mod
+        git -C "${sandbox}/p12/mod" config --add remote.origin.pushurl "file://${sandbox}/up/nohead"
+        assert_case "P12 push, no HEAD     — push target without HEAD symref at the tip is green  " 0 "PASS" "${sandbox}/p12"
+        build_specimen "${sandbox}/p13" "mod|mod|${tip}|" || { echo "${GATE}: cannot verify — specimen p13" >&2; return 2; }
+        clone_into_specimen "${sandbox}/p13" mod mod
+        git "${G[@]}" clone -q --bare "${sandbox}/up/mirror_lag" "${sandbox}/up/nohead_lag" >/dev/null 2>&1 \
+            && git "${G[@]}" -C "${sandbox}/up/nohead_lag" branch -m master main >/dev/null 2>&1
+        git -C "${sandbox}/up/nohead_lag" symbolic-ref HEAD refs/heads/dangling_head >/dev/null 2>&1
+        git -C "${sandbox}/p13/mod" config --add remote.origin.pushurl "file://${sandbox}/up/nohead_lag"
+        assert_case "P13 push, no HEAD lag — lagging push target without HEAD still exits 1 named " 1 "push target" "${sandbox}/p13"
+        # P14 (adjusted for the no-guess rule): TWO branches, neither main nor master, no HEAD symref => ambiguous => 2.
+        # (It formerly used ONE branch 'dev' and relied on there being no main/master to guess; a single branch is now
+        # resolved correctly -- that case is P16 -- so P14 needed a genuinely ambiguous fixture to stay meaningful.)
+        mk_nohead nohead_two mod dev || nh_ok=0
+        git -C "${sandbox}/up/nohead_two" branch feat dev >/dev/null 2>&1 || nh_ok=0
+        build_specimen "${sandbox}/p14" "mod|nohead_two|${tip}|" || { echo "${GATE}: cannot verify — specimen p14" >&2; return 2; }
+        assert_case "P14 no HEAD, 2 branches— 'dev' and 'feat', no main/master; ambiguous, MUST be 2" 2 "CANNOT VERIFY" "${sandbox}/p14"
+        # P15 (reviewer false green): stale main at c1 + the real default branch 'trunk' at the tip + dangling HEAD, gitlink at
+        # the stale main commit. Guessing main read this CURRENT; with several branches and no HEAD symref it MUST be 2.
+        git "${G[@]}" clone -q --bare "${sandbox}/up/mod" "${sandbox}/up/trunkrepo" >/dev/null 2>&1 || nh_ok=0
+        git -C "${sandbox}/up/trunkrepo" branch trunk main >/dev/null 2>&1 || nh_ok=0
+        git -C "${sandbox}/up/trunkrepo" update-ref refs/heads/main "${behind_sha}" >/dev/null 2>&1 || nh_ok=0
+        git -C "${sandbox}/up/trunkrepo" symbolic-ref HEAD refs/heads/dangling_head >/dev/null 2>&1 || nh_ok=0
+        build_specimen "${sandbox}/p15" "mod|trunkrepo|${behind_sha}|" || { echo "${GATE}: cannot verify — specimen p15" >&2; return 2; }
+        assert_case "P15 stale main + trunk— several branches, no HEAD, gitlink at stale main: 2  " 2 "CANNOT VERIFY" "${sandbox}/p15"
+        # P16: ONE branch, named other than main/master, no HEAD symref => resolved, and the row names the ref actually read.
+        build_specimen "${sandbox}/p16" "mod|nohead_dev|${tip}|" || { echo "${GATE}: cannot verify — specimen p16" >&2; return 2; }
+        assert_case "P16 single branch dev — only 'dev', no HEAD symref; resolved, names the ref " 0 "== refs/heads/dev" "${sandbox}/p16"
+        # P17: declared branch (.gitmodules branch = trunk) on the P15 remote: no fallback needed, gitlink at the trunk tip is CURRENT.
+        build_specimen "${sandbox}/p17" "mod|trunkrepo|${tip}|" || { echo "${GATE}: cannot verify — specimen p17" >&2; return 2; }
+        printf '\tbranch = trunk\n' >> "${sandbox}/p17/.gitmodules"
+        assert_case "P17 declared branch   — branch=trunk declared; gitlink at trunk tip CURRENT " 0 "== refs/heads/trunk" "${sandbox}/p17"
+    else
+        echo "❌ P10-P14 no-HEAD-symref fixtures could not be built (or did not reproduce rc 0 with zero lines)"
+        mut_fails=$((mut_fails+1))
+    fi
+
     # ── RESTORED CONTROL ─────────────────────────────────────────────────────
     assert_case "CONTROL restored      — the P1 specimen is still green                      " 0 "PASS" "${sandbox}/p1"
 
@@ -625,8 +788,8 @@ prove_failure() {
     echo "----------------------------------------------------------------------"
     _verdict_emitted=1
     if [ "$mut_fails" -eq 0 ]; then
-        echo "✅ ${GATE} §1.1 MUTATION PROOF: PASS — 5 mutations each produced the verdict they"
-        echo "   must, and 2 control assertions passed (7 assertions over 6 fixture states),"
+        echo "✅ ${GATE} §1.1 MUTATION PROOF: PASS — 16 mutations each produced the verdict they"
+        echo "   must (incl. P10-P17: no-HEAD-symref remotes, never guessing main/master), and 3 control assertions passed,"
         echo "   proved against real local git repositories wired by file:// remotes, with no"
         echo "   network involved."
         echo "   CURRENT is 0; BEHIND, AHEAD and DIVERGED are each 1 AND are named distinctly"

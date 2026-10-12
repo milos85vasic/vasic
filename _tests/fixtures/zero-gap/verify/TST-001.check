@@ -1,0 +1,4 @@
+# real check: fails on the pre-fix ref (BUG present), passes once the fix landed
+check_id=fx-real
+pre_fix_ref=zg-prefix
+cmd=if grep -q BUG app.txt; then exit 1; else exit 0; fi

@@ -42,6 +42,24 @@
 #       Ledger-verified FALSE figures always stay per line (high on a status
 #       line or a verification bluff type / blocker row, else medium).
 #
+# ── "<n> declared" vs .gitmodules (VSC-353 clause B) ──────────────────────────
+# The count of paths .gitmodules declares is read from the working tree AT --root
+# (lines `path = ...`; never from carrier prose). For every figure line that survives
+# the skip rule below (so the historical-skip runs BEFORE the comparison), each
+# "<n> declared" on it (markup allowed) is compared with that count. A line whose n
+# differs is a medium FINDING at figure:<doc>:<line> reading "claims <n> declared but
+# .gitmodules declares <m> (mismatch): ..." (names BOTH figures); equal counts add
+# nothing. A mirror line byte-identical to a CLAUDE.md figure line is not compared
+# again (CLAUDE.md carries it). No .gitmodules, or one with no path => comparison
+# skipped, no finding, and a "NOTE:" line on STDERR (the stdout class contract has no
+# NOTE token); an unreadable/special .gitmodules is COULD-NOT-INSPECT. There is NO
+# "owned" comparison: no honest source for an owned count exists in a bare tree.
+# RECALL COST: the shape is "<n> declared" whatever the noun that follows, so
+# "9 declared pairs" or "76 declared members" are reported as mismatches although they
+# do not count submodules (3 such false positives on the live tree 2026-10-12, CLAUDE.md
+# and CONTINUATION.md); and a stale figure only inside a (historical)/WITHDRAWN-marked
+# line is, by design, not compared.
+#
 # ── THE SKIP RULE (historical / withdrawn text), PRECISELY ────────────────────
 # A scanned line whose text — after `~~...~~` spans are removed — contains, as a
 # whole word and case-insensitively, one of  withdrawn  superseded  historical
@@ -317,9 +335,23 @@ prove_failure() {
     a3=$(linesof "$lab/out.m1" figures:AGENTS.md)
     if [ "$a1" = "8 12 14" ] && [ "$a2" = "5" ] && [ "$a3" = "3" ]; then ok "M1d aggregates name exactly their lines (CLAUDE.md 8 12 14; README.md 5, hex-only 7 excluded; AGENTS.md 3, identical mirror line 5 deduped)"
     else bad "M1d aggregate line lists: CLAUDE.md '$a1' (want '8 12 14'), README.md '$a2' (want '5'), AGENTS.md '$a3' (want '3')" "$lab/out.m1"; fi
+    # M1f — VSC-353: the "<n> declared" / "<n> owned" shapes are figures, each on its own line.
+    a4=$(linesof "$lab/out.m1" figures:GEMINI.md)
+    if [ "$a4" = "3 5 7 9" ]; then ok "M1f declared/owned shapes: GEMINI.md aggregate names lines 3 5 7 9 (22 declared, 12 owned of, 12 owned ... 14 declared)"
+    else bad "M1f GEMINI.md aggregate line list '$a4' (want '3 5 7 9')" "$lab/out.m1"; fi
     # M1e — docs/** is outside the population (boundary ruling: doc-count-drift owns it).
     if grep -q '^FINDING [^ ]* [^ ]* [^ ]* figures\?:docs/' "$lab/out.m1"; then bad "M1e a docs/** line was reported" "$lab/out.m1"
     else ok "M1e planted docs/notes.md and docs/sub/deep.md (figures, hex) yield nothing: docs/** is not scanned"; fi
+
+    # M10 — VSC-353: a withdrawal on the NEXT line annotates the figure above it; the clean control
+    #       (CLAUDE.md lines 13-14) is quiet, and removing the withdrawal line exposes line 13.
+    mklab m10 "$corp/clean"
+    if mutate m10 "sed -i.bak '/^That figure is WITHDRAWN/d' CLAUDE.md && rm -f CLAUDE.md.bak"; then arm "M10 a next-line withdrawal is the reason line 13 is quiet: without it the figure is reported" 1 m10 corpus "figures:CLAUDE.md"
+    else bad "M10 inoperative mutation"; fi
+    # M11 — VSC-353: an exit-code MEANING line is quiet; the same line turned into a measured status is not.
+    mklab m11 "$corp/clean"
+    if mutate m11 "sed -i.bak 's/exit 1 = finding/exit 1 at 12 CURRENT/' CLAUDE.md && rm -f CLAUDE.md.bak"; then arm "M11 an exit-code meaning line turned into a measured status is reported" 1 m11 corpus "figure:CLAUDE.md:16"
+    else bad "M11 inoperative mutation"; fi
 
     # M2 — REALITY MOVES under a ledgered claim (the measured defect class): FALSE, located.
     mklab m2 "$corp/clean" git
@@ -436,8 +468,58 @@ prove_failure() {
         arm "P1  a finding outranks an undetermined row (rc 1)" 1 p1 corpus "figures:README.md"
     else bad "P1  inoperative mutation"; fi
 
+    # G — VSC-353 clause B: an unmarked "<n> declared" line is compared with the path count of the
+    #     .gitmodules read from --root. G1 planted mismatch (14 vs 22) is caught and names BOTH figures;
+    #     G2 equal counts stay silent; G3 a (historical)-marked line stays silent (skip rule runs BEFORE
+    #     the comparison); G4 no .gitmodules -> silent, with a NOTE on stderr; G5/G6 mutants of THIS
+    #     script (comparison skipped / compared against the wrong count) are each caught by the cases above.
+    GM22='i=1; while [ "$i" -le 22 ]; do printf "[submodule \"m%s\"]\n\tpath = mods/m%s\n\turl = u\n" "$i" "$i" >> .gitmodules; i=$((i+1)); done'
+    mmhit() { # mmhit <outfile> <location> <a> <b>: a finding at <location> naming both figures and "mismatch"
+        awk -v l="$2" '$1 == "FINDING" && $5 == l' "$1" | grep -i 'mismatch' | grep -Eq "(^|[^0-9])$3([^0-9]|\$)" \
+            && awk -v l="$2" '$1 == "FINDING" && $5 == l' "$1" | grep -i 'mismatch' | grep -Eq "(^|[^0-9])$4([^0-9]|\$)"
+    }
+    anymm() { grep '^FINDING ' "$1" | grep -qi 'mismatch'; }
+    mklab g1 "$corp/clean"
+    if mutate g1 "$GM22; printf 'The fleet has 14 declared.\n' >> README.md"; then
+        gl=$(wc -l <"$lab/g1/README.md" | tr -d ' ')
+        arm "G1  planted: 14 declared vs .gitmodules 22 paths is a finding at its line" 1 g1 corpus "figure:README.md:$gl"
+        if mmhit "$lab/out.g1" "figure:README.md:$gl" 14 22; then ok "G1b the finding names BOTH figures (14 and 22) and says mismatch"
+        else bad "G1b no mismatch finding naming 14 and 22 at figure:README.md:$gl" "$lab/out.g1"; fi
+    else bad "G1  inoperative mutation"; fi
+    mklab g2 "$corp/clean"
+    if mutate g2 "$GM22; printf 'The fleet has 22 declared.\n' >> README.md"; then
+        arm "G2  CONTROL: 22 declared vs 22 paths is not a mismatch (still an unledgered figure)" 1 g2 corpus "figures:README.md"
+        if anymm "$lab/out.g2"; then bad "G2b equal counts were reported as a mismatch" "$lab/out.g2"; else ok "G2b equal counts: no mismatch finding"; fi
+    else bad "G2  inoperative mutation"; fi
+    mklab g3 "$corp/clean"
+    if mutate g3 "$GM22; printf 'The fleet has 14 declared (historical).\n' >> README.md"; then
+        runc "$lab/out.g3" "$SELF" --root "$lab/g3" --corpus "$lab/g3"
+        if anymm "$lab/out.g3"; then bad "G3  a (historical)-marked 14 declared was compared against .gitmodules" "$lab/out.g3"; else ok "G3  a (historical)-marked line is skipped BEFORE the comparison: no mismatch finding"; fi
+    else bad "G3  inoperative mutation"; fi
+    mklab g4 "$corp/clean"
+    if mutate g4 "printf 'The fleet has 14 declared.\n' >> README.md"; then
+        runc "$lab/out.g4" "$SELF" --root "$lab/g4" --corpus "$lab/g4"
+        if anymm "$lab/out.g4"; then bad "G4  no .gitmodules but a mismatch was reported" "$lab/out.g4"
+        elif grep -q '^NOTE' "$lab/out.g4.err"; then ok "G4  no .gitmodules: comparison skipped, no finding, NOTE on stderr"
+        else bad "G4  no .gitmodules: comparison skipped but no NOTE on stderr" "$lab/out.g4.err"; fi
+    else bad "G4  inoperative mutation"; fi
+    # G5/G6 — mutants of this script. Each copy sits beside the ledger gate (the class needs it).
+    mkdir -p "$lab/mut5" "$lab/mut6"
+    cp "$gate" "$lab/mut5/"; cp "$gate" "$lab/mut6/"
+    sed 's/if decl is not None and any[(]/if False and any(/' "$SELF" >"$lab/mut5/zero-gap-class-$CLASS_ID.sh"
+    sed 's/n != decl for n in clai[m]ed/n != decl + 1 for n in claimed/' "$SELF" >"$lab/mut6/zero-gap-class-$CLASS_ID.sh"
+    if cmp -s "$SELF" "$lab/mut5/zero-gap-class-$CLASS_ID.sh" || cmp -s "$SELF" "$lab/mut6/zero-gap-class-$CLASS_ID.sh"; then bad "G5/G6 inoperative mutation (a sed anchor no longer matches)"
+    else
+        runc "$lab/out.g5" "$lab/mut5/zero-gap-class-$CLASS_ID.sh" --root "$lab/g1" --corpus "$lab/g1"
+        if mmhit "$lab/out.g5" "figure:README.md:$gl" 14 22; then bad "G5  the skip-the-comparison mutant still reported the mismatch (G1 would not catch it)" "$lab/out.g5"
+        else ok "G5  mutant that skips the comparison loses the G1 finding: G1 detects it"; fi
+        runc "$lab/out.g6" "$lab/mut6/zero-gap-class-$CLASS_ID.sh" --root "$lab/g2" --corpus "$lab/g2"
+        if anymm "$lab/out.g6"; then ok "G6  mutant that compares against the wrong count (decl+1) reports a false mismatch on the equal-count control: G2 detects it"
+        else bad "G6  the wrong-count mutant stayed silent on the equal-count control (G2 would not catch it)" "$lab/out.g6"; fi
+    fi
+
     fp1=$(live_fp)
-    if [ "$fp0" = "$fp1" ]; then ok "L1  the live corpus, this script and the ledger gate are byte-identical after the battery"
+    if [ "$fp0" = "$fp1" ]; then ok "L1 the live corpus, this script and the ledger gate are byte-identical after the battery"
     else bad "L1  the live files moved during the battery"; fi
     printf '\n== %d passed / %d failed ==\n' "$passed" "$failed"
     [ "$failed" -eq 0 ]
@@ -515,7 +597,7 @@ NUM = r'[0-9][0-9,]*'
 # token is a hex id is not in the population. `bytes` and the exit/rc shape are (review RULING 2).
 RC = r'\b(?:exit(?:s|ed)?|rc)' + MK + r'(?:\s+|\s*=\s*)' + MK + r'[0-9]+\b'
 SHAPES = [
-    re.compile(r'\b' + NUM + MK + r'\s+' + MK + r'(?:files?|tests?|gates?|scripts?|anchors?|lines?|commits?|items?|rows?|checks?|submodules?|bytes?|PASS|FAIL|CURRENT|DRIFT)\b'),
+    re.compile(r'\b' + NUM + MK + r'\s+' + MK + r'(?:files?|tests?|gates?|scripts?|anchors?|lines?|commits?|items?|rows?|checks?|submodules?|bytes?|declared|owned|PASS|FAIL|CURRENT|DRIFT)\b'),
     re.compile(r'\b' + NUM + MK + r'\s+of\s+' + MK + NUM + r'\b'),
     re.compile(r'\b[0-9]+/[0-9]+\b'),
     re.compile(RC, re.I),
@@ -523,6 +605,19 @@ SHAPES = [
 STRIKE = re.compile(r'~~.*?~~')
 SKIP = re.compile(r'\b(?:withdrawn|superseded|historical|obsolete)\b', re.I)
 STATUS = re.compile(r'\b(?:PASS|FAIL|UNDET|UNDETERMINED|CURRENT|DRIFT|VERIFIED|DEBT)\b|' + RC + r'|\b(?:security|credential|secret|leak)', re.I)
+# VSC-353: a withdrawal stated on the line IMMEDIATELY AFTER a figure line, when that next line opens with a
+# deictic subject ("That figure is WITHDRAWN ...") and names the marker in its first sentence, annotates
+# the figure line above it. A bare marker elsewhere on the next line does NOT (a live paragraph often puts
+# a withdrawn and a live figure on adjacent lines).
+NEXT_WITHDRAWN = re.compile(r'^[\s>*_`(\[]*(?:that|this|the above|it|which|those|these|the figure|the reading|the sentence)\b[^.!?]{0,100}?\b(?:withdrawn|superseded|historical|obsolete)\b', re.I)
+# VSC-353: an exit-code MEANING line ("exit 0 = clean, exit 1 = finding"): every figure on it is an
+# exit/rc shape followed by "=", an arrow or "means". A measured status ("exits 0 at 12 CURRENT") has a
+# different tail and stays a figure; so does any line carrying a non-rc figure.
+RC_MEANING_TAIL = re.compile(r'^[*`_]*\s*(?:=|->|\u2192|means\b)')
+# VSC-353 clause B: "<n> declared" is compared with the number of paths .gitmodules declares.
+DECLARED_RE = re.compile(r'\b(' + NUM + r')' + MK + r'\s+' + MK + r'declared\b')
+GITMODULES_REL = '.gitmodules'
+GM_PATH_RE = re.compile(r'^[ \t]*path[ \t]*=[ \t]*\S', re.M)
 AGG_MAX = 30        # an aggregate lists at most this many line numbers
 VERIFY_TYPES = {'green-but-broken', 'coverage-theater', 'rubber-stamp-verified'}
 
@@ -611,6 +706,34 @@ def first_figure(s):
         if m and (best is None or m.start() < best.start()):
             best = m
     return best
+
+
+def exit_meaning_only(s):
+    """True when every figure on the (strike-stripped) line s is an exit/rc shape that is followed by
+    '=' / an arrow / 'means', i.e. the line states what an exit code MEANS, not a measured value."""
+    rcs = list(SHAPES[3].finditer(s))
+    if not rcs:
+        return False
+    for rx in SHAPES[:3]:
+        if rx.search(s):
+            return False
+    return all(RC_MEANING_TAIL.match(s[m.end():]) for m in rcs)
+
+
+def all_figures(s, limit=4):
+    """distinct figure texts of the line in left-to-right order (shapes may overlap; the leftmost wins)"""
+    seen, out = [], []
+    ms = []
+    for rx in SHAPES:
+        ms.extend(rx.finditer(s))
+    for m in sorted(ms, key=lambda m: (m.start(), -m.end())):
+        t = m.group(0)
+        if t not in seen:
+            seen.append(t)
+            out.append(t)
+        if len(out) >= limit:
+            break
+    return out
 
 
 def clean(s, n=48):
@@ -715,11 +838,35 @@ def main():
             m = first_figure(s)
             if m is None or SKIP.search(s):
                 continue
+            if exit_meaning_only(s):
+                continue      # VSC-353: states what an exit code means, not a measured value
+            if i < len(ls) and NEXT_WITHDRAWN.match(STRIKE.sub(' ', ls[i])):
+                continue      # VSC-353: the next line withdraws this one ("That figure is WITHDRAWN")
             if gated and captioned(ls, i):
                 continue      # point-in-time: this entry's own dated caption, true when written (T091)
             t = 'figure:%s:%d' % (e(doc), i)
             fig[t] = (doc, i, l, m)
             pop.add(t)
+
+    # ---- VSC-353 clause B: the real count of declared submodule paths, from .gitmodules AT --root ----
+    decl = None
+    gm_path = os.path.join(base, b(GITMODULES_REL))
+    if not os.path.lexists(gm_path):
+        sys.stderr.write('NOTE: no .gitmodules at --root: the "<n> declared" comparison is skipped (no finding)\n')
+    else:
+        gm_why = unsafe(base, b(GITMODULES_REL))
+        if gm_why:
+            cni.add((GITMODULES_REL, gm_why + ': the "<n> declared" comparison is not made'))
+        else:
+            try:
+                gm_n = len(GM_PATH_RE.findall(read_text(gm_path)))
+            except OSError:
+                gm_n = None
+                cni.add((GITMODULES_REL, '.gitmodules could not be read: the "<n> declared" comparison is not made'))
+            if gm_n:
+                decl = gm_n
+            elif gm_n == 0:
+                sys.stderr.write('NOTE: .gitmodules at --root declares no path: the "<n> declared" comparison is skipped (no finding)\n')
 
     info = []           # per claim row
     idcount = defaultdict(int)
@@ -870,12 +1017,18 @@ def main():
                 cl_texts.add(cls[ln - 1])
     low = defaultdict(list)     # doc -> [(line, figure text)] of LOW unledgered figures
     for t, (doc, i, l, m) in fig.items():
+        if decl is not None and not (doc in MIRRORS and l in cl_texts):
+            claimed = sorted({int(x.replace(',', '')) for x in DECLARED_RE.findall(STRIKE.sub(' ', l))})
+            if decl is not None and any(n != decl for n in claimed):  # DECL-COMPARE
+                findings.add(('medium', t, 'claims %s declared but .gitmodules declares %d (mismatch): the recorded figure disagrees with the real count of declared submodule paths' % (' and '.join(str(n) for n in claimed if n != decl), decl), '%s:%d' % (e(doc), i)))
         if t in covered:
             continue
         if doc in MIRRORS and l in cl_texts:
             continue
         if STATUS.search(l):
-            findings.add(('medium', t, 'recorded figure %s has no re-measure command: no docs/claim-ledger.tsv row anchors this line' % ("'" + clean(m.group(0)) + "'"), '%s:%d' % (e(doc), i)))
+            figs = all_figures(STRIKE.sub(' ', l))
+            shown = "'" + clean(m.group(0)) + "'" + (' (also ' + ', '.join("'" + clean(x, 24) + "'" for x in figs if x != m.group(0)) + ')' if len(figs) > 1 else '')
+            findings.add(('medium', t, 'recorded figure %s has no re-measure command: no docs/claim-ledger.tsv row anchors this line' % shown, '%s:%d' % (e(doc), i)))
         else:
             low[doc].append((i, m.group(0)))
     # reconcile 5: the LOW tier is ONE aggregate finding per document, located figures:<doc>

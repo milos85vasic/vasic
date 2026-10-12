@@ -1,0 +1,16 @@
+# expect.tsv — planted defects of the credentials-public-tree corpus: <location relative to planted/>\t<what is planted>
+# Values are @@ZG-...@@ placeholders expanded in a scratch copy at scan time; the corpus stores no secret-shaped text.
+accounts.md:2	the 'user (password: X)' shape (VSC-388: the sibling detector missed it)
+accounts.md:3	'password: X' in prose
+accounts.md:6	data cell of a markdown table whose header column is 'password'
+accounts.md:8	two-cell key/value table row '| password | X |'
+accounts.md:9	environment-style PASSWORD=X
+accounts.md:10	a backticked value after the word 'password'
+keys.txt:1	AWS access key id shape
+recall.md:2	url-password whose secret contains 'admin' (VSC-388 recall)
+recall.md:3	url-password whose secret contains 'user' (VSC-388 recall)
+recall.md:4	url-password whose secret contains 'token' (VSC-388 recall)
+recall.md:5	marker-value 'password: X' with 'user' inside the value (VSC-388 recall)
+recall.md:6	marker-value 'api_key: X' with 'token' inside the value (VSC-388 recall)
+recall.md:7	marker-value 'secret = "X"' with 'test' inside the value (VSC-388 recall)
+recall.md:8	two-cell table row with 'admin' inside the value (VSC-388 recall)

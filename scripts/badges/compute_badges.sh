@@ -262,8 +262,23 @@ measure_all() {
         # RED — leaving the provenance explaining a colour the badge no longer
         # carried. §11.4.259(C) makes provenance part of the badge's honesty,
         # so a rationale that cannot disagree with its own colour is the point.
+        local why live="" sweep="$ROOT/scripts/audit/zero_findings_sweep.sh"
+        # The ledger is a SNAPSHOT: written by `zero_findings_sweep.sh --write-ledger`,
+        # it silently goes stale as the tree changes, and a badge typed from a stale
+        # snapshot under-states the open findings (VSC-348: 23 shown, 41 live). When the
+        # live sweep is available at this root, re-measure and refuse to present a
+        # ledger whose row count differs from the live TOTAL.
+        if [ -f "$sweep" ]; then
+            live="$(bash "$sweep" --root "$ROOT" 2>&1 | sed -nE 's/.*class=TOTAL[[:space:]]+live=([0-9]+).*/\1/p' | head -1)"
+        fi
         local why
-        if [ "$n" -eq 0 ]; then
+        if [ -f "$sweep" ] && [ -z "$live" ]; then
+            col="red"; msg="ledger unverified"
+            why="RED because the live §11.4.261 sweep is present but produced no TOTAL (it could not determine), so the ledger's ${n} rows cannot be confirmed against the tree; an unconfirmed snapshot is not shown as a count"
+        elif [ -n "$live" ] && [ "$live" != "$n" ]; then
+            col="red"; msg="ledger stale ${n} vs ${live} live"
+            why="RED because the committed ledger has ${n} rows but the live §11.4.261 sweep measures ${live}; the badge refuses to show a stale snapshot. Re-run scripts/audit/zero_findings_sweep.sh --write-ledger and then this script with --write"
+        elif [ "$n" -eq 0 ]; then
             col="green"; msg="0 findings"
             why="GREEN because the §11.4.261 closed-vocabulary sweep found no unclosed-untracked finding"
         elif [ -n "$tot" ] && [ "$n" -le "$tot" ]; then

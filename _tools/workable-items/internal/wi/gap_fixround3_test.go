@@ -152,7 +152,7 @@ func TestI1bAFileFromAPreviousClosureNeverCountsAgain(t *testing.T) {
 				gapRun(t, k.repo, k.db, "verdict", "--id", "VSC-001", "--role", "reviewer", "--actor", "agent-reviewer-D",
 					"--actor-kind", "agent", "--outcome", "0", "--evidence", rev, "--on", clockAsOf)
 				applySQL(t, k.db, `INSERT INTO item_verdicts (item_id,role,actor,actor_kind,on_date,outcome,evidence_path)
-                    VALUES ('VSC-001','verifier','agent-verifier-NEW','agent','2026-09-28',0,'`+k.verdict+`')`)
+                    VALUES ('VSC-001','verifier','agent-verifier-NEW','agent','2026-09-27',0,'`+k.verdict+`')`)
 				args = withArg(args, "--green-evidence", green)
 			}
 			want := map[string]string{"GREEN copy": "GREEN evidence ev/VSC-001-green-copy.json was used in a previous closure",
@@ -176,6 +176,8 @@ func TestI2ValidateFlagsEvidenceDatedAfterTheAsOfDay(t *testing.T) {
 	v := writeRecord(t, k.repo, "ev/VSC-001-verifier-2031.json", map[string]any{"item_id": "VSC-001", "check_id": "CHK-vsc-001",
 		"outcome": 0, "verdict_role": "verifier", "state_fingerprint_before": b, "state_fingerprint_after": b, "ts": "2031-01-01T00:30:00Z", "chain_seq": 91})
 	applySQL(t, k.db, `DELETE FROM item_verdicts WHERE item_id='VSC-001' AND role='verifier'`)
+	// VSC-363: a review is never dated before the GREEN run it reviews, so the reviewer row moves to the GREEN's day.
+	applySQL(t, k.db, `UPDATE item_verdicts SET on_date='2031-01-01' WHERE item_id='VSC-001' AND role='reviewer'`)
 	if rc, out := gapRun(t, k.repo, k.db, "verdict", "--id", "VSC-001", "--role", "verifier", "--actor", "agent-verifier-C",
 		"--actor-kind", "agent", "--outcome", "0", "--evidence", v, "--on", "2031-01-01"); rc != 0 {
 		t.Fatalf("verdict at a 2031 clock: rc %d\n%s", rc, out)

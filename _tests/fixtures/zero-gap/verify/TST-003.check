@@ -1,0 +1,4 @@
+# ineffective fix: fails on both refs
+check_id=fx-both-fail
+pre_fix_ref=zg-prefix
+cmd=exit 1

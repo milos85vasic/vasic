@@ -45,3 +45,9 @@ Create `workshop/pipeline/extract/planted_example.py` with a failing test:
 def test_planted_example():
     assert 1 + 1 == 2
 ```
+
+The vocabulary check flags the word likely and the term possibly whenever a cause is reported (VSC-386 clean control, object of the rule).
+Quoted flagged terms (likely x2, possibly x1, should be x5) are counted, never asserted.
+Bare appears/possibly/apparently are not in the vocabulary of the check.
+FR-020 requires that every finding should be reported with its location.
+A future-dated history row should be a finding, and a missing field should be rejected.

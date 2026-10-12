@@ -512,7 +512,7 @@ detect_uncatalogued() {
     [ -f "$ROOT/$reg" ] || return 2
     local known d f base
     known="$(awk -F'\t' '$1=="check"{print $3} $1=="debt"{print $3} $1=="exempt"{print $2}' "$ROOT/$reg")"
-    local missing_roots=()
+    local missing_roots=() walked=0
     while IFS= read -r d; do
         [ -n "$d" ] || continue
         if [ ! -d "$ROOT/$d" ]; then
@@ -526,6 +526,7 @@ detect_uncatalogued() {
         fi
         while IFS= read -r f; do
             [ -n "$f" ] || continue
+            walked=$((walked+1))
             base="${f#"$ROOT"/}"
             if ! grep -qxF "$base" <<<"$known"; then
                 printf 'uncatalogued\t%s\t%s\t%s\t\n' "$base" "1" \
@@ -537,6 +538,13 @@ detect_uncatalogued() {
         DETECTOR_RECALL="${DETECTOR_RECALL}; SKIPPED scanroot(s) not present on disk and therefore NOT scanned: ${missing_roots[*]}"
         printf 'uncatalogued: %d declared scanroot(s) missing on disk and skipped (UNDETERMINED, not zero): %s\n' \
             "${#missing_roots[@]}" "${missing_roots[*]}" >&2
+        return 2
+    fi
+    if [ "$walked" -eq 0 ]; then
+        # A zero-item walk is an empty population, not a clean one: with no
+        # script ever examined, "nothing un-catalogued" is vacuous.
+        DETECTOR_RECALL="${DETECTOR_RECALL}; ZERO-ITEM WALK: no '*.sh' file was examined under any declared scanroot"
+        printf 'uncatalogued: zero-item walk, no *.sh file examined under any declared scanroot (UNDETERMINED, not zero)\n' >&2
         return 2
     fi
     return 0
@@ -1090,6 +1098,39 @@ prove_failure() {
         caught=$((caught+1))
     else
         printf '  ❌ M14 MISSED  a blinded detector returned rc %s, not 2\n' "$urc"
+    fi
+
+    # ---- M15: a declared scanroot missing on disk must be a 2, never a 0 --
+    total=$((total+1))
+    local stree="$tmp/missroot"
+    build_fixture "$stree" good
+    ROOT="$stree"; do_write_ratchet >/dev/null 2>&1; ROOT="$saved"
+    printf 'scanroot\tno_such_scanroot_dir\n' >> "$stree/scripts/check-registry.tsv"
+    ROOT="$stree"; verdict >/dev/null 2>&1; local srcc=$?; ROOT="$saved"
+    if [ "$srcc" -eq 2 ]; then
+        printf '  ✅ M15 CAUGHT  a declared scanroot absent on disk returned rc 2, not rc 0; an\n'
+        printf '                 uninspected root is never scored as a clean one.\n'
+        caught=$((caught+1))
+    else
+        printf '  ❌ M15 MISSED  a declared-but-absent scanroot returned rc %s, not 2\n' "$srcc"
+    fi
+
+    # ---- M16: a zero-item walk (empty scanroot) must be a 2, never a 0 -----
+    total=$((total+1))
+    local etree="$tmp/emptyroot"
+    build_fixture "$etree" good
+    ROOT="$etree"; do_write_ratchet >/dev/null 2>&1; ROOT="$saved"
+    mkdir -p "$etree/empty_scanroot"
+    { printf 'scanroot\tempty_scanroot\n'
+      awk -F'\t' '$1!="scanroot"' "$etree/scripts/check-registry.tsv"; } > "$etree/reg.new" \
+        && mv "$etree/reg.new" "$etree/scripts/check-registry.tsv"
+    ROOT="$etree"; verdict >/dev/null 2>&1; local erc=$?; ROOT="$saved"
+    if [ "$erc" -eq 2 ]; then
+        printf '  ✅ M16 CAUGHT  an empty scanroot (zero items walked) returned rc 2, not rc 0;\n'
+        printf '                 an empty population is never scored as a clean one.\n'
+        caught=$((caught+1))
+    else
+        printf '  ❌ M16 MISSED  a zero-item walk returned rc %s, not 2\n' "$erc"
     fi
 
     printf '\n  %d/%d mutations caught\n' "$caught" "$total"

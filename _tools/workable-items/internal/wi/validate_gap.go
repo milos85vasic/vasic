@@ -154,7 +154,13 @@ func openRegular(path string) (*os.File, os.FileInfo, error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	f, err := os.OpenFile(real, os.O_RDONLY|syscall.O_NONBLOCK|syscall.O_NOFOLLOW|syscall.O_CLOEXEC, 0)
+	if openRegularHook != nil {
+		openRegularHook(real)
+	}
+	// VSC-363: openNoSymlinks refuses a symlink in ANY component (openat2 with
+	// RESOLVE_NO_SYMLINKS where the kernel has it), not only the final one, so a
+	// parent directory swapped for a link after the resolution above is refused.
+	f, err := openNoSymlinks(real)
 	if err != nil {
 		// ENXIO: a socket (open(2) refuses it); ELOOP: a symlink appeared
 		// under O_NOFOLLOW between the resolution and the open.
@@ -174,6 +180,10 @@ func openRegular(path string) (*os.File, os.FileInfo, error) {
 	}
 	return f, info, nil
 }
+
+// openRegularHook, when set, runs between the symlink resolution and the open of
+// openRegular: the window a parent-directory swap needs. Inert unless a test sets it.
+var openRegularHook func(resolved string)
 
 // readRegular reads a regular file of at most max bytes through openRegular.
 func readRegular(path string, max int64) ([]byte, error) {
@@ -236,8 +246,69 @@ func ReadEvidenceRecord(path string) (*EvidenceRecord, error) {
 	return rec, err
 }
 
+// firstDuplicateKey reports the first object key that occurs twice in one JSON
+// object anywhere in b, compared case-insensitively because encoding/json
+// matches struct fields that way. Malformed JSON reports no duplicate (the
+// strict decode that follows rejects it).
+func firstDuplicateKey(b []byte) (string, bool) {
+	dec := json.NewDecoder(bytes.NewReader(b))
+	var walk func(tok json.Token) (string, bool)
+	walk = func(tok json.Token) (string, bool) {
+		d, ok := tok.(json.Delim)
+		if !ok {
+			return "", false
+		}
+		switch d {
+		case '{':
+			seen := map[string]bool{}
+			for dec.More() {
+				kt, err := dec.Token()
+				if err != nil {
+					return "", false
+				}
+				k, _ := kt.(string)
+				lk := strings.ToLower(k)
+				if seen[lk] {
+					return k, true
+				}
+				seen[lk] = true
+				vt, err := dec.Token()
+				if err != nil {
+					return "", false
+				}
+				if dk, dup := walk(vt); dup {
+					return dk, true
+				}
+			}
+			dec.Token()
+		case '[':
+			for dec.More() {
+				t, err := dec.Token()
+				if err != nil {
+					return "", false
+				}
+				if dk, dup := walk(t); dup {
+					return dk, true
+				}
+			}
+			dec.Token()
+		}
+		return "", false
+	}
+	t, err := dec.Token()
+	if err != nil {
+		return "", false
+	}
+	return walk(t)
+}
+
 // ParseEvidenceRecord decodes and checks one record.
 func ParseEvidenceRecord(b []byte) (*EvidenceRecord, error) {
+	// VSC-363: encoding/json keeps the LAST of two equal keys, so a record could
+	// show one outcome to a reader of the file and another to this tool.
+	if k, dup := firstDuplicateKey(b); dup {
+		return nil, fmt.Errorf("not an evidence record: duplicate JSON key %q (case-insensitive; the last value would silently win)", k)
+	}
 	dec := json.NewDecoder(bytes.NewReader(b))
 	dec.DisallowUnknownFields()
 	var r EvidenceRecord
@@ -1366,8 +1437,16 @@ func (v *gapValidator) ruleG3(r gapRow, hist []histRow, verdicts []verdictRow, d
 
 	// Independent verifier (its evidence RECORD is read) and reviewer.
 	okVerifier, okReviewer, refMatched := false, false, verdictRef == ""
-	for _, vr := range verdicts {
-		if !cut.fresh(vr) {
+	// V-G3(c): per role only the NEWEST fresh row (on_date, then insertion
+	// order) is evaluated; older rows are history and neither satisfy nor
+	// block. The newest row is still held to every check below.
+	newest, excluded := newestVerdictPerRole(verdicts, cut, v.o.AsOf)
+	for _, i := range excluded {
+		vr := verdicts[i]
+		v.find(rule, r.id, "%s verdict row by %s is dated %q, which is not an ISO date on or before --as-of %s; it is excluded from the newest-row ordering and cannot satisfy or supersede anything (V-G3(c))", vr.role, vr.actor, vr.onDate, v.o.AsOf)
+	}
+	for i, vr := range verdicts {
+		if !cut.fresh(vr) || newest[vr.role] != i {
 			continue
 		}
 		switch vr.role {
@@ -1453,6 +1532,8 @@ func (v *gapValidator) ruleG3(r gapRow, hist []histRow, verdicts []verdictRow, d
 				v.undet(rule, r.id, "reviewer evidence %s: %v", vr.evid, err)
 			} else if cut.idx >= 0 && !mt.After(cut.at) {
 				v.find(rule, r.id, "reviewer evidence %s was last written %s, not after the latest reopen (%s) (N3)", vr.evid, mt.UTC().Format(time.RFC3339), cut.at.Format(time.RFC3339))
+			} else if gd := latestGreenDay(greens); gd != "" && vr.onDate != "" && vr.onDate < gd {
+				v.find(rule, r.id, "reviewer %s on_date %s is before the day of the GREEN run it reviews (%s); a review is never dated before the run (VSC-363)", vr.actor, vr.onDate, gd)
 			} else if v.checkDigest(rule, r.id, "reviewer evidence", vr.evid, vr.sha) {
 				okReviewer = true
 			}
@@ -1493,12 +1574,55 @@ func (v *gapValidator) ruleG3(r gapRow, hist []histRow, verdicts []verdictRow, d
 	}
 }
 
+// newestVerdictPerRole picks, per role, the newest FRESH verdict row (on_date,
+// then insertion order). A fresh row whose on_date is not an ISO date, or is
+// after the --as-of day, is EXCLUDED from the ordering and returned in
+// excluded (indices into verdicts) so the caller raises a finding for it: it
+// can neither win the ordering nor hide a later genuine row (V-G3(c)).
+func newestVerdictPerRole(verdicts []verdictRow, cut reopenCut, asOf string) (newest map[string]int, excluded []int) {
+	newest = map[string]int{}
+	for i, vr := range verdicts {
+		if !cut.fresh(vr) {
+			continue
+		}
+		if !validDate(vr.onDate) || vr.onDate > asOf {
+			excluded = append(excluded, i)
+			continue
+		}
+		if j, seen := newest[vr.role]; !seen || vr.onDate >= verdicts[j].onDate {
+			newest[vr.role] = i
+		}
+	}
+	return newest, excluded
+}
+
+// latestGreenDay is the UTC date of the newest cited GREEN record ("" when none).
+func latestGreenDay(greens []citedGreen) string {
+	var best time.Time
+	for _, g := range greens {
+		if g.rec != nil && g.rec.time.After(best) {
+			best = g.rec.time
+		}
+	}
+	if best.IsZero() {
+		return ""
+	}
+	return best.UTC().Format("2006-01-02")
+}
+
 // V-G9 — a closed item whose LATEST evidence, ordered by the time each record
 // was MEASURED (Reopened rows included), is not a passing GREEN record; and no
 // evidence may be dated after the end of the --as-of day (round 3, I2).
 func (v *gapValidator) ruleG9(r gapRow, hist []histRow) {
 	const rule = "V-G9"
 	end := v.asOfEnd()
+	// VSC-363: a history row stamped after the end of --as-of is a forged or
+	// clock-skewed row; it would also outrank every real row in the ordering.
+	for _, h := range hist {
+		if t, ok := parseStamp(h.created); ok && !t.Before(end) {
+			v.find(rule, r.id, "history row %d (%s) is created_at %s, after the end of --as-of %s", h.id, h.event, t.Format(time.RFC3339), v.o.AsOf)
+		}
+	}
 	type ev struct {
 		at      time.Time
 		i       int

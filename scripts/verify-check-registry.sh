@@ -156,6 +156,65 @@ _sha256() {
 }
 
 
+# fact_sha256 FIELD FORMATS (VSC-365). Two spellings are accepted, both backwards-compatible:
+#   <64 hex>                      LEGACY  the sha256 of the single file the row names (its <path>/<entry>).
+#   set:<64 hex>=<spec>[,<spec>…] SET     one digest over EVERY file the declared condition covers. Each <spec> is a
+#                                         path relative to the root; its basename may hold shell globs (*, ?); a leading
+#                                         '!' EXCLUDES the matches of that pattern (e.g. !_tools/x/*_test.go). The digest
+#                                         is sha256 over the lines "<sha256-of-file>  <path>\n" sorted by path in the C
+#                                         locale, so adding, removing, renaming or editing any covered file moves it.
+#                                         A literal include that matches nothing is a FAILURE (a covered path that
+#                                         vanished must not be hashed around).
+# `--print-fact-hash <spec,spec,…> [--root DIR]` prints the complete field for a spec list, so a row is refreshed by a
+# command rather than by hand. Commas separate specs, so a path containing one cannot be covered (none does).
+_sha256_stdin() {
+    local _h
+    _h="$(sha256sum 2>/dev/null | awk '{print $1}')"
+    if [[ "$_h" =~ ^[0-9a-f]{64}$ ]]; then printf '%s' "$_h"; return 0; fi
+    _h="$(shasum -a 256 2>/dev/null | awk '{print $1}')"
+    if [[ "$_h" =~ ^[0-9a-f]{64}$ ]]; then printf '%s' "$_h"; return 0; fi
+    return 1
+}
+
+_fact_set_digest() {   # _fact_set_digest <root> <comma-separated specs>  -> stdout: 64-hex digest ; rc 1 + message on stdout
+    local root="$1" specs="$2" spec pat f h rel skip x matched sorted line=""
+    local inc=() exc=() files=() _specs=()
+    IFS=',' read -r -a _specs <<<"$specs"
+    for spec in "${_specs[@]}"; do
+        [[ -n "$spec" ]] || continue
+        if [[ "${spec:0:1}" == "!" ]]; then exc+=("${spec:1}"); else inc+=("$spec"); fi
+    done
+    [[ ${#inc[@]} -gt 0 ]] || { echo "fact set names no include spec"; return 1; }
+    local oldnull; oldnull="$(shopt -p nullglob)"
+    shopt -s nullglob
+    for pat in "${inc[@]}"; do
+        matched=0
+        for f in "$root"/$pat; do
+            [[ -f "$f" ]] || continue
+            rel="${f#"$root"/}"; skip=0
+            for x in ${exc[@]+"${exc[@]}"}; do
+                # shellcheck disable=SC2053
+                if [[ "$rel" == $x ]]; then skip=1; break; fi
+            done
+            [[ $skip -eq 1 ]] && continue
+            files+=("$rel"); matched=1
+        done
+        if [[ $matched -eq 0 ]]; then
+            eval "$oldnull"; echo "covered path matches no file: $pat"; return 1
+        fi
+    done
+    eval "$oldnull"
+    sorted="$(printf '%s\n' "${files[@]}" | LC_ALL=C sort -u)"
+    while IFS= read -r f; do
+        [[ -n "$f" ]] || continue
+        h="$(_sha256 "$root/$f")"
+        [[ "$h" != "?" ]] || { echo "cannot hash $f"; return 1; }
+        line+="$h  $f"$'\n'
+    done <<<"$sorted"
+    printf '%s' "$line" | _sha256_stdin || { echo "cannot hash the set"; return 1; }
+}
+
+
 SELF_NAME="$(basename -- "${BASH_SOURCE[0]}")"
 SELF_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)" || {
     echo "FATAL: cannot resolve script directory" >&2; exit 2; }
@@ -167,6 +226,7 @@ QUIET=0
 LIST=0
 PROVE=0
 PROVE_FILEMODE=0
+PRINT_FACT=""
 
 PROBE_TIMEOUT="${CHECKREG_PROBE_TIMEOUT:-60}"
 PROOF_TIMEOUT="${CHECKREG_PROOF_TIMEOUT:-900}"
@@ -184,11 +244,18 @@ while [[ $# -gt 0 ]]; do
         --list)          LIST=1 ;;
         --prove-failure) PROVE=1 ;;
         --prove-filemode) PROVE_FILEMODE=1 ;;
+        --print-fact-hash) shift; PRINT_FACT="${1:-}" ;;
         -h|--help)       usage; exit 0 ;;
         *) echo "$SELF_NAME: unknown option '$1'" >&2; usage >&2; exit 2 ;;
     esac
     shift
 done
+
+if [[ -n "$PRINT_FACT" ]]; then
+    _pf_root="${ROOT:-$(cd -- "$SELF_DIR/.." && pwd)}"
+    if _pf="$(_fact_set_digest "$_pf_root" "$PRINT_FACT")"; then printf 'set:%s=%s\n' "$_pf" "$PRINT_FACT"; exit 0; fi
+    echo "$SELF_NAME: --print-fact-hash: $_pf" >&2; exit 2
+fi
 
 # ──────────────────────────────────────────────────────────────────────────────
 # §1.1 PAIRED MUTATION PROOF for _file_mode  —  --prove-filemode
@@ -688,6 +755,53 @@ EOF
     mk_debt_check "$SB/scripts/delta-audit.sh" 0
     write_registry
 
+    # ---- M14 a two-level-deep unregistered script under a `recursive` scanroot (VSC-373) ----
+    # A plain scanroot covers ONE level, so the same script under a plain scanroot is NOT reported (the
+    # control that keeps the depth rule honest); under `scanroot <dir> recursive` it is, and is NAMED.
+    mkdir -p "$SB/deep/inner"; printf '#!/usr/bin/env bash\nexit 0\n' >"$SB/deep/inner/zeta-deep.sh"; chmod 755 "$SB/deep/inner/zeta-deep.sh"
+    printf 'scanroot\tdeep\n' >>"$SB/scripts/check-registry.tsv"
+    expect "M14a plain scanroot does not reach two levels down" 0 "" run_sb --quiet
+    write_registry; printf 'scanroot\tdeep\trecursive\n' >>"$SB/scripts/check-registry.tsv"
+    expect "M14b recursive scanroot names the two-level-deep script" 1 "zeta-deep.sh" run_sb
+    write_registry; printf 'scanroot\tdeep\tbogus\n' >>"$SB/scripts/check-registry.tsv"
+    expect "M14c an unknown scanroot flag is a malformed registry" 2 "only flag is 'recursive'" run_sb
+    rm -rf "$SB/deep"; write_registry
+
+    # ---- M15 a SET fact_sha256 covers every file of the declared condition (VSC-365) --------------------------
+    # The gamma exempt row is rewritten to `set:<digest>=<specs>` over a three-file module (two sources and one
+    # excluded test). The control digest is computed here with plain sha256sum over "hash  path" lines -- the
+    # DEFINITION, not the verifier's own helper -- so the verifier cannot grade itself.
+    mkdir -p "$SB/scripts/gamma-mod"
+    printf 'package g\n// one\n' >"$SB/scripts/gamma-mod/one.go"
+    printf 'package g\n// two\n' >"$SB/scripts/gamma-mod/two.go"
+    printf 'package g\n// test\n' >"$SB/scripts/gamma-mod/x_test.go"
+    G_SPEC='scripts/gamma-install.sh,scripts/gamma-mod/*.go,!scripts/gamma-mod/*_test.go'
+    write_set_registry() {   # write_set_registry <spec> : gamma row becomes a SET row over <spec>'s CURRENT files
+        local spec="$1" files d
+        files="$(cd "$SB" && for g in scripts/gamma-install.sh scripts/gamma-mod/one.go scripts/gamma-mod/two.go; do [ -f "$g" ] && echo "$g"; done | LC_ALL=C sort)"
+        d="$(cd "$SB" && printf '%s\n' "$files" | xargs sha256sum | sha256sum | awk '{print $1}')"
+        write_registry
+        awk -F'\t' -v OFS='\t' -v f7="set:${d}=${spec}" '$1=="exempt" && $2=="scripts/gamma-install.sh" {$7=f7} {print}' \
+            "$SB/scripts/check-registry.tsv" >"$SB/scripts/check-registry.tsv.new" && mv "$SB/scripts/check-registry.tsv.new" "$SB/scripts/check-registry.tsv"
+    }
+    write_set_registry "$G_SPEC"
+    expect "M15a CONTROL set-row (digest from sha256sum) is green" 0 "" run_sb --quiet
+    printf '// planted\n' >>"$SB/scripts/gamma-mod/one.go"
+    expect "M15b edit of a covered module file is FACT DRIFT" 1 "FACT DRIFT" run_sb
+    write_set_registry "$G_SPEC"
+    printf '// planted\n' >>"$SB/scripts/gamma-mod/x_test.go"
+    expect "M15c CONTROL edit of an EXCLUDED file stays green" 0 "" run_sb --quiet
+    printf 'package g\n' >"$SB/scripts/gamma-mod/three.go"
+    expect "M15d a new file matching a covered glob is FACT DRIFT" 1 "FACT DRIFT" run_sb
+    rm -f "$SB/scripts/gamma-mod/three.go"
+    expect "M15d' removing it again returns to green" 0 "" run_sb --quiet
+    mv "$SB/scripts/gamma-mod/two.go" "$SB/two.parked"
+    expect "M15e deleting a covered file is FACT DRIFT" 1 "FACT DRIFT" run_sb
+    mv "$SB/two.parked" "$SB/scripts/gamma-mod/two.go"
+    write_set_registry "$G_SPEC,scripts/gamma-absent.go"
+    expect "M15f a literal covered path that matches nothing is FACT DRIFT" 1 "matches no file" run_sb
+    rm -rf "$SB/scripts/gamma-mod"; write_registry
+
     # ---- RESTORED CONTROL ------------------------------------------------------
     expect "CONTROL restored" 0 "" run_sb --quiet
     expect "CONTROL restored (--run-proofs)" 0 "" run_sb --run-proofs --quiet
@@ -698,7 +812,7 @@ EOF
         exit 1
     fi
     printf '%s✅ CM-CHECK-REGISTRY §1.1 MUTATION PROOF: PASS%s — the real entry point ran against the\n' "$G" "$N"
-    printf '   real tree, a synthetic control passed, and %s mutations were each caught with the\n' "$((P_PASS - 4))"
+    printf '   real tree, a synthetic control passed, and %s mutations were each caught with the\n' "$((P_PASS - 7))"
     printf '   right THREE-VALUED verdict: conformance breaks as rc 1 and NAMED, an unreadable or\n'
     printf '   malformed registry as rc 2 — never as a pass and never as an accusation.\n'
     exit 0
@@ -761,7 +875,7 @@ registry_undet() {
 [[ -r "$REGISTRY" ]] || registry_undet "registry is not readable (permissions): $REGISTRY"
 [[ -s "$REGISTRY" ]] || registry_undet "registry is empty: $REGISTRY"
 
-SCANROOTS=(); EXEMPT_PATHS=(); EXEMPT_REASONS=()
+SCANROOTS=(); SCANROOT_REC=(); EXEMPT_PATHS=(); EXEMPT_REASONS=()
 EXEMPT_AUTH=(); EXEMPT_EVIDENCE=(); EXEMPT_NEXTREVIEW=(); EXEMPT_SHA256=()
 CHK_ID=(); CHK_ENTRY=(); CHK_KIND=(); CHK_ARG=(); CHK_PROBE=()
 DEBT_ID=(); DEBT_ENTRY=(); DEBT_OWED=(); DEBT_REASON=()
@@ -776,7 +890,10 @@ while IFS= read -r raw || [[ -n "$raw" ]]; do
     case "$f1" in
         scanroot)
             [[ -n "${f2:-}" ]] || registry_undet "line $lineno: scanroot row with no directory"
-            SCANROOTS+=("$f2") ;;
+            # VSC-373: the only flag is `recursive` -- the sweep then descends below ONE level, so a subdirectory
+            # added later is covered without anyone hand-listing it (a hand list is what drifted).
+            case "${f3:-}" in ''|recursive) ;; *) registry_undet "line $lineno: scanroot flag '${f3}' is not recognised -- the only flag is 'recursive'" ;; esac
+            SCANROOTS+=("$f2"); SCANROOT_REC+=("${f3:-}") ;;
         exempt)
             # <path> <reason> are the original mandatory pair; <lifting_authority>
             # <lifting_evidence> <next_review> <fact_sha256> are the 2026-09-15
@@ -1033,12 +1150,20 @@ for p in "${CHK_ENTRY[@]}" "${DEBT_ENTRY[@]:-}" "${EXEMPT_PATHS[@]:-}"; do
 done
 
 unregistered=()
-for d in "${SCANROOTS[@]}"; do
+for ((si=0; si<${#SCANROOTS[@]}; si++)); do
+    d="${SCANROOTS[$si]}"
+    # a plain scanroot covers ONE directory level; a `recursive` one covers every level below it
+    # (VSC-373), pruning the directories that hold vendored or third-party trees
+    if [[ "${SCANROOT_REC[$si]:-}" == recursive ]]; then
+        find_args=(-mindepth 1 -type f -name '*.sh' -not -path '*/node_modules/*' -not -path '*/.git/*' -not -path '*/vendor/*')
+    else
+        find_args=(-mindepth 1 -maxdepth 1 -type f -name '*.sh')
+    fi
     while IFS= read -r f; do
         [[ -n "$f" ]] || continue
         rel="${f#"$ROOT"/}"
         [[ -n "${KNOWN[$rel]:-}" ]] || unregistered+=("$rel")
-    done < <(find "$ROOT/$d" -mindepth 1 -maxdepth 1 -type f -name '*.sh' 2>/dev/null | sort)
+    done < <(find "$ROOT/$d" "${find_args[@]}" 2>/dev/null | sort)
 done
 
 if [[ ${#unregistered[@]} -gt 0 ]]; then
@@ -1046,7 +1171,7 @@ if [[ ${#unregistered[@]} -gt 0 ]]; then
         bad "R5" "UNREGISTERED — $u is under a declared scanroot but appears in no check, debt, or exempt row. Every check must be enumerated or SC-012/SC-013 cannot be quantified over it; add a row (or an 'exempt' row with a reason if it is not a check)"
     done
 else
-    ok "R5" "anti-drift: every *.sh under $(printf '%s ' "${SCANROOTS[@]}")is registered as a check, debt, or exemption"
+    ok "R5" "anti-drift: every *.sh under $(for ((si=0; si<${#SCANROOTS[@]}; si++)); do printf '%s%s ' "${SCANROOTS[$si]}" "${SCANROOT_REC[$si]:+ (recursive)}"; done)is registered as a check, debt, or exemption"
 fi
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -1079,7 +1204,14 @@ check_declared_row() {
     elif [[ "$nr" < "$TODAY" ]]; then
         bad "$label" "CADENCE ELAPSED — next_review was $nr, today is $TODAY; this declared condition is due for re-verification (FR-027)"
     fi
-    if [[ -f "$ROOT/$path" ]]; then
+    if [[ "$sha" =~ ^set:([0-9a-f]{64})=(.+)$ ]]; then
+        local want="${BASH_REMATCH[1]}" specs="${BASH_REMATCH[2]}" now
+        if ! now="$(_fact_set_digest "$ROOT" "$specs")"; then
+            bad "$label" "FACT DRIFT — the covered set {$specs} can no longer be hashed: $now (a covered file vanished or a spec matches nothing; FR-027)"
+        elif [[ "$now" != "$want" ]]; then
+            bad "$label" "FACT DRIFT — a file covered by this row's fact set {$specs} changed, appeared or vanished since the reason was last verified (recorded ${want:0:12}…, now ${now:0:12}…); re-check the declared reason against every covered file (FR-027)"
+        fi
+    elif [[ -f "$ROOT/$path" ]]; then
         local cur
         cur="$(_sha256 "$ROOT/$path")"
         if [[ "$cur" != "?" && "$cur" != "$sha" ]]; then

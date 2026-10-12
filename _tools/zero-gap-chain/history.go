@@ -344,7 +344,7 @@ func redactURL(u string) string {
 	}
 	params := strings.Split(query, "&")
 	for i, p := range params {
-		if eq := strings.IndexByte(p, '='); eq >= 0 && secretName(p[:eq]) {
+		if eq := strings.IndexByte(p, '='); eq >= 0 && secretName(percentDecode(p[:eq])) {
 			params[i] = p[:eq] + "=<redacted>"
 		}
 	}

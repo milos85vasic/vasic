@@ -1131,7 +1131,12 @@ for i in "${!REPO_DIR[@]}"; do
         elif [[ "$f" =~ $INERT_CI_RE ]]; then
             inert="${inert}${f}"$'\n'
         fi
-    done < <(git -C "$d" ls-files 2>/dev/null)
+    # --cached --others --exclude-standard: tracked files PLUS untracked-but-not-
+    # ignored ones. A bare `ls-files` is tracked-only, so a CI config written to
+    # disk but not yet `git add`ed (and so about to trigger provider runs on its
+    # first commit) was invisible to this file-level count (zero-gap class
+    # untracked-blind-window, VSC-375).
+    done < <(git -C "$d" ls-files --cached --others --exclude-standard 2>/dev/null)
     # Count ENTRIES, not `grep -c` lines: the list is kept so the number can be
     # checked against the things it counts.
     an=0; [[ -n "$active" ]] && an=$(printf '%s' "$active" | grep -c '^' )

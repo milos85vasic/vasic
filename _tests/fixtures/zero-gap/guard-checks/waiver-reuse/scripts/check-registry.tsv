@@ -1,0 +1,5 @@
+# fixture registry
+scanroot	scripts
+check	alpha	scripts/alpha.sh	flag	--prove-failure	-
+debt	gamma	scripts/gamma.sh	proof	reason	op	ev	2099-01-01	aa
+exempt	tools/x.sh	reason	op	ev	2099-01-01	aa

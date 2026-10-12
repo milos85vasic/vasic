@@ -3,8 +3,12 @@
 #
 # WHAT IT DETECTS. Every part of the test-kind coverage matrix docs/zero-gap/coverage.tsv
 # (subject x test kind; one row `subject<TAB>test_kind<TAB>status<TAB>ref`, status one of
-# check | n/a | gap | could-not-run, data-model.md "CoverageCell") that is not honestly covered:
+# check | check-red | designed-red | n/a | gap | could-not-run, data-model.md "CoverageCell") that is not honestly covered:
 #   gap                          FINDING medium test-coverage  (an untested part, names the missing test kind)
+#   check-red                    FINDING medium test-coverage  (the kind RAN but a case failed or rc != 0:
+#                                applied, not proven, so NOT coverage - FR-010/FR-011/SC-005)
+#   designed-red                 NOT a finding when its ref resolves like a check ref (the generator emits it only
+#                                for a gate declared in docs/zero-gap/designed-red.tsv at the declared rc)
 #   check, ref not resolving     FINDING high false-evidence   ("covered" by a check that does not exist)
 #   n/a without a reason         FINDING medium test-coverage  (a silent exemption)
 #   required kind row absent     FINDING medium test-coverage  (a blank cell in the matrix)
@@ -183,6 +187,14 @@ prove_failure() {
     # C20 a gap cell carrying a note is still a gap (a finding, never an unknown status)
     mkbase "$T/c20"; setrow "$T/c20" unit gap:needs-a-harness item-9; runc "$T/c20"
     if [ "$rc" -eq 1 ] && has "FINDING coverage-gaps medium test-coverage cell:s1:unit " && ! has "COULD-NOT-INSPECT"; then ok "C20 gap:<note> => FINDING medium test-coverage, not COULD-NOT-INSPECT"; else bad "C20 rc=$rc out=$out"; fi
+    # C22 check-red (T061 fix 2): a kind that RAN but is red is applied, not proven => a finding, never clean
+    mkbase "$T/c22"; setrow "$T/c22" unit check-red scripts/entry.sh; runc "$T/c22"
+    if [ "$rc" -eq 1 ] && has "FINDING coverage-gaps medium test-coverage cell:s1:unit " && has "check-red" && ! has "COULD-NOT-INSPECT"; then ok "C22 check-red => FINDING medium test-coverage (red is not coverage), not an unknown status"; else bad "C22 rc=$rc out=$out"; fi
+    # C23 designed-red: declared red gate with a resolving ref is not a finding; a dangling ref is false evidence
+    mkbase "$T/c23"; setrow "$T/c23" unit designed-red scripts/entry.sh; runc "$T/c23"
+    if [ "$rc" -eq 0 ] && nofind && ! has COULD-NOT-INSPECT; then ok "C23 designed-red with a resolving ref => no finding, rc 0"; else bad "C23 rc=$rc out=$out"; fi
+    mkbase "$T/c23b"; setrow "$T/c23b" unit designed-red nope.tsv; runc "$T/c23b"
+    if [ "$rc" -eq 1 ] && has "high false-evidence cell:s1:unit "; then ok "C23b designed-red whose ref resolves to nothing => FINDING high false-evidence"; else bad "C23b rc=$rc out=$out"; fi
     # C21 the ref-safety rule decides even when the registry cannot be read: ../x, ./x and /x are
     # dangling (a finding), never 'undetermined'; and a registry id spelled ../x never resolves one
     mkbase "$T/c21"; rm "$T/c21/scripts/check-registry.tsv"; setrow "$T/c21" e2e check ../entry.sh; setrow "$T/c21" unit check chk-real; runc "$T/c21"
@@ -331,7 +343,10 @@ END {
         if (sb == "gap") {
             # gap or gap:<note>: the note never turns a gap into something else
             fnd(loc, "medium", "test-coverage", "subject " E(s) " has no " E(k) " test: the matrix cell is a gap (ref " e(rf) (suf != "" ? ", note " E(suf) : "") ")", ev)
-        } else if (sb == "check" && suf == "") {
+        } else if (sb == "check-red" && suf == "") {
+            # a kind that RAN but is red (failed>0 or rc!=0): applied, not proven (FR-010/FR-011/SC-005)
+            fnd(loc, "medium", "test-coverage", "the " E(k) " test of subject " E(s) " ran but is red (check-red, ref " e(rf) "): applied, not proven, so not coverage", ev)
+        } else if ((sb == "check" || sb == "designed-red") && suf == "") {
             if (rf == "") { fnd(loc, "high", "false-evidence", "check cell for " E(k) " of subject " E(s) " names no check (empty ref), so the claimed coverage cannot exist", ev); continue }
             nb = split(rf, L, ","); dang = ""; und = ""
             for (j = 1; j <= nb; j++) {
@@ -350,7 +365,7 @@ END {
             if (tool == "" || tool == "-") print "C", loc, "the " E(k) " test of subject " E(s) " is recorded as could-not-run and no tool is named"
             else print "C", loc, "the " E(k) " test of subject " E(s) " is recorded as could-not-run: tool " E(tool) " was unusable; this is not a pass"
         } else {
-            print "C", loc, "unknown or blank status " e(st) " for the " E(k) " cell of subject " E(s) "; expected check, n/a, gap or could-not-run"
+            print "C", loc, "unknown or blank status " e(st) " for the " E(k) " cell of subject " E(s) "; expected check, check-red, designed-red, n/a, gap or could-not-run"
         }
     }
     if (miss) exit 3

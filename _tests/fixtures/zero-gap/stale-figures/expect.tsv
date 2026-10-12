@@ -10,7 +10,7 @@ figures:CLAUDE.md	LOW aggregate: 42 checks (line 8), 7 anchors (line 12; its ide
 figure:CLAUDE.md:16	the exit/rc shape: an unledgered "exits **1**" (medium)
 figures:AGENTS.md	LOW aggregate: a mirror-carrier line that DRIFTED from CLAUDE.md (40 vs 42 checks), so it is not deduped
 figures:QWEN.md	LOW aggregate: the NN of NN shape with no ledger row
-figures:GEMINI.md	LOW aggregate: the NN/NN shape with no ledger row
+figures:GEMINI.md	LOW aggregate: the NN/NN shape with no ledger row (line 3) and the VSC-353 declared/owned shapes: 22 declared (line 5), 12 owned of (line 7), 12 owned gitlinks ... 14 declared (line 9)
 figure:README.md:3	KNOWN SEED as an unledgered line: 65 PASS / 0 FAIL recorded with no re-measure command (medium)
 figures:README.md	LOW aggregate: a comma-grouped count (line 5); the hex-only line 7 is NOT a figure
 figure:README.md:9	the rc=N shape with no ledger row (medium)

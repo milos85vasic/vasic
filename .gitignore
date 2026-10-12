@@ -216,3 +216,6 @@ _tools/workable-items/bin/
 _tools/zero-gap-chain/zero-gap-chain
 _tools/zero-gap-chain/*.test
 _tools/zero-gap-chain/bin/
+# `--build-bins <module dir>` writes the two verifier binaries by their own names (VSC-366).
+_tools/zero-gap-chain/zg-chain
+_tools/zero-gap-chain/continuum-integrity

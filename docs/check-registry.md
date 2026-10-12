@@ -48,6 +48,32 @@ vocabulary are already a governance requirement here
 and TSV needs no `python3`/`yq` — a pre-push instrument must not have a parser
 that can fail to load and then report a tree it never read.
 
+### The `fact_sha256` field: one file, or a SET (VSC-365)
+
+The last field of an `exempt` or `debt` row anchors the fact the row's reason was verified against. Two spellings:
+
+| spelling | meaning |
+|---|---|
+| `<64 hex>` | LEGACY: sha256 of the single file the row names. |
+| `set:<64 hex>=<spec>[,<spec>...]` | one digest over EVERY file the declared condition covers. |
+
+A `<spec>` is a root-relative path whose basename may contain shell globs; a leading `!` excludes the matches of that
+pattern. The digest is the sha256 of the lines `<sha256 of file>  <path>` (exactly `sha256sum` output) sorted by path in
+the C locale, so adding, removing, renaming or editing any covered file moves it and the row is reported as
+`FACT DRIFT` until its reason is re-checked. A literal include that matches no file is also `FACT DRIFT`. Why it exists:
+the exempt row for `scripts/zero-gap-evidence.sh` described behaviour implemented in `_tools/zero-gap-chain`, but hashed
+only the shell adapter, so an edit of `argvpolicy.go` changed the behaviour the reason asserts and no gate noticed.
+
+Refresh a row with a command, never by hand (the printed value is the whole field):
+
+```bash
+bash scripts/verify-check-registry.sh --print-fact-hash \
+  'scripts/zero-gap-evidence.sh,scripts/zero-gap-lib.sh,_tools/zero-gap-chain/*.go,_tools/zero-gap-chain/go.mod,!_tools/zero-gap-chain/*_test.go'
+```
+
+Re-read the reason against every covered file before pasting the new field. `--prove-failure` mutations `M15a`-`M15f`
+cover it, with the control digest computed by plain `sha256sum` rather than by the verifier's own helper.
+
 ## Anti-drift
 
 A hand-maintained list rots. Both directions are closed:

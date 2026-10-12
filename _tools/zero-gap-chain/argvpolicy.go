@@ -48,6 +48,9 @@ import (
 //     password `scheme://TOKEN@host` (a token-only URL) — except the exact
 //     user `git@`, the conventional ssh user of git hosts.
 //
+// Percent-encoded names (%HH) are decoded before judging; the bare names auth, creds and pat
+// (segments) are secret-shaped since VSC-364.
+//
 // NOT caught, by construction: a value with no secret-shaped name, flag, key or
 // URL around it (`redis-cli -a X`; `-a` is refused by NO rule, because it is
 // ls/cp/rsync/grep/git territory and a blanket refusal would make the adapter
@@ -190,6 +193,7 @@ func mixedScript(name string) bool {
 // shell (an unquoted `\x77` is decoded too): every extra decoding can only
 // add a refusal, never hide one.
 func normalizeArg(s string) string {
+	s = percentDecode(s)
 	s = strings.ReplaceAll(strings.ReplaceAll(s, `$'`, ""), `$"`, "")
 	var b strings.Builder
 	b.Grow(len(s))
@@ -213,6 +217,32 @@ func normalizeArg(s string) string {
 		}
 	}
 	return b.String()
+}
+
+// percentDecode replaces every valid %HH sequence by its byte (VSC-364 / T014 N1),
+// so `?%74oken=X` reads `?token=X`. Invalid sequences stay literal. Decoding runs
+// before the quote/escape pass, and may be repeated once for double encoding
+// (`%2574` -> `%74` -> `t`); more decoding only ever refuses more.
+func percentDecode(s string) string {
+	for pass := 0; pass < 2 && strings.Contains(s, "%"); pass++ {
+		var b strings.Builder
+		changed := false
+		for i := 0; i < len(s); i++ {
+			if s[i] == '%' && i+2 < len(s) && isHex(s[i+1]) && isHex(s[i+2]) {
+				v, _ := strconv.ParseUint(s[i+1:i+3], 16, 8)
+				b.WriteByte(byte(v))
+				i += 2
+				changed = true
+				continue
+			}
+			b.WriteByte(s[i])
+		}
+		s = b.String()
+		if !changed {
+			break
+		}
+	}
+	return s
 }
 
 // decodeEscape decodes the escape body after a backslash: \xHH, \uHHHH,
@@ -306,6 +336,9 @@ func secretName(name string) bool {
 	for _, seg := range segRe.Split(n, -1) {
 		switch {
 		case seg == "":
+		case seg == "auth", seg == "creds", seg == "pat":
+			// VSC-364 / T014 N2: --auth, --creds, --pat, NPM_AUTH=, X-Auth:
+			return true
 		case seg == "pw", strings.HasPrefix(seg, "pass"), strings.HasPrefix(seg, "pwd"):
 			return true
 		case strings.HasSuffix(seg, "pwd"):

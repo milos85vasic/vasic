@@ -178,6 +178,46 @@ if [[ "$MODE" == "prove" ]]; then
     else
         printf 'SKIP       %-34s no qualifying historical commit to rewind to (§11.4.3: stated, not silent)\n' "M6 unsynced commit"
     fi
+    # ---- C7 gate-id grammar (fixture roots; the live document is untouched) ----
+    # The runner's grammar is GATE_IDS=(E Z0 Z1 0 1 ... 6): one [A-Z0-9], or a
+    # letter followed by a digit (Z0, Z1). Both extraction sites of C7 must agree.
+    printf '\n%s=== C7 gate-id grammar ===%s\n' "$B" "$N"
+    c7_fixture() {                     # dir | runner ids (space-sep) | doc ids (space-sep, literal cells)
+        local d="$1" rids="$2" dids="$3" id
+        mkdir -p "$d/scripts"
+        {
+            printf 'GATE_IDS=(%s)\n' "$rids"
+            printf 'gate_cmd_text() {\n    case "$1" in\n'
+            for id in $rids; do printf '        %s) echo "run %s" ;;\n' "$id" "$id"; done
+            printf '        *) echo "-" ;;\n    esac\n}\n'
+        } > "$d/scripts/pre-push-gates.sh"
+        {
+            printf '# Doc\n\n## §6 Gates\n\n| id | command |\n|---|---|\n'
+            for id in $dids; do printf '| %s | run %s |\n' "$id" "$id"; done
+            printf '|  | run empty |\n\n## §7 Next\n'
+        } > "$d/CONTINUATION.md"
+    }
+    c7_case() {                        # name | runner ids | doc ids | expect PASS|DRIFT | needle
+        local name="$1" rids="$2" dids="$3" want="$4" needle="$5" d out line
+        d="$(mktemp -d)"; c7_fixture "$d" "$rids" "$dids"
+        out="$(bash "${BASH_SOURCE[0]}" "$d" 2>&1)"
+        line="$(grep -F '[C7]' <<<"$out" | head -n1)"
+        rm -rf "$d"
+        if [[ "$line" == *"$want"* ]] && grep -qF -- "$needle" <<<"$line"; then
+            printf '%sPROOF OK%s   %-34s C7 %s, named: %s\n' "$G" "$N" "$name" "$want" "$needle"
+        else
+            printf '%sPROOF FAIL%s %-34s wanted C7 %s + %s, got: %s\n' "$R" "$N" "$name" "$want" "$needle" "${line:-<no C7 line>}"
+            fails=$((fails+1))
+        fi
+    }
+    c7_case "C7a two-char id both sides"   "E Z0 Z1 0" "E Z0 Z1 0" PASS "4 gate(s)"
+    c7_case "C7a two-char ids listed"      "E Z0 Z1 0" "E Z0 Z1 0" PASS "Z1"
+    c7_case "C7b two-char id missing in §6" "E Z0 Z1"  "E Z0"      DRIFT "gate 'Z1'"
+    c7_case "C7b two-char id only in §6"   "E"         "E Z9"      DRIFT "gate 'Z9'"
+    c7_case "C7c single-char both sides"   "E 0 1"     "E 0 1"     PASS "E 0 1"
+    c7_case "C7c single-char missing"      "E 0 1"     "E 1"       DRIFT "gate '0'"
+    c7_case "C7d lowercase/3-char/empty ignored" "E 0" "E 0 z0 ZZ0 q"  PASS "E 0"
+    c7_case "C7d 3-char is not a gate"     "E 0"       "E 0 ZZ0"   PASS "2 gate"
     printf '\n%s=== rc=2 branch (could not determine) ===%s\n' "$B" "$N"
     # A STRUCTURALLY VALID document in an environment that cannot answer:
     # no git repository, no carriers, no constitution, no gate runner. Drift
@@ -483,12 +523,16 @@ else
                 [[ -n "$rid" ]] || continue
                 RUNGATE["$rid"]="$rcmd"; RUN_IDS+=("$rid")
             done <<< "$RUNTABLE"
+            # Gate-id grammar, derived from the runner's GATE_IDS (E Z0 Z1 0..6): one
+            # [A-Z0-9], or a letter then a digit. ONE definition feeds BOTH the
+            # bash filter and the grep that selects §6 rows, so they cannot diverge.
+            GATE_ID_RE='[A-Z0-9]|[A-Z][0-9]'
             declare -A DOCGATE=()
             while IFS='|' read -r _ gid gcmd _; do
                 gid="$(trim "$gid")"; gcmd="$(trim "$gcmd")"
-                [[ "$gid" =~ ^[A-Z0-9]$ ]] || continue
+                [[ "$gid" =~ ^(${GATE_ID_RE})$ ]] || continue
                 DOCGATE["$gid"]="$gcmd"
-            done < <(awk '/^#{1,3} §6 /{f=1;next} f&&/^#{1,3} §/{exit} f' "$DOC" | grep -E '^\|[[:space:]]*[A-Z0-9][[:space:]]*\|')
+            done < <(awk '/^#{1,3} §6 /{f=1;next} f&&/^#{1,3} §/{exit} f' "$DOC" | grep -E "^\\|[[:space:]]*(${GATE_ID_RE})[[:space:]]*\\|")
             c7_bad=0
             if [[ ${#DOCGATE[@]} -eq 0 ]]; then
                 drift C7 "§6 exposes no parseable gate table, but the live runner defines ${#RUN_IDS[@]} gate(s) (${RUN_IDS[*]}) — the document does not tell anyone how to run them."

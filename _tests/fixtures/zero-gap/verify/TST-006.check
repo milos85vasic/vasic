@@ -1,0 +1,4 @@
+# the check itself cannot determine on the current ref (pre-fix ref: fails as a real check would)
+check_id=fx-undet
+pre_fix_ref=zg-prefix
+cmd=if grep -q BUG app.txt; then exit 1; else exit 2; fi

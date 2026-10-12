@@ -1,0 +1,4 @@
+# exit status outside the 0|1|2 contract => outcome 2, never a verdict
+check_id=fx-outofcontract
+pre_fix_ref=zg-prefix
+cmd=exit 7

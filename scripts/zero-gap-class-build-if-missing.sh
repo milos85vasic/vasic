@@ -303,6 +303,23 @@ third_party_prefixes() {
 # scan <base dir> <mode: live|corpus>  -> fills SCAN_G (guard records), SCAN_F, POP (encoded tokens),
 # NONREG (raw paths of candidates that are not regular files: never read)
 # Exit 0 ok, 2 cannot enumerate.
+# alias_target <base> <mode> <rel link path>: the base-relative path of the regular file an in-tree tracked symlink
+# resolves to; rc 1 unless it stays inside base, is a regular non-symlink file and (live mode) belongs to the SAME
+# git repository as the link. Dangling, out-of-tree and cross-repository links are not aliases.
+alias_target() {
+    local b=$1 m=$2 rel=$3 breal real t1 t2
+    breal=$(cd "$b" 2>/dev/null && pwd -P) || return 1
+    real=$(readlink -f -- "$b/$rel" 2>/dev/null) || return 1
+    [ -f "$real" ] && [ ! -L "$real" ] || return 1
+    case "$real" in "$breal"/*) ;; *) return 1 ;; esac
+    if [ "$m" = live ]; then
+        t1=$(git -C "$(dirname -- "$b/$rel")" rev-parse --show-toplevel 2>/dev/null) || return 1
+        t2=$(git -C "$(dirname -- "$real")" rev-parse --show-toplevel 2>/dev/null) || return 1
+        [ "$t1" = "$t2" ] || return 1
+    fi
+    printf '%s\n' "${real#"$breal"/}"
+}
+
 scan() {
     local base=$1 mode=$2 tmp p
     tmp=$(mktemp -d "${TMPDIR:-/tmp}/zg-bim.XXXXXX") || return 2
@@ -333,8 +350,14 @@ scan() {
     # reader forever; a symlink can leave the tree): it is reported COULD-NOT-INSPECT by the caller
     : >"$tmp/scan.z"; NONREG=""
     while IFS= read -r -d '' p; do
-        if [ -f "$base/$p" ] && [ ! -L "$base/$p" ]; then printf '%s\0' "$p" >>"$tmp/scan.z"; else NONREG+="$p"$'\n'; fi
+        if [ -f "$base/$p" ] && [ ! -L "$base/$p" ]; then printf '%s\0' "$p" >>"$tmp/scan.z"
+        elif [ -L "$base/$p" ] && tgt=$(alias_target "$base" "$mode" "$p"); then
+            # VSC-372: an in-tree symlink to a regular file of the SAME repository is an alias; the target is
+            # scanned under its own name (once), so the link is neither read through nor a COULD-NOT-INSPECT
+            printf '%s\0' "$tgt" >>"$tmp/scan.z"
+        else NONREG+="$p"$'\n'; fi
     done <"$tmp/cand.z"
+    sort -zu "$tmp/scan.z" >"$tmp/scan.u" && mv "$tmp/scan.u" "$tmp/scan.z"
     : >"$tmp/rec"
     if [ -s "$tmp/scan.z" ]; then
         ( cd "$base" && xargs -0 -a "$tmp/scan.z" awk "$DETECTOR" ) >"$tmp/rec" 2>"$tmp/awkerr" || { cni awk "the detector failed: $(head -c 200 "$tmp/awkerr" | tr -c '[:print:]' ' ')"; return 2; }
@@ -523,6 +546,15 @@ prove_failure() {
     printf '[ -x ./b ] || bash ./build.sh\n' >"$T/outside.sh"; ln -s "$T/outside.sh" "$T/sl/scripts/restart.sh"; git -C "$T/sl" add -A
     out=$(timeout -k 5 30 bash "$SELF" --root "$T/sl"); rc=$?
     if [ $rc -eq 2 ] && grep -q '^COULD-NOT-INSPECT scripts/restart.sh ' <<<"$out" && ! grep -q '^FINDING' <<<"$out"; then ok "M10 tracked symlink => COULD-NOT-INSPECT, not followed, rc 2"; else bad "M10 rc=$rc: $out"; fi
+
+    # M10b (VSC-372) an in-tree symlink to a regular file of the same repository is an ALIAS: the target is scanned
+    # under its own name, the link is no COULD-NOT-INSPECT; a dangling link stays COULD-NOT-INSPECT
+    mkrepo al
+    printf '#!/usr/bin/env bash\nbash ./build.sh\n' >"$T/al/scripts/start.sh"
+    printf '[ -x ./b ] || bash ./build.sh\n' >"$T/al/scripts/real-guard.sh"; ln -s real-guard.sh "$T/al/scripts/restart.sh"
+    ln -s no-such-target.sh "$T/al/scripts/start-dangling.sh"; git -C "$T/al" add -A
+    out=$(timeout -k 5 30 bash "$SELF" --root "$T/al"); rc=$?
+    if grep -q '^FINDING .* scripts/real-guard.sh:' <<<"$out" && ! grep -q '^COULD-NOT-INSPECT scripts/restart.sh ' <<<"$out" && grep -q '^COULD-NOT-INSPECT scripts/start-dangling.sh ' <<<"$out" && [ $rc -eq 1 ]; then ok "M10b in-tree symlink => alias scanned via its target (finding at the target), dangling link stays COULD-NOT-INSPECT"; else bad "M10b rc=$rc: $out"; fi
 
     # M11 third-party trees derived from helix-deps.yaml and the vendored .specify/ tree are excluded
     mkrepo tp

@@ -984,7 +984,7 @@ zge_prove_failure() (
     # `go test -c` in the shim module would drop INSIDE the repository must be
     # git-ignored (§11.4.30: the `commit` wrapper runs `git add .`).
     ig=0
-    for p in _tools/zero-gap-chain/zero-gap-chain _tools/zero-gap-chain/zero-gap-chain.test _tools/zero-gap-chain/bin/zg-chain _tools/zero-gap-chain/bin/continuum-integrity; do
+    for p in _tools/zero-gap-chain/zero-gap-chain _tools/zero-gap-chain/zero-gap-chain.test _tools/zero-gap-chain/bin/zg-chain _tools/zero-gap-chain/bin/continuum-integrity _tools/zero-gap-chain/zg-chain _tools/zero-gap-chain/continuum-integrity; do
         git -C "$ZGE_ROOT" check-ignore -q -- "$p" || { ig=1; echo "    FAIL detail: $p is NOT git-ignored"; }
     done
     [ "$ig" -eq 0 ] && ok "E31 build artefacts of the shim module (go build ./zero-gap-chain, go test -c *.test, bin/) are git-ignored" \

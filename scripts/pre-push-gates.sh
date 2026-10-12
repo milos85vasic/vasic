@@ -46,7 +46,7 @@
 #                         a §11.4.40 pre-tag sweep, where a SKIP is not good
 #                         enough)
 #   PREPUSH_ONLY="E 0 1"  run only the listed gate ids (debugging / mutation
-#                         proofs); ids are E 0 1 2 3 4 5 6
+#                         proofs); ids are E Z0 Z1 0 1 2 3 4 5 6
 #
 #   There is deliberately NO switch that skips gate E. §11.4.156 states: "No
 #   escape hatch — no --allow-ci, --enable-workflow, --keep-pipeline,
@@ -171,10 +171,12 @@ CI_PROBE_RE='^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$'
 
 # ---- Gate table --------------------------------------------------------------
 # id | short name | provenance
-GATE_IDS=(E 0 1 2 3 4 5 6)
+GATE_IDS=(E Z0 Z1 0 1 2 3 4 5 6)
 gate_name() {
     case "$1" in
         E) echo "§11.4.156(E) no active root CI config" ;;
+        Z0) echo "zero-gap: no check weakened (FR-023)" ;;
+        Z1) echo "zero-gap: no third-party edit (FR-021)" ;;
         0) echo "hardcoded path audit" ;;
         1) echo "Go unit tests (_tools/gen)" ;;
         2) echo "hardcoding audit (builds the Go generator)" ;;
@@ -188,6 +190,8 @@ gate_name() {
 gate_cmd_text() {
     case "$1" in
         E) echo "git ls-files | grep -E '${CI_PROBE_RE}'   (must be EMPTY)" ;;
+        Z0) echo "bash scripts/zero-gap-guard-checks.sh" ;;
+        Z1) echo "bash scripts/zero-gap-third-party-guard.sh" ;;
         0) echo "./scripts/audit-hardcoded-paths.sh" ;;
         1) echo "cd _tools/gen && go test ./..." ;;
         2) echo "bash _tools/audit-hardcoding.sh" ;;
@@ -439,6 +443,17 @@ gate_E() {
     echo "There is no override flag. §11.4.156: 'No escape hatch'."
     return 1
 }
+
+# Feature 010 / T040 (FR-023): a push whose commits remove a check-registry row, delete a check, or add
+# an allow-list/exempt entry without a paired waiver (docs/zero-gap/guard-waivers.tsv) is refused. The
+# script is three-valued (0 holds, 1 weakening found, 2 cannot determine — e.g. no upstream ref), and
+# run_gate maps its rc 2 to UNDET, which blocks the push without accusing the tree.
+gate_Z0() { bash "$ROOT/scripts/zero-gap-guard-checks.sh" --root "$ROOT"; }
+
+# Feature 010 / T041 (FR-021): a push whose commits modify files under submodules/superspec or any gitlink
+# classified third-party in docs/zero-gap/third-party.tsv (derived from .gitmodules + helix-deps.yaml) is
+# refused. Same three-valued contract as Z0; rc 2 (e.g. classification data absent from HEAD) is UNDET.
+gate_Z1() { bash "$ROOT/scripts/zero-gap-third-party-guard.sh" --root "$ROOT"; }
 
 gate_0() { "$ROOT/scripts/audit-hardcoded-paths.sh"; }
 

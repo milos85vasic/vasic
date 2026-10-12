@@ -1,0 +1,4 @@
+# hollow check: only asserts the file exists, so it passes on BOTH refs
+check_id=fx-hollow
+pre_fix_ref=zg-prefix
+cmd=test -f app.txt

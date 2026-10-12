@@ -11,6 +11,19 @@
 #   emitted: none of the D10-proposed extras (content-boundary, claim-ledger, ...) has a defect
 #   class that needs one yet (FR-010's own trigger for adding one).
 #
+# STATUS VOCABULARY (T061 review, 2026-10-12; closed, enforced by scripts/zero-gap-class-coverage-gaps.sh)
+#   check          cases>0 AND failed==0 AND rc==0, evidence bound to its row
+#   check-red      cases>0 but a case failed or rc!=0: applied, NOT proven, NOT coverage (FR-010/FR-011/SC-005)
+#   designed-red   as check-red, but (subject, kind) is declared in docs/zero-gap/designed-red.tsv and the
+#                  measured rc EQUALS the declared expected_rc (a declaration excuses only the failure it names)
+#   gap[:note]     zero cases, no test, or `gap:evidence-mismatch` (evidence header does not bind to the row)
+#   could-not-run:<tool>   n/a:<reason>
+#   Every gap*, check-red and could-not-run cell is also written, by this generator only, to the DERIVED
+#   file <out-dir>/cycle-2-candidates.tsv (subject, test_kind, status, reason, ref): cycle-2 intake, because
+#   the register is frozen at cycle 1 (T038). It adds no register row and reopens no frozen item.
+#   NOTE (counting): submodules/LLMProvider and submodules/llm_provider are SEPARATE gitlinks (different
+#   remotes) pinned to the identical commit, so their cells are the same code counted twice.
+#
 # SUBJECTS — DERIVED, NEVER HAND-LISTED
 #   "root" (the umbrella project itself) + every OWNED submodule that is checked out. "Owned" is
 #   computed EXACTLY like verify-governance-cascade.sh's C1 and like the sibling class
@@ -202,6 +215,78 @@ parse_count() {
     }'
 }
 
+
+# ── evidence_mismatch <file> <subj> <kind> <cases> <failed> <rc> ─ prints a comma list of the header
+#    fields that do NOT bind the evidence file to its TSV row (empty output = bound). The evidence
+#    header written by scripts/zero-gap-coverage-measure.py carries `subject= kind= status= cases=
+#    failed= rc=` on line 1 and `head= tree= ts=` on line 2; an old or hand-copied file lacks or
+#    contradicts them, and a cell resting on it is `gap:evidence-mismatch` (T061 review finding 3).
+evidence_mismatch() {
+    local f="$1" subj="$2" kind="$3" cases="$4" failed="$5" rc="$6" hdr bad="" v
+    if [ ! -f "$f" ]; then printf 'file-absent'; return 0; fi
+    hdr=$(head -2 "$f" 2>/dev/null | tr ' ' '\n')
+    kv() { printf '%s\n' "$hdr" | sed -n "s/^$1=//p" | head -1; }
+    [ "$(kv subject)" = "$subj" ] || bad="$bad,subject"
+    [ "$(kv kind)" = "$kind" ] || bad="$bad,kind"
+    [ "$(kv cases)" = "$cases" ] || bad="$bad,cases"
+    [ "$(kv failed)" = "$failed" ] || bad="$bad,failed"
+    [ "$(kv rc)" = "$rc" ] || bad="$bad,rc"
+    v=$(kv head); printf '%s' "$v" | grep -qE '^[0-9a-f]{40}$' || bad="$bad,head"
+    v=$(kv tree); printf '%s' "$v" | grep -qE '^[0-9a-f]{64}$' || bad="$bad,tree"
+    v=$(kv ts); printf '%s' "$v" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$' || bad="$bad,ts"
+    printf '%s' "${bad#,}"
+}
+
+# ── red_or_check <cases> <failed> <rc> <ref> ─ the FR-010/FR-011/SC-005 rule for a kind that RAN:
+#    covered only when cases>0 AND failed==0 AND rc==0; cases>0 otherwise is `check-red` (applied, not
+#    proven); cases==0 is `gap`. Prints "<status>\t<ref>".
+red_or_check() {
+    local cases="$1" failed="$2" rc="$3" ref="$4"
+    if ! [ "$cases" -gt 0 ] 2>/dev/null; then printf 'gap\t-\n'; return; fi
+    if [ "${failed:-0}" -eq 0 ] 2>/dev/null && [ "${rc:-0}" -eq 0 ] 2>/dev/null; then printf 'check\t%s\n' "$ref"; return; fi
+    printf 'check-red\t%s\n' "$ref"
+}
+
+# ── designed_red <designed-red.tsv> <subj> <kind> <rc> ─ true only when docs/zero-gap/designed-red.tsv
+#    DECLARES this (subject, kind) and its declared expected_rc EQUALS the measured rc: a declaration
+#    excuses exactly the failure it names, never a different one.
+designed_red() {
+    local f="$1" subj="$2" kind="$3" rc="$4"
+    [ -f "$f" ] || return 1
+    awk -F'\t' -v s="$subj" -v k="$kind" -v r="$rc" '$0 !~ /^#/ && $1==s && $2==k && $3==r && $4!="" {f=1} END{exit !f}' "$f"
+}
+
+# ── measured_cell <measured.tsv> <subject> <kind> <root> ─ prints "<status>\t<ref>\t<reason>" for a
+#    REAL-RUN row of scripts/zero-gap-coverage-measure.py (T053; columns subject kind status cases
+#    failed rc evidence cmd), re-derived here from the numbers (the measurer's label is never trusted
+#    upward) and bound to its evidence file. Prints nothing when the cell was never measured.
+measured_cell() {
+    local f="$1" subj="$2" kind="$3" root="$4" st cases failed rc ev mm cs rf
+    [ -f "$f" ] || return 0
+    IFS=$'\t' read -r st cases failed rc ev < <(awk -F'\t' -v s="$subj" -v k="$kind" '$1==s && $2==k {print $3 "\t" $4 "\t" $5 "\t" $6 "\t" $7; exit}' "$f")
+    [ -n "${st:-}" ] || return 0
+    case "$st" in
+        check|check-red)
+            mm=$(evidence_mismatch "$root/$ev" "$subj" "$kind" "${cases:-}" "${failed:-}" "${rc:-}")
+            if [ -n "$mm" ]; then printf 'gap:evidence-mismatch\t-\tevidence-mismatch: %s\n' "$mm"; return 0; fi
+            IFS=$'\t' read -r cs rf < <(red_or_check "${cases:-0}" "${failed:-0}" "${rc:-0}" "$ev")
+            case "$cs" in
+                check) printf 'check\t%s\tfailed=0 rc=0 cases=%s\n' "$rf" "$cases" ;;
+                gap) printf 'gap\t-\tinvocation executed zero cases\n' ;;
+                *)
+                    if designed_red "$root/docs/zero-gap/designed-red.tsv" "$subj" "$kind" "$rc"; then
+                        printf 'designed-red\tdocs/zero-gap/designed-red.tsv\tdeclared designed-red, rc=%s cases=%s failed=%s\n' "$rc" "$cases" "$failed"
+                    else
+                        printf 'check-red\t%s\tcases=%s failed=%s rc=%s (red kind is applied, not proven)\n' "$ev" "$cases" "$failed" "$rc"
+                    fi ;;
+            esac ;;
+        gap) printf 'gap\t-\tmeasured: no invocation or zero cases\n' ;;
+        n/a:*) printf '%s\t-\tdeclared not applicable\n' "$st" ;;
+        could-not-run:*) printf '%s\t-\ttool %s unusable in the measured run\n' "$st" "${st#could-not-run:}" ;;
+        *) printf 'gap\t-\tmeasured status %s is outside the vocabulary\n' "$st" ;;
+    esac
+}
+
 # ── ownership derivation (reused verbatim from zero-gap-class-doc-count-drift.sh's
 #    gitmodules()/namespace()/owned-namespace algorithm, itself "derived exactly like
 #    verify-governance-cascade.sh C1") ────────────────────────────────────────────────────────
@@ -280,20 +365,22 @@ generate() { # <root> <outfile> -> rc 0 written, 2 could not generate
     while IFS= read -r m; do [ -n "$m" ] && subjects+=("$m"); done < <(owned_subjects "$root")
 
     : >"$W/rows"
-    row() { printf '%s\t%s\t%s\t%s\n' "$1" "$2" "$3" "$4" >>"$W/rows"; }
+    row() { printf '%s\t%s\t%s\t%s\t%s\n' "$1" "$2" "$3" "$4" "${5:-}" >>"$W/rows"; }
 
-    local subj kind status ref
+    local subj kind status ref reason
     for subj in "${subjects[@]}"; do
         for kind in $KINDS; do
-            status="gap"; ref="-"
+            status="gap"; ref="-"; reason="no registered or measured test for this kind"
             case "$subj/$kind" in
                 root/unit)
                     if [ -f "$root/_tools/gen/go.mod" ]; then
                         if [ "$go_ok" -eq 1 ]; then
-                            local out2 cnt
-                            out2=$(cd "$root/_tools/gen" && GOPROXY=off timeout 45 go test ./... -count=1 -v 2>&1)
+                            local out2 cnt fcnt rcu
+                            out2=$(cd "$root/_tools/gen" && GOPROXY=off timeout 45 go test ./... -count=1 -v 2>&1); rcu=$?
                             cnt=$(printf '%s\n' "$out2" | grep -c '^--- PASS:')
+                            fcnt=$(printf '%s\n' "$out2" | grep -c '^--- FAIL:')
                             read -r status ref < <(decide_status "$cnt" 1 go "_tools/gen/go.mod")
+                            if [ "$status" = "check" ] && { [ "$fcnt" -gt 0 ] || [ "$rcu" -ne 0 ]; }; then status="check-red"; reason="cases=$cnt failed=$fcnt rc=$rcu (red kind is applied, not proven)"; fi
                         else
                             read -r status ref < <(decide_status 0 0 go "_tools/gen/go.mod")
                         fi
@@ -339,12 +426,32 @@ generate() { # <root> <outfile> -> rc 0 written, 2 could not generate
                     fi
                     ;;
             esac
-            row "$subj" "$kind" "$status" "$ref"
+            # REAL-RUN overlay (T053): a measured row (scripts/zero-gap-coverage-measure.py) wins over the
+            # default `gap` of a cell this generator does not run itself; the three cells it runs
+            # itself (root unit/mutation/security) are kept as executed above.
+            case "$subj/$kind" in root/unit|root/mutation|root/security) ;; *)
+                local mc; mc=$(measured_cell "$root/docs/zero-gap/coverage-measured.tsv" "$subj" "$kind" "$root")
+                [ -n "$mc" ] && IFS=$'\t' read -r status ref reason <<<"$mc" ;;
+            esac
+            row "$subj" "$kind" "$status" "$ref" "$reason"
         done
+        # extra kinds (T053; allowed by FR-010 clarification 5): any measured kind outside KINDS
+        local xk
+        while IFS= read -r xk; do
+            [ -n "$xk" ] || continue
+            local mc2; mc2=$(measured_cell "$root/docs/zero-gap/coverage-measured.tsv" "$subj" "$xk" "$root")
+            [ -n "$mc2" ] && { IFS=$'\t' read -r status ref reason <<<"$mc2"; row "$subj" "$xk" "$status" "$ref" "$reason"; }
+        done < <(awk -F'\t' -v s="$subj" -v K=" $KINDS " 'NR>1 && $1==s && index(K, " " $2 " ")==0 {print $2}' "$root/docs/zero-gap/coverage-measured.tsv" 2>/dev/null | LC_ALL=C sort -u)
     done
 
-    { printf 'subject\ttest_kind\tstatus\tref\n'; LC_ALL=C sort -t "$(printf '\t')" -k1,1 "$W/rows"; } >"$W/coverage.tsv.new"
+    { printf 'subject\ttest_kind\tstatus\tref\n'; LC_ALL=C sort -t "$(printf '\t')" -k1,1 "$W/rows" | cut -f1-4; } >"$W/coverage.tsv.new"
+    # cycle-2 intake (SC-005): every cell that is not proven (gap*, check-red, could-not-run) is DERIVED
+    # here, never hand-typed; the register is frozen at cycle 1 so this file is intake, not register rows.
+    { printf 'subject\ttest_kind\tstatus\treason\tref\n'
+      LC_ALL=C sort -t "$(printf '\t')" -k1,1 -k2,2 "$W/rows" | awk -F'\t' -v OFS='\t' '$3 ~ /^(gap|check-red|could-not-run)/ { print $1, $2, $3, $5, $4 }'
+    } >"$W/cand.new"
     mkdir -p "$(dirname "$out")" || { echo "zero-gap-coverage: cannot create $(dirname "$out")" >&2; return 2; }
+    mv "$W/cand.new" "$(dirname "$out")/cycle-2-candidates.tsv" || { echo "zero-gap-coverage: cannot write cycle-2-candidates.tsv" >&2; return 2; }
     mv "$W/coverage.tsv.new" "$out" || { echo "zero-gap-coverage: cannot write $out" >&2; return 2; }
     echo "zero-gap-coverage: wrote $out ($(($(wc -l <"$out") - 1)) cell(s), $(printf '%s\n' "${subjects[@]}" | wc -l) subject(s) x $(printf '%s\n' $KINDS | wc -l) kind(s))"
     return 0
@@ -479,8 +586,8 @@ GM
     if [ "$rc" -eq 2 ] && [ ! -f "$T/out4.tsv" ]; then ok "C8 --root not a git work tree => rc 2"; else bad "C8 rc=$rc"; fi
 
     # C9 every emitted status is one of the four contract values (never blank, never unknown)
-    if awk -F'\t' 'NR>1 && $3!="check" && $3!="gap" && $3!~/^could-not-run:/ && $3!="n/a"{bad=1} END{exit bad}' "$OUTF"; then
-        ok "C9 every status cell is check|gap|could-not-run:<tool>|n/a — the coverage-gaps class's closed vocabulary"
+    if awk -F'\t' 'NR>1 && $3!="check" && $3!="check-red" && $3!="designed-red" && $3!~/^gap(:|$)/ && $3!~/^could-not-run:/ && $3!~/^n\/a/{bad=1} END{exit bad}' "$OUTF"; then
+        ok "C9 every status cell is check|check-red|designed-red|gap[:note]|could-not-run:<tool>|n/a — the coverage-gaps class's closed vocabulary"
     else
         bad "C9 an out-of-vocabulary status was emitted"
     fi
@@ -492,6 +599,54 @@ GM
     else
         bad "C10 missing mktemp/trap/rm -rf in $SELF"
     fi
+
+    # ── measured-evidence policy (T061 review: FR-010 / FR-011 / SC-005) ─────────────────────────
+    # A kind that RAN but is red (failed>0 or rc!=0) is applied, not proven: `check-red`, never `check`.
+    # Only a gate declared in docs/zero-gap/designed-red.tsv whose rc equals the declared one is
+    # `designed-red`. Evidence must be bound (subject/kind/cases/failed/rc + head/tree/ts) or the cell is
+    # `gap:evidence-mismatch`. Every gap / red / could-not-run cell is written to cycle-2-candidates.tsv.
+    local M H40 H64 mrc
+    M="$T/meas"; mkgm "$M"
+    H40=$(printf 'a%.0s' $(seq 1 40)); H64=$(printf 'b%.0s' $(seq 1 64))
+    mkdir -p "$M/docs/zero-gap/coverage-evidence"
+    printf 'subject\tkind\tstatus\tcases\tfailed\trc\tevidence\tcmd\n' >"$M/docs/zero-gap/coverage-measured.tsv"
+    mkev() { # <subj> <kind> <cases> <failed> <rc> <hdr-cases> <bound 1|0>   (TSV row + evidence file)
+        local f="docs/zero-gap/coverage-evidence/$1__$2.txt"
+        { printf 'subject=%s kind=%s status=check cases=%s failed=%s rc=%s\n' "$1" "$2" "$6" "$4" "$5"
+          [ "$7" = 1 ] && printf 'head=%s tree=%s ts=2026-10-12T10:00:00Z\n' "$H40" "$H64"
+          printf 'cmd=x\n---\nout\n'; } >"$M/$f"
+        printf '%s\t%s\tcheck\t%s\t%s\t%s\t%s\tx\n' "$1" "$2" "$3" "$4" "$5" "$f" >>"$M/docs/zero-gap/coverage-measured.tsv"
+    }
+    mkev modA integration 5 0 0 5 1      # green and bound            => check
+    mkev modA e2e 5 2 0 5 1              # failed cases               => check-red
+    mkev modA contract 5 0 1 5 1         # rc 1, undeclared           => check-red
+    mkev modA security 5 0 1 5 1         # rc 1, declared designed-red => designed-red
+    mkev modA perf-load 5 0 3 5 1        # declared rc 1, measured 3   => check-red
+    mkev modA stress-chaos 5 0 0 9 1     # header cases differ         => gap:evidence-mismatch
+    mkev modA regression 5 0 0 5 0       # no head/tree/ts             => gap:evidence-mismatch
+    mkev modA unit 0 0 0 0 1             # zero cases                  => gap
+    printf 'modA\tdeterminism\tcheck\t4\t0\t0\tdocs/zero-gap/coverage-evidence/nope.txt\tx\n' >>"$M/docs/zero-gap/coverage-measured.tsv"   # file absent => gap:evidence-mismatch
+    printf '# subject\tkind\texpected_rc\treason\tref\nmodA\tsecurity\t1\tdeclared red by design for the proof\tCLAUDE.md\nmodA\tperf-load\t1\tdeclared rc 1\tCLAUDE.md\n' >"$M/docs/zero-gap/designed-red.tsv"
+    bash "$SELF" --root "$M" --out "$M/out.tsv" >/dev/null 2>&1; mrc=$?
+    cell() { awk -F'\t' -v s="$1" -v k="$2" '$1==s && $2==k {print $3}' "$M/out.tsv"; }
+    if [ "$mrc" -eq 0 ] && [ "$(cell modA integration)" = "check" ]; then ok "C13 green, bound evidence (failed=0 rc=0 cases>0) => check"; else bad "C13 rc=$mrc got '$(cell modA integration)'"; fi
+    [ "$(cell modA e2e)" = "check-red" ] && ok "C14 cases>0 but failed>0 => check-red (a red kind is applied, not proven)" || bad "C14 got '$(cell modA e2e)'"
+    [ "$(cell modA contract)" = "check-red" ] && ok "C15 cases>0, failed=0 but rc!=0 and NOT declared => check-red" || bad "C15 got '$(cell modA contract)'"
+    [ "$(cell modA security)" = "designed-red" ] && ok "C16 rc matches the gate declared in designed-red.tsv => designed-red" || bad "C16 got '$(cell modA security)'"
+    [ "$(cell modA perf-load)" = "check-red" ] && ok "C17 declared designed-red but measured rc differs from the declared rc => check-red (the declaration cannot excuse a different failure)" || bad "C17 got '$(cell modA perf-load)'"
+    [ "$(cell modA stress-chaos)" = "gap:evidence-mismatch" ] && ok "C18 evidence header cases != TSV cases => gap:evidence-mismatch" || bad "C18 got '$(cell modA stress-chaos)'"
+    [ "$(cell modA regression)" = "gap:evidence-mismatch" ] && ok "C19 evidence header lacks head/tree/ts => gap:evidence-mismatch" || bad "C19 got '$(cell modA regression)'"
+    [ "$(cell modA determinism)" = "gap:evidence-mismatch" ] && ok "C19b evidence file absent => gap:evidence-mismatch" || bad "C19b got '$(cell modA determinism)'"
+    [ "$(cell modA unit)" = "gap" ] && ok "C20 zero cases => gap (FR-011 unchanged)" || bad "C20 got '$(cell modA unit)'"
+    local cand="$M/cycle-2-candidates.tsv"
+    if [ -f "$cand" ] && [ "$(head -1 "$cand")" = "$(printf 'subject\ttest_kind\tstatus\treason\tref')" ] \
+       && awk -F'\t' 'NR>1 && NF!=5 {x=1} END{exit x}' "$cand" \
+       && awk -F'\t' '$1=="modA" && $2=="e2e" && $3=="check-red"{a=1} $1=="modA" && $2=="regression" && $3=="gap:evidence-mismatch"{b=1} $1=="modA" && $2=="integration"{c=1} $1=="modA" && $2=="security"{d=1} END{exit !(a&&b&&!c&&!d)}' "$cand"; then
+        ok "C21 cycle-2-candidates.tsv is generated: 5 columns; lists check-red and evidence-mismatch cells; omits check and designed-red cells"
+    else bad "C21 cycle-2-candidates.tsv missing or wrong ($(head -3 "$cand" 2>/dev/null | tr '\t' '|'))"; fi
+    # C22 the measurer: no hard-coded rc, real failed counts, bound evidence header
+    local mpy; mpy="$(dirname "$SELF")/zero-gap-coverage-measure.py"
+    if python3 "$mpy" --selftest >"$T/mst.out" 2>&1; then ok "C22 measurer --selftest: worst rc and failed count aggregated for real, check/check-red classified, head/tree/ts bound ($(tail -1 "$T/mst.out"))"; else bad "C22 measurer --selftest failed: $(tail -3 "$T/mst.out" | tr '\n' ' ')"; fi
 
     # ── live tree: contract-shaped output, live tree left untouched by this proof ────────────
     h0=$(find "$LIVE/scripts/zero-gap-coverage.sh" "$LIVE/docs/zero-gap/coverage.tsv" -type f -exec sha256sum {} + 2>/dev/null | LC_ALL=C sort | sha256sum)

@@ -35,9 +35,23 @@
 #       status and a "likely result" prediction), 8 normative or comparative ("most likely to",
 #       "should be read"): 2/10. Combined live tree total with both ranges: 55 hits (re-measured
 #       2026-09-26 after T085; the two component counts above are unchanged, only their scope
-#       label moved). Recall: 9 of 9 planted.
+#       label moved). Recall: 9 of 9 planted (12 of 12 with the three VSC-386 counter-cases in guess-more.md).
 #       NOT seen, by design: a term on a line that carries a marker or the 11.4.6 anchor, or
 #       inside a fence or blockquote; the excluded words above.
+#       PRECISION EXEMPTIONS (VSC-386, each with clean controls in clean/ and a planted counter-case in
+#       planted/guess-more.md; a line is judged OCCURRENCE BY OCCURRENCE and is a finding if ANY occurrence
+#       is not exempt): (a) the term is the OBJECT of a statement about the vocabulary — a count annotation
+#       ("likely x2"), a slash list ("bare appears/possibly/apparently"), a naming noun right before it
+#       ("the word likely", "flagged terms (likely"), or "vocabulary" / "guessing word" right after it;
+#       (b) RECORD lines of the sweep's own report — `FINDING ` lines of baseline/sweep-*/report.txt, `{"class":`
+#       lines of report.json, tab rows (>= 4 fields) of FINDINGS-BY-CLASS.tsv — re-report other classes' finding
+#       text verbatim; prose lines of those files, the same file name elsewhere, and every credential or private
+#       -content shape stay read; (c) the MODAL "should be" only, when the line carries an RFC MUST/SHALL/REQUIRED
+#       or an FR-/SC- id, or the object after it names a required outcome ("should be a ... finding", "should be
+#       rejected", "should be rc 1"). Measured on the live tree 2026-10-08: 58 -> 46 guessing rows, 12 dropped,
+#       0 gained: 4 progress.yml member lines + 3 sweep-report rows (the 7 known false positives) and 5
+#       specs/008 lines hand-read as normative ("No automated gate should be built", "should be closed together",
+#       "should be reused"). progress.yml:109 ("possibly multiple concurrent agents") is NOT exempt and stays a finding.
 #
 #   (2) CREDENTIALS -> critical security. Two layers, a hit on either is a finding:
 #       (a) the constitution's scanner, reused BY REFERENCE, read-only:
@@ -362,6 +376,55 @@ function placeholder(v,   l) {
     if (l ~ /^(password|passwd|pass|secret|token|changeme|change_me|redacted|placeholder|example|dummy|x+|\*+)$/) return 1
     return 0
 }
+function guess_object(pre, post) {
+    # VSC-386 (a): the term is the OBJECT of a statement about the vocabulary, not a claim made with it.
+    # Four shapes, each anchored on the term'"'"'s immediate neighbourhood rather than the whole line:
+    # a count annotation ("likely x2"), a slash list ("bare appears/possibly/apparently"), a naming noun right
+    # before it ("the word likely", "flagged terms (likely"), and a vocabulary mention right after it
+    # ("possibly ... not in vocabulary").
+    if (post ~ /^[ \t]*x[0-9]+/) return 1
+    if (pre ~ /\/[ \t]*$/ || post ~ /^[ \t]*\/[a-z]/) return 1
+    if (pre ~ /(^|[^a-z])(word|words|term|terms|vocabulary|flagged|bare|phrase|phrases)[ \t:(]*$/) return 1
+    if (post ~ /^[^.;]{0,40}(vocabulary|guessing (word|term|language))/) return 1
+    return 0
+}
+function guess_normative(t, pre, post, rawl) {
+    # VSC-386 (c): the MODAL "should be" in a rule, contract or expected-behaviour line states what a
+    # thing must be, not what a cause probably was. Only "should be", and only with a cue: an RFC-style
+    # MUST / SHALL / REQUIRED, an FR-/SC- requirement id, or a short object naming the required OUTCOME
+    # ("should be a ... finding", "should be rejected", "should be rc 1"). "should be the reason" has none.
+    if (t != "should be") return 0
+    if (rawl ~ /(^|[^A-Za-z])(MUST|SHALL|REQUIRED)([^A-Za-z]|$)/ || rawl ~ /(^|[^A-Za-z])(FR|SC)-[0-9]+/) return 1
+    if (post ~ /^[ \t]+(an?[ \t]+|the[ \t]+)?[a-z0-9-]*[ \t]*(finding|findings|failure|error|rejected|refused|refusal|rc[ \t]*[0-9]+|violation|flagged|reported|blocked)/) return 1
+    return 0
+}
+function report_record(raw, sweeprpt,   n) {
+    # VSC-386 (b): a record of the sweep'"'"'s OWN report (baseline/sweep-*/report.txt|report.json|FINDINGS-BY-CLASS.tsv)
+    # re-reports other classes'"'"' finding text verbatim. Only the report'"'"'s RECORD lines are exempt from the
+    # guessing detector; credentials and private content are still read, and a prose line is still read.
+    if (!sweeprpt) return 0
+    if (raw ~ /^FINDING /) return 1
+    if (raw ~ /^[ \t]*\{[ \t]*"class"[ \t]*:/) return 1
+    n = gsub(/\t/, "\t", raw)
+    if (sweeprpt == 2 && n >= 3) return 1
+    return 0
+}
+function first_guess(l, rawl,   rest, off, s, e, t, pre, post) {
+    # Every occurrence is judged; the line is a finding when ANY occurrence is neither an object of the
+    # vocabulary nor a normative modal. Returns the term, or "".
+    off = 0; rest = l
+    while (match(rest, guessre)) {
+        s = off + RSTART; e = off + RSTART + RLENGTH - 1
+        while (s <= e && substr(l, s, 1) !~ /[a-z]/) s++
+        while (e >= s && substr(l, e, 1) !~ /[a-z]/) e--
+        t = substr(l, s, e - s + 1); pre = substr(l, 1, s - 1); post = substr(l, e + 1)
+        gsub(/[ \t]+/, " ", t)
+        if (!guess_object(pre, post) && !guess_normative(t, pre, post, rawl)) return t
+        off = e; rest = substr(l, off + 1)
+    }
+    return ""
+}
+
 BEGIN {
     re_aws = "(^|[^A-Z0-9])(AKIA|ASIA|AGPA|AIDA|AROA|ANPA|ANVA|AIPA)" rep("[A-Z0-9]", 16) "([^A-Z0-9]|$)"
     re_pem = "-----BEGIN [A-Z0-9 ]*PRIVATE KEY( BLOCK)?-----"
@@ -430,8 +493,10 @@ BEGIN {
             gsub("[\"\047]" termre "[\"\047]", " ", l)
             gsub("\342\200[\230\234]" termre "\342\200[\231\235]", " ", l)
             w = ""
-            if (match(l, guessre)) w = substr(l, RSTART, RLENGTH)
-            else if (match(l, /(^|[.;:!?][ \t]+)[ \t*_]*it[ \t]+appears([^a-z]|$)/)) w = "it appears"   # sentence-initial only
+            if (!report_record(raw, sweeprpt)) {
+                w = first_guess(l, raw)
+                if (w == "" && !match(l, guessre) && match(l, /(^|[.;:!?][ \t]+)[ \t*_]*it[ \t]+appears([^a-z]|$)/)) w = "it appears"   # sentence-initial only
+            }
             if (w != "") {
                 gsub(/^[^a-z]+|[^a-z]+$/, "", w); gsub(/[ \t]+/, " ", w)
                 print FNR "\tG\t" w
@@ -593,7 +658,10 @@ main() {
             [ -n "$ln" ] && cni "$tok:$ln" "line exceeds $MAXLINE bytes; no detector read it (the credential scanner takes minutes on such lines)"
         done <"$TMPW/long"
         json=0; case "$raw" in *.json|*.jsonl|*.ndjson) json=1 ;; esac
-        if ! hits=$(awk -v priv="$priv" -v json="$json" "$AWK_DETECT" "$region" 2>/dev/null); then
+        sweeprpt=0   # VSC-386 (b): 1 = a sweep report.txt/report.json, 2 = FINDINGS-BY-CLASS.tsv (record lines only are exempt)
+        if [[ "$raw" =~ (^|/)baseline/sweep-[^/]+/(report\.txt|report\.json)$ ]]; then sweeprpt=1
+        elif [[ "$raw" =~ (^|/)baseline/sweep-[^/]+/FINDINGS-BY-CLASS\.tsv$ ]]; then sweeprpt=2; fi
+        if ! hits=$(awk -v priv="$priv" -v json="$json" -v sweeprpt="$sweeprpt" "$AWK_DETECT" "$region" 2>/dev/null); then
             cni "$tok" "the detector program failed on this record"; continue
         fi
         if [ "$LIBOK" -eq 1 ]; then
@@ -744,6 +812,42 @@ It broke, probably because of X.' "$T/m4b/CONTINUATION.md"; rm -f "$T/m4b/CONTIN
     if ! has "$T/m16.out" 'specs/010-other-feature/notes\.md'; then ok "M16c a specs/010-*/ directory other than specs/010-zero-gap-verified-closure/ stays out of scope"; else bad "M16c specs/010-other-feature/ leaked into the population"; fi
     run "$T/m16.pop" -- --root "$T/m16" --emit-population
     if [ "$(wc -l <"$T/m16.pop")" -eq 6 ]; then ok "M16d --emit-population counts exactly the 4 clean-control records plus the 2 in-scope specs/00[2-9]-*/ records"; else bad "M16d $(cat "$T/m16.pop")"; fi
+
+    echo "M17 VSC-386: the sweep's own report RECORD lines are not read for guessing language; nothing else is relaxed"
+    SW="specs/010-zero-gap-verified-closure/baseline/sweep-2026-09-26"
+    GL='FINDING x low other y:1 the cause is probably a race'
+    mkroot "$T/m17"; mkdir -p "$T/m17/$SW"
+    printf '%s\n' "$GL" >"$T/m17/$SW/report.txt"
+    printf '{\n  "findings": [\n    {"class": "x", "description": "the cause is probably a race"}\n  ]\n}\n' >"$T/m17/$SW/report.json"
+    printf 'x\tlow\tother\ty:1\tthe cause is probably a race\ty:1\tcopy\n' >"$T/m17/$SW/FINDINGS-BY-CLASS.tsv"
+    run "$T/m17.out" -- --root "$T/m17"; rc=$?
+    if [ "$rc" -eq 0 ] && [ "$(nfind "$T/m17.out")" -eq 0 ]; then ok "M17a record lines of baseline/sweep-*/report.txt, report.json and FINDINGS-BY-CLASS.tsv are silent (rc 0)"; else bad "M17a rc=$rc $(grep '^FINDING' "$T/m17.out" | cut -d' ' -f5 | tr '\n' ' ')"; fi
+    printf 'The sweep failed probably because the copy was stale.\n' >>"$T/m17/$SW/report.txt"
+    run "$T/m17b.out" -- --root "$T/m17"; rc=$?
+    if [ "$rc" -eq 1 ] && has "$T/m17b.out" "^FINDING private-in-public medium false-evidence $SW/report\\.txt:2 "; then ok "M17b a PROSE line of a sweep report is still read (rc 1 at report.txt:2)"; else bad "M17b rc=$rc $(grep '^FINDING' "$T/m17b.out" | cut -d' ' -f5 | tr '\n' ' ')"; fi
+    mkroot "$T/m17c"; printf '%s\n' "$GL" >"$T/m17c/docs/zero-gap/report.txt"; mkdir -p "$T/m17c/docs/zero-gap/baseline/notes"; printf '%s\n' "$GL" >"$T/m17c/docs/zero-gap/baseline/notes/report.txt"
+    run "$T/m17c.out" -- --root "$T/m17c"; rc=$?
+    if [ "$rc" -eq 1 ] && has "$T/m17c.out" '^FINDING private-in-public medium false-evidence docs/zero-gap/report\.txt:1 ' && has "$T/m17c.out" '^FINDING private-in-public medium false-evidence docs/zero-gap/baseline/notes/report\.txt:1 '; then ok "M17c the same line in a report.txt OUTSIDE baseline/sweep-*/ is still read (2 findings)"; else bad "M17c rc=$rc $(grep '^FINDING' "$T/m17c.out" | cut -d' ' -f5 | tr '\n' ' ')"; fi
+    mkroot "$T/m17d"; mkdir -p "$T/m17d/$SW"; printf 'FINDING x low other y:1 aws_access_key_id = %s\n' "$FAKEKEY" >"$T/m17d/$SW/report.txt"
+    run "$T/m17d.out" -- --root "$T/m17d"; rc=$?
+    if [ "$rc" -eq 1 ] && has "$T/m17d.out" "^FINDING private-in-public critical security $SW/report\\.txt:1 "; then ok "M17d a credential on a report RECORD line is still critical (the exemption is guessing-only)"; else bad "M17d rc=$rc $(grep '^FINDING' "$T/m17d.out" | cut -d' ' -f5 | tr '\n' ' ')"; fi
+
+    echo "M18 VSC-386: the vocabulary-object and normative-modal exemptions, one line each"
+    mkroot "$T/m18"
+    printf '%s\n' 'The check flags the word likely and the term possibly in causal claims.' \
+        'Flagged terms (likely x2, possibly x1, should be x5) are counted.' \
+        'Bare appears/possibly/apparently are outside the vocabulary of the check.' \
+        'FR-020 requires that a finding should be reported with its location.' \
+        'A future-dated row should be a finding.' >>"$T/m18/docs/zero-gap/notes.md"
+    run "$T/m18.out" -- --root "$T/m18"; rc=$?
+    if [ "$rc" -eq 0 ] && [ "$(nfind "$T/m18.out")" -eq 0 ]; then ok "M18a vocabulary-object and normative-modal lines are silent (rc 0)"; else bad "M18a rc=$rc $(grep '^FINDING' "$T/m18.out" | cut -d' ' -f5 | tr '\n' ' ')"; fi
+    mkroot "$T/m18b"
+    printf '%s\n' 'The word likely is listed, yet the outage was probably a DNS fault.' \
+        'The leak should be the cause of the delay.' \
+        'Flagged terms (likely x2), but the deploy is perhaps broken.' \
+        'FR-020 is met, and the failure was probably the proxy.' >>"$T/m18b/docs/zero-gap/notes.md"
+    run "$T/m18b.out" -- --root "$T/m18b"; rc=$?
+    if [ "$rc" -eq 1 ] && [ "$(nfind "$T/m18b.out")" -eq 4 ]; then ok "M18b a real guess next to an exempt occurrence, or a causal should-be, is still found (4 of 4)"; else bad "M18b rc=$rc found=$(nfind "$T/m18b.out") $(grep '^FINDING' "$T/m18b.out" | cut -d' ' -f5 | tr '\n' ' ')"; fi
 
     echo "M5 empty / absent population"
     mkdir -p "$T/m5/docs"; cp "$CB" "$T/m5/docs/content-boundary.md"; git -C "$T/m5" init -q >/dev/null 2>&1

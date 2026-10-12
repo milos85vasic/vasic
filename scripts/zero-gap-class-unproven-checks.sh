@@ -254,6 +254,14 @@ if [ "$PROVE" -eq 1 ]; then
     ntok=$(cd "$T/sym" && env -i PATH="$PATH" HOME="${HOME:-/}" TMPDIR="$T" LC_ALL=C bash "$SELF" --root "$T/sym" --corpus "$T/sym" --emit-population 2>/dev/null | awk 'END{print NR}')
     if [ "$RC" -eq 2 ] && has '^COULD-NOT-INSPECT tools/sub/verify-linked.sh ' && has "^INSPECTED $((ntok - 1))\$" && ! has '^FINDING'; then ok "M$k a symlinked script is COULD-NOT-INSPECT, never read, and INSPECTED ($((ntok - 1))) is one less than the population ($ntok)"; else bad "M$k rc=$RC ntok=$ntok: $OUT"; fi
 
+    # VSC-372: an in-tree symlink to a regular file is an ALIAS of the (already inspected) target: no
+    # COULD-NOT-INSPECT, counted as inspected, no second finding; a dangling link stays COULD-NOT-INSPECT
+    k=$((k + 1)); muts=$((muts + 1)); mk al planted
+    ln -s verify-noproof.sh "$T/al/tools/sub/verify-alias.sh"; ln -s no-such-target.sh "$T/al/tools/sub/verify-dangling.sh"; run "$T/al"
+    ntok=$(cd "$T/al" && env -i PATH="$PATH" HOME="${HOME:-/}" TMPDIR="$T" LC_ALL=C bash "$SELF" --root "$T/al" --corpus "$T/al" --emit-population 2>/dev/null | awk 'END{print NR}')
+    nfind=$(grep -c '^FINDING .* tools/sub/verify-noproof.sh ' <<<"$OUT")
+    if [ "$RC" -eq 1 ] && ! has '^COULD-NOT-INSPECT tools/sub/verify-alias.sh' && has '^COULD-NOT-INSPECT tools/sub/verify-dangling.sh ' && ! has '^FINDING .* tools/sub/verify-alias.sh ' && [ "$nfind" -eq 1 ]; then ok "M$k an in-tree symlink is an alias of its inspected target (no CNI, no second finding); a dangling link stays COULD-NOT-INSPECT"; else bad "M$k rc=$RC nfind=$nfind: $OUT"; fi
+
     # live mode, throwaway git repositories: a tracked path holding a NEWLINE is refused (not split);
     # a third-party gitlink named in helix-deps.yaml and the governance source are not walked, an
     # owned gitlink is
@@ -538,10 +546,37 @@ while IFS=$'\037' read -r ty ln f2 f3 f4 f5 f6 f7 f8 f9; do
     esac
 done <"$W/rows"
 
+# alias_target <rel link path>: prints the repository-relative path of the regular file the tracked symlink
+# resolves to; rc 1 unless that file lies inside BASE, is a regular non-symlink file and (live mode) belongs to the
+# SAME git repository as the link.
+BASE_REAL=$(cd "$BASE" 2>/dev/null && pwd -P)
+alias_target() {
+    local real t1 t2
+    real=$(readlink -f -- "$BASE/$1" 2>/dev/null) || return 1
+    [ -f "$real" ] && [ ! -L "$real" ] || return 1
+    case "$real" in "$BASE_REAL"/*) ;; *) return 1 ;; esac
+    if [ -z "$CORPUS" ]; then
+        t1=$(git -C "$(dirname -- "$BASE/$1")" rev-parse --show-toplevel 2>/dev/null) || return 1
+        t2=$(git -C "$(dirname -- "$real")" rev-parse --show-toplevel 2>/dev/null) || return 1
+        [ "$t1" = "$t2" ] || return 1
+    fi
+    printf '%s\n' "${real#"$BASE_REAL"/}"
+}
+
 # ---- uncovered scripts
 while IFS= read -r p; do
     [ -n "$p" ] || continue
     tp=$(enc "$p")
+    if [ -L "$BASE/$p" ]; then
+        # VSC-372: a tracked symlink whose fully-resolved target is a regular file inside the SAME repository is
+        # an alias. When the target is itself in the population it is reported there (the link is counted as
+        # inspected, not a second report); otherwise the target is read in the link's place. Dangling,
+        # out-of-tree and cross-repository links stay COULD-NOT-INSPECT.
+        if tgt=$(alias_target "$p"); then
+            if grep -qxF -- "$tgt" "$W/paths" || grep -qxF -- "$tgt" "$W/registered" || covered_by_r5 "$tgt"; then n=$((n + 1)); continue; fi
+            p=$tgt; tp=$(enc "$p")
+        fi
+    fi
     if [ -L "$BASE/$p" ] || [ ! -f "$BASE/$p" ]; then cni "$tp" "tracked-script-absent-or-not-a-regular-file-not-read"; continue; fi
     n=$((n + 1))
     gate_like "$(basename -- "$p")" || continue

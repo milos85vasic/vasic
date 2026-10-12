@@ -1,0 +1,22 @@
+# RED capture 1 (script absent): 
+fixtures: guard under test absent: scripts/zero-gap-guard-checks.sh
+rc=2
+
+# RED capture 2 (no-op stub = the state before T040: every diff passes):
+FAIL  noop                       want rc=0 token=[HOLDS]; got rc=0
+FAIL  add-check                  want rc=0 token=[HOLDS]; got rc=0
+FAIL  debt-to-check              want rc=0 token=[HOLDS]; got rc=0
+FAIL  waived-removal             want rc=0 token=[HOLDS]; got rc=0
+FAIL  rm-check-row               want rc=1 token=[REMOVED check alpha]; got rc=0
+FAIL  rm-check-script            want rc=1 token=[DELETED check entry point scripts/beta.sh]; got rc=0
+FAIL  rm-scanroot                want rc=1 token=[REMOVED scanroot scripts]; got rc=0
+FAIL  add-exempt                 want rc=1 token=[ADDED exempt tools/y.sh]; got rc=0
+FAIL  add-debt                   want rc=1 token=[ADDED debt epsilon]; got rc=0
+FAIL  add-allow-line             want rc=1 token=[ADDED allow-list entry new/path/*]; got rc=0
+FAIL  weaken-proof               want rc=1 token=[WEAKENED check beta]; got rc=0
+FAIL  waiver-bad-pair            want rc=1 token=[WAIVER INVALID remove-check alpha]; got rc=0
+FAIL  waiver-self-pair           want rc=1 token=[WAIVER INVALID remove-check alpha]; got rc=0
+FAIL  waiver-reuse               want rc=1 token=[REMOVED check beta]; got rc=0
+FAIL  rm-registry                want rc=1 token=[REMOVED check alpha]; got rc=0
+fixtures: 15 case(s): 0 ok, 15 FAIL
+rc=1

@@ -44,6 +44,10 @@
 #                network or that the workload succeeds end to end (UNCONFIRMED by this class).
 #                A route whose src= or bin= path has ANY symlinked component (the leaf or a directory
 #                such as tools/bin -> outside the tree) is COULD-NOT-INSPECT (never followed; P21d/g/h).
+#                A row whose gate column starts with OPTIONAL: or FALLBACK: (VSC-384) names the tool's
+#                catalogued ROLE (an optional leg / a fallback behind another tool): inspected and not
+#                reported while no scanned probe of it is followed by exit 2 / return 2 / an undet call;
+#                when one is, the label is false and the tool is reported like any other absent tool.
 #                A row whose gate column starts with UNCONFIRMED is registered only when a scanned
 #                script names the tool as a precondition; otherwise it is inspected and not
 #                reported (no measured gate exits 2 on it — docker on this host).
@@ -313,6 +317,20 @@ prove_failure() {
     fresh; rm -f "$work/w/clean/bin/podman"; printf '#!/bin/sh\nexit 0\n' >"$work/w/clean/bin/containedtool"; chmod +x "$work/w/clean/bin/containedtool"
     out=$(run --corpus "$work/w/clean" 2>&1); rc=$?
     if [ "$rc" -eq 1 ] && [ "$(locs "$out")" = "tool:buildabletool" ]; then ok "P21f host binary present => its route is irrelevant (only buildabletool reported)"; else bad "P21f rc=$rc got=[$(locs "$out" | tr '\n' ' ')]"; fi
+
+    # P23 (VSC-384) catalogued ROLE rows: OPTIONAL:/FALLBACK: absent tools are inspected, not reported, unless a gate exits 2 on them
+    fresh; printf 'roleoptional\tcommand -v roleoptional\tOPTIONAL: an optional leg\tnone\tCLAUDE.md, role section\tnone\nrolefallback\tcommand -v rolefallback\tFALLBACK: behind another tool\tnone\tCLAUDE.md, role section\tnone\n' >>"$work/w/clean/docs/zero-gap/toolchains.tsv"
+    printf 'command -v roleoptional >/dev/null 2>&1 || echo "no roleoptional"\ncommand -v rolefallback >/dev/null 2>&1 || echo "no rolefallback"\n' >>"$work/w/clean/scripts/verify-uses.sh"
+    out=$(run --corpus "$work/w/clean" 2>&1); rc=$?
+    if [ "$rc" -eq 0 ] && ! grep -q '^FINDING' <<<"$out" && grep -q 'catalogued OPTIONAL' <<<"$out" && grep -q 'catalogued FALLBACK' <<<"$out"; then ok "P23a OPTIONAL:/FALLBACK: rows for absent tools => rc 0, inspected and not reported"; else bad "P23a rc=$rc: $(tr '\n' '|' <<<"$out" | cut -c1-300)"; fi
+    fresh; printf 'roleoptional\tcommand -v roleoptional\tan optional leg\tnone\tCLAUDE.md, role section\tnone\n' >>"$work/w/clean/docs/zero-gap/toolchains.tsv"
+    printf 'command -v roleoptional >/dev/null 2>&1 || echo "no roleoptional"\n' >>"$work/w/clean/scripts/verify-uses.sh"
+    out=$(run --corpus "$work/w/clean" 2>&1); rc=$?
+    if [ "$rc" -eq 1 ] && [ "$(locs "$out")" = "tool:roleoptional" ]; then ok "P23b control: the same row WITHOUT the OPTIONAL: prefix is reported"; else bad "P23b rc=$rc got=[$(locs "$out" | tr '\n' ' ')]"; fi
+    fresh; printf 'roleoptional\tcommand -v roleoptional\tOPTIONAL: an optional leg\tnone\tCLAUDE.md, role section\tnone\n' >>"$work/w/clean/docs/zero-gap/toolchains.tsv"
+    printf 'command -v roleoptional >/dev/null 2>&1 || exit 2\n' >>"$work/w/clean/scripts/verify-uses.sh"
+    out=$(run --corpus "$work/w/clean" 2>&1); rc=$?
+    if [ "$rc" -eq 1 ] && [ "$(locs "$out")" = "tool:roleoptional" ]; then ok "P23c mutation: an OPTIONAL: label on a tool a gate exits 2 on is false => reported"; else bad "P23c rc=$rc got=[$(locs "$out" | tr '\n' ' ')]"; fi
 
     # P22 (fix 3) PATH dependence is RECORDED: live mode on a throwaway git tree, the same derived tool
     # is reported under one PATH and not under another, and the first stderr line names each PATH's sha
@@ -595,6 +613,11 @@ for item in $POPTXT; do
             case "$gate" in
             UNCONFIRMED*)
                 if [ -z "$users" ]; then echo "[class $CLASS] $item absent; its gate is UNCONFIRMED and no scanned script names it, so it is inspected and not reported" >&2; continue; fi ;;
+            OPTIONAL:*|FALLBACK:*)
+                # VSC-384: a catalogued ROLE. An optional leg or a fallback behind another tool is inspected and not
+                # reported -- but only while no scanned probe of it is followed by exit 2 / return 2 / an undet call;
+                # when one is, the role label is false and the tool is reported like any other absent tool.
+                if [ -z "${DER_CONS[$t]:-}" ]; then echo "[class $CLASS] $item absent; catalogued ${gate%%:*} (no scanned probe of it is followed by exit 2 / return 2 / an undet call), so it is inspected and not reported" >&2; continue; fi ;;
             esac
             if [ -n "${RT_SRC[$t]:-}" ]; then
                 why=$(route_state "$t"); rrc=$?

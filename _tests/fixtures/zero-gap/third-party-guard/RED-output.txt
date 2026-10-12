@@ -1,0 +1,18 @@
+# RED capture 1 (script absent, the state before T041):
+fixtures: guard under test absent: scripts/zero-gap-third-party-guard.sh
+rc=2
+
+# RED capture 2 (no-op stub = a guard that lets every diff through):
+FAIL  noop                       want rc=0 token=[HOLDS]; got rc=0
+FAIL  owned-bump                 want rc=0 token=[HOLDS]; got rc=0
+FAIL  allowed-bump               want rc=0 token=[HOLDS]; got rc=0
+FAIL  refuse-bump                want rc=1 token=[THIRD-PARTY GITLINK BUMP submodules/superspec]; got rc=0
+FAIL  absorb-files               want rc=1 token=[THIRD-PARTY EDIT submodules/superspec/x.md]; got rc=0
+FAIL  remove-gitlink             want rc=1 token=[THIRD-PARTY EDIT submodules/superspec (status D]; got rc=0
+FAIL  new-without-row            want rc=1 token=[STALE classification data: vendor/new]; got rc=0
+FAIL  tsv-row-dropped            want rc=1 token=[THIRD-PARTY GITLINK BUMP submodules/superspec]; got rc=0
+FAIL  missing-data               want rc=2 token=[COULD-NOT-DETERMINE classification data missing]; got rc=0
+FAIL  malformed-data             want rc=2 token=[malformed row]; got rc=0
+FAIL  reclassify-escape          want rc=1 token=[THIRD-PARTY GITLINK BUMP submodules/superspec]; got rc=0
+fixtures: 11 case(s): 0 ok, 11 FAIL
+rc=1

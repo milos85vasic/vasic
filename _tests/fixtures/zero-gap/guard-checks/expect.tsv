@@ -1,0 +1,18 @@
+case	rc	token
+noop	0	HOLDS
+add-check	0	HOLDS
+debt-to-check	0	HOLDS
+waived-removal	0	HOLDS
+rm-check-row	1	REMOVED check alpha
+rm-check-script	1	DELETED check entry point scripts/beta.sh
+rm-scanroot	1	REMOVED scanroot scripts
+add-exempt	1	ADDED exempt tools/y.sh
+add-debt	1	ADDED debt epsilon
+add-allow-line	1	ADDED allow-list entry new/path/*
+weaken-proof	1	WEAKENED check beta
+waiver-bad-pair	1	WAIVER INVALID remove-check alpha
+waiver-self-pair	1	WAIVER INVALID remove-check alpha
+waiver-reuse	1	REMOVED check beta
+rm-registry	1	REMOVED check alpha
+rm-unregistered-proof-script	1	DELETED check entry point scripts/unreg.sh
+waiver-self-attest	1	WAIVER INVALID add-allow alpha

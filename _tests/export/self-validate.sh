@@ -27,7 +27,12 @@ OUT="${1:-$HERE/../evidence/harness/export}"
 FIX="$HERE/fixtures"
 mkdir -p "$OUT"
 
-if [ ! -f "$FIX/golden-good.pdf" ] || [ ! -f "$FIX/golden-bad.pdf" ]; then
+# Rebuilt when missing OR STALE (build-if-missing class fix, VSC-383): an
+# existence-only guard would keep validating the PREVIOUS recipe's PDFs after
+# build-fixtures.sh was edited. (make-image.js is deliberately not compared: in a fresh
+# git checkout it is written after fixtures/, so it would look newer and force a rebuild.)
+if [ ! -f "$FIX/golden-good.pdf" ] || [ ! -f "$FIX/golden-bad.pdf" ] \
+   || [ "$HERE/build-fixtures.sh" -nt "$FIX/golden-good.pdf" ] || [ "$HERE/build-fixtures.sh" -nt "$FIX/golden-bad.pdf" ]; then
   echo ">>> building fixtures ..."; bash "$HERE/build-fixtures.sh"
 fi
 

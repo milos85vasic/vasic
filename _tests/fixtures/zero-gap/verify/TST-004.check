@@ -1,0 +1,4 @@
+# regression: passes on the pre-fix ref, fails on the current ref
+check_id=fx-regress
+pre_fix_ref=zg-prefix
+cmd=if grep -q BUG app.txt; then exit 0; else exit 1; fi

@@ -126,8 +126,16 @@
 #     superseded, HISTORICAL, historical, or ~~strikethrough~~) is inspected and never
 #     reported: it does not assert the count today. A stale figure on such a line is invisible.
 #     The same holds for every claim of a document listed in docs/zero-gap/point-in-time.tsv.
-#   - A past-tense narrative figure on an unmarked line of a live document ("measured
-#     2026-09-02: 17 verify") is read as a present claim; its measure (if any) is today's count.
+#   - (VSC-355) A claim on a line that DATES ITSELF — "Measured|Re-measured <YYYY-MM-DD>" within
+#     60 characters, or a commit anchor ("commit <hex>", "at <12+ hex>") — is inspected and never
+#     reported: it records a past measurement. COST: a stale LIVE figure sharing a line with such
+#     a dating phrase is invisible; the dating is line-level, never paragraph-level. A past-tense
+#     figure on a line with NO such marker is still read as a present claim.
+#   - (VSC-355) A count qualified by a SUBSET phrase beside it — "the same 8", "those 8", "only 8",
+#     or, in the rest of its sentence, "out of", "of those", "that carry/lack/have no", "without",
+#     "missing", "but not" — is a count of a subset, not of the whole subject: inspected, never
+#     measured against the whole, never reported. COST: a genuinely stale whole-count that happens
+#     to carry such a phrase is invisible.
 #   - Units outside the list, spelled-out numbers ("three submodules"), counts separated
 #     from their unit by other words ("12 owned submodules"), approximations (~N), counts in
 #     documents outside the listed paths (nested README.md files, the umbrella carriers,
@@ -444,6 +452,26 @@ def claims(text):
         got.setdefault(mm.start(1), dict(num=mm.group(1), end=mm.end(), kind=kind, tok=mm.group(2), noun=noun, qual=mm.group(3)))
     return got
 
+# VSC-355 line-level dating and subset qualification (see the header). A claim is a recorded
+# MEASUREMENT AT A POINT IN TIME (never reported) when its own line carries "Measured|Re-measured
+# <YYYY-MM-DD>" or a commit anchor ("commit <hex>" / "at <12+ hex>"); a count qualified by a SUBSET
+# phrase right beside it ("the same 8", "8 submodules out of those ...", "... that carry no id") is
+# not a claim about the whole subject and is never measured against it. Both are inspected, not hidden.
+R_DATED = re.compile(r'\b(?:re-?)?measured\b[^\n]{0,60}?\b\d{4}-\d{2}-\d{2}\b'
+                     r'|\bcommit[ \t]+`?(?=[0-9a-f]*\d)(?=[0-9a-f]*[a-f])[0-9a-f]{7,40}\b'
+                     r'|\bat[ \t]+`?(?=[0-9a-f]*\d)(?=[0-9a-f]*[a-f])[0-9a-f]{12,40}\b', re.I)
+R_SUBSET_BEFORE = re.compile(r'\b(?:the same|those|these|only|just|remaining|other|another|additional|extra)[ \t]+(?:\*\*|__)?$', re.I)
+R_SUBSET_AFTER = re.compile(r'\b(?:out of|of (?:those|which|them|the \d+)|that (?:carry|carries|lack|lacks|have no|has no|do not|does not|don\'t|are not|aren\'t|are un\w+|miss|misses|missing)'
+                            r'|which (?:carry|carries|lack|lacks|have no|has no|are not|are un\w+)|without|lacking|missing|but not|not yet)\b', re.I)
+R_SENT_END = re.compile(r'[.!?](?:[ \t]|\n|$)|\n[ \t]*\n')
+def subset_qualified(text, ps, start, end):
+    b = text[max(ps, start - 40):start]
+    b = b[max(b.rfind('. '), b.rfind('\n\n')) + 1:] if ('. ' in b or '\n\n' in b) else b
+    if R_SUBSET_BEFORE.search(b): return True
+    seg = text[end:end + 240]
+    m = R_SENT_END.search(seg)
+    return bool(R_SUBSET_AFTER.search(seg[:m.start()] if m else seg))
+
 PREDS = {'dir': lambda x: x.endswith('/'),
          'gm': lambda x: posixpath.basename(x.strip()) == '.gitmodules'}
 class Ticks:
@@ -589,9 +617,11 @@ for d, m in docs:
             ls = nl[line - 2] + 1 if line >= 2 else 0
             le = nl[line - 1] if line - 1 < len(nl) else len(text)
             lt = text[ls:le]
-            perline[line] = (lt, bool(R_HIST.search(lt)), claim_key(lt), ' '.join(lt.split()))
-        line_text, hist, key, norm = perline[line]
+            perline[line] = (lt, bool(R_HIST.search(lt)), claim_key(lt), ' '.join(lt.split()), bool(R_DATED.search(lt)))
+        line_text, hist, key, norm, dated = perline[line]
         if hist: continue
+        if dated: continue                      # VSC-355: the line dates its own figure
+        if subset_qualified(text, paras[bisect.bisect_right(paras, start) - 1] if bisect.bisect_right(paras, start) else 0, start, c['end']): continue   # VSC-355: a subset count
         i = bisect.bisect_right(paras, start)
         ps = paras[i - 1] if i else 0
         rec = int(c['num'].replace(',', ''))
@@ -817,6 +847,11 @@ prove_failure() (
     mutate no-historical docs/historical.md    's/ (SUPERSEDED)//'    figures:docs/historical.md
     mutate ext-owned     .gitmodules           's#github.com:other/ext#github.com:acme/ext#' figures:ext/README.md
     mutate no-pit        docs/zero-gap/point-in-time.tsv '/^docs\/report.md/d'  docs/report.md:3
+    echo "P16 (VSC-355) line-level dating and subset qualification are the REASON the controls are quiet (remove the qualifier => reported)"
+    mutate no-measured-date docs/dated.md  's/Measured 2026-09-03: //'                                    docs/dated.md:3
+    mutate no-commit-anchor docs/commit.md 's/At commit 1a2b3c4d5e6f the notes say there are/There are/' docs/commit.md:3
+    mutate no-subset-after  docs/subset.md '3s/ out of those declared//'                                  docs/subset.md:3
+    mutate no-subset-before docs/subset.md '5s/only 9/9/'                                                 docs/subset.md:5
     echo "P6b a point-in-time row without a reason is not applied and is COULD-NOT-INSPECT (never a silent exemption)"
     mkrepo "$CORP/clean" "$T/pr" && printf 'docs/files.md\t\n' >>"$T/pr/docs/zero-gap/point-in-time.tsv" && git -C "$T/pr" add -A 2>/dev/null
     run "$T/pr.out" --root "$T/pr"

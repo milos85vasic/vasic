@@ -81,6 +81,15 @@ var adoptMidHook func(tx *sql.Tx) error
 // TestGapAdoptRaceRefusesConcurrentDoubleAdopt.
 var adoptPreBeginHook func()
 
+// closePreBeginHook, when set, runs in `gap close` after every read and refusal
+// check and before the write transaction opens: the window in which a second
+// close of the same item can commit first (VSC-363). Inert unless a test sets it.
+var closePreBeginHook func()
+
+// errClosedConcurrently marks a close whose UPDATE found the item no longer in
+// Issues: another process closed it in the window above.
+var errClosedConcurrently = errors.New("closed concurrently")
+
 // adoptRaceWindow sleeps for WI_GAP_ADOPT_RACE_MS milliseconds (when that
 // environment variable names a positive integer) at the same TOCTOU point as
 // adoptPreBeginHook. It is inert in every normal invocation — the tracked
@@ -1049,8 +1058,11 @@ func gapVerdict(args []string, stdout, stderr io.Writer) int {
 		default:
 			sha = d
 		}
-	} else {
-		sha = e.fileSHA256(*evidence)
+	} else if sha = e.fileSHA256(*evidence); sha == "" {
+		// VSC-363: a file that resolved but could not be hashed (it changed or
+		// vanished between the check and the read) would be stored with a NULL
+		// digest, and a later swap of it would then go unseen.
+		problems = append(problems, "--evidence "+*evidence+" could not be hashed (it changed or became unreadable); nothing was recorded")
 	}
 	if len(problems) > 0 {
 		return refuse(stderr, problems)
@@ -1154,11 +1166,17 @@ func gapClose(args []string, stdout, stderr io.Writer) int {
 		if err := e.resolveFile(researchPath); err != nil {
 			return refuse(stderr, []string{"research_ref " + err.Error()})
 		}
+		if e.fileSHA256(researchPath) == "" {
+			return refuse(stderr, []string{"research_ref " + researchPath + " could not be hashed (it changed or became unreadable); nothing was written"})
+		}
 	}
 	terminal := ClosureFor(it.typ)
 	event := strings.Fields(terminal)[0] // Fixed | Implemented | Completed
 	body := upsertMeta(setBodyStatus(it.body, terminal), "**Evidence:** ", "**Evidence:** "+*green)
 
+	if closePreBeginHook != nil {
+		closePreBeginHook()
+	}
 	tx, brc := e.begin()
 	if brc != rcOK {
 		return brc
@@ -1182,7 +1200,11 @@ func gapClose(args []string, stdout, stderr io.Writer) int {
 			if err != nil {
 				return err
 			}
-			if n, _ := res.RowsAffected(); n != 1 {
+			if n, _ := res.RowsAffected(); n == 0 {
+				// VSC-363: another close of the same item committed between this
+				// command's read and its write; it is a refusal (1), not a fault (2).
+				return errClosedConcurrently
+			} else if n != 1 {
 				return fmt.Errorf("moving %s to Fixed touched %d rows", it.id, n)
 			}
 			return nil
@@ -1195,6 +1217,9 @@ func gapClose(args []string, stdout, stderr io.Writer) int {
 	}
 	for _, s := range steps {
 		if err := s(); err != nil {
+			if errors.Is(err, errClosedConcurrently) {
+				return refuse(stderr, []string{it.id + " was closed concurrently by another process between this command's check and its write; nothing was written"})
+			}
 			return envFail(stderr, "closing "+it.id, err)
 		}
 	}

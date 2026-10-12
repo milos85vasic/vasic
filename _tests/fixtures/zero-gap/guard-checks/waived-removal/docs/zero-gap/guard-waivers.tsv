@@ -1,0 +1,3 @@
+remove-check	beta	alpha	consumed in an earlier diff
+remove-check	alpha	beta	replaced by beta, which has a paired proof
+delete-script	scripts/alpha.sh	beta	replaced by beta

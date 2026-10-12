@@ -1,0 +1,12 @@
+[submodule "superspec"]
+	path = submodules/superspec
+	url = git@github.com:WangX0111/superspec.git
+[submodule "a"]
+	path = mod/a
+	url = git@github.com:acme/a.git
+[submodule "b"]
+	path = mod/b
+	url = git@github.com:acme/b.git
+[submodule "allowed"]
+	path = vendor/allowed
+	url = git@github.com:allowedorg/thing.git

@@ -1,0 +1,12 @@
+case	rc	token
+noop	0	HOLDS
+owned-bump	0	HOLDS
+allowed-bump	0	HOLDS
+refuse-bump	1	THIRD-PARTY GITLINK BUMP submodules/superspec
+absorb-files	1	THIRD-PARTY EDIT submodules/superspec/x.md
+remove-gitlink	1	THIRD-PARTY EDIT submodules/superspec (status D
+new-without-row	1	STALE classification data: vendor/new
+tsv-row-dropped	1	THIRD-PARTY GITLINK BUMP submodules/superspec
+missing-data	2	COULD-NOT-DETERMINE classification data missing
+malformed-data	2	malformed row
+reclassify-escape	1	THIRD-PARTY GITLINK BUMP submodules/superspec
