@@ -1,11 +1,19 @@
 subject=workshop kind=unit status=check-red cases=1572 failed=7 rc=1
-head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:52:00Z
+head=81c4844c0970208c4101d8c511687109eb7dcb5d tree=d7e1608fd003e3d4f7730dcbdb2f1e6421e50ed2cd96e4e6f7a85f745c85a674 ts=2026-10-12T13:32:16Z limit=240
 cmd=(cd workshop/pipeline/symbols && go test -count=1 -json -short <1 pkgs>); (cd workshop/platform/backend && go test -count=1 -json -short <28 pkgs>)
 passed=1565 failed=7 skipped=17 over 2 module(s); worst module rc=1
+failing-tests (7):
+  github.com/milos85vasic/workshop_curriculum/platform/backend/pkg/authhttp :: TestValidTokenPassesAndCarriesUser
+  github.com/milos85vasic/workshop_curriculum/platform/backend/pkg/authhttp :: TestSessionCookieWinsOverAnUnrelatedAuthorizationHeader
+  github.com/milos85vasic/workshop_curriculum/platform/backend/pkg/authhttp :: TestRamiFullAccessOnWorkshop
+  github.com/milos85vasic/workshop_curriculum/platform/backend/pkg/authhttp :: TestBadCredentialsRejected
+  github.com/milos85vasic/workshop_curriculum/platform/backend/pkg/authhttp :: TestRevokedTokenIs401
+  github.com/milos85vasic/workshop_curriculum/platform/backend/pkg/authhttp :: TestProgressIsolatedPerAccount
+  github.com/milos85vasic/workshop_curriculum/platform/backend/pkg/authstore :: TestT502_NoPlaintextOrReversiblePasswordAnywhereOnDisk
 ---
 ## workshop/pipeline/symbols: rc=0 passed=0 failed=0 skipped=0 seconds=0.1 build_fail=False
 
-## workshop/platform/backend: rc=1 passed=1565 failed=7 skipped=17 seconds=19.1 build_fail=False
+## workshop/platform/backend: rc=1 passed=1565 failed=7 skipped=17 seconds=20.5 build_fail=False
 
 ## /home/milosvasic/Projects/vasic/workshop/platform/orchestration: go list rc=0, no packages
 github.com/milos85vasic/workshop_curriculum/platform/orchestration/cmd/containers-status-probe

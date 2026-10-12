@@ -1,14 +1,18 @@
-subject=submodules/qa kind=e2e status=could-not-run:go-build cases=0 failed=0 rc=1
-head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:10Z
+subject=submodules/qa kind=e2e status=could-not-run:go-build:goproxy-off cases=0 failed=0 rc=1
+head=755f8327810b4f598048ab0d6a4db8178396fca9 tree=837efb0645a9942d4f0600c0059f0c6dd1251e97fd0c6d614a0ea85516a99541 ts=2026-10-12T13:27:43Z limit=240
 cmd=go test -count=1 -json ./tests/e2e/...
-
+environment build failure, not a test failure; cases = passing cases of the packages that did run
+passed=0 failed=0 skipped=0 seconds=0.2
+build-failure-causes=goproxy-off
+unbuilt-packages (1):
+  digital.vasic.helixqa/tests/e2e
 ---
-go: downloading github.com/nats-io/nats.go v1.37.0
 go: downloading github.com/pion/webrtc/v4 v4.2.11
+go: downloading github.com/nats-io/nats.go v1.37.0
 {"ImportPath":"github.com/nats-io/nats.go","Action":"build-output","Output":"# digital.vasic.helixqa/tests/e2e\n"}
 {"ImportPath":"github.com/nats-io/nats.go","Action":"build-output","Output":"pkg/distributed/state.go:12:2: module lookup disabled by GOPROXY=off\n"}
 {"ImportPath":"github.com/nats-io/nats.go","Action":"build-fail"}
-{"Time":"2026-10-12T12:51:10.01774242+02:00","Action":"start","Package":"digital.vasic.helixqa/tests/e2e"}
-{"Time":"2026-10-12T12:51:10.01777534+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/e2e","Output":"FAIL\tdigital.vasic.helixqa/tests/e2e [setup failed]\n"}
-{"Time":"2026-10-12T12:51:10.01779038+02:00","Action":"fail","Package":"digital.vasic.helixqa/tests/e2e","Elapsed":0,"FailedBuild":"github.com/nats-io/nats.go"}
+{"Time":"2026-10-12T15:27:42.835455263+02:00","Action":"start","Package":"digital.vasic.helixqa/tests/e2e"}
+{"Time":"2026-10-12T15:27:42.835499123+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/e2e","Output":"FAIL\tdigital.vasic.helixqa/tests/e2e [setup failed]\n"}
+{"Time":"2026-10-12T15:27:42.835510743+02:00","Action":"fail","Package":"digital.vasic.helixqa/tests/e2e","Elapsed":0,"FailedBuild":"github.com/nats-io/nats.go"}
 

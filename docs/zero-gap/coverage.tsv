@@ -106,7 +106,7 @@ submodules/challenges	perf-load	gap	-
 submodules/challenges	regression	gap	-
 submodules/challenges	security	gap	-
 submodules/challenges	stress-chaos	check	docs/zero-gap/coverage-evidence/submodules_challenges__stress-chaos.txt
-submodules/challenges	unit	check-red	docs/zero-gap/coverage-evidence/submodules_challenges__unit.txt
+submodules/challenges	unit	could-not-run:go-build:missing-replace-dir	-
 submodules/containers	accessibility	gap	-
 submodules/containers	contract	gap	-
 submodules/containers	determinism	gap	-
@@ -178,7 +178,7 @@ submodules/llms_verifier	perf-load	check	docs/zero-gap/coverage-evidence/submodu
 submodules/llms_verifier	regression	gap	-
 submodules/llms_verifier	security	check	docs/zero-gap/coverage-evidence/submodules_llms_verifier__security.txt
 submodules/llms_verifier	stress-chaos	gap	-
-submodules/llms_verifier	unit	check-red	docs/zero-gap/coverage-evidence/submodules_llms_verifier__unit.txt
+submodules/llms_verifier	unit	could-not-run:go-build:goproxy-off	-
 submodules/passage	accessibility	n/a:no tracked html/css/tsx/jsx/vue/svelte UI source in this module (git ls-files probe)	-
 submodules/passage	contract	gap	-
 submodules/passage	determinism	gap	-
@@ -194,8 +194,8 @@ submodules/passage	unit	check	docs/zero-gap/coverage-evidence/submodules_passage
 submodules/qa	accessibility	gap	-
 submodules/qa	contract	gap	-
 submodules/qa	determinism	gap	-
-submodules/qa	e2e	could-not-run:go-build	-
-submodules/qa	fuzz	check-red	docs/zero-gap/coverage-evidence/submodules_qa__fuzz.txt
+submodules/qa	e2e	could-not-run:go-build:goproxy-off	-
+submodules/qa	fuzz	could-not-run:go-build:goproxy-off	-
 submodules/qa	integration	check	docs/zero-gap/coverage-evidence/submodules_qa__integration.txt
 submodules/qa	manual-qa-readiness	gap	-
 submodules/qa	mutation	gap	-

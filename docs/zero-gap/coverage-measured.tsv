@@ -1,103 +1,103 @@
-subject	kind	status	cases	failed	rc	evidence	cmd
-ai_interviewing	accessibility	gap	0	0	0		git ls-files | grep UI extensions => README.html
-ai_interviewing	manual-qa-readiness	gap	0	0	0		git -C ai_interviewing ls-files -- docs/qa
-ai_interviewing	unit	check-red	119	62	1	docs/zero-gap/coverage-evidence/ai_interviewing__unit.txt	(cd ai_interviewing/platform/backend && go test -count=1 -json -short <7 pkgs>)
-design-toolkit	accessibility	gap	0	0	0		git ls-files | grep UI extensions => evidence/palette-preview/milosvasic.preview.html
-design-toolkit	manual-qa-readiness	gap	0	0	0		git -C design-toolkit ls-files -- docs/qa
-milosvasic.ru	accessibility	gap	0	0	0		git ls-files | grep UI extensions => _layouts/default.html
-milosvasic.ru	manual-qa-readiness	gap	0	0	0		git -C milosvasic.ru ls-files -- docs/qa
-monetization	accessibility	gap	0	0	0		git ls-files | grep UI extensions => .specify/memory/constitution.html
-monetization	manual-qa-readiness	gap	0	0	0		git -C monetization ls-files -- docs/qa
-monetization	unit	check	227	0	0	docs/zero-gap/coverage-evidence/monetization__unit.txt	(cd monetization/tools/repodb && go test -count=1 -json -short <3 pkgs>); (cd monetization/tools/report && go test -count=1 -json -short <1 pkgs>); (cd monetization/tools/harvest && go test -count=1 -json -short <2 pkgs>); (cd monetization/tools/analysis && go test -count=1 -json -short <9 pkgs>); (cd monetization/tools/validator && go test -count=1 -json -short <1 pkgs>); (cd monetization/tools/fix_evidence && go test -count=1 -json -short <1 pkgs>)
-root	accessibility	could-not-run:playwright-preflight	0	0	2	docs/zero-gap/coverage-evidence/root__accessibility.txt	node _tests/preflight.js
-root	claim-ledger	check-red	10	0	1	docs/zero-gap/coverage-evidence/root__claim-ledger.txt	bash scripts/verify-claim-ledger.sh
-root	content-boundary	could-not-run:timeout	0	0	124	docs/zero-gap/coverage-evidence/root__content-boundary.txt	bash scripts/verify-content-boundary.sh
-root	contract	check	21	0	0	docs/zero-gap/coverage-evidence/root__contract.txt	bash scripts/verify-manifest-pins.sh
-root	determinism	check	5	0	0	docs/zero-gap/coverage-evidence/root__determinism.txt	bash scripts/zero-gap-determinism-modules.sh --runs 2
-root	e2e	could-not-run:playwright-preflight	0	0	2	docs/zero-gap/coverage-evidence/root__e2e.txt	node _tests/preflight.js
-root	export-validation	check	6	0	0	docs/zero-gap/coverage-evidence/root__export-validation.txt	bash _tests/export/self-validate.sh
-root	fuzz	check	11	0	0	docs/zero-gap/coverage-evidence/root__fuzz.txt	bash scripts/prove-umbrella-mutants.sh --set fuzz
-root	gate-paired-mutation	check	13	0	0	docs/zero-gap/coverage-evidence/root__gate-paired-mutation.txt	bash scripts/verify-claim-ledger.sh --prove-failure
-root	host-capability	could-not-run:hostdeps.sh	0	0	2	docs/zero-gap/coverage-evidence/root__host-capability.txt	bash scripts/hostdeps.sh
-root	integration	check	12	0	0	docs/zero-gap/coverage-evidence/root__integration.txt	bash scripts/verify-governance-cascade.sh
-root	link-integrity	could-not-run:playwright-preflight	0	0	2	docs/zero-gap/coverage-evidence/root__link-integrity.txt	node _tests/preflight.js
-root	manual-qa-readiness	could-not-run:zero-gap-qa-readiness.sh	0	0	2	docs/zero-gap/coverage-evidence/root__manual-qa-readiness.txt	bash scripts/zero-gap-qa-readiness.sh
-root	perf-load	could-not-run:playwright-preflight	0	0	2	docs/zero-gap/coverage-evidence/root__perf-load.txt	node _tests/preflight.js
-root	provider-ci	check-red	1	0	1	docs/zero-gap/coverage-evidence/root__provider-ci.txt	bash scripts/verify-provider-ci.sh
-root	seo-i18n-completeness	could-not-run:playwright-preflight	0	0	2	docs/zero-gap/coverage-evidence/root__seo-i18n-completeness.txt	node _tests/preflight.js
-root	umbrella-mutation	check	5	0	0	docs/zero-gap/coverage-evidence/root__umbrella-mutation.txt	bash scripts/prove-umbrella-mutants.sh --set mutation
-root	visual-diff	could-not-run:playwright-preflight	0	0	2	docs/zero-gap/coverage-evidence/root__visual-diff.txt	node _tests/preflight.js
-root	vsc375-runtime-probe	check	8	0	0	docs/zero-gap/coverage-evidence/root__vsc375-runtime-probe.txt	bash docs/zero-gap/checks/VSC-375.probe.sh
-submodules/LLMProvider	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html
-submodules/LLMProvider	manual-qa-readiness	gap	0	0	0		git -C submodules/LLMProvider ls-files -- docs/qa
-submodules/LLMProvider	unit	check	1790	0	0	docs/zero-gap/coverage-evidence/submodules_LLMProvider__unit.txt	(cd submodules/LLMProvider && go test -count=1 -json -short <55 pkgs>)
-submodules/RAG	accessibility	n/a:no tracked html/css/tsx/jsx/vue/svelte UI source in this module (git ls-files probe)	0	0	0		git ls-files | grep UI extensions
-submodules/RAG	e2e	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_RAG__e2e.txt	go test -count=1 -json ./tests/e2e/...
-submodules/RAG	integration	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_RAG__integration.txt	go test -count=1 -json ./tests/integration/...
-submodules/RAG	manual-qa-readiness	gap	0	0	0		git -C submodules/RAG ls-files -- docs/qa
-submodules/RAG	perf-load	check	8	0	0	docs/zero-gap/coverage-evidence/submodules_RAG__perf-load.txt	go test -count=1 -json -run . -bench . -benchtime 1x ./tests/benchmark/...
-submodules/RAG	security	check	9	0	0	docs/zero-gap/coverage-evidence/submodules_RAG__security.txt	go test -count=1 -json ./tests/security/...
-submodules/RAG	stress-chaos	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_RAG__stress-chaos.txt	go test -count=1 -json ./tests/stress/...
-submodules/RAG	unit	check	227	0	0	docs/zero-gap/coverage-evidence/submodules_RAG__unit.txt	(cd submodules/RAG && go test -count=1 -json -short <7 pkgs>)
-submodules/challenges	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html
-submodules/challenges	manual-qa-readiness	check	16	0	0	docs/zero-gap/coverage-evidence/submodules_challenges__manual-qa-readiness.txt	git -C submodules/challenges ls-files -- docs/qa
-submodules/challenges	stress-chaos	check	32	0	0	docs/zero-gap/coverage-evidence/submodules_challenges__stress-chaos.txt	go test -count=1 -json ./tests/stress/... ./tests/chaos/...
-submodules/challenges	unit	check-red	2062	0	1	docs/zero-gap/coverage-evidence/submodules_challenges__unit.txt	(cd submodules/challenges && go test -count=1 -json -short <17 pkgs>); (cd submodules/challenges/challenges/fixtures/memprobe && go test -count=1 -json -short <1 pkgs>)
-submodules/containers	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html
-submodules/containers	e2e	check	2	0	0	docs/zero-gap/coverage-evidence/submodules_containers__e2e.txt	go test -count=1 -json -tags e2e ./tests/e2e/...
-submodules/containers	integration	check	5	0	0	docs/zero-gap/coverage-evidence/submodules_containers__integration.txt	go test -count=1 -json -tags integration ./tests/integration/...
-submodules/containers	manual-qa-readiness	gap	0	0	0		git -C submodules/containers ls-files -- docs/qa
-submodules/containers	perf-load	check	2	0	0	docs/zero-gap/coverage-evidence/submodules_containers__perf-load.txt	go test -count=1 -json -run . -bench . -benchtime 1x ./tests/benchmark/...
-submodules/containers	security	check	4	0	0	docs/zero-gap/coverage-evidence/submodules_containers__security.txt	go test -count=1 -json -tags security ./tests/security/...
-submodules/containers	stress-chaos	check	2	0	0	docs/zero-gap/coverage-evidence/submodules_containers__stress-chaos.txt	go test -count=1 -json -tags stress ./tests/stress/...
-submodules/containers	unit	check-red	2835	1	1	docs/zero-gap/coverage-evidence/submodules_containers__unit.txt	(cd submodules/containers && go test -count=1 -json -short <41 pkgs>)
-submodules/curriculum-kit	accessibility	n/a:no tracked html/css/tsx/jsx/vue/svelte UI source in this module (git ls-files probe)	0	0	0		git ls-files | grep UI extensions
-submodules/curriculum-kit	manual-qa-readiness	gap	0	0	0		git -C submodules/curriculum-kit ls-files -- docs/qa
-submodules/curriculum-kit	unit	check	115	0	0	docs/zero-gap/coverage-evidence/submodules_curriculum-kit__unit.txt	(cd submodules/curriculum-kit && go test -count=1 -json -short <1 pkgs>)
-submodules/doc_processor	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html
-submodules/doc_processor	manual-qa-readiness	gap	0	0	0		git -C submodules/doc_processor ls-files -- docs/qa
-submodules/doc_processor	unit	check	264	0	0	docs/zero-gap/coverage-evidence/submodules_doc_processor__unit.txt	(cd submodules/doc_processor && go test -count=1 -json -short <9 pkgs>)
-submodules/llm_orchestrator	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html
-submodules/llm_orchestrator	manual-qa-readiness	gap	0	0	0		git -C submodules/llm_orchestrator ls-files -- docs/qa
-submodules/llm_orchestrator	unit	check	524	0	0	docs/zero-gap/coverage-evidence/submodules_llm_orchestrator__unit.txt	(cd submodules/llm_orchestrator && go test -count=1 -json -short <9 pkgs>)
-submodules/llm_provider	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html
-submodules/llm_provider	manual-qa-readiness	gap	0	0	0		git -C submodules/llm_provider ls-files -- docs/qa
-submodules/llm_provider	unit	check	1790	0	0	docs/zero-gap/coverage-evidence/submodules_llm_provider__unit.txt	(cd submodules/llm_provider && go test -count=1 -json -short <55 pkgs>)
-submodules/llms_verifier	accessibility	gap	0	0	0		git ls-files | grep UI extensions => Website/css/docs.css
-submodules/llms_verifier	e2e	check	8	0	0	docs/zero-gap/coverage-evidence/submodules_llms_verifier__e2e.txt	go test -count=1 -json ./tests/e2e/...
-submodules/llms_verifier	integration	check	9	0	0	docs/zero-gap/coverage-evidence/submodules_llms_verifier__integration.txt	go test -count=1 -json ./tests/integration/...
-submodules/llms_verifier	manual-qa-readiness	check	3	0	0	docs/zero-gap/coverage-evidence/submodules_llms_verifier__manual-qa-readiness.txt	git -C submodules/llms_verifier ls-files -- docs/qa
-submodules/llms_verifier	perf-load	check	12	0	0	docs/zero-gap/coverage-evidence/submodules_llms_verifier__perf-load.txt	go test -count=1 -json -run . -bench . -benchtime 1x ./tests/performance/...
-submodules/llms_verifier	security	check	56	0	0	docs/zero-gap/coverage-evidence/submodules_llms_verifier__security.txt	go test -count=1 -json ./tests/security/...
-submodules/llms_verifier	unit	check-red	6558	0	1	docs/zero-gap/coverage-evidence/submodules_llms_verifier__unit.txt	(cd submodules/llms_verifier && go test -count=1 -json -short <11 pkgs>); (cd submodules/llms_verifier/llm-verifier && go test -count=1 -json -short <66 pkgs>); (cd submodules/llms_verifier/examples/scoring && go test -count=1 -json -short <1 pkgs>)
-submodules/passage	accessibility	n/a:no tracked html/css/tsx/jsx/vue/svelte UI source in this module (git ls-files probe)	0	0	0		git ls-files | grep UI extensions
-submodules/passage	manual-qa-readiness	gap	0	0	0		git -C submodules/passage ls-files -- docs/qa
-submodules/passage	unit	check	84	0	0	docs/zero-gap/coverage-evidence/submodules_passage__unit.txt	(cd submodules/passage && go test -count=1 -json -short <1 pkgs>)
-submodules/qa	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html
-submodules/qa	e2e	could-not-run:go-build	0	0	1	docs/zero-gap/coverage-evidence/submodules_qa__e2e.txt	go test -count=1 -json ./tests/e2e/...
-submodules/qa	fuzz	check-red	38	0	1	docs/zero-gap/coverage-evidence/submodules_qa__fuzz.txt	go test -count=1 -json -run ^Fuzz ./...
-submodules/qa	integration	check	14	0	0	docs/zero-gap/coverage-evidence/submodules_qa__integration.txt	go test -count=1 -json -tags integration ./tests/integration/...
-submodules/qa	manual-qa-readiness	gap	0	0	0		git -C submodules/qa ls-files -- docs/qa
-submodules/qa	perf-load	check	7	0	0	docs/zero-gap/coverage-evidence/submodules_qa__perf-load.txt	go test -count=1 -json -run . -bench . -benchtime 1x ./tests/benchmark/...
-submodules/qa	security	check	19	0	0	docs/zero-gap/coverage-evidence/submodules_qa__security.txt	go test -count=1 -json ./tests/security/...
-submodules/qa	stress-chaos	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_qa__stress-chaos.txt	go test -count=1 -json ./tests/stress/...
-submodules/qa	unit	check-red	3959	1	1	docs/zero-gap/coverage-evidence/submodules_qa__unit.txt	(cd submodules/qa && go test -count=1 -json -short <130 pkgs>)
-submodules/security	accessibility	n/a:no tracked html/css/tsx/jsx/vue/svelte UI source in this module (git ls-files probe)	0	0	0		git ls-files | grep UI extensions
-submodules/security	e2e	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_security__e2e.txt	go test -count=1 -json ./tests/e2e/...
-submodules/security	integration	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_security__integration.txt	go test -count=1 -json ./tests/integration/...
-submodules/security	manual-qa-readiness	gap	0	0	0		git -C submodules/security ls-files -- docs/qa
-submodules/security	perf-load	check	8	0	0	docs/zero-gap/coverage-evidence/submodules_security__perf-load.txt	go test -count=1 -json -run . -bench . -benchtime 1x ./tests/benchmark/...
-submodules/security	security	check	9	0	0	docs/zero-gap/coverage-evidence/submodules_security__security.txt	go test -count=1 -json ./tests/security/...
-submodules/security	stress-chaos	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_security__stress-chaos.txt	go test -count=1 -json ./tests/stress/...
-submodules/security	unit	check	543	0	0	docs/zero-gap/coverage-evidence/submodules_security__unit.txt	(cd submodules/security && go test -count=1 -json -short <12 pkgs>)
-submodules/verdict	accessibility	n/a:no tracked html/css/tsx/jsx/vue/svelte UI source in this module (git ls-files probe)	0	0	0		git ls-files | grep UI extensions
-submodules/verdict	manual-qa-readiness	gap	0	0	0		git -C submodules/verdict ls-files -- docs/qa
-submodules/verdict	unit	check	22	0	0	docs/zero-gap/coverage-evidence/submodules_verdict__unit.txt	(cd submodules/verdict && go test -count=1 -json -short <1 pkgs>)
-submodules/vision_engine	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html
-submodules/vision_engine	manual-qa-readiness	gap	0	0	0		git -C submodules/vision_engine ls-files -- docs/qa
-submodules/vision_engine	unit	check	503	0	0	docs/zero-gap/coverage-evidence/submodules_vision_engine__unit.txt	(cd submodules/vision_engine && go test -count=1 -json -short <9 pkgs>)
-vasic.digital	accessibility	gap	0	0	0		git ls-files | grep UI extensions => ar/index.html
-vasic.digital	manual-qa-readiness	gap	0	0	0		git -C vasic.digital ls-files -- docs/qa
-workshop	accessibility	gap	0	0	0		git ls-files | grep UI extensions => assets/theme.css
-workshop	manual-qa-readiness	check	12	0	0	docs/zero-gap/coverage-evidence/workshop__manual-qa-readiness.txt	git -C workshop ls-files -- docs/qa
-workshop	unit	check-red	1572	7	1	docs/zero-gap/coverage-evidence/workshop__unit.txt	(cd workshop/pipeline/symbols && go test -count=1 -json -short <1 pkgs>); (cd workshop/platform/backend && go test -count=1 -json -short <28 pkgs>)
+subject	kind	status	cases	failed	rc	evidence	cmd	head	tree
+ai_interviewing	accessibility	gap	0	0	0		git ls-files | grep UI extensions => README.html	-	-
+ai_interviewing	manual-qa-readiness	gap	0	0	0		git -C ai_interviewing ls-files -- docs/qa	-	-
+ai_interviewing	unit	check-red	119	62	1	docs/zero-gap/coverage-evidence/ai_interviewing__unit.txt	(cd ai_interviewing/platform/backend && go test -count=1 -json -short <7 pkgs>)	755f8327810b4f598048ab0d6a4db8178396fca9	097af4c2190b69a3e0a89ecccd8500af9e7da554f5441d9b8db15c1d9e96ecbe
+design-toolkit	accessibility	gap	0	0	0		git ls-files | grep UI extensions => evidence/palette-preview/milosvasic.preview.html	-	-
+design-toolkit	manual-qa-readiness	gap	0	0	0		git -C design-toolkit ls-files -- docs/qa	-	-
+milosvasic.ru	accessibility	gap	0	0	0		git ls-files | grep UI extensions => _layouts/default.html	-	-
+milosvasic.ru	manual-qa-readiness	gap	0	0	0		git -C milosvasic.ru ls-files -- docs/qa	-	-
+monetization	accessibility	gap	0	0	0		git ls-files | grep UI extensions => .specify/memory/constitution.html	-	-
+monetization	manual-qa-readiness	gap	0	0	0		git -C monetization ls-files -- docs/qa	-	-
+monetization	unit	check	227	0	0	docs/zero-gap/coverage-evidence/monetization__unit.txt	(cd monetization/tools/repodb && go test -count=1 -json -short <3 pkgs>); (cd monetization/tools/report && go test -count=1 -json -short <1 pkgs>); (cd monetization/tools/harvest && go test -count=1 -json -short <2 pkgs>); (cd monetization/tools/analysis && go test -count=1 -json -short <9 pkgs>); (cd monetization/tools/validator && go test -count=1 -json -short <1 pkgs>); (cd monetization/tools/fix_evidence && go test -count=1 -json -short <1 pkgs>)	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	accessibility	could-not-run:playwright-preflight	0	0	2	docs/zero-gap/coverage-evidence/root__accessibility.txt	node _tests/preflight.js	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	claim-ledger	check-red	10	0	1	docs/zero-gap/coverage-evidence/root__claim-ledger.txt	bash scripts/verify-claim-ledger.sh	14f1fa4fb497a3344d1b9a9f44de867b119162fd	df484ec4e558a5577c92e87155242287b06c0997f6fdca38bd7876831639d053
+root	content-boundary	could-not-run:timeout	0	0	124	docs/zero-gap/coverage-evidence/root__content-boundary.txt	bash scripts/verify-content-boundary.sh	f73d413dfff34f1cffa0ffc35c8978aee9ccd38f	8a8120b3f4d1f6a4d5d273e1403db86bc062e81a6c1b478018f7c570960acbd9
+root	contract	check	21	0	0	docs/zero-gap/coverage-evidence/root__contract.txt	bash scripts/verify-manifest-pins.sh	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	determinism	check	5	0	0	docs/zero-gap/coverage-evidence/root__determinism.txt	bash scripts/zero-gap-determinism-modules.sh --runs 2	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	e2e	could-not-run:playwright-preflight	0	0	2	docs/zero-gap/coverage-evidence/root__e2e.txt	node _tests/preflight.js	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	export-validation	check	6	0	0	docs/zero-gap/coverage-evidence/root__export-validation.txt	bash _tests/export/self-validate.sh	c827c664c24e90a2b12b352618d579a3c631749d	5555a013cb8e2615482f0ea52b3a3b2107e269d86516846b533961d4943bbf1f
+root	fuzz	check	11	0	0	docs/zero-gap/coverage-evidence/root__fuzz.txt	bash scripts/prove-umbrella-mutants.sh --set fuzz	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	gate-paired-mutation	check	13	0	0	docs/zero-gap/coverage-evidence/root__gate-paired-mutation.txt	bash scripts/verify-claim-ledger.sh --prove-failure	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	host-capability	could-not-run:hostdeps.sh	0	0	2	docs/zero-gap/coverage-evidence/root__host-capability.txt	bash scripts/hostdeps.sh	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	integration	check	12	0	0	docs/zero-gap/coverage-evidence/root__integration.txt	bash scripts/verify-governance-cascade.sh	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	link-integrity	could-not-run:playwright-preflight	0	0	2	docs/zero-gap/coverage-evidence/root__link-integrity.txt	node _tests/preflight.js	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	manual-qa-readiness	could-not-run:zero-gap-qa-readiness.sh	0	0	2	docs/zero-gap/coverage-evidence/root__manual-qa-readiness.txt	bash scripts/zero-gap-qa-readiness.sh	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	perf-load	could-not-run:playwright-preflight	0	0	2	docs/zero-gap/coverage-evidence/root__perf-load.txt	node _tests/preflight.js	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	provider-ci	check-red	1	0	1	docs/zero-gap/coverage-evidence/root__provider-ci.txt	bash scripts/verify-provider-ci.sh	14f1fa4fb497a3344d1b9a9f44de867b119162fd	f17fab3142ca3d7389587e8f39fe8d2ac7f06f8f4a4e09f62dc8190949df14cc
+root	seo-i18n-completeness	could-not-run:playwright-preflight	0	0	2	docs/zero-gap/coverage-evidence/root__seo-i18n-completeness.txt	node _tests/preflight.js	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	umbrella-mutation	check	5	0	0	docs/zero-gap/coverage-evidence/root__umbrella-mutation.txt	bash scripts/prove-umbrella-mutants.sh --set mutation	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	visual-diff	could-not-run:playwright-preflight	0	0	2	docs/zero-gap/coverage-evidence/root__visual-diff.txt	node _tests/preflight.js	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+root	vsc375-runtime-probe	check	8	0	0	docs/zero-gap/coverage-evidence/root__vsc375-runtime-probe.txt	bash docs/zero-gap/checks/VSC-375.probe.sh	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/LLMProvider	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html	-	-
+submodules/LLMProvider	manual-qa-readiness	gap	0	0	0		git -C submodules/LLMProvider ls-files -- docs/qa	-	-
+submodules/LLMProvider	unit	check	1790	0	0	docs/zero-gap/coverage-evidence/submodules_LLMProvider__unit.txt	(cd submodules/LLMProvider && go test -count=1 -json -short <55 pkgs>)	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/RAG	accessibility	n/a:no tracked html/css/tsx/jsx/vue/svelte UI source in this module (git ls-files probe)	0	0	0		git ls-files | grep UI extensions	-	-
+submodules/RAG	e2e	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_RAG__e2e.txt	go test -count=1 -json ./tests/e2e/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/RAG	integration	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_RAG__integration.txt	go test -count=1 -json ./tests/integration/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/RAG	manual-qa-readiness	gap	0	0	0		git -C submodules/RAG ls-files -- docs/qa	-	-
+submodules/RAG	perf-load	check	8	0	0	docs/zero-gap/coverage-evidence/submodules_RAG__perf-load.txt	go test -count=1 -json -run . -bench . -benchtime 1x ./tests/benchmark/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/RAG	security	check	9	0	0	docs/zero-gap/coverage-evidence/submodules_RAG__security.txt	go test -count=1 -json ./tests/security/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/RAG	stress-chaos	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_RAG__stress-chaos.txt	go test -count=1 -json ./tests/stress/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/RAG	unit	check	227	0	0	docs/zero-gap/coverage-evidence/submodules_RAG__unit.txt	(cd submodules/RAG && go test -count=1 -json -short <7 pkgs>)	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/challenges	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html	-	-
+submodules/challenges	manual-qa-readiness	check	16	0	0	docs/zero-gap/coverage-evidence/submodules_challenges__manual-qa-readiness.txt	git -C submodules/challenges ls-files -- docs/qa	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/challenges	stress-chaos	check	32	0	0	docs/zero-gap/coverage-evidence/submodules_challenges__stress-chaos.txt	go test -count=1 -json ./tests/stress/... ./tests/chaos/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/challenges	unit	could-not-run:go-build:missing-replace-dir	2062	0	1	docs/zero-gap/coverage-evidence/submodules_challenges__unit.txt	(cd submodules/challenges && go test -count=1 -json -short <17 pkgs>); (cd submodules/challenges/challenges/fixtures/memprobe && go test -count=1 -json -short <1 pkgs>)	755f8327810b4f598048ab0d6a4db8178396fca9	093a0a3aefc911b949fa90e19f52386083210f75402eb86c9e8d08f2f94828a1
+submodules/containers	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html	-	-
+submodules/containers	e2e	check	2	0	0	docs/zero-gap/coverage-evidence/submodules_containers__e2e.txt	go test -count=1 -json -tags e2e ./tests/e2e/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/containers	integration	check	5	0	0	docs/zero-gap/coverage-evidence/submodules_containers__integration.txt	go test -count=1 -json -tags integration ./tests/integration/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/containers	manual-qa-readiness	gap	0	0	0		git -C submodules/containers ls-files -- docs/qa	-	-
+submodules/containers	perf-load	check	2	0	0	docs/zero-gap/coverage-evidence/submodules_containers__perf-load.txt	go test -count=1 -json -run . -bench . -benchtime 1x ./tests/benchmark/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/containers	security	check	4	0	0	docs/zero-gap/coverage-evidence/submodules_containers__security.txt	go test -count=1 -json -tags security ./tests/security/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/containers	stress-chaos	check	2	0	0	docs/zero-gap/coverage-evidence/submodules_containers__stress-chaos.txt	go test -count=1 -json -tags stress ./tests/stress/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/containers	unit	check-red	2835	1	1	docs/zero-gap/coverage-evidence/submodules_containers__unit.txt	(cd submodules/containers && go test -count=1 -json -short <41 pkgs>)	755f8327810b4f598048ab0d6a4db8178396fca9	ac7ee7c7c5373df0eed98dac2de8e8c5bad33facbb2545e5c4c4fb1c1859e8ad
+submodules/curriculum-kit	accessibility	n/a:no tracked html/css/tsx/jsx/vue/svelte UI source in this module (git ls-files probe)	0	0	0		git ls-files | grep UI extensions	-	-
+submodules/curriculum-kit	manual-qa-readiness	gap	0	0	0		git -C submodules/curriculum-kit ls-files -- docs/qa	-	-
+submodules/curriculum-kit	unit	check	115	0	0	docs/zero-gap/coverage-evidence/submodules_curriculum-kit__unit.txt	(cd submodules/curriculum-kit && go test -count=1 -json -short <1 pkgs>)	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/doc_processor	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html	-	-
+submodules/doc_processor	manual-qa-readiness	gap	0	0	0		git -C submodules/doc_processor ls-files -- docs/qa	-	-
+submodules/doc_processor	unit	check	264	0	0	docs/zero-gap/coverage-evidence/submodules_doc_processor__unit.txt	(cd submodules/doc_processor && go test -count=1 -json -short <9 pkgs>)	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/llm_orchestrator	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html	-	-
+submodules/llm_orchestrator	manual-qa-readiness	gap	0	0	0		git -C submodules/llm_orchestrator ls-files -- docs/qa	-	-
+submodules/llm_orchestrator	unit	check	524	0	0	docs/zero-gap/coverage-evidence/submodules_llm_orchestrator__unit.txt	(cd submodules/llm_orchestrator && go test -count=1 -json -short <9 pkgs>)	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/llm_provider	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html	-	-
+submodules/llm_provider	manual-qa-readiness	gap	0	0	0		git -C submodules/llm_provider ls-files -- docs/qa	-	-
+submodules/llm_provider	unit	check	1790	0	0	docs/zero-gap/coverage-evidence/submodules_llm_provider__unit.txt	(cd submodules/llm_provider && go test -count=1 -json -short <55 pkgs>)	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/llms_verifier	accessibility	gap	0	0	0		git ls-files | grep UI extensions => Website/css/docs.css	-	-
+submodules/llms_verifier	e2e	check	8	0	0	docs/zero-gap/coverage-evidence/submodules_llms_verifier__e2e.txt	go test -count=1 -json ./tests/e2e/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/llms_verifier	integration	check	9	0	0	docs/zero-gap/coverage-evidence/submodules_llms_verifier__integration.txt	go test -count=1 -json ./tests/integration/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/llms_verifier	manual-qa-readiness	check	3	0	0	docs/zero-gap/coverage-evidence/submodules_llms_verifier__manual-qa-readiness.txt	git -C submodules/llms_verifier ls-files -- docs/qa	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/llms_verifier	perf-load	check	12	0	0	docs/zero-gap/coverage-evidence/submodules_llms_verifier__perf-load.txt	go test -count=1 -json -run . -bench . -benchtime 1x ./tests/performance/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/llms_verifier	security	check	56	0	0	docs/zero-gap/coverage-evidence/submodules_llms_verifier__security.txt	go test -count=1 -json ./tests/security/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/llms_verifier	unit	could-not-run:go-build:goproxy-off	6558	0	1	docs/zero-gap/coverage-evidence/submodules_llms_verifier__unit.txt	(cd submodules/llms_verifier && go test -count=1 -json -short <11 pkgs>); (cd submodules/llms_verifier/llm-verifier && go test -count=1 -json -short <66 pkgs>); (cd submodules/llms_verifier/examples/scoring && go test -count=1 -json -short <1 pkgs>)	81c4844c0970208c4101d8c511687109eb7dcb5d	e2cdddb1ae1c09d663c23515e6fa0e65977995f7051a952948d67bd261c52117
+submodules/passage	accessibility	n/a:no tracked html/css/tsx/jsx/vue/svelte UI source in this module (git ls-files probe)	0	0	0		git ls-files | grep UI extensions	-	-
+submodules/passage	manual-qa-readiness	gap	0	0	0		git -C submodules/passage ls-files -- docs/qa	-	-
+submodules/passage	unit	check	84	0	0	docs/zero-gap/coverage-evidence/submodules_passage__unit.txt	(cd submodules/passage && go test -count=1 -json -short <1 pkgs>)	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/qa	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html	-	-
+submodules/qa	e2e	could-not-run:go-build:goproxy-off	0	0	1	docs/zero-gap/coverage-evidence/submodules_qa__e2e.txt	go test -count=1 -json ./tests/e2e/...	755f8327810b4f598048ab0d6a4db8178396fca9	837efb0645a9942d4f0600c0059f0c6dd1251e97fd0c6d614a0ea85516a99541
+submodules/qa	fuzz	could-not-run:go-build:goproxy-off	38	0	1	docs/zero-gap/coverage-evidence/submodules_qa__fuzz.txt	go test -count=1 -json -run ^Fuzz ./...	755f8327810b4f598048ab0d6a4db8178396fca9	1de87a4f4cc95b5047a4a6215f8674e663fa157473aaf39d5b6fe0492daae69a
+submodules/qa	integration	check	14	0	0	docs/zero-gap/coverage-evidence/submodules_qa__integration.txt	go test -count=1 -json -tags integration ./tests/integration/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/qa	manual-qa-readiness	gap	0	0	0		git -C submodules/qa ls-files -- docs/qa	-	-
+submodules/qa	perf-load	check	7	0	0	docs/zero-gap/coverage-evidence/submodules_qa__perf-load.txt	go test -count=1 -json -run . -bench . -benchtime 1x ./tests/benchmark/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/qa	security	check	19	0	0	docs/zero-gap/coverage-evidence/submodules_qa__security.txt	go test -count=1 -json ./tests/security/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/qa	stress-chaos	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_qa__stress-chaos.txt	go test -count=1 -json ./tests/stress/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/qa	unit	check-red	3959	1	1	docs/zero-gap/coverage-evidence/submodules_qa__unit.txt	(cd submodules/qa && go test -count=1 -json -short <130 pkgs>)	755f8327810b4f598048ab0d6a4db8178396fca9	6fa2cd51c28096784f960aa8f9d2c1e5393ad98cd52fffcab649340c546140f8
+submodules/security	accessibility	n/a:no tracked html/css/tsx/jsx/vue/svelte UI source in this module (git ls-files probe)	0	0	0		git ls-files | grep UI extensions	-	-
+submodules/security	e2e	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_security__e2e.txt	go test -count=1 -json ./tests/e2e/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/security	integration	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_security__integration.txt	go test -count=1 -json ./tests/integration/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/security	manual-qa-readiness	gap	0	0	0		git -C submodules/security ls-files -- docs/qa	-	-
+submodules/security	perf-load	check	8	0	0	docs/zero-gap/coverage-evidence/submodules_security__perf-load.txt	go test -count=1 -json -run . -bench . -benchtime 1x ./tests/benchmark/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/security	security	check	9	0	0	docs/zero-gap/coverage-evidence/submodules_security__security.txt	go test -count=1 -json ./tests/security/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/security	stress-chaos	check	6	0	0	docs/zero-gap/coverage-evidence/submodules_security__stress-chaos.txt	go test -count=1 -json ./tests/stress/...	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/security	unit	check	543	0	0	docs/zero-gap/coverage-evidence/submodules_security__unit.txt	(cd submodules/security && go test -count=1 -json -short <12 pkgs>)	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/verdict	accessibility	n/a:no tracked html/css/tsx/jsx/vue/svelte UI source in this module (git ls-files probe)	0	0	0		git ls-files | grep UI extensions	-	-
+submodules/verdict	manual-qa-readiness	gap	0	0	0		git -C submodules/verdict ls-files -- docs/qa	-	-
+submodules/verdict	unit	check	22	0	0	docs/zero-gap/coverage-evidence/submodules_verdict__unit.txt	(cd submodules/verdict && go test -count=1 -json -short <1 pkgs>)	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+submodules/vision_engine	accessibility	gap	0	0	0		git ls-files | grep UI extensions => AGENTS.html	-	-
+submodules/vision_engine	manual-qa-readiness	gap	0	0	0		git -C submodules/vision_engine ls-files -- docs/qa	-	-
+submodules/vision_engine	unit	check	503	0	0	docs/zero-gap/coverage-evidence/submodules_vision_engine__unit.txt	(cd submodules/vision_engine && go test -count=1 -json -short <9 pkgs>)	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+vasic.digital	accessibility	gap	0	0	0		git ls-files | grep UI extensions => ar/index.html	-	-
+vasic.digital	manual-qa-readiness	gap	0	0	0		git -C vasic.digital ls-files -- docs/qa	-	-
+workshop	accessibility	gap	0	0	0		git ls-files | grep UI extensions => assets/theme.css	-	-
+workshop	manual-qa-readiness	check	12	0	0	docs/zero-gap/coverage-evidence/workshop__manual-qa-readiness.txt	git -C workshop ls-files -- docs/qa	c827c664c24e90a2b12b352618d579a3c631749d	d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6
+workshop	unit	check-red	1572	7	1	docs/zero-gap/coverage-evidence/workshop__unit.txt	(cd workshop/pipeline/symbols && go test -count=1 -json -short <1 pkgs>); (cd workshop/platform/backend && go test -count=1 -json -short <28 pkgs>)	81c4844c0970208c4101d8c511687109eb7dcb5d	d7e1608fd003e3d4f7730dcbdb2f1e6421e50ed2cd96e4e6f7a85f745c85a674

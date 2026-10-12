@@ -1,7 +1,10 @@
 subject=root kind=claim-ledger status=check-red cases=10 failed=0 rc=1
-head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:52:41Z
+head=14f1fa4fb497a3344d1b9a9f44de867b119162fd tree=df484ec4e558a5577c92e87155242287b06c0997f6fdca38bd7876831639d053 ts=2026-10-12T13:32:40Z limit=240
 cmd=bash scripts/verify-claim-ledger.sh
-seconds=15.9 failed=0 (parsed from the gate output; rc is authoritative)
+seconds=16.9 failed=0 (parsed from the gate output; rc is authoritative)
+failing-cases (2; best effort from the gate output, rc is authoritative):
+  FALSE [blocker/coverage-theater] readme-zero-findings-badge — occurrence 1 of the claim in README.md says '23'; a fresh measurement says '50'.
+  ❌ CLAIM-VS-REALITY [DEFECT]: 1 recorded claim(s) do not survive re-measurement.
 ---
 
 == claim-vs-reality ledger — §11.4.266 ==
@@ -9,7 +12,7 @@ seconds=15.9 failed=0 (parsed from the gate output; rc is authoritative)
    rows:    10 claim row(s) over 5 declared surface(s)
    verdict: 9 VERIFIED · 1 FALSE · 0 ORPHAN · 0 MALFORMED/UNTYPED · 0 UNDETERMINED
 
-FALSE   [blocker/coverage-theater] readme-zero-findings-badge — occurrence 1 of the claim in README.md says '23'; a fresh measurement says '47'.
+FALSE   [blocker/coverage-theater] readme-zero-findings-badge — occurrence 1 of the claim in README.md says '23'; a fresh measurement says '50'.
                   probe: bash scripts/audit/zero_findings_sweep.sh 2>&1 | sed -nE 's/.*class=TOTAL[[:space:]]+live=([0-9]+).*/\1/p' | head -1
 
 COVERAGE — BOUNDED AND STATED. §11.4.266(A) requires EVERY advertised

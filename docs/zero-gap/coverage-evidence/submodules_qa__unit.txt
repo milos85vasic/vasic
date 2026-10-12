@@ -1,9 +1,27 @@
 subject=submodules/qa kind=unit status=check-red cases=3959 failed=1 rc=1
-head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:08Z
+head=755f8327810b4f598048ab0d6a4db8178396fca9 tree=6fa2cd51c28096784f960aa8f9d2c1e5393ad98cd52fffcab649340c546140f8 ts=2026-10-12T13:28:31Z limit=240
 cmd=(cd submodules/qa && go test -count=1 -json -short <130 pkgs>)
 passed=3958 failed=1 skipped=21 over 1 module(s); worst module rc=1
+build-failure-causes=goproxy-off
+unbuilt-packages (14):
+  digital.vasic.helixqa/internal/visionserver
+  digital.vasic.helixqa/pkg/distributed
+  digital.vasic.helixqa/pkg/nexus/orchestrator
+  digital.vasic.helixqa/pkg/streaming
+  digital.vasic.helixqa/pkg/vision/cheaper
+  digital.vasic.helixqa/pkg/vision/cheaper/adapters/glm4v
+  digital.vasic.helixqa/pkg/vision/cheaper/adapters/omniparser
+  digital.vasic.helixqa/pkg/vision/cheaper/adapters/qwen25vl
+  digital.vasic.helixqa/pkg/vision/cheaper/adapters/showui
+  digital.vasic.helixqa/pkg/vision/cheaper/adapters/uitars
+  digital.vasic.helixqa/pkg/vision/cheaper/cache
+  digital.vasic.helixqa/pkg/vision/cheaper/learning
+  digital.vasic.helixqa/pkg/vision/cheaper/memory
+  digital.vasic.helixqa/pkg/vision/cheaper/wire
+failing-tests (1):
+  digital.vasic.helixqa/pkg/nexus/capture/linux :: TestSource_ProductionOpenReturnsNotImplemented
 ---
-## submodules/qa: rc=1 passed=3958 failed=1 skipped=21 seconds=28.5 build_fail=True
+## submodules/qa: rc=1 passed=3958 failed=1 skipped=21 seconds=28.1 build_fail=True
 ction":"build-output","Output":"# digital.vasic.helixqa/pkg/vision/cheaper/wire\n"}
 {"ImportPath":"github.com/failsafe-go/failsafe-go/retrypolicy","Action":"build-output","Output":"pkg/vision/cheaper/executor.go:16:2: module lookup disabled by GOPROXY=off\n"}
 {"ImportPath":"github.com/failsafe-go/failsafe-go/retrypolicy","Action":"build-fail"}

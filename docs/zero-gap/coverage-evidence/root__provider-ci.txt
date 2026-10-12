@@ -1,10 +1,12 @@
 subject=root kind=provider-ci status=check-red cases=1 failed=0 rc=1
-head=c827c664c24e90a2b12b352618d579a3c631749d tree=5555a013cb8e2615482f0ea52b3a3b2107e269d86516846b533961d4943bbf1f ts=2026-10-12T11:12:17Z
+head=14f1fa4fb497a3344d1b9a9f44de867b119162fd tree=f17fab3142ca3d7389587e8f39fe8d2ac7f06f8f4a4e09f62dc8190949df14cc ts=2026-10-12T13:36:47Z limit=600
 cmd=bash scripts/verify-provider-ci.sh
-seconds=252.4 failed=0 (parsed from the gate output; rc is authoritative)
+seconds=222.3 failed=0 (parsed from the gate output; rc is authoritative)
+failing-cases (1; best effort from the gate output, rc is authoritative):
+  vasic.digital github.com vasic-digital/vasic-digital.github.io OURS active=0 inert=0 CONFIRMED PROVIDER-SIDE CI CONFIRMED
 ---
 Provider-side CI verification   root: /home/milosvasic/Projects/vasic
-window: last 30 day(s) (since 2026-09-12T11:08:02Z)   repos: 77   upstream rows: 101
+window: last 30 day(s) (since 2026-09-12T13:33:03Z)   repos: 77   upstream rows: 101
 adapters: github.com -> gh [ready: authenticated as milos85vasic]
           gitlab.com -> glab [ready: authenticated as milos85vasic]
           gitflic.ru -> http [unauth: host reachable (https://api.gitflic.ru answered HTTP 403) but its API requires a credential for every route; none is configured — set GITFLIC_TOKEN to a read-only personal access token]

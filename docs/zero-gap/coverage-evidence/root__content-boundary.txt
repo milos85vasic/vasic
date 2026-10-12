@@ -1,6 +1,6 @@
 subject=root kind=content-boundary status=could-not-run:timeout cases=0 failed=0 rc=124
-head=c827c664c24e90a2b12b352618d579a3c631749d tree=5555a013cb8e2615482f0ea52b3a3b2107e269d86516846b533961d4943bbf1f ts=2026-10-12T11:39:04Z
+head=f73d413dfff34f1cffa0ffc35c8978aee9ccd38f tree=8a8120b3f4d1f6a4d5d273e1403db86bc062e81a6c1b478018f7c570960acbd9 ts=2026-10-12T14:01:57Z limit=1500
 cmd=bash scripts/verify-content-boundary.sh
-
+timed out: limit 1500s (--gate-timeout)
 ---
 

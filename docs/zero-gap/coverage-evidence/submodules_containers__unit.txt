@@ -1,7 +1,9 @@
 subject=submodules/containers kind=unit status=check-red cases=2835 failed=1 rc=1
-head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:47:31Z
+head=755f8327810b4f598048ab0d6a4db8178396fca9 tree=ac7ee7c7c5373df0eed98dac2de8e8c5bad33facbb2545e5c4c4fb1c1859e8ad ts=2026-10-12T13:30:54Z limit=240
 cmd=(cd submodules/containers && go test -count=1 -json -short <41 pkgs>)
 passed=2834 failed=1 skipped=39 over 1 module(s); worst module rc=1
+failing-tests (1):
+  digital.vasic.containers/pkg/remote :: TestNewConnectionPool
 ---
-## submodules/containers: rc=1 passed=2834 failed=1 skipped=39 seconds=136.1 build_fail=False
+## submodules/containers: rc=1 passed=2834 failed=1 skipped=39 seconds=136.4 build_fail=False
 

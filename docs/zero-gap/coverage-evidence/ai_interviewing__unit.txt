@@ -1,9 +1,72 @@
 subject=ai_interviewing kind=unit status=check-red cases=119 failed=62 rc=1
-head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:51:27Z
+head=755f8327810b4f598048ab0d6a4db8178396fca9 tree=097af4c2190b69a3e0a89ecccd8500af9e7da554f5441d9b8db15c1d9e96ecbe ts=2026-10-12T13:27:14Z limit=240
 cmd=(cd ai_interviewing/platform/backend && go test -count=1 -json -short <7 pkgs>)
 passed=57 failed=62 skipped=0 over 1 module(s); worst module rc=1
+failing-tests (62):
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestLoginFlow
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestLoginRejectsBadCredentials
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestRamiRestrictionsReflectInLogin
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestSwitchAccount
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestLoginRegeneratesSession_FixationRegression
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestLoginNeverLeaksSecretsInLogsOrErrorBodies
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestProtectedRoutesDenyDuringDBOutage
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/store :: TestSeedPasswordHashesAreBcryptNotPlaintext
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestLoginRateLimiting
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestLoginMintsAuthkitTokenAlongsideExistingToken
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestLoginWithoutAuthkitBridgeOmitsField
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestHealth
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestCurricula
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestModuleQuestions
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestProgressRoundTrip
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestProgressRequiresSession
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestAssetsHonourContentRBAC
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestSearchAppliesRBACBeforeTheLimit
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestSearchTreatsLikeWildcardsLiterally
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestProgressRejectsUnknownItemType
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestEveryRestrictedContentRouteIsClassifiedAndGated
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestAssetCacheHeadersRevalidateThroughAuthorization
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestRestrictedAssetIsIndistinguishableFromMissing
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestProgressIsPerAccount
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestRamiCannotReadEmployerOrGithubTracks
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestRamiCannotSearchEmployerContent
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestMalformedModuleIDIs400Everywhere
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestWellFormedUnknownIDIs404Everywhere
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestMalformedNotFoundAndEmptyAreThreeDistinctAnswers
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestEmptyCollectionsAreEmptyArrays
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestUnknownPlanKindIs400
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestKnownPlanKindsStillWork
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestWrongVerbIs405JSONNamingTheAllowedMethods
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestUnknownEndpointIs404JSONNot405
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestProgressTypeMismatchDoesNotLeakGoInternals
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestProgressTypeMismatchNamesTheOffendingField
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestProgressMalformedAndEmptyBodiesAre400JSON
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestUnknownProgressStatusIs400
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestKnownProgressStatusesStillWork
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestPlanDownloadFilenamesDifferByKind
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestPlanDownloadFilenameIsSafe
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestEmptySearchQueryIs400ButShortQueryStays200
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestUnknownLocaleIs404NamingWhatExists
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestSecurityHeadersOnEveryResponse
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestCSPAllowsTheSPAsInlineScriptsByHashOnly
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestHSTSOnlyOverTLSToARealHostname
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestSessionCookieSecureFollowsTheTransport
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestNoCrossOriginAccessIsGranted
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestHeadHealthIsALivenessProbe
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestSecurityHeadersSurviveGinsOwnRedirects
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestCSPConvergesAfterASameSizeSameMtimeSwap
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestCSPMatchesTheBytesServedUnderConcurrentDeploys
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestEveryPathThatResolvesToIndexIsServedFromTheSnapshot
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestValidatorsFollowTheSnapshotContent
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestMissingAssetLikePathsAre404NotSPAHTML
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestAHardLinkToTheIndexIsStaleAfterADeployAndFailsClosed
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestMCQCorrectIndexSurvivesTheWireAtEveryPosition
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestPlansIndexHonoursContentRBAC
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestSwitchIsSubjectToLoginRateLimit
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestThrottledSwitchLeavesCallerSessionIntact
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestStaticAssetStrongETag
+  github.com/milos85vasic/ai_interviewing/platform/backend/internal/api :: TestAPIAssetsStillHaveNoETag
 ---
-## ai_interviewing/platform/backend: rc=1 passed=57 failed=62 skipped=0 seconds=3.2 build_fail=False
+## ai_interviewing/platform/backend: rc=1 passed=57 failed=62 skipped=0 seconds=3.4 build_fail=False
 
 ## /home/milosvasic/Projects/vasic/ai_interviewing/platform/backend/gates/cmd/glive: go list rc=0, no packages
 github.com/milos85vasic/ai_interviewing/platform/backend/gates/cmd/glive

@@ -1,9 +1,13 @@
-subject=submodules/challenges kind=unit status=check-red cases=2062 failed=0 rc=1
-head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:45:13Z
+subject=submodules/challenges kind=unit status=could-not-run:go-build:missing-replace-dir cases=2062 failed=0 rc=1
+head=755f8327810b4f598048ab0d6a4db8178396fca9 tree=093a0a3aefc911b949fa90e19f52386083210f75402eb86c9e8d08f2f94828a1 ts=2026-10-12T13:27:37Z limit=240
 cmd=(cd submodules/challenges && go test -count=1 -json -short <17 pkgs>); (cd submodules/challenges/challenges/fixtures/memprobe && go test -count=1 -json -short <1 pkgs>)
+environment build failure, not a test failure; cases = passing cases of the packages that did run
 passed=2062 failed=0 skipped=6 over 2 module(s); worst module rc=1
+build-failure-causes=missing-replace-dir
+unbuilt-packages (1):
+  digital.vasic.challenges.memprobe
 ---
-## submodules/challenges: rc=0 passed=2062 failed=0 skipped=6 seconds=15.2 build_fail=False
+## submodules/challenges: rc=0 passed=2062 failed=0 skipped=6 seconds=17.0 build_fail=False
 
 ## submodules/challenges/challenges/fixtures/memprobe: rc=1 passed=0 failed=0 skipped=0 seconds=0.1 build_fail=True
 {"ImportPath":"digital.vasic.helixmemory/pkg/localstore","Action":"build-output","Output":"# digital.vasic.challenges.memprobe\n"}
