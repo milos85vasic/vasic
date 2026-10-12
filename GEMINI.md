@@ -27,7 +27,7 @@ Nothing is copied here. This file is a pointer; the authority is the submodule.
 
 | What | Canonical path in this repository |
 |---|---|
-| The universal constitution (11,787 lines, 255 `### §` anchors, 1,801,862 bytes, **re-measured on disk 2026-09-03 BEFORE AND AFTER the fourth fast-forward, at `3be10826f3d2` and again at `2887b42e9349` — every figure reproduced identically, sha256 `973e473c823b4a13…` on both sides**; the SAME `Constitution.md` blob `ad32fc94…` as all four superseded pins `902979027a90`, `f16ea779b82a`, `f5876a3b700e` and `3be10826f3d2`, so these figures have not moved across any of the four bumps) | `submodules/constitution/Constitution.md` |
+| The universal constitution (11,965 lines, 257 `### §` anchors, 1,908,339 bytes, re-measured 2026-10-12 at the index pin `a71b1767b402` with `wc -l`, `grep -c '^### §'` and `wc -c` on `Constitution.md`; re-derive, do not quote; historical and withdrawn as current: the 11,787 lines, 255 anchors, 1,801,862 bytes and sha256 `973e473c823b4a13…` re-measured on 2026-09-03 before and after the fourth fast-forward, at `3be10826f3d2` and `2887b42e9349`, the SAME `Constitution.md` blob `ad32fc94…` as the four superseded pins `902979027a90`, `f16ea779b82a`, `f5876a3b700e` and `3be10826f3d2`) | `submodules/constitution/Constitution.md` |
 | Claude Code carrier | `submodules/constitution/CLAUDE.md` |
 | Codex / Cursor / Aider / OpenCode / Crush / Kimi CLI carrier | `submodules/constitution/AGENTS.md` |
 | Qwen Code carrier | `submodules/constitution/QWEN.md` |
@@ -42,7 +42,7 @@ Nothing is copied here. This file is a pointer; the authority is the submodule.
 again on 2026-09-03, each on explicit operator authorization. Every bump closed
 one INSTANCE of the gap; the HOLE that let the first one open unnoticed is now
 WATCHED, and the watcher has gone GREEN, RED and GREEN again inside three
-days.** `submodules/constitution` is currently checked out at `2887b42e9349`, on
+days.** **Historical reading, superseded as current, taken 2026-09-03 (the live pin is the index gitlink from `git ls-files -s submodules/constitution`):** `submodules/constitution` is currently checked out at `2887b42e9349`, on
 branch `main`, and that **EQUALS**
 `git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD` as
 re-measured **2026-09-03 after the fourth move**. Every earlier "checked out at
@@ -287,8 +287,8 @@ so the standing authorization had nothing to act on the day it was granted.
 `07af6fb79e20`) joined the owned set; it is probed by both gates and is CURRENT.
 Three counts moved with it, each quoted from its own gate rather than derived by
 hand, as a historical reading of 2026-09-09 (superseded by the live fleet; re-measure with
-`bash scripts/verify-submodule-remote-sync.sh`): that gate then probed (historical) **13** owned gitlinks of 14
-declared (was 12 of 14); cascade **C1** classifies **12 owned + 1 governance source + 1 third-party** (was 11 owned); **C2/C3** now find **12 × 4 = 48** owned-submodule carriers (was 11 × 4 = 44). Note the two vocabularies disagree on purpose — the remote-sync gate probes `submodules/constitution` and counts it among its 13, while C1 classifies it as the cascade's SOURCE and excludes it from its 12. **Every "11 owned", "12 owned gitlinks", "44 of 44" and "12 CURRENT" figure elsewhere in this carrier is SUPERSEDED.** Re-derive the roster from the gates; never quote it from here. (historical)
+`bash scripts/verify-submodule-remote-sync.sh`): that gate then probed **13** owned gitlinks of 14
+declared (was 12 of 14, a historical reading); cascade **C1** classifies **12 owned + 1 governance source + 1 third-party** (was 11 owned); **C2/C3** now find **12 × 4 = 48** owned-submodule carriers (was 11 × 4 = 44). Note the two vocabularies disagree on purpose — the remote-sync gate probes `submodules/constitution` and counts it among its 13, while C1 classifies it as the cascade's SOURCE and excludes it from its 12. **Every "11 owned", "12 owned gitlinks", "44 of 44" and "12 CURRENT" figure elsewhere in this carrier is SUPERSEDED.** Re-derive the roster from the gates; never quote it from here. (historical)
 
 **Do not read the 13/13 green as durable.** This carrier has recorded five green-then-red cycles on this one pin; the standing authorization exists precisely because the green does not survive the week. (historical)
 
@@ -1014,7 +1014,7 @@ withdrawn sentence read, verbatim:
 gitlink `7f5922563d8bec866b1a25eac483590c9a212817` — `git ls-files -s
 submodules/containers` and `git -C submodules/containers rev-parse HEAD` agree.
 The ephemeral-run primitive landed upstream in `6d13ad03528c` (2026-09-04),
-**two commits before the current pin**, so this repository consumed the fix
+**an ancestor of that 2026-09-09 pin, one commit earlier (`git -C submodules/containers rev-list --count 6d13ad03528c..7f5922563d8b`), and four commits before the live pin `4a8f04e05f35` as measured 2026-10-12 (same command, live pin as the end)**, so this repository consumed the fix
 without noticing it and kept asserting the gap for five days. `pkg/runtime/run.go`
 and `pkg/runtime/run_test.go` exist, and `pkg/runtime/runtime.go` now declares on
 the interface itself:
@@ -1033,7 +1033,7 @@ on the `os/exec` path (`run.go:53`). Missing stdin support is refused with
 empty-stdin success.
 
 **WHAT REMAINS TRUE, and must not be over-corrected away.** Two halves of the
-old claim survive verbatim at the current pin, and they are the reason this is
+old claim survived verbatim at the 2026-09-09 pin `7f5922563d8b` (re-derive at the live pin), and they are the reason this is
 a SPLIT rather than a clean withdrawal:
 
 * `Exec(ctx, id, cmd []string)` **still accepts no stdin.** Read the interface;
@@ -1209,12 +1209,12 @@ silently replaced. They remain dated observations, not standing facts.
 bash scripts/continuation-check.sh              # 0 — 8 PASS/0 DRIFT/0 UNDET/7 NOTE   # historical
 bash scripts/verify-governance-cascade.sh       # 0 — 12 PASS/0 FAIL/0 ENV/8 NOTE (C0..C9)   # historical
 bash scripts/verify-manifest-pins.sh            # 0 — C9 standalone: 12 MATCH/0 DRIFT/0 UNDET of 12   # historical
-bash scripts/verify-check-registry.sh           # 0 — 57 PASS/0 FAIL/1 DEBT (2026-09-06; 43/45 superseded)
-bash scripts/audit-hardcoded-paths.sh           # 0 — BACK TO GREEN by a REAL FIX, not a re-baseline; see below
+bash scripts/verify-check-registry.sh           # 0 — 57 PASS/0 FAIL/1 DEBT (2026-09-06; 43/45 superseded)   # historical
+bash scripts/audit-hardcoded-paths.sh           # 0 — BACK TO GREEN by a REAL FIX, not a re-baseline; see below   # historical
 bash scripts/audit-environment-assumptions.sh   # 0 — 567 allow-listed, 666 baselined, 2247 files   # historical
-bash scripts/verify-content-boundary.sh         # 1 — RED BY DESIGN, see "Content boundary"
+bash scripts/verify-content-boundary.sh         # 1 — RED BY DESIGN, see "Content boundary"   # historical reading; re-measure with the command
 bash scripts/verify-submodule-remote-sync.sh    # 0 — RED, THEN GREEN AGAIN: 12 CURRENT/0 DRIFT   # historical
-bash scripts/verify-provider-ci.sh              # 1 — 1 CONFIRMED/6 UNVERIFIED/2 HISTORICAL
+bash scripts/verify-provider-ci.sh              # 1 — 1 CONFIRMED/6 UNVERIFIED/2 HISTORICAL   # historical
 bash scripts/verify-pretooluse-guard.sh         # 0 — 8 PASS/0 FAIL/0 UNDET (2026-09-09; G12)   # historical
 bash scripts/verify-all-constitution-rules.sh   # 1 — 173 PASS/96 FAIL/2 ERROR of 271 gates   # historical
 bash scripts/verify-claim-ledger.sh             # §11.4.266 — RE-MEASURES every recorded claim
@@ -1895,12 +1895,12 @@ Gate 6's own command re-run verbatim on 2026-09-06 gives **69 failed / 163
 passed / 1 flaky / 6 skipped**, and **69 of the 70 listed failure lines name
 `milosvasic.ru`** — not one is a `vasic.digital` defect.
 
-**The failure is tolerated by design, and that is arguably the worse half.**
-`_tools/deploy-langs.sh:375` runs
+**Historical, superseded and withdrawn as current (the 2026-09-03 reading): The failure is tolerated by design, and that is arguably the worse half.**
+At that time, in a historical and superseded reading, `_tools/deploy-langs.sh:375` ran
 `( cd milosvasic.ru && jekyll build … ) || build_warn "jekyll _site rebuild"`,
 and `build_warn` only increments a counter; `report_build_warns` then prints
 `N build step(s) failed and were tolerated` and the script **still exits 0**. (historical)
-A `--dry-run` therefore reports success while having built nothing.
+A `--dry-run` therefore reports success while having built nothing, which is a historical and superseded reading: the `build_warn` jekyll step no longer exists in `_tools/deploy-langs.sh`.
 
 **PRODUCTION IS NOT AFFECTED.** `milosvasic.ru` publishes through its own
 server-side `pages.yml` workflow (`build_type=workflow`, re-verified 2026-09-03),

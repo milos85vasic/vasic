@@ -77,7 +77,7 @@ front because the task allowed for the opposite finding.
 | Upstream | `git@github.com:HelixDevelopment/HelixConstitution.git` (`.gitmodules:3`) |
 | Pinned commit | `448981ae3498229c734dc60719f4b19f01d7a75f` (`git ls-files -s`) |
 | `git describe` | `v1.0.0-51-g448981a` — 51 commits **past** the only semver tag, i.e. **not pinned to a tag** |
-| Checked out? | Yes, fully, including all 7 of its own nested submodules |
+| Checked out? | Yes, fully, including all 7 of its own nested submodules (historical: counted at the 2026-08-26 pin `448981ae3498`; its `.gitmodules` at the 2026-10-12 index pin `a71b1767b402` declares more, re-derive with `git -C submodules/constitution config -f .gitmodules --get-regexp path`) |
 | Canonical rule text | `submodules/constitution/Constitution.md` — 11,101 lines / 1.53 MB (historical: measured at the 2026-08-26 pin `448981ae3498`; current value: `wc -l submodules/constitution/Constitution.md`) |
 
 Top-level governing documents (each also exported to `.html`, `.pdf`, `.docx`
@@ -92,7 +92,7 @@ per its own §11.4.65):
 | `GEMINI.md` | 497 | Gemini CLI carrier; made a first-class peer by §11.4.157. |
 | `CLAUDE_ANCHORS_FULL.md` | 790 | Full anchor corpus companion. |
 | `submodules-catalogue.md` | 229 | "Canonical inventory of every owned-by-us repository under `vasic-digital` + `HelixDevelopment` (142 repos at landing time)." |
-| `helix-deps.yaml` | — | §11.4.31 machine-readable dependency manifest for the constitution's own 7 deps. |
+| `helix-deps.yaml` | — | §11.4.31 machine-readable dependency manifest for the constitution's own 7 deps (historical: counted at the 2026-08-26 pin `448981ae3498`; re-derive from that file at the live pin). |
 | `templates/` | 3 files | `AGENTS.project.md.template`, `CLAUDE.project.md.template`, `Constitution.project.md.template` — the consumer-side scaffolds. |
 | `find_constitution.sh` | — | Parent-walk resolver; **already supports the `submodules/constitution/` layout** (see below). |
 | `meta_test_inheritance.sh` | — | Mutation meta-test that proves a consumer's inheritance gate is not a bluff gate. |
@@ -134,7 +134,7 @@ be wired into.
 
 ## 3. Nested submodules of the constitution
 
-`submodules/constitution/.gitmodules` registers 7 submodules (historical: counted at the 2026-08-26 pin `448981ae3498`; current value: `git -C submodules/constitution config -f .gitmodules --get-regexp path`). All 7 are
+`submodules/constitution/.gitmodules` registers 7 submodules (historical: counted at the 2026-08-26 pin `448981ae3498`; current value: `git -C submodules/constitution config -f .gitmodules --get-regexp path`). All 7 (historical, same pin) are
 populated. An eighth directory, `clickup_sync`, exists on disk but is **not a
 git submodule** — it has no `.git` file and no `.gitmodules` entry.
 
@@ -588,7 +588,7 @@ and push to land **before** the parent captures the pointer.
 
 ### 7.5 Why referencing beats copying — stated plainly
 
-- A copy of `Constitution.md` is 1.53 MB and 11,101 lines. It would be stale the
+- A copy of `Constitution.md` is 1.53 MB and 11,101 lines (historical: measured at the 2026-08-26 pin `448981ae3498`; `wc -lc submodules/constitution/Constitution.md` for the live size). It would be stale the
   moment upstream lands anchor §11.4.239.
 - §11.4.35 invariant 7 names the failure mode: "duplicates silently diverge over
   time", and the prescribed remedy for a misfiled rule is `git mv` + commit,

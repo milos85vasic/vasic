@@ -368,14 +368,19 @@ is the failure mode the registry was written to catch.
 
 Reference: [`docs/check-registry.md`](docs/check-registry.md).
 
-### Two of these are expected to be non-zero
+### Two of these are expected to be red (one conditionally)
 
-- **`verify-content-boundary.sh` exits non-zero by design.** See
+- **`verify-content-boundary.sh` is designed to stay red: exit `1` = findings present**
+  (re-measure: `bash scripts/verify-content-boundary.sh; echo "rc=$?"`). See
   [Content boundary](#content-boundary). A finding there is a reading
   assignment. Do not silence it, do not allow-list your way to green.
-- **`verify-submodule-remote-sync.sh` exits non-zero whenever a pin is behind its
-  remote.** Bumping a pin is an operator decision, and this instrument does not
-  make one. It exits non-zero until an operator acts.
+- **`verify-submodule-remote-sync.sh` is conditional, by exit code:**
+  exit `0` = every owned gitlink is current,
+  exit `1` = at least one pin is behind its remote or differs from it,
+  exit `2` = it could not determine (never a pass)
+  (re-measure: `bash scripts/verify-submodule-remote-sync.sh; echo "rc=$?"`).
+  Bumping a pin is an operator decision, and this instrument does not make one,
+  so while a pin is behind it stays at `1` until an operator acts.
 
 Neither is a reason to weaken the instrument.
 
@@ -566,7 +571,7 @@ and reports what survives with both sides named. Legitimate cross-boundary flows
 are declared as private/public **pairs** with a mandatory reason in
 `.content-boundary-allow`.
 
-**It exits non-zero, and that is the designed state. Do not make it green.** The
+**It is designed to stay red, exit `1` = findings present (re-measure: `bash scripts/verify-content-boundary.sh; echo "rc=$?"`). Do not make it green.** The
 surviving matches are left visible rather than allow-listed, because an
 allow-list entry buys a green exit at the price of hiding the row from the next
 reader.
