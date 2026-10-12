@@ -1,0 +1,6 @@
+# duplicate-subjects.tsv - subjects that are the SAME CODE under a second gitlink (feature 010, T061 round 2, F5).
+# DATA read by scripts/zero-gap-coverage.sh. Both subject rows stay in coverage.tsv; the generator prints the RAW and the
+# DE-DUPLICATED totals. A row is honoured ONLY while both checked-out HEADs are the identical commit (else refused on stderr).
+# Columns (tab-separated): duplicate  of  reason
+duplicate	of	reason
+submodules/llm_provider	submodules/LLMProvider	separate gitlink (HelixDevelopment/LLMProvider vs vasic-digital/LLMProvider remotes) pinned to the identical commit e05ec64ebc48: one codebase, measured twice with identical results
