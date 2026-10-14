@@ -44,6 +44,10 @@ CANONICAL_REL="submodules/constitution/scripts/hooks/guard-forbidden-commands.sh
 UPSTREAM_TEST_REL="submodules/constitution/scripts/hooks/test_guard_forbidden_commands.sh"
 SETTINGS_REL=".claude/settings.json"
 PREAMBLE_REL="docs/AGENT_GUARDRAILS.md"
+# The SECOND PreToolUse entry (wired b44c9b0, 2026-10-14): the project guard that closes the catalogue rows the upstream
+# guard lets through and refuses bulk writes into RAM-backed tmpfs. V2b asserts it is wired, V9 that it fires.
+PROJECT_REL="scripts/hooks/guard-project-catalogue.sh"
+CATALOGUE_REL="docs/zero-gap/guarded-commands.tsv"
 
 PASS=0; FAIL=0; UNDET=0
 rc_undet_reason=""
@@ -173,6 +177,20 @@ verify_tree() {
     fi
   fi
 
+  # ---- V2b: the SECOND entry wires the project guard ----------------------
+  local project_wired=0
+  if [ -f "$settings" ] && settings_parses "$settings"; then
+    local pc
+    while IFS= read -r pc; do
+      case "$pc" in *"$PROJECT_REL"*) project_wired=1 ;; esac
+    done <<< "$(pretooluse_commands "$settings")"
+  fi
+  if [ "$project_wired" -eq 1 ]; then
+    ok "V2b project guard wired (second entry)" "-> $PROJECT_REL"
+  else
+    bad "V2b project guard wired (second entry)" "$SETTINGS_REL has no PreToolUse command naming $PROJECT_REL"
+  fi
+
   # ---- V3: the wiring is TRACKED, so a fresh clone inherits it ------------
   if [ -f "$settings" ]; then
     if git -C "$root" ls-files --error-unmatch "$SETTINGS_REL" >/dev/null 2>&1; then
@@ -262,6 +280,41 @@ PROBES
     bad "V6 escape hatch cannot unlock host-power" "nothing wired to execute"
   fi
 
+  # ---- V9: the project guard is OPERATIVE — execute it --------------------
+  # Probes the upstream guard lets through (so a refusal here is the project guard's own): a bare `git stash` (catalogue
+  # row stash-all), a structural spelling (`git reset -q --hard`), and a bulk copy into RAM-backed /tmp. All are DATA on
+  # stdin, never executed. A benign call must pass.
+  if [ "$project_wired" -eq 1 ]; then
+    local pg="$root/$PROJECT_REL" v9="" prc pcmd plabel
+    if [ ! -f "$pg" ]; then
+      bad "V9 project guard fires" "wired path does not resolve to a file: $PROJECT_REL"
+    elif ! command -v python3 >/dev/null 2>&1; then
+      undet "V9 project guard fires" "python3 is not available; the project guard cannot run"
+    else
+      while IFS='|' read -r plabel pcmd _marker; do
+        [ -n "$plabel" ] || continue
+        printf '{"tool_name":"Bash","tool_input":{"command":"%s"}}' "$pcmd" | bash "$pg" >/dev/null 2>&1
+        prc=$?
+        [ "$prc" -eq 2 ] || v9="${v9}${v9:+, }$plabel(rc=$prc)"
+      done <<'PPROBES'
+stash-all|git stash|DANGER-OK: probe DATA piped to the guard's stdin, never executed
+reset-hard-structural|git reset -q --hard|DANGER-OK: probe DATA piped to the guard's stdin, never executed
+tmpfs-bulk-copy|cp -a src /tmp/x|DANGER-OK: probe DATA piped to the guard's stdin, never executed
+PPROBES
+      printf '{"tool_name":"Bash","tool_input":{"command":"git status --short"}}' | bash "$pg" >/dev/null 2>&1
+      prc=$?
+      if [ -z "$v9" ] && [ "$prc" -eq 0 ]; then
+        ok "V9 project guard fires" "3/3 probes refused with rc 2, benign call rc 0"
+      elif [ -n "$v9" ]; then
+        bad "V9 project guard fires" "NOT refused: $v9 - wired but inoperative"
+      else
+        bad "V9 project guard fires" "a benign call was refused (rc=$prc) - an over-blocking guard gets disabled"
+      fi
+    fi
+  else
+    bad "V9 project guard fires" "the project guard is not wired"
+  fi
+
   # ---- V7: §11.4.109 (B) + (C) preamble document --------------------------
   if [ ! -f "$preamble" ]; then
     bad "V7 preamble document" "missing: $PREAMBLE_REL — §11.4.109(B)/(C)"
@@ -334,15 +387,18 @@ prove_failure() {
   # Build a pristine synthetic consumer tree.
   build() {
     local d="$1"
-    rm -rf "$d"; mkdir -p "$d/$(dirname "$CANONICAL_REL")" "$d/.claude" "$d/docs"
+    rm -rf "$d"; mkdir -p "$d/$(dirname "$CANONICAL_REL")" "$d/.claude" "$d/docs" "$d/$(dirname "$PROJECT_REL")" "$d/$(dirname "$CATALOGUE_REL")"
     cp "$real_guard" "$d/$CANONICAL_REL"
+    cp "$ROOT/$PROJECT_REL" "$d/$PROJECT_REL"
+    cp "$ROOT/$CATALOGUE_REL" "$d/$CATALOGUE_REL"
     cp "$ROOT/$UPSTREAM_TEST_REL" "$d/$UPSTREAM_TEST_REL" 2>/dev/null || : > "$d/$UPSTREAM_TEST_REL"
     chmod +x "$d/$CANONICAL_REL"
     cat > "$d/$SETTINGS_REL" <<EOF
 {
   "hooks": {
     "PreToolUse": [
-      { "matcher": "*", "hooks": [ { "type": "command", "command": "bash \\"\$CLAUDE_PROJECT_DIR/$CANONICAL_REL\\"" } ] }
+      { "matcher": "*", "hooks": [ { "type": "command", "command": "bash \\"\$CLAUDE_PROJECT_DIR/$CANONICAL_REL\\"" },
+                                   { "type": "command", "command": "bash \\"\$CLAUDE_PROJECT_DIR/$PROJECT_REL\\"" } ] }
     ]
   }
 }
@@ -415,6 +471,14 @@ EOF
   m_no_anchor()  { _rewrite 's/11\.4\.109/one-one-four/' "$1/$PREAMBLE_REL"; }
   m_no_harness() { rm -f "$1/$UPSTREAM_TEST_REL"; }
   m_badjson()    { printf '{ "hooks": { "PreToolUse": [ \n' > "$1/$SETTINGS_REL"; }
+  m_unwire_project() { python3 -I -c 'import json,sys
+p,rel=sys.argv[1],sys.argv[2]; d=json.load(open(p))
+for e in d["hooks"]["PreToolUse"]:
+    e["hooks"]=[h for h in e["hooks"] if rel not in h.get("command","")]
+json.dump(d,open(p,"w"))' "$1/$SETTINGS_REL" "$PROJECT_REL"; }
+  m_neuter_project()   { printf '#!/usr/bin/env bash\nexit 0\n' > "$1/$PROJECT_REL"; }
+  m_overblock_project(){ printf '#!/usr/bin/env bash\nexit 2\n' > "$1/$PROJECT_REL"; }
+  m_no_catalogue()     { rm -f "$1/$CATALOGUE_REL"; }
   m_notgit()     { rm -rf "$1/.git"; }
   m_absent()     { rm -rf "$1"; }
 
@@ -435,6 +499,10 @@ EOF
   run_case "M10 the 11.4.109 literal stripped"       1 m_no_anchor
   run_case "M11 upstream hermetic harness deleted"   1 m_no_harness
   run_case "M12 settings.json malformed"             1 m_badjson
+  run_case "M13 SECOND entry (project guard) removed" 1 m_unwire_project
+  run_case "M14 project guard NEUTERED (exit 0)"      1 m_neuter_project
+  run_case "M15 project guard OVER-BLOCKS (exit 2)"   1 m_overblock_project
+  run_case "M16 project guard's catalogue deleted"   1 m_no_catalogue
 
   say ""
   say "-- COULD-NOT-DETERMINE: each MUST be rc 2, never a pass --"
