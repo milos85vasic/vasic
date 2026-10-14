@@ -2,12 +2,12 @@
 
 | Field | Value |
 |---|---|
-| Revision | 1 |
+| Revision | 2 |
 | Created | 2026-10-14 |
 | Last modified | 2026-10-14 |
 | Status | proposal — NOT canon; not placed in `submodules/constitution` |
-| Status summary | Five proposed anchors (ANCHOR-A..E, tentative §11.4.277–§11.4.281) for the operator mandate of 2026-10-12: constitution-owned `llmctl` wrapper, validated-before-use, golden-content oracle bank, vision-eyed full-suite UI QA, docs + propagation |
-| Issues | Independent review (§11.4.142) not yet run; gate code not written; see `06_open_questions.md` |
+| Status summary | Revision 2: upstream now carries §11.4.277 and §11.4.278 with overlapping content. `07_reconciliation_after_upstream_merge.md` supersedes the numbering and the new-anchor framing below: no new anchors, amendments to 277/278 instead, tentative §11.4.277–§11.4.281 released. Files 01–05 stay as the record of the original draft (ANCHOR-A..E for the operator mandate of 2026-10-12). |
+| Issues | Independent review (§11.4.142) not yet run; gate code not written; see `06_open_questions.md` and `07_reconciliation_after_upstream_merge.md` §13 |
 
 ## Why this directory exists
 
@@ -33,6 +33,7 @@ passwords and no private host names; hosts are named by role only.
 | `04_toc_status_changelog.md` | ToC entries, metadata-header values, changelog entry |
 | `05_consumer_adoption.md` | Adoption checklist and the phased rollout for the reference multi-platform consumer |
 | `06_open_questions.md` | Open questions with the defaults chosen; review slicing |
+| `07_reconciliation_after_upstream_merge.md` | Clause-level matrix of A–E against upstream §11.4.277/§11.4.278, amendment plan and text, gate impact, implementation status, consumer pins, operator questions — **read this first** |
 
 ## The anchors in one line each
 

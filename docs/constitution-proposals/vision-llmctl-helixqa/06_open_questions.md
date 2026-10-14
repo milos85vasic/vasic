@@ -2,9 +2,15 @@
 
 | Field | Value |
 |---|---|
-| Revision | 1 |
+| Revision | 2 |
 | Created | 2026-10-14 |
 | Status | proposal — every default is reversible by an operator decision (§11.4.66) |
+
+**Superseded in part (2026-10-14).** See `07_reconciliation_after_upstream_merge.md` §13:
+Q1, Q2, Q3, Q5, Q6, Q8 and Q14 are answered by upstream §11.4.277/§11.4.278; Q4 is
+covered; Q7, Q11, Q12 and Q15 became amendment proposals or Q-R3; Q9, Q10 and Q13 stay
+open; new questions are Q-R1..Q-R9. The four review slices below are replaced by
+slices S1–S4 in `07` §7.
 
 Each question states the DEFAULT this draft uses (§11.4.101: decide rather than
 block) and what would change if the operator chooses otherwise.
