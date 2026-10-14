@@ -102,7 +102,7 @@ Two independent modules (`workshop` and `ai_interviewing`) are decoupled from th
 **Key properties:**
 - `postProgress/getProgress` use derived key (overrides client session)
 - `TestProgressIsPerAccount` proves two accounts posting the same item keep separate summaries
-- Restricted modules: `employer_data`, `github_analysis` (user role only, rami can't access)
+- Restricted modules: `employer_data`, `github_analysis` (user role only, <participant-handle> can't access)
 - `search` drops hits from restricted modules (enforced at content layer, not just login response)
 
 ---
@@ -119,7 +119,7 @@ Two independent modules (`workshop` and `ai_interviewing`) are decoupled from th
 │  │ milosvasic│  │ workshop     │  │ workshop/all │      │
 │  │ admin     │  │ ai_interview │  │ ai_interview │      │
 │  │           │  │              │  │              │      │
-│  │ rami      │  │              │  │              │      │
+│  │ <p-handle>│  │              │  │              │      │
 │  │ user      │  │              │  │              │      │
 │  └───────────┘  └──────────────┘  └──────────────┘      │
 │                                                          │
@@ -129,7 +129,7 @@ Two independent modules (`workshop` and `ai_interviewing`) are decoupled from th
 │  │           │  │              │  │              │      │
 │  │ 1 workshop│  │ token_hash   │  │ milosvasic+  │      │
 │  │ 2 ai_int  │  │ user_id FK   │  │ workshop=adm │      │
-│  │           │  │ module_id FK │  │ rami=user    │      │
+│  │           │  │ module_id FK │  │ user role    │      │
 │  └───────────┘  └──────────────┘  └──────────────┘      │
 └──────────────────────────────────────────────────────────┘
 ```

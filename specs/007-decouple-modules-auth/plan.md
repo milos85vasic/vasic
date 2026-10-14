@@ -5,7 +5,7 @@
 
 ## Summary
 
-This feature decouples two modules (workshop and ai_interviewing) from the vasic umbrella into fully independent, standalone projects. Each module must be clonable, installable, and runnable without access to the vasic repository. The plan adds authentication with role-based access control (two predefined users: milosvasic/full access, rami/restricted on ai_interviewing), implements progress tracking (areas, lessons, tests, exercises), extracts reusable code as public submodules under vasic-digital on GitHub and GitLab, updates all existing submodules to latest main, extends documentation, and ensures full test coverage with deterministic evidence. Validation runs against locally containerized services using the containers submodule with Podman/Docker.
+This feature decouples two modules (workshop and ai_interviewing) from the vasic umbrella into fully independent, standalone projects. Each module must be clonable, installable, and runnable without access to the vasic repository. The plan adds authentication with role-based access control (two predefined users: milosvasic/full access, <participant-handle>/restricted on ai_interviewing), implements progress tracking (areas, lessons, tests, exercises), extracts reusable code as public submodules under vasic-digital on GitHub and GitLab, updates all existing submodules to latest main, extends documentation, and ensures full test coverage with deterministic evidence. Validation runs against locally containerized services using the containers submodule with Podman/Docker.
 
 ## Technical Context
 
@@ -301,9 +301,9 @@ All clarifications resolved during `/speckit.clarify`:
 
 **User**
 - `id` (UUID, PK)
-- `username` (string, unique, not null) — "milosvasic", "rami"
+- `username` (string, unique, not null) — "milosvasic", "<participant-handle>"
 - `password_hash` (string, not null) — bcrypt/argon2
-- `role` (enum: admin, user) — admin for milosvasic, user for rami
+- `role` (enum: admin, user) — admin for milosvasic, user for <participant-handle>
 - `created_at` (timestamp)
 - `updated_at` (timestamp)
 - `last_login` (timestamp, nullable)
@@ -407,10 +407,10 @@ All clarifications resolved during `/speckit.clarify`:
    # Login as milosvasic
    curl -X POST http://localhost:8087/api/auth/login -d '{"username":"milosvasic","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD>"}'
    # Verify: token returned, can access all endpoints
-   # Login as rami
-   curl -X POST http://localhost:8087/api/auth/login -d '{"username":"rami","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>"}'
+   # Login as <participant-handle>
+   curl -X POST http://localhost:8087/api/auth/login -d '{"username":"<participant-handle>","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_PARTICIPANT_HANDLE>"}'
    # Verify: token returned, full access on workshop
-   # On ai_interviewing: rami denied employer_data, github_analysis; allowed knowledge_base, progress
+   # On ai_interviewing: <participant-handle> denied employer_data, github_analysis; allowed knowledge_base, progress
    ```
 
 4. **Progress Tracking**
@@ -427,7 +427,7 @@ All clarifications resolved during `/speckit.clarify`:
    # Logout
    curl -X POST http://localhost:8087/api/auth/logout -H "Authorization: Bearer $TOKEN"
    # Login as different user
-   curl -X POST http://localhost:8087/api/auth/login -d '{"username":"rami","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>"}'
+   curl -X POST http://localhost:8087/api/auth/login -d '{"username":"<participant-handle>","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_PARTICIPANT_HANDLE>"}'
    # Verify: new token, new permissions
    ```
 

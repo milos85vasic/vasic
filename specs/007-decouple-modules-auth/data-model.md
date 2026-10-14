@@ -14,7 +14,7 @@
 | Field | Type | Constraints | Description |
 |-------|------|-------------|-------------|
 | `id` | UUID | PK, not null, default gen_random_uuid() | Unique identifier |
-| `username` | VARCHAR(100) | UNIQUE, not null | Login username: "milosvasic", "rami" |
+| `username` | VARCHAR(100) | UNIQUE, not null | Login username: "milosvasic", "<participant-handle>" |
 | `password_hash` | VARCHAR(255) | not null | bcrypt/argon2 hash |
 | `role` | VARCHAR(20) | not null, CHECK (role IN ('admin','user')) | "admin" = full access, "user" = restricted |
 | `created_at` | TIMESTAMPTZ | not null, default now() | Account creation |
@@ -29,7 +29,7 @@
 ```sql
 INSERT INTO users (username, password_hash, role) VALUES 
 ('milosvasic', '<bcrypt-hash-of-the-seed-password>', 'admin'),
-('rami', '<bcrypt-hash-of-<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>>', 'user');
+('<participant-handle>', '<bcrypt-hash-of-<seed password: see WORKSHOP_TEST_SEED_PASSWORD_PARTICIPANT_HANDLE>>', 'user');
 ```
 
 ---

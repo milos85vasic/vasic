@@ -304,7 +304,7 @@ Note: this commits INSIDE `submodules/qa` (a gitlink bump for the umbrella is a 
 - Create: `submodules/qa/banks/ai_interviewing/rbac.yaml`
 
 **Interfaces:**
-- Consumes: `helixqa` binary from Task 2; the live `ai_interviewing` server at `http://127.0.0.1:8099` (confirm with `curl -sS http://127.0.0.1:8099/api/health`; if not running, `cd $VASIC_ROOT/ai_interviewing && bash platform/scripts/restart.sh`). Requires the seeded `rami`/user-role credential from `specs/007-decouple-modules-auth/spec.md` and a valid session cookie obtained via `POST /api/auth/login` — HelixQA's `action`/`expected` steps describe the HTTP exchange; if HelixQA's own executor cannot itself perform a stateful login-then-request sequence from a YAML step list (check `ARCHITECTURE.md`'s `pkg/navigator` docs for what its web executor actually supports before assuming), fall back to a two-step bank (login step asserts 200 + Set-Cookie, second step is a manual curl-style HTTP assertion) and record precisely which form HelixQA's real executor required — do not guess ahead of reading its own navigator code.
+- Consumes: `helixqa` binary from Task 2; the live `ai_interviewing` server at `http://127.0.0.1:8099` (confirm with `curl -sS http://127.0.0.1:8099/api/health`; if not running, `cd $VASIC_ROOT/ai_interviewing && bash platform/scripts/restart.sh`). Requires the seeded `<participant-handle>`/user-role credential from `specs/007-decouple-modules-auth/spec.md` and a valid session cookie obtained via `POST /api/auth/login` — HelixQA's `action`/`expected` steps describe the HTTP exchange; if HelixQA's own executor cannot itself perform a stateful login-then-request sequence from a YAML step list (check `ARCHITECTURE.md`'s `pkg/navigator` docs for what its web executor actually supports before assuming), fall back to a two-step bank (login step asserts 200 + Set-Cookie, second step is a manual curl-style HTTP assertion) and record precisely which form HelixQA's real executor required — do not guess ahead of reading its own navigator code.
 
 - [ ] **Step 1: Read `submodules/qa/pkg/navigator`'s web executor before writing steps that assume a capability it may not have**
 
@@ -344,10 +344,10 @@ test_cases:
     platforms: [web]
     steps:
       - name: "Log in as the seeded user-role account"
-        action: "POST /api/auth/login as rami (see specs/007-decouple-modules-auth/spec.md)"
+        action: "POST /api/auth/login as <participant-handle> (see specs/007-decouple-modules-auth/spec.md)"
         expected: "200 OK, session cookie set"
-      - name: "Request an admin-only module page while logged in as rami"
-        action: "GET /module/41 with the rami session"
+      - name: "Request an admin-only module page while logged in as <participant-handle>"
+        action: "GET /module/41 with the <participant-handle> session"
         expected: "Page renders \"You don't have permission to view this module\", contains no \"could not be reached\" text, and shows no Retry button"
     tags: [security, rbac, regression, permission-denied]
     estimated_duration: "10s"

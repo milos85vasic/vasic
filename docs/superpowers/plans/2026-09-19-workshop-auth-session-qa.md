@@ -18,7 +18,7 @@
 - Any real bug HelixQA finds triggers a full `systematic-debugging` root-cause pass (Phase 1-4) and a TDD fix — never a symptom patch.
 - Credentials are supplied only at CLI-invocation time (`--admin-user`/`--admin-pass` flags), never written into any bank file.
 - workshop is a private repo with its own remote; implementers commit locally, the controller pushes after task review.
-- The two seeded users are `milosvasic` (admin) and `rami` (user) — read the real credential values from `specs/007-decouple-modules-auth/spec.md` at the umbrella root (`$VASIC_ROOT/specs/007-decouple-modules-auth/spec.md`, FR-009) — this path does NOT resolve from inside `workshop/` or `submodules/qa/`.
+- The two seeded users are `milosvasic` (admin) and `<participant-handle>` (user) — read the real credential values from `specs/007-decouple-modules-auth/spec.md` at the umbrella root (`$VASIC_ROOT/specs/007-decouple-modules-auth/spec.md`, FR-009) — this path does NOT resolve from inside `workshop/` or `submodules/qa/`.
 
 ---
 
@@ -84,7 +84,7 @@ test_cases:
         action: "http: POST /api/auth/login"
         expect_status: 200
         expected: "200 OK, session established (fill in real response-field assertion from Step 2)"
-      - name: "Login as rami"
+      - name: "Login as <participant-handle>"
         action: "http: POST /api/auth/login"
         expect_status: 200
         expected: "200 OK, session established"
@@ -167,7 +167,7 @@ test_cases:
       - name: "Second session still valid against a gated route"
         action: "http: GET /api/chapters"
         expect_status: 200
-      - name: "Switch to rami using the second session"
+      - name: "Switch to <participant-handle> using the second session"
         action: "http: POST /api/auth/switch"
         expect_status: 200
       - name: "First (pre-switch) session is now revoked"

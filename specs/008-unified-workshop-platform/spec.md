@@ -272,17 +272,17 @@ Projects/
 | | `workshop` | `ai_interviewing` |
 |---|---|---|
 | `milosvasic` | full access to every feature and every datum | full access to every feature and every datum |
-| `rami` | full access, **equal to** `milosvasic` | knowledge base only — areas, lessons, tests, exercises, progress. **Denied** employer information and GitHub-project analysis |
+| `<participant-handle>` | full access, **equal to** `milosvasic` | knowledge base only — areas, lessons, tests, exercises, progress. **Denied** employer information and GitHub-project analysis |
 
 Four properties of that table are requirements rather than descriptions:
 
 1. **Default-deny, not default-allow.** "Employer information" and "GitHub project analysis" are
    named informally, not as a closed list of tables, fields and routes. Enumerating what is denied
    would guarantee a missed path. Therefore anything not explicitly on the allow-list is denied for
-   `rami` on `ai_interviewing`, and a user record with **no** assigned role gets **zero** access —
+   `<participant-handle>` on `ai_interviewing`, and a user record with **no** assigned role gets **zero** access —
    never admin-equivalent, never inherited from whatever the previous session on that browser had.
-2. **Audience-scoped tokens.** Both modules read the same user table, so proving *"this is rami"* is
-   not sufficient — the token must also prove *"for this module"*, or a `rami` session obtained on
+2. **Audience-scoped tokens.** Both modules read the same user table, so proving *"this is <participant-handle>"* is
+   not sufficient — the token must also prove *"for this module"*, or a `<participant-handle>` session obtained on
    `workshop` (full access) is replayable against `ai_interviewing` to reach exactly the data the
    table denies. This is a privilege-escalation path **created by the decoupling itself**.
 3. **Fail closed.** On auth-provider or user-database unavailability, access is denied. An
@@ -2500,7 +2500,7 @@ Like OQ-5, genuinely undecided — no auth or user-store code exists yet in eith
 `003`'s exists anywhere in `specs/007` or either module. Investigated first for a load-bearing
 signal already in the document rather than treated as a coin flip: FR-296–FR-299 already require
 the SAME two seed identities to be recognized on BOTH modules, with DIFFERENT per-module
-authorization — `milosvasic` full access on both, `rami` full on workshop but restricted on
+authorization — `milosvasic` full access on both, `<participant-handle>` full on workshop but restricted on
 `ai_interviewing`. That is a real signal in favour of one shared identity: the alternative (two
 independent stores) would need the same credentials hand-kept in sync across both, doubling the
 credential-rotation and attack surface for no product benefit, purely to avoid one shared

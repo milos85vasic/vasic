@@ -74,8 +74,8 @@ description: "Task list template for feature implementation"
 
 **Independent Test**: Login works as both users; RBAC restrictions enforced per module acceptance scenarios
 
--[x] T005 [TDD] [US3] Setup shared DB schema and migrations for auth (users milosvasic/rami, roles admin/user)
--[x] T006 [TDD] [US3] Implement login form and RBAC on both modules (workshop: full access; ai_interviewing: rami restricted on employer_data/github_analysis)
+-[x] T005 [TDD] [US3] Setup shared DB schema and migrations for auth (users milosvasic/<participant-handle>, roles admin/user)
+-[x] T006 [TDD] [US3] Implement login form and RBAC on both modules (workshop: full access; ai_interviewing: <participant-handle> restricted on employer_data/github_analysis)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -144,12 +144,12 @@ description: "Task list template for feature implementation"
 
 ## Phase 9: Security & Privacy Hardening (FR-042–FR-055, added 2026-09-15 brainstorm pass)
 
-**Goal**: Harden the authentication/authorization implementation from Phase 3 against the security/privacy edge cases and Functional Requirements added in the 2026-09-15 brainstorm pass on spec.md. This spec has real, live security stakes: FR-009's example credentials (`milosvasic`/`<seed password: see WORKSHOP_TEST_SEED_PASSWORD>`, `rami`/`<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>`) are already committed to this public repository's history and MUST be treated as compromised, never as real production secrets.
+**Goal**: Harden the authentication/authorization implementation from Phase 3 against the security/privacy edge cases and Functional Requirements added in the 2026-09-15 brainstorm pass on spec.md. This spec has real, live security stakes: FR-009's example credentials (`milosvasic`/`<seed password: see WORKSHOP_TEST_SEED_PASSWORD>`, `<participant-handle>`/`<seed password: see WORKSHOP_TEST_SEED_PASSWORD_PARTICIPANT_HANDLE>`) are already committed to this public repository's history and MUST be treated as compromised, never as real production secrets.
 
 **Independent Test**: Each control below has its own automated, deterministic test that fails RED against an unhardened implementation and passes GREEN once the control is implemented, on both workshop and ai_interviewing.
 
 - [ ] T017 [TDD] [REVIEW] [US3] Implement salted password hashing (Argon2id or bcrypt) for the shared user store on both modules; verify by test that no plaintext or reversibly-encrypted password value exists in any table, log, or fixture (FR-042)
-- [ ] T018 [P] [REVIEW] [US3] Add a pre-deployment boot guard that refuses to start a production-flagged environment while the FR-009 example password hashes (for `milosvasic`/`<seed password: see WORKSHOP_TEST_SEED_PASSWORD>` and `rami`/`<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>`) are still active, and document in each module's README that these already-committed values are compromised and MUST NOT be reused as real secrets (FR-043)
+- [ ] T018 [P] [REVIEW] [US3] Add a pre-deployment boot guard that refuses to start a production-flagged environment while the FR-009 example password hashes (for `milosvasic`/`<seed password: see WORKSHOP_TEST_SEED_PASSWORD>` and `<participant-handle>`/`<seed password: see WORKSHOP_TEST_SEED_PASSWORD_PARTICIPANT_HANDLE>`) are still active, and document in each module's README that these already-committed values are compromised and MUST NOT be reused as real secrets (FR-043)
 - [ ] T019 [TDD] [REVIEW] [US3] Add automated log/error-output scanning (unit + integration test) asserting that session tokens, session identifiers, and passwords never appear in application logs, error responses, crash reports, or URL/query strings on either module (FR-044)
 - [ ] T020 [TDD] [REVIEW] [US3] Implement session-ID regeneration on successful login on both modules; add a regression test proving the pre-authentication session id is discarded and cannot become the authenticated session id (session-fixation protection) (FR-045)
 - [ ] T021 [TDD] [REVIEW] [US3] Implement audience-scoped (module-restricted) tokens; add a contract test proving a token minted by workshop is rejected by ai_interviewing and vice versa, even though both modules read the shared user store (FR-046)

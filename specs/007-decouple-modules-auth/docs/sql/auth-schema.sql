@@ -52,25 +52,25 @@ CREATE TABLE IF NOT EXISTS auth_session (
     FOREIGN KEY (module_id) REFERENCES auth_module(id)
 );
 
--- Seed data: milosvasic (admin) and rami (user)
+-- Seed data: milosvasic (admin) and <participant-handle> (user)
 INSERT OR IGNORE INTO auth_user (username, password, role) VALUES
     ('milosvasic', '$2a$12$PLACEHOLDER', 'admin'),
-    ('rami',         '$2a$12$PLACEHOLDER', 'user');
+    ('<participant-handle>',         '$2a$12$PLACEHOLDER', 'user');
 
 -- Module definitions
 INSERT OR IGNORE INTO auth_module (id, name) VALUES
     (1, 'workshop'),
     (2, 'ai_interviewing');
 
--- Workshop permissions: milosvasic = full access; rami = full access on workshop
+-- Workshop permissions: milosvasic = full access; <participant-handle> = full access on workshop
 INSERT OR IGNORE INTO auth_permission (module_id, resource, actions) VALUES
     (1, 'all', 'read,write,delete');
 
 INSERT OR IGNORE INTO auth_user_module (user_id, module_id, role) VALUES
     (1, 1, 'admin'),  -- milosvasic on workshop = admin
-    (2, 1, 'admin');  -- rami on workshop = admin
+    (2, 1, 'admin');  -- <participant-handle> on workshop = admin
 
--- ai_interviewing permissions: milosvasic = full access; rami = restricted
+-- ai_interviewing permissions: milosvasic = full access; <participant-handle> = restricted
 INSERT OR IGNORE INTO auth_permission (module_id, resource, actions) VALUES
     (2, 'knowledge_base', 'read,write'),
     (2, 'progress',      'read,write'),
@@ -79,4 +79,4 @@ INSERT OR IGNORE INTO auth_permission (module_id, resource, actions) VALUES
 
 INSERT OR IGNORE INTO auth_user_module (user_id, module_id, role) VALUES
     (1, 2, 'admin'),   -- milosvasic on ai_interviewing = admin
-    (2, 2, 'user');    -- rami on ai_interviewing = user (restricted)
+    (2, 2, 'user');    -- <participant-handle> on ai_interviewing = user (restricted)

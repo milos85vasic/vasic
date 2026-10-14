@@ -217,4 +217,4 @@ All errors follow RFC 7807 Problem Details format:
 | user | knowledge_base | read |
 | user | progress | read, write |
 
-**User "rami" (role=user) CANNOT access employer_data or github_analysis.**
+**User "<participant-handle>" (role=user) CANNOT access employer_data or github_analysis.**

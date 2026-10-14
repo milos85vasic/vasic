@@ -6,7 +6,7 @@ duration: null
 phase_status:
   phase_1_setup: complete         # T001, T002: workshop cloned to sibling directory outside umbrella; standalone bootstrap + build PASS
   phase_2_foundational: complete  # T003, T004: ai_interviewing cloned to sibling directory outside umbrella; standalone build PASS
-  phase_3_us3_auth_rbac: complete       # T005, T006: auth with RBAC on both modules (milosvasic full access; rami restricted)
+  phase_3_us3_auth_rbac: complete       # T005, T006: auth with RBAC on both modules (milosvasic full access; <participant-handle> restricted)
   phase_4_us4_progress: complete       # T007, T008: progress tracking on both modules, per-account keying, JSON evidence
   phase_5_extract_reusables: complete # T009, T010: 6 vasic-digital submodules extracted and functional; governance cascade 12 PASS 0 FAIL; 13/13 manifest pins match
   phase_6_submodule_updates: complete # T011, T012: all 14 gitlinks verified at latest main; 13 MATCH 0 DRIFT; builds PASS
@@ -74,8 +74,8 @@ human_checkpoints:
 
 phase_3_evidence:
   t005_auth_store:
-    ai_interviewing: internal/store/auth.go — auth_user/auth_module/auth_permission/auth_session tables in the main SQLite migrate(); seeds milosvasic(admin)+rami(user), full RBAC matrix (workshop all/admin+user; ai_interviewing admin knowledge_base rw+progress rw+employer_data r+github_analysis r; user knowledge_base r+progress rw, NO employer_data/github_analysis); bcrypt cost-12 hashes; sessions store SHA-256 token hash, revoked_at, expires_at; RED first (10 undefined-method build errors observed), mutation-proved (granting rami employer_data read fails TestAuthSchemaPermissionMatrix, restored green)
-    workshop: pkg/authstore/authstore.go — same schema in own auth.db file (survives index rebuilds by design), same seeds/matrix; tests TestWorkshopSeededUsers/TestWorkshopBothRolesFullAccess/TestWorkshopSessionLifecycle; mutation-proved (breaking rami's workshop 'read' row fails, restored green)
+    ai_interviewing: internal/store/auth.go — auth_user/auth_module/auth_permission/auth_session tables in the main SQLite migrate(); seeds milosvasic(admin)+<participant-handle>(user), full RBAC matrix (workshop all/admin+user; ai_interviewing admin knowledge_base rw+progress rw+employer_data r+github_analysis r; user knowledge_base r+progress rw, NO employer_data/github_analysis); bcrypt cost-12 hashes; sessions store SHA-256 token hash, revoked_at, expires_at; RED first (10 undefined-method build errors observed), mutation-proved (granting <participant-handle> employer_data read fails TestAuthSchemaPermissionMatrix, restored green)
+    workshop: pkg/authstore/authstore.go — same schema in own auth.db file (survives index rebuilds by design), same seeds/matrix; tests TestWorkshopSeededUsers/TestWorkshopBothRolesFullAccess/TestWorkshopSessionLifecycle; mutation-proved (breaking <participant-handle>'s workshop 'read' row fails, restored green)
   t006_auth_http:
     ai_interviewing: internal/auth/auth.go + api.go wiring — POST /api/auth/login|logout|switch, GET /api/auth/me; Middleware on whole content group (health public); 401 JSON unauthenticated (US3 scenario 1); 403 on restricted module access; tree filters restricted tracks out; search drops hits from restricted modules (US3 scenario 5 enforced at content layer, not just login response); RED first observed (404s + 200s on content), mutation-proved (moduleAllowed→true fails both RBAC content tests, restored green)
     workshop: pkg/authhttp/authhttp.go — stdlib middleware (no framework, matches mux design); 401 JSON no-token/bad/revoked; context carries user+perms; LoginSession shared by login/switch; both roles full access verified (US3 scenarios 2-3)

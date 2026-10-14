@@ -250,7 +250,7 @@ regenerated since the PDF-sourcing feature landed.**
   no `pdf_notes_section` passage has ever been minted into the real, served
   registry, anywhere, for any chapter.
 - Yet chapter 01's real notes PDF genuinely exists and is discoverable:
-  `chapters/01/Milos teaching Rami AI workflows - 2026_08_27 09_57 CEST -
+  `chapters/01/Milos teaching <participant-handle> AI workflows - 2026_08_27 09_57 CEST -
   Notes by Gemini.PDF` is present on disk and matches
   `discover_notes_pdfs`'s pattern.
 

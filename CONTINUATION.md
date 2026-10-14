@@ -432,7 +432,7 @@ Committed this session (workshop `19700b9`..`05b9b8b`, qa `45b4e14`/`0f831ac`, u
 that follows this entry): `/api/ask` suppression filter on every exit incl. an SSE hold-back (no suppressed run reaches the
 wire, up to 6-7 trailing words of a stream are held and dropped at the end; the final `result` is complete), `workshop-ask`
 installs the same index, explicit `content_type` stamping + the restamp migration (already applied live, 34,817 rows),
-seed-password scrub to `WORKSHOP_TEST_SEED_PASSWORD[_RAMI]` + the `workshop-passwd` rotation tool, journaled prover recovery +
+seed-password scrub to `WORKSHOP_TEST_SEED_PASSWORD[_PARTICIPANT_HANDLE]` + the `workshop-passwd` rotation tool, journaled prover recovery +
 contract gates, plain-English UI error wording, `scripts/hostdeps.sh` (auto-install of tesseract/webkit libs when privileged),
 helixqa `expect_body_not_contains`.
 
@@ -444,7 +444,7 @@ NOT DONE (do not read the commits as completion):
 - **Gates still red**: G2/G77/G78 (human review; ids-only packets were in `/tmp/claude-1000/packets/out/`), G20 (16 in-fence
   illustrations, floor), G61 (WK-DIAG-006 until re-embed), G83/G103 (until the redaction run; `R8`: 81 published docs cite
   suppressed pids, needs a decision), G45 (stale calibration baseline pid_count 2478), G1/G47/G59/G97/G102 need
-  `WORKSHOP_TEST_SEED_PASSWORD_RAMI`.
+  `WORKSHOP_TEST_SEED_PASSWORD_PARTICIPANT_HANDLE`.
 - **Lagging generated siblings** of `docs/training/*` markdown: regeneration is safe on copies (`md_sections.py` + `workshop/scripts/build-exports.sh --areas-dir ... --force`), but must come AFTER the redaction run, then `workshop/scripts/ingest.sh --corpus`, then regenerate `curriculum/citation-coverage.jsonl`.
 - **Operator actions**: run `bash scripts/hostdeps.sh harness` (firefox/webkit download) before the umbrella push; ROTATE both seeded
   passwords (one value was printed unmasked in a tool output during this session; a copy remains in `ai_interviewing`'s
@@ -1308,7 +1308,7 @@ report is drafted, not filed; the shared sudo password should be rotated; the
 2026-09-25 (read-only): both sites 525/525 sitemap URLs 200, 33-entry feed + 14
 language feeds valid; ai_interviewing HTTPS headers, Secure cookie, brotli
 ETags and `/` 304 all PASS; RBAC over all 158 assets: 77 both-200, 81
-admin-200/rami-404, no 403, no existence oracle. ONE OPEN OBSERVATION: the SPA
+admin-200/<participant-handle>-404, no 403, no existence oracle. ONE OPEN OBSERVATION: the SPA
 static assets (`/styles-*.css`, `/chunk-*.js`) send no ETag, so If-None-Match
 gives 200 and revalidation works only through If-Modified-Since (Last-Modified);
 `/api/assets/*` is `private, no-cache` without an ETag (by design in code) —
@@ -1544,11 +1544,11 @@ vasic.digital `c529e87..91d3a76`, milosvasic.ru `e786ccd..ca0bcde`; LIVE suite
 88 passed; production motion.js hash and the live HI/AR PDFs re-verified by hand.
 
 **ai_interviewing security (deployed live on operator approval):** `GET
-/api/plans` ignored RBAC (rami listed 74 project-deep-dives plan rows) and
+/api/plans` ignored RBAC (<participant-handle> listed 74 project-deep-dives plan rows) and
 `/api/auth/switch` bypassed the login rate limit (unlimited password guessing).
 Fixed, reviewed GO twice with mutation proofs; the rebuilt binary is live
-(re-verified: rami 0 rows, admin 74, /switch 401x8 then 429). **This corrects the
-2026-09-22 claim that rami's restrictions held "with no leaks"** — that check
+(re-verified: <participant-handle> 0 rows, admin 74, /switch 401x8 then 429). **This corrects the
+2026-09-22 claim that <participant-handle>'s restrictions held "with no leaks"** — that check
 never exercised /api/plans. The QA banks were also repaired (they had broken when login became required) and committed with the fixes as ai_interviewing 097a5eb after four independent review rounds.
 
 **Also fixed today:** 10 shell line-continuations silently broken by 59ea607

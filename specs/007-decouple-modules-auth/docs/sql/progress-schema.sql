@@ -50,7 +50,7 @@ CREATE INDEX IF NOT EXISTS idx_progress_lesson      ON progress_record(user_key,
 CREATE INDEX IF NOT EXISTS idx_progress_completed   ON progress_record(user_key, completed);
 CREATE INDEX IF NOT EXISTS idx_progress_session_mod ON progress_session(module_id);
 
--- Example: rami posting progress (workshop)
+-- Example: <participant-handle> posting progress (workshop)
 -- INSERT INTO progress_record (user_key, area_id, lesson_id, item_type, item_id, completed, score)
 -- VALUES ('auth-user:2', 'intro', 'lesson1', 'lesson', '1', 1, NULL);
 -- Resulting key: "auth-user:2" — deterministic, survives restarts and relogin.

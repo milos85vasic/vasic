@@ -11,7 +11,7 @@ Core session mechanics only, via `POST /api/auth/login`, `POST
 /api/auth/logout`, `POST /api/auth/switch`, `GET /api/auth/me`:
 
 - Login with valid/invalid credentials, both seeded users (`milosvasic`,
-  `rami` — identical full access on workshop).
+  `<participant-handle>` — identical full access on workshop).
 - Logout invalidates the session (a subsequent authenticated call with the
   same token/cookie genuinely fails).
 - `GET /api/auth/me` reflects the authenticated caller.
@@ -66,7 +66,7 @@ post-logout).
 From the research doc, confirmed against the real code before any case is
 written (not assumed):
 
-1. **Valid login, each seeded user** — `milosvasic` and `rami` both succeed,
+1. **Valid login, each seeded user** — `milosvasic` and `<participant-handle>` both succeed,
    response includes whatever session-establishing fields the real handler
    returns (read `authLoginHandler`, `main.go:3387-3451`, to get exact field
    names — do not guess).

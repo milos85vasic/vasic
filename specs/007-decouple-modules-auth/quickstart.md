@@ -183,23 +183,23 @@ echo "milosvasic token: $TOKEN_MILOS"
 curl -s -H "Authorization: Bearer $TOKEN_MILOS" http://localhost:8087/api/auth/me | jq .
 # Expected: role=admin, permissions=[{"resource":"all","actions":["read","write","delete"]}]
 
-# Test login as rami (user)
-TOKEN_RAMI=$(curl -s -X POST http://localhost:8087/api/auth/login \
+# Test login as <participant-handle> (user)
+TOKEN_PARTICIPANT_HANDLE=$(curl -s -X POST http://localhost:8087/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"username":"rami","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>"}' | jq -r .token)
+  -d '{"username":"<participant-handle>","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_PARTICIPANT_HANDLE>"}' | jq -r .token)
 
-echo "rami token: $TOKEN_RAMI"
+echo "<participant-handle> token: $TOKEN_PARTICIPANT_HANDLE"
 
-# Verify rami has full permissions on workshop
-curl -s -H "Authorization: Bearer $TOKEN_RAMI" http://localhost:8087/api/auth/me | jq .
+# Verify <participant-handle> has full permissions on workshop
+curl -s -H "Authorization: Bearer $TOKEN_PARTICIPANT_HANDLE" http://localhost:8087/api/auth/me | jq .
 # Expected: role=user, permissions=[{"resource":"all","actions":["read","write","delete"]}]
 
 # Test ai_interviewing permissions
-TOKEN_RAMI_AI=$(curl -s -X POST http://localhost:8099/api/auth/login \
+TOKEN_PARTICIPANT_HANDLE_AI=$(curl -s -X POST http://localhost:8099/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"username":"rami","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>"}' | jq -r .token)
+  -d '{"username":"<participant-handle>","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_PARTICIPANT_HANDLE>"}' | jq -r .token)
 
-curl -s -H "Authorization: Bearer $TOKEN_RAMI_AI" http://localhost:8099/api/auth/me | jq .
+curl -s -H "Authorization: Bearer $TOKEN_PARTICIPANT_HANDLE_AI" http://localhost:8099/api/auth/me | jq .
 # Expected: role=user, permissions=[knowledge_base:read, progress:read/write]
 # NOT: employer_data, github_analysis
 
@@ -211,7 +211,7 @@ curl -s -X POST http://localhost:8087/api/auth/logout \
 # Test account switch
 TOKEN_SWITCH=$(curl -s -X POST http://localhost:8087/api/auth/switch \
   -H "Content-Type: application/json" \
-  -d '{"username":"rami","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_RAMI>"}' | jq -r .token)
+  -d '{"username":"<participant-handle>","password":"<seed password: see WORKSHOP_TEST_SEED_PASSWORD_PARTICIPANT_HANDLE>"}' | jq -r .token)
 
 curl -s -H "Authorization: Bearer $TOKEN_SWITCH" http://localhost:8087/api/auth/me | jq .
 # Expected: role=user, new token
@@ -219,10 +219,10 @@ curl -s -H "Authorization: Bearer $TOKEN_SWITCH" http://localhost:8087/api/auth/
 
 **Success Criteria**:
 - [ ] milosvasic login works on both modules
-- [ ] rami login works on both modules
+- [ ] <participant-handle> login works on both modules
 - [ ] milosvasic has full access on both modules
-- [ ] rami has full access on workshop
-- [ ] rami has restricted access on ai_interviewing (no employer_data, no github_analysis)
+- [ ] <participant-handle> has full access on workshop
+- [ ] <participant-handle> has restricted access on ai_interviewing (no employer_data, no github_analysis)
 - [ ] Logout revokes session
 - [ ] Account switch works (logout + login in one call)
 
@@ -231,8 +231,8 @@ curl -s -H "Authorization: Bearer $TOKEN_SWITCH" http://localhost:8087/api/auth/
 ### 4. Progress Tracking Validation
 
 ```bash
-# Use rami's token (has progress.write on both)
-TOKEN="$TOKEN_RAMI"
+# Use <participant-handle>'s token (has progress.write on both)
+TOKEN="$TOKEN_PARTICIPANT_HANDLE"
 
 # Create progress record (workshop)
 curl -s -X POST http://localhost:8087/api/progress \
@@ -259,7 +259,7 @@ curl -s -H "Authorization: Bearer $TOKEN" http://localhost:8087/api/progress | j
 # Expected: Records still present
 
 # Test ai_interviewing progress
-TOKEN_AI="$TOKEN_RAMI_AI"
+TOKEN_AI="$TOKEN_PARTICIPANT_HANDLE_AI"
 curl -s -X POST http://localhost:8099/api/progress \
   -H "Authorization: Bearer $TOKEN_AI" \
   -H "Content-Type: application/json" \

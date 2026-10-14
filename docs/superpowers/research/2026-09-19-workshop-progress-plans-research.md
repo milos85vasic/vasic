@@ -282,7 +282,7 @@ route today.**
   verdicts for the same area?), not as two independent behaviors.
 - **(h) Session/account isolation** — already Go-tested (§4), but worth a
   live two-account HTTP case: does `milosvasic`'s `/progress` ever leak
-  `rami`'s reading position, and vice versa? (Both are full-access seeded
+  `<participant-handle>`'s reading position, and vice versa? (Both are full-access seeded
   accounts per the auth research doc, so this is a same-permission,
   different-identity isolation check, not an authorization check.)
 

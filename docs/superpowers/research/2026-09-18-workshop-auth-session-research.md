@@ -55,7 +55,7 @@ leaked to the client).
 ## 3. Seeded credentials
 
 Two mandated users (`pkg/authstore/authstore.go:153-166`): `milosvasic`
-(admin) and `rami` (user) — both get identical full access on workshop
+(admin) and `<participant-handle>` (user) — both get identical full access on workshop
 specifically (`TestWorkshopBothRolesFullAccess`,
 `pkg/authstore/authstore_test.go:39`), unlike `ai_interviewing`'s RBAC
 differentiation.

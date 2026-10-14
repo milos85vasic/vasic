@@ -106,7 +106,7 @@ two accounts' worth of coverage within this framework's single-slot
    stale comment ever becoming true again in a way that would break
    `/plan`'s ranking silently.
 8. **Cross-account isolation, live over HTTP** — `milosvasic`'s
-   `/api/progress` never reflects `rami`'s stored position and vice versa.
+   `/api/progress` never reflects `<participant-handle>`'s stored position and vice versa.
    Both are full-access seeded accounts (no authorization difference), so
    this is purely an identity-isolation check.
 9. **Unauthenticated `GET`/`POST /api/progress`** → 401, matching the

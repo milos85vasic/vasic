@@ -7,7 +7,7 @@ Credential VALUES are never written in this file; accounts are named by referenc
 |---|---|
 | Register id | VSC-397 (Operator-blocked, operator-action) |
 | Related | VSC-387 (the decision item: rotate or keep), T085 (the scan that found it), T043 (security wave), T050 (queue) |
-| Accounts | `milosvasic` (role admin), `rami` (role user; restricted on ai_interviewing) |
+| Accounts | `milosvasic` (role admin), `<participant-handle>` (role user; restricted on ai_interviewing) |
 | Where they are accepted | workshop auth DB (`auth.db` in the dir given by `-index` / `$WORKSHOP_INDEX_DIR`), ai_interviewing `auth_user` table in its sqlite DB (default `ai_interviewing/platform/data/curriculum.db`) |
 | Exposure | plaintext in `specs/007-decouple-modules-auth/spec.md` (FR-009 line), first public in ed9a34a; present in git history on a public remote, so rotation is the only remedy (section 11.4.10) |
 | Owner | operator |
@@ -23,7 +23,7 @@ never taken from argv; exit 0 changed, 1 refused, 2 could not determine. The ser
 cd workshop/platform/backend && go build -o /tmp/workshop-passwd ./cmd/workshop-passwd   # or use the shipped binary
 # Prompt mode (echo off, asked twice). Repeat for each account:
 /tmp/workshop-passwd -index "$WORKSHOP_INDEX_DIR" -user milosvasic
-/tmp/workshop-passwd -index "$WORKSHOP_INDEX_DIR" -user rami
+/tmp/workshop-passwd -index "$WORKSHOP_INDEX_DIR" -user <participant-handle>
 ```
 
 Policy: 12 to 72 bytes, at least 8 distinct characters, must not contain the user name, must not equal the current or the known example
@@ -45,7 +45,7 @@ sqlite3 ../data/curriculum.db "UPDATE auth_user SET password_hash='$H' WHERE use
   AND user_id=(SELECT id FROM auth_user WHERE username='<ACCOUNT>');"
 ```
 
-Run with `<ACCOUNT>` = `milosvasic`, then `rami`. Proof: boot with `AI_INTERVIEWING_ENV=production`; the boot guard refuses while a seed hash remains.
+Run with `<ACCOUNT>` = `milosvasic`, then `<participant-handle>`. Proof: boot with `AI_INTERVIEWING_ENV=production`; the boot guard refuses while a seed hash remains.
 Note: the sqlite3 UPDATE duplicates `SetPasswordHash` plus `RevokeSessionsForUser`; a small `ai_interviewing-passwd` command mirroring
 workshop-passwd would be the durable fix (follow-up, not part of T086).
 

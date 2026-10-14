@@ -23,7 +23,7 @@
 ## 1. Why a separate instance
 
 The live workshop (container `workshop-curriculum_platform_1`, port 8087, LAN-exposed, serves
-private content) has no documented QA user. Its seed accounts `milosvasic` and `rami` carry
+private content) has no documented QA user. Its seed accounts `milosvasic` and `<participant-handle>` carry
 bcrypt hashes tracked in source (`pkg/authstore.SeedHash*`), and the plaintext is not stored
 anywhere in the repository. Adding a QA credential to the live instance would be a security
 decision on a LAN-exposed service and was not made. Instead, the same server binary runs as a
@@ -62,7 +62,7 @@ the tracked hash, not a way to set a new one.
 2. Build `workshop-passwd` from `platform/backend/cmd/workshop-passwd` into the scratch `bin/`.
 3. Generate a random password with `python3 -c 'import secrets; print(secrets.token_urlsafe(24))'`.
 4. Pipe it over stdin: `printf '%s\n' "$PW" | workshop-passwd -index <qa-state> -user milosvasic -password-fd 0`.
-   The password never appears in argv. A second random password was set for `rami` and
+   The password never appears in argv. A second random password was set for `<participant-handle>` and
    discarded (not stored anywhere), so no compromised example hash stays valid on the QA instance.
 5. Write `WORKSHOP_TEST_SEED_PASSWORD=<value>` as one line into the 0600 secret file.
 
