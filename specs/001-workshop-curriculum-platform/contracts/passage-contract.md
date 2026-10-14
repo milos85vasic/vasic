@@ -596,12 +596,12 @@ A second ingest over unchanged inputs MUST:
 |---|---|
 | I1 | Mint **zero** pids. |
 | I2 | Write **zero** anchors. |
-| I3 | Produce a **byte-identical** `passages.jsonl`. |
+| I3 | Produce a `passages.jsonl` whose **content fields are identical**: every row, in the same order, equal in every field except `ingest_run`. `ingest_run` is the §4.2 audit stamp ("run id that minted or last touched the row"); a separate invocation legitimately re-stamps it, and it MUST then carry that invocation's own run id. *(Amended 2026-10-14 by operator decision #25; the original read "byte-identical", which §4.2 contradicts across two invocations.)* |
 | I4 | Leave every source file byte-identical. |
 | I5 | Create no new index generation. |
 | I6 | Exit `0`. |
 
-**Gate G-PID-6**: run ingest twice; assert I1–I6 by diffing the tree and counting mints.
+**Gate G-PID-6**: run ingest twice; assert I1–I6 by diffing the tree and counting mints, with I3 compared over content fields (`ingest_run` excluded) and the stamp checked separately.
 **Paired mutation**: make R5 unconditional (mint whenever no anchor was *read this run*). The gate
 must FAIL on I1, I3 and I5 simultaneously.
 

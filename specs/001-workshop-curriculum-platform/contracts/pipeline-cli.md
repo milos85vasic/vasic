@@ -466,7 +466,8 @@ drift.
 anchors written back into `workshop/`-owned text sources, sidecars for anchorless formats, evidence.
 
 **Idempotency (FR-027)**: a second run over unchanged input mints zero pids, writes zero anchors,
-produces a byte-identical `passages.jsonl`, leaves every source byte-identical, creates no new
+produces a `passages.jsonl` with identical content fields (every field except the `ingest_run`
+audit stamp, passage-contract.md §8.1-I3 as amended 2026-10-14), leaves every source byte-identical, creates no new
 generation, and exits `0`. `--check-idempotent` performs the second run into a scratch tree and
 diffs, reporting exit `1` on any difference.
 
