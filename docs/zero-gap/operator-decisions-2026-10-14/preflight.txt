@@ -1,0 +1,7 @@
+bounded-run: bounded-run-209807.scope MemoryMax=3G MemoryHigh=2415919104 TasksMax=2048 CPUQuota=1200% SwapMax=1610612736 TMPDIR=/home/milosvasic/.cache/bounded-run/tmp/209807.u3Gpad timeout=280s
+=== harness preflight ===
+  browser OK      chromium: launched and closed cleanly
+  browser OK      firefox: launched and closed cleanly
+  browser OK      webkit: launched and closed cleanly
+  routes checked: 66
+READY (0) — every declared browser launches and every derivable route exists.

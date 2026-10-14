@@ -1,0 +1,102 @@
+bounded-run: bounded-run-188299.scope MemoryMax=3G MemoryHigh=2415919104 TasksMax=2048 CPUQuota=1200% SwapMax=1610612736 TMPDIR=/home/milosvasic/.cache/bounded-run/tmp/188299.HTIKkD timeout=280s
+CM-SUBMODULE-REMOTE-SYNC: comparing every declared gitlink against its remote, under /home/milosvasic/Projects/vasic
+   local side = index gitlink · remote side = ls-remote (declared branch, else HEAD)
+----------------------------------------------------------------------
+   gitlink                      local        remote       verdict
+   ---------------------------- ------------ ------------ -------
+   submodules/constitution@push1 a71b1767b402 50823897f0a8 DIFFERS
+❌ DRIFT REMOTE-SYNC submodules/constitution push target 1 — DIFFERS from the gitlink: a71b1767b40229c8e88140924352fbe990b3049e vs 50823897f0a87488e9fbfa5a16b8232d35191849 at git@gitflic.ru:helixdevelopment/helixconstitution.git; the direction is not decidable without the objects (fetch submodules/constitution first).
+   submodules/constitution@push3 a71b1767b402 50823897f0a8 DIFFERS
+❌ DRIFT REMOTE-SYNC submodules/constitution push target 3 — DIFFERS from the gitlink: a71b1767b40229c8e88140924352fbe990b3049e vs 50823897f0a87488e9fbfa5a16b8232d35191849 at git@gitlab.com:helixdevelopment1/helixconstitution.git; the direction is not decidable without the objects (fetch submodules/constitution first).
+   submodules/constitution@push4 a71b1767b402 50823897f0a8 DIFFERS
+❌ DRIFT REMOTE-SYNC submodules/constitution push target 4 — DIFFERS from the gitlink: a71b1767b40229c8e88140924352fbe990b3049e vs 50823897f0a87488e9fbfa5a16b8232d35191849 at git@gitverse.ru:helixdevelopment/HelixConstitution.git; the direction is not decidable without the objects (fetch submodules/constitution first).
+   submodules/constitution@push5 a71b1767b402 50823897f0a8 DIFFERS
+❌ DRIFT REMOTE-SYNC submodules/constitution push target 5 — DIFFERS from the gitlink: a71b1767b40229c8e88140924352fbe990b3049e vs 50823897f0a87488e9fbfa5a16b8232d35191849 at git@github.com:vasic-digital/HelixConstitution.git; the direction is not decidable without the objects (fetch submodules/constitution first).
+   submodules/constitution@push6 a71b1767b402 50823897f0a8 DIFFERS
+❌ DRIFT REMOTE-SYNC submodules/constitution push target 6 — DIFFERS from the gitlink: a71b1767b40229c8e88140924352fbe990b3049e vs 50823897f0a87488e9fbfa5a16b8232d35191849 at git@gitlab.com:vasic-digital/HelixConstitution.git; the direction is not decidable without the objects (fetch submodules/constitution first).
+   submodules/constitution      a71b1767b402 50823897f0a8 DIFFERS
+❌ DRIFT REMOTE-SYNC submodules/constitution — DIFFERS from HEAD: gitlink a71b1767b40229c8e88140924352fbe990b3049e vs remote 50823897f0a87488e9fbfa5a16b8232d35191849. The difference is DETERMINED; the direction is NOT, because the remote commit is not in this checkout's object store.
+           fix: re-run with --fetch to classify behind/ahead/diverged, or fetch submodules/constitution by hand.
+   milosvasic.ru@push1          04cf16559bbd 04cf16559bbd CURRENT
+✅ PASS  REMOTE-SYNC milosvasic.ru push target 1 — gitlink 04cf16559bbd67cef860b897044d01735f031eac == refs/heads/main at git@gitflic.ru:milosvasic/milosvasic-net-v-2.git
+   milosvasic.ru@push2          04cf16559bbd 04cf16559bbd CURRENT
+✅ PASS  REMOTE-SYNC milosvasic.ru push target 2 — gitlink 04cf16559bbd67cef860b897044d01735f031eac == HEAD at git@github.com:milos85vasic/milosvasic.net.v2.git
+   milosvasic.ru                04cf16559bbd 04cf16559bbd CURRENT
+✅ PASS  REMOTE-SYNC milosvasic.ru — gitlink 04cf16559bbd67cef860b897044d01735f031eac == HEAD at git@github.com:milos85vasic/milosvasic.ru.git
+   vasic.digital                d4e741c438c2 d4e741c438c2 CURRENT
+✅ PASS  REMOTE-SYNC vasic.digital — gitlink d4e741c438c25222dfdcb1e06ea63ff5742904ee == HEAD at git@github.com:vasic-digital/vasic-digital.github.io.git
+   design-toolkit@push2         4ddc9645d140 4ddc9645d140 CURRENT
+✅ PASS  REMOTE-SYNC design-toolkit push target 2 — gitlink 4ddc9645d140a71ef33cf399801c3ae26307ed9e == HEAD at git@gitlab.com:vasic-digital/design-toolkit.git
+   design-toolkit               4ddc9645d140 4ddc9645d140 CURRENT
+✅ PASS  REMOTE-SYNC design-toolkit — gitlink 4ddc9645d140a71ef33cf399801c3ae26307ed9e == HEAD at git@github.com:vasic-digital/design-toolkit.git
+   ai_interviewing              a5b20c4de34b a5b20c4de34b CURRENT
+✅ PASS  REMOTE-SYNC ai_interviewing — gitlink a5b20c4de34b707271d15ce66accf9a2e8b859f4 == HEAD at git@github.com:milos85vasic/ai_interviewing.git
+   monetization@push1           6f04c72ac418 6f04c72ac418 CURRENT
+✅ PASS  REMOTE-SYNC monetization push target 1 — gitlink 6f04c72ac418ed9ebe10191bf1d0acd759fb1f68 == HEAD at git@gitflic.ru:milosvasic/monetization.git
+   monetization@push3           6f04c72ac418 6f04c72ac418 CURRENT
+✅ PASS  REMOTE-SYNC monetization push target 3 — gitlink 6f04c72ac418ed9ebe10191bf1d0acd759fb1f68 == HEAD at git@gitlab.com:milos85vasic/monetization.git
+   monetization@push4           6f04c72ac418 6f04c72ac418 CURRENT
+✅ PASS  REMOTE-SYNC monetization push target 4 — gitlink 6f04c72ac418ed9ebe10191bf1d0acd759fb1f68 == HEAD at ssh://git@gitverse.ru:2222/milosvasic/monetization.git
+   monetization                 6f04c72ac418 6f04c72ac418 CURRENT
+✅ PASS  REMOTE-SYNC monetization — gitlink 6f04c72ac418ed9ebe10191bf1d0acd759fb1f68 == HEAD at git@github.com:milos85vasic/monetization.git
+   submodules/superspec         c20ac6c1ba06 c20ac6c1ba06 CURRENT
+ℹ NOTE  REMOTE-SYNC · submodules/superspec — third-party, and current at c20ac6c1ba069cc9a72dacb8044b7b193d3dde81
+   workshop                     fb798e98c998 fb798e98c998 CURRENT
+✅ PASS  REMOTE-SYNC workshop — gitlink fb798e98c9983871f19f349d72c901d930ae8a5c == HEAD at git@github.com:milos85vasic/workshop_curriculum.git
+   submodules/containers@push1  4a8f04e05f35 4a8f04e05f35 CURRENT
+✅ PASS  REMOTE-SYNC submodules/containers push target 1 — gitlink 4a8f04e05f3535d77c48f69b89687f9fcc896fbf == HEAD at git@github.com:vasic-digital/Containers.git
+   submodules/containers@push2  4a8f04e05f35 4a8f04e05f35 CURRENT
+✅ PASS  REMOTE-SYNC submodules/containers push target 2 — gitlink 4a8f04e05f3535d77c48f69b89687f9fcc896fbf == HEAD at git@gitlab.com:vasic-digital/containers.git
+   submodules/containers@push3  4a8f04e05f35 4a8f04e05f35 CURRENT
+✅ PASS  REMOTE-SYNC submodules/containers push target 3 — gitlink 4a8f04e05f3535d77c48f69b89687f9fcc896fbf == HEAD at git@gitlab.com:vasic-digital/Containers.git
+   submodules/containers        4a8f04e05f35 4a8f04e05f35 CURRENT
+✅ PASS  REMOTE-SYNC submodules/containers — gitlink 4a8f04e05f3535d77c48f69b89687f9fcc896fbf == HEAD at git@github.com:vasic-digital/containers.git
+   submodules/LLMProvider@push2 e05ec64ebc48 e05ec64ebc48 CURRENT
+✅ PASS  REMOTE-SYNC submodules/LLMProvider push target 2 — gitlink e05ec64ebc482d6ba64d6de4b4fe85901b280813 == HEAD at git@gitlab.com:vasic-digital/LLMProvider.git
+   submodules/LLMProvider       e05ec64ebc48 e05ec64ebc48 CURRENT
+✅ PASS  REMOTE-SYNC submodules/LLMProvider — gitlink e05ec64ebc482d6ba64d6de4b4fe85901b280813 == HEAD at git@github.com:vasic-digital/LLMProvider.git
+   submodules/RAG@push2         19d9c0aa40fc 19d9c0aa40fc CURRENT
+✅ PASS  REMOTE-SYNC submodules/RAG push target 2 — gitlink 19d9c0aa40fc910ecd8a1e6c2af6f3b965dd3b35 == HEAD at git@gitlab.com:vasic-digital/RAG.git
+   submodules/RAG               19d9c0aa40fc 19d9c0aa40fc CURRENT
+✅ PASS  REMOTE-SYNC submodules/RAG — gitlink 19d9c0aa40fc910ecd8a1e6c2af6f3b965dd3b35 == HEAD at git@github.com:vasic-digital/RAG.git
+   submodules/verdict@push2     e4b2f6ec5fc6 e4b2f6ec5fc6 CURRENT
+✅ PASS  REMOTE-SYNC submodules/verdict push target 2 — gitlink e4b2f6ec5fc6109ba869a4494718a9186d435424 == HEAD at git@gitlab.com:vasic-digital/verdict.git
+   submodules/verdict           e4b2f6ec5fc6 e4b2f6ec5fc6 CURRENT
+✅ PASS  REMOTE-SYNC submodules/verdict — gitlink e4b2f6ec5fc6109ba869a4494718a9186d435424 == HEAD at git@github.com:vasic-digital/verdict.git
+   submodules/passage@push2     1e361bd6d6fa 1e361bd6d6fa CURRENT
+✅ PASS  REMOTE-SYNC submodules/passage push target 2 — gitlink 1e361bd6d6faf6a73813a038c1f6f78088a9cc43 == HEAD at git@gitlab.com:vasic-digital/passage.git
+   submodules/passage           1e361bd6d6fa 1e361bd6d6fa CURRENT
+✅ PASS  REMOTE-SYNC submodules/passage — gitlink 1e361bd6d6faf6a73813a038c1f6f78088a9cc43 == HEAD at git@github.com:vasic-digital/passage.git
+   submodules/curriculum-kit@push2 a57d6f157f18 a57d6f157f18 CURRENT
+✅ PASS  REMOTE-SYNC submodules/curriculum-kit push target 2 — gitlink a57d6f157f18f1ea056b6a8d491bc5d915ad07d7 == HEAD at git@gitlab.com:vasic-digital/curriculum-kit.git
+   submodules/curriculum-kit    a57d6f157f18 a57d6f157f18 CURRENT
+✅ PASS  REMOTE-SYNC submodules/curriculum-kit — gitlink a57d6f157f18f1ea056b6a8d491bc5d915ad07d7 == HEAD at git@github.com:vasic-digital/curriculum-kit.git
+   submodules/qa@push1          9bbeeece6dad 0f831acf2cc7 LAGS
+❌ DRIFT REMOTE-SYNC submodules/qa push target 1 — LAGS the gitlink: HEAD 0f831acf2cc7c60fc53cbeee4a38f369cfa18e7f at git@github.com:HelixDevelopment/helixqa.git is an ancestor of 9bbeeece6dad59d95207859cd1d67197378178cb (a push target missing the commit this repository points at).
+           fix: push the submodule to that target — git -C submodules/qa push origin — then re-run.
+   submodules/qa@push2          9bbeeece6dad 0f831acf2cc7 LAGS
+❌ DRIFT REMOTE-SYNC submodules/qa push target 2 — LAGS the gitlink: HEAD 0f831acf2cc7c60fc53cbeee4a38f369cfa18e7f at git@gitlab.com:vasic-digital/HelixQA.git is an ancestor of 9bbeeece6dad59d95207859cd1d67197378178cb (a push target missing the commit this repository points at).
+           fix: push the submodule to that target — git -C submodules/qa push origin — then re-run.
+   submodules/qa@push3          9bbeeece6dad 0f831acf2cc7 LAGS
+❌ DRIFT REMOTE-SYNC submodules/qa push target 3 — LAGS the gitlink: HEAD 0f831acf2cc7c60fc53cbeee4a38f369cfa18e7f at git@github.com:vasic-digital/HelixQA.git is an ancestor of 9bbeeece6dad59d95207859cd1d67197378178cb (a push target missing the commit this repository points at).
+           fix: push the submodule to that target — git -C submodules/qa push origin — then re-run.
+   submodules/qa                9bbeeece6dad 0f831acf2cc7 AHEAD
+❌ DRIFT REMOTE-SYNC submodules/qa — AHEAD of upstream: gitlink 9bbeeece6dad59d95207859cd1d67197378178cb is NOT on HEAD (0f831acf2cc7c60fc53cbeee4a38f369cfa18e7f). The commit this repository points at is UNPUSHED, so this tree does not clone for anyone else.
+           fix: push the submodule first — git -C submodules/qa push — then re-run.
+   submodules/challenges        8a352b971d07 8a352b971d07 CURRENT
+✅ PASS  REMOTE-SYNC submodules/challenges — gitlink 8a352b971d07ff6b3cda192f7ad6322eebef348a == HEAD at git@github.com:vasic-digital/challenges.git
+   submodules/doc_processor     5692e52713df 5692e52713df CURRENT
+✅ PASS  REMOTE-SYNC submodules/doc_processor — gitlink 5692e52713df732ddde68b62b6780f7c28ffcf36 == HEAD at git@github.com:HelixDevelopment/DocProcessor.git
+   submodules/llm_orchestrator  55d2dde25386 55d2dde25386 CURRENT
+✅ PASS  REMOTE-SYNC submodules/llm_orchestrator — gitlink 55d2dde25386483649224cd2f966e949881b46b5 == HEAD at git@github.com:HelixDevelopment/LLMOrchestrator.git
+   submodules/llm_provider      e05ec64ebc48 e05ec64ebc48 CURRENT
+✅ PASS  REMOTE-SYNC submodules/llm_provider — gitlink e05ec64ebc482d6ba64d6de4b4fe85901b280813 == HEAD at git@github.com:HelixDevelopment/LLMProvider.git
+   submodules/llms_verifier     8f2090acb907 8f2090acb907 CURRENT
+✅ PASS  REMOTE-SYNC submodules/llms_verifier — gitlink 8f2090acb907d5c76e78d7c311378958e0ccbc40 == HEAD at git@github.com:vasic-digital/LLMsVerifier.git
+   submodules/security          79151f230633 79151f230633 CURRENT
+✅ PASS  REMOTE-SYNC submodules/security — gitlink 79151f23063336b4e63f463709f4f01c0c46aea0 == HEAD at git@github.com:vasic-digital/security.git
+   submodules/vision_engine     ce16f9293048 ce16f9293048 CURRENT
+✅ PASS  REMOTE-SYNC submodules/vision_engine — gitlink ce16f929304826ee98aac8fa1fa18985141d4c3c == HEAD at git@github.com:HelixDevelopment/VisionEngine.git
+----------------------------------------------------------------------
+CM-SUBMODULE-REMOTE-SYNC: 33 CURRENT, 10 DRIFT, 0 UNDETERMINED  of 21 owned gitlink(s) probed, 22 declared  (root /home/milosvasic/Projects/vasic)
+❌ CM-SUBMODULE-REMOTE-SYNC: FAIL [DEFECT] — 10 owned gitlink(s) are out of sync with their remote.
