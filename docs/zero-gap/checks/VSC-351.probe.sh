@@ -6,7 +6,7 @@
 set -u
 export TMPDIR=${TMPDIR:-/tmp}
 py=$(dirname "$0")/fig-population.py
-[ -f "$py" ] || py=/home/milosvasic/Projects/vasic/docs/zero-gap/checks/fig-population.py
+[ -f "$py" ] || py="$(git rev-parse --show-toplevel)/docs/zero-gap/checks/fig-population.py"
 out=$(python3 -I "$py" CONTINUATION.md --outside-s3); rc=$?
 [ "$rc" -eq 2 ] && { echo "$out"; exit 2; }
 bad=0

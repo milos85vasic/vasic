@@ -10,7 +10,7 @@ for f in CLAUDE.md AGENTS.md QWEN.md GEMINI.md; do [ -f "$f" ] || { echo "no $f"
 n=$(for f in CLAUDE.md AGENTS.md QWEN.md GEMINI.md; do tail -n +19 "$f" | sha256sum; done | sort -u | wc -l)
 [ "$n" -eq 1 ] || { echo "carriers differ from line 19 (C5 lockstep broken)"; bad=1; }
 py=$(dirname "$0")/fig-population.py
-[ -f "$py" ] || py=/home/milosvasic/Projects/vasic/docs/zero-gap/checks/fig-population.py
+[ -f "$py" ] || py="$(git rev-parse --show-toplevel)/docs/zero-gap/checks/fig-population.py"
 for f in CLAUDE.md AGENTS.md QWEN.md GEMINI.md; do
   out=$(python3 -I "$py" "$f"); rc=$?
   [ "$rc" -eq 2 ] && { echo "$out"; exit 2; }

@@ -16,6 +16,7 @@
 #   <case>/DELETE          optional: one path per line, removed in head
 #   <case>/GITLINKS        optional: "<path> <sha>" lines; set/replace gitlinks in head
 #   <case>/RMGITLINK       optional: one path per line; gitlink removed in head
+#   *-allow.fixture        stored under this name, materialized as *-allow inside the disposable repo only
 #   expect.tsv             header + "case<TAB>rc<TAB>token"; the guard's combined output must contain token
 #
 # The guard is invoked as:  <script> --root <repo> --base base --head HEAD
@@ -44,6 +45,16 @@ export GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null HOME="$WORK/home"
 mkdir -p "$HOME"
 G() { git -C "$1" -c user.name=fx -c user.email=fx@example.invalid -c commit.gpgsign=false "${@:2}"; }
 
+# materialize <repo>: fixture allow-lists are stored as "<name>-allow.fixture" so the live repository's
+# push-path guard (which flags any tracked file named *-allow that gains a line) does not mistake test data
+# for a real allow-list; they are renamed to "<name>-allow" ONLY inside the disposable repository, where the
+# guard under test must see them as real allow-lists. (Created at test time, never committed under that name.)
+materialize() {
+  local f
+  while IFS= read -r -d '' f; do mv -f -- "$f" "${f%.fixture}"; done \
+    < <(find "$1" -path "$1/.git" -prune -o -type f -name '*-allow.fixture' -print0)
+}
+
 apply_gitlinks() { # <repo> <file>
   local p s
   while read -r p s; do
@@ -61,6 +72,7 @@ while IFS=$'\t' read -r name erc token; do
   G "$repo" init -q . >/dev/null 2>&1 || { echo "fixtures: git init failed" >&2; exit 2; }
   cp -a "$CASES_ABS/base/." "$repo/" || exit 2
   rm -f "$repo/GITLINKS"
+  materialize "$repo"
   G "$repo" add -A >/dev/null 2>&1
   [ -r "$CASES_ABS/base/GITLINKS" ] && { apply_gitlinks "$repo" "$CASES_ABS/base/GITLINKS" || exit 2; }
   G "$repo" commit -q -m base >/dev/null 2>&1 || { echo "fixtures: base commit failed" >&2; exit 2; }
@@ -69,6 +81,7 @@ while IFS=$'\t' read -r name erc token; do
   if [ -d "$ov" ]; then
     cp -a "$ov/." "$repo/" || exit 2
     rm -f "$repo/DELETE" "$repo/GITLINKS" "$repo/RMGITLINK" "$repo/.keep"
+    materialize "$repo"
     [ -r "$ov/DELETE" ] && while read -r d; do [ -n "$d" ] && rm -rf "${repo:?}/$d"; done < "$ov/DELETE"
     [ -r "$ov/RMGITLINK" ] && while read -r d; do [ -n "$d" ] && G "$repo" rm -q --cached "$d" >/dev/null 2>&1; done < "$ov/RMGITLINK"
     G "$repo" add -A >/dev/null 2>&1   # add -A stages the base gitlinks as deleted (no work-tree dir): put them back

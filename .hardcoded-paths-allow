@@ -723,3 +723,90 @@ submodules/constitution/CLAUDE_ANCHORS_FULL.html
 # cannot edit its governance content from here — the remedy, if any, is an
 # upstream HelixConstitution change plus a gitlink bump.
 submodules/constitution/scripts/gates/covenant_propagation_anchors.tsv
+
+# ==============================================================================
+# ZERO-GAP SEALED EVIDENCE (feature 010) -- added 2026-10-14. One exact path per row, never a glob.
+#
+# REASON: ev/VSC-<n>.{red,green,verifier}.json are SEALED per-item evidence records (hash-chained,
+# chain_seq/state_fingerprint bound, section 11.4.262/268). Their `argv` field records the command that
+# RAN, verbatim (scripts/zero-gap-evidence.sh: "the record must describe what ran"), and that command
+# carried the absolute path of the probe on the recording host. Rewriting the path would falsify the
+# record and break its chain. The live definitions that RE-RUN these checks (docs/zero-gap/checks/*.check)
+# were changed to derive the path via git; only the historical records keep the literal.
+ev/VSC-350.green.json
+ev/VSC-350.red.json
+ev/VSC-350.verifier.json
+ev/VSC-352.green.json
+ev/VSC-352.red.json
+ev/VSC-352.verifier.json
+ev/VSC-353.green.json
+ev/VSC-353.red.json
+ev/VSC-353.verifier.json
+ev/VSC-354.green.json
+ev/VSC-354.red.json
+ev/VSC-354.verifier.json
+ev/VSC-355.green.json
+ev/VSC-355.red.json
+ev/VSC-355.verifier.json
+ev/VSC-359.green.json
+ev/VSC-359.red.json
+ev/VSC-359.verifier.json
+ev/VSC-360.green.json
+ev/VSC-360.red.json
+ev/VSC-360.verifier.json
+ev/VSC-361.green.json
+ev/VSC-361.red.json
+ev/VSC-361.verifier.json
+ev/VSC-363.green.json
+ev/VSC-363.red.json
+ev/VSC-363.verifier.json
+ev/VSC-364.green.json
+ev/VSC-364.red.json
+ev/VSC-364.verifier.json
+ev/VSC-365.green.json
+ev/VSC-365.red.json
+ev/VSC-365.verifier.json
+ev/VSC-372.green.json
+ev/VSC-372.red.json
+ev/VSC-372.verifier.json
+ev/VSC-373.green.json
+ev/VSC-373.red.json
+ev/VSC-373.verifier.json
+ev/VSC-374.green.json
+ev/VSC-374.red.json
+ev/VSC-374.verifier.json
+ev/VSC-375.green.json
+ev/VSC-375.red.json
+ev/VSC-375.verifier.json
+ev/VSC-381.green.json
+ev/VSC-381.red.json
+ev/VSC-381.verifier.json
+ev/VSC-384.green.json
+ev/VSC-384.red.json
+ev/VSC-384.verifier.json
+ev/VSC-385.green.json
+ev/VSC-385.red.json
+ev/VSC-385.verifier.json
+ev/VSC-386.green.json
+ev/VSC-386.red.json
+ev/VSC-386.verifier.json
+
+# REASON: captured verbatim tool output (Playwright "browserType.launch: Executable doesn't exist at
+# <host cache path>") recorded as host-capability / coverage evidence. The cache path inside the error
+# message IS the measured finding (which browser build is missing and where Playwright looked); rewriting
+# it would alter captured evidence (section 11.4.6). These files are produced by the evidence tooling, not
+# hand-written, and none is executed.
+docs/zero-gap/coverage-evidence/root__accessibility.txt
+docs/zero-gap/coverage-evidence/root__e2e.txt
+docs/zero-gap/coverage-evidence/root__link-integrity.txt
+docs/zero-gap/coverage-evidence/root__perf-load.txt
+docs/zero-gap/coverage-evidence/root__seo-i18n-completeness.txt
+docs/zero-gap/coverage-evidence/root__visual-diff.txt
+docs/zero-gap/host-capability-evidence-2026-10-08.txt
+
+# BASELINE: two test files inside the consumed constitution submodule that use SYNTHETIC home-directory
+# strings (/home/u/..., /home/user/...) as test inputs for label-sync state handling; they surfaced with the
+# submodule pin move and are not this host's paths. Same disposition as the other submodules/constitution rows
+# above: fixed (if at all) upstream in HelixConstitution and returned as a gitlink bump, never edited from here.
+submodules/constitution/scripts/label-sync/cmd/labelctl/fix_test.go
+submodules/constitution/scripts/label-sync/internal/state/perf_test.go

@@ -2,4 +2,4 @@
 # pre_fix_ref is the parent of 99a4722, the commit that wired the T091 caption-gated point-in-time rule.
 check_id=chk-vsc-350-dated-s3-entries
 pre_fix_ref=99a4722^
-cmd=bash /home/milosvasic/Projects/vasic/docs/zero-gap/checks/VSC-350.probe.sh
+cmd=bash "$(git rev-parse --path-format=absolute --git-common-dir)/../docs/zero-gap/checks/VSC-350.probe.sh"

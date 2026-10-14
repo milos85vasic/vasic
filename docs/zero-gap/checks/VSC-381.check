@@ -1,4 +1,4 @@
 # VSC-381 closure check (author: closure-wave T088 fixer; independent verifier re-runs via scripts/zero-gap-verify.sh)
 check_id=chk-vsc-381-coverage-matrix-inspected
 pre_fix_ref=ae485a1979fa9af729aa2748c921eed17d5b4de3
-cmd=bash /home/milosvasic/Projects/vasic/docs/zero-gap/checks/VSC-381.probe.sh
+cmd=bash "$(git rev-parse --path-format=absolute --git-common-dir)/../docs/zero-gap/checks/VSC-381.probe.sh"

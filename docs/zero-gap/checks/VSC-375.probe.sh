@@ -31,9 +31,9 @@ printf 'zz375_ignored.*\n.circleci/\n' > "$t/.gitignore"
 g add clean_tracked.sh .gitignore && g commit -qm base || { echo "probe: commit failed"; exit 2; }
 g remote add origin git@example.invalid:o/r.git || exit 2
 # planted violations (untracked, NOT ignored)
-printf '#!/usr/bin/env bash\ncd /home/someuser/proj\nsed -i "s/a/b/" f.txt\n' > "$t/zz375_planted.sh"
+printf '#!/usr/bin/env bash\ncd /home/%s/proj\nsed -i "s/a/b/" f.txt\n' someuser > "$t/zz375_planted.sh"
 # ignored controls (same violations, git-ignored)
-printf '#!/usr/bin/env bash\ncd /home/someuser/proj\nsed -i "s/a/b/" f.txt\n' > "$t/zz375_ignored.sh"
+printf '#!/usr/bin/env bash\ncd /home/%s/proj\nsed -i "s/a/b/" f.txt\n' someuser > "$t/zz375_ignored.sh"
 # clean untracked control
 printf '#!/usr/bin/env bash\necho fine\n' > "$t/zz375_cleanctl.sh"
 # provider-ci: planted workflow, ignored CI config

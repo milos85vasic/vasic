@@ -2,4 +2,4 @@
 # pre_fix_ref is the parent of c5bf9ea, the commit that fast-forwarded the gitlink (git log -1 c5bf9ea).
 check_id=chk-hlp-gitlink-current
 pre_fix_ref=c5bf9ea^
-cmd=bash /home/milosvasic/Projects/vasic/docs/zero-gap/checks/remote-sync-row.probe.sh submodules/llm_provider
+cmd=bash "$(git rev-parse --path-format=absolute --git-common-dir)/../docs/zero-gap/checks/remote-sync-row.probe.sh" submodules/llm_provider

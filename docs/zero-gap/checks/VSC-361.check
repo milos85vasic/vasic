@@ -1,4 +1,4 @@
 # VSC-361 closure check (author: closure-wave T047 fixer; independent verifier re-runs via scripts/zero-gap-verify.sh)
 check_id=chk-vsc-361-decision-16-resolved
 pre_fix_ref=c827c664c24e90a2b12b352618d579a3c631749d
-cmd=bash /home/milosvasic/Projects/vasic/docs/zero-gap/checks/VSC-361.probe.sh
+cmd=bash "$(git rev-parse --path-format=absolute --git-common-dir)/../docs/zero-gap/checks/VSC-361.probe.sh"

@@ -1,4 +1,4 @@
 # VSC-386 closure check (author: t090-check-author, not the fixer). RED until the private-in-public class stops reporting the 7 member locations without losing planted recall.
 check_id=chk-vsc-386-guessing-precision
 pre_fix_ref=c827c66
-cmd=bash /home/milosvasic/Projects/vasic/docs/zero-gap/checks/VSC-386.probe.sh
+cmd=bash "$(git rev-parse --path-format=absolute --git-common-dir)/../docs/zero-gap/checks/VSC-386.probe.sh"

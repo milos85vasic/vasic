@@ -1,4 +1,4 @@
 # VSC-364 closure check (author: fixer session; independent verifier must re-run via scripts/zero-gap-verify.sh)
 check_id=chk-vsc-364-argv-policy
 pre_fix_ref=c827c664c24e90a2b12b352618d579a3c631749d
-cmd=bash /home/milosvasic/Projects/vasic/docs/zero-gap/checks/VSC-364.probe.sh
+cmd=bash "$(git rev-parse --path-format=absolute --git-common-dir)/../docs/zero-gap/checks/VSC-364.probe.sh"
