@@ -457,9 +457,16 @@ gate_Z1() { bash "$ROOT/scripts/zero-gap-third-party-guard.sh" --root "$ROOT"; }
 
 gate_0() { "$ROOT/scripts/audit-hardcoded-paths.sh"; }
 
+# Host-safety admission (2026-10-14 host-hang fix WP1): the heavy gates (1: go test, 6: Playwright) run
+# only inside scripts/agent-admit.sh --verdict3 (a heavy slot + memory-PSI / tmpfs / app.slice pre-checks
+# + bounded-run). A refusal, an undeterminable pre-check or a bounded-run timeout is rc 2, which run_gate
+# reports as UNDET: the push is blocked and the tree is not accused.
+ADMIT="$ROOT/scripts/agent-admit.sh"
+
 gate_1() {
     cd "$ROOT/_tools/gen" || { echo "FATAL: cannot cd to _tools/gen" >&2; return 90; }
-    go test ./...
+    [[ -f "$ADMIT" ]] || { echo "COULD NOT DETERMINE — admission controller missing: $ADMIT"; return 2; }
+    bash "$ADMIT" --verdict3 --tag gate-1-go-test -- go test ./...
 }
 
 gate_2() { bash "$ROOT/_tools/audit-hardcoding.sh"; }
@@ -520,9 +527,17 @@ gate_6() {
     # assertion failure => 1. This must never become a blanket excuse that turns a
     # genuine regression green, which is why the assertion count gates it.
     local _out _rc _net _assert
-    _out="$(npx playwright test --project=chromium --grep-invert "all-language" 2>&1)"; _rc=$?
+    [[ -f "$ADMIT" ]] || { echo "COULD NOT DETERMINE — admission controller missing: $ADMIT"; return 2; }
+    _out="$(bash "$ADMIT" --verdict3 --tag gate-6-playwright -- npx playwright test --project=chromium --grep-invert "all-language" 2>&1)"; _rc=$?
     printf '%s\n' "$_out"
     [[ $_rc -eq 0 ]] && return 0
+    # rc 2 is agent-admit's COULD NOT DETERMINE (refused by pressure / no slot / timeout); Playwright itself
+    # exits 0 or 1. Without this the classifier below would count 0 assertions and 0 network errors and
+    # report a REAL FAILURE for a suite that never ran.
+    if [[ $_rc -eq 2 ]]; then
+        echo "COULD NOT DETERMINE — the suite was not admitted or did not finish (see agent-admit above)."
+        return 2
+    fi
 
     _net=$(printf '%s' "$_out" | grep -cE 'net::ERR_(TIMED_OUT|NAME_NOT_RESOLVED|CONNECTION_(RESET|REFUSED|CLOSED))|EAI_AGAIN|ENOTFOUND|ECONNRESET|Request context disposed|page\.goto: Test timeout' || true)
     # An assertion FAILURE is Playwright's own error output — 'Error: expect(...)',

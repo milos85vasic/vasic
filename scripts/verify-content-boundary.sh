@@ -618,6 +618,7 @@ NAME_FLOOR=-1       # absolute override; -1 = derive from NAME_PPM, 0 = disabled
 
 usage() { awk 'NR==1{next} /^#/{sub(/^# ?/,""); print; next} {exit}' "${BASH_SOURCE[0]}"; }
 
+_CB_ARGV=("$@")   # kept for the admission re-exec below
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --root)        ROOT="$(cd -- "${2:-}" 2>/dev/null && pwd)" || { echo "FATAL: --root: no such directory '${2:-}'" >&2; exit 2; }; shift 2 ;;
@@ -661,6 +662,21 @@ if [[ -t 1 && $JSON -eq 0 ]]; then
     C_DIM=$'\033[2m'; C_BLD=$'\033[1m'; C_OFF=$'\033[0m'
 else
     C_RED=""; C_GRN=""; C_YEL=""; C_DIM=""; C_BLD=""; C_OFF=""
+fi
+
+# ── HOST-SAFETY ADMISSION (2026-10-14 host-hang fix WP1) ─────────────────────
+# A full scan (and --prove-failure, whose battery ends in a live-tree scan) is HEAVY work: it runs only
+# inside scripts/agent-admit.sh (a heavy slot + memory-PSI / tmpfs / app.slice pre-checks + bounded-run).
+# Arguments are parsed and validated FIRST, so a bad-usage or --root /nonexistent probe stays a cheap rc 2.
+# A refusal, an undeterminable pre-check or a bounded-run timeout is rc 2 (COULD NOT DETERMINE) — never a
+# pass and never a finding. A run already inside an admitted run (its slot is held) proceeds directly.
+if [[ $LIST_ONLY -eq 0 ]]; then
+    _cb_admit="$SELF_REPO/scripts/agent-admit.sh"
+    [[ -f "$_cb_admit" ]] || { say "COULD NOT DETERMINE: admission controller missing ($_cb_admit); refusing an unadmitted scan"; exit 2; }
+    if ! bash "$_cb_admit" --is-admitted; then
+        bash "$_cb_admit" --verdict3 --tag content-boundary -- bash "$SELF_REPO/scripts/verify-content-boundary.sh" "${_CB_ARGV[@]}"
+        exit $?
+    fi
 fi
 
 # ══════════════════════════════════════════════════════════════════════════════

@@ -470,6 +470,11 @@ check	zero-gap-verify	scripts/zero-gap-verify.sh	flag	--prove-failure	--root /no
 check	zero-gap-guard-checks	scripts/zero-gap-guard-checks.sh	flag	--prove-failure	--root /nonexistent
 check	zero-gap-third-party-guard	scripts/zero-gap-third-party-guard.sh	flag	--prove-failure	--root /nonexistent
 check	project-pretooluse-catalogue-guard	scripts/hooks/guard-project-catalogue.sh	flag	--prove-failure	--root /nonexistent
+# Host-hang fix WP1 (2026-10-14, host anton tmpfs/reclaim stall): the on-disk agent scratch helper and the heavy-work
+# admission controller. Both carry a --prove-failure battery (controls + named mutations); the rc-2 probes drive each into
+# an undeterminable state (an uncreatable scratch root; all three admission metrics unreadable).
+check	agent-scratch	scripts/agent-scratch.sh	flag	--prove-failure	AGENT_SCRATCH_ROOT=/proc/agent-scratch-nonexistent df-check
+check	agent-admit	scripts/agent-admit.sh	flag	--prove-failure	AGENT_ADMIT_PSI_FILE=/nonexistent AGENT_ADMIT_CGROUP=/nonexistent AGENT_ADMIT_TMPFS=/nonexistent --check
 # VSC-374 (closure wave T088, 2026-10-08): the _tests/ and upstreams/ scripts below are registered individually. _tests/ is NOT declared a
 # scanroot because that would make R5 fail on scripts another concurrent writer has not registered yet; recheck 2026-10-15 whether to declare it.
 exempt	_tests/prove-preflight.sh	IS a paired section 1.1 mutation proof, not a check needing one: it seeds one fault per mutation as DATA against a throwaway copy of _tests/preflight.js and asserts a control (M0) still reads READY; three-valued (0 all caught, 1 slipped through, 2 cannot run)	operator	the file's diff adds an exit-code-bearing pass/fail verdict ABOUT this repository's current state (the shape a check row's proof-kind requires) rather than staying what the reason says	2027-03-14	417d735d2c128eaaa096c6f7439d19ad12b738c2e1f46dd61593e382a69c24a3

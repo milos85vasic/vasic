@@ -1,0 +1,21 @@
+# golden-good: every command below MUST be allowed (rc 0) — single files, disk destinations, reads, mentions.
+# Columns: <label><TAB><cwd or -><TAB><command>
+single-file-cp	-	cp a.txt /tmp/a.txt
+cp-to-disk	-	cp -a /home/milosvasic/Projects/vasic/x /home/milosvasic/.cache/agent-scratch/s/x
+hardlink-backup	-	cp -al /home/milosvasic/Projects/vasic /home/milosvasic/.cache/agent-scratch/s/backup
+clone-to-disk	-	git clone https://github.com/example/repo /home/milosvasic/Projects/repo
+clone-cwd-disk	/home/milosvasic/Projects	git clone https://github.com/example/repo
+rsync-from-tmp	-	rsync -a /tmp/x/ /home/milosvasic/x/
+rsync-remote	-	rsync -a src host:/tmp/x
+tar-list	-	tar -tf /tmp/a.tar
+tar-extract-disk	-	tar -xf /tmp/a.tar -C /home/milosvasic/x
+tar-create-stdout	-	tar -cf - dist | wc -c
+unzip-list	-	unzip -l /tmp/a.zip
+go-build-single	-	go build -o /tmp/bin/tool ./cmd/tool
+mention-echo	-	echo "cp -a x /tmp/y"
+mention-grep	-	grep -rn 'git clone' /tmp/notes.txt
+worktree-disk	-	git worktree add /home/milosvasic/.cache/agent-scratch/s/wt HEAD
+worktree-list	-	git worktree list
+mkdir-tmp	-	mkdir -p /tmp/x
+cp-recursive-disk-cwd	/home/milosvasic/Projects	cp -r a b
+cp-recursive-disk-dest-var	-	cp -a src "$S/backup"

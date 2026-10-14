@@ -71,6 +71,9 @@ set -u
 
 ZGV_HERE=$(CDPATH='' cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 ZGV_EVIDENCE="${ZG_EVIDENCE:-$ZGV_HERE/zero-gap-evidence.sh}"
+# admission controller (host-hang fix WP1); overridable like the adapter so a relocated copy (the proof's
+# mutants) still finds the real one
+ZGV_ADMIT="${ZG_ADMIT:-$ZGV_HERE/agent-admit.sh}"
 
 zgv_say() { printf 'zero-gap-verify: %s\n' "$*" >&2; }
 
@@ -128,6 +131,7 @@ zgv_cleanup() {
 }
 
 zgv_verify() {
+    local -a zgv_argv=("$@")   # kept for the admission re-exec below
     ZGV_ITEM=''; ZGV_ROOT=''; local checks='' working=0 store='' streams=''
     ZGV_SESSION="${ZG_SESSION_ID:-}"; ZGV_TIER=instance; ZGV_TMP=''; ZGV_ROLE=verifier
     while [ "$#" -gt 0 ]; do
@@ -171,6 +175,16 @@ zgv_verify() {
     cur_sha=$(git -C "$ZGV_ROOT" rev-parse --verify --quiet "HEAD^{commit}") \
         || { zgv_say "HEAD does not resolve"; return 2; }
     [ -x "$ZGV_EVIDENCE" ] || { zgv_say "evidence adapter not executable: $ZGV_EVIDENCE"; return 2; }
+
+    # Host-safety admission (2026-10-14 host-hang fix WP1): the two scratch worktrees and both check runs
+    # are HEAVY work, so they run only inside scripts/agent-admit.sh (a heavy slot + pressure pre-checks +
+    # bounded-run). Everything above is cheap validation and stays outside. A refusal, an undeterminable
+    # pre-check or a bounded-run timeout is rc 2 — never a pass, never a refusal of closure.
+    [ -f "$ZGV_ADMIT" ] || { zgv_say "admission controller missing: $ZGV_ADMIT"; return 2; }
+    if ! bash "$ZGV_ADMIT" --is-admitted; then
+        bash "$ZGV_ADMIT" --verdict3 --tag zero-gap-verify -- bash "$ZGV_HERE/zero-gap-verify.sh" "${zgv_argv[@]}"
+        return $?
+    fi
 
     ZGV_WORKTREES=()
     ZGV_TMP=$(mktemp -d "${ZG_SCRATCH:-${TMPDIR:-/tmp}}/zgv.XXXXXX") || { zgv_say "mktemp failed"; return 2; }
@@ -307,7 +321,13 @@ zgv_prove_failure() (
 
 if [ "${BASH_SOURCE[0]}" = "$0" ]; then
     case "${1:-}" in
-        --prove-failure) zgv_prove_failure; exit $? ;;
+        --prove-failure)
+            # the battery drives ~20 verifier runs (worktrees + adapter builds): admitted as ONE heavy unit, so
+            # its child runs nest inside the held slot instead of each competing for one
+            [ -f "$ZGV_ADMIT" ] || { zgv_say "admission controller missing: $ZGV_ADMIT"; exit 2; }
+            if bash "$ZGV_ADMIT" --is-admitted; then export ZG_ADMIT="$ZGV_ADMIT"; zgv_prove_failure; exit $?; fi
+            bash "$ZGV_ADMIT" --verdict3 --tag zero-gap-verify-prove -- bash "$ZGV_HERE/zero-gap-verify.sh" --prove-failure
+            exit $? ;;
         -h|--help)       sed -n '2,68p' "$0"; exit 0 ;;
         *)               zgv_verify "$@"; exit $? ;;
     esac

@@ -43,7 +43,7 @@ ROOT_DEFAULT=$(CDPATH='' cd -- "$HERE/../.." && pwd)
 CAT_REL=docs/zero-gap/guarded-commands.tsv
 
 PY=$(cat <<'PYEOF'
-import json, re, sys
+import json, os, re, shlex, sys, time
 
 def load(path):
     rows = []
@@ -119,7 +119,9 @@ def simple_commands(raw):
 def normalise(sc):
     t = sc.strip()
     while True:
-        m = re.match(r"^([A-Za-z_][A-Za-z0-9_]*=\S*)\s+", t)
+        # a quoted value is blanked by scrub() but keeps its quotes, so `FOO='a b' cmd` must be consumed
+        # as ONE assignment (before 2026-10-14 the blank inside the quotes ended it and `cmd` was missed)
+        m = re.match(r"^([A-Za-z_][A-Za-z0-9_]*=(?:'[^']*'|\"[^\"]*\"|[^\s'\"])*)\s+", t)
         if m:
             t = t[m.end():]; continue
         w = t.split(None, 1)
@@ -186,8 +188,302 @@ def judge(raw, rules, depth=0):
                     return v
     return None
 
+# ── tmpfs bulk-write rule (host-hang fix WP1, 2026-10-14) ────────────────────────────────────────────
+# /tmp, /dev/shm and /run/user/* are RAM-backed tmpfs. On 2026-10-14 (host anton) ~20 agents wrote
+# multi-GB copies there (git clones, a `cp -a` gitdir backup, rsync copies); tmpfs shmem grew 0.33 -> 8.1 GB
+# and the host stalled in direct reclaim. This refuses the BULK/RECURSIVE write forms whose destination is
+# a LITERAL tmpfs path: git clone, git worktree add, git bundle create, cp -a/-r/-R, rsync, tar -x/-c into
+# or onto tmpfs, unzip into tmpfs. Single-file writes (cp a /tmp/a, go build -o /tmp/x, > /tmp/f) are
+# allowed. A relative destination counts as tmpfs when the cwd is tmpfs: the payload's `cwd`, a preceding
+# `cd <literal>` in the same command line, or `git -C <dir>`.
+# ESCAPE HATCH: a leading `AGENT_TMPFS_OK='<reason, >= 10 chars>'` assignment on that simple command; it is
+# appended to $AGENT_TMPFS_OK_LOG (default <agent-scratch>/tmpfs-overrides.log). An override that cannot be
+# logged is refused.
+# HONEST LIMITS: a destination held in a variable ($S/x, "$(mktemp -d)") or reached through a symlink is not
+# resolved; a command run from a script file, an alias or eval is not seen; heredoc bodies are not judged.
+# The structural fix is a disk TMPDIR for the harness (docs/AGENT_GUARDRAILS.md section D).
+TMPFS_RE = re.compile(r"^(/tmp|/dev/shm|/run/user/[0-9]+|/var/run/user/[0-9]+)(/|$)")
+TMPFS_REASON_MIN = 10
+
+def is_tmpfs_path(p, cwd_tmpfs):
+    if not p:
+        return False
+    if p.startswith("/"):
+        return bool(TMPFS_RE.match(os.path.normpath("/" + p.lstrip("/"))))
+    if p[0] in "~$":
+        return False
+    return cwd_tmpfs
+
+REDIR = re.compile(r"^(\d*|&)(>>|>\||>&|>|<<<|<<|<&|<)(.*)$")
+def argv_of(rawpart):
+    try:
+        ws = shlex.split(rawpart)
+    except ValueError:
+        ws = rawpart.split()
+    out, skip = [], False
+    for w in ws:
+        if skip:
+            skip = False; continue
+        if w.startswith("#"):
+            break
+        m = REDIR.match(w)
+        if m:
+            skip = (m.group(3) == ""); continue
+        out.append(w)
+    return out
+
+ASSIGN = re.compile(r"^([A-Za-z_][A-Za-z0-9_]*)=(.*)$", re.S)
+def unwrap(av):
+    """Drop leading VAR=value (collected), wrappers and their options; return (env, argv)."""
+    env = {}
+    while av:
+        m = ASSIGN.match(av[0])
+        if m:
+            env[m.group(1)] = m.group(2); av = av[1:]; continue
+        w = av[0]
+        if w in ("bounded-run", "systemd-run") and "--" in av:
+            av = av[av.index("--") + 1:]; continue
+        if w == "timeout":
+            av = av[1:]
+            while av and av[0].startswith("-"):
+                av = av[2:] if av[0] in ("-s", "--signal", "-k", "--kill-after") else av[1:]
+            av = av[1:]; continue
+        if w in ("nice", "ionice"):
+            av = av[1:]
+            while av and av[0].startswith("-"):
+                av = av[2:] if av[0] in ("-n", "-c", "--adjustment", "--class", "--classdata") else av[1:]
+            continue
+        if w in WRAP:
+            av = av[1:]
+            while av and av[0].startswith("-"):
+                av = av[1:]
+            continue
+        break
+    return env, av
+
+def git_unwrap(av, cwd_tmpfs):
+    """git global options; -C <dir> moves the cwd. Returns (argv, cwd_tmpfs)."""
+    if not av or av[0] != "git":
+        return av, cwd_tmpfs
+    i = 1
+    while i < len(av):
+        w = av[i]
+        if w == "-C" and i + 1 < len(av):
+            cwd_tmpfs = is_tmpfs_path(av[i + 1], cwd_tmpfs); i += 2; continue
+        if w == "-c" and i + 1 < len(av):
+            i += 2; continue
+        if w.startswith("--git-dir=") or w.startswith("--work-tree=") or w in ("--no-pager", "--bare", "--no-replace-objects"):
+            i += 1; continue
+        break
+    return ["git"] + av[i:], cwd_tmpfs
+
+def positionals(args, val_opts):
+    pos, i = [], 0
+    while i < len(args):
+        w = args[i]
+        if w == "--":
+            pos += args[i + 1:]; break
+        if w in val_opts:
+            i += 2; continue
+        if w.startswith("-") and w != "-":
+            i += 1; continue
+        pos.append(w); i += 1
+    return pos
+
+def opt_value(args, shorts, longs):
+    """Values of an option in any spelling: -X v, -Xv, --long v, --long=v."""
+    vals = []
+    for i, w in enumerate(args):
+        for s in shorts:
+            if w == s and i + 1 < len(args):
+                vals.append(args[i + 1])
+            elif w.startswith(s) and not w.startswith("--") and len(w) > len(s) and w[1] == s[1] and len(s) == 2 and s[1] in "Cd":
+                vals.append(w[len(s):])
+        for l in longs:
+            if w == l and i + 1 < len(args):
+                vals.append(args[i + 1])
+            elif w.startswith(l + "="):
+                vals.append(w[len(l) + 1:])
+    return vals
+
+def r_git_clone(av, cwd):
+    if av[:2] != ["git", "clone"]:
+        return None
+    a = av[2:]
+    VAL = {"-b", "--branch", "-o", "--origin", "-u", "--upload-pack", "--depth", "--reference", "--reference-if-able",
+           "--separate-git-dir", "-c", "--config", "-j", "--jobs", "--filter", "--shallow-since", "--shallow-exclude",
+           "--template", "--bundle-uri", "--server-option"}
+    for v in opt_value(a, [], ["--separate-git-dir"]):
+        if is_tmpfs_path(v, cwd):
+            return v
+    pos = positionals(a, VAL)
+    if len(pos) >= 2:
+        return pos[1] if is_tmpfs_path(pos[1], cwd) else None
+    if len(pos) == 1 and cwd:
+        return "./" + os.path.basename(pos[0].rstrip("/")).removesuffix(".git")
+    return None
+
+def r_git_worktree(av, cwd):
+    if av[:3] != ["git", "worktree", "add"]:
+        return None
+    pos = positionals(av[3:], {"-b", "-B", "--reason"})
+    return pos[0] if pos and is_tmpfs_path(pos[0], cwd) else None
+
+def r_git_bundle(av, cwd):
+    if av[:3] != ["git", "bundle", "create"]:
+        return None
+    pos = positionals(av[3:], set())
+    return pos[0] if pos and is_tmpfs_path(pos[0], cwd) else None
+
+def r_cp(av, cwd):
+    if not av or av[0] != "cp":
+        return None
+    a = av[1:]
+    rec = any(w in ("--recursive", "--archive") or (re.match(r"^-[A-Za-z]+$", w) and re.search(r"[arR]", w)) for w in a)
+    if not rec:
+        return None
+    for v in opt_value(a, ["-t"], ["--target-directory"]):
+        return v if is_tmpfs_path(v, cwd) else None
+    pos = positionals(a, {"-S", "--suffix", "-t", "--target-directory"})
+    return pos[-1] if len(pos) >= 2 and is_tmpfs_path(pos[-1], cwd) else None
+
+def r_rsync(av, cwd):
+    if not av or av[0] != "rsync":
+        return None
+    VAL = {"-e", "--rsh", "-f", "--filter", "-T", "--temp-dir", "-B", "--block-size", "-M", "--remote-option",
+           "--exclude", "--include", "--files-from", "--exclude-from", "--include-from", "--link-dest",
+           "--compare-dest", "--copy-dest", "--log-file", "--chmod", "--chown", "--partial-dir", "--backup-dir", "--suffix"}
+    pos = positionals(av[1:], VAL)
+    if len(pos) < 2:
+        return None
+    d = pos[-1]
+    if d.startswith("rsync://") or re.match(r"^[^/]*:", d):
+        return None
+    return d if is_tmpfs_path(d, cwd) else None
+
+def tar_flags(a):
+    """(flag letters, rest) — old-style first word ('xzf') counts as a cluster."""
+    letters = ""
+    for i, w in enumerate(a):
+        if i == 0 and w and not w.startswith("-") and re.match(r"^[A-Za-z]+$", w):
+            letters += w
+        elif re.match(r"^-[A-Za-z]+$", w):
+            letters += w[1:]
+    return letters
+
+def r_tar_extract(av, cwd):
+    if not av or av[0] not in ("tar", "gtar", "bsdtar"):
+        return None
+    a = av[1:]
+    if not ("x" in tar_flags(a) or "--extract" in a or "--get" in a):
+        return None
+    dirs = opt_value(a, ["-C"], ["--directory"])
+    if dirs:
+        return dirs[-1] if is_tmpfs_path(dirs[-1], cwd) else None
+    return "." if cwd else None
+
+def r_tar_create(av, cwd):
+    if not av or av[0] not in ("tar", "gtar", "bsdtar"):
+        return None
+    a = av[1:]
+    fl = tar_flags(a)
+    if not ("c" in fl or "--create" in a):
+        return None
+    files = opt_value(a, [], ["--file"])
+    if not files and "f" in fl:
+        # the archive is the word after the cluster that holds f (old style: the first non-cluster word)
+        for i, w in enumerate(a):
+            if (re.match(r"^-[A-Za-z]+$", w) or (i == 0 and re.match(r"^[A-Za-z]+$", w))) and "f" in w and i + 1 < len(a):
+                files = [a[i + 1]]; break
+    for f in files:
+        if f != "-" and is_tmpfs_path(f, cwd):
+            return f
+    return None
+
+def r_unzip(av, cwd):
+    if not av or av[0] != "unzip":
+        return None
+    a = av[1:]
+    if any(re.match(r"^-[A-Za-z]*[ltpvZ]", w) and not w.startswith("-d") for w in a):
+        return None
+    dirs = opt_value(a, ["-d"], [])
+    if dirs:
+        return dirs[-1] if is_tmpfs_path(dirs[-1], cwd) else None
+    return "." if cwd else None
+
+TMPFS_RULES = [
+    ("git-clone", r_git_clone),               # BRANCH:git-clone
+    ("git-worktree-add", r_git_worktree),     # BRANCH:git-worktree-add
+    ("git-bundle-create", r_git_bundle),      # BRANCH:git-bundle-create
+    ("cp-recursive", r_cp),                   # BRANCH:cp-recursive
+    ("rsync", r_rsync),                       # BRANCH:rsync
+    ("tar-extract", r_tar_extract),           # BRANCH:tar-extract
+    ("tar-create", r_tar_create),             # BRANCH:tar-create
+    ("unzip", r_unzip),                       # BRANCH:unzip
+]
+
+HEREDOC = re.compile(r"<<-?\s*(['\"]?)([A-Za-z_][A-Za-z0-9_]*)\1")
+def strip_heredocs(raw):
+    out, lines, i = [], raw.split("\n"), 0
+    while i < len(lines):
+        ln = lines[i]; out.append(ln)
+        tags = [m.group(2) for m in HEREDOC.finditer(ln)] if "<<" in ln else []
+        i += 1
+        for tag in tags:
+            while i < len(lines) and lines[i].strip() != tag:
+                i += 1
+            i += 1
+    return "\n".join(out)
+
+def tmpfs_judge(raw, ctx, depth=0):
+    """None, or (branch, dest). Records reasoned overrides in ctx['overrides']."""
+    if depth > 3:
+        return None
+    for rawpart, sc in simple_commands(strip_heredocs(raw) if depth == 0 else raw):
+        env, av = unwrap(argv_of(rawpart))
+        if not av:
+            continue
+        if av[0] in ("cd", "pushd"):
+            tgt = av[1] if len(av) > 1 else "~"
+            ctx["cwd"] = False if tgt == "-" else is_tmpfs_path(tgt, ctx["cwd"])
+            continue
+        if av[0] in ("sh", "bash", "zsh", "dash") and "-c" in av[1:3]:
+            k = av.index("-c")
+            if k + 1 < len(av):
+                v = tmpfs_judge(av[k + 1], ctx, depth + 1)
+                if v:
+                    return v
+            continue
+        av, cwd = git_unwrap(av, ctx["cwd"])
+        for name, fn in TMPFS_RULES:
+            dest = fn(av, cwd)
+            if not dest:
+                continue
+            reason = env.get("AGENT_TMPFS_OK", "").strip()
+            if len(reason) >= TMPFS_REASON_MIN:
+                ctx["overrides"].append((name, dest, reason, rawpart.strip()))
+                break
+            return (name, dest, "AGENT_TMPFS_OK" in env)
+    return None
+
+def log_overrides(ovs):
+    path = os.environ.get("AGENT_TMPFS_OK_LOG") or os.path.join(
+        os.environ.get("AGENT_SCRATCH_ROOT") or os.path.expanduser("~/.cache/agent-scratch"), "tmpfs-overrides.log")
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_APPEND, 0o600)
+        with os.fdopen(fd, "a", encoding="utf-8") as fh:
+            for name, dest, reason, cmd in ovs:
+                cmd = re.sub(r"://[^/@\s]+@", "://***@", cmd)[:500]
+                fh.write(json.dumps({"ts": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "rule": name, "dest": dest,
+                                     "reason": reason, "command": cmd}) + "\n")
+        return True, path
+    except OSError as e:
+        return False, "%s (%s)" % (path, e.strerror)
+
 def main():
     mode, path = sys.argv[1], sys.argv[2]
+    root = sys.argv[3] if len(sys.argv) > 3 else "."
     rules, why = load(path)
     if rules is None:
         sys.stderr.write("guard-project-catalogue: %s\n" % why)
@@ -205,6 +501,29 @@ def main():
     if not isinstance(cmd, str):
         return 0
     hit = judge(cmd, rules)
+    if not hit:
+        cwd = payload.get("cwd")
+        ctx = {"cwd": isinstance(cwd, str) and is_tmpfs_path(cwd, False), "overrides": []}
+        t = tmpfs_judge(cmd, ctx)
+        helper = os.path.join(root, "scripts", "agent-scratch.sh")
+        if t:
+            name, dest, short_reason = t
+            sys.stderr.write(
+                "BLOCKED by guard-project-catalogue (tmpfs-bulk-write:%s): this writes a bulk/recursive copy into "
+                "RAM-backed tmpfs (%s). /tmp, /dev/shm and /run/user/* are RAM: on 2026-10-14 multi-GB copies there "
+                "stalled the host (tmpfs shmem 0.33 -> 8.1 GB, direct-reclaim storm). Write to disk instead: "
+                "S=$(bash %s new <label>) and use \"$S\"/... (same filesystem as ~/Projects, so `cp -al` hardlink "
+                "backups work and cost no data). If a tmpfs write is truly required, prefix the command with "
+                "AGENT_TMPFS_OK='<reason, >= %d chars>' (it is logged)%s.\n"
+                % (name, dest, helper, TMPFS_REASON_MIN, "; the AGENT_TMPFS_OK reason given is too short" if short_reason else ""))
+            return 2
+        if ctx["overrides"]:
+            ok_, where = log_overrides(ctx["overrides"])
+            if not ok_:
+                sys.stderr.write("BLOCKED by guard-project-catalogue (tmpfs-bulk-write): an AGENT_TMPFS_OK override "
+                                 "must be logged and the log is not writable: %s\n" % where)
+                return 2
+            return 0
     if hit:
         sys.stderr.write(
             "BLOCKED by guard-project-catalogue (VSC-367): the command matches the refused class '%s' of "
@@ -217,7 +536,7 @@ sys.exit(main())
 PYEOF
 )
 
-run_hook() { python3 -I -c "$PY" "$1" "$2"; }
+run_hook() { python3 -I -c "$PY" "$1" "$2" "$ROOT_DEFAULT"; }
 
 prove() {
     local pass=0 fail=0 T rc c
@@ -248,11 +567,11 @@ prove() {
     # P3 evasion shapes refused
     local e=0
     for c in "ls && git reset --hard" "git -C /tmp/x add -A" "FOO=1 reboot" "bash -c 'git add -A'" 'echo $(git clean -fd)' \
-             "nohup pkill -f workshop-server" "time git stash" "true | killall workshop-server"; do
+             "nohup pkill -f workshop-server" "time git stash" "true | killall workshop-server" "FOO='a b' git add -A"; do
         probe "$c"; rc=$?
         [ "$rc" -eq 2 ] || { e=$((e+1)); echo "    evasion not refused: $c rc=$rc"; }
     done
-    [ "$e" -eq 0 ] && ok "P3 8 evasion shapes refused" || bad "P3 $e evasion shapes allowed"
+    [ "$e" -eq 0 ] && ok "P3 9 evasion shapes refused (incl. a quoted VAR='a b' prefix)" || bad "P3 $e evasion shapes allowed"
     # P6 force-push in ANY spelling is refused (constitution 11.4.113); the catalogue only lists `--force`,
     # so the hook carries a structural git-push check. Each case must be rc 2.
     local f=0
@@ -292,6 +611,55 @@ prove() {
     probe "git add -A" "$T/none.tsv"; rc=$?
     run_hook check "$T/none.tsv" 2>/dev/null; local rc3=$?
     [ "$rc" -eq 1 ] && [ "$rc3" -eq 2 ] && ok "E1 missing catalogue: hook rc 1, check rc 2" || bad "E1 rc=$rc/$rc3"
+    # ── tmpfs bulk-write rule (host-hang fix WP1, 2026-10-14) ──────────────────────────────────────────
+    local FX="$HERE/fixtures/tmpfs-guard" br cwd cmdl lbl
+    [ -f "$FX/golden-bad.tsv" ] && [ -f "$FX/golden-good.tsv" ] || { echo "COULD-NOT-PROVE: tmpfs fixtures missing under $FX"; return 2; }
+    probe_cwd() { # $1 command  $2 cwd ('-' = none)  [$3 python program, default the hook's]
+        local j; j=$(python3 -I -c 'import json,sys
+d={"tool_name":"Bash","tool_input":{"command":sys.argv[1]}}
+if sys.argv[2]!="-": d["cwd"]=sys.argv[2]
+print(json.dumps(d))' "$1" "$2")
+        printf '%s' "$j" | AGENT_TMPFS_OK_LOG="$T/override.log" python3 -I -c "${3:-$PY}" hook "$CAT" "$ROOT_DEFAULT" 2>"$T/stderr"
+    }
+    # P8 every golden-bad row is refused (rc 2) and the refusal names the tmpfs rule or a catalogue class
+    local nb=0 tb=0
+    while IFS=$'\t' read -r br cwd cmdl; do
+        case "$br" in ''|'#'*) continue ;; esac
+        tb=$((tb+1)); probe_cwd "$cmdl" "$cwd"; rc=$?
+        if [ "$rc" -ne 2 ] || ! grep -q 'tmpfs-bulk-write' "$T/stderr"; then nb=$((nb+1)); echo "    golden-bad not refused by the tmpfs rule: [$br] $cmdl rc=$rc"; fi
+    done <"$FX/golden-bad.tsv"
+    [ "$tb" -gt 0 ] && [ "$nb" -eq 0 ] && ok "P8 all $tb golden-bad tmpfs bulk writes refused" || bad "P8 $nb of $tb golden-bad rows allowed"
+    # P9 every golden-good row is allowed (rc 0): single files, disk destinations, reads, mentions
+    local ng=0 tg=0
+    while IFS=$'\t' read -r lbl cwd cmdl; do
+        case "$lbl" in ''|'#'*) continue ;; esac
+        tg=$((tg+1)); probe_cwd "$cmdl" "$cwd"; rc=$?
+        [ "$rc" -eq 0 ] || { ng=$((ng+1)); echo "    golden-good wrongly refused: [$lbl] $cmdl rc=$rc"; }
+    done <"$FX/golden-good.tsv"
+    [ "$tg" -gt 0 ] && [ "$ng" -eq 0 ] && ok "P9 all $tg golden-good commands allowed" || bad "P9 $ng of $tg golden-good rows refused"
+    # P9b a heredoc BODY is data, not a command: writing a script that mentions a tmpfs copy is allowed
+    probe_cwd "$(printf "cat > notes.sh <<'EOF'\ncp -a big /tmp/x\nEOF\nwc -l notes.sh")" -; rc=$?
+    [ "$rc" -eq 0 ] && ok "P9b a heredoc body mentioning cp -a ... /tmp is not judged as a command" || bad "P9b rc=$rc"
+    # P10 escape hatch: a reasoned AGENT_TMPFS_OK prefix is allowed AND logged; an unloggable override is refused
+    rm -f "$T/override.log"
+    probe_cwd "AGENT_TMPFS_OK='tiny 4 KB fixture for a tmpfs containment test' cp -a fx /tmp/fx" -; rc=$?
+    local logged=1; grep -q 'tiny 4 KB fixture' "$T/override.log" 2>/dev/null && logged=0
+    local j2; j2=$(python3 -I -c 'import json;print(json.dumps({"tool_name":"Bash","tool_input":{"command":"AGENT_TMPFS_OK=\"a long enough reason\" cp -a a /tmp/b"}}))')
+    printf '%s' "$j2" | AGENT_TMPFS_OK_LOG=/proc/nonexistent/override.log python3 -I -c "$PY" hook "$CAT" "$ROOT_DEFAULT" 2>/dev/null; local rc4=$?
+    [ "$rc" -eq 0 ] && [ "$logged" -eq 0 ] && [ "$rc4" -eq 2 ] && ok "P10 reasoned override allowed+logged; unloggable override refused" || bad "P10 rc=$rc logged=$logged unloggable-rc=$rc4"
+    # P11 per-branch mutation: removing each rule branch lets at least one of ITS golden-bad rows through
+    local branches mb=0 nbr=0 slipped PYm
+    branches=$(grep -o '# BRANCH:[a-z-]*' <<<"$PY" | sed 's/# BRANCH://' | sort -u)
+    [ -n "$branches" ] || bad "P11 no '# BRANCH:' markers found in the hook program"
+    for b in $branches; do
+        nbr=$((nbr+1)); PYm=$(grep -v "# BRANCH:$b\$" <<<"$PY"); slipped=0
+        while IFS=$'\t' read -r br cwd cmdl; do
+            [ "$br" = "$b" ] || continue
+            probe_cwd "$cmdl" "$cwd" "$PYm"; [ $? -eq 0 ] && slipped=$((slipped+1))
+        done <"$FX/golden-bad.tsv"
+        [ "$slipped" -gt 0 ] || { mb=$((mb+1)); echo "    mutant without branch '$b' still refuses every '$b' row: the fixture does not exercise it"; }
+    done
+    [ "$nbr" -gt 0 ] && [ "$mb" -eq 0 ] && ok "P11 each of $nbr rule branches removed => a named golden-bad row slips (P8 would FAIL)" || bad "P11 $mb of $nbr branch mutants undetected"
     # L1 latency p95 over 200 probes under 100 ms
     local i s e2 ms; local -a lat=()
     for i in $(seq 1 200); do
