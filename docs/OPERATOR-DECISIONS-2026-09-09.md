@@ -458,14 +458,77 @@ path — it demonstrably breaks it, silently, while the site keeps answering 200
   that a reported symptom was real and its stated mechanism was wrong** — the
   09-08 record names six. Treat a stated mechanism as a hypothesis to reproduce,
   never as a finding.
-- **Three findings from #12 that nobody asked for and that are not yet decided:**
-  half the "8 rows awaiting confirmation" already carried a recorded human
-  disposition; `plan-coverage-proposal.md` says 66 rows while the committed JSON
-  says 49 and `verify-plan-coverage-proposal.sh` exits 0 **because it never reads
-  the prose** (a §11.4.201 false-green); and the own-row corroboration lane is
+- **Three findings from #12 that nobody asked for — RE-MEASURED 2026-10-14
+  (VSC-362, operator-authorised that day: "repair the three rows, then
+  independent review").** The paragraph that stood here, taken 2026-09-09, is
+  kept below as **historical**; each finding is now restated with the command
+  that measured it today. Counts only — no point, passage or row text. Every
+  command below runs inside the private `workshop` submodule.
+
+  *Historical, superseded (2026-09-09, true when written):* half the "8 rows
+  awaiting confirmation" already carried a recorded human disposition;
+  `plan-coverage-proposal.md` said 66 rows while the committed JSON said 49 and
+  `verify-plan-coverage-proposal.sh` exited 0 **because it never read the
+  prose** (a §11.4.201 false-green); and the own-row corroboration lane was
   low-specificity, one generic row being the best match for three separate
   points. The 8 rows resolved 4 CONFIRMED / 3 REFUTED / 1 already-covered, and
-  **no row was repaired** — that is a separate operator decision.
+  no row was repaired at that time.
+
+  1. **"Half the 8 rows already carried a recorded human disposition" — NO
+     LONGER TRUE; the dispositions it relied on were RESET.** Measured by
+     reading the `dispositions` list of every
+     `curriculum/chapter-*/knowledge/plan-coverage.json`: **0 recorded
+     dispositions** across all 3 files today (`chapter-01` 0, `chapter-02` 0,
+     `chapter-02.01` 0). At workshop commit `5e247ce` (2026-09-09) the same read
+     gives **7, all `covered`** (`chapter-02` 6, `chapter-02.01` 1). The reset
+     landed in workshop commit `2e143cd` (2026-10-07); both reset files carry a
+     non-empty `decided_by`. The gate's own reading agrees:
+     `SERVED 01=undecided/0 02=undecided/0 02.01=undecided/0 02.02=unwritten/0
+     03=unwritten/0 04=unwritten/0`. The three plan_ids investigated under
+     decision #14 (`…KCB`, `…KCC`, `01M1SD6HJ78ZTKAXSW0185YKH8`) appear in **0 of
+     the 29** proposal rows today, so none of the 8 rows can carry a recorded
+     human disposition now.
+  2. **"The gate never reads the prose" — FIXED; the false-green is CLOSED for
+     the gate and the paired proof is RED.**
+     `bounded-run -m 6G -T 580 -- bash platform/gates/verify-plan-coverage-proposal.sh`
+     exits **rc 0**: `RESULT 0 CLEAN`, P1–P10, with P10 reading
+     `docs/session-evidence/plan-coverage-proposal.md`. Its reconciliation line
+     is `66 -11 +0 -26 = 29 = artefact rows` (retraction ledger 11 rows from 6
+     applied points; the note itself states the −26 as an unattributed
+     remainder), and `COUNTS planned=29 proposals=29 covered=1 not_covered=0
+     cannot_determine=28`. The population is **29**, so the 49 of 2026-09-09 is
+     historical. Pointing the same gate at the note as committed on 2026-09-09
+     (`git show 07e4757:docs/session-evidence/plan-coverage-proposal.md`) with
+     `--note` exits **rc 1** with **25** P10 lines, so the gate now catches the
+     prose it used to ignore. **The paired proof does not pass:**
+     `bash platform/gates/prove-plan-coverage-proposal.sh` exits **rc 1** at
+     `66 passed / 5 failed / 61 mutations / 10 controls`. The 5 are M16 and M16b
+     (wanted rc 1, got 0), N15 (wanted rc 1, got 0, because its fixture reads
+     the note at `HEAD`, which is now the corrected note rather than the
+     2026-09-09 one), and two fixture-build failures (C11, and N7 which reports
+     `no decided served row to falsify`). M16, M16b, N7 and C11 need a decided
+     row or a two-lane `covered` row in the live data, and today there are 0
+     dispositions (item 1). This is recorded as a finding and was not repaired
+     here.
+  3. **"The own-row lane is low-specificity" — STILL TRUE as a measurement; it
+     NO LONGER DECIDES a verdict.** Read from
+     `curriculum/plan-coverage-proposal.json` (29 rows): the own-row lane beats
+     its matched null on **3/29** rows and the transcript lane on **1/29**. All
+     3 own-row firings name the **same single** best-matching own row, so the
+     "one generic row is the best match for three separate points" pattern
+     still holds today (it had best-match rows on 8 of the 29 rows, and those 8
+     share 2 distinct rows). The own-row lane can support an absence on **0/29**
+     rows. Under Fix C (decision #21; see
+     `specs/006-session-record-and-qa-readiness/plan-coverage-fix-c.md`) all 3
+     own-row-only firings come out `cannot_determine` with rationale
+     `OWN_ROW_LANE_ONLY_THE_DECISIVE_LANE_DID_NOT_AGREE`, and the single
+     `covered` row rests on the transcript lane. The proof's M29 ("a covered
+     created by the OWN-ROW lane ALONE") is rejected as designed (rc 1).
+
+  **What this repairs and what it does not.** These three rows now carry dated
+  measurements in place of the 2026-09-09 claims. No workshop artefact, gate,
+  proof or disposition was changed to produce them. The RED paired proof in
+  item 2 is a new open finding.
 
 ## Ratified: the generation-8 bump, and a stop-rule that was WRONG
 
