@@ -1,4 +1,7 @@
 # VSC-354 closure check (author: closure-wave T047 fixer; independent verifier re-runs via scripts/zero-gap-verify.sh)
+# ROUND 3 (t349-354-check-author-3): probe extended (comma-less/table-cell 11101, pin, describe, eighth directory, the other
+# five, loud skip + rc 2 under --strict). pre_fix_ref = 8b63dad, the parent of the a3271d2 text fix: lines 78, 79, 88, 138,
+# 154 are unmarked there (probe rc 1). --strict makes a worktree without submodules/constitution rc 2, never a plain pass.
 check_id=chk-vsc-354-inventory-dated-figures
-pre_fix_ref=c827c664c24e90a2b12b352618d579a3c631749d
-cmd=bash "$(git rev-parse --path-format=absolute --git-common-dir)/../docs/zero-gap/checks/VSC-354.probe.sh"
+pre_fix_ref=8b63dad255d9c23725e6581cedff87e0717ade15
+cmd=bash "$(git rev-parse --path-format=absolute --git-common-dir)/../docs/zero-gap/checks/VSC-354.probe.sh" --strict

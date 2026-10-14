@@ -3,8 +3,11 @@
 # stale-figures class (a marker anywhere on a line hid the line, `# 0 -` exit codes were invisible) and it
 # hardcoded an absolute path. Those two files stay in the tree UNREFERENCED (nothing is deleted).
 # New method: a fixed explicit claim table re-measured LIVE and compared at CLAUSE level (probes/carrier_claims.py).
-# pre_fix_ref is the HEAD at which the live counterexamples (CLAUDE.md lines 30, 45, 1212, 1213, 1215, 1217,
+# ROUND 3 (t349-354-check-author-3): rows remote-sync-probed / c1-classified / c23-carriers / staged-not-committed added and
+# main() made exception-safe (rc 2). pre_fix_ref is now 21c5f71, the parent of the 8b63dad text fix, where the stale
+# 'probed 13 of 14', '12 owned + 1 + 1', '12 x 4 = 48' and the unmarked 'STAGED and not yet committed' are all present
+# (probe rc 1, 5 findings). Earlier note: pre_fix_ref was the HEAD at which the live counterexamples (CLAUDE.md lines 30, 45, 1212, 1213, 1215, 1217,
 # 1898-1903) are all present and unmarked; the defects pre-date it and the carriers are unchanged since.
 check_id=chk-vsc-349-carrier-figures-marked
-pre_fix_ref=34948a7efef3d702488dedb0ceeb66b95b3b758e
+pre_fix_ref=21c5f710bbfe68ab00d82c56bd350c9d869b3702
 cmd=python3 -I "$(git rev-parse --path-format=absolute --git-common-dir)/../docs/zero-gap/checks/probes/carrier_claims.py" --suite 349

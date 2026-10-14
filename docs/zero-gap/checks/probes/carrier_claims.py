@@ -36,7 +36,9 @@ Measurements run against --live-root (default: the main checkout, derived from `
 import sys
 sys.dont_write_bytecode = True
 import argparse
+import contextlib
 import hashlib
+import io
 import os
 import re
 import shutil
@@ -269,6 +271,24 @@ class Live:
         except OSError as e:
             raise Undet('deploy-langs.sh unreadable: %s' % e)
 
+    def sync_counts(self):
+        """live 'N owned gitlink(s) probed, M declared' of the remote-sync gate (rc 1 on drift is NOT an error here)"""
+        p = self._run(['bash', 'scripts/verify-submodule-remote-sync.sh'])
+        m = re.search(r'of (\d+) owned gitlink\(s\) probed, (\d+) declared', p.stdout + p.stderr)
+        if not m:
+            raise Undet('verify-submodule-remote-sync.sh: probed/declared summary not found in its output (rc %d)' % p.returncode)
+        return {'probed': m.group(1), 'declared': m.group(2)}
+
+    def cascade(self):
+        """live C1 triple and C2 carrier product of the cascade gate"""
+        p = self._run(['bash', 'scripts/verify-governance-cascade.sh'])
+        t = p.stdout + p.stderr
+        c1 = re.search(r'C1 FLEET-CLASSIFIED[^\n]*?: (\d+) owned, (\d+) governance source, (\d+) third-party', t)
+        c2 = re.search(r'C2 OWNED-CARRIERS-PRESENT[^\n]*?all (\d+)\s*[×x]\s*4 = (\d+) owned', t)
+        if not c1 or not c2:
+            raise Undet('verify-governance-cascade.sh: C1/C2 PASS line not found in its output (rc %d)' % p.returncode)
+        return {'owned': c1.group(1), 'src': c1.group(2), 'tp': c1.group(3), 'a': c2.group(1), 'b': c2.group(2)}
+
     def gate(self, name):
         spec = GATES[name]
         p = self._run(['bash', 'scripts/' + name])
@@ -316,9 +336,26 @@ CLAIMS = [
      r'The failure is tolerated by design', 'deploy'),
     ('deploy-dryrun', {349}, 'CLAUDE.md',
      r'A `--dry-run` therefore reports success while having built nothing', 'deploy'),
+    ('remote-sync-probed', {349}, 'CLAUDE.md',
+     r'probed \*\*(?P<n>\d+)\*\* owned gitlinks of (?P<m>\d+)', 'sync'),
+    ('remote-sync-probed-b', {349}, 'CLAUDE.md',
+     r'of (?P<n>\d+) owned gitlinks probed, (?P<m>\d+) declared', 'sync'),
+    ('c1-classified', {349}, 'CLAUDE.md',
+     r'classif(?:ies|ied) \*\*(?P<owned>\d+) owned \+ (?P<src>\d+) governance source \+ (?P<tp>\d+) third-party\*\*', 'c1'),
+    ('c1-classified-live', {349}, 'CLAUDE.md',
+     r'\*\*(?P<owned>\d+) owned, (?P<src>\d+) governance source, (?P<tp>\d+) third-party\*\*', 'c1'),
+    ('c23-carriers', {349}, 'CLAUDE.md',
+     r'(?P<a>\d+) × 4 = (?P<b>\d+)\*\* owned-submodule carriers', 'c23'),
+    ('staged-not-committed', {349}, 'CLAUDE.md',
+     r'STAGED and not yet committed', 'needs_marker'),
     ('cont-declared', {351}, 'CONTINUATION.md',
      r'of (?P<owned>\d+) owned gitlinks probed, (?P<n>\d+) declared', 'gitmodules'),
 ]
+
+# rows whose anchor may legitimately be absent (a table-form restatement), and rows that are two spellings of ONE
+# claim (at least one spelling must be found, else the carrier was rewritten and the table must be updated: rc 2)
+OPTIONAL = {'remote-sync-probed-b'}
+ALTERNATES = {'c1-classified': ('c1-classified-live',), 'c1-classified-live': ('c1-classified',)}
 
 FIG = re.compile(r'(\d+)\s*(PASS|FAIL|DEBT|UNDET\w*|NOTE|ENV|MATCH|DRIFT)\b')
 TUPLE = re.compile(r'\d+\s*(?:PASS|CURRENT|MATCH)\s*/\s*\d+\s*(?:FAIL|DRIFT)(?:\s*/\s*\d+\s*(?:UNDET\w*|ENV|DEBT|NOTE))*')
@@ -344,6 +381,7 @@ class Run:
         self.suite, self.root, self.live = suite, root, _LIVE.setdefault(live_root, Live(live_root))
         self.lockstep = lockstep
         self.findings, self.undet, self.n = [], [], 0
+        self.hits = {}
 
     def f(self, *a):
         self.findings.append(' '.join(str(x) for x in a))
@@ -369,9 +407,20 @@ class Run:
                         if mism and not c.covers(m.start(), m.end()):
                             self.f('FINDING', cid, '%s:%d' % (fname, c.line_of(m.start())), 'unmarked-stale',
                                    ' '.join('%s stated=%s live=%s' % x for x in mism), '::', snip(c))
+            self.hits[cid] = hits
+            if hits == 0 and (cid in OPTIONAL or cid in ALTERNATES):
+                continue  # optional row; or one spelling of a two-spelling claim, resolved after the loop
             if hits == 0:
                 self.undet.append('%s: anchor not found in %s (carrier rewritten? the check author must update '
                                   'the table - this is not a pass)' % (cid, fname))
+
+    def alternates(self, fname):
+        for cid, others in ALTERNATES.items():
+            cfile = [c for c in CLAIMS if c[0] == cid][0]
+            if self.suite in cfile[1] and cfile[2] == fname and not self.hits.get(cid) \
+                    and not any(self.hits.get(o) for o in others):
+                self.undet.append('%s: neither spelling of the claim found in %s (carrier rewritten? the check author '
+                                  'must update the table - this is not a pass)' % (cid, fname))
 
     def compare(self, measure, m):
         g = m.groupdict()
@@ -388,6 +437,18 @@ class Run:
         if measure == 'gitmodules':
             live = L.gitmodules_count()
             return [] if g['n'] == live else [('declared', g['n'], live)]
+        if measure == 'sync':
+            live = L.sync_counts()
+            return [(k, g[v], live[k2]) for k, v, k2 in (('probed', 'n', 'probed'), ('declared', 'm', 'declared'))
+                    if g[v] != live[k2]]
+        if measure == 'c1':
+            live = L.cascade()
+            return [(k, g[k], live[k]) for k in ('owned', 'src', 'tp') if g[k] != live[k]]
+        if measure == 'c23':
+            live = L.cascade()
+            return [(k, g[k], live[k]) for k in ('a', 'b') if g[k] != live[k]]
+        if measure == 'needs_marker':
+            return [('present-tense-staged', 'unmarked', 'must-carry-marker')]
         if measure == 'deploy':
             return [] if L.deploy_literal() else [('build_warn-jekyll-step', 'present', 'absent')]
         raise Undet('unknown measure ' + measure)
@@ -478,6 +539,7 @@ def run_suite(suite, root, live_root, lockstep=True):
             continue
         units = units_of(p)
         r.explicit(fn, units)
+        r.alternates(fn)
         r.gates(fn, units)
         if suite == 351:
             r.crossref(units)
@@ -511,8 +573,15 @@ def prove(live_root):
         n_decl = live.gitmodules_count()
         reg = live.gate('verify-check-registry.sh')
         man = live.gate('verify-manifest-pins.sh')
+        sync = live.sync_counts()
+        casc = live.cascade()
         regfig = '%s PASS/%s FAIL/%s DEBT' % (reg['PASS'], reg['FAIL'], reg['DEBT'])
         STALE_LINES = '11,787'
+
+        NEWROWS = ('That gate probed **%s** owned gitlinks of %s declared. C1 classifies **%s owned, %s governance source, '
+                   '%s third-party**. C2/C3 find **%s × 4 = %s** owned-submodule carriers. The move was **STAGED and '
+                   'not yet committed** (historical).\n\n' % (sync['probed'], sync['declared'], casc['owned'], casc['src'],
+                                                          casc['tp'], casc['a'], casc['b']))
 
         def claude(table=None, gates=None, deploy=None, extra=''):
             table = table or ('| The universal constitution (%s lines, %s `### §` anchors, %s bytes) measured. | `x` |'
@@ -526,7 +595,7 @@ def prove(live_root):
             body = ('# fixture\n\n' + table + '\n\n'
                     '`submodules/constitution` is currently checked out at `%s`, on branch main.\n\n'
                     '`.gitmodules` declares **%s** gitlinks.\n\n'
-                    '`workshop` `%s`\n\n' % (pin, n_decl, gl) + deploy + '\n```bash\n' + gates + '```\n' + extra)
+                    '`workshop` `%s`\n\n' % (pin, n_decl, gl) + NEWROWS + deploy + '\n```bash\n' + gates + '```\n' + extra)
             return body
 
         def need_deploy_anchors(txt):
@@ -584,6 +653,59 @@ def prove(live_root):
         case('M10b stale pin followed by a standalone "(historical)" tag after the terminator',
              need_deploy_anchors(claude()).replace('checked out at `%s`, on branch main.' % pin,
                                                    'checked out at `2887b42e9349`, on branch main. (historical)'), 0)
+
+        # VSC-349 round 3 rows: probed N of M, C1 triple, C2/C3 product, unmarked STAGED phrase
+        def row(name, old, new, want):
+            assert old in NEWROWS, old
+            case(name, need_deploy_anchors(claude().replace(NEWROWS, NEWROWS.replace(old, new, 1))), want)
+        stale_sync = 'probed **13** owned gitlinks of 14 declared'
+        live_sync = 'probed **%s** owned gitlinks of %s declared' % (sync['probed'], sync['declared'])
+        NEWROWS = NEWROWS.replace('That gate probed **%s** owned gitlinks of %s declared' % (sync['probed'], sync['declared']),
+                                  'That gate ' + live_sync)
+        row('349 R1 stale "probed N of M" planted unmarked', live_sync, stale_sync, 1)
+        row('349 R1b stale figure, marker in the SAME clause', live_sync, stale_sync + ', superseded', 0)
+        row('349 R1c stale figure, marker only in a DIFFERENT clause (de0e93c shape)', live_sync,
+            stale_sync + '. Elsewhere this is superseded', 1)
+        c1_live = 'C1 classifies **%s owned, %s governance source, %s third-party**' % (casc['owned'], casc['src'], casc['tp'])
+        row('349 R2 stale live-form C1 triple (12/1/1) unmarked', c1_live,
+            'C1 classifies **12 owned, 1 governance source, 1 third-party**', 1)
+        row('349 R2b stale old-form C1 triple (+) unmarked', c1_live,
+            'C1 classifies **12 owned + 1 governance source + 1 third-party**', 1)
+        row('349 R2c stale old-form C1 triple, marker in the same clause', c1_live,
+            'C1 classifies **12 owned + 1 governance source + 1 third-party**, historical', 0)
+        c23_live = '**%s × 4 = %s** owned-submodule carriers' % (casc['a'], casc['b'])
+        row('349 R3 stale C2/C3 product (12 x 4 = 48) unmarked', c23_live, '**12 × 4 = 48** owned-submodule carriers', 1)
+        row('349 R3b stale C2/C3 product, marker in the same clause', c23_live,
+            '**12 × 4 = 48** owned-submodule carriers (superseded)', 0)
+        row('349 R3c stale C2/C3 product, marker in a different clause', c23_live,
+            '**12 × 4 = 48** owned-submodule carriers. Other sentence withdrawn', 1)
+        row('349 R4 "STAGED and not yet committed" unmarked', 'STAGED and not yet committed** (historical)',
+            'STAGED and not yet committed**', 1)
+        row('349 R4b same phrase marked in its own clause', 'STAGED and not yet committed** (historical)',
+            'STAGED and not yet committed**, a superseded reading', 0)
+        case('349 R5 new anchor removed -> cannot determine, never 0',
+             need_deploy_anchors(claude().replace(NEWROWS, NEWROWS.replace('STAGED and not yet committed', 'staged'))), 2)
+
+        # uncaught exception -> rc 2 (never a traceback rc 1)
+        d = tempfile.mkdtemp(dir=scratch)
+        with open(os.path.join(d, 'CLAUDE.md'), 'w', encoding='utf-8') as fh:
+            fh.write(base)
+        orig = Run.compare
+        def boom(self, measure, m):
+            raise KeyError('injected')
+        Run.compare = boom
+        try:
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                rc = main(['--suite', '349', '--root', d, '--live-root', live_root, '--no-lockstep'])
+        finally:
+            Run.compare = orig
+        (ok if rc == 2 and 'unexpected KeyError' in buf.getvalue() else bad).append(
+            '%-62s rc %d (want 2)' % ('349 X1 injected KeyError in a measure -> rc 2, not 1', rc))
+        buf = io.StringIO()
+        with contextlib.redirect_stdout(buf):
+            rc = main(['--suite', '349', '--root', d, '--live-root', live_root, '--no-lockstep'])
+        (ok if rc == 0 else bad).append('%-62s rc %d (want 0)' % ('349 X2 same fixture, no injection -> rc 0 (control)', rc))
 
         # 351
         cont_rows = ('## §6 Gates\n\n| `bash scripts/verify-check-registry.sh` | **%s** — %s |\n\n'
@@ -651,14 +773,27 @@ def main_root():
     return os.path.dirname(d) if os.path.basename(d) == '.git' else toplevel()
 
 
-def main():
+def main(argv=None):
+    """any exception that is not an Undet is a cannot-determine (rc 2), never a traceback with rc 1 (which would
+    be indistinguishable from 'a stale claim was found'); SystemExit (argparse) passes through untouched"""
+    try:
+        return _main(argv)
+    except Undet as e:
+        print('UNDETERMINED:', e)
+        return 2
+    except Exception as e:  # noqa: BLE001 - deliberately broad: 2 is never a pass and never a finding
+        print('UNDETERMINED: unexpected %s: %s' % (type(e).__name__, e))
+        return 2
+
+
+def _main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument('--suite', type=int, choices=(349, 351))
     ap.add_argument('--root')
     ap.add_argument('--live-root')
     ap.add_argument('--no-lockstep', action='store_true')
     ap.add_argument('--prove-failure', action='store_true')
-    a = ap.parse_args()
+    a = ap.parse_args(argv)
     try:
         live_root = a.live_root or main_root()
         if a.prove_failure:
