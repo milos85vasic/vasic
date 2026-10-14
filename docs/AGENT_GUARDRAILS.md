@@ -171,26 +171,29 @@ fails (cross-device), which pushed agents into full copies instead. The mechanis
 
 ### Rules for every orchestrator and every subagent
 
-| # | Rule | Mechanism |
+| # | Rule | Enforcement — what actually stops a violation today |
 |---|---|---|
-| D1 | **Fan-out budget:** no more than **5** concurrent subagents, and no more than **2 heavy** ones at a time. Dispatch in **waves**: the next heavy wave starts when one ends, never all at once. | orchestrator discipline; `scripts/agent-admit.sh` (2 heavy slots) enforces the heavy half |
-| D2 | **Heavy** means: pre-push gates, Playwright, `go test -race`, podman / site builds, a content-boundary full scan, `zero-gap-verify`, mutation suites (`--prove-failure` / `--run-proofs`), local model runs. | — |
-| D3 | Run heavy work only through **admission**: `bash scripts/agent-admit.sh --tag <name> -- <cmd>` (or `--verdict3` for a 0/1/2 gate). It takes a slot, checks memory PSI `some avg10` < 15, `/tmp` used < 40 %, `app.slice` working set (`memory.current − inactive_file`) < 85 % of `memory.high`, then runs `<cmd>` under `bounded-run -m 6G -T 3600`. A refusal is rc 1 (rc 2 under `--verdict3`); never retry it in a loop — wait for the next wave. `scripts/pre-push-gates.sh` (gates 1 and 6), `scripts/zero-gap-verify.sh` and `scripts/verify-content-boundary.sh` already admit themselves. | `scripts/agent-admit.sh` |
-| D4 | Any other heavy command runs under **`bounded-run -m <MEM> -T <SECONDS> --`** with explicit caps (minimums: `go test -race` 4G, builds/archives 6G). Never bare. | `~/.local/bin/bounded-run` |
-| D5 | **Scratch on disk, never tmpfs:** `S=$(bash scripts/agent-scratch.sh new <label>)` and write under `"$S"`. Never write a repo copy, a clone, a worktree, a bundle, an archive or an extracted tree to `/tmp`, `/dev/shm` or `/run/user/*` — including the harness scratchpad under `/tmp/claude-*`. | `scripts/agent-scratch.sh` |
-| D6 | **Backups are hardlinks on the same filesystem:** `cp -al <repo-path> "$S/backup"` (zero data blocks). `bash scripts/agent-scratch.sh df-check` proves the scratch root and the repo share a filesystem and that a hardlink works. Never `cp -a` a repository or a gitdir. | `agent-scratch.sh df-check` |
-| D7 | **Never clone or copy a repository** to get a second working copy; use `git worktree add "$S/wt" <ref>` on disk, and remove it when done. | tmpfs guard (below) |
-| D8 | Clean up: remove your scratch dir when finished; `bash scripts/agent-scratch.sh gc --older-than 3d` removes only dirs the helper created and that have been idle that long. `du` shows usage. | `agent-scratch.sh gc / du` |
+| D1 | **Fan-out budget:** no more than **5** concurrent subagents, and no more than **2 heavy** ones at a time. Dispatch in **waves**: the next heavy wave starts when one ends, never all at once. | **Heavy half ENFORCED** for work routed through `scripts/agent-admit.sh` (2 slots). **The 5-subagent half is ADVISORY** (documentation only): nothing counts subagents. |
+| D2 | **Heavy** means: pre-push gates, Playwright, `go test -race`, podman / site builds, a content-boundary full scan, `zero-gap-verify`, mutation suites (`--prove-failure` / `--run-proofs`), local model runs. | **Admitted automatically** (they call agent-admit themselves): pre-push gate 1 (`go test`), gate 6 (Playwright), `scripts/zero-gap-verify.sh` (run and `--prove-failure`), `scripts/verify-content-boundary.sh` (scan and `--prove-failure`). **NOT admitted automatically — wrap them yourself (D3/D4):** pre-push gates 0 and 2–5, `verify-check-registry.sh --run-proofs`, every other `--prove-failure` battery, `site-build` / `_tools/deploy-langs.sh`, podman builds, `go test -race` outside gate 1, model runs. |
+| D3 | Run heavy work only through **admission**: `bash scripts/agent-admit.sh --tag <name> -- <cmd>` (or `--verdict3` for a 0/1/2 gate). It takes a slot, then checks memory PSI `some avg10` < 15, Shmem < 10 % of RAM, `/tmp`, `/dev/shm`, `/run/user/<uid>` each < 25 % used, `app.slice` working set (`memory.current − inactive_file`) < 85 % of `memory.high`, and §12.12 thread headroom (< 75 % of `ulimit -u`, ≥ 512 free), then runs `<cmd>` under `bounded-run -m 6G -T 3600`. A refusal is rc 1 (rc 2 under `--verdict3`, which also maps every rc ≥ 124, e.g. a SIGKILL from the memory cap, to 2); never retry it in a loop — wait for the next wave. | **ENFORCED** for the entry points listed in D2; **ADVISORY** for anything an agent runs without the wrapper (admission is cooperative). |
+| D4 | Any other heavy command runs under **`bounded-run -m <MEM> -T <SECONDS> --`** with explicit caps (minimums: `go test -race` 4G, builds/archives 6G). Never bare. | **ADVISORY** (nothing refuses a bare command). |
+| D5 | **Scratch on disk, never tmpfs:** `S=$(bash scripts/agent-scratch.sh new <label>)` and write under `"$S"`. Never write a repo copy, a clone, a worktree, a bundle, an archive or an extracted tree to `/tmp`, `/dev/shm` or `/run/user/*` — including the harness scratchpad under `/tmp/claude-*`. | **ADVISORY until operator step 2** (the tmpfs guard rule exists and is proved, but the hook is NOT wired). Structurally: a disk `TMPDIR` (operator step 1, applied) moves the harness scratchpad and `mktemp` off RAM. |
+| D6 | **Backups are hardlinks on the same filesystem, of `.git`:** `cp -al <repo>/.git "$S/<repo>.git.mirror"` (§9.1 step 1, zero data blocks). `bash scripts/agent-scratch.sh df-check` proves the scratch root and the repo share one filesystem and mount and that `link()` works (it writes nothing in the repo). **A hardlink is the SAME inode, so it does NOT survive an in-place write**: a file modified in place (an editor saving in place, `>>` appends, `truncate`) changes the "backup" too. That does not contradict §9.1/§9.3: git writes objects, packs, refs, the index and config as NEW files renamed into place, so the mirror keeps the pre-operation state (only append-only reflogs grow). Do not use `cp -al` as a backup of a WORKING TREE you are about to edit; copy those files to `"$S"` on disk instead (still never to tmpfs). Never `cp -a` a whole repository or gitdir. | `df-check` **verifies** the precondition; using hardlinks is **ADVISORY**. |
+| D7 | **Never clone or copy a repository** to get a second working copy; use `git worktree add "$S/wt" <ref>` on disk, and remove it when done. | **ADVISORY until operator step 2** (the guard refuses clone / worktree / cp / rsync into tmpfs once wired); a clone to disk is never refused. |
+| D8 | Clean up: remove your scratch dir when finished; `bash scripts/agent-scratch.sh gc --older-than 3d` removes only dirs the helper created and that have been idle that long. `du` shows usage. | **ADVISORY** (nothing runs `gc` on a schedule). |
 
-**Defense in depth — the tmpfs guard rule.** `scripts/hooks/guard-project-catalogue.sh` refuses (rc 2)
-the bulk write forms whose destination is a *literal* tmpfs path: `git clone`, `git worktree add`,
-`git bundle create`, `cp -a|-r|-R`, `rsync`, `tar -x` / `tar -c -f`, `unzip -d` (plus a relative
-destination when the cwd is tmpfs). Single-file writes stay allowed. The only escape is a leading
-`AGENT_TMPFS_OK='<reason, ≥ 10 chars>'` on that command, appended to
-`~/.cache/agent-scratch/tmpfs-overrides.log`; an override that cannot be logged is refused. **Honest
-limits:** a destination held in a variable (`"$S"/x`, `$(mktemp -d)`) or reached through a symlink is not
-resolved; a script file, an alias or `eval` is not seen; heredoc bodies are not judged. That is why the
-structural fix below exists. **The rule is live only once the hook is wired** (operator step 2).
+**Defense in depth — the tmpfs guard rule.** `scripts/hooks/guard-project-catalogue.sh` reads each command
+with a shell lexer (continuations, quoting, compound commands, here-documents fed to a shell, `$(...)`,
+wrappers such as `timeout`/`xargs`/`bounded-run`/`agent-admit.sh`, absolute binary paths) and refuses (rc 2)
+writes that bring DISK data into tmpfs: `git clone` / `worktree add` / `bundle create` / `archive`, git
+writing into a repo or work tree on tmpfs, `cp -a|-r|-R`, `mv`, `rsync`, `podman|docker cp|save`,
+`tar -x|-c`, `unzip`, `zip -r`, `7z`, `curl -o|-O`, `wget`, `dd of=`, and stdout forms such as
+`git archive > /tmp/x`. It resolves `cd`/`pushd` (subshell-scoped), `git -C`, `VAR=literal`, `$TMPDIR` and
+`$(mktemp ...)`. A tmpfs → tmpfs copy (inside the harness scratchpad) and single-file writes are allowed.
+The only escape is an inline `AGENT_TMPFS_OK='<at least 3 real words>'` on that command, logged to
+`~/.cache/agent-scratch/tmpfs-overrides.log`; an agent can still write such a reason — **the log is the
+control**. The full list of shapes it cannot see (script files, interpreters, symlinked destinations, …)
+is in the hook's header. **Not live until operator step 2.**
 
 ### Ready-to-paste SUBAGENT PREAMBLE addendum (host resource safety)
 
@@ -209,33 +212,37 @@ HOST RESOURCE SAFETY (docs/AGENT_GUARDRAILS.md section D) — binding for this t
 - Remove your scratch dir when done.
 ```
 
-### Operator-applied steps (PROPOSED — not applied by any agent)
+### Operator-applied steps (proposals; no agent edits these files)
 
-These survive a reboot only if applied to files outside this repository, which agents may not edit.
-`bash scripts/agent-scratch.sh verify-persistence` reports the state and **exits 1 until step 1 is
-applied** — that is the expected reading, not a defect of this tree.
+These survive a reboot only through files outside this repository, which agents may not edit.
+`bash scripts/agent-scratch.sh verify-persistence` reports the state from any working directory: it lists
+every tracked artifact (committed or not) and the `TMPDIR` that four FRESH shells resolve — login,
+interactive login and interactive from `$HOME`, and a login started from a non-HOME directory (a tmux pane
+or `bash -l` opened elsewhere). It **exits 1 while any row is unset or RAM-backed** — an operator step,
+not a defect of this tree.
 
-1. **Disk TMPDIR for every claude alias (structural fix).** Measured 2026-10-14: with `TMPDIR` set in
-   the environment, or with `"env": {"TMPDIR": ...}` in a settings file passed via `--settings`, Claude
-   Code created its per-session tree (`claude-1000/<project>/<session>/tasks`, the sibling of the
-   scratchpad) under that directory instead of `/tmp`, and its Bash tool children saw the same
-   `TMPDIR`. The aliases `claude1..claude5` are `CLAUDE_CONFIG_DIR=~/.claude-claudeN cma_run`, defined in
-   the generated `~/.local/share/claude-multi-account/aliases.sh` (do not edit: regenerated), sourced
-   from `~/.bashrc` line 66; `~/.bashrc` returns early for non-interactive shells. Minimal persistent
-   change — append to **`~/.profile`** (read by every login shell; whether the GNOME Wayland session on
-   this host also sources it at login is UNCONFIRMED — the optional environment.d file below covers that):
+1. **Disk TMPDIR — APPLIED by the operator on 2026-10-14** (marker `agent-tmpdir-on-disk` in `~/.profile`
+   and at the top of `~/.bashrc`). Measured the same day: with `TMPDIR` set in the environment, or with
+   `"env": {"TMPDIR": ...}` in a settings file passed via `--settings`, Claude Code created its per-session
+   tree (`claude-1000/<project>/<session>/tasks`, the sibling of the scratchpad) under that directory instead
+   of `/tmp`, and its Bash tool children saw the same `TMPDIR`. The aliases `claude1..claude5` are
+   `CLAUDE_CONFIG_DIR=~/.claude-claudeN cma_run` from the generated
+   `~/.local/share/claude-multi-account/aliases.sh` (regenerated, do not edit), sourced by `~/.bashrc`.
+   Optional for `systemd --user` units: `~/.config/environment.d/60-tmpdir.conf` with
+   `TMPDIR=${HOME}/.cache/claude-tmp`. **Revert:** delete the marked lines. **Cost:** disk temp is not
+   wiped at boot and this host has no `systemd-tmpfiles` user timer; prune `~/.cache/claude-tmp`
+   periodically.
+1b. **PROPOSED: make `~/.bash_profile` independent of the working directory.** Its first line is
+   `. .bashrc` — RELATIVE, so a login shell started anywhere but `$HOME` does not find `~/.bashrc`; and
+   because `~/.bash_profile` exists, bash never reads `~/.profile` either. Measured with
+   `verify-persistence`: the three `$HOME` rows resolve `TMPDIR` to `~/.cache/claude-tmp`, the login from
+   `/` resolves it to NOTHING (falls back to `/tmp`). Change line 1 to:
 
    ```sh
-   # host-safety 2026-10-14: agent/harness temp on disk; /tmp is a 16G RAM tmpfs
-   mkdir -p -m 700 "$HOME/.cache/claude-tmp" 2>/dev/null && export TMPDIR="$HOME/.cache/claude-tmp"
+   . "$HOME/.bashrc"
    ```
 
-   Optional, for units started by `systemd --user`: `~/.config/environment.d/60-tmpdir.conf` containing
-   `TMPDIR=${HOME}/.cache/claude-tmp`. Takes effect for sessions started after the next login; running
-   tmux servers keep their old environment until restarted. **Revert:** delete those lines/that file.
-   Alternative scoped only to Claude Code: `"env": {"TMPDIR": "/home/milosvasic/.cache/claude-tmp"}` in
-   each `~/.claude-claudeN/settings.json` (a settings edit, needs approval). **Cost:** disk temp is not
-   wiped at boot and no `systemd-tmpfiles` user timer exists on this host; prune it periodically.
+   **Revert:** restore `. .bashrc`. After it, `verify-persistence` should report every row on disk.
 2. **Wire the project guard** (makes the tmpfs rule and the VSC-367 catalogue live). Add a second entry to
    the `PreToolUse` `"hooks"` list of the tracked `.claude/settings.json`, after the upstream guard:
 
