@@ -177,45 +177,52 @@ fails (cross-device), which pushed agents into full copies instead. The mechanis
 | D2 | **Heavy** means: pre-push gates, Playwright, `go test -race`, podman / site builds, a content-boundary full scan, `zero-gap-verify`, mutation suites (`--prove-failure` / `--run-proofs`), local model runs. | **Admitted automatically** (they call agent-admit themselves): pre-push gate 1 (`go test`), gate 6 (Playwright), `scripts/zero-gap-verify.sh` (run and `--prove-failure`), `scripts/verify-content-boundary.sh` (scan and `--prove-failure`). **NOT admitted automatically — wrap them yourself (D3/D4):** pre-push gates 0 and 2–5, `verify-check-registry.sh --run-proofs`, every other `--prove-failure` battery, `site-build` / `_tools/deploy-langs.sh`, podman builds, `go test -race` outside gate 1, model runs. |
 | D3 | Run heavy work only through **admission**: `bash scripts/agent-admit.sh --tag <name> -- <cmd>` (or `--verdict3` for a 0/1/2 gate). It takes a slot, then checks memory PSI `some avg10` < 15, Shmem < 10 % of RAM, `/tmp`, `/dev/shm`, `/run/user/<uid>` each < 25 % used, `app.slice` working set (`memory.current − inactive_file`) < 85 % of `memory.high`, and §12.12 thread headroom (< 75 % of `ulimit -u`, ≥ 512 free), then runs `<cmd>` under `bounded-run -m 6G -T 3600`. A refusal is rc 1 (rc 2 under `--verdict3`, which also maps every rc ≥ 124, e.g. a SIGKILL from the memory cap, to 2); never retry it in a loop — wait for the next wave. | **ENFORCED** for the entry points listed in D2; **ADVISORY** for anything an agent runs without the wrapper (admission is cooperative). |
 | D4 | Any other heavy command runs under **`bounded-run -m <MEM> -T <SECONDS> --`** with explicit caps (minimums: `go test -race` 4G, builds/archives 6G). Never bare. | **ADVISORY** (nothing refuses a bare command). |
-| D5 | **Scratch on disk, never tmpfs:** `S=$(bash scripts/agent-scratch.sh new <label>)` and write under `"$S"`. Never write a repo copy, a clone, a worktree, a bundle, an archive or an extracted tree to `/tmp`, `/dev/shm` or `/run/user/*` — including the harness scratchpad under `/tmp/claude-*`. | **ADVISORY until operator step 2** (the tmpfs guard rule exists and is proved, but the hook is NOT wired). Structurally: a disk `TMPDIR` (operator step 1, applied) moves the harness scratchpad and `mktemp` off RAM. |
+| D5 | **Scratch on disk, never tmpfs:** `S=$(bash scripts/agent-scratch.sh new <label>)` and write under `"$S"`. Never write a repo copy, a clone, a worktree, a bundle, an archive or an extracted tree to `/tmp`, `/dev/shm` or `/run/user/*` — including the harness scratchpad under `/tmp/claude-*`. | **ENFORCED** by the project guard (wired b44c9b0) for every shape its tmpfs rule parses; **ADVISORY** for the shapes in its Known limits. Structurally: a disk `TMPDIR` (operator step 1, applied) moves the harness scratchpad and `mktemp` off RAM. |
 | D6 | **Backups are hardlinks on the same filesystem, of `.git`:** `cp -al <repo>/.git "$S/<repo>.git.mirror"` (§9.1 step 1, zero data blocks). `bash scripts/agent-scratch.sh df-check` proves the scratch root and the repo share one filesystem and mount and that `link()` works (it writes nothing in the repo). **A hardlink is the SAME inode, so it does NOT survive an in-place write**: a file modified in place (an editor saving in place, `>>` appends, `truncate`) changes the "backup" too. That does not contradict §9.1/§9.3: git writes objects, packs, refs, the index and config as NEW files renamed into place, so the mirror keeps the pre-operation state (only append-only reflogs grow). Do not use `cp -al` as a backup of a WORKING TREE you are about to edit; copy those files to `"$S"` on disk instead (still never to tmpfs). Never `cp -a` a whole repository or gitdir. | `df-check` **verifies** the precondition; using hardlinks is **ADVISORY**. |
-| D7 | **Never clone or copy a repository** to get a second working copy; use `git worktree add "$S/wt" <ref>` on disk, and remove it when done. | **ADVISORY until operator step 2** (the guard refuses clone / worktree / cp / rsync into tmpfs once wired); a clone to disk is never refused. |
+| D7 | **Never clone or copy a repository** to get a second working copy; use `git worktree add "$S/wt" <ref>` on disk, and remove it when done. | **ENFORCED into tmpfs** (the wired guard refuses clone / worktree / cp / rsync into tmpfs); a clone to disk is never refused, so the rest of D7 is **ADVISORY**. |
 | D8 | Clean up: remove your scratch dir when finished; `bash scripts/agent-scratch.sh gc --older-than 3d` removes only dirs the helper created and that have been idle that long. `du` shows usage. | **ADVISORY** (nothing runs `gc` on a schedule). |
 
-**Defense in depth — the tmpfs guard rule.** `scripts/hooks/guard-project-catalogue.sh` reads each command
-with a shell lexer (continuations, quoting, compound commands, `function` bodies and `coproc NAME { }`,
-`(( ))` arithmetic, here-documents and here-strings fed to a shell, `$(...)` including inside unquoted
-here-documents and arithmetic, `echo '...' | bash` and `|& bash`, `VAR=` prefixes of `bash -c`, wrappers such
-as `timeout`/`xargs`/`bounded-run`/`agent-admit.sh`, absolute binary paths) and refuses (rc 2)
-BULK writes that bring DISK data into tmpfs: recursive copies (`cp -a|-r|-R`, `rsync`, `zip -r`,
-`podman|docker cp`), clones/worktrees/bundles/archives, archive extraction (`tar -x`, `unzip`, `7z x`), git
-fetching into (or `git push` / `git remote update` into) a repo on tmpfs, `podman|docker save`, a directory
-or a > 64 MiB file moved or copied, an unbounded or > 64 MiB `dd` (`of=` or stdout redirected; `count` is
-counted in `bs`, else `ibs`, blocks), and a download whose file name (target or URL) is a model or an archive
-(`.gguf`, `.tar`, `.zip`, ...), including `curl URL > /tmp/m.gguf`. It is deliberately NOT bulk, and allowed: one named file of bounded or unknown size
-(`mv out.txt /tmp/`, `curl -o /tmp/health.json ...`, `dd ... count=1`), `cp -l`, tmpfs → tmpfs copies, and a
-checkout in a repo that already lives on tmpfs — a download's size cannot be known statically, so only the
-file-name rule applies to it. Destinations resolve through `cd` (subshell-scoped), `git -C`, `env -C`,
-`GIT_DIR`, `VAR=literal` / `export VAR=` and `for VAR in literal` on the same line, `$TMPDIR` (an in-line
-`export TMPDIR=` wins over the hook's environment) and `$(mktemp ...)`. The catalogue half applies git flag
-classes (`--no-verify`, `--force-with-lease`) to the options a `git` command really passes, per subcommand:
-values are skipped (`git commit -m "--no-verify is..."` is allowed), unique prefixes count (`--no-ver`),
-`git commit -n` / `-nm msg` is `--no-verify`, and `grep`/`rg`, `git grep`, `git log -G` searching for them
-are allowed. `git restore` passes only when it touches the index alone (`-SW`, `-S -W` and
-`--staged --worktree` are refused). The structural rows match every spelling: `git add -- .`, `./`, `:/`,
-`':(top)'`, `--al`; `git clean -f` / `--forc`; `git branch -d -f` / `--del --forc`; `rm -r` of `/`, `/home`,
-`$HOME` or an ancestor after normalising (`/home/`, `//`, `/.`, `~/.`, `~/..`, `"${HOME:?}"`, the literal home
-path). Every refusal says what to do instead (the proof asserts the hint). **Known limits of the catalogue
-half** (documented, not covered): a git alias (`git ci -n`), config-level bypasses (`git -c
-core.hooksPath=...`, `GIT_CONFIG_*`, `git -c clean.requireForce=false clean -d`), an `rm` root reached through
-a variable assigned elsewhere or a command substitution, a tmpfs write through a shape not named above
-(`| tee /tmp/x.gguf`), and a here-string fed to a non-shell interpreter. The only escape is an inline
-`AGENT_TMPFS_OK='<at least 3 real words>'` on that command, logged to
-`~/.cache/agent-scratch/tmpfs-overrides.log`; an agent can still write such a reason — **the log is the
-control**. The full list of shapes it cannot see (script files, interpreters, symlinked destinations, …)
-and how to re-run the 5,101-command replay the 2026-10-14 re-review used are in the hook's header (the
-replay corpus is not tracked: real commands carry private paths into this public repository).
-**Not live until operator step 2.**
+**Defense in depth — the project guard (wired as the second `PreToolUse` hook, b44c9b0).**
+`scripts/hooks/guard-project-catalogue.sh` reads each command with a shell lexer (continuations, quoting, brace
+expansion, compound commands, `function` bodies and `coproc NAME { }`, `(( ))` arithmetic, here-documents bound to the
+command that owns their `<<` and here-strings fed to a shell, `$(...)` including inside unquoted here-documents and
+arithmetic, `echo|printf|cat ... | bash` and `|& bash`, `VAR=` prefixes of `bash -c`, wrappers such as
+`timeout`/`xargs`/`flock`/`bounded-run`/`agent-admit.sh`, nested runners such as `script -c`, GNU `parallel`,
+`git submodule foreach`, `git rebase -x`, absolute binary paths, every git global option) and applies two rules.
+
+*Catalogue rule (round 5: structural).* Every refused row of `docs/zero-gap/guarded-commands.tsv` is judged by PARSING
+the command's arguments the way the tool does — options in any position, short clusters, option values skipped, unique
+long-option prefixes (`--har`, `--dele`, `--f`) — never by a literal prefix of the line. Examples it refuses:
+`git reset -q --hard`, `git reset HEAD~1 --hard`, `git push origin main :old`, `git push --del origin x`,
+`git update-ref -m msg -d …`, every checkout discard form (`git checkout -- f`, `git checkout HEAD -- f`,
+`git checkout -f`, `git switch --discard-changes`, `git checkout-index -f`, `git read-tree -u --reset`),
+`git add -- ':!x'` / `"$PWD"` / `*`, `pkill -ef x`, `systemctl -i suspend`, `systemctl isolate …`, login1 `Suspend` over
+D-Bus, `gnome-session-quit`, `kill -9 -1`, `pkill -u "$USER"`, `rm -rf ~/*/`, `rm -rf /ho?e`, `D=$HOME; rm -rf "$D"`, and
+a hook bypass by configuration (`-c core.hooksPath=…`). It allows the look-alikes: `git push origin :` (matching),
+`git merge --no-verify-signatures`, plain branch switches, `git restore --staged`, `git stash list`, `kill 12345`,
+`pgrep -f`, and text that merely mentions a command. An unset variable is empty in the fresh shell of a Bash call, so
+`rm -rf "$S"/*` with `S` unset is refused; write `"${S:?}"`. Every refusal says what to do instead (the proof asserts the
+hint). The complete per-row list is in the hook's header ("CATALOGUE RULE").
+
+*tmpfs rule.* Refuses (rc 2) BULK writes that bring DISK data into tmpfs: recursive copies (`cp -a|-r|-R`, `rsync`,
+`zip -r`, `podman|docker cp`), clones/worktrees/bundles/archives, archive extraction (`tar -x`, `unzip`, `7z x`), git
+fetching into (or `git push` / `git remote update` into) a repo on tmpfs, `podman|docker save`, a directory or a > 64 MiB
+file moved, copied or `install`ed, an unbounded or > 64 MiB `dd`, and a download whose target or URL name is a model or
+an archive (also `.part`/`.partial`), including stdout carried into tmpfs through pass-through filters
+(`podman save img | gzip > /tmp/x.tgz`, `curl URL.gguf | tee /tmp/m.gguf`). It is deliberately NOT bulk, and allowed:
+one named file of bounded or unknown size (`mv out.txt /tmp/`, `curl -o /tmp/health.json ...`, `dd ... count=1`),
+`cp -l`, tmpfs → tmpfs copies, and a checkout in a repo that already lives on tmpfs. The only escape is an inline
+`AGENT_TMPFS_OK='<at least 3 real words>'` on that command, logged to `~/.cache/agent-scratch/tmpfs-overrides.log`; an
+agent can still write such a reason — **the log is the control**.
+
+**Known limits** (documented, not covered — the hook's header "KNOWN LIMITS" is the complete list): code it cannot read
+(a script file run by name, `source`, an interpreter such as `python3 -c`, a here-document fed to one), text built at
+run time or in an earlier Bash call, commands run elsewhere or later (`ssh`, tmux, `at`, `pgrep … | xargs kill`, a git
+alias), git operations outside the catalogue classes (`git commit -a`, `git rm -r .`, `--abort`, `git branch -f`), a
+force refspec configured in `remote.NAME.push`, `pkill NAME` by plain name, destructive classes the catalogue does not
+list (`mkfs`, `dd of=/dev/…`), destinations reached through a symlink, and tmpfs writes by tools the rule does not list.
+How to re-run the 5,101-command replay the re-reviews used is in the hook's header (the corpus is not tracked: real
+commands carry private paths into this public repository).
 
 ### Ready-to-paste SUBAGENT PREAMBLE addendum (host resource safety)
 
@@ -265,8 +272,9 @@ not a defect of this tree.
    ```
 
    **Revert:** restore `. .bashrc`. After it, `verify-persistence` should report every row on disk.
-2. **Wire the project guard** (makes the tmpfs rule and the VSC-367 catalogue live). Add a second entry to
-   the `PreToolUse` `"hooks"` list of the tracked `.claude/settings.json`, after the upstream guard:
+2. **Wire the project guard — APPLIED 2026-10-14 (b44c9b0)** (makes the tmpfs rule and the VSC-367 catalogue live).
+   The second entry of the `PreToolUse` `"hooks"` list of the tracked `.claude/settings.json`, after the upstream
+   guard; `bash scripts/verify-pretooluse-guard.sh` asserts it is wired (V2b) and fires (V9):
 
    ```json
    {
@@ -286,6 +294,7 @@ not a defect of this tree.
 bash scripts/verify-pretooluse-guard.sh                 # 0 wired+operative, 1 defect, 2 cannot determine
 bash scripts/verify-pretooluse-guard.sh --prove-failure  # the paired §1.1 mutation battery
 bash submodules/constitution/scripts/hooks/test_guard_forbidden_commands.sh   # upstream hermetic harness
+bash scripts/hooks/guard-project-catalogue.sh --prove-failure            # the project guard's own paired proof
 ```
 
 The third is the upstream author's own test suite for the guard, shipped inside
