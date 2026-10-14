@@ -203,7 +203,7 @@ Only 15 `SHOULD` tokens exist. The load-bearing advisory items relevant here:
 
 - **Tag pinning is recommended, not mandatory.** `submodules/constitution/README.md`
   ("How to consume" → step 1): "`# Pin to a tag for reproducibility (recommended)`".
-  So this repo's `v1.0.0-51-g448981a` floating pin is *not* a violation.
+  So this repo's `v1.0.0-51-g448981a` floating pin (a historical reading, superseded; re-derive with `git -C submodules/constitution describe --tags`) is *not* a violation.
 - **Multi-upstream for the consumer is SHOULD.** `Constitution.md:196-198`:
   "Consuming projects SHOULD do the same for their own multi-remote topology."
   (For the constitution submodule itself it is MUST — §2.1 / Appendix C.)
