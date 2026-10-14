@@ -88,9 +88,9 @@ four carriers, `CLAUDE_ANCHORS_FULL.md`, `find_constitution.sh`,
 `scripts/post_update_hook.sh` — returns **NONE**. A service-status script and its
 four rendered exports; nothing this repository inherits changed.
 
-Re-measured 2026-09-03 after the move. The index and the submodule working tree
-both sit at `2887b42e9349`; the umbrella's `HEAD` still records `f16ea779b82a`,
-so the whole four-step move is **STAGED and not yet committed**.
+Historical, superseded: re-measured 2026-09-03 after the move, the index and the submodule working tree
+both sat at `2887b42e9349`, the umbrella's `HEAD` still recorded `f16ea779b82a`,
+and the whole four-step move was **STAGED and not yet committed**. The live pin is the index gitlink (`git ls-files -s submodules/constitution`).
 `helix-deps.yaml` records `2887b42e9349` staged in the same change, so gitlink
 and manifest moved together exactly as C9 requires — `bash
 scripts/verify-manifest-pins.sh` exits **0** at 12 MATCH / 0 DRIFT / 0 UNDETERMINED, and `bash scripts/verify-submodule-remote-sync.sh` is back to exit **0** at **12 CURRENT / 0 DRIFT / 0 UNDETERMINED**. (historical)
@@ -288,7 +288,7 @@ so the standing authorization had nothing to act on the day it was granted.
 Three counts moved with it, each quoted from its own gate rather than derived by
 hand, as a historical reading of 2026-09-09 (superseded by the live fleet; re-measure with
 `bash scripts/verify-submodule-remote-sync.sh`): that gate then probed **13** owned gitlinks of 14
-declared (was 12 of 14, a historical reading); cascade **C1** classifies **12 owned + 1 governance source + 1 third-party** (was 11 owned); **C2/C3** now find **12 × 4 = 48** owned-submodule carriers (was 11 × 4 = 44). Note the two vocabularies disagree on purpose — the remote-sync gate probes `submodules/constitution` and counts it among its 13, while C1 classifies it as the cascade's SOURCE and excludes it from its 12. **Every "11 owned", "12 owned gitlinks", "44 of 44" and "12 CURRENT" figure elsewhere in this carrier is SUPERSEDED.** Re-derive the roster from the gates; never quote it from here. (historical)
+declared, a historical reading superseded by the live fleet (it was 12 of 14 before). The cascade then classified **12 owned + 1 governance source + 1 third-party**, a historical reading superseded (it was 11 owned before). **C2/C3** then found **12 × 4 = 48** owned-submodule carriers, a historical reading superseded (it was 11 × 4 = 44). Live, re-measured 2026-10-14 with `bash scripts/verify-governance-cascade.sh` (rc 0): C1 classifies all 22 declared submodules as **20 owned, 1 governance source, 1 third-party**, and C2/C3 find **20 × 4 = 80** owned-submodule carriers. Note the two vocabularies disagree on purpose, in a historical and superseded reading of 2026-09-09: the remote-sync gate probes `submodules/constitution` and counted it among its 13, while C1 classifies it as the cascade's SOURCE and excluded it from its 12 (the same asymmetry holds live, with different counts). **Every "11 owned", "12 owned gitlinks", "44 of 44" and "12 CURRENT" figure elsewhere in this carrier is SUPERSEDED.** Re-derive the roster from the gates; never quote it from here. (historical)
 
 **Do not read the 13/13 green as durable.** This carrier has recorded five green-then-red cycles on this one pin; the standing authorization exists precisely because the green does not survive the week. (historical)
 
