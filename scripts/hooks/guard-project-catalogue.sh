@@ -12,13 +12,16 @@
 # agent. Exit 1 = catalogue unreadable: NON-blocking but loud (blocking every command would also block
 # repairing the catalogue); the check `--check-catalogue` makes that state visible to a gate.
 #
-# HOW A COMMAND LINE IS READ (rewritten 2026-10-14 after an independent review). One shell lexer serves
+# HOW A COMMAND LINE IS READ (rewritten 2026-10-14 after two independent reviews). One shell lexer serves
 # every rule: backslash-newline continuation; '...', "...", $'...' quoting and backslash escapes (so
 # `FOO='a b' cmd` and `FOO=a\ b cmd` are ONE assignment); comments; the operators ; ;; & && || | |& ( )
-# and newline; redirections (an fd number glued to them is dropped); here-strings (data) and
-# here-documents (data, EXCEPT when the receiving command is a shell: `bash <<EOF` bodies execute and are
-# judged). $(...) and `...` are judged as commands. Each simple command is then normalised: leading
-# reserved words (! { } if then elif else do while until), `for`/`case`/`select` headers, VAR=value
+# and newline; redirections (an fd number glued to them is dropped); here-strings (data); `(( ... ))`
+# arithmetic (data: its `<<` is a shift, not a here-document); here-documents (data, EXCEPT that a body fed
+# to a shell — `bash <<EOF`, `bash -s`, `bash /dev/stdin <<EOF` — is judged as a script, and the $(...) of
+# an UNQUOTED-delimiter body is judged because the shell runs it while expanding); `echo|printf '...' |
+# bash` (the piped text is judged); $(...) and `...` (judged as commands). Each simple command is then
+# normalised: leading reserved words (! { } if then elif else do while until coproc), `function NAME`
+# (its body is judged), `for`/`case`/`select` headers (a `for VAR in literal...` list sets VAR), VAR=value
 # prefixes, wrappers (env command exec nohup builtin setsid nice ionice timeout stdbuf taskset chrt xargs
 # flock sudo doas time watch, and bounded-run / agent-admit.sh / systemd-run up to `--`, also when run as
 # `bash <path>/agent-admit.sh`), absolute binary paths (/usr/bin/git -> git) and git global options.
@@ -29,24 +32,40 @@
 # the literal tokens), matched at COMMAND POSITION of the normalised command (every wrapper stage is
 # tried), so `echo will reboot later` and `git commit -m "avoid git add -A"` are allowed while
 # `{ git add -A; }`, `for f in a; do git add -A; done`, `/usr/bin/git add -A`, `bash -lc 'git add -A'` and
-# `$(git clean -fd)` are refused. A class that begins with `-` (--no-verify, --force-with-lease) is matched
-# against each argument word. `git stash list|show` and `git restore --staged` (no --worktree) are allowed;
-# a match ending in `/` followed by more path (`rm -rf ~/Projects/x`) is a sub-path and is allowed.
-# Force-push in ANY spelling is refused structurally (see push_verdict).
+# `$(git clean -fd)` are refused. A class that begins with `-` (--no-verify, --force-with-lease) is a GIT
+# flag: it is matched against the argument words of a `git` command only, so `grep -rn -- --no-verify docs/`
+# is allowed. `git stash list|show` and `git restore --staged|-S` (no --worktree) are allowed; a match ending
+# in `/` followed by more path (`rm -rf ~/Projects/x`) is a sub-path and is allowed. Structural rows the
+# shared tsv's literal regexes miss (project-only; the upstream guard still misses them): force-push in ANY
+# spelling, `git clean` with -f in any cluster, `git checkout <ref> -- .`, `git add --all|-A|:/` in any
+# position, `git branch -D` / `--delete --force`, `rm -r|-R` of / /* ~ $HOME /home. Every refusal names
+# what to do instead (HINTS).
 #
-# TMPFS RULE (host-hang fix WP1, 2026-10-14). Refuses writes that bring DISK data into RAM-backed tmpfs
-# (/tmp, /dev/shm, /run/user/N): git clone / worktree add / bundle create / archive, git writing into a
-# repo or work tree on tmpfs (fetch, pull, checkout, ...), cp -a|-r|-R, mv, rsync, podman|docker cp, tar
-# -x / tar -c, unzip, zip -r, 7z, podman|docker save|export, curl -o/-O, wget, dd of=, and the stdout
-# forms (`git archive > /tmp/x`, `tar -cf - . > /tmp/x`). Destinations are resolved through literal
-# paths, `cd`/`pushd` (subshell-scoped), `git -C`, `env -C`, VAR=literal assignments made earlier on the
-# same line, $TMPDIR / ${TMPDIR:-/tmp} (from the hook's own environment; unset TMPDIR => /tmp) and
-# $(mktemp ...) (=> $TMPDIR or /tmp unless -p/--tmpdir/template says otherwise). A copy whose sources are
-# ALL already on tmpfs (inside the harness scratchpad) is allowed: it brings no disk data into RAM.
-# Single-file writes (cp a /tmp/a, > /tmp/f, go build -o /tmp/x) are allowed. The only escape is an inline
+# TMPFS RULE (host-hang fix WP1, 2026-10-14). Refuses BULK writes that bring DISK data into RAM-backed
+# tmpfs (/tmp, /dev/shm, /run/user/N). Bulk means: recursive (cp -a|-r|-R, rsync, zip -r, podman|docker cp),
+# a clone/worktree/bundle/archive (git clone / worktree add / bundle create / archive, tar -c), an archive
+# extraction (tar -x, unzip, 7z x), git FETCHING into a repo on tmpfs or checking a disk repo out into a
+# work tree on tmpfs, podman|docker save|export, a directory or a file over 64 MiB moved (`mv`, a
+# cross-device full copy) or copied (`cp` without -r) — size and type are checked on this host —, `dd of=`
+# without count= or over 64 MiB, and a download (curl -o/-O, wget -O/-P/cwd) whose FILE NAME is a model or
+# an archive (.gguf .bin .safetensors .onnx .pt .tar .tgz .gz .xz .zst .zip .7z .iso .img .whl ...): a
+# download's size cannot be known statically, so a small page or JSON fetched into /tmp is allowed. NOT
+# bulk (allowed): a single named file of bounded or unknown size (`mv out.txt /tmp/`, `cp a /tmp/a`,
+# `> /tmp/f`, `go build -o /tmp/x`, `dd ... count=1`), `cp -l|-s` (links copy no data), a tmpfs -> tmpfs
+# copy, and a checkout inside a repo that already lives on tmpfs. Destinations are resolved through
+# literal paths, `cd`/`pushd` (subshell-scoped; `cd -`), `git -C`, `env -C`, GIT_DIR/GIT_WORK_TREE,
+# VAR=literal and `export VAR=` earlier on the same line, `for VAR in literal`, $TMPDIR / ${TMPDIR:-/tmp}
+# (an in-line `export TMPDIR=` wins over the hook's own environment; unset => /tmp) and $(mktemp ...)
+# (=> that TMPDIR unless -p/--tmpdir/template says otherwise). The only escape is an inline
 # AGENT_TMPFS_OK='<at least 3 distinct real words>' prefix on THAT command (an earlier `export` does not
 # count); it is appended to $AGENT_TMPFS_OK_LOG (default <agent-scratch>/tmpfs-overrides.log) and refused
 # when the log cannot be written. An agent can still write such a reason: the log is the control.
+#
+# REPLAY (how the re-review measured false positives; the corpus is NOT tracked: real agent commands carry
+# private paths and names into a PUBLIC repository). Extract every Bash tool command from
+# ~/.claude*/projects/*/*.jsonl (tool_use blocks, name "Bash", input.command), feed each as
+# {"tool_name":"Bash","tool_input":{"command":...},"cwd":...} to this hook and diff the rc against the
+# previous version; 2026-10-14: 5,101 commands, 100 refused, 0 mis-parses, p95 82 ms.
 #
 # NOT SEEN, by construction (both rules; the upstream guard shares them): a script FILE run by name
 # (`bash x.sh`, `./x.sh`), an alias or shell function, `source`/`.` of a file, code inside an interpreter
@@ -170,7 +189,7 @@ def lex(s):
         if st["in"]:
             w = {"t": "".join(st["buf"]), "q": st["q"], "subs": st["subs"]}
             if st["delim"] is not None:
-                pending.append((w["t"], st["delim"])); st["delim"] = None
+                pending.append((w["t"], st["delim"], w["q"])); st["delim"] = None
             toks.append(("W", w))
         st.update(buf=[], q=False, subs=[], **{"in": False})
 
@@ -216,6 +235,8 @@ def lex(s):
             put("".join(out), True); i = j + 1; continue
         if s.startswith("$((", i):
             k = find_close(s, i + 3, "(", ")"); put(s[i:k + 2]); i = k + 2; continue
+        if s.startswith("((", i) and not st["in"]:   # arithmetic command: data, its << is a shift
+            k = find_close(s, i + 2, "(", ")"); put(s[i:k + 2], True); i = k + 2; continue  # MUTANT:arith-cmd
         if s.startswith("$(", i):
             k = find_close(s, i + 2, "(", ")"); st["subs"].append(s[i + 2:k]); put(s[i:k + 1]); i = k + 1; continue
         if s.startswith("${", i):
@@ -234,7 +255,7 @@ def lex(s):
             end_word()
             if op == "\n":
                 i += 1
-                for delim, strip in pending:
+                for delim, strip, dq in pending:
                     body = []
                     while i < n:
                         j = s.find("\n", i)
@@ -243,7 +264,7 @@ def lex(s):
                         if (line.lstrip("\t") if strip else line) == delim:
                             break
                         body.append(line)
-                    toks.append(("H", "\n".join(body)))
+                    toks.append(("H", ("\n".join(body), dq)))
                 pending.clear()
                 toks.append(("O", "\n"))
                 continue
@@ -256,13 +277,13 @@ def lex(s):
     return toks
 
 def commands(toks):
-    """[("cmd", words, redirs, heredocs) | ("open",) | ("close",)]"""
-    out, cur = [], {"w": [], "r": [], "h": []}
+    """[("cmd", words, redirs, heredocs[(body, delim_quoted)], piped_from_previous) | ("open",) | ("close",)]"""
+    out, cur = [], {"w": [], "r": [], "h": [], "p": False}
 
-    def emit():
+    def emit(piped_next=False):
         if cur["w"] or cur["r"] or cur["h"]:
-            out.append(("cmd", cur["w"], cur["r"], cur["h"]))
-        cur.update(w=[], r=[], h=[])
+            out.append(("cmd", cur["w"], cur["r"], cur["h"], cur["p"]))
+        cur.update(w=[], r=[], h=[], p=piped_next)
     i = 0
     while i < len(toks):
         k, v = toks[i]
@@ -278,7 +299,7 @@ def commands(toks):
         elif v in ("(", ")"):
             emit(); out.append(("open",) if v == "(" else ("close",))
         else:
-            emit()
+            emit(v in ("|", "|&"))
         i += 1
     emit()
     return out
@@ -294,10 +315,11 @@ def tmp_default():
     return os.environ.get("TMPDIR") or "/tmp"
 
 def lookup(name, ctx):
+    if name == "TMPDIR":              # an `export TMPDIR=...` / `TMPDIR=...` earlier on the line wins
+        v = ctx["vars"].get("TMPDIR", os.environ.get("TMPDIR"))  # MUTANT:tmpdir-vars
+        return v if v is UNKNOWN or v else "/tmp"   # unset/empty TMPDIR: mktemp & co. fall back to /tmp
     if name in ctx["vars"]:
         return ctx["vars"][name]
-    if name == "TMPDIR":
-        return tmp_default()          # unset TMPDIR: mktemp & co. fall back to /tmp
     return os.environ.get(name)       # each Bash call is a fresh shell: unset means empty
 
 def mktemp_path(inner, ctx):
@@ -305,6 +327,9 @@ def mktemp_path(inner, ctx):
     if len(items) != 1:
         return None
     a = [w["t"] for w in items[0][1]]
+    sctx = sub_ctx(ctx)
+    while a and ASSIGN.match(a[0]):         # `TMPDIR=/x mktemp -d`
+        m = ASSIGN.match(a[0]); e = expand(m.group(3), ctx); sctx["vars"][m.group(1)] = UNKNOWN if e is None else e; a = a[1:]
     if not a or bn(a[0]) != "mktemp":
         return None
     d, tmpl, tflag, i = None, None, False, 1
@@ -320,7 +345,9 @@ def mktemp_path(inner, ctx):
             i += 1; continue
         tmpl = w; i += 1
     if d is None and (tflag or tmpl is None):
-        d = tmp_default()
+        d = lookup("TMPDIR", sctx)
+        if d is UNKNOWN:
+            return None
     if d is None:                       # bare relative/absolute template
         if tmpl.startswith("/"):
             return os.path.dirname(tmpl) + "/tmp.XXXXXXXX"
@@ -380,8 +407,8 @@ def is_tmpfs(p):
 # Command normalisation: assignments, reserved words, wrappers, absolute binary paths, git globals
 # ════════════════════════════════════════════════════════════════════════════════════════════════════
 ASSIGN = re.compile(r"^([A-Za-z_][A-Za-z0-9_]*)(\[[^\]]*\])?\+?=(.*)$", re.S)
-RESERVED = {"!", "{", "}", "if", "then", "elif", "else", "do", "while", "until", "fi", "done", "esac", "in"}
-HEADERS = {"for", "case", "select", "function"}
+RESERVED = {"!", "{", "}", "if", "then", "elif", "else", "do", "while", "until", "fi", "done", "esac", "in", "coproc"}
+HEADERS = {"for", "case", "select"}
 SHELLS = {"sh", "bash", "zsh", "dash", "ksh", "mksh", "rbash"}
 # wrapper -> options taking a separate value
 WRAPPERS = {
@@ -418,8 +445,15 @@ def unwrap(words):
          "lookup": False, "header": False}
     a = list(words)
     a = strip_reserved(a)  # MUTANT:reserved
+    if a and a[0]["t"] == "function" and not a[0]["q"]:   # `function f { body; }`: judge the body
+        a = a[2:]  # MUTANT:function-body
+        if a and a[0]["t"] == "()":
+            a = a[1:]
+        a = strip_reserved(a)
     if a and a[0]["t"] in HEADERS and not a[0]["q"]:
         r["header"] = True
+        if a[0]["t"] in ("for", "select") and len(a) >= 3 and a[2]["t"] == "in":
+            r["loop"] = (a[1]["t"], [w["t"] for w in a[3:]])
         return r
     while a and ASSIGN.match(a[0]["t"]):
         m = ASSIGN.match(a[0]["t"])
@@ -524,7 +558,7 @@ def git_globals(argv):
 # ════════════════════════════════════════════════════════════════════════════════════════════════════
 # Catalogue + force-push judgement on normalised commands
 # ════════════════════════════════════════════════════════════════════════════════════════════════════
-READONLY = re.compile(r"^git (stash (list|show)\b|restore --staged(?!.*(--worktree|-W|\s-\S*W)))")
+READONLY = re.compile(r"^git (stash (list|show)\b|restore (--staged|-S)(?!.*(--worktree|-W|\s-\S*W)))")
 PUSH_SHORT = re.compile(r"^-[A-Za-z]*[fd][A-Za-z]*$")
 
 def push_verdict(a):
@@ -550,7 +584,8 @@ def catalogue_hit(stage_texts, rules):
             continue
         for id_, rx in rules:
             if rx.pattern.startswith("-"):
-                if any(rx.match(x) for x in a[1:]):
+                # a flag class (--no-verify, --force-with-lease) is a git flag: never judged on grep/rg/printf
+                if a[0] == "git" and any(rx.match(x) for x in a[1:]):  # MUTANT:flag-git-only
                     return id_
                 continue
             m = rx.match(t)
@@ -562,7 +597,68 @@ def catalogue_hit(stage_texts, rules):
             return id_
         if push_verdict(a):
             return "force-push-any-spelling"
+        x = extra_hit(a)
+        if x:
+            return x
     return None
+
+def short_flags(args):
+    """Letters of every short-option cluster (-fd -> fd), ignoring words after `--`."""
+    out = ""
+    for w in args:
+        if w == "--":
+            break
+        if re.match(r"^-[A-Za-z]+$", w):
+            out += w[1:]
+    return out
+
+RM_ROOTS = {"/", "/*", "~", "~/", "~/*", "$HOME", "$HOME/", "$HOME/*", "${HOME}", "${HOME}/", "${HOME}/*", "/home", "/home/*"}
+
+def extra_hit(a):
+    """Project-catalogue rows the shared tsv's literal regexes miss (2026-10-14 re-review)."""
+    if not a:
+        return None
+    if a[0] == "rm":
+        fl = short_flags(a[1:])
+        if ("r" in fl or "R" in fl or "--recursive" in a) and any(w in RM_ROOTS for w in a[1:]): return "rm-recursive-root"  # MUTANT:extra-rm-root
+    if a[0] != "git" or len(a) < 2:
+        return None
+    sub, rest = a[1], a[2:]
+    fl = short_flags(rest)
+    if sub == "clean" and ("f" in fl or "--force" in rest): return "clean-force-any-spelling"  # MUTANT:extra-clean
+    if sub == "checkout" and any(w in (".", "./", ":/", "*") for w in rest): return "checkout-tree-discard"  # MUTANT:extra-checkout
+    if sub == "add" and ("A" in fl or "--all" in rest or ":/" in rest): return "add-all-any-spelling"  # MUTANT:extra-add-all
+    if sub == "branch" and ("D" in fl or (("d" in fl or "--delete" in rest) and ("f" in fl or "--force" in rest))): return "branch-force-delete"  # MUTANT:extra-branch
+    return None
+
+HINTS = {
+    "add-all": "stage named paths only: git add -- <path> <path>",
+    "add-dot": "stage named paths only: git add -- <path> <path>",
+    "add-all-any-spelling": "stage named paths only: git add -- <path> <path>",
+    "force-push": "never force: git fetch, merge onto the latest main, then a plain git push",
+    "force-with-lease": "never force: git fetch, merge onto the latest main, then a plain git push",
+    "force-push-any-spelling": "never force: git fetch, merge onto the latest main, then a plain git push",
+    "no-verify": "let the hooks run and fix what they report; there is no bypass",
+    "reset-hard": "keep the work: commit it, or save `git diff > \"$S\"/wip.patch` on disk; ask the operator before discarding",
+    "checkout-discard": "to discard ONE file's edits ask the operator; to inspect use git diff / git show HEAD:<path>",
+    "checkout-dot": "to discard ONE file's edits ask the operator; to inspect use git diff / git show HEAD:<path>",
+    "checkout-tree-discard": "to discard ONE file's edits ask the operator; to inspect use git diff / git show HEAD:<path>",
+    "restore-discard": "unstage with git restore --staged <path>; discarding working-tree edits needs the operator",
+    "stash-all": "commit to a branch instead, or save `git diff > \"$S\"/wip.patch` on disk; git stash list/show are allowed",
+    "clean-force-dirs": "list first with git clean -n; remove named untracked paths with rm -- <path>",
+    "clean-ignored": "list first with git clean -n; remove named untracked paths with rm -- <path>",
+    "clean-force-any-spelling": "list first with git clean -n; remove named untracked paths with rm -- <path>",
+    "branch-delete": "deleting branches is an operator decision; git branch -d (merged only) is the safe form",
+    "branch-force-delete": "deleting branches is an operator decision; git branch -d (merged only) is the safe form",
+    "rm-recursive-root": "remove a NAMED path inside your scratch dir: rm -rf -- \"$S\"/<name>",
+    "remove-root": "remove a NAMED path inside your scratch dir: rm -rf -- \"$S\"/<name>",
+    "remove-home": "remove a NAMED path inside your scratch dir: rm -rf -- \"$S\"/<name>",
+    "signal-by-pattern": "signal one validated pid you started: kill <pid> (never by name or pattern)",
+    "signal-by-name": "signal one validated pid you started: kill <pid> (never by name or pattern)",
+    "privilege-escalation": "no sudo: report the step that needs root to the operator",
+}
+def hint(id_):
+    return HINTS.get(id_, "this is an operator decision: report the exact command and why it is needed")
 
 # ════════════════════════════════════════════════════════════════════════════════════════════════════
 # tmpfs bulk-write rule (host-hang fix WP1, 2026-10-14; widened after the independent review)
@@ -663,52 +759,76 @@ def r_git_bundle(c, x):
 def r_git_archive(c, x):
     if c.a[:2] != ["git", "archive"]:
         return None
-    outs = opt_values(c.a[2:], ("-o",), ("--output",))
+    outs = opt_values(c.a[2:], ("-o",), ("--output",), attach=("-o",))
     if outs:
         return c.p(outs[-1]) if c.tm(outs[-1]) else None
     return c.out_tmpfs()
 
-GIT_WRITE = {"fetch", "pull", "checkout", "restore", "switch", "read-tree", "merge", "rebase", "cherry-pick", "am",
-             "apply", "stash", "reset", "clean", "worktree", "submodule", "lfs", "sparse-checkout", "init"}
+GIT_IMPORT = {"fetch", "pull", "submodule", "lfs"}           # bring objects in from elsewhere
+GIT_TREEWRITE = {"checkout", "restore", "switch", "reset", "read-tree", "merge", "rebase", "cherry-pick", "stash",
+                 "sparse-checkout"}                           # write work-tree files from the repo's own objects
 
 def r_git_tmpfs_repo(c, x):
-    """git writing objects/files into a repository or work tree that lives on tmpfs."""
+    """Disk data entering tmpfs through git: objects FETCHED into a repo on tmpfs, or a disk repo's files checked
+    out into a work tree on tmpfs. A checkout inside a repo that already lives on tmpfs moves nothing new
+    into RAM (tmpfs -> tmpfs) and is allowed."""
     a = c.a
-    if len(a) < 2 or a[0] != "git" or a[1] not in GIT_WRITE or a[1] == "clone":
+    if len(a) < 2 or a[0] != "git":
         return None
-    for d in (x.get("git_wt"), x.get("git_dir")):
-        if d and c.tm(d):
-            return c.p(d)
-    if a[1] in ("worktree", "init"):
-        return None
-    if c.ctx["cwd"] and is_tmpfs(c.ctx["cwd"]):
-        return c.ctx["cwd"]
+    wt = c.p(x["git_wt"]) if x.get("git_wt") else None
+    gd = c.p(x["git_dir"]) if x.get("git_dir") else None
+    cw = c.ctx["cwd"]
+    if a[1] in GIT_IMPORT:
+        for d in (gd, wt, cw if not gd else None):
+            if is_tmpfs(d):
+                return d
+    if a[1] in GIT_TREEWRITE and is_tmpfs(wt):
+        repo_on_tmpfs = is_tmpfs(gd) if gd else is_tmpfs(cw)
+        if not repo_on_tmpfs:
+            return wt
     return None
+
+LARGE_BYTES = 64 * 1024 * 1024
+BULK_SUFFIX = re.compile(r"\.(gguf|bin|safetensors|onnx|pt|pth|ckpt|tar|tgz|tbz2|txz|tzst|gz|xz|zst|bz2|zip|7z|iso|img|qcow2|vmdk|deb|rpm|whl|jar)$", re.I)
+
+def big_or_dir(c, s):
+    """A source that is a directory, ends in '/', or a regular file over LARGE_BYTES. Unknown -> False."""
+    if s.endswith("/") or s in (".", ".."):
+        return True
+    p = c.p(s)
+    try:
+        return bool(p) and (os.path.isdir(p) or (os.path.isfile(p) and os.path.getsize(p) > LARGE_BYTES))
+    except OSError:
+        return False
 
 def r_cp(c, x):
     a = c.a
     if not a or a[0] != "cp":
         return None
     args = a[1:]
-    if not (cluster_has(args, "arR") or any(w in ("--recursive", "--archive") for w in args)):
-        return None
+    if cluster_has(args, "ls") or any(w in ("--link", "--symbolic-link") for w in args):
+        return None                      # hard/symbolic links copy no data (and cannot cross into tmpfs)
+    rec = cluster_has(args, "arR") or any(w in ("--recursive", "--archive") for w in args)
     tdir = opt_values(args, ("-t",), ("--target-directory",))
     pos = positionals(args, {"-S", "--suffix", "-t", "--target-directory"})
-    if tdir:
-        return copy_like(c, pos, tdir[-1])
-    return copy_like(c, pos[:-1], pos[-1]) if len(pos) >= 2 else None
+    srcs, dest = (pos, tdir[-1]) if tdir else ((pos[:-1], pos[-1]) if len(pos) >= 2 else (None, None))
+    if dest is None:
+        return None
+    if not rec and not any(big_or_dir(c, s) for s in srcs): return None  # MUTANT:cp-single-file
+    return copy_like(c, srcs, dest)
 
 def r_mv(c, x):
-    """mv from disk into tmpfs is a cross-device FULL copy."""
+    """mv from disk into tmpfs is a cross-device FULL copy: refused for a directory or a file over 64 MiB
+    (checked on this host); a small named file or an unknown source is allowed."""
     a = c.a
     if not a or a[0] != "mv":
         return None
     args = a[1:]
     tdir = opt_values(args, ("-t",), ("--target-directory",))
     pos = positionals(args, {"-S", "--suffix", "-t", "--target-directory"})
-    if tdir:
-        return copy_like(c, pos, tdir[-1])
-    return copy_like(c, pos[:-1], pos[-1]) if len(pos) >= 2 else None
+    srcs, dest = (pos, tdir[-1]) if tdir else ((pos[:-1], pos[-1]) if len(pos) >= 2 else (None, None))
+    if dest is None or not any(big_or_dir(c, s) for s in srcs): return None  # MUTANT:mv-single-file
+    return copy_like(c, srcs, dest)
 
 RSYNC_VAL = {"-e", "--rsh", "-f", "--filter", "-T", "--temp-dir", "-B", "--block-size", "-M", "--remote-option",
              "--exclude", "--include", "--files-from", "--exclude-from", "--include-from", "--link-dest",
@@ -816,35 +936,76 @@ def r_container(c, x):
         return copy_like(c, pos[:-1], pos[-1]) if len(pos) >= 2 else None
     return None
 
+def cluster_vals(args, letter):
+    """Values of a value-taking short option in any cluster spelling: -o F, -sSLo F, -oF, -qO-."""
+    vals = []
+    for i, w in enumerate(args):
+        if w == "--":
+            break
+        if re.match(r"^-[A-Za-z]", w) and not w.startswith("--"):
+            k = w.find(letter, 1)
+            if k < 0 or not re.match(r"^[A-Za-z]*$", w[1:k]):
+                continue
+            if k == len(w) - 1:
+                if i + 1 < len(args):
+                    vals.append(args[i + 1])
+            else:
+                vals.append(w[k + 1:])
+    return vals
+
+def url_name(args):
+    urls = [w for w in args if re.match(r"^[a-z][a-z0-9+.-]*://", w)]
+    return os.path.basename(urls[-1].split("?")[0].split("#")[0].rstrip("/")) if urls else ""
+
 def r_download(c, x):
+    """A download's size cannot be known statically. Refused only when it lands on tmpfs AND its file name
+    says bulk (a model or an archive: BULK_SUFFIX); a small page/JSON fetch into /tmp is allowed."""
     a = c.a
     if not a or a[0] not in ("curl", "wget"):
         return None
     args = a[1:]
+    def bulk(path, name):
+        return path if (is_tmpfs(path) and BULK_SUFFIX.search(name or "")) else None  # MUTANT:download-suffix
     if a[0] == "curl":
-        outs = opt_values(args, ("-o",), ("--output",))
-        for o in outs:
-            if o != "-" and c.tm(o):
-                return c.p(o)
-        if any(w in ("-O", "--remote-name", "--remote-name-all") or re.match(r"^-[A-Za-z]*O[A-Za-z]*$", w) for w in args):
+        for o in cluster_vals(args, "o") + opt_values(args, (), ("--output",)):
+            if o != "-":
+                r = bulk(c.p(o), o)
+                if r:
+                    return r
+        if (any(re.match(r"^-[A-Za-z]*O[A-Za-z]*$", w) for w in args)
+                or any(w in ("--remote-name", "--remote-name-all") for w in args)):
             dirs = opt_values(args, (), ("--output-dir",))
             d = c.p(dirs[-1]) if dirs else c.ctx["cwd"]
-            return d if is_tmpfs(d) else None
+            return bulk(d, url_name(args))
         return None
-    outs = opt_values(args, ("-O",), ("--output-document",), attach=("-O",))
+    outs = cluster_vals(args, "O") + opt_values(args, (), ("--output-document",))
     if outs:
-        return None if outs[-1] == "-" else (c.p(outs[-1]) if c.tm(outs[-1]) else None)
-    dirs = opt_values(args, ("-P",), ("--directory-prefix",), attach=("-P",))
+        return None if outs[-1] == "-" else bulk(c.p(outs[-1]), outs[-1])
+    dirs = cluster_vals(args, "P") + opt_values(args, (), ("--directory-prefix",))
     d = c.p(dirs[-1]) if dirs else c.ctx["cwd"]
-    return d if is_tmpfs(d) else None
+    return bulk(d, url_name(args))
+
+DD_MULT = {"": 1, "c": 1, "w": 2, "b": 512, "kB": 1000, "K": 1024, "k": 1024, "KiB": 1024, "MB": 1000 ** 2,
+           "M": 1024 ** 2, "MiB": 1024 ** 2, "GB": 1000 ** 3, "G": 1024 ** 3, "GiB": 1024 ** 3, "T": 1024 ** 4}
+
+def dd_num(v):
+    m = re.match(r"^([0-9]+)([A-Za-z]*)$", v or "")
+    return int(m.group(1)) * DD_MULT[m.group(2)] if m and m.group(2) in DD_MULT else None
 
 def r_dd(c, x):
+    """dd onto tmpfs: refused when unbounded (no count=) or when count x block size exceeds 64 MiB."""
     if not c.a or c.a[0] != "dd":
         return None
-    for w in c.a[1:]:
-        if w.startswith("of=") and c.tm(w[3:]):
-            return c.p(w[3:])
-    return None
+    kv = dict(w.split("=", 1) for w in c.a[1:] if "=" in w)
+    of = kv.get("of")
+    if not of or not c.tm(of):
+        return None
+    bs = dd_num(kv.get("bs") or kv.get("obs") or "512")
+    cnt = kv.get("count")
+    if cnt is None or bs is None or dd_num(cnt) is None:
+        return c.p(of)                               # unbounded / unparseable size: bulk
+    nbytes = dd_num(cnt) if "count_bytes" in kv.get("iflag", "") else dd_num(cnt) * bs
+    return c.p(of) if nbytes > LARGE_BYTES else None  # MUTANT:dd-size
 
 TMPFS_RULES = [
     ("git-clone", r_git_clone),               # BRANCH:git-clone
@@ -900,14 +1061,40 @@ def judge_script(raw, rules, ctx, depth=0):
             return v
     return None
 
+def body_subs(body):
+    """$(...) and `...` in an UNQUOTED here-document body: the shell runs them while expanding it."""
+    out, i, n = [], 0, len(body)
+    while i < n:
+        c = body[i]
+        if c == "\\":
+            i += 2; continue
+        if body.startswith("$((", i):
+            i = find_close(body, i + 3, "(", ")") + 2; continue
+        if body.startswith("$(", i):
+            k = find_close(body, i + 2, "(", ")"); out.append(body[i + 2:k]); i = k + 1; continue
+        if c == "`":
+            k = body.find("`", i + 1); k = n if k < 0 else k; out.append(body[i + 1:k]); i = k + 1; continue
+        i += 1
+    return out
+
 def judge_cmd(it, rules, ctx, depth):
     words, redirs, hds = it[1], it[2], it[3]
-    for w in words + [t for _, t in redirs if t]:
-        for sub in w["subs"]:
-            v = judge_script(sub, rules, sub_ctx(ctx), depth + 1)
-            if v:
-                return v
+    piped = it[4] if len(it) > 4 else False
+    last_echo, ctx["last_echo"] = ctx.get("last_echo"), None
+    subs = [sub for w in words + [t for _, t in redirs if t] for sub in w["subs"]]
+    subs += [sub for body, dq in hds if not dq for sub in body_subs(body)]  # MUTANT:heredoc-subs
+    for sub in subs:
+        v = judge_script(sub, rules, sub_ctx(ctx), depth + 1)
+        if v:
+            return v
     u = unwrap(words)
+    if u.get("loop"):   # `for d in /tmp/x; do ... "$d"`: the variable takes the listed literal values
+        name_, vals = u["loop"]
+        ev = [expand(v, ctx) for v in vals]
+        if any(e is None for e in ev):
+            ctx["vars"][name_] = UNKNOWN
+        else:
+            ctx["vars"][name_] = next((e for e in ev if is_tmpfs(resolve(e, ctx))), ev[0] if ev else "")  # MUTANT:loop-var
     if u["header"] or u["lookup"]:
         return None
     stages = [[x["t"] for x in s] for s in u["stages"]]
@@ -917,7 +1104,7 @@ def judge_cmd(it, rules, ctx, depth):
     if hit:
         return ("cat", hit)
     for na in u["nested_argv"]:
-        v = judge_cmd(("cmd", na, [], []), rules, sub_ctx(ctx), depth + 1)
+        v = judge_cmd(("cmd", na, [], [], False), rules, sub_ctx(ctx), depth + 1)
         if v:
             return v
     for script in u["nested"]:
@@ -932,6 +1119,8 @@ def judge_cmd(it, rules, ctx, depth):
         return None
     name = bn(argv[0])
     a = [name] + argv[1:]
+    if name in ("echo", "printf"):        # remembered for `echo 'cmd' | bash`
+        ctx["last_echo"] = " ".join(t for t in a[1:] if not re.match(r"^-[neE]+$", t)).replace("\\n", "\n")
     if name in ("export", "declare", "typeset", "local", "readonly"):
         for t in a[1:]:
             m = ASSIGN.match(t)
@@ -961,6 +1150,7 @@ def judge_cmd(it, rules, ctx, depth):
         if k is not None and not chdirs:
             return judge_cmd(("cmd", u["argv"][k:], redirs, hds), rules, ctx, depth + 1)
         args, script, files, i = a[1:], None, [], 0
+        STDIN = ("-", "/dev/stdin", "/dev/fd/0", "/proc/self/fd/0")
         while i < len(args):
             w = args[i]
             if w in ("-o", "+o", "-O", "+O") and i + 1 < len(args):
@@ -975,10 +1165,14 @@ def judge_cmd(it, rules, ctx, depth):
             files.append(w); i += 1
         if script is not None:
             return judge_script(script, rules, sub_ctx(ctx), depth + 1)
-        # `bash <<EOF` / `bash -s` (no script file): the here-document IS the script
+        files = [f for f in files if f not in STDIN]   # `bash /dev/stdin <<EOF` reads the here-document too
+        if files:
+            return None
+        # `bash <<EOF` / `bash -s`: the here-document IS the script; `echo '...' | bash`: the piped text is
         v = None
-        v = next((r for r in (judge_script(b, rules, sub_ctx(ctx), depth + 1) for b in hds) if r), None)  # MUTANT:heredoc-shell
-        return v if not files else None
+        v = next((r for r in (judge_script(b, rules, sub_ctx(ctx), depth + 1) for b, _dq in hds) if r), None)  # MUTANT:heredoc-shell
+        if v is None and piped and last_echo: v = judge_script(last_echo, rules, sub_ctx(ctx), depth + 1)  # MUTANT:pipe-to-shell
+        return v
     cctx = ctx
     if chdirs or u["chdir"]:
         cctx = sub_ctx(ctx)
@@ -986,7 +1180,7 @@ def judge_cmd(it, rules, ctx, depth):
             cctx["cwd"] = resolve(d, cctx)
     out = [resolve(t["t"], cctx) for op, t in redirs if op in OUT_REDIRS and t and not t["t"].isdigit() and t["t"] != "-"]
     c = C(a, cctx, out)
-    x = {"git_wt": gwt, "git_dir": gdir}
+    x = {"git_wt": gwt or u["env"].get("GIT_WORK_TREE"), "git_dir": gdir or u["env"].get("GIT_DIR")}
     for bname, fn in TMPFS_RULES:
         try:
             dest = fn(c, x)
@@ -1042,9 +1236,8 @@ def main():
     helper = os.path.join(root, "scripts", "agent-scratch.sh")
     if hit and hit[0] == "cat":
         sys.stderr.write(
-            "BLOCKED by guard-project-catalogue (VSC-367): the command matches the refused class '%s' of "
-            "docs/zero-gap/guarded-commands.tsv. Use a bounded alternative (named paths, a validated pid, "
-            "git add <path>).\n" % hit[1])
+            "BLOCKED by guard-project-catalogue (VSC-367): the command matches the refused class '%s' "
+            "(docs/zero-gap/guarded-commands.tsv or the project's structural rules). Instead: %s.\n" % (hit[1], hint(hit[1])))
         return 2
     if hit:
         _, name, dest, short_reason = hit
@@ -1148,11 +1341,15 @@ prove() {
     # ── tmpfs bulk-write rule (host-hang fix WP1, 2026-10-14) ──────────────────────────────────────────
     local FX="$HERE/fixtures/tmpfs-guard" br cwd cmdl lbl
     [ -f "$FX/golden-bad.tsv" ] && [ -f "$FX/golden-good.tsv" ] || { echo "COULD-NOT-PROVE: tmpfs fixtures missing under $FX"; return 2; }
+    # Fixtures carry no host paths: @REPO@ = this checkout, @HOME@ = $HOME, @T@ = this proof's temp dir (it
+    # holds small.txt and a SPARSE 65 MiB file, so the size rule is exercised without writing 65 MiB).
+    printf 'x\n' >"$T/small.txt"; truncate -s 65M "$T/sparse65m" 2>/dev/null || { echo "COULD-NOT-PROVE: truncate failed"; return 2; }
     probe_cwd() { # $1 command  $2 cwd ('-' = none)  [$3 python program, default the hook's]
         local j; j=$(python3 -I -c 'import json,sys
-d={"tool_name":"Bash","tool_input":{"command":sys.argv[1]}}
-if sys.argv[2]!="-": d["cwd"]=sys.argv[2]
-print(json.dumps(d))' "$1" "$2")
+sub=lambda x: x.replace("@REPO@",sys.argv[3]).replace("@HOME@",sys.argv[4]).replace("@T@",sys.argv[5])
+d={"tool_name":"Bash","tool_input":{"command":sub(sys.argv[1])}}
+if sys.argv[2]!="-": d["cwd"]=sub(sys.argv[2])
+print(json.dumps(d))' "$1" "$2" "$ROOT_DEFAULT" "$HOME" "$T")
         printf '%s' "$j" | env -u TMPDIR AGENT_TMPFS_OK_LOG="$T/override.log" python3 -I -c "${3:-$PY}" hook "$CAT" "$ROOT_DEFAULT" 2>"$T/stderr"
     }
     # P8 every golden-bad row is refused (rc 2) and the refusal names the tmpfs rule or a catalogue class
@@ -1184,18 +1381,22 @@ print(json.dumps(d))' "$1" "$2")
     # Case driver: runs the hook program ($1) over cases.jsonl rows; prints "<id> <expect> <rc>" per row.
     printf '%s' "$PY" >"$T/hook.py"
     drive() { # $1 program file  $2 jsonl  [$3 comma-separated ids]  -> lines "id expect rc branch"
-        env -u TMPDIR AGENT_TMPFS_OK_LOG="$T/override.log" python3 -I - "$1" "$CAT" "$ROOT_DEFAULT" "$2" "${3:-}" <<'PYDRV'
-import json, subprocess, sys
-prog, cat, root, cases, only = sys.argv[1:6]
+        env -u TMPDIR AGENT_TMPFS_OK_LOG="$T/override.log" python3 -I - "$1" "$CAT" "$ROOT_DEFAULT" "$2" "${3:-}" "$HOME" "$T" <<'PYDRV'
+import json, os, subprocess, sys
+prog, cat, root, cases, only, home, tmp = sys.argv[1:8]
+sub = lambda x: x.replace("@REPO@", root).replace("@HOME@", home).replace("@T@", tmp)
 want = set(only.split(",")) if only else None
 for line in open(cases, encoding="utf-8"):
     r = json.loads(line)
     if want is not None and r["id"] not in want:
         continue
-    d = {"tool_name": "Bash", "tool_input": {"command": r["cmd"]}}
+    d = {"tool_name": "Bash", "tool_input": {"command": sub(r["cmd"])}}
     if r.get("cwd", "-") != "-":
-        d["cwd"] = r["cwd"]
-    p = subprocess.run([sys.executable, "-I", prog, "hook", cat, root], input=json.dumps(d), capture_output=True, text=True)
+        d["cwd"] = sub(r["cwd"])
+    env = dict(os.environ)
+    if r.get("tmpdir"):                       # the hook's own TMPDIR for this row (unset otherwise)
+        env["TMPDIR"] = sub(r["tmpdir"])
+    p = subprocess.run([sys.executable, "-I", prog, "hook", cat, root], input=json.dumps(d), capture_output=True, text=True, env=env)
     print(r["id"], r["expect"], p.returncode, r.get("branch", "-"))
 PYDRV
     }
@@ -1232,7 +1433,12 @@ print(",".join(r["id"] for r in map(json.loads,open(sys.argv[1])) if r["branch"]
     # P13 lexer/normaliser mutations: each '# MUTANT:<name>' line removed must flip its named case(s)
     local -A MCASE=([continuation]=rev-F09,rev-L01 [reserved]=rev-F08,rev-F03 [basename]=rev-R06,own-B01,own-B02 [subshell-scope]=rev-G12,own-G01
                     [heredoc-shell]=rev-N24 [reason-words]=rev-OVR [normpath]=rev-N54,rev-N55 [find-exec]=rev-N36
-                    [mktemp]=rev-N02,rev-N03 [assign-vars]=rev-N01)
+                    [mktemp]=rev-N02,rev-N03 [assign-vars]=rev-N01
+                    [arith-cmd]=rev2-B09 [tmpdir-vars]=rev2-B01,rev2-G08 [function-body]=rev2-B05 [flag-git-only]=rev-R07,rev-R17,own-B11
+                    [heredoc-subs]=rev2-B08 [loop-var]=rev2-B02 [pipe-to-shell]=rev2-B07 [cp-single-file]=own-G12
+                    [mv-single-file]=rev2-G04,own-G07 [download-suffix]=rev-N11,rev2-B03,rev2-B04 [dd-size]=rev-N08
+                    [extra-rm-root]=rev2-B12,rev2-B19 [extra-clean]=rev2-B10 [extra-checkout]=rev2-B11 [extra-add-all]=rev2-B13
+                    [extra-branch]=rev2-B18)
     local mnames nm=0 mm=0 flipped
     mnames=$(grep -o '# MUTANT:[a-z-]*' <<<"$PY" | sed 's/# MUTANT://' | sort -u)
     for b in $mnames; do
@@ -1244,6 +1450,36 @@ print(",".join(r["id"] for r in map(json.loads,open(sys.argv[1])) if r["branch"]
         [ "$flipped" -gt 0 ] && echo "    mutant '$b' caught by ${MCASE[$b]}" || { mm=$((mm+1)); echo "    mutant '$b' NOT caught by ${MCASE[$b]}"; }
     done
     [ "$nm" -ge 8 ] && [ "$mm" -eq 0 ] && ok "P13 $nm lexer/normaliser mutants each caught by a named case" || bad "P13 $mm of $nm mutants undetected"
+    # P15 REPLACEMENT mutants (the independent re-review's survivors + precise variants of new rules): each old->new
+    #     edit of the hook program must flip its named case(s)
+    local nr=0 mr=0 rname rold rnew rcases
+    while IFS='|' read -r rname rold rnew rcases; do
+        [ -n "$rname" ] || continue
+        nr=$((nr+1))
+        if ! python3 -I -c 'import sys
+s=open(sys.argv[1]).read(); o,n=sys.argv[2],sys.argv[3]
+sys.exit(3) if s.count(o)!=1 else open(sys.argv[4],"w").write(s.replace(o,n,1))' "$T/hook.py" "$rold" "$rnew" "$T/mut.py"; then
+            mr=$((mr+1)); echo "    replacement mutant '$rname': anchor not found exactly once"; continue
+        fi
+        flipped=0
+        while read -r id ex rc0 br0; do
+            { [ "$ex" = B ] && [ "$rc0" -ne 2 ]; } || { [ "$ex" = A ] && [ "$rc0" -ne 0 ]; } && flipped=$((flipped+1))
+        done < <(drive "$T/mut.py" "$FX/cases.jsonl" "$rcases")
+        [ "$flipped" -gt 0 ] && echo "    replacement mutant '$rname' caught by $rcases" || { mr=$((mr+1)); echo "    replacement mutant '$rname' NOT caught by $rcases"; }
+    done <<'MUTS'
+readonly-exemption|        if READONLY.match(t):|        if False:|own-G02,own-G03,own-G04
+env-C|                    r["chdir"] = rest[i + 1]["t"]|                    pass|own-B03
+cd-minus|        if tgt == "-":|        if False:|own-G05
+curl-O|        if (any(re.match(r"^-[A-Za-z]*O[A-Za-z]*$", w) for w in args)|        if False and (any(re.match(r"^-[A-Za-z]*O[A-Za-z]*$", w) for w in args)|own-B04
+unzip-listmode|            return None                   # list / test / pipe / zipinfo / to-stdout modes write nothing|            pass|own-G06
+export-vars|    if name in ("export", "declare", "typeset", "local", "readonly"):|    if False:|own-B05
+flag-any-word|                if a[0] == "git" and any(rx.match(x) for x in a[1:]):|                if any(rx.match(x) for x in a[1:]):|rev2-G01,rev2-G02,rev2-G03,own-G11
+cp-link-exempt|    if cluster_has(args, "ls") or|    if False and|own-G08
+stdin-script|        files = [f for f in files if f not in STDIN]|        files = files|rev2-B16
+git-dir-env|"git_dir": gdir or u["env"].get("GIT_DIR")|"git_dir": gdir|rev2-B15
+dd-unbounded|        return c.p(of)                               # unbounded / unparseable size: bulk|        return None|own-B09
+MUTS
+    [ "$nr" -ge 8 ] && [ "$mr" -eq 0 ] && ok "P15 $nr replacement mutants each caught by a named case" || bad "P15 $mr of $nr replacement mutants undetected"
     # P14 TMPDIR on disk: "$TMPDIR"/${TMPDIR:-/tmp} resolve from the hook's own environment (disk => allowed)
     local jt; jt='{"tool_name":"Bash","tool_input":{"command":"cp -a src \"${TMPDIR:-/tmp}/x\" && cp -a src \"$TMPDIR/y\""}}'
     printf '%s' "$jt" | TMPDIR=/home/agent-disk-tmp python3 -I -c "$PY" hook "$CAT" "$ROOT_DEFAULT" 2>/dev/null; local r14a=$?

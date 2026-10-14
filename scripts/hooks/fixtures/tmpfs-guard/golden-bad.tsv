@@ -3,16 +3,16 @@
 # hook) that must catch it; the --prove-failure mutation removes each branch and requires that at least
 # one of ITS rows then slips through (so every branch is exercised by a named fixture).
 git-clone	-	git clone https://github.com/example/repo /tmp/repo
-git-clone	-	git clone --depth 1 /home/milosvasic/Projects/vasic /tmp/claude-1000/x/scratchpad/vasic
+git-clone	-	git clone --depth 1 @REPO@ /tmp/claude-1000/x/scratchpad/vasic
 git-clone	-	cd /tmp/claude-1000/s && git clone ../repo
 git-clone	-	git -C /dev/shm clone https://example.org/r.git
-git-clone	-	git clone --separate-git-dir=/tmp/g https://example.org/r.git /home/milosvasic/w
+git-clone	-	git clone --separate-git-dir=/tmp/g https://example.org/r.git @HOME@/w
 git-clone	-	timeout 600 git clone https://example.org/r.git /tmp/c
 git-clone	/tmp/claude-1000/-home-x/abc/scratchpad	git clone https://example.org/r.git
 git-worktree-add	-	git worktree add /tmp/wt HEAD
-git-worktree-add	-	git -C /home/milosvasic/Projects/vasic worktree add -b x /run/user/1000/wt
+git-worktree-add	-	git -C @REPO@ worktree add -b x /run/user/1000/wt
 git-bundle-create	-	git bundle create /tmp/ba_bundle.1 --all
-cp-recursive	-	cp -a /home/milosvasic/Projects/vasic/.git /tmp/gitdir-backup
+cp-recursive	-	cp -a @REPO@/.git /tmp/gitdir-backup
 cp-recursive	-	cp -r src /dev/shm/x
 cp-recursive	-	cp -R --preserve=all a b /tmp/x/
 cp-recursive	-	cp -av -t /tmp/x a b
@@ -21,15 +21,15 @@ cp-recursive	-	FOO=1 cp -a x /tmp/y 2>/dev/null
 cp-recursive	-	bounded-run -m 3G -T 280 -- cp -a a /tmp/b
 cp-recursive	-	bash -c 'cp -a a /tmp/b'
 cp-recursive	-	AGENT_TMPFS_OK=x cp -a a /tmp/b
-rsync	-	rsync -a /home/milosvasic/Projects/vasic/ /tmp/vasic-copy/
+rsync	-	rsync -a @REPO@/ /tmp/vasic-copy/
 rsync	-	rsync -av --exclude .git -e ssh src /tmp/x
 rsync	-	nohup rsync -a a /tmp/b
 tar-extract	-	git archive HEAD | tar -x -C /tmp/arch
-tar-extract	-	tar xzf /home/milosvasic/a.tgz -C /tmp/a
+tar-extract	-	tar xzf @HOME@/a.tgz -C /tmp/a
 tar-extract	-	tar --extract --file=a.tar --directory=/tmp/a
-tar-extract	-	cd /tmp && tar -xf /home/milosvasic/a.tar
+tar-extract	-	cd /tmp && tar -xf @HOME@/a.tar
 tar-create	-	tar -czf /tmp/release.tgz dist/
 unzip	-	unzip a.zip -d /tmp/u
 rsync	-	rsync -a src/ //tmp/x/
 cp-recursive	-	cp -a src /home/../tmp/x
-cp-recursive	/tmp/claude-1000/-home-x/abc/scratchpad	cp -r /home/milosvasic/Projects/vasic copy
+cp-recursive	/tmp/claude-1000/-home-x/abc/scratchpad	cp -r @REPO@ copy
