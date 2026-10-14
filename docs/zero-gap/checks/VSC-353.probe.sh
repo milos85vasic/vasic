@@ -7,8 +7,9 @@
 #   (B) REAL MISMATCH: .gitmodules declares exactly 22 paths; an unmarked current-tense line claims "14 declared".
 #       The class MUST emit a FINDING on that line whose text names BOTH 14 and 22 and says mismatch/disagrees.
 #   (C) equal-counts control: "22 declared" against 22 paths -> no mismatch finding.
-#   (D) historical-marked "14 declared" ((historical) at sentence end) against 22 paths -> no mismatch finding
-#       (recall tradeoff pinned on purpose).
+#   (D) historical-marked "14 declared. (historical)" against 22 paths -> no mismatch finding (recall tradeoff pinned on
+#       purpose). The line is one the comparison SEES ("14 declared." is a figure and a match); D-mut disables the skip
+#       rule in a copy of the class and requires the mismatch to appear, proving the skip rule is what keeps D silent.
 #   (E) 'owned': the class has no honest source for an owned count in a bare repo, so there is NO owned-mismatch
 #       clause here (deliberately not invented).
 # Exit 0 every clause holds / 1 some clause fails / 2 environment fault or class cannot run (never 0 on a fault).
@@ -46,7 +47,7 @@ mk "$T/a" || { echo "git setup failed (a)"; exit 2; }
 for x in b c d; do gm "$T/$x" 22 || { echo "gitmodules build failed"; exit 2; }; done
 printf '# Probe carrier\n\nThe fleet has 14 declared.\n' >"$T/b/CLAUDE.md"
 printf '# Probe carrier\n\nThe fleet has 22 declared.\n' >"$T/c/CLAUDE.md"
-printf '# Probe carrier\n\nThe fleet has 14 declared (historical).\n' >"$T/d/CLAUDE.md"
+printf '# Probe carrier\n\nThe fleet has 14 declared. (historical)\n' >"$T/d/CLAUDE.md"
 for x in b c d; do mkdir -p "$T/$x/docs" && printf '# probe ledger\nsurface\tCLAUDE.md\nclaim\tlab-widgets\tCLAUDE.md\tprose\tdoc-vs-code-drift\tminor\teq\t-\tholds \\*\\*(\\d+)\\*\\* widgets\twc -l < data/widgets.txt\n' >"$T/$x/docs/claim-ledger.tsv" && mkdir -p "$T/$x/data" && printf 'w\n' >"$T/$x/data/widgets.txt" && printf 'The lab holds **1** widgets.\n' >>"$T/$x/CLAUDE.md" || exit 2; done
 for x in b c d; do mk "$T/$x" || { echo "git setup failed ($x)"; exit 2; }; done
 [ "$(grep -c '^\[submodule ' "$T/b/.gitmodules")" = 22 ] || { echo "sandbox .gitmodules is not 22"; exit 2; }
@@ -101,6 +102,13 @@ echo "A: planted declared/owned rows detected $det of 3 (need 3); clean controls
 if mismatch "$T/b.out" CLAUDE.md 3 14 22; then echo "B: PASS mismatch finding names 14 and 22 on CLAUDE.md:3"; else echo "B: FAIL no finding on CLAUDE.md:3 naming both 14 and 22 with mismatch/disagree (.gitmodules declares 22, doc claims 14 declared)"; bad=1; fi
 if anymismatch "$T/c.out"; then echo "C: FAIL equal counts (22 declared vs 22 paths) reported as mismatch"; bad=1; else echo "C: PASS equal counts not reported as mismatch"; fi
 if anymismatch "$T/d.out"; then echo "D: FAIL (historical)-marked 14 declared reported as mismatch"; bad=1; else echo "D: PASS (historical)-marked line not reported as mismatch"; fi
+# D-mut: a copy of the class with the skip rule disabled MUST report the D line (else D's silence proves nothing).
+mkdir -p "$T/dmut" || exit 2
+cp "$CLS" "$T/dmut/zero-gap-class-stale-figures.sh" && cp "$(dirname "$CLS")/verify-claim-ledger.sh" "$T/dmut/" || { echo "D-mut: cannot copy the class and its ledger gate"; exit 2; }
+sed -i 's/if m is None or SKIP[.]search(s)/if m is None/' "$T/dmut/zero-gap-class-stale-figures.sh"
+if cmp -s "$CLS" "$T/dmut/zero-gap-class-stale-figures.sh"; then echo "D-mut: inoperative mutation (skip-rule anchor not found)"; exit 2; fi
+(cd "$SRC" && timeout 300 bash "$T/dmut/zero-gap-class-stale-figures.sh" --root "$T/d" >"$T/dmut.out" 2>"$T/dmut.err")
+if mismatch "$T/dmut.out" CLAUDE.md 3 14 22; then echo "D-mut: PASS with the skip rule disabled the D line IS a mismatch, so the skip rule is what keeps D silent"; else echo "D-mut: FAIL the D line is hidden even without the skip rule (D proves nothing)"; bad=1; fi
 echo "E: no owned-mismatch clause (no honest source for an owned count)"
 # ---- Clauses F/G (B1/B2 shapes; added by t353-check-author-3). Each box is a separate sandbox: .gitmodules declares 22 paths.
 # F shapes (B1): "<n> <fleet noun> (is|are|were) declared" with fleet noun gitlinks|submodules; the line must enter the figure population.
@@ -198,4 +206,54 @@ for spec in 3:in-place 5:entries 7:owned 9:noun-wrap 12:verb-wrap 15:unrelated-s
 done
 if mismatch "$T/hc.out" CONTINUATION.md 5 13 22; then echo "H2: FAIL dated section-3 caption line now produces a mismatch"; hb=1; else echo "H2: PASS dated section-3 caption exemption pinned silent"; fi
 [ "$hb" -eq 0 ] || bad=1
+# ---- Clause J (round 5): markdown markup around the number, the verb and "declared"; compound noun; parenthesis.
+#   box jm: every line is a mismatch vs 22 (claims 13, except the third-from-... "14 declared (current)." which claims 14);
+#   box je: the same lines with 22 (must be silent). Then a copy of the class WITHOUT markup tolerance (MK empty) must
+#   lose the markup lines. Lines are separated by '|' here, so the table-cell shape is pinned in the PROVE battery instead.
+mkbox_pipe() { # mkbox_pipe <name> <pipe-separated lines>
+  _n=$1; _ifs=$IFS; IFS='|'; set -f; set -- $2; set +f; IFS=$_ifs; mkbox "$_n" "$@"
+}
+JL='13 gitlinks are **declared**|13 gitlinks **are** declared|13 gitlinks are _declared_.|13 gitlinks `are declared`|_13_ gitlinks are declared|13 submodule paths are declared|14 declared (current).|13 declared **(current)**|13 declared **submodules**|13 modules are _now_ declared|**13 gitlinks are declared**|13 **gitlinks** are declared|**13 gitlinks** are declared|13 Submodule Paths Are Declared|13 submodule is declared'
+mkbox_pipe jm "$JL" || { echo "box jm setup failed"; exit 2; }
+mkbox_pipe je "$(printf '%s' "$JL" | sed 's/1[34]/22/g')" || { echo "box je setup failed"; exit 2; }
+for x in jm je; do
+  rc=$(run "$T/$x" "$T/$x.out")
+  case "$rc" in 0|1) ;; *) echo "class rc $rc on sandbox $x"; exit 2 ;; esac
+  grep -q '^INSPECTED [1-9]' "$T/$x.out" || { echo "sandbox $x: class inspected no document"; exit 2; }
+done
+jl=0; jn=0
+while IFS= read -r _l; do
+  jn=$((jn+1)); ln=$((1 + 2 * jn)); v=13; case "$_l" in 14*) v=14 ;; esac
+  if mismatch "$T/jm.out" CLAUDE.md "$ln" "$v" 22; then jl=$((jl+1)); else echo "J: NOT detected line $ln: $_l"; fi
+done < <(printf '%s\n' "$JL" | tr '|' '\n')
+echo "J: markup/compound/parenthesis planted mismatches detected $jl of $jn (need all)"
+[ "$jl" -eq "$jn" ] || bad=1
+if anymismatch "$T/je.out"; then echo "J: FAIL equal-count control (22) reported as mismatch"; bad=1; else echo "J: PASS equal-count control silent"; fi
+# J-mut: with MK emptied (no markup tolerance anywhere) the markup lines must be lost, else J does not test markup.
+mkdir -p "$T/jmut" || exit 2
+cp "$CLS" "$T/jmut/zero-gap-class-stale-figures.sh" && cp "$(dirname "$CLS")/verify-claim-ledger.sh" "$T/jmut/" || { echo "J-mut: cannot copy the class"; exit 2; }
+sed -i 's/^MK = .*/MK = r""/' "$T/jmut/zero-gap-class-stale-figures.sh"
+if cmp -s "$CLS" "$T/jmut/zero-gap-class-stale-figures.sh"; then echo "J-mut: inoperative mutation"; exit 2; fi
+(cd "$SRC" && timeout 300 bash "$T/jmut/zero-gap-class-stale-figures.sh" --root "$T/jm" >"$T/jmut.out" 2>"$T/jmut.err")
+jlost=0
+for ln in 3 5 7 9 11 21 25 27; do mismatch "$T/jmut.out" CLAUDE.md "$ln" 13 22 || jlost=$((jlost+1)); done
+if [ "$jlost" -eq 8 ]; then echo "J-mut: PASS removing markup tolerance loses all 8 markup-dependent lines (3 5 7 9 11 21 25 27); the other 7 do not depend on markup"; else echo "J-mut: FAIL removing markup tolerance lost only $jlost of the 8 markup-dependent lines"; bad=1; fi
+# ---- Clause H3 (round 5): the shapes the grammar deliberately does NOT see, each pinned silent with a paired twin
+#   (the same claim in the supported form IS a mismatch). box hz holds the silent shapes, box ht their twins, same line numbers.
+HZ='13 gitlinks are all declared.|13 gitlinks are not declared.|Thirteen gitlinks are declared.|[13](https://example.invalid/x) gitlinks are declared.|<b>13</b> gitlinks are declared.|13.5 gitlinks are declared.|13 gitlinks (are declared).|13 gitlinks, all declared.|13-gitlink fleet is declared.|13 gitlinks are ~~declared~~.|13 gitlinks are ==declared==.|13 gitlinks are "declared".|13 owned gitlinks are declared.|13 gitlinks will be declared.|13 gitlinks got declared.|13 path-entries are declared.'
+mkbox_pipe hz "$HZ" || { echo "box hz setup failed"; exit 2; }
+mkbox_pipe ht "$(printf '%s' "$HZ" | awk -F'|' '{for(i=1;i<=NF;i++) printf "%s13 gitlinks are declared.", (i>1?"|":"")}')" || { echo "box ht setup failed"; exit 2; }
+for x in hz ht; do
+  rc=$(run "$T/$x" "$T/$x.out")
+  case "$rc" in 0|1) ;; *) echo "class rc $rc on sandbox $x"; exit 2 ;; esac
+  grep -q '^INSPECTED [1-9]' "$T/$x.out" || { echo "sandbox $x: class inspected no document"; exit 2; }
+done
+hn=0; hb3=0
+while IFS= read -r _l; do
+  hn=$((hn+1)); ln=$((1 + 2 * hn))
+  if ! mismatch "$T/ht.out" CLAUDE.md "$ln" 13 22; then echo "H3: twin line $ln NOT detected (the pair proves nothing)"; hb3=1; fi
+  if mismatch "$T/hz.out" CLAUDE.md "$ln" 13 22; then echo "H3: FAIL silent shape now produces a mismatch (line $ln: $_l); the header recall cost is no longer true"; hb3=1; fi
+done < <(printf '%s\n' "$HZ" | tr '|' '\n')
+[ "$hb3" -eq 0 ] && echo "H3: PASS $hn silent shapes pinned, each with a detected twin"
+[ "$hb3" -eq 0 ] || bad=1
 exit "$bad"

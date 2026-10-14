@@ -45,8 +45,14 @@
 # ── "<n> declared" vs .gitmodules (VSC-353 clause B) ──────────────────────────
 # The count of paths .gitmodules declares is read from the working tree AT --root
 # (lines `path = ...`; never from carrier prose). Every figure line that is still in the
-# population after the exclusions below is searched for three shapes (markup [*`_] allowed
-# around the number and the word):
+# population after the exclusions below is searched for three shapes. MARKUP COVERED (round 5), exactly:
+# a run of the characters * ` _ (so **, __, backtick, _ and mixtures; markdown emphasis, strong, code)
+# may sit (i) immediately before the number ("**13**", "_13_"), (ii) between any two words of a shape,
+# on either side of the whitespace ("gitlinks **are** declared", "are _declared_", "`are declared`"),
+# (iii) after the last word, and (iv) before the closing punctuation or parenthesis of "<n> declared".
+# NOT covered: any other markup (links [13](url), HTML <b>13</b>, ==highlight==, "quotes", ~~strike~~
+# which is deliberately blanked); each is pinned silent by probe clause H3. The count cannot be
+# glued to a letter or digit before it, and a decimal ("13.5 gitlinks") is not read as 5.
 #   S1  "<n> declared" followed by end of line, closing punctuation/markup, or a fleet noun
 #       (submodule(s), gitlink(s), module(s), repo(s), repositories, path(s), "in total",
 #       "in all")                                          e.g. "13 declared." "13 declared submodules"
@@ -77,8 +83,14 @@
 #   5. mirror dedup: a line of AGENTS.md/QWEN.md/GEMINI.md byte-identical to a CLAUDE.md
 #      figure line is not compared again (CLAUDE.md carries it);
 #   plus the text of any `~~struck~~` span, which is blanked before the shapes are tried.
-# RECALL COST (every shape the comparison does not see). Each item is pinned silent by the named
-# test, and each pin carries a paired control proving the silence is caused by the listed cost:
+# RECALL COST (the shapes below are NOT compared; the list is exhaustive for the shapes tried in
+# round 5, not for every possible phrasing, and each listed shape is pinned silent by the named test
+# with a paired control proving the silence is caused by the listed cost):
+#   * "13 gitlinks are all declared", "...are not declared", "Thirteen gitlinks are declared", a
+#     linked or HTML-wrapped number, "13.5 gitlinks", "13 gitlinks (are declared)", "13 gitlinks, all
+#     declared", "13-gitlink fleet is declared", "~~declared~~", "==declared==", a quoted "declared",
+#     "13 owned gitlinks are declared", "will be / got declared", "13 path-entries are declared":
+#     probe clause H3 (box hz, each line with a detected twin in box ht);
 #   * "declared: 14" (the number AFTER the word), "14 submodules declared" (noun between the number
 #     and "declared", no verb), number words ("fourteen declared") and a number wrapped onto the
 #     previous physical line before "declared": probe clause H (box hk);
@@ -97,8 +109,9 @@
 #   * "owned" figures are detected as figures but never compared with a real count (no honest
 #     source for an owned count in a bare tree): not pinned by a test, it is the absence of a
 #     clause (probe clause E states it);
-#   * a variant of the verb forms or adverbs not listed above (for example "are all declared"):
-#     not pinned; it is simply outside the grammar.
+#   * any phrasing that is neither in the grammar above nor in the H3 list is outside it and NOT
+#     pinned (a verifier can always invent another); the grammar is the specification, not a proof
+#     of completeness.
 # The same false-negative price is paid by a false positive of the same wording: it is
 # equally not reported.
 #
@@ -183,6 +196,15 @@
 # ledger surface is such a file, scripts/verify-claim-ledger.sh (which opens
 # every surface itself) is NOT run and every row is undetermined. The gate run
 # is bounded by `timeout -k 5 300`.
+#
+# ── ROUND 5 (2026-10-14) ── markup tolerance, "submodule paths", "14 declared (current)." ──────────
+# Re-measured on the live tree after round 5: rc 1, 298 findings (1 high, 294 medium, 3 low),
+# INSPECTED 679; the pre-round-5 script run on the SAME tree gives the same 298 findings, the same
+# INSPECTED and the same located items (diffed), so round 5 added recall on planted shapes and
+# changed no live count (the tree itself moved since the block below: README.md:462 is now the one
+# mismatch, "13 gitlinks are declared" against 22). Precision re-sampled at SAMPLE OFFSET 2 (the
+# 2nd, 27th, 52nd ... of the 294 medium findings in output order, 12 read with context): 9 true,
+# 3 false (exit/rc behaviour lines: CONTINUATION.md 4829, 5217, 9171) = 75 percent.
 #
 # ── MEASURED ON THE LIVE TREE (2026-10-12; first measured after the VSC-353 B1/B2 round, re-measured
 #    unchanged after round 4: case-insensitive comparison and the "have/has been", "are now" B1 forms) ───
@@ -581,9 +603,22 @@ prove_failure() {
         if anymm "$lab/out.g2"; then bad "G2b equal counts were reported as a mismatch" "$lab/out.g2"; else ok "G2b equal counts: no mismatch finding"; fi
     else bad "G2  inoperative mutation"; fi
     mklab g3 "$corp/clean"
-    if mutate g3 "$GM22; printf 'The fleet has 14 declared (historical).\n' >> README.md"; then
+    # G3 plants TWO lines: "14 declared (historical)." and "14 declared. (historical)". The comparison
+    # itself sees both (the parenthesis after "declared" does not hide the figure, and the sentence end
+    # of the second never did), so the silence is caused by the skip rule alone; G3m proves that by
+    # disabling the skip rule and requiring both lines to be reported.
+    if mutate g3 "$GM22; printf 'The fleet has 14 declared (historical).\n\nThe fleet has 14 declared. (historical)\n' >> README.md"; then
+        gl3=$(wc -l <"$lab/g3/README.md" | tr -d ' ')
         runc "$lab/out.g3" "$SELF" --root "$lab/g3" --corpus "$lab/g3"
         if anymm "$lab/out.g3"; then bad "G3  a (historical)-marked 14 declared was compared against .gitmodules" "$lab/out.g3"; else ok "G3  a (historical)-marked line is skipped BEFORE the comparison: no mismatch finding"; fi
+        mkdir -p "$lab/mut3"; cp "$gate" "$lab/mut3/"
+        sed 's/if m is None or SKIP[.]search(s)/if m is None/' "$SELF" >"$lab/mut3/zero-gap-class-$CLASS_ID.sh"
+        if cmp -s "$SELF" "$lab/mut3/zero-gap-class-$CLASS_ID.sh"; then bad "G3m inoperative mutation (the skip-rule anchor no longer matches)"
+        else
+            runc "$lab/out.g3m" "$lab/mut3/zero-gap-class-$CLASS_ID.sh" --root "$lab/g3" --corpus "$lab/g3"
+            if mmhit "$lab/out.g3m" "figure:README.md:$((gl3 - 2))" 14 22 && mmhit "$lab/out.g3m" "figure:README.md:$gl3" 14 22; then ok "G3m mutant with the skip rule disabled reports BOTH (historical) lines as mismatches: G3 detects that the skip rule is what keeps them silent"
+            else bad "G3m the skip-rule-disabled mutant did not report both lines (G3's silence is not caused by the skip rule)" "$lab/out.g3m"; fi
+        fi
     else bad "G3  inoperative mutation"; fi
     mklab g4 "$corp/clean"
     if mutate g4 "printf 'The fleet has 14 declared.\n' >> README.md"; then
@@ -732,8 +767,8 @@ prove_failure() {
     for m in mut25 mut26 mut27 mut28; do cp "$gate" "$lab/$m/"; done
     sed '/^DECLARED_RE = /s/, re[.]I)$/)/' "$SELF" >"$lab/mut25/zero-gap-class-$CLASS_ID.sh"
     sed '/^DECLARED_ARE_RE = /s/, re[.]I)$/)/' "$SELF" >"$lab/mut26/zero-gap-class-$CLASS_ID.sh"
-    sed 's/|(?:has|have)\\s+been//' "$SELF" >"$lab/mut27/zero-gap-class-$CLASS_ID.sh"
-    sed 's/(?:\\s+now)?//' "$SELF" >"$lab/mut28/zero-gap-class-$CLASS_ID.sh"
+    sed 's/|(?:has|have)'"'"' + SEP + r'"'"'been//' "$SELF" >"$lab/mut27/zero-gap-class-$CLASS_ID.sh"
+    sed 's/(?:'"'"' + SEP + r'"'"'now)?//' "$SELF" >"$lab/mut28/zero-gap-class-$CLASS_ID.sh"
     if cmp -s "$SELF" "$lab/mut25/zero-gap-class-$CLASS_ID.sh" || cmp -s "$SELF" "$lab/mut26/zero-gap-class-$CLASS_ID.sh" || cmp -s "$SELF" "$lab/mut27/zero-gap-class-$CLASS_ID.sh" || cmp -s "$SELF" "$lab/mut28/zero-gap-class-$CLASS_ID.sh"; then bad "G25-G28 inoperative mutation (a sed anchor no longer matches)"
     else
         runc "$lab/out.g25" "$lab/mut25/zero-gap-class-$CLASS_ID.sh" --root "$lab/g19" --corpus "$lab/g19"
@@ -750,8 +785,73 @@ prove_failure() {
         else ok "G28 mutant without the 'now' verb form loses the G23 finding: G23 detects it"; fi
     fi
 
+    # G29-G37 — VSC-353 round 5: markdown markup around the number, the verb and "declared"; the compound
+    #     noun "submodule paths"; a parenthesis after "declared" that is not a historical marker. Each planted
+    #     box has an equal-count (22) control box with the SAME lines, and paired mutants that lose the findings.
+    #     ml_lines <name> <line>...: write each line as its own paragraph (first one at n0+2).
+    ml_lines() { local f="$lab/ml.$1"; shift; : >"$f"; for _l in "$@"; do printf '\n%s\n' "$_l" >>"$f"; done; }
+    mlhits() { # mlhits <out> <n0> <claim> <k>...: how many of the lines n0+2k carry a mismatch finding naming <claim> and 22
+        local out=$1 n0=$2 cl=$3 h=0 k; shift 3
+        for k in "$@"; do mmhit "$out" "figure:README.md:$((n0 + 2 * k))" "$cl" 22 && h=$((h + 1)); done; echo "$h"
+    }
+    ml_lines g29 '13 gitlinks are **declared**' '13 gitlinks **are** declared' '13 gitlinks are _declared_.' '13 gitlinks `are declared`'
+    ml_lines g30 '22 gitlinks are **declared**' '22 gitlinks **are** declared' '22 gitlinks are _declared_.' '22 gitlinks `are declared`'
+    mklab g29 "$corp/clean"; n29=$(wc -l <"$lab/g29/README.md" | tr -d ' ')
+    if mutate g29 "$GM22; cat \"$lab/ml.g29\" >> README.md"; then
+        runc "$lab/out.g29" "$SELF" --root "$lab/g29" --corpus "$lab/g29"
+        h=$(mlhits "$lab/out.g29" "$n29" 13 1 2 3 4)
+        if [ "$h" = 4 ]; then ok "G29 markup around the verb / 'declared' (**declared**, **are**, _declared_., \`are declared\`) vs 22 paths: 4 of 4 findings name 13 and 22"
+        else bad "G29 markup shapes detected $h of 4 (need 4)" "$lab/out.g29"; fi
+    else bad "G29 inoperative mutation"; fi
+    mklab g30 "$corp/clean"
+    if mutate g30 "$GM22; cat \"$lab/ml.g30\" >> README.md"; then
+        runc "$lab/out.g30" "$SELF" --root "$lab/g30" --corpus "$lab/g30"
+        if anymm "$lab/out.g30"; then bad "G30 CONTROL: equal count (22) in the four markup shapes was reported as a mismatch" "$lab/out.g30"; else ok "G30 CONTROL: equal count (22 vs 22) in the four markup shapes is not a mismatch"; fi
+    else bad "G30 inoperative mutation"; fi
+    ml_lines g32 '_13_ gitlinks are declared' '13 submodule paths are declared' '14 declared (current).' '13 declared **(current)**' '13 declared **submodules**' '13 modules are _now_ declared'
+    ml_lines g33 '_22_ gitlinks are declared' '22 submodule paths are declared' '22 declared (current).' '22 declared **(current)**' '22 declared **submodules**' '22 modules are _now_ declared'
+    mklab g32 "$corp/clean"; n32=$(wc -l <"$lab/g32/README.md" | tr -d ' ')
+    if mutate g32 "$GM22; cat \"$lab/ml.g32\" >> README.md"; then
+        runc "$lab/out.g32" "$SELF" --root "$lab/g32" --corpus "$lab/g32"
+        h=$(( $(mlhits "$lab/out.g32" "$n32" 13 1 2 4 5 6) + $(mlhits "$lab/out.g32" "$n32" 14 3) ))
+        if [ "$h" = 6 ]; then ok "G32 _13_, 'submodule paths', '14 declared (current).', '**(current)**', '**submodules**', '_now_' vs 22 paths: 6 of 6 findings name both figures"
+        else bad "G32 shapes detected $h of 6 (need 6)" "$lab/out.g32"; fi
+    else bad "G32 inoperative mutation"; fi
+    mklab g33 "$corp/clean"
+    if mutate g33 "$GM22; cat \"$lab/ml.g33\" >> README.md"; then
+        runc "$lab/out.g33" "$SELF" --root "$lab/g33" --corpus "$lab/g33"
+        if anymm "$lab/out.g33"; then bad "G33 CONTROL: equal count (22) in the six shapes was reported as a mismatch" "$lab/out.g33"; else ok "G33 CONTROL: equal count (22 vs 22) in the six shapes is not a mismatch"; fi
+    else bad "G33 inoperative mutation"; fi
+    mkdir -p "$lab/mut31" "$lab/mut34" "$lab/mut35" "$lab/mut36" "$lab/mut37"
+    for m in mut31 mut34 mut35 mut36 mut37; do cp "$gate" "$lab/$m/"; done
+    sed 's/^SEP = .*/SEP = r"[ ]+"/' "$SELF" >"$lab/mut31/zero-gap-class-$CLASS_ID.sh"
+    sed 's/^NUMLB = .*/NUMLB = r"\\b"/' "$SELF" >"$lab/mut34/zero-gap-class-$CLASS_ID.sh"
+    sed 's/^FLEET_NP = .*/FLEET_NP = FLEET_NOUN/' "$SELF" >"$lab/mut35/zero-gap-class-$CLASS_ID.sh"
+    sed 's/^DECL_PAREN = .*/DECL_PAREN = r"(?!)"/' "$SELF" >"$lab/mut36/zero-gap-class-$CLASS_ID.sh"
+    sed 's/^MK = .*/MK = r""/' "$SELF" >"$lab/mut37/zero-gap-class-$CLASS_ID.sh"
+    if cmp -s "$SELF" "$lab/mut31/zero-gap-class-$CLASS_ID.sh" || cmp -s "$SELF" "$lab/mut34/zero-gap-class-$CLASS_ID.sh" || cmp -s "$SELF" "$lab/mut35/zero-gap-class-$CLASS_ID.sh" || cmp -s "$SELF" "$lab/mut36/zero-gap-class-$CLASS_ID.sh" || cmp -s "$SELF" "$lab/mut37/zero-gap-class-$CLASS_ID.sh"; then bad "G31-G37 inoperative mutation (a sed anchor no longer matches)"
+    else
+        runc "$lab/out.g31" "$lab/mut31/zero-gap-class-$CLASS_ID.sh" --root "$lab/g29" --corpus "$lab/g29"
+        h=$(mlhits "$lab/out.g31" "$n29" 13 1 2 3 4)
+        if [ "$h" = 0 ]; then ok "G31 mutant without markup tolerance in the word separator loses all 4 G29 findings: G29 detects it"
+        else bad "G31 the no-markup-separator mutant still reported $h of the 4 G29 lines" "$lab/out.g31"; fi
+        runc "$lab/out.g34" "$lab/mut34/zero-gap-class-$CLASS_ID.sh" --root "$lab/g32" --corpus "$lab/g32"
+        if mmhit "$lab/out.g34" "figure:README.md:$((n32 + 2))" 13 22; then bad "G34 the plain-\\b mutant still reported '_13_ gitlinks are declared' (G32 would not catch it)" "$lab/out.g34"
+        else ok "G34 mutant with a plain word boundary before the number loses the '_13_' finding: G32 detects it"; fi
+        runc "$lab/out.g35" "$lab/mut35/zero-gap-class-$CLASS_ID.sh" --root "$lab/g32" --corpus "$lab/g32"
+        if mmhit "$lab/out.g35" "figure:README.md:$((n32 + 4))" 13 22; then bad "G35 the single-noun mutant still reported '13 submodule paths are declared' (G32 would not catch it)" "$lab/out.g35"
+        else ok "G35 mutant without the compound noun loses the 'submodule paths' finding: G32 detects it"; fi
+        runc "$lab/out.g36" "$lab/mut36/zero-gap-class-$CLASS_ID.sh" --root "$lab/g32" --corpus "$lab/g32"
+        if mmhit "$lab/out.g36" "figure:README.md:$((n32 + 6))" 14 22; then bad "G36 the no-parenthesis mutant still reported '14 declared (current).' (G32 would not catch it)" "$lab/out.g36"
+        else ok "G36 mutant without the parenthesis after 'declared' loses the '14 declared (current).' finding: G32 detects it"; fi
+        runc "$lab/out.g37" "$lab/mut37/zero-gap-class-$CLASS_ID.sh" --root "$lab/g29" --corpus "$lab/g29"
+        h=$(mlhits "$lab/out.g37" "$n29" 13 1 2 3 4)
+        if [ "$h" = 0 ]; then ok "G37 mutant with markup tolerance removed everywhere loses all 4 G29 findings: G29 detects it"
+        else bad "G37 the no-markup mutant still reported $h of the 4 G29 lines" "$lab/out.g37"; fi
+    fi
+
     fp1=$(live_fp)
-    if [ "$fp0" = "$fp1" ]; then ok "L1 the live corpus, this script and the ledger gate are byte-identical after the battery"
+    if [ "$fp0" = "$fp1" ]; then ok "L1the live corpus, this script and the ledger gate are byte-identical after the battery"
     else bad "L1  the live files moved during the battery"; fi
     printf '\n== %d passed / %d failed ==\n' "$passed" "$failed"
     [ "$failed" -eq 0 ]
@@ -825,20 +925,33 @@ def captioned(ls, i):
 
 MK = r'[*`_]*'
 NUM = r'[0-9][0-9,]*'
-# A hex id (a commit/blob sha) is NOT a figure (reconcile 5): a line whose only number-like
-# token is a hex id is not in the population. `bytes` and the exit/rc shape are (review RULING 2).
+# VSC-353 round 5 — markdown markup tolerance. MK is the markup run: any number of the three characters
+# * ` _ (so "**", "__", "`", "_" and mixtures). SEP is the separator between two words of a shape: markup,
+# whitespace, markup, so "gitlinks **are** declared", "are _declared_" and "`are declared`" are one shape
+# with "gitlinks are declared". Where markup is tolerated (ONLY these places): around the number
+# ("**13**", "_13_"), between any two words of a shape (SEP), after the last word, and before the closing
+# punctuation / parenthesis of "<n> declared". NUMLB is the number's left boundary: not after a letter or
+# digit (so "_13_" qualifies, unlike \b, because "_" is a word character) and not the fraction of a decimal
+# ("13.5 gitlinks" is not a claim of 5).
+SEP = MK + r'\s+' + MK
+NUMLB = r'(?<![A-Za-z0-9])(?<![0-9]\.)'
+# A hex id (a commit/blob sha) is NOT a figure (reconcile 5): a line whose only number-like token is a hex id is not in the population. `bytes` and the exit/rc shape are (review RULING 2).
 FLEET_NOUN = r'(?:submodules?|gitlinks?|modules?|repos?|repositories|paths?)'
-# VSC-353 round 4: the verb forms of B1 ("are declared", "were now declared", "have been declared").
-DECL_VERB = r'(?:(?:is|are|was|were)(?:\s+now)?|(?:has|have)\s+been)'
+# a fleet noun, optionally a second one ("submodule paths", "gitlink paths")
+FLEET_NP = FLEET_NOUN + r'(?:' + SEP + FLEET_NOUN + r')?'
+# VSC-353 round 4/5: the verb forms of B1 ("are declared", "were now declared", "have been declared"), markup tolerant.
+DECL_VERB = r'(?:(?:is|are|was|were)(?:' + SEP + r'now)?|(?:has|have)' + SEP + r'been)'
+# B1 = "<n> <fleet noun> <verb> declared": the ONE pattern behind both the figure-population shape and the comparison.
+B1_SRC = NUMLB + r'(' + NUM + r')' + SEP + FLEET_NP + MK + SEP + DECL_VERB + SEP + r'declared(?![A-Za-z0-9])'
 RC = r'\b(?:exit(?:s|ed)?|rc)' + MK + r'(?:\s+|\s*=\s*)' + MK + r'[0-9]+\b'
 SHAPES = [
-    re.compile(r'\b' + NUM + MK + r'\s+' + MK + r'(?:files?|tests?|gates?|scripts?|anchors?|lines?|commits?|items?|rows?|checks?|submodules?|bytes?|(?i:declared)|owned|PASS|FAIL|CURRENT|DRIFT)\b'),
+    re.compile(r'(?<![A-Za-z0-9])' + NUM + MK + r'\s+' + MK + r'(?:(?:files?|tests?|gates?|scripts?|anchors?|lines?|commits?|items?|rows?|checks?|submodules?|bytes?|owned|PASS|FAIL|CURRENT|DRIFT)\b|(?i:declared)(?![A-Za-z0-9]))'),
     re.compile(r'\b' + NUM + MK + r'\s+of\s+' + MK + NUM + r'\b'),
     re.compile(r'\b[0-9]+/[0-9]+\b'),
     re.compile(RC, re.I),
     # VSC-353 B1 (appended LAST: code indexes SHAPES[3] as the exit/rc shape and SHAPES[:3] as the rest):
     # "<n> <fleet noun> (is|are|were) declared" ("13 gitlinks are declared") is a figure line.
-    re.compile(r'\b' + NUM + MK + r'\s+' + MK + FLEET_NOUN + MK + r'\s+' + DECL_VERB + r'\s+declared\b', re.I),
+    re.compile(B1_SRC, re.I),
 ]
 STRIKE = re.compile(r'~~.*?~~')
 SKIP = re.compile(r'\b(?:withdrawn|superseded|historical|obsolete)\b', re.I)
@@ -851,14 +964,19 @@ NEXT_WITHDRAWN = re.compile(r'^[\s>*_`(\[]*(?:that|this|the above|it|which|those
 # VSC-353: an exit-code MEANING line ("exit 0 = clean, exit 1 = finding"): every figure on it is an
 # exit/rc shape followed by "=", an arrow or "means". A measured status ("exits 0 at 12 CURRENT") has a
 # different tail and stays a figure; so does any line carrying a non-rc figure.
-RC_MEANING_TAIL = re.compile(r'^[*`_]*\s*(?:=|->|\u2192|means\b)')
+RC_MEANING_TAIL = re.compile(r'^[*`_]*\s*(?:=|->|→|means\b)')
 # VSC-353 clause B: "<n> declared" is compared with the number of paths .gitmodules declares.
-# Narrowed (2026-10-12): "declared" must be followed by end of line / closing punctuation / markup,
-# or by a fleet noun (submodule, gitlink, module, repo, repository, path), or "in total/all".
+# "declared" must be followed (markup allowed between) by end of line, closing punctuation, a parenthesis
+# (round 5: "14 declared (current)." is compared; a historical marker never gets here, the skip rule runs
+# before the comparison), or a fleet noun (submodule, gitlink, module, repo, repository, path),
+# "in total/all" or today/now/currently/so far.
 # "declared pairs", "declared members" etc. are not submodule counts and are not compared.
-DECLARED_RE = re.compile(r'\b(' + NUM + r')' + MK + r'\s+' + MK + r'declared\b(?=' + MK + r'\s*(?:$|[.,;:)\]*_`|—–]|\s(?:submodules?|gitlinks?|modules?|repos?|repositories|paths?|in\s+total|in\s+all|today|now|currently|so\s+far)\b))', re.I)
-# VSC-353 B1: "<n> <fleet noun> (is|are|were) declared" is compared with the same count.
-DECLARED_ARE_RE = re.compile(r'\b(' + NUM + r')' + MK + r'\s+' + MK + FLEET_NOUN + MK + r'\s+' + DECL_VERB + r'\s+declared\b', re.I)
+DECL_PAREN = r'\('
+DECL_PUNCT = r'[.,;:)\]*_`|—–]'
+DECL_NOUN = r'(?:submodules?|gitlinks?|modules?|repos?|repositories|paths?|in' + r'\s+total|in\s+all|today|now|currently|so\s+far)'
+DECLARED_RE = re.compile(NUMLB + r'(' + NUM + r')' + SEP + r'declared(?![A-Za-z0-9])(?=' + MK + r'(?:\s*' + MK + r'(?:$|' + DECL_PUNCT + r'|' + DECL_PAREN + r')|\s+' + MK + DECL_NOUN + r'(?![A-Za-z0-9])))', re.I)
+# VSC-353 B1: the same pattern as the figure-population shape, compared with the same count.
+DECLARED_ARE_RE = re.compile(B1_SRC, re.I)
 GITMODULES_REL = '.gitmodules'
 GM_PATH_RE = re.compile(r'^[ \t]*path[ \t]*=[ \t]*\S', re.M)
 AGG_MAX = 30        # an aggregate lists at most this many line numbers
