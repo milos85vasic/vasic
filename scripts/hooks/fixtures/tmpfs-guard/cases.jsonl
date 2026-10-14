@@ -1,0 +1,116 @@
+{"id": "rev-N01", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "S=/tmp/x; cp -a src $S"}
+{"id": "rev-N02", "expect": "B", "branch": "git-clone", "cwd": "-", "cmd": "D=$(mktemp -d) && git clone https://e/r.git \"$D\""}
+{"id": "rev-N03", "expect": "B", "branch": "git-clone", "cwd": "-", "cmd": "git clone https://e/r.git \"$(mktemp -d)\""}
+{"id": "rev-N04", "expect": "B", "branch": "git-clone", "cwd": "-", "cmd": "cd /tmp && git clone https://e/r.git"}
+{"id": "rev-N05", "expect": "B", "branch": "git-clone", "cwd": "-", "cmd": "pushd /tmp/x && git clone https://e/r.git"}
+{"id": "rev-N06", "expect": "B", "branch": "git-clone", "cwd": "-", "cmd": "git -C /tmp/x clone https://e/r.git"}
+{"id": "rev-N07", "expect": "L", "branch": "-", "cwd": "-", "cmd": "ln -s /tmp/x lnk && cp -a src lnk/", "limit": "destination reached through a symlink created earlier"}
+{"id": "rev-N08", "expect": "B", "branch": "dd", "cwd": "-", "cmd": "dd if=/dev/zero of=/tmp/big bs=1M count=4000"}
+{"id": "rev-N09", "expect": "B", "branch": "git-archive", "cwd": "-", "cmd": "git archive HEAD > /tmp/a.tar"}
+{"id": "rev-N10", "expect": "B", "branch": "tar-create", "cwd": "-", "cmd": "tar -cf - . > /tmp/a.tar"}
+{"id": "rev-N11", "expect": "B", "branch": "download", "cwd": "-", "cmd": "curl -L -o /tmp/model.gguf https://e/m.gguf"}
+{"id": "rev-N12", "expect": "B", "branch": "download", "cwd": "-", "cmd": "wget -P /tmp https://e/m.gguf"}
+{"id": "rev-N13", "expect": "L", "branch": "-", "cwd": "-", "cmd": "python3 -c \"import shutil; shutil.copytree('src','/tmp/x')\"", "limit": "copy performed inside an interpreter (python shutil.copytree)"}
+{"id": "rev-N14", "expect": "B", "branch": "container-image", "cwd": "-", "cmd": "podman cp ctr:/data /tmp/x"}
+{"id": "rev-N15", "expect": "B", "branch": "container-image", "cwd": "-", "cmd": "podman save -o /tmp/img.tar img"}
+{"id": "rev-N16", "expect": "B", "branch": "zip", "cwd": "-", "cmd": "zip -r /tmp/a.zip dir"}
+{"id": "rev-N17", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "cp --reflink=auto -r src /tmp/x"}
+{"id": "rev-N18", "expect": "B", "branch": "mv-into-tmpfs", "cwd": "-", "cmd": "mv ~/Projects/big /tmp/big"}
+{"id": "rev-N19", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "/bin/cp -a src /tmp/x"}
+{"id": "rev-N20", "expect": "B", "branch": "git-clone", "cwd": "-", "cmd": "/usr/bin/git clone https://e/r.git /tmp/x"}
+{"id": "rev-N21", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "~/.local/bin/bounded-run -m 3G -T 280 -- cp -a src /tmp/x"}
+{"id": "rev-N22", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "bash scripts/agent-admit.sh --tag x -- cp -a src /tmp/x"}
+{"id": "rev-N23", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "bash -lc 'cp -a src /tmp/x'"}
+{"id": "rev-N24", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "bash <<'EOF'\ncp -a src /tmp/x\nEOF"}
+{"id": "rev-N25", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "tr a b <<< hello\ncp -a src /tmp/x"}
+{"id": "rev-N26", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "echo $((1<<N))\ncp -a src /tmp/x"}
+{"id": "rev-N27", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "cp -a src \"${TMPDIR:-/tmp}/x\""}
+{"id": "rev-N28", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "cp -a src \"$TMPDIR/x\""}
+{"id": "rev-N29", "expect": "B", "branch": "git-clone", "cwd": "-", "cmd": "git clone --revision v1 https://e/r.git /tmp/x"}
+{"id": "rev-N30", "expect": "B", "branch": "git-clone", "cwd": "-", "cmd": "git clone --ref-format files https://e/r.git /tmp/x"}
+{"id": "rev-N31", "expect": "B", "branch": "git-tmpfs-repo", "cwd": "-", "cmd": "git --work-tree=/tmp/x checkout HEAD -- ."}
+{"id": "rev-N32", "expect": "B", "branch": "git-tmpfs-repo", "cwd": "-", "cmd": "git -C /tmp/x fetch ~/Projects/vasic"}
+{"id": "rev-N33", "expect": "B", "branch": "7z", "cwd": "-", "cmd": "7z x a.7z -o/tmp/x"}
+{"id": "rev-N34", "expect": "B", "branch": "rsync", "cwd": "-", "cmd": "rsync -a src/ /run/user/1000/x/"}
+{"id": "rev-N35", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "cp -a src /dev/shm/x"}
+{"id": "rev-N36", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "find . -name x -exec cp -r {} /tmp/x \\;"}
+{"id": "rev-N37", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "taskset -c 0 cp -a src /tmp/x"}
+{"id": "rev-N38", "expect": "B", "branch": "rsync", "cwd": "-", "cmd": "stdbuf -oL rsync -a src /tmp/x"}
+{"id": "rev-N39", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "setsid cp -a src /tmp/x"}
+{"id": "rev-N40", "expect": "B", "branch": "unzip", "cwd": "-", "cmd": "unzip -ov a.zip -d /tmp/x"}
+{"id": "rev-N41", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "cp -a src ~/../../tmp/x"}
+{"id": "rev-N42", "expect": "B", "branch": "git-bundle-create", "cwd": "-", "cmd": "git bundle create - --all > /tmp/b.bundle"}
+{"id": "rev-N43", "expect": "B", "branch": "tar-extract", "cwd": "-", "cmd": "tar -x -C /tmp -f a.tar"}
+{"id": "rev-N44", "expect": "B", "branch": "tar-extract", "cwd": "-", "cmd": "tar -C /tmp/x -xzf a.tgz"}
+{"id": "rev-N45", "expect": "B", "branch": "tar-extract", "cwd": "-", "cmd": "tar xf a.tar -C/tmp/x"}
+{"id": "rev-N46", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "cd /tmp/x; cp -r ~/Projects/vasic ."}
+{"id": "rev-N47", "expect": "B", "branch": "git-worktree-add", "cwd": "-", "cmd": "git worktree add --detach /tmp/wt"}
+{"id": "rev-N48", "expect": "B", "branch": "git-clone", "cwd": "-", "cmd": "git clone --bare https://e/r.git /tmp/x.git"}
+{"id": "rev-N49", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "cp -a src -- /tmp/x"}
+{"id": "rev-N50", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "AGENT_TMPFS_OK='short' cp -a src /tmp/x"}
+{"id": "rev-N51", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "export AGENT_TMPFS_OK='a long enough reason'; cp -a src /tmp/x"}
+{"id": "rev-N52", "expect": "B", "branch": "git-clone", "cwd": "-", "cmd": "(cd /tmp && git clone https://e/r.git)"}
+{"id": "rev-N53", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "xargs -I {} cp -a {} /tmp/y"}
+{"id": "rev-N54", "expect": "B", "branch": "rsync", "cwd": "-", "cmd": "rsync -a src/ //tmp/x/"}
+{"id": "rev-N55", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "cp -a src /home/../tmp/x"}
+{"id": "rev-N56", "expect": "B", "branch": "git-clone", "cwd": "-", "cmd": "git clone https://e/r.git /tmp/a /tmp/b"}
+{"id": "rev-N57", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "sh -ec 'cp -a src /tmp/x'"}
+{"id": "rev-N58", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "git clone https://e/r.git &&\\\ncp -a src /tmp/x"}
+{"id": "rev-N59", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "cp -a src\\\n /tmp/x"}
+{"id": "rev-OVR", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "AGENT_TMPFS_OK='xxxxxxxxxx' cp -a src /tmp/x"}
+{"id": "rev-G01", "expect": "A", "branch": "-", "cwd": "-", "cmd": "git clone https://e/r.git /home/milosvasic/tmp/x"}
+{"id": "rev-G02", "expect": "A", "branch": "-", "cwd": "-", "cmd": "cp -r a /tmpfoo/x"}
+{"id": "rev-G03", "expect": "A", "branch": "-", "cwd": "-", "cmd": "curl -sL https://e/a.tgz | tar -x -C /home/milosvasic/x"}
+{"id": "rev-G04", "expect": "A", "branch": "-", "cwd": "/home/milosvasic/Projects", "cmd": "tar -xf -"}
+{"id": "rev-G05", "expect": "A", "branch": "-", "cwd": "/home/milosvasic/Projects", "cmd": "git worktree add ../wt-x HEAD"}
+{"id": "rev-G06", "expect": "A", "branch": "-", "cwd": "-", "cmd": "git commit -m \"cp -a x /tmp/y and git clone r /tmp/z\""}
+{"id": "rev-G07", "expect": "A", "branch": "-", "cwd": "-", "cmd": "grep -rn 'cp -a /tmp' docs/"}
+{"id": "rev-G08", "expect": "A", "branch": "-", "cwd": "-", "cmd": "echo \"rsync -a a /tmp/b\" >> notes.md"}
+{"id": "rev-G09", "expect": "A", "branch": "-", "cwd": "-", "cmd": "cat > s.sh <<'EOF'\ncp -a big /tmp/x\nEOF"}
+{"id": "rev-G10", "expect": "A", "branch": "-", "cwd": "-", "cmd": "cp -r /tmp/x ~/y"}
+{"id": "rev-G11", "expect": "A", "branch": "-", "cwd": "-", "cmd": "rsync -a /tmp/x/ ~/y/"}
+{"id": "rev-G12", "expect": "A", "branch": "-", "cwd": "/home/milosvasic/Projects", "cmd": "(cd /tmp && ls); cp -r a b"}
+{"id": "rev-G13", "expect": "A", "branch": "-", "cwd": "-", "cmd": "cp /tmp/a.txt /tmp/b.txt"}
+{"id": "rev-G14", "expect": "A", "branch": "-", "cwd": "/home/milosvasic/Projects", "cmd": "git clone https://e/r.git ~/Projects/r"}
+{"id": "rev-G15", "expect": "A", "branch": "-", "cwd": "-", "cmd": "tar -tzf /tmp/a.tgz"}
+{"id": "rev-G16", "expect": "A", "branch": "-", "cwd": "-", "cmd": "unzip -p a.zip f > /tmp/f"}
+{"id": "rev-G17", "expect": "A", "branch": "-", "cwd": "-", "cmd": "printf 'cp -a a /tmp/b\\n' | wc -l"}
+{"id": "rev-G18", "expect": "A", "branch": "-", "cwd": "-", "cmd": "go build -o /tmp/tool ./cmd/tool"}
+{"id": "rev-G19", "expect": "A", "branch": "-", "cwd": "/tmp/claude-1000/-home-x/abc/scratchpad", "cmd": "cp -r small-fixture copy"}
+{"id": "rev-G20", "expect": "A", "branch": "-", "cwd": "/home/milosvasic/Projects", "cmd": "git clone https://e/r.git tmp/x"}
+{"id": "rev-G21", "expect": "A", "branch": "-", "cwd": "-", "cmd": "git commit -F - <<'EOF'\nfix: never cp -a repo /tmp/x\nEOF"}
+{"id": "rev-G22", "expect": "A", "branch": "-", "cwd": "-", "cmd": "cp -al ~/Projects/vasic/.git ~/.cache/agent-scratch/s/vasic.git.mirror"}
+{"id": "rev-G23", "expect": "A", "branch": "-", "cwd": "/home/milosvasic/Projects", "cmd": "cd /tmp/x && cd - && cp -r a b"}
+{"id": "rev-R01", "expect": "B", "branch": "cat:force-push-any-spelling", "cwd": "-", "cmd": "FOO='a b' git push -f origin main"}
+{"id": "rev-R02", "expect": "B", "branch": "cat:force-push-any-spelling", "cwd": "-", "cmd": "FOO=\"a b\" git push origin +main"}
+{"id": "rev-R03", "expect": "B", "branch": "cat:force-with-lease", "cwd": "-", "cmd": "FOO='a b' git push --force-with-lease"}
+{"id": "rev-R04", "expect": "B", "branch": "cat:add-all", "cwd": "-", "cmd": "FOO='a b' git add -A"}
+{"id": "rev-R05", "expect": "B", "branch": "cat:add-all", "cwd": "-", "cmd": "FOO='x' BAR=\"y z\" git add -A"}
+{"id": "rev-R06", "expect": "B", "branch": "cat:add-all", "cwd": "-", "cmd": "/usr/bin/git add -A"}
+{"id": "rev-R07", "expect": "B", "branch": "cat:no-verify", "cwd": "-", "cmd": "git push --no-verify"}
+{"id": "rev-R08", "expect": "B", "branch": "cat:add-all", "cwd": "-", "cmd": "bash -lc 'git add -A'"}
+{"id": "rev-R09", "expect": "B", "branch": "cat:add-all", "cwd": "-", "cmd": "FOO=a\\ b git add -A"}
+{"id": "rev-R10", "expect": "B", "branch": "cat:force-push-any-spelling", "cwd": "-", "cmd": "FOO=a\\ b git push -f origin main"}
+{"id": "rev-R11", "expect": "B", "branch": "cat:force-push-any-spelling", "cwd": "-", "cmd": "git push origin main -f"}
+{"id": "rev-R12", "expect": "B", "branch": "cat:add-all", "cwd": "-", "cmd": "FOO=$'a b' git add -A"}
+{"id": "rev-R13", "expect": "B", "branch": "cat:add-all", "cwd": "-", "cmd": "git add -A # cp -a x /tmp/y"}
+{"id": "rev-R14", "expect": "B", "branch": "cat:add-all", "cwd": "-", "cmd": "tr a b <<< hello\ngit add -A"}
+{"id": "rev-R15", "expect": "B", "branch": "cat:force-push", "cwd": "-", "cmd": "git push --force"}
+{"id": "rev-R16", "expect": "B", "branch": "cat:privilege-escalation", "cwd": "-", "cmd": "sudo true"}
+{"id": "rev-R17", "expect": "B", "branch": "cat:no-verify", "cwd": "-", "cmd": "git commit --no-verify -m x"}
+{"id": "rev-L01", "expect": "B", "branch": "git-clone", "cwd": "-", "cmd": "cd ~/Projects/vasic && \\\n  git clone https://e/r.git /tmp/x"}
+{"id": "rev-L02", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "true && \\\n  cp -a src /tmp/x"}
+{"id": "rev-L03", "expect": "B", "branch": "rsync", "cwd": "-", "cmd": "rsync -a \\\n  src/ /tmp/x/"}
+{"id": "rev-F01", "expect": "B", "branch": "git-clone", "cwd": "-", "cmd": "for r in a b; do git clone https://e/$r /tmp/$r; done"}
+{"id": "rev-F02", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "if true; then cp -a src /tmp/x; fi"}
+{"id": "rev-F03", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "{ cp -a src /tmp/x; }"}
+{"id": "rev-F04", "expect": "B", "branch": "rsync", "cwd": "-", "cmd": "while read r; do rsync -a \"$r\" /tmp/y/; done < list"}
+{"id": "rev-F05", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "! cp -a src /tmp/x"}
+{"id": "rev-F06", "expect": "B", "branch": "cat:add-all", "cwd": "-", "cmd": "for f in a; do git add -A; done"}
+{"id": "rev-F07", "expect": "B", "branch": "cat:force-push-any-spelling", "cwd": "-", "cmd": "if true; then git push -f origin main; fi"}
+{"id": "rev-F08", "expect": "B", "branch": "cat:add-all", "cwd": "-", "cmd": "{ git add -A; }"}
+{"id": "rev-F09", "expect": "B", "branch": "cat:add-all", "cwd": "-", "cmd": "true && \\\n  git add -A"}
+{"id": "rev-F10", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "case x in x) cp -a src /tmp/x;; esac"}
+{"id": "own-B01", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "-", "cmd": "/usr/bin/pkill -f workshop-server"}
+{"id": "own-B02", "expect": "B", "branch": "cat:host-reboot", "cwd": "-", "cmd": "/usr/sbin/reboot"}
+{"id": "own-G01", "expect": "A", "branch": "-", "cwd": "/home/milosvasic/Projects", "cmd": "(cd /tmp && ls); cp -r /home/milosvasic/Projects/x b"}

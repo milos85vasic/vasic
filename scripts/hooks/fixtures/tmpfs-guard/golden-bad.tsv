@@ -21,7 +21,6 @@ cp-recursive	-	FOO=1 cp -a x /tmp/y 2>/dev/null
 cp-recursive	-	bounded-run -m 3G -T 280 -- cp -a a /tmp/b
 cp-recursive	-	bash -c 'cp -a a /tmp/b'
 cp-recursive	-	AGENT_TMPFS_OK=x cp -a a /tmp/b
-cp-recursive	/tmp/claude-1000/-home-x/abc/scratchpad	cp -r a b
 rsync	-	rsync -a /home/milosvasic/Projects/vasic/ /tmp/vasic-copy/
 rsync	-	rsync -av --exclude .git -e ssh src /tmp/x
 rsync	-	nohup rsync -a a /tmp/b
@@ -31,3 +30,6 @@ tar-extract	-	tar --extract --file=a.tar --directory=/tmp/a
 tar-extract	-	cd /tmp && tar -xf /home/milosvasic/a.tar
 tar-create	-	tar -czf /tmp/release.tgz dist/
 unzip	-	unzip a.zip -d /tmp/u
+rsync	-	rsync -a src/ //tmp/x/
+cp-recursive	-	cp -a src /home/../tmp/x
+cp-recursive	/tmp/claude-1000/-home-x/abc/scratchpad	cp -r /home/milosvasic/Projects/vasic copy

@@ -19,3 +19,5 @@ worktree-list	-	git worktree list
 mkdir-tmp	-	mkdir -p /tmp/x
 cp-recursive-disk-cwd	/home/milosvasic/Projects	cp -r a b
 cp-recursive-disk-dest-var	-	cp -a src "$S/backup"
+# 2026-10-14 review decision: refuse only when DISK data enters tmpfs; a tmpfs -> tmpfs copy inside the harness scratchpad is allowed
+tmpfs-to-tmpfs	/tmp/claude-1000/-home-x/abc/scratchpad	cp -r a b
