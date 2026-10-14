@@ -28,3 +28,5 @@ Authority: these are the operator's own answers in this session (counts/ids only
 | 22 | Workshop material downloads | keep for signed-in users; audit what is served |
 | 23 | source_ref.path in API | redact centrally at serialisation; adapt UI labels |
 | 24 | Releases | prepare locally; GitLab releases now; GitHub after operator `gh auth login` |
+| 25 | Workshop passage contract: §4.2 `ingest_run` stamp vs §8.1-I3 byte-identical output | amend I3 so idempotency is defined over content fields (ingest_run excluded); keep the audit stamp (operator: "go with recommended options", after plain-terms explanation) |
+| 26 | `workshop/pipeline/run_audit.sh` flagged by the umbrella name rule | teach the umbrella check to honour submodule-registry exemptions (test-first, paired mutation); no blanket allow |
