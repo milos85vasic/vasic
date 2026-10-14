@@ -361,7 +361,7 @@ measured_cell() {
             fi ;;
         esac
     fi
-    case "${mdirty:-?}" in 1) note="measured on a DIRTY working tree (allowed by --allow-dirty-evidence)" ;; \?) note="dirty state UNKNOWN: legacy evidence sealed after measurement" ;; esac
+    case "${mdirty:-?}" in 1) note="measured on a DIRTY working tree" ;; \?) note="dirty state UNKNOWN: legacy evidence sealed after measurement" ;; esac
     case "$st" in
         check|check-red)
             IFS=$'\t' read -r cs rf < <(red_or_check "${cases:-0}" "${failed:-0}" "${rc:-0}" "$ev")
@@ -371,7 +371,7 @@ measured_cell() {
                     if [ "${mdirty:-?}" = "1" ] && [ "$ALLOW_DIRTY" != "1" ]; then
                         printf 'gap:evidence-dirty\t-\tevidence-dirty: measured on a DIRTY working tree: not fully trusted; re-measure from a clean checkout (or pass --allow-dirty-evidence)\n'; return 0
                     fi
-                    printf 'check\t%s\tfailed=0 rc=0 cases=%s%s\n' "$rf" "$cases" "${note:+; $note}" ;;
+                    printf 'check\t%s\tfailed=0 rc=0 cases=%s%s\n' "$rf" "$cases" "${note:+; $note}${note:+$([ "${mdirty:-?}" = 1 ] && printf ' (allowed by --allow-dirty-evidence)')}" ;;
                 gap) printf 'gap\t-\tinvocation executed zero cases\n' ;;
                 check-red-zero) printf 'check-red\t%s\tzero cases ran and rc=%s: a build/compile defect or an unexplained failure stopped every case (see evidence); applied, not proven%s\n' "$ev" "$rc" "${note:+; $note}" ;;
                 *)
