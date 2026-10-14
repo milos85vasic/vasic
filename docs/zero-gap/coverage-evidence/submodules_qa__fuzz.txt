@@ -1,75 +1,84 @@
-subject=submodules/qa kind=fuzz status=could-not-run:go-build:goproxy-off cases=38 failed=0 rc=1
-head=755f8327810b4f598048ab0d6a4db8178396fca9 tree=1de87a4f4cc95b5047a4a6215f8674e663fa157473aaf39d5b6fe0492daae69a ts=2026-10-12T13:27:58Z limit=240
+subject=submodules/qa kind=fuzz status=check-red cases=38 failed=0 rc=1
+head=a92ff635676c5f04deb556581bf5365b4d901edc tree=e32aff670f28e6d2055a5f7f00a49d9453ea215f1f5b23e3658f321cd6a4fe4f ts=2026-10-12T14:28:57Z limit=240 dirty=1 dirtydigest=287acd6f7629
 cmd=go test -count=1 -json -run ^Fuzz ./...
-environment build failure, not a test failure; cases = passing cases of the packages that did run
+recorded: status=check-red cases=38 failed=0 rc=1
+dirty-paths (26; first 20 shown): AGENTS.md, CLAUDE.md, CONTINUATION.md, GEMINI.md, QWEN.md, README.md, docs/zero-gap/cell-notes.tsv, docs/zero-gap/checks/VSC-352.probe.sh, docs/zero-gap/coverage-evidence/ai_interviewing__unit.txt, docs/zero-gap/coverage-evidence/root__contract.txt, docs/zero-gap/coverage-evidence/root__determinism.txt, docs/zero-gap/coverage-evidence/root__export-validation.txt, docs/zero-gap/coverage-evidence/root__fuzz.txt, docs/zero-gap/coverage-evidence/root__integration.txt, docs/zero-gap/coverage-evidence/root__provider-ci.txt, docs/zero-gap/coverage-evidence/root__umbrella-mutation.txt, docs/zero-gap/coverage-evidence/root__vsc375-runtime-probe.txt, docs/zero-gap/coverage-evidence/submodules_qa__e2e.txt, docs/zero-gap/coverage-evidence/workshop__unit.txt, docs/zero-gap/coverage-measured.tsv
 seed-corpus execution; passed=38 failed=0
 build-failure-causes=goproxy-off
-unbuilt-packages (16):
-  digital.vasic.helixqa/cmd/helixqa-verify-mcp-gateway
-  digital.vasic.helixqa/internal/visionserver
-  digital.vasic.helixqa/pkg/distributed
-  digital.vasic.helixqa/pkg/nexus/orchestrator
-  digital.vasic.helixqa/pkg/streaming
-  digital.vasic.helixqa/pkg/vision/cheaper
-  digital.vasic.helixqa/pkg/vision/cheaper/adapters/glm4v
-  digital.vasic.helixqa/pkg/vision/cheaper/adapters/omniparser
-  digital.vasic.helixqa/pkg/vision/cheaper/adapters/qwen25vl
-  digital.vasic.helixqa/pkg/vision/cheaper/adapters/showui
-  digital.vasic.helixqa/pkg/vision/cheaper/adapters/uitars
-  digital.vasic.helixqa/pkg/vision/cheaper/cache
-  digital.vasic.helixqa/pkg/vision/cheaper/learning
-  digital.vasic.helixqa/pkg/vision/cheaper/memory
-  digital.vasic.helixqa/pkg/vision/cheaper/wire
-  digital.vasic.helixqa/tests/e2e
+compile-error=yes (a build error that is not an environment cause)
+unbuilt-packages (18):
+  digital.vasic.helixqa/cmd/helixqa-verify-mcp-gateway [goproxy-off]
+  digital.vasic.helixqa/internal/visionserver [goproxy-off]
+  digital.vasic.helixqa/pkg/distributed [goproxy-off]
+  digital.vasic.helixqa/pkg/llm [DEFECT:compile-error]
+  digital.vasic.helixqa/pkg/nexus/orchestrator [goproxy-off]
+  digital.vasic.helixqa/pkg/streaming [goproxy-off]
+  digital.vasic.helixqa/pkg/testbank [DEFECT:compile-error]
+  digital.vasic.helixqa/pkg/vision/cheaper [goproxy-off]
+  digital.vasic.helixqa/pkg/vision/cheaper/adapters/glm4v [goproxy-off]
+  digital.vasic.helixqa/pkg/vision/cheaper/adapters/omniparser [goproxy-off]
+  digital.vasic.helixqa/pkg/vision/cheaper/adapters/qwen25vl [goproxy-off]
+  digital.vasic.helixqa/pkg/vision/cheaper/adapters/showui [goproxy-off]
+  digital.vasic.helixqa/pkg/vision/cheaper/adapters/uitars [goproxy-off]
+  digital.vasic.helixqa/pkg/vision/cheaper/cache [goproxy-off]
+  digital.vasic.helixqa/pkg/vision/cheaper/learning [goproxy-off]
+  digital.vasic.helixqa/pkg/vision/cheaper/memory [goproxy-off]
+  digital.vasic.helixqa/pkg/vision/cheaper/wire [goproxy-off]
+  digital.vasic.helixqa/tests/e2e [goproxy-off]
+package-counts (4 packages):
+  digital.vasic.helixqa/pkg/nexus/agent pass=5 fail=0 skip=0
+  digital.vasic.helixqa/pkg/nexus/browser pass=22 fail=0 skip=0
+  digital.vasic.helixqa/pkg/nexus/coordinate pass=5 fail=0 skip=0
+  digital.vasic.helixqa/pkg/nexus/primitives pass=6 fail=0 skip=0
 ---
 go: downloading github.com/nats-io/nats.go v1.37.0
 go: downloading github.com/crewjam/saml v0.5.1
 go: downloading github.com/coreos/go-oidc/v3 v3.18.0
-go: downloading github.com/failsafe-go/failsafe-go v0.9.6
 go: downloading github.com/pion/webrtc/v4 v4.2.11
+go: downloading github.com/failsafe-go/failsafe-go v0.9.6
 go: downloading github.com/patrickmn/go-cache v2.1.0+incompatible
 go: downloading github.com/philippgille/chromem-go v0.7.0
 go: downloading github.com/segmentio/asm v1.1.3
 {"ImportPath":"github.com/segmentio/asm/base64","Action":"build-output","Output":"# digital.vasic.helixqa/cmd/helixqa-verify-mcp-gateway\n"}
 {"ImportPath":"github.com/segmentio/asm/base64","Action":"build-output","Output":"../../../../go/pkg/mod/github.com/segmentio/encoding@v0.5.4/json/decode.go:15:2: module lookup disabled by GOPROXY=off\n"}
-... [1011 lines elided] ...
-{"Time":"2026-10-12T15:27:56.947682191+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/vision/template","Output":"ok  \tdigital.vasic.helixqa/pkg/vision/template\t0.002s [no tests to run]\n"}
-{"Time":"2026-10-12T15:27:56.947696761+02:00","Action":"pass","Package":"digital.vasic.helixqa/pkg/vision/template","Elapsed":0.002}
-{"Time":"2026-10-12T15:27:56.98692544+02:00","Action":"start","Package":"digital.vasic.helixqa/pkg/vision/text"}
-{"Time":"2026-10-12T15:27:56.991436383+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/vision/text","Output":"testing: warning: no tests to run\n"}
-{"Time":"2026-10-12T15:27:56.991502013+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/vision/text","Output":"PASS\n"}
-{"Time":"2026-10-12T15:27:56.991753814+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/vision/text","Output":"ok  \tdigital.vasic.helixqa/pkg/vision/text\t0.005s [no tests to run]\n"}
-{"Time":"2026-10-12T15:27:56.991772194+02:00","Action":"pass","Package":"digital.vasic.helixqa/pkg/vision/text","Elapsed":0.005}
-{"Time":"2026-10-12T15:27:57.367394171+02:00","Action":"start","Package":"digital.vasic.helixqa/pkg/visionnav"}
-{"Time":"2026-10-12T15:27:57.372945716+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/visionnav","Output":"testing: warning: no tests to run\n"}
-{"Time":"2026-10-12T15:27:57.372991186+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/visionnav","Output":"PASS\n"}
-{"Time":"2026-10-12T15:27:57.373275847+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/visionnav","Output":"ok  \tdigital.vasic.helixqa/pkg/visionnav\t0.006s [no tests to run]\n"}
-{"Time":"2026-10-12T15:27:57.373291557+02:00","Action":"pass","Package":"digital.vasic.helixqa/pkg/visionnav","Elapsed":0.006}
-{"Time":"2026-10-12T15:27:57.373403997+02:00","Action":"start","Package":"digital.vasic.helixqa/pkg/visual"}
-{"Time":"2026-10-12T15:27:57.37780294+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/visual","Output":"testing: warning: no tests to run\n"}
-{"Time":"2026-10-12T15:27:57.37784948+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/visual","Output":"PASS\n"}
-{"Time":"2026-10-12T15:27:57.378099601+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/visual","Output":"ok  \tdigital.vasic.helixqa/pkg/visual\t0.005s [no tests to run]\n"}
-{"Time":"2026-10-12T15:27:57.378123531+02:00","Action":"pass","Package":"digital.vasic.helixqa/pkg/visual","Elapsed":0.005}
-{"Time":"2026-10-12T15:27:57.378237511+02:00","Action":"start","Package":"digital.vasic.helixqa/scripts/anti-bluff/tests/fixtures"}
-{"Time":"2026-10-12T15:27:57.383641126+02:00","Action":"output","Package":"digital.vasic.helixqa/scripts/anti-bluff/tests/fixtures","Output":"testing: warning: no tests to run\n"}
-{"Time":"2026-10-12T15:27:57.383683946+02:00","Action":"output","Package":"digital.vasic.helixqa/scripts/anti-bluff/tests/fixtures","Output":"PASS\n"}
-{"Time":"2026-10-12T15:27:57.383931627+02:00","Action":"output","Package":"digital.vasic.helixqa/scripts/anti-bluff/tests/fixtures","Output":"ok  \tdigital.vasic.helixqa/scripts/anti-bluff/tests/fixtures\t0.006s [no tests to run]\n"}
-{"Time":"2026-10-12T15:27:57.383949517+02:00","Action":"pass","Package":"digital.vasic.helixqa/scripts/anti-bluff/tests/fixtures","Elapsed":0.006}
-{"Time":"2026-10-12T15:27:57.588289946+02:00","Action":"start","Package":"digital.vasic.helixqa/tests/benchmark"}
-{"Time":"2026-10-12T15:27:57.592867289+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Output":"testing: warning: no tests to run\n"}
-{"Time":"2026-10-12T15:27:57.592924579+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Output":"PASS\n"}
-{"Time":"2026-10-12T15:27:57.59319896+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Output":"ok  \tdigital.vasic.helixqa/tests/benchmark\t0.005s [no tests to run]\n"}
-{"Time":"2026-10-12T15:27:57.59322568+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/benchmark","Elapsed":0.005}
-{"Time":"2026-10-12T15:27:57.699593536+02:00","Action":"start","Package":"digital.vasic.helixqa/tests/security"}
-{"Time":"2026-10-12T15:27:57.704174509+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/security","Output":"testing: warning: no tests to run\n"}
-{"Time":"2026-10-12T15:27:57.704214419+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/security","Output":"PASS\n"}
-{"Time":"2026-10-12T15:27:57.70440005+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/security","Output":"ok  \tdigital.vasic.helixqa/tests/security\t0.005s [no tests to run]\n"}
-{"Time":"2026-10-12T15:27:57.70441209+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/security","Elapsed":0.005}
-{"Time":"2026-10-12T15:27:57.789683687+02:00","Action":"start","Package":"digital.vasic.helixqa/tests/stress"}
-{"Time":"2026-10-12T15:27:57.789787188+02:00","Action":"start","Package":"digital.vasic.helixqa/tools/opensource/unstructured/example-docs"}
-{"Time":"2026-10-12T15:27:57.789813858+02:00","Action":"output","Package":"digital.vasic.helixqa/tools/opensource/unstructured/example-docs","Output":"?   \tdigital.vasic.helixqa/tools/opensource/unstructured/example-docs\t[no test files]\n"}
-{"Time":"2026-10-12T15:27:57.789822058+02:00","Action":"skip","Package":"digital.vasic.helixqa/tools/opensource/unstructured/example-docs","Elapsed":0}
-{"Time":"2026-10-12T15:27:57.79428532+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Output":"testing: warning: no tests to run\n"}
-{"Time":"2026-10-12T15:27:57.79432385+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Output":"PASS\n"}
-{"Time":"2026-10-12T15:27:57.794551551+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Output":"ok  \tdigital.vasic.helixqa/tests/stress\t0.005s [no tests to run]\n"}
-{"Time":"2026-10-12T15:27:57.794565511+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/stress","Elapsed":0.005}
+... [1033 lines elided] ...
+{"Time":"2026-10-12T16:28:55.90094957+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/vision/template","Output":"ok  \tdigital.vasic.helixqa/pkg/vision/template\t0.007s [no tests to run]\n"}
+{"Time":"2026-10-12T16:28:55.9010264+02:00","Action":"pass","Package":"digital.vasic.helixqa/pkg/vision/template","Elapsed":0.007}
+{"Time":"2026-10-12T16:28:56.049240898+02:00","Action":"start","Package":"digital.vasic.helixqa/pkg/vision/text"}
+{"Time":"2026-10-12T16:28:56.056481971+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/vision/text","Output":"testing: warning: no tests to run\n"}
+{"Time":"2026-10-12T16:28:56.057837675+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/vision/text","Output":"PASS\n"}
+{"Time":"2026-10-12T16:28:56.057989505+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/vision/text","Output":"ok  \tdigital.vasic.helixqa/pkg/vision/text\t0.009s [no tests to run]\n"}
+{"Time":"2026-10-12T16:28:56.058006365+02:00","Action":"pass","Package":"digital.vasic.helixqa/pkg/vision/text","Elapsed":0.009}
+{"Time":"2026-10-12T16:28:56.737380709+02:00","Action":"start","Package":"digital.vasic.helixqa/pkg/visionnav"}
+{"Time":"2026-10-12T16:28:56.752008816+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/visionnav","Output":"testing: warning: no tests to run\n"}
+{"Time":"2026-10-12T16:28:56.752182936+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/visionnav","Output":"PASS\n"}
+{"Time":"2026-10-12T16:28:56.753245659+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/visionnav","Output":"ok  \tdigital.vasic.helixqa/pkg/visionnav\t0.015s [no tests to run]\n"}
+{"Time":"2026-10-12T16:28:56.75327742+02:00","Action":"pass","Package":"digital.vasic.helixqa/pkg/visionnav","Elapsed":0.016}
+{"Time":"2026-10-12T16:28:56.75359518+02:00","Action":"start","Package":"digital.vasic.helixqa/pkg/visual"}
+{"Time":"2026-10-12T16:28:56.77860563+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/visual","Output":"testing: warning: no tests to run\n"}
+{"Time":"2026-10-12T16:28:56.780311555+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/visual","Output":"PASS\n"}
+{"Time":"2026-10-12T16:28:56.780392125+02:00","Action":"output","Package":"digital.vasic.helixqa/pkg/visual","Output":"ok  \tdigital.vasic.helixqa/pkg/visual\t0.027s [no tests to run]\n"}
+{"Time":"2026-10-12T16:28:56.780404175+02:00","Action":"pass","Package":"digital.vasic.helixqa/pkg/visual","Elapsed":0.027}
+{"Time":"2026-10-12T16:28:56.780517176+02:00","Action":"start","Package":"digital.vasic.helixqa/scripts/anti-bluff/tests/fixtures"}
+{"Time":"2026-10-12T16:28:56.787216957+02:00","Action":"output","Package":"digital.vasic.helixqa/scripts/anti-bluff/tests/fixtures","Output":"testing: warning: no tests to run\n"}
+{"Time":"2026-10-12T16:28:56.787311627+02:00","Action":"output","Package":"digital.vasic.helixqa/scripts/anti-bluff/tests/fixtures","Output":"PASS\n"}
+{"Time":"2026-10-12T16:28:56.787989129+02:00","Action":"output","Package":"digital.vasic.helixqa/scripts/anti-bluff/tests/fixtures","Output":"ok  \tdigital.vasic.helixqa/scripts/anti-bluff/tests/fixtures\t0.007s [no tests to run]\n"}
+{"Time":"2026-10-12T16:28:56.788055039+02:00","Action":"pass","Package":"digital.vasic.helixqa/scripts/anti-bluff/tests/fixtures","Elapsed":0.008}
+{"Time":"2026-10-12T16:28:57.007173841+02:00","Action":"start","Package":"digital.vasic.helixqa/tests/benchmark"}
+{"Time":"2026-10-12T16:28:57.01336251+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Output":"testing: warning: no tests to run\n"}
+{"Time":"2026-10-12T16:28:57.013465421+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Output":"PASS\n"}
+{"Time":"2026-10-12T16:28:57.013895812+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/benchmark","Output":"ok  \tdigital.vasic.helixqa/tests/benchmark\t0.007s [no tests to run]\n"}
+{"Time":"2026-10-12T16:28:57.013916132+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/benchmark","Elapsed":0.007}
+{"Time":"2026-10-12T16:28:57.275089616+02:00","Action":"start","Package":"digital.vasic.helixqa/tests/security"}
+{"Time":"2026-10-12T16:28:57.275235297+02:00","Action":"start","Package":"digital.vasic.helixqa/tests/stress"}
+{"Time":"2026-10-12T16:28:57.275363267+02:00","Action":"start","Package":"digital.vasic.helixqa/tools/opensource/unstructured/example-docs"}
+{"Time":"2026-10-12T16:28:57.275403167+02:00","Action":"output","Package":"digital.vasic.helixqa/tools/opensource/unstructured/example-docs","Output":"?   \tdigital.vasic.helixqa/tools/opensource/unstructured/example-docs\t[no test files]\n"}
+{"Time":"2026-10-12T16:28:57.275414947+02:00","Action":"skip","Package":"digital.vasic.helixqa/tools/opensource/unstructured/example-docs","Elapsed":0}
+{"Time":"2026-10-12T16:28:57.281274346+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Output":"testing: warning: no tests to run\n"}
+{"Time":"2026-10-12T16:28:57.281326906+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Output":"PASS\n"}
+{"Time":"2026-10-12T16:28:57.281576977+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/security","Output":"testing: warning: no tests to run\n"}
+{"Time":"2026-10-12T16:28:57.281607617+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/security","Output":"PASS\n"}
+{"Time":"2026-10-12T16:28:57.281920188+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/security","Output":"ok  \tdigital.vasic.helixqa/tests/security\t0.007s [no tests to run]\n"}
+{"Time":"2026-10-12T16:28:57.281953368+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/security","Elapsed":0.007}
+{"Time":"2026-10-12T16:28:57.282193599+02:00","Action":"output","Package":"digital.vasic.helixqa/tests/stress","Output":"ok  \tdigital.vasic.helixqa/tests/stress\t0.007s [no tests to run]\n"}
+{"Time":"2026-10-12T16:28:57.282208339+02:00","Action":"pass","Package":"digital.vasic.helixqa/tests/stress","Elapsed":0.007}

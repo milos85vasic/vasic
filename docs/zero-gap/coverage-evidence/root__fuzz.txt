@@ -1,7 +1,8 @@
 subject=root kind=fuzz status=check cases=11 failed=0 rc=0
-head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:57:29Z
+head=ab8c1a8e5d3a13fad4d8699bab0d26e551e4f6a9 tree=80ff94b7c27b9c248b69373c9bf5089181046407636b3674d720a336e1f44ba6 ts=2026-10-14T11:40:36Z limit=240 dirty=0 dirtydigest=-
 cmd=bash scripts/prove-umbrella-mutants.sh --set fuzz
-seconds=34.4 failed=0 (parsed from the gate output; rc is authoritative)
+recorded: status=check cases=11 failed=0 rc=0
+seconds=27.7 failed=0 (parsed from the gate output; rc is authoritative)
 ---
 BASELINE-OK   _tools/zero-gap-chain (-run ^FuzzArgvPolicy$ .)
 KILLED        FZ1-argv-reason-leaks-value by FuzzArgvPolicy,FuzzArgvPolicy/seed#0

@@ -1,7 +1,8 @@
 subject=root kind=vsc375-runtime-probe status=check cases=8 failed=0 rc=0
-head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b63d8852ffbc69bd4138ffb964c5ecea21e6 ts=2026-10-12T10:57:33Z
+head=ab8c1a8e5d3a13fad4d8699bab0d26e551e4f6a9 tree=80ff94b7c27b9c248b69373c9bf5089181046407636b3674d720a336e1f44ba6 ts=2026-10-14T11:40:52Z limit=240 dirty=0 dirtydigest=-
 cmd=bash docs/zero-gap/checks/VSC-375.probe.sh
-seconds=4.4 failed=0 (parsed from the gate output; rc is authoritative)
+recorded: status=check cases=8 failed=0 rc=0
+seconds=6.6 failed=0 (parsed from the gate output; rc is authoritative)
 ---
 OK   audit-hardcoded-paths reports untracked planted violation (rc=1)
 OK   audit-hardcoded-paths ignores the git-ignored file

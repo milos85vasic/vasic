@@ -48,6 +48,6 @@ seconds=0.8 failed=0 (parsed from the gate output; rc is authoritative)
   vision_engine     ce16f929304826ee98aac8fa1fa18985141d4c3c   ce16f929304826ee98aac8fa1fa18985141d4c3c   MATCH
 ✅ PASS  PIN-SYNC vision_engine — recorded ref ce16f929304826ee98aac8fa1fa18985141d4c3c == index gitlink ce16f929304826ee98aac8fa1fa18985141d4c3c
 ----------------------------------------------------------------------
-CM-MANIFEST-PIN-SYNC: 21 MATCH, 0 DRIFT, 0 UNDETERMINED  of 21 declared dep(s)  (root /home/milosvasic/Projects/vasic)
+CM-MANIFEST-PIN-SYNC: 21 MATCH, 0 DRIFT, 0 UNDETERMINED  of 21 declared dep(s)  (root <repo>)
 ✅ CM-MANIFEST-PIN-SYNC: PASS — all 21 recorded ref(s) equal the gitlink this repository will commit
 

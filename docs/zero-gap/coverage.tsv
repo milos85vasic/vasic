@@ -195,7 +195,7 @@ submodules/qa	accessibility	gap	-
 submodules/qa	contract	gap	-
 submodules/qa	determinism	gap	-
 submodules/qa	e2e	could-not-run:go-build:goproxy-off	-
-submodules/qa	fuzz	could-not-run:go-build:goproxy-off	-
+submodules/qa	fuzz	check-red	docs/zero-gap/coverage-evidence/submodules_qa__fuzz.txt
 submodules/qa	integration	check	docs/zero-gap/coverage-evidence/submodules_qa__integration.txt
 submodules/qa	manual-qa-readiness	gap	-
 submodules/qa	mutation	gap	-

@@ -237,28 +237,57 @@ closure.
 - A cell is `check` only when the kind ran **cases>0 AND failed==0 AND rc==0** and its evidence header binds to the row
   (`subject kind cases failed rc` plus `head= tree= ts= limit=`). A kind that ran but is red is `check-red`: applied, not
   proven, not coverage.
-- **Binding is compared, not format-checked (round 2, F1).** `coverage-measured.tsv` carries the `head` (`git rev-parse HEAD`)
-  and `tree` (sha256 of head + `git status --porcelain`) the measurer recorded. The generator rejects an all-zero or malformed
-  head/tree, requires the evidence header's head and tree to EQUAL the TSV row's, requires the head to be a commit in this
-  repository's object store that is HEAD or an ancestor of HEAD, and otherwise emits `gap:evidence-mismatch: <fields>`
-  (`head`, `head-differs-from-tsv`, `head-not-in-object-store`, `head-not-ancestor-of-HEAD`, `tree`, `tree-differs-from-tsv`, ...).
-  Allowance: by default ANY ancestor is accepted and the generator prints, per measured head, how many commits behind HEAD the
-  cells were measured (`evidence-freshness` lines); `--max-behind N` (or `ZERO_GAP_COVERAGE_MAX_BEHIND=N`) makes a head more than
-  N commits behind `gap:evidence-stale`. Honest limit: `tree` covers a dirty working tree that cannot be reproduced afterwards,
-  so it is bound for presence, non-zero and header/TSV agreement only; rewriting both files consistently with a different REAL
-  ancestor head is indistinguishable from a measurement taken there (unsigned evidence).
-- **Environment build failures are not test failures (round 2, F2).** The measurer analyses `go test -json` per package. A build
-  failure whose cause is the measurer's environment (`goproxy-off`: GOPROXY=off and the module is not in the offline cache;
-  `missing-replace-dir`: a `replace` directive points at a sibling checkout that is absent; `missing-module`) makes the cell
-  `could-not-run:go-build:<cause>` with the unbuilt packages and the passing cases of the packages that did run recorded. The
-  cell stays `check-red` whenever a real failure also exists (failed>0, a package-level failure such as a panic or TestMain exit,
-  a compile error that is not an environment cause) or rc != 0 is unexplained; the evidence then lists both the failing tests and
-  the unbuilt packages. Genuinely red cells are never relabelled.
+- **Binding is compared, not format-checked (round 2, F1; sealed in round 3).** `coverage-measured.tsv` carries, per row,
+  `head` (`git rev-parse HEAD`), `tree` (sha256 of head + `git status --porcelain`), `evsha` (sha256 of the evidence file's
+  SEALED region = everything after line 1) and `dirty` (`0` clean, `1` dirty at the start of the run, `?` legacy). The generator
+  applies the same binding to **every** status that cites evidence, `could-not-run:*` and `gap` included, so a TSV-only downgrade
+  is refused exactly like a TSV-only upgrade. It requires: every line-1 field (subject, kind, **status**, cases, failed, rc) equal
+  to the row's; head/tree non-zero and equal to the row's; head a commit of this repository that is HEAD or an ancestor of HEAD;
+  `sha256(tail -n +2 evidence)` equal to `evsha` (a replaced body, or an edited ts/limit/dirty line, fails); the sealed
+  `recorded: status= cases= failed= rc=` line equal to the row (so editing the rc in header and TSV together while the body still
+  says otherwise fails); header `dirty=` equal to the row's; and the `failing-tests (N...)` block consistent with `failed=` and with
+  the names actually listed. Every failure is `gap:evidence-mismatch: <fields>`. A row that cites no evidence while its canonical
+  evidence file exists is refused (`evidence-reference-dropped`). Allowance: by default ANY ancestor is accepted; the generator
+  prints, per measured head, how many commits behind HEAD the cells were measured (`evidence-freshness` lines, never inside a
+  cell's reason); `--max-behind N` (or `ZERO_GAP_COVERAGE_MAX_BEHIND=N`) makes older evidence `gap:evidence-stale`.
+  **Honest limits.** An actor who recomputes EVERY column (header, row, recorded line, evsha) consistently is not detected by the
+  check; the binding is to the head recorded in the row plus the COMMITTED TSV and evidence files, so such a rewrite shows in git
+  history, not in the generator. `tree` covers a dirty working tree that cannot be reproduced afterwards. `--seal-legacy` sealed the
+  65 evidence files measured before round 3 as they stood at sealing time (dirty `?`): it proves nothing about the period between
+  their measurement and sealing, and it stripped the absolute repository path from the 6 files that carried it.
+- **Dirty-tree measurements (round 3).** The measurer records `dirty=` and a digest of the sorted `git status --porcelain` entries in
+  line 2 of every evidence file it writes, and the dirty paths in the sealed region. Policy, decided: a cell that would be `check`
+  but was measured dirty is NOT classed `check`; it is `gap:evidence-dirty` unless `--allow-dirty-evidence`
+  (`ZERO_GAP_COVERAGE_ALLOW_DIRTY=1`) is given, in which case it stays `check` with a visible DIRTY note. Legacy rows (dirty `?`,
+  sealed after the fact) stay `check` with a visible "dirty state UNKNOWN" note, because their dirtiness cannot be established
+  either way. The generator prints `evidence-cleanliness clean= dirty= unknown=` and names every dirty cell
+  (`evidence-dirty-cells`). Exit code: unchanged (0); dirtiness is data in the cells, not a generator failure. The five root cells
+  that were re-measured for this round (fuzz, umbrella-mutation, determinism, vsc375-runtime-probe, export-validation) were
+  measured from a CLEAN detached worktree at commit `a92ff63`, which contains the tested scripts (`dirty=0`). The fuzz cell first
+  read `check-red` there because the bare worktree lacked `submodules/constitution` and its nested `continuum`
+  (`replacement directory ... does not exist`); with both checked out at their pinned commits it measured `check`, 11 cases,
+  rc 0, the same as before. No other cell was re-measured clean: cells measured before round 3 stay `unknown`.
+- **Environment build failures are not code failures (round 2 F2, corrected in round 3).** The measurer analyses `go test -json`
+  per package and decides the cause PER unbuilt package. `could-not-run:go-build:<cause>` requires that EVERY unbuilt package's
+  cause is environmental (`goproxy-off`: GOPROXY=off and the module is not in the offline cache; `missing-replace-dir`: a
+  `replace` directive points at a sibling checkout that is absent) AND that nothing real is red. `missing-module` was removed: its
+  patterns ("is not in std", "missing go.sum entry", "no required module provides package") are code or repo defects. A compile
+  error, a typo'd import, an incomplete go.sum, an init/TestMain/package-level panic, a failed test, or an unexplained rc is
+  `check-red`, **even when zero cases ran** (previously a compile error became `could-not-run:go-build:compile-error` and an init
+  panic beside one env-unbuilt package became `goproxy-off`). The evidence names each unbuilt package with its cause
+  (`pkg [goproxy-off]` or `pkg [DEFECT:...]`) and keeps per-package pass/fail/skip counts; the generator refuses an environment
+  label whose evidence lists a `[DEFECT:` package, a compile error, a package-level failure or a failing test, and refuses any
+  cause outside {goproxy-off, missing-replace-dir}. Reviewer probes P1-P4 and attacks A1-A6 are in the measurer selftest and
+  asserted by name in the generator proof.
 - **Failing names (round 2, F3).** Every evidence file of a red cell lists every failing test (`package :: Test`) or, for a root
   gate, the failing case lines of its output (best effort; rc is authoritative), capped at 500 names with the omitted count stated.
 - **Limits are explicit (round 2, F4).** `--timeout` (default 240 s) bounds every go test / gate run; `--gate-timeout` (default
   600 s) bounds the fleet-wide scanning gate `content-boundary` and replaces the former hidden `max(timeout,600)`. The limit used is
   written as `limit=` in the evidence header and quoted in the cycle-2 reason of a `could-not-run:timeout` cell.
+- **Cell notes (round 3).** `docs/zero-gap/cell-notes.tsv` (subject, kind, note, ref) annotates a cell's cycle-2 reason with a
+  reviewed hypothesis and never changes its status. `submodules/qa` unit carries an UNCONFIRMED host-dependence note: its one
+  failing test expects an error from `Open` and got nil when re-run alone on this host; the sibling web test forces a stub mode and
+  this one does not. Whether it passes on another host is UNCONFIRMED; the cell stays `check-red`.
 - `designed-red` exists only for a gate declared in `docs/zero-gap/designed-red.tsv` (subject, kind, expected_rc, reason,
   ref) whose measured rc equals the declared one. `sweep-classes.tsv` cannot express this (it lists sweep classes with a
   fixed eight-field schema, not gates), hence the separate data file. Never declare a genuinely failing suite there.

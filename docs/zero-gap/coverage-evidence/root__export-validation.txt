@@ -1,7 +1,8 @@
 subject=root kind=export-validation status=check cases=6 failed=0 rc=0
-head=c827c664c24e90a2b12b352618d579a3c631749d tree=5555a013cb8e2615482f0ea52b3a3b2107e269d86516846b533961d4943bbf1f ts=2026-10-12T11:07:58Z
+head=ab8c1a8e5d3a13fad4d8699bab0d26e551e4f6a9 tree=80ff94b7c27b9c248b69373c9bf5089181046407636b3674d720a336e1f44ba6 ts=2026-10-14T11:40:56Z limit=240 dirty=0 dirtydigest=-
 cmd=bash _tests/export/self-validate.sh
-seconds=6.5 failed=0 (parsed from the gate output; rc is authoritative)
+recorded: status=check cases=6 failed=0 rc=0
+seconds=3.3 failed=0 (parsed from the gate output; rc is authoritative)
 ---
 ==================================================================
  §11.4.168 EXPORTED-DOCUMENT VALIDATOR — SELF-VALIDATION
@@ -10,7 +11,7 @@ GATE: CM-EXPORTED-DOC-VISUALLY-VALIDATED (§11.4.168)
 
 >>> GOLDEN-GOOD (expect PASS) ......................................
 
-[export-validator] pdf=/home/milosvasic/Projects/vasic/_tests/export/fixtures/golden-good.pdf
+[export-validator] pdf=<repo>/_tests/export/fixtures/golden-good.pdf
 [export-validator] tools: pdftotext=ok  pdfimages=ok  pdftoppm=ok  tesseract=ok
   [PASS] CONTENT/content.nonempty — extracted 106 words (min 40)
   [PASS] CONTENT/content.faithful[Shipped] — required phrase present: "Shipped"
@@ -19,12 +20,12 @@ GATE: CM-EXPORTED-DOC-VISUALLY-VALIDATED (§11.4.168)
   [PASS] FULL-VISUAL/visual.images — pdfimages found 1 embedded image(s) (min 1)
   [PASS] FULL-VISUAL/visual.ocr — OCR (host) of 2 rendered page(s) [page-1.png, page-2.png] recovered 109 legible words (min 15)
 [export-validator] checks: 6 PASS / 0 FAIL / 0 SKIP of 6
-[export-validator] verdict=PASS  report=/home/milosvasic/Projects/vasic/_tests/evidence/harness/export/golden-good.verdict.json
+[export-validator] verdict=PASS  report=<repo>/_tests/evidence/harness/export/golden-good.verdict.json
 
 
 >>> GOLDEN-BAD  (expect FAIL) ......................................
 
-[export-validator] pdf=/home/milosvasic/Projects/vasic/_tests/export/fixtures/golden-bad.pdf
+[export-validator] pdf=<repo>/_tests/export/fixtures/golden-bad.pdf
 [export-validator] tools: pdftotext=ok  pdfimages=ok  pdftoppm=ok  tesseract=ok
   [PASS] CONTENT/content.nonempty — extracted 79 words (min 40)
   [FAIL] CONTENT/content.faithful[Shipped] — required phrase MISSING (content unfaithful/truncated): "Shipped"
@@ -33,7 +34,7 @@ GATE: CM-EXPORTED-DOC-VISUALLY-VALIDATED (§11.4.168)
   [FAIL] FULL-VISUAL/visual.images — pdfimages found 0 embedded image(s) (min 1)
   [PASS] FULL-VISUAL/visual.ocr — OCR (host) of 1 rendered page(s) [page-1.png] recovered 79 legible words (min 15)
 [export-validator] checks: 2 PASS / 4 FAIL / 0 SKIP of 6
-[export-validator] verdict=FAIL  report=/home/milosvasic/Projects/vasic/_tests/evidence/harness/export/golden-bad.verdict.json
+[export-validator] verdict=FAIL  report=<repo>/_tests/evidence/harness/export/golden-bad.verdict.json
 
 
 ==================================================================
@@ -44,5 +45,5 @@ GATE: CM-EXPORTED-DOC-VISUALLY-VALIDATED (§11.4.168)
 
 SELF-VALIDATION RESULT: PASS  (good=PASS rc=0, bad=DETECTED rc=1 as required)
 GATE: CM-EXPORTED-DOC-VISUALLY-VALIDATED (§11.4.168) — SATISFIED
-Evidence: /home/milosvasic/Projects/vasic/_tests/export/../evidence/harness/export
+Evidence: <repo>/_tests/export/../evidence/harness/export
 

@@ -3,7 +3,7 @@ head=c827c664c24e90a2b12b352618d579a3c631749d tree=d1569c14d70081dbaff746406275b
 cmd=bash scripts/verify-governance-cascade.sh
 seconds=6.5 failed=0 (parsed from the gate output; rc is authoritative)
 ---
-CM-GOVERNANCE-CASCADE: verifying the governance cascade under /home/milosvasic/Projects/vasic
+CM-GOVERNANCE-CASCADE: verifying the governance cascade under <repo>
   §11.4.32 step 1 · predicate reused by reference from submodules/constitution/scripts/gates/lib/pointer_carrier.sh
 ----------------------------------------------------------------------
 ✅ PASS  C0 PREDICATE-NOT-BLIND — pointer_carrier.sh selftest: PASS (5/5) (§11.4.201(7)(b))
@@ -52,5 +52,5 @@ REPORT — known-unclearable third-party carriers (NOT a verdict input)
    the propagation-gate family inside scripts/verify-all-constitution-rules.sh — excluded
    here means not double-counted, never suppressed (§11.4.6).
 ----------------------------------------------------------------------
-CM-GOVERNANCE-CASCADE: 12 PASS, 0 FAIL, 0 ENV, 35 NOTE  (root /home/milosvasic/Projects/vasic)
+CM-GOVERNANCE-CASCADE: 12 PASS, 0 FAIL, 0 ENV, 35 NOTE  (root <repo>)
 ✅ CM-GOVERNANCE-CASCADE: PASS — governance cascades to every owned submodule; third-party roots excluded by name; root lockstep intact; manifest matches the fleet

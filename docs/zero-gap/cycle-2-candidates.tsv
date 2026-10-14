@@ -10,7 +10,7 @@ ai_interviewing	perf-load	gap	no registered or measured test for this kind	-
 ai_interviewing	regression	gap	no registered or measured test for this kind	-
 ai_interviewing	security	gap	no registered or measured test for this kind	-
 ai_interviewing	stress-chaos	gap	no registered or measured test for this kind	-
-ai_interviewing	unit	check-red	cases=119 failed=62 rc=1 (red kind is applied, not proven); measured at 755f8327810b, 9 commit(s) behind HEAD	docs/zero-gap/coverage-evidence/ai_interviewing__unit.txt
+ai_interviewing	unit	check-red	cases=119 failed=62 rc=1 (red kind is applied, not proven); dirty state UNKNOWN: legacy evidence sealed after measurement	docs/zero-gap/coverage-evidence/ai_interviewing__unit.txt
 design-toolkit	accessibility	gap	measured: no invocation or zero cases	-
 design-toolkit	contract	gap	no registered or measured test for this kind	-
 design-toolkit	determinism	gap	no registered or measured test for this kind	-
@@ -47,14 +47,14 @@ monetization	regression	gap	no registered or measured test for this kind	-
 monetization	security	gap	no registered or measured test for this kind	-
 monetization	stress-chaos	gap	no registered or measured test for this kind	-
 root	accessibility	could-not-run:playwright-preflight	tool playwright-preflight unusable in the measured run	-
-root	claim-ledger	check-red	cases=10 failed=0 rc=1 (red kind is applied, not proven); measured at 14f1fa4fb497, 7 commit(s) behind HEAD	docs/zero-gap/coverage-evidence/root__claim-ledger.txt
+root	claim-ledger	check-red	cases=10 failed=0 rc=1 (red kind is applied, not proven); dirty state UNKNOWN: legacy evidence sealed after measurement	docs/zero-gap/coverage-evidence/root__claim-ledger.txt
 root	content-boundary	could-not-run:timeout	timed out: the measured run was cut off at its configured limit of 1500s (cases=0 rc=124); evidence docs/zero-gap/coverage-evidence/root__content-boundary.txt	-
 root	e2e	could-not-run:playwright-preflight	tool playwright-preflight unusable in the measured run	-
 root	host-capability	could-not-run:hostdeps.sh	tool hostdeps.sh unusable in the measured run	-
 root	link-integrity	could-not-run:playwright-preflight	tool playwright-preflight unusable in the measured run	-
 root	manual-qa-readiness	could-not-run:zero-gap-qa-readiness.sh	tool zero-gap-qa-readiness.sh unusable in the measured run	-
 root	perf-load	could-not-run:playwright-preflight	tool playwright-preflight unusable in the measured run	-
-root	provider-ci	check-red	cases=1 failed=0 rc=1 (red kind is applied, not proven); measured at 14f1fa4fb497, 7 commit(s) behind HEAD	docs/zero-gap/coverage-evidence/root__provider-ci.txt
+root	provider-ci	check-red	cases=1 failed=0 rc=1 (red kind is applied, not proven); dirty state UNKNOWN: legacy evidence sealed after measurement	docs/zero-gap/coverage-evidence/root__provider-ci.txt
 root	regression	gap	no registered or measured test for this kind	-
 root	seo-i18n-completeness	could-not-run:playwright-preflight	tool playwright-preflight unusable in the measured run	-
 root	stress-chaos	gap	no registered or measured test for this kind	-
@@ -91,7 +91,7 @@ submodules/containers	determinism	gap	no registered or measured test for this ki
 submodules/containers	manual-qa-readiness	gap	measured: no invocation or zero cases	-
 submodules/containers	mutation	gap	no registered or measured test for this kind	-
 submodules/containers	regression	gap	no registered or measured test for this kind	-
-submodules/containers	unit	check-red	cases=2835 failed=1 rc=1 (red kind is applied, not proven); measured at 755f8327810b, 9 commit(s) behind HEAD	docs/zero-gap/coverage-evidence/submodules_containers__unit.txt
+submodules/containers	unit	check-red	cases=2835 failed=1 rc=1 (red kind is applied, not proven); dirty state UNKNOWN: legacy evidence sealed after measurement	docs/zero-gap/coverage-evidence/submodules_containers__unit.txt
 submodules/curriculum-kit	contract	gap	no registered or measured test for this kind	-
 submodules/curriculum-kit	determinism	gap	no registered or measured test for this kind	-
 submodules/curriculum-kit	e2e	gap	no registered or measured test for this kind	-
@@ -156,11 +156,11 @@ submodules/qa	accessibility	gap	measured: no invocation or zero cases	-
 submodules/qa	contract	gap	no registered or measured test for this kind	-
 submodules/qa	determinism	gap	no registered or measured test for this kind	-
 submodules/qa	e2e	could-not-run:go-build:goproxy-off	environment build failure (goproxy-off), not a test failure: cases=0 passing cases of the packages that did run, failed=0; unbuilt packages listed in docs/zero-gap/coverage-evidence/submodules_qa__e2e.txt	-
-submodules/qa	fuzz	could-not-run:go-build:goproxy-off	environment build failure (goproxy-off), not a test failure: cases=38 passing cases of the packages that did run, failed=0; unbuilt packages listed in docs/zero-gap/coverage-evidence/submodules_qa__fuzz.txt	-
+submodules/qa	fuzz	check-red	cases=38 failed=0 rc=1 (red kind is applied, not proven); measured on a DIRTY working tree	docs/zero-gap/coverage-evidence/submodules_qa__fuzz.txt
 submodules/qa	manual-qa-readiness	gap	measured: no invocation or zero cases	-
 submodules/qa	mutation	gap	no registered or measured test for this kind	-
 submodules/qa	regression	gap	no registered or measured test for this kind	-
-submodules/qa	unit	check-red	cases=3959 failed=1 rc=1 (red kind is applied, not proven); measured at 755f8327810b, 9 commit(s) behind HEAD	docs/zero-gap/coverage-evidence/submodules_qa__unit.txt
+submodules/qa	unit	check-red	cases=3959 failed=1 rc=1 (red kind is applied, not proven); dirty state UNKNOWN: legacy evidence sealed after measurement; NOTE: UNCONFIRMED host-dependence: the one failing test (pkg/nexus/capture/linux TestSource_ProductionOpenReturnsNotImplemented) expects Open to return an error and got nil when re-run alone on this host (go test -run, "An error is expected but got nil"); its web sibling forces stub mode with HELIXQA_CAPTURE_WEB_STUB=1 for "determinism on every host" and this one does not, so the outcome may depend on what the host provides - whether it passes on another host is UNCONFIRMED. The cell stays check-red until proven otherwise.	docs/zero-gap/coverage-evidence/submodules_qa__unit.txt
 submodules/security	contract	gap	no registered or measured test for this kind	-
 submodules/security	determinism	gap	no registered or measured test for this kind	-
 submodules/security	manual-qa-readiness	gap	measured: no invocation or zero cases	-
@@ -209,4 +209,4 @@ workshop	perf-load	gap	no registered or measured test for this kind	-
 workshop	regression	gap	no registered or measured test for this kind	-
 workshop	security	gap	no registered or measured test for this kind	-
 workshop	stress-chaos	gap	no registered or measured test for this kind	-
-workshop	unit	check-red	cases=1572 failed=7 rc=1 (red kind is applied, not proven); measured at 81c4844c0970, 8 commit(s) behind HEAD	docs/zero-gap/coverage-evidence/workshop__unit.txt
+workshop	unit	check-red	cases=1572 failed=7 rc=1 (red kind is applied, not proven); dirty state UNKNOWN: legacy evidence sealed after measurement	docs/zero-gap/coverage-evidence/workshop__unit.txt

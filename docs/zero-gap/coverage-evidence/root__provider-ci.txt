@@ -5,7 +5,7 @@ seconds=222.3 failed=0 (parsed from the gate output; rc is authoritative)
 failing-cases (1; best effort from the gate output, rc is authoritative):
   vasic.digital github.com vasic-digital/vasic-digital.github.io OURS active=0 inert=0 CONFIRMED PROVIDER-SIDE CI CONFIRMED
 ---
-Provider-side CI verification   root: /home/milosvasic/Projects/vasic
+Provider-side CI verification   root: <repo>
 window: last 30 day(s) (since 2026-09-12T13:33:03Z)   repos: 77   upstream rows: 101
 adapters: github.com -> gh [ready: authenticated as milos85vasic]
           gitlab.com -> glab [ready: authenticated as milos85vasic]

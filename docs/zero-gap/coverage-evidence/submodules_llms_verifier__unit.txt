@@ -1,17 +1,78 @@
 subject=submodules/llms_verifier kind=unit status=could-not-run:go-build:goproxy-off cases=6558 failed=0 rc=1
-head=81c4844c0970208c4101d8c511687109eb7dcb5d tree=e2cdddb1ae1c09d663c23515e6fa0e65977995f7051a952948d67bd261c52117 ts=2026-10-12T13:31:46Z limit=240
+head=a92ff635676c5f04deb556581bf5365b4d901edc tree=6439ee28431cac62afeac209e4e4fab3d51a321e0910fbc96a520b7a1d07ddd9 ts=2026-10-12T14:30:23Z limit=240 dirty=1 dirtydigest=567112c09718
 cmd=(cd submodules/llms_verifier && go test -count=1 -json -short <11 pkgs>); (cd submodules/llms_verifier/llm-verifier && go test -count=1 -json -short <66 pkgs>); (cd submodules/llms_verifier/examples/scoring && go test -count=1 -json -short <1 pkgs>)
+recorded: status=could-not-run:go-build:goproxy-off cases=6558 failed=0 rc=1
+dirty-paths (32; first 20 shown): AGENTS.md, CLAUDE.md, CONTINUATION.md, GEMINI.md, QWEN.md, README.md, docs/constitution-adoption/INVENTORY.md, docs/zero-gap/CLOSURE.md, docs/zero-gap/cell-notes.tsv, docs/zero-gap/checks/VSC-352.probe.sh, docs/zero-gap/checks/VSC-353.probe.sh, docs/zero-gap/checks/VSC-354.probe.sh, docs/zero-gap/coverage-evidence/ai_interviewing__unit.txt, docs/zero-gap/coverage-evidence/root__contract.txt, docs/zero-gap/coverage-evidence/root__determinism.txt, docs/zero-gap/coverage-evidence/root__export-validation.txt, docs/zero-gap/coverage-evidence/root__fuzz.txt, docs/zero-gap/coverage-evidence/root__integration.txt, docs/zero-gap/coverage-evidence/root__provider-ci.txt, docs/zero-gap/coverage-evidence/root__umbrella-mutation.txt
 environment build failure, not a test failure; cases = passing cases of the packages that did run
 passed=6558 failed=0 skipped=19 over 3 module(s); worst module rc=1
 build-failure-causes=goproxy-off
 unbuilt-packages (5):
-  digital.vasic.llmsverifier/api/docs
-  digital.vasic.llmsverifier/bigdata/storage
-  digital.vasic.llmsverifier/enhanced/checkpointing
-  llmsverifier/internal/messaging/factory
-  llmsverifier/internal/messaging/kafka
+  digital.vasic.llmsverifier/api/docs [goproxy-off]
+  digital.vasic.llmsverifier/bigdata/storage [goproxy-off]
+  digital.vasic.llmsverifier/enhanced/checkpointing [goproxy-off]
+  llmsverifier/internal/messaging/factory [goproxy-off]
+  llmsverifier/internal/messaging/kafka [goproxy-off]
+package-counts (58 packages):
+  digital.vasic.llmsverifier pass=0 fail=0 skip=4
+  digital.vasic.llmsverifier/ai pass=12 fail=0 skip=0
+  digital.vasic.llmsverifier/analytics pass=47 fail=0 skip=0
+  digital.vasic.llmsverifier/api pass=480 fail=0 skip=0
+  digital.vasic.llmsverifier/auth pass=163 fail=0 skip=0
+  digital.vasic.llmsverifier/bigdata/lakehouse pass=15 fail=0 skip=0
+  digital.vasic.llmsverifier/bigdata/streaming pass=16 fail=0 skip=0
+  digital.vasic.llmsverifier/bigdata/vectordb pass=16 fail=0 skip=0
+  digital.vasic.llmsverifier/capabilities pass=184 fail=0 skip=0
+  digital.vasic.llmsverifier/challenges pass=5 fail=0 skip=0
+  digital.vasic.llmsverifier/client pass=135 fail=0 skip=0
+  digital.vasic.llmsverifier/clientip pass=90 fail=0 skip=0
+  digital.vasic.llmsverifier/cmd pass=45 fail=0 skip=0
+  digital.vasic.llmsverifier/config pass=119 fail=0 skip=0
+  digital.vasic.llmsverifier/database pass=312 fail=0 skip=0
+  digital.vasic.llmsverifier/enhanced pass=298 fail=0 skip=0
+  digital.vasic.llmsverifier/enhanced/adapters pass=39 fail=0 skip=0
+  digital.vasic.llmsverifier/enhanced/analytics pass=103 fail=0 skip=0
+  digital.vasic.llmsverifier/enhanced/context pass=36 fail=0 skip=0
+  digital.vasic.llmsverifier/enhanced/enterprise pass=326 fail=0 skip=0
+  digital.vasic.llmsverifier/enhanced/supervisor pass=68 fail=0 skip=0
+  digital.vasic.llmsverifier/enhanced/validation pass=78 fail=0 skip=0
+  digital.vasic.llmsverifier/enhanced/vector pass=78 fail=0 skip=0
+  digital.vasic.llmsverifier/events pass=154 fail=0 skip=0
+  digital.vasic.llmsverifier/failover pass=123 fail=0 skip=0
+  digital.vasic.llmsverifier/llmverifier pass=443 fail=0 skip=4
+  digital.vasic.llmsverifier/llmverifier/recipes pass=17 fail=0 skip=0
+  digital.vasic.llmsverifier/logging pass=40 fail=0 skip=0
+  digital.vasic.llmsverifier/messaging pass=74 fail=0 skip=0
+  digital.vasic.llmsverifier/monitoring pass=150 fail=0 skip=0
+  digital.vasic.llmsverifier/multimodal pass=69 fail=0 skip=0
+  digital.vasic.llmsverifier/notifications pass=25 fail=0 skip=0
+  digital.vasic.llmsverifier/performance pass=49 fail=0 skip=0
+  digital.vasic.llmsverifier/pkg/cliagents pass=167 fail=0 skip=0
+  digital.vasic.llmsverifier/pkg/crush/config pass=40 fail=0 skip=0
+  digital.vasic.llmsverifier/pkg/crush/verifier pass=8 fail=0 skip=0
+  digital.vasic.llmsverifier/pkg/helixendpoint pass=162 fail=0 skip=0
+  digital.vasic.llmsverifier/pkg/i18n pass=2 fail=0 skip=0
+  digital.vasic.llmsverifier/pkg/opencode/config pass=52 fail=0 skip=0
+  digital.vasic.llmsverifier/pkg/opencode/verifier pass=19 fail=0 skip=0
+  digital.vasic.llmsverifier/providers pass=629 fail=0 skip=9
+  digital.vasic.llmsverifier/scheduler pass=98 fail=0 skip=0
+  digital.vasic.llmsverifier/scoring pass=358 fail=0 skip=0
+  digital.vasic.llmsverifier/sdk/go pass=19 fail=0 skip=0
+  digital.vasic.llmsverifier/security pass=134 fail=0 skip=0
+  digital.vasic.llmsverifier/seed pass=5 fail=0 skip=0
+  digital.vasic.llmsverifier/selection pass=87 fail=0 skip=0
+  digital.vasic.llmsverifier/testsuite pass=82 fail=0 skip=0
+  digital.vasic.llmsverifier/tui pass=90 fail=0 skip=0
+  digital.vasic.llmsverifier/tui/screens pass=17 fail=0 skip=0
+  digital.vasic.llmsverifier/verification pass=250 fail=0 skip=0
+  llmsverifier/internal/benchmark pass=53 fail=0 skip=1
+  llmsverifier/internal/llmops pass=44 fail=0 skip=0
+  llmsverifier/internal/messaging pass=217 fail=0 skip=0
+  llmsverifier/internal/messaging/inmemory pass=113 fail=0 skip=0
+  llmsverifier/internal/messaging/rabbitmq pass=19 fail=0 skip=1
+  llmsverifier/internal/rag pass=33 fail=0 skip=0
+  llmsverifier/internal/selfimprove pass=51 fail=0 skip=0
 ---
-## submodules/llms_verifier: rc=1 passed=530 failed=0 skipped=2 seconds=13.2 build_fail=True
+## submodules/llms_verifier: rc=1 passed=530 failed=0 skipped=2 seconds=14.4 build_fail=True
 portPath":"github.com/segmentio/kafka-go","Action":"build-output","Output":"# llmsverifier/internal/messaging/kafka\n"}
 {"ImportPath":"github.com/segmentio/kafka-go","Action":"build-output","Output":"internal/messaging/kafka/broker.go:11:2: module lookup disabled by GOPROXY=off\n"}
 {"ImportPath":"github.com/segmentio/kafka-go","Action":"build-fail"}
@@ -24,7 +85,7 @@ portPath":"github.com/segmentio/kafka-go","Action":"build-output","Output":"# ll
 {"ImportPath":"github.com/segmentio/kafka-go/sasl/scram","Action":"build-output","Output":"# llmsverifier/internal/messaging/kafka\n"}
 {"ImportPath":"github.com/segmentio/kafka-go/sasl/scram","Action":"build-output","Output":"internal/messaging/kafka/broker.go:14:2: module lookup disabled by GOPROXY=off\n"}
 {"ImportPath":"github.com/segmentio/kafka-go/sasl/scram","Action":"build-fail"}
-## submodules/llms_verifier/llm-verifier: rc=1 passed=6028 failed=0 skipped=17 seconds=25.8 build_fail=True
+## submodules/llms_verifier/llm-verifier: rc=1 passed=6028 failed=0 skipped=17 seconds=30.7 build_fail=True
 sic.llmsverifier/enhanced/checkpointing\n"}
 {"ImportPath":"github.com/aws/aws-sdk-go-v2/credentials","Action":"build-output","Output":"enhanced/checkpointing/cloud_providers.go:14:2: module lookup disabled by GOPROXY=off\n"}
 {"ImportPath":"github.com/aws/aws-sdk-go-v2/credentials","Action":"build-fail"}
@@ -37,5 +98,5 @@ sic.llmsverifier/enhanced/checkpointing\n"}
 {"ImportPath":"google.golang.org/api/option","Action":"build-output","Output":"# digital.vasic.llmsverifier/enhanced/checkpointing\n"}
 {"ImportPath":"google.golang.org/api/option","Action":"build-output","Output":"enhanced/checkpointing/cloud_providers.go:16:2: module lookup disabled by GOPROXY=off\n"}
 {"ImportPath":"google.golang.org/api/option","Action":"build-fail"}
-## submodules/llms_verifier/examples/scoring: rc=0 passed=0 failed=0 skipped=0 seconds=0.3 build_fail=False
+## submodules/llms_verifier/examples/scoring: rc=0 passed=0 failed=0 skipped=0 seconds=0.5 build_fail=False
 

@@ -1,0 +1,4 @@
+# cell-notes.tsv - reviewed annotations appended to a cell's reason in cycle-2-candidates.tsv (subject, kind, note, ref). DATA read by scripts/zero-gap-coverage.sh.
+# A note NEVER changes a status: a red cell stays check-red. Use it for an UNCONFIRMED hypothesis that must travel with the cell, never to soften a failure.
+# Columns (tab-separated): subject  kind  note  ref
+submodules/qa	unit	UNCONFIRMED host-dependence: the one failing test (pkg/nexus/capture/linux TestSource_ProductionOpenReturnsNotImplemented) expects Open to return an error and got nil when re-run alone on this host (go test -run, "An error is expected but got nil"); its web sibling forces stub mode with HELIXQA_CAPTURE_WEB_STUB=1 for "determinism on every host" and this one does not, so the outcome may depend on what the host provides - whether it passes on another host is UNCONFIRMED. The cell stays check-red until proven otherwise.	submodules/qa/pkg/nexus/capture/linux/source_test.go

@@ -1,13 +1,33 @@
 subject=submodules/challenges kind=unit status=could-not-run:go-build:missing-replace-dir cases=2062 failed=0 rc=1
-head=755f8327810b4f598048ab0d6a4db8178396fca9 tree=093a0a3aefc911b949fa90e19f52386083210f75402eb86c9e8d08f2f94828a1 ts=2026-10-12T13:27:37Z limit=240
+head=a92ff635676c5f04deb556581bf5365b4d901edc tree=635d57b65ff9a512b1be6ccdb7cb098c588ff22825f1dcbdf467f49502391d23 ts=2026-10-12T14:29:25Z limit=240 dirty=1 dirtydigest=d4e945eeeed4
 cmd=(cd submodules/challenges && go test -count=1 -json -short <17 pkgs>); (cd submodules/challenges/challenges/fixtures/memprobe && go test -count=1 -json -short <1 pkgs>)
+recorded: status=could-not-run:go-build:missing-replace-dir cases=2062 failed=0 rc=1
+dirty-paths (29; first 20 shown): AGENTS.md, CLAUDE.md, CONTINUATION.md, GEMINI.md, QWEN.md, README.md, docs/constitution-adoption/INVENTORY.md, docs/zero-gap/CLOSURE.md, docs/zero-gap/cell-notes.tsv, docs/zero-gap/checks/VSC-352.probe.sh, docs/zero-gap/coverage-evidence/ai_interviewing__unit.txt, docs/zero-gap/coverage-evidence/root__contract.txt, docs/zero-gap/coverage-evidence/root__determinism.txt, docs/zero-gap/coverage-evidence/root__export-validation.txt, docs/zero-gap/coverage-evidence/root__fuzz.txt, docs/zero-gap/coverage-evidence/root__integration.txt, docs/zero-gap/coverage-evidence/root__provider-ci.txt, docs/zero-gap/coverage-evidence/root__umbrella-mutation.txt, docs/zero-gap/coverage-evidence/root__vsc375-runtime-probe.txt, docs/zero-gap/coverage-evidence/submodules_qa__e2e.txt
 environment build failure, not a test failure; cases = passing cases of the packages that did run
 passed=2062 failed=0 skipped=6 over 2 module(s); worst module rc=1
 build-failure-causes=missing-replace-dir
 unbuilt-packages (1):
-  digital.vasic.challenges.memprobe
+  digital.vasic.challenges.memprobe [missing-replace-dir]
+package-counts (17 packages):
+  digital.vasic.challenges/pkg/assertion pass=157 fail=0 skip=0
+  digital.vasic.challenges/pkg/bank pass=28 fail=0 skip=0
+  digital.vasic.challenges/pkg/challenge pass=170 fail=0 skip=3
+  digital.vasic.challenges/pkg/container pass=6 fail=0 skip=2
+  digital.vasic.challenges/pkg/env pass=22 fail=0 skip=0
+  digital.vasic.challenges/pkg/httpclient pass=16 fail=0 skip=0
+  digital.vasic.challenges/pkg/i18n pass=3 fail=0 skip=0
+  digital.vasic.challenges/pkg/infra pass=11 fail=0 skip=0
+  digital.vasic.challenges/pkg/logging pass=134 fail=0 skip=0
+  digital.vasic.challenges/pkg/metrics pass=8 fail=0 skip=0
+  digital.vasic.challenges/pkg/monitor pass=59 fail=0 skip=0
+  digital.vasic.challenges/pkg/panoptic pass=83 fail=0 skip=0
+  digital.vasic.challenges/pkg/plugin pass=15 fail=0 skip=0
+  digital.vasic.challenges/pkg/registry pass=43 fail=0 skip=0
+  digital.vasic.challenges/pkg/report pass=62 fail=0 skip=0
+  digital.vasic.challenges/pkg/runner pass=129 fail=0 skip=0
+  digital.vasic.challenges/pkg/userflow pass=1116 fail=0 skip=1
 ---
-## submodules/challenges: rc=0 passed=2062 failed=0 skipped=6 seconds=17.0 build_fail=False
+## submodules/challenges: rc=0 passed=2062 failed=0 skipped=6 seconds=20.2 build_fail=False
 
 ## submodules/challenges/challenges/fixtures/memprobe: rc=1 passed=0 failed=0 skipped=0 seconds=0.1 build_fail=True
 {"ImportPath":"digital.vasic.helixmemory/pkg/localstore","Action":"build-output","Output":"# digital.vasic.challenges.memprobe\n"}

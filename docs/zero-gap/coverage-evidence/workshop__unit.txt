@@ -15,7 +15,7 @@ failing-tests (7):
 
 ## workshop/platform/backend: rc=1 passed=1565 failed=7 skipped=17 seconds=20.5 build_fail=False
 
-## /home/milosvasic/Projects/vasic/workshop/platform/orchestration: go list rc=0, no packages
+## <repo>/workshop/platform/orchestration: go list rc=0, no packages
 github.com/milos85vasic/workshop_curriculum/platform/orchestration/cmd/containers-status-probe
 github.com/milos85vasic/workshop_curriculum/platform/orchestration/cmd/workshop-boot
 
