@@ -75,8 +75,8 @@ front because the task allowed for the opposite finding.
 |---|---|
 | Path in this repo | `submodules/constitution` |
 | Upstream | `git@github.com:HelixDevelopment/HelixConstitution.git` (`.gitmodules:3`) |
-| Pinned commit | `448981ae3498229c734dc60719f4b19f01d7a75f` (`git ls-files -s`) |
-| `git describe` | `v1.0.0-51-g448981a` — 51 commits **past** the only semver tag, i.e. **not pinned to a tag** |
+| Pinned commit | historical, superseded: `448981ae3498229c734dc60719f4b19f01d7a75f` at the 2026-08-26 audit; current value: `git ls-files -s submodules/constitution` |
+| `git describe` | historical, superseded: `v1.0.0-51-g448981a` at the 2026-08-26 pin (51 commits past the only semver tag); current value: `git -C submodules/constitution describe --tags` |
 | Checked out? | Yes, fully, including all 7 of its own nested submodules (historical: counted at the 2026-08-26 pin `448981ae3498`; its `.gitmodules` at the 2026-10-12 index pin `a71b1767b402` declares more, re-derive with `git -C submodules/constitution config -f .gitmodules --get-regexp path`) |
 | Canonical rule text | `submodules/constitution/Constitution.md` — 11,101 lines / 1.53 MB (historical: measured at the 2026-08-26 pin `448981ae3498`; current value: `wc -l submodules/constitution/Constitution.md`) |
 
@@ -85,7 +85,7 @@ per its own §11.4.65):
 
 | File | Lines | Role (per `submodules/constitution/README.md` "Contents" table) |
 |---|---|---|
-| `Constitution.md` | 11101 | "**The canonical universal constitution.** All clauses are project-agnostic." |
+| `Constitution.md` | 11101 (historical: measured at the 2026-08-26 pin; current: `wc -l`) | "**The canonical universal constitution.** All clauses are project-agnostic." |
 | `CLAUDE.md` | 2998 | "Universal CLAUDE.md for Claude Code agents. Imports `Constitution.md` by reference." |
 | `AGENTS.md` | 2738 | "Universal AGENTS.md for every other CLI agent (Codex, Cursor, Aider, OpenCode, Crush, Kimi CLI)." |
 | `QWEN.md` | 1089 | "Universal QWEN.md for the Qwen Code CLI agent." |
@@ -135,7 +135,7 @@ be wired into.
 ## 3. Nested submodules of the constitution
 
 `submodules/constitution/.gitmodules` registers 7 submodules (historical: counted at the 2026-08-26 pin `448981ae3498`; current value: `git -C submodules/constitution config -f .gitmodules --get-regexp path`). All 7 (historical, same pin) are
-populated. An eighth directory, `clickup_sync`, exists on disk but is **not a
+populated. In that historical count an eighth directory, `clickup_sync`, existed on disk but is **not a
 git submodule** — it has no `.git` file and no `.gitmodules` entry.
 
 | Submodule | Path | Purpose (from its own README) | Own agent files | Cites the constitution? |
@@ -149,9 +149,9 @@ git submodule** — it has no `.git` file and no `.gitmodules` entry.
 | `token_optimizer` | `.../submodules/token_optimizer` | "Project-agnostic Go engine that minimizes the token / cost / byte footprint of LLM request pipelines". Only `pkg/config` implemented so far. | none | **No** — zero "constitution" matches in its top-level `.md` |
 | `clickup_sync` | `.../submodules/clickup_sync` | **Not a submodule.** Docs-only directory. Its `docs/design/DESIGN.md` states: "DESIGN ONLY (Phase 0). NO implementation code, NO repo creation, NO ClickUp writes, NO main-tree source edits exist as a result of this document." | none | Yes, but only under `docs/` |
 
-Pin state (`git -C submodules/constitution submodule status`): `design-toolkit`
-at `v0.2.2-4-g16e4e76` and `docs_chain` at `helixcode-v1.1.0-9-g9510e01` are
-**past** their tags; the other five track `heads/main`.
+Pin state (historical, superseded: read at the 2026-08-26 pin; current value: `git -C submodules/constitution submodule status`): `design-toolkit`
+at `v0.2.2-4-g16e4e76` and `docs_chain` at `helixcode-v1.1.0-9-g9510e01` were
+**past** their tags, and the other five tracked `heads/main` (the count of five derives from the historical 7).
 
 ---
 
