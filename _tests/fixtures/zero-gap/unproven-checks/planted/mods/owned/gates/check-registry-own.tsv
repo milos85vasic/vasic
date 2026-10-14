@@ -1,0 +1,8 @@
+# fixture submodule registry (planted): line 3 is the only honoured exemption; every other
+# exempt row is a planted defect
+exempt	tools/stage_audit.sh	stage runner: produces output and renders no verdict (synthetic fixture)
+exempt	tools/noreason_audit.sh
+exempt	tools/verify-wrongly.sh	a verdict gate by its leading verb, wrongly exempted
+check	chk-1	tools/checked_audit.sh	flag	--prove-failure	--root /nonexistent
+exempt	tools/checked_audit.sh	also registered as a check entry point above
+exempt	tools/gone_audit.sh	names a file that does not exist

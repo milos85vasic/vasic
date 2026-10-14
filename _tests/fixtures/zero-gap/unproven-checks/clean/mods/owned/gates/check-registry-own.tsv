@@ -1,0 +1,4 @@
+# fixture submodule registry (clean): one reasoned exemption for a non-gate whose name
+# matches the umbrella gate-name heuristic only through its _audit.sh suffix
+scanroot	tools
+exempt	tools/stage_audit.sh	stage runner: produces output and renders no verdict (synthetic fixture)

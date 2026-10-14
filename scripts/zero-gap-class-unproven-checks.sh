@@ -25,6 +25,20 @@
 #   `[[ ... ]]` test; a sibling `*mutation*.sh` / `prove-*<name>*.sh` in its directory; or a proof-like file
 #   in its directory (name holding prove/mutation/test/selftest/anti-bluff) that names the script inside its
 #   text. A proof arm that exists but is a STUB is HIGH false-evidence.
+#   SUBMODULE-REGISTRY EXEMPTIONS (operator decision #26, docs/operator-decisions-2026-10-14-session.md): that
+#   MEDIUM name-rule finding is NOT emitted for a script an owned submodule's OWN tracked check registry
+#   (`check-registry*.tsv` at any depth of that gitlink, rows `exempt <module-relative path> <reason>`) exempts —
+#   and only when ALL hold: the row names that EXACT regular file (no directory, link, prefix or glob), its reason
+#   is non-blank, no registry of the same submodule names the file as a check/debt entry point, and the file's
+#   name does not declare a verdict gate by its leading verb (verify|audit|check|guard|gate|lint|validate). The
+#   exemption silences only the name rule: a stub proof arm is still reported. Not a blanket allow, not a name skip.
+#     exempt row with a blank/absent reason, naming a missing file, or naming a non-regular file   high  governance-drift
+#     exempt row refused (verdict-gate name, or contradicted by a check/debt row)                  high  governance-drift
+#   Fail-closed: a registry that is tracked but absent, unreadable, not a regular file, carries a NUL/CR byte,
+#   has a row type outside scanroot|prune|exempt|check|debt, an exempt row with more than three fields, or an
+#   exempt path that is empty/absolute/not normal (`.`/`..`/`//`) is COULD-NOT-INSPECT (rc 2 unless a finding
+#   outranks it) and NO exemption of that whole submodule is honoured. Reason text is never printed (a submodule
+#   may be private): findings name paths and line numbers only.
 #
 # POPULATION (identical for --emit-population and the live run; typed tokens, sorted, unique, LC_ALL=C)
 #   check:<id>   debt:<id>   exempt:<path>     one per registry row (docs/zero-gap sweep-classes.tsv row unproven-checks:
@@ -43,8 +57,11 @@
 #                uses; today submodules/constitution) — consumed here, audited by its own sweep.
 #                A tracked path holding a NEWLINE is refused (COULD-NOT-INSPECT naming its %0A token), never
 #                split; a symlink or special file is COULD-NOT-INSPECT, never read.
+#   subregistry:<path>  every tracked check-registry*.tsv of every walked gitlink (decision #26), minus the shared
+#                third-party classification; a finding about one of its rows is located at <path>:<line>.
 #   With --corpus <dir> the tree is <dir> itself (a scratch tree holding scripts/check-registry.tsv); scripts are
-#   found with find, there are no submodules, locations are relative to <dir>.
+#   found with find, there are no gitlinks: the submodules are the paths <dir>/.gitmodules declares (an absent
+#   one is COULD-NOT-INSPECT), and their registries are found with find; locations are relative to <dir>.
 #   INSPECTED is the number of population items actually READ (a COULD-NOT-INSPECT item is not counted).
 #
 # EXIT CODES  0 clean (full non-empty population inspected)  1 at least one FINDING  2 could not determine
@@ -59,6 +76,9 @@
 #   `mutate` / --anti-bluff-mutate / [[ $1 == --mutate ]] modes; 3 sibling proofs naming the target) plus 2
 #   submodule spec-kit helpers now excluded. What stays unmeasured: whether each `*_challenge.sh` is a GATE
 #   (the name heuristic) and whether a challenges/ meta-test elsewhere proves it.
+#   2026-10-14 (decision #26), measured on the live tree before and after: 101 -> 100 findings, the ONLY row that
+#   left is workshop/pipeline/run_audit.sh (exempted by workshop's check-registry-001.tsv); the other 100 rows are
+#   byte-identical. INSPECTED 921 -> 928: the seven owned-submodule registries are now read population items.
 #
 # WHAT IT DOES NOT SEE
 #   A proof arm that runs real code but asserts nothing (semantic vacuity) — that is class `vacuous-gates`.
@@ -69,6 +89,12 @@
 #   treated as proofs or installers, not gates). Several arms for one flag (a heredoc-embedded fixture gate) are all
 #   judged: a stub is reported only when EVERY arm found is a stub. Submodule scripts are judged by name and arm only.
 #   A sibling proof in ANOTHER directory (a challenges/ meta-test naming the script) is not seen.
+#   Whether a submodule-exempted script is REALLY not a gate is the submodule's own judgement (its reason); this
+#   class only enforces the row's shape, existence and the two refusal rules above. A verdict gate named with
+#   neither a leading gate verb nor a check/debt row in its own submodule's registries can still be exempted.
+#   Submodule registries are judged only for `exempt` rows and the closed row vocabulary; their check/debt rows are
+#   not verified here (each submodule's own meta-check does that). Registries outside a file named
+#   check-registry*.tsv, and registries of the governance source or of third-party gitlinks, are not read.
 #
 # Usage: --root <abs dir> [--corpus <abs dir>] [--emit-population]      |   --prove-failure
 set -uo pipefail
@@ -210,7 +236,10 @@ if [ "$PROVE" -eq 1 ]; then
     for want_line in "high governance-drift debt:bad-date" "high governance-drift debt:lapsed-debt" "medium test-coverage debt:owed-proof" \
         "high governance-drift exempt:scripts/exempt-baddate.sh" "high governance-drift exempt:scripts/gone-exempt.sh" \
         "high governance-drift exempt:scripts/verify-lapsed-ex.sh" "medium test-coverage exempt:scripts/verify-gatey.sh" \
-        "high false-evidence check:odd-kind" "high false-evidence tools/sub/verify-stubarm.sh" "medium test-coverage tools/sub/verify-noproof.sh"; do
+        "high false-evidence check:odd-kind" "high false-evidence tools/sub/verify-stubarm.sh" "medium test-coverage tools/sub/verify-noproof.sh" \
+        "high governance-drift subregistry:mods/owned/gates/check-registry-own.tsv:4" "high governance-drift subregistry:mods/owned/gates/check-registry-own.tsv:5" \
+        "high governance-drift subregistry:mods/owned/gates/check-registry-own.tsv:7" "high governance-drift subregistry:mods/owned/gates/check-registry-own.tsv:8" \
+        "medium test-coverage mods/owned/tools/verify-wrongly.sh" "medium test-coverage mods/owned/tools/checked_audit.sh" "medium test-coverage mods/owned/tools/noreason_audit.sh"; do
         has "^FINDING $ID $want_line " || sevmiss+=" [$want_line]"
     done
     muts=$((muts + 1))
@@ -237,6 +266,68 @@ if [ "$PROVE" -eq 1 ]; then
     k=$((k + 1)); muts=$((muts + 1)); mk pathgate clean
     printf '#!/usr/bin/env bash\nexit 0\n' >"$T/pathgate/tools/sub/audit-thing.sh"; chmod +x "$T/pathgate/tools/sub/audit-thing.sh"; run "$T/pathgate"
     if [ "$RC" -eq 1 ] && has "^FINDING $ID [a-z]* [a-z-]* tools/sub/audit-thing.sh "; then ok "M$k a gate-like script outside R5's depth with no proof arm => finding"; else bad "M$k rc=$RC"; fi
+
+    # ── operator decision #26: an owned submodule's OWN registry may exempt one exact non-gate file, with a
+    # reason; anything less is not honoured and is reported. Every case edits a throwaway copy of clean/.
+    SR=mods/owned/gates/check-registry-own.tsv SS=mods/owned/tools/stage_audit.sh
+    flagged() { has "^FINDING $ID medium test-coverage $SS "; }
+    # sx <name> <description> <assertion> <edit...>: one property edited, then the assertion is evaluated
+    sx() {
+        local nm=$1 desc=$2 cond=$3; shift 3
+        k=$((k + 1)); muts=$((muts + 1)); mk "$nm" clean; ( cd "$T/$nm" && eval "$*" ); run "$T/$nm"
+        if eval "$cond"; then ok "M$k $desc"; else bad "M$k $desc rc=$RC: $(grep -E '^(FINDING|COULD)' <<<"$OUT" | tr '\n' '|')"; fi
+    }
+    k=$((k + 1)); muts=$((muts + 1)); mk sx0 clean; run "$T/sx0"
+    pop0=$(cd "$T/sx0" && env -i PATH="$PATH" HOME="${HOME:-/}" TMPDIR="$T" LC_ALL=C bash "$SELF" --root "$T/sx0" --corpus "$T/sx0" --emit-population 2>/dev/null)
+    if [ "$RC" -eq 0 ] && ! flagged && grep -qxF "$SS" <<<"$pop0" && grep -qxF "subregistry:$SR" <<<"$pop0"; then ok "M$k a reasoned exemption for the exact file in an owned submodule's registry is honoured: rc 0, the script stays in the population (inspected, not skipped) and the registry is a population item"
+    else bad "M$k honoured exemption rc=$RC: $OUT"; fi
+    sx sxa "exemption without a reason => not honoured, the script is flagged and the row is a finding" \
+        '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
+        "sed -i 's/^\(exempt\ttools\/stage_audit.sh\)\t.*/\1/' $SR"
+    sx sxa2 "exemption whose reason is only blanks => not honoured, flagged, row reported" \
+        '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
+        "sed -i 's/^\(exempt\ttools\/stage_audit.sh\)\t.*/\1\t   /' $SR"
+    sx sxb "exemption naming a DIFFERENT existing file => the real script is still flagged, the other is not" \
+        '[ "$RC" -eq 1 ] && flagged && ! has "mods/owned/tools/stage_audit2.sh " && ! has "subregistry:"' \
+        "cp -p mods/owned/tools/stage_audit.sh mods/owned/tools/stage_audit2.sh; sed -i 's|tools/stage_audit.sh|tools/stage_audit2.sh|' $SR"
+    sx sxb2 "exemption naming the script's DIRECTORY (a blanket allow) => not honoured, flagged, row reported" \
+        '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
+        "sed -i 's|^exempt\ttools/stage_audit.sh|exempt\ttools|' $SR"
+    sx sxb3 "exemption naming a PREFIX of the file name (not the exact file) => not honoured, flagged" \
+        '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
+        "sed -i 's|^exempt\ttools/stage_audit.sh|exempt\ttools/stage_aud|' $SR"
+    sx sxc "registry missing => the exemption is gone and the script is flagged (never a silent pass)" \
+        '[ "$RC" -eq 1 ] && flagged' "rm -f $SR"
+    sx sxc2 "registry unreadable => COULD-NOT-INSPECT naming it, exemption not honoured" \
+        '[ "$RC" -ne 0 ] && flagged && has "^COULD-NOT-INSPECT subregistry:$SR "' "chmod 000 $SR"
+    sx sxd "registry malformed (row type outside the closed vocabulary) => COULD-NOT-INSPECT, exemption not honoured" \
+        '[ "$RC" -ne 0 ] && flagged && has "^COULD-NOT-INSPECT subregistry:$SR "' "printf 'bogus\tx\n' >>$SR"
+    sx sxd2 "registry malformed and nothing else to report => rc 2 exactly, never 0" \
+        '[ "$RC" -eq 2 ] && has "^COULD-NOT-INSPECT subregistry:$SR " && ! has "^FINDING"' \
+        "rm -f mods/owned/tools/stage_audit.sh; sed -i '/^exempt/d' $SR; printf 'bogus\tx\n' >>$SR"
+    sx sxd3 "registry malformed (exempt row with an extra field) => COULD-NOT-INSPECT, not honoured" \
+        '[ "$RC" -ne 0 ] && flagged && has "^COULD-NOT-INSPECT subregistry:$SR "' "sed -i 's/^\(exempt\t.*\)$/\1\textra/' $SR"
+    sx sxd4 "registry malformed (an exempt path escaping the submodule with ..) => COULD-NOT-INSPECT" \
+        '[ "$RC" -ne 0 ] && flagged && has "^COULD-NOT-INSPECT subregistry:$SR "' "printf 'exempt\t../../scripts/ok-real.sh\tescape\n' >>$SR"
+    sx sxd5 "registry malformed (a CR line ending) => COULD-NOT-INSPECT, not honoured" \
+        '[ "$RC" -ne 0 ] && flagged && has "^COULD-NOT-INSPECT subregistry:$SR "' "sed -i 's/\$/\r/' $SR"
+    sx sxe "exemption for a file that does not exist => the row itself is a finding" \
+        '[ "$RC" -eq 1 ] && ! flagged && has "^FINDING $ID high governance-drift subregistry:$SR:5 "' \
+        "printf 'exempt\ttools/ghost_audit.sh\treason given\n' >>$SR"
+    sx sxf "a verdict gate (leading gate verb) wrongly exempted => refused: row finding and the gate is flagged" \
+        '[ "$RC" -eq 1 ] && has "^FINDING $ID high governance-drift subregistry:$SR:5 " && has "^FINDING $ID medium test-coverage mods/owned/tools/verify-stage.sh "' \
+        "cp -p mods/owned/tools/stage_audit.sh mods/owned/tools/verify-stage.sh; printf 'exempt\ttools/verify-stage.sh\tclaimed not a gate\n' >>$SR"
+    sx sxf2 "a script the same submodule registers as a check entry point, also exempted => refused: row finding, flagged" \
+        '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
+        "printf 'check\tc1\ttools/stage_audit.sh\tflag\t--prove-failure\t--root /nonexistent\n' >>$SR"
+    sx sxf3 "the contradicting check row sits in a SIBLING registry of the same submodule => still refused" \
+        '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
+        "printf 'check\tc1\tshell\ttools/stage_audit.sh\ttools/prove-x.sh\n' >mods/owned/gates/check-registry-two.tsv"
+    sx sxg "the registry's directory is not a declared submodule (.gitmodules entry removed) => not honoured, flagged" \
+        '[ "$RC" -eq 1 ] && flagged' "rm -f .gitmodules"
+    sx sxg2 "a declared submodule path that is absent => COULD-NOT-INSPECT, never clean" \
+        '[ "$RC" -eq 2 ] && has "^COULD-NOT-INSPECT gitlink:mods/ghost "' \
+        "printf '[submodule \"mods/ghost\"]\n\tpath = mods/ghost\n\turl = x\n' >>.gitmodules"
 
     # empty / absent population, broken tool, absent registry: never clean
     mkdir -p "$T/empty/scripts"; printf 'scanroot\tscripts\n' >"$T/empty/scripts/check-registry.tsv"; run "$T/empty"; k=$((k + 1)); muts=$((muts + 1))
@@ -269,6 +360,12 @@ if [ "$PROVE" -eq 1 ]; then
     gi() { git -C "$1" -c user.name=zg -c user.email=zg@example.invalid -c commit.gpgsign=false -c core.hooksPath=/dev/null "${@:2}"; }
     cp -a "$FIX/clean/scripts/." "$G/scripts/"
     mksub() { mkdir -p "$G/$1/tools"; printf '#!/usr/bin/env bash\nexit 0\n' >"$G/$1/tools/audit-$2.sh"; chmod +x "$G/$1/tools/audit-$2.sh"; [ -z "${3:-}" ] || { mkdir -p "$G/$1/scripts/gates/lib"; : >"$G/$1/scripts/gates/lib/pointer_carrier.sh"; }; [ -z "${4:-}" ] || { mkdir -p "$G/$1/.specify/scripts/bash"; printf '#!/usr/bin/env bash\nexit 0\n' >"$G/$1/.specify/scripts/bash/check-prerequisites.sh"; }; git init -q "$G/$1" && gi "$G/$1" add -A && gi "$G/$1" commit -q -m f; }
+    # decision #26: the owned gitlink carries its OWN registry exempting one exact non-gate (honoured); the
+    # governance source carries one too (never read: that gitlink is not walked)
+    mkdir -p "$G/owned/tools" "$G/owned/gates" "$G/gov/tools" "$G/gov/gates"
+    cp -p "$FIX/clean/mods/owned/tools/stage_audit.sh" "$G/owned/tools/stage_audit.sh"
+    cp -p "$FIX/clean/mods/owned/gates/check-registry-own.tsv" "$G/owned/gates/check-registry-own.tsv"
+    printf 'exempt\ttools/audit-gov.sh\tnever read\n' >"$G/gov/gates/check-registry-gov.tsv"
     mksub vendor/tp tp; mksub owned own "" speckit; mksub gov gov yes
     printf '#   vendor/tp -> git@example.invalid:someone/tp.git\n' >"$G/helix-deps.yaml"
     printf '#!/usr/bin/env bash\nexit 0\n' >"$G/scripts/verify-nl
@@ -276,6 +373,12 @@ x.sh"
     git init -q "$G" && gi "$G" add -A 2>/dev/null && gi "$G" commit -q -m f
     OUT=$(cd "$G" && env -i PATH="$PATH" HOME="${HOME:-/}" TMPDIR="$T" LC_ALL=C bash "$SELF" --root "$G" 2>&1); RC=$?
     if has '^COULD-NOT-INSPECT scripts/verify-nl%0Ax.sh tracked-path-contains-a-newline' && has '^FINDING unproven-checks medium test-coverage owned/tools/audit-own.sh ' && ! has 'vendor/tp/tools/audit-tp.sh' && ! has 'gov/tools/audit-gov.sh' && ! has 'owned/.specify/scripts/bash/check-prerequisites.sh' && ! grep -q '^FINDING [^ ]* [^ ]* [^ ]* x.sh ' <<<"$OUT"; then ok "M$k live mode: newline path refused (not split), third-party gitlink (helix-deps.yaml) and governance source not walked, owned gitlink walked minus its own spec-kit .specify/scripts/bash"; else bad "M$k rc=$RC: $OUT"; fi
+    k=$((k + 1)); muts=$((muts + 1))
+    if ! has 'owned/tools/stage_audit.sh' && ! has 'gov/gates/' && ! has '^COULD-NOT-INSPECT subregistry:'; then ok "M$k live mode: a tracked registry inside an owned gitlink is read and its reasoned exact exemption honoured; the governance source's registry is never read"; else bad "M$k rc=$RC: $OUT"; fi
+    rm -f "$G/owned/gates/check-registry-own.tsv"
+    OUT=$(cd "$G" && env -i PATH="$PATH" HOME="${HOME:-/}" TMPDIR="$T" LC_ALL=C bash "$SELF" --root "$G" 2>&1); RC=$?
+    k=$((k + 1)); muts=$((muts + 1))
+    if [ "$RC" -ne 0 ] && has '^COULD-NOT-INSPECT subregistry:owned/gates/check-registry-own.tsv ' && has '^FINDING unproven-checks medium test-coverage owned/tools/stage_audit.sh '; then ok "M$k live mode: a TRACKED submodule registry missing from the worktree => COULD-NOT-INSPECT naming it and the exemption is not honoured"; else bad "M$k rc=$RC: $OUT"; fi
 
     # the shared exclusion block is byte-identical in the sibling class (one classification for both)
     k=$((k + 1)); muts=$((muts + 1)); SIB="$(dirname "$SELF")/zero-gap-class-unregistered-scripts.sh"
@@ -335,11 +438,32 @@ nl_split() {
         printf '%s%s\n' "$1" "$p"
     done
 }
+# sub_registries <sub>: NUL-separated registry paths (relative to <sub>) on stdin -> "<sub> US <rel>" lines in
+# $W/subregs.raw; a path holding a newline is refused, never split
+sub_registries() {
+    local r
+    while IFS= read -r -d '' r; do
+        case "$r" in *$'\n'*) cni "subregistry:$(enc "$1/$r")" "registry-path-contains-a-newline-and-is-refused"; continue ;; esac
+        printf '%s\037%s\n' "$1" "$r" >>"$W/subregs.raw"
+    done
+}
+: >"$W/subregs.raw"
 collect_paths() {
     local sub
     : >"$W/all"
     if [ -n "$CORPUS" ]; then
         ( cd "$BASE" && find . -name '*.sh' ! -type d -print0 ) | sed -z 's|^\./||' | nl_split "" >>"$W/all"
+        # a scratch corpus has no gitlinks: its submodules are the paths its own .gitmodules declares
+        if [ -L "$BASE/.gitmodules" ]; then cni .gitmodules "a-symlink-and-is-not-read"
+        elif [ -f "$BASE/.gitmodules" ]; then
+            git config -f "$BASE/.gitmodules" --get-regexp '^submodule\..*\.path$' 2>/dev/null | cut -d' ' -f2- | LC_ALL=C sort -u >"$W/cgl"
+            while IFS= read -r sub; do
+                [ -n "$sub" ] || continue
+                if [[ $sub =~ ^/|(^|/)\.\.?(/|$)|//|/$ ]]; then cni "gitlink:$(enc "$sub")" "declared-submodule-path-is-not-a-normal-relative-path"; continue; fi
+                if [ -L "$BASE/$sub" ] || [ ! -d "$BASE/$sub" ]; then cni "gitlink:$(enc "$sub")" "gitlink-not-initialised-or-has-no-checked-out-commit"; continue; fi
+                ( cd "$BASE/$sub" && find . -name 'check-registry*.tsv' ! -type d -print0 ) | sed -z 's|^\./||' | sub_registries "$sub"
+            done <"$W/cgl"
+        fi
     else
         git -C "$ROOT" ls-files -z -- '*.sh' >"$W/all.z" || { cni umbrella git-ls-files-failed; return; }
         nl_split "" <"$W/all.z" >>"$W/all"
@@ -356,6 +480,12 @@ collect_paths() {
             fi
             if git -C "$ROOT/$sub" ls-files -z -- '*.sh' >"$W/sub.z" 2>/dev/null; then
                 nl_split "$sub/" <"$W/sub.z" >>"$W/all"
+                # decision #26: the submodule's OWN tracked check registries (any depth) are read for exemptions
+                if git -C "$ROOT/$sub" ls-files -z -- ':(glob)**/check-registry*.tsv' >"$W/subreg.z" 2>/dev/null; then
+                    sub_registries "$sub" <"$W/subreg.z"
+                else
+                    cni "gitlink:$(enc "$sub")" "submodule-registries-could-not-be-listed"
+                fi
                 # the submodule's OWN tracked data classifies its own vendored trees (its helix-deps.yaml,
                 # covenant exclusions, its spec-kit .specify/scripts/bash/), prefixed with its path
                 zg_thirdparty_prefixes "$ROOT/$sub" | sed "s|^|$sub/|" >>"$W/excl"
@@ -372,6 +502,11 @@ collect_paths() {
     done >>"$W/paths"
 }
 collect_paths
+# a registry inside a tree the shared classification calls third-party or generated is not the module's own
+: >"$W/subregs"
+while IFS=$'\037' read -r s r; do
+    [ -n "$(printf '%s/%s\n' "$s" "$r" | zg_drop_excluded "$W/excl")" ] && printf '%s\037%s\n' "$s" "$r" >>"$W/subregs"
+done < <(LC_ALL=C sort -u "$W/subregs.raw")
 
 # tokens
 tokens() {
@@ -382,6 +517,7 @@ tokens() {
             awk -F'\037' -v t="$ty" '$1 == t { printf "%s\0", $3 }' "$W/rows" | zg_pct_encode_z | sed "s/^/$ty:/"
         done
         tr '\n' '\0' <"$W/paths" | zg_pct_encode_z
+        awk -F'\037' '{ printf "%s/%s\0", $1, $2 }' "$W/subregs" | zg_pct_encode_z | sed 's/^/subregistry:/'
     } | awk 'NF' | LC_ALL=C sort -u
 }
 TOK=$(tokens)
@@ -546,6 +682,66 @@ while IFS=$'\037' read -r ty ln f2 f3 f4 f5 f6 f7 f8 f9; do
     esac
 done <"$W/rows"
 
+# ---- submodule registries (operator decision #26, 2026-10-14): an owned submodule's OWN check registry may exempt
+# one EXACT file from the gate-name rule, with a reason. Fail-closed: a registry that is absent, unreadable, not a
+# regular file or malformed is COULD-NOT-INSPECT and honours nothing for its WHOLE submodule (the contradiction test
+# below would be incomplete). Reason text is never printed: a submodule may be private; paths and lines only.
+: >"$W/subex" ; : >"$W/subent" ; : >"$W/subbad" ; : >"$W/subexok"
+while IFS=$'\037' read -r s r; do
+    f="$BASE/$s/$r"; rl="subregistry:$(enc "$s/$r")"
+    if [ -L "$f" ] || [ ! -f "$f" ] || [ ! -r "$f" ]; then
+        cni "$rl" "registry-absent-unreadable-or-not-a-regular-file-so-no-exemption-of-$(enc "$s")-is-honoured"; printf '%s\n' "$s" >>"$W/subbad"; continue
+    fi
+    if [ "$(sha256sum <"$f")" != "$(tr -d '\000\r' <"$f" | sha256sum)" ]; then
+        cni "$rl" "registry-malformed:carries-a-NUL-or-CR-byte-so-no-exemption-of-$(enc "$s")-is-honoured"; printf '%s\n' "$s" >>"$W/subbad"; continue
+    fi
+    # closed row vocabulary (the union every registry of this convention uses); `#` and blank lines are inert
+    awk -F'\t' '
+        /^#/ || /^[ \t]*$/ { next }
+        $1 !~ /^(scanroot|prune|exempt|check|debt)$/ { print "BAD\037" NR "\037row-type-outside-the-closed-vocabulary"; exit }
+        $1 == "exempt" {
+            if (NF > 3) { print "BAD\037" NR "\037exempt-row-has-more-than-three-fields"; exit }
+            p = $2
+            if (p == "" || p ~ /^\// || p ~ /(^|\/)\.\.?(\/|$)/ || p ~ /\/\//) { print "BAD\037" NR "\037exempt-path-empty-absolute-or-not-normal"; exit }
+            rs = $3; gsub(/[ \t]/, "", rs)
+            print "EX\037" NR "\037" p "\037" (rs != "" ? 1 : 0); next }
+        $1 == "check" || $1 == "debt" { for (i = 3; i <= NF; i++) if ($i != "") print "ENT\037" $i }
+    ' "$f" >"$W/reg.parsed" 2>/dev/null || { cni "$rl" "registry-could-not-be-parsed"; printf '%s\n' "$s" >>"$W/subbad"; continue; }
+    bl=$(grep -m1 '^BAD' "$W/reg.parsed")
+    if [ -n "$bl" ]; then
+        IFS=$'\037' read -r _ bn bw <<<"$bl"
+        cni "$rl" "registry-malformed:line-$bn:$bw-so-no-exemption-of-$(enc "$s")-is-honoured"; printf '%s\n' "$s" >>"$W/subbad"; continue
+    fi
+    n=$((n + 1))
+    awk -F'\037' -v s="$s" -v r="$r" '$1 == "EX" { print s "\037" r "\037" $2 "\037" $3 "\037" $4 }' "$W/reg.parsed" >>"$W/subex"
+    awk -F'\037' -v s="$s" '$1 == "ENT" { print s "/" $2 }' "$W/reg.parsed" >>"$W/subent"
+done <"$W/subregs"
+while IFS=$'\037' read -r s r ln ep hr; do
+    tgt="$s/$ep"; rl="subregistry:$(enc "$s/$r"):$ln"; rref="$(enc "$s/$r"):$ln"
+    if [ "$hr" != 1 ]; then finding high governance-drift "$rl" "submodule registry exempt row for $(enc "$tgt") carries no reason, so it is not honoured" "$rref"; continue; fi
+    if [ ! -e "$BASE/$tgt" ] && [ ! -L "$BASE/$tgt" ]; then finding high governance-drift "$rl" "submodule registry exempt row names $(enc "$tgt") which does not exist" "$rref"; continue; fi
+    if [ -L "$BASE/$tgt" ] || [ ! -f "$BASE/$tgt" ]; then finding high governance-drift "$rl" "submodule registry exempt row names $(enc "$tgt") which is not a regular file: only one exact file can be exempted, never a directory or a link" "$rref"; continue; fi
+    grep -qxF -- "$s" "$W/subbad" && continue
+    printf '%s\037%s\037%s\n' "$tgt" "$rl" "$rref" >>"$W/subexok"
+done <"$W/subex"
+
+# sub_exempt <path>: 0 when an honoured submodule exemption covers exactly <path>. An exemption is REFUSED (with a
+# finding at its row) when the file's name declares a verdict gate by its leading verb, or when any registry of the
+# same submodule also names the file as a check/debt entry point: a gate cannot be exempted from having a proof.
+sub_exempt() {
+    local p=$1 row tgt rl rref
+    row=$(awk -F'\037' -v t="$p" '$1 == t { print; exit }' "$W/subexok")
+    [ -n "$row" ] || return 1
+    IFS=$'\037' read -r tgt rl rref <<<"$row"
+    if [[ $(basename -- "$p") =~ ^(verify|audit|check|guard|gate|lint|validate)[-_.] ]]; then
+        finding high governance-drift "$rl" "submodule registry exempts $(enc "$p") whose name declares a verdict gate by its leading verb; the exemption is refused" "$rref"; return 1
+    fi
+    if grep -qxF -- "$p" "$W/subent"; then
+        finding high governance-drift "$rl" "submodule registry exempts $(enc "$p") which a registry of the same submodule also names as a check or debt entry point; the exemption is refused" "$rref"; return 1
+    fi
+    return 0
+}
+
 # alias_target <rel link path>: prints the repository-relative path of the regular file the tracked symlink
 # resolves to; rc 1 unless that file lies inside BASE, is a regular non-symlink file and (live mode) belongs to the
 # SAME git repository as the link.
@@ -587,6 +783,7 @@ while IFS= read -r p; do
     for s in "$BASE/$d"/*mutation*.sh "$BASE/$d"/prove-*"$st"*.sh "$BASE/$d"/prove_*"$st"*.sh; do [ -f "$s" ] && sib=1; done
     [ "$sib" -eq 1 ] && continue
     sibling_proof "$d" "$(basename -- "$p")" && continue
+    sub_exempt "$p" && continue
     finding medium test-coverage "$tp" "gate-like script outside R5's one-level scan has no proof-mode arm (flag, positional mutate, or a [[ \$1 == ... ]] test), no sibling proof naming it and no registry row; its name is the gate evidence" "$tp"
 done <"$W/paths"
 

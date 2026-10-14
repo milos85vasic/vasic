@@ -17,3 +17,10 @@ exempt:scripts/gone-exempt.sh	exempt row naming a file that does not exist
 exempt:scripts/exempt-baddate.sh	exempt row whose next_review is not an ISO date
 tools/sub/verify-stubarm.sh	gate-like script outside R5 depth whose proof arm is a stub
 .specify/scripts/check-unmarked.sh	gate-like .specify/scripts helper outside the ruled spec-kit bash/ tree, with no proof
+subregistry:mods/owned/gates/check-registry-own.tsv:4	submodule registry exempt row with no reason (not honoured)
+mods/owned/tools/noreason_audit.sh	gate-like submodule script whose only exemption carries no reason
+subregistry:mods/owned/gates/check-registry-own.tsv:5	submodule registry exempts a script whose name declares it a verdict gate (refused)
+mods/owned/tools/verify-wrongly.sh	verdict-gate submodule script whose exemption is refused
+subregistry:mods/owned/gates/check-registry-own.tsv:7	submodule registry exempts a script it also registers as a check entry point (refused)
+mods/owned/tools/checked_audit.sh	submodule script whose exemption contradicts its own check row
+subregistry:mods/owned/gates/check-registry-own.tsv:8	submodule registry exempt row naming a file that does not exist
