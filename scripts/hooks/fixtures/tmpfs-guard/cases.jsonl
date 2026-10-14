@@ -170,3 +170,88 @@
 {"id": "own-G11", "expect": "A", "branch": "-", "cwd": "-", "cmd": "grep -c -- --no-verify notes.md"}
 {"id": "own-B11", "expect": "B", "branch": "cat:no-verify", "cwd": "-", "cmd": "git -c x=y push origin main --no-verify"}
 {"id": "own-G12", "expect": "A", "branch": "-", "cwd": "-", "cmd": "cp @T@/small.txt /tmp/small.txt"}
+{"id": "r4-B01", "expect": "B", "branch": "cat:restore-discard", "cwd": "@REPO@", "cmd": "git restore -SW ."}
+{"id": "r4-B02", "expect": "B", "branch": "cat:restore-discard", "cwd": "@REPO@", "cmd": "git restore -S -W ."}
+{"id": "r4-B03", "expect": "B", "branch": "cat:restore-discard", "cwd": "@REPO@", "cmd": "git restore --staged --worktree f"}
+{"id": "r4-B04", "expect": "B", "branch": "cat:restore-discard", "cwd": "@REPO@", "cmd": "git restore -WS f"}
+{"id": "r4-B05", "expect": "B", "branch": "cat:restore-discard", "cwd": "@REPO@", "cmd": "git restore --staged --work f"}
+{"id": "r4-G01", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git restore --staged -- -W"}
+{"id": "r4-G02", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git restore --source=HEAD~1 --staged f"}
+{"id": "r4-B06", "expect": "B", "branch": "cat:no-verify", "cwd": "@REPO@", "cmd": "git commit -n -m x"}
+{"id": "r4-B07", "expect": "B", "branch": "cat:no-verify", "cwd": "@REPO@", "cmd": "git commit -nm msg"}
+{"id": "r4-B08", "expect": "B", "branch": "cat:no-verify", "cwd": "@REPO@", "cmd": "git commit --no-veri -m x"}
+{"id": "r4-B09", "expect": "B", "branch": "cat:no-verify", "cwd": "@REPO@", "cmd": "git push --no-ver origin main"}
+{"id": "r4-B10", "expect": "B", "branch": "cat:no-verify", "cwd": "@REPO@", "cmd": "git merge --no-verify feature"}
+{"id": "r4-G03", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git grep -- --no-verify"}
+{"id": "r4-G04", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git log -G --no-verify"}
+{"id": "r4-G05", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git commit -m \"--no-verify is forbidden here\""}
+{"id": "r4-G06", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git commit -mn"}
+{"id": "r4-G07", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git push -n origin main"}
+{"id": "r4-G08", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git notes add -m --no-verify"}
+{"id": "r4-G09", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git log --grep=--no-verify"}
+{"id": "r4-B11", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "bash <<< 'git add -A'"}
+{"id": "r4-B12", "expect": "B", "branch": "cp-recursive", "cwd": "@REPO@", "cmd": "sh <<< \"cp -a src /tmp/x\""}
+{"id": "r4-B13", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "bash -s <<< 'git add -A'"}
+{"id": "r4-B14", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "sh -s -- a b <<'EOF'\ngit add -A\nEOF"}
+{"id": "r4-G10", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "bash x.sh -c 'git add -A'"}
+{"id": "r4-G11", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "cat <<< 'git add -A'"}
+{"id": "r4-B15", "expect": "B", "branch": "cat:add-all-any-spelling", "cwd": "@REPO@", "cmd": "git add -- ."}
+{"id": "r4-B16", "expect": "B", "branch": "cat:add-all-any-spelling", "cwd": "@REPO@", "cmd": "git add -v ."}
+{"id": "r4-B17", "expect": "B", "branch": "cat:add-all-any-spelling", "cwd": "@REPO@", "cmd": "git add ./"}
+{"id": "r4-B18", "expect": "B", "branch": "cat:add-all-any-spelling", "cwd": "@REPO@", "cmd": "git add ':(top)'"}
+{"id": "r4-B19", "expect": "B", "branch": "cat:add-all-any-spelling", "cwd": "@REPO@", "cmd": "git add --al"}
+{"id": "r4-B20", "expect": "B", "branch": "cat:clean-force-any-spelling", "cwd": "@REPO@", "cmd": "git clean --forc -d"}
+{"id": "r4-B21", "expect": "B", "branch": "cat:clean-force-any-spelling", "cwd": "@REPO@", "cmd": "git clean -f"}
+{"id": "r4-B22", "expect": "B", "branch": "cat:branch-force-delete", "cwd": "@REPO@", "cmd": "git branch --del --force x"}
+{"id": "r4-B23", "expect": "B", "branch": "cat:branch-force-delete", "cwd": "@REPO@", "cmd": "git branch -d -f x"}
+{"id": "r4-B24", "expect": "B", "branch": "cat:branch-force-delete", "cwd": "@REPO@", "cmd": "git branch --de --forc x"}
+{"id": "r4-B25", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf /home/"}
+{"id": "r4-B26", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf /."}
+{"id": "r4-B27", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf //"}
+{"id": "r4-B28", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf ~/."}
+{"id": "r4-B29", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf ~/.."}
+{"id": "r4-B30", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf \"${HOME:?}\""}
+{"id": "r4-B31", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf @HOME@"}
+{"id": "r4-B32", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm --recursive --force @HOME@/"}
+{"id": "r4-B33", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm --rec -f /home/*"}
+{"id": "r4-B34", "expect": "B", "branch": "cat:checkout-tree-discard", "cwd": "@REPO@", "cmd": "git checkout HEAD -- ./"}
+{"id": "r4-B35", "expect": "B", "branch": "cat:checkout-tree-discard", "cwd": "@REPO@", "cmd": "git checkout main -- ':(top)'"}
+{"id": "r4-G12", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "rm -rf @HOME@/.cache/agent-scratch/guard-r4/x"}
+{"id": "r4-G13", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "rm -r ./build"}
+{"id": "r4-G14", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git add -- docs/a.md"}
+{"id": "r4-G15", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git checkout -q -- file"}
+{"id": "r4-G16", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git branch -d merged"}
+{"id": "r4-G17", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git clean -nd"}
+{"id": "r4-G18", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git add -v docs/x.md"}
+{"id": "r4-G19", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "rm -rf \"$S\"/x"}
+{"id": "r4-G20", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git branch --format=x --list"}
+{"id": "r4-B36", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "echo 'git add -A' |& bash"}
+{"id": "r4-B37", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "function f { X=1 git add -A; }"}
+{"id": "r4-G21", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "cat <<'EOF'\n$(git add -A)\nEOF"}
+{"id": "r4-B38", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "for d in @HOME@/x /tmp/x; do cp -a src \"$d\"; done"}
+{"id": "r4-B39", "expect": "B", "branch": "mv-into-tmpfs", "cwd": "-", "cmd": "mv -t /tmp/x @T@/sparse65m"}
+{"id": "r4-G22", "expect": "A", "branch": "-", "cwd": "-", "cmd": "cp -rs @REPO@/scripts /tmp/x"}
+{"id": "r4-G23", "expect": "A", "branch": "-", "cwd": "-", "cmd": "dd if=/dev/zero of=/tmp/x bs=1M count=1000000 iflag=count_bytes"}
+{"id": "r4-B40", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "bash /dev/fd/0 <<'EOF'\ngit add -A\nEOF"}
+{"id": "r4-B41", "expect": "B", "branch": "dd", "cwd": "-", "cmd": "dd if=/dev/zero of=/tmp/x bs=1M count=100"}
+{"id": "r4-B42", "expect": "B", "branch": "mv-into-tmpfs", "cwd": "-", "cmd": "mv @T@/adir /tmp/x"}
+{"id": "r4-B43", "expect": "B", "branch": "git-tmpfs-repo", "cwd": "-", "cmd": "cd /tmp/r && git pull"}
+{"id": "r4-G24", "expect": "A", "branch": "-", "cwd": "-", "cmd": "git --git-dir=/tmp/r.git --work-tree=/tmp/wt checkout main"}
+{"id": "r4-B44", "expect": "B", "branch": "download", "cwd": "-", "cmd": "curl https://e/m.gguf > /tmp/m.gguf"}
+{"id": "r4-B45", "expect": "B", "branch": "dd", "cwd": "-", "cmd": "dd if=/dev/zero bs=1M > /tmp/y"}
+{"id": "r4-B46", "expect": "B", "branch": "dd", "cwd": "-", "cmd": "dd if=/dev/zero of=/tmp/y ibs=1G obs=512 count=1"}
+{"id": "r4-B47", "expect": "B", "branch": "git-tmpfs-repo", "cwd": "@REPO@", "cmd": "git push /tmp/x.git main"}
+{"id": "r4-B48", "expect": "B", "branch": "git-tmpfs-repo", "cwd": "-", "cmd": "cd /tmp/r && git remote update"}
+{"id": "r4-B50", "expect": "B", "branch": "cp-recursive", "cwd": "-", "cmd": "coproc NAME { cp -a src /tmp/x; }"}
+{"id": "r4-B51", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "(( $(git add -A) ))"}
+{"id": "r4-B52", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "echo $(( $(git add -A) + 1 ))"}
+{"id": "r4-G25", "expect": "A", "branch": "-", "cwd": "-", "cmd": "curl -o /tmp/page.html https://e/"}
+{"id": "r4-G26", "expect": "A", "branch": "-", "cwd": "-", "cmd": "curl https://e/x.json > /tmp/x.json"}
+{"id": "r4-G27", "expect": "A", "branch": "-", "cwd": "-", "cmd": "dd if=/dev/zero of=/tmp/x bs=1M count=1"}
+{"id": "r4-G28", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git push origin main"}
+{"id": "r4-G29", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git push ../other.git main"}
+{"id": "r4-B49", "expect": "B", "branch": "git-clone", "cwd": "-", "tmpdir": "@HOME@/.cache/agent-scratch", "cmd": "TMPDIR=/tmp bash -c 'git clone https://e/r.git \"$(mktemp -d)\"'"}
+{"id": "r4-B53", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "bash -s a b <<'EOF'\ngit add -A\nEOF"}
+{"id": "r4-B54", "expect": "B", "branch": "cat:add-all-any-spelling", "cwd": "@REPO@", "cmd": "git add :/"}
+{"id": "r4-G30", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git commit --message \"--no-verify is not used here\""}
+{"id": "r4-G31", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git -C /tmp/w push -q /tmp/up.git trunk:refs/heads/main", "note": "replay 2026-10-14: a push from a repo on tmpfs into a bare repo on tmpfs is tmpfs -> tmpfs (allowed, as for copies)"}

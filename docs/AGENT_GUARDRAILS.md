@@ -183,21 +183,33 @@ fails (cross-device), which pushed agents into full copies instead. The mechanis
 | D8 | Clean up: remove your scratch dir when finished; `bash scripts/agent-scratch.sh gc --older-than 3d` removes only dirs the helper created and that have been idle that long. `du` shows usage. | **ADVISORY** (nothing runs `gc` on a schedule). |
 
 **Defense in depth — the tmpfs guard rule.** `scripts/hooks/guard-project-catalogue.sh` reads each command
-with a shell lexer (continuations, quoting, compound commands and `function` bodies, `(( ))` arithmetic,
-here-documents fed to a shell, `$(...)` including inside unquoted here-documents, `echo '...' | bash`,
-wrappers such as `timeout`/`xargs`/`bounded-run`/`agent-admit.sh`, absolute binary paths) and refuses (rc 2)
+with a shell lexer (continuations, quoting, compound commands, `function` bodies and `coproc NAME { }`,
+`(( ))` arithmetic, here-documents and here-strings fed to a shell, `$(...)` including inside unquoted
+here-documents and arithmetic, `echo '...' | bash` and `|& bash`, `VAR=` prefixes of `bash -c`, wrappers such
+as `timeout`/`xargs`/`bounded-run`/`agent-admit.sh`, absolute binary paths) and refuses (rc 2)
 BULK writes that bring DISK data into tmpfs: recursive copies (`cp -a|-r|-R`, `rsync`, `zip -r`,
 `podman|docker cp`), clones/worktrees/bundles/archives, archive extraction (`tar -x`, `unzip`, `7z x`), git
-fetching into a repo on tmpfs, `podman|docker save`, a directory or a > 64 MiB file moved or copied, an
-unbounded or > 64 MiB `dd`, and a download whose file name is a model or an archive (`.gguf`, `.tar`,
-`.zip`, ...). It is deliberately NOT bulk, and allowed: one named file of bounded or unknown size
+fetching into (or `git push` / `git remote update` into) a repo on tmpfs, `podman|docker save`, a directory
+or a > 64 MiB file moved or copied, an unbounded or > 64 MiB `dd` (`of=` or stdout redirected; `count` is
+counted in `bs`, else `ibs`, blocks), and a download whose file name (target or URL) is a model or an archive
+(`.gguf`, `.tar`, `.zip`, ...), including `curl URL > /tmp/m.gguf`. It is deliberately NOT bulk, and allowed: one named file of bounded or unknown size
 (`mv out.txt /tmp/`, `curl -o /tmp/health.json ...`, `dd ... count=1`), `cp -l`, tmpfs → tmpfs copies, and a
 checkout in a repo that already lives on tmpfs — a download's size cannot be known statically, so only the
 file-name rule applies to it. Destinations resolve through `cd` (subshell-scoped), `git -C`, `env -C`,
 `GIT_DIR`, `VAR=literal` / `export VAR=` and `for VAR in literal` on the same line, `$TMPDIR` (an in-line
 `export TMPDIR=` wins over the hook's environment) and `$(mktemp ...)`. The catalogue half applies git flag
-classes (`--no-verify`, `--force-with-lease`) to `git` commands only, so searching for them with
-`grep`/`rg` is allowed, and every refusal says what to do instead. The only escape is an inline
+classes (`--no-verify`, `--force-with-lease`) to the options a `git` command really passes, per subcommand:
+values are skipped (`git commit -m "--no-verify is..."` is allowed), unique prefixes count (`--no-ver`),
+`git commit -n` / `-nm msg` is `--no-verify`, and `grep`/`rg`, `git grep`, `git log -G` searching for them
+are allowed. `git restore` passes only when it touches the index alone (`-SW`, `-S -W` and
+`--staged --worktree` are refused). The structural rows match every spelling: `git add -- .`, `./`, `:/`,
+`':(top)'`, `--al`; `git clean -f` / `--forc`; `git branch -d -f` / `--del --forc`; `rm -r` of `/`, `/home`,
+`$HOME` or an ancestor after normalising (`/home/`, `//`, `/.`, `~/.`, `~/..`, `"${HOME:?}"`, the literal home
+path). Every refusal says what to do instead (the proof asserts the hint). **Known limits of the catalogue
+half** (documented, not covered): a git alias (`git ci -n`), config-level bypasses (`git -c
+core.hooksPath=...`, `GIT_CONFIG_*`, `git -c clean.requireForce=false clean -d`), an `rm` root reached through
+a variable assigned elsewhere or a command substitution, a tmpfs write through a shape not named above
+(`| tee /tmp/x.gguf`), and a here-string fed to a non-shell interpreter. The only escape is an inline
 `AGENT_TMPFS_OK='<at least 3 real words>'` on that command, logged to
 `~/.cache/agent-scratch/tmpfs-overrides.log`; an agent can still write such a reason — **the log is the
 control**. The full list of shapes it cannot see (script files, interpreters, symlinked destinations, …)

@@ -15,12 +15,15 @@
 # HOW A COMMAND LINE IS READ (rewritten 2026-10-14 after two independent reviews). One shell lexer serves
 # every rule: backslash-newline continuation; '...', "...", $'...' quoting and backslash escapes (so
 # `FOO='a b' cmd` and `FOO=a\ b cmd` are ONE assignment); comments; the operators ; ;; & && || | |& ( )
-# and newline; redirections (an fd number glued to them is dropped); here-strings (data); `(( ... ))`
-# arithmetic (data: its `<<` is a shift, not a here-document); here-documents (data, EXCEPT that a body fed
-# to a shell — `bash <<EOF`, `bash -s`, `bash /dev/stdin <<EOF` — is judged as a script, and the $(...) of
-# an UNQUOTED-delimiter body is judged because the shell runs it while expanding); `echo|printf '...' |
-# bash` (the piped text is judged); $(...) and `...` (judged as commands). Each simple command is then
-# normalised: leading reserved words (! { } if then elif else do while until coproc), `function NAME`
+# and newline; redirections (an fd number glued to them is dropped); `(( ... ))` and `$(( ... ))`
+# arithmetic (data: its `<<` is a shift, not a here-document; a $(...) inside it runs and is judged);
+# here-documents and here-strings (data, EXCEPT that a body fed to a shell — `bash <<EOF`, `bash <<< 'cmd'`,
+# `bash -s`, `bash /dev/stdin|/dev/fd/0 <<EOF`; with -s every word after it is a positional, not a script
+# file — is judged as a script, and the $(...) of an UNQUOTED-delimiter body is judged because the shell
+# runs it while expanding); `echo|printf '...' | bash` and `|& bash` (the piped text is judged); $(...)
+# and `...` (judged as commands). A VAR=value prefix of a command that runs a script (`TMPDIR=/tmp bash -c
+# '...'`, eval, env -S) is in that script's environment. Each simple command is then normalised: leading
+# reserved words (! { } if then elif else do while until coproc, and `coproc NAME {`), `function NAME`
 # (its body is judged), `for`/`case`/`select` headers (a `for VAR in literal...` list sets VAR), VAR=value
 # prefixes, wrappers (env command exec nohup builtin setsid nice ionice timeout stdbuf taskset chrt xargs
 # flock sudo doas time watch, and bounded-run / agent-admit.sh / systemd-run up to `--`, also when run as
@@ -33,21 +36,30 @@
 # tried), so `echo will reboot later` and `git commit -m "avoid git add -A"` are allowed while
 # `{ git add -A; }`, `for f in a; do git add -A; done`, `/usr/bin/git add -A`, `bash -lc 'git add -A'` and
 # `$(git clean -fd)` are refused. A class that begins with `-` (--no-verify, --force-with-lease) is a GIT
-# flag: it is matched against the argument words of a `git` command only, so `grep -rn -- --no-verify docs/`
-# is allowed. `git stash list|show` and `git restore --staged|-S` (no --worktree) are allowed; a match ending
-# in `/` followed by more path (`rm -rf ~/Projects/x`) is a sub-path and is allowed. Structural rows the
-# shared tsv's literal regexes miss (project-only; the upstream guard still misses them): force-push in ANY
-# spelling, `git clean` with -f in any cluster, `git checkout <ref> -- .`, `git add --all|-A|:/` in any
-# position, `git branch -D` / `--delete --force`, `rm -r|-R` of / /* ~ $HOME /home. Every refusal names
-# what to do instead (HINTS).
+# OPTION, judged on the options a git command really passes, per subcommand: option VALUES are skipped
+# (`git commit -m "--no-verify is..."`), unique long prefixes count (`--no-ver`, `--no-veri`), `git commit -n`
+# / `-nm msg` is --no-verify (push -n is --dry-run), and subcommands whose arguments are patterns or text
+# (grep log show notes stash diff ...) are not judged, so `grep -rn -- --no-verify docs/`, `git grep --
+# --no-verify` and `git log -G --no-verify` are allowed. `git stash list|show` is allowed, and `git restore`
+# only when it touches the index alone (-S/--staged and NO -W/--worktree in any cluster or prefix:
+# `-SW`, `-S -W`, `--staged --work` are refused); a match ending in `/` followed by more path (`rm -rf
+# ~/Projects/x`) is a sub-path and is allowed. Structural rows the shared tsv's literal regexes miss
+# (project-only; the upstream guard still misses them), each in any cluster or unique long prefix:
+# force-push, `git clean` with -f / --forc, `git checkout <ref> -- <whole tree>`, `git add -A|--al|<whole
+# tree>`, `git branch -D` / `-d -f` / `--del --forc`, and `rm -r|-R|--rec` of / , /home, $HOME or an
+# ancestor (or a glob of one) after normalising (~ $HOME ${HOME:?} the literal home path // /. ~/. ~/..).
+# A WHOLE-TREE pathspec is . ./ * ** :/ :(top) and their normalised spellings. Every refusal names what to
+# do instead (HINTS; the proof asserts the hint).
 #
 # TMPFS RULE (host-hang fix WP1, 2026-10-14). Refuses BULK writes that bring DISK data into RAM-backed
 # tmpfs (/tmp, /dev/shm, /run/user/N). Bulk means: recursive (cp -a|-r|-R, rsync, zip -r, podman|docker cp),
 # a clone/worktree/bundle/archive (git clone / worktree add / bundle create / archive, tar -c), an archive
 # extraction (tar -x, unzip, 7z x), git FETCHING into a repo on tmpfs or checking a disk repo out into a
 # work tree on tmpfs, podman|docker save|export, a directory or a file over 64 MiB moved (`mv`, a
-# cross-device full copy) or copied (`cp` without -r) — size and type are checked on this host —, `dd of=`
-# without count= or over 64 MiB, and a download (curl -o/-O, wget -O/-P/cwd) whose FILE NAME is a model or
+# cross-device full copy) or copied (`cp` without -r) — size and type are checked on this host —, `dd`
+# (of= or stdout redirected onto tmpfs) without count= or over 64 MiB (count x bs, else ibs), `git push`
+# into a repository on tmpfs, `git remote update` / `remote add -f` in one, and a download (curl -o/-O,
+# wget -O/-P/cwd, or stdout redirected onto tmpfs) whose FILE NAME (the target's or the URL's) is a model or
 # an archive (.gguf .bin .safetensors .onnx .pt .tar .tgz .gz .xz .zst .zip .7z .iso .img .whl ...): a
 # download's size cannot be known statically, so a small page or JSON fetched into /tmp is allowed. NOT
 # bulk (allowed): a single named file of bounded or unknown size (`mv out.txt /tmp/`, `cp a /tmp/a`,
@@ -65,7 +77,16 @@
 # private paths and names into a PUBLIC repository). Extract every Bash tool command from
 # ~/.claude*/projects/*/*.jsonl (tool_use blocks, name "Bash", input.command), feed each as
 # {"tool_name":"Bash","tool_input":{"command":...},"cwd":...} to this hook and diff the rc against the
-# previous version; 2026-10-14: 5,101 commands, 100 refused, 0 mis-parses, p95 82 ms.
+# previous version. 2026-10-14 (the round-3 version, 28b75d1): 5,101 commands, 100 refused, 0 mis-parses,
+# p95 82 ms. 2026-10-14 round 4 (this version vs 7ab93e2/d156b13, same corpus): 94 refused by both, 0 verdict
+# changes, 0 tracebacks, 0 timeouts, p95 93 ms per call (bash + python start included). The first round-4
+# replay refused 2 legitimate pushes from a tmpfs repo into a tmpfs bare repo (tmpfs -> tmpfs; fixed, r4-G31).
+#
+# REVIEW MUTANTS (the 24 mutants of the 2026-10-14 round-3 independent review, run in-process over the
+# tracked fixtures, a catalogue refusal without a hint counted as a different verdict): before round 4
+# 7 caught / 17 survived; after round 4 24 caught / 0 survived. The proof's own P13 (34 line-removal mutants,
+# each required to COMPILE: a crashing mutant proves nothing) and P15 (41 replacement mutants) count a mutant
+# as caught only when a named case's VERDICT flips.
 #
 # NOT SEEN, by construction (both rules; the upstream guard shares them): a script FILE run by name
 # (`bash x.sh`, `./x.sh`), an alias or shell function, `source`/`.` of a file, code inside an interpreter
@@ -74,7 +95,12 @@
 # symlink (`ln -s /tmp/x lnk && cp -a src lnk/`), a here-document fed to a non-shell interpreter
 # (`python3 - <<EOF`), a command substitution other than mktemp used as a path (treated as unknown, i.e.
 # disk), positional/special parameters ($1, $@), process substitution, and writes by tools not listed
-# above (e.g. `go mod download` into GOMODCACHE=/tmp/x, `npm ci --cache /tmp/x`). Use a disk TMPDIR
+# above (e.g. `go mod download` into GOMODCACHE=/tmp/x, `npm ci --cache /tmp/x`). Known limits of the
+# catalogue half (2026-10-14 round 4, documented, not covered): a git ALIAS (`git ci -n`: an unknown
+# subcommand gets a long-option scan only), config-level hook or safety bypasses (`git -c core.hooksPath=...`,
+# GIT_CONFIG_* variables, `git -c clean.requireForce=false clean -d`), an rm root reached through a variable
+# assigned elsewhere or a command substitution, `dd`/`curl`/`wget` writing onto tmpfs through a shape not
+# named above (e.g. `| tee /tmp/x.gguf`), and a here-string fed to a non-shell interpreter. Use a disk TMPDIR
 # (docs/AGENT_GUARDRAILS.md section D) for the structural fix.
 # No escape-hatch marker exists for the catalogue rule: `# guardrails:allow` changes nothing.
 #
@@ -139,6 +165,8 @@ def load(path):
 # ════════════════════════════════════════════════════════════════════════════════════════════════════
 OPS = [";;&", ";;", ";&", "&&", "||", "|&", "&>>", "&>", ">>", ">|", ">&", "<&", "<>", "<<<", "<<-", "<<",
        ";", "&", "|", "(", ")", ">", "<", "\n"]
+PIPES = {"|"}
+PIPES.add("|&")  # MUTANT:pipe-amp
 REDIR_OPS = {">", ">>", ">|", "&>", "&>>", ">&", "<", "<&", "<>", "<<<", "<<", "<<-"}
 OUT_REDIRS = {">", ">>", ">|", "&>", "&>>", ">&"}
 
@@ -225,7 +253,7 @@ def lex(s):
                         out.append(s[j + 1]); j += 2; continue
                     out.append("\\"); j += 1; continue
                 if s.startswith("$((", j):
-                    k = find_close(s, j + 3, "(", ")"); out.append(s[j:k + 2]); j = k + 2; continue
+                    k = find_close(s, j + 3, "(", ")"); st["subs"].extend(body_subs(s[j + 3:k])); out.append(s[j:k + 2]); j = k + 2; continue
                 if s.startswith("$(", j):
                     k = find_close(s, j + 2, "(", ")"); st["subs"].append(s[j + 2:k]); out.append(s[j:k + 1]); j = k + 1; continue
                 if s[j] == "`":
@@ -233,10 +261,12 @@ def lex(s):
                     st["subs"].append(s[j + 1:k]); out.append(s[j:k + 1]); j = k + 1; continue
                 out.append(s[j]); j += 1
             put("".join(out), True); i = j + 1; continue
-        if s.startswith("$((", i):
-            k = find_close(s, i + 3, "(", ")"); put(s[i:k + 2]); i = k + 2; continue
-        if s.startswith("((", i) and not st["in"]:   # arithmetic command: data, its << is a shift
-            k = find_close(s, i + 2, "(", ")"); put(s[i:k + 2], True); i = k + 2; continue  # MUTANT:arith-cmd
+        if s.startswith("$((", i):          # arithmetic is data, but a $(...) inside it RUNS: judged
+            k = find_close(s, i + 3, "(", ")")
+            st["subs"].extend(body_subs(s[i + 3:k]))  # MUTANT:arith-subs
+            put(s[i:k + 2]); i = k + 2; continue
+        # an arithmetic command `(( ... ))` is data (its << is a shift); a $(...) inside it runs and is judged
+        if s.startswith("((", i) and not st["in"]: k = find_close(s, i + 2, "(", ")"); st["subs"].extend(body_subs(s[i + 2:k])); put(s[i:k + 2], True); i = k + 2; continue  # MUTANT:arith-cmd
         if s.startswith("$(", i):
             k = find_close(s, i + 2, "(", ")"); st["subs"].append(s[i + 2:k]); put(s[i:k + 1]); i = k + 1; continue
         if s.startswith("${", i):
@@ -299,7 +329,7 @@ def commands(toks):
         elif v in ("(", ")"):
             emit(); out.append(("open",) if v == "(" else ("close",))
         else:
-            emit(v in ("|", "|&"))
+            emit(v in PIPES)                 # `cmd |& bash` pipes like `|`
         i += 1
     emit()
     return out
@@ -316,7 +346,8 @@ def tmp_default():
 
 def lookup(name, ctx):
     if name == "TMPDIR":              # an `export TMPDIR=...` / `TMPDIR=...` earlier on the line wins
-        v = ctx["vars"].get("TMPDIR", os.environ.get("TMPDIR"))  # MUTANT:tmpdir-vars
+        v = os.environ.get("TMPDIR")
+        v = ctx["vars"].get("TMPDIR", v)  # MUTANT:tmpdir-vars
         return v if v is UNKNOWN or v else "/tmp"   # unset/empty TMPDIR: mktemp & co. fall back to /tmp
     if name in ctx["vars"]:
         return ctx["vars"][name]
@@ -435,7 +466,12 @@ def wtext(w):
     return re.sub(r"\s", " ", w["t"])
 
 def strip_reserved(a):
-    while a and a[0]["t"] in RESERVED and not a[0]["q"]:
+    while a and not a[0]["q"]:
+        named = (a[0]["t"] == "coproc" and len(a) > 2 and a[2]["t"] == "{" and not a[2]["q"]
+                 and re.match(r"^[A-Za-z_][A-Za-z0-9_]*$", a[1]["t"]))
+        if named: a = a[2:]; continue  # MUTANT:coproc-name
+        if a[0]["t"] not in RESERVED:
+            break
         a = a[1:]
     return a
 
@@ -449,7 +485,7 @@ def unwrap(words):
         a = a[2:]  # MUTANT:function-body
         if a and a[0]["t"] == "()":
             a = a[1:]
-        a = strip_reserved(a)
+        a = strip_reserved(a)  # MUTANT:function-restrip
     if a and a[0]["t"] in HEADERS and not a[0]["q"]:
         r["header"] = True
         if a[0]["t"] in ("for", "select") and len(a) >= 3 and a[2]["t"] == "in":
@@ -530,7 +566,10 @@ def unwrap(words):
 
 def git_globals(argv):
     """Strip git global options. -> (argv texts, chdir, work_tree, git_dir)"""
-    a = [w["t"] for w in argv]
+    return git_globals_t([w["t"] for w in argv])
+
+def git_globals_t(a):
+    """git_globals on argv TEXTS."""
     if not a or bn(a[0]) != "git":
         return a, [], None, None
     chdirs, wt, gd, i = [], None, None, 1
@@ -558,7 +597,97 @@ def git_globals(argv):
 # ════════════════════════════════════════════════════════════════════════════════════════════════════
 # Catalogue + force-push judgement on normalised commands
 # ════════════════════════════════════════════════════════════════════════════════════════════════════
-READONLY = re.compile(r"^git (stash (list|show)\b|restore (--staged|-S)(?!.*(--worktree|-W|\s-\S*W)))")
+def long_is(w, full, minlen):
+    """`w` spells the long option `full`: git and getopt_long accept a unique prefix (`--forc`, `--del`, `--rec`);
+    `minlen` is the shortest prefix that cannot be another option of the commands concerned."""
+    n = w.split("=", 1)[0]
+    return n.startswith("--") and len(n) >= minlen and full.startswith(n)
+
+def readonly_git(a):
+    """git stash list|show, and a git restore that touches ONLY the index (-S/--staged without -W/--worktree),
+    decided from the short-option clusters and the long-option prefixes before `--`."""
+    if len(a) < 2 or a[0] != "git":
+        return False
+    if a[1] == "stash":
+        return len(a) > 2 and a[2] in ("list", "show")
+    if a[1] != "restore":
+        return False
+    staged = worktree = False
+    i, r = 0, a[2:]
+    while i < len(r):
+        w = r[i]
+        if w == "--":
+            break
+        if w.startswith("--"):
+            staged |= long_is(w, "--staged", 4)
+            worktree |= long_is(w, "--worktree", 3)
+            if "=" not in w and (long_is(w, "--source", 4) or long_is(w, "--pathspec-from-file", 4)):
+                i += 1                         # its value is the next word
+        elif w.startswith("-") and len(w) > 1:
+            for k, ch in enumerate(w[1:], 1):
+                if ch == "s":                  # -s <tree>: the rest of the cluster, or the next word, is the value
+                    if k == len(w) - 1:
+                        i += 1
+                    break
+                staged |= ch == "S"
+                worktree |= ch == "W"
+        i += 1
+    return staged and not worktree  # MUTANT-ANCHOR:readonly-worktree
+
+# Hook-bypass / force flag classes (--no-verify, --force-with-lease) are git OPTIONS, judged on the options a git command
+# really passes. Per subcommand: (short letters taking a value, short letters taking an optional ATTACHED value, long
+# options taking a separate value, short letters that ARE a class flag). Subcommands that accept none of the class flags
+# are skipped (their arguments are patterns, messages, refs: `git grep -- --no-verify`, `git log -G --no-verify`); an
+# unknown subcommand (an alias) gets a scan of its long options only.
+GIT_FLAG_SPEC = {
+    "commit": ("mFcCt", "uS", {"--message", "--file", "--author", "--date", "--template", "--reuse-message",
+                                "--reedit-message", "--fixup", "--squash", "--cleanup", "--trailer", "--pathspec-from-file"},
+               {"n": "--no-verify"}),
+    "merge": ("mFsX", "S", {"--message", "--file", "--strategy", "--strategy-option", "--into-name", "--cleanup"}, {}),
+    "pull": ("sXoj", "S", {"--strategy", "--strategy-option", "--depth", "--deepen", "--shallow-since",
+                           "--shallow-exclude", "--upload-pack", "--negotiation-tip", "--server-option", "--jobs"}, {}),
+    "push": ("o", "", {"--repo", "--receive-pack", "--exec", "--push-option"}, {}),
+    "rebase": ("sXx", "S", {"--onto", "--strategy", "--strategy-option", "--exec"}, {}),
+    "am": ("", "pCS", {"--patch-format", "--directory", "--exclude", "--include"}, {}),
+}
+GIT_FLAG_NEVER = {"grep", "log", "show", "notes", "stash", "diff", "shortlog", "whatchanged", "reflog", "blame", "annotate",
+                  "format-patch", "describe", "rev-list", "rev-parse", "for-each-ref", "ls-files", "ls-tree", "ls-remote",
+                  "cat-file", "config", "help", "status", "branch", "tag", "add", "rm", "mv", "restore", "checkout",
+                  "switch", "reset", "clean", "fetch", "clone", "remote", "submodule", "worktree", "bisect", "apply",
+                  "archive", "bundle", "show-ref", "var", "check-ignore", "range-diff", "cherry", "name-rev", "fsck",
+                  "gc", "init", "sparse-checkout", "maintenance", "hash-object", "symbolic-ref", "update-ref", "merge-base"}
+CLASS_LONG = {"--no-verify": 6, "--force-with-lease": 9}   # the shortest prefix git still resolves to the class flag
+
+def git_flags(a):
+    """The long options a git argv (globals stripped) passes: unique prefixes of the class flags expanded, option
+    VALUES skipped (`-m "--no-verify is..."`), short flags that are a class flag mapped (`commit -n`, `-nm msg`)."""
+    if len(a) < 2 or a[0] != "git" or a[1] in GIT_FLAG_NEVER:
+        return set()
+    spec = GIT_FLAG_SPEC.get(a[1])
+    vals_s, opt_s, vals_l, smap = spec if spec else ("", "", set(), {})
+    out, i, r = set(), 0, a[2:]
+    while i < len(r):
+        w = r[i]
+        if w == "--":
+            break
+        if w.startswith("--"):
+            n = w.split("=", 1)[0]
+            out.add(n)
+            out.update(full for full, k in CLASS_LONG.items() if long_is(n, full, k))  # MUTANT:flag-prefix
+            if "=" not in w and any(len(n) >= 4 and v.startswith(n) for v in vals_l): i += 1  # MUTANT:flag-values
+        elif w.startswith("-") and len(w) > 1 and spec:
+            for k, ch in enumerate(w[1:], 1):
+                if ch in smap:
+                    out.add(smap[ch])
+                if ch in vals_s:               # the rest of the cluster, or the next word, is the value
+                    if k == len(w) - 1:
+                        i += 1
+                    break
+                if ch in opt_s:                # optional attached value: the rest of the cluster
+                    break
+        i += 1
+    return out
+
 PUSH_SHORT = re.compile(r"^-[A-Za-z]*[fd][A-Za-z]*$")
 
 def push_verdict(a):
@@ -573,20 +702,21 @@ def push_verdict(a):
             return True
     return False
 
-def catalogue_hit(stage_texts, rules):
+def catalogue_hit(stage_texts, rules, cwd=None):
     """stage_texts: list of argv(text) lists for every unwrap stage."""
     for a in stage_texts:
         if not a:
             continue
         a = [bn(a[0])] + a[1:]  # MUTANT:basename
         t = " ".join(re.sub(r"\s", " ", x) for x in a)
-        if READONLY.match(t):
+        ga = git_globals_t(a)[0] if a[0] == "git" else a
+        if readonly_git(ga):
             continue
         for id_, rx in rules:
             if rx.pattern.startswith("-"):
-                # a flag class (--no-verify, --force-with-lease) is a git flag: never judged on grep/rg/printf
-                if a[0] == "git" and any(rx.match(x) for x in a[1:]):  # MUTANT:flag-git-only
-                    return id_
+                # a flag class (--no-verify, --force-with-lease) is a git OPTION: never judged on grep/rg/printf,
+                # nor on a git subcommand's values or patterns
+                if a[0] == "git" and any(rx.match(x) for x in git_flags(ga)): return id_  # MUTANT:flag-git-only
                 continue
             m = rx.match(t)
             if not m:
@@ -597,7 +727,7 @@ def catalogue_hit(stage_texts, rules):
             return id_
         if push_verdict(a):
             return "force-push-any-spelling"
-        x = extra_hit(a)
+        x = extra_hit(a, cwd)
         if x:
             return x
     return None
@@ -612,23 +742,79 @@ def short_flags(args):
             out += w[1:]
     return out
 
-RM_ROOTS = {"/", "/*", "~", "~/", "~/*", "$HOME", "$HOME/", "$HOME/*", "${HOME}", "${HOME}/", "${HOME}/*", "/home", "/home/*"}
+def rm_root(w, cwd):
+    """`w` names / , /home, $HOME or an ancestor of it (or a glob of one) in any spelling: ~ $HOME ${HOME} ${HOME:?},
+    a literal home path, //, /., ~/., ~/.. (normalised before comparing). A sub-path of them is not a root."""
+    h = os.environ.get("HOME") or "/nonexistent-home"
+    t = re.sub(r"^(\$\{HOME(:?[-?=+][^}]*)?\}|\$HOME(?![A-Za-z0-9_]))", lambda m: h, w)
+    if t == "~" or t.startswith("~/"):
+        t = h + t[1:]
+    for g in ("/*", "/.*"):
+        if t.endswith(g):
+            t = t[:-len(g)] or "/"; break
+    if t in ("*", ".*"):
+        t = "."
+    if not t.startswith("/"):
+        if not cwd or "$" in t or t.startswith("~"):
+            return False
+        t = cwd + "/" + t
+    n = os.path.normpath("/" + t.lstrip("/"))  # MUTANT-ANCHOR:rm-normpath
+    roots, d = {"/", "/home"}, os.path.normpath(h)
+    while d not in ("/", ""):
+        roots.add(d); d = os.path.dirname(d)
+    return n in roots
 
-def extra_hit(a):
-    """Project-catalogue rows the shared tsv's literal regexes miss (2026-10-14 re-review)."""
+def whole_tree(w):
+    """A pathspec naming the whole work tree in any spelling: . ./ * ** :/ :/. :(top) :(top,glob)* ..."""
+    rest = w
+    if w.startswith(":/"):
+        rest = w[2:]
+    elif w.startswith(":("):
+        k = w.find(")")
+        if k < 0 or "exclude" in w[2:k] or "attr" in w[2:k]:
+            return False
+        rest = w[k + 1:]
+    elif w.startswith(":"):
+        return False                     # :!x / :^x (exclude) and other short magic: not the whole tree
+    return os.path.normpath(rest or ".") in (".", "*", "**")  # MUTANT-ANCHOR:whole-tree
+
+def operands(args, vals=()):
+    """Non-option words (values of the options in `vals` skipped), and every word after `--`."""
+    out, i = [], 0
+    while i < len(args):
+        w = args[i]
+        if w == "--":
+            return out + args[i + 1:]
+        if w in vals:
+            i += 2; continue
+        if not (w.startswith("-") and w != "-"):
+            out.append(w)
+        i += 1
+    return out
+
+def longs(args):
+    """Long options before `--`."""
+    return [w for w in (args[:args.index("--")] if "--" in args else args) if w.startswith("--")]
+
+def extra_hit(a, cwd=None):
+    """Project-catalogue rows the shared tsv's literal regexes miss (2026-10-14 re-reviews). A long option is matched
+    by its unique prefix (git and getopt_long accept `--forc`, `--del`, `--rec`)."""
     if not a:
         return None
     if a[0] == "rm":
-        fl = short_flags(a[1:])
-        if ("r" in fl or "R" in fl or "--recursive" in a) and any(w in RM_ROOTS for w in a[1:]): return "rm-recursive-root"  # MUTANT:extra-rm-root
+        fl, lo = short_flags(a[1:]), longs(a[1:])
+        rec = "r" in fl or "R" in fl or any(long_is(w, "--recursive", 3) for w in lo)
+        if rec and any(rm_root(w, cwd) for w in operands(a[1:])): return "rm-recursive-root"  # MUTANT:extra-rm-root
     if a[0] != "git" or len(a) < 2:
         return None
     sub, rest = a[1], a[2:]
-    fl = short_flags(rest)
-    if sub == "clean" and ("f" in fl or "--force" in rest): return "clean-force-any-spelling"  # MUTANT:extra-clean
-    if sub == "checkout" and any(w in (".", "./", ":/", "*") for w in rest): return "checkout-tree-discard"  # MUTANT:extra-checkout
-    if sub == "add" and ("A" in fl or "--all" in rest or ":/" in rest): return "add-all-any-spelling"  # MUTANT:extra-add-all
-    if sub == "branch" and ("D" in fl or (("d" in fl or "--delete" in rest) and ("f" in fl or "--force" in rest))): return "branch-force-delete"  # MUTANT:extra-branch
+    fl, lo = short_flags(rest), longs(rest)
+    if sub == "clean" and ("f" in fl or any(long_is(w, "--force", 3) for w in lo)): return "clean-force-any-spelling"  # MUTANT:extra-clean
+    if sub == "checkout" and any(whole_tree(w) for w in operands(rest, ("-b", "-B", "--orphan"))): return "checkout-tree-discard"  # MUTANT:extra-checkout
+    if sub == "add" and ("A" in fl or any(long_is(w, "--all", 3) for w in lo) or any(whole_tree(w) for w in operands(rest))): return "add-all-any-spelling"  # MUTANT:extra-add-all
+    dele = "d" in fl or any(long_is(w, "--delete", 3) for w in lo)
+    force = "f" in fl or any(long_is(w, "--force", 6) for w in lo)
+    if sub == "branch" and ("D" in fl or (dele and force)): return "branch-force-delete"  # MUTANT:extra-branch
     return None
 
 HINTS = {
@@ -778,7 +964,15 @@ def r_git_tmpfs_repo(c, x):
     wt = c.p(x["git_wt"]) if x.get("git_wt") else None
     gd = c.p(x["git_dir"]) if x.get("git_dir") else None
     cw = c.ctx["cwd"]
-    if a[1] in GIT_IMPORT:
+    src_on_tmpfs = is_tmpfs(gd) if gd else is_tmpfs(cw)
+    if a[1] == "push" and not src_on_tmpfs:  # pushing a DISK repo's objects INTO a repository on tmpfs (tmpfs -> tmpfs is allowed)
+        for r in opt_values(a[2:], (), ("--repo",)) + positionals(a[2:], {"-o", "--push-option", "--receive-pack", "--exec", "--repo"})[:1]:
+            r = r[7:] if r.startswith("file://") else r
+            if ("/" in r or r.startswith((".", "~"))) and not REMOTE.match(r) and c.tm(r):
+                return c.p(r)
+    imports = a[1] in GIT_IMPORT or (a[1] == "remote" and len(a) > 2 and (
+        a[2] == "update" or (a[2] == "add" and any(w in ("-f", "--fetch") for w in a[3:]))))
+    if imports:
         for d in (gd, wt, cw if not gd else None):
             if is_tmpfs(d):
                 return d
@@ -824,7 +1018,7 @@ def r_mv(c, x):
     if not a or a[0] != "mv":
         return None
     args = a[1:]
-    tdir = opt_values(args, ("-t",), ("--target-directory",))
+    tdir = opt_values(args, ("-t",), ("--target-directory",))  # mv -t DIR
     pos = positionals(args, {"-S", "--suffix", "-t", "--target-directory"})
     srcs, dest = (pos, tdir[-1]) if tdir else ((pos[:-1], pos[-1]) if len(pos) >= 2 else (None, None))
     if dest is None or not any(big_or_dir(c, s) for s in srcs): return None  # MUTANT:mv-single-file
@@ -965,9 +1159,15 @@ def r_download(c, x):
         return None
     args = a[1:]
     def bulk(path, name):
-        return path if (is_tmpfs(path) and BULK_SUFFIX.search(name or "")) else None  # MUTANT:download-suffix
+        hit = is_tmpfs(path)
+        hit = hit and BULK_SUFFIX.search(name or "")  # MUTANT:download-suffix
+        return path if hit else None
+    def bulk_stdout():                        # to stdout, redirected onto tmpfs: the redirect's or the URL's name decides
+        o = c.out_tmpfs()
+        return bulk(o, o) or bulk(o, url_name(args)) if o else None
     if a[0] == "curl":
-        for o in cluster_vals(args, "o") + opt_values(args, (), ("--output",)):
+        outs = cluster_vals(args, "o") + opt_values(args, (), ("--output",))
+        for o in outs:
             if o != "-":
                 r = bulk(c.p(o), o)
                 if r:
@@ -977,10 +1177,10 @@ def r_download(c, x):
             dirs = opt_values(args, (), ("--output-dir",))
             d = c.p(dirs[-1]) if dirs else c.ctx["cwd"]
             return bulk(d, url_name(args))
-        return None
+        return bulk_stdout() if (not outs or "-" in outs) else None
     outs = cluster_vals(args, "O") + opt_values(args, (), ("--output-document",))
     if outs:
-        return None if outs[-1] == "-" else bulk(c.p(outs[-1]), outs[-1])
+        return bulk_stdout() if outs[-1] == "-" else bulk(c.p(outs[-1]), outs[-1])
     dirs = cluster_vals(args, "P") + opt_values(args, (), ("--directory-prefix",))
     d = c.p(dirs[-1]) if dirs else c.ctx["cwd"]
     return bulk(d, url_name(args))
@@ -993,19 +1193,26 @@ def dd_num(v):
     return int(m.group(1)) * DD_MULT[m.group(2)] if m and m.group(2) in DD_MULT else None
 
 def r_dd(c, x):
-    """dd onto tmpfs: refused when unbounded (no count=) or when count x block size exceeds 64 MiB."""
+    """dd onto tmpfs (of= or a stdout redirect): refused when unbounded (no count=) or when count x input block size
+    (bs=, else ibs=) exceeds 64 MiB."""
     if not c.a or c.a[0] != "dd":
         return None
     kv = dict(w.split("=", 1) for w in c.a[1:] if "=" in w)
     of = kv.get("of")
-    if not of or not c.tm(of):
-        return None
-    bs = dd_num(kv.get("bs") or kv.get("obs") or "512")
+    if of:
+        if not c.tm(of):
+            return None
+        dest = c.p(of)
+    else:
+        dest = c.out_tmpfs()                         # no of=: dd writes to stdout, here redirected onto tmpfs
+        if not dest:
+            return None
+    bs = dd_num(kv.get("bs") or kv.get("ibs") or "512")   # count= counts INPUT blocks (ibs), never obs
     cnt = kv.get("count")
     if cnt is None or bs is None or dd_num(cnt) is None:
-        return c.p(of)                               # unbounded / unparseable size: bulk
+        return dest                                  # unbounded / unparseable size: bulk
     nbytes = dd_num(cnt) if "count_bytes" in kv.get("iflag", "") else dd_num(cnt) * bs
-    return c.p(of) if nbytes > LARGE_BYTES else None  # MUTANT:dd-size
+    return dest if nbytes > LARGE_BYTES else None  # MUTANT:dd-size
 
 TMPFS_RULES = [
     ("git-clone", r_git_clone),               # BRANCH:git-clone
@@ -1041,6 +1248,15 @@ def reason_ok(r):
 def sub_ctx(ctx):
     return {"cwd": ctx["cwd"], "prev": ctx.get("prev"), "vars": dict(ctx["vars"]), "stack": [],
             "dirs": list(ctx.get("dirs", [])), "overrides": ctx["overrides"]}
+
+def env_ctx(ctx, u):
+    """The context of a script a command runs (bash -c, eval, env -S, a here-document): the command's VAR=value
+    prefixes are in that script's environment (`TMPDIR=/tmp bash -c '... $(mktemp -d)'`)."""
+    sctx = sub_ctx(ctx)
+    for k, v in u["env"].items():
+        e = expand(v, ctx)
+        sctx["vars"][k] = UNKNOWN if e is None else e  # MUTANT:shell-env
+    return sctx
 
 def judge_script(raw, rules, ctx, depth=0):
     """None | ("cat", id) | ("tmpfs", branch, dest, reason_given)"""
@@ -1091,16 +1307,14 @@ def judge_cmd(it, rules, ctx, depth):
     if u.get("loop"):   # `for d in /tmp/x; do ... "$d"`: the variable takes the listed literal values
         name_, vals = u["loop"]
         ev = [expand(v, ctx) for v in vals]
-        if any(e is None for e in ev):
-            ctx["vars"][name_] = UNKNOWN
-        else:
-            ctx["vars"][name_] = next((e for e in ev if is_tmpfs(resolve(e, ctx))), ev[0] if ev else "")  # MUTANT:loop-var
+        ctx["vars"][name_] = UNKNOWN
+        if not any(e is None for e in ev): ctx["vars"][name_] = next((e for e in ev if is_tmpfs(resolve(e, ctx))), ev[0] if ev else "")  # MUTANT:loop-var
     if u["header"] or u["lookup"]:
         return None
     stages = [[x["t"] for x in s] for s in u["stages"]]
     argv, chdirs, gwt, gdir = git_globals(u["argv"])
     stages.append(argv)
-    hit = catalogue_hit(stages, rules)
+    hit = catalogue_hit(stages, rules, ctx["cwd"])
     if hit:
         return ("cat", hit)
     for na in u["nested_argv"]:
@@ -1108,7 +1322,7 @@ def judge_cmd(it, rules, ctx, depth):
         if v:
             return v
     for script in u["nested"]:
-        v = judge_script(script, rules, sub_ctx(ctx), depth + 1)
+        v = judge_script(script, rules, env_ctx(ctx, u), depth + 1)
         if v:
             return v
     if not argv or not argv[0]:
@@ -1149,11 +1363,13 @@ def judge_cmd(it, rules, ctx, depth):
         k = next((i for i, t in enumerate(a) if i > 0 and bn(t) in ("agent-admit.sh", "bounded-run")), None)
         if k is not None and not chdirs:
             return judge_cmd(("cmd", u["argv"][k:], redirs, hds), rules, ctx, depth + 1)
-        args, script, files, i = a[1:], None, [], 0
+        args, script, files, i, sflag = a[1:], None, [], 0, False
         STDIN = ("-", "/dev/stdin", "/dev/fd/0", "/proc/self/fd/0")
         while i < len(args):
             w = args[i]
-            if w in ("-o", "+o", "-O", "+O") and i + 1 < len(args):
+            if w == "--":                     # options end; with -s every later word is a positional, not a file
+                files = [] if sflag else args[i + 1:i + 2]; break
+            if w in ("-o", "+o", "-O", "+O", "--rcfile", "--init-file") and i + 1 < len(args):
                 i += 2; continue
             if w.startswith("-") and not w.startswith("--") and "c" in w[1:] and script is None:
                 j = i + 1
@@ -1161,17 +1377,23 @@ def judge_cmd(it, rules, ctx, depth):
                     j += 1
                 script = args[j] if j < len(args) else ""; break
             if w.startswith("-") or w.startswith("+"):
+                sflag = sflag or (w.startswith("-") and not w.startswith("--") and "s" in w[1:])
                 i += 1; continue
-            files.append(w); i += 1
+            if not sflag: files.append(w)
+            break                             # the script file (or, with -s, a positional); the rest are ITS arguments
+        sctx = env_ctx(ctx, u)                # `TMPDIR=/tmp bash -c '...'`: the prefix is the nested script's environment
         if script is not None:
-            return judge_script(script, rules, sub_ctx(ctx), depth + 1)
+            return judge_script(script, rules, sctx, depth + 1)
         files = [f for f in files if f not in STDIN]   # `bash /dev/stdin <<EOF` reads the here-document too
         if files:
             return None
-        # `bash <<EOF` / `bash -s`: the here-document IS the script; `echo '...' | bash`: the piped text is
+        # `bash <<EOF` / `bash -s`: the here-document IS the script; so is a here-string (`bash <<< 'cmd'`); and
+        # `echo '...' | bash`: the piped text
+        hstr = [t["t"] for op, t in redirs if op == "<<<" and t]
         v = None
-        v = next((r for r in (judge_script(b, rules, sub_ctx(ctx), depth + 1) for b, _dq in hds) if r), None)  # MUTANT:heredoc-shell
-        if v is None and piped and last_echo: v = judge_script(last_echo, rules, sub_ctx(ctx), depth + 1)  # MUTANT:pipe-to-shell
+        v = next((r for r in (judge_script(b, rules, sub_ctx(sctx), depth + 1) for b, _dq in hds) if r), None)  # MUTANT:heredoc-shell
+        if v is None: v = next((r for r in (judge_script(b, rules, sub_ctx(sctx), depth + 1) for b in hstr) if r), None)  # MUTANT:herestring-shell
+        if v is None and piped and last_echo: v = judge_script(last_echo, rules, sub_ctx(sctx), depth + 1)  # MUTANT:pipe-to-shell
         return v
     cctx = ctx
     if chdirs or u["chdir"]:
@@ -1269,7 +1491,12 @@ prove() {
     local pass=0 fail=0 T rc c
     ok() { pass=$((pass+1)); echo "  ok   $*"; }
     bad() { fail=$((fail+1)); echo "  FAIL $*"; }
-    T=$(mktemp -d "${TMPDIR:-/tmp}/zg-pcg.XXXXXX") || { echo "COULD-NOT-PROVE: no temp dir"; return 2; }
+    # the proof's fixtures need a DISK temp dir (@T@ is a disk source in several rows; /tmp is RAM): TMPDIR when it is on
+    # disk, else the agent scratch root
+    local troot="${TMPDIR:-}"
+    case "$troot" in ''|/tmp|/tmp/*|/dev/shm|/dev/shm/*|/run/user/*|/var/run/user/*) troot="${AGENT_SCRATCH_ROOT:-$HOME/.cache/agent-scratch}" ;; esac
+    mkdir -p "$troot" 2>/dev/null; chmod 700 "$troot" 2>/dev/null
+    T=$(mktemp -d "$troot/zg-pcg.XXXXXX") || { echo "COULD-NOT-PROVE: no temp dir"; return 2; }
     trap 'rm -rf "$T"' RETURN
     local CAT="$ROOT_DEFAULT/$CAT_REL"
     [ -f "$CAT" ] || { echo "COULD-NOT-PROVE: catalogue missing"; return 2; }
@@ -1343,7 +1570,7 @@ prove() {
     [ -f "$FX/golden-bad.tsv" ] && [ -f "$FX/golden-good.tsv" ] || { echo "COULD-NOT-PROVE: tmpfs fixtures missing under $FX"; return 2; }
     # Fixtures carry no host paths: @REPO@ = this checkout, @HOME@ = $HOME, @T@ = this proof's temp dir (it
     # holds small.txt and a SPARSE 65 MiB file, so the size rule is exercised without writing 65 MiB).
-    printf 'x\n' >"$T/small.txt"; truncate -s 65M "$T/sparse65m" 2>/dev/null || { echo "COULD-NOT-PROVE: truncate failed"; return 2; }
+    printf 'x\n' >"$T/small.txt"; mkdir "$T/adir"; truncate -s 65M "$T/sparse65m" 2>/dev/null || { echo "COULD-NOT-PROVE: truncate failed"; return 2; }
     probe_cwd() { # $1 command  $2 cwd ('-' = none)  [$3 python program, default the hook's]
         local j; j=$(python3 -I -c 'import json,sys
 sub=lambda x: x.replace("@REPO@",sys.argv[3]).replace("@HOME@",sys.argv[4]).replace("@T@",sys.argv[5])
@@ -1378,11 +1605,13 @@ print(json.dumps(d))' "$1" "$2" "$ROOT_DEFAULT" "$HOME" "$T")
     local j2; j2=$(python3 -I -c 'import json;print(json.dumps({"tool_name":"Bash","tool_input":{"command":"AGENT_TMPFS_OK=\"a long enough reason\" cp -a a /tmp/b"}}))')
     printf '%s' "$j2" | AGENT_TMPFS_OK_LOG=/proc/nonexistent/override.log python3 -I -c "$PY" hook "$CAT" "$ROOT_DEFAULT" 2>/dev/null; local rc4=$?
     [ "$rc" -eq 0 ] && [ "$logged" -eq 0 ] && [ "$rc4" -eq 2 ] && ok "P10 reasoned override allowed+logged; unloggable override refused" || bad "P10 rc=$rc logged=$logged unloggable-rc=$rc4"
-    # Case driver: runs the hook program ($1) over cases.jsonl rows; prints "<id> <expect> <rc>" per row.
+    # Case driver: runs the hook program ($1) over cases.jsonl rows; prints "<id> <expect> <rc> <branch>" per row. A
+    # catalogue refusal (branch cat:*) must name what to do instead: rc 2 WITHOUT an "Instead: <words>" hint is printed
+    # as rc 3, so every B-row check and every mutant check sees a hint-less refusal as a failure.
     printf '%s' "$PY" >"$T/hook.py"
     drive() { # $1 program file  $2 jsonl  [$3 comma-separated ids]  -> lines "id expect rc branch"
         env -u TMPDIR AGENT_TMPFS_OK_LOG="$T/override.log" python3 -I - "$1" "$CAT" "$ROOT_DEFAULT" "$2" "${3:-}" "$HOME" "$T" <<'PYDRV'
-import json, os, subprocess, sys
+import json, os, re, subprocess, sys
 prog, cat, root, cases, only, home, tmp = sys.argv[1:8]
 sub = lambda x: x.replace("@REPO@", root).replace("@HOME@", home).replace("@T@", tmp)
 want = set(only.split(",")) if only else None
@@ -1397,7 +1626,10 @@ for line in open(cases, encoding="utf-8"):
     if r.get("tmpdir"):                       # the hook's own TMPDIR for this row (unset otherwise)
         env["TMPDIR"] = sub(r["tmpdir"])
     p = subprocess.run([sys.executable, "-I", prog, "hook", cat, root], input=json.dumps(d), capture_output=True, text=True, env=env)
-    print(r["id"], r["expect"], p.returncode, r.get("branch", "-"))
+    rc = p.returncode
+    if rc == 2 and r.get("branch", "-").startswith("cat:") and not re.search(r"Instead: [A-Za-z]", p.stderr):
+        rc = 3
+    print(r["id"], r["expect"], rc, r.get("branch", "-"))
 PYDRV
     }
     # P12 every reviewer case (tracked fixture cases.jsonl): B => rc 2, A => rc 0; L rows are DOCUMENTED limits,
@@ -1430,23 +1662,28 @@ print(",".join(r["id"] for r in map(json.loads,open(sys.argv[1])) if r["branch"]
     done
     [ "$mb" -eq 0 ] && ok "P11 each of $nbr rule branches removed => a named fixture row slips (P8/P12 would FAIL)" || bad "P11 $mb of $nbr branch mutants undetected"
     fi
+    # A mutant is caught only when a named case's VERDICT flips: a B row allowed (rc 0) or refused without its
+    # "Instead:" hint (rc 3), an A row refused (rc 2). A mutant that merely crashes the hook (rc 1) proves nothing.
+    flips() { { [ "$1" = B ] && { [ "$2" -eq 0 ] || [ "$2" -eq 3 ]; }; } || { [ "$1" = A ] && [ "$2" -eq 2 ]; }; }
     # P13 lexer/normaliser mutations: each '# MUTANT:<name>' line removed must flip its named case(s)
     local -A MCASE=([continuation]=rev-F09,rev-L01 [reserved]=rev-F08,rev-F03 [basename]=rev-R06,own-B01,own-B02 [subshell-scope]=rev-G12,own-G01
                     [heredoc-shell]=rev-N24 [reason-words]=rev-OVR [normpath]=rev-N54,rev-N55 [find-exec]=rev-N36
                     [mktemp]=rev-N02,rev-N03 [assign-vars]=rev-N01
                     [arith-cmd]=rev2-B09 [tmpdir-vars]=rev2-B01,rev2-G08 [function-body]=rev2-B05 [flag-git-only]=rev-R07,rev-R17,own-B11
                     [heredoc-subs]=rev2-B08 [loop-var]=rev2-B02 [pipe-to-shell]=rev2-B07 [cp-single-file]=own-G12
-                    [mv-single-file]=rev2-G04,own-G07 [download-suffix]=rev-N11,rev2-B03,rev2-B04 [dd-size]=rev-N08
+                    [mv-single-file]=rev2-G04,own-G07 [download-suffix]=r4-G25,r4-G26 [dd-size]=rev-N08
                     [extra-rm-root]=rev2-B12,rev2-B19 [extra-clean]=rev2-B10 [extra-checkout]=rev2-B11 [extra-add-all]=rev2-B13
-                    [extra-branch]=rev2-B18)
+                    [extra-branch]=rev2-B18 [arith-subs]=r4-B52 [coproc-name]=r4-B50 [flag-prefix]=r4-B08,r4-B09
+                    [flag-values]=r4-G30 [shell-env]=r4-B49 [herestring-shell]=r4-B11,r4-B12,r4-B13 [pipe-amp]=r4-B36
+                    [function-restrip]=r4-B37)
     local mnames nm=0 mm=0 flipped
     mnames=$(grep -o '# MUTANT:[a-z-]*' <<<"$PY" | sed 's/# MUTANT://' | sort -u)
     for b in $mnames; do
         nm=$((nm+1)); grep -v "# MUTANT:$b\$" <<<"$PY" >"$T/mut.py"; flipped=0
         [ -n "${MCASE[$b]:-}" ] || { mm=$((mm+1)); echo "    mutant '$b' has no named case"; continue; }
-        while read -r id ex rc0 br0; do
-            { [ "$ex" = B ] && [ "$rc0" -ne 2 ]; } || { [ "$ex" = A ] && [ "$rc0" -ne 0 ]; } && flipped=$((flipped+1))
-        done < <(drive "$T/mut.py" "$FX/cases.jsonl" "${MCASE[$b]}")
+        python3 -I -c 'import sys; compile(open(sys.argv[1]).read(), "mut", "exec")' "$T/mut.py" 2>/dev/null \
+            || { mm=$((mm+1)); echo "    mutant '$b' does not compile: a hollow mutant (its marker must sit on a removable line)"; continue; }
+        while read -r id ex rc0 br0; do flips "$ex" "$rc0" && flipped=$((flipped+1)); done < <(drive "$T/mut.py" "$FX/cases.jsonl" "${MCASE[$b]}")
         [ "$flipped" -gt 0 ] && echo "    mutant '$b' caught by ${MCASE[$b]}" || { mm=$((mm+1)); echo "    mutant '$b' NOT caught by ${MCASE[$b]}"; }
     done
     [ "$nm" -ge 8 ] && [ "$mm" -eq 0 ] && ok "P13 $nm lexer/normaliser mutants each caught by a named case" || bad "P13 $mm of $nm mutants undetected"
@@ -1462,22 +1699,51 @@ sys.exit(3) if s.count(o)!=1 else open(sys.argv[4],"w").write(s.replace(o,n,1))'
             mr=$((mr+1)); echo "    replacement mutant '$rname': anchor not found exactly once"; continue
         fi
         flipped=0
-        while read -r id ex rc0 br0; do
-            { [ "$ex" = B ] && [ "$rc0" -ne 2 ]; } || { [ "$ex" = A ] && [ "$rc0" -ne 0 ]; } && flipped=$((flipped+1))
-        done < <(drive "$T/mut.py" "$FX/cases.jsonl" "$rcases")
+        while read -r id ex rc0 br0; do flips "$ex" "$rc0" && flipped=$((flipped+1)); done < <(drive "$T/mut.py" "$FX/cases.jsonl" "$rcases")
         [ "$flipped" -gt 0 ] && echo "    replacement mutant '$rname' caught by $rcases" || { mr=$((mr+1)); echo "    replacement mutant '$rname' NOT caught by $rcases"; }
     done <<'MUTS'
-readonly-exemption|        if READONLY.match(t):|        if False:|own-G02,own-G03,own-G04
+readonly-exemption|        if readonly_git(ga):|        if False:|own-G02,own-G03,own-G04,r4-G01,r4-G02
+readonly-worktree|    return staged and not worktree  # MUTANT-ANCHOR:readonly-worktree|    return staged|r4-B01,r4-B02,r4-B03,r4-B04,r4-B05
 env-C|                    r["chdir"] = rest[i + 1]["t"]|                    pass|own-B03
 cd-minus|        if tgt == "-":|        if False:|own-G05
 curl-O|        if (any(re.match(r"^-[A-Za-z]*O[A-Za-z]*$", w) for w in args)|        if False and (any(re.match(r"^-[A-Za-z]*O[A-Za-z]*$", w) for w in args)|own-B04
 unzip-listmode|            return None                   # list / test / pipe / zipinfo / to-stdout modes write nothing|            pass|own-G06
 export-vars|    if name in ("export", "declare", "typeset", "local", "readonly"):|    if False:|own-B05
-flag-any-word|                if a[0] == "git" and any(rx.match(x) for x in a[1:]):|                if any(rx.match(x) for x in a[1:]):|rev2-G01,rev2-G02,rev2-G03,own-G11
+flag-any-word|                if a[0] == "git" and any(rx.match(x) for x in git_flags(ga)): return id_  # MUTANT:flag-git-only|                if any(rx.match(x) for x in a[1:]): return id_|rev2-G01,rev2-G02,rev2-G03,own-G11,r4-G03,r4-G04,r4-G05
+flag-short-map|{"n": "--no-verify"}|{}|r4-B06,r4-B07
+flag-short-values|                if ch in vals_s:               # the rest of the cluster, or the next word, is the value|                if False:|r4-G05,r4-G06
+flag-never|    if len(a) < 2 or a[0] != "git" or a[1] in GIT_FLAG_NEVER:|    if len(a) < 2 or a[0] != "git":|r4-G04,r4-G08
 cp-link-exempt|    if cluster_has(args, "ls") or|    if False and|own-G08
+cp-link-l-only|    if cluster_has(args, "ls") or|    if cluster_has(args, "l") or|r4-G22
 stdin-script|        files = [f for f in files if f not in STDIN]|        files = files|rev2-B16
+stdin-fd0|        STDIN = ("-", "/dev/stdin", "/dev/fd/0", "/proc/self/fd/0")|        STDIN = ("-", "/dev/stdin")|r4-B40
+sflag-dashdash|                files = [] if sflag else args[i + 1:i + 2]; break|                files = args[i + 1:i + 2]; break|r4-B14
+sflag-positional|            if not sflag: files.append(w)|            files.append(w)|r4-B53
+shell-first-word|            break                             # the script file (or, with -s, a positional); the rest are ITS arguments|            i += 1; continue|r4-G10
 git-dir-env|"git_dir": gdir or u["env"].get("GIT_DIR")|"git_dir": gdir|rev2-B15
-dd-unbounded|        return c.p(of)                               # unbounded / unparseable size: bulk|        return None|own-B09
+dd-unbounded|        return dest                                  # unbounded / unparseable size: bulk|        return None|own-B09
+dd-threshold|    return dest if nbytes > LARGE_BYTES else None  # MUTANT:dd-size|    return dest if nbytes > LARGE_BYTES * 16 else None|r4-B41
+dd-ibs|kv.get("bs") or kv.get("ibs") or "512"|kv.get("bs") or kv.get("obs") or "512"|r4-B46
+dd-count-bytes|    nbytes = dd_num(cnt) if "count_bytes" in kv.get("iflag", "") else dd_num(cnt) * bs|    nbytes = dd_num(cnt) * bs|r4-G23
+dd-stdout|        dest = c.out_tmpfs()                         # no of=: dd writes to stdout, here redirected onto tmpfs|        dest = None|r4-B45
+curl-stdout|        return bulk_stdout() if (not outs or "-" in outs) else None|        return None|r4-B44
+git-push-tmpfs|    if a[1] == "push" and not src_on_tmpfs:  # pushing a DISK repo's objects INTO a repository on tmpfs (tmpfs -> tmpfs is allowed)|    if False:|r4-B47
+git-push-src-tmpfs|    src_on_tmpfs = is_tmpfs(gd) if gd else is_tmpfs(cw)|    src_on_tmpfs = False|r4-G31
+remote-update|        a[2] == "update" or|        False or|r4-B48
+import-pull|GIT_IMPORT = {"fetch", "pull", "submodule", "lfs"}|GIT_IMPORT = {"fetch", "submodule", "lfs"}|r4-B43
+treewrite-tmpfs-repo|        repo_on_tmpfs = is_tmpfs(gd) if gd else is_tmpfs(cw)|        repo_on_tmpfs = False|r4-G24
+big-or-dir|(os.path.isdir(p) or (os.path.isfile(p)|(False or (os.path.isfile(p)|r4-B42
+mv-target-dir|    tdir = opt_values(args, ("-t",), ("--target-directory",))  # mv -t DIR|    tdir = []  # mv -t DIR|r4-B39
+loop-var-first|next((e for e in ev if is_tmpfs(resolve(e, ctx))), ev[0] if ev else "")|(ev[0] if ev else "")|r4-B38
+heredoc-quoted|    subs += [sub for body, dq in hds if not dq for sub in body_subs(body)]|    subs += [sub for body, dq in hds for sub in body_subs(body)]|r4-G21
+whole-tree|    return os.path.normpath(rest or ".") in (".", "*", "**")  # MUTANT-ANCHOR:whole-tree|    return rest in (".", "*")|r4-B17,r4-B18,r4-B34,r4-B35,r4-B54
+rm-normpath|    n = os.path.normpath("/" + t.lstrip("/"))  # MUTANT-ANCHOR:rm-normpath|    n = t|r4-B25,r4-B26,r4-B27,r4-B28,r4-B29
+rm-home-forms|lambda m: h, w)|lambda m: m.group(0), w)|r4-B30
+rm-roots-slash-only|    roots, d = {"/", "/home"}, os.path.normpath(h)|    roots, d = {"/"}, "/"|r4-B25,r4-B31,r4-B33
+long-prefix|    return n.startswith("--") and len(n) >= minlen and full.startswith(n)|    return n == full|r4-B19,r4-B20,r4-B22,r4-B24,r4-B33
+clean-needs-d|    if sub == "clean" and ("f" in fl or|    if sub == "clean" and (("f" in fl and "d" in fl) or|r4-B21
+branch-long-only|    dele = "d" in fl or any(|    dele = any(|r4-B23
+hint-empty|    return HINTS.get(id_, "this is an operator decision: report the exact command and why it is needed")|    return ""|rev2-B10,rev2-B12,r4-B06,r4-B21
 MUTS
     [ "$nr" -ge 8 ] && [ "$mr" -eq 0 ] && ok "P15 $nr replacement mutants each caught by a named case" || bad "P15 $mr of $nr replacement mutants undetected"
     # P14 TMPDIR on disk: "$TMPDIR"/${TMPDIR:-/tmp} resolve from the hook's own environment (disk => allowed)
