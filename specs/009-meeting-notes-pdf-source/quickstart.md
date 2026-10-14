@@ -76,7 +76,7 @@ that row kind.
 ## Scenario 1: Chapter 01's real, currently-unused PDF becomes its meeting-notes source
 
 ```bash
-ls "chapters/01/Milos teaching Rami AI workflows - 2026_08_27 09_57 CEST - Notes by Gemini.PDF"
+ls "chapters/01/<source notes file (name withheld)>"
 PYTHONPATH=".:pipeline/extract" pipeline/venv/bin/python /tmp/run_chapter.py 01 curriculum/passages.jsonl curriculum/chapter-01/knowledge
 # Inspect: the minted kg_* items for chapter 01 now cite a pdf_notes_section
 # pid via source_ref.path, not a transcript_segment pid.

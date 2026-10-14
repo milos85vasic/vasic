@@ -1232,9 +1232,9 @@ part, then the reassembled archive, then the extracted video, against the manife
 ```console
 $ head -5 "…Recording.mp4.sha256"
 # video-archive-manifest v1
-video_sha256=345a74398a440e2df3a8cacf8422e7712c3e5bab19147594811b44787dbed03f
+video_sha256=<checksum withheld>
 video_size=1871981557
-archive_sha256=67ee3b723859f1dd492c77c94d71bc5d37d80af194de6cfdbb00a456753bf714
+archive_sha256=<checksum withheld>
 part_size=50m
 ```
 

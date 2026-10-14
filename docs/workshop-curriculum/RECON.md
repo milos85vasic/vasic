@@ -124,7 +124,7 @@ file, or naming convention beyond the two-digit directory name.
 | Video stream | h264 (High), yuv420p, **1920×1080**, 2,029 kb/s, **24 fps** |
 | Audio stream | **AAC-LC, 48 000 Hz, stereo, 128 kb/s** |
 | Size | 1,871,981,557 bytes |
-| SHA-256 (from manifest) | `345a74398a440e2df3a8cacf8422e7712c3e5bab19147594811b44787dbed03f` |
+| SHA-256 (from manifest) | `<checksum withheld>` |
 
 **The PDF** is `Notes by Gemini` — 8 pages, letter, produced 2026-08-27 19:33 CEST by
 `Skia/PDF m150` from a Yandex-Browser-on-Android print. `pdftotext -layout` yields
