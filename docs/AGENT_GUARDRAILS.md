@@ -167,7 +167,7 @@ no OOM daemon or guard acted. The trigger was about 20 parallel agents, many wri
 the harness scratchpad `/tmp/claude-1000/...` — `/tmp` is a 16 GB **RAM-backed tmpfs** — and running
 unbounded heavy gates at the same time. A `cp -al` hardlink backup (§9) from the repository to `/tmp`
 fails (cross-device), which pushed agents into full copies instead. The mechanism is the one in
-`/home/milosvasic/Projects/llmctl/docs/host-safety.md` ("Why GNOME says Application Stopped").
+`$HOME/Projects/llmctl/docs/host-safety.md` ("Why GNOME says Application Stopped").
 
 ### Rules for every orchestrator and every subagent
 
@@ -183,17 +183,27 @@ fails (cross-device), which pushed agents into full copies instead. The mechanis
 | D8 | Clean up: remove your scratch dir when finished; `bash scripts/agent-scratch.sh gc --older-than 3d` removes only dirs the helper created and that have been idle that long. `du` shows usage. | **ADVISORY** (nothing runs `gc` on a schedule). |
 
 **Defense in depth — the tmpfs guard rule.** `scripts/hooks/guard-project-catalogue.sh` reads each command
-with a shell lexer (continuations, quoting, compound commands, here-documents fed to a shell, `$(...)`,
+with a shell lexer (continuations, quoting, compound commands and `function` bodies, `(( ))` arithmetic,
+here-documents fed to a shell, `$(...)` including inside unquoted here-documents, `echo '...' | bash`,
 wrappers such as `timeout`/`xargs`/`bounded-run`/`agent-admit.sh`, absolute binary paths) and refuses (rc 2)
-writes that bring DISK data into tmpfs: `git clone` / `worktree add` / `bundle create` / `archive`, git
-writing into a repo or work tree on tmpfs, `cp -a|-r|-R`, `mv`, `rsync`, `podman|docker cp|save`,
-`tar -x|-c`, `unzip`, `zip -r`, `7z`, `curl -o|-O`, `wget`, `dd of=`, and stdout forms such as
-`git archive > /tmp/x`. It resolves `cd`/`pushd` (subshell-scoped), `git -C`, `VAR=literal`, `$TMPDIR` and
-`$(mktemp ...)`. A tmpfs → tmpfs copy (inside the harness scratchpad) and single-file writes are allowed.
-The only escape is an inline `AGENT_TMPFS_OK='<at least 3 real words>'` on that command, logged to
+BULK writes that bring DISK data into tmpfs: recursive copies (`cp -a|-r|-R`, `rsync`, `zip -r`,
+`podman|docker cp`), clones/worktrees/bundles/archives, archive extraction (`tar -x`, `unzip`, `7z x`), git
+fetching into a repo on tmpfs, `podman|docker save`, a directory or a > 64 MiB file moved or copied, an
+unbounded or > 64 MiB `dd`, and a download whose file name is a model or an archive (`.gguf`, `.tar`,
+`.zip`, ...). It is deliberately NOT bulk, and allowed: one named file of bounded or unknown size
+(`mv out.txt /tmp/`, `curl -o /tmp/health.json ...`, `dd ... count=1`), `cp -l`, tmpfs → tmpfs copies, and a
+checkout in a repo that already lives on tmpfs — a download's size cannot be known statically, so only the
+file-name rule applies to it. Destinations resolve through `cd` (subshell-scoped), `git -C`, `env -C`,
+`GIT_DIR`, `VAR=literal` / `export VAR=` and `for VAR in literal` on the same line, `$TMPDIR` (an in-line
+`export TMPDIR=` wins over the hook's environment) and `$(mktemp ...)`. The catalogue half applies git flag
+classes (`--no-verify`, `--force-with-lease`) to `git` commands only, so searching for them with
+`grep`/`rg` is allowed, and every refusal says what to do instead. The only escape is an inline
+`AGENT_TMPFS_OK='<at least 3 real words>'` on that command, logged to
 `~/.cache/agent-scratch/tmpfs-overrides.log`; an agent can still write such a reason — **the log is the
 control**. The full list of shapes it cannot see (script files, interpreters, symlinked destinations, …)
-is in the hook's header. **Not live until operator step 2.**
+and how to re-run the 5,101-command replay the 2026-10-14 re-review used are in the hook's header (the
+replay corpus is not tracked: real commands carry private paths into this public repository).
+**Not live until operator step 2.**
 
 ### Ready-to-paste SUBAGENT PREAMBLE addendum (host resource safety)
 
@@ -201,11 +211,11 @@ is in the hook's header. **Not live until operator step 2.**
 HOST RESOURCE SAFETY (docs/AGENT_GUARDRAILS.md section D) — binding for this task:
 - /tmp, /dev/shm and /run/user/* are RAM. Never write a repo copy, clone, worktree, bundle, archive or
   extracted tree there (that includes the harness scratchpad under /tmp/claude-*). Get disk scratch with
-  S=$(bash /home/milosvasic/Projects/vasic/scripts/agent-scratch.sh new <label>) and work under "$S".
+  S=$(bash "$HOME/Projects/vasic/scripts/agent-scratch.sh" new <label>) and work under "$S".
 - Backups: cp -al <path> "$S/backup" (hardlinks, same filesystem). Never cp -a a repository or a gitdir.
 - Heavy work (pre-push gates, Playwright, go test -race, podman/site builds, content-boundary full scan,
   zero-gap-verify, mutation suites, model runs) ONLY via
-  bash /home/milosvasic/Projects/vasic/scripts/agent-admit.sh --tag <name> -- <cmd>
+  bash "$HOME/Projects/vasic/scripts/agent-admit.sh" --tag <name> -- <cmd>
   and everything else heavy under bounded-run -m <MEM> -T <SECONDS> --. A refusal means "wait for the next
   wave": report it, do not retry in a loop.
 - No for-loops that spawn parallel jobs. At most one heavy command at a time per agent.
