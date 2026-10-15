@@ -22,9 +22,13 @@
 #   its name is gate-like and it has no proof mode, where a proof mode is ANY of: a case arm for
 #   --prove-failure|--selftest|--self-test|--prove|--mutation|--mutate|--anti-bluff-mutate or the POSITIONAL
 #   mode word `mutate` (`case "${1:-normal}" in normal) ..;; mutate) ..;;`); a `[ "$1" == <one of them> ]` /
-#   `[[ ... ]]` test; a sibling `*mutation*.sh` / `prove-*<name>*.sh` in its directory; or a proof-like file
-#   in its directory (name holding prove/mutation/test/selftest/anti-bluff) that names the script inside its
-#   text. A proof arm that exists but is a STUB is HIGH false-evidence.
+#   `[[ ... ]]` test; a sibling `prove-*<stem>*.sh` / `prove_*<stem>*.sh` in its directory whose name holds the
+#   stem as a whole [-_.]-delimited piece and is not the proof of a LONGER neighbour stem it also holds
+#   (prove-verify-xy.sh proves neither verify-x.sh nor anything shorter; prove-verify-x-y.sh proves verify-x-y.sh,
+#   not verify-x.sh); or a proof-like file in its directory (name holding prove/mutation/test/selftest/anti-bluff)
+#   that names the script on a line that is not a full-line `#` comment. A `*mutation*.sh` that names NO script of
+#   its directory proves none of them (VSC-369 review: the bare glob that credited it to every neighbour was
+#   removed). A proof arm that exists but is a STUB is HIGH false-evidence.
 #   SUBMODULE-REGISTRY EXEMPTIONS (operator decision #26, docs/operator-decisions-2026-10-14-session.md): that
 #   MEDIUM name-rule finding is NOT emitted for a script an owned submodule's OWN tracked check registry
 #   (`check-registry*.tsv` at any depth of that gitlink, rows `exempt <module-relative path> <reason>`) exempts —
@@ -299,6 +303,38 @@ if [ "$PROVE" -eq 1 ]; then
     k=$((k + 1)); muts=$((muts + 1)); mk pathgate clean
     printf '#!/usr/bin/env bash\nexit 0\n' >"$T/pathgate/tools/sub/audit-thing.sh"; chmod +x "$T/pathgate/tools/sub/audit-thing.sh"; run "$T/pathgate"
     if [ "$RC" -eq 1 ] && has "^FINDING $ID [a-z]* [a-z-]* tools/sub/audit-thing.sh "; then ok "M$k a gate-like script outside R5's depth with no proof arm => finding"; else bad "M$k rc=$RC"; fi
+    # VSC-369 review: an UNRELATED *mutation*.sh in the directory (one that names none of its neighbours, e.g. a
+    # ratchet challenge) is not a proof of every script there; a mutation file that NAMES the script is
+    k=$((k + 1)); muts=$((muts + 1)); mk mrat clean
+    printf '#!/usr/bin/env bash\n# ratchet: counts mutation challenges; names no gate of this directory\nexit 0\n' >"$T/mrat/tools/sub/mutation_ratchet_challenge.sh"
+    printf '#!/usr/bin/env bash\nexit 0\n' >"$T/mrat/tools/sub/verify-orphan.sh"; chmod +x "$T/mrat/tools/sub/"*.sh; run "$T/mrat"
+    if [ "$RC" -eq 1 ] && has "^FINDING $ID medium test-coverage tools/sub/verify-orphan.sh "; then ok "M$k an unrelated mutation_*.sh in the directory does not prove an unproven neighbour => finding"; else bad "M$k rc=$RC: $OUT"; fi
+    k=$((k + 1)); muts=$((muts + 1)); mk mnam clean
+    printf '#!/usr/bin/env bash\n# paired mutation proof for verify-named.sh\nbash "$(dirname "$0")/verify-named.sh" --root /x\n' >"$T/mnam/tools/sub/named_mutation.sh"
+    printf '#!/usr/bin/env bash\nexit 0\n' >"$T/mnam/tools/sub/verify-named.sh"; chmod +x "$T/mnam/tools/sub/"*.sh; run "$T/mnam"
+    if [ "$RC" -eq 0 ] && ! has "^FINDING"; then ok "M$k a mutation file in the directory that NAMES the script is accepted as its sibling proof"; else bad "M$k rc=$RC: $OUT"; fi
+    # a mention only on a full-line comment names the script without exercising it (a header that says "X is NOT
+    # covered" is the live shape): not a proof
+    k=$((k + 1)); muts=$((muts + 1)); mk mcmt clean
+    printf '#!/usr/bin/env bash\n# verify-cmt.sh is informational and is NOT exercised here\nexit 0\n' >"$T/mcmt/tools/sub/cmt_mutation.sh"
+    printf '#!/usr/bin/env bash\nexit 0\n' >"$T/mcmt/tools/sub/verify-cmt.sh"; chmod +x "$T/mcmt/tools/sub/"*.sh; run "$T/mcmt"
+    if [ "$RC" -eq 1 ] && has "^FINDING $ID medium test-coverage tools/sub/verify-cmt.sh "; then ok "M$k a proof-like file naming the script only in a full-line comment is not its proof => finding"; else bad "M$k rc=$RC: $OUT"; fi
+    # prove-<name> must hold the stem as a whole delimited piece: prove-verify-orphanage.sh is not verify-orphan.sh's
+    k=$((k + 1)); muts=$((muts + 1)); mk msub clean
+    printf '#!/usr/bin/env bash\nexit 0\n' >"$T/msub/tools/sub/prove-verify-orphanage.sh"
+    printf '#!/usr/bin/env bash\nexit 0\n' >"$T/msub/tools/sub/verify-orphan.sh"; chmod +x "$T/msub/tools/sub/"*.sh; run "$T/msub"
+    if [ "$RC" -eq 1 ] && has "^FINDING $ID medium test-coverage tools/sub/verify-orphan.sh "; then ok "M$k a prove-* file whose name holds the stem only as a substring (prove-verify-orphanage.sh) does not prove verify-orphan.sh => finding"; else bad "M$k rc=$RC: $OUT"; fi
+    # ... and a delimited piece that belongs to a LONGER neighbour's stem is that neighbour's proof only
+    k=$((k + 1)); muts=$((muts + 1)); mk mlong clean
+    printf '#!/usr/bin/env bash\nexit 0\n' >"$T/mlong/tools/sub/prove-verify-pair-extra.sh"
+    printf '#!/usr/bin/env bash\nexit 0\n' >"$T/mlong/tools/sub/verify-pair.sh"; printf '#!/usr/bin/env bash\nexit 0\n' >"$T/mlong/tools/sub/verify-pair-extra.sh"
+    chmod +x "$T/mlong/tools/sub/"*.sh; run "$T/mlong"
+    if [ "$RC" -eq 1 ] && has "^FINDING $ID medium test-coverage tools/sub/verify-pair.sh " && ! has "tools/sub/verify-pair-extra.sh "; then ok "M$k prove-verify-pair-extra.sh proves verify-pair-extra.sh and NOT its shorter neighbour verify-pair.sh => one finding, at verify-pair.sh"; else bad "M$k rc=$RC: $OUT"; fi
+    # control: a prove-* name holding the stem as a delimited piece among other words is accepted
+    k=$((k + 1)); muts=$((muts + 1)); mk mpiece clean
+    printf '#!/usr/bin/env bash\nexit 0\n' >"$T/mpiece/tools/sub/prove-failure-verify-piece.sh"
+    printf '#!/usr/bin/env bash\nexit 0\n' >"$T/mpiece/tools/sub/verify-piece.sh"; chmod +x "$T/mpiece/tools/sub/"*.sh; run "$T/mpiece"
+    if [ "$RC" -eq 0 ] && ! has "^FINDING"; then ok "M$k control: prove-failure-verify-piece.sh (the stem as a delimited piece) is accepted as verify-piece.sh's sibling proof"; else bad "M$k rc=$RC: $OUT"; fi
 
     # ── operator decision #26: an owned submodule's OWN registry may exempt one exact non-gate file, with a
     # reason; anything less is not honoured and is reported. Every case edits a throwaway copy of clean/.
@@ -852,7 +888,31 @@ sibling_proof() {
         sb=${s##*/}
         [ "$sb" = "$b" ] && continue
         case "$sb" in *prove*|*mutation*|*test*|*selftest*|*anti-bluff*|*anti_bluff*) ;; *) continue ;; esac
-        grep -Eq -- "(^|[^A-Za-z0-9._-])${re}([^A-Za-z0-9._-]|\$)" "$s" 2>/dev/null && return 0
+        # a mention on a full-line comment is not a proof (a header that says the file is NOT covered still names it);
+        # grep -c reads the whole input, so no early exit SIGPIPEs the filter under pipefail
+        grep -v '^[[:space:]]*#' -- "$s" 2>/dev/null | grep -Ec -- "(^|[^A-Za-z0-9._-])${re}([^A-Za-z0-9._-]|\$)" | grep -qv '^0$' && return 0
+    done
+    return 1
+}
+
+# prove_named <dir> <stem>: 0 when a prove-*/prove_* file of <dir> names <stem> as a whole delimited piece of its own
+# name ([-_.] or the name's ends on both sides), and no LONGER script stem of <dir> that contains <stem> is named by
+# that same file (prove-verify-x-y.sh is verify-x-y.sh's proof, not verify-x.sh's; prove-verify-xy.sh is neither's)
+rx_esc() { printf '%s' "$1" | sed 's/[][\.*^$+?(){}|/]/\\&/g'; }
+prove_named() {
+    local d=$1 st=$2 s sb o ob pat opat
+    pat="^prove[-_](.*[-_.])?$(rx_esc "$st")([-_.].*)?\\.sh\$"
+    for s in "$BASE/$d"/prove[-_]*.sh; do
+        [ -f "$s" ] && [ ! -L "$s" ] || continue
+        sb=${s##*/}
+        [[ $sb =~ $pat ]] || continue
+        for o in "$BASE/$d"/*.sh; do
+            ob=${o##*/}; ob=${ob%.sh}
+            [ "${#ob}" -gt "${#st}" ] && [[ $ob == *"$st"* ]] || continue
+            opat="^prove[-_](.*[-_.])?$(rx_esc "$ob")([-_.].*)?\\.sh\$"
+            [[ $sb =~ $opat ]] && continue 2
+        done
+        return 0
     done
     return 1
 }
@@ -990,9 +1050,12 @@ while IFS= read -r p; do
     has_proof_arm "$BASE/$p"; hp=$?
     if [ "$hp" -eq 2 ]; then finding high false-evidence "$tp" "gate-like script outside R5's one-level scan has a proof-mode arm that is a stub: $STUB_WHY" "$tp"; continue; fi
     [ "$hp" -eq 0 ] && continue
-    d=$(dirname -- "$p"); st=$(basename -- "$p" .sh); sib=0
-    for s in "$BASE/$d"/*mutation*.sh "$BASE/$d"/prove-*"$st"*.sh "$BASE/$d"/prove_*"$st"*.sh; do [ -f "$s" ] && sib=1; done
-    [ "$sib" -eq 1 ] && continue
+    d=$(dirname -- "$p"); st=$(basename -- "$p" .sh)
+    # a sibling proof must NAME the script: in its file name (prove_named, a delimited piece, not a substring of a
+    # longer neighbour's name) or in a non-comment line of its text (sibling_proof). The bare `*mutation*.sh` glob
+    # that stood here credited ANY mutation file to EVERY script of the directory (a ratchet challenge naming none
+    # of them silenced challenges/, containers/ and qa/) — VSC-369 review
+    prove_named "$d" "$st" && continue
     sibling_proof "$d" "$(basename -- "$p")" && continue
     sub_exempt "$p" && continue
     # a VOIDED submodule (one of its registries could not be read) cannot say whether it exempts this script: the
