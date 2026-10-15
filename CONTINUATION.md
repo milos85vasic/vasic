@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T10:00:58Z
+    Last-Updated: 2026-10-15T10:01:00Z
     Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
@@ -434,6 +434,7 @@ The eight CONST-050(B) challenges (`chaos_failure_injection`, `ddos_health_flood
 - `submodules/LLMProvider` gitlink -> `a5cd39b361f1` (`--prove-failure`: chaos 12/12, ddos 10/10, scaling 12/12, stress 12/12, ui 13/13, ux 13/13, no_suspend_calls 6/6; `host_no_auto_suspend` contract 11/11 and contract `--prove-failure` 17/17 under `podman unshare`, rc 2 on the bare host). RED against HEAD bodies: 25 of 78 cases failed, 6 undetermined (the 8 KiB chaos header was about 2 KiB, a refused chaos port passed, a truncated load passed, one replica listed twice passed, a failed latency probe counted as a sample, the walk-up scanner search scanned an enclosing directory); `host_no_auto_suspend` body unchanged apart from refusing unknown arguments.
 - `submodules/llm_provider` gitlink -> `a5cd39b361f1` (fast-forwarded from the LLMProvider commit, so the family is the same blobs as `submodules/LLMProvider`; run from this checkout (`--prove-failure`: chaos 12/12, ddos 10/10, scaling 12/12, stress 12/12, ui 13/13, ux 13/13, no_suspend_calls 6/6; `host_no_auto_suspend` contract 11/11 and contract `--prove-failure` 17/17 under `podman unshare`, rc 2 on the bare host).
 - `submodules/security` gitlink -> `99f3892f6f40` (`--prove-failure`: chaos 12/12, ddos 10/10, scaling 12/12, stress 12/12, ui 13/13, ux 13/13, no_suspend_calls 6/6; `host_no_auto_suspend` contract 11/11 and contract `--prove-failure` 17/17 under `podman unshare`, rc 2 on the bare host). RED against HEAD bodies: 45 of 78 cases failed, 6 undetermined (no or unreachable target printed PASSED (SKIP-OK) exit 0, a well-behaved binary failed the UI/UX challenges, the 8 KiB chaos header was about 2 KiB, a refused chaos port passed, a truncated load passed, one replica listed twice passed, the walk-up scanner search scanned an enclosing directory); `host_no_auto_suspend` (7596ec37) failed 5 of 11 contract assertions, rc 1, and now carries the evolved body plus the contract challenge (blob ddc16809).
+- `submodules/doc_processor` gitlink -> `11b29587493b` (`--prove-failure`: chaos 12/12, ddos 10/10, scaling 12/12, stress 12/12, ui 13/13, ux 13/13, no_suspend_calls 6/6; `host_no_auto_suspend` contract 11/11 and contract `--prove-failure` 17/17 under `podman unshare`, rc 2 on the bare host). RED against HEAD bodies: 45 of 78 cases failed, 6 undetermined (no or unreachable target printed PASSED (SKIP-OK) exit 0, a well-behaved binary failed the UI/UX challenges, the 8 KiB chaos header was about 2 KiB, a refused chaos port passed, a truncated load passed, one replica listed twice passed, the walk-up scanner search scanned an enclosing directory); `host_no_auto_suspend` (7596ec37) failed 5 of 11 contract assertions, rc 1, and now carries the evolved body plus the contract challenge (blob ddc16809).
 
 ### VSC-370 SHARED-CHALLENGE PROOF CASCADE — 2026-10-15
 

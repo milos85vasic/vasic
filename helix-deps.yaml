@@ -514,7 +514,7 @@ deps:
   #     task-2-report.md for the full account. ────────────────────────────
   - name: doc_processor
     ssh_url: git@github.com:HelixDevelopment/DocProcessor.git
-    ref: "f92125c377efec94aded936edbf0157f2c988868"   # bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    ref: "11b29587493b2d2e4fd8e22865a90243042977a0"   # bumped 2026-10-15 VSC-369 (CONST-050(B) family --prove-failure convention, ff-only, local) -- bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
     why: "Document-processing dependency consumed by submodules/qa via go.mod replace digital.vasic.docprocessor => ../doc_processor. A standalone, project-not-aware Go module (Go 1.25) that loads project documentation, builds structured feature maps, and tracks verification coverage for QA automation; imported directly by cmd/helixqa/main.go and several of qa's core packages."
     layout: grouped
 
