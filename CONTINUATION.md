@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T08:14:43Z
+    Last-Updated: 2026-10-15T08:14:45Z
     Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
@@ -436,6 +436,7 @@ One canonical scanner with a paired `--prove-failure` proof re-cascaded over the
 - `submodules/llm_provider` gitlink -> `615b020bd77d` (canonical `check-no-suspend-calls.sh` blob `c9b7bcd9`, `--prove-failure` 22/22, repo scan rc 0).
 - `submodules/challenges` gitlink -> `55677947ae9a` (canonical `check-no-suspend-calls.sh` blob `c9b7bcd9`, `--prove-failure` 22/22, repo scan rc 0).
 - `submodules/doc_processor` gitlink -> `f92125c377ef` (canonical `check-no-suspend-calls.sh` blob `c9b7bcd9`, `--prove-failure` 22/22, repo scan rc 0).
+- `submodules/llm_orchestrator` gitlink -> `e28b1b0d3514` (canonical `check-no-suspend-calls.sh` blob `c9b7bcd9`, `--prove-failure` 22/22, repo scan rc 0).
 
 Pending (NOT bumped): `submodules/llms_verifier` (committed `7623a2c8e906`, but the bump would also carry two unbumped LMV-002/LMV-003 commits of another agent), `submodules/qa` (not touched: another agent mid-flight on `feature/vision-no-bluff`). Follow-ups: scanner pattern gaps (option-tolerant `systemctl -i suspend`, `/sys/power/state`, `rtcwake`, `shutdown +N`) and the project_toolkit upstream session-termination patterns are NOT in the canonical.
 
