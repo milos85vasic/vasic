@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Generated | 2026-10-14 (read-only; `git fetch --all` run on the 14 top-level repos only; nested ahead/behind use existing remote-tracking refs and may be stale) |
-| Scope | 14 top-level repos under `/home/milosvasic/Projects` + every nested submodule (`git submodule status --recursive`, nothing initialised or updated) |
+| Scope | 14 top-level repos under `<projects-root>` (the parent directory of this checkout on the inventory host) + every nested submodule (`git submodule status --recursive`, nothing initialised or updated) |
 | Raw data | full per-repo TSV (945 rows) kept outside the repo in the agent scratch dir; not committed |
 | Status | Inventory only. No release action was taken. |
 

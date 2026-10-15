@@ -791,6 +791,20 @@ ev/VSC-386.green.json
 ev/VSC-386.red.json
 ev/VSC-386.verifier.json
 
+# REASON: sealed evidence record (commit 8d73060). Its `cwd` field is the independent verifier's scratch
+# working directory on the recording host, recorded verbatim by the evidence tooling. The bytes are bound:
+# docs/workable_items.db item_verdicts (VSC-349, role verifier) records evidence_sha256
+# eae75aef22edad5de9f3afcbeedc257c35712aa7f82ba96300a8e32fd72bb732, equal to sha256 of this file
+# (re-measured 2026-10-15), and the record sits at chain_seq 409. Editing the path would break that seal.
+ev/VSC-349.verifier.json
+
+# REASON: captured tool output at operator-decision time (commit 305d6c8), cited as evidence by test_diary
+# rows HLP-001, LLP-001, LMV-001 (remote-sync.txt) and VSC-398 (preflight.txt). The bounded-run banner and
+# scripts/verify-submodule-remote-sync.sh print the TMPDIR and repository root as emitted on the recording
+# host; rewriting them would alter captured evidence (section 11.4.6). Not executed, not hand-written.
+docs/zero-gap/operator-decisions-2026-10-14/preflight.txt
+docs/zero-gap/operator-decisions-2026-10-14/remote-sync.txt
+
 # REASON: captured verbatim tool output (Playwright "browserType.launch: Executable doesn't exist at
 # <host cache path>") recorded as host-capability / coverage evidence. The cache path inside the error
 # message IS the measured finding (which browser build is missing and where Playwright looked); rewriting
@@ -808,8 +822,15 @@ docs/zero-gap/host-capability-evidence-2026-10-08.txt
 # strings (/home/u/..., /home/user/...) as test inputs for label-sync state handling; they surfaced with the
 # submodule pin move and are not this host's paths. Same disposition as the other submodules/constitution rows
 # above: fixed (if at all) upstream in HelixConstitution and returned as a gitlink bump, never edited from here.
+# Added 2026-10-15: cm_core_scripts_project_literal_free_mutation_test.sh, present AT THE PIN 36eda364
+# (lines 240 and 357), feeds SYNTHETIC consumer literals ("/mnt/track1/${P1}", "path /home/zquser/x") to the
+# core-literal gate as mutation fixtures. It surfaced only when the constitution checkout was put back on the
+# pin (it had been on an off-pin branch that lacks the file). Same disposition: upstream, never edited here.
+# fix_test.go and perf_test.go are ABSENT at the pin and print as stale while the checkout sits on it; they
+# exist on the unpushed feature/label-sync branch (4ea4d74) and fire again if the checkout returns there.
 submodules/constitution/scripts/label-sync/cmd/labelctl/fix_test.go
 submodules/constitution/scripts/label-sync/internal/state/perf_test.go
+submodules/constitution/scripts/gates/cm_core_scripts_project_literal_free_mutation_test.sh
 ev/VSC-353.verifier-b17.json
 ev/VSC-351.verifier.json
 ev/VSC-352.verifier-b17.json
