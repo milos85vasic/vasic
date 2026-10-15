@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T11:08:50Z
+    Last-Updated: 2026-10-15T11:09:40Z
     Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
@@ -438,6 +438,7 @@ The eight CONST-050(B) challenges (`chaos_failure_injection`, `ddos_health_flood
 - `submodules/llm_orchestrator` gitlink -> `45983aae5810` (`--prove-failure`: chaos 12/12, ddos 10/10, scaling 12/12, stress 12/12, ui 13/13, ux 13/13, no_suspend_calls 6/6; `host_no_auto_suspend` contract 11/11 and contract `--prove-failure` 17/17 under `podman unshare`, rc 2 on the bare host). RED against HEAD bodies: 45 of 78 cases failed, 6 undetermined (no or unreachable target printed PASSED (SKIP-OK) exit 0, a well-behaved binary failed the UI/UX challenges, the 8 KiB chaos header was about 2 KiB, a refused chaos port passed, a truncated load passed, one replica listed twice passed, the walk-up scanner search scanned an enclosing directory); `host_no_auto_suspend` (7596ec37) failed 5 of 11 contract assertions, rc 1, and now carries the evolved body plus the contract challenge (blob ddc16809).
 - `submodules/vision_engine` gitlink -> `562aec62e586` (`--prove-failure`: chaos 12/12, ddos 10/10, scaling 12/12, stress 12/12, ui 13/13, ux 13/13, no_suspend_calls 6/6; `host_no_auto_suspend` contract 11/11 and contract `--prove-failure` 17/17 under `podman unshare`, rc 2 on the bare host). RED against HEAD bodies: 45 of 78 cases failed, 6 undetermined (no or unreachable target printed PASSED (SKIP-OK) exit 0, a well-behaved binary failed the UI/UX challenges, the 8 KiB chaos header was about 2 KiB, a refused chaos port passed, a truncated load passed, one replica listed twice passed, the walk-up scanner search scanned an enclosing directory); `host_no_auto_suspend` (7596ec37) failed 5 of 11 contract assertions, rc 1, and now carries the evolved body plus the contract challenge (blob ddc16809).
 - `submodules/RAG` gitlink -> `7e189119d92c` (VSC-369 review follow-ups; `--prove-failure`: chaos 13/13, ddos 11/11, scaling 13/13, stress 13/13, ui 13/13, ux 13/13, no_suspend_calls 6/6, each with harness self-test T1-T12 13/13; `host_no_auto_suspend` A1 + contract 11/11 under `podman unshare`, rc 2 bare; shellcheck -S warning 0 findings on the ten family files).
+- `submodules/LLMProvider` gitlink -> `131842de3461` (VSC-369 review follow-ups; `--prove-failure`: chaos 13/13, ddos 11/11, scaling 13/13, stress 13/13, ui 13/13, ux 13/13, no_suspend_calls 6/6, each with harness self-test T1-T12 13/13; `host_no_auto_suspend` A1 + contract 11/11 under `podman unshare`, rc 2 bare; shellcheck -S warning 0 findings on the ten family files).
 
 ### VSC-370 SHARED-CHALLENGE PROOF CASCADE — 2026-10-15
 
