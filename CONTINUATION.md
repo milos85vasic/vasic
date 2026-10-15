@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T10:28:46Z
+    Last-Updated: 2026-10-15T10:28:58Z
     Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
@@ -456,6 +456,7 @@ The `<module>_{compile,functionality,unit}_challenge.sh` trio gains a `--prove-f
 - `submodules/RAG` gitlink -> `e069f4bd39d8` (floors: unit 151 per run, compile 12 packages, functionality 10 assertions; `--prove-failure` unit 9/9, compile 7/7, functionality 6/6; live trio rc 0).
 - `submodules/security` gitlink -> `27c66bd58f35` (floors: unit 388 per run, compile 18 packages, functionality 24 assertions; `--prove-failure` unit 9/9, compile 7/7, functionality 6/6; live trio rc 0). The unit gate now runs `-tags=integration ./...` in full mode: it was `-short ./pkg/...`, 355 of 388 executed, rc 0.
 - `submodules/RAG` gitlink -> `5c953fc28b0d` (review follow-ups: functionality floor evaluated from an EXIT trap and EXACT, so a planted `exit 0` or an extra assertion is rc 1; T08 tightened to `Pipeline` struct + `Stage` interface; unit excludes TestMain, counts no Examples, treats `(cached)` as rc 2; `--prove-failure` unit 12/12, compile 7/7, functionality 9/9; live trio rc 0).
+- `submodules/security` gitlink -> `33b04348bab1` (review follow-ups: functionality floor evaluated from an EXIT trap and EXACT; header now says structural-only; unit excludes TestMain, counts no Examples, treats `(cached)` as rc 2; `--prove-failure` unit 12/12, compile 7/7, functionality 8/8; live trio rc 0). Recorded, not patched: `docs/test-coverage.md` in security names symbols/tests that do not exist (separate register item).
 
 ### VSC-368 CONST-033 SCANNER CASCADE — 2026-10-15
 
