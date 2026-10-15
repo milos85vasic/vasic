@@ -544,7 +544,7 @@ deps:
 
   - name: vision_engine
     ssh_url: git@github.com:HelixDevelopment/VisionEngine.git
-    ref: "a8e4bf93ee9ce8b04563f803845e4cf2a9069a65"   # bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    ref: "562aec62e586e7802087b2d3026a1eb67d5d6fad"   # bumped 2026-10-15 VSC-369 (CONST-050(B) family --prove-failure convention, ff-only, local) -- bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
     why: "Computer-vision dependency consumed by submodules/qa via go.mod replace digital.vasic.visionengine => ../vision_engine. A standalone, project-not-aware Go module providing computer-vision and LLM-vision building blocks for UI screenshot analysis and navigation-graph construction; used by qa's vision-based issue detection and autonomous QA session."
     layout: grouped
 
