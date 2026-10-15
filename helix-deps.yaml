@@ -544,7 +544,7 @@ deps:
 
   - name: vision_engine
     ssh_url: git@github.com:HelixDevelopment/VisionEngine.git
-    ref: "7cdd8ecc8081856de11191517a36c979fd027eb6"   # bumped 2026-10-15 VSC-369 review follow-ups (stub loopback binding measured, fresh HOME, harness self-test, host A1, 0 % threshold cases, ff-only, local) -- bumped 2026-10-15 VSC-369 (CONST-050(B) family --prove-failure convention, ff-only, local) -- bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    ref: "d52fa447d168b2023613cdd6e0bcf7e9c2148bbb"   # bumped 2026-10-15 VSC-369 operator-approved pass-rate floors + down-replica finding (ff-only, local) -- bumped 2026-10-15 VSC-369 review follow-ups (stub loopback binding measured, fresh HOME, harness self-test, host A1, 0 % threshold cases, ff-only, local) -- bumped 2026-10-15 VSC-369 (CONST-050(B) family --prove-failure convention, ff-only, local) -- bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
     why: "Computer-vision dependency consumed by submodules/qa via go.mod replace digital.vasic.visionengine => ../vision_engine. A standalone, project-not-aware Go module providing computer-vision and LLM-vision building blocks for UI screenshot analysis and navigation-graph construction; used by qa's vision-based issue detection and autonomous QA session."
     layout: grouped
 
