@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T08:14:49Z
+    Last-Updated: 2026-10-15T08:54:58Z
     Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
@@ -425,6 +425,12 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### VSC-371 CHALLENGE-TRIO PROOF + FLOOR CASCADE — 2026-10-15
+
+The `<module>_{compile,functionality,unit}_challenge.sh` trio gains a `--prove-failure` arm and an executed-count floor (a partial run below the floor is rc 1; an unreadable count is rc 2). Operator decision #13 (2026-10-14), cascade order 368 (done), 371, 370, 369. Commits are LOCAL (not pushed). Bumped one at a time, gitlink + `helix-deps.yaml` + this file per change:
+
+- `submodules/RAG` gitlink -> `e069f4bd39d8` (floors: unit 151 per run, compile 12 packages, functionality 10 assertions; `--prove-failure` unit 9/9, compile 7/7, functionality 6/6; live trio rc 0).
 
 ### VSC-368 CONST-033 SCANNER CASCADE — 2026-10-15
 
