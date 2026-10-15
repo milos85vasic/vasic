@@ -21,14 +21,22 @@
 #   For every tracked *.sh that R5 (scripts/verify-check-registry.sh) does NOT cover: MEDIUM test-coverage when
 #   its name is gate-like and it has no proof mode, where a proof mode is ANY of: a case arm for
 #   --prove-failure|--selftest|--self-test|--prove|--mutation|--mutate|--anti-bluff-mutate or the POSITIONAL
-#   mode word `mutate` (`case "${1:-normal}" in normal) ..;; mutate) ..;;`); a `[ "$1" == <one of them> ]` /
-#   `[[ ... ]]` test; a sibling `prove-*<stem>*.sh` / `prove_*<stem>*.sh` in its directory whose name holds the
-#   stem as a whole [-_.]-delimited piece and is not the proof of a LONGER neighbour stem it also holds
-#   (prove-verify-xy.sh proves neither verify-x.sh nor anything shorter; prove-verify-x-y.sh proves verify-x-y.sh,
-#   not verify-x.sh); or a proof-like file in its directory (name holding prove/mutation/test/selftest/anti-bluff)
-#   that names the script on a line that is not a full-line `#` comment. A `*mutation*.sh` that names NO script of
-#   its directory proves none of them (VSC-369 review: the bare glob that credited it to every neighbour was
-#   removed). A proof arm that exists but is a STUB is HIGH false-evidence.
+#   mode word `mutate` (`case "${1:-normal}" in normal) ..;; mutate) ..;;`, whatever the case subject); a
+#   `[ "$1" == <one of them> ]` / `[[ ... ]]` test, on $1 or on a NAME that holds it (`V="${1:-}"` on its own line,
+#   then `[ "$V" = --mutate ]`); a sibling `prove-*<stem>*.sh` / `prove_*<stem>*.sh` in its directory — a regular,
+#   NON-EMPTY, readable file — whose name holds the stem as a whole [-_.]-delimited piece and is not the proof of a
+#   LONGER neighbour stem it also holds (prove-verify-xy.sh proves neither verify-x.sh nor anything shorter; when
+#   verify-x-y.sh EXISTS in that directory, prove-verify-x-y.sh proves verify-x-y.sh and not verify-x.sh — with no
+#   verify-x-y.sh beside it, prove-verify-x-y.sh is read as a proof of verify-x.sh, `y` being a word of its own name);
+#   or a proof-like file in its directory (name holding prove/mutation/test/selftest/anti-bluff/contract, the last
+#   for a `*_contract_challenge.sh` driving its subject through `SUT=".../<name>"`) that names the script on a line
+#   that is not a full-line `#` comment (indented or not). A `*mutation*.sh` that names NO script of its directory
+#   proves none of them (VSC-369 review: the bare glob that credited it to every neighbour was removed). A proof arm
+#   that exists but is a STUB is HIGH false-evidence.
+#   KNOWN LIMITATION of that text rule (recorded, not closed: a stricter reading risks false findings on real proofs):
+#   a proof-like file that names the script only in a TRAILING comment (`echo x # see verify-a.sh`), an echo/printf
+#   string, a heredoc body, a skip list (`SKIP="verify-a.sh"`) or a `: <<'X'` block comment IS credited — the rule is
+#   lexical (the name on a non-comment line), not a parse of what the line executes.
 #   SUBMODULE-REGISTRY EXEMPTIONS (operator decision #26, docs/operator-decisions-2026-10-14-session.md): that
 #   MEDIUM name-rule finding is NOT emitted for a script an owned submodule's OWN tracked check registry
 #   (`check-registry*.tsv` at any depth of that gitlink, rows `exempt <module-relative path> <reason>`) exempts —
@@ -37,13 +45,16 @@
 #   U+2000-200F, U+3000, BOM, the Hangul fillers U+115F/1160/3164/FFA0 (letters that render as nothing), combining
 #   marks, symbols or punctuation alone are no reason; classified with GNU `grep -P` under C.UTF-8, whose behaviour on
 #   exactly those inputs is PROVED at start — unproved, every registry is COULD-NOT-INSPECT — no registry of the same
-#   submodule names the file as a check/debt entry point (fields split on blanks; each token loses quotes, a leading
-#   `(`, trailing `; , ) & |`, a `--flag=`/`KEY=` prefix, a `$VAR/`/`${VAR}/` prefix, `./`, `//`, `.` and `a/..`
-#   segments and a `::Test` suffix; it contradicts when it EQUALS the module path or ENDS in `/<module path>`, so
-#   `bash "$ROOT/tools/a/../x.sh";` contradicts `tools/x.sh`), and the file's name does not declare a verdict gate by
-#   its leading verb
-#   (verify|audit|check|guard|gate|lint|validate). The exemption silences only the name rule: a stub proof arm is
-#   still reported. Not a blanket allow, not a name skip.
+#   submodule names the file as a check/debt entry point (only the path/entry columns are read: $3 of a debt row, $3-$5
+#   of a check row — a debt row's prose naming the file is no entry point; each column is split on blanks and on
+#   `| ; &`; each token loses quotes, a leading `(`, trailing `; , ) & |`, a `--flag=`/`KEY=` prefix, a
+#   `$VAR/`/`${VAR}/` prefix, `./`, `//`, `.` and `a/..` segments and a `::Test` suffix; it contradicts when it EQUALS
+#   the module path or ENDS in `/<module path>`, so `bash "$ROOT/tools/a/../x.sh";` contradicts `tools/x.sh`; a token
+#   that stood after a `$VAR/` prefix or after `cd "$VAR"` may sit under ANY directory, so it also contradicts when the
+#   module path ENDS in `/<token>` (`$TOOLS/x.sh` contradicts `tools/x.sh`); a token after `cd <dir>` in the same
+#   column is also read as `<dir>/<token>` (`cd tools && bash x.sh` contradicts `tools/x.sh`)), and the file's name
+#   does not declare a verdict gate by its leading verb (verify|audit|check|guard|gate|lint|validate). The exemption
+#   silences only the name rule: a stub proof arm is still reported. Not a blanket allow, not a name skip.
 #     exempt row with no visible reason, naming a missing file, or naming a non-regular file      high  governance-drift
 #     exempt row refused (verdict-gate name, or contradicted by a check/debt row)                  high  governance-drift
 #   Live mode reads each registry from the submodule's COMMITTED tree (`git ls-tree HEAD` + `git cat-file blob`): an
@@ -116,6 +127,16 @@
 #   items were workshop scripts committed by another writer meanwhile, none of them a finding; one stderr NOTE
 #   (workshop/pipeline/run_audit.sh honoured-by workshop/platform/gates/check-registry-001.tsv:180). Wall time of a
 #   live run: 55 s before decision #26, 57 s after the fix-up (one sample each, same host, not a benchmark).
+#   2026-10-15, VSC-369 review follow-ups of 3ff5c2e. CORRECTION of that commit's message (a commit cannot be amended):
+#   its live wall time was not "~60-80 s" but 93-101 s, against 53-58 s for its parent (the per-sibling three-process
+#   text pipeline). Measured back to back on ONE tree (INSPECTED 981, POPULATION-SHA 2575ebfd…, unchanged by every
+#   variant), two rounds each: 3ff5c2e 95.1/101.1/99.5/98.8 s, 67 findings; its parent 58.0/58.3/53.8/58.4 s, 20
+#   findings; this revision 56.4/57.6 s (the F2 one-grep sibling test + a proof-word prefilter in has_proof_arm), 64
+#   findings. The F2 rewrite alone was byte-identical to 3ff5c2e's finding set in both rounds. 67 -> 64: the F1(a)
+#   `MUTATE_MODE="${1:-}"` holder clears submodules/containers/challenges/scripts/containers_describe_challenge.sh AND
+#   apple_container_linux_challenge.sh (the same shape, a third false positive the review did not count), and the
+#   F1(b) `contract` sibling word clears host_no_auto_suspend_challenge.sh (driven by
+#   host_no_auto_suspend_contract_challenge.sh through SUT=); the other 64 rows are byte-identical.
 #
 # WHAT IT DOES NOT SEE
 #   A proof arm that runs real code but asserts nothing (semantic vacuity) — that is class `vacuous-gates`.
@@ -336,6 +357,67 @@ if [ "$PROVE" -eq 1 ]; then
     printf '#!/usr/bin/env bash\nexit 0\n' >"$T/mpiece/tools/sub/verify-piece.sh"; chmod +x "$T/mpiece/tools/sub/"*.sh; run "$T/mpiece"
     if [ "$RC" -eq 0 ] && ! has "^FINDING"; then ok "M$k control: prove-failure-verify-piece.sh (the stem as a delimited piece) is accepted as verify-piece.sh's sibling proof"; else bad "M$k rc=$RC: $OUT"; fi
 
+    # ── review follow-ups of 3ff5c2e (F1 precision, F3 harness gaps, F4 non-empty prove file): ONE adversarial copy of
+    # clean/, one directory per case, one run; each case is asserted on its own path. P = proved (no FINDING and no
+    # COULD-NOT-INSPECT names it); F = the MEDIUM name-rule finding names it.
+    mk adv clean; A="$T/adv/tools"
+    gw() { mkdir -p "$(dirname "$1")"; printf '#!/usr/bin/env bash\nexit 0\n' >"$1"; chmod +x "$1"; }     # gate-like, no arm
+    pw() { mkdir -p "$(dirname "$1")"; printf '#!/usr/bin/env bash\n%b\n' "$2" >"$1"; chmod +x "$1"; }   # a file with a body
+    # F1(a): the mode word tested on a NAME that holds $1 (live: containers_describe_challenge.sh, MUTATE_MODE="${1:-}")
+    pw "$A/z01/verify-varmode.sh" 'MUTATE_MODE="${1:-}"\nif [ "$MUTATE_MODE" = "--mutate" ]; then\n  bash -c "exit 1" && exit 1\n  exit 99\nfi\nexit 0'
+    pw "$A/z02/verify-localmode.sh" 'main() {\n  local m=$1\n  if [[ $m == --prove-failure ]]; then\n    bash -c "exit 1" && exit 1\n    exit 0\n  fi\n}\nmain "$@"'
+    pw "$A/z03/verify-casemode.sh" 'V="${1:-}"\ncase "$V" in\n  --mutate) bash -c "exit 1" && exit 1; exit 99 ;;\nesac\nexit 0'
+    pw "$A/z11/verify-arg2mode.sh" 'MODE="${2:-}"\nif [ "$MODE" = "--mutate" ]; then\n  bash -c "exit 1" && exit 1\n  exit 99\nfi\nexit 0'
+    # F1(b): a contract challenge drives its subject through SUT=".../<name>" (live: host_no_auto_suspend_contract_challenge.sh)
+    gw "$A/z04/verify-ctr.sh"; pw "$A/z04/x_contract_challenge.sh" 'HERE=$(dirname "$0")\nSUT="${HERE}/verify-ctr.sh"\nbash "$SUT" || exit 1'
+    gw "$A/z12/verify-ctr.sh"; pw "$A/z12/x_contract_challenge.sh" '# SUT="${HERE}/verify-ctr.sh" is not driven here\nexit 0'
+    gw "$A/z22/verify-ctr.sh"; pw "$A/z22/x_contract_challenge.sh" 'SUT="${HERE}/xverify-ctr.sh"\nbash "$SUT" || exit 1'
+    # F3: the weakening mutants (review of 3ff5c2e, MU06/10/11/12/16/17/18) the planted corpus did not kill
+    gw "$A/z13/verify-ind.sh"; pw "$A/z13/ind_mutation.sh" 'if true; then\n\t  # verify-ind.sh is NOT exercised here\n  :\nfi\nexit 0'
+    gw "$A/z14/verify-a.sh"; gw "$A/z14/prove-xverify-a.sh"
+    gw "$A/z15/verify-c.d.sh"; gw "$A/z15/prove-verify-cXd.sh"
+    gw "$A/z05/verify-a+b.sh"; gw "$A/z05/prove-verify-a+b.sh"
+    gw "$A/z16/verify-h.sh"; pw "$A/z16/a_helper.sh" 'bash ./verify-h.sh || exit 1'
+    gw "$A/z17/verify-a.sh"; gw "$A/z17/prove-VERIFY-A.sh"
+    gw "$A/z18/verify-a.sh"; gw "$A/z18/other.sh"; ln -s other.sh "$A/z18/prove-verify-a.sh"
+    gw "$A/z19/verify-a.sh"; mkdir -p "$A/z19/prove-verify-a.sh"
+    # a proof-like file holding NUL bytes is binary data, not a shell proof: grep -I keeps the pre-F2 reading (grep stops
+    # at null input data), so naming the script there credits nothing
+    gw "$A/z23/verify-bin.sh"; pw "$A/z23/bin_mutation.sh" 'bash ./verify-bin.sh || exit 1\n\0'
+    # a basename that itself opens a comment (#x_audit.sh) named at a line start is that comment, not a mention
+    gw "$A/z24/#x_audit.sh"; pw "$A/z24/x_mutation.sh" '#x_audit.sh is described here only\n  #x_audit.sh too\nexit 0'
+    # F4: an empty or unreadable prove-<stem>.sh proves nothing (unreadable is unjudgeable as root, who reads mode 000)
+    gw "$A/z20/verify-a.sh"; : >"$A/z20/prove-verify-a.sh"
+    gw "$A/z21/verify-a.sh"; gw "$A/z21/prove-verify-a.sh"; chmod 000 "$A/z21/prove-verify-a.sh"
+    run "$T/adv"; chmod 644 "$A/z21/prove-verify-a.sh"
+    za() { # <path under tools/> P|F <description>
+        local p=$1 w=$2 hit l f=0; k=$((k + 1)); muts=$((muts + 1))
+        hit=$(grep -E '^(FINDING|COULD-NOT-INSPECT) ' <<<"$OUT" | grep -F -- " tools/$p ")
+        while IFS= read -r l; do [[ $l == "FINDING $ID medium test-coverage tools/$p "* ]] && f=1; done <<<"$hit"
+        if { [ "$w" = P ] && [ -z "$hit" ]; } || { [ "$w" = F ] && [ "$f" -eq 1 ]; }; then ok "M$k $3"
+        else bad "M$k $3 rc=$RC: ${hit:-no line names tools/$p}"; fi
+    }
+    za z01/verify-varmode.sh P "F1(a) [ \"\$MUTATE_MODE\" = --mutate ] with MUTATE_MODE=\"\${1:-}\" is a proof mode => proved"
+    za z02/verify-localmode.sh P "F1(a) [[ \$m == --prove-failure ]] with \`local m=\$1\` is a proof mode => proved"
+    za z03/verify-casemode.sh P "F1(a) case \"\$V\" in --mutate) with V=\"\${1:-}\" (a real arm) => proved"
+    za z11/verify-arg2mode.sh F "F1(a) the same test on a name holding \$2 (not the mode argument) is no proof => finding"
+    za z04/verify-ctr.sh P "F1(b) a *_contract_challenge.sh naming the script in SUT=\"\${HERE}/<name>\" is its sibling proof => proved"
+    za z12/verify-ctr.sh F "F1(b) a contract challenge naming the script only on a full-line comment => finding"
+    za z22/verify-ctr.sh F "F1(b) a contract challenge naming xverify-ctr.sh (the name only as a suffix) => finding"
+    za z13/verify-ind.sh F "F3/MU06 a proof-like file naming the script only on an INDENTED (tab+space) comment => finding"
+    za z14/verify-a.sh F "F3/MU16 prove-xverify-a.sh (stem behind an undelimited prefix) does not prove verify-a.sh => finding"
+    za z15/verify-c.d.sh F "F3/MU17 prove-verify-cXd.sh does not prove verify-c.d.sh (. is literal, not a wildcard) => finding"
+    za z05/verify-a+b.sh P "F3/MU17 control: prove-verify-a+b.sh proves verify-a+b.sh (+ is literal, not a quantifier) => proved"
+    za z16/verify-h.sh F "F3/MU18 a NON-proof-like sibling (a_helper.sh) that runs the script is no proof => finding"
+    za z17/verify-a.sh F "F3/MU10 prove-VERIFY-A.sh does not prove verify-a.sh (names match case-sensitively) => finding"
+    za z18/verify-a.sh F "F3/MU11 a SYMLINKED prove-verify-a.sh is no proof => finding"
+    za z19/verify-a.sh F "F3/MU12 a DIRECTORY named prove-verify-a.sh is no proof => finding"
+    za z23/verify-bin.sh F "F2 a proof-like file holding a NUL byte (binary data) that names the script is no proof => finding"
+    za z24/%23x_audit.sh F "F2 a proof-like file whose only mention of #x_audit.sh is a line that the name itself makes a comment => finding"
+    za z20/verify-a.sh F "F4 an EMPTY prove-verify-a.sh is no proof => finding"
+    if [ "$(id -u)" -eq 0 ]; then echo "COULD-NOT-INSPECT unreadable-prove-file running as root, who reads mode 000: the F4 unreadable case cannot be judged"; UND=1
+    else za z21/verify-a.sh F "F4 an UNREADABLE (mode 000) prove-verify-a.sh is no proof => finding"; fi
+
     # ── operator decision #26: an owned submodule's OWN registry may exempt one exact non-gate file, with a
     # reason; anything less is not honoured and is reported. Every case edits a throwaway copy of clean/.
     SR=mods/owned/gates/check-registry-own.tsv SS=mods/owned/tools/stage_audit.sh
@@ -482,6 +564,41 @@ if [ "$PROVE" -eq 1 ]; then
     sx sxat2 "a REAL file whose name carries + is exempted by its exact path => honoured" \
         '[ "$RC" -eq 0 ] && ! has "^FINDING" && ! has "^COULD-NOT-INSPECT"' \
         "cp -p mods/owned/tools/stage_audit.sh mods/owned/tools/a+b_audit.sh; printf 'exempt\ttools/a+b_audit.sh\tstage runner, renders no verdict\n' >>$SR"
+    # m21 (review of 9b4da86): a +-class path column naming NO file is free text, refused like the @ one
+    sx sxat3 "a path column like tools/a+b_ghost.sh naming no file => COULD-NOT-INSPECT, never echoed" \
+        '[ "$RC" -eq 2 ] && voided && has "^COULD-NOT-INSPECT subregistry:$SR " && ! grep -q "ghost" <<<"$OUT"' \
+        "printf 'exempt\ttools/a+b_ghost.sh\tclaimed a runner\n' >>$SR"
+    # G1 (review of 9b4da86): a check row that RUNS the file through a variable directory, a cd or a pipe still
+    # contradicts the exemption; tokens split on | ; & as well as blanks
+    for sp in 'var:$TOOLS/stage_audit.sh' 'bracevar:${TOOLS}/stage_audit.sh' 'cd:cd tools && bash stage_audit.sh' \
+        'cdsub:(cd ./tools/ ; bash ./stage_audit.sh)' 'cdvar:cd "$TOOLS" && bash stage_audit.sh' 'cdrootvar:cd "$ROOT/tools" && bash stage_audit.sh' \
+        'pipe:bash tools/stage_audit.sh|tee log' 'amp:true&&tools/stage_audit.sh'; do
+        sx "sxg1${sp%%:*}" "a check row running the file as '${sp#*:}' contradicts the exemption => refused" \
+            '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
+            "printf 'check\tc1\tshell\t%s\tp.sh\n' '${sp#*:}' >mods/owned/gates/check-registry-two.tsv"
+    done
+    # ... and the variable / cd rules keep a boundary: neither names a DIFFERENT file
+    for sp in 'var:$TOOLS/age_audit.sh' 'cd:cd other && bash stage_audit.sh'; do
+        sx "sxg1n${sp%%:*}" "a check row naming '${sp#*:}' does NOT contradict an exemption of tools/stage_audit.sh => honoured" \
+            '[ "$RC" -eq 0 ] && ! flagged && ! has "^FINDING"' \
+            "printf 'check\tc1\tshell\t%s\tp.sh\n' '${sp#*:}' >mods/owned/gates/check-registry-two.tsv"
+    done
+    # finding 10 (review of 9b4da86): only the path/entry columns are read — prose in a debt DESCRIPTION or a check
+    # probe column that mentions the file is not an entry point and does not refuse a valid exemption
+    sx sxg1debt "a debt row whose DESCRIPTION says 'see tools/stage_audit.sh' does not refuse the exemption => honoured" \
+        '[ "$RC" -eq 0 ] && ! flagged && ! has "^FINDING"' \
+        "printf 'debt\td1\tother/x.sh\towed-proof\tsee tools/stage_audit.sh for the runner\n' >mods/owned/gates/check-registry-two.tsv"
+    sx sxg1probe "a check row naming the file only in its probe column (column 6) does not refuse the exemption => honoured" \
+        '[ "$RC" -eq 0 ] && ! flagged && ! has "^FINDING"' \
+        "printf 'check\tc1\ttools/other.sh\tflag\t--prove-failure\tbash tools/stage_audit.sh\n' >mods/owned/gates/check-registry-two.tsv"
+    sx sxg1debt3 "a debt row naming the file in its PATH column (3) still refuses the exemption => refused" \
+        '[ "$RC" -eq 1 ] && flagged && has "^FINDING $ID high governance-drift subregistry:$SR:4 "' \
+        "printf 'debt\td1\ttools/stage_audit.sh\towed-proof\tnot proved yet\n' >mods/owned/gates/check-registry-two.tsv"
+    # m16 (review of 9b4da86): a voided script is not counted as inspected, and neither is the unreadable registry
+    k=$((k + 1)); muts=$((muts + 1)); mk m16 clean; chmod 000 "$T/m16/$SR"; run "$T/m16"; chmod 644 "$T/m16/$SR"
+    ntok0=$(awk 'END { print NR }' <<<"$pop0"); nsx0=$(grep -c '^subexempt:' <<<"$pop0")
+    if [ "$RC" -eq 2 ] && voided && has "^INSPECTED $((ntok0 - nsx0 - 2))\$"; then ok "M$k a voided submodule: INSPECTED ($((ntok0 - nsx0 - 2))) excludes the unreadable registry and the undetermined script (population $ntok0 minus its $nsx0 subexempt item(s))"
+    else bad "M$k rc=$RC want INSPECTED $((ntok0 - nsx0 - 2)): $(grep -E '^(INSPECTED|COULD)' <<<"$OUT" | tr '\n' '|')"; fi
 
     # empty / absent population, broken tool, absent registry: never clean
     mkdir -p "$T/empty/scripts"; printf 'scanroot\tscripts\n' >"$T/empty/scripts/check-registry.tsv"; run "$T/empty"; k=$((k + 1)); muts=$((muts + 1))
@@ -546,6 +663,23 @@ x.sh"
     OUT=$(cd "$G" && env -i PATH="$PATH" HOME="${HOME:-/}" TMPDIR="$T" LC_ALL=C bash "$SELF" --root "$G" 2>&1); RC=$?
     k=$((k + 1)); muts=$((muts + 1))
     if [ "$RC" -ne 0 ] && has '^COULD-NOT-INSPECT subregistry:owned/gates/check-registry-link.tsv ' && has '^COULD-NOT-INSPECT owned/tools/stage_audit.sh exemption-status-undetermined' && ! has '^FINDING .*owned/tools/stage_audit.sh '; then ok "M$k live mode: a COMMITTED symlink registry => COULD-NOT-INSPECT naming it, and no exemption of that submodule is honoured"; else bad "M$k rc=$RC: $OUT"; fi
+
+    # finding 8 (review of 9b4da86): an owned gitlink whose HEAD tree cannot be listed (its root tree object is gone)
+    # cannot say whether a registry of it exempts a script: COULD-NOT-INSPECT gitlink, the flagged script is
+    # undetermined (not a finding, not counted as inspected), rc 2
+    G2="$T/git2"; rm -rf "$G2"; mkdir -p "$G2/scripts" "$G2/hl/tools"; cp -a "$FIX/clean/scripts/." "$G2/scripts/"
+    printf '#!/usr/bin/env bash\nexit 0\n' >"$G2/hl/tools/audit-hl.sh"; chmod +x "$G2/hl/tools/audit-hl.sh"
+    git init -q "$G2/hl" && gi "$G2/hl" add -A && gi "$G2/hl" commit -q -m f
+    git init -q "$G2" && gi "$G2" add -A 2>/dev/null && gi "$G2" commit -q -m f
+    lpop2=$(cd "$G2" && env -i PATH="$PATH" HOME="${HOME:-/}" TMPDIR="$T" LC_ALL=C bash "$SELF" --root "$G2" --emit-population 2>/dev/null); lrc2=$?
+    htree=$(gi "$G2/hl" rev-parse 'HEAD^{tree}'); rm -f "$G2/hl/.git/objects/${htree:0:2}/${htree:2}"
+    OUT=$(cd "$G2" && env -i PATH="$PATH" HOME="${HOME:-/}" TMPDIR="$T" LC_ALL=C bash "$SELF" --root "$G2" 2>&1); RC=$?
+    ntok2=$(awk 'NF { c++ } END { print c + 0 }' <<<"$lpop2")
+    k=$((k + 1)); muts=$((muts + 1))
+    if [ "$lrc2" -eq 0 ] && [ "$ntok2" -gt 1 ] && [ "$RC" -eq 2 ] && has '^COULD-NOT-INSPECT gitlink:hl submodule-HEAD-tree-could-not-be-listed' \
+        && has '^COULD-NOT-INSPECT hl/tools/audit-hl.sh exemption-status-undetermined' && ! has '^FINDING' && has "^INSPECTED $((ntok2 - 1))\$"; then
+        ok "M$k live mode: an owned gitlink whose HEAD tree cannot be listed => COULD-NOT-INSPECT gitlink, its flagged script undetermined (not inspected: $((ntok2 - 1)) of $ntok2), rc 2"
+    else bad "M$k rc=$RC lrc=$lrc2 ntok=$ntok2: $OUT"; fi
 
     # the shared exclusion block is byte-identical in the sibling class (one classification for both)
     k=$((k + 1)); muts=$((muts + 1)); SIB="$(dirname "$SELF")/zero-gap-class-unregistered-scripts.sh"
@@ -738,26 +872,48 @@ while IFS=$'\037' read -r s r m; do
             if (p !~ /^[A-Za-z0-9._+@,=~-]+(\/[A-Za-z0-9._+@,=~-]+)*$/ || p ~ /(^|\/)\.\.?(\/|$)/) { print "BAD\037" NR "\037exempt-path-column-is-not-a-normal-relative-path-(not-echoed)"; exit }
             if (p ~ /[@,=~+]/) print "XQ\037" NR "\037" p
             print "EX\037" NR "\037" p; print "R\037" NR "\037" $3 > rf; next }
+        # only the path / entry columns are tokenised (review finding 10 of 9b4da86: a debt DESCRIPTION that says "see
+        # tools/x.sh for the runner" is prose, not an entry point): $3 of a debt row, $3..$5 of a check row (entry,
+        # kind, proof-arg — a sibling proof path or an entry spelled in the kind column). A column is split on blanks
+        # AND on | ; & (review G1: `bash tools/x.sh|tee`, `cd tools && bash x.sh`). Kind x: the token contradicts when
+        # it EQUALS the module path or ENDS in /<module path>. Kind v: the token stood after a $VAR/ prefix (or after
+        # `cd "$VAR"`), so the variable may name ANY directory: it contradicts when the module path EQUALS it or ENDS in
+        # /<token> (`$TOOLS/x.sh` names tools/x.sh). A token after `cd <dir>` in the same column is also read as
+        # <dir>/<token> (kind x).
         $1 == "check" || $1 == "debt" {
-            for (i = 3; i <= NF; i++) {
-                nt = split($i, tk, /[ \t]+/)
+            last = ($1 == "check") ? 5 : 3
+            for (i = 3; i <= last && i <= NF; i++) {
+                nt = split($i, tk, /[ \t|;&]+/); cdb = ""; cdv = 0; wantcd = 0
                 for (j = 1; j <= nt; j++) {
-                    t = tk[j]; sub(/::.*/, "", t)
-                    gsub(/["\047`]/, "", t); sub(/^[(]+/, "", t); sub(/[;,)&|]+$/, "", t)  # quotes, ( ; , ) & |
-                    sub(/^[^\/]*=/, "", t)                                                  # --entry=x, KEY=x
-                    sub(/^\$\{?[A-Za-z_][A-Za-z0-9_]*\}?\//, "", t)                        # $ROOT/x, ${ROOT}/x
-                    while (substr(t, 1, 2) == "./") t = substr(t, 3)
-                    gsub(/\/+/, "/", t)
-                    ns = split(t, sg, "/"); d = 0                                           # collapse . and a/..
-                    for (q = 1; q <= ns; q++) {
-                        if (sg[q] == "." || (sg[q] == "" && q > 1)) continue
-                        if (sg[q] == ".." && d > 0 && st[d] != "..") { d--; continue }
-                        st[++d] = sg[q] }
-                    t = ""; for (q = 1; q <= d; q++) t = t (q > 1 ? "/" : "") st[q]
+                    t = norm(tk[j]); tv = NV
+                    if (wantcd) { wantcd = 0; if (tk[j] ~ /^["\047]?\$\{?[A-Za-z_][A-Za-z0-9_]*\}?["\047]?\/?$/) { cdb = ""; cdv = 1 } else { cdb = t; cdv = tv }; continue }
+                    if (t == "cd") { wantcd = 1; continue }
                     if (t == "") continue
-                    print "ENT\037" t
-                    if (index(t, s "/") == 1) print "ENT\037" substr(t, length(s) + 2)
+                    print "ENT\037x\037" t
+                    if (index(t, s "/") == 1) print "ENT\037x\037" substr(t, length(s) + 2)
+                    if (tv) print "ENT\037v\037" t
+                    if (substr(tk[j], 1, 1) != "/") {
+                        if (cdv) print "ENT\037v\037" (cdb != "" ? norm(cdb "/" t) : t)
+                        else if (cdb != "") { u = norm(cdb "/" t); print "ENT\037x\037" u; if (index(u, s "/") == 1) print "ENT\037x\037" substr(u, length(s) + 2) }
+                    }
                 } } }
+        # norm <token>: quotes, a leading ( and trailing ; , ) & | dropped; a --flag= / KEY= prefix, a $VAR/ / ${VAR}/
+        # prefix (NV=1 when one was stripped), ./ and :: suffixes removed; // . and a/.. collapsed
+        function norm(t,    ns, sg, q, d, st2) {
+            NV = 0; sub(/::.*/, "", t)
+            gsub(/["\047`]/, "", t); sub(/^[(]+/, "", t); sub(/[;,)&|]+$/, "", t)
+            sub(/^[^\/]*=/, "", t)
+            if (sub(/^\$\{?[A-Za-z_][A-Za-z0-9_]*\}?\//, "", t)) NV = 1
+            while (substr(t, 1, 2) == "./") t = substr(t, 3)
+            gsub(/\/+/, "/", t)
+            ns = split(t, sg, "/"); d = 0
+            for (q = 1; q <= ns; q++) {
+                if (sg[q] == "." || (sg[q] == "" && q > 1)) continue
+                if (sg[q] == ".." && d > 0 && st2[d] != "..") { d--; continue }
+                st2[++d] = sg[q] }
+            t = ""; for (q = 1; q <= d; q++) t = t (q > 1 ? "/" : "") st2[q]
+            return t
+        }
     ' "$f" >"$W/reg.parsed" 2>/dev/null || { cni "$rl" "registry-could-not-be-parsed-$why"; subbad "$s"; continue; }
     bl=$(grep -m1 '^BAD' "$W/reg.parsed")
     if [ -n "$bl" ]; then
@@ -777,7 +933,7 @@ while IFS=$'\037' read -r s r m; do
     SUBN=$((SUBN + 1))
     awk -F'\037' -v s="$s" -v r="$r" -v okf="$W/reasons.ok" 'BEGIN { while ((getline l < okf) > 0) ok[l] = 1 }
         $1 == "EX" { print s "\037" r "\037" $2 "\037" $3 "\037" (($2 in ok) ? 1 : 0) }' "$W/reg.parsed" >>"$W/subex"
-    awk -F'\037' -v s="$s" '$1 == "ENT" { print s "\037" $2 }' "$W/reg.parsed" >>"$W/subent"
+    awk -F'\037' -v s="$s" '$1 == "ENT" { print s "\037" $2 "\037" $3 }' "$W/reg.parsed" >>"$W/subent"
     awk -F'\037' -v s="$s" '$1 == "EX" { print s "/" $3 }' "$W/reg.parsed" >>"$W/subextok"
 done <"$W/subregs"
 LC_ALL=C sort -u -o "$W/subextok" "$W/subextok"
@@ -867,43 +1023,74 @@ arm_verdict() {
 # proof-mode vocabulary: a flag arm, or the POSITIONAL mode word `mutate` (`case "${1:-normal}" in
 # normal) ...;; mutate) ...;;`), or the same words tested with [ ] / [[ ]] against $1
 PROOF_WORDS="--prove-failure --selftest --self-test --prove --mutation --mutate --anti-bluff-mutate mutate"
+# the [ ] / [[ ]] test may be written on $1 itself or on a variable that holds it (review F1(a) of 3ff5c2e: the live
+# shape is `MUTATE_MODE="${1:-}"` ... `[ "$MUTATE_MODE" = "--mutate" ]`, a real paired mode the $1-only test missed). A
+# holder is a NAME assigned exactly $1 on its own line (`V=$1`, `V="${1:-}"`, `local V="${1-x}"`, `readonly V=...`);
+# `case "$V" in --mutate)` needs no holder: arm_body reads a case arm whatever its subject.
+PROOF_RX='(--prove-failure|--selftest|--self-test|--prove|--mutation|--mutate|--anti-bluff-mutate|mutate)'
 has_proof_arm() { # file -> 0 a real proof-mode arm; 1 none; 2 only stub arms
-    local f=$1 fl v stub=0
+    local f=$1 fl v stub=0 subj=1
+    # every proof word holds one of these substrings, so a file holding none has no arm and no test: one grep instead of
+    # ~40 processes (review F2 cost budget; the verdict is unchanged — arm_body and the test below need the literal word)
+    grep -qE -- 'prove|selftest|self-test|mutat' "$f" 2>/dev/null || return 1
     for fl in $PROOF_WORDS; do
         arm_verdict "$f" "$fl"; v=$?
         case "$v" in 2) return 0 ;; 0) stub=1 ;; esac
     done
-    if grep -Eq -- '\[\[?[[:space:]]+"?\$\{?1(:-[^}]*)?\}?"?[[:space:]]+==?[[:space:]]+"?(--prove-failure|--selftest|--self-test|--prove|--mutation|--mutate|--anti-bluff-mutate|mutate)"?[[:space:]]' "$f"; then return 0; fi
+    while IFS= read -r v; do [ -n "$v" ] && subj+="|$v"; done < <(sed -nE 's/^[[:space:]]*((local|readonly|declare|typeset|export)[[:space:]]+(-[A-Za-z]+[[:space:]]+)*)?([A-Za-z_][A-Za-z0-9_]*)="?\$\{?1(:?-[^}"]*)?\}?"?[[:space:]]*(;.*|#.*)?$/\4/p' -- "$f" 2>/dev/null)
+    if grep -Eq -- "\\[\\[?[[:space:]]+\"?\\\$\\{?($subj)(:?-[^}]*)?\\}?\"?[[:space:]]+==?[[:space:]]+\"?$PROOF_RX\"?[[:space:]]" "$f"; then return 0; fi
     [ "$stub" -eq 1 ] && return 2
     return 1
 }
-# sibling_proof <dir> <basename>: 0 when a proof-like file in the same directory (name holding
-# prove / mutation / test / selftest / anti-bluff) names the script inside its text (a path ending in
-# the basename, not followed by another name character)
+# rx_esc <text>: the text as an ERE matching itself (every ERE metacharacter backslash-escaped)
+rx_esc() { printf '%s' "$1" | sed 's/[][\.*^$+?(){}|/]/\\&/g'; }
+# sibling_proof <dir> <basename>: 0 when a proof-like file in the same directory (name holding prove / mutation / test /
+# selftest / anti-bluff / contract) names the script on a line that is not a full-line `#` comment (a path ending in the
+# basename, preceded by the line start or a non-name character and not followed by a name character). The candidate
+# list is built ONCE per directory (SIBC, basenames joined by `/`, a byte no basename holds) and the whole test is ONE
+# grep per script over every candidate, exiting on the first hit (review F2 of 3ff5c2e: the per-sibling
+# `grep -v | grep -Ec | grep -qv` pipeline cost three processes per candidate per script, 229 x 115 in one directory).
+# The single ERE is the conjunction "not a full-line comment" AND "names the basename": the line is blanks, then either
+# the basename itself (only when the basename cannot itself open a comment), or one non-blank non-# non-name character,
+# or a non-blank non-# character ... a non-name character, then the basename and a non-name character or the line end.
+# -I keeps the old binary-file reading (grep stops at null input data; nothing after it is a line); -s and a closed
+# return keep an unreadable candidate a non-proof, never an error.
+declare -A SIBC=()
 sibling_proof() {
-    local d=$1 b=$2 s sb re
-    re=$(printf '%s' "$b" | sed 's/[][\.*^$+?(){}|/]/\\&/g')
-    for s in "$BASE/$d"/*; do
-        [ -f "$s" ] && [ ! -L "$s" ] || continue
-        sb=${s##*/}
-        [ "$sb" = "$b" ] && continue
-        case "$sb" in *prove*|*mutation*|*test*|*selftest*|*anti-bluff*|*anti_bluff*) ;; *) continue ;; esac
-        # a mention on a full-line comment is not a proof (a header that says the file is NOT covered still names it);
-        # grep -c reads the whole input, so no early exit SIGPIPEs the filter under pipefail
-        grep -v '^[[:space:]]*#' -- "$s" 2>/dev/null | grep -Ec -- "(^|[^A-Za-z0-9._-])${re}([^A-Za-z0-9._-]|\$)" | grep -qv '^0$' && return 0
+    local d=$1 b=$2 s sb rest re pat lead N='A-Za-z0-9._-'
+    local -a files=()
+    if [ -z "${SIBC["d:$d"]+x}" ]; then
+        rest=""
+        for s in "$BASE/$d"/*; do
+            [ -f "$s" ] && [ ! -L "$s" ] || continue
+            sb=${s##*/}
+            case "$sb" in *prove*|*mutation*|*test*|*selftest*|*anti-bluff*|*anti_bluff*|*contract*) rest+="/$sb" ;; esac
+        done
+        SIBC["d:$d"]=$rest
+    fi
+    rest=${SIBC["d:$d"]}
+    while [ -n "$rest" ]; do
+        rest=${rest#/}; sb=${rest%%/*}; rest=${rest:${#sb}}
+        [ "$sb" = "$b" ] || files+=("$BASE/$d/$sb")
     done
+    [ "${#files[@]}" -gt 0 ] || return 1
+    re=$(rx_esc "$b")
+    lead="[^[:space:]#$N]|[^[:space:]#].*[^$N]"
+    if [[ $b =~ ^[[:space:]]*# ]]; then pat="^[[:space:]]*($lead)$re([^$N]|\$)"; else pat="^[[:space:]]*($lead)?$re([^$N]|\$)"; fi
+    grep -qsIE -e "$pat" -- "${files[@]}" 2>/dev/null && return 0
     return 1
 }
 
 # prove_named <dir> <stem>: 0 when a prove-*/prove_* file of <dir> names <stem> as a whole delimited piece of its own
 # name ([-_.] or the name's ends on both sides), and no LONGER script stem of <dir> that contains <stem> is named by
-# that same file (prove-verify-x-y.sh is verify-x-y.sh's proof, not verify-x.sh's; prove-verify-xy.sh is neither's)
-rx_esc() { printf '%s' "$1" | sed 's/[][\.*^$+?(){}|/]/\\&/g'; }
+# that same file (prove-verify-x-y.sh is verify-x-y.sh's proof, not verify-x.sh's; prove-verify-xy.sh is neither's).
+# The prove file must be a regular, non-empty, readable file (review F4 of 3ff5c2e: an empty or unreadable
+# prove-<stem>.sh proves nothing, consistent with the registered-sibling rule `-s`)
 prove_named() {
     local d=$1 st=$2 s sb o ob pat opat
     pat="^prove[-_](.*[-_.])?$(rx_esc "$st")([-_.].*)?\\.sh\$"
     for s in "$BASE/$d"/prove[-_]*.sh; do
-        [ -f "$s" ] && [ ! -L "$s" ] || continue
+        [ -f "$s" ] && [ ! -L "$s" ] && [ -s "$s" ] && [ -r "$s" ] || continue
         sb=${s##*/}
         [[ $sb =~ $pat ]] || continue
         for o in "$BASE/$d"/*.sh; do
@@ -1004,8 +1191,9 @@ sub_exempt() {
     if [[ $(basename -- "$p") =~ ^(verify|audit|check|guard|gate|lint|validate)[-_.] ]]; then
         finding high governance-drift "$rl" "submodule registry exempts $(enc "$p") whose name declares a verdict gate by its leading verb; the exemption is refused" "$rref"; return 1
     fi
-    # a check/debt token contradicts when it equals the module path or ends in /<module path> (review A3 of 7c54355)
-    if awk -F'\037' -v s="$ss" -v e="$ep" '$1 == s && ($2 == e || (length($2) > length(e) && substr($2, length($2) - length(e)) == "/" e)) { f = 1; exit } END { exit !f }' "$W/subent"; then
+    # a check/debt token of kind x contradicts when it equals the module path or ends in /<module path> (review A3 of
+    # 7c54355); one of kind v (it followed a $VAR/ or `cd "$VAR"`) when the module path equals it or ends in /<token>
+    if awk -F'\037' -v s="$ss" -v e="$ep" '$1 == s && ($3 == e || ($2 == "x" && length($3) > length(e) && substr($3, length($3) - length(e)) == "/" e) || ($2 == "v" && length(e) > length($3) && substr(e, length(e) - length($3)) == "/" $3)) { f = 1; exit } END { exit !f }' "$W/subent"; then
         finding high governance-drift "$rl" "submodule registry exempts $(enc "$p") which a registry of the same submodule also names as a check or debt entry point; the exemption is refused" "$rref"; return 1
     fi
     # the trace (review A6): stderr, because stdout is the sweep's closed line contract; no reason text
