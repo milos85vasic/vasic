@@ -597,3 +597,21 @@
 {"id": "r7-G12", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "rm -rf build/[[:alpha:]]*"}
 {"id": "r7-B23", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -E --expand-environment=no -- bash -c 'echo ${X}'", "note": "the VALUE of -E is never an option"}
 {"id": "r7-B24", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "watch -n 1 pkill ''", "note": "judged as its argv too (defensive: watch joins the words, but its argv is what -x would run)"}
+{"id": "r8-B01", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- sh -c 'rm -rf \"$1\"/*' sh '$D/'"}
+{"id": "r8-B02", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- sh -c 'rm -rf \"$1\"/*' sh '$1'"}
+{"id": "r8-B03", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- sh -c 'rm -rf \"$1\"/*' sh '$D.bak'"}
+{"id": "r8-B04", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- sh -c 'rm -rf \"$1\"/*' sh '$'"}
+{"id": "r8-B05", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- awk '$1 > 0' data.txt"}
+{"id": "r8-B06", "expect": "B", "branch": "cat:signal-all-processes", "cwd": "@REPO@", "cmd": "pkill --inverse -x zzz-never-r7"}
+{"id": "r8-B07", "expect": "B", "branch": "cat:signal-all-processes", "cwd": "@REPO@", "cmd": "pkill -v -x zzz-never-r7"}
+{"id": "r8-B08", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- sh -c 'ls' $'\\x24D'"}
+{"id": "r8-B09", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- sh -c 'ls' $'\\044D'"}
+{"id": "r8-B10", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -qp MemoryMax=1G bash -c 'git add -A'"}
+{"id": "r8-B11", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -qE X=1 bash -c 'git add -A'"}
+{"id": "r8-B12", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "find . -print0 | xargs -0n 1 git add -A"}
+{"id": "r8-G01", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- sh -c 'ls' 'x$D'"}
+{"id": "r8-G02", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "systemd-run --user --scope --expand-environment=no -- awk '$1 > 0' data.txt"}
+{"id": "r8-G03", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "pkill -x zzz-never-r7"}
+{"id": "r8-G04", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "printf '%s\\n' $'\\x41\\102'"}
+{"id": "r8-G05", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "xargs -0n 1 echo < list"}
+{"id": "r8-B13", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "env -iS 'git add -A'"}

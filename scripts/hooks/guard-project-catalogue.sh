@@ -66,9 +66,10 @@
 #   privilege-escalation  sudo doas pkexec run0 su
 #   systemd-run-expansion (project) a direct systemd-run without --expand-environment=no (options read one token at a time,
 #                     the LAST one wins, an option's value is never an option) whose command carries a LITERAL `${`, `$$`
-#                     or whole-word `$NAME` (single-quoted, $'..', escaped), or a command substitution (unknown text); a $S
-#                     the calling shell expands first is fine. systemd 254+ expands ${VAR}, $$ AND a whole-word $NAME in
-#                     the command line itself (unset => empty; a whole-word $UNSET argument is DROPPED), so
+#                     or ANY word that begins with `$` (single-quoted, $'..' incl. \xHH/\NNN, escaped), or a command
+#                     substitution (unknown text); a $S the calling shell expands first is fine. systemd 259 expands
+#                     ${VAR} and $$ anywhere and reads EVERY word that begins with $ as a variable reference ('$D', '$D/',
+#                     '$1', '$D.bak', '$': unset or invalid => the argument is DROPPED; `x$D` survives), so
 #                     `systemd-run -- sh -c 'rm -rf "$1"/*' sh '$D'` runs `rm -rf /*` (bounded-run passes the option)
 #   host-power (+poweroff/reboot/halt)  the bare commands; systemctl with a power verb (suspend hibernate hybrid-sleep
 #                     suspend-then-hibernate sleep poweroff reboot halt kexec soft-reboot emergency rescue) or isolate
@@ -86,7 +87,7 @@
 #                     'a**', fails CLOSED; POSIX [[:class:]] is translated), and kill $(pgrep ...) / kill `pidof ...`
 #   signal-by-name    killall (any)
 #   signal-all-processes (project) kill of a pid < 2 (-1 every process, 0 our group, 1 init, a negative pgid) unless the
-#                     signal is 0; killall5; pkill -u/-U/--euid/--uid, -G/--group, -s 0, -P 0|1, pkill with NO pattern whose
+#                     signal is 0; killall5; pkill -u/-U/--euid/--uid, -G/--group, -v/--inverse, -s 0, -P 0|1, pkill with NO pattern whose
 #                     only criteria are broad (-O/--older, --ns/--nslist, -r/--runstates), and -g/--pgroup with ANY group. A
 #                     process group cannot be validated by this guard, so `kill -- -PGID` and `pkill -g PGID` are refused
 #                     alike: a deliberate tightening of §11.4.263 (which forbids pgid <= 1 and requires validation above)
@@ -140,13 +141,15 @@
 # 0 tracebacks, 0 timeouts, p95 88 ms; the reviewer's 333 legitimate probes: 332 allowed, the one refusal
 # (`git checkout -p FILE`, refused since round 5 as checkout-discard) unchanged.
 # Round 7 (vs f0500df, same corpus): 0 verdict changes, 0 tracebacks, 0 timeouts, p95 86 ms.
+# Round 8 (vs 96045d0, same corpus): 0 verdict changes, 0 tracebacks, 0 timeouts (p95 116 ms on a busier host; 127 ms for
+# the previous version in the same run).
 #
 # REVIEW MUTANTS. The proof counts a mutant as caught only when a NAMED case's VERDICT flips (a crashing mutant proves
 # nothing; a catalogue refusal without its hint counts as a flip). Round 5: P13 removes each '# MUTANT:' line
-# (69 lexer/normaliser/structural mutants after round 7) and P15 applies 118 old->new replacement mutants, the round-4 review's
+# (70 lexer/normaliser/structural mutants after round 8) and P15 applies 121 old->new replacement mutants, the round-4 review's
 # survivors among them (flock lock-file drop, `*`/`**` whole-tree, every literal-prefix bypass); P11 removes each of the
 # 17 tmpfs rule branches. Round 6 adds the pkill catch-all, -P/-g, rm leading-slash, bracket-glob, find-implicit-dot and
-# systemd-run expansion mutants; round 7 the whole-word/substitution/last-wins systemd-run, pkill -G and criteria-only,
+# systemd-run expansion mutants; round 7 the $-word/substitution/last-wins systemd-run, pkill -G and criteria-only,
 # POSIX-class, literal-glob and watch-argv mutants, and RESTORES rm-pattern-root: the glob-names-a-root loop in rm_root is
 # NOT redundant (without it `rm -rf /[h]ome/USER`, `/h*/USER`, `/*/USER` are allowed; the round-6 claim was wrong). One
 # check is deliberately redundant and carries no mutant: the empty-pattern test in pkill_catch_all (the empty-match test
@@ -192,7 +195,12 @@
 # POSIX ERE, the guard python's re; only [[:class:]] is translated and an unreadable pattern fails closed); text known
 # only at run time; false refusals of globs under $HOME that match a real child directory (`rm -rf ~/llmctl-verify.*`):
 # name the paths instead; the orphan TMPDIRs of SIGKILLed pre-round-6 bounded-run runs under ~/.cache/bounded-run/tmp
-# (left in place, listed for the operator).
+# (left in place, NOT tracked: 43 entries on 2026-10-15, names in the round-8 fixer's scratch note; list them with
+# `ls ~/.cache/bounded-run/tmp`).
+# WAIVED (round-7 confirming review, F3): same-line indirection `X='$D'; systemd-run ... "$X"`: the assignment's value is
+# kept EXPANDED (empty for an unset D), so the literal $D that reaches systemd-run is not seen.
+# FIXED there: F4 $'..' decodes \xHH, \NNN, \uHHHH (`$'\x24D'` is a literal $D); F5 a wrapper's short cluster whose
+# last letter takes a value (`systemd-run -qp X`, `-qE X=1`, `xargs -0n 1`, `env -iS 'cmd'`) no longer hides the command.
 # The compiled-code cache (see LOADER) trusts files the user owns that nobody else can write: whoever can write
 # ~/.cache can also edit this script. Use a disk TMPDIR (docs/AGENT_GUARDRAILS.md section D) for the structural fix.
 # No escape-hatch marker exists for the catalogue rule: `# guardrails:allow` changes nothing.
@@ -396,6 +404,14 @@ def lex(s):
             j, out = i + 2, []
             while j < n and s[j] != "'":
                 if s[j] == "\\" and j + 1 < n:
+                    m = re.match(r"x([0-9A-Fa-f]{1,2})|([0-7]{1,3})|u([0-9A-Fa-f]{1,4})|U([0-9A-Fa-f]{1,8})", s[j + 1:j + 10])
+                    if m:                       # \xHH \NNN \uHHHH \UHHHHHHHH: $'\x24D' is a literal $D
+                        h, o, u4, u8 = m.groups()
+                        try:
+                            out.append(chr(int(h, 16) if h else int(o, 8) if o else int(u4 or u8, 16)))  # MUTANT-ANCHOR:ansi-numeric
+                        except (ValueError, OverflowError):
+                            pass
+                        j += 1 + m.end(); continue
                     out.append(ANSI.get(s[j + 1], "\\" + s[j + 1])); j += 2; continue
                 out.append(s[j]); j += 1
             put("".join(out), True); st["ld"] = st["ld"] or "$" in "".join(out); i = j + 1; continue
@@ -712,6 +728,12 @@ def unwrap(words):
             if not t.startswith("-") or t == "-":
                 break
             opts.append(t)
+            if re.fullmatch(r"-[A-Za-z0-9]{2,}", t) and t not in vals:   # a short cluster: the first value letter ends it
+                k2 = next((k for k, ch in enumerate(t[1:], 1) if "-" + ch in vals), None)
+                if k2 == len(t) - 1 and i + 1 < len(rest):
+                    if name == "env" and t[-1] == "S": r["nested"].append(rest[i + 1]["t"])   # env -iS 'cmd'
+                    if name == "env" and t[-1] == "C": r["chdir"] = rest[i + 1]["t"]
+                    i += 2; continue  # MUTANT-ANCHOR:cluster-value
             if t in vals and i + 1 < len(rest):
                 if name == "env" and t in ("-C", "--chdir"):
                     r["chdir"] = rest[i + 1]["t"]
@@ -1285,6 +1307,7 @@ def signal_hit(a, ids, ctx):
         sh, lo, _p, _d = opt_parse(rest, "gGOPstuUFrq", PKILL_LONG)
         if "u" in sh or "U" in sh or "--euid" in lo or "--uid" in lo: return "signal-all-processes"  # MUTANT:pkill-user
         if "G" in sh or "--group" in lo: return "signal-all-processes"  # MUTANT:pkill-gid
+        if "v" in sh or "--inverse" in lo: return "signal-all-processes"  # MUTANT:pkill-inverse
         sessions = sh.get("s", []) + lo.get("--session", [])
         if any("0" in str(v).split(",") for v in sessions): return "signal-all-processes"
         # a process group cannot be validated here, so -g/--pgroup is refused like `kill -- -PGID` (round 6: one rule for
@@ -1928,9 +1951,10 @@ def systemd_run_expansion(stages):
         cmd = a[k + 1:] if k < len(a) and a[k]["t"] == "--" else a[k:]
         if noexp:  # MUTANT-ANCHOR:systemd-run-noexp
             continue
-        # systemd expands ${VAR}, $$ and a whole-word $NAME (unset: the argument is DROPPED); text produced by a command
+        # systemd expands ${VAR} and $$ anywhere and treats EVERY word that begins with $ as a variable reference ('$D/',
+        # '$1', '$D.bak', '$': unset or invalid => the argument is DROPPED; measured on 259.5); text produced by a command
         # substitution cannot be known, so it is refused too
-        bad = any(w.get("ld") and ("${" in w["t"] or "$$" in w["t"] or re.fullmatch(r"\$[A-Za-z_][A-Za-z0-9_]*", w["t"]))  # MUTANT-ANCHOR:systemd-run-word
+        bad = any(w.get("ld") and ("${" in w["t"] or "$$" in w["t"] or w["t"].startswith("$"))  # MUTANT-ANCHOR:systemd-run-word
                   or w["subs"] for w in cmd)
         if bad: return "systemd-run-expansion"  # MUTANT:systemd-run-expand
     return None
@@ -2479,7 +2503,7 @@ print(",".join(r["id"] for r in map(json.loads,open(sys.argv[1])) if r["branch"]
                     [s-sudo]=r5-B154,r5-B155,r5-B156 [s-switch]=r5-B75,r5-B76,r5-B77 [submodule-foreach]=r5-B111,r5-B112
                     [s-update-ref]=r5-B53,r5-B54 [whole-tree-spelling]=r4-B18,r4-B54,r5-B106
                     [pkill-pgroup]=r6-B16,r6-B17 [pkill-parent-init]=r6-B07 [systemd-run-expand]=r6-B01,r6-B02,r6-B03
-                    [pkill-gid]=r7-B09,r7-B10,r7-B11 [watch-argv]=r7-B22,r7-B24 [pkill-criteria-only]=r7-B12,r7-B13,r7-B14,r7-B15)
+                    [pkill-gid]=r7-B09,r7-B10,r7-B11 [pkill-inverse]=r8-B06,r8-B07 [watch-argv]=r7-B22,r7-B24 [pkill-criteria-only]=r7-B12,r7-B13,r7-B14,r7-B15)
     local mnames nm=0 mm=0 flipped
     mnames=$(grep -o '# MUTANT:[a-z-]*' <<<"$PY" | sed 's/# MUTANT://' | sort -u)
     for b in $mnames; do
@@ -2552,6 +2576,9 @@ git-global-attr|"--config-env", "--attr-source",|"--config-env",|r5-B127
 rm-normpath|        return os.path.normpath(t) in roots  # MUTANT-ANCHOR:rm-normpath|        return t in roots|r4-B26,r4-B28,r4-B29
 rm-home-forms|    t = expand(w, ctx)|    t = w|r4-B30,r5-B87,r5-B93,r5-B95
 rm-roots-slash-only|    roots, d = {"/", "/home"}, h  # MUTANT-ANCHOR:rm-roots|    roots, d = {"/"}, "/"|r4-B25,r4-B31,r4-B33
+ansi-numeric|chr(int(h, 16) if h else int(o, 8) if o else int(u4 or u8, 16))|"?"|r8-B08,r8-B09
+cluster-value|                    i += 2; continue  # MUTANT-ANCHOR:cluster-value|                    i += 1; continue|r8-B10,r8-B11,r8-B12
+env-cluster-S|                    if name == "env" and t[-1] == "S": r["nested"].append(rest[i + 1]["t"])|                    pass|r8-B13
 rm-pattern-root|        if len(rc) == len(comps) and all(|        if False and all(|r7-B19,r7-B20,r7-B21
 rm-literal-glob|    gi = None if literal else next(|    gi = next(|r7-G11
 rm-posix-class|    pat = posix_classes(last.replace("[^", "[!"))|    pat = last.replace("[^", "[!")|r7-B18
@@ -2559,7 +2586,7 @@ pkill-bad-regex|        return True  # MUTANT-ANCHOR:pkill-bad-regex|        ret
 pkill-posix-class|rx = re.compile(posix_classes(v), re.I if icase else 0)|rx = re.compile(v, re.I if icase else 0)|r7-B17
 systemd-run-last-wins|                noexp = t.split("=", 1)[1].lower() in SR_FALSE  # MUTANT-ANCHOR:systemd-run-last-wins|                noexp = noexp or t.split("=", 1)[1].lower() in SR_FALSE|r7-B07
 systemd-run-option-values|            k += 2 if t in vals else 1           # an option's|            k += 1           # an option's|r7-B23
-systemd-run-whole-word| or re.fullmatch(r"\$[A-Za-z_][A-Za-z0-9_]*", w["t"]))| or False)|r7-B01,r7-B02,r7-B03,r7-B04
+systemd-run-whole-word| or w["t"].startswith("$"))| or False)|r7-B01,r7-B02,r7-B03,r7-B04,r8-B01,r8-B02,r8-B03,r8-B04,r8-B05
 systemd-run-subs|                  or w["subs"] for w in cmd)|                  or False for w in cmd)|r7-B05
 rm-glob-children|    return any(fnmatch.fnmatchcase(k, pat) and os.path.isdir(os.path.join(parent, k)) for k in kids)  # MUTANT-ANCHOR:rm-glob-children|    return False|r6-B21,r6-B22,r6-B23,r6-B24
 rm-glob-bracket-negation|last.replace("[^", "[!")|last|r6-B22
