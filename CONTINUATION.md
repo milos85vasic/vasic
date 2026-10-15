@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T11:45:50Z
+    Last-Updated: 2026-10-15T12:29:28Z
     Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
@@ -445,6 +445,7 @@ The eight CONST-050(B) challenges (`chaos_failure_injection`, `ddos_health_flood
 - `submodules/llm_orchestrator` gitlink -> `17f59d75759d` (VSC-369 review follow-ups; `--prove-failure`: chaos 13/13, ddos 11/11, scaling 13/13, stress 13/13, ui 13/13, ux 13/13, no_suspend_calls 6/6, each with harness self-test T1-T12 13/13; `host_no_auto_suspend` A1 + contract 11/11 under `podman unshare`, rc 2 bare; shellcheck -S warning 0 findings on the ten family files).
 - `submodules/vision_engine` gitlink -> `7cdd8ecc8081` (VSC-369 review follow-ups; `--prove-failure`: chaos 13/13, ddos 11/11, scaling 13/13, stress 13/13, ui 13/13, ux 13/13, no_suspend_calls 6/6, each with harness self-test T1-T12 13/13; `host_no_auto_suspend` A1 + contract 11/11 under `podman unshare`, rc 2 bare; shellcheck -S warning 0 findings on the ten family files).
 - `submodules/qa` gitlink -> `3faf888f6664` (HelixQA `feature/vision-no-bluff` merged to `main` after the final independent review GO: remote main `15e0d8e` (llmctl provider) merged in with both sides of the two additive switch conflicts kept; `main` fast-forwarded and pushed non-force to all three upstreams, `ls-remote` main equal; post-merge build/vet/test green on 11 packages, bank sweep catalogizer 15/1269 boba 7/61 repo 145/2873 with 0 PASSED without executor or app, mutation batches 0 and 7 31/31 + 27/27 caught, bluff scanner rc 0, anchor manifest rc 0).
+- `submodules/RAG` gitlink -> `90b7058972b0` (operator-approved pass-rate floors 2026-10-15: ddos/stress/scaling 90 %, chaos legitimate-traffic 80 %, below the floor rc 2 unless `<KNOB>_BELOW_FLOOR=acknowledged`, then PERMISSIVE THRESHOLD in the evidence line; a down listed replica is a finding unless `SCALING_ALLOW_DOWN=N` < listed count. RED on the previous HEAD: 20 of 83 new-arm cases failed. `--prove-failure`: chaos 20/20, ddos 18/18, scaling 25/25, stress 20/20, ui 13/13, ux 13/13, no_suspend_calls 6/6, harness self-test 15/15; `host_no_auto_suspend` A1 + contract 11/11 under `podman unshare`, rc 2 bare; contract `--prove-failure` 19/19; CONST-033 scanner rc 0; shellcheck -S warning clean; mutants 39/39 killed (RAG copy)).
 
 ### VSC-370 SHARED-CHALLENGE PROOF CASCADE — 2026-10-15
 
