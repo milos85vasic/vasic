@@ -532,7 +532,7 @@ deps:
 
   - name: llms_verifier
     ssh_url: git@github.com:vasic-digital/LLMsVerifier.git
-    ref: "8f2090acb907d5c76e78d7c311378958e0ccbc40"   # gitlink tracks heads/main; bumped 2026-10-02, ff-only, 0 divergent, 2 ahead
+    ref: "7623a2c8e906790e67b91c5a4724d99773a852af"   # bumped 2026-10-15 (pushed to origin/main + gitlab/main, independent review GO, ff-only, 0 divergent / 3 behind) -- gitlink tracks heads/main; bumped 2026-10-02, ff-only, 0 divergent, 2 ahead
     why: "LLM verification/scoring dependency consumed by submodules/qa via go.mod replace digital.vasic.llmsverifier => ../llms_verifier/llm-verifier — note the Go module lives in this repo's llm-verifier/ subdirectory, not its root, matching the replace target's literal path. An enterprise-grade platform for verifying, monitoring, and optimizing LLM performance across multiple providers; used by qa's autonomous QA session to select and score LLMs."
     layout: grouped
 

@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T18:17:13Z
+    Last-Updated: 2026-10-15T18:17:25Z
     Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
@@ -493,6 +493,7 @@ Pending (NOT bumped): `submodules/llms_verifier` (committed `7623a2c8e906`, but 
 
 - `workshop` gitlink -> `268e824432d4` (pushed to its remote `origin/main`; independent review GO; ff-only, 0 divergent / 57 behind; private submodule, no content quoted).
 - `ai_interviewing` gitlink -> `5c0ed32ccc07` (pushed to its private remote `github/main`; independent review GO; ff-only, 0 divergent / 2 behind; private submodule, no content quoted).
+- `submodules/llms_verifier` gitlink -> `7623a2c8e906` (pushed to `origin/main` and `gitlab/main`; independent review GO; ff-only, 0 divergent / 3 behind: the 3 commits are `568c9182`, `6674ad4b` (the LMV-002/LMV-003 pair listed as pending above) and `7623a2c8`).
 
 ### REVIEW-HARDENING WAVE COMMITTED; REDACTION RUN, SIBLING REGEN AND HUMAN DECISIONS STILL OPEN — 2026-10-07 (night)
 
