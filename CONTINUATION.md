@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T18:16:55Z
+    Last-Updated: 2026-10-15T18:17:13Z
     Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
@@ -492,6 +492,7 @@ Pending (NOT bumped): `submodules/llms_verifier` (committed `7623a2c8e906`, but 
 ### UMBRELLA GITLINK BUMPS (pushed submodule commits, independent review GO) — 2026-10-15
 
 - `workshop` gitlink -> `268e824432d4` (pushed to its remote `origin/main`; independent review GO; ff-only, 0 divergent / 57 behind; private submodule, no content quoted).
+- `ai_interviewing` gitlink -> `5c0ed32ccc07` (pushed to its private remote `github/main`; independent review GO; ff-only, 0 divergent / 2 behind; private submodule, no content quoted).
 
 ### REVIEW-HARDENING WAVE COMMITTED; REDACTION RUN, SIBLING REGEN AND HUMAN DECISIONS STILL OPEN — 2026-10-07 (night)
 
