@@ -6,6 +6,7 @@
 | Authorised by | operator decision #13, 2026-10-14 (`docs/operator-decisions-2026-10-14-session.md`): cascades 368, 371, 370, then 369 |
 | Related | VSC-368 (the CONST-033 scanner the `no_suspend_calls` member wraps), VSC-370 (`host_no_auto_suspend_contract`, the sibling proof of `host_no_auto_suspend`), VSC-371 (the compile/functionality/unit trio) |
 | Written | 2026-10-15, before any module commit of this cascade |
+| Revised | 2026-10-15, independent-review follow-ups (see "Review follow-ups"): loopback binding measured, fresh `HOME`, harness self-test, `host_no_auto_suspend` argument case, 0 % threshold cases, a corrected decision |
 | Scope | the eight family members in the six owned repositories the register row names and this cascade may bump: `submodules/LLMProvider` (and its second checkout `submodules/llm_provider`, same commits), `submodules/RAG`, `submodules/security`, `submodules/doc_processor`, `submodules/llm_orchestrator`, `submodules/vision_engine` |
 | Out of scope | `submodules/llms_verifier` (named by the row; gitlink mid-flight in another work stream, not bumped here), and three family carriers the row does not name: `submodules/challenges`, `submodules/containers`, `submodules/qa` (see "Not covered") |
 
@@ -23,10 +24,10 @@ One rule set for all eight members, enforced by the members themselves and by on
    "executed-step floor"). Every member that sends a load requires one recorded status line per request sent;
    fewer is exit 2 ("executed-request floor"), because the load did not run. Knobs (`*_REQUESTS`, percentages,
    timeouts, the chaos port) are validated; a malformed knob is exit 2 (it used to surface as a FAIL).
-4. **`--prove-failure`.** Runs a COPY of the member hermetically (`env -i`: only `PATH`, `HOME`, `LANG`/`LC_ALL`,
-   `TMPDIR` = a throw-away directory, plus the case's own variables, so a real target configured in the caller's
-   shell can never be measured by a proof case) and requires, per case, the exit code AND a named defect in the
-   output:
+4. **`--prove-failure`.** Runs a COPY of the member hermetically (`env -i`: only `PATH`, `LANG`/`LC_ALL`, and
+   `HOME` and `TMPDIR` = throw-away directories, plus the case's own variables, so neither a real target configured
+   in the caller's shell nor the caller's `~/.curlrc` — a proxy, a resolve rule — can reach a proof case) and
+   requires, per case, the exit code AND a named defect in the output:
 
    | Arm | Target | Expect |
    |---|---|---|
@@ -38,15 +39,29 @@ One rule set for all eight members, enforced by the members themselves and by on
 
    A proof exits 0 only when every case held, 1 when any case did not, 2 when it could not judge one (a missing
    tool, a stub that did not start, `chmod 000` not denying a read when run as root).
-5. **Fixtures only.** Stub targets bind `127.0.0.1` only; no case touches a real service, the network beyond
-   loopback, or a credential (CONST-042). The stub is a Python `ThreadingHTTPServer` embedded in the harness; it
-   exits with the proof (parent watch, 600 s cap).
+5. **Fixtures only.** Stub targets bind `127.0.0.1` only, and that is MEASURED, not trusted: each stub reports the
+   address it bound, and the harness also reads the kernel's listening-socket table (`/proc/net/tcp`, `tcp6`); a
+   stub listening anywhere but `127.0.0.1` is killed and recorded as a FAIL, and an unreadable table is exit 2. No
+   case touches a real service, the network beyond loopback, or a credential (CONST-042). The stub is a Python
+   `ThreadingHTTPServer` embedded in the harness; it exits with the proof (parent watch, 600 s cap).
+
+   **The harness proves itself first.** Every proof starts with the harness self-test (`pf_selftest`, also
+   `bash lib/const050b_proof.sh --selftest`), each check against a planted defect: T1-T4 verdict precedence
+   (a FAIL outranks an UNDET; UNDET is never 0; nothing judged is 2; no self-test is 2), T5-T7 needle and rc
+   enforcement, T8 no caller variable and no caller `HOME` reach a case, T9-T11 a stub on `127.0.0.2` is refused
+   by its own report and by the kernel table while a `127.0.0.1` stub is accepted, T12 a caller `~/.curlrc` proxy
+   line does not reach a case. A failed self-test fails the proof before any case runs; a proof whose self-test
+   did not run cannot exit 0.
 6. **No cwd fallback.** Members resolve their own directory from `BASH_SOURCE`; `no_suspend_calls` takes the
    repository root as exactly `../..` of its own directory and never searches upwards.
 7. **One body per member, everywhere.** The six target-driven members are the SAME file in all six repositories
    except two module-identity lines (`C50_MODULE=`, `C50_PREFIX=`; the prefix keeps each module's existing
    environment names, e.g. `DOCPROCESSOR_HEALTH_URL`). `no_suspend_calls`, `host_no_auto_suspend`, the
-   contract challenge and the harness are byte-identical everywhere. Re-derive:
+   contract challenge and the harness are byte-identical everywhere. **Exception, measured 2026-10-15 after the
+   follow-ups:** the contract challenge is no longer byte-identical — the VSC-370 review follow-ups (RAG
+   `875221d`, LLMProvider `ac70ced`) changed it in RAG and LLMProvider/llm_provider only (blob `337456c8`), while
+   security, doc_processor, llm_orchestrator and vision_engine still carry blob `ddc16809`. That file belongs to
+   VSC-370 and was not touched by this cascade. Re-derive:
 
    ```bash
    for n in chaos_failure_injection ddos_health_flood scaling_horizontal stress_sustained_load \
@@ -60,7 +75,10 @@ One rule set for all eight members, enforced by the members themselves and by on
 8. **The one sibling.** `host_no_auto_suspend` measures the HOST, which no loopback stub can stand in for. Its
    `--prove-failure` runs `host_no_auto_suspend_contract_challenge.sh` (VSC-370), which drives it through eight
    planted host conditions in a user+mount namespace and asserts each exit code. On a host that restricts
-   unprivileged user namespaces the proof is exit 2; run it under `podman unshare`.
+   unprivileged user namespaces the proof is exit 2; run it under `podman unshare`. Because the contract never
+   exercises this member's own arguments, the proof first runs a copy of the member with `--no-such-flag` and
+   requires exit 2 naming `unknown argument` (case A1); a failed A1 makes the proof exit 1 whatever the contract
+   says.
 
 ## Members
 
@@ -69,14 +87,14 @@ Old proof state: no member had a proof arm or a sibling proof the sweep recognis
 
 | Member | Steps | Clean (0) | Stub-target and planted-copy cases (1 unless noted) | Could-not-determine cases (2) |
 |---|---|---|---|---|
-| `chaos_failure_injection` | 6 | healthy stub | M1 breaks after malformed input [2/6]; M2 drops an 8 KiB header [3/6]; M3 fails under the mixed load [5/6]; M4 dies after the chaos [6/6]; G1 deleted step (floor); G2 truncated load (request floor, 2) | no target; refused health port; healthy target but refused chaos port; malformed knob; unknown argument |
-| `ddos_health_flood` | 5 | healthy stub | M1 status "down" [2/5]; M2 fails under the flood [4/5]; M3 dies after it [5/5]; G1; G2 (2) | no target; refused port; malformed knob; unknown argument |
-| `scaling_horizontal` | 6 | two healthy stub replicas | M1 a replica reports "down" [2/6]; M2 a replica fails under load [3/6]; M3 replicas serve different bodies [4/6]; M4 a replica dies after the load [6/6]; G1; G2 (2) | no list; one healthy plus one refused replica; the same replica listed twice; malformed knob; unknown argument |
-| `stress_sustained_load` | 6 | healthy stub (5000 % budget: loopback latency is sub-millisecond) | M1 fails its baseline [2/6]; M2 status "down" [3/6]; M3 fails under load [4/6]; M4 slows 0.3 s after the load [5/6]; M5 dies after it [6/6]; G1; G2 (2) | no target; refused port; malformed knob; unknown argument |
+| `chaos_failure_injection` | 6 | healthy stub | M1 breaks after malformed input [2/6]; M2 drops an 8 KiB header [3/6]; M3 fails under the mixed load [5/6]; M4 dies after the chaos [6/6]; G1 deleted step (floor); G2 truncated load (request floor, 2) | no target; refused health port; healthy target but refused chaos port; malformed knob; 0 % threshold (U6); unknown argument |
+| `ddos_health_flood` | 5 | healthy stub | M1 status "down" [2/5]; M2 fails under the flood [4/5]; M3 dies after it [5/5]; G1; G2 (2) | no target; refused port; malformed knob; 0 % threshold (U5); unknown argument |
+| `scaling_horizontal` | 6 | two healthy stub replicas | M1 a replica reports "down" [2/6]; M2 a replica fails under load [3/6]; M3 replicas serve different bodies [4/6]; M4 a replica dies after the load [6/6]; G1; G2 (2) | no list; one healthy plus one refused replica; the same replica listed twice; malformed knob; 0 % threshold (U6); unknown argument |
+| `stress_sustained_load` | 6 | healthy stub (5000 % budget: loopback latency is sub-millisecond) | M1 fails its baseline [2/6]; M2 status "down" [3/6]; M3 fails under load [4/6]; M4 slows 0.3 s after the load [5/6]; M5 dies after it [6/6]; G1; G2 (2) | no target; refused port; malformed knob; 0 % threshold (U5); unknown argument |
 | `ui_terminal_interaction` | 4 | well-behaved fake binary | M1 panicking `--help`; M2 panic then > 64 KiB of help (the SIGPIPE case); M3 empty help; M4 fatal `--version`; M5 panicking unknown flag; M6 hanging unknown flag; G1 | no binary; absent path; not executable; malformed timeout; unknown argument |
 | `ux_end_to_end_flow` | 5 | well-behaved fake binary | M1-M4 as UI; M5 hanging unknown flag [4/5]; M6 help gone after the mistake [5/5]; G1 | as UI |
 | `no_suspend_calls` | wrapper | clean planted repository tree | M1 planted `systemctl` call; M2 a finding outranks an unreadable file | scanner missing here but present in an enclosing directory; an unreadable file (summary must say UNDETERMINED, not FAIL); unknown argument |
-| `host_no_auto_suspend` | 4 | sibling: contract C0 | contract cases 1-8 in a namespace (unmasked targets, no marker, a suspend event, a huge journal) | contract: no systemctl, systemd not booted, no journal |
+| `host_no_auto_suspend` | 4 | sibling: contract C0 | contract cases 1-8 in a namespace (unmasked targets, no marker, a suspend event, a huge journal) | contract: no systemctl, systemd not booted, no journal; A1 (this member) an unknown argument |
 
 ### RED baseline (new arm spliced onto each HEAD body, 2026-10-15)
 
@@ -122,6 +140,35 @@ no_suspend_calls 6/6, each rc 0; `host_no_auto_suspend --prove-failure` rc 0 (co
 target configured rc 2; `shellcheck -S warning` clean. Five consecutive runs of the six target-driven proofs in
 `submodules/security`: identical (SC-006).
 
+### Review follow-ups (2026-10-15, after the independent review's GO)
+
+One commit per repository on top of the VSC-370/371 follow-ups: RAG `7e18911`, LLMProvider and llm_provider
+`131842d` (fast-forward), security `23a7d5d`, doc_processor `0905fed`, llm_orchestrator `17f59d7`, vision_engine
+`7cdd8ec`; seven files, harness blob `e53b27cd`, `no_suspend_calls` `8b324792`, `host_no_auto_suspend` `c448667b`.
+
+RED on the previous HEAD (security lineage, same blobs everywhere), each planted on a throw-away copy:
+
+| Follow-up | Planted / observed on HEAD | HEAD proof |
+|---|---|---|
+| stub loopback binding unproven | stub bound on `0.0.0.0` (`ss` saw 15 such listeners during the run) | ddos rc 0, 10/10 |
+| host argument handling unproven | `*) shift ;;` in `host_no_auto_suspend` | rc 0 under `podman unshare` |
+| shellcheck not clean | `shellcheck -S warning no_suspend_calls_challenge.sh` | rc 1, SC2034 |
+| caller `HOME` reached cases | caller `~/.curlrc` with a proxy on a refused port | ddos rc 1, 4/6 (C1 rc 2) |
+| harness had no self-proof | `--selftest`; `pf_end` precedence swapped; needle check removed | rc 0 silent; chaos rc 0; chaos rc 0 |
+
+GREEN in all seven checkouts: chaos 13/13, ddos 11/11, scaling 13/13, stress 13/13, ui 13/13, ux 13/13,
+`no_suspend_calls` 6/6, each rc 0 with the self-test 13/13; `host_no_auto_suspend` rc 0 under `podman unshare`
+(A1 + contract 11 pass), rc 2 on the bare host (A1 pass); contract `--prove-failure` rc 0 (17/17, 19/19 where
+VSC-370 changed it); live members with no target rc 2. `shellcheck -S warning`: 0 findings on the ten family
+files in each of the seven checkouts (70 file-checks).
+
+Mutants against the new bodies (security copy): 17 of 18 killed — the stub on `0.0.0.0` (three variants), the
+kernel-table check skipped, the wide-listener branch removed, `pf_end` precedence swapped (two members), needle
+enforcement removed, `env -i` dropped, the caller `HOME` restored, `host_no_auto_suspend` ignoring arguments, the
+1 % threshold floor relaxed to 0 % (four members), the self-test call removed, the "self-test ran" gate removed.
+The survivor (`assert_no_panic` returning 1 instead of 0) is EQUIVALENT: no caller reads its return code (there
+is no `set -e`), so no observable behaviour changes.
+
 ## Decisions and their reasons
 
 - **`no_suspend_calls_challenge.sh` belongs to VSC-369.** It is one of the eight names in the register row and in
@@ -132,12 +179,17 @@ target configured rc 2; `shellcheck -S warning` clean. Five consecutive runs of 
   repository would drift. A live run never reads it, so a missing harness costs only the proof (exit 2).
 - **No per-module registry was created.** None of the six repositories carries a check registry; creating one is
   a new component per module and is left as a follow-up rather than done silently.
-- **Baseline probes that fail are a finding (stress [2/6] exit 1).** RAG's previous body called them
-  could-not-determine; the target answered the pre-check, so a failing baseline is a measured defect.
+- **Baseline probes that fail are a finding (stress [2/6] exit 1).** The target answered the pre-check, so a
+  failing baseline is a measured defect. (Corrected 2026-10-15 after review: this bullet used to say RAG's previous
+  body called a failing baseline could-not-determine. It did not: its sampler ran `curl` without `-f`, so a 503
+  answer still recorded a latency sample, the baseline "succeeded", and the old body exited 1 at `[3/6]` on the
+  status check — the right code, blamed on the wrong step. Its exit-2 branch ran only when fewer than 5 samples
+  completed at transport level. The decision stands; only its stated reason was wrong.)
 - **A listed replica that is down is left out and named, not a finding** (unchanged semantics); fewer than two
   distinct answering replicas stays exit 2.
 - **Thresholds stay environment knobs** (they were documented knobs before); they are now validated, and a
-  value outside 1..100 % is exit 2. A permissive value (e.g. 1 %) is still accepted; see follow-ups.
+  value outside 1..100 % is exit 2 — the 0 % edge is a proof case in chaos (U6), ddos (U5), scaling (U6) and
+  stress (U5). A permissive value (e.g. 1 %) is still accepted; see follow-ups.
 
 ## Not covered (follow-ups)
 
@@ -146,4 +198,6 @@ target configured rc 2; `shellcheck -S warning` clean. Five consecutive runs of 
 - `submodules/challenges`, `submodules/containers`, `submodules/qa` carry the family too (not in the baseline
   rows); `submodules/constitution/submodules/llmctl/submodules/containers` is a nested consumed copy.
 - A per-module check registry naming the eight members, once a module adopts one.
-- Whether a permissive threshold (e.g. `DDOS_MIN_PASS_PCT=1`) should be refused is an open design question.
+- Whether a permissive threshold (e.g. `DDOS_MIN_PASS_PCT=1`) should be refused is an open design question, as is
+  whether a listed replica that is down should be a finding. A floor was PROPOSED to the operator on 2026-10-15 and
+  is NOT decided or implemented; until it is, 1 % is accepted and a down replica is left out and named.
