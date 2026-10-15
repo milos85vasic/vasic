@@ -561,3 +561,39 @@
 {"id": "r6-B30", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- bash -c \"echo \\${X}\""}
 {"id": "r6-B31", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope bash -c $'kill $$'"}
 {"id": "r6-G15", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "systemd-run --user --scope --expand-environment=no -- bash -c 'echo ${HOME} $$'"}
+{"id": "r7-B01", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- sh -c 'rm -rf \"$1\"/*' sh '$D'"}
+{"id": "r7-B02", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- bash -c 'rm -rf \"$0\"/*' '$UNSET_D'"}
+{"id": "r7-B03", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- printf '%s\\n' \\$HOME"}
+{"id": "r7-B04", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- rm -rf '$HOME'"}
+{"id": "r7-B05", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- bash -c \"$(cat <<'EOF'\nD=$HOME/x; echo rm -rf \"${D}\"/*\nEOF\n)\""}
+{"id": "r7-B06", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -E FOO=--expand-environment=no -- bash -c 'echo ${X}'"}
+{"id": "r7-B07", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope --expand-environment=no --expand-environment=yes -- bash -c 'echo ${X}'"}
+{"id": "r7-B08", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope --description=--expand-environment=no -- bash -c 'echo ${X}'"}
+{"id": "r7-B09", "expect": "B", "branch": "cat:signal-all-processes", "cwd": "@REPO@", "cmd": "pkill -G \"$(id -g)\""}
+{"id": "r7-B10", "expect": "B", "branch": "cat:signal-all-processes", "cwd": "@REPO@", "cmd": "pkill -G 1000"}
+{"id": "r7-B11", "expect": "B", "branch": "cat:signal-all-processes", "cwd": "@REPO@", "cmd": "pkill --group 1000"}
+{"id": "r7-B12", "expect": "B", "branch": "cat:signal-all-processes", "cwd": "@REPO@", "cmd": "pkill -O 1"}
+{"id": "r7-B13", "expect": "B", "branch": "cat:signal-all-processes", "cwd": "@REPO@", "cmd": "pkill --older 60"}
+{"id": "r7-B14", "expect": "B", "branch": "cat:signal-all-processes", "cwd": "@REPO@", "cmd": "pkill --ns $$"}
+{"id": "r7-B15", "expect": "B", "branch": "cat:signal-all-processes", "cwd": "@REPO@", "cmd": "pkill -r S"}
+{"id": "r7-B16", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "pkill 'a**'"}
+{"id": "r7-B17", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "pkill '[[:alpha:]]'"}
+{"id": "r7-B18", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf ~/.[[:alpha:]]*"}
+{"id": "r7-B19", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf /[h]ome/@USER@"}
+{"id": "r7-B20", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf /h*/@USER@"}
+{"id": "r7-B21", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf /*/@USER@"}
+{"id": "r7-B22", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "watch -n 1 -x pkill ''", "note": "watch -x runs its argv directly; without -x watch joins the words and `pkill ` has no pattern"}
+{"id": "r7-G01", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "systemd-run --user --scope --expand-environment no -- bash -c 'echo ${X} $HOME'"}
+{"id": "r7-G02", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "systemd-run --user --scope --expand-environment=no -- rm -rf '$HOME/zz-r7'"}
+{"id": "r7-G03", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "S=$HOME/.cache/x; systemd-run --user --scope -- ls \"$S\""}
+{"id": "r7-G04", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- awk '{print $1}' file.txt"}
+{"id": "r7-G05", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- bash -c 'X=1; echo \"$X\"'"}
+{"id": "r7-G06", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -p \"Environment=A=1\" -- env"}
+{"id": "r7-G07", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "pkill -x llama-server"}
+{"id": "r7-G08", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "pkill -INT -x vite"}
+{"id": "r7-G09", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "pkill -O 60 -x my-stale-r7"}
+{"id": "r7-G10", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "pkill -P 4321 -O 5"}
+{"id": "r7-G11", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "rm -rf ~/'[A-Za-z]*'"}
+{"id": "r7-G12", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "rm -rf build/[[:alpha:]]*"}
+{"id": "r7-B23", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -E --expand-environment=no -- bash -c 'echo ${X}'", "note": "the VALUE of -E is never an option"}
+{"id": "r7-B24", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "watch -n 1 pkill ''", "note": "judged as its argv too (defensive: watch joins the words, but its argv is what -x would run)"}

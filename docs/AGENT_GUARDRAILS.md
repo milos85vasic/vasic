@@ -197,8 +197,8 @@ long-option prefixes (`--har`, `--dele`, `--f`) — never by a literal prefix of
 `git update-ref -m msg -d …`, every checkout discard form (`git checkout -- f`, `git checkout HEAD -- f`,
 `git checkout -f`, `git switch --discard-changes`, `git checkout-index -f`, `git read-tree -u --reset`),
 `git add -- ':!x'` / `"$PWD"` / `*`, `pkill -ef x`, a catch-all `pkill ''` / `pkill "$UNSET"` / `pkill .` / `pkill sh`,
-`pkill -P 1`, `pkill -g PGID` (refused like `kill -- -PGID`: a group cannot be validated here, a deliberate tightening of
-§11.4.263), a direct `systemd-run` without `--expand-environment=no` whose command carries a literal `${` or `$$` (systemd expands it, unset => empty), `systemctl -i suspend`, `systemctl isolate …`, login1 `Suspend` over
+`pkill -P 1`, `pkill -G GID`, `pkill -O 1` (no pattern, broad criteria only), `pkill 'a**'` (unreadable: fails closed), `pkill -g PGID` (refused like `kill -- -PGID`: a group cannot be validated here, a deliberate tightening of
+§11.4.263), a direct `systemd-run` without `--expand-environment=no` whose command carries a literal `${`, `$$` or whole-word `$NAME`, or a command substitution (systemd expands all three itself; unset => empty, a whole-word `$UNSET` argument is dropped), `systemctl -i suspend`, `systemctl isolate …`, login1 `Suspend` over
 D-Bus, `gnome-session-quit`, `kill -9 -1`, `pkill -u "$USER"`, `rm -rf ~/*/`, `rm -rf ~/.[!.]*`, `rm -rf //home`, `cd / && rm -rf home`, `rm -rf /ho?e`, `D=$HOME; rm -rf "$D"`,
 `find -delete` in a protected directory, and
 a hook bypass by configuration (`-c core.hooksPath=…`). It allows the look-alikes: `git push origin :` (matching),
@@ -231,6 +231,10 @@ as literal text; #12 `verify-pretooluse-guard.sh` V9 (like V4) runs the guard fi
 wiring ending in `|| true` would pass; #13 bounded-run needs `env --default-signal` (coreutils >= 8.31) and fails closed
 (rc 125) without it. Round 6 FIXED #6 (sweep containment) and #8 (stderr noise) and made bounded-run pass its command
 line verbatim (`--expand-environment=no`; a systemd-run without that option refuses a command containing `$`).
+**WAIVED** by operator decision #29 (round-6 review): exact POSIX regex/glob parity beyond translating `[[:class:]]`
+(an unreadable pkill pattern fails closed); text known only at run time; false refusals of globs under `$HOME` that
+match a real child directory (`rm -rf ~/llmctl-verify.*`: name the paths instead); the orphan TMPDIRs that SIGKILLed
+pre-round-6 bounded-run runs left under `~/.cache/bounded-run/tmp` (kept, listed for the operator).
 How to re-run the 5,101-command replay the re-reviews used is in the hook's header (the corpus is not tracked: real
 commands carry private paths into this public repository).
 
