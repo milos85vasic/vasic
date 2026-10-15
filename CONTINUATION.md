@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T11:09:48Z
+    Last-Updated: 2026-10-15T11:09:51Z
     Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
@@ -440,6 +440,7 @@ The eight CONST-050(B) challenges (`chaos_failure_injection`, `ddos_health_flood
 - `submodules/RAG` gitlink -> `7e189119d92c` (VSC-369 review follow-ups; `--prove-failure`: chaos 13/13, ddos 11/11, scaling 13/13, stress 13/13, ui 13/13, ux 13/13, no_suspend_calls 6/6, each with harness self-test T1-T12 13/13; `host_no_auto_suspend` A1 + contract 11/11 under `podman unshare`, rc 2 bare; shellcheck -S warning 0 findings on the ten family files).
 - `submodules/LLMProvider` gitlink -> `131842de3461` (VSC-369 review follow-ups; `--prove-failure`: chaos 13/13, ddos 11/11, scaling 13/13, stress 13/13, ui 13/13, ux 13/13, no_suspend_calls 6/6, each with harness self-test T1-T12 13/13; `host_no_auto_suspend` A1 + contract 11/11 under `podman unshare`, rc 2 bare; shellcheck -S warning 0 findings on the ten family files).
 - `submodules/llm_provider` gitlink -> `131842de3461` (VSC-369 review follow-ups (fast-forwarded from the LLMProvider commit; run from this checkout); `--prove-failure`: chaos 13/13, ddos 11/11, scaling 13/13, stress 13/13, ui 13/13, ux 13/13, no_suspend_calls 6/6, each with harness self-test T1-T12 13/13; `host_no_auto_suspend` A1 + contract 11/11 under `podman unshare`, rc 2 bare; shellcheck -S warning 0 findings on the ten family files).
+- `submodules/security` gitlink -> `23a7d5db8dda` (VSC-369 review follow-ups; `--prove-failure`: chaos 13/13, ddos 11/11, scaling 13/13, stress 13/13, ui 13/13, ux 13/13, no_suspend_calls 6/6, each with harness self-test T1-T12 13/13; `host_no_auto_suspend` A1 + contract 11/11 under `podman unshare`, rc 2 bare; shellcheck -S warning 0 findings on the ten family files).
 
 ### VSC-370 SHARED-CHALLENGE PROOF CASCADE — 2026-10-15
 
