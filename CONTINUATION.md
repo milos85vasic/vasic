@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T10:00:21Z
+    Last-Updated: 2026-10-15T10:00:38Z
     Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
@@ -431,6 +431,7 @@ deviation is not an override** and must never be written up as one.
 The eight CONST-050(B) challenges (`chaos_failure_injection`, `ddos_health_flood`, `scaling_horizontal`, `stress_sustained_load`, `ui_terminal_interaction`, `ux_end_to_end_flow`, `no_suspend_calls`, `host_no_auto_suspend`) gain ONE `--prove-failure` convention, `docs/zero-gap/const-050b-proof-convention.md` (umbrella commit 134ce96): a hermetic copy of the challenge against loopback stub targets, fake binaries or planted trees (clean rc 0, one broken stub per step rc 1 naming the step, unreachable target rc 2, a step deleted in the copy rc 1, a truncated load in the copy rc 2), unknown arguments rc 2, no SKIP-OK exit 0, executed-step and executed-request floors; `host_no_auto_suspend` keeps its sibling proof, the VSC-370 contract challenge (rc 2 on this host unless run under `podman unshare`). The six target-driven challenges are one body fleet-wide except two identity lines; the shared harness is byte-identical (blob 07c0327c). Operator decision #13 (2026-10-14), cascade order 368 (done), 371 (done), 370 (done), 369. Commits are LOCAL (not pushed). Bumped one at a time, gitlink + `helix-deps.yaml` + this file per change; `submodules/llms_verifier` (named by the item) is NOT bumped (mid-flight in another stream):
 
 - `submodules/RAG` gitlink -> `964898665c96` (`--prove-failure`: chaos 12/12, ddos 10/10, scaling 12/12, stress 12/12, ui 13/13, ux 13/13, no_suspend_calls 6/6; `host_no_auto_suspend` contract 11/11 and contract `--prove-failure` 17/17 under `podman unshare`, rc 2 on the bare host). RED against HEAD bodies: 33 of 78 cases failed, 6 undetermined (the 8 KiB chaos header was about 2 KiB, a refused chaos port passed, a truncated load passed, one replica listed twice passed, a malformed knob was a FAIL, the walk-up scanner search scanned an enclosing directory).
+- `submodules/LLMProvider` gitlink -> `a5cd39b361f1` (`--prove-failure`: chaos 12/12, ddos 10/10, scaling 12/12, stress 12/12, ui 13/13, ux 13/13, no_suspend_calls 6/6; `host_no_auto_suspend` contract 11/11 and contract `--prove-failure` 17/17 under `podman unshare`, rc 2 on the bare host). RED against HEAD bodies: 25 of 78 cases failed, 6 undetermined (the 8 KiB chaos header was about 2 KiB, a refused chaos port passed, a truncated load passed, one replica listed twice passed, a failed latency probe counted as a sample, the walk-up scanner search scanned an enclosing directory); `host_no_auto_suspend` body unchanged apart from refusing unknown arguments.
 
 ### VSC-370 SHARED-CHALLENGE PROOF CASCADE — 2026-10-15
 
