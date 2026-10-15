@@ -7,6 +7,7 @@
 | Related | VSC-368 (the CONST-033 scanner the `no_suspend_calls` member wraps), VSC-370 (`host_no_auto_suspend_contract`, the sibling proof of `host_no_auto_suspend`), VSC-371 (the compile/functionality/unit trio) |
 | Written | 2026-10-15, before any module commit of this cascade |
 | Revised | 2026-10-15, independent-review follow-ups (see "Review follow-ups"): loopback binding measured, fresh `HOME`, harness self-test, `host_no_auto_suspend` argument case, 0 % threshold cases, a corrected decision |
+| Revised | 2026-10-15, operator-approved pass-rate floors and down-replica rule (see "Pass-rate floors and down replicas"); the VSC-370 contract challenge synced to one blob in all seven checkouts |
 | Scope | the eight family members in the six owned repositories the register row names and this cascade may bump: `submodules/LLMProvider` (and its second checkout `submodules/llm_provider`, same commits), `submodules/RAG`, `submodules/security`, `submodules/doc_processor`, `submodules/llm_orchestrator`, `submodules/vision_engine` |
 | Out of scope | `submodules/llms_verifier` (named by the row; gitlink mid-flight in another work stream, not bumped here), and three family carriers the row does not name: `submodules/challenges`, `submodules/containers`, `submodules/qa` (see "Not covered") |
 
@@ -48,7 +49,8 @@ One rule set for all eight members, enforced by the members themselves and by on
    **The harness proves itself first.** Every proof starts with the harness self-test (`pf_selftest`, also
    `bash lib/const050b_proof.sh --selftest`), each check against a planted defect: T1-T4 verdict precedence
    (a FAIL outranks an UNDET; UNDET is never 0; nothing judged is 2; no self-test is 2), T5-T7 needle and rc
-   enforcement, T8 no caller variable and no caller `HOME` reach a case, T9-T11 a stub on `127.0.0.2` is refused
+   enforcement, T13-T14 a forbidden text in the output fails a case that must not contain it (`pf_expect_without`),
+   T8 no caller variable and no caller `HOME` reach a case, T9-T11 a stub on `127.0.0.2` is refused
    by its own report and by the kernel table while a `127.0.0.1` stub is accepted, T12 a caller `~/.curlrc` proxy
    line does not reach a case. A failed self-test fails the proof before any case runs; a proof whose self-test
    did not run cannot exit 0.
@@ -58,7 +60,7 @@ One rule set for all eight members, enforced by the members themselves and by on
    except two module-identity lines (`C50_MODULE=`, `C50_PREFIX=`; the prefix keeps each module's existing
    environment names, e.g. `DOCPROCESSOR_HEALTH_URL`). `no_suspend_calls`, `host_no_auto_suspend`, the
    contract challenge and the harness are byte-identical everywhere. **Exception, measured 2026-10-15 after the
-   follow-ups:** the contract challenge is no longer byte-identical — the VSC-370 review follow-ups (RAG
+   follow-ups, and CLOSED by the floors commit (see "Pass-rate floors and down replicas"):** the contract challenge is no longer byte-identical — the VSC-370 review follow-ups (RAG
    `875221d`, LLMProvider `ac70ced`) changed it in RAG and LLMProvider/llm_provider only (blob `337456c8`), while
    security, doc_processor, llm_orchestrator and vision_engine still carry blob `ddc16809`. That file belongs to
    VSC-370 and was not touched by this cascade. Re-derive:
@@ -169,6 +171,82 @@ enforcement removed, `env -i` dropped, the caller `HOME` restored, `host_no_auto
 The survivor (`assert_no_panic` returning 1 instead of 0) is EQUIVALENT: no caller reads its return code (there
 is no `set -e`), so no observable behaviour changes.
 
+## Pass-rate floors and down replicas (operator decision 2026-10-15)
+
+Proposed in the VSC-369 follow-up report, approved by the operator 2026-10-15, implemented in one commit per
+repository on top of the review follow-ups.
+
+| Member | Threshold knob | Floor | Below the floor | Override (exact value only) |
+|---|---|---|---|---|
+| `ddos_health_flood` | `DDOS_MIN_PASS_PCT` | 90 % | exit 2, `#bad-knob`, "below the 90 % floor" | `DDOS_MIN_PASS_PCT_BELOW_FLOOR=acknowledged` |
+| `stress_sustained_load` | `STRESS_MIN_PASS_PCT` | 90 % | as above | `STRESS_MIN_PASS_PCT_BELOW_FLOOR=acknowledged` |
+| `scaling_horizontal` | `SCALING_MIN_PASS_PCT` | 90 % | as above | `SCALING_MIN_PASS_PCT_BELOW_FLOOR=acknowledged` |
+| `chaos_failure_injection` | `CHAOS_LEGIT_MIN_PASS_PCT` (legitimate traffic) | 80 % | as above, "below the 80 % floor" | `CHAOS_LEGIT_MIN_PASS_PCT_BELOW_FLOOR=acknowledged` |
+
+- **The override is one exact value.** Any other non-empty value of `<KNOB>_BELOW_FLOOR` (e.g. `yes`,
+  `acknowledge`) is exit 2 `#bad-knob` ("the only accepted value is 'acknowledged'"), whatever the threshold. An
+  acknowledged below-floor threshold still runs, prints a `WARNING:` line, and its evidence line STARTS with
+  `PERMISSIVE THRESHOLD (<KNOB>=<v> below the <floor> % floor, <KNOB>_BELOW_FLOOR=acknowledged)`; a threshold at or
+  above the floor never prints the marker. 0 % stays exit 2 even when acknowledged (the 1..100 rule runs first).
+- **A listed replica that is down is a finding (exit 1, `[1/6] FAIL`)** naming the down replicas, unless
+  `SCALING_ALLOW_DOWN=N` declares up to N of them. N must be a non-negative integer (else exit 2 `#bad-knob`) and
+  strictly below the number of distinct listed replicas (else exit 2 "is not below the M listed"). Fewer than two
+  answering replicas stays exit 2 and is checked first. The evidence line carries `down=` and `allow_down=`.
+
+New proof cases (each member's `--prove-failure`; the floor in parentheses):
+
+| Case | ddos (90) | stress (90) | scaling (90) | chaos (80) | Expect |
+|---|---|---|---|---|---|
+| F1 one below the floor | 89 | 89 | 89 | 79 | 2, "below the N % floor" |
+| F2 exactly the floor | 90 | 90 | 90 | 80 | 0, PASSED, never "PERMISSIVE THRESHOLD" |
+| F3 acknowledged 50 % against a target that answers 60 % (`fail-window` stub) | | | | | 0, "evidence: PERMISSIVE THRESHOLD" |
+| F4 the same 60 % target at the default threshold | | | | | 1, the threshold step (proves the stub really degrades) |
+| F5 override `yes`, F6 override `acknowledge` | | | | | 2, "only accepted value is 'acknowledged'" |
+| F7 0 % with the override acknowledged | | | | | 2, "not a percentage in 1..100" |
+| D1 two healthy + one refused replica (scaling only) | | | | | 1, `[1/6] FAIL` |
+| D2 the same set with `SCALING_ALLOW_DOWN=1` | | | | | 0 |
+| D3 `SCALING_ALLOW_DOWN=3` with three listed | | | | | 2, "is not below the 3 listed" |
+| D4 two down (a refused port and a 503 stub) with `SCALING_ALLOW_DOWN=1` | | | | | 1, `[1/6] FAIL` |
+| D5 `SCALING_ALLOW_DOWN=one` | | | | | 2, `#bad-knob` |
+
+Harness additions (blob below): stub mode `fail-window A:B` (503 for counted GETs A+1..B, 200 before and after),
+`pf_expect_without` (a forbidden text fails the case), self-test T13/T14 for it.
+
+RED (the new arms spliced onto each HEAD body, 2026-10-15): identical in all six repositories run
+(RAG, LLMProvider, security, doc_processor, llm_orchestrator, vision_engine; llm_provider is the LLMProvider commit):
+ddos 4 of 18 failed (F1, F3, F5, F6), stress 4 of 20 (same), chaos 4 of 20 (same), scaling 8 of 25 (F1, F3, F5,
+F6, D1, D3, D4, D5), 0 undetermined — 20 of 83 per repository. F2, F4 and F7 already held on the old bodies (the
+old 1..100 validation; the `fail-window` stub really degrades the target).
+
+GREEN in all seven checkouts: chaos 20/20, ddos 18/18, scaling 25/25, stress 20/20, ui 13/13, ux 13/13,
+`no_suspend_calls` 6/6, each rc 0 with the harness self-test 15/15; `host_no_auto_suspend` rc 0 under
+`podman unshare` (A1 + contract 11 pass), rc 2 on the bare host; contract `--prove-failure` 19/19 under
+`podman unshare`; live load members with no target rc 2; `no_suspend_calls` live rc 0; CONST-033 scanner rc 0;
+`shellcheck -S warning` 0 findings on the ten family files.
+
+Mutants (RAG copy, each planted in a scratch copy, each member's full proof run): 39 of 39 killed — per member
+(x4): floor off-by-one both ways (`>= floor - 1`, `> floor`), the override accepted for any value, for any
+non-empty value, and for an `ack*` prefix, the PERMISSIVE marker dropped from the variable and from the evidence
+line, the floor check not called; scaling: a down replica ignored, `SCALING_ALLOW_DOWN` unbounded, bounded with
+`<=`, treated as a boolean, not validated; harness: the forbidden-text check removed (self-test T13), `fail-window`
+inert (F4).
+
+Contract challenge sync (VSC-370 file, noted by the previous agent): `diff` of blob `ddc16809` (security,
+doc_processor, llm_orchestrator, vision_engine) against `337456c8` (RAG, LLMProvider, llm_provider) is a pure
+superset — header comment lines describing the added cases, a `podman unshare` note, and two added proof cases (U6
+an `unshare` that cannot build a namespace, G3 a sandbox that exits before the challenge without rc 99) with G3 in
+the sandbox case list; no line of the live gate differs. The four older checkouts now carry `337456c8`.
+
+README / CHANGELOG: none of the seven checkouts carries a line about these challenges' thresholds (the earlier
+VSC-369 commits touched only `challenges/scripts/`), so none was added; the member headers (`--help`) document the
+floors and the override.
+
+Commits: RAG `90b7058`, LLMProvider and llm_provider `261cfde` (fast-forward, 0 divergent / 1 behind),
+security `0513361`, doc_processor `b2ad2f7`, llm_orchestrator `c84c410`, vision_engine `d52fa44` (the last four also
+carry the contract sync). Blobs in all seven checkouts: harness `f0a7f673`, contract `337456c8`,
+`host_no_auto_suspend` `c448667b`, `no_suspend_calls` `8b324792`; the six target-driven bodies are one body each
+apart from the two identity lines.
+
 ## Decisions and their reasons
 
 - **`no_suspend_calls_challenge.sh` belongs to VSC-369.** It is one of the eight names in the register row and in
@@ -185,11 +263,11 @@ is no `set -e`), so no observable behaviour changes.
   answer still recorded a latency sample, the baseline "succeeded", and the old body exited 1 at `[3/6]` on the
   status check — the right code, blamed on the wrong step. Its exit-2 branch ran only when fewer than 5 samples
   completed at transport level. The decision stands; only its stated reason was wrong.)
-- **A listed replica that is down is left out and named, not a finding** (unchanged semantics); fewer than two
-  distinct answering replicas stays exit 2.
-- **Thresholds stay environment knobs** (they were documented knobs before); they are now validated, and a
-  value outside 1..100 % is exit 2 — the 0 % edge is a proof case in chaos (U6), ddos (U5), scaling (U6) and
-  stress (U5). A permissive value (e.g. 1 %) is still accepted; see follow-ups.
+- **A listed replica that is down is a finding** (SUPERSEDED 2026-10-15 by the operator-approved rule below; it used
+  to be left out and named). Fewer than two distinct answering replicas stays exit 2, and that outranks the finding.
+- **Thresholds stay environment knobs** (they were documented knobs before); they are validated, a value outside
+  1..100 % is exit 2 — the 0 % edge is a proof case in chaos (U6), ddos (U5), scaling (U6) and stress (U5) — and,
+  since 2026-10-15, a value below the member's pass-rate floor is exit 2 unless explicitly acknowledged (below).
 
 ## Not covered (follow-ups)
 
@@ -198,6 +276,7 @@ is no `set -e`), so no observable behaviour changes.
 - `submodules/challenges`, `submodules/containers`, `submodules/qa` carry the family too (not in the baseline
   rows); `submodules/constitution/submodules/llmctl/submodules/containers` is a nested consumed copy.
 - A per-module check registry naming the eight members, once a module adopts one.
-- Whether a permissive threshold (e.g. `DDOS_MIN_PASS_PCT=1`) should be refused is an open design question, as is
-  whether a listed replica that is down should be a finding. A floor was PROPOSED to the operator on 2026-10-15 and
-  is NOT decided or implemented; until it is, 1 % is accepted and a down replica is left out and named.
+- ~~Whether a permissive threshold should be refused, and whether a down replica is a finding~~ — DECIDED by the
+  operator 2026-10-15 and implemented; see "Pass-rate floors and down replicas".
+- `submodules/llms_verifier`, `challenges`, `containers`, `qa`: the floors are not rendered there either (same
+  reason as above).
