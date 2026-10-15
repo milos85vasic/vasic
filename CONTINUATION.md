@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T10:01:06Z
+    Last-Updated: 2026-10-15T10:18:00Z
     Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
@@ -445,6 +445,7 @@ The eight CONST-050(B) challenges (`chaos_failure_injection`, `ddos_health_flood
 - `submodules/RAG` gitlink -> `21253270c95c` (`host_no_auto_suspend_contract` byte-identical to LLMProvider, `--prove-failure` 17/17 under `podman unshare`, 4 + 13 UNDETERMINED rc 2 on the bare host; `upstreams_recipe_origin` org-based variant kept, `--prove-failure` 20/20, live rc 0). RED against HEAD bodies: contract 5 of 17 failed (unknown arg rc 0, unusable TMPDIR rc 1, deleted assertion rc 0, sandbox failure rc 1, inapplicable cap rc 1); upstreams 4 of 20 (token printed, deleted assertion rc 0, unknown arg rc 0, unreadable recipe rc 1).
 - `submodules/LLMProvider` gitlink -> `a75c2eb61f18` (contract `--prove-failure` 17/17 under `podman unshare`; `upstreams_recipe_origin` `--prove-failure` 23/23, live rc 1 UNCHANGED from HEAD: `submodules/LLMProvider/upstreams/github.sh` names HelixDevelopment/LLMProvider, not a configured remote of this checkout; `apikeys_live_discovery` `--prove-failure` 23/23 on fixtures only, NOT run live). RED against HEAD bodies: upstreams 5 of 23 failed (token printed, deleted assertion rc 0, unknown arg rc 0, two unreadable-recipe cases rc 1); apikeys 12 of 23 failed, including `PROBE_PROVIDER=Nvidia` SENDING the Nvidia key to the HuggingFace endpoint (now refused, rc 2).
 - `submodules/llm_provider` gitlink -> `a75c2eb61f18` (fast-forwarded from the LLMProvider commit, so all three challenges are the same blobs as `submodules/LLMProvider`; from this checkout: contract `--prove-failure` 17/17 under `podman unshare`, upstreams 23/23, apikeys 23/23; upstreams live rc 1 UNCHANGED from HEAD: the three vasic-digital recipes name no configured remote of this HelixDevelopment checkout).
+- Review follow-ups (independent review GO on the commits above): `submodules/RAG` gitlink -> `875221d79c76` (scp-style `user:token@host:org/repo` no longer printed by `upstreams_recipe_origin`, R2 RED 2 of 22 -> GREEN 22/22; contract gate G3 + U6 kill the two surviving sandbox mutants, 19/19 under `podman unshare`). Register correction (the register is not edited): `upstreams_recipe_origin` was NEVER identical between LLMProvider and RAG; `apikeys_live_discovery` WAS identical between LLMProvider and llm_provider.
 
 ### VSC-371 CHALLENGE-TRIO PROOF + FLOOR CASCADE — 2026-10-15
 
