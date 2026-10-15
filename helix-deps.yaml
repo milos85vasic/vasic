@@ -538,7 +538,7 @@ deps:
 
   - name: security
     ssh_url: git@github.com:vasic-digital/security.git
-    ref: "79151f23063336b4e63f463709f4f01c0c46aea0"   # gitlink tracks heads/main; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    ref: "a992a2150b756ed8d6a12b9630c374af9878b3e5"   # bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/main; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
     why: "Content-safety dependency consumed by submodules/qa via go.mod replace digital.vasic.security => ../security. A standalone Go security module providing content guardrails, PII detection and redaction, content filtering, and policy enforcement across five independent packages."
     layout: grouped
 
