@@ -247,7 +247,7 @@ deps:
 
   - name: LLMProvider
     ssh_url: git@github.com:vasic-digital/LLMProvider.git
-    ref: "e05ec64ebc482d6ba64d6de4b4fe85901b280813"   # gitlink tracks heads/master; `git tag --points-at HEAD` is empty, so a sha is the only exact pin; bumped 2026-10-02, ff-only, 0 divergent, 4 ahead — carrier-lockstep (AGENTS/CLAUDE/GEMINI/QWEN.md) + upstream-recipe-origin challenge hardening
+    ref: "615b020bd77d51317be71ce631ed1612d7bdcede"   # bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; `git tag --points-at HEAD` is empty, so a sha is the only exact pin; bumped 2026-10-02, ff-only, 0 divergent, 4 ahead — carrier-lockstep (AGENTS/CLAUDE/GEMINI/QWEN.md) + upstream-recipe-origin challenge hardening
     why: "The organisation's LLM-provider abstraction, adopted under the §11.4.74 catalogue-check rather than rebuilt: a consuming project that needs to talk to a model backend uses this and does not grow its own provider seam. Go module `digital.vasic.llmprovider`; one five-method `LLMProvider` interface (Complete / CompleteStream / HealthCheck / GetCapabilities / ValidateConfig) over 43 concrete adapters under pkg/providers/ — including `generic` for anything speaking the OpenAI-compatible wire format and `ollama` for a locally hosted runtime — plus the operational primitives around them: pkg/circuit (closed/open/half-open breaker), pkg/health, retry with exponential backoff and jitter, pkg/discovery, pkg/apikeys, pkg/http, pkg/i18n. Consuming Go code resolves it via `replace digital.vasic.llmprovider => ./submodules/LLMProvider` in development and this pinned sha in production."
     layout: grouped
     # ⚠ STAGED, NOT YET COMMITTED (2026-09-01), exactly as `containers` was: the
