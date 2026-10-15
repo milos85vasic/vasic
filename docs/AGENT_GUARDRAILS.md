@@ -196,8 +196,11 @@ long-option prefixes (`--har`, `--dele`, `--f`) — never by a literal prefix of
 `git reset -q --hard`, `git reset HEAD~1 --hard`, `git push origin main :old`, `git push --del origin x`,
 `git update-ref -m msg -d …`, every checkout discard form (`git checkout -- f`, `git checkout HEAD -- f`,
 `git checkout -f`, `git switch --discard-changes`, `git checkout-index -f`, `git read-tree -u --reset`),
-`git add -- ':!x'` / `"$PWD"` / `*`, `pkill -ef x`, `systemctl -i suspend`, `systemctl isolate …`, login1 `Suspend` over
-D-Bus, `gnome-session-quit`, `kill -9 -1`, `pkill -u "$USER"`, `rm -rf ~/*/`, `rm -rf /ho?e`, `D=$HOME; rm -rf "$D"`, and
+`git add -- ':!x'` / `"$PWD"` / `*`, `pkill -ef x`, a catch-all `pkill ''` / `pkill "$UNSET"` / `pkill .` / `pkill sh`,
+`pkill -P 1`, `pkill -g PGID` (refused like `kill -- -PGID`: a group cannot be validated here, a deliberate tightening of
+§11.4.263), a direct `systemd-run` without `--expand-environment=no` whose command carries a literal `${` or `$$` (systemd expands it, unset => empty), `systemctl -i suspend`, `systemctl isolate …`, login1 `Suspend` over
+D-Bus, `gnome-session-quit`, `kill -9 -1`, `pkill -u "$USER"`, `rm -rf ~/*/`, `rm -rf ~/.[!.]*`, `rm -rf //home`, `cd / && rm -rf home`, `rm -rf /ho?e`, `D=$HOME; rm -rf "$D"`,
+`find -delete` in a protected directory, and
 a hook bypass by configuration (`-c core.hooksPath=…`). It allows the look-alikes: `git push origin :` (matching),
 `git merge --no-verify-signatures`, plain branch switches, `git restore --staged`, `git stash list`, `kill 12345`,
 `pgrep -f`, and text that merely mentions a command. An unset variable is empty in the fresh shell of a Bash call, so
@@ -219,8 +222,15 @@ agent can still write such a reason — **the log is the control**.
 (a script file run by name, `source`, an interpreter such as `python3 -c`, a here-document fed to one), text built at
 run time or in an earlier Bash call, commands run elsewhere or later (`ssh`, tmux, `at`, `pgrep … | xargs kill`, a git
 alias), git operations outside the catalogue classes (`git commit -a`, `git rm -r .`, `--abort`, `git branch -f`), a
-force refspec configured in `remote.NAME.push`, `pkill NAME` by plain name, destructive classes the catalogue does not
+force refspec configured in `remote.NAME.push`, `pkill NAME` of a process that is not session-critical, destructive classes the catalogue does not
 list (`mkfs`, `dd of=/dev/…`), destinations reached through a symlink, and tmpfs writes by tools the rule does not list.
+**WAIVED** by operator decision #27 (round-5 review, LOW, not fixed): #7 a bounded-run started as a background job of
+a script cannot trap SIGINT/SIGQUIT sent to its pid alone (SIGTERM works; terminal Ctrl-C reaches the command); #11 the
+wrappers `systemd-inhibit`, `sg -c`, `unshare`, `strace` are not unwrapped and expansions such as `${HOME:0:5}` are read
+as literal text; #12 `verify-pretooluse-guard.sh` V9 (like V4) runs the guard file, not the wired command string, so a
+wiring ending in `|| true` would pass; #13 bounded-run needs `env --default-signal` (coreutils >= 8.31) and fails closed
+(rc 125) without it. Round 6 FIXED #6 (sweep containment) and #8 (stderr noise) and made bounded-run pass its command
+line verbatim (`--expand-environment=no`; a systemd-run without that option refuses a command containing `$`).
 How to re-run the 5,101-command replay the re-reviews used is in the hook's header (the corpus is not tracked: real
 commands carry private paths into this public repository).
 

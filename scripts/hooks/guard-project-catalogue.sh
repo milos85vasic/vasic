@@ -64,6 +64,10 @@
 #                     configuration counts: -c|--config-env core.hooksPath, GIT_CONFIG_KEY_n / GIT_CONFIG_PARAMETERS, and
 #                     `git config [scope] core.hooksPath VALUE`. grep/rg/git grep/git log -G searching for them are allowed
 #   privilege-escalation  sudo doas pkexec run0 su
+#   systemd-run-expansion (project) a direct systemd-run without --expand-environment=no whose command carries a
+#                     LITERAL `${` or `$$` (single-quoted, $'..', escaped; a $S the calling shell expands first is fine):
+#                     systemd 254+ expands ${VAR} and $$ in the command line itself (unset => empty), so
+#                     `systemd-run -- bash -c 'D=$HOME/x; rm -rf "${D}"/*'` runs `rm -rf /*` (bounded-run passes the option)
 #   host-power (+poweroff/reboot/halt)  the bare commands; systemctl with a power verb (suspend hibernate hybrid-sleep
 #                     suspend-then-hibernate sleep poweroff reboot halt kexec soft-reboot emergency rescue) or isolate
 #                     after ANY options (-i, -q, --no-ask-password, --check-inhibitors=no), or start/restart/isolate/
@@ -73,15 +77,21 @@
 #                     or StartUnit of a power unit
 #   session-kill      (project) systemctl exit / --user exit, start of exit.target, loginctl terminate-*/kill-*,
 #                     gnome-/cinnamon-session-quit, xfce4-session-logout, lxqt-leave, D-Bus Exit/Logout/Terminate*/Kill*
-#   signal-by-pattern pkill -f/--full in any cluster or prefix (signal words -9 -TERM -SIGKILL are skipped), and
-#                     kill $(pgrep ...) / kill `pidof ...`
+#   signal-by-pattern pkill -f/--full in any cluster or prefix (signal words -9 -TERM -SIGKILL are skipped), a CATCH-ALL
+#                     pattern (empty after expansion: `pkill ''`, `pkill "$UNSET"`; matching the empty string; or matching
+#                     a session-critical name: systemd sshd dbus Xorg Xwayland gnome-shell gdm claude tmux bash ...:
+#                     `pkill .`, `pkill sh`; with -x only an exact name counts), and kill $(pgrep ...) / kill `pidof ...`
 #   signal-by-name    killall (any)
 #   signal-all-processes (project) kill of a pid < 2 (-1 every process, 0 our group, 1 init, a negative pgid) unless the
-#                     signal is 0; killall5; pkill -u/-U/--euid/--uid, -s 0, -g 0
+#                     signal is 0; killall5; pkill -u/-U/--euid/--uid, -s 0, -P 0|1, and -g/--pgroup with ANY group. A
+#                     process group cannot be validated by this guard, so `kill -- -PGID` and `pkill -g PGID` are refused
+#                     alike: a deliberate tightening of §11.4.263 (which forbids pgid <= 1 and requires validation above)
 #   rm roots (remove-root, remove-home, project rm-recursive-root)  rm -r|-R|--recursive (any spelling) or find -delete
 #                     of / , /home, $HOME or an ancestor after the shell's expansions ($HOME ${HOME} ${HOME:?} ${HOME%/}
-#                     $VAR assigned earlier on the line, $(pwd), ~ ~/ ~user, //, /., ~/..), of a glob that names one
-#                     (/ho?e) or of a catch-all glob directly under one (/*, /*/, ~/*/, ~/.*/, /home/*/). An UNSET variable
+#                     $VAR assigned earlier on the line, $(pwd), ~ ~/ ~user, //home, /., ~/.., `cd / && rm -rf home`), of a
+#                     glob that names one (/ho?e), of a catch-all glob directly under one (/*, /*/, ~/*/, ~/.*/, /home/*/),
+#                     or of any other glob directly under one that matches one of its REAL child directories (~/.[!.]*,
+#                     ~/.[^.]*, ~/[A-Za-z]*, /[a-z]*); find -delete with no start path starts at `.`. An UNSET variable
 #                     is empty (each Bash call is a fresh shell): `rm -rf "$S"/*` with S unset is `rm -rf /*` and is
 #                     refused; `${S:?}` aborts the command and is allowed. A sub-path (`~/Projects/x/*`) is not a root.
 # A refused row with no parser above (a FUTURE row) falls back to its `candidate` ERE at command position. Every refusal
@@ -121,13 +131,18 @@
 # Round 5 (this version vs b44c9b0, same corpus): 96 refused (94 before), 2 verdict changes, both intended - a commit
 # run with `git -c core.hooksPath=/dev/null` (a real hook bypass, now no-verify) and a `git checkout <file>` that discards
 # that file's edits (checkout-discard); 0 tracebacks, 0 timeouts, p95 81 ms per call (89 ms before: the compiled-code
-# cache more than pays for the larger program).
+# cache more than pays for the larger program). Round 6 (vs d39add9, same corpus): 96 refused by both, 0 verdict changes,
+# 0 tracebacks, 0 timeouts, p95 88 ms; the reviewer's 333 legitimate probes: 332 allowed, the one refusal
+# (`git checkout -p FILE`, refused since round 5 as checkout-discard) unchanged.
 #
 # REVIEW MUTANTS. The proof counts a mutant as caught only when a NAMED case's VERDICT flips (a crashing mutant proves
 # nothing; a catalogue refusal without its hint counts as a flip). Round 5: P13 removes each '# MUTANT:' line
-# (63 lexer/normaliser/structural mutants) and P15 applies 102 old->new replacement mutants, the round-4 review's
+# (66 lexer/normaliser/structural mutants after round 6) and P15 applies 109 old->new replacement mutants, the round-4 review's
 # survivors among them (flock lock-file drop, `*`/`**` whole-tree, every literal-prefix bypass); P11 removes each of the
-# 17 tmpfs rule branches.
+# 17 tmpfs rule branches. Round 6 adds the pkill catch-all, -P/-g, rm leading-slash, bracket-glob, find-implicit-dot and
+# systemd-run expansion mutants. Two checks are deliberately REDUNDANT (defence in depth) and so carry no mutant: the
+# empty-pattern test in pkill_catch_all (the empty-match test also catches it) and the glob-names-a-root loop in rm_root
+# (every root is a child of a root, so the real-children test also catches it).
 #
 # KNOWN LIMITS — what this hook does NOT see (documented, not covered; the upstream guard shares them):
 #  - code it cannot read: a script FILE run by name (`bash x.sh`, `./x.sh`), `source`/`.` of a file, an alias or shell
@@ -143,8 +158,8 @@
 #    `git merge|rebase|cherry-pick --abort`, `git branch -f NAME REV`, `git reflog expire` + `git gc --prune=now`, a
 #    force refspec CONFIGURED in remote.NAME.push, `-c include.path=` / GIT_CONFIG_GLOBAL pointing at a file that sets
 #    core.hooksPath; interactive `-p` modes;
-#  - host/session forms outside the parsers above: `pkill gnome-shell` by plain name (only -f, user and session selectors
-#    are refused), `systemctl --user stop graphical-session.target` or of a desktop unit, kill of a session process by a
+#  - host/session forms outside the parsers above: `pkill NAME` of a session process not in SESSION_CRITICAL, a pattern
+#    built at run time, `systemctl --user stop graphical-session.target` or of a desktop unit, kill of a session process by a
 #    pid it found elsewhere, writes to /sys/power/state (root only);
 #  - destructive classes the catalogue does not list (disk wiping: mkfs, `dd of=/dev/...`, shred, wipefs);
 #  - an rm root reached through a symlink, `find / -exec rm -rf {} +` (its {} is not a path), a variable assigned in an
@@ -155,6 +170,16 @@
 #    listed in the TMPFS RULE (`go mod download` into GOMODCACHE=/tmp/x, `npm ci --cache /tmp/x`, cpio/pax, split,
 #    compressors writing beside an input on tmpfs, `podman build` caches), and data piped through a filter that is not
 #    pass-through (`| my-tool > /tmp/x`).
+# WAIVED by operator decision #27 (round-5 review findings, not fixed; LOW):
+#  #7  bounded-run started as a BACKGROUND job of a script inherits SIGINT/SIGQUIT ignored and cannot trap them: INT/QUIT
+#      to its pid alone do nothing (SIGTERM works; terminal Ctrl-C reaches the command). Stated in its header.
+#  #11 wrappers not unwrapped here (systemd-inhibit, sg -c, unshare, strace) and unsupported expansions such as
+#      ${HOME:0:5} taken as literal text, so `rm -rf ${HOME:0:5}` (= /home) is allowed.
+#  #12 verify-pretooluse-guard.sh V9 (like V4) runs the guard FILE, not the wired command string: a wiring such as
+#      `... guard-project-catalogue.sh || true` would pass while doing nothing.
+#  #13 bounded-run needs `env --default-signal` (GNU coreutils >= 8.31): with busybox or an older env every run fails
+#      with rc 125 (fail closed, no fallback).
+# (#6 sweep containment and #8 stderr noise were FIXED in round 6, llmctl f372199.)
 # The compiled-code cache (see LOADER) trusts files the user owns that nobody else can write: whoever can write
 # ~/.cache can also edit this script. Use a disk TMPDIR (docs/AGENT_GUARDRAILS.md section D) for the structural fix.
 # No escape-hatch marker exists for the catalogue rule: `# guardrails:allow` changes nothing.
@@ -318,12 +343,12 @@ def brace_expand(t, m, depth=0):
 def lex(s):
     toks = []
     n, i = len(s), 0
-    st = {"buf": [], "m": [], "q": False, "subs": [], "in": False, "delim": None}
+    st = {"buf": [], "m": [], "q": False, "subs": [], "in": False, "delim": None, "ld": False}  # ld: a LITERAL $ (quoted/escaped)
     pending = []
 
     def end_word():
         if st["in"]:
-            w = {"t": "".join(st["buf"]), "q": st["q"], "subs": st["subs"]}
+            w = {"t": "".join(st["buf"]), "q": st["q"], "subs": st["subs"], "ld": st["ld"]}
             if st["delim"] is not None:   # a here-document delimiter: its body is bound HERE, to the command owning the <<
                 ref = ["", w["q"]]
                 pending.append((w["t"], st["delim"], ref)); st["delim"] = None
@@ -333,8 +358,8 @@ def lex(s):
                 alts = [w["t"]]
                 alts = brace_expand(w["t"], "".join(st["m"]))  # MUTANT:brace-expand
                 for k, t in enumerate(alts):
-                    toks.append(("W", {"t": t, "q": w["q"], "subs": w["subs"] if k == 0 else []}))
-        st.update(buf=[], m=[], q=False, subs=[], **{"in": False})
+                    toks.append(("W", {"t": t, "q": w["q"], "subs": w["subs"] if k == 0 else [], "ld": w["ld"]}))
+        st.update(buf=[], m=[], q=False, subs=[], ld=False, **{"in": False})
 
     def put(x, quoted=False, nobrace=False):
         st["buf"].append(x); st["in"] = True
@@ -347,18 +372,18 @@ def lex(s):
         if c == "\\" and s.startswith("\n", i + 1): i += 2; continue  # MUTANT:continuation
         if c == "\\":
             if i + 1 < n:
-                put(s[i + 1], True)
+                put(s[i + 1], True); st["ld"] = st["ld"] or s[i + 1] == "$"
             i += 2; continue
         if c == "'":
             j = s.find("'", i + 1); j = n if j < 0 else j
-            put(s[i + 1:j], True); i = j + 1; continue
+            put(s[i + 1:j], True); st["ld"] = st["ld"] or "$" in s[i + 1:j]; i = j + 1; continue
         if s.startswith("$'", i):
             j, out = i + 2, []
             while j < n and s[j] != "'":
                 if s[j] == "\\" and j + 1 < n:
                     out.append(ANSI.get(s[j + 1], "\\" + s[j + 1])); j += 2; continue
                 out.append(s[j]); j += 1
-            put("".join(out), True); i = j + 1; continue
+            put("".join(out), True); st["ld"] = st["ld"] or "$" in "".join(out); i = j + 1; continue
         if c == '"':
             j, out = i + 1, []
             while j < n and s[j] != '"':
@@ -366,6 +391,7 @@ def lex(s):
                     if s[j + 1] == "\n":
                         j += 2; continue
                     if s[j + 1] in '$`"\\':
+                        st["ld"] = st["ld"] or s[j + 1] == "$"
                         out.append(s[j + 1]); j += 2; continue
                     out.append("\\"); j += 1; continue
                 if s.startswith("$((", j):
@@ -608,7 +634,7 @@ WRAPPERS = {
     "bounded-run": {"-m", "-t", "-c", "-s", "-T", "-n", "--mem", "--tasks", "--timeout"},
     "agent-admit.sh": {"--slots", "--tag", "--wait", "-m", "-T"},
     "systemd-run": {"-p", "--property", "-u", "--unit", "-E", "--setenv", "-M", "--machine", "-H", "--host",
-                    "--slice", "--description", "--uid", "--gid", "--nice", "--working-directory"},
+                    "--slice", "--description", "--uid", "--gid", "--nice", "--working-directory", "--expand-environment"},
 }
 
 def bn(t):
@@ -1198,6 +1224,24 @@ def kill_pids(args, ctx):
         break
     return sig or "TERM", [expand(p, ctx) or p for p in args[i:]]
 
+# process names (comm) whose loss ends the session or the agent itself; a pkill pattern that matches one of them, or the
+# empty string, is a catch-all (`pkill ''`, `pkill "$UNSET"`, `pkill .`, `pkill sh`)
+SESSION_CRITICAL = ("systemd", "sshd", "dbus-daemon", "dbus-broker", "Xorg", "Xwayland", "gnome-shell", "gnome-session-b",
+                    "gdm", "claude", "tmux: server", "tmux", "bash", "login", "pipewire", "kwin_wayland", "plasmashell")
+
+def pkill_catch_all(p, ctx, icase, exact):
+    v = expand(p, ctx)
+    if v is None:
+        return False                      # built at run time: cannot be known (documented limit)
+    if v == "" and not exact:
+        return True                       # an empty pattern matches every process; with -x it matches none (comm is never empty)
+    try:
+        rx = re.compile(v, re.I if icase else 0)
+    except re.error:
+        return False                      # pkill rejects an invalid pattern: nothing is signalled
+    m = rx.fullmatch if exact else rx.search
+    return (not exact and m("") is not None) or any(m(n) for n in SESSION_CRITICAL)  # MUTANT-ANCHOR:pkill-critical
+
 def signal_hit(a, ids, ctx):
     n0, args = a[0], a[1:]
     if n0 == "kill":
@@ -1215,9 +1259,17 @@ def signal_hit(a, ids, ctx):
         rest = [w for w in args if not (re.fullmatch(r"-[A-Za-z0-9+]+", w) and is_signal(w[1:]))]  # -9 -TERM -SIGKILL
         sh, lo, _p, _d = opt_parse(rest, "gGOPstuUFrq", PKILL_LONG)
         if "u" in sh or "U" in sh or "--euid" in lo or "--uid" in lo: return "signal-all-processes"  # MUTANT:pkill-user
-        groups = sh.get("s", []) + sh.get("g", []) + lo.get("--session", []) + lo.get("--pgroup", [])
-        if any("0" in str(v).split(",") for v in groups): return "signal-all-processes"
+        sessions = sh.get("s", []) + lo.get("--session", [])
+        if any("0" in str(v).split(",") for v in sessions): return "signal-all-processes"
+        # a process group cannot be validated here, so -g/--pgroup is refused like `kill -- -PGID` (round 6: one rule for
+        # both; a deliberate tightening of §11.4.263, which forbids pgid <= 1 and requires validation for the rest)
+        if sh.get("g") or lo.get("--pgroup"): return "signal-all-processes"  # MUTANT:pkill-pgroup
+        parents = [x for v in sh.get("P", []) + lo.get("--parent", []) for x in str(v).split(",")]
+        if any(re.fullmatch(r"-?[0-9]+", x.strip()) and int(x) <= 1 for x in parents): return "signal-all-processes"  # MUTANT:pkill-parent-init
         if ("f" in sh or "--full" in lo) and "signal-by-pattern" in ids: return "signal-by-pattern"  # MUTANT:pkill-full
+        pats = _p + _d
+        if pats and "signal-by-pattern" in ids and pkill_catch_all(pats[0], ctx, "i" in sh or "--ignore-case" in lo,
+                                                                    "x" in sh or "--exact" in lo): return "signal-by-pattern"  # MUTANT-ANCHOR:pkill-catch-all
     return None
 
 def rm_root(w, ctx):
@@ -1243,6 +1295,7 @@ def rm_root(w, ctx):
         if not ctx.get("cwd"):
             return False
         t = ctx["cwd"] + "/" + t
+    t = "/" + t.lstrip("/")  # MUTANT-ANCHOR:rm-leading-slashes
     t = re.sub(r"/+$", "", t) or "/"
     roots, d = {"/", "/home"}, h  # MUTANT-ANCHOR:rm-roots
     while d not in ("/", ""):
@@ -1258,7 +1311,17 @@ def rm_root(w, ctx):
     parent = os.path.normpath("/".join(comps[:gi]) or "/")
     last = comps[gi]
     catch_all = "*" in last and all(ch in ".?" for ch in last.replace("*", ""))   # * .* ** ?* *.*
-    return gi == len(comps) - 1 and parent in roots and catch_all  # MUTANT-ANCHOR:rm-glob
+    if gi != len(comps) - 1 or parent not in roots:
+        return False
+    if catch_all: return True  # MUTANT-ANCHOR:rm-glob
+    # any other glob directly under a root (~/.[!.]*, ~/[A-Za-z]*, /[a-z]*): refused when it matches one of that root's
+    # REAL child directories (bash's [^...] is fnmatch's [!...])
+    pat = last.replace("[^", "[!")
+    try:
+        kids = os.listdir(parent)
+    except OSError:
+        return False
+    return any(fnmatch.fnmatchcase(k, pat) and os.path.isdir(os.path.join(parent, k)) for k in kids)  # MUTANT-ANCHOR:rm-glob-children
 
 RM_LONG = L("--force", "--interactive", "--one-file-system", "--no-preserve-root", "--preserve-root", "--recursive", "--dir",
             "--verbose", "--help", "--version")
@@ -1289,6 +1352,7 @@ def struct_hit(a, ids, ctx, cfg=(), env=None, io=None):
             if w.startswith(("-", "(", "!")):
                 break
             starts.append(w); k += 1
+        starts = starts or ["."]  # MUTANT-ANCHOR:find-implicit-dot
         if any(rm_root(w, ctx) for w in starts): return "rm-recursive-root"  # MUTANT:find-delete
     if n0 == "git" and len(a) > 1:
         return git_struct(a, ids, ctx, cfg, env or {}, io or {})
@@ -1362,9 +1426,10 @@ HINTS = {
     "rm-recursive-root": "remove a NAMED path inside your scratch dir: rm -rf -- \"${S:?}\"/<name> (an unset variable is empty in a fresh shell)",
     "remove-root": "remove a NAMED path inside your scratch dir: rm -rf -- \"$S\"/<name>",
     "remove-home": "remove a NAMED path inside your scratch dir: rm -rf -- \"$S\"/<name>",
-    "signal-by-pattern": "signal one validated pid you started: kill <pid> (never by name or pattern)",
+    "signal-by-pattern": "signal one pid > 1 that you started and validated: kill <pid> (never by an empty, catch-all or session-critical name or pattern)",
     "signal-by-name": "signal one validated pid you started: kill <pid> (never by name or pattern)",
-    "signal-all-processes": "signal one validated pid you started: kill <pid> (never -1, 0, 1, a process group or all of a user's processes)",
+    "signal-all-processes": "signal one pid > 1 that you started and validated: kill <pid>. A process group, a session or all of a user's processes cannot be validated by this guard, so it refuses them (a deliberate tightening of §11.4.263, which forbids pgid <= 1 outright)",
+    "systemd-run-expansion": "systemd-run expands ${VAR} and $$ in the command line itself (unset => empty): add --expand-environment=no, or run it through bounded-run, which does",
     "privilege-escalation": "no sudo: report the step that needs root to the operator",
     "host-power": "never suspend, hibernate, power off, reboot or halt the host (CONST-033): report to the operator",
     "host-poweroff": "never suspend, hibernate, power off, reboot or halt the host (CONST-033): report to the operator",
@@ -1811,6 +1876,24 @@ def env_ctx(ctx, u):
 PASSTHRU = {"cat", "tee", "gzip", "pigz", "zstd", "pzstd", "xz", "pixz", "bzip2", "pbzip2", "lz4", "lzop", "pv", "buffer", "mbuffer",
             "base64", "openssl", "gpg", "dd", "zcat", "gunzip", "unzstd", "unxz", "bunzip2"}
 
+def systemd_run_expansion(stages):
+    """systemd 254+ expands ${VAR} and $$ in the command line CLIENT-side (unset => empty, $$ => $), after the calling
+    shell: `systemd-run -- bash -c 'D=$HOME/x; rm -rf "${D}"/*'` runs `rm -rf /*`. Refused when a `${` or `$$` reaches
+    systemd-run LITERALLY (single quotes, $'..', a backslash) and --expand-environment=no is not given; a $S the calling
+    shell expands first is harmless and allowed (round 6)."""
+    for a in stages:
+        if not a or bn(a[0]["t"]) != "systemd-run":
+            continue
+        k, vals = 1, WRAPPERS["systemd-run"]
+        while k < len(a) and a[k]["t"] != "--" and a[k]["t"].startswith("-") and a[k]["t"] != "-":
+            k += 2 if a[k]["t"] in vals else 1
+        opts = " ".join(w["t"] for w in a[1:k])
+        cmd = a[k + 1:] if k < len(a) and a[k]["t"] == "--" else a[k:]
+        if re.search(r"--expand-environment(=|\s+)(no|false|0|off)\b", opts):  # MUTANT-ANCHOR:systemd-run-noexp
+            continue
+        if any(w.get("ld") and ("${" in w["t"] or "$$" in w["t"]) for w in cmd): return "systemd-run-expansion"  # MUTANT:systemd-run-expand
+    return None
+
 def pipe_sinks(items, k, ctx):
     """Files that receive command k's stdout through the pass-through filters downstream in its pipeline
     (`podman save img | gzip > /tmp/x.tgz`, `curl URL | tee /tmp/m.gguf`). A filter that is not pass-through (sha256sum,
@@ -1921,7 +2004,7 @@ def judge_cmd(it, rules, ctx, depth, sinks=None):
         stdin = None
     elif piped:
         stdin.append(last_echo)
-    hit = catalogue_hit(stages, rules, cctx, env, {"stdin": stdin})
+    hit = catalogue_hit(stages, rules, cctx, env, {"stdin": stdin}) or systemd_run_expansion(u["stages"])
     if hit:
         return ("cat", hit)
     scripts, nargv = list(u["nested"]), list(u["nested_argv"])
@@ -2105,7 +2188,7 @@ PYEOF
 # writable by others is ignored and the source is compiled. Same trust boundary as the user's own files (whoever can
 # write ~/.cache can also edit this script); GUARD_PCG_CACHE=off disables it, GUARD_PCG_CACHE_DIR moves it.
 LOADER=$(cat <<'LDEOF'
-import hashlib, marshal, os, stat, sys
+import hashlib, marshal, os, stat, sys, types
 src = os.environ.pop("GUARD_PCG_PY")
 code, path = None, None
 if os.environ.get("GUARD_PCG_CACHE", "on") != "off":
@@ -2113,10 +2196,12 @@ if os.environ.get("GUARD_PCG_CACHE", "on") != "off":
         os.environ.get("XDG_CACHE_HOME") or os.path.expanduser("~/.cache"), "guard-project-catalogue")
     path = os.path.join(d, hashlib.sha256((sys.version + "\0" + src).encode()).hexdigest() + ".code")
     try:
-        st = os.stat(path)
-        if st.st_uid == os.getuid() and not st.st_mode & (stat.S_IWGRP | stat.S_IWOTH) and stat.S_ISREG(st.st_mode):
-            with open(path, "rb") as fh:
+        with os.fdopen(os.open(path, os.O_RDONLY | os.O_NOFOLLOW), "rb") as fh:
+            st = os.fstat(fh.fileno())             # the file actually opened, not a path looked up earlier
+            if st.st_uid == os.getuid() and not st.st_mode & (stat.S_IWGRP | stat.S_IWOTH) and stat.S_ISREG(st.st_mode):
                 code = marshal.loads(fh.read())
+        if not isinstance(code, types.CodeType):
+            code = None                            # a non-code entry (marshal.dumps(42)) is a miss and is rewritten
     except (OSError, ValueError, EOFError, TypeError):
         code = None
 if code is None:
@@ -2340,13 +2425,14 @@ print(",".join(r["id"] for r in map(json.loads,open(sys.argv[1])) if r["branch"]
                     [find-delete]=r5-B99,r5-B100 [flock-c]=r5-B116 [flock-file]=r5-B117,r5-B118
                     [heredoc-owner]=r5-B01,r5-B02,r5-B03,rev-N24 [install-size]=r5-G62 [loginctl]=r5-B17,r5-B18
                     [parallel]=r5-B122,r5-B123,r5-B124,r5-B125 [pipe-sinks]=r5-B135,r5-B140,r5-B141,r5-B142
-                    [pkill-full]=r5-B65,r5-B66,r5-B67,r5-B68,r5-B69,r5-B70 [pkill-user]=r5-B43,r5-B44,r5-B46
+                    [pkill-full]=r6-B28,r6-B29 [pkill-user]=r5-B43,r5-B44,r5-B46
                     [power-unit]=r5-B10,r5-B16 [power-verb]=r5-B05,r5-B06,r5-B07,r5-B08,r5-B09,r5-B13
                     [rebase-exec]=r5-B113,r5-B114,r5-B115 [rm-tilde-user]=r5-B91,r5-B92 [s-add-exclude]=r5-B101,r5-B102,r5-B108
                     [s-checkout-index]=r5-B78,r5-B79 [script-c]=r5-B119,r5-B120,r5-B121 [s-push-delete]=r5-B60,r5-B61,r5-B62,r5-B63,r5-B64
                     [s-read-tree]=r5-B80 [s-reset]=r5-B49,r5-B50,r5-B51,r5-B52,r5-B126 [s-stash]=r5-B157,r5-B158
                     [s-sudo]=r5-B154,r5-B155,r5-B156 [s-switch]=r5-B75,r5-B76,r5-B77 [submodule-foreach]=r5-B111,r5-B112
-                    [s-update-ref]=r5-B53,r5-B54 [whole-tree-spelling]=r4-B18,r4-B54,r5-B106)
+                    [s-update-ref]=r5-B53,r5-B54 [whole-tree-spelling]=r4-B18,r4-B54,r5-B106
+                    [pkill-pgroup]=r6-B16,r6-B17 [pkill-parent-init]=r6-B07 [systemd-run-expand]=r6-B01,r6-B02,r6-B03)
     local mnames nm=0 mm=0 flipped
     mnames=$(grep -o '# MUTANT:[a-z-]*' <<<"$PY" | sed 's/# MUTANT://' | sort -u)
     for b in $mnames; do
@@ -2419,9 +2505,16 @@ git-global-attr|"--config-env", "--attr-source",|"--config-env",|r5-B127
 rm-normpath|        return os.path.normpath(t) in roots  # MUTANT-ANCHOR:rm-normpath|        return t in roots|r4-B26,r4-B28,r4-B29
 rm-home-forms|    t = expand(w, ctx)|    t = w|r4-B30,r5-B87,r5-B93,r5-B95
 rm-roots-slash-only|    roots, d = {"/", "/home"}, h  # MUTANT-ANCHOR:rm-roots|    roots, d = {"/"}, "/"|r4-B25,r4-B31,r4-B33
-rm-glob|    return gi == len(comps) - 1 and parent in roots and catch_all  # MUTANT-ANCHOR:rm-glob|    return False|r5-B86,r5-B87,r5-B88,r5-B89,r5-B90
+rm-glob-children|    return any(fnmatch.fnmatchcase(k, pat) and os.path.isdir(os.path.join(parent, k)) for k in kids)  # MUTANT-ANCHOR:rm-glob-children|    return False|r6-B21,r6-B22,r6-B23,r6-B24
+rm-glob-bracket-negation|    pat = last.replace("[^", "[!")|    pat = last|r6-B22
+rm-leading-slashes|    t = "/" + t.lstrip("/")  # MUTANT-ANCHOR:rm-leading-slashes|    t = t|r6-B18,r6-B19,r6-B20
+find-implicit-dot|        starts = starts or ["."]  # MUTANT-ANCHOR:find-implicit-dot|        starts = starts|r6-B25,r6-B26,r6-B27
+pkill-catch-all|        if pats and "signal-by-pattern" in ids and pkill_catch_all(|        if False and pkill_catch_all(|r6-B04,r6-B05,r6-B06,r6-B08,r6-B09,r6-B10,r6-B11,r6-B12,r6-B13,r6-B14,r6-B15
+pkill-critical|or any(m(n) for n in SESSION_CRITICAL)  # MUTANT-ANCHOR:pkill-critical|or False|r6-B08,r6-B09,r6-B10,r6-B11,r6-B12
+pkill-exact-empty|    if v == "" and not exact:|    if v == "":|r6-G11
+systemd-run-noexp|opts):  # MUTANT-ANCHOR:systemd-run-noexp|opts) and False:|r6-G15
+systemd-run-literal-only|any(w.get("ld") and ("${" in w["t"] or "$$" in w["t"]) for w in cmd)|any("$" in w["t"] for w in cmd)|r6-G13,r6-G14
 rm-glob-catch-all|all(ch in ".?" for ch in last.replace("*", ""))|True|r5-G81
-rm-pattern-root|        if len(rc) == len(comps) and all(|        if False and all(|r5-B94
 rm-unset-abort|        if op in ("?", ":?") and (v is None or (op == ":?" and v == "")):|        if False:|r5-G71
 clean-needs-d|if "f" in sh or "--force" in lo or (unforced and not dry)|if ("f" in sh and "d" in sh) or "--force" in lo or (unforced and not dry)|r4-B21
 clean-require-force|(unforced and not dry)|(False)|r5-B148
@@ -2447,7 +2540,7 @@ kill-signal-zero|sig.upper().removeprefix("SIG") != "0" and |True and |r5-G13
 kill-signal-option|        if sig is None and w.startswith("-") and len(w) > 1 and is_signal(w[1:]):|        if False:|r5-G78,r5-G79
 kill-expand|[expand(p, ctx) or p for p in args[i:]]|args[i:]|r5-B152
 pkill-signal-strip|rest = [w for w in args if not (re.fullmatch(r"-[A-Za-z0-9+]+", w) and is_signal(w[1:]))]|rest = list(args)|r5-G80
-pkill-groups|        if any("0" in str(v).split(",") for v in groups): return "signal-all-processes"|        if False: return "signal-all-processes"|r5-B45,r5-B47
+pkill-sessions|        if any("0" in str(v).split(",") for v in sessions): return "signal-all-processes"|        if False: return "signal-all-processes"|r5-B45
 killall5|    if n0 == "killall5":|    if False:|r5-B165
 bare-reboot|("reboot", "host-reboot"), ||own-B02,r5-B166
 systemctl-exit|        if verb == "exit": return "session-kill"|        if False: return "session-kill"|r5-B29
@@ -2493,7 +2586,10 @@ MUTS
     printf 'garbage' >"$f"; lp; [ $? -eq 2 ] || l2=$((l2+8))
     python3 -I -c 'import marshal,sys; open(sys.argv[1],"wb").write(marshal.dumps(compile("import sys; sys.exit(0)","x","exec")))' "$f"
     chmod 0664 "$f"; lp; [ $? -eq 2 ] || l2=$((l2+16))
-    [ "$l2" -eq 0 ] && ok "L2 code cache: one entry per version, same verdict on a hit, corrupt / group-writable entry ignored" || bad "L2 code cache defect mask=$l2"
+    python3 -I -c 'import marshal,sys; open(sys.argv[1],"wb").write(marshal.dumps(42))' "$f"; chmod 0600 "$f"
+    lp; [ $? -eq 2 ] || l2=$((l2+32))
+    python3 -I -c 'import marshal,sys,types; sys.exit(0 if isinstance(marshal.loads(open(sys.argv[1],"rb").read()), types.CodeType) else 1)' "$f" || l2=$((l2+64))
+    [ "$l2" -eq 0 ] && ok "L2 code cache: one entry per version, same verdict on a hit, corrupt / group-writable / non-code entry ignored and rewritten" || bad "L2 code cache defect mask=$l2"
     # L1 latency p95 over 200 probes under 100 ms
     local i s e2 ms; local -a lat=()
     for i in $(seq 1 200); do

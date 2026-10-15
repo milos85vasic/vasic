@@ -515,3 +515,49 @@
 {"id": "r5-B170", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "kill $(pgrep -f workshop-server)"}
 {"id": "r5-B171", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "kill -9 `pidof workshop-server`"}
 {"id": "r5-G90", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "kill $(cat run/server.pid)"}
+{"id": "r6-B01", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- bash -c 'D=$HOME/x; rm -rf \"${D}\"/tmp'"}
+{"id": "r6-B02", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user -- sh -c 'echo $$'"}
+{"id": "r6-B03", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope bash -c 'echo ${X}'"}
+{"id": "r6-B04", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "pkill \"$UNSET_R6_VAR\""}
+{"id": "r6-B05", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "pkill ''"}
+{"id": "r6-B06", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "pkill -9 ."}
+{"id": "r6-B07", "expect": "B", "branch": "cat:signal-all-processes", "cwd": "@REPO@", "cmd": "pkill -P 1"}
+{"id": "r6-B08", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "pkill -x systemd"}
+{"id": "r6-B09", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "pkill gnome-shell"}
+{"id": "r6-B10", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "pkill -i CLAUDE"}
+{"id": "r6-B11", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "pkill tmux"}
+{"id": "r6-B12", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "pkill sh"}
+{"id": "r6-B13", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "/usr/bin/pkill ''"}
+{"id": "r6-B14", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "bash -c 'pkill \"$N\"'"}
+{"id": "r6-B15", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "bounded-run -q -- pkill ''"}
+{"id": "r6-B16", "expect": "B", "branch": "cat:signal-all-processes", "cwd": "@REPO@", "cmd": "pkill -g 1234"}
+{"id": "r6-B17", "expect": "B", "branch": "cat:signal-all-processes", "cwd": "@REPO@", "cmd": "pkill --pgroup 4321 x"}
+{"id": "r6-B18", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf //home"}
+{"id": "r6-B19", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf //home/@USER@"}
+{"id": "r6-B20", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "cd / && rm -rf home"}
+{"id": "r6-B21", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf ~/.[!.]*"}
+{"id": "r6-B22", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf ~/.[^.]*"}
+{"id": "r6-B23", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf ~/[A-Za-z]*"}
+{"id": "r6-B24", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "rm -rf /[a-z]*"}
+{"id": "r6-B25", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@REPO@", "cmd": "cd ~ && find -delete"}
+{"id": "r6-B26", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@HOME@", "cmd": "find -delete"}
+{"id": "r6-B27", "expect": "B", "branch": "cat:rm-recursive-root", "cwd": "@HOME@", "cmd": "find -name x -delete"}
+{"id": "r6-G01", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "systemd-run --user --scope --expand-environment=no -- bash -c 'echo $HOME'"}
+{"id": "r6-G02", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- make test"}
+{"id": "r6-G03", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "pkill workshop-server"}
+{"id": "r6-G04", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "pkill -x my-server-r6"}
+{"id": "r6-G05", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "pkill -P 4321"}
+{"id": "r6-G06", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "rm -rf ./build/*"}
+{"id": "r6-G07", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "rm -rf ~/Projects/x/[a-z]*"}
+{"id": "r6-G08", "expect": "A", "branch": "-", "cwd": "@REPO@/build", "cmd": "find -delete"}
+{"id": "r6-G09", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "rm -rf ~/.cache/agent-scratch/guard-r5/x/.[!.]*"}
+{"id": "r6-G10", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "rm -rf //tmp/r6-x"}
+{"id": "r6-G11", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "pkill -9 -x \"$UNSET_R6_VAR\"", "note": "with -x an empty pattern matches no process"}
+{"id": "r6-G12", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "pkill -x tmux-helper-r6"}
+{"id": "r6-B28", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "pkill -f workshop-server-r6"}
+{"id": "r6-B29", "expect": "B", "branch": "cat:signal-by-pattern", "cwd": "@REPO@", "cmd": "pkill -9 --full workshop-server-r6"}
+{"id": "r6-G13", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "S=sess-x; systemd-run --user --scope -q -p MemoryMax=8G bash scripts/zero-gap-verify.sh --item VSC-1 --session $S", "note": "$S is expanded by the calling shell before systemd-run sees it"}
+{"id": "r6-G14", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "systemd-run --user --wait --pipe -p MemoryMax=8G --working-directory=\"$PWD\" bash -c \"echo $HOME\""}
+{"id": "r6-B30", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope -- bash -c \"echo \\${X}\""}
+{"id": "r6-B31", "expect": "B", "branch": "cat:systemd-run-expansion", "cwd": "@REPO@", "cmd": "systemd-run --user --scope bash -c $'kill $$'"}
+{"id": "r6-G15", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "systemd-run --user --scope --expand-environment=no -- bash -c 'echo ${HOME} $$'"}
