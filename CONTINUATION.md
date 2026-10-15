@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T10:18:18Z
+    Last-Updated: 2026-10-15T10:18:28Z
     Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
@@ -447,6 +447,7 @@ The eight CONST-050(B) challenges (`chaos_failure_injection`, `ddos_health_flood
 - `submodules/llm_provider` gitlink -> `a75c2eb61f18` (fast-forwarded from the LLMProvider commit, so all three challenges are the same blobs as `submodules/LLMProvider`; from this checkout: contract `--prove-failure` 17/17 under `podman unshare`, upstreams 23/23, apikeys 23/23; upstreams live rc 1 UNCHANGED from HEAD: the three vasic-digital recipes name no configured remote of this HelixDevelopment checkout).
 - Review follow-ups (independent review GO on the commits above): `submodules/RAG` gitlink -> `875221d79c76` (scp-style `user:token@host:org/repo` no longer printed by `upstreams_recipe_origin`, R2 RED 2 of 22 -> GREEN 22/22; contract gate G3 + U6 kill the two surviving sandbox mutants, 19/19 under `podman unshare`). Register correction (the register is not edited): `upstreams_recipe_origin` was NEVER identical between LLMProvider and RAG; `apikeys_live_discovery` WAS identical between LLMProvider and llm_provider.
 - `submodules/LLMProvider` gitlink -> `ac70cedd675c` (`apikeys_live_discovery`: no synthetic key may be printed in any case, the fake endpoint logs whole requests and the Nvidia key may appear in none, a key with a line break is rc 2, the credential file's stdout is discarded; RED 2 of 24 -> GREEN 25/25; mutants key-value-printed / other-key-also-sent / cred-file-output SURVIVED -> KILLED. `upstreams_recipe_origin` R2 GREEN 25/25. Contract G3 + U6, 19/19 under `podman unshare`).
+- `submodules/llm_provider` gitlink -> `ac70cedd675c` (fast-forwarded from the LLMProvider commit, 0 divergent / 1 behind; from this checkout: apikeys 25/25, upstreams 25/25, contract 19/19 under `podman unshare`).
 
 ### VSC-371 CHALLENGE-TRIO PROOF + FLOOR CASCADE — 2026-10-15
 
