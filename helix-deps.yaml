@@ -241,7 +241,7 @@ deps:
 
   - name: challenges
     ssh_url: git@github.com:vasic-digital/challenges.git
-    ref: "8a352b971d07ff6b3cda192f7ad6322eebef348a"   # gitlink tracks heads/main; `git tag --points-at HEAD` is empty, so a sha is the only exact pin; bumped 2026-09-18 to bring the four agent carriers into lockstep (closes C8)
+    ref: "55677947ae9a753aca96b180da4731b16c3a9f54"   # bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/main; `git tag --points-at HEAD` is empty, so a sha is the only exact pin; bumped 2026-09-18 to bring the four agent carriers into lockstep (closes C8)
     why: "digital.vasic.challenges — the test-execution/reporting foundation HelixQA (submodules/qa) is built on, per its own go.mod replace directive. Added alongside submodules/qa 2026-09-18 for the same reason; not independently consumed by anything else in this umbrella yet."
     layout: grouped
 
