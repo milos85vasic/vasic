@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T10:00:38Z
+    Last-Updated: 2026-10-15T10:00:48Z
     Synced-Commit: afef1bb
     Authority-Root: submodules/constitution
 
@@ -432,6 +432,7 @@ The eight CONST-050(B) challenges (`chaos_failure_injection`, `ddos_health_flood
 
 - `submodules/RAG` gitlink -> `964898665c96` (`--prove-failure`: chaos 12/12, ddos 10/10, scaling 12/12, stress 12/12, ui 13/13, ux 13/13, no_suspend_calls 6/6; `host_no_auto_suspend` contract 11/11 and contract `--prove-failure` 17/17 under `podman unshare`, rc 2 on the bare host). RED against HEAD bodies: 33 of 78 cases failed, 6 undetermined (the 8 KiB chaos header was about 2 KiB, a refused chaos port passed, a truncated load passed, one replica listed twice passed, a malformed knob was a FAIL, the walk-up scanner search scanned an enclosing directory).
 - `submodules/LLMProvider` gitlink -> `a5cd39b361f1` (`--prove-failure`: chaos 12/12, ddos 10/10, scaling 12/12, stress 12/12, ui 13/13, ux 13/13, no_suspend_calls 6/6; `host_no_auto_suspend` contract 11/11 and contract `--prove-failure` 17/17 under `podman unshare`, rc 2 on the bare host). RED against HEAD bodies: 25 of 78 cases failed, 6 undetermined (the 8 KiB chaos header was about 2 KiB, a refused chaos port passed, a truncated load passed, one replica listed twice passed, a failed latency probe counted as a sample, the walk-up scanner search scanned an enclosing directory); `host_no_auto_suspend` body unchanged apart from refusing unknown arguments.
+- `submodules/llm_provider` gitlink -> `a5cd39b361f1` (fast-forwarded from the LLMProvider commit, so the family is the same blobs as `submodules/LLMProvider`; run from this checkout (`--prove-failure`: chaos 12/12, ddos 10/10, scaling 12/12, stress 12/12, ui 13/13, ux 13/13, no_suspend_calls 6/6; `host_no_auto_suspend` contract 11/11 and contract `--prove-failure` 17/17 under `podman unshare`, rc 2 on the bare host).
 
 ### VSC-370 SHARED-CHALLENGE PROOF CASCADE — 2026-10-15
 
