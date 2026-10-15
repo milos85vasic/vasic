@@ -520,7 +520,7 @@ deps:
 
   - name: llm_orchestrator
     ssh_url: git@github.com:HelixDevelopment/LLMOrchestrator.git
-    ref: "e28b1b0d3514bf2952bdbc7b77f01146abc25c3f"   # bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
+    ref: "45983aae5810311fa3a34a991a9e03f45c2cd08a"   # bumped 2026-10-15 VSC-369 (CONST-050(B) family --prove-failure convention, ff-only, local) -- bumped 2026-10-15 VSC-368 (CONST-033 scanner paired proof, ff-only, local) -- gitlink tracks heads/master; bumped 2026-09-18 to add GEMINI.md and bring the four agent carriers into lockstep (closes C2+C8)
     why: "LLM-agent-orchestration dependency consumed by submodules/qa via go.mod replace digital.vasic.llmorchestrator => ../llm_orchestrator. A standalone Go module (Go 1.25) for spawning, managing, and communicating with multiple headless CLI LLM agents through a hybrid pipe+file protocol; used by qa's autonomous QA session feature."
     layout: grouped
 
