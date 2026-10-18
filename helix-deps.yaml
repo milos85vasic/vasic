@@ -123,7 +123,7 @@ deps:
   # ─── Governance submodule (grouped layout, submodules/<name>/) ──────────
   - name: constitution
     ssh_url: git@github.com:HelixDevelopment/HelixConstitution.git
-    ref: "36eda364a7066781f21bb265ab5e139b9977c366"   # bumped 2026-10-15 per standing authorization, ff-only, 0 divergent / 56 ahead of the prior pin (a71b1767b402); Constitution.md DID change (11965->12132 lines, 257->259 anchor blocks, 1908339->2057133 bytes, sha256 95117cf3...->512dbbcc...); gitlink staged WITHOUT touching the constitution checkout (an active label-sync stream works on feature/label-sync there); recursive nested-submodule update deferred until that stream merges origin/main
+    ref: "87e72cc50d62b64b35d91877058b69c99412104c"   # bumped 2026-10-18 per standing authorization, ff-only, 0 divergent; recursive nested-submodule update completed; all 15 dirty nested submodules reset --hard; llmctl tree clean at all three levels; prior pin was 36eda364a706 (bumped 2026-10-15)
     # REF FIELD RESYNCED 2026-09-19: this field had drifted from the live gitlink,
     # which the umbrella's own commit 026a95e ("gitlink: bump constitution —
     # §11.4.184(I) HawkScan/ZAP/gitleaks/Trivy security tooling") had already
