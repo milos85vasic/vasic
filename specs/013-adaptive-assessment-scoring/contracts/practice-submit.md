@@ -130,3 +130,26 @@ Reserved for parity with `AssessmentSubmitHandler`'s own `ErrAssessmentLocked` s
 practice bank; the practice bank carries no such gate today (it is explicitly ungated, unlike the
 graded assessment), so this status is not expected to occur in Phase 1 and is documented here only
 so a client's error-handling switch statement is not surprised by it later.
+
+
+## Reconciled by S2 on 2026-10-20 (independent review of the first S2 commits)
+
+- **`next` shape.** The embedded `next` object is exactly what `GET .../next` returns:
+  `{"question": {...}, "serving": {...}, "selection": {...}}` (the example above showed a bare `id`; that was a
+  sketch). It is omitted on a replay.
+- **Error codes.** A missing, unknown, foreign, expired or stale token AND a structurally malformed body (including
+  an unknown JSON key) are `400 serving_token_invalid`, as the section above states. A well-formed body whose
+  `chosen` is not exactly one served option is `400 unknown_parameter` (field `chosen`). A question that is not in
+  the session's pool is `404 question_not_found`.
+- **Disclosure.** `result.correct`, the score movement and the events exist only for pooled rows, i.e. rows whose key
+  is disclosed to this session (see `practice-next.md`). The explanation is therefore always disclosable.
+- **Graded submit idempotency.** `POST /api/areas/{area}/assessment/submit` honours an optional `Idempotency-Key`
+  header (<= 200 bytes): a retry with the same key replays the stored scoring entries instead of scoring again.
+  Without a key a retry is scored again (documented limitation).
+
+### Second reconciliation (S2, 2026-10-20, re-review)
+
+- `POST /api/areas/{area}/assessment/submit` and `Idempotency-Key`: a key longer than 200 bytes is refused
+  `400 idempotency_key_invalid` (it is never silently dropped, which would turn a retry into a second score); a key
+  already used in this (session, area) for a DIFFERENT paper is `409 idempotency_key_reuse`. Both are decided before
+  anything is recorded.

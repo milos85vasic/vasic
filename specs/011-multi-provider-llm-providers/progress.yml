@@ -1,5 +1,5 @@
 feature: 011-multi-provider-llm-providers
-scope: Phase 1 + US1 (stopped at US1 checkpoint)
+scope: Phase 1 + US1 + US2 (audit log) + US3 (lan locality) + Phase 7 polish; US4 BLOCKED (not implemented)
 tasks:
   T001: done
   T002: done
@@ -7,3 +7,26 @@ tasks:
   T004: done
   T005: done
   T006: skipped-operator-gated
+  T007: done          # evidence/s1/T007-red.txt -> T008-green.txt
+  T008: done
+  T009: done          # fail-closed; UNREVIEWED default pending operator confirmation
+  T010: done          # evidence/s1/T010-red.txt
+  T011: done          # evidence/s1/T011-green.txt
+  T012: done          # via wire_providers.go hook (D10); boot invariant
+  T013: done
+  T014: done          # negative half RUN against real binary; real-success half NOT RUN (no key)
+  T015: done          # evidence/s1/T015-red*.txt
+  T016: done
+  T017: done
+  T018: done
+  T019: done
+  T020: done          # evidence/s1/T020-red.txt
+  T021: done          # FR-008 negative run for real; positive vs FAKE server only, no real LAN model
+  T022: blocked       # FR-011 operator decision
+  T023: blocked       # FR-012 operator decision
+  T024: done          # evidence/s1/final-run-v.txt, T024-regression.txt
+  T025: done          # evidence/s1/T025-verify-gate.txt, T025-prove-gate.txt (12/12)
+  T026: done          # docs/work-register.md + docs/providers.md
+  T027: done          # recorded in tasks.md completion notes
+branch: s1-011-audit-lan
+commit: 33ba49f

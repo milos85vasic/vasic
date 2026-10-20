@@ -60,6 +60,34 @@ confusion matrix. Because three thresholds interact, the simulator also reports 
 pair the family-wise false-positive rate across areas is higher than 10%; the area-level view mitigates by
 requiring `n_min` per area, and the simulator measures the multi-area case rather than assuming it away.
 
+### 3.1 MEASURED result (T026/T027, 2026-10-20, stream S16) - thresholds RETUNED, OD-1 raised
+
+Evidence: `evidence/s16/simulation/sim-results.json` in the workshop worktree branch `s16-021-medium`
+(sha256 `0fd9bb5bde5de2592bb35574954a4cf84a9de1cb065850fa695099f2a2f8f632`), produced by
+`pkg/medium/sim_test.go` (PCG seed 2026/1020, 1000 learners per cell, `MEDIUM_SIM_OUT=<file> go test -run TestSimulationSC009`).
+Model: ability U(3,7); difficulty matched to ability, d = theta + {-1,0,+1} (spec 013 serves adaptively; an
+earlier draft with unmatched difficulty saturated p near 0/1 and capped the simulated power - a simulator
+artefact, recorded and corrected); effect = +0.20 on flashcards.
+
+| config | null: leaning/preferred @30 | power @30 | power @60 | power @90 | power @120 |
+|---|---:|---:|---:|---:|---:|
+| PROPOSED z 0.67 / 1.28, gap 0.10 | **35.7%** (non-preference 64.3%: SC-009 null bound MISSED) | 80.2% | 86.2% | 92.3% | - |
+| z 1.28 / 1.64 | 19.6% | 65.3% | 86.1% | - | - |
+| z 1.64 / 1.96 | 9.5% | 51.2% | 77.1% | - | - |
+| **SHIPPED z 1.96 / 2.58, gap 0.10** | **4.9%** (non-preference 95.1%: bound met) | **37.7%** | 65.9% | 84.9% | 92.7% |
+
+Finding (not hidden): **the two SC-009 bounds cannot both hold at 30 graded answers per format for a +0.20
+effect.** With two competing formats the best-of-two selection makes the false-positive rate two-sided, so a
+5% null rate needs z >= 1.96; a +0.20 effect at 30 answers has an expected z of only ~1.55, which gives ~38%
+power. 80% power at a 5% null rate needs roughly 85 graded answers per format (measured: 84.9% at 90).
+The operator-delegate default was to protect the learner from a wrongly asserted preference (research 1(c),
+self-fulfilling narrowing), so the shipped defaults meet the null bound and MISS the power bound at 30; below
+~85 answers per format the honest output is mostly `no_clear_preference`/`insufficient_evidence`.
+Recorded risks: (a) family-wise false preference across 4 areas at the shipped defaults is ~20% (measured
+0.189/0.216/0.195 at n = 10/30/60), because each area is a separate comparison; (b) a third graded format would
+raise the best-of-k false-positive rate further; (c) the n=30 null figure (0.951) clears the 0.95 bound by a
+thin margin on this fixed seed. **OD-1 (accept or retune) is open with these numbers.**
+
 ## 4. Privacy-by-design analysis
 
 | Principle | How it is met | Residual risk (stated) |

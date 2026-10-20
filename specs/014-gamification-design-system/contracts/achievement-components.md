@@ -143,9 +143,15 @@ export class AchievementToastRegionComponent {
 ```
 
 **Template contract**:
-- Root: `<div class="lk-toast-region" aria-live="polite">` — the
-  already-vendored, unmodified region wrapper
-  (`learning-kit.css:1034-1045`).
+- Root: `<div class="lk-toast-region" role="region" aria-label="Achievement notifications" tabindex="-1" data-achievement-region>` — the
+  already-vendored region wrapper (`learning-kit.css:1034-1045`) as a labelled
+  landmark with **no `aria-live`** of its own.
+  *(Reconciled by S3 review fix F7, 2026-10-20: this bullet used to say
+  `aria-live="polite"` on the wrapper. Each toast is already its own
+  `role="status"` live region, and a live region nested inside another can
+  announce twice, so the wrapper no longer declares one. `tabindex="-1"` gives
+  focus a sensible landing place when the focused toast is dismissed (F14).
+  Real screen-reader behaviour is still UNCONFIRMED: see task T035, operator-gated.)*
 - `@for (t of visible(); track t.queueId) { <app-achievement-toast
   [achievement]="t" (dismissed)="queue.dismiss(t.queueId)" /> }` — each
   queued toast maps 1:1 to one `<app-achievement-toast>`, never more than
@@ -176,6 +182,17 @@ export class AchievementToastService {
    *  AchievementToastRegionComponent on `(dismissed)`) and promotes the
    *  next queued toast, if any, into the freed slot. */
   dismiss(queueId: string): void;
+
+  /** *(Reconciled by S3 review fixes, 2026-10-20.)* The toast started its exit
+   *  animation (region wires `(exiting)`); it is never a merge target again (F1). */
+  markLeaving(queueId: string): void;
+
+  /** Forget toasts, queue, counters and remembered ids: logout / user switch (F16). */
+  reset(): void;
+
+  /** Adjusted events swallowed by the per-area debounce; waiting toasts dropped by the queue cap (F2, F13). */
+  readonly suppressedAdjusted: Signal<number>;
+  readonly droppedOverflow: Signal<number>;
 }
 ```
 
@@ -198,3 +215,55 @@ is deliberately NOT specified here — per spec.md's own phasing, User Story 2
 ships value with zero modal work," and FR-014's exact event-routing set
 carries an open `NEEDS CLARIFICATION`. Specifying its contract now would
 invent an answer to that open question rather than defer it honestly.
+
+
+## Queue rules added by the S3 review fixes (2026-10-20)
+
+*(Reconciled; operator-delegate decisions F2/F3/F6/F7.)*
+
+- **Adjusted events are per area (F2/F3).** They merge into, or are suppressed
+  by, only an adjusted toast of the SAME area; another area's event is never
+  swallowed and keeps its own `remedialHref`. Debounce window 30 s per area.
+- **Leaving toasts take no merges (F1); a merge never extends a toast past
+  `maxCoalesceSpanMs` (30 s) and never restarts its auto-dismiss clock or resets
+  its figure to 0 (F10).**
+- **Overflow policy (F13) — SUPERSEDED by L2 and H4 L-e below (the victim is no longer simply the oldest waiting toast):** at most `maxQueued` (50) toasts wait; beyond that a toast is dropped and counted in `droppedOverflow`. This replaces
+  the earlier "never dropped" wording for the extreme case only. Remembered event
+  ids are bounded by `seenIdLimit` (2000); the persisted feed cursor, not the id
+  set, is the primary re-delivery guard.
+- **Feed (F6/F12/F16):** `AchievementEventFeed` persists its cursor per user in
+  `sessionStorage`, PRIMES (reads to the newest event, toasts nothing) when no
+  cursor exists, never moves the cursor backwards, and on a user change or logout
+  clears the queue, cursor and stats and discards any pull still in flight.
+- **Adapter (F11/F13):** an unusable `remedial_href` drops only the link; server
+  strings are bounded; `occurred_at` must be RFC 3339.
+
+## Queue and feed rules added by the S3 re-review fixes (2026-10-20)
+
+- **Feed never replays history (MED-1).** `pull()` fetches only when the feed is primed. Not primed and nobody priming:
+  `pull()` primes silently (and keeps retrying after a failed prime). Prime in flight: `pull()` is a no-op. Signed out: no-op.
+  A blank, non-numeric, negative or fractional saved cursor is absent. A half-finished prime is never persisted. Priming
+  walks up to 1000 pages; beyond that it warns once and stays un-primed rather than toasting the remainder.
+- **Adjusted area is required (L1).** The adapter takes `area`, else the area in `coalesce_key` (`adjusted:<area>`), else rejects
+  the event with a counted `invalid:area`.
+- **Overflow victim (L2, refined by H4 L-e).** The oldest toast WITHOUT a RENDERABLE study link (one for which `studyRouteFor` yields a route; an href that merely passes `isSafeStudyHref` is not protected), counting the incoming toast as the newest candidate, so a link-less newcomer is lost before any linked waiting toast; the oldest waiting toast only if every candidate has a renderable link. Counted in
+  `droppedOverflow`, warned once, and exposed on the region as `data-dropped-overflow` / `data-suppressed-adjusted`.
+- **L3.** A merge into a waiting adjusted toast does not mark its area "shown". **L4.** The coalesce span is measured between the
+  earliest and latest `occurredAt`.
+- **L5.** If a focused toast is removed without its own dismissal (logout) and focus falls to `<body>`, the region moves it to
+  `#main`; dismissal restores the previous element, then `#main`, and the region only as a last resort.
+
+## Hardening added by H4 (2026-10-20, S3 final re-review LOWs)
+
+- **Signed out (L-a).** `start()` and `prime()` are no-ops while signed out (`unavailable: signed_out`); the source is not called.
+- **Achievements earned after a failed login prime (L-b).** The feed remembers the sign-in instant. After a prime has failed, the
+  re-prime that succeeds toasts at most `MAX_CATCHUP_TOASTS` (3, newest) events dated at or after sign-in and counts the rest in
+  `stats().primeSwallowed`; anything dated before sign-in is history and is never toasted. Without a prior failure, post-sign-in
+  events seen by the prime are only counted. Client clock vs the server's `occurred_at` is compared; skew can only move an event
+  between "toasted" and "counted", bounded by the cap.
+- **Unknown source status (L-c).** `empty` is a determined "nothing"; `idle`, `loading`, `absent` or an unrecognised status is treated as
+  `unavailable` (`unexpected_status:<state>`), counted in `stats().unexpectedStatus`, warned once, un-primed, retried on the next call.
+- **Area (L-d).** The adapter trims `area` and the `adjusted:<area>` key part; whitespace-only is no area (rejected `invalid:area`
+  when no other source of the area exists).
+- **Rows at or below the cursor (L-h).** Raw rows whose `seq` is not above the current cursor are dropped before the toast queue and
+  counted in `stats().staleRowsDropped`.

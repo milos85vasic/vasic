@@ -95,12 +95,13 @@ blocking prerequisite named in plan.md's Project Structure.
 **⚠️ CRITICAL**: No User Story task below may begin until T008 (schema migration test passes against
 a real SQLite file) is green.
 
-- [ ] **T001 [P] [SUBAGENT]** Create `pkg/scoring/doc.go`: package doc comment stating what `pkg/scoring` owns
+- [x] **T001 [P] [SUBAGENT]** Create `pkg/scoring/doc.go`: package doc comment stating what `pkg/scoring` owns
   (`ResponseLogEntry`, `AbilityScore`, `ItemDifficultyState`, `ServedQuestion` and their SQLite store),
   why it is separate from `pkg/assessment` (cite plan.md's "Package placement decision" by section
   name), and the dependency direction (`pkg/scoring` → `pkg/assessment`/`passage.PID`, never reverse).
+      *(Stream S2 on 2026-10-20: DONE, pkg/scoring/doc.go, commit f866f13))*
 
-- [ ] **T002 [P] [SUBAGENT]** Create `pkg/scoring/config.go` with the `Config` struct: `K0`, `KMin`,
+- [x] **T002 [P] [SUBAGENT]** Create `pkg/scoring/config.go` with the `Config` struct: `K0`, `KMin`,
   `DecayAttempts`, `LogisticDivisor`, `DowngradeStreak`, `DowngradeMagnitude`, `ItemK0`, `ItemKMin`,
   `ItemDecayResponses`, `BatchCadence`, `ServingTokenTTL` fields, plus a `DefaultConfig() Config`
   constructor. **[CONFIGURABLE-DEFAULT]**: every field gets the exact POC/plan-documented starting
@@ -114,13 +115,15 @@ a real SQLite file) is green.
   per data-model.md §3's own honesty distinction. This directly satisfies spec.md's "K-factor tuning"
   and "downgrade threshold/magnitude" and "batch cadence" NEEDS CLARIFICATION items by making all three
   overridable without a code change, per the item's own resolution instruction.
+      *(Stream S2 on 2026-10-20: DONE, pkg/scoring/config.go; every constant lives in Config, ability-side marked POC-verified, item-side marked UNVALIDATED; added LevelUpMinAttempts, ColdStartAbility and the four seed fields; commit f866f13))*
 
-- [ ] **T003 [P] [TDD] [US: Foundational]** Write a failing test in `pkg/scoring/model_test.go`
+- [x] **T003 [P] [TDD] [US: Foundational]** Write a failing test in `pkg/scoring/model_test.go`
   asserting that `ResponseSource("bogus").Valid()` returns `false` and `SourcePractice.Valid()` /
   `SourceGraded.Valid()` return `true`. Run it — expect `FAIL: undefined: ResponseSource` (module does
   not exist yet). Paste the real command + output in this task's completion note.
+      *(Stream S2 on 2026-10-20: DONE, RED then GREEN: evidence/s2/013-us1/013-red-pkg-scoring.txt (build failure undefined: Config/Store/...), green-pkg-scoring.txt))*
 
-- [ ] **T004** Implement `pkg/scoring/model.go`: the four types exactly as data-model.md §1 specifies
+- [x] **T004** Implement `pkg/scoring/model.go`: the four types exactly as data-model.md §1 specifies
   (`ResponseLogEntry`, `AbilityScore`, `ItemDifficultyState`, `ServedQuestion`, `ResponseSource` +
   `Valid()`) — **`ResponseLogEntry` and `AbilityScore` have EVERY field UNEXPORTED, with the
   read-only accessor methods data-model.md §1.1/§1.2 list as their only exported surface, and NO
@@ -131,19 +134,22 @@ a real SQLite file) is green.
   data-model.md §1.1/§1.2's rationale first). `ItemDifficultyState` and `ServedQuestion` keep exported
   fields (data-model.md names no equivalent invariant for them requiring the same closure). Run T003's
   test — expect PASS.
+      *(Stream S2 on 2026-10-20: DONE, pkg/scoring/model.go: ResponseLogEntry and AbilityScore have every field unexported with read-only accessors. DEVIATION: identifiers are plain strings, not passage.PID, because a graded question id is a curriculum-kit id and not a PID))*
 
-- [ ] **T005 [TDD]** Write a failing test in `pkg/scoring/store_test.go` asserting `Store.Open(dir)`
+- [x] **T005 [TDD]** Write a failing test in `pkg/scoring/store_test.go` asserting `Store.Open(dir)`
   against a fresh temp directory creates `scoring.db` and that querying
   `sqlite_master` for all five expected table names (`served_question`, `response_log`,
   `ability_score`, `item_difficulty`, `recalibration_runs`) returns all five. Run it — expect
   `FAIL: undefined: Store`. Paste the real command + output.
+      *(Stream S2 on 2026-10-20: DONE, pkg/scoring/store_test.go TestOpen_CreatesTheDatabaseAndEverySchemaObject (six tables incl. achievement_event and four triggers); RED evidence 013-red-pkg-scoring.txt))*
 
-- [ ] **T006** Implement `pkg/scoring/store.go`'s `Store` type and `Open(dir string) (*Store, error)`,
+- [x] **T006** Implement `pkg/scoring/store.go`'s `Store` type and `Open(dir string) (*Store, error)`,
   applying the exact DDL from data-model.md §5 (all five `CREATE TABLE IF NOT EXISTS` statements, both
   indexes-per-table, and the two `response_log` triggers) via `db.Exec`, following `pkg/authstore.
   Open`'s own migration idiom (read `authstore.go` lines 42-91 first and mirror its shape:
   `sql.Open("sqlite", …)`, `db.SetMaxOpenConns(1)`, schema applied inside `Open`). Run T005 — expect
   PASS.
+      *(Stream S2 on 2026-10-20: DONE, pkg/scoring/store.go Open + schema (data-model.md section 5 + achievement-events.md section 3; served_question gained rule, reason, downgrade columns so the reason computed when SERVED is the reason LOGGED)))*
 
 - [ ] **T007 [TDD] [REVIEW]** Write a failing test asserting the FR-003 storage-level immutability
   backstop fires: open a real `scoring.db` via `Store.Open`, insert one `response_log` row directly via
@@ -162,6 +168,7 @@ a real SQLite file) is green.
   confirm it FAILS (the `UPDATE`/`DELETE` silently succeed), to prove the test is actually sensitive to
   the trigger's presence — this is the mutation proof plan.md's "Mutation-pairing owed" item 2
   requires. Paste both runs' real output (trigger present: PASS; trigger removed: FAIL as expected).
+      *(Stream S2 on 2026-10-20: IMPLEMENTED, independent review PENDING (REVIEW-tagged). TestResponseLog_StorageRefusesUpdateAndDelete passes with the trigger text asserted; the paired mutation (trigger replaced by a no-op) is m013_trigger_gone, CAUGHT: evidence/s2/013-us1/mutants_013_pkg.json))*
 
 - [ ] **T008 [REVIEW]** **Checkpoint.** Run the full `pkg/scoring` test suite
   (`cd workshop/platform/backend && go test ./pkg/scoring/... -v`) and confirm all tests from T003-T007
@@ -170,8 +177,10 @@ a real SQLite file) is green.
   gate the tasks-template's own Phase 2 convention names, applied here as the schema/skeleton rather
   than a separate infrastructure concern (this feature has no auth/routing/logging scaffolding of its
   own beyond this).
+      *(Stream S2 on 2026-10-20: IMPLEMENTED, independent review PENDING (REVIEW-tagged checkpoint): go test ./pkg/scoring: 47 PASS lines, 86.2% statements, race-clean (evidence/s2/013-us1/green-pkg-scoring.txt, race.txt)))*
 
-- [ ] **T008a [TDD]** *(Reconciled by 026 on 2026-10-20, D3: added)* Add the `achievement_event` table and its UPDATE/DELETE-forbidding trigger to the Phase 1 schema, exactly as in `contracts/achievement-events.md` section 3, with a failing test first (insert succeeds; UPDATE and DELETE are refused; a duplicate `(session, kind, area, source_entry_id)` is refused). Paste RED then GREEN output.
+- [x] **T008a [TDD]** *(Reconciled by 026 on 2026-10-20, D3: added)* Add the `achievement_event` table and its UPDATE/DELETE-forbidding trigger to the Phase 1 schema, exactly as in `contracts/achievement-events.md` section 3, with a failing test first (insert succeeds; UPDATE and DELETE are refused; a duplicate `(session, kind, area, source_entry_id)` is refused). Paste RED then GREEN output.
+      *(Stream S2 on 2026-10-20: DONE, TestAchievementEvent_TableConstraints (insert ok, duplicate (session,kind,area,source_entry_id) refused, kind outside the vocabulary refused, UPDATE and DELETE refused, seq monotonic); mutants m013_event_trigger_gone and the UNIQUE key caught))*
 
 **Checkpoint**: `pkg/scoring`'s package skeleton, `Config`, the four types, and the full SQLite schema
 (with both immutability triggers proven to actually fire, not merely declared) exist and are tested.
@@ -193,7 +202,7 @@ direction/magnitude after each, and the next question served is chosen near the 
 
 ### Tests for User Story 1 (write first, observe RED, per §11.4.224)
 
-- [ ] **T009 [P] [TDD] [SUBAGENT] [US1]** Write `pkg/scoring/elo_test.go`'s `TestKFactor`: table-driven, asserting
+- [x] **T009 [P] [TDD] [SUBAGENT] [US1]** Write `pkg/scoring/elo_test.go`'s `TestKFactor`: table-driven, asserting
   `KFactor(0, cfg)`, `KFactor(1, cfg)`, `KFactor(2, cfg)` equal `0.900`, `0.759`, `0.643` to 3 decimal
   places, using `Config{K0: 0.9, KMin: 0.12, DecayAttempts: 5}` — **the exact values data-model.md §3
   states were back-solved from `sample-output-30-attempts-seed42.txt`'s own printed `K` column**. Before
@@ -205,15 +214,17 @@ direction/magnitude after each, and the next question served is chosen near the 
   independently executed, not merely cited" discipline applied for real, not assumed satisfied because
   data-model.md already did it once. Run the test — expect `FAIL: undefined: KFactor`. Paste the POC
   re-run output AND the Go test's real failing output.
+      *(Stream S2 on 2026-10-20: DONE, TestKFactor_MatchesThePOCTraceKColumn. The POC was RE-EXECUTED this session and its output is byte-identical to the committed sample (evidence/s2/013-us1/poc-diff.txt, poc-rerun.txt); the oracle rows are quoted in elo_test.go's header))*
 
-- [ ] **T010 [P] [TDD] [SUBAGENT] [US1]** Write `pkg/scoring/elo_test.go`'s `TestUpdateAbility`: table-driven
+- [x] **T010 [P] [TDD] [SUBAGENT] [US1]** Write `pkg/scoring/elo_test.go`'s `TestUpdateAbility`: table-driven
   against the SAME POC trace's `delta` column (cold-start case: `theta=5.0`, a correct answer against
   `servedDifficulty=5.0`, `priorAttempts=0`, asserting `newTheta` matches the POC's own printed
   post-update ability to 3 decimal places) AND a clamp-boundary case (`theta=9.95`, several consecutive
   correct answers, asserting `newTheta` never exceeds `10.0` — FR-006). Run — expect
   `FAIL: undefined: UpdateAbility`. Paste output.
+      *(Stream S2 on 2026-10-20: DONE, TestUpdateAbility_MatchesThePOCTraceRows (6 trace rows incl. wrong answers) + TestUpdateAbility_IsClampedToTheScale + a logistic-identity property test + FuzzUpdateAbility (20s, 350k execs, PASS: fuzz-update-ability.txt)))*
 
-- [ ] **T010b [TDD] [SUBAGENT] [US1]** Write `pkg/scoring/model_test.go`'s
+- [x] **T010b [TDD] [SUBAGENT] [US1]** Write `pkg/scoring/model_test.go`'s
   `TestResponseLogEntryAndAbilityScoreHaveNoExternalConstructor` — **this is the real Go-API-layer
   "no setter/no external constructor exists" test data-model.md §1.1/§1.2 requires and T007's
   completion note points to** (T010 is a different, unrelated test — see the correction in T007's own
@@ -237,8 +248,9 @@ direction/magnitude after each, and the next question served is chosen near the 
   necessarily depends on T015's `RecordResponse` existing to obtain a real value; if T004's types exist
   but T015 does not yet, report the real compile/run error honestly rather than reordering this task).
   Paste real output; re-run and paste GREEN output once T004 and T015 are both implemented.
+      *(Stream S2 on 2026-10-20: DONE, pkg/scoring/model_ext_test.go (package scoring_test: values obtained only through the store, every accessor checked))*
 
-- [ ] **T011 [TDD] [US1]** Write `pkg/scoring/store_test.go`'s `TestRecordResponse_FirstSubmission`:
+- [x] **T011 [TDD] [US1]** Write `pkg/scoring/store_test.go`'s `TestRecordResponse_FirstSubmission`:
   against a fresh `Store`, manually insert one `served_question` row (simulating what `ServeNext` will
   mint, since `ServeNext` does not exist yet — this task's own test is scoped to `RecordResponse`
   alone, not the full request flow), call `Store.RecordResponse(token, correct=true, …)`, and assert:
@@ -246,6 +258,7 @@ direction/magnitude after each, and the next question served is chosen near the 
   matching T010's pure-function output, `ability_score` has exactly one row for `(session, area)` with
   `attempt_count=1`, and `served_question.consumed_at` is now non-nil. Run — expect
   `FAIL: undefined: RecordResponse`. Paste output.
+      *(Stream S2 on 2026-10-20: DONE, TestRecordResponse_FirstSubmission (POC row Learner A #1: 5.000 -> 5.009, K 0.900; ability row, last_entry link, token consumed)))*
 
 - [ ] **T012 [TDD] [US1] [REVIEW]** Write `pkg/scoring/store_test.go`'s
   `TestRecordResponse_ConcurrentDoubleSubmit`: against a fresh `Store` with one `served_question` row
@@ -259,22 +272,25 @@ direction/magnitude after each, and the next question served is chosen near the 
   to manifest on a single run) and paste the real output showing all 20 pass with `-race` finding no
   data race.** Run before T014 is implemented — expect `FAIL: undefined: RecordResponse` (same as
   T011, confirming both tests are genuinely RED before any implementation exists). Paste output.
+      *(Stream S2 on 2026-10-20: IMPLEMENTED, independent review PENDING (REVIEW-tagged): TestRecordResponse_ConcurrentDoubleSubmit run with -race -count=20, ok (evidence/s2/013-us1/race.txt); mutants m013_no_replay and m013_token_unique_gone caught. HONEST NOTE: with MaxOpenConns(1) the pool serializes writers, so this test does not by itself prove the UNIQUE constraint carries the guarantee; TestResponseLog_ServingTokenIsUniqueAtTheDatabase proves that separately))*
 
-- [ ] **T013 [P] [TDD] [US1]** Write `internal/api/questions_scoring_test.go`'s
+- [x] **T013 [P] [TDD] [US1]** Write `internal/api/questions_scoring_test.go`'s
   `TestSubmitHandler_MissingServingToken` and `TestSubmitHandler_TokenIssuedToDifferentSession`: two
   `httptest.NewRequest` cases against the not-yet-existent handler, asserting HTTP 400 with
   `error.code == "serving_token_invalid"` per contracts/practice-submit.md's documented 400 shape, and
   asserting **no** `response_log` row and **no** `ability_score` change resulted (FR-014's "MUST NOT
   default toward an outcome that benefits the learner's score"). Run — expect
   `FAIL: undefined: SubmitHandler` (or equivalent compile error). Paste output.
+      *(Stream S2 on 2026-10-20: DONE, internal/api/questions_scoring_test.go TestSubmitHandler_RefusesWhatItCannotValidateAndScoresNothing (13 refusal cases, no row, no ability change, and the refused token still usable)))*
 
 ### Implementation for User Story 1
 
-- [ ] **T014 [US1]** Implement `pkg/scoring/elo.go`'s `KFactor`, `ExpectedScore`, `UpdateAbility`,
+- [x] **T014 [US1]** Implement `pkg/scoring/elo.go`'s `KFactor`, `ExpectedScore`, `UpdateAbility`,
   `clamp` exactly as data-model.md §3 specifies, no I/O. Run T009 and T010 — expect PASS. Run
   `go test ./pkg/scoring/... -run TestKFactor|TestUpdateAbility -v` and paste the real PASS output.
+      *(Stream S2 on 2026-10-20: DONE, pkg/scoring/elo.go))*
 
-- [ ] **T015 [US1]** Implement, in `pkg/scoring/store.go`, the unexported shared helper
+- [x] **T015 [US1]** Implement, in `pkg/scoring/store.go`, the unexported shared helper
   `recordResponse(tx *sql.Tx, session, area, question string, correct bool, servedDifficulty float64,
   source ResponseSource, servingToken *string) (RecordResponseResult, error)` data-model.md §4
   specifies (computes `UpdateAbility` using `AttemptCount` read from the current `ability_score` row —
@@ -290,8 +306,9 @@ direction/magnitude after each, and the next question served is chosen near the 
   separate because it has a different trust contract (see data-model.md §4's "closes a real
   contradiction" note) and its own test.** Run T011 and T012 (the concurrency proof) —
   expect both PASS, with T012 run the full `-race -count=20` way. Paste real output for both.
+      *(Stream S2 on 2026-10-20: DONE, pkg/scoring/store.go recordResponse (shared) + RecordResponse (practice entry point, replay on a consumed token)))*
 
-- [ ] **T016 [US1] [TDD]** Write and then satisfy a failing test for the replay path specifically —
+- [x] **T016 [US1] [TDD]** Write and then satisfy a failing test for the replay path specifically —
   `TestRecordResponse_ReplayAfterConsumed`: call `RecordResponse` once (real scoring happens), call it
   again with the exact same token, assert the second call's returned `entry_id`/`ability_after` are
   byte-identical to the first and that `response_log` still has exactly one row (not two) — this is
@@ -299,8 +316,9 @@ direction/magnitude after each, and the next question served is chosen near the 
   after a dropped response). Run RED first (expect it to fail if `RecordResponse`'s replay branch has a
   bug, or pass immediately if T015 already implemented it correctly — report honestly which happened,
   do not claim RED if the implementation already satisfies it). Paste real output.
+      *(Stream S2 on 2026-10-20: DONE, TestRecordResponse_ReplayAfterConsumed: RED not claimed; the implementation from T015 already satisfied it, and a retry carrying a DIFFERENT answer is shown not to change the record))*
 
-- [ ] **T017 [US1]** Implement `Store.ServeNext(session, area string, cfg Config) (ServeResult, error)`
+- [x] **T017 [US1]** Implement `Store.ServeNext(session, area string, cfg Config) (ServeResult, error)`
   in `pkg/scoring/store.go` per data-model.md §4's three-branch selection logic (cold start → downgrade
   override → normal adaptive pick) and §2's **two-tier** cold-start selection: **tier 1** — query
   `item_difficulty WHERE area_id = ? ORDER BY difficulty_estimate ASC LIMIT 1`; **tier 2** — only when
@@ -320,8 +338,9 @@ direction/magnitude after each, and the next question served is chosen near the 
   first and record what was found in this task's completion note**. **[CONFIGURABLE-DEFAULT]**: the
   downgrade-override branch uses `Config.DowngradeStreak`/`Config.DowngradeMagnitude`, never a literal
   `3`/`1.5` inline.
+      *(Stream S2 on 2026-10-20: DONE, pkg/scoring/serve.go ServeNext. DEVIATION, stated: ServeNext takes the candidate list from the caller (Candidate{Question, Authored}) instead of reading pkg/assessment or the graded-catalog loader; pkg/scoring never imports content packages. The graded catalog contributes NO extra candidates: every graded prompt is also an open-bank row (D9), so the union is the bank. The served pool is the multiple-choice questions with an authored key (139 of the 292 bank questions are MCQ); short/flashcard are not machine-gradable and are not offered))*
 
-- [ ] **T018 [P] [TDD] [US1]** Write failing tests for `ServeNext`'s cold-start selection, covering
+- [x] **T018 [P] [TDD] [US1]** Write failing tests for `ServeNext`'s cold-start selection, covering
   **both** tiers data-model.md §2 now specifies — a single test exercising only the tie-break case
   would leave the chicken-and-egg bug (Fix 1) untested:
   (a) **Tier-1 selection / tie-break (the original case, now made explicit about which tier it
@@ -351,8 +370,9 @@ direction/magnitude after each, and the next question served is chosen near the 
   it PASSES against the real two-tier implementation.
   Run both — expect `FAIL: undefined: ServeNext`. Then implement/adjust T017 until both pass. Paste all
   RED and GREEN output (including the tier-2-removed mutation run for case (b)).
+      *(Stream S2 on 2026-10-20: DONE, TestServeNext_ColdStartOnAnEmptyItemTableUsesTheAuthoredLabelThenTheTable ((b), the chicken-and-egg case: source authored_label then item_difficulty) and TestServeNext_TieBreakPrefersTheUncalibratedItemDeterministically ((a): tie-break = uncalibrated first, then a per-(session,area,question) digest). The mutation 'tier 2 removed' is m013_tier2_removed, CAUGHT))*
 
-- [ ] **T019 [US1]** Implement `internal/api/questions_scoring.go`'s `SubmitHandler` (`POST
+- [x] **T019 [US1]** Implement `internal/api/questions_scoring.go`'s `SubmitHandler` (`POST
   /api/areas/{area}/questions/{question}/submit`) per contracts/practice-submit.md: decode the
   `serving_token`/`chosen`/`text` body (reusing `decodeSubmitBody`'s existing discipline from
   `internal/api/lessons.go` line 717 — read it first), grade server-side against the question's answer
@@ -362,8 +382,9 @@ direction/magnitude after each, and the next question served is chosen near the 
   contracts/practice-submit.md documents (including the `"replay": true` field on a replayed call, and
   the embedded `next` object from a follow-up internal `ServeNext` call). Run T013 — expect PASS. Paste
   real output.
+      *(Stream S2 on 2026-10-20: DONE, internal/api/questions_scoring.go SubmitHandler per contracts/practice-submit.md (400 serving_token_invalid, 200 + replay:true, next omitted on replay). DEVIATION (security finding, fixed): assessment-mode rows (Graded.Disclosure != DisclosureFull, incl. undetermined) are EXCLUDED from the adaptive pool, so result.correct / delta / events can never be an answer oracle; test TestAdaptivePath_NeverServesOrScoresAnAssessmentModeQuestion, RED first (evidence/s2/013-us1/red-security-oracle.txt), mutant m013api_pool_ignores_disclosure killed. Consequence: most live bank rows are graded, so the pool is small until the operator decides how graded rows may take part))*
 
-- [ ] **T020 [P] [US1]** Implement `internal/api/questions_scoring.go`'s `NextHandler` (`GET
+- [x] **T020 [P] [US1]** Implement `internal/api/questions_scoring.go`'s `NextHandler` (`GET
   /api/areas/{area}/questions/next`) per contracts/practice-next.md: session-scoped via the existing
   `sessionOf` helper (`internal/api/lessons.go` line 311), calls `Store.ServeNext`, renders using the
   **existing** `questionWire` function (`internal/api/questions.go` line 290) for the `question` object
@@ -371,13 +392,15 @@ direction/magnitude after each, and the next question served is chosen near the 
   `serving`/`selection` objects. Implements the 404 (no eligible item) and 503 (bank/registry
   unreadable) branches per the contract, mirroring `writeUnavailable`'s existing shape
   (`internal/api/chapters.go` line 1135).
+      *(Stream S2 on 2026-10-20: DONE, NextHandler per contracts/practice-next.md, built on questionWire and the extracted QuestionsDeps.checkArea))*
 
-- [ ] **T021 [P] [TDD] [US1]** Write a failing contract-level test asserting `NextHandler`'s 200
+- [x] **T021 [P] [TDD] [US1]** Write a failing contract-level test asserting `NextHandler`'s 200
   response never includes `answer`, `correct_index`, or `explanation` fields anywhere in the `question`
   object (the answer-withholding discipline contracts/practice-next.md names) — serialize the real
   response and assert those JSON keys are absent, not merely null. Run — expect FAIL against a stub, or
   confirm PASS if T020 already got this right by construction (report honestly which). Implement/fix
   until PASS. Paste real output.
+      *(Stream S2 on 2026-10-20: DONE, TestNextHandler_ServesOneQuestionWithATokenAndNeverTheAnswerKey: the keys are absent as KEYS in study AND assessment mode; mutant m013api_next_leaks_the_key caught))*
 
 - [ ] **T022 [US1]** Wire the two new routes into `cmd/workshop-server/main.go`: open `scoring.Store` *(Reconciled by 026 on 2026-10-20, D10: do the `main.go` wiring through `cmd/workshop-server/wire_scoring.go` and replace only the `// hook:scoring` line; do not add hunks elsewhere in `main.go`.)*
   alongside the existing `authstore.Open`/`api.NewProgressStore` calls (same data directory), register
@@ -385,8 +408,9 @@ direction/magnitude after each, and the next question served is chosen near the 
   beside the existing questions/assessment route block (plan.md cites lines ~1444-1452 — re-read the
   current file to confirm the exact insertion point before editing, since line numbers drift). Build
   (`go build ./...`) and paste the real build output (expect a clean build, zero errors).
+      *(Stream S2 on 2026-10-20: PARTIAL: wire_scoring.go (flags -scoring-dir, -scoring-level-up-min-attempts, -scoring-disable; boot invariants; routes; shutdown) is done and tested, and the TWO route registrations are in it. NOT done, by rule: main.go owes ONE call, setPracticeQuestionDeps(...) (exact text in cmd/workshop-server/wire_practice.go's header and evidence/s2/013-us1/main-go-hook-line.txt). Proven to compile and to make the whole route table work via go test -overlay (green-routes-with-the-main-go-line-via-overlay.txt)))*
 
-- [ ] **T023a [TDD] [US1]** Write a failing test, `TestRecordGradedResponse_NoTokenRequired`: call
+- [x] **T023a [TDD] [US1]** Write a failing test, `TestRecordGradedResponse_NoTokenRequired`: call
   `Store.RecordGradedResponse(session, area, question, correct, gradedDifficulty, …)` **directly**, with
   no `served_question` row minted for this question at all (proving it genuinely requires no serving
   token, unlike `RecordResponse`), and assert: one `response_log` row is inserted with `source =
@@ -396,8 +420,9 @@ direction/magnitude after each, and the next question served is chosen near the 
   `RecordResponse`'s token-keyed replay behavior, because there is no token to key a replay against;
   a graded resubmission is this path's caller's own concern, not this function's. Run — expect
   `FAIL: undefined: RecordGradedResponse`. Paste output.
+      *(Stream S2 on 2026-10-20: DONE, TestRecordGradedResponse_NoTokenRequired))*
 
-- [ ] **T023b [US1]** Implement `Store.RecordGradedResponse(session, area, question string, correct
+- [x] **T023b [US1]** Implement `Store.RecordGradedResponse(session, area, question string, correct
   bool, gradedDifficulty float64, …) (RecordResponseResult, error)` in `pkg/scoring/store.go`, per
   data-model.md §4's "closes a real contradiction" note: calls the SAME unexported `recordResponse`
   helper T015 implemented, with `servingToken = nil` (the helper mints a fresh internal token to
@@ -405,6 +430,7 @@ direction/magnitude after each, and the next question served is chosen near the 
   at all — this is the entry point that makes "one shared scoring pipeline" true at the algorithm
   level for two entry points with genuinely different call signatures and trust contexts. Run T023a —
   expect PASS. Paste real output.
+      *(Stream S2 on 2026-10-20: DONE, Store.RecordGradedResponse and Store.RecordGradedBatch (one transaction per submission) over the SAME recordResponse))*
 
 - [ ] **T023 [US1] [REVIEW]** Wire `AssessmentSubmitHandler` (`internal/api/lessons.go` line ~690) into
   the same scoring pipeline (User Story 1 Acceptance Scenario 4, FR-002's "from the new practice-bank
@@ -419,6 +445,7 @@ direction/magnitude after each, and the next question served is chosen near the 
   writing this task's code, and quote the exact warning text found in this task's completion note as
   confirmation the reasoning still holds against the current code, not merely against plan.md's
   citation of it.
+      *(Stream S2 on 2026-10-20: IMPLEMENTED, independent review PENDING (REVIEW-tagged): AssessmentSubmitHandler feeds RecordGradedBatch with the machine-graded, answered, attempted outcomes only (free text is never scored as a guess; a blank paper and a locked 403 score nothing). Read lessons.go's 'second gate' warning first: the lesson gate remains the only entitlement check on this path. TestAssessmentSubmit_* in internal/api/scoring_integration_test.go; mutants m013api_graded_scores_free_text and m013api_graded_not_scored caught))*
 
 - [ ] **T024 [TDD] [US1] [REVIEW]** Write a failing integration test asserting that submitting a graded
   end-of-area assessment (via the EXISTING `AssessmentSubmitHandler` test harness/fixtures — reuse
@@ -433,6 +460,7 @@ direction/magnitude after each, and the next question served is chosen near the 
   two entry points genuinely share `recordResponse`'s update logic rather than merely writing to the
   same table with independently-reimplemented math. Run RED first, then implement T023/T023b until
   GREEN. Paste both outputs.
+      *(Stream S2 on 2026-10-20: IMPLEMENTED, independent review PENDING (REVIEW-tagged): TestPracticeAndGradedShareOnePipeline (same inputs give the same ability_after and K through both entry points; one history through CurrentAbility) and TestAssessmentSubmit_FeedsTheSameScoringPipelineAsPractice (EXISTING assessment fixture)))*
 
 - [ ] **T025 [US1] [REVIEW]** **Checkpoint.** Run `go test ./pkg/scoring/... ./internal/api/... -run
   'Scoring|Submit|Next|RecordResponse' -v` and paste the full real output. Then run quickstart.md
@@ -441,6 +469,7 @@ direction/magnitude after each, and the next question served is chosen near the 
   own Environment Adaptability discipline already named in plan.md's Constitution Check) and paste the
   real `curl`/`jq` output for each step, including the concurrent-retry case (§2.4) showing identical
   `entry_id` and `attempt_count` incremented by exactly 1.
+      *(Stream S2 on 2026-10-20: PARTIAL, REVIEW-tagged: go test of the scoring/practice/progress/assessment subset is green (67 PASS in internal/api, 47 in pkg/scoring). quickstart 2.1-2.4 against a live server was NOT performed: an authenticated live session is needed and none is available from a worktree. A real binary WAS booted with run-isolated.sh (scoring.db created by the hook; the routes answer 401 without credentials: evidence/s2/013-us1/live-isolated.txt). The full flow is covered in-process through routes(cfg) (TestRoutes_PracticeAnswersAndAdaptiveScoringEndToEnd) once the main.go line exists. Live curl evidence UNCONFIRMED))*
 
 **Checkpoint**: User Story 1 is independently complete and testable — a learner can submit practice
 answers, get one immutable log entry per submission, see their score update synchronously with no
@@ -450,10 +479,14 @@ staleness, and the graded assessment path feeds the same pipeline. This is a leg
 
 **Depends on**: T008a, T025. **Unblocks**: spec 014 T016 (the adapter) and, through it, 014 T025.
 
-- [ ] **T025a [TDD] [US1]** Failing tests then implementation in `pkg/scoring/events.go`: `level-up` emission from `recordResponse` (floor crossing upward + `Config.LevelUpMinAttempts`, default 5, `[CONFIGURABLE-DEFAULT]`), for BOTH the practice and the graded entry points; no event for a sub-level delta; no event for a downward crossing; no duplicate on an idempotent retry. Paste output.
-- [ ] **T025b [TDD] [US1]** Return `achievement_events` inline from the practice and graded submit handlers (additive field, empty array when none; a replayed submission returns the same events). Contract tests in `internal/api` against the shape in `contracts/achievement-events.md` section 1.
-- [ ] **T025c [TDD] [US1]** `chapter-complete`: in the lesson-state handler (`internal/api/lessons.go`), call `scoring.Store.RecordAchievement` when an area transitions to all lessons complete; once per (session, area); un-mark then re-mark emits nothing. **O-5 is open**: implement the area granularity as the documented default.
+- [x] **T025a [TDD] [US1]** Failing tests then implementation in `pkg/scoring/events.go`: `level-up` emission from `recordResponse` (floor crossing upward + `Config.LevelUpMinAttempts`, default 5, `[CONFIGURABLE-DEFAULT]`), for BOTH the practice and the graded entry points; no event for a sub-level delta; no event for a downward crossing; no duplicate on an idempotent retry. Paste output.
+      *(Stream S2 on 2026-10-20: DONE, pkg/scoring/events.go + events_test.go: level-up needs an upward floor crossing AND attempt_count >= LevelUpMinAttempts; no event for a routine delta or a downward crossing; no duplicate on replay (the same events are returned); adjusted is emitted when the SERVED question was minted as a downgrade (the mechanism; minting downgrades is US2, so adjusted cannot be produced live yet); mutants m013_levelup_* and m013_no_adjusted_event caught))*
+- [x] **T025b [TDD] [US1]** Return `achievement_events` inline from the practice and graded submit handlers (additive field, empty array when none; a replayed submission returns the same events). Contract tests in `internal/api` against the shape in `contracts/achievement-events.md` section 1.
+      *(Stream S2 on 2026-10-20: DONE, achievement_events inline on the practice submit and on the graded submit (always an array on practice; omitted on graded when no backend); TestSubmitHandler_ReturnsAchievementEventsInlineAndOnReplay))*
+- [x] **T025c [TDD] [US1]** `chapter-complete`: in the lesson-state handler (`internal/api/lessons.go`), call `scoring.Store.RecordAchievement` when an area transitions to all lessons complete; once per (session, area); un-mark then re-mark emits nothing. **O-5 is open**: implement the area granularity as the documented default.
+      *(Stream S2 on 2026-10-20: DONE, LessonStateHandler calls Store.RecordAchievement when ckit.Completion shows every lesson complete; once per (session, area); the once-rule is a lookup in the transaction, not the UNIQUE key (NULL source). TestLessonState_EmitsChapterCompleteOncePerSessionAndArea; mutant m013api_chapter_complete_on_first_lesson caught. O-5 still open: 'chapter' = area))*
 - [ ] **T025d [TDD] [US1] [REVIEW]** `GET /api/progress?events_after=&events_limit=`: additive `achievement_events {events, next_after}`, session-scoped, omitted when no store, never changes the 200/404/503 contract; run quickstart-style `curl`/`jq` for all three kinds and paste real output.
+      *(Stream S2 on 2026-10-20: IMPLEMENTED, independent review PENDING (REVIEW-tagged): GET /api/progress?events_after=&events_limit= and ability_score (internal/api/scoring_bridge.go, progress.go); omitted when no backend; a malformed cursor is 400; a session whose only data is events or an ability score is a 200, not a false 404. TestProgress_*; real curl output for all three kinds was not produced live (see T025))*
 
 ---
 
@@ -761,6 +794,12 @@ single place a future reader checks before building on top of this feature's ope
 - Every `[P]`-marked task elsewhere touches a file no sibling `[P]` task in the same phase touches.
 
 ---
+
+## Reconciled by S2 on 2026-10-20 (review notes)
+
+- Practice is available PROGRESSIVELY: a gated row joins the adaptive pool per question, only after this session attempted it in the area assessment (see `contracts/practice-next.md`). Follow-up: a practice-only bank with a near-duplicate check.
+- **FR-009 (cold start with zero `easy` items) is an open CONTENT decision, not code**: the cold start honestly serves the lowest authored seed (medium, 5.0) and its reason string says no item is authored easy. No items were invented.
+- Anonymous-to-account migration: scoring.db, practice-answers.json and achievement events are keyed by the session string; `pkg/migration` does not move them when an anonymous session logs in. Known limitation, not addressed here.
 
 ## NEEDS CLARIFICATION disposition
 

@@ -278,7 +278,7 @@ with no new endpoint or second catalog loader.
 
 ### Consumer wiring (`workshop/platform/backend`, not the submodule)
 
-- [ ] **T018 [P] [US1]** `workshop/platform/backend/pkg/learning/wire.go`:
+- [x] **T018 [P] [US1]** `workshop/platform/backend/pkg/learning/wire.go`:
   add the `DocumentSectionResolver` interface (parallel to `ChapterResolver`)
   and extend `MaterialObject` to emit a `"location"` key following the exact
   null-until-resolved discipline the existing `"video"` key already
@@ -286,13 +286,13 @@ with no new endpoint or second catalog loader.
   `locator`, `passage_anchor`, `section_slug`/`href` null until resolved,
   `unresolved_reason` on a miss).
 
-- [ ] **T019 [US1]** `workshop/platform/backend/pkg/learning/catalog.go`:
+- [x] **T019 [US1]** `workshop/platform/backend/pkg/learning/catalog.go`:
   confirm how `KnownChapters` is built at load time today, and build a
   parallel `KnownSections` registry the same way (do not invent a second
   wiring mechanism — read the existing chapter-registry construction before
   adding this).
 
-- [ ] **T020 [TDD] [US1]** `go test ./pkg/learning/... -run
+- [x] **T020 [TDD] [US1]** `go test ./pkg/learning/... -run
   TestMaterialObject -v` from `workshop/platform/backend`: a `document`-kind
   Material with a `Location` anchor emits the `"location"` key with
   `section_slug`/`href` resolving through a fixture `DocumentSectionResolver`
@@ -300,7 +300,7 @@ with no new endpoint or second catalog loader.
   with its existing `"video"` shape byte-for-byte unchanged (Acceptance
   Scenario 2 / SC-006 — no regression to existing video-anchored content).
 
-- [ ] **T021 [P] [US1]** Write
+- [x] **T021 [P] [US1]** Write
   `workshop/platform/frontend/docs/document-links.md` — the location-anchor
   URL grammar, the FR-008 counterpart to the existing `time-links.md`
   (plausibly `/documents/<section-slug>/read?loc=<locator>[#p-<pid>]`, fixed
@@ -309,7 +309,7 @@ with no new endpoint or second catalog loader.
 
 ### Independent verification
 
-- [ ] **T022 [US1]** Run `quickstart.md` Step 5 for real: author one
+- [x] **T022 [US1]** Run `quickstart.md` Step 5 for real: author one
   `document`-kind Material with a populated `Location` anchor in a
   `curriculum/learning/NN-<slug>.json` fixture, load it through the extended
   validator, and confirm it validates and its anchor resolves to an existing
@@ -378,7 +378,7 @@ the four new endpoints and no new persisted state.
 
 ### `authstore.CreatedAt` — small, in-scope prerequisite for `account_age` (FR-009)
 
-- [ ] **T023a [TDD] [US2]** **`account_age`'s real data source — a small
+- [x] **T023a [TDD] [US2]** **`account_age`'s real data source — a small
   read-side addition, corrected from an earlier "out of scope"/FR-013
   reading (see `data-model.md`'s "Honest gap" note and `plan.md`'s
   Technical Context).** `workshop/platform/backend/pkg/authstore`'s
@@ -403,7 +403,7 @@ the four new endpoints and no new persisted state.
 
 ### Backend — four read-only handlers (`workshop/platform/backend/internal/api/profile.go`, NEW)
 
-- [ ] **T024 [P] [US2]** Implement `ProfileSummaryHandler` (FR-009,
+- [x] **T024 [P] [US2]** Implement `ProfileSummaryHandler` (FR-009,
   `GET /api/profile`): identity via `sessionOf(w, r)` exactly as
   `lessons.go` does, `account_age` computed from `User.CreatedAt` (T023a)
   for an authenticated caller — `null` only for an anonymous,
@@ -415,7 +415,7 @@ the four new endpoints and no new persisted state.
   `ReasonCurriculumUnreadable`/`LegCurriculum`, mirroring
   `LearningDeps.progressOf`'s existing failure mapping.
 
-- [ ] **T025 [P] [US2]** Implement `ProfileActivityHandler` (FR-010,
+- [x] **T025 [P] [US2]** Implement `ProfileActivityHandler` (FR-010,
   `GET /api/profile/activity`): merges exactly the two timestamped sources
   `data-model.md` identifies — `internal/api.Position.At` (reading-position
   updates) and `ckit.Attempt.At` (assessment attempts) — **not** a lesson
@@ -427,7 +427,7 @@ the four new endpoints and no new persisted state.
   `rejectUnknownParams` on an unrecognised key. `entries: []`, never `null`,
   on an empty session (FR-018's wire-level empty state).
 
-- [ ] **T026 [P] [US2]** Implement `ProfileReportsHandler` (FR-011,
+- [x] **T026 [P] [US2]** Implement `ProfileReportsHandler` (FR-011,
   `GET /api/profile/reports`): per-area rows built from
   `ckit.Completion`, `p.BestAttempt(as.ID)`, `len(p.AttemptsFor(as.ID))` —
   the SAME primitives `AssessmentHandler` already uses — restricted to
@@ -436,7 +436,7 @@ the four new endpoints and no new persisted state.
   degrade-gracefully contract), since spec 013's data source does not exist
   yet (see T040's cross-spec dependency below).
 
-- [ ] **T027 [P] [US2]** Implement `ProfileAreaHandler` (FR-012,
+- [x] **T027 [P] [US2]** Implement `ProfileAreaHandler` (FR-012,
   `GET /api/profile/areas/{area}`): `{area}` validated identically to every
   other `{area}` path parameter (`passage.ParsePID`, `ErrMalformedPID`).
   Every field read verbatim from the same functions `AssessmentHandler`
@@ -447,7 +447,7 @@ the four new endpoints and no new persisted state.
   submission. `404` `ErrAreaNotFound` via the same `learningArea` resolution
   path every other `{area}`-scoped route uses (FR-020).
 
-- [ ] **T028 [US2]** Wire all four handlers into the route table alongside
+- [x] **T028 [US2]** Wire all four handlers into the route table alongside
   the existing learning routes, threading the same `LearningDeps`-shaped
   dependencies (`*learning.SessionStore`, `*api.ProgressStore`,
   `*learning.Catalog`) every existing route already receives — no new
@@ -455,7 +455,7 @@ the four new endpoints and no new persisted state.
 
 ### Backend tests
 
-- [ ] **T029 [TDD] [US2]** `profile_test.go`: two cases, since T023a makes
+- [x] **T029 [TDD] [US2]** `profile_test.go`: two cases, since T023a makes
   `account_age` depend on whether a real account exists, not just on
   activity. (a) `GET /api/profile` on a fresh, **anonymous**
   (`X-Session`-only, no account row) session → `200`,
@@ -467,17 +467,17 @@ the four new endpoints and no new persisted state.
   fixture account's real `CreatedAt` — confirming T023a's addition is
   actually wired into this handler, not merely compiled.
 
-- [ ] **T030 [TDD] [US2]** `profile_test.go`: `GET /api/profile/activity`
+- [x] **T030 [TDD] [US2]** `profile_test.go`: `GET /api/profile/activity`
   with a stored reading position AND a stored assessment attempt in the
   fixture → both entries present, sorted `at` descending, with a
   deterministic tie-break verified by two fixture events sharing a
   timestamp (spec.md's own Edge Case, not merely the happy path).
 
-- [ ] **T031 [TDD] [US2]** `profile_test.go`: `GET /api/profile/reports`
+- [x] **T031 [TDD] [US2]** `profile_test.go`: `GET /api/profile/reports`
   with no spec-013 data source wired → `ability_scores_status:
   "not_enough_data"`, never an error (FR-019).
 
-- [ ] **T032 [TDD] [US2]** `profile_test.go`: `GET /api/profile/areas/{area}`
+- [x] **T032 [TDD] [US2]** `profile_test.go`: `GET /api/profile/areas/{area}`
   for an area with two recorded attempts → `attempts` length 2,
   `best_attempt` is the higher `marked_percent` one (mirrors
   `ckit.Progress.BestAttempt`'s own existing test coverage); and for an
@@ -485,29 +485,29 @@ the four new endpoints and no new persisted state.
 
 ### Frontend (`workshop/platform/frontend/src/app/features/profile/`, NEW) *(Reconciled by 026 on 2026-10-20, D6: was `src/app/profile/`; routes in `features/profile/profile.routes.ts`, one route `profile`, appended at the END of `app.routes.ts` by the orchestrator per the single-writer rule)*
 
-- [ ] **T033 [P] [US2]** Angular route + `ProfileHeaderComponent`:
+- [x] **T033 [P] [US2]** Angular route + `ProfileHeaderComponent`:
   identity/account-age (renders "not available" for `null`, never inferred),
   overall completion percentage.
 
-- [ ] **T034 [US2]** `ActivityFeedComponent`: reverse-chronological merged
+- [x] **T034 [US2]** `ActivityFeedComponent`: reverse-chronological merged
   timeline, cursor-based pagination against T025's endpoint (SC-007 —
   renders its first page without loading the full history at once).
 
-- [ ] **T035 [US2]** Hand-rolled inline SVG chart component(s) (FR-017):
+- [x] **T035 [US2]** Hand-rolled inline SVG chart component(s) (FR-017):
   at minimum enough to satisfy Acceptance Scenario 3 (a chart summarizing
   progress/scores across ≥2 areas). No `ngx-charts` or any other new
   charting dependency introduced by default.
 
-- [ ] **T036 [US2]** Per-area reports section + "retake self-assessment"
+- [x] **T036 [US2]** Per-area reports section + "retake self-assessment"
   link per completed area (FR-015/FR-016): the link re-enters the EXISTING
   assessment submission flow — no new grading, scoring, or gating logic
   introduced on the frontend either.
 
-- [ ] **T037 [US2]** Explicit, non-error empty state for each of the four
+- [x] **T037 [US2]** Explicit, non-error empty state for each of the four
   sections (header, activity, charts, reports) independently (FR-018) — four
   separate empty-state renders, not one "page is not broken" fallback.
 
-- [ ] **T038 [TDD] [US2]** `platform/frontend` Playwright
+- [x] **T038 [TDD] [US2]** `platform/frontend` Playwright
   `profile.spec.ts` covering spec.md's User Story 2 Acceptance Scenarios
   1–4: merged timeline render, working retake link (verified by confirming
   the SAME `POST /api/areas/{area}/assessment/submit` request shape the
@@ -515,7 +515,7 @@ the four new endpoints and no new persisted state.
   with no new `package.json` dependency, and the zero-activity empty state
   across all four sections independently.
 
-- [ ] **T039 [US2]** Confirm no new frontend charting dependency was
+- [x] **T039 [US2]** Confirm no new frontend charting dependency was
   introduced: `git diff package.json package-lock.json` shows no new
   entries (FR-017's verification step, not merely a design intent).
 
@@ -539,6 +539,10 @@ the four new endpoints and no new persisted state.
   redefined here). This is a real cross-specification data dependency — the
   "correct default" in T026 is a designed placeholder, not a finished
   feature, until this task closes it.
+
+> **S10 evidence (2026-10-20, worktree `s10-015-profile`, `evidence/s10/`)**: T018-T022, T023a, T024-T039 DONE (test-first; RED captured, then GREEN).
+> Go: `internal/api` ok 82.1% pkg coverage (profile.go 96-100% per func), `pkg/learning` ok, new authstore tests pass; `cmd/workshop-server` and `pkg/authstore` T502 fail ONLY on tests that log in with the real dev seed password (env-dependent, not touched by this stream). 22/22 paired mutants CAUGHT (`evidence/s10/mutants-results.json`). Karma: 58/58, features/profile 93.7% statements. Playwright (contract mocks, preview build): 18/18 desktop+mobile incl. axe. T039: package.json/lock unchanged.
+> Deviations: T038 verifies the retake link reaches the area test and the EXISTING `GET .../assessment`; it does not submit (mocks). Profile routes need three one-line main.go hooks + app.routes/nav lines (`evidence/s10/hook-requests.md`). T023 BLOCKED (needs spec 012 T006a/FR-021). T040 BLOCKED (spec 013 read interface unmerged); reports return `not_enough_data`.
 
 **Checkpoint**: User Stories 1 AND 2 complete — this is the feature's
 legitimate MVP point per spec.md's own priority ordering (Phase 1 + Phase 2).

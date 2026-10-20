@@ -1120,6 +1120,41 @@
 .lk-toast--danger { border-inline-start-color: var(--od-danger); }
 .lk-toast--danger .lk-toast__icon { color: var(--od-danger); }
 
+/* Exit (spec 014 T003, FR-013/FR-018): `.lk-toast` historically had an
+ * entrance only. A consumer adds `.lk-toast--leaving` for one `--od-dur-base`
+ * beat before removing the node; the reduced-motion block below removes the
+ * animation entirely and the consumer then removes the node at once. */
+.lk-toast--leaving {
+  animation: lk-toast-out var(--od-dur-base) var(--od-ease-emphasized) both;
+}
+
+@keyframes lk-toast-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(8px); }
+}
+
+/* Achievement badge (spec 014 T003, FR-002/FR-011/FR-018/FR-019): composes ON
+ * `.lk-badge`, never forks it. Namespaced `lk-badge--achievement`, distinct
+ * from the platform's `pf-badge--*` family. `.is-new` is a purely decorative
+ * attention pulse for an unseen badge; the accessible name lives on the
+ * element's `aria-label`, never on this ring. */
+.lk-badge--achievement {
+  min-width: 1.75rem;
+  height: 1.75rem;
+  padding: 0 var(--od-space-2);
+  font-size: var(--od-fs-sm);
+}
+
+.lk-badge--achievement.is-new {
+  animation: lk-badge-announce var(--od-dur-slow) var(--od-ease-bounce) 2;
+}
+
+@keyframes lk-badge-announce {
+  0%   { transform: scale(1);    box-shadow: 0 0 0 0 color-mix(in srgb, var(--od-accent) 45%, transparent); }
+  60%  { transform: scale(1.12); box-shadow: 0 0 0 var(--od-space-2) color-mix(in srgb, var(--od-accent) 0%, transparent); }
+  100% { transform: scale(1);    box-shadow: 0 0 0 0 color-mix(in srgb, var(--od-accent) 0%, transparent); }
+}
+
 /* =============================================================================
  * 99. REDUCED MOTION — disable NON-ESSENTIAL motion. Final states are kept so
  *     nothing becomes invisible or unusable; only movement/looping is removed.
@@ -1168,7 +1203,9 @@
     animation: none !important;
   }
 
-  .lk-toast {
+  .lk-toast,
+  .lk-toast--leaving,
+  .lk-badge--achievement.is-new {
     animation: none !important;
   }
 }

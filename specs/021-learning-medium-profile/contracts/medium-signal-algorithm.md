@@ -13,8 +13,8 @@ type Config struct {
     D           float64 // logistic divisor, imported from pkg/scoring config (default 1.5)
     NMin        int     // graded observations required PER medium to be compared (default 8)
     GapMin      float64 // minimum mean-residual gap to name a medium (default 0.10)
-    ZLeaning    float64 // one-sided z for "leaning" (default 0.67, ~75%)
-    ZPreferred  float64 // one-sided z for "preferred" (default 1.28, ~90%)
+    ZLeaning    float64 // z for "leaning" (default 1.96 - RETUNED 2026-10-20 by SC-009 simulation, was 0.67; see research.md section 3)
+    ZPreferred  float64 // z for "preferred" (default 2.58 - RETUNED 2026-10-20, was 1.28)
     MaxObs      int     // newest rows read (default 5000)
     WindowDays  int     // 0 = all history (default 0)
 }

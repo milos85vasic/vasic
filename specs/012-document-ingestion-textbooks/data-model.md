@@ -20,19 +20,21 @@ in Phase 2, per spec.md's Assumptions.
 | `format` | string constant | `"epub"` in Phase 1; `"pdf"`, `"fb2"`, `"docx"`, `"html"` added in Phase 2 (FR-013–FR-016). |
 | `license_record` | see below | Required before ingestion; its absence refuses the entire run (FR-005). |
 
+> *(Amended 2026-10-20 after the S4 independent review, M5: the report file must be byte-identical across runs (`scripts/ingest-textbooks.sh` compares report hashes), and `recorded_at` is wall-clock. So the report's `license` object carries only the deterministic summary `{basis, basis_class, record_file}` and the full record `{basis, basis_class, recorded_by, recorded_at}` is the sibling file `<out>.license.json` (stem + `.license` + suffix). `--recorded-at` and `SOURCE_DATE_EPOCH` make it reproducible. Write order: license file, report, sidecar last. The license record is still never in the sidecar or a passage attr.)*
+
 ## License Record (operator-recorded, gates ingestion; not itself a passage)
 
-> **Reconciled by 026 on 2026-10-20 (D2): storage location decided.** The License Record is stored in the companion report file `<out>.report.json` (same directory as the sidecar; stem + `.report` + suffix) as the top-level object `license` = `{"basis": "...", "recorded_by": "...", "recorded_at": "<ISO 8601>"}`. It is never a field of the sidecar and never an `attrs` key: `cmd/ingest-transcript/main.go:161` decodes with `DisallowUnknownFields`, and `docSection` (`main.go:102-117`) declares no license field. The extractor refuses to run without `--license-basis` before reading any source byte. `pdf_textbook_sections.py:295-310` already writes the report file with a flat `license_basis` string; normalizing it to the nested object is part of T016.
+> **Reconciled by 026 on 2026-10-20 (D2), amended after the S4 review (M5): storage decided.** The License Record is stored as two sibling files next to the sidecar: the FULL record `{"basis", "basis_class", "recorded_by", "recorded_at": "<ISO 8601>"}` in `<out>.license.json` (stem + `.license` + suffix), and its deterministic summary `{"basis", "basis_class", "record_file"}` as the top-level object `license` of the companion report `<out>.report.json` (stem + `.report` + suffix). It is never a field of the sidecar and never an `attrs` key: `cmd/ingest-transcript/main.go:161` decodes with `DisallowUnknownFields`, and `docSection` declares no license field. The report must be byte-identical across runs, which is why `recorded_at`/`recorded_by` live in the license file. The extractor refuses to run without `--license-basis` before reading any source byte, and writes license file, report, sidecar last. `pdf_textbook_sections.py` writes the same two files and keeps its flat `license_basis`.
 
 An explicit statement of a textbook's license/permission basis, recorded
 **before** ingestion is attempted. FR-005 requires this field to be present
-and refuses the run otherwise; it does **not** yet require this plan to
-finalize the accepted-value enum — see "Carried-forward NEEDS CLARIFICATION"
-below.
+and refuses the run otherwise; the accepted-value vocabulary is closed (spec 026
+O-1, resolved 2026-10-20): `public-domain` | `open-license` |
+`rights-holder-permission` | `operator-directed`, written `<class>[: detail]`.
 
 | Field | Type | Notes |
 |---|---|---|
-| `basis` | string | Operator-recorded. Named examples from spec.md (not yet a finalized closed vocabulary): public domain, openly-licensed OER (e.g. CC-BY), explicit rights-holder permission. `[NEEDS CLARIFICATION: FR-005]` — the accepted-value list and any verification mechanism are not decided by this plan. |
+| `basis` | string | Operator-recorded; first token is one of the four vocabulary classes above (a bare Creative Commons id reads as `open-license`). `basis_class` is the derived class. No verification mechanism beyond the operator's statement exists. |
 | `recorded_by` | string | Operator identity, for audit purposes — mirrors how other operator-gated actions in this pipeline (e.g. `workshop` module rule 2's manifest-regeneration discipline) keep a record of who made a judgment call, not just that one was made. |
 | `recorded_at` | ISO 8601 timestamp | When the basis was recorded. |
 
@@ -227,11 +229,11 @@ task in spec 015.
 
 ## Carried-forward NEEDS CLARIFICATION (not resolved by this plan)
 
-Per spec.md, two items remain open and are **not** resolved here, per
+Per spec.md, one item remains open and is **not** resolved here, per
 §11.4.6's no-guessing mandate:
 
-1. **FR-005** — the closed set of accepted License Record `basis` values and
-   any verification mechanism beyond an operator's own recorded statement.
+1. **FR-005** — RESOLVED 2026-10-20 (spec 026 O-1): closed vocabulary above; only
+   a verification mechanism beyond the operator's recorded statement remains absent.
 2. **FR-020** — whether, and how, a textbook's own chapter/section structure
    should ever be promoted into the curated `kg_area`/`kg_lesson_section`
    knowledge layer. The research's own §5.5 recommends option 1 (never

@@ -117,3 +117,15 @@ assumes the constraint covers it).
 Badge persistence on the chapter list (014 FR-010/011 state) is client state derived from `chapter-complete` events and
 the existing `lesson_completion` tallies; no new server field. Kind-easing and any change to which questions are served
 is spec 013 T036b (deferred, O-4), not this contract.
+
+
+## Reconciled by S2 on 2026-10-20 (independent review of the first S2 commits)
+
+- **`level-up` fires once per (session, area, level).** A score oscillating across a floor (40 alternating answers
+  produced 18 "level 5" modal events) used to re-emit. A `level` column and the partial UNIQUE index
+  `(session, area, level) WHERE kind='level-up'` make each level a one-time event; the trigger rule in section 2 is
+  otherwise unchanged (upward floor crossing AND `attempt_count >= LevelUpMinAttempts`). Dropping below a level and
+  returning does NOT re-announce it.
+- **`chapter-complete`** once per (session, area) is now a partial UNIQUE index, not only a lookup.
+- **`adjusted.remedial_href`** is derived from the served row's lesson sections / citations (the area's lessons route)
+  when the wire carries no `*_study_href`, so pooled (full-disclosure or unlocked) rows have the link too.

@@ -82,3 +82,31 @@ a determined negative, matching this platform's existing `not_found`/`unavailabl
 The question bank or passage registry could not be read (mirrors `writeUnavailable`'s existing
 shape, `internal/api/chapters.go` line 1135) — never collapsed into the 404 above, per this
 project's Honest Instruments principle.
+
+
+## Reconciled by S2 on 2026-10-20 (independent review of the first S2 commits)
+
+- **Pool and progressive unlock (orchestrator decision on finding 1).** A question is eligible for
+  `next`/`submit` when it is multiple choice with an authored key AND either (a) its answer key is disclosed by
+  the open deck (`DisclosureFull`), or (b) it is part of the gated area assessment AND THIS SESSION has attempted
+  it there. (b) is per question, session-scoped and derived server-side from the authenticated session's own
+  assessment submission (`scoring.db` table `graded_attempt`, keyed by the normalised prompt); nothing a client
+  sends can set it, and an unreadable attempt record or an undetermined disclosure excludes the row (fail closed).
+  Trade-off: practice becomes available progressively as the learner takes the area assessment; a separate
+  practice-only bank (which needs a near-duplicate check, because disclosure matches on the exact normalised prompt)
+  is the follow-up. `selection.pool` states this rule on the wire.
+- **Empty state.** When the pool is empty the 404 body is
+  `{"status":"not_found","message":"...","reason":{"code":"practice_unlocks_after_assessment"|"no_gradable_questions","locked_questions":<n>}}`;
+  the first code means gradable questions exist but are not yet unlocked for this session.
+- **One live token per question.** Repeated `GET .../next` returns the SAME unconsumed, unexpired token for the
+  same question while the session's attempt count has not moved; a token minted before the count moved is refused
+  (`serving_token_invalid`, "an answer has been recorded since...").
+
+### Second reconciliation (S2, 2026-10-20, re-review)
+
+- The empty-pool 404 has THREE reason codes: `practice_unlocks_after_assessment` (gradable gated questions exist and
+  this session has not attempted them), `practice_unavailable_catalog_undetermined` (the learning catalog could not be
+  read, so no row's gradedness is known: nothing the learner does unlocks it; the message says the catalog could not be
+  read), and `no_gradable_questions`. The body also carries `reason.undetermined_questions`.
+- The unlock key is (session, AREA, normalised prompt), not the prompt alone, and only a MACHINE-GRADED assessment
+  outcome counts: attempting the free-text version of a prompt does not unlock an MCQ with the same prompt.

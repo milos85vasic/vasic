@@ -10,7 +10,7 @@ description: "Task list for Workshop Live-QA Fix Batch"
 > superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`)
 > syntax for tracking.
 
-**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`, decision D9)**: checkboxes below were reconciled against workshop HEAD `33e9760` source (not re-run). 41 tasks are ticked because the gap analysis proved them DONE with a commit or file cite (source present at HEAD; tests were not re-run by 026). NOT ticked and why: tasks whose only evidence is the git-ignored SDD ledger or `CONTINUATION.md` prose (T001-T003, T013, T019, T027, T047, T053, T059, T063, T066), every live-verify / human task (T004, T014, T016, T020, T028, T034, T040, T048, T060, T061), the PARTIAL ones and T045b (annotated in place). Spec FR status from the same analysis: FR-007 UNMET (top-20 always returned, no empty state), FR-006 PARTIAL (cosine, `min_score` 0), FR-012/FR-013/FR-014 PARTIAL (doc/code-cited first citations never write progress server-side; reload survival is `sessionStorage` only), all others MET in source. Sequencing (D10): 016-US1 (practice answer submit fix) merges BEFORE spec 013-US1 touches the same submit path (`internal/api/questions*.go`, `progress.go`). Open items carried: rebuild the frontend bundle (stale vs commits `eb691db`, `1d4cdfa`), rerun the two UNDETERMINED gates, T045b.
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`, decision D9)**: checkboxes below were reconciled against workshop HEAD `33e9760` source (not re-run). 41 tasks are ticked because the gap analysis proved them DONE with a commit or file cite (source present at HEAD; tests were not re-run by 026). NOT ticked and why: tasks whose only evidence is the git-ignored SDD ledger or `CONTINUATION.md` prose (T001-T003, T013, T059, T063, T066; T019 [frontend only], T027, T047 and T053 were ticked later by S6 with run evidence), every live-verify / human task (T004, T014, T016, T020, T028, T034, T040, T048, T060, T061), the PARTIAL ones and T045b (annotated in place). Spec FR status from the same analysis: FR-007 UNMET (top-20 always returned, no empty state), FR-006 PARTIAL (cosine, `min_score` 0), FR-012/FR-013/FR-014 PARTIAL (doc/code-cited first citations never write progress server-side; reload survival is `sessionStorage` only), all others MET in source. Sequencing (D10): 016-US1 (practice answer submit fix) merges BEFORE spec 013-US1 touches the same submit path (`internal/api/questions*.go`, `progress.go`). Open items carried: rebuild the frontend bundle (stale vs commits `eb691db`, `1d4cdfa`), rerun the two UNDETERMINED gates, T045b.
 
 **Input**: Design documents from `specs/016-workshop-live-qa-fixes/` (spec.md, plan.md,
 research.md, data-model.md, contracts/, quickstart.md)
@@ -110,6 +110,7 @@ persists.
       an answer option change any client-side state at all; (b) if selection works, does a real
       submission reach the server and what response comes back. This is step 1 of research.md's US1
       investigation approach — its output determines whether T005–T008 target one defect or two.
+      *(Stream S2 on 2026-10-20: NOT re-run live (no authenticated live access from a worktree). The defect precondition was RE-MEASURED from data instead: 62 of 292 bank questions have a first citation with no transcript time span (55 doc_section, 7 code), evidence/s2/016-us1/measure-first-citation-kinds.out; the reproduction on the backend is TestPracticeAnswer_DefectPrecondition_TimelessCitationHasNoTimeAxis. Live reproduction UNCONFIRMED.))*
 
 ### Tests for User Story 1
 
@@ -118,12 +119,13 @@ persists.
       — in the practice-question component's own spec file (exact path confirmed by T004). Run it;
       confirm it FAILS against current behavior if T004 found selection itself broken, or confirm it
       already PASSES (and skip to T006) if T004 found selection working.
-- [ ] T006 [TDD] [P] [US1] Write a failing Go test on the practice-answer submission endpoint
+- [x] T006 [TDD] [P] [US1] Write a failing Go test on the practice-answer submission endpoint
       asserting: a well-formed submission (question_id + selected_option) returns an acknowledged
       result (correct/incorrect/withheld), not a "not recorded" failure, under normal conditions —
       exact endpoint/package path confirmed by T004. Run it; confirm it FAILS if T004 found a real
       backend acknowledgment gap, or document that it already passes if T004's hypothesis (selection
       failure is the sole root cause) is confirmed.
+      *(Stream S2 on 2026-10-20: DONE, evidence: platform/backend/internal/api/practice_answers_test.go (named oracles in its header) tests a real answer endpoint, not the reading-position write. RED: evidence/s2/016-us1/016-red-backend.txt (build failure undefined api.PracticeAnswerDeps), GREEN: green-backend-api.txt; commit 4db130d on workshop worktree branch s2-016us1-013us1))*
 - [x] T007 [TDD] [P] [US1] Write a failing test for the "Send again" retry path: a retried submission
       with the SAME question_id + selected_option succeeds under normal conditions (contracts/
       practice-answer-interaction.md's idempotency clause) rather than deterministically repeating
@@ -133,7 +135,7 @@ persists.
       unreachable) renders a message DISTINGUISHABLE from the "An answer was not recorded" text this
       batch fixes — once T009/T010 land, a learner must be able to tell a real outage from a
       recurrence of this bug.
-- [ ] T008 [TDD] [US1] Write a failing test for read-back: after a successful submission, a
+- [x] T008 [TDD] [US1] Write a failing test for read-back: after a successful submission, a
       page reload/revisit (or the equivalent API read) still returns that submission's result
       (FR-014) — not reset to unsubmitted.
       *(Reconciled by 026 on 2026-10-20: PARTIAL: read-back uses browser `sessionStorage` only (`practice.component.ts:559-625`); no server-side persisted answer result across sessions.)*
@@ -141,6 +143,7 @@ persists.
       *(Reconciled by 026 on 2026-10-20: DONE, evidence: progress_practice_answer_test.go:66; spec.ts:579.)*
       *(Reconciled by 026 on 2026-10-20: DONE (weak): the Go test covers the reading-position write (`progress_practice_answer_test.go:41`), not an answer endpoint; left unticked.)*
       *(Reconciled by 026 on 2026-10-20: DONE, evidence: W 3025ee9 practice.component.spec.ts:440,453,474.)*
+      *(Stream S2 on 2026-10-20: DONE, evidence: server-side read-back across a reload and across a NEW browser session: backend TestPracticeAnswer_SurvivesReload, frontend 'FR-014 (NEW SESSION, sessionStorage gone)' in practice.component.spec.ts. RED frontend: 13 of 23 specs failing, evidence/s2/016-us1/016-red-frontend.log; GREEN 30/30; commit 4db130d))*
 
 ### Implementation for User Story 1
 
@@ -151,16 +154,20 @@ persists.
       server-side gap distinct from the selection bug) so T006 passes. **Review gate**: per plan.md's
       Review Gates, this endpoint touches every learner's every practice attempt — independent review
       required before merge regardless of how small the diff is.
+      *(Stream S2 on 2026-10-20: IMPLEMENTED, independent review PENDING (REVIEW-tagged, not self-certifiable). The 'backend acknowledgment gap' turned out to be that no answer endpoint existed at all: PUT/GET /api/areas/{area}/practice-answers (internal/api/practice_answers.go), commit 4db130d. NOTE for the reviewer: result is 'withheld' (never correct/incorrect) for gated-assessment rows so the endpoint is not an answer oracle (D9); wiring needs the one main.go line documented in cmd/workshop-server/wire_practice.go's header.))*
 - [x] T011 [US1] Fix the "Send again" retry path so T007 passes — this may require no code change at
       all if T009/T010 alone resolve it (a retry of a now-working submission naturally succeeds);
       confirm with the test either way.
-- [ ] T012 [US1] Fix the read-back path so T008 passes, if the investigation found persistence itself
+- [x] T012 [US1] Fix the read-back path so T008 passes, if the investigation found persistence itself
       (not just submission) broken.
-- [ ] T013 [US1] Run T005–T008 again; confirm all pass (GREEN). Run the full frontend and backend
+      *(Stream S2 on 2026-10-20: DONE, evidence: the read-back path is the server record (GET .../practice-answers) restored by PracticeComponent.adoptServerAnswers; sessionStorage remains the same-tab path. 5/5 frontend mutants and 7/7 backend mutants caught (evidence/s2/016-us1/mutants_*.json); commit 4db130d))*
+- [x] T013 [US1] Run T005–T008 again; confirm all pass (GREEN). Run the full frontend and backend
       suites (T002's commands) to confirm no regression elsewhere.
+      *(Stream S2 on 2026-10-20: DONE, evidence: backend internal/api + cmd/workshop-server and frontend full suite. Frontend ng test: 600 SUCCESS (green-frontend-full.txt). Backend: internal/api ok (needs WORKSHOP_HTTP_DELTA_CONTRACT in a worktree, environmental); cmd/workshop-server failing set IDENTICAL to the Wave-0 baseline (22 auth/LAN tests that need the real seed password), nothing new fails; go vet has one pre-existing failure in pkg/authstore/ensure_user_test.go))*
 - [ ] T014 [US1] Live-verify per quickstart.md's US1 scenario against the exact reported area, with
       a fresh `scripts/restart.sh` first (constitution: *A Restart Runs What Was Built*) — paste the
       real HTTP responses/UI confirmation, not a code-level pass alone.
+      *(Stream S2 on 2026-10-20: NOT DONE: live verification needs the rebuilt+restarted stack, authenticated, and a main.go hook line this stream may not apply. UNCONFIRMED. A full-route-table test with the line applied via go test -overlay passes: evidence/s2/013-us1/green-routes-with-the-main-go-line-via-overlay.txt))*
 - [x] T015 [US1] Commit (explicit paths, not a blanket add) with a message naming the root cause found
       in T004, referencing spec.md's FR-011–FR-014.
       *(Reconciled by 026 on 2026-10-20: DONE, evidence: 3025ee9, 164e2f8, aebb8ca, eacef82.)*
@@ -168,6 +175,9 @@ persists.
       *(Reconciled by 026 on 2026-10-20: DONE, evidence: W eacef82 (record() skips timeless doc/code citations: practice.component.ts:838) + aebb8ca; NOTE this is a skip, not a recording.)*
       *(Reconciled by 026 on 2026-10-20: N/A per the gap analysis: no backend change was needed; the only review evidence is the git-ignored SDD ledger, so it is left unticked.)*
       *(Reconciled by 026 on 2026-10-20: DONE, evidence: W 3025ee9 practice.component.ts (disabled-binding/pick guard decoupled from withheld key).)*
+      *(Stream S2 on 2026-10-20: DONE, commit 4db130d on workshop worktree branch s2-016us1-013us1 naming the root cause; FR-011-FR-014 referenced))*
+
+**S2 note (2026-10-20)**: BEHAVIOUR CHANGE: the practice deck no longer writes the READING POSITION (`POST /api/progress`) for transcript-cited questions; an answer is recorded via `PUT .../practice-answers/{q}` instead, so a practice answer no longer moves the Progress page's reading position. Anonymous-to-account migration does not carry practice answers (known limitation).
 
 **Checkpoint**: User Story 1 fully functional and live-verified — the platform's core assessment
 loop works end to end.
@@ -215,9 +225,10 @@ load (spec.md FR-009, FR-010, FR-017).
 - [x] T018b [US2] Add the accessible-label / keyboard-reachable / non-color-only treatment to the
       completion checkmark per FR-017 and data-model.md's Lesson/section completion state validation
       rule, if not already present.
-- [ ] T019 [US2] Run T017/T017b again; confirm GREEN. Run the frontend/backend suites to confirm no
+- [x] T019 [US2] Run T017/T017b again; confirm GREEN. Run the frontend/backend suites to confirm no
       regression, specifically including the already-fixed dedicated `/progress` page's own tests (do
       not let this fix touch that surface's passing behavior).
+      *(S6: FRONTEND PASS - `npx ng test --watch=false --karma-config=<scratch>` full suite = TOTAL 591 SUCCESS (evidence/s6/fe-full.txt), incl. area-lesson-completion + progress specs. BACKEND UNDETERMINED (reviewer comparison base vs head: the same 31 backend tests fail on both sides; only pkg/authstore moved, from a test build error to the seed-password TestT502) - go test ./... gave 5 FAIL packages: pkg/authstore (test compile error ensure_user_test.go:44, FIXED in 5302e40; its T502 test still needs the real seed password), ~20 auth/login tests in cmd/workshop-server, internal/api, pkg/authhttp (need WORKSHOP_TEST_SEED_PASSWORD = the real password), TestGateKG1 (needs superproject specs), TestCorruptWindowStoreStopsTheBoot (passes alone, fails in the full run: order-dependent). evidence/s6/backend-full.txt)*
 - [ ] T020 [US2] Live-verify per quickstart.md's US2 scenario, fresh restart first, pasted evidence.
 - [x] T021 [US2] Commit, explicit paths, referencing FR-009/FR-010/FR-017.
       *(Reconciled by 026 on 2026-10-20: DONE, evidence: b67af5f.)*
@@ -265,7 +276,8 @@ shows the designed "no recording" indicator (spec.md FR-001, FR-002, FR-017).
 - [x] T025 [US3] Fix the root cause found in T022 so T023 passes.
 - [x] T026 [US3] Implement the "no recording" indicator component (if it does not already exist) so
       T024 passes.
-- [ ] T027 [US3] Run T023/T024 again; confirm GREEN.
+- [x] T027 [US3] Run T023/T024 again; confirm GREEN.
+      *(S6: 9 RecordingState Go tests PASS (evidence/s6/t027-recording-state.txt); chapter-rail spec inside the 591-SUCCESS frontend run (fe-full.txt).)*
 - [ ] T028 [US3] Live-verify per quickstart.md's US3 scenario — INCLUDING clicking through from an
       `available` chapter's listing entry into its actual recording route (the *Published Means
       Served* cross-check in contracts/chapter-recordings-listing.md), fresh restart first, pasted
@@ -300,24 +312,26 @@ shows the designed "no recording" indicator (spec.md FR-001, FR-002, FR-017).
 - [x] T031 [TDD] [P] [US4] Write a failing test asserting the found condition (T030) no longer
       renders the literal placeholder string, and instead renders the platform's existing honest
       "content unavailable" presentation (FR-004) — exact file confirmed by T030.
-- [ ] T031b [TDD] [P] [US4] **Edge case** (spec.md): write a test asserting that while a chapter's
+- [x] T031b [TDD] [P] [US4] **Edge case** (spec.md): write a test asserting that while a chapter's
       transcription is actively being reprocessed, its segments render as "reprocessing in progress"
       (or this platform's existing equivalent in-progress state), never as the build-missing
       placeholder this story removes.
-      *(Reconciled by 026 on 2026-10-20: PARTIAL: only a "while loading" test (`passage-knowledge-gap-label.spec.ts:98`); no reprocessing-state test/UI.)*
       *(Reconciled by 026 on 2026-10-20: DONE, evidence: W 5b00c30 passage-knowledge-gap-label.spec.ts:81,113.)*
+      *(Reconciled by 026 on 2026-10-20: PARTIAL: only a "while loading" test (`passage-knowledge-gap-label.spec.ts:98`); no reprocessing-state test/UI.)* [superseded 2026-10-20 by S6 round-1 test: 503 + Retry state, never the placeholder (evidence/s6/fe-batch1.txt)]
+      *(S6: passage-knowledge-gap-label.spec.ts has a new test (503 while the registry is rebuilt -> Retry state -> recovers to content; the placeholder phrase never appears); 34/34 SUCCESS (evidence/s6/fe-batch1.txt). The platform has no separate reprocessing status; the 503+Retry state is the existing in-progress presentation. Supersedes the 026 PARTIAL note.)*
 
 ### Implementation for User Story 4
 
 - [x] T032 [US4] Fix the source found in T030 so T031 passes.
-- [ ] T033 [US4] Run T031 again; confirm GREEN. Run a full sweep (automatable: grep the rendered
+- [x] T033 [US4] Run T031 again; confirm GREEN. Run a full sweep (automatable: grep the rendered
       output / a scripted crawl of every chapter's transcript page) confirming zero remaining
       occurrences across every chapter, not just the one reproduced in T030.
+      *(S6 (round 2, supersedes the round-1 figures below; independently reviewed GO at b607bfd): internal/placeholdersweep scans source 75 frontend / 198 backend / 109 pipeline files (0 hits, 0 walk errors) and DATA = every tracked curriculum/**/*.jsonl, *.json and *.md: 30 jsonl + 126 json + 10 md files = 62458 records, 0 whole-field hits, 0 malformed, 4 in-prose (genuine speech, counted, bound 12, never quoted). It FAILS on 0 files, any walk/read error, malformed lines/json, a missing registry, a whole-field value in jsonl/json/md, and prose above the bound (vacuity modes V1-V12 all verified failing; evidence/s6/t033-sweep-v3.txt, mutants-round2.txt). Known blind spots: symlinked directories are not followed, JSON object KEYS are not scanned, a wrapped value such as "[Not in this build]" counts as prose. NOT COVERED: the rendered/served pages and platform/web bundle (the live crawl, T034, is NOT done), runtime-built text.) Round-1 text kept for the record: internal/placeholdersweep asserts named coverage: source 75 frontend / 198 backend / 109 pipeline files scanned with 0 hits and 0 walk errors; data 30 jsonl + 5 transcript.segments.json = 62327 records, 0 whole-field hits, 0 malformed, 3 in-prose (genuine speech, count only, bound 12). It FAILS on 0 files, walk errors, malformed lines or a missing registry (4 mutants killed, evidence/s6/t033-mutants-v2.txt). NOT COVERED: the rendered/served pages and platform/web bundle (the live crawl, T034, is NOT done), runtime-built text.)*
 - [ ] T034 [US4] Live-verify per quickstart.md's US4 scenario, fresh restart first, pasted evidence
       (the full-sweep result from T033, not a single-page spot-check).
 - [x] T035 [US4] Commit, explicit paths, referencing FR-003/FR-004.
       *(Reconciled by 026 on 2026-10-20: DONE, evidence: 5b00c30.)*
-      *(Reconciled by 026 on 2026-10-20: PARTIAL: no scripted crawl found in the repo.)*
+      *(Reconciled by 026 on 2026-10-20: PARTIAL: no scripted crawl found in the repo.)* [superseded 2026-10-20 by S6 automated sweep (internal/placeholdersweep); the scripted crawl of served pages is still NOT done]
       *(Reconciled by 026 on 2026-10-20: DONE, evidence: passage-knowledge.component.ts (hardcoded badge deleted, 5b00c30).)*
 
 **Checkpoint**: US4 independently functional and live-verified.
@@ -399,7 +413,8 @@ evidence).
       (constitution: *A Screen's Precision Is Not Its Recall*). Determine: genuine regression, the
       same scoping gap re-appearing for chapter 03/04 specifically, or (per T043) a
       derivation-timing artifact.
-      *(Reconciled by 026 on 2026-10-20: PARTIAL: ledger report only; prebuilt crossrefs checked: targets transcript/doc_section/code, no glossary/bookkeeping targets.)*
+      *(Reconciled by 026 on 2026-10-20: PARTIAL: ledger report only; prebuilt crossrefs checked: targets transcript/doc_section/code, no glossary/bookkeeping targets.)* [superseded 2026-10-20 by S6 target-kind tally; task remains PARTIAL, see the S6 note]
+      *(S6 (round 1): PARTIAL - NOT ticked. Established: all 692460 prebuilt gen-18 edges target only transcript_segment/doc_section/code (0 kg_* targets; scope 03 = 21360 edges, scope 04 = 280 edges), so there is no scoping regression for chapter 03/04, and the bundle is complete (every one of 34623 pids has 20 edges), so not a derivation-timing artifact. The residual defect is the unfloored min_score=0 tail (see T045b). NOT established: recall/relevance - no relevance labels exist, so the required recall-sized sample cannot be judged. Null-scope sources (518020 edges) are kg_* records, not unmatched. evidence/s6/t044-crossref-target-kind-tally-v2.txt)*
 
 ### Tests for User Story 6
 
@@ -407,18 +422,20 @@ evidence).
       day for the sibling code path, per research.md) asserting the crossref candidate population
       for a representative passage excludes bare glossary-term and bookkeeping-row targets — exact
       file confirmed by T044's root-cause finding.
-- [ ] T045b [TDD] [US6] **Edge case** (spec.md): write a test asserting that a passage with zero
+- [x] T045b [TDD] [US6] **Edge case** (spec.md): write a test asserting that a passage with zero
       genuinely related cross-references, after the scoping fix, renders an honest empty state —
       confirm the fix does not re-admit a weak/irrelevant match just to avoid an empty list (FR-007).
-      *(Reconciled by 026 on 2026-10-20: ABSENT / UNMET: no such test; prebuilt crossrefs are exactly 20 per source with min_score 0, so the empty state is unreachable by data. Decision D7 (spec 026): no MMR; use a score floor + honest empty state here.)*
       *(Reconciled by 026 on 2026-10-20: DONE, evidence: pkg/crossref/floor_population_test.go:154,191,241.)*
+      *(Reconciled by 026 on 2026-10-20: ABSENT / UNMET: no such test; prebuilt crossrefs are exactly 20 per source with min_score 0, so the empty state is unreachable by data. Decision D7 (spec 026): no MMR; use a score floor + honest empty state here.)* [superseded 2026-10-20 by S6 mechanism/tests (floor, empty state); rollout of a floor value still NOT done]
+      *(S6 (round 1): mechanism + tests done, ROLLOUT NOT DONE (shipped min_score is still 0; no default changed). pkg/crossref NullFloorSubsets (seeded, nearest-rank, finite-only; 7 mutants killed) + floor_empty_test (determined empty, no weak backfill; mutant killed) + crossrefs-empty-state.spec.ts. Measured on the gen-18 bundle with a source x target null (evidence/s6/t045b-floor-impact-v2.txt). RECOMMENDED DESIGN: per-source-kind floors at q=0.95 (sources emptied 124 of 34623 = 0.4%, edges kept 96.3%; kg_term 0.6301, transcript_segment 0.6808, doc_section 0.7217, code 0.7087) - needs a per-kind MinScore in Derive (not built); interim single floor 0.6391 (q=0.90, 0.7% emptied). A single q=0.95 floor 0.6683 empties 3.5% of sources, 1213/1214 of them kg_term, because kg_term cosines run lower. Precision bound against a null only; recall unmeasured. Operator decides quantile and regeneration. Supersedes the 026 ABSENT note.)*
 
 ### Implementation for User Story 6
 
 - [x] T046 [REVIEW] [US6] Fix the scoping gap found in T044 so T045 passes. **Review gate**: per
       plan.md's Review Gates, this touches crossref derivation/scoping code that was already changed
       once the same day — review against that earlier fix, not layered blindly on top of it.
-- [ ] T047 [US6] Run T045 again; confirm GREEN.
+- [x] T047 [US6] Run T045 again; confirm GREEN.
+      *(S6: go test ./pkg/crossref ok (incl. floor_population_test, G-XREF-24) (evidence/s6/fix-round-tests.txt).)*
 - [ ] T048 [US6] Live-verify per quickstart.md's US6 scenario — a sample large enough for an honest
       recall statement, across chapter 03/04 specifically, fresh restart first, pasted evidence
       (target-kind tally, score ranges, zero-bogus-target confirmation).
@@ -446,7 +463,8 @@ evidence).
 - [x] T052 [US7] Fix the CSS/layout (wrap, responsive width, or truncate-with-full-text-available) so
       T051 passes, across the viewport range named in spec.md's acceptance scenario (typical desktop
       and mobile).
-- [ ] T053 [US7] Run T051 again; confirm GREEN.
+- [x] T053 [US7] Run T051 again; confirm GREEN.
+      *(S6: progress-area-label-wrap.spec.ts inside 34/34 SUCCESS (fe-batch1.txt) and the 591-SUCCESS full run (fe-full.txt).)*
 - [ ] T054 [US7] Live-verify per quickstart.md's US7 scenario at multiple real viewport widths, fresh
       restart first, pasted evidence/screenshot.
 - [x] T055 [US7] Commit, explicit paths, referencing FR-008/SC-005.

@@ -30,7 +30,7 @@ An engineer implements spec 012's PDF/EPUB work from `tasks.md` without reading 
 
 1. **Given** 012's reconciled sidecar example, **When** it is compared field-by-field with `docSection` (`cmd/ingest-transcript/main.go:102-117`), **Then** every key in `sections[]` is a declared field of `docSection`.
 2. **Given** a textbook section from any format, **When** its (kind, content_type) is checked against `docContentTypes` (`cmd/ingest-transcript/content_type.go:23-29`), **Then** it is `(textbook_section, textbook)` and passes.
-3. **Given** the license record, **When** a reader looks for where it is stored, **Then** one location is named (`<out>.report.json` under the key `license`) and it is outside the decoded sidecar.
+3. **Given** the license record, **When** a reader looks for where it is stored, **Then** two named, sibling locations answer: the full record in `<out>.license.json` and its deterministic summary `{basis, basis_class, record_file}` under the key `license` of `<out>.report.json`; both are outside the decoded sidecar.
 
 ### User Story 2 - Spec 014 has a producer to consume and spec 013 owns its definition (Priority: P1)
 
@@ -56,7 +56,7 @@ An orchestrator dispatches several specs at once. Each spec's `plan.md` names wh
 
 ## Edge Cases
 
-- A decision here conflicts with an operator decision still open in the target spec (license vocabulary, per-area vs cross-curriculum ability, modal routing map): the open item stays open and is listed under Open Decisions; this feature does not close it.
+- A decision here conflicts with an operator decision still open in the target spec (per-area vs cross-curriculum ability, modal routing map): the open item stays open and is listed under Open Decisions; this feature does not close it. (The license vocabulary, formerly in this list, was resolved 2026-10-20 as O-1 by the operator's delegate and is no longer open.)
 - A reconciliation edit would change a task already ticked: ticked tasks are never edited (011 T001-T005 are left as is).
 - The gap analysis disagrees with the code: the code wins and the discrepancy is recorded in `research.md`.
 
@@ -66,7 +66,7 @@ An orchestrator dispatches several specs at once. Each spec's `plan.md` names wh
 
 - **FR-001** (D1): All textbook content from every format (PDF, EPUB, FB2, DOCX, HTML) MUST mint as `kind: textbook_section` with `content_type: textbook` under a registry scope `textbook-<slug>`. Spec 012's statements "mint as `doc_section`" and spec 015 FR-007's "use `doc_section`" are superseded; no further `passagestore.Kind` is introduced by 011-015.
 - **FR-002** (D1): Every sidecar row MUST carry `content_type`; spec 012's sidecar contract `{text, path, line_start, line_end, kind}` is extended to `{pid?, text, path, line_start, line_end, kind, content_type}` (+ optional `attrs` once 012-T006a lands).
-- **FR-003** (D2): The License Record (`basis`, `recorded_by`, `recorded_at`) MUST be stored in the companion report file `<out>.report.json` (stem + `.report` + suffix, the path `pdf_textbook_sections.py:295` already writes) under the top-level key `license`, never as a field of the sidecar or of a `sections[]` row. The extractor MUST still refuse to run without `--license-basis` before reading any source byte. The same rule applies to the Phase-3 `_failures` list (key `failures` of the report file).
+- **FR-003** (D2): The License Record MUST be stored as two sibling files next to the sidecar, never as a field of the sidecar or of a `sections[]` row: (a) the FULL record `{basis, basis_class, recorded_by, recorded_at}` in `<out>.license.json` (stem + `.license` + suffix); (b) the DETERMINISTIC summary `{basis, basis_class, record_file}` under the top-level key `license` of the companion report `<out>.report.json` (stem + `.report` + suffix, the path `pdf_textbook_sections.py` already writes). The split exists because `scripts/ingest-textbooks.sh` compares report hashes across runs and `recorded_at`/`recorded_by` are not derived from the inputs. Write order MUST be license file, report, sidecar last. The extractor MUST still refuse to run without `--license-basis` before reading any source byte. The same rule applies to the Phase-3 `failures` list (key `failures` of the report file). *(Amended 2026-10-20 after the S4 independent review, M5; the original D2 text put the full record in the report.)*
 - **FR-004** (D2): Spec 012's `attrs` passthrough (FR-021 / T006a) is retained, but its Go change MUST target the CURRENT signature `DocumentObservation(chapterSlug, text string, kind passage.Kind, contentType string, ref passage.SourceRef)` (`internal/passagestore/domain.go:642`) and the CURRENT call site `cmd/ingest-transcript/main.go:443`. `attrs` is for location metadata only; the license record MUST NOT be carried in `attrs`.
 - **FR-005** (D3): Spec 013 MUST define the achievement event stream consumed by spec 014: kinds `level-up`, `chapter-complete`, `adjusted`; payload per `specs/013-adaptive-assessment-scoring/contracts/achievement-events.md`; persisted append-only; delivered inline in the submit response and replayable through `GET /api/progress?events_after=<seq>`; idempotent per source entry.
 - **FR-006** (D3): The server wire form is snake_case (consistent with the rest of 013's contracts); spec 014's adapter (task T016) maps it to its camelCase `AchievementEvent`.
@@ -89,7 +89,7 @@ An orchestrator dispatches several specs at once. Each spec's `plan.md` names wh
 
 | ID | Decision needed | Where it lives |
 |---|---|---|
-| O-1 | License `basis` closed vocabulary (012 FR-005; 017 stores a free string; one book is `UNVERIFIED`) | 012 spec FR-005, 017 `contracts/textbook-ingestion-stage.md` |
+| O-1 | **RESOLVED 2026-10-20 by the operator's delegate (not an operator-typed decision; the operator may amend).** License `basis` closed vocabulary: `public-domain` \| `open-license` \| `rights-holder-permission` \| `operator-directed`, written `<class>[: detail]` (a bare Creative Commons id such as `CC-BY-4.0` reads as `open-license`). `UNVERIFIED`, `unknown`, empty and typos are REFUSED for EPUB (`pipeline/textbook_license.py`, enforced by `epub_sections.py`). The PDF path (`pdf_textbook_sections.py`, spec 017) is deliberately NON-ENFORCING for its legacy callers: it requires a non-empty basis and records `basis_class: null` when out of vocabulary; enforcing it there is a separate behaviour change. `operator-directed` is the class the three current books use. | 012 spec FR-005, 017 `contracts/textbook-ingestion-stage.md` |
 | O-2 | Per-area vs cross-curriculum ability score | 013 spec "Clarifications Needed", 013 T049 |
 | O-3 | Modal routing map (which events are modal-worthy) | 014 T020 |
 | O-4 | Kind-easing (route a struggling learner to an easier question kind) | deferred, owner 013, new task T036b |

@@ -84,3 +84,5 @@ Spec 017 `research.md` section 0 (corrected 2026-10-05): MMR "removed from `(*Se
 - Slug-vs-ULID resolution for `/api/areas/{area}` (gap analysis C11) not re-verified.
 - Number of remaining `DocumentObservation` call sites.
 - Whether `tesseract` is installed now (umbrella `CLAUDE.md` says yes, re-measured 2026-10-08; 012's DIA premise "not installed" is outdated): 012 FR-019 OCR is no longer environment-blocked, stated as a note in 012 only.
+
+> **Amended 2026-10-20 after the S4 independent review, M5: the report file must be byte-identical across runs (`scripts/ingest-textbooks.sh` compares report hashes), and `recorded_at` is wall-clock. So the report's `license` object carries only the deterministic summary `{basis, basis_class, record_file}` and the full record `{basis, basis_class, recorded_by, recorded_at}` is the sibling file `<out>.license.json` (stem + `.license` + suffix). `--recorded-at` and `SOURCE_DATE_EPOCH` make it reproducible. Write order: license file, report, sidecar last. The license record is still never in the sidecar or a passage attr.**

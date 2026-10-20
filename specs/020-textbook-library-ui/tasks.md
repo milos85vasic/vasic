@@ -181,7 +181,7 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
       `sourceref.RedactJSON` and does not match `search.HasSourceFilenameShape`; absent catalogue → 200 `{books:[]}` with `catalogue:"absent"` (determined negative) while unreadable/invalid →
       503 with reason; unknown id → 404; id not matching the slug pattern → 404 (never reaches the filesystem); deterministic ordering (`order` then id). **Oracle**: typed expectations + the
       Python-built golden catalogue. → RED.
-- [ ] T034 [TDD] [US2] Implement `internal/api/textbooks.go` (list + detail) using `internal/textbooks`; green with `-race`.
+- [x] T034 [TDD] [US2] Implement `internal/api/textbooks.go` (list + detail) using `internal/textbooks`; green with `-race`. — DONE s13 commit 613d0b6 (worktree s13-020-textbooks-ui): internal/api/textbooks.go, evidence/s13/run.txt
 - [ ] T035 [TDD] [US2] Implement `cmd/workshop-server/wire_textbooks.go` (NEW): `registerTextbooks(mux, cfg, loadedRegistry)`, mounted **unconditionally** (absent catalogue ⇒ determined-empty, not 404;
       §11.4.254), boot log line `textbooks: books=N sections=M state=…`; `wire_textbooks_test.go`. (`main.go` hook line is T041.)
 - [ ] T036 [TDD] [US2] [SUBAGENT] Write failing frontend specs `textbooks-model.spec.ts` + `textbooks-list.component.spec.ts` against `testing/textbooks.fixture.json`: one row per book with title, license basis
@@ -208,7 +208,7 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
       `page` equals the registry's `source_ref.line_start` (degenerate page range) and `section_title` the catalogue's; non-textbook / unknown / suppressed pid → `null` (indistinguishable bodies);
       > 50 pids → 400; malformed → 400; response unchanged by `RedactJSON`, no `path` key, `HasSourceFilenameShape` false for all citation strings of the fixture. **Oracle**: sidecar-derived expectations typed
       in the test. → RED.
-- [ ] T044 [TDD] [US3] Implement the citations handler in `internal/api/textbooks.go` (or `textbooks_citations.go`), green with `-race`.
+- [x] T044 [TDD] [US3] Implement the citations handler in `internal/api/textbooks.go` (or `textbooks_citations.go`), green with `-race`. — DONE s13 commit 613d0b6 (worktree s13-020-textbooks-ui): internal/api/textbooks.go, evidence/s13/run.txt
 - [ ] T045 [TDD] [US3] [SUBAGENT] Write failing frontend specs: `textbook-citation.component.spec.ts` (given search hits, ONE batched citations request for the textbook-kind pids on screen; renders
       "`<book> · <section> · PDF page N`" with a router link to `/textbooks/<id>/page/<N>`; accessible name; non-textbook hits untouched; a failed lookup leaves the hit unchanged with no error banner;
       a hit with `kind=textbook_section` whose citation is `null` shows "textbook (source not available)" rather than a fabricated one) and `textbook-search.component.spec.ts` (the
@@ -237,7 +237,7 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
 
 - [ ] T055 [TDD] [US4] [SUBAGENT] Write failing tests for `GET /api/textbooks/{id}/sections?offset=&limit=&chapter=` (≤ 100 per page, default 50; `offset` beyond total → empty list with `total`; `limit` clamped; `chapter` =
       a catalogue chapter index; order by page; rows carry `{pid, page, section_title}` and no text): oracle = catalogue; plus `GET /api/textbooks/{id}` chapters list. → RED.
-- [ ] T056 [TDD] [US4] Implement; green.
+- [x] T056 [TDD] [US4] Implement; green. — DONE s13 commit 613d0b6 (worktree s13-020-textbooks-ui): internal/api/textbooks.go, evidence/s13/run.txt
 - [ ] T057 [TDD] [US4] [SUBAGENT] Write failing specs `textbook-book.component.spec.ts`: chapter outline with section counts and page ranges, paging control, deep links `/textbooks/:id?chapter=`, clicking a row opens
       the page view, empty/unavailable states. → RED.
 - [ ] T058 [TDD] [US4] Implement `features/textbooks/textbook-book.component.ts`; green.

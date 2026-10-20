@@ -36,8 +36,9 @@ not a valid ZIP, or carries no `mimetype` entry).
 1. Open the EPUB as a ZIP archive; confirm the `mimetype` entry declares
    `application/epub+zip` (exit 2 if not a valid EPUB container).
 2. Parse `META-INF/container.xml` to locate the OPF package document.
-3. Parse the OPF with `ebooklib` (or `defusedxml.ElementTree` for any raw
-   XML step not delegated to `ebooklib`) to read the `<manifest>` and,
+3. Parse the OPF with the standard library (`zipfile` + `xml.etree`, through the
+   module's own guard `_safe_fromstring`; neither `ebooklib` nor `defusedxml` is
+   used) to read the `<manifest>` and,
    critically, the `<spine>` — **reading order is spine order, never
    manifest order and never directory/filename order** (FR-002, SC-002).
 4. For each spine `<itemref>` whose manifest entry is an XHTML content
@@ -56,8 +57,11 @@ not a valid ZIP, or carries no `mimetype` entry).
 7. Write the sidecar JSON to `<out.json>`.
 
 Untrusted-input handling (FR-008, edge case list): any EPUB/OPF/XHTML that
-did not originate from operator-curated, pre-vetted files is parsed with
-`defusedxml`, never bare `xml.etree.ElementTree`.
+did not originate from operator-curated, pre-vetted files is parsed ONLY through
+the module's `_safe_fromstring` guard: encoding normalised first (UTF-16 decoded,
+UTF-32 and NUL refused), comments/CDATA/processing instructions tokenised away,
+then any `<!ENTITY` declaration or DOCTYPE internal subset refused before the
+bytes reach `xml.etree`. A bare `xml.etree` call anywhere else is a defect.
 
 DRM detection (FR-009): if the EPUB cannot be parsed because it is
 DRM-wrapped (Adobe ADEPT or a Kindle proprietary scheme), the tool refuses
@@ -135,5 +139,7 @@ is unaffected by this feature shipping.
 ## Reconciliation by spec 026 (Reconciled by 026 on 2026-10-20)
 
 - **Kind**: every section is `kind: "textbook_section"`, `content_type: "textbook"` (D1). Evidence: `internal/passagestore/domain.go:71,167,198-199`, `cmd/ingest-transcript/content_type.go:23-29`.
-- **License Record**: written to `<out>.report.json` as `{"license": {"basis", "recorded_by", "recorded_at"}, "failures": [...]}` next to `<out.json>`; the sidecar itself contains only decoder-declared fields (D2). The refusal rules in "Input" above are unchanged.
+- **License Record**: written as `<out>.license.json` (full record `{basis, basis_class, recorded_by, recorded_at}`) and summarised in `<out>.report.json` as `{"license": {"basis", "basis_class", "record_file"}, "failures": [...], "skipped": [...]}` next to `<out.json>`; the sidecar itself contains only decoder-declared fields (D2, amended after the S4 review). Write order: license file, report, sidecar. The refusal rules in "Input" above are unchanged.
 - **Shared implementation**: PDF input is handled by `pipeline/pdf_textbook_sections.py`, which shares this contract's flags (`--chapter` for `--chapter-slug`, `--license-basis`) and exit codes (D8). The two CLIs' flag spelling difference (`--chapter` vs `--chapter-slug`) is to be removed when 012 is implemented by accepting both in `epub_sections.py`'s argparse; UNCONFIRMED which spelling the PDF script's callers use.
+
+- **Amended 2026-10-20 (S4 review M5)**: the report's `license` is the deterministic summary `{basis, basis_class, record_file}`; the full License Record `{basis, basis_class, recorded_by, recorded_at}` is `<out>.license.json`. Budgets (`--max-total-bytes`, `--max-sections`, `--max-sidecar-bytes`), duplicate-idref dedupe and the `skipped` report list are part of this stage's contract; refusals of those budgets exit 1 with nothing written.

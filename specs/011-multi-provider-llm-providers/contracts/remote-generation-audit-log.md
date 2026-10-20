@@ -18,7 +18,10 @@ written. Everything else in this feature (the two new provider names, the
   added to `cmd/workshop-server/main.go` beside the existing
   `-redaction-log` flag (`main.go:~501-509` region, same flag-declaration
   block as `-answer-provider` itself).
-- **Creation**: the file is created on first write if absent. It is never
+- **Creation**: the file is created (mode 0600) when the hosted provider is BUILT - the construction-time
+  probe opens it with create - so a permission fault is found at boot, not on the first request
+  (amended 2026-10-20, H1: the earlier "on first write" wording did not match the implementation).
+  An existing file that is group/other accessible is refused. It is never
   truncated, never rewritten, never reordered — append-only for the life of
   the deployment, exactly as `redactions.jsonl` is.
 - **Absence is not an error at boot.** A deployment that has never enabled
@@ -43,11 +46,29 @@ func writeAuditRecord(path string, rec RemoteGenerationAuditRecord) error
   negative requirement structural rather than conventional: there is no
   parameter through which prompt/passage/answer text COULD reach the writer.
 
+**Amended 2026-10-20 (stream S1 review fixes) - WRITE-AHEAD.** A generation attempt
+that sends prompt text writes TWO lines sharing one `id`: first an INTENT line with
+`outcome: "attempt_started"` (appended and fsynced BEFORE the text is sent; if it cannot
+be written the attempt is refused and nothing is sent), then the FINAL line with the real
+outcome and `duration_ms` (if it cannot be written the result is discarded; the intent
+line remains). Attempts that fail while the provider is being built (`credential_missing`,
+`health_check_failed`) send no text and are a single line. The `outcome` vocabulary is
+therefore SEVEN values: `attempt_started`, `success`, `health_check_failed`,
+`credential_missing`, `upstream_error`, `cancelled`, `schema_violation`. A reader pairs
+lines by `id`; an id with only `attempt_started` means "text may have left, outcome unknown".
+`endpoint` is recorded as `scheme://host[:port]` only (no userinfo, path, parameters, query or
+fragment); when no endpoint was configured it is the host of the vendor adapter's
+`LLMPROVIDER_<KEY>_BASE_URL` override the row's adapter really reads (`<KEY>` = row name, except `zen` -> `ZEN_API`), else `vendor-default`. The file is created mode 0600,
+is opened without following symlinks and must be a regular file. A record is ONE write call; a
+short write is a failure and is NOT rolled back (a truncate could delete another process's
+record), so a torn line is possible and readers MUST tolerate one. A hosted provider is not
+built at all when no audit log is configured.
+
 **Postconditions**:
 
-- Exactly one line is appended to the file, or the call returns a non-nil
-  `error` and **zero** lines are appended (no partial-line writes — the
-  writer buffers the full JSON object before any `Write` call).
+- Exactly one line is appended to the file in one write call, or the call returns a non-nil
+  `error`. (Superseded 2026-10-20: the earlier "zero lines ... no partial-line writes" wording
+  assumed a truncate-rollback that the review rejected; see the amendment above.)
 - The write is synchronous with the generation attempt it records (called
   from the same goroutine, before the caller's `Generate`/`newHostedProvider`
   returns to ITS caller) — so "the audit record exists" and "the generation
@@ -55,33 +76,38 @@ func writeAuditRecord(path string, rec RemoteGenerationAuditRecord) error
   perspective, even though this feature does not implement Story 4's
   concurrency model.
 
-**Failure handling — states the OPEN question rather than resolving it**:
+**Failure handling - DECIDED (fail closed; amended 2026-10-20, H1)**:
 
-Per spec.md's own Edge Case, whether a write failure here should fail the
-generation attempt closed (§11.4.252's general posture) or allow it to
-proceed with the failure logged through the general error path is
-**explicitly `NEEDS CLARIFICATION`** and is not decided by this contract.
-Implementation MUST pick one, mark the choice in a code comment naming this
-section, and MUST NOT silently default to fail-open without that comment
-being present — silently swallowing a write error would itself be a
-§11.4.252 fail-open anti-pattern (`catch { /* ignore */ }`) regardless of
-which side of the tradeoff the operator eventually prefers.
+The earlier text here left fail-open vs fail-closed as `NEEDS CLARIFICATION`. The implementation FAILS CLOSED
+(section 2 WRITE-AHEAD above; code comment in `pkg/answer/audit.go` names this section): an intent line that cannot be
+written refuses the attempt, a final line that cannot be written discards the result. This is an unreviewed
+default pending operator confirmation, not a ruled decision, and it is never a silent fail-open. Further
+amendments (H1): every audit write is bounded by the request deadline plus a 15 s cap (a stalled disk refuses the
+attempt rather than holding it); each record is read back after it is written and an fsync error of any kind fails
+the write; pseudo file systems (procfs, sysfs, cgroup, ...) are refused; operator-supplied strings are truncated
+on write (model 256, endpoint 256, session 128, provider 64 bytes; a cut field ends `...[truncated]`) so a line is
+at most 4 KiB; the `id` is `rg_<ts>_<16 hex digits>` (64 random bits); one record is one `Generate` call, so
+`content_bytes` is the size of ONE send even if the vendor adapter re-sends the prompt internally (retries are not
+visible to this package and are not counted).
 
 ## 3. Read contract
 
 No HTTP endpoint is added by this feature. The file is a directly operator-
 readable artifact:
 
+Each generation is TWO lines (intent + final, same `id`); count and filter by pairing on `id`, and tolerate a
+torn line (a plain `jq -c .` stops at the first one). The supported readers are `answer.ReadAuditRecords` and
+`go run ./platform/backend/cmd/answer-audit-report [-json] <file>`; the equivalent `jq` (see `docs/providers.md`
+section 3) skips torn lines with `fromjson?`:
+
 ```bash
-# Every remote-generation attempt this deployment has made:
-jq -c . curriculum/remote-generations.jsonl
+# One row per attempt, with its final outcome ("unconcluded" when only the intent line exists):
+jq -R -s -c '[split("\n")[] | fromjson? | select(.id)] | group_by(.id)[]
+             | {id: .[0].id, outcome: (map(select(.outcome != "attempt_started")) | .[0].outcome // "unconcluded")}' \
+   curriculum/remote-generations.jsonl
 
-# Attempts that did NOT succeed:
-jq -c 'select(.outcome != "success")' curriculum/remote-generations.jsonl
-
-# Count of attempts vs. count of successes, to spot-check SC-003's
-# one-record-per-attempt claim against a real test run:
-jq -s 'length' curriculum/remote-generations.jsonl
+# Number of ATTEMPTS (not lines), to spot-check SC-003's one-record-per-attempt claim:
+jq -R -s '[split("\n")[] | fromjson? | select(.id) | .id] | unique | length' curriculum/remote-generations.jsonl
 ```
 
 **Schema stability**: every object carries exactly the nine fields listed in

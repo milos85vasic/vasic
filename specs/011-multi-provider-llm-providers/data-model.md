@@ -158,7 +158,7 @@ append-only, sibling to `curriculum/redactions.jsonl`.
 
 ```jsonc
 {
-  "id": "rg_2026-09-30T14:03:11.842Z_a1b2c3d4",  // time-prefixed + random suffix,
+  "id": "rg_2026-09-30T14:03:11.842Z_a1b2c3d4e5f60718",  // time-prefixed + random suffix,
                                                    // same shape convention as
                                                    // passage IDs (sortable, unique
                                                    // without a sequence table)

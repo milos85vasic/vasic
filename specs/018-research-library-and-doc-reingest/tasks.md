@@ -27,13 +27,13 @@ submodule — never copied into the public umbrella). All paths are relative to 
 
 ## Phase 1: Setup
 
-- [ ] T001 [SETUP] Re-measure baseline B1-B10 of `spec.md` and write `evidence/018-<run>/baseline.json` (counts only):
+- [x] T001 (done s11; evidence/s11) [SETUP] Re-measure baseline B1-B10 of `spec.md` and write `evidence/018-<run>/baseline.json` (counts only):
       file counts per extension under `docs/research`, rows per `source_ref.path` prefix `docs/research` in
       `curriculum/passages.jsonl`, sidecar section counts and pid counts, `grep -c 'pid:'` per `.md`. Also resolve the
       one UNCONFIRMED: whether the 3 `pid:` occurrences in the ingestion-architecture document are anchors or prose
       (report the line numbers only, not the text). Oracle: independent `find`/`python3 -I` scan; any difference from
       the spec's numbers is recorded as a correction to `spec.md`, not silently absorbed.
-- [ ] T002 [P] [SETUP] Determine hook state: does `cmd/workshop-server` contain any `wire_*.go` or `// hook:` marker
+- [x] T002 (done s11; evidence/s11) [P] [SETUP] Determine hook state: does `cmd/workshop-server` contain any `wire_*.go` or `// hook:` marker
       (`ls`, `grep`)? Prove an isolated throwaway server launch once (`go build -o $SCRATCH/bin/workshop-server
       ./cmd/workshop-server`; run with `-http 127.0.0.1:<free port>`, scratch `-index`, a COPY of the registry, `-docs`
       pointing at a COPY of `docs/`) and record the exact command in `evidence/018-<run>/isolated-server.md`. Every
@@ -45,7 +45,7 @@ submodule — never copied into the public umbrella). All paths are relative to 
       `/api/sections/research` and record status + `counts` (resolves spec.md B6 UNCONFIRMED). Oracle: raw HTTP status
       lines saved to `evidence/…/docs-probe.json`. If the PDF/HTML of the redacted document leaks anything the
       markdown withholds → STOP and report (blocks US2).
-- [ ] T004 [SETUP] Record operator decisions Q1-Q3 (spec.md Clarifications) interactively (§11.4.66); if no answer is
+- [x] T004 (defaults Q1-Q3 applied 2026-10-20, no operator reachable; s11) [SETUP] Record operator decisions Q1-Q3 (spec.md Clarifications) interactively (§11.4.66); if no answer is
       available, record "default applied" with the date. Output `specs/018-…/decisions.md` (counts/choices only).
 - [ ] T005 [P] [SETUP] Register the long-op for the ingest (§11.4.232): create the registry row (op_id,
       purpose_key `research-reingest`, owner, pgid) in the durable long-op registry the repo uses
@@ -65,18 +65,18 @@ submodule — never copied into the public umbrella). All paths are relative to 
 `internal/api.resolveUnderRoot(root, rel string) (abs string, reason string, ok bool)`;
 frontend `library-model.ts: encodeDocId(rel) / decodeDocId(id)`.
 
-- [ ] T006 [TDD] [FOUND] Write failing tests `internal/api/library_path_test.go`: table of accepted/refused inputs.
+- [x] T006 (done s11; evidence/s11) [TDD] [FOUND] Write failing tests `internal/api/library_path_test.go`: table of accepted/refused inputs.
       Refused: `..`, `a/../b`, `/etc/passwd`, `a%2fb`, `a\\b`, NUL byte, 4096-char name, name with leading `.`,
       a symlink inside the root pointing outside (built in `t.TempDir()`), a symlink to a sibling directory with the
       same prefix (`root` vs `root-evil`, the classic prefix bug). Accepted: nested relative path, name with spaces
       and non-ASCII. **Oracle**: the stdlib `filepath.EvalSymlinks` + `filepath.Rel` result computed independently in
       the test (not by the function under test), and a hand-listed expected reason per row. Run → RED (function absent).
-- [ ] T007 [TDD] [FOUND] Implement `validateLibraryName` and `resolveUnderRoot` in `internal/api/library_path.go`
+- [x] T007 (done s11; evidence/s11) [TDD] [FOUND] Implement `validateLibraryName` and `resolveUnderRoot` in `internal/api/library_path.go`
       (NEW) to make T006 green. Rule: clean → reject separators/NUL/`..` → `EvalSymlinks` → require
       `strings.HasPrefix(abs, root+string(os.PathSeparator))` (not a bare prefix). Fail closed on any error from
       `EvalSymlinks` other than not-exist. Run `go vet` + the tests with `-race`. Commit message carries the
       mutation-marker grep (§11.4.84).
-- [ ] T008 [P] [TDD] [FOUND] Add `internal/api/library_fuzz_test.go` with `FuzzResolveUnderRoot` (seed corpus = the T006
+- [x] T008 (done s11; evidence/s11) [P] [TDD] [FOUND] Add `internal/api/library_fuzz_test.go` with `FuzzResolveUnderRoot` (seed corpus = the T006
       refusal rows). Property: for any input the function either returns `ok=false` or an absolute path whose
       `filepath.Rel(root, abs)` does not start with `..`. Run `go test -run xxx -fuzz FuzzResolveUnderRoot
       -fuzztime 60s ./internal/api` under `scripts/agent-admit.sh -m 4G`; commit the generated `testdata/fuzz`
@@ -92,7 +92,7 @@ frontend `library-model.ts: encodeDocId(rel) / decodeDocId(id)`.
 
 ### Tests first
 
-- [ ] T009 [TDD] [US1] [SUBAGENT] Write failing tests `internal/api/library_test.go` against a `t.TempDir()` tree that
+- [x] T009 (done s11; evidence/s11) [TDD] [US1] [SUBAGENT] Write failing tests `internal/api/library_test.go` against a `t.TempDir()` tree that
       mirrors the real shape (root docs with md+html+pdf, a doc with md only, nested `clients/x`, `education-platform`
       docs, `poc/` with `.py .ts .epub .txt` and a `*.sections.json`). Assertions: (a) `counts` equal an
       independently computed expectation (the test builds the tree from a table and counts the table, not the
@@ -103,14 +103,14 @@ frontend `library-model.ts: encodeDocId(rel) / decodeDocId(id)`.
       sentinel string planted in a file never appears); (h) `searchable` is `undetermined` when no registry is passed
       and `indexed`/`partial`/`not_indexed` against a fake registry. **Oracle**: the table the tree was built from + a
       golden JSON `testdata/library_golden.json`. Run → RED.
-- [ ] T010 [TDD] [US1] Implement `internal/api/library.go`: `LibraryDeps{DocsDir string, Registry
+- [x] T010 (done s11; evidence/s11) [TDD] [US1] Implement `internal/api/library.go`: `LibraryDeps{DocsDir string, Registry
       PassageLister}`, `LibraryHandler`, `enumerateLibrary`. Reuse `documentTitle` and `docsHref` from `sections.go`
       (same package; do NOT edit that file). Count passages per path once per registry load (cache keyed by the
       registry's content hash; guarded by `sync.Once`/mutex; `-race` clean). Count literal `[REDACTED]` headings per
       `.md` with a bounded line scan (first 1 MB). Make T009 green. Mount in `cmd/workshop-server/wire_library.go`
       (`registerLibrary(mux, cfg, reg)`) **unconditionally** so an unconfigured docs root is a 503, not a 404; add
       `wire_library_test.go` proving 503-vs-404 (§11.4.254).
-- [ ] T011 [P] [TDD] [US1] Add `BenchmarkEnumerateLibrary` (500-file synthetic tree) and a test asserting < 50 ms
+- [x] T011 (done s11; evidence/s11) [P] [TDD] [US1] Add `BenchmarkEnumerateLibrary` (500-file synthetic tree) and a test asserting < 50 ms
       median on the dev host (skip with a stated reason, rc 2-equivalent, if the host is loaded: PSI check from
       `agent-admit.sh`). Oracle: wall clock from `testing.B`, independent of the handler.
 - [ ] T012 [REVIEW] [US1] Independent review (separate agent, Opus xhigh) of T006-T011: path safety (try to break
@@ -120,18 +120,18 @@ frontend `library-model.ts: encodeDocId(rel) / decodeDocId(id)`.
 
 ### Frontend list
 
-- [ ] T013 [P] [TDD] [US1] Write failing unit specs `features/library/library-model.spec.ts` and
+- [x] T013 (done s11; evidence/s11) [P] [TDD] [US1] Write failing unit specs `features/library/library-model.spec.ts` and
       `library-list.component.spec.ts` against `testing/library.fixture.json` (golden copy of the contract body):
       codec round-trip incl. spaces/non-ASCII/`%`; `normaliseLibrary` rejects a body with an unknown `kind` into an
       explicit `unavailable('malformed_response')`; the list renders one row per document grouped, format chips
       present only when the href is non-null; the three states (`ready`, `empty`, `unavailable` with cause) render
       differently and `empty` never shows the unavailable text; `searchable` badge text comes from vocabulary rows.
       Oracle: the fixture's own `counts`. Run `npm run test:unit` (bounded) → RED.
-- [ ] T014 [TDD] [US1] Implement `library-model.ts`, `library-api.ts` (settled-value service, never errors on the
+- [x] T014 (done s11; evidence/s11) [TDD] [US1] Implement `library-model.ts`, `library-api.ts` (settled-value service, never errors on the
       next channel — same discipline as `core/section-api.ts`), `library-list.component.ts` (standalone, OnPush),
       `library.routes.ts` (lazy: `''` → list, `read` → reader placeholder until T017). No `innerHTML`. Make T013
       green; `npx ng build` clean.
-- [ ] T015 [P] [US1] Design-system conformance: run `npm run check-design-system && npm run check-platform-tokens`;
+- [x] T015 (done s11; evidence/s11) [P] [US1] Design-system conformance: run `npm run check-design-system && npm run check-platform-tokens`;
       add the group/format-chip styles using existing tokens only. Oracle: both gates rc 0 (they fail on vendored
       drift).
 
@@ -142,7 +142,7 @@ supporting files; `go test ./internal/api -race` and Karma green; review GO.
 
 ## Phase 4: User Story 2 — Open and read a document (P1)
 
-- [ ] T016 [TDD] [US2] [SUBAGENT] Write failing specs `library-reader.component.spec.ts`: given a doc id and a fixture
+- [x] T016 (done s11; evidence/s11) [TDD] [US2] [SUBAGENT] Write failing specs `library-reader.component.spec.ts`: given a doc id and a fixture
       markdown body, the reader (a) calls `parseMarkdown` and binds `wk-document-view`, (b) shows the heading outline,
       (c) shows the renderer's `unsupported` list when non-empty, (d) for `supporting_binary` shows the download link
       and the sentence "binary file, not previewed" and does **not** issue a text GET, (e) for `supporting_code`
@@ -150,19 +150,19 @@ supporting files; `go test ./internal/api -race` and Karma green; review GO.
       redirect path (not a local message), (g) a doc id that decodes to `..` never issues a request. A grep-style
       spec asserts the component file contains no `innerHTML` / `bypassSecurityTrust`. Oracle: fixture files + the
       HTTP testing controller's recorded requests. → RED.
-- [ ] T017 [TDD] [US2] Implement `library-reader.component.ts` (route `/library/read?doc=`), reuse
+- [x] T017 (done s11; evidence/s11) [TDD] [US2] Implement `library-reader.component.ts` (route `/library/read?doc=`), reuse
       `wk-document-view` from `features/section/document-view.component.ts` and `SectionApi.document(href)`
       semantics via `library-api.ts`. Format switcher: **Read** (in-app), **HTML** and **PDF** as `target=_blank
       rel=noopener` anchors to the `/docs/` hrefs (cookie session carries). Make T016 green.
-- [ ] T018 [P] [US2] Playwright `e2e/library.spec.ts` (desktop-chromium, `WORKSHOP_BASE_URL` = isolated server): list
+- [x] T018 (done s11, 22 passed vs run-isolated.sh; evidence/s11/logs/e2e-run.txt) [P] [US2] Playwright `e2e/library.spec.ts` (desktop-chromium, `WORKSHOP_BASE_URL` = isolated server): list
       shows the oracle counts computed from the on-disk tree by the spec itself (`fs` walk in the test, not from the
       response); each document's **Read** opens; every format anchor `request.head()` → 200; binary shows the note;
       a hand-typed `?doc=..%2f..%2fsecret` shows not-found and the server log shows no file outside the tree was opened.
       Uses `settle.ts`. → run RED first by pointing it at a server without the route, then GREEN.
-- [ ] T019 [P] [US2] Accessibility + responsive pass: extend `e2e/a11y-responsive.spec.ts` set with `/library` and
+- [x] T019 (done s11; evidence/s11) [P] [US2] Accessibility + responsive pass: extend `e2e/a11y-responsive.spec.ts` set with `/library` and
       `/library/read` (axe rules already used there), keyboard path (Tab order, skip to content), 360 px width, reduced
       motion. Oracle: axe violations = 0 at the existing severity threshold.
-- [ ] T020 [TDD] [US2] Negative-path tests (fail closed, §11.4.252) added to `library_test.go`: `GET /api/library?name=../x`,
+- [x] T020 (done s11; evidence/s11) [TDD] [US2] Negative-path tests (fail closed, §11.4.252) added to `library_test.go`: `GET /api/library?name=../x`,
       `name=research%2f..`, 10 000 concurrent-ish requests (loop) to prove no goroutine/descriptor leak (`runtime.NumGoroutine`
       before/after within a bound). Oracle: stdlib counters before/after.
 - [ ] T021 [US2] Resolve T003's outcome in code: if `/docs/` serves `.html`/`.pdf` for the redacted document with no
@@ -186,20 +186,20 @@ supporting files; `go test ./internal/api -race` and Karma green; review GO.
       sidecar, NOT into the sidecar itself, which `ingest-transcript` decodes with `DisallowUnknownFields`) differs from
       the markdown on disk → rc 1 naming the file; matching → rc 0; missing meta → rc 2. Then implement
       `pipeline/sidecar_freshness.py` (NEW). Oracle: hashes computed by the test with `hashlib` over fixture files. → RED then GREEN.
-- [ ] T024 [TDD] [US3] [SUBAGENT] Write failing `pipeline/test_research_redaction_filter.py`: fixture sidecars with (a)
+- [x] T024 (done s11; evidence/s11) [TDD] [US3] [SUBAGENT] Write failing `pipeline/test_research_redaction_filter.py`: fixture sidecars with (a)
       a row whose text is exactly `[REDACTED]`, (b) a row whose text is `## [REDACTED]`, (c) a row whose body merely
       *mentions* the word redacted in prose, (d) a row with trailing whitespace/NBSP around the literal, (e) an
       undecodable row (invalid UTF-8 bytes in the file). Expected: (a),(b),(d) dropped; (c) kept; (e) exit 2 and the
       file untouched. Also `--self-check` mode prints counts only. **Oracle**: expected survivor list typed in the
       test, never computed from the filter's own predicate. → RED.
-- [ ] T025 [TDD] [US3] Implement `pipeline/research_redaction_filter.py` (NEW, stdlib only, deterministic, writes the
+- [x] T025 (done s11; evidence/s11) [TDD] [US3] Implement `pipeline/research_redaction_filter.py` (NEW, stdlib only, deterministic, writes the
       sidecar atomically via temp+rename, prints counts only). Make T024 green. Exit 0 / 1 / 2 per
       `contracts/research-reingest-stage.md`.
-- [ ] T026 [P] [US3] Run the filter against the real `retrieval-and-grounding` sidecar COPY and record
+- [x] T026 (done s11; evidence/s11) [P] [US3] Run the filter against the real `retrieval-and-grounding` sidecar COPY and record
       `{rows_in, rows_dropped}` in `evidence/…/redaction-filter.json`. Oracle: `rows_dropped` equals the independent
       `grep -c '^## \[REDACTED\]'` count of the markdown headings (4) **or** the difference is explained row by row
       by line number (no text). Mismatch → STOP, report.
-- [ ] T027 [TDD] [US3] Write failing `scripts/ingest-research.test.sh`: (1) `--dry-run` on a fixture workshop tree
+- [x] T027 (done s11; evidence/s11) [TDD] [US3] Write failing `scripts/ingest-research.test.sh`: (1) `--dry-run` on a fixture workshop tree
       (3 tiny md docs + a mini registry) adds exactly the fixture's section count and changes 0 existing lines;
       (2) a second run reports new=0 changed=0; (3) the wrapper never contains the strings `ingest.sh` or
       `--corpus`; (4) a recording network sandbox (`unshare -n` if available, else a stub `curl`/DNS that logs and
@@ -207,16 +207,16 @@ supporting files; `go test ./internal/api -race` and Karma green; review GO.
       row without `content_type` → rc 1 naming file+row; (6) unreadable registry → rc 2; (7) pre/post sha256 of every
       `.md` equal (no anchors written). **Oracle**: line-hash comparison done by `sha256sum`/`diff` in the test, not by
       the wrapper's own report. → RED.
-- [ ] T028 [TDD] [US3] Implement `scripts/ingest-research.sh` (NEW) per `contracts/research-reingest-stage.md`:
+- [x] T028 (done s11; evidence/s11) [TDD] [US3] Implement `scripts/ingest-research.sh` (NEW) per `contracts/research-reingest-stage.md`:
       `--dry-run` (default) / `--apply` (refuses unless `WORKSHOP_ORCH=1` and a quiescent tree), uses
       `scripts/agent-admit.sh`, `pipeline/venv/bin/python`, the filter, `platform/bin/ingest-transcript … -kinds
       doc_section,code -skip-suppressed -no-write-anchors`; writes `reingest.json`. Source `scripts/_common.sh`
       conventions (three-valued exits). Make T027 green. `shellcheck`/`bash -n` clean (§11.4.67).
-- [ ] T029 [P] [TDD] [US3] Hard guard task (FR-008): add `scripts/ingest-research.guard.test.sh` that runs the wrapper
+- [x] T029 (done s11 via bwrap+strace sandbox, stronger than a listener; evidence/s11) [P] [TDD] [US3] Hard guard task (FR-008): add `scripts/ingest-research.guard.test.sh` that runs the wrapper
       under a mocked `OLLAMA_URL`/`WORKSHOP_ANSWER_PROVIDER` pointing at a local listener that records every request,
       then asserts the listener saw 0 requests and that `model_calls` in `reingest.json` is 0. Also asserts
       `ingest-transcript` was started without any `-embed*`/`-answer*` flag. Oracle: the listener's own request log.
-- [ ] T030 [US3] Idempotency + rows-only proof on a COPY of the live registry (`$SC/regcopy`): run the wrapper dry-run,
+- [x] T030 (done s11 on a copy; stage evidence: 120 rows, 0 changed, 2nd run 0/0, model_calls 0; evidence/s11/logs/stage-*) [US3] Idempotency + rows-only proof on a COPY of the live registry (`$SC/regcopy`): run the wrapper dry-run,
       compute independently with `python3 -I`: `rows_after − rows_before == 120 − excluded`, per-line sha256 of all
       pre-existing lines identical, counts by kind/content_type unchanged except the adds; run again → new=0 changed=0
       (§11.4.253). Save `reingest.json`, including `filename_shape_rows` — the count of added rows whose text matches the writeJSON
@@ -226,7 +226,7 @@ supporting files; `go test ./internal/api -race` and Karma green; review GO.
 - [ ] T031 [REVIEW] [US3] Independent review (Opus xhigh) of T024-T030: could a `[REDACTED]` section slip through
       (try variants), is the guard test able to fail (does the reviewer's deliberately broken wrapper make it red),
       does the wrapper ever write inside the live tree on `--dry-run`. Verdict with `finding_layer`.
-- [ ] T032 [TDD] [US3] Paired mutation gates (CLAUDE.md §1.1): `platform/gates/verify-research-reingest.sh` (asserts the
+- [x] T032 (done s11; evidence/s11) [TDD] [US3] Paired mutation gates (CLAUDE.md §1.1): `platform/gates/verify-research-reingest.sh` (asserts the
       four invariants over a `reingest.json`: changed=0, second run 0/0, model_calls=0, redacted_minted=0) and
       `prove-research-reingest-mutation.sh` which feeds it (i) a `reingest.json` with `changed_existing_rows: 1`,
       (ii) a doctored wrapper that minted a literal `[REDACTED]` section, (iii) a wrapper that issues one HTTP call;
@@ -255,14 +255,14 @@ supporting files; `go test ./internal/api -race` and Karma green; review GO.
 
 ## Phase 6: User Story 4 — Find the Library and search within it (P3)
 
-- [ ] T036a [TDD] [US4] [SUBAGENT] Write failing `internal/api/library_sources_test.go` for `GET /api/library/sources`
+- [x] T036a (done s11; evidence/s11) [TDD] [US4] [SUBAGENT] Write failing `internal/api/library_sources_test.go` for `GET /api/library/sources`
       (FR-016, `contracts/library-api.md`): table over a fake registry + temp tree — a pid whose `source_ref.path` is a listed
       research document → `{id,title}`; a pid for a non-research doc (`docs/manual.md`) → `document:null`; unknown pid →
       null; suppressed pid → null **indistinguishable** from unknown (byte-equal bodies apart from the pid); 51 pids →
       400; malformed pid → 400; a path that escapes the root via `..` or a symlink → null; response bytes are unchanged
       by `sourceref.RedactJSON` (call it in the test: output == input, no key `path`/`source_ref`). **Oracle**: expected
       table typed in the test; the redactor invariance uses the real package, independent of the handler. → RED.
-- [ ] T036b [TDD] [US4] Implement `internal/api/library_sources.go` (NEW) and mount it in `wire_library.go`; reuses
+- [x] T036b (done s11; evidence/s11) [TDD] [US4] Implement `internal/api/library_sources.go` (NEW) and mount it in `wire_library.go`; reuses
       `resolveUnderRoot` (T007) and the listing's membership test; green with `-race`; included in T012-style
       review scope (reviewer of T037 re-checks it).
 - [ ] T036 [TDD] [US4] Write failing specs: `library-search.spec.ts` (title filter narrows client-side with no HTTP
@@ -294,13 +294,13 @@ supporting files; `go test ./internal/api -race` and Karma green; review GO.
 
 ## Phase 7: Polish & Cross-Cutting
 
-- [ ] T041 [P] [POLISH] Observability (§11.4.260): `registerLibrary` logs one structured line at boot
+- [x] T041 (done s11; evidence/s11) [P] [POLISH] Observability (§11.4.260): `registerLibrary` logs one structured line at boot
       (`library: root=<basename> documents=N supporting=M undetermined=K`) and the handler logs request duration at
       debug level. Test: boot the isolated server and assert the line (counts only).
-- [ ] T042 [P] [POLISH] Coverage: run the project's real Go coverage instrument on `internal/api` library files and
+- [x] T042 (done s11; evidence/s11) [P] [POLISH] Coverage: run the project's real Go coverage instrument on `internal/api` library files and
       the Karma coverage on `features/library`; record the percentages (floor ≥ 85%, §11.4.224). Coverage is necessary,
       never sufficient — the report states that sentence.
-- [ ] T043 [P] [POLISH] Paired mutation for the listing: `platform/gates/verify-library-listing.sh` (compares the
+- [x] T043 (done s11; evidence/s11) [P] [POLISH] Paired mutation for the listing: `platform/gates/verify-library-listing.sh` (compares the
       live/isolated `/api/library` against a `find` oracle: documents, supporting files, every href HEAD 200,
       no `.sections.json`) and `prove-library-listing-mutation.sh` (mutants: handler lists `.sections.json`; handler
       accepts `..`; handler drops the `pdf` format; each MUST turn the gate red).
@@ -317,15 +317,15 @@ supporting files; `go test ./internal/api -race` and Karma green; review GO.
       sign in → header **Library** → see "9 documents · 5 supporting files" → open the Jordan client document → open
       its PDF → return → search for a term from it → hit card shows the document and link → open it. Each step has an
       expected on-screen text/element and the operator ticks it. Screenshots are stored in the private submodule only.
-- [ ] T046 [P] [POLISH] User manual `docs/library.md` (§11.4.257): what the Library is, who sees what, formats, the
+- [x] T046 (done s11; evidence/s11) [P] [POLISH] User manual `docs/library.md` (§11.4.257): what the Library is, who sees what, formats, the
       searchable badge, withheld sections, limits. No private content quoted; paths and counts only.
-- [ ] T047 [P] [POLISH] Task guide `docs/guides/library-open-a-research-document.md`.
+- [x] T047 (done s11; evidence/s11) [P] [POLISH] Task guide `docs/guides/library-open-a-research-document.md`.
 - [ ] T048 [P] [POLISH] Task guide `docs/guides/library-find-a-term-in-research.md`.
-- [ ] T049 [P] [POLISH] Task guide (operator) `docs/guides/library-add-or-reingest-a-research-document.md` — the
+- [x] T049 (done s11; evidence/s11) [P] [POLISH] Task guide (operator) `docs/guides/library-add-or-reingest-a-research-document.md` — the
       `ingest-research.sh` dry-run/apply/rollback procedure.
-- [ ] T050 [P] [POLISH] FAQ additions to `docs/faq.md` (why a document is `partial`, why a section shows as withheld,
+- [x] T050 (done s11; evidence/s11) [P] [POLISH] FAQ additions to `docs/faq.md` (why a document is `partial`, why a section shows as withheld,
       why the PDF opens in a new tab, who can see the Jordan document, how to hide one).
-- [ ] T051 [P] [POLISH] Four diagram classes embedded at point of use (§11.4.258), Mermaid fenced blocks in
+- [x] T051 (done s11; evidence/s11) [P] [POLISH] Four diagram classes embedded at point of use (§11.4.258), Mermaid fenced blocks in
       `docs/library.md`: **architecture** (browser ↔ `/api/library` ↔ docs root ↔ registry; `/docs/` byte path),
       **data-flow** (docs tree → sidecar → filter → ingest-transcript → registry → search → library badge),
       **state machine** (document `searchable` states and the withheld flag; list-page load states ready/empty/unavailable),

@@ -46,3 +46,13 @@ reload or revisit — not an empty/reset state.
 - It does not change the existing withheld-answer-key design (the ~98%-of-questions
   answer-withholding behavior already shipped and verified working) — only the broken
   selection/acknowledgment/retry path around it.
+
+
+## Reconciled by S2 on 2026-10-20: the answer record (`PUT/GET /api/areas/{area}/practice-answers`)
+
+The submission/read-back contract above is realised by `PUT /api/areas/{area}/practice-answers/{question}`
+(idempotent upsert; an identical resend is `replay: true`) and `GET /api/areas/{area}/practice-answers`. Refusals:
+`400 malformed_pid` / `unknown_parameter` (unknown JSON keys included), `404 question_not_found` (not in the bank,
+not in this area, or not served by the deck), `413 practice_answers_full` (the session already holds the per-session
+maximum of 5000 distinct answered questions; changing an existing answer is still allowed), `503` when the store, bank
+or registry cannot be read (never an empty 200).
