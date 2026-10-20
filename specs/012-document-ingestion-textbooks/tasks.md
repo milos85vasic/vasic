@@ -275,7 +275,7 @@ description: "Task list for feature 012: Document Ingestion for Textbooks (EPUB 
 
   **Why this fix is not required for Phase 1/2/3 of this feature to work correctly**: because `.xhtml` is absent today, EPUB's spine documents correctly fall back to sidecar-only anchoring (the `AnchorSidecar` path) per spec.md's own edge-case note — this is explicitly the **known-good** path already used in production for transcript segments, not a degraded one. Landing this submodule fix would only let a FUTURE revision of `epub_sections.py` opt into inline anchors for `.xhtml` sources if ever desired; no Phase A/B/C task in this file depends on it.
 
-  *(S8 2026-10-20: implemented in the passage worktree /home/milosvasic/Projects/vasic-wt/s8-012d-passage branch s8-012d, commit e310c45: `.xhtml` case added to `SyntaxForPath`; RED observed first, then `go test ./...` ok, 82.8% cover; NOT pushed/tagged; the gitlink bump + helix-deps ref remain an operator/orchestrator decision. Proposed passage v0.3.0 (additive).)*
+  *(S8 2026-10-20: implemented in the passage worktree ~/Projects/vasic-wt/s8-012d-passage branch s8-012d, commit e310c45: `.xhtml` case added to `SyntaxForPath`; RED observed first, then `go test ./...` ok, 82.8% cover; NOT pushed/tagged; the gitlink bump + helix-deps ref remain an operator/orchestrator decision. Proposed passage v0.3.0 (additive).)*
 
 ---
 
