@@ -176,19 +176,19 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
 
 ## Phase 4: User Story 2 — `/textbooks` lists each ingested book (P1)
 
-- [ ] T033 [TDD] [US2] [SUBAGENT] Write failing `internal/api/textbooks_test.go` for `GET /api/textbooks` and `GET /api/textbooks/{id}` (`contracts/textbooks-api.md`): shape; counts equal the
+- [x] T033 [TDD] [US2] [SUBAGENT] Write failing `internal/api/textbooks_test.go` for `GET /api/textbooks` and `GET /api/textbooks/{id}` (`contracts/textbooks-api.md`): shape; counts equal the
       catalogue joined with the fake registry; `state` ∈ `ingested|partial|not_ingested`; `license_basis` echoed verbatim from the catalogue; no key named `path`/`source_ref`/`filename`; the body is unchanged by
       `sourceref.RedactJSON` and does not match `search.HasSourceFilenameShape`; absent catalogue → 200 `{books:[]}` with `catalogue:"absent"` (determined negative) while unreadable/invalid →
       503 with reason; unknown id → 404; id not matching the slug pattern → 404 (never reaches the filesystem); deterministic ordering (`order` then id). **Oracle**: typed expectations + the
-      Python-built golden catalogue. → RED.
+      Python-built golden catalogue. → RED. — DONE s13: tests in internal/api/textbooks_test.go (shape, counts, state, RedactJSON-unchanged, filename-shape false, absent/invalid/503, 404s, order-then-id). Oracle weaker than text: typed fixture, no Python-built golden catalogue (S7 tool not available). Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
 - [x] T034 [TDD] [US2] Implement `internal/api/textbooks.go` (list + detail) using `internal/textbooks`; green with `-race`. — DONE s13 commit 613d0b6 (worktree s13-020-textbooks-ui): internal/api/textbooks.go, evidence/s13/run.txt
-- [ ] T035 [TDD] [US2] Implement `cmd/workshop-server/wire_textbooks.go` (NEW): `registerTextbooks(mux, cfg, loadedRegistry)`, mounted **unconditionally** (absent catalogue ⇒ determined-empty, not 404;
-      §11.4.254), boot log line `textbooks: books=N sections=M state=…`; `wire_textbooks_test.go`. (`main.go` hook line is T041.)
-- [ ] T036 [TDD] [US2] [SUBAGENT] Write failing frontend specs `textbooks-model.spec.ts` + `textbooks-list.component.spec.ts` against `testing/textbooks.fixture.json`: one row per book with title, license basis
+- [x] T035 [TDD] [US2] Implement `cmd/workshop-server/wire_textbooks.go` (NEW): `registerTextbooks(mux, cfg, loadedRegistry)`, mounted **unconditionally** (absent catalogue ⇒ determined-empty, not 404;
+      §11.4.254), boot log line `textbooks: books=N sections=M state=…`; `wire_textbooks_test.go`. (`main.go` hook line is T041.) — DONE s13: wire_textbooks.go + wire_textbooks_test.go; unconditional mount; boot line `textbooks: books=N sections=M diagrams=D state=...`. Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
+- [x] T036 [TDD] [US2] [SUBAGENT] Write failing frontend specs `textbooks-model.spec.ts` + `textbooks-list.component.spec.ts` against `testing/textbooks.fixture.json`: one row per book with title, license basis
       (shown as stated, with the label "License basis"), section count, diagram count, page count, state badge; `not_ingested` shows "catalogued, not yet live" (never a count of 0 that looks like an
-      empty book); empty and unavailable states differ; no raw status codes in the UI; counts formatted. Oracle: fixture numbers. → RED.
-- [ ] T037 [TDD] [US2] Implement `features/textbooks/{textbooks.routes.ts,textbooks-api.ts,textbooks-model.ts,textbooks-list.component.ts}` (standalone, OnPush, no `innerHTML`). Green; `ng build` clean;
-      `check-design-system` + `check-platform-tokens` rc 0.
+      empty book); empty and unavailable states differ; no raw status codes in the UI; counts formatted. Oracle: fixture numbers. → RED. — DONE s13: specs green; DEVIATION: fixture is testing/textbooks.fixture.ts (typed TS), not .json; 'Catalogued, not yet live' + formatted counts covered. Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
+- [x] T037 [TDD] [US2] Implement `features/textbooks/{textbooks.routes.ts,textbooks-api.ts,textbooks-model.ts,textbooks-list.component.ts}` (standalone, OnPush, no `innerHTML`). Green; `ng build` clean;
+      `check-design-system` + `check-platform-tokens` rc 0. — DONE s13: ng build production AOT rc0 (hooks applied in scratch copy); sync-learning-kit/sync-platform-tokens/verify-literal-values rc0. Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
 - [ ] T038 [P] [US2] Playwright `e2e/textbooks.spec.ts` (isolated server): the spec reads `curriculum/textbooks/catalogue.json` itself (node `fs`) and independently counts `textbook_section` rows in the
       served registry copy with a line scan, then asserts the page shows the same titles and numbers; license basis string equals `books.json`'s.
 - [ ] T039 [P] [US2] a11y/responsive pass (extend `a11y-responsive.spec.ts` with `/textbooks`).
@@ -204,29 +204,29 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
 
 ## Phase 5: User Story 3 — Search results carry a usable citation (P1)
 
-- [ ] T043 [TDD] [US3] [SUBAGENT] Write failing tests for `GET /api/textbooks/citations?pids=<csv>` (`contracts/textbooks-api.md`): pid of a live textbook row → `{book_id, book_title, section_title, page}` where
+- [x] T043 [TDD] [US3] [SUBAGENT] Write failing tests for `GET /api/textbooks/citations?pids=<csv>` (`contracts/textbooks-api.md`): pid of a live textbook row → `{book_id, book_title, section_title, page}` where
       `page` equals the registry's `source_ref.line_start` (degenerate page range) and `section_title` the catalogue's; non-textbook / unknown / suppressed pid → `null` (indistinguishable bodies);
       > 50 pids → 400; malformed → 400; response unchanged by `RedactJSON`, no `path` key, `HasSourceFilenameShape` false for all citation strings of the fixture. **Oracle**: sidecar-derived expectations typed
-      in the test. → RED.
+      in the test. → RED. — DONE s13: citation tests incl. null-identical, >50 / malformed 400, RedactJSON + filename-shape invariants. Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
 - [x] T044 [TDD] [US3] Implement the citations handler in `internal/api/textbooks.go` (or `textbooks_citations.go`), green with `-race`. — DONE s13 commit 613d0b6 (worktree s13-020-textbooks-ui): internal/api/textbooks.go, evidence/s13/run.txt
-- [ ] T045 [TDD] [US3] [SUBAGENT] Write failing frontend specs: `textbook-citation.component.spec.ts` (given search hits, ONE batched citations request for the textbook-kind pids on screen; renders
+- [x] T045 [TDD] [US3] [SUBAGENT] Write failing frontend specs: `textbook-citation.component.spec.ts` (given search hits, ONE batched citations request for the textbook-kind pids on screen; renders
       "`<book> · <section> · PDF page N`" with a router link to `/textbooks/<id>/page/<N>`; accessible name; non-textbook hits untouched; a failed lookup leaves the hit unchanged with no error banner;
       a hit with `kind=textbook_section` whose citation is `null` shows "textbook (source not available)" rather than a fabricated one) and `textbook-search.component.spec.ts` (the
-      "Search textbooks" box calls `/api/search?content_type=textbook`, shows the facet in plain words, empty vs failed states). Oracle: `HttpTestingController` log + fixtures. → RED.
-- [ ] T046 [TDD] [US3] Implement `features/textbooks/textbook-citation.component.ts` and `textbook-search.component.ts`; green.
-- [ ] T047 [TDD] [US3] [SUBAGENT] Write failing tests for `GET /api/textbooks/{id}/pages/{n}` (`contracts/textbooks-api.md`): returns `{book_id, page, pid, section_title, prev, next, diagrams:[index…]}`
+      "Search textbooks" box calls `/api/search?content_type=textbook`, shows the facet in plain words, empty vs failed states). Oracle: `HttpTestingController` log + fixtures. → RED. — DONE s13: textbook-citation + textbook-search specs (one batched request, router link /textbooks/<id>/page/<N>, fallback 'textbook (source not available)', failed lookup silent). Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
+- [x] T046 [TDD] [US3] Implement `features/textbooks/textbook-citation.component.ts` and `textbook-search.component.ts`; green. — DONE s13: components implemented, green. Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
+- [x] T047 [TDD] [US3] [SUBAGENT] Write failing tests for `GET /api/textbooks/{id}/pages/{n}` (`contracts/textbooks-api.md`): returns `{book_id, page, pid, section_title, prev, next, diagrams:[index…]}`
       without text (text stays on the single `/api/passages/{pid}` path so the suppression/publication guards remain the only gate); `n` not an integer or < 1 or > `total_pages` → 400/404 per contract;
-      a page with no extractable text (skipped stub) → 404 `page_has_no_text` (determined negative); `prev`/`next` skip such gaps and are `null` at the ends. → RED.
-- [ ] T048 [TDD] [US3] Implement the page endpoint; green.
-- [ ] T049 [TDD] [US3] [SUBAGENT] Write failing specs `textbook-page.component.spec.ts`: header "`<book> · <section> · PDF page N`"; page text loaded through `WorkshopApi.passage(pid)`; the 410
+      a page with no extractable text (skipped stub) → 404 `page_has_no_text` (determined negative); `prev`/`next` skip such gaps and are `null` at the ends. → RED. — DONE s13: page endpoint tests (shape, no text, 400/404 page_out_of_range/page_has_no_text, neighbours skip gaps, suppressed page keeps place, 503, withheld guard). Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
+- [x] T048 [TDD] [US3] Implement the page endpoint; green. — DONE s13: Page handler in internal/api/textbooks.go; 5 page mutants caught. Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
+- [x] T049 [TDD] [US3] [SUBAGENT] Write failing specs `textbook-page.component.spec.ts`: header "`<book> · <section> · PDF page N`"; page text loaded through `WorkshopApi.passage(pid)`; the 410
       `withheld` case (spec.md B11 pages) renders the plain-English sentence from the vocabulary rows ("This page cannot be shown here because it contains a file name the server never discloses") with
-      prev/next still working; prev/next links; figures strip placeholder; deep link reload works. → RED.
-- [ ] T050 [TDD] [US3] Implement `features/textbooks/textbook-page.component.ts`; green.
+      prev/next still working; prev/next links; figures strip placeholder; deep link reload works. → RED. — DONE s13: textbook-page.component.spec.ts. DEVIATION: text read through TextbooksApi.passageText (own HttpClient call to the same /api/passages/{pid}), not WorkshopApi.passage, to split 410 withheld vs redacted; vocabulary rows not added (inline sentence; hook requested). Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
+- [x] T050 [TDD] [US3] Implement `features/textbooks/textbook-page.component.ts`; green. — DONE s13: textbook-page.component.ts, green; e2e real-server page flow passes. Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
 - [ ] T051 [ORCH] [US3] Hooks: `<wk-textbook-citation>` in the search hit card and in the passage page (one line each, reviewed first — T053), vocabulary rows for the new sentences.
 - [ ] T052 [P] [US3] Playwright `e2e/textbook-citation.spec.ts`: search for a term chosen by the spec from the sidecar (hashed in logs); the hit shows the citation; click opens the page view; the page
       number displayed equals the sidecar's `line_start` read by the spec itself; prev/next reach adjacent pages; keyboard path works.
 - [ ] T053 [REVIEW] [US3] Review (Opus xhigh): citation honesty (PDF page index vs printed page label — the UI says "PDF page"), the by-pid resolver as an enumeration oracle (suppressed vs unknown
-      indistinguishable), hook lines, the 410 path. Verdict file.
+      indistinguishable), hook lines, the 410 path. Verdict file. **OPEN ITEM L1 (s13 review, design decision, behaviour NOT changed):** section titles and page numbers of SUPPRESSED pages are still served by /sections and /pages (titles are catalogue data, tracked in git); only text and citations are suppressed. Decide whether a suppressed page's title must also be withheld.
 - [ ] T054 [US3] **UI-visible acceptance US3 (operator watches)**: search a term → the hit reads "book · section · PDF page N" → click → the page opens at page N with its text → follow "next page".
 
 **Checkpoint US3**: a search hit from a book names the book, section and page, and opens that page.
@@ -235,12 +235,12 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
 
 ## Phase 6: User Story 4 — Browse the sections of a book (P2)
 
-- [ ] T055 [TDD] [US4] [SUBAGENT] Write failing tests for `GET /api/textbooks/{id}/sections?offset=&limit=&chapter=` (≤ 100 per page, default 50; `offset` beyond total → empty list with `total`; `limit` clamped; `chapter` =
-      a catalogue chapter index; order by page; rows carry `{pid, page, section_title}` and no text): oracle = catalogue; plus `GET /api/textbooks/{id}` chapters list. → RED.
+- [x] T055 [TDD] [US4] [SUBAGENT] Write failing tests for `GET /api/textbooks/{id}/sections?offset=&limit=&chapter=` (≤ 100 per page, default 50; `offset` beyond total → empty list with `total`; `limit` clamped; `chapter` =
+      a catalogue chapter index; order by page; rows carry `{pid, page, section_title}` and no text): oracle = catalogue; plus `GET /api/textbooks/{id}` chapters list. → RED. — DONE s13: sections/detail tests; row key is `title` per contracts/textbooks-api.md (task text says section_title). Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
 - [x] T056 [TDD] [US4] Implement; green. — DONE s13 commit 613d0b6 (worktree s13-020-textbooks-ui): internal/api/textbooks.go, evidence/s13/run.txt
-- [ ] T057 [TDD] [US4] [SUBAGENT] Write failing specs `textbook-book.component.spec.ts`: chapter outline with section counts and page ranges, paging control, deep links `/textbooks/:id?chapter=`, clicking a row opens
-      the page view, empty/unavailable states. → RED.
-- [ ] T058 [TDD] [US4] Implement `features/textbooks/textbook-book.component.ts`; green.
+- [x] T057 [TDD] [US4] [SUBAGENT] Write failing specs `textbook-book.component.spec.ts`: chapter outline with section counts and page ranges, paging control, deep links `/textbooks/:id?chapter=`, clicking a row opens
+      the page view, empty/unavailable states. → RED. — DONE s13: textbook-book.component.spec.ts (outline counts+ranges, paging, ?chapter deep link, row -> page view, empty/unavailable/withheld). Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
+- [x] T058 [TDD] [US4] Implement `features/textbooks/textbook-book.component.ts`; green. — DONE s13: implemented, green. Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
 - [ ] T059 [P] [US4] Playwright: outline totals equal the catalogue; paging covers every section exactly once (union of pages == all pids, no duplicates); a chapter link filters.
 - [ ] T060 [US4] **UI-visible acceptance US4**: open a book → chapter outline → open a chapter → open a section.
 

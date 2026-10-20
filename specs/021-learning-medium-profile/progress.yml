@@ -1,0 +1,18 @@
+spec: 021-learning-medium-profile
+stream: S16
+updated: 2026-10-21
+branch: s16-021-medium (workshop worktree)
+done:
+  - pure algorithm, oracle, simulation (T009-T014, T016-T024, T026-T027)
+  - side store and API against the ResponseSource interface (T035-T039, T046-T047)
+  - frontend features/medium with Karma (T032, T041, T048)
+  - docs and diagram sources (T053-T059)
+partial:
+  - T029/T030/T040: handlers exist; wiring to the real 013 store and the 013 adapter are BLOCKED:013 (stub returns scoring_store_absent)
+  - T043-T045: kind filter and hint components built; slots in area/practice components need orchestrator hooks; e2e skeleton skips with reasons
+blocked:
+  - T028, T031, T034, T049, T052 (013); T048a (OD-2 = no)
+not_started:
+  - T001-T008 research and review rows, T015, T025, T042, T050-T052, T060-T064
+open_decisions:
+  - OD-1 thresholds retuned (z 1.96/2.58); power bound at 30/format missed, see research.md 3.1

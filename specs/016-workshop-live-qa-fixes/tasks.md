@@ -169,6 +169,7 @@ persists.
       real HTTP responses/UI confirmation, not a code-level pass alone.
       *(Stream S2 on 2026-10-20: NOT DONE: live verification needs the rebuilt+restarted stack, authenticated, and a main.go hook line this stream may not apply. UNCONFIRMED. A full-route-table test with the line applied via go test -overlay passes: evidence/s2/013-us1/green-routes-with-the-main-go-line-via-overlay.txt))*
 - [x] T015 [US1] Commit (explicit paths, not a blanket add) with a message naming the root cause found
+- [x] T015b [US1] *(S2 round 5, 2026-10-20, amendment recorded in contracts/practice-answer-interaction.md)* Replace the client-side restart marker by a SERVER-OWNED run pass: `POST .../practice-answers/restart`, `pass` on every record and in the GET/PUT replies, `409 pass_stale`. Evidence: `evidence/s2/review-fixes/round5/` in the workshop repository (RED -> GREEN, paired mutants, Karma 4 orders).
       in T004, referencing spec.md's FR-011–FR-014.
       *(Reconciled by 026 on 2026-10-20: DONE, evidence: 3025ee9, 164e2f8, aebb8ca, eacef82.)*
       *(Reconciled by 026 on 2026-10-20: PARTIAL: `sessionStorage` only (W 164e2f8).)*

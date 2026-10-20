@@ -447,7 +447,7 @@ the four new endpoints and no new persisted state.
   submission. `404` `ErrAreaNotFound` via the same `learningArea` resolution
   path every other `{area}`-scoped route uses (FR-020).
 
-- [x] **T028 [US2]** Wire all four handlers into the route table alongside
+- [ ] **T028 [US2]** Wire all four handlers into the route table alongside
   the existing learning routes, threading the same `LearningDeps`-shaped
   dependencies (`*learning.SessionStore`, `*api.ProgressStore`,
   `*learning.Catalog`) every existing route already receives — no new
@@ -507,7 +507,7 @@ the four new endpoints and no new persisted state.
   sections (header, activity, charts, reports) independently (FR-018) — four
   separate empty-state renders, not one "page is not broken" fallback.
 
-- [x] **T038 [TDD] [US2]** `platform/frontend` Playwright
+- [ ] **T038 [TDD] [US2]** `platform/frontend` Playwright
   `profile.spec.ts` covering spec.md's User Story 2 Acceptance Scenarios
   1–4: merged timeline render, working retake link (verified by confirming
   the SAME `POST /api/areas/{area}/assessment/submit` request shape the
@@ -540,9 +540,12 @@ the four new endpoints and no new persisted state.
   "correct default" in T026 is a designed placeholder, not a finished
   feature, until this task closes it.
 
-> **S10 evidence (2026-10-20, worktree `s10-015-profile`, `evidence/s10/`)**: T018-T022, T023a, T024-T039 DONE (test-first; RED captured, then GREEN).
-> Go: `internal/api` ok 82.1% pkg coverage (profile.go 96-100% per func), `pkg/learning` ok, new authstore tests pass; `cmd/workshop-server` and `pkg/authstore` T502 fail ONLY on tests that log in with the real dev seed password (env-dependent, not touched by this stream). 22/22 paired mutants CAUGHT (`evidence/s10/mutants-results.json`). Karma: 58/58, features/profile 93.7% statements. Playwright (contract mocks, preview build): 18/18 desktop+mobile incl. axe. T039: package.json/lock unchanged.
-> Deviations: T038 verifies the retake link reaches the area test and the EXISTING `GET .../assessment`; it does not submit (mocks). Profile routes need three one-line main.go hooks + app.routes/nav lines (`evidence/s10/hook-requests.md`). T023 BLOCKED (needs spec 012 T006a/FR-021). T040 BLOCKED (spec 013 read interface unmerged); reports return `not_enough_data`.
+> **S10 evidence (2026-10-20, worktree `s10-015-profile`, `evidence/s10/`) - REVISED after independent review (NO-GO) fix round**:
+> T018-T022, T023a, T024-T027, T029-T037, T039 DONE (test-first; RED captured under `evidence/s10/red2/`, then GREEN).
+> **T028 is UNTICKED**: the handlers are registered by `api.RegisterProfile` and mounted through `registerProfileRoutes`, but the routes are NOT mounted in the binary until the orchestrator applies the main.go hook (`setProfileDeps(...)`, `evidence/s10/hook-requests.md` 1(c)); until then `GET /api/profile*` is a 404. Tick it when that line lands and the route-manifest rows (now added, `015.PROFILE.1-4`) answer on a live probe.
+> **T038 is UNTICKED**: the Playwright suite runs against CONTRACT MOCKS and verifies that the retake link reaches `/areas/<id>#test-h` and that the page issues only parameterless GETs; it does NOT verify the `POST /api/areas/{area}/assessment/submit` request shape this task requires, and nothing on the profile submits. Close it when an e2e drives the area test submit from the profile link.
+> **FR-015 / FR-016 now implemented** (T036 stays ticked on this basis): each `/api/profile/reports` row carries `availability` (the kit's `AvailabilityOf`, same object as `/api/areas/{id}/assessment`); the page renders the remaining requirements while the gate is closed and offers the retake link only when it is open (unknown availability = no link).
+> Deviations: T023 BLOCKED (needs spec 012 T006a/FR-021). T040 BLOCKED (spec 013 read interface unmerged); reports return `not_enough_data`. `cmd/workshop-server` and `pkg/authstore` contain tests that log in with the real dev seed password (env-dependent; the same tests fail identically on base e16a196, not touched by this stream).
 
 **Checkpoint**: User Stories 1 AND 2 complete — this is the feature's
 legitimate MVP point per spec.md's own priority ordering (Phase 1 + Phase 2).

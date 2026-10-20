@@ -184,7 +184,8 @@ reporting.
       "completion": { "total_lessons": 6, "complete_lessons": 6, "in_progress_lessons": 0, "percent": 100 },
       "best_attempt": { "assessment_id": "01J...", "at": "2026-09-30T12:05:00Z", "marked_percent": 84, "passed": true, "determinate": true },
       "attempt_count": 2,
-      "retake_href": "/api/areas/01JABCDEF.../assessment"
+      "retake_href": "/api/areas/01JABCDEF.../assessment",
+      "availability": { "available": true, "required_lessons": ["..."], "missing_lessons": [], "complete_of_required": 6, "required_count": 6 }
     }
   ],
   "ability_scores": null,
@@ -199,6 +200,13 @@ least one lesson or attempt of (an untouched area contributes no row, same
 discretion `LessonCompletionFromDeps` already applies, for the same stated
 reason: a zero-and-zero row for every area in the whole catalogue would make
 a small answer the size of the catalogue).
+
+`availability` (FR-015) is `ckit.AvailabilityOf` rendered by the same
+`availabilityObject` the area endpoints use, or `null` for an area without an
+assessment: while `available` is `false`, `missing_lessons` names what remains
+and the page offers no retake link; the link is offered only while it is `true`
+(FR-016). A client MUST treat an absent or unreadable `availability` as unknown,
+never as open.
 
 `ability_scores` / `ability_scores_status` is FR-019's degrade-gracefully
 contract: `"not_enough_data"` (with `ability_scores: null`) whenever spec

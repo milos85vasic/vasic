@@ -56,3 +56,40 @@ The submission/read-back contract above is realised by `PUT /api/areas/{area}/pr
 not in this area, or not served by the deck), `413 practice_answers_full` (the session already holds the per-session
 maximum of 5000 distinct answered questions; changing an existing answer is still allowed), `503` when the store, bank
 or registry cannot be read (never an empty 200).
+
+
+## Amendment 2026-10-20 (S2 round 5, delegate decision recorded in the operator-decision style): the run PASS is owned by the server
+
+**Decision.** "Run it again" is an explicit SERVER call, not a client-side bookmark. The server keeps one
+integer `pass` per (session, area), starting at 0; every stored answer carries the pass it was given in, and the
+read-back returns ONLY the current pass's answers. The previous design (a localStorage timestamp marker compared
+with the server's answer times) was withdrawn after three review rounds each found a new interleaving it could not
+cover (double restart, restart during the read-back, failed read-back, two tabs, same-second stamps, reload
+mid-flight); per Constitution 11.4.250 a tower of heuristics signals a missing primitive, and the primitive is the
+server-owned pass number.
+
+**Wire shape.**
+- `GET /api/areas/{area}/practice-answers` -> `{status, area, pass, answers}`; `answers` holds only answers recorded in `pass`.
+- `PUT /api/areas/{area}/practice-answers/{question}` body may carry `pass`: the pass the client believes it is in.
+  Absent = no claim (accepted at the current pass). A different value -> `409 pass_stale` with the current `pass` in
+  the body; nothing is stored. The stored record and the reply carry `pass`. An identical answer in a NEW pass is a
+  fresh record (`replay: false`, `attempts: 1`); within one pass an identical resend is `replay: true`.
+- `POST /api/areas/{area}/practice-answers/restart` body empty or `{"pass": n}` (the pass being left) -> `200
+  {status, area, pass}` with the new pass. With `pass` given and not current -> `409 pass_stale` with the current pass and
+  nothing moves, so a retry whose reply was lost, and a restart from a second tab, are safe and idempotent.
+  Refusals: 400 (no X-Session, unknown body key), 404 (area with no practice questions), 413 (run limit), 503.
+
+**Client behaviour.** No timestamp, no marker, no heuristic: on load the client reads `{pass, answers}`; on restart it
+calls the endpoint and adopts the returned pass; a write that is issued while the restart call is in flight waits for
+it and carries the new pass; a late reply from an earlier pass is recognised by its pass number (or by the local
+restart epoch) and dropped; a `409 pass_stale` makes the client adopt the current pass, re-read, and tell the learner
+the run was restarted elsewhere. A restart that could not be recorded keeps new answers waiting (never filed under the
+old pass) and is retried by "Send again".
+
+**Migration.** Existing answer rows have no `pass` field and are pass 0 (`practice-pass.json` is created on first
+restart). The legacy `workshop-practice-restart:<user>:<slug>` localStorage marker written by earlier builds is IGNORED
+(the client removes it).
+
+**Known limits (stated, not hidden).** `pass` is per (session, area): a signed-in account's session key is the
+account, an anonymous browser's is its X-Session value. The pass store is a JSON file guarded by one process-wide lock
+(the same single-writer assumption as the answer file).

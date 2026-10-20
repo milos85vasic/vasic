@@ -158,3 +158,12 @@ announcement are unaffected — only the motion is suppressed.
   yet to verify.
 - **The design-toolkit QA test-bank run** (FR-020/SC-009, Phase 3) — a
   separate, independent-reviewer-run gate, not a self-run quickstart step.
+
+## Step M: the modal (Phase 2, added by S9, T026)
+Automated, deterministic (no sleeping; `page.clock`), against a `scripts/run-isolated.sh` server, from the workshop worktree:
+
+```bash
+bash scripts/agent-admit.sh --slots 4 --tag <tag> --wait 1800 -m 6G -T 3600 -- \
+  bash scripts/run-isolated.sh --exec -- bash evidence/s9/tools/s9-e2e.sh      # toast + modal specs
+```
+It drives `AchievementEventRouter.route()` (the door the feed uses) through `window.ng` of a dev build and checks: a native `:modal` dialog named by its heading; focus on Continue; Tab/Shift+Tab never reach a page element outside it; Escape closes and focus returns to the opener; three events are shown strictly one after another; a level-up and a chapter-complete of one area in one burst are ONE dialog; an acknowledged event is not shown again after a reload; a toast is held (not lost) while a modal is open; identical entrance for every kind and none under reduced motion; RTL and phone-width fit; axe clean in both themes. Last run: 50 passed (22 toast + 28 modal, desktop and mobile). Not done by hand: a real screen reader (T035, operator).

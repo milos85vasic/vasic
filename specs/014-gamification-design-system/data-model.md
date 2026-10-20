@@ -209,3 +209,6 @@ so the machine itself is load-bearing enough to document before tasks.md
 breaks it into unit-testable steps (the research brief §6 Phase 1 gate: "the
 rate-limiting logic in §5.2 covered by a unit test the way
 `core/load-status.spec.ts` covers its own state machine").
+
+## Addendum (T020, stream S9, 2026-10-21): `AchievementEvent.modalWorthy` routing map
+Decided by operator-delegate decision O-3 (spec 026): `level-up` and `chapter-complete` are modal-worthy; all other kinds (today `adjusted`) are toasts. Routing is by kind in `core/achievement-router.ts` (`ACHIEVEMENT_MODAL_KINDS`); the producer's `modal_worthy` field is advisory and is not consulted. See `contracts/level-up-modal.md`.

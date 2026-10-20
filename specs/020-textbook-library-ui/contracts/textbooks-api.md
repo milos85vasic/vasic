@@ -10,7 +10,7 @@
 | `GET /api/textbooks` | `{ "catalogue": "present"\|"absent", "books": [Book…] }` — Book per data-model §4 |
 | `GET /api/textbooks/{id}` | `Book` + `chapters:[{index,title,first_page,last_page,sections}]` |
 | `GET /api/textbooks/{id}/sections?offset=&limit=&chapter=` | `{ total, offset, limit, sections:[{pid,page,title}] }` — `limit` default 50, max 100; ordered by page; **no text** |
-| `GET /api/textbooks/{id}/pages/{n}` | `{ book_id, page, pid, title, prev:{page,pid}\|null, next:{page,pid}\|null, diagrams:[index…] }` — **no text** |
+| `GET /api/textbooks/{id}/pages/{n}` | `{ book_id, book_title, page, pid, section_title, prev:{page,pid}\|null, next:{page,pid}\|null, diagrams:[index…] }` — **no text**; `n` is a canonical decimal (`+1`, `01` → 400 `bad_page`); `prev`/`next` skip pages without text; a suppressed page keeps its place (the passage endpoint answers it with 410) |
 | `GET /api/textbooks/citations?pids=<csv>` | `{ "citations":[ {"pid":"…","citation":{book_id,book_title,section_title,page}\|null } … ] }` (≤ 50) |
 | `GET /api/textbooks/{id}/diagrams` | `{ total, diagrams:[{index,page,caption,width,height,quality,redraw}] }` — no file name |
 | `GET /api/textbooks/{id}/diagrams/{n}/image` | PNG bytes (see headers) |
