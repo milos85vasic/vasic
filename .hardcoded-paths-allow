@@ -837,3 +837,12 @@ ev/VSC-352.verifier-b17.json
 ev/VSC-359.verifier-b17.json
 ev/VSC-349.red.json
 ev/VSC-349.green.json
+
+# BASELINE: submodules/constitution/progressive/rules/11.4.178.md ADDED 2026-10-20 at
+# gitlink b95b853cc5c1 (ff-only bump from 87e72cc50d62). One occurrence: the
+# §11.4.178 anchor text quoting `/mnt/track<N>/<project_name>/` as PROSE EXAMPLE
+# (the same shape already baselined for Constitution.md and the carriers above).
+# Upstream content consumed BY REFERENCE (§11.4.28 / §11.4.177): not fixable
+# here, untriaged beyond reading the matched line; the fix is an upstream
+# HelixConstitution change plus a bump.
+submodules/constitution/progressive/rules/11.4.178.md
