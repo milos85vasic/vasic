@@ -274,7 +274,7 @@ re-derived here.
 row).** `Store.ServeNext`'s cold-start branch (an area with zero prior `response_log` rows for this
 session) selects the lowest-difficulty item across the union of the area's practice bank and the
 `curriculum-kit` graded catalog. Because that population currently contains **zero** `easy`-labeled
-items (research §2.1, §2.2 edge cases — 121 `medium`, 190 `hard`, 0 `easy` of 311), the real
+items (research §2.1, §2.2 edge cases — Reconciled by 026 on 2026-10-20, D5: 113 `medium`, 179 `hard`, 0 `easy` of 292 as measured 2026-10-20; was 121 / 190 / 311), the real
 lowest-difficulty item available today is a 5.0-seeded `medium` practice item or a 5.0-seeded
 uncalibrated graded-catalog item, never a bare `medium`-or-harder pick reached without considering
 the graded catalog at all — this is the literal FR-009 requirement, not an optimization.

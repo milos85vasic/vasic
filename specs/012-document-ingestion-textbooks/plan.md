@@ -7,6 +7,10 @@ document was authored directly into the already-reserved
 spec 015 was authored) | **Date**: 2026-09-30 | **Spec**: [spec.md](spec.md)
 **Input**: Feature specification from `specs/012-document-ingestion-textbooks/spec.md`
 
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)**: this spec was written before spec 017 was implemented and merged. Four statements below are superseded and are annotated in place: (D1) textbook sections mint as `kind: textbook_section` + `content_type: textbook`, NOT `doc_section`; (D2) the License Record lives in the companion report file `<out>.report.json`, NOT in the sidecar (the real decoder rejects unknown fields); (D8) the PDF extractor is `pipeline/pdf_textbook_sections.py` (shipped by 017), NOT a new `pdf_sections.py`; (D10) shared-file ownership follows `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules". Evidence: `specs/026-spec-reconciliation/research.md` sections 1-2.
+
+**Hot-spot ownership (Reconciled by 026 on 2026-10-20, D10)**: this spec owns `internal/passagestore/domain.go` vocabulary (new kinds, content types, `Attr*` keys); it MUST NOT edit `cmd/workshop-server/main.go` (no flag or route is needed) and the `submodules/passage` gitlink (Phase D) is bumped only together with its `helix-deps.yaml` ref. See `specs/026-spec-reconciliation/plan.md`.
+
 ## Summary
 
 Extend the workshop curriculum platform's existing text-document ingestion
@@ -89,6 +93,8 @@ textbook's sidecar; this plan introduces zero new Go code.
 sync mechanism). No new storage, no new registry, no new `passagestore.Kind`
 (FR-020's constraint, and the research's own §3.2 finding that `doc_section`
 already has full headroom).
+
+*(Reconciled by 026 on 2026-10-20, D1: superseded. Spec 017 added `textbook_section` (`domain.go:71`); textbook sections are minted under it with `content_type: textbook`. The storage statement (flat-file registry, no new storage) is unchanged.)*
 
 **Testing**: `pytest`, matching the existing `pipeline/` convention
 (`pipeline/test_build_transcript.py` is the direct sibling-file precedent at

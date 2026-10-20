@@ -3,6 +3,8 @@
 **Branch**: `017-exhaustive-rag-expansion` | **Date**: 2026-10-05 | **Spec**: [spec.md](./spec.md)
 **Input**: Feature specification from `specs/017-exhaustive-rag-expansion/spec.md`
 
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)** (no task state changes; 017 stays 52/52): (D1/D8) 017 is now the SINGLE PDF implementation: spec 012 adopts `pipeline/pdf_textbook_sections.py` instead of writing its own `pdf_sections.py`, and 012's "doc_section" statements are superseded in favour of this spec's `textbook_section` + `content_type: textbook`; (D2) the license record of this feature is carried in the companion report file, key `license` (today the script writes a flat `license_basis`, normalized to the nested object when 012-T016 lands); (D7) the MMR-for-crossrefs recommendation of the UX research is REJECTED: crossrefs do not use MMR, consistent with `research.md` section 0; (D10) the residual reranker/flag work edits `cmd/workshop-server/main.go` only through a `wire_rerank.go` hook file and `platform/compose.yml` only via the orchestrator. Sibling-spec statements in this spec that read "012 (0/55 tasks)" were true on 2026-10-05; at 2026-10-20 012 still has 0/55 ticked and its PDF half is superseded by this feature. See `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules" and `research.md`. Open items this spec owns (not closed by 026): textbook live merge into the live registry and reranker enablement (O-6); license vocabulary (O-1).
+
 ## Summary
 
 The workshop platform (`workshop/platform/backend`) already runs a hybrid RAG stack — lexical

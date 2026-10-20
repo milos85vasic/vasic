@@ -6,6 +6,8 @@ This document is their contract: `input()`/`output()` signal surface for
 each component, and the public method/signal surface of the queue service.
 Every shape referenced here is defined in [data-model.md](../data-model.md).
 
+*(Reconciled by 026 on 2026-10-20, D3/D4: the in-process event stream is fed by an adapter (tasks.md T016) over spec 013's `GET /api/progress?events_after=` replay and inline submit events. FR-022 adds one optional input, `remedialHref?: string`, to `AchievementToastComponent` and the Phase 2 modal; it renders a single link when present and nothing when absent.)*
+
 All three components are `standalone: true`, inline `template`, inline
 `styles` array — this app's real, measured shape for every feature
 component (`chapter-rail.component.ts`, `progress.component.ts`), not a

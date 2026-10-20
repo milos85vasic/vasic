@@ -10,6 +10,8 @@ description: "Task list for feature 013: Adaptive Assessment and Real-Time Scori
 [contracts/practice-submit.md](contracts/practice-submit.md),
 [contracts/progress-extension.md](contracts/progress-extension.md), [quickstart.md](quickstart.md)
 
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)**: (D3) this spec now owns the achievement event stream spec 014 consumes: see `contracts/achievement-events.md` and the added FR-017 / tasks T008a, T025a-T025d, T036a; (D4) remedial routing is carried on the `adjusted` event (`remedial_href`), kind-easing is deferred (T036b, operator decision O-4); (D5) practice-bank baseline corrected to 292 / 113 medium / 179 hard / 0 easy, measured at workshop `33e9760` (command in `specs/026-spec-reconciliation/research.md` section 5); (D10) `cmd/workshop-server/main.go` is single-writer: this spec wires through a `wire_scoring.go` hook file, see `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules"; and 016-US1 (practice answer submit fix) merges BEFORE 013-US1 touches the same submit path.
+
 ## Task Format
 
 ```
@@ -168,6 +170,8 @@ a real SQLite file) is green.
   gate the tasks-template's own Phase 2 convention names, applied here as the schema/skeleton rather
   than a separate infrastructure concern (this feature has no auth/routing/logging scaffolding of its
   own beyond this).
+
+- [ ] **T008a [TDD]** *(Reconciled by 026 on 2026-10-20, D3: added)* Add the `achievement_event` table and its UPDATE/DELETE-forbidding trigger to the Phase 1 schema, exactly as in `contracts/achievement-events.md` section 3, with a failing test first (insert succeeds; UPDATE and DELETE are refused; a duplicate `(session, kind, area, source_entry_id)` is refused). Paste RED then GREEN output.
 
 **Checkpoint**: `pkg/scoring`'s package skeleton, `Config`, the four types, and the full SQLite schema
 (with both immutability triggers proven to actually fire, not merely declared) exist and are tested.
@@ -375,7 +379,7 @@ direction/magnitude after each, and the next question served is chosen near the 
   confirm PASS if T020 already got this right by construction (report honestly which). Implement/fix
   until PASS. Paste real output.
 
-- [ ] **T022 [US1]** Wire the two new routes into `cmd/workshop-server/main.go`: open `scoring.Store`
+- [ ] **T022 [US1]** Wire the two new routes into `cmd/workshop-server/main.go`: open `scoring.Store` *(Reconciled by 026 on 2026-10-20, D10: do the `main.go` wiring through `cmd/workshop-server/wire_scoring.go` and replace only the `// hook:scoring` line; do not add hunks elsewhere in `main.go`.)*
   alongside the existing `authstore.Open`/`api.NewProgressStore` calls (same data directory), register
   `GET /api/areas/{area}/questions/next` and `POST /api/areas/{area}/questions/{question}/submit`
   beside the existing questions/assessment route block (plan.md cites lines ~1444-1452 — re-read the
@@ -441,6 +445,15 @@ direction/magnitude after each, and the next question served is chosen near the 
 **Checkpoint**: User Story 1 is independently complete and testable — a learner can submit practice
 answers, get one immutable log entry per submission, see their score update synchronously with no
 staleness, and the graded assessment path feeds the same pipeline. This is a legitimate MVP point.
+
+### Phase 2b: Achievement events for spec 014 *(Reconciled by 026 on 2026-10-20, D3; contract: `contracts/achievement-events.md`: added)*
+
+**Depends on**: T008a, T025. **Unblocks**: spec 014 T016 (the adapter) and, through it, 014 T025.
+
+- [ ] **T025a [TDD] [US1]** Failing tests then implementation in `pkg/scoring/events.go`: `level-up` emission from `recordResponse` (floor crossing upward + `Config.LevelUpMinAttempts`, default 5, `[CONFIGURABLE-DEFAULT]`), for BOTH the practice and the graded entry points; no event for a sub-level delta; no event for a downward crossing; no duplicate on an idempotent retry. Paste output.
+- [ ] **T025b [TDD] [US1]** Return `achievement_events` inline from the practice and graded submit handlers (additive field, empty array when none; a replayed submission returns the same events). Contract tests in `internal/api` against the shape in `contracts/achievement-events.md` section 1.
+- [ ] **T025c [TDD] [US1]** `chapter-complete`: in the lesson-state handler (`internal/api/lessons.go`), call `scoring.Store.RecordAchievement` when an area transitions to all lessons complete; once per (session, area); un-mark then re-mark emits nothing. **O-5 is open**: implement the area granularity as the documented default.
+- [ ] **T025d [TDD] [US1] [REVIEW]** `GET /api/progress?events_after=&events_limit=`: additive `achievement_events {events, next_after}`, session-scoped, omitted when no store, never changes the 200/404/503 contract; run quickstart-style `curl`/`jq` for all three kinds and paste real output.
 
 ---
 
@@ -531,7 +544,7 @@ resumes normal selection.
   `&& len(abilityScore) == 0`, per contracts/progress-extension.md's documented rule. Run T033 —
   expect PASS. Paste output.
 
-- [ ] **T035 [US2]** Wire the `AbilityScoreSource` closure (backed by T032's `Store.AbilitySummaries`)
+- [ ] **T035 [US2]** Wire the `AbilityScoreSource` closure (backed by T032's `Store.AbilitySummaries`) *(Reconciled by 026 on 2026-10-20, D10: same hook file, `wire_scoring.go`.)*
   into `ProgressHandler`'s construction call in `cmd/workshop-server/main.go`, alongside the existing
   `LessonCompletionSource` wiring. Build and paste real output.
 
@@ -545,6 +558,11 @@ resumes normal selection.
 **Checkpoint**: User Stories 1 AND 2 both work independently. A struggling learner is routed to easier
 content with an explicit, logged reason, and `GET /api/progress` is the one surface `014-gamification-
 design-system` needs to read.
+
+### Phase 3b: `adjusted` event and deferred kind-easing *(Reconciled by 026 on 2026-10-20, D3/D4: added)*
+
+- [ ] **T036a [TDD] [US2]** Emit the `adjusted` event from the downgrade path (T030-T031): `coalesce_key = adjusted:<area>`, `modal_worthy=false` default, copy template from the contract, and `remedial_href` = the served question's `lesson_sections_study_href`, else `citations_study_href` (`internal/api/questions.go:516,532`), else null. The wire value is `adjusted`; `DowngradeTriggered` is unchanged.
+- [ ] **T036b [DEFERRED] [US2]** Kind-easing: route a struggling learner to an easier question KIND (flashcard instead of free response), the second half of the hand-off spec 013 Assumptions used to push to 014. **No implementation in this feature's first cut; owner 013, post-MVP; needs operator decision O-4.** Recorded so the item is owned rather than orphaned.
 
 ---
 
@@ -623,7 +641,7 @@ response pattern implies, and that live item selection reflects the updated valu
   Paste real output and the honest concurrency-model finding from T039's completion note, cross-
   referenced here.
 
-- [ ] **T042 [US3] [CONFIGURABLE-DEFAULT]** Wire a ticker inside `cmd/workshop-server/main.go` that
+- [ ] **T042 [US3] [CONFIGURABLE-DEFAULT]** Wire a ticker inside `cmd/workshop-server/main.go` that *(Reconciled by 026 on 2026-10-20, D10: same hook file, `wire_scoring.go`.)*
   calls `Store.RecalibrateBatch` on `Config.BatchCadence` (the proposed "hourly, or after N new
   responses, whichever is sooner" default from data-model.md §4 — **this specific cadence is spec.md's
   own NEEDS CLARIFICATION item and is implemented here as a configurable default, not a resolved
@@ -686,7 +704,7 @@ the calling instruction).
   end-to-end against the completed feature and paste all real output, confirming no step in the
   document is aspirational by the time this task is checked off.
 
-- [ ] **T049** **[BLOCKED-PENDING-OPERATOR-DECISION]** Record, in this task's own completion note (no
+- [ ] **T049** **[BLOCKED-PENDING-OPERATOR-DECISION]** Record, in this task's own completion note (no *(Reconciled by 026 on 2026-10-20: the PRE-CONDITION for 014 UI work is now wider: besides (a) and (b), 014 depends on `contracts/achievement-events.md` landing (T008a, T025a-T025d, T036a). The 292-item figure replaces 311 in this task's text.)*
   code change), the disposition of spec.md's two remaining open clarifications this feature's code
   cannot itself resolve: (a) **per-area vs. cross-curriculum ability score** — this feature ships the
   per-area shape (data-model.md §1.2's Phase 1 decision), and the task here is to flag to the operator,

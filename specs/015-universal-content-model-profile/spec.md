@@ -6,6 +6,8 @@
 
 **Status**: Draft
 
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)**: (D1) spec 017 added the `textbook_section` Kind and made `content_type` mandatory; for textbook content the passages `LocationAnchor.PassageAnchor` resolves to are `textbook_section` rows (content type `textbook`), NOT `doc_section`. This spec still introduces NO new `passagestore.Kind` (FR-007 stands in that sense); where it says "use `doc_section`" it now means "use an EXISTING kind: `doc_section` for authored lessons and meeting notes, `textbook_section` for textbooks". (D6) the profile frontend lives under `platform/frontend/src/app/features/profile/` (lazy routes in `features/profile/profile.routes.ts`, one route `profile`), not `src/app/profile/`. (D10) the `curriculum-kit` gitlink is owned by this spec and moves only together with its `helix-deps.yaml` ref; profile routes are registered through a `cmd/workshop-server/wire_profile.go` hook file, see `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules". Evidence: `specs/026-spec-reconciliation/research.md` sections 1 and 6.
+
 **Input**: Formalization of completed research in `workshop/docs/research/education-platform/multi-provider-llm-and-content-model.md`, Part B ("Universal content model + user profile"). That research document also covers Part A, a multi-provider LLM abstraction, which is out of scope here and is formalized separately as spec 011-multi-provider-llm-providers. This specification covers only: (1) extending the already-adopted `curriculum-kit` content model so every material type — video chapters, text-only chapters, and future textbook ingestion (spec 012) — converges on the same `Area → Lesson → Material → Assessment` structure with first-class, format-appropriate citation anchoring; and (2) a learner-facing profile page (activity history, reports/charts, retake-self-assessment link).
 
 ## Why this specification exists
@@ -252,7 +254,7 @@ to its own citation.
   more appropriate), using the passage store's existing open `Attrs` map for
   any format-specific metadata the new anchor type needs (e.g. page number,
   EPUB CFI, or chapter heading) rather than extending the closed `Kind`
-  vocabulary.
+  vocabulary. *(Reconciled by 026 on 2026-10-20, D1: textbook content uses the existing `textbook_section` Kind added by spec 017, with `content_type: textbook`; `doc_section` is for authored lessons and meeting notes. No Kind is added by THIS feature.)*
 - **FR-008**: A served lesson or material response MUST include, for a
   location-anchored Material, sufficient data for a client to seek a reader
   to the cited location, highlight the cited passage, and indicate its
@@ -332,7 +334,7 @@ to its own citation.
 - **Passage** (existing, in `passagestore`): The evidence/citation layer's
   searchable text unit, already typed by a closed `Kind` vocabulary
   (`transcript_segment`, `doc_section`, `code`, `diagram`, `screen_text`).
-  This feature adds no new `Kind`.
+  This feature adds no new `Kind`. *(Reconciled by 026 on 2026-10-20, D1: the vocabulary also contains `textbook_section` since spec 017, `internal/passagestore/domain.go:71`.)*
 - **Profile Summary**: A learner's identity, account age, and overall
   completion percentage — a read-side aggregation over existing per-area
   progress, not a new persisted record.

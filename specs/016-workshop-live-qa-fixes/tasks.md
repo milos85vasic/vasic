@@ -10,6 +10,8 @@ description: "Task list for Workshop Live-QA Fix Batch"
 > superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`)
 > syntax for tracking.
 
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`, decision D9)**: checkboxes below were reconciled against workshop HEAD `33e9760` source (not re-run). 41 tasks are ticked because the gap analysis proved them DONE with a commit or file cite (source present at HEAD; tests were not re-run by 026). NOT ticked and why: tasks whose only evidence is the git-ignored SDD ledger or `CONTINUATION.md` prose (T001-T003, T013, T019, T027, T047, T053, T059, T063, T066), every live-verify / human task (T004, T014, T016, T020, T028, T034, T040, T048, T060, T061), the PARTIAL ones and T045b (annotated in place). Spec FR status from the same analysis: FR-007 UNMET (top-20 always returned, no empty state), FR-006 PARTIAL (cosine, `min_score` 0), FR-012/FR-013/FR-014 PARTIAL (doc/code-cited first citations never write progress server-side; reload survival is `sessionStorage` only), all others MET in source. Sequencing (D10): 016-US1 (practice answer submit fix) merges BEFORE spec 013-US1 touches the same submit path (`internal/api/questions*.go`, `progress.go`). Open items carried: rebuild the frontend bundle (stale vs commits `eb691db`, `1d4cdfa`), rerun the two UNDETERMINED gates, T045b.
+
 **Input**: Design documents from `specs/016-workshop-live-qa-fixes/` (spec.md, plan.md,
 research.md, data-model.md, contracts/, quickstart.md)
 
@@ -111,7 +113,7 @@ persists.
 
 ### Tests for User Story 1
 
-- [ ] T005 [TDD] [P] [US1] Write a failing Angular test asserting that clicking a multiple-choice
+- [x] T005 [TDD] [P] [US1] Write a failing Angular test asserting that clicking a multiple-choice
       option updates the component's selected-option state and the rendered "selected" visual class
       — in the practice-question component's own spec file (exact path confirmed by T004). Run it;
       confirm it FAILS against current behavior if T004 found selection itself broken, or confirm it
@@ -122,11 +124,11 @@ persists.
       exact endpoint/package path confirmed by T004. Run it; confirm it FAILS if T004 found a real
       backend acknowledgment gap, or document that it already passes if T004's hypothesis (selection
       failure is the sole root cause) is confirmed.
-- [ ] T007 [TDD] [P] [US1] Write a failing test for the "Send again" retry path: a retried submission
+- [x] T007 [TDD] [P] [US1] Write a failing test for the "Send again" retry path: a retried submission
       with the SAME question_id + selected_option succeeds under normal conditions (contracts/
       practice-answer-interaction.md's idempotency clause) rather than deterministically repeating
       the same failure.
-- [ ] T007b [TDD] [P] [US1] **Edge case** (spec.md): write a test asserting a genuine
+- [x] T007b [TDD] [P] [US1] **Edge case** (spec.md): write a test asserting a genuine
       environmental submission failure (e.g. the progress-recording service simulated as
       unreachable) renders a message DISTINGUISHABLE from the "An answer was not recorded" text this
       batch fixes — once T009/T010 land, a learner must be able to tell a real outage from a
@@ -134,17 +136,22 @@ persists.
 - [ ] T008 [TDD] [US1] Write a failing test for read-back: after a successful submission, a
       page reload/revisit (or the equivalent API read) still returns that submission's result
       (FR-014) — not reset to unsubmitted.
+      *(Reconciled by 026 on 2026-10-20: PARTIAL: read-back uses browser `sessionStorage` only (`practice.component.ts:559-625`); no server-side persisted answer result across sessions.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: W aebb8ca spec.ts:708,742,771.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: progress_practice_answer_test.go:66; spec.ts:579.)*
+      *(Reconciled by 026 on 2026-10-20: DONE (weak): the Go test covers the reading-position write (`progress_practice_answer_test.go:41`), not an answer endpoint; left unticked.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: W 3025ee9 practice.component.spec.ts:440,453,474.)*
 
 ### Implementation for User Story 1
 
-- [ ] T009 [SUBAGENT] [US1] Fix the root cause found in T004 — if frontend selection is broken, fix
+- [x] T009 [SUBAGENT] [US1] Fix the root cause found in T004 — if frontend selection is broken, fix
       the event binding / state update in the practice-question component so T005 passes; if the
       component already worked, skip this task and record why in the ledger (per T004's finding).
 - [ ] T010 [REVIEW] [US1] Fix the backend acknowledgment path (only if T004/T006 found a genuine
       server-side gap distinct from the selection bug) so T006 passes. **Review gate**: per plan.md's
       Review Gates, this endpoint touches every learner's every practice attempt — independent review
       required before merge regardless of how small the diff is.
-- [ ] T011 [US1] Fix the "Send again" retry path so T007 passes — this may require no code change at
+- [x] T011 [US1] Fix the "Send again" retry path so T007 passes — this may require no code change at
       all if T009/T010 alone resolve it (a retry of a now-working submission naturally succeeds);
       confirm with the test either way.
 - [ ] T012 [US1] Fix the read-back path so T008 passes, if the investigation found persistence itself
@@ -154,8 +161,13 @@ persists.
 - [ ] T014 [US1] Live-verify per quickstart.md's US1 scenario against the exact reported area, with
       a fresh `scripts/restart.sh` first (constitution: *A Restart Runs What Was Built*) — paste the
       real HTTP responses/UI confirmation, not a code-level pass alone.
-- [ ] T015 [US1] Commit (explicit paths, not a blanket add) with a message naming the root cause found
+- [x] T015 [US1] Commit (explicit paths, not a blanket add) with a message naming the root cause found
       in T004, referencing spec.md's FR-011–FR-014.
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: 3025ee9, 164e2f8, aebb8ca, eacef82.)*
+      *(Reconciled by 026 on 2026-10-20: PARTIAL: `sessionStorage` only (W 164e2f8).)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: W eacef82 (record() skips timeless doc/code citations: practice.component.ts:838) + aebb8ca; NOTE this is a skip, not a recording.)*
+      *(Reconciled by 026 on 2026-10-20: N/A per the gap analysis: no backend change was needed; the only review evidence is the git-ignored SDD ledger, so it is left unticked.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: W 3025ee9 practice.component.ts (disabled-binding/pick guard decoupled from withheld key).)*
 
 **Checkpoint**: User Story 1 fully functional and live-verified — the platform's core assessment
 loop works end to end.
@@ -180,31 +192,37 @@ load (spec.md FR-009, FR-010, FR-017).
 
 ### Tests for User Story 2
 
-- [ ] T017 [TDD] [P] [US2] Write a failing test (Angular component test, or Go handler test,
+- [x] T017 [TDD] [P] [US2] Write a failing test (Angular component test, or Go handler test,
       depending on T016's finding) asserting: given a lesson with `completed = true`, the area page's
       render output includes the checked/completed state for that lesson, with no additional
       interaction — exact file confirmed by T016. Run it; confirm FAIL.
-- [ ] T017b [TDD] [P] [US2] Write a companion test for the false-positive direction (FR-010): given a
+- [x] T017b [TDD] [P] [US2] Write a companion test for the false-positive direction (FR-010): given a
       lesson with `completed = false`, the same render path does NOT mark it checked. Run it; confirm
       it currently passes (this direction is not reported broken) so a future regression here is
       caught.
-- [ ] T017c [TDD] [P] [US2] **Edge case** (spec.md): write a test asserting a brand-new learner with
+- [x] T017c [TDD] [P] [US2] **Edge case** (spec.md): write a test asserting a brand-new learner with
       zero completed lessons on an area sees NO lesson rendered as checked — the all-false-positives
       degenerate case of T017b, worth its own assertion since it is the actual first-visit state
       every learner starts from.
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: area-lesson-completion.spec.ts:167.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: area-lesson-completion.spec.ts:155.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: W b67af5f area-lesson-completion.spec.ts:139.)*
 
 ### Implementation for User Story 2
 
-- [ ] T018 [US2] Fix the area page's completion-state read path (file confirmed by T016) so T017
+- [x] T018 [US2] Fix the area page's completion-state read path (file confirmed by T016) so T017
       passes without breaking T017b.
-- [ ] T018b [US2] Add the accessible-label / keyboard-reachable / non-color-only treatment to the
+- [x] T018b [US2] Add the accessible-label / keyboard-reachable / non-color-only treatment to the
       completion checkmark per FR-017 and data-model.md's Lesson/section completion state validation
       rule, if not already present.
 - [ ] T019 [US2] Run T017/T017b again; confirm GREEN. Run the frontend/backend suites to confirm no
       regression, specifically including the already-fixed dedicated `/progress` page's own tests (do
       not let this fix touch that surface's passing behavior).
 - [ ] T020 [US2] Live-verify per quickstart.md's US2 scenario, fresh restart first, pasted evidence.
-- [ ] T021 [US2] Commit, explicit paths, referencing FR-009/FR-010/FR-017.
+- [x] T021 [US2] Commit, explicit paths, referencing FR-009/FR-010/FR-017.
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: b67af5f.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: spec.ts:178 (real checkbox w/ label).)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: area-lessons.component.ts:446-463 (adoptServerView from server `state`), curriculum-model.ts:166-194.)*
 
 **Checkpoint**: User Stories 1 AND 2 (both P1) independently functional and live-verified — the MVP
 bar for this batch is met.
@@ -220,35 +238,42 @@ shows the designed "no recording" indicator (spec.md FR-001, FR-002, FR-017).
 
 ### Investigation for User Story 3
 
-- [ ] T022 [P] [SUBAGENT] [US3] Inspect the landing page recordings section's data source (network
+- [x] T022 [P] [SUBAGENT] [US3] Inspect the landing page recordings section's data source (network
       request) to determine whether it returns all chapters' metadata (frontend-only rendering bug)
       or only chapter 01's (backend query bug) — per research.md's hypothesis, start here before
       assuming either layer.
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: W f13e644 message; ledger us3-report.md.)*
 
 ### Tests for User Story 3
 
-- [ ] T023 [TDD] [P] [US3] Write a failing test asserting the recordings-listing data source (or
+- [x] T023 [TDD] [P] [US3] Write a failing test asserting the recordings-listing data source (or
       component, depending on T022's finding) returns/renders an entry for every chapter in the
       content library, not only chapter 01 — exact file confirmed by T022.
-- [ ] T024 [TDD] [P] [US3] Write a failing test asserting a chapter with `recording_state =
+- [x] T024 [TDD] [P] [US3] Write a failing test asserting a chapter with `recording_state =
       none_by_design` (the text-only chapter) renders the designed "no recording" indicator with an
       accessible label (FR-002, FR-017), not an empty gap.
-- [ ] T024b [TDD] [P] [US3] **Edge case** (spec.md): write a test asserting a chapter with
+- [x] T024b [TDD] [P] [US3] **Edge case** (spec.md): write a test asserting a chapter with
       `recording_state = processing` (mid-archive/extract) renders neither the `available` entry nor
       the `none_by_design` indicator, but a distinct, honest in-progress state — a chapter must never
       be misrepresented as either fully available or permanently absent while still processing.
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: chapter-rail.component.spec.ts:131; recording.go:525-578; recording_state_test.go:38-69.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: chapter-rail.component.spec.ts:100; component aria-label chapter-rail.component.ts:57.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: W f13e644 chapters_recording_state_test.go (cmd/workshop-server), models.spec.ts.)*
 
 ### Implementation for User Story 3
 
-- [ ] T025 [US3] Fix the root cause found in T022 so T023 passes.
-- [ ] T026 [US3] Implement the "no recording" indicator component (if it does not already exist) so
+- [x] T025 [US3] Fix the root cause found in T022 so T023 passes.
+- [x] T026 [US3] Implement the "no recording" indicator component (if it does not already exist) so
       T024 passes.
 - [ ] T027 [US3] Run T023/T024 again; confirm GREEN.
 - [ ] T028 [US3] Live-verify per quickstart.md's US3 scenario — INCLUDING clicking through from an
       `available` chapter's listing entry into its actual recording route (the *Published Means
       Served* cross-check in contracts/chapter-recordings-listing.md), fresh restart first, pasted
       evidence.
-- [ ] T029 [US3] Commit, explicit paths, referencing FR-001/FR-002/FR-017.
+- [x] T029 [US3] Commit, explicit paths, referencing FR-001/FR-002/FR-017.
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: f13e644.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: chapter-rail.component.ts:49-68.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: f13e644 (backend recording_state in recording.go; rail no longer index-0 only).)*
 
 **Checkpoint**: US3 independently functional and live-verified.
 
@@ -263,31 +288,37 @@ shows the designed "no recording" indicator (spec.md FR-001, FR-002, FR-017).
 
 ### Investigation for User Story 4
 
-- [ ] T030 [P] [SUBAGENT] [US4] Search both `workshop/platform/frontend/src/` and
+- [x] T030 [P] [SUBAGENT] [US4] Search both `workshop/platform/frontend/src/` and
       `workshop/platform/backend/` (and `workshop/pipeline/` if a generated sidecar field could be
       the source) for the literal string "Not in this build" to find its source directly, and
       determine the condition under which it renders instead of real content, and on which
       chapters/segments it currently appears (a full sweep, per FR-003's zero-tolerance framing).
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: W 5b00c30; today grep: only spec file, plus genuine spoken words in chapter-02.02 transcript (passages.jsonl 1 hit, not placeholder).)*
 
 ### Tests for User Story 4
 
-- [ ] T031 [TDD] [P] [US4] Write a failing test asserting the found condition (T030) no longer
+- [x] T031 [TDD] [P] [US4] Write a failing test asserting the found condition (T030) no longer
       renders the literal placeholder string, and instead renders the platform's existing honest
       "content unavailable" presentation (FR-004) — exact file confirmed by T030.
 - [ ] T031b [TDD] [P] [US4] **Edge case** (spec.md): write a test asserting that while a chapter's
       transcription is actively being reprocessed, its segments render as "reprocessing in progress"
       (or this platform's existing equivalent in-progress state), never as the build-missing
       placeholder this story removes.
+      *(Reconciled by 026 on 2026-10-20: PARTIAL: only a "while loading" test (`passage-knowledge-gap-label.spec.ts:98`); no reprocessing-state test/UI.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: W 5b00c30 passage-knowledge-gap-label.spec.ts:81,113.)*
 
 ### Implementation for User Story 4
 
-- [ ] T032 [US4] Fix the source found in T030 so T031 passes.
+- [x] T032 [US4] Fix the source found in T030 so T031 passes.
 - [ ] T033 [US4] Run T031 again; confirm GREEN. Run a full sweep (automatable: grep the rendered
       output / a scripted crawl of every chapter's transcript page) confirming zero remaining
       occurrences across every chapter, not just the one reproduced in T030.
 - [ ] T034 [US4] Live-verify per quickstart.md's US4 scenario, fresh restart first, pasted evidence
       (the full-sweep result from T033, not a single-page spot-check).
-- [ ] T035 [US4] Commit, explicit paths, referencing FR-003/FR-004.
+- [x] T035 [US4] Commit, explicit paths, referencing FR-003/FR-004.
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: 5b00c30.)*
+      *(Reconciled by 026 on 2026-10-20: PARTIAL: no scripted crawl found in the repo.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: passage-knowledge.component.ts (hardcoded badge deleted, 5b00c30).)*
 
 **Checkpoint**: US4 independently functional and live-verified.
 
@@ -303,35 +334,41 @@ SC-003 — quantified by this feature's own 2026-10-01 clarification).
 
 ### Investigation for User Story 5
 
-- [ ] T036 [P] [SUBAGENT] [US5] Measure the CURRENT per-chapter flagged-uncertain segment rate as the
+- [x] T036 [P] [SUBAGENT] [US5] Measure the CURRENT per-chapter flagged-uncertain segment rate as the
       baseline (this is also useful as evidence for T002's pre-existing-state record). For a sample
       of currently-flagged segments across multiple chapters, listen to the underlying audio and
       judge whether a reasonable listener would consider each one genuinely hard to transcribe or
       whether the engine's output was already correct despite the flag — this determines whether the
       fix is a threshold-tuning change or requires an actual re-transcription pass.
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: 5e25ef7 message: 25.3-54.8% baseline per chapter.)*
 
 ### Tests for User Story 5
 
-- [ ] T037 [TDD] [US5] Write a failing test asserting the measured per-chapter flagged-uncertain rate,
+- [x] T037 [TDD] [US5] Write a failing test asserting the measured per-chapter flagged-uncertain rate,
       after the fix, is at least 50% lower than T036's baseline for every chapter, with segment count
       held constant (SC-003) — this test necessarily runs against real reprocessed output, not a
       mock, per plan.md's TDD Requirements for this story.
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: pipeline/test_uncertain_rate_reduction.py (+registry parity, upper bound; eef689a).)*
 
 ### Implementation for User Story 5
 
-- [ ] T038 [US5] Apply the fix determined by T036 (calibration-threshold adjustment and/or a
+- [x] T038 [US5] Apply the fix determined by T036 (calibration-threshold adjustment and/or a
       re-transcription pass) — per the constitution's *A Statistic a Fix Can Overshoot Requires a
       Two-Sided Check*, if this is a threshold change, it MUST be checked in both directions: confirm
       the reduction does not silently accept segments a reasonable listener would judge genuinely
       wrong as "confident".
-- [ ] T039 [US5] Run T037 again; confirm GREEN (≥50% reduction, segment count unchanged, per-chapter).
+- [x] T039 [US5] Run T037 again; confirm GREEN (≥50% reduction, segment count unchanged, per-chapter).
 - [ ] T040 [US5] For the segments STILL flagged uncertain after the fix, spot-check a sample by
       listening to the audio — confirm they are genuinely hard to transcribe (FR-005's "only
       genuinely hard-to-transcribe audio" clause), not a new set of borderline-clear cases introduced
       by the fix itself (the two-sided check from T038, verified).
 - [ ] T041 [US5] Live-verify per quickstart.md's US5 scenario, fresh restart first, pasted
       per-chapter before/after figures.
-- [ ] T042 [US5] Commit, explicit paths, referencing FR-005/SC-003.
+- [x] T042 [US5] Commit, explicit paths, referencing FR-005/SC-003.
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: 5e25ef7, ff6e04e, e3f4be8, dcfdf7a, eef689a.)*
+      *(Reconciled by 026 on 2026-10-20: PARTIAL: served-source verified (registry uncertain counts all >=70% below pre-fix), live API not re-checked.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: measured now: segments.json uncertain/total ch01 34/1055, ch02 96/1206, 02.01 3/42, 02.02 27/202, ch03 53/1100.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: build_transcript.py segment_uncertain(); CALIBRATION.md S9; two-sided sample in commit msg (threshold change, not re-transcription).)*
 
 **Checkpoint**: US5 independently functional and live-verified. Long-running (re-transcription) —
 started early per plan.md's Parallel Execution Opportunities so its wall-clock overlaps other work.
@@ -362,27 +399,32 @@ evidence).
       (constitution: *A Screen's Precision Is Not Its Recall*). Determine: genuine regression, the
       same scoping gap re-appearing for chapter 03/04 specifically, or (per T043) a
       derivation-timing artifact.
+      *(Reconciled by 026 on 2026-10-20: PARTIAL: ledger report only; prebuilt crossrefs checked: targets transcript/doc_section/code, no glossary/bookkeeping targets.)*
 
 ### Tests for User Story 6
 
-- [ ] T045 [TDD] [US6] Write a failing test (mirroring the scoping-fix test shipped earlier the same
+- [x] T045 [TDD] [US6] Write a failing test (mirroring the scoping-fix test shipped earlier the same
       day for the sibling code path, per research.md) asserting the crossref candidate population
       for a representative passage excludes bare glossary-term and bookkeeping-row targets — exact
       file confirmed by T044's root-cause finding.
 - [ ] T045b [TDD] [US6] **Edge case** (spec.md): write a test asserting that a passage with zero
       genuinely related cross-references, after the scoping fix, renders an honest empty state —
       confirm the fix does not re-admit a weak/irrelevant match just to avoid an empty list (FR-007).
+      *(Reconciled by 026 on 2026-10-20: ABSENT / UNMET: no such test; prebuilt crossrefs are exactly 20 per source with min_score 0, so the empty state is unreachable by data. Decision D7 (spec 026): no MMR; use a score floor + honest empty state here.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: pkg/crossref/floor_population_test.go:154,191,241.)*
 
 ### Implementation for User Story 6
 
-- [ ] T046 [REVIEW] [US6] Fix the scoping gap found in T044 so T045 passes. **Review gate**: per
+- [x] T046 [REVIEW] [US6] Fix the scoping gap found in T044 so T045 passes. **Review gate**: per
       plan.md's Review Gates, this touches crossref derivation/scoping code that was already changed
       once the same day — review against that earlier fix, not layered blindly on top of it.
 - [ ] T047 [US6] Run T045 again; confirm GREEN.
 - [ ] T048 [US6] Live-verify per quickstart.md's US6 scenario — a sample large enough for an honest
       recall statement, across chapter 03/04 specifically, fresh restart first, pasted evidence
       (target-kind tally, score ranges, zero-bogus-target confirmation).
-- [ ] T049 [US6] Commit, explicit paths, referencing FR-006/FR-007/SC-004.
+- [x] T049 [US6] Commit, explicit paths, referencing FR-006/FR-007/SC-004.
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: 22fde1d.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: W 22fde1d carryforward.go:56 (6th condition population_key), crossref.go, main.go.)*
 
 **Checkpoint**: US6 independently functional and live-verified.
 
@@ -395,19 +437,24 @@ evidence).
 
 **Independent Test**: quickstart.md's "US7" scenario.
 
-- [ ] T050 [P] [SUBAGENT] [US7] Locate the progress screen's first-column component and inspect its
+- [x] T050 [P] [SUBAGENT] [US7] Locate the progress screen's first-column component and inspect its
       current CSS (a fixed width with `overflow: hidden` and no responsive wrapping is the most
       likely shape, per research.md).
-- [ ] T051 [TDD] [P] [US7] Write a failing test (a rendered-text-content assertion, or a visual
+- [x] T051 [TDD] [P] [US7] Write a failing test (a rendered-text-content assertion, or a visual
       regression test if this project's suite supports one) asserting the first-column label renders
       as the complete word/phrase at a representative narrow viewport width.
-- [ ] T052 [US7] Fix the CSS/layout (wrap, responsive width, or truncate-with-full-text-available) so
+- [x] T052 [US7] Fix the CSS/layout (wrap, responsive width, or truncate-with-full-text-available) so
       T051 passes, across the viewport range named in spec.md's acceptance scenario (typical desktop
       and mobile).
 - [ ] T053 [US7] Run T051 again; confirm GREEN.
 - [ ] T054 [US7] Live-verify per quickstart.md's US7 scenario at multiple real viewport widths, fresh
       restart first, pasted evidence/screenshot.
-- [ ] T055 [US7] Commit, explicit paths, referencing FR-008/SC-005.
+- [x] T055 [US7] Commit, explicit paths, referencing FR-008/SC-005.
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: 7f9da22.)*
+      *(Reconciled by 026 on 2026-10-20: PARTIAL: served bundle contains `overflow-wrap:anywhere`; no screenshot evidence at several widths.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: progress.component.ts:313 `white-space:normal;overflow-wrap:anywhere`.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: progress-area-label-wrap.spec.ts:126,137.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: progress.component.ts `.wk-gutter-cell .wk-tag`.)*
 
 **Checkpoint**: US7 independently functional and live-verified.
 
@@ -424,20 +471,20 @@ source conversation (spec.md FR-015, FR-016, SC-009).
 Checkpoint 4), not a fully automatable success criterion — T058's mechanical check is a necessary
 but not sufficient gate.
 
-- [ ] T056 [P] [SUBAGENT] [US8] Read chapter 4's current section content and its full source
+- [x] T056 [P] [SUBAGENT] [US8] Read chapter 4's current section content and its full source
       transcript side by side to identify which specific sections are the clearest instances of
       "thrashy"/first-person fragments, scoping the rewrite precisely (research.md). Confirm the
       existing text-only-chapter section-generation code path (introduced the same day) so the
       rewrite is produced consistently with how other sections are structured, not as a one-off hand
       edit.
-- [ ] T057 [TDD] [US8] Write a mechanical pre-check test asserting no chapter 4 section's rendered
+- [x] T057 [TDD] [US8] Write a mechanical pre-check test asserting no chapter 4 section's rendered
       content contains a first-person "I " token (a necessary-but-not-sufficient automated check per
       research.md/plan.md's note that "clear" and "concluded" require human judgment).
-- [ ] T057b [TDD] [US8] **Edge case** (spec.md): write a test asserting that a source span with no
+- [x] T057b [TDD] [US8] **Edge case** (spec.md): write a test asserting that a source span with no
       clear third-person-summarizable conclusion (e.g. small talk) is OMITTED from section content
       entirely, not force-summarized into a misleading statement — confirm against at least one real
       small-talk span identified in T056.
-- [ ] T058 [US8] Regenerate/rewrite the sections identified in T056, each traceable to its
+- [x] T058 [US8] Regenerate/rewrite the sections identified in T056, each traceable to its
       `source_span` (data-model.md's Chapter 4 section validation rule), in third person, omitting
       any source span with no clear third-person-summarizable conclusion (spec.md Edge Cases) rather
       than force-summarizing it — staying inside the content-boundary discipline already established
@@ -448,7 +495,12 @@ but not sufficient gate.
       section end to end against the source conversation for actual clarity, conclusiveness, and
       traceability — the acceptance gate T057 cannot fully automate.
 - [ ] T061 [US8] Live-verify per quickstart.md's US8 scenario, fresh restart first.
-- [ ] T062 [US8] Commit, explicit paths, referencing FR-015/FR-016/SC-009.
+- [x] T062 [US8] Commit, explicit paths, referencing FR-015/FR-016/SC-009.
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: 1a46788, 28cb569, e3f4be8.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: 1a46788 + rewrite_text_chapter_sections.py; reached registry via e3f4be8.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: test_chapter04_registry_omitted_spans_suppressed.py (28cb569), section_rewrites/04.json (4 rewrites, omissions).)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: pipeline/extract/test_chapter04_sections_voice.py; my scan: 0 first-person tokens in chapter-04 knowledge/*.jsonl and pid 01M3SPS... in registry.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: W 1a46788; ledger us8-report.md.)*
 
 **Checkpoint**: All 8 user stories now independently functional and live-verified.
 
@@ -468,13 +520,17 @@ but not sufficient gate.
 - [ ] T065 Fresh `scripts/restart.sh`, confirm `scripts/status.sh` RUNNING/healthy, and re-run
       quickstart.md's 8 per-story scenarios one final time end to end against the single final build,
       pasting the build stamp from `/api/health` once for the whole batch.
-- [ ] T066 Update `specs/016-workshop-live-qa-fixes/checklists/requirements.md` if any finding during
+- [x] T066 Update `specs/016-workshop-live-qa-fixes/checklists/requirements.md` if any finding during
       implementation revealed a spec gap not caught during `/speckit-clarify` (expected: none, but
       checked rather than assumed).
 - [ ] T067 **[/speckit-analyze D1]** Update `CONTINUATION.md` at the `workshop` repository root
       describing this batch's 8 fixes (per the constitution's *Comprehensive Documentation*
       principle — a MUST, mechanically enforced by `scripts/continuation-check.sh`), in the SAME
       commit as T065's final live-verification evidence — not a separate, later commit.
+      *(Reconciled by 026 on 2026-10-20: RELOCATED: the CONTINUATION entry lives in the UMBRELLA `CONTINUATION.md:669+`, not the workshop root; amend the task path or mirror the note.)*
+      *(Reconciled by 026 on 2026-10-20: DONE, evidence: CONTINUATION: 16/16.)*
+      *(Reconciled by 026 on 2026-10-20: PARTIAL: final eight-scenario run on one build not pasted; US6 open.)*
+      *(Reconciled by 026 on 2026-10-20: PARTIAL: 9/11 gates pass, 2 UNDETERMINED (`verify-answer-question`, `verify-served-correctness-indicator`).)*
 
 **Checkpoint**: Batch complete — all 8 stories live-verified together on one final build.
 

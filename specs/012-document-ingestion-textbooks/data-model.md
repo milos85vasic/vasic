@@ -22,6 +22,8 @@ in Phase 2, per spec.md's Assumptions.
 
 ## License Record (operator-recorded, gates ingestion; not itself a passage)
 
+> **Reconciled by 026 on 2026-10-20 (D2): storage location decided.** The License Record is stored in the companion report file `<out>.report.json` (same directory as the sidecar; stem + `.report` + suffix) as the top-level object `license` = `{"basis": "...", "recorded_by": "...", "recorded_at": "<ISO 8601>"}`. It is never a field of the sidecar and never an `attrs` key: `cmd/ingest-transcript/main.go:161` decodes with `DisallowUnknownFields`, and `docSection` (`main.go:102-117`) declares no license field. The extractor refuses to run without `--license-basis` before reading any source byte. `pdf_textbook_sections.py:295-310` already writes the report file with a flat `license_basis` string; normalizing it to the nested object is part of T016.
+
 An explicit statement of a textbook's license/permission basis, recorded
 **before** ingestion is attempted. FR-005 requires this field to be present
 and refuses the run otherwise; it does **not** yet require this plan to
@@ -65,7 +67,8 @@ against the POC's own captured output
       "path": "<epub filename>#<spine href>",
       "line_start": 0,
       "line_end": 2,
-      "kind": "doc_section",
+      "kind": "textbook_section",
+      "content_type": "textbook",
       "pid": "<ULID, once carried — written back by ingest-transcript after first sync>",
       "attrs": {"epub_cfi": "<optional, format-specific location metadata — not populated by Phase 1's EPUB extractor>"}
     }
@@ -83,6 +86,8 @@ against the POC's own captured output
 | `sections[].kind` | string constant | `"doc_section"` — no new `passagestore.Kind` is introduced (FR-020's constraint, and the research's §3.2 finding that this kind already has full headroom for prose with no timespan). |
 | `sections[].pid` | string (ULID), once carried | Absent on first extraction; written back into this sidecar by `ingest-transcript` after a successful sync, then read back as the anchor on the next run — the exact mechanism `md_sections.py`'s own header documents and FR-007 requires this extractor to reuse unmodified. |
 | `sections[].attrs` | `map[string]string`, optional (FR-021, NEW) | Absent today from every Phase 1 EPUB section and from every existing `md_sections.py`-produced sidecar. When a producer supplies it, `ingest-transcript -docs` passes it through **unchanged** into the minted passage's `Observation.Attrs` (`passagestore.DocumentObservation`, `internal/passagestore/domain.go:538`, verified this session: today's signature is `DocumentObservation(chapterSlug, text string, kind passage.Kind, ref passage.SourceRef) passage.Observation` — six named fields on `docSection` (`PID`/`Text`/`Path`/`LineStart`/`LineEnd`/`Kind`, `main.go:102-109`), **no** `Attrs` field, and no parameter on `DocumentObservation` through which one could be set; `passage.Observation.Attrs map[string]string` already exists as an open field on the type, just never populated from ingestion input). This field does not itself name which keys a producer should write (`page`, `epub_cfi`, `heading`, …) — that is each format extractor's own decision against its real source format, exactly as spec 015's `data-model.md` states for the consuming side. |
+
+> **Reconciled by 026 on 2026-10-20 (D1/D2)**: the example above was changed from `"kind": "doc_section"` (no `content_type`) to `"kind": "textbook_section"` + `"content_type": "textbook"`; the row for `sections[].kind` is superseded accordingly, and `sections[].content_type` (string, REQUIRED, no default, `textbook` for this feature) is added. The `attrs` row and the Go snippet below remain, but retarget to the real signature `DocumentObservation(chapterSlug, text string, kind passage.Kind, contentType string, ref passage.SourceRef)` (`internal/passagestore/domain.go:642-643`), whose only ingest call site is `cmd/ingest-transcript/main.go:443`; the "9 call sites" figure and `domain.go:538` below are stale.
 
 **Go signature change this FR requires, consistent with this codebase's own established convention** (`internal/passagestore/domain.go` already uses the functional-option pattern elsewhere in this package's sibling files — `pkg/embed/embed.go`'s `OllamaOption`/`WithTimeout`/`WithPrefix`, `submodules/passage/pkg/passage/registry.go`'s `SyncOption`/`WithKeyStrategy`, `pid.go`'s `MinterOption`/`WithClock` — rather than a positional-parameter change, because `DocumentObservation` has 9 existing call sites across `corpus.go`, `main.go` and 6 test files, and a new required positional parameter would break all of them for no reason):
 
@@ -120,6 +125,8 @@ continues to compile unmodified — `opts` is optional and absent Attrs stays th
 zero-value `map[string]string(nil)` exactly as today.
 
 ## doc_section passage (existing, reused; no new fields, no new kind)
+
+> **Reconciled by 026 on 2026-10-20 (D1)**: for textbooks this entity is the `textbook_section` passage (`internal/passagestore/domain.go:71`) with `content_type: textbook`. `doc_section` remains the kind of authored lessons and meeting notes. This feature still adds zero new `Kind` values.
 
 The passage-store record every extracted section mints into, via
 `ingest-transcript -docs`. Already validated to carry no timespan

@@ -144,6 +144,8 @@ type Options struct {
 
 ### Ingestion: no new `passagestore.Kind` (FR-007); the `Attrs` passthrough is a spec 012 cross-spec dependency, NOT already-working today
 
+> **Reconciled by 026 on 2026-10-20 (D1)**: read "`passagestore.KindDocSection`" below as "an existing kind": for textbook content it is `KindTextbookSection` (`textbook_section`, `domain.go:71`) with `content_type: textbook`, added by spec 017. "No new Kind" remains true of this feature. Two location mechanisms now exist for textbooks and are redundant by design, not in conflict: the passage side (spec 017 FR-004) stores the page as `line_start = line_end` of the `SourceRef` (`pipeline/pdf_textbook_sections.py:225-228`), and this spec's `LocationAnchor.Locator` carries the page on the Material side. T023 MUST assert the two agree for a real textbook passage. The `Attrs` passthrough is still owed by spec 012 T006a, retargeted there to the 5-parameter `DocumentObservation` (`domain.go:642`).
+
 `LocationAnchor.PassageAnchor` resolves to an **existing**
 `passagestore.KindDocSection` (`"doc_section"`) record — the same kind
 already declared in `workshop/platform/backend/internal/passagestore/domain.go`
@@ -383,7 +385,7 @@ failure is deliberately NOT escalated to a 503 for the whole route").
 |---|---|---|---|
 | `LocationAnchor` | **New** | n/a (value type on `Material`) | Defined here, Phase 1 |
 | `Material.Location` | **New field** | `curriculum/learning/NN-<slug>.json` (authoring file, unchanged format) | Defined here, Phase 1 |
-| `Passage` (`doc_section` kind) | Existing | `curriculum/passages.jsonl` | Consumed unchanged, no new `Kind` |
+| `Passage` (`doc_section` kind; `textbook_section` for textbooks, Reconciled by 026 on 2026-10-20 D1) | Existing | `curriculum/passages.jsonl` | Consumed unchanged, no new `Kind` |
 | Profile Summary | **New** (read-side aggregation) | `learning-progress.json` + `progress.json`; `account_age` has **no** source yet | Defined here, Phase 2 |
 | Activity Timeline Entry | **New** (read-side merge) | `progress.json` (`Position.At`) + `learning-progress.json` (`Attempt.At`) | Defined here, Phase 2 |
 | Area Score/Attempt Record | Existing (`ckit.Attempt`) | `learning-progress.json` | Consumed unchanged |

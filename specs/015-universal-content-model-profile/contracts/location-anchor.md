@@ -82,7 +82,7 @@ an empty `require` set — see `curriculum-kit/CLAUDE.md`'s module-local rule
 1). This guarantee is really a constraint on the CONSUMER: `PassageAnchor`
 is documented (in `data-model.md`) as expected to resolve to an existing
 `passagestore.KindDocSection` record, with format metadata in that record's
-existing `Attrs` map — not as a new `passagestore.Kind`.
+existing `Attrs` map — not as a new `passagestore.Kind`. *(Reconciled by 026 on 2026-10-20, D1: for textbook content the existing kind is `textbook_section` (spec 017), not `doc_section`.)*
 
 **Guarantee 9 — served response carries seek/highlight/extent data
 (FR-008).** This guarantee is discharged by the CONSUMER (`pkg/learning`'s

@@ -5,6 +5,8 @@
 **Spec**: [spec.md](spec.md)
 **Input**: Feature specification from `specs/015-universal-content-model-profile/spec.md`
 
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)**: (D1) spec 017 added the `textbook_section` Kind and made `content_type` mandatory; for textbook content the passages `LocationAnchor.PassageAnchor` resolves to are `textbook_section` rows (content type `textbook`), NOT `doc_section`. This spec still introduces NO new `passagestore.Kind` (FR-007 stands in that sense); where it says "use `doc_section`" it now means "use an EXISTING kind: `doc_section` for authored lessons and meeting notes, `textbook_section` for textbooks". (D6) the profile frontend lives under `platform/frontend/src/app/features/profile/` (lazy routes in `features/profile/profile.routes.ts`, one route `profile`), not `src/app/profile/`. (D10) the `curriculum-kit` gitlink is owned by this spec and moves only together with its `helix-deps.yaml` ref; profile routes are registered through a `cmd/workshop-server/wire_profile.go` hook file, see `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules". Evidence: `specs/026-spec-reconciliation/research.md` sections 1 and 6.
+
 ## Summary
 
 Two independent phases on top of already-adopted infrastructure, built in
@@ -81,7 +83,7 @@ Angular 19 (frontend, `workshop/platform/frontend`)
 **Primary Dependencies**: `submodules/curriculum-kit` (extended, not forked —
 the Phase 1 work lands there per §11.4.74: this is the already-adopted,
 project-not-aware seam), the existing `passagestore` (`doc_section` kind,
-unchanged — no new `Kind` per FR-007), `pkg/learning.SessionStore`
+unchanged — no new `Kind` per FR-007; Reconciled by 026 on 2026-10-20, D1: textbooks use the existing `textbook_section` kind), `pkg/learning.SessionStore`
 (`ckit.Progress`), `internal/api.ProgressStore` (reading positions). No new
 frontend charting library (FR-017) — hand-rolled inline SVG, consistent with
 this codebase's existing minimal-dependency discipline (spec 004's
@@ -210,7 +212,7 @@ workshop/
 │       │                                   #   writeError/writeUnavailable exactly as lessons.go does
 │       └── profile_test.go                # NEW: handler tests, mirroring lessons_test.go's shape
 ├── platform/frontend/src/app/
-│   └── profile/                           # NEW: Angular route + components (header, activity feed,
+│   └── features/profile/                  # NEW (Reconciled by 026 on 2026-10-20, D6: was app/profile/): Angular route + components (header, activity feed,
 │                                           #   charts — hand-rolled inline SVG per FR-017, per-area
 │                                           #   reports, retake links)
 └── platform/frontend/docs/

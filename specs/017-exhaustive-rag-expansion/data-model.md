@@ -21,6 +21,8 @@ Represents one ingested textbook source document.
 | `chapter_count` | int | Derived at ingestion time from the TOC-resolution fallback chain. |
 | `ingested_generation` | int | The embedding generation this textbook's passages were first embedded into (FK into the existing `embeddings` table's `generation` column). |
 
+> **Reconciled by 026 on 2026-10-20 (D2)**: `license_basis` is implemented as a FREE STRING (`pipeline/pdf_textbook_sections.py:172-184` refuses only an empty value), not the closed enum above, and is stored in the companion `<out>.report.json` (written at `:295-310`), not as a passage or sidecar field. Treat the enum as an unmet design intent until operator decision O-1 (spec 026) closes the vocabulary.
+
 **Validation rules**: `source_path` MUST resolve to an existing file under `workshop/textbooks/`
 at ingestion time (FR-003's license gate: ingestion refuses to proceed for a file with no
 determinable `license_basis`, three-valued — proceed / refuse-with-reason / undetermined — never a

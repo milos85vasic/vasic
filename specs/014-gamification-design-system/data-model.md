@@ -9,6 +9,8 @@ from an event stream spec 013 owns, not a shape this feature persists.
 
 ## Achievement Event (consumed, not produced)
 
+> **Reconciled by 026 on 2026-10-20 (D3/D4)**: the producer is spec 013 (`contracts/achievement-events.md`). The server sends snake_case (`seq, id, kind, title, message, score_delta, occurred_at, coalesce_key, modal_worthy, area, remedial_href`); the adapter (T016) maps `score_delta -> scoreDelta`, `occurred_at -> occurredAt`, `coalesce_key -> coalesceKey`, `modal_worthy -> modalWorthy` and carries two optional extension fields on the in-memory event: `area: string` and `remedialHref?: string` (FR-022). The base `AchievementToastData` shape below stays unchanged; `remedialHref` is passed to the toast as a separate optional input so the prototype shape is not redefined.
+
 The unit spec 013's adaptive-scoring system is expected to emit. This
 feature is a **consumer** of this shape — it specifies neither the scoring
 algorithm nor the transport (see spec.md Assumptions). Shape below extends

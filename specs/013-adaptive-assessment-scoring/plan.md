@@ -11,6 +11,8 @@ section, e.g. "research §3.2") and its POC script
 is PRIVATE and consumed here read-only, by path and schema citation only, per this repository's
 content-boundary rule — no chapter/transcript content is quoted anywhere below.
 
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)**: (D3) this spec now owns the achievement event stream spec 014 consumes: see `contracts/achievement-events.md` and the added FR-017 / tasks T008a, T025a-T025d, T036a; (D4) remedial routing is carried on the `adjusted` event (`remedial_href`), kind-easing is deferred (T036b, operator decision O-4); (D5) practice-bank baseline corrected to 292 / 113 medium / 179 hard / 0 easy, measured at workshop `33e9760` (command in `specs/026-spec-reconciliation/research.md` section 5); (D10) `cmd/workshop-server/main.go` is single-writer: this spec wires through a `wire_scoring.go` hook file, see `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules"; and 016-US1 (practice answer submit fix) merges BEFORE 013-US1 touches the same submit path.
+
 ## Summary
 
 The open practice question bank currently has no submit endpoint at all — a learner answering a
@@ -83,7 +85,7 @@ passage registry is rebuilt — the same requirement `api.ProgressStore` and `pk
 satisfy by living outside the index database (`internal/api/progress.go` lines 38-48; `pkg/
 authstore/authstore.go` line 1-5).
 
-**Scale/Scope**: 311 practice questions across 40 area files today (research §2.1, freshly
+**Scale/Scope**: 292 practice questions across 40 area files today (Reconciled by 026 on 2026-10-20, D5: was 311; measured at workshop `33e9760`) (research §2.1, freshly
 recounted), 0 of them labeled `easy` — the cold-start fallback (FR-009) is therefore load-bearing
 from day one, not a theoretical edge case. Single-instance deployment; `db.SetMaxOpenConns(1)`
 (the `pkg/authstore` pattern, `authstore.go` line 93) is an adequate concurrency model for this
@@ -216,7 +218,7 @@ per this task's explicit instruction, against three universal anchors read from
 | Standalone Cloneable | PASS | No new external dependency; `modernc.org/sqlite` is already vendored and declared in the existing module's own `go.mod`/`go.sum`. |
 | Source Is Not Served | PASS, and load-bearing | `ResponseLogEntry.ServedDifficulty` is captured **as served at the moment of serving**, never re-derived from the item's current (possibly since-recalibrated) `ItemDifficultyState` — data-model.md §5.1 makes this a stored column, not a join, for exactly this reason: a historical score's provenance must describe what was actually served, not what the item's difficulty happens to read today. |
 | A Snapshot Licenses Only Itself | PASS | The batch recalibration job (User Story 3) computes `ItemDifficultyState` from a bounded read of `response_log` since its last run; it is a snapshot, and no synchronous submit path is ever allowed to assert "this item's difficulty is now X" on the strength of a batch result that has not actually run yet — the two are architecturally separate writes (research §3.4), not a cache the request path could mistake for current truth. |
-| A Gate's Population Is Part of Its Claim | PASS, directly addressed | The "population" a cold-start selection draws from is exactly the edge case spec.md names: 0 of 311 practice-bank items are labeled `easy` (research §2.1, §2.2 edge cases). FR-009's fallback to the graded catalog is this principle applied to item selection — the selection population must be justified (does an `easy`-difficulty item actually exist to serve?) before a cold-start pick is made, not assumed from the bank's nominal size. |
+| A Gate's Population Is Part of Its Claim | PASS, directly addressed | The "population" a cold-start selection draws from is exactly the edge case spec.md names: 0 of 292 practice-bank items are labeled `easy` (Reconciled by 026 on 2026-10-20, D5: was 311) (research §2.1, §2.2 edge cases). FR-009's fallback to the graded catalog is this principle applied to item selection — the selection population must be justified (does an `easy`-difficulty item actually exist to serve?) before a cold-start pick is made, not assumed from the bank's nominal size. |
 | A Rule Enforced by Nothing Is Not a Rule | PASS, with an owed task | FR-003's "never mutated or deleted" is enforced by (a) the application code path containing no `UPDATE`/`DELETE` statement against `response_log` anywhere, plus (b) a paired mutation test asserting an attempted mutation is rejected or structurally impossible — an unenforced code-review convention alone would not satisfy this principle, and is not what is planned. |
 | A Capability With Measured Harm Ships Off | Considered, PASS | Unlike the workshop's LLM-answering capability (which this same constitution records shipping OFF by default after measured fabrication harm), a wrong or imprecise *ability score* has bounded harm: it never fabricates a false factual answer, only a numeric estimate the spec itself documents as honestly uncertain (research §6, "rock-solid" is about provenance, not precision). The scoring pipeline ships ON by default. The **downgrade routing magnitude/threshold are configurable** precisely so an operator who observes the untuned POC constants misbehaving on real data has a measurement-driven off-ramp, without needing a code change — the spirit of this principle even though the specific "ships off by default" clause does not apply to a low-harm capability. |
 | Non-Readable Is Indistinguishable From Nonexistent | N/A, checked rather than assumed | `AbilityScore` is keyed by the same `X-Session` opaque string every other session-scoped store here already uses (`ProgressStore`, `pkg/learning.SessionStore`) — not an account, and this feature introduces no new authorization boundary or cross-session read path; a session cannot address another session's row because nothing here accepts a session identifier from anywhere but the request's own header. |
@@ -375,6 +377,8 @@ workshop/platform/backend/                        (PRIVATE submodule, consumed r
                                                         # AbilityScoreSource closure into
                                                         # ProgressHandler's existing construction call
 ```
+
+*(Reconciled by 026 on 2026-10-20, D10: replace "MODIFY main.go" with: ADD `cmd/workshop-server/wire_scoring.go` (`addScoringFlags`, `registerScoring`) and replace only the one pre-created `// hook:scoring` line in `main.go`. Add `internal/api` handler files for the event replay; the achievement event contract adds `pkg/scoring/events.go`.)*
 
 **Structure Decision**: `pkg/scoring` as a new, focused package (content-vs-activity separation, see
 "Package placement decision"); its own dedicated `scoring.db` SQLite file (survives re-index, see

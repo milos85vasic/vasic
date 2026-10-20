@@ -7,6 +7,8 @@ description: "Task list for feature 014: Gamification Feedback on the OpenDesign
 **Input**: Design documents from `specs/014-gamification-design-system/`
 **Prerequisites**: [plan.md](plan.md), [spec.md](spec.md), [data-model.md](data-model.md), [contracts/achievement-components.md](contracts/achievement-components.md), [quickstart.md](quickstart.md)
 
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)**: (D3) the event stream this spec consumes is now DEFINED by spec 013: `specs/013-adaptive-assessment-scoring/contracts/achievement-events.md` (server snake_case wire shape; the adapter in T016 maps it to this spec's camelCase `AchievementEvent`; 013 tasks T008a, T025a-T025d, T036a produce it); (D4) the remedial-routing hand-off from 013 is owned here as FR-022 and tasks T016b-T016c; (D6/D10) all new frontend files stay under `platform/frontend/src/app/features/gamification/` and `core/achievement-*`, `app.routes.ts` / `app.component.ts` / `core/vocabulary.ts` are single-writer files, see `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules".
+
 ## Format: `[ID] [P?] [TDD?] [REVIEW?] [SUBAGENT?] [BLOCKED?] [Story] Description`
 
 `[P]` parallelizable (different files, no dependency) · `[TDD]` write the test
@@ -51,6 +53,8 @@ and data-model.md — every task's requirements implicitly include these):
   simplification decision) — work happens directly against `main`.
 
 ## Cross-spec dependency — read before starting Phase A's event-wiring tasks (T017)
+
+> **Reconciled by 026 on 2026-10-20 (D3): the dependency below is DEFINED, not yet IMPLEMENTED.** Spec 013 now owns `contracts/achievement-events.md` and tasks T008a, T025a-T025d, T036a. The statements "013 defines no event type, no endpoint" and "no `AchievementEvent`-shaped stream" below were true on 2026-09 and are superseded as DESIGN facts; the code facts (no `ability.go`/`downgrade.go`/`pkg/scoring` in the backend) are unchanged until 013 is implemented. T016 stays blocked on 013 T025d.
 
 **Spec 013 (`specs/013-adaptive-assessment-scoring/`, status: Draft) does not
 yet define an `AchievementEvent`-shaped stream.** Confirmed by reading its
@@ -218,7 +222,11 @@ plus the full new Karma/Jasmine suite.
 
 ### Cross-spec wiring (the one task genuinely blocked by another feature)
 
-- [ ] **T016 [BLOCKED] [US1]** Wire spec 013's adaptive-scoring event stream to `AchievementToastService.push()`. **Do not start this task until spec 013 (`specs/013-adaptive-assessment-scoring/`) ships both an implemented backend surface (confirmed absent today — no `ability.go`/`downgrade.go` under `workshop/platform/backend`) and an explicit mapping from its `ResponseLogEntry.DowngradeTriggered`/`AbilityScore` shapes into this feature's `AchievementEvent` shape** (`kind`/`coalesceKey`/`occurredAt` — none of which spec 013's current `data-model.md` defines). This is a real, named external dependency, not an estimate of effort — see "Cross-spec dependency" above. User Story 1 is independently complete and demonstrable without this task, via the manual `push()` seam quickstart.md Step 2 already documents; this task exists so the dependency is tracked rather than silently assumed resolved. **Revisit this tasks.md once spec 013 lands its event-emission contract.**
+- [ ] **T016 [BLOCKED] [US1]** Wire spec 013's adaptive-scoring event stream to `AchievementToastService.push()`. **Do not start this task until spec 013 (`specs/013-adaptive-assessment-scoring/`) ships both an implemented backend surface (confirmed absent today — no `ability.go`/`downgrade.go` under `workshop/platform/backend`) and an explicit mapping from its `ResponseLogEntry.DowngradeTriggered`/`AbilityScore` shapes into this feature's `AchievementEvent` shape** (`kind`/`coalesceKey`/`occurredAt` — none of which spec 013's current `data-model.md` defines). This is a real, named external dependency, not an estimate of effort — see "Cross-spec dependency" above. User Story 1 is independently complete and demonstrable without this task, via the manual `push()` seam quickstart.md Step 2 already documents; this task exists so the dependency is tracked rather than silently assumed resolved. **Revisit this tasks.md once spec 013 lands its event-emission contract.** *(Reconciled by 026 on 2026-10-20, D3: unblock condition made concrete: 013 T025d (event replay on `GET /api/progress`) is merged. The "explicit mapping" this task waits for is now `specs/013-adaptive-assessment-scoring/contracts/achievement-events.md` section 1. Implementation: a small `core/achievement-event-adapter.ts` (pure mapping function + spec) and the poll/inline hook that calls `AchievementToastService.push()`; the adapter is a tested pure function, so it can be written against fixtures BEFORE 013 ships (still do not wire it to the live API until 013 T025d).)*
+
+- [ ] **T016a [TDD] [US1]** *(Reconciled by 026 on 2026-10-20, D3: added)* Write `core/achievement-event-adapter.ts` with a failing spec first: given the wire examples in 013 `contracts/achievement-events.md` section 1 (one per kind), the adapter returns objects satisfying `AchievementEvent`; unknown `kind` values are dropped and counted, never coerced; a missing `coalesce_key` is rejected, not defaulted. Pure function, no HTTP. Paste RED then GREEN.
+- [ ] **T016b [TDD] [US1]** *(Reconciled by 026 on 2026-10-20, D4, FR-022: added)* Remedial link: failing component tests first for `AchievementToastComponent`: an `adjusted` toast with `remedialHref` renders exactly one `<a>` (keyboard reachable, label from `core/vocabulary.ts` via the existing vocabulary gate `prove-ui-vocabulary-mutation.sh`), carries no `--od-danger`/`--od-warning` class, keeps `aria-live="polite"`, does not auto-navigate; without `remedialHref` the DOM is byte-identical to today's. Then implement. Paste output.
+- [ ] **T016c [US2] [BLOCKED]** *(Reconciled by 026 on 2026-10-20, D4, FR-022: added)* The same remedial link in the path-adjusted modal; blocked on T020/T021 (operator routing map) exactly like T025.
 
 ### Verification
 
@@ -268,7 +276,7 @@ toast-worthy event side by side and confirm only the modal-worthy one opens a
 
 - [ ] **T024 [US2]** Implement `LevelUpModalComponent` per T021's contract: native `<dialog>` + `.showModal()` (FR-015, relying on native focus-trap/Escape/background-inert rather than a hand-rolled overlay), the overlay scrim/blur tokens vendored in T002, identical motion tokens for both variants (FR-017). Run T022 and T023; confirm both GREEN.
 
-- [ ] **T025 [US2] [BLOCKED]** Wire modal-worthy events from the same event stream the toast queue consumes (plan.md Summary: "the toast queue's event stream is the same stream a modal would listen to"). Blocked on BOTH T016 (spec 013's event source, Phase A) and T020 (the routing map) — do not start until both are resolved.
+- [ ] **T025 [US2] [BLOCKED]** Wire modal-worthy events from the same event stream the toast queue consumes (plan.md Summary: "the toast queue's event stream is the same stream a modal would listen to"). Blocked on BOTH T016 (spec 013's event source, Phase A) and T020 (the routing map) — do not start until both are resolved. *(Reconciled by 026 on 2026-10-20, D3: also depends on T016a. The producer-side default `modal_worthy` is `true` for `level-up` only; T020 owns the final routing map (operator decision O-3).)*
 
 - [ ] **T026 [US2]** Add the modal verification steps quickstart.md explicitly says do not yet exist ("The modal (Phase 2) — no `<dialog>`/`.showModal()` component exists yet to verify") as a new quickstart.md section, then run them for real and paste output.
 

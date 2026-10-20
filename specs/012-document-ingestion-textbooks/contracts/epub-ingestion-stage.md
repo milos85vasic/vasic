@@ -46,7 +46,7 @@ not a valid ZIP, or carries no `mimetype` entry).
    stub-filter threshold `md_sections.py` already applies.
 5. Emit each section in the Extraction Sidecar shape (see
    [`data-model.md`](../data-model.md)): `{text, path, line_start, line_end,
-   kind: "doc_section"}`, with `line_start`/`line_end` as block ordinals
+   kind: "doc_section"}`, with `line_start`/`line_end` as block ordinals *(Reconciled by 026 on 2026-10-20, D1: read `kind: "textbook_section", content_type: "textbook"`; the key set is `pid?, text, path, line_start, line_end, kind, content_type`.)*
    within that spine document (FR-001).
 6. Apply the three-tier idempotent anchor-carry-forward strategy
    `md_sections.py` already implements (inline `pid` anchor → exact text
@@ -131,3 +131,9 @@ behavior (Markdown document ingestion) is **untouched** — `epub_sections.py`
 is an independent, additive sibling module, not a modification to
 `md_sections.py`, and every existing Markdown-sourced `doc_section` passage
 is unaffected by this feature shipping.
+
+## Reconciliation by spec 026 (Reconciled by 026 on 2026-10-20)
+
+- **Kind**: every section is `kind: "textbook_section"`, `content_type: "textbook"` (D1). Evidence: `internal/passagestore/domain.go:71,167,198-199`, `cmd/ingest-transcript/content_type.go:23-29`.
+- **License Record**: written to `<out>.report.json` as `{"license": {"basis", "recorded_by", "recorded_at"}, "failures": [...]}` next to `<out.json>`; the sidecar itself contains only decoder-declared fields (D2). The refusal rules in "Input" above are unchanged.
+- **Shared implementation**: PDF input is handled by `pipeline/pdf_textbook_sections.py`, which shares this contract's flags (`--chapter` for `--chapter-slug`, `--license-basis`) and exit codes (D8). The two CLIs' flag spelling difference (`--chapter` vs `--chapter-slug`) is to be removed when 012 is implemented by accepting both in `epub_sections.py`'s argparse; UNCONFIRMED which spelling the PDF script's callers use.

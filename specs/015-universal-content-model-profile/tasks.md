@@ -9,6 +9,8 @@ description: "Task breakdown for the universal content model (position-anchored 
 [contracts/profile-endpoints.md](contracts/profile-endpoints.md) ·
 [quickstart.md](quickstart.md)
 
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)**: (D1) spec 017 added the `textbook_section` Kind and made `content_type` mandatory; for textbook content the passages `LocationAnchor.PassageAnchor` resolves to are `textbook_section` rows (content type `textbook`), NOT `doc_section`. This spec still introduces NO new `passagestore.Kind` (FR-007 stands in that sense); where it says "use `doc_section`" it now means "use an EXISTING kind: `doc_section` for authored lessons and meeting notes, `textbook_section` for textbooks". (D6) the profile frontend lives under `platform/frontend/src/app/features/profile/` (lazy routes in `features/profile/profile.routes.ts`, one route `profile`), not `src/app/profile/`. (D10) the `curriculum-kit` gitlink is owned by this spec and moves only together with its `helix-deps.yaml` ref; profile routes are registered through a `cmd/workshop-server/wire_profile.go` hook file, see `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules". Evidence: `specs/026-spec-reconciliation/research.md` sections 1 and 6.
+
 **Tests**: spec.md's Success Criteria are verification-bearing (SC-002's
 "verified by re-running the existing validator suite", SC-004/SC-007's
 explicit pagination/data-source proofs), so test tasks are included
@@ -82,7 +84,7 @@ unchanged.
 
 **Independent Test**: `quickstart.md` Steps 1–6 — author/load a
 `document`-kind Material with a populated `LocationAnchor` through the
-extended validator; confirm it resolves to an existing `doc_section` passage
+extended validator; confirm it resolves to an existing passage (`doc_section`, or `textbook_section` for textbook content — Reconciled by 026 on 2026-10-20, D1)
 and is served through the existing `GET /api/areas/{area}/materials` family
 with no new endpoint or second catalog loader.
 
@@ -109,9 +111,10 @@ with no new endpoint or second catalog loader.
 
 ### Baseline (load-bearing — capture before any change)
 
-- [ ] **T001 [TDD] [US1]** Capture today's `CK013` behaviour as a byte-for-byte
+- [x] **T001 [TDD] [US1]** Capture today's `CK013` behaviour as a byte-for-byte
   baseline, per `quickstart.md` Step 1, **before** any other task in this
   phase touches `validate.go` or `model.go`:
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): baseline: evidence/s5/ck013-before.txt in curriculum-kit branch s5-015a (go test -v rc 0; verify rc 0; prove-failure 33/33).*
 
   ```bash
   cd submodules/curriculum-kit
@@ -140,70 +143,83 @@ with no new endpoint or second catalog loader.
 
 ### `LocationAnchor` type and `Material` extension
 
-- [ ] **T002 [US1] [SUBMODULE]** Add the `LocationAnchor` type to
+- [x] **T002 [US1] [SUBMODULE]** Add the `LocationAnchor` type to
   `submodules/curriculum-kit/pkg/curriculum/model.go`, field-for-field
   parallel to `VideoAnchor` per `data-model.md`'s definition
   (`SectionID ID`, `Locator string`, `PassageAnchor string`) — no
   `Start()`/`End()`/`Length()` helpers (no time dimension to convert).
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): LocationAnchor in model.go (+Complete()); curriculum-kit e5dcfae.*
 
-- [ ] **T003 [US1] [SUBMODULE]** Add `Material.Location *LocationAnchor
+- [x] **T003 [US1] [SUBMODULE]** Add `Material.Location *LocationAnchor
   json:"location,omitempty"` alongside the existing `Video *VideoAnchor`
   field. `MaterialKind` itself is **unchanged** — no new kind (FR-005).
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): Material.Location added; MaterialKind unchanged (TestMaterialKindVocabularyUnchanged); e5dcfae.*
 
-- [ ] **T004 [P] [US1] [SUBMODULE]** Add `Options.KnownSections
+- [x] **T004 [P] [US1] [SUBMODULE]** Add `Options.KnownSections
   map[ID]bool` to `validate.go`, parallel to the existing `KnownChapters`
   field (`nil` → every location Material produces `CK901`, never a silent
   pass).
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): Options.KnownSections + Document.knownSections/sectionsDeclared; e5dcfae.*
 
 ### Validator rules (`pkg/curriculum/validate.go`) — TDD, one rule per pair
 
-- [ ] **T005 [TDD] [US1] [SUBMODULE]** Write a failing test for `CK028`
+- [x] **T005 [TDD] [US1] [SUBMODULE]** Write a failing test for `CK028`
   `CodeDocumentNoLocation` (mirrors `CK010` `CodeVideoNoRange`): a
   `document`-kind Material with a nil `Location`, or a `Location` whose
   `SectionID`/`Locator`/`PassageAnchor` is empty, produces this finding.
   Closes spec.md Edge Case 2 ("no citation at all").
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): RED observed first (evidence/s5/red-full.txt: CK028 x5 subtests FAIL), oracle contracts/location-anchor.md.*
 
-- [ ] **T006 [US1] [SUBMODULE]** Implement `CK028` in `material()`. Run T005
+- [x] **T006 [US1] [SUBMODULE]** Implement `CK028` in `material()`. Run T005
   to confirm PASS.
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): CK028 GREEN; location.go-equivalent validator.location(); go test ok.*
 
-- [ ] **T007 [TDD] [US1] [SUBMODULE]** Write a failing test for `CK029`
+- [x] **T007 [TDD] [US1] [SUBMODULE]** Write a failing test for `CK029`
   `CodeLocationOnNonDocument` (mirrors `CK013` `CodeVideoOnNonVideo`): a
   Material of any kind other than `document` carrying a non-nil `Location`
   produces this finding.
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): RED observed first (CK029 x5 FAIL).*
 
-- [ ] **T008 [US1] [SUBMODULE]** Implement `CK029`. Run T007 to confirm PASS.
+- [x] **T008 [US1] [SUBMODULE]** Implement `CK029`. Run T007 to confirm PASS.
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): CK029 GREEN.*
 
-- [ ] **T009 [TDD] [US1] [SUBMODULE]** Write a failing test for `CK030`
+- [x] **T009 [TDD] [US1] [SUBMODULE]** Write a failing test for `CK030`
   `CodeDualAnchor` (new rule, FR-004 / spec.md Edge Case 3): a Material
   carrying **both** a non-nil `Video` and a non-nil `Location` at once,
   regardless of `Kind`, is rejected — message text per
   `contracts/location-anchor.md` Guarantee 4: `material of kind "<kind>"
   carries both a video anchor and a location anchor — a citation mechanism
   must be unambiguous`.
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): RED observed first (CK030 x3 FAIL); message text asserted verbatim per Guarantee 4.*
 
-- [ ] **T010 [US1] [SUBMODULE]** Implement `CK030`. Run T009 to confirm PASS.
+- [x] **T010 [US1] [SUBMODULE]** Implement `CK030`. Run T009 to confirm PASS.
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): CK030 GREEN.*
 
-- [ ] **T011 [TDD] [US1] [SUBMODULE]** Write a failing test for `CK031`
+- [x] **T011 [TDD] [US1] [SUBMODULE]** Write a failing test for `CK031`
   `CodeUnknownSection` (mirrors `CK024` `CodeUnknownChapter`): a
   `Location.SectionID` not present in a supplied non-nil
   `Options.KnownSections` produces this finding.
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): RED observed first (CK031 FAIL).*
 
-- [ ] **T012 [US1] [SUBMODULE]** Implement `CK031`. Run T011 to confirm PASS.
+- [x] **T012 [US1] [SUBMODULE]** Implement `CK031`. Run T011 to confirm PASS.
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): CK031 GREEN.*
 
-- [ ] **T013 [TDD] [US1] [SUBMODULE]** Write a test for `CK901`
+- [x] **T013 [TDD] [US1] [SUBMODULE]** Write a test for `CK901`
   `CodeSectionsUnresolved` (mirrors `CK900` `CodeChaptersUnresolved`,
   **undetermined**, not a finding): no `Options.KnownSections` map supplied
   at all → every location Material reports this three-valued undetermined
   row, never a silent pass. Implement in the same pass (this mirrors an
   existing three-valued pattern rather than introducing new branching logic,
   so RED/GREEN collapse into one task here, unlike T005–T012).
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): CK901 undetermined, RED then GREEN; finding outranks CK901 asserted.*
 
 ### The no-regression gate (load-bearing — do not skip or fold into another task)
 
-- [ ] **T014 [TDD] [REVIEW] [US1] [SUBMODULE]** **The `CK013` regression
+- [x] **T014 [TDD] [REVIEW] [US1] [SUBMODULE]** **The `CK013` regression
   gate.** Re-run the exact command from T001 (no `-run` filter — see T001's
   note on why `-run TestValidate` is wrong) against the now-extended
   validator and diff byte-for-byte against the saved baseline:
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): ck013-before vs ck013-after: 0 before-lines missing, 68 added, CK013 subtest lines identical; TestCK013UnchangedAfterLocationAnchor asserts full Finding incl. message text.*
 
   ```bash
   cd submodules/curriculum-kit
@@ -233,16 +249,18 @@ with no new endpoint or second catalog loader.
 
 ### Hardening
 
-- [ ] **T015 [P] [US1] [SUBMODULE]** Extend `scripts/verify-curriculum.sh
+- [x] **T015 [P] [US1] [SUBMODULE]** Extend `scripts/verify-curriculum.sh
   --prove-failure` (the §1.1 paired-mutation proof) with a
   `testdata/mutations/` fixture for each of `CK028`–`CK031`/`CK901`, per
   module-local rule 4. Each mutation must demonstrate the gate catches a
   seeded violation of that specific rule.
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): 6 fixtures (document-no-location, document-incomplete-location, location-on-non-document, dual-anchor, unknown-section, sections-undeclared); prove-failure 39/39; 5 rule-disabling mutants all caught (evidence/s5/mutants.txt).*
 
-- [ ] **T016 [P] [US1] [SUBMODULE]** Full module sweep: `go vet ./...`,
+- [x] **T016 [P] [US1] [SUBMODULE]** Full module sweep: `go vet ./...`,
   `go test -race ./...`, from `submodules/curriculum-kit`. Paste real
   output — no claim of "PASS" without it (this repository's anti-bluff
   discipline).
+  *Evidence (S5, 2026-10-20, curriculum-kit branch `s5-015a`, commit e5dcfae): go vet ok; go test -race ./... ok; coverage 95.1% (pkg/curriculum).*
 
 ### Submodule landing
 
@@ -295,7 +313,7 @@ with no new endpoint or second catalog loader.
   `document`-kind Material with a populated `Location` anchor in a
   `curriculum/learning/NN-<slug>.json` fixture, load it through the extended
   validator, and confirm it validates and its anchor resolves to an existing
-  `doc_section` passage via `passagestore.Registry.Resolve` (Acceptance
+  passage (`doc_section`, or `textbook_section` for textbook content — Reconciled by 026 on 2026-10-20, D1) via `passagestore.Registry.Resolve` (Acceptance
   Scenario 1). Also author a `document`-kind Material with a stray
   `VideoAnchor` instead of `Location` and confirm the SAME `CK013` rejection
   the existing suite already demonstrates (Acceptance Scenario 3) — not a
@@ -313,10 +331,10 @@ with no new endpoint or second catalog loader.
   `attrs` field and `DocumentObservation` takes no parameter to set one
   today (confirmed by reading `main.go`/`domain.go` directly — see this
   spec's own `data-model.md` "Ingestion" section) — until FR-021/T006a
-  lands, spec 012 cannot mint a `doc_section` passage whose `Attrs` carries
+  lands, spec 012 cannot mint a passage (`textbook_section`, Reconciled by 026 on 2026-10-20 D1) whose `Attrs` carries
   the location metadata `LocationAnchor.PassageAnchor` (T002) is designed
   to cite. Spec 012 is a downstream **producer**: its ingestion pipeline is
-  what actually writes `doc_section` passages for real textbook content.
+  what actually writes passages for real textbook content (Reconciled by 026 on 2026-10-20, D1: `textbook_section`, not `doc_section`).
   This specification deliberately does not design spec 012's ingestion
   pipeline (spec.md's own Assumptions: "without designing spec 012's
   ingestion pipeline itself") — this task's job, once spec 012's FR-021 has
@@ -465,7 +483,7 @@ the four new endpoints and no new persisted state.
   `ckit.Progress.BestAttempt`'s own existing test coverage); and for an
   unpublished/removed area → `404` `ErrAreaNotFound` (FR-020).
 
-### Frontend (`workshop/platform/frontend/src/app/profile/`, NEW)
+### Frontend (`workshop/platform/frontend/src/app/features/profile/`, NEW) *(Reconciled by 026 on 2026-10-20, D6: was `src/app/profile/`; routes in `features/profile/profile.routes.ts`, one route `profile`, appended at the END of `app.routes.ts` by the orchestrator per the single-writer rule)*
 
 - [ ] **T033 [P] [US2]** Angular route + `ProfileHeaderComponent`:
   identity/account-age (renders "not available" for `null`, never inferred),

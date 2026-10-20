@@ -5,6 +5,8 @@ simplification decision recorded in `spec.md`'s header.
 **Date**: 2026-09-30 | **Spec**: [spec.md](spec.md)
 **Input**: Feature specification from `specs/014-gamification-design-system/spec.md`
 
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)**: (D3) the event stream this spec consumes is now DEFINED by spec 013: `specs/013-adaptive-assessment-scoring/contracts/achievement-events.md` (server snake_case wire shape; the adapter in T016 maps it to this spec's camelCase `AchievementEvent`; 013 tasks T008a, T025a-T025d, T036a produce it); (D4) the remedial-routing hand-off from 013 is owned here as FR-022 and tasks T016b-T016c; (D6/D10) all new frontend files stay under `platform/frontend/src/app/features/gamification/` and `core/achievement-*`, `app.routes.ts` / `app.component.ts` / `core/vocabulary.ts` are single-writer files, see `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules".
+
 ## Summary
 
 Turn the completed research brief and its prototype

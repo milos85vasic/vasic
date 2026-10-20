@@ -6,6 +6,8 @@
 
 **Status**: Draft
 
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)**: (D10) `cmd/workshop-server/main.go` (3,905 lines, 34 `mux.Handle` sites, one `config` struct) is single-writer. This spec's flag wiring goes through two hook files, `cmd/workshop-server/wire_audit.go` (`-answer-audit-log`, US2) and `cmd/workshop-server/wire_lan.go` (US3), each replacing one pre-created `// hook:audit` / `// hook:lan` line in `main.go`; the hook files are created by the Wave-0 task of the implementing orchestrator. (D5) catalogue state re-confirmed: US1 is merged in workshop `bb69fe5` (`pkg/answer/registry.go:311,313`), so the "US3 sequenced after US1 because both edit `registry.go`" constraint is already satisfied. See `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules".
+
 **Input**: Formalization of `workshop/docs/research/education-platform/multi-provider-llm-and-content-model.md`, Part A only (Part B — the universal content model and user profile page — is formalized separately as spec 015-universal-content-model-profile and is referenced here by name, not re-specified).
 
 ## Summary
@@ -305,7 +307,7 @@ served by the newly-configured provider without a process restart.
   on-disk schema (file format — JSON Lines vs. a dedicated store; field names; whether it
   reuses or parallels the existing `internal/answering/redaction` audit pattern the research
   gestures at). This must be decided before implementation, following whichever existing
-  audit-logging convention this codebase already has for answered-job auditing.]**
+  audit-logging convention this codebase already has for answered-job auditing.]** *(Reconciled by 026 on 2026-10-20, C9: RESOLVED in `data-model.md` section 4 (JSON Lines modelled on `passage.RedactionLog`, nine fixed fields) and `contracts/remote-generation-audit-log.md`; `tasks.md` T007/T008 implement the nine-field schema. The marker above is kept as history; the operator confirms the resolution, spec 026 O-7.)*
 - **FR-006**: The system MUST introduce a third locality value, distinct from `local` and
   `remote`, denoting an operator-controlled, non-loopback network endpoint (referred to here as
   `lan`), as an extension of `ProviderConfig.Locality` and `VerifyLocality`

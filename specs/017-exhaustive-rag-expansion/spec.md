@@ -6,6 +6,8 @@
 
 **Status**: Draft
 
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)** (no task state changes; 017 stays 52/52): (D1/D8) 017 is now the SINGLE PDF implementation: spec 012 adopts `pipeline/pdf_textbook_sections.py` instead of writing its own `pdf_sections.py`, and 012's "doc_section" statements are superseded in favour of this spec's `textbook_section` + `content_type: textbook`; (D2) the license record of this feature is carried in the companion report file, key `license` (today the script writes a flat `license_basis`, normalized to the nested object when 012-T016 lands); (D7) the MMR-for-crossrefs recommendation of the UX research is REJECTED: crossrefs do not use MMR, consistent with `research.md` section 0; (D10) the residual reranker/flag work edits `cmd/workshop-server/main.go` only through a `wire_rerank.go` hook file and `platform/compose.yml` only via the orchestrator. Sibling-spec statements in this spec that read "012 (0/55 tasks)" were true on 2026-10-05; at 2026-10-20 012 still has 0/55 ticked and its PDF half is superseded by this feature. See `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules" and `research.md`. Open items this spec owns (not closed by 026): textbook live merge into the live registry and reranker enablement (O-6); license vocabulary (O-1).
+
 **Input**: User description: "We have research materials in docs/research/clients/germany and first textbook materils for full processing in: workshop/textbooks/ with first directory containing themL ai_001. For working with textbooks and similar materials we MUST incorporate everything we can from: https://github.com/prime-radiant-inc/books-for-bots. It is MANDATORY to perform multiple additional rounds of deep web research to obtain as much as possible new game changing ideas and innovative apporaches we could apply! Another big improvement we MUST DO is to introduce significant exhaustive use uf RAG technology with all existing materials we have - all video and textual chapter (with all existing meeting notes andtranscriptions) and all text books we have. We MUST keep in mind that in the future we will be adding more video chapters, textual chapters or text books! It is important to note that client is from Jordan, not Germany, therefore all references (directory name and others) pointing to Germany as country MUST BE updated to Jordan!"
 
 **Builds on**: `specs/012-document-ingestion-textbooks` (Draft, 0/55 tasks — EPUB/PDF/FB2/DOCX/HTML ingestion
@@ -322,7 +324,7 @@ relabeled.
   the meeting-notes precedent.
 - **FR-002**: Every ingested textbook MUST carry a recorded license/permission basis before any of its
   content becomes searchable, inheriting spec 012's existing license gate rather than defining a second
-  one.
+  one. *(Reconciled by 026 on 2026-10-20, D2: the record is stored in the companion `<out>.report.json` (key `license`), never in the sidecar, because `ingest-transcript` decodes with `DisallowUnknownFields`; the gate is the extractor's refusal before reading any source byte. The closed vocabulary is still open, O-1.)*
 - **FR-003**: A changed or newly-added textbook MUST re-ingest idempotently — zero duplicate passages on
   an unchanged re-run, and a corrected edition's changed sections identified and updated without
   re-minting the identity of its unchanged sections — reusing the tiered idempotency strategy already

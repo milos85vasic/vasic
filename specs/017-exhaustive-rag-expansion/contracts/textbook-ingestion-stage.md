@@ -57,3 +57,10 @@ three-valued exit convention (0/1/2) at both the per-file and per-section granul
 - `kg_area` promotion of textbook-derived knowledge-graph entities — deferred to spec 012's own
   FR-020 open question; out of this feature's scope entirely (this feature's `textbook_section`
   kind is a base kind, not a `kg_*` kind).
+
+## Reconciliation by spec 026 (Reconciled by 026 on 2026-10-20)
+
+- **Single implementation (D8)**: this script is also the PDF stage of spec 012 (Phase B). Spec 012's `epub_sections.py` and any later FB2/DOCX/HTML stages share THIS contract's sidecar shape: `pid?, text, path, line_start, line_end, kind, content_type` only.
+- **Row kind (D1)**: `kind: "textbook_section"`, `content_type: "textbook"`, scope `textbook-<slug>`. The script currently accepts any `--chapter`; enforcing the `textbook-` prefix (012 FR-006 / T022) is an open code gap (`pdf_textbook_sections.py:171`).
+- **License record (D2)**: companion report, key `license` `{basis, recorded_by, recorded_at}`; current flat `license_basis` is normalized by 012-T016.
+- **Attrs (D2)**: the note above that `DocumentObservation` has "NO Attrs parameter (domain.go:538-548)" is stale as to the line numbers: the function is at `domain.go:642` with a 5-parameter signature including `contentType`; it still has no `Attrs` parameter until 012-T006a.
