@@ -207,6 +207,15 @@ a hook bypass by configuration (`-c core.hooksPath=…`). It allows the look-ali
 `rm -rf "$S"/*` with `S` unset is refused; write `"${S:?}"`. Every refusal says what to do instead (the proof asserts the
 hint). The complete per-row list is in the hook's header ("CATALOGUE RULE").
 
+*workshop-redact rule (row `workshop-redact-no-root`, 2026-10-21).* Refuses a bare `workshop-redact` (basename at command
+position in any wrapper stage, also `go run|test ./cmd/workshop-redact`) unless a `-root`/`--root`/`-root=X`/`--root=X`
+that Go's flag parser reads as a FLAG is present, or `WORKSHOP_ROOT` is assigned in that command's own `VAR=value`
+prefix; `-root` as the value of another flag (`--note -root --purge`) does not count. `bash scripts/redact.sh ...` stays
+allowed. **Status: best-effort defence in depth, not the control** — it cannot see the binary started from another
+program, held in a variable, copied/renamed, or reached through `xargs`/`find -exec`/`bash -c` with a computed word. The
+control is the binary's own guard (explicit `-root`; `WORKSHOP_ALLOW_PRIMARY_WRITE=1` for a git primary checkout, granted
+only by `scripts/redact.sh`; `--purge` needs `--confirm-r6-loss`).
+
 *tmpfs rule.* Refuses (rc 2) BULK writes that bring DISK data into tmpfs: recursive copies (`cp -a|-r|-R`, `rsync`,
 `zip -r`, `podman|docker cp`), clones/worktrees/bundles/archives, archive extraction (`tar -x`, `unzip`, `7z x`), git
 fetching into (or `git push` / `git remote update` into) a repo on tmpfs, `podman|docker save`, a directory or a > 64 MiB

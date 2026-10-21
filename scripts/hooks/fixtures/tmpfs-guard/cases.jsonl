@@ -615,3 +615,28 @@
 {"id": "r8-G04", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "printf '%s\\n' $'\\x41\\102'"}
 {"id": "r8-G05", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "xargs -0n 1 echo < list"}
 {"id": "r8-B13", "expect": "B", "branch": "cat:add-all", "cwd": "@REPO@", "cmd": "env -iS 'git add -A'"}
+{"id": "wr-B01", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "platform/bin/workshop-redact --purge"}
+{"id": "wr-B02", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact --note -root --purge"}
+{"id": "wr-B03", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "/usr/bin/timeout 5 workshop-redact --pid 3"}
+{"id": "wr-B04", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "bounded-run -q -- ./platform/bin/workshop-redact --dry-run"}
+{"id": "wr-B05", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "go run ./cmd/workshop-redact --purge"}
+{"id": "wr-B06", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "go test ./cmd/workshop-redact"}
+{"id": "wr-B07", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "bash -c 'workshop-redact --purge'"}
+{"id": "wr-B08", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "WORKSHOP_ROOT= workshop-redact --purge"}
+{"id": "wr-B09", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact --reason x --by y --root="}
+{"id": "wr-B10", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "WORKSHOP_ROOT=/tmp/s; workshop-redact --purge"}
+{"id": "wr-B11", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact --reason -root --by b"}
+{"id": "wr-B12", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact --pid 3 -- -root /tmp/s"}
+{"id": "wr-B13", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "go run -race ./cmd/workshop-redact --note -root --purge"}
+{"id": "wr-B14", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact"}
+{"id": "wr-G01", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "bash scripts/redact.sh --pid X --reason r --by b"}
+{"id": "wr-G02", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "platform/bin/workshop-redact -root /tmp/s --dry-run"}
+{"id": "wr-G03", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "platform/bin/workshop-redact --root=/tmp/s --purge"}
+{"id": "wr-G04", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "platform/bin/workshop-redact --note x -root /tmp/s"}
+{"id": "wr-G05", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "WORKSHOP_ROOT=/tmp/s platform/bin/workshop-redact --dry-run"}
+{"id": "wr-G06", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "env WORKSHOP_ROOT=/tmp/s workshop-redact --dry-run"}
+{"id": "wr-G07", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "go run ./cmd/workshop-redact -root /tmp/s --dry-run"}
+{"id": "wr-G08", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "echo workshop-redact --purge"}
+{"id": "wr-G09", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git commit -m \"run workshop-redact --purge\""}
+{"id": "wr-G10", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "grep workshop-redact docs/runbook.md"}
+{"id": "wr-G11", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "workshop-redact --reason x --by y --root /tmp/s --pid 4"}

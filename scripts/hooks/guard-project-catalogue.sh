@@ -100,6 +100,9 @@
 #                     find -delete with no start path starts at `.`. An UNSET variable
 #                     is empty (each Bash call is a fresh shell): `rm -rf "$S"/*` with S unset is `rm -rf /*` and is
 #                     refused; `${S:?}` aborts the command and is allowed. A sub-path (`~/Projects/x/*`) is not a root.
+#   workshop-redact-no-root (project, 2026-10-21) a bare workshop-redact (or go run|test ./cmd/workshop-redact) with no real
+#                     -root/--root FLAG (Go flag semantics; `--note -root` is a value) and no WORKSHOP_ROOT in the command's own
+#                     VAR=value prefix. BEST-EFFORT defence in depth; the binary's own guard is the control (see wr_hit)
 # A refused row with no parser above (a FUTURE row) falls back to its `candidate` ERE at command position. Every refusal
 # names what to do instead (HINTS; the proof asserts the hint).
 #
@@ -1380,6 +1383,55 @@ def rm_root(w, ctx):
 RM_LONG = L("--force", "--interactive", "--one-file-system", "--no-preserve-root", "--preserve-root", "--recursive", "--dir",
             "--verbose", "--help", "--version")
 
+# workshop-redact without an explicit root (operator decision 2026-10-21, workshop H2 stream request).
+# STATUS: BEST-EFFORT DEFENCE IN DEPTH, NOT THE CONTROL. A command-line rule cannot see the binary started from another
+# program (Python/Go), held in a variable (`b=workshop-redact; $b ...`), copied or renamed (`cp workshop-redact w; w --purge`),
+# or reached through xargs / find -exec / bash -c with a computed word. THE REAL CONTROL IS THE BINARY'S OWN GUARD: writing
+# modes need an explicit -root; a git PRIMARY checkout also needs WORKSHOP_ALLOW_PRIMARY_WRITE=1 (granted only by
+# scripts/redact.sh); --purge needs --confirm-r6-loss (workshop scripts/redact-flag-classify.test.sh proves it).
+# This rule refuses a bare invocation at normalised command position (every wrapper stage; `go run|test ./cmd/workshop-redact`
+# too) unless a -root/--root that Go's flag parser treats as a FLAG is present, or WORKSHOP_ROOT is assigned in the same
+# command's VAR=value prefix. `-root` as the VALUE of another flag (`--note -root --purge`) does not count.
+WR_ID = "workshop-redact-no-root"
+WR_VALUE_FLAGS = {"pid", "span", "pids-file", "reason", "by", "include-held-back", "chapter", "decision", "note", "root"}
+
+def wr_has_root(args):
+    """Go flag semantics: flags start with - or --, parsing stops at the first non-flag word or `--`, a value flag takes the
+    next word unless written -name=value."""
+    i = 0
+    while i < len(args):
+        w = args[i]
+        if w == "--" or not w.startswith("-") or w == "-":
+            return False
+        if w.startswith("---"):
+            return False                      # Go rejects it (bad flag syntax): the run fails before any write
+        name, eq, val = w.lstrip("-").partition("=")
+        if name == "root":  # MUTANT-ANCHOR:wr-root-exempt
+            if eq:
+                return val != ""
+            return i + 1 < len(args) and args[i + 1] != ""
+        if name in WR_VALUE_FLAGS and not eq:  # MUTANT-ANCHOR:wr-value-flags
+            i += 1
+        i += 1
+    return False
+
+def wr_hit(a, ids, env):
+    if not any(i.startswith(WR_ID) for i in ids):
+        return None
+    n0, args = a[0], a[1:]
+    if n0 == "workshop-redact":  # MUTANT-ANCHOR:wr-basename
+        flags = args
+    elif n0 == "go" and args and args[0] in ("run", "test"):
+        k = next((j for j, w in enumerate(args[1:], 1) if re.search(r"(^|/)workshop-redact(/\.\.\.)?$", w)), None)
+        if k is None:
+            return None
+        flags = args[k + 1:]
+    else:
+        return None
+    if env and env.get("\x00prefix:WORKSHOP_ROOT"):
+        return None
+    return WR_ID if not wr_has_root(flags) else None
+
 def struct_hit(a, ids, ctx, cfg=(), env=None, io=None):
     """The class a normalised argv (`a`: basename first, git globals stripped) belongs to, or None."""
     if not a or not a[0]:
@@ -1389,7 +1441,7 @@ def struct_hit(a, ids, ctx, cfg=(), env=None, io=None):
     for name, cid in (("reboot", "host-reboot"), ("poweroff", "host-poweroff"), ("halt", "host-halt")):
         if n0 == name and cid in ids:
             return cid
-    x = power_hit(a) or signal_hit(a, ids, ctx)
+    x = power_hit(a) or signal_hit(a, ids, ctx) or wr_hit(a, ids, env)
     if x:
         return x
     if n0 == "rm":
@@ -1427,7 +1479,7 @@ def catalogue_hit(stage_texts, rules, ctx, env=None, io=None):
                 # is another option): never judged on grep/rg/printf, nor on a git subcommand's values or patterns
                 if ga[0] == "git" and any(rx.fullmatch(x) for x in git_flags(ga)): return id_  # MUTANT:flag-git-only
                 continue
-            if id_ in STRUCT_IDS:  # MUTANT-ANCHOR:struct-only
+            if id_ in STRUCT_IDS or id_.startswith(WR_ID):  # MUTANT-ANCHOR:struct-only
                 continue           # judged structurally below, in every spelling
             m = rx.match(t)
             if not m:
@@ -1489,6 +1541,7 @@ HINTS = {
     "host-poweroff": "never suspend, hibernate, power off, reboot or halt the host (CONST-033): report to the operator",
     "host-reboot": "never suspend, hibernate, power off, reboot or halt the host (CONST-033): report to the operator",
     "host-halt": "never suspend, hibernate, power off, reboot or halt the host (CONST-033): report to the operator",
+    "workshop-redact-no-root": "run workshop-redact only through scripts/redact.sh or with an explicit scratch -root (scripts/lib/scratch_root.sh); a bare run once rewrote the primary checkout",
     "session-kill": "never end the desktop session or the user service manager: report to the operator",
 }
 def hint(id_):
@@ -2063,6 +2116,7 @@ def judge_cmd(it, rules, ctx, depth, sinks=None):
             cctx["cwd"] = resolve(d, cctx)
     env = dict((k, v) for k, v in ctx["vars"].items() if isinstance(v, str))
     env.update(u["env"])
+    if u["env"].get("WORKSHOP_ROOT"): env["\x00prefix:WORKSHOP_ROOT"] = "1"  # this command's own VAR=value prefix only, never an earlier line's
     # what the command reads on stdin: here-strings, here-documents, `echo|printf ... |`; None = unknown (a file, a program)
     stdin = [t["t"] for op, t in redirs if op == "<<<" and t] + [b for b, _dq in hds]
     if any(op in ("<", "<&", "<>") for op, _t in redirs) or (piped and not last_echo):
@@ -2569,7 +2623,7 @@ flag-any-word|                if ga[0] == "git" and any(rx.fullmatch(x) for x in
 flag-fullmatch|any(rx.fullmatch(x) for x in git_flags(ga))|any(rx.match(x) for x in git_flags(ga))|r5-G67,r5-G68,r5-G70
 long-prefix|    return n.startswith("--") and len(n) >= minlen and full.startswith(n)|    return n == full|r4-B05,r4-B08,r4-B09
 opt-prefix|[f for f in spec if len(name) > 2 and f.startswith(name)]  # MUTANT-ANCHOR:long-prefix|[]|r4-B19,r4-B20,r4-B22,r4-B24,r5-B51,r5-B61,r5-B74
-struct-only|            if id_ in STRUCT_IDS:  # MUTANT-ANCHOR:struct-only|            if False:|r5-G69,own-G02,own-G03
+struct-only|            if id_ in STRUCT_IDS or id_.startswith(WR_ID):  # MUTANT-ANCHOR:struct-only|            if False:|r5-G69,own-G02,own-G03
 heredoc-newline-bind|                    ref[0] = "\n".join(body)   # the placeholder sits in the command that owns this <<|                    ref[0] = "\n".join(body); toks.append(("H", ref))|r5-G01,r5-G02
 git-global-generic|        i += 1                                   # MUTANT-ANCHOR:git-global-generic|        break|r5-B126,r5-B128
 git-global-attr|"--config-env", "--attr-source",|"--config-env",|r5-B127
@@ -2598,6 +2652,13 @@ pkill-exact-empty|    if v == "" and not exact:|    if v == "":|r6-G11
 systemd-run-noexp|        if noexp:  # MUTANT-ANCHOR:systemd-run-noexp|        if False:|r6-G15
 systemd-run-literal-only|        bad = any(w.get("ld") and (|        bad = any((|r6-G13,r6-G14
 rm-glob-catch-all|all(ch in ".?" for ch in last.replace("*", ""))|True|r5-G81
+wr-root-exempt|        if name == "root":  # MUTANT-ANCHOR:wr-root-exempt|        if False:|wr-G02,wr-G03,wr-G04,wr-G07,wr-G11
+wr-basename|    if n0 == "workshop-redact":  # MUTANT-ANCHOR:wr-basename|    if False:|wr-B01,wr-B02,wr-B03,wr-B04,wr-B07,wr-B14
+wr-value-flags|        if name in WR_VALUE_FLAGS and not eq:  # MUTANT-ANCHOR:wr-value-flags|        if False:|wr-B02,wr-B11,wr-B13
+wr-prefix-exempt|    if env and env.get("\x00prefix:WORKSHOP_ROOT"):|    if False:|wr-G05,wr-G06
+wr-prefix-any-var|    if u["env"].get("WORKSHOP_ROOT"): env["\x00prefix:WORKSHOP_ROOT"] = "1"|    if ctx["vars"].get("WORKSHOP_ROOT") or u["env"].get("WORKSHOP_ROOT"): env["\x00prefix:WORKSHOP_ROOT"] = "1"|wr-B10
+wr-go-package|(/\.\.\.)?$", w)), None)|(/\.\.\.)?x$", w)), None)|wr-B05,wr-B06,wr-B13
+wr-stop-at-dashdash|        if w == "--" or not w.startswith("-") or w == "-":|        if False:|wr-B12
 rm-unset-abort|        if op in ("?", ":?") and (v is None or (op == ":?" and v == "")):|        if False:|r5-G71
 clean-needs-d|if "f" in sh or "--force" in lo or (unforced and not dry)|if ("f" in sh and "d" in sh) or "--force" in lo or (unforced and not dry)|r4-B21
 clean-require-force|(unforced and not dry)|(False)|r5-B148
