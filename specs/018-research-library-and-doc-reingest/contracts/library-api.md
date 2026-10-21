@@ -8,7 +8,7 @@ orchestrator's one-line hook. **Auth**: session required (the `/api/` gate); no 
 
 ```text
 GET /api/library                    # default library name "research"
-GET /api/library?name=research      # name matches ^[a-z0-9][a-z0-9-]{0,63}$ (same pattern as sections)
+GET /api/library?name=research      # name matches ^[a-z0-9][a-z0-9-]{0,63}$ AND is a published library: only `research`
 ```
 
 No other query parameters. Unknown parameters are ignored (not an error), as in `sections`.
@@ -40,8 +40,9 @@ tree as measured on 2026-10-20 (spec.md B1) — a test oracle, not a constant in
 
 ### 404 — `library_not_found`
 
-`{"error":{"code":"library_not_found","message":"no library by that name","field":"name"}}` — name invalid or the
-directory does not exist. A determined negative.
+`{"error":{"code":"library_not_found","message":"no library by that name","field":"name"}}` — name invalid, the
+directory does not exist, or the name is not a published library (only `research` is; `/docs/` refuses directory
+listings by design, so no other docs subtree becomes browsable through `?name=`). A determined negative.
 
 ### 503 — could not determine
 
@@ -58,8 +59,22 @@ unconditionally (same discipline as `sections`, `main.go:1544-1552`) so "cannot 
    `supporting_code`; `.json`, `.jsonl`, `.txt` are `supporting_data`; `.epub` and any other extension are
    `supporting_binary`. `*.sections.json` is **never** listed (internal).
 4. **Deterministic** — groups ordered by id, documents by id; two calls on an unchanged tree are byte-identical.
+5a. **One bad entry never withholds the listing** — every entry is judged in the form it has on the wire (JSON-escaped,
+   percent-encoded); a title that is source-filename-shaped there falls back to the stem, and an entry whose id,
+   href or group still is, is not listed and is reported as `withheld_name` under a safe path. The listing answers 200.
+5b. **Never advertise a link the server refuses** — with the suppression guard installed, a file it is certain to
+   answer 410 (unclassified type, backup copy, an export without a source document) is not listed and is reported
+   in `undetermined` with the guard's reason (`unclassified_file_type`, `backup_file_not_served`,
+   `export_source_unresolved`). A refusal that depends on file CONTENT stays an honest 410 at download time.
+5c. **Unique ids, no silent gap** — ids are lookup keys: a supporting file whose id equals a document's is excluded
+   (`duplicate_id`), a second file for an already-filled format slot (`x.md` + `x.MD`) is `duplicate_format`, a name
+   containing a backslash is `withheld_name`, a walk past the entry cap stops with `too_many_entries`. All appear in
+   `undetermined`.
 5. **No title leakage of disallowed names** — titles come from file content or stem exactly as `sections` does; the
    existing `writeJSON` disclosure guard stays in force underneath.
+5d. **Bounded cost** — per-file metadata is read once per (path, size, mtime) with a fixed 16 KiB buffer and cached
+   (bounded); walks are shared between concurrent requests and capped at 4 at a time; a walk visits at most
+   20 000 entries.
 6. **No state mutation** — read-only; `HEAD` and `GET` only; other verbs → 405 like other routes.
 
 ## `GET /api/library/sources?pids=<csv>` *(FR-016)*

@@ -163,8 +163,8 @@ supporting files; `go test ./internal/api -race` and Karma green; review GO.
       `/library/read` (axe rules already used there), keyboard path (Tab order, skip to content), 360 px width, reduced
       motion. Oracle: axe violations = 0 at the existing severity threshold.
 - [x] T020 (done s11; evidence/s11) [TDD] [US2] Negative-path tests (fail closed, §11.4.252) added to `library_test.go`: `GET /api/library?name=../x`,
-      `name=research%2f..`, 10 000 concurrent-ish requests (loop) to prove no goroutine/descriptor leak (`runtime.NumGoroutine`
-      before/after within a bound). Oracle: stdlib counters before/after.
+      `name=research%2f..`, 10 000 requests (loop; raised from 2 000 in review round 1) to prove no goroutine/descriptor
+      leak (`runtime.NumGoroutine` and `/proc/self/fd` before/after within a bound). Oracle: stdlib counters before/after.
 - [ ] T021 [US2] Resolve T003's outcome in code: if `/docs/` serves `.html`/`.pdf` for the redacted document with no
       added text, record "proved equal" in the evidence; if T003 found any divergence, replace the HTML/PDF links for
       that document with a "not available — export pending" state (data-driven from `formats`) and open a tracked item.
@@ -207,8 +207,8 @@ supporting files; `go test ./internal/api -race` and Karma green; review GO.
       row without `content_type` → rc 1 naming file+row; (6) unreadable registry → rc 2; (7) pre/post sha256 of every
       `.md` equal (no anchors written). **Oracle**: line-hash comparison done by `sha256sum`/`diff` in the test, not by
       the wrapper's own report. → RED.
-- [x] T028 (done s11; evidence/s11) [TDD] [US3] Implement `scripts/ingest-research.sh` (NEW) per `contracts/research-reingest-stage.md`:
-      `--dry-run` (default) / `--apply` (refuses unless `WORKSHOP_ORCH=1` and a quiescent tree), uses
+- [x] T028 (done s11; evidence/s11) [TDD] [US3] Implement `scripts/ingest-research-docs.sh` (NEW; the draft name `ingest-research.sh --dry-run|--apply` was reconciled in the contract)
+      per `contracts/research-reingest-stage.md`: `dry-run` / `stage` / `verify` / `selftest`, apply = the generated `<out>/apply.sh` (refuses unless `WORKSHOP_ORCH=1`), uses
       `scripts/agent-admit.sh`, `pipeline/venv/bin/python`, the filter, `platform/bin/ingest-transcript … -kinds
       doc_section,code -skip-suppressed -no-write-anchors`; writes `reingest.json`. Source `scripts/_common.sh`
       conventions (three-valued exits). Make T027 green. `shellcheck`/`bash -n` clean (§11.4.67).

@@ -75,42 +75,42 @@ heavy runs in the repository's bounded execution; stage explicit paths only (§1
 
 ## Phase 2: Foundational (blocks every story)
 
-- [ ] T010 [TDD] [FOUND] `pkg/materialgen/outcome.go`: `Status`, `DeclineReason`, `UnavailableCode`,
+- [x] T010 [TDD] [FOUND] `pkg/materialgen/outcome.go`: `Status`, `DeclineReason`, `UnavailableCode`,
       `DisjointVocabularies()`. Tests in `outcome_test.go`: **disjointness** (FR-003) and **parity** — every reused
       name equals the corresponding constant in `pkg/answer` (`outcome.go:113-300`). Oracle: the literal lists in
       `data-model.md` §2 and the `answer` constants. RED first.
-- [ ] T011 [TDD] [FOUND] `pkg/materialgen/request.go`: `Form`, `Request`, `Normalise`, validation (topic 1–300 runes,
+- [x] T011 [TDD] [FOUND] `pkg/materialgen/request.go`: `Form`, `Request`, `Normalise`, validation (topic 1–300 runes,
       NFC, no control characters, bounded count, `Idempotency-Key` shape, `RemoteAck`). Table test of valid/invalid
       requests incl. MCQ rejected (`invalid_form`), prompt-injection-looking topics accepted-but-bounded. Oracle:
       table in test header derived from `data-model.md` §1. RED first.
-- [ ] T012 [TDD] [FOUND] `pkg/materialgen/cachekey.go` + `TestCacheKeyGoldenVectors`: oracle = vectors produced by
+- [x] T012 [TDD] [FOUND] `pkg/materialgen/cachekey.go` + `TestCacheKeyGoldenVectors`: oracle = vectors produced by
       T013 (independent). Include NFC/whitespace/case variants (C-9) and a generation/template-version sensitivity
       check (C-2).
-- [ ] T013 [P] [SUBAGENT] [FOUND] **Independent oracle.** A DIFFERENT agent than the Go implementer writes
+- [x] T013 [P] [SUBAGENT] [FOUND] **Independent oracle.** A DIFFERENT agent than the Go implementer writes
       `pipeline/materialgen_oracle.py` (stdlib only, `python3 -I`): cache-key vectors, the budget boundary table (B-1)
       and the fabrication-matrix JSON shape from `contracts/` text alone, with `pipeline/tests/test_materialgen_oracle.py`
       and committed outputs under `platform/backend/pkg/materialgen/testdata/materialgen/`
       (`cache_key_vectors.json`, `budget_table.json`, `fabrication_matrix.json`). `--check` mode regenerates and
       diffs. Record the author agent id (Producer ≠ Oracle, §11.4.249).
-- [ ] T014 [TDD] [FOUND] `pkg/materialgen/budget.go`: pure arithmetic (`Estimate`, `Admit(ledgerView, limits, est)`),
+- [x] T014 [TDD] [FOUND] `pkg/materialgen/budget.go`: pure arithmetic (`Estimate`, `Admit(ledgerView, limits, est)`),
       limits struct + `Validate()` (boot, S-14). Tests: boundary table from T013 (`TestBudgetBoundaries`), invalid
       config table. RED first.
-- [ ] T015 [TDD] [FOUND] `pkg/materialgen/store.go`: `Open(dir)` → `materials.db` with the DDL of `data-model.md` §4
+- [x] T015 [TDD] [FOUND] `pkg/materialgen/store.go`: `Open(dir)` → `materials.db` with the DDL of `data-model.md` §4
       (CHECKs, UNIQUEs), migrations idempotent, open-failure error codes. Tests: each constraint rejects a bad row
       (`TestSchemaConstraints`: `generated` without content, `declined` with content, duplicate `(session,idem_key)`,
       duplicate `cache_key`), idempotent re-open. Oracle: the DDL's own CHECK list (assert by attempting violating
       inserts). RED first.
-- [ ] T016 [P] [FOUND] `pkg/materialgen/mgtest/`: (a) scripted fake `answer.Provider` driven by a script file
+- [x] T016 [P] [FOUND] `pkg/materialgen/mgtest/`: (a) scripted fake `answer.Provider` driven by a script file
       (claims, errors, delays) with a call counter and prompt capture; (b) an `httptest` stub speaking the provider's
       HTTP protocol with request counter, canary capture, configurable locality via bind address, upstream error and
       timeout modes. Used by unit tests, gates and the isolated server. Own tests prove the counter and capture work
       (a counter that cannot fail is a bluff).
-- [ ] T017 [P] [FOUND] `platform/gates/verify-materialgen-single-callsite.sh` (three-valued: 0 clean / 1 finding /
+- [x] T017 [P] [FOUND] `platform/gates/verify-materialgen-single-callsite.sh` (three-valued: 0 clean / 1 finding /
       2 could-not-determine) enforcing: exactly one non-test `.Generate(` call in `pkg/materialgen`, `Generator.Run`
       referenced only from the job worker, and no `materialgen` reference in boot/ticker/ingest/index-swap/`/api/ask`
       paths. Paired `prove-…` injects a second call and a `main.go` warm-up call into a throwaway copy and requires
       exit 1 for each. Registry TSV row handed to the orchestrator.
-- [ ] T018 [TDD] [FOUND] `pkg/materialgen/config.go` + `wire_materialgen.go` flag declarations (`addMaterialFlags`):
+- [x] T018 [TDD] [FOUND] `pkg/materialgen/config.go` + `wire_materialgen.go` flag declarations (`addMaterialFlags`):
       all flags of `contracts/budget-and-cost-guards.md` §1 with env mirrors; `-materials-enabled` default `false`.
       `TestBootRefusesInvalidConfig` (S-14): zero limits, session > global, enabled without store, remote provider
       without audit path. Capability-matrix row declared.
@@ -125,39 +125,39 @@ heavy runs in the repository's bounded execution; stage explicit paths only (§1
 
 ### Tests first ⚠️
 
-- [ ] T020 [TDD] [P] [US1] `generator_test.go` `TestGeneratedForEachForm`: fixture corpus (`internal/testcorpus`) +
+- [x] T020 [TDD] [P] [US1] `generator_test.go` `TestGeneratedForEachForm`: fixture corpus (`internal/testcorpus`) +
       scripted provider returning valid items for `explainer`/`flashcards`/`short_prompts`; assert status
       `generated`, item count == requested, every citation ∈ admitted set, quote present, provenance fields complete,
       one provider call. Oracle: scripted claims + fixture pid set.
-- [ ] T021 [TDD] [P] [US1] `TestDeclinesBeforeTheProvider`: topic uncovered, below threshold, margin too small,
+- [x] T021 [TDD] [P] [US1] `TestDeclinesBeforeTheProvider`: topic uncovered, below threshold, margin too small,
       insufficient coverage (< `MinDistinctPassages`) ⇒ `declined` with the right reason and **provider counter 0**;
       response body contains no generated text. Oracle: expected reasons computed from fixture scores.
-- [ ] T022 [TDD] [P] [US1] `TestUnavailablePaths`: provider `none`, provider `Health` failing, uncalibrated
+- [x] T022 [TDD] [P] [US1] `TestUnavailablePaths`: provider `none`, provider `Health` failing, uncalibrated
       thresholds (S-2: `min-score=0` ⇒ `thresholds_uncalibrated`, counter 0), retrieval error, disabled flag. Each ⇒
       the specified code, HTTP 503, **not** a decline. Oracle: `data-model.md` §2.
-- [ ] T023 [TDD] [P] [US1] `TestJobLifecycleAndRecovery`: phases `queued→retrieving→generating→verifying→done`
+- [x] T023 [TDD] [P] [US1] `TestJobLifecycleAndRecovery`: phases `queued→retrieving→generating→verifying→done`
       observable by polling; durable across a simulated restart; a job left `pending` at boot is settled
       `unavailable interrupted` with its reservation released (S-12, kill-9 variant in the gate task T043).
 
 ### Implementation
 
-- [ ] T024 [US1] `pkg/materialgen/prompt.go`: versioned templates (`mg-explainer-v1`, `mg-flashcards-v1`,
+- [x] T024 [US1] `pkg/materialgen/prompt.go`: versioned templates (`mg-explainer-v1`, `mg-flashcards-v1`,
       `mg-short-prompts-v1`) using `answer.BuildPrompt` budget semantics; untrusted-delimiter structure; strict JSON
       schema block; `TemplateVersion()` feeds the cache key. Golden-prompt test (oracle: committed golden file) so a
       template change is a deliberate, versioned act.
-- [ ] T025 [US1] `pkg/materialgen/draft.go`: strict item parsing (`DisallowUnknownFields`), per-form shape limits,
+- [x] T025 [US1] `pkg/materialgen/draft.go`: strict item parsing (`DisallowUnknownFields`), per-form shape limits,
       exact-count rule (F-8…F-11). GREEN the parse/shape rows of T020/T021 and the matrix rows F-8…F-11.
-- [ ] T026 [US1] `pkg/materialgen/generator.go`: stages 0–3, 5–10 and 12 of `contracts/generation-pipeline.md`
+- [x] T026 [US1] `pkg/materialgen/generator.go`: stages 0–3, 5–10 and 12 of `contracts/generation-pipeline.md`
       (stage 4 cache and stage 11 verification are stubs returning `NotImplemented`, flagged by a test so they cannot
       ship unimplemented). Single `Provider.Generate` call site. GREEN T020–T023.
-- [ ] T027 [US1] `internal/api/materials.go` handlers: `GET /api/materials/provider`, `POST /api/materials/preflight`,
+- [x] T027 [US1] `internal/api/materials.go` handlers: `GET /api/materials/provider`, `POST /api/materials/preflight`,
       `POST /api/materials`, `GET /api/materials/jobs/{job_id}`, `GET /api/materials`, `GET /api/materials/{id}`,
       `DELETE /api/materials/{id}`; owner-only (S-8, 404 not 403); unknown params/fields ⇒ 400; `Cache-Control: no-store`.
       Contract goldens in `materials_test.go` written first.
-- [ ] T028 [US1] [HOOK] `cmd/workshop-server/wire_materialgen.go`: `registerMaterials(mux, deps)`, job worker start/stop,
+- [x] T028 [US1] [HOOK] `cmd/workshop-server/wire_materialgen.go`: `registerMaterials(mux, deps)`, job worker start/stop,
       boot reconcile; hand the orchestrator the single `// hook:materialgen` line and the compose flag lines
       (default OFF).
-- [ ] T029 [P] [TDD] [US1] Frontend `features/materials/`: request page (`/materials/new`: topic, form, count,
+- [x] T029 [P] [TDD] [US1] Frontend `features/materials/`: request page (`/materials/new`: topic, form, count,
       preflight disclosure panel showing provider/locality/token bound, inline confirm — no `window.confirm`),
       job progress with phases, result view with citation chips (`/passage/:pid`), "Show source" quotes, withheld
       reasons, provenance line and "Generated" chip, decline view with reason in plain words and the ingestion
@@ -171,22 +171,22 @@ heavy runs in the repository's bounded execution; stage explicit paths only (§1
 
 ## Phase 4: User Story 2 — Decline instead of fabricate (P1)
 
-- [ ] T031 [TDD] [US2] `TestFabricationMatrix` (S-1): load `fabrication_matrix.json` (T013), run F-1…F-15 through the
+- [x] T031 [TDD] [US2] `TestFabricationMatrix` (S-1): load `fabrication_matrix.json` (T013), run F-1…F-15 through the
       scripted provider; assert outcome, reason, 0 persisted `material`/`material_cache` rows, 0 generated text in
       declines. RED (verification stubbed).
-- [ ] T032 [TDD] [P] [US2] Layer-isolation tests in `verify_test.go`: membership alone, verbatim alone, entailment
+- [x] T032 [TDD] [P] [US2] Layer-isolation tests in `verify_test.go`: membership alone, verbatim alone, entailment
       alone (scripted `SupportVerifier`), relevance alone (scripted `QuestionVerifier`); precedence order test
       (first failing layer decides the reason); verifier error ⇒ `unavailable verification_unavailable` (F-14).
-- [ ] T033 [US2] `pkg/materialgen/verify.go`: adapters over `grounding.ValidateCitations`, `ValidateVerbatim`,
+- [x] T033 [US2] `pkg/materialgen/verify.go`: adapters over `grounding.ValidateCitations`, `ValidateVerbatim`,
       `answer.VerifyClaims`/`SupportVerifier`, `answer.QuestionVerifier`; all-or-nothing aggregation; wire into
       generator stage 11. GREEN T031/T032.
-- [ ] T034 [TDD] [P] [US2] `TestSuppressedNeverReachesPromptOrMaterial` (S-1/SC-007): canary passage marked
+- [x] T034 [TDD] [P] [US2] `TestSuppressedNeverReachesPromptOrMaterial` (S-1/SC-007): canary passage marked
       suppressed — absent from the stub-captured prompt, from the material, from the cache value; a suppression
       landing between generation and delivery ⇒ `declined redacted_evidence` (F-13).
-- [ ] T035 [US2] `pkg/materialgen/suppress.go`: drop suppressed pids from the admitted set before the prompt; serve-time
+- [x] T035 [US2] `pkg/materialgen/suppress.go`: drop suppressed pids from the admitted set before the prompt; serve-time
       recheck hook used by the cache. Reuse the platform's suppression index (T005 finding); no second suppression
       mechanism. GREEN T034.
-- [ ] T036 [US2] `platform/gates/verify-materialgen-fabrication.sh` (replays F-1…F-15 against an isolated scripted
+- [x] T036 [US2] `platform/gates/verify-materialgen-fabrication.sh` (replays F-1…F-15 against an isolated scripted
       server) + `prove-materialgen-verification.sh`: removes each layer in a throwaway copy (skip membership, skip
       verbatim, skip entailment, skip relevance, strip-bad-item, trim-extras, lenient-parse, treat-verifier-error-as-
       pass) and requires the gate/tests to FAIL for each. §1.1 paired proof.
@@ -200,21 +200,21 @@ heavy runs in the repository's bounded execution; stage explicit paths only (§1
 
 ## Phase 5: User Story 3 — Never unasked, bounded cost, fail closed (P1)
 
-- [ ] T038 [TDD] [US3] [OD-5] `TestBudgetBoundaries` / `TestBudgetConcurrency` (S-5): boundary table from T013;
+- [x] T038 [TDD] [US3] [OD-5] `TestBudgetBoundaries` / `TestBudgetConcurrency` (S-5): boundary table from T013;
       50 concurrent requests against a budget admitting k ⇒ exactly k admitted and stub count ≤ k; rate limit;
       concurrency cap; refused ⇒ stub count unchanged (B-3); day rollover uses the reservation's UTC day (B-5);
       cache hits not charged (B-6); `unavailable` releases reservation (B-8). Defaults are set only after OD-5.
-- [ ] T039 [US3] Store-backed ledger in `store.go`/`budget.go`: `BEGIN IMMEDIATE` reservation, settle, release,
+- [x] T039 [US3] Store-backed ledger in `store.go`/`budget.go`: `BEGIN IMMEDIATE` reservation, settle, release,
       boot-time release of stale reservations; derived sums (no mutable counter). GREEN T038.
-- [ ] T040 [TDD] [US3] `TestNeverUnasked` (S-4, SC-003): start the server wiring with the counting stub, run the
+- [x] T040 [TDD] [US3] `TestNeverUnasked` (S-4, SC-003): start the server wiring with the counting stub, run the
       boot sequence, exercise every other endpoint (ask, search, areas, progress, ingest hooks via the test seam),
       idle with an injected clock for 10 simulated minutes ⇒ stub count 0; plus the static gate (T017) green.
-- [ ] T041 [TDD] [US3] `TestFailClosedMatrix` (S-11, SC-010): retriever, verifier, budget store, cache store, audit
+- [x] T041 [TDD] [US3] `TestFailClosedMatrix` (S-11, SC-010): retriever, verifier, budget store, cache store, audit
       file, provider each individually failing ⇒ the specified `unavailable` code, stub count 0 where the call would
       have been after the failure point, **no partial rows**.
-- [ ] T042 [US3] Implement fail-closed mapping for every dependency error in the generator (single error-to-outcome
+- [x] T042 [US3] Implement fail-closed mapping for every dependency error in the generator (single error-to-outcome
       table; no `default: allow`). GREEN T040/T041.
-- [ ] T043 [TDD] [US3] `TestCrashRecovery` (S-12): run a worker in a child process, `kill -9` mid-generation, reopen;
+- [x] T043 [TDD] [US3] `TestCrashRecovery` (S-12): run a worker in a child process, `kill -9` mid-generation, reopen;
       job ⇒ `unavailable interrupted`, reservation released, `generation_attempt` visible as crashed, no partial
       material. Child pid handling follows §11.4.263 (validate pgid > 1 before any signal; own process group).
       Also `scripts/verify-materials-budget.sh` (boundary + 50-way concurrency against the counting stub) used by
@@ -241,7 +241,7 @@ heavy runs in the repository's bounded execution; stage explicit paths only (§1
 - [ ] T047 [US4] [BLOCKED:011-US2] `pkg/materialgen/audit.go`: `generation_attempt` insert → call → settle → call 011's
       writer (signature per its contract; takes a byte count, never text) → return; open-append precondition check
       before the call. GREEN T046.
-- [ ] T048 [TDD] [US4] `TestEgressPreconditions` (A-4…A-6, S-6): remote without allow flag ⇒ `provider_disabled`;
+- [x] T048 [TDD] [US4] `TestEgressPreconditions` (A-4…A-6, S-6): remote without allow flag ⇒ `provider_disabled`;
       allow but no/mismatched `remote_ack` ⇒ 400; local provider ⇒ no audit line and the stub peer is loopback;
       non-loopback endpoint declared `local` is refused as `ollama.go:123` does today. LAN variants
       [BLOCKED:011-US3].
@@ -261,11 +261,11 @@ heavy runs in the repository's bounded execution; stage explicit paths only (§1
 
 ## Phase 7: User Story 5 — Cache, single-flight, idempotency (P2)
 
-- [ ] T052 [TDD] [US5] `TestCacheAndIdempotency` (C-1…C-9, SC-006): second identical request ⇒ 0 provider calls and
+- [x] T052 [TDD] [US5] `TestCacheAndIdempotency` (C-1…C-9, SC-006): second identical request ⇒ 0 provider calls and
       byte-identical material; generation bump ⇒ miss; 20 concurrent identical ⇒ 1 call/1 row/1 audit line; 20
       retries with one key ⇒ 1 job; same key different body ⇒ 409; declines cached; `unavailable` never cached; cached
       item later suppressed ⇒ withheld; golden key vectors. RED (stage 4 stub).
-- [ ] T053 [US5] Implement stage 4 and stage 12 persistence: `INSERT … ON CONFLICT(cache_key) DO NOTHING`, in-process
+- [x] T053 [US5] Implement stage 4 and stage 12 persistence: `INSERT … ON CONFLICT(cache_key) DO NOTHING`, in-process
       single-flight, serve-time re-validation (live pids + suppression), `served_from` labelling; transactional
       `material_cache` + `material` + settlement. If T006 found retrieval non-deterministic, implement decline-TTL
       instead of permanent decline caching.
@@ -279,10 +279,10 @@ heavy runs in the repository's bounded execution; stage explicit paths only (§1
 
 ## Phase 8: User Story 6 — Operator review (P3)
 
-- [ ] T056 [TDD] [US6] `TestAdminList` (S-9): admin-only (`403` otherwise), provenance + verification + decline
+- [x] T056 [TDD] [US6] `TestAdminList` (S-9): admin-only (`403` otherwise), provenance + verification + decline
       reasons + tokens, topic/body omitted unless OD-3 approved, every call writes an access record; learner routes
       never widen for admin.
-- [ ] T057 [US6] Handler + frontend `materials-admin.component.ts` (route behind admin guard); filters by outcome and
+- [x] T057 [US6] Handler + frontend `materials-admin.component.ts` (route behind admin guard); filters by outcome and
       reason; token totals vs budget. GREEN T056.
 - [ ] T058 [REVIEW] [US6] [BLOCKED] [OD-7] **Promotion into authored curriculum is design-only here.** Write a short
       options note in `research.md` (what `pipeline/extract/author.py` and spec 015 `document` Materials would require;
@@ -374,3 +374,21 @@ Independent streams: T013 (oracle), T016 (fakes), T017 (static gate), T020–T02
 at xhigh effort, stamped in each verdict. Every producer prompt carries the content-boundary and host-safety
 briefing above. Before any commit: mutation-marker grep (§11.4.84), explicit-path staging, and the independent review
 verdict (§11.4.142).
+
+## S17 implementation evidence (worktree branch s17-022-material; machine evidence under evidence/s17/ in the workshop worktree)
+
+DONE (tests + paired mutants): T010-T018, T020-T028, T031-T036, T038-T043, T048, T052, T053, T056, T057; T029 DONE for
+request/progress/outcome/off/ack views (T050/T054 UI parts folded into the same components).
+Evidence: pkg/materialgen `go test -race -cover` 86.8%; 58 paired mutants 58 caught / 0 survived / 0 invalid
+(gates/prove-materialgen-mutations.sh); Karma 54 pass (statements 84.5%, lines 86.3%); Playwright 10 pass (8 route-mocked
+fixture cases, 2 real-backend default-OFF); static gate verify-materialgen-single-callsite.sh + prove- pair.
+Deviations: (1) T013 oracle authored by the same agent as the Go code (Producer != Oracle NOT met; independent re-derivation
+needed); (2) audit lines are written by the provider (pkg/answer hosted rows, spec 011 write-ahead record), this feature never
+writes one, it only probes writability and refuses; LAN rows are refused until they audit (T046/T047 not separately built);
+(3) the egress gate is covered by mutation group E1-E10, no separate verify-materialgen-egress.sh; (4) T036 replays F-1..F-15
+through the scripted service, not an isolated server; (5) added `regenerate`, `count`/`detail_json` columns and a thresholds
+term in the cache generation slot (key function unchanged); (6) answer vocabulary name `lexical_index_unavailable` differs from
+the spec's `retrieval_unavailable`, parity test excludes it.
+BLOCKED/NOT RUN: T001-T009 (research/review tasks), T030/T037/T044/T051/T055/T058/T072 (independent reviews), T045, T046/T047,
+T049 (egress gate script), T050, T054 polish, T059, T060 (operator-gated: no real provider, thresholds uncalibrated, OD-1/OD-6),
+T061, T062 (operator-gated live check), T064-T065 guides, T070-T071 exports, T073-T074.

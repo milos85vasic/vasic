@@ -53,9 +53,12 @@ be written the attempt is refused and nothing is sent), then the FINAL line with
 outcome and `duration_ms` (if it cannot be written the result is discarded; the intent
 line remains). Attempts that fail while the provider is being built (`credential_missing`,
 `health_check_failed`) send no text and are a single line. The `outcome` vocabulary is
-therefore SEVEN values: `attempt_started`, `success`, `health_check_failed`,
-`credential_missing`, `upstream_error`, `cancelled`, `schema_violation`. A reader pairs
+therefore EIGHT values (amended 2026-10-21, H1 re-review): `attempt_started`, `success`, `health_check_failed`,
+`credential_missing`, `upstream_error`, `cancelled`, `schema_violation`, `intent_abandoned`. A reader pairs
 lines by `id`; an id with only `attempt_started` means "text may have left, outcome unknown".
+`intent_abandoned` concludes an intent whose write the writer gave up on and refused (stalled disk past the
+deadline, or a failed fsync): that intent line landed on disk but NOTHING WAS SENT for it. A request already
+cancelled or past its deadline when `Generate` starts writes no intent at all.
 `endpoint` is recorded as `scheme://host[:port]` only (no userinfo, path, parameters, query or
 fragment); when no endpoint was configured it is the host of the vendor adapter's
 `LLMPROVIDER_<KEY>_BASE_URL` override the row's adapter really reads (`<KEY>` = row name, except `zen` -> `ZEN_API`), else `vendor-default`. The file is created mode 0600,
@@ -66,15 +69,16 @@ built at all when no audit log is configured.
 
 **Postconditions**:
 
-- Exactly one line is appended to the file in one write call, or the call returns a non-nil
-  `error`. (Superseded 2026-10-20: the earlier "zero lines ... no partial-line writes" wording
+- Exactly one record (preceded by a newline, so the file carries blank lines that readers ignore) is appended
+  to the file in one write call, or the call returns a non-nil `error`. (Superseded 2026-10-20: the earlier "zero lines ... no partial-line writes" wording
   assumed a truncate-rollback that the review rejected; see the amendment above.)
-- The write is synchronous with the generation attempt it records (called
-  from the same goroutine, before the caller's `Generate`/`newHostedProvider`
-  returns to ITS caller) — so "the audit record exists" and "the generation
-  attempt concluded" are never observably out of order from a reader's
-  perspective, even though this feature does not implement Story 4's
-  concurrency model.
+- The caller WAITS for the write (the intent before the send, the final line before `Generate` returns), so on
+  the normal path "the audit record exists" and "the generation attempt concluded" are not observably out of
+  order. AMENDED 2026-10-21 (H1 re-review) for the TIMEOUT PATH: the write itself runs on a bounded worker
+  (at most 4 in flight per log file), the caller stops waiting at `min(request deadline, now + 15 s)` (the Jobs
+  path has no deadline of its own, so for it the 15 s cap alone applies) and refuses the attempt; the
+  abandoned write may then land AFTER the caller returned, out of order with respect to it, and is concluded
+  by an `intent_abandoned` line under the same `id`. Nothing is sent for such an attempt.
 
 **Failure handling - DECIDED (fail closed; amended 2026-10-20, H1)**:
 
@@ -82,8 +86,9 @@ The earlier text here left fail-open vs fail-closed as `NEEDS CLARIFICATION`. Th
 (section 2 WRITE-AHEAD above; code comment in `pkg/answer/audit.go` names this section): an intent line that cannot be
 written refuses the attempt, a final line that cannot be written discards the result. This is an unreviewed
 default pending operator confirmation, not a ruled decision, and it is never a silent fail-open. Further
-amendments (H1): every audit write is bounded by the request deadline plus a 15 s cap (a stalled disk refuses the
-attempt rather than holding it); each record is read back after it is written and an fsync error of any kind fails
+amendments (H1): every audit write is bounded by `min(request deadline, now + 15 s)` (a stalled disk refuses the
+attempt rather than holding it; at most 4 writes per log file are in flight and further attempts are refused
+without starting a write once their deadline passes); each record is read back after it is written and an fsync error of any kind fails
 the write; pseudo file systems (procfs, sysfs, cgroup, ...) are refused; operator-supplied strings are truncated
 on write (model 256, endpoint 256, session 128, provider 64 bytes; a cut field ends `...[truncated]`) so a line is
 at most 4 KiB; the `id` is `rg_<ts>_<16 hex digits>` (64 random bits); one record is one `Generate` call, so
@@ -97,17 +102,18 @@ readable artifact:
 
 Each generation is TWO lines (intent + final, same `id`); count and filter by pairing on `id`, and tolerate a
 torn line (a plain `jq -c .` stops at the first one). The supported readers are `answer.ReadAuditRecords` and
-`go run ./platform/backend/cmd/answer-audit-report [-json] <file>`; the equivalent `jq` (see `docs/providers.md`
+`cd platform/backend && go run ./cmd/answer-audit-report [-json] <file>` (text mode prints counts and a
+per-attempt table); the equivalent `jq` (see `docs/providers.md`
 section 3) skips torn lines with `fromjson?`:
 
 ```bash
 # One row per attempt, with its final outcome ("unconcluded" when only the intent line exists):
-jq -R -s -c '[split("\n")[] | fromjson? | select(.id)] | group_by(.id)[]
+jq -R -s -c '[ltrimstr("\ufeff") | split("\n")[] | rtrimstr("\r") | fromjson? | select(type == "object" and (.id | type == "string"))] | group_by(.id)[]
              | {id: .[0].id, outcome: (map(select(.outcome != "attempt_started")) | .[0].outcome // "unconcluded")}' \
    curriculum/remote-generations.jsonl
 
 # Number of ATTEMPTS (not lines), to spot-check SC-003's one-record-per-attempt claim:
-jq -R -s '[split("\n")[] | fromjson? | select(.id) | .id] | unique | length' curriculum/remote-generations.jsonl
+jq -R -s '[ltrimstr("\ufeff") | split("\n")[] | rtrimstr("\r") | fromjson? | select(type == "object" and (.id | type == "string")) | .id] | unique | length' curriculum/remote-generations.jsonl
 ```
 
 **Schema stability**: every object carries exactly the nine fields listed in

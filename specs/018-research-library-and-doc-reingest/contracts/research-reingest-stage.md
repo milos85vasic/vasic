@@ -1,7 +1,10 @@
 # Contract: Research Re-ingest Stage
 
-**Implements**: FR-006..FR-010 | **Wrapper**: `workshop/scripts/ingest-research.sh` (NEW) | **Filter**:
-`workshop/pipeline/research_redaction_filter.py` (NEW)
+**Implements**: FR-006..FR-010 | **Wrapper**: `workshop/scripts/ingest-research-docs.sh dry-run|stage|verify|selftest`
+(as built; the first draft of this contract named it `ingest-research.sh --dry-run|--apply`, and the apply step
+is now the GENERATED `<out>/apply.sh`, run by the orchestrator, because the stage never writes the live
+registry) | **Filter**: `workshop/pipeline/research_redaction_filter.py` | **Measuring helper**:
+`workshop/pipeline/research_reingest_prove.py`
 
 ## Exit contract *(three-valued; 2 is never a pass)*
 
@@ -30,10 +33,23 @@
 8. evidence      workshop/evidence/018-$RUN/{reingest.json,result.json,manifest.sha256}
 ```
 
+## Reconciliation with the as-built script *(review of S11)*
+
+| Contract draft | As built |
+|---|---|
+| `ingest-research.sh --dry-run` (default) | `ingest-research-docs.sh dry-run` |
+| `ingest-research.sh --apply` | `ingest-research-docs.sh stage` writes `<out>/apply.sh` + `apply-plan.json` (promoter invocations); `WORKSHOP_ORCH=1 bash <out>/apply.sh` applies; `ingest-research-docs.sh verify` re-measures and refuses a torn apply |
+| (not stated) | `--out` is a destination: absent, empty, or a previous run's marked output; never a directory to empty |
+| (not stated) | `selftest` proves the sandbox (empty netns, `/run` empty read-only tmpfs, io_uring seccomp) |
+| rc 2 from the ingest binary | rc 2 (UNDETERMINED), not a finding |
+
 ## Hard guards
 
-- **No model**: the wrapper runs under a recording network sandbox in its test (all outbound connects counted and
-  refused); `model_calls` in `reingest.json` is the measured count and MUST be 0.
+- **No model**: every tool runs under bwrap `--unshare-net` with `/run` and `/tmp` as empty tmpfs mounts and an
+  io_uring seccomp filter, under `strace -f`; EVERY `connect()` of any family (filesystem and abstract AF_UNIX
+  included) is counted, the single exemption being libc's failed nscd probe; `model_calls` in `reingest.json` is the
+  measured count and MUST be 0. Residual risk, stated: a filesystem AF_UNIX socket on the host filesystem outside
+  `/run` and `/tmp` is detected (the stage fails) rather than prevented.
 - **No anchors**: `-no-write-anchors` always; a pre/post sha256 of every research `.md` MUST be equal.
 - **Redaction**: exclusion happens before ingest; `-skip-suppressed` also set; evidence stores counts only.
 - **Not corpus mode**: the wrapper never calls `scripts/ingest.sh`; a test greps the wrapper for that string.

@@ -93,3 +93,30 @@ restart). The legacy `workshop-practice-restart:<user>:<slug>` localStorage mark
 **Known limits (stated, not hidden).** `pass` is per (session, area): a signed-in account's session key is the
 account, an anonymous browser's is its X-Session value. The pass store is a JSON file guarded by one process-wide lock
 (the same single-writer assumption as the answer file).
+
+### Amendment 2026-10-21 (S2 round 6, delegate decision): unknown pass, lower-pass 409, corrupt pass file, locking
+
+- **Unknown pass (D3, decided).** The client NEVER sends an answer without a `pass` claim and never sends a restart
+  blind. When the read-back failed (pass unknown) a write or a restart first learns the pass with one extra read; if
+  that read also fails the answer is kept as an unsent answer ("An answer was not recorded", reason `pass_unknown`,
+  resend with "Send again") and a restart is reported as not recorded (`restart-failed`). A claim-less write is still
+  ACCEPTED by the server (older clients), so the guarantee is client-side by construction, not a server refusal.
+- **Abandoned runs.** Answers held back behind a failed or in-flight restart belong to the run being abandoned; pressing
+  "Run it again" again, reloading the deck, or adopting another tab's run drops them. They are never filed in a later pass.
+- **409 with a LOWER pass (D4).** If the server reports a pass lower than the page's (its pass file was reset or
+  restored) nothing was stored: the page adopts the server's number, keeps the answer as an unsent answer (reason
+  `pass_reset_on_server`) and a resend names the server's pass. It is never dropped silently.
+- **Lost restart reply (D5).** A restart call that got no reply is retried naming the same pass; a `409 pass_stale` of
+  exactly that pass + 1 is that restart having landed, so no "restarted elsewhere" notice is shown.
+- **Scoring binding (M2).** An accepted graded submit whose idempotency binding vanished before its keyed scoring (a twin
+  request released it) is answered `503` ("recorded but could not be scored; send the same paper again with the same
+  Idempotency-Key"), never a silent 200. The keyed scoring record also checks the binding's paper fingerprint and refuses
+  a binding that now belongs to another paper (`409 idempotency_key_reuse`).
+- **Pass file durability and recovery.** `practice-pass.json` and `practice-answers.json` are written temp-file + fsync +
+  rename + directory fsync. A pass file that does not parse, or holds a negative pass, makes every practice route answer
+  503; the server NEVER resets it to 0 on its own because that would make every earlier run's answers visible again.
+  Recovery is an operator action: restore the file from backup, or delete it knowingly (all runs return to pass 0).
+  The number of tracked sessions is bounded (20000; a restart from a NEW session beyond it is 413).
+- **Concurrency.** Read-modify-write of both files holds an in-process lock and an exclusive `flock` on
+  `practice.lock` in the data directory, so two server processes sharing the directory do not lose each other's updates
+  (a second process waits, it is not refused). Platforms without `flock` fall back to the single-process assumption.
