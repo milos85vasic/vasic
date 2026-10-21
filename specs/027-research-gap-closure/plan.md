@@ -5,7 +5,7 @@
 
 ## Summary
 
-One umbrella-repo deliverable (a research-register check, a tooling register and a drift report) and a set of workshop-repo deliverables (an attempt-integrity package and an offline item-fit command for the adaptive scoring, a scanned-PDF/table/self-report extension of the textbook extractor, a draft-outline generator, an evidence-gated format view, and seven quality gates). Everything that needs a fact only the operator or the client holds is a NEEDS-OPERATOR entry with a recommended default and a task that stays unstarted until it is answered.
+One umbrella-repo deliverable (a research-register check, a tooling register and a drift report) and a set of workshop-repo deliverables (a repeat-attempt policy flag, an admin report and an item-parameter export that sit on spec 013's detector and shadow fit, a scanned-PDF/table/self-report extension of the textbook extractor, a draft-outline generator, an evidence-gated format view, and seven quality gates). Everything that needs a fact only the operator or the client holds is a NEEDS-OPERATOR entry with a recommended default and a task that stays unstarted until it is answered.
 
 ## Technical Context
 
@@ -45,9 +45,8 @@ umbrella:
   docs/tooling/TOOLING-REGISTER.md         # NEW
 
 workshop (private; one branch + worktree per stream):
-  platform/backend/pkg/attemptintegrity/   # NEW package (detector); pkg/scoring is 013's, not edited
-  platform/backend/cmd/item-fit/           # NEW offline 2PL shadow fit
-  platform/backend/cmd/workshop-server/wire_integrity.go   # NEW hook + 1 field + 1 line per aggregator in wire_hooks.go
+  (no new package for detection or the 2PL fit: 013 T050-T053 on branch n1-013-adaptive own pkg/scoring/gaming.go and irt.go)
+  policy flag + admin report + item_irt export: patches to 013-owned files delivered to the 013 stream after n1-013-adaptive merges
   pipeline/pdf_textbook_sections.py        # OCR opt-in path, table notice (single PDF implementation, 026 D8)
   pipeline/textbook_draft_outline.py       # NEW
   platform/gates/verify-{quiz-bank,transcript-wer,token-usage}.sh + prove-*.sh   # NEW
@@ -60,7 +59,7 @@ workshop (private; one branch + worktree per stream):
 
 ## Sequencing
 
-Umbrella phase (T001-T007) has no dependencies and can start immediately. The operator answers (T010) gate every `[NO-n]` task but not the others. Adaptive integrity (T020-T029) needs `pkg/scoring`, which is on `int-0.0.3` and not on `main`: the stream branches from the integration branch or waits for the merge. Ingestion (T030-T041) needs nothing from scoring. Gates (T050-T062) are independent and parallel-safe.
+Umbrella phase (T001-T007) has no dependencies and can start immediately. The operator answers (T010) gate every `[NO-n]` task but not the others. Adaptive integrity (T020-T029) is residue on top of 013 T050-T053, which are on branch `n1-013-adaptive` and not yet merged: the stream waits for that merge. Ingestion (T030-T041) needs nothing from scoring. Gates (T050-T062) are independent and parallel-safe.
 
 ## Risks
 

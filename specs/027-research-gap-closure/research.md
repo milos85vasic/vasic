@@ -1,6 +1,6 @@
 # Research and evidence: Research Gap Closure
 
-All commands were read-only and run on 2026-10-21 against `workshop` `main` (`827e79e`) unless the row names `int-0.0.3` (`35f2ea3`). Paths are relative to `/home/milosvasic/Projects/vasic`. Nothing was built or run beyond these.
+All commands were read-only and run on 2026-10-21 against `workshop` `main` (`827e79e`) unless the row names `int-0.0.3` (`35f2ea3`). Paths are relative to the umbrella repository root. Nothing was built or run beyond these.
 
 ## 1. Corrections to the input audits
 
@@ -13,7 +13,8 @@ The two input audits are scratch files; where reading the code or a spec changed
 | REQ-6 residency copy "no task produces it" (Part B) vs "024 T072-T074/T078 carry it" (Part C) | Part C is right: tasks exist, all unticked, T078 waits on operator text | `specs/024-answering-enablement-and-provider-ui/tasks.md:158-164` |
 | Textbook ids vs the chapter-id grammar "UNCONFIRMED whether a gate covers it" (Part E sub3) | Covered: 012 T021 and a unit test on `main` | `specs/012-document-ingestion-textbooks/tasks.md:149`; `git ls-tree main platform/backend/pkg/curriculum/` lists `textbook_scope_test.go` |
 | "A9 NOT-SPECCED (only 013 US3 grep'd by title)" | Confirmed by full-text search: `013 tasks.md` has no gaming-detector or 2PL task; its US3 tasks T037-T044 are the Elo batch recalibration only | `grep -n -i "detector\|2PL\|discrimination" specs/013-adaptive-assessment-scoring/tasks.md` shows only replay/unrelated hits; `013 spec.md:70,127` defer both |
-| The `aria-live="assertive"` on the transcript is a conflict with the UX research | A single context-change announcement, deliberately assertive and explained in the code; the research's concern is a step list | `workshop/platform/frontend/src/app/features/transcript/transcript.component.ts:117-142`; research `ux-research-2026-09-01.md:124` |
+| SUPERSEDED 2026-10-22: the row above was true at `4c969c0` | `013 tasks.md` gained Phase 6 (T050-T054) in `832b020`: T050 detector, T051 integrity reading, T052 2PL shadow fit, T053 Progress note. RG-13/RG-14 re-scoped to cross-reference plus residue | residue verified by reading branch `n1-013-adaptive`: no policy value, no admin report route, `item_irt` read only inside `pkg/scoring`; seeded recovery test exists in `irt_test.go` |
+| The `aria-live="assertive"` on the transcript is a conflict with the UX research | Two deliberate assertive contexts (transcript context-change announcement; `core/state.component.ts` for `unavailable` and `degraded` only), each explained in the code; the research's concern is a step list | `workshop/platform/frontend/src/app/features/transcript/transcript.component.ts:117-142`; research `ux-research-2026-09-01.md:124` |
 | 026 T012 names `wire_audit.go`, `wire_lan.go`, `wire_rerank.go` | None exist on `main` or `int-0.0.3`. Existing: `wire_hooks.go` and `wire_{providers,scoring,profile,practice,retrieval,ingestion,textbooks}.go` (`main`), plus `wire_answering.go` (`int-0.0.3`). `wire_scoring.go` on `main` is a no-op stub (36 lines, "Every function is currently a no-op"); `pkg/scoring` is absent from `main`'s `pkg/` listing | `git ls-tree --name-only main platform/backend/cmd/workshop-server/`; `grep -n 'hook:' main.go` empty; `wire_scoring.go:7-9` |
 | Skills research §9.1 "no tool found generates or verifies the gate/mutation pairing" | In this repository the pairing is enforced: the registry requires a paired proof per check | `scripts/verify-check-registry.sh:1-40`; `workshop/platform/gates/check-registry-*.tsv` |
 
@@ -43,10 +44,10 @@ Items in the backlog's Part E that are task-note gaps rather than research requi
 
 ## 5. UNCONFIRMED (not claimed)
 
-- Whether a captions `<track>` exists on the recording player today (T056 reads `recording-player.component.ts` first).
+- RESOLVED 2026-10-22: no captions `<track>` exists on the recording player (0 hits for track, vtt, captions in `recording-player.component.ts`).
 - Whether the 018 Library UI can display a self-report count (T036 decides).
 - Backlog Part E sub4 items R2, R4, R5 against code (T062 re-verifies first).
-- Which states the `core/state.component.ts:333` assertive set contains.
+- RESOLVED 2026-10-22: the `core/state.component.ts` assertive set is `unavailable` and `degraded` (`:101`).
 - Whether the installed `superpowers` version is v6.3.0.
 
 ## 6. Cross-spec analysis of 011-027 (speckit-analyze equivalent, 2026-10-21)
@@ -67,3 +68,6 @@ Method: an ad hoc script parsed every `spec.md` and `tasks.md` of 011-027 (ids, 
 | A-10 | 012 T047: OCR packs `eng`, `osd` only; FR-018/019 and SC-009 had no task | 012 tasks |
 
 Reported, not applied (files owned or uncommitted by another stream): B-01 `022 spec.md:52-54` says 011's audit writer is unbuilt (it is built: 011 T007-T014 ticked, `pkg/answer/audit.go` on `main`); B-02 014 T016c/T025 wait on an operator routing map though O-3 is ratified; B-03 023 has no `tasks.md`; B-04 all specs `Status: Draft`; B-05 FR-to-task traceability is by story tag in newer specs (FRs never named in their own tasks: 018 12/16, 019 15/15, 020 15/16, 021 15/20, 022 18/26, 024 15/21, 025 15/21); B-06 020 resolver versus 015 anchors (027 FR-015); B-09 014 FR-007/FR-008 numbers and X-02 unratified; B-10 `ACHIEVEMENT_EVENT_SOURCE` provided nowhere (must-wire backlog).
+
+
+Line citations in this file and in the register were measured at the commits named above and WILL drift when a cited file is edited (observed already: a cited print at `:222-223` has its `return` at `:225`; 013 task lines moved after `832b020`). The checker (T002) therefore resolves every `path:line` citation that points into this repository to a file that exists and a line within its length, and reports an out-of-range or missing citation as a finding; it cannot know the line still says what it said, so a citation is evidence of where to look, never a proof.

@@ -6,7 +6,7 @@
 
 **Status**: Draft (specification only; nothing here has been built; independent review §11.4.142 PENDING)
 
-**Input**: Operator brief of 2026-10-21: a spec that covers every requirement in `workshop/docs/research/**` that no spec task implements. The input audits are `/home/milosvasic/.cache/claude-tmp/reviews/completion-backlog-B-specs-018-026.md` (section 3 and the per-part "research requirements" sections) and `/home/milosvasic/.cache/claude-tmp/reviews/research-traceability-2026-10-21.md` (section 3). Both are session scratch files, not committed: every fact this spec relies on is restated with `file:line` in `research.md`, so this spec does not depend on them.
+**Input**: Operator brief of 2026-10-21: a spec that covers every requirement in `workshop/docs/research/**` that no spec task implements. The input audits are the session scratch file `completion-backlog-B-specs-018-026.md` (section 3 and the per-part "research requirements" sections) and `research-traceability-2026-10-21.md` (section 3). Both are session scratch files, not committed: every fact this spec relies on is restated with `file:line` in `research.md`, so this spec does not depend on them.
 
 **Builds on / cross-references (never duplicates)**: `012` (FR-018, FR-019, FR-020, SC-009), `013` (US3 crowd recalibration T037-T044, `pkg/scoring`), `015` (location anchors), `018`, `020`, `021` (US1-US5, OD-1..OD-5), `022` (corpus-only, OD-2), `024` (benchmark v2 FR-012, residency T072-T078, claim ledger T100), `025` (P1-P16 table, T006), `026` (O-1..O-8). Spec `023` is being authored by another stream and is neither read as a dependency nor edited here.
 
@@ -14,7 +14,7 @@
 
 ## Why this exists
 
-The 2026-10-21 audits found research requirements that no task in any spec implements. Some are real build work (an adaptive-assessment gaming detector, OCR for scanned PDFs), some are tooling decisions that were never taken (the 23-item skills-and-plugins shortlist and its nine "gaps with no solution"), some are blocked on facts only the operator or the client has (the Jordan client's section 6 unknowns), and some turned out, when read against the code, to be already covered (ux-research P2 has 025 tasks T031-T041; the accessibility items U32/U35 have 025 T006; the textbook-id-versus-chapter-list rule has 012 T021 and `pkg/curriculum/textbook_scope_test.go`). A research document with no owner is a claim nobody checks, so this feature gives each requirement exactly one disposition: **BUILD**, **ADOPT**, **ADVISORY-ONLY** (with the reason), **REJECT**, **BUILT-ALREADY** (with the evidence), **CROSS-REFERENCE** (an existing task owns it), or **NEEDS-OPERATOR** (an explicit clarification entry with a recommended default, not a guess).
+The 2026-10-21 audits found research requirements that no task in any spec implements. Some are real build work (OCR for scanned PDFs, the policy and operator report around an adaptive-assessment gaming detector that spec 013 now builds), some are tooling decisions that were never taken (the 23-item skills-and-plugins shortlist and its nine "gaps with no solution"), some are blocked on facts only the operator or the client has (the Jordan client's section 6 unknowns), and some turned out, when read against the code, to be already covered (ux-research P2 has 025 tasks T031-T041; the accessibility items U32/U35 have 025 T006; the textbook-id-versus-chapter-list rule has 012 T021 and `pkg/curriculum/textbook_scope_test.go`). A research document with no owner is a claim nobody checks, so this feature gives each requirement exactly one disposition: **BUILD**, **ADOPT**, **ADVISORY-ONLY** (with the reason), **REJECT**, **BUILT-ALREADY** (with the evidence), **CROSS-REFERENCE** (an existing task owns it), or **NEEDS-OPERATOR** (an explicit clarification entry with a recommended default, not a guess).
 
 The full row-by-row register is [`contracts/requirement-register.md`](./contracts/requirement-register.md) (RG-01..RG-48). The 33-row tooling decision table is [`contracts/tooling-decisions.md`](./contracts/tooling-decisions.md). This file holds the stories, the requirements and the success criteria they roll up into.
 
@@ -36,19 +36,19 @@ An operator or reviewer opens one register and, for any requirement in `workshop
 
 ---
 
-### User Story 2 - A learner cannot inflate their ability score by repeating a question, and item parameters can graduate from Elo to measured (Priority: P1)
+### User Story 2 - A repeat attempt has a stated policy and an operator report, and the 2PL shadow fit has a reader (Priority: P1)
 
-A learner re-submits the same practice question to push their score up. The platform records every attempt (013's response log already keeps session, question and timestamp) and now also recognises the repeat. With the recommended default policy (NEEDS-OPERATOR NO-5) a repeat of an already-answered question in the same session earns no upward score change, and the result says so in plain words. Separately, an operator can run an offline fit of per-item 2-parameter logistic parameters over the accumulated response log, in shadow mode: it reports, it never changes what a learner is served until the operator sets the promotion thresholds (NO-4).
+Spec 013 now builds the repeat-attempt / rapid-guess detector (T050), the integrity reading on submit and progress (T051), the Progress-page neutral note (T053) and the shadow-only 2PL fit with its seeded recovery test (T052) on branch `n1-013-adaptive`. This feature does NOT build a second detector or fit. It adds only what that branch lacks, verified by reading its code: (a) the repeat-attempt policy, so an operator can choose that a repeat never raises the score (NEEDS-OPERATOR NO-5; `gaming.go` documents that it deliberately does not discount the ability update); (b) an admin-only report of repeat counts per session and per question; (c) a read-only operator export of the fitted item parameters and a recorded recovery run against the operator's tolerance (NO-4), because `item_irt` has no reader outside `pkg/scoring`.
 
-**Why this priority**: the research names the inflation risk explicitly (`adaptive-assessment-and-scoring.md:692-700`), spec 013 defers it (`013 spec.md:70`, `:127`), and the detector is cheap because the log already carries what it needs.
+**Why this priority**: the research names the inflation risk (`adaptive-assessment-and-scoring.md:692-700`); 013 detects and reports it, but nothing yet lets the operator decide what a repeat is worth.
 
-**Independent Test**: a golden response log with seeded repeat sessions and clean sessions; the detector flags exactly the seeded ones, byte-identically across 100 shuffles of row order. The shadow IRT job run against a database copy changes zero bytes of any served response.
+**Independent Test**: with policy `no-upward-change` a repeated submit leaves the area ability unchanged or lower; with `record-only` the response bytes equal today's. With the shadow fit on or off and `IRTApply` false, every served byte of a fixed script is identical.
 
 **Acceptance Scenarios**:
 
-1. **Given** a session that submits question Q, then Q again, **When** the second submit is scored, **Then** the response log has two rows (not a replay: a token replay is 013 T015/T016 and is unaffected), the ability change is not upward, and the response body carries a neutral, non-accusatory notice.
-2. **Given** a token replay (the same serving token twice), **When** it is submitted, **Then** behaviour is exactly 013's replay behaviour (the detector is not consulted).
-3. **Given** the shadow IRT job and a log below the operator's thresholds, **When** it runs, **Then** it reports "insufficient data" per item and writes nothing a learner can read.
+1. **Given** policy `no-upward-change` and a session that submits question Q twice, **When** the second submit is scored, **Then** the log has two rows, the ability change is not upward, and the existing `scoring.integrity` object says so neutrally.
+2. **Given** a serving-token replay, **When** it is submitted, **Then** behaviour is exactly 013's replay behaviour.
+3. **Given** the shadow fit and a log below the operator's thresholds, **When** the export runs, **Then** it reports "insufficient data" per item and writes nothing a learner can read.
 
 ---
 
@@ -134,11 +134,11 @@ Every item blocked on a fact nobody in the repository holds (the client's sectio
 
 **Adaptive assessment (RG-13..RG-15)**
 
-- **FR-006**: The platform MUST detect repeat attempts: a second or later scored submission of the same question by the same session, other than a serving-token replay (013 T015/T016). Detection MUST be derived from the existing append-only response log without a schema change (`013 spec.md:70`) and MUST be deterministic and model-free.
-- **FR-007**: Under the recommended policy (NO-5) a repeat attempt MUST be logged, MUST NOT raise the learner's ability score, MAY lower it exactly as a first attempt would, and MUST be disclosed in the submit response with neutral wording that does not accuse. The policy MUST be one configurable value with the values `record-only` and `no-upward-change`; the default MUST be the one the operator selects at NO-5 (until then `record-only`, the behaviour that changes nothing a learner sees).
-- **FR-008**: An operator-facing report MUST list repeat-attempt counts per session and per question with no learner identity beyond the existing session id, and MUST be admin-only like 024 FR-006.
-- **FR-009**: The platform MUST provide an offline, shadow-mode per-item 2PL fit over the response log: discrimination and difficulty per item, with the number of responses and a convergence flag, written to an operator file. Shadow mode MUST NOT change any served score, item selection or response byte. Promotion of fitted parameters into serving is OUT of this feature until NO-4 sets the thresholds.
-- **FR-010**: The fit MUST be validated by a recorded parameter-recovery simulation (fixed seed) before any promotion decision; the tolerance and minimum-response thresholds are operator inputs (NO-4), not values asserted here.
+- **FR-006**: Repeat-attempt detection is CROSS-REFERENCED, not specified here: `013 tasks.md` T050 (detector), T051 (integrity reading) and T053 (Progress note) own it. This feature MUST NOT add a second detector. The register check (FR-002) MUST fail if those task ids disappear from `013 tasks.md`.
+- **FR-007**: The repeat-attempt policy MUST be one configurable value with the values `record-only` and `no-upward-change`, beside 013's other scoring configuration; the default MUST be the one the operator selects at NO-5 (until then `record-only`, the behaviour that changes nothing a learner sees). Under `no-upward-change` a repeat MUST be logged, MUST NOT raise the ability score, MAY lower it exactly as a first attempt would, and MUST be disclosed through the existing `scoring.integrity` object with neutral wording that does not accuse.
+- **FR-008**: An operator-facing report MUST list repeat-attempt counts per session and per question with no learner identity beyond the existing session id, and MUST be admin-only like 024 FR-006 (absent from `n1-013-adaptive`: its reading is per-session on GET /api/progress).
+- **FR-009**: The per-item 2PL fit is CROSS-REFERENCED to `013 tasks.md` T052 (shadow-only unless `Config.IRTApply`). This feature adds only a read-only operator export of the fitted parameters (a, b, response count, convergence flag per item) and a shadow invariant: with `IRTApply` false, no served score, item selection or response byte changes. Promotion into serving is OUT of this feature until NO-4 sets the thresholds.
+- **FR-010**: A fixed-seed parameter-recovery run MUST be recorded against the operator's tolerance and minimum-response thresholds (NO-4, operator inputs, not values asserted here) before any promotion decision. 013's own seeded recovery unit test is the mechanism; this requirement adds only the recorded evidence.
 
 **Document ingestion (RG-16..RG-23)**
 
@@ -223,8 +223,8 @@ Every item blocked on a fact nobody in the repository holds (the client's sectio
 
 - **SC-001**: The tooling register has 33 rows (24 shortlist rows, item 15 split in two and item 5b folded into #10, plus gaps 9.1-9.9, as defined in `contracts/tooling-decisions.md`), each with a disposition and a cited reason; the check finds zero research rows missing and its mutation (delete a disposition) exits 1.
 - **SC-002**: 100% of RG rows pass the register check; a corrupted register exits 2.
-- **SC-003**: On a golden response-log fixture the repeat-attempt detector flags 100% of seeded repeats and 0 of the non-repeats, and its output is byte-identical across 100 row-order shuffles.
-- **SC-004**: With the shadow IRT job enabled, the bytes of every served practice response over a fixed script are identical to the run with it disabled (difference = 0), and the job's report lists every item with its response count.
+- **SC-003**: Under policy `no-upward-change` 100% of seeded repeat submissions leave the area ability unchanged or lower and 0 of the first attempts are affected; under `record-only` the response bytes equal the run without the policy. Detection itself is 013's (T050).
+- **SC-004**: With the shadow IRT job enabled, the bytes of every served practice response over a fixed script are identical to the run with it disabled (difference = 0), and the export lists every item with its response count.
 - **SC-005**: 100% of scanned-PDF fixture attempts without opt-in are refused; 100% with opt-in produce sections that carry the OCR marker (satisfies 012 SC-009).
 - **SC-006**: 100% of fixture table regions appear in the extraction report and the matching section shows the notice.
 - **SC-007**: 100% of seeded unreadable/empty research sources appear in the 018 re-ingest report.
