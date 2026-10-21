@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Operator decisions and requests: 2026-10-21</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+</style>
+  <style type="text/css">body{max-width:none;padding-left:0;padding-right:0}
+table{table-layout:fixed;width:100%;font-size:72%}
+th,td{overflow-wrap:anywhere;vertical-align:top}
+pre,code{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all}
+pre{font-size:80%}
+@page{size:A4;margin:14mm}
+tr{page-break-inside:avoid;break-inside:avoid}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Operator decisions and requests: 2026-10-21</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#operator-decisions-and-requests-2026-10-21" id="toc-operator-decisions-and-requests-2026-10-21">Operator decisions
+and requests: 2026-10-21</a>
+<ul>
+<li><a href="#contents" id="toc-contents">Contents</a></li>
+<li><a href="#1-how-to-read-this-record" id="toc-1-how-to-read-this-record">1. How to read this record</a></li>
+<li><a href="#2-operator-decisions-d-01-to-d-09" id="toc-2-operator-decisions-d-01-to-d-09">2. Operator decisions D-01 to
+D-09</a></li>
+<li><a href="#3-waiver-record-w-01-release-003-shipped-over-a-blocked-verdict" id="toc-3-waiver-record-w-01-release-003-shipped-over-a-blocked-verdict">3.
+Waiver record W-01: release 0.0.3 shipped over a BLOCKED
+verdict</a></li>
+<li><a href="#4-releases-and-data-commits-of-the-day" id="toc-4-releases-and-data-commits-of-the-day">4. Releases and data
+commits of the day</a></li>
+<li><a href="#5-standing-exclusion" id="toc-5-standing-exclusion">5.
+Standing exclusion</a></li>
+<li><a href="#6-amendments-to-the-2026-10-20-record" id="toc-6-amendments-to-the-2026-10-20-record">6. Amendments to the
+2026-10-20 record</a></li>
+<li><a href="#7-participants-and-what-is-not-known" id="toc-7-participants-and-what-is-not-known">7. Participants and what
+is not known</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="operator-decisions-and-requests-2026-10-21">Operator decisions
+and requests: 2026-10-21</h1>
+<table>
+<tbody>
+<tr>
+<td>Document</td>
+<td>Operator-request-history record for 2026-10-21, continuing
+<code>OPERATOR-DECISIONS-2026-10-20.md</code> (which it amends, see part
+6)</td>
+</tr>
+<tr>
+<td>Constitution</td>
+<td>11.4.208 (request-history ledger), 11.4.210 (zero-loss intake),
+11.4.61 (metadata table and table of contents), 11.4.6 (no guessing),
+11.4.104 (participant attribution)</td>
+</tr>
+<tr>
+<td>Revision</td>
+<td>1 (2026-10-21)</td>
+</tr>
+<tr>
+<td>Author</td>
+<td>Documentation stream D1 (a Claude agent), from the task brief
+relayed by the orchestrator and from the repository facts named in each
+row</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Draft for independent review (11.4.142). Not reviewed</td>
+</tr>
+<tr>
+<td>Timezone</td>
+<td>Clock times are <code>+0200</code> and appear only where a git
+object carries them (tag objects, commits) or where the brief gives one;
+otherwise no time is invented</td>
+</tr>
+<tr>
+<td>11.4.208 fields</td>
+<td>Track: documentation (stream D1). Alias: <code>claude3</code>
+(inferred from the user-scope configuration directory this session
+loaded, <code>UNCONFIRMED</code> by the operator). Model of the author:
+Sonnet 5.5; effort <code>UNDETERMINED</code> (not stated in the brief).
+Model and effort of the orchestrator and of the other participants named
+below: <code>UNDETERMINED</code> (not in any file read)</td>
+</tr>
+<tr>
+<td>Sources</td>
+<td>The task brief (every row marked “brief”); <code>workshop</code> tag
+objects and commits; <code>workshop</code>
+<code>evidence/release/0.0.3</code> and <code>0.0.4</code>
+(<code>verdict.json</code>, <code>MANIFEST.json</code>,
+<code>logs/</code>); <code>workshop</code>
+<code>evidence/textbooks/textbooks-c8adbd3ca35d/registry-summary.live.json</code>;
+<code>docs/releases/0.0.3.md</code> and <code>0.0.4.md</code>;
+<code>specs/026-spec-reconciliation/spec.md</code>;
+<code>workshop</code> <code>main</code> flag definitions</td>
+</tr>
+<tr>
+<td>Content boundary</td>
+<td>Public repository. No credential, no key value, no textbook or
+recording text. Variable <strong>names</strong> appear where a decision
+names them; no value does</td>
+</tr>
+</tbody>
+</table>
+<h2 id="contents">Contents</h2>
+<ol type="1">
+<li><a href="#1-how-to-read-this-record">How to read this
+record</a></li>
+<li><a href="#2-operator-decisions-d-01-to-d-09">Operator decisions D-01
+to D-09</a></li>
+<li><a href="#3-waiver-record-w-01-release-003-shipped-over-a-blocked-verdict">Waiver
+record W-01: release 0.0.3 shipped over a BLOCKED verdict</a></li>
+<li><a href="#4-releases-and-data-commits-of-the-day">Releases and data
+commits of the day</a></li>
+<li><a href="#5-standing-exclusion">Standing exclusion</a></li>
+<li><a href="#6-amendments-to-the-2026-10-20-record">Amendments to the
+2026-10-20 record</a></li>
+<li><a href="#7-participants-and-what-is-not-known">Participants and
+what is not known</a></li>
+</ol>
+<h2 id="1-how-to-read-this-record">1. How to read this record</h2>
+<ul>
+<li><strong>Wording.</strong> The operator’s own typed words are not
+visible to the agent that wrote this record. Each decision below is
+<strong>paraphrased from the brief</strong> unless a row says it quotes
+a file. No quotation has been invented.</li>
+<li><strong>Who decided.</strong> <em>Operator</em> means the operator
+personally. <em>Delegate</em> means the orchestrating agent acting under
+the standing approval (OR-02 of the 2026-10-20 record); a delegate
+decision is amendable by the operator. Section 3 is a <strong>delegate
+waiver, not an operator decision</strong>, and is kept apart from the
+decisions for that reason.</li>
+<li><strong>Status vocabulary.</strong> DECIDED (operator), RATIFIED (an
+earlier delegate default the operator has now confirmed), DEFERRED (the
+operator put it off), APPROVED-NOT-EXECUTED (the operator approved an
+action that had not been carried out when this was written), OPEN
+(investigation or decision continues), IN EFFECT (a standing rule).</li>
+<li><strong>Verification.</strong> “Checked” means the cited file or git
+object was read by the author of this record on 2026-10-21. “Brief”
+means the statement comes from the brief only and was not re-read from a
+repository file or the live stack; the <strong>live-stack facts of this
+day (restarts, embedding totals, the state of the live registry) are all
+brief-only here: UNCONFIRMED by this record.</strong></li>
+</ul>
+<h2 id="2-operator-decisions-d-01-to-d-09">2. Operator decisions D-01 to
+D-09</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Date</th>
+<th>Decision</th>
+<th>Wording</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D-01</td>
+<td>2026-10-21</td>
+<td><strong>Push of the registry data to the private
+<code>workshop</code> remote: approved, and done.</strong> The two data
+commits (part 4) are on the remote <code>main</code>. After the push the
+remote <code>main</code> is <code>827e79e</code></td>
+<td>paraphrased (brief). The remote head
+<code>827e79e7fbd1cfcb6a54e3462327d154d4cf5b20</code> was
+<strong>checked</strong> with
+<code>git ls-remote origin refs/heads/main</code></td>
+<td>DECIDED; executed</td>
+</tr>
+<tr>
+<td>D-02</td>
+<td>2026-10-21</td>
+<td><strong>Rotation of the <code>milosvasic</code> account password:
+deferred.</strong> The live account still carries the tracked example
+password hash. A production-mode boot
+(<code>WORKSHOP_ENV=production</code>) would therefore refuse; under the
+live configuration (no <code>WORKSHOP_ENV</code>) it boots. The rotation
+is listed as an operator action in the 0.0.3 and 0.0.4 verdicts</td>
+<td>paraphrased (brief). The refusal under production mode and the
+operator-action wording are <strong>checked</strong> in
+<code>docs/releases/0.0.3.md</code> (“Pre-deploy safety”) and
+<code>evidence/release/0.0.4/verdict.json</code>
+(<code>operator_actions</code>; the check
+<code>pre-deploy: H3 production boot guard vs live auth store</code> is
+<code>UNDETERMINED</code>, “operator action carried over: rotate with
+workshop-passwd”)</td>
+<td>DEFERRED. Until it is done the credential is publicly derivable (the
+release notes say so)</td>
+</tr>
+<tr>
+<td>D-03</td>
+<td>2026-10-21</td>
+<td><strong>Blank only the filename-shaped textbook section
+titles.</strong> Amends D-TITLES of spec 020: where a section’s title is
+shaped like a file name, it is shown blank; titles that are real words
+are kept. Implemented on the branch <code>cat-titles</code>,
+<strong>pending independent review</strong></td>
+<td>paraphrased (brief). The branch was not read by the author</td>
+<td>DECIDED; implementation pending review. Amends D-TITLES (part
+6)</td>
+</tr>
+<tr>
+<td>D-04</td>
+<td>2026-10-21</td>
+<td><strong>Delete the untracked directory
+<code>submodules/constitution/submodules/kedge</code>.</strong>
+Approved; <strong>not yet executed</strong> when this was written. It is
+untracked inside the constitution submodule
+(<code>git status --short</code> in <code>submodules/constitution</code>
+prints <code>?? submodules/kedge/</code>, <strong>checked</strong>);
+deleting it does not touch tracked content, and nothing is pushed to the
+constitution repository</td>
+<td>paraphrased (brief)</td>
+<td>APPROVED-NOT-EXECUTED. Carried out by the orchestrator</td>
+</tr>
+<tr>
+<td>D-05</td>
+<td>2026-10-21</td>
+<td><strong>Answer-gate thresholds ratified.</strong> Answering may be
+turned on only when a two-sided measurement meets all of: <strong>recall
+lower bound at least 0.4</strong>, <strong>fabrication upper bound at
+most 0.02</strong>, with <strong>at least 60 trials for recall and at
+least 189 for fabrication</strong>. These are the numeric form of RD-01
+of the 2026-10-20 record</td>
+<td>paraphrased (brief)</td>
+<td>RATIFIED. Answering stays OFF until a measurement meets them</td>
+</tr>
+<tr>
+<td>D-06</td>
+<td>2026-10-21</td>
+<td><strong>Hosted providers OpenAI and Anthropic are allowed</strong>
+for (a) the answer-gate measurement of D-05 (spend cap about <strong>20
+US dollars per provider</strong>) and (b) the spec 022 on-demand
+material generation. Conditions: <strong>default OFF</strong>; enabled
+only through the explicit remote opt-ins
+(<code>-answer-allow-remote</code>, and
+<code>-material-allow-remote</code> for spec 022); a <strong>per-request
+acknowledgement</strong> by the learner or operator; a <strong>writable
+audit log</strong>. The keys come from the operator’s own environment
+file, through the variable names
+<strong><code>ApiKey_OpenAI</code></strong> and
+<strong><code>ApiKey_Anthropic</code></strong>, which the operator must
+add: neither name is present in that file today
+(<strong>checked</strong> by name only: a count of lines defining each
+name returned 0; no value was read). No key is read, printed or stored
+by any document or test</td>
+<td>paraphrased (brief). <code>-answer-allow-remote</code> is
+<strong>checked</strong> on <code>workshop</code> <code>main</code>
+(<code>cmd/workshop-server/main.go</code>, default <code>false</code>,
+env <code>WORKSHOP_ANSWER_ALLOW_REMOTE</code>).
+<code>-material-allow-remote</code> exists on the in-flight branch
+<code>s17-022-material</code> and <strong>not</strong> on
+<code>main</code> (checked by name search); the audit log, the
+acknowledgement and the spend cap are brief-only,
+<strong>UNCONFIRMED</strong> in code</td>
+<td>DECIDED. Supersedes the 2026-10-20 default that no hosted provider
+is used. The token rule (OR-04) still bars any model over recordings,
+transcripts or textbooks. Standing exclusion in part 5</td>
+</tr>
+<tr>
+<td>D-07</td>
+<td>2026-10-21</td>
+<td><strong>Question-bank cold start accepted.</strong> The bank has 0
+<code>easy</code> items (292 questions: 113 medium, 179 hard); the
+cold-start behaviour of spec 013 (never serve a medium-or-harder item as
+if it were easy) is accepted as it is, and no easy items are authored
+now</td>
+<td>paraphrased (brief). The counts are those of D5 in the 2026-10-20
+record (measured at <code>workshop</code> <code>33e9760</code>)</td>
+<td>DECIDED. Closes X-06 of the 2026-10-20 record</td>
+</tr>
+<tr>
+<td>D-08</td>
+<td>2026-10-21</td>
+<td><strong>The delegate decisions of spec 026 are ratified as
+taken:</strong> O-2 (ability score per area), O-3 (a modal only for
+level-up and chapter-complete), O-4 (build kind-easing, server-side,
+owner spec 013), O-5 (<code>chapter-complete</code> means all lessons in
+an area completed), O-6 (textbook merge approved, reranker off until a
+two-sided regression passes), O-7 (the spec 011 FR-005 audit-schema
+clarification counts as resolved), O-8 (graded questions join adaptive
+practice per question after the session attempted them in the
+assessment), <strong>and the crossref floor</strong> (a single noise
+floor at quantile 0.90, value 0.6391, applied at the next crossref
+derivation). Each is marked <strong>ratified 2026-10-21</strong></td>
+<td>paraphrased (brief). The text of each choice is as recorded in parts
+3 and 4 of the 2026-10-20 record</td>
+<td>RATIFIED for O-2 to O-8 and the crossref floor. <strong>Not</strong>
+covered by this ratification: X-01 (LAN link-local), X-02 (spec 014
+FR-007 queue cap), X-05, X-07 and the open items D-PDF, D-DIAG, D-EMB,
+D-SVG and the audit failure mode: they stay as the 2026-10-20 record has
+them</td>
+</tr>
+<tr>
+<td>D-09</td>
+<td>2026-10-21</td>
+<td><strong>Redacted rows blanked in the tracked live registry:
+investigate first and leave the tree dirty.</strong> At 04:45 on
+2026-10-21, 1,108 redacted registry rows were found blanked in the
+tracked live registry (<code>curriculum/passages.jsonl</code>). The
+cause is <strong>unexplained</strong>. The row count is unchanged. A
+preserved copy exists in the operator’s backup directory. The operator’s
+choice: <strong>investigate first, and leave the working tree
+dirty</strong> (no restore, no commit) until the investigation
+concludes</td>
+<td>paraphrased (brief). The 04:45 time, the count of 1,108, the
+unchanged row count and the preserved copy are all brief-only:
+<strong>UNCONFIRMED</strong> by this record</td>
+<td>OPEN. Investigation in progress. <strong>This record names no
+culprit and offers no cause</strong>; any statement of cause belongs in
+the investigation’s own record</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-waiver-record-w-01-release-003-shipped-over-a-blocked-verdict">3.
+Waiver record W-01: release 0.0.3 shipped over a BLOCKED verdict</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>W-01</td>
+</tr>
+<tr>
+<td>Kind</td>
+<td><strong>Orchestrator (delegate) waiver. Not an operator
+decision.</strong> Amendable by the operator</td>
+</tr>
+<tr>
+<td>What</td>
+<td>Release <code>vasic-1.0.0-dev-0.0.3</code> was tagged and deployed
+(the deployment is brief-only; the tags are checked in part 4) although
+its machine verdict (<code>evidence/release/0.0.3/verdict.json</code>)
+says <code>overall: BLOCKED</code></td>
+</tr>
+<tr>
+<td>Blocking findings</td>
+<td><strong>N1</strong>, a test-isolation defect; <strong>N2</strong>,
+six exempt registry rows missing (the verdict’s words: “a test-isolation
+defect and six missing registry rows”). <strong>Checked</strong> in
+<code>verdict.json</code> <code>blocking_assessment</code>: “Neither
+touches the server binary or web bundle”, both in non-server files of
+stream S4</td>
+</tr>
+<tr>
+<td>Reasoning for the waiver</td>
+<td>Both findings are in files that are not part of the deployed server
+binary or web bundle, so the built artifacts stayed the candidate (the
+<code>blocking_assessment</code> text says so). The verdict also lists 3
+baseline-identical <code>FAIL</code>s needing explicit waivers and
+<code>UNDETERMINED</code> checks that are environment-only
+(<strong>checked</strong>: 29 <code>PASS</code>, 5 <code>FAIL</code>, 4
+<code>UNDETERMINED</code>)</td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>N1 and N2 were fixed on the integration branch and release
+<strong>0.0.4</strong> was cut (part 4). 0.0.4’s own verdict is
+<code>RELEASABLE_WITH_WAIVERS_PENDING_ORCHESTRATOR_DECISION_ON_ingest-textbooks-test_FLAKE</code>
+(<strong>checked</strong>): 27 <code>PASS</code>, 2 <code>FAIL</code>
+(both under baseline waivers), 7 <code>UNDETERMINED</code>, 1
+<code>FLAKY</code></td>
+</tr>
+<tr>
+<td>Why it is recorded here</td>
+<td><code>verdict.json</code> is <strong>not edited</strong>: it keeps
+saying <code>BLOCKED</code>, so a later reader can see the tool’s
+verdict and the waiver separately. The rule for shipping over a verdict
+is now in <code>docs/releases/ADDING-A-RELEASE.md</code> revision 3
+(part 4, step 3)</td>
+</tr>
+<tr>
+<td>Who/when</td>
+<td>The orchestrating agent, 2026-10-21, before the 0.0.3 tags at 00:51
+(<code>+0200</code>; the tag object times in part 4). The exact moment
+of the waiver is not in any file read: <code>UNDETERMINED</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-releases-and-data-commits-of-the-day">4. Releases and data
+commits of the day</h2>
+<p>All rows <strong>checked</strong> against the git objects on
+2026-10-21 unless marked brief.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Event</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R-01</td>
+<td>Release <code>vasic-1.0.0-dev-0.0.3</code></td>
+<td>Tag objects on both repositories, annotated. <code>workshop</code>:
+object <code>4e5a231</code> peeling to <code>1cf59de</code> (tag time
+00:51:23 <code>+0200</code>). Umbrella: object <code>05322da</code>
+peeling to <code>4c7a1d2</code> (00:51:40). Build commit
+<code>d6b988e</code> (MANIFEST). The tag commit differs from the build
+commit by evidence and notes only
+(<code>git diff --stat d6b988e 1cf59de</code> outside
+<code>evidence/release/</code> and <code>docs/</code> is empty). Pushed
+to both remotes (brief)</td>
+</tr>
+<tr>
+<td>R-02</td>
+<td>Release <code>vasic-1.0.0-dev-0.0.4</code></td>
+<td><code>workshop</code>: object <code>21d1e16</code> peeling to
+<code>675ca48</code> (03:13:20). Umbrella: object <code>5f6ac84</code>
+peeling to <code>de2761b</code> (03:13:43). Build commit
+<code>cbe4628</code>. Between the build and the tag commit three
+non-product files differ (<code>wire_hooks_test.go</code>,
+<code>platform/gates/.cross-registry-attribution-allow</code>,
+<code>scripts/prove-wire-hooks.sh</code>);
+<code>platform/frontend</code> and every non-test backend file are
+identical (<strong>checked</strong>). Contents, from
+<code>docs/releases/0.0.4.md</code> (<strong>checked</strong>): the S13
+textbook library UI (<code>/textbooks</code>,
+<code>GET /api/textbooks*</code>), the S7 ingest script (script level,
+not part of the served artifact), and the fixes for N1 and N2 of
+W-01</td>
+</tr>
+<tr>
+<td>R-03</td>
+<td>Tags on remotes</td>
+<td>Both releases are tagged on both remotes (brief). The tag objects
+above exist locally (<strong>checked</strong>); the remote tag lists
+were not re-read by this record</td>
+</tr>
+<tr>
+<td>DC-01</td>
+<td>Data commit <code>576f8d6</code> (<code>workshop</code>, 03:29:06
+<code>+0200</code>)</td>
+<td>Ingest of the 3 licensed textbooks into the registry:
+<strong>+1,675</strong> <code>textbook_section</code> rows,
+<strong>34,817 to 36,492</strong> rows, applied to the live registry
+with <code>scripts/ingest-textbooks.sh apply</code>. Licence basis
+<code>operator-directed 2026-10-20</code>. Evidence under
+<code>evidence/textbooks/textbooks-c8adbd3ca35d</code> (counts only).
+<strong>Checked</strong> in <code>registry-summary.live.json</code>:
+<code>rows 36492</code>, <code>scoped_textbook_rows 1675</code>,
+registry sha256
+<code>d7b4a38662c2dfa0bcde7d743b859e89f4ca284f36c51644fb733d3597fa9bb1</code></td>
+</tr>
+<tr>
+<td>DC-02</td>
+<td>Data commit <code>827e79e</code> (<code>workshop</code>, 03:51:28
+<code>+0200</code>)</td>
+<td>Textbook catalogue in the server’s shape:
+<code>curriculum/textbooks/books.json</code> (schema 1),
+<code>books.expected.json</code>, generated <code>catalogue.json</code>;
+<code>books=3 sections=1675</code>. This is the commit that is the
+remote <code>main</code> (D-01)</td>
+</tr>
+<tr>
+<td>LV-01</td>
+<td>Live restarts after the data commits</td>
+<td>Brief-only: the live server was restarted and booted
+<code>books=3 sections=1675 state=present</code>, and all
+<strong>35,384</strong> embeddable passages were embedded.
+<strong>UNCONFIRMED</strong> by this record (no live probe was
+made)</td>
+</tr>
+</tbody>
+</table>
+<p>The 2026-10-20 record’s OR-03 (“whether the ingest and restart have
+been executed is UNCONFIRMED”) and X-04 (“release 0.0.3 is pending, no
+tag”) are <strong>superseded</strong> by DC-01, DC-02, LV-01 and R-01
+(part 6).</p>
+<h2 id="5-standing-exclusion">5. Standing exclusion</h2>
+<p><strong><code>ApiKey_TypeSafe</code> is never touched or
+used</strong> by any agent, script or document of this project,
+<strong>until the operator says that the decisions model is fully
+incorporated.</strong> This holds for D-06 and for everything else: the
+hosted-provider keys of D-06 are only <code>ApiKey_OpenAI</code> and
+<code>ApiKey_Anthropic</code>, and only once the operator has added
+them. The variable is named here so that the exclusion is unambiguous;
+its value was not read by the author and is not recorded anywhere.
+Status: IN EFFECT.</p>
+<h2 id="6-amendments-to-the-2026-10-20-record">6. Amendments to the
+2026-10-20 record</h2>
+<p>Cross-links added to <code>OPERATOR-DECISIONS-2026-10-20.md</code>
+(revision 3):</p>
+<table>
+<thead>
+<tr>
+<th>2026-10-20 item</th>
+<th>Amendment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RD-01 (answering stays OFF unless a two-sided gate passes)</td>
+<td>The gate now has ratified numbers: D-05</td>
+</tr>
+<tr>
+<td>O-2 to O-8, crossref floor</td>
+<td>Ratified 2026-10-21: D-08</td>
+</tr>
+<tr>
+<td>O-6 (textbook merge)</td>
+<td>The merge is executed: DC-01, DC-02; the live effect is LV-01
+(brief-only)</td>
+</tr>
+<tr>
+<td>OR-03 (ingest and restart)</td>
+<td>Executed: DC-01, DC-02, LV-01</td>
+</tr>
+<tr>
+<td>X-04 (release 0.0.3 pending)</td>
+<td>Superseded: R-01 and R-02; 0.0.3 shipped over a <code>BLOCKED</code>
+verdict under W-01</td>
+</tr>
+<tr>
+<td>X-06 (0 easy items)</td>
+<td>Accepted: D-07</td>
+</tr>
+<tr>
+<td>D-TITLES (display titles)</td>
+<td>Amended: D-03 (blank only the filename-shaped titles)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-participants-and-what-is-not-known">7. Participants and what
+is not known</h2>
+<p>Participants (11.4.104): the operator; the orchestrating agent acting
+as delegate (it granted W-01); documentation stream D1 (author); the
+streams that produced the releases (S4, S7, S10, S13 and the hardening
+streams) by the names the task briefs use. Model and effort of every
+participant other than the author: <code>UNDETERMINED</code>.</p>
+<p>Not known to this record, stated rather than guessed: the cause of
+D-09; whether D-04 has been carried out; the live stack’s present state
+(LV-01); how the <code>cat-titles</code> branch (D-03) decides that a
+title is “filename-shaped”; whether the audit log, per-request
+acknowledgement and spend cap of D-06 exist in code.</p>
+</body>
+</html>

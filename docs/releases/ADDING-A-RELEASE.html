@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Adding a release: the repeatable procedure</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+  <style type="text/css">body{max-width:none;padding-left:0;padding-right:0}
+table{table-layout:fixed;width:100%;font-size:72%}
+th,td{overflow-wrap:anywhere;vertical-align:top}
+pre,code{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all}
+pre{font-size:80%}
+@page{size:A4;margin:14mm}
+tr{page-break-inside:avoid;break-inside:avoid}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Adding a release: the repeatable procedure</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#adding-a-release-the-repeatable-procedure" id="toc-adding-a-release-the-repeatable-procedure">Adding a release: the
+repeatable procedure</a>
+<ul>
+<li><a href="#contents" id="toc-contents">Contents</a></li>
+<li><a href="#1-why-revision-1-was-withdrawn" id="toc-1-why-revision-1-was-withdrawn">1. Why revision 1 was
+withdrawn</a></li>
+<li><a href="#2-names-paths-and-remotes" id="toc-2-names-paths-and-remotes">2. Names, paths and remotes</a></li>
+<li><a href="#3-preconditions" id="toc-3-preconditions">3.
+Preconditions</a></li>
+<li><a href="#4-the-procedure" id="toc-4-the-procedure">4. The
+procedure</a></li>
+<li><a href="#5-rollback" id="toc-5-rollback">5. Rollback</a></li>
+<li><a href="#6-tag-message-template" id="toc-6-tag-message-template">6.
+Tag message template</a></li>
+<li><a href="#7-what-can-go-wrong" id="toc-7-what-can-go-wrong">7. What
+can go wrong</a></li>
+<li><a href="#8-evidence-to-keep-for-each-release" id="toc-8-evidence-to-keep-for-each-release">8. Evidence to keep for
+each release</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="adding-a-release-the-repeatable-procedure">Adding a release: the
+repeatable procedure</h1>
+<table>
+<tbody>
+<tr>
+<td>Purpose</td>
+<td>One repeatable way to cut a numbered development release of the
+platform: build once into a side directory, give the candidate a
+fingerprint, produce a verdict against that fingerprint, back up,
+promote without rebuilding, confirm what is served, tag from the
+remote’s tag list, push</td>
+</tr>
+<tr>
+<td>Constitution</td>
+<td>11.4.230(D) (incremental delivery), 11.4.235 (build and deploy once
+source is proven correct), 11.4.236 (QA-deploy-readiness gate), 11.4.264
+(build once, promote one immutable artifact), 11.4.113 (never
+force-push), 11.4.151 (project-prefixed tag names), 11.4.40 (full-suite
+retest before a release tag), 11.4.61 (metadata table and contents)</td>
+</tr>
+<tr>
+<td>Revision</td>
+<td>3 (2026-10-21). Revision 1 described a procedure that cannot work
+(see part 1) and is withdrawn. Revision 2 was reviewed NO-GO on
+documentation only; revision 3 adds what releases 0.0.3 and 0.0.4 taught
+(the pre-deploy safety boot, the verdict vocabulary and the
+shipping-over-a-verdict rule, the stamp, the hazard of a later plain
+<code>start.sh</code>, a step 6 that survives being pasted)</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Draft for independent review (11.4.142)</td>
+</tr>
+<tr>
+<td>Basis</td>
+<td>The artifacts that releases 0.0.2, 0.0.3 and 0.0.4 left in
+<code>workshop</code> (<code>evidence/release/N/</code>:
+<code>MANIFEST.json</code>, <code>verdict.json</code>,
+<code>BUILD_STAMP</code>, <code>logs/</code>; for 0.0.4 also
+<code>server.stamp</code> and <code>logs/predeploy-safety.txt</code>;
+<code>docs/releases/N.md</code>) and on disk
+(<code>$HOME/.cache/workshop-release/N/</code>: <code>bin</code>,
+<code>web</code>, <code>stamp.txt</code>, <code>bundle.hash</code>,
+<code>web.filehashes.txt</code>, <code>pre-deploy-backup</code>), plus
+the scripts as they are on <code>workshop</code> <code>main</code> at
+<code>827e79e</code> (<code>scripts/_common.sh</code>,
+<code>restart.sh</code>, <code>start.sh</code>, <code>stop.sh</code>,
+<code>build.sh</code>, <code>verify.sh</code>,
+<code>run-isolated.sh</code>). The command lines the operators used for
+the promotion and the pre-deploy safety boot were <strong>not preserved
+in a log</strong>: they are written here from the scripts’ own contracts
+and are <strong>UNCONFIRMED</strong> as replays of 0.0.2, 0.0.3 or
+0.0.4. Executed by the author of this revision and recorded under
+“Checked in revision 3” in part 4: the digest, tag-list, prefix and
+stamp-function commands marked “checked”; and <code>bash -n</code> plus
+a dry run of the step 6 and rollback scripts on a scratch copy of the
+layout with stub <code>stop.sh</code> and <code>start.sh</code></td>
+</tr>
+<tr>
+<td>Tag scheme</td>
+<td><code>&lt;prefix&gt;-1.0.0-dev-0.0.N</code>, annotated tags. The
+prefix is <code>vasic</code> (part 2). Baseline:
+<code>vasic-1.0.0-dev-0.0.1</code> (workshop <code>ce62bcb</code>,
+umbrella <code>a55e878</code>)</td>
+</tr>
+<tr>
+<td>Not covered</td>
+<td>Release channels beyond “dev”, signing, and any step that needs a
+credential. No credential appears or is needed in this document</td>
+</tr>
+</tbody>
+</table>
+<h2 id="contents">Contents</h2>
+<ol type="1">
+<li><a href="#1-why-revision-1-was-withdrawn">Why revision 1 was
+withdrawn</a></li>
+<li><a href="#2-names-paths-and-remotes">Names, paths and
+remotes</a></li>
+<li><a href="#3-preconditions">Preconditions</a></li>
+<li><a href="#4-the-procedure">The procedure</a> (steps 1 to 10 and step
+4a)</li>
+<li><a href="#5-rollback">Rollback</a></li>
+<li><a href="#6-tag-message-template">Tag message template</a></li>
+<li><a href="#7-what-can-go-wrong">What can go wrong</a></li>
+<li><a href="#8-evidence-to-keep-for-each-release">Evidence to keep for
+each release</a></li>
+</ol>
+<h2 id="1-why-revision-1-was-withdrawn">1. Why revision 1 was
+withdrawn</h2>
+<p>Revision 1 told the operator to build with
+<code>scripts/build.sh</code>, hash
+<code>platform/bin/workshop-server</code>, run
+<code>scripts/verify.sh</code>, and then run
+<code>scripts/restart.sh</code>. Each of those steps was checked against
+the scripts and does not do what was claimed:</p>
+<table>
+<thead>
+<tr>
+<th>Revision 1 claim</th>
+<th>What the script does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The hash recorded before <code>restart.sh</code> will equal
+<code>WORKSHOP_PREPARED_SERVER_SHA</code></td>
+<td><code>restart.sh</code> always rebuilds: it calls
+<code>prepare_fresh_server</code> (<code>scripts/restart.sh:146</code>),
+which builds a <strong>new</strong> binary to
+<code>&lt;bin&gt;.new.&lt;pid&gt;</code> with a new build id and
+<code>built_at</code>, installs it with
+<code>commit_prepared_server</code> after <code>stop.sh</code>, and
+exports the <strong>new</strong> binary’s hash
+(<code>restart.sh:175</code>). The hash can never equal the one recorded
+from an earlier build</td>
+</tr>
+<tr>
+<td><code>build.sh</code> is the first, safe step</td>
+<td>A full <code>scripts/build.sh</code> runs
+<code>rm -rf &quot;${WEB_DIR:?}&quot;/*</code> (<code>scripts/build.sh:152</code>)
+and writes <code>platform/bin</code>. <code>platform/web</code> and
+<code>platform/bin</code> are the <strong>bind-mounted directories of
+the live container</strong> (<code>platform/compose.yml</code>:
+<code>./bin:/opt/workshop/bin:ro</code>,
+<code>./web:/opt/workshop/web:ro</code>). The live assets are rewritten
+before any verdict exists</td>
+</tr>
+<tr>
+<td><code>scripts/verify.sh</code> produces the verdict for the
+candidate</td>
+<td><code>verify.sh</code> probes the live stack (it resolves the live
+base from <code>platform/run*/server.json</code>, default
+<code>http://127.0.0.1:8087</code>,
+<code>scripts/verify.sh:1306</code>). That is the <strong>old</strong>
+deployment. It prints no candidate fingerprint</td>
+</tr>
+<tr>
+<td>N is “the next number after the highest local tag”</td>
+<td><code>git tag -l</code> lists local tags only. A tag created and
+pushed from another clone or worktree is invisible, so the number can be
+reused. N must come from the remote (step 8)</td>
+</tr>
+</tbody>
+</table>
+<p>The procedure below is the one whose artifacts exist for release
+0.0.2.</p>
+<h2 id="2-names-paths-and-remotes">2. Names, paths and remotes</h2>
+<ul>
+<li><strong>Prefix.</strong> The tag prefix is resolved by
+<code>submodules/constitution/scripts/release_prefix.sh</code>
+(11.4.151): the environment variable <code>HELIX_RELEASE_PREFIX</code>,
+else the same variable in the git-ignored project-root
+<code>.env</code>, else the lowercased snake_case project directory
+name. There is <strong>no <code>.env.example</code></strong> in the
+umbrella or in <code>workshop</code> that documents the variable
+(checked: no <code>.env*</code> file other than
+<code>.environment-assumptions-allow</code>). Checked 2026-10-20:
+<code>bash submodules/constitution/scripts/release_prefix.sh</code>
+prints <code>vasic</code>. Derive the prefix with the script, never type
+it:
+<code>PREFIX=&quot;$(bash submodules/constitution/scripts/release_prefix.sh)&quot;</code>.</li>
+<li><strong>Candidate directory.</strong>
+<code>$HOME/.cache/workshop-release/N/</code> with <code>bin/</code>
+(the server binary), <code>web/</code> (the Angular bundle),
+<code>stamp.txt</code>, <code>bundle.hash</code>,
+<code>web.filehashes.txt</code> and, at promotion time,
+<code>pre-deploy-backup/</code>. It is outside every repository and
+outside every live mount.</li>
+<li><strong>Evidence directory.</strong>
+<code>workshop/evidence/release/N/</code> (committed):
+<code>MANIFEST.json</code>, <code>verdict.json</code>,
+<code>BUILD_STAMP</code>, <code>SHA256SUMS</code>,
+<code>web.filehashes.txt</code>, <code>logs/</code>. <strong>No file in
+it may contain a host-absolute path</strong>: the umbrella
+hardcoded-path audit (<code>scripts/audit-hardcoded-paths.sh</code>)
+rejects any host-absolute path under the user’s home directory. Write
+<code>$HOME/...</code> or <code>&lt;scratch&gt;/...</code>. Check with
+<code>grep -rnE &#39;/hom[e]/&#39; evidence/release/N</code> (must print
+nothing).</li>
+<li><strong>Remotes</strong> (checked 2026-10-20 with
+<code>git remote -v</code>): the umbrella has <code>github</code>,
+<code>origin</code> and <code>upstream</code>, all
+<code>git@github.com:milos85vasic/vasic.git</code>;
+<code>workshop</code> has the same three names, all
+<code>git@github.com:milos85vasic/workshop_curriculum.git</code>. Each
+owned submodule that changes has its own remotes: read them with
+<code>git -C &lt;submodule&gt; remote -v</code> and push to every one
+that is a distinct URL. Fast-forward only, never forced (11.4.113).</li>
+<li><strong>Port.</strong> The compose stack binds
+<code>${WORKSHOP_HTTP_BIND:-127.0.0.1}:${WORKSHOP_HTTP_PORT:-8087}</code>
+with <code>-port-fallback ${WORKSHOP_PORT_FALLBACK:-20}</code>, so if
+8087 is taken the server binds a nearby port. Read the real address from
+<code>platform/run*/server.json</code> (the file <code>verify.sh</code>
+and <code>status.sh</code> read) rather than assuming 8087. Below,
+<code>$LIVE_URL</code> means that address.</li>
+</ul>
+<h2 id="3-preconditions">3. Preconditions</h2>
+<ol type="1">
+<li><p><strong>The increment is merged on <code>main</code></strong> and
+<code>git fetch --all</code> shows nothing newer that belongs in it.
+Integrate by merging onto the latest <code>main</code>; never rebase
+published history.</p></li>
+<li><p><strong>Independent review is GO</strong> for every change in the
+release (11.4.142).</p></li>
+<li><p><strong>The release is built from a clean worktree</strong> of
+the commit to release:
+<code>git worktree add &lt;worktree-parent&gt;/rel-N &lt;commit&gt;</code>;
+<code>git -C &lt;worktree&gt; status --porcelain</code> is empty. A
+dirty tree is not a release (the binary would stamp
+<code>source_dirty=true</code>).</p></li>
+<li><p><strong>Heavy commands are admitted</strong>, with the umbrella
+script by its absolute path, because <code>agent-admit.sh</code> lives
+in the umbrella’s <code>scripts/</code> and <code>run-isolated.sh</code>
+in <code>workshop</code>’s <code>scripts/</code>; no single directory
+contains both:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">UMBRELLA</span><span class="op">=&lt;</span>path <span class="ex">of</span> the umbrella checkout<span class="op">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="op">&lt;</span>workshop checkout or release worktree<span class="op">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> <span class="st">&quot;</span><span class="va">$UMBRELLA</span><span class="st">/scripts/agent-admit.sh&quot;</span> <span class="at">--slots</span> 4 <span class="at">--tag</span> rel <span class="at">--wait</span> 1800 <span class="at">-m</span> 6G <span class="at">-T</span> 3600 <span class="at">--</span> <span class="op">&lt;</span>command<span class="op">&gt;</span></span></code></pre></div>
+<p>A refusal means wait and retry; never bypass it.</p></li>
+<li><p><strong>Nothing uses a model on recordings, transcripts or
+textbooks</strong> (token rule).</p></li>
+<li><p><strong>A hardlinked backup of the live data</strong> exists
+before anything is replaced (Constitution §9): the registry
+(<code>curriculum/passages.jsonl</code>), <code>platform/prebuilt</code>
+and the index volume. Step 5 adds the binary, stamp and
+<code>index.html</code> backups specific to this procedure.</p></li>
+</ol>
+<h2 id="4-the-procedure">4. The procedure</h2>
+<p>Every script is three-valued: 0 good, 1 a real problem, 2 could not
+determine. <strong>A 2 is never a pass.</strong> Steps 1 to 5 (including
+4a) change nothing that is served (step 5 only copies files out). Step 6
+is the only step that changes the live stack; step 7 reads it; steps 8
+to 10 touch the repositories.</p>
+<h3 id="step-1-build-once-into-the-candidate-directory">Step 1. Build
+once, into the candidate directory</h3>
+<p>From the clean release worktree, never from the live checkout and
+never with <code>scripts/build.sh</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">N</span><span class="op">=&lt;</span>next <span class="ex">number,</span> see step <span class="dv">8</span><span class="op">&gt;</span>             <span class="co"># decided now, re-checked at step 8</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">CAND</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.cache/workshop-release/</span><span class="va">$N</span><span class="st">&quot;</span><span class="kw">;</span> <span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/bin&quot;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">COMMIT</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse HEAD<span class="va">)</span><span class="st">&quot;</span><span class="kw">;</span> <span class="va">SHORT</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="fu">git</span> rev-parse <span class="at">--short</span> HEAD<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="va">NOW</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="fu">date</span> <span class="at">-u</span> +%Y-%m-%dT%H:%M:%SZ<span class="va">)</span><span class="st">&quot;</span><span class="kw">;</span> <span class="va">BID</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$SHORT</span><span class="st">-</span><span class="va">$(</span><span class="fu">date</span> <span class="at">-u</span> +%Y%m%dT%H%M%SZ<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span> <span class="bu">cd</span> platform/backend <span class="kw">&amp;&amp;</span> <span class="va">CGO_ENABLED</span><span class="op">=</span>0 <span class="ex">go</span> build <span class="at">-trimpath</span> <span class="dt">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">-ldflags</span> <span class="st">&quot;-X main.buildID=</span><span class="va">$BID</span><span class="st"> -X main.sourceCommit=</span><span class="va">$COMMIT</span><span class="st"> -X main.sourceDirty=false -X main.builtAt=</span><span class="va">$NOW</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">-o</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/bin/workshop-server&quot;</span> ./cmd/workshop-server <span class="kw">)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span> <span class="bu">cd</span> platform/frontend <span class="kw">&amp;&amp;</span> <span class="ex">npm</span> ci <span class="kw">&amp;&amp;</span> <span class="ex">npx</span> ng build <span class="at">--configuration</span> production <span class="kw">)</span>   <span class="co"># then copy the dist</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                                                                                <span class="co"># browser dir to &quot;$CAND/web&quot;</span></span></code></pre></div>
+<p>The stamp flags are the ones <code>scripts/_common.sh</code>
+<code>build_server_stage</code> uses (line 684). For 0.0.2 the logs show
+<code>BUILD_RC=0 VET_RC=0</code> and <code>NGBUILD_RC=0</code>
+(<code>evidence/release/0.0.2/logs/go-build-vet.log</code>,
+<code>ng-build.log</code>) and the toolchain is in
+<code>MANIFEST.json</code>. The exact build command lines of 0.0.2 are
+<strong>UNCONFIRMED</strong> (the logs keep the results, not the
+commands). Heavy: admit both builds.</p>
+<p>Also write <code>$CAND/bin/workshop-server.stamp</code>. What a
+correct one contains, and why releases 0.0.3 and 0.0.4 installed an
+incomplete hand-written one, is in step 6 (“What a correct stamp looks
+like”). The repository’s own writer is <code>build_server_stage</code>
+in <code>scripts/_common.sh</code>; sourcing it from the release
+worktree and calling <code>build_workshop_server_stage_only</code> would
+stage a binary and a correct stamp under that worktree’s
+<code>platform/bin</code>, which can then be copied into
+<code>$CAND</code>. That route is <strong>UNCONFIRMED</strong> (it was
+not run; only <code>_server_inputs_state</code> was called,
+read-only).</p>
+<p>Built once means: the files in <code>$CAND</code> are the only
+artifact. Nothing after this step rebuilds.</p>
+<h3 id="step-2-fingerprint-the-candidate">Step 2. Fingerprint the
+candidate</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sha256sum</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/bin/workshop-server&quot;</span>            <span class="co"># binary_sha256</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span> <span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/web&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">find</span> . <span class="at">-type</span> f ! <span class="at">-name</span> BUILD_STAMP <span class="kw">|</span> <span class="fu">sort</span> <span class="kw">|</span> <span class="fu">xargs</span> <span class="at">-d</span> <span class="st">&#39;\n&#39;</span> sha256sum <span class="kw">)</span> <span class="dt">\</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/web.filehashes.txt&quot;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">sha256sum</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/web.filehashes.txt&quot;</span>             <span class="co"># bundle_hash</span></span></code></pre></div>
+<p>Checked 2026-10-20 against the 0.0.2 candidate directory: this
+reproduces its recorded <code>bundle_hash</code>
+(<code>2e9831ed...</code>, 181 files) exactly, so the “bundle hash” of
+0.0.2 is <strong>the sha256 of the sorted <code>sha256sum</code> listing
+of every bundle file except <code>BUILD_STAMP</code></strong>. Two
+cautions from that check: the <code>sort</code> is the shell’s locale
+sort (with <code>LC_ALL=C</code> the digest differs:
+<code>5a746988...</code>), so fix the locale and record it; and the hash
+is of the listing, not a tree hash. The bundle also carries a small
+<code>web/BUILD_STAMP</code> (key=value lines:
+<code>frontend_source_git_sha</code>, <code>repo_commit</code>,
+<code>built_at</code>, <code>bundle_hash</code>; it is excluded from the
+hash it records, so write it after the hash is known). Its producer in
+the repository, <code>scripts/write-build-info.sh</code>, exists only on
+the unmerged branch <code>s12-019-promotion</code>: by hand until that
+merges (<strong>UNCONFIRMED</strong> how 0.0.2 wrote it). Write the two
+digests to <code>$CAND/fingerprint.txt</code> as
+<code>binary_sha256=&lt;64 hex&gt;</code> and
+<code>bundle_hash=&lt;64 hex&gt;</code> (step 6 and the rollback read
+the first line from it). Record
+<code>{commit, tag_commit (filled in at step 4), binary_sha256, bundle_hash}</code>
+in <code>MANIFEST.json</code> and in <code>verdict.json</code> as
+<code>candidate_fingerprint</code>. Also record the one-line summary
+<code>stamp.txt</code> (commit, dirty flag, <code>built_at</code>, build
+id) that 0.0.2 kept.</p>
+<h3 id="step-3-verdict-against-that-fingerprint-without-touching-the-live-stack">Step
+3. Verdict against that fingerprint, without touching the live
+stack</h3>
+<p><code>verify.sh</code> cannot give this verdict (part 1). Run the
+suites and gates individually, as 0.0.2 did
+(<code>evidence/release/0.0.2/logs/run-gates.sh</code> is the driver;
+<code>logs/gates.tsv</code> is its result table) and write
+<code>verdict.json</code> with one row per check: <code>name</code>,
+<code>expected</code>, <code>observed</code>, <code>rc</code>,
+<code>status</code>, <code>reason</code>.</p>
+<ul>
+<li><p><strong>Unit and component suites</strong> against the release
+worktree: <code>go build ./... &amp;&amp; go vet ./...</code>,
+<code>go test</code>, the Angular unit tests (0.0.2 ran them in fixed
+order and with random seed 11111), the pipeline tests, and the gates
+under <code>platform/gates/</code> and <code>scripts/</code> that need
+no live server.</p></li>
+<li><p><strong>A server for the checks that need one</strong> is the
+isolated server, <strong>never <code>:8087</code></strong>, and it must
+run the candidate binary, not a fresh build:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">WORKSHOP_ISOLATED_BUILD</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/bin/workshop-server&quot;</span> <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bash</span> <span class="st">&quot;</span><span class="va">$UMBRELLA</span><span class="st">/scripts/agent-admit.sh&quot;</span> <span class="at">--slots</span> 4 <span class="at">--tag</span> rel <span class="at">--wait</span> 1800 <span class="at">-m</span> 6G <span class="at">-T</span> 3600 <span class="at">--</span> <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    bash scripts/run-isolated.sh <span class="at">--exec</span> <span class="at">--</span> bash <span class="at">-c</span> <span class="st">&#39;curl -s &quot;$ISOLATED_URL/api/health&quot;&#39;</span></span></code></pre></div>
+<p><code>WORKSHOP_ISOLATED_BUILD</code> makes
+<code>run-isolated.sh</code> copy the prebuilt binary instead of running
+<code>go build</code> (<code>scripts/run-isolated.sh</code> header,
+“ENVIRONMENT”). Use the <code>--exec</code> form under
+<code>agent-admit</code>: a detached start dies with the admitted
+command. The isolated server serves six synthetic registry rows and no
+web bundle, so it proves the <strong>binary’s</strong> behaviour on
+synthetic data. It does not prove the bundle (that is the Angular suite
+plus the bundle hash) and does not prove the real corpus.</p></li>
+<li><p><strong>Record every non-pass honestly, in this
+vocabulary.</strong> Per check (<code>status</code>): <code>PASS</code>;
+<code>FAIL</code>; <code>UNDETERMINED</code> (the check could not run:
+an environment fault or a missing instrument; never a pass);
+<code>FLAKY</code> (the check passed and failed on reruns of the same
+inputs: 0.0.4 recorded <code>gate:ingest-textbooks-test</code> as
+<code>FLAKY</code> after 1 failure in 5 runs; a <code>FLAKY</code> row
+is neither a pass nor a waived failure, and its root cause is stated or
+is stated <code>UNCONFIRMED</code>). Overall (<code>overall</code>), as
+actually used: <code>FAIL</code> (0.0.2: three baseline-identical
+failures, waived afterwards in <code>docs/releases/0.0.2.md</code>);
+<code>BLOCKED</code> (0.0.3: a <code>FAIL</code> that is new and
+unwaived, with a <code>blocking_assessment</code> saying what it
+touches); <code>RELEASABLE_WITH_WAIVERS...</code> (0.0.4: every non-pass
+is a baseline-identical failure with a numbered waiver
+<code>W1</code>..<code>Wn</code>, an environment
+<code>UNDETERMINED</code> with its reason, or a named open decision;
+0.0.4 spelled the open decision into the value:
+<code>RELEASABLE_WITH_WAIVERS_PENDING_ORCHESTRATOR_DECISION_ON_ingest-textbooks-test_FLAKE</code>);
+and <code>PASS</code> (every row passes; none of the three releases
+reached it). Use these words; do not invent a fourth one without
+defining it in <code>verdict.json</code>.</p></li>
+<li><p><strong>A waiver</strong> is a row with an id, what it covers,
+the evidence that the failure is identical at the previous release (or
+is outside everything the release deploys) and who granted it (operator
+or delegate, below). 0.0.2 waived three baseline-identical failures this
+way and listed 5 undetermined checks; 0.0.4 carried those same three as
+<code>W1</code> to <code>W3</code>.</p></li>
+<li><p><strong>Shipping over a <code>BLOCKED</code> or <code>FAIL</code>
+verdict is allowed only through an explicit, recorded waiver.</strong>
+It must name each blocking finding, say why it does not touch the
+deployed artifacts (the server binary and the web bundle) and how it
+will be fixed, and say who granted it: the <strong>operator</strong>, or
+the <strong>delegate</strong> (the orchestrating agent acting under the
+operator’s standing approval). A delegate waiver is <strong>not</strong>
+an operator decision and is recorded as such (it is amendable by the
+operator, and it is listed in the operator-decisions log of that date).
+Release 0.0.3 is the precedent: its <code>verdict.json</code> says
+<code>BLOCKED</code> (two new findings, N1 a test-isolation defect and
+N2 six exempt registry rows, both in non-server files), it was tagged
+and deployed on a delegate waiver on 2026-10-21, and the two findings
+were fixed in 0.0.4 (the log entry is
+<code>OPERATOR-DECISIONS-2026-10-21.md</code>, W-01). The verdict file
+itself is <strong>not edited</strong> to say otherwise: a later reader
+must be able to see that the tool said <code>BLOCKED</code>.</p></li>
+<li><p>The full-suite retest of 11.4.40 is required for a non-dev tag;
+for a <code>dev</code> tag the tag message says whether it was
+run.</p></li>
+</ul>
+<p>If any check is <code>FAIL</code> without a recorded waiver, stop.
+The candidate is releasable only with a verdict tied to the step 2
+fingerprint (11.4.236).</p>
+<h3 id="step-4-prepare-the-evidence">Step 4. Prepare the evidence</h3>
+<p>Copy <code>stamp.txt</code>, <code>web.filehashes.txt</code>, the
+logs and the two JSON files into
+<code>workshop/evidence/release/N/</code>, write
+<code>SHA256SUMS</code>, then run
+<code>grep -rnE &#39;/hom[e]/&#39; evidence/release/N</code> (must be empty).
+Write <code>docs/releases/N.md</code> (what changed, known limitations,
+validation status). Commit in the release worktree with explicit paths.
+<strong>Two commits are recorded, and they may differ.</strong> The
+<strong>build commit</strong> is the one the artifact was compiled from
+(<code>MANIFEST.json</code> <code>commit</code>; it is what
+<code>/api/health</code> reports as <code>source_commit</code>). The
+<strong>tag commit</strong> is the commit the tag points at
+(<code>MANIFEST.json</code> <code>tag_commit</code>), usually the later
+evidence-and-notes commit. The claim of revision 2, that the tag commit
+differs from the build commit by documentation and evidence only, was
+<strong>not true for every release</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Release</th>
+<th>Build commit</th>
+<th>Tag commit</th>
+<th><code>git diff --stat &lt;build&gt; &lt;tag&gt;</code> outside
+<code>evidence/release/</code> and <code>docs/</code> (checked
+2026-10-21)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.0.2</td>
+<td><code>e16a196</code></td>
+<td><code>30e61ad</code></td>
+<td>none (evidence and notes only)</td>
+</tr>
+<tr>
+<td>0.0.3</td>
+<td><code>d6b988e</code></td>
+<td><code>1cf59de</code></td>
+<td>none</td>
+</tr>
+<tr>
+<td>0.0.4</td>
+<td><code>cbe4628</code></td>
+<td><code>675ca48</code></td>
+<td>3 files:
+<code>platform/backend/cmd/workshop-server/wire_hooks_test.go</code> (a
+test), <code>platform/gates/.cross-registry-attribution-allow</code> (a
+gate allow-list), <code>scripts/prove-wire-hooks.sh</code> (a gate)</td>
+</tr>
+</tbody>
+</table>
+<p>The rule: the difference between the build commit and the tag commit
+<strong>must be limited to tests, gate allow-lists and gate scripts,
+documentation and evidence</strong>, nothing under
+<code>platform/frontend</code> and no non-test file under
+<code>platform/backend</code>; the difference is listed in the release
+notes with the output of
+<code>git diff --stat &lt;build&gt; &lt;tag&gt;</code> and the manifest
+says it in words (0.0.4’s <code>MANIFEST.json</code> <code>note</code>
+does). If the difference touches the deployed artifacts, the candidate
+is not the tag: build again.</p>
+<h3 id="step-4a-pre-deploy-safety-boot-on-a-copy-of-the-live-store">Step
+4a. Pre-deploy safety boot on a copy of the live store</h3>
+<p>Step 3’s isolated server serves six synthetic rows and no bundle, so
+it cannot say whether the candidate <strong>boots on the real data and
+the real accounts</strong>. Release 0.0.3 added this check (its “H3”
+item) and 0.0.4 ran it
+(<code>evidence/release/0.0.4/logs/predeploy-safety.txt</code>). It
+changes nothing that is served.</p>
+<ol type="1">
+<li><strong>Copy, never mount.</strong> With plain <code>cp -a</code>
+(no hardlinks: a hardlink shares the inode with the live file) copy into
+a scratch directory outside every repository, mode <code>0700</code>:
+the live <strong>auth store</strong>, the live <strong>index</strong>
+directory and the live <strong>curriculum</strong> (registry, taxonomy,
+the textbook catalogue). Take the host paths from the bind mounts and
+<code>-state</code>/<code>-index</code>/<code>-curriculum</code>/<code>-registry</code>
+flags in <code>platform/compose.yml</code>. Copy <strong>no</strong>
+<code>.env</code>, no access-token file, no key file. The auth store
+holds password hashes: it is credential-bearing, so it stays in the
+scratch directory, is never printed, never committed and is deleted at
+the end.</li>
+<li><strong>Boot the candidate, not a fresh build, on a scratch
+port.</strong> Use the candidate binary from <code>$CAND/bin</code>,
+<code>-http 127.0.0.1:&lt;port from 18200 upward&gt; -port-fallback 0</code>,
+the scratch copies for every data flag, <code>-web &quot;$CAND/web&quot;</code>,
+<code>-answer-provider none</code> and <strong>no
+<code>-ollama</code></strong> (no embedding or model contact), under
+<code>env -i</code> with only <code>PATH</code> and <code>HOME</code>,
+so the process sees <strong>no <code>WORKSHOP_ENV</code> and no
+<code>WORKSHOP_DEV_MODE</code></strong>, exactly as the live container
+does. <strong>Never <code>:8087</code></strong>, never a process you did
+not start. Run it under <code>agent-admit</code> like any heavy command.
+The exact command line used for 0.0.4 was not kept (the log keeps its
+header and results): <strong>UNCONFIRMED</strong> as a replay.</li>
+<li><strong>Probe.</strong> <code>GET /api/health</code> is 200 with
+<code>status: ok</code> and the candidate’s <code>build</code>;
+<code>GET /textbooks</code>, <code>/profile</code> and <code>/</code>
+are 200 (the SPA shell); the data routes answer <strong>401</strong>
+without a session (<code>/api/textbooks</code>,
+<code>/api/textbooks/citations</code>, <code>/api/profile</code>). For
+the authenticated half, set a <strong>throwaway password on the COPY’s
+account only</strong> (with the repository’s password tool, pointed at
+the copy), log in against the scratch server, and require 200 from
+<code>/api/textbooks</code>, <code>/api/profile</code>,
+<code>/api/profile/reports</code> and <code>/api/search</code>. Count
+5xx: it must be 0. Never print the token or the password.</li>
+<li><strong>Boot a second time in the worst case,
+<code>WORKSHOP_ENV=production</code>,</strong> on the same copy. This is
+<strong>not</strong> the live configuration; it answers whether arming
+the production-mode guard would refuse to start. Release 0.0.3 measured
+exactly that
+(<code>evidence/release/0.0.3/logs/h3-boot-safety.txt</code>): under the
+live configuration the candidate boots and <code>/api/health</code> is
+200; under <code>WORKSHOP_ENV=production</code> it <strong>refuses to
+start</strong> because the <code>milosvasic</code> account still carries
+its tracked example password hash (the <code>rami</code> account does
+not). A refusal here is the guard working as designed, not a candidate
+defect: 0.0.3 recorded both boots as <code>PASS</code> rows and added an
+<strong>operator action</strong> (rotate the account’s password with the
+repository’s password tool, before ever arming
+<code>WORKSHOP_ENV=production</code>); 0.0.4 did not re-run the
+production-mode boot and carried the action over as an
+<code>UNDETERMINED</code> row. Until the rotation is done the guard
+cannot be armed. The password rotation is deferred by the operator
+(<code>OPERATOR-DECISIONS-2026-10-21.md</code>, D-02). Also read the
+first boot’s own lines (the textbook state line, the learning-catalog
+findings, the answering state): they are evidence.</li>
+<li><strong>Stop your own pid, delete the scratch copies,</strong> write
+the probe table to <code>logs/predeploy-safety.txt</code> (host paths
+replaced by <code>$HOME</code>; checked with the same
+<code>grep</code>), and add a <code>pre-deploy: ...</code> row to
+<code>verdict.json</code>.</li>
+</ol>
+<h3 id="step-5-back-up-what-will-be-replaced">Step 5. Back up what will
+be replaced</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">BK</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/pre-deploy-backup&quot;</span><span class="kw">;</span> <span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-p</span> platform/bin/workshop-server       <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/workshop-server&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-p</span> platform/bin/workshop-server.stamp <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/workshop-server.stamp&quot;</span>   <span class="co"># the multi-line stamp</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-p</span> platform/web/index.html            <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/index.html&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-f</span> platform/web/BUILD_STAMP <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="fu">cp</span> <span class="at">-p</span> platform/web/BUILD_STAMP <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/BUILD_STAMP&quot;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;binary_sha256=</span><span class="va">$(</span><span class="fu">sha256sum</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/workshop-server&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span><span class="st">&#39; &#39;</span> <span class="at">-f1</span><span class="va">)</span><span class="st">&quot;</span> <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/backup.sha&quot;</span></span></code></pre></div>
+<p>The first three files are what 0.0.2 kept in
+<code>pre-deploy-backup/</code>; <code>BUILD_STAMP</code> and
+<code>backup.sha</code> are added in revision 3 so that the rollback
+restores the whole page state and can prove it restored the backed-up
+bytes. Run it from the <strong>live</strong> checkout. Also make the
+part 3 item 6 data backup if the release changes data.</p>
+<h3 id="step-6-promote-without-rebuilding">Step 6. Promote without
+rebuilding</h3>
+<p>Do not call <code>build.sh</code> or <code>restart.sh</code>. Do not
+<code>rm -rf</code> anything under <code>platform/web</code>. The whole
+step is <strong>one script run</strong>, so that there is no gap between
+its parts in which the stack serves a mixture, and it uses
+<strong>absolute paths only</strong> (revision 2 used
+<code>cd &quot;$CAND/web&quot;</code> followed by relative
+<code>scripts/...</code> commands, which fails when pasted: the working
+directory is no longer the live checkout).</p>
+<p>Order, and why:</p>
+<ol type="1">
+<li><strong>Hashed web assets first, additively.</strong> The Angular
+build emits content-hashed files, so copying the new ones in changes
+nothing the running (old) <code>index.html</code> references. Everything
+except <code>index.html</code> and <code>BUILD_STAMP</code> is copied,
+each by a temporary name and <code>mv</code> (atomic on one
+filesystem).</li>
+<li><strong>Stop the stack</strong> (<code>stop.sh</code>: 0 stopped; on
+1 or 2 do not continue).</li>
+<li><strong>Install the binary and its stamp</strong> by temporary name
+and <code>mv</code>, and prove the installed bytes equal the candidate’s
+recorded <code>binary_sha256</code>.</li>
+<li><strong>Swap <code>index.html</code> and <code>BUILD_STAMP</code>
+while the server is down.</strong> Doing this after the stop (and not
+before it, as revision 2 did) removes the window in which the
+<strong>new</strong> page was served by the <strong>old</strong> binary:
+with the page swapped first, a learner who loaded <code>/</code> between
+that swap and the restart got a page whose API the old binary did not
+have.</li>
+<li><strong>Start with the candidate’s hash handed over for that one
+command only.</strong> <code>start.sh</code>’s
+<code>ensure_fresh_server</code> (<code>scripts/_common.sh:836</code>)
+compares the installed binary with
+<code>WORKSHOP_PREPARED_SERVER_SHA</code>, logs “prepared and installed
+… (sha256 confirmed); not rebuilding” and refuses (exit 2) on a
+mismatch. The value must be the <strong>candidate’s recorded
+<code>binary_sha256</code></strong> (step 2), <strong>not</strong> the
+hash of the file just installed: computing it from the installed file
+makes the comparison true by construction, so a wrong file installed by
+mistake would be confirmed. The script puts the variable on the
+<code>start.sh</code> command line only, never <code>export</code>ed
+(see the hazard below).</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># promote.sh N LIVE  (both arguments required; LIVE is the absolute path of the live workshop checkout)</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-euo</span> pipefail</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">N</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1</span><span class="op">:?</span>release number<span class="va">}</span><span class="st">&quot;</span><span class="kw">;</span> <span class="va">LIVE</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${2</span><span class="op">:?</span>absolute path of the live workshop checkout<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="cf">case</span> <span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">&quot;</span> <span class="kw">in</span> <span class="ss">/</span><span class="pp">*</span><span class="kw">)</span> <span class="cf">;;</span> <span class="pp">*</span><span class="kw">)</span> <span class="bu">echo</span> <span class="st">&quot;LIVE must be an absolute path&quot;</span> <span class="op">&gt;&amp;</span><span class="dv">2</span><span class="kw">;</span> <span class="bu">exit</span> 2 <span class="cf">;;</span> <span class="cf">esac</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="va">CAND</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.cache/workshop-release/</span><span class="va">$N</span><span class="st">&quot;</span><span class="kw">;</span> <span class="va">BK</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/pre-deploy-backup&quot;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="va">WEB</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">/platform/web&quot;</span><span class="kw">;</span> <span class="va">BIN</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">/platform/bin&quot;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="va">EXPECT</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;s/^binary_sha256=//p&#39;</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/fingerprint.txt&quot;</span><span class="va">)</span><span class="st">&quot;</span>          <span class="co"># written in step 2</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-n</span> <span class="st">&quot;</span><span class="va">$EXPECT</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">||</span> <span class="kw">{</span> <span class="bu">echo</span> <span class="st">&quot;no binary_sha256 in </span><span class="va">$CAND</span><span class="st">/fingerprint.txt&quot;</span> <span class="op">&gt;&amp;</span><span class="dv">2</span><span class="kw">;</span> <span class="bu">exit</span> 2<span class="kw">;</span> <span class="kw">}</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">sha256sum</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/bin/workshop-server&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span><span class="st">&#39; &#39;</span> <span class="at">-f1</span><span class="va">)</span><span class="st">&quot;</span> <span class="ot">=</span> <span class="st">&quot;</span><span class="va">$EXPECT</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="dt">\</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">||</span> <span class="kw">{</span> <span class="bu">echo</span> <span class="st">&quot;the candidate binary does not match its recorded fingerprint&quot;</span> <span class="op">&gt;&amp;</span><span class="dv">2</span><span class="kw">;</span> <span class="bu">exit</span> 2<span class="kw">;</span> <span class="kw">}</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/workshop-server&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/index.html&quot;</span> <span class="bu">]</span> <span class="dt">\</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">||</span> <span class="kw">{</span> <span class="bu">echo</span> <span class="st">&quot;the step 5 backup is missing: nothing was changed&quot;</span> <span class="op">&gt;&amp;</span><span class="dv">2</span><span class="kw">;</span> <span class="bu">exit</span> 2<span class="kw">;</span> <span class="kw">}</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="bu">trap</span> <span class="st">&#39;echo &quot;promote.sh FAILED at line $LINENO: the stack may be down; follow part 5 (rollback)&quot; &gt;&amp;2&#39;</span> ERR</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 6.1 hashed web assets, additive (the old index.html does not reference them)</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span> <span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/web&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">find</span> . <span class="at">-type</span> f ! <span class="at">-name</span> index.html ! <span class="at">-name</span> BUILD_STAMP <span class="at">-print0</span> <span class="kw">)</span> <span class="dt">\</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">|</span> <span class="cf">while</span> <span class="va">IFS</span><span class="op">=</span> <span class="bu">read</span> <span class="at">-r</span> <span class="at">-d</span> <span class="st">&#39;&#39;</span> <span class="va">f</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cp</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/web/</span><span class="va">$f</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/</span><span class="va">$f</span><span class="st">.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/</span><span class="va">$f</span><span class="st">.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/</span><span class="va">$f</span><span class="st">&quot;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 6.2 stop (exit 0 only; set -e ends the script on 1 or 2)</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span> <span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">bash</span> <span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">/scripts/stop.sh&quot;</span> <span class="kw">)</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co"># 6.3 binary and multi-line stamp, then prove the bytes</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/bin/workshop-server&quot;</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server&quot;</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/bin/workshop-server.stamp&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cp</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/bin/workshop-server.stamp&quot;</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server.stamp.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="dt">\</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server.stamp.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server.stamp&quot;</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">sha256sum</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span><span class="st">&#39; &#39;</span> <span class="at">-f1</span><span class="va">)</span><span class="st">&quot;</span> <span class="ot">=</span> <span class="st">&quot;</span><span class="va">$EXPECT</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="dt">\</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">||</span> <span class="kw">{</span> <span class="bu">echo</span> <span class="st">&quot;the installed binary differs from the candidate: STOP, roll back&quot;</span> <span class="op">&gt;&amp;</span><span class="dv">2</span><span class="kw">;</span> <span class="bu">exit</span> 2<span class="kw">;</span> <span class="kw">}</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co"># 6.4 the page and its stamp, last, while the server is down</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/web/index.html&quot;</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/index.html.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/index.html.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/index.html&quot;</span></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/web/BUILD_STAMP&quot;</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/BUILD_STAMP.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/BUILD_STAMP.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/BUILD_STAMP&quot;</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a><span class="co"># 6.5 start, confirming the CANDIDATE&#39;s hash (variable on this one command only)</span></span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span> <span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="va">WORKSHOP_PREPARED_SERVER_SHA</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$EXPECT</span><span class="st">&quot;</span> <span class="fu">bash</span> <span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">/scripts/start.sh&quot;</span> <span class="kw">)</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a><span class="bu">trap</span> <span class="at">-</span> ERR</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;promoted release </span><span class="va">$N</span><span class="st">; now do step 7&quot;</span></span></code></pre></div>
+<p>(<code>LIVE</code> is the live checkout; old hashed files are left in
+place, and pruning them is a separate, later, operator action. The
+script was syntax-checked with <code>bash -n</code> and <strong>dry-run
+on a scratch copy of the layout</strong> with stub <code>stop.sh</code>
+and <code>start.sh</code> (a scratch directory standing in for
+<code>$LIVE</code>, no stack touched): the dry run is recorded in part
+4, “Checked in revision 3” below. It was never run against a real stack
+by its author: <strong>UNCONFIRMED</strong> on a real promotion.)</p>
+<p>If <code>start.sh</code> returns 1 or 2, go to part 5. Do not start
+by hand.</p>
+<p><strong>Hazard: a later plain <code>start.sh</code> or
+<code>restart.sh</code> replaces the released binary (it breaks
+11.4.264).</strong> <code>WORKSHOP_PREPARED_SERVER_SHA</code> only
+protects the one start that carries it. Any <em>later</em>
+<code>start.sh</code> or <code>restart.sh</code> without it, on a host
+with a Go toolchain, goes through <code>prepare_fresh_server</code>
+(<code>_common.sh</code>): it <strong>rebuilds the server from the live
+checkout</strong> and installs the result over the released binary, with
+a new build id and the live checkout’s <code>HEAD</code> as
+<code>source_commit</code>. The served binary then is not the candidate,
+and nothing in the stack’s own output says so unless you read
+<code>/api/health</code>. After any restart of the live stack, repeat
+step 7 and compare the installed binary’s sha256 with the recorded one.
+And <code>start.sh</code> itself (<code>scripts/start.sh:68-70</code>)
+runs <code>scripts/build.sh</code> if the control-plane binary
+(<code>workshop-boot</code>) is missing or the server binary is not
+executable; <code>build.sh</code> runs
+<code>rm -rf &quot;${WEB_DIR:?}&quot;/*</code> and rebuilds the bundle, so it
+empties the promoted <code>platform/web</code>. Both are the reason the
+release notes must say, in one line, how the stack may be restarted
+after the release (with the candidate’s hash, or by promoting the next
+release).</p>
+<p><strong>What a correct stamp looks like.</strong> The binary’s own
+identity (<code>/api/health</code>: <code>build</code>,
+<code>source_commit</code>, <code>built_at</code>) comes from the linker
+flags of step 1 and does not depend on the stamp. The file
+<code>platform/bin/workshop-server.stamp</code> is separate:
+<code>build_server_stage</code> (<code>scripts/_common.sh</code>, the
+<code>printf</code> block that writes the stamp) writes eight
+<code>key=value</code> lines, then the module lines of
+<code>_server_inputs_state</code>: <code>commit</code> (full sha of the
+build commit), <code>dirty</code>, <code>src_dirty</code>,
+<code>allow_dirty</code>, <code>bin_sha256</code> (of the binary),
+<code>build</code> (the build id), <code>built_at</code>,
+<code>source</code>
+(<code>&lt;module dir relative to the checkout&gt;/&lt;package&gt;</code>,
+e.g. <code>platform/backend/cmd/workshop-server</code>), and one
+<code>module=&lt;absolute dir&gt; head=&lt;sha&gt; dirty=&lt;n&gt;</code>
+line per input module (the server module plus the owned submodules it
+compiles: checked on 2026-10-21, <code>_server_inputs_state</code>
+prints eight such lines for the <code>d1-docs</code> worktree). Releases
+0.0.3 and 0.0.4 installed a <strong>hand-written</strong> stamp with the
+<strong>eight keys and no <code>module=</code> lines</strong>, and a
+free-text <code>source=</code>
+(<code>evidence/release/0.0.4/server.stamp</code> reads
+<code>source=release-0.0.4 (built once from cbe4628, hash-handoff install)</code>).
+That stamp is consulted only when <strong>no Go toolchain</strong> is on
+<code>PATH</code> and no hash is handed over
+(<code>_common.sh:783-813</code>). Read against that code it would be
+refused there, for two independent reasons: its <code>commit</code> is
+the build commit, not the live checkout’s <code>HEAD</code> (“built from
+X but HEAD is Y”), and it has no <code>module=</code> lines for the
+check <code>grep -qxF &quot;module=$mod head=$mhead dirty=0&quot;</code> to find.
+(That refusal path was <strong>read, not executed</strong>:
+UNCONFIRMED.) Two consequences. First, a no-Go host can run a candidate
+built elsewhere only through the hash hand-over of step 6.5 (or
+<code>WORKSHOP_ALLOW_STALE_BINARY=1</code>, an operator decision),
+because the stamp check compares against the live checkout, which is
+never the release worktree. Second, the <code>module=</code> lines carry
+<strong>host-absolute directories</strong>: a stamp is a host file, not
+evidence. The copy in <code>evidence/release/N/</code> must have those
+paths replaced (<code>$HOME/...</code>) like every other evidence file
+(part 2), and a stamp that is meant to pass the no-Go check must be
+produced by <code>build_server_stage</code> on the host that will run
+it, not typed.</p>
+<h3 id="step-7-confirm-what-is-served">Step 7. Confirm what is
+served</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="st">&quot;</span><span class="va">$LIVE_URL</span><span class="st">/api/health&quot;</span></span></code></pre></div>
+<p><code>build</code> must equal the candidate build id (0.0.2:
+<code>e16a196-20261020T165046Z</code>), <code>source_commit</code> the
+<strong>build commit</strong> (not the tag commit),
+<code>source_dirty</code> <code>false</code>, <code>built_at</code> the
+stamp’s time. Then compare the served page with the bundle:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-s</span> <span class="st">&quot;</span><span class="va">$LIVE_URL</span><span class="st">/&quot;</span> <span class="kw">|</span> <span class="fu">sha256sum</span>        <span class="co"># equals:</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sha256sum</span> <span class="st">&quot;</span><span class="va">$CAND</span><span class="st">/web/index.html&quot;</span></span></code></pre></div>
+<p>(<code>index.html</code> is served unmodified from
+<code>./web</code>: that equality is the check; if the server rewrites
+it the comparison is <strong>UNCONFIRMED</strong> and the fallback is to
+compare the hashed chunk file names that the served page references with
+<code>web.filehashes.txt</code>.) Run
+<code>bash scripts/status.sh</code> (RUNNING / STOPPED / DEGRADED /
+UNKNOWN) and then <code>bash scripts/verify.sh</code> <strong>as a smoke
+check of the new live stack</strong>; it is not the release verdict.
+Redo <code>grep -rnE &#39;/hom[e]/&#39;</code> on any new evidence.</p>
+<h3 id="step-8-tag">Step 8. Tag</h3>
+<p>Decide N from the <strong>remotes</strong>, not from local tags (part
+1). In each repository to be tagged:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> fetch <span class="at">--tags</span> origin</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-remote <span class="at">--tags</span> origin <span class="st">&quot;</span><span class="va">$PREFIX</span><span class="st">-1.0.0-dev-0.0.*&quot;</span>      <span class="co"># highest N on the remote, after the ^{} lines</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-l</span> <span class="st">&quot;</span><span class="va">$PREFIX</span><span class="st">-1.0.0-dev-0.0.*&quot;</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-V</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-1</span>   <span class="co"># local, for comparison only</span></span></code></pre></div>
+<p>N is one more than the highest number seen on <strong>any</strong>
+remote of <strong>any</strong> of the three repository kinds. If the
+number you built under in step 1 is no longer free, the candidate
+directory and the evidence are named for a number that will not be used:
+rename them before tagging, or build again. Never move or delete a
+published tag; a wrong tag is superseded by the next number.</p>
+<p>Tag three kinds of repository, each at the commit the release
+actually uses:</p>
+<ol type="1">
+<li><strong>workshop</strong>, at the <strong>tag commit</strong> of
+step 4 (0.0.3: <code>1cf59de</code>, 0.0.4: <code>675ca48</code>);</li>
+<li>the <strong>umbrella</strong>, at the commit whose gitlink pins that
+workshop commit (0.0.3: <code>4c7a1d2</code>, 0.0.4:
+<code>de2761b</code>);</li>
+<li>every <strong>owned submodule that changed</strong> since the
+previous release tag.</li>
+</ol>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> workshop tag <span class="at">-a</span> <span class="st">&quot;</span><span class="va">$PREFIX</span><span class="st">-1.0.0-dev-0.0.</span><span class="va">$N</span><span class="st">&quot;</span> <span class="at">-m</span> <span class="st">&quot;&lt;message, part 6&gt;&quot;</span> <span class="op">&lt;</span>workshop-commit<span class="op">&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> tag <span class="at">-a</span> <span class="st">&quot;</span><span class="va">$PREFIX</span><span class="st">-1.0.0-dev-0.0.</span><span class="va">$N</span><span class="st">&quot;</span> <span class="at">-m</span> <span class="st">&quot;&lt;message, part 6&gt; (umbrella commit pinning workshop &lt;short&gt;)&quot;</span> <span class="op">&lt;</span>umbrella-commit<span class="op">&gt;</span></span></code></pre></div>
+<p>A gitlink bump and the matching <code>helix-deps.yaml</code>
+<code>ref</code> go in <strong>one</strong> change, otherwise cascade
+check C9 reports DRIFT. Bumping a submodule other than
+<code>submodules/constitution</code> is an operator decision. Note that
+an annotated tag has its own object id: the commit it points to is
+<code>git rev-parse &quot;&lt;tag&gt;^{commit}&quot;</code> (for 0.0.2 the
+umbrella tag resolves to the umbrella commit <code>368ab84</code>, the
+workshop tag to <code>30e61ad</code>).</p>
+<h3 id="step-9-push-fast-forward-only-through-the-pre-push-gates">Step
+9. Push, fast-forward only, through the pre-push gates</h3>
+<p>The pre-push hook runs the umbrella gates and can take long enough
+for an idle SSH connection to be dropped. Keep the connection alive:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">GIT_SSH_COMMAND</span><span class="op">=</span><span class="st">&#39;ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=40&#39;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> fetch <span class="at">--all</span>                                   <span class="co"># integrate first: merge onto the latest main</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin main                              <span class="co"># fast-forward only; git refuses anything else</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> push origin <span class="st">&quot;refs/tags/</span><span class="va">$PREFIX</span><span class="st">-1.0.0-dev-0.0.</span><span class="va">$N</span><span class="st">&quot;</span></span></code></pre></div>
+<p>Repeat for <strong>every distinct remote</strong> of each repository
+(part 2; <code>github</code>, <code>origin</code> and
+<code>upstream</code> currently name one URL, so one push per repository
+reaches it, but read <code>git remote -v</code> rather than trusting
+this sentence), and for each tagged submodule. <strong>Never</strong>
+<code>--force</code>, <code>--force-with-lease</code>, a
+<code>+ref</code>, <code>--no-verify</code>, or a history rewrite
+(11.4.113). A rejected non-fast-forward push means: fetch, merge onto
+the latest main, push again.</p>
+<h3 id="step-10-verify-the-publication">Step 10. Verify the
+publication</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-remote origin refs/heads/main <span class="st">&quot;refs/tags/</span><span class="va">$PREFIX</span><span class="st">-1.0.0-dev-0.0.</span><span class="va">$N</span><span class="st">&quot;</span> <span class="st">&quot;refs/tags/</span><span class="va">$PREFIX</span><span class="st">-1.0.0-dev-0.0.</span><span class="va">$N</span><span class="st">^{}&quot;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-manifest-pins.sh            <span class="co"># umbrella: helix-deps refs equal gitlinks</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-submodule-remote-sync.sh    <span class="co"># umbrella: gitlinks vs remotes</span></span></code></pre></div>
+<p>Each remote’s <code>main</code> equals the local <code>main</code>,
+the tag object matches, and the peeled <code>^{}</code> line is the
+commit you meant.</p>
+<h3 id="checked-in-revision-3">Checked in revision 3</h3>
+<p>Run by the author on 2026-10-21 (evidence on the
+<code>workshop</code> branch <code>d1-docs</code>, under
+<code>evidence/d1/</code>: <code>promote-dryrun.txt</code>,
+<code>run-isolated-evidence.txt</code>,
+<code>stamp-state-check.txt</code>). All against scratch directories;
+the live stack was not touched and nothing used <code>:8087</code>.</p>
+<ul>
+<li><strong>Tag commit versus build commit</strong> (step 4 table):
+<code>git diff --stat &lt;build&gt; &lt;tag&gt;</code> outside
+<code>evidence/release/</code> and <code>docs/</code> for 0.0.3 (empty)
+and 0.0.4 (three files).</li>
+<li><strong>The stamp writer’s module lines</strong> (step 6):
+<code>_server_inputs_state</code> was called read-only from the
+<code>d1-docs</code> worktree and printed eight <code>module=...</code>
+lines (host-absolute directories; they are not copied into the evidence
+file).</li>
+<li><strong>Step 6 and the rollback script</strong>: extracted from this
+document, <code>bash -n</code> clean, and run against a scratch layout
+(<code>platform/bin</code>, <code>platform/web</code>, stub
+<code>scripts/stop.sh</code> and <code>scripts/start.sh</code> that
+print their working directory and the value of
+<code>WORKSHOP_PREPARED_SERVER_SHA</code>). Results: a normal promotion
+exits 0 and the stub <code>start.sh</code> receives the candidate’s
+hash; a wrong fingerprint exits 2 with nothing changed; a relative
+<code>LIVE</code> exits 2; a failing <code>stop.sh</code> exits 2 and
+prints the rollback pointer with the old binary still in place; the
+variable is not left set in the caller’s shell; a rollback restores
+binary, page and <code>BUILD_STAMP</code> and hands
+<code>start.sh</code> the backup’s hash; a tampered backup is refused
+with nothing changed. <strong>No real stack, no real
+<code>start.sh</code>.</strong></li>
+<li><strong>The isolated server with a prebuilt release binary</strong>
+(step 3): a fresh raw run with the 0.0.4 binary was attempted on
+2026-10-21 and <strong>refused by <code>agent-admit</code></strong> on
+every attempt (the app.slice working set stood at 87 to 89 percent
+against a threshold of 85); admission was not bypassed. The
+<code>--exec</code> form under <code>agent-admit</code> is therefore
+backed only by the raw run 2 in <code>run-isolated-evidence.txt</code>
+(built from the tree); the prebuilt-binary variant is
+<strong>UNCONFIRMED</strong> by captured output (run 3 of revision 2 was
+a paraphrase and is relabelled as such).</li>
+</ul>
+<h2 id="5-rollback">5. Rollback</h2>
+<p>Rollback uses the backup directory from step 5, the same no-rebuild
+rules, and the same shape as step 6: one script, absolute paths, the
+hash handed to <code>start.sh</code> for that one command only, and the
+hash being the <strong>backup’s own</strong>
+(<code>sha256sum &quot;$BK/workshop-server&quot;</code>, recorded in step 5), not
+the hash of whatever is installed.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># rollback.sh N LIVE   (the step 5 backup of release N must exist)</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">set</span> <span class="at">-euo</span> pipefail</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="va">N</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${1</span><span class="op">:?</span>release number<span class="va">}</span><span class="st">&quot;</span><span class="kw">;</span> <span class="va">LIVE</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${2</span><span class="op">:?</span>absolute path of the live workshop checkout<span class="va">}</span><span class="st">&quot;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="cf">case</span> <span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">&quot;</span> <span class="kw">in</span> <span class="ss">/</span><span class="pp">*</span><span class="kw">)</span> <span class="cf">;;</span> <span class="pp">*</span><span class="kw">)</span> <span class="bu">echo</span> <span class="st">&quot;LIVE must be an absolute path&quot;</span> <span class="op">&gt;&amp;</span><span class="dv">2</span><span class="kw">;</span> <span class="bu">exit</span> 2 <span class="cf">;;</span> <span class="cf">esac</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="va">BK</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.cache/workshop-release/</span><span class="va">$N</span><span class="st">/pre-deploy-backup&quot;</span><span class="kw">;</span> <span class="va">WEB</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">/platform/web&quot;</span><span class="kw">;</span> <span class="va">BIN</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">/platform/bin&quot;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="va">WANT</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$(</span><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;s/^binary_sha256=//p&#39;</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/backup.sha&quot;</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="ot">-n</span> <span class="st">&quot;</span><span class="va">$WANT</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">&amp;&amp;</span> <span class="bu">[</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">sha256sum</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/workshop-server&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span><span class="st">&#39; &#39;</span> <span class="at">-f1</span><span class="va">)</span><span class="st">&quot;</span> <span class="ot">=</span> <span class="st">&quot;</span><span class="va">$WANT</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="dt">\</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">||</span> <span class="kw">{</span> <span class="bu">echo</span> <span class="st">&quot;the backup binary does not match backup.sha (step 5): nothing was changed&quot;</span> <span class="op">&gt;&amp;</span><span class="dv">2</span><span class="kw">;</span> <span class="bu">exit</span> 2<span class="kw">;</span> <span class="kw">}</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span> <span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">bash</span> <span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">/scripts/stop.sh&quot;</span> <span class="kw">)</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/workshop-server&quot;</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server&quot;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/workshop-server.stamp&quot;</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server.stamp.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server.stamp.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server.stamp&quot;</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/index.html&quot;</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/index.html.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/index.html.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/index.html&quot;</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">-f</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/BUILD_STAMP&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cp</span> <span class="at">-p</span> <span class="st">&quot;</span><span class="va">$BK</span><span class="st">/BUILD_STAMP&quot;</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/BUILD_STAMP.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="fu">mv</span> <span class="at">-f</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/BUILD_STAMP.new.</span><span class="va">$$</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$WEB</span><span class="st">/BUILD_STAMP&quot;</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="bu">[</span> <span class="st">&quot;</span><span class="va">$(</span><span class="fu">sha256sum</span> <span class="st">&quot;</span><span class="va">$BIN</span><span class="st">/workshop-server&quot;</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span><span class="st">&#39; &#39;</span> <span class="at">-f1</span><span class="va">)</span><span class="st">&quot;</span> <span class="ot">=</span> <span class="st">&quot;</span><span class="va">$WANT</span><span class="st">&quot;</span> <span class="bu">]</span> <span class="kw">||</span> <span class="kw">{</span> <span class="bu">echo</span> <span class="st">&quot;restored binary differs from the backup&quot;</span> <span class="op">&gt;&amp;</span><span class="dv">2</span><span class="kw">;</span> <span class="bu">exit</span> 2<span class="kw">;</span> <span class="kw">}</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="kw">(</span> <span class="bu">cd</span> <span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">&quot;</span> <span class="kw">&amp;&amp;</span> <span class="va">WORKSHOP_PREPARED_SERVER_SHA</span><span class="op">=</span><span class="st">&quot;</span><span class="va">$WANT</span><span class="st">&quot;</span> <span class="fu">bash</span> <span class="st">&quot;</span><span class="va">$LIVE</span><span class="st">/scripts/start.sh&quot;</span> <span class="kw">)</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;rolled back to the step 5 backup of release </span><span class="va">$N</span><span class="st">; now repeat step 7 and expect the PREVIOUS build id&quot;</span></span></code></pre></div>
+<p>The new hashed files may stay: the restored <code>index.html</code>
+does not reference them. Do not delete the failed release’s tag if it
+was pushed; supersede it with the next number. The script was
+<code>bash -n</code> checked and dry-run on the same scratch layout as
+<code>promote.sh</code> (part 4, “Checked in revision 3”); against a
+real stack the rollback path has <strong>never been exercised</strong>
+for any release (UNCONFIRMED).</p>
+<h2 id="6-tag-message-template">6. Tag message template</h2>
+<pre><code>&lt;one line: what this release adds&gt;.
+Build: workshop &lt;short sha&gt;, artifact sha256 &lt;first 12&gt;, verdict &lt;PASS/waived/..&gt; (verdict.json kept at evidence/release/N/).
+Full-suite retest (11.4.40): &lt;run | NOT run&gt;. &lt;If not run, say so; dev markers may omit it, they may not hide it.&gt;
+(umbrella commit pinning workshop &lt;short&gt;)</code></pre>
+<h2 id="7-what-can-go-wrong">7. What can go wrong</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>start.sh</code> says the sha256 “no longer equals
+WORKSHOP_PREPARED_SERVER_SHA”</td>
+<td>the binary on disk changed between install and start, or the
+variable was computed from another file</td>
+<td>recompute from the installed file; if it differs from the
+candidate’s <code>binary_sha256</code>, the install did not copy the
+candidate: restore and retry</td>
+</tr>
+<tr>
+<td><code>start.sh</code> builds instead of confirming</td>
+<td><code>WORKSHOP_PREPARED_SERVER_SHA</code> was not on the
+<code>start.sh</code> command line (for example the step 6 script was
+split up, or <code>start.sh</code> was run alone)</td>
+<td>a rebuilt binary is not the candidate: roll back (part 5) and redo
+step 6 as the one script; do not <code>export</code> the variable into
+an interactive shell (step 6 hazard)</td>
+</tr>
+<tr>
+<td><code>/api/health</code> shows <code>source_dirty: true</code> or
+another build id</td>
+<td>the served binary is not the candidate</td>
+<td>not a release: roll back</td>
+</tr>
+<tr>
+<td>Served <code>index.html</code> differs from the bundle’s</td>
+<td><code>index.html</code> was copied before its assets, or an old file
+was served from cache</td>
+<td>re-copy; step 7</td>
+</tr>
+<tr>
+<td><code>verify.sh</code> exit 2</td>
+<td>an instrument could not run</td>
+<td>not a pass; record the gap</td>
+</tr>
+<tr>
+<td>Push rejected (non-fast-forward)</td>
+<td>upstream moved</td>
+<td>fetch, merge onto the latest main, push again; never force</td>
+</tr>
+<tr>
+<td>Pre-push hook output stops and the push fails with a broken
+pipe</td>
+<td>the SSH connection idled out during the gates</td>
+<td><code>GIT_SSH_COMMAND</code> with <code>ServerAliveInterval</code>
+(step 9)</td>
+</tr>
+<tr>
+<td>Tag already exists on a remote</td>
+<td>N taken by another clone</td>
+<td>step 8: take the next number; never move a tag</td>
+</tr>
+<tr>
+<td>C9 reports DRIFT</td>
+<td>gitlink and <code>helix-deps.yaml</code> ref moved separately</td>
+<td>stage them together</td>
+</tr>
+<tr>
+<td>A restart after the release serves a different binary</td>
+<td>a later plain <code>start.sh</code> or <code>restart.sh</code>
+without <code>WORKSHOP_PREPARED_SERVER_SHA</code>, on a host with Go,
+rebuilt from the live checkout and replaced the released binary</td>
+<td>step 6 hazard: re-run step 7, compare the sha256 with
+<code>fingerprint.txt</code>; restart only with the candidate’s hash, or
+promote the next release</td>
+</tr>
+<tr>
+<td><code>platform/web</code> is suddenly empty or rebuilt</td>
+<td><code>start.sh</code> ran <code>build.sh</code> because
+<code>workshop-boot</code> was missing or the server binary was not
+executable (<code>scripts/start.sh:68-70</code>), and
+<code>build.sh</code> does <code>rm -rf &quot;${WEB_DIR:?}&quot;/*</code></td>
+<td>roll back (part 5); build the missing control-plane binary
+deliberately, not as a side effect of a start</td>
+</tr>
+<tr>
+<td><code>start.sh</code> refuses on a host without Go: “built from X
+but HEAD is Y”, or “built from a different revision of” a module</td>
+<td>the stamp’s <code>commit</code> is the build commit, or it has no
+<code>module=</code> lines (a hand-written stamp), and the check
+compares against the live checkout</td>
+<td>use the hash hand-over of step 6.5; produce stamps with
+<code>build_server_stage</code> (step 6, “What a correct stamp looks
+like”)</td>
+</tr>
+<tr>
+<td>The pre-deploy safety boot refuses</td>
+<td>the production-mode guard met the live auth store’s example account
+hash</td>
+<td>not a candidate defect (the guard working): listed as an operator
+action (rotate with the repository’s password tool); record it as a
+<code>PASS</code> of the guard plus the action, or
+<code>UNDETERMINED</code> if the production-mode boot was not
+re-run</td>
+</tr>
+<tr>
+<td><code>audit-hardcoded-paths</code> rejects the evidence</td>
+<td>a log contains a host-absolute home-directory path</td>
+<td>replace with <code>$HOME</code> or <code>&lt;scratch&gt;</code>,
+refresh <code>SHA256SUMS</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-evidence-to-keep-for-each-release">8. Evidence to keep for
+each release</h2>
+<p>The commit hashes (workshop build commit <strong>and</strong> tag
+commit, umbrella, each tagged submodule) and the
+<code>git diff --stat</code> between the two workshop commits,
+<code>binary_sha256</code> and <code>bundle_hash</code> with the method
+that produced the latter (<code>fingerprint.txt</code>), the stamp (host
+paths replaced), the pre-deploy safety log of step 4a,
+<code>verdict.json</code> with its waivers, the backup path
+(<code>$HOME/.cache/workshop-release/N/pre-deploy-backup</code>), the
+<code>/api/health</code> output after start and the served-page
+comparison, the <code>git ls-remote</code> output per remote, and the
+tag messages. A release without these is a claim, not a record.</p>
+</body>
+</html>

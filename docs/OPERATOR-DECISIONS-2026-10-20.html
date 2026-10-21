@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Operator decisions and requests: 2026-10-20</title>
+  <style>
+
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+</style>
+  <style type="text/css">body{max-width:none;padding-left:0;padding-right:0}
+table{table-layout:fixed;width:100%;font-size:72%}
+th,td{overflow-wrap:anywhere;vertical-align:top}
+pre,code{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all}
+pre{font-size:80%}
+@page{size:A4;margin:14mm}
+tr{page-break-inside:avoid;break-inside:avoid}
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Operator decisions and requests: 2026-10-20</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#operator-decisions-and-requests-2026-10-20" id="toc-operator-decisions-and-requests-2026-10-20">Operator decisions
+and requests: 2026-10-20</a>
+<ul>
+<li><a href="#contents" id="toc-contents">Contents</a></li>
+<li><a href="#1-how-to-read-this-record-and-its-limits" id="toc-1-how-to-read-this-record-and-its-limits">1. How to read this
+record, and its limits</a></li>
+<li><a href="#2-operator-requests-and-standing-approvals" id="toc-2-operator-requests-and-standing-approvals">2. Operator requests
+and standing approvals</a></li>
+<li><a href="#3-open-decisions-o-1-to-o-8-and-what-was-taken" id="toc-3-open-decisions-o-1-to-o-8-and-what-was-taken">3. Open
+decisions O-1 to O-8 and what was taken</a></li>
+<li><a href="#4-floor-choice-for-crossref" id="toc-4-floor-choice-for-crossref">4. Floor choice for
+crossref</a></li>
+<li><a href="#5-answering-mmr-resources-and-delivery-principles" id="toc-5-answering-mmr-resources-and-delivery-principles">5. Answering,
+MMR, resources and delivery principles</a></li>
+<li><a href="#6-reconciliation-decisions-d1-to-d11" id="toc-6-reconciliation-decisions-d1-to-d11">6. Reconciliation
+decisions D1 to D11</a></li>
+<li><a href="#7-still-open-with-the-default-being-implemented" id="toc-7-still-open-with-the-default-being-implemented">7. Still open,
+with the default being implemented</a></li>
+<li><a href="#8-further-records-for-2026-10-20" id="toc-8-further-records-for-2026-10-20">8. Further records for
+2026-10-20</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="operator-decisions-and-requests-2026-10-20">Operator decisions
+and requests: 2026-10-20</h1>
+<table>
+<tbody>
+<tr>
+<td>Document</td>
+<td>Operator-request-history record for 2026-10-20, in the style of
+<code>OPERATOR-DECISIONS-2026-09-07.md</code>, <code>-09-08.md</code>
+and <code>-09-09.md</code></td>
+</tr>
+<tr>
+<td>Constitution</td>
+<td>11.4.208 (request-history ledger), 11.4.210 (zero-loss intake),
+11.4.61 (metadata table and table of contents), 11.4.6 (no
+guessing)</td>
+</tr>
+<tr>
+<td>Revision</td>
+<td>3 (2026-10-21). Revision 1 presented O-2 to O-7 and the crossref
+floor as taken decisions; the repository record did not show them as
+taken (part 3); corrected in revision 2. Revision 2 was reviewed NO-GO
+on two points and revision 3 fixes both: OR-03 and X-04 said things that
+were false by 2026-10-21 (the ingest and restart happened; releases
+0.0.3 and 0.0.4 are tagged), and the operator’s decisions of 2026-10-21
+were missing. They are in <code>OPERATOR-DECISIONS-2026-10-21.md</code>
+and cross-referenced below as “Amended 2026-10-21”</td>
+</tr>
+<tr>
+<td>Author</td>
+<td>Documentation stream D1 (a Claude agent), from the session record
+named below</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Draft for independent review (11.4.142). Revision 2 was reviewed
+NO-GO (documentation only); revision 3 is not yet re-reviewed. Parts 2
+to 8 describe the state <strong>as of 2026-10-20</strong> unless an
+“Amended 2026-10-21” note says otherwise</td>
+</tr>
+<tr>
+<td>Timezone</td>
+<td>Dates are calendar dates. Clock times appear only where a git tag
+object carries one (<code>+0200</code>); elsewhere no time is invented
+(<code>UNDETERMINED</code>)</td>
+</tr>
+<tr>
+<td>Baseline</td>
+<td>Tag <code>vasic-1.0.0-dev-0.0.1</code>: <code>workshop</code> commit
+<code>ce62bcb</code>, umbrella commit <code>a55e878</code></td>
+</tr>
+<tr>
+<td>11.4.208 fields</td>
+<td>Track: documentation (stream D1). Alias: <code>claude3</code>
+(inferred from the user-scope configuration directory this session
+loaded, <code>UNCONFIRMED</code> by the operator). Model and effort of
+the author: Sonnet 5.5; effort <code>UNDETERMINED</code> (not stated in
+the brief). Model and effort of the other participants named below:
+<code>UNDETERMINED</code> (not in any file read)</td>
+</tr>
+<tr>
+<td>Sources read</td>
+<td><code>specs/026-spec-reconciliation/spec.md</code> (O-1 to O-7, D1
+to D11) and <code>tasks.md</code>;
+<code>specs/020-textbook-library-ui/spec.md</code> (D-LIC); the
+constitution text for the four delivery anchors;
+<code>specs/013-*/tasks.md</code> and
+<code>contracts/achievement-events.md</code>;
+<code>specs/014-*/spec.md</code>; <code>specs/016-*/tasks.md</code>;
+<code>specs/011-*/tasks.md</code>; <code>workshop</code>
+<code>pkg/answer/locality.go</code>; <code>workshop</code>
+<code>evidence/release/0.0.2/</code> and the git tag objects of both
+repositories; the stream-D1 task brief relayed by the orchestrator</td>
+</tr>
+</tbody>
+</table>
+<h2 id="contents">Contents</h2>
+<ol type="1">
+<li><a href="#1-how-to-read-this-record-and-its-limits">How to read this
+record, and its limits</a></li>
+<li><a href="#2-operator-requests-and-standing-approvals">Operator
+requests and standing approvals</a></li>
+<li><a href="#3-open-decisions-o-1-to-o-8-and-what-was-taken">Open
+decisions O-1 to O-8 and what was taken</a></li>
+<li><a href="#4-floor-choice-for-crossref">Floor choice for
+crossref</a></li>
+<li><a href="#5-answering-mmr-resources-and-delivery-principles">Answering,
+MMR, resources and delivery principles</a></li>
+<li><a href="#6-reconciliation-decisions-d1-to-d11">Reconciliation
+decisions D1 to D11</a></li>
+<li><a href="#7-still-open-with-the-default-being-implemented">Still
+open, with the default being implemented</a></li>
+<li><a href="#8-further-records-for-2026-10-20">Further records for
+2026-10-20</a></li>
+</ol>
+<h2 id="1-how-to-read-this-record-and-its-limits">1. How to read this
+record, and its limits</h2>
+<ul>
+<li><strong>Wording.</strong> The operator’s own typed words for this
+session are <strong>not visible</strong> to the agent that wrote this
+record. Every entry below is therefore marked
+<strong>paraphrased</strong> (taken from the task brief that the
+orchestrator relayed, and from the spec files) unless it says
+<strong>verbatim from a file</strong>, in which case the quoted text is
+in the cited file. No quotation has been invented.</li>
+<li><strong>Who decided.</strong> “Operator” means the operator
+personally. “Delegate” means the orchestrating agent acting for the
+operator under the standing approval; a delegate decision is
+<strong>amendable by the operator</strong> and is marked as such. This
+distinction is kept because spec 026 itself makes it (O-1 is “RESOLVED …
+by the operator’s delegate (not an operator-typed decision; the operator
+may amend)”).</li>
+<li><strong>Status vocabulary.</strong> DECIDED (operator),
+DELEGATE-DEFAULT, UNRATIFIED (a default taken by the delegate and
+implemented; <strong>the operator has not ratified it</strong> and the
+repository record may still list the question as open), ACCEPTED (not
+contested, per the cited source), IN EFFECT (a standing rule), OPEN (not
+decided; the default shown is what is being implemented). A row says
+which file shows the status; where the files and the brief disagree,
+both are named and the repository file is the record.</li>
+<li><strong>Content boundary.</strong> This is a public repository.
+Textbooks and recordings are named by path or count only. No title, no
+text and no credential appears here.</li>
+</ul>
+<h2 id="2-operator-requests-and-standing-approvals">2. Operator requests
+and standing approvals</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Date</th>
+<th>Request or approval</th>
+<th>Wording</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OR-01</td>
+<td>2026-10-20</td>
+<td>Establish a baseline release: tag <code>vasic-1.0.0-dev-0.0.1</code>
+at <code>workshop</code> <code>ce62bcb</code> and umbrella
+<code>a55e878</code></td>
+<td>paraphrased</td>
+<td>IN EFFECT; the tag exists on both repositories</td>
+</tr>
+<tr>
+<td>OR-02</td>
+<td>2026-10-20</td>
+<td><strong>Standing approval</strong> to execute specs 011 to 017 and
+the new specs 018 to 026, in order, with fan-out (parallel streams,
+independent review per stream)</td>
+<td>paraphrased</td>
+<td>IN EFFECT</td>
+</tr>
+<tr>
+<td>OR-03</td>
+<td>2026-10-20</td>
+<td>Approve the <strong>textbook ingest</strong> and the <strong>live
+restart</strong> that makes it visible, with the licence basis recorded
+as the exact string <code>operator-directed 2026-10-20</code> (class
+<code>operator-directed</code>) for the three books</td>
+<td>paraphrased; the exact string
+<code>operator-directed 2026-10-20</code> is <strong>verbatim from a
+file</strong> (<code>specs/020-textbook-library-ui/spec.md</code>,
+D-LIC, marked “operator-given”)</td>
+<td>DECIDED. <strong>Amended 2026-10-21: executed.</strong> The ingest
+ran on 2026-10-21: <code>workshop</code> commit <code>576f8d6</code>
+(+1,675 <code>textbook_section</code> rows, registry 34,817 to 36,492
+rows, registry sha256 <code>d7b4a386...</code>, checked in
+<code>evidence/textbooks/textbooks-c8adbd3ca35d/registry-summary.live.json</code>)
+and the catalogue data commit <code>827e79e</code>
+(<code>books=3 sections=1675</code>). The live restarts booted
+<code>books=3 sections=1675 state=present</code> and all 35,384
+embeddable passages were embedded (those last two facts are from the
+orchestrator’s brief, not re-read by D1: UNCONFIRMED here). Details:
+<code>OPERATOR-DECISIONS-2026-10-21.md</code> DC-01, DC-02, LV-01</td>
+</tr>
+<tr>
+<td>OR-04</td>
+<td>2026-10-20</td>
+<td><strong>Token rule</strong>: nothing may re-process videos, audio,
+transcripts or textbooks with models. No LLM, remote model, generation,
+ASR or vision pass over that material; extraction and ingest are
+deterministic and bash-driven, and tests use fixtures</td>
+<td>paraphrased</td>
+<td>IN EFFECT (also stream rule “TOKEN RULE”; spec 020 requires a hard
+guard that proves zero model spend)</td>
+</tr>
+<tr>
+<td>OR-05</td>
+<td>2026-10-20</td>
+<td>Raise the host’s <strong>heavy-work slots from 2 to 4</strong></td>
+<td>paraphrased</td>
+<td>IN EFFECT. Heavy commands run under
+<code>scripts/agent-admit.sh --slots 4</code></td>
+</tr>
+<tr>
+<td>OR-06</td>
+<td>2026-10-20</td>
+<td>Invoke the constitutional <strong>delivery principles</strong>: ship
+each proven increment and cut regular numbered releases and tags (see
+part 5)</td>
+<td>paraphrased</td>
+<td>IN EFFECT</td>
+</tr>
+<tr>
+<td>OR-07</td>
+<td>2026-10-20</td>
+<td>Reconcile specs 011 to 017 against each other and against the code
+before implementing any of them</td>
+<td>paraphrased; the spec file calls it “Operator directive of
+2026-10-20”</td>
+<td>DONE (spec 026, documentation only); at the time
+<code>tasks.md</code> was read, the independent review T016 was still
+unticked</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-open-decisions-o-1-to-o-8-and-what-was-taken">3. Open
+decisions O-1 to O-8 and what was taken</h2>
+<p>The seven decisions O-1 to O-7 are listed in
+<code>specs/026-spec-reconciliation/spec.md</code> (“Open Decisions”,
+the O-1 to O-7 rows at lines 92 to 98 (O-2 to O-7 at 93 to 98) as of
+this revision). O-8 was added after that spec was written and is
+recorded here from the task brief. <strong>The choices below are the
+defaults that the operator’s delegate (the orchestrating agent) is
+implementing under OR-02. None of O-2 to O-8 is shown as an
+operator-typed decision anywhere in the files read.</strong> Each is
+amendable by the operator. <strong>Amended 2026-10-21: the operator
+ratified O-2 to O-8 as taken, and the crossref floor of part 4
+(<code>OPERATOR-DECISIONS-2026-10-21.md</code> D-08). Read every
+“UNRATIFIED” in parts 3 and 4 below as “UNRATIFIED when this record was
+written; RATIFIED 2026-10-21”.</strong> Ratified 2026-10-21: O-2, O-3,
+O-4, O-5, O-6, O-7, O-8.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question</th>
+<th>Default being implemented</th>
+<th>Status, and the file that shows it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O-1</td>
+<td>Licence <code>basis</code> vocabulary</td>
+<td>Closed vocabulary <code>public-domain</code> or
+<code>open-license</code> or <code>rights-holder-permission</code> or
+<code>operator-directed</code>, written
+<code>&lt;class&gt;[: detail]</code>; a bare Creative Commons id such as
+<code>CC-BY-4.0</code> reads as <code>open-license</code>.
+<code>UNVERIFIED</code>, <code>unknown</code>, empty and typos are
+<strong>refused for EPUB</strong>
+(<code>pipeline/textbook_license.py</code>). The PDF path stays
+non-enforcing for its legacy callers. <code>operator-directed</code> is
+the class the three current books use</td>
+<td>DELEGATE-DEFAULT, amendable. Spec 026 <code>spec.md</code> O-1 row
+says “RESOLVED 2026-10-20 by the operator’s delegate (not an
+operator-typed decision; the operator may amend)”</td>
+</tr>
+<tr>
+<td>O-2</td>
+<td>Ability score: per area or cross-curriculum</td>
+<td>Per-area ability score</td>
+<td>DELEGATE-DEFAULT, <strong>UNRATIFIED by the operator</strong>. Spec
+026 <code>spec.md</code> O-2 row lists it as open; spec 013
+“Clarifications Needed” and T049 carry it. The choice comes from the
+task brief only</td>
+</tr>
+<tr>
+<td>O-3</td>
+<td>Which achievement events are modal-worthy</td>
+<td>A modal only for level-up and chapter-complete; everything else is a
+toast</td>
+<td>DELEGATE-DEFAULT, <strong>UNRATIFIED by the operator</strong>. Spec
+026 O-3 row lists it as open (spec 014 T020). The modal is not built on
+<code>main</code></td>
+</tr>
+<tr>
+<td>O-4</td>
+<td>Kind-easing (route a struggling learner to an easier question
+kind)</td>
+<td>Build it (server-side, owner spec 013, task T036b)</td>
+<td>DELEGATE-DEFAULT, <strong>UNRATIFIED by the operator</strong>. Spec
+026 O-4 row says “deferred”; spec 013 <code>tasks.md</code> T036b still
+reads “[DEFERRED] … No implementation in this feature’s first cut …
+needs operator decision O-4”. The files do not show the reversal to
+“build it”</td>
+</tr>
+<tr>
+<td>O-5</td>
+<td>Meaning of <code>chapter-complete</code></td>
+<td>All lessons in an area completed (area lesson-completion), not
+recorded-chapter reading completion</td>
+<td>DELEGATE-DEFAULT, <strong>UNRATIFIED by the operator</strong>. Spec
+013 <code>contracts/achievement-events.md</code> line 53 says
+“Granularity of <code>chapter-complete</code> is an open operator
+decision (O-5)”</td>
+</tr>
+<tr>
+<td>O-6</td>
+<td>Live merge of the 1,675 textbook passages into the live registry,
+and the reranker</td>
+<td>Textbook merge approved; the reranker stays off until a two-sided
+regression (recall and fabrication) passes</td>
+<td>The merge follows OR-03 (operator-given licence basis string). The
+reranker condition is DELEGATE-DEFAULT, <strong>UNRATIFIED</strong>.
+Spec 026 O-6 row lists the question as open. <strong>Amended 2026-10-21:
+the merge was executed (OR-03) and the whole choice is RATIFIED
+(D-08)</strong></td>
+</tr>
+<tr>
+<td>O-7</td>
+<td>Whether spec 011 FR-005’s stale NEEDS CLARIFICATION (audit schema)
+counts as resolved by <code>data-model.md</code> part 4</td>
+<td>Accepted</td>
+<td>DELEGATE-DEFAULT, <strong>UNRATIFIED</strong>. Spec 026 O-7 row says
+“the operator confirms”; no confirmation is recorded in the files
+read</td>
+</tr>
+<tr>
+<td>O-8</td>
+<td>How graded questions join adaptive practice</td>
+<td>Per question, after the session has attempted them in the
+assessment</td>
+<td>DELEGATE-DEFAULT, <strong>UNRATIFIED</strong>. Source: the task
+brief only; not written into any spec file read, so where it is recorded
+is <strong>UNCONFIRMED</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The learner guide’s statements about modal routing and the definition
+of <code>chapter-complete</code> repeat O-3 and O-5 as defaults and say
+so.</p>
+<h2 id="4-floor-choice-for-crossref">4. Floor choice for crossref</h2>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Choice</th>
+<th>Status, and the file that shows it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Floor design</td>
+<td>A single noise floor at quantile 0.90, value 0.6391, applied at the
+next crossref derivation</td>
+<td>DELEGATE-DEFAULT, <strong>UNRATIFIED by the operator</strong>
+(<strong>Amended 2026-10-21: RATIFIED, D-08</strong>). There is
+<strong>no repository record of a decision</strong>: spec 016
+<code>tasks.md</code> (line 430, the S6 note) says “Operator decides
+quantile and regeneration”, records the <strong>recommended
+design</strong> as per-source-kind floors at q=0.95 and the single floor
+0.6391 (q=0.90) as the <strong>interim</strong> option. The choice of
+the interim option comes from the task brief only</td>
+</tr>
+<tr>
+<td>Later option</td>
+<td>A per-source-kind floor at quantile 0.95</td>
+<td>OPEN (a later decision); this is what the S6 note recommends</td>
+</tr>
+<tr>
+<td>Rollout state</td>
+<td>Not rolled out. The shipped <code>min_score</code> is still 0; no
+default changed</td>
+<td>The same note: “mechanism + tests done, ROLLOUT NOT DONE”</td>
+</tr>
+<tr>
+<td>Basis</td>
+<td><code>evidence/s6/t045b-floor-measured-v2.txt</code> and
+<code>t045b-floor-impact-v2.txt</code> in <code>workshop</code>: at
+q=0.90 the single floor keeps 95.5% of edges and leaves 236 of 34,623
+sources empty (0.7%)</td>
+<td>measured by stream S6, not re-measured here</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-answering-mmr-resources-and-delivery-principles">5. Answering,
+MMR, resources and delivery principles</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Decision</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RD-01</td>
+<td><strong>Answering stays OFF</strong> unless a measured two-sided
+gate (recall and fabrication) <strong>PASSES</strong>. The last measured
+deployed configuration answered 14 of 72 answerable trials (19%) and
+fabricated on 4 of 87 unanswerable trials (4.6%)
+(<code>MEASUREMENT-generation-15-2026-09-24.md</code>). Raising the
+score threshold until a benchmark goes green is not an accepted
+route</td>
+<td>IN EFFECT. The 2026-09-25 operator decision “Turn answering OFF,
+keep semantic search” is recorded in the umbrella carriers; this entry
+restates the condition for turning it on. <strong>Amended
+2026-10-21:</strong> the two-sided gate now has ratified numbers (recall
+lower bound at least 0.4, fabrication upper bound at most 0.02, at least
+60 recall and 189 fabrication trials), and hosted providers are allowed
+for the measurement under conditions:
+<code>OPERATOR-DECISIONS-2026-10-21.md</code> D-05 and D-06</td>
+</tr>
+<tr>
+<td>RD-02</td>
+<td><strong>MMR (Maximal-Marginal-Relevance) is out</strong> for
+crossrefs: cosine ranking with a minimum-score floor and a per-source
+cap. Diversity concerns are met by the floor and the honest empty
+state</td>
+<td>DECIDED in spec 026 as D7 (FR-010); restated in the task brief as
+“MMR out”</td>
+</tr>
+<tr>
+<td>RD-03</td>
+<td><strong>Heavy-work slots raised from 2 to 4</strong>, 2026-10-20, by
+the operator</td>
+<td>IN EFFECT (same as OR-05)</td>
+</tr>
+<tr>
+<td>RD-04</td>
+<td><strong>Delivery principles invoked</strong>: 11.4.230(D) (the
+delivery unit is the increment, not the spec), 11.4.235 (build and
+deploy the moment source fixes are proven correct), 11.4.236 (no
+manual-QA hand-off until the validation produced a
+candidate-fingerprinted PASS verdict), 11.4.264 (build once, promote one
+immutable content-addressed artifact; never rebuild per stage). Read
+together: ship each proven increment, and cut regular numbered releases
+and tags. The release procedure is in
+<code>docs/releases/ADDING-A-RELEASE.md</code></td>
+<td>IN EFFECT. The constitution’s own verbatim operator mandate for
+11.4.230(D) (2026-10-04) begins: “All work we do, especially SpecKit
+specs, gets incorporated right away.” (verbatim from
+<code>Constitution.md</code>, not from this session)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-reconciliation-decisions-d1-to-d11">6. Reconciliation
+decisions D1 to D11</h2>
+<p>Made while authoring spec 026 (documentation only), recorded in that
+spec. They resolve contradictions between specs and the code and are not
+operator-typed. Full text and evidence are in
+<code>specs/026-spec-reconciliation/spec.md</code> (FR-001 to FR-014)
+and <code>research.md</code>.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Decision (summary)</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D1</td>
+<td>All textbook content, in every format, mints as
+<code>kind: textbook_section</code> with
+<code>content_type: textbook</code> under scope
+<code>textbook-&lt;slug&gt;</code>; every sidecar row carries
+<code>content_type</code></td>
+<td>applied to the specs</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>The licence record is two sibling files
+(<code>&lt;out&gt;.license.json</code> full record; <code>license</code>
+summary in <code>&lt;out&gt;.report.json</code>), never inside the
+sidecar; <code>attrs</code> retargeted to the current 5-parameter
+<code>DocumentObservation</code></td>
+<td>applied (amended after the S4 review, M5)</td>
+</tr>
+<tr>
+<td>D3</td>
+<td>Spec 013 defines the achievement event stream that spec 014 consumes
+(kinds <code>level-up</code>, <code>chapter-complete</code>,
+<code>adjusted</code>; append-only; idempotent; replayable by
+<code>events_after</code>); server wire form snake_case, 014’s adapter
+maps it</td>
+<td>applied</td>
+</tr>
+<tr>
+<td>D4</td>
+<td>Spec 014 owns the remedial link on <code>adjusted</code> events;
+kind-easing is server-side, owner 013 (now O-4)</td>
+<td>applied</td>
+</tr>
+<tr>
+<td>D5</td>
+<td>Practice-bank baselines cite a measurement: 292 questions, 113
+medium, 179 hard, 0 easy at <code>workshop</code>
+<code>33e9760</code></td>
+<td>applied</td>
+</tr>
+<tr>
+<td>D6</td>
+<td>Spec 015’s frontend lives under <code>features/profile/</code>, one
+route <code>profile</code></td>
+<td>applied</td>
+</tr>
+<tr>
+<td>D7</td>
+<td>No MMR for crossrefs</td>
+<td>applied</td>
+</tr>
+<tr>
+<td>D8</td>
+<td>Spec 012 adopts <code>pdf_textbook_sections.py</code> as the single
+PDF implementation</td>
+<td>applied</td>
+</tr>
+<tr>
+<td>D9</td>
+<td>Task checkboxes follow evidence (41 spec 016 tasks ticked with
+notes)</td>
+<td>applied</td>
+</tr>
+<tr>
+<td>D10</td>
+<td>Hot-spot ownership rules (hook files
+<code>wire_&lt;feature&gt;.go</code>, single-writer files, one branch
+and worktree per stream) are referenced from every plan</td>
+<td>applied</td>
+</tr>
+<tr>
+<td>D11</td>
+<td>Open decisions are listed once (spec 026, “Open Decisions”)</td>
+<td>applied</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-still-open-with-the-default-being-implemented">7. Still open,
+with the default being implemented</h2>
+<p>From <code>specs/020-textbook-library-ui/spec.md</code>
+(Clarifications, session 2026-10-20). These are <strong>OPEN</strong>;
+the default shown is what the implementation follows until the operator
+rules otherwise.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Question</th>
+<th>Default being implemented</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D-PDF</td>
+<td>May the original PDFs be served in the app?</td>
+<td>No. The in-app page view uses extracted text; no PDF route, no
+download link</td>
+</tr>
+<tr>
+<td>D-DIAG</td>
+<td>Do diagram captions become searchable passages?</td>
+<td>No. Figures are displayed, not searched</td>
+</tr>
+<tr>
+<td>D-EMB</td>
+<td>Does the server’s boot-time local embedding count as a “model
+call”?</td>
+<td>Allowed and disclosed (local embedding, no generated text, no billed
+tokens). The ingest procedure itself makes zero model calls</td>
+</tr>
+<tr>
+<td>D-SVG</td>
+<td>Serve vector (SVG) page renders?</td>
+<td>No. Raster PNG only</td>
+</tr>
+<tr>
+<td>D-TITLES</td>
+<td>Display titles for the three books</td>
+<td>Draft titles from the PDF metadata title field, confirmed by the
+operator in <code>books.json</code>; file names are never shown.
+<strong>Amended 2026-10-21
+(<code>OPERATOR-DECISIONS-2026-10-21.md</code> D-03): blank ONLY the
+titles that look like file names (those sections show no title)</strong>
+(implemented on the branch <code>cat-titles</code>, pending review)</td>
+</tr>
+<tr>
+<td>Audit failure mode</td>
+<td>Spec 011: should an audit-write failure fail closed or fail
+open?</td>
+<td>Fail closed is implemented as an unreviewed default pending operator
+confirmation (<code>docs/providers.md</code> in
+<code>workshop</code>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-further-records-for-2026-10-20">8. Further records for
+2026-10-20</h2>
+<p>Items found in the repository or relayed in the brief that the first
+revision omitted. “Brief” means the task brief the orchestrator relayed;
+nothing marked “brief only” has a repository record in the files
+read.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Item</th>
+<th>Source</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>X-01</td>
+<td><strong>LAN provider refuses public and link-local
+addresses.</strong> A <code>lan</code> row requires every resolved
+address to be loopback, private (RFC 1918 or RFC 4193) or shared (RFC
+6598); public addresses are refused, and so are link-local ones
+(169.254/16, which holds the cloud metadata endpoint, and fe80::/10). No
+<code>-answer-allow-remote</code> exists on this path</td>
+<td><code>workshop</code> <code>pkg/answer/locality.go</code> lines 143
+to 190 (the <code>isLANAddr</code> and <code>verifyLAN</code> text names
+the decision “an UNCONFIRMED operator decision”); spec 011
+<code>tasks.md</code> T015-T018 note (line 253)</td>
+<td>Implemented as a stricter-than-spec default,
+<strong>UNRATIFIED</strong>. <strong>The two sources disagree on
+link-local:</strong> the T015-T018 note lists
+“loopback/private/link-local/RFC 6598” as accepted, the code does not
+accept link-local. The code governs and the operator guide follows
+it</td>
+</tr>
+<tr>
+<td>X-02</td>
+<td><strong>Spec 014 FR-007 amended:</strong> the waiting queue is
+capped at 50; beyond that the oldest waiting toast without a study link
+is dropped (the oldest overall if all carry one), counted and
+observable. This replaces “never dropped” for the extreme case</td>
+<td>spec 014 <code>spec.md</code> FR-007 note “Reconciled by S3 review
+fix L2, 2026-10-20”;
+<code>contracts/achievement-components.md</code></td>
+<td>Applied by stream S3 after review; <strong>UNRATIFIED</strong> by
+the operator</td>
+</tr>
+<tr>
+<td>X-03</td>
+<td><strong>Release 0.0.2 was cut and deployed.</strong> Tags
+<code>vasic-1.0.0-dev-0.0.2</code>: <code>workshop</code> at
+<code>30e61ad</code> (an evidence-and-notes commit on top of the
+released source <code>e16a196</code>; tag object dated 2026-10-20
+22:17:17 +0200) and the umbrella tag, whose object resolves to the
+umbrella commit <code>368ab84</code> (tag object dated 22:41:39 +0200).
+Build id <code>e16a196-20261020T165046Z</code>, binary sha256
+<code>f0018b012ba25fd1796330078e025da3e9586bb2859b293c6d0baa89950e0022</code>,
+bundle hash <code>2e9831ed...</code> (181 files). Deployed to the live
+stack on 2026-10-20 at 22:16 CEST (time from the brief only; consistent
+with, not proven by, the workshop tag time). Verdict: 26 PASS, 3 FAIL
+(baseline-identical, waived with evidence), 5 UNDETERMINED</td>
+<td><code>workshop</code>
+<code>evidence/release/0.0.2/MANIFEST.json</code>,
+<code>verdict.json</code>, <code>docs/releases/0.0.2.md</code>;
+<code>git for-each-ref refs/tags</code> in both repositories</td>
+<td>IN EFFECT. Procedure: <code>docs/releases/ADDING-A-RELEASE.md</code>
+(revision 2). Whether the live container is serving that build now was
+not re-read here; it was superseded by 0.0.3 and 0.0.4 (X-04)</td>
+</tr>
+<tr>
+<td>X-04</td>
+<td><strong>Release 0.0.3 was cut and deployed, then release
+0.0.4.</strong> <em>As first written (2026-10-20) this row said 0.0.3
+was pending with no tag; that is false by 2026-10-21 and is
+replaced.</em> Tags (checked with <code>git for-each-ref</code> on
+2026-10-21; both on both remotes per the brief):
+<code>vasic-1.0.0-dev-0.0.3</code> at <code>workshop</code>
+<code>1cf59de</code> (build commit <code>d6b988e</code>) and umbrella
+<code>4c7a1d2</code>; <code>vasic-1.0.0-dev-0.0.4</code> at
+<code>workshop</code> <code>675ca48</code> (build commit
+<code>cbe4628</code>) and umbrella <code>de2761b</code>. 0.0.3’s verdict
+says <code>BLOCKED</code> (two non-server findings N1, N2); it shipped
+on a <strong>delegate waiver, not an operator decision</strong>
+(<code>OPERATOR-DECISIONS-2026-10-21.md</code> W-01), and N1 and N2 were
+fixed in 0.0.4</td>
+<td><code>workshop</code> <code>evidence/release/0.0.3</code> and
+<code>0.0.4</code> (<code>verdict.json</code>,
+<code>MANIFEST.json</code>), <code>docs/releases/0.0.3.md</code>,
+<code>0.0.4.md</code>; tag objects</td>
+<td>IN EFFECT (done). Whether the live container serves 0.0.4 now was
+not re-read by D1</td>
+</tr>
+<tr>
+<td>X-05</td>
+<td><strong>Practice-answer restart pass moved server-side</strong> (so
+the restart decision is not made in the browser), citing 11.4.250 (a
+primitive defect behind a tower of heuristics)</td>
+<td>brief only; spec 016 <code>tasks.md</code> records stream S2’s
+practice-answer work (server-side read-back across a reload) but the
+11.4.250 citation was not found there</td>
+<td>DELEGATE-DEFAULT, <strong>UNRATIFIED</strong>; where it is recorded
+is <strong>UNCONFIRMED</strong></td>
+</tr>
+<tr>
+<td>X-06</td>
+<td><strong>The practice question bank has 0 <code>easy</code>
+items</strong> (292 questions: 113 medium, 179 hard). What to do about
+cold-start content is an open content decision</td>
+<td>spec 013 <code>spec.md</code> cold-start edge case and the D5 note
+(measured at <code>workshop</code> <code>33e9760</code>)</td>
+<td>OPEN when written; spec 013 says cold-start must not serve a
+medium-or-harder item as if it were easy. <strong>Amended 2026-10-21:
+ACCEPTED as it is (<code>OPERATOR-DECISIONS-2026-10-21.md</code>
+D-07)</strong></td>
+</tr>
+<tr>
+<td>X-07</td>
+<td><strong>The S12 promotion scripts are the canonical promoter; the
+registry lock is shared through the H2 hardening branch</strong></td>
+<td>brief only; spec 019 <code>tasks.md</code> records stream S12’s
+promotion work on branch <code>s12-019-promotion</code>
+(<code>scripts/promote-web.sh</code>, 13/13 mutants caught). Neither
+“canonical” nor the H2 lock sharing was found as a decision in the files
+read</td>
+<td>DELEGATE-DEFAULT, <strong>UNRATIFIED</strong>;
+<strong>UNCONFIRMED</strong> where recorded. The promotion scripts are
+not on <code>main</code>, so the release procedure does not use
+them</td>
+</tr>
+</tbody>
+</table>
+<p>Further records of 2026-10-21 (decisions D-01 to D-09, the 0.0.3
+waiver W-01, the releases and the two data commits) are in
+<code>OPERATOR-DECISIONS-2026-10-21.md</code>.</p>
+<p>Participants (11.4.104): the operator; the orchestrating agent acting
+as delegate; streams S1, S2, S3, S4, S6, S10, S12, H1 to H4 and D1 by
+the names the task briefs use. Track, alias and model/effort of each
+stream: <code>UNDETERMINED</code> beyond D1 (above).</p>
+</body>
+</html>
