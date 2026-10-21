@@ -846,3 +846,13 @@ ev/VSC-349.green.json
 # here, untriaged beyond reading the matched line; the fix is an upstream
 # HelixConstitution change plus a bump.
 submodules/constitution/progressive/rules/11.4.178.md
+
+# REASON: test FIXTURE VALUE inside a pinned upstream submodule (HelixConstitution
+# label-sync). Line 209 of this table-driven Go test carries a literal
+# `Cwd: "/home/user/Projects/some/where"` as INPUT DATA for a state-record
+# round-trip; no code path opens, creates or depends on that directory, and `user`
+# is a placeholder, not this host's account. Upstream content consumed BY
+# REFERENCE (§11.4.28): the fix, if one is wanted, is an upstream HelixConstitution
+# change plus a bump. Found 2026-10-22 by the pre-push gate when the pin moved to
+# 4c5ae23 (label-sync merged); investigated by reading the matched line.
+submodules/constitution/scripts/label-sync/internal/state/review2_test.go
