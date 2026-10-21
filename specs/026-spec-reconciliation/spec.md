@@ -4,7 +4,7 @@
 
 **Created**: 2026-10-20
 
-**Status**: Draft (documentation-only feature; every edit it describes has ALREADY been applied to the target specs, see `tasks.md`)
+**Status**: Draft (revision 2, 2026-10-21: Open Decisions updated by 027 after the operator ratified O-2 to O-8 and the crossref floor; documentation-only feature; every edit it describes has ALREADY been applied to the target specs, see `tasks.md`)
 
 **Input**: Operator directive of 2026-10-20: reconcile specs 011, 012, 013, 014, 015, 016 and 017 against each other and against the real `workshop/` code at HEAD `33e9760` (the gap analysis was taken at `bb69fe5`; every code claim below was re-verified at `33e9760`), before any of them is implemented. Source of the contradictions: the 2026-10-20 gap analysis and architecture plan (session scratchpad, not committed; the facts are restated with file:line in `research.md`, so this spec does not depend on it).
 
@@ -87,15 +87,19 @@ An orchestrator dispatches several specs at once. Each spec's `plan.md` names wh
 
 ## Open Decisions (not closed by this feature; need an operator)
 
-| ID | Decision needed | Where it lives |
+| ID | Decision needed | Where it lives / state |
 |---|---|---|
 | O-1 | **RESOLVED 2026-10-20 by the operator's delegate (not an operator-typed decision; the operator may amend).** License `basis` closed vocabulary: `public-domain` \| `open-license` \| `rights-holder-permission` \| `operator-directed`, written `<class>[: detail]` (a bare Creative Commons id such as `CC-BY-4.0` reads as `open-license`). `UNVERIFIED`, `unknown`, empty and typos are REFUSED for EPUB (`pipeline/textbook_license.py`, enforced by `epub_sections.py`). The PDF path (`pdf_textbook_sections.py`, spec 017) is deliberately NON-ENFORCING for its legacy callers: it requires a non-empty basis and records `basis_class: null` when out of vocabulary; enforcing it there is a separate behaviour change. `operator-directed` is the class the three current books use. | 012 spec FR-005, 017 `contracts/textbook-ingestion-stage.md` |
-| O-2 | Per-area vs cross-curriculum ability score | 013 spec "Clarifications Needed", 013 T049 |
-| O-3 | Modal routing map (which events are modal-worthy) | 014 T020 |
-| O-4 | Kind-easing (route a struggling learner to an easier question kind) | deferred, owner 013, new task T036b |
-| O-5 | `chapter-complete` granularity: area lesson-completion (this feature's default) vs recorded-chapter reading completion | 013 contract `achievement-events.md` section 3 |
-| O-6 | Live merge of the 1,675 textbook passages into the live registry and enabling the reranker | 017 residual, outside this feature |
-| O-7 | Whether the stale 011 `spec.md` FR-005 NEEDS CLARIFICATION marker (audit schema) is treated as resolved by `data-model.md` section 4 (this feature annotates it as resolved there; the operator confirms) | 011 spec FR-005 |
+| O-2 | Per-area vs cross-curriculum ability score | **RATIFIED 2026-10-21** (`docs/OPERATOR-DECISIONS-2026-10-21.md` D-08, row "O-2 (ability score per area)"). Implemented per area: `pkg/scoring/doc.go:8` on `int-0.0.3` (not on `main`). 013 spec "Clarifications Needed" and T049 still showed it open until *Reconciled by 027 on 2026-10-21* |
+| O-3 | Modal routing map (which events are modal-worthy) | **RATIFIED 2026-10-21** (D-08): a modal only for `level-up` and `chapter-complete`. The `modal_worthy` flag is at `pkg/scoring/events.go:40` on `int-0.0.3`; the modal host is on branch `s9-014-modal-polish`, not in `int-0.0.3` (state as audited 2026-10-21) |
+| O-4 | Kind-easing (route a struggling learner to an easier question kind) | **RATIFIED 2026-10-21** (D-08): BUILD it, server side, owner 013. 013 T036b is therefore no longer "post-MVP deferred": it is an owed task (text annotated by 027). Unticked; no implementation found on `main`, `int-0.0.3` or the s2/s9/s15/s16 branches in the 2026-10-21 audit |
+| O-5 | `chapter-complete` granularity | **RATIFIED 2026-10-21** (D-08): all lessons in an area completed. Implemented at `internal/api/lessons.go:552-561` on `int-0.0.3` |
+| O-6 | Live merge of the 1,675 textbook passages and enabling the reranker | **RATIFIED 2026-10-21** (D-08): merge approved and EXECUTED (workshop data commits `576f8d6`, `827e79e`, `OPERATOR-DECISIONS-2026-10-21.md` DC-01, DC-02); the reranker stays OFF until a two-sided regression passes (flags default false at `cmd/workshop-server/main.go:429,438`) |
+| O-7 | Whether the stale 011 `spec.md` FR-005 NEEDS CLARIFICATION marker (audit schema) is resolved by `data-model.md` section 4 | **RATIFIED 2026-10-21** (D-08): counts as resolved. The marker text in 011 `spec.md` is annotated by 027 |
+| O-8 | Graded questions join adaptive practice per question after the session attempted them in the assessment | **RATIFIED 2026-10-21** (D-08). No spec, task or code recording this join was found in the 2026-10-21 audit (`internal/api/questions_graded.go` is the answer-key withholding rule, a different thing): a task is owed in the 013 stream (see `specs/027-research-gap-closure/research.md` section 6, finding A-04) |
+| crossref floor | A single noise floor at quantile 0.90, value 0.6391, applied at the next crossref derivation | **RATIFIED 2026-10-21** (D-08). Not yet applied: `pkg/crossref/crossref.go:250` `MinScore` default is 0 and no compose file sets `WORKSHOP_CROSSREF_MIN_SCORE` (audit addendum A3). `cmd/crossref-floor/main.go` exists |
+
+**Not covered by the 2026-10-21 ratification** (D-08 says so): X-01 (LAN link-local), X-02 (014 FR-007 queue cap), X-05, X-07 and the open items D-PDF, D-DIAG, D-EMB, D-SVG and the audit failure mode. They stay as `docs/OPERATOR-DECISIONS-2026-10-20.md` has them. *(Reconciled by 027 on 2026-10-21.)*
 
 ## Success Criteria *(mandatory)*
 

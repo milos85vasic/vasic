@@ -25,16 +25,16 @@
 - [x] T009 [D7] MMR for crossrefs rejected: `026` spec FR-010, `research.md` section 7; pointers in `017` banner and `016` T045b annotation.
 - [x] T010 [D8] 012 adopts `pdf_textbook_sections.py`: `012` spec.md FR-013, FR-018, tasks.md T031, T032, T033, T046, T047 re-scoped; contract; `017` contract reconciliation block.
 - [x] T011 [D9] Task hygiene: `016` tasks.md 41 tasks ticked with evidence notes; PARTIAL/ABSENT/relocated tasks annotated and left unticked; banner lists why the rest stay unticked. `011` tasks.md T001-T005 left exactly as the operator's working tree has them (untouched).
-- [x] T012 [D10] Hot-spot ownership rules recorded in `026/plan.md`; every one of `011`, `012`, `013`, `014`, `015`, `017` plan.md/tasks.md references them; wire-file mapping: 011 `wire_audit.go` + `wire_lan.go` (T012 annotated), 013 `wire_scoring.go` (T022/T035/T042 annotated), 015 `wire_profile.go`, 017 `wire_rerank.go`.
+- [x] T012 [D10] Hot-spot ownership rules recorded in `026/plan.md`; every one of `011`, `012`, `013`, `014`, `015`, `017` plan.md/tasks.md references them; wire-file mapping: 011 `wire_audit.go` + `wire_lan.go` (T012 annotated), 013 `wire_scoring.go` (T022/T035/T042 annotated), 015 `wire_profile.go`, 017 `wire_rerank.go`. *(Corrected by 027 on 2026-10-21: of these only `wire_scoring.go` and `wire_profile.go` exist. 011's flags landed in `wire_providers.go` (audit flag at `:47`), 017's reranker flags remain in `main.go:429,438`; `wire_audit.go`, `wire_lan.go`, `wire_rerank.go` do not exist and will not be created. See `plan.md` rule 2.)*
 - [x] T013 [D11] Open decisions O-1..O-7 listed once in `026/spec.md`.
 
 ## Phase 3: Verification
 
-- [x] T014 Marker count per spec dir (`grep -rc "Reconciled by 026 on 2026-10-20" specs/01[1-7]*/`): 011=7, 012=29, 013=20, 014=14, 015=15, 016=55, 017=6.
+- [x] T014 Marker count per spec dir (`grep -rc "Reconciled by 026 on 2026-10-20" specs/01[1-7]*/`): 011=7, 012=29, 013=20, 014=14, 015=15, 016=55, 017=6. *(Re-measured by 027 on 2026-10-21 with the same command: 011=7, 012=27, 013=20, 014=14, 015=15, 016=55, 017=6; only 012 differs (27, not 29); SC-001 needs at least 1 per spec and still holds.)*
 - [x] T015 `git status --short` shows only `specs/` paths; `workshop/` untouched by this feature (the `M workshop` gitlink in the status snapshot pre-dates it).
 - [ ] T016 [REVIEW] Independent review (§11.4.142) of every edit; recorded by the orchestrator before commit.
 - [ ] T017 When 012-T013 is implemented: decode the produced sidecar with the real `readJSON`/`docSection` in a unit test (SC-002) and paste output.
-- [ ] T018 Wave-0 (implementation orchestrator, not this feature): create the `wire_*.go` hook files and the `// hook:*` lines in `main.go`; verify with `go build ./... && go vet ./...`.
+- [ ] T018 Wave-0 (implementation orchestrator, not this feature): create the `wire_*.go` hook files and the `// hook:*` lines in `main.go`; verify with `go build ./... && go vet ./...`. *(Annotated by 027 on 2026-10-21: DONE in a different shape, evidence `cmd/workshop-server/wire_hooks.go` plus `wire_{providers,scoring,profile,practice,retrieval,ingestion,textbooks}.go` on `main`; no `// hook:*` lines exist in `main.go`, the aggregators replace them; `wire_audit.go`, `wire_lan.go`, `wire_rerank.go` do not exist. Left unticked: the task text asked for the `// hook:*` lines. A reviewer decides whether the task is satisfied in spirit.)*
 
 ## Dependencies
 

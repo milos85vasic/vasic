@@ -55,7 +55,7 @@ no sentence from a private chapter or transcript is quoted in any file this feat
   text, bills no tokens and is not part of the ingestion procedure; the procedure itself (extraction, ingest, catalogue, promotion) must make **zero** network or model calls, which the guard proves.
   If the operator rules that even local embedding is forbidden, the books cannot become semantically searchable in this feature (lexical search still works).
 - D-SVG `OPEN`: serve vector (SVG) page renders? → **Default: no** (third-party SVG is an active-content risk; raster PNG only).
-- D-TITLES `OPEN`: display titles (and optional authors) for the three books → **Default: draft titles from the PDF metadata `Title:` field**, confirmed by the operator in `books.json`; file names are never shown.
+- D-TITLES `OPEN`: display titles (and optional authors) for the three books → **Default: draft titles from the PDF metadata `Title:` field**, confirmed by the operator in `books.json`; file names are never shown. *(Reconciled by 027 on 2026-10-21: AMENDED by `docs/OPERATOR-DECISIONS-2026-10-21.md` D-03: only filename-shaped section titles are blanked, titles that are real words are kept; implemented on branch `cat-titles`, pending independent review.)*
 
 ## User Scenarios & Testing *(mandatory)*
 

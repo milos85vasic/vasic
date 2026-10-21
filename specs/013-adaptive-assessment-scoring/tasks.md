@@ -595,7 +595,7 @@ design-system` needs to read.
 ### Phase 3b: `adjusted` event and deferred kind-easing *(Reconciled by 026 on 2026-10-20, D3/D4: added)*
 
 - [ ] **T036a [TDD] [US2]** Emit the `adjusted` event from the downgrade path (T030-T031): `coalesce_key = adjusted:<area>`, `modal_worthy=false` default, copy template from the contract, and `remedial_href` = the served question's `lesson_sections_study_href`, else `citations_study_href` (`internal/api/questions.go:516,532`), else null. The wire value is `adjusted`; `DowngradeTriggered` is unchanged.
-- [ ] **T036b [DEFERRED] [US2]** Kind-easing: route a struggling learner to an easier question KIND (flashcard instead of free response), the second half of the hand-off spec 013 Assumptions used to push to 014. **No implementation in this feature's first cut; owner 013, post-MVP; needs operator decision O-4.** Recorded so the item is owned rather than orphaned.
+- [ ] **T036b [DEFERRED] [US2]** Kind-easing: route a struggling learner to an easier question KIND (flashcard instead of free response), the second half of the hand-off spec 013 Assumptions used to push to 014. **No implementation in this feature's first cut; owner 013, post-MVP; needs operator decision O-4.** Recorded so the item is owned rather than orphaned. *(Reconciled by 027 on 2026-10-21: O-4 is RATIFIED as "build it, server side, owner 013" (`docs/OPERATOR-DECISIONS-2026-10-21.md` D-08). The `[DEFERRED]` tag is therefore stale: this task is OWED and unblocks `021 tasks.md` T048a only together with operator decision OD-2. The tag is left in place pending the 013 owner; no kind-easing code exists on `main` or `int-0.0.3` (git grep 2026-10-21). Also: `021 tasks.md` T048a is blocked on "013 `ServeNext` options seam" but no 013 spec, task or contract defines one and `ServeNext` has none (`pkg/scoring/serve.go:93` on `int-0.0.3`: `ServeNext(session, area string, cands []Candidate, cfg Config)`); define that seam inside this task, because kind-easing needs the same hook.)*
 
 ---
 
@@ -737,7 +737,7 @@ the calling instruction).
   end-to-end against the completed feature and paste all real output, confirming no step in the
   document is aspirational by the time this task is checked off.
 
-- [ ] **T049** **[BLOCKED-PENDING-OPERATOR-DECISION]** Record, in this task's own completion note (no *(Reconciled by 026 on 2026-10-20: the PRE-CONDITION for 014 UI work is now wider: besides (a) and (b), 014 depends on `contracts/achievement-events.md` landing (T008a, T025a-T025d, T036a). The 292-item figure replaces 311 in this task's text.)*
+- [ ] **T049** **[BLOCKED-PENDING-OPERATOR-DECISION]** *(Reconciled by 027 on 2026-10-21: part (a), per-area versus cross-curriculum, is RATIFIED per area (spec 026 O-2, D-08) and part (b), the zero-easy content response, is ACCEPTED as is (D-07); the task is now a documentation step and no longer blocks 014.)* Record, in this task's own completion note (no *(Reconciled by 026 on 2026-10-20: the PRE-CONDITION for 014 UI work is now wider: besides (a) and (b), 014 depends on `contracts/achievement-events.md` landing (T008a, T025a-T025d, T036a). The 292-item figure replaces 311 in this task's text.)*
   code change), the disposition of spec.md's two remaining open clarifications this feature's code
   cannot itself resolve: (a) **per-area vs. cross-curriculum ability score** — this feature ships the
   per-area shape (data-model.md §1.2's Phase 1 decision), and the task here is to flag to the operator,

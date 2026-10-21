@@ -6,7 +6,7 @@
 
 **Status**: Draft
 
-**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)**: (D10) `cmd/workshop-server/main.go` (3,905 lines, 34 `mux.Handle` sites, one `config` struct) is single-writer. This spec's flag wiring goes through two hook files, `cmd/workshop-server/wire_audit.go` (`-answer-audit-log`, US2) and `cmd/workshop-server/wire_lan.go` (US3), each replacing one pre-created `// hook:audit` / `// hook:lan` line in `main.go`; the hook files are created by the Wave-0 task of the implementing orchestrator. (D5) catalogue state re-confirmed: US1 is merged in workshop `bb69fe5` (`pkg/answer/registry.go:311,313`), so the "US3 sequenced after US1 because both edit `registry.go`" constraint is already satisfied. See `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules".
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)**: (D10) `cmd/workshop-server/main.go` (3,905 lines, 34 `mux.Handle` sites, one `config` struct) is single-writer. This spec's flag wiring goes through two hook files, `cmd/workshop-server/wire_audit.go` (`-answer-audit-log`, US2) and `cmd/workshop-server/wire_lan.go` (US3), each replacing one pre-created `// hook:audit` / `// hook:lan` line in `main.go`; the hook files are created by the Wave-0 task of the implementing orchestrator. *(Corrected by 027 on 2026-10-21: `wire_audit.go` and `wire_lan.go` were never created and there are no `// hook:*` lines in `main.go`. The `-answer-audit-log` flag and boot invariant are in `cmd/workshop-server/wire_providers.go` (flag at `:47`, as 011 tasks T012 already records); the `-answer-lan-extra-deny` flag is at `wire_providers.go:58` on `int-0.0.3` only; LAN locality validation is in `pkg/answer/locality.go`. See `specs/026-spec-reconciliation/plan.md` rule 2, corrected.)* (D5) catalogue state re-confirmed: US1 is merged in workshop `bb69fe5` (`pkg/answer/registry.go:311,313`), so the "US3 sequenced after US1 because both edit `registry.go`" constraint is already satisfied. See `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules".
 
 **Input**: Formalization of `workshop/docs/research/education-platform/multi-provider-llm-and-content-model.md`, Part A only (Part B — the universal content model and user profile page — is formalized separately as spec 015-universal-content-model-profile and is referenced here by name, not re-specified).
 
@@ -253,7 +253,7 @@ served by the newly-configured provider without a process restart.
   tradeoff between availability and audit completeness that this spec does not decide
   unilaterally.`
 - What happens when an operator declares an address as `lan` locality that turns out to resolve
-  to a public, non-operator-controlled IP? → `NEEDS CLARIFICATION: should LAN locality
+  to a public, non-operator-controlled IP? *(Reconciled by 027 on 2026-10-21: decided by delegate default X-01 of `docs/OPERATOR-DECISIONS-2026-10-20.md`: `lan` refuses public and link-local addresses, `pkg/answer/locality.go`; X-01 is NOT covered by the 2026-10-21 ratification, so the marker stays as the record of an UNRATIFIED decision.)* → `NEEDS CLARIFICATION: should LAN locality
   validation include any reachability/ownership check beyond "not loopback", or is the
   operator's explicit declaration the sole basis for trust (mirroring how declared `remote`
   opt-in already trusts the operator's own decision with no further verification)? The research
@@ -302,7 +302,7 @@ served by the newly-configured provider without a process restart.
 - **FR-005**: Each audit entry produced under FR-004 MUST contain, at minimum: session
   identifier, provider name, model name, target endpoint, timestamp, and the content
   byte-count of the request — and MUST NOT contain the request prompt text, retrieved passage
-  content, or generated answer text. **[NEEDS CLARIFICATION: the research names this minimum
+  content, or generated answer text. *(Reconciled by 027 on 2026-10-21: the marker below counts as RESOLVED by `data-model.md` section 4, ratified as spec 026 O-7, `docs/OPERATOR-DECISIONS-2026-10-21.md` D-08. Text kept, not deleted.)* **[NEEDS CLARIFICATION: the research names this minimum
   field set (multi-provider-llm-and-content-model.md:448-451) but does not define the exact
   on-disk schema (file format — JSON Lines vs. a dedicated store; field names; whether it
   reuses or parallels the existing `internal/answering/redaction` audit pattern the research

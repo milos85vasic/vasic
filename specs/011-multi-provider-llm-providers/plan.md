@@ -4,7 +4,7 @@
 
 **Input**: Feature specification from `specs/011-multi-provider-llm-providers/spec.md`
 
-**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)**: (D10) `cmd/workshop-server/main.go` (3,905 lines, 34 `mux.Handle` sites, one `config` struct) is single-writer. This spec's flag wiring goes through two hook files, `cmd/workshop-server/wire_audit.go` (`-answer-audit-log`, US2) and `cmd/workshop-server/wire_lan.go` (US3), each replacing one pre-created `// hook:audit` / `// hook:lan` line in `main.go`; the hook files are created by the Wave-0 task of the implementing orchestrator. (D5) catalogue state re-confirmed: US1 is merged in workshop `bb69fe5` (`pkg/answer/registry.go:311,313`), so the "US3 sequenced after US1 because both edit `registry.go`" constraint is already satisfied. See `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules".
+**Reconciliation (Reconciled by 026 on 2026-10-20, spec `026-spec-reconciliation`)**: (D10) `cmd/workshop-server/main.go` (3,905 lines, 34 `mux.Handle` sites, one `config` struct) is single-writer. This spec's flag wiring goes through two hook files, `cmd/workshop-server/wire_audit.go` (`-answer-audit-log`, US2) and `cmd/workshop-server/wire_lan.go` (US3), each replacing one pre-created `// hook:audit` / `// hook:lan` line in `main.go`; the hook files are created by the Wave-0 task of the implementing orchestrator. *(Corrected by 027 on 2026-10-21: `wire_audit.go` and `wire_lan.go` were never created and there are no `// hook:*` lines in `main.go`. The `-answer-audit-log` flag and boot invariant are in `cmd/workshop-server/wire_providers.go` (flag at `:47`, as 011 tasks T012 already records); the `-answer-lan-extra-deny` flag is at `wire_providers.go:58` on `int-0.0.3` only; LAN locality validation is in `pkg/answer/locality.go`. See `specs/026-spec-reconciliation/plan.md` rule 2, corrected.)* (D5) catalogue state re-confirmed: US1 is merged in workshop `bb69fe5` (`pkg/answer/registry.go:311,313`), so the "US3 sequenced after US1 because both edit `registry.go`" constraint is already satisfied. See `specs/026-spec-reconciliation/plan.md` "Hot-spot ownership rules".
 
 ## Summary
 
@@ -195,7 +195,7 @@ workshop/platform/backend/
 │   └── llamacpp_test.go         # REFERENCE ONLY (US3): the loopback-enforcement test
 │                               #   FR-008 requires be UNCHANGED in outcome
 ├── cmd/workshop-server/
-│   └── main.go                  # MODIFY (Reconciled by 026 on 2026-10-20, D10: ONLY the one `// hook:audit` line; the flag code goes in NEW wire_audit.go): wire -answer-audit-log flag /
+│   └── main.go                  # MODIFY (Reconciled by 026 on 2026-10-20, D10: ONLY the one `// hook:audit` line; the flag code goes in NEW wire_audit.go) *(Corrected by 027 on 2026-10-21: built in `wire_providers.go`, flag at `:47`; `wire_audit.go` does not exist)*: wire -answer-audit-log flag /
 │                               #   $WORKSHOP_ANSWER_AUDIT_LOG, mirroring the existing
 │                               #   -redaction-log flag pattern in the same file
 └── platform/gates/
