@@ -120,3 +120,85 @@ account, an anonymous browser's is its X-Session value. The pass store is a JSON
 - **Concurrency.** Read-modify-write of both files holds an in-process lock and an exclusive `flock` on
   `practice.lock` in the data directory, so two server processes sharing the directory do not lose each other's updates
   (a second process waits, it is not refused). Platforms without `flock` fall back to the single-process assumption.
+
+### Amendment 2026-10-21 (S2 round 7, delegate decision): run-limit eviction, lock deadline, watchdog, Idempotency-Key
+
+- **Run limit is not permanent.** At the tracked-session bound (20000) sessions IDLE for 90 days (newest answer older than
+  that, or no answer at all) are evicted together with their answer rows, so an evicted session returns at pass 0 with
+  no earlier run visible. If nothing is idle a restart from a new session is 413 and the message says the limit is
+  server-wide. The page shows a distinct notice (`restart-capacity`) and does NOT hold the learner's answers back: they go
+  to the current run, as the notice says.
+- **Lock deadline.** The cross-process lock is taken with LOCK_NB and a bounded retry (3 s); a lock held elsewhere is a
+  503 naming the cause ("the practice store is busy"), never an unbounded stall behind the in-process lock.
+- **Nothing waits forever.** Every read-back is tied to the load() that issued it (a generation token), a stale reply is
+  ignored before it can touch the in-flight counter (which is also clamped at 0), and a watchdog (15 s) turns any waiter
+  that nothing drove into a visible unsent answer (`pass_unknown`) / failed restart, resetting the bookkeeping.
+- **Idempotency-Key from the UI.** The assessment submit sends one `Idempotency-Key` per PAPER: stable across resends of
+  the same paper (a scoring failure `503 ... send the same paper again` is retried with the same key and scores once),
+  fresh for a different paper and after any outcome that ends the paper. `409 idempotency_key_reuse` ("use a fresh key")
+  makes the next press use a fresh key. The 503 and 409 texts differ.
+
+### Amendment 2026-10-21 (S2 round 8, DELEGATE DECISIONS — each is operator-ratifiable and reversible)
+
+- **D-8.1 Authenticated users are never evicted.** When the tracked-session bound (20000) is reached the server evicts
+  ONLY anonymous `X-Session` ids that have been idle for 90 days, together with their answer rows. A session whose key
+  is an account (`auth-user:<id>`) is never evicted and its answer rows are never deleted by this mechanism. If only
+  accounts and active sessions remain, a new anonymous session's restart is the honest 413 ("a server-wide limit").
+  Rationale: an anonymous id costs nothing to mint (so a bound is needed and idle ones are reclaimable); an account is
+  a person's data. To reverse: allow `authhttp.ProgressKeyPrefix` sessions in `evictIdle` (one line) or raise the bound.
+- **D-8.2 Idleness counts the last restart.** The pass file records, per session, the time of its last restart
+  (`practice-pass.json` v2: `{"v":2,"sessions":{<id>:{"touched":<unix>,"areas":{...}}}}`; the earlier bare map is still
+  read, its sessions simply have no restart time). A session's idleness is the newest of its last answer and its last
+  restart, so a session that restarted and has not answered yet is not idle.
+- **D-8.3 What the learner sees at the run limit.** "Run it again" is refused with 413. The page resets its deck locally
+  and shows a persistent notice ("Run it again is unavailable right now: the server is at its limit of tracked practice
+  runs ... Your answers are still being saved to the current run"). The answers the learner then gives OVERWRITE the
+  current run's answers question by question (they are not a new run). After a reload the notice is shown AGAIN for as
+  long as the page is still in the pass in which the refusal happened (stored per browser session user and deck in
+  localStorage; cleared by any successful restart; ignored once the pass has moved), so a part-overwritten run is never
+  silently presented as a run the learner just completed.
+- **D-8.4 One attempt end to end.** A resend of an accepted paper under the same Idempotency-Key records ONE attempt in
+  the learning-progress history: the binding carries an `attempted` fact (set once the attempt is written, re-binding
+  the key if a twin had released it); a resend re-grades without recording. `ReleaseGradedKey` keeps a binding whose
+  attempt is recorded. Limits: the first recording and its mark are two writes (a crash between them lets one resend
+  record a second attempt); an evicted/expired binding starts a new generation (a deliberate second submission).
+- **D-8.5 The Idempotency-Key survives a reload.** The assessment page stores the key per browser session user, area and
+  paper fingerprint in sessionStorage (try/catch; the key then lives for the page only if storage is blocked) and clears it
+  on success, 403, 409 and any other non-retryable outcome. The two 503s are told apart on the wire (`phase`:
+  `submit_key_not_recorded` = nothing was submitted; `submit_not_scored` = answers received, not marked) and in words.
+
+### Amendment 2026-10-21 (S2 rounds 9-10, DELEGATE DECISIONS — operator-ratifiable)
+
+- **D-8.4 revised (supersedes the "attempted flag" mechanism).** The fact "this paper's attempt is already on record" is
+  a MARKER ENTRY inside the learning-progress data (`Attempts["idem:<key>:<paper fingerprint>"]`), written in the same
+  `SessionStore.Mutate` file write as the attempt; the check and the record are one step under that store's lock, so
+  concurrent sends of one paper record ONE attempt and losing the scoring database cannot separate them. The scoring
+  database's `attempted` column is retained in its API but no longer consulted by the submit handler.
+- **D-8.6 Markers and key bindings expire together.** Markers older than `scoring.IdempotencyTTL` (24 h) are ignored and
+  pruned (plus a cap of the newest 200). A resend after the TTL is a NEW submission in both stores: one new attempt,
+  scored again — never "scored again but no new attempt". (Chosen over "never re-score when a marker exists" because the
+  key binding is the scoring side's idempotency authority and already expires at the TTL.)
+- **D-8.7 The ungated re-grade is bounded.** A resend of a recorded paper is graded through `ckit.Grade` (no gate, no
+  record). Invariant: it is reachable only for the exact paper (same key AND fingerprint) that already passed the
+  availability gate through `Submit` inside the TTL; any new paper, new key or expired marker takes the gated path
+  (tests: `ARecordedResendNeverBypassesTheGateForANewPaper`).
+- **D-8.8 Process model and durability of the stores (ops guide).** The practice stores (`practice-answers.json`,
+  `practice-pass.json`) and the learning-progress store (`learning-progress.json`) serialise read-modify-write with an
+  in-process mutex AND an exclusive advisory `flock` on `practice.lock` / `learning-progress.lock` in the data directory
+  (3 s bounded wait; a stuck holder is a 503 "busy"), so two server processes sharing a data directory do not lose each
+  other's updates; platforms without `flock` fall back to ONE PROCESS PER DATA DIRECTORY. The practice files are written
+  temp-file + fsync + rename + directory fsync; `learning-progress.json` is rename-based but NOT fsynced (a power loss
+  can lose the most recent write, never tear the file) — an open item if the operator wants fsync there too.
+
+### Amendment 2026-10-21 (S2 round 11) — ops notes and small decisions
+
+- **D-8.9 `learning-progress.json` is now durable** (supersedes the "not fsynced" open item of D-8.8): temp file + fsync
+  of the file BEFORE the rename + directory fsync AFTER it (fault-injection seams pin the order).
+- **D-8.10 Busy is not unreadable.** A lock held by another process is `ErrStoreBusy` -> 503 "the learning-progress store
+  is busy ... nothing was lost, try again" (`phase: progress_store_busy`), mirroring the practice store.
+- **D-8.11 Marker and binding agree at the TTL.** The attempt marker is stamped with the key binding's own stamp and
+  both sides judge liveness with the same comparison on the scoring store's clock (live while `now - stamp <= TTL`).
+- **Ops guide (lock files).** The three lock files (`practice.lock`, `learning-progress.lock`, in the data directory)
+  are created mode 0600. Two server processes running as DIFFERENT users on one data directory therefore fail CLOSED
+  (the second cannot open the lock file: 503), by design. Behaviour of `flock` on NFS/network filesystems is UNTESTED and
+  not supported: keep the data directory on a local filesystem, one server per directory unless they share a user.

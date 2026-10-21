@@ -151,7 +151,7 @@ a real SQLite file) is green.
   PASS.
       *(Stream S2 on 2026-10-20: DONE, pkg/scoring/store.go Open + schema (data-model.md section 5 + achievement-events.md section 3; served_question gained rule, reason, downgrade columns so the reason computed when SERVED is the reason LOGGED)))*
 
-- [ ] **T007 [TDD] [REVIEW]** Write a failing test asserting the FR-003 storage-level immutability
+- [x] **T007 [TDD] [REVIEW]** Write a failing test asserting the FR-003 storage-level immutability
   backstop fires: open a real `scoring.db` via `Store.Open`, insert one `response_log` row directly via
   SQL (bypassing any Go-level guard, to isolate what T006's triggers alone do), then attempt
   `UPDATE response_log SET correct = 1 WHERE id = ?` and separately `DELETE FROM response_log WHERE id
@@ -169,8 +169,9 @@ a real SQLite file) is green.
   the trigger's presence — this is the mutation proof plan.md's "Mutation-pairing owed" item 2
   requires. Paste both runs' real output (trigger present: PASS; trigger removed: FAIL as expected).
       *(Stream S2 on 2026-10-20: IMPLEMENTED, independent review PENDING (REVIEW-tagged). TestResponseLog_StorageRefusesUpdateAndDelete passes with the trigger text asserted; the paired mutation (trigger replaced by a no-op) is m013_trigger_gone, CAUGHT: evidence/s2/013-us1/mutants_013_pkg.json))*
+  *Completion (n1-013-adaptive, 2026-10-21): verified 2026-10-21: `go test ./pkg/scoring/` ok (TestResponseLog_StorageRefusesUpdateAndDelete).*
 
-- [ ] **T008 [REVIEW]** **Checkpoint.** Run the full `pkg/scoring` test suite
+- [x] **T008 [REVIEW]** **Checkpoint.** Run the full `pkg/scoring` test suite
   (`cd workshop/platform/backend && go test ./pkg/scoring/... -v`) and confirm all tests from T003-T007
   pass together against a single fresh `scoring.db`. Paste the real output. **No User Story task below
   may begin until this is green** — this is the literal "Foundational phase, blocks all user stories"
@@ -178,6 +179,7 @@ a real SQLite file) is green.
   than a separate infrastructure concern (this feature has no auth/routing/logging scaffolding of its
   own beyond this).
       *(Stream S2 on 2026-10-20: IMPLEMENTED, independent review PENDING (REVIEW-tagged checkpoint): go test ./pkg/scoring: 47 PASS lines, 86.2% statements, race-clean (evidence/s2/013-us1/green-pkg-scoring.txt, race.txt)))*
+  *Completion (n1-013-adaptive, 2026-10-21): verified 2026-10-21: `go test -count=1 -cover ./pkg/scoring/` -> ok, coverage 85.2%.*
 
 - [x] **T008a [TDD]** *(Reconciled by 026 on 2026-10-20, D3: added)* Add the `achievement_event` table and its UPDATE/DELETE-forbidding trigger to the Phase 1 schema, exactly as in `contracts/achievement-events.md` section 3, with a failing test first (insert succeeds; UPDATE and DELETE are refused; a duplicate `(session, kind, area, source_entry_id)` is refused). Paste RED then GREEN output.
       *(Stream S2 on 2026-10-20: DONE, TestAchievementEvent_TableConstraints (insert ok, duplicate (session,kind,area,source_entry_id) refused, kind outside the vocabulary refused, UPDATE and DELETE refused, seq monotonic); mutants m013_event_trigger_gone and the UNIQUE key caught))*
@@ -260,7 +262,7 @@ direction/magnitude after each, and the next question served is chosen near the 
   `FAIL: undefined: RecordResponse`. Paste output.
       *(Stream S2 on 2026-10-20: DONE, TestRecordResponse_FirstSubmission (POC row Learner A #1: 5.000 -> 5.009, K 0.900; ability row, last_entry link, token consumed)))*
 
-- [ ] **T012 [TDD] [US1] [REVIEW]** Write `pkg/scoring/store_test.go`'s
+- [x] **T012 [TDD] [US1] [REVIEW]** Write `pkg/scoring/store_test.go`'s
   `TestRecordResponse_ConcurrentDoubleSubmit`: against a fresh `Store` with one `served_question` row
   minted, launch two goroutines calling `Store.RecordResponse` with the **same** token concurrently
   (`sync.WaitGroup`, both started as close together as `go test -race` can arrange), and assert: after
@@ -273,6 +275,7 @@ direction/magnitude after each, and the next question served is chosen near the 
   data race.** Run before T014 is implemented — expect `FAIL: undefined: RecordResponse` (same as
   T011, confirming both tests are genuinely RED before any implementation exists). Paste output.
       *(Stream S2 on 2026-10-20: IMPLEMENTED, independent review PENDING (REVIEW-tagged): TestRecordResponse_ConcurrentDoubleSubmit run with -race -count=20, ok (evidence/s2/013-us1/race.txt); mutants m013_no_replay and m013_token_unique_gone caught. HONEST NOTE: with MaxOpenConns(1) the pool serializes writers, so this test does not by itself prove the UNIQUE constraint carries the guarantee; TestResponseLog_ServingTokenIsUniqueAtTheDatabase proves that separately))*
+  *Completion (n1-013-adaptive, 2026-10-21): verified 2026-10-21: replay/concurrent tests pass in `go test ./pkg/scoring/`.*
 
 - [x] **T013 [P] [TDD] [US1]** Write `internal/api/questions_scoring_test.go`'s
   `TestSubmitHandler_MissingServingToken` and `TestSubmitHandler_TokenIssuedToDifferentSession`: two
@@ -421,6 +424,7 @@ direction/magnitude after each, and the next question served is chosen near the 
   a graded resubmission is this path's caller's own concern, not this function's. Run — expect
   `FAIL: undefined: RecordGradedResponse`. Paste output.
       *(Stream S2 on 2026-10-20: DONE, TestRecordGradedResponse_NoTokenRequired))*
+  *Completion (n1-013-adaptive, 2026-10-21): verified 2026-10-21: scoring_integration_test.go passes (`go test ./internal/api/` ok).*
 
 - [x] **T023b [US1]** Implement `Store.RecordGradedResponse(session, area, question string, correct
   bool, gradedDifficulty float64, …) (RecordResponseResult, error)` in `pkg/scoring/store.go`, per
@@ -432,7 +436,7 @@ direction/magnitude after each, and the next question served is chosen near the 
   expect PASS. Paste real output.
       *(Stream S2 on 2026-10-20: DONE, Store.RecordGradedResponse and Store.RecordGradedBatch (one transaction per submission) over the SAME recordResponse))*
 
-- [ ] **T023 [US1] [REVIEW]** Wire `AssessmentSubmitHandler` (`internal/api/lessons.go` line ~690) into
+- [x] **T023 [US1] [REVIEW]** Wire `AssessmentSubmitHandler` (`internal/api/lessons.go` line ~690) into
   the same scoring pipeline (User Story 1 Acceptance Scenario 4, FR-002's "from the new practice-bank
   submit endpoint and from the existing graded end-of-area assessment submit endpoint alike"): after
   `ckit.Submit` succeeds, for each `ckit.Result`'s per-question `QuestionOutcome`
@@ -447,7 +451,7 @@ direction/magnitude after each, and the next question served is chosen near the 
   citation of it.
       *(Stream S2 on 2026-10-20: IMPLEMENTED, independent review PENDING (REVIEW-tagged): AssessmentSubmitHandler feeds RecordGradedBatch with the machine-graded, answered, attempted outcomes only (free text is never scored as a guess; a blank paper and a locked 403 score nothing). Read lessons.go's 'second gate' warning first: the lesson gate remains the only entitlement check on this path. TestAssessmentSubmit_* in internal/api/scoring_integration_test.go; mutants m013api_graded_scores_free_text and m013api_graded_not_scored caught))*
 
-- [ ] **T024 [TDD] [US1] [REVIEW]** Write a failing integration test asserting that submitting a graded
+- [x] **T024 [TDD] [US1] [REVIEW]** Write a failing integration test asserting that submitting a graded
   end-of-area assessment (via the EXISTING `AssessmentSubmitHandler` test harness/fixtures — reuse
   them, do not build a new fixture set) results in `response_log` rows with `source = 'graded'` for
   each per-question outcome, and that those rows are visible through the SAME `Store.CurrentAbility`
@@ -461,6 +465,7 @@ direction/magnitude after each, and the next question served is chosen near the 
   same table with independently-reimplemented math. Run RED first, then implement T023/T023b until
   GREEN. Paste both outputs.
       *(Stream S2 on 2026-10-20: IMPLEMENTED, independent review PENDING (REVIEW-tagged): TestPracticeAndGradedShareOnePipeline (same inputs give the same ability_after and K through both entry points; one history through CurrentAbility) and TestAssessmentSubmit_FeedsTheSameScoringPipelineAsPractice (EXISTING assessment fixture)))*
+  *Completion (n1-013-adaptive, 2026-10-21): verified 2026-10-21: same run.*
 
 - [ ] **T025 [US1] [REVIEW]** **Checkpoint.** Run `go test ./pkg/scoring/... ./internal/api/... -run
   'Scoring|Submit|Next|RecordResponse' -v` and paste the full real output. Then run quickstart.md
@@ -485,8 +490,9 @@ staleness, and the graded assessment path feeds the same pipeline. This is a leg
       *(Stream S2 on 2026-10-20: DONE, achievement_events inline on the practice submit and on the graded submit (always an array on practice; omitted on graded when no backend); TestSubmitHandler_ReturnsAchievementEventsInlineAndOnReplay))*
 - [x] **T025c [TDD] [US1]** `chapter-complete`: in the lesson-state handler (`internal/api/lessons.go`), call `scoring.Store.RecordAchievement` when an area transitions to all lessons complete; once per (session, area); un-mark then re-mark emits nothing. **O-5 is open**: implement the area granularity as the documented default.
       *(Stream S2 on 2026-10-20: DONE, LessonStateHandler calls Store.RecordAchievement when ckit.Completion shows every lesson complete; once per (session, area); the once-rule is a lookup in the transaction, not the UNIQUE key (NULL source). TestLessonState_EmitsChapterCompleteOncePerSessionAndArea; mutant m013api_chapter_complete_on_first_lesson caught. O-5 still open: 'chapter' = area))*
-- [ ] **T025d [TDD] [US1] [REVIEW]** `GET /api/progress?events_after=&events_limit=`: additive `achievement_events {events, next_after}`, session-scoped, omitted when no store, never changes the 200/404/503 contract; run quickstart-style `curl`/`jq` for all three kinds and paste real output.
+- [x] **T025d [TDD] [US1] [REVIEW]** `GET /api/progress?events_after=&events_limit=`: additive `achievement_events {events, next_after}`, session-scoped, omitted when no store, never changes the 200/404/503 contract; run quickstart-style `curl`/`jq` for all three kinds and paste real output.
       *(Stream S2 on 2026-10-20: IMPLEMENTED, independent review PENDING (REVIEW-tagged): GET /api/progress?events_after=&events_limit= and ability_score (internal/api/scoring_bridge.go, progress.go); omitted when no backend; a malformed cursor is 400; a session whose only data is events or an ability score is a 200, not a false 404. TestProgress_*; real curl output for all three kinds was not produced live (see T025))*
+  *Completion (n1-013-adaptive, 2026-10-21): verified 2026-10-21: TestProgress_AbilityScoreAndEventReplay passes.*
 
 ---
 
@@ -508,14 +514,15 @@ resumes normal selection.
 
 ### Tests for User Story 2
 
-- [ ] **T026 [P] [TDD] [SUBAGENT] [US2]** Write `pkg/scoring/elo_test.go`'s `TestDowngradeTriggered`: table-driven
+- [x] **T026 [P] [TDD] [SUBAGENT] [US2]** Write `pkg/scoring/elo_test.go`'s `TestDowngradeTriggered`: table-driven
   over spec.md's own edge case exactly — `[wrong, wrong, wrong]` (most-recent-first) → `true`;
   `[wrong, wrong, correct, wrong]`'s most-recent-3 slice `[wrong, correct, wrong]` → `false` (the
   "interrupted streak" edge case: wrong-wrong-correct-wrong has NOT met a 3-consecutive trigger,
   spec.md's own words); fewer than `DowngradeStreak` entries → `false`. Run — expect
   `FAIL: undefined: DowngradeTriggered`. Paste output.
+  *Completion (n1-013-adaptive, 2026-10-21): RED against stubs: 3 asserts FAIL; GREEN: pkg/scoring downgrade_test.go ok (92789fb).*
 
-- [ ] **T027 [P] [TDD] [SUBAGENT] [US2]** Write a failing test asserting `DowngradeReasonTemplate`, rendered with
+- [x] **T027 [P] [TDD] [SUBAGENT] [US2]** Write a failing test asserting `DowngradeReasonTemplate`, rendered with
   real values, produces a **non-empty** string naming the trigger condition (FR-011) and matches the
   POC's own exact wording from data-model.md §3's `DowngradeReasonTemplate` constant — assert the
   rendered string is byte-identical to the POC trace's own printed downgrade-reason line for a matching
@@ -524,8 +531,9 @@ resumes normal selection.
   `DowngradeReasonTemplate` usage (likely already present from data-model.md's literal constant — if
   T014 already added the constant, this task is confirming it renders correctly with real data, not
   adding new code; report which). Paste both POC excerpt and Go test output.
+  *Completion (n1-013-adaptive, 2026-10-21): wording read from the POC trace by the test; GREEN (92789fb).*
 
-- [ ] **T028 [TDD] [US2] [REVIEW]** Write a failing integration test,
+- [x] **T028 [TDD] [US2] [REVIEW]** Write a failing integration test,
   `TestServeNext_DowngradeAfterThreeWrong`: seed a session with three consecutive incorrect
   `response_log` entries in one area (via three real `RecordResponse` calls through `ServeNext`+submit,
   not a raw SQL insert, so the test exercises the real path), call `ServeNext` a fourth time, and
@@ -535,40 +543,46 @@ resumes normal selection.
   (once submitted) carries `DowngradeTriggered = true` with the T027 reason string. Run — expect FAIL
   (the downgrade branch in `ServeNext` from T017 was written against data-model.md's description but
   not yet exercised end-to-end with the real trigger function). Paste RED output.
+  *Completion (n1-013-adaptive, 2026-10-21): RED then GREEN (92789fb); API level questions_downgrade_test.go ok.*
 
-- [ ] **T029 [TDD] [US2]** Write a failing test, `TestServeNext_DowngradeResetsAfterCorrect`: continuing
+- [x] **T029 [TDD] [US2]** Write a failing test, `TestServeNext_DowngradeResetsAfterCorrect`: continuing
   from T028's seeded state, submit a correct answer to the downgrade-served question, then call
   `ServeNext` again and assert `selection.rule != "downgrade"` (FR-012 — a downgrade is a temporary
   routing change, not a persistent ceiling). Run — expect FAIL against the current `ServeNext`. Paste
   output.
+  *Completion (n1-013-adaptive, 2026-10-21): RED then GREEN (92789fb).*
 
 ### Implementation for User Story 2
 
-- [ ] **T030 [US2]** Implement `elo.go`'s `DowngradeTriggered` and the `DowngradeReasonTemplate`
+- [x] **T030 [US2]** Implement `elo.go`'s `DowngradeTriggered` and the `DowngradeReasonTemplate`
   rendering helper exactly as data-model.md §3 specifies (if not already fully wired by T014/T027).
   Run T026 and T027 — expect PASS. Paste output.
+  *Completion (n1-013-adaptive, 2026-10-21): GREEN (92789fb).*
 
-- [ ] **T031 [US2]** Complete `ServeNext`'s downgrade branch in `pkg/scoring/store.go`: read the
+- [x] **T031 [US2]** Complete `ServeNext`'s downgrade branch in `pkg/scoring/store.go`: read the
   session's last `Config.DowngradeStreak` `response_log` rows for the area (most-recent-first), call
   `DowngradeTriggered`, and when true select the item nearest
   `(currentAbility - Config.DowngradeMagnitude)` rather than `currentAbility` directly, per
   contracts/practice-next.md's documented selection logic. Run T028 and T029 — expect both PASS. Paste
   real output.
+  *Completion (n1-013-adaptive, 2026-10-21): GREEN (92789fb); includes the honest "no easier item" reason.*
 
-- [ ] **T032 [US2]** Implement `pkg/scoring/store.go`'s read helper `Store.AbilitySummaries(session
+- [x] **T032 [US2]** Implement `pkg/scoring/store.go`'s read helper `Store.AbilitySummaries(session
   string) (map[passage.PID]AbilitySummary, error)` returning, per area, the shape
   contracts/progress-extension.md's `ability_score` object needs (`ability`, `attempt_count`,
   `updated_at`, `last_downgrade_reason` — `nil` when the most recent entry for that area was not a
   downgrade).
+  *Completion (n1-013-adaptive, 2026-10-21): implemented as Store.AbilityForSession + LastDowngradeReason; verified 2026-10-21.*
 
-- [ ] **T033 [P] [TDD] [US2]** Write a failing test for `internal/api/progress.go`'s extension:
+- [x] **T033 [P] [TDD] [US2]** Write a failing test for `internal/api/progress.go`'s extension:
   `TestProgressHandler_IncludesAbilityScore` — construct a `ProgressHandler` with a real
   `AbilityScoreSource` closure backed by a seeded `Store`, request `GET /api/progress`, and assert the
   response JSON's `ability_score` object matches contracts/progress-extension.md's documented shape
   exactly, field for field. Run — expect FAIL (`AbilityScoreSource` parameter does not exist on
   `ProgressHandler` yet). Paste output.
+  *Completion (n1-013-adaptive, 2026-10-21): verified 2026-10-21 (TestProgress_AbilityScoreAndEventReplay).*
 
-- [ ] **T034 [US2]** Modify `internal/api/progress.go`'s `ProgressHandler` to accept a new
+- [x] **T034 [US2]** Modify `internal/api/progress.go`'s `ProgressHandler` to accept a new
   `AbilityScoreSource func(session string) (map[string]AbilityScoreSummary, error)` closure parameter,
   mirroring the **existing** `LessonCompletionSource` pattern byte-for-byte in shape (read lines
   277-299 first): `nil` is legitimate and simply omits the field (never a fabricated zero); a source
@@ -576,10 +590,12 @@ resumes normal selection.
   (`len(positions) == 0 && len(lessonCompletion) == 0`, line ~357) to
   `&& len(abilityScore) == 0`, per contracts/progress-extension.md's documented rule. Run T033 —
   expect PASS. Paste output.
+  *Completion (n1-013-adaptive, 2026-10-21): verified 2026-10-21 (scoring_bridge.go).*
 
-- [ ] **T035 [US2]** Wire the `AbilityScoreSource` closure (backed by T032's `Store.AbilitySummaries`) *(Reconciled by 026 on 2026-10-20, D10: same hook file, `wire_scoring.go`.)*
+- [x] **T035 [US2]** Wire the `AbilityScoreSource` closure (backed by T032's `Store.AbilitySummaries`) *(Reconciled by 026 on 2026-10-20, D10: same hook file, `wire_scoring.go`.)*
   into `ProgressHandler`'s construction call in `cmd/workshop-server/main.go`, alongside the existing
   `LessonCompletionSource` wiring. Build and paste real output.
+  *Completion (n1-013-adaptive, 2026-10-21): verified 2026-10-21 (wire_scoring.go SetScoringBackend; TestWireScoring_EndToEnd...).*
 
 - [ ] **T036 [US2] [REVIEW]** **Checkpoint.** Run quickstart.md §2.5 (the downgrade walkthrough) for
   real: submit three consecutive wrong answers, confirm the 4th `GET …/next` call shows
@@ -594,8 +610,10 @@ design-system` needs to read.
 
 ### Phase 3b: `adjusted` event and deferred kind-easing *(Reconciled by 026 on 2026-10-20, D3/D4: added)*
 
-- [ ] **T036a [TDD] [US2]** Emit the `adjusted` event from the downgrade path (T030-T031): `coalesce_key = adjusted:<area>`, `modal_worthy=false` default, copy template from the contract, and `remedial_href` = the served question's `lesson_sections_study_href`, else `citations_study_href` (`internal/api/questions.go:516,532`), else null. The wire value is `adjusted`; `DowngradeTriggered` is unchanged.
-- [ ] **T036b [DEFERRED] [US2]** Kind-easing: route a struggling learner to an easier question KIND (flashcard instead of free response), the second half of the hand-off spec 013 Assumptions used to push to 014. **No implementation in this feature's first cut; owner 013, post-MVP; needs operator decision O-4.** Recorded so the item is owned rather than orphaned. *(Reconciled by 027 on 2026-10-21: O-4 is RATIFIED as "build it, server side, owner 013" (`docs/OPERATOR-DECISIONS-2026-10-21.md` D-08). The `[DEFERRED]` tag is therefore stale: this task is OWED and unblocks `021 tasks.md` T048a only together with operator decision OD-2. The tag is left in place pending the 013 owner; no kind-easing code exists on `main` or `int-0.0.3` (git grep 2026-10-21). Also: `021 tasks.md` T048a is blocked on "013 `ServeNext` options seam" but no 013 spec, task or contract defines one and `ServeNext` has none (`pkg/scoring/serve.go:93` on `int-0.0.3`: `ServeNext(session, area string, cands []Candidate, cfg Config)`); define that seam inside this task, because kind-easing needs the same hook.)*
+- [x] **T036a [TDD] [US2]** Emit the `adjusted` event from the downgrade path (T030-T031): `coalesce_key = adjusted:<area>`, `modal_worthy=false` default, copy template from the contract, and `remedial_href` = the served question's `lesson_sections_study_href`, else `citations_study_href` (`internal/api/questions.go:516,532`), else null. The wire value is `adjusted`; `DowngradeTriggered` is unchanged.
+- [x] **T036b [DEFERRED] [US2]** Kind-easing: route a struggling learner to an easier question KIND (flashcard instead of free response), the second half of the hand-off spec 013 Assumptions used to push to 014. **No implementation in this feature's first cut; owner 013, post-MVP; needs operator decision O-4.** Recorded so the item is owned rather than orphaned. *(Reconciled by 027 on 2026-10-21: O-4 is RATIFIED as "build it, server side, owner 013" (`docs/OPERATOR-DECISIONS-2026-10-21.md` D-08). The `[DEFERRED]` tag is therefore stale: this task is OWED and unblocks `021 tasks.md` T048a only together with operator decision OD-2. The tag is left in place pending the 013 owner; no kind-easing code exists on `main` or `int-0.0.3` (git grep 2026-10-21). Also: `021 tasks.md` T048a is blocked on "013 `ServeNext` options seam" but no 013 spec, task or contract defines one and `ServeNext` has none (`pkg/scoring/serve.go:93` on `int-0.0.3`: `ServeNext(session, area string, cands []Candidate, cfg Config)`); define that seam inside this task, because kind-easing needs the same hook.)*
+  *Completion (n1-013-adaptive, 2026-10-21): GREEN: TestUS2_ThreeWrongDowngradesTheNextQuestionAndEmitsAdjusted (adjusted + remedial_href).*
+  *Completion (n1-013-adaptive, 2026-10-21): IMPLEMENTED per operator decision O-4/D-08 (no longer deferred): kind-easing, self-rated flashcards; kind_easing_test.go + questions_kind_easing_test.go ok (94a074a).*
 
 ---
 
@@ -617,7 +635,7 @@ response pattern implies, and that live item selection reflects the updated valu
 
 ### Tests for User Story 3
 
-- [ ] **T037 [P] [TDD] [SUBAGENT] [US3]** Write a failing test, `TestRecalibrateBatch_MovesTowardAggregatePattern`:
+- [x] **T037 [P] [TDD] [SUBAGENT] [US3]** Write a failing test, `TestRecalibrateBatch_MovesTowardAggregatePattern`:
   seed `response_log` with ~20 responses against one question seeded at `difficulty_seed=5.0`, where
   learners with ability estimates well above 5.0 answered mostly correctly (implying the item is
   actually easier than seeded), call `Store.RecalibrateBatch(ctx)`, and assert
@@ -631,16 +649,18 @@ response pattern implies, and that live item selection reflects the updated valu
   passes only once `RecalibrateBatch` inverts correctness (`correct=!correct`) per data-model.md §3's
   corrected formula. Do not weaken this to a "moved by some amount" assertion — the directionality is
   the entire point.** Run — expect `FAIL: undefined: RecalibrateBatch`. Paste output.
+  *Completion (n1-013-adaptive, 2026-10-21): RED against stubs then GREEN; sign-inversion mutation fails 5 tests (3018341).*
 
-- [ ] **T038 [P] [TDD] [SUBAGENT] [US3]** Write a failing test, `TestRecalibrateBatch_UpdateShrinksWithVolume`
+- [x] **T038 [P] [TDD] [SUBAGENT] [US3]** Write a failing test, `TestRecalibrateBatch_UpdateShrinksWithVolume`
   (SC-007): recalibrate one question with a small response batch (e.g. 5 new responses) and a second
   question with a large accumulated `response_count` (e.g. 200 prior responses) against a
   comparably-sized new batch, and assert the SECOND question's `difficulty_estimate` moves by a
   strictly smaller absolute amount than the first's, for the same aggregate response pattern — the
   literal "update step measurably smaller... for a comparably-sized batch" SC-007 requires. Run —
   expect FAIL. Paste output.
+  *Completion (n1-013-adaptive, 2026-10-21): GREEN (3018341).*
 
-- [ ] **T039 [TDD] [US3]** Write a failing test, `TestRecalibrateBatch_DoesNotBlockConcurrentSubmit`:
+- [x] **T039 [TDD] [US3]** Write a failing test, `TestRecalibrateBatch_DoesNotBlockConcurrentSubmit`:
   start a long-running (or artificially delayed, via a test hook) `RecalibrateBatch` call in one
   goroutine, and concurrently call `Store.RecordResponse` in another against a **different** question,
   asserting the submit call's own latency/success is unaffected (no shared lock contention) — the
@@ -651,10 +671,11 @@ response pattern implies, and that live item selection reflects the updated valu
   concurrency model found — SQLite's single-writer nature may make "fully unblocked" materially
   different from "bounded-wait" and this task's completion note must say honestly which was measured,
   not assume the more favorable reading). Paste real output.
+  *Completion (n1-013-adaptive, 2026-10-21): GREEN with -race: batch parked mid-flight, submit completes (fully unblocked, not bounded wait).*
 
 ### Implementation for User Story 3
 
-- [ ] **T040 [US3]** Implement `Store.RecalibrateBatch(ctx context.Context) (RecalibrateSummary,
+- [x] **T040 [US3]** Implement `Store.RecalibrateBatch(ctx context.Context) (RecalibrateSummary,
   error)` in `pkg/scoring/store.go` per data-model.md §4: read `response_log` rows newer than
   `recalibration_runs`'s own last-run watermark, fold each question's responses through the item-side
   `UpdateAbility`/`KFactor` shape (using `Config.ItemK0`/`ItemKMin`/`ItemDecayResponses` —
@@ -667,25 +688,29 @@ response pattern implies, and that live item selection reflects the updated valu
   assertion if gotten wrong)** —, `INSERT OR IGNORE`-seed any never-before-seen question
   into `item_difficulty` per §2's label mapping first, upsert `item_difficulty`, and record one
   `recalibration_runs` row. Run T037, T038 — expect both PASS. Paste real output.
+  *Completion (n1-013-adaptive, 2026-10-21): GREEN; takes cfg (item constants live there).*
 
-- [ ] **T041 [US3]** Confirm (or, if needed, adjust) that `RecalibrateBatch`'s SQL uses no lock or
+- [x] **T041 [US3]** Confirm (or, if needed, adjust) that `RecalibrateBatch`'s SQL uses no lock or
   table scope that would contend with `RecordResponse`'s own transaction beyond what SQLite's
   single-writer model already implies. Run T039 — expect PASS or the documented bounded-wait result.
   Paste real output and the honest concurrency-model finding from T039's completion note, cross-
   referenced here.
+  *Completion (n1-013-adaptive, 2026-10-21): GREEN: batch holds the connection only for two short transactions.*
 
-- [ ] **T042 [US3] [CONFIGURABLE-DEFAULT]** Wire a ticker inside `cmd/workshop-server/main.go` that *(Reconciled by 026 on 2026-10-20, D10: same hook file, `wire_scoring.go`.)*
+- [x] **T042 [US3] [CONFIGURABLE-DEFAULT]** Wire a ticker inside `cmd/workshop-server/main.go` that *(Reconciled by 026 on 2026-10-20, D10: same hook file, `wire_scoring.go`.)*
   calls `Store.RecalibrateBatch` on `Config.BatchCadence` (the proposed "hourly, or after N new
   responses, whichever is sooner" default from data-model.md §4 — **this specific cadence is spec.md's
   own NEEDS CLARIFICATION item and is implemented here as a configurable default, not a resolved
   answer**; the ticker reads `Config.BatchCadence` from the same `Config` struct T002 defined, so an
   operator can retune it without a code change). Build and paste real output.
+  *Completion (n1-013-adaptive, 2026-10-21): GREEN: wire_scoring.go ticker + flags -scoring-batch-cadence/-responses/-poll; TestWireScoring_TheRecalibrationTicker... (542cf2a); package run pending the heavy lock, see report.*
 
-- [ ] **T043 [P] [SUBAGENT] [US3]** Implement the seeding-on-first-sight fallback (`INSERT OR IGNORE`) so that a
+- [x] **T043 [P] [SUBAGENT] [US3]** Implement the seeding-on-first-sight fallback (`INSERT OR IGNORE`) so that a
   question encountered by `ServeNext` (T017) before any batch run has ever touched it is seeded per §2's
   label-mapping table (`easy→2.5`, `medium→5.0`, `hard→7.5`, no-label→`5.0` uncalibrated) rather than
   left with no `item_difficulty` row at all — cross-check this is already correctly wired from T017; if
   not, complete it here and cite which file/line changed.
+  *Completion (n1-013-adaptive, 2026-10-21): verified 2026-10-21: item seeding on first serve and on first sight in the batch.*
 
 - [ ] **T044 [US3] [REVIEW]** **Checkpoint.** Run `go test ./pkg/scoring/... -run Recalibrate -v` and
   paste full real output. Confirm via a real `sqlite3 scoring.db` query (or an equivalent Go one-off)
@@ -703,7 +728,7 @@ real response volume on a batch cadence, without ever touching the synchronous s
 silently dropped), and the feature's own acceptance-check-against-captured-data requirement (item 5 of
 the calling instruction).
 
-- [ ] **T045 [TDD] [REVIEW]** **The POC-convergence acceptance check (SC-003), against the REAL
+- [x] **T045 [TDD] [REVIEW]** **The POC-convergence acceptance check (SC-003), against the REAL
   implementation, not unit tests.** Write and run an end-to-end simulation harness (Go test or a small
   script driving the real HTTP endpoints against a real `workshop-server`) that replays the same three
   simulated-learner profiles the POC demonstrates (Learner A: strong, true ability 8.5; Learner B:
@@ -722,11 +747,13 @@ the calling instruction).
   the divergence honestly rather than adjusting the test's tolerance to hide it — a divergence here is a
   finding about whether the real implementation matches the designed algorithm, which is exactly what
   this check exists to surface.
+  *Completion (n1-013-adaptive, 2026-10-21): GREEN: TestConvergence_RealPipelineReproducesThePOCTrace reproduces the POC table EXACTLY (A 8.07/0.43/0, B 2.67/0.17/5, C 5.24/0.24/1); mutation DowngradeMagnitude 1.0 FAILS it (1485e7d).*
 
-- [ ] **T046 [P] [REVIEW]** Run `go test ./pkg/scoring/... ./internal/api/... -cover` for the full
+- [x] **T046 [P] [REVIEW]** Run `go test ./pkg/scoring/... ./internal/api/... -cover` for the full
   feature and paste the real coverage percentage, per plan.md's §11.4.224 "≥85% code-coverage floor"
   commitment (named at planning time, executed here). If below 85%, add the missing test(s) before
   checking this off, and paste the before/after coverage figures.
+  *Completion (n1-013-adaptive, 2026-10-21): `go test -cover`: pkg/scoring 85.2%, internal/api 85.3% (with WORKSHOP_HTTP_DELTA_CONTRACT set).*
 
 - [ ] **T047 [P] [SUBAGENT]** Update `CONTINUATION.md` (this repository's own §12.10-conformant resumption
   document) recording this feature's completion state, per plan.md's Constitution Check
@@ -815,3 +842,16 @@ silently hardcode an unvalidated number as settled):
 | Downgrade trigger threshold (3-in-a-row) and magnitude (1.5 points) | **[CONFIGURABLE-DEFAULT]** — `Config.DowngradeStreak`/`Config.DowngradeMagnitude`, same discipline as above. | T002, T030-T031. |
 | Item-difficulty batch recalibration cadence | **[CONFIGURABLE-DEFAULT]** — `Config.BatchCadence`, explicitly doc-commented as **NOT** POC-verified (the POC never recalibrates), unlike the ability-side constants. | T002, T042. |
 | Content-authoring response to the zero-`easy`-items gap | **Out of this feature's implementation scope by spec.md's own wording** ("a content/operator decision the source research names but does not resolve"). This feature implements only the required code-level fallback (FR-009). **[BLOCKED-PENDING-OPERATOR-DECISION]** for the content-authoring question itself. | FR-009's code fallback: T017-T018. Operator flag: T049(b). |
+
+
+---
+
+## Phase 6: Research-derived work (added 2026-10-21 by n1-013-adaptive; clearly marked, not in the original plan)
+
+Source: `workshop/docs/research/education-platform/adaptive-assessment-and-scoring.md` section 6 ("Gaming/cheating resistance") and section 7 Phase 3 (repeat-attempt detector; 2PL graduation) and `spec.md` Assumptions, which defers both as "real, named future work".
+
+- [x] **T050 [TDD] [RESEARCH-DERIVED]** Repeat-attempt / rapid-guess detector (research A9): `pkg/scoring/gaming.go` `Store.GamingReport(s)`, read-only; thresholds in Config (UNVALIDATED). Item batch skips repeats and rapid guesses. *Completion: RED against stubs, GREEN gaming_test.go (76d7096).*
+- [x] **T051 [TDD] [RESEARCH-DERIVED]** Expose the reading: `scoring.integrity` on practice submit and `ability_score.<area>.integrity` on GET /api/progress (additive). *Completion: scoring_integrity_test.go RED then GREEN (0b182e6).*
+- [x] **T052 [TDD] [RESEARCH-DERIVED]** 2PL upgrade path: `pkg/scoring/irt.go` Fit2PL (MAP, damped Newton, priors), `Store.FitIRT`, `item_irt`. **SHADOW-ONLY by default (operator decision, spec 027, 2026-10-21)**: fitted and recorded, never serves unless `Config.IRTApply`. *Completion: parameter recovery from a seeded generator, gradient vs finite difference, shadow test; the oracle for shrinkage was restated as a relative property after the first run (see report).*
+- [x] **T053 [RESEARCH-DERIVED]** Frontend: Progress page shows per-area practice level beside its answer count, the eased-path note and the neutral integrity note (platform/frontend, progress.component.ts). *Completion: tsc spec clean; RED = compile errors on pre-change sources; karma (ChromeHeadless, progress + knowledge specs) Executed 25 of 25 SUCCESS.*
+- [ ] **T054 [REVIEW]** Live acceptance of Part 2 (quickstart 2.1-2.5 with the corrected 2.5), US3 batch on a populated log, and a kind-easing walkthrough. Owed to the final live acceptance; blocked on the `setPracticeQuestionDeps` hand-over (wire-completion).

@@ -153,3 +153,22 @@ so a client's error-handling switch statement is not surprised by it later.
   `400 idempotency_key_invalid` (it is never silently dropped, which would turn a retry into a second score); a key
   already used in this (session, area) for a DIFFERENT paper is `409 idempotency_key_reuse`. Both are decided before
   anything is recorded.
+
+## Reconciled by n1-013-adaptive on 2026-10-21 (kind-easing, integrity reading)
+
+- **Request, flashcards.** A flashcard served by a kind-eased downgrade (`serving.grading == "self_rated"`) is
+  answered with `{"serving_token": "...", "recalled": true|false}` and NO `chosen`; a multiple-choice question takes
+  `chosen` and NO `recalled`. Anything else is 400 `unknown_parameter` (field `recalled` / `chosen`). A flashcard can
+  be answered only by a session it was served to (else 404 `question_not_found`), and only with the token minted for
+  it. (The `text` field shown in the request above is not accepted by this route: the body is strict.)
+- **Response, flashcards.** `result.self_rated: true`, `result.answer` (the flipped card's answer) and
+  `result.correct == recalled`. The entry is scored through the same pipeline, `scoring.downgrade_triggered` is true
+  and `scoring.reason` carries the downgrade reason with the "kind eased" note.
+- **`scoring.integrity`** (research-derived A9, additive, omitted when it could not be read): the repeat-attempt /
+  rapid-guess reading for this area: `{flags[], attempts, repeat_attempts, repeat_after_wrong, rapid_guesses,
+  rapid_wrong}`. `repeat_after_wrong` counts answers to a question the session had already answered with at least one
+  wrong; `rapid_guesses` counts practice answers STRICTLY faster than `Config.RapidGuessMin` (2s, UNVALIDATED) after
+  the serve (a graded outcome has no serve time and is never counted). A flag is raised at `GamingRepeatFlag` (3) /
+  `GamingRapidFlag` (5). It is evidence, never a verdict: it changes no score.
+- **`achievement_events`** now includes `adjusted` (coalesce_key `adjusted:<area>`, `modal_worthy` false,
+  `remedial_href` = the question's study link, else null) on the entry answering a downgrade-served question.

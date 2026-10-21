@@ -67,3 +67,13 @@ and **zero** ability-score rows still reaches the existing 404 branch
 — this plan extends that condition to `&& len(abilityScore) == 0`, so a session that has only ever
 submitted a practice answer (no stored reading position, no marked lesson) still gets a 200 with
 just `ability_score` populated, not a false 404.
+
+## Reconciled by n1-013-adaptive on 2026-10-21
+
+- Each `ability_score` row gains `integrity` (additive; omitted when the log could not be read):
+  `{flags[], attempts, repeat_attempts, repeat_after_wrong, rapid_guesses, rapid_wrong}`, the same reading
+  `practice-submit.md` returns as `scoring.integrity`. A session with nothing flagged carries `flags: []`, not a
+  missing block.
+- `last_downgrade_reason` is now populated: it holds the reason of the session's most recent entry in the area when
+  that entry was served as a downgrade (including a correct answer to a downgrade-served question), and is `null`
+  after the first normal entry.

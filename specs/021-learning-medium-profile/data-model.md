@@ -125,7 +125,7 @@ reconstruct what was read.
 
 ## 3. Worked example (the hand oracle)
 
-`D = 1.5`, `ExpectedScore(θ,d) = 1 / (1 + 10^(−(θ−d)/1.5))`. Use `n_min = 3` for illustration (shipped default is 8).
+`D = 1.5`, `ExpectedScore(θ,d) = 1 / (1 + 10^(−(θ−d)/1.5))`. Use `n_min = 3` and the ILLUSTRATIVE thresholds below for the arithmetic; the shipped defaults are n_min 8, z_leaning 2.5, z_preferred 3.0 (research.md 3.1), under which this 4-answer example is `insufficient_evidence` for both formats (fixture `golden_shipped`), and even at n_min 3 the z of 1.535 is below the shipped 2.5.
 
 | # | medium | θ (ability_before) | d (served) | correct | expected p | residual |
 |---|---|---|---|---|---|---|
@@ -140,11 +140,11 @@ reconstruct what was read.
 
 Per medium (`n` graded, `s` observed correct, `E = Σp`, `V = Σp(1−p)`):
 
-- mcq: `n=4`, `s=3`, `E=1.1658`, `V=0.5797`, mean residual `m=(3−1.1658)/4 = 0.4586`, `se=√0.5797/4 = 0.1904`.
-- flashcard: `n=4`, `s=2`, `E=1.9326`, `V=0.7453`, `m=(2−1.9326)/4 = 0.0169`, `se=√0.7453/4 = 0.2158`.
+- mcq: `n=4`, `s=3`, `E=1.1658`, `V=0.5797`, mean residual `m=(3−1.1658)/4 = 0.4586`, `se=√0.5797/4 = 0.1903`.
+- flashcard: `n=4`, `s=2`, `E=1.9326`, `V=0.7453`, `m=(2−1.9326)/4 = 0.0168`, `se=√0.7453/4 = 0.2158`.
 
-Comparison (best vs runner-up): gap `g = 0.4586 − 0.0169 = 0.4417`; `se_g = √(0.1904² + 0.2158²) = 0.2878`;
-`z = g / se_g = 1.535`. With the proposed thresholds (`gap_min=0.10`, `z_leaning=0.67`, `z_preferred=1.28`):
+Comparison (best vs runner-up): gap `g = 0.45855 − 0.01684 = 0.4417` (unrounded means); `se_g = √(0.1903² + 0.2158²) = 0.2877`;
+`z = g / se_g = 1.535`. With the illustrative thresholds (`gap_min=0.10`, `z_leaning=0.67`, `z_preferred=1.28`):
 `g ≥ 0.10` and `z ≥ 1.28` ⇒ **mcq = `preferred`**, flashcard = `no_clear_preference` (not the winner, not
 insufficient). Test oracle: this table is a golden fixture; the independent Python reference
 (`pipeline/medium_reference.py`, authored by a different agent than the Go implementation) must reproduce

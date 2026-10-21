@@ -19,7 +19,7 @@ private (inside `workshop/`), append-only by convention and checked by a gate. P
   "fingerprint": { "sha256": "<64 hex>", "inputs": { "provider": "...", "model": "...", "endpoint_host": "...",
                    "locality_declared": "...", "min_score": 0.0, "min_margin": 0.0, "min_support": 0.0,
                    "score_k": 0.0, "top_k": 0, "max_claims": 0, "verifier_kind": "...",
-                   "question_verifier_kind": "...", "entail_model_id": "...",
+                   "question_verifier_kind": "...", "entail_model_id": "...", "pipeline_version": "1",
                    "corpus_root_hash": "...", "benchmark_sha256": "...", "thresholds_sha256": "..." } },
   "benchmark": { "path": "testdata/benchmark/questions-v2.tsv", "sha256": "...", "answerable_n": 0, "unanswerable_n": 0, "dropped_n": 0 },
   "thresholds": { "path": "testdata/benchmark/gate-thresholds.json", "sha256": "...", "values": {} },
@@ -64,3 +64,18 @@ digest; changing any single input always does.
 
 `answering-verdict/1` is the only accepted schema string. A future `/2` requires a new loader
 branch; unknown schemas are `invalid`.
+
+
+## Amendments from the S14 review round (2026-10-21)
+
+* **Ratified thresholds are pinned in code** (`verdict.Ratified`: recall >= 0.4, fabrication <= 0.02, trials 60/189, 95%,
+  tolerance 0.05). A thresholds file or an embedded verdict block that is LAXER in any field is refused by the boot gate
+  (`thresholds_lax`) and by the loader; a stricter one is allowed.
+* **Counts are reconciled with the runs table**: the loader re-parses the hashed table and requires equal counts.
+* **Fingerprint inputs are 17**: `pipeline_version` (bumped by hand when verification/gating logic changes) joins the list;
+  `endpoint_host` is the normalised host with or without a scheme; `entail_model_id` is `basename@<weights digest>`.
+  Not covered (UNCONFIRMED limit): the weights of a remote/Ollama model are identified by name only.
+* **Loader**: files are opened O_NOFOLLOW|O_NONBLOCK, must be regular, are size-capped; a symlink, FIFO or unparseable
+  `verdict-*.json` name makes the directory `invalid`; the file-name timestamp must equal `produced_by.utc`.
+* **Measurement mode** (`WORKSHOP_MEASURE_ONLY=1`, scratch root with owner marker, loopback, per-run token, announced, no
+  production markers) is the only way to obtain a PASS; it writes to its own output directory, never the live one.

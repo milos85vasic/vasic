@@ -13,14 +13,15 @@ type Config struct {
     D           float64 // logistic divisor, imported from pkg/scoring config (default 1.5)
     NMin        int     // graded observations required PER medium to be compared (default 8)
     GapMin      float64 // minimum mean-residual gap to name a medium (default 0.10)
-    ZLeaning    float64 // z for "leaning" (default 1.96 - RETUNED 2026-10-20 by SC-009 simulation, was 0.67; see research.md section 3)
-    ZPreferred  float64 // z for "preferred" (default 2.58 - RETUNED 2026-10-20, was 1.28)
+    ZLeaning    float64 // z for "leaning" (default 2.5 - delegate default, operator may amend; RETUNED by SC-009 simulation, was 0.67; research.md 3.1)
+    ZPreferred  float64 // z for "preferred" (default 3.0 - delegate default, operator may amend; was 1.28)
     MaxObs      int     // newest rows read (default 5000)
     WindowDays  int     // 0 = all history (default 0)
+    ConfirmLooks int    // consecutive evaluations with new evidence showing the same lead before it is suggested (default 3)
 }
 ```
 
-Boot validation (FR-019): `NMin ≥ 2`, `GapMin > 0`, `0 < ZLeaning < ZPreferred`, `MaxObs ≥ 100`,
+Boot validation (FR-019): `NMin ≥ 2`, `GapMin > 0`, `0 < ZLeaning < ZPreferred`, `MaxObs ≥ 100`, `ConfirmLooks ≥ 1`,
 `WindowDays ≥ 0`, `D > 0`; else the server refuses to start with the offending key named.
 
 ## 2. Steps
@@ -77,12 +78,12 @@ Transitions are monotone only in the evidence, not in time: a `preferred` medium
   "scope": "overall",
   "mediums": [
     {"medium":"mcq","n_total":4,"n_graded":4,"observed":3,"expected":1.1658,
-     "mean_residual":0.4586,"std_error":0.1904,"state":"preferred"},
+     "mean_residual":0.4586,"std_error":0.1903,"state":"preferred"},
     {"medium":"flashcard","n_total":4,"n_graded":4,"observed":2,"expected":1.9326,
-     "mean_residual":0.0169,"std_error":0.2158,"state":"no_clear_preference"}
+     "mean_residual":0.0168,"std_error":0.2158,"state":"no_clear_preference"}
   ],
   "comparison": {"best":"mcq","runner_up":"flashcard","gap":0.4417,"z":1.535},
-  "thresholds": {"n_min":3,"gap_min":0.10,"z_leaning":0.67,"z_preferred":1.28},
+  "thresholds": {"n_min":3,"gap_min":0.10,"z_leaning":0.67,"z_preferred":1.28,"confirm_looks":1},
   "evidence_refs": ["01J9…", "01J9…"],
   "window": {"from":"…","to":"…","truncated":false},
   "text": "Multiple choice went 1.8 answers better than expected over 4 graded answers; flashcards went 0.1 better over 4."
@@ -100,6 +101,14 @@ payload, 1 dp in `text`; rounding happens only at serialisation.
 - No `time.Now()` inside `pkg/medium`; `At` comes from the data; the HTTP layer injects `now` only for
   `set_at` stamps on the preference store.
 - Locale-independent number formatting.
+
+## 5a. Persistence (review F1)
+
+A lead (`leaning` or `preferred`) is surfaced only when the same leading format was the verdict on `ConfirmLooks` consecutive evaluations,
+each with evidence that differs from the previous one (a new graded answer). The state is kept per (learner, scope) as (verdict, evidence
+fingerprint, counter). Until then the scope is reported `no_clear_preference` with a `confirmation` note (`seen`, `needed`), the numbers stay
+visible and nothing is recommended. `gap_min` is a practical-significance floor that binds only for large samples (roughly above 300 graded
+answers per format, where a statistically clear but tiny gap would otherwise be named).
 
 ## 6. Non-goals
 

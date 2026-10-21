@@ -275,11 +275,22 @@ spec 011 recorded its own blocked story.
   states (`preferred`, `no_clear_preference`, `insufficient_evidence`) rendered, plus the area-page hint and the
   practice selector (acceptance script in `quickstart.md`).
 - **SC-008**: Reset removes 100% of persisted preference/consent/event rows for the session (row-count oracle).
-- **SC-009**: Simulation (fixed seed, 1000 learners each): with **no** true format effect, ≥ 95% of simulated
-  learners at 30 graded answers per format are classified `no_clear_preference` or `insufficient_evidence`
-  (false-preference control); with a true +0.20 residual effect in one format, ≥ 80% reach `leaning` or
-  `preferred` (power). If the shipped thresholds miss either bound, the thresholds are retuned and the evidence
-  re-captured; the numbers are measured, not assumed.
+- **SC-009** (reworded 2026-10-21, operator-ratified OD-1 option (a); the earlier "at 30 graded answers per
+  format" power bound is WITHDRAWN because it cannot hold together with the null bound - measured power at 30
+  is 0.191, research.md 3.1): Simulation (fixed seed, 1000 learners per condition) at the shipped thresholds.
+  (i) False-preference control: with **no** true format effect, ≥ 95% of simulated learners are not told a
+  lead (classified `no_clear_preference` or `insufficient_evidence`) at a single look, at EVERY simulated
+  sample size from 10 to 120 graded answers per format; and a returning learner (a look after every 5 new
+  graded answers per format, the 3-look persistence rule on) is ever shown a lead with probability ≤ 5% by 60
+  and ≤ 8% by 120 graded answers per format. (ii) Power: with a true +0.20 residual effect in one format,
+  ≥ 80% of simulated learners reach `leaning` or `preferred` at **120 graded answers per format**, both at a
+  single look (measured 0.82) and with the persistence rule (measured 0.803). Stated limits, not hidden: the
+  persistence margin over the bound is 0.003; below ~100 graded answers per format the honest output is mostly
+  "no clear difference"; a learner with no preference in any of four areas sees a confirmed lead in at least
+  one area with probability 0.051 by 60 and 0.142 by 120 graded answers per format; the dense-look worst case
+  (a look after every answer) is 0.064 ever-shown by 120. If a rerun of the shipped thresholds misses a bound,
+  the thresholds are retuned and the evidence re-captured; the numbers are measured, not assumed, and a bound
+  is never lowered to make a run pass.
 - **SC-010**: Live verification writes `evidence/live/result.json` plus a sha256 manifest from the running stack
   (task T052), and the documentation set (manual, guide, FAQ, four diagrams) exists and is exported.
 
@@ -290,7 +301,7 @@ spec 011 recorded its own blocked story.
 - Flashcard outcomes are machine-graded or self-reported — settled in T004; the default here treats
   self-reported as activity only.
 - The platform serves authenticated learners as in spec 015; anonymous `X-Session` use remains supported.
-- Default thresholds (`n_min=8`, `gap_min=0.10`, `z_leaning=0.67`, `z_preferred=1.28`) are PROPOSED starting
+- Default thresholds (`n_min=8`, `gap_min=0.10`, `z_leaning=2.5`, `z_preferred=3.0`, `confirm_looks=3` - delegate defaults after SC-009 evidence, research.md 3.1; operator may amend; the originally PROPOSED 0.67/1.28 were measured to be too liberal) are starting
   points to be validated by SC-009; they are not calibrated facts.
 
 ## Dependencies and Blockers
@@ -313,7 +324,7 @@ legal data-protection regime governs retention — **UNCONFIRMED**, operator/leg
 
 ## Open operator decisions
 
-- **OD-1** Accept or retune the PROPOSED thresholds after SC-009's measured evidence.
+- **OD-1** Accept or retune the PROPOSED thresholds after SC-009's measured evidence. **RATIFIED 2026-10-21:** option (a) of research.md 3.1 (power ≥ 80% at 120 graded answers per format); SC-009 is reworded accordingly.
 - **OD-2** May an inferred preference ever influence server-side serving (User Story 5)? Default: no.
 - **OD-3** Ship US4 (engagement capture) at all, and if so is the opt-in default OFF (this spec's position)?
 - **OD-4** Retention/erasure policy for the append-only response log versus a learner's request to be forgotten

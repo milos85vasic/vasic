@@ -234,16 +234,20 @@ independent content review path; see T058).
 - **FR-004**: The retrieval gate MUST use calibrated thresholds. With `min-score == 0` (uncalibrated) the result is
   `unavailable thresholds_uncalibrated`; the pipeline MUST NOT generate. In addition a coverage rule requires at
   least `MinDistinctPassages` (default 3) distinct admitted passages; otherwise `declined insufficient_coverage`.
-- **FR-005**: Verification layers, in order: citation membership; verbatim quote; entailment of the item's claim by
+- **FR-005**: (S17 review H2: a verifier that is only the lexical word-overlap floor, or a relevance check that is only the deterministic focus check, is NOT an acceptable judge: generation is `unavailable verification_unavailable` with an operator-facing reason until a real entailment judge and the model-backed relevance check are configured, and a pass is never recorded from a floor.) Verification layers, in order: citation membership; verbatim quote; entailment of the item's claim by
   its cited passage; relevance of the item to the requested topic. A verifier that cannot run yields `unavailable
   verification_unavailable`; an unverifiable item is never treated as verified.
 - **FR-006**: The learner MUST be able to see, per item, the citation link and the supporting quote ("show
   source"). Withheld (suppressed) passage text MUST show the withheld reason, not an empty string, as the answering
   `Citation` does (`pkg/answer/outcome.go:357-380`).
-- **FR-007**: Forms supported in this feature: `explainer` (≤ N short sections), `flashcards` (front / back, back
-  = verified claim), `short_prompts` (prompt + model answer = verified claim). **Multiple-choice quizzes are
-  deferred**: distractors are by design not corpus claims, and how to ground or bound them is an unresolved design
-  question (OD-4). The feature MUST NOT emit MCQ.
+- **FR-007**: Forms supported in this feature: `explainer` (≤ N short sections), `flashcards` (front / back),
+  `short_prompts` (prompt + model answer). **EVERY learner-visible generated field is a verified claim** (S17 review
+  H1, 2026-10-21): the lead (front / prompt / heading) and the assertion (back / model answer / body) are
+  verified TOGETHER as one claim by the entailment and relevance layers, and each is also checked by the
+  suppression layer; a lead that passes only a text filter is a defect (a fabricated heading over a faithful body
+  would otherwise be served as verified). A quote must be at least 20 characters and share a content word with the
+  claim it supports. **Multiple-choice quizzes are deferred**: distractors are by design not corpus claims, and how
+  to ground or bound them is an unresolved design question (OD-4). The feature MUST NOT emit MCQ.
 - **FR-008**: Each material MUST record provenance: provider, model, locality, corpus generation, prompt-template
   version, the admitted passage ids, per-layer verification results, token statistics, and a `served_from` ∈
   {`fresh`, `cache`}. The UI labels it "Generated" and never presents it as authored or published content.
@@ -354,6 +358,13 @@ independent content review path; see T058).
 - A local generative model is available on the host (a 3B instruct model is recorded in the governance carrier);
   whether it is fit for multi-item generation is **UNCONFIRMED** and is what T008 and the enablement measurement
   determine.
+
+## Risks and operator decisions (S17 review, 2026-10-21)
+
+| Risk | Decision |
+|---|---|
+| `served_from = cache`: a learner who asked for a topic someone else already generated would receive that cached material, revealing that the topic was requested before. | **RATIFIED 2026-10-21 (operator decision OD-8): the cache is PER LEARNER only.** Generated material (and, stricter than required, declines) is never shared across learners: the cache key folds in a salted, one-way learner tag, so `served_from: cache` can only ever mean the learner's OWN earlier request. **Spend implication:** the same topic asked by N learners costs N separate generations; the per-session and global daily token budgets, rate and concurrency caps still apply to each. Cache entries written by the earlier (shared-key) build become unreachable to new requests; their owners still read them through their own rows. |
+| A non-local provider may bill a request whose result we discard (timeout, audit write failing after a successful upstream call). | **Accepted and priced in:** such attempts are charged the full reservation (an upper bound), never refunded. |
 
 ## Dependencies and Blockers
 

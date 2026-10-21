@@ -133,6 +133,12 @@ the concrete proof that a retried submit never double-counts.
 
 ### 2.5 Force and observe a downgrade (User Story 2)
 
+> Corrected 2026-10-21: the server withholds the key and refuses an out-of-range `chosen` (400), so `[999]`
+> below is NOT a way to submit a wrong answer. Read the authored key from the question bank file for the area
+> (`curriculum/questions/*.json`, `correct_index`), map it through the served option TEXT (the served order is
+> permuted), and submit any other option. After the 4th call, a flashcard may be served instead
+> (`selection.kind_eased`, `serving.grading == "self_rated"`); answer it with `{"serving_token": ..., "recalled": false}`.
+
 ```bash
 for i in 1 2 3; do
   NEXT=$(curl -s "${BASE}/api/areas/${AREA}/questions/next" -H "X-Session: ${SESSION}")

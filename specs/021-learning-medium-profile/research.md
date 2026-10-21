@@ -60,33 +60,56 @@ confusion matrix. Because three thresholds interact, the simulator also reports 
 pair the family-wise false-positive rate across areas is higher than 10%; the area-level view mitigates by
 requiring `n_min` per area, and the simulator measures the multi-area case rather than assuming it away.
 
-### 3.1 MEASURED result (T026/T027, 2026-10-20, stream S16) - thresholds RETUNED, OD-1 raised
+### 3.1 MEASURED result (T026/T027, stream S16, re-run 2026-10-21 after independent review) - thresholds RETUNED, OD-1 raised
 
-Evidence: `evidence/s16/simulation/sim-results.json` in the workshop worktree branch `s16-021-medium`
-(sha256 `0fd9bb5bde5de2592bb35574954a4cf84a9de1cb065850fa695099f2a2f8f632`), produced by
-`pkg/medium/sim_test.go` (PCG seed 2026/1020, 1000 learners per cell, `MEDIUM_SIM_OUT=<file> go test -run TestSimulationSC009`).
-Model: ability U(3,7); difficulty matched to ability, d = theta + {-1,0,+1} (spec 013 serves adaptively; an
-earlier draft with unmatched difficulty saturated p near 0/1 and capped the simulated power - a simulator
-artefact, recorded and corrected); effect = +0.20 on flashcards.
+**Delegate default, operator may amend (OD-1).** Evidence: `evidence/s16/simulation/sim-results.json` on branch `s16-021-medium`
+(sha256 `c5d2ba3b17b1c2df0141ee47900fec855441687d69b909bcf17c1229bae80c75`), produced by `pkg/medium/sim_test.go` (PCG seed 2026/1020,
+1000 learners per condition; `MEDIUM_SIM_OUT=<file> go test -run TestSimulationSC009 ./pkg/medium`). Model: ability U(3,7); difficulty matched
+to ability, d = theta + {-1,0,+1} (013 serves adaptively; an earlier draft with unmatched difficulty saturated p and capped power - a simulator
+artefact, corrected); effect = +0.20 on flashcards; sequential runs revisit after every 5 new graded answers per format (as a returning learner
+does, since the profile is recomputed on every visit).
 
-| config | null: leaning/preferred @30 | power @30 | power @60 | power @90 | power @120 |
-|---|---:|---:|---:|---:|---:|
-| PROPOSED z 0.67 / 1.28, gap 0.10 | **35.7%** (non-preference 64.3%: SC-009 null bound MISSED) | 80.2% | 86.2% | 92.3% | - |
-| z 1.28 / 1.64 | 19.6% | 65.3% | 86.1% | - | - |
-| z 1.64 / 1.96 | 9.5% | 51.2% | 77.1% | - | - |
-| **SHIPPED z 1.96 / 2.58, gap 0.10** | **4.9%** (non-preference 95.1%: bound met) | **37.7%** | 65.9% | 84.9% | 92.7% |
+Round 1 (superseded) shipped z 1.96/2.58 and judged only a SINGLE look. The review showed that was a knife edge (null non-preference 0.945-0.959
+across n; 4 of 6 cells below the 0.95 bound) and that repeated visits inflate the false-lead rate: a null learner EVER sees a lead with probability
+0.182 by 60 and 0.246 by 120 per format at those settings (measured again here, grid row 1).
 
-Finding (not hidden): **the two SC-009 bounds cannot both hold at 30 graded answers per format for a +0.20
-effect.** With two competing formats the best-of-two selection makes the false-positive rate two-sided, so a
-5% null rate needs z >= 1.96; a +0.20 effect at 30 answers has an expected z of only ~1.55, which gives ~38%
-power. 80% power at a 5% null rate needs roughly 85 graded answers per format (measured: 84.9% at 90).
-The operator-delegate default was to protect the learner from a wrongly asserted preference (research 1(c),
-self-fulfilling narrowing), so the shipped defaults meet the null bound and MISS the power bound at 30; below
-~85 answers per format the honest output is mostly `no_clear_preference`/`insufficient_evidence`.
-Recorded risks: (a) family-wise false preference across 4 areas at the shipped defaults is ~20% (measured
-0.189/0.216/0.195 at n = 10/30/60), because each area is a separate comparison; (b) a third graded format would
-raise the best-of-k false-positive rate further; (c) the n=30 null figure (0.951) clears the 0.95 bound by a
-thin margin on this fixed seed. **OD-1 (accept or retune) is open with these numbers.**
+**Shipped defaults now: z_leaning 2.5, z_preferred 3.0, gap_min 0.10, n_min 8, confirm_looks 3.** A lead is shown as a suggestion only after the
+SAME leading format has been the verdict on 3 consecutive evaluations that each had NEW graded answers (a refresh without new answers does not
+count); a held-back lead stays visible as numbers but is reported `no_clear_preference` with a "seen N of 3" note. The memory is a medium name,
+a counter and an evidence fingerprint per learner and scope. `leaning` is display-only: it never produces a hint on an area page.
+
+| measure (shipped defaults) | n=10 | 20 | 30 | 60 | 90 | 120 |
+|---|---:|---:|---:|---:|---:|---:|
+| null, one look: NOT told a lead (bound >= 0.95 at EVERY n) | 0.990 | 0.990 | 0.992 | 0.989 | 0.987 | 0.992 |
+| +0.20 effect, one look: lead present (raw power) | 0.049 | 0.120 | 0.191 | 0.467 | 0.669 | 0.820 |
+
+| sequential (returning learner, persistence on) | by 30/format | by 60 | by 120 |
+|---|---:|---:|---:|
+| null learner EVER shown a lead | 0.002 | 0.015 | 0.031 |
+| null learner ever has a raw lead (before persistence) | 0.034 | 0.058 | 0.076 |
+| effect learner shown a lead (power with persistence) | 0.104 | 0.374 | 0.803 |
+| shown a lead for the WRONG format under a true effect | - | - | 0.000 |
+
+Other settings, sequential, null ever-shown at 60 / 120 and effect shown at 60 / 120: z 1.96/2.58 K=1: 0.182 / 0.246 and 0.784 / 0.966;
+z 2.5/3.0 K=1: 0.040 / 0.061 and 0.574 / 0.875; z 2.5/3.0 K=3 (shipped): 0.013 / 0.022 and 0.401 / 0.810 (grid seed differs slightly from the
+table above). Family-wise, four areas each with one look: 0.054 / 0.054 / 0.051 false lead for at least one area at n = 10 / 30 / 60 per format.
+
+Honest power statement (not hidden; the 30-per-format bound is the ORIGINAL SC-009 wording, withdrawn by the OD-1 decision below): with these thresholds the original SC-009 power bound (80% at 30 graded answers per format) is **MISSED** - power at 30
+is 0.19 single look. About 120 graded answers per format are needed for 80% (single look 0.82; with persistence 0.80). The two SC-009 bounds cannot
+both hold at 30 answers for a +0.20 effect (best-of-two competition makes the false-lead rate two-sided; the expected z at 30 is ~1.55). Protecting a
+learner from a wrongly asserted preference (research 1(c), self-fulfilling narrowing) was chosen over speed of a suggestion. Below ~100 answers per
+format the honest output is mostly "no clear difference". Residual risks: construct validity (residuals can reflect item calibration - a format
+whose items are systematically easier than their stated difficulty looks better for everyone; see the calibration check, research 7 and the
+operator guide) and a third graded format would raise the best-of-k false-lead rate.
+
+**Assumptions of the figures above.** Persistence figures assume a look every 5 new graded answers per format. A denser cadence (reviewer's worst case, null learner ever shown a lead) gives 0.025 / 0.043 / 0.064 by 30 / 60 / 120 per format, power by 120 0.867. Documented rather than mitigated: the profile is recomputed on every visit by design. Four areas with persistence: null learner sees a confirmed lead in at least one area 0.051 by 60 and 0.142 by 120. About 7.7% of null learners see "a lead is showing, not confirmed yet" by 120.
+
+**OD-1 DECIDED 2026-10-21 (operator): option (a), power >= 80% at 120 graded answers per format.** SC-009 in spec.md is reworded to that bound (single look measured 0.82; with persistence measured 0.803, a margin of 0.003; four-area no-preference false-positive risk 0.142 by 120 stays documented). `TestSimulationSC009` asserts it for both the single look and the persistence rule. Options (b) and (c) below are kept as the considered alternatives, not adopted.
+
+**OD-1 options as they stood before the decision.** SC-009 as originally written (null >= 95% AND power >= 80% at 30 graded answers per format for a +0.20 effect) cannot hold; at the shipped defaults power at 30 is 0.19. Candidate rewordings:
+- (a) Power >= 80% at 120 graded answers per format. Measured: single look 0.82; with persistence 0.80 (sequential, shipped defaults). Keeps the effect size, moves the sample size.
+- (b) Null ever-shown <= 5% by 120 plus power monotone in n. Measured: null ever-shown 0.031 by 120 (dense-look worst case 0.064 would miss 5%); power 0.19 / 0.47 / 0.82 at 30 / 60 / 120, monotone. States the protection actually bought and asserts no power level.
+- (c) A larger effect size at 30 per format. Not re-measured at other effect sizes in this round: UNCONFIRMED what effect gives 80% at 30; from the measured z, an effect of roughly 0.35-0.40 would be needed (extrapolation, not simulated).
 
 ## 4. Privacy-by-design analysis
 

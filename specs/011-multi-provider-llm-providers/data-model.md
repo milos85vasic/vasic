@@ -182,7 +182,14 @@ append-only, sibling to `curriculum/redactions.jsonl`.
   "outcome": "success",                           // "success" | "health_check_failed" |
                                                    // "credential_missing" |
                                                    // "upstream_error" | "cancelled" |
-                                                   // "schema_violation" — mirrors the
+                                                   // "schema_violation" | plus, since the
+                                                   // write-ahead amendment, "attempt_started"
+                                                   // (the intent line) and "intent_abandoned"
+                                                   // (an intent the writer refused: it carries
+                                                   // the prompt's content_bytes although
+                                                   // NOTHING WAS SENT, because it copies the
+                                                   // intent record; see contracts/remote-
+                                                   // generation-audit-log.md, 8 values) — mirrors the
                                                    // Reason.Code vocabulary hosted.go
                                                    // already uses, so this is a closed
                                                    // set derived from an existing

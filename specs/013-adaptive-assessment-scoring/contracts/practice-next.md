@@ -110,3 +110,28 @@ project's Honest Instruments principle.
   read), and `no_gradable_questions`. The body also carries `reason.undetermined_questions`.
 - The unlock key is (session, AREA, normalised prompt), not the prompt alone, and only a MACHINE-GRADED assessment
   outcome counts: attempting the free-text version of a prompt does not unlock an MCQ with the same prompt.
+
+## Reconciled by n1-013-adaptive on 2026-10-21 (user stories 2 and 3, kind-easing, 2PL path)
+
+Additive fields and behaviours; no existing field changed.
+
+- **Downgrade.** `selection.rule == "downgrade"` and `selection.downgrade_triggered == true` after
+  `Config.DowngradeStreak` (3) CONSECUTIVE wrong answers in the area (wrong, wrong, correct, wrong is not
+  consecutive). The pick is the unanswered item nearest `ability - Config.DowngradeMagnitude` (1.5, floored at 0).
+  `selection.reason` starts with the POC's sentence (`pkg/scoring.DowngradeReason`). When the pool offers
+  nothing easier than the normal pick the reason continues "(no easier item is available in this pool: ...)" rather
+  than claiming an easier item. A correct answer ends the downgrade (recomputed from the log on every serve).
+- **Kind-easing (T036b, operator decision O-4).** During a downgrade the pool widens to FLASHCARD rows that pass
+  the same disclosure rule as a multiple-choice row. Ease order: flashcard < mcq < short. Among candidates within
+  `Config.KindEasingWindow` (0.5, UNVALIDATED) of the nearest distance to the downgrade target the easiest kind
+  wins; kind never trades away difficulty beyond the window. `selection.kind_eased` is true when the served kind is
+  easier than the normal pick, and `selection.reason` then continues "(kind eased: serving a flashcard in place of a
+  mcq)". Outside a downgrade a flashcard is never served.
+- **`serving.grading`**: `"server_key"` (multiple choice: the server grades) or `"self_rated"` (flashcard: the
+  learner reports recall; see `practice-submit.md`). A flashcard's served `question` keeps its `answer` and
+  `explanation` (the learner flips the card to rate recall; the pool only ever contains rows whose key this session
+  may see) and has no `choices`.
+- **`selection.calibration`**: `"elo"` (the bootstrap) or `"irt_2pl"` (the item graduated to a fitted 2PL after
+  `Config.IRTMinResponses` calibrating responses; its fitted `b` is the served difficulty).
+- Empty-pool counts (`locked_questions`, `undetermined_questions`) count multiple-choice rows only: a withheld
+  flashcard is a missing easing route, not a reason practice is unavailable.

@@ -140,7 +140,7 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
       `$SCRATCH/textbooks/` (not the tree). Record per book `{pdf_sha256, pages, sections, skipped_stub_pages, extraction_failures, sidecar_sha256, seconds}`; run twice and require equal
       sidecar sha256 (determinism); expected sections 179 / 513 / 983 = 1675 (017 T017 — **re-derive, do not trust**). `extraction_failures` > 0 → report per page, do not hide. Evidence
       `extract.json` (numbers only).
-- [ ] T023 [ORCH] [US1] **Diagram extraction** for the 3 PDFs (`--diagrams`): record per book `{candidates, high_quality, low_quality, vector_source_available, no_automated_redraw}`, total bytes of
+- [ ] T023 [ORCH] [US1] **Diagram extraction** for the 3 PDFs (`--diagrams`): record per book `{candidates, high_quality, low_quality, vector_source_available, no_automated_redraw}`, total bytes of — n3 PARTIAL: extraction run on COPIES only (see the n3 report); the live place (T065) and the live catalogue were NOT touched
       the PNG tree, the number of pages carrying ≥ 1 diagram; convert to relative paths in `diagrams.json`. Cookbook expected 94 candidates (87 high / 7 low) per 017 — re-derive; the other two books
       are `UNCONFIRMED` until this task. Free disk checked first (T007); abort rc 2 if < 2× the estimate.
 - [ ] T024 [ORCH] [US1] **Dry run on a COPY of the live registry** (`--dry-run`): rows `34817 → 36492` (re-derive both numbers), changed existing rows 0, counts by kind unchanged except
@@ -193,7 +193,7 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
       served registry copy with a line scan, then asserts the page shows the same titles and numbers; license basis string equals `books.json`'s.
 - [ ] T039 [P] [US2] a11y/responsive pass (extend `a11y-responsive.spec.ts` with `/textbooks`).
 - [ ] T040 [REVIEW] [US2] Review (Opus xhigh) of T033-T039: disclosure surface of the new JSON, guard invariance, honesty of `not_ingested`, UI wording. Verdict file.
-- [ ] T041 [ORCH] [US2] Hooks: nav **Textbooks**, lazy route, vocabulary rows (labels/hints for `state`, `license_basis`, figure quality words), Curriculum-home entry, `registerTextbooks(...)` in `main.go`.
+- [x] T041 [ORCH] [US2] Hooks: nav **Textbooks**, lazy route, vocabulary rows (labels/hints for `state`, `license_basis`, figure quality words), Curriculum-home entry, `registerTextbooks(...)` in `main.go`. — DONE n3 (hooks): vocabulary rows textbookState/figureQuality, Curriculum-home link to /textbooks (nav, lazy route and registerTextbooks were already merged); license_basis has no closed vocabulary (free text) so no row; karma 708/708
       Run the vocabulary paired-mutation gate and `ng build`; commit the hook diff only.
 - [ ] T042 [US2] **UI-visible acceptance US2 (operator watches)**: `evidence/…/ui-acceptance-us2.md` — sign in → **Textbooks** → three books with title, license basis, sections, diagrams → counts equal the
       T022/T023 numbers. Screenshots in the private evidence dir.
@@ -222,7 +222,7 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
       `withheld` case (spec.md B11 pages) renders the plain-English sentence from the vocabulary rows ("This page cannot be shown here because it contains a file name the server never discloses") with
       prev/next still working; prev/next links; figures strip placeholder; deep link reload works. → RED. — DONE s13: textbook-page.component.spec.ts. DEVIATION: text read through TextbooksApi.passageText (own HttpClient call to the same /api/passages/{pid}), not WorkshopApi.passage, to split 410 withheld vs redacted; vocabulary rows not added (inline sentence; hook requested). Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
 - [x] T050 [TDD] [US3] Implement `features/textbooks/textbook-page.component.ts`; green. — DONE s13: textbook-page.component.ts, green; e2e real-server page flow passes. Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
-- [ ] T051 [ORCH] [US3] Hooks: `<wk-textbook-citation>` in the search hit card and in the passage page (one line each, reviewed first — T053), vocabulary rows for the new sentences.
+- [x] T051 [ORCH] [US3] Hooks: `<wk-textbook-citation>` in the search hit card and in the passage page (one line each, reviewed first — T053), vocabulary rows for the new sentences. — DONE n3: <wk-textbook-citation> on the passage page (passage-textbook-citation.spec.ts); search hit card already hooked
 - [ ] T052 [P] [US3] Playwright `e2e/textbook-citation.spec.ts`: search for a term chosen by the spec from the sidecar (hashed in logs); the hit shows the citation; click opens the page view; the page
       number displayed equals the sidecar's `line_start` read by the spec itself; prev/next reach adjacent pages; keyboard path works.
 - [ ] T053 [REVIEW] [US3] Review (Opus xhigh): citation honesty (PDF page index vs printed page label — the UI says "PDF page"), the by-pid resolver as an enumeration oracle (suppressed vs unknown
@@ -248,17 +248,17 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
 
 ## Phase 7: User Story 5 — Textbook diagrams are displayed (P2)
 
-- [ ] T061 [TDD] [US5] [SUBAGENT] Write failing tests for `GET /api/textbooks/{id}/diagrams` and `GET /api/textbooks/{id}/diagrams/{n}/image` (`contracts/textbooks-api.md`): the list carries `{index, page,
+- [x] T061 [TDD] [US5] [SUBAGENT] Write failing tests for `GET /api/textbooks/{id}/diagrams` and `GET /api/textbooks/{id}/diagrams/{n}/image` (`contracts/textbooks-api.md`): the list carries `{index, page, — DONE n3: RED (compile) then GREEN `go test -race`-class run of internal/api Textbook tests; commit b3441fd in workshop branch n3-020-024-complete
       caption|null, quality, width, height, redraw: "vector_source_available"|"none_available"|"undetermined"}` and no file path; the image route resolves the file **only** from the catalogue
       entry for `(id, n)` (never from user text), serves `image/png` with `X-Content-Type-Options: nosniff`, `Content-Disposition: inline; filename="figure-<n>.png"` (a neutral name), a restrictive
       `Content-Security-Policy: default-src 'none'; sandbox`, `Cache-Control: private`; index out of range → 404; a catalogue entry whose file is missing → 404 `figure_file_missing` (a finding, listed by
       the verifier); `..`/encoded separators in `{n}` → 404; there is **no** route that serves `.svg` (404, D-SVG); a byte cap (e.g. 16 MB) refuses larger files; session required. **Oracle**: fixture
       PNG bytes hashed in the test; CSP/headers typed. → RED.
-- [ ] T062 [TDD] [US5] Implement the diagram handlers (`internal/api/textbooks_diagrams.go`, NEW), reading from `-curriculum`'s `textbooks/diagrams/<id>/`; green with `-race`.
-- [ ] T063 [TDD] [US5] [SUBAGENT] Write failing specs `textbook-figures.component.spec.ts`: gallery tile per diagram with caption (or "Figure on PDF page N"), page link, quality badge (high / "low resolution"),
+- [x] T062 [TDD] [US5] Implement the diagram handlers (`internal/api/textbooks_diagrams.go`, NEW), reading from `-curriculum`'s `textbooks/diagrams/<id>/`; green with `-race`. — DONE n3: internal/api/textbooks_diagrams.go (catalogue-derived path, PNG signature, nosniff/CSP/neutral name/16 MB cap, symlink escape refused); 4 mutants caught; b3441fd
+- [x] T063 [TDD] [US5] [SUBAGENT] Write failing specs `textbook-figures.component.spec.ts`: gallery tile per diagram with caption (or "Figure on PDF page N"), page link, quality badge (high / "low resolution"), — DONE n3: textbook-figures.component.spec.ts (+ model/page/book specs); karma 708 of 708 SUCCESS on the touched folders
       the redraw state in plain words ("a vector version of this page exists but is not shown" / "no automatic redraw is possible for this figure"), lazy-loaded `<img>` with `alt`, a broken image
       shows the explicit "figure file missing" state (never a blank tile), filter by quality, counts equal the list. → RED.
-- [ ] T064 [TDD] [US5] Implement `features/textbooks/textbook-figures.component.ts` and the "figures on this page" strip in the page view; green.
+- [x] T064 [TDD] [US5] Implement `features/textbooks/textbook-figures.component.ts` and the "figures on this page" strip in the page view; green. — DONE n3: textbook-figures.component.ts, route :id/figures, page-view figure strip with images, gallery link; karma 708/708
 - [ ] T065 [ORCH] [US5] Place diagram files: copy `$SCRATCH/textbooks/diagrams/<id>/` to `curriculum/textbooks/diagrams/<id>/` (git-ignored — confirm with `git check-ignore -v`), verify container visibility (`podman exec
       … ls | wc -l` via the repo's runtime resolution == host count), record total bytes. Catalogue `diagrams[]` entries reference names relative to that directory.
 - [ ] T066 [P] [US5] Playwright: gallery count == catalogue count == files on disk == list endpoint count; every visible `<img>` has `naturalWidth > 0`; the low-quality tiles carry the badge; no request
@@ -281,13 +281,13 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
       Writes `result.json` and `manifest.sha256`; DONE only when all rc 0 and the paired negative (stale catalogue) yields rc ≠ 0.
 - [ ] T073 [ORCH] [POLISH] **Final UI-visible acceptance (operator watches)**: the end-to-end story in `evidence/…/ui-acceptance-final.md` — Textbooks → pick a book → search a concept → citation → page → figure,
       each step with expected on-screen text; screenshots stored in the private evidence dir; operator ticks each step.
-- [ ] T074 [P] [POLISH] User manual `docs/textbooks.md` (§11.4.257): what is in the library, what a citation means (PDF page index, not printed label), limits (stub pages, withheld pages, no PDF download, no SVG),
+- [x] T074 [P] [POLISH] User manual `docs/textbooks.md` (§11.4.257): what is in the library, what a citation means (PDF page index, not printed label), limits (stub pages, withheld pages, no PDF download, no SVG), — DONE n3 (document written, docs/textbooks.md; export and validation are T080, NOT done)
       who can see it, license basis display. No book text quoted.
-- [ ] T075 [P] [POLISH] Task guide `docs/guides/textbooks-ingest-a-textbook.md` (operator): the deterministic procedure end to end with the model-free guard, rollback, and the restart cost.
-- [ ] T076 [P] [POLISH] Task guide `docs/guides/textbooks-find-and-cite-a-passage.md`.
-- [ ] T077 [P] [POLISH] Task guide `docs/guides/textbooks-browse-chapters-and-figures.md`.
-- [ ] T078 [P] [POLISH] FAQ additions to `docs/faq.md`: why a page shows "cannot be shown", why a citation says PDF page, why some figures are marked low resolution, why the PDFs cannot be downloaded, how to add a fourth book.
-- [ ] T079 [P] [POLISH] Four diagram classes (§11.4.258) as Mermaid in `docs/textbooks.md`: **architecture** (PDFs → extractors → sidecars/catalogue → registry → server endpoints → Angular feature), **data-flow**
+- [x] T075 [P] [POLISH] Task guide `docs/guides/textbooks-ingest-a-textbook.md` (operator): the deterministic procedure end to end with the model-free guard, rollback, and the restart cost. — DONE n3 (document written, docs/guides/textbooks-ingest-a-textbook.md; not exported)
+- [x] T076 [P] [POLISH] Task guide `docs/guides/textbooks-find-and-cite-a-passage.md`. — DONE n3 (document written, docs/guides/textbooks-find-and-cite-a-passage.md; not exported)
+- [x] T077 [P] [POLISH] Task guide `docs/guides/textbooks-browse-chapters-and-figures.md`. — DONE n3 (document written, docs/guides/textbooks-browse-chapters-and-figures.md; not exported)
+- [x] T078 [P] [POLISH] FAQ additions to `docs/faq.md`: why a page shows "cannot be shown", why a citation says PDF page, why some figures are marked low resolution, why the PDFs cannot be downloaded, how to add a fourth book. — DONE n3 (docs/faq.md section 19)
+- [x] T079 [P] [POLISH] Four diagram classes (§11.4.258) as Mermaid in `docs/textbooks.md`: **architecture** (PDFs → extractors → sidecars/catalogue → registry → server endpoints → Angular feature), **data-flow** — DONE n3 (four Mermaid classes in docs/textbooks.md section 7; rendering not validated)
       (page → section row → pid → catalogue join → citation), **state machine** (book state `catalogued → ingested → partial → not_ingested`; page-view load states incl. withheld), **sequence**
       (operator ingest → dry run → go/no-go → promote → restart → verify; and the reader's search → citation → page). A reviewer traces one arrow per diagram to a file:line.
 - [ ] T080 [REVIEW] [POLISH] Export + validate the docs (`scripts/build-exports.sh`); a separate validator agent checks content, text and visual layers, Mermaid rendered, links resolve (§11.4.168). Verdict file.
