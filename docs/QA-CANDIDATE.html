@@ -329,7 +329,7 @@ nothing writable with the live service.</li>
 </ul>
 <h2 id="2-start-stop-reset">2. Start, stop, reset</h2>
 <p>All commands run from the umbrella checkout
-(<code>/home/milosvasic/Projects/vasic</code>).</p>
+(<code>~/Projects/vasic</code>).</p>
 <table>
 <thead>
 <tr>
@@ -481,7 +481,7 @@ vectors: nothing imported" and builds its own index; a search reports
 <ul>
 <li>The passwords are <strong>random 20-character values generated for
 this instance</strong>. They are in
-<strong><code>/home/milosvasic/.cache/claude-tmp/qa/credentials.env</code></strong>
+<strong><code>~/.cache/claude-tmp/qa/credentials.env</code></strong>
 (mode 0600). The file has three entries:
 <code>WORKSHOP_ADMIN_PASSWORD_MILOSVASIC</code>,
 <code>WORKSHOP_ADMIN_PASSWORD_RAMI</code>,
@@ -796,9 +796,8 @@ look; <strong>KNOWN-DEFECT</strong> points to the finding. A row marked
 us what you see. These tables were drafted from the specs and the
 candidate source tree; <strong>no row has been executed by a person
 yet</strong>, and no row claims a pass. Evidence paths are relative to
-the candidate worktree
-(<code>/home/milosvasic/Projects/vasic-wt/qa-candidate</code>) unless
-they start with <code>/</code>.</p>
+the candidate worktree (<code>~/Projects/vasic-wt/qa-candidate</code>)
+unless they start with <code>/</code>.</p>
 <p><strong>Flags.</strong> All eight spec-025 UX features default OFF
 and are enabled per browser (localStorage key
 <code>workshop-ux-flags</code>); on-demand material generation (022) is
@@ -807,11 +806,10 @@ not mounted in this build.</p>
 research documents ARE searchable (a row that says "Not searchable yet"
 describes the un-ingested live registry, not this instance).</p>
 <p><strong>Part A</strong></p>
-<p>Candidate tree:
-<code>/home/milosvasic/Projects/vasic-wt/qa-candidate</code> (all paths
-below are relative to it). QA instance: answering OFF, hosted providers
-OFF. Accounts: administrators (professors) milosvasic and rami, students
-student1..student5. No credentials appear here.</p>
+<p>Candidate tree: <code>~/Projects/vasic-wt/qa-candidate</code> (all
+paths below are relative to it). QA instance: answering OFF, hosted
+providers OFF. Accounts: administrators (professors) milosvasic and
+rami, students student1..student5. No credentials appear here.</p>
 <p>Conventions</p>
 <ul>
 <li><code>&lt;slug&gt;</code> for an area comes from the area grid on
@@ -825,9 +823,9 @@ check, not that it was run against this QA instance.</li>
 <code>platform/gates/defects-registry.tsv</code> (ids quoted). Those
 entries are dated; the tester should confirm the defect still reproduces
 on this build. No file in
-<code>/home/milosvasic/.cache/claude-tmp/reviews/</code> mentions specs
-001 to 004 content (checked by grep); those reviews cover branches 011
-to 026 and the constitution governor.</li>
+<code>the review reports (by file name) </code> mentions specs 001 to
+004 content (checked by grep); those reviews cover branches 011 to 026
+and the constitution governor.</li>
 <li>API-only checks need a signed-in session token supplied by the
 operator. Do not paste it anywhere.</li>
 </ul>
@@ -2192,14 +2190,13 @@ sub-chapter flow unless the QA corpus actually contains a dotted chapter
 id.</li>
 <li>KNOWN-DEFECT evidence comes only from
 <code>platform/gates/defects-registry.tsv</code> (dated entries); no
-file under <code>/home/milosvasic/.cache/claude-tmp/reviews/</code>
-addresses specs 001 to 004.</li>
+file under <code>the review reports (by file name) </code> addresses
+specs 001 to 004.</li>
 </ul>
 <p><strong>Part B</strong></p>
-<p>Candidate tree:
-<code>/home/milosvasic/Projects/vasic-wt/qa-candidate</code> (workshop;
-abbreviated <code>W/</code> below). Umbrella:
-<code>/home/milosvasic/Projects/vasic</code> (<code>U/</code>). Specs:
+<p>Candidate tree: <code>~/Projects/vasic-wt/qa-candidate</code>
+(workshop; abbreviated <code>W/</code> below). Umbrella:
+<code>~/Projects/vasic</code> (<code>U/</code>). Specs:
 <code>U/specs/&lt;NNN&gt;/spec.md</code>. Review sources abbreviated:
 <code>E4</code> =
 <code>~/.cache/claude-tmp/reviews/parts/part-E-sub4-005-009.md</code>,
@@ -3491,8 +3488,7 @@ must look. (E5 T078 MISSING, final audit T079 MISSING)</td>
 </tbody>
 </table>
 <p><strong>Part C</strong></p>
-<p>Candidate tree:
-<code>/home/milosvasic/Projects/vasic-wt/qa-candidate</code> (HEAD
+<p>Candidate tree: <code>~/Projects/vasic-wt/qa-candidate</code> (HEAD
 7dff042). Paths below are relative to it unless absolute. QA instance:
 full SPA + API on its own port, answering OFF, hosted providers OFF.
 Accounts: administrators (professors) milosvasic and rami; students
@@ -3503,10 +3499,10 @@ student1..student5 (initial password, forced change at
 <p>Status key: TESTED-BY-AUTOMATION (file cited, "partial" where it uses
 mocks or skips without a special environment), NOT-AUTOMATED,
 KNOWN-DEFECT (review file + finding). Review files live in
-<code>/home/milosvasic/.cache/claude-tmp/reviews/</code>. Older audit
-tables in <code>partials/</code> describe int-0.0.3 @35f2ea3 and are
-stale where the candidate has since merged more branches; every claim
-below was re-checked against the candidate tree.</p>
+<code>the review reports (by file name) </code>. Older audit tables in
+<code>partials/</code> describe int-0.0.3 @35f2ea3 and are stale where
+the candidate has since merged more branches; every claim below was
+re-checked against the candidate tree.</p>
 <p>Route facts verified in
 <code>platform/frontend/src/app/app.routes.ts</code> and the feature
 route files: <code>/</code>, <code>/chapters</code>,
@@ -4859,10 +4855,10 @@ they are labelled "partial" above.</li>
 </ul>
 <p><strong>Part D</strong></p>
 <p>Candidate tree (read-only):
-<code>/home/milosvasic/Projects/vasic-wt/qa-candidate</code>. Specs:
-<code>/home/milosvasic/Projects/vasic/specs/&lt;NNN&gt;/spec.md</code>.
-Defect sources: <code>/home/milosvasic/.cache/claude-tmp/reviews/</code>
-(names cited per row).</p>
+<code>~/Projects/vasic-wt/qa-candidate</code>. Specs:
+<code>specs/&lt;NNN&gt;/spec.md</code>. Defect sources:
+<code>the review reports (by file name) </code> (names cited per
+row).</p>
 <h2 id="how-to-read-this-section">How to read this section</h2>
 <ul>
 <li>Roles: anonymous (not signed in), student
@@ -6988,9 +6984,9 @@ the operator checks documents and a few commands.</p>
 <tr>
 <td>QA-026-01</td>
 <td>operator</td>
-<td>In <code>/home/milosvasic/Projects/vasic/specs</code>, count the
-marker <code>Reconciled by 026 on 2026-10-20</code> in each of 011, 012,
-013, 014, 015, 016, 017 (<code>grep -rc</code>)</td>
+<td>In <code>specs</code>, count the marker
+<code>Reconciled by 026 on 2026-10-20</code> in each of 011, 012, 013,
+014, 015, 016, 017 (<code>grep -rc</code>)</td>
 <td>At least 1 in each of the seven directories (measured by the
 reviewer: 7, 27, 20, 14, 15, 55, 6)</td>
 <td>SC-001</td>

@@ -40,7 +40,7 @@ still in review or fix rounds. It exists so that you can use every flow and repo
 
 ## 2. Start, stop, reset
 
-All commands run from the umbrella checkout (`/home/milosvasic/Projects/vasic`).
+All commands run from the umbrella checkout (`~/Projects/vasic`).
 
 | Task | Command | Notes |
 |---|---|---|
@@ -87,7 +87,7 @@ Seven accounts exist in the QA auth store (spec 023): administrators (professors
 students **`student1`** .. **`student5`**.
 
 * The passwords are **random 20-character values generated for this instance**. They are in
-  **`/home/milosvasic/.cache/claude-tmp/qa/credentials.env`** (mode 0600). The file has three entries:
+  **`~/.cache/claude-tmp/qa/credentials.env`** (mode 0600). The file has three entries:
   `WORKSHOP_ADMIN_PASSWORD_MILOSVASIC`, `WORKSHOP_ADMIN_PASSWORD_RAMI`, `WORKSHOP_STUDENT_INITIAL_PASSWORD`
   (one initial password shared by the five students). Open the file yourself; the scripts never print a value.
 * The operator's own weak initial student password is not known to these scripts and is not used.
@@ -182,7 +182,7 @@ exercises the flow (many e2e specs run against mocked responses or need a specia
 **NOT-AUTOMATED** means a human must look; **KNOWN-DEFECT** points to the finding. A row marked "verify" is a place where
 the spec was read but the screen was not: tell us what you see. These tables were drafted from the specs and the candidate
 source tree; **no row has been executed by a person yet**, and no row claims a pass. Evidence paths are relative to the
-candidate worktree (`/home/milosvasic/Projects/vasic-wt/qa-candidate`) unless they start with `/`.
+candidate worktree (`~/Projects/vasic-wt/qa-candidate`) unless they start with `/`.
 
 **Flags.** All eight spec-025 UX features default OFF and are enabled per browser (localStorage key
 `workshop-ux-flags`); on-demand material generation (022) is not mounted in this build.
@@ -192,13 +192,13 @@ searchable yet" describes the un-ingested live registry, not this instance).
 
 **Part A**
 
-Candidate tree: `/home/milosvasic/Projects/vasic-wt/qa-candidate` (all paths below are relative to it).
+Candidate tree: `~/Projects/vasic-wt/qa-candidate` (all paths below are relative to it).
 QA instance: answering OFF, hosted providers OFF. Accounts: administrators (professors) milosvasic and rami, students student1..student5. No credentials appear here.
 
 Conventions
 - `<slug>` for an area comes from the area grid on `/` (Knowledge areas). `<pid>` is a 26-character passage id copied from a search hit or transcript row. `01` is the first chapter id.
 - "e2e" specs live in `platform/frontend/e2e/`. Several run against a live stack, so citing one means the flow has an automated check, not that it was run against this QA instance.
-- Evidence for KNOWN-DEFECT rows is `platform/gates/defects-registry.tsv` (ids quoted). Those entries are dated; the tester should confirm the defect still reproduces on this build. No file in `/home/milosvasic/.cache/claude-tmp/reviews/` mentions specs 001 to 004 content (checked by grep); those reviews cover branches 011 to 026 and the constitution governor.
+- Evidence for KNOWN-DEFECT rows is `platform/gates/defects-registry.tsv` (ids quoted). Those entries are dated; the tester should confirm the defect still reproduces on this build. No file in `the review reports (by file name) ` mentions specs 001 to 004 content (checked by grep); those reviews cover branches 011 to 026 and the constitution governor.
 - API-only checks need a signed-in session token supplied by the operator. Do not paste it anywhere.
 
 ---
@@ -350,11 +350,11 @@ Operator-only / pipeline requirements not exercisable in the UI: FR-026 to FR-03
 - No SPA screen exists in the candidate for: area export (`GET /api/areas/{area}/export`), per-area evidence and coverage endpoints, graph traversal (`/api/graph/traverse`), and the chapter-hierarchy filters (`under`, `depth`, `include_self`) or the `hierarchy` object (spec 003 has no UI by design, FR-026). These rows are API/operator checks.
 - No browser e2e spec was found for the term page (`/term/<term>`, `term.component.ts`) or for a sub-chapter page; `/section/:section` is routed but no flow in these four specs targets it (its content was not inspected).
 - Not exercisable on this QA instance: cited answers and declines (answering OFF), OCR-derived screen text (operator pipeline), and any sub-chapter flow unless the QA corpus actually contains a dotted chapter id.
-- KNOWN-DEFECT evidence comes only from `platform/gates/defects-registry.tsv` (dated entries); no file under `/home/milosvasic/.cache/claude-tmp/reviews/` addresses specs 001 to 004.
+- KNOWN-DEFECT evidence comes only from `platform/gates/defects-registry.tsv` (dated entries); no file under `the review reports (by file name) ` addresses specs 001 to 004.
 
 **Part B**
 
-Candidate tree: `/home/milosvasic/Projects/vasic-wt/qa-candidate` (workshop; abbreviated `W/` below). Umbrella: `/home/milosvasic/Projects/vasic` (`U/`). Specs: `U/specs/<NNN>/spec.md`.
+Candidate tree: `~/Projects/vasic-wt/qa-candidate` (workshop; abbreviated `W/` below). Umbrella: `~/Projects/vasic` (`U/`). Specs: `U/specs/<NNN>/spec.md`.
 Review sources abbreviated: `E4` = `~/.cache/claude-tmp/reviews/parts/part-E-sub4-005-009.md`, `E5` = `~/.cache/claude-tmp/reviews/parts/part-E-sub5-008-010.md`.
 
 Reading notes
@@ -513,11 +513,11 @@ Delivers a machine-derived gap register, three-valued checks with paired proofs,
 
 **Part C**
 
-Candidate tree: `/home/milosvasic/Projects/vasic-wt/qa-candidate` (HEAD 7dff042). Paths below are relative to it unless absolute.
+Candidate tree: `~/Projects/vasic-wt/qa-candidate` (HEAD 7dff042). Paths below are relative to it unless absolute.
 QA instance: full SPA + API on its own port, answering OFF, hosted providers OFF. Accounts: administrators (professors) milosvasic and rami; students student1..student5 (initial password, forced change at `/account` first). Anonymous visitors get 401 on `/api` and are redirected to `/login?returnUrl=...`. No credential is written here.
 
 Status key: TESTED-BY-AUTOMATION (file cited, "partial" where it uses mocks or skips without a special environment), NOT-AUTOMATED, KNOWN-DEFECT (review file + finding).
-Review files live in `/home/milosvasic/.cache/claude-tmp/reviews/`. Older audit tables in `partials/` describe int-0.0.3 @35f2ea3 and are stale where the candidate has since merged more branches; every claim below was re-checked against the candidate tree.
+Review files live in `the review reports (by file name) `. Older audit tables in `partials/` describe int-0.0.3 @35f2ea3 and are stale where the candidate has since merged more branches; every claim below was re-checked against the candidate tree.
 
 Route facts verified in `platform/frontend/src/app/app.routes.ts` and the feature route files: `/`, `/chapters`, `/chapters/:slug`, `/chapters/:slug/transcript`, `/areas/:slug`, `/practice/:slug`, `/ask`, `/search`, `/progress`, `/plan`, `/passage/:pid`, `/term/:term`, `/section/:section`, `/documents/:slug/read`, `/status`, `/textbooks`, `/textbooks/:id`, `/textbooks/:id/page/:n`, `/textbooks/:id/figures`, `/library`, `/profile`, `/profile/medium`, `/settings/providers`, `/account`, `/admin/users`, `/materials`. Wildcard renders a not-found page.
 
@@ -684,8 +684,8 @@ Notes for the tester
 
 **Part D**
 
-Candidate tree (read-only): `/home/milosvasic/Projects/vasic-wt/qa-candidate`. Specs: `/home/milosvasic/Projects/vasic/specs/<NNN>/spec.md`.
-Defect sources: `/home/milosvasic/.cache/claude-tmp/reviews/` (names cited per row).
+Candidate tree (read-only): `~/Projects/vasic-wt/qa-candidate`. Specs: `specs/<NNN>/spec.md`.
+Defect sources: `the review reports (by file name) ` (names cited per row).
 
 ## How to read this section
 
@@ -938,7 +938,7 @@ A documentation-only feature: contradictions between specs 011 to 017 are resolv
 
 | ID | Role | Flow / click path (URL) | Expected result | FR / SC | Status |
 |---|---|---|---|---|---|
-| QA-026-01 | operator | In `/home/milosvasic/Projects/vasic/specs`, count the marker `Reconciled by 026 on 2026-10-20` in each of 011, 012, 013, 014, 015, 016, 017 (`grep -rc`) | At least 1 in each of the seven directories (measured by the reviewer: 7, 27, 20, 14, 15, 55, 6) | SC-001 | NOT-AUTOMATED — no gate asserts it; a human runs the grep (counts are in `umbrella-guard-027-2026-10-21.md` "Stale exports list") |
+| QA-026-01 | operator | In `specs`, count the marker `Reconciled by 026 on 2026-10-20` in each of 011, 012, 013, 014, 015, 016, 017 (`grep -rc`) | At least 1 in each of the seven directories (measured by the reviewer: 7, 27, 20, 14, 15, 55, 6) | SC-001 | NOT-AUTOMATED — no gate asserts it; a human runs the grep (counts are in `umbrella-guard-027-2026-10-21.md` "Stale exports list") |
 | QA-026-02 | operator | `git status` after the 026 work (or `git log` of the spec commits) | Only files under `specs/` changed; nothing under `workshop/` or product code | SC-003 | NOT-AUTOMATED — a human must look |
 | QA-026-03 | operator | Open the Open Decisions table in `specs/026-spec-reconciliation/spec.md` and compare O-2 to O-8 and the crossref floor with `docs/OPERATOR-DECISIONS-2026-10-21.md` D-08 | Each is recorded as ratified 2026-10-21; the 013 spec "Clarifications Needed" and T049 no longer show O-2 open | FR-014 | KNOWN-DEFECT: `completion-backlog-B-specs-018-026.md` section 4 ("Spec 026 O-2..O-7 ratified 2026-10-21 but spec/tasks still show open; O-8 recorded in no spec") |
 | QA-026-04 | operator | Check that task `T012` of 026 names `wire_audit.go`, `wire_lan.go`, `wire_rerank.go` | Those files exist, or the task text is corrected | FR-013 | KNOWN-DEFECT: `completion-backlog-B-specs-018-026.md` section 4 ("026 T012 wire_audit.go/wire_lan.go/wire_rerank.go do not exist"); confirmed by `umbrella-guard-027-2026-10-21.md` section B "026 corrections" |

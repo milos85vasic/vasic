@@ -31,7 +31,7 @@ source-ref-exposure, transcript-anchors, material-alt, material-metadata-disclos
 ## Part 2: digest of the independent reviews
 
 
-Generated 2026-10-22 from /home/milosvasic/.cache/claude-tmp/reviews/*.md against the candidate tree /home/milosvasic/Projects/vasic-wt/qa-candidate (branch qa-candidate, tip 7dff042). Read-only: no repository file was edited and no server was started. Statuses were checked with `git grep`, `git show` and `git log` on the candidate; where a later commit is cited its message was read, but no fix was re-run or re-reviewed, so LIKELY-FIXED-LATER is not a PASS.
+Generated 2026-10-22 from the independent review reports against the candidate tree ~/Projects/vasic-wt/qa-candidate (branch qa-candidate, tip 7dff042). Read-only: no repository file was edited and no server was started. Statuses were checked with `git grep`, `git show` and `git log` on the candidate; where a later commit is cited its message was read, but no fix was re-run or re-reviewed, so LIKELY-FIXED-LATER is not a PASS.
 
 ### Summary
 
