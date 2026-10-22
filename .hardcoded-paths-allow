@@ -867,3 +867,17 @@ submodules/constitution/scripts/label-sync/internal/state/review2_test.go
 # gate when int-0.0.3 reached workshop main (4c1b1ec); investigated by reading the
 # matched line.
 workshop/platform/backend/internal/textbooks/testdata/section_title_shapes.json
+
+# BASELINE: captured RUN OUTPUT inside the workshop submodule (private repo,
+# consumed by pin). These five evidence logs are verbatim terminal captures of
+# test/mutant/e2e runs made on this development host (s9 round 4 and the
+# textbook-catalogue authors apply run), so they contain the checkout path the
+# tools printed. Editing them would falsify recorded evidence. Found 2026-10-22
+# by the pre-push gate when s9-014-modal-polish and cat-authors reached workshop
+# main (3defbd48). Debt: the real fix is for the workshop owner to record these
+# captures with relative paths; tracked as an open item, not closed by this entry.
+workshop/evidence/s9/round4/e2e-driver.txt
+workshop/evidence/s9/round4/e2e-run.txt
+workshop/evidence/s9/round4/gates.txt
+workshop/evidence/s9/round4/mutants-run.txt
+workshop/evidence/textbook-catalogue/authors-apply-go-mutants.log
