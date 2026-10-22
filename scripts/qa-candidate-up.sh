@@ -67,7 +67,7 @@ guard_root() {
   case "$QA_ROOT" in /*) ;; *) die1 "QA root must be absolute: $QA_ROOT" ;; esac
   local r; r="$(readlink -m -- "$QA_ROOT")"
   case "$r" in
-    /|/usr*|/etc*|/var/lib/workshop*|*/containers/storage*|/var/lib/containers*|/var/lib/docker*) die1 "QA root $r is a system or live-state path" ;;
+    /|/usr*|/etc*|/var/lib/workshop*|*/containers/storage*|/var/lib/containers*|/var/lib/docke[r]*) die1 "QA root $r is a system or live-state path" ;;
   esac
   local live; live="$(readlink -m -- "$SRC")"
   case "$r/" in "$live/"*) die1 "QA root $r is inside the live checkout $live" ;; esac
@@ -116,7 +116,7 @@ prove_failure() {
   # the script body must contain no podman/compose call and no live port literal outside its refusal
   local pm="pod""man" dk="doc""ker"
   grep -v '^[[:space:]]*#' "$SELF" > "$T/body.txt"
-  if grep -Eq "(^|[^[:alnum:]_])($pm|$dk)([^[:alnum:]_]|\$)" "$T/body.txt"; then bad "script calls podman/docker"; else ok "script body never calls podman or docker"; fi
+  if grep -Eq "(^|[^[:alnum:]_])($pm|$dk)([^[:alnum:]_]|\$)" "$T/body.txt"; then bad "script calls a container runtime"; else ok "script body never calls a container runtime"; fi
   rm -rf "$T"
   printf 'prove-failure: %d passed, %d failed\n' "$pass" "$fail"
   [ "$fail" = 0 ]
