@@ -390,6 +390,13 @@ script says so before binding.</td>
 </tr>
 </tbody>
 </table>
+<p><strong>If the instance goes down</strong> (host restart, session
+ended, someone ran <code>down</code>):
+<code>bash scripts/qa-candidate-up.sh up</code> is idempotent and starts
+it again with the same data. To restart automatically run
+<code>setsid nohup bash scripts/qa-candidate-up.sh watch &gt;/dev/null 2&gt;&amp;1 &amp;</code>
+(checks <code>/api/health</code> every 30 s, runs <code>up</code> when
+it fails; stop it by killing that one pid).</p>
 <p>Individual stages can be run on their own: <code>build</code>,
 <code>data</code>, <code>research</code>, <code>accounts</code>.
 Environment knobs (<code>QA_CANDIDATE_QA_ROOT</code>,
@@ -504,7 +511,7 @@ many login attempts" answer is the limiter working, wait a minute.</li>
 of each stream's committed tip, in the order of
 <code>scripts/qa-candidate.branches.tsv</code>. The table is the
 generated <code>evidence/qa-candidate/MANIFEST.tsv</code> of the build
-described here (candidate HEAD <code>7a63fddf825c</code>).</p>
+described here (candidate HEAD <code>bb9bfd7da0d3</code>).</p>
 <table>
 <thead>
 <tr>
@@ -522,134 +529,140 @@ described here (candidate HEAD <code>7a63fddf825c</code>).</p>
 <td>35f2ea38e768</td>
 </tr>
 <tr>
+<td><code>main</code></td>
+<td><code>d0da0a7a476e</code></td>
+<td>conflict-resolved</td>
+<td>merge commit b1c9459f</td>
+</tr>
+<tr>
 <td><code>fix-apikeys-argv</code></td>
 <td><code>11f2bb5ea02a</code></td>
 <td>merged</td>
-<td>merge commit 871dacc</td>
+<td>merge commit 871dacc0</td>
 </tr>
 <tr>
 <td><code>wire-completion</code></td>
-<td><code>ce9af74cc1aa</code></td>
-<td>merged</td>
-<td>merge commit 21060b2</td>
+<td><code>765f40e2e72b</code></td>
+<td>conflict-resolved</td>
+<td>merge commit f0b79314</td>
 </tr>
 <tr>
 <td><code>n1-013-adaptive</code></td>
 <td><code>c7f95645bce6</code></td>
 <td>merged</td>
-<td>merge commit d76e584</td>
+<td>merge commit d76e5840</td>
 </tr>
 <tr>
 <td><code>n8-013-ui-gate</code></td>
 <td><code>9468906e99a7</code></td>
 <td>conflict-resolved</td>
-<td>merge commit e96ff43</td>
+<td>merge commit e96ff431</td>
 </tr>
 <tr>
 <td><code>n3-020-024-complete</code></td>
 <td><code>bf2232eeec50</code></td>
 <td>merged</td>
-<td>merge commit a8b112c</td>
+<td>merge commit a8b112cf</td>
 </tr>
 <tr>
 <td><code>n5-011-014-015-complete</code></td>
 <td><code>18d9eda64076</code></td>
 <td>merged</td>
-<td>merge commit 1df0531</td>
+<td>merge commit 1df0531c</td>
 </tr>
 <tr>
 <td><code>n4-016-complete</code></td>
 <td><code>545777bbc72b</code></td>
 <td>conflict-resolved</td>
-<td>merge commit c45e4c4</td>
+<td>merge commit c45e4c4f</td>
 </tr>
 <tr>
 <td><code>n2-012-ingest-complete</code></td>
-<td><code>b3b0b1ed549a</code></td>
-<td>conflict-resolved</td>
-<td>merge commit 71962e6</td>
+<td><code>760066c4d00e</code></td>
+<td>merged</td>
+<td>merge commit 9fd18c7f</td>
 </tr>
 <tr>
 <td><code>s9-014-modal-polish</code></td>
 <td><code>2fef67bfa034</code></td>
 <td>conflict-resolved</td>
-<td>merge commit 198cb4c</td>
+<td>merge commit 198cb4c5</td>
 </tr>
 <tr>
 <td><code>s11-018-library</code></td>
 <td><code>5e826bb17a9d</code></td>
 <td>conflict-resolved</td>
-<td>merge commit 6c5bcc3</td>
+<td>merge commit 6c5bcc33</td>
 </tr>
 <tr>
 <td><code>s12-019-promotion</code></td>
 <td><code>24c22007954a</code></td>
 <td>conflict-resolved</td>
-<td>merge commit 88881c9</td>
+<td>merge commit 88881c91</td>
 </tr>
 <tr>
 <td><code>s15-025-ux</code></td>
 <td><code>b344ae7bf7a6</code></td>
 <td>conflict-resolved</td>
-<td>merge commit 2789173</td>
+<td>merge commit 27891737</td>
 </tr>
 <tr>
 <td><code>s16-021-medium</code></td>
 <td><code>905bf091b7af</code></td>
 <td>conflict-resolved</td>
-<td>merge commit 146cd2a</td>
+<td>merge commit 146cd2a4</td>
 </tr>
 <tr>
 <td><code>s17-022-material</code></td>
 <td><code>44dbdb8b0c00</code></td>
 <td>conflict-resolved</td>
-<td>merge commit 10f3116</td>
+<td>merge commit 10f31161</td>
 </tr>
 <tr>
 <td><code>s18-023-roles</code></td>
 <td><code>5adb94f51c80</code></td>
 <td>conflict-resolved</td>
-<td>merge commit ea27697</td>
+<td>merge commit ea276979</td>
 </tr>
 <tr>
 <td><code>cat-authors</code></td>
 <td><code>e0d274353471</code></td>
 <td>merged</td>
-<td>merge commit 5618228</td>
+<td>merge commit 5618228c</td>
 </tr>
 <tr>
 <td><code>h1-providers-hardening</code></td>
-<td><code>4a3d0d5089d4</code></td>
-<td>merged</td>
-<td>merge commit 1549061</td>
+<td><code>126e4cc0dd1c</code></td>
+<td>conflict-resolved</td>
+<td>merge commit fd4b9936</td>
 </tr>
 <tr>
 <td><code>inv-nonascii</code></td>
-<td><code>57e4e95bf2e4</code></td>
+<td><code>51f40ff14410</code></td>
 <td>merged</td>
-<td>merge commit c54ffc1</td>
+<td>merge commit 32cdeaef</td>
 </tr>
 <tr>
 <td><code>s2-016us1-013us1</code></td>
-<td><code>35d77099fbe8</code></td>
+<td><code>7496f52b8745</code></td>
 <td>merged</td>
-<td>merge commit 409f944</td>
+<td>merge commit 3aef7055</td>
 </tr>
 <tr>
 <td><code>n6-001-002-complete</code></td>
 <td><code>a5847e720e21</code></td>
 <td>merged</td>
-<td>merge commit 02304a1</td>
+<td>merge commit 02304a18</td>
 </tr>
 <tr>
 <td><code>n7-integration</code></td>
-<td><code>ab5f4bda77ce</code></td>
+<td><code>002bd428289c</code></td>
 <td>conflict-resolved</td>
-<td>merge commit d7b2023</td>
+<td>merge commit f4a34956</td>
 </tr>
 <tr>
 <td><code>qa-fix</code></td>
-<td><code>7dff042</code></td>
+<td><code>7dff042c</code></td>
 <td>qa-fix</td>
 <td>qa-fix: achievement-badge-producer.spec builds a ProgressState with
 the ability_score field n1 made required (merge-induced spec compile
@@ -657,7 +670,7 @@ error)</td>
 </tr>
 <tr>
 <td><code>qa-fix</code></td>
-<td><code>c79ff4b</code></td>
+<td><code>c79ff4b0</code></td>
 <td>qa-fix</td>
 <td>qa-fix: gofmt ratchet - n7 formatted the 13 baselined files
 (baseline emptied) and 3 files from other streams were unformatted
@@ -665,7 +678,7 @@ error)</td>
 </tr>
 <tr>
 <td><code>qa-fix</code></td>
-<td><code>56c8d51</code></td>
+<td><code>56c8d516</code></td>
 <td>qa-fix</td>
 <td>qa-fix: TestLazyHostedBuildsOnlyOnFirstGeneration drives Generate
 with the per-request acknowledgement n3's remote_spend now requires
@@ -673,7 +686,7 @@ with the per-request acknowledgement n3's remote_spend now requires
 </tr>
 <tr>
 <td><code>qa-fix</code></td>
-<td><code>7020948</code></td>
+<td><code>7020948a</code></td>
 <td>qa-fix</td>
 <td>qa-fix: wire_materialgen lazy-hosted test also installs the spend
 hook h1's billable probe requires (the earlier ack-only change was not
@@ -681,11 +694,25 @@ enough); real</td>
 </tr>
 <tr>
 <td><code>qa-fix</code></td>
-<td><code>a92f80d</code></td>
+<td><code>a92f80d5</code></td>
 <td>qa-fix</td>
 <td>qa-fix: remove the name-only ApiKey_OpenAI/ApiKey_Anthropic compose
 environment entries that my n8 conflict union re-introduced (apikeys
 design: keys</td>
+</tr>
+<tr>
+<td><code>qa-fix</code></td>
+<td><code>b1c4b744</code></td>
+<td>qa-fix</td>
+<td>qa-fix: gofmt main.go (union of wire-completion + n7 edits)</td>
+</tr>
+<tr>
+<td><code>qa-fix</code></td>
+<td><code>d0b0cc1d</code></td>
+<td>qa-fix</td>
+<td>qa-fix: docs/faq.md entries renumbered 19..33 sequentially (the
+unions left several duplicate numbers); one cross-link updated; exports
+not regenerate</td>
 </tr>
 </tbody>
 </table>

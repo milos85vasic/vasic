@@ -52,6 +52,8 @@ All commands run from the umbrella checkout (`~/Projects/vasic`).
 | Rebuild binaries and bundle after the candidate branch moved | `bash scripts/qa-candidate-up.sh down && bash scripts/qa-candidate-up.sh build && bash scripts/qa-candidate-up.sh up` | `build` always recompiles the Go binaries; it recompiles the bundle only when no bundle exists in the worktree (delete `platform/frontend/dist` in the worktree to force it). |
 | LAN access | `QA_CANDIDATE_BIND=0.0.0.0 bash scripts/qa-candidate-up.sh up` | Off by default. The instance serves a recording of an identifiable third party; binding beyond loopback exposes it to the network. The script says so before binding. |
 
+**If the instance goes down** (host restart, session ended, someone ran `down`): `bash scripts/qa-candidate-up.sh up` is idempotent and starts it again with the same data. To restart automatically run `setsid nohup bash scripts/qa-candidate-up.sh watch >/dev/null 2>&1 &` (checks `/api/health` every 30 s, runs `up` when it fails; stop it by killing that one pid).
+
 Individual stages can be run on their own: `build`, `data`, `research`, `accounts`. Environment knobs
 (`QA_CANDIDATE_QA_ROOT`, `QA_CANDIDATE_PORT`, `QA_CANDIDATE_BIND`, `QA_CANDIDATE_CREDS`, `QA_CANDIDATE_OLLAMA`,
 `QA_CANDIDATE_SKIP_WEB`, `QA_CANDIDATE_NG_WRAPPER`) are documented in the header of the script
@@ -101,37 +103,40 @@ students **`student1`** .. **`student5`**.
 
 Built from `int-0.0.3` by `git merge --no-ff` of each stream's committed tip, in the order of
 `scripts/qa-candidate.branches.tsv`. The table is the generated `evidence/qa-candidate/MANIFEST.tsv` of the build
-described here (candidate HEAD `7a63fddf825c`).
+described here (candidate HEAD `bb9bfd7da0d3`).
 
 | Branch | Merged tip | Status | Notes |
 |---|---|---|---|
 | `base` | `int-0.0.3` | base | 35f2ea38e768 |
-| `fix-apikeys-argv` | `11f2bb5ea02a` | merged | merge commit 871dacc |
-| `wire-completion` | `ce9af74cc1aa` | merged | merge commit 21060b2 |
-| `n1-013-adaptive` | `c7f95645bce6` | merged | merge commit d76e584 |
-| `n8-013-ui-gate` | `9468906e99a7` | conflict-resolved | merge commit e96ff43 |
-| `n3-020-024-complete` | `bf2232eeec50` | merged | merge commit a8b112c |
-| `n5-011-014-015-complete` | `18d9eda64076` | merged | merge commit 1df0531 |
-| `n4-016-complete` | `545777bbc72b` | conflict-resolved | merge commit c45e4c4 |
-| `n2-012-ingest-complete` | `b3b0b1ed549a` | conflict-resolved | merge commit 71962e6 |
-| `s9-014-modal-polish` | `2fef67bfa034` | conflict-resolved | merge commit 198cb4c |
-| `s11-018-library` | `5e826bb17a9d` | conflict-resolved | merge commit 6c5bcc3 |
-| `s12-019-promotion` | `24c22007954a` | conflict-resolved | merge commit 88881c9 |
-| `s15-025-ux` | `b344ae7bf7a6` | conflict-resolved | merge commit 2789173 |
-| `s16-021-medium` | `905bf091b7af` | conflict-resolved | merge commit 146cd2a |
-| `s17-022-material` | `44dbdb8b0c00` | conflict-resolved | merge commit 10f3116 |
-| `s18-023-roles` | `5adb94f51c80` | conflict-resolved | merge commit ea27697 |
-| `cat-authors` | `e0d274353471` | merged | merge commit 5618228 |
-| `h1-providers-hardening` | `4a3d0d5089d4` | merged | merge commit 1549061 |
-| `inv-nonascii` | `57e4e95bf2e4` | merged | merge commit c54ffc1 |
-| `s2-016us1-013us1` | `35d77099fbe8` | merged | merge commit 409f944 |
-| `n6-001-002-complete` | `a5847e720e21` | merged | merge commit 02304a1 |
-| `n7-integration` | `ab5f4bda77ce` | conflict-resolved | merge commit d7b2023 |
-| `qa-fix` | `7dff042` | qa-fix | qa-fix: achievement-badge-producer.spec builds a ProgressState with the ability_score field n1 made required (merge-induced spec compile error) |
-| `qa-fix` | `c79ff4b` | qa-fix | qa-fix: gofmt ratchet - n7 formatted the 13 baselined files (baseline emptied) and 3 files from other streams were unformatted (gofmt -w); gate verify |
-| `qa-fix` | `56c8d51` | qa-fix | qa-fix: TestLazyHostedBuildsOnlyOnFirstGeneration drives Generate with the per-request acknowledgement n3's remote_spend now requires (merge-induced t |
-| `qa-fix` | `7020948` | qa-fix | qa-fix: wire_materialgen lazy-hosted test also installs the spend hook h1's billable probe requires (the earlier ack-only change was not enough); real |
-| `qa-fix` | `a92f80d` | qa-fix | qa-fix: remove the name-only ApiKey_OpenAI/ApiKey_Anthropic compose environment entries that my n8 conflict union re-introduced (apikeys design: keys  |
+| `main` | `d0da0a7a476e` | conflict-resolved | merge commit b1c9459f |
+| `fix-apikeys-argv` | `11f2bb5ea02a` | merged | merge commit 871dacc0 |
+| `wire-completion` | `765f40e2e72b` | conflict-resolved | merge commit f0b79314 |
+| `n1-013-adaptive` | `c7f95645bce6` | merged | merge commit d76e5840 |
+| `n8-013-ui-gate` | `9468906e99a7` | conflict-resolved | merge commit e96ff431 |
+| `n3-020-024-complete` | `bf2232eeec50` | merged | merge commit a8b112cf |
+| `n5-011-014-015-complete` | `18d9eda64076` | merged | merge commit 1df0531c |
+| `n4-016-complete` | `545777bbc72b` | conflict-resolved | merge commit c45e4c4f |
+| `n2-012-ingest-complete` | `760066c4d00e` | merged | merge commit 9fd18c7f |
+| `s9-014-modal-polish` | `2fef67bfa034` | conflict-resolved | merge commit 198cb4c5 |
+| `s11-018-library` | `5e826bb17a9d` | conflict-resolved | merge commit 6c5bcc33 |
+| `s12-019-promotion` | `24c22007954a` | conflict-resolved | merge commit 88881c91 |
+| `s15-025-ux` | `b344ae7bf7a6` | conflict-resolved | merge commit 27891737 |
+| `s16-021-medium` | `905bf091b7af` | conflict-resolved | merge commit 146cd2a4 |
+| `s17-022-material` | `44dbdb8b0c00` | conflict-resolved | merge commit 10f31161 |
+| `s18-023-roles` | `5adb94f51c80` | conflict-resolved | merge commit ea276979 |
+| `cat-authors` | `e0d274353471` | merged | merge commit 5618228c |
+| `h1-providers-hardening` | `126e4cc0dd1c` | conflict-resolved | merge commit fd4b9936 |
+| `inv-nonascii` | `51f40ff14410` | merged | merge commit 32cdeaef |
+| `s2-016us1-013us1` | `7496f52b8745` | merged | merge commit 3aef7055 |
+| `n6-001-002-complete` | `a5847e720e21` | merged | merge commit 02304a18 |
+| `n7-integration` | `002bd428289c` | conflict-resolved | merge commit f4a34956 |
+| `qa-fix` | `7dff042c` | qa-fix | qa-fix: achievement-badge-producer.spec builds a ProgressState with the ability_score field n1 made required (merge-induced spec compile error) |
+| `qa-fix` | `c79ff4b0` | qa-fix | qa-fix: gofmt ratchet - n7 formatted the 13 baselined files (baseline emptied) and 3 files from other streams were unformatted (gofmt -w); gate verify |
+| `qa-fix` | `56c8d516` | qa-fix | qa-fix: TestLazyHostedBuildsOnlyOnFirstGeneration drives Generate with the per-request acknowledgement n3's remote_spend now requires (merge-induced t |
+| `qa-fix` | `7020948a` | qa-fix | qa-fix: wire_materialgen lazy-hosted test also installs the spend hook h1's billable probe requires (the earlier ack-only change was not enough); real |
+| `qa-fix` | `a92f80d5` | qa-fix | qa-fix: remove the name-only ApiKey_OpenAI/ApiKey_Anthropic compose environment entries that my n8 conflict union re-introduced (apikeys design: keys  |
+| `qa-fix` | `b1c4b744` | qa-fix | qa-fix: gofmt main.go (union of wire-completion + n7 edits) |
+| `qa-fix` | `d0b0cc1d` | qa-fix | qa-fix: docs/faq.md entries renumbered 19..33 sequentially (the unions left several duplicate numbers); one cross-link updated; exports not regenerate |
 
 Rows with status `conflict-resolved` needed a human union of the streams' registrations, routes, flags and docs; the
 resolution notes are in the merge commit message of each. Rows `qa-fix` are small commits made on the candidate for

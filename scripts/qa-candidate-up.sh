@@ -23,6 +23,7 @@
 #   down       stop the instance (only the process this script started)
 #   status     print URL, pid, port, state; rc 0 up and healthy, 1 down, 2 unknown
 #   health     probe /api/health and a sign-in for each account class (no value printed)
+#   watch      foreground loop: every 30 s check /api/health; if it fails run 'up' again (idempotent). Run it under nohup/setsid; stop with Ctrl-C or kill that one pid
 #   reset      down, wipe the QA data copy (NOT the binaries), then data + research + accounts
 #   --prove-failure  paired proof of the refusal paths (no server is started)
 #
@@ -126,7 +127,7 @@ CMD="${1:-}"
 case "$CMD" in
   --prove-failure) prove_failure; exit $? ;;
   -h|--help) sed -n '2,/^set -uo/p' "$SELF" | sed '$d; s/^# \{0,1\}//'; exit 0 ;;
-  build|data|research|accounts|up|down|status|health|reset) ;;
+  build|data|research|accounts|up|down|status|health|reset|watch) ;;
   *) die2 "unknown subcommand '$CMD' (see --help)" ;;
 esac
 shift
@@ -301,5 +302,6 @@ do_reset() {
 
 case "$CMD" in
   build) do_build ;; data) do_data ;; research) do_research ;; accounts) do_accounts ;;
+  watch) while true; do ( do_status >/dev/null ) || { say "health failed; running up"; ( do_up ) || warn "up failed; will retry"; }; sleep "${QA_CANDIDATE_WATCH_S:-30}"; done ;;
   up) do_up ;; down) do_down ;; status) do_status ;; health) do_health ;; reset) do_reset ;;
 esac
