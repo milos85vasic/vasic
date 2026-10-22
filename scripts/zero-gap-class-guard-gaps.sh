@@ -134,6 +134,11 @@ prove_failure() {
        && grep -q '^FINDING guard-gaps low governance-drift candidate:reset-hard catalogue drift: row reset-hard names the dangerous command class matching .git reset --hard.' <<<"$out" \
        && grep -q '^FINDING guard-gaps low governance-drift candidate:update-ref-delete ' <<<"$out" \
        && grep -q 'fix belongs UPSTREAM' <<<"$out"; then ok "P2 severity/category/wording of the three finding kinds"; else bad "P2 $out"; fi
+    # P2b (review A4) a row whose source says CLOSED-BY-PROJECT-HOOK is STILL a finding of the same severity (the upstream guard is what
+    # this class probes), but its wording names the project hook instead of sending the reader upstream alone; a row without the marker keeps
+    # the plain wording.
+    if grep -q '^FINDING guard-gaps high security guarded:add-all destructive command not blocked by the UPSTREAM guard: .*closed by the PROJECT hook scripts/hooks/guard-project-catalogue.sh' <<<"$out" \
+       && ! grep -q '^FINDING guard-gaps high security guarded:stash-all .*closed by the PROJECT hook' <<<"$out"; then ok "P2b project-hook-closed row keeps its finding and names the project hook"; else bad "P2b $out"; fi
 
     # P3 population: --emit-population equals what the run walks.
     local emitted psha
@@ -222,7 +227,8 @@ prove_failure() {
 
     # L1 the LIVE catalogue is well formed and self-consistent: with an all-refusing stub guard every row
     # is inspected, every named class is covered by a refused row (no drift), and no row is allowed.
-    rm -rf "$T/l1"; mkdir -p "$T/l1"; cp "$SELF_ROOT/$CAT_REL" "$T/l1/guarded-commands.tsv"
+    # ALLOWED rows are control rows for the PROJECT hook (they must not be refused); an all-refusing stub would flag them, so they are left out here.
+    rm -rf "$T/l1"; mkdir -p "$T/l1"; awk -F'\t' '/^#/ || $1 == "id" || ($3 != "allowed" && $3 != "allow")' "$SELF_ROOT/$CAT_REL" >"$T/l1/guarded-commands.tsv"
     printf '#!/usr/bin/env bash\ncat >/dev/null\nexit 2\n' >"$T/l1/guard.sh"
     run --corpus "$T/l1"
     local nrows ncand
@@ -311,7 +317,7 @@ clean_text() { printf '%s' "$1" | LC_ALL=C tr -d '\000-\037\177' ; }
 empty_sha() { printf '' | sha256sum | cut -d' ' -f1; }
 
 # --- load the catalogue: parallel arrays ID / CMD / EXP / LN --------------------------------
-ID=() CMD=() EXP=() LN=() CAND=()
+ID=() CMD=() EXP=() LN=() CAND=() PH=()
 CAT_BAD=""
 load_catalogue() {
     local line n=0 hdr=0 id cmd exp src cand extra rrc
@@ -340,7 +346,7 @@ load_catalogue() {
             allowed|allow) exp=allow ;;
             *) CAT_BAD="line $n: expected must be refused|block or allowed|allow, got '$(clean_text "$exp")'"; return ;;
         esac
-        ID+=("$id"); CMD+=("$cmd"); EXP+=("$exp"); LN+=("$n"); CAND+=("$cand")
+        ID+=("$id"); CMD+=("$cmd"); EXP+=("$exp"); LN+=("$n"); CAND+=("$cand"); PH+=("$([[ $src == *CLOSED-BY-PROJECT-HOOK* ]] && echo 1 || echo 0)")
     done <"$CAT_FILE"
     if [ "$hdr" -eq 0 ]; then CAT_BAD="the catalogue has no header line"; fi
 }
@@ -408,7 +414,9 @@ if [ "$GUARD_OK" -eq 1 ]; then
         case "$prc" in
             0)
                 INSPECTED=$((INSPECTED + 1))
-                if [ "${EXP[$i]}" = block ]; then
+                if [ "${EXP[$i]}" = block ] && [ "${PH[$i]:-0}" = 1 ]; then
+                    finding high security "$loc" "destructive command not blocked by the UPSTREAM guard: ${CMD[$i]} (catalogue id ${ID[$i]}); the upstream guard exited 0 and would let it run; this row is closed by the PROJECT hook scripts/hooks/guard-project-catalogue.sh (wired separately), so it stays a finding until the upstream guard refuses it too" "$ref"
+                elif [ "${EXP[$i]}" = block ]; then
                     finding high security "$loc" "destructive command not blocked: ${CMD[$i]} (catalogue id ${ID[$i]}); the guard exited 0 and would let it run; the fix belongs UPSTREAM in the constitution guard script, so report it there and register the item classified third-party" "$ref"
                 fi ;;
             2)

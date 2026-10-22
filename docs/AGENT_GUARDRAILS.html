@@ -423,11 +423,411 @@ written UNCONFIRMED / UNKNOWN, not smoothed into an assertion. (§11.4.6)
 - [ ] Any figure quoted from a document was RE-MEASURED, not copied.
 Documents in this tree carry dated observations, not standing facts.</p>
 <hr />
+<h2 id="d-host-resource-safety">(D) HOST RESOURCE SAFETY</h2>
+<p><strong>Why.</strong> On 2026-10-14 (host <code>anton</code>) the box
+stalled at about 14:22. Measured with sar/atop: tmpfs shmem grew 0.33 →
+8.1 GB between 13:20 and 14:30, <code>app.slice</code> (MemoryHigh ≈ 21
+GB) was throttled into a direct-reclaim storm (sys CPU 1108 %, load 430,
+memory PSI <em>full</em> 53–92 %, 1.4 GB/s refault reads), and no OOM
+daemon or guard acted. The trigger was about 20 parallel agents, many
+writing multi-GB copies into the harness scratchpad
+<code>/tmp/claude-1000/...</code> — <code>/tmp</code> is a 16 GB
+<strong>RAM-backed tmpfs</strong> — and running unbounded heavy gates at
+the same time. A <code>cp -al</code> hardlink backup (§9) from the
+repository to <code>/tmp</code> fails (cross-device), which pushed
+agents into full copies instead. The mechanism is the one in
+<code>$HOME/Projects/llmctl/docs/host-safety.md</code> (“Why GNOME says
+Application Stopped”).</p>
+<h3 id="rules-for-every-orchestrator-and-every-subagent">Rules for every
+orchestrator and every subagent</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>Rule</th>
+<th>Enforcement — what actually stops a violation today</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D1</td>
+<td><strong>Fan-out budget:</strong> no more than <strong>5</strong>
+concurrent subagents, and no more than <strong>2 heavy</strong> ones at
+a time. Dispatch in <strong>waves</strong>: the next heavy wave starts
+when one ends, never all at once.</td>
+<td><strong>Heavy half ENFORCED</strong> for work routed through
+<code>scripts/agent-admit.sh</code> (2 slots). <strong>The 5-subagent
+half is ADVISORY</strong> (documentation only): nothing counts
+subagents.</td>
+</tr>
+<tr>
+<td>D2</td>
+<td><strong>Heavy</strong> means: pre-push gates, Playwright,
+<code>go test -race</code>, podman / site builds, a content-boundary
+full scan, <code>zero-gap-verify</code>, mutation suites
+(<code>--prove-failure</code> / <code>--run-proofs</code>), local model
+runs.</td>
+<td><strong>Admitted automatically</strong> (they call agent-admit
+themselves): pre-push gate 1 (<code>go test</code>), gate 6
+(Playwright), <code>scripts/zero-gap-verify.sh</code> (run and
+<code>--prove-failure</code>),
+<code>scripts/verify-content-boundary.sh</code> (scan and
+<code>--prove-failure</code>). <strong>NOT admitted automatically — wrap
+them yourself (D3/D4):</strong> pre-push gates 0 and 2–5,
+<code>verify-check-registry.sh --run-proofs</code>, every other
+<code>--prove-failure</code> battery, <code>site-build</code> /
+<code>_tools/deploy-langs.sh</code>, podman builds,
+<code>go test -race</code> outside gate 1, model runs.</td>
+</tr>
+<tr>
+<td>D3</td>
+<td>Run heavy work only through <strong>admission</strong>:
+<code>bash scripts/agent-admit.sh --tag &lt;name&gt; -- &lt;cmd&gt;</code>
+(or <code>--verdict3</code> for a 0/1/2 gate). It takes a slot, then
+checks memory PSI <code>some avg10</code> &lt; 15, Shmem &lt; 10 % of
+RAM, <code>/tmp</code>, <code>/dev/shm</code>,
+<code>/run/user/&lt;uid&gt;</code> each &lt; 25 % used,
+<code>app.slice</code> working set
+(<code>memory.current − inactive_file</code>) &lt; 85 % of
+<code>memory.high</code>, and §12.12 thread headroom (&lt; 75 % of
+<code>ulimit -u</code>, ≥ 512 free), then runs <code>&lt;cmd&gt;</code>
+under <code>bounded-run -m 6G -T 3600</code>. A refusal is rc 1 (rc 2
+under <code>--verdict3</code>, which also maps every rc ≥ 124, e.g. a
+SIGKILL from the memory cap, to 2); never retry it in a loop — wait for
+the next wave.</td>
+<td><strong>ENFORCED</strong> for the entry points listed in D2;
+<strong>ADVISORY</strong> for anything an agent runs without the wrapper
+(admission is cooperative).</td>
+</tr>
+<tr>
+<td>D4</td>
+<td>Any other heavy command runs under
+<strong><code>bounded-run -m &lt;MEM&gt; -T &lt;SECONDS&gt; --</code></strong>
+with explicit caps (minimums: <code>go test -race</code> 4G,
+builds/archives 6G). Never bare.</td>
+<td><strong>ADVISORY</strong> (nothing refuses a bare command).</td>
+</tr>
+<tr>
+<td>D5</td>
+<td><strong>Scratch on disk, never tmpfs:</strong>
+<code>S=$(bash scripts/agent-scratch.sh new &lt;label&gt;)</code> and
+write under <code>"$S"</code>. Never write a repo copy, a clone, a
+worktree, a bundle, an archive or an extracted tree to
+<code>/tmp</code>, <code>/dev/shm</code> or <code>/run/user/*</code> —
+including the harness scratchpad under <code>/tmp/claude-*</code>.</td>
+<td><strong>ENFORCED</strong> by the project guard (wired b44c9b0) for
+every shape its tmpfs rule parses; <strong>ADVISORY</strong> for the
+shapes in its Known limits. Structurally: a disk <code>TMPDIR</code>
+(operator step 1, applied) moves the harness scratchpad and
+<code>mktemp</code> off RAM.</td>
+</tr>
+<tr>
+<td>D6</td>
+<td><strong>Backups are hardlinks on the same filesystem, of
+<code>.git</code>:</strong>
+<code>cp -al &lt;repo&gt;/.git "$S/&lt;repo&gt;.git.mirror"</code> (§9.1
+step 1, zero data blocks).
+<code>bash scripts/agent-scratch.sh df-check</code> proves the scratch
+root and the repo share one filesystem and mount and that
+<code>link()</code> works (it writes nothing in the repo). <strong>A
+hardlink is the SAME inode, so it does NOT survive an in-place
+write</strong>: a file modified in place (an editor saving in place,
+<code>&gt;&gt;</code> appends, <code>truncate</code>) changes the
+“backup” too. That does not contradict §9.1/§9.3: git writes objects,
+packs, refs, the index and config as NEW files renamed into place, so
+the mirror keeps the pre-operation state (only append-only reflogs
+grow). Do not use <code>cp -al</code> as a backup of a WORKING TREE you
+are about to edit; copy those files to <code>"$S"</code> on disk instead
+(still never to tmpfs). Never <code>cp -a</code> a whole repository or
+gitdir.</td>
+<td><code>df-check</code> <strong>verifies</strong> the precondition;
+using hardlinks is <strong>ADVISORY</strong>.</td>
+</tr>
+<tr>
+<td>D7</td>
+<td><strong>Never clone or copy a repository</strong> to get a second
+working copy; use <code>git worktree add "$S/wt" &lt;ref&gt;</code> on
+disk, and remove it when done.</td>
+<td><strong>ENFORCED into tmpfs</strong> (the wired guard refuses clone
+/ worktree / cp / rsync into tmpfs); a clone to disk is never refused,
+so the rest of D7 is <strong>ADVISORY</strong>.</td>
+</tr>
+<tr>
+<td>D8</td>
+<td>Clean up: remove your scratch dir when finished;
+<code>bash scripts/agent-scratch.sh gc --older-than 3d</code> removes
+only dirs the helper created and that have been idle that long.
+<code>du</code> shows usage.</td>
+<td><strong>ADVISORY</strong> (nothing runs <code>gc</code> on a
+schedule).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Defense in depth — the project guard (wired as the second
+<code>PreToolUse</code> hook, b44c9b0).</strong>
+<code>scripts/hooks/guard-project-catalogue.sh</code> reads each command
+with a shell lexer (continuations, quoting, brace expansion, compound
+commands, <code>function</code> bodies and <code>coproc NAME { }</code>,
+<code>(( ))</code> arithmetic, here-documents bound to the command that
+owns their <code>&lt;&lt;</code> and here-strings fed to a shell,
+<code>$(...)</code> including inside unquoted here-documents and
+arithmetic, <code>echo|printf|cat ... | bash</code> and
+<code>|&amp; bash</code>, <code>VAR=</code> prefixes of
+<code>bash -c</code>, wrappers such as
+<code>timeout</code>/<code>xargs</code>/<code>flock</code>/<code>bounded-run</code>/<code>agent-admit.sh</code>,
+nested runners such as <code>script -c</code>, GNU
+<code>parallel</code>, <code>git submodule foreach</code>,
+<code>git rebase -x</code>, absolute binary paths, every git global
+option) and applies two rules.</p>
+<p><em>Catalogue rule (round 5: structural).</em> Every refused row of
+<code>docs/zero-gap/guarded-commands.tsv</code> is judged by PARSING the
+command’s arguments the way the tool does — options in any position,
+short clusters, option values skipped, unique long-option prefixes
+(<code>--har</code>, <code>--dele</code>, <code>--f</code>) — never by a
+literal prefix of the line. Examples it refuses:
+<code>git reset -q --hard</code>, <code>git reset HEAD~1 --hard</code>,
+<code>git push origin main :old</code>,
+<code>git push --del origin x</code>,
+<code>git update-ref -m msg -d …</code>, every checkout discard form
+(<code>git checkout -- f</code>, <code>git checkout HEAD -- f</code>,
+<code>git checkout -f</code>, <code>git switch --discard-changes</code>,
+<code>git checkout-index -f</code>,
+<code>git read-tree -u --reset</code>), <code>git add -- ':!x'</code> /
+<code>"$PWD"</code> / <code>*</code>, <code>pkill -ef x</code>, a
+catch-all <code>pkill ''</code> / <code>pkill "$UNSET"</code> /
+<code>pkill .</code> / <code>pkill sh</code>, <code>pkill -P 1</code>,
+<code>pkill -G GID</code>, <code>pkill --inverse ...</code>,
+<code>pkill -O 1</code> (no pattern, broad criteria only),
+<code>pkill 'a**'</code> (unreadable: fails closed),
+<code>pkill -g PGID</code> (refused like <code>kill -- -PGID</code>: a
+group cannot be validated here, a deliberate tightening of §11.4.263), a
+direct <code>systemd-run</code> without
+<code>--expand-environment=no</code> whose command carries a literal
+<code>${</code> or <code>$$</code>, ANY literal word that begins with
+<code>$</code>, or a command substitution (systemd expands
+<code>${VAR}</code> and <code>$$</code> and reads every word starting
+with <code>$</code> as a variable; unset =&gt; empty, or the whole
+argument dropped), <code>systemctl -i suspend</code>,
+<code>systemctl isolate …</code>, login1 <code>Suspend</code> over
+D-Bus, <code>gnome-session-quit</code>, <code>kill -9 -1</code>,
+<code>pkill -u "$USER"</code>, <code>rm -rf ~/*/</code>,
+<code>rm -rf ~/.[!.]*</code>, <code>rm -rf //home</code>,
+<code>cd / &amp;&amp; rm -rf home</code>, <code>rm -rf /ho?e</code>,
+<code>D=$HOME; rm -rf "$D"</code>, <code>find -delete</code> in a
+protected directory, and a hook bypass by configuration
+(<code>-c core.hooksPath=…</code>). It allows the look-alikes:
+<code>git push origin :</code> (matching),
+<code>git merge --no-verify-signatures</code>, plain branch switches,
+<code>git restore --staged</code>, <code>git stash list</code>,
+<code>kill 12345</code>, <code>pgrep -f</code>, and text that merely
+mentions a command. An unset variable is empty in the fresh shell of a
+Bash call, so <code>rm -rf "$S"/*</code> with <code>S</code> unset is
+refused; write <code>"${S:?}"</code>. Every refusal says what to do
+instead (the proof asserts the hint). The complete per-row list is in
+the hook’s header (“CATALOGUE RULE”).</p>
+<p><em>workshop-redact rule (row <code>workshop-redact-no-root</code>,
+2026-10-21; refined 2026-10-22).</em> Refuses a bare
+<code>workshop-redact</code> (basename at command position in any
+wrapper stage, also <code>go run|test ./cmd/workshop-redact</code>)
+unless one of these holds, judged the way the binary’s Go flag parser
+reads its arguments: (1) a non-empty
+<code>-root</code>/<code>--root</code>/<code>-root=X</code>/<code>--root=X</code>
+FLAG, where the LAST <code>-root</code> wins
+(<code>-root /x -root ""</code> has no root;
+<code>-root "" -root /x</code> has one) and <code>-root</code> as the
+value of another flag (<code>--note -root --purge</code>) does not
+count; (2) <code>WORKSHOP_ROOT=&lt;non-empty&gt;</code> in that
+command’s own <code>VAR=value</code> prefix; (3) a mode the binary
+itself does not guard: <code>-h</code>/<code>-help</code>,
+<code>--version</code>, <code>--dry-run</code>, or
+<code>--list-derived-leaks</code>/<code>--check-review</code> without
+<code>--purge</code> (<code>--list-derived-leaks --purge</code> IS
+guarded, as in the binary). An unset variable is empty in the fresh
+shell of a Bash call, so <code>-root "$UNSET"</code> and
+<code>WORKSHOP_ROOT=$UNSET workshop-redact</code> are refused like a
+missing root, and <code>workshop-redact${IFS}--purge</code> is split
+before it is judged. <code>go test ./cmd/workshop-redact/...</code> is
+refused too, because words after the package belong to the test binary
+and <code>-root</code> there is not the program’s flag: run
+<code>WORKSHOP_ROOT=&lt;scratch&gt; go test ./cmd/workshop-redact/...</code>
+instead. <code>bash scripts/redact.sh ...</code> stays allowed.
+<strong>Status: best-effort defence in depth, not the control.</strong>
+Out of scope, and not detectable by a command-line rule: the binary
+started from another program (Python/<code>subprocess</code>), held in a
+variable (<code>b=workshop-redact; $b ...</code>), copied, renamed or
+symlinked, <code>$(which ...)</code>, <code>eval "$(echo ...)"</code>,
+other computed words (<code>${IFS%?}</code>-style tricks beyond plain
+<code>$IFS</code>/<code>${IFS}</code>), and wrappers the lexer does not
+know (<code>strace</code>, <code>unshare</code>, <code>nsenter</code>,
+<code>ssh</code>). The control is the binary’s own guard (explicit
+<code>-root</code>; <code>WORKSHOP_ALLOW_PRIMARY_WRITE=1</code> for a
+git primary checkout, granted only by <code>scripts/redact.sh</code>;
+<code>--purge</code> needs <code>--confirm-r6-loss</code>). The
+<code>guard-gaps</code> sweep class probes only the UPSTREAM guard, so
+the two <code>workshop-redact-no-root*</code> rows show as findings
+there by design (the sweep reports 23 = the 21 older gaps + these 2);
+the rows are marked <code>CLOSED-BY-PROJECT-HOOK</code> and the class
+names the project hook in their wording instead of sending the reader
+upstream alone.</p>
+<p><em>tmpfs rule.</em> Refuses (rc 2) BULK writes that bring DISK data
+into tmpfs: recursive copies (<code>cp -a|-r|-R</code>,
+<code>rsync</code>, <code>zip -r</code>, <code>podman|docker cp</code>),
+clones/worktrees/bundles/archives, archive extraction
+(<code>tar -x</code>, <code>unzip</code>, <code>7z x</code>), git
+fetching into (or <code>git push</code> / <code>git remote update</code>
+into) a repo on tmpfs, <code>podman|docker save</code>, a directory or a
+&gt; 64 MiB file moved, copied or <code>install</code>ed, an unbounded
+or &gt; 64 MiB <code>dd</code>, and a download whose target or URL name
+is a model or an archive (also
+<code>.part</code>/<code>.partial</code>), including stdout carried into
+tmpfs through pass-through filters
+(<code>podman save img | gzip &gt; /tmp/x.tgz</code>,
+<code>curl URL.gguf | tee /tmp/m.gguf</code>). It is deliberately NOT
+bulk, and allowed: one named file of bounded or unknown size
+(<code>mv out.txt /tmp/</code>,
+<code>curl -o /tmp/health.json ...</code>, <code>dd ... count=1</code>),
+<code>cp -l</code>, tmpfs → tmpfs copies, and a checkout in a repo that
+already lives on tmpfs. The only escape is an inline
+<code>AGENT_TMPFS_OK='&lt;at least 3 real words&gt;'</code> on that
+command, logged to
+<code>~/.cache/agent-scratch/tmpfs-overrides.log</code>; an agent can
+still write such a reason — <strong>the log is the control</strong>.</p>
+<p><strong>Known limits</strong> (documented, not covered — the hook’s
+header “KNOWN LIMITS” is the complete list): code it cannot read (a
+script file run by name, <code>source</code>, an interpreter such as
+<code>python3 -c</code>, a here-document fed to one), text built at run
+time or in an earlier Bash call, commands run elsewhere or later
+(<code>ssh</code>, tmux, <code>at</code>,
+<code>pgrep … | xargs kill</code>, a git alias), git operations outside
+the catalogue classes (<code>git commit -a</code>,
+<code>git rm -r .</code>, <code>--abort</code>,
+<code>git branch -f</code>), a force refspec configured in
+<code>remote.NAME.push</code>, <code>pkill NAME</code> of a process that
+is not session-critical, destructive classes the catalogue does not list
+(<code>mkfs</code>, <code>dd of=/dev/…</code>), destinations reached
+through a symlink, and tmpfs writes by tools the rule does not list.
+<strong>WAIVED</strong> by operator decision #27 (round-5 review, LOW,
+not fixed): #7 a bounded-run started as a background job of a script
+cannot trap SIGINT/SIGQUIT sent to its pid alone (SIGTERM works;
+terminal Ctrl-C reaches the command); #11 the wrappers
+<code>systemd-inhibit</code>, <code>sg -c</code>, <code>unshare</code>,
+<code>strace</code> are not unwrapped and expansions such as
+<code>${HOME:0:5}</code> are read as literal text; #12
+<code>verify-pretooluse-guard.sh</code> V9 (like V4) runs the guard
+file, not the wired command string, so a wiring ending in
+<code>|| true</code> would pass; #13 bounded-run needs
+<code>env --default-signal</code> (coreutils &gt;= 8.31) and fails
+closed (rc 125) without it. Round 6 FIXED #6 (sweep containment) and #8
+(stderr noise) and made bounded-run pass its command line verbatim (it
+passes <code>--expand-environment=no</code>; only where systemd-run
+lacks that option does bounded-run refuse, with exit 125, a command
+containing <code>$</code>). <strong>WAIVED</strong> by operator decision
+#29 (round-6 review): exact POSIX regex/glob parity beyond translating
+<code>[[:class:]]</code> (an unreadable pkill pattern fails closed);
+text known only at run time; false refusals of globs under
+<code>$HOME</code> that match a real child directory
+(<code>rm -rf ~/llmctl-verify.*</code>: name the paths instead); the
+orphan TMPDIRs that SIGKILLed pre-round-6 bounded-run runs left under
+<code>~/.cache/bounded-run/tmp</code> (kept; not tracked here: list them
+with <code>ls ~/.cache/bounded-run/tmp</code>, 43 entries on
+2026-10-15). Also <strong>WAIVED</strong> (round-7 confirming review,
+F3): same-line indirection <code>X='$D'; systemd-run ... "$X"</code> is
+not seen (the assignment is kept expanded). Fixed:
+<code>$'\x24D'</code>-style escapes and short option clusters that hid
+the wrapped command (<code>systemd-run -qp X</code>,
+<code>xargs -0n 1</code>, <code>env -iS</code>). How to re-run the
+5,101-command replay the re-reviews used is in the hook’s header (the
+corpus is not tracked: real commands carry private paths into this
+public repository).</p>
+<h3
+id="ready-to-paste-subagent-preamble-addendum-host-resource-safety">Ready-to-paste
+SUBAGENT PREAMBLE addendum (host resource safety)</h3>
+<pre class="text"><code>HOST RESOURCE SAFETY (docs/AGENT_GUARDRAILS.md section D) — binding for this task:
+- /tmp, /dev/shm and /run/user/* are RAM. Never write a repo copy, clone, worktree, bundle, archive or
+  extracted tree there (that includes the harness scratchpad under /tmp/claude-*). Get disk scratch with
+  S=$(bash &quot;$HOME/Projects/vasic/scripts/agent-scratch.sh&quot; new &lt;label&gt;) and work under &quot;$S&quot;.
+- Backups: cp -al &lt;path&gt; &quot;$S/backup&quot; (hardlinks, same filesystem). Never cp -a a repository or a gitdir.
+- Heavy work (pre-push gates, Playwright, go test -race, podman/site builds, content-boundary full scan,
+  zero-gap-verify, mutation suites, model runs) ONLY via
+  bash &quot;$HOME/Projects/vasic/scripts/agent-admit.sh&quot; --tag &lt;name&gt; -- &lt;cmd&gt;
+  and everything else heavy under bounded-run -m &lt;MEM&gt; -T &lt;SECONDS&gt; --. A refusal means &quot;wait for the next
+  wave&quot;: report it, do not retry in a loop.
+- No for-loops that spawn parallel jobs. At most one heavy command at a time per agent.
+- Remove your scratch dir when done.</code></pre>
+<h3
+id="operator-applied-steps-proposals-no-agent-edits-these-files">Operator-applied
+steps (proposals; no agent edits these files)</h3>
+<p>These survive a reboot only through files outside this repository,
+which agents may not edit.
+<code>bash scripts/agent-scratch.sh verify-persistence</code> reports
+the state from any working directory: it lists every tracked artifact
+(committed or not) and the <code>TMPDIR</code> that four FRESH shells
+resolve — login, interactive login and interactive from
+<code>$HOME</code>, and a login started from a non-HOME directory (a
+tmux pane or <code>bash -l</code> opened elsewhere). It <strong>exits 1
+while any row is unset or RAM-backed</strong> — an operator step, not a
+defect of this tree.</p>
+<ol type="1">
+<li><p><strong>Disk TMPDIR — APPLIED by the operator on
+2026-10-14</strong> (marker <code>agent-tmpdir-on-disk</code> in
+<code>~/.profile</code> and at the top of <code>~/.bashrc</code>).
+Measured the same day: with <code>TMPDIR</code> set in the environment,
+or with <code>"env": {"TMPDIR": ...}</code> in a settings file passed
+via <code>--settings</code>, Claude Code created its per-session tree
+(<code>claude-1000/&lt;project&gt;/&lt;session&gt;/tasks</code>, the
+sibling of the scratchpad) under that directory instead of
+<code>/tmp</code>, and its Bash tool children saw the same
+<code>TMPDIR</code>. The aliases <code>claude1..claude5</code> are
+<code>CLAUDE_CONFIG_DIR=~/.claude-claudeN cma_run</code> from the
+generated <code>~/.local/share/claude-multi-account/aliases.sh</code>
+(regenerated, do not edit), sourced by <code>~/.bashrc</code>. Optional
+for <code>systemd --user</code> units:
+<code>~/.config/environment.d/60-tmpdir.conf</code> with
+<code>TMPDIR=${HOME}/.cache/claude-tmp</code>. <strong>Revert:</strong>
+delete the marked lines. <strong>Cost:</strong> disk temp is not wiped
+at boot and this host has no <code>systemd-tmpfiles</code> user timer;
+prune <code>~/.cache/claude-tmp</code> periodically. 1b.
+<strong>PROPOSED: make <code>~/.bash_profile</code> independent of the
+working directory.</strong> Its first line is <code>. .bashrc</code> —
+RELATIVE, so a login shell started anywhere but <code>$HOME</code> does
+not find <code>~/.bashrc</code>; and because
+<code>~/.bash_profile</code> exists, bash never reads
+<code>~/.profile</code> either. Measured with
+<code>verify-persistence</code>: the three <code>$HOME</code> rows
+resolve <code>TMPDIR</code> to <code>~/.cache/claude-tmp</code>, the
+login from <code>/</code> resolves it to NOTHING (falls back to
+<code>/tmp</code>). Change line 1 to:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/.bashrc&quot;</span></span></code></pre></div>
+<p><strong>Revert:</strong> restore <code>. .bashrc</code>. After it,
+<code>verify-persistence</code> should report every row on
+disk.</p></li>
+<li><p><strong>Wire the project guard — APPLIED 2026-10-14
+(b44c9b0)</strong> (makes the tmpfs rule and the VSC-367 catalogue
+live). The second entry of the <code>PreToolUse</code>
+<code>"hooks"</code> list of the tracked
+<code>.claude/settings.json</code>, after the upstream guard;
+<code>bash scripts/verify-pretooluse-guard.sh</code> asserts it is wired
+(V2b) and fires (V9):</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;type&quot;</span><span class="fu">:</span> <span class="st">&quot;command&quot;</span><span class="fu">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;command&quot;</span><span class="fu">:</span> <span class="st">&quot;bash </span><span class="ch">\&quot;</span><span class="st">$CLAUDE_PROJECT_DIR/scripts/hooks/guard-project-catalogue.sh</span><span class="ch">\&quot;</span><span class="st">&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p><strong>Revert:</strong> remove the entry. Proof before wiring:
+<code>bash scripts/hooks/guard-project-catalogue.sh --prove-failure</code>.</p></li>
+</ol>
+<hr />
 <h2 id="verifying-this-layer">Verifying this layer</h2>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-pretooluse-guard.sh                 <span class="co"># 0 wired+operative, 1 defect, 2 cannot determine</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-pretooluse-guard.sh <span class="at">--prove-failure</span>  <span class="co"># the paired §1.1 mutation battery</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> submodules/constitution/scripts/hooks/test_guard_forbidden_commands.sh   <span class="co"># upstream hermetic harness</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-pretooluse-guard.sh                 <span class="co"># 0 wired+operative, 1 defect, 2 cannot determine</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-pretooluse-guard.sh <span class="at">--prove-failure</span>  <span class="co"># the paired §1.1 mutation battery</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> submodules/constitution/scripts/hooks/test_guard_forbidden_commands.sh   <span class="co"># upstream hermetic harness</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/hooks/guard-project-catalogue.sh <span class="at">--prove-failure</span>            <span class="co"># the project guard&#39;s own paired proof</span></span></code></pre></div>
 <p>The third is the upstream author’s own test suite for the guard,
 shipped inside the constitution submodule as of the 2026-09-08
 fast-forward. It is the authority on what the guard actually enforces;

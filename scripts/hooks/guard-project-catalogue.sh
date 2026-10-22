@@ -3,7 +3,7 @@
 #
 # WHY. The only wired PreToolUse hook is the upstream constitution guard
 # (submodules/constitution/scripts/hooks/guard-forbidden-commands.sh). Measured by the `guard-gaps`
-# sweep class, it lets 21 destructive commands of docs/zero-gap/guarded-commands.tsv through. That
+# sweep class, it lets 21 destructive commands of docs/zero-gap/guarded-commands.tsv through (23 findings since the two project-hook rows workshop-redact-no-root* joined: the class probes only the UPSTREAM guard, those two rows are CLOSED by THIS hook, and they stay visible as findings). That
 # guard is upstream code this repository does not edit, so the project closes the gap with a SECOND
 # hook that enforces the same tracked catalogue until the upstream guard catches up.
 #
@@ -102,7 +102,9 @@
 #                     refused; `${S:?}` aborts the command and is allowed. A sub-path (`~/Projects/x/*`) is not a root.
 #   workshop-redact-no-root (project, 2026-10-21) a bare workshop-redact (or go run|test ./cmd/workshop-redact) with no real
 #                     -root/--root FLAG (Go flag semantics; `--note -root` is a value) and no WORKSHOP_ROOT in the command's own
-#                     VAR=value prefix. BEST-EFFORT defence in depth; the binary's own guard is the control (see wr_hit)
+#                     VAR=value prefix. LAST -root wins; an unset-variable root or prefix is empty; `${IFS}` is split; modes the binary
+#                     does not guard (-h, --version, --dry-run, --list-derived-leaks / --check-review without --purge) are allowed.
+#                     BEST-EFFORT defence in depth; the binary's own guard is the control (see wr_hit)
 # A refused row with no parser above (a FUTURE row) falls back to its `candidate` ERE at command position. Every refusal
 # names what to do instead (HINTS; the proof asserts the hint).
 #
@@ -1394,31 +1396,74 @@ RM_LONG = L("--force", "--interactive", "--one-file-system", "--no-preserve-root
 # command's VAR=value prefix. `-root` as the VALUE of another flag (`--note -root --purge`) does not count.
 WR_ID = "workshop-redact-no-root"
 WR_VALUE_FLAGS = {"pid", "span", "pids-file", "reason", "by", "include-held-back", "chapter", "decision", "note", "root"}
+WR_BOOL_FLAGS = {"unredact", "review-only", "ratify", "check-review", "list-derived-leaks", "purge", "dry-run", "json", "v",
+                 "version", "confirm-r6-loss", "would-write"}
+WR_IFS = re.compile(r"\$\{IFS[^}]*\}|\$IFS(?![A-Za-z0-9_])")   # a computed word splitter: `workshop-redact${IFS}--purge`
 
-def wr_has_root(args):
-    """Go flag semantics: flags start with - or --, parsing stops at the first non-flag word or `--`, a value flag takes the
-    next word unless written -name=value."""
-    i = 0
+def wr_bool(val):
+    """strconv.ParseBool; None = invalid (Go's flag parser rejects the run before any write)."""
+    if val in ("1", "t", "T", "TRUE", "true", "True"): return True
+    if val in ("0", "f", "F", "FALSE", "false", "False"): return False
+    return None
+
+def wr_nonempty(v, ctx):
+    """A -root / WORKSHOP_ROOT value that is not statically EMPTY. `expand` reads an unset variable as empty (each Bash call
+    is a fresh shell), exactly like the rm rule; a value that cannot be known statically (a command substitution) counts
+    as present, because refusing it would refuse `-root "$(mktemp -d)"`."""
+    e = expand(v, ctx) if ctx is not None else v
+    return e is None or e != ""
+
+def wr_has_root(args, ctx=None):
+    """True when the binary's OWN guard cannot fire for this argument list: an explicit non-empty root, or a mode the binary
+    does not guard. Go flag semantics (mirrors cmd/workshop-redact/main.go): flags start with - or --, parsing stops at the
+    first non-flag word or `--`, a value flag takes the next word unless written -name=value, the LAST -root wins (an empty
+    last value is no root), -h/-help ends the run before any write, and the guard is active iff
+    (not dry-run, check-review or list-derived-leaks) or (purge and not dry-run)."""
+    i, root = 0, None
+    dry = chk = lst = purge = False
     while i < len(args):
         w = args[i]
         if w == "--" or not w.startswith("-") or w == "-":
-            return False
+            break
         if w.startswith("---"):
             return False                      # Go rejects it (bad flag syntax): the run fails before any write
         name, eq, val = w.lstrip("-").partition("=")
+        if name in ("h", "help"):
+            return True                       # usage and exit 0 at this point of the parse: nothing was read or written
         if name == "root":  # MUTANT-ANCHOR:wr-root-exempt
             if eq:
-                return val != ""
-            return i + 1 < len(args) and args[i + 1] != ""
-        if name in WR_VALUE_FLAGS and not eq:  # MUTANT-ANCHOR:wr-value-flags
+                root = val
+            else:
+                root = args[i + 1] if i + 1 < len(args) else ""
+                i += 1
+        elif name in WR_VALUE_FLAGS and not eq:  # MUTANT-ANCHOR:wr-value-flags
             i += 1
+        elif name in WR_BOOL_FLAGS:
+            on = True if not eq else wr_bool(val)
+            if on is None:
+                return False
+            if name == "would-write" and i == 0 and not eq and on:
+                return True                   # the binary's read-only classification probe: touches nothing
+            if name == "version" and on:
+                return True                   # prints the version and exits 0
+            if name == "dry-run": dry = on
+            elif name == "check-review": chk = on
+            elif name == "list-derived-leaks": lst = on
+            elif name == "purge": purge = on
         i += 1
-    return False
+    if root is not None and wr_nonempty(root, ctx):
+        return True
+    return dry or ((chk or lst) and not purge)  # MUTANT-ANCHOR:wr-readonly-modes
 
-def wr_hit(a, ids, env):
+def wr_hit(a, ids, env, ctx=None):
     if not any(i.startswith(WR_ID) for i in ids):
         return None
-    n0, args = a[0], a[1:]
+    joined = " ".join(a)
+    if "IFS" in joined and WR_IFS.search(joined):  # MUTANT-ANCHOR:wr-ifs
+        a = WR_IFS.sub(" ", joined).split()
+        if not a:
+            return None
+    n0, args = bn(a[0]), a[1:]
     if n0 == "workshop-redact":  # MUTANT-ANCHOR:wr-basename
         flags = args
     elif n0 == "go" and args and args[0] in ("run", "test"):
@@ -1430,7 +1475,7 @@ def wr_hit(a, ids, env):
         return None
     if env and env.get("\x00prefix:WORKSHOP_ROOT"):
         return None
-    return WR_ID if not wr_has_root(flags) else None
+    return WR_ID if not wr_has_root(flags, ctx) else None
 
 def struct_hit(a, ids, ctx, cfg=(), env=None, io=None):
     """The class a normalised argv (`a`: basename first, git globals stripped) belongs to, or None."""
@@ -1441,7 +1486,7 @@ def struct_hit(a, ids, ctx, cfg=(), env=None, io=None):
     for name, cid in (("reboot", "host-reboot"), ("poweroff", "host-poweroff"), ("halt", "host-halt")):
         if n0 == name and cid in ids:
             return cid
-    x = power_hit(a) or signal_hit(a, ids, ctx) or wr_hit(a, ids, env)
+    x = power_hit(a) or signal_hit(a, ids, ctx) or wr_hit(a, ids, env, ctx)
     if x:
         return x
     if n0 == "rm":
@@ -1541,7 +1586,7 @@ HINTS = {
     "host-poweroff": "never suspend, hibernate, power off, reboot or halt the host (CONST-033): report to the operator",
     "host-reboot": "never suspend, hibernate, power off, reboot or halt the host (CONST-033): report to the operator",
     "host-halt": "never suspend, hibernate, power off, reboot or halt the host (CONST-033): report to the operator",
-    "workshop-redact-no-root": "run workshop-redact only through scripts/redact.sh or with an explicit scratch -root (scripts/lib/scratch_root.sh); a bare run once rewrote the primary checkout",
+    "workshop-redact-no-root": "run workshop-redact only through scripts/redact.sh or with an explicit scratch -root (scripts/lib/scratch_root.sh); a bare run once rewrote the primary checkout. For `go test ./cmd/workshop-redact/...` put the root in the environment, WORKSHOP_ROOT=<scratch> go test ./cmd/workshop-redact/... (words after the package belong to the test binary, so -root there is not the program's flag). Read-only modes (-h, --version, --dry-run, --list-derived-leaks, --check-review) need no root",
     "session-kill": "never end the desktop session or the user service manager: report to the operator",
 }
 def hint(id_):
@@ -2116,7 +2161,7 @@ def judge_cmd(it, rules, ctx, depth, sinks=None):
             cctx["cwd"] = resolve(d, cctx)
     env = dict((k, v) for k, v in ctx["vars"].items() if isinstance(v, str))
     env.update(u["env"])
-    if u["env"].get("WORKSHOP_ROOT"): env["\x00prefix:WORKSHOP_ROOT"] = "1"  # this command's own VAR=value prefix only, never an earlier line's
+    if u["env"].get("WORKSHOP_ROOT") and wr_nonempty(u["env"]["WORKSHOP_ROOT"], ctx): env["\x00prefix:WORKSHOP_ROOT"] = "1"  # this command's own VAR=value prefix only, never an earlier line's
     # what the command reads on stdin: here-strings, here-documents, `echo|printf ... |`; None = unknown (a file, a program)
     stdin = [t["t"] for op, t in redirs if op == "<<<" and t] + [b for b, _dq in hds]
     if any(op in ("<", "<&", "<>") for op, _t in redirs) or (piped and not last_echo):
@@ -2654,9 +2699,16 @@ systemd-run-literal-only|        bad = any(w.get("ld") and (|        bad = any((
 rm-glob-catch-all|all(ch in ".?" for ch in last.replace("*", ""))|True|r5-G81
 wr-root-exempt|        if name == "root":  # MUTANT-ANCHOR:wr-root-exempt|        if False:|wr-G02,wr-G03,wr-G04,wr-G07,wr-G11
 wr-basename|    if n0 == "workshop-redact":  # MUTANT-ANCHOR:wr-basename|    if False:|wr-B01,wr-B02,wr-B03,wr-B04,wr-B07,wr-B14
-wr-value-flags|        if name in WR_VALUE_FLAGS and not eq:  # MUTANT-ANCHOR:wr-value-flags|        if False:|wr-B02,wr-B11,wr-B13
+wr-value-flags|        elif name in WR_VALUE_FLAGS and not eq:  # MUTANT-ANCHOR:wr-value-flags|        elif False:|wr-B02,wr-B11,wr-B13
 wr-prefix-exempt|    if env and env.get("\x00prefix:WORKSHOP_ROOT"):|    if False:|wr-G05,wr-G06
-wr-prefix-any-var|    if u["env"].get("WORKSHOP_ROOT"): env["\x00prefix:WORKSHOP_ROOT"] = "1"|    if ctx["vars"].get("WORKSHOP_ROOT") or u["env"].get("WORKSHOP_ROOT"): env["\x00prefix:WORKSHOP_ROOT"] = "1"|wr-B10
+wr-prefix-any-var|    if u["env"].get("WORKSHOP_ROOT") and wr_nonempty(u["env"]["WORKSHOP_ROOT"], ctx): env["\x00prefix:WORKSHOP_ROOT"] = "1"|    if ctx["vars"].get("WORKSHOP_ROOT") or u["env"].get("WORKSHOP_ROOT"): env["\x00prefix:WORKSHOP_ROOT"] = "1"|wr-B10
+wr-readonly-modes|    return dry or ((chk or lst) and not purge)  # MUTANT-ANCHOR:wr-readonly-modes|    return False|wr-G15,wr-G16,wr-G17,wr-G18,wr-G21
+wr-ifs|    if "IFS" in joined and WR_IFS.search(joined):  # MUTANT-ANCHOR:wr-ifs|    if False:|wr-B16,wr-B17
+wr-help|        if name in ("h", "help"):|        if False:|wr-G13,wr-G23
+wr-version|            if name == "version" and on:|            if False:|wr-G14,wr-G22
+wr-last-root|                root = args[i + 1] if i + 1 < len(args) else ""|                root = root if root is not None else (args[i + 1] if i + 1 < len(args) else "")|wr-B15,wr-G12
+wr-nonempty|    return e is None or e != ""|    return True|wr-B18,wr-B19,wr-B22
+wr-dry-flag|            if name == "dry-run": dry = on|            if name == "dry-run": dry = True|wr-B20,wr-B24
 wr-go-package|(/\.\.\.)?$", w)), None)|(/\.\.\.)?x$", w)), None)|wr-B05,wr-B06,wr-B13
 wr-stop-at-dashdash|        if w == "--" or not w.startswith("-") or w == "-":|        if False:|wr-B12
 rm-unset-abort|        if op in ("?", ":?") and (v is None or (op == ":?" and v == "")):|        if False:|r5-G71
@@ -2744,15 +2796,34 @@ MUTS
     # P16 an allowed call prints NOTHING on stderr: python's FutureWarning on POSIX bracket text is silenced (round 7)
     local e16; e16=$(printf '%s' '{"tool_name":"Bash","tool_input":{"command":"pkill -x '"'"'[[q]zz-r7'"'"'"}}' | run_hook hook "$CAT" 2>&1 >/dev/null); rc=$?
     [ "$rc" -eq 0 ] && [ -z "$e16" ] && ok "P16 an allowed call is silent on stderr (no FutureWarning)" || bad "P16 rc=$rc stderr='$e16'"
-    # L1 latency p95 over 200 probes under 100 ms
-    local i s e2 ms; local -a lat=()
-    for i in $(seq 1 200); do
-        s=$(date +%s%N)
-        printf '{"tool_name":"Bash","tool_input":{"command":"git status && ls"}}' | run_hook hook "$CAT" 2>/dev/null
-        e2=$(date +%s%N); lat+=($(( (e2 - s) / 1000000 )))
-    done
-    ms=$(printf '%s\n' "${lat[@]}" | sort -n | sed -n '190p')
-    [ "$ms" -lt 100 ] && ok "L1 latency p95=${ms} ms over 200 probes (< 100 ms)" || bad "L1 latency p95=${ms} ms"
+    # P17 (review A1) the refusal of `go test ./cmd/workshop-redact/...` TELLS the agent the way out: a WORKSHOP_ROOT=<scratch> prefix
+    local h17 rc17; h17=$(printf '%s' '{"tool_name":"Bash","tool_input":{"command":"go test ./cmd/workshop-redact/..."}}' | run_hook hook "$CAT" 2>&1 >/dev/null); rc17=$?
+    [ "$rc17" -eq 2 ] && grep -q 'WORKSHOP_ROOT=<scratch> go test' <<<"$h17" && ok "P17 go test refusal names the WORKSHOP_ROOT=<scratch> prefix" || bad "P17 rc=$rc17 hint lacks the WORKSHOP_ROOT=<scratch> go test prefix"
+    # L1 latency p95 over 200 probes under 100 ms — LOAD-AWARE (review A5): a loaded host (load 46) inflates every process, so a
+    # single round measured 236 ms and failed a hook that takes ~85 ms when the host is quiet. The measurement is repeated up to 3
+    # rounds and the BEST round counts; a quiet round passes, a hook that is really slower stays over 100 ms in EVERY round, so the
+    # bound is not weakened. The paired mutation L1m (a 150 ms delay in front of every probe) must still be reported as too slow.
+    l1_p95() {   # $1 probes per round, $2 max rounds, $3 delay before each probe (0 = none) -> "best_ms rounds_used"
+        local n=$1 rounds=$2 delay=$3 best="" r i s e2 idx p; local -a lat
+        for r in $(seq 1 "$rounds"); do
+            lat=()
+            for i in $(seq 1 "$n"); do
+                s=$(date +%s%N)
+                [ "$delay" = 0 ] || sleep "$delay"
+                printf '{"tool_name":"Bash","tool_input":{"command":"git status && ls"}}' | run_hook hook "$CAT" 2>/dev/null
+                e2=$(date +%s%N); lat+=($(( (e2 - s) / 1000000 )))
+            done
+            idx=$(( (n * 95 + 99) / 100 ))
+            p=$(printf '%s\n' "${lat[@]}" | sort -n | sed -n "${idx}p")
+            if [ -z "$best" ] || [ "$p" -lt "$best" ]; then best=$p; fi
+            [ "$best" -lt 100 ] && break
+        done
+        echo "$best $r"
+    }
+    local l1 ms l1r; l1=$(l1_p95 200 3 0); ms=${l1% *}; l1r=${l1#* }
+    [ "$ms" -lt 100 ] && ok "L1 latency p95=${ms} ms over 200 probes (< 100 ms; best of ${l1r} round(s), load $(cut -d' ' -f1 /proc/loadavg))" || bad "L1 latency p95=${ms} ms in the best of ${l1r} rounds (load $(cut -d' ' -f1 /proc/loadavg))"
+    local l1m; l1m=$(l1_p95 20 1 0.15); l1m=${l1m% *}
+    [ "$l1m" -ge 100 ] && ok "L1m paired mutation: a hook slowed by 150 ms per call is reported too slow (p95=${l1m} ms)" || bad "L1m a slowed hook was NOT detected (p95=${l1m} ms)"
     echo "guard-project-catalogue --prove-failure: $pass passed, $fail failed"
     [ "$fail" -eq 0 ]
 }

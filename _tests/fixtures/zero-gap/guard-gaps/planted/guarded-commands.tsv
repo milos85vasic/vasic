@@ -5,7 +5,7 @@ checkout-discard	git checkout -- .	refused	corpus	git checkout --( |$)
 restore-discard	git restore .	refused	corpus	git restore
 stash-all	git stash	refused	corpus (stub guard lets this through: planted)	git stash
 clean-force-dirs	git clean -fd	refused	corpus	git clean -fd
-add-all	git add -A	refused	corpus (stub guard lets this through: planted)	git add -A
+add-all	git add -A	refused	corpus (stub guard lets this through: planted; CLOSED-BY-PROJECT-HOOK scripts/hooks/guard-project-catalogue.sh)	git add -A
 reset-hard	git reset	refused	corpus (command softened below its class: planted candidate drift)	git reset --hard
 force-push	git push --force origin main	refused	corpus	git push --force( |$)
 force-with-lease	git push --force-with-lease origin main	refused	corpus	--force-with-lease

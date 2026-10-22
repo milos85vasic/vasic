@@ -618,7 +618,7 @@
 {"id": "wr-B01", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "platform/bin/workshop-redact --purge"}
 {"id": "wr-B02", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact --note -root --purge"}
 {"id": "wr-B03", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "/usr/bin/timeout 5 workshop-redact --pid 3"}
-{"id": "wr-B04", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "bounded-run -q -- ./platform/bin/workshop-redact --dry-run"}
+{"id": "wr-B04", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "bounded-run -q -- ./platform/bin/workshop-redact --pid 3"}
 {"id": "wr-B05", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "go run ./cmd/workshop-redact --purge"}
 {"id": "wr-B06", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "go test ./cmd/workshop-redact"}
 {"id": "wr-B07", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "bash -c 'workshop-redact --purge'"}
@@ -633,10 +633,32 @@
 {"id": "wr-G02", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "platform/bin/workshop-redact -root /tmp/s --dry-run"}
 {"id": "wr-G03", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "platform/bin/workshop-redact --root=/tmp/s --purge"}
 {"id": "wr-G04", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "platform/bin/workshop-redact --note x -root /tmp/s"}
-{"id": "wr-G05", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "WORKSHOP_ROOT=/tmp/s platform/bin/workshop-redact --dry-run"}
-{"id": "wr-G06", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "env WORKSHOP_ROOT=/tmp/s workshop-redact --dry-run"}
+{"id": "wr-G05", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "WORKSHOP_ROOT=/tmp/s platform/bin/workshop-redact --pid 3"}
+{"id": "wr-G06", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "env WORKSHOP_ROOT=/tmp/s workshop-redact --pid 3"}
 {"id": "wr-G07", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "go run ./cmd/workshop-redact -root /tmp/s --dry-run"}
 {"id": "wr-G08", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "echo workshop-redact --purge"}
 {"id": "wr-G09", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "git commit -m \"run workshop-redact --purge\""}
 {"id": "wr-G10", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "grep workshop-redact docs/runbook.md"}
 {"id": "wr-G11", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "workshop-redact --reason x --by y --root /tmp/s --pid 4"}
+{"id": "wr-B15", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact -root /tmp/s -root \"\" --purge"}
+{"id": "wr-B16", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact${IFS}--purge"}
+{"id": "wr-B17", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact$IFS--purge"}
+{"id": "wr-B18", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact -root \"$UNSET_WR_X\" --purge"}
+{"id": "wr-B19", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "WORKSHOP_ROOT=$UNSET_WR_X workshop-redact --purge"}
+{"id": "wr-B20", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact --dry-run=false --purge"}
+{"id": "wr-B21", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact --list-derived-leaks --purge"}
+{"id": "wr-B22", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact -root=$UNSET_WR_X --purge"}
+{"id": "wr-B23", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact --check-review=false --pid 3"}
+{"id": "wr-B24", "expect": "B", "branch": "cat:workshop-redact-no-root", "cwd": "@REPO@", "cmd": "workshop-redact --dry-run --dry-run=false --pid 3"}
+{"id": "wr-G23", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "workshop-redact -h --purge -root="}
+{"id": "wr-G12", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "workshop-redact -root \"\" -root /tmp/s --purge"}
+{"id": "wr-G13", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "workshop-redact -h"}
+{"id": "wr-G14", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "workshop-redact --version"}
+{"id": "wr-G15", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "workshop-redact --dry-run --pid 3 --reason x --by y"}
+{"id": "wr-G16", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "workshop-redact --list-derived-leaks"}
+{"id": "wr-G17", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "workshop-redact --check-review --chapter 01"}
+{"id": "wr-G18", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "workshop-redact --purge --dry-run"}
+{"id": "wr-G19", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "WORKSHOP_ROOT=/tmp/s go test ./cmd/workshop-redact/..."}
+{"id": "wr-G20", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "SCR=/tmp/s; workshop-redact -root \"$SCR\" --purge"}
+{"id": "wr-G21", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "workshop-redact --dry-run=true --purge"}
+{"id": "wr-G22", "expect": "A", "branch": "-", "cwd": "@REPO@", "cmd": "workshop-redact --version=true"}

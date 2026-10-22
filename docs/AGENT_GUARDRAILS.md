@@ -207,14 +207,24 @@ a hook bypass by configuration (`-c core.hooksPath=…`). It allows the look-ali
 `rm -rf "$S"/*` with `S` unset is refused; write `"${S:?}"`. Every refusal says what to do instead (the proof asserts the
 hint). The complete per-row list is in the hook's header ("CATALOGUE RULE").
 
-*workshop-redact rule (row `workshop-redact-no-root`, 2026-10-21).* Refuses a bare `workshop-redact` (basename at command
-position in any wrapper stage, also `go run|test ./cmd/workshop-redact`) unless a `-root`/`--root`/`-root=X`/`--root=X`
-that Go's flag parser reads as a FLAG is present, or `WORKSHOP_ROOT` is assigned in that command's own `VAR=value`
-prefix; `-root` as the value of another flag (`--note -root --purge`) does not count. `bash scripts/redact.sh ...` stays
-allowed. **Status: best-effort defence in depth, not the control** — it cannot see the binary started from another
-program, held in a variable, copied/renamed, or reached through `xargs`/`find -exec`/`bash -c` with a computed word. The
-control is the binary's own guard (explicit `-root`; `WORKSHOP_ALLOW_PRIMARY_WRITE=1` for a git primary checkout, granted
-only by `scripts/redact.sh`; `--purge` needs `--confirm-r6-loss`).
+*workshop-redact rule (row `workshop-redact-no-root`, 2026-10-21; refined 2026-10-22).* Refuses a bare `workshop-redact` (basename at
+command position in any wrapper stage, also `go run|test ./cmd/workshop-redact`) unless one of these holds, judged the way the
+binary's Go flag parser reads its arguments: (1) a non-empty `-root`/`--root`/`-root=X`/`--root=X` FLAG, where the LAST `-root` wins
+(`-root /x -root ""` has no root; `-root "" -root /x` has one) and `-root` as the value of another flag (`--note -root --purge`) does
+not count; (2) `WORKSHOP_ROOT=<non-empty>` in that command's own `VAR=value` prefix; (3) a mode the binary itself does not guard:
+`-h`/`-help`, `--version`, `--dry-run`, or `--list-derived-leaks`/`--check-review` without `--purge` (`--list-derived-leaks --purge`
+IS guarded, as in the binary). An unset variable is empty in the fresh shell of a Bash call, so `-root "$UNSET"` and
+`WORKSHOP_ROOT=$UNSET workshop-redact` are refused like a missing root, and `workshop-redact${IFS}--purge` is split before it is judged.
+`go test ./cmd/workshop-redact/...` is refused too, because words after the package belong to the test binary and `-root` there is not
+the program's flag: run `WORKSHOP_ROOT=<scratch> go test ./cmd/workshop-redact/...` instead. `bash scripts/redact.sh ...` stays allowed.
+**Status: best-effort defence in depth, not the control.** Out of scope, and not detectable by a command-line rule: the binary started
+from another program (Python/`subprocess`), held in a variable (`b=workshop-redact; $b ...`), copied, renamed or symlinked,
+`$(which ...)`, `eval "$(echo ...)"`, other computed words (`${IFS%?}`-style tricks beyond plain `$IFS`/`${IFS}`), and wrappers the
+lexer does not know (`strace`, `unshare`, `nsenter`, `ssh`). The control is the binary's own guard (explicit `-root`;
+`WORKSHOP_ALLOW_PRIMARY_WRITE=1` for a git primary checkout, granted only by `scripts/redact.sh`; `--purge` needs `--confirm-r6-loss`).
+The `guard-gaps` sweep class probes only the UPSTREAM guard, so the two `workshop-redact-no-root*` rows show as findings there by design
+(the sweep reports 23 = the 21 older gaps + these 2); the rows are marked `CLOSED-BY-PROJECT-HOOK` and the class names the project hook in
+their wording instead of sending the reader upstream alone.
 
 *tmpfs rule.* Refuses (rc 2) BULK writes that bring DISK data into tmpfs: recursive copies (`cp -a|-r|-R`, `rsync`,
 `zip -r`, `podman|docker cp`), clones/worktrees/bundles/archives, archive extraction (`tar -x`, `unzip`, `7z x`), git
