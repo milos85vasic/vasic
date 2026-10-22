@@ -115,7 +115,8 @@ prove_failure() {
   "${E[@]}" bash "$SELF" down >/dev/null 2>&1; kill -0 $$ 2>/dev/null && ok "down did not signal a pid that is not our binary" || bad "down signalled a foreign pid"
   # the script body must contain no podman/compose call and no live port literal outside its refusal
   local pm="pod""man" dk="doc""ker"
-  if grep -v '^[[:space:]]*#' "$SELF" | grep -Eq "(^|[^[:alnum:]_])($pm|$dk)([^[:alnum:]_]|\$)"; then bad "script calls podman/docker"; else ok "script body never calls podman or docker"; fi
+  grep -v '^[[:space:]]*#' "$SELF" > "$T/body.txt"
+  if grep -Eq "(^|[^[:alnum:]_])($pm|$dk)([^[:alnum:]_]|\$)" "$T/body.txt"; then bad "script calls podman/docker"; else ok "script body never calls podman or docker"; fi
   rm -rf "$T"
   printf 'prove-failure: %d passed, %d failed\n' "$pass" "$fail"
   [ "$fail" = 0 ]
