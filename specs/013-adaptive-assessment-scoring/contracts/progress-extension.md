@@ -70,7 +70,8 @@ just `ability_score` populated, not a false 404.
 
 ## Reconciled by n1-013-adaptive on 2026-10-21
 
-- Each `ability_score` row gains `integrity` (additive; omitted when the log could not be read):
+- Each `ability_score` row gains `early_below_attempts` (the server's `LevelUpMinAttempts`: below this many answers
+  the score is an early estimate; the client reads it rather than keeping a copy) and `integrity` (additive; omitted when the log could not be read):
   `{flags[], attempts, repeat_attempts, repeat_after_wrong, rapid_guesses, rapid_wrong}`, the same reading
   `practice-submit.md` returns as `scoring.integrity`. A session with nothing flagged carries `flags: []`, not a
   missing block.

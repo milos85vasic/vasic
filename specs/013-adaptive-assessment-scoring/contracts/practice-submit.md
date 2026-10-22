@@ -161,14 +161,19 @@ so a client's error-handling switch statement is not surprised by it later.
   `chosen` and NO `recalled`. Anything else is 400 `unknown_parameter` (field `recalled` / `chosen`). A flashcard can
   be answered only by a session it was served to (else 404 `question_not_found`), and only with the token minted for
   it. (The `text` field shown in the request above is not accepted by this route: the body is strict.)
-- **Response, flashcards.** `result.self_rated: true`, `result.answer` (the flipped card's answer) and
-  `result.correct == recalled`. The entry is scored through the same pipeline, `scoring.downgrade_triggered` is true
-  and `scoring.reason` carries the downgrade reason with the "kind eased" note.
+- **Response, flashcards (revised 2026-10-22, operator decision on review F2: self-rated outcomes are NEUTRAL).**
+  `result.self_rated: true`, `result.counts_toward_score: false`, `result.answer` and `result.correct == recalled`
+  (recorded as the learner claimed). The entry is logged with a persisted `self_rated` marker
+  (`scoring.self_rated: true`) but moves nothing: `scoring.delta` is 0, `k_factor` 0, `ability_before ==
+  ability_after`, and `ability.current` / `attempt_count` are unchanged. It never feeds item calibration (Elo batch
+  or 2PL) and does not break a downgrade streak. `scoring.downgrade_triggered` is true and `scoring.reason` carries
+  the downgrade reason, the "kind eased" note and "self-rated: this card does not change your score".
+- **Strict body (2026-10-22).** Unknown fields, duplicate top-level keys and any bytes after the JSON object are 400.
 - **`scoring.integrity`** (research-derived A9, additive, omitted when it could not be read): the repeat-attempt /
-  rapid-guess reading for this area: `{flags[], attempts, repeat_attempts, repeat_after_wrong, rapid_guesses,
-  rapid_wrong}`. `repeat_after_wrong` counts answers to a question the session had already answered with at least one
-  wrong; `rapid_guesses` counts practice answers STRICTLY faster than `Config.RapidGuessMin` (2s, UNVALIDATED) after
-  the serve (a graded outcome has no serve time and is never counted). A flag is raised at `GamingRepeatFlag` (3) /
+  rapid-guess reading for this area: `{flags[], attempts, repeat_attempts, server_repeats, repeat_after_wrong,
+  rapid_guesses, rapid_wrong}`. `server_repeats` are repeats the SERVER stated (`selection.repeat`) and are never
+  counted against the learner; `repeat_after_wrong` counts only repeats the learner chose after a wrong answer; `rapid_guesses` counts practice answers STRICTLY faster than `Config.RapidGuessMin` (2s, UNVALIDATED) after
+  the serve (a graded outcome has no serve time, and a self-rated flashcard carries its answer on its face; neither is ever counted). A flag is raised at `GamingRepeatFlag` (3) /
   `GamingRapidFlag` (5). It is evidence, never a verdict: it changes no score.
 - **`achievement_events`** now includes `adjusted` (coalesce_key `adjusted:<area>`, `modal_worthy` false,
   `remedial_href` = the question's study link, else null) on the entry answering a downgrade-served question.

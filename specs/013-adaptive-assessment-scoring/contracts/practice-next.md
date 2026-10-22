@@ -128,7 +128,10 @@ Additive fields and behaviours; no existing field changed.
   easier than the normal pick, and `selection.reason` then continues "(kind eased: serving a flashcard in place of a
   mcq)". Outside a downgrade a flashcard is never served.
 - **`serving.grading`**: `"server_key"` (multiple choice: the server grades) or `"self_rated"` (flashcard: the
-  learner reports recall; see `practice-submit.md`). A flashcard's served `question` keeps its `answer` and
+  learner reports recall; see `practice-submit.md`); `serving.counts_toward_score` is false for a self-rated card.
+  An answered flashcard is not served again inside `Config.FlashcardReserveWindow` (7 days, UNVALIDATED). The
+  reason always says the card is self-rated, and says "no ordinary item is left in this pool" when it was served
+  because every ordinary item was already answered. A flashcard's served `question` keeps its `answer` and
   `explanation` (the learner flips the card to rate recall; the pool only ever contains rows whose key this session
   may see) and has no `choices`.
 - **`selection.calibration`**: `"elo"` (the bootstrap) or `"irt_2pl"` (the item graduated to a fitted 2PL after
