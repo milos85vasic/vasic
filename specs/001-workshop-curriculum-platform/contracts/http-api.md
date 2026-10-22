@@ -893,6 +893,9 @@ unknown pid is not "probably this one". Full rules in
   ],
   "truncated_by": null,          // null | "cycle" | "limit" | "depth"
   "redacted_omitted": 1,         // count only — never the pids, never the content
+  "floor_calibrated": false,      // I7; true only when a calibrated per-kind score cut-off was applied to EVERY traversed source kind (spec 016)
+  "floor_filtered": 0,           // OPTIONAL (present only when a cut-off policy is configured): derived edges removed by it
+  "floor_kinds": {"transcript_segment": false}, // OPTIONAL: per traversed source kind, whether a calibrated cut-off was applied (false = left uncut)
   "took_ms": 6
 }
 ```
@@ -1395,7 +1398,10 @@ produce one.
 | `suggest_timeout` | lexical | `suggest_budget_ms` elapsed with zero rows. |
 | `registry_unreadable` | registry | `passages.db` cannot be opened. |
 | `curriculum_unreadable` | curriculum | The chapter's own committed pipeline output — the transcript sidecar carrying the engine, the duration and the segment spans — could not be read (§3.3, §3.4). Not a reuse of `registry_unreadable`, because the two remedies point at different files: an unreadable registry is fixed by re-ingesting, an unreadable curriculum tree by repairing the mount or re-running transcription. |
+| `no_leg_executed` | none | Not one enabled leg executed — every one was `skipped` — so there is nothing to report an absence from. Not a reuse of `partial_failure_zero_results` (part of the search *failed*: retry): this deployment runs none of the legs the mode selects — do not retry, change mode. *Row added 2026-10-22 by the contract-vs-enum gate; the code already emitted it.* |
+| `kind_not_indexed` | none | The request filtered to kinds this corpus holds zero indexed entries of; the legs are fine and would have run — do not retry, drop the filter. Not the answer for an unknown kind name (that is HTTP 400). *Row added 2026-10-22 by the contract-vs-enum gate; the code already emitted it.* |
 | `progress_store_unreadable` | progress | The local reading-position store (`progress.json`) exists and could not be used (§3.11), on either the `GET` read path or the `POST` write path — `Put` reads before it writes, so both are the same file and the same fault. Not a reuse of `registry_unreadable` or `curriculum_unreadable`: this is a **third** file with a **third** remedy — repair or delete one local convenience file, costing a reader their saved positions and nothing else — and borrowing either existing code would send an operator to the wrong one. `progress` is likewise a leg of its own and never appears in a search envelope's `legs` map, because §3.11 is not a retrieval route. |
+| `progress_store_not_durable` | progress | A learning-progress write (lesson state or a graded-attempt record) **was published** — the rename happened and a fresh read returns it — but the directory fsync that makes it survive a power loss failed, so durability is unconfirmed. **Not** a reuse of `progress_store_unreadable` ("nothing was stored"): a client keyed on `code` must not read this as a lost write. The `503` body also carries `phase: "progress_store_not_durable"` and `retry`: `safe` (lesson mark, idempotent), `same_idempotency_key` (graded submit that carried a key — repeat only with the same key) or `do_not_repeat_without_key` (graded submit without a key: a repeat records a second attempt and no result exists for the first). Raised by `POST` of a lesson state and `POST .../assessment/submit`. |
 | `recording_not_reassembled` | — | 36 parts present, no reassembled file. |
 | `recording_integrity_unverified` / `_stale` / `_mismatch` | — | FR-007 states. |
 | `too_many_readers` | — | Concurrent range readers exceeded. |

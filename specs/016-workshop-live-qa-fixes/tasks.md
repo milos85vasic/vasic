@@ -685,3 +685,16 @@ Performed against this file before handoff, per superpowers:writing-plans' requi
   transcript state), T045b (honest empty cross-reference state), T057b (omit, don't force-summarize,
   an unclear source span). All 6 are now added to their owning story, not left for Phase 11 to
   discover.
+
+
+## FOLLOW-UP (added 2026-10-22 after the independent review of n4-016-complete @545777b; umbrella working-tree note, not committed)
+
+- **T045c [OPEN] FR-006 / SC-004 relevance evidence for cross-references.** The shipped per-kind cut-off (q=0.95 of a random single-pair null) is
+  NOT SC-004 evidence and ships OFF by operator decision. Reasons, measured by the reviewer on copies of the gen-18 bundle: 118 of the 124
+  emptied sources are `kg_term`, a kind that does not render the panel; on `transcript_segment`/`doc_section` the empty state is reachable for
+  about 0.08% of passages; the null is wrong for a ranked list (the best of ~8,700 targets clears it ~99% of the time, 88% even in a
+  no-relationship control). Needed: (1) a labelled relevance sample >= 385 (+-5%), stratified by source kind and score band including below the
+  cut-off; (2) a null for the ranked selection (family-wise / max-of-N, or per-source rank-normalised score with hubness correction); (3) a recall proxy
+  (authored links, same-area term-to-evidence pairs); (4) operator ratification of the quantile before any default changes.
+  Measurement write-up: workshop `docs/crossref-floor-measurement.md`. FR-006/SC-004 stay UNTICKED.
+- Contract: `floor_calibrated` (per-answer, I7), `floor_filtered` and `floor_kinds` added to specs/001 http-api.md §3.9 (this edit); mirror in the 002 delta when that file is next amended.
