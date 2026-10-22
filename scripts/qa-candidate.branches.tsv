@@ -9,6 +9,7 @@
 # resolved by UNION (every stream's routes / registrations / flags kept). Edit this file to
 # add a stream, reorder, or park a branch that cannot be merged without breaking the build.
 base	int-0.0.3
+merge	main
 merge	fix-apikeys-argv
 merge	wire-completion
 merge	n1-013-adaptive
