@@ -486,3 +486,5 @@ exempt	upstreams/GitHub.sh	push recipe: exports UPSTREAMABLE_REPOSITORY for the 
 check	harness-selfvalidation-aggregator	_tests/run-harness-selfvalidation.sh	flag	--prove-failure	--children /nonexistent
 check	zero-gap-class-credentials-public-tree	scripts/zero-gap-class-credentials-public-tree.sh	flag	--prove-failure	--root /nonexistent
 check	umbrella-mutants	scripts/prove-umbrella-mutants.sh	flag	--prove-failure	--go /nonexistent/go
+check	qa-candidate	scripts/qa-candidate.sh	flag	--prove-failure	--repo /nonexistent
+check	qa-candidate-up	scripts/qa-candidate-up.sh	flag	--prove-failure	bogus-subcommand

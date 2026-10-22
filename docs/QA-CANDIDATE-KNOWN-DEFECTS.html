@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>QA-CANDIDATE-KNOWN-DEFECTS</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">QA-CANDIDATE-KNOWN-DEFECTS</h1>
+</header>
+<h1 id="qa-candidate-known-defects">QA candidate: known defects</h1>
+<p>Part 1 lists problems found while CONSTRUCTING this candidate (merge
+decisions, merge-induced breakage and the state of the quality gates run
+on the merged tree). Part 2 is the digest of the independent review
+reports for the merged streams. Nothing in Part 2 was re-run or
+re-reviewed for this build: statuses were checked by reading the code
+and commit log only.</p>
+<h2 id="part-1-found-while-building-the-candidate">Part 1: found while
+building the candidate</h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Where</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CC-01</td>
+<td>HIGH</td>
+<td><code>verify-suppressed-residue.sh</code> exits 1 on the merged
+tree: ratchet FAIL for two NEW carriers of suppressed passage ids,
+<code>docs/faq.docx</code> (33 ids) and
+<code>docs/on-screen-text.md</code> (1), plus the known G3 debt. Both
+files arrive with the s11-018-library branch. These are served from
+<code>/docs</code>, so withheld text may be reachable in them.</td>
+<td>candidate worktree <code>docs/</code></td>
+<td>OPEN, not fixed on the candidate</td>
+</tr>
+<tr>
+<td>CC-02</td>
+<td>HIGH</td>
+<td><code>verify-redaction-propagation.sh</code> exits 1 (6 assertions
+failed; served <code>redactions</code> table 1156 rows against 1112
+effective suppressions). Not diagnosed: the gate was run against the
+worktree, which lacks the untracked curriculum data.</td>
+<td>gate output</td>
+<td>UNKNOWN whether a real defect or an environment artefact; re-run
+against the QA data copy</td>
+</tr>
+<tr>
+<td>CC-03</td>
+<td>MED</td>
+<td>The on-demand material path never sets the per-request
+acknowledgement (<code>WithRemoteAck</code>, only <code>/api/ask</code>
+does) and nothing in production code installs a spend hook
+(<code>SetSpendHook</code>), which the billable probe added by h1 now
+requires. A hosted provider row therefore cannot generate. The test
+<code>TestLazyHostedBuildsOnlyOnFirstGeneration</code> needed both added
+to pass (qa-fix). Hosted providers are OFF in this build, so this is not
+reachable.</td>
+<td><code>pkg/answer/hosted.go</code>,
+<code>cmd/workshop-server/wire_materialgen.go</code></td>
+<td>OPEN</td>
+</tr>
+<tr>
+<td>CC-04</td>
+<td>LOW</td>
+<td>h1 health probe runs BEFORE n3's per-request acknowledgement check
+inside <code>HostedProvider.Generate</code> (the probe carries no
+private text but is a billable call). Semantic merge choice, never
+reviewed.</td>
+<td><code>pkg/answer/hosted.go</code></td>
+<td>UNREVIEWED</td>
+</tr>
+<tr>
+<td>CC-05</td>
+<td>MED</td>
+<td><code>pipeline/ocr/</code> holds two implementations: n6's spec-002
+modules and n7's spec-008 modules share file names; the conflicted
+<code>__init__</code>, <code>corroboration</code>,
+<code>stability</code> take n7's. n6's <code>test_ocr.py</code> still
+passed 32/32 against the mixed package, but the package is not a
+reviewed design. Offline pipeline only, not served.</td>
+<td><code>pipeline/ocr/</code></td>
+<td>OPEN</td>
+</tr>
+<tr>
+<td>CC-06</td>
+<td>LOW</td>
+<td>The ask path with the <code>askStream</code> UX flag ON does not
+carry the hosted-send acknowledgement (<code>remoteAck</code>); the
+non-stream path does. Flags default OFF.</td>
+<td><code>features/inquiry/inquiry.component.ts</code></td>
+<td>OPEN</td>
+</tr>
+<tr>
+<td>CC-07</td>
+<td>MED</td>
+<td><code>features/practice/adaptive-practice.component.ts</code> is
+n8's version; wire-completion's variant (announce / focus on a new
+question) was dropped. Its spec file is a union of both streams'
+expectations; Karma result for the merged tree is in the QA-CANDIDATE
+page, section 7 status line.</td>
+<td>frontend</td>
+<td>SEE KARMA RESULT</td>
+</tr>
+<tr>
+<td>CC-08</td>
+<td>LOW</td>
+<td><code>docs/faq.md</code> is the union of several streams: several
+<code>## 19.</code> / <code>## 20.</code> headings coexist. The
+generated <code>docs/*.pdf</code> / <code>*.html</code> exports of faq,
+manual and user-guide were NOT regenerated (they show one side
+only).</td>
+<td><code>docs/</code></td>
+<td>OPEN, cosmetic</td>
+</tr>
+<tr>
+<td>CC-09</td>
+<td>LOW</td>
+<td>n6's and n7's differently shaped <code>verify-gofmt.sh</code> gates
+share a file name; n6's ratchet is kept, n7's registry row
+<code>gofmt-clean</code> removed. The ratchet baseline was emptied (n7
+had formatted the 13 files) and 3 files from other streams were
+formatted. Gate green after.</td>
+<td><code>platform/gates/</code></td>
+<td>FIXED on candidate (qa-fix)</td>
+</tr>
+<tr>
+<td>CC-10</td>
+<td>MED</td>
+<td>My own conflict union of <code>platform/compose.yml</code> (n8)
+re-introduced the name-only <code>ApiKey_OpenAI</code> /
+<code>ApiKey_Anthropic</code> environment entries that the apikeys
+design removes (they put key values on the container command line once
+opted in). Caught by review of the digest, removed in a qa-fix;
+<code>scripts/api-keys.test.sh</code> 103 passed / 0 failed after.</td>
+<td><code>platform/compose.yml</code></td>
+<td>FIXED on candidate (qa-fix)</td>
+</tr>
+<tr>
+<td>CC-11</td>
+<td>LOW</td>
+<td>The three-way union left research docs listed in the Library under
+the <code>[stale]</code> live-registry statements of some docs (e.g.
+"Not searchable yet" describes the un-ingested live registry; on the QA
+copy they ARE searchable).</td>
+<td>docs</td>
+<td>NOTE</td>
+</tr>
+<tr>
+<td>CC-12</td>
+<td>INFO</td>
+<td>Gates that need untracked data (<code>docs/research</code>,
+<code>platform/prebuilt</code>, <code>curriculum</code> build products)
+return UNDETERMINED (rc 2) when run from the worktree:
+<code>verify-research-reingest</code>,
+<code>verify-prebuilt-artifacts</code>,
+<code>verify-media-exposure</code>, <code>verify-server-unity</code> (5
+PASS, 2 UNDET). They were not run against the QA copy.</td>
+<td>gate output</td>
+<td>NOT VERIFIED</td>
+</tr>
+</tbody>
+</table>
+<p>Part 1 gates that PASSED on the merged tree (rc 0, run in this
+session): placeholder-sweep (source half), no-runtime-model-calls,
+medium-no-model, seed-password-absent, spec007-auth-wiring, scoring (200
+tests), registry-content-type, limits-completeness, ui-labels,
+ui-vocabulary, no-hierarchy-fields, gofmt, source-ref-exposure,
+transcript-anchors, material-alt, material-metadata-disclosure,
+compose-provider-passthrough, <code>scripts/api-keys.test.sh</code>.</p>
+<h2 id="part-2-digest-of-the-independent-reviews">Part 2: digest of the
+independent reviews</h2>
+<p>Generated 2026-10-22 from
+/home/milosvasic/.cache/claude-tmp/reviews/*.md against the candidate
+tree /home/milosvasic/Projects/vasic-wt/qa-candidate (branch
+qa-candidate, tip 7dff042). Read-only: no repository file was edited and
+no server was started. Statuses were checked with <code>git grep</code>,
+<code>git show</code> and <code>git log</code> on the candidate; where a
+later commit is cited its message was read, but no fix was re-run or
+re-reviewed, so LIKELY-FIXED-LATER is not a PASS.</p>
+<h3 id="summary">Summary</h3>
+<ul>
+<li>57 rows in the main table. By severity: HIGH 9, MED 39, LOW 9. By
+status: OPEN 19, LIKELY-FIXED-LATER 27, DORMANT 8, UNKNOWN 3.</li>
+<li>Severity is normalised to HIGH / MED / LOW (BLOCKING and HIGH count
+as HIGH; MEDIUM-HIGH counts as MED, LOW-MEDIUM as LOW). LOW findings
+that no tester could see in the UI or API (test strength, evidence
+hygiene, parser differentials) are not listed.</li>
+<li>Appendix A lists 7 further rows against repositories that are NOT in
+the candidate (constitution governor, umbrella guard); they are not in
+the counts above.</li>
+<li>NO-GO or dormant per the reports: s9-014-modal-polish NO-GO as
+reviewed (fixed by 45c1ba2, fb6b5b7); s12-019-promotion NO-GO round 3
+(round 4 commit 24c2200 merged, not re-reviewed); constitution
+governor-279 NO-GO and umbrella spec 027 (outside the candidate);
+s17-022-material is GO only with the feature OFF and is DORMANT (never
+attached, no route, no compose flag); s15-025-ux features are all behind
+flags that default to false; answering (spec 024) is OFF by default and
+hosted providers are forced off; spec 021 engagement is OFF by
+default.</li>
+<li>Reviews exist for n1, n2, n3 (twice), n5, wire-completion, s9, s12
+(round 3), s16, s17 (round 4), h1, inv-nonascii, s2. No review report
+exists for n4, n6, n7, n8, s11, s15, s18, cat-authors; their merged tips
+are unreviewed here.</li>
+<li>Five findings most likely to hit a manual tester: (1) KD-026
+provider key names are back in compose <code>environment:</code> (found
+by this digest in merge e96ff43; visible in
+<code>ps</code>/<code>podman inspect</code> once keys are opted in); (2)
+the Anthropic hosted row cannot start because no production code
+installs a spend hook; (3) KD-001 practice/progress slowdown on a hot
+question, with KD-002 self-rated flashcards inflating ability and
+level-ups and KD-003 the 'Noted: questions repeated after a miss' line
+on Progress for honest learners; (4) 019 deploy pieces not visible or
+gated (status panel <code>&lt;wk-live-facts&gt;</code> not mounted,
+<code>restart.sh</code> has no verdict gate); (5) the 025 UX wave and
+022 materials are invisible with default settings (flags off, not
+attached), and 012 OCR through the ingest script fails (KD-005).</li>
+</ul>
+<h3 id="main-table">Main table</h3>
+<h3 id="a-adaptive-practice-and-scoring-spec-013">A. Adaptive practice
+and scoring (spec 013)</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Spec / area</th>
+<th>Branch (stream)</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Source report</th>
+<th>Status in the candidate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KD-001</td>
+<td>013 US3 recalibration / 2PL fit</td>
+<td>n1-013-adaptive (c7f9564)</td>
+<td>HIGH</td>
+<td>With one popular question answered by thousands of distinct
+sessions, the hourly difficulty recalibration and 2PL fit hold the
+single DB connection for seconds to minutes (n=4000: 9 s and 21 s;
+n=8000: 35 s and 84 s) and every practice or progress request waits. A
+tester sees practice/progress stall only at scale.</td>
+<td>n1-2026-10-21.md, F1</td>
+<td>OPEN (checked: recalibrate.go:111 and irt.go:219 still use the
+correlated <code>p.rowid&lt;r.rowid</code> subquery; store.go indexes
+only response_log_session_area and response_log_question, no
+(session,question_id) index;
+<code>git log d76e584..HEAD -- platform/backend/pkg/scoring</code> shows
+no change to either file)</td>
+</tr>
+<tr>
+<td>KD-002</td>
+<td>013 US2 flashcard easing</td>
+<td>n1-013-adaptive (c7f9564)</td>
+<td>MED</td>
+<td>Self-rated flashcards can raise ability without bound: a learner who
+answers every multiple-choice question wrong but taps 'recalled' on
+flashcards gains about +2 points (level-ups) because answered cards are
+served again. Reviewer rated it MEDIUM-HIGH.</td>
+<td>n1-2026-10-21.md, F2</td>
+<td>OPEN (checked: questions_scoring.go:392
+<code>correct = *body.Recalled</code> unchanged; serve.go:236-243 still
+falls back to a stated repeat; no damping or self_rated exclusion from
+recalibration found)</td>
+</tr>
+<tr>
+<td>KD-003</td>
+<td>013 integrity reading / Progress page</td>
+<td>n1-013-adaptive (c7f9564)</td>
+<td>MED</td>
+<td>An honest learner who finishes the question pool is flagged
+<code>repeat_after_wrong</code> (after 8/14/24/44 attempts for pools of
+5/10/20/40), and the Progress page then prints 'Noted: questions
+repeated after a miss.' The flag counts the server's own stated repeats.
+Score is not changed.</td>
+<td>n1-2026-10-21.md, F3</td>
+<td>OPEN (checked: pkg/scoring/gaming.go:136 still increments
+RepeatAfterWrong for every repeat; no commit touched it after the n1
+merge)</td>
+</tr>
+<tr>
+<td>KD-004</td>
+<td>013 tests</td>
+<td>n1-013-adaptive (c7f9564)</td>
+<td>MED</td>
+<td>Three scoring guards survive mutation (recalibration rapid-guess
+skip, <code>correct = true</code> for flashcards, FitIRT first-attempt
+filter), so a regression there would not turn tests red. Not visible to
+a tester.</td>
+<td>n1-2026-10-21.md, F4</td>
+<td>UNKNOWN (tests with recalled=false exist in
+internal/api/questions_kind_easing_test.go, but no mutation re-run was
+done here)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="b-textbook-ingestion-spec-012">B. Textbook ingestion (spec
+012)</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Spec / area</th>
+<th>Branch (stream)</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Source report</th>
+<th>Status in the candidate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KD-005</td>
+<td>012 OCR</td>
+<td>n2-012-ingest-complete (b3b0b1e)</td>
+<td>HIGH</td>
+<td><code>--ocr</code> cannot run through
+<code>scripts/ingest-textbooks.sh</code>: the zero-token guard counts
+the 2 connect() calls made by <code>tesseract --version</code> and
+aborts (<code>ZERO-TOKEN GUARD TRIPPED</code>, extract rc 97, script rc
+1). Scanned PDFs cannot be ingested by the documented command. OCR is
+off by default.</td>
+<td>n2-2026-10-22.md, F1</td>
+<td>OPEN (checked: pipeline/pdf_ocr.py:185 still calls
+<code>tesseract --version</code>)</td>
+</tr>
+<tr>
+<td>KD-006</td>
+<td>012 HTML extractor</td>
+<td>n2-012-ingest-complete (b3b0b1e)</td>
+<td>MED</td>
+<td>A valid HTML book with more than 200 unclosed
+<code>&lt;p&gt;</code>/<code>&lt;li&gt;</code>/<code>&lt;td&gt;</code>
+is rejected whole ('malformed HTML (nesting too deep)', 'no ingestable
+section', rc 1).</td>
+<td>n2-2026-10-22.md, F2</td>
+<td>OPEN (checked: html_sections.py:109 depth check on every pushed tag,
+no implied-end-tag handling)</td>
+</tr>
+<tr>
+<td>KD-007</td>
+<td>012 HTML extractor</td>
+<td>n2-012-ingest-complete (b3b0b1e)</td>
+<td>MED</td>
+<td>An HTML file with <code>&lt;meta charset="hex"&gt;</code> (or
+base64/rot13/zlib) crashes the extractor with a LookupError traceback,
+rc 1 instead of the documented 'unreadable' rc 2.</td>
+<td>n2-2026-10-22.md, F3</td>
+<td>OPEN (checked: html_sections.py:216-223 accepts the name via
+codecs.lookup, then <code>data.decode(enc)</code> only catches
+UnicodeDecodeError)</td>
+</tr>
+<tr>
+<td>KD-008</td>
+<td>012/017 docs and compose wording</td>
+<td>n2-012-ingest-complete (b3b0b1e)</td>
+<td>MED</td>
+<td>compose.yml, the rerank gate header and docs/cross-encoder-rerank.md
+say the cross-encoder defaults OFF 'on a measurement' (top-5 11/22 vs
+15/22), but that number measured the in-window bm25 rerank, not the
+cross-encoder. Misleading text in operator-facing config and docs.</td>
+<td>n2-2026-10-22.md, F4</td>
+<td>OPEN (checked: compose.yml:534, docs/cross-encoder-rerank.md:16,
+verify-compose-rerank-wiring.sh:8 still carry the claim)</td>
+</tr>
+<tr>
+<td>KD-009</td>
+<td>012 OCR reporting</td>
+<td>n2-012-ingest-complete (b3b0b1e)</td>
+<td>MED</td>
+<td>When every OCR page is below <code>--ocr-min-conf</code>, the
+message says 'every page below --min-chars' and no report is written, so
+the promised per-page confidence list never reaches the operator.</td>
+<td>n2-2026-10-22.md, F5</td>
+<td>OPEN (checked: pdf_textbook_sections.py:332 message text
+unchanged)</td>
+</tr>
+<tr>
+<td>KD-010</td>
+<td>012 DOCX/EPUB/FB2 extractors</td>
+<td>n2-012-ingest-complete (b3b0b1e)</td>
+<td>MED</td>
+<td>Silent content loss reported as
+<code>extraction_failures: []</code>: DOCX inline text boxes dropped;
+EPUB nested-table content duplicated and <code>&lt;caption&gt;</code>
+dropped; FB2 text placed directly in <code>&lt;section&gt;</code>
+dropped.</td>
+<td>n2-2026-10-22.md, F6</td>
+<td>OPEN for DOCX text boxes (checked:
+<code>git grep txbxContent pipeline/docx_sections.py</code> = 0 hits);
+EPUB-caption and FB2 parts UNKNOWN (not re-checked)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="c-answering-gate-hosted-spend-control-figures-specs-020-024">C.
+Answering gate, hosted spend control, figures (specs 020, 024)</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Spec / area</th>
+<th>Branch (stream)</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Source report</th>
+<th>Status in the candidate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KD-011</td>
+<td>024 L4b evidence-demand layer</td>
+<td>n3-020-024-complete (bf2232e)</td>
+<td>MED</td>
+<td>Legitimate quantity answers were declined ('16GB', '512MB', '3rd',
+'There are 3:'); re-review: shorthand '30s', '24h', '30d', '512Mi',
+'5min' read as no number, 40% of the reviewer's 95 legitimate answers
+declined. Safe direction (a decline), but a tester sees 'cannot
+answer'.</td>
+<td>n3-2026-10-21.md #1; n3-rereview-2026-10-22.md F1</td>
+<td>LIKELY-FIXED-LATER (84cf760 then bdc7a19 'demand layer rewritten as
+a quantity-mention model'; commit text and docs/answering-gate.md report
+6 of 95 legitimate still declined, by design. Not re-reviewed
+independently. Answering is OFF by default, so only visible with an
+enabled provider)</td>
+</tr>
+<tr>
+<td>KD-012</td>
+<td>024 L4b evidence-demand layer</td>
+<td>n3-020-024-complete (bf2232e)</td>
+<td>MED</td>
+<td>Fabrications admitted: the claim's number was never compared with
+the cited span's number or unit (999 MB vs 512 MB; 512 kilobytes vs 512
+megabytes; euros vs dollars; monthly price presented as annual, because
+the period word only had to be within 8 tokens). Re-review: 34 of 50
+fabrications admitted.</td>
+<td>n3-2026-10-21.md #2; n3-rereview-2026-10-22.md F2, F3, F4</td>
+<td>LIKELY-FIXED-LATER (84cf760 compared number by value; bdc7a19
+compares the figure's own unit, period and sign. docs/answering-gate.md
+now reports 17 of 55 fabrications still admitted, measured on the rows
+it was fixed against, so not an unseen-text rate. Not re-reviewed)</td>
+</tr>
+<tr>
+<td>KD-013</td>
+<td>024 spend ledger</td>
+<td>n3-020-024-complete (bf2232e)</td>
+<td>MED</td>
+<td>'Corrupt ledger is never reset' had holes: a ledger of
+<code>{}</code>, <code>null</code> or without a schema key was accepted
+as empty and rewritten, restoring the cap after 9.5 USD spent; later
+in-place edit of <code>spent_usd</code> (and negative values) also
+undetected.</td>
+<td>n3-2026-10-21.md #3; n3-rereview-2026-10-22.md F9</td>
+<td>LIKELY-FIXED-LATER (84cf760 'ledger fails closed (schema required,
+generation sidecar)'; re-review confirmed 8 junk documents refused;
+bdc7a19 adds SHA-256 of ledger bytes in the sidecar. Residual
+documented: deleting or rewriting BOTH files resets the cap)</td>
+</tr>
+<tr>
+<td>KD-014</td>
+<td>020 figures route</td>
+<td>n3-020-024-complete (bf2232e)</td>
+<td>LOW</td>
+<td>The figure image route did not verify sha256/bytes at serve time and
+the check stayed optional if the catalogue lacked the fields. A tester
+viewing /textbooks figures could be served an altered PNG.</td>
+<td>n3-2026-10-21.md #7; n3-rereview-2026-10-22.md F13</td>
+<td>LIKELY-FIXED-LATER (84cf760 verifies when present; bdc7a19 makes
+bytes+sha256 required in textbooks/catalogue.go)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d-toasts-badges-modal-profile-specs-014-015">D. Toasts, badges,
+modal, profile (specs 014, 015)</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Spec / area</th>
+<th>Branch (stream)</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Source report</th>
+<th>Status in the candidate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KD-015</td>
+<td>014 toasts and badges</td>
+<td>wire-completion (ce9af74) + n5 (18d9eda)</td>
+<td>HIGH</td>
+<td>Toasts never fire against the real server: the HTTP event source
+omitted <code>events_after</code> on the first fetch, so the server
+returned no <code>achievement_events</code> and the feed never
+primed.</td>
+<td>n5-2026-10-21.md, finding 1</td>
+<td>LIKELY-FIXED-LATER (87114ae 'the achievement event source always
+sends events_after', contract test against the real handler; commit text
+reports RED 2 failed before, Karma 1113/1113 after)</td>
+</tr>
+<tr>
+<td>KD-016</td>
+<td>014 badges</td>
+<td>n5-011-014-015-complete (18d9eda)</td>
+<td>MED</td>
+<td>The badge producer re-walked the whole event history on every forced
+refresh (4 GETs per lesson mark; 12 for three rapid marks) and areas
+with more than 1000 events lost their earned-at stamp.</td>
+<td>n5-2026-10-21.md, finding 2</td>
+<td>LIKELY-FIXED-LATER (18d9eda 'badge producer caches earned-at stamps,
+shares one follow-up run, has no history window')</td>
+</tr>
+<tr>
+<td>KD-017</td>
+<td>014 badges</td>
+<td>n5-011-014-015-complete (18d9eda)</td>
+<td>MED</td>
+<td>Stale badge after un-marking the last touched lesson: /api/progress
+answers 404 and the producer treated 'empty' as an outage, so the badge
+stayed.</td>
+<td>n5-2026-10-21.md, finding 3</td>
+<td>LIKELY-FIXED-LATER (18d9eda 'treats empty as nothing stored')</td>
+</tr>
+<tr>
+<td>KD-018</td>
+<td>015 profile / document reader</td>
+<td>n5-011-014-015-complete (18d9eda)</td>
+<td>LOW</td>
+<td>Document reader showed stale slug/location when reused between two
+/documents URLs and only breadcrumbs while the citation loaded; profile
+rendered the server's <code>last_downgrade_reason</code> verbatim.</td>
+<td>n5-2026-10-21.md, findings 5 and 6</td>
+<td>LIKELY-FIXED-LATER (18d9eda 'document reader follows the route and
+shows loading; downgrade reason not rendered verbatim'; HEAD
+reports-section.component.ts:93 shows a fixed phrase)</td>
+</tr>
+<tr>
+<td>KD-019</td>
+<td>014 modal (US2)</td>
+<td>s9-014-modal-polish (2fef67b)</td>
+<td>HIGH</td>
+<td>Merging s9 into int turned Karma red (11 failures, storage-hygiene
+guard: modal ack and cursor keys left in storage). NO-GO as
+reviewed.</td>
+<td>pending-branches-2026-10-21.md, section 2 finding 1</td>
+<td>LIKELY-FIXED-LATER (fb6b5b7 merged int-0.0.3 for the guard; 45c1ba2
+'real afterEach storage cleanup in the five modal/catch-up/router
+specs'; 2fef67b evidence: Karma 3 seeds 1213 SUCCESS)</td>
+</tr>
+<tr>
+<td>KD-020</td>
+<td>014 modal evidence</td>
+<td>s9-014-modal-polish (2fef67b)</td>
+<td>MED</td>
+<td>Round-2 evidence (1051 SUCCESS, 50 e2e) was not backed by raw logs
+in the branch (round-1 logs still said 878).</td>
+<td>pending-branches-2026-10-21.md, section 2 finding 2</td>
+<td>LIKELY-FIXED-LATER (2fef67b 'evidence(s9): round 4 raw logs')</td>
+</tr>
+<tr>
+<td>KD-021</td>
+<td>014 modal queue</td>
+<td>s9-014-modal-polish (2fef67b)</td>
+<td>LOW</td>
+<td>A pending modal beyond the 20-entry cap is silently dropped, and a
+queued-but-unseen modal is lost on tab close; the drop count was
+surfaced nowhere. Events earned between sign-in and the first prime can
+lose a level-up modal.</td>
+<td>pending-branches-2026-10-21.md, section 2 findings 3 and 4</td>
+<td>LIKELY-FIXED-LATER for the overflow count (45c1ba2 'modal host
+surfaces dropped/waiting overflow as state + test'); tab-close and
+prime-window parts UNKNOWN (documented by design)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="e-wiring-of-practice-providers-answering-wire-completion">E.
+Wiring of practice, providers, answering (wire-completion)</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Spec / area</th>
+<th>Branch (stream)</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Source report</th>
+<th>Status in the candidate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KD-022</td>
+<td>011/024 FAQ and benchmark</td>
+<td>wire-completion (ce9af74)</td>
+<td>MED</td>
+<td>FAQ 23 gave a 3-variable recipe to enable a LAN provider without
+saying that, without a matching gate verdict, it stays forced OFF; the
+default benchmark file questions-v2.tsv was missing from the tree.</td>
+<td>wire-completion-2026-10-21.md, F2</td>
+<td>LIKELY-FIXED-LATER (ce9af74 'FAQ 23 gate honesty';
+<code>platform/backend/testdata/benchmark/questions-v2.tsv</code> now
+exists in the candidate)</td>
+</tr>
+<tr>
+<td>KD-023</td>
+<td>013 adaptive practice UI</td>
+<td>wire-completion (ce9af74)</td>
+<td>LOW</td>
+<td>On a refused serving token the card showed 'could not load
+(serving_token_invalid)' and dropped the server's message ('nothing was
+scored, try again').</td>
+<td>wire-completion-2026-10-21.md, F3</td>
+<td>LIKELY-FIXED-LATER (ce9af74 'serving-token message shown'; HEAD
+adaptive-practice.component.ts:88 and :112 render <code>notice()</code>
+with role=alert)</td>
+</tr>
+<tr>
+<td>KD-024</td>
+<td>013 adaptive practice UI</td>
+<td>wire-completion (ce9af74)</td>
+<td>LOW</td>
+<td>No focus move or announcement when a new question replaces the card
+(screen-reader users).</td>
+<td>wire-completion-2026-10-21.md, F4</td>
+<td>LIKELY-FIXED-LATER (ce9af74 'focus/announce'; HEAD
+adaptive-practice.component.ts:33 has an aria-live polite region). The
+axe check added by the commit was 'not run' per its own text</td>
+</tr>
+<tr>
+<td>KD-025</td>
+<td>024 answering-off banner</td>
+<td>wire-completion (ce9af74)</td>
+<td>LOW</td>
+<td>The banner said 'Searching and browsing are not affected' for any
+unavailable code, including a dead backend (http_0).</td>
+<td>wire-completion-2026-10-21.md, F5</td>
+<td>LIKELY-FIXED-LATER (ce9af74 'banner claim'; HEAD
+answering-off-banner.component.ts:42 shows the sentence only when
+<code>searchUnaffected()</code>)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="f-provider-api-keys">F. Provider API keys</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Spec / area</th>
+<th>Branch (stream)</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Source report</th>
+<th>Status in the candidate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KD-026</td>
+<td>011/024 compose</td>
+<td>n8-013-ui-gate merge e96ff43 (candidate-introduced);
+fix-apikeys-argv (871dacc)</td>
+<td>HIGH</td>
+<td>Provider key names are passed through compose
+<code>environment:</code> again (<code>- ApiKey_OpenAI</code>,
+<code>- ApiKey_Anthropic</code>, compose.yml:192-193). podman-compose
+turns each into <code>-e NAME=value</code> on the
+<code>podman create</code> command line (visible in ps and
+/proc/<pid>/cmdline) and in <code>podman inspect</code> Config.Env. The
+earlier reviews rated this MED/HIGH and fix-apikeys-argv removed it; the
+lines came back in the conflict-resolved n8 merge. The file's own
+comment at line 157 says they are deliberately not there. Only matters
+if an operator opts in with WORKSHOP_API_KEY_NAMES.</td>
+<td>pending-branches-2026-10-21.md section 4 finding 1;
+wire-completion-2026-10-21.md F1 (both reported against the pre-fix
+branches; regression found by this digest)</td>
+<td>OPEN (checked: `grep -vE '^[[:space:]]*#' platform/compose.yml |
+FIXED on the candidate by commit a92f80d (qa-fix: entries removed again;
+api-keys.test.sh 103/0)</td>
+</tr>
+<tr>
+<td>KD-027</td>
+<td>011 hosted providers</td>
+<td>h1-providers-hardening (239a960) merged as 8c2fa19</td>
+<td>MED</td>
+<td>The hosted Anthropic row (billable health probe) can no longer be
+brought up: the probe now fails closed unless a spend hook is installed,
+and nothing in production code calls <code>answer.SetSpendHook</code>
+(callers are tests only). OpenAI and the other 28 rows probe with a GET
+and are unaffected. Hosted providers are off by default anyway.</td>
+<td>small-branches-2026-10-21.md H1-2 (the reviewed fail-open);
+consequence of its fix observed in the candidate</td>
+<td>OPEN (checked: <code>grep -rn 'SetSpendHook(' --include=*.go</code>
+shows only tests; internal/answering/lazy_hosted.go:20-25 says the row
+'stays unavailable until the process installs one')</td>
+</tr>
+</tbody>
+</table>
+<h3 id="g-on-demand-material-generation-spec-022">G. On-demand material
+generation (spec 022)</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Spec / area</th>
+<th>Branch (stream)</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Source report</th>
+<th>Status in the candidate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KD-028</td>
+<td>022 wiring</td>
+<td>s17-022-material (44dbdb8)</td>
+<td>HIGH</td>
+<td>Feature is not wired: <code>attachMaterialPipeline(...)</code> is
+never called, so with <code>-materials-enabled</code> the server answers
+a permanent 503 ('answering pipeline was not attached'); no materials
+route exists in the UI. Fail-safe but a learner cannot reach it.</td>
+<td>s17-round4-2026-10-21.md, C1</td>
+<td>DORMANT (checked: only wire_answer_pipeline.go's seam
+<code>setAnsweringPipeline</code> is called in main.go:1694;
+<code>attachMaterialPipeline</code> has no caller; app.routes.ts has no
+materials route; compose.yml has no -materials-enabled; default
+OFF)</td>
+</tr>
+<tr>
+<td>KD-029</td>
+<td>022 e2e</td>
+<td>s17-022-material (44dbdb8)</td>
+<td>HIGH</td>
+<td>The enabled-feature e2e fails after the merge with the spec-024 gate
+(stub provider is forced off, 'compose' control never appears, generate
+count 0). The builder had not re-run it.</td>
+<td>s17-round4-2026-10-21.md, C2</td>
+<td>DORMANT (feature off and unreachable; whether the harness was
+repaired is UNKNOWN)</td>
+</tr>
+<tr>
+<td>KD-030</td>
+<td>022 prompt safety</td>
+<td>s17-022-material (44dbdb8)</td>
+<td>MED</td>
+<td>Prompt delimiter forgery survives <code>neutralise()</code>:
+<code>&lt;&lt;&lt;&lt;&lt;</code> becomes
+<code>&lt; &lt; &lt;&lt;&lt;</code>, which still contains
+<code>&lt;&lt;&lt;</code>, so a passage or topic can forge a
+SOURCE/request block.</td>
+<td>s17-round4-2026-10-21.md, F3</td>
+<td>DORMANT (checked: materialgen/prompt.go:64-68 is the same ReplaceAll
+code; feature unreachable)</td>
+</tr>
+<tr>
+<td>KD-031</td>
+<td>022 delete</td>
+<td>s17-022-material (44dbdb8)</td>
+<td>MED</td>
+<td>Delete racing a same-topic cache-hit commit leaves a dangling
+material row; the learner's whole materials list then returns 404 and is
+unrecoverable. Reviewer rated LOW-MEDIUM.</td>
+<td>s17-round4-2026-10-21.md, F4</td>
+<td>DORMANT (feature unreachable; fix not looked for)</td>
+</tr>
+<tr>
+<td>KD-032</td>
+<td>022 privacy</td>
+<td>s17-022-material (44dbdb8)</td>
+<td>LOW</td>
+<td>Deleted topic text and session id remain physically in the SQLite
+WAL (secure_delete off); budget_reservation keeps the session id.
+'Erasure' is logical only.</td>
+<td>s17-round4-2026-10-21.md, F5</td>
+<td>DORMANT (feature unreachable)</td>
+</tr>
+<tr>
+<td>KD-033</td>
+<td>022 auth</td>
+<td>s17-022-material (44dbdb8)</td>
+<td>MED</td>
+<td>UNCONFIRMED: owner key falls back to a client-chosen X-Session
+header; if an unauthenticated request ever reached the handler this
+would be an IDOR and per-session budget bypass.</td>
+<td>s17-round4-2026-10-21.md, F8</td>
+<td>DORMANT (feature unreachable; not tested end to end by the
+reviewer)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="h-learning-medium-profile-spec-021">H. Learning-medium profile
+(spec 021)</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Spec / area</th>
+<th>Branch (stream)</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Source report</th>
+<th>Status in the candidate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KD-034</td>
+<td>021 backend source</td>
+<td>s16-021-medium (905bf09)</td>
+<td>MED</td>
+<td>Every profile/recommendation endpoint answered 503
+<code>scoring_store_absent</code> because the response source was the
+pre-013 stub.</td>
+<td>pending-branches-2026-10-21.md, section 1 finding 1</td>
+<td>LIKELY-FIXED-LATER (905bf09 'real scoring adapter (T028/T030)';
+checked: <code>scoringStubSource</code> no longer appears in
+wire_medium.go)</td>
+</tr>
+<tr>
+<td>KD-035</td>
+<td>021 UI</td>
+<td>s16-021-medium (905bf09)</td>
+<td>MED</td>
+<td>The UI was unreachable: nothing mounted MEDIUM_ROUTES and there was
+no nav link.</td>
+<td>pending-branches-2026-10-21.md, section 1 finding 2</td>
+<td>LIKELY-FIXED-LATER (905bf09 'route+nav mounted'; checked:
+app.routes.ts:190 <code>profile/medium</code>, app.component.ts:74 nav
+link)</td>
+</tr>
+<tr>
+<td>KD-036</td>
+<td>021 shutdown/flags</td>
+<td>s16-021-medium (905bf09)</td>
+<td>MED</td>
+<td><code>medium</code> was missing from hookStreams, so deleting
+closeMedium() or addMediumFlags() survived the tests (store not closed
+on shutdown; -medium-* flags undefined).</td>
+<td>pending-branches-2026-10-21.md, section 1 finding 3</td>
+<td>LIKELY-FIXED-LATER (905bf09 'medium in hookStreams'; checked:
+wire_medium_test.go:32)</td>
+</tr>
+<tr>
+<td>KD-037</td>
+<td>021 GET writes / streak</td>
+<td>s16-021-medium (905bf09)</td>
+<td>LOW</td>
+<td>GET /api/profile/medium wrote on every call; concurrent requests
+could inflate the streak; verdict rows survived switching the profile
+off.</td>
+<td>pending-branches-2026-10-21.md, section 1 findings 4, 5, 6</td>
+<td>LIKELY-FIXED-LATER (905bf09 'Record skips identical writes;
+per-learner look lock; off deletes verdicts')</td>
+</tr>
+<tr>
+<td>KD-038</td>
+<td>021 hint and filter components</td>
+<td>s16-021-medium (905bf09)</td>
+<td>MED</td>
+<td>Backlog: the in-lesson medium hint and kind filter components have
+no host, and MediumEngagementService is injected only by the consent
+component; engagement stays OFF unless WORKSHOP_MEDIUM_ENGAGEMENT=1. A
+tester will not see the in-context hint.</td>
+<td>completion-backlog-B-specs-018-026.md, part B (3) item 6-7</td>
+<td>OPEN (checked: no template uses app-medium-hint or
+app-medium-kind-filter; compose.yml:115-116 passes the flag empty).
+Engagement itself is DORMANT by design pending OD-3</td>
+</tr>
+</tbody>
+</table>
+<h3 id="i-deploy-and-registry-promotion-spec-019">I. Deploy and registry
+promotion (spec 019)</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Spec / area</th>
+<th>Branch (stream)</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Source report</th>
+<th>Status in the candidate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KD-039</td>
+<td>019 promote-web</td>
+<td>s12-019-promotion (24c2200)</td>
+<td>HIGH</td>
+<td>The web promoter could not stage a real Angular bundle: it rejected
+<code>&lt;base href="/"&gt;</code> and <code>favicon.ico</code> as
+missing references, so no real promotion was possible.</td>
+<td>s12-round3-2026-10-21.md, F1</td>
+<td>LIKELY-FIXED-LATER (24c2200 'real-dist-faithful missing_ref';
+checked: promote-web.sh:186-188 now treats only
+script/stylesheet/preload references as load-bearing). No live promotion
+has been performed by anyone</td>
+</tr>
+<tr>
+<td>KD-040</td>
+<td>019 promote-web</td>
+<td>s12-019-promotion (24c2200)</td>
+<td>MED</td>
+<td>A concurrent <code>--stage</code> during <code>--promote</code>
+could install an index.html whose chunks (styles-/main-) were 404
+(MED-HIGH in the report).</td>
+<td>s12-round3-2026-10-21.md, F2</td>
+<td>LIKELY-FIXED-LATER (24c2200 'stage lock + pre-rename
+re-verify')</td>
+</tr>
+<tr>
+<td>KD-041</td>
+<td>019 promote-web</td>
+<td>s12-019-promotion (24c2200)</td>
+<td>MED</td>
+<td>Confinement fix relocated rather than prevented the 2026-10-21
+incident class (no nounset in the build command, no size cap); TOCTOU
+between guard and copy; journal-append failure after the index rename
+exited rc 1 ('served directory unchanged') while the new bundle was
+live.</td>
+<td>s12-round3-2026-10-21.md, F3, F4, F5</td>
+<td>LIKELY-FIXED-LATER (24c2200 'nounset build + size/disk caps,
+TOCTOU-safe copy, rc 5 journal failure')</td>
+</tr>
+<tr>
+<td>KD-042</td>
+<td>019 provers</td>
+<td>s12-019-promotion (24c2200)</td>
+<td>MED</td>
+<td>prove-web-promotion failed ('INVALID W8: pattern not found') and the
+committed prover logs were stale, so the idempotency guard had no live
+mutant.</td>
+<td>s12-round3-2026-10-21.md, F8</td>
+<td>LIKELY-FIXED-LATER (24c2200; checked:
+platform/gates/prove-web-promotion-mutation.sh:100 now targets the
+<code>DIFF_F</code> form of the already-promoted check)</td>
+</tr>
+<tr>
+<td>KD-043</td>
+<td>019 status page</td>
+<td>s12-019-promotion (24c2200)</td>
+<td>MED</td>
+<td>Backlog: the 'What is live' panel <code>&lt;wk-live-facts&gt;</code>
+is not used by the status page, so the live-vs-built facts are
+invisible; <code>/api/system/provenance</code> is served but never
+shown.</td>
+<td>completion-backlog-B-specs-018-026.md, part A section 3 item 5</td>
+<td>OPEN (checked:
+<code>git grep wk-live-facts -- platform/frontend/src</code> finds only
+live-facts.component.ts itself)</td>
+</tr>
+<tr>
+<td>KD-044</td>
+<td>019 restart</td>
+<td>s12-019-promotion (24c2200)</td>
+<td>MED</td>
+<td>Backlog: <code>scripts/restart.sh</code> has no
+<code>--require-verdict</code>; a restart (what actually deploys a
+binary) is not gated by the deploy-gate verdict.</td>
+<td>completion-backlog-B-specs-018-026.md, part A section 3 item 6</td>
+<td>OPEN (checked: <code>grep require-verdict scripts/restart.sh</code>
+= no match)</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="j-providers-streaming-privacy-progress-store-specs-011-013-016">J.
+Providers, streaming privacy, progress store (specs 011, 013, 016)</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Spec / area</th>
+<th>Branch (stream)</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Source report</th>
+<th>Status in the candidate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KD-045</td>
+<td>011 admin audit card</td>
+<td>h1-providers-hardening (239a960)</td>
+<td>MED</td>
+<td>A successful health probe (<code>health_check_ok</code>) was counted
+as a FAILURE on the admin audit card: every hosted provider build added
+one failure and one attempt.</td>
+<td>small-branches-2026-10-21.md, H1-1</td>
+<td>LIKELY-FIXED-LATER (239a960 'health_check_ok is not a failure on the
+audit card'; checked: overview_audit.go:121 now excludes
+AuditHealthCheckOK)</td>
+</tr>
+<tr>
+<td>KD-046</td>
+<td>011 provider health</td>
+<td>h1-providers-hardening (239a960)</td>
+<td>MED</td>
+<td>Health() was vacuous for hosted providers (nil for an unprobed
+provider whose vendor is down), so a vendor outage showed up as a failed
+job instead of an immediate 'unavailable'. Reviewer rated
+LOW/MEDIUM.</td>
+<td>small-branches-2026-10-21.md, H1-4</td>
+<td>LIKELY-FIXED-LATER (239a960 'Health reports last-known outage')</td>
+</tr>
+<tr>
+<td>KD-047</td>
+<td>011/024 streaming privacy</td>
+<td>inv-nonascii (99fa0b7) via h1 merge 960344e</td>
+<td>MED</td>
+<td>A late SSE subscriber (or one that attaches after the first deltas)
+receives the suffix of a suppressed non-ASCII run: up to window-1 words
+such as 'jalapeño', 'smörgåsbord' reached the wire (10 of 10 under
+-race).</td>
+<td>small-branches-2026-10-21.md, INV-1</td>
+<td>LIKELY-FIXED-LATER (99fa0b7 'a late SSE subscriber no longer
+receives the suffix of a suppressed run'; checked:
+pkg/answer/http.go:556-557 <code>missedText</code> from WatchLive stops
+raw text)</td>
+</tr>
+<tr>
+<td>KD-048</td>
+<td>016 progress store</td>
+<td>s2-016us1-013us1 (e2dde60)</td>
+<td>LOW</td>
+<td>A directory-fsync failure after the rename returned a generic
+'progress store could not be read' although the new state was already
+published (caller saw failure, next read showed lesson complete).</td>
+<td>small-branches-2026-10-21.md, S2-2</td>
+<td>LIKELY-FIXED-LATER (e2dde60 'ErrStoreNotDurable (503 not_durable),
+not unreadable')</td>
+</tr>
+</tbody>
+</table>
+<h3 id="k-completion-backlog-items-a-tester-can-still-hit">K.
+Completion-backlog items a tester can still hit</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Spec / area</th>
+<th>Branch (stream)</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Source report</th>
+<th>Status in the candidate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>KD-049</td>
+<td>025 UX research wave</td>
+<td>s15-025-ux (b344ae7)</td>
+<td>HIGH</td>
+<td>All eight UX flags default to false (core/ux-flags.ts:31-40) and can
+only be switched per browser via localStorage key
+<code>workshop-ux-flags</code>; with default settings none of the 025
+features (staged streaming, palette, peek, comfort, momentLinks) is
+visible.</td>
+<td>completion-backlog-B-specs-018-026.md, part D W1</td>
+<td>DORMANT (checked: ux-flags.ts defaults; no env/compose way to
+enable)</td>
+</tr>
+<tr>
+<td>KD-050</td>
+<td>025 US2 confidence prompt</td>
+<td>s15-025-ux (b344ae7)</td>
+<td>MED</td>
+<td>Confidence-before-reveal (US2, T031-T041) is not built; the
+<code>practiceConfidence</code> flag is declared and consumed nowhere.
+Also the draft preview is unreachable (never passes
+<code>{tokens:true}</code>).</td>
+<td>completion-backlog-B-specs-018-026.md, part D W2, W6; section 2 item
+9</td>
+<td>OPEN (checked: <code>grep practiceConfidence</code> outside
+ux-flags.ts = no consumer). The flag itself is DORMANT</td>
+</tr>
+<tr>
+<td>KD-051</td>
+<td>025 reduced motion</td>
+<td>s15-025-ux (b344ae7)</td>
+<td>MED</td>
+<td>The blanket <code>prefers-reduced-motion</code> block in styles.scss
+still sets animation/transition to .01ms for everything; the finer
+comfort rules (FR-010) need the flag that is off. Three LEGACY motion
+rows remain in the baseline.</td>
+<td>completion-backlog-B-specs-018-026.md, part D W5</td>
+<td>OPEN (checked: platform/frontend/src/styles.scss:232-239 block
+present)</td>
+</tr>
+<tr>
+<td>KD-052</td>
+<td>024 gate inputs in compose</td>
+<td>n3 / wire-completion</td>
+<td>MED</td>
+<td>Compose passes WORKSHOP_ANSWER_VERDICT_DIR empty by default and
+mounts no verdict/threshold/benchmark inputs, so any provider other than
+<code>none</code> is forced off by the answering gate. Answering stays
+OFF (decision 2026-09-25).</td>
+<td>completion-backlog-B-specs-018-026.md, section 2 item 4; part C
+wiring 5</td>
+<td>DORMANT (checked: compose.yml:148 default empty; answering default
+<code>none</code>; behaviour intended until the benchmark gate is
+ratified)</td>
+</tr>
+<tr>
+<td>KD-053</td>
+<td>011 US4 provider hot-switch</td>
+<td>none (not built)</td>
+<td>MED</td>
+<td>A provider cannot be changed without restarting the server
+(FR-011/012/013 not implemented anywhere); the FAQ says 'Not yet'.
+Blocked on two operator decisions (mechanism and in-flight policy).</td>
+<td>completion-backlog-A-specs-011-017.md, Whole-spec MISSING;
+decision-memos-011-015.md M1, M2</td>
+<td>OPEN (checked: docs/providers.md:245 'Not yet')</td>
+</tr>
+<tr>
+<td>KD-054</td>
+<td>018 research library</td>
+<td>s11-018-library (5e826bb)</td>
+<td>MED</td>
+<td>Library has a backend for research-source links (FR-011/FR-016/US4)
+but no UI caller: <code>LibraryApi.sources()</code> is never called,
+search hits carry no library link, no search-within-library.</td>
+<td>completion-backlog-B-specs-018-026.md, part A section 3 items
+2-3</td>
+<td>OPEN (checked: no non-spec caller of <code>sources()</code> or a
+research-source component under platform/frontend/src/app; the /library
+route and nav link are mounted at app.routes.ts:189)</td>
+</tr>
+<tr>
+<td>KD-055</td>
+<td>001 chapter add</td>
+<td>n6-001-002-complete (a5847e7)</td>
+<td>MED</td>
+<td>A chapter added by the documented procedure
+(<code>scripts/add-chapter.sh</code>) is not served until an operator
+restarts the server; <code>publish</code> refuses until then.
+Cross-reference carry-forward needs identical root_hash (SC-023).</td>
+<td>completion-backlog-B-specs-018-026.md, part E sub1 W5, sub2 W1</td>
+<td>OPEN (documented limitation: scripts/add-chapter.sh:30-42 states
+it)</td>
+</tr>
+<tr>
+<td>KD-056</td>
+<td>012/020 textbook figures</td>
+<td>n3-020-024-complete (bf2232e)</td>
+<td>MED</td>
+<td>Backlog: live catalogue has <code>diagrams: 0</code> (diagram
+extraction never run), so the new figures page shows nothing on live
+data. Code path (image route + /textbooks/:id/figures) exists in the
+candidate.</td>
+<td>completion-backlog-B-specs-018-026.md, part A section 3 item 9;
+research-traceability-2026-10-21.md section 1</td>
+<td>UNKNOWN (candidate code present: textbooks.routes.ts:20; whether the
+QA registry carries diagram rows was not checked)</td>
+</tr>
+<tr>
+<td>KD-057</td>
+<td>027 research traceability</td>
+<td>umbrella specs (not in candidate)</td>
+<td>MED</td>
+<td>Spec 027 research/RG text still says 'no 013 task mentions'
+repeat-attempt/2PL work, while 013 T050-T053 built it (commit 832b020):
+a second parallel implementation is specified (pkg/attemptintegrity,
+cmd/item-fit).</td>
+<td>umbrella-guard-027-2026-10-21.md, B1</td>
+<td>UNKNOWN (spec files live in the umbrella repo; the candidate tree
+has no specs/ directory)</td>
+</tr>
+</tbody>
+</table>
+<h3
+id="appendix-a-findings-against-repositories-outside-the-candidate">Appendix
+A. Findings against repositories outside the candidate</h3>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Severity</th>
+<th>Finding</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>governor-279-2026-10-22.md F1</td>
+<td>BLOCKING</td>
+<td>constitution branch feat/fair-concurrency-governor does not
+fast-forward (github main moved to 5f8503b; conflicts in generated
+index/progressive files). NO-GO as-is.</td>
+<td>not in candidate (constitution repo)</td>
+</tr>
+<tr>
+<td>governor-279 F2</td>
+<td>HIGH</td>
+<td>Governor fails OPEN when the hold record cannot be written
+(read-only/full state dir: maxoverlap=3 with capacity 1).</td>
+<td>not in candidate</td>
+</tr>
+<tr>
+<td>governor-279 F3</td>
+<td>HIGH</td>
+<td>Waiting is not cheap: 100 waiters collapse (27 ran, 73 rc 2); ~6.5
+cores consumed; mutex age-reclaim can rob a live holder.</td>
+<td>not in candidate</td>
+</tr>
+<tr>
+<td>governor-279 F4-F9</td>
+<td>MED</td>
+<td>SIGINT/SIGQUIT ignored by governed command; post_update_hook
+install_governor not isolated and clobbers existing file/symlink target;
+CLI loops forever on missing option value; AGENTS/QWEN/GEMINI header
+tables corrupted; stats needs gawk (mawk breaks); load-aware backoff
+degenerates to single slot under foreign load (p50 wait 376 s).</td>
+<td>not in candidate</td>
+</tr>
+<tr>
+<td>umbrella-guard-027 A1</td>
+<td>MED</td>
+<td>Guard refuses <code>go test ./cmd/workshop-redact/...</code> (false
+positive; hint never mentions the WORKSHOP_ROOT prefix).</td>
+<td>not in candidate (umbrella repo)</td>
+</tr>
+<tr>
+<td>umbrella-guard-027 A4</td>
+<td>MED</td>
+<td>New guard rows raise the guard-gaps sweep from 21 to 23 HIGH
+findings (sweep probes only the upstream guard); stale text in
+guard-project-catalogue.sh:6.</td>
+<td>not in candidate (umbrella repo)</td>
+</tr>
+<tr>
+<td>umbrella-guard-027 B1</td>
+<td>HIGH</td>
+<td>Spec 027 RG-13/RG-14 duplicate work already built by 013 T050-T053
+(re-scope before Phase 3). Counted in main table as the last row.</td>
+<td>not in candidate (umbrella repo)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="open-operator-decisions">Open operator decisions</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Decision awaited</th>
+<th>Report reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Spec 021 SC-009 (95%/80% power) cannot hold as written at 30 graded
+answers per format. Options (a) power &gt;=80% at 120/format (0.82
+single look, 0.803 with persistence, margin 0.003), (b) null ever-shown
+&lt;=5% by 120, (c) larger effect. The 2026-10-21 operator answer in
+memory is option (a); the reports list it as open and the s16 round says
+'SC-009 test asserts ratified bound' (905bf09). Confirm the spec text
+was actually reworded.</td>
+<td>pending-branches-2026-10-21.md section 1 (State of the open
+decision); s16 commit 905bf09</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Spec 011 FR-011 (M1): how an operator changes the active answering
+provider without restart. Recommended: authenticated admin HTTP endpoint
+(option B) surfaced by the settings screen. Nothing implemented.</td>
+<td>decision-memos-011-015.md M1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Spec 011 FR-012 (M2): in-flight /api/ask jobs when the provider
+switches. Recommended: locality-aware (finish on local/LAN, cancel when
+leaving a hosted provider).</td>
+<td>decision-memos-011-015.md M2</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Spec 011 T009 (M3): confirm the audit log fails CLOSED (remote
+egress that cannot be audited does not start), and keep the stricter
+<code>lan</code> address policy.</td>
+<td>decision-memos-011-015.md M3</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Spec 015 FR-022 (M4): never blend per-format progress into one score
+(shipped) vs a blended or opt-in overall figure.</td>
+<td>decision-memos-011-015.md M4</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Spec 014 (M5): ratify toast numbers (maxVisible 2, coalesce 4000 ms,
+debounce 30000 ms, queue 50) so the [NEEDS CLARIFICATION] markers can
+go.</td>
+<td>decision-memos-011-015.md M5</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Hosted provider enablement (D-06): per-request acknowledgement,
+audit visibility and spend cap are in n3; the answering gate still needs
+the benchmark v2 independent re-label (T016) and thresholds before any
+hosted row can be un-forced; keys by 0600 file only; ApiKey_TypeSafe
+stays off-limits. Also: decide the production spend hook (see KD on
+hosted Anthropic).</td>
+<td>n3-2026-10-21.md finding 8 (INFO); small-branches H1-2;
+completion-backlog-B section 2 item 10; n3
+docs/decision-memo-answering-primitive.md</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Spec 013 flashcard self-rating policy: damp or exclude self-rated
+outcomes, stop re-serving answered flashcards, persist a
+<code>self_rated</code> marker, and accept or fix the quadratic
+first-attempt query before an area can have thousands of first
+answerers.</td>
+<td>n1-2026-10-21.md Conditions 1-2 (F1, F2)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Spec 024: whether the L4b heuristic layer should be replaced by an
+entailment primitive (decision memo shipped in bdc7a19); acceptance of
+residual 17/55 admitted fabrications while answering is OFF.</td>
+<td>n3-rereview-2026-10-22.md section 7;
+docs/decision-memo-answering-primitive.md</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Spec 021 US5 (server routing bias) is BLOCKED until 013 kind-easing
+is exercised; OD-2 routing, OD-3 engagement default, OD-4 retention vs
+erasure of the response log, OD-5 instructor visibility (needs spec 023
+roles) have no operator record.</td>
+<td>completion-backlog-B-specs-018-026.md part B (3) and (4)</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Spec 022 materials: attach the pipeline in main.go, mount the route
+and decide the compose turn-on path before materials can be shown;
+harness repair for the enabled e2e.</td>
+<td>s17-round4-2026-10-21.md C1, C2</td>
+</tr>
+<tr>
+<td>12</td>
+<td>OR-04 (no LLM/ASR/'vision pass' over videos) vs spec 008 OCR chain
+T449-T465 (frame sampling + tesseract): operator ruling needed before
+the OCR stream starts.</td>
+<td>completion-backlog-B-specs-018-026.md part E sub5 wiring 8</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Spec 027: 22 NEEDS-OPERATOR ids (NO-1..NO-16, J1..J5) in spec.md,
+including the NO-5 attempt-integrity policy flag.</td>
+<td>umbrella-guard-027-2026-10-21.md section B</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Release cadence: 0.0.5 not cut; reports say cut when S11+S12+S16 are
+merged (already decided 2026-10-21). Waivers from 0.0.3/0.0.4 releases
+and the unresolved flaky ingest-textbooks test remain.</td>
+<td>research-traceability-2026-10-21.md sections 4 and 5</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Governor anchor 279: operator decisions on F9 (load-aware backoff
+degenerating to one slot) and F12 (20-agent baseline vs 6-agent cap).
+Local stray commit 947d402 'base' in the vasic repo from the governor
+review (reviewer's suggested <code>git reset --mixed 0748291</code> was
+denied; the next commit df25a61 removed live.jsonl).</td>
+<td>governor-279-2026-10-22.md F9, F12, incident note</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Rerun/accept before using any review GO as current: streams n4, n6,
+n7, n8, s11, s15, s18 and cat-authors are merged in the candidate but
+have no independent review report in the reviews directory (only the
+backlog audits mention them).</td>
+<td>MANIFEST.tsv vs reviews directory listing</td>
+</tr>
+</tbody>
+</table>
+<h3 id="method-notes-and-limits">Method notes and limits</h3>
+<ul>
+<li>Candidate checks used
+<code>git -C &lt;candidate&gt; grep/show/log</code>; the Go, Karma and
+shell tests were not run for this digest.</li>
+<li>'OPEN' means the code or text the report criticised is still present
+in the candidate tree at HEAD. 'LIKELY-FIXED-LATER' means a later commit
+on the merged branch tip names the finding and the changed code looks
+like the remedy, without a fresh independent review. 'DORMANT' means
+present but unreachable or off by default. 'UNKNOWN' means not
+determined.</li>
+<li>The candidate-introduced compose regression (ApiKey_ lines) is not
+in any review; it appears because the candidate merges both the earlier
+apikeys-wiring design and its supersession.</li>
+<li>completion-backlog A and B are audits of 2026-10-21 against
+int-0.0.3 and main; many of their items (practice hand-over, event
+source, crossref floor, FB2/DOCX/HTML extractors, scoring adapters) were
+completed by the n-streams and are omitted here after checking. Only
+items still observable in the candidate were kept.</li>
+</ul>
+</body>
+</html>

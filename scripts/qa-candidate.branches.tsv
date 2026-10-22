@@ -1,0 +1,32 @@
+# qa-candidate.branches.tsv — the ORDERED branch list scripts/qa-candidate.sh merges.
+#
+# Rows are TAB-separated:
+#   base   <branch>                      the workshop branch the candidate starts from
+#   merge  <branch> [<skip-reason>]      merge this branch's CURRENT committed tip; a
+#                                        non-empty third column SKIPS it (recorded as
+#                                        `skipped` with that reason in MANIFEST.tsv)
+# Order matters: later rows are merged onto earlier ones. Conflicts between streams are
+# resolved by UNION (every stream's routes / registrations / flags kept). Edit this file to
+# add a stream, reorder, or park a branch that cannot be merged without breaking the build.
+base	int-0.0.3
+merge	fix-apikeys-argv
+merge	wire-completion
+merge	n1-013-adaptive
+merge	n8-013-ui-gate
+merge	n3-020-024-complete
+merge	n5-011-014-015-complete
+merge	n4-016-complete
+merge	n2-012-ingest-complete
+merge	s9-014-modal-polish
+merge	s11-018-library
+merge	s12-019-promotion
+merge	s15-025-ux
+merge	s16-021-medium
+merge	s17-022-material
+merge	s18-023-roles
+merge	cat-authors
+merge	h1-providers-hardening
+merge	inv-nonascii
+merge	s2-016us1-013us1
+merge	n6-001-002-complete
+merge	n7-integration
