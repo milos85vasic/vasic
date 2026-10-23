@@ -1,0 +1,17 @@
+  ok   C0 control run holds (rc 0)
+  ok   C1 a step that rewrote a tracked file left the LIVE tree byte-identical (git status before == after)
+  ok   C2 the copy is a real copy, not a hardlink (inode differs)
+  ok   C3 the op was registered running BEFORE and terminal after, same op_id
+  ok   C4 each step was sealed through the adapter
+  ok   C5 a dated report was written and names the verdict
+  ok   M1 lock held => rc 2 'already running', nothing registered
+  ok   M2 host pressure => rc 2 and the step was NOT executed
+  ok   M3 a closed item whose check now fails => rc 1
+  ok   M3b a reopen request names the item and the register was not touched
+  ok   M3c RED raised a notification
+  ok   M4 live tree moved during the run => UNSTABLE rc 2 and NO reopen request
+  ok   M5 a hung step is reaped by the no-progress budget => rc 2, step rc 124
+  ok   M5b no process of the hung step survives
+  ok   M6 no evidence adapter => rc 2 (unsealed steps are never a pass)
+  ok   M7 a state dir that is not git-ignored is refused (rc 2)
+prove-failure: all cases passed

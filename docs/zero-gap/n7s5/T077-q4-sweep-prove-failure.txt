@@ -1,0 +1,169 @@
+LIVE the live tree is unchanged across the whole proof (read-only; rc 2 if it moved)
+C0 control: demo class, planted corpus found, clean control clean
+  PASS C0a control rc 0
+  PASS C0b output equals golden/control.txt (sha masked)
+  PASS C0c files= equals the zg_manifest population count
+C1 determinism: 5 runs on an unchanged state are byte-identical
+  PASS C1 5/5 runs cmp-identical
+M1 empty class list
+  PASS M1 empty class list => rc 2
+M2 missing entrypoint
+  PASS M2 missing entrypoint => COULD-NOT-INSPECT, rc 2
+M3 moving tree during a class
+  PASS M3 moving tree => UNSTABLE rc 2 naming the class and the path
+M4 zero-population class
+  PASS M4a zero population => COULD-NOT-INSPECT, never clean
+  PASS M4b zero population with a corpus => recall 0.0, misses outrank
+M5 nondeterministic class is detected by the repeat check
+  PASS M5 repeat check sees 5 distinct outputs
+M6 a finding outranks an undetermined class
+  PASS M6 finding + undetermined => rc 1
+M7 --out is confined to .remember/logs/zero-gap/ and written atomically
+  PASS M7a --out outside => refused rc 2, nothing written
+  PASS M7b prefix look-alike refused
+  PASS M7c symlink escape refused
+  PASS M7d --out inside writes exactly stdout as sweep.txt, no temp file left
+M8 unknown flag
+  PASS M8 unknown flag => usage rc 2
+M9 a deliberately blind class
+  PASS M9 blind class => recall 0.5, RECALL-MISS at the class script naming the missed planted file, rc 1
+M10 clean control with a finding
+  PASS M10 false positive on clean control => rc 1, located at the class script
+M11 class without a corpus
+  PASS M11 no corpus => recall=UNKNOWN next to no findings, rc 2
+M12 the TSV is validated (every defect => rc 2)
+  PASS M12 duplicate id => rc 2
+  PASS M12 population_kind outside source|process|wire => rc 2
+  PASS M12 non-numeric recall => rc 2
+  PASS M12 recall above 1 => rc 2
+  PASS M12 empty entrypoint => rc 2
+  PASS M12 entrypoint off-convention => rc 2
+  PASS M12 corpus off-convention => rc 2
+  PASS M12 wrong header => rc 2
+  PASS M12 seven fields => rc 2
+  PASS M12 reserved id sweep => rc 2
+  PASS M12 id outside [a-z0-9-] => rc 2
+  PASS M12 empty population_why => rc 2
+  PASS M12 empty file => rc 2
+  PASS M12 missing TSV file => rc 2
+M13 --expect-fingerprint
+  PASS M13a matching fingerprint => rc 0
+  PASS M13b other fingerprint => rc 2
+M14 --class selection
+  PASS M14a --class demo runs only demo
+  PASS M14b unknown --class id => rc 2
+M15 class output outside the contract
+  PASS M15 malformed output => COULD-NOT-INSPECT rc 2
+M16 --json is valid and deterministic
+  PASS M16 --json parses, verdict HOLDS, identical twice
+M17 published recall disagrees with the measured one
+  PASS M17 recall recomputed; stale published figure => rc 1
+M18 malformed corpus
+  PASS M18 corpus without expect.tsv => rc 2
+M19 absent root
+  PASS M19 --root /nonexistent => rc 2
+M20 class script present but absent from the TSV
+  PASS M20 unlisted class script => finding
+M21 class inspecting less than its population
+  PASS M21 partial inspection => rc 2
+I1 percent-encoded locations (spaces, unicode, %, newline)
+  PASS I1a README zg_pct_encode snippet is byte-identical to the fixture class's copy
+  PASS I1b snippet encodes blank, %, UTF-8 and newline; keeps the safe set
+  PASS I1c encoded blank/unicode/%/newline paths are four findings, nothing undetermined
+  PASS I1d unencoded blank => class malformed rc 2, no mis-split finding accepted
+  PASS I1e non-canonical expect.tsv location => corpus malformed rc 2
+I2 a hostile environment cannot change the verdict or the report
+  PASS I2 GIT_DIR+GIT_WORK_TREE of another repository => identical report
+  PASS I2 GIT_INDEX_FILE pointing elsewhere => identical report
+  PASS I2 POSIXLY_CORRECT on a 0.5-recall class => identical report
+  PASS I2 LC_ALL=en_DK.utf8 on a 0.5-recall class => identical report
+  PASS I2 GREP_OPTIONS=-v => identical report
+  PASS I2 BASH_ENV start-up file => identical report
+  PASS I2 ENV start-up file => identical report
+  PASS I2 a variable outside the class allow-list (ZG_ENV_LEAK_PROBE) => identical report
+  PASS I2 CDPATH with a relative --root => the named root, identical report
+I3 control characters never reach the report; --json stays valid
+  PASS I3a hostile live output => class malformed rc 2, report free of control and invalid bytes
+  PASS I3b --json over hostile class output is valid JSON
+  PASS I3c hostile class stderr is forwarded without ESC/BEL
+  PASS I3a badutf8 live output => class malformed rc 2, report free of control and invalid bytes
+  PASS I3b --json over badutf8 class output is valid JSON
+  PASS I3c badutf8 class stderr is forwarded without ESC/BEL
+  PASS I3d quotes and backslashes round-trip through --json
+I4 fingerprint blind spots, each attributed to the class
+  PASS I4 write-then-restore of a tracked file => UNSTABLE naming class restorer
+  PASS I4 git commit in the swept repository => UNSTABLE naming class committer
+  PASS I4 git config --local in the swept repository => UNSTABLE naming class configer
+  PASS I4 a write during --emit-population => UNSTABLE naming class emitwriter
+  PASS I4 write into an ignored path => COULD-NOT-INSPECT naming class and path
+  PASS I4 write under an excluded concurrent-writer path (.remember/tmp/) is not attributed
+  PASS I4 per-class fingerprint cost is printed on stderr
+  PASS I4 a probed server's access log under .service-registry/qa/ (default exclusion) is not attributed
+I5 budgets, process groups, population identity
+  PASS I5a class over its budget => COULD-NOT-INSPECT rc 2 within 13 s
+  PASS I5b its TERM-ignoring child did not outlive the class
+  PASS I5c a child left behind by an exited class is terminated and reported
+  PASS I5d sweep budget exhausted => COULD-NOT-INSPECT rc 2
+  PASS I5e a non-numeric budget => rc 2
+  PASS I5f same-size different set => POPULATION-SHA mismatch rc 2
+I7 corpus fixtures are excluded from every live population
+  PASS I7 a live population reaching _tests/fixtures/zero-gap/ => COULD-NOT-INSPECT naming it
+R2-I2 the runner re-executes under a clean environment
+  PASS I2 SHELLOPTS=noglob (stray-class check) => identical report
+  PASS I2 SHELLOPTS=noclobber => identical report
+  PASS I2 SHELLOPTS=monitor (job control) => identical report
+  PASS I2 exported function BASH_FUNC_sort%% => identical report
+  PASS I2 HOME with a global gitconfig that ignores every file => identical report
+  PASS I2 XDG_CONFIG_HOME with the same git config => identical report
+  PASS I2 HOME with an implicit ~/.config/git/ignore and attributes => identical report
+  PASS R2-I2 the class environment is exactly the allow-list
+  PASS R2-I2 allow-list values: global/system git config off, GOTOOLCHAIN=local, GOMAXPROCS=4, no bytecode
+R2-I3 NUL, C1 controls and invisible direction/line characters are rejected as bytes
+  PASS R2-I3 nulbyte => class malformed rc 2, the sequence never reaches the report
+  PASS R2-I3 nulbyte --json valid and free of it
+  PASS R2-I3 c1ctrl => class malformed rc 2, the sequence never reaches the report
+  PASS R2-I3 c1ctrl --json valid and free of it
+  PASS R2-I3 bidi => class malformed rc 2, the sequence never reaches the report
+  PASS R2-I3 bidi --json valid and free of it
+  PASS R2-I3 linesep => class malformed rc 2, the sequence never reaches the report
+  PASS R2-I3 linesep --json valid and free of it
+  PASS R2-I3 alm => class malformed rc 2, the sequence never reaches the report
+  PASS R2-I3 alm --json valid and free of it
+R2-I5 a grandchild that escaped the process group via setsid is found, reported and ended
+  PASS R2-I5 escaped setsid grandchild => COULD-NOT-INSPECT rc 2 and it is gone
+  FAIL R2-I5 flood rc=1 after 121 s
+R2-I7 non-normal path tokens and fixture paths anywhere in a token are rejected
+  PASS R2-I7 ./ population items => rc 2, nothing accepted
+  PASS R2-I7 ./_tests/fixtures/zero-gap/x/p.txt never produces a finding
+  PASS R2-I7 dotloc location => not accepted, rc 2
+  PASS R2-I7 colonfix location => not accepted, rc 2
+  PASS R2-I7 ghostloc location => not accepted, rc 2
+R2-I1 evidence_ref must be a real path (or path:suffix); a tracked file may be a location
+  PASS R2-I1 badref evidence_ref => class malformed, nothing accepted, rc 2
+  PASS R2-I1 rawref evidence_ref => class malformed, nothing accepted, rc 2
+  PASS R2-I1 dotref: an existing but non-normal evidence path is rejected, rc 2
+  PASS R2-I1 absref: an existing but non-normal evidence path is rejected, rc 2
+  PASS R2-I1 a tracked file with a line suffix is an accepted location
+R3-IC side effects outside the content fingerprint are attributed to the class
+  PASS R3-IC removing an ignored file (_site/index.html) => COULD-NOT-INSPECT naming it
+  PASS R3-IC cp -p over an ignored file (old mtime kept) => COULD-NOT-INSPECT naming it
+  PASS R3-IC a write to .git/hooks/pre-push => UNSTABLE naming the class
+  PASS R3-IC a write to .git/info/exclude => UNSTABLE naming the class
+R3 evidence_ref must be a regular file inside --root, outside .git/ and the corpus fixtures
+  PASS R3 dirref evidence_ref rejected, nothing accepted, rc 2
+  PASS R3 gitref evidence_ref rejected, nothing accepted, rc 2
+  PASS R3 linkref evidence_ref rejected, nothing accepted, rc 2
+  PASS R3 fixref evidence_ref rejected, nothing accepted, rc 2
+R3 an escapee that keeps spawning is frozen and ended with all its descendants
+  PASS R3 spawning escapee => COULD-NOT-INSPECT rc 2, no process of its session remains
+I6 the live class list derives each disputed population from a named tracked source
+  FAIL I6 live-vs-source does not name an existing workshop/platform/compose.yml scripts/qa-up.sh
+  PASS I6 unproven-checks names scripts/check-registry.tsv and each exists
+  PASS I6 doc-count-drift names docs/claim-ledger.tsv and each exists
+  FAIL I6 build-if-missing does not name an existing ai_interviewing/platform/scripts/start.sh
+  FAIL I6 improvement-candidates does not name an existing docs/OPERATOR-DECISIONS- docs/workable_items.db
+  PASS I6 missing-toolchain names docs/zero-gap/toolchains.tsv and each exists
+  PASS I6 guard-gaps names docs/zero-gap/guarded-commands.tsv and each exists
+  PASS LIVE live tree byte-identical (whole-tree fingerprint + git status)
+prove-failure: 124 passed, 4 failed
+rc=1

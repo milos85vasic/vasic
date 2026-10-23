@@ -1,0 +1,33 @@
+--- FAIL: TestT068EditedRecordIsCaught (0.46s)
+    gap_t068_test.go:105: an edited verifier record was not caught by the chain binding: [V-G3                         VSC-004      no independent verifier verdict (outcome 0, actor other than the fixer, evidence record confirming the GREEN) in item_verdicts (FR-018) V-G3                         VSC-004      the closure's verdict reference _tests/fixtures/zero-gap/registers/evidence/VSC-004-verifier.json names no valid verifier row of this item V-G3                         VSC-004      verifier evidence _tests/fixtures/zero-gap/registers/evidence/VSC-004-verifier.json changed after it was cited: recorded sha256 e21853ac7700…, now 8096e277e287… (rewritten or swapped)]
+--- FAIL: TestT068RecordMissingFromChainIsCaught (0.64s)
+    gap_t068_test.go:113: a verifier record with no chain row was accepted: []
+--- FAIL: TestT068VerifierSessionEqualToGreenIsCaught (0.43s)
+    gap_t068_test.go:122: a verifier running in the GREEN's session was accepted: []
+--- FAIL: TestT068UnverifiedChainIsUndeterminedNotAPass (0.32s)
+    gap_t068_test.go:130: a chain that does not verify must be rc 2, got rc 0 undet=[]
+--- FAIL: TestT068VerdictAndCloseRequireTheBindingUnlessSkippedLoudly (0.27s)
+    gap_t068_test.go:160: a skip must be loud and carry its reason (rc 2):
+        flag provided but not defined: -skip-chain-binding
+        Usage of gap verdict:
+          -actor string
+            	handle of the agent or script giving the verdict
+          -actor-kind string
+            	agent | script
+          -db string
+            	register path (default: <repo>/docs/workable_items.db)
+          -evidence string
+            	path of the verdict's evidence (repository-relative)
+          -id string
+            	item id
+          -on string
+            	date of the verdict YYYY-MM-DD (default: today)
+          -outcome int
+            	0 holds · 1 violated (a disagreement) · 2 could not determine (default -1)
+          -repo string
+            	repository root (default: discovered from the working directory)
+          -role string
+            	verifier | reviewer
+FAIL
+FAIL	digital.vasic/vasic/workableitems/internal/wi	3.252s
+FAIL

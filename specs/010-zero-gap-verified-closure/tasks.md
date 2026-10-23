@@ -213,6 +213,7 @@ defect per class appears; an uninspectable part is listed, never clean.
 - [ ] T037 [P] [TDD] [US1] CREATE `workable-items-vsc report --by-module` (does not exist yet) generating a per-module page (SC-010) — RED: golden-bad register yields rc 1;
   timed walk-through recorded once.  _Covers: FR-024, SC-010._
   STATUS 2026-09-26: code + tests delivered and reviewed (rc 0/1/2 proven, script timing 35 ms); the SC-010 HUMAN timed walk-through is PENDING and is taken at the T038 checkpoint — this task is ticked only when that walk-through is recorded.
+  S5 2026-10-21: machine half automated -- `scripts/zero-gap-module-page-check.sh` (registered, 8-case paired proof): page for the live register generated in ~0.1 s, 23 roster modules all present. NOT ticked: the SC-010 HUMAN two-minute read is an operator act.
 - [x] T081 [TDD] [US1] (after T037; numbered out of sequence to keep earlier ids stable) Improvement intake:
   CREATE sweep class `improvement-candidates` (`scripts/zero-gap-class-improvement-candidates.sh`, corpus
   `_tests/fixtures/zero-gap/improvement-candidates/`) that harvests improvement candidates from recorded
@@ -275,11 +276,15 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 - [ ] T043 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `security` — every item of category `security`
   (credential handling and any destructive-command guard gap that IS fixable project-side; editing
   `.claude/settings.json` is queued as an operator decision, not done) via the protocol above.
+  NOT CLOSED (S5, 2026-10-21): a register closure needs the register's own RED/GREEN, a different verifier and a register commit; the open items of this wave are listed in `docs/zero-gap/n7s5/register-open-items.md` and the classified ones in `operator-queue-register-S5.md`. Fix work for VSC-379 is delivered (T065 + seal-checks); its closure packet needs an independent verifier.
 - [ ] T044 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `data-integrity` and `content-boundary`.
+  NOT CLOSED (S5, 2026-10-21): a register closure needs the register's own RED/GREEN, a different verifier and a register commit; the open items of this wave are listed in `docs/zero-gap/n7s5/register-open-items.md` and the classified ones in `operator-queue-register-S5.md`. Fix work for VSC-379 is delivered (T065 + seal-checks); its closure packet needs an independent verifier.
 - [ ] T045 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `false-evidence` (vacuous gates, unproven checks,
   hollow proofs, stale figures).
+  NOT CLOSED (S5, 2026-10-21): a register closure needs the register's own RED/GREEN, a different verifier and a register commit; the open items of this wave are listed in `docs/zero-gap/n7s5/register-open-items.md` and the classified ones in `operator-queue-register-S5.md`. Fix work for VSC-379 is delivered (T065 + seal-checks); its closure packet needs an independent verifier.
 - [ ] T046 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `availability` and `build-freshness`
   (ai_interviewing start-script trap; live-vs-source drift).
+  NOT CLOSED (S5, 2026-10-21): a register closure needs the register's own RED/GREEN, a different verifier and a register commit; the open items of this wave are listed in `docs/zero-gap/n7s5/register-open-items.md` and the classified ones in `operator-queue-register-S5.md`. Fix work for VSC-379 is delivered (T065 + seal-checks); its closure packet needs an independent verifier.
 - [ ] T047 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `governance-drift` and `docs-drift`
   (carrier/CONTINUATION/README counts, workshop CLAUDE.md counts, badge row §11.4.259, zero-findings
   sweep §11.4.261 items actionable in this tree). The roster rows and live-register migration for the G4
@@ -291,6 +296,7 @@ Each wave task MUST follow this, verbatim, or stop and queue:
   in-tree by this wave. `submodules/llm_provider` (HelixDevelopment) duplicates `submodules/LLMProvider`
   (vasic-digital) and is registered as its own item. See also **T091** (CONTINUATION.md §3 point-in-time
   rule).
+  NOT CLOSED (S5, 2026-10-21): a register closure needs the register's own RED/GREEN, a different verifier and a register commit; the open items of this wave are listed in `docs/zero-gap/n7s5/register-open-items.md` and the classified ones in `operator-queue-register-S5.md`. Fix work for VSC-379 is delivered (T065 + seal-checks); its closure packet needs an independent verifier.
 - [x] T091 [TDD] [US2] Add a "CONTINUATION.md §3 point-in-time rule" row to
   `docs/zero-gap/point-in-time.tsv` (the doc-count-drift/stale-figures exemption list): CONTINUATION.md §3
   ("active work") entries are point-in-time status notes, true when written, and MUST NOT be re-flagged as
@@ -300,26 +306,33 @@ Each wave task MUST follow this, verbatim, or stop and queue:
   uncaptioned line in the same section remains a finding. Wire the rule into the `stale-figures` (T019) and
   `docs-drift`/`governance-drift` (T047) classes.  _Covers: FR-020, FR-024._
 - [ ] T048 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `ux-accessibility` (workshop, ai_interviewing, sites).
+  NOT CLOSED (S5, 2026-10-21): a register closure needs the register's own RED/GREEN, a different verifier and a register commit; the open items of this wave are listed in `docs/zero-gap/n7s5/register-open-items.md` and the classified ones in `operator-queue-register-S5.md`. Fix work for VSC-379 is delivered (T065 + seal-checks); its closure packet needs an independent verifier.
 - [ ] T049 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `host-capability` -- prepare and queue the
   `Operator-blocked` install items (tesseract, webkit libs); verify everything else.
+  NOT CLOSED (S5, 2026-10-21): a register closure needs the register's own RED/GREEN, a different verifier and a register commit; the open items of this wave are listed in `docs/zero-gap/n7s5/register-open-items.md` and the classified ones in `operator-queue-register-S5.md`. Fix work for VSC-379 is delivered (T065 + seal-checks); its closure packet needs an independent verifier.
 - [ ] T088 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `test-coverage` (data-model.md:45-46) -- every item
   of that category via the wave protocol above.  _Covers: FR-006, FR-007._
+  NOT CLOSED (S5, 2026-10-21): a register closure needs the register's own RED/GREEN, a different verifier and a register commit; the open items of this wave are listed in `docs/zero-gap/n7s5/register-open-items.md` and the classified ones in `operator-queue-register-S5.md`. Fix work for VSC-379 is delivered (T065 + seal-checks); its closure packet needs an independent verifier.
 - [ ] T089 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `other` (data-model.md:45-46) -- every item of that
   category via the wave protocol above.  _Covers: FR-006, FR-007._
+  NOT CLOSED (S5, 2026-10-21): a register closure needs the register's own RED/GREEN, a different verifier and a register commit; the open items of this wave are listed in `docs/zero-gap/n7s5/register-open-items.md` and the classified ones in `operator-queue-register-S5.md`. Fix work for VSC-379 is delivered (T065 + seal-checks); its closure packet needs an independent verifier.
 - [ ] T090 [P] [SUBAGENT] [REVIEW] [US2] CLOSURE WAVE `kind=improvement` -- cycle-1 scope is ALL 10
   proposed improvement items (operator decision 2026-09-26, T081/T038); each closes only once its stated
   `measurable_target` (FR-025) is met and independently verified, regardless of which category it primarily
   belongs to.  _Covers: FR-025, FR-006._
+  NOT CLOSED (S5, 2026-10-21): a register closure needs the register's own RED/GREEN, a different verifier and a register commit; the open items of this wave are listed in `docs/zero-gap/n7s5/register-open-items.md` and the classified ones in `operator-queue-register-S5.md`. Fix work for VSC-379 is delivered (T065 + seal-checks); its closure packet needs an independent verifier.
 - [ ] T050 [US2] Operator queue: every `Operator-blocked` and `classified` item lists its unblock options,
   cost, exact command, owner and recheck date (FR-009); present the queue to the operator. Includes the
   gitlink bumps that end each wave -- one bump per **OWNED** module from T047 (`doc_processor`,
   `llm_orchestrator`, `llm_provider`, `vision_engine`, `qa`) and the three behind-remote submodules -- plus
   **T086**'s credential-rotation item.  _Covers: FR-006, FR-009, SC-003._
+  S5 2026-10-21: `docs/zero-gap/operator-queue-register-S5.md` lists all 50 classified items with owner, recheck date, elapsed flag and grouped unblock options/costs (labelled estimates; the register itself stores none -- 0 of 50 bodies carry `cost:`). 25 of them (+18 open items' plan_due) are elapsed at 2026-10-21 -> V-G2/V-G10 findings (35 total). NOT ticked: the options still need the operator's confirmation and a register write.
 - [ ] T051 [REVIEW] [US2] Independent review of all closed items' evidence pairs: for each item closed in
   Phase 4, confirm the recorded pre-fix (RED) and post-fix (GREEN) records are genuine, correctly paired
   and reviewed by an actor different from the fixer -- a ONE-TIME audit of the CAPTURED records, not a
   re-execution of the underlying checks (T073 re-runs those).  _Covers: FR-022._
 
+  PENDING-INDEPENDENT-REVIEW: not performed by the producer; see `docs/zero-gap/n7s5/review-packets.md`.
 **Checkpoint**: zero items lack a state, owner or evidence (SC-003); no item is classified except for the four reasons.
 
 ---
@@ -336,26 +349,36 @@ Each wave task MUST follow this, verbatim, or stop and queue:
   real coverage data, replacing its `COULD-NOT-INSPECT` baseline reading. Any new `gap` item this re-sweep
   finds is assigned to **cycle 2** (the register was frozen at cycle 1 in T038); it does not reopen a
   frozen item.  _Covers: FR-010, FR-026._
+  DONE-AS-RERUN 2026-10-21 (S5): `T087-coverage-gaps-class-run.txt` -- class run over the tracked map: 199 findings, 12 could-not-inspect, rc 1 (192 gap cells + check-red). Nothing was closed; the cells are cycle-2 intake (`cycle-2-candidates.tsv`). NOT ticked: SC-005 is not met.
 - [ ] T053 [SUBAGENT] [US3] Re-measure every cell of the seed matrix from research D10 with real runs
   (not name counts) and write the true map; extra kinds proposed: content-boundary, claim-ledger, gate
   paired-mutation, SEO/i18n completeness, link integrity, export validation, provider-CI,
   host-capability, fuzz, visual-diff.  _Covers: FR-010._
+  S5 2026-10-21: the real-run measurer already exists (`zero-gap-coverage-measure.py`). Root re-measured in this worktree: `docs/zero-gap/n7s5/T053-root-remeasure.txt` -- 7 root cells degrade to could-not-run because the submodules are not checked out here (integration, contract, content-boundary, fuzz shows check-red from the missing continuum replace dir = environment, not a regression); the other cells equal the tracked map. Submodule subjects cannot be re-measured here. NOT ticked.
 - [ ] T054 [P] [SUBAGENT] [TDD] [US3] Close gap cells: contract tests for workshop and ai_interviewing HTTP APIs.
+  BLOCKED (S5): workshop and ai_interviewing are submodules not checked out in this worktree and gitlinks must not be modified; contract tests belong in those repositories.
 - [ ] T055 [P] [SUBAGENT] [TDD] [US3] Close gap cells: load/perf for workshop and ai_interviewing
   (bounded, `MemoryMax`, against a scratch server — never the live one).
+  BLOCKED (S5): same reason as T054; load/perf must target a scratch server of the module, which needs the module built.
 - [ ] T056 [P] [SUBAGENT] [TDD] [US3] Close gap cells: stress/chaos for workshop backend, ai_interviewing,
   verdict, passage, curriculum-kit (kill/restart, provider-down, slow-backend, and disk-full simulated ONLY on a bounded tmpfs or inside a container — never the host filesystem).
+  BLOCKED (S5): same reason as T054 (workshop, ai_interviewing, verdict, passage, curriculum-kit are submodules).
 - [ ] T057 [P] [SUBAGENT] [TDD] [US3] Close gap cells: fuzz targets (`func Fuzz`) for parsers/validators
   outside `submodules/qa`.
+  PARTIAL (S5): umbrella parsers already carry 12 fuzz targets; +`FuzzLoadChainBinder` and `FuzzValidateWireCapture` (20 s each, no finding, `T057-fuzz-*.txt`). Submodule parsers are out of reach here. NOT ticked.
 - [ ] T058 [P] [SUBAGENT] [TDD] [US3] Close gap cells: mutation proofs for modules without any
   (ai_interviewing, verdict, passage, umbrella `_tools/gen`), run on COPIES.
+  BLOCKED (S5) for ai_interviewing/verdict/passage (submodules); umbrella `_tools/gen` is already covered by `scripts/prove-umbrella-mutants.sh` (registered, `umbrella-mutation` cell: check, 5 cases).
 - [ ] T059 [P] [SUBAGENT] [TDD] [US3] Close gap cells: accessibility for ai_interviewing frontend;
   security spec for workshop frontend.
+  BLOCKED (S5): frontends live in submodules.
 - [ ] T060 [P] [SUBAGENT] [TDD] [US3] Close gap cells: determinism tests per module beyond
   `reproducibility-selftest.sh`; manual-QA-readiness checks (`scripts/qa-up.sh` boots, all four health
   endpoints answer, documented ports discovered not fixed).
+  PARTIAL (S5): `zero-gap-determinism-registry.sh` adds a per-check determinism census; per-module determinism and `qa-up.sh` readiness need the modules (submodules) -- BLOCKED here.
 - [ ] T061 [REVIEW] [US3] Independent review of the matrix and of any test that reports PASS with zero cases.
 
+  PENDING-INDEPENDENT-REVIEW: packets in `docs/zero-gap/n7s5/review-packets.md`; no second actor has reviewed.
 **Checkpoint**: SC-005 — no blank cell; every gap is a register item.
 
 ---
@@ -365,19 +388,24 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 **Goal**: every claim backed by sealed, reproducible, machine-created evidence; no false result anywhere.
 **Independent Test**: re-run any recorded command five times on an unchanged state → five identical verdicts; break the guarded thing → the verdict flips.
 
-- [ ] T062 [TDD] [US4] `scripts/zero-gap-scan-records.sh` (FR-020): guessing language in causal
+- [x] T062 [TDD] [US4] `scripts/zero-gap-scan-records.sh` (FR-020): guessing language in causal
   statements, credentials, private-text leakage over `docs/zero-gap/`, `specs/010-*/`, the register export
   and evidence streams; release gate wired into `gap freeze` and the pre-push gates (after T041, before
   T065; part of the push-path order T040 -> T041 -> T062 -> T065); corpus of planted violations.  _Covers: FR-020, SC-008._
-- [ ] T063 [TDD] [US4] Wire-evidence rule (FR-017): records with `population_kind=wire` MUST carry a
+  DONE 2026-10-21 (n7-S5): `scripts/zero-gap-scan-records.sh` (3 layers guessing/credential/private; registered, `--prove-failure` 15 cases incl. planted corpus), pre-push gate Z2, `gap freeze` release gate (Go tests `gap_scanrecords_test.go`). Evidence: `docs/zero-gap/n7s5/T062-*.txt`. Also fixed a T063 regression found on the way (schema `allOf` made every sealing refuse; see `T063fix-*.txt`). Independent review PENDING (producer is not the verifier).
+- [x] T063 [TDD] [US4] Wire-evidence rule (FR-017): records with `population_kind=wire` MUST carry a
   wire-capture digest (HTTP response or socket capture); source-only measurements are labelled `source`. RED: a `wire` record without a capture digest is rejected.  _Covers: FR-014, FR-017._
+  DONE 2026-10-21 (n7 branch n7-010-complete): `wire_capture_digest` + `wire_capture_kind{http_response,socket}` added to `EvidenceRecord`/`evidence-record.schema.json`; wire requires both, non-wire forbids both, all-zero digest refused. RED `docs/zero-gap/n7/T063-RED.txt` (2 FAIL on the unmodified validator), mutant (check disabled) caught by 3 tests `docs/zero-gap/n7/T063-MUTANT.txt`, GREEN `go test ./internal/wi` for the new tests. Independent review pending (producer is not the verifier).
 - [ ] T064 [US4] Run the five-repeat determinism harness over every registered check; register each
   UNSTABLE check as an item and exclude it from evidence until fixed.  _Covers: FR-015, SC-006._
-- [ ] T065 [TDD] [REVIEW] [US4] (after T041; the LAST task touching the push path) Feed sealed records from `run_gate` in `scripts/pre-push-gates.sh`
+  PARTIAL 2026-10-21 (n7-S5): `scripts/zero-gap-determinism-registry.sh` (5-repeat census over every registered check on a frozen real copy; UNSTABLE -> `docs/zero-gap/unstable-checks.tsv`; denylisted/slow checks are listed NOT-RUN with a reason, rc 2). Registered, `--prove-failure` 6 cases. The census result is in the S5 report. NOT ticked until the census is complete (see report).
+- [x] T065 [TDD] [REVIEW] [US4] (after T041; the LAST task touching the push path) Feed sealed records from `run_gate` in `scripts/pre-push-gates.sh`
   (timestamp, fingerprints, seal) — careful: the gate runner is the push path; RED first, then a
   dry-run push; revert plan documented. Files: `scripts/pre-push-gates.sh`.
+  DONE 2026-10-21 (n7-S5): `run_gate` executes each gate through the sealing adapter (`gate_exec`/`seal_exec`; PREPUSH_SEAL=auto|1|0, revert plan in the script header). RED `docs/zero-gap/n7s5/T065-RED.txt` (6 of the new proof cases failed on the unmodified runner), GREEN `T065-GREEN.txt`; dry run of the real runner with the REAL adapter and a verifying chain afterwards: `T065-dryrun-real-adapter.txt` (scratch repo; no push was made). Independent review PENDING.
 - [ ] T066 [SUBAGENT] [TDD] [US4] (after T019; same ledger) Widen `docs/claim-ledger.tsv` toward `--completeness`: register the
   carriers' and CONTINUATION.md's recorded counts as ledger rows with their re-measure commands.
+  PARTIAL 2026-10-21 (n7-S5): +2 ledger rows (`carriers-gitmodules-url-count`, `continuation-gitlink-count`; CONTINUATION.md added as a surface). RED `T066-RED.txt` (the stale `# 13 URLs` claim measured FALSE against 22; the CONTINUATION row ORPHAN on the old text), GREEN `T066-GREEN.txt`. Both stale claims were corrected in the same change (carriers in lockstep). NOT ticked: `--completeness` still reports 344 figures, 12 badges with 12 registered rows.
 - [ ] T067 [US4] Verify SC-006/SC-007/SC-008 across the whole tree and record the tables.  _Covers: SC-007, SC-008._
 
 **Checkpoint**: zero unmeasured assertions, zero unsealed evidence, every check proven able to fail.
@@ -408,7 +436,8 @@ Each wave task MUST follow this, verbatim, or stop and queue:
   `scripts/zero-gap-evidence-chain.sh --verify` reads it. The first commit is `Operator-blocked` (FR-009,
   exact command queued) -- until it lands, `--verify` MUST report rc 2, never rc 0. Gates T068's
   `--verify rc 0` requirement and T074's cycle-1 anchor export.  _Covers: FR-009, FR-016._
-- [ ] T068 [TDD] [US5] (after T082, T083) Independent-verdict flow: `item_verdicts` rows require `actor ≠ fixer`
+  PREPARED 2026-10-21 (n7-S5): command, expected shape and rollback in `docs/zero-gap/operator-queue-S5.md` (OQ-S5-ANCHOR); flow demonstrated on a throwaway repo (`T083-scratch-demo.txt`: --verify rc 2 before commit, rc 0 after). `--verify` in the worktree reads rc 2. NOT ticked: the first commit is Operator-blocked.
+- [x] T068 [TDD] [US5] (after T082, T083) Independent-verdict flow: `item_verdicts` rows require `actor ≠ fixer`
   (`actor_kind` agent|script); RED: a verdict whose actor equals the fixer is rejected; disagreement blocks `gap close`; uses the constitution
   `independence_tier.sh` where applicable.  _Covers: FR-018._
   **T082 fixes T014 finding N3 before T069 runs the witness fetch daily** (no submodule recursion, no
@@ -421,23 +450,29 @@ Each wave task MUST follow this, verbatim, or stop and queue:
   lands, **"closed" means structurally consistent and self-asserted, NOT proof of an independent run** (an unsigned verifier record can be
   forged by editing a copy of the GREEN — demonstrated in review); the operator inherits that residual risk and FR-016/FR-018 are NOT
   claimed met by the register alone. (FR-016, FR-018)
-- [ ] T069 [TDD] [US5] (after T082's N3 fix) `scripts/zero-gap-daily.sh` per `contracts/daily-job.md`: `flock` single-instance,
+  DONE 2026-10-21 (n7-S5): V-G13 (`internal/wi/chainbind.go`) binds every cited RED/GREEN/verifier record to the chain (sha256 of the record bytes == chain `artifact_path` at `chain_seq`, store passes `zero-gap-evidence-chain.sh --verify`, verifier session != GREEN session); `gap close`/`gap verdict` require it unless `--skip-chain-binding REASON` (printed); `validate --chain-store DIR` re-verifies closed items. RED `T068-RED.txt`, GREEN `T068-GREEN-fullpkg.txt` (whole package). Retroactive real-register measurement (read-only): 88 of 88 cited records of the 25 closed gap items bind, no shared session (`T068-real-register-binding-measurement.txt`). Until OQ-S5-ANCHOR lands `--verify` is rc 2, so the default (no skip flag) close/verdict stay blocked -- by design. `validate` binding is opt-in (`--chain-store`); making it the default is an operator decision (it would block `validate` wherever the untracked store is absent). Independent review PENDING.
+- [x] T069 [TDD] [US5] (after T082's N3 fix) `scripts/zero-gap-daily.sh` per `contracts/daily-job.md`: `flock` single-instance,
   long-op registered BEFORE it runs in `.remember/logs/zero-gap/ops-registry.jsonl` with the exact
   §11.4.232(A) terminal states, heartbeat and no-progress budget, host-pressure refusal (rc 2),
   fingerprint before/after, sealed records, untracked report, `notify-send` on RED/STALE, reopen requests
   appended to `.remember/logs/zero-gap/reopen-queue.jsonl` — and NEVER any write to tracked files. It runs on a frozen REAL COPY (`rsync -a`, never `cp -al`/hardlinks: gates rewrite tracked evidence files in place — the pre-push run regenerated tracked PNGs and `perf-budget.json` on 2026-09-25 — and a hardlink snapshot would write through into the live tree; the live tree also moves constantly). RED: `git status --porcelain`, recursing into submodules, is byte-identical before and after a run that includes `--run-proofs`. `--now` for on-demand.  _Covers: FR-019._
-- [ ] T070 [P] [US5] Prepare `ops/systemd/zero-gap-daily.service` and `zero-gap-daily.timer`
+  DONE 2026-10-21 (n7-S5): `scripts/zero-gap-daily.sh` (flock, registry-before-run, pressure refusal rc 2, frozen rsync copy, sealed steps via adapter, reopen queue in the exact `gap apply-queue` shape, UNSTABLE handling, no-progress reaper). Registered; `--prove-failure` 16 cases; hardlink mutant caught (`T069-MUTANT-hardlink.txt`). Honest limit: umbrella scope only (gitlinks not copied); the full real-tree run needs the main checkout (constitution recorder) -- worktree run is rc 2 by design (`T069-real-worktree-run.json`). Independent review PENDING.
+- [x] T070 [P] [US5] Prepare `ops/systemd/zero-gap-daily.service` and `zero-gap-daily.timer`
   (`OnCalendar=daily`, `Persistent=true`, `RandomizedDelaySec=900`, `MemoryMax=16G`, `Nice=10`,
   `IOSchedulingClass=idle`) and their install/uninstall notes — NOT installed.  _Covers: FR-019._
-- [ ] T071 [TDD] [REVIEW] [US5] Revert test (SC-009) in a disposable copy: revert a closed item's fix →
+  DONE 2026-10-21 (n7-S5): `ops/systemd/zero-gap-daily.{service,timer}` + README (templates, NOT installed); `systemd-analyze --user verify` output in `docs/zero-gap/n7s5/T070-systemd-analyze.txt`.
+- [x] T071 [TDD] [REVIEW] [US5] Revert test (SC-009) in a disposable copy: revert a closed item's fix →
   daily run queues reopen-pending with the failing evidence; `gap apply-queue` inside a commit reopens it.  _Covers: FR-019, SC-009._
+  DONE 2026-10-21 (n7-S5): `TestT071RevertedFixIsFlaggedQueuedAndReopened` (real daily script + real `gap apply-queue` in a disposable repo); mutant (queue shape broken) caught, `T071-MUTANT.txt`, GREEN `T071-GREEN.txt`. Independent review PENDING.
 - [ ] T072 [US5] Queue the timer installation as an `Operator-blocked` item with the exact commands
   (`systemctl --user daemon-reload`, `enable --now`) and the rollback.
+  PARTIAL 2026-10-21 (n7-S5): exact commands, rollback, cost, owner, recheck date queued in `docs/zero-gap/operator-queue-S5.md` (OQ-S5-TIMER). NOT ticked: the Operator-blocked REGISTER row was not written (tracked binary DB written concurrently by sibling streams).
 - [ ] T073 [US5] Independent verification pass: after Phases 5-7 have run (the tree may have changed since
   Phase 4 closed each item), a different agent RE-RUNS the recorded CHECK COMMAND of EVERY closed item
   against the current tree and records its verdict -- unlike T051's one-time evidence-pairing audit, this
   re-executes; any disagreement reopens the item.  _Covers: FR-018, SC-004._
 
+  PENDING-INDEPENDENT-REVIEW: needs a different actor re-running the recorded check of every closed item; `scripts/zero-gap-daily.sh` now runs those checks daily (closed-item re-checks) once the timer is installed (OQ-S5-TIMER).
 **Checkpoint**: SC-004 and SC-009 hold; the daily job runs on demand and is ready for the operator to install.
 
 ---
@@ -447,19 +482,26 @@ Each wave task MUST follow this, verbatim, or stop and queue:
 - [ ] T074 Close cycle 1: verify the T038 freeze still re-derives byte-identically, write
   `docs/zero-gap/cycles/1/` (freeze.json, register export, chain head + anchor); items discovered during the waves are
   already in cycle 2.  _Covers: FR-026, SC-011._
+  PARTIAL (S5): freeze re-derives byte-identically (`T074-freeze-rederive.txt`, sha256 808f2ad6...); `cycles/1/register-summary-2026-10-21.json` and `chain-head-2026-10-21.json` written. NOT ticked: the anchor (OQ-S5-ANCHOR) is Operator-blocked and `freeze.json` is immutable (chain_head stays null).
 - [ ] T075 Update every carrier and document whose stated fact changed (same commit as its cause):
   CLAUDE.md/AGENTS.md/QWEN.md/GEMINI.md (lockstep), `CONTINUATION.md`, `docs/check-registry.md`,
   workshop `CLAUDE.md` counts; run `scripts/verify-claim-ledger.sh` and `scripts/continuation-check.sh`.
+  PARTIAL (S5): CONTINUATION.md (gate Z2 row + S5 section), carriers' stale `# 13 URLs`, CONTINUATION gitlink count, claim-ledger rows. Remaining continuation-check DRIFT in a worktree is submodule-absence (C5) and pre-existing release commits (C3).
 - [ ] T076 [P] Generate exports for new docs per §11.4.65 where a generator exists; record any gap as an item.
+  GAP (S5): exports for the new docs need the docs-chain tooling of the constitution submodule (absent here); pandoc and weasyprint exist locally but the registered chain would flag unregistered exports. Recorded here as the gap item.
 - [ ] T077 Run `quickstart.md` end to end (every [TARGET] command now exists) and paste the outputs.
+  PARTIAL (S5): sections 0-5 run; three stale commands corrected in quickstart.md (coverage has no --json; --check takes a class id; scan-records is rc 2 without a private source). Outputs: `docs/zero-gap/n7s5/T077-*.txt`.
 - [ ] T078 If the programme discovered new project-wide rules, propose an amendment to the PROJECT
   `.specify/memory/constitution.md` via `/speckit-constitution` (MINOR bump); `submodules/constitution` is never edited.
+  NONE (S5): no new project-wide rule was discovered; the one design lesson (a contract edit must be loaded by the interpreter that enforces it) is covered by `TestRealContractLoads`.
 - [ ] T079 [REVIEW] Final independent review against the spec: an SC-001..SC-011 audit table with the
   command and captured output for each criterion.
+  PENDING-INDEPENDENT-REVIEW: producer-prepared SC-001..SC-011 audit table with commands and output in `docs/zero-gap/n7s5/T079-sc-audit.md`.
 - [ ] T080 Commit and push the umbrella and every touched NON-SITE module through the `commit` wrapper
   (explicit staging, pre-push gates green, no force-push). `milosvasic.ru` self-publishes on push and
   `vasic.digital` triggers a Pages build, so any push to either site module is an operator decision, and every gitlink bump is too.
 
+  NOT DONE BY DESIGN (S5): commits are on branch `n7-010-complete` only; nothing was pushed or merged.
 ---
 
 ## Dependencies & Execution Order

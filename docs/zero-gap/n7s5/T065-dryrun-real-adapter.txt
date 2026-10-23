@@ -1,0 +1,21 @@
+logs: /home/milosvasic/.cache/claude-tmp/vasic-prepush.26q5ag
+----------------------------------------------------------------------
+SEAL: on — gate runs are recorded by zero-gap-evidence.sh
+▶ RUN   gate E  §11.4.156(E) no active root CI config
+✔ PASS  gate E  §11.4.156(E) no active root CI config  (2s)
+----------------------------------------------------------------------
+PASS gate E  §11.4.156(E) no active root CI config                       2s
+----------------------------------------------------------------------
+passed=1  failed=0  undetermined=0  skipped=0
+
+error: pathspec '_tests/evidence' did not match any file(s) known to git
+WARNING: evidence-guard checkout failed — worktree left as-is.
+WARNING: evidence-guard restore incomplete — check 'git status'.
+
+ALL RUN GATES PASSED — push allowed.
+---- chain after
+[4/4 history] history: ok witness origin/main 1657e598ca39: entry_count=1 head=73b2c441a40a matches the current chain
+[4/4 history] HOLDS history
+VERDICT HOLDS (rc 0) chain=PASS sidecar=HOLDS anchor=PASS history=HOLDS incoming=CLEAN
+2 .remember/logs/zero-gap/evidence/chain.jsonl
+{"chain_seq":2,"ts":"2026-10-21T18:50:54Z","cwd":"<repo>","argv":["bash","/home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/d81127d6-3e9c-4b78-b582-8086f4c6cbcf/scratchpad/t083/work/scripts/pre-push-gates.sh"],"exit_status":0,"duration_ms":101,"stdout_digest":"6d1e5f21af4a34dfbbf3a6f20ad8404139f5274f9d6804af6bf7d4852415dcf3","stderr_digest":"e3b0c44298fc1c149afbf4c8996

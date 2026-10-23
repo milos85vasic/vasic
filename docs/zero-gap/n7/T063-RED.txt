@@ -1,0 +1,7 @@
+--- FAIL: TestWireRecordWithoutACaptureDigestIsRejected (0.00s)
+    wire_evidence_test.go:34: a wire record with no capture digest was accepted (FR-017)
+--- FAIL: TestWireRecordWithACaptureDigestAndKindIsAccepted (0.00s)
+    wire_evidence_test.go:47: control: a well-formed wire record was refused: not an evidence record: json: unknown field "wire_capture_digest"
+FAIL
+FAIL	digital.vasic/vasic/workableitems/internal/wi	0.007s
+FAIL

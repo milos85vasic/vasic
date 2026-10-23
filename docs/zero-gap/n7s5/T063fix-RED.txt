@@ -1,0 +1,13 @@
+--- FAIL: TestRealContractLoads (0.00s)
+    wire_capture_test.go:16: the repository's own evidence contract does not load in the interpreter that enforces it: evidence schema: unsupported top-level keyword "allOf" — refusing to validate with a rule this interpreter cannot see
+--- FAIL: TestWireRecordWithoutCaptureIsRefused (0.00s)
+    wire_capture_test.go:30: LoadSchema(../../specs/010-zero-gap-verified-closure/contracts/evidence-record.schema.json): evidence schema: unsupported top-level keyword "allOf" — refusing to validate with a rule this interpreter cannot see
+--- FAIL: TestWireRecordWithCaptureIsSealedAndCarriesIt (0.00s)
+    wire_capture_test.go:38: LoadSchema(../../specs/010-zero-gap-verified-closure/contracts/evidence-record.schema.json): evidence schema: unsupported top-level keyword "allOf" — refusing to validate with a rule this interpreter cannot see
+--- FAIL: TestNonWireRecordMayNotClaimACapture (0.00s)
+    wire_capture_test.go:54: LoadSchema(../../specs/010-zero-gap-verified-closure/contracts/evidence-record.schema.json): evidence schema: unsupported top-level keyword "allOf" — refusing to validate with a rule this interpreter cannot see
+--- FAIL: TestWireCaptureShapeIsEnforced (0.00s)
+    wire_capture_test.go:74: LoadSchema(../../specs/010-zero-gap-verified-closure/contracts/evidence-record.schema.json): evidence schema: unsupported top-level keyword "allOf" — refusing to validate with a rule this interpreter cannot see
+FAIL
+FAIL	vasic.digital/tools/zero-gap-chain	0.009s
+FAIL

@@ -46,7 +46,7 @@
 #                         a §11.4.40 pre-tag sweep, where a SKIP is not good
 #                         enough)
 #   PREPUSH_ONLY="E 0 1"  run only the listed gate ids (debugging / mutation
-#                         proofs); ids are E Z0 Z1 0 1 2 3 4 5 6
+#                         proofs); ids are E Z0 Z1 Z2 0 1 2 3 4 5 6
 #
 #   There is deliberately NO switch that skips gate E. §11.4.156 states: "No
 #   escape hatch — no --allow-ci, --enable-workflow, --keep-pipeline,
@@ -119,14 +119,23 @@ SKIP_SLOW="${PREPUSH_SKIP_SLOW:-0}"
 STRICT="${PREPUSH_STRICT:-0}"
 ONLY="${PREPUSH_ONLY:-}"
 
+# T065: when a gate is run THROUGH the sealing adapter, the adapter re-invokes this file with
+# PREPUSH_INNER_GATE=<id>; that inner process runs exactly one gate function and exits with its rc. It
+# shares the outer log dir and takes no evidence snapshot (the outer run owns both).
+if [[ -n "${PREPUSH_INNER_GATE:-}" ]]; then
+    LOGDIR="${PREPUSH_INNER_LOGDIR:-}"
+    [[ -d "$LOGDIR" ]] || { echo "FATAL: inner gate run without PREPUSH_INNER_LOGDIR" >&2; exit 2; }
+else
 LOGDIR="$(mktemp -d "${TMPDIR:-/tmp}/vasic-prepush.XXXXXX")" || {
     echo "FATAL: cannot create a log directory" >&2; exit 2; }
+fi
 
 PASSED=0; FAILED=0; SKIPPED=0; UNDET=0
 declare -a SUMMARY=()
 
 # ---- Evidence worktree guard (see WORKTREE HYGIENE in the header) ------------
 EVIDENCE_GUARD="$LOGDIR/evidence-guard"
+if [[ -z "${PREPUSH_INNER_GATE:-}" ]]; then
 mkdir -p "$EVIDENCE_GUARD" || {
     echo "FATAL: cannot create $EVIDENCE_GUARD" >&2; exit 2; }
 # Baseline = the CURRENT state, not HEAD: a push attempted with pre-existing
@@ -137,6 +146,7 @@ git diff --binary -- _tests/evidence > "$EVIDENCE_GUARD/pre-gates.patch" || {
 git ls-files --others --exclude-standard -- _tests/evidence \
     > "$EVIDENCE_GUARD/pre-gates-untracked.txt" || {
     echo "FATAL: cannot list untracked evidence files" >&2; exit 2; }
+fi
 
 restore_evidence() {
     # `git checkout --` restores the worktree from the INDEX, which also undoes
@@ -171,12 +181,13 @@ CI_PROBE_RE='^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$'
 
 # ---- Gate table --------------------------------------------------------------
 # id | short name | provenance
-GATE_IDS=(E Z0 Z1 0 1 2 3 4 5 6)
+GATE_IDS=(E Z0 Z1 Z2 0 1 2 3 4 5 6)
 gate_name() {
     case "$1" in
         E) echo "§11.4.156(E) no active root CI config" ;;
         Z0) echo "zero-gap: no check weakened (FR-023)" ;;
         Z1) echo "zero-gap: no third-party edit (FR-021)" ;;
+        Z2) echo "zero-gap: record scan (FR-020)" ;;
         0) echo "hardcoded path audit" ;;
         1) echo "Go unit tests (_tools/gen)" ;;
         2) echo "hardcoding audit (builds the Go generator)" ;;
@@ -192,6 +203,7 @@ gate_cmd_text() {
         E) echo "git ls-files | grep -E '${CI_PROBE_RE}'   (must be EMPTY)" ;;
         Z0) echo "bash scripts/zero-gap-guard-checks.sh" ;;
         Z1) echo "bash scripts/zero-gap-third-party-guard.sh" ;;
+        Z2) echo "bash scripts/zero-gap-scan-records.sh --root ." ;;
         0) echo "./scripts/audit-hardcoded-paths.sh" ;;
         1) echo "cd _tools/gen && go test ./..." ;;
         2) echo "bash _tools/audit-hardcoding.sh" ;;
@@ -455,6 +467,12 @@ gate_Z0() { bash "$ROOT/scripts/zero-gap-guard-checks.sh" --root "$ROOT"; }
 # refused. Same three-valued contract as Z0; rc 2 (e.g. classification data absent from HEAD) is UNDET.
 gate_Z1() { bash "$ROOT/scripts/zero-gap-third-party-guard.sh" --root "$ROOT"; }
 
+# Feature 010 / T062 (FR-020, SC-008): the records feature 010 produces (docs/zero-gap, specs/010-*, evidence
+# streams) are scanned for hedged causal statements, credential-shaped literals and private-text leakage.
+# Three-valued like Z0/Z1: a finding is FAIL, rc 2 (no private source to compare against, empty population)
+# is UNDET and blocks without accusing the tree. Order of the push path: Z0 -> Z1 -> Z2 (then T065's sealing).
+gate_Z2() { bash "$ROOT/scripts/zero-gap-scan-records.sh" --root "$ROOT"; }
+
 gate_0() { "$ROOT/scripts/audit-hardcoded-paths.sh"; }
 
 # Host-safety admission (2026-10-14 host-hang fix WP1): the heavy gates (1: go test, 6: Playwright) run
@@ -575,6 +593,56 @@ gate_6() {
     return 1
 }
 
+# ---- T065: sealed gate records (feature 010, FR-016) ------------------------
+# Each run gate is executed THROUGH scripts/zero-gap-evidence.sh (the sealing adapter), which records
+# timestamp, argv, state fingerprints, stream digests and a chain-linked seal in the untracked store
+# .remember/logs/zero-gap/evidence. The gate's verdict is still the gate's own rc (0/1/2); the adapter
+# returns it unchanged, and a gate that exits with any other status is recorded outcome 2 (UNDET).
+#   PREPUSH_SEAL=auto (default)  seal when the adapter AND the constitution recorder are present; else
+#                                print "SEAL: unavailable" and run the gates unsealed (a fresh clone
+#                                without submodules must still be able to push).
+#   PREPUSH_SEAL=1               sealing is REQUIRED: unavailable => every gate is UNDET (push blocked).
+#   PREPUSH_SEAL=0               off (REVERT PLAN: export this, or delete this block and the call in
+#                                run_gate; nothing else depends on it).
+# The adapter's per-record state fingerprint is taken over a small fixed anchor repository, because the
+# gates legitimately rewrite tracked evidence files (see WORKTREE HYGIENE).
+SEAL_STATE=""   # on | off | unavailable | blocked
+SEAL_STORE="" SEAL_FPA=""
+seal_decide() {
+    local mode="${PREPUSH_SEAL:-auto}" adapter="$ROOT/scripts/zero-gap-evidence.sh" why=""
+    case "$mode" in
+        0) SEAL_STATE=off; echo "SEAL: off (PREPUSH_SEAL=0)"; return 0 ;;
+        auto|1) ;;
+        *) SEAL_STATE=blocked; echo "SEAL: blocked (PREPUSH_SEAL='$mode' is not auto|1|0)"; return 0 ;;
+    esac
+    if [[ ! -f "$adapter" ]]; then why="adapter $adapter absent"
+    elif [[ ! -f "$ROOT/submodules/constitution/scripts/gates/lib/execution_record.sh" ]]; then
+        why="constitution recorder absent (submodule not checked out)"
+    fi
+    if [[ -n "$why" ]]; then
+        if [[ "$mode" == "1" ]]; then SEAL_STATE=blocked; echo "SEAL: blocked — $why (PREPUSH_SEAL=1 requires sealing)"
+        else SEAL_STATE=unavailable; echo "SEAL: unavailable — $why; gates run unsealed"; fi
+        return 0
+    fi
+    SEAL_STORE="${ZG_STORE_DIR:-$ROOT/.remember/logs/zero-gap/evidence}"; SEAL_FPA="$ROOT/.remember/logs/zero-gap/fp"
+    if [[ ! -d "$SEAL_FPA/.git" ]]; then
+        mkdir -p "$SEAL_FPA" && ( cd "$SEAL_FPA" && git init -q && echo anchor > README && git add -- README \
+            && git -c user.email=prepush@localhost -c user.name=prepush commit -q -m anchor ) >/dev/null 2>&1 \
+            || { SEAL_STATE=blocked; echo "SEAL: blocked — cannot create the fingerprint anchor $SEAL_FPA"; return 0; }
+    fi
+    SEAL_STATE=on; echo "SEAL: on — gate runs are recorded by zero-gap-evidence.sh"
+}
+# gate_exec <id> [sealing-command...] — with a sealing command the gate runs THROUGH the adapter (the call itself
+# is spelled out in run_gate, where the unsealed-evidence class looks for it); without one it runs directly.
+gate_exec() {
+    local id="$1"; shift
+    case "$SEAL_STATE" in
+        on) PREPUSH_INNER_GATE="$id" PREPUSH_INNER_LOGDIR="$LOGDIR" "$@" ;;
+        blocked) echo "gate $id not run: sealing is required (PREPUSH_SEAL=1) but unavailable"; return 2 ;;
+        *) ( "gate_$id" ) ;;
+    esac
+}
+
 # ---- Runner ------------------------------------------------------------------
 run_gate() {
     local id="$1"
@@ -609,11 +677,20 @@ run_gate() {
 
     printf '%s▶ RUN %s  gate %-2s %s\n' "$BLUE" "$NC" "$id" "$name"
     started=$SECONDS
+    # T065: the sealing call. Each gate is recorded (timestamp, argv, fingerprints, stream digests, chain seal);
+    # the gate's own rc is the adapter's verdict (--verdict-exit). Only used when SEAL_STATE is "on".
+    local -a sealcmd=()
+    if [[ "$SEAL_STATE" == "on" ]]; then
+        sealcmd=(bash "$ROOT/scripts/zero-gap-evidence.sh" record --store "$SEAL_STORE" --streams "$SEAL_STORE/streams" \
+            --fp-dir "$SEAL_FPA" --item-id SWEEP --check-id "prepush-$id" --population-kind process --verdict-role author \
+            --independence-tier instance --evidence-class runtime --verdict-exit \
+            --session "${ZG_SESSION_ID:-prepush-$$}" -- bash "$SELF_ABS")
+    fi
     if [[ "$VERBOSE" == "1" ]]; then
-        ( "gate_$id" ) 2>&1 | tee "$log"
+        gate_exec "$id" "${sealcmd[@]}" 2>&1 | tee "$log"
         rc=${PIPESTATUS[0]}
     else
-        ( "gate_$id" ) > "$log" 2>&1
+        gate_exec "$id" "${sealcmd[@]}" > "$log" 2>&1
         rc=$?
     fi
     elapsed=$((SECONDS - started))
@@ -1041,6 +1118,47 @@ STUBHD
     assert "M9b and-the-red-gate-is-red" 1 "PUSH BLOCKED" PREPUSH_ONLY="E 0" --
     rm -f "$SPEC/scripts/audit-hardcoded-paths.sh.rc"
 
+    # ---- S1..S4  T065 sealed gate records (feature 010, FR-016) -------------
+    # A TEST DOUBLE adapter (the real one has its own proof) runs the command after `--` and appends
+    # "<check-id> rc=<rc>" to $SPEC/sealed.log, returning the command's rc.
+    stub_on()  { mkdir -p "$SPEC/submodules/constitution/scripts/gates/lib"; : > "$SPEC/submodules/constitution/scripts/gates/lib/execution_record.sh"
+                 cat > "$SPEC/scripts/zero-gap-evidence.sh" <<'STUBA'
+#!/usr/bin/env bash
+cid=""; while [ $# -gt 0 ]; do case "$1" in --check-id) cid=$2; shift 2 ;; --) shift; break ;; *) shift ;; esac; done
+"$@"; rc=$?; echo "$cid rc=$rc" >> "$(dirname "${BASH_SOURCE[0]}")/../sealed.log"; exit "$rc"
+STUBA
+                 chmod 755 "$SPEC/scripts/zero-gap-evidence.sh"; }
+    stub_off() { rm -rf "$SPEC/submodules" "$SPEC/scripts/zero-gap-evidence.sh"; }
+    rm -f "$SPEC/sealed.log"
+    assert "S0 seal-auto-no-adapter    " 0 "SEAL: unavailable"
+    stub_on
+    assert "S1 sealed-green            " 0 "SEAL: on" PREPUSH_SEAL=1 --
+    if grep -qx 'prepush-0 rc=0' "$SPEC/sealed.log" 2>/dev/null && grep -qx 'prepush-E rc=0' "$SPEC/sealed.log" 2>/dev/null; then
+        p_ok "S1b every run gate sealed" "sealed.log carries prepush-E and prepush-0 with rc=0"
+    else
+        p_bad "S1b every run gate sealed" "sealed.log: $(cat "$SPEC/sealed.log" 2>/dev/null | tr '\n' ';')"
+    fi
+    rm -f "$SPEC/sealed.log"
+    printf '1\n' > "$SPEC/scripts/audit-hardcoded-paths.sh.rc"
+    assert "S2 sealed-red-still-blocks " 1 "PUSH BLOCKED" PREPUSH_SEAL=1 --
+    if grep -qx 'prepush-0 rc=1' "$SPEC/sealed.log" 2>/dev/null; then
+        p_ok "S2b failure is sealed" "the failing gate left prepush-0 rc=1 in the sealed log"
+    else
+        p_bad "S2b failure is sealed" "sealed.log: $(cat "$SPEC/sealed.log" 2>/dev/null | tr '\n' ';')"
+    fi
+    rm -f "$SPEC/scripts/audit-hardcoded-paths.sh.rc" "$SPEC/sealed.log"
+    stub_off
+    assert "S3 seal-strict-no-adapter  " 1 "COULD NOT DETERMINE a verdict" PREPUSH_SEAL=1 --
+    stub_on
+    assert "S4 seal-off                " 0 "SEAL: off" PREPUSH_SEAL=0 --
+    if [[ ! -s "$SPEC/sealed.log" ]]; then
+        p_ok "S4b nothing sealed when off" "sealed.log empty"
+    else
+        p_bad "S4b nothing sealed when off" "sealed.log: $(cat "$SPEC/sealed.log" | tr '\n' ';')"
+    fi
+    rm -f "$SPEC/sealed.log"
+    stub_off
+
     # ---- RESTORED CONTROL ---------------------------------------------------
     assert "CONTROL restored           " 0 "ALL RUN GATES PASSED"
 
@@ -1060,6 +1178,12 @@ STUBHD
     echo "   PREPUSH_ONLY runs only what it names. Nothing outside the sandbox was written."
     return 0
 }
+
+# ---- Inner gate run (T065): one gate, its own rc, nothing else ---------------
+if [[ -n "${PREPUSH_INNER_GATE:-}" ]]; then
+    "gate_${PREPUSH_INNER_GATE}"
+    exit $?
+fi
 
 # ---- Argument handling -------------------------------------------------------
 case "${1:-}" in
@@ -1082,6 +1206,7 @@ echo "logs: $LOGDIR"
 [[ "$STRICT" == "1" ]] && echo "mode: ${BOLD}STRICT${NC} — a SKIP counts as a FAILURE"
 echo "----------------------------------------------------------------------"
 
+seal_decide
 for gid in "${GATE_IDS[@]}"; do
     if [[ -n "$ONLY" ]]; then
         case " $ONLY " in *" $gid "*) : ;; *) continue ;; esac

@@ -1,0 +1,8 @@
+$ bash _tools/prove-watch-deploy-verdict.sh   (re-verification of the two cadence-elapsed exempt rows, 2026-10-21)
+  PASS M7 VACUITY: zero cycles observed nothing -> rc 2 (rc=2)
+  PASS watcher source byte-identical across the battery (bc92bde8c24c)
+9 passed / 0 failed, 8 mutations
+$ bash scripts/verify-check-registry.sh | tail -3
+CM-CHECK-REGISTRY: verifying SC-012 (paired proof) and SC-013 (three-valued exit)
+CM-CHECK-REGISTRY: 160 PASS, 0 FAIL, 0 DEBT, 0 UNDET, 0 NOTE
+✅ CM-CHECK-REGISTRY: PASS — every registered check has a paired proof and a demonstrated rc-2 state.

@@ -1,0 +1,18 @@
+# zero-gap-daily.service — feature 010 T070 (contracts/daily-job.md). NOT INSTALLED.
+# Template: @REPO@ is replaced with the absolute checkout path at install time (see README.md).
+[Unit]
+Description=zero-gap daily re-measurement (spec 010, read-only on tracked files)
+Documentation=file://@REPO@/specs/010-zero-gap-verified-closure/contracts/daily-job.md
+
+[Service]
+Type=oneshot
+WorkingDirectory=@REPO@
+ExecStart=/usr/bin/env bash @REPO@/scripts/zero-gap-daily.sh
+MemoryMax=16G
+CPUWeight=20
+Nice=10
+IOSchedulingClass=idle
+# The job takes its own flock and refuses under host pressure (rc 2); a failed exit here is a
+# finding or a refusal, never a reason to restart.
+Restart=no
+TimeoutStartSec=6h

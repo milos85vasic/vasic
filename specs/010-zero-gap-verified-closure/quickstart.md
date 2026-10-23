@@ -46,7 +46,7 @@ workable-items-vsc gap classify --id XXX-nnn --reason severity-low ...   # expec
 ## 3. US3 — coverage map [TARGET]
 
 ```bash
-bash scripts/zero-gap-coverage.sh --json
+bash scripts/zero-gap-coverage.sh --out "$(mktemp -d)/coverage.tsv"   # NOTE 2026-10-21: there is no --json flag; the map is TSV (docs/zero-gap/coverage.tsv by default)
 bash scripts/zero-gap-coverage.sh --prove-failure   # a cell whose check ran zero cases must become a gap
 ```
 Expected: every (subject × test kind) cell is `check|n/a|gap|could-not-run`; zero blank cells (SC-005).
@@ -54,10 +54,11 @@ Expected: every (subject × test kind) cell is `check|n/a|gap|could-not-run`; ze
 ## 4. US4 — evidence that cannot lie [TARGET: evidence adapter]
 
 ```bash
-bash scripts/zero-gap-determinism.sh --check verify-manifest-pins   # 5 repeats → 5 identical sha256 (SC-006)
+bash scripts/zero-gap-determinism.sh --check unregistered-scripts   # 5 repeats of a sweep CLASS → 5 identical sha256 (SC-006); --check takes a class id, and the harness refuses a linked git worktree (needs a real .git directory)
+bash scripts/zero-gap-determinism-registry.sh --runs 5   # T064: the same question over every registered check
 bash submodules/constitution/scripts/gates/cm_chain_integrity_detects_alteration.sh   # [EXISTS] upstream attack corpus (native chain only)
 bash scripts/zero-gap-evidence-chain.sh --verify <store>    # [TARGET] adapter: chain + sidecar binding + anchor; the upstream gate alone cannot see sidecar tampering
-bash scripts/zero-gap-scan-records.sh docs/zero-gap specs/010-zero-gap-verified-closure   # FR-020: expect zero hits (SC-008)
+bash scripts/zero-gap-scan-records.sh docs/zero-gap specs/010-zero-gap-verified-closure   # FR-020: expect zero hits (SC-008); rc 2 when no private source (workshop/chapters or --private-root) is present -- a leak check that read nothing is not a pass
 ```
 Expected: altering, deleting, reordering an evidence record is detected; a truncated tail is caught
 only by the anchor and reported with its honest mechanism string; a chain that cannot be walked

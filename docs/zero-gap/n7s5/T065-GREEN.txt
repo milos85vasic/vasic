@@ -1,0 +1,11 @@
+✅ CONTROL synthetic-green        rc=0, and it named 'ALL RUN GATES PASSED'
+✅ S0 seal-auto-no-adapter        rc=0, and it named 'SEAL: unavailable'
+✅ S1 sealed-green                rc=0, and it named 'SEAL: on'
+✅ S1b every run gate sealed      sealed.log carries prepush-E and prepush-0 with rc=0
+✅ S2 sealed-red-still-blocks     rc=1, and it named 'PUSH BLOCKED'
+✅ S2b failure is sealed          the failing gate left prepush-0 rc=1 in the sealed log
+✅ S3 seal-strict-no-adapter      rc=1, and it named 'COULD NOT DETERMINE a verdict'
+✅ S4 seal-off                    rc=0, and it named 'SEAL: off'
+✅ S4b nothing sealed when off    sealed.log empty
+✅ CONTROL restored               rc=0, and it named 'ALL RUN GATES PASSED'
+✅ PRE-PUSH-GATES §1.1 MUTATION PROOF: PASS — the real entry point ran against the

@@ -1,0 +1,224 @@
+{
+  "copy_fingerprint": "4889a176fdb660fa9776ea3efc0f6d71ba2c57afb402c9ad735703174324bd94",
+  "live_fingerprint_after": "753d837aaad8cb0af5132d8c830d8f9d2afae257b2823128b1b9932a8150b3ab",
+  "live_fingerprint_before": "753d837aaad8cb0af5132d8c830d8f9d2afae257b2823128b1b9932a8150b3ab",
+  "live_status_sha_after": "c97e23aa70045147426f4d93f5ae422f59d7c5591b8c2fe689280bccfd914917",
+  "live_status_sha_before": "c97e23aa70045147426f4d93f5ae422f59d7c5591b8c2fe689280bccfd914917",
+  "mode": "cheap",
+  "op_id": "zgd-20261021T184644Z-650673",
+  "reopen_requests": 0,
+  "stale": false,
+  "steps": [
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/registry-structure.log",
+      "name": "registry-structure",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/claim-ledger.log",
+      "name": "claim-ledger",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/scan-records.log",
+      "name": "scan-records",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_HLP-001.log",
+      "name": "closed:HLP-001",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_LLP-001.log",
+      "name": "closed:LLP-001",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_LMV-001.log",
+      "name": "closed:LMV-001",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-348.log",
+      "name": "closed:VSC-348",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-349.log",
+      "name": "closed:VSC-349",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-350.log",
+      "name": "closed:VSC-350",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-351.log",
+      "name": "closed:VSC-351",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-352.log",
+      "name": "closed:VSC-352",
+      "rc": 2,
+      "seconds": 2
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-353.log",
+      "name": "closed:VSC-353",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-354.log",
+      "name": "closed:VSC-354",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-355.log",
+      "name": "closed:VSC-355",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-359.log",
+      "name": "closed:VSC-359",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-360.log",
+      "name": "closed:VSC-360",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-361.log",
+      "name": "closed:VSC-361",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-363.log",
+      "name": "closed:VSC-363",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-364.log",
+      "name": "closed:VSC-364",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-365.log",
+      "name": "closed:VSC-365",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-366.log",
+      "name": "closed:VSC-366",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-367.log",
+      "name": "closed:VSC-367",
+      "rc": 2,
+      "seconds": 2
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-372.log",
+      "name": "closed:VSC-372",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-373.log",
+      "name": "closed:VSC-373",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-374.log",
+      "name": "closed:VSC-374",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-375.log",
+      "name": "closed:VSC-375",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-376.log",
+      "name": "closed:VSC-376",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-377.log",
+      "name": "closed:VSC-377",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-381.log",
+      "name": "closed:VSC-381",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-382.log",
+      "name": "closed:VSC-382",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-383.log",
+      "name": "closed:VSC-383",
+      "rc": 2,
+      "seconds": 2
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-384.log",
+      "name": "closed:VSC-384",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-385.log",
+      "name": "closed:VSC-385",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-386.log",
+      "name": "closed:VSC-386",
+      "rc": 2,
+      "seconds": 1
+    },
+    {
+      "log": "<repo>/.remember/logs/zero-gap/out-zgd-20261021T184644Z-650673/closed_VSC-388.log",
+      "name": "closed:VSC-388",
+      "rc": 2,
+      "seconds": 1
+    }
+  ],
+  "verdict": "UNDETERMINED"
+}

@@ -1,0 +1,68 @@
+# determinism census (T064): id	state	runs	verdicts	distinct_outputs	note
+constitution-inheritance	STABLE	5	2x5	1	
+governance-cascade	STABLE	5	2x5	1	
+manifest-pins	STABLE	5	2x5	1	
+continuation-sync	STABLE	5	1x5	1	
+provider-ci	NOT-RUN	0	-	-	queries provider APIs over the network (not repeatable offline)
+check-registry	STABLE	5	1x5	1	
+hardcoded-paths	STABLE	5	2x5	1	
+content-boundary	STABLE	5	2x5	5	output-varies (verdict identical)
+content-boundary-judgement	STABLE	5	2x5	1	
+environment-assumptions	STABLE	5	2x5	1	
+constitution-rules-sweep	NOT-RUN	0	-	-	the full constitution sweep takes tens of minutes per run
+lumen-index-doctor	NOT-RUN	0	-	-	inspects the host semantic-index service
+ollama-tune	NOT-RUN	0	-	-	inspects and may tune the host inference service
+prepush-gates	NOT-RUN	0	-	-	runs the entire push gate set (Playwright, Go builds); needs a bespoke bounded run
+setup-agents-wizard-suite	NOT-RUN	0	-	-	installs/configures agent tooling in the home directory
+submodule-remote-sync	NOT-RUN	0	-	-	probes remotes over the network (not repeatable offline)
+mutation-anchor-rot	STABLE	5	2x5	1	
+private-object-exposure	STABLE	5	2x5	1	
+remedy-executability	STABLE	5	2x5	1	
+name-in-path	TIMEOUT	0		-	run 1 exceeded 45s; no verdict (not run to completion)
+docs-chain-sync	STABLE	5	2x5	1	
+zero-findings-sweep	STABLE	5	1x5	1	
+badge-computer	STABLE	5	0x5	1	
+directive-register	STABLE	5	0x5	1	
+claim-ledger	STABLE	5	1x5	1	
+push-topology	NOT-RUN	0	-	-	probes remotes over the network (not repeatable offline)
+workable-items	STABLE	5	1x5	1	
+hardcoded-content	STABLE	5	0x5	1	
+translate-reproducibility	STABLE	5	0x5	1	
+portfolio-data-integrity	STABLE	5	0x5	1	
+pretooluse-guard	STABLE	5	1x5	1	
+fleet-summary	TIMEOUT	0		-	run 1 exceeded 45s; no verdict (not run to completion)
+threshold-principles	NOT-RUN	0	-	-	requires a revision range
+translation-review	NOT-RUN	0	-	-	requires a site argument pair and the translation toolchain
+decommission-precondition	NOT-RUN	0	-	-	requires a module argument and a clone path
+extraction-content-boundary	NOT-RUN	0	-	-	requires a --candidate argument
+additive-cutover	NOT-RUN	0	-	-	requires a --consumer argument
+sc162-requirement-traceability	STABLE	5	0x5	1	
+shell-continuations	STABLE	5	0x5	1	
+zero-gap-evidence-chain	NOT-RUN	0	-	-	verifies the live chain store and fetches the witness remote
+zero-gap-sweep	TIMEOUT	0		-	run 1 exceeded 45s; no verdict (not run to completion)
+zero-gap-class-unregistered-scripts	STABLE	5	2x5	1	
+zero-gap-class-guard-gaps	STABLE	5	2x5	1	
+zero-gap-class-untracked-blind-window	STABLE	5	2x5	1	
+zero-gap-class-known-open-decisions	STABLE	5	2x5	1	
+zero-gap-class-missing-toolchain	STABLE	5	2x5	1	
+zero-gap-class-build-if-missing	STABLE	5	2x5	1	
+zero-gap-class-vacuous-gates	STABLE	5	2x5	1	
+zero-gap-class-improvement-candidates	STABLE	5	2x5	1	
+zero-gap-class-coverage-gaps	STABLE	5	2x5	1	
+zero-gap-class-stale-figures	STABLE	5	2x5	1	
+zero-gap-class-live-vs-source	STABLE	5	2x5	1	
+zero-gap-class-unproven-checks	STABLE	5	2x5	1	
+zero-gap-class-private-in-public	STABLE	5	2x5	1	
+zero-gap-class-unsealed-evidence	STABLE	5	2x5	1	
+zero-gap-class-doc-count-drift	STABLE	5	2x5	1	
+zero-gap-class-pointer-drift	STABLE	5	2x5	1	
+zero-gap-class-content-boundary-rows	STABLE	5	2x5	1	
+zero-gap-determinism	TIMEOUT	0		-	run 1 exceeded 45s; no verdict (not run to completion)
+zero-gap-coverage	STABLE	5	0x5	1	
+zero-gap-determinism-modules	STABLE	5	0x5	1	
+zero-gap-qa-readiness	STABLE	5	2x5	1	
+hostdeps	NOT-RUN	0	-	-	may install host packages
+zero-gap-verify	NOT-RUN	0	-	-	requires an --item argument and a sealing store
+zero-gap-guard-checks	STABLE	5	2x5	1	
+zero-gap-third-party-guard	STABLE	5	2x5	1	
+project-pretooluse-catalogue-guard	STABLE	5	0x5	1	

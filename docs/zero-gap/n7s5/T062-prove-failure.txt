@@ -1,0 +1,16 @@
+  ok   C0 control corpus is clean (rc=0)
+  ok   M1 hedged causal statement is caught (rc=1)
+  ok   M1b with the guessing layer disabled the corpus is NOT clean (rc 2, never 0) (rc=2)
+  ok   M2 AWS key id is caught and the value is not printed (rc=1)
+  ok   M2b matched value is not printed
+  ok   M3 vendor token prefix is caught (rc=1)
+  ok   M4 marker=value password is caught in specs/010-* (rc=1)
+  ok   C1 a placeholder password is not a finding (rc=0)
+  ok   M5 verbatim private text is caught by shingle and not printed (rc=1)
+  ok   M5b private text is not printed
+  ok   M5c with the private layer disabled the result is rc 2, never a pass (rc=2)
+  ok   M6 absent private source is rc 2 (a leak check that read nothing is not a pass)
+  ok   C2 the planted-defect corpus itself is out of scope (rc=0)
+  ok   M7 empty population is rc 2
+  ok   M8 non-repo root is rc 2
+prove-failure: all cases passed

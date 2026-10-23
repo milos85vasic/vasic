@@ -136,7 +136,7 @@ tr zh`. `_tools/deploy-langs.sh` computes which are *complete* at run time from
 its `LANGS` list and the document count — it does not trust a static list of
 "shipped" languages.
 
-**Submodules.** `.gitmodules` declares **13** gitlinks (re-measured 2026-09-01).
+**Submodules.** `.gitmodules` declares **22** gitlinks (re-measured 2026-10-21; the 13 measured 2026-09-01 is SUPERSEDED).
 **11** are owned consumers of the governance cascade: `milosvasic.ru`,
 `vasic.digital`, `design-toolkit`, `ai_interviewing`, `monetization`,
 `workshop`, `submodules/containers`, `submodules/LLMProvider`,
@@ -12043,6 +12043,7 @@ inert, in `.github/workflows/ci.yml.disabled`; the runnable replacement is
 | E | `git ls-files \| grep -E '^\.github/workflows/.*\.ya?ml$\|^\.gitlab-ci\.yml$'` (must be EMPTY) |
 | Z0 | `bash scripts/zero-gap-guard-checks.sh` | Refuses a push whose diff weakens a registered check: removed or weakened registry rows, deleted check scripts, or new exempt/debt rows or allow-list lines without a paired waiver in `docs/zero-gap/guard-waivers.tsv` (FR-023, T040). |
 | Z1 | `bash scripts/zero-gap-third-party-guard.sh` | Refuses a push that edits files under a third-party gitlink or moves its pointer; the classification data is `docs/zero-gap/third-party.tsv`, read from `HEAD`, so it returns UNDET (could not determine, never a pass) until that file is committed (FR-021, T041). |
+| Z2 | `bash scripts/zero-gap-scan-records.sh --root .` | Scans the records feature 010 produces (`docs/zero-gap/`, `specs/010-*/`, evidence streams) for hedged causal statements, credential-shaped literals and verbatim private-text leakage (8-word shingles of `workshop/chapters`; only path:line and a digest are printed). A finding is FAIL; no private source to compare against, or an empty population, is UNDET (never a pass). Also a release gate of `workable-items-vsc gap freeze` (FR-020, T062). |
 | 0 | `./scripts/audit-hardcoded-paths.sh` |
 | 1 | `cd _tools/gen && go test ./...` |
 | 2 | `bash _tools/audit-hardcoding.sh` |
@@ -12276,3 +12277,12 @@ is no live `docs/qa/evidence/`-style directory yet, so this is a policy stated a
 the volume it anticipates, not a description of an existing cleanup problem. This entry
 touched two files: `workshop/docs/qa/MANUAL-TEST-PLAN.md` (new §0d) and this document
 (this entry). Nothing was committed or pushed.
+
+## Spec 010 stream S5 (umbrella code) — state as of 2026-10-21, branch `n7-010-complete`
+
+Report with per-task state and pasted RED/GREEN: `docs/zero-gap/n7-s5-report.md`. Evidence: `docs/zero-gap/n7s5/`. Operator queue: `docs/zero-gap/operator-queue-S5.md`.
+
+* **Delivered (code, each with a paired proof):** `scripts/zero-gap-scan-records.sh` (T062; pre-push gate Z2; `gap freeze` release gate), `scripts/zero-gap-daily.sh` + `ops/systemd/*` units, NOT installed (T069/T070), the pre-push runner seals each gate through the evidence adapter (`PREPUSH_SEAL=auto|1|0`, T065), `scripts/zero-gap-seal-checks.sh` (generated literal table, `--check-sync`), `scripts/zero-gap-determinism-registry.sh` (T064 census), `scripts/zero-gap-module-page-check.sh` (T037 machine half), V-G13 chain-bound closure evidence in `_tools/workable-items` (T068).
+* **Regression found and fixed:** the T063 schema edit used `allOf`, which the sealing adapter's schema interpreter refuses by design, so every `zero-gap-evidence.sh record` failed pre-flight. The wire rule is now enforced by the adapter itself (`validateWireCapture`).
+* **Operator-blocked:** the first tracked `docs/zero-gap/anchor.json` (OQ-S5-ANCHOR) and the timer install (OQ-S5-TIMER). Until the anchor is committed `zero-gap-evidence-chain.sh --verify` is rc 2, so `gap close` / `gap verdict` need `--skip-chain-binding REASON` (printed).
+* **Not done here:** coverage cells of the submodules (T054-T056, T058-T060): the submodules are not checked out in this worktree and gitlinks must not be modified.

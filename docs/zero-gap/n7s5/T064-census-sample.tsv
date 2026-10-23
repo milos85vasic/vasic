@@ -1,0 +1,7 @@
+# determinism census (T064): id	state	runs	verdicts	distinct_outputs	note
+manifest-pins	STABLE	5	2x5	1	
+continuation-sync	STABLE	5	1x5	1	
+claim-ledger	TIMEOUT	0		-	run 1 exceeded 15s; no verdict (not run to completion)
+workable-items	TIMEOUT	0		-	run 1 exceeded 15s; no verdict (not run to completion)
+zero-gap-class-pointer-drift	STABLE	5	2x5	1	
+zero-gap-scan-records	STABLE	5	2x5	1	

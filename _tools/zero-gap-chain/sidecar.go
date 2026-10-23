@@ -19,28 +19,30 @@ import (
 // bytes (the pinned byte rule), so this order is part of the byte contract even
 // though the JSON schema does not constrain it.
 type Sidecar struct {
-	ChainSeq         int64    `json:"chain_seq"`
-	Ts               string   `json:"ts"`
-	Cwd              string   `json:"cwd"`
-	Argv             []string `json:"argv"`
-	ExitStatus       int      `json:"exit_status"`
-	DurationMs       int64    `json:"duration_ms"`
-	StdoutDigest     string   `json:"stdout_digest"`
-	StderrDigest     string   `json:"stderr_digest"`
-	StdoutBytes      int64    `json:"stdout_bytes"`
-	StderrBytes      int64    `json:"stderr_bytes"`
-	StreamRef        string   `json:"stream_ref"`
-	StreamTruncated  bool     `json:"stream_truncated"`
-	StreamRedacted   bool     `json:"stream_redacted"`
-	ItemID           string   `json:"item_id"`
-	CheckID          string   `json:"check_id"`
-	FpBefore         string   `json:"state_fingerprint_before"`
-	FpAfter          string   `json:"state_fingerprint_after"`
-	PopulationKind   string   `json:"population_kind"`
-	Outcome          int      `json:"outcome"`
-	VerdictRole      string   `json:"verdict_role"`
-	IndependenceTier string   `json:"independence_tier"`
-	EvidenceClass    string   `json:"evidence_class"`
+	ChainSeq          int64    `json:"chain_seq"`
+	Ts                string   `json:"ts"`
+	Cwd               string   `json:"cwd"`
+	Argv              []string `json:"argv"`
+	ExitStatus        int      `json:"exit_status"`
+	DurationMs        int64    `json:"duration_ms"`
+	StdoutDigest      string   `json:"stdout_digest"`
+	StderrDigest      string   `json:"stderr_digest"`
+	StdoutBytes       int64    `json:"stdout_bytes"`
+	StderrBytes       int64    `json:"stderr_bytes"`
+	StreamRef         string   `json:"stream_ref"`
+	StreamTruncated   bool     `json:"stream_truncated"`
+	StreamRedacted    bool     `json:"stream_redacted"`
+	ItemID            string   `json:"item_id"`
+	CheckID           string   `json:"check_id"`
+	FpBefore          string   `json:"state_fingerprint_before"`
+	FpAfter           string   `json:"state_fingerprint_after"`
+	PopulationKind    string   `json:"population_kind"`
+	Outcome           int      `json:"outcome"`
+	VerdictRole       string   `json:"verdict_role"`
+	IndependenceTier  string   `json:"independence_tier"`
+	EvidenceClass     string   `json:"evidence_class"`
+	WireCaptureDigest string   `json:"wire_capture_digest,omitempty"`
+	WireCaptureKind   string   `json:"wire_capture_kind,omitempty"`
 }
 
 var errNotUTF8 = errors.New("not valid UTF-8")

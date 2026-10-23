@@ -1,0 +1,30 @@
+        as-of: 2026-09-25
+--- FAIL: TestScanAbsentIsTwoNotASilentSkip (0.29s)
+    gap_scanrecords_test.go:78: no scanner present: want rc 2, got 0
+        gap freeze: cycle 2026-C9 frozen — 6 item(s), members ee158cdd55f1, register 129bf3a4cc74 → /home/milosvasic/.cache/claude-tmp/TestScanAbsentIsTwoNotASilentSkip1229876483/001/docs/zero-gap/cycles/2026-C9/freeze.json
+        as-of: 2026-09-25
+--- FAIL: TestScanCleanFreezesAndReceivesTheRepoRoot (0.25s)
+    gap_scanrecords_test.go:100: the scanner was never invoked: open /home/milosvasic/.cache/claude-tmp/TestScanCleanFreezesAndReceivesTheRepoRoot2696000415/001/scan.args: no such file or directory
+--- FAIL: TestSkipScanNeedsAReasonAndIsPrinted (0.24s)
+    gap_scanrecords_test.go:114: explicit skip with a reason: rc 2
+        flag provided but not defined: -skip-scan-records
+        Usage of gap freeze:
+          -as-of string
+            	ISO date recorded as frozen_at (default: today)
+          -chain-head string
+            	evidence chain head digest to record (64 hex)
+          -cycle string
+            	programme cycle id
+          -db string
+            	register path (default: <repo>/docs/workable_items.db)
+          -entry-count int
+            	evidence chain entry count to record (default -1)
+          -out string
+            	freeze.json path (default: <repo>/docs/zero-gap/cycles/<cycle>/freeze.json)
+          -repo string
+            	repository root (default: discovered from the working directory)
+          -sweep-manifest string
+            	sweep manifest whose sha256 is recorded
+FAIL
+FAIL	digital.vasic/vasic/workableitems/internal/wi	1.348s
+FAIL

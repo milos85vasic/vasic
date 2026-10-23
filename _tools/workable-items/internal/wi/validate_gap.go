@@ -60,6 +60,8 @@ type GapOptions struct {
 	AsOf   string  // ISO date YYYY-MM-DD; required
 	Root   string  // repository root that relative evidence paths resolve against
 	Roster *Roster // nil ⇒ V-G8 is undetermined
+	// Chain, when set, binds every cited RED/GREEN/verifier record to the evidence chain (V-G13, T068).
+	Chain *ChainBinder
 }
 
 // ParseAsOf validates an --as-of value.
@@ -104,6 +106,12 @@ type EvidenceRecord struct {
 	ChainSeq               *int64   `json:"chain_seq"`
 	IndependenceTier       *string  `json:"independence_tier"`
 	EvidenceClass          *string  `json:"evidence_class"`
+	// T063 / FR-017: a record claiming population_kind=wire MUST carry the
+	// digest of a wire capture (an HTTP response body or a socket capture) and
+	// say which; every other population MUST carry neither. Optional in the
+	// schema because only wire records have a capture to point at.
+	WireCaptureDigest *string `json:"wire_capture_digest,omitempty"`
+	WireCaptureKind   *string `json:"wire_capture_kind,omitempty"`
 
 	time time.Time
 }
@@ -369,6 +377,9 @@ func ParseEvidenceRecord(b []byte) (*EvidenceRecord, error) {
 	if !inSet([]string{"source", "process", "wire"}, *r.PopulationKind) {
 		return nil, fmt.Errorf("evidence record population_kind %q is outside {source, process, wire}", *r.PopulationKind)
 	}
+	if err := checkWireCapture(&r); err != nil {
+		return nil, err
+	}
 	if *r.Outcome < 0 || *r.Outcome > 2 {
 		return nil, fmt.Errorf("evidence record outcome %d is outside {0,1,2}", *r.Outcome)
 	}
@@ -383,6 +394,44 @@ func ParseEvidenceRecord(b []byte) (*EvidenceRecord, error) {
 		return nil, fmt.Errorf("evidence record reports outcome %d over a state that moved during the check (before != after); only outcome 2 is honest there", *r.Outcome)
 	}
 	return &r, nil
+}
+
+// wireCaptureKinds is the closed set of captures that can back a wire claim.
+var wireCaptureKinds = []string{"http_response", "socket"}
+
+// checkWireCapture enforces T063 / FR-017: running-product evidence is only
+// what was captured from the running product. A wire record without a capture
+// digest is a source measurement wearing a wire label; a non-wire record that
+// carries a capture is claiming evidence it did not take. An all-zero digest is
+// the digest of nothing and is refused as a placeholder.
+func checkWireCapture(r *EvidenceRecord) error {
+	hasD, hasK := r.WireCaptureDigest != nil, r.WireCaptureKind != nil
+	if *r.PopulationKind != "wire" {
+		if hasD || hasK {
+			return fmt.Errorf("evidence record population_kind %q carries wire_capture_* fields; only a wire record has a capture (label source-only measurements as source)", *r.PopulationKind)
+		}
+		return nil
+	}
+	var missing []string
+	if !hasD {
+		missing = append(missing, "wire_capture_digest")
+	}
+	if !hasK {
+		missing = append(missing, "wire_capture_kind")
+	}
+	if len(missing) > 0 {
+		return fmt.Errorf("evidence record population_kind wire lacks %s: a claim about the running product needs evidence captured from it (FR-017)", strings.Join(missing, ", "))
+	}
+	if !hex64Re.MatchString(*r.WireCaptureDigest) {
+		return errors.New("evidence record wire_capture_digest is not 64 lowercase hex digits")
+	}
+	if strings.Trim(*r.WireCaptureDigest, "0") == "" {
+		return errors.New("evidence record wire_capture_digest is all zeroes (the digest of no capture)")
+	}
+	if !inSet(wireCaptureKinds, *r.WireCaptureKind) {
+		return fmt.Errorf("evidence record wire_capture_kind %q is outside {http_response, socket}", *r.WireCaptureKind)
+	}
+	return nil
 }
 
 // ── the validator ──────────────────────────────────────────────────────────
@@ -643,6 +692,7 @@ func validateGapOn(db queryer, o GapOptions) (*gapValidator, error) {
 		v.ruleG5(r, all)
 		if r.disposition.String == "closed" {
 			v.ruleG3(r, hist[r.id], verdicts[r.id], diary[r.id])
+			v.ruleG13(r, hist[r.id], verdicts[r.id], diary[r.id])
 			v.ruleG9(r, hist[r.id])
 		}
 	}

@@ -1,0 +1,13 @@
+{
+  "anchor": {
+    "file": "docs/zero-gap/anchor.json",
+    "state": "NOT COMMITTED (OQ-S5-ANCHOR, Operator-blocked); zero-gap-evidence-chain.sh --verify reads rc 2 until it lands"
+  },
+  "entry_count": 417,
+  "head_artifact_path": "sha256:859f9c8b60a384df7f993ce3ee0dda85f25a80f3fc72b81c611dbe0ce4489f54",
+  "head_seq": 417,
+  "head_ts": "2026-10-15T08:09:25Z",
+  "measured_on": "2026-10-21",
+  "note": "The chain keeps growing (each sealed run appends); this is the head at the moment of measurement, not a frozen cycle-1 head. The authoritative head digest is the one `anchor write` computes and `--verify` checks. freeze.json is immutable (V-G6) and keeps chain_head null.",
+  "source": "main checkout untracked store .remember/logs/zero-gap/evidence/chain.jsonl (read-only)"
+}

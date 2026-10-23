@@ -124,8 +124,17 @@
     "evidence_class": {
       "type": "string",
       "description": "supplied to the chain record (runtime|artifact|source); distinct from population_kind"
+    },
+    "wire_capture_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "T063/FR-017: sha256 of the wire capture (HTTP response or socket capture). REQUIRED when population_kind is wire, FORBIDDEN otherwise; all-zero is refused (not expressible here, enforced by the adapter)."
+    },
+    "wire_capture_kind": {
+      "enum": ["http_response", "socket"],
+      "description": "T063/FR-017: what kind of capture wire_capture_digest digests. Same presence rule as wire_capture_digest."
     }
   },
   "additionalProperties": false,
-  "$comment": "Invariant not expressible in JSON Schema: outcome 0 or 1 requires state_fingerprint_before == state_fingerprint_after; otherwise outcome MUST be 2. Enforced by the adapter and its Go/shell test. The verifier-native chain record has EXACTLY nine fields (seq, ts, command, exit_status, artifact_path, evidence_class, author_session_id, independence_tier, prev_digest), unknown fields are REFUSED, genesis prev_digest is the empty string, and artifact_path = \"sha256:<hex of the exact sidecar line bytes>\" binds the two files. The adapter MUST verify that binding itself (the verifier never reads the sidecar)."
+  "$comment": "T063/FR-017 wire rule (not expressible by this interpreter, which refuses allOf/if/then by design; a first cut that used allOf made every recording fail pre-flight): population_kind wire REQUIRES wire_capture_digest (64 lowercase hex, not all zeroes) AND wire_capture_kind; every other population_kind FORBIDS both. Enforced by the zg-chain adapter (validateRequest) and by workable-items validate_gap.go. Invariant not expressible in JSON Schema: outcome 0 or 1 requires state_fingerprint_before == state_fingerprint_after; otherwise outcome MUST be 2. Enforced by the adapter and its Go/shell test. The verifier-native chain record has EXACTLY nine fields (seq, ts, command, exit_status, artifact_path, evidence_class, author_session_id, independence_tier, prev_digest), unknown fields are REFUSED, genesis prev_digest is the empty string, and artifact_path = \"sha256:<hex of the exact sidecar line bytes>\" binds the two files. The adapter MUST verify that binding itself (the verifier never reads the sidecar)."
 }

@@ -1,0 +1,5 @@
+sweep schema zero-gap-sweep/1 | findings 824 | could-not-inspect 607
+[('stale-figures', 299), ('coverage-gaps', 199), ('doc-count-drift', 134), ('private-in-public', 56), ('improvement-candidates', 48), ('known-open-decisions', 36), ('unsealed-evidence', 26), ('unregistered-scripts', 22), ('build-if-missing', 2), ('missing-toolchain', 1), ('untracked-blind-window', 1)]
+sha256 run1 6469c2d5fad57a72430c5995a3fc2ff99b9ebf063887e9e1ccb702d8e8e21b37
+sha256 run2 6469c2d5fad57a72430c5995a3fc2ff99b9ebf063887e9e1ccb702d8e8e21b37
+cmp run1 run2: byte-identical (cmp rc 0), sweep exit codes 1 and 1 (findings exist)

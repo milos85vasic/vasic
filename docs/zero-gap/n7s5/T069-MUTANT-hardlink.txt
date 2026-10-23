@@ -1,0 +1,6 @@
+  FAIL C0 control run holds (rc 0)
+  FAIL C1 a step that rewrote a tracked file left the LIVE tree byte-identical (git status before == after)
+  FAIL C2 the copy is a real copy, not a hardlink (inode differs)
+  FAIL C3 the op was registered running BEFORE and terminal after, same op_id
+  FAIL C5 a dated report was written and names the verdict
+prove-failure: 5 case(s) failed

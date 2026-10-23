@@ -1,0 +1,21 @@
+$ bash scripts/zero-gap-evidence-chain.sh --anchor-write --remote origin
+anchor write [PASS] chain_alone=PASS chain_plus_anchor=SKIP: anchored 1 entries at head 73b2c441a40a1953dd0b78a99e1ee6aaf16dd522a4aae266e0414c25b7c464c4 with strength "policy", read back and confirmed at "/home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/d81127d6-3e9c-4b
+anchored: {"head_digest":"73b2c441a40a1953dd0b78a99e1ee6aaf16dd522a4aae266e0414c25b7c464c4","entry_count":1,"anchor_strength":"policy"}
+strength: policy — probed: the remote is reachable and does not mechanically refuse a rewrite (append-only by policy, research D6)
+rc=0
+$ cat docs/zero-gap/anchor.json
+{"head_digest":"73b2c441a40a1953dd0b78a99e1ee6aaf16dd522a4aae266e0414c25b7c464c4","entry_count":1,"anchor_strength":"policy"}
+$ verify BEFORE the anchor is committed
+[4/4 history] NOT_APPLICABLE history
+[4/4 history] REFUSE the anchor has no committed history: an untracked anchor can be rewritten to any lower count unseen (the default is strict; see the header)
+VERDICT UNDETERMINED (rc 2) chain=PASS sidecar=HOLDS anchor=PASS history=NOT_APPLICABLE incoming=CLEAN
+$ verify AFTER commit+push
+[1/4 chain]   chain verify [PASS] chain_alone=PASS chain_plus_anchor=SKIP: chain_alone is PASS: chain "/home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/d81127d6-3e9c-4b78-b582-8086f4c6cbcf/scratchpad/t083/work/
+[2/4 sidecar] HOLDS sidecar: 1 record(s); every line binds its chain record by position, every adapter invariant holds
+[3/4 anchor]  anchor verify [PASS] chain_alone=PASS chain_plus_anchor=PASS: chain_alone is PASS: chain "/home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/d81127d6-3e9c-4b78-b582-8086f4c6cbcf/scratchpad/t083/work
+[4/4 history] history: ok commit 1657e598ca39: entry_count=1 head=73b2c441a40a matches the current chain
+[4/4 history] history: witness remote "origin" (../origin.git) branch "main", fetched now — local remote-tracking refs are not trusted
+[4/4 history] history: ok witness origin/main 1657e598ca39: entry_count=1 head=73b2c441a40a matches the current chain
+[4/4 history] HOLDS history
+VERDICT HOLDS (rc 0) chain=PASS sidecar=HOLDS anchor=PASS history=HOLDS incoming=CLEAN
+rc=0

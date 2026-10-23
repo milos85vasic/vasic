@@ -364,14 +364,33 @@ func TestRosterLoadsAndCrossChecksTheLiveFleet(t *testing.T) {
 	if len(r.Orphans) != 0 {
 		t.Fatalf("every roster row must name a declared submodule; orphans: %v", r.Orphans)
 	}
-	var operator int
+	// The operator-ratified set is asserted BY NAME, not by count. A bare count
+	// (this test said "exactly five") goes stale the moment the operator ratifies
+	// more rows and then asserts nothing about WHICH rows: it failed on a correct
+	// tree after the 2026-09-26 ratification of eight further prefixes recorded in
+	// specs/010-zero-gap-verified-closure/progress.yml (line 103). Five were stated
+	// directly on 2026-09-08 (VSC, WSP, AII, MVR, VDT); eight were ratified as
+	// proposed on 2026-09-26. Any other row marked `operator` has no recorded
+	// ratification and fails here.
+	wantOperator := map[string]bool{
+		"VSC": true, "WSP": true, "AII": true, "MVR": true, "VDT": true, // 2026-09-08
+		"HQA": true, "CHA": true, "DOC": true, "LLO": true, "HLP": true, "LMV": true, "SEC": true, "VSE": true, // 2026-09-26
+	}
+	gotOperator := map[string]bool{}
 	for _, sp := range r.Members {
 		if sp.Ratified == "operator" {
-			operator++
+			gotOperator[sp.Prefix] = true
 		}
 	}
-	if operator != 5 {
-		t.Fatalf("exactly five identifiers were stated by the operator (VSC, WSP, AII, MVR, VDT); found %d marked ratified", operator)
+	for p := range gotOperator {
+		if !wantOperator[p] {
+			t.Errorf("prefix %s is marked ratified=operator but has no recorded ratification", p)
+		}
+	}
+	for p := range wantOperator {
+		if !gotOperator[p] {
+			t.Errorf("prefix %s has a recorded operator ratification but its row is not marked ratified=operator", p)
+		}
 	}
 }
 

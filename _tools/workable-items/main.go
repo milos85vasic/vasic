@@ -434,6 +434,7 @@ func cmdValidate(args []string) int {
 	repo := fs.String("repo", "", "repository root")
 	dbPath := fs.String("db", "", "database path")
 	asOf := fs.String("as-of", "", "ISO date (YYYY-MM-DD) every date rule is evaluated at (default: today in UTC; always printed)")
+	chainStore := fs.String("chain-store", "", "T068: bind every closed item's cited RED/GREEN/verifier record to this evidence chain store (V-G13); the chain verifier must pass")
 	if err := fs.Parse(args); err != nil {
 		return exitUndetermined
 	}
@@ -472,7 +473,19 @@ func cmdValidate(args []string) int {
 	}
 	// Feature 010: the zero-gap rules V-G1..V-G12, on a migrated register only.
 	// An unmigrated register can hold no gap item; that is stated, not scored.
-	gap, gerr := wi.ValidateGap(db, wi.GapOptions{AsOf: day, Root: root, Roster: r})
+	gopts := wi.GapOptions{AsOf: day, Root: root, Roster: r}
+	if *chainStore != "" {
+		b, crc, cmsg := wi.ResolveChainBinder(root, *chainStore)
+		if b == nil {
+			fmt.Fprintf(os.Stderr, "COULD NOT DETERMINE: %s\n", cmsg)
+			return exitUndetermined
+		}
+		if crc != 0 {
+			fmt.Printf("chain: %s\n", cmsg)
+		}
+		gopts.Chain = b
+	}
+	gap, gerr := wi.ValidateGap(db, gopts)
 	var partial *wi.PartialSchemaError
 	switch {
 	case errors.Is(gerr, wi.ErrNotMigrated):

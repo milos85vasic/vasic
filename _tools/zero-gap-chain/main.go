@@ -103,6 +103,8 @@ func cmdAppend(args []string, stdout, stderr io.Writer) int {
 	fs.StringVar(&r.VerdictRole, "verdict-role", "", "author|verifier")
 	fs.StringVar(&r.IndependenceTier, "independence-tier", "", "instance|model|capability")
 	fs.StringVar(&r.EvidenceClass, "evidence-class", "", "runtime|artifact|source")
+	fs.StringVar(&r.WireCaptureDigest, "wire-capture-digest", "", "sha256 of the wire capture (population-kind wire only)")
+	fs.StringVar(&r.WireCaptureKind, "wire-capture-kind", "", "http_response|socket (population-kind wire only)")
 	fs.StringVar(&r.FpBefore, "fp-before", "", "state fingerprint before")
 	fs.StringVar(&r.FpAfter, "fp-after", "", "state fingerprint after")
 	fs.StringVar(&verdict, "check-verdict", "", "the check's own 0|1|2")

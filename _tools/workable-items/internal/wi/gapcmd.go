@@ -20,6 +20,7 @@ package wi
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"crypto/sha256"
 	"database/sql"
 	"encoding/hex"
@@ -30,6 +31,7 @@ import (
 	"io"
 	"io/fs"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"sort"
@@ -190,12 +192,69 @@ func gapPaths(repo, db string, needRoot bool) (root, dbPath string, err error) {
 	return root, filepath.Join(root, defaultDBRel), nil
 }
 
+// flagSet reports whether a flag was given explicitly (even with an empty value).
+func flagSet(fs *flag.FlagSet, name string) bool {
+	set := false
+	fs.Visit(func(f *flag.Flag) {
+		if f.Name == name {
+			set = true
+		}
+	})
+	return set
+}
+
 func newFlags(name string, stderr io.Writer) (*flag.FlagSet, *string, *string) {
 	fs := flag.NewFlagSet("gap "+name, flag.ContinueOnError)
 	fs.SetOutput(stderr)
 	repo := fs.String("repo", "", "repository root (default: discovered from the working directory)")
 	db := fs.String("db", "", "register path (default: <repo>/"+defaultDBRel+")")
 	return fs, repo, db
+}
+
+// attachChain makes the write commands enforce the T068 chain binding: the store
+// must load and the chain verifier must pass (rc 0), else the command stops with
+// rc 2 (rc 1 when the verifier DETECTED an alteration). The only way past it is
+// an explicit --skip-chain-binding REASON, which is printed.
+func (e *gapEnv) attachChain(store string, skipSet bool, skipReason string, stdout, stderr io.Writer) int {
+	if skipSet {
+		if strings.TrimSpace(skipReason) == "" {
+			return refuse(stderr, []string{"--skip-chain-binding needs a non-empty reason; the chain binding (T068) is never skipped silently"})
+		}
+		fmt.Fprintf(stdout, "CHAIN-BINDING SKIPPED by operator flag: %s\n", strings.TrimSpace(skipReason))
+		return rcOK
+	}
+	b, rc, msg := ResolveChainBinder(e.root, store)
+	if rc != 0 {
+		if rc == 1 {
+			fmt.Fprintf(stderr, "REFUSED: %s\n", msg)
+			return rcFind
+		}
+		fmt.Fprintf(stderr, "COULD NOT DETERMINE: %s (closure evidence must be chain-bound; pass --skip-chain-binding REASON only knowingly)\n", msg)
+		return rcUndet
+	}
+	e.opts.Chain = b
+	return rcOK
+}
+
+// bindErr checks one evidence record against the attached chain (nil when none).
+func (e *gapEnv) bindErr(path string) error {
+	if e.opts.Chain == nil {
+		return nil
+	}
+	full, err := Confine(e.root, path)
+	if err != nil {
+		return err
+	}
+	raw, err := os.ReadFile(full)
+	if err != nil {
+		return err
+	}
+	rec, err := e.readRecord(path)
+	if err != nil {
+		return err
+	}
+	_, err = e.opts.Chain.Bind(raw, *rec.ChainSeq)
+	return err
 }
 
 // gapEnv is an opened, migrated register plus the context the rules need.
@@ -1006,14 +1065,20 @@ func gapVerdict(args []string, stdout, stderr io.Writer) int {
 	outcome := fs.Int("outcome", -1, "0 holds · 1 violated (a disagreement) · 2 could not determine")
 	evidence := fs.String("evidence", "", "path of the verdict's evidence (repository-relative)")
 	on := fs.String("on", "", "date of the verdict YYYY-MM-DD (default: today)")
+	chainStore := fs.String("chain-store", "", "evidence chain store (default: <repo>/"+DefaultChainStoreRel+")")
+	skipChain := fs.String("skip-chain-binding", "", "REASON: skip the T068 chain binding (printed loudly)")
 	if err := fs.Parse(args); err != nil {
 		return rcUndet
 	}
+	skipChainSet := flagSet(fs, "skip-chain-binding")
 	e, rc := openGap(*repo, *dbFlag, *on, false, stdout, stderr)
 	if rc != rcOK {
 		return rc
 	}
 	defer e.close()
+	if rc := e.attachChain(*chainStore, skipChainSet, *skipChain, stdout, stderr); rc != rcOK {
+		return rc
+	}
 	var problems []string
 	if it, err := loadItem(e.db, *id); err != nil {
 		fmt.Fprintf(stderr, "COULD NOT DETERMINE: %v\n", err)
@@ -1055,6 +1120,8 @@ func gapVerdict(args []string, stdout, stderr io.Writer) int {
 		case recordDay(rec) > e.opts.AsOf:
 			// F5: a verdict row cannot be dated before the run it records.
 			problems = append(problems, fmt.Sprintf("--on %s is before the day the record %s was measured (%s); a verdict is never recorded on a day before its own run", e.opts.AsOf, *evidence, *rec.TS))
+		case e.bindErr(*evidence) != nil:
+			problems = append(problems, fmt.Sprintf("--evidence %s is not bound to the evidence chain: %v", *evidence, e.bindErr(*evidence)))
 		default:
 			sha = d
 		}
@@ -1087,14 +1154,20 @@ func gapClose(args []string, stdout, stderr io.Writer) int {
 	author := fs.String("check-author", "", "handle of whoever authored the closure check (≠ fixer, §11.4.240(C)(1))")
 	research := fs.String("research-ref", "", "path of the §11.4.150 research record (default: the item's research_ref)")
 	asOf := fs.String("as-of", "", "ISO date the date rules use (default: today)")
+	chainStore := fs.String("chain-store", "", "evidence chain store (default: <repo>/"+DefaultChainStoreRel+")")
+	skipChain := fs.String("skip-chain-binding", "", "REASON: skip the T068 chain binding (printed loudly)")
 	if err := fs.Parse(args); err != nil {
 		return rcUndet
 	}
+	skipChainSet := flagSet(fs, "skip-chain-binding")
 	e, rc := openGap(*repo, *dbFlag, *asOf, false, stdout, stderr)
 	if rc != rcOK {
 		return rc
 	}
 	defer e.close()
+	if rc := e.attachChain(*chainStore, skipChainSet, *skipChain, stdout, stderr); rc != rcOK {
+		return rc
+	}
 	it, err := loadItem(e.db, *id)
 	if err != nil {
 		fmt.Fprintf(stderr, "COULD NOT DETERMINE: %v\n", err)
@@ -1845,6 +1918,50 @@ func fileDigest(path string) (string, error) {
 	return hex.EncodeToString(h.Sum(nil)), nil
 }
 
+// scanRecordsGate runs the record scanner (T062, FR-020) as a release gate of
+// `gap freeze`: rc 0 passes, rc 1 is a finding (freeze refused), anything else
+// — including an absent or unrunnable scanner — is "could not determine". A
+// gate that is absent is never a pass; the only way past it is an explicit
+// --skip-scan-records REASON, which is printed.
+func scanRecordsGate(root, script string, skipSet bool, skipReason string, stdout, stderr io.Writer) int {
+	if skipSet {
+		fmt.Fprintf(stdout, "SCAN-RECORDS SKIPPED by operator flag: %s\n", strings.TrimSpace(skipReason))
+		return rcOK
+	}
+	if script == "" {
+		script = filepath.Join(root, "scripts", "zero-gap-scan-records.sh")
+	}
+	if _, err := os.Stat(script); err != nil {
+		fmt.Fprintf(stderr, "COULD NOT DETERMINE: the record-scan release gate %s is absent (%v); a freeze never proceeds without it (FR-020)\n", script, err)
+		return rcUndet
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)
+	defer cancel()
+	cmd := exec.CommandContext(ctx, "bash", script, "--root", root)
+	var buf bytes.Buffer
+	cmd.Stdout, cmd.Stderr = &buf, &buf
+	err := cmd.Run()
+	rc := 0
+	if err != nil {
+		var ee *exec.ExitError
+		if errors.As(err, &ee) {
+			rc = ee.ExitCode()
+		} else {
+			rc = 2
+		}
+	}
+	switch rc {
+	case 0:
+		return rcOK
+	case 1:
+		fmt.Fprintf(stderr, "REFUSED: the record scan (FR-020) found violations; nothing was frozen\n%s", buf.String())
+		return rcFind
+	default:
+		fmt.Fprintf(stderr, "COULD NOT DETERMINE: the record scan exited %d; nothing was frozen\n%s", rc, buf.String())
+		return rcUndet
+	}
+}
+
 func gapFreeze(args []string, stdout, stderr io.Writer) int {
 	fs, repo, dbFlag := newFlags("freeze", stderr)
 	cycle := fs.String("cycle", "", "programme cycle id")
@@ -1853,11 +1970,22 @@ func gapFreeze(args []string, stdout, stderr io.Writer) int {
 	chainHead := fs.String("chain-head", "", "evidence chain head digest to record (64 hex)")
 	entries := fs.Int64("entry-count", -1, "evidence chain entry count to record")
 	asOf := fs.String("as-of", "", "ISO date recorded as frozen_at (default: today)")
+	scanScript := fs.String("scan-records", "", "record scanner run as a release gate (default: <repo>/scripts/zero-gap-scan-records.sh)")
+	skipScan := fs.String("skip-scan-records", "", "REASON: skip the record-scan release gate (printed loudly; never silent)")
 	if err := fs.Parse(args); err != nil {
 		return rcUndet
 	}
+	skipScanSet := false
+	fs.Visit(func(f *flag.Flag) {
+		if f.Name == "skip-scan-records" {
+			skipScanSet = true
+		}
+	})
 	if !cycleRe.MatchString(*cycle) {
 		return refuse(stderr, []string{fmt.Sprintf("--cycle %q is not a plain identifier", *cycle)})
+	}
+	if skipScanSet && strings.TrimSpace(*skipScan) == "" {
+		return refuse(stderr, []string{"--skip-scan-records needs a non-empty reason; the record-scan gate (FR-020) is never skipped silently"})
 	}
 	if *chainHead != "" && !hex64Re.MatchString(*chainHead) {
 		return refuse(stderr, []string{"--chain-head is not 64 lowercase hex digits"})
@@ -1867,6 +1995,9 @@ func gapFreeze(args []string, stdout, stderr io.Writer) int {
 		return rc
 	}
 	defer e.close()
+	if rc := scanRecordsGate(e.root, *scanScript, skipScanSet, *skipScan, stdout, stderr); rc != rcOK {
+		return rc
+	}
 	out := *outFlag
 	if out == "" {
 		out = filepath.Join(e.root, "docs/zero-gap/cycles", *cycle, "freeze.json")

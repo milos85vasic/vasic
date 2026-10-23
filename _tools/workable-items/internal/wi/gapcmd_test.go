@@ -21,6 +21,7 @@ func gapRepo(t *testing.T) string {
 	t.Helper()
 	dst := rosterRepo(t, "roster-good")
 	copyFixtureEvidence(t, dst)
+	installScanStub(t, dst, 0, "VERDICT HOLDS (rc 0)")
 	return dst
 }
 
@@ -59,6 +60,10 @@ func writeText(t *testing.T, repo, rel, body string) string {
 func gapRun(t *testing.T, repo, db string, args ...string) (int, string) {
 	t.Helper()
 	full := append([]string{args[0], "--repo", repo, "--db", db}, args[1:]...)
+	if (args[0] == "close" || args[0] == "verdict") && !strings.Contains(strings.Join(args, "\x00"), "chain") {
+		// T068: the fixture registers carry no evidence chain; the binding itself is tested in gap_t068_test.go
+		full = append(full, "--skip-chain-binding", "fixture register carries no evidence chain")
+	}
 	rc, out, errs := runGapCLI(t, full...)
 	return rc, out + errs
 }

@@ -1,0 +1,26 @@
+# check-denylist.tsv — registered checks NOT run bare by the determinism census (scripts/zero-gap-determinism-registry.sh) and NOT sealed
+# by the check-sealing runner (scripts/zero-gap-seal-checks.sh). id<TAB>reason. Each is owed a bespoke bounded run; listing is not a pass.
+prepush-gates	runs the entire push gate set (Playwright, Go builds); needs a bespoke bounded run
+harness-selfvalidation-aggregator	drives the visual/export harnesses (browsers, OCR)
+constitution-rules-sweep	the full constitution sweep takes tens of minutes per run
+setup-agents-wizard-suite	installs/configures agent tooling in the home directory
+ollama-tune	inspects and may tune the host inference service
+lumen-index-doctor	inspects the host semantic-index service
+zero-gap-daily	is itself the job that wraps this census; bare it runs the whole sweep
+provider-ci	queries provider APIs over the network (not repeatable offline)
+submodule-remote-sync	probes remotes over the network (not repeatable offline)
+push-topology	probes remotes over the network (not repeatable offline)
+translation-review	requires a site argument pair and the translation toolchain
+decommission-precondition	requires a module argument and a clone path
+extraction-content-boundary	requires a --candidate argument
+additive-cutover	requires a --consumer argument
+threshold-principles	requires a revision range
+hostdeps	may install host packages
+agent-scratch	operates on the host scratch filesystem
+agent-admit	reads host pressure counters (not a property of the tree)
+zero-gap-verify	requires an --item argument and a sealing store
+zero-gap-evidence-chain	verifies the live chain store and fetches the witness remote
+umbrella-mutants	builds and mutates the Go generator (minutes per run)
+zero-gap-seal-checks	is the sealing runner itself (running it from inside itself would recurse)
+zero-gap-determinism-registry	is the census over all checks (a census inside a seal run would repeat every check five times)
+zero-gap-module-page-check	builds the Go binary and needs the register (bespoke run)

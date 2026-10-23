@@ -1,0 +1,12 @@
+# zero-gap-daily.timer — feature 010 T070. NOT INSTALLED. Daily, catching up after a missed run.
+[Unit]
+Description=zero-gap daily re-measurement timer
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+RandomizedDelaySec=900
+Unit=zero-gap-daily.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,18 @@
+# Independent-review packets — stream S5 (spec 010 umbrella)
+
+Every item below was produced by this stream (the producer). **None is self-approved; each is PENDING-INDEPENDENT-REVIEW.** A reviewer must be a different actor than the producer, re-run the commands, and try to break the claim. Nothing here was run by a second actor.
+
+| Packet | Claim to attack | Re-run | Break it by |
+|---|---|---|---|
+| T062 record scanner | the three layers catch planted guessing / credential / private-text records and a layer that cannot run is never a pass | `bash scripts/zero-gap-scan-records.sh --prove-failure`; `bash scripts/zero-gap-scan-records.sh docs/zero-gap specs/010-zero-gap-verified-closure --private-root <workshop/chapters>` | a hedge written across two lines; a credential split with a zero-width character; a private sentence paraphrased (the shingle is exact, 8 words) -- state what is NOT seen |
+| T062 freeze gate | `gap freeze` writes nothing when the scan finds / cannot determine / is absent | `(cd _tools/workable-items && go test ./internal/wi -run 'TestScan\|TestSkipScan\|TestGapFreeze')` | the scan script path via `--scan-records`; a stub that exits 0 |
+| T063 regression fix | the wire rule is enforced where records are sealed | `(cd _tools/zero-gap-chain && go test -run 'TestRealContractLoads\|TestWire\|TestNonWire' .)` needs `submodules/constitution` (continuum) | a wire record whose digest is hex but of nothing |
+| T065 pre-push sealing | every gate runs through the adapter, its own rc is the verdict, failure is sealed too | `bash scripts/pre-push-gates.sh --prove-failure` (S0-S4b); `bash scripts/zero-gap-class-unsealed-evidence.sh --root .` (gate findings 11 -> 0) | `PREPUSH_SEAL=auto` silently running unsealed on a developer machine: by design prints `SEAL: unavailable`; decide whether auto should be strict |
+| T065 check sealing | the generated literal table matches the registry | `bash scripts/zero-gap-seal-checks.sh --check-sync`; `--prove-failure` | the denylist (22+ checks are NOT sealed; each is an open finding of the class) |
+| T064 census | UNSTABLE is detected, a check that never finishes is not a pass | `bash scripts/zero-gap-determinism-registry.sh --prove-failure`; sample `docs/zero-gap/n7s5/T064-census-sample.tsv` | normalisation hides a real difference; output-varies is informational only |
+| T068 chain binding | V-G13 binds RED/GREEN/verifier records, verifier session != GREEN session | `(cd _tools/workable-items && go test ./internal/wi -run TestT068)`; `docs/zero-gap/n7s5/T068-real-register-binding-measurement.txt` (read-only, 88/88 bound) | the digest rule (one trailing newline excluded); a chain with a duplicate seq; `--skip-chain-binding` use |
+| T069 daily job | never writes tracked files, frozen REAL copy, flock, pressure refusal, reaper, UNSTABLE handling | `bash scripts/zero-gap-daily.sh --prove-failure` (16+ cases); hardlink mutant `docs/zero-gap/n7s5/T069-MUTANT-hardlink.txt` | a step that escapes the copy via an absolute path to the live tree (the job can only detect it afterwards: fingerprint/status before == after) |
+| T071 revert test | reverting a closed item's fix is flagged, queued in the exact shape, applied by the real CLI | `(cd _tools/workable-items && go test ./internal/wi -run TestT071)` | the sealing adapter is a test double there (the real adapter has its own proof) |
+| T037 module-page check | machine half of SC-010 only | `bash scripts/zero-gap-module-page-check.sh` | the HUMAN two-minute read is NOT claimed |
+
+Open items of the register that these changes bear on (closure needs the register's own RED/GREEN + a different verifier + chain-sealed records, and a register commit; not done here): VSC-379 (sealing), VSC-380 (anchor, operator), VSC-378.

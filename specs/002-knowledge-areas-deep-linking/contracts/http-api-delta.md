@@ -262,6 +262,29 @@ feature must not add more.
 > through minting, the registry and retrieval, for a kind nothing currently asks for. If that is
 > ever done, restore the requirement here rather than re-deriving it from scratch.
 
+**C4.1.1a — `screen_text` (on-screen text recognised from a recording's frames).** *(Added
+2026-10-21 for spec 008 T462 / FR-274; the code side, T461, already landed.)*
+
+- **Accepted.** `screen_text` is a member of the closed kind vocabulary, so `kind=screen_text` is a
+  legal filter value and never a 400 (`pkg/search/kind_population.go`, `kindVocabulary`; base
+  passage kind `passagestore.KindScreenText`).
+- **Advertised only on evidence.** The corpus block lists `screen_text` **only** when the Service's
+  own index holds a non-empty, disclosable census of it. With zero rows the kind is accepted but
+  **not advertised** — exactly as `diagram` is — so this clause does not breach C4.1.1's rule that
+  a kind advertised with zero entries is a failure. Membership in the vocabulary is a contract
+  statement; advertising is a measurement (G-KG-11).
+- **Locus.** A `screen_text` hit's locus is a **visibility interval** in the recording
+  (`start`/`end`, where `start == end` is permitted because a text can be seen at one sampled
+  frame), not a transcript-segment time and not a text offset. It reports its provenance as `ocr`;
+  nothing else may carry that provenance, and a `screen_text` must (passage-store validation,
+  `internal/passagestore/domain.go`).
+- **Producer.** Nothing produces a `screen_text` row yet: the sampler is spec 008 T449 and is gated
+  by the operator ruling on OR-04 (whether deterministic OCR over frames is a forbidden "vision
+  pass"). Until a producer lands the kind is empty, and this clause states that rather than hiding
+  it.
+- **Route manifest.** No new route: the kind rides on the existing `GET /api/search` row (C4.1.5
+  filters). `platform/gates/route-manifest.tsv` in the workshop module carries the filtered probe.
+
 **C4.1.2 — locus.** Every hit carries a locus: its containing unit and its position within it. A hit
 whose locus does not resolve is not returned (FR-030).
 

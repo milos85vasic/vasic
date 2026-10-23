@@ -37,25 +37,27 @@ var (
 // AppendRequest is everything one evidence record needs. Raw comes from the
 // constitution recorder; Argv and Cwd from the adapter that ran the command.
 type AppendRequest struct {
-	StoreDir         string
-	Schema           *Schema
-	Session          string
-	Cwd              string
-	Argv             []string
-	Raw              RawFields
-	StreamRef        string
-	RedactedOverride bool // the adapter's own re-scan redacted a stream the recorder missed
-	ItemID           string
-	CheckID          string
-	PopulationKind   string
-	VerdictRole      string
-	IndependenceTier string
-	EvidenceClass    string
-	FpBefore         string
-	FpAfter          string
-	CheckVerdict     int // the CHECK's own three-valued result (0 holds, 1 violated, 2 undetermined)
-	ExecRowsPath     string
-	LockTimeout      time.Duration // bounded wait for the exclusive lock (default 120 s; a timeout seals nothing)
+	StoreDir          string
+	Schema            *Schema
+	Session           string
+	Cwd               string
+	Argv              []string
+	Raw               RawFields
+	StreamRef         string
+	RedactedOverride  bool // the adapter's own re-scan redacted a stream the recorder missed
+	ItemID            string
+	CheckID           string
+	PopulationKind    string
+	VerdictRole       string
+	IndependenceTier  string
+	EvidenceClass     string
+	WireCaptureDigest string // T063/FR-017: required iff PopulationKind == "wire"
+	WireCaptureKind   string // http_response|socket, same presence rule
+	FpBefore          string
+	FpAfter           string
+	CheckVerdict      int // the CHECK's own three-valued result (0 holds, 1 violated, 2 undetermined)
+	ExecRowsPath      string
+	LockTimeout       time.Duration // bounded wait for the exclusive lock (default 120 s; a timeout seals nothing)
 }
 
 // AppendResult reports what was sealed.
@@ -191,7 +193,8 @@ func Append(req AppendRequest) (AppendResult, error) {
 		FpBefore: req.FpBefore, FpAfter: req.FpAfter,
 		PopulationKind: req.PopulationKind, Outcome: outcome,
 		VerdictRole: req.VerdictRole, IndependenceTier: req.IndependenceTier,
-		EvidenceClass: req.EvidenceClass,
+		EvidenceClass:     req.EvidenceClass,
+		WireCaptureDigest: req.WireCaptureDigest, WireCaptureKind: req.WireCaptureKind,
 	}
 	line, err := MarshalSidecarLine(sc)
 	if err != nil {
@@ -313,6 +316,31 @@ func validateRequest(r AppendRequest) error {
 		return refuse("evidence_class %q is not one of runtime|artifact|source", r.EvidenceClass)
 	case !hex64Pat.MatchString(r.FpBefore) || !hex64Pat.MatchString(r.FpAfter):
 		return refuse("state fingerprints must both be 64 lowercase hex (before=%q after=%q)", r.FpBefore, r.FpAfter)
+	}
+	return validateWireCapture(r)
+}
+
+// validateWireCapture is the T063/FR-017 rule: a wire record carries the digest
+// of its capture and the capture's kind; no other population may claim one (a
+// source-only measurement is labelled `source`, never dressed as wire).
+func validateWireCapture(r AppendRequest) error {
+	if r.PopulationKind != "wire" {
+		if r.WireCaptureDigest != "" || r.WireCaptureKind != "" {
+			return refuse("population_kind %q carries wire_capture_* fields; only a wire record has a capture (label source-only measurements `source`)", r.PopulationKind)
+		}
+		return nil
+	}
+	switch {
+	case r.WireCaptureDigest == "":
+		return refuse("population_kind wire needs wire_capture_digest (sha256 of the HTTP response or socket capture)")
+	case r.WireCaptureKind == "":
+		return refuse("population_kind wire needs wire_capture_kind (http_response|socket)")
+	case !hex64Pat.MatchString(r.WireCaptureDigest):
+		return refuse("wire_capture_digest is not 64 lowercase hex digits")
+	case r.WireCaptureDigest == strings.Repeat("0", 64):
+		return refuse("wire_capture_digest is all zeroes (the digest of no capture)")
+	case r.WireCaptureKind != "http_response" && r.WireCaptureKind != "socket":
+		return refuse("wire_capture_kind %q is outside {http_response, socket}", r.WireCaptureKind)
 	}
 	return nil
 }

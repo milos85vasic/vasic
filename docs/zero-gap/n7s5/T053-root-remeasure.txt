@@ -1,0 +1,21 @@
+  root                               integration        could-not-run:verify-governance-cascade.sh cases=0     failed=0    rc=2
+  root                               contract           could-not-run:verify-manifest-pins.sh    cases=0     failed=0    rc=2
+  root                               determinism        check                                    cases=5     failed=0    rc=0
+  root                               claim-ledger       check-red                                cases=12    failed=0    rc=1
+  root                               gate-paired-mutation check                                    cases=13    failed=0    rc=0
+  root                               export-validation  check                                    cases=6     failed=0    rc=0
+  root                               host-capability    could-not-run:hostdeps.sh                cases=0     failed=0    rc=2
+  root                               provider-ci        gap                                      cases=0     failed=0    rc=0
+  root                               umbrella-mutation  check                                    cases=5     failed=0    rc=0
+  root                               fuzz               check-red                                cases=7     failed=0    rc=1
+  root                               vsc375-runtime-probe check                                    cases=8     failed=0    rc=0
+  root                               manual-qa-readiness could-not-run:zero-gap-qa-readiness.sh   cases=0     failed=0    rc=2
+  root                               content-boundary   could-not-run:verify-content-boundary.sh cases=0     failed=0    rc=2
+  root                               e2e                could-not-run:playwright-preflight       cases=0     failed=0    rc=2
+  root                               accessibility      could-not-run:playwright-preflight       cases=0     failed=0    rc=2
+  root                               perf-load          could-not-run:playwright-preflight       cases=0     failed=0    rc=2
+  root                               seo-i18n-completeness could-not-run:playwright-preflight       cases=0     failed=0    rc=2
+  root                               link-integrity     could-not-run:playwright-preflight       cases=0     failed=0    rc=2
+  root                               visual-diff        could-not-run:playwright-preflight       cases=0     failed=0    rc=2
+wrote <path> (102 rows)
+measure rc=0

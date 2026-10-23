@@ -1,0 +1,19 @@
+$ bash scripts/verify-check-registry.sh | tail -3
+----------------------------------------------------------------------
+CM-CHECK-REGISTRY: 159 PASS, 2 FAIL, 0 DEBT, 0 UNDET, 0 NOTE
+❌ CM-CHECK-REGISTRY: FAIL — 2 real conformance violation(s).
+$ bash scripts/zero-gap-class-unproven-checks.sh --root .  (tally)
+rc=1
+    483 COULD-NOT-INSPECT
+    128 FINDING
+      1 INSPECTED
+      1 POPULATION-SHA
+FINDING unproven-checks high governance-drift exempt:_tools/watch-deploy.sh exempt row for _tools/watch-deploy.sh has next_review 2026-10-15 elapsed (lifting_authority=operator) scripts/check-registry
+FINDING unproven-checks high governance-drift exempt:_tools/prove-watch-deploy-verdict.sh exempt row for _tools/prove-watch-deploy-verdict.sh has next_review 2026-10-15 elapsed (lifting_authority=oper
+FINDING unproven-checks high governance-drift subregistry:ai_interviewing/_tests/fixtures/zero-gap/unproven-checks/clean/mods/owned/gates/check-registry-own.tsv:4 submodule registry exempt row names a
+FINDING unproven-checks high governance-drift subregistry:ai_interviewing/_tests/fixtures/zero-gap/unproven-checks/planted/mods/owned/gates/check-registry-own.tsv:3 submodule registry exempt row names
+FINDING unproven-checks high governance-drift subregistry:ai_interviewing/_tests/fixtures/zero-gap/unproven-checks/planted/mods/owned/gates/check-registry-own.tsv:4 submodule registry exempt row for a
+$ scan-records over the programme records
+INSPECTED 257
+POPULATION-SHA eaa3895deb35b777b74743593023d93f6c9ab7d8de7348631f83c2fa072695a6
+VERDICT HOLDS (rc 0)

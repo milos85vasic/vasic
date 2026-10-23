@@ -1,0 +1,5 @@
+--- FAIL: TestT071RevertedFixIsFlaggedQueuedAndReopened (7.10s)
+    gap_t071_revert_test.go:114: no reopen request for VSC-004 was queued: <nil> "{\"item\":\"VSC-004\",\"evidence\":\".remember/logs/zero-gap/out-zgd-20261021T184545Z-594006/record-VSC-004.json\",\"why\":\"captured-evidence-contradicts\",\"queued_at\":\"2026-10-21T18:45:49Z\"}\n"
+FAIL
+FAIL	digital.vasic/vasic/workableitems/internal/wi	7.112s
+FAIL

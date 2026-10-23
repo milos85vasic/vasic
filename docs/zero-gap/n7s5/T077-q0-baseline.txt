@@ -1,0 +1,35 @@
+$ bash scripts/verify-workable-items.sh
+           FINDING  V-G10                        VSC-351      plan_due 2026-10-10 has elapsed at --as-of 2026-10-21
+           FINDING  V-G10                        VSC-354      plan_due 2026-10-10 has elapsed at --as-of 2026-10-21
+           FINDING  V-G10                        VSC-356      plan_due 2026-10-10 has elapsed at --as-of 2026-10-21
+UNDET    G6 the canonical validator is absent at submodules/constitution/scripts/workable-items/bin/workable-items-linux — the submodule may not be initialised
+
+❌ workable-items: 1 finding(s), 1 undetermined.
+rc=1
+$ bash scripts/verify-claim-ledger.sh
+COVERAGE — BOUNDED AND STATED. §11.4.266(A) requires EVERY advertised
+capability to resolve to exactly one row. This ledger is a slice of 12.
+CM-CLAIM-REALITY-LEDGER-COMPLETE is NOT satisfied; run --completeness for
+the remaining waves. Do NOT read a green exit as ledger completeness.
+
+❌ CLAIM-VS-REALITY [DEFECT]: 1 recorded claim(s) do not survive re-measurement.
+rc=1
+$ bash scripts/verify-manifest-pins.sh
+✅ PASS  PIN-SYNC security — recorded ref 0513361e2f9cdfa2c3b1da687a0d66e5eb7c8fd1 == index gitlink 0513361e2f9cdfa2c3b1da687a0d66e5eb7c8fd1
+  vision_engine     d52fa447d168b2023613cdd6e0bcf7e9c2148bbb   d52fa447d168b2023613cdd6e0bcf7e9c2148bbb   MATCH
+✅ PASS  PIN-SYNC vision_engine — recorded ref d52fa447d168b2023613cdd6e0bcf7e9c2148bbb == index gitlink d52fa447d168b2023613cdd6e0bcf7e9c2148bbb
+----------------------------------------------------------------------
+CM-MANIFEST-PIN-SYNC: 21 MATCH, 0 DRIFT, 0 UNDETERMINED  of 21 declared dep(s)  (root /home/milosvasic/Projects/vasic-wt/n7-010-umbrella)
+✅ CM-MANIFEST-PIN-SYNC: PASS — all 21 recorded ref(s) equal the gitlink this repository will commit
+rc=0
+$ bash scripts/continuation-check.sh
+UNDET  [C8] submodule milosvasic.ru is not initialised — cannot confirm pages.yml is still present. Run: git submodule update --init milosvasic.ru
+UNDET  [C8] submodule vasic.digital is not initialised — cannot confirm it still carries zero workflow files.
+PASS   [C8] production facts hold: root CI inert; ci.yml.disabled tracked.
+
+4 PASS · 31 DRIFT · 3 UNDET · 16 NOTE
+CONTINUATION.md IS STALE — §12.10 requires it to be corrected in the same commit as the work that moved.
+rc=1
+$ git ls-files --error-unmatch docs/workable_items.db
+docs/workable_items.db
+rc=0

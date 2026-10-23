@@ -84,6 +84,7 @@ surface	AGENTS.md
 surface	QWEN.md
 surface	GEMINI.md
 surface	README.md
+surface	CONTINUATION.md
 # ---------------------------------------------------------------------------
 # The four carriers are byte-identical from the measured convergence line down
 # and `verify-governance-cascade.sh` check C5 enforces that, so a claim in the
@@ -109,3 +110,5 @@ claim	carriers-constitution-gate-ledger-rows	CLAUDE.md	prose	doc-vs-code-drift	m
 claim	readme-zero-findings-badge	README.md	prose	coverage-theater	blocker	eq	-	zero%20findings-(\d+)%20(?:findings|tracked|over%20ratchet)	bash scripts/audit/zero_findings_sweep.sh 2>&1 | sed -nE 's/.*class=TOTAL[[:space:]]+live=([0-9]+).*/\1/p' | head -1
 claim	readme-carrier-lockstep-line	README.md	prose	doc-vs-code-drift	minor	eq	-	dentical from line (\d+) down	for N in $(seq 1 60); do c=$(for f in CLAUDE.md AGENTS.md QWEN.md GEMINI.md; do tail -n +$N "$f" | sha256sum; done | sort -u | wc -l); if [ "$c" = 1 ]; then echo "$N"; break; fi; done
 claim	readme-gen-go-version	README.md	prose	doc-vs-code-drift	minor	eq	-	`go (1\.\d+)`\)\. Renders localized pages	sed -nE 's/^go ([0-9.]+)$/\1/p' _tools/gen/go.mod
+claim	carriers-gitmodules-url-count	CLAUDE.md	prose	doc-vs-code-drift	minor	eq	-	get-regexp 'submodule\\\.\.\*\\\.url'\s+# (\d+) URLs	git config -f .gitmodules --get-regexp 'submodule\..*\.url' | wc -l
+claim	continuation-gitlink-count	CONTINUATION.md	prose	doc-vs-code-drift	minor	eq	-	`\.gitmodules` declares \*\*(\d+)\*\* gitlinks \(re-measured 2026-10-21	git config -f .gitmodules --get-regexp 'submodule\..*\.path' | wc -l

@@ -1,0 +1,5 @@
+   verdict: 3 VERIFIED · 3 FALSE · 1 ORPHAN · 0 MALFORMED/UNTYPED · 5 UNDETERMINED
+FALSE   [major/doc-vs-code-drift] carriers-containers-consumer-files — occurrence 1 of the claim in CLAUDE.md says '21'; a fresh measurement says '0'.
+FALSE   [major/doc-vs-code-drift] carriers-constitution-gate-ledger-rows — occurrence 1 of the claim in CLAUDE.md says '271'; a fresh measurement says '0'.
+FALSE   [minor/doc-vs-code-drift] carriers-gitmodules-url-count — occurrence 1 of the claim in CLAUDE.md says '13'; a fresh measurement says '22'.
+FALSE   [orphan]   continuation-gitlink-count — the anchor matches NOTHING in CONTINUATION.md. The ledger describes a claim this repository no longer advertises, so the row has silently stopped protecting anything (§11.4.266(A)).

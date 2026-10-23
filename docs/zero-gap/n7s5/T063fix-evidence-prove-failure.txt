@@ -1,0 +1,39 @@
+  PASS E1 holding check sealed: outcome 0, genesis prev "", 9 chain fields, command == argv[0]
+  PASS E2 violated check: rc 1, outcome 1
+  PASS E3 exit 7 under --verdict-exit: outcome 2, exit_status 7 kept
+  PASS E4 fingerprint drift: outcome 2 though the check exited 0
+  PASS E5 70000-byte stream: digest+bytes of the FULL stream, 65536 kept, stream_truncated=true
+  PASS E6 credential stream: stored redacted, stream_redacted=true, digest of the ORIGINAL
+  PASS E6b credential on the command line: refused, NOT run, nothing recorded, nothing leaked
+  PASS E7 verdict file: 1 read as 1 despite exit 0; garbage and absent => 2
+  PASS E8 argv with quote/tab/newline recorded exactly as an array
+  PASS E18 exec_rows.jsonl: strict JSON, one row per record, exact argv, the 13 FR-045 fields, stream_ref resolvable
+  PASS E19 cwd recorded as <repo>/scripts and stream_ref as a bare stream id
+  PASS E17 --password <value> as two arguments: refused, NOT run, nothing stored
+  PASS E20 70 KB single line: over the scan cap => whole stream replaced (placeholder names the size cap), redacted=true, digest of the original, 1 s
+  PASS E21 scan timeout (1 s) fails closed: redacted=true in 2 s, placeholder names the time bound
+  PASS E22 store with an unbound sidecar line: pre-flight refuses, the check is NOT run
+  PASS E22b chain missing its final newline: refused before running, the chain is not glued onto
+  PASS E23 SIGTERM mid-run (plaintext was on disk: precondition met): trap removed it in 0 s, rc 143
+  PASS E24 SIGKILL left plaintext on disk (precondition met); the next run scrubbed it and reported it
+  PASS E27 16 secret-shaped command lines (incl. -p/-pX/--pass/--token/TOKEN=/short password/Bearer/URL credentials): all refused, NOT run, value stored nowhere
+  PASS E27b false-positive controls (--prove-failure --port=8080 --output-dir --bypass compass plain-URL a=b -c --parse) all ran
+  PASS E28 adapter SIGKILLed while its command still runs: the live dir is kept; once the command is gone the next run sweeps it
+  PASS E27c 14 more secret-shaped command lines (quoted script bodies word-scanned, db-pass/DB_PASS/MYSQL_PWD/-storepass/-keypass, -u/--user x:y, Cookie/Set-Cookie, --key/--credentials/--access-key): all refused, NOT run, stored nowhere
+  PASS E27d 12 obfuscated command lines (quoted/escaped/ANSI-C flags in a script body, NAME= nested in a flag value, token-only URL, -P, Cyrillic homoglyph, ?access_token=): all refused, NOT run, stored nowhere
+  PASS E27e round-4 controls: git@ URL, --format=%H:%s, 12:30:00, env:prod,tier=web, --build-arg=VERSION= all ran; 'redis-cli -a X' ran (documented miss: name-less value, recipe REDISCLI_AUTH)
+  PASS E31 build artefacts of the shim module (go build ./zero-gap-chain, go test -c *.test, bin/) are git-ignored
+  PASS E29 3000 short arguments: argv policy 306 ms, policy + bounded scan views + lock gate 2719 ms (both < 5 s)
+    NOTE E29 full record of 3000 arguments: rc 0 in 33146 ms — dominated by the upstream recorder's per-argument serialisation (upstream limitation)
+  PASS E30 store lock held elsewhere (bound 1 s): rc 2 in 1 s, the check NOT run, nothing written
+  PASS E25 defaults: store and streams under the git-ignored .remember/logs/zero-gap/evidence
+  PASS E26 --verdict-file naming a tracked file: refused, the file is untouched
+  PASS E9 unreachable credential scanner: rc 2, nothing recorded
+  PASS E10 streams inside version control: rc 2, nothing recorded
+  PASS E11 no verdict source declared: rc 2, nothing recorded
+  PASS E12 empty session id: rc 2, nothing recorded
+  PASS E13 independence tier outside the closed set: rc 2, nothing recorded
+  PASS E14 four concurrent records: chain_seq contiguous 1..N
+  PASS E15 produced store: every adapter invariant holds and continuum-integrity chain verify PASSes
+  PASS E16 live inputs byte-identical before and after (the proof wrote only to throwaway paths)
+prove-failure: 37 passed, 0 failed

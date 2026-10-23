@@ -1,0 +1,11 @@
+$ gap classify --reason severity-low (copy of the register)
+as-of: 2026-10-21 (default: today, UTC)
+REFUSED: --reason "severity-low" is not one of {operator-decision, operator-action, third-party, documented-deviation}; "accepted as is" does not exist (FR-006)
+rc=1
+$ zero-gap-coverage.sh --json
+zero-gap-coverage: unknown argument: --json
+rc=2
+$ zero-gap-determinism.sh --check verify-manifest-pins
+DETERMINISM UNDETERMINED rc=2 runs=0/5 reason=/home/milosvasic/Projects/vasic-wt/n7-010-umbrella/.git is not a directory (a linked worktree or absorbed layout is not supported)
+zero-gap-determinism: COULD NOT DETERMINE — /home/milosvasic/Projects/vasic-wt/n7-010-umbrella/.git is not a directory (a linked worktree or absorbed layout is not supported)
+rc=2

@@ -1,0 +1,5 @@
+--- FAIL: TestRosterLoadsAndCrossChecksTheLiveFleet (0.01s)
+    wi_test.go:374: exactly five identifiers were stated by the operator (VSC, WSP, AII, MVR, VDT); found 13 marked ratified
+FAIL
+FAIL	digital.vasic/vasic/workableitems/internal/wi	105.899s
+FAIL

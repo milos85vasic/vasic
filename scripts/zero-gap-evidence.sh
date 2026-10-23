@@ -25,7 +25,8 @@
 # Usage
 #   zero-gap-evidence.sh record [--store DIR] [--streams DIR] --fp-dir DIR
 #       [--fp-pathspec P]... --item-id ID --check-id ID
-#       --population-kind source|process|wire --verdict-role author|verifier
+#       --population-kind source|process|wire [--wire-capture-digest H --wire-capture-kind http_response|socket]
+#       --verdict-role author|verifier
 #       --independence-tier instance|model|capability
 #       --evidence-class runtime|artifact|source
 #       (--verdict-exit | --verdict-file PATH) [--session ID] -- CMD [ARGS...]
@@ -407,7 +408,7 @@ zge_cleanup() {
 
 zge_record() {
     local store="${ZG_STORE_DIR:-$ZGE_DEFAULT_STORE}" streams="${ZG_STREAMS_DIR:-}"
-    local fpdir="" item="" check="" pop="" role="" tier="" class="" session="${ZG_SESSION_ID:-}"
+    local fpdir="" item="" check="" pop="" role="" tier="" class="" session="${ZG_SESSION_ID:-}" wdig="" wkind=""
     local vmode="" vfile="" lib="${ZG_CRED_LIB:-$ZGE_CRED_DEFAULT}"
     local ps=()
     while [ "$#" -gt 0 ]; do
@@ -422,6 +423,8 @@ zge_record() {
             --verdict-role) role=${2:-}; shift 2 ;;
             --independence-tier) tier=${2:-}; shift 2 ;;
             --evidence-class) class=${2:-}; shift 2 ;;
+            --wire-capture-digest) wdig=${2:-}; shift 2 ;;
+            --wire-capture-kind) wkind=${2:-}; shift 2 ;;
             --session) session=${2:-}; shift 2 ;;
             --verdict-exit) vmode=exit; shift ;;
             --verdict-file) vmode=file; vfile=${2:-}; shift 2 ;;
@@ -441,6 +444,12 @@ zge_record() {
     case $tier in instance|model|capability) ;; *) zge_say "record: independence_tier '$tier' is not instance|model|capability"; return 2 ;; esac
     case $class in runtime|artifact|source) ;; *) zge_say "record: evidence_class '$class' is not runtime|artifact|source"; return 2 ;; esac
     case $pop in source|process|wire) ;; *) zge_say "record: population_kind '$pop' is not source|process|wire"; return 2 ;; esac
+    # T063/FR-017: a wire record carries the digest + kind of its capture; no other population may.
+    if [ "$pop" = wire ]; then
+        [ -n "$wdig" ] && [ -n "$wkind" ] || { zge_say "record: population_kind wire needs --wire-capture-digest and --wire-capture-kind (label source-only measurements 'source')"; return 2; }
+    elif [ -n "$wdig" ] || [ -n "$wkind" ]; then
+        zge_say "record: --wire-capture-* is only valid with --population-kind wire"; return 2
+    fi
     case $role in author|verifier) ;; *) zge_say "record: verdict_role '$role' is not author|verifier"; return 2 ;; esac
     # --verdict-file is deleted before the run (a stale verdict must not be
     # read as this run's), so it may never name a tracked file or a non-file.
@@ -641,6 +650,7 @@ zge_record() {
 
     local extra=()
     [ "$override" -eq 0 ] || extra+=(--redacted-override)
+    [ -z "$wdig" ] || extra+=(--wire-capture-digest "$wdig" --wire-capture-kind "$wkind")
     "$chainbin" append --store "$store" --schema "$ZGE_CONTRACT" --session "$session" --cwd "$cwd_rec" \
         --raw-row "$rawrec" --stream-ref "${final##*/}" --exec-rows "$streams/exec_rows.jsonl" \
         --item-id "$item" --check-id "$check" \

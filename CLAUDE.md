@@ -384,7 +384,7 @@ roster rather than trusting this sentence — visibility is a provider setting a
 changes outside this tree:
 
 ```bash
-git config -f .gitmodules --get-regexp 'submodule\..*\.url'   # 13 URLs
+git config -f .gitmodules --get-regexp 'submodule\..*\.url'   # 22 URLs (re-measured 2026-10-21; 13 SUPERSEDED)
 gh api repos/<owner>/<name> --jq '.visibility'                # per repository
 ```
 

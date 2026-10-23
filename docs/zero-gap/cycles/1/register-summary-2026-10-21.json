@@ -1,0 +1,255 @@
+{
+  "by_category": {
+    "build-freshness": {
+      "classified": 3,
+      "closed": 2,
+      "open": 0,
+      "total": 5
+    },
+    "content-boundary": {
+      "classified": 8,
+      "closed": 0,
+      "open": 1,
+      "total": 9
+    },
+    "data-integrity": {
+      "classified": 0,
+      "closed": 0,
+      "open": 2,
+      "total": 2
+    },
+    "docs-drift": {
+      "classified": 0,
+      "closed": 4,
+      "open": 11,
+      "total": 15
+    },
+    "false-evidence": {
+      "classified": 2,
+      "closed": 8,
+      "open": 3,
+      "total": 13
+    },
+    "governance-drift": {
+      "classified": 5,
+      "closed": 4,
+      "open": 2,
+      "total": 11
+    },
+    "host-capability": {
+      "classified": 1,
+      "closed": 0,
+      "open": 0,
+      "total": 1
+    },
+    "other": {
+      "classified": 15,
+      "closed": 1,
+      "open": 0,
+      "total": 16
+    },
+    "security": {
+      "classified": 9,
+      "closed": 3,
+      "open": 0,
+      "total": 12
+    },
+    "test-coverage": {
+      "classified": 7,
+      "closed": 3,
+      "open": 0,
+      "total": 10
+    }
+  },
+  "by_kind": {
+    "danger-zone": {
+      "classified": 12,
+      "closed": 0,
+      "open": 0,
+      "total": 12
+    },
+    "defect": {
+      "classified": 9,
+      "closed": 6,
+      "open": 2,
+      "total": 17
+    },
+    "improvement": {
+      "classified": 1,
+      "closed": 9,
+      "open": 0,
+      "total": 10
+    },
+    "unfinished-promise": {
+      "classified": 17,
+      "closed": 2,
+      "open": 3,
+      "total": 22
+    },
+    "weak-spot": {
+      "classified": 11,
+      "closed": 8,
+      "open": 14,
+      "total": 33
+    }
+  },
+  "by_severity": {
+    "critical": {
+      "classified": 1,
+      "closed": 0,
+      "open": 0,
+      "total": 1
+    },
+    "high": {
+      "classified": 18,
+      "closed": 4,
+      "open": 2,
+      "total": 24
+    },
+    "low": {
+      "classified": 0,
+      "closed": 5,
+      "open": 8,
+      "total": 13
+    },
+    "medium": {
+      "classified": 31,
+      "closed": 16,
+      "open": 9,
+      "total": 56
+    }
+  },
+  "classified_by_reason": {
+    "operator-action": 30,
+    "operator-decision": 13,
+    "third-party": 7
+  },
+  "counts": {
+    "classified": 50,
+    "closed": 25,
+    "could_not_inspect": null,
+    "open": 19,
+    "total": 94,
+    "unknown_disposition": 0
+  },
+  "notes": [
+    "every count is derived from the register rows (FR-024); nothing is typed",
+    "could_not_inspect is null: uninspectable parts are listed by the sweep (FR-005) and are not register rows, so no count is invented here",
+    "closed = structurally consistent + self-recorded digests; NOT independently proven until T068 chain binding"
+  ],
+  "per_class": {
+    "adopted": {
+      "classified": 16,
+      "closed": 0,
+      "open": 2,
+      "recall": "UNKNOWN",
+      "total": 18
+    },
+    "coverage-gaps": {
+      "classified": 0,
+      "closed": 1,
+      "open": 0,
+      "recall": "UNKNOWN",
+      "total": 1
+    },
+    "doc-count-drift": {
+      "classified": 0,
+      "closed": 1,
+      "open": 9,
+      "recall": "UNKNOWN",
+      "total": 10
+    },
+    "guard-gaps": {
+      "classified": 7,
+      "closed": 0,
+      "open": 0,
+      "recall": "UNKNOWN",
+      "total": 7
+    },
+    "improvement-candidates": {
+      "classified": 2,
+      "closed": 4,
+      "open": 0,
+      "recall": "UNKNOWN",
+      "total": 6
+    },
+    "known-open-decisions": {
+      "classified": 0,
+      "closed": 1,
+      "open": 0,
+      "recall": "UNKNOWN",
+      "total": 1
+    },
+    "manual": {
+      "classified": 14,
+      "closed": 6,
+      "open": 2,
+      "recall": "UNKNOWN",
+      "total": 22
+    },
+    "pointer-drift": {
+      "classified": 3,
+      "closed": 2,
+      "open": 1,
+      "recall": "UNKNOWN",
+      "total": 6
+    },
+    "private-in-public": {
+      "classified": 1,
+      "closed": 0,
+      "open": 0,
+      "recall": "UNKNOWN",
+      "total": 1
+    },
+    "stale-figures": {
+      "classified": 0,
+      "closed": 4,
+      "open": 2,
+      "recall": "UNKNOWN",
+      "total": 6
+    },
+    "unproven-checks": {
+      "classified": 7,
+      "closed": 0,
+      "open": 0,
+      "recall": "UNKNOWN",
+      "total": 7
+    },
+    "unproven-checks (also build-if-missing)": {
+      "classified": 0,
+      "closed": 1,
+      "open": 0,
+      "recall": "UNKNOWN",
+      "total": 1
+    },
+    "unregistered-scripts": {
+      "classified": 0,
+      "closed": 2,
+      "open": 0,
+      "recall": "UNKNOWN",
+      "total": 2
+    },
+    "unsealed-evidence": {
+      "classified": 0,
+      "closed": 0,
+      "open": 2,
+      "recall": "UNKNOWN",
+      "total": 2
+    },
+    "untracked-blind-window": {
+      "classified": 0,
+      "closed": 1,
+      "open": 0,
+      "recall": "UNKNOWN",
+      "total": 1
+    },
+    "vacuous-gates": {
+      "classified": 0,
+      "closed": 2,
+      "open": 1,
+      "recall": "UNKNOWN",
+      "total": 3
+    }
+  },
+  "schema": "zero-gap-summary/1"
+}

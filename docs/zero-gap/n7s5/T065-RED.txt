@@ -1,0 +1,11 @@
+✅ CONTROL synthetic-green        rc=0, and it named 'ALL RUN GATES PASSED'
+❌ S0 seal-auto-no-adapter        rc=0 as required, but the output never NAMED 'SEAL: unavailable'
+❌ S1 sealed-green                rc=0 as required, but the output never NAMED 'SEAL: on'
+❌ S1b every run gate sealed      sealed.log: 
+✅ S2 sealed-red-still-blocks     rc=1, and it named 'PUSH BLOCKED'
+❌ S2b failure is sealed          sealed.log: 
+❌ S3 seal-strict-no-adapter      expected rc=1, got rc=0
+❌ S4 seal-off                    rc=0 as required, but the output never NAMED 'SEAL: off'
+✅ S4b nothing sealed when off    sealed.log empty
+✅ CONTROL restored               rc=0, and it named 'ALL RUN GATES PASSED'
+❌ PRE-PUSH-GATES §1.1 MUTATION PROOF: FAIL — 6 case(s) did not hold.
