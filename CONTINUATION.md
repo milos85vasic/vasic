@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-15T18:17:25Z
-    Synced-Commit: afef1bb
+    Last-Updated: 2026-10-23T21:50:00Z
+    Synced-Commit: 49cb0ed
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -425,6 +425,17 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### UMBRELLA REPAIR + JEV DECISION LAYER RELEASE — 2026-10-23
+
+State at the time of writing (re-derive, do not quote: `bash scripts/verify-submodule-remote-sync.sh`, `bash scripts/verify-manifest-pins.sh`, `bash scripts/verify-governance-cascade.sh`).
+
+- **Repair.** `~/Projects/vasic/.git` (and every `.git/modules/*`) had been deleted. The umbrella repository was rebuilt (`git init`, `fetch --tags`, `checkout -B main origin/main`), the 22 submodules were re-initialised level by level (never blind `--recursive`: the constitution <-> llmctl/claude_toolkit cycle is skipped on purpose), and 32 submodules whose working trees were left EMPTY by an interrupted update were repopulated from their pinned HEAD with `scripts`-style `checkout HEAD -- .` after a pure-staged-deletions safety check. Unique local work was preserved before any change: `~/backups/rescue-20261023/` (SHA256SUMS.txt; bundles, wip patches, 20 worktree tarballs) and the GitHub branches `rescue/*` (2 on this repo, 40 on workshop_curriculum).
+- **Pins moved this session (all fast-forward only, nothing forced).** `submodules/constitution` 4c5ae23 -> 5f8503b -> 0b94dfc (tag `helixconstitution-v71`; `Constitution.md` 12149 -> 12420 lines, 259 -> 267 anchors); `submodules/qa` 3faf888 -> 8851c1a (qa de-registered its 27 nested tool submodules, so the 27 per-path exclusions in `helix-deps.yaml` were withdrawn, cascade C4 green again); `workshop` 3defbd4 -> 8166f91d (adds a fix pushed to `milos85vasic/workshop_curriculum`: `helix-deps.yaml` pinned RAG at 2dffc735 which predates `chunker.NewHierarchicalChunker`; `go build ./...` rc 0 afterwards).
+- **Jev decision layer released in the constitution** as anchors §11.4.279-286 (the POC's 277-284 were renumbered +2 because live 277/278 are llmctl model validation and HelixQA). Tag `helixconstitution-v71` is on all six upstreams; GitHub and GitLab releases exist. `claude_toolkit` is tagged `claude_toolkit-1.32.0` (done by the separate claude-toolkit session) and the constitution pins it at adae02d.
+- **Open, not done here.** llmctl `v3.3.0` (78 dirty entries, backed up; needs the operator's authorization and the spec-009 gaps closed); `monetization` gitflic/gitverse remotes (operator must confirm they are private); the half-merged `~/Projects/workshop` clone is aborted and clean at 3061eab (preserved by branch `rescue/auth-3061eab` and a verified bundle); 58 of 78 `~/Projects/vasic-wt` worktree directories have no tarball backup, so none may be deleted yet; unpushed work outside this repo (`notes` 10 commits, `helix_code` rescue branches, `lava`/`boba` dirty files); TypeSafe/hosted-provider checks of the Jev layer are NOT done and the TypeSafe key stays off-limits until the operator says otherwise.
+- **Hazard learned.** `submodules/constitution/scripts/jev/bootstrap.sh` run from stage 7 with `cm_jev_bootstrap_idempotent` pointed at the real script recursed without bound (a fork storm). A re-entrancy guard (`JEV_BOOTSTRAP_NESTED`) is now in the released script; never run a bootstrap outside an isolated `HOME`.
+
 
 ### VSC-369 CONST-050(B) FAMILY PROOF CASCADE — 2026-10-15
 

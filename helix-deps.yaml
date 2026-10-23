@@ -123,7 +123,7 @@ deps:
   # ─── Governance submodule (grouped layout, submodules/<name>/) ──────────
   - name: constitution
     ssh_url: git@github.com:HelixDevelopment/HelixConstitution.git
-    ref: "4c5ae2326c0aee76db0176a2fbbf956238799737"   # bumped 2026-10-21 per standing authorization, ff-only, 0 divergent / 77 behind; Constitution.md blob unchanged (f842e5ad4d12, 12149 lines, 259 anchors, sha256 1667ded1...); prior pin b95b853cc5c1; adds label-sync + helix-deps gate (cm_helix_deps_ref_matches_gitlink)
+    ref: "0b94dfce9c46ac997bdc6b4684ae52aae3bcb50a"   # bumped 2026-10-23 per standing authorization, ff-only, 0 divergent / 4 behind (tag helixconstitution-v71); Constitution.md blob 3c3c71f6 -> 79f733ed (12252 -> 12420 lines, 259 -> 267 anchors, sha256 1c75391f -> 846fac65); adds Jev decision layer §11.4.279-286; prior pin 5f8503b4f4f0
     # REF FIELD RESYNCED 2026-09-19: this field had drifted from the live gitlink,
     # which the umbrella's own commit 026a95e ("gitlink: bump constitution —
     # §11.4.184(I) HawkScan/ZAP/gitleaks/Trivy security tooling") had already
@@ -235,7 +235,7 @@ deps:
 
   - name: qa
     ssh_url: git@github.com:HelixDevelopment/qa.git
-    ref: "3faf888f66642f19369333f419b28a7d494c33b8"   # bumped 2026-10-15 feature/vision-no-bluff merged to main (remote main 15e0d8e llmctl provider merged in, conflicts kept both sides; main fast-forwarded and pushed non-force to github/HelixDevelopment, gitlab/vasic-digital, github/vasic-digital; ls-remote main equal on all) -- REF FIELD RESYNCED 2026-10-12 -- resynced to match the gitlink moved by Auto-commit c827c66; no gitlink moved by this change. Prior entry, preserved: gitlink tracks heads/main; `git tag --points-at HEAD` is empty, so a sha is the only exact pin; 2026-10-01 — fixed 3 HelixQA workshop-bank fixtures (WK-ASK-001/003/006, WK-DIAG-004) stale against the 2026-09-30 workshop answering-provider re-enable, each verified against the live rebuilt server rather than assumed; pushed successfully to all three origin remotes (github/HelixDevelopment, github/vasic-digital, gitlab/vasic-digital) this session — the "push separately blocked" note below is historical and no longer current as of this push; a pre-existing, unrelated GitHub Dependabot finding (10 vulnerabilities, 4 high) was surfaced by the push and is NOT addressed by this bump. REF FIELD RESYNCED 2026-09-19 — this field had drifted from the live gitlink, which the umbrella's own commit 02f3be4 ("gitlink: bump workshop + qa — 8 HelixQA sub-projects complete, 5 real security/correctness fixes") had already moved to e42fdb19 without this recorded ref being updated in the same change; scripts/verify-manifest-pins.sh --fix rewrote it after a hardlinked backup, re-verified 21 MATCH / 0 DRIFT. `submodules/qa`'s own push to its origin remains separately blocked (Out-of-Place Publication classifier) as of this same date — this ref is the local commit, staged and checkable today per this file's existing convention for a submodule whose adding/bumping commit has not yet landed upstream. Prior entry, preserved: bumped 2026-09-18 for the HelixQA integration plan's final-review fix round (findings 9-10: rbac.yaml's overclaiming prose and unresolvable doc pointer, both fixed and independently re-verified). Prior entry, preserved: bumped 2026-09-18 for Tasks 3-4: real, live-proven web test banks for workshop (banks/workshop/spa-routing.yaml) and ai_interviewing (banks/ai_interviewing/rbac.yaml), both using the structured `http:` action format via `helixqa http` after both implementers independently found `helixqa run --platform web` never dispatches a real request for an http-asserting step. Includes a same-session self-correction (5e0410c) replacing an unsubstantiated "measured live" golden-bad claim on the ai_interviewing bank with a real, independently-re-verified structural proof. Prior entry, preserved: bumped 2026-09-18 to bring the four agent carriers into lockstep (closes C8)
+    ref: "8851c1aa9d840aa9b906e9ec1226c2971d9bd297"   # bumped 2026-10-15 feature/vision-no-bluff merged to main (remote main 15e0d8e llmctl provider merged in, conflicts kept both sides; main fast-forwarded and pushed non-force to github/HelixDevelopment, gitlab/vasic-digital, github/vasic-digital; ls-remote main equal on all) -- REF FIELD RESYNCED 2026-10-12 -- resynced to match the gitlink moved by Auto-commit c827c66; no gitlink moved by this change. Prior entry, preserved: gitlink tracks heads/main; `git tag --points-at HEAD` is empty, so a sha is the only exact pin; 2026-10-01 — fixed 3 HelixQA workshop-bank fixtures (WK-ASK-001/003/006, WK-DIAG-004) stale against the 2026-09-30 workshop answering-provider re-enable, each verified against the live rebuilt server rather than assumed; pushed successfully to all three origin remotes (github/HelixDevelopment, github/vasic-digital, gitlab/vasic-digital) this session — the "push separately blocked" note below is historical and no longer current as of this push; a pre-existing, unrelated GitHub Dependabot finding (10 vulnerabilities, 4 high) was surfaced by the push and is NOT addressed by this bump. REF FIELD RESYNCED 2026-09-19 — this field had drifted from the live gitlink, which the umbrella's own commit 02f3be4 ("gitlink: bump workshop + qa — 8 HelixQA sub-projects complete, 5 real security/correctness fixes") had already moved to e42fdb19 without this recorded ref being updated in the same change; scripts/verify-manifest-pins.sh --fix rewrote it after a hardlinked backup, re-verified 21 MATCH / 0 DRIFT. `submodules/qa`'s own push to its origin remains separately blocked (Out-of-Place Publication classifier) as of this same date — this ref is the local commit, staged and checkable today per this file's existing convention for a submodule whose adding/bumping commit has not yet landed upstream. Prior entry, preserved: bumped 2026-09-18 for the HelixQA integration plan's final-review fix round (findings 9-10: rbac.yaml's overclaiming prose and unresolvable doc pointer, both fixed and independently re-verified). Prior entry, preserved: bumped 2026-09-18 for Tasks 3-4: real, live-proven web test banks for workshop (banks/workshop/spa-routing.yaml) and ai_interviewing (banks/ai_interviewing/rbac.yaml), both using the structured `http:` action format via `helixqa http` after both implementers independently found `helixqa run --platform web` never dispatches a real request for an http-asserting step. Includes a same-session self-correction (5e0410c) replacing an unsubstantiated "measured live" golden-bad claim on the ai_interviewing bank with a real, independently-re-verified structural proof. Prior entry, preserved: bumped 2026-09-18 to bring the four agent carriers into lockstep (closes C8)
     why: "HelixQA — the anti-bluff QA orchestration framework Helix Constitution §11.4.160/§11.4.27 mandates every governed project run generated/served content through. Provides YAML test banks, cross-platform (incl. web, via Playwright) execution, LLM-powered issue detection, evidence collection, and an autonomous vision-verification QA session mode. Added 2026-09-18 per docs/superpowers/specs/2026-09-18-helixqa-integration-design.md — no helixqa submodule existed in this umbrella before this, despite the constitutional mandate. Its own go.mod declares `replace digital.vasic.challenges => ../challenges` and `replace digital.vasic.containers => ../containers`, so it MUST be checked out as a sibling of both submodules/challenges and submodules/containers, never nested. Its own tools/opensource/* nested submodules (scrcpy, appium, docker-android, leakcanary, etc. — Android/mobile device tooling) were PLANNED to stay uninitialised (neither workshop nor ai_interviewing is a mobile app), but MEASURED 2026-09-23 all 27 nested gitlinks ARE initialised in this checkout (`git -C submodules/qa submodule status`: 27 rows, no '-' prefix); the earlier 'deliberately NOT initialized' claim is withdrawn as false. They are third-party and excluded from the covenant-propagation gates via config/covenant_propagation_exclusions.tsv."
     layout: grouped
 
@@ -482,7 +482,7 @@ deps:
 
   - name: workshop
     ssh_url: git@github.com:milos85vasic/workshop_curriculum.git
-    ref: "3defbd4846f6b65edf1560fb8736e8d13ac244b5"   # bumped 2026-10-22 (14:26, main = wire-completion + fix-apikeys-argv + inv-nonascii follow-up + s9-014-modal-polish + cat-authors, integrator ff-only pushes to origin/github/upstream; prior entry preserved) : main = int-0.0.3 + inv-nonascii (late-SSE-subscriber fix), pushed ff to origin/github/upstream; prior 4c1b1ec
+    ref: "8166f91da6008057112492f6ebd37550f4d35082"   # bumped 2026-10-22 (14:26, main = wire-completion + fix-apikeys-argv + inv-nonascii follow-up + s9-014-modal-polish + cat-authors, integrator ff-only pushes to origin/github/upstream; prior entry preserved) : main = int-0.0.3 + inv-nonascii (late-SSE-subscriber fix), pushed ff to origin/github/upstream; prior 4c1b1ec
     why: "The Workshop Curriculum — a teaching corpus of recorded sessions and their written materials under chapters/<NN>/ and nested sub-chapters chapters/<NN>.<NN>/, carried as an owned submodule of the umbrella. Its one mechanism is the SHA-256-verified multi-part video-archive pipeline in scripts/ (archive-videos.sh / extract-videos.sh / install-hooks.sh / self-test.sh), which used to keep gigabyte recordings in git as <=50 MB *.tar.gz.part-NNN chunks. SUPERSEDED 2026-09-08 on an operator decision: the 54 parts (2,624.8 MB) were UNTRACKED with `git rm --cached` and the pattern gitignored, so no new archive byte enters and a fresh checkout drops from ~2.7 GB to small. The *.sha256 manifests stay TRACKED at ~9 KB — they are the integrity record any future fetch verifies against. History rewriting is forbidden, so the already-committed blobs remain and size-pack did not fall; that limit is stated in the module README and printed by scripts/verify-obtainability.sh rather than glossed. The fetch mechanism is deliberately NOT invented: extract-videos.sh returns rc 2 COULD-NOT-DETERMINE with a TODO(storage-fetch) marker naming exactly what is missing, and a present-but-corrupt part still returns rc 1."
     layout: flat
     # Live topology: github, origin and upstream ALL resolve to the single URL
@@ -633,33 +633,14 @@ language_specific_subtree: false
 #   carrier, and no §11.4.156 CI action (out of scope per §11.4.156(C)), same
 #   as `submodules/superspec` above.
 #
-#   submodules/qa/tools/opensource/scrcpy -> git@github.com:Genymobile/scrcpy.git
-#   submodules/qa/tools/opensource/allure2 -> git@github.com:allure-framework/allure2.git
-#   submodules/qa/tools/opensource/leakcanary -> git@github.com:square/leakcanary.git
-#   submodules/qa/tools/opensource/docker-android -> git@github.com:budtmo/docker-android.git
-#   submodules/qa/tools/opensource/appium -> git@github.com:appium/appium.git
-#   submodules/qa/tools/opensource/midscene -> git@github.com:web-infra-dev/midscene.git
-#   submodules/qa/tools/opensource/mem0 -> git@github.com:mem0ai/mem0.git
-#   submodules/qa/tools/opensource/moondream -> git@github.com:vikhyat/moondream.git
-#   submodules/qa/tools/opensource/ui-tars -> git@github.com:bytedance/UI-TARS.git
-#   submodules/qa/tools/opensource/perfetto -> git@github.com:google/perfetto.git
-#   submodules/qa/tools/opensource/chroma -> git@github.com:chroma-core/chroma.git
-#   submodules/qa/tools/opensource/shortest -> git@github.com:antiwork/shortest.git
-#   submodules/qa/tools/opensource/marker -> git@github.com:VikParuchuri/marker.git
-#   submodules/qa/tools/opensource/kiwi-tcms -> git@github.com:kiwitcms/Kiwi.git
-#   submodules/qa/tools/opensource/testdriverai -> git@github.com:testdriverai/testdriverai.git
-#   submodules/qa/tools/opensource/stagehand -> git@github.com:browserbase/stagehand.git
-#   submodules/qa/tools/opensource/unstructured -> git@github.com:Unstructured-IO/unstructured.git
-#   submodules/qa/tools/opensource/redroid -> git@github.com:remote-android/redroid-doc.git
-#   submodules/qa/tools/opensource/signoz -> git@github.com:SigNoz/signoz.git
-#   submodules/qa/tools/opensource/docling -> git@github.com:DS4SD/docling.git
-#   submodules/qa/tools/opensource/llama-index -> git@github.com:run-llama/llama_index.git
-#   submodules/qa/tools/opensource/appcrawler -> git@github.com:nicetester/AppCrawler.git
-#   submodules/qa/tools/test-apps/rest-demo -> git@github.com:nicehash/rest-clients-demo.git
-#   submodules/qa/tools/opensource/browser-use -> git@github.com:browser-use/browser-use.git
-#   submodules/qa/tools/opensource/skyvern -> git@github.com:Skyvern-AI/skyvern.git
-#   submodules/qa/tools/opensource/anthropic-quickstarts -> git@github.com:anthropics/anthropic-quickstarts.git
-#   submodules/qa/tools/opensource/ui-tars-desktop -> git@github.com:bytedance/UI-TARS-desktop.git
+#   [2026-10-23] WITHDRAWN: the 27 per-path exclusions that stood here are gone. HelixDevelopment/qa
+#   commit 6e8e087 ("de-register 27 nested tool submodules (flattened to <root>/submodules)")
+#   and 34d1e32 (owner decision 2026-10-22: appcrawler and rest-demo removed) left submodules/qa
+#   with ZERO gitlinks at 8851c1a (git -C submodules/qa ls-tree -r HEAD | grep -c ^160000 -> 0).
+#   The cascade check C4 correctly reported them as excluding a fleet member that no .gitmodules
+#   declares. The tools now resolve env -> flat sibling -> legacy path (b4fc180); this umbrella
+#   hosts none of them flat, so device-QA tooling that needs them is NOT available here until an
+#   operator decides to add them. The audit trail of the old paths is `git log -p -- helix-deps.yaml`.
 #
 # ─── Verification recipe (operator-runnable, §11.4.6 anti-bluff) ────────────
 #
