@@ -881,3 +881,22 @@ workshop/evidence/s9/round4/e2e-run.txt
 workshop/evidence/s9/round4/gates.txt
 workshop/evidence/s9/round4/mutants-run.txt
 workshop/evidence/textbook-catalogue/authors-apply-go-mutants.log
+
+# BASELINE: captured RUN OUTPUT inside the workshop submodule (private repo,
+# consumed by pin). These four s16 round2 evidence logs are verbatim terminal
+# captures of mutation/build/sim runs made on this development host, so they
+# contain the checkout and cache paths the tools printed. Editing them would
+# falsify recorded evidence. Found 2026-10-23 by the pre-push gate when workshop
+# 8166f91d reached the pin. Debt: the real fix is for the workshop owner to
+# record these captures with relative paths; not closed by this entry.
+workshop/evidence/s16/round2/3-wirehooks.txt
+workshop/evidence/s16/round2/6-sim.txt
+workshop/evidence/s16/round2/build.txt
+workshop/evidence/s16/round2/delta/3-wirehooks.txt
+
+# REASON: the matched text is "$SBX/home/..." in a mutation-test fixture — a
+# sandbox-relative directory NAMED "home" (SBX is a mktemp sandbox), not a host
+# absolute path. The file ships in the released constitution helixconstitution-v71
+# and cannot be rewritten from this tree; the pattern is a false positive of the
+# "/home/" literal match.
+submodules/constitution/scripts/gates/cm_jev_wiring_mutation_test.sh
