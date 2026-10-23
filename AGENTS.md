@@ -1831,6 +1831,16 @@ ALT Linux; corrected), and the missing system libraries are exactly
 Playwright). Remedy — a host package install, therefore an OPERATOR action:
 `sudo apt-get install -y libmanette-0.2-0 libwoff1`.
 
+**Superseded 2026-10-22.** The remedy is no longer an operator command:
+`bash scripts/hostdeps.sh install --only webkit` installs both libraries
+automatically as root or through `sudo -n`, and otherwise prints exactly that
+`apt-get` line for this host and exits **2** (never a pass). It never prompts and
+never reads a password. The setup wizard (Step 10) and `_tests/preflight.js`
+route to it, and pre-push gate 5 installs the OCR packages the same way
+(`--only ocr --only pdf`); see README §2 "Host packages are installed
+automatically". The `sudo apt-get …` above is kept as the Ubuntu 26.04
+measurement it was.
+
 **`_tools/deploy-langs.sh` gained a THIRD Jekyll runner the same day**: with no
 host `jekyll` and no working `bundle exec jekyll` it now calls `site-build`
 instead of ending the step as COULD NOT RUN, mapping its exit onto the same

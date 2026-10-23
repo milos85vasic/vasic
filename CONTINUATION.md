@@ -426,6 +426,34 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+### HOSTDEPS AUTOMATION — host packages installed by the setup scripts, 2026-10-22
+
+Operator order 2026-10-22: the WebKit libraries (`libmanette-0.2-0 libwoff1`),
+`tesseract` with the `eng osd srp srp_latn rus deu fra` packs, and poppler must
+be installed by the project's own setup scripts on every supported distribution,
+never by hand. `scripts/hostdeps.sh` (byte-identical in `workshop/scripts/`)
+gained `check` and `install` verbs over a per-distribution package table
+(apt-get, ALT apt-rpm, dnf, yum, zypper, pacman, apk, brew, port). It installs
+only as root or through `sudo -n`, never prompts, never reads a password, and
+otherwise prints the exact command and exits 2. Wired into the setup wizard
+(Step 10), pre-push gate 5 (`install --only ocr --only pdf`), the gate-6
+preflight remedy, workshop `setup.sh` and `bootstrap-standalone.sh`.
+
+Branch `hostdeps-automation` (umbrella) — LOCAL, not merged, not pushed:
+`26bfd93` (WIP snapshot after a host OOM reset), `608c90f` (feature;
+`scripts/pre-push-gates.sh` changed without this file — recorded here),
+`a0a1a7b` (README §2 + exports; `README.md` changed without this file —
+recorded here), `d03e4f1` (wizard test parses under bash 3.2), and the review
+follow-up commit that carries this entry (gate 5 requests the `ocr` capability;
+musl library probe for Alpine; openSUSE names from the OBS public API; aarch64,
+`--yes`, stale-index-as-sudo, ID_LIKE-only ALT, brew-off-manager-path and
+DEBIAN_FRONTEND cases; mutants M37-M47). Workshop branch `hostdeps-automation`:
+`e961fc9b` plus its follow-up. Merge condition: the umbrella pins `workshop` at
+`f9877c9`; the workshop gitlink and `helix-deps.yaml` `deps[].ref` move
+together at merge. `Synced-Commit` is NOT advanced here: the two C3 rows for
+`608c90f` and `a0a1a7b` clear only when the integrator advances it at merge,
+because advancing it here would also clear ten rows owned by other streams.
+
 ### VSC-369 CONST-050(B) FAMILY PROOF CASCADE — 2026-10-15
 
 The eight CONST-050(B) challenges (`chaos_failure_injection`, `ddos_health_flood`, `scaling_horizontal`, `stress_sustained_load`, `ui_terminal_interaction`, `ux_end_to_end_flow`, `no_suspend_calls`, `host_no_auto_suspend`) gain ONE `--prove-failure` convention, `docs/zero-gap/const-050b-proof-convention.md` (umbrella commit 134ce96): a hermetic copy of the challenge against loopback stub targets, fake binaries or planted trees (clean rc 0, one broken stub per step rc 1 naming the step, unreachable target rc 2, a step deleted in the copy rc 1, a truncated load in the copy rc 2), unknown arguments rc 2, no SKIP-OK exit 0, executed-step and executed-request floors; `host_no_auto_suspend` keeps its sibling proof, the VSC-370 contract challenge (rc 2 on this host unless run under `podman unshare`). The six target-driven challenges are one body fleet-wide except two identity lines; the shared harness is byte-identical (blob 07c0327c). Operator decision #13 (2026-10-14), cascade order 368 (done), 371 (done), 370 (done), 369. Commits are LOCAL (not pushed). Bumped one at a time, gitlink + `helix-deps.yaml` + this file per change; `submodules/llms_verifier` (named by the item) is NOT bumped (mid-flight in another stream):
@@ -1733,11 +1761,14 @@ rebuilt and `go test -race` green on the new pin; qa-up.sh re-verified live.
 governance-cascade C5/C9 PASS, claim-ledger 0, zero-findings sweep 0 (23 <= 23).
 
 **OPEN — operator actions, not done:**
-- WebKit cannot launch (gate 6 preflight rc 2): run
-  `sudo apt-get install -y libmanette-0.2-0 libwoff1` (Ubuntu 26.04 names).
-  The agent was given authority to run it and did NOT: the §11.4.109
-  PreToolUse guard refused `sudo` ("BLOCKED — §6.U no-sudo"), which is the
-  guard doing its job. It is an operator command, run from the operator's shell.
+- ~~WebKit cannot launch (gate 6 preflight rc 2): run
+  `sudo apt-get install -y libmanette-0.2-0 libwoff1` (Ubuntu 26.04 names).~~
+  **DONE 2026-10-22 / superseded.** The operator installed both packages by
+  hand on 2026-10-22, and the remedy is now automatic:
+  `bash scripts/hostdeps.sh install --only webkit` installs them as root or
+  through `sudo -n` and otherwise prints the exact command and exits 2. See §3
+  "HOSTDEPS AUTOMATION". (The agent did NOT run `sudo`: the §11.4.109 guard
+  refused it, which is the guard doing its job.)
 - HawkScan post-commit hook fired but `HAWK_API_KEY` is unset on this host.
 
 ### EIGHT TRACKED FILES ASSERTED A GAP THAT UPSTREAM HAD ALREADY CLOSED, 2026-09-09
@@ -2292,6 +2323,10 @@ recorded as one.
 
 Remedy is a package install and therefore an operator action:
 `sudo apt-get install -y tesseract-ocr`. It was NOT performed.
+**Superseded 2026-10-22:** tesseract and its language packs are installed;
+gate 5 now runs `bash scripts/hostdeps.sh install --only ocr --only pdf` itself
+(root or `sudo -n` only; otherwise it prints the command and the gate SKIPs with
+rc 2 named). See §3 "HOSTDEPS AUTOMATION".
 
 This is the second documented toolchain in `## Build and test entry points` that
 is absent on this host — the other being `bundle` / `bundler` / `jekyll`, which

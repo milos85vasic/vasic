@@ -162,7 +162,7 @@ oracle `workshop/pipeline/`; gates `workshop/platform/gates/`; docs `workshop/do
 - [x] T026 [TDD] [SUBAGENT] [US1] `pkg/medium/sim_test.go` (test-only `math/rand`, fixed seed): the null and effect
       conditions of `research.md` §3 at 10/20/30/60 graded answers per medium, 1000 learners each; writes
       `specs/021-learning-medium-profile/evidence/simulation/sim-results.json` with the confusion matrix and the
-      `z_preferred` curve. Test asserts SC-009 bounds (null ≥ 95% non-preference; effect ≥ 80% at 30/medium) — RED
+      `z_preferred` curve. `sim_test.go` TestSimulationSC009 asserts the null bounds and power monotonicity; the ratified power bound (≥ 80% at 120/medium, OD-1 option (a); the original 30/medium bound is withdrawn, spec SC-009) is asserted in `sim_large_test.go` TestSimulationSC009Large on 10,000 learners — RED
       if the defaults miss, which is information, not a failure to hide.
       EVIDENCE (S16, 2026-10-21): sim_test.go seeded PCG; RED at the PROPOSED defaults (null non-preference 0.643 < 0.95) (worktree branch s16-021-medium, evidence/s16/).
 - [x] T027 [US1] Run T026, paste the measured rates into `research.md` §3, and either confirm the proposed
@@ -361,3 +361,8 @@ Independent streams: T012 (oracle), T013 (gate), T016–T021 (six test files), T
 producers of the work they review and run on Opus at xhigh effort (model + effort stamped in each verdict).
 Before fan-out: record `ulimit -u` / live-thread headroom and `free -m`; stage explicit paths only (no `git add .`);
 run the mutation-marker grep before any commit (§11.4.84).
+
+- [ ] T060 [FOLLOW-UP] [US1] Second automatically scored question format (review B-4, 2026-10-22). The response log holds only
+      machine-graded multiple-choice rows, so the profile cannot leave `insufficient_evidence` on production data. Candidates (cloze,
+      ordering, matching, closed-list short answer) and the spec 013 / 021 work are in
+      `docs/features/learning-medium/follow-up-second-graded-format.md` (branch s16-021-medium). Self-rated flashcards cannot count.

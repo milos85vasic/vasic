@@ -103,33 +103,35 @@ students **`student1`** .. **`student5`**.
 
 Built from `int-0.0.3` by `git merge --no-ff` of each stream's committed tip, in the order of
 `scripts/qa-candidate.branches.tsv`. The table is the generated `evidence/qa-candidate/MANIFEST.tsv` of the build
-described here (candidate HEAD `bb9bfd7da0d3`).
+described here (candidate HEAD `c4e3746ffe7f`).
 
 | Branch | Merged tip | Status | Notes |
 |---|---|---|---|
 | `base` | `int-0.0.3` | base | 35f2ea38e768 |
-| `main` | `d0da0a7a476e` | conflict-resolved | merge commit b1c9459f |
+| `main` | `b508af51fec6` | merged | merge commit ad2c53a7 |
 | `fix-apikeys-argv` | `11f2bb5ea02a` | merged | merge commit 871dacc0 |
-| `wire-completion` | `765f40e2e72b` | conflict-resolved | merge commit f0b79314 |
-| `n1-013-adaptive` | `c7f95645bce6` | merged | merge commit d76e5840 |
-| `n8-013-ui-gate` | `9468906e99a7` | conflict-resolved | merge commit e96ff431 |
-| `n3-020-024-complete` | `bf2232eeec50` | merged | merge commit a8b112cf |
-| `n5-011-014-015-complete` | `18d9eda64076` | merged | merge commit 1df0531c |
-| `n4-016-complete` | `545777bbc72b` | conflict-resolved | merge commit c45e4c4f |
-| `n2-012-ingest-complete` | `760066c4d00e` | merged | merge commit 9fd18c7f |
+| `wire-completion` | `765f40e2e72b` | merged | merge commit 95d7526c |
+| `n1-013-adaptive` | `7442f76b6378` | conflict-resolved | merge commit 8b51d5df |
+| `n8-013-ui-gate` | `5495869f8949` | conflict-resolved | merge commit 55812c44 |
+| `n3-020-024-complete` | `0d3c7ac17cba` | conflict-resolved | merge commit 08999639 |
+| `n5-011-014-015-complete` | `eae8901780ed` | merged | merge commit e4773f2b |
+| `n4-016-complete` | `224b0ad1f833` | conflict-resolved | merge commit f1d66142 |
+| `n2-012-ingest-complete` | `86f44459e789` | merged | merge commit 8e3d05c6 |
 | `s9-014-modal-polish` | `2fef67bfa034` | conflict-resolved | merge commit 198cb4c5 |
-| `s11-018-library` | `5e826bb17a9d` | conflict-resolved | merge commit 6c5bcc33 |
-| `s12-019-promotion` | `24c22007954a` | conflict-resolved | merge commit 88881c91 |
-| `s15-025-ux` | `b344ae7bf7a6` | conflict-resolved | merge commit 27891737 |
-| `s16-021-medium` | `905bf091b7af` | conflict-resolved | merge commit 146cd2a4 |
-| `s17-022-material` | `44dbdb8b0c00` | conflict-resolved | merge commit 10f31161 |
-| `s18-023-roles` | `5adb94f51c80` | conflict-resolved | merge commit ea276979 |
+| `s11-018-library` | `d46ffc72c2b6` | conflict-resolved | merge commit 77cd2cfc |
+| `s12-019-promotion` | `9e86daa52100` | conflict-resolved | merge commit 1a59a009 |
+| `s15-025-ux` | `3f780f6dc2eb` | conflict-resolved | merge commit 984e0ed7 |
+| `s16-021-medium` | `a5c5de7d5db9` | merged | merge commit 43b8c847 |
+| `s17-022-material` | `14bfdddcbfac` | conflict-resolved | merge commit f1ad7b64 |
+| `s18-023-roles` | `1e24fecda770` | conflict-resolved | merge commit 40408691 |
 | `cat-authors` | `e0d274353471` | merged | merge commit 5618228c |
-| `h1-providers-hardening` | `126e4cc0dd1c` | conflict-resolved | merge commit fd4b9936 |
+| `h1-providers-hardening` | `126e04167ad1` | conflict-resolved | merge commit 93b0a0e9 |
 | `inv-nonascii` | `51f40ff14410` | merged | merge commit 32cdeaef |
-| `s2-016us1-013us1` | `7496f52b8745` | merged | merge commit 3aef7055 |
+| `s2-016us1-013us1` | `fd0a3eccd133` | merged | merge commit f897de7d |
 | `n6-001-002-complete` | `a5847e720e21` | merged | merge commit 02304a18 |
-| `n7-integration` | `002bd428289c` | conflict-resolved | merge commit f4a34956 |
+| `n7-integration` | `ee24df03f04c` | conflict-resolved | merge commit c83a11f0 |
+| `fix-compose-verdict-dir` | `b7df3731c0c3` | merged | merge commit 96a44a23 |
+| `fix-ch4-placeholder-rows` | `bc6155c109b6` | merged | merge commit 8671484d |
 | `qa-fix` | `7dff042c` | qa-fix | qa-fix: achievement-badge-producer.spec builds a ProgressState with the ability_score field n1 made required (merge-induced spec compile error) |
 | `qa-fix` | `c79ff4b0` | qa-fix | qa-fix: gofmt ratchet - n7 formatted the 13 baselined files (baseline emptied) and 3 files from other streams were unformatted (gofmt -w); gate verify |
 | `qa-fix` | `56c8d516` | qa-fix | qa-fix: TestLazyHostedBuildsOnlyOnFirstGeneration drives Generate with the per-request acknowledgement n3's remote_spend now requires (merge-induced t |
@@ -137,6 +139,10 @@ described here (candidate HEAD `bb9bfd7da0d3`).
 | `qa-fix` | `a92f80d5` | qa-fix | qa-fix: remove the name-only ApiKey_OpenAI/ApiKey_Anthropic compose environment entries that my n8 conflict union re-introduced (apikeys design: keys  |
 | `qa-fix` | `b1c4b744` | qa-fix | qa-fix: gofmt main.go (union of wire-completion + n7 edits) |
 | `qa-fix` | `d0b0cc1d` | qa-fix | qa-fix: docs/faq.md entries renumbered 19..33 sequentially (the unions left several duplicate numbers); one cross-link updated; exports not regenerate |
+| `qa-fix` | `ff4304f3` | qa-fix | qa-fix: api-keys-file classified once (non-path); transcript 'not wired' test admits n6's transcript-correct CLI (cross-stream conflict, see KNOWN-DEF |
+| `qa-fix` | `f1a80c1c` | qa-fix | qa-fix: app-materials-nav.spec stubs AuthService.isAdmin/role (app.component now reads them after the s18 union) |
+| `qa-fix` | `eead5ed0` | qa-fix | qa-fix: roles gate (s18) never classified practice/scoring/medium/materials mutating routes -> students got 403 on practice and medium; added to the s |
+| `qa-fix` | `19f534b0` | qa-fix | qa-fix: materials-nav spec stubs roleLabel too |
 
 Rows with status `conflict-resolved` needed a human union of the streams' registrations, routes, flags and docs; the
 resolution notes are in the merge commit message of each. Rows `qa-fix` are small commits made on the candidate for
@@ -146,11 +152,11 @@ merge-induced breakage only. Product defects are NOT fixed on the candidate; the
 
 | Check | Result |
 |---|---|
-| `go build ./...`, `go vet ./...` (platform/backend) | clean |
-| `go test -count=1 ./...` (platform/backend, throwaway seed passwords) | every package ok, after the three `qa-fix` test repairs listed in the manifest |
+| `go build ./...`, `go vet ./...`, `gofmt` (platform/backend) | clean on the final candidate |
+| `go test -count=1 ./...` (platform/backend, throwaway seed passwords, spec contract path set) | no failures on the final candidate, after the `qa-fix` repairs in the manifest (one run earlier showed a load-dependent flake in `pkg/answer`, passing alone 3/3) |
 | `tsc --noEmit` on the app and spec projects | clean |
 | `ng build` | succeeded, 0 errors (bundle warnings only) |
-| Karma (`ng test --watch=false --browsers=ChromeHeadless`) | queued behind the host load governor and NOT completed at the time of writing: UNVERIFIED |
+| Karma (`ng test`, headless Chromium with --no-sandbox, run via the load governor) | 2125 of 2125 SUCCESS on the final candidate |
 | Gates (22 run directly, see KNOWN-DEFECTS part 1) | 16 PASS; `verify-suppressed-residue` and `verify-redaction-propagation` FAIL (CC-01, CC-02); 4 UNDETERMINED for want of untracked data (CC-12) |
 | Instance | started on 127.0.0.1:18300; `/api/health` 200; sign-in as `milosvasic`, `rami`, `student1` 200; anonymous `/api/areas` 401; a student on `/api/admin/users` 403 and on `/api/areas` 403 `password_change_required` until the password is changed; library lists 9 documents (research incl. `clients/jordan` and `education-platform`); textbooks 3 books / 1675 sections / 0 diagrams; search legs lexical ok, semantic ok |
 | Browser-driven UI testing | NOT done by the builder: nothing in section 8 was executed through a browser |

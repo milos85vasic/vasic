@@ -70,7 +70,7 @@ if [[ $PROVE -eq 1 ]]; then
     # behaviour in the wizard it tests (K23b/K25) while implementing none for
     # itself, and nothing anywhere demonstrated that it goes red when the wizard
     # regresses. Both halves are closed here: the rc-2 states above are exercised
-    # as U1..U4, and M1..M4 seed real regressions and require the suite to catch
+    # as U1..U4, and M1..M5 seed real regressions and require the suite to catch
     # each one BY NAME.
     #
     # WHY THE CONTROL IS THE REAL WIZARD, BYTE-COPIED. A synthetic wizard cannot
@@ -212,6 +212,10 @@ if [[ $PROVE -eq 1 ]]; then
     m4() { _wz_exact "$SPEC_WIZ" "tune_ollama_step" "# tune_ollama_step  <- call site deleted by the paired proof"; }
     assert_mutation "M4 tune-step-uncalled     " "K21 tune_ollama_step is actually CALLED" m4
 
+    # ---- M5  the host-package step CALL SITE is deleted ---------------------
+    m5() { _wz_exact "$SPEC_WIZ" "hostdeps_step" "# hostdeps_step  <- call site deleted by the paired proof"; }
+    assert_mutation "M5 hostdeps-step-uncalled " "K34 hostdeps_step is actually CALLED" m5
+
     # ---- U1..U4  the three-valued half ---------------------------------------
     # None of these is a bad-usage error: each is a state in which the suite RAN
     # and could not test anything. "Nothing was tested" must never read as 0.
@@ -255,8 +259,8 @@ if [[ $PROVE -eq 1 ]]; then
     fi
     echo "✅ SETUP-AGENTS-WIZARD-SUITE §1.1 MUTATION PROOF: PASS — the real suite ran against"
     echo "   the real root (reported, never gating), an unmutated byte-copy of the real wizard"
-    echo "   passed as the control, and 8 mutations were each caught with the right"
-    echo "   three-valued verdict: 4 real regressions as rc=1, each matched to the SPECIFIC"
+    echo "   passed as the control, and 9 mutations were each caught with the right"
+    echo "   three-valued verdict: 5 real regressions as rc=1, each matched to the SPECIFIC"
     echo "   assertion that must fail rather than to a red run, and 4 could-not-determine"
     echo "   states as rc=2 — an absent root, an absent wizard, an empty wizard and an"
     echo "   unwritable evidence directory — none of which may read as a pass."
@@ -498,8 +502,9 @@ assert_eq "A41 wizard never applies the remediation itself (no restart, no /etc 
 steps=$(grep -oE 'print_header "Step [0-9]+' "$WIZARD" | grep -oE '[0-9]+' | tr '\n' ',')
 # Step 8 (project indexing) is opt-in: its header only prints when
 # WIZARD_INDEX_PROJECT is set, but the literal must still be in sequence.
-# Step 7 = ollama concurrency tuning, Step 9 = provider-side CI verification.
-assert_eq "A10 step headers are sequential 1..9" "1,2,3,4,5,6,7,8,9," "$steps"
+# Step 7 = ollama concurrency tuning, Step 9 = provider-side CI verification,
+# Step 10 = host packages (scripts/hostdeps.sh install).
+assert_eq "A10 step headers are sequential 1..10" "1,2,3,4,5,6,7,8,9,10," "$steps"
 
 # The whole point of delegating to scripts/ollama-tune.sh is that the value is
 # COMPUTED on this host. A literal concurrency number in the wizard would be a
@@ -1137,7 +1142,7 @@ rm -rf "$box"
 # spelling it out would make this file the very violation J8 checks for.
 _pat="(/Vol""umes/|/Us""ers/[A-Za-z]|/run/me""dia/[A-Za-z])"
 own=$(for f in "$SCRIPT_DIR"/*.sh; do
-        case "$f" in *audit-hardcoded-paths.sh) continue;; esac
+        case "$f" in (*audit-hardcoded-paths.sh) continue;; esac  # leading ( : bash 3.2 cannot parse a bare case pattern inside $(...)
         # SIGPIPE: the producer here is a whole script with its comments stripped
         # — MEASURED up to 77,269 bytes (verify-content-boundary.sh) — so once a
         # machine-specific path appears early in a large file, `grep -q` exits,
@@ -1514,7 +1519,61 @@ assert_eq "K21 tune_ollama_step is actually CALLED, not just defined" "1" "$call
 callsP=$(printf '%s\n' "$src_code" | grep -cE '^[[:space:]]*verify_provider_ci_step[[:space:]]*$')
 assert_eq "K22 verify_provider_ci_step is actually CALLED, not just defined" "1" "$callsP"
 
-rm -rf "$KBOX" "$KTUNE" "$KPG" "$KPGBUSY" "$KPGNONE" "$KPROV"
+# ---- K30-K35: Step 10, host packages, through a stand-in scripts/hostdeps.sh --
+# The stand-in records its argv and exits with the code under test, so these
+# assert the WIRING (non-interactive `install`, three-valued verdict) and never
+# install anything on the host running the suite.
+KHD=$(mktemp -d); HTOK="htok$RANDOM$RANDOM"
+mk_hostdeps_stub() { # $1 exit code
+    cat > "$KHD/hostdeps.sh" <<STUB
+#!/usr/bin/env bash
+echo "ARGS:\$*" >> "$KHD/hd.log"
+echo "PERCALL:\${HOSTDEPS_INSTALL_TIMEOUT:-unset}" >> "$KHD/hd.log"
+case "\${1:-}" in
+  install) echo "hostdeps stand-in $HTOK"; exit $1 ;;
+  *) echo "unexpected"; exit 9 ;;
+esac
+STUB
+    chmod +x "$KHD/hostdeps.sh"; : > "$KHD/hd.log"
+}
+mk_hostdeps_stub 0
+out=$(in_sandbox "$KENV"'
+    export HOSTDEPS_SCRIPT="'"$KHD"'/hostdeps.sh"
+    hostdeps_step; echo "HD_RC=$?"
+'"$DUMP_MANUALS")
+assert_contains "K30 Step 10 calls hostdeps.sh with the non-interactive 'install' verb" "ARGS:install" "$(cat "$KHD/hd.log")"
+assert_contains "K30b rc=0 is reported as probed, not assumed" "probed just now" "$out"
+assert_contains "K30c rc=0 registers no manual step" "MANUALCOUNT=0" "$out"
+# K35 — hostdeps.sh may make THREE bounded installer calls on apt (install,
+# update, install). The per-call bound the wizard hands it must fit three times
+# inside the wizard's own outer bound, or the outer timeout can cut a dpkg run.
+assert_contains "K35 Step 10 hands hostdeps.sh a per-call bound of 360 s (3 x 360 fits the outer bound)" "PERCALL:360" "$(cat "$KHD/hd.log")"
+mk_hostdeps_stub 1
+out=$(in_sandbox "$KENV"'
+    export HOSTDEPS_SCRIPT="'"$KHD"'/hostdeps.sh"
+    hostdeps_step; echo "HD_RC=$?"
+'"$DUMP_MANUALS")
+assert_contains "K31 rc=1 (an install ran and failed) becomes a manual step" "TITLE: A host-package install FAILED" "$(registry "$out")"
+assert_contains "K31b the manual step carries the installer's OWN output" "$HTOK" "$(registry "$out")"
+mk_hostdeps_stub 2
+out=$(in_sandbox "$KENV"'
+    export HOSTDEPS_SCRIPT="'"$KHD"'/hostdeps.sh"
+    hostdeps_step; echo "HD_RC=$?"
+'"$DUMP_MANUALS")
+assert_contains "K32 rc=2 (cannot elevate) is UNVERIFIED and explicitly NOT a pass" "NOT a pass" "$out"
+assert_absent  "K32b rc=2 never renders the rc=0 success line" "probed just now" "$out"
+assert_contains "K32c rc=2 hands the operator the --print-commands remedy" "install --print-commands" "$(registry "$out")"
+assert_contains "K32d rc=2 still lets the wizard continue" "HD_RC=0" "$out"
+out=$(in_sandbox "$KENV"'
+    export HOSTDEPS_SCRIPT="'"$KHD"'/definitely-absent-hostdeps.sh"
+    hostdeps_step; echo "HD_RC=$?"
+'"$DUMP_MANUALS")
+assert_contains "K33 an absent installer is UNVERIFIED, not clean" "UNVERIFIED" "$(registry "$out")"
+assert_contains "K33b an absent installer does not abort the wizard" "HD_RC=0" "$out"
+callsH=$(printf '%s\n' "$src_code" | grep -cE '^[[:space:]]*hostdeps_step[[:space:]]*$')
+assert_eq "K34 hostdeps_step is actually CALLED, not just defined" "1" "$callsH"
+
+rm -rf "$KBOX" "$KTUNE" "$KPG" "$KPGBUSY" "$KPGNONE" "$KPROV" "$KHD"
 
 # ==============================================================================
 # Evidence summary

@@ -984,6 +984,63 @@ $out
     return 0
 }
 
+# Host packages the gates and browser tests read (webkit system libraries,
+# tesseract + the eng osd srp srp_latn rus deu fra packs, poppler). Delegated to
+# scripts/hostdeps.sh, which owns the per-distribution package table and the
+# no-prompt elevation rule: it installs only as root or through `sudo -n`, and
+# otherwise exits 2 with the exact command. Its verdict stays three-valued here:
+# 0 satisfied, 1 an install ran and FAILED, 2 could not install (UNVERIFIED,
+# never a pass). Override the script with HOSTDEPS_SCRIPT (the test-suite does).
+hostdeps_step() {
+    local script="${HOSTDEPS_SCRIPT:-$SCRIPT_DIR/hostdeps.sh}"
+    local rel; rel=$(_rel_to_root "$script")
+    if [[ ! -f "$script" ]]; then
+        print_warning "Host-dependency installer not present at $script - host packages are UNVERIFIED."
+        manual_step "Host packages are UNVERIFIED (scripts/hostdeps.sh is absent)" \
+"# Nothing probed the webkit libraries, tesseract and its language packs, or poppler.
+# When the installer is available:
+#   $rel install"
+        return 0
+    fi
+    print_info "Installing missing host packages non-interactively (never prompts for a password)..."
+    local out rc=0
+    # hostdeps.sh may make THREE bounded installer calls on apt (install, update,
+    # install), each under HOSTDEPS_INSTALL_TIMEOUT; the outer bound is derived
+    # from that per-call bound so it can never cut a dpkg run in the middle.
+    local per="${HOSTDEPS_INSTALL_TIMEOUT:-360}"
+    [[ "$per" =~ ^[0-9]+$ ]] || per=360
+    out=$(HOSTDEPS_INSTALL_TIMEOUT="$per" timeout $((per * 3 + 120)) bash "$script" install 2>&1) || rc=$?
+    [[ -n "${out//[[:space:]]/}" ]] && _echo_indented "$out"
+    case $rc in
+        0)
+            print_success "Host packages: every requested dependency is present (probed just now)."
+            ;;
+        1)
+            print_warning "Host packages: an install RAN and FAILED - see the lines above."
+            manual_step "A host-package install FAILED - investigate before re-running" \
+"# $rel install exited 1 on $(date -u +%Y-%m-%dT%H:%M:%SZ). Output:
+$out
+
+# Re-measure without installing anything:
+#   $rel check"
+            ;;
+        *)
+            local why="exit $rc"
+            [[ $rc -eq 124 || $rc -eq 137 || $rc -eq 143 ]] && why="timed out"
+            print_warning "Host packages could not be installed automatically ($why)."
+            print_warning "Reporting UNVERIFIED. This is NOT a pass and must not be recorded as one."
+            manual_step "Host packages need an administrator ($why)" \
+"# $rel could not install without a password prompt (not root, and
+# passwordless sudo is not available), or no package name is recorded for this
+# distribution. Run the exact command(s) for THIS host once, as an administrator:
+#   $rel install --print-commands
+# then confirm:
+#   $rel check"
+            ;;
+    esac
+    return 0
+}
+
 # ------------------------------------------------------------------------------
 # 1. Path Detection
 # ------------------------------------------------------------------------------
@@ -1439,6 +1496,16 @@ fi
 # their state from memory. It is measured, here, now, or reported UNVERIFIED.
 print_header "Step 9: Provider-Side CI Verification"
 verify_provider_ci_step
+
+# ------------------------------------------------------------------------------
+# 7d. Host packages (webkit libraries, OCR engine + language packs, poppler)
+# ------------------------------------------------------------------------------
+# Automatic, per the operator rule of 2026-10-22: a host package the gates or
+# the browser suite need is installed by this setup step, never left as a
+# manual instruction - unless installing needs a password, in which case the
+# exact command is printed and registered as a manual step (no prompt, ever).
+print_header "Step 10: Host Packages (webkit libs, tesseract + languages, poppler)"
+hostdeps_step
 
 # ------------------------------------------------------------------------------
 # 8. Final Summary

@@ -240,13 +240,15 @@ precondition() {
             if [[ -f "$ROOT/scripts/hostdeps.sh" ]]; then
                 local hd_out hd_rc
                 if [[ "$1" == "5" ]]; then
-                    hd_out="$(HOSTDEPS_INSTALL_TIMEOUT="${HOSTDEPS_INSTALL_TIMEOUT:-180}" bash "$ROOT/scripts/hostdeps.sh" ensure tesseract poppler)"; hd_rc=$?
+                    hd_out="$(HOSTDEPS_INSTALL_TIMEOUT="${HOSTDEPS_INSTALL_TIMEOUT:-180}" bash "$ROOT/scripts/hostdeps.sh" install --only ocr --only pdf)"; hd_rc=$?
                 else
                     hd_out="$(HOSTDEPS_INSTALL_TIMEOUT="${HOSTDEPS_INSTALL_TIMEOUT:-180}" bash "$ROOT/scripts/hostdeps.sh" ensure-browsers "$ROOT/_tests" chromium)"; hd_rc=$?
                 fi
                 if [[ "$hd_rc" != "0" ]]; then
                     echo "a host dependency this gate needs is missing and could not be provided automatically (scripts/hostdeps.sh exited rc=$hd_rc; opt out of installs with HOSTDEPS_AUTO_INSTALL=0):"
                     printf '%s\n' "$hd_out" | sed 's/^/    /'
+                    echo "    remedy: bash scripts/hostdeps.sh install --print-commands   (the exact command for THIS host; run it once as an administrator)"
+                    echo "            then: bash scripts/hostdeps.sh check"
                     if [[ "$hd_rc" == "1" ]]; then return 2; fi
                     return 1
                 fi
@@ -1019,16 +1021,26 @@ DEPS
     cat > "$SPEC/scripts/hostdeps.sh" <<'STUBHD'
 #!/usr/bin/env bash
 f="${BASH_SOURCE[0]}.rc"; rc=0; [ -f "$f" ] && rc="$(cat "$f")"
+printf '%s\n' "$*" >> "${BASH_SOURCE[0]}.args"
 echo "synthetic hostdeps rc=${rc}"
 exit "$rc"
 STUBHD
     printf '2\n' > "$SPEC/scripts/hostdeps.sh.rc"
     assert "M7c hostdeps-rc2-is-SKIP   " 0 "scripts/hostdeps.sh exited rc=2" PREPUSH_ONLY="5" --
+    # M7f — gate 5 must request the whole OCR CAPABILITY (engine + every language
+    # pack id), not the bare engine id: on Arch, `pacman --noconfirm -S tesseract`
+    # resolves the tessdata virtual to whichever provider sorts first, which need
+    # not be eng, so an engine-only request can leave OCR without its languages.
+    if grep -qx 'install --only ocr --only pdf' "$SPEC/scripts/hostdeps.sh.args" 2>/dev/null; then
+        p_ok "M7f gate5-requests-ocr-cap " "gate 5 asks hostdeps.sh for the ocr capability (engine + all language packs) and pdf"
+    else
+        p_bad "M7f gate5-requests-ocr-cap" "gate 5 asked hostdeps.sh for: $(tr '\n' '|' < "$SPEC/scripts/hostdeps.sh.args" 2>/dev/null) — expected 'install --only ocr --only pdf'"
+    fi
     assert "M7d hostdeps-rc2-strict    " 1 "PREPUSH_STRICT=1 and the gate cannot run" \
            PREPUSH_ONLY="5" PREPUSH_STRICT=1 --
     printf '1\n' > "$SPEC/scripts/hostdeps.sh.rc"
     assert "M7e hostdeps-rc1-is-FAIL   " 1 "a host dependency install failed" PREPUSH_ONLY="5" --
-    rm -rf "$SPEC/_tests/node_modules" "$SPEC/scripts/hostdeps.sh" "$SPEC/scripts/hostdeps.sh.rc"
+    rm -rf "$SPEC/_tests/node_modules" "$SPEC/scripts/hostdeps.sh" "$SPEC/scripts/hostdeps.sh.rc" "$SPEC/scripts/hostdeps.sh.args"
 
     # ---- M8  the runner cannot create its workspace -> rc 2, never 0 --------
     assert "M8 no-log-dir-is-rc2       " 2 "cannot create a log directory" TMPDIR=/nonexistent --

@@ -262,11 +262,11 @@ src="https://img.shields.io/badge/defects-no%20tracker-red?vocab=red"
 alt="defects" /> <img
 src="https://img.shields.io/badge/supply%20chain-no%20SLSA%20level-red?vocab=red"
 alt="supply-chain" /> <img
-src="https://img.shields.io/badge/zero%20findings-37%20over%20ratchet-red?vocab=red"
+src="https://img.shields.io/badge/zero%20findings-23%20tracked-orange?vocab=amber"
 alt="zero-findings" /> <img
-src="https://img.shields.io/badge/evidence-31%2F32%20proofs-red?vocab=red"
+src="https://img.shields.io/badge/evidence-39%2F39%20proofs-orange?vocab=amber"
 alt="evidence" /> <img
-src="https://img.shields.io/badge/production%20ready-blocked,%2010%20red-red?vocab=red"
+src="https://img.shields.io/badge/production%20ready-blocked,%208%20red-red?vocab=red"
 alt="production-readiness" /></p>
 <p>Umbrella monorepo for two production websites and the tooling that
 generates, translates, validates and ships them. Nothing here is a
@@ -482,9 +482,15 @@ validators</td>
 <td>the <code>milosvasic.ru</code> Jekyll build</td>
 </tr>
 <tr>
-<td><code>poppler-utils</code>, <code>tesseract-ocr</code></td>
+<td><code>poppler-utils</code>, <code>tesseract-ocr</code> + language
+packs</td>
 <td>the export self-validation (<code>pdftotext</code>,
 <code>pdfimages</code>, <code>pdftoppm</code>, OCR)</td>
+</tr>
+<tr>
+<td>WebKit system libraries (<code>libmanette</code>,
+<code>libwoff2</code>)</td>
+<td>the Playwright <code>webkit</code> project</td>
 </tr>
 <tr>
 <td><code>python3</code> with <code>PyYAML</code></td>
@@ -494,40 +500,75 @@ validators</td>
 </table>
 <p>Without poppler and tesseract the export check reports a stated SKIP
 instead of running. A SKIP is printed loudly and is not a pass.</p>
+<h3 id="host-packages-are-installed-automatically">Host packages are
+installed automatically</h3>
+<p>You do not install the host packages above by hand.
+<code>scripts/hostdeps.sh</code> installs them. The setup wizard (Step
+10) installs all of them. Pre-push gate 5 installs tesseract with its
+language packs and poppler (<code>--only ocr --only pdf</code>). Gate 6
+only downloads the Playwright browser; when a browser cannot start, its
+preflight prints the <code>--only webkit</code> command that installs
+the WebKit libraries.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/hostdeps.sh check                     <span class="co"># report only; one machine-readable line per package</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/hostdeps.sh install                   <span class="co"># install whatever is missing, in one package-manager call</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/hostdeps.sh install <span class="at">--dry-run</span>         <span class="co"># show the plan and the exact command; change nothing</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/hostdeps.sh install <span class="at">--print-commands</span>  <span class="co"># print only the exact command for this host</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/hostdeps.sh install <span class="at">--only</span> webkit     <span class="co"># capabilities: webkit, ocr, pdf</span></span></code></pre></div>
+<p>It covers the WebKit libraries, <code>tesseract</code> with the
+<code>eng osd srp srp_latn rus deu fra</code> language packs, and
+poppler. It picks the package names for your distribution: apt-get on
+Debian/Ubuntu, apt-get on ALT Linux, dnf, yum, zypper, pacman, apk,
+Homebrew and MacPorts. Installing the language packs does not turn OCR
+on; per-book OCR stays opt-in and off by default.</p>
+<p>It never asks for a password. It installs only when it runs as root
+or when <code>sudo -n</code> works without one. Otherwise it prints the
+exact command for your host and exits <strong>2</strong>, and an exit 2
+is not a pass. Run that command once as an administrator, then run
+<code>check</code>. Some packages have no name recorded for some
+distributions: the Alpine <code>srp_latn</code> pack, and poppler on ALT
+Linux and MacPorts. For those it also exits <strong>2</strong> and names
+what is missing rather than guess a package name. On Alpine the WebKit
+libraries install and are found by path, because musl has no
+<code>ldconfig -p</code>, but Playwright’s WebKit build needs glibc and
+still cannot run there. <code>HOSTDEPS_AUTO_INSTALL=0</code> turns
+automatic installs off; <code>--yes</code> overrides that for a single
+run.</p>
 <h3 id="verify-the-toolchain-answers">3. Verify the toolchain
 answers</h3>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> version <span class="kw">&amp;&amp;</span> <span class="ex">node</span> <span class="at">--version</span> <span class="kw">&amp;&amp;</span> <span class="ex">ruby</span> <span class="at">--version</span> <span class="kw">&amp;&amp;</span> <span class="ex">bundle</span> <span class="at">--version</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> pdftotext pdfimages pdftoppm tesseract</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&#39;import yaml; print(yaml.__version__)&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">go</span> version <span class="kw">&amp;&amp;</span> <span class="ex">node</span> <span class="at">--version</span> <span class="kw">&amp;&amp;</span> <span class="ex">ruby</span> <span class="at">--version</span> <span class="kw">&amp;&amp;</span> <span class="ex">bundle</span> <span class="at">--version</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> pdftotext pdfimages pdftoppm tesseract</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/hostdeps.sh check</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&#39;import yaml; print(yaml.__version__)&#39;</span></span></code></pre></div>
 <hr />
 <h2 id="building-the-sites">Building the sites</h2>
 <p>The generator reads <code>_content*/</code> and
 <code>design-system/</code> and writes into the two site submodule
 directories. No page is hardcoded.</p>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the generator and render both sites for English, then rebuild _site:</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/gen/build.sh</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Render one language:</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/gen/build.sh <span class="at">--lang</span> de</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Render into a scratch directory instead of the live site dirs:</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/gen/build.sh <span class="at">--out</span> /tmp/render <span class="at">--no-jekyll</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the generator and render both sites for English, then rebuild _site:</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/gen/build.sh</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Render one language:</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/gen/build.sh <span class="at">--lang</span> de</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Render into a scratch directory instead of the live site dirs:</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/gen/build.sh <span class="at">--out</span> /tmp/render <span class="at">--no-jekyll</span></span></code></pre></div>
 <p>The binary underneath takes explicit flags, which is what
 <code>build.sh</code> drives:</p>
-<div class="sourceCode" id="cb6"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tools/gen <span class="kw">&amp;&amp;</span> <span class="ex">go</span> build <span class="at">-o</span> gen . <span class="kw">&amp;&amp;</span> <span class="ex">./gen</span> <span class="at">-h</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   -site   vasic.digital | milosvasic.ru</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   -lang   language code (default en)</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   -what   all | products | portfolio | home</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   -root   repository root</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   -out    output base dir</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tools/gen <span class="kw">&amp;&amp;</span> <span class="ex">go</span> build <span class="at">-o</span> gen . <span class="kw">&amp;&amp;</span> <span class="ex">./gen</span> <span class="at">-h</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   -site   vasic.digital | milosvasic.ru</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   -lang   language code (default en)</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   -what   all | products | portfolio | home</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#   -root   repository root</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   -out    output base dir</span></span></code></pre></div>
 <p><code>milosvasic.ru</code> additionally needs its Jekyll build before
 anything can serve it:</p>
-<div class="sourceCode" id="cb7"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> milosvasic.ru <span class="kw">&amp;&amp;</span> <span class="ex">bundle</span> install <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">JEKYLL_ENV</span><span class="op">=</span>production <span class="ex">bundle</span> exec jekyll build <span class="at">--destination</span> _site</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> milosvasic.ru <span class="kw">&amp;&amp;</span> <span class="ex">bundle</span> install <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">JEKYLL_ENV</span><span class="op">=</span>production <span class="ex">bundle</span> exec jekyll build <span class="at">--destination</span> _site</span></code></pre></div>
 <hr />
 <h2 id="gates-and-how-to-run-them">Gates and how to run them</h2>
 <h3 id="there-is-no-ci-at-this-root">There is no CI at this root</h3>
@@ -543,24 +584,24 @@ record.</li>
 </ul>
 <p>Confirm the root is free of an active tracked CI config — this must
 print nothing:</p>
-<div class="sourceCode" id="cb8"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-E</span> <span class="st">&#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-E</span> <span class="st">&#39;^\.github/workflows/.*\.ya?ml$|^\.gitlab-ci\.yml$&#39;</span></span></code></pre></div>
 <h3 id="install-the-hook-once-per-clone">Install the hook, once per
 clone</h3>
 <p>The logic is tracked in <code>scripts/pre-push-gates.sh</code>; the
 hook itself is a small shim that runs it, so editing the script takes
 effect with no reinstall.</p>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--install</span>    <span class="co"># write .git/hooks/pre-push</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--list</span>       <span class="co"># print the gate table, run nothing</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh              <span class="co"># run them now</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--uninstall</span>  <span class="co"># remove the shim</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--install</span>    <span class="co"># write .git/hooks/pre-push</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--list</span>       <span class="co"># print the gate table, run nothing</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh              <span class="co"># run them now</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--uninstall</span>  <span class="co"># remove the shim</span></span></code></pre></div>
 <p><code>--install</code> is idempotent and takes a hardlinked backup of
 any pre-existing <code>pre-push</code> hook before writing over it.</p>
 <h3 id="the-gate-table">The gate table</h3>
 <p>Print it from the runner rather than trusting a copy:</p>
-<div class="sourceCode" id="cb10"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--list</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/pre-push-gates.sh <span class="at">--list</span></span></code></pre></div>
 <p>Measured 2026-09-03, that runner declares eight gates, <code>E</code>
 and <code>0</code> through <code>6</code>: the no-active-root-CI
 self-check, the hardcoded-path audit, the Go unit tests, the hardcoding
@@ -568,13 +609,13 @@ audit, the translation reproducibility self-test, the portfolio
 data-integrity self-validation, the harness self-validation, and the
 Playwright chromium suite with the live all-language crawl excluded.</p>
 <p>Each one, runnable on its own:</p>
-<div class="sourceCode" id="cb11"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/audit-hardcoded-paths.sh</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tools/gen <span class="kw">&amp;&amp;</span> <span class="ex">go</span> test ./... <span class="kw">;</span> <span class="bu">cd</span> <span class="at">-</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/audit-hardcoding.sh</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/translate/reproducibility-selftest.sh</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/portfolio/self-validate.sh</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tests/run-harness-selfvalidation.sh</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/audit-hardcoded-paths.sh</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tools/gen <span class="kw">&amp;&amp;</span> <span class="ex">go</span> test ./... <span class="kw">;</span> <span class="bu">cd</span> <span class="at">-</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/audit-hardcoding.sh</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/translate/reproducibility-selftest.sh</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/portfolio/self-validate.sh</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tests/run-harness-selfvalidation.sh</span></code></pre></div>
 <p>Four environment switches change how the runner behaves:</p>
 <table>
 <colgroup>
@@ -616,18 +657,18 @@ The rule it enforces names and refuses the whole family of opt-out flags
 by name, so adding one would be a violation rather than a
 convenience.</p>
 <h3 id="the-browser-suite">The browser suite</h3>
-<div class="sourceCode" id="cb12"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tests</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> ci</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> playwright install chromium</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> playwright test <span class="at">--project</span><span class="op">=</span>chromium <span class="at">--grep-invert</span> <span class="st">&quot;all-language&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tests</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> ci</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> playwright install chromium</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> playwright test <span class="at">--project</span><span class="op">=</span>chromium <span class="at">--grep-invert</span> <span class="st">&quot;all-language&quot;</span></span></code></pre></div>
 <p>Both sites are served locally by the harness. Ports and base URLs
 come from one tracked source, <code>_tests/env.js</code>, so a port and
 the base URL that addresses it cannot drift apart. Every value is
 environment-derived with the previous literal kept as the documented
 default:</p>
-<div class="sourceCode" id="cb13"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">VD_PORT</span><span class="op">=</span>9401 <span class="va">MV_PORT</span><span class="op">=</span>9082 <span class="ex">npx</span> playwright test <span class="at">--project</span><span class="op">=</span>chromium</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">VD_PORT</span><span class="op">=</span>9401 <span class="va">MV_PORT</span><span class="op">=</span>9082 <span class="ex">npx</span> playwright test <span class="at">--project</span><span class="op">=</span>chromium</span></code></pre></div>
 <p>An unparseable port throws when the module loads instead of silently
 falling back. Read <code>_tests/env.js</code> for the full variable
 list.</p>
@@ -638,9 +679,9 @@ in the push gate</h3>
 above excludes a fourth by <code>--grep-invert</code>. All four assert
 against live production, and all four are claimed by
 <code>_tests/playwright.live.config.js</code> instead:</p>
-<div class="sourceCode" id="cb14"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&#39;testIgnore&#39;</span> _tests/playwright.config.js</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&#39;testMatch&#39;</span>  _tests/playwright.live.config.js</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&#39;testIgnore&#39;</span> _tests/playwright.config.js</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">&#39;testMatch&#39;</span>  _tests/playwright.live.config.js</span></code></pre></div>
 <p>The reason for the split is measured, not stylistic: gating a push of
 undeployed source on public DNS makes the gate fail for reasons that
 have nothing to do with the change being pushed. The question those
@@ -648,8 +689,8 @@ specs answer is whether what shipped is correct, so they run after a
 deploy, against what shipped. <code>_tools/deploy-langs.sh</code> names
 all four and runs them there.</p>
 <p>Run them by hand before a release:</p>
-<div class="sourceCode" id="cb15"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tests <span class="kw">&amp;&amp;</span> <span class="ex">npx</span> playwright test <span class="at">--config</span><span class="op">=</span>playwright.live.config.js</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> _tests <span class="kw">&amp;&amp;</span> <span class="ex">npx</span> playwright test <span class="at">--config</span><span class="op">=</span>playwright.live.config.js</span></code></pre></div>
 <hr />
 <h2 id="the-instruments">The instruments</h2>
 <p>Separate from the push gates. These judge the repository itself — its
@@ -783,21 +824,21 @@ does not rebuild.</p>
 the condition it guards is broken, and a distinct path that returns
 “could not determine”. A gate with no failing case has never been shown
 to catch anything:</p>
-<div class="sourceCode" id="cb16"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh <span class="at">--prove-failure</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh  <span class="at">--prove-failure</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh <span class="at">--prove-failure</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh  <span class="at">--prove-failure</span></span></code></pre></div>
 <h3 id="seeing-where-the-tree-stands-right-now">Seeing where the tree
 stands right now</h3>
 <p>Nothing in this file is a substitute for running them. This sequence
 is the short version, and it takes minutes rather than seconds — the
 boundary scan and the rule sweep are both slow:</p>
-<div class="sourceCode" id="cb17"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/continuation-check.sh          <span class="co"># is the handoff document stale?</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh   <span class="co"># is the governance wiring intact?</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh       <span class="co"># is every check accounted for?</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-submodule-remote-sync.sh</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/audit-environment-assumptions.sh</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh     <span class="co"># expect 1; read it, do not silence it</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/continuation-check.sh          <span class="co"># is the handoff document stale?</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh   <span class="co"># is the governance wiring intact?</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh       <span class="co"># is every check accounted for?</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-submodule-remote-sync.sh</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/audit-environment-assumptions.sh</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh     <span class="co"># expect 1; read it, do not silence it</span></span></code></pre></div>
 <p>Record what each one printed, not what this file says it prints.</p>
 <h3 id="the-check-registry">The check registry</h3>
 <p><code>scripts/check-registry.tsv</code> is the enumeration of “every
@@ -810,10 +851,10 @@ appear in some row — as a check, a declared debt, or an exemption with a
 stated reason. <strong>Adding a script under <code>scripts/</code>
 therefore fails the registry until it is registered.</strong> That is
 the rule working, not a defect.</p>
-<div class="sourceCode" id="cb18"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh              <span class="co"># structure only</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh <span class="at">--run-proofs</span> <span class="co"># actually execute the paired proofs</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh <span class="at">--strict</span>     <span class="co"># make declared debt block</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh              <span class="co"># structure only</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh <span class="at">--run-proofs</span> <span class="co"># actually execute the paired proofs</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh <span class="at">--strict</span>     <span class="co"># make declared debt block</span></span></code></pre></div>
 <p>A plain run verifies that each check <em>declares</em> a paired
 failure proof and a distinct could-not-determine path. It does not run
 them. <code>--run-proofs</code> does. The distinction matters: a proof
@@ -821,24 +862,31 @@ that returns success while exercising nothing is the failure mode the
 registry was written to catch.</p>
 <p>Reference: <a
 href="docs/check-registry.md"><code>docs/check-registry.md</code></a>.</p>
-<h3 id="two-of-these-are-expected-to-be-non-zero">Two of these are
-expected to be non-zero</h3>
+<h3 id="two-of-these-are-expected-to-be-red-one-conditionally">Two of
+these are expected to be red (one conditionally)</h3>
 <ul>
-<li><strong><code>verify-content-boundary.sh</code> exits <code>1</code>
-by design.</strong> See <a href="#content-boundary">Content
-boundary</a>. A finding there is a reading assignment. Do not silence
-it, do not allow-list your way to green.</li>
-<li><strong><code>verify-submodule-remote-sync.sh</code> exits
-<code>1</code> whenever a pin is behind its remote.</strong> Bumping a
-pin is an operator decision, and this instrument does not make one. It
-exits <code>1</code> until an operator acts.</li>
+<li><strong><code>verify-content-boundary.sh</code> is designed to stay
+red: exit <code>1</code> = findings present</strong> (re-measure:
+<code>bash scripts/verify-content-boundary.sh; echo "rc=$?"</code>). See
+<a href="#content-boundary">Content boundary</a>. A finding there is a
+reading assignment. Do not silence it, do not allow-list your way to
+green.</li>
+<li><strong><code>verify-submodule-remote-sync.sh</code> is conditional,
+by exit code:</strong> exit <code>0</code> = every owned gitlink is
+current, exit <code>1</code> = at least one pin is behind its remote or
+differs from it, exit <code>2</code> = it could not determine (never a
+pass) (re-measure:
+<code>bash scripts/verify-submodule-remote-sync.sh; echo "rc=$?"</code>).
+Bumping a pin is an operator decision, and this instrument does not make
+one, so while a pin is behind it stays at <code>1</code> until an
+operator acts.</li>
 </ul>
 <p>Neither is a reason to weaken the instrument.</p>
 <hr />
 <h2 id="deploys">Deploys</h2>
-<div class="sourceCode" id="cb19"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/deploy-langs.sh <span class="at">--dry-run</span>   <span class="co"># preview: build, no commit, no push</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/deploy-langs.sh             <span class="co"># the real cycle</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/deploy-langs.sh <span class="at">--dry-run</span>   <span class="co"># preview: build, no commit, no push</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> _tools/deploy-langs.sh             <span class="co"># the real cycle</span></span></code></pre></div>
 <p>One cycle regenerates English plus every <strong>complete</strong>
 language into both site directories, commits and pushes each site only
 where something actually changed, then validates the live sites. A
@@ -905,13 +953,15 @@ zero workflow files in its tree. Nothing inside that repository can
 change this.</p>
 <p>Every provider setting named here lives outside this tree and can
 change without leaving a trace in it. Measure instead of quoting:</p>
-<div class="sourceCode" id="cb20"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-provider-ci.sh</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   0 = no provider-generated triggering found</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   1 = provider-side triggering confirmed (operator-only to change, in the provider UI)</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   2 = could not determine — not a pass</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-provider-ci.sh</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   0 = no provider-generated triggering found</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   1 = provider-side triggering confirmed (operator-only to change, in the provider UI)</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   2 = could not determine — not a pass</span></span></code></pre></div>
 <p>It enumerates the owned repositories from this checkout’s own remotes
-and asks each provider directly. Measured 2026-09-03 it exits
+and asks each provider directly. Historical reading, 2026-09-03
+(re-measure with
+<code>bash scripts/verify-provider-ci.sh; echo $?</code>): it exited
 <code>1</code>, with the confirmed standing trigger being the
 <code>vasic.digital</code> Pages source setting, and six rows reported
 as unverified because no read-only API adapter is registered for those
@@ -923,11 +973,11 @@ suppress the unverified rows. They are printed on every run, so a
 <p>The fleet is <strong>derived</strong>, never hardcoded. Two files
 define it, and they are checked against each other in both
 directions:</p>
-<div class="sourceCode" id="cb21"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">-f</span> .gitmodules <span class="at">--get-regexp</span> <span class="st">&#39;submodule\..*\.path&#39;</span>   <span class="co"># the gitlinks</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&#39;import yaml;d=yaml.safe_load(open(&quot;helix-deps.yaml&quot;));print(len(d[&quot;deps&quot;]))&#39;</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh    <span class="co"># classifies the fleet from evidence</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-manifest-pins.sh         <span class="co"># every recorded ref vs its live gitlink</span></span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">-f</span> .gitmodules <span class="at">--get-regexp</span> <span class="st">&#39;submodule\..*\.path&#39;</span>   <span class="co"># the gitlinks</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&#39;import yaml;d=yaml.safe_load(open(&quot;helix-deps.yaml&quot;));print(len(d[&quot;deps&quot;]))&#39;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh    <span class="co"># classifies the fleet from evidence</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-manifest-pins.sh         <span class="co"># every recorded ref vs its live gitlink</span></span></code></pre></div>
 <p>Measured 2026-09-03 by exactly those commands: <strong>13 gitlinks
 are declared, 12 carry a manifest entry, and the cascade classifies 11
 as owned consumers, 1 as the governance source, and 1 as third
@@ -948,11 +998,11 @@ any verdict.</li>
 provider setting — re-derive it</h3>
 <p>Visibility is configured outside this repository and changes without
 any commit here. Do not trust the table below; regenerate it:</p>
-<div class="sourceCode" id="cb22"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> u <span class="kw">in</span> <span class="va">$(</span><span class="fu">git</span> config <span class="at">-f</span> .gitmodules <span class="at">--get-regexp</span> <span class="st">&#39;submodule\..*\.url&#39;</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $2}&#39;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">slug</span><span class="op">=</span><span class="va">${u</span><span class="op">#</span>git@github.com:<span class="va">}</span><span class="kw">;</span> <span class="va">slug</span><span class="op">=</span><span class="va">${slug</span><span class="op">%</span>.git<span class="va">}</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">printf</span> <span class="st">&#39;%-45s %s\n&#39;</span> <span class="st">&quot;</span><span class="va">$slug</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$(</span><span class="ex">gh</span> api <span class="st">&quot;repos/</span><span class="va">$slug</span><span class="st">&quot;</span> <span class="at">--jq</span> .visibility <span class="dv">2</span><span class="op">&gt;</span>/dev/null <span class="kw">||</span> <span class="bu">echo</span> COULD_NOT_DETERMINE<span class="va">)</span><span class="st">&quot;</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> u <span class="kw">in</span> <span class="va">$(</span><span class="fu">git</span> config <span class="at">-f</span> .gitmodules <span class="at">--get-regexp</span> <span class="st">&#39;submodule\..*\.url&#39;</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $2}&#39;</span><span class="va">)</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">slug</span><span class="op">=</span><span class="va">${u</span><span class="op">#</span>git@github.com:<span class="va">}</span><span class="kw">;</span> <span class="va">slug</span><span class="op">=</span><span class="va">${slug</span><span class="op">%</span>.git<span class="va">}</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">printf</span> <span class="st">&#39;%-45s %s\n&#39;</span> <span class="st">&quot;</span><span class="va">$slug</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$(</span><span class="ex">gh</span> api <span class="st">&quot;repos/</span><span class="va">$slug</span><span class="st">&quot;</span> <span class="at">--jq</span> .visibility <span class="dv">2</span><span class="op">&gt;</span>/dev/null <span class="kw">||</span> <span class="bu">echo</span> COULD_NOT_DETERMINE<span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p>Measured 2026-09-03 with exactly that loop:</p>
 <table>
 <colgroup>
@@ -1083,10 +1133,10 @@ clone step above is non-recursive.</p>
 <code>design-toolkit</code> mirrors are not in sync</h3>
 <p>That submodule has two remotes declared in this checkout, and they
 hold different heads. Re-derive rather than quoting a number:</p>
-<div class="sourceCode" id="cb23"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit remote <span class="at">-v</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit ls-remote origin HEAD</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit ls-remote gitlab HEAD</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit remote <span class="at">-v</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit ls-remote origin HEAD</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit ls-remote gitlab HEAD</span></code></pre></div>
 <p>Measured 2026-09-03: the GitLab head is a strict ancestor of the
 GitHub head — six commits behind, zero divergent. That is lag, not
 divergence, and the remote-sync instrument reports this submodule
@@ -1145,16 +1195,18 @@ teaching session with an identifiable third party. <strong>Refer to it
 by path. That person’s name belongs in no file in this
 repository.</strong></p>
 <h3 id="the-instrument">The instrument</h3>
-<div class="sourceCode" id="cb24"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh <span class="at">--list-fleet</span>          <span class="co"># the derived public/private map</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh <span class="at">--include-untracked</span>   <span class="co"># also read untracked public files</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh <span class="at">--list-fleet</span>          <span class="co"># the derived public/private map</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh <span class="at">--include-untracked</span>   <span class="co"># also read untracked public files</span></span></code></pre></div>
 <p>It shingles the private side, subtracts what is demonstrably already
 public, and reports what survives with both sides named. Legitimate
 cross-boundary flows are declared as private/public
 <strong>pairs</strong> with a mandatory reason in
 <code>.content-boundary-allow</code>.</p>
-<p><strong>It exits <code>1</code>, and that is the designed state. Do
+<p><strong>It is designed to stay red, exit <code>1</code> = findings
+present (re-measure:
+<code>bash scripts/verify-content-boundary.sh; echo "rc=$?"</code>). Do
 not make it green.</strong> The surviving matches are left visible
 rather than allow-listed, because an allow-list entry buys a green exit
 at the price of hiding the row from the next reader.</p>
@@ -1189,8 +1241,8 @@ this repository. Note the path: the constitution’s own prose uses a
 top-level <code>constitution/</code> in its examples; here it is
 <code>submodules/constitution/</code>. The bundled resolver finds it
 from any depth:</p>
-<div class="sourceCode" id="cb25"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> submodules/constitution/find_constitution.sh</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> submodules/constitution/find_constitution.sh</span></code></pre></div>
 <table>
 <colgroup>
 <col style="width: 50%" />
@@ -1242,9 +1294,9 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href=
 </tbody>
 </table>
 <p>Read one anchor rather than the whole corpus:</p>
-<div class="sourceCode" id="cb26"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;/^### §11.4.35 /{f=1} f&amp;&amp;/^### §11.4.36 /{exit} f{print}&#39;</span> <span class="dt">\</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    submodules/constitution/Constitution.md</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="st">&#39;/^### §11.4.35 /{f=1} f&amp;&amp;/^### §11.4.36 /{exit} f{print}&#39;</span> <span class="dt">\</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>    submodules/constitution/Constitution.md</span></code></pre></div>
 <h3 id="the-four-root-carriers">The four root carriers</h3>
 <p><code>CLAUDE.md</code>, <code>AGENTS.md</code>, <code>QWEN.md</code>
 and <code>GEMINI.md</code> at this root are the same document with four
@@ -1254,12 +1306,12 @@ that range — it measures where the four actually converge and refuses a
 declared split narrower than the measured one, so there is no
 identical-but- ungated remainder.</p>
 <p>Verify it yourself; expect <code>4</code> then <code>1</code>:</p>
-<div class="sourceCode" id="cb27"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> N <span class="kw">in</span> 18 19<span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">printf</span> <span class="st">&#39;from %s: &#39;</span> <span class="st">&quot;</span><span class="va">$N</span><span class="st">&quot;</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> f <span class="kw">in</span> CLAUDE.md AGENTS.md QWEN.md GEMINI.md<span class="kw">;</span> <span class="cf">do</span> <span class="fu">tail</span> <span class="at">-n</span> +<span class="va">$N</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sha256sum</span><span class="kw">;</span> <span class="cf">done</span> <span class="dt">\</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-u</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> N <span class="kw">in</span> 18 19<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">printf</span> <span class="st">&#39;from %s: &#39;</span> <span class="st">&quot;</span><span class="va">$N</span><span class="st">&quot;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> f <span class="kw">in</span> CLAUDE.md AGENTS.md QWEN.md GEMINI.md<span class="kw">;</span> <span class="cf">do</span> <span class="fu">tail</span> <span class="at">-n</span> +<span class="va">$N</span> <span class="st">&quot;</span><span class="va">$f</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sha256sum</span><span class="kw">;</span> <span class="cf">done</span> <span class="dt">\</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-u</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p><strong>Edit the shared region as one artifact</strong> — split the
 head off, edit the tail once, recompose. Editing four files by hand and
 relying on the gate to catch a slip is how they drift.</p>
@@ -1283,8 +1335,8 @@ portable <code>## INHERITED FROM …</code> pointer block as the first
 heading. This repository uses the pointer.</p>
 <p>The reason is cost, and it is stated openly rather than left
 implicit:</p>
-<div class="sourceCode" id="cb28"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span> submodules/constitution/Constitution.md submodules/constitution/CLAUDE.md</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span> submodules/constitution/Constitution.md submodules/constitution/CLAUDE.md</span></code></pre></div>
 <p>Measured 2026-09-03: the corpus is 1.7 MB and the carrier 784 KB. A
 native import pulls the carrier into context before a session does any
 work at all — on the order of 165 thousand tokens, every session,
@@ -1305,8 +1357,8 @@ corresponding gitlink points at, and the tree must match it.</p>
 <p>Move the gitlink and the manifest entry <strong>in the same
 change</strong>. Staging one without the other makes the pin check fail,
 correctly, until both move.</p>
-<div class="sourceCode" id="cb29"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-manifest-pins.sh</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-manifest-pins.sh</span></code></pre></div>
 <h3 id="the-submodule-pin-is-a-recurring-decision-not-a-task">The
 submodule pin is a recurring decision, not a task</h3>
 <p><code>scripts/verify-manifest-pins.sh</code> compares the manifest to
@@ -1314,17 +1366,18 @@ the <strong>local</strong> gitlink. It cannot see a remote, and it never
 could. A submodule arbitrarily far behind its upstream is invisible to
 it and to the cascade check that wraps it.</p>
 <p>Only one instrument here looks at a remote:</p>
-<div class="sourceCode" id="cb30"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-submodule-remote-sync.sh</span></code></pre></div>
-<p>Measured 2026-09-03 it exits <code>1</code>: the constitution gitlink
-differs from its remote head, with the <em>difference</em> determined
-and the <em>direction</em> not, because the remote commit is not in this
+<div class="sourceCode" id="cb31"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-submodule-remote-sync.sh</span></code></pre></div>
+<p>Historical reading, 2026-09-03 (re-measure with the command above):
+it exited <code>1</code>, the constitution gitlink differing from its
+remote head, with the <em>difference</em> determined and the
+<em>direction</em> not, because the remote commit is not in this
 checkout’s object store. Classifying the direction requires a fetch, and
 a fetch is a mutating command and an operator decision. The read-only
 probes tell you <em>that</em> it differs, never which way:</p>
-<div class="sourceCode" id="cb31"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> submodules/constitution rev-parse HEAD</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> submodules/constitution rev-parse HEAD</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD</span></code></pre></div>
 <p>The record in this repository shows that pin brought level with its
 upstream three times, and it differs again today. <strong>Treat it as a
 standing operator decision that recurs, not as something that
@@ -1390,8 +1443,8 @@ canonical guard script sits unused in the constitution submodule</td>
 </tbody>
 </table>
 <p>Re-read the ledger rather than this table:</p>
-<div class="sourceCode" id="cb32"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;/Current status ledger/,/^### G1 /p&#39;</span> docs/constitution-adoption/INVENTORY.md</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">&#39;/Current status ledger/,/^### G1 /p&#39;</span> docs/constitution-adoption/INVENTORY.md</span></code></pre></div>
 <h3
 id="provider-level-non-compliance-with-no-file-level-remedy">Provider-level
 non-compliance, with no file-level remedy</h3>
@@ -1470,9 +1523,9 @@ environments. A probe run against the wrong one reports a capability
 that is present as absent, or the reverse.</li>
 </ul>
 <p>Probe before relying on any of it:</p>
-<div class="sourceCode" id="cb33"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> podman docker</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> list</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> podman docker</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> list</span></code></pre></div>
 <hr />
 <h2 id="where-to-go-next">Where to go next</h2>
 <table>

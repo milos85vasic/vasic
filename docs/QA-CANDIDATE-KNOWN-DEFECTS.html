@@ -199,34 +199,26 @@ building the candidate</h2>
 <tbody>
 <tr>
 <td>CC-01</td>
-<td>MED</td>
-<td><code>verify-suppressed-residue.sh</code> exits 1. Diagnosed
-2026-10-22: main itself is already red (new carrier
-<code>curriculum/textbook-sidecars/textbook-ai001-ai-engineering.sections.json</code>,
-2 ids, and two G5 carriers). The candidate adds four more NEW carriers
-of suppressed passage ids not in the ratchet baseline:
-<code>docs/faq.docx</code> (33), <code>docs/on-screen-text.md</code>
-(1), <code>curriculum/catalog-gap-baseline.tsv</code> (10),
-<code>curriculum/citation-ratchet.tsv</code> (9). The first two are
-served from <code>/docs</code>.</td>
-<td>candidate <code>docs/</code>, <code>curriculum/</code></td>
-<td>OPEN: needs a baseline decision or cleaning by the stream
-owners</td>
+<td>HIGH</td>
+<td><code>verify-suppressed-residue.sh</code> exits 1 on the merged
+tree: ratchet FAIL for two NEW carriers of suppressed passage ids,
+<code>docs/faq.docx</code> (33 ids) and
+<code>docs/on-screen-text.md</code> (1), plus the known G3 debt. Both
+files arrive with the s11-018-library branch. These are served from
+<code>/docs</code>, so withheld text may be reachable in them.</td>
+<td>candidate worktree <code>docs/</code></td>
+<td>OPEN, not fixed on the candidate</td>
 </tr>
 <tr>
 <td>CC-02</td>
-<td>LOW</td>
-<td><code>verify-redaction-propagation.sh</code> first showed 6
-failures. Diagnosed: it probes the LIVE served corpus by default.
-Against the QA data copy (<code>--served-dir</code>) checks S1-S5 all
-pass; only R8 (red on this tree by the gate's own design: 135 citations
-of suppressed pids in 42 generated artifacts) and A6
-(<code>--purge exited 2</code>, same on main) fail, and both fail
-identically on main. The 4 extra failures were about the LIVE service: 4
-suppressed pids are unflagged in its served registry, 8 values stored in
-its DB, 4 still in its lexical index. Reported, not touched.</td>
+<td>HIGH</td>
+<td><code>verify-redaction-propagation.sh</code> exits 1 (6 assertions
+failed; served <code>redactions</code> table 1156 rows against 1112
+effective suppressions). Not diagnosed: the gate was run against the
+worktree, which lacks the untracked curriculum data.</td>
 <td>gate output</td>
-<td>R8/A6 pre-existing; live-service finding for the operator</td>
+<td>UNKNOWN whether a real defect or an environment artefact; re-run
+against the QA data copy</td>
 </tr>
 <tr>
 <td>CC-03</td>
@@ -350,7 +342,22 @@ medium-no-model, seed-password-absent, spec007-auth-wiring, scoring (200
 tests), registry-content-type, limits-completeness, ui-labels,
 ui-vocabulary, no-hierarchy-fields, gofmt, source-ref-exposure,
 transcript-anchors, material-alt, material-metadata-disclosure,
-compose-provider-passthrough, <code>scripts/api-keys.test.sh</code>.</p>
+compose-provider-passthrough, <code>scripts/api-keys.test.sh</code>. |
+CC-13 | HIGH | Cross-stream: the roles stream (s18) is deny-by-default
+for student mutations but did not classify routes of other streams; on
+the merged tree students got 403 on practice answers/submit and on
+medium/materials mutations. Found by the merged Go suite, fixed on the
+candidate (student allow-list + classification table, scanner now sees
+<code>reg(...)</code> registrations); s18's newer tip adds the practice
+routes itself, medium/materials remain candidate additions. Needs a real
+fix on the s18 branch. | <code>pkg/authhttp/roles.go</code> | FIXED on
+candidate only | | CC-14 | LOW | The
+<code>Study material reachability</code> Karma spec stubs AuthService;
+s18's nav now reads <code>isAdmin</code>/<code>roleLabel</code>, so the
+stub needed them (qa-fix). | frontend spec | FIXED on candidate | |
+CC-15 | LOW | Karma cannot start Chromium here without
+<code>--no-sandbox</code> (Ubuntu user-namespace restriction); a
+temporary karma config was used and not committed. | host | NOTE |</p>
 <h2 id="part-2-digest-of-the-independent-reviews">Part 2: digest of the
 independent reviews</h2>
 <p>Generated 2026-10-22 from the independent review reports against the
@@ -858,9 +865,13 @@ if an operator opts in with WORKSHOP_API_KEY_NAMES.</td>
 <td>pending-branches-2026-10-21.md section 4 finding 1;
 wire-completion-2026-10-21.md F1 (both reported against the pre-fix
 branches; regression found by this digest)</td>
-<td>OPEN (checked: `grep -vE '^[[:space:]]*#' platform/compose.yml |
-FIXED on the candidate by commit a92f80d (qa-fix: entries removed again;
-api-keys.test.sh 103/0)</td>
+<td>OPEN (checked:
+<code>grep -vE '^[[:space:]]*#' platform/compose.yml | grep -c ApiKey_</code>
+= 2, while scripts/api-keys.test.sh T15a expects 0;
+<code>git show &lt;merge&gt;:platform/compose.yml</code> has 0 such
+lines at 871dacc..072aeca and 2 from e96ff43 on. The test was not run,
+by reading only. n8's verify-compose-provider-passthrough gate is the
+opposite-polarity gate for the same lines)</td>
 </tr>
 <tr>
 <td>KD-027</td>

@@ -99,17 +99,53 @@ git submodule update --init submodules/constitution
 | Go 1.26 | `_tools/gen` unit tests, the generator build, the hardcoding audit |
 | Node 20 | the `_tests` Playwright suite and the portfolio validators |
 | Ruby 3.3 + Bundler | the `milosvasic.ru` Jekyll build |
-| `poppler-utils`, `tesseract-ocr` | the export self-validation (`pdftotext`, `pdfimages`, `pdftoppm`, OCR) |
+| `poppler-utils`, `tesseract-ocr` + language packs | the export self-validation (`pdftotext`, `pdfimages`, `pdftoppm`, OCR) |
+| WebKit system libraries (`libmanette`, `libwoff2`) | the Playwright `webkit` project |
 | `python3` with `PyYAML` | manifest parsing in several instruments |
 
 Without poppler and tesseract the export check reports a stated SKIP instead of
 running. A SKIP is printed loudly and is not a pass.
+
+### Host packages are installed automatically
+
+You do not install the host packages above by hand. `scripts/hostdeps.sh`
+installs them. The setup wizard (Step 10) installs all of them. Pre-push gate 5
+installs tesseract with its language packs and poppler (`--only ocr --only pdf`).
+Gate 6 only downloads the Playwright browser; when a browser cannot start, its
+preflight prints the `--only webkit` command that installs the WebKit libraries.
+
+```bash
+bash scripts/hostdeps.sh check                     # report only; one machine-readable line per package
+bash scripts/hostdeps.sh install                   # install whatever is missing, in one package-manager call
+bash scripts/hostdeps.sh install --dry-run         # show the plan and the exact command; change nothing
+bash scripts/hostdeps.sh install --print-commands  # print only the exact command for this host
+bash scripts/hostdeps.sh install --only webkit     # capabilities: webkit, ocr, pdf
+```
+
+It covers the WebKit libraries, `tesseract` with the `eng osd srp srp_latn rus
+deu fra` language packs, and poppler. It picks the package names for your
+distribution: apt-get on Debian/Ubuntu, apt-get on ALT Linux, dnf, yum, zypper,
+pacman, apk, Homebrew and MacPorts. Installing the language packs does not turn
+OCR on; per-book OCR stays opt-in and off by default.
+
+It never asks for a password. It installs only when it runs as root or when
+`sudo -n` works without one. Otherwise it prints the exact command for your host
+and exits **2**, and an exit 2 is not a pass. Run that command once as an
+administrator, then run `check`. Some packages have no name recorded for some
+distributions: the Alpine `srp_latn` pack, and poppler on ALT Linux and
+MacPorts. For those it also exits **2** and names what is missing rather than
+guess a package name. On Alpine the WebKit libraries install and are found by
+path, because musl has no `ldconfig -p`, but Playwright's WebKit build needs
+glibc and still cannot run there.
+`HOSTDEPS_AUTO_INSTALL=0` turns automatic installs off; `--yes` overrides that
+for a single run.
 
 ### 3. Verify the toolchain answers
 
 ```bash
 go version && node --version && ruby --version && bundle --version
 command -v pdftotext pdfimages pdftoppm tesseract
+bash scripts/hostdeps.sh check
 python3 -c 'import yaml; print(yaml.__version__)'
 ```
 

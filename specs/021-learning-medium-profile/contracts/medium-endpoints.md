@@ -58,7 +58,9 @@ Idempotent (second call deletes 0, still `200`).
   - consent off/absent ⇒ `403 consent_required`, nothing stored (fail closed, §11.4.252).
   - any extra JSON field ⇒ `400 unknown_field` (decoder uses `DisallowUnknownFields`).
   - duplicate `(session, idem_key)` ⇒ `200` replay, no second row (UNIQUE constraint, §11.4.253).
-  - per-session rate limit ⇒ `429`; body > 1 KiB ⇒ `413`.
+  - per-session rate limit ⇒ `429 rate_limited` with `Retry-After: 60`; body > 1 KiB ⇒ `413`.
+  - stored-event cap (5,000 events per session, `mediumstore.MaxEventsPerSession`) ⇒ `429 event_cap_reached`, NO `Retry-After`
+    (waiting does not help; `DELETE /api/profile/medium` frees it). A retry of an already stored event is still `200` replay.
 - `GET /api/profile/medium/activity` ⇒ per format medium and bucket counts (ACTIVITY only, never fed to the signal).
 
 ## 6. Headers and caching

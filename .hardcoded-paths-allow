@@ -881,3 +881,9 @@ workshop/evidence/s9/round4/e2e-run.txt
 workshop/evidence/s9/round4/gates.txt
 workshop/evidence/s9/round4/mutants-run.txt
 workshop/evidence/textbook-catalogue/authors-apply-go-mutants.log
+
+# BASELINE: captured RUN OUTPUT (verbatim terminal capture of test, gate or simulation runs on this development host) inside the workshop submodule; rewriting would falsify recorded evidence; real fix belongs to the workshop owner (relative paths in captures); found by the pre-push gate when s16-021-medium reached workshop main (f9877c91)
+workshop/evidence/s16/round2/3-wirehooks.txt
+workshop/evidence/s16/round2/6-sim.txt
+workshop/evidence/s16/round2/build.txt
+workshop/evidence/s16/round2/delta/3-wirehooks.txt

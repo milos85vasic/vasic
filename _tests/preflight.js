@@ -74,6 +74,15 @@ const path = require('path');
 const HERE = __dirname;
 const REPO = path.resolve(HERE, '..');
 
+// webkitRemedy(browser) — the one command that fixes a browser that cannot
+// launch, runnable from ANY working directory (it cds to the repository root
+// first; the root is single-quoted for the shell).
+function webkitRemedy(browser) {
+  const q = `'${REPO.replace(/'/g, `'\\''`)}'`;
+  return `cd ${q} && bash scripts/hostdeps.sh install --only webkit` +
+    ` && bash scripts/hostdeps.sh ensure-browsers _tests ${browser}`;
+}
+
 // The roots playwright.config.js serves. Kept beside the config's own values
 // rather than re-derived, because a preflight that checks a DIFFERENT directory
 // from the one served is worse than no preflight: it would go green on a tree
@@ -272,7 +281,15 @@ async function probeBrowsers(names) {
       results.push({
         name: n,
         ok: false,
-        reason: `${head}${cause ? ' ' + cause : ''} — run: (cd _tests && npx playwright install --with-deps ${n})`,
+        // The remedy is the repository's own installer, not `--with-deps`:
+        // `install-deps` needs root and knows only Debian/Ubuntu, while
+        // scripts/hostdeps.sh carries the per-distribution package table,
+        // installs without a prompt when it may, and otherwise prints the
+        // exact command (`--print-commands`) and exits 2. The remedy starts
+        // with `cd <repository root>` because gate 6 runs this file from
+        // _tests/, where the root-relative paths would not resolve.
+        reason:
+          `${head}${cause ? ' ' + cause : ''} — run: ${webkitRemedy(n)}`,
       });
     }
   }

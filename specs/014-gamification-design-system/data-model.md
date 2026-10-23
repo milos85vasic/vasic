@@ -132,7 +132,7 @@ export interface AchievementBadgeMeta {
    *  what a badge means." Bound to the badge element's `aria-label`, never
    *  to the decorative `.is-new` ring. */
   readonly label: string;
-  readonly earnedAtIso: string;
+  readonly earnedAtIso: string | null;  // always null for now: nothing renders it, so the producer does not read the event history to fill it
   /** Drives the `.lk-badge--achievement.is-new` decorative pulse (Phase 3,
    *  FR-011/spec §2.1) — purely visual; `label` above carries the meaning
    *  regardless of this value. */

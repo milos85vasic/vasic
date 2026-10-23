@@ -17,7 +17,7 @@ type Config struct {
     ZPreferred  float64 // z for "preferred" (default 3.0 - delegate default, operator may amend; was 1.28)
     MaxObs      int     // newest rows read (default 5000)
     WindowDays  int     // 0 = all history (default 0)
-    ConfirmLooks int    // consecutive evaluations with new evidence showing the same lead before it is suggested (default 3)
+    ConfirmLooks int    // consecutive evaluations with new evidence showing the same lead before it is suggested (default 2; was 3 until the 10,000-learner run of 2026-10-22, research.md 3.1)
 }
 ```
 

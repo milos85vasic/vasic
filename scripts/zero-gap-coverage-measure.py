@@ -694,7 +694,7 @@ ROOT_CELLS = [
     ('claim-ledger', ['bash', 'scripts/verify-claim-ledger.sh'], r'(\d+) (?:PASS|rows?|claims?)'),
     ('gate-paired-mutation', ['bash', 'scripts/verify-claim-ledger.sh', '--prove-failure'], r'(\d+) (?:passed|mutations?|caught|assertions)'),
     ('export-validation', ['bash', '_tests/export/self-validate.sh'], r'(\d+) (?:PASS|passed)'),
-    ('host-capability', ['bash', 'scripts/hostdeps.sh'], r'(\d+) (?:PASS|present|OK|ok|probed|tools?)'),
+    ('host-capability', ['bash', 'scripts/hostdeps.sh', 'check'], r'hostdeps summary: (\d+) probed'),
     ('provider-ci', ['bash', 'scripts/verify-provider-ci.sh'], r'(\d+) (?:CONFIRMED|repositories|no-trigger)'),
     ('umbrella-mutation', ['bash', 'scripts/prove-umbrella-mutants.sh', '--set', 'mutation'], r'(\d+) killed'),
     ('fuzz', ['bash', 'scripts/prove-umbrella-mutants.sh', '--set', 'fuzz'], r'(\d+) killed'),

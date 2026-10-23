@@ -281,14 +281,29 @@ spec 011 recorded its own blocked story.
   (i) False-preference control: with **no** true format effect, ≥ 95% of simulated learners are not told a
   lead (classified `no_clear_preference` or `insufficient_evidence`) at a single look, at EVERY simulated
   sample size from 10 to 120 graded answers per format; and a returning learner (a look after every 5 new
-  graded answers per format, the 3-look persistence rule on) is ever shown a lead with probability ≤ 5% by 60
+  graded answers per format, the 2-look persistence rule on) is ever shown a lead with probability ≤ 5% by 60
   and ≤ 8% by 120 graded answers per format. (ii) Power: with a true +0.20 residual effect in one format,
   ≥ 80% of simulated learners reach `leaning` or `preferred` at **120 graded answers per format**, both at a
-  single look (measured 0.82) and with the persistence rule (measured 0.803). Stated limits, not hidden: the
-  persistence margin over the bound is 0.003; below ~100 graded answers per format the honest output is mostly
+  single look (measured 0.82) and with the persistence rule. **Correction 2026-10-22 (independent review B-1):**
+  the earlier "measured 0.803, margin 0.003" came from 1,000 learners at one seed, where the standard error
+  (~0.0126) is four times that margin; on independent 10,000-learner runs the then-default `confirm_looks=3` gave 0.79-0.81 (pooled about
+  0.800), i.e. it sits AT the ratified bound and a lower-limit assertion there is not reproducible across seeds. The
+  default is now `confirm_looks=2` (one-line default in pkg/medium/config.go; K=2 (shipped) vs K=3 vs K=3 with 150 answers per format remains an operator decision, see
+  research.md 3.1): power with persistence at 120 per
+  format is 0.8376 (95% interval 0.830-0.845, 10,000 learners), asserted on the LOWER limit >= 0.80 by
+  `TestSimulationSC009Large`. Stated limits, not hidden: below ~100 graded answers per format the honest output is mostly
   "no clear difference"; a learner with no preference in any of four areas sees a confirmed lead in at least
-  one area with probability 0.051 by 60 and 0.142 by 120 graded answers per format; the dense-look worst case
-  (a look after every answer) is 0.064 ever-shown by 120. If a rerun of the shipped thresholds misses a bound,
+  one area (each area tracked separately, `confirm_looks=2`, 10,000 learners) with probability 0.099 by 60 and 0.155
+  by 120 graded answers per format (about 0.060 and 0.111 with `confirm_looks=3`); a single-area null learner is ever
+  shown a lead with probability 0.027 by 60 and 0.044 by 120; the dense-look worst case (a look after every answer) is 0.036 / 0.057 / 0.080 by 30 / 60 / 120 at `confirm_looks=2`
+  (10,000 learners, independent review) and 0.064 by 120 at 3 (1,000 learners). The simulator is optimistic: it feeds the
+  classifier the TRUE ability (no estimation error, no drift), fixed items per format and machine-graded outcomes for the
+  second format, so real power is expected lower and real false leads higher. A regression ceiling of 0.17 on the four-area
+  figure by 120 exists in `TestSimulationSC009Large` only (it is a test guard, not a requirement; measured 0.155-0.161). **Production limit
+  (review B-4):** the response log holds only automatically scored multiple-choice answers, and a comparison needs two
+  scored formats, so on real data the profile cannot leave `insufficient_evidence` until a second machine-graded format
+  exists; this SC is evidenced on simulation and fixtures only, and docs/features/learning-medium/
+  follow-up-second-graded-format.md names the path. If a rerun of the shipped thresholds misses a bound,
   the thresholds are retuned and the evidence re-captured; the numbers are measured, not assumed, and a bound
   is never lowered to make a run pass.
 - **SC-010**: Live verification writes `evidence/live/result.json` plus a sha256 manifest from the running stack
@@ -301,7 +316,7 @@ spec 011 recorded its own blocked story.
 - Flashcard outcomes are machine-graded or self-reported — settled in T004; the default here treats
   self-reported as activity only.
 - The platform serves authenticated learners as in spec 015; anonymous `X-Session` use remains supported.
-- Default thresholds (`n_min=8`, `gap_min=0.10`, `z_leaning=2.5`, `z_preferred=3.0`, `confirm_looks=3` - delegate defaults after SC-009 evidence, research.md 3.1; operator may amend; the originally PROPOSED 0.67/1.28 were measured to be too liberal) are starting
+- Default thresholds (`n_min=8`, `gap_min=0.10`, `z_leaning=2.5`, `z_preferred=3.0`, `confirm_looks=2` (was 3 until the 10,000-learner run, SC-009) - delegate defaults after SC-009 evidence, research.md 3.1; operator may amend; the originally PROPOSED 0.67/1.28 were measured to be too liberal) are starting
   points to be validated by SC-009; they are not calibrated facts.
 
 ## Dependencies and Blockers
