@@ -405,7 +405,7 @@ direction/magnitude after each, and the next question served is chosen near the 
   until PASS. Paste real output.
       *(Stream S2 on 2026-10-20: DONE, TestNextHandler_ServesOneQuestionWithATokenAndNeverTheAnswerKey: the keys are absent as KEYS in study AND assessment mode; mutant m013api_next_leaks_the_key caught))*
 
-- [ ] **T022 [US1]** Wire the two new routes into `cmd/workshop-server/main.go`: open `scoring.Store` *(Reconciled by 026 on 2026-10-20, D10: do the `main.go` wiring through `cmd/workshop-server/wire_scoring.go` and replace only the `// hook:scoring` line; do not add hunks elsewhere in `main.go`.)*
+- [x] **[DONE - evidence: workshop main `platform/backend/cmd/workshop-server/main.go:1614` makes `setPracticeQuestionDeps(questionsDeps)`; `wire_scoring.go` + `routes_scoring_test.go` present; commit a24b86ba is an ancestor of main; `evidence/s2/013-us1/main-go-hook-line.txt`. `go build` not re-run by this audit; ticked by 026 Wave 1 on 2026-10-24]** **T022 [US1]** Wire the two new routes into `cmd/workshop-server/main.go`: open `scoring.Store` *(Reconciled by 026 on 2026-10-20, D10: do the `main.go` wiring through `cmd/workshop-server/wire_scoring.go` and replace only the `// hook:scoring` line; do not add hunks elsewhere in `main.go`.)*
   alongside the existing `authstore.Open`/`api.NewProgressStore` calls (same data directory), register
   `GET /api/areas/{area}/questions/next` and `POST /api/areas/{area}/questions/{question}/submit`
   beside the existing questions/assessment route block (plan.md cites lines ~1444-1452 — re-read the

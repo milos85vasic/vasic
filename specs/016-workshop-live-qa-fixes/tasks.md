@@ -150,7 +150,7 @@ persists.
 - [x] T009 [SUBAGENT] [US1] Fix the root cause found in T004 — if frontend selection is broken, fix
       the event binding / state update in the practice-question component so T005 passes; if the
       component already worked, skip this task and record why in the ledger (per T004's finding).
-- [ ] T010 [REVIEW] [US1] Fix the backend acknowledgment path (only if T004/T006 found a genuine
+- [x] T010 [REVIEW] [US1] Fix the backend acknowledgment path (only if T004/T006 found a genuine **[DONE - evidence: internal/api/practice_answers.go wired via setPracticeQuestionDeps (cmd/workshop-server/main.go:1614); merge 5ada2182; ticked by 026 Wave 1 on 2026-10-24; verified present on workshop main 144419d7, gates not re-run]**
       server-side gap distinct from the selection bug) so T006 passes. **Review gate**: per plan.md's
       Review Gates, this endpoint touches every learner's every practice attempt — independent review
       required before merge regardless of how small the diff is.

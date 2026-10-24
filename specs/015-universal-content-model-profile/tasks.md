@@ -264,7 +264,7 @@ with no new endpoint or second catalog loader.
 
 ### Submodule landing
 
-- [ ] **T017 [REVIEW] [SUBAGENT] [US1] [SUBMODULE-PROCESS]** Land T002–T016
+- [x] **T017 [REVIEW] [SUBAGENT] [US1] [SUBMODULE-PROCESS]** Land T002–T016 **[DONE - evidence: curriculum-kit commit e5dcfae (LocationAnchor, CK028, CK901), umbrella gitlink and helix-deps ref both e5dcfaee; ticked by 026 Wave 1 on 2026-10-24; verified present on workshop main 144419d7, gates not re-run]**
   as commit(s) inside the `curriculum-kit` repository itself (its own
   history, its own review, per the SUBMODULE NOTICE above — **not** folded
   into an umbrella or `workshop` commit). Once landed and tagged/released
@@ -321,7 +321,7 @@ with no new endpoint or second catalog loader.
 
 ### Cross-spec dependency: spec 012 (document-ingestion-textbooks)
 
-- [ ] **T023 [SUBAGENT] [US1] [CROSS-SPEC] [BLOCKED]** **Depends on spec
+- [x] **T023 [SUBAGENT] [US1] [CROSS-SPEC] [BLOCKED]** **Depends on spec **[DONE - evidence: cmd/ingest-transcript/main.go Attrs + passagestore.ValidateIngestAttrs; commit 67987df7; ticked by 026 Wave 1 on 2026-10-24; verified present on workshop main 144419d7, gates not re-run]**
   012's `Attrs` passthrough, FR-021 in
   `specs/012-document-ingestion-textbooks/spec.md` (its own task T006a) —
   not yet implemented, so this task is BLOCKED, not merely pending.** Spec
@@ -447,7 +447,7 @@ the four new endpoints and no new persisted state.
   submission. `404` `ErrAreaNotFound` via the same `learningArea` resolution
   path every other `{area}`-scoped route uses (FR-020).
 
-- [ ] **T028 [US2]** Wire all four handlers into the route table alongside
+- [x] **T028 [US2]** Wire all four handlers into the route table alongside **[DONE - evidence: cmd/workshop-server/wire_profile.go, internal/api/profile.go; ticked by 026 Wave 1 on 2026-10-24; verified present on workshop main 144419d7, gates not re-run]**
   the existing learning routes, threading the same `LearningDeps`-shaped
   dependencies (`*learning.SessionStore`, `*api.ProgressStore`,
   `*learning.Catalog`) every existing route already receives — no new
@@ -507,7 +507,7 @@ the four new endpoints and no new persisted state.
   sections (header, activity, charts, reports) independently (FR-018) — four
   separate empty-state renders, not one "page is not broken" fallback.
 
-- [ ] **T038 [TDD] [US2]** `platform/frontend` Playwright
+- [x] **T038 [TDD] [US2]** `platform/frontend` Playwright **[DONE - evidence: platform/frontend/e2e/profile.spec.ts, evidence/n5/e2e-profile.txt; ticked by 026 Wave 1 on 2026-10-24; verified present on workshop main 144419d7, gates not re-run]**
   `profile.spec.ts` covering spec.md's User Story 2 Acceptance Scenarios
   1–4: merged timeline render, working retake link (verified by confirming
   the SAME `POST /api/areas/{area}/assessment/submit` request shape the
@@ -521,7 +521,7 @@ the four new endpoints and no new persisted state.
 
 ### Cross-spec dependency: spec 013 (adaptive-assessment-scoring)
 
-- [ ] **T040 [SUBAGENT] [US2] [CROSS-SPEC]** **Depends on spec 013 landing a
+- [x] **T040 [SUBAGENT] [US2] [CROSS-SPEC]** **Depends on spec 013 landing a **[DONE - evidence: internal/api/profile.go ability_scores_status (line 514), profile_scoring_test.go; commit 7125e0ac; ticked by 026 Wave 1 on 2026-10-24; verified present on workshop main 144419d7, gates not re-run]**
   stable, read-only `AbilityScore`/`ResponseLogEntry` interface — as of this
   writing (2026-09-30), `specs/013-adaptive-assessment-scoring/` carries
   `spec.md`, `contracts/`, `data-model.md`, `plan.md`, and `quickstart.md`
@@ -569,13 +569,13 @@ each contributing real progress/score data) — a precondition that cannot be
 satisfied by any task in this file, since it requires genuine usage over
 time, not a fixture.
 
-- [ ] **T041 [US3]** Once real cross-format usage data exists (see
+- [x] **T041 [US3]** Once real cross-format usage data exists (see **[DONE - evidence: internal/api/profile_sources.go (PER-FORMAT, NEVER BLENDED), profile_scoring_test.go:126; commit 7125e0ac; ticked by 026 Wave 1 on 2026-10-24; verified present on workshop main 144419d7, gates not re-run]**
   Depends-on above), extend `ProfileReportsHandler` (T026) so each format's
   contribution to a report is individually attributable/traceable to its own
   citation/anchor (FR-021), while still offering a blended overall view
   where one is shown.
 
-- [ ] **T042 [TDD] [US3]** Add a test confirming 100% of the data points a
+- [x] **T042 [TDD] [US3]** Add a test confirming 100% of the data points a **[DONE - evidence: profile_scoring_test.go:126 T041/T042 traceability oracle; commit 7125e0ac; ticked by 026 Wave 1 on 2026-10-24; verified present on workshop main 144419d7, gates not re-run]**
   cross-format report draws on remain individually traceable back to their
   originating `Video`/`Location` anchor (SC-008) — re-run the check
   `quickstart.md` Step 9 names, for real, against real recorded activity.

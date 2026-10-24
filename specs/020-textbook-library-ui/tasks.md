@@ -35,11 +35,11 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
       COPY, a scratch `-index`, and `-docs`/`-curriculum` pointing at a scratch tree (same artefact as 018/019 T002 — reuse if present, re-verify, do not copy
       the claim). Also confirm `pipeline/venv/bin/python`, `pdftotext`, `pdfinfo`, `pdfimages`, `pdftocairo` resolve and `platform/bin/ingest-transcript` is current
       against its source (rebuild into scratch and compare `-h` flag lists if unsure) and build `registry-restamp-content-type` into scratch if it is absent.
-- [ ] T003 [P] [SETUP] Classify every tool the ingestion procedure may touch as **model-free** or **model-using** by reading source (not guessing): `pdf_textbook_sections.py`,
+- [x] T003 [P] [SETUP] Classify every tool the ingestion procedure may touch as **model-free** or **model-using** by reading source (not guessing): `pdf_textbook_sections.py`,
       `pdf_textbook_diagrams.py` (imports: `subprocess`, `PIL` — confirm), `ingest-transcript` (does `-docs` mode ever construct an HTTP client? `grep` its
       imports), `registry-restamp-content-type`, `scripts/bench-retrieval.sh` (does it call generation or only retrieval?), `scripts/index.sh`. Output
       `evidence/…/model-free-allowlist.md`: tool → evidence line (file:line) → classification. Anything `UNCONFIRMED` is excluded from the allow-list until proven. This
-      table is the input of the guard tasks T019-T021.
+      table is the input of the guard tasks T019-T021. **[DONE - evidence: workshop main evidence/textbooks/textbooks-c8adbd3ca35d/static_scan.json, scripts/ingest-textbooks.sh scan; ticked by 026 Wave 1 on 2026-10-24]**
 - [ ] T004 [SETUP] Record operator decisions D-LIC, D-PDF, D-DIAG, D-EMB, D-SVG, D-TITLES (spec.md Clarifications) interactively (§11.4.66): the license-basis string
       `operator-directed 2026-10-20` exactly as given, display titles (and optional authors) for the 3 books, whether original PDFs may be served (default no),
       whether diagram captions become searchable (default no), whether local embedding at boot counts as a model call (default: allowed, disclosed), SVG serving
@@ -48,9 +48,9 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
       `pkg/search/catalog.go:320-355` with `python3 -I`, and record per book `{pages, pages_matching}` and the **page numbers** (no matched text). Repeat for the
       candidate display titles. Expected from the authoring-time scan: 0 / 0 / 3 pages (cookbook 3). Oracle: the regex is copied from the Go source by the task, and a
       Go test in T013-T014 re-checks the same pages with `search.HasSourceFilenameShape`.
-- [ ] T006 [P] [SETUP] Sandbox capability probe for the model-free guard: determine which of `strace -f -e trace=network`, `unshare -rn` (rootless net namespace),
+- [x] T006 [P] [SETUP] Sandbox capability probe for the model-free guard: determine which of `strace -f -e trace=network`, `unshare -rn` (rootless net namespace),
       `bwrap --unshare-net` work for an unprivileged process here. Record the result and the chosen mechanism; if none works the guard test exits 2 (undetermined) and
-      the ingestion tasks T022-T024 are blocked until one does — an unenforced guard is not a guard.
+      the ingestion tasks T022-T024 are blocked until one does — an unenforced guard is not a guard. **[DONE - evidence: workshop main evidence/textbooks/textbooks-c8adbd3ca35d/result.selftest.json, scripts/ingest-textbooks.sh selftest; ticked by 026 Wave 1 on 2026-10-24]**
 - [ ] T007 [P] [SETUP] Long-ops + headroom (§11.4.232/§12.6/§12.12): register `purpose_key`s `textbook-extract`, `textbook-diagrams`, `registry-promote`, `restart`; record
       `ulimit -u`, live thread count, `free -m`, and free disk under `curriculum/` (diagram PNGs can be large — measured in T023, estimated here from `pdfimages -list`
       sizes without extracting).
@@ -76,23 +76,23 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
       sidecar's pids **by page**, and two sections on one page → rc 1; (f) unreadable file → rc 2; (g) absolute paths in `diagrams.json` (`raster_path`) are rewritten to
       relative names and no absolute path or username appears anywhere in the output (grep test); (h) `chapters[]` = maximal runs of consecutive pages with identical
       `section_title`. (i) a display title matching the filename-shape regex → rc 1, a section title matching it → listed by page in the output (rc 0). **Oracle**: golden typed in the test; page/pid joins computed by the test. → RED.
-- [ ] T010 [TDD] [FOUND] Implement `pipeline/textbook_catalogue.py` (NEW, stdlib only, no network import — checked by T019's static scan) producing `catalogue.json` per
-      `contracts/textbook-catalogue.md`. Atomic write (temp + rename). Three-valued exit. It also tests every display title and section title with the filename-shape regex of `pkg/search/catalog.go:320-355`: a matching display title → rc 1; matching section titles → listed by page number in the output for the operator (they come from the PDF and are not edited). Green.
-- [ ] T011 [TDD] [FOUND] [SUBAGENT] Write failing `internal/textbooks/catalogue_test.go`: strict decode (`DisallowUnknownFields`), invariants (`sum(sections)==len(sections list)`,
+- [x] T010 [TDD] [FOUND] Implement `pipeline/textbook_catalogue.py` (NEW, stdlib only, no network import — checked by T019's static scan) producing `catalogue.json` per
+      `contracts/textbook-catalogue.md`. Atomic write (temp + rename). Three-valued exit. It also tests every display title and section title with the filename-shape regex of `pkg/search/catalog.go:320-355`: a matching display title → rc 1; matching section titles → listed by page number in the output for the operator (they come from the PDF and are not edited). Green. **[DONE - evidence: workshop main pipeline/textbook_catalogue.py, curriculum/textbooks/catalogue.json; ticked by 026 Wave 1 on 2026-10-24]**
+- [x] T011 [TDD] [FOUND] [SUBAGENT] Write failing `internal/textbooks/catalogue_test.go`: strict decode (`DisallowUnknownFields`), invariants (`sum(sections)==len(sections list)`,
       pages unique and ascending, `chapters` partition the section list, ids match `^[a-z0-9][a-z0-9-]{0,63}$`), golden JSON built by the Python builder from the T009 fixture,
       malformed file → `ErrCatalogueInvalid` naming the field (never a partial catalogue), absent file → `ErrCatalogueAbsent` (distinct: a determined "no textbooks ingested yet").
-      **Oracle**: the Python-produced golden; invariant checks written independently of the loader. → RED.
-- [ ] T012 [TDD] [FOUND] Implement `internal/textbooks/catalogue.go` (NEW). Green with `-race`.
-- [ ] T013 [TDD] [FOUND] [SUBAGENT] Write failing `internal/textbooks/join_test.go`: `Join` over a fake `[]passage.Record` — per book counts of `textbook_section` rows by `scope`;
+      **Oracle**: the Python-produced golden; invariant checks written independently of the loader. → RED. **[DONE - evidence: workshop main platform/backend/internal/textbooks/catalogue_test.go, roundtrip_test.go, integrity_test.go; ticked by 026 Wave 1 on 2026-10-24]**
+- [x] T012 [TDD] [FOUND] Implement `internal/textbooks/catalogue.go` (NEW). Green with `-race`. **[DONE - evidence: workshop main platform/backend/internal/textbooks/catalogue.go; ticked by 026 Wave 1 on 2026-10-24]**
+- [x] T013 [TDD] [FOUND] [SUBAGENT] Write failing `internal/textbooks/join_test.go`: `Join` over a fake `[]passage.Record` — per book counts of `textbook_section` rows by `scope`;
       `state` ∈ `ingested` (all catalogue sections have a live row), `partial`, `not_ingested` (catalogue present, no rows — registry not yet promoted/restarted); suppressed rows are
       not counted and not citable; `Cite(pid)` returns book, page (= `source_ref.line_start`), section title from the catalogue (by pid) — `false` for a non-textbook pid, unknown pid, or
       suppressed pid (indistinguishable). Also: the six-thousand-character embed limit (`-embed-max-chars 6000`) — `Join` reports `pages_over_embed_limit` per book (count). **Oracle**: counts
-      from a typed table + a Python count over a JSONL fixture. → RED.
-- [ ] T014 [TDD] [FOUND] Implement `internal/textbooks/join.go` (NEW), green with `-race`; include a test that runs `search.HasSourceFilenameShape` over the fixture titles (the boundary guard,
-      spec.md B11).
-- [ ] T015 [P] [FOUND] `FuzzCatalogueDecode` (60 s, `agent-admit.sh -m 4G`): arbitrary bytes never panic; any accepted catalogue satisfies the invariants.
-- [ ] T016 [REVIEW] [FOUND] Independent review (Opus xhigh) of T009-T015: oracle independence, determinism, the by-page join assumption (one section per page — verify against
-      `pdf_textbook_sections.py:195-215`), disclosure (no absolute path, no filename in any field), fail-closed decode. Verdict file.
+      from a typed table + a Python count over a JSONL fixture. → RED. **[DONE - evidence: workshop main platform/backend/internal/textbooks/join_test.go; ticked by 026 Wave 1 on 2026-10-24]**
+- [x] T014 [TDD] [FOUND] Implement `internal/textbooks/join.go` (NEW), green with `-race`; include a test that runs `search.HasSourceFilenameShape` over the fixture titles (the boundary guard,
+      spec.md B11). **[DONE - evidence: workshop main platform/backend/internal/textbooks/join.go, titleshape.go; ticked by 026 Wave 1 on 2026-10-24]**
+- [x] T015 [P] [FOUND] `FuzzCatalogueDecode` (60 s, `agent-admit.sh -m 4G`): arbitrary bytes never panic; any accepted catalogue satisfies the invariants. **[DONE - evidence: workshop main platform/backend/internal/textbooks/catalogue_test.go:103 FuzzCatalogueDecode; ticked by 026 Wave 1 on 2026-10-24]**
+- [x] T016 [REVIEW] [FOUND] Independent review (Opus xhigh) of T009-T015: oracle independence, determinism, the by-page join assumption (one section per page — verify against
+      `pdf_textbook_sections.py:195-215`), disclosure (no absolute path, no filename in any field), fail-closed decode. Verdict file. **[DONE - evidence: merge d4c8dabf (ancestor of main) plus review-conditions 981188be; verdict file path not located; ticked by 026 Wave 1 on 2026-10-24]**
 
 **Checkpoint**: the catalogue builder and loader agree on golden fixtures; join and citation lookup are proven on fakes.
 
@@ -115,37 +115,37 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
       (5) an image-only PDF → rc 2 "no text layer", never rc 0; (6) a page below `--min-chars` is skipped and the gap is listed in `report.json`; (7) the catalogue built after the dry-run
       equals the golden; (8) wrapper exit contract 0/1/2 on each failure class (missing pdf, unreadable registry, tool absent); (9) `--apply` refuses without `WORKSHOP_ORCH=1`
       and a PASS `--pre` verdict (019 seam). **Oracle**: line-hash diffs and counts computed by the test with `sha256sum`/`wc`/`python3 -I`. → RED.
-- [ ] T018 [TDD] [US1] Implement `scripts/ingest-textbooks.sh` (NEW) per `contracts/textbook-ingestion-procedure.md`: reads `curriculum/textbooks/books.json` for ids/scope slugs/license basis (single
+- [x] T018 [TDD] [US1] Implement `scripts/ingest-textbooks.sh` (NEW) per `contracts/textbook-ingestion-procedure.md`: reads `curriculum/textbooks/books.json` for ids/scope slugs/license basis (single
       source of truth — the string is passed to `pdf_textbook_sections.py --license-basis` verbatim), runs the extractors under `scripts/agent-admit.sh`, places sidecars under
       `curriculum/textbooks/`, runs `ingest-transcript -dir <copy|live> -kinds textbook_section -skip-suppressed -no-write-anchors -source-root "$PWD" -docs …`, builds the catalogue,
-      verifies counts, delegates the live swap to `scripts/promote-registry.sh` (019). `bash -n`/shellcheck clean (§11.4.67). Green T017.
-- [ ] T019 [TDD] [US1] **Hard guard — no model call (the ZERO-token proof).** Write failing `scripts/ingest-textbooks.guard.test.sh` with three independent arms, each able to fail:
+      verifies counts, delegates the live swap to `scripts/promote-registry.sh` (019). `bash -n`/shellcheck clean (§11.4.67). Green T017. **[DONE - evidence: workshop main scripts/ingest-textbooks.sh, scripts/ingest-textbooks.test.sh; ticked by 026 Wave 1 on 2026-10-24]**
+- [x] T019 [TDD] [US1] **Hard guard — no model call (the ZERO-token proof).** Write failing `scripts/ingest-textbooks.guard.test.sh` with three independent arms, each able to fail:
       (A) *static*: scan `ingest-textbooks.sh`, `pdf_textbook_sections.py`, `pdf_textbook_diagrams.py`, `textbook_catalogue.py` and the Go ingest path's import list for any token in the
       deny-list (`ollama`, `curl`, `wget`, `llama`, `whisper`, `faster_whisper`, `transcribe`, `openai`, `anthropic`, `/api/generate`, `/api/chat`, `/v1/`, `-answer`, `index-embed`, `urllib.request`,
       `http.client`, `requests`, `socket`, `aiohttp`) and require every external command in the script to be in the T003 allow-list; (B) *runtime*: run the whole fixture procedure under the
       isolation mechanism chosen in T006 and assert **zero `connect()`/`sendto()` attempts** (strace) or that every network call fails in the empty namespace and the procedure still
       succeeds (proving it never needed one); (C) *environment*: run with a recording listener standing in for the Ollama port and the answering endpoint (`OLLAMA_URL`,
       `WORKSHOP_ANSWER_PROVIDER` pointed at it) and assert the listener saw **0 requests**. Output `model_calls` = measured count (must be 0) and the tool list actually exec'd (from strace
-      `execve`). **Oracle**: kernel-level syscall trace and the listener's own log — neither is the code under test. → RED (script absent) then GREEN with T018.
+      `execve`). **Oracle**: kernel-level syscall trace and the listener's own log — neither is the code under test. → RED (script absent) then GREEN with T018. **[DONE - evidence: workshop main scripts/ingest-textbooks.sh header (strace+bwrap arms), scripts/ingest-redaction-guard.test.sh, scripts/ingest-textbooks.test.sh; commit f8ec7750; NB spec-named ingest-textbooks.guard.test.sh is absent; ticked by 026 Wave 1 on 2026-10-24]**
 - [ ] T020 [TDD] [US1] Paired mutation gate (§1.1): `platform/gates/verify-textbook-ingest-model-free.sh` (runs T019 and asserts the evidence schema) and
       `platform/gates/prove-textbook-ingest-model-free-mutation.sh` with mutants M1 add a `curl` call to the wrapper, M2 add `import urllib.request` to the catalogue builder, M3 call the Ollama
       stand-in from the extractor wrapper, M4 remove the isolation step (guard must go red because the arm cannot run: rc 2, not 0), M5 add an `index-embed` invocation, M6 weaken the deny-list;
       each MUST make the gate exit non-zero; the control exits 0. Register in the gate registry TSV.
-- [ ] T021 [REVIEW] [US1] Independent review (Opus xhigh) of T017-T020: can the guard be fooled (a library that shells out to a binary not on the deny-list; a socket opened by a child), does arm (B)
-      cover child processes (`strace -f`), is "0" meaningful (a trace that captured nothing must be rc 2), does any step of the real procedure fall outside the fixture's coverage. Verdict file.
+- [x] T021 [REVIEW] [US1] Independent review (Opus xhigh) of T017-T020: can the guard be fooled (a library that shells out to a binary not on the deny-list; a socket opened by a child), does arm (B)
+      cover child processes (`strace -f`), is "0" meaningful (a trace that captured nothing must be rc 2), does any step of the real procedure fall outside the fixture's coverage. Verdict file. **[DONE - evidence: merge 1cdfdb6a (ancestor of main), commit f8ec7750; verdict file path not located; ticked by 026 Wave 1 on 2026-10-24]**
 
 ### Real run (orchestrator)
 
-- [ ] T022 [ORCH] [US1] **Extraction of the 3 real PDFs** under `agent-admit.sh --tag textbooks -m 6G -T 3600` and the T006 isolation: `ingest-textbooks.sh --extract` into
+- [x] T022 [ORCH] [US1] **Extraction of the 3 real PDFs** under `agent-admit.sh --tag textbooks -m 6G -T 3600` and the T006 isolation: `ingest-textbooks.sh --extract` into
       `$SCRATCH/textbooks/` (not the tree). Record per book `{pdf_sha256, pages, sections, skipped_stub_pages, extraction_failures, sidecar_sha256, seconds}`; run twice and require equal
       sidecar sha256 (determinism); expected sections 179 / 513 / 983 = 1675 (017 T017 — **re-derive, do not trust**). `extraction_failures` > 0 → report per page, do not hide. Evidence
-      `extract.json` (numbers only).
+      `extract.json` (numbers only). **[DONE - evidence: workshop main evidence/textbooks/textbooks-c8adbd3ca35d/result.extract.json, evidence/s7/guarded-run/00-extract/result.extract.json; ticked by 026 Wave 1 on 2026-10-24]**
 - [ ] T023 [ORCH] [US1] **Diagram extraction** for the 3 PDFs (`--diagrams`): record per book `{candidates, high_quality, low_quality, vector_source_available, no_automated_redraw}`, total bytes of — n3 PARTIAL: extraction run on COPIES only (see the n3 report); the live place (T065) and the live catalogue were NOT touched
       the PNG tree, the number of pages carrying ≥ 1 diagram; convert to relative paths in `diagrams.json`. Cookbook expected 94 candidates (87 high / 7 low) per 017 — re-derive; the other two books
       are `UNCONFIRMED` until this task. Free disk checked first (T007); abort rc 2 if < 2× the estimate.
-- [ ] T024 [ORCH] [US1] **Dry run on a COPY of the live registry** (`--dry-run`): rows `34817 → 36492` (re-derive both numbers), changed existing rows 0, counts by kind unchanged except
+- [x] T024 [ORCH] [US1] **Dry run on a COPY of the live registry** (`--dry-run`): rows `34817 → 36492` (re-derive both numbers), changed existing rows 0, counts by kind unchanged except
       `+textbook_section`, `content_type=textbook` on every added row; second run new 0 / changed 0; `filename_shape_rows` (expected 3, T005); `pages_over_embed_limit` per book; `/api/chapters`
-      expectation unchanged (6). If any pre-existing line differs after a no-op sync → STOP (finding, not tolerance). Evidence `registry-diff.json`.
+      expectation unchanged (6). If any pre-existing line differs after a no-op sync → STOP (finding, not tolerance). Evidence `registry-diff.json`. **[DONE - evidence: workshop main evidence/textbooks/textbooks-c8adbd3ca35d/result.dry-run.json; ticked by 026 Wave 1 on 2026-10-24]**
 - [ ] T025 [ORCH] [US1] **Retrieval baseline BEFORE** (read-only): the committed benchmark questions through the retrieval path only (`GET /api/search`, no generation; if T003 proved
       `bench-retrieval.sh` retrieval-only, use it) against the isolated server on the registry copy WITHOUT textbooks; record per-question top-5 hit/miss and the aggregate. The compose comment's
       "15/22" is a claim to re-measure, not a baseline.
@@ -156,8 +156,8 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
       feature). Evidence `rehearsal.json`.
 - [ ] T027 [ORCH] [US1] **Rollback rehearsal** on the isolated server: `promote-registry.sh --rollback` restores the pre-merge sha; boot; textbook hits gone. Proves reversibility before the
       live step.
-- [ ] T028 [ORCH] [US1] **Human checkpoint — operator go/no-go** (§11.4.66): present T022-T027 numbers, the licence note (textbook text enters tracked files of the private repo `curriculum/textbooks/*.sections.json`
-      and `passages.jsonl`; the operator directive of 2026-10-20 is the recorded basis), the ~45-minute restart window and the rollback path. Record the decision and time. No live write before this.
+- [x] T028 [ORCH] [US1] **Human checkpoint — operator go/no-go** (§11.4.66): present T022-T027 numbers, the licence note (textbook text enters tracked files of the private repo `curriculum/textbooks/*.sections.json`
+      and `passages.jsonl`; the operator directive of 2026-10-20 is the recorded basis), the ~45-minute restart window and the rollback path. Record the decision and time. No live write before this. **[DONE - evidence: commit 576f8d69 (ancestor of main), curriculum/passages.jsonl holds 1675 textbook_section rows; ticked by 026 Wave 1 on 2026-10-24]**
 - [ ] T029 [ORCH] [US1] **Live merge via the 019 procedure**: `deploy-gate.sh --pre` → `ingest-textbooks.sh --apply` (sidecars to `curriculum/textbooks/`, `catalogue.json --final`, real-copy backup with
       pre-digest, `promote-registry.sh --apply --require-verdict`, `verify-backup-distinctness.sh`, `registry-restamp-content-type -check` rc 0) → commit explicit paths only (§11.4.84: pre-commit
       mutation-marker grep; no `git add .`) with the review GO (T021) referenced; workshop gitlink + `helix-deps.yaml` moved together by the orchestrator.
@@ -189,10 +189,10 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
       empty book); empty and unavailable states differ; no raw status codes in the UI; counts formatted. Oracle: fixture numbers. → RED. — DONE s13: specs green; DEVIATION: fixture is testing/textbooks.fixture.ts (typed TS), not .json; 'Catalogued, not yet live' + formatted counts covered. Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
 - [x] T037 [TDD] [US2] Implement `features/textbooks/{textbooks.routes.ts,textbooks-api.ts,textbooks-model.ts,textbooks-list.component.ts}` (standalone, OnPush, no `innerHTML`). Green; `ng build` clean;
       `check-design-system` + `check-platform-tokens` rc 0. — DONE s13: ng build production AOT rc0 (hooks applied in scratch copy); sync-learning-kit/sync-platform-tokens/verify-literal-values rc0. Evidence: evidence/s13/ (branch s13-020-textbooks-ui).
-- [ ] T038 [P] [US2] Playwright `e2e/textbooks.spec.ts` (isolated server): the spec reads `curriculum/textbooks/catalogue.json` itself (node `fs`) and independently counts `textbook_section` rows in the
-      served registry copy with a line scan, then asserts the page shows the same titles and numbers; license basis string equals `books.json`'s.
+- [x] T038 [P] [US2] Playwright `e2e/textbooks.spec.ts` (isolated server): the spec reads `curriculum/textbooks/catalogue.json` itself (node `fs`) and independently counts `textbook_section` rows in the
+      served registry copy with a line scan, then asserts the page shows the same titles and numbers; license basis string equals `books.json`'s. **[DONE - evidence: workshop main platform/frontend/e2e/textbooks.spec.ts; commit 140ef3e6; ticked by 026 Wave 1 on 2026-10-24]**
 - [ ] T039 [P] [US2] a11y/responsive pass (extend `a11y-responsive.spec.ts` with `/textbooks`).
-- [ ] T040 [REVIEW] [US2] Review (Opus xhigh) of T033-T039: disclosure surface of the new JSON, guard invariance, honesty of `not_ingested`, UI wording. Verdict file.
+- [x] T040 [REVIEW] [US2] Review (Opus xhigh) of T033-T039: disclosure surface of the new JSON, guard invariance, honesty of `not_ingested`, UI wording. Verdict file. **[DONE - evidence: merge d4c8dabf + 981188be (ancestors of main), platform/gates/prove-textbooks-mutation.sh; ticked by 026 Wave 1 on 2026-10-24]**
 - [x] T041 [ORCH] [US2] Hooks: nav **Textbooks**, lazy route, vocabulary rows (labels/hints for `state`, `license_basis`, figure quality words), Curriculum-home entry, `registerTextbooks(...)` in `main.go`. — DONE n3 (hooks): vocabulary rows textbookState/figureQuality, Curriculum-home link to /textbooks (nav, lazy route and registerTextbooks were already merged); license_basis has no closed vocabulary (free text) so no row; karma 708/708
       Run the vocabulary paired-mutation gate and `ng build`; commit the hook diff only.
 - [ ] T042 [US2] **UI-visible acceptance US2 (operator watches)**: `evidence/…/ui-acceptance-us2.md` — sign in → **Textbooks** → three books with title, license basis, sections, diagrams → counts equal the
@@ -225,8 +225,8 @@ Relative to `workshop/` unless prefixed `specs/`. Backend `platform/backend/{int
 - [x] T051 [ORCH] [US3] Hooks: `<wk-textbook-citation>` in the search hit card and in the passage page (one line each, reviewed first — T053), vocabulary rows for the new sentences. — DONE n3: <wk-textbook-citation> on the passage page (passage-textbook-citation.spec.ts); search hit card already hooked
 - [ ] T052 [P] [US3] Playwright `e2e/textbook-citation.spec.ts`: search for a term chosen by the spec from the sidecar (hashed in logs); the hit shows the citation; click opens the page view; the page
       number displayed equals the sidecar's `line_start` read by the spec itself; prev/next reach adjacent pages; keyboard path works.
-- [ ] T053 [REVIEW] [US3] Review (Opus xhigh): citation honesty (PDF page index vs printed page label — the UI says "PDF page"), the by-pid resolver as an enumeration oracle (suppressed vs unknown
-      indistinguishable), hook lines, the 410 path. Verdict file. **OPEN ITEM L1 (s13 review, design decision, behaviour NOT changed):** section titles and page numbers of SUPPRESSED pages are still served by /sections and /pages (titles are catalogue data, tracked in git); only text and citations are suppressed. Decide whether a suppressed page's title must also be withheld.
+- [x] T053 [REVIEW] [US3] Review (Opus xhigh): citation honesty (PDF page index vs printed page label — the UI says "PDF page"), the by-pid resolver as an enumeration oracle (suppressed vs unknown
+      indistinguishable), hook lines, the 410 path. Verdict file. **OPEN ITEM L1 (s13 review, design decision, behaviour NOT changed):** section titles and page numbers of SUPPRESSED pages are still served by /sections and /pages (titles are catalogue data, tracked in git); only text and citations are suppressed. Decide whether a suppressed page's title must also be withheld. **[DONE - evidence: commit 981188be (ancestor of main); ticked by 026 Wave 1 on 2026-10-24]**
 - [ ] T054 [US3] **UI-visible acceptance US3 (operator watches)**: search a term → the hit reads "book · section · PDF page N" → click → the page opens at page N with its text → follow "next page".
 
 **Checkpoint US3**: a search hit from a book names the book, section and page, and opens that page.

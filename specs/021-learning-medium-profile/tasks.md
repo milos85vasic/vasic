@@ -43,24 +43,27 @@ oracle `workshop/pipeline/`; gates `workshop/platform/gates/`; docs `workshop/do
       expectation; (c) fairness/feedback-effect risks of showing learners an inferred preference (self-fulfilling
       narrowing); (d) privacy-engineering guidance for learner-analytics profiles. Label HYPOTHESIS → FINDING per
       claim. If (a) or (c) contradicts FR-017 or the advisory-only stance, amend the spec before T016.
-- [ ] T004 [P] [SETUP] **Research R-2.** Determine, from spec 013's contract/implementation (`contracts/practice-submit.md`
+- [x] T004 [P] [SETUP] **Research R-2.** Determine, from spec 013's contract/implementation (`contracts/practice-submit.md`
       and, once it exists, `pkg/scoring`), exactly how `flashcard` and `short` answers are graded and what `correct`
       is written for an ungraded outcome (curriculum-kit marks `short` `Graded=false`,
       `submodules/curriculum-kit/pkg/curriculum/assess.go:213-220`). Record in `data-model.md` §1.2 and
       `research.md` §5. **Decision gate:** if an ungraded outcome is logged as `correct=false`, STOP and raise it to
       013's owner — the medium statistics would be biased; the `GradedBy` provenance request in
       `contracts/response-source-interface.md` becomes mandatory.
-- [ ] T005 [P] [SETUP] **Research R-3.** Check whether `platform/backend/pkg/scoring` exists; if so list the exported
+      **[DONE - evidence: path platform/backend/cmd/workshop-server/wire_medium.go (scoringSource reads scoring.response_log; GradedBy provenance decided from the writers, comment cites T004) / commit 905bf091 (ancestor of main); ticked by 026 Wave 1 on 2026-10-24]**
+- [x] T005 [P] [SETUP] **Research R-3.** Check whether `platform/backend/pkg/scoring` exists; if so list the exported
       read methods and indexes and record the exact `ResponsesForSession` addition and any `(session, at)` index
       needed; if not, mark T028–T034 `[BLOCKED:013]` in this file with the date. Never infer 013's API from its
       drafts.
+      **[DONE - evidence: platform/backend/pkg/scoring/ (18 files incl. read_responses.go) read by scoringSource in wire_medium.go / commit 905bf091 (ancestor of main); ticked by 026 Wave 1 on 2026-10-24]**
 - [ ] T006 [P] [SETUP] **Research R-4 (Source Is Not Served).** On the SERVED frontend bundle (`platform/web`, built
       2026-10-07 per the gap analysis) and on source, confirm whether the practice questions response carries each
       question's `kind` and how the practice component builds its deck; record bundle hash vs. source HEAD. This sets
       how large the T044 `[HOOK]` edit is.
-- [ ] T007 [SETUP] Verify the Wave-0 hook split exists: `grep -n 'hook:medium' platform/backend/cmd/workshop-server/main.go`
+- [x] T007 [SETUP] Verify the Wave-0 hook split exists: `grep -n 'hook:medium' platform/backend/cmd/workshop-server/main.go`
       and the matching one-line hooks in `app.routes.ts` and `core/vocabulary.ts`. **If absent: STOP and request the
       orchestrator; do not edit those files** (architecture plan §2.2). Record result.
+      **[DONE - evidence: hook present in a different shape than the task text: platform/backend/cmd/workshop-server/wire_hooks.go field `medium mediumConfig` and `registerMediumRoutes(d)` at line 112; no literal `hook:medium` line exists in main.go (aggregators replaced it, same as 026 T018 note); ticked by 026 Wave 1 on 2026-10-24]**
 - [ ] T008 [REVIEW] [SETUP] Independent review of `contracts/privacy-and-failure-scenarios.md`: every FR with a
       privacy or fail-closed consequence maps to a scenario P-n with a named test, oracle and paired mutation;
       reviewer is a different agent than the spec author (§11.4.239: the map exists before code).
@@ -175,17 +178,20 @@ library; nothing user-visible yet.
 
 ### US1b — integration (BLOCKED:013 until spec 013 US1 checkpoint)
 
-- [ ] T028 [US1] [BLOCKED:013] `cmd/workshop-server/wire_medium.go`: `scoringSource` adapter implementing
+- [x] T028 [US1] [BLOCKED:013] `cmd/workshop-server/wire_medium.go`: `scoringSource` adapter implementing
       `ResponseSource` over `pkg/scoring` (session predicate **in SQL**), question-kind lookup from the assessment
       bank, `GradedBy` provenance per T004; request/land `pkg/scoring/read_responses.go` through 013's owner.
       TDD against a **real** temp-dir SQLite store populated through 013's own `RecordResponse` (no mock of the
       store): adapter-level isolation test (P-1) first, oracle = the seeded entry ids.
-- [ ] T029 [TDD] [US1] [BLOCKED:013] `internal/api/medium_test.go` RED: `GET /api/profile/medium` golden JSON
+      **[DONE - evidence: platform/backend/cmd/workshop-server/wire_medium.go scoringSource (line 156) + wire_medium_scoring_test.go / commit 905bf091 (ancestor of main); ticked by 026 Wave 1 on 2026-10-24]**
+- [x] T029 [TDD] [US1] [BLOCKED:013] `internal/api/medium_test.go` RED: `GET /api/profile/medium` golden JSON
       (`contracts/medium-endpoints.md` §1); empty ⇒ 200 + `empty:true` (FR-015); store error ⇒ 503
       `scoring_store_unreadable` (P-3); nil source ⇒ `scoring_store_absent`; cap ⇒ `truncated:true` (FR-020);
       admin gets only own data (P-2); isolation both directions (P-1); `Cache-Control: no-store`.
-- [ ] T030 [US1] [BLOCKED:013] `internal/api/medium.go` GET handler + `registerMedium(mux, deps)` in
+      **[DONE - evidence: platform/backend/internal/api/medium_test.go exists on main; ticked by 026 Wave 1 on 2026-10-24]**
+- [x] T030 [US1] [BLOCKED:013] `internal/api/medium.go` GET handler + `registerMedium(mux, deps)` in
       `wire_medium.go`; boot capability-matrix row; hand the one `// hook:medium` line to the orchestrator.
+      **[DONE - evidence: platform/backend/internal/api/medium.go (`GET /api/profile/medium`, line 113) + registerMediumRoutes in wire_medium.go; ticked by 026 Wave 1 on 2026-10-24]**
 - [ ] T031 [P] [US1] [BLOCKED:013] `platform/gates/verify-medium-isolation.sh` + `prove-medium-isolation.sh`: two
       learners × both directions × authenticated and `X-Session`, N ≥ 200 requests; prove script mutates a handler
       copy to ignore the session and requires the gate to FAIL (SC-003).
@@ -194,9 +200,10 @@ library; nothing user-visible yet.
       empty/unavailable states distinct (never "unavailable" rendered as "no data"), hand-rolled SVG residual bars,
       keyboard-accessible "Why?" disclosure, wording per FR-017.
       EVIDENCE (S16, 2026-10-21): features/medium service+profile+vocabulary, Karma 52/52, features/medium stmt cov 93.9% (worktree branch s16-021-medium, evidence/s16/).
-- [ ] T033 [US1] [HOOK] `features/medium/medium.routes.ts` (lazy child `profile/medium`). Hand the orchestrator the
+- [x] T033 [US1] [HOOK] `features/medium/medium.routes.ts` (lazy child `profile/medium`). Hand the orchestrator the
       exact append line for `app.routes.ts` and the registration line for `core/vocabulary.ts` (and request that
       `prove-ui-vocabulary-mutation.sh` is re-run after it registers).
+      **[DONE - evidence: platform/frontend/src/app/features/medium/medium.routes.ts + app.routes.medium.spec.ts / commit 905bf091 (route+nav mounted; ancestor of main); ticked by 026 Wave 1 on 2026-10-24]**
 - [ ] T034 [REVIEW] [US1] Independent review of the integration slice and a live isolation run on an isolated
       throwaway server (architecture plan §2.2 item 6): build the stream's server to the scratch dir, run with a
       scratch `-state` and a copy of the registry, then `verify-medium-isolation.sh --base http://127.0.0.1:<port>`.
@@ -226,7 +233,8 @@ library; nothing user-visible yet.
       medium, medium-with-auto, format medium ⇒ `unsupported_pin_medium`), `DELETE /api/profile/medium` idempotent and
       reports `response_log: untouched`; override honoured on the very next call across all routes (SC-005 matrix).
       EVIDENCE (S16, 2026-10-21): internal/api/medium_test.go RED(build)->GREEN against a spy source; real-013 parts remain in T029/T030/T040 (worktree branch s16-021-medium, evidence/s16/).
-- [ ] T040 [US2] [BLOCKED:013] Handlers in `internal/api/medium.go` for the three routes. GREEN T039.
+- [x] T040 [US2] [BLOCKED:013] Handlers in `internal/api/medium.go` for the three routes. GREEN T039.
+      **[DONE - evidence: platform/backend/internal/api/medium.go handlers for preference/consent/events routes (lines 116-120); ticked by 026 Wave 1 on 2026-10-24]**
 - [x] T041 [P] [TDD] [US2] Frontend: `medium-recommendation.component.ts` (card with the plain-language reason and
       evidence count, "no recommendation yet — N more graded answers needed"), preference controls (auto / pin /
       off), "Reset my data" with an inline confirmation (no `window.confirm`), Karma specs first.
@@ -270,6 +278,7 @@ library; nothing user-visible yet.
       EVIDENCE (S16, 2026-10-21): consent toggle + emitter, Karma; e2e not run (worktree branch s16-021-medium, evidence/s16/).
 - [ ] T048a [US5] [BLOCKED:013] [OD-2] **Server-side routing bias (FR-011).** Waits for (a) 013 `ServeNext` options
       seam and (b) operator decision OD-2. No implementation tasks; revisit the spec with the owner of 013's store.
+      *(OBSOLETE, left unticked, annotated by 026 Wave 1 on 2026-10-24: `progress.yml` line 14 records `T048a (OD-2 = no)` and `spec.md` line 328 gives OD-2 default no; no dated ratification of OD-2 was located, and the [BLOCKED:013] label is stale because `pkg/scoring` is on main. Revisit only if OD-2 changes to yes.)*
 
 ---
 

@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-23T21:50:00Z
+    Last-Updated: 2026-10-24T18:30:00Z
     Synced-Commit: 49cb0ed
     Authority-Root: submodules/constitution
 
@@ -678,6 +678,8 @@ zero dirty files and zero unpushed commits everywhere there is something of this
 own to push.
 
 ### SPEC 016 WORKSHOP LIVE-QA FIX BATCH — NOT DONE — FINAL REVIEW FOUND 3 REAL GAPS — 2026-10-01
+
+**STATUS UPDATE 2026-10-24 (spec 016 reconciliation, Wave 1; re-measured against workshop `main` `144419d7`, gates NOT re-run).** The "NOT DONE" headline below remains true for LIVE acceptance and is narrowed for source: (a) 016 `tasks.md` has 54 of 76 boxes ticked (T010, practice-answers PUT/GET `internal/api/practice_answers.go`, wired at `main.go:1614`, merged `5ada2182`, was ticked this pass); (b) gap 2 below (US8 rewrite) reads fixed in the served registry: pid `01M3SPSADEVVFZPX08Y4CDEYAN` in `curriculum/passages.jsonl` on main now holds third-person text; (c) gap 1 (US5 counts) is no longer the pre-fix 267/1055: main's registry reads chapter-01 55/1055, 02 96/1206, 02.01 3/42, 02.02 27/202, 03 53/1100; whether 55 equals the fixed sidecar figure (34 was quoted) is UNCONFIRMED; (d) gap 3 (null `t_seconds` for doc/code first citations) is UNCONFIRMED here: `citationWire()` in `questions.go` now emits `t_start_s` only when `passagestore.TimeSpan` resolves; no live check was made. Still owed: `workshop/scripts/qa-016-live-verify.sh` (never run live), T040/T060 human checks, the crossref floor ships OFF, and the live index drops the spans only after a rebuild/restart. The detail below is history.
 
 **CORRECTION, same day, same session: the headline below ("ALL 8 STORIES COMPLETE, REVIEWED,
 LIVE-VERIFIED") IS WITHDRAWN. The final whole-branch review (dispatched on opus, per

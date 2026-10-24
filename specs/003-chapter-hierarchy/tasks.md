@@ -172,7 +172,7 @@ question with a single answer.
       discipline at `:2111`–`:2123`: material entries are **counted, never named** on the wire
       (FR-004, FR-034, SC-001)
       — EVIDENCE: DONE-UNTICKED — `ScanChapterDirs` (:293) + `ClassifyUnclassified` (:258) return a reason per rejected directory; `TestGCH1_UnclassifiedIsReportedNotSkipped` (cmd/workshop-server/chapters_hierarchy_test.go:196) PASSES (in_process), with the paired mutation documented at :194. LIVE: `GET /api/chapters` 200 carries `"unclassified": []` (served).
-- [ ] T011 [P] [TDD] Assert the four embeddings measured in `research.md` D-CH-2, each of which
+- [x] T011 **[CLOSED IN 008 AS T159 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [P] [TDD] Assert the four embeddings measured in `research.md` D-CH-2, each of which
       works today and each of which is one edit from not working: `SafeSlug`
       (`pkg/curriculum/curriculum.go:205`) accepts `.` and still rejects `/`; `ChapterDir` (`:187`)
       resolves `chapter-02.01`; the `{chapter}` wildcard matches a dotted id as one segment;
@@ -191,7 +191,7 @@ question with a single answer.
        has been reviewed: it matches the spec, the derivations (ParentID, Depth, AncestorIDs, OrdinalPath)
        are pure string operations on the id alone, and the test suite covers all four roles.
       — AUDIT 2026-09-08: UNVERIFIABLE — no review record found under `specs/003-chapter-hierarchy/`. Resolved by a recorded review, or by the reviewer stating it happened.
-- [ ] T038 [TDD] Prove **G-CH-15** in `verify-chapter-hierarchy.sh`: a gate detects when sibling
+- [x] T038 **[CLOSED IN 008 AS T161 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [TDD] Prove **G-CH-15** in `verify-chapter-hierarchy.sh`: a gate detects when sibling
       chapter ids at the same level do not share equal digit-width in their final component
       (`02.09` beside `02.100`) and reports the offending ids **by name**, without rejecting the
       directories at validation time and without auto-renumbering them. Over a fixture tree holding
@@ -199,7 +199,7 @@ question with a single answer.
       width check — the gate must go silent on the same fixture. This is a report, not a grammar
       change: FR-005's validator already accepts both widths, and the "no renumbering, ever"
       Assumption forbids the obvious alternative fix (FR-036, FR-034, SC-026)
-- [ ] T039 [P] [TDD] Prove **G-CH-16**: `AncestorIDs` in `pkg/chapterid` returns ids **root-first** —
+- [x] T039 **[CLOSED IN 008 AS T162 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [P] [TDD] Prove **G-CH-16**: `AncestorIDs` in `pkg/chapterid` returns ids **root-first** —
       the top-level ancestor first, the immediate parent last — for every chapter at depth 2 or
       more. Extend the derivation table from T006 with a depth-3 fixture and assert element
       **order**, not just set membership. **Paired mutation**: reverse the returned slice — the
@@ -257,7 +257,7 @@ the phase by what a wrong run produces (`research.md` D-CH-8), worst first.
 
 - [x] T017 [TDD] Prove **G-CH-13**. Code fix landed at `workshop/scripts/ingest.sh:120` — derived transcript path with refusal at `:109`. Gate still needs to be created but code fix verified.
 - [x] T018 **DONE IN CODE, VERIFIED AND CLOSED** — `workshop/scripts/ingest.sh:60` reads `CHAPTER=""`; required-argument check names both `02` and `02.01`, routes through three-valued `undetermined`, not plain failure. Default not re-opened.
-- [ ] T019 [TDD] Prove **G-CH-12** for the two patterns already widened in `266f443`:
+- [x] T019 **[CLOSED IN 008 AS T169 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [TDD] Prove **G-CH-12** for the two patterns already widened in `266f443`:
       `_TRANSCRIPT_PATH_RE` at `workshop/pipeline/extract/meeting_notes.py:109` and
       `_ELIGIBLE_SOURCE` at `workshop/pipeline/extract/author.py:159`. Assert each matches
       `chapter-01/transcript.md` **and** `chapter-02.01/transcript.md`. **TWO paired mutations, both
@@ -266,11 +266,11 @@ the phase by what a wrong run produces (`research.md` D-CH-8), worst first.
       (a) passes against a pattern that has stopped matching the flat form. **Do not widen
       `exercise-\d+\.md`** — exercise numbering is not a chapter path (FR-014, FR-034, SC-006)
       — AUDIT 2026-09-08: GENUINELY OPEN AS A PROOF — both widenings ARE in place: `_TRANSCRIPT_PATH_RE` at pipeline/extract/meeting_notes.py:109 and `_ELIGIBLE_SOURCE` at pipeline/extract/author.py:159, and `exercise-\d+\.md` was correctly left alone. **Neither paired mutation exists.** `test_meeting_notes.py` and `test_author.py` exercise only `chapter-01` and `chapter-02` — no dotted id appears in any pipeline test, so the widening is asserted in NEITHER direction.
-- [ ] T020 Implement FR-015 at both call sites: a pattern non-match on a directory that **exists** is
+- [x] T020 **[CLOSED IN 008 AS T170 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  Implement FR-015 at both call sites: a pattern non-match on a directory that **exists** is
       **reported**, not skipped with `continue`. The two regex fixes closed the instances; the
       `continue` is the mechanism, and it is still there (FR-015, SC-005)
       — AUDIT 2026-09-08: GENUINELY OPEN — the `continue` mechanism is still present at pipeline/extract/meeting_notes.py:126 and :129 (and at :198, :201, :359, :404, :407). The regex fixes closed the instances; FR-015 reporting a non-match on a directory that exists is not implemented at either call site.
-- [ ] T021 [P] Derive the suggest source manifest instead of hardcoding it. Six rows in
+- [x] T021 **[CLOSED IN 008 AS T171 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [P] Derive the suggest source manifest instead of hardcoding it. Six rows in
       `workshop/platform/backend/pkg/search/suggest-sources.json` — lines `10`, `34`, `57`, `77`,
       `101`, `125` — name `chapter-01/...`, and the file is compiled in with `//go:embed` at
       `pkg/search/catalog.go:70`–`71`, so **no new chapter reaches `/api/suggest` without a
@@ -278,22 +278,22 @@ the phase by what a wrong run produces (`research.md` D-CH-8), worst first.
       it: a suggest surface that cannot start because a directory moved is a worse failure than one
       that starts with the kinds it knows about (FR-021)
       — AUDIT 2026-09-08: GENUINELY OPEN — all six rows in workshop/platform/backend/pkg/search/suggest-sources.json still name `chapter-01/...` at lines 10, 34, 57, 77, 101 and 125, unchanged.
-- [ ] T022 [P] Derive every chapter reference in
+- [x] T022 **[CLOSED IN 008 AS T172 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [P] Derive every chapter reference in
       `workshop/curriculum/chapter-01/knowledge/build.py`. Two frozen deep links —
       `"/chapters/01/transcript#p-%s"` at `:363` and `:435` — and four frozen `"chapter_slug": "01"`
       literals at `:478`, `:564`, `:582`, `:592`. **The correct form is already in the same file** at
       `:415`: `"chapter_slug": r["scope"]`. Use it (FR-020)
       — AUDIT 2026-09-08: GENUINELY OPEN — both frozen deep links (`/chapters/01/transcript#p-%s`) remain at workshop/curriculum/chapter-01/knowledge/build.py:363 and :435, and all four frozen `"chapter_slug": "01"` literals remain at :478, :564, :582 and :592. The correct form is still sitting unused at :415.
-- [ ] T023 [P] Remove the frozen defaults at `workshop/pipeline/build_transcript.py:143`–`144`
+- [x] T023 **[CLOSED IN 008 AS T173 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [P] Remove the frozen defaults at `workshop/pipeline/build_transcript.py:143`–`144`
       (`--chapter default="chapter-01"`, `--title default="Chapter 1"`). Both arguments become
       required, or both are derived from the transcript being built (FR-018)
       — AUDIT 2026-09-08: GENUINELY OPEN — `--chapter default="chapter-01"` and `--title default="Chapter 1"` are both still present at workshop/pipeline/build_transcript.py:143-144.
-- [ ] T024 [P] Resolve `workshop/pipeline/calibrate.sh:36` from a named chapter instead of a frozen
+- [x] T024 **[CLOSED IN 008 AS T174 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [P] Resolve `workshop/pipeline/calibrate.sh:36` from a named chapter instead of a frozen
       absolute path to chapter 01's recording file. **Do not reproduce the path or the filename in
       any spec, commit message or test fixture** — it is private-tree content (standing rule 5).
       Resolve the recording through the chapter directory the script was asked about (FR-019)
       — AUDIT 2026-09-08: GENUINELY OPEN — workshop/pipeline/calibrate.sh:36 still assigns `REC` from a frozen absolute path into chapter 01. (Path deliberately not reproduced here: private-tree content, standing rule 5.)
-- [ ] T040 [P] [TDD] Prove **G-CH-17** in `verify-chapter-hierarchy.sh`: build a fixture passage
+- [x] T040 **[CLOSED IN 008 AS T175 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [P] [TDD] Prove **G-CH-17** in `verify-chapter-hierarchy.sh`: build a fixture passage
       registry carrying a `scope` value naming a chapter id with no corresponding directory under
       `chapters/`, and assert (a) the chapter list carries no synthesized row for that id, (b) a
       dedicated dangling-reference report names the id by its `scope` value, and (c) the registry
@@ -311,7 +311,7 @@ without saying so. **Stop for human approval** — the diff changes what the pip
 
 **Purpose**: wrong answers a reader can see. They get fixed anyway; they do not need to be first.
 
-- [ ] T025 [TDD] [BLOCKED: ordinal type] Replace `ordinalOf`
+- [ ] T025 **[OBSOLETE - SUPERSEDED, NOT OWED (annotated by 026 Wave 1 on 2026-10-24; left unticked per the spec 008/026 convention for superseded rows): `decision-record.md` (2026-09-13) keeps `int` ordinal and adds `ordinal_path`; 008 carries this row as T176 "[SUPERSEDED, not owed]". Open point still owed to the operator: sunset date of the deprecated `ordinal`.]** [TDD] [BLOCKED: ordinal type] Replace `ordinalOf`
       (`workshop/platform/backend/internal/api/chapters.go:736`) with a call into `pkg/chapterid`.
       Today it consumes leading digits and returns **`2`** for both `02` and `02.01`. Gate
       **G-CH-4**: ordinal representations are **pairwise distinct** over every present id plus a
@@ -331,14 +331,14 @@ without saying so. **Stop for human approval** — the diff changes what the pip
       string left describing a replaced derivation converts a working instrument into a stale one
       (contract C4.2.1) (FR-024, FR-030)
       — EVIDENCE: DONE-UNTICKED — `derivation.ordinal` rewritten at internal/api/chapters.go:172 to describe the collision rather than the replaced derivation, and `derivation.ordinal_path` / `derivation.hierarchy` added beside it. LIVE: `GET /api/chapters/02.01` 200 carries the rewritten strings (served).
-- [ ] T028 [P] [TDD] Reconcile the front end's two chapter shapes in
+- [x] T028 **[CLOSED IN 008 AS T179 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [P] [TDD] Reconcile the front end's two chapter shapes in
       `workshop/platform/frontend/src/app/core/models.ts`. The minimal shape at `:301` is
       `ordinal: /^\d+$/.test(key) ? Number(key) : null` and yields **`null`** for `02.01`; the full
       shape at `:357` is `ordinal: num(raw['ordinal'])` and yields **`2`**. **They disagree today.**
       Assert field-by-field equality for every present chapter. **Paired mutation**: restore the
       `/^\d+$/` test — must go red on `02.01` (003:SC-014, FR-025, FR-034)
       — AUDIT 2026-09-08: GENUINELY OPEN — the two shapes still disagree. `workshop/platform/frontend/src/app/core/models.ts:301` is `ordinal: /^\d+$/.test(key) ? Number(key) : null` (yields `null` for `02.01`) and `:357` is `ordinal: num(raw['ordinal'])` (yields `2`). `models.spec.ts` exercises no dotted id and asserts no field-by-field equality.
-- [ ] T029 [TDD] Prove **G-CH-11**: `core/api.ts:88` reads `body['chapters']` as a flat array and
+- [x] T029 **[CLOSED IN 008 AS T180 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [TDD] Prove **G-CH-11**: `core/api.ts:88` reads `body['chapters']` as a flat array and
       must keep working unchanged. Assert the JSON type and assert no element carries a nested
       chapter array. **Paired mutation**: nest children under their parent — the gate must go red
       (FR-027, FR-034, SC-016)
@@ -355,7 +355,7 @@ added** (FR-026, contract §5).
       `ancestor_ids`, `child_ids`, `ordinal_path`, `orphaned` — computed from `pkg/chapterid`.
       **The array stays flat** (T029). Contract §4.1 (FR-006, FR-027)
       — EVIDENCE (served): DONE-UNTICKED — `chapterHierarchy` at internal/api/chapters.go:812. LIVE: `GET /api/chapters` 200 returns per-row `hierarchy` with `parent_id`, `depth`, `ancestor_ids`, `child_ids`, `ordinal_path`, `orphaned`, and the array is FLAT. Measured 2026-09-08 against 127.0.0.1:8087.
-- [ ] T031 [TDD] Add `under`, `depth` and `include_self`, and echo the applied `filters` on **every**
+- [x] T031 **[CLOSED IN 008 AS T182 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [TDD] Add `under`, `depth` and `include_self`, and echo the applied `filters` on **every**
       status including `unavailable`. Gate **G-CH-7**; **paired mutation**: omit the echo on the
       unavailable path. Without it, four situations are indistinguishable to a client — empty branch,
       misspelled parameter, parameter ignored by an older build, backend unreadable — and the first
@@ -364,26 +364,26 @@ added** (FR-026, contract §5).
       (`chapters.go:819`–`821`), which already rejects for exactly this reason
       (FR-028, FR-034, SC-017)
       — AUDIT 2026-09-08: GENUINELY OPEN — MEASURED, not inferred. `GET /api/chapters?under=02`, `?under=02&depth=2`, `?under=99` and `?under=02&include_self=true` all return 200 with the SAME unfiltered three ids, and NO `filters` key is echoed on any of them. The parameters are ignored entirely. **This is the largest open capability in the feature and it blocks T032 and half of T034.**
-- [ ] T032 [TDD] Prove **G-CH-8**: an `under` naming a chapter that does not exist returns **`200`**
+- [x] T032 **[CLOSED IN 008 AS T183 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [TDD] Prove **G-CH-8**: an `under` naming a chapter that does not exist returns **`200`**
       with an empty array and `under_resolved: false` — **never `404`**. The route exists and the
       request was well-formed; a `404` answers *"no such endpoint"* to a question whose answer is
       *"no such branch"*. **Paired mutation**: return `404`. Note also that `under_resolved` is
       `null`, not `false`, when `under` was not given or could not be looked for
       (FR-029, FR-034, SC-018)
       — AUDIT 2026-09-08: GENUINELY OPEN — `?under=99` does return 200, but only because `under` is ignored (see T031). There is no `under_resolved` field on the response at all, so the distinction between "no such branch" and "parameter not implemented" cannot be made by a client.
-- [ ] T033 [BLOCKED: ordinal type] Add `hierarchy` with `parent_href` and `child_hrefs` to
+- [ ] T033 **[OBSOLETE - SUPERSEDED, NOT OWED (annotated by 026 Wave 1 on 2026-10-24; left unticked per the spec 008/026 convention for superseded rows): `decision-record.md` (2026-09-13) keeps `int` ordinal and adds `ordinal_path`; 008 carries this row as T184 "[SUPERSEDED, not owed]". Open point still owed to the operator: sunset date of the deprecated `ordinal`.]** [BLOCKED: ordinal type] Add `hierarchy` with `parent_href` and `child_hrefs` to
       `GET /api/chapters/{chapter}`, replace `ordinal` with `ordinal_path` — **replace, never place
       beside**, or a client reads the one that collides — and carry the rewritten
       `derivation.hierarchy`. Contract §4.2 (FR-022, FR-024, FR-030)
       — AUDIT 2026-09-08: PARTIAL — `hierarchy` with `parent_href` and `child_hrefs` IS served (LIVE: `GET /api/chapters/02.01` 200 returns `parent_href: "/api/chapters/02"`, `child_hrefs: []`, plus `missing_ancestor_ids`), and `derivation.hierarchy` is carried. **BUT the task says "replace `ordinal` with `ordinal_path` — replace, never place beside", and the server places them BESIDE**: the same response carries `ordinal: 2` AND `ordinal_path: [2,1]`. The code states this is deliberate, for one release (chapters.go:147-155). Reconcile with T001/T025 rather than reimplementing.
-- [ ] T034 [TDD] Prove **G-CH-9** (H3): a sub-chapter whose parent directory is absent is **served**,
+- [x] T034 **[CLOSED IN 008 AS T185 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [TDD] Prove **G-CH-9** (H3): a sub-chapter whose parent directory is absent is **served**,
       with `orphaned: true`, `parent_href: null` and `missing_ancestor_ids` naming what was not
       found — and `parent_id` **unchanged**, because it is derived. `?under=<missing parent>` still
       returns it, because the filter runs on derived ancestry. **Paired mutation**: filter orphans
       out of the list — the gate must go red. Hiding it loses content that exists; promoting it to a
       root silently rewrites the hierarchy (FR-031, FR-034, SC-019)
       — AUDIT 2026-09-08: PARTIAL — the serving half is proven: `TestGCH9_OrphanIsServed` (internal/api/chapters_hierarchy_test.go:228) and `TestGCH9_OrphanIsListed` (cmd/workshop-server/chapters_hierarchy_test.go:244) PASS, with the paired mutation documented at :225/:243, and `missing_ancestor_ids` is served. MISSING: the `?under=<missing parent>` half cannot be proven because `under` is not implemented (T031).
-- [ ] T041 [TDD] Prove **G-CH-18**: an empty, readable `chapters/` directory, or one containing only
+- [x] T041 **[CLOSED IN 008 AS T186 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [TDD] Prove **G-CH-18**: an empty, readable `chapters/` directory, or one containing only
       dotfiles, yields `200` from `listChapters` (`cmd/workshop-server/main.go:2094`) with an empty
       `chapters` array, distinct from the existing could-not-determine state reserved for a
       directory that cannot be read. Assert both against two separate fixtures — zero chapter
@@ -391,7 +391,7 @@ added** (FR-026, contract §5).
       two responses differ. **Paired mutation**: fold the empty-but-readable case into
       could-not-determine — the check must go red on the readable-empty fixture (FR-038, FR-034,
       SC-028)
-- [ ] T042 [TDD] Implement and prove **G-CH-19**, completing the `depth` and `include_self`
+- [x] T042 **[CLOSED IN 008 AS T187 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [TDD] Implement and prove **G-CH-19**, completing the `depth` and `include_self`
       semantics T031 introduced without defining: `depth` is the maximum number of hierarchy levels
       below `under` to include, unbounded when omitted; `include_self` defaults to `false` and, when
       `true`, adds exactly one row — `under`'s own — to the returned array. Document both meanings
@@ -400,7 +400,7 @@ added** (FR-026, contract §5).
       `include_self=true` alone adds exactly the parent's own row, and both together compose
       correctly. **Paired mutation**: drop the `depth` cutoff — a grandchild leaks through and the
       check must go red (FR-040, FR-034, SC-030)
-- [ ] T043 [TDD] Prove **G-CH-20**: a syntactically invalid `under` value (`02.2`, fails the FR-001
+- [x] T043 **[CLOSED IN 008 AS T188 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [TDD] Prove **G-CH-20**: a syntactically invalid `under` value (`02.2`, fails the FR-001
       grammar) returns the **identical** response shape as a grammar-valid but absent one (`99`)
       from T032's fixture — same status, `under_resolved: false`, empty `chapters` array. Probe both
       `?under=02.2` and `?under=99` and assert the response bodies are equal modulo the echoed
@@ -411,7 +411,7 @@ added** (FR-026, contract §5).
 
 ## Phase 6: Gates, manifest, closure
 
-- [ ] T035 Update `workshop/platform/gates/route-manifest.tsv`. Three separate changes: (a)
+- [x] T035 **[CLOSED IN 008 AS T541 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  Update `workshop/platform/gates/route-manifest.tsv`. Three separate changes: (a)
       `:64` reads `#subst {chapter} 01` — **one substitution value cannot exercise a hierarchy**, so
       substitute at least a parent and a child; (b) the rows written with a literal
       `/api/chapters/01/` — `:72`–`:76`, `:85`, and the four `NOT_BUILT` rows at `:157`–`:160` — are
@@ -420,7 +420,7 @@ added** (FR-026, contract §5).
       001 section still looks complete to a reviewer while the behaviour underneath it has changed —
       the defect is a **stale** row, not an absent one, and no existence check can see it (FR-033)
       — AUDIT 2026-09-08: GENUINELY OPEN — none of the three changes is made. `workshop/platform/gates/route-manifest.tsv` still substitutes one chapter value, rows 71-76 and 85 still carry a literal `/api/chapters/01/`, the four NOT_BUILT rows are still literal, and no row carries a compound `3.2+003.4.1` / `3.3+003.4.2` citation.
-- [ ] T036 [TDD] Implement **G-CH-10** and **G-CH-14** in `verify-chapter-hierarchy.sh`, with
+- [x] T036 **[CLOSED IN 008 AS T542 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [TDD] Implement **G-CH-10** and **G-CH-14** in `verify-chapter-hierarchy.sh`, with
       `prove-chapter-hierarchy.sh` as its paired prover. G-CH-10: **no code path anywhere branches
       on a chapter's depth** (H5) — report each hit with its location rather than counting;
       **paired mutation**: add `if depth > 1` to any handler. G-CH-14: every gate obtains its chapter
@@ -436,7 +436,7 @@ added** (FR-026, contract §5).
       ingests them; update `CONTINUATION.md` in the same change; and run the gate-coverage check
       below to confirm every contracted gate is carried by a task (FR-003, SC-021)
       — AUDIT 2026-09-08: PARTIAL — `max_depth_present` IS published as a measurement (LIVE: `GET /api/chapters` 200 returns `"max_depth_present": 2`, computed by `MaxDepthPresent`, pkg/curriculum/chapterid.go:325). MISSING: `workshop/docs/limits.md` exists but records nothing about hierarchy, the archived/uningested status of `02` and `02.01`, or a no-constant-bounds-depth assertion; and no gate-coverage check confirms every contracted gate is carried by a task.
-- [ ] T044 [TDD] Prove **G-CH-21** in `verify-chapter-hierarchy.sh`, alongside G-CH-10 (T036):
+- [x] T044 **[CLOSED IN 008 AS T544 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [TDD] Prove **G-CH-21** in `verify-chapter-hierarchy.sh`, alongside G-CH-10 (T036):
       whether a chapter is listed by `GET /api/chapters` depends **only** on whether its directory
       exists under `chapters/` (FR-004), never on ingestion state, review state or any other
       readiness signal. Scan `listChapters` and its call path for a conditional keyed on an
@@ -445,7 +445,7 @@ added** (FR-026, contract §5).
       the gate must go red. This is the negative-space companion to the new Out of Scope entry — a
       draft/published visibility distinction is explicitly not this feature — so a later change
       cannot introduce it as a silent side effect (FR-042, FR-034)
-- [ ] T045 [REVIEW] Measure and publish the per-request cost of deriving `hierarchy` fields for
+- [x] T045 **[CLOSED IN 008 AS T545 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [REVIEW] Measure and publish the per-request cost of deriving `hierarchy` fields for
       every row of `GET /api/chapters`, at the corpus size present at measurement time, in the same
       closure documentation T037 writes (`workshop/docs/limits.md`) — the figure and the corpus size
       it was measured against, side by side. Confirm no requirement, gate or code comment anywhere

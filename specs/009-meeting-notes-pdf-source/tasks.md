@@ -74,7 +74,7 @@ class TestDiscoverNotesPdf(unittest.TestCase):
 
 Create the three fixture directories under `pipeline/extract/fixtures/` referenced above: `chapter_with_pdf/` containing one file matching `* - Notes by *.pdf` (any real, tiny, single-page PDF you generate — reuse `pdf_notes.py`'s own `build_pdf_fixture()` helper, already used by its test suite, to build a minimal valid PDF byte-for-byte rather than hand-crafting PDF bytes), `chapter_without_pdf/` containing only an unrelated file, and `chapter_with_two_pdfs/` containing two files each matching the pattern with different tool names.
 
-- [ ] **T004 [TDD] [US1]** Run the test to verify it fails with `ModuleNotFoundError` or `AttributeError` (the module and function do not exist yet):
+- [ ] **[OBSOLETE - NOT OWED (annotated by 026 Wave 1 on 2026-10-24; left unticked per the spec 008/026 convention): a historical RED-run observation that the ledger below records as unprovable from the tree; superseded by the GREEN tests, which exist on workshop main (`pipeline/extract/test_meeting_notes_pdf.py`; commits 0060dfe, 0a55ebb, 2bdc5c5, all ancestors of main).]** **T004 [TDD] [US1]** Run the test to verify it fails with `ModuleNotFoundError` or `AttributeError` (the module and function do not exist yet):
 
 ```bash
 cd $VASIC_ROOT/workshop

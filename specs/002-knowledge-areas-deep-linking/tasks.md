@@ -233,7 +233,7 @@ complete**, because every later artifact points at something through the mechani
 - [x] T013 [TDD] Implement segment-boundary spanning: an occurrence crossing a seam emits **one
       mention per segment it touches** (FR-022). Attaching it to one loses half its evidence, and
       evidence counts are what publication decisions rest on (FR-022)
-- [ ] T144 [TDD] [REVIEW] Implement **G-KG-19**: one documented half-open interval convention
+- [x] T144 **[CLOSED IN 008 AS T051 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [TDD] [REVIEW] Implement **G-KG-19**: one documented half-open interval convention
       (start inclusive, end exclusive) for every position this feature produces — text-match offset
       pairs (FR-029) and media time spans alike — applied uniformly by every producer and every
       consumer, with no component permitted to adopt a different convention locally. Record the
@@ -266,7 +266,7 @@ complete**, because every later artifact points at something through the mechani
       already reports truncation (FR-026)
 - [x] T021 [P] [TDD] Extend redaction propagation to all **eight** targets in `data-model.md` §5.
       Gate **G-KG-7**. **Paired mutation**: skip exactly one target; the gate must go red (FR-027, SC-012)
-- [ ] T022 [REVIEW] Review the knowledge contract implementation before anything consumes it — — **BLOCKER:** none but the work — no `phase2e-report.md` exists, and `specs/002/` has NEITHER an `analysis.md` NOR a `review.md` (spec 001 has both). This is review-record authorship, and it is one of the two things holding T122 · **OWNER:** **implementer/reviewer** — unblocked today
+- [x] T022 **[CLOSED IN 008 AS T060 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [REVIEW] Review the knowledge contract implementation before anything consumes it — — **BLOCKER:** none but the work — no `phase2e-report.md` exists, and `specs/002/` has NEITHER an `analysis.md` NOR a `review.md` (spec 001 has both). This is review-record authorship, and it is one of the two things holding T122 · **OWNER:** **implementer/reviewer** — unblocked today
       every other component depends on its shape, and a shape changed after adoption is a migration (FR-005)
 
       **NOT DONE (re-measured 2026-09-03, unchanged).** The brief exists
@@ -372,7 +372,7 @@ seven-section skeleton and that every substantive claim carries a citation that 
 - [x] T037 [US1] [TDD] Implement `GET /api/areas` per wire contract §3.1, including **A3.1.2**: report
       the count of areas held back and why. A client cannot distinguish five areas existing from
       eleven existing and six failing publication unless told (FR-016, FR-059)
-- [ ] T038 [US1] [TDD] Implement `GET /api/areas/{area}` per §3.2, and `GET /api/terms` and — **BLOCKER:** none but the work, but the fix is in the PIPELINE not the handler — `taxonomy.py` persists only the final score and never the significance inputs; the handler is already correct and honestly reports `inputs_available:false` with `score_determined:true` over 8,507 served terms · **OWNER:** **implementer** — unblocked today
+- [x] T038 **[CLOSED IN 008 AS T243 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US1] [TDD] Implement `GET /api/areas/{area}` per §3.2, and `GET /api/terms` and — **BLOCKER:** none but the work, but the fix is in the PIPELINE not the handler — `taxonomy.py` persists only the final score and never the significance inputs; the handler is already correct and honestly reports `inputs_available:false` with `score_determined:true` over 8,507 served terms · **OWNER:** **implementer** — unblocked today
       `GET /api/terms/{term}` per §3.4 — including the significance measure **and its inputs** on the
       single-term response (FR-013, FR-059)
 
@@ -387,7 +387,7 @@ seven-section skeleton and that every substantive claim carries a citation that 
       handler is not the fix. `term-significance-inputs-unavailable` remains a registered defect.
 - [x] T039 [US1] [TDD] Implement **A3.4.2**: a term whose last evidence is redacted is **withdrawn
       from the taxonomy**, not merely unlinked (FR-008, FR-027, SC-012)
-- [ ] T145 [US1] [TDD] Implement continuous publication-liveness for areas per **FR-008b**: an
+- [x] T145 **[CLOSED IN 008 AS T245 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US1] [TDD] Implement continuous publication-liveness for areas per **FR-008b**: an
       already-published area whose evidencing passages are reduced to zero by a later redaction is
       automatically unpublished — or held for an explicit republication decision — and MUST NOT
       continue to display, export or resolve as though it still carried live evidence. This extends
@@ -527,7 +527,7 @@ seven-section skeleton and that every substantive claim carries a citation that 
       whether that dated deferral permits this checkpoint to close; **the operator has not answered
       it**, and ticking on the strength of D-33 alone would answer D-36 by implication. **Do not
       tick this task until D-36 is answered on the record.**
-- [ ] T042 [US1] [REVIEW] Record the content boundary check **in both directions** before anything is — **BLOCKER:** none but the work — the SC-029a INBOUND half is unbuilt and the `sc029a-not-built` row is live; §10.14 records that the naive probe was rejected, so this needs a long-shingle design rather than a quick check · **OWNER:** **implementer** — unblocked today, design work required
+- [x] T042 **[CLOSED IN 008 AS T248 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US1] [REVIEW] Record the content boundary check **in both directions** before anything is — **BLOCKER:** none but the work — the SC-029a INBOUND half is unbuilt and the `sc029a-not-built` row is live; §10.14 records that the naive probe was rejected, so this needs a long-shingle design rather than a quick check · **OWNER:** **implementer** — unblocked today, design work required
       published (SC-029, SC-029a) (FR-004a, FR-057, SC-029, SC-029a)
 
       **PARTIAL (re-measured 2026-09-03, unchanged).** The outbound half exists —
@@ -551,14 +551,14 @@ back. No interface required.
 
 - [x] T043 [US2] [TDD] Implement `GET /api/areas/{area}/evidence` per §3.3, with **precision required**
       on every time-carrying entry and the word's timing confidence carried where precision is `word` (FR-020, FR-021, FR-059)
-- [ ] T146 [US2] [TDD] Implement **A3.3.4**: where a citation or a "where does this appear"
+- [x] T146 **[CLOSED IN 008 AS T291 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US2] [TDD] Implement **A3.3.4**: where a citation or a "where does this appear"
       traversal resolves to more than one qualifying occurrence — including mentions inside one
       corroboration group (FR-063) — return every occurrence rather than silently selecting one on
       the learner's behalf. Extends `GET /api/areas/{area}/evidence` (T043) and the citation
       resolution path alike. Gate **G-KG-21**. **Paired mutation**: seed a case with more than one
       qualifying occurrence and make the resolver return only the first; the gate must go red
       (FR-020, FR-020a, SC-009a)
-- [ ] T147 [US2] [P] [TDD] Prove **SC-009c**: resolving a single existing link or citation meets the
+- [x] T147 **[CLOSED IN 008 AS T292 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US2] [P] [TDD] Prove **SC-009c**: resolving a single existing link or citation meets the
       same 2 s, 95th-percentile latency bound SC-017 establishes for search results, measured with
       the same harness pattern as T068's SC-016/SC-017 run and published before-and-together with
       those figures — never a single after-figure — so growth of the link graph cannot silently make
@@ -576,14 +576,14 @@ back. No interface required.
 - [x] T049 [US2] [TDD] Implement **A3.8.3**: a hop whose target cannot be resolved **reports its
       outcome and continues**; it is never dropped, because a dropped hop is indistinguishable from a
       hop that never existed (FR-023, FR-024)
-- [ ] T148 [US2] [TDD] [REVIEW] Implement **G-KG-22**: at the learner-facing surface, collapse the
+- [x] T148 **[CLOSED IN 008 AS T299 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US2] [TDD] [REVIEW] Implement **G-KG-22**: at the learner-facing surface, collapse the
       four-outcome resolver's (FR-023, T015) **redacted** and **not present** outcomes into one
       generic "unavailable" state, while preserving the full four-outcome distinction — and FR-024's
       loud-failure requirement — on internal, authoring and audit surfaces. A learner-facing response
       that lets the two outcomes be told apart discloses that withheld content existed, which this
       task exists to close. **Paired mutation**: render the two outcomes differently at the
       learner-facing surface; the gate must go red (FR-023, FR-024, FR-024a, SC-011a)
-- [ ] T050 [US2] [TDD] Implement the six-row connectivity matrix (FR-033a) and its exercise harness. — **BLOCKER:** none but the work — the gate exits 0, but `rows_implemented` (`graph_traverse.go:200`) still EXCLUDES row 4's cross-reference-graph half, so a green gate is covering five of six rows · **OWNER:** **implementer** — unblocked today, one missing half-row
+- [x] T050 **[CLOSED IN 008 AS T300 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US2] [TDD] Implement the six-row connectivity matrix (FR-033a) and its exercise harness. — **BLOCKER:** none but the work — the gate exits 0, but `rows_implemented` (`graph_traverse.go:200`) still EXCLUDES row 4's cross-reference-graph half, so a green gate is covering five of six rows · **OWNER:** **implementer** — unblocked today, one missing half-row
       **A row with zero exercised origins fails** — an unexercised traversal is unmeasured, not
       passing (SC-015a) (FR-033a, SC-015a)
 
@@ -596,7 +596,7 @@ back. No interface required.
       rc=2 control) — that closed a §1.1 debt, not this task's missing half-row.
 - [x] T051 [US2] [TDD] Prove **SC-008** over the **whole** relationship set, not a sample: a one-way
       link is indistinguishable from a two-way one when read forward, so sampling cannot find it (FR-018, SC-008)
-- [ ] T052 [US2] [TDD] Prove **SC-009**: every media-backed citation lands inside its cited span, — **BLOCKER:** **none but the work, and it is now a live REGRESSION rather than a proof debt** — the gate exits **rc 2**, not rc 0: `UNDETERMINED: GET /api/passages/01M1ET0MFM0EYA5TACY1R1JWEQ -> HTTP 410`. A cited passage has since been REDACTED and the gate has no branch for a 410, so ZERO assertions ran. It also still owes its paired mutation · **OWNER:** **implementer** — unblocked today; highest urgency of the 002 set
+- [x] T052 **[CLOSED IN 008 AS T302 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US2] [TDD] Prove **SC-009**: every media-backed citation lands inside its cited span, — **BLOCKER:** **none but the work, and it is now a live REGRESSION rather than a proof debt** — the gate exits **rc 2**, not rc 0: `UNDETERMINED: GET /api/passages/01M1ET0MFM0EYA5TACY1R1JWEQ -> HTTP 410`. A cited passage has since been REDACTED and the gate has no branch for a 410, so ZERO assertions ran. It also still owes its paired mutation · **OWNER:** **implementer** — unblocked today; highest urgency of the 002 set
       **and the precision split is published** alongside the pass rate. A 100% pass at segment
       precision and at word precision are different products, and a test that only asserts "inside the
       span" cannot tell them apart (FR-021, SC-009)
@@ -835,7 +835,7 @@ back. No interface required.
       collapse this contract exists to prevent (FR-029, FR-033)
 - [x] T062 [US3] [TDD] Implement the locus on every hit per **C4.1.2**, and withhold any hit whose
       locus does not resolve (FR-030) (FR-029, FR-030)
-- [ ] T149 [US3] [TDD] [REVIEW] Extend redaction propagation (T021, FR-027) to every cached or
+- [x] T149 **[CLOSED IN 008 AS T369 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US3] [TDD] [REVIEW] Extend redaction propagation (T021, FR-027) to every cached or
       precomputed representation of a passage's text this phase introduces — the search match
       offsets and snippets T060/T061 compute ahead of a query — **synchronously with the redaction**,
       never waiting for the next full reindex. Gate **G-KG-23**. **Paired mutation**: redact a
@@ -923,7 +923,7 @@ back. No interface required.
       **Honest boundary (§11.4.6), and it does not withhold the tick:** the benchmark's own RESULT
       is that SC-015 is not met (top-5 8/22, served). That is T067's finding, not a defect in this artifact;
       a benchmark whose queries all passed on first run would be the suspicious one.
-- [ ] T067 [US3] [TDD] Prove **SC-015**: the gate prints **per-query** outcomes, not only the — **BLOCKER:** **retrieval quality, and nobody's decision** — the instrument is built and correct; SC-015 is MEASURED NOT MET at top-5 12/22 (54.5%), top-1 3/22, against a bar of 20/22. The `term` leg is the shortfall · **OWNER:** **implementer** — unblocked, but it is a quality problem, not a wiring problem
+- [x] T067 **[CLOSED IN 008 AS T374 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US3] [TDD] Prove **SC-015**: the gate prints **per-query** outcomes, not only the — **BLOCKER:** **retrieval quality, and nobody's decision** — the instrument is built and correct; SC-015 is MEASURED NOT MET at top-5 12/22 (54.5%), top-1 3/22, against a bar of 20/22. The `term` leg is the shortfall · **OWNER:** **implementer** — unblocked, but it is a quality problem, not a wiring problem
       aggregate — which queries fail is the useful information, and an aggregate hides it (SC-015)
 
       **PARTIAL — and the FIRST of the two reasons is DISCHARGED. The claim *"It is still **not a
@@ -964,7 +964,7 @@ back. No interface required.
       in the top five for any of its 12 queries** (7 of 12 rank outside the top 20 entirely; the
       other 5 rank 13–20). `area` and `question` both clear the bar on their own. Recorded here
       because "SC-015 is 36%" reads as a uniform shortfall and it is not one.
-- [ ] T068 [US3] [TDD] Prove **SC-016 / SC-017**: re-run the latency harness and **publish before and — **BLOCKER:** **NOT "just a quiet host" — that remedy is now IN DOUBT, and this is the correction that matters.** Re-run 2026-09-04: rc **2**, `PASS 0 FAIL 0 UNDET 7`. The gate read the index block cleanly (generation 68, 12,979 passages, live) and then **every** endpoint refused — including the `health CONTROL`, which by the harness's own design makes the fused figure uninterpretable. Immediately afterwards `podman ps` showed `workshop-curriculum_platform_1  Up 46 seconds (starting)` and `/api/health` returned `HTTP=000`: **the container went down underneath a read-only run.** `tasks.md` already records the same sequence on 2026-09-03, so counting this it has happened **three times across two dates, every time during or immediately after `verify-search-latency.sh`**. Host load was FALLING across this run (17.5 -> 9.7), which weakens the load-average explanation the old note leans on. No causal claim is made — co-occurrence is not causation and this was not isolated — but the narrow, checkable claim is: the stated remedy *"one clean re-run, not new code"* has now failed three times identically, so treating this as bad luck risks a fourth identical result · **OWNER:** **implementer first** — find why the container dies under this harness's concurrent request pattern; that outranks the latency figure. **operator** second, for a quiet host, once the stability question is settled
+- [x] T068 **[CLOSED IN 008 AS T375 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US3] [TDD] Prove **SC-016 / SC-017**: re-run the latency harness and **publish before and — **BLOCKER:** **NOT "just a quiet host" — that remedy is now IN DOUBT, and this is the correction that matters.** Re-run 2026-09-04: rc **2**, `PASS 0 FAIL 0 UNDET 7`. The gate read the index block cleanly (generation 68, 12,979 passages, live) and then **every** endpoint refused — including the `health CONTROL`, which by the harness's own design makes the fused figure uninterpretable. Immediately afterwards `podman ps` showed `workshop-curriculum_platform_1  Up 46 seconds (starting)` and `/api/health` returned `HTTP=000`: **the container went down underneath a read-only run.** `tasks.md` already records the same sequence on 2026-09-03, so counting this it has happened **three times across two dates, every time during or immediately after `verify-search-latency.sh`**. Host load was FALLING across this run (17.5 -> 9.7), which weakens the load-average explanation the old note leans on. No causal claim is made — co-occurrence is not causation and this was not isolated — but the narrow, checkable claim is: the stated remedy *"one clean re-run, not new code"* has now failed three times identically, so treating this as bad luck risks a fourth identical result · **OWNER:** **implementer first** — find why the container dies under this harness's concurrent request pattern; that outranks the latency figure. **operator** second, for a quiet host, once the stability question is settled
       after together**. A single after-figure cannot show a regression that stayed inside the threshold (SC-016, SC-017)
 
       **PARTIAL — the note that stood here is STALE and its two claims are WITHDRAWN BY NAME. The
@@ -1229,7 +1229,7 @@ back. No interface required.
       # 10 wire tests, incl. TestT083_ProbeExportToolchain_NeverAsksForAVersion —
       # the probe makes each tool DO its job rather than answer --version
       ```
-- [ ] T084 [US4] [REVIEW] Review question provenance end to end before the practice surface consumes — **BLOCKER:** none but the work — the only review record is `phase6-report.md` (unchanged since 2026-09-02 12:54) and it merely mentions T084; no later record exists. Pure review-record authorship, and the second of the two things holding T122 · **OWNER:** **implementer/reviewer** — unblocked today
+- [x] T084 **[CLOSED IN 008 AS T391 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US4] [REVIEW] Review question provenance end to end before the practice surface consumes — **BLOCKER:** none but the work — the only review record is `phase6-report.md` (unchanged since 2026-09-02 12:54) and it merely mentions T084; no later record exists. Pure review-record authorship, and the second of the two things holding T122 · **OWNER:** **implementer/reviewer** — unblocked today
       it (FR-035, SC-018)
 
       **NOT DONE (re-measured 2026-09-03, unchanged).** `workshop/docs/session-evidence/phase6-report.md`
@@ -1394,7 +1394,7 @@ back. No interface required.
 - [x] T103 [US6] [TDD] Prove **SC-025** by **extracting text and diffing**, not by byte comparison —
       embedded timestamps make byte equality unachievable for some formats, and a criterion nobody can
       meet is worse than none (FR-046, SC-025)
-- [ ] T150 [US6] [TDD] [REVIEW] Extend the content-boundary check (T076, G-KG-16) to every exported
+- [x] T150 **[CLOSED IN 008 AS T425 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US6] [TDD] [REVIEW] Extend the content-boundary check (T076, G-KG-16) to every exported
       area document per **FR-049a**, run before the export leaves the platform's own storage — the
       same check FR-065 requires of OCR output before publication, applied here to export instead.
       Coverage MUST include extracted taxonomy labels (area titles, term canonical forms), not prose
@@ -1421,7 +1421,7 @@ chapter from a finished feature.
       **Paired mutation**: re-derive area identifiers on each run (FR-033f, SC-015d)
 - [x] T108 [US7] Build a **small synthetic chapter** fixture — synthetic, because it must contain no
       workshop content and it must exercise the **minting** path (FR-057, SC-015c)
-- [ ] T109 [US7] [TDD] Prove **G-KG-17 / SC-015c**: run the whole pipeline against the synthetic — **BLOCKER:** none but the work — `prove_g_kg_17_synthetic_chapter` self-scopes in its own docstring ("SCOPED HONESTLY") to extracted areas/themes plus taxonomy, while T109 asks for EVERY S2 output · **OWNER:** **implementer** — unblocked today
+- [x] T109 **[CLOSED IN 008 AS T439 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US7] [TDD] Prove **G-KG-17 / SC-015c**: run the whole pipeline against the synthetic — **BLOCKER:** none but the work — `prove_g_kg_17_synthetic_chapter` self-scopes in its own docstring ("SCOPED HONESTLY") to extracted areas/themes plus taxonomy, while T109 asks for EVERY S2 output · **OWNER:** **implementer** — unblocked today
       chapter; assert every output in S2 exists and the diff contains **no hand-created structural
       file and no code change**. **Paired mutation**: remove one stage; the gate must go red naming
       the missing output.
@@ -1445,21 +1445,21 @@ chapter from a finished feature.
 - [x] T112 [US7] [TDD] Prove **S8**: evidence is written for every outcome, **especially** could not
       determine — the run that determined nothing is the one a reader most needs the record of.
       **Paired mutation**: skip evidence writing on the could-not-determine path (FR-054, FR-055)
-- [ ] T151 [US7] [P] [TDD] Implement code-passage drift detection per **FR-033h**: every code
+- [x] T151 **[CLOSED IN 008 AS T443 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US7] [P] [TDD] Implement code-passage drift detection per **FR-033h**: every code
       passage carries a content hash or equivalent anchor of the code location it cites; resolving a
       code passage whose anchor no longer matches reports **could not determine** or **stale**
       through the existing four-outcome resolver (T015), never a silent hit against code that has
       since changed independently, elsewhere in the monorepo. Gate **G-KG-25**. **Paired mutation**:
       mutate the file a code passage cites outside the workshop pipeline, then resolve the citation
       as a normal hit anyway; the gate must go red (FR-023, FR-033h, SC-015f)
-- [ ] T152 [US7] [TDD] Implement atomic publication per **FR-033i**: a chapter-processing run's
+- [x] T152 **[CLOSED IN 008 AS T444 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US7] [TDD] Implement atomic publication per **FR-033i**: a chapter-processing run's
       outputs — minted passages, extracted areas, materials, question sets, cross-references, index
       entries and links — become visible together or not at all; an interrupted run (crash, kill,
       power loss) leaves no partially-written state reachable by a learner or by search. Gate
       **G-KG-26**. **Paired mutation**: kill the pipeline mid-run against T108's synthetic chapter and
       assert the previously published state is unchanged and no new-but-incomplete artifact is
       reachable; make publication non-atomic and the gate must go red (FR-033i, SC-015g)
-- [ ] T153 [US7] Prove **SC-015g**'s serving half: processing a new chapter does not block or
+- [x] T153 **[CLOSED IN 008 AS T445 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [US7] Prove **SC-015g**'s serving half: processing a new chapter does not block or
       degrade interactive serving of the existing, already-published taxonomy, materials, questions
       or search index while the run is in progress — a direct consequence of T152's atomicity rather
       than a second mechanism, made independently measurable rather than left to be inferred
@@ -1563,7 +1563,7 @@ chapter from a finished feature.
       days; re-run the gate rather than quoting 15.
 - [x] T118 [TDD] Prove **SC-026**: cross-check recorded defects against the limits document; an
       unnamed defect fails. **Paired mutation**: remove one defect from the document (FR-050, SC-026)
-- [ ] T119 [TDD] Prove **SC-028**: drive every new check into a could-not-determine condition and — **BLOCKER:** none but the work — SC-028 coverage reaches only 3 Phase-10 checks; the 18 G-KG gates have never been driven to state 2, and the registry population has since grown to 70 checks · **OWNER:** **implementer** — unblocked today
+- [x] T119 **[CLOSED IN 008 AS T537 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [TDD] Prove **SC-028**: drive every new check into a could-not-determine condition and — **BLOCKER:** none but the work — SC-028 coverage reaches only 3 Phase-10 checks; the 18 G-KG gates have never been driven to state 2, and the registry population has since grown to 70 checks · **OWNER:** **implementer** — unblocked today
       assert the **third** state, not either of the other two (FR-054, SC-028)
 
       **PARTIAL (re-measured 2026-09-03, unchanged).** `platform/gates/prove-sc028-undetermined-states.sh`
@@ -2028,7 +2028,7 @@ coincide, and that both accuracy figures are published beside the speech-recogni
       widest disclosure surface in the phase, and the umbrella repository is public while this
       material is not, so it must land BEFORE T141 wires the stage into the chapter-addition path —
       not after
-- [ ] T138 [UNBUILT] [TDD] Index `screen_text` on its own text and prove **G-KG-11** for it — an — **BLOCKER:** **predecessor T126** — nothing to index until `screen_text` mentions are produced · **OWNER:** **implementer**, after T126
+- [x] T138 **[CLOSED IN 008 AS T461 - ticked by 026 Wave 1 on 2026-10-24: the 008 row is [x] with a dated DONE note and its cited artefacts were re-checked present in the tree at workshop `144419d7`; gates were not re-run. Any older "not built" note on this line is superseded.]**  [UNBUILT] [TDD] Index `screen_text` on its own text and prove **G-KG-11** for it — an — **BLOCKER:** **predecessor T126** — nothing to index until `screen_text` mentions are produced · **OWNER:** **implementer**, after T126
       advertised kind must be **retrievable**, proven by a planted known target, **never** by a row
       count. Do not advertise the kind until it is retrievable (FR-066). The corpus already
       advertises `diagram` with **0** entries, and this task exists so a second such kind is not

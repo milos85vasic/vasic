@@ -131,7 +131,7 @@ Python oracle `platform/gates/lib/manifest_oracle.py` (stdlib only).
 - [ ] T016 [P] [US1] Failure-injection run on the isolated server with the real (built) bundle copy: kill `promote-web.sh`
       at each step while a Playwright/`curl` loop hits `/` and the referenced assets; assert zero 404/5xx. Evidence file
       with counts only.
-      S12 NOTE: PARTIAL not ticked: chaos was run on fixture dirs (T013); not on an isolated server with a real built bundle
+      S12 NOTE: PARTIAL not ticked: chaos was run on fixture dirs (T013); not on an isolated server with a real built bundle **[done on branch origin/rescue/s12-019-promotion-wip only; not on workshop main as of 2026-10-24; evidence scripts/promote-web.test.sh; annotated by 026 Wave 1 on 2026-10-24]**
 - [ ] T017 [REVIEW] [US1] Independent review (Opus xhigh): is the ordering argument correct for browsers holding the old
       `index.html` (old tabs keep working until `--prune`; how long is the grace), cache headers, rollback completeness,
       the one case where the in-place swap is wrong (bind mount replaced). Verdict file.
@@ -360,7 +360,7 @@ idempotent, reversible, journalled.
       stage a stale `index.html` on the isolated server and show the mismatch banner. Steps with expected on-screen text
       recorded in `evidence/…/ui-acceptance-us3.md`; screenshots in the private evidence dir.
 - [ ] T052 [P] [POLISH] User manual `docs/deploy-and-promotion.md` (§11.4.257): what the gate checks, how to read a verdict,
-      what each check id means, the fingerprint, the seam, limits.
+      what each check id means, the fingerprint, the seam, limits. **[done on branch origin/rescue/s12-019-promotion-wip only; not on workshop main as of 2026-10-24; evidence docs/deploy-and-promotion.md; annotated by 026 Wave 1 on 2026-10-24]**
 - [ ] T053 [P] [POLISH] Task guide `docs/guides/promote-the-frontend-bundle.md`.
 - [ ] T054 [P] [POLISH] Task guide `docs/guides/read-the-whats-live-panel.md`.
 - [ ] T055 [P] [POLISH] Task guide `docs/guides/roll-back-a-promotion.md` (bundle and registry).
@@ -371,7 +371,7 @@ idempotent, reversible, journalled.
       **data-flow** (source → build → staging → manifest → served → verdict), **state machine** (promotion states:
       idle → staged → verified → promoted → pruned | rolled-back, and the gate verdict states PASS/FAIL/UNDETERMINED),
       **sequence** (operator → gate pre → promote-web → promote-registry → restart → gate post → panel). A reviewer traces
-      one arrow per diagram to a file:line.
+      one arrow per diagram to a file:line. **[done on branch origin/rescue/s12-019-promotion-wip only; not on workshop main as of 2026-10-24; evidence Mermaid blocks in docs/deploy-and-promotion.md; annotated by 026 Wave 1 on 2026-10-24]**
 - [ ] T058 [REVIEW] [POLISH] Export and validate the docs: `bash scripts/build-exports.sh`; a separate validator agent opens
       the PDF/HTML for CONTENT, TEXT and VISUAL layers (§11.4.168), checks Mermaid rendered, links resolve. Verdict file.
 - [ ] T059 [P] [POLISH] Claim-vs-reality ledger rows (§11.4.266): "what is built is what is served (commit)", "(bundle)", "(registry)",
