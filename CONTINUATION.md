@@ -4,7 +4,7 @@
      Keep the exact `Field: value` shape. -->
 
     Last-Updated: 2026-10-27T10:00:00Z
-    Synced-Commit: 2d76226
+    Synced-Commit: c8b6bc4
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
