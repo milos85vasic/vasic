@@ -19,8 +19,31 @@ Two facts to read before anything else:
 
 ---
 
+## Status at a glance
+
+Measured 2026-10-27 by the commands shown; re-run them, do not quote this table.
+
+| Area | Reading | Command |
+| --- | --- | --- |
+| Submodules | 22 gitlinks declared; the cascade classifies 20 owned, 1 governance source, 1 third-party | `git config -f .gitmodules --get-regexp 'submodule\..*\.path'`, `bash scripts/verify-governance-cascade.sh` |
+| Cascade | exit 0, 12 PASS / 0 FAIL / 0 ENV / 8 NOTE | `bash scripts/verify-governance-cascade.sh` |
+| Manifest pins | exit 0, 21 MATCH / 0 DRIFT / 0 UNDETERMINED of 21 deps | `bash scripts/verify-manifest-pins.sh` |
+| Check registry | exit 1, 153 PASS / 2 FAIL / 0 DEBT; both FAILs are `CADENCE ELAPSED` (next_review 2026-10-15) on the `watch-deploy` check and its proof | `bash scripts/verify-check-registry.sh` |
+| Continuation record | exit 0, 8 PASS / 0 DRIFT | `bash scripts/continuation-check.sh` |
+
+**Built.** The two sites and their generator, the shared design system, the governance cascade and its gates, and the `workshop` curriculum platform (private submodule): accounts and roles, backup and restore, ask admission guard and spend governor, mastery and spaced review, learner export and erasure, materials storage sync to Yandex Disk.
+
+**In progress.** The first real upload of materials to Yandex Disk (slow, not complete); the vision pipeline (partly built, default-deny, nothing sent to a hosted provider); the staged corpus rechunk (generation `rg1`, not swapped).
+
+**Blocked on the operator.** Answering stays OFF by decision. Hosted vision on private recordings, the local vision endpoint, the rechunk swap, a paid re-measure, hooks install, the untrack apply and the Yandex app-password rotation are open decisions: [`docs/operator-decisions/2026-10-27.md`](docs/operator-decisions/2026-10-27.md).
+
+**Release.** Candidate 0.0.6 (workshop `2f74b7c6`) is a draft; the umbrella tag is not cut and the blockers are listed in [`docs/releases/0.0.6.md`](docs/releases/0.0.6.md). There is no separate Roadmap document in this repository; the live work list is `CONTINUATION.md` section 3.
+
+---
+
 ## Contents
 
+0. [Status at a glance](#status-at-a-glance)
 1. [What is in here](#what-is-in-here)
 2. [Getting started](#getting-started)
 3. [Building the sites](#building-the-sites)
@@ -459,11 +482,12 @@ bash scripts/verify-governance-cascade.sh    # classifies the fleet from evidenc
 bash scripts/verify-manifest-pins.sh         # every recorded ref vs its live gitlink
 ```
 
-Measured 2026-09-03 by exactly those commands: **13 gitlinks are declared, 12
-carry a manifest entry, and the cascade classifies 11 as owned consumers, 1 as
-the governance source, and 1 as third party.** Those numbers move when a
-submodule is added. The commands above are the authority; this paragraph is a
-dated observation.
+Measured 2026-10-27 by exactly those commands: **22 gitlinks are declared,
+21 carry a manifest entry, and the cascade classifies 20 as owned consumers,
+1 as the governance source, and 1 as third party.** (The 2026-09-03 reading was
+13 declared, 12 in the manifest, 11 owned.) Those numbers move when a submodule
+is added. The commands above are the authority; this paragraph is a dated
+observation.
 
 Three roles exist:
 
@@ -485,7 +509,7 @@ for u in $(git config -f .gitmodules --get-regexp 'submodule\..*\.url' | awk '{p
 done
 ```
 
-Measured 2026-09-03 with exactly that loop:
+Measured 2026-09-03 with exactly that loop (13 submodules then; visibility was NOT re-measured on 2026-10-27, which needs the network, and nine more owned submodules have joined since: `submodules/curriculum-kit`, `submodules/qa`, `submodules/challenges`, `submodules/doc_processor`, `submodules/llm_orchestrator`, `submodules/llm_provider`, `submodules/llms_verifier`, `submodules/security`, `submodules/vision_engine`; re-run the loop for them):
 
 | Path | Role | Visibility | What it is |
 | --- | --- | --- | --- |
@@ -525,7 +549,7 @@ git -C design-toolkit ls-remote origin HEAD
 git -C design-toolkit ls-remote gitlab HEAD
 ```
 
-Measured 2026-09-03: the GitLab head is a strict ancestor of the GitHub head —
+Measured 2026-09-03 (SUPERSEDED: the project record in `CLAUDE.md` states the mirror was synced on 2026-09-08 and not re-measured since; re-run the commands above): the GitLab head was a strict ancestor of the GitHub head —
 six commits behind, zero divergent. That is lag, not divergence, and the
 remote-sync instrument reports this submodule current because it probes the
 declared origin only. "Current" there is a statement about one remote.
@@ -760,7 +784,7 @@ its own status ledger is the authority for the identifiers below.
 | G5 | partially closed — the commit wrapper exists; git hooks as a tracked, travelling artifact do not |
 | G8 | open — the markdown/export mandate is unmet across the repository, no work in flight |
 | G9, G10, G11 | no verified current status. Do not report them either way without re-auditing |
-| G12 | open — no `PreToolUse` guard is wired, although the canonical guard script sits unused in the constitution submodule |
+| G12 | closed 2026-09-09 — the `PreToolUse` guard is wired in the tracked `.claude/settings.json`; `bash scripts/verify-pretooluse-guard.sh` is the check |
 
 Re-read the ledger rather than this table:
 
@@ -855,6 +879,8 @@ ollama list
 
 | You want to | Read |
 | --- | --- |
+| See the 0.0.6 release candidate and what blocks its tag | [`docs/releases/0.0.6.md`](docs/releases/0.0.6.md) and [`docs/releases/ADDING-A-RELEASE.md`](docs/releases/ADDING-A-RELEASE.md) |
+| See the operator decisions taken and still open | [`docs/operator-decisions/2026-10-27.md`](docs/operator-decisions/2026-10-27.md), continuing [`2026-10-26.md`](docs/operator-decisions/2026-10-26.md) |
 | Pick up work someone else left | [`CONTINUATION.md`](CONTINUATION.md) — the resumption contract. It carries a verbatim prompt you can paste into any CLI agent, and `bash scripts/continuation-check.sh` tells you whether it is stale before you trust it |
 | Understand the agent rules that bind work here | [`CLAUDE.md`](CLAUDE.md) — or the carrier matching your agent, `AGENTS.md` / `QWEN.md` / `GEMINI.md`. They are byte-identical from line 19 down |
 | Understand how the constitution is inherited | [`docs/constitution-adoption/README.md`](docs/constitution-adoption/README.md), then [`INVENTORY.md`](docs/constitution-adoption/INVENTORY.md) |

@@ -262,11 +262,11 @@ src="https://img.shields.io/badge/defects-no%20tracker-red?vocab=red"
 alt="defects" /> <img
 src="https://img.shields.io/badge/supply%20chain-no%20SLSA%20level-red?vocab=red"
 alt="supply-chain" /> <img
-src="https://img.shields.io/badge/zero%20findings-37%20over%20ratchet-red?vocab=red"
+src="https://img.shields.io/badge/zero%20findings-23%20tracked-orange?vocab=amber"
 alt="zero-findings" /> <img
-src="https://img.shields.io/badge/evidence-31%2F32%20proofs-red?vocab=red"
+src="https://img.shields.io/badge/evidence-39%2F39%20proofs-orange?vocab=amber"
 alt="evidence" /> <img
-src="https://img.shields.io/badge/production%20ready-blocked,%2010%20red-red?vocab=red"
+src="https://img.shields.io/badge/production%20ready-blocked,%208%20red-red?vocab=red"
 alt="production-readiness" /></p>
 <p>Umbrella monorepo for two production websites and the tooling that
 generates, translates, validates and ships them. Nothing here is a
@@ -286,8 +286,80 @@ untracked, so a fresh clone enforces nothing until you install it. See
 <a href="#gates-and-how-to-run-them">Gates</a>.</li>
 </ul>
 <hr />
+<h2 id="status-at-a-glance">Status at a glance</h2>
+<p>Measured 2026-10-27 by the commands shown; re-run them, do not quote
+this table.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Reading</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Submodules</td>
+<td>22 gitlinks declared; the cascade classifies 20 owned, 1 governance
+source, 1 third-party</td>
+<td><code>git config -f .gitmodules --get-regexp 'submodule\..*\.path'</code>,
+<code>bash scripts/verify-governance-cascade.sh</code></td>
+</tr>
+<tr>
+<td>Cascade</td>
+<td>exit 0, 12 PASS / 0 FAIL / 0 ENV / 8 NOTE</td>
+<td><code>bash scripts/verify-governance-cascade.sh</code></td>
+</tr>
+<tr>
+<td>Manifest pins</td>
+<td>exit 0, 21 MATCH / 0 DRIFT / 0 UNDETERMINED of 21 deps</td>
+<td><code>bash scripts/verify-manifest-pins.sh</code></td>
+</tr>
+<tr>
+<td>Check registry</td>
+<td>exit 1, 153 PASS / 2 FAIL / 0 DEBT; both FAILs are
+<code>CADENCE ELAPSED</code> (next_review 2026-10-15) on the
+<code>watch-deploy</code> check and its proof</td>
+<td><code>bash scripts/verify-check-registry.sh</code></td>
+</tr>
+<tr>
+<td>Continuation record</td>
+<td>exit 0, 8 PASS / 0 DRIFT</td>
+<td><code>bash scripts/continuation-check.sh</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Built.</strong> The two sites and their generator, the shared
+design system, the governance cascade and its gates, and the
+<code>workshop</code> curriculum platform (private submodule): accounts
+and roles, backup and restore, ask admission guard and spend governor,
+mastery and spaced review, learner export and erasure, materials storage
+sync to Yandex Disk.</p>
+<p><strong>In progress.</strong> The first real upload of materials to
+Yandex Disk (slow, not complete); the vision pipeline (partly built,
+default-deny, nothing sent to a hosted provider); the staged corpus
+rechunk (generation <code>rg1</code>, not swapped).</p>
+<p><strong>Blocked on the operator.</strong> Answering stays OFF by
+decision. Hosted vision on private recordings, the local vision
+endpoint, the rechunk swap, a paid re-measure, hooks install, the
+untrack apply and the Yandex app-password rotation are open decisions:
+<a
+href="docs/operator-decisions/2026-10-27.md"><code>docs/operator-decisions/2026-10-27.md</code></a>.</p>
+<p><strong>Release.</strong> Candidate 0.0.6 (workshop
+<code>2f74b7c6</code>) is a draft; the umbrella tag is not cut and the
+blockers are listed in <a
+href="docs/releases/0.0.6.md"><code>docs/releases/0.0.6.md</code></a>.
+There is no separate Roadmap document in this repository; the live work
+list is <code>CONTINUATION.md</code> section 3.</p>
+<hr />
 <h2 id="contents">Contents</h2>
-<ol type="1">
+<ol start="0" type="1">
+<li><a href="#status-at-a-glance">Status at a glance</a></li>
 <li><a href="#what-is-in-here">What is in here</a></li>
 <li><a href="#getting-started">Getting started</a></li>
 <li><a href="#building-the-sites">Building the sites</a></li>
@@ -821,17 +893,24 @@ that returns success while exercising nothing is the failure mode the
 registry was written to catch.</p>
 <p>Reference: <a
 href="docs/check-registry.md"><code>docs/check-registry.md</code></a>.</p>
-<h3 id="two-of-these-are-expected-to-be-non-zero">Two of these are
-expected to be non-zero</h3>
+<h3 id="two-of-these-are-expected-to-be-red-one-conditionally">Two of
+these are expected to be red (one conditionally)</h3>
 <ul>
-<li><strong><code>verify-content-boundary.sh</code> exits <code>1</code>
-by design.</strong> See <a href="#content-boundary">Content
-boundary</a>. A finding there is a reading assignment. Do not silence
-it, do not allow-list your way to green.</li>
-<li><strong><code>verify-submodule-remote-sync.sh</code> exits
-<code>1</code> whenever a pin is behind its remote.</strong> Bumping a
-pin is an operator decision, and this instrument does not make one. It
-exits <code>1</code> until an operator acts.</li>
+<li><strong><code>verify-content-boundary.sh</code> is designed to stay
+red: exit <code>1</code> = findings present</strong> (re-measure:
+<code>bash scripts/verify-content-boundary.sh; echo "rc=$?"</code>). See
+<a href="#content-boundary">Content boundary</a>. A finding there is a
+reading assignment. Do not silence it, do not allow-list your way to
+green.</li>
+<li><strong><code>verify-submodule-remote-sync.sh</code> is conditional,
+by exit code:</strong> exit <code>0</code> = every owned gitlink is
+current, exit <code>1</code> = at least one pin is behind its remote or
+differs from it, exit <code>2</code> = it could not determine (never a
+pass) (re-measure:
+<code>bash scripts/verify-submodule-remote-sync.sh; echo "rc=$?"</code>).
+Bumping a pin is an operator decision, and this instrument does not make
+one, so while a pin is behind it stays at <code>1</code> until an
+operator acts.</li>
 </ul>
 <p>Neither is a reason to weaken the instrument.</p>
 <hr />
@@ -911,7 +990,9 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href=
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#   1 = provider-side triggering confirmed (operator-only to change, in the provider UI)</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   2 = could not determine — not a pass</span></span></code></pre></div>
 <p>It enumerates the owned repositories from this checkout’s own remotes
-and asks each provider directly. Measured 2026-09-03 it exits
+and asks each provider directly. Historical reading, 2026-09-03
+(re-measure with
+<code>bash scripts/verify-provider-ci.sh; echo $?</code>): it exited
 <code>1</code>, with the confirmed standing trigger being the
 <code>vasic.digital</code> Pages source setting, and six rows reported
 as unverified because no read-only API adapter is registered for those
@@ -928,10 +1009,11 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href=
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-c</span> <span class="st">&#39;import yaml;d=yaml.safe_load(open(&quot;helix-deps.yaml&quot;));print(len(d[&quot;deps&quot;]))&#39;</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh    <span class="co"># classifies the fleet from evidence</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-manifest-pins.sh         <span class="co"># every recorded ref vs its live gitlink</span></span></code></pre></div>
-<p>Measured 2026-09-03 by exactly those commands: <strong>13 gitlinks
-are declared, 12 carry a manifest entry, and the cascade classifies 11
+<p>Measured 2026-10-27 by exactly those commands: <strong>22 gitlinks
+are declared, 21 carry a manifest entry, and the cascade classifies 20
 as owned consumers, 1 as the governance source, and 1 as third
-party.</strong> Those numbers move when a submodule is added. The
+party.</strong> (The 2026-09-03 reading was 13 declared, 12 in the
+manifest, 11 owned.) Those numbers move when a submodule is added. The
 commands above are the authority; this paragraph is a dated
 observation.</p>
 <p>Three roles exist:</p>
@@ -953,7 +1035,16 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href=
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="va">slug</span><span class="op">=</span><span class="va">${u</span><span class="op">#</span>git@github.com:<span class="va">}</span><span class="kw">;</span> <span class="va">slug</span><span class="op">=</span><span class="va">${slug</span><span class="op">%</span>.git<span class="va">}</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">printf</span> <span class="st">&#39;%-45s %s\n&#39;</span> <span class="st">&quot;</span><span class="va">$slug</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$(</span><span class="ex">gh</span> api <span class="st">&quot;repos/</span><span class="va">$slug</span><span class="st">&quot;</span> <span class="at">--jq</span> .visibility <span class="dv">2</span><span class="op">&gt;</span>/dev/null <span class="kw">||</span> <span class="bu">echo</span> COULD_NOT_DETERMINE<span class="va">)</span><span class="st">&quot;</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
-<p>Measured 2026-09-03 with exactly that loop:</p>
+<p>Measured 2026-09-03 with exactly that loop (13 submodules then;
+visibility was NOT re-measured on 2026-10-27, which needs the network,
+and nine more owned submodules have joined since:
+<code>submodules/curriculum-kit</code>, <code>submodules/qa</code>,
+<code>submodules/challenges</code>,
+<code>submodules/doc_processor</code>,
+<code>submodules/llm_orchestrator</code>,
+<code>submodules/llm_provider</code>,
+<code>submodules/llms_verifier</code>, <code>submodules/security</code>,
+<code>submodules/vision_engine</code>; re-run the loop for them):</p>
 <table>
 <colgroup>
 <col style="width: 25%" />
@@ -1087,11 +1178,13 @@ hold different heads. Re-derive rather than quoting a number:</p>
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit remote <span class="at">-v</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit ls-remote origin HEAD</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> design-toolkit ls-remote gitlab HEAD</span></code></pre></div>
-<p>Measured 2026-09-03: the GitLab head is a strict ancestor of the
-GitHub head — six commits behind, zero divergent. That is lag, not
-divergence, and the remote-sync instrument reports this submodule
-current because it probes the declared origin only. “Current” there is a
-statement about one remote.</p>
+<p>Measured 2026-09-03 (SUPERSEDED: the project record in
+<code>CLAUDE.md</code> states the mirror was synced on 2026-09-08 and
+not re-measured since; re-run the commands above): the GitLab head was a
+strict ancestor of the GitHub head — six commits behind, zero divergent.
+That is lag, not divergence, and the remote-sync instrument reports this
+submodule current because it probes the declared origin only. “Current”
+there is a statement about one remote.</p>
 <hr />
 <h2 id="content-boundary">Content boundary</h2>
 <p><strong>This repository is public. <code>workshop</code>,
@@ -1154,7 +1247,9 @@ public, and reports what survives with both sides named. Legitimate
 cross-boundary flows are declared as private/public
 <strong>pairs</strong> with a mandatory reason in
 <code>.content-boundary-allow</code>.</p>
-<p><strong>It exits <code>1</code>, and that is the designed state. Do
+<p><strong>It is designed to stay red, exit <code>1</code> = findings
+present (re-measure:
+<code>bash scripts/verify-content-boundary.sh; echo "rc=$?"</code>). Do
 not make it green.</strong> The surviving matches are left visible
 rather than allow-listed, because an allow-list entry buys a green exit
 at the price of hiding the row from the next reader.</p>
@@ -1316,9 +1411,10 @@ it and to the cascade check that wraps it.</p>
 <p>Only one instrument here looks at a remote:</p>
 <div class="sourceCode" id="cb30"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-submodule-remote-sync.sh</span></code></pre></div>
-<p>Measured 2026-09-03 it exits <code>1</code>: the constitution gitlink
-differs from its remote head, with the <em>difference</em> determined
-and the <em>direction</em> not, because the remote commit is not in this
+<p>Historical reading, 2026-09-03 (re-measure with the command above):
+it exited <code>1</code>, the constitution gitlink differing from its
+remote head, with the <em>difference</em> determined and the
+<em>direction</em> not, because the remote commit is not in this
 checkout’s object store. Classifying the direction requires a fetch, and
 a fetch is a mutating command and an operator decision. The read-only
 probes tell you <em>that</em> it differs, never which way:</p>
@@ -1384,8 +1480,9 @@ re-auditing</td>
 </tr>
 <tr>
 <td>G12</td>
-<td>open — no <code>PreToolUse</code> guard is wired, although the
-canonical guard script sits unused in the constitution submodule</td>
+<td>closed 2026-09-09 — the <code>PreToolUse</code> guard is wired in
+the tracked <code>.claude/settings.json</code>;
+<code>bash scripts/verify-pretooluse-guard.sh</code> is the check</td>
 </tr>
 </tbody>
 </table>
@@ -1487,6 +1584,20 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href=
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>See the 0.0.6 release candidate and what blocks its tag</td>
+<td><a
+href="docs/releases/0.0.6.md"><code>docs/releases/0.0.6.md</code></a>
+and <a
+href="docs/releases/ADDING-A-RELEASE.md"><code>docs/releases/ADDING-A-RELEASE.md</code></a></td>
+</tr>
+<tr>
+<td>See the operator decisions taken and still open</td>
+<td><a
+href="docs/operator-decisions/2026-10-27.md"><code>docs/operator-decisions/2026-10-27.md</code></a>,
+continuing <a
+href="docs/operator-decisions/2026-10-26.md"><code>2026-10-26.md</code></a></td>
+</tr>
 <tr>
 <td>Pick up work someone else left</td>
 <td><a href="CONTINUATION.md"><code>CONTINUATION.md</code></a> — the

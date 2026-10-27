@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-24T18:30:00Z
-    Synced-Commit: 49cb0ed
+    Last-Updated: 2026-10-27T10:00:00Z
+    Synced-Commit: 2d76226
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -425,6 +425,29 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### WORKSHOP PINNED AT 2f74b7c6 (MATERIALS STORAGE SYNC, VISION PIPELINE, SPEND SPLIT, REVIEW GO) — 2026-10-27
+
+State at the time of writing (re-derive, do not quote: `git ls-files -s workshop`, `git -C workshop log --oneline 0926f32e..2f74b7c6`, `bash scripts/verify-manifest-pins.sh`, `bash scripts/continuation-check.sh`).
+
+- **Pin table.** `workshop` gitlink: `2d76226` records `0926f32e`; the staged change (index, not yet committed when this was written) records `2f74b7c60048fce2fabb63341fd163bd90137806`, pushed fast-forward to `origin/main` 2026-10-27. `helix-deps.yaml` `workshop` ref is staged in the same change. `Synced-Commit` above stays `2d76226`, the last umbrella commit that exists; it must be moved to the commit that records `2f74b7c6` once that commit is made.
+- **Measured 2026-10-27.** `verify-manifest-pins.sh` exit 0, 21 MATCH / 0 DRIFT / 0 UNDETERMINED of 21 deps. `verify-governance-cascade.sh` exit 0, 12 PASS / 0 FAIL / 0 ENV / 8 NOTE, 22 gitlinks (20 owned, 1 governance source, 1 third-party). `verify-check-registry.sh` exit 1, 153 PASS / 2 FAIL / 0 DEBT: both FAIL rows are `CADENCE ELAPSED` (next_review 2026-10-15) for `_tools/watch-deploy.sh` and `_tools/prove-watch-deploy-verdict.sh`; they need re-verification and a new date, not done. `continuation-check.sh` was exit 0 (8 PASS / 0 DRIFT) before this edit; the exit code after it is recorded in the hand-off report.
+- **What landed in `workshop` since `0926f32e` (99 commits, 2026-10-26 to 2026-10-27).** Materials storage sync to Yandex Disk (primary WebDAV) and S3-compatible stores, fixed remote root `Workshop/Materials/Assets`, tracked hooks, admin routes (`4ae7271a`, `b5f9ca80`); raw notes and transcripts become materials with `untrack-materials.sh` (`b6762e2a`); vision pipeline partly built, default-deny privacy gate (`8f365c32`, `e20de61c`); published-only retrieval opt-in (`b6e8c946`); rechunk generation `rg1` staged, not swapped (`64ce7762`); spend split 6/6/4 with reserve 4, daily 1.5/1.5/1 (`df167bf1`); learner export, erasure, retention and an audited per-learner admin view (`113cc2cb`, `a6a8581c`); chapter 02.02 removed (`a1a724f0`); gate and portability repairs; independent-review fixes R1 to R9 (`f5ff0623` through `e5521327`).
+- **Reported, not measured here.** Workshop 73 Go packages ok and frontend unit 2274 of 2274, review NO-GO then GO (orchestrator report). The upload to Yandex is running at about 40 to 90 KB/s and is not complete; nothing has been untracked.
+- **Decisions.** Recorded in `docs/operator-decisions/2026-10-27.md` (draft): Yandex primary, credentials only in the git-ignored `workshop/.env` under `WORKSHOP_STORAGE_WEBDAV_USER` and `WORKSHOP_STORAGE_WEBDAV_PASSWORD` (values never recorded), keep forever, no encryption for now, answering stays OFF. Open: hosted vision on private recordings and face mask, local vision endpoint, rechunk swap, paid re-measure, hooks install, untrack apply, 16 absent sidecar-declared files, app-password rotation.
+- **Release.** `docs/releases/0.0.6.md` revision 2 states what blocks the umbrella tag (no release build or served verdict, the pin commit not made, two registry cadence FAILs, operator-owned reds). The tag is not cut.
+- **Documentation.** `README.md` status section and fleet counts were re-measured; exports regenerated with the docs_chain binary as recorded in the hand-off report. There is no Roadmap document in this tree (`git ls-files | grep -i roadmap` returns nothing outside submodules).
+
+### WORKSHOP SESSION WORK PINNED AT 0926f32e (ACCOUNTS, BACKUP, ASK GUARD, MASTERY/FSRS, HARDENING) — 2026-10-26
+
+State at the time of writing (re-derive, do not quote: `git ls-files -s workshop`, `git -C workshop log --oneline 627b6dcb..0926f32e`, `bash scripts/continuation-check.sh`, `bash scripts/verify-manifest-pins.sh`).
+
+- **Pin.** The `workshop` gitlink was moved through `526acea5`, `627b6dcb` and `0926f32e` by `chore(pins)` commits, each with the `helix-deps.yaml` ref in the same change. The earlier continuation-check DRIFT was exactly those pin commits touching `helix-deps.yaml` without this file; `Synced-Commit` is now `2d76226`, the umbrella commit that recorded `0926f32e`.
+- **What landed in `workshop` (13 commits, 2026-10-26; full list in `workshop/CHANGELOG.md`).** Learner-state backup and verified restore (`5d482320`, W6); untrusted-data rule and delimiter neutralisation in the answer prompt (`4d1deabc`, W5); recording player diagnoses the real failure (`10ad5c4d`); student seeding and admin convergence (`d0c0fee5`, `6b5220f0`); concept mastery and FSRS-6 spaced review endpoints (`f2f6d911`, W8a/W8c); Library hides `poc/` (`ba17c103`); `.env` as provider-key source plus DeepSeek evidence (`a0cc32b5`); five research documents ingested (`f37c8329`); logged-out header and route-guard spec (`ac79906c`); ask admission guard, daily USD ceiling and admin spend-governor view (`3360e6b2`, W3); header nav row, truthful chapter status, `/api/progress` unknown-parameter 400 (`0926f32e`).
+- **State that did not change.** Answering stays OFF (recall below the gate floor, `a0cc32b5`). Not built: retention, erasure and export of learner data. Chapters 02.02 and 03 recordings are missing (restoration UNCONFIRMED).
+- **Decisions recorded** in `docs/operator-decisions/2026-10-26.md` (draft, unreviewed). Release draft: `docs/releases/0.0.6.md` (candidate, no tag).
+- **Open, next.** Independent review of the documentation set; docs for the in-session features per the 2026-10-26 sync plan (user guide, manual, FAQ, limits; `workshop/docs/deepseek.md` still says the daily ceiling and the ask rate limit are MISSING although `3360e6b2` added them); regenerate exports; `scripts/verify-docs-chain.sh` is UNDETERMINED until the `docs_chain` binary is built.
+- **Diagrams.** Seven flow diagrams (mermaid sources `workshop/docs/diagrams/platform-flows/*.mmd`, SVG exports, `workshop/docs/architecture/flows.md`) were committed on a worktree branch of `workshop`; they are not in the pin above until that branch is merged and the gitlink bumped.
 
 ### UMBRELLA REPAIR + JEV DECISION LAYER RELEASE — 2026-10-23
 

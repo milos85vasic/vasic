@@ -281,16 +281,18 @@ submodule.</p>
 </thead>
 <tbody>
 <tr>
-<td>The universal constitution (11,787 lines, 255 <code>### §</code>
-anchors, 1,801,862 bytes, <strong>re-measured on disk 2026-09-03 BEFORE
-AND AFTER the fourth fast-forward, at <code>3be10826f3d2</code> and
-again at <code>2887b42e9349</code> — every figure reproduced
-identically, sha256 <code>973e473c823b4a13…</code> on both
-sides</strong>; the SAME <code>Constitution.md</code> blob
-<code>ad32fc94…</code> as all four superseded pins
+<td>The universal constitution (11,965 lines, 257 <code>### §</code>
+anchors, 1,908,339 bytes, re-measured 2026-10-12 at the index pin
+<code>a71b1767b402</code> with <code>wc -l</code>,
+<code>grep -c '^### §'</code> and <code>wc -c</code> on
+<code>Constitution.md</code>; re-derive, do not quote; historical and
+withdrawn as current: the 11,787 lines, 255 anchors, 1,801,862 bytes and
+sha256 <code>973e473c823b4a13…</code> re-measured on 2026-09-03 before
+and after the fourth fast-forward, at <code>3be10826f3d2</code> and
+<code>2887b42e9349</code>, the SAME <code>Constitution.md</code> blob
+<code>ad32fc94…</code> as the four superseded pins
 <code>902979027a90</code>, <code>f16ea779b82a</code>,
-<code>f5876a3b700e</code> and <code>3be10826f3d2</code>, so these
-figures have not moved across any of the four bumps)</td>
+<code>f5876a3b700e</code> and <code>3be10826f3d2</code>)</td>
 <td><code>submodules/constitution/Constitution.md</code></td>
 </tr>
 <tr>
@@ -336,6 +338,9 @@ figures have not moved across any of the four bumps)</td>
 authorization. Every bump closed one INSTANCE of the gap; the HOLE that
 let the first one open unnoticed is now WATCHED, and the watcher has
 gone GREEN, RED and GREEN again inside three days.</strong>
+<strong>Historical reading, superseded as current, taken 2026-09-03 (the
+live pin is the index gitlink from
+<code>git ls-files -s submodules/constitution</code>):</strong>
 <code>submodules/constitution</code> is currently checked out at
 <code>2887b42e9349</code>, on branch <code>main</code>, and that
 <strong>EQUALS</strong>
@@ -386,17 +391,19 @@ scripts/helix_code/helix_code_services.sh   76 +++++++++++---</code></pre>
 <code>scripts/post_update_hook.sh</code> — returns
 <strong>NONE</strong>. A service-status script and its four rendered
 exports; nothing this repository inherits changed.</p>
-<p>Re-measured 2026-09-03 after the move. The index and the submodule
-working tree both sit at <code>2887b42e9349</code>; the umbrella’s
-<code>HEAD</code> still records <code>f16ea779b82a</code>, so the whole
-four-step move is <strong>STAGED and not yet committed</strong>.
+<p>Historical, superseded: re-measured 2026-09-03 after the move, the
+index and the submodule working tree both sat at
+<code>2887b42e9349</code>, the umbrella’s <code>HEAD</code> still
+recorded <code>f16ea779b82a</code>, and the whole four-step move was
+<strong>STAGED and not yet committed</strong>. The live pin is the index
+gitlink (<code>git ls-files -s submodules/constitution</code>).
 <code>helix-deps.yaml</code> records <code>2887b42e9349</code> staged in
 the same change, so gitlink and manifest moved together exactly as C9
 requires — <code>bash scripts/verify-manifest-pins.sh</code> exits
 <strong>0</strong> at 12 MATCH / 0 DRIFT / 0 UNDETERMINED, and
 <code>bash scripts/verify-submodule-remote-sync.sh</code> is back to
 exit <strong>0</strong> at <strong>12 CURRENT / 0 DRIFT / 0
-UNDETERMINED</strong>.</p>
+UNDETERMINED</strong>. (historical)</p>
 <p><strong>The third move, kept because its lesson is the same
 one.</strong> It too was classified before it was made:
 <code>merge-base --is-ancestor f5876a3b 3be10826</code> TRUE,
@@ -414,7 +421,7 @@ the index, and that is the gate working.</strong> Moving
 <code>11 MATCH, 1 DRIFT</code> until the gitlink was staged, then
 returned to <strong>12 MATCH / 0 DRIFT</strong>. <strong>Stage the
 gitlink and the manifest together, or the gate will — correctly — call
-you out.</strong></p>
+you out.</strong> (historical)</p>
 <p><strong>Do not read any SHA in this file as current; run the
 gate.</strong> Two consecutive sessions have now bumped this pin and
 found it behind upstream again within the day. Treat the constitution
@@ -495,7 +502,7 @@ else. The local branch carried no unpushed work —
 <code>902979027a90</code> was a local commit made in this checkout, and
 it is an ancestor of the remote head, so nothing was lost.
 <strong>Nothing was pushed to the constitution repository</strong>; this
-was a local pin move only.</li>
+was a local pin move only. (historical)</li>
 <li><strong>No recorded anchor count or line count in this repository
 went stale.</strong> <code>Constitution.md</code> is literally the same
 git blob at both commits —
@@ -506,7 +513,8 @@ pin’s. <code>git diff --stat</code> across the three commits touches
 three paths and none is a governance document:
 <code>design-toolkit</code> (1 +), <code>docs/codegraph/Status.md</code>
 (12 +), and the <code>submodules/design-toolkit</code> gitlink. Every
-figure recorded in this tree still describes the pinned text.</li>
+figure recorded in this tree still describes the pinned text.
+(historical)</li>
 <li><strong><code>helix-deps.yaml</code> moved in the SAME change — and
 did so again at the second bump.</strong> Its <code>constitution</code>
 entry records <code>3be10826f3d2</code> today, staged together with the
@@ -516,7 +524,8 @@ had nothing to report either time. Re-measured 2026-09-02:
 <code>bash scripts/verify-manifest-pins.sh</code> exit
 <strong>0</strong> at 12 MATCH / 0 DRIFT / 0 UNDETERMINED, and
 <code>bash scripts/verify-governance-cascade.sh</code> exit
-<strong>0</strong> at 12 PASS / 0 FAIL / 0 ENV / 8 NOTE.</li>
+<strong>0</strong> at 12 PASS / 0 FAIL / 0 ENV / 8 NOTE.
+(historical)</li>
 <li><strong>No gate in this tree detected local-vs-remote submodule
 drift, and the bump did not change that. One was written later the same
 day, and it is RED.</strong> Cascade check C9 and
@@ -526,7 +535,7 @@ never to the remote. Both exited <strong>0</strong> while the pin sat 3
 commits behind, and both exit <strong>0</strong> now. They cannot tell
 the two states apart, so neither exit code is, or ever was, evidence
 about the remote — which is precisely why a second instrument was
-needed. See “Submodule-vs-remote drift” below.</li>
+needed. See “Submodule-vs-remote drift” below. (historical)</li>
 </ol>
 <p><strong>Upstream defect carried in by the FIRST fast-forward — now
 FIXED UPSTREAM by the second, and the fix is measured, not
@@ -586,8 +595,8 @@ when written. Every reading in the lineage is now historical: “6 CURRENT
 fourth move). <strong>Green is a measurement of today, not a property of
 the tree</strong> — the gate says so itself, and TWO cycles of
 green-then-red-then-green are the proof. <strong>Do not bank this green;
-the pin has broken it four times.</strong> See “Submodule-vs-remote
-drift” below.</p>
+the pin has broken it four times.</strong> (historical) See
+“Submodule-vs-remote drift” below.</p>
 <p><strong>FIFTH FAST-FORWARD, 2026-09-08, operator-authorized — AND IT
 IS THE FIRST THAT IS NOT CORPUS-NEUTRAL. EVERY FIGURE IN THE TABLE BELOW
 IS WITHDRAWN.</strong> The pin moved <code>1f672725c823</code> -&gt;
@@ -595,7 +604,7 @@ IS WITHDRAWN.</strong> The pin moved <code>1f672725c823</code> -&gt;
 divergent / 5 behind</strong> and performed with
 <code>git merge --ff-only</code>, which would have refused anything
 else. <code>git submodule update --init --recursive</code> inside the
-submodule returned rc 0.</p>
+submodule returned rc 0. (historical)</p>
 <p><strong><code>Constitution.md</code> CHANGED, so the four bumps’
 “same blob” lineage ENDS HERE.</strong> Re-measured on disk at
 <code>573c01905564</code>:</p>
@@ -639,7 +648,8 @@ submodule returned rc 0.</p>
 document</strong>, so the standing sentence that four consecutive
 corpus-neutral moves were “a measured coincidence of what upstream
 happened to change, not a guarantee” is now demonstrated rather than
-merely asserted. Re-measure after the next one, on both sides.</p>
+merely asserted. Re-measure after the next one, on both sides.
+(historical)</p>
 <h3
 id="standing-authorization-for-fast-forward-only-constitution-pin-bumps-2026-09-09">STANDING
 AUTHORIZATION for fast-forward-only constitution-pin bumps
@@ -695,9 +705,19 @@ may then be run to classify WHICH WAY:</p>
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> submodules/constitution rev-parse HEAD                   <span class="co"># the local pin</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> submodules/constitution rev-parse HEAD:Constitution.md   <span class="co"># blob identity</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;^### §&#39;</span> submodules/constitution/Constitution.md        <span class="co"># 255</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="op">&lt;</span> submodules/constitution/Constitution.md                 <span class="co"># 11794</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-c</span> <span class="st">&#39;^### §&#39;</span> submodules/constitution/Constitution.md        <span class="co"># 257 (re-measured 2026-10-08 at pin a71b1767b402; 256 SUPERSEDED)</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> <span class="op">&lt;</span> submodules/constitution/Constitution.md                 <span class="co"># 11965 (re-measured 2026-10-08 at pin a71b1767b402; 11894 SUPERSEDED)</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-manifest-pins.sh                            <span class="co"># 0 = ref == gitlink</span></span></code></pre></div>
+<p><strong>Current gitlinks of the five modules whose pins this carrier
+narrates — a dated reading, 2026-10-08, from the index.</strong>
+Re-derive each with <code>git ls-files -s &lt;path&gt;</code>; these
+move with every bump and the <code>pointer-drift</code> sweep class
+reports the carrier again when one does:
+<code>submodules/constitution</code> <code>a71b1767b402</code>,
+<code>design-toolkit</code> <code>4ddc9645d140</code>,
+<code>submodules/containers</code> <code>4a8f04e05f35</code>,
+<code>submodules/curriculum-kit</code> <code>a57d6f157f18</code>,
+<code>workshop</code> <code>fb798e98c998</code>.</p>
 <p><strong>Re-measured 2026-09-09, and the whole fleet is level — no
 move was made and none was needed.</strong>
 <code>git -C submodules/constitution rev-parse HEAD</code> and
@@ -708,35 +728,45 @@ authorization had nothing to act on the day it was granted.
 <strong>0</strong> at <strong>13 CURRENT / 0 DRIFT / 0 UNDETERMINED of
 13 owned gitlinks probed, 14 declared</strong> — the first reading in
 this file’s history with no BEHIND row anywhere in the fleet.
-<code>bash scripts/verify-manifest-pins.sh</code> exits
+(historical) <code>bash scripts/verify-manifest-pins.sh</code> exits
 <strong>0</strong> at <strong>13 MATCH / 0 DRIFT / 0
 UNDETERMINED</strong>. <code>Constitution.md</code> re-measured on disk
 at that pin: blob <code>d95bf0c4f47c…</code>, <strong>11,794</strong>
 lines, <strong>255</strong> <code>### §</code> anchors,
 <strong>1,804,638</strong> bytes, sha256 <code>b9e438c95e7a7fd3…</code>
 — every figure identical to the post-09-08 table above, which is what
-“re-measure, do not quote” buys you.</p>
+“re-measure, do not quote” buys you. (historical)</p>
 <p><strong>The fleet grew by one and this file had not recorded
 it.</strong> <code>submodules/curriculum-kit</code>
 (<code>vasic-digital/curriculum-kit</code>, at
 <code>07af6fb79e20</code>) joined the owned set; it is probed by both
 gates and is CURRENT. Three counts moved with it, each quoted from its
-own gate rather than derived by hand:
-<code>verify-submodule-remote-sync.sh</code> probes <strong>13</strong>
-owned gitlinks of 14 declared (was 12 of 14); cascade
-<strong>C1</strong> classifies <strong>12 owned + 1 governance source +
-1 third-party</strong> (was 11 owned); <strong>C2/C3</strong> now find
-<strong>12 × 4 = 48</strong> owned-submodule carriers (was 11 × 4 = 44).
-Note the two vocabularies disagree on purpose — the remote-sync gate
-probes <code>submodules/constitution</code> and counts it among its 13,
-while C1 classifies it as the cascade’s SOURCE and excludes it from its
-12. <strong>Every “11 owned”, “12 owned gitlinks”, “44 of 44” and “12
-CURRENT” figure elsewhere in this carrier is SUPERSEDED.</strong>
-Re-derive the roster from the gates; never quote it from here.</p>
+own gate rather than derived by hand, as a historical reading of
+2026-09-09 (superseded by the live fleet; re-measure with
+<code>bash scripts/verify-submodule-remote-sync.sh</code>): that gate
+then probed <strong>13</strong> owned gitlinks of 14 declared, a
+historical reading superseded by the live fleet (it was 12 of 14
+before). The cascade then classified <strong>12 owned + 1 governance
+source + 1 third-party</strong>, a historical reading superseded (it was
+11 owned before). <strong>C2/C3</strong> then found <strong>12 × 4 =
+48</strong> owned-submodule carriers, a historical reading superseded
+(it was 11 × 4 = 44). Live, re-measured 2026-10-14 with
+<code>bash scripts/verify-governance-cascade.sh</code> (rc 0): C1
+classifies all 22 declared submodules as <strong>20 owned, 1 governance
+source, 1 third-party</strong>, and C2/C3 find <strong>20 × 4 =
+80</strong> owned-submodule carriers. Note the two vocabularies disagree
+on purpose, in a historical and superseded reading of 2026-09-09: the
+remote-sync gate probes <code>submodules/constitution</code> and counted
+it among its 13, while C1 classifies it as the cascade’s SOURCE and
+excluded it from its 12 (the same asymmetry holds live, with different
+counts). <strong>Every “11 owned”, “12 owned gitlinks”, “44 of 44” and
+“12 CURRENT” figure elsewhere in this carrier is SUPERSEDED.</strong>
+Re-derive the roster from the gates; never quote it from here.
+(historical)</p>
 <p><strong>Do not read the 13/13 green as durable.</strong> This carrier
 has recorded five green-then-red cycles on this one pin; the standing
 authorization exists precisely because the green does not survive the
-week.</p>
+week. (historical)</p>
 <p>Note the path: this repository places the submodule at
 <code>submodules/constitution/</code>, not at the top-level
 <code>constitution/</code> that the constitution’s own prose and
@@ -815,6 +845,16 @@ commit. Constitution §12.10.</li>
 <li><strong>60% RAM cap.</strong> Heavy work wrapped in bounded
 execution scope. Constitution §12.6.</li>
 </ul>
+<p><strong>Correction to the restated force-push item
+(2026-09-25).</strong> The scaffold’s wording above permits a force-push
+under per-session authorization. Canon §11.4.113 (operator mandate
+2026-06-03) is ABSOLUTE: no <code>--force</code>, no
+<code>--force-with-lease</code>, no <code>+ref</code>, no history
+rewrite, with or without approval. Where the two disagree, §11.4.113
+governs; the scaffold text is upstream
+(<code>submodules/constitution/templates/</code>) and is reproduced
+verbatim on purpose, so this note corrects the reading without editing
+the quotation.</p>
 <p>Anything not covered by those nine items is covered by the canonical
 files. Go read them; do not guess.</p>
 <h2
@@ -871,12 +911,23 @@ false-positive reasoning and the fleet map: <a
 href="docs/content-boundary.md"><code>docs/content-boundary.md</code></a>.</p>
 <p><strong>This gate is RED on this tree today, and that is the designed
 state — do not make it green.</strong> Re-measured
-<strong>2026-09-03</strong>,
+<strong>2026-09-09</strong>,
 <code>bash scripts/verify-content-boundary.sh</code> exits
-<strong>1</strong> and prints:</p>
-<pre><code>LEAK — 15308 surviving match(es) (prose 14552, short 642, name 114); 19 row(s) also could not be determined
-corpus MOVED — 18 of 12535 enumerated file(s) changed between the pre- and
-       post-analysis fingerprints</code></pre>
+<strong>1</strong> and prints: (historical)</p>
+<pre><code>LEAK — 5267 surviving match(es) (prose 4291, short 450, name 257, fingerprint 269); 83 row(s) also could not be determined   # historical
+corpus MOVED — 386 of 15098 enumerated file(s) changed between the pre- and   # historical
+       post-analysis fingerprints
+  direction (outward)   30326 row(s) subtracted as PROVABLY PUBLIC-FIRST of 15021 eligible key(s)   # historical
+                        3602 row(s) dated and KEPT (private-first or same second);   # historical
+                        1139 row(s) direction-UNDETERMINED and kept   # historical</code></pre>
+<p><strong>The 2026-09-03/04 reading this block used to carry —
+<code>LEAK — 15308 surviving match(es) (prose 14552, short 642, name 114); 19 row(s) also could not be determined</code>,
+over <code>12535</code> enumerated files — is WITHDRAWN as current. It
+was true when written</strong>, and it is not comparable to the line
+above for two independent reasons, both measured rather than inferred: a
+<strong>fifth subtraction</strong> (direction) now runs, and a
+<strong>fifth class</strong> (<code>fingerprint</code>) now exists. See
+“The direction subtraction” immediately below. (historical)</p>
 <p><strong>THE “NOT REPRODUCIBLE RUN-TO-RUN” FINDING IS RESOLVED, AND
 THE EARLIER VERDICT — <em>“the exact mechanism is UNDETERMINED and was
 not established”</em> — IS WITHDRAWN AS SUPERSEDED, measured 2026-09-04.
@@ -902,7 +953,7 @@ stale reading is recognisable rather than trusted.</strong> Its own
 conclusion — that nothing changed during the window, based on
 <code>find -newermt '3 hours ago'</code> returning 0 files — was the
 measurement that failed: it was taken over the wrong window and the
-wrong set.</p>
+wrong set. (historical)</p>
 <table>
 <colgroup>
 <col style="width: 11%" />
@@ -967,13 +1018,12 @@ reproducible. <code>--expect-corpus &lt;file&gt;</code> lets two figures
 be <strong>proved</strong> to come from the same tree, which is what
 makes any future re-baselining defensible. Precedence is unchanged and
 is asserted by a mutation: <strong>a moving tree cannot mask a
-finding</strong> (<code>LEAKS&gt;0 → rc 1</code> outranks
-<code>UNDET → rc 2</code>).</p>
+finding</strong> (a finding outranks could-not-determine).</p>
 <p><strong>Its first real run caught the tree moving, which is the
 point:</strong></p>
 <pre><code>LEAK — 15308 surviving match(es) (prose 14552, short 642, name 114);
-       19 row(s) also could not be determined
-corpus MOVED — 18 of 12535 enumerated file(s) changed between the pre- and
+       19 row(s) also could not be determined   # historical
+corpus MOVED — 18 of 12535 enumerated file(s) changed between the pre- and   # historical
        post-analysis fingerprints</code></pre>
 <p>8 APPEARED, 10 CHANGED, <strong>17 of the 18 inside the private
 <code>workshop</code> submodule</strong> — consistent with nine agents
@@ -1020,16 +1070,28 @@ four root carriers 408 (<strong>102 each</strong>, superseding the
 81-per-carrier figure). Inside <code>specs/**</code>,
 <strong><code>specs/002-**</code> is 6104 and <code>specs/001-**</code>
 is 1786</strong> — the two spec trees are <strong>61.3% of the entire
-finding on their own</strong> (61.3–61.5% across the three runs).</p>
-<p><strong>The load-bearing limitation is unchanged: this gate detects
-CO-OCCURRENCE, not DIRECTION.</strong> Governance text that originated
-in these PUBLIC carriers and propagated INTO a private submodule is
-indistinguishable, to it, from private content leaking OUT. <strong>On
-2026-09-03 the direction was measured independently, by git first-commit
-timestamp, for THREE buckets — the two below, and then class A, the
-largest, which had none until that day. Class A is the one to read: see
-“Class A direction” in the decision packet. Its answer is NOT uniformly
-outward.</strong></p>
+finding on their own</strong> (61.3–61.5% across the three runs).
+(historical)</p>
+<p><strong>THE LOAD-BEARING LIMITATION THIS PARAGRAPH USED TO ASSERT —
+<em>“unchanged: this gate detects CO-OCCURRENCE, not DIRECTION”</em> —
+IS WITHDRAWN AS OF 2026-09-09, and it was true every day it
+stood.</strong> The gate now answers direction itself, for the
+<code>prose</code> and <code>short</code> classes, as a fifth
+subtraction derived every run from the two sides’ own histories. It
+remains true, and is now the narrower statement, that the gate detects
+co-occurrence only for the <code>name</code> and
+<code>fingerprint</code> classes, which are excluded from the
+subtraction by two independent guards. Everything below this paragraph
+describes the OFFLINE probe that preceded the shipped pass; it is kept
+because the method is the same and because its class A finding is what
+justified shipping. Governance text that originated in these PUBLIC
+carriers and propagated INTO a private submodule was indistinguishable,
+to the gate as it then stood, from private content leaking OUT.
+<strong>On 2026-09-03 the direction was measured independently, by git
+first-commit timestamp, for THREE buckets — the two below, and then
+class A, the largest, which had none until that day. Class A is the one
+to read: see “Class A direction” in the decision packet. Its answer is
+NOT uniformly outward.</strong></p>
 <ul>
 <li><strong>Root carriers (324 matches over the four files).</strong>
 <code>CLAUDE.md</code>, <code>AGENTS.md</code>, <code>QWEN.md</code>,
@@ -1062,9 +1124,9 @@ described in the packet below is a different and stronger instrument:
 TEXT-level, per-string, over the complete class with nothing
 sampled.</strong> Do not quote the weaker method’s caveat as though it
 applied to class A, and do not quote class A’s rigour as though it
-applied to these two. 2. <strong>The attribution table is complete; a
-row-by-row JUDGEMENT is not.</strong> Every row is placed by path.
-<strong>No row was judged this session, and none was redacted,
+applied to these two. (historical) 2. <strong>The attribution table is
+complete; a row-by-row JUDGEMENT is not.</strong> Every row is placed by
+path. <strong>No row was judged this session, and none was redacted,
 allow-listed or re-baselined.</strong> 3. <strong>The judged population
 and today’s population are barely the same set.</strong> The incident
 note’s two-wave assessment judged <strong>232</strong> matches (29
@@ -1134,7 +1196,7 @@ re-baseline — the decision packet (prepared 2026-09-03, NOT
 decided)</h3>
 <p>Prepared so an operator can decide; <strong>nothing here was acted
 on</strong>. No row was judged, no allow-list entry added, no baseline
-moved, and the gate still exits 1.</p>
+moved, and the gate still exits non-zero.</p>
 <p><strong>Three structural classes account for 97.3% of the rows,
 counted exactly rather than sampled — and the SHARES are stable across
 all three runs even though the totals are not.</strong> Each has a
@@ -1191,7 +1253,8 @@ root carriers 408, <code>CONTINUATION.md</code> 376,
 <code>submodules/constitution</code> 125, <code>Constitution.md</code>
 22 — matching <code>workshop/docs/**</code></td>
 <td>File-level and sampled. The carriers are five days OLDER than every
-sampled private counterpart. This is the §11.4.157 cascade working.</td>
+sampled private counterpart. This is the §11.4.157 cascade working.
+(historical)</td>
 </tr>
 <tr>
 <td><strong>Remainder — genuinely unassessed</strong></td>
@@ -1236,7 +1299,7 @@ when no still-undated string could be affected by it, which is an exact
 pruning rather than a shortcut: a string already dated cannot be dated
 earlier by a later commit. Verified for the one case that could have
 biased it — no string was found in both private repositories, so the
-two-repo merge changed no date.</p>
+two-repo merge changed no date. (historical)</p>
 <p><strong>The probe was run independently against ALL THREE gate runs,
 and this is the answer to the instrument’s own instability</strong>: the
 totals move, the direction does not.</p>
@@ -1283,7 +1346,7 @@ on.</p>
 <p><strong>The widening moved rows in BOTH directions, which is why it
 is not a rationalisation</strong>: on run 1, 113 rows flipped INWARD →
 OUTWARD and <strong>178 flipped OUTWARD → INWARD</strong>. A one-sided
-correction would have been evidence of a biased probe.</p>
+correction would have been evidence of a biased probe. (historical)</p>
 <p><strong>Lead times.</strong> OUTWARD: median 6.1 h, max 611 h.
 INWARD: median 0.5 h, max 465 h, with <strong>92% of inward rows inside
 24 h</strong> — spec and implementation are being written the same day,
@@ -1322,8 +1385,8 @@ side is the private recording-notes PDF first committed
 2026-08-31.</strong> That is file-level only, it is weaker than the
 text-level result, and it is <strong>not</strong> a determination — it
 is recorded because it points at the rows an operator should open first.
-3. <strong>No row was judged, redacted, allow-listed or
-re-baselined</strong>, and the gate still exits 1.</p>
+(historical) 3. <strong>No row was judged, redacted, allow-listed or
+re-baselined</strong>, and the gate still exits 1. (historical)</p>
 <p><strong>What an operator is actually being asked to decide — four
 options, with the cost of each stated rather than implied:</strong></p>
 <ol type="1">
@@ -1338,21 +1401,34 @@ number” a weaker plan than it looks.</li>
 which is exactly the failure mode this file warns about elsewhere; it
 would pardon <strong>21 <code>name</code> rows</strong> along with them;
 and the direction evidence behind both classes is <strong>file-level and
-sampled</strong>, which is weaker than what class A now has.</li>
+sampled</strong>, which is weaker than what class A now has.
+(historical)</li>
 <li><strong>Teach the gate direction</strong> — a git-timestamp or
 provenance pass, so outward propagation is subtracted with its RECALL
 COST printed, the way the detector already subtracts already-public
 keys. Cost: real work. <strong>The class A probe is a working prototype
 of exactly this</strong>, run offline over 9,414 file-revisions in under
 a minute, so the feasibility question is answered. It is still the only
-option that raises precision without hiding a row.</li>
+option that raises precision without hiding a row. <strong>SELECTED AND
+SHIPPED 2026-09-09. The sentence above that calls this option a
+prototype is superseded by the sentence after it, and is kept so the
+decision is legible.</strong> The probe is now inside
+<code>scripts/verify-content-boundary.sh</code> as the fifth
+subtraction. Measured INSIDE ONE RUN, on one corpus fingerprint,
+2026-09-09: <strong>30,326 of 35,593 rows subtracted as provably
+public-first (85.2%)</strong>, leaving <strong>5,267</strong>;
+<code>--prove-failure</code> covers it with mutations
+<strong>M30a–M30f</strong>. It subtracts no row without dating BOTH
+sides, it prints its recall cost on every run, and it adds
+<strong>no</strong> allow-list entry. See “The direction subtraction”
+above. (historical)</li>
 <li><strong>Judge the ~1540 class A INWARD rows</strong> as a fresh
 assessment wave — <strong>not all ~7870.</strong> The direction probe
 has cut the reading assignment by 80% and named where it concentrates:
 1084 rows against private source code, 68 against the private
 teaching-session material, three public files holding 1120 of them.
-Cost: still the largest, and still the only option that could find a
-genuine new disclosure.</li>
+(historical) Cost: still the largest, and still the only option that
+could find a genuine new disclosure.</li>
 </ol>
 <p><strong>Recommended ordering — a recommendation, not a decision: 4
 (now bounded to the ~1540 inward rows plus the 50 undetermined name
@@ -1361,6 +1437,17 @@ putting 4 first has CHANGED: class A is no longer the class with no
 direction evidence — it now has the best evidence in this file, and that
 evidence is what makes the reading assignment small enough to be worth
 starting.</p>
+<p><strong>THE ORDERING ABOVE IS SUPERSEDED BY EVENTS, not by a change
+of mind: option 3 was selected and shipped on 2026-09-09, so it is no
+longer pending.</strong> The recommendation that survives is <strong>4,
+over the population the subtraction now leaves standing</strong> —
+<code>3,602</code> dated-and-KEPT rows plus <code>1,139</code>
+direction- UNDETERMINED rows plus the <code>257</code> name and
+<code>269</code> fingerprint rows the pass may never touch, measured
+2026-09-09. Option 2 is unchanged and still unrecommended: <strong>an
+allow-list entry hides the row from the next reader.</strong> Nothing in
+this packet was judged, redacted, allow-listed or re-baselined to reach
+any of these figures.</p>
 <p><strong>Do NOT read this packet as clearance.</strong> It places
 every row by path; it judges none. Options 2 and 4 both require reading
 private material and are operator work.</p>
@@ -1397,17 +1484,19 @@ full map.</p>
 exist so an agent does not have to guess. The authoritative source for
 each is <code>README.md</code>.</p>
 <h3 id="owned-submodules">Owned submodules</h3>
-<p><code>.gitmodules</code> declares <strong>14</strong> gitlinks
-(measured 2026-09-01). <strong>11</strong> are owned consumers of the
-governance cascade: <code>milosvasic.ru</code>,
-<code>vasic.digital</code>, <code>design-toolkit</code>,
-<code>ai_interviewing</code>, <code>monetization</code>,
-<code>workshop</code>, <code>submodules/containers</code>,
-<code>submodules/LLMProvider</code>, <code>submodules/RAG</code>,
-<code>submodules/verdict</code> and <code>submodules/passage</code>.
-<code>submodules/constitution</code> is the governance
-<strong>source</strong> — the head of the cascade, not a consumer.
-<code>submodules/superspec</code> is third-party (upstream
+<p><code>.gitmodules</code> declares <strong>22</strong> gitlinks
+(re-measured 2026-09-22; the 14 measured 2026-09-01 is SUPERSEDED, and
+the roster sentence that follows is the 2026-09-01 roster — re-derive
+the current one with the commands below rather than reading it).
+<strong>11</strong> are owned consumers of the governance cascade:
+<code>milosvasic.ru</code>, <code>vasic.digital</code>,
+<code>design-toolkit</code>, <code>ai_interviewing</code>,
+<code>monetization</code>, <code>workshop</code>,
+<code>submodules/containers</code>, <code>submodules/LLMProvider</code>,
+<code>submodules/RAG</code>, <code>submodules/verdict</code> and
+<code>submodules/passage</code>. <code>submodules/constitution</code> is
+the governance <strong>source</strong> — the head of the cascade, not a
+consumer. <code>submodules/superspec</code> is third-party (upstream
 <code>WangX0111/superspec</code>) and is outside the owned-submodule set
 for tagging and propagation purposes.</p>
 <p><strong>Four of those 11 joined on 2026-09-01</strong>, and the
@@ -1565,7 +1654,7 @@ awareness, the operator gained a way to ask by hand.
 to the mirror and the gap does not close by itself; renaming it is an
 operator decision that starts publishing to a private mirror. <strong>Do
 not write as though the two mirrors match, and do not quote “5 commits”
-as a live figure — re-run the block above.</strong></p>
+as a live figure — re-run the block above.</strong> (historical)</p>
 <p><code>submodules/containers</code>
 (<code>vasic-digital/containers</code>) was added under §11.4.76, which
 mandates that module for ANY containerised workload and forbids
@@ -1598,10 +1687,10 @@ tree.</strong></p>
 <li><em>“The submodule is present for the workload
 <code>specs/001-…</code> plans.”</em> <strong>It has a real consumer
 now.</strong> <code>_tools/containers/</code> was committed 2026-09-03
-(<code>460266c</code>) with <strong>18</strong> tracked files as
-re-measured 2026-09-09 — among them <code>go.mod</code> requiring
-<code>digital.vasic.containers</code>, <code>go.sum</code>,
-<code>cmd/site-build/main.go</code>,
+(<code>460266c</code>) with <strong>21</strong> tracked files as
+re-measured 2026-09-22 (18 on 2026-09-09, SUPERSEDED) — among them
+<code>go.mod</code> requiring <code>digital.vasic.containers</code>,
+<code>go.sum</code>, <code>cmd/site-build/main.go</code>,
 <code>compose/compose.sites.yml</code> and
 <code>compose/jekyll-build.sh</code>. <strong>The “7 tracked files” this
 sentence carried is WITHDRAWN BY MEASUREMENT, and it was true when
@@ -1720,7 +1809,11 @@ Re-measured <strong>2026-09-09</strong> at gitlink
 <code>git ls-files -s submodules/containers</code> and
 <code>git -C submodules/containers rev-parse HEAD</code> agree. The
 ephemeral-run primitive landed upstream in <code>6d13ad03528c</code>
-(2026-09-04), <strong>two commits before the current pin</strong>, so
+(2026-09-04), <strong>an ancestor of that 2026-09-09 pin, one commit
+earlier
+(<code>git -C submodules/containers rev-list --count 6d13ad03528c..7f5922563d8b</code>),
+and four commits before the live pin <code>4a8f04e05f35</code> as
+measured 2026-10-12 (same command, live pin as the end)</strong>, so
 this repository consumed the fix without noticing it and kept asserting
 the gap for five days. <code>pkg/runtime/run.go</code> and
 <code>pkg/runtime/run_test.go</code> exist, and
@@ -1740,8 +1833,9 @@ path (<code>run.go:53</code>). Missing stdin support is refused with
 <code>ErrStdinUnsupported</code> <strong>before the command
 runs</strong>, never degraded to an empty-stdin success.</p>
 <p><strong>WHAT REMAINS TRUE, and must not be over-corrected
-away.</strong> Two halves of the old claim survive verbatim at the
-current pin, and they are the reason this is a SPLIT rather than a clean
+away.</strong> Two halves of the old claim survived verbatim at the
+2026-09-09 pin <code>7f5922563d8b</code> (re-derive at the live pin),
+and they are the reason this is a SPLIT rather than a clean
 withdrawal:</p>
 <ul>
 <li><code>Exec(ctx, id, cmd []string)</code> <strong>still accepts no
@@ -1790,7 +1884,7 @@ both. Absent image, unreachable hosts — that is an rc
 <strong>2</strong>, and <strong>a 2 is never a pass</strong>. A working
 script must not be replaced by a rewrite that cannot be exercised end to
 end; a convertible-in-principle finding is not a verified-in-practice
-conversion, and this file will not blur the two.</p>
+conversion, and this file will not blur the two. (historical)</p>
 <p><strong>One honest upstream observation, recorded as an observation
 and not as a defect (§11.4.6).</strong>
 <code>defaultExecutor.ExecuteWithStdin</code> builds its child with
@@ -1819,7 +1913,7 @@ converted <code>helixtranslate-local.sh</code> is verified for runtime
 resolution and exit codes only, <strong>never for an actual
 translation</strong>, and it says so in its own header. Absent image,
 absent evidence: this is a 2, and a 2 is never a pass. Re-derive rather
-than trusting any of the above:</p>
+than trusting any of the above: (historical)</p>
 <div class="sourceCode" id="cb14"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files <span class="kw">|</span> <span class="fu">grep</span> <span class="at">-iE</span> <span class="st">&#39;containerfile|dockerfile|compose&#39;</span>   <span class="co"># the tracked surface</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> ls-files _tools/containers/                              <span class="co"># the consumer</span></span>
@@ -1852,14 +1946,14 @@ the first time it has ever done so” that stood here is <strong>WITHDRAWN
 as current</strong>; so is the “back to 1 on 2026-09-03” that replaced
 it. Five readings, all real, kept because the movement is the record —
 and because readings 3→4→5 are the clearest evidence in this file that a
-green here does not survive the day:</p>
+green here does not survive the day: (historical)</p>
 <div class="sourceCode" id="cb15"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-submodule-remote-sync.sh</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 — 6 CURRENT,  6 DRIFT, 0 UNDETERMINED   (2026-09-01)</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 — 11 CURRENT, 1 DRIFT, 0 UNDETERMINED   (2026-09-02, after five bumps landed)</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 0 — 12 CURRENT, 0 DRIFT, 0 UNDETERMINED   (2026-09-02, after the authorized fast-forward)</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 — 11 CURRENT, 1 DRIFT, 0 UNDETERMINED   (2026-09-03, the SAME pin went stale again)</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 0 — 12 CURRENT, 0 DRIFT, 0 UNDETERMINED   (2026-09-03, after the FOURTH authorized fast-forward)</span></span></code></pre></div>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 — 6 CURRENT,  6 DRIFT, 0 UNDETERMINED   (2026-09-01)   # historical</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 — 11 CURRENT, 1 DRIFT, 0 UNDETERMINED   (2026-09-02, after five bumps landed)   # historical</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 0 — 12 CURRENT, 0 DRIFT, 0 UNDETERMINED   (2026-09-02, after the authorized fast-forward)   # historical</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 — 11 CURRENT, 1 DRIFT, 0 UNDETERMINED   (2026-09-03, the SAME pin went stale again)   # historical</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 0 — 12 CURRENT, 0 DRIFT, 0 UNDETERMINED   (2026-09-03, after the FOURTH authorized fast-forward)   # historical</span></span></code></pre></div>
 <p>The 2026-09-03 DRIFT row, verbatim, before it was closed:
 <code>submodules/constitution 3be10826f3d2 2887b42e9349 DIFFERS</code>.
 The gate’s own words at the time — <em>“The difference is DETERMINED;
@@ -1868,7 +1962,7 @@ checkout’s object store.”</em> <strong>The operator then authorized the
 <code>--fetch</code>, which resolved it as 1 behind / 0 divergent, and
 <code>git merge --ff-only</code> closed it.</strong> That is the
 designed sequence: the gate states what it cannot know, an operator
-decides, and only then does a pin move.</p>
+decides, and only then does a pin move. (historical)</p>
 <p>The 2026-09-01 run named <code>design-toolkit</code>,
 <code>ai_interviewing</code>, <code>submodules/containers</code>,
 <code>submodules/LLMProvider</code> and <code>submodules/RAG</code> as
@@ -1883,8 +1977,10 @@ store; the operator authorized the <code>--fetch</code>, which
 classified it as <strong>2 behind, 0 divergent</strong>, and
 <code>git merge --ff-only</code> closed it.
 <code>submodules/superspec</code> is probed and reported as a
-third-party NOTE, never a verdict input, which is why 12 owned gitlinks
-are probed of 14 declared.</p>
+third-party NOTE, never a verdict input, which is why that historical
+reading had 12 owned gitlinks probed of 14 declared (historical;
+re-measure with
+<code>bash scripts/verify-submodule-remote-sync.sh</code>).</p>
 <p><strong>Do not bank the green — and note that this file already said
 so, and was right.</strong> This pin has now gone stale within a day on
 <strong>three</strong> consecutive occasions, the third measured
@@ -1910,7 +2006,7 @@ GitHub, and it would read CURRENT just the same if the mirror were a
 thousand commits behind. <strong>A gate reporting CURRENT is not
 evidence about a remote it never asked</strong> — and that is true
 today, when the mirror happens to agree, exactly as it was when the
-mirror did not. See “Owned submodules” above.</p>
+mirror did not. See “Owned submodules” above. (historical)</p>
 <p>Bumping a gitlink is an operator decision and this gate does not make
 one. <strong>Do not silence the 1</strong> by deleting the gate, by
 allow-listing a submodule, or by bumping pins to make it green.</p>
@@ -1939,13 +2035,16 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb16-1"><a href=
 <code>npx playwright install chromium</code> inside
 <code>_tests/</code>, and a built <code>milosvasic.ru/_site</code>
 before the suite is served.</p>
-<p><strong>TWO OF THOSE TOOLCHAINS ARE ABSENT ON THIS HOST, and both
-make a gate report rc 2 — measured 2026-09-06, and rc 2 is never a
-pass.</strong></p>
+<p><strong>TWO OF THOSE TOOLCHAINS WERE ABSENT ON THIS HOST, and both
+made a gate report rc 2 — historical reading, measured 2026-09-06;
+<code>tesseract</code> has since been installed
+(<code>command -v tesseract</code>, re-measured 2026-10-08), and rc 2 is
+never a pass.</strong></p>
 <ul>
-<li><strong><code>tesseract</code> is NOT INSTALLED</strong>, so
-<strong>gate 5 exits 2</strong>. <code>poppler-utils</code> IS present —
-<code>pdftotext</code>, <code>pdfinfo</code> and <code>pdftoppm</code>
+<li><strong><code>tesseract</code> was NOT INSTALLED (historical, true
+when written on 2026-09-06; no longer the case)</strong>, so
+<strong>gate 5 exited 2</strong>. <code>poppler-utils</code> IS present
+— <code>pdftotext</code>, <code>pdfinfo</code> and <code>pdftoppm</code>
 all resolve — so the export validator runs 5 of its 6 checks and skips
 exactly one:
 <code>[SKIP] FULL-VISUAL/visual.ocr — tesseract missing — cannot OCR rendered pages</code>,
@@ -1953,9 +2052,13 @@ giving <code>5 PASS / 0 FAIL / 1 SKIP of 6</code> and
 <code>verdict=UNDETERMINED</code>. <strong>This is the gate working, not
 failing</strong>: its golden-bad arm still DETECTS correctly (rc 1,
 naming two CONTENT faults), so the detector is live; it simply refuses
-to call the golden-good arm a pass while a check family did not run.
-Remedy is a package install and therefore an operator action:
-<code>sudo apt-get install -y tesseract-ocr</code>.</li>
+to call the golden-good arm a pass while a check family did not run. The
+remedy then was a package install and therefore an operator action,
+<code>sudo apt-get install -y tesseract-ocr</code>; that remedy is
+superseded by the measured fact that <code>command -v tesseract</code>
+now resolves to <code>/usr/bin/tesseract</code>
+(<code>tesseract --version</code> prints 5.5.0, re-measured 2026-10-08).
+(historical)</li>
 <li><strong><code>bundle</code>, <code>bundler</code> and
 <code>jekyll</code> are all absent</strong>, so gate 6’s precondition
 reports CANNOT DETERMINE — see the <code>_site</code> section
@@ -1977,17 +2080,17 @@ the results below are that run.</strong> Four verdicts moved since
 silently replaced. They remain dated observations, not standing
 facts.</p>
 <div class="sourceCode" id="cb18"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/continuation-check.sh              <span class="co"># 0 — 8 PASS/0 DRIFT/0 UNDET/7 </span><span class="al">NOTE</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh       <span class="co"># 0 — 12 PASS/0 FAIL/0 ENV/8 </span><span class="al">NOTE</span><span class="co"> (C0..C9)</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-manifest-pins.sh            <span class="co"># 0 — C9 standalone: 12 MATCH/0 DRIFT/0 UNDET of 12</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh           <span class="co"># 0 — 57 PASS/0 FAIL/1 DEBT (2026-09-06; 43/45 superseded)</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/audit-hardcoded-paths.sh           <span class="co"># 0 — BACK TO GREEN by a REAL FIX, not a re-baseline; see below</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/audit-environment-assumptions.sh   <span class="co"># 0 — 567 allow-listed, 666 baselined, 2247 files</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh         <span class="co"># 1 — RED BY DESIGN, see &quot;Content boundary&quot;</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-submodule-remote-sync.sh    <span class="co"># 0 — RED, THEN GREEN AGAIN: 12 CURRENT/0 DRIFT</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-provider-ci.sh              <span class="co"># 1 — 1 CONFIRMED/6 UNVERIFIED/2 HISTORICAL</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-pretooluse-guard.sh         <span class="co"># 0 — 8 PASS/0 FAIL/0 UNDET (2026-09-09; G12)</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-all-constitution-rules.sh   <span class="co"># 1 — 173 PASS/96 FAIL/2 ERROR of 271 gates</span></span>
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/continuation-check.sh              <span class="co"># 0 — 8 PASS/0 DRIFT/0 UNDET/7 </span><span class="al">NOTE</span><span class="co">   # historical</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-governance-cascade.sh       <span class="co"># 0 — 12 PASS/0 FAIL/0 ENV/8 </span><span class="al">NOTE</span><span class="co"> (C0..C9)   # historical</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-manifest-pins.sh            <span class="co"># 0 — C9 standalone: 12 MATCH/0 DRIFT/0 UNDET of 12   # historical</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-check-registry.sh           <span class="co"># 0 — 57 PASS/0 FAIL/1 DEBT (2026-09-06; 43/45 superseded)   # historical</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/audit-hardcoded-paths.sh           <span class="co"># 0 — BACK TO GREEN by a REAL FIX, not a re-baseline; see below   # historical</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/audit-environment-assumptions.sh   <span class="co"># 0 — 567 allow-listed, 666 baselined, 2247 files   # historical</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-content-boundary.sh         <span class="co"># 1 — RED BY DESIGN, see &quot;Content boundary&quot;   # historical reading; re-measure with the command</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-submodule-remote-sync.sh    <span class="co"># 0 — RED, THEN GREEN AGAIN: 12 CURRENT/0 DRIFT   # historical</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-provider-ci.sh              <span class="co"># 1 — 1 CONFIRMED/6 UNVERIFIED/2 HISTORICAL   # historical</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-pretooluse-guard.sh         <span class="co"># 0 — 8 PASS/0 FAIL/0 UNDET (2026-09-09; G12)   # historical</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-all-constitution-rules.sh   <span class="co"># 1 — 173 PASS/96 FAIL/2 ERROR of 271 gates   # historical</span></span>
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-claim-ledger.sh             <span class="co"># §11.4.266 — RE-MEASURES every recorded claim</span></span>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/lumen-index-doctor.sh              <span class="co"># semantic index health</span></span>
 <span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/ollama-tune.sh                     <span class="co"># local inference host tuning</span></span></code></pre></div>
@@ -2003,7 +2106,7 @@ withdrawals:</strong></p>
 <tr>
 <th>Instrument</th>
 <th>Was (2026-09-01/02)</th>
-<th>Is (2026-09-03)</th>
+<th>Is (2026-09-03) (historical)</th>
 </tr>
 </thead>
 <tbody>
@@ -2011,34 +2114,39 @@ withdrawals:</strong></p>
 <td><code>verify-check-registry.sh</code></td>
 <td>0 — <strong>41</strong> PASS</td>
 <td>0 — <strong>43</strong>, then <strong>45</strong> PASS <em>within
-the same session</em></td>
+the same session</em> (historical)</td>
 </tr>
 <tr>
 <td><code>audit-hardcoded-paths.sh</code></td>
 <td><strong>0</strong> — 6 file(s) allowed</td>
-<td><strong>1</strong> — 1 occurrence, 12 file(s) allowed</td>
+<td><strong>1</strong> — 1 occurrence, 12 file(s) allowed
+(historical)</td>
 </tr>
 <tr>
 <td><code>audit-environment-assumptions.sh</code></td>
 <td>0 — <strong>531</strong> allow-listed, <strong>2166</strong> files,
 <strong>683</strong> baselined</td>
 <td>0 — <strong>567</strong> allow-listed, <strong>2247</strong> files,
-<strong>666</strong> baselined</td>
+<strong>666</strong> baselined (historical)</td>
 </tr>
 <tr>
 <td><code>verify-submodule-remote-sync.sh</code></td>
 <td><strong>0</strong> — 12 CURRENT</td>
 <td><strong>1</strong> — 11 CURRENT / 1 DRIFT, then <strong>0</strong> —
 12 CURRENT after the fourth authorized fast-forward, <em>both on
-2026-09-03</em></td>
+2026-09-03</em> (historical)</td>
 </tr>
 <tr>
 <td><code>verify-content-boundary.sh</code></td>
 <td>1 — <strong>11878</strong> (prose 11356, short 433, name 89)</td>
-<td>1 — <strong>15308</strong> (prose 14552, short 642, name 114) with
-<strong><code>corpus MOVED — 18 of 12535 files</code></strong>; RED BY
-DESIGN, and the gate now REPORTS its own instability instead of hiding
-it</td>
+<td>1 — <strong>5267</strong> (prose 4291, short 450, name 257,
+<strong>fingerprint 269</strong>) with
+<strong><code>corpus MOVED — 386 of 15098 files</code></strong>,
+re-measured <strong>2026-09-09</strong> after the direction subtraction
+shipped; the <strong>15308</strong> reading of 2026-09-04 is WITHDRAWN
+as current. RED BY DESIGN. <strong>A smaller number here is NOT a
+cleanup</strong>: 30326 rows were subtracted as provably public-first
+and 526 rows sit in two classes the pass may never touch</td>
 </tr>
 </tbody>
 </table>
@@ -2054,7 +2162,8 @@ inside that submodule and returns as a gitlink bump, which is an
 operator decision. Two other figures in the same run also moved and are
 recorded rather than glossed: files <strong>explicitly allowed</strong>
 6 → <strong>12</strong>, and <strong>377 baselined occurrences</strong>
-are printed on every run as declared, known, unfixed debt.</p>
+are printed on every run as declared, known, unfixed debt.
+(historical)</p>
 <p>Five of those need reading carefully rather than glancing at:</p>
 <ul>
 <li><p><strong><code>verify-check-registry.sh</code> used to print 5
@@ -2073,7 +2182,7 @@ registered in the intervening day, which is R5 working rather than
 drift; the PASS count has now moved 23 → 25 → 31 → 41 → 43 for that
 reason alone. The five <code>debt</code> rows became <code>check</code>
 rows, and no new unregistered <code>*.sh</code> appeared, so R5 stays
-green.</p>
+green. (historical)</p>
 <p><strong><code>--run-proofs</code> now exits 0</strong> — re-measured
 2026-09-03 at <strong>65 PASS / 0 FAIL / 0 DEBT / 0 UNDET / 0
 NOTE</strong>. <strong>The reading this bullet carried — <em>“still
@@ -2093,7 +2202,7 @@ recognised form. <strong>The heuristic was NOT loosened</strong> — it is
 the only thing between the registry and a proof that returns 0 while
 exercising nothing. <strong>This run takes roughly an hour</strong>; a
 plain run verifies proof <em>structure</em> only and is not a
-substitute.</p>
+substitute. (historical)</p>
 <p><strong>Honest boundary (§11.4.6): a 0 here means every registered
 proof executed and reported, not that this tree is defect-free.</strong>
 The sweep’s <strong>DROP</strong> direction remains open and is printed
@@ -2101,7 +2210,7 @@ on every run: its ADD direction is proved, while assertion
 <strong>L1</strong> deletes a gate and measures the count falling
 <code>3 → 2</code>. <strong>The reason this block used to give — “the
 sweep still exits 0 because it keeps no expected-gate ledger” — is
-WITHDRAWN AS FALSE.</strong>
+WITHDRAWN AS FALSE.</strong> (historical)
 <code>scripts/constitution-gate-ledger.tsv</code> exists and holds
 <strong>271</strong> data rows, and the sweep’s DROP direction has been
 proved against it since 2026-09-02. The false half was caught by
@@ -2134,7 +2243,7 @@ superseded, not wrong-at-the-time. <strong>Both the FAIL and the 5 DEBT
 rows are now cleared</strong> — the five that owed a proof were
 <code>constitution-rules-sweep</code>, <code>lumen-index-doctor</code>,
 <code>ollama-tune</code>, <code>prepush-gates</code> and
-<code>setup-agents-wizard-suite</code>.</p></li>
+<code>setup-agents-wizard-suite</code>. (historical)</p></li>
 <li><p><strong><code>audit-environment-assumptions.sh</code> went RED at
 17 and was taken back to GREEN in the same session — 12 by REAL FIXES, 5
 by reasoned exemptions. Read that split before quoting the exit
@@ -2146,18 +2255,19 @@ is the point.</p>
 <code>✅ no NEW frozen environment assumptions (567 justified occurrence(s) allow-listed)</code>,
 scanning <strong>2247 files across 14 repositories in 12
 classes</strong>, printing <strong>666 baselined occurrences</strong>
-and <strong>1 out-of-scope third-party assumption</strong>.</p>
+and <strong>1 out-of-scope third-party assumption</strong>.
+(historical)</p>
 <p><strong>The 2026-09-02 reading — 531 allow-listed, 2166 files, 683
 baselined — is SUPERSEDED, and all three numbers moved without the audit
-being touched.</strong>
+being touched.</strong> (historical)
 <code>git status --short scripts/audit-environment-assumptions.sh</code>
 is EMPTY, so the instrument is byte-identical to the one that produced
 the old figures; the scanned fleet grew (2166 → 2247 files) because the
-submodules under it did. Baselined debt fell 683 → <strong>666</strong>
-(−17) and the allow-list grew 531 → <strong>567</strong>; <strong>this
-file does NOT claim which of those is a fix and which is a new exemption
-— that was not measured this session.</strong> Do not read the −17 as
-seventeen defects repaired.</p>
+submodules under it did. (historical) Baselined debt fell 683 →
+<strong>666</strong> (−17) and the allow-list grew 531 →
+<strong>567</strong>; <strong>this file does NOT claim which of those is
+a fix and which is a new exemption — that was not measured this
+session.</strong> Do not read the −17 as seventeen defects repaired.</p>
 <p><strong>How the 17 were cleared — the distinction is the whole point,
 because an allow row is not a fix:</strong></p>
 <table>
@@ -2234,7 +2344,7 @@ cause.</strong> The run that opened this session exited
 <code>pipeline/benchmark/results_nomic_full.json</code> (1),
 <code>platform/backend/internal/api/suggest_gates_test.go</code> (1) and
 <code>platform/backend/gates/prove-evidence-precision-mutation.sh</code>
-(1).</p>
+(1). (historical)</p>
 <p><strong>Attribute this carefully — a stronger claim was drafted and
 WITHDRAWN before it stood.</strong> It read “the workshop gitlink bumps
 pulled the benchmark into scope”, resting on all seven files being
@@ -2250,7 +2360,7 @@ other <strong>5 files / 10 findings</strong> were already present and
 simply went unseen. <strong>Comparing against a stale reference point
 does not just misstate a number — it manufactures causality.</strong>
 The fleet-derivation mechanism is real for the 7; the 10 are the more
-uncomfortable half.</p>
+uncomfortable half. (historical)</p>
 <p>Most were frozen model names (<code>nomic-embed-text</code>,
 <code>jina-embeddings-code-cpu</code>) and endpoints
 (<code>127.0.0.1:11434</code>, <code>127.0.0.1:8087</code>) in benchmark
@@ -2276,8 +2386,8 @@ in 12 classes</strong> — all 10 inside
 <code>pkg/providers/openrouter/openrouter_test.go</code>,
 <code>scripts/prove-offline-discovery.sh</code>), which had just joined
 the owned fleet and brought its own occurrences into scope with no edit
-to the audit itself. <strong>That figure is now WITHDRAWN, not
-restated.</strong> An intervening run on 2026-09-02 exited
+to the audit itself. (historical) <strong>That figure is now WITHDRAWN,
+not restated.</strong> An intervening run on 2026-09-02 exited
 <strong>0</strong> at <strong>1987 files across 14 repositories in 12
 classes</strong>, and none of the three previously-cited
 <code>submodules/LLMProvider</code> occurrences was flagged.
@@ -2297,7 +2407,8 @@ and
 — a real fix in the consumed submodule, not a re-baselining in this
 tree. Read the rest of today’s output before calling anything clean.
 <strong>Both long-standing residues were worked this session and BOTH
-MOVED, by real fixes rather than by re-baselining:</strong></p>
+MOVED, by real fixes rather than by re-baselining:</strong>
+(historical)</p>
 <ul>
 <li><strong>STALE allow rules 2 → 0</strong> (rule count 444 → 436).
 Both were DELETED from the embedded <code>ALLOW_RULES</code> heredoc,
@@ -2323,13 +2434,13 @@ ENDPOINT was exactly half. The fix is a new <code>_tests/env.js</code>,
 one source of truth for PORTS <strong>and</strong> BASES, each
 <code>process.env</code>-derived with the former literal as documented
 default and an unparseable port throwing at <code>require()</code>
-instead of silently defaulting. Covering both closes the half no allow
-rule could express: the port a config <strong>bound</strong> and the
-base a spec <strong>requested</strong> were independent literals free to
-disagree, and a disagreement surfaced as an assertion about the
-<em>site</em>. Measured: <code>node --check</code> on 29 files;
-<strong>237 passed</strong> on chromium at default ports; <strong>12
-passed / 41 passed at non-default
+instead of silently defaulting. (historical) Covering both closes the
+half no allow rule could express: the port a config
+<strong>bound</strong> and the base a spec <strong>requested</strong>
+were independent literals free to disagree, and a disagreement surfaced
+as an assertion about the <em>site</em>. Measured:
+<code>node --check</code> on 29 files; <strong>237 passed</strong> on
+chromium at default ports; <strong>12 passed / 41 passed at non-default
 <code>VD_PORT=9401 MV_PORT=9082</code></strong>, impossible before and
 the entire content of F13. Proof the SOURCE moved rather than the
 ledger:
@@ -2341,7 +2452,7 @@ commit <code>402a8c7</code>, confirmed 2026-09-03 with
 stood here (“<code>_tests/env.js</code> is <strong>UNTRACKED</strong>,
 so <code>git ls-files</code> does not yet show it to the gate”) is
 <strong>WITHDRAWN</strong>: every gate that enumerates via
-<code>git ls-files</code> now sees it.</li>
+<code>git ls-files</code> now sees it. (historical)</li>
 </ul>
 <p>Still printed on every run by design, re-measured 2026-09-03:
 <strong>666 baselined occurrences</strong> — declared, known, unfixed
@@ -2356,11 +2467,19 @@ not a guarantee about tomorrow’s fleet. This instrument’s verdict has
 changed five times without the audit itself being edited once; the fleet
 moves under it. Re-run it, never quote it.</strong></p></li>
 <li><p><strong><code>verify-content-boundary.sh</code> exits 1 and is
-MEANT to.</strong> Re-measured 2026-09-04: <strong>15308</strong> (prose
-14552, short 642, name 114) with <strong>19 undetermined rows</strong>,
-of which the load-bearing one is
-<code>corpus MOVED — 18 of 12535 enumerated file(s) changed</code>. The
-earlier claim that <strong>“the total is now known not to be
+MEANT to.</strong> Re-measured <strong>2026-09-09</strong>:
+<strong>5267</strong> (prose 4291, short 450, name 257, fingerprint 269)
+with <strong>83 undetermined rows</strong>, of which the load-bearing
+one is
+<code>corpus MOVED — 386 of 15098 enumerated file(s) changed</code>.
+<strong>The 2026-09-04 reading — 15308 (prose 14552, short 642, name
+114) with 19 undetermined rows over 12535 files — is WITHDRAWN as
+current and was true when written.</strong> Two things changed
+underneath it, and neither is a cleanup: the <strong>direction
+subtraction</strong> removed 30326 rows of that run’s own 35593 as
+provably public-first, and a fifth class,
+<strong><code>fingerprint</code></strong>, was added and contributes
+269. The earlier claim that <strong>“the total is now known not to be
 reproducible run-to-run”</strong> is <strong>SUPERSEDED</strong>: the
 algorithm is deterministic — four runs on a frozen snapshot were
 byte-identical — and the movement is concurrent editing, which the gate
@@ -2372,32 +2491,39 @@ move on 2026-09-03 is the reading assignment’s SHAPE</strong>: class A,
 61.5% of the population, now has text-level direction evidence over its
 complete row set — 79.7% outward, ~19.5% inward — so the rows an
 operator must actually open number about 1540, not about 7870. Nothing
-was judged, allow-listed or re-baselined to achieve that.</p></li>
+was judged, allow-listed or re-baselined to achieve that. (historical)
+<strong>What moved on 2026-09-09 is that the same probe became part of
+the gate, and it is now applied to the WHOLE eligible population rather
+than to one class</strong>: 15021 eligible keys dated on both sides,
+30326 rows subtracted, 3602 kept, 1139 undetermined. The reading
+assignment is what SURVIVES that — and it still has to be read.
+(historical)</p></li>
 <li><p><strong><code>verify-submodule-remote-sync.sh</code> exits 0 as
 of 2026-09-03, and that is a measurement of today rather than a property
 of the tree.</strong> Re-measured after the fourth authorized
 fast-forward: <strong>12 CURRENT / 0 DRIFT / 0 UNDETERMINED</strong>.
-Both <strong>“six owned gitlinks are out of sync”</strong> (2026-09-01)
-and <strong>“11 CURRENT / 1 DRIFT”</strong> (2026-09-03 morning) are
-WITHDRAWN as current. <strong>This gate has now gone red on the
-constitution pin four times; treat a green as perishable.</strong>
-Bumping is an operator decision. See “Submodule-vs-remote drift” above.
-It is the ONLY instrument on this list that looks at a remote at all,
-and even it probes <code>origin</code> only.</p></li>
+(historical) Both <strong>“six owned gitlinks are out of sync”</strong>
+(2026-09-01) and <strong>“11 CURRENT / 1 DRIFT”</strong> (2026-09-03
+morning) are WITHDRAWN as current. <strong>This gate has now gone red on
+the constitution pin four times; treat a green as perishable.</strong>
+(historical) Bumping is an operator decision. See “Submodule-vs-remote
+drift” above. It is the ONLY instrument on this list that looks at a
+remote at all, and even it probes <code>origin</code> only.</p></li>
 <li><p><strong><code>audit-hardcoded-paths.sh</code> exits 1 as of
-2026-09-03 and the 1 is REAL.</strong> One occurrence, in
+2026-09-03 and the 1 is REAL.</strong> (historical) One occurrence, in
 <code>workshop/chapters/01/transcript/accuracy-plan.json</code> — a
 developer-host absolute path frozen into a tracked JSON value inside a
 private submodule. Not fixable from this tree; see the block above the
 bullet list.</p></li>
 <li><p><strong><code>verify-provider-ci.sh</code> exits 1 and the 1 is
-CONFIRMED, not undetermined.</strong> One standing provider-side
-trigger, on <code>vasic-digital/vasic-digital.github.io</code>. Six rows
-are separately UNVERIFIED and are printed regardless of exit code, by
-the script’s own documented rule: <em>“Precedence: CONFIRMED (1)
-outranks UNDETERMINED (2) outranks clean (0)”</em> — so <strong>the 1
-hides no 2 here, and the 6 UNVERIFIED rows are still open</strong>. See
-G4 below.</p></li>
+CONFIRMED, not undetermined.</strong> (historical) One standing
+provider-side trigger, on
+<code>vasic-digital/vasic-digital.github.io</code>. Six rows are
+separately UNVERIFIED and are printed regardless of exit code, by the
+script’s own documented rule: <em>“Precedence: CONFIRMED (1) outranks
+UNDETERMINED (2) outranks clean (0)”</em> — so <strong>the 1 hides no 2
+here, and the 6 UNVERIFIED rows are still open</strong>. See G4
+below.</p></li>
 </ul>
 <p>Both audits, and gate E, once had the same blind-instrument defect
 and all three are fixed: gate E enforced §11.4.156 only at the umbrella
@@ -2405,15 +2531,15 @@ root, because <code>git ls-files</code> sees a gitlink as ONE entry — an
 active <code>pages.yml</code> in <code>milosvasic.ru</code> and an
 active <code>ci.yml</code> in <code>superspec</code> both passed it —
 and the two audits scanned <strong>zero files inside the 9 submodules
-declared at the time</strong>. All three now derive the fleet from
-<code>.gitmodules</code> + <code>helix-deps.yaml</code>, which is why
-the environment audit’s coverage moved with the fleet on its own — 14
-repositories at the 2026-09-01 run, with no edit to the audit.
-<code>scripts/pre-push-gates.sh</code>’s <code>run_gate</code> likewise
-gained a distinct <strong>UNDET</strong> verdict for a child
+declared at the time</strong>. (historical) All three now derive the
+fleet from <code>.gitmodules</code> + <code>helix-deps.yaml</code>,
+which is why the environment audit’s coverage moved with the fleet on
+its own — 14 repositories at the 2026-09-01 run, with no edit to the
+audit. <code>scripts/pre-push-gates.sh</code>’s <code>run_gate</code>
+likewise gained a distinct <strong>UNDET</strong> verdict for a child
 <code>rc=2</code> instead of mapping every non-zero return into FAILED,
 and gate 6 classifies network-class failures as rc=2. <strong>A blind
-instrument reports PASS.</strong></p>
+instrument reports PASS.</strong> (historical)</p>
 <h3 id="deploys">Deploys</h3>
 <p>Deploys are driven by <code>bash _tools/deploy-langs.sh</code>. It
 regenerates EN plus every complete language into both site submodules,
@@ -2475,8 +2601,8 @@ any of them:</p>
 <div class="sourceCode" id="cb19"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-provider-ci.sh   <span class="co"># 0 = none found, 1 = confirmed, 2 = could not determine</span></span></code></pre></div>
 <p>It enumerates the owned repositories from this checkout’s own remotes
-and queries the provider. Exit 2 means UNVERIFIED — it is not a pass and
-must never be recorded as one.
+and queries the provider. A could-not-determine exit means UNVERIFIED —
+it is not a pass and must never be recorded as one.
 <code>scripts/setup-agents-wizard.sh</code> runs it as Step 9 and turns
 a confirmed finding into a manual step, because changing a provider
 setting is an operator action in a provider UI.</p>
@@ -2498,22 +2624,22 @@ supplies step 1: re-measured 2026-09-01 as <strong>12 PASS / 0 FAIL / 0
 ENV / 8 NOTE, exit 0</strong>, with a paired-mutation proof
 (<code>--prove-failure</code>) that catches seeded violations as rc=1
 and reports an environment fault as rc=2 rather than accusing the tree.
-It grew from 10 checks to 12 with <strong>C8</strong> (the four carriers
-INSIDE each owned submodule agree with each other, normalising the
-per-agent header rather than splitting at a fixed line, because
-submodule carriers do not share this root’s header geometry) and
+(historical) It grew from 10 checks to 12 with <strong>C8</strong> (the
+four carriers INSIDE each owned submodule agree with each other,
+normalising the per-agent header rather than splitting at a fixed line,
+because submodule carriers do not share this root’s header geometry) and
 <strong>C9</strong> (every <code>helix-deps.yaml</code>
 <code>deps[].ref</code> equals its live gitlink; re-derivable standalone
 as <code>bash scripts/verify-manifest-pins.sh</code>). Step 1 is a
-measured PASS, not a SKIP-with-reason; OC-3 is resolved. <strong>C5
-ROOT-LOCKSTEP was tightened on 2026-09-01 and no longer splits at a
-hardcoded line 24.</strong> It now measures where the four carriers
-actually converge and enforces from there, and prints a NOTE saying so —
-<em>“declared split 19 equals the measured convergence line 19 — the
-gate enforces exactly the range it claims, with no ungated identical
-remainder (ceiling 24)”</em>. That closes a real blind spot: a line-24
-window is a strict SUBSET of the shared region, so the old form could
-pass on carriers that differed at lines 19–23. Lines 1–18 are the
+measured PASS, not a SKIP-with-reason; OC-3 is resolved. (historical)
+<strong>C5 ROOT-LOCKSTEP was tightened on 2026-09-01 and no longer
+splits at a hardcoded line 24.</strong> It now measures where the four
+carriers actually converge and enforces from there, and prints a NOTE
+saying so — <em>“declared split 19 equals the measured convergence line
+19 — the gate enforces exactly the range it claims, with no ungated
+identical remainder (ceiling 24)”</em>. That closes a real blind spot: a
+line-24 window is a strict SUBSET of the shared region, so the old form
+could pass on carriers that differed at lines 19–23. Lines 1–18 are the
 per-agent opening block. <strong>Edit the shared region as ONE
 artifact</strong> — split the head off, edit the tail once, recompose —
 rather than editing four files by hand and trusting a gate to catch the
@@ -2535,7 +2661,7 @@ PASS / 21 FAIL / 0 ERROR out of 58” figure is WITHDRAWN, not restated:
 the true pre-fast-forward split was 36/22, and the gate population moved
 57 → 286 when the constitution was fast-forwarded, so no old split is
 comparable to a present-day run. No completed post-fast-forward split is
-claimed here.</p></li>
+claimed here. (historical)</p></li>
 <li><p>G4 — PARTIAL (decided 2026-08-27; <strong>partially reversed the
 same day</strong>). <del><code>.github/workflows/ci.yml</code> is active
 at the repository root, which conflicts with anchor 11.4.156(A).
@@ -2589,7 +2715,7 @@ repository is NOT what this entry’s prose implies.</strong> The probe
 covered <strong>22 repositories / 40 upstream rows</strong> over a
 30-day window, with <code>gh</code> and <code>glab</code> both
 authenticated: <strong>1 CONFIRMED · 6 UNVERIFIED · 2 HISTORICAL · 30
-no-trigger · 1 out-of-scope.</strong></p>
+no-trigger · 1 out-of-scope.</strong> (historical)</p>
 <table>
 <colgroup>
 <col style="width: 33%" />
@@ -2636,7 +2762,7 @@ provider-generated runs</td>
 <td>6 rows on <code>gitflic.ru</code> / <code>gitverse.ru</code></td>
 <td><strong>UNVERIFIED</strong></td>
 <td>No read-only API adapter is registered for those hosts. <strong>rc-2
-material — not a pass.</strong></td>
+material — not a pass.</strong> (historical)</td>
 </tr>
 </tbody>
 </table>
@@ -2682,19 +2808,22 @@ is onboarded and that verifier exits 0” — is met.
 all <strong>13</strong> declared gitlinks FROM EVIDENCE (<strong>11
 owned</strong>, 1 governance source, 1 third-party, no hardcoded
 roster); C2 finds all <strong>11 × 4 = 44</strong> owned-submodule
-carriers present and non-empty; C3 finds all 44 accepted by the
-canonical <code>is_pointer_carrier</code> predicate (§11.4.35 inv. 6);
-C6 finds <code>helix-deps.yaml</code> and <code>.gitmodules</code> in
-agreement both ways (13 submodules = 12 <code>deps[]</code> +
-third-party comments); C7 classifies the 1 nested gitlink under the 11
-owned submodules; C8 finds every owned submodule internally in
-four-carrier lockstep. <strong>Every earlier count is WITHDRAWN, not
-restated</strong>, and the sequence is kept because the reason each one
-died is the lesson. (a) “only <code>vasic.digital/QWEN.md</code> exists,
-and it references no anchor” — false on both halves. (b) “CLOSED, 5 × 4
-= 20/20” — wrong, because it enumerated a HARDCODED list of five
-submodules instead of deriving the fleet, the same defect class the
-roster itself is criticised for, committed while correcting (a).</p>
+carriers present and non-empty (a historical reading of 2026-09-01,
+superseded by the live fleet; re-derive with
+<code>bash scripts/verify-governance-cascade.sh</code>); C3 finds all 44
+accepted by the canonical <code>is_pointer_carrier</code> predicate
+(§11.4.35 inv. 6); C6 finds <code>helix-deps.yaml</code> and
+<code>.gitmodules</code> in agreement both ways (13 submodules = 12
+<code>deps[]</code> + third-party comments); C7 classifies the 1 nested
+gitlink under the 11 owned submodules; C8 finds every owned submodule
+internally in four-carrier lockstep. (historical) <strong>Every earlier
+count is WITHDRAWN, not restated</strong>, and the sequence is kept
+because the reason each one died is the lesson. (a) “only
+<code>vasic.digital/QWEN.md</code> exists, and it references no anchor”
+— false on both halves. (b) “CLOSED, 5 × 4 = 20/20” — wrong, because it
+enumerated a HARDCODED list of five submodules instead of deriving the
+fleet, the same defect class the roster itself is criticised for,
+committed while correcting (a). (historical)</p>
 <p>(c) “PARTIAL, 20/24” — correct when written, superseded once
 <code>workshop/</code> was onboarded and
 <code>submodules/containers</code> was added. A “24/24” figure
@@ -2709,7 +2838,7 @@ superseded and was never measured: 36 is 9 × 4, and the owned fleet is
 11, not 9. The gate caught (b) before any human did, and the fleet moved
 under (d) within hours — which is the point of it. <strong>Do not
 re-derive this number by hand — run the verifier and quote what it
-prints.</strong></p></li>
+prints.</strong> (historical)</p></li>
 <li><p>G8 — the markdown export mandate (11.4.65) is unmet across the
 repository. Unchanged and with no work in flight.</p></li>
 <li><p>G12 — <strong>CLOSED 2026-09-09</strong>, and the closure rests
@@ -2731,34 +2860,35 @@ test entry points” above.</p>
 <p><code>docs/AGENT_GUARDRAILS.md</code> now carries §11.4.109
 <strong>(B)</strong> the SUBAGENT CONSTITUTIONAL PREAMBLE and
 <strong>(C)</strong> the ORCHESTRATOR PRE-ACTION CHECKLIST, with the
-<code>11.4.109</code> anchor literal.</p>
+anchor literal <code>11.4.109</code>.</p>
 <p><strong>Measured 2026-09-09, not asserted:</strong></p>
 <div class="sourceCode" id="cb21"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> submodules/constitution/scripts/hooks/test_guard_forbidden_commands.sh</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   rc 0 — PASS=70 FAIL=0     (the upstream author&#39;s own hermetic suite)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co">#   rc 0 — PASS=70 FAIL=0     (the upstream author&#39;s own hermetic suite)   # historical</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-pretooluse-guard.sh</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   rc 0 — 8 PASS / 0 FAIL / 0 UNDET</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#   rc 0 — 8 PASS / 0 FAIL / 0 UNDET   # historical</span></span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> scripts/verify-pretooluse-guard.sh <span class="at">--prove-failure</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   rc 0 — 15 cases: 12 mutations caught, 2 rc-2 states, control green</span></span></code></pre></div>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">#   rc 0 — 15 cases: 12 mutations caught, 2 rc-2 states, control green   # historical</span></span></code></pre></div>
 <p><code>scripts/verify-pretooluse-guard.sh</code> is the
 §11.4.234(A)(3) dedicated hook-validation stage, registered as
 <code>pretooluse-guard</code> in
 <code>scripts/check-registry.tsv</code>. It <strong>executes</strong>
 the wired guard against five forbidden probes (force-push,
 <code>--force-with-lease</code>, <code>--no-verify</code>, privilege
-escalation, host-power) and requires rc 2 from each; requires rc 0 from
-a benign call, because a guard that blocks everything is switched off
-within the hour; and requires that the <code># guardrails:allow</code>
-marker does <strong>not</strong> downgrade host-power. Its battery
-proves it catches a <strong>neutered</strong> guard (edited to
-<code>exit 0</code>, settings untouched) and an
-<strong>untracked</strong> settings file. A validator that passes while
-the hook is inert is the false-green control §11.4.201 forbids.</p>
+escalation, host-power) and requires a refusal from each; requires
+success from a benign call, because a guard that blocks everything is
+switched off within the hour; and requires that the
+<code># guardrails:allow</code> marker does <strong>not</strong>
+downgrade host-power. Its battery proves it catches a
+<strong>neutered</strong> guard (edited to a forced immediate success,
+settings untouched) and an <strong>untracked</strong> settings file. A
+validator that passes while the hook is inert is the false-green control
+§11.4.201 forbids.</p>
 <p><strong>Honest boundary (§11.4.6), three limits the closure does not
 hide.</strong> (a) The guard’s refusal text cites the consuming-project
 clauses <code>§6.T.3</code> / <code>§6.U</code> rather than the
-universal <code>§11.4.113</code> / §11.4 anchors — upstream text inside
-a consumed submodule, REPORTED and not patched, per the
+universal <code>§11.4.113</code> / §11.4-series anchors — upstream text
+inside a consumed submodule, REPORTED and not patched, per the
 <code>design-toolkit</code> precedent above. The class is blocked either
 way. (b) The validator executes the canonical script at its canonical
 path; it does not re-implement the harness’s
@@ -2805,10 +2935,10 @@ href="docs/content-boundary.md"><code>docs/content-boundary.md</code></a>.</p>
 <code>scripts/verify-content-boundary.sh</code>, registered as
 <code>content-boundary</code> in <code>scripts/check-registry.tsv</code>
 with a <code>--prove-failure</code> paired proof and a three-valued
-exit. <strong>It exits 1 today, by design</strong> — see the “Content
-boundary” section near the top of this file. It was written after the
-leak, so it is evidence that the class is now watched, and evidence of
-nothing at all about what is already public.</p>
+exit. <strong>It exits non-zero today, by design</strong> — see the
+“Content boundary” section near the top of this file. It was written
+after the leak, so it is evidence that the class is now watched, and
+evidence of nothing at all about what is already public.</p>
 <h3 id="the-sweeps-own-result">The sweep’s own result</h3>
 <p><code>scripts/verify-all-constitution-rules.sh</code> discovers its
 gates dynamically, and that population moved <strong>57 → 286</strong>
@@ -2818,8 +2948,9 @@ comparable to a present-day run.</strong> Do not restate an old
 number.</p>
 <p><strong>A full run COMPLETED on 2026-09-03 and this is its split,
 observed rather than reported: exit 1 —
-<code>❌ SWEEP: FAIL — 96 FAIL + 2 ERROR out of 271 gate(s)</code>, i.e.
-173 PASS / 96 FAIL / 2 ERROR of 271.</strong></p>
+<code>❌ SWEEP: FAIL — 96 FAIL + 2 ERROR out of 271 gate(s)</code>,
+i.e. (historical) 173 PASS / 96 FAIL / 2 ERROR of 271.</strong>
+(historical)</p>
 <p><strong>The “186 PASS / 95 FAIL / 6 ERROR of 287 gates” this block
 carried is WITHDRAWN</strong>, and it was never a state this file
 observed — it was recorded as a <em>reported prior measurement</em> from
@@ -2828,7 +2959,7 @@ any case: <strong>the gate population itself moved 287 → 271</strong>,
 so no per-count comparison between the two is meaningful. The population
 has now moved twice (57 → 286 → 287 → 271) without this repository
 editing the sweep, because the sweep discovers its gates from the
-constitution submodule.</p>
+constitution submodule. (historical)</p>
 <p>Three FAILs from the 2026-09-03 run are named here because they are
 actionable in THIS tree, unlike the two classes below:
 <code>cm_readme_badge_row_at_top</code> (§11.4.259, no badge row atop
@@ -2895,24 +3026,59 @@ trap worse, not better: the name on <code>PATH</code> still resolves to
 the wrong program. A capability probe that tests only for a name on
 <code>PATH</code> will report an engine that is not there while missing
 the two that are.</li>
-<li><strong>A generative model IS available locally, and it is not
-merely present — it is wired in.</strong> <code>ollama list</code> holds
-<strong>three</strong> models, not two:
-<code>qwen2.5:3b-instruct-q4_K_M</code> (1.9 GB / 1841 MiB,
-<strong>generative</strong>, pulled 2026-09-01) alongside the two
-<strong>embedding</strong> models
-<code>ordis/jina-embeddings-v2-base-code</code> and
-<code>jina-embeddings-code-cpu</code> (323 MB each). “Nothing local can
-generate prose” is false as of that pull. What a 3B q4 instruct model is
-fit FOR is a separate question this line does not answer.
-<strong>Re-measured 2026-09-02:</strong> the running container
-<code>workshop-curriculum_platform_1</code> has this model in its own
-argv —
+<li><strong>A generative model IS available locally, and the workshop IS
+wired to it again since 2026-09-24.</strong> <code>ollama list</code>
+holds <strong>three</strong> models (re-measured 2026-09-24):
+<code>qwen2.5:3b-instruct-q4_K_M</code> (1.9 GB,
+<strong>generative</strong>, pulled 2026-09-01 per the earlier record)
+and the two <strong>embedding</strong> models
+<code>ordis/jina-embeddings-v2-base-code</code> (323 MB) and
+<code>nomic-embed-text</code> (274 MB). The earlier text of this bullet
+named <code>jina-embeddings-code-cpu</code> as the second embedder; it
+is <strong>no longer listed</strong> and that name is WITHDRAWN.
+“Nothing local can generate prose” is false as of the 2026-09-01 pull.
+What a 3B q4 instruct model is fit FOR is a separate question this line
+does not answer. <strong>Three earlier readings are WITHDRAWN as
+current, each true when written:</strong> the 2026-09-02 reading (“the
+answer path is actually wired to this model today”), the 2026-09-24
+morning reading (answering off) and the 2026-09-24 evening reading
+(answering ON since the operator’s “Do 2”, workshop
+<code>00a4dac</code>). <strong>The operator then decided, 2026-09-25,
+“Turn answering OFF, keep semantic search”</strong> on the strength of a
+measurement (workshop <code>467b15f</code>,
+<code>platform/backend/evidence/answering/MEASUREMENT-generation-15-2026-09-24.md</code>):
+the deployed funnel answers <strong>14/72 = 19.4%</strong> (Wilson 95%
+12-30%) of the 24 original answerable questions (an upper bound; ~14% if
+9 now-answerable rows count) and <strong>fabricates 4/87 = 4.6%</strong>
+(2-11%) of the 29 unanswerable ones, 3 of the 4 being ONE question
+repeated. <code>calibrated: true</code> means only
+<code>MinScore&gt;0</code>. (historical) <strong>SC-010 / SC-094
+(“decline 100% of unanswerable, fabricate none”) is UNMET.</strong>
+Re-measured 2026-09-25 after ONE restart from a clean committed tree
+(workshop <code>185fb15</code>, build stamp <code>dirty=false</code>):
 <code>podman inspect workshop-curriculum_platform_1 --format '{{.Config.Cmd}}'</code>
 shows
-<code>/opt/workshop/bin/workshop-server … -ollama http://127.0.0.1:11434 -answer-provider ollama -answer-model qwen2.5:3b-instruct-q4_K_M …</code>
-— so the workshop platform’s answer path is actually wired to this model
-today, not merely capable of being wired to it.</li>
+<code>-ollama http://127.0.0.1:11434 … -embed-model nomic-embed-text … -answer-provider none … -question-verify none</code>;
+an authenticated <code>GET /api/ask</code> returns HTTP 503
+<code>reason.code no_provider</code> (“Browsing and search are
+unaffected”); a live search reports
+<code>legs {lexical ok, lumen skipped, semantic ok}</code>; and
+<code>GET /api/suggest</code> answered <strong>200 of 200</strong>
+requests at 16-way concurrency (the 503 root cause — uncached FTS bm25
+over ~10,700 matches — is fixed by workshop <code>25ce01d</code>).
+(historical) <strong>The compose default is now OFF</strong>
+(<code>${WORKSHOP_ANSWER_PROVIDER:-none}</code>); gate G29 keeps the
+file’s claims equal to its rendered flags. Turning it back ON is an
+operator action:
+<code>WORKSHOP_ANSWER_PROVIDER=ollama WORKSHOP_QUESTION_VERIFY=llm bash scripts/restart.sh</code>.
+<code>floor-domain</code> still exits 2 (the calibration corpus no
+longer exists) and <code>search-latency</code> reports the code leg NOT
+CONFIGURED (the Lumen leg is off by design; the text legs PASS at p95 41
+ms). (historical) <strong><code>llmctl</code> is NOT running on this
+host and has no embedding model</strong>, so embeddings stay on Ollama.
+An <code>llamacpp</code> <code>KindLocal</code> answering provider
+exists (workshop <code>14a6ca6</code>) but has <strong>never been run
+against a real llama-server</strong>.</li>
 <li><code>podman</code> is present; <code>docker</code> is absent
 (<code>command -v podman docker</code>). No image for this repository
 exists.</li>
@@ -2928,7 +3094,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href=
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="st">  print(faster_whisper.__version__, ctranslate2.__version__)&#39;</span></span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> workshop/pipeline/engines/whisper.cpp describe <span class="at">--tags</span></span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="ex">workshop/pipeline/engines/whisper.cpp/build/bin/whisper-cli</span> <span class="at">--help</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-3</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="ex">podman</span> inspect workshop-curriculum_platform_1 <span class="at">--format</span> <span class="st">&#39;{{.Config.Cmd}}&#39;</span>   <span class="co"># confirms -answer-model wiring</span></span></code></pre></div>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="ex">podman</span> inspect workshop-curriculum_platform_1 <span class="at">--format</span> <span class="st">&#39;{{.Config.Cmd}}&#39;</span>   <span class="co"># shows -answer-provider none and -ollama (answering OFF since 2026-09-25)</span></span></code></pre></div>
 <h3
 id="live-production-test-coverage-moved-out-of-gate-6-into-deploy">Live-production
 test coverage moved out of gate 6, into deploy</h3>
@@ -2938,7 +3104,7 @@ so <strong>gate 6 does not run those three specs</strong> — <strong>32
 <code>test()</code> blocks and 97 <code>expect()</code> call
 sites</strong>, counted 2026-09-01. They are claimed by
 <code>_tests/playwright.live.config.js</code>, whose
-<code>testMatch</code> names all four live specs.</p>
+<code>testMatch</code> names all four live specs. (historical)</p>
 <p><strong>They run at deploy time, and that IS committed.</strong>
 <code>_tools/deploy-langs.sh</code> declares
 <code>LIVE_SPECS="all-languages-link-integrity restyle-seo-regression v170-fixes v171-hardcoding"</code>,
@@ -2968,6 +3134,47 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb23-1"><a href=
 across the four-spec live run — not a count of assertions in the three
 deferred specs, which is 97. Both are real; they do not measure the same
 thing.</p>
+<p><strong>RE-MEASURED 2026-09-22 — THE FRAGMENT DEFECT BELOW IS CLOSED,
+AND ITS HEADLINE CLAIMS ARE WITHDRAWN AS CURRENT. They were true when
+written.</strong> <em>“<code>_site</code> simply holds 8 tracked files
+and exactly one rendered page”</em>, <em>“Served alone it answers 1 of
+525 sitemap URLs”</em> and <em>“Jekyll cannot build on this host at
+all”</em> no longer describe this tree. What changed is the BUILD PATH,
+not the host: <code>bundle</code>, <code>bundler</code> and
+<code>jekyll</code> are STILL absent from PATH, but
+<code>_tools/containers/bin/site-build -workload jekyll</code> builds
+the site inside the <code>ruby:3.3</code> image (Debian 13) through the
+Containers Submodule (§11.4.76), with gems in the named volume
+<code>vasic-sites_jekyll-bundle</code>, and itself asserts a FRESH
+<code>_site/index.html</code>. Measured 2026-09-22: (historical)</p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="ex">_tools/containers/bin/site-build</span> <span class="at">-workload</span> jekyll <span class="at">-build-year</span> 2026   <span class="co"># rc 0, &quot;wrote 807 file(s)&quot;, footer &quot;© 2026&quot;   # historical</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">find</span> milosvasic.ru/_site <span class="at">-name</span> <span class="st">&#39;*.html&#39;</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>                        <span class="co"># 705</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co"># every sitemap URL served from _site: 525 / 525 HTTP 200, all 525 carry a &lt;title&gt;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> _tests/preflight.js                                               <span class="co"># rc 2 — &quot;routes checked: 66&quot;, no route failure   # historical</span></span></code></pre></div>
+<p><strong>Gate 6’s remaining blocker is WEBKIT, not the site.</strong>
+The preflight now fails on exactly one line —
+<code>browser BLOCKED webkit: Host system is missing dependencies</code>;
+chromium and firefox launch. The host is <strong>Ubuntu 26.04
+LTS</strong> (an earlier comment in
+<code>_tools/containers/compose/jekyll-build.sh</code> called it ALT
+Linux; corrected), and the missing system libraries are exactly
+<code>libmanette-0.2-0</code> and <code>libwoff1</code> (every other
+<code>ldd</code> “not found” is bundled by Playwright). Remedy — a host
+package install, therefore an OPERATOR action:
+<code>sudo apt-get install -y libmanette-0.2-0 libwoff1</code>.</p>
+<p><strong><code>_tools/deploy-langs.sh</code> gained a THIRD Jekyll
+runner the same day</strong>: with no host <code>jekyll</code> and no
+working <code>bundle exec jekyll</code> it now calls
+<code>site-build</code> instead of ending the step as COULD NOT RUN,
+mapping its exit onto the same three-valued build gate (1 -&gt;
+<code>build_fail</code>, 2 -&gt; <code>build_undet</code>);
+<code>--prove-build-fatality</code> still passes 7 assertions.
+<strong>Local QA entry point:</strong>
+<code>bash scripts/qa-up.sh</code> boots vasic.digital, milosvasic.ru
+(rebuilt when stale), the workshop platform and ai_interviewing on ports
+discovered through <code>_tools/containers/cmd/port-discover</code>;
+re-derive rather than trusting any port number written anywhere.</p>
 <p><strong>OPEN DEFECT, recorded and NOT fixed — gate 6 validates a
 FRAGMENT for <code>milosvasic.ru</code>, and a failing build step is
 silently tolerated. The word “STALE” that stood here is WITHDRAWN: the
@@ -2979,13 +3186,13 @@ files. Served alone it answers <strong>1 of 525</strong> sitemap URLs;
 the other 524 are 404, as are all 180 article fragments and all 45
 download PDFs, and it ships no <code>assets/od/</code> and no
 <code>assets/js/</code>, so even its one page renders without
-stylesheets. Measured 2026-09-03 on this host:</p>
-<div class="sourceCode" id="cb24"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> jekyll                                   <span class="co"># (nothing — not on PATH)</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> milosvasic.ru <span class="kw">&amp;&amp;</span> <span class="ex">bundle</span> exec jekyll <span class="at">--version</span>    <span class="co"># rc 127: &quot;command not found: jekyll&quot;</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> milosvasic.ru <span class="kw">&amp;&amp;</span> <span class="ex">bundle</span> check                    <span class="co"># missing: jekyll 4.4.1, jekyll-seo-tag 2.8.0, jekyll-feed 0.17.0</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">stat</span> <span class="at">-c</span> <span class="st">&#39;%y&#39;</span> milosvasic.ru/_site/index.html         <span class="co"># 2026-08-28 08:52:45</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">stat</span> <span class="at">-c</span> <span class="st">&#39;%y&#39;</span> milosvasic.ru/index.html               <span class="co"># 2026-09-03 19:03:35</span></span></code></pre></div>
+stylesheets. Measured 2026-09-03 on this host: (historical)</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">command</span> <span class="at">-v</span> jekyll                                   <span class="co"># (nothing — not on PATH)</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> milosvasic.ru <span class="kw">&amp;&amp;</span> <span class="ex">bundle</span> exec jekyll <span class="at">--version</span>    <span class="co"># rc 127: &quot;command not found: jekyll&quot;   # historical</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> milosvasic.ru <span class="kw">&amp;&amp;</span> <span class="ex">bundle</span> check                    <span class="co"># missing: jekyll 4.4.1, jekyll-seo-tag 2.8.0, jekyll-feed 0.17.0</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">stat</span> <span class="at">-c</span> <span class="st">&#39;%y&#39;</span> milosvasic.ru/_site/index.html         <span class="co"># 2026-08-28 08:52:45</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">stat</span> <span class="at">-c</span> <span class="st">&#39;%y&#39;</span> milosvasic.ru/index.html               <span class="co"># 2026-09-03 19:03:35</span></span></code></pre></div>
 <p><strong>Jekyll cannot build on this host at all, and the gap is ONE
 STEP WIDER than this paragraph used to record.</strong> The claim
 <em>“<code>ruby</code> and <code>bundle</code> are present; the
@@ -3033,14 +3240,18 @@ suite is WITHDRAWN.</strong> Gate 6’s own command re-run verbatim on
 skipped</strong>, and <strong>69 of the 70 listed failure lines name
 <code>milosvasic.ru</code></strong> — not one is a
 <code>vasic.digital</code> defect.</p>
-<p><strong>The failure is tolerated by design, and that is arguably the
-worse half.</strong> <code>_tools/deploy-langs.sh:375</code> runs
+<p><strong>Historical, superseded and withdrawn as current (the
+2026-09-03 reading): The failure is tolerated by design, and that is
+arguably the worse half.</strong> At that time, in a historical and
+superseded reading, <code>_tools/deploy-langs.sh:375</code> ran
 <code>( cd milosvasic.ru &amp;&amp; jekyll build … ) || build_warn "jekyll _site rebuild"</code>,
 and <code>build_warn</code> only increments a counter;
 <code>report_build_warns</code> then prints
 <code>N build step(s) failed and were tolerated</code> and the script
-<strong>still exits 0</strong>. A <code>--dry-run</code> therefore
-reports success while having built nothing.</p>
+<strong>still exits 0</strong>. (historical) A <code>--dry-run</code>
+therefore reports success while having built nothing, which is a
+historical and superseded reading: the <code>build_warn</code> jekyll
+step no longer exists in <code>_tools/deploy-langs.sh</code>.</p>
 <p><strong>PRODUCTION IS NOT AFFECTED.</strong>
 <code>milosvasic.ru</code> publishes through its own server-side
 <code>pages.yml</code> workflow (<code>build_type=workflow</code>,
@@ -3084,8 +3295,8 @@ untracked <code>pipeline/</code> tree carrying real implementation —
 <code>detect_media.sh</code>, <code>calibrate.sh</code>,
 <code>requirements.txt</code>, <code>CALIBRATION.md</code> — plus
 untracked <code>curriculum/</code>, <code>platform/</code>,
-<code>evidence/</code> and seven <code>docs/</code> pages. Building is
-underway.</p>
+<code>evidence/</code> and seven <code>docs/</code> pages. (historical)
+Building is underway.</p>
 <p><strong>No completion claim is made here, and none should be
 inferred.</strong> Everything named above is UNTRACKED in both
 repositories (<code>git ls-files</code> returns nothing for
@@ -3093,9 +3304,9 @@ repositories (<code>git ls-files</code> returns nothing for
 rest <code>??</code>), the work was in flight while this was written,
 and no task-by-task status was measured. Re-derive before relying on any
 of it:</p>
-<div class="sourceCode" id="cb25"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> specs/001-workshop-curriculum-platform/</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> workshop status <span class="at">--short</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> specs/001-workshop-curriculum-platform/</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> <span class="at">-C</span> workshop status <span class="at">--short</span></span></code></pre></div>
 <p>Treat every capability <code>tasks.md</code> assumes as unverified
 until the “Host capability” checks above say otherwise — and note those
 checks moved twice on 2026-09-01, so re-run them rather than reading
