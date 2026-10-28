@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-27T10:00:00Z
-    Synced-Commit: c8b6bc4
+    Last-Updated: 2026-10-28T12:00:00Z
+    Synced-Commit: 01c0fa5
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -425,6 +425,21 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### OPERATOR OVERRIDE: HOSTED TYPESAFE JEV ONLY, NO LOCAL DECISION MODELS — 2026-10-28
+
+Operator directive (CRITICAL, 2026-10-28) recorded as a project override of the
+inherited §11.4.279-§11.4.286 local-instance requirements. Canonical text:
+`docs/governance/OVERRIDE-JEV-HOSTED-ONLY.md`; the four root carriers' "Project
+overrides of universal rules" section replaces the former "None."; every owned
+submodule carries a short pointer section in all four of its carriers (branch
+`override/jev-hosted-only` in each repo, NOT yet merged to main or pushed: the
+orchestrator merges fast-forward). Mode stays `shadow`; `JEV_GATE` must not be
+`off`; the key is read by env-var name `TYPESAFE_API_KEY` from `~/api_keys.sh`,
+value never printed. Resume: merge the per-repo branches, then bump the
+submodule gitlinks and `helix-deps.yaml` refs together in one change (C9), and
+re-run `bash scripts/verify-governance-cascade.sh` and
+`bash scripts/continuation-check.sh`.
 
 ### WORKSHOP PINNED AT 2f74b7c6 (MATERIALS STORAGE SYNC, VISION PIPELINE, SPEND SPLIT, REVIEW GO) — 2026-10-27
 
