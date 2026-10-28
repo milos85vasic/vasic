@@ -235,6 +235,27 @@ an empty format list (FR-049). The measured trap this guards against is real in 
 tool that answered a version query and rejected the flag that mattered, because the name on `PATH`
 was a symlink into an unrelated cache. Presence of a name proves nothing; capability must be probed.
 
+### 3.9a `GET /api/areas/{area}/export/{format}` — the file itself
+
+Serves the file the §3.9 listing calls `present` for one area and one format (`format` is one of the
+four names that listing returns). This is the address the listing's `href` points at
+(`exportDownloadHref`); it is addressed by area id and format name only, never by a file path.
+
+**A3.9a.1** — it decides exactly what the listing decides: the same publication test (review recorded,
+materials row present, review not stale) and, for a non-administrator, the same learner file guard. A
+file the listing would not call `present` is **not served**.
+
+**A3.9a.2** — every refusal is the **same** `404 area_not_found`: an unknown area, an unknown format, an
+unpublished area, a format whose file is absent or empty, a learner-guarded file, and a deployment
+without the taxonomy, registry, reviews or materials inputs. The status and body do not distinguish
+them, so the route cannot be used to learn whether an unpublished area exists (FR-048). The
+could-not-determine vocabulary belongs to the §3.9 listing, which can say *why*; this route only
+serves bytes or refuses.
+
+**A3.9a.3** — the bytes, headers, content-type policy and role gate are the `/docs/` mount's own: the
+handler resolves the file under the materials root (refusing any path that escapes it) and hands the
+request to that mount, so no second file-serving implementation exists to drift.
+
 ## 4. Endpoints changed
 
 ### 4.1 `GET /api/search` — locus, offsets, new kinds, filters
