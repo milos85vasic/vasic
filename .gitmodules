@@ -42,19 +42,19 @@
 	url = git@github.com:vasic-digital/curriculum-kit.git
 [submodule "submodules/qa"]
 	path = submodules/qa
-	url = git@github.com:HelixDevelopment/qa.git
+	url = git@github.com:vasic-digital/HelixQA.git
 [submodule "submodules/challenges"]
 	path = submodules/challenges
 	url = git@github.com:vasic-digital/challenges.git
 [submodule "submodules/doc_processor"]
 	path = submodules/doc_processor
-	url = git@github.com:HelixDevelopment/DocProcessor.git
+	url = git@github.com:vasic-digital/DocProcessor.git
 [submodule "submodules/llm_orchestrator"]
 	path = submodules/llm_orchestrator
-	url = git@github.com:HelixDevelopment/LLMOrchestrator.git
+	url = git@github.com:vasic-digital/LLMOrchestrator.git
 [submodule "submodules/llm_provider"]
 	path = submodules/llm_provider
-	url = git@github.com:HelixDevelopment/LLMProvider.git
+	url = git@github.com:vasic-digital/LLMProvider.git
 [submodule "submodules/llms_verifier"]
 	path = submodules/llms_verifier
 	url = git@github.com:vasic-digital/LLMsVerifier.git
@@ -63,4 +63,4 @@
 	url = git@github.com:vasic-digital/security.git
 [submodule "submodules/vision_engine"]
 	path = submodules/vision_engine
-	url = git@github.com:HelixDevelopment/VisionEngine.git
+	url = git@github.com:vasic-digital/VisionEngine.git
