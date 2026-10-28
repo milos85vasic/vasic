@@ -1972,12 +1972,26 @@ run. Do not treat the absence of a gate as a pass.
 
 ## Project overrides of universal rules
 
-None. No clause of the universal constitution is overridden by this project.
-Any future override MUST be recorded explicitly here with its justification, per
-the `Override §X.Y` form in
+**One operator-authorized override is in force (2026-10-28):
+Override §11.4.279-§11.4.286, hosted TypeSafe Jev decision model only, no
+locally run decision models.** It overrides every inherited requirement or
+default to provision, run or prefer a LOCAL decision-model instance (llmctl
+`decide-*`, local decide gateway, LAN pins) and the local-first ordering of
+§11.4.282; the only decision endpoint is hosted TypeSafe via the toolkit's jev
+loaders, the key is read by env-var NAME (`TYPESAFE_API_KEY`) from the
+operator's `~/api_keys.sh` and its value is never printed, logged or committed,
+mode stays `shadow` and `JEV_GATE` must not be `off`. Every other duty of
+§11.4.279-§11.4.286 (detection, per-agent installation, token-reduction proof,
+threshold calibration) and all of anti-bluff, no-guessing, never-force-push and
+host safety stay binding. The full text, scope, operator quotation and honest
+note are in [`docs/governance/OVERRIDE-JEV-HOSTED-ONLY.md`](docs/governance/OVERRIDE-JEV-HOSTED-ONLY.md);
+it applies to this umbrella and every owned submodule, and edits nothing in
+`submodules/constitution` or third-party submodules. No other clause is
+overridden. Any future override MUST be recorded explicitly here with its
+justification, per the `Override §X.Y` form in
 `submodules/constitution/templates/Constitution.project.md.template`.
 
-**Do not propose an `Override §11.4.156`.** One was sought on 2026-08-27 and
+**Do not propose an `Override §11.4.156` (the override above does not touch it).** One was sought on 2026-08-27 and
 does not exist: 11.4.156 names and refuses the exemption vocabulary, and the
 inheritance contract at the head of this file ("extend them — they do NOT weaken
 or override any universal clause") makes a project-local override of an
