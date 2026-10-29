@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-29T12:35:00Z
+    Last-Updated: 2026-10-29T13:10:00Z
     Synced-Commit: 07badce
     Authority-Root: submodules/constitution
 
@@ -431,7 +431,8 @@ deviation is not an override** and must never be written up as one.
 Operator signed off QA on 2026-10-29 and ordered no further active work until notified. Re-derive, do not quote: `git ls-files -s workshop`, `bash scripts/verify-manifest-pins.sh`, `bash scripts/continuation-check.sh`, `git tag -l 'vasic-1.0.0-dev-0.0.7'`.
 
 - **Live QA.** `http://127.0.0.1:8087`, build `5641ea85-20261029T100523Z` (`source_dirty` false), started with `WORKSHOP_MEDIUM_ENGAGEMENT=1 WORKSHOP_PROFILE_FILE=platform/profiles/qa-all-on.env.example bash workshop/scripts/restart.sh` (run from the workshop checkout). Logins: `milosvasic`, `rami`, `student1`-`student5`. Gate on this build: 35 pass, 0 fail, 4 UNDETERMINED (C05, C13, C14, C15 need `WORKSHOP_QA_ADMIN_USER`/`WORKSHOP_QA_ADMIN_PASSWORD`, operator-held; undetermined is not a pass). Run as student5 with `WORKSHOP_GLOSSARY_SIDECAR=curriculum/glossary-definitions.jsonl` and `--max-links 800`. `qa_verify.py` 94/94 was on build `507ac938`.
-- **Pins.** Umbrella `main` carries the workshop gitlink `d021ce29` (docs-only: work-item sync and docs/assets/static_assets.md on top of `af741608`, the 0.0.7 tag and live build `5641ea85`), constitution `6374feb7fa93` (ff-only; `Constitution.md` 12,420 to 12,602 lines, 267 to 271 anchors), manifest refs equal gitlinks (21 MATCH). The earlier "override/jev-hosted-only branches NOT merged" statement below is SUPERSEDED: the override is on `main` in the umbrella and every owned submodule.
+- **Pins.** Umbrella `main` carries the workshop gitlink `01cc940c` (docs/config only: work-item sync, docs/assets/static_assets.md and the tracked `.claude/worktrees/` ignore rule on top of `af741608`, the 0.0.7 tag and live build `5641ea85`), constitution `4488f83757b9` (ff-only, one upstream auto-commit, `Constitution.md` unchanged vs `6374feb7fa93`; before that `6374feb7fa93`; `Constitution.md` 12,420 to 12,602 lines, 267 to 271 anchors), manifest refs equal gitlinks (21 MATCH). The earlier "override/jev-hosted-only branches NOT merged" statement below is SUPERSEDED: the override is on `main` in the umbrella and every owned submodule.
+- **git status failure fixed 2026-10-29.** `git status` failed with "expected submodule path 'submodules/LLMProvider' not to be a symbolic link ... in submodule .claude/worktrees/agent-a281b3ad659a13d33". Root cause: no tracked ignore rule for `.claude/worktrees/` in the umbrella (workshop had it only in the local `.git/modules/workshop/info/exclude`), so a blanket `git add` staged 18 agent worktrees as gitlinks. Fix: unstaged them (index only, worktrees untouched) and added a tracked `.claude/worktrees/` rule to the `.gitignore` of both repos.
 - **Tags.** `vasic-1.0.0-dev-0.0.7` (annotated) on the umbrella and 15 owned submodule checkouts, every remote verified. Note: `docs/releases/0.0.7.md`.
 - **Branches.** `llm_orchestrator` and `vision_engine`: `main` fast-forwarded to `master` on origin, HelixDevelopment and GitLab. `LLMProvider`/`llm_provider`: HelixDevelopment mirror fast-forwarded. `doc_processor`: `main` on `helixdevelopment_github` has one commit this checkout lacks (125 ahead / 1 behind, diverged, NOT touched; operator decision). GitHub default branch for LLMOrchestrator and VisionEngine is still `master`.
 - **Jev.** `jev-setup.sh --yes --agents claude --mode shadow` was run; the shadow gate writes `~/.local/state/jev/decisions.jsonl` rows with `endpoint: jev-typesafe`, `enforced: false`, no local fallback.

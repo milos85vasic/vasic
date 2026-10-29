@@ -219,3 +219,9 @@ _tools/zero-gap-chain/bin/
 # `--build-bins <module dir>` writes the two verifier binaries by their own names (VSC-366).
 _tools/zero-gap-chain/zg-chain
 _tools/zero-gap-chain/continuum-integrity
+
+# Agent worktrees (Claude Code `isolation: worktree`) live under .claude/worktrees/. Each is a full checkout with its
+# own nested submodule clones or symlinks; a blanket `git add .` (the `commit` wrapper runs one) staged 18 of them
+# as gitlinks and made `git status` fail with "expected submodule path ... not to be a symbolic link" (2026-10-29).
+# Ignored here as a TRACKED rule so a fresh clone is protected, not only this host (.git/info/exclude is local).
+.claude/worktrees/
