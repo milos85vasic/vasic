@@ -123,7 +123,7 @@ deps:
   # ─── Governance submodule (grouped layout, submodules/<name>/) ──────────
   - name: constitution
     ssh_url: git@github.com:HelixDevelopment/HelixConstitution.git
-    ref: "0b94dfce9c46ac997bdc6b4684ae52aae3bcb50a"   # bumped 2026-10-23 per standing authorization, ff-only, 0 divergent / 4 behind (tag helixconstitution-v71); Constitution.md blob 3c3c71f6 -> 79f733ed (12252 -> 12420 lines, 259 -> 267 anchors, sha256 1c75391f -> 846fac65); adds Jev decision layer §11.4.279-286; prior pin 5f8503b4f4f0
+    ref: "6374feb7fa93b40d47d0c9e739cd2cd593befcc6"   # bumped 2026-10-23 per standing authorization, ff-only, 0 divergent / 4 behind (tag helixconstitution-v71); Constitution.md blob 3c3c71f6 -> 79f733ed (12252 -> 12420 lines, 259 -> 267 anchors, sha256 1c75391f -> 846fac65); adds Jev decision layer §11.4.279-286; prior pin 5f8503b4f4f0
     # REF FIELD RESYNCED 2026-09-19: this field had drifted from the live gitlink,
     # which the umbrella's own commit 026a95e ("gitlink: bump constitution —
     # §11.4.184(I) HawkScan/ZAP/gitleaks/Trivy security tooling") had already
