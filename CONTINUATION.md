@@ -4,7 +4,7 @@
      Keep the exact `Field: value` shape. -->
 
     Last-Updated: 2026-10-29T11:30:00Z
-    Synced-Commit: 01c0fa5
+    Synced-Commit: 891ad44
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -430,7 +430,7 @@ deviation is not an override** and must never be written up as one.
 
 Operator signed off QA on 2026-10-29 and ordered no further active work until notified. Re-derive, do not quote: `git ls-files -s workshop`, `bash scripts/verify-manifest-pins.sh`, `bash scripts/continuation-check.sh`, `git tag -l 'vasic-1.0.0-dev-0.0.7'`.
 
-- **Live QA.** `http://127.0.0.1:8087`, build `5641ea85-20261029T100523Z` (`source_dirty` false), started with `WORKSHOP_MEDIUM_ENGAGEMENT=1 WORKSHOP_PROFILE_FILE=platform/profiles/qa-all-on.env.example bash scripts/restart.sh`. Logins: `milosvasic`, `rami`, `student1`-`student5`. Gate on this build: 35 pass, 0 fail, 4 UNDETERMINED (C05, C13, C14, C15 need `WORKSHOP_QA_ADMIN_USER`/`WORKSHOP_QA_ADMIN_PASSWORD`, operator-held; undetermined is not a pass). Run as student5 with `WORKSHOP_GLOSSARY_SIDECAR=curriculum/glossary-definitions.jsonl` and `--max-links 800`. `qa_verify.py` 94/94 was on build `507ac938`.
+- **Live QA.** `http://127.0.0.1:8087`, build `5641ea85-20261029T100523Z` (`source_dirty` false), started with `WORKSHOP_MEDIUM_ENGAGEMENT=1 WORKSHOP_PROFILE_FILE=platform/profiles/qa-all-on.env.example bash workshop/scripts/restart.sh` (run from the workshop checkout). Logins: `milosvasic`, `rami`, `student1`-`student5`. Gate on this build: 35 pass, 0 fail, 4 UNDETERMINED (C05, C13, C14, C15 need `WORKSHOP_QA_ADMIN_USER`/`WORKSHOP_QA_ADMIN_PASSWORD`, operator-held; undetermined is not a pass). Run as student5 with `WORKSHOP_GLOSSARY_SIDECAR=curriculum/glossary-definitions.jsonl` and `--max-links 800`. `qa_verify.py` 94/94 was on build `507ac938`.
 - **Pins.** Umbrella `main` carries the workshop gitlink `af741608`, constitution `6374feb7fa93` (ff-only; `Constitution.md` 12,420 to 12,602 lines, 267 to 271 anchors), manifest refs equal gitlinks (21 MATCH). The earlier "override/jev-hosted-only branches NOT merged" statement below is SUPERSEDED: the override is on `main` in the umbrella and every owned submodule.
 - **Tags.** `vasic-1.0.0-dev-0.0.7` (annotated) on the umbrella and 15 owned submodule checkouts, every remote verified. Note: `docs/releases/0.0.7.md`.
 - **Branches.** `llm_orchestrator` and `vision_engine`: `main` fast-forwarded to `master` on origin, HelixDevelopment and GitLab. `LLMProvider`/`llm_provider`: HelixDevelopment mirror fast-forwarded. `doc_processor`: `main` on `helixdevelopment_github` has one commit this checkout lacks (125 ahead / 1 behind, diverged, NOT touched; operator decision). GitHub default branch for LLMOrchestrator and VisionEngine is still `master`.
