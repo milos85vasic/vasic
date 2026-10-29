@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Issues_Summary</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<h1 id="issues_summary">Issues_Summary</h1>
+<p>Open workable items (current_location = Issues), regenerated from the
+SQLite single-source-of-truth (§11.4.12).</p>
+<h2 id="counts-by-type-status">Counts by Type × Status</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Status</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bug</td>
+<td>Operator-blocked</td>
+<td>21</td>
+</tr>
+<tr>
+<td>Bug</td>
+<td>Queued</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Feature</td>
+<td>Queued</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Task</td>
+<td>In progress</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Task</td>
+<td>Operator-blocked</td>
+<td>29</td>
+</tr>
+<tr>
+<td>Task</td>
+<td>Queued</td>
+<td>202</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td></td>
+<td><strong>265</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="items">Items</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>ATM ID</th>
+<th>Type</th>
+<th>Status</th>
+<th>Severity</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AII-002</td>
+<td>Task</td>
+<td>Queued</td>
+<td>low</td>
+<td>Counts whose subject no rule of the class noun-to-measure table
+resolves (“recorded, not drift”): nothing re-measures them. Many sit in
+dated session reports, plans and evidence files that were true when
+written. Per document: (a) a docs/zero-gap/point-in-time.tsv row with
+the reason from the document header when it is dated; (b) a
+noun-to-measure rule when the subject is measurable in the tree; (c)
+otherwise replace the count with its derive command. Fix in the
+repository that owns the document.</td>
+</tr>
+<tr>
+<td>AII-003</td>
+<td>Bug</td>
+<td>Operator-blocked</td>
+<td>medium</td>
+<td>platform/qa/challenges/api-challenges.sh and
+scripts/validate-exports.sh carry no proof arm and no sibling proof
+(validate-exports.sh is referenced only by build-all.sh and
+verify-standalone-clone.sh, which are not proofs) add –prove-failure
+arms (validate-exports: a deliberately corrupted export must fail;
+api-challenges: a stub server returning a wrong status must fail) and
+register them in the module’s gate surface</td>
+</tr>
+<tr>
+<td>AII-004</td>
+<td>Bug</td>
+<td>Operator-blocked</td>
+<td>high</td>
+<td>both scripts guard the build with an existence test of the binary
+and no freshness test, so a source change after the first build is never
+compiled; build.sh:5 is a plain go build with no identity stamp.
+Precedent recorded in helix-deps.yaml (2026-09-17 entry): the deployed
+aicur was 9 days stale and lacked the auth middleware its source had
+port the workshop’s build-freshness guard (workshop commit 185fb15,
+‘build-freshness guard (rebuild trap)’) into ai_interviewing: rebuild
+when the binary’s embedded source identity differs from HEAD or any
+tracked backend source is newer, or always run go build (incremental,
+cached); one shared helper used by start.sh and ingest.sh; commit inside
+ai_interviewing, return as a gitlink bump</td>
+</tr>
+<tr>
+<td>AII-005</td>
+<td>Bug</td>
+<td>Operator-blocked</td>
+<td>medium</td>
+<td>ai_interviewing/platform/scripts/build.sh:5 is a plain go build with
+no identity stamp and the backend exposes no source_commit (0 Go files
+mention it, vs workshop’s cmd/workshop-server/build_identity.go); the
+embedded vcs.revision 923779e06397 is an umbrella commit (git cat-file:
+commit in the umbrella, not an object in ai_interviewing). Why Go
+stamped the enclosing repository’s revision: UNCONFIRMED port the
+workshop’s build identity (ldflags stamp of the ai_interviewing commit
+and dirty flag, /api/health source_commit + source_dirty) into
+ai_interviewing; build with vcs stamping bound to the submodule; gitlink
+bump</td>
+</tr>
+<tr>
+<td>CKT-001</td>
+<td>Task</td>
+<td>Queued</td>
+<td>—</td>
+<td>WHAT — operator decision 1 of 2026-09-07. The question put to the
+operator was: <code>submodules/curriculum-kit</code> is not a git
+repository; <code>go.mod</code> reaches outside the repo and no truthful
+manifest entry can be written DECISION — <strong>Publish as
+<code>vasic-digital/curriculum-kit</code>, PUBLIC</strong>, mount as a
+gitlink, declare in <code>helix-deps.yaml</code> HOW IT MANIFESTS — the
+decision is recorded in docs/OPERATOR-DECISIONS-2026-09-07.md row 1;
+that document is the §11.4.208 operator-request ledger for the session.
+HOW TO REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-07.md, table row
+1. ACCEPTANCE CRITERIA — the obligation the decision states is
+discharged with captured evidence per §11.4.5, recorded against this
+item. STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced complete
+SUB-PROJECT BASIS — the source row names the path
+submodules/curriculum-kit.</td>
+</tr>
+<tr>
+<td>CNT-001</td>
+<td>Task</td>
+<td>Queued</td>
+<td>—</td>
+<td>WHAT — operator decision 10 of 2026-09-07. The question put to the
+operator was: <code>tesseract</code> absent (gate 5 → rc 2);
+<code>bundle</code>/<code>bundler</code>/<code>jekyll</code> absent
+(gate 6 asserts against an 8-file fragment) DECISION — <strong>Provide
+both — CONTAINERISED, through
+<code>submodules/containers</code></strong>, not host packages. Operator
+directive: <em>“Make sure everything runs in containers, use our
+containers Submodule for all containers related work!”</em> HOW IT
+MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-07.md row 10; that document is the
+§11.4.208 operator-request ledger for the session. HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-07.md, table row 10. ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item. STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete SUB-PROJECT BASIS — the
+source row names the path submodules/containers.</td>
+</tr>
+<tr>
+<td>CON-002</td>
+<td>Task</td>
+<td>Queued</td>
+<td>medium</td>
+<td>The pin went stale again (the carrier records five green-then-red
+cycles). Baseline remote tip 647f7553533a; re-probed 2026-09-26: origin
+HEAD now 0ff780dc4e4f. Under the STANDING AUTHORIZATION of 2026-09-09:
+fetch inside the submodule, require merge-base –is-ancestor TRUE and 0
+divergent, git merge –ff-only, report diff –stat, re-measure
+Constitution.md on both sides (blob, lines, anchors, bytes, sha256),
+stage gitlink + helix-deps.yaml ref together, never push. Any
+divergence: stop and report.</td>
+</tr>
+<tr>
+<td>CON-003</td>
+<td>Bug</td>
+<td>Queued</td>
+<td>high</td>
+<td>the guard’s host-power gate matches only
+<code>systemctl\|loginctl &lt;verb&gt;</code>, <code>pm-*</code> and
+<code>shutdown</code>; the bare binaries reboot, halt and poweroff match
+no pattern, so the rule declared no-override lets them through upstream:
+add bare-binary alternatives (reboot|halt|poweroff, incl. absolute-path
+and command-substitution forms) to the host-power block with RED
+fixtures; project side: G-guard-gaps-07 mitigation</td>
+</tr>
+<tr>
+<td>CON-004</td>
+<td>Bug</td>
+<td>Queued</td>
+<td>high</td>
+<td>the guard’s git-push rule keys on –force/–force-with-lease/+refspec
+only and there is no rule for local ref deletion; the FORCE_MSG text
+names ‘history rewrite’ but no pattern implements it upstream: extend
+the push rule to –delete/-d and <code>:&lt;ref&gt;</code> refspecs; add
+a ref-destruction rule (branch -D/–delete –force, update-ref -d) and a
+history-rewrite rule (filter-branch, filter-repo); RED fixtures per
+form</td>
+</tr>
+<tr>
+<td>CON-005</td>
+<td>Bug</td>
+<td>Queued</td>
+<td>high</td>
+<td>the guard has no working-tree-discard class; the project’s own
+.specify/memory/constitution.md ‘Shared-Tree Discipline Is Wider Than
+stash’ names these as destructive on a shared tree, but nothing enforces
+it at tool-call time upstream: add a shared-tree discard rule (reset
+–hard, checkout [–] ., restore ., clean -f*, stash with no pathspec);
+RED fixtures; decide override policy (allow-marker or none)</td>
+</tr>
+<tr>
+<td>CON-006</td>
+<td>Bug</td>
+<td>Queued</td>
+<td>high</td>
+<td>no bulk-staging rule exists; on a tree shared by parallel agents
+bulk staging captures other agents’ uncommitted files (closure-wave
+protocol (f) bans <code>add -A</code>) upstream: add a bulk-staging rule
+for agent tool calls (add -A/–all/., commit -a); note the operator’s
+<code>commit</code> wrapper stages with <code>git add .</code>
+internally and is not a tool-call string, so it is unaffected</td>
+</tr>
+<tr>
+<td>CON-007</td>
+<td>Bug</td>
+<td>Queued</td>
+<td>high</td>
+<td>no process-signalling rule exists; §11.4.174 (verify the process is
+ours) and §11.4.263 (process-group signal safety) forbid name/pattern
+kills, and a reviewer’s <code>pkill -f</code> already killed its own
+shell once (progress.yml process-slip ruling) upstream: add a
+name/pattern signalling rule (pkill, killall, kill -<sig> -<pgid>); RED
+fixtures incl. <code>pkill -f</code> with -u</td>
+</tr>
+<tr>
+<td>CON-008</td>
+<td>Bug</td>
+<td>Queued</td>
+<td>high</td>
+<td>no bulk-removal rule exists; §9 names bulk file removal as a
+pre-op-backup operation, yet <code>rm -rf /</code> and
+<code>rm -rf ~</code> exit 0 from the guard upstream: add a
+recursive-removal rule for /, ~, <span class="math inline">$HOME and
+bare top-level targets (with --no-preserve-root forms); RED fixtures;
+keep scoped build-dir removals allowed (benign control rm -rf
+~/Projects/x/build) |
+| CON-009 | Bug | Queued | high | 68 surviving unjudged gate rows (0
+name-class rows) under 6 path classes; private source by path: counted
+with group C. The constitution is upstream (data-model: third-party
+includes the governance source); this repository never commits into it
+(FR-021) — the reporting route is HelixDevelopment/HelixConstitution. no
+row was judged; nothing here clears a row per the operator's option on
+G-content-boundary-rows-01: read and judge each row in this group
+(redact real disclosures in the public file, record a reasoned judgement
+for the rest); allow-listing is option 2 and hides the row |
+| CON-011 | Task | Operator-blocked | medium | git status in the
+umbrella shows submodules/constitution modified and nested submodule
+checkouts with empty worktrees and staged deletions. Restoring needs git
+restore or reset --hard, which the project guard blocks. No restore was
+attempted. |
+| DOC-001 | Task | Operator-blocked | medium | The local main and the
+mirror main are diverged: 125 commits ahead and 1 behind. Nothing was
+touched. Fast-forward only policy forbids force; an integration decision
+is needed. Source CONTINUATION.md final state section. |
+| DTK-001 | Task | Queued | — | WHAT — operator decision 15 of
+2026-09-07. The question put to the operator was: `design-toolkit`
+GitLab mirror 7 commits behind, recipe deliberately
+`.disabled`  DECISION — **Enable the recipe and sync the mirror**  HOW
+IT MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-07.md row 15; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-07.md, table row 15.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — the
+source row names the path design-toolkit. |
+| HLP-001 | Task | Operator-blocked | medium | Owned gitlink not bumped.
+Observation: HelixDevelopment/LLMProvider and vasic-digital/LLMProvider
+(submodules/LLMProvider) report the SAME tip e05ec64ebc48; whether two
+gitlinks of one history are intended is UNCONFIRMED. Operator decides
+per bump; separately decide whether both gitlinks should exist (never
+remove without an explicit operator decision, §11.4.122). |
+| HQA-001 | Task | Queued | low | Counts whose subject no rule of the
+class noun-to-measure table resolves ("recorded, not drift"): nothing
+re-measures them. Many sit in dated session reports, plans and evidence
+files that were true when written. Per document: (a) a
+docs/zero-gap/point-in-time.tsv row with the reason from the document
+header when it is dated; (b) a noun-to-measure rule when the subject is
+measurable in the tree; (c) otherwise replace the count with its derive
+command. Fix in the repository that owns the document. |
+| LLP-001 | Task | Operator-blocked | medium | Owned gitlink not bumped
+after upstream commits; 4 remotes (github, gitlab, origin, upstream)
+show the same tip. Operator decides per bump: fast-forward (merge
+--ff-only, stage gitlink and helix-deps.yaml ref together) or hold. |
+| LMV-001 | Task | Operator-blocked | medium | Owned gitlink not bumped.
+Operator decides per bump (ff-only; gitlink + helix-deps.yaml ref staged
+together). |
+| LMV-002 | Bug | Operator-blocked | medium | the module carries its own
+run_*_challenge.sh family (5), run_challenges.sh, verify-deployment.sh,
+security-audit.sh, verify_day1_completion.sh, verify_providerinit_fix.sh
+and two copies of validate_implementation.sh (root and tests/, different
+blobs) with no proof convention or registry triage first (which are
+gates vs one-shot historical scripts: verify_day1_completion /
+verify_providerinit_fix look historical — retire only via §11.4.122
+operator decision), then add proof arms to the real gates and dedupe the
+two validate_implementation.sh copies |
+| LMV-003 | Bug | Operator-blocked | medium | `if [ ! -f/-x BIN ]` then
+go build, no freshness guard; the challenge harness then scores
+providers with a stale binary fix in vasic-digital/LLMsVerifier (always
+go build, or freshness test), return as a gitlink bump |
+| MON-001 | Task | Queued | low | Counts whose subject no rule of the
+class noun-to-measure table resolves ("recorded, not drift"): nothing
+re-measures them. Many sit in dated session reports, plans and evidence
+files that were true when written. Per document: (a) a
+docs/zero-gap/point-in-time.tsv row with the reason from the document
+header when it is dated; (b) a noun-to-measure rule when the subject is
+measurable in the tree; (c) otherwise replace the count with its derive
+command. Fix in the repository that owns the document. |
+| MVR-001 | Task | Queued | — | WHAT — operator decision 13 of
+2026-09-07. The question put to the operator was: `milosvasic.ru/_site/`
+tracked: 8 files, 1 page, answers 1 of 525 sitemap URLs  DECISION —
+**Untrack it, keep the ignore rule**  HOW IT MANIFESTS — the decision is
+recorded in docs/OPERATOR-DECISIONS-2026-09-07.md row 13; that document
+is the §11.4.208 operator-request ledger for the session.  HOW TO
+REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-07.md, table row
+13.  ACCEPTANCE CRITERIA — the obligation the decision states is
+discharged with captured evidence per §11.4.5, recorded against this
+item.  STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced
+complete  SUB-PROJECT BASIS — the source row names the path
+milosvasic.ru. |
+| MVR-002 | Task | Queued | — | WHAT — operator decision 14 of
+2026-09-07. The question put to the operator was: 21 repositories have
+Actions enabled while declaring zero workflow files  DECISION — **Sweep
+the 20, exclude `milosvasic.ru`** — its `pages.yml` is the sole publish
+path for the live site  HOW IT MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-07.md row 14; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-07.md, table row 14.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — the
+source row names the path milosvasic.ru. |
+| PSG-007 | Bug | Queued | low | os.WriteFile truncates then writes. A
+writer stopped between the truncate and the last byte (the workshop
+ingest wrapper TERMs ingest-transcript when an operator stops a run) or
+failing with ENOSPC/EFBIG leaves a SHORT passages.jsonl that is still
+valid JSONL and is accepted by every reader. Found by independent review
+rev5-w2 (finding 3). A consumer cannot fix this without committing into
+the public passage module, so the change is REPORTED, not made: a ready
+patch (temp file in the same directory, mode and owner kept, fsync,
+rename; tests incl. an RLIMIT_FSIZE failure injection) is at
+~/.cache/agent-scratch/wl-lows/passage-atomic-write.diff against base
+1e361bd6d6fa; RED TestRegistryWriteJSONLIsAtomic on the base, GREEN go
+test ./... with the patch (measured 2026-10-15). The evidence path is
+the defect's own source file. |
+| VSC-001 | Task | Queued | high | WHAT — this repository tracked work
+in prose (docs/OPERATOR-DECISIONS-*.md, specs/*/tasks.md) with no
+§11.4.93 single source of truth, which §11.4.93 calls a release blocker.
+HOW IT MANIFESTS — no item carried a stable id, a closed-set status or a
+closed-set type, so no query could answer what is open. HOW TO REPRODUCE
+— before this item, git ls-files docs/workable_items.db returned
+nothing. ACCEPTANCE CRITERIA — a tracked docs/workable_items.db exists,
+every item carries a valid status, type and prefixed id, the identifier
+roster is derived from .gitmodules, and a registered gate with a paired
+mutation proves the integrity check is not a bluff gate. |
+| VSC-002 | Task | Queued | — | WHAT — operator decision 2 of
+2026-09-07. The question put to the operator was: 3 area documents fail
+publication review on 62/54/58 uncited claim blocks  DECISION —
+**Operator reads them.** Produce a bounded per-document list of exactly
+which claim blocks lack citations first  HOW IT MANIFESTS — the decision
+is recorded in docs/OPERATOR-DECISIONS-2026-09-07.md row 2; that
+document is the §11.4.208 operator-request ledger for the session.  HOW
+TO REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-07.md, table row
+2.  ACCEPTANCE CRITERIA — the obligation the decision states is
+discharged with captured evidence per §11.4.5, recorded against this
+item.  STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced
+complete  SUB-PROJECT BASIS — no sub-project path named in the source
+row. |
+| VSC-003 | Task | Queued | — | WHAT — operator decision 3 of
+2026-09-07. The question put to the operator was: Only 5 of 42 areas
+carry a test  DECISION — **Author senior banks for the 25 strongly +
+moderately evidenced areas**, against real transcript evidence, area by
+area. The 12 thin areas stay honestly without tests  HOW IT MANIFESTS —
+the decision is recorded in docs/OPERATOR-DECISIONS-2026-09-07.md row 3;
+that document is the §11.4.208 operator-request ledger for the
+session.  HOW TO REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-07.md,
+table row 3.  ACCEPTANCE CRITERIA — the obligation the decision states
+is discharged with captured evidence per §11.4.5, recorded against this
+item.  STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced
+complete  SUB-PROJECT BASIS — no sub-project path named in the source
+row. |
+| VSC-004 | Task | Queued | — | WHAT — operator decision 4 of
+2026-09-07. The question put to the operator was: FR-002 asked for a
+topical classification the reviews decline to make  DECISION — **Build
+an automated topical classifier**, recorded with its confidence and
+given its own review  HOW IT MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-07.md row 4; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-07.md, table row 4.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-006 | Task | In progress | — | WHAT — operator decision 6 of
+2026-09-07. The question put to the operator was: SC-010 hue floor: gate
+reported 4 families over a defective instrument  DECISION — **Fix the
+gate, then judge the real number.** Fixed; the corrected gate reports
+**2**  HOW IT MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-07.md row 6; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-07.md, table row 6.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row is split — part DONE, part still OPEN — so neither a
+terminal status nor Queued is true; recorded as In progress  SUB-PROJECT
+BASIS — no sub-project path named in the source row. |
+| VSC-007 | Task | Queued | — | WHAT — operator decision 7 of
+2026-09-07. The question put to the operator was: Two chapter-card
+implementations; `/chapters` never uses the component extracted for
+it  DECISION — **Converge onto the shared component**  HOW IT MANIFESTS
+— the decision is recorded in docs/OPERATOR-DECISIONS-2026-09-07.md row
+7; that document is the §11.4.208 operator-request ledger for the
+session.  HOW TO REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-07.md,
+table row 7.  ACCEPTANCE CRITERIA — the obligation the decision states
+is discharged with captured evidence per §11.4.5, recorded against this
+item.  STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced
+complete  SUB-PROJECT BASIS — no sub-project path named in the source
+row. |
+| VSC-008 | Task | Queued | — | WHAT — operator decision 8 of
+2026-09-07. The question put to the operator was: The 37-area lexicon is
+chapter-01-derived; chapters 02 and 02.01 were never mined  DECISION —
+**Mine both, propose new areas**, operator approves additions before
+they publish  HOW IT MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-07.md row 8; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-07.md, table row 8.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-009 | Task | Queued | — | WHAT — operator decision 9 of
+2026-09-07. The question put to the operator was: 12 documents' ingested
+`.sections.json` are stale; regenerating mints new passage ids  DECISION
+— **Leave stale, record it explicitly.** All 251 ids resolve;
+regenerating would churn the corpus and break existing citations  HOW IT
+MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-07.md row 9; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-07.md, table row 9.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-010 | Task | Queued | — | WHAT — operator decision 11 of
+2026-09-07. The question put to the operator was: Content-boundary gate
+red at ~15,300 matches; decision packet never acted on  DECISION —
+**Judge the ~1,540 class-A inward rows** — 1,084 against private source,
+68 against teaching material, three public files holding 1,120  HOW IT
+MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-07.md row 11; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-07.md, table row 11.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-011 | Task | Queued | — | WHAT — operator decision 12 of
+2026-09-07. The question put to the operator was: `deploy-langs.sh`
+downgrades a failed Jekyll build to a warning and still exits
+0  DECISION — **Fail the deploy on a failed build**, behind a flag for
+deliberate override  HOW IT MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-07.md row 12; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-07.md, table row 12.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-012 | Task | Queued | — | WHAT — operator decision 16 of
+2026-09-07. The question put to the operator was: Nothing committed this
+session; container serves the old binary  DECISION — Restart once when
+all writers stop, then commit and push recursively  HOW IT MANIFESTS —
+the decision is recorded in docs/OPERATOR-DECISIONS-2026-09-07.md row
+16; that document is the §11.4.208 operator-request ledger for the
+session.  HOW TO REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-07.md,
+table row 16.  ACCEPTANCE CRITERIA — the obligation the decision states
+is discharged with captured evidence per §11.4.5, recorded against this
+item.  STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced
+complete  SUB-PROJECT BASIS — no sub-project path named in the source
+row. |
+| VSC-013 | Task | Queued | — | WHAT — operator decision 1 of
+2026-09-08. The question put to the operator was: Semantic-search leg
+needs an embedder; local models now off  DECISION — **Keep semantic
+OFF.** Measured identical quality (top-1 18/22, top-5 19/22) at 9.4x the
+speed. Reversible with one env var  HOW IT MANIFESTS — the decision is
+recorded in docs/OPERATOR-DECISIONS-2026-09-08.md row 1; that document
+is the §11.4.208 operator-request ledger for the session.  HOW TO
+REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-08.md, table row
+1.  ACCEPTANCE CRITERIA — the obligation the decision states is
+discharged with captured evidence per §11.4.5, recorded against this
+item.  STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced
+complete  SUB-PROJECT BASIS — no sub-project path named in the source
+row. |
+| VSC-014 | Task | Queued | — | WHAT — operator decision 2 of
+2026-09-08. The question put to the operator was: `meeting-notes` route
+deliberately NOT_BUILT on one undecided row  DECISION — **Brainstorm
+fully, then implement — including Meeting Notes**  HOW IT MANIFESTS —
+the decision is recorded in docs/OPERATOR-DECISIONS-2026-09-08.md row 2;
+that document is the §11.4.208 operator-request ledger for the
+session.  HOW TO REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-08.md,
+table row 2.  ACCEPTANCE CRITERIA — the obligation the decision states
+is discharged with captured evidence per §11.4.5, recorded against this
+item.  STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced
+complete  SUB-PROJECT BASIS — no sub-project path named in the source
+row. |
+| VSC-015 | Task | Queued | — | WHAT — operator decision 3 of
+2026-09-08. The question put to the operator was: 3 documents
+unpublished on W2 violations  DECISION — **Cite them, then
+publish**  HOW IT MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-08.md row 3; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 3.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-016 | Task | Queued | — | WHAT — operator decision 4 of
+2026-09-08. The question put to the operator was: 12 served areas carry
+no assessment  DECISION — **Fill / generate what is missing. "Stick to
+common sense"**  HOW IT MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-08.md row 4; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 4.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-017 | Task | Queued | — | WHAT — operator decision 5 of
+2026-09-08. The question put to the operator was: The one flagged span
+(id `01M1H9DKFTVEJMW5YFZ1GC7PYN`)  DECISION — **Serve it.** Operator
+inspected the span and judged it carries nothing private. Add a reason
+code for "flagged withheld-only by corpus statistics, judged not
+private" and record the decision against the row  HOW IT MANIFESTS — the
+decision is recorded in docs/OPERATOR-DECISIONS-2026-09-08.md row 5;
+that document is the §11.4.208 operator-request ledger for the
+session.  HOW TO REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-08.md,
+table row 5.  ACCEPTANCE CRITERIA — the obligation the decision states
+is discharged with captured evidence per §11.4.5, recorded against this
+item.  STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced
+complete  SUB-PROJECT BASIS — no sub-project path named in the source
+row. |
+| VSC-018 | Task | Queued | — | WHAT — operator decision 6 of
+2026-09-08. The question put to the operator was: The word-run rule that
+flagged it  DECISION — **Keep the rule as-is.** It caught 4 genuine rows
+because it is wide. Future flags route to the operator as
+judgements  HOW IT MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-08.md row 6; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 6.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-019 | Task | Queued | — | WHAT — operator decision 7 of
+2026-09-08. The question put to the operator was: `meeting-notes`
+contract shape  DECISION — **Match the three siblings exactly** — same
+cumulative `count` vs `own_count` split, same status set  HOW IT
+MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-08.md row 7; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 7.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-021 | Task | Queued | — | WHAT — operator decision 9 of
+2026-09-08. The question put to the operator was: Sequencing against the
+QA session  DECISION — **One batch, then QA.** Land everything, restart
+once, run the second adversarial review, then hand over  HOW IT
+MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-08.md row 9; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 9.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-022 | Task | Queued | — | WHAT — operator decision 10 of
+2026-09-08. The question put to the operator was: 20-passage evidence
+floor sorts on the wrong quantity (r = -0.066 against actual
+authorability)  DECISION — **Re-baseline the floor onto anchored usable
+citable passages at 8, and author the banks.** REVISES decision #3 of
+2026-09-07 on measured grounds  HOW IT MANIFESTS — the decision is
+recorded in docs/OPERATOR-DECISIONS-2026-09-08.md row 10; that document
+is the §11.4.208 operator-request ledger for the session.  HOW TO
+REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-08.md, table row
+10.  ACCEPTANCE CRITERIA — the obligation the decision states is
+discharged with captured evidence per §11.4.5, recorded against this
+item.  STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced
+complete  SUB-PROJECT BASIS — no sub-project path named in the source
+row. |
+| VSC-023 | Task | Queued | — | WHAT — operator decision 11 of
+2026-09-08. The question put to the operator was: Filling every area
+empties the M4 proof arm's population  DECISION — **Fill everything,
+give M4 a synthetic no-bank fixture** so the arm keeps detecting  HOW IT
+MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-08.md row 11; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 11.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-025 | Task | Queued | — | WHAT — operator decision 13 of
+2026-09-08. The question put to the operator was: 11 plan rows are ASR
+fragments naming no deliverable  DECISION — **Fix the extractor, retire
+the 11 as extraction defects** — NOT as `dropped`, which would put them
+in the commitment ledger  HOW IT MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-08.md row 13; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 13.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-026 | Task | Queued | — | WHAT — operator decision 14 of
+2026-09-08. The question put to the operator was:
+`MIN_SEGMENTS_FOR_INFORMATIVE_ABSENCE = 500` makes `not_covered`
+unreachable for short chapters  DECISION — **Scale the guard to chapter
+length**, with its own validation and a paired mutation  HOW IT
+MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-08.md row 14; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 14.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-027 | Task | Queued | — | WHAT — operator decision 15 of
+2026-09-08. The question put to the operator was: Document 04's last 8
+blocks cite evidence that has no passage id  DECISION — **Ingest
+`pipeline/{README,CALIBRATION,AUDIT}.md`.** Operator rejected deleting
+the 8 measured claims and rejected the editorial exemption  HOW IT
+MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-08.md row 15; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 15.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-028 | Task | Queued | medium | A decided audit with no execution
+record; the register item was Queued with no measurable
+target.  Proposed fix: Execute the audit in the owning module and record
+the per-citation relevance verdict. |
+| VSC-029 | Task | Queued | — | WHAT — operator decision 17 of
+2026-09-08. The question put to the operator was:
+`publication-reviews.jsonl` / `area-materials.jsonl` gitignored — the
+files gating what is served are not in version control  DECISION —
+**Track them**  HOW IT MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-08.md row 17; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 17.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-030 | Task | Queued | — | WHAT — operator decision 18 of
+2026-09-08. The question put to the operator was: Every graded question
+answerable by shape alone: 138/138 keys are the longest option (100%),
+122/138 at position 1 (88%), pass mark 70%, no shuffle anywhere in the
+serving path  DECISION — **Fix properly: deterministic shuffle AND
+distractor rebalancing**, plus a gate that fails if either heuristic
+beats chance, with a paired mutation and a control  HOW IT MANIFESTS —
+the decision is recorded in docs/OPERATOR-DECISIONS-2026-09-08.md row
+18; that document is the §11.4.208 operator-request ledger for the
+session.  HOW TO REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-08.md,
+table row 18.  ACCEPTANCE CRITERIA — the obligation the decision states
+is discharged with captured evidence per §11.4.5, recorded against this
+item.  STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced
+complete  SUB-PROJECT BASIS — no sub-project path named in the source
+row. |
+| VSC-031 | Task | Queued | — | WHAT — operator decision 19 of
+2026-09-08. The question put to the operator was: The producer/verifier
+split is process-scoped only; two invocations 2s apart publish on
+same-minted citations, and the prover's key arm is inverted so it passes
+with the protection removed  DECISION — **Make it durable, fix the
+prover**, register it in the check registry, and close the
+`promote_curriculum_areas.py --apply` path that wrote 37 of 41 live
+review rows with no citation checking  HOW IT MANIFESTS — the decision
+is recorded in docs/OPERATOR-DECISIONS-2026-09-08.md row 19; that
+document is the §11.4.208 operator-request ledger for the session.  HOW
+TO REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-08.md, table row
+19.  ACCEPTANCE CRITERIA — the obligation the decision states is
+discharged with captured evidence per §11.4.5, recorded against this
+item.  STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced
+complete  SUB-PROJECT BASIS — no sub-project path named in the source
+row. |
+| VSC-032 | Task | Queued | — | WHAT — operator decision 20 of
+2026-09-08. The question put to the operator was: QA session timing
+given the above  DECISION — **Fix the blockers first, then QA.** The
+shape leak and the split are fixable in hours; everything else is
+measured and sound  HOW IT MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-08.md row 20; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 20.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-033 | Task | Queued | — | WHAT — operator decision 21 of
+2026-09-08. The question put to the operator was: 32 answer keys appear
+verbatim in the lesson section the question links to (31 of 290) — all
+against area-document prose, never a transcript  DECISION — **Separate
+study mode from assessment mode.** Keep the keys and the study links;
+suppress `lesson_sections` in assessment/interview rendering. Rewording
+31 correct keys was rejected as degrading good prose to defend a
+property only one mode needs  HOW IT MANIFESTS — the decision is
+recorded in docs/OPERATOR-DECISIONS-2026-09-08.md row 21; that document
+is the §11.4.208 operator-request ledger for the session.  HOW TO
+REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-08.md, table row
+21.  ACCEPTANCE CRITERIA — the obligation the decision states is
+discharged with captured evidence per §11.4.5, recorded against this
+item.  STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced
+complete  SUB-PROJECT BASIS — no sub-project path named in the source
+row. |
+| VSC-036 | Task | Queued | — | WHAT — operator decision 24 of
+2026-09-08. The question put to the operator was: Areas 26 (5 anchored)
+and 23 (6) serve tests while 19 (5), 27 (6) and 28 (6) are refused —
+authorship date, not evidence, is the selector  DECISION — **Author
+banks for 19, 27 and 28 to match.** Level up rather than withdraw two
+real banks. An agent may still decline any of the three if the evidence
+genuinely cannot support one  HOW IT MANIFESTS — the decision is
+recorded in docs/OPERATOR-DECISIONS-2026-09-08.md row 24; that document
+is the §11.4.208 operator-request ledger for the session.  HOW TO
+REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-08.md, table row
+24.  ACCEPTANCE CRITERIA — the obligation the decision states is
+discharged with captured evidence per §11.4.5, recorded against this
+item.  STATUS BASIS — the source row records a DECISION, not an
+execution: the decision is made and the work is not evidenced
+complete  SUB-PROJECT BASIS — no sub-project path named in the source
+row. |
+| VSC-037 | Task | Queued | — | WHAT — operator decision 25 of
+2026-09-08. The question put to the operator was: Four `kg_*` kinds (226
+rows of TODOs, meeting notes, open questions, next-meeting points) exist
+in the index but were never in the advertised vocabulary  DECISION —
+**Make them first-class searchable.** This is the session-record content
+built today — reachable through chapter routes but not through
+search  HOW IT MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-08.md row 25; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 25.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-039 | Task | Queued | — | WHAT — operator decision 26a of
+2026-09-08. The question put to the operator was: Re-measured: there is
+NO pack producer and NO artefact — the pack is derived by reading a
+Markdown file, and NO gate ever enforced membership (B1–B8 check
+resolution, redaction and lesson-section path, never pack membership).
+Only 30.6% of outside-pack citations sit at distance 1; the rest reach
+up to 644 segments away. Best closure admits 41.3% at 3.75× pack growth.
+Corpus re-cut separately proven unsafe: one merged pair moves
+`root_hash` `62e62eea…` → `960db1d2…`, orphans an anchor, and models are
+off so nothing can be re-embedded  DECISION — **Withdraw the constraint
+entirely.** Replacement rule: cite the passage that carries the fact;
+admissible iff it RESOLVES UNREDACTED and AN AUTHOR HAS READ IT against
+the prompt. The constraint is wrong in KIND, not granularity  HOW IT
+MANIFESTS — the decision is recorded in
+docs/OPERATOR-DECISIONS-2026-09-08.md row 26a; that document is the
+§11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE —
+read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 26a.  ACCEPTANCE
+CRITERIA — the obligation the decision states is discharged with
+captured evidence per §11.4.5, recorded against this item.  STATUS BASIS
+— the source row records a DECISION, not an execution: the decision is
+made and the work is not evidenced complete  SUB-PROJECT BASIS — no
+sub-project path named in the source row. |
+| VSC-040 | Task | Queued | — | WHAT — operator decision 26b of
+2026-09-08. The question put to the operator was: The withdrawn
+constraint's prose still stands verbatim in 6 banks, instructing future
+authors to obey the rule that caused the defect  DECISION — **The agent
+already reading those files corrects the 6
+`$</span>comment<code>blocks in-pass** — recording what the rule said, that it is withdrawn, and why, rather than deleting it silently  HOW IT MANIFESTS — the decision is recorded in docs/OPERATOR-DECISIONS-2026-09-08.md row 26b; that document is the §11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 26b.  ACCEPTANCE CRITERIA — the obligation the decision states is discharged with captured evidence per §11.4.5, recorded against this item.  STATUS BASIS — the source row records a DECISION, not an execution: the decision is made and the work is not evidenced complete  SUB-PROJECT BASIS — no sub-project path named in the source row. | | VSC-041 | Task | Queued | — | WHAT — operator decision 27 of 2026-09-08. The question put to the operator was: 182 older-bank questions the screen never flagged, unread. Precision is 98%; recall is known poor (reading found 73% where the screen flagged 37.5%)  DECISION — **Read all 182.** The measured defect rate in the UNFLAGGED population is the first honest estimate of the screen's recall  HOW IT MANIFESTS — the decision is recorded in docs/OPERATOR-DECISIONS-2026-09-08.md row 27; that document is the §11.4.208 operator-request ledger for the session.  HOW TO REPRODUCE — read docs/OPERATOR-DECISIONS-2026-09-08.md, table row 27.  ACCEPTANCE CRITERIA — the obligation the decision states is discharged with captured evidence per §11.4.5, recorded against this item.  STATUS BASIS — the source row records a DECISION, not an execution: the decision is made and the work is not evidenced complete  SUB-PROJECT BASIS — no sub-project path named in the source row. | | VSC-045 | Task | Queued | — | WHAT — 001-workshop-curriculum-platform task T006: [P] Configure linting/formatting to match the reference module (</code>gofmt<code>, Angular ESLint config) — **[UNWRITTEN, AND THE TASK CONTRADICTS ITSELF. Measured 2026-09-03; NEW note.** Neither half is configured. Frontend:</code>workshop/platform/frontend/<code>has **no**</code>.eslintrc<em><code>and **no**</code>eslint.config.</em><code>;</code>package.json<code>declares 11 scripts and **none is</code>lint<code>**; its</code>devDependencies<code>contain **no** package whose name matches</code>lint<code>or</code>prettier<code>. Go: nothing in</code>workshop/<code>runs</code>gofmt<code>as a gate, and</code>gofmt
+-l
+workshop/platform/backend<code>reports **3** unformatted files today (</code>cmd/knowledge-registry-backfill/main.go<code>,</code>internal/api/publication.go<code>,</code>internal/api/passages_publication_test.go<code>), which is a live demonstration that no gate is enforcing it. **The self-contradiction, and it needs an operator to resolve rather than an agent to guess:** this task says *"match the reference module"*, and the reference is</code>ai_interviewing/platform/frontend<code>(plan.md Structure Decision) — measured, **that module has no ESLint config either**: 5 scripts, none</code>lint<code>, zero lint devDependencies. So "match the reference" and "Angular ESLint config" point in opposite directions and cannot both be satisfied. Adopt ESLint and DIVERGE from the reference, or match the reference and drop the ESLint half; either is defensible, neither is this note's to choose. The</code>gofmt<code>half has no such ambiguity and is unblocked work]** — **BLOCKER:** the task contradicts itself — it says "match the reference module", and the reference (</code>ai_interviewing/platform/frontend<code>) has NO ESLint config either, so there is nothing to match · **OWNER:** **operator** — pick a lint baseline, or withdraw the "match the reference" clause (FR-013)  HOW IT MANIFESTS — the task is tracked in specs/001-workshop-curriculum-platform/tasks.md as row T006.  HOW TO REPRODUCE — read specs/001-workshop-curriculum-platform/tasks.md and locate the row beginning</code>T006<code>.  ACCEPTANCE CRITERIA — the row's own stated outcome, evidenced per §11.4.5 against the artefact it names.  STATUS BASIS — the tracked task list marks this row [ ] — not started or not finished  SUB-PROJECT BASIS — the source row names paths in more than one sub-project (AII, WSP), so it is attributed to the parent. | | VSC-046 | Task | Queued | — | WHAT — 001-workshop-curriculum-platform task T015: [TDD] **[PATH NOT BUILT —</code>symbol.go<code>does not exist. Measured 2026-09-02, only the SCHEMA landed, in</code>registry.go<code>:</code>Symbol
+*string<code>at</code>:73<code>,</code>CREATE UNIQUE INDEX …
+passages_symbol_key ON passages(path,
+symbol)<code>at</code>:934<code>,</code>CREATE TABLE …
+symbol_aliases<code>at</code>:966<code>. No code reads or writes</code>symbol_aliases<code>—</code>registry.go:1091<code>names it among the tables this package never writes — so the behaviour this task contracts is still owed at the path named here]** Implement the code-passage matching key</code>(path,
+symbol)<code>and the</code>symbol_aliases<code>table in</code>submodules/passage/pkg/passage/symbol.go<code>per [contracts/passage-contract.md](./contracts/passage-contract.md) §6.2, §6.4 and the §4.3</code>symbol_aliases<code>DDL (SC-016a) —</code>origin<code>separates</code>authored<code>(written by the maintainer performing the rename; authoritative) from</code>detected<code>(ingest's heuristic, which can mis-attach two similar helpers), so a reviewer can see exactly which links rest on a guess. ~~**Conditional on T014**~~ **— UNBLOCKED 2026-09-03. T014 now exits</code>0<code>and names the producer (</code>pipeline/symbols<code>, a</code>go/parser<code>extractor owned by this feature, at</code>workshop/pipeline/symbols/<code>); see T014's own note for the A3/A4 rejection of Lumen's store and the B1–B6 confirmation of this one. This task is therefore UNWRITTEN WORK, not blocked work, and the block that used to excuse it is gone** — **BLOCKER:** none but the work — only the SCHEMA landed in</code>registry.go<code>;</code>symbol.go<code>is unwritten · **OWNER:** **implementer** — unblocked today (SC-016a, FR-037)  HOW IT MANIFESTS — the task is tracked in specs/001-workshop-curriculum-platform/tasks.md as row T015.  HOW TO REPRODUCE — read specs/001-workshop-curriculum-platform/tasks.md and locate the row beginning</code>T015<code>.  ACCEPTANCE CRITERIA — the row's own stated outcome, evidenced per §11.4.5 against the artefact it names.  STATUS BASIS — the tracked task list marks this row [ ] — not started or not finished  SUB-PROJECT BASIS — the source row names paths in more than one sub-project (PSG, WSP), so it is attributed to the parent. | | VSC-047 | Task | Queued | — | WHAT — 001-workshop-curriculum-platform task T016: [TDD] **[PATH NOT BUILT —</code>ingest_match.go<code>does not exist and no equivalent landed anywhere]** Implement the §8 ingest matching branches for code passages in</code>submodules/passage/pkg/passage/ingest_match.go<code>— R2 attach on</code>(path,
+symbol)<code>· R3 attach through</code>symbol_aliases<code>, recording WHICH alias was used so</code>detected<code>links stay reviewable · R4 an unaliased rename ⇒ **exit</code>1<code>** for</code>workshop/<code>-owned code (§6.6 makes an</code>authored<code>alias a mandatory step of any rename inside the tree) and, for code outside</code>workshop/<code>, mint a new pid and record the orphaned old one so the broken citation is LOUD. Minting stays the last branch (M4). ~~**Conditional on T014**~~ **— UNBLOCKED 2026-09-03. T014 now exits</code>0<code>and names the producer (</code>pipeline/symbols<code>, a</code>go/parser<code>extractor owned by this feature, at</code>workshop/pipeline/symbols/<code>); see T014's own note for the A3/A4 rejection of Lumen's store and the B1–B6 confirmation of this one. This task is therefore UNWRITTEN WORK, not blocked work, and the block that used to excuse it is gone** — **BLOCKER:** none but the work —</code>ingest_match.go<code>is unwritten and no equivalent landed anywhere · **OWNER:** **implementer** — unblocked today (SC-016a, FR-037)  HOW IT MANIFESTS — the task is tracked in specs/001-workshop-curriculum-platform/tasks.md as row T016.  HOW TO REPRODUCE — read specs/001-workshop-curriculum-platform/tasks.md and locate the row beginning</code>T016<code>.  ACCEPTANCE CRITERIA — the row's own stated outcome, evidenced per §11.4.5 against the artefact it names.  STATUS BASIS — the tracked task list marks this row [ ] — not started or not finished  SUB-PROJECT BASIS — the source row names paths in more than one sub-project (PSG, WSP), so it is attributed to the parent. | | VSC-048 | Task | Queued | — | WHAT — 001-workshop-curriculum-platform task T017: [TDD] **[PATH NOT BUILT —</code>symbol_test.go<code>does not exist; measured 2026-09-02 the identifier</code>G-PID-4<code>appears nowhere in</code>submodules/passage<code>]** Prove **SC-016a** via gate **G-PID-4** in</code>submodules/passage/pkg/passage/symbol_test.go<code>([contracts/passage-contract.md](./contracts/passage-contract.md) §6.5, §6.6): rename a</code>workshop/<code>-owned symbol WITH an</code>authored<code>alias and assert the pid is preserved and its citations still resolve; then rename one WITHOUT an alias and assert the old pid resolves</code>not_in_registry<code>— a loud dead link — and that ingest reports the unaliased rename as exit</code>1<code>. **Paired mutation**: make unaliased renames mint a new pid silently and re-point the old citation by nearest-text match; the gate MUST go red. 100% of stale code references failing loudly is the entire criterion — a confident link to the wrong code is the failure it exists to prevent. ~~**Conditional on T014**~~ **— UNBLOCKED 2026-09-03. T014 now exits</code>0<code>and names the producer (</code>pipeline/symbols<code>, a</code>go/parser<code>extractor owned by this feature, at</code>workshop/pipeline/symbols/<code>); see T014's own note for the A3/A4 rejection of Lumen's store and the B1–B6 confirmation of this one. This task is therefore UNWRITTEN WORK, not blocked work, and the block that used to excuse it is gone** — **BLOCKER:** **predecessor T015 + T016** — G-PID-4 tests code that does not exist yet · **OWNER:** **implementer**, after T015/T016 (SC-016a, FR-032, SC-012)  HOW IT MANIFESTS — the task is tracked in specs/001-workshop-curriculum-platform/tasks.md as row T017.  HOW TO REPRODUCE — read specs/001-workshop-curriculum-platform/tasks.md and locate the row beginning</code>T017<code>.  ACCEPTANCE CRITERIA — the row's own stated outcome, evidenced per §11.4.5 against the artefact it names.  STATUS BASIS — the tracked task list marks this row [ ] — not started or not finished  SUB-PROJECT BASIS — the source row names paths in more than one sub-project (PSG, WSP), so it is attributed to the parent. | | VSC-049 | Task | Queued | — | WHAT — 001-workshop-curriculum-platform task T021: [P] **[PARTIAL — ONE OF ITS TWO GATES IS BUILT AND PROVEN, THE OTHER EXISTS NOWHERE. Measured 2026-09-03; NEW note.** The scripts and the adapter are real:</code>workshop/scripts/start.sh<code>,</code>stop.sh<code>,</code>status.sh<code>and the Go adapter</code>workshop/platform/orchestration/cmd/workshop-boot/main.go<code>, which reports</code>RUNNING<code>/</code>STOPPED<code>/</code>DEGRADED<code>*"or exit 2 when it cannot tell"* (</code>:126<code>). **G-CLI-17 is DONE**:</code>bash
+workshop/platform/gates/verify-status-exit-contract.sh<code>→ rc **0**,</code>PASS=3
+FAIL=0
+UNDET=0<code>— A1 an absent project prints</code>STOPPED<code>and exits **1**, A2</code>status.sh<code>passes the control plane's code through unchanged, A3</code>RUNNING
+→ 0<code>while</code>STOPPED →
+1<code>are distinguishable by exit code alone; and its **§1.1 paired mutation**</code>prove-status-exit-contract.sh<code>→ rc **0**,</code>CAUGHT=2
+MISSED=0<code>, seeding **MS1** (</code>STOPPED<code>exits 0 — the exact</code>return
+nil<code>regression this task names) and **MS2** (</code>STOPPED<code>filed as 2), each proven to COMPILE and LINK before being judged, then the tree restored. **G-CLI-12 IS UNBUILT, and so is the behaviour it would gate.**</code>grep
+-rn
+‘G-CLI-12’<code>over</code>workshop/<code>returns **zero** files — no gate, no fixture, no registry row — and the branch itself does not exist:</code>grep
+-rn ’unidentif\</td>
+</tr>
+<tr>
+<td>WSP-165</td>
+<td>Bug</td>
+<td>Queued</td>
+<td>high</td>
+<td>Counts are typed into the four lockstep workshop carriers,
+workshop/README.md and workshop/docs/work-register.md; nothing
+re-measures them. Inside the workshop repository: replace each count
+with its derive command or add a workshop-side re-measure check; update
+all four carriers together. Returns to the umbrella as a gitlink
+bump.</td>
+</tr>
+<tr>
+<td>WSP-166</td>
+<td>Task</td>
+<td>Queued</td>
+<td>low</td>
+<td>Counts whose subject no rule of the class noun-to-measure table
+resolves (“recorded, not drift”): nothing re-measures them. Many sit in
+dated session reports, plans and evidence files that were true when
+written. Per document: (a) a docs/zero-gap/point-in-time.tsv row with
+the reason from the document header when it is dated; (b) a
+noun-to-measure rule when the subject is measurable in the tree; (c)
+otherwise replace the count with its derive command. Fix in the
+repository that owns the document.</td>
+</tr>
+<tr>
+<td>WSP-167</td>
+<td>Bug</td>
+<td>Operator-blocked</td>
+<td>high</td>
+<td>Per the 2026-09-09 record the gate exits 0 while the proposal prose
+and the committed JSON disagree, because it never reads the prose (a
+false-green, §11.4.201). Current state UNCONFIRMED (not re-run this
+session). Make the gate read and compare the prose count; paired
+mutation proof.</td>
+</tr>
+<tr>
+<td>WSP-168</td>
+<td>Bug</td>
+<td>Operator-blocked</td>
+<td>medium</td>
+<td>two tracked scripts matching the gate-name heuristic carry no proof
+arm and no sibling proof; whether pipeline/run_audit.sh is a verdict
+gate at all is UNCONFIRMED (name-heuristic population; its only in-repo
+referrers are a doc and a Python helper, neither a proof) for each:
+confirm gate or not; gate =&gt; add proof arm + register in the
+workshop’s own gate surface; not a gate =&gt; record why the heuristic
+should not flag it (class exemption with reason)</td>
+</tr>
+<tr>
+<td>WSP-169</td>
+<td>Bug</td>
+<td>Operator-blocked</td>
+<td>medium</td>
+<td>container 42c12e533a91 started 2026-09-25T09:06:32Z serving
+source_commit 185fb158c4f4; e076fa6 was committed 10:18:12Z and nothing
+redeployed; scripts/qa-up.sh reuses a running stack without restarting
+it (header line 32). Measured: git diff –name-only 185fb158c4f4
+e076fa6aa26f lists 3 *_test.go files only, so the production source is
+equal (identical binary output UNCONFIRMED) OPERATOR: redeploy the
+workshop stack from the committed tree (bash
+workshop/scripts/restart.sh, answering stays OFF by default). AGENT
+(follow-up): qa-up warns or refuses when it adopts a stack whose
+/api/health source_commit differs from workshop HEAD</td>
+</tr>
+<tr>
+<td>WSP-170</td>
+<td>Task</td>
+<td>Queued</td>
+<td>medium</td>
+<td>Evidence owed before answering waivers WVR-2026-10-27-deepseek-qa
+(expires 2026-11-26) and WVR-2026-10-28-deepseek-qa-llm (expires
+2026-11-27) lapse: see workshop docs/work-items/WSP-170.md. Row created
+2026-10-29 at hand-off; id 170 matches the waiver roster
+tracked_item.</td>
+</tr>
+<tr>
+<td>WSP-176</td>
+<td>Task</td>
+<td>Operator-blocked</td>
+<td>high</td>
+<td>On the 0.0.7 release build 5641ea85 the student-surface gate reports
+35 pass, 0 fail, 4 UNDETERMINED; the four checks C05, C13, C14, C15 need
+the admin password, which only the operator holds. Undetermined is not a
+pass. Source docs/releases/0.0.7.md.</td>
+</tr>
+<tr>
+<td>WSP-177</td>
+<td>Task</td>
+<td>Queued</td>
+<td>medium</td>
+<td>The materials upload to Yandex Disk was running at about 40 to 90 KB
+per second and is not complete; workshop-storage verify –deep has not
+been run and pushes used the storage offline reason. Nothing has been
+untracked. Source CONTINUATION.md 2026-10-27 and 2026-10-29
+sections.</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

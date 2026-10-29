@@ -166,6 +166,12 @@ rather than a habit.
    none of the three, and inventing them to reach the stronger status would be
    the fabrication §11.4.6 forbids. Each such row says so in its own
    description.
-7. **`sync db-to-md` has not been run and no Markdown surface is generated
-   yet.** §11.4.93's bidirectional round-trip guarantee is therefore NOT
-   demonstrated here. It is a tracked follow-up, not a shipped property.
+7. **The Markdown surface now exists (2026-10-29), and the round-trip is demonstrated once.**
+   `sync db-to-md` and `export --formats` generated `docs/workable-items/{Issues,Fixed}.md`
+   plus the `_Summary` pair and their HTML/PDF/DOCX siblings, and
+   `diff --issues ... --fixed ...` reported "DB and Markdown are in sync" over 626 items.
+   The generated files must be regenerated after every database change; `PROCEDURE.html`
+   and `PROCEDURE.pdf` were NOT regenerated for this edit and still carry the old item 7.
+8. **Two validators want two option formats.** The canonical validator accepts `[1]`
+   markers or two or more `-` bullets; the umbrella validator (V-G11) wants one list line
+   per option with `cost:`. A line of the form `- [1] option (cost: ...)` satisfies both.
