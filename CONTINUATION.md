@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-28T12:00:00Z
+    Last-Updated: 2026-10-29T11:30:00Z
     Synced-Commit: 01c0fa5
     Authority-Root: submodules/constitution
 
@@ -425,6 +425,20 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+### FINAL STATE: QA READY, 0.0.7 TAGGED, NO ACTIVE WORK — 2026-10-29
+
+Operator signed off QA on 2026-10-29 and ordered no further active work until notified. Re-derive, do not quote: `git ls-files -s workshop`, `bash scripts/verify-manifest-pins.sh`, `bash scripts/continuation-check.sh`, `git tag -l 'vasic-1.0.0-dev-0.0.7'`.
+
+- **Live QA.** `http://127.0.0.1:8087`, build `5641ea85-20261029T100523Z` (`source_dirty` false), started with `WORKSHOP_MEDIUM_ENGAGEMENT=1 WORKSHOP_PROFILE_FILE=platform/profiles/qa-all-on.env.example bash scripts/restart.sh`. Logins: `milosvasic`, `rami`, `student1`-`student5`. Gate on this build: 35 pass, 0 fail, 4 UNDETERMINED (C05, C13, C14, C15 need `WORKSHOP_QA_ADMIN_USER`/`WORKSHOP_QA_ADMIN_PASSWORD`, operator-held; undetermined is not a pass). Run as student5 with `WORKSHOP_GLOSSARY_SIDECAR=curriculum/glossary-definitions.jsonl` and `--max-links 800`. `qa_verify.py` 94/94 was on build `507ac938`.
+- **Pins.** Umbrella `main` carries the workshop gitlink `af741608`, constitution `6374feb7fa93` (ff-only; `Constitution.md` 12,420 to 12,602 lines, 267 to 271 anchors), manifest refs equal gitlinks (21 MATCH). The earlier "override/jev-hosted-only branches NOT merged" statement below is SUPERSEDED: the override is on `main` in the umbrella and every owned submodule.
+- **Tags.** `vasic-1.0.0-dev-0.0.7` (annotated) on the umbrella and 15 owned submodule checkouts, every remote verified. Note: `docs/releases/0.0.7.md`.
+- **Branches.** `llm_orchestrator` and `vision_engine`: `main` fast-forwarded to `master` on origin, HelixDevelopment and GitLab. `LLMProvider`/`llm_provider`: HelixDevelopment mirror fast-forwarded. `doc_processor`: `main` on `helixdevelopment_github` has one commit this checkout lacks (125 ahead / 1 behind, diverged, NOT touched; operator decision). GitHub default branch for LLMOrchestrator and VisionEngine is still `master`.
+- **Jev.** `jev-setup.sh --yes --agents claude --mode shadow` was run; the shadow gate writes `~/.local/state/jev/decisions.jsonl` rows with `endpoint: jev-typesafe`, `enforced: false`, no local fallback.
+- **claude_toolkit.** v1.34.0 tagged on all four remotes (`v1.34.0`, `claude_toolkit-1.34.0` at `ac258e3`); GitLab release created; GitHub release creation was blocked by the old token and retried with the new `GITHUB_TOKEN` from `~/api_keys.sh` (status in the toolkit repo's own CONTINUATION). 57 plugins enabled in all 68 aliases; 53 load because 4 `@anthropics` keys are not installed (`claude-sync-plugins --unloadable`).
+- **Cleanup 2026-10-29.** Removed only merged, clean, unlocked worktrees and test scratch (about 5.5 GB). KEPT: 14 merged vasic worktrees that git refuses to remove without `--force`, 2 vasic worktrees with uncommitted nested-workshop changes (`agent-a281b3ad659a13d33`, `agent-a692a2ee58b412b52`), locked and dirty ones, and 26 workshop worktree branches whose content was checked present in `main` (every touched file exists in `main`; at most 7% of added lines absent, mostly later-edited docs). Do not delete them without re-checking.
+- **Open, operator-owned.** Workshop admin password for the four UNDETERMINED checks; `doc_processor` mirror divergence; GitHub default branch; `helix_code` constitution pin 116 behind (separate repo, another session); 4 phantom `@anthropics` plugin keys in `claude1`; Yandex Disk upload and `workshop-storage verify --deep` (storage offline reason recorded on pushes).
+
 
 ### OPERATOR OVERRIDE: HOSTED TYPESAFE JEV ONLY, NO LOCAL DECISION MODELS — 2026-10-28
 
