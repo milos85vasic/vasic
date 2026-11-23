@@ -1,0 +1,38 @@
+# pr-delivery.yaml — the ONE tracked configuration file of §11.4.297(A), as DATA (§11.4.35).
+#
+# Recorded operator decision: docs/governance/OPERATOR-DECISION-PR-DELIVERY-2026-11-24.md
+# Canon: submodules/constitution/Constitution.md §11.4.297 (read the block, do not trust this file).
+#
+# Enforcement words (§11.4.297(G)) for every line below:
+#   ENFORCED    — nothing here is ENFORCED. This repository ships NO delivery tool and NO
+#                 hosting-platform client; this file is DECLARATION ONLY.
+#   PROVISIONAL — the declaration itself; agents follow it by discipline, read-back by hand
+#                 (git ls-remote, gh pr view) and the reviewer's report.
+#   UNCONFIRMED — the identifier of the operator order (the conversation turn), the merge window,
+#                 and whether the operator wants a non-author reviewer account (see below).
+#
+# An unknown key or a value outside its closed set is a refusal, never ignored (§11.4.297(A)).
+decision_id: "operator-2026-11-23/24-pr-driven-work (id UNCONFIRMED; no tracker id was issued)"
+mode: pr
+base_branch: main
+pr_remote: github                # milos85vasic/vasic ; push fast-forward only, no force, no tag push
+task_branch_prefix: pr
+landing_form: merge-commit       # gh pr merge --merge ; squash and rebase merges are FORBIDDEN (A.3)
+merger: author-agent             # the operator decided "merge to main by the agent"; no human merge gate
+protected_branches: [main]
+direct_push_guard: off           # no guard is installed; PROVISIONAL, not ENFORCED
+shared_single_files:             # land serially (B)(5)
+  - CONTINUATION.md
+  - helix-deps.yaml
+  - docs/claim-ledger.tsv
+  - scripts/check-registry.tsv
+tool_written_paths: []           # none declared; nothing is tool-written into a tracked ledger here
+evidence_directory: docs/qa      # evidence a PR cites must resolve from its head tree (E)
+merge_window: UNCONFIRMED        # no window declared; a GO'd PR is reported stale only once one is set
+# Reviewers (D). Author-only list declared under (D)(6): the independent review agents the operator
+# ordered are the source-correctness GO (§11.4.142), not platform reviewer requests. Whether to add a
+# second account (a collaborator exists on the platform) is an OPEN operator question.
+pr_reviewers:
+  vasic: [milos85vasic]
+reviewer_policy: author-only
+# Own submodules deliver as their OWN pull request before the parent pin bump (F).
