@@ -1,0 +1,9 @@
+PASS control: good fixture clean, 2 pages, 1 fragment skipped []
+PASS mutation wrong-href: caught=True
+PASS mutation wrong-text: caught=True
+PASS mutation no-badge: caught=True
+PASS mutation untranslated: caught=True
+PASS mutation empty-label: caught=True
+PASS mutation no-footer: caught=True
+PASS mutation two-badges: caught=True
+PASS mutation VERSION drift (tree 1.2.3 vs expected 9.9.9): caught = True
