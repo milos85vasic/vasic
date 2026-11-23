@@ -10,7 +10,7 @@ const { test, expect } = require('@playwright/test');
 const { VD_BASE, MV_BASE } = require('../env.js');
 
 const SITES = [
-  { key: 'vasic.digital', base: VD_BASE, domain: 'vasic.digital' },
+  { key: 'vasic.digital', base: VD_BASE, domain: 'digital.vasic.dev' },
   { key: 'milosvasic.ru', base: MV_BASE, domain: 'milosvasic.ru' },
 ];
 

@@ -39,10 +39,10 @@ const { VD_BASE, MV_BASE } = require('../env.js');
 const SITES = [
   {
     key: 'vasic.digital',
-    // The static site's own sitemap/canonicals STILL declare the old host (pre-existing,
-    // see docs/qa/live-site/); this is the origin as DECLARED in its pages, remapped
-    // onto VD_BASE for fetching (use VD_BASE=https://digital.vasic.dev live).
-    canonical: 'https://vasic.digital',
+    // The static site's canonicals/sitemap now declare https://digital.vasic.dev (the
+    // old host vasic.digital is retired); this is the origin as DECLARED in its pages,
+    // remapped onto VD_BASE for fetching.
+    canonical: 'https://digital.vasic.dev',
     base: VD_BASE,
     pdfs: ['Portfolio'],
   },
