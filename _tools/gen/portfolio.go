@@ -232,7 +232,7 @@ func renderPortfolio(root string, p *Portfolio, site *Site, langs []string, lang
 %s
   </main>
 
-  <footer class="od-footer">© %s %s — %s</footer>
+  %s
   <script>
     (function(){
       var btn=document.getElementById('pf-theme-toggle');
@@ -258,7 +258,7 @@ func renderPortfolio(root string, p *Portfolio, site *Site, langs []string, lang
 		esc(T(lang, "toggle")),
 		portfolioSymbols,
 		portfolioMainInner(p, helixCount, dlHref, strings.Join(sections, "\n\n"), lang),
-		copyrightYear(), esc(site.Brand), esc(T(lang, "footer.suffix")),
+		footerHTML(site, lang, "© "+copyrightYear()+" "+esc(site.Brand)+" — "+esc(T(lang, "footer.suffix")), false),
 		backToTopButton(lang),
 		motionScript(pfx),
 		odSwitcher(site, langs, "portfolio", "portfolio/", pfx))

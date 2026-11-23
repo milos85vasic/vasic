@@ -472,7 +472,7 @@ func renderHomeStandalone(doc *HomeDoc, p *Portfolio, site *Site, langs []string
 
   </main>
 
-  <footer class="od-footer" data-i18n="footer.text">%s</footer>
+  %s
 
 %s
 %s
@@ -488,7 +488,7 @@ func renderHomeStandalone(doc *HomeDoc, p *Portfolio, site *Site, langs []string
 		portfolioHref, esc(tOr(lang, "nav.portfolio", "Portfolio")),
 		esc(tOr(lang, "nav.contact", "Contact")),
 		odLangMount(), esc(T(lang, "aria.toggleTheme")),
-		body, esc(footerText(site, lang)), backToTopButton(lang), vasicToggleScript,
+		body, footerHTML(site, lang, esc(footerText(site, lang)), true), backToTopButton(lang), vasicToggleScript,
 		motionScript(pfx), odSwitcher(site, langs, "home", "", pfx))
 }
 

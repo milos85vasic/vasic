@@ -51,8 +51,13 @@ type Site struct {
 	// apple-touch-icon falls back to OGImage. Kept separate so the launcher icon
 	// (a brand monogram) never has to double as the Open Graph share image.
 	TouchIcon string
-	LDKind    string   // JSON-LD identity: "Organization" | "Person"
-	SameAs    []string // JSON-LD sameAs profile URLs
+	// Repo is the GitHub "owner/name" whose release pages the footer version links
+	// to. Empty = the site does not render the version badge (byte-identical
+	// footers). Version is read from <Dir>/VERSION in main() when Repo is set.
+	Repo    string
+	Version string
+	LDKind  string   // JSON-LD identity: "Organization" | "Person"
+	SameAs  []string // JSON-LD sameAs profile URLs
 }
 
 // URL builds an absolute production URL from a root-relative path (no leading /).
@@ -71,6 +76,7 @@ var sites = map[string]*Site{
 		OGImage:  "Assets/Logo.jpeg",
 		Favicon:  "Assets/logo.svg",
 		LDKind:   "Organization",
+		Repo:     "vasic-digital/vasic-digital.github.io",
 		SameAs:   []string{"https://github.com/Helix-Track", "https://github.com/nexu-io"},
 	},
 	"milosvasic.ru": {
@@ -133,6 +139,13 @@ func main() {
 	}
 	if site.Key == "vasic.digital" {
 		site.Domain = readCNAME(filepath.Join(absRoot, site.Dir, "CNAME"), site.Domain)
+	}
+	if site.Repo != "" {
+		v, err := readSiteVersion(filepath.Join(absRoot, site.Dir, "VERSION"))
+		if err != nil {
+			fatal(err)
+		}
+		site.Version = v
 	}
 	if out == "" {
 		out = filepath.Join(absRoot, site.Dir)

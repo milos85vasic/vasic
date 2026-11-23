@@ -334,7 +334,7 @@ func renderProduct(root string, site *Site, e *PortfolioEntry, langs []string, l
 %s
   </main>
 
-  <footer class="od-footer">© %s %s — %s.</footer>
+  %s
 
 %s
 %s
@@ -356,7 +356,7 @@ func renderProduct(root string, site *Site, e *PortfolioEntry, langs []string, l
 		odLangMount(),
 		esc(T(lang, "toggle")),
 		article,
-		copyrightYear(), esc(site.Brand), esc(T(lang, "footer.suffix")),
+		footerHTML(site, lang, "© "+copyrightYear()+" "+esc(site.Brand)+" — "+esc(T(lang, "footer.suffix"))+".", false),
 		backToTopButton(lang),
 		productToggleScript,
 		motionScript(pfx),
