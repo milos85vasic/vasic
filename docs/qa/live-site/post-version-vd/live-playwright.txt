@@ -16,3 +16,4 @@
 [87/88] [chromium] › tests/v171-hardcoding.spec.js:143:5 › LINUX latinized in localized content › vasic.digital /products/ar/qemu-utils.html keeps "Linux" Latin
 [88/88] [chromium] › tests/v171-hardcoding.spec.js:155:3 › PDF sr cover-letter term › milos sr Cover Letter PDF says "Пропратно писмо" (not "Пријава")
   88 passed (46.8s)
+NOTE: first run's single failure (restyle-seo-regression back-to-top, opacity transition timing under load) passed alone and in the full rerun 88/88 (above).
