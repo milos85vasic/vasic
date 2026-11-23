@@ -410,7 +410,7 @@ deps:
   # ─── Owned product submodules (flat layout, <root>/<name>/) ─────────────
   - name: vasic.digital
     ssh_url: git@github.com:vasic-digital/vasic-digital.github.io.git
-    ref: "c1c2bc36b2841c08ba20284cff8ecdf464e97e2d"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    ref: "3e86312cc685298d606e6ae8da68d01cce3f563f"   # v1.9.0 tag points at this merge commit (annotated tag peels to it); website-version footer + digital.vasic.dev
     why: "Site submodule — committed static HTML served as-is, no build step. Rendered into by _tools/gen and deployed by _tools/deploy-langs.sh; served directly by the _tests Playwright suite."
     layout: flat
 

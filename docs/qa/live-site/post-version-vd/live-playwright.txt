@@ -1,0 +1,19 @@
+[77/88] [chromium] › tests/v171-hardcoding.spec.js:91:5 › BLK1 localized portfolio card blurbs › vasic.digital /portfolio/de/ card blurbs are localized (no EN leak)
+[78/88] [chromium] › tests/v171-hardcoding.spec.js:91:5 › BLK1 localized portfolio card blurbs › vasic.digital /portfolio/ru/ card blurbs are localized (no EN leak)
+[79/88] [chromium] › tests/v171-hardcoding.spec.js:100:3 › BLK1 localized portfolio card blurbs › vasic.digital /portfolio/de/ carries the German helixtrack blurb
+[80/88] [chromium] › tests/v171-hardcoding.spec.js:111:5 › BLK2 localized product descriptions › vasic.digital /products/de/catalogizer.html descriptions are localized
+[81/88] [chromium] › tests/v171-hardcoding.spec.js:111:5 › BLK2 localized product descriptions › vasic.digital /products/ru/catalogizer.html descriptions are localized
+[82/88] [chromium] › tests/v171-hardcoding.spec.js:111:5 › BLK2 localized product descriptions › vasic.digital /products/ar/catalogizer.html descriptions are localized
+[83/88] [chromium] › tests/v171-hardcoding.spec.js:130:3 › HEAD creative headings localized › vasic.digital /products/de/catalogizer.html has no English creative headings
+[84/88] [chromium] › tests/v171-hardcoding.spec.js:143:5 › LINUX latinized in localized content › vasic.digital /products/hi/qemu-utils.html keeps "Linux" Latin
+[85/88] [chromium] › tests/v171-hardcoding.spec.js:143:5 › LINUX latinized in localized content › vasic.digital /products/ko/qemu-utils.html keeps "Linux" Latin
+[86/88] [chromium] › tests/v171-hardcoding.spec.js:143:5 › LINUX latinized in localized content › vasic.digital /products/ar/qemu-utils.html keeps "Linux" Latin
+[87/88] [chromium] › tests/v171-hardcoding.spec.js:143:5 › LINUX latinized in localized content › vasic.digital /products/fa/qemu-utils.html keeps "Linux" Latin
+[88/88] [chromium] › tests/v171-hardcoding.spec.js:155:3 › PDF sr cover-letter term › milos sr Cover Letter PDF says "Пропратно писмо" (not "Пријава")
+  1 failed
+    [chromium] › tests/restyle-seo-regression.spec.js:289:5 › 7. Interactive behavior › https://digital.vasic.dev back-to-top appears on scroll 
+  87 passed (56.5s)
+[87/88] [chromium] › tests/v171-hardcoding.spec.js:143:5 › LINUX latinized in localized content › vasic.digital /products/ar/qemu-utils.html keeps "Linux" Latin
+[88/88] [chromium] › tests/v171-hardcoding.spec.js:155:3 › PDF sr cover-letter term › milos sr Cover Letter PDF says "Пропратно писмо" (not "Пријава")
+  88 passed (46.8s)
+NOTE: first run's single failure (restyle-seo-regression back-to-top, opacity transition timing under load) passed alone and in the full rerun 88/88 (above).

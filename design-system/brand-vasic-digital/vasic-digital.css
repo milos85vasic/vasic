@@ -346,7 +346,26 @@ body {
   font-family: var(--od-font-mono);
   font-size: var(--od-fs-sm);
   color: var(--od-text-muted);
+  /* Copyright text + website-version badge: one centred row that wraps to two
+     centred lines on narrow viewports. Logical gaps only (RTL-safe). */
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline;
+  column-gap: var(--od-space-5); row-gap: var(--od-space-2);
 }
+/* Website version badge (footer.version): "Label: vX.Y.Z", the version links to
+   the GitHub release page of that tag. Colours are tokens only: the link is
+   accent (>= 5.8:1 light on surface, >= 7.3:1 dark), the label is text-muted. */
+.site-version { white-space: nowrap; }
+.site-version a {
+  color: var(--od-accent);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  padding-block: var(--od-space-2);
+  /* the tag is Latin digits: keep it one LTR run inside an RTL (ar/fa) footer */
+  direction: ltr; unicode-bidi: isolate;
+}
+.site-version a:hover { color: var(--od-accent-hover); }
+.site-version a:focus-visible { outline: 2px solid var(--od-focus); outline-offset: 2px; }
 
 /* ---- Hero ---------------------------------------------------------------- */
 .od-hero {

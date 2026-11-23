@@ -1,0 +1,7 @@
+verify-live-site  base=http://127.0.0.1:18431  at=2026-11-23T23:26:17Z  took=10.3s
+sitemap URLs: 527   pages HTTP 200: 527/527   resources checked: 52 (non-200: 0)
+FAILED assertions: 0   UNDETERMINED: 0
+baseline docs/qa/live-site/baseline-live-digital-vasic-dev-2026-11-23.json: regressions=0 new_paths=0
+  note: crawl discovered 37 URL(s) (max-pages 2000)
+VERDICT: PASS (rc 0)
+report sha256: a2e2d66acff751ca5c43b445ab20854dfc6a098585cdfdfdf23c349567bb694e

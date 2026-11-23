@@ -4,6 +4,8 @@ import (
 	_ "embed"
 	"encoding/json"
 	"fmt"
+	"os"
+	"regexp"
 	"strings"
 )
 
@@ -126,6 +128,60 @@ func footerText(site *Site, lang string) string {
 	return "© " + copyrightYear() + " " + site.Brand + " — " + T(lang, "footer.suffix") + "."
 }
 
+// versionRe is the only accepted shape of the committed VERSION file (SemVer
+// core, no "v" prefix, no pre-release): the release tag is always "v"+VERSION.
+var versionRe = regexp.MustCompile(`^[0-9]+\.[0-9]+\.[0-9]+$`)
+
+// readSiteVersion reads and validates the single committed VERSION file. A
+// missing or malformed file is an error, never a silent default (fail closed).
+func readSiteVersion(path string) (string, error) {
+	b, err := os.ReadFile(path)
+	if err != nil {
+		return "", fmt.Errorf("site version: %w", err)
+	}
+	v := strings.TrimSpace(string(b))
+	if !versionRe.MatchString(v) {
+		return "", fmt.Errorf("site version: %s holds %q, want MAJOR.MINOR.PATCH", path, v)
+	}
+	return v, nil
+}
+
+// versionBadge renders the footer website-version fragment for sites that carry a
+// Repo (empty string otherwise, so sites without the feature stay byte-identical):
+//
+//	<span class="site-version"><span data-i18n="footer.version">Label:</span> <a href=".../releases/tag/vX">vX</a></span>
+//
+// The label is the localized UI key footer.version (it includes its own colon);
+// the link target is the GitHub release page of the tag "v"+Version.
+func versionBadge(site *Site, lang string) string {
+	if site.Repo == "" || site.Version == "" {
+		return ""
+	}
+	tag := "v" + site.Version
+	return `<span class="site-version"><span data-i18n="footer.version">` + esc(T(lang, "footer.version")) +
+		`</span> <a href="https://github.com/` + site.Repo + `/releases/tag/` + tag +
+		`" rel="noopener">` + tag + `</a></span>`
+}
+
+// footerHTML renders the <footer>. Without a version badge it is byte-identical
+// to the historical markup; with one, the copyright text and the badge are two
+// flex items. dataI18N (home only) marks the copyright span for the client
+// dictionary so the badge is never overwritten by applyDict.
+func footerHTML(site *Site, lang, copyHTML string, dataI18N bool) string {
+	badge := versionBadge(site, lang)
+	if badge == "" {
+		if dataI18N {
+			return `<footer class="od-footer" data-i18n="footer.text">` + copyHTML + `</footer>`
+		}
+		return `<footer class="od-footer">` + copyHTML + `</footer>`
+	}
+	attr := ""
+	if dataI18N {
+		attr = ` data-i18n="footer.text"`
+	}
+	return `<footer class="od-footer"><span class="od-footer__copy"` + attr + `>` + copyHTML + `</span>` + badge + `</footer>`
+}
+
 // odSwitcher emits the inline config (OD_LANGS / OD_PAGE / OD_I18N) plus the
 // deferred switcher script. OD_PAGE.paths carries the per-language STATIC URLs
 // (root-absolute) so the switcher NAVIGATES to the real localized page — for
@@ -160,6 +216,7 @@ func odSwitcher(site *Site, langs []string, pageType, enPath, prefix string) str
 				"nav.portfolio":    T(l, "nav.portfolio"),
 				"cta.readmore":     T(l, "pf.readmore"),
 				"footer.text":      footerText(site, l),
+				"footer.version":   T(l, "footer.version"),
 				"aria.primaryNav":  T(l, "aria.primaryNav"),
 				"aria.toggleTheme": T(l, "aria.toggleTheme"),
 				"aria.backToTop":   T(l, "aria.backToTop"),
