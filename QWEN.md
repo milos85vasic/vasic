@@ -27,7 +27,7 @@ Nothing is copied here. This file is a pointer; the authority is the submodule.
 
 | What | Canonical path in this repository |
 |---|---|
-| The universal constitution (11,965 lines, 257 `### §` anchors, 1,908,339 bytes, re-measured 2026-10-12 at the index pin `a71b1767b402` with `wc -l`, `grep -c '^### §'` and `wc -c` on `Constitution.md`; re-derive, do not quote; historical and withdrawn as current: the 11,787 lines, 255 anchors, 1,801,862 bytes and sha256 `973e473c823b4a13…` re-measured on 2026-09-03 before and after the fourth fast-forward, at `3be10826f3d2` and `2887b42e9349`, the SAME `Constitution.md` blob `ad32fc94…` as the four superseded pins `902979027a90`, `f16ea779b82a`, `f5876a3b700e` and `3be10826f3d2`) | `submodules/constitution/Constitution.md` |
+| The universal constitution (13,108 lines, 279 `### §` anchors, 2,261,551 bytes, blob `931d4494c24a`, sha256 `4a40a85ae7e6…`, re-measured 2026-11-24 at the index pin `6d93ccd19e1c` with `wc -l`, `grep -c '^### §'`, `wc -c`, `git rev-parse HEAD:Constitution.md` and `sha256sum` on `Constitution.md`; re-derive, do not quote; historical and withdrawn as current: 11,965 lines, 257 anchors, 1,908,339 bytes at `a71b1767b402` (2026-10-12), and the 11,787 lines, 255 anchors, 1,801,862 bytes, sha256 `973e473c823b4a13…` of 2026-09-03) | `submodules/constitution/Constitution.md` |
 | Claude Code carrier | `submodules/constitution/CLAUDE.md` |
 | Codex / Cursor / Aider / OpenCode / Crush / Kimi CLI carrier | `submodules/constitution/AGENTS.md` |
 | Qwen Code carrier | `submodules/constitution/QWEN.md` |
@@ -266,14 +266,14 @@ above, a `--fetch` may then be run to classify WHICH WAY:
 git -C submodules/constitution rev-parse HEAD                   # the local pin
 git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD
 git -C submodules/constitution rev-parse HEAD:Constitution.md   # blob identity
-grep -c '^### §' submodules/constitution/Constitution.md        # 257 (re-measured 2026-10-08 at pin a71b1767b402; 256 SUPERSEDED)
-wc -l < submodules/constitution/Constitution.md                 # 11965 (re-measured 2026-10-08 at pin a71b1767b402; 11894 SUPERSEDED)
+grep -c '^### §' submodules/constitution/Constitution.md        # 279 (re-measured 2026-11-24 at pin 6d93ccd19e1c; 257 SUPERSEDED)
+wc -l < submodules/constitution/Constitution.md                 # 13108 (re-measured 2026-11-24 at pin 6d93ccd19e1c; 11965 SUPERSEDED)
 bash scripts/verify-manifest-pins.sh                            # 0 = ref == gitlink
 ```
 
-**Current gitlinks of the five modules whose pins this carrier narrates — a dated reading, 2026-10-08, from the index.**
+**Current gitlinks of the five modules whose pins this carrier narrates — a dated reading, 2026-11-24, from the index.**
 Re-derive each with `git ls-files -s <path>`; these move with every bump and the `pointer-drift` sweep class
-reports the carrier again when one does: `submodules/constitution` `a71b1767b402`, `design-toolkit` `4ddc9645d140`, `submodules/containers` `4a8f04e05f35`, `submodules/curriculum-kit` `a57d6f157f18`, `workshop` `fb798e98c998`.
+reports the carrier again when one does: `submodules/constitution` `6d93ccd19e1c`, `design-toolkit` `1b9abac8ca50`, `submodules/containers` `22b49707f9bb`, `submodules/curriculum-kit` `277b96efcca4`, `workshop` `d58ae75d2d7b`.
 
 **Re-measured 2026-09-09, and the whole fleet is level — no move was made and
 none was needed.** `git -C submodules/constitution rev-parse HEAD` and
@@ -368,6 +368,35 @@ note corrects the reading without editing the quotation.
 
 Anything not covered by those nine items is covered by the canonical files. Go
 read them; do not guess.
+
+## Anchors 11.4.289 through 11.4.298, and the recorded PR-delivery decision
+
+Re-measured 2026-11-24 at the pin `6d93ccd19e1c`: `Constitution.md` defines anchors through `11.4.298`. Read each block in
+`submodules/constitution/Constitution.md` before relying on it; this list is a pointer, not the rule (the canon wins).
+
+- `11.4.289` no stub, mock or fixture server as evidence: results are validated LIVE; a test double proves only the
+  tooling's own logic.
+- `11.4.290` optimistic done: PROVISIONAL-DONE vs VERIFIED-DONE, honest release labelling.
+- `11.4.291` capacity placement: a local decision model runs only when live host load leaves room.
+- `11.4.292` reproduce first: every fix starts from a recorded, live RED reproduction.
+- `11.4.293` scope discipline: every commit names the Roadmap item it serves; out-of-scope paths carry a closed reason.
+- `11.4.294` reproduction and investigation states are workable-item fields.
+- `11.4.295` substitute app, same verdict, when a content API is geo-restricted.
+- `11.4.296` GitHub Issues assigned to a declared account are a source of workable items.
+- `11.4.297` pull-request delivery, binding only where a recorded operator decision declares it.
+- `11.4.298` release gate per product: deploy or tag only after a full live run on connected target hardware.
+
+**Recorded operator decision (the §11.4.297(A) declaration), 2026-11-23/24:** "PR-driven work: task branch, one PR per
+task, independent review agents, merge to main by the agent." Record:
+[`docs/governance/OPERATOR-DECISION-PR-DELIVERY-2026-11-24.md`](docs/governance/OPERATOR-DECISION-PR-DELIVERY-2026-11-24.md);
+declaration as DATA: [`docs/governance/pr-delivery.yaml`](docs/governance/pr-delivery.yaml). Landing form is a merge
+commit (`gh pr merge --merge`); squash and rebase merges are forbidden and force-push stays absolute (§11.4.113).
+**Honest boundary (§11.4.297(G)):** the declaration is PROVISIONAL; this repository ships no delivery tool and no direct-push
+guard, so no part of PR delivery is claimed ENFORCED. This does not weaken §11.4.288 for any path the decision does not cover.
+
+Exactly ONE operator override is in force (`Override §11.4.279-§11.4.286`, hosted Jev only; see "Project overrides of
+universal rules" below). PR delivery is a declared delivery MODE, not an override: it amends nothing beyond the three
+points §11.4.297(A) itself names.
 
 ## Content boundary — do NOT quote private material into this public repository
 
@@ -761,7 +790,7 @@ agent does not have to guess. The authoritative source for each is `README.md`.
 
 ### Owned submodules
 
-`.gitmodules` declares **22** gitlinks (re-measured 2026-09-22; the 14 measured 2026-09-01 is SUPERSEDED, and the roster sentence that follows is the 2026-09-01 roster — re-derive the current one with the commands below rather than reading it). **11** are owned
+`.gitmodules` declares **23** gitlinks (re-measured 2026-11-24; 22 on 2026-09-22 SUPERSEDED, the later addition is `job_seeker`, whose onboarding is a separate pending work item; the 14 measured 2026-09-01 is SUPERSEDED, and the roster sentence that follows is the 2026-09-01 roster — re-derive the current one with the commands below rather than reading it). **11** are owned
 consumers of the governance cascade: `milosvasic.ru`, `vasic.digital`,
 `design-toolkit`, `ai_interviewing`, `monetization`, `workshop`,
 `submodules/containers`, `submodules/LLMProvider`, `submodules/RAG`,
