@@ -1,0 +1,29 @@
+verify-live-site  base=http://127.0.0.1:18432  at=2026-11-23T22:36:05Z  took=4.7s
+sitemap URLs: 690   pages HTTP 200: 690/690   resources checked: 58 (non-200: 0)
+FAILED assertions: 2   UNDETERMINED: 0
+  FAIL  private-exposed: 2
+    - [private-exposed] http://127.0.0.1:18432/admin/ :: HTTP 200 (must be 404)
+    - [private-exposed] http://127.0.0.1:18432/downloads/vault/ :: HTTP 200 (must be 404)
+baseline docs/qa/live-site/baseline-live-2026-11-23.json: regressions=0 new_paths=176
+    + new: /assets/og/ai-engineering.png
+    + new: /assets/og/android-aosp.png
+    + new: /assets/og/android-tv.png
+    + new: /assets/og/android.png
+    + new: /assets/og/desktop.png
+    + new: /assets/og/expertise.png
+    + new: /assets/og/flutter.png
+    + new: /assets/og/go.png
+    + new: /assets/og/mobile.png
+    + new: /assets/og/react-native.png
+    + new: /assets/og/web-frontend.png
+    + new: /expertise/
+    + new: /expertise/ai-engineering/
+    + new: /expertise/ai-engineering/ar/
+    + new: /expertise/ai-engineering/be/
+    + new: /expertise/ai-engineering/de/
+    + new: /expertise/ai-engineering/es/
+    + new: /expertise/ai-engineering/fa/
+    + new: /expertise/ai-engineering/fr/
+    + new: /expertise/ai-engineering/hi/
+VERDICT: FAIL (rc 1)
+report sha256: 2811447a70516b06cc8527151870552b8b74c85e2199b3f655dafc2bf53e298b

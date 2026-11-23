@@ -1,0 +1,55 @@
+schema: career.area.v1
+id: desktop
+order: 10
+accent: "#a78bfa"
+icon: desktop
+title_i18n: area.desktop.title
+title: "Desktop Engineering"
+tagline_i18n: area.desktop.tagline
+tagline: "Electron and Tauri, native bridges, and offline-first desktop products."
+hero_metric: metric.products
+sections: [summary, competencies, experience, projects, skills, education, publications]
+keywords:
+  - "Electron"
+  - "Tauri"
+  - "Rust"
+  - "TypeScript"
+  - "desktop"
+  - "offline-first"
+  - "IPC"
+  - "auto-update"
+  - "code signing"
+  - "packaging"
+  - "accessibility"
+  - "Qt"
+  - "C++"
+competencies:
+  - comp.frontend
+  - comp.backend
+  - comp.infra
+  - comp.qa
+  - comp.data
+emphasis:
+  - comp.frontend
+  - comp.infra
+projects:
+  - proj.helixtrack
+  - proj.catalogizer
+  - proj.coursescreator
+  - proj.helixcode
+  - proj.helixqa
+experience:
+  - exp.harness
+  - exp.leica
+  - exp.tntech
+cover_letter:
+  angle: "desktop products that ship, update and stay signed"
+  opening_i18n: cl.open.desktop
+  opening: "Electron and Tauri, native bridges, and offline-first desktop products."
+  project_ids:
+    - proj.helixtrack
+    - proj.catalogizer
+    - proj.coursescreator
+    - proj.helixcode
+  closing_i18n: cl.close.desktop
+  closing: "I would welcome the chance to bring that combination to your team."

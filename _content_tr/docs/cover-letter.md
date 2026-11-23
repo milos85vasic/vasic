@@ -22,7 +22,7 @@ Benim çalışmalarımı farklı kılan, ciddiye aldığım bir disiplin: **blö
 
 Teknik açıdan ağırlıklı olarak Go ile çalışıyorum; Kotlin/KMP, TypeScript/React, Python, Swift ve Shell dillerini ve araçlarını kullanarak REST/gRPC/HTTP/3 hizmetleri, PostgreSQL/SQLite/Redis/ClickHouse veri katmanları ve Docker/Kubernetes/Prometheus operasyonları üzerinde çalışıyorum. Bir sistemin sağlayıcı soyutlamasından ve veri çekiminden, çalıştığının kanıtını sunan kanıt zincirine kadar tüm süreçlerini yönetmekten keyif alıyorum.
 
-Bu birikimimi — derin AI sistem mühendisliği ile gerçek, doğrulanabilir kalite disiplinini — ekibinize taşımak için fırsat bulabilmeyi umuyorum. İlginiz için teşekkür ederim; portföyüm ve halka açık depolarıma milosvasic.ru ve vasic.digital adreslerinden ulaşabilirsiniz.
+Bu birikimimi — derin AI sistem mühendisliği ile gerçek, doğrulanabilir kalite disiplinini — ekibinize taşımak için fırsat bulabilmeyi umuyorum. İlginiz için teşekkür ederim; portföyüm ve halka açık depolarıma milosvasic.ru ve digital.vasic.dev adreslerinden ulaşabilirsiniz.
 
 Saygılarımla,
 Miloš Vasić

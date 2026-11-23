@@ -22,7 +22,7 @@ note: General-purpose letter — no employer, project outcome, or metric is fabr
 
 از نظر فنی، عمدتاً با Go کار می‌کنم و از Kotlin/KMP، TypeScript/React، Python، Swift و Shell در سرویس‌های REST/gRPC/HTTP/3، لایه‌های داده PostgreSQL/SQLite/Redis/ClickHouse و عملیات Docker/Kubernetes/Prometheus استفاده می‌کنم. از انتزاع و بازیابی ارائه‌دهنده تا ردپای شواهدی که اثبات می‌کند سیستم کار می‌کند، راحتی مدیریت یک سیستم را دارم.
 
-خوشحال می‌شوم این ترکیب — مهندسی عمیق سیستم‌های AI به‌علاوه انضباط کیفیتی واقعی و قابل راستی‌آزمایی — را به تیم شما بیاورم. از توجه شما سپاسگزارم؛ نمونه‌کارها و مخازن عمومی من در milosvasic.ru و vasic.digital در دسترس هستند.
+خوشحال می‌شوم این ترکیب — مهندسی عمیق سیستم‌های AI به‌علاوه انضباط کیفیتی واقعی و قابل راستی‌آزمایی — را به تیم شما بیاورم. از توجه شما سپاسگزارم؛ نمونه‌کارها و مخازن عمومی من در milosvasic.ru و digital.vasic.dev در دسترس هستند.
 
 با احترام،
 Miloš Vasić

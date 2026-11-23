@@ -1,0 +1,53 @@
+schema: career.area.v1
+id: android-aosp
+order: 4
+accent: "#f59e0b"
+icon: chip
+title_i18n: area.android-aosp.title
+title: "Android AOSP"
+tagline_i18n: area.android-aosp.tagline
+tagline: "Platform-level Android: system services, device bring-up, and hardware integration."
+hero_metric: metric.years
+sections: [summary, competencies, experience, projects, skills, education, publications]
+keywords:
+  - "AOSP"
+  - "Android platform"
+  - "system services"
+  - "HAL"
+  - "Binder"
+  - "AIDL"
+  - "SELinux"
+  - "device tree"
+  - "ADB"
+  - "fastboot"
+  - "C++"
+  - "Java"
+  - "Kotlin"
+  - "hardware integration"
+competencies:
+  - comp.android
+  - comp.backend
+  - comp.infra
+  - comp.qa
+  - comp.data
+emphasis:
+  - comp.android
+  - comp.infra
+projects:
+  - proj.helixqa
+  - proj.visionengine
+  - proj.helixconstitution
+experience:
+  - exp.leica
+  - exp.bosch
+  - exp.harness
+cover_letter:
+  angle: "AOSP work where the hardware is the requirement"
+  opening_i18n: cl.open.aosp
+  opening: "Platform-level Android: system services, device bring-up, and hardware integration."
+  project_ids:
+    - proj.helixqa
+    - proj.visionengine
+    - proj.helixconstitution
+  closing_i18n: cl.close.android-aosp
+  closing: "I would welcome the chance to bring that combination to your team."

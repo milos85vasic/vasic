@@ -9,7 +9,7 @@
 //     milosvasic.ru   → TERMINAL BRUTALIST re-style (Anton display font)
 //
 // Override targets (e.g. staging) with env vars:
-//     VASIC_BASE=https://staging.vasic.digital  MILOS_BASE=...
+//     VASIC_BASE=https://staging.digital.vasic.dev  MILOS_BASE=...
 //
 // Run:  npx playwright test v170-fixes.spec.js --config=playwright.live.config.js
 //
@@ -29,7 +29,7 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs');
 
-const VASIC = (process.env.VASIC_BASE || 'https://vasic.digital').replace(/\/$/, '');
+const VASIC = (process.env.VASIC_BASE || 'https://digital.vasic.dev').replace(/\/$/, '');
 const MILOS = (process.env.MILOS_BASE || 'https://milosvasic.ru').replace(/\/$/, '');
 
 // --- script detectors ---------------------------------------------------------

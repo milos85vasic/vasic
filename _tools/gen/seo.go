@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -282,8 +283,9 @@ func (site *Site) softwareApplicationNodeLang(e *PortfolioEntry, lang string, de
 // disk are listed, so no <loc> 404s. Called on every full build (see main), so the
 // last localized run refreshes the sitemap with the complete multilingual set.
 func writeSitemapRobots(site *Site, out string) error {
-	type smURL struct{ loc, mod string }
+	type smURL struct{ loc, mod, rel string }
 	var urls []smURL
+	gitMods := gitLastModDates(out)
 	err := filepath.Walk(out, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -323,6 +325,15 @@ func writeSitemapRobots(site *Site, out string) error {
 			// milosvasic.ru carries the same defect one stage earlier: its
 			// loader survives and is still document-relative, so it would 404 on
 			// 524 of its 525 pages if any page still emitted a trigger. None does.
+			// Private/noindex areas never enter the sitemap (see sitemapDisallow).
+			if r, rerr := filepath.Rel(out, path); rerr == nil {
+				rs := filepath.ToSlash(r)
+				for _, d := range sitemapDisallow {
+					if rs == strings.Trim(d, "/") {
+						return filepath.SkipDir
+					}
+				}
+			}
 			if base == "assets" || base == "articles" || base == "_site" ||
 				strings.HasPrefix(base, ".") || strings.HasPrefix(base, "_") {
 				return filepath.SkipDir
@@ -340,6 +351,7 @@ func writeSitemapRobots(site *Site, out string) error {
 			return err
 		}
 		rel = filepath.ToSlash(rel)
+		relFile := rel
 		// Pretty-URL the index files.
 		switch {
 		case rel == "index.html":
@@ -349,7 +361,16 @@ func writeSitemapRobots(site *Site, out string) error {
 		}
 		// <lastmod> = generation date of the file (day granularity keeps churn low
 		// while honestly reflecting the last content refresh).
-		urls = append(urls, smURL{site.URL(rel), info.ModTime().UTC().Format("2006-01-02")})
+		// Deterministic source: the file's last git commit date (identical across
+		// checkouts); mtime only for files git does not know (untracked/no repo).
+		mod, ok := gitMods[relFile]
+		if !ok {
+			// NON-DETERMINISTIC fallback: mtime differs across checkouts, so a
+			// sitemap built from untracked files is not reproducible. Tracked
+			// files never reach this branch.
+			mod = info.ModTime().UTC().Format("2006-01-02")
+		}
+		urls = append(urls, smURL{site.URL(rel), mod, rel})
 		return nil
 	})
 	if err != nil {
@@ -357,17 +378,172 @@ func writeSitemapRobots(site *Site, out string) error {
 	}
 	sort.Slice(urls, func(i, j int) bool { return urls[i].loc < urls[j].loc })
 
+	alts := make([][]string, len(urls))
+	anyAlt := false
+	for i, u := range urls {
+		alts[i] = expertiseAlternates(site, out, u.rel)
+		if len(alts[i]) > 0 {
+			anyAlt = true
+		}
+	}
+
 	var b strings.Builder
 	b.WriteString(`<?xml version="1.0" encoding="UTF-8"?>` + "\n")
-	b.WriteString(`<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">` + "\n")
-	for _, u := range urls {
-		fmt.Fprintf(&b, "  <url><loc>%s</loc><lastmod>%s</lastmod></url>\n", esc(u.loc), u.mod)
+	if anyAlt {
+		b.WriteString(`<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">` + "\n")
+	} else {
+		b.WriteString(`<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">` + "\n")
+	}
+	for i, u := range urls {
+		if len(alts[i]) == 0 {
+			fmt.Fprintf(&b, "  <url><loc>%s</loc><lastmod>%s</lastmod></url>\n", esc(u.loc), u.mod)
+			continue
+		}
+		fmt.Fprintf(&b, "  <url>\n    <loc>%s</loc>\n    <lastmod>%s</lastmod>\n", esc(u.loc), u.mod)
+		for _, l := range alts[i] {
+			b.WriteString("    " + l + "\n")
+		}
+		b.WriteString("  </url>\n")
 	}
 	b.WriteString(`</urlset>` + "\n")
 	if err := writeFile(filepath.Join(out, "sitemap.xml"), b.String()); err != nil {
 		return err
 	}
 
-	robots := "User-agent: *\nAllow: /\n\nSitemap: " + site.URL("sitemap.xml") + "\n"
+	// Generation-time invariant: an area id equal to a locale code would make
+	// /expertise/<id>/ ambiguous between a localized hub and an area page.
+	if c := expertiseAreaLocaleCollisions(out); len(c) > 0 {
+		return fmt.Errorf("seo: expertise area id collides with locale code: %v", c)
+	}
+
+	// Trade-off: robots.txt Disallow stops crawling, so a crawler never SEES a
+	// page-level noindex on these paths; a disallowed URL can still be indexed
+	// URL-only if linked externally. Acceptable here because /admin/ and the
+	// vault are not linked publicly and are kept out of the sitemap; noindex
+	// alone would expose their content to fetching.
+	robots := "User-agent: *\nAllow: /\n"
+	for _, d := range sitemapDisallow {
+		robots += "Disallow: " + d + "\n"
+	}
+	robots += "\nSitemap: " + site.URL("sitemap.xml") + "\n"
 	return writeFile(filepath.Join(out, "robots.txt"), robots)
+}
+
+// sitemapDisallow lists site-relative directories that are neither sitemapped
+// nor crawlable: the admin console says it is "not indexed" and the vault holds
+// private downloads. Emitted verbatim as robots.txt Disallow lines.
+var sitemapDisallow = []string{"/admin/", "/downloads/vault/"}
+
+// gitLastModDates maps out-relative file paths to the committer date (YYYY-MM-DD,
+// UTC) of the last commit touching them. Returns an empty map when out is not in
+// a git work tree or git is unavailable; callers then fall back to mtime.
+func gitLastModDates(out string) map[string]string {
+	m := map[string]string{}
+	cmd := exec.Command("git", "-c", "core.quotepath=false", "-C", out, "log", "--format=@%cd", "--date=format-local:%Y-%m-%d", "--name-only", "--relative", "--", ".")
+	cmd.Env = append(os.Environ(), "TZ=UTC")
+	b, err := cmd.Output()
+	if err != nil {
+		return m
+	}
+	cur := ""
+	for _, line := range strings.Split(string(b), "\n") {
+		switch {
+		case strings.HasPrefix(line, "@"):
+			cur = line[1:]
+		case line != "" && cur != "":
+			if _, seen := m[line]; !seen { // log is newest-first
+				m[line] = cur
+			}
+		}
+	}
+	return m
+}
+
+// expertiseAreaLocaleCollisions returns locale codes under out/expertise/ that
+// are really area directories: a real localized hub holds no locale-named
+// subdirectories, an area does (its per-locale pages).
+func expertiseAreaLocaleCollisions(out string) []string {
+	var bad []string
+	for _, l := range expertiseLocales {
+		if l == "en" {
+			continue
+		}
+		for _, m := range expertiseLocales {
+			if m == "en" {
+				continue
+			}
+			if st, err := os.Stat(filepath.Join(out, "expertise", l, m)); err == nil && st.IsDir() {
+				bad = append(bad, l)
+				break
+			}
+		}
+	}
+	return bad
+}
+
+// expertiseLocales is the locale set of the /expertise/ pages, in the order the
+// page generator (_tools/career/catalog.py LOCALES) publishes them. Scheme
+// (_tools/career/expertise_pages.py hub_paths): EN hub /expertise/, EN area
+// /expertise/<area>/, localized hub /expertise/<lang>/, localized area
+// /expertise/<area>/<lang>/; x-default is the EN page. Only /expertise/ has
+// this scheme; no other page gets sitemap alternates.
+var expertiseLocales = []string{"en", "sr", "ru", "de", "es", "fr", "be", "zh", "kk", "hi", "ja", "ko", "ar", "tr", "fa"}
+
+// expertiseAlternates returns the <xhtml:link> lines for the sitemap entry at
+// site-relative path rel (pretty-URL form, e.g. "expertise/go/ru/"), or nil if
+// rel is not an expertise page. An alternate is emitted only when its
+// index.html exists under out, so the sitemap never lists a 404.
+func expertiseAlternates(site *Site, out, rel string) []string {
+	if !strings.HasPrefix(rel, "expertise/") || !strings.HasSuffix(rel, "/") {
+		return nil
+	}
+	isLoc := func(x string) bool {
+		for _, l := range expertiseLocales {
+			if l == x && x != "en" {
+				return true
+			}
+		}
+		return false
+	}
+	parts := strings.Split(strings.Trim(rel, "/"), "/")[1:] // after "expertise"
+	area := ""
+	switch len(parts) {
+	case 0: // EN hub
+	case 1:
+		if !isLoc(parts[0]) {
+			area = parts[0]
+		}
+	case 2:
+		if !isLoc(parts[1]) {
+			return nil
+		}
+		area = parts[0]
+	default:
+		return nil
+	}
+	prefix := "expertise/"
+	if area != "" {
+		prefix += area + "/"
+	}
+	exists := func(p string) bool {
+		st, err := os.Stat(filepath.Join(out, filepath.FromSlash(p), "index.html"))
+		return err == nil && !st.IsDir()
+	}
+	var links []string
+	mk := func(code, p string) string {
+		return fmt.Sprintf(`<xhtml:link rel="alternate" hreflang="%s" href="%s"/>`, code, esc(site.URL(p)))
+	}
+	for _, l := range expertiseLocales {
+		p := prefix
+		if l != "en" {
+			p += l + "/"
+		}
+		if exists(p) {
+			links = append(links, mk(l, p))
+		}
+	}
+	if len(links) > 0 && exists(prefix) {
+		links = append(links, mk("x-default", prefix))
+	}
+	return links
 }

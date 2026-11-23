@@ -1,0 +1,26 @@
+verify-live-site  base=http://127.0.0.1:18433  at=2026-11-23T22:40:03Z  took=5.6s
+sitemap URLs: 690   pages HTTP 200: 690/690   resources checked: 58 (non-200: 0)
+FAILED assertions: 0   UNDETERMINED: 0
+baseline docs/qa/live-site/baseline-live-2026-11-23.json: regressions=0 new_paths=176
+    + new: /assets/og/ai-engineering.png
+    + new: /assets/og/android-aosp.png
+    + new: /assets/og/android-tv.png
+    + new: /assets/og/android.png
+    + new: /assets/og/desktop.png
+    + new: /assets/og/expertise.png
+    + new: /assets/og/flutter.png
+    + new: /assets/og/go.png
+    + new: /assets/og/mobile.png
+    + new: /assets/og/react-native.png
+    + new: /assets/og/web-frontend.png
+    + new: /expertise/
+    + new: /expertise/ai-engineering/
+    + new: /expertise/ai-engineering/ar/
+    + new: /expertise/ai-engineering/be/
+    + new: /expertise/ai-engineering/de/
+    + new: /expertise/ai-engineering/es/
+    + new: /expertise/ai-engineering/fa/
+    + new: /expertise/ai-engineering/fr/
+    + new: /expertise/ai-engineering/hi/
+VERDICT: PASS (rc 0)
+report sha256: 7fa8f54979bc17a291d1dba0f9ef48718d42f2fdc24a41cb42ec6657d0fa48c0

@@ -1,0 +1,214 @@
+dir: ltr
+name: Беларуская
+months:
+- сту
+- лют
+- сак
+- кра
+- тра
+- чэр
+- ліп
+- жні
+- вер
+- кас
+- ліс
+- сне
+date:
+  month_year: '{month} {year}'
+  range: '{start} – {end}'
+identical_ok:
+  area.android-aosp.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "e8bb477f057587da"
+  area.android-tv.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "f73ea1e2323972cb"
+  area.flutter.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "c903759742b75021"
+  area.react-native.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "1cd07be18aed5105"
+  comp.backend.item1:
+    reason: "technology and protocol names only; nothing to translate"
+    en_sha: "603c4aa5c8187b1e"
+  comp.frontend.item1:
+    reason: "technology and protocol names only; nothing to translate"
+    en_sha: "2993ab3641267f70"
+  pub.fundamentalkotlin.title:
+    reason: "published book title, kept verbatim in its original form"
+    en_sha: "c5aabded9446aaf6"
+strings:
+  area.ai-engineering.tagline: Інфраструктура LLM, аўтаномныя агенты і кіраванне, дзякуючы якому ім можна давяраць.
+  area.ai-engineering.title: Інжынерыя ШІ
+  area.android-aosp.tagline: 'Android на ўзроўні платформы: сістэмныя сэрвісы, запуск прылад і інтэграцыя з абсталяваннем.'
+  area.android-aosp.title: Android AOSP
+  area.android-tv.tagline: Інтэрфейсы для вялікага экрана, Leanback, медыяканвееры і праверка на ферме прылад.
+  area.android-tv.title: Android TV
+  area.android.tagline: Kotlin і Java ў прадуктавым маштабе — SDK, інтэграцыя з абсталяваннем і рэліз-інжынерыя.
+  area.android.title: Android-распрацоўка
+  area.desktop.tagline: Electron і Tauri, натыўныя масты і дэсктопныя прадукты з падтрымкай працы без сеткі.
+  area.desktop.title: Распрацоўка дэсктопных праграм
+  area.flutter.tagline: Dart на ўзроўні SDK — архітэктура плагінаў, платформенныя каналы і апублікаваныя пакеты.
+  area.flutter.title: Flutter
+  area.go.tagline: Высокапрадукцыйныя сэрвісы, размеркаваныя сістэмы і бібліятэкі, з якіх яны збіраюцца.
+  area.go.title: Go і backend
+  area.mobile.tagline: Натыўная і кросплатформенная распрацоўка для Android, iOS, Flutter і React Native.
+  area.mobile.title: Мабільная распрацоўка
+  area.react-native.tagline: TypeScript праз мост — натыўныя модулі, пакеты SDK і аўтаматызацыя рэлізаў.
+  area.react-native.title: React Native
+  area.web-frontend.tagline: TypeScript, React і Angular — дызайн-сістэмы, даступнасць і бюджэты прадукцыйнасці.
+  area.web-frontend.title: Вэб і frontend
+  cl.close.ai-engineering: Буду рады прапанаваць вашай камандзе гэтае спалучэнне кампетэнцый.
+  cl.close.android: Буду рады прапанаваць вашай камандзе гэтае спалучэнне кампетэнцый.
+  cl.close.android-aosp: Буду рады прапанаваць вашай камандзе гэтае спалучэнне кампетэнцый.
+  cl.close.android-tv: Буду рады прапанаваць вашай камандзе гэтае спалучэнне кампетэнцый.
+  cl.close.desktop: Буду рады прапанаваць вашай камандзе гэтае спалучэнне кампетэнцый.
+  cl.close.flutter: Буду рады прапанаваць вашай камандзе гэтае спалучэнне кампетэнцый.
+  cl.close.go: Буду рады прапанаваць вашай камандзе гэтае спалучэнне кампетэнцый.
+  cl.close.mobile: Буду рады прапанаваць вашай камандзе гэтае спалучэнне кампетэнцый.
+  cl.close.react-native: Буду рады прапанаваць вашай камандзе гэтае спалучэнне кампетэнцый.
+  cl.close.web-frontend: Буду рады прапанаваць вашай камандзе гэтае спалучэнне кампетэнцый.
+  cl.open.ai: Інфраструктура LLM, аўтаномныя агенты і кіраванне, дзякуючы якому ім можна давяраць.
+  cl.open.android: Kotlin і Java ў прадуктавым маштабе — SDK, інтэграцыя з абсталяваннем і рэліз-інжынерыя.
+  cl.open.androidtv: Інтэрфейсы для вялікага экрана, Leanback, медыяканвееры і праверка на ферме прылад.
+  cl.open.aosp: 'Android на ўзроўні платформы: сістэмныя сэрвісы, запуск прылад і інтэграцыя з абсталяваннем.'
+  cl.open.desktop: Electron і Tauri, натыўныя масты і дэсктопныя прадукты з падтрымкай працы без сеткі.
+  cl.open.flutter: Dart на ўзроўні SDK — архітэктура плагінаў, платформенныя каналы і апублікаваныя пакеты.
+  cl.open.go: Высокапрадукцыйныя сэрвісы, размеркаваныя сістэмы і бібліятэкі, з якіх яны збіраюцца.
+  cl.open.mobile: Натыўная і кросплатформенная распрацоўка для Android, iOS, Flutter і React Native.
+  cl.open.reactnative: TypeScript праз мост — натыўныя модулі, пакеты SDK і аўтаматызацыя рэлізаў.
+  cl.open.web: TypeScript, React і Angular — дызайн-сістэмы, даступнасць і бюджэты прадукцыйнасці.
+  comp.ai.label: Сістэмы ШІ і LLM
+  comp.android.label: Android і Android TV
+  comp.backend.label: Backend-распрацоўка
+  comp.cross.label: Кросплатформенныя і мабільныя SDK
+  comp.data.label: Даныя
+  comp.frontend.label: Frontend і дэсктоп
+  comp.gov.label: Інжынернае кіраванне
+  comp.infra.label: Інфраструктура і DevOps
+  comp.qa.label: QA і забеспячэнне якасці
+  comp.ai.item1: Абстракцыя LLM для многіх правайдэраў (40+ правайдэраў), інтэграцыя інструментаў MCP, RAG, вектарныя базы даных і эмбедынгі
+  comp.ai.item2: Аркестрацыя агентаў — headless CLI-агенты, графавыя працоўныя працэсы, шматраундавыя дэбаты і кансенсус
+  comp.ai.item3: Планаванне (HiPlan / MCTS / Tree-of-Thoughts), LLMOps, бенчмаркінг (SWE-bench, HumanEval, MMLU)
+  comp.ai.item4: Верыфікацыя LLM, абарончыя guardrails для LLM, камп’ютарны зрок і LLM-зрок
+  comp.backend.item1: Go (Gin), gRPC + Protobuf, HTTP/3 (QUIC), WebSockets
+  comp.backend.item2: Размеркаваныя сістэмы, уключаючы фармальныя спецыфікацыі на TLA+
+  comp.backend.item3: Высокапрадукцыйныя REST-сэрвісы і паралельныя воркеры
+  comp.data.item1: PostgreSQL, SQLite, SQLCipher (шыфраванне захаваных даных), Redis, Neo4j, ClickHouse
+  comp.data.item2: Аб’ектнае сховішча — MinIO, S3, GCS, Azure Blob
+  comp.android.item1: Kotlin і Java на Android, Android TV і AOSP; Jetpack Compose, Leanback, ExoPlayer
+  comp.android.item2: Інтэграцыя з абсталяваннем у рэжыме рэальнага часу — Bluetooth, OBD2, 3D-сканеры, канвееры даных датчыкаў
+  comp.android.item3: Праектаванне SDK, інжынерыя зборкі Gradle, тэсціраванне прылад праз ADB, аўтаматызацыя рэлізаў
+  comp.cross.item1: Flutter/Dart і React Native на ўзроўні SDK — апублікаваныя пакеты, якімі карыстаюцца AWS, Google і банкі
+  comp.cross.item2: Kotlin Multiplatform і агульная бізнес-логіка для Android і iOS
+  comp.cross.item3: iOS на Swift; натыўныя масты і платформенныя каналы
+  comp.frontend.item1: TypeScript/React (Tailwind, Redux Toolkit, i18next), Angular
+  comp.frontend.item2: Дэсктопныя праграмы на Electron і Tauri/Rust
+  comp.frontend.item3: Даступнасць (WCAG 2.2 AA), бюджэты прадукцыйнасці, дызайн-сістэмы
+  comp.infra.item1: Docker і Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry
+  comp.infra.item2: QEMU, Libvirt, Parallels; інструменты для вобразаў віртуальных машын і іх канфігураванне
+  comp.infra.item3: CI/CD праз GitHub Actions, Gradle і Make
+  comp.qa.item1: Anti-bluff QA з абавязковым пацверджаннем доказамі (HelixQA); challenge-харнэсы з мутацыйнымі шлюзамі
+  comp.qa.item2: go test -race, візуальна-рэгрэсійнае тэсціраванне, тэсціраванне прылад праз ADB
+  comp.qa.item3: SonarQube і сканаванне бяспекі — Semgrep, gosec, Trivy, Snyk, Gitleaks, Nancy
+  comp.gov.item1: Канстытуцыя як Git-падмодуль з наследаваннем і шлюзамі распаўсюджвання
+  comp.gov.item2: Дысцыпліна дакументацыі і пакрыцця тэстамі у парку з больш чым 140 рэпазіторыяў
+  edu.bsc.degree: Бакалаўр, інфарматыка і вылічальная тэхніка
+  edu.bsc.location: Бялград, Сербія
+  edu.msc.degree: Магістр, сучасныя інфармацыйныя тэхналогіі
+  edu.msc.location: Бялград, Сербія
+  exp.bosch.b1: Узначальваў распрацоўку SDK для Connected Vehicles, які ў рэжыме рэальнага часу абменьваўся данымі з шынай OBD2 праз Bluetooth
+  exp.bosch.b2: Распрацаваў высокапрадукцыйныя механізмы разбору, буферызацыі і захавання бесперапыннай тэлеметрыі аўтамабіляў
+  exp.bosch.b3: Выпусціў SDK, якім карысталіся ў інтэграцыях з аўтамабільнымі партнёрамі
+  exp.bosch.location: Бялград, Сербія
+  exp.bosch.role: SDK-распрацоўшчык
+  exp.bosch.summary: Вядучы распрацоўшчык SDK для Connected Vehicles — сувязь з шынай OBD2 праз Bluetooth у рэжыме рэальнага часу, высокапрадукцыйная апрацоўка і захаванне даных.
+  exp.harness.b1: Узначальваў сямейства SDK для падраздзялення Feature Flag — Android, iOS, Flutter, React Native і серверныя асяроддзі выканання
+  exp.harness.b2: Выпусціў SDK, якімі карысталіся AWS, Google і банкаўскія партнёры, з агульным рухавіком ацэнкі флагаў і ідыяматычнымі API для кожнай платформы
+  exp.harness.b3: Адказваў за рэліз-інжынерыю для сямі моў праграмавання і чатырох экасістэм пакетаў
+  exp.harness.location: Бялград, Сербія
+  exp.harness.role: SDK-распрацоўшчык
+  exp.harness.summary: Вядучы распрацоўшчык сямейства SDK для падраздзялення Feature Flag, арыентаванага на ўсе асноўныя мабільныя платформы і не толькі. Сярод кліентаў і партнёраў — AWS, Google і розныя банкі.
+  exp.increment.b1: Распрацаваў Android-праграму Yuno на Kotlin
+  exp.increment.location: Бялград, Сербія
+  exp.increment.role: Інжынер-праграміст (кантракт)
+  exp.increment.summary: Праграма Yuno — Android, Kotlin.
+  exp.leica.b1: Рэалізаваў сувязь у рэжыме рэальнага часу з 3D-сканерамі праз Bluetooth і Wi-Fi
+  exp.leica.b2: Спраектаваў апрацоўку даных на прыладзе і канвееры сінхранізацыі для вялікіх аб’ёмаў хмар кропак
+  exp.leica.b3: Выканаў інтэграцыю з партнёрам Autodesk у кліентах для Android і iOS
+  exp.leica.location: Хербруг, Швейцарыя
+  exp.leica.role: Інжынер-праграміст
+  exp.leica.summary: 'Распрацоўка iOS- і Android-праграм для 3D-сканераў Leica Geosystems — сувязь з абсталяваннем у рэжыме рэальнага часу, апрацоўка і сінхранізацыя даных. Партнёр: Autodesk.'
+  exp.tntech.b1: Выпусціў кліенты для бяспечных паведамленняў, пошты і пакета праграм Globex Data на Android і дэсктопе
+  exp.tntech.b2: Распрацаваў мабільны кліент платформы BusRide
+  exp.tntech.location: Нові-Сад, Сербія
+  exp.tntech.role: Інжынер-праграміст (кантракт)
+  exp.tntech.summary: Праца для Globex Data (Канада і Швейцарыя) над Sekur — SekurMessenger, SekurMail, SekurSuite — і над платформай BusRide.
+  identity.headline: Інжынер ШІ — інфраструктура LLM, аўтаномныя агенты і кіраванне, дзякуючы якому ім можна давяраць
+  identity.location: Бялград, Сербія · Дыстанцыйна (ЕС)
+  identity.role: Інжынер ШІ / распрацоўшчык праграмнага забеспячэння
+  label.competencies: Ключавыя кампетэнцыі
+  label.cover.date: Дата
+  label.cover.encl: 'Дадатак: жыццёпіс'
+  label.cover.regards: З павагай
+  label.cover.subject: Заява на вакансію
+  label.cover.to: Каму
+  label.education: Адукацыя
+  label.experience: Досвед працы
+  label.keywords: Ключавыя словы
+  label.languages: Валоданне мовамі
+  label.present: па цяперашні час
+  label.projects: Абраныя праекты
+  label.publications: Публікацыі
+  label.skills: Тэхнічныя навыкі
+  label.summary: Профіль
+  label.tech: Стэк
+  lang.de: Нямецкая
+  lang.de.level: Базавы ўзровень
+  lang.en: Англійская
+  lang.en.level: Прафесійны ўзровень (C1/C2)
+  lang.ru: Руская
+  lang.ru.level: Прафесійны рабочы ўзровень
+  lang.sr: Сербская
+  lang.sr.level: Родная
+  metric.locales.label: моў, на якіх апублікаваны гэты сайт
+  metric.products.label: прадуктаў, пацверджаных доказамі
+  metric.providers.label: правайдэраў LLM за адзіным інтэрфейсам
+  metric.repos.label: рэпазіторыяў пад адной канстытуцыяй
+  metric.years.label: гадоў выпуску праграмнага забеспячэння
+  proj.catalogizer.blurb: Шматпратакольнае, зашыфраванае кіраванне медыякалекцыяй з магчымасцю самастойнага разгортвання (Go/Gin + React), устойлівае да збояў сеткавых сховішчаў і пабудаванае на 21 падмодулі шматразовага выкарыстання.
+  proj.coursescreator.blurb: Канвеер ШІ-курсаў з Markdown у відэа з TTS і прайгравальнікамі для дэсктопа, мабільных прылад і вэбу.
+  proj.helixagent.blurb: 'Прамысловы ансамблевы сэрвіс LLM, які не давярае адной модэлі: ён накіроўвае запыт многім правайдэрам, праводзіць структураваныя шматраундавыя дэбаты (Proposal → Critique → Review → Synthesis) і маршрутызуе па выніках жывой верыфікацыі з плаўным пераключэннем на рэзервовыя варыянты — праз API, сумяшчальны з OpenAI, з высокадаступным слоем даных, назіральнасцю і guardrails.'
+  proj.helixcode.blurb: Размеркаваная платформа распрацоўкі з ШІ, якая дзеліць працу на задачы з улікам залежнасцей паміж воркерамі, якімі кіруюць праз SSH, а затым стварае кантрольныя кропкі і выконвае адкат, каб нічога не губілася пры перапыненні задачы, — з выбарам мадэлі з улікам абсталявання і поўным цыклам plan/build/test/refactor праз REST, CLI, TUI і MCP.
+  proj.helixconstitution.blurb: Універсальны збор інжынерных правіл, які распаўсюджваецца як Git-падмодуль і наследуецца больш чым 140 рэпазіторыямі — інжынернае права, якое выпускаецца і фіксуецца па версіях гэтак жа, як код. Шлюзы распаўсюджвання (propagation gates) правяраюць у кожным рэпазіторыі наяўнасць абавязковых палажэнняў, а кожная такая праверка спалучана з мутацыйным метатэстам, які даказвае, што сама яна не фікцыя.
+  proj.helixllm.blurb: 'Адзін бінарны файл, шэсць рэжымаў разгортвання: інферэнс, сумяшчальны з OpenAI і Anthropic, праз HTTP/3, які маштабуецца ад наўтбука да кластара з некалькіх хастоў, з лакальным інферэнсам на llama.cpp (CUDA/Metal/ROCm) і ланцужком аблачных рэзервовых варыянтаў з аўтавыяўленнем і ацэнкай па выніках верыфікацыі, які ў выніку заўсёды вяртаецца да гарантавана даступнай лакальнай мадэлі.'
+  proj.helixmemory.blurb: Адзіны механізм кагнітыўнай памяці, які аб’ядноўвае чатыры лепшыя ў сваім класе backend-сістэмы — Mem0, Cognee, Letta, Graphiti — за адзіным інтэрфейсам з паралельным пошукам і пераранжыраваннем вынікаў з розных крыніц.
+  proj.helixqa.blurb: 'Anti-bluff QA-аркестрацыя на Go, пабудаваная на адным правіле: мерка — не «тэсты праходзяць», а «карыстальнікі могуць карыстацца функцыяй». Яна запускае напісаныя YAML-наборы тэстаў і цалкам аўтаномныя сесіі на аснове LLM і камп’ютарнага зроку, якія адкрываюць сапраўдную праграму, правяраюць кожную задакументаваную функцыю, шукаюць недакументаваныя памылкі ў Android, Android TV, Web і Desktop і адмаўляюцца ставіць PASS без зафіксаваных доказаў працы падчас выканання і без заявак, гатовых да выпраўлення ШІ.'
+  proj.helixspecifier.blurb: Рухавік распрацоўкі на аснове спецыфікацый, які падганяе ўласны працэс пад памер задачы і падмацоўвае спецыфікацыі шматагентнымі дэбатамі.
+  proj.helixtrack.blurb: 'Альтэрнатыва JIRA + Confluence для свабоднага свету: мікрасэрвісы на Go за адзіным API з маршрутызацыяй па дзеяннях праз HTTP/3, шыфраванне захаваных даных (SQLCipher) і натыўныя кліенты для Web, Desktop, Android і iOS.'
+  proj.llmorchestrator.blurb: Патокабяспечная плоскасць кіравання (control plane), якая запускае і вядзе headless CLI-агентаў — OpenCode, Claude Code, Gemini, Junie, Qwen Code — праз гібрыдны пратакол на аснове каналаў і файлаў.
+  proj.llmprovider.blurb: Адзіны інтэрфейс для 43 правайдэраў з circuit breaker, маніторынгам стану, паўторамі са зменнай затрымкай (jitter) і сумленным выяўленнем мадэляў без жорстка прапісаных рэзервовых варыянтаў.
+  proj.llmsverifier.blurb: Крыніца ісціны для верыфікацыі, абавязковая праверка якой «Ці бачыш ты мой код?» гарантуе, што працоўнымі або даступнымі для экспарту лічацца толькі мадэлі, якія сапраўды даказалі сваю працаздольнасць.
+  proj.mailserverfactory.blurb: Дэкларатыўны JSON, з якога ствараюцца цалкам канфігураваныя паштовыя серверы ў Docker для 12 тыпаў злучэння і 25 дыстрыбутываў Linux; паведамляецца пра 439 пройдзеных тэстаў і чыстую праверку SonarQube.
+  proj.serverfactorycore.blurb: Агульны рухавік разгортвання і інструменты для вобразаў віртуальных машын, на якіх трымаецца лінейка Server Factory, — драйверы QEMU, Libvirt і Parallels у межах адзінага фрэймворка.
+  proj.visionengine.blurb: Камп’ютарны зрок і ўспрыманне UI праз LLM-зрок некалькіх правайдэраў з навігацыйнымі графамі.
+  pub.fundamentalkotlin.detail: Аўтар, які выдае кнігу самастойна; апошняя перагледжаная рэдакцыя — верасень 2022 года (3-е выданне). Таксама пісаў для выдавецтва Packt Publishing (Вялікабрытанія).
+  pub.fundamentalkotlin.title: Fundamental Kotlin
+  skills.ai: ШІ і LLM
+  skills.backend: Backend і пратаколы
+  skills.data: Даныя
+  skills.frontend: Frontend і дэсктоп
+  skills.infra: Інфраструктура і DevOps
+  skills.languages: Мовы праграмавання
+  summary.body: 'Больш за 16 гадоў прафесійнай распрацоўкі — ад мабільных SDK і інтэграцыі з абсталяваннем у рэжыме рэальнага часу да размеркаваных backend-сістэм — сышліся ў адным фокусе: зрабіць аўтаномную распрацоўку з ШІ надзейнай у вялікім маштабе. Я праектую экасістэмы, а не маналіты — буйныя прадуктавыя праграмы, што стаяць на дзясятках невялікіх, слаба звязаных і незалежна пратэставаных модуляў, кожны з якіх наследуе агульную інжынерную Канстытуцыю і правяраецца дысцыплінай QA з патрабаваннем доказаў і прынцыпам anti-bluff.'
+  summary.lead: Інжынер ШІ і праграмнага забеспячэння, які будуе сістэмы распрацоўкі на аснове ШІ ад пачатку да канца — ад інфраструктуры LLM для некалькіх правайдэраў і аўтаномных агентаў да слаёў QA і кіравання, якія забяспечваюць іх сумленную працу. Я не выпускаю дэманстрацыі — я выпускаю платформы.
+  summary.value: 'Што я прыношу: здольнасць давесці магчымасць ШІ ад даследчай ідэі да кіраванай, самаправяральнай сістэмы прамысловага ўзроўню — маршрутызацыя LLM, якая даказвае працаздольнасць кожнай мадэлі, перш чым ёй давяраць; агенты, што дэбатуюць і прыходзяць да кансенсусу, а не гадаюць; пласты памяці і RAG, якія не губляюць кантэкст; і ўся экасістэма, пабудаваная так, каб «тэсты зялёныя» ніколі моўчкі не азначала «функцыя зламаная».'
+  tmpl.cl.emphasis: У гэтых праектах мой фокус — {list}, і тая самая дысцыпліна суправаджае ўсё, што я выпускаю.
+  tmpl.cl.project: '{blurb} Стэк: {tech}.'
+  tmpl.cl.salutation: Паважаная каманда па падборы персаналу,
+  tmpl.cl.subject: Заява на вакансію — {area}
+  tmpl.cl.title: '{name} — {area} — Суправаджальны ліст'
+  tmpl.cv.keywords: 'Ключавыя словы: {list}'
+  tmpl.cv.tech: 'Стэк: {tech}'
+  tmpl.cv.title: '{name} — {area} — Жыццёпіс'

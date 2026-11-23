@@ -20,7 +20,7 @@ note: General-purpose letter — no employer, project outcome, or metric is fabr
 
 من الناحية التقنية، أعمل بشكل رئيسي بلغة Go، مع Kotlin/KMP وTypeScript/React وPython وSwift وShell، عبر خدمات REST/gRPC/HTTP/3، وطبقات البيانات PostgreSQL/SQLite/Redis/ClickHouse، وعمليات Docker/Kubernetes/Prometheus. أستطيع تحمل مسؤولية النظام بالكامل، بدءًا من تجريد المزود واسترجاع البيانات وصولًا إلى سلسلة الأدلة التي تثبت عمله.
 
-سأكون سعيدًا بفرصة جلب هذا المزيج — هندسة أنظمة AI العميقة بالإضافة إلى التزام حقيقي وقابل للتحقق بجودة العمل — إلى فريقكم. شكرًا لاهتمامكم؛ يمكنكم الاطلاع على محفظتي ومستودعاتي العامة عبر milosvasic.ru وvasic.digital.
+سأكون سعيدًا بفرصة جلب هذا المزيج — هندسة أنظمة AI العميقة بالإضافة إلى التزام حقيقي وقابل للتحقق بجودة العمل — إلى فريقكم. شكرًا لاهتمامكم؛ يمكنكم الاطلاع على محفظتي ومستودعاتي العامة عبر milosvasic.ru وdigital.vasic.dev.
 
 مع خالص التقدير،
 Miloš Vasić

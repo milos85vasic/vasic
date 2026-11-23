@@ -1,5 +1,5 @@
 import { chromium } from 'playwright';
-const B = 'https://vasic.digital';
+const B = 'https://digital.vasic.dev';
 const browser = await chromium.launch({ headless: true });
 const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
 const page = await ctx.newPage();

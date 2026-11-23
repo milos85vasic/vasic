@@ -5,7 +5,7 @@ role: AI Engineer / Software Engineer
 contact:
   email: milos85vasic@gmail.com
   site: https://milosvasic.ru
-  company: https://vasic.digital
+  company: https://digital.vasic.dev
   github_orgs:
     - https://github.com/vasic-digital
     - https://github.com/HelixDevelopment
@@ -21,7 +21,7 @@ note: Skills and projects are evidence-based (repository READMEs + analysis). Ex
 **Інжынер — LLM-інфраструктура, аўтаномныя агенты і кіраванне, якое робіць іх надзейнымі.**
 
 - Email: milos85vasic@gmail.com
-- Вэб: https://milosvasic.ru · https://vasic.digital
+- Вэб: https://milosvasic.ru · https://digital.vasic.dev
 - GitHub: vasic-digital · HelixDevelopment · Server-Factory
 
 ---

@@ -1,0 +1,223 @@
+dir: ltr
+name: Deutsch
+months:
+- Jan.
+- Feb.
+- März
+- Apr.
+- Mai
+- Juni
+- Juli
+- Aug.
+- Sept.
+- Okt.
+- Nov.
+- Dez.
+date:
+  month_year: '{month} {year}'
+  range: '{start} – {end}'
+identical_ok:
+  area.android-aosp.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "e8bb477f057587da"
+  area.android-tv.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "f73ea1e2323972cb"
+  area.flutter.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "c903759742b75021"
+  area.go.title:
+    reason: "Go is a language name and Backend is standard German IT usage; the title reads naturally unchanged"
+    en_sha: "3247f6cbf96b26cf"
+  area.react-native.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "1cd07be18aed5105"
+  area.web-frontend.title:
+    reason: "Web and Frontend are standard German IT terms; the title reads naturally unchanged"
+    en_sha: "425d0c81afa38979"
+  comp.backend.item1:
+    reason: "technology and protocol names only; nothing to translate"
+    en_sha: "603c4aa5c8187b1e"
+  comp.frontend.item1:
+    reason: "technology and protocol names only; nothing to translate"
+    en_sha: "2993ab3641267f70"
+  exp.leica.role:
+    reason: "Software Engineer is the established German job title and matches exp.increment.role and exp.tntech.role"
+    en_sha: "6a50d1018d769001"
+  pub.fundamentalkotlin.title:
+    reason: "published book title, kept verbatim in its original form"
+    en_sha: "c5aabded9446aaf6"
+strings:
+  area.ai-engineering.tagline: LLM-Infrastruktur, autonome Agenten und die Governance, die sie vertrauenswürdig macht.
+  area.ai-engineering.title: KI-Engineering
+  area.android-aosp.tagline: 'Android auf Plattformebene: Systemdienste, Geräte-Bring-up und Hardware-Integration.'
+  area.android-aosp.title: Android AOSP
+  area.android-tv.tagline: 10-Foot-Oberflächen, Leanback, Medien-Pipelines und Verifikation auf Gerätefarmen.
+  area.android-tv.title: Android TV
+  area.android.tagline: Kotlin und Java im Produktionsmaßstab — SDKs, Hardware-Integration und Release-Engineering.
+  area.android.title: Android-Engineering
+  area.desktop.tagline: Electron und Tauri, native Bridges und Offline-first-Desktop-Produkte.
+  area.desktop.title: Desktop-Engineering
+  area.flutter.tagline: Dart auf SDK-Ebene — Plugin-Architektur, Platform Channels und ausgelieferte Pakete.
+  area.flutter.title: Flutter
+  area.go.tagline: Hochdurchsatz-Services, verteilte Systeme und die Bibliotheken, aus denen sie gebaut sind.
+  area.go.title: Go & Backend
+  area.mobile.tagline: Native und plattformübergreifende Auslieferung für Android, iOS, Flutter und React Native.
+  area.mobile.title: Mobile-Engineering
+  area.react-native.tagline: TypeScript über die Bridge hinweg — native Module, SDK-Pakete und Release-Automatisierung.
+  area.react-native.title: React Native
+  area.web-frontend.tagline: TypeScript, React und Angular — Designsysteme, Barrierefreiheit und Performance-Budgets.
+  area.web-frontend.title: Web & Frontend
+  cl.close.ai-engineering: Ich würde diese Kombination gern in Ihr Team einbringen.
+  cl.close.android: Ich würde diese Kombination gern in Ihr Team einbringen.
+  cl.close.android-aosp: Ich würde diese Kombination gern in Ihr Team einbringen.
+  cl.close.android-tv: Ich würde diese Kombination gern in Ihr Team einbringen.
+  cl.close.desktop: Ich würde diese Kombination gern in Ihr Team einbringen.
+  cl.close.flutter: Ich würde diese Kombination gern in Ihr Team einbringen.
+  cl.close.go: Ich würde diese Kombination gern in Ihr Team einbringen.
+  cl.close.mobile: Ich würde diese Kombination gern in Ihr Team einbringen.
+  cl.close.react-native: Ich würde diese Kombination gern in Ihr Team einbringen.
+  cl.close.web-frontend: Ich würde diese Kombination gern in Ihr Team einbringen.
+  cl.open.ai: LLM-Infrastruktur, autonome Agenten und die Governance, die sie vertrauenswürdig macht.
+  cl.open.android: Kotlin und Java im Produktionsmaßstab — SDKs, Hardware-Integration und Release-Engineering.
+  cl.open.androidtv: 10-Foot-Oberflächen, Leanback, Medien-Pipelines und Verifikation auf Gerätefarmen.
+  cl.open.aosp: 'Android auf Plattformebene: Systemdienste, Geräte-Bring-up und Hardware-Integration.'
+  cl.open.desktop: Electron und Tauri, native Bridges und Offline-first-Desktop-Produkte.
+  cl.open.flutter: Dart auf SDK-Ebene — Plugin-Architektur, Platform Channels und ausgelieferte Pakete.
+  cl.open.go: Hochdurchsatz-Services, verteilte Systeme und die Bibliotheken, aus denen sie gebaut sind.
+  cl.open.mobile: Native und plattformübergreifende Auslieferung für Android, iOS, Flutter und React Native.
+  cl.open.reactnative: TypeScript über die Bridge hinweg — native Module, SDK-Pakete und Release-Automatisierung.
+  cl.open.web: TypeScript, React und Angular — Designsysteme, Barrierefreiheit und Performance-Budgets.
+  comp.ai.label: KI- und LLM-Systeme
+  comp.ai.item1: Abstraktion über mehrere LLM-Anbieter (40+ Anbieter), MCP-Tool-Integration, RAG, Vektordatenbanken und Embeddings
+  comp.ai.item2: Agenten-Orchestrierung — Headless-CLI-Agenten, Graph-Workflows, mehrstufige Debatte und Konsensbildung
+  comp.ai.item3: Planung (HiPlan / MCTS / Tree-of-Thoughts), LLMOps, Benchmarking (SWE-bench, HumanEval, MMLU)
+  comp.ai.item4: LLM-Verifikation, defensive LLM-Guardrails, Computer Vision und LLM-Vision
+  comp.android.label: Android und Android TV
+  comp.android.item1: Kotlin und Java auf Android, Android TV und AOSP; Jetpack Compose, Leanback, ExoPlayer
+  comp.android.item2: Echtzeit-Hardware-Integration — Bluetooth, OBD2, 3D-Scanner, Sensor-Pipelines
+  comp.android.item3: SDK-Design, Gradle-Build-Engineering, ADB-Gerätetests, Release-Automatisierung
+  comp.backend.label: Backend-Engineering
+  comp.backend.item1: Go (Gin), gRPC + Protobuf, HTTP/3 (QUIC), WebSockets
+  comp.backend.item2: Verteilte Systeme, einschließlich formaler TLA+-Spezifikationen
+  comp.backend.item3: Hochdurchsatz-REST-Services und nebenläufige Worker
+  comp.cross.label: Plattformübergreifende und mobile SDKs
+  comp.cross.item1: Flutter/Dart und React Native auf SDK-Ebene — veröffentlichte Pakete, die von AWS, Google und Banken genutzt werden
+  comp.cross.item2: Kotlin Multiplatform und gemeinsame Geschäftslogik für Android und iOS
+  comp.cross.item3: iOS mit Swift; native Bridges und Platform Channels
+  comp.data.label: Daten
+  comp.data.item1: PostgreSQL, SQLite, SQLCipher (Verschlüsselung ruhender Daten), Redis, Neo4j, ClickHouse
+  comp.data.item2: Objektspeicher — MinIO, S3, GCS, Azure Blob
+  comp.frontend.label: Frontend und Desktop
+  comp.frontend.item1: TypeScript/React (Tailwind, Redux Toolkit, i18next), Angular
+  comp.frontend.item2: Desktop-Anwendungen mit Electron und Tauri/Rust
+  comp.frontend.item3: Barrierefreiheit (WCAG 2.2 AA), Performance-Budgets, Designsysteme
+  comp.gov.label: Engineering-Governance
+  comp.gov.item1: Verfassung (Constitution) als Git-Submodul mit Vererbung und Propagations-Gates
+  comp.gov.item2: Dokumentations- und Abdeckungsdisziplin über eine Flotte von mehr als 140 Repositories
+  comp.infra.label: Infrastruktur und DevOps
+  comp.infra.item1: Docker und Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry
+  comp.infra.item2: QEMU, Libvirt, Parallels; Tooling und Provisionierung für VM-Images
+  comp.infra.item3: CI/CD mit GitHub Actions, Gradle und Make
+  comp.qa.label: QA und Qualitätssicherung
+  comp.qa.item1: Anti-Bluff-QA mit Evidenz-Gates (HelixQA); Challenge-Harnesses mit Mutation-Gates
+  comp.qa.item2: go test -race, Visual-Regression-Tests, ADB-Gerätetests
+  comp.qa.item3: SonarQube und Security-Scans — Semgrep, gosec, Trivy, Snyk, Gitleaks, Nancy
+  edu.bsc.degree: B.Sc., Informatik und Computerwissenschaften
+  edu.bsc.location: Belgrad, Serbien
+  edu.msc.degree: M.Sc., Moderne Informationstechnologien
+  edu.msc.location: Belgrad, Serbien
+  exp.bosch.b1: Leitete die Entwicklung des Connected Vehicles SDK mit Echtzeit-Bluetooth-Kommunikation mit dem OBD2-Bus
+  exp.bosch.b2: Entwickelte performantes Parsing, Buffering und Persistieren für kontinuierliche Fahrzeugtelemetrie
+  exp.bosch.b3: Lieferte ein SDK aus, das in Integrationen mit Automobilpartnern eingesetzt wurde
+  exp.bosch.location: Belgrad, Serbien
+  exp.bosch.role: SDK-Entwickler
+  exp.bosch.summary: Lead-SDK-Entwickler des Connected Vehicles SDK — Echtzeit-Bluetooth-Kommunikation mit dem OBD2-Bus, performante Datenverarbeitung und Persistenz.
+  exp.harness.b1: Leitete die plattformübergreifende SDK-Familie der Feature-Flag-Sparte — Android, iOS, Flutter, React Native und serverseitige Runtimes
+  exp.harness.b2: Lieferte SDKs aus, die von AWS, Google und Bankpartnern eingesetzt werden — mit gemeinsamer Evaluierungs-Engine und je Plattform idiomatischen APIs
+  exp.harness.b3: Verantwortete das Release-Engineering über sieben Sprachen und vier Paket-Ökosysteme hinweg
+  exp.harness.location: Belgrad, Serbien
+  exp.harness.role: SDK-Entwickler
+  exp.harness.summary: Lead-Entwickler der SDK-Familie für die Feature-Flag-Sparte des Unternehmens — mit Fokus auf alle großen mobilen Plattformen und darüber hinaus. Zu den Kunden und Partnern zählten AWS, Google und verschiedene Banken.
+  exp.increment.b1: Entwickelte die Yuno-Android-App in Kotlin
+  exp.increment.location: Belgrad, Serbien
+  exp.increment.role: Software Engineer (freiberuflich)
+  exp.increment.summary: Die Yuno-App — Android, Kotlin.
+  exp.leica.b1: Entwickelte die Echtzeit-Gerätekommunikation mit 3D-Scan-Hardware über Bluetooth und WLAN
+  exp.leica.b2: Entwarf Pipelines zur Datenverarbeitung und Synchronisation auf dem Gerät für große Punktwolken-Datenmengen
+  exp.leica.b3: Lieferte die Autodesk-Partnerintegration für Android- und iOS-Clients
+  exp.leica.location: Heerbrugg, Schweiz
+  exp.leica.role: Software Engineer
+  exp.leica.summary: 'iOS- und Android-Entwicklung für die 3D-Scanner von Leica Geosystems — Echtzeitkommunikation mit der Hardware, Datenverarbeitung und Synchronisation. Partner: Autodesk.'
+  exp.tntech.b1: Lieferte sichere Messaging-, Mail- und Suite-Clients für Globex Data auf Android und Desktop
+  exp.tntech.b2: Entwickelte den mobilen Client der BusRide-Plattform
+  exp.tntech.location: Novi Sad, Serbien
+  exp.tntech.role: Software Engineer (freiberuflich)
+  exp.tntech.summary: Arbeit für Globex Data (Kanada und Schweiz) an Sekur — SekurMessenger, SekurMail, SekurSuite — sowie für die BusRide-Plattform.
+  identity.headline: KI-Engineer — LLM-Infrastruktur, autonome Agenten und Governance, die sie vertrauenswürdig macht
+  identity.location: Belgrad, Serbien · Remote (EU)
+  identity.role: KI-Engineer / Software Engineer
+  label.competencies: Kernkompetenzen
+  label.cover.date: Datum
+  label.cover.encl: 'Anlage: Lebenslauf'
+  label.cover.regards: Mit freundlichen Grüßen
+  label.cover.subject: Bewerbung
+  label.cover.to: An
+  label.education: Ausbildung
+  label.experience: Erfahrung
+  label.keywords: Schlüsselbegriffe
+  label.languages: Sprachkenntnisse
+  label.present: Heute
+  label.projects: Ausgewählte Projekte
+  label.publications: Veröffentlichungen
+  label.skills: Technische Kenntnisse
+  label.summary: Profil
+  label.tech: Technologien
+  lang.de: Deutsch
+  lang.de.level: Grundkenntnisse
+  lang.en: Englisch
+  lang.en.level: Verhandlungssicher (C1/C2)
+  lang.ru: Russisch
+  lang.ru.level: Berufliche Arbeitssprache
+  lang.sr: Serbisch
+  lang.sr.level: Muttersprache
+  metric.locales.label: Sprachen, in denen diese Website veröffentlicht ist
+  metric.products.label: durch Nachweise belegte Produkte
+  metric.providers.label: LLM-Anbieter hinter einer Schnittstelle
+  metric.repos.label: Repositories unter einer gemeinsamen Verfassung
+  metric.years.label: Jahre Software-Entwicklung und -Auslieferung
+  proj.catalogizer.blurb: Verschlüsselte, selbst hostbare Verwaltung von Mediensammlungen über mehrere Protokolle (Go/Gin + React), robust gegenüber instabilem Netzwerkspeicher und aufgebaut auf 21 wiederverwendbaren Submodulen.
+  proj.coursescreator.blurb: Eine KI-gestützte Kurs-Pipeline von Markdown zu Video mit TTS sowie Desktop-, Mobile- und Web-Playern.
+  proj.helixagent.blurb: 'Ein produktionsreifer Ensemble-LLM-Service, der nicht auf ein einzelnes Modell vertraut: Er verteilt einen Prompt auf viele Anbieter, führt eine strukturierte mehrstufige Debatte (Proposal → Critique → Review → Synthesis) und routet anhand von Live-Verifikationswerten mit geordnetem Fallback — hinter einer OpenAI-kompatiblen API mit HA-Datenschicht, Observability und Guardrails.'
+  proj.helixcode.blurb: Eine verteilte KI-Entwicklungsplattform, die Arbeit in abhängigkeitsbewusste Tasks aufteilt und über eine per SSH verwaltete Worker-Flotte verteilt; mit Checkpoints und Rollbacks, damit bei einem Task-Abbruch nichts verloren geht — mit hardwarebewusster Modellauswahl und einem vollständigen Plan-/Build-/Test-/Refactor-Lebenszyklus hinter REST, CLI, TUI und MCP.
+  proj.helixconstitution.blurb: Ein universelles Engineering-Regelwerk, das als Git-Submodul verteilt und von über 140 Repositories geerbt wird — Engineering-Regeln, die wie Code ausgeliefert und versioniert werden. Propagations-Gates prüfen jedes konsumierende Repository per grep auf erforderliche Klauseln, und jedes Gate wird durch einen Mutations-Metatest abgesichert, der beweist, dass das Gate selbst keine Attrappe ist.
+  proj.helixllm.blurb: 'Eine Binärdatei, sechs Bereitstellungsmodi: OpenAI- und Anthropic-kompatible Inferenz über HTTP/3, die vom Laptop bis zum Multi-Host-Cluster skaliert, mit lokaler llama.cpp-Inferenz (CUDA/Metal/ROCm) und einer sich selbst erkennenden, nach Verifikationsscore bewerteten Cloud-Fallback-Kette, die stets auf ein garantiert verfügbares lokales Modell zurückfällt.'
+  proj.helixmemory.blurb: Eine einheitliche kognitive Memory-Engine, die vier branchenführende Backends — Mem0, Cognee, Letta, Graphiti — hinter einer Schnittstelle vereint, mit paralleler Suche und quellenübergreifendem Re-Ranking.
+  proj.helixqa.blurb: 'Anti-Bluff-QA-Orchestrierung in Go, aufgebaut auf einer Regel: Der Maßstab ist nicht „Tests bestehen“, sondern „Nutzer können die Funktion verwenden“. Sie führt sowohl handgeschriebene YAML-Testsuiten als auch vollständig autonome LLM- und Vision-Sessions aus, die die echte App öffnen, jede dokumentierte Funktion verifizieren und undokumentierte Fehler auf Android, Android TV, Web und Desktop aufspüren — und vergibt kein PASS ohne erfasste Laufzeitnachweise und Tickets, die sich direkt per KI beheben lassen.'
+  proj.helixspecifier.blurb: Eine Fusions-Engine für spezifikationsgetriebene Entwicklung, die ihren eigenen Aufwand an den Umfang der Arbeit anpasst und Spezifikationen durch eine Multi-Agenten-Debatte absichert.
+  proj.helixtrack.blurb: 'Eine freie, quelloffene JIRA- und Confluence-Alternative: Go-Microservices hinter einer einheitlichen, aktionsgerouteten API über HTTP/3, SQLCipher-Verschlüsselung ruhender Daten sowie native Web-, Desktop-, Android- und iOS-Clients.'
+  proj.llmorchestrator.blurb: Eine thread-sichere Control Plane, die Headless-CLI-Agenten — OpenCode, Claude Code, Gemini, Junie, Qwen Code — über ein hybrides Pipe-und-Datei-Protokoll startet und steuert.
+  proj.llmprovider.blurb: Eine Schnittstelle über 43 Anbieter mit Circuit Breakern, Health-Monitoring, Retries mit Jitter-Backoff und ehrlicher Modellerkennung ohne hartcodierten Fallback.
+  proj.llmsverifier.blurb: Eine Verifikations-Source-of-Truth, deren verpflichtendes „Siehst du meinen Code?“-Gate sicherstellt, dass nur nachweislich funktionierende Modelle als nutzbar markiert oder exportiert werden.
+  proj.mailserverfactory.blurb: Von deklarativem JSON zu vollständig bereitgestellten, containerisierten Mailservern — über 12 Verbindungstypen und 25 Linux-Distributionen; meldet 439 bestandene Tests und ein sauberes SonarQube-Gate.
+  proj.serverfactorycore.blurb: Die gemeinsame Provisioning-Engine und das VM-Image-Tooling hinter der Server-Factory-Produktlinie — QEMU-, Libvirt- und Parallels-Treiber unter einem Framework.
+  proj.visionengine.blurb: Computer Vision plus Multi-Anbieter-LLM-Vision für UI-Wahrnehmung mit Navigationsgraphen.
+  pub.fundamentalkotlin.detail: 'Im Selbstverlag erschienen; zuletzt überarbeitete Ausgabe: September 2022 (3. Auflage). Zudem als Autor für Packt Publishing (UK) tätig.'
+  pub.fundamentalkotlin.title: Fundamental Kotlin
+  skills.ai: KI und LLM
+  skills.backend: Backend und Protokolle
+  skills.data: Daten
+  skills.frontend: Frontend und Desktop
+  skills.infra: Infrastruktur und DevOps
+  skills.languages: Programmiersprachen
+  summary.body: 'Mehr als 16 Jahre professionelles Engineering rund um mobile SDKs, Echtzeit-Hardwareintegration und verteilte Backends laufen heute in einem Fokus zusammen: autonome KI-Entwicklung im großen Maßstab vertrauenswürdig zu machen. Ich konzipiere und baue Flotten, keine Monolithen — große Produktanwendungen, die auf Dutzenden kleiner, entkoppelter, unabhängig getesteter Module stehen, von denen jedes eine gemeinsame Engineering-Verfassung erbt und durch eine Anti-Bluff-Qualitätssicherung mit Nachweispflicht verifiziert wird.'
+  summary.lead: KI-/Software-Engineer, der KI-Entwicklungssysteme von Anfang bis Ende baut — von Multi-Anbieter-LLM-Infrastruktur und autonomen Agenten bis zu den QA- und Governance-Schichten, die sie ehrlich halten. Ich liefere keine Demos, sondern Plattformen.
+  summary.value: 'Das bringe ich mit: die Fähigkeit, eine KI-Fähigkeit von der Forschungsidee zu einem gesteuerten, selbstverifizierenden, produktionsreifen System zu führen — LLM-Routing, das belegt, dass jedes Modell tatsächlich funktioniert, bevor ihm vertraut wird, Agenten, die debattieren und einen Konsens finden, statt zu raten, Memory- und RAG-Schichten, die keinen Kontext verlieren, und ein Gesamtsystem, das so verdrahtet ist, dass „die Tests sind grün“ nie stillschweigend „das Feature ist kaputt“ bedeuten kann.'
+  tmpl.cl.emphasis: In diesen Projekten liegt mein Schwerpunkt auf {list} — und dieselbe Disziplin prägt alles, was ich ausliefere.
+  tmpl.cl.project: '{blurb} Technologien: {tech}.'
+  tmpl.cl.salutation: Sehr geehrtes Recruiting-Team,
+  tmpl.cl.subject: Bewerbung — {area}
+  tmpl.cl.title: '{name} — {area} — Anschreiben'
+  tmpl.cv.keywords: 'Schlüsselbegriffe: {list}'
+  tmpl.cv.tech: 'Technologien: {tech}'
+  tmpl.cv.title: '{name} — {area} — Lebenslauf'

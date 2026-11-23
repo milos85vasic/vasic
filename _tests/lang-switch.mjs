@@ -1,5 +1,5 @@
 import { chromium } from 'playwright';
-const B = 'https://vasic.digital';
+const B = 'https://digital.vasic.dev';
 const browser = await chromium.launch({ headless: true });
 const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
 const page = await ctx.newPage();
@@ -8,7 +8,7 @@ await page.waitForTimeout(600);
 
 // Inspect the /ru/ link's ancestry + visibility
 const info = await page.evaluate(() => {
-  const a = document.querySelector('a[href="https://vasic.digital/ru/"], a[href$="/ru/"]');
+  const a = document.querySelector('a[href="https://digital.vasic.dev/ru/"], a[href$="/ru/"]');
   if (!a) return { found:false };
   const r = a.getBoundingClientRect();
   const st = getComputedStyle(a);
@@ -39,7 +39,7 @@ if (toggleTry.length){
 }
 try {
   const before = page.url();
-  await page.click('a[href="https://vasic.digital/ru/"], a[href$="/ru/"]', { timeout: 8000 });
+  await page.click('a[href="https://digital.vasic.dev/ru/"], a[href$="/ru/"]', { timeout: 8000 });
   await page.waitForLoadState('networkidle', { timeout:15000 }).catch(()=>{});
   result = { navigated: page.url()!==before, before, after: page.url() };
 } catch(e){

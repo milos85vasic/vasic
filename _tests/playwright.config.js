@@ -30,7 +30,7 @@ module.exports = defineConfig({
   globalSetup: require.resolve('./tools/perf-budget-rows.cjs'),
 
   // These THREE specs assert against the LIVE production sites over the public
-  // internet (their VASIC_BASE/MILOS_BASE default to https://vasic.digital and
+  // internet (their VASIC_BASE/MILOS_BASE default to https://digital.vasic.dev and
   // https://milosvasic.ru). They are claimed by playwright.live.config.js, whose
   // testMatch names these three PLUS all-languages-link-integrity — that fourth one
   // is deliberately NOT ignored here, because it is hermetic (it reads VD_BASE/

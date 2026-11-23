@@ -225,3 +225,10 @@ _tools/zero-gap-chain/continuum-integrity
 # as gitlinks and made `git status` fail with "expected submodule path ... not to be a symbolic link" (2026-10-29).
 # Ignored here as a TRACKED rule so a fresh clone is protected, not only this host (.git/info/exclude is local).
 .claude/worktrees/
+
+# Career engine build cache and secrets (2026-11-23). .cache-career/ holds PLAINTEXT CV/cover PDFs and LaTeX sources
+# for every area x language plus vault-src/ (pre-seal plaintext); the `commit` wrapper runs `git add .`, so an
+# un-ignored cache publishes them in clear and defeats the AES vault. _secure/ is the planned vault-passphrase home.
+.cache-career/
+_secure/
+*.passphrase

@@ -1,0 +1,704 @@
+# ============================================================================
+# career.profile.v1 — the single source of truth for every career artifact.
+#
+# Every string here is either (a) a fact transcribed from the candidate's own
+# verified record (_content/docs/cv.md, itself sourced from milosvasic.ru and
+# repository READMEs), or (b) a presentation string that carries an `i18n` id
+# and is translated in _content/career/locales/<lang>.yaml.
+#
+# NOTHING in this file may be invented. If a claim is not in the verified
+# record it does not belong here (Constitution §11.4.6).
+#
+# The `i18n` key on a string is its stable translation id. The English `text`
+# is the master. Renderers never read this file directly: they consume the
+# resolved DocumentModel produced by model.py.
+# ============================================================================
+schema: career.profile.v1
+version: 2.0.0
+
+identity:
+  name: Miloš Vasić
+  name_sort: Vasic, Milos
+  pronouns_i18n: identity.pronouns
+  headline_i18n: identity.headline
+  headline: AI Engineer — LLM infrastructure, autonomous agents, and the governance that makes them trustworthy
+  role_i18n: identity.role
+  role: AI Engineer / Software Engineer
+  location_i18n: identity.location
+  location: Belgrade, Serbia · Remote (EU)
+  years_experience: 16
+  since: 2009
+  email: milos85vasic@gmail.com
+  email_public: i@mvasic.ru
+  site: https://milosvasic.ru
+  company: https://digital.vasic.dev
+  github:
+    - https://github.com/milosvasic
+    - https://github.com/vasic-digital
+    - https://github.com/HelixDevelopment
+    - https://github.com/Server-Factory
+  gitlab: https://gitlab.com/milos85vasic
+  gitflic: https://gitflic.ru/user/milosvasic
+  telegram: https://t.me/milos85vasic
+  orcid: ""
+  photo: assets/images/profile-800.jpg
+
+# ---------------------------------------------------------------------------
+# Summary. `long` is the CV summary; `short` is the ATS/hero variant.
+# ---------------------------------------------------------------------------
+summary:
+  - id: summary.lead
+    i18n: summary.lead
+    text: >-
+      AI/software engineer who builds AI-development systems end to end — from multi-provider
+      LLM infrastructure and autonomous agents to the QA and governance layers that keep them
+      honest. I don't ship demos; I ship platforms.
+  - id: summary.body
+    i18n: summary.body
+    text: >-
+      Over 16 years of professional engineering across mobile SDKs, real-time hardware
+      integration, and distributed backends now converge on one focus: making autonomous AI
+      development trustworthy at scale. I architect fleets, not monoliths — large product
+      applications standing on dozens of small, decoupled, independently-tested modules, every
+      one of them inheriting a shared engineering Constitution and verified by an anti-bluff,
+      evidence-gated QA discipline.
+  - id: summary.value
+    i18n: summary.value
+    text: >-
+      What I bring: the ability to take an AI capability from a research idea to a governed,
+      self-verifying, production-shaped system — LLM routing that proves each model actually
+      works before trusting it, agents that debate and reach consensus instead of guessing,
+      memory and RAG layers that don't lose context, and a whole ecosystem wired so that
+      "the tests are green" can never quietly mean "the feature is broken."
+
+# ---------------------------------------------------------------------------
+# Competencies. `areas` drives which recipes surface the group and in what
+# order; `weight` breaks ties. `keywords` feed the ATS token contract.
+# ---------------------------------------------------------------------------
+competencies:
+  - id: comp.ai
+    i18n: comp.ai.label
+    label: AI / LLM systems
+    weight: 100
+    areas: [ai-engineering, go, mobile, web-frontend, desktop]
+    keywords: [LLM, RAG, embeddings, vector database, agent orchestration, MCP, LLMOps, benchmarking, guardrails, computer vision]
+    items:
+      - i18n: comp.ai.item1
+        text: Multi-provider LLM abstraction (40+ providers), MCP tool integration, RAG, vector databases and embeddings
+      - i18n: comp.ai.item2
+        text: Agent orchestration — headless CLI agents, graph workflows, multi-round debate and consensus
+      - i18n: comp.ai.item3
+        text: Planning (HiPlan / MCTS / Tree-of-Thoughts), LLMOps, benchmarking (SWE-bench, HumanEval, MMLU)
+      - i18n: comp.ai.item4
+        text: LLM verification, defensive-LLM guardrails, computer vision and LLM-vision
+  - id: comp.backend
+    i18n: comp.backend.label
+    label: Backend engineering
+    weight: 90
+    areas: [go, ai-engineering, mobile, web-frontend, desktop]
+    keywords: [Go, Gin, gRPC, Protobuf, HTTP/3, QUIC, WebSockets, distributed systems, TLA+, REST, concurrency]
+    items:
+      - i18n: comp.backend.item1
+        text: Go (Gin), gRPC + Protobuf, HTTP/3 (QUIC), WebSockets
+      - i18n: comp.backend.item2
+        text: Distributed systems including TLA+ formal specifications
+      - i18n: comp.backend.item3
+        text: High-throughput REST services and concurrent workers
+  - id: comp.data
+    i18n: comp.data.label
+    label: Data
+    weight: 70
+    areas: [go, ai-engineering, mobile, web-frontend, desktop]
+    keywords: [PostgreSQL, SQLite, SQLCipher, Redis, Neo4j, ClickHouse, MinIO, S3, GCS, Azure]
+    items:
+      - i18n: comp.data.item1
+        text: PostgreSQL, SQLite, SQLCipher (encryption at rest), Redis, Neo4j, ClickHouse
+      - i18n: comp.data.item2
+        text: Object storage — MinIO, S3, GCS, Azure Blob
+  - id: comp.android
+    i18n: comp.android.label
+    label: Android & Android TV
+    weight: 95
+    areas: [android, android-tv, android-aosp, mobile, flutter, react-native]
+    keywords: [Android, Android TV, Kotlin, Java, AOSP, Jetpack Compose, Leanback, ExoPlayer, Gradle, ADB, Bluetooth, OBD2]
+    items:
+      - i18n: comp.android.item1
+        text: Kotlin and Java on Android, Android TV and AOSP; Jetpack Compose, Leanback, ExoPlayer
+      - i18n: comp.android.item2
+        text: Real-time hardware integration — Bluetooth, OBD2, 3D scanners, sensor pipelines
+      - i18n: comp.android.item3
+        text: SDK design, Gradle build engineering, ADB device testing, release automation
+  - id: comp.cross
+    i18n: comp.cross.label
+    label: Cross-platform & mobile SDKs
+    weight: 90
+    areas: [flutter, react-native, mobile, android, android-tv]
+    keywords: [Flutter, Dart, React Native, Kotlin Multiplatform, KMP, iOS, Swift, SDK, TypeScript]
+    items:
+      - i18n: comp.cross.item1
+        text: Flutter/Dart and React Native at SDK level — published packages consumed by AWS, Google and banks
+      - i18n: comp.cross.item2
+        text: Kotlin Multiplatform and shared business logic across Android and iOS
+      - i18n: comp.cross.item3
+        text: iOS with Swift; native bridges and platform channels
+  - id: comp.frontend
+    i18n: comp.frontend.label
+    label: Frontend & desktop
+    weight: 75
+    areas: [web-frontend, desktop, mobile, ai-engineering]
+    keywords: [TypeScript, React, Angular, Tailwind, Redux Toolkit, i18next, Electron, Tauri, Rust, accessibility, Core Web Vitals]
+    items:
+      - i18n: comp.frontend.item1
+        text: TypeScript/React (Tailwind, Redux Toolkit, i18next), Angular
+      - i18n: comp.frontend.item2
+        text: Electron and Tauri/Rust desktop applications
+      - i18n: comp.frontend.item3
+        text: Accessibility (WCAG 2.2 AA), performance budgets, design systems
+  - id: comp.infra
+    i18n: comp.infra.label
+    label: Infrastructure & DevOps
+    weight: 80
+    areas: [go, ai-engineering, desktop, mobile, web-frontend]
+    keywords: [Docker, Compose, Kubernetes, Helm, Prometheus, Grafana, OpenTelemetry, QEMU, Libvirt, CI/CD, GitHub Actions]
+    items:
+      - i18n: comp.infra.item1
+        text: Docker and Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry
+      - i18n: comp.infra.item2
+        text: QEMU, Libvirt, Parallels; VM image tooling and provisioning
+      - i18n: comp.infra.item3
+        text: CI/CD via GitHub Actions, Gradle and Make
+  - id: comp.qa
+    i18n: comp.qa.label
+    label: QA & quality engineering
+    weight: 85
+    areas: [go, android, android-tv, android-aosp, mobile, flutter, react-native, web-frontend, desktop, ai-engineering]
+    keywords: [anti-bluff QA, mutation testing, go test -race, visual regression, ADB, SonarQube, Semgrep, Trivy, Snyk, Gitleaks]
+    items:
+      - i18n: comp.qa.item1
+        text: Anti-bluff, evidence-gated QA (HelixQA); challenge harnesses with mutation gates
+      - i18n: comp.qa.item2
+        text: go test -race, visual-regression testing, ADB device testing
+      - i18n: comp.qa.item3
+        text: SonarQube and security scanning — Semgrep, gosec, Trivy, Snyk, Gitleaks, Nancy
+  - id: comp.gov
+    i18n: comp.gov.label
+    label: Engineering governance
+    weight: 88
+    areas: [ai-engineering, go, desktop, web-frontend, mobile]
+    keywords: [Constitution-as-submodule, propagation gates, inheritance, documentation discipline, fleet engineering]
+    items:
+      - i18n: comp.gov.item1
+        text: Constitution-as-submodule with inheritance and propagation gates
+      - i18n: comp.gov.item2
+        text: Documentation and coverage discipline across a 140+ repository fleet
+
+# ---------------------------------------------------------------------------
+# Experience — verbatim from the verified record. No dates were altered.
+# ---------------------------------------------------------------------------
+experience:
+  - id: exp.harness
+    company: Harness
+    url: https://harness.io
+    role_i18n: exp.harness.role
+    role: SDK Developer
+    location_i18n: exp.harness.location
+    location: Belgrade, Serbia
+    start: "2020-03"
+    end: "2024-12"
+    current: false
+    kind: full-time
+    areas: [android, mobile, flutter, react-native, go, android-tv]
+    tech: [Android, iOS, Flutter, React Native, TypeScript, JavaScript, Java, Kotlin, Swift, Go, Ruby]
+    summary_i18n: exp.harness.summary
+    summary: >-
+      Lead developer on the family of SDKs for the company's Feature Flag division, focused on
+      all major mobile platforms and beyond. Customers and partners included AWS, Google and
+      various banks.
+    bullets:
+      - i18n: exp.harness.b1
+        text: Led the multi-platform SDK family for the Feature Flag division — Android, iOS, Flutter, React Native and server-side runtimes
+      - i18n: exp.harness.b2
+        text: Shipped SDKs consumed by AWS, Google and banking partners, with a shared evaluation engine and per-platform idiomatic APIs
+      - i18n: exp.harness.b3
+        text: Owned release engineering across seven languages and four package ecosystems
+  - id: exp.leica
+    company: Leica Geosystems
+    url: https://leica-geosystems.com
+    role_i18n: exp.leica.role
+    role: Software Engineer
+    location_i18n: exp.leica.location
+    location: Heerbrugg, Switzerland
+    start: "2016-02"
+    end: "2020-02"
+    current: false
+    kind: full-time
+    areas: [android, mobile, android-aosp, go]
+    tech: [Android, iOS, Java, Kotlin, Swift, C++]
+    summary_i18n: exp.leica.summary
+    summary: >-
+      iOS and Android engineering for Leica Geosystems' 3D scanners — real-time communication
+      with the hardware, data processing and synchronisation. Partner: Autodesk.
+    bullets:
+      - i18n: exp.leica.b1
+        text: Built real-time device communication with 3D scanning hardware over Bluetooth and Wi-Fi
+      - i18n: exp.leica.b2
+        text: Designed on-device data processing and synchronisation pipelines for large point-cloud payloads
+      - i18n: exp.leica.b3
+        text: Delivered the Autodesk partner integration across Android and iOS clients
+  - id: exp.bosch
+    company: Bosch
+    url: https://bosch.rs
+    role_i18n: exp.bosch.role
+    role: SDK Developer
+    location_i18n: exp.bosch.location
+    location: Belgrade, Serbia
+    start: "2010-01"
+    end: "2016-01"
+    current: false
+    kind: full-time
+    areas: [android, mobile, android-aosp]
+    tech: [Android, Java, Kotlin]
+    summary_i18n: exp.bosch.summary
+    summary: >-
+      Lead SDK developer for the Connected Vehicles SDK — real-time Bluetooth communication with
+      the OBD2 bus, high-performance data processing and persistence.
+    bullets:
+      - i18n: exp.bosch.b1
+        text: Led the Connected Vehicles SDK, speaking to the OBD2 bus over Bluetooth in real time
+      - i18n: exp.bosch.b2
+        text: Engineered high-performance parsing, buffering and persistence for continuous vehicle telemetry
+      - i18n: exp.bosch.b3
+        text: Shipped an SDK adopted across automotive partner integrations
+  - id: exp.tntech
+    company: TN-TECH
+    url: https://tn-tech.co.rs
+    role_i18n: exp.tntech.role
+    role: Software Engineer (contract)
+    location_i18n: exp.tntech.location
+    location: Novi Sad, Serbia
+    start: "2017-03"
+    end: ""
+    current: true
+    kind: part-time
+    areas: [android, mobile, desktop]
+    tech: [Android, Java, Kotlin, C++, Qt]
+    summary_i18n: exp.tntech.summary
+    summary: >-
+      Work for Globex Data (Canada and Switzerland) on Sekur — SekurMessenger, SekurMail,
+      SekurSuite — and the BusRide platform.
+    bullets:
+      - i18n: exp.tntech.b1
+        text: Delivered secure messaging, mail and suite clients for Globex Data across Android and desktop
+      - i18n: exp.tntech.b2
+        text: Built the BusRide platform's mobile client
+  - id: exp.increment
+    company: Increment Loop
+    url: https://incrementloop.com
+    role_i18n: exp.increment.role
+    role: Software Engineer (contract)
+    location_i18n: exp.increment.location
+    location: Belgrade, Serbia
+    start: "2023-09"
+    end: ""
+    current: true
+    kind: part-time
+    areas: [android, mobile]
+    tech: [Android, Kotlin]
+    summary_i18n: exp.increment.summary
+    summary: The Yuno application — Android, Kotlin.
+    bullets:
+      - i18n: exp.increment.b1
+        text: Engineered the Yuno Android application in Kotlin
+
+# ---------------------------------------------------------------------------
+# Projects. Facts come from _content/products/*.md frontmatter; the prose here
+# is the CV-length variant, translated per locale.
+# ---------------------------------------------------------------------------
+projects:
+  - id: proj.helixconstitution
+    name: HelixConstitution
+    url: https://github.com/HelixDevelopment/HelixConstitution
+    tier: pillar
+    areas: [ai-engineering, go, desktop, web-frontend, mobile, android, flutter, react-native]
+    tech: [Git, Shell, CI, Governance]
+    keywords: [engineering governance, submodule, propagation gates, mutation testing, anti-bluff]
+    blurb_i18n: proj.helixconstitution.blurb
+    blurb: >-
+      A universal engineering rulebook distributed as a Git submodule and inherited across 140+
+      repositories — engineering law shipped and version-pinned exactly like code. Propagation
+      gates grep every consuming repo for required clauses, and each gate is paired with a
+      mutation meta-test proving the gate itself isn't a sham.
+  - id: proj.helixqa
+    name: HelixQA
+    url: https://github.com/HelixDevelopment/HelixQA
+    tier: pillar
+    areas: [ai-engineering, go, android, android-tv, mobile, web-frontend, desktop, flutter, react-native, android-aosp]
+    tech: [Go, LLM, Computer Vision, Android, ADB]
+    keywords: [QA automation, evidence, LLM vision, logcat, screenshots, regression]
+    blurb_i18n: proj.helixqa.blurb
+    blurb: >-
+      Anti-bluff QA orchestration in Go built on one rule: the bar is not "tests pass" but
+      "users can use the feature". It runs written YAML test banks and fully-autonomous
+      LLM-and-vision sessions that open the real app, verify every documented feature, hunt for
+      undocumented bugs across Android, Android TV, Web and Desktop, and refuse to score a PASS
+      without captured runtime evidence plus AI-fix-ready tickets.
+  - id: proj.helixtrack
+    name: HelixTrack
+    url: https://github.com/Helix-Track/Core
+    tier: flagship
+    areas: [go, web-frontend, desktop, mobile, android, android-tv]
+    tech: [Go, Gin, HTTP/3, PostgreSQL, SQLCipher, Angular, Tauri, Kotlin, Swift]
+    keywords: [JIRA alternative, issue tracking, Confluence, microservices, encryption at rest, HTTP/3]
+    blurb_i18n: proj.helixtrack.blurb
+    blurb: >-
+      A free-world JIRA + Confluence alternative: Go microservices behind a unified
+      action-routed API over HTTP/3, SQLCipher encryption at rest, and native Web, Desktop,
+      Android and iOS clients.
+  - id: proj.helixagent
+    name: HelixAgent
+    url: https://github.com/HelixDevelopment/HelixAgent
+    tier: flagship
+    areas: [ai-engineering, go]
+    tech: [Go, Gin, PostgreSQL, Redis, Prometheus, OpenTelemetry, Neo4j, ClickHouse, Kafka]
+    keywords: [ensemble LLM, multi-model debate, provider routing, OpenAI-compatible API, observability]
+    blurb_i18n: proj.helixagent.blurb
+    blurb: >-
+      A production-grade ensemble LLM service that refuses to trust a single model: it fans a
+      prompt across many providers, runs structured multi-round debate (Proposal → Critique →
+      Review → Synthesis), and routes by live verification scores with graceful fallback —
+      behind an OpenAI-compatible API with an HA data layer, observability and guardrails.
+  - id: proj.helixcode
+    name: HelixCode
+    url: https://github.com/HelixDevelopment/HelixCode
+    tier: flagship
+    areas: [ai-engineering, go, desktop]
+    tech: [Go, Gin, PostgreSQL, Redis, SSH, MCP, llama.cpp]
+    keywords: [distributed AI development, task orchestration, checkpoint rollback, worker fleet]
+    blurb_i18n: proj.helixcode.blurb
+    blurb: >-
+      A distributed AI development platform that divides work into dependency-aware tasks across
+      an SSH-managed worker fleet, then checkpoints and rolls back so nothing is lost when a task
+      is interrupted — with hardware-aware model selection and a full plan/build/test/refactor
+      lifecycle behind REST, CLI, TUI and MCP.
+  - id: proj.helixllm
+    name: HelixLLM
+    url: https://github.com/HelixDevelopment/HelixLLM
+    tier: flagship
+    areas: [ai-engineering, go, desktop]
+    tech: [Go, HTTP/3 QUIC, gRPC, SSE, Kafka, llama.cpp]
+    keywords: [LLM inference, OpenAI-compatible, Anthropic-compatible, local inference, fallback chain]
+    blurb_i18n: proj.helixllm.blurb
+    blurb: >-
+      One binary, six deployment modes: OpenAI- and Anthropic-compatible inference over HTTP/3
+      that scales from a laptop to a multi-host cluster, with local llama.cpp inference
+      (CUDA/Metal/ROCm) and an auto-discovering, verification-scored cloud fallback chain that
+      always degrades to a guaranteed local model.
+  - id: proj.llmprovider
+    name: LLMProvider
+    url: https://github.com/vasic-digital/LLMProvider
+    tier: core
+    areas: [ai-engineering, go]
+    tech: [Go, Circuit Breakers, Health Monitoring]
+    keywords: [provider abstraction, circuit breaker, retry, model discovery, 43 providers]
+    blurb_i18n: proj.llmprovider.blurb
+    blurb: >-
+      One interface over 43 providers with circuit breakers, health monitoring, jittered-backoff
+      retries and honest, no-hardcoded-fallback model discovery.
+  - id: proj.llmorchestrator
+    name: LLMOrchestrator
+    url: https://github.com/vasic-digital/LLMOrchestrator
+    tier: core
+    areas: [ai-engineering, go]
+    tech: [Go, Pipe Protocol, CLI Agents]
+    keywords: [agent orchestration, headless CLI, control plane, concurrency]
+    blurb_i18n: proj.llmorchestrator.blurb
+    blurb: >-
+      A thread-safe control plane that spawns and drives headless CLI agents — OpenCode, Claude
+      Code, Gemini, Junie, Qwen Code — over a hybrid pipe-and-file protocol.
+  - id: proj.llmsverifier
+    name: LLMsVerifier
+    url: https://github.com/vasic-digital/LLMsVerifier
+    tier: core
+    areas: [ai-engineering, go]
+    tech: [Go, Verification, Benchmarking]
+    keywords: [model verification, "do you see my code", benchmarking, source of truth]
+    blurb_i18n: proj.llmsverifier.blurb
+    blurb: >-
+      A verification source of truth whose mandatory "Do you see my code?" gate means only
+      models proven to actually work are ever marked usable or exported.
+  - id: proj.helixmemory
+    name: HelixMemory
+    url: https://github.com/HelixDevelopment/HelixMemory
+    tier: flagship
+    areas: [ai-engineering, go]
+    tech: [Go, Mem0, Cognee, Letta, Graphiti]
+    keywords: [agent memory, RAG, graph memory, re-ranking, parallel search]
+    blurb_i18n: proj.helixmemory.blurb
+    blurb: >-
+      A unified cognitive-memory engine fusing four best-in-class backends — Mem0, Cognee,
+      Letta, Graphiti — behind one interface with parallel search and cross-source re-ranking.
+  - id: proj.helixspecifier
+    name: HelixSpecifier
+    url: https://github.com/HelixDevelopment/HelixSpecifier
+    tier: flagship
+    areas: [ai-engineering, go]
+    tech: [Go, Multi-agent, Spec-driven development]
+    keywords: [spec-driven development, multi-agent debate, ceremony scaling]
+    blurb_i18n: proj.helixspecifier.blurb
+    blurb: >-
+      A spec-driven-development fusion engine that scales its own ceremony to the size of the
+      work and backs specifications with multi-agent debate.
+  - id: proj.catalogizer
+    name: Catalogizer
+    url: https://github.com/vasic-digital/Catalogizer
+    tier: product
+    areas: [go, web-frontend, desktop, mobile]
+    tech: [Go, Gin, React, 21 modules]
+    keywords: [media management, multi-protocol, self-hosted, encryption, resilience]
+    blurb_i18n: proj.catalogizer.blurb
+    blurb: >-
+      Multi-protocol, encrypted, self-hostable media collection management (Go/Gin + React),
+      resilient to flaky network storage and built on 21 reusable submodules.
+  - id: proj.coursescreator
+    name: Courses-Creator
+    url: https://github.com/vasic-digital/Courses-Creator
+    tier: product
+    areas: [ai-engineering, web-frontend, desktop, mobile]
+    tech: [TypeScript, TTS, Markdown]
+    keywords: [course pipeline, markdown to video, TTS, players]
+    blurb_i18n: proj.coursescreator.blurb
+    blurb: >-
+      A markdown-to-video AI course pipeline with TTS and desktop, mobile and web players.
+  - id: proj.visionengine
+    name: VisionEngine
+    url: https://github.com/vasic-digital/VisionEngine
+    tier: product
+    areas: [ai-engineering, desktop, android, mobile]
+    tech: [Computer Vision, LLM Vision, Navigation Graphs]
+    keywords: [UI perception, computer vision, navigation graph, multi-provider]
+    blurb_i18n: proj.visionengine.blurb
+    blurb: >-
+      Computer-vision plus multi-provider LLM-vision UI perception with navigation graphs.
+  - id: proj.mailserverfactory
+    name: Mail Server Factory
+    url: https://github.com/Server-Factory/Mail-Server-Factory
+    tier: infra
+    areas: [go, desktop]
+    tech: [Kotlin, Shell, Docker, JSON, 25 Linux distributions]
+    keywords: [provisioning, declarative, dockerized, mail servers, 439 tests]
+    blurb_i18n: proj.mailserverfactory.blurb
+    blurb: >-
+      Declarative JSON to fully-provisioned, Dockerized mail servers across 12 connection types
+      and 25 Linux distributions; reports 439 passing tests and a clean SonarQube gate.
+  - id: proj.serverfactorycore
+    name: Server Factory Core Framework
+    url: https://github.com/Server-Factory/Core-Framework
+    tier: infra
+    areas: [go, desktop]
+    tech: [Go, QEMU, Libvirt, Parallels]
+    keywords: [provisioning engine, VM images, infrastructure automation]
+    blurb_i18n: proj.serverfactorycore.blurb
+    blurb: >-
+      The shared provisioning engine and VM-image tooling behind the Server Factory line —
+      QEMU, Libvirt and Parallels drivers under one framework.
+
+# ---------------------------------------------------------------------------
+# Message templates. Prose the engine composes at render time is still prose a
+# reader sees, so it is translated like everything else.
+# ---------------------------------------------------------------------------
+templates:
+  - id: tmpl.cv.title
+    i18n: tmpl.cv.title
+    text: "{name} — {area} — Curriculum Vitae"
+  - id: tmpl.cl.title
+    i18n: tmpl.cl.title
+    text: "{name} — {area} — Cover letter"
+  - id: tmpl.cl.subject
+    i18n: tmpl.cl.subject
+    text: "Application — {area}"
+  - id: tmpl.cl.salutation
+    i18n: tmpl.cl.salutation
+    text: "Dear Hiring Team,"
+  - id: tmpl.cl.project
+    i18n: tmpl.cl.project
+    text: "{blurb} Stack: {tech}."
+  - id: tmpl.cl.emphasis
+    i18n: tmpl.cl.emphasis
+    text: >-
+      Across these projects my focus is {list} — and the same discipline carries
+      into everything I ship.
+  - id: tmpl.cv.tech
+    i18n: tmpl.cv.tech
+    text: "Stack: {tech}"
+  - id: tmpl.cv.keywords
+    i18n: tmpl.cv.keywords
+    text: "Keywords: {list}"
+
+# ---------------------------------------------------------------------------
+# Section labels. Every heading a reader sees is a translation key, so no
+# renderer ever hardcodes a word.
+# ---------------------------------------------------------------------------
+labels:
+  - {id: label.summary,       i18n: label.summary,       text: Profile}
+  - {id: label.competencies,  i18n: label.competencies,  text: Core competencies}
+  - {id: label.experience,    i18n: label.experience,    text: Experience}
+  - {id: label.projects,      i18n: label.projects,      text: Selected projects}
+  - {id: label.skills,        i18n: label.skills,        text: Technical skills}
+  - {id: label.education,     i18n: label.education,     text: Education}
+  - {id: label.publications,  i18n: label.publications,  text: Publications}
+  - {id: label.languages,     i18n: label.languages,     text: Spoken languages}
+  - {id: label.keywords,      i18n: label.keywords,      text: Keywords}
+  - {id: label.present,       i18n: label.present,       text: Present}
+  - {id: label.tech,          i18n: label.tech,          text: Stack}
+  - {id: label.cover.date,    i18n: label.cover.date,    text: Date}
+  - {id: label.cover.subject, i18n: label.cover.subject, text: Application}
+  - {id: label.cover.to,      i18n: label.cover.to,      text: To}
+  - {id: label.cover.regards, i18n: label.cover.regards, text: Kind regards}
+  - {id: label.cover.encl,    i18n: label.cover.encl,    text: Enclosed — curriculum vitae}
+
+# ---------------------------------------------------------------------------
+# Skills — the compact "languages & tools" block. Order matters for the CV.
+# ---------------------------------------------------------------------------
+skills:
+  - id: skills.languages
+    label_i18n: skills.languages
+    label: Languages
+    items: [Go, Kotlin, Kotlin Multiplatform, Java, TypeScript, JavaScript, Python, Swift, Rust, Shell, PL/pgSQL, TLA+]
+  - id: skills.backend
+    label_i18n: skills.backend
+    label: Backend & protocols
+    items: [Gin, gRPC, Protobuf, HTTP/3 QUIC, WebSockets, REST, SSE, Kafka]
+  - id: skills.data
+    label_i18n: skills.data
+    label: Data
+    items: [PostgreSQL, SQLite, SQLCipher, Redis, Neo4j, ClickHouse, MinIO, S3]
+  - id: skills.frontend
+    label_i18n: skills.frontend
+    label: Frontend & desktop
+    items: [React, Angular, Tailwind, Redux Toolkit, i18next, Electron, Tauri, React Native, Flutter]
+  - id: skills.infra
+    label_i18n: skills.infra
+    label: Infrastructure & DevOps
+    items: [Docker, Compose, Kubernetes, Helm, Prometheus, Grafana, OpenTelemetry, QEMU, Libvirt, GitHub Actions, Gradle, Make]
+  - id: skills.ai
+    label_i18n: skills.ai
+    label: AI & LLM
+    items: [Multi-provider LLM abstraction, MCP, RAG, Vector databases, Embeddings, Agent orchestration, LLMOps, Guardrails]
+
+# ---------------------------------------------------------------------------
+# Education, publications, spoken languages
+# ---------------------------------------------------------------------------
+education:
+  - id: edu.msc
+    degree_i18n: edu.msc.degree
+    degree: M.Sc, Contemporary Information Technologies
+    institution: University Singidunum
+    location_i18n: edu.msc.location
+    location: Belgrade, Serbia
+    year: "2014"
+  - id: edu.bsc
+    degree_i18n: edu.bsc.degree
+    degree: B.Sc, Informatics and Computing
+    institution: University Singidunum
+    location_i18n: edu.bsc.location
+    location: Belgrade, Serbia
+    year: "2008"
+
+publications:
+  - id: pub.fundamentalkotlin
+    title_i18n: pub.fundamentalkotlin.title
+    title: Fundamental Kotlin
+    detail_i18n: pub.fundamentalkotlin.detail
+    detail: >-
+      Self-published author; latest revised edition September 2022 (3rd Edition). Also authored
+      for Packt Publishing (UK).
+
+languages_spoken:
+  - id: lang.sr
+    code: sr
+    name_i18n: lang.sr
+    name: Serbian
+    level_i18n: lang.sr.level
+    level: Native
+  - id: lang.en
+    code: en
+    name_i18n: lang.en
+    name: English
+    level_i18n: lang.en.level
+    level: Professional (C1/C2)
+  - id: lang.ru
+    code: ru
+    name_i18n: lang.ru
+    name: Russian
+    level_i18n: lang.ru.level
+    level: Professional working
+  - id: lang.de
+    code: de
+    name_i18n: lang.de
+    name: German
+    level_i18n: lang.de.level
+    level: Basic
+
+# ---------------------------------------------------------------------------
+# Metrics used by the site and the cover letter. Each carries its evidence.
+# ---------------------------------------------------------------------------
+metrics:
+  - id: metric.repos
+    value: "140+"
+    i18n: metric.repos.label
+    label: repositories under one constitution
+    evidence: operator-attested (not repo-evidenced); HelixConstitution propagation gate output
+  - id: metric.products
+    value: "33"
+    i18n: metric.products.label
+    label: evidence-backed products
+    evidence: _content/products/*.md (33 product entries (99 files incl. .html/.pdf renders))
+  - id: metric.years
+    value: "16+"
+    i18n: metric.years.label
+    label: years shipping software
+    evidence: Experience section, earliest start Bosch 2010-01 = 16.9 years as of 2026-11-23; engineering since 2009
+  - id: metric.providers
+    value: "43"
+    i18n: metric.providers.label
+    label: LLM providers behind one interface
+    evidence: submodules/LLMProvider/pkg/providers (43 directories)
+  - id: metric.locales
+    value: "15"
+    i18n: metric.locales.label
+    label: languages this site is published in
+    evidence: _content_*/ (14 locales + en)
+
+# ---------------------------------------------------------------------------
+# Global ATS keyword sets. Recipes select and extend these.
+# ---------------------------------------------------------------------------
+ats:
+  base:
+    - Go
+    - Kotlin
+    - Java
+    - TypeScript
+    - Python
+    - Swift
+    - Android
+    - iOS
+    - Flutter
+    - React Native
+    - Kotlin Multiplatform
+    - PostgreSQL
+    - Redis
+    - Docker
+    - Kubernetes
+    - gRPC
+    - HTTP/3
+    - REST
+    - CI/CD
+    - GitHub Actions
+    - LLM
+    - RAG
+    - Agent orchestration
+    - Test automation
+  forbidden:
+    # Tokens that must never appear in an ATS artifact: they indicate the PDF
+    # was produced with a non-extractable or broken text layer.
+    - "\ufffd"

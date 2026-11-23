@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"os/exec"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -13,7 +14,7 @@ func testSite() *Site {
 		Key:     "vasic.digital",
 		Brand:   "Vasic Digital",
 		CSSName: "vasic-digital",
-		Domain:  "vasic.digital",
+		Domain:  "digital.vasic.dev",
 		OGImage: "Assets/Logo.jpeg",
 		LDKind:  "Organization",
 		SameAs:  []string{"https://github.com/nexu-io"},
@@ -23,10 +24,10 @@ func testSite() *Site {
 func TestSiteURL(t *testing.T) {
 	s := testSite()
 	cases := []struct{ in, want string }{
-		{"", "https://vasic.digital/"},
-		{"products/x.html", "https://vasic.digital/products/x.html"},
-		{"/portfolio/", "https://vasic.digital/portfolio/"}, // leading slash trimmed
-		{"sitemap.xml", "https://vasic.digital/sitemap.xml"},
+		{"", "https://digital.vasic.dev/"},
+		{"products/x.html", "https://digital.vasic.dev/products/x.html"},
+		{"/portfolio/", "https://digital.vasic.dev/portfolio/"}, // leading slash trimmed
+		{"sitemap.xml", "https://digital.vasic.dev/sitemap.xml"},
 	}
 	for _, c := range cases {
 		if got := s.URL(c.in); got != c.want {
@@ -96,11 +97,11 @@ func TestHreflangLinksReciprocal(t *testing.T) {
 		t.Errorf("missing x-default:\n%s", out)
 	}
 	// x-default points at the EN canonical path.
-	if !strings.Contains(out, `hreflang="x-default" href="https://vasic.digital/products/x.html"`) {
+	if !strings.Contains(out, `hreflang="x-default" href="https://digital.vasic.dev/products/x.html"`) {
 		t.Errorf("x-default must map to EN canonical:\n%s", out)
 	}
 	// German alternate must use the localized products/de/ path.
-	if !strings.Contains(out, `hreflang="de" href="https://vasic.digital/products/de/x.html"`) {
+	if !strings.Contains(out, `hreflang="de" href="https://digital.vasic.dev/products/de/x.html"`) {
 		t.Errorf("de alternate wrong:\n%s", out)
 	}
 }
@@ -153,7 +154,7 @@ func TestSeoHeadSingletons(t *testing.T) {
 	must := []string{
 		`<title>HelixTrack — Vasic Digital</title>`,
 		`<meta name="description" content="A JIRA alternative."/>`,
-		`<link rel="canonical" href="https://vasic.digital/products/helixtrack.html"/>`,
+		`<link rel="canonical" href="https://digital.vasic.dev/products/helixtrack.html"/>`,
 		`<meta property="og:type" content="article"/>`,
 		`<meta property="og:title"`,
 		`<meta name="twitter:card" content="summary_large_image"/>`,
@@ -194,9 +195,9 @@ func TestWriteSitemapRobots(t *testing.T) {
 	xml := string(sm)
 	// index.html -> root; nested index.html -> dir slash.
 	wantURLs := []string{
-		"<loc>https://vasic.digital/</loc>",
-		"<loc>https://vasic.digital/products/helixtrack.html</loc>",
-		"<loc>https://vasic.digital/portfolio/</loc>",
+		"<loc>https://digital.vasic.dev/</loc>",
+		"<loc>https://digital.vasic.dev/products/helixtrack.html</loc>",
+		"<loc>https://digital.vasic.dev/portfolio/</loc>",
 	}
 	for _, u := range wantURLs {
 		if !strings.Contains(xml, u) {
@@ -214,7 +215,69 @@ func TestWriteSitemapRobots(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !strings.Contains(string(rb), "Sitemap: https://vasic.digital/sitemap.xml") {
+	if !strings.Contains(string(rb), "Sitemap: https://digital.vasic.dev/sitemap.xml") {
 		t.Errorf("robots.txt missing sitemap line:\n%s", string(rb))
+	}
+}
+
+func TestSitemapExcludesAdminAndVault(t *testing.T) {
+	s := testSite()
+	tmp := t.TempDir()
+	for _, rel := range []string{"index.html", "expertise/go/index.html", "ar/expertise/go/index.html",
+		"admin/console.html", "downloads/vault/x.html", "downloads/public.html"} {
+		if err := writeFile(filepath.Join(tmp, rel), "<html></html>"); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if err := writeSitemapRobots(s, tmp); err != nil {
+		t.Fatal(err)
+	}
+	sm, _ := os.ReadFile(filepath.Join(tmp, "sitemap.xml"))
+	for _, bad := range []string{"admin/", "downloads/vault"} {
+		if strings.Contains(string(sm), bad) {
+			t.Errorf("sitemap contains %q:\n%s", bad, sm)
+		}
+	}
+	for _, want := range []string{"/expertise/go/", "/ar/expertise/go/", "/downloads/public.html"} {
+		if !strings.Contains(string(sm), want) {
+			t.Errorf("sitemap lost %q", want)
+		}
+	}
+	rb, _ := os.ReadFile(filepath.Join(tmp, "robots.txt"))
+	for _, want := range []string{"Disallow: /admin/", "Disallow: /downloads/vault/", "Allow: /", "Sitemap: https://digital.vasic.dev/sitemap.xml"} {
+		if !strings.Contains(string(rb), want) {
+			t.Errorf("robots.txt missing %q:\n%s", want, rb)
+		}
+	}
+}
+
+func TestSitemapLastmodFromGit(t *testing.T) {
+	if _, err := exec.LookPath("git"); err != nil {
+		t.Skip("git not available")
+	}
+	s := testSite()
+	tmp := t.TempDir()
+	if err := writeFile(filepath.Join(tmp, "a.html"), "<html></html>"); err != nil {
+		t.Fatal(err)
+	}
+	run := func(env []string, args ...string) {
+		c := exec.Command("git", args...)
+		c.Dir = tmp
+		c.Env = append(os.Environ(), env...)
+		if out, err := c.CombinedOutput(); err != nil {
+			t.Fatalf("git %v: %v %s", args, err, out)
+		}
+	}
+	run(nil, "init", "-q")
+	run(nil, "add", "a.html")
+	run([]string{"GIT_AUTHOR_DATE=2020-03-04T10:00:00Z", "GIT_COMMITTER_DATE=2020-03-04T10:00:00Z"},
+		"-c", "user.name=t", "-c", "user.email=t@t", "commit", "-q", "-m", "x")
+	// mtime is today; lastmod must still be the commit date.
+	if err := writeSitemapRobots(s, tmp); err != nil {
+		t.Fatal(err)
+	}
+	sm, _ := os.ReadFile(filepath.Join(tmp, "sitemap.xml"))
+	if !strings.Contains(string(sm), "<lastmod>2020-03-04</lastmod>") {
+		t.Errorf("lastmod not from git:\n%s", sm)
 	}
 }

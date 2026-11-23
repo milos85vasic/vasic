@@ -26,7 +26,7 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs');
 
-const VASIC = (process.env.VASIC_BASE || 'https://vasic.digital').replace(/\/$/, '');
+const VASIC = (process.env.VASIC_BASE || 'https://digital.vasic.dev').replace(/\/$/, '');
 const MILOS = (process.env.MILOS_BASE || 'https://milosvasic.ru').replace(/\/$/, '');
 
 // English marketing phrases from portfolio.json / product summaries that MUST

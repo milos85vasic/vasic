@@ -20,7 +20,7 @@ note: General-purpose letter — no employer, project outcome, or metric is fabr
 
 技术上，我主要使用Go，结合Kotlin/KMP、TypeScript/React、Python、Swift和Shell，横跨REST/gRPC/HTTP/3服务、PostgreSQL/SQLite/Redis/ClickHouse数据层，以及Docker/Kubernetes/Prometheus运维。我能够全面负责一个系统，从供应商抽象与数据检索，到证明其有效运行的证据链。
 
-期待有机会将这种深度AI系统工程能力与真正可验证的质量标准带到贵团队。感谢您的考虑，我的作品集与公开代码库可在milosvasic.ru和vasic.digital查阅。
+期待有机会将这种深度AI系统工程能力与真正可验证的质量标准带到贵团队。感谢您的考虑，我的作品集与公开代码库可在milosvasic.ru和digital.vasic.dev查阅。
 
 此致
 敬礼

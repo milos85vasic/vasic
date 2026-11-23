@@ -29,7 +29,7 @@ const path = require('path');
 //     Error: sitemap.xml must resolve     Expected: 200   Received: 0
 //
 // MEASURED before this fix: 86 passed / 2 failed, and both failures were that
-// one spec (once per site), while curl reached https://vasic.digital/ and
+// one spec (once per site), while curl reached https://digital.vasic.dev/ and
 // https://milosvasic.ru/ with http=200. A connection refusal laundered through
 // an expect() and reported as a production defect — exactly the confusion
 // §11.4.6 forbids.
@@ -62,7 +62,7 @@ function deployedOrigin(fallbackHost, ...cnameCandidates) {
   return `https://${fallbackHost}`;
 }
 
-const VASIC_ORIGIN = deployedOrigin('vasic.digital', 'vasic.digital/CNAME');
+const VASIC_ORIGIN = deployedOrigin('digital.vasic.dev', 'vasic.digital/CNAME');
 const MILOS_ORIGIN = deployedOrigin('milosvasic.ru', 'milosvasic.ru/_site/CNAME', 'milosvasic.ru/CNAME');
 
 // Defaults only — an explicitly exported value always wins, so staging runs

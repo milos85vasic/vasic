@@ -1,0 +1,57 @@
+schema: career.area.v1
+id: mobile
+order: 7
+accent: "#ec4899"
+icon: mobile
+title_i18n: area.mobile.title
+title: "Mobile Engineering"
+tagline_i18n: area.mobile.tagline
+tagline: "Native and cross-platform delivery across Android, iOS, Flutter and React Native."
+hero_metric: metric.years
+sections: [summary, competencies, experience, projects, skills, education, publications]
+keywords:
+  - "Android"
+  - "iOS"
+  - "Swift"
+  - "Kotlin"
+  - "Flutter"
+  - "React Native"
+  - "Kotlin Multiplatform"
+  - "mobile SDK"
+  - "App Store"
+  - "Google Play"
+  - "fastlane"
+  - "CI/CD"
+  - "accessibility"
+competencies:
+  - comp.android
+  - comp.cross
+  - comp.qa
+  - comp.frontend
+  - comp.backend
+emphasis:
+  - comp.android
+  - comp.cross
+projects:
+  - proj.helixtrack
+  - proj.helixqa
+  - proj.catalogizer
+  - proj.coursescreator
+  - proj.visionengine
+experience:
+  - exp.harness
+  - exp.leica
+  - exp.bosch
+  - exp.tntech
+  - exp.increment
+cover_letter:
+  angle: "one engineer owning the whole mobile surface"
+  opening_i18n: cl.open.mobile
+  opening: "Native and cross-platform delivery across Android, iOS, Flutter and React Native."
+  project_ids:
+    - proj.helixtrack
+    - proj.helixqa
+    - proj.catalogizer
+    - proj.coursescreator
+  closing_i18n: cl.close.mobile
+  closing: "I would welcome the chance to bring that combination to your team."

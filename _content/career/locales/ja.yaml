@@ -1,0 +1,208 @@
+dir: ltr
+name: 日本語
+months:
+- 1月
+- 2月
+- 3月
+- 4月
+- 5月
+- 6月
+- 7月
+- 8月
+- 9月
+- 10月
+- 11月
+- 12月
+date:
+  month_year: '{year}年{month}'
+  range: '{start}〜{end}'
+identical_ok:
+  area.android-aosp.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "e8bb477f057587da"
+  area.android-tv.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "f73ea1e2323972cb"
+  area.flutter.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "c903759742b75021"
+  area.react-native.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "1cd07be18aed5105"
+  pub.fundamentalkotlin.title:
+    reason: "published book title, kept verbatim in its original form"
+    en_sha: "c5aabded9446aaf6"
+strings:
+  area.ai-engineering.tagline: LLMインフラ、自律エージェント、そしてそれらを信頼に足るものにするガバナンス。
+  area.ai-engineering.title: AIエンジニアリング
+  area.android-aosp.tagline: プラットフォームレベルのAndroid — システムサービス、デバイスのセットアップ、ハードウェア統合。
+  area.android-aosp.title: Android AOSP
+  area.android-tv.tagline: 10フィートUI、Leanback、メディアパイプライン、実機ファームでの検証。
+  area.android-tv.title: Android TV
+  area.android.tagline: KotlinとJavaによるプロダクト規模のAndroid開発 — SDK、ハードウェア統合、リリースエンジニアリング。
+  area.android.title: Androidエンジニアリング
+  area.desktop.tagline: ElectronとTauri、ネイティブブリッジ、オフラインファーストのデスクトップ製品。
+  area.desktop.title: デスクトップエンジニアリング
+  area.flutter.tagline: SDKレベルのDart — プラグインアーキテクチャ、プラットフォームチャネル、公開パッケージ。
+  area.flutter.title: Flutter
+  area.go.tagline: 高スループットなサービス、分散システム、そしてそれらを支えるライブラリ。
+  area.go.title: Go・バックエンド
+  area.mobile.tagline: Android、iOS、Flutter、React Nativeにまたがるネイティブ／クロスプラットフォーム開発。
+  area.mobile.title: モバイルエンジニアリング
+  area.react-native.tagline: ブリッジをまたぐTypeScript — ネイティブモジュール、SDKパッケージ、リリース自動化。
+  area.react-native.title: React Native
+  area.web-frontend.tagline: TypeScript、React、Angular — デザインシステム、アクセシビリティ、パフォーマンスバジェット。
+  area.web-frontend.title: Web・フロントエンド
+  cl.close.ai-engineering: こうした強みの組み合わせを貴社のチームで発揮する機会をいただければ幸いです。ご検討のほど、よろしくお願い申し上げます。
+  cl.close.android: こうした強みの組み合わせを貴社のチームで発揮する機会をいただければ幸いです。ご検討のほど、よろしくお願い申し上げます。
+  cl.close.android-aosp: こうした強みの組み合わせを貴社のチームで発揮する機会をいただければ幸いです。ご検討のほど、よろしくお願い申し上げます。
+  cl.close.android-tv: こうした強みの組み合わせを貴社のチームで発揮する機会をいただければ幸いです。ご検討のほど、よろしくお願い申し上げます。
+  cl.close.desktop: こうした強みの組み合わせを貴社のチームで発揮する機会をいただければ幸いです。ご検討のほど、よろしくお願い申し上げます。
+  cl.close.flutter: こうした強みの組み合わせを貴社のチームで発揮する機会をいただければ幸いです。ご検討のほど、よろしくお願い申し上げます。
+  cl.close.go: こうした強みの組み合わせを貴社のチームで発揮する機会をいただければ幸いです。ご検討のほど、よろしくお願い申し上げます。
+  cl.close.mobile: こうした強みの組み合わせを貴社のチームで発揮する機会をいただければ幸いです。ご検討のほど、よろしくお願い申し上げます。
+  cl.close.react-native: こうした強みの組み合わせを貴社のチームで発揮する機会をいただければ幸いです。ご検討のほど、よろしくお願い申し上げます。
+  cl.close.web-frontend: こうした強みの組み合わせを貴社のチームで発揮する機会をいただければ幸いです。ご検討のほど、よろしくお願い申し上げます。
+  cl.open.ai: LLMインフラ、自律エージェント、そしてそれらを信頼に足るものにするガバナンス。
+  cl.open.android: KotlinとJavaによるプロダクト規模のAndroid開発 — SDK、ハードウェア統合、リリースエンジニアリング。
+  cl.open.androidtv: 10フィートUI、Leanback、メディアパイプライン、実機ファームでの検証。
+  cl.open.aosp: プラットフォームレベルのAndroid — システムサービス、デバイスのセットアップ、ハードウェア統合。
+  cl.open.desktop: ElectronとTauri、ネイティブブリッジ、オフラインファーストのデスクトップ製品。
+  cl.open.flutter: SDKレベルのDart — プラグインアーキテクチャ、プラットフォームチャネル、公開パッケージ。
+  cl.open.go: 高スループットなサービス、分散システム、そしてそれらを支えるライブラリ。
+  cl.open.mobile: Android、iOS、Flutter、React Nativeにまたがるネイティブ／クロスプラットフォーム開発。
+  cl.open.reactnative: ブリッジをまたぐTypeScript — ネイティブモジュール、SDKパッケージ、リリース自動化。
+  cl.open.web: TypeScript、React、Angular — デザインシステム、アクセシビリティ、パフォーマンスバジェット。
+  comp.ai.label: AI／LLMシステム
+  comp.ai.item1: 複数プロバイダー対応のLLM抽象化（40以上のプロバイダー）、MCPツール連携、RAG、ベクトルデータベースと埋め込み
+  comp.ai.item2: エージェントオーケストレーション — ヘッドレスCLIエージェント、グラフワークフロー、複数ラウンドの議論とコンセンサス形成
+  comp.ai.item3: プランニング（HiPlan／MCTS／Tree-of-Thoughts）、LLMOps、ベンチマーク（SWE-bench、HumanEval、MMLU）
+  comp.ai.item4: LLM検証、防御的LLMガードレール、コンピュータビジョンとLLMビジョン
+  comp.android.label: Android・Android TV
+  comp.android.item1: Android、Android TV、AOSPにおけるKotlinとJava、Jetpack Compose、Leanback、ExoPlayer
+  comp.android.item2: リアルタイムなハードウェア統合 — Bluetooth、OBD2、3Dスキャナー、センサーパイプライン
+  comp.android.item3: SDK設計、Gradleビルドエンジニアリング、ADBによる実機テスト、リリース自動化
+  comp.backend.label: バックエンドエンジニアリング
+  comp.backend.item1: Go（Gin）、gRPC＋Protobuf、HTTP/3（QUIC）、WebSocket
+  comp.backend.item2: TLA+形式仕様を含む分散システム
+  comp.backend.item3: 高スループットなRESTサービスと並行ワーカー
+  comp.cross.label: クロスプラットフォーム・モバイルSDK
+  comp.cross.item1: SDKレベルのFlutter/DartとReact Native — AWS、Google、各種銀行に採用された公開パッケージ
+  comp.cross.item2: Kotlin Multiplatform、およびAndroidとiOSにまたがる共有ビジネスロジック
+  comp.cross.item3: SwiftによるiOS開発、ネイティブブリッジとプラットフォームチャネル
+  comp.data.label: データ
+  comp.data.item1: PostgreSQL、SQLite、SQLCipher（保存時暗号化）、Redis、Neo4j、ClickHouse
+  comp.data.item2: オブジェクトストレージ — MinIO、S3、GCS、Azure Blob
+  comp.frontend.label: フロントエンド・デスクトップ
+  comp.frontend.item1: TypeScript/React（Tailwind、Redux Toolkit、i18next）、Angular
+  comp.frontend.item2: ElectronおよびTauri/Rustによるデスクトップアプリケーション
+  comp.frontend.item3: アクセシビリティ（WCAG 2.2 AA）、パフォーマンスバジェット、デザインシステム
+  comp.gov.label: エンジニアリングガバナンス
+  comp.gov.item1: 継承と伝播ゲートを備えた、サブモジュールとしての憲章
+  comp.gov.item2: 140以上のリポジトリ群にわたるドキュメントとカバレッジの規律
+  comp.infra.label: インフラ・DevOps
+  comp.infra.item1: DockerとCompose、Kubernetes＋Helm、Prometheus＋Grafana、OpenTelemetry
+  comp.infra.item2: QEMU、Libvirt、Parallels、VMイメージのツール群とプロビジョニング
+  comp.infra.item3: GitHub Actions、Gradle、MakeによるCI/CD
+  comp.qa.label: QA・品質エンジニアリング
+  comp.qa.item1: アンチブラフ（虚偽の合格判定を排除する）、エビデンスゲート型のQA（HelixQA）。ミューテーションゲート付きのチャレンジハーネス
+  comp.qa.item2: go test -race、ビジュアルリグレッションテスト、ADBによる実機テスト
+  comp.qa.item3: SonarQubeとセキュリティスキャン — Semgrep、gosec、Trivy、Snyk、Gitleaks、Nancy
+  edu.bsc.degree: 理学士（情報学・コンピューティング）
+  edu.bsc.location: セルビア・ベオグラード
+  edu.msc.degree: 理学修士（現代情報技術）
+  edu.msc.location: セルビア・ベオグラード
+  exp.bosch.b1: Connected Vehicles SDKを主導し、BluetoothでOBD2バスとリアルタイムに通信
+  exp.bosch.b2: 継続的に発生する車両テレメトリーに対し、高性能なパース、バッファリング、永続化を実装
+  exp.bosch.b3: 自動車関連のパートナー各社との統合で採用されたSDKをリリース
+  exp.bosch.location: セルビア・ベオグラード
+  exp.bosch.role: SDKデベロッパー
+  exp.bosch.summary: Connected Vehicles SDKのリードSDKデベロッパー — BluetoothによるOBD2バスとのリアルタイム通信、高性能なデータ処理と永続化を担当。
+  exp.harness.b1: Feature Flag部門のマルチプラットフォームSDKファミリーを主導 — Android、iOS、Flutter、React Native、サーバーサイドランタイム
+  exp.harness.b2: 共通の評価エンジンと各プラットフォームの作法に沿ったAPIを備え、AWS、Google、各種銀行のパートナーが利用するSDKをリリース
+  exp.harness.b3: 7つの言語、4つのパッケージエコシステムにわたるリリースエンジニアリングを担当
+  exp.harness.location: セルビア・ベオグラード
+  exp.harness.role: SDKデベロッパー
+  exp.harness.summary: 同社Feature Flag部門のSDKファミリーのリードデベロッパー — 主要なモバイルプラットフォームおよびそれ以外の環境も担当。顧客・パートナーにはAWS、Google、各種銀行が含まれる。
+  exp.increment.b1: KotlinでYunoのAndroidアプリケーションを開発
+  exp.increment.location: セルビア・ベオグラード
+  exp.increment.role: ソフトウェアエンジニア（契約）
+  exp.increment.summary: Yunoアプリケーション — Android、Kotlin。
+  exp.leica.b1: BluetoothおよびWi-Fi経由で、3Dスキャナーハードウェアとのリアルタイムなデバイス通信を実装
+  exp.leica.b2: 大容量の点群ペイロードに対応する、オンデバイスのデータ処理および同期パイプラインを設計
+  exp.leica.b3: AndroidおよびiOSクライアントでAutodeskとのパートナー連携を実現
+  exp.leica.location: スイス・ヘーアブルク
+  exp.leica.role: ソフトウェアエンジニア
+  exp.leica.summary: Leica Geosystemsの3Dスキャナー向けiOS／Androidエンジニアリング — ハードウェアとのリアルタイム通信、データ処理、同期を担当。パートナー：Autodesk。
+  exp.tntech.b1: Globex Data向けに、AndroidおよびデスクトップのセキュアなメッセージングクライアントとメールクライアントおよびSuiteクライアントをリリース
+  exp.tntech.b2: BusRideプラットフォームのモバイルクライアントを開発
+  exp.tntech.location: セルビア・ノヴィ・サド
+  exp.tntech.role: ソフトウェアエンジニア（契約）
+  exp.tntech.summary: Globex Data（カナダ・スイス）のSekurプロジェクト（SekurMessenger、SekurMail、SekurSuite）およびBusRideプラットフォームに従事。
+  identity.headline: AIエンジニア — LLMインフラ、自律エージェント、そしてそれらを信頼に足るものにするガバナンス
+  identity.location: セルビア・ベオグラード／リモート（EU）
+  identity.role: AIエンジニア／ソフトウェアエンジニア
+  label.competencies: 主要スキル
+  label.cover.date: 日付
+  label.cover.encl: 同封書類：職務経歴書
+  label.cover.regards: 敬具
+  label.cover.subject: 応募の件
+  label.cover.to: 宛先
+  label.education: 学歴
+  label.experience: 職務経歴
+  label.keywords: キーワード
+  label.languages: 語学力
+  label.present: 現在
+  label.projects: 主なプロジェクト
+  label.publications: 著書・出版物
+  label.skills: 技術スキル
+  label.summary: プロフィール
+  label.tech: 技術スタック
+  lang.de: ドイツ語
+  lang.de.level: 基礎レベル
+  lang.en: 英語
+  lang.en.level: ビジネス上級（C1/C2）
+  lang.ru: ロシア語
+  lang.ru.level: 実務レベル（ビジネス会話可）
+  lang.sr: セルビア語
+  lang.sr.level: ネイティブ
+  metric.locales.label: 本サイトの公開言語数
+  metric.products.label: 実績（エビデンス）で裏付けられたプロダクト数
+  metric.providers.label: 単一のインターフェースで扱うLLMプロバイダー数
+  metric.repos.label: 単一の憲章のもとにあるリポジトリ数
+  metric.years.label: ソフトウェアをリリースしてきた年数
+  proj.catalogizer.blurb: マルチプロトコル対応、暗号化、セルフホスト可能なメディアコレクション管理（Go/Gin + React）。不安定なネットワークストレージにも耐え、再利用可能な21個のサブモジュールで構成。
+  proj.coursescreator.blurb: MarkdownからTTS付き動画を生成するAIコースパイプライン。デスクトップ、モバイル、Webの各プレーヤーを備える。
+  proj.helixagent.blurb: 単一モデルを信用しない、プロダクショングレードのアンサンブルLLMサービス。プロンプトを多数のプロバイダーに展開し、構造化された複数ラウンドの議論（Proposal → Critique → Review → Synthesis）を行い、リアルタイムの検証スコアに基づいてルーティングし、適切にフォールバックする。HA対応のデータ層、オブザーバビリティ、ガードレールを備えたOpenAI互換APIとして提供。
+  proj.helixcode.blurb: 依存関係を考慮してタスクを分割し、SSH管理のワーカー群に分散させる分散AI開発プラットフォーム。チェックポイントとロールバックにより、タスクが中断されても何も失われない。ハードウェアを考慮したモデル選択と、plan/build/test/refactorの全ライフサイクルをREST、CLI、TUI、MCPから利用できる。
+  proj.helixconstitution.blurb: Gitサブモジュールとして配布され、140以上のリポジトリに継承される汎用エンジニアリング憲章 — エンジニアリングの規則をコードと同様にバージョン固定して配布する。伝播ゲートが利用側の全リポジトリで必須条項をgrepし、各ゲートには、ゲート自体が形骸化していないことを証明するミューテーションメタテストが対になっている。
+  proj.helixllm.blurb: 1つのバイナリ、6つのデプロイモード：ノートPCからマルチホストクラスターまでスケールする、HTTP/3上のOpenAI／Anthropic互換推論サーバー。llama.cpp（CUDA/Metal/ROCm）によるローカル推論と、検証スコアに基づき自動検出されるクラウドのフォールバックチェーンを備え、最終的には必ず、確実に動作するローカルモデルへ縮退（フォールバック）する。
+  proj.helixmemory.blurb: Mem0、Cognee、Letta、Graphitiという4つの最高水準のバックエンドを1つのインターフェースに統合する、統合型コグニティブメモリエンジン。並列検索とソース横断のリランキングに対応。
+  proj.helixqa.blurb: 「テストが通ること」ではなく「ユーザーが機能を使えること」を基準とする、Go製のアンチブラフQAオーケストレーション。記述済みのYAMLテストバンクに加え、LLMとビジョンによる完全自律セッションで実際のアプリを開いて文書化された全機能を検証し、Android、Android TV、Web、デスクトップにわたって未文書化のバグを探索する。実行時の証拠とAIが修正に着手できるチケットがなければPASSと判定しない。
+  proj.helixspecifier.blurb: 仕様駆動開発の統合エンジン。作業規模に応じてプロセスの重さを自ら調整し、マルチエージェントの議論によって仕様を裏付ける。
+  proj.helixtrack.blurb: 自由世界向けのJIRA＋Confluence代替。HTTP/3上の統一アクションルーティングAPIの背後にGoマイクロサービスを配置し、SQLCipherによる保存データの暗号化と、Web、デスクトップ、Android、iOSのネイティブクライアントを備える。
+  proj.llmorchestrator.blurb: ヘッドレスCLIエージェント（OpenCode、Claude Code、Gemini、Junie、Qwen Code）を起動・制御する、スレッドセーフなコントロールプレーン。パイプとファイルのハイブリッドプロトコルを使用。
+  proj.llmprovider.blurb: 43のプロバイダーを1つのインターフェースで扱う。サーキットブレーカー、ヘルスモニタリング、ジッター付きバックオフのリトライ、ハードコードされたフォールバックに頼らない実態に即した正確なモデル検出を備える。
+  proj.llmsverifier.blurb: 「Do you see my code?」ゲートを必須とする検証の信頼できる情報源。実際に動作すると証明されたモデルだけが、利用可能としてマークされ、エクスポートされる。
+  proj.mailserverfactory.blurb: 宣言的なJSONから、完全にプロビジョニングされたDocker化メールサーバーを生成。12種類の接続タイプと25のLinuxディストリビューションに対応し、439件のテスト合格とクリーンなSonarQubeゲートを報告。
+  proj.serverfactorycore.blurb: Server Factoryシリーズを支える共通のプロビジョニングエンジンとVMイメージツール — QEMU、Libvirt、Parallelsの各ドライバーを1つのフレームワークで扱う。
+  proj.visionengine.blurb: コンピュータビジョンと、マルチプロバイダー対応のLLMビジョンによるUI認識。ナビゲーショングラフを備える。
+  pub.fundamentalkotlin.detail: 自費出版の著者。最新の改訂版は2022年9月（第3版）。Packt Publishing（英国）向けにも執筆。
+  pub.fundamentalkotlin.title: Fundamental Kotlin
+  skills.ai: AI・LLM
+  skills.backend: バックエンド・プロトコル
+  skills.data: データ
+  skills.frontend: フロントエンド・デスクトップ
+  skills.infra: インフラ・DevOps
+  skills.languages: プログラミング言語
+  summary.body: モバイルSDK、リアルタイムのハードウェア統合、分散バックエンドにわたる16年以上のプロフェッショナルなエンジニアリング経験は、いま1つの焦点に集約されています。それは、自律的なAI開発を大規模に信頼できるものにすることです。私が設計するのは単一の巨大なモノリスではなく、多数のモジュールが連携する「モジュール群（フリート）」です。数十の小さく疎結合で、独立してテストされたモジュールの上に大規模なプロダクトアプリケーションを構築し、そのすべてが共通のエンジニアリング憲章（Constitution）を継承し、アンチブラフかつ証拠に基づくQAの規律によって検証されます。
+  summary.lead: マルチプロバイダー対応のLLMインフラや自律エージェントから、それらの信頼性を担保するQAとガバナンスの層まで、AI開発システムをエンドツーエンドで構築するAI／ソフトウェアエンジニア。デモではなく、プラットフォームをリリースします。
+  summary.value: 私が提供できる価値：AI機能を研究段階のアイデアから、ガバナンスの効いた自己検証型の、本番運用を見据えたシステムへと仕上げる力です。信頼する前に各モデルが実際に動作することを確認するLLMルーティング、推測ではなく議論を重ねて合意に至るエージェント、文脈を失わないメモリとRAG層、そして「テストが通っている」ことが「機能が壊れている」ことを黙って意味することが決してないよう構成されたエコシステム全体です。
+  tmpl.cl.emphasis: これらのプロジェクトを通じて私が重視してきたのは{list}であり、その同じ規律は、私がリリースするあらゆる成果物にも貫かれています。
+  tmpl.cl.project: '{blurb} スタック：{tech}。'
+  tmpl.cl.salutation: 拝啓　採用ご担当者様
+  tmpl.cl.subject: '{area}ポジションへの応募の件'
+  tmpl.cl.title: '{name} — {area} — カバーレター'
+  tmpl.cv.keywords: キーワード：{list}
+  tmpl.cv.tech: スタック：{tech}
+  tmpl.cv.title: '{name} — {area} — 職務経歴書'

@@ -1,0 +1,51 @@
+schema: career.area.v1
+id: android-tv
+order: 3
+accent: "#00b8a9"
+icon: tv
+title_i18n: area.android-tv.title
+title: "Android TV"
+tagline_i18n: area.android-tv.tagline
+tagline: "Ten-foot interfaces, Leanback, media pipelines, and device-farm verification."
+hero_metric: metric.products
+sections: [summary, competencies, experience, projects, skills, education, publications]
+keywords:
+  - "Android TV"
+  - "Leanback"
+  - "Jetpack Compose for TV"
+  - "ExoPlayer"
+  - "Media3"
+  - "D-pad navigation"
+  - "focus management"
+  - "HLS"
+  - "DASH"
+  - "Google TV"
+  - "ADB"
+  - "Espresso"
+competencies:
+  - comp.android
+  - comp.qa
+  - comp.cross
+  - comp.backend
+  - comp.data
+emphasis:
+  - comp.android
+  - comp.qa
+projects:
+  - proj.helixqa
+  - proj.helixtrack
+  - proj.catalogizer
+experience:
+  - exp.harness
+  - exp.leica
+  - exp.bosch
+cover_letter:
+  angle: "Android TV experiences that survive real devices, not just emulators"
+  opening_i18n: cl.open.androidtv
+  opening: "Ten-foot interfaces, Leanback, media pipelines, and device-farm verification."
+  project_ids:
+    - proj.helixqa
+    - proj.helixtrack
+    - proj.catalogizer
+  closing_i18n: cl.close.android-tv
+  closing: "I would welcome the chance to bring that combination to your team."

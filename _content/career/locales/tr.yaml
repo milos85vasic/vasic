@@ -1,0 +1,229 @@
+date:
+  month_year: '{month} {year}'
+  range: '{start} – {end}'
+dir: ltr
+name: Türkçe
+months:
+- Oca
+- Şub
+- Mar
+- Nis
+- May
+- Haz
+- Tem
+- Ağu
+- Eylül
+- Eki
+- Kas
+- Ara
+identical_ok:
+  area.android-aosp.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "e8bb477f057587da"
+  area.android-tv.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "f73ea1e2323972cb"
+  area.flutter.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "c903759742b75021"
+  area.react-native.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "1cd07be18aed5105"
+  comp.frontend.item1:
+    reason: "technology and protocol names only; nothing to translate"
+    en_sha: "2993ab3641267f70"
+  pub.fundamentalkotlin.title:
+    reason: "published book title, kept verbatim in its original form"
+    en_sha: "c5aabded9446aaf6"
+strings:
+  area.ai-engineering.tagline: LLM altyapısı, otonom ajanlar ve bunları güvenilir kılan yönetişim.
+  area.ai-engineering.title: Yapay Zekâ Mühendisliği
+  area.android-aosp.tagline: 'Platform seviyesinde Android: sistem servisleri, cihaz bring-up''ı ve donanım entegrasyonu.'
+  area.android-aosp.title: Android AOSP
+  area.android-tv.tagline: Televizyon (10 foot) arayüzleri, Leanback, medya pipeline'ları ve cihaz çiftliği doğrulaması.
+  area.android-tv.title: Android TV
+  area.android.tagline: Ürün ölçeğinde Kotlin ve Java — SDK'lar, donanım entegrasyonu ve sürüm mühendisliği.
+  area.android.title: Android Mühendisliği
+  area.desktop.tagline: Electron ve Tauri, yerel köprüler ve offline-first masaüstü ürünleri.
+  area.desktop.title: Masaüstü Mühendisliği
+  area.flutter.tagline: SDK seviyesinde Dart — eklenti mimarisi, platform kanalları ve yayımlanmış paketler.
+  area.flutter.title: Flutter
+  area.go.tagline: Yüksek verimli servisler, dağıtık sistemler ve bunların üzerine kurulduğu kütüphaneler.
+  area.go.title: Go ve Backend
+  area.mobile.tagline: Android, iOS, Flutter ve React Native genelinde yerel ve çapraz platform teslimat.
+  area.mobile.title: Mobil Mühendislik
+  area.react-native.tagline: Köprünün iki yanında TypeScript — yerel modüller, SDK paketleri ve sürüm otomasyonu.
+  area.react-native.title: React Native
+  area.web-frontend.tagline: TypeScript, React ve Angular — tasarım sistemleri, erişilebilirlik ve performans bütçeleri.
+  area.web-frontend.title: Web ve Frontend
+  cl.close.ai-engineering: Bu birikimi ekibinize taşıma fırsatını memnuniyetle değerlendiririm.
+  cl.close.android: Bu birikimi ekibinize taşıma fırsatını memnuniyetle değerlendiririm.
+  cl.close.android-aosp: Bu birikimi ekibinize taşıma fırsatını memnuniyetle değerlendiririm.
+  cl.close.android-tv: Bu birikimi ekibinize taşıma fırsatını memnuniyetle değerlendiririm.
+  cl.close.desktop: Bu birikimi ekibinize taşıma fırsatını memnuniyetle değerlendiririm.
+  cl.close.flutter: Bu birikimi ekibinize taşıma fırsatını memnuniyetle değerlendiririm.
+  cl.close.go: Bu birikimi ekibinize taşıma fırsatını memnuniyetle değerlendiririm.
+  cl.close.mobile: Bu birikimi ekibinize taşıma fırsatını memnuniyetle değerlendiririm.
+  cl.close.react-native: Bu birikimi ekibinize taşıma fırsatını memnuniyetle değerlendiririm.
+  cl.close.web-frontend: Bu birikimi ekibinize taşıma fırsatını memnuniyetle değerlendiririm.
+  cl.open.ai: LLM altyapısı, otonom ajanlar ve bunları güvenilir kılan yönetişim.
+  cl.open.android: Ürün ölçeğinde Kotlin ve Java — SDK'lar, donanım entegrasyonu ve sürüm mühendisliği.
+  cl.open.androidtv: Televizyon (10 foot) arayüzleri, Leanback, medya pipeline'ları ve cihaz çiftliği doğrulaması.
+  cl.open.aosp: 'Platform seviyesinde Android: sistem servisleri, cihaz bring-up''ı ve donanım entegrasyonu.'
+  cl.open.desktop: Electron ve Tauri, yerel köprüler ve offline-first masaüstü ürünleri.
+  cl.open.flutter: SDK seviyesinde Dart — eklenti mimarisi, platform kanalları ve yayımlanmış paketler.
+  cl.open.go: Yüksek verimli servisler, dağıtık sistemler ve bunların üzerine kurulduğu kütüphaneler.
+  cl.open.mobile: Android, iOS, Flutter ve React Native genelinde yerel ve çapraz platform teslimat.
+  cl.open.reactnative: Köprünün iki yanında TypeScript — yerel modüller, SDK paketleri ve sürüm otomasyonu.
+  cl.open.web: TypeScript, React ve Angular — tasarım sistemleri, erişilebilirlik ve performans bütçeleri.
+  comp.ai.label: Yapay zekâ ve LLM sistemleri
+  comp.ai.item1: 'Çoklu sağlayıcılı LLM soyutlaması (40+ sağlayıcı), MCP araç entegrasyonu, RAG, vektör veritabanları ve embedding''ler'
+  comp.ai.item2: 'Ajan orkestrasyonu — headless CLI ajanları, graf iş akışları, çok turlu tartışma ve uzlaşı'
+  comp.ai.item3: 'Planlama (HiPlan / MCTS / Tree-of-Thoughts), LLMOps, kıyaslama (SWE-bench, HumanEval, MMLU)'
+  comp.ai.item4: 'LLM doğrulaması, savunmacı LLM korumaları (guardrails), bilgisayarlı görü ve LLM görüsü (LLM-vision)'
+  comp.android.label: Android ve Android TV
+  comp.android.item1: 'Android''de Kotlin ve Java, Android TV ve AOSP; Jetpack Compose, Leanback, ExoPlayer'
+  comp.android.item2: 'Gerçek zamanlı donanım entegrasyonu — Bluetooth, OBD2, 3D tarayıcılar, sensör pipeline''ları'
+  comp.android.item3: 'SDK tasarımı, Gradle build mühendisliği, ADB ile cihaz testi, sürüm otomasyonu'
+  comp.backend.label: Backend mühendisliği
+  comp.backend.item1: 'Go (Gin), gRPC + Protobuf, HTTP/3 (QUIC), WebSocket''ler'
+  comp.backend.item2: 'TLA+ biçimsel spesifikasyonları dahil dağıtık sistemler'
+  comp.backend.item3: 'Yüksek verimli REST servisleri ve eşzamanlı worker''lar'
+  comp.cross.label: Çapraz platform ve mobil SDK'lar
+  comp.cross.item1: 'SDK seviyesinde Flutter/Dart ve React Native — AWS, Google ve bankalar tarafından kullanılan yayımlanmış paketler'
+  comp.cross.item2: 'Kotlin Multiplatform ve Android ile iOS arasında paylaşılan iş mantığı'
+  comp.cross.item3: 'Swift ile iOS; yerel köprüler ve platform kanalları'
+  comp.data.label: Veri
+  comp.data.item1: 'PostgreSQL, SQLite, SQLCipher (bekleyen veri şifrelemesi), Redis, Neo4j, ClickHouse'
+  comp.data.item2: 'Nesne depolama — MinIO, S3, GCS, Azure Blob'
+  comp.frontend.label: Frontend ve masaüstü
+  comp.frontend.item1: 'TypeScript/React (Tailwind, Redux Toolkit, i18next), Angular'
+  comp.frontend.item2: 'Electron ve Tauri/Rust masaüstü uygulamaları'
+  comp.frontend.item3: 'Erişilebilirlik (WCAG 2.2 AA), performans bütçeleri, tasarım sistemleri'
+  comp.gov.label: Mühendislik yönetişimi
+  comp.gov.item1: 'Git alt modülü olarak anayasa; kalıtım ve yayılım kapılarıyla (gates)'
+  comp.gov.item2: '140+ depodan oluşan bir filo genelinde dokümantasyon ve kapsam disiplini'
+  comp.infra.label: Altyapı ve DevOps
+  comp.infra.item1: 'Docker ve Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry'
+  comp.infra.item2: 'QEMU, Libvirt, Parallels; VM imajı araçları ve provisioning'
+  comp.infra.item3: 'GitHub Actions, Gradle ve Make ile CI/CD'
+  comp.qa.label: QA ve kalite mühendisliği
+  comp.qa.item1: 'Anti-bluff, kanıta dayalı kapılı QA (HelixQA); mutasyon kapılı challenge harness''ları'
+  comp.qa.item2: 'go test -race, görsel regresyon testi, ADB ile cihaz testi'
+  comp.qa.item3: 'SonarQube ve güvenlik taraması — Semgrep, gosec, Trivy, Snyk, Gitleaks, Nancy'
+  edu.bsc.degree: Lisans, Bilişim ve Hesaplama (Informatics and Computing)
+  edu.bsc.location: Belgrad, Sırbistan
+  edu.msc.degree: Yüksek Lisans, Çağdaş Bilgi Teknolojileri
+  edu.msc.location: Belgrad, Sırbistan
+  exp.bosch.b1: Connected Vehicles SDK'sına liderlik ettim — OBD2 veri yolu ile Bluetooth üzerinden gerçek zamanlı iletişim
+  exp.bosch.b2: Sürekli araç telemetrisi için yüksek performanslı ayrıştırma, tamponlama ve kalıcı depolama geliştirdim
+  exp.bosch.b3: Otomotiv iş ortaklarının entegrasyonlarında benimsenen bir SDK'yı yayına aldım
+  exp.bosch.location: Belgrad, Sırbistan
+  exp.bosch.role: SDK Geliştiricisi
+  exp.bosch.summary: Connected Vehicles SDK'sının baş SDK geliştiricisi — OBD2 veri yolu ile Bluetooth üzerinden gerçek zamanlı iletişim, yüksek performanslı veri işleme ve kalıcı depolama.
+  exp.harness.b1: Feature Flag birimi için çok platformlu SDK ailesine liderlik ettim — Android, iOS, Flutter, React Native ve sunucu tarafı runtime'lar
+  exp.harness.b2: AWS, Google ve bankacılık iş ortaklarının kullandığı SDK'ları paylaşılan bir değerlendirme motoru ve platforma özgü, idiomatik API'larla yayına aldım
+  exp.harness.b3: Yedi dil ve dört paket ekosistemi genelinde sürüm mühendisliğinin sorumluluğunu üstlendim
+  exp.harness.location: Belgrad, Sırbistan
+  exp.harness.role: SDK Geliştiricisi
+  exp.harness.summary: Şirketin Feature Flag birimine ait SDK ailesinin baş geliştiricisiydim; tüm büyük mobil platformlara ve diğer ortamlara odaklanarak çalıştım. Müşteri ve iş ortakları arasında AWS, Google ve çeşitli bankalar
+    yer aldı.
+  exp.increment.b1: Yuno Android uygulamasını Kotlin ile geliştirdim
+  exp.increment.location: Belgrad, Sırbistan
+  exp.increment.role: Yazılım Mühendisi (sözleşmeli)
+  exp.increment.summary: Yuno uygulaması — Android, Kotlin.
+  exp.leica.b1: 3D tarama donanımıyla Bluetooth ve Wi-Fi üzerinden gerçek zamanlı cihaz iletişimi geliştirdim
+  exp.leica.b2: Büyük nokta bulutu verileri için cihaz üzerinde veri işleme ve eşitleme pipeline'ları tasarladım
+  exp.leica.b3: Autodesk iş ortaklığı entegrasyonunu Android ve iOS istemcilerinde hayata geçirdim
+  exp.leica.location: Heerbrugg, İsviçre
+  exp.leica.role: Yazılım Mühendisi
+  exp.leica.summary: 'Leica Geosystems 3D tarayıcıları için iOS ve Android mühendisliği — donanımla gerçek zamanlı iletişim, veri işleme ve eşitleme. İş ortağı: Autodesk.'
+  exp.tntech.b1: Globex Data için Android ve masaüstünde güvenli mesajlaşma, e-posta ve ofis paketi istemcileri geliştirdim
+  exp.tntech.b2: BusRide platformunun mobil istemcisini geliştirdim
+  exp.tntech.location: Novi Sad, Sırbistan
+  exp.tntech.role: Yazılım Mühendisi (sözleşmeli)
+  exp.tntech.summary: Globex Data (Kanada ve İsviçre) için Sekur üzerinde — SekurMessenger, SekurMail, SekurSuite — ve BusRide platformunda çalıştım.
+  identity.headline: Yapay Zekâ Mühendisi — LLM altyapısı, otonom ajanlar ve bunları güvenilir kılan yönetişim
+  identity.location: Belgrad, Sırbistan · Uzaktan (AB)
+  identity.role: Yapay Zekâ Mühendisi / Yazılım Mühendisi
+  label.competencies: Temel yetkinlikler
+  label.cover.date: Tarih
+  label.cover.encl: 'Ek: özgeçmiş'
+  label.cover.regards: Saygılarımla
+  label.cover.subject: Konu
+  label.cover.to: Alıcı
+  label.education: Eğitim
+  label.experience: Deneyim
+  label.keywords: Anahtar kelimeler
+  label.languages: Konuşulan diller
+  label.present: Halen
+  label.projects: Seçilmiş projeler
+  label.publications: Yayınlar
+  label.skills: Teknik beceriler
+  label.summary: Özet
+  label.tech: Teknolojiler
+  lang.de: Almanca
+  lang.de.level: Temel düzey
+  lang.en: İngilizce
+  lang.en.level: Profesyonel (C1/C2)
+  lang.ru: Rusça
+  lang.ru.level: Profesyonel çalışma düzeyi
+  lang.sr: Sırpça
+  lang.sr.level: Ana dil
+  metric.locales.label: dilde yayımlanan site
+  metric.products.label: kanıta dayalı ürün
+  metric.providers.label: tek arayüz altında LLM sağlayıcısı
+  metric.repos.label: tek bir anayasa altında depo
+  metric.years.label: yıllık yazılım teslimi deneyimi
+  proj.catalogizer.blurb: Çok protokollü, şifreli, kendi sunucunda barındırılabilir medya koleksiyonu yönetimi (Go/Gin + React) — güvenilmez ağ depolamasına karşı dayanıklı ve 21 yeniden kullanılabilir
+    alt modül üzerine kurulu.
+  proj.coursescreator.blurb: TTS ile markdown'dan videoya yapay zekâ destekli kurs pipeline'ı; masaüstü, mobil ve web oynatıcılarıyla.
+  proj.helixagent.blurb: 'Tek bir modele güvenmeyi reddeden, üretim kalitesinde ensemble LLM servisi: bir istemi birçok sağlayıcıya dağıtır, yapılandırılmış çok turlu tartışma (Proposal → Critique → Review
+    → Synthesis) yürütür ve canlı doğrulama puanlarına göre yönlendirir; sorunsuz yedek devreye alma (fallback) destekler — OpenAI uyumlu bir API''nin ardında yüksek erişilebilirlikli (HA) veri katmanı,
+    observability ve guardrails ile.'
+  proj.helixcode.blurb: İşi, SSH ile yönetilen bir worker filosu üzerinde bağımlılıkları gözeten görevlere bölen dağıtık yapay zekâ geliştirme platformu; bir görev kesintiye uğradığında hiçbir şey kaybolmasın
+    diye checkpoint alır ve geri alır — donanıma göre model seçimi ve REST, CLI, TUI ile MCP arkasında tam plan/build/test/refactor yaşam döngüsüyle.
+  proj.helixconstitution.blurb: Git alt modülü olarak dağıtılan ve 140'tan fazla depoda miras alınan evrensel bir mühendislik kuralları kitabı — mühendislik hukuku tıpkı kod gibi yayımlanır ve sürümü sabitlenir.
+    Yayılım kapıları, tüketen her depoda gerekli maddeleri arar; her kapı, kapının kendisinin göstermelik olmadığını kanıtlayan bir mutasyon meta-testiyle eşleştirilmiştir.
+  proj.helixllm.blurb: 'Tek bir ikili (binary) dosya, altı dağıtım modu: HTTP/3 üzerinden OpenAI ve Anthropic uyumlu çıkarım (inference); dizüstü bilgisayardan çok sunuculu kümeye ölçeklenir, yerel llama.cpp çıkarımı (CUDA/Metal/ROCm)
+    ve otomatik keşif yapan, doğrulama puanlı bir bulut yedek (fallback) zinciri sunar — zincir her zaman garantili bir yerel modele düşer.'
+  proj.helixmemory.blurb: Kendi sınıfının en iyisi dört backend'i — Mem0, Cognee, Letta, Graphiti — tek arayüz altında birleştiren, paralel arama ve kaynaklar arası yeniden sıralama sunan birleşik bilişsel
+    bellek motoru.
+  proj.helixqa.blurb: 'Go ile yazılmış, tek bir kurala dayanan anti-bluff QA orkestrasyonu: ölçüt "testler geçiyor" değil, "kullanıcılar özelliği kullanabiliyor"dur. Yazılı YAML test bankalarını ve tam
+    otonom LLM-ve-görü oturumlarını çalıştırır; gerçek uygulamayı açar, belgelenmiş her özelliği doğrular, Android, Android TV, Web ve Masaüstü genelinde belgelenmemiş hataları avlar ve yakalanmış çalışma
+    zamanı kanıtı ile yapay zekâya hazır düzeltme biletleri olmadan PASS vermeyi reddeder.'
+  proj.helixspecifier.blurb: Süreç ağırlığını işin büyüklüğüne göre ölçekleyen ve spesifikasyonları çok ajanlı tartışmayla destekleyen, spesifikasyon güdümlü geliştirme füzyon motoru.
+  proj.helixtrack.blurb: 'Özgür dünyanın JIRA + Confluence alternatifi: HTTP/3 üzerinden birleşik, eylem yönlendirmeli bir API''nin ardında Go mikroservisleri, bekleyen veri için SQLCipher şifrelemesi ve yerel Web, Masaüstü,
+    Android ve iOS istemcileri.'
+  proj.llmorchestrator.blurb: Başsız (headless) CLI ajanlarını — OpenCode, Claude Code, Gemini, Junie, Qwen Code — hibrit pipe-ve-dosya protokolü üzerinden başlatan ve yöneten, thread-safe bir kontrol düzlemi.
+  proj.llmprovider.blurb: '43 sağlayıcı için tek arayüz: circuit breaker''lar, sağlık izleme, jittered-backoff yeniden denemeleri ve sabit kodlanmış yedek (fallback) içermeyen, dürüst model keşfi.'
+  proj.llmsverifier.blurb: Zorunlu "Kodumu görüyor musun?" kapısı sayesinde yalnızca gerçekten çalıştığı kanıtlanmış modellerin kullanılabilir olarak işaretlendiği veya dışa aktarıldığı, tek doğruluk kaynağı niteliğinde
+    bir doğrulama sistemi.
+  proj.mailserverfactory.blurb: 'Bildirimsel (declarative) JSON''dan Docker tabanlı, tam kurulu posta sunucularına: 12 bağlantı türü ve 25 Linux dağıtımı genelinde; 439 başarılı test ve temiz bir SonarQube
+    kalite kapısı bildirir.'
+  proj.serverfactorycore.blurb: Server Factory serisinin altındaki ortak provisioning motoru ve VM imajı araçları — QEMU, Libvirt ve Parallels sürücüleri tek bir çatı altında.
+  proj.visionengine.blurb: Bilgisayarlı görü ve çok sağlayıcılı LLM görüsü (LLM-vision) ile gezinme grafları üzerinden arayüz algılama.
+  pub.fundamentalkotlin.detail: Kendi kendine yayımlayan yazar; son gözden geçirilmiş baskı Eylül 2022 (3. baskı). Ayrıca Packt Publishing (Birleşik Krallık) için de yazarlık yaptım.
+  pub.fundamentalkotlin.title: Fundamental Kotlin
+  skills.ai: Yapay zekâ ve LLM
+  skills.backend: Backend ve protokoller
+  skills.data: Veri
+  skills.frontend: Frontend ve masaüstü
+  skills.infra: Altyapı ve DevOps
+  skills.languages: Diller
+  summary.body: '16 yılı aşkın profesyonel mühendislik deneyimim — mobil SDK''lar, gerçek zamanlı donanım entegrasyonu ve dağıtık backend''ler — şimdi tek bir odakta buluşuyor: otonom yapay zekâ geliştirmeyi
+    ölçekte güvenilir kılmak. Monolit değil, filo tasarlarım: onlarca küçük, birbirinden ayrık, bağımsız test edilen modülün üzerinde yükselen büyük ürün uygulamaları; her biri ortak bir mühendislik Anayasası''nı
+    miras alır ve anti-bluff, kanıta dayalı bir QA disiplini ile doğrulanır.'
+  summary.lead: Yapay zekâ geliştirme sistemlerini baştan sona inşa eden bir yapay zekâ/yazılım mühendisi — çok sağlayıcılı LLM altyapısı ve otonom ajanlardan, bunları dürüst tutan QA ve yönetişim katmanlarına
+    kadar. Demo teslim etmem; platform teslim ederim.
+  summary.value: 'Sunduğum değer: bir yapay zekâ yeteneğini araştırma fikrinden yönetilen, kendini doğrulayan, üretime uygun bir sisteme taşıyabilmek — her modelin gerçekten çalıştığını güvenmeden önce
+    kanıtlayan LLM yönlendirmesi, tahmin yürütmek yerine tartışıp uzlaşıya varan ajanlar, bağlam kaybetmeyen bellek ve RAG katmanları ve "testler yeşil" ifadesinin asla sessizce "özellik bozuk" anlamına
+    gelemeyeceği şekilde bağlanmış bütün bir ekosistem.'
+  tmpl.cl.emphasis: 'Bu projelerde odak noktam şudur: {list} — ve aynı disiplin teslim ettiğim her şeye yansır.'
+  tmpl.cl.project: '{blurb} Teknolojiler: {tech}.'
+  tmpl.cl.salutation: Sayın İşe Alım Ekibi,
+  tmpl.cl.subject: Başvuru — {area}
+  tmpl.cl.title: '{name} — {area} — Ön Yazı'
+  tmpl.cv.keywords: 'Anahtar kelimeler: {list}'
+  tmpl.cv.tech: 'Teknolojiler: {tech}'
+  tmpl.cv.title: '{name} — {area} — Özgeçmiş'
