@@ -1,0 +1,27 @@
+verify-live-site  base=https://milosvasic.ru  at=2026-11-23T23:41:29Z  took=81.3s
+sitemap URLs: 690   pages HTTP 200: 690/690   resources checked: 58 (non-200: 0)
+FAILED assertions: 0   UNDETERMINED: 0
+baseline docs/qa/live-site/baseline-live-2026-11-23.json: regressions=0 new_paths=176
+    + new: /assets/og/ai-engineering.png
+    + new: /assets/og/android-aosp.png
+    + new: /assets/og/android-tv.png
+    + new: /assets/og/android.png
+    + new: /assets/og/desktop.png
+    + new: /assets/og/expertise.png
+    + new: /assets/og/flutter.png
+    + new: /assets/og/go.png
+    + new: /assets/og/mobile.png
+    + new: /assets/og/react-native.png
+    + new: /assets/og/web-frontend.png
+    + new: /expertise/
+    + new: /expertise/ai-engineering/
+    + new: /expertise/ai-engineering/ar/
+    + new: /expertise/ai-engineering/be/
+    + new: /expertise/ai-engineering/de/
+    + new: /expertise/ai-engineering/es/
+    + new: /expertise/ai-engineering/fa/
+    + new: /expertise/ai-engineering/fr/
+    + new: /expertise/ai-engineering/hi/
+  note: release page https://github.com/milos85vasic/milosvasic.ru/releases/tag/v2.0.0 -> HTTP 200
+VERDICT: PASS (rc 0)
+report sha256: 4de3c822bda463ed2ec99b0c59248d74057e8b34554c8a1f3c11d6e5fd0c726b
