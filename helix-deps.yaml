@@ -416,7 +416,7 @@ deps:
 
   - name: milosvasic.ru
     ssh_url: git@github.com:milos85vasic/milosvasic.ru.git
-    ref: "b5896642ce7b088053870f75e8f9776701b4918d"   # a v1.8.0 tag exists but the gitlink is PAST it, so the tag would be a false pin; sha is exact
+    ref: "e8ea2b19e79153ccccb83c6886e6d825c543cfcb"   # v2.0.0 tag (footer Website version); sha is exact
     # Moved 2026-09-08 from f5f13a25eaebb4d8023717040425992a43c53de1 by operator
     # decision #13: `_site/` was UNTRACKED there (8 files, one rendered page).
     # The `why:` below has said "its rendered _site/ is git-ignored" all along;

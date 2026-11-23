@@ -1,0 +1,9 @@
+PASS prove[good]: rc=0 expected=0
+PASS prove[wrong-link]: rc=1 expected=1
+PASS prove[wrong-text]: rc=1 expected=1
+PASS prove[wrong-label]: rc=1 expected=1
+PASS prove[no-footer]: rc=1 expected=1
+PASS prove[unreleased]: rc=1 expected=1
+PASS prove[stale-version]: rc=1 expected=1
+PASS prove[bad-semver]: rc=1 expected=1
+PROVE-FAILURE: all seeded faults caught

@@ -1505,3 +1505,36 @@ main[data-area] {
    and flip the hover nudge so it still moves in the reading direction. */
 [dir="rtl"] .mv-expertise-tile__arrow { transform: scaleX(-1); }
 [dir="rtl"] .mv-expertise-tile:hover .mv-expertise-tile__arrow { transform: translateX(-.25rem) scaleX(-1); }
+
+/* Website version (footer, bottom line, aligned with the © line).
+   Single source: the committed VERSION file (_plugins/mv_version.rb). Colour
+   uses the AA-checked --a2-text-muted token (check_a2_contrast.py covers it in
+   light AND dark); logical properties keep it RTL-safe; no animation. */
+.mv-footbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  column-gap: var(--od-space-4, 1rem);
+  row-gap: var(--od-space-2, .5rem);
+}
+.footer .mv-footbar > p { margin-block: 0; }
+.footer .mv-ver {
+  margin-inline-start: auto;
+  color: var(--a2-text-muted, var(--muted));
+  white-space: nowrap;
+}
+.footer .mv-ver__link {
+  color: inherit;
+  font-weight: 600;
+  text-transform: none; /* keep the tag spelled exactly v<VERSION> under .mono uppercase */
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.footer .mv-ver__link:hover,
+.footer .mv-ver__link:focus-visible {
+  color: var(--a2-text, var(--text));
+}
+@media (max-width: 40rem) {
+  .footer .mv-ver { margin-inline-start: 0; }
+}

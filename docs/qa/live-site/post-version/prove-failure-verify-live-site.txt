@@ -1,0 +1,22 @@
+verify-live-site --prove-failure
+  PASS control: clean fixture is green: rc=0 (want 0) ids=[]
+  PASS seeded defect detected: sitemap-url-status: rc=1 (want 1) ids=['sitemap-url-status']
+  PASS seeded defect detected: canonical-mismatch: rc=1 (want 1) ids=['canonical-mismatch']
+  PASS seeded defect detected: hreflang-nonreciprocal: rc=1 (want 1) ids=['hreflang-nonreciprocal']
+  PASS seeded defect detected: resource-dead: rc=1 (want 1) ids=['resource-dead']
+  PASS seeded defect detected: pdf-magic: rc=1 (want 1) ids=['pdf-magic']
+  PASS seeded defect detected: private-exposed: rc=1 (want 1) ids=['private-exposed']
+  PASS version footer: control green (every page links vX, release URL 200): rc=0 (want 0) ids=[]
+  PASS seeded defect detected: version-wrong-link: rc=1 (want 1) ids=['resource-dead', 'version-footer-link']
+  PASS seeded defect detected: version-wrong-text: rc=1 (want 1) ids=['version-footer-text']
+  PASS seeded defect detected: version-missing: rc=1 (want 1) ids=['version-footer-missing']
+  PASS seeded defect detected: version-no-release: rc=1 (want 1) ids=['resource-dead', 'version-release-url']
+  PASS crawl (no sitemap): control green, hidden page /b/ discovered: rc=0 (want 0) ids=[]
+  PASS crawl auto-fallback when sitemap absent: rc=0 (want 0) ids=[]
+  PASS crawl seeded defect detected: dead link: rc=1 (want 1) ids=['link-dead']
+  PASS crawl seeded defect detected: broken asset: rc=1 (want 1) ids=['resource-dead']
+  PASS crawl: foreign canonical reported, not failed: rc=0 (want 0) ids=[]
+  PASS crawl bounded: --max-pages 2 -> rc 2 (incomplete), never a pass: rc=2 (want 2) ids=[]
+  PASS baseline REGRESSION detected (page 200 -> gone): rc=1 (want 1) ids=['REGRESSION', 'resource-dead']
+  PASS unreachable base -> rc 2, never a pass: rc=2
+PROOF: OK -- every seeded defect detected, control green, rc 2 honoured

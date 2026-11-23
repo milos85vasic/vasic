@@ -162,6 +162,9 @@ def _path_key(u):
 
 # --------------------------------------------------------------------- core
 class Verifier:
+    expect_version = None      # --expect-version X: every HTML page must show the version footer link
+    version_url_prefix = None  # --version-url-prefix URL: link must equal <prefix><X>, which must answer 200
+
     def __init__(self, base, sitemap_dir=None, private=None, conc=6, crawl=False, max_pages=2000, legacy_hosts=None):
         self.crawl = crawl; self.max_pages = max(1, max_pages)
         self.crawled = set(); self.cache = {}; self.crawl_mode = False
@@ -258,7 +261,29 @@ class Verifier:
         self.check_private(urls)
         self.check_robots()
         self.check_404()
+        if self.expect_version: self.check_release_url()
         return self.report(t0, urls)
+
+    _VER = re.compile(r'<[^>]+class="[^"]*\bmv-ver__link\b[^"]*"[^>]*>(.*?)</a>', re.S)
+
+    def check_version_footer(self, u, html_text, info):
+        """Every HTML page carries the footer version link: href == prefix+X, text == vX."""
+        want = f"{self.version_url_prefix}{self.expect_version}"
+        links = re.findall(r'<a\b[^>]*\bmv-ver__link\b[^>]*>.*?</a>', html_text, re.S)
+        if len(links) != 1:
+            self.fail("version-footer-missing", u, f"{len(links)} .mv-ver__link element(s), expected exactly 1"); return
+        m = re.search(r'href="([^"]*)"', links[0]); href = m.group(1) if m else ""
+        text = re.sub(r"<[^>]+>", "", links[0]).strip()
+        info["version_link"] = href
+        if href != want: self.fail("version-footer-link", u, f"href {href!r} != {want!r}")
+        if text != f"v{self.expect_version}": self.fail("version-footer-text", u, f"text {text!r} != 'v{self.expect_version}'")
+
+    def check_release_url(self):
+        url = f"{self.version_url_prefix}{self.expect_version}"
+        r = fetch(url)
+        if r["transport"]: self.und("version-release-url", url, r["error"]); return
+        if r["status"] != 200: self.fail("version-release-url", url, f"release page HTTP {r['status']}")
+        else: self.notes.append(f"release page {url} -> HTTP 200")
 
     def _polite_get(self, u):
         time.sleep(0.05)
@@ -322,6 +347,7 @@ class Verifier:
         info.update(title=title, description=p.desc, canonical=p.canonical, lang=p.lang, dir=p.dir,
                     og_image=p.og_image, hreflang=p.hreflang)
         parsed[u] = p
+        if self.expect_version: self.check_version_footer(u, r["body"].decode("utf-8", "replace"), info)
         if not title: self.fail("title-empty", u, "missing or empty <title>")
         if not p.canonical:
             if not self.crawl_mode: self.fail("canonical-missing", u, "no rel=canonical")
@@ -530,8 +556,10 @@ def summarize(rep, rc):
     return "\n".join(L)
 
 
-def run_once(base, sitemap_dir=None, private=None, conc=6, baseline=None, crawl=False, max_pages=2000, legacy_hosts=None):
+def run_once(base, sitemap_dir=None, private=None, conc=6, baseline=None, crawl=False, max_pages=2000, legacy_hosts=None,
+             expect_version=None, version_url_prefix=None):
     v = Verifier(base, sitemap_dir, private, conc, crawl, max_pages, legacy_hosts)
+    v.expect_version = expect_version; v.version_url_prefix = version_url_prefix
     rep = v.run()
     if baseline: rep["baseline_compare"] = v.compare_baseline(baseline)
     rep["failures"] = v.failures; rep["undetermined"] = v.undet
@@ -560,11 +588,17 @@ def build_fixture(root, defect, port, sitemap=True):
         p = os.path.join(root, rel); os.makedirs(os.path.dirname(p), exist_ok=True)
         with open(p, "wb") as f: f.write(data if isinstance(data, bytes) else data.encode())
     B = f"http://127.0.0.1:{port}"
+    def vfoot(path):
+        if defect == "version-missing" and path == "/b/": return ""
+        href = f"{B}/rel/v9.9.8" if (defect == "version-wrong-link" and path == "/b/") else f"{B}/rel/v9.9.9"
+        txt = "v9.9.7" if (defect == "version-wrong-text" and path == "/b/") else "v9.9.9"
+        return (f'<footer class="footer"><p class="mv-ver"><span data-i18n="footer.version">Website version:</span> '
+                f'<a class="mv-ver__link" href="{href}">{txt}</a></p></footer>')
     def page(path, title, canon, alts, extra):
         alt = "".join(f'<link rel="alternate" hreflang="{l}" href="{B}{u}">' for l, u in (alts or {}).items())
         return (f'<!doctype html><html lang="en"><head><meta charset="utf-8"><title>{title}</title>'
                 f'<meta name="description" content="d"><link rel="canonical" href="{B}{canon or path}">{alt}'
-                f'<link rel="stylesheet" href="/a.css"></head><body><a href="/b/">b</a><a href="/de/">de</a>{extra}</body></html>')
+                f'<link rel="stylesheet" href="/a.css"></head><body><a href="/b/">b</a><a href="/de/">de</a>{extra}{vfoot(path)}</body></html>')
     both = {"en": "/", "de": "/de/"}
     pages = {"/": ("Home", both), "/de/": ("Heim", both), "/b/": ("B", None)}
     if defect == "hreflang-nonreciprocal": pages["/de/"] = ("Heim", {"de": "/de/"})
@@ -585,6 +619,7 @@ def build_fixture(root, defect, port, sitemap=True):
     locs = ["/", "/de/"] + ([] if defect == "drop-b" else ["/b/"]) + (["/gone/"] if defect == "sitemap-url-status" else [])
     if sitemap: w("sitemap.xml", '<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
       + "".join(f"<url><loc>{B}{l}</loc></url>" for l in locs) + "</urlset>")
+    if defect != "version-no-release": w("rel/v9.9.9/index.html", "<title>release</title>")
     if defect == "private-exposed": w("admin/index.html", "<title>secret</title>")
 
 
@@ -617,13 +652,15 @@ def _free_port():
 def prove_failure():
     ok = True; lines = []
     def case(name, defect, expect_rc, expect_id=None, baseline=None, crawl=False, sitemap=True, max_pages=2000,
-             want_page=None, want_legacy=False):
+             want_page=None, want_legacy=False, version=False):
         nonlocal ok
         td = tempfile.mkdtemp(prefix="vls-fixture-"); port = _free_port(); srv = None
         try:
             build_fixture(td, defect, port, sitemap); srv = serve(td, port)
             rep, rc = run_once(f"http://127.0.0.1:{port}", baseline=baseline, crawl=crawl, max_pages=max_pages,
-                              legacy_hosts=["old.example"])
+                              legacy_hosts=["old.example"],
+                              expect_version="9.9.9" if version else None,
+                              version_url_prefix=f"http://127.0.0.1:{port}/rel/v" if version else None)
         finally:
             if srv: srv.shutdown(); srv.server_close()
             shutil.rmtree(td, ignore_errors=True)
@@ -638,6 +675,10 @@ def prove_failure():
     for d in ["sitemap-url-status", "canonical-mismatch", "hreflang-nonreciprocal",
               "resource-dead", "pdf-magic", "private-exposed"]:
         case(f"seeded defect detected: {d}", d, 1, d)
+    case("version footer: control green (every page links vX, release URL 200)", None, 0, version=True)
+    for d, i in [("version-wrong-link", "version-footer-link"), ("version-wrong-text", "version-footer-text"),
+                 ("version-missing", "version-footer-missing"), ("version-no-release", "version-release-url")]:
+        case(f"seeded defect detected: {d}", d, 1, i, version=True)
     case("crawl (no sitemap): control green, hidden page /b/ discovered", None, 0, crawl=True, sitemap=False, want_page="/b/")
     case("crawl auto-fallback when sitemap absent", None, 0, sitemap=False, want_page="/b/")
     case("crawl seeded defect detected: dead link", "crawl-dead-link", 1, "link-dead", crawl=True, sitemap=False)
@@ -666,13 +707,17 @@ def main(argv=None):
     ap.add_argument("--crawl", action="store_true", help="discover pages by BFS crawl (auto when sitemap absent)")
     ap.add_argument("--max-pages", type=int, default=2000)
     ap.add_argument("--legacy-host", action="append", help="old host whose remaining references are reported as pre-existing")
+    ap.add_argument("--expect-version", help="assert every crawled HTML page has the footer version link v<X> and the release URL answers 200")
+    ap.add_argument("--version-url-prefix", help="release URL prefix, e.g. https://github.com/OWNER/REPO/releases/tag/v (required with --expect-version)")
     ap.add_argument("--prove-failure", action="store_true")
     a = ap.parse_args(argv)
     if a.prove_failure: return prove_failure()
     if not a.base:
         print("--base is required", file=sys.stderr); return 2
+    if bool(a.expect_version) != bool(a.version_url_prefix):
+        print("--expect-version and --version-url-prefix go together", file=sys.stderr); return 2
     rep, rc = run_once(a.base, a.sitemap_from_dir, a.private_path, a.max_concurrent, a.baseline,
-                      a.crawl, a.max_pages, a.legacy_host)
+                      a.crawl, a.max_pages, a.legacy_host, a.expect_version, a.version_url_prefix)
     text = summarize(rep, rc)
     blob = json.dumps(rep, indent=1, sort_keys=True, ensure_ascii=False)
     sha = hashlib.sha256(blob.encode()).hexdigest()
