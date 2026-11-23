@@ -19,7 +19,7 @@ a project whose badge row is honestly red is compliant with it — the reader
 gets the truth. Omitting the classes with no instrument would be the
 §11.4.201(6) false-null the anchor forbids by name.
 
-Recorded: 2026-09-23T10:04:30Z (UTC) at commit c90ddee
+Recorded: 2026-11-23T23:20:06Z (UTC) at commit 3aa8de2
 
 ---
 
@@ -38,8 +38,8 @@ Source: test types detected in-tree (unit,e2e,anti-bluff) of the 7 named by §11
 ## coverage
 
 Colour: red
-Value: 44.4% no target
-Source: cd _tools/gen && go test -cover ./...  -> 44.4%; RED because no §11.4.224 target or ratchet floor is declared, not because the number is low
+Value: 53.3% no target
+Source: cd _tools/gen && go test -cover ./...  -> 53.3%; RED because no §11.4.224 target or ratchet floor is declared, not because the number is low
 
 ## security
 
@@ -79,21 +79,21 @@ Source: no SLSA Build Level is tracked (probed: docs/security/SLSA_LEVEL.md); §
 
 ## zero-findings
 
-Colour: amber
-Value: 23 tracked
-Source: docs/findings/zero_findings_ledger.jsonl (23 rows) vs docs/findings/zero_findings_ratchet.tsv (TOTAL=23); AMBER because the §11.4.261 invariant is ZERO and the ratchet is holding at a brownfield baseline, not because the sweep failed
+Colour: red
+Value: 63 over ratchet
+Source: docs/findings/zero_findings_ledger.jsonl (63 rows) vs docs/findings/zero_findings_ratchet.tsv (TOTAL=23); RED because the ledger has RISEN above the recorded ratchet ceiling — §11.4.261(C) refuses the seam, and the ceiling may only ever be lowered
 
 ## evidence
 
 Colour: amber
-Value: 39/39 proofs
-Source: scripts/check-registry.tsv: 39 check row(s), 0 owing a proof. AMBER not GREEN because §11.4.262 also requires a CAPTURED evidence ARTIFACT per PASS, and no artifact capture exists at this root — the proof count alone does not satisfy the anchor
+Value: 74/74 proofs
+Source: scripts/check-registry.tsv: 74 check row(s), 0 owing a proof. AMBER not GREEN because §11.4.262 also requires a CAPTURED evidence ARTIFACT per PASS, and no artifact capture exists at this root — the proof count alone does not satisfy the anchor
 
 ## production-readiness
 
 Colour: red
-Value: blocked, 8 red
-Source: composite of every clause-(B) badge: 8 RED, 2 AMBER. §11.4.259(D) makes a RED gauge a release-blocker
+Value: blocked, 9 red
+Source: composite of every clause-(B) badge: 9 RED, 1 AMBER. §11.4.259(D) makes a RED gauge a release-blocker
 
 ---
 

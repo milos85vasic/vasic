@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-23T23:30:00Z
-    Synced-Commit: b2797f1
+    Last-Updated: 2026-11-24T00:40:00Z
+    Synced-Commit: 4e9a3f5
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -425,6 +425,27 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+## UPDATE 2026-11-24 (constitution inheritance made verifiable; PR-delivery decision recorded; branch `pr/constitution-inheritance`)
+
+Operator order: "We MUST inherit from the Constitution! Make this happen properly!" Pin `submodules/constitution` at `6d93ccd19e1c`
+(anchors through `11.4.298`; 279 `### §` headings; 13,108 lines; re-derive, do not quote). Delivered as ONE pull request
+(operator decision of 2026-11-23/24, §11.4.297): [`docs/governance/OPERATOR-DECISION-PR-DELIVERY-2026-11-24.md`](docs/governance/OPERATOR-DECISION-PR-DELIVERY-2026-11-24.md),
+declaration as DATA in [`docs/governance/pr-delivery.yaml`](docs/governance/pr-delivery.yaml) (PROVISIONAL: no delivery tool, no direct-push guard).
+
+What changed: the four root carriers were re-measured and their stale facts corrected in lockstep (13,108 lines, 279 anchors,
+23 gitlinks, current gitlinks), a section for anchors `11.4.289`-`11.4.298` and the PR decision was added to the shared region
+(C5 byte-identical from line 19), `docs/claim-ledger.tsv` gained row `carriers-constitution-pin`, and the zero-findings
+badge was regenerated honestly: it now reads `63 over ratchet` RED (ratchet ceiling 23; the 40-finding rise is OPEN and is
+NOT raised in `docs/findings/zero_findings_ratchet.tsv`, which may only ever decrease, §11.4.261(C)).
+`docs/governance/USER-INDEX-UPDATE-PROPOSAL.md` carries the exact lines for the two host-wide user indexes; no sanctioned
+generator exists, so `~/.claude*/CLAUDE.md` were NOT edited (operator action).
+
+Open and NOT ours or not done here: `job_seeker` has no carriers and no `helix-deps.yaml` entry (cascade C2/C6, kickoff later);
+`helix-deps.yaml` fails the constitution hub gate for own-org classification of `milos85vasic` entries and a duplicate
+`ssh_url` at `llm_provider` (upstream-policy vs ours, reported only; another agent edits that file); the full constitution
+sweep's remaining FAILs are classified in the pull request body, not repeated here. The post-update hook was run with an empty
+update range; its Jev bootstrap step also ran because a decision key is present on this host (no project file changed).
 
 ## UPDATE 2026-11-23 (career rework committed; PR #1 open; supersedes the earlier in-progress wording)
 
