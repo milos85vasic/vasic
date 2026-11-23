@@ -22,7 +22,7 @@ Was meine Arbeit meiner Meinung nach auszeichnet, ist eine Disziplin, die ich er
 
 Technisch arbeite ich hauptsächlich mit Go, kombiniert mit Kotlin/KMP, TypeScript/React, Python, Swift und Shell, über REST/gRPC/HTTP/3-Dienste, PostgreSQL/SQLite/Redis/ClickHouse-Datenschichten sowie Docker/Kubernetes/Prometheus-Operationen. Ich bin es gewohnt, ein System von der Anbieterabstraktion und Datenabfrage bis hin zum Nachweis seiner Funktionsfähigkeit vollständig zu verantworten.
 
-Ich würde mich freuen, diese Kombination – tiefgreifende AI-Systemtechnik gepaart mit einer echten, nachprüfbaren Qualitätsdisziplin – in Ihr Team einzubringen. Vielen Dank für Ihre Aufmerksamkeit; mein Portfolio und meine öffentlichen Repositories finden Sie unter milosvasic.ru und vasic.digital.
+Ich würde mich freuen, diese Kombination – tiefgreifende AI-Systemtechnik gepaart mit einer echten, nachprüfbaren Qualitätsdisziplin – in Ihr Team einzubringen. Vielen Dank für Ihre Aufmerksamkeit; mein Portfolio und meine öffentlichen Repositories finden Sie unter milosvasic.ru und digital.vasic.dev.
 
 Mit freundlichen Grüßen,
 Miloš Vasić

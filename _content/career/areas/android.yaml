@@ -1,0 +1,61 @@
+schema: career.area.v1
+id: android
+order: 2
+accent: "#3ddc84"
+icon: android
+title_i18n: area.android.title
+title: "Android Engineering"
+tagline_i18n: area.android.tagline
+tagline: "Kotlin and Java at product scale — SDKs, hardware integration, and release engineering."
+hero_metric: metric.years
+sections: [summary, competencies, experience, projects, skills, education, publications]
+keywords:
+  - "Android"
+  - "Kotlin"
+  - "Java"
+  - "Jetpack Compose"
+  - "Gradle"
+  - "SDK"
+  - "Bluetooth"
+  - "OBD2"
+  - "ADB"
+  - "Material Design"
+  - "Coroutines"
+  - "Flow"
+  - "Room"
+  - "Retrofit"
+  - "JUnit"
+  - "Espresso"
+competencies:
+  - comp.android
+  - comp.cross
+  - comp.qa
+  - comp.backend
+  - comp.data
+  - comp.infra
+  - comp.gov
+emphasis:
+  - comp.android
+projects:
+  - proj.helixtrack
+  - proj.helixqa
+  - proj.catalogizer
+  - proj.visionengine
+  - proj.helixconstitution
+experience:
+  - exp.harness
+  - exp.leica
+  - exp.bosch
+  - exp.tntech
+  - exp.increment
+cover_letter:
+  angle: "Android engineering from the SDK boundary to the shipping app"
+  opening_i18n: cl.open.android
+  opening: "Kotlin and Java at product scale — SDKs, hardware integration, and release engineering."
+  project_ids:
+    - proj.helixtrack
+    - proj.helixqa
+    - proj.catalogizer
+    - proj.visionengine
+  closing_i18n: cl.close.android
+  closing: "I would welcome the chance to bring that combination to your team."

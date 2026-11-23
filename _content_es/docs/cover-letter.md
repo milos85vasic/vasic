@@ -22,7 +22,7 @@ Lo que, en mi opinión, distingue mi trabajo es una disciplina que tomo muy en s
 
 Técnicamente, trabajo principalmente con Go, junto con Kotlin/KMP, TypeScript/React, Python, Swift y Shell, en servicios REST/gRPC/HTTP/3, capas de datos PostgreSQL/SQLite/Redis/ClickHouse y operaciones Docker/Kubernetes/Prometheus. Me siento cómodo asumiendo la propiedad de un sistema desde la abstracción de proveedores y la recuperación de datos hasta el rastro de evidencia que demuestra su funcionamiento.
 
-Agradecería la oportunidad de aportar a su equipo esa combinación: ingeniería profunda de sistemas AI junto con una disciplina de calidad genuina y verificable. Quedo a su disposición para cualquier información adicional; mi portafolio y repositorios públicos están disponibles en milosvasic.ru y vasic.digital.
+Agradecería la oportunidad de aportar a su equipo esa combinación: ingeniería profunda de sistemas AI junto con una disciplina de calidad genuina y verificable. Quedo a su disposición para cualquier información adicional; mi portafolio y repositorios públicos están disponibles en milosvasic.ru y digital.vasic.dev.
 
 Atentamente,
 Miloš Vasić

@@ -1,0 +1,214 @@
+dir: ltr
+name: हिन्दी
+months:
+- जन॰
+- फ़र॰
+- मार्च
+- अप्रैल
+- मई
+- जून
+- जुल॰
+- अग॰
+- सित॰
+- अक्तू॰
+- नव॰
+- दिस॰
+date:
+  month_year: '{month} {year}'
+  range: '{start} – {end}'
+identical_ok:
+  area.android-aosp.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "e8bb477f057587da"
+  area.android-tv.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "f73ea1e2323972cb"
+  area.flutter.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "c903759742b75021"
+  area.react-native.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "1cd07be18aed5105"
+  comp.backend.item1:
+    reason: "technology and protocol names only; nothing to translate"
+    en_sha: "603c4aa5c8187b1e"
+  comp.frontend.item1:
+    reason: "technology and protocol names only; nothing to translate"
+    en_sha: "2993ab3641267f70"
+  pub.fundamentalkotlin.title:
+    reason: "published book title, kept verbatim in its original form"
+    en_sha: "c5aabded9446aaf6"
+strings:
+  area.ai-engineering.tagline: LLM इन्फ्रास्ट्रक्चर, स्वायत्त एजेंट और वह गवर्नेंस जो उन्हें भरोसेमंद बनाती है।
+  area.ai-engineering.title: AI इंजीनियरिंग
+  area.android-aosp.tagline: 'प्लेटफ़ॉर्म-स्तर का Android: सिस्टम सर्विसेज़, डिवाइस ब्रिंग-अप और हार्डवेयर इंटीग्रेशन।'
+  area.android-aosp.title: Android AOSP
+  area.android-tv.tagline: टेन-फ़ुट इंटरफ़ेस, Leanback, मीडिया पाइपलाइन और डिवाइस-फ़ार्म वेरिफ़िकेशन।
+  area.android-tv.title: Android TV
+  area.android.tagline: प्रोडक्ट स्तर पर Kotlin और Java — SDK, हार्डवेयर इंटीग्रेशन और रिलीज़ इंजीनियरिंग।
+  area.android.title: Android इंजीनियरिंग
+  area.desktop.tagline: Electron और Tauri, नेटिव ब्रिज और ऑफ़लाइन-फ़र्स्ट डेस्कटॉप प्रोडक्ट।
+  area.desktop.title: डेस्कटॉप इंजीनियरिंग
+  area.flutter.tagline: SDK स्तर पर Dart — प्लगइन आर्किटेक्चर, प्लेटफ़ॉर्म चैनल और शिप किए गए पैकेज।
+  area.flutter.title: Flutter
+  area.go.tagline: हाई-थ्रूपुट सर्विसेज़, डिस्ट्रिब्यूटेड सिस्टम और वे लाइब्रेरी जिनसे वे बने हैं।
+  area.go.title: Go और बैकएंड
+  area.mobile.tagline: Android, iOS, Flutter और React Native पर नेटिव व क्रॉस-प्लेटफ़ॉर्म डिलीवरी।
+  area.mobile.title: मोबाइल इंजीनियरिंग
+  area.react-native.tagline: ब्रिज के आर-पार TypeScript — नेटिव मॉड्यूल, SDK पैकेज और रिलीज़ ऑटोमेशन।
+  area.react-native.title: React Native
+  area.web-frontend.tagline: TypeScript, React और Angular — डिज़ाइन सिस्टम, एक्सेसिबिलिटी और परफ़ॉर्मेंस बजट।
+  area.web-frontend.title: वेब और फ़्रंटएंड
+  cl.close.ai-engineering: आपकी टीम में यही संयोजन लाने का अवसर मिले तो मुझे प्रसन्नता होगी।
+  cl.close.android: आपकी टीम में यही संयोजन लाने का अवसर मिले तो मुझे प्रसन्नता होगी।
+  cl.close.android-aosp: आपकी टीम में यही संयोजन लाने का अवसर मिले तो मुझे प्रसन्नता होगी।
+  cl.close.android-tv: आपकी टीम में यही संयोजन लाने का अवसर मिले तो मुझे प्रसन्नता होगी।
+  cl.close.desktop: आपकी टीम में यही संयोजन लाने का अवसर मिले तो मुझे प्रसन्नता होगी।
+  cl.close.flutter: आपकी टीम में यही संयोजन लाने का अवसर मिले तो मुझे प्रसन्नता होगी।
+  cl.close.go: आपकी टीम में यही संयोजन लाने का अवसर मिले तो मुझे प्रसन्नता होगी।
+  cl.close.mobile: आपकी टीम में यही संयोजन लाने का अवसर मिले तो मुझे प्रसन्नता होगी।
+  cl.close.react-native: आपकी टीम में यही संयोजन लाने का अवसर मिले तो मुझे प्रसन्नता होगी।
+  cl.close.web-frontend: आपकी टीम में यही संयोजन लाने का अवसर मिले तो मुझे प्रसन्नता होगी।
+  cl.open.ai: LLM इन्फ्रास्ट्रक्चर, स्वायत्त एजेंट और वह गवर्नेंस जो उन्हें भरोसेमंद बनाती है।
+  cl.open.android: प्रोडक्ट स्तर पर Kotlin और Java — SDK, हार्डवेयर इंटीग्रेशन और रिलीज़ इंजीनियरिंग।
+  cl.open.androidtv: टेन-फ़ुट इंटरफ़ेस, Leanback, मीडिया पाइपलाइन और डिवाइस-फ़ार्म वेरिफ़िकेशन।
+  cl.open.aosp: 'प्लेटफ़ॉर्म-स्तर का Android: सिस्टम सर्विसेज़, डिवाइस ब्रिंग-अप और हार्डवेयर इंटीग्रेशन।'
+  cl.open.desktop: Electron और Tauri, नेटिव ब्रिज और ऑफ़लाइन-फ़र्स्ट डेस्कटॉप प्रोडक्ट।
+  cl.open.flutter: SDK स्तर पर Dart — प्लगइन आर्किटेक्चर, प्लेटफ़ॉर्म चैनल और शिप किए गए पैकेज।
+  cl.open.go: हाई-थ्रूपुट सर्विसेज़, डिस्ट्रिब्यूटेड सिस्टम और वे लाइब्रेरी जिनसे वे बने हैं।
+  cl.open.mobile: Android, iOS, Flutter और React Native पर नेटिव व क्रॉस-प्लेटफ़ॉर्म डिलीवरी।
+  cl.open.reactnative: ब्रिज के आर-पार TypeScript — नेटिव मॉड्यूल, SDK पैकेज और रिलीज़ ऑटोमेशन।
+  cl.open.web: TypeScript, React और Angular — डिज़ाइन सिस्टम, एक्सेसिबिलिटी और परफ़ॉर्मेंस बजट।
+  comp.ai.label: AI / LLM सिस्टम
+  comp.ai.item1: 'मल्टी-प्रोवाइडर LLM एब्स्ट्रैक्शन (40+ प्रोवाइडर), MCP टूल इंटीग्रेशन, RAG, वेक्टर डेटाबेस और एम्बेडिंग'
+  comp.ai.item2: 'एजेंट ऑर्केस्ट्रेशन — headless CLI एजेंट, ग्राफ़ वर्कफ़्लो, बहु-राउंड डिबेट और सहमति'
+  comp.ai.item3: 'प्लानिंग (HiPlan / MCTS / Tree-of-Thoughts), LLMOps, बेंचमार्किंग (SWE-bench, HumanEval, MMLU)'
+  comp.ai.item4: 'LLM वेरिफ़िकेशन, डिफ़ेंसिव-LLM गार्डरेल, कंप्यूटर विज़न और LLM-विज़न'
+  comp.android.label: Android और Android TV
+  comp.android.item1: 'Android, Android TV और AOSP पर Kotlin व Java; Jetpack Compose, Leanback, ExoPlayer'
+  comp.android.item2: 'रियल-टाइम हार्डवेयर इंटीग्रेशन — Bluetooth, OBD2, 3D स्कैनर, सेंसर पाइपलाइन'
+  comp.android.item3: 'SDK डिज़ाइन, Gradle बिल्ड इंजीनियरिंग, ADB डिवाइस टेस्टिंग, रिलीज़ ऑटोमेशन'
+  comp.backend.label: बैकएंड इंजीनियरिंग
+  comp.backend.item1: 'Go (Gin), gRPC + Protobuf, HTTP/3 (QUIC), WebSockets'
+  comp.backend.item2: 'डिस्ट्रिब्यूटेड सिस्टम, जिनमें TLA+ औपचारिक स्पेसिफ़िकेशन शामिल हैं'
+  comp.backend.item3: 'हाई-थ्रूपुट REST सर्विसेज़ और समवर्ती वर्कर'
+  comp.cross.label: क्रॉस-प्लेटफ़ॉर्म और मोबाइल SDK
+  comp.cross.item1: 'SDK स्तर पर Flutter/Dart और React Native — प्रकाशित पैकेज, जिनका उपयोग AWS, Google और बैंक करते हैं'
+  comp.cross.item2: 'Kotlin Multiplatform और Android व iOS में साझा बिज़नेस लॉजिक'
+  comp.cross.item3: 'Swift के साथ iOS; नेटिव ब्रिज और प्लेटफ़ॉर्म चैनल'
+  comp.data.label: डेटा
+  comp.data.item1: 'PostgreSQL, SQLite, SQLCipher (डेटा-एट-रेस्ट एन्क्रिप्शन), Redis, Neo4j, ClickHouse'
+  comp.data.item2: 'ऑब्जेक्ट स्टोरेज — MinIO, S3, GCS, Azure Blob'
+  comp.frontend.label: फ़्रंटएंड और डेस्कटॉप
+  comp.frontend.item1: 'TypeScript/React (Tailwind, Redux Toolkit, i18next), Angular'
+  comp.frontend.item2: 'Electron और Tauri/Rust डेस्कटॉप एप्लिकेशन'
+  comp.frontend.item3: 'एक्सेसिबिलिटी (WCAG 2.2 AA), परफ़ॉर्मेंस बजट, डिज़ाइन सिस्टम'
+  comp.gov.label: इंजीनियरिंग गवर्नेंस
+  comp.gov.item1: 'इनहेरिटेंस और प्रोपेगेशन गेट के साथ सबमॉड्यूल के रूप में संविधान (Constitution)'
+  comp.gov.item2: '140+ रिपॉज़िटरी के फ़्लीट में दस्तावेज़ीकरण और कवरेज अनुशासन'
+  comp.infra.label: इन्फ्रास्ट्रक्चर और DevOps
+  comp.infra.item1: 'Docker और Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry'
+  comp.infra.item2: 'QEMU, Libvirt, Parallels; VM इमेज टूलिंग और प्रोविज़निंग'
+  comp.infra.item3: 'GitHub Actions, Gradle और Make के ज़रिए CI/CD'
+  comp.qa.label: QA और क्वालिटी इंजीनियरिंग
+  comp.qa.item1: 'Anti-bluff, प्रमाण-आधारित QA (HelixQA); म्यूटेशन गेट वाले चैलेंज हार्नेस'
+  comp.qa.item2: 'go test -race, विज़ुअल-रिग्रेशन टेस्टिंग, ADB डिवाइस टेस्टिंग'
+  comp.qa.item3: 'SonarQube और सुरक्षा स्कैनिंग — Semgrep, gosec, Trivy, Snyk, Gitleaks, Nancy'
+  edu.bsc.degree: B.Sc, इन्फ़ॉर्मेटिक्स और कंप्यूटिंग
+  edu.bsc.location: बेलग्रेड, सर्बिया
+  edu.msc.degree: M.Sc, समकालीन सूचना प्रौद्योगिकी
+  edu.msc.location: बेलग्रेड, सर्बिया
+  exp.bosch.b1: Connected Vehicles SDK का नेतृत्व किया — Bluetooth के ज़रिए OBD2 बस से रियल-टाइम संचार
+  exp.bosch.b2: लगातार आने वाली वाहन टेलीमेट्री के लिए हाई-परफ़ॉर्मेंस पार्सिंग, बफ़रिंग और परसिस्टेंस इंजीनियर किए
+  exp.bosch.b3: ऐसा SDK शिप किया जिसे ऑटोमोटिव पार्टनर इंटीग्रेशन में व्यापक रूप से अपनाया गया
+  exp.bosch.location: बेलग्रेड, सर्बिया
+  exp.bosch.role: SDK डेवलपर
+  exp.bosch.summary: Connected Vehicles SDK के लीड डेवलपर — Bluetooth के ज़रिए OBD2 बस से रियल-टाइम संचार, हाई-परफ़ॉर्मेंस डेटा प्रोसेसिंग और परसिस्टेंस।
+  exp.harness.b1: Feature Flag डिवीज़न के लिए मल्टी-प्लेटफ़ॉर्म SDK परिवार का नेतृत्व किया — Android, iOS, Flutter, React Native और सर्वर-साइड रनटाइम
+  exp.harness.b2: ऐसे SDK शिप किए जिन्हें AWS, Google और बैंकिंग पार्टनर उपयोग करते हैं — साझा इवैल्यूएशन इंजन और हर प्लेटफ़ॉर्म की अपनी शैली के अनुरूप API के साथ
+  exp.harness.b3: सात भाषाओं और चार पैकेज इकोसिस्टम में रिलीज़ इंजीनियरिंग की ज़िम्मेदारी संभाली
+  exp.harness.location: बेलग्रेड, सर्बिया
+  exp.harness.role: SDK डेवलपर
+  exp.harness.summary: कंपनी के Feature Flag डिवीज़न के SDK परिवार के लीड डेवलपर — सभी प्रमुख मोबाइल प्लेटफ़ॉर्म और उनसे आगे। ग्राहकों और पार्टनरों में AWS, Google और कई बैंक शामिल थे।
+  exp.increment.b1: Kotlin में Yuno Android एप्लिकेशन तैयार किया
+  exp.increment.location: बेलग्रेड, सर्बिया
+  exp.increment.role: सॉफ़्टवेयर इंजीनियर (कॉन्ट्रैक्ट)
+  exp.increment.summary: Yuno एप्लिकेशन — Android, Kotlin।
+  exp.leica.b1: Bluetooth और Wi-Fi के ज़रिए 3D स्कैनिंग हार्डवेयर के साथ रियल-टाइम डिवाइस संचार बनाया
+  exp.leica.b2: बड़े पॉइंट-क्लाउड पेलोड के लिए ऑन-डिवाइस डेटा प्रोसेसिंग और सिंक्रोनाइज़ेशन पाइपलाइन डिज़ाइन कीं
+  exp.leica.b3: Android और iOS क्लाइंट में Autodesk पार्टनर इंटीग्रेशन डिलीवर किया
+  exp.leica.location: हीरब्रुग, स्विट्ज़रलैंड
+  exp.leica.role: सॉफ़्टवेयर इंजीनियर
+  exp.leica.summary: 'Leica Geosystems के 3D स्कैनर के लिए iOS और Android इंजीनियरिंग — हार्डवेयर के साथ रियल-टाइम संचार, डेटा प्रोसेसिंग और सिंक्रोनाइज़ेशन। पार्टनर: Autodesk।'
+  exp.tntech.b1: Globex Data के लिए Android और डेस्कटॉप पर सुरक्षित मैसेजिंग, मेल और सुइट क्लाइंट डिलीवर किए
+  exp.tntech.b2: BusRide प्लेटफ़ॉर्म का मोबाइल क्लाइंट बनाया
+  exp.tntech.location: नोवी साद, सर्बिया
+  exp.tntech.role: सॉफ़्टवेयर इंजीनियर (कॉन्ट्रैक्ट)
+  exp.tntech.summary: Globex Data (कनाडा और स्विट्ज़रलैंड) के लिए Sekur पर काम — SekurMessenger, SekurMail, SekurSuite — और BusRide प्लेटफ़ॉर्म।
+  identity.headline: AI इंजीनियर — LLM इन्फ्रास्ट्रक्चर, स्वायत्त एजेंट और वह गवर्नेंस जो उन्हें भरोसेमंद बनाती है
+  identity.location: बेलग्रेड, सर्बिया · रिमोट (EU)
+  identity.role: AI इंजीनियर / सॉफ़्टवेयर इंजीनियर
+  label.competencies: मुख्य दक्षताएँ
+  label.cover.date: दिनांक
+  label.cover.encl: संलग्न — रिज़्यूमे (CV)
+  label.cover.regards: सादर
+  label.cover.subject: आवेदन
+  label.cover.to: सेवा में
+  label.education: शिक्षा
+  label.experience: अनुभव
+  label.keywords: कीवर्ड
+  label.languages: बोली जाने वाली भाषाएँ
+  label.present: वर्तमान
+  label.projects: चुनिंदा प्रोजेक्ट
+  label.publications: प्रकाशन
+  label.skills: तकनीकी कौशल
+  label.summary: प्रोफ़ाइल
+  label.tech: स्टैक
+  lang.de: जर्मन
+  lang.de.level: बुनियादी
+  lang.en: अंग्रेज़ी
+  lang.en.level: पेशेवर (C1/C2)
+  lang.ru: रूसी
+  lang.ru.level: पेशेवर कार्य-स्तर की प्रवीणता
+  lang.sr: सर्बियाई
+  lang.sr.level: मातृभाषा
+  metric.locales.label: भाषाएँ जिनमें यह साइट प्रकाशित है
+  metric.products.label: प्रमाण-समर्थित प्रोडक्ट
+  metric.providers.label: एक इंटरफ़ेस के पीछे LLM प्रोवाइडर
+  metric.repos.label: एक संविधान के अंतर्गत रिपॉज़िटरी
+  metric.years.label: सॉफ़्टवेयर शिप करने के वर्ष
+  proj.catalogizer.blurb: 'मल्टी-प्रोटोकॉल, एन्क्रिप्टेड, सेल्फ़-होस्ट करने योग्य मीडिया कलेक्शन मैनेजमेंट (Go/Gin + React) — अस्थिर नेटवर्क स्टोरेज के बावजूद भरोसेमंद, और 21 पुनः उपयोग-योग्य सबमॉड्यूल पर निर्मित।'
+  proj.coursescreator.blurb: TTS तथा डेस्कटॉप, मोबाइल और वेब प्लेयर के साथ markdown से वीडियो बनाने वाली AI कोर्स पाइपलाइन।
+  proj.helixagent.blurb: 'प्रोडक्शन-ग्रेड एन्सेम्बल LLM सेवा जो किसी एक मॉडल पर भरोसा नहीं करती: यह एक प्रॉम्प्ट को कई प्रोवाइडर में फ़ैन-आउट करती है, संरचित बहु-राउंड डिबेट (Proposal → Critique → Review → Synthesis) चलाती है, और लाइव वेरिफ़िकेशन स्कोर के आधार पर रूट करती है, जिसमें ग्रेसफ़ुल फ़ॉलबैक शामिल है — यह सब OpenAI-संगत API के पीछे, HA डेटा लेयर, ऑब्ज़र्वेबिलिटी और गार्डरेल के साथ।'
+  proj.helixcode.blurb: डिस्ट्रिब्यूटेड AI डेवलपमेंट प्लेटफ़ॉर्म जो काम को निर्भरता-सजग टास्क में बाँटकर SSH-प्रबंधित वर्कर फ़्लीट पर चलाता है, फिर चेकपॉइंट और रोलबैक करता है ताकि टास्क बाधित होने पर कुछ भी न खोए — हार्डवेयर-सजग मॉडल चयन और REST, CLI, TUI व MCP के पीछे पूर्ण plan/build/test/refactor जीवनचक्र के साथ।
+  proj.helixconstitution.blurb: Git सबमॉड्यूल के रूप में वितरित सार्वभौमिक इंजीनियरिंग संविधान, जो 140+ रिपॉज़िटरी में विरासत के रूप में लागू होता है — कोड की तरह शिप किया जाता है और संस्करण-पिन रहता है। प्रोपेगेशन गेट हर उपभोक्ता रिपॉज़िटरी में अपेक्षित क्लॉज़ खोजते हैं, और हर गेट के साथ एक म्यूटेशन मेटा-टेस्ट जुड़ा है जो साबित करता है कि गेट स्वयं दिखावा नहीं है।
+  proj.helixllm.blurb: 'एक बाइनरी, छह डिप्लॉयमेंट मोड: HTTP/3 पर OpenAI- और Anthropic-संगत इन्फ़रेंस, जो लैपटॉप से मल्टी-होस्ट क्लस्टर तक स्केल होता है; लोकल llama.cpp इन्फ़रेंस (CUDA/Metal/ROCm) और स्वतः-खोज करने वाली, वेरिफ़िकेशन-स्कोर आधारित क्लाउड फ़ॉलबैक शृंखला के साथ, जो अंततः हमेशा एक गारंटीशुदा लोकल मॉडल पर आ टिकती है।'
+  proj.helixmemory.blurb: एकीकृत कॉग्निटिव-मेमोरी इंजन जो चार शीर्ष बैकएंड — Mem0, Cognee, Letta, Graphiti — को एक इंटरफ़ेस के पीछे जोड़ता है, समानांतर सर्च और क्रॉस-सोर्स री-रैंकिंग के साथ।
+  proj.helixqa.blurb: 'Go में Anti-bluff QA ऑर्केस्ट्रेशन, जो एक नियम पर टिका है: पैमाना “टेस्ट पास हुए” नहीं, बल्कि “उपयोगकर्ता फ़ीचर का उपयोग कर सकते हैं” है। यह लिखित YAML टेस्ट बैंक और पूरी तरह स्वायत्त LLM-और-विज़न सत्र चलाता है जो असली ऐप खोलते हैं, हर दस्तावेज़ीकृत फ़ीचर को वेरिफ़ाई करते हैं, Android, Android TV, Web और Desktop पर ऐसे बग खोजते हैं जो दस्तावेज़ों में दर्ज नहीं हैं, और रनटाइम प्रमाण दर्ज हुए बिना PASS देने से इनकार करते हैं; साथ ही AI-फ़िक्स के लिए तैयार टिकट बनाते हैं।'
+  proj.helixspecifier.blurb: स्पेक-ड्रिवन डेवलपमेंट फ़्यूज़न इंजन जो काम के आकार के अनुसार अपनी औपचारिकता घटाता-बढ़ाता है और मल्टी-एजेंट डिबेट से स्पेसिफ़िकेशन को सहारा देता है।
+  proj.helixtrack.blurb: 'फ़्री-वर्ल्ड JIRA + Confluence विकल्प: HTTP/3 पर एकीकृत एक्शन-रूटेड API के पीछे Go माइक्रोसर्विसेज़, at-rest SQLCipher एन्क्रिप्शन, और नेटिव Web, Desktop, Android व iOS क्लाइंट।'
+  proj.llmorchestrator.blurb: थ्रेड-सेफ़ कंट्रोल प्लेन जो हाइब्रिड पाइप-और-फ़ाइल प्रोटोकॉल पर headless CLI एजेंट — OpenCode, Claude Code, Gemini, Junie, Qwen Code — को चलाता और नियंत्रित करता है।
+  proj.llmprovider.blurb: 43 प्रोवाइडर के ऊपर एक इंटरफ़ेस — सर्किट ब्रेकर, हेल्थ मॉनिटरिंग, जिटर्ड-बैकऑफ़ रीट्राई और बिना हार्डकोडेड फ़ॉलबैक के ईमानदार मॉडल डिस्कवरी के साथ।
+  proj.llmsverifier.blurb: वेरिफ़िकेशन के लिए सत्य का स्रोत (source of truth), जिसका अनिवार्य “क्या आपको मेरा कोड दिखता है?” गेट यह सुनिश्चित करता है कि केवल वही मॉडल उपयोग-योग्य चिह्नित या एक्सपोर्ट हों जो वास्तव में काम करते साबित हुए हैं।
+  proj.mailserverfactory.blurb: Declarative JSON से पूरी तरह प्रोविज़न किए गए, Docker-आधारित मेल सर्वर — 12 कनेक्शन प्रकारों और 25 Linux डिस्ट्रीब्यूशन पर; 439 पास होने वाले टेस्ट और साफ़ SonarQube गेट की रिपोर्ट के साथ।
+  proj.serverfactorycore.blurb: Server Factory शृंखला के पीछे का साझा प्रोविज़निंग इंजन और VM-इमेज टूलिंग — एक फ़्रेमवर्क के अंतर्गत QEMU, Libvirt और Parallels ड्राइवर।
+  proj.visionengine.blurb: Computer-vision और मल्टी-प्रोवाइडर LLM-vision आधारित UI परसेप्शन, नेविगेशन ग्राफ़ के साथ।
+  pub.fundamentalkotlin.detail: स्वयं-प्रकाशित लेखक; नवीनतम संशोधित संस्करण सितंबर 2022 (तीसरा संस्करण)। Packt Publishing (UK) के लिए भी लेखन।
+  pub.fundamentalkotlin.title: Fundamental Kotlin
+  skills.ai: AI और LLM
+  skills.backend: बैकएंड और प्रोटोकॉल
+  skills.data: डेटा
+  skills.frontend: फ़्रंटएंड और डेस्कटॉप
+  skills.infra: इन्फ्रास्ट्रक्चर और DevOps
+  skills.languages: भाषाएँ
+  summary.body: '16 से अधिक वर्षों का पेशेवर इंजीनियरिंग अनुभव — मोबाइल SDK, रियल-टाइम हार्डवेयर इंटीग्रेशन और डिस्ट्रिब्यूटेड बैकएंड — अब एक ही फ़ोकस पर केंद्रित है: स्वायत्त AI डेवलपमेंट को बड़े पैमाने पर भरोसेमंद बनाना। मैं मोनोलिथ नहीं, फ़्लीट आर्किटेक्ट करता हूँ — दर्जनों छोटे, डीकपल्ड और स्वतंत्र रूप से टेस्ट किए गए मॉड्यूल पर खड़े बड़े प्रोडक्ट एप्लिकेशन, जिनमें से हर एक साझा इंजीनियरिंग संविधान (Constitution) को विरासत में लेता है और anti-bluff, प्रमाण-आधारित QA अनुशासन से सत्यापित होता है।'
+  summary.lead: AI/सॉफ़्टवेयर इंजीनियर जो एंड-टू-एंड AI-डेवलपमेंट सिस्टम बनाता है — मल्टी-प्रोवाइडर LLM इन्फ्रास्ट्रक्चर और स्वायत्त एजेंट से लेकर उन QA और गवर्नेंस लेयर तक, जो उन्हें ईमानदार बनाए रखती हैं। मैं डेमो शिप नहीं करता; मैं प्लेटफ़ॉर्म शिप करता हूँ।
+  summary.value: 'मैं क्या लाता हूँ: किसी AI क्षमता को शोध-विचार से एक शासन-नियंत्रित, स्वयं-वेरिफ़ाइड, प्रोडक्शन-योग्य सिस्टम तक पहुँचाने की क्षमता — ऐसा LLM रूटिंग जो भरोसा करने से पहले साबित करे कि हर मॉडल वाकई काम करता है, ऐसे एजेंट जो अनुमान लगाने के बजाय डिबेट करके सहमति पर पहुँचें, ऐसी मेमोरी और RAG लेयर जो संदर्भ नहीं खोतीं, और ऐसा पूरा इकोसिस्टम जिसमें “टेस्ट हरे हैं” का मतलब चुपचाप कभी “फ़ीचर टूटा है” न हो सके।'
+  tmpl.cl.emphasis: इन प्रोजेक्ट में मेरा फ़ोकस {list} है — और वही अनुशासन मेरे हर काम में साथ चलता है।
+  tmpl.cl.project: '{blurb} स्टैक: {tech}।'
+  tmpl.cl.salutation: आदरणीय भर्ती टीम,
+  tmpl.cl.subject: आवेदन — {area}
+  tmpl.cl.title: '{name} — {area} — कवर लेटर'
+  tmpl.cv.keywords: 'कीवर्ड: {list}'
+  tmpl.cv.tech: 'स्टैक: {tech}'
+  tmpl.cv.title: '{name} — {area} — रिज़्यूमे (CV)'

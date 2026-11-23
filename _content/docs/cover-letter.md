@@ -22,7 +22,7 @@ What I think sets my work apart is a discipline I take seriously: **anti-bluff e
 
 Technically I work primarily in Go, with Kotlin/KMP, TypeScript/React, Python, Swift, and Shell, across REST/gRPC/HTTP/3 services, PostgreSQL/SQLite/Redis/ClickHouse data layers, and Docker/Kubernetes/Prometheus operations. I am comfortable owning a system from provider abstraction and retrieval all the way to the evidence trail that proves it works.
 
-I would welcome the chance to bring that combination — deep AI-systems engineering plus a genuine, verifiable quality discipline — to your team. Thank you for your consideration; my portfolio and public repositories are available at milosvasic.ru and vasic.digital.
+I would welcome the chance to bring that combination — deep AI-systems engineering plus a genuine, verifiable quality discipline — to your team. Thank you for your consideration; my portfolio and public repositories are available at milosvasic.ru and digital.vasic.dev.
 
 Sincerely,
 Miloš Vasić

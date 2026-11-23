@@ -1,0 +1,64 @@
+schema: career.area.v1
+id: ai-engineering
+order: 1
+accent: "#7c5cff"
+icon: spark
+title_i18n: area.ai-engineering.title
+title: "AI Engineering"
+tagline_i18n: area.ai-engineering.tagline
+tagline: "LLM infrastructure, autonomous agents, and the governance that makes them trustworthy."
+hero_metric: metric.providers
+sections: [summary, competencies, experience, projects, skills, education, publications]
+keywords:
+  - "LLM"
+  - "RAG"
+  - "embeddings"
+  - "vector database"
+  - "agent orchestration"
+  - "MCP"
+  - "LLMOps"
+  - "prompt engineering"
+  - "model evaluation"
+  - "guardrails"
+  - "Go"
+  - "Python"
+  - "PostgreSQL"
+  - "Redis"
+  - "HTTP/3"
+competencies:
+  - comp.ai
+  - comp.backend
+  - comp.gov
+  - comp.qa
+  - comp.data
+  - comp.infra
+  - comp.frontend
+emphasis:
+  - comp.ai
+  - comp.gov
+projects:
+  - proj.helixagent
+  - proj.helixcode
+  - proj.helixllm
+  - proj.llmprovider
+  - proj.llmorchestrator
+  - proj.llmsverifier
+  - proj.helixmemory
+  - proj.helixspecifier
+  - proj.helixconstitution
+  - proj.helixqa
+experience:
+  - exp.harness
+  - exp.leica
+  - exp.bosch
+cover_letter:
+  angle: "production AI systems with verifiable behaviour"
+  opening_i18n: cl.open.ai
+  opening: "LLM infrastructure, autonomous agents, and the governance that makes them trustworthy."
+  project_ids:
+    - proj.helixagent
+    - proj.helixcode
+    - proj.helixllm
+    - proj.llmprovider
+  closing_i18n: cl.close.ai-engineering
+  closing: "I would welcome the chance to bring that combination to your team."

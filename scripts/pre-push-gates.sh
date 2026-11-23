@@ -515,7 +515,7 @@ gate_6() {
     cd "$ROOT/_tests" || { echo "COULD NOT DETERMINE — cannot cd to _tests" >&2; return 2; }
 
     # Part of this suite asserts against the LIVE production sites over the public
-    # internet (VASIC_BASE/MILOS_BASE default to https://vasic.digital and
+    # internet (VASIC_BASE/MILOS_BASE default to https://digital.vasic.dev and
     # https://milosvasic.ru). A DNS or TCP failure there means the suite COULD NOT
     # REACH the site — not that the site is broken. Observed on this host:
     # 6x net::ERR_TIMED_OUT, 5x "getaddrinfo EAI_AGAIN", 50x 60s page.goto timeouts,
@@ -565,7 +565,7 @@ gate_6() {
         echo "Part of this suite targets the LIVE production sites over the public"
         echo "internet. A DNS/TCP failure is a REACHABILITY problem on this host, NOT"
         echo "evidence that the sites are broken. Verify independently:"
-        echo "    curl -sS -o /dev/null -w '%{http_code}\\n' -L https://vasic.digital/"
+        echo "    curl -sS -o /dev/null -w '%{http_code}\\n' -L https://digital.vasic.dev/"
         echo "    curl -sS -o /dev/null -w '%{http_code}\\n' -L https://milosvasic.ru/"
         echo "Re-run on a quiet network, or pin VASIC_BASE/MILOS_BASE at local builds."
         return 2

@@ -22,7 +22,7 @@ AI 시스템 구축에 중점을 둔 엔지니어링 직무에 관심을 표명�
 
 기술적으로는 주로 Go를 사용하며, Kotlin/KMP, TypeScript/React, Python, Swift, Shell 등을 활용해 REST/gRPC/HTTP/3 서비스, PostgreSQL/SQLite/Redis/ClickHouse 데이터 레이어, 그리고 Docker/Kubernetes/Prometheus 운영 환경에서 작업합니다. 제공업체 추상화와 검색부터 시스템이 실제로 작동한다는 증거를 남기는 과정까지, 시스템 전체를 책임지는 데 익숙합니다.
 
-이러한 조합—심층적인 AI 시스템 엔지니어링과 검증 가능한 품질 원칙—을 귀사에 aport하고 싶습니다. 관심 가져주셔서 감사합니다. 제 포트폴리오와 공개 저장소는 milosvasic.ru와 vasic.digital에서 확인하실 수 있습니다.
+이러한 조합—심층적인 AI 시스템 엔지니어링과 검증 가능한 품질 원칙—을 귀사에 aport하고 싶습니다. 관심 가져주셔서 감사합니다. 제 포트폴리오와 공개 저장소는 milosvasic.ru와 digital.vasic.dev에서 확인하실 수 있습니다.
 
 감사합니다.
 Miloš Vasić

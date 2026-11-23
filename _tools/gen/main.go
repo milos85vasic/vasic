@@ -67,7 +67,7 @@ var sites = map[string]*Site{
 		CSSName:  "vasic-digital",
 		HomeJSON: "_content/sites/vasic-digital.home.json",
 		Dir:      "vasic.digital",
-		Domain:   "vasic.digital",
+		Domain:   "digital.vasic.dev", // fallback; main() prefers <Dir>/CNAME
 		OGImage:  "Assets/Logo.jpeg",
 		Favicon:  "Assets/logo.svg",
 		LDKind:   "Organization",
@@ -91,6 +91,19 @@ var sites = map[string]*Site{
 			"https://t.me/milos85vasic",
 		},
 	},
+}
+
+// readCNAME returns the trimmed host in a CNAME file, or fallback when the
+// file is missing/unreadable/empty (mirrors deploy-langs.sh).
+func readCNAME(path, fallback string) string {
+	b, err := os.ReadFile(path)
+	if err != nil {
+		return fallback
+	}
+	if h := strings.Join(strings.Fields(string(b)), ""); h != "" {
+		return h
+	}
+	return fallback
 }
 
 func writeFile(path, content string) error {
@@ -117,6 +130,9 @@ func main() {
 	absRoot, err := filepath.Abs(root)
 	if err != nil {
 		fatal(err)
+	}
+	if site.Key == "vasic.digital" {
+		site.Domain = readCNAME(filepath.Join(absRoot, site.Dir, "CNAME"), site.Domain)
 	}
 	if out == "" {
 		out = filepath.Join(absRoot, site.Dir)

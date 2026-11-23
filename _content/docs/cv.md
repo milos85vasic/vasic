@@ -5,7 +5,7 @@ role: AI Engineer / Software Engineer
 contact:
   email: milos85vasic@gmail.com
   site: https://milosvasic.ru
-  company: https://vasic.digital
+  company: https://digital.vasic.dev
   github_orgs:
     - https://github.com/vasic-digital
     - https://github.com/HelixDevelopment
@@ -21,14 +21,14 @@ note: Skills and projects are evidence-based (repository READMEs + analysis). Ex
 **AI Engineer — LLM infrastructure, autonomous agents, and the governance that makes them trustworthy.**
 
 - Email: milos85vasic@gmail.com
-- Web: https://milosvasic.ru · https://vasic.digital
+- Web: https://milosvasic.ru · https://digital.vasic.dev
 - GitHub: vasic-digital · HelixDevelopment · Server-Factory
 
 ---
 
 ## Summary
 
-AI/software engineer who builds AI-development systems end to end — from multi-provider LLM infrastructure and autonomous agents to the QA and governance layers that keep them honest. I don't ship demos; I ship platforms. Over 15 years of professional engineering (since 2009) across mobile SDKs, real-time hardware integration, and distributed backends now converge on one focus: making autonomous AI development trustworthy at scale.
+AI/software engineer who builds AI-development systems end to end — from multi-provider LLM infrastructure and autonomous agents to the QA and governance layers that keep them honest. I don't ship demos; I ship platforms. Over 16 years of professional engineering (since 2009) across mobile SDKs, real-time hardware integration, and distributed backends now converge on one focus: making autonomous AI development trustworthy at scale.
 
 I architect fleets, not monoliths — large product applications standing on dozens of small, decoupled, independently-tested modules, every one of them inheriting a shared engineering Constitution and verified by an anti-bluff, evidence-gated QA discipline. Primary language Go, with Kotlin/KMP, TypeScript/React, Python, Swift, and Shell. Guiding principle, enforced mechanically rather than merely stated: a feature is done only when a real user can use it and there is captured evidence to prove it.
 

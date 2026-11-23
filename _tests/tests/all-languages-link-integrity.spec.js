@@ -39,6 +39,9 @@ const { VD_BASE, MV_BASE } = require('../env.js');
 const SITES = [
   {
     key: 'vasic.digital',
+    // The static site's own sitemap/canonicals STILL declare the old host (pre-existing,
+    // see docs/qa/live-site/); this is the origin as DECLARED in its pages, remapped
+    // onto VD_BASE for fetching (use VD_BASE=https://digital.vasic.dev live).
     canonical: 'https://vasic.digital',
     base: VD_BASE,
     pdfs: ['Portfolio'],
@@ -105,6 +108,17 @@ for (const site of SITES) {
     expect(sm.status, 'sitemap.xml must resolve').toBe(200);
     const pages = [...sm.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
     expect(pages.length, 'sitemap must list pages').toBeGreaterThan(100);
+    // The expected size is DERIVED from the sitemap itself (no frozen count: the
+    // old 525 went stale when /expertise/ landed). Floors below only guard
+    // against an emptied or truncated file.
+    expect(new Set(pages).size, 'sitemap <loc> entries must be unique').toBe(pages.length);
+    if (site.key === 'milosvasic.ru') {
+      const exp = pages.filter((u) => u.startsWith(site.canonical + '/expertise/'));
+      // hub (16 langs) + 10 areas x 16 langs = 176 slots; require the floor to
+      // prove expertise URLs are present without freezing an exact number.
+      expect(exp.length, 'milosvasic.ru sitemap must list /expertise/ URLs').toBeGreaterThan(100);
+      expect(pages.some((u) => u.includes('/admin/')), 'admin console must NOT be in the sitemap').toBe(false);
+    }
 
     // 2) Walk every page (parallel); collect resolved internal targets → sample referrer.
     const targets = new Map(); // localURL -> referrer(canonical)

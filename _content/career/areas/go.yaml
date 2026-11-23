@@ -1,0 +1,63 @@
+schema: career.area.v1
+id: go
+order: 8
+accent: "#00add8"
+icon: go
+title_i18n: area.go.title
+title: "Go & Backend"
+tagline_i18n: area.go.tagline
+tagline: "High-throughput services, distributed systems, and the libraries they are built from."
+hero_metric: metric.repos
+sections: [summary, competencies, experience, projects, skills, education, publications]
+keywords:
+  - "Go"
+  - "Gin"
+  - "gRPC"
+  - "Protobuf"
+  - "HTTP/3"
+  - "QUIC"
+  - "WebSockets"
+  - "PostgreSQL"
+  - "Redis"
+  - "ClickHouse"
+  - "Docker"
+  - "Kubernetes"
+  - "Prometheus"
+  - "OpenTelemetry"
+  - "TLA+"
+  - "concurrency"
+competencies:
+  - comp.backend
+  - comp.data
+  - comp.infra
+  - comp.ai
+  - comp.qa
+  - comp.gov
+emphasis:
+  - comp.backend
+  - comp.data
+projects:
+  - proj.helixtrack
+  - proj.helixagent
+  - proj.helixllm
+  - proj.helixcode
+  - proj.llmprovider
+  - proj.helixmemory
+  - proj.catalogizer
+  - proj.mailserverfactory
+  - proj.serverfactorycore
+experience:
+  - exp.harness
+  - exp.leica
+  - exp.bosch
+cover_letter:
+  angle: "Go services built to be operated, not just compiled"
+  opening_i18n: cl.open.go
+  opening: "High-throughput services, distributed systems, and the libraries they are built from."
+  project_ids:
+    - proj.helixtrack
+    - proj.helixagent
+    - proj.helixllm
+    - proj.helixcode
+  closing_i18n: cl.close.go
+  closing: "I would welcome the chance to bring that combination to your team."

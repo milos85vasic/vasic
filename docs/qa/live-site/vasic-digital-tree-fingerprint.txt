@@ -1,0 +1,7 @@
+# vasic.digital submodule tree fingerprint (measured 2026-11-23T21:54:55Z)
+HEAD: aa29b64be5f50a0930e0258821402d7f10ad324e
+status --porcelain lines: 0 (must be 0)
+gitlink: 160000 aa29b64be5f50a0930e0258821402d7f10ad324e 0	vasic.digital
+tracked-files sha256 fingerprint: 6d157cc9f41371a1e02d86b3b3b85d14f2cd84a1bb9b1028ffee2c28564fbe3f
+earlier value (22:51 CET): 6d157cc9f41371a1e02d86b3b3b85d14f2cd84a1bb9b1028ffee2c28564fbe3f
+command: cd vasic.digital && git ls-files | sort | xargs sha256sum | sha256sum

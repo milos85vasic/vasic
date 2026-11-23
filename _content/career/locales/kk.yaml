@@ -1,0 +1,256 @@
+dir: ltr
+name: Қазақша
+months:
+- қаң.
+- ақп.
+- нау.
+- сәу.
+- мам.
+- мау.
+- шіл.
+- там.
+- қыр.
+- қаз.
+- қар.
+- жел.
+date:
+  month_year: '{month} {year}'
+  range: '{start} – {end}'
+identical_ok:
+  area.android-aosp.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "e8bb477f057587da"
+  area.android-tv.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "f73ea1e2323972cb"
+  area.flutter.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "c903759742b75021"
+  area.react-native.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "1cd07be18aed5105"
+  comp.backend.item1:
+    reason: "technology and protocol names only; nothing to translate"
+    en_sha: "603c4aa5c8187b1e"
+  comp.frontend.item1:
+    reason: "technology and protocol names only; nothing to translate"
+    en_sha: "2993ab3641267f70"
+  pub.fundamentalkotlin.title:
+    reason: "published book title, kept verbatim in its original form"
+    en_sha: "c5aabded9446aaf6"
+strings:
+  area.ai-engineering.tagline: LLM инфрақұрылымы, автономды агенттер және оларды сенімді ететін басқару.
+  area.ai-engineering.title: ЖИ инженериясы
+  area.android-aosp.tagline: 'Платформа деңгейіндегі Android: жүйелік қызметтер, құрылғыны іске қосу және аппараттық интеграция.'
+  area.android-aosp.title: Android AOSP
+  area.android-tv.tagline: Теледидар экранына арналған (ten-foot) интерфейстер, Leanback, медиа конвейерлері және құрылғылар
+    тобында тексеру.
+  area.android-tv.title: Android TV
+  area.android.tagline: Өнім ауқымындағы Kotlin және Java — SDK, аппараттық интеграция және релиз инженериясы.
+  area.android.title: Android инженериясы
+  area.desktop.tagline: Electron және Tauri, нативті көпірлер және offline-first десктоп өнімдері.
+  area.desktop.title: Десктоп инженериясы
+  area.flutter.tagline: 'SDK деңгейіндегі Dart: плагин архитектурасы, платформалық арналар және жарияланған пакеттер.'
+  area.flutter.title: Flutter
+  area.go.tagline: Жоғары өткізу қабілетті сервистер, үлестірілген жүйелер және олар құрылатын кітапханалар.
+  area.go.title: Go және Backend
+  area.mobile.tagline: Android, iOS, Flutter және React Native арқылы нативті және кроссплатформалық жеткізу.
+  area.mobile.title: Мобильді инженерия
+  area.react-native.tagline: 'Нативті көпір арқылы TypeScript: нативті модульдер, SDK пакеттері және релизді автоматтандыру.'
+  area.react-native.title: React Native
+  area.web-frontend.tagline: TypeScript, React және Angular — дизайн-жүйелер, қолжетімділік және өнімділік бюджеттері.
+  area.web-frontend.title: Web және Frontend
+  cl.close.ai-engineering: Осы тәжірибемді сіздердің командаңызда қолдана алатыныма қуанамын.
+  cl.close.android: Осы тәжірибемді сіздердің командаңызда қолдана алатыныма қуанамын.
+  cl.close.android-aosp: Осы тәжірибемді сіздердің командаңызда қолдана алатыныма қуанамын.
+  cl.close.android-tv: Осы тәжірибемді сіздердің командаңызда қолдана алатыныма қуанамын.
+  cl.close.desktop: Осы тәжірибемді сіздердің командаңызда қолдана алатыныма қуанамын.
+  cl.close.flutter: Осы тәжірибемді сіздердің командаңызда қолдана алатыныма қуанамын.
+  cl.close.go: Осы тәжірибемді сіздердің командаңызда қолдана алатыныма қуанамын.
+  cl.close.mobile: Осы тәжірибемді сіздердің командаңызда қолдана алатыныма қуанамын.
+  cl.close.react-native: Осы тәжірибемді сіздердің командаңызда қолдана алатыныма қуанамын.
+  cl.close.web-frontend: Осы тәжірибемді сіздердің командаңызда қолдана алатыныма қуанамын.
+  cl.open.ai: Мен LLM инфрақұрылымы, автономды агенттер және оларды сенімді ететін басқару саласында жұмыс істеймін.
+  cl.open.android: 'Менің бағытым — өнім ауқымындағы Kotlin және Java: SDK, аппараттық интеграция және релиз инженериясы.'
+  cl.open.androidtv: Менің бағытым — теледидар экранына арналған (ten-foot) интерфейстер, Leanback, медиа конвейерлері және
+    құрылғылар тобында тексеру.
+  cl.open.aosp: 'Менің бағытым — платформа деңгейіндегі Android: жүйелік қызметтер, құрылғыны іске қосу және аппараттық интеграция.'
+  cl.open.desktop: Менің бағытым — Electron және Tauri, нативті көпірлер және offline-first десктоп өнімдері.
+  cl.open.flutter: 'Менің бағытым — SDK деңгейіндегі Dart: плагин архитектурасы, платформалық арналар және жарияланған пакеттер.'
+  cl.open.go: Менің бағытым — жоғары өткізу қабілетті сервистер, үлестірілген жүйелер және олар құрылатын кітапханалар.
+  cl.open.mobile: Менің бағытым — Android, iOS, Flutter және React Native арқылы нативті және кроссплатформалық жеткізу.
+  cl.open.reactnative: 'Менің бағытым — нативті көпір арқылы жұмыс істейтін TypeScript: нативті модульдер, SDK пакеттері және релизді автоматтандыру.'
+  cl.open.web: Менің бағытым — TypeScript, React және Angular — дизайн-жүйелер, қолжетімділік және өнімділік бюджеттері.
+  comp.ai.item1: "LLM-дің көп провайдерлі абстракциясы (40+ провайдер), MCP құралдарын біріктіру, RAG, векторлық дерекқорлар және эмбеддингтер"
+  comp.ai.item2: "Агенттерді оркестрлеу — headless CLI агенттері, граф-workflow-лар, көп раундты пікірталас және консенсус"
+  comp.ai.item3: "Жоспарлау (HiPlan / MCTS / Tree-of-Thoughts), LLMOps, бенчмаркинг (SWE-bench, HumanEval, MMLU)"
+  comp.ai.item4: "LLM верификациясы, defensive-LLM guardrails, компьютерлік көру және LLM-vision"
+  comp.ai.label: ЖИ / LLM жүйелері
+  comp.android.item1: "Android, Android TV және AOSP үшін Kotlin және Java; Jetpack Compose, Leanback, ExoPlayer"
+  comp.android.item2: "Нақты уақыттағы аппараттық интеграция — Bluetooth, OBD2, 3D сканерлер, сенсорлық конвейерлер"
+  comp.android.item3: "SDK дизайны, Gradle build инженериясы, ADB арқылы құрылғыда тестілеу, релиз автоматтандыру"
+  comp.android.label: Android және Android TV
+  comp.backend.item1: "Go (Gin), gRPC + Protobuf, HTTP/3 (QUIC), WebSockets"
+  comp.backend.item2: "TLA+ формалды спецификацияларын қоса алғандағы үлестірілген жүйелер"
+  comp.backend.item3: "Жоғары өткізу қабілетті REST сервистері және параллель жұмысшылар"
+  comp.backend.label: Backend инженериясы
+  comp.cross.item1: "SDK деңгейіндегі Flutter/Dart және React Native — AWS, Google және банктер пайдаланатын жарияланған пакеттер"
+  comp.cross.item2: "Kotlin Multiplatform және Android пен iOS арасындағы ортақ бизнес-логика"
+  comp.cross.item3: "Swift тіліндегі iOS; нативті көпірлер және платформалық арналар"
+  comp.cross.label: Кроссплатформалық және мобильді SDK
+  comp.data.item1: "PostgreSQL, SQLite, SQLCipher (сақтау кезіндегі шифрлау), Redis, Neo4j, ClickHouse"
+  comp.data.item2: "Объектілік сақтау — MinIO, S3, GCS, Azure Blob"
+  comp.data.label: Деректер
+  comp.frontend.item1: "TypeScript/React (Tailwind, Redux Toolkit, i18next), Angular"
+  comp.frontend.item2: "Electron және Tauri/Rust десктоп қолданбалары"
+  comp.frontend.item3: "Қолжетімділік (WCAG 2.2 AA), өнімділік бюджеттері, дизайн-жүйелер"
+  comp.frontend.label: Frontend және десктоп
+  comp.gov.item1: "Мұралау және propagation gate-тері бар субмодуль түріндегі Конституция"
+  comp.gov.item2: "140+ репозиторийден тұратын флот бойынша құжаттама және қамту тәртібі"
+  comp.gov.label: Инженерлік басқару
+  comp.infra.item1: "Docker және Compose, Kubernetes + Helm, Prometheus + Grafana, OpenTelemetry"
+  comp.infra.item2: "QEMU, Libvirt, Parallels; VM-образ құралдары және провизиялау"
+  comp.infra.item3: "GitHub Actions, Gradle және Make арқылы CI/CD"
+  comp.infra.label: Инфрақұрылым және DevOps
+  comp.qa.item1: "Anti-bluff, дәлелге негізделген QA (HelixQA); мутациялық gate-тері бар challenge-harness-тер"
+  comp.qa.item2: "go test -race, визуалды регрессияны тестілеу, ADB арқылы құрылғыда тестілеу"
+  comp.qa.item3: SonarQube және қауіпсіздікті сканерлеу — Semgrep, gosec, Trivy, Snyk, Gitleaks, Nancy
+  comp.qa.label: QA және сапа инженериясы
+  edu.bsc.degree: Ғылым бакалавры (B.Sc.), информатика және есептеу техникасы
+  edu.bsc.location: Белград, Сербия
+  edu.msc.degree: Ғылым магистрі (M.Sc.), заманауи ақпараттық технологиялар
+  edu.msc.location: Белград, Сербия
+  exp.bosch.b1: Bluetooth арқылы OBD2 шинасымен нақты уақытта деректер алмасатын Connected Vehicles SDK-ны басқардым.
+  exp.bosch.b2: Үздіксіз көлік телеметриясын жоғары өнімді талдау, буферлеу және сақтау тетіктерін әзірледім.
+  exp.bosch.b3: Автомобиль саласындағы әріптестердің интеграцияларында қабылданған SDK жеткіздім.
+  exp.bosch.location: Белград, Сербия
+  exp.bosch.role: SDK әзірлеушісі
+  exp.bosch.summary: Connected Vehicles SDK жетекші әзірлеушісі — Bluetooth арқылы OBD2 шинасымен нақты уақыттағы байланыс,
+    деректерді жоғары өнімді өңдеу және сақтау.
+  exp.harness.b1: Feature Flag бөлімінің көпплатформалы SDK отбасын басқардым — Android, iOS, Flutter, React Native және сервер
+    жағындағы орталар.
+  exp.harness.b2: 'AWS, Google және банк әріптестері пайдаланатын SDK жеткіздім: ортақ бағалау қозғалтқышы және әр платформаның ерекшеліктеріне сай келетін
+    API-лармен.'
+  exp.harness.b3: Жеті тіл мен төрт пакет экожүйесі бойынша релиз инженериясына жауапты болдым.
+  exp.harness.location: Белград, Сербия
+  exp.harness.role: SDK әзірлеушісі
+  exp.harness.summary: 'Компанияның Feature Flag бөліміне арналған SDK отбасының жетекші әзірлеушісі — барлық негізгі мобильді
+    платформаларға және одан тыс бағытталған. Клиенттер мен әріптестер: AWS, Google және әртүрлі банктер.'
+  exp.increment.b1: Yuno Android қолданбасын Kotlin тілінде жасап шықтым.
+  exp.increment.location: Белград, Сербия
+  exp.increment.role: Бағдарламалық жасақтама инженері (келісімшарт бойынша)
+  exp.increment.summary: Yuno қолданбасы — Android, Kotlin.
+  exp.leica.b1: Bluetooth және Wi-Fi арқылы 3D сканерлеу аппаратурасымен нақты уақыттағы байланыс жасадым.
+  exp.leica.b2: Үлкен point-cloud көлемдері үшін құрылғыдағы деректерді өңдеу және синхрондау конвейерлерін жобаладым.
+  exp.leica.b3: Android және iOS клиенттерінде Autodesk әріптестік интеграциясын жеткіздім.
+  exp.leica.location: Хербругг, Швейцария
+  exp.leica.role: Бағдарламалық жасақтама инженері
+  exp.leica.summary: 'Leica Geosystems 3D сканерлеріне арналған iOS және Android инженериясы — аппаратурамен нақты уақыттағы
+    байланыс, деректерді өңдеу және синхрондау. Әріптес: Autodesk.'
+  exp.tntech.b1: Globex Data үшін Android және десктоп платформаларында қауіпсіз мессенджер, пошта және suite клиенттерін
+    жеткіздім.
+  exp.tntech.b2: BusRide платформасының мобильді клиентін құрдым.
+  exp.tntech.location: Нови-Сад, Сербия
+  exp.tntech.role: Бағдарламалық жасақтама инженері (келісімшарт бойынша)
+  exp.tntech.summary: Globex Data (Канада және Швейцария) үшін Sekur — SekurMessenger, SekurMail, SekurSuite — және BusRide
+    платформасы бойынша жұмыс істедім.
+  identity.headline: ЖИ инженері — LLM инфрақұрылымы, автономды агенттер және оларды сенімді ететін басқару
+  identity.location: Белград, Сербия · Қашықтан (ЕО)
+  identity.role: ЖИ инженері / бағдарламалық жасақтама инженері
+  label.competencies: Негізгі құзыреттер
+  label.cover.date: Күні
+  label.cover.encl: 'Қосымша: түйіндеме'
+  label.cover.regards: Құрметпен,
+  label.cover.subject: Жұмысқа өтініш
+  label.cover.to: Кімге
+  label.education: Білімі
+  label.experience: Жұмыс тәжірибесі
+  label.keywords: Кілт сөздер
+  label.languages: Тілдік біліктілік
+  label.present: қазір
+  label.projects: Таңдаулы жобалар
+  label.publications: Жарияланымдар
+  label.skills: Техникалық дағдылар
+  label.summary: Профиль
+  label.tech: Технологиялар
+  lang.de: Неміс тілі
+  lang.de.level: Бастапқы деңгей
+  lang.en: Ағылшын тілі
+  lang.en.level: Кәсіби деңгей (C1/C2)
+  lang.ru: Орыс тілі
+  lang.ru.level: Кәсіби жұмыс деңгейі
+  lang.sr: Серб тілі
+  lang.sr.level: Ана тілі
+  metric.locales.label: осы сайт жарияланатын тілдер
+  metric.products.label: дәлелдермен расталған өнімдер
+  metric.providers.label: бір интерфейстің артындағы LLM провайдерлері
+  metric.repos.label: бір Конституция астындағы репозиторийлер
+  metric.years.label: бағдарламалық жасақтама жеткізген жыл
+  proj.catalogizer.blurb: Көп протоколды, шифрланған, өздігінен орналастырылатын медиа жинақты басқару (Go/Gin + React), тұрақсыз
+    желілік сақтауға төзімді және 21 қайта қолданылатын субмодульге құрылған.
+  proj.coursescreator.blurb: TTS-і және десктоп, мобильді және Web ойнатқыштары бар markdown-нан бейнеге түрлендіретін ЖИ
+    курс конвейері.
+  proj.helixagent.blurb: 'Бір модельге сенбейтін өндірістік деңгейдегі ансамбльдік LLM қызметі: сұранысты көптеген провайдерлерге
+    таратады, құрылымдық көп раундты пікірталас (Proposal → Critique → Review → Synthesis) жүргізеді және тірі верификация
+    баллдары бойынша бағыттайды, қажет болса fallback-ке бірте-бірте ауысады — OpenAI-үйлесімді API артында, HA деректер қабаты,
+    observability және guardrails бар.'
+  proj.helixcode.blurb: Жұмысты тәуелділікті ескеретін тапсырмаларға бөліп, SSH арқылы басқарылатын жұмысшы түйіндер тобына
+    таратып, checkpoint және rollback жасайтын үлестірілген ЖИ-әзірлеу платформасы — тапсырма үзілсе де ештеңе жоғалмайды.
+    Аппаратураны ескеретін модель таңдау және REST, CLI, TUI және MCP артындағы толық plan/build/test/refactor өмірлік циклі
+    бар.
+  proj.helixconstitution.blurb: Git-субмодуль ретінде таратылатын және 140+ репозиторийде мұраланатын әмбебап инженерлік ереже
+    жинағы — инженерлік заң код сияқты жеткізіледі және нұсқасы бекітіледі. Propagation gate-тер әр тұтынушы репозиторийде
+    қажетті тармақтарды іздейді, ал әр gate-ке оның жалған (формалды) еместігін дәлелдейтін мутациялық мета-тест жұптастырылған.
+  proj.helixllm.blurb: 'Бір бинарлық файл, алты орналастыру режимі: ноутбуктен көпхостты кластерге дейін масштабталатын HTTP/3
+    арқылы OpenAI және Anthropic-үйлесімді инференс, жергілікті llama.cpp инференсімен (CUDA/Metal/ROCm) және әрдайым кепілдендірілген
+    жергілікті модельге түсетін, автоматты анықталатын, верификация баллымен бағаланатын бұлттық fallback тізбегімен.'
+  proj.helixmemory.blurb: 'Төрт үздік backend-ті — Mem0, Cognee, Letta, Graphiti — бір интерфейстің артында біріктіретін когнитивті
+    жады қозғалтқышы: параллель іздеу және көздер аралық қайта саралау.'
+  proj.helixqa.blurb: 'Go тіліндегі anti-bluff QA оркестрациясы, бір ережеге негізделген: өлшем — «тесттер өтті» емес, «пайдаланушылар
+    функцияны қолдана алады». Ол қолмен жазылған YAML тест жинақтарын және толық автономды LLM мен компьютерлік көру сессияларын
+    іске қосады: нақты қолданбаны ашады, құжатталған әр функцияны тексереді, Android, Android TV, Web және Desktop бойынша
+    құжатталмаған қателерді іздейді және түсірілген орындалу дәлелінсіз PASS бермейді, сондай-ақ ЖИ арқылы түзетуге дайын
+    тикеттер жасайды.'
+  proj.helixspecifier.blurb: Өз рәсімін жұмыс көлеміне қарай масштабтайтын және спецификацияларды көп агентті пікірталаспен
+    қолдайтын spec-driven-development fusion қозғалтқышы.
+  proj.helixtrack.blurb: 'JIRA + Confluence-ке еркін (ашық) балама: бірыңғай action-routed API арқылы HTTP/3 үстіндегі Go
+    микросервистері, сақтау кезіндегі SQLCipher шифрлауы және нативті Web, Desktop, Android және iOS клиенттері.'
+  proj.llmorchestrator.blurb: Headless CLI агенттерін — OpenCode, Claude Code, Gemini, Junie, Qwen Code — гибридті pipe-and-file
+    протоколы арқылы іске қосатын және басқаратын thread-safe control plane.
+  proj.llmprovider.blurb: '43 провайдер үстіндегі бір интерфейс: circuit breaker-лер, жұмыс күйінің мониторингі (health check), jittered-backoff
+    қайталаулары және кодқа бекітілген fallback-сіз адал модель табу.'
+  proj.llmsverifier.blurb: Міндетті «Менің кодымды көріп тұрсың ба?» gate-і арқылы шынымен жұмыс істейтіні дәлелденген модельдер
+    ғана қолжетімді деп белгіленіп, экспортталатын верификацияның бірыңғай дереккөзі.
+  proj.mailserverfactory.blurb: Декларативті JSON-нан Docker контейнеріндегі, толық провизияланған пошта серверлеріне дейін —
+    12 қосылым түрі және 25 Linux дистрибутиві бойынша; 439 тесттің сәтті өткенін және SonarQube gate-тің таза екенін көрсетеді.
+  proj.serverfactorycore.blurb: Server Factory желісінің негізіндегі ортақ провизиялау қозғалтқышы және VM-образ құралдары
+    — бір фреймворктегі QEMU, Libvirt және Parallels драйверлері.
+  proj.visionengine.blurb: Компьютерлік көру және навигация графтары бар көп провайдерлі LLM-көру негізіндегі UI қабылдау.
+  pub.fundamentalkotlin.detail: Өз бетінше жариялаған автор; соңғы қайта қаралған басылым — 2022 жылғы қыркүйек (3-басылым).
+    Сондай-ақ Packt Publishing (Ұлыбритания) үшін жазған.
+  pub.fundamentalkotlin.title: Fundamental Kotlin
+  skills.ai: ЖИ және LLM
+  skills.backend: Backend және протоколдар
+  skills.data: Деректер
+  skills.frontend: Frontend және десктоп
+  skills.infra: Инфрақұрылым және DevOps
+  skills.languages: Бағдарламалау тілдері
+  summary.body: '16 жылдан астам кәсіби инженерлік тәжірибе — мобильді SDK, нақты уақыттағы аппараттық интеграция және үлестірілген
+    backend — қазір бір бағытқа тоғысты: автономды ЖИ-әзірлеуді ауқымда сенімді ету. Мен монолиттерді емес, модульдер экожүйесін
+    (флот) жобалаймын: ортақ инженерлік Конституцияны мұралайтын және anti-bluff, дәлелге негізделген QA тәртібімен тексерілетін,
+    ондаған шағын, өзара байланыссыз, дербес тестіленетін модульдерге сүйенетін ірі өнім қолданбалары.'
+  summary.lead: ЖИ-әзірлеу жүйелерін басынан аяғына дейін құратын ЖИ/бағдарламалық жасақтама инженерімін — көп провайдерлі
+    LLM инфрақұрылымы мен автономды агенттерден бастап, оларды адал ұстайтын QA және басқару қабаттарына дейін. Мен демо емес,
+    платформалар жеткіземін.
+  summary.value: 'Мен не әкелемін: ЖИ мүмкіндігін зерттеу идеясынан басқарылатын, өзін-өзі тексеретін, өндіріске дайын жүйеге
+    дейін жеткізу қабілеті — әр модельдің шынымен жұмыс істейтінін сенер алдында дәлелдейтін LLM маршруттау, болжаудың орнына
+    пікірталас жүргізіп консенсусқа келетін агенттер, контекстті жоғалтпайтын жады мен RAG қабаттары және «тесттер жасыл»
+    дегені «функция бұзылған» дегенді үнсіз жасыра алмайтындай жалғанған бүкіл экожүйе.'
+  tmpl.cl.emphasis: Осы жобалардағы басты назарым — {list}; осы тәртіпті өзім жеткізетін барлық өнімде де сақтаймын.
+  tmpl.cl.project: '{blurb} Технологиялар: {tech}.'
+  tmpl.cl.salutation: Құрметті кадрлар (жұмысқа қабылдау) тобы,
+  tmpl.cl.subject: Жұмысқа өтініш — {area}
+  tmpl.cl.title: '{name} — {area} — Ілеспе хат'
+  tmpl.cv.keywords: 'Кілт сөздер: {list}'
+  tmpl.cv.tech: 'Технологиялар: {tech}'
+  tmpl.cv.title: '{name} — {area} — Түйіндеме'

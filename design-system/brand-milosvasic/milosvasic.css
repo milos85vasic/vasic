@@ -785,3 +785,723 @@ body {
   --od-diagram-panel:#1e293b; --od-diagram-panel2:#273449; --od-diagram-tint:#3a2530;
   --od-diagram-good:#14321f; --od-diagram-good-line:#4ade80; --od-diagram-good-ink:#bbf7d0;
 } }
+
+/* ==========================================================================
+   AURORA ATLAS v2 — OKLCH perceptual tokens + motion system
+   (expertise hub + area pages; added 2026-11-20)
+
+   Token pattern: every token is declared twice — the FIRST declaration is the
+   hex fallback (legacy browsers, where the second is invalid at parse time),
+   the SECOND is the perceptual OKLCH value (modern browsers; last wins).
+   Usage sites read var(--a2-*, #fallback) — the var() fallback is the safety
+   net for the guaranteed-invalid case. `color-mix`-based values degrade to
+   the first declaration in legacy browsers.
+
+   Per-area accent: expertise pages carry data-area="<slug>"; the [data-area]
+   rules below switch --a2-accent (and its fg --a2-accent-on) per area.
+   ========================================================================== */
+
+/* Token contract (WCAG 2.2 AA, enforced by _tools/career/check_a2_contrast.py):
+   --a2-accent is used as TEXT colour, as a fill (with --a2-accent-on text) and
+   as a border, so each theme carries its own accent: the light value is dark
+   enough for >=4.5:1 on --a2-bg/surface/surface-2 and for white text on it; the
+   dark value is light enough for >=4.5:1 on the dark surfaces and for #111217
+   text on it. Hue and chroma of the original accents are kept; only lightness
+   moves. Themes follow the --od-* pattern: bare :root = light,
+   :root:not([data-theme="light"]) under prefers-color-scheme: dark, and
+   :root[data-theme="dark"]. data-area sits on descendants of :root, so the
+   per-area dark rules are descendant selectors of the same two dark forms. */
+
+:root {
+  /* --- Neutral tokens (light) --- */
+  --a2-bg: #faf9f7;  /* oklch(98.23% 0.003 84.6) */
+  --a2-bg: oklch(98.23% 0.003 84.6);
+  --a2-surface: #f4f2ef;  /* oklch(96.19% 0.005 78.3) */
+  --a2-surface: oklch(96.19% 0.005 78.3);
+  --a2-surface-2: #eeebe7;  /* oklch(94.13% 0.006 75.4) */
+  --a2-surface-2: oklch(94.13% 0.006 75.4);
+  --a2-text: #1c1a17;  /* oklch(21.89% 0.007 78.2) */
+  --a2-text: oklch(21.89% 0.007 78.2);
+  --a2-text-muted: #4a453f;  /* oklch(39.34% 0.012 72.5) */
+  --a2-text-muted: oklch(39.34% 0.012 72.5);
+  --a2-border: #c8c3bc;  /* oklch(81.92% 0.011 76.6) */
+  --a2-border: oklch(81.92% 0.011 76.6);
+
+  /* --- Accent (site crimson; per-area overrides below) --- */
+  --a2-accent: #a31e39;  /* oklch(46.94% 0.167 16.1) */
+  --a2-accent: oklch(46.94% 0.167 16.1);
+  --a2-accent-on: #ffffff;
+  --a2-accent-muted: #a31e39;           /* 12% accent wash (fallback) */
+  --a2-accent-muted: color-mix(in oklch, var(--a2-accent) 12%, transparent);
+  --a2-focus-ring: #a31e39;             /* 65% accent ring (fallback) */
+  --a2-focus-ring: color-mix(in oklch, var(--a2-accent) 65%, transparent);
+}
+
+/* Derived tokens recomputed on each per-area element from ITS accent. */
+[data-area] {
+  --a2-accent-muted: #a31e39;           /* 12% accent wash (fallback) */
+  --a2-accent-muted: color-mix(in oklch, var(--a2-accent) 12%, transparent);
+  --a2-focus-ring: #a31e39;             /* 65% accent ring (fallback) */
+  --a2-focus-ring: color-mix(in oklch, var(--a2-accent) 65%, transparent);
+}
+
+/* Per-area accent overrides, light — hex fallback first, oklch second (modern wins). */
+[data-area="ai-engineering"] {
+  --a2-accent: #6c47ea;  /* oklch(53.90% 0.230 286.2) */
+  --a2-accent: oklch(53.90% 0.230 286.2);
+  --a2-accent-on: #ffffff;
+}
+[data-area="android"] {
+  --a2-accent: #057640;  /* oklch(49.80% 0.124 154.0) */
+  --a2-accent: oklch(49.80% 0.124 154.0);
+  --a2-accent-on: #ffffff;
+}
+[data-area="android-tv"] {
+  --a2-accent: #04746a;  /* oklch(50.35% 0.088 184.6) */
+  --a2-accent: oklch(50.35% 0.088 184.6);
+  --a2-accent-on: #ffffff;
+}
+[data-area="android-aosp"] {
+  --a2-accent: #905b04;  /* oklch(51.86% 0.111 70.1) */
+  --a2-accent: oklch(51.86% 0.111 70.1);
+  --a2-accent-on: #ffffff;
+}
+[data-area="flutter"] {
+  --a2-accent: #066f95;  /* oklch(50.90% 0.101 231.0) */
+  --a2-accent: oklch(50.90% 0.101 231.0);
+  --a2-accent-on: #ffffff;
+}
+[data-area="react-native"] {
+  --a2-accent: #027188;  /* oklch(50.70% 0.091 218.7) */
+  --a2-accent: oklch(50.70% 0.091 218.7);
+  --a2-accent-on: #ffffff;
+}
+[data-area="mobile"] {
+  --a2-accent: #c31677;  /* oklch(54.09% 0.212 354.3) */
+  --a2-accent: oklch(54.09% 0.212 354.3);
+  --a2-accent-on: #ffffff;
+}
+[data-area="go"] {
+  --a2-accent: #07718e;  /* oklch(50.95% 0.094 223.9) */
+  --a2-accent: oklch(50.95% 0.094 223.9);
+  --a2-accent-on: #ffffff;
+}
+[data-area="web-frontend"] {
+  --a2-accent: #cd0340;  /* oklch(54.00% 0.215 16.4) */
+  --a2-accent: oklch(54.00% 0.215 16.4);
+  --a2-accent-on: #ffffff;
+}
+[data-area="desktop"] {
+  --a2-accent: #7254bd;  /* oklch(52.90% 0.159 293.5) */
+  --a2-accent: oklch(52.90% 0.159 293.5);
+  --a2-accent-on: #ffffff;
+}
+
+/* Dark theme — explicit toggle. */
+:root[data-theme="dark"] {
+  /* --- Neutral tokens (dark; same values as --od-*) --- */
+  --a2-bg: #12100e;  /* oklch(17.47% 0.005 67.5) */
+  --a2-bg: oklch(17.47% 0.005 67.5);
+  --a2-surface: #1b1917;  /* oklch(21.49% 0.005 67.6) */
+  --a2-surface: oklch(21.49% 0.005 67.6);
+  --a2-surface-2: #211e1b;  /* oklch(23.73% 0.007 67.5) */
+  --a2-surface-2: oklch(23.73% 0.007 67.5);
+  --a2-text: #e7e3dd;  /* oklch(91.73% 0.009 78.3) */
+  --a2-text: oklch(91.73% 0.009 78.3);
+  --a2-text-muted: #c3bcb2;  /* oklch(79.81% 0.016 77.0) */
+  --a2-text-muted: oklch(79.81% 0.016 77.0);
+  --a2-border: #453f38;  /* oklch(37.14% 0.014 71.6) */
+  --a2-border: oklch(37.14% 0.014 71.6);
+
+  --a2-accent: #e25c6b;  /* oklch(64.94% 0.167 16.1) */
+  --a2-accent: oklch(64.94% 0.167 16.1);
+  --a2-accent-on: #111217;
+  --a2-accent-muted: #a31e39;           /* 12% accent wash (fallback) */
+  --a2-accent-muted: color-mix(in oklch, var(--a2-accent) 12%, transparent);
+  --a2-focus-ring: #a31e39;             /* 65% accent ring (fallback) */
+  --a2-focus-ring: color-mix(in oklch, var(--a2-accent) 65%, transparent);
+}
+:root[data-theme="dark"] [data-area="ai-engineering"] {
+  --a2-accent: #8975fe;  /* oklch(64.90% 0.196 286.2) */
+  --a2-accent: oklch(64.90% 0.196 286.2);
+  --a2-accent-on: #111217;
+}
+:root[data-theme="dark"] [data-area="android"] {
+  --a2-accent: #3ddc84;  /* oklch(79.30% 0.180 154.0) */
+  --a2-accent: oklch(79.30% 0.180 154.0);
+  --a2-accent-on: #111217;
+}
+:root[data-theme="dark"] [data-area="android-tv"] {
+  --a2-accent: #02b8a9;  /* oklch(70.35% 0.124 184.6) */
+  --a2-accent: oklch(70.35% 0.124 184.6);
+  --a2-accent-on: #111217;
+}
+:root[data-theme="dark"] [data-area="android-aosp"] {
+  --a2-accent: #f59e09;  /* oklch(76.86% 0.165 70.1) */
+  --a2-accent: oklch(76.86% 0.165 70.1);
+  --a2-accent-on: #111217;
+}
+:root[data-theme="dark"] [data-area="flutter"] {
+  --a2-accent: #54c5f8;  /* oklch(77.90% 0.125 231.0) */
+  --a2-accent: oklch(77.90% 0.125 231.0);
+  --a2-accent-on: #111217;
+}
+:root[data-theme="dark"] [data-area="react-native"] {
+  --a2-accent: #61dafb;  /* oklch(83.20% 0.117 218.7) */
+  --a2-accent: oklch(83.20% 0.117 218.7);
+  --a2-accent-on: #111217;
+}
+:root[data-theme="dark"] [data-area="mobile"] {
+  --a2-accent: #ec4899;  /* oklch(65.59% 0.212 354.3) */
+  --a2-accent: oklch(65.59% 0.212 354.3);
+  --a2-accent-on: #111217;
+}
+:root[data-theme="dark"] [data-area="go"] {
+  --a2-accent: #02add8;  /* oklch(69.45% 0.130 223.9) */
+  --a2-accent: oklch(69.45% 0.130 223.9);
+  --a2-accent-on: #111217;
+}
+:root[data-theme="dark"] [data-area="web-frontend"] {
+  --a2-accent: #f84361;  /* oklch(65.50% 0.215 16.4) */
+  --a2-accent: oklch(65.50% 0.215 16.4);
+  --a2-accent-on: #111217;
+}
+:root[data-theme="dark"] [data-area="desktop"] {
+  --a2-accent: #a78bfa;  /* oklch(70.90% 0.159 293.5) */
+  --a2-accent: oklch(70.90% 0.159 293.5);
+  --a2-accent-on: #111217;
+}
+
+/* Dark theme — OS preference (unless the toggle forces light). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* --- Neutral tokens (dark; same values as --od-*) --- */
+    --a2-bg: #12100e;  /* oklch(17.47% 0.005 67.5) */
+    --a2-bg: oklch(17.47% 0.005 67.5);
+    --a2-surface: #1b1917;  /* oklch(21.49% 0.005 67.6) */
+    --a2-surface: oklch(21.49% 0.005 67.6);
+    --a2-surface-2: #211e1b;  /* oklch(23.73% 0.007 67.5) */
+    --a2-surface-2: oklch(23.73% 0.007 67.5);
+    --a2-text: #e7e3dd;  /* oklch(91.73% 0.009 78.3) */
+    --a2-text: oklch(91.73% 0.009 78.3);
+    --a2-text-muted: #c3bcb2;  /* oklch(79.81% 0.016 77.0) */
+    --a2-text-muted: oklch(79.81% 0.016 77.0);
+    --a2-border: #453f38;  /* oklch(37.14% 0.014 71.6) */
+    --a2-border: oklch(37.14% 0.014 71.6);
+
+    --a2-accent: #e25c6b;  /* oklch(64.94% 0.167 16.1) */
+    --a2-accent: oklch(64.94% 0.167 16.1);
+    --a2-accent-on: #111217;
+    --a2-accent-muted: #a31e39;           /* 12% accent wash (fallback) */
+    --a2-accent-muted: color-mix(in oklch, var(--a2-accent) 12%, transparent);
+    --a2-focus-ring: #a31e39;             /* 65% accent ring (fallback) */
+    --a2-focus-ring: color-mix(in oklch, var(--a2-accent) 65%, transparent);
+  }
+  :root:not([data-theme="light"]) [data-area="ai-engineering"] {
+    --a2-accent: #8975fe;  /* oklch(64.90% 0.196 286.2) */
+    --a2-accent: oklch(64.90% 0.196 286.2);
+    --a2-accent-on: #111217;
+  }
+  :root:not([data-theme="light"]) [data-area="android"] {
+    --a2-accent: #3ddc84;  /* oklch(79.30% 0.180 154.0) */
+    --a2-accent: oklch(79.30% 0.180 154.0);
+    --a2-accent-on: #111217;
+  }
+  :root:not([data-theme="light"]) [data-area="android-tv"] {
+    --a2-accent: #02b8a9;  /* oklch(70.35% 0.124 184.6) */
+    --a2-accent: oklch(70.35% 0.124 184.6);
+    --a2-accent-on: #111217;
+  }
+  :root:not([data-theme="light"]) [data-area="android-aosp"] {
+    --a2-accent: #f59e09;  /* oklch(76.86% 0.165 70.1) */
+    --a2-accent: oklch(76.86% 0.165 70.1);
+    --a2-accent-on: #111217;
+  }
+  :root:not([data-theme="light"]) [data-area="flutter"] {
+    --a2-accent: #54c5f8;  /* oklch(77.90% 0.125 231.0) */
+    --a2-accent: oklch(77.90% 0.125 231.0);
+    --a2-accent-on: #111217;
+  }
+  :root:not([data-theme="light"]) [data-area="react-native"] {
+    --a2-accent: #61dafb;  /* oklch(83.20% 0.117 218.7) */
+    --a2-accent: oklch(83.20% 0.117 218.7);
+    --a2-accent-on: #111217;
+  }
+  :root:not([data-theme="light"]) [data-area="mobile"] {
+    --a2-accent: #ec4899;  /* oklch(65.59% 0.212 354.3) */
+    --a2-accent: oklch(65.59% 0.212 354.3);
+    --a2-accent-on: #111217;
+  }
+  :root:not([data-theme="light"]) [data-area="go"] {
+    --a2-accent: #02add8;  /* oklch(69.45% 0.130 223.9) */
+    --a2-accent: oklch(69.45% 0.130 223.9);
+    --a2-accent-on: #111217;
+  }
+  :root:not([data-theme="light"]) [data-area="web-frontend"] {
+    --a2-accent: #f84361;  /* oklch(65.50% 0.215 16.4) */
+    --a2-accent: oklch(65.50% 0.215 16.4);
+    --a2-accent-on: #111217;
+  }
+  :root:not([data-theme="light"]) [data-area="desktop"] {
+    --a2-accent: #a78bfa;  /* oklch(70.90% 0.159 293.5) */
+    --a2-accent: oklch(70.90% 0.159 293.5);
+    --a2-accent-on: #111217;
+  }
+}
+
+/* Cross-document view transitions (progressive enhancement). */
+@view-transition { navigation: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
+
+/* Scroll-driven animations (progressive enhancement, gated on support).
+   Legacy browsers without animation-timeline: nothing fires. Modern browsers:
+   - .a2-intro — the hub hero drifts on view() entry (transform only; text opacity never < 1).
+   - .a2-timeline — the area-page timeline drifts in on scroll(block) (transform only). */
+@keyframes a2-hero-drift {
+  from { transform: translateY(1rem); }
+  to   { transform: none; }
+}
+@keyframes a2-timeline-drift {
+  from { transform: translateY(0.75rem); }
+  to   { transform: none; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .a2-intro {
+      animation: a2-hero-drift;
+      animation-timeline: view();
+      animation-range: entry 20%;
+    }
+    .a2-timeline {
+      animation: a2-timeline-drift;
+      animation-timeline: scroll(block);
+      animation-range: 0 70vh;
+    }
+  }
+}
+
+/* WCAG 2.2 AA — focus-not-obscured (SC 2.4.11): focused content clears the
+   sticky nav (64px bar + breathing room). */
+html { scroll-padding-top: calc(64px + .75rem); }
+
+/* WCAG 2.2 AA — focus visible and ≥24px (SC 2.4.11, 2.4.7) on Aurora tiles. */
+.mv-expertise-tile { min-height: 6.25rem; min-width: 13rem; }
+.mv-expertise-tile:focus-visible,
+.mv-area-back:focus-visible,
+.mv-area-project:focus-visible {
+  outline: none;
+  border: 2px solid var(--a2-accent, #a31e39);
+  border-radius: var(--od-radius-lg, 8px);
+  box-shadow: 0 0 0 3px var(--a2-focus-ring, rgba(163,30,57,.55));
+  background-color: var(--a2-surface, #f4f2ef);
+}
+.mv-expertise-tile:focus-visible .mv-expertise-tile__title,
+.mv-area-project:focus-visible .mv-area-project__name,
+.mv-area-back:focus-visible { color: var(--a2-text, #1c1a17); }
+
+/* ---- Hub page — Aurora Atlas v2 (grid layouts + backdrop-blur cards) ---- */
+.mv-expertise-hero {
+  padding-block: var(--od-space-8, 2.5rem);
+  max-width: var(--od-container-max, 1200px);
+  margin-inline: auto;
+}
+.mv-expertise-eyebrow { margin: 0 0 var(--od-space-3, .75rem); }
+.mv-expertise-title {
+  font-family: var(--od-font-display, "Space Grotesk", sans-serif);
+  font-size: var(--od-fs-3xl, 2.25rem);
+  font-weight: 700;
+  line-height: var(--od-lh-tight, 1.2);
+  margin: 0;
+  color: var(--a2-text, #1c1a17);
+}
+.mv-expertise-lede {
+  font-size: var(--od-fs-lg, 1.25rem);
+  color: var(--a2-text-muted, #4a453f);
+  max-width: 72ch;
+  margin: 0 0 var(--od-space-4, 1rem);
+}
+.mv-expertise-stat {
+  font-size: var(--od-fs-sm, .875rem);
+  color: var(--a2-text-muted, #4a453f);
+  margin: 0;
+}
+.mv-expertise-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: var(--od-space-6, 1.5rem);
+  margin-block-start: var(--od-space-8, 2.5rem);
+}
+.mv-expertise-tile {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: var(--od-space-3, .75rem);
+  padding: var(--od-space-5, 1.25rem);
+  border: 1px solid var(--a2-accent, #a31e39);
+  border-radius: var(--od-radius-xl, 14px);
+  background: color-mix(in oklch, var(--a2-surface, #f4f2ef) 82%, transparent);
+  backdrop-filter: blur(12px);
+  text-decoration: none;
+  transition: border-color var(--od-dur-base, 250ms) var(--od-ease-standard, cubic-bezier(.4,0,.2,1)),
+              box-shadow var(--od-dur-base, 250ms) var(--od-ease-standard, cubic-bezier(.4,0,.2,1));
+}
+.mv-expertise-tile:hover {
+  border-color: var(--a2-accent, #a31e39);
+  box-shadow: 0 8px 24px -8px color-mix(in oklch, var(--a2-accent, #a31e39) 25%, transparent);
+}
+.mv-expertise-tile:active { transform: translateY(1px); }
+.mv-expertise-tile__index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0 var(--od-space-3, .75rem);
+  margin-top: var(--od-space-1, .25rem);
+  border-radius: var(--od-radius-pill, 9999px);
+  background: var(--a2-accent, #a31e39);
+  color: var(--a2-accent-on, #ffffff);
+  font-family: var(--od-font-mono, "JetBrains Mono", monospace);
+  font-size: var(--od-fs-xs, .75rem);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+.mv-expertise-tile__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--od-space-2, .5rem);
+  min-width: 0;
+}
+.mv-expertise-tile__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--od-space-1, .25rem);
+}
+.mv-expertise-tile__title {
+  font-family: var(--od-font-display, "Space Grotesk", sans-serif);
+  font-size: var(--od-fs-2xl, 2rem);
+  font-weight: 700;
+  line-height: var(--od-lh-tight, 1.2);
+  color: var(--a2-text, #1c1a17);
+  margin: 0;
+}
+.mv-expertise-tile__metric {
+  font-family: var(--od-font-mono, "JetBrains Mono", monospace);
+  font-size: var(--od-fs-xs, .75rem);
+  font-weight: 600;
+  color: var(--a2-accent, #a31e39);
+}
+.mv-expertise-tile__tagline {
+  font-size: var(--od-fs-sm, .875rem);
+  color: var(--a2-text-muted, #4a453f);
+  margin: 0;
+}
+.mv-expertise-tile__projects {
+  font-family: var(--od-font-mono, "JetBrains Mono", monospace);
+  font-size: var(--od-fs-xs, .75rem);
+  color: var(--a2-text-muted, #4a453f);
+  margin: 0;
+}
+.mv-expertise-tile__arrow {
+  align-self: center;
+  color: var(--a2-accent, #a31e39);
+  font-size: var(--od-fs-2xl, 2rem);
+  transition: transform var(--od-dur-fast, 150ms) var(--od-ease-standard, cubic-bezier(.4,0,.2,1));
+}
+.mv-expertise-tile:hover .mv-expertise-tile__arrow { transform: translateX(.25rem); }
+
+/* ---- Area pages — Aurora Atlas v2 (backdrop-blur header, grids) ---- */
+.mv-area-header {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: var(--od-space-6, 1.5rem);
+  align-items: end;
+  max-width: var(--od-container-max, 1200px);
+  margin-inline: auto;
+  padding: var(--od-space-7, 2rem) var(--od-space-6, 1.5rem);
+  border: 1px solid var(--a2-border, #c8c3bc);
+  border-radius: var(--od-radius-xl, 14px);
+  background: color-mix(in oklch, var(--a2-surface, #f4f2ef) 88%, transparent);
+  backdrop-filter: blur(12px);
+}
+@media (max-width: 767px) { .mv-area-header { grid-template-columns: 1fr; } }
+.mv-area-back {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--od-fs-sm, .875rem);
+  font-weight: 500;
+  color: var(--a2-accent, #a31e39);
+  text-decoration: none;
+}
+.mv-area-back::before {
+  content: "←";
+  margin-inline-end: .35rem;
+  transition: transform var(--od-dur-fast, 150ms) var(--od-ease-standard, cubic-bezier(.4,0,.2,1));
+}
+.mv-area-back:hover::before { transform: translateX(-.25rem); }
+.mv-area-index {
+  font-family: var(--od-font-mono, "JetBrains Mono", monospace);
+  font-size: var(--od-fs-xs, .75rem);
+  letter-spacing: .06em;
+  color: var(--a2-accent, #a31e39);
+  margin: 0;
+}
+.mv-area-title {
+  font-family: var(--od-font-display, "Space Grotesk", sans-serif);
+  font-size: clamp(var(--od-fs-3xl, 2.25rem), 4.5vw, 3.5rem);
+  font-weight: 700;
+  line-height: var(--od-lh-tight, 1.2);
+  color: var(--a2-text, #1c1a17);
+  margin: var(--od-space-3, .75rem) 0 0;
+}
+.mv-area-tagline {
+  font-size: var(--od-fs-lg, 1.25rem);
+  color: var(--a2-text-muted, #4a453f);
+  margin: 0;
+}
+.mv-area-angle {
+  font-size: var(--od-fs-sm, .875rem);
+  color: var(--a2-text, #1c1a17);
+  margin: var(--od-space-3, .75rem) 0 0;
+}
+/* Area pages: every section sits in the same centered, padded column as the
+   header (it was only the header that had a max-width; sections ran edge to
+   edge in every locale, not just RTL). Logical properties, so RTL is correct. */
+main[data-area] {
+  max-width: var(--od-container-max, 1200px);
+  margin-inline: auto;
+  padding-inline: max(clamp(1.25rem, 5vw, 3rem), env(safe-area-inset-left), env(safe-area-inset-right));
+  box-sizing: border-box;
+}
+.mv-area-section { margin-block-start: var(--od-space-8, 2.5rem); }
+.mv-area-section h2 {
+  font-family: var(--od-font-display, "Space Grotesk", sans-serif);
+  font-size: var(--od-fs-2xl, 2rem);
+  color: var(--a2-text, #1c1a17);
+  margin: 0 0 var(--od-space-5, 1.25rem);
+}
+.mv-area-story__text {
+  font-size: var(--od-fs-lg, 1.25rem);
+  color: var(--a2-text, #1c1a17);
+  max-width: 72ch;
+  margin: 0 0 var(--od-space-4, 1rem);
+}
+.mv-area-project-blurbs {
+  display: grid;
+  gap: var(--od-space-4, 1rem);
+  padding: var(--od-space-5, 1.25rem);
+  border: 1px solid var(--a2-border, #c8c3bc);
+  border-radius: var(--od-radius-lg, 8px);
+  background: color-mix(in oklch, var(--a2-surface-2, #eeebe7) 55%, transparent);
+  backdrop-filter: blur(8px);
+}
+.mv-area-project-blurb__name { margin: 0; font-weight: 600; color: var(--a2-text, #1c1a17); }
+.mv-area-project-blurb__text { margin: 0; color: var(--a2-text-muted, #4a453f); }
+
+/* Experience — vertical timeline entries. */
+.mv-area-experience-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--od-space-6, 1.5rem);
+}
+.mv-area-exp {
+  border-inline-start: 2px solid var(--a2-accent, #a31e39);
+  padding-inline-start: var(--od-space-5, 1.25rem);
+}
+.mv-area-exp__head { margin: 0 0 var(--od-space-2, .5rem); }
+.mv-area-exp__company {
+  margin: 0;
+  font-size: var(--od-fs-xl, 1.5rem);
+  color: var(--a2-text, #1c1a17);
+}
+.mv-area-exp__role {
+  margin: 0;
+  font-family: var(--od-font-mono, "JetBrains Mono", monospace);
+  font-size: var(--od-fs-xs, .75rem);
+  color: var(--a2-text-muted, #4a453f);
+}
+.mv-area-exp__location { margin: 0 0 var(--od-space-2, .5rem); color: var(--a2-text-muted, #4a453f); }
+.mv-area-exp__summary { margin: 0 0 var(--od-space-3, .75rem); color: var(--a2-text, #1c1a17); }
+.mv-area-exp__bullets { list-style: none; margin: 0 0 var(--od-space-3, .75rem); padding: 0; display: grid; gap: var(--od-space-1, .25rem); }
+.mv-area-exp__bullet {
+  padding-inline-start: var(--od-space-6, 1.5rem);
+  color: var(--a2-text, #1c1a17);
+  font-size: var(--od-fs-sm, .875rem);
+}
+.mv-area-exp__bullet::before {
+  content: "→";
+  margin-inline-end: var(--od-space-2, .5rem);
+  color: var(--a2-accent, #a31e39);
+}
+.mv-area-exp__tech {
+  margin: 0;
+  font-family: var(--od-font-mono, "JetBrains Mono", monospace);
+  font-size: var(--od-fs-xs, .75rem);
+  color: var(--a2-text-muted, #4a453f);
+}
+
+/* Projects grid. */
+.mv-area-projects-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--od-space-4, 1rem);
+}
+.mv-area-project {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--od-space-3, .75rem);
+  text-decoration: none;
+}
+.mv-area-project__name { color: var(--a2-text, #1c1a17); }
+.mv-area-project__tier {
+  font-family: var(--od-font-mono, "JetBrains Mono", monospace);
+  font-size: var(--od-fs-xs, .75rem);
+  color: var(--a2-accent, #a31e39);
+}
+.mv-area-project__tech {
+  font-family: var(--od-font-mono, "JetBrains Mono", monospace);
+  font-size: var(--od-fs-xs, .75rem);
+  color: var(--a2-text-muted, #4a453f);
+}
+.mv-area-project__lead { color: var(--a2-text-muted, #4a453f); margin: .25rem 0 0; }
+
+/* Timeline (the scroll-driven section — .a2-timeline). */
+.mv-area-timeline__line {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--od-space-4, 1rem);
+}
+.mv-area-timeline__line::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 4px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--a2-accent, #a31e39) 0%, var(--a2-border, #c8c3bc) 100%);
+}
+.mv-area-timeline__entry {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--od-space-3, .75rem);
+}
+.mv-area-timeline__marker {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--a2-accent, #a31e39);
+  border: 3px solid var(--a2-bg, #faf9f7);
+  margin-top: .25rem;
+}
+.mv-area-timeline__event {
+  font-size: var(--od-fs-base, 1.125rem);
+  color: var(--a2-text, #1c1a17);
+  margin: 0;
+}
+.mv-area-timeline__year {
+  font-family: var(--od-font-mono, "JetBrains Mono", monospace);
+  font-size: var(--od-fs-xs, .75rem);
+  color: var(--a2-accent, #a31e39);
+  text-align: end;
+}
+
+/* Metrics — numbers read as data (grid layout). */
+.mv-area-metrics-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--od-space-5, 1.25rem);
+}
+.mv-area-metric__value {
+  font-family: var(--od-font-mono, "JetBrains Mono", monospace);
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  color: var(--a2-text, #1c1a17);
+  margin: 0;
+}
+.mv-area-metric__label {
+  font-family: var(--od-font-mono, "JetBrains Mono", monospace);
+  font-size: var(--od-fs-xs, .75rem);
+  color: var(--a2-text-muted, #4a453f);
+  margin: 0;
+}
+
+/* Skills & competencies. */
+.mv-area-skills__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--od-space-6, 1.5rem);
+}
+.mv-area-competency__label,
+.mv-area-skill-group__label {
+  margin: 0 0 var(--od-space-2, .5rem);
+  color: var(--a2-text, #1c1a17);
+}
+.mv-area-competency__items,
+.mv-area-skill-group__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--od-space-1, .25rem);
+}
+.mv-area-competency__items li,
+.mv-area-skill-group__items li {
+  color: var(--a2-text-muted, #4a453f);
+  font-size: var(--od-fs-sm, .875rem);
+}
+
+/* Education & publications. */
+.mv-area-education-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--od-space-2, .5rem);
+}
+.mv-area-education__item { color: var(--a2-text, #1c1a17); }
+
+/* Cover letter context. */
+.mv-area-cover__opening { color: var(--a2-text, #1c1a17); margin: 0; }
+.mv-area-cover__angle { margin: 0 0 var(--od-space-4, 1rem); }
+.mv-area-cover__paragraph {
+  border-inline-start: 2px solid var(--a2-accent, #a31e39);
+  padding-inline-start: var(--od-space-5, 1.25rem);
+  margin-top: var(--od-space-5, 1.25rem);
+}
+
+/* Reduced motion: no non-essential transition/motion. */
+@media (prefers-reduced-motion: reduce) {
+  .mv-expertise-tile,
+  .mv-expertise-tile .mv-expertise-tile__arrow,
+  .mv-area-back::before {
+    transition: none;
+  }
+}
+
+/* ---- RTL (ar/fa) — mirror the Aurora surfaces ---- */
+[dir="rtl"] .mv-expertise-tiles { direction: rtl; }
+[dir="rtl"] .mv-expertise-tile { text-align: right; }
+[dir="rtl"] .mv-area-header { text-align: right; }
+[dir="rtl"] .mv-area-title,
+[dir="rtl"] .mv-area-tagline,
+[dir="rtl"] .mv-area-story__text,
+[dir="rtl"] .mv-area-exp__summary,
+[dir="rtl"] .mv-area-project-blurb__text,
+[dir="rtl"] .mv-area-competency__items li,
+[dir="rtl"] .mv-area-skill-group__items li,
+[dir="rtl"] .mv-area-education__item { text-align: right; }
+[dir="rtl"] .mv-area-back::before { content: "→"; }
+[dir="rtl"] .mv-area-back:hover::before { transform: translateX(.25rem); }
+/* The tile arrow is a hard-coded "→" glyph: mirror it so it points inward,
+   and flip the hover nudge so it still moves in the reading direction. */
+[dir="rtl"] .mv-expertise-tile__arrow { transform: scaleX(-1); }
+[dir="rtl"] .mv-expertise-tile:hover .mv-expertise-tile__arrow { transform: translateX(-.25rem) scaleX(-1); }

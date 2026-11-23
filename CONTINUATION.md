@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-10-29T13:40:00Z
+    Last-Updated: 2026-11-23T22:40:00Z
     Synced-Commit: b2797f1
     Authority-Root: submodules/constitution
 
@@ -426,10 +426,15 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+## UPDATE 2026-11-23 (career rework state; supersedes the stale 2026-11-19 hand-off wording)
+
+The `milosvasic.ru` career rework is in progress and uncommitted. Canonical measured state: `docs/STATE-MILESTONE.md` (revision 2). Vault operator manual: `docs/career/vault-guide.md`. Summary, re-derive rather than quote: career engine with 10 areas and 15 languages (`python3 _tools/career/career.py model`); 165 expertise pages (`find milosvasic.ru/expertise -type f | wc -l`); constitution pin `6d93ccd1` staged with `helix-deps.yaml`. A 300-PDF rebuild and an independent round-2 review were RUNNING when this was written: the PDFs are NOT claimed built. Pending: final PDF verify (`career.py verify`), clean containerized Jekyll build, full Playwright run, round-2 review, then commit order (milosvasic.ru submodule first, then umbrella gitlink and `helix-deps.yaml` refs together, fast-forward only), tag `vasic-1.0.0-dev-0.0.8`, real vault seal (needs operator passphrase file in `_secure/` or env var), `job_seeker` kickoff. Nothing here was committed or pushed.
+
 ### FINAL STATE: QA READY, 0.0.7 TAGGED, NO ACTIVE WORK — 2026-10-29
 
 Operator signed off QA on 2026-10-29 and ordered no further active work until notified. Re-derive, do not quote: `git ls-files -s workshop`, `bash scripts/verify-manifest-pins.sh`, `bash scripts/continuation-check.sh`, `git tag -l 'vasic-1.0.0-dev-0.0.7'`.
 
+- **UPDATE 2026-11-23 (supersedes the Live QA bullet and the "NO ACTIVE WORK" heading below).** The QA instance at `:8087` had been removed deliberately on 2026-11-20 16:13 (journal evidence; the caller is unidentified). It was restarted and now runs build `d58ae75d-20261123T180756Z` (clean, `source_dirty` false); the health endpoint answers ok. The admin-credential checks (C05, C13, C14, C15) remain UNDETERMINED: the password is operator-held. Milestone work is IN PROGRESS, so "no active work" no longer holds: the mvasic.ru rework v2.0.0 (vault fixes pending, localized pages generated) is tracked in `docs/STATE-MILESTONE.md`. Pin drift recorded by `bash scripts/verify-manifest-pins.sh` on 2026-11-23: `constitution` ref `4488f83757b9` vs gitlink `1f9700eb1190`, and `workshop` ref `55a56550f16a` vs gitlink `d58ae75d2d7b`; `helix-deps.yaml` not yet moved.
 - **Live QA.** `http://127.0.0.1:8087`, build `5641ea85-20261029T100523Z` (`source_dirty` false), started with `WORKSHOP_MEDIUM_ENGAGEMENT=1 WORKSHOP_PROFILE_FILE=platform/profiles/qa-all-on.env.example bash workshop/scripts/restart.sh` (run from the workshop checkout). Logins: `milosvasic`, `rami`, `student1`-`student5`. Gate on this build: 35 pass, 0 fail, 4 UNDETERMINED (C05, C13, C14, C15 need `WORKSHOP_QA_ADMIN_USER`/`WORKSHOP_QA_ADMIN_PASSWORD`, operator-held; undetermined is not a pass). Run as student5 with `WORKSHOP_GLOSSARY_SIDECAR=curriculum/glossary-definitions.jsonl` and `--max-links 800`. `qa_verify.py` 94/94 was on build `507ac938`.
 - **Pins.** Umbrella `main` carries the workshop gitlink `55a56550` (docs/config only: work-item sync, docs/assets/static_assets.md, docs/setup/run_locally.md and the tracked `.claude/worktrees/` ignore rule on top of `af741608`, the 0.0.7 tag and live build `5641ea85`), constitution `4488f83757b9` (ff-only, one upstream auto-commit, `Constitution.md` unchanged vs `6374feb7fa93`; before that `6374feb7fa93`; `Constitution.md` 12,420 to 12,602 lines, 267 to 271 anchors), manifest refs equal gitlinks (21 MATCH). The earlier "override/jev-hosted-only branches NOT merged" statement below is SUPERSEDED: the override is on `main` in the umbrella and every owned submodule.
 - **git status failure fixed 2026-10-29.** `git status` failed with "expected submodule path 'submodules/LLMProvider' not to be a symbolic link ... in submodule .claude/worktrees/agent-a281b3ad659a13d33". Root cause: no tracked ignore rule for `.claude/worktrees/` in the umbrella (workshop had it only in the local `.git/modules/workshop/info/exclude`), so a blanket `git add` staged 18 agent worktrees as gitlinks. Fix: unstaged them (index only, worktrees untouched) and added a tracked `.claude/worktrees/` rule to the `.gitignore` of both repos.

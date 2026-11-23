@@ -438,7 +438,7 @@ brand_css() {
                   text-transform: uppercase; color: var(--od-text-muted); }
   @top-right    { content: "${hright}"; font-size: 7.5pt; letter-spacing: ${TRACK_HEAD};
                   text-transform: uppercase; color: ${accent}; }
-  @bottom-left  { content: "milosvasic.ru · vasic.digital"; font-size: 7.5pt;
+  @bottom-left  { content: "milosvasic.ru · digital.vasic.dev"; font-size: 7.5pt;
                   color: var(--od-text-muted); }
   @bottom-right { content: counter(page) " / " counter(pages); font-size: 7.5pt;
                   color: var(--od-text-muted); }
@@ -672,14 +672,14 @@ build() {
       role="$(t cv.role)"; hright="$(t cv.eyebrow)"
       eyebrow="$(t cv.eyebrow)"
       tagline="$(t cv.tagline)"
-      contact='<b>milos85vasic@gmail.com</b> &nbsp;·&nbsp; milosvasic.ru &nbsp;·&nbsp; vasic.digital<br>GitHub: vasic-digital &nbsp;·&nbsp; HelixDevelopment &nbsp;·&nbsp; Server-Factory'
+      contact='<b>milos85vasic@gmail.com</b> &nbsp;·&nbsp; milosvasic.ru &nbsp;·&nbsp; digital.vasic.dev<br>GitHub: vasic-digital &nbsp;·&nbsp; HelixDevelopment &nbsp;·&nbsp; Server-Factory'
       metrics="<div class=\"od-metrics\">$(metric 2009 "$(t cv.metric.since)")$(metric '140+' "$(t cv.metric.repos)")$(metric 43 "$(t cv.metric.providers)")$(metric '6+' "$(t cv.metric.langs)")</div>"
       ;;
     cover-letter)
       role="$(t cover.role)"; hright="$(t cover.eyebrow)"
       eyebrow="$(t cover.eyebrow)"
       tagline="$(t cover.tagline)"
-      contact='<b>milos85vasic@gmail.com</b> &nbsp;·&nbsp; milosvasic.ru &nbsp;·&nbsp; vasic.digital'
+      contact='<b>milos85vasic@gmail.com</b> &nbsp;·&nbsp; milosvasic.ru &nbsp;·&nbsp; digital.vasic.dev'
       ;;
     portfolio)
       if [ "$variant" = "company" ]; then
@@ -687,13 +687,13 @@ build() {
         role="$(t pf.role.company)"; hright="$(t pf.header)"
         eyebrow="$(t pf.eyebrow)"
         tagline="$(t pf.tagline.company)"
-        contact='<b>vasic.digital</b> &nbsp;·&nbsp; milosvasic.ru &nbsp;·&nbsp; github.com/vasic-digital &nbsp;·&nbsp; github.com/HelixDevelopment'
+        contact='<b>digital.vasic.dev</b> &nbsp;·&nbsp; milosvasic.ru &nbsp;·&nbsp; github.com/vasic-digital &nbsp;·&nbsp; github.com/HelixDevelopment'
       else
         name="Miloš Vasić"; hleft="Miloš Vasić"
         role="$(t pf.role)"; hright="$(t pf.header)"
         eyebrow="$(t pf.eyebrow)"
         tagline="$(t pf.tagline)"
-        contact='<b>milosvasic.ru</b> &nbsp;·&nbsp; vasic.digital &nbsp;·&nbsp; github.com/HelixDevelopment &nbsp;·&nbsp; github.com/vasic-digital'
+        contact='<b>milosvasic.ru</b> &nbsp;·&nbsp; digital.vasic.dev &nbsp;·&nbsp; github.com/HelixDevelopment &nbsp;·&nbsp; github.com/vasic-digital'
       fi
       metrics="<div class=\"od-metrics\">$(metric '140+' "$(t pf.metric.fleet)")$(metric 43 "$(t pf.metric.providers)")$(metric 25 "$(t pf.metric.distros)")$(metric 439 "$(t pf.metric.tests)")</div>"
       # rasterise 3 relevant architecture diagrams and embed them

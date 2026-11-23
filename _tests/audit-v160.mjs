@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO = process.env.VASIC_ROOT || path.resolve(__dirname, '..');
 
-const B = 'https://vasic.digital';
+const B = 'https://digital.vasic.dev';
 const OUT = path.join(REPO, '_tests', 'evidence', 'final-audit-v1.6.0', 'vasic');
 const SS = `${OUT}/screenshots`;
 const AX = `${OUT}/axe`;

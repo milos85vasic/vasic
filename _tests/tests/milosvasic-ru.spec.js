@@ -53,9 +53,10 @@ test.describe('milosvasic.ru — AI engineer site (OpenDesign + Jekyll)', () => 
 
   test('primary nav present; language switch (RU) still updates it + persists', async ({ page }) => {
     await page.goto(BASE);
-    const navWork = page.locator('.nav-links a').first();
+    const navWork = page.locator('.nav-links a[href="/#work"]');
+    await expect(page.locator('.nav-links a[href="/expertise/"]')).toHaveText('Expertise');
     await expect(navWork).toHaveText('Work');
-    await expect(page.locator('.nav-links a')).toHaveCount(4);
+    await expect(page.locator('.nav-links a')).toHaveCount(5); // Expertise, Work, Experience, Skills, Contact
 
     await page.locator('#lang-btn').click();
     await page.waitForSelector('.lang-menu.open');

@@ -1,0 +1,208 @@
+dir: ltr
+name: 中文
+months:
+- 1月
+- 2月
+- 3月
+- 4月
+- 5月
+- 6月
+- 7月
+- 8月
+- 9月
+- 10月
+- 11月
+- 12月
+date:
+  month_year: '{year}年{month}'
+  range: '{start}—{end}'
+identical_ok:
+  area.android-aosp.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "e8bb477f057587da"
+  area.android-tv.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "f73ea1e2323972cb"
+  area.flutter.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "c903759742b75021"
+  area.react-native.title:
+    reason: "area name is a canonical product or technology name, kept verbatim"
+    en_sha: "1cd07be18aed5105"
+  pub.fundamentalkotlin.title:
+    reason: "published book title, kept verbatim in its original form"
+    en_sha: "c5aabded9446aaf6"
+strings:
+  area.ai-engineering.tagline: LLM 基础设施、自主智能体，以及使其值得信赖的治理体系。
+  area.ai-engineering.title: AI 工程
+  area.android-aosp.tagline: 平台级 Android：系统服务、设备启动与硬件集成。
+  area.android-aosp.title: Android AOSP
+  area.android-tv.tagline: 十英尺界面、Leanback、媒体管线与设备农场验证。
+  area.android-tv.title: Android TV
+  area.android.tagline: 产品级 Kotlin 与 Java——SDK、硬件集成与发布工程。
+  area.android.title: Android 工程
+  area.desktop.tagline: 基于 Electron 与 Tauri 的桌面产品：原生桥接，离线优先。
+  area.desktop.title: 桌面端工程
+  area.flutter.tagline: SDK 级 Dart——插件架构、平台通道与已发布的软件包。
+  area.flutter.title: Flutter
+  area.go.tagline: 高吞吐服务、分布式系统，以及构建它们的基础库。
+  area.go.title: Go 后端
+  area.mobile.tagline: 覆盖 Android、iOS、Flutter 与 React Native 的原生及跨平台交付。
+  area.mobile.title: 移动端工程
+  area.react-native.tagline: 跨越桥接层的 TypeScript——原生模块、SDK 包与发布自动化。
+  area.react-native.title: React Native
+  area.web-frontend.tagline: TypeScript、React 与 Angular——设计系统、无障碍与性能预算。
+  area.web-frontend.title: Web 前端
+  cl.close.ai-engineering: 期待有机会将这些经验带入贵团队。
+  cl.close.android: 期待有机会将这些经验带入贵团队。
+  cl.close.android-aosp: 期待有机会将这些经验带入贵团队。
+  cl.close.android-tv: 期待有机会将这些经验带入贵团队。
+  cl.close.desktop: 期待有机会将这些经验带入贵团队。
+  cl.close.flutter: 期待有机会将这些经验带入贵团队。
+  cl.close.go: 期待有机会将这些经验带入贵团队。
+  cl.close.mobile: 期待有机会将这些经验带入贵团队。
+  cl.close.react-native: 期待有机会将这些经验带入贵团队。
+  cl.close.web-frontend: 期待有机会将这些经验带入贵团队。
+  cl.open.ai: LLM 基础设施、自主智能体，以及使其值得信赖的治理体系。
+  cl.open.android: 产品级 Kotlin 与 Java——SDK、硬件集成与发布工程。
+  cl.open.androidtv: 十英尺界面、Leanback、媒体管线与设备农场验证。
+  cl.open.aosp: 平台级 Android：系统服务、设备启动与硬件集成。
+  cl.open.desktop: 基于 Electron 与 Tauri 的桌面产品：原生桥接，离线优先。
+  cl.open.flutter: SDK 级 Dart——插件架构、平台通道与已发布的软件包。
+  cl.open.go: 高吞吐服务、分布式系统，以及构建它们的基础库。
+  cl.open.mobile: 覆盖 Android、iOS、Flutter 与 React Native 的原生及跨平台交付。
+  cl.open.reactnative: 跨越桥接层的 TypeScript——原生模块、SDK 包与发布自动化。
+  cl.open.web: TypeScript、React 与 Angular——设计系统、无障碍与性能预算。
+  comp.ai.item1: 多提供商 LLM 抽象层（40 余家提供商）、MCP 工具集成、RAG、向量数据库与嵌入
+  comp.ai.item2: 智能体编排——无头 CLI 智能体、图工作流、多轮辩论与共识
+  comp.ai.item3: 规划（HiPlan / MCTS / 思维树 Tree-of-Thoughts）、LLMOps、基准测试（SWE-bench、HumanEval、MMLU）
+  comp.ai.item4: LLM 验证、防御性 LLM 护栏、计算机视觉与 LLM 视觉
+  comp.ai.label: AI / LLM 系统
+  comp.android.item1: Android、Android TV 与 AOSP 上的 Kotlin 和 Java；Jetpack Compose、Leanback、ExoPlayer
+  comp.android.item2: 实时硬件集成——蓝牙、OBD2、3D 扫描仪、传感器数据管线
+  comp.android.item3: SDK 设计、Gradle 构建工程、ADB 设备测试、发布自动化
+  comp.android.label: Android 与 Android TV
+  comp.backend.item1: Go（Gin）、gRPC + Protobuf、HTTP/3（QUIC）、WebSocket
+  comp.backend.item2: 分布式系统，包括 TLA+ 形式化规约
+  comp.backend.item3: 高吞吐 REST 服务与并发工作进程
+  comp.backend.label: 后端工程
+  comp.cross.item1: SDK 级的 Flutter/Dart 与 React Native——已发布的软件包被 AWS、Google 与多家银行使用
+  comp.cross.item2: Kotlin Multiplatform，以及 Android 与 iOS 之间共享的业务逻辑
+  comp.cross.item3: 基于 Swift 的 iOS 开发；原生桥接与平台通道
+  comp.cross.label: 跨平台与移动端 SDK
+  comp.data.item1: PostgreSQL、SQLite、SQLCipher（静态数据加密）、Redis、Neo4j、ClickHouse
+  comp.data.item2: 对象存储——MinIO、S3、GCS、Azure Blob
+  comp.data.label: 数据
+  comp.frontend.item1: TypeScript/React（Tailwind、Redux Toolkit、i18next）、Angular
+  comp.frontend.item2: Electron 与 Tauri/Rust 桌面应用
+  comp.frontend.item3: 无障碍（WCAG 2.2 AA）、性能预算、设计系统
+  comp.frontend.label: 前端与桌面端
+  comp.gov.item1: 以 Git 子模块形式管理的工程宪法，具备继承机制与传播门禁
+  comp.gov.item2: 覆盖 140 余个仓库的文档与覆盖率规范
+  comp.gov.label: 工程治理
+  comp.infra.item1: Docker 与 Compose、Kubernetes + Helm、Prometheus + Grafana、OpenTelemetry
+  comp.infra.item2: QEMU、Libvirt、Parallels；虚拟机镜像工具与自动化环境部署（Provisioning）
+  comp.infra.item3: 基于 GitHub Actions、Gradle 与 Make 的 CI/CD
+  comp.infra.label: 基础设施与 DevOps
+  comp.qa.item1: 反虚报、以证据为门禁的 QA（HelixQA）；带变异门禁的挑战测试框架
+  comp.qa.item2: go test -race、视觉回归测试、ADB 设备测试
+  comp.qa.item3: SonarQube 与安全扫描——Semgrep、gosec、Trivy、Snyk、Gitleaks、Nancy
+  comp.qa.label: QA 与质量工程
+  edu.bsc.degree: 理学学士，信息学与计算
+  edu.bsc.location: 塞尔维亚，贝尔格莱德
+  edu.msc.degree: 理学硕士，当代信息技术
+  edu.msc.location: 塞尔维亚，贝尔格莱德
+  exp.bosch.b1: 主导车联网 SDK 开发，通过蓝牙与 OBD2 总线实现实时通信
+  exp.bosch.b2: 为持续产生的车辆遥测数据构建了高性能的解析、缓冲与持久化模块
+  exp.bosch.b3: 交付的 SDK 被多个汽车行业合作伙伴的集成方案所采用
+  exp.bosch.location: 塞尔维亚，贝尔格莱德
+  exp.bosch.role: SDK 开发工程师
+  exp.bosch.summary: 车联网 SDK 的首席 SDK 开发者——通过蓝牙与 OBD2 总线实现实时通信，以及高性能数据处理与持久化。
+  exp.harness.b1: 主导 Feature Flag 业务线的多平台 SDK 系列开发——涵盖 Android、iOS、Flutter、React Native 及服务端运行时
+  exp.harness.b2: 交付了被 AWS、Google 及银行类合作伙伴使用的 SDK，采用共享的评估引擎，并为各平台提供符合其惯用风格的 API
+  exp.harness.b3: 负责覆盖七种语言、四个包生态系统的发布工程
+  exp.harness.location: 塞尔维亚，贝尔格莱德
+  exp.harness.role: SDK 开发工程师
+  exp.harness.summary: 公司 Feature Flag 业务线 SDK 系列的首席开发者，重点覆盖各大主流移动平台及其他平台。客户与合作伙伴包括 AWS、Google 及多家银行。
+  exp.increment.b1: 使用 Kotlin 开发了 Yuno Android 应用
+  exp.increment.location: 塞尔维亚，贝尔格莱德
+  exp.increment.role: 软件工程师（合同制）
+  exp.increment.summary: Yuno 应用——Android、Kotlin。
+  exp.leica.b1: 通过蓝牙和 Wi-Fi 实现了与 3D 扫描硬件的实时设备通信
+  exp.leica.b2: 为大规模点云数据设计了设备端数据处理与同步管线
+  exp.leica.b3: 为 Android 与 iOS 客户端交付了 Autodesk 合作伙伴集成
+  exp.leica.location: 瑞士，赫尔布鲁格
+  exp.leica.role: 软件工程师
+  exp.leica.summary: 负责徕卡测量系统（Leica Geosystems）3D 扫描仪的 iOS 与 Android 开发——与硬件的实时通信、数据处理与同步。合作伙伴：Autodesk。
+  exp.tntech.b1: 为 Globex Data 交付了安全的即时通讯、邮件与办公套件客户端（Android 与桌面端）
+  exp.tntech.b2: 开发了 BusRide 平台的移动端客户端
+  exp.tntech.location: 塞尔维亚，诺维萨德
+  exp.tntech.role: 软件工程师（合同制）
+  exp.tntech.summary: 参与 Globex Data（加拿大与瑞士）Sekur 产品线（SekurMessenger、SekurMail、SekurSuite）及 BusRide 平台的开发。
+  identity.headline: AI 工程师——LLM 基础设施、自主智能体，以及使其值得信赖的治理体系
+  identity.location: 塞尔维亚，贝尔格莱德 · 远程（欧盟）
+  identity.role: AI 工程师 / 软件工程师
+  label.competencies: 核心能力
+  label.cover.date: 日期
+  label.cover.encl: 附件：个人简历
+  label.cover.regards: 此致敬礼
+  label.cover.subject: 求职申请
+  label.cover.to: 收件人
+  label.education: 教育背景
+  label.experience: 工作经历
+  label.keywords: 关键词
+  label.languages: 语言能力
+  label.present: 至今
+  label.projects: 精选项目
+  label.publications: 出版作品
+  label.skills: 技术技能
+  label.summary: 个人简介
+  label.tech: 技术栈
+  lang.de: 德语
+  lang.de.level: 基础
+  lang.en: 英语
+  lang.en.level: 专业级（C1/C2）
+  lang.ru: 俄语
+  lang.ru.level: 可用于专业工作
+  lang.sr: 塞尔维亚语
+  lang.sr.level: 母语
+  metric.locales.label: 本网站发布所用的语言数
+  metric.products.label: 有实证支撑的产品
+  metric.providers.label: 统一接口背后的 LLM 提供商
+  metric.repos.label: 共用同一部工程宪法的代码仓库
+  metric.years.label: 从事软件交付的年数
+  proj.catalogizer.blurb: 支持多协议、加密、可自托管的媒体库管理系统（Go/Gin + React），能够应对不稳定的网络存储，并基于 21 个可复用子模块构建。
+  proj.coursescreator.blurb: 将 Markdown 转换为视频的 AI 课程制作流水线，配有 TTS 以及桌面端、移动端和 Web 播放器。
+  proj.helixagent.blurb: 生产级的多模型集成（Ensemble）LLM 服务，不盲信任何单一模型：它将提示词分发给多个提供商，运行结构化的多轮辩论（提案 → 批评 → 评审 → 综合），并依据实时验证得分进行路由，同时具备平滑回退能力——通过兼容 OpenAI 的 API 对外提供服务，配有高可用数据层、可观测性与护栏。
+  proj.helixcode.blurb: 分布式 AI 开发平台：将工作拆分为具备依赖感知的任务，分发到由 SSH 管理的工作节点集群，并通过检查点与回滚机制保证任务中断时不丢失任何进度——支持按硬件选择模型，并通过 REST、CLI、TUI 和 MCP 提供完整的规划/构建/测试/重构生命周期。
+  proj.helixconstitution.blurb: 一部以 Git 子模块形式分发、被 140 多个代码仓库继承的通用工程宪法——工程规则像代码一样发布并锁定版本。传播门禁会在每个引用该宪法的仓库中检查是否包含所需条款，且每个门禁都配有一个变异元测试，用以证明门禁本身并非摆设。
+  proj.helixllm.blurb: 单一可执行文件，六种部署模式：通过 HTTP/3 提供兼容 OpenAI 与 Anthropic 的推理服务，可从笔记本电脑扩展到多主机集群，支持本地 llama.cpp 推理（CUDA/Metal/ROCm），并具备自动发现、按验证得分排序的云端回退链，最终总能降级到有保障的本地模型。
+  proj.helixmemory.blurb: 统一的认知记忆引擎：将四个同类最佳的后端（Mem0、Cognee、Letta、Graphiti）统一整合在同一接口之后，支持并行搜索与跨来源重排序。
+  proj.helixqa.blurb: 用 Go 构建的反虚报 QA 编排系统，秉持一条原则：标准不是“测试通过”，而是“用户能够使用该功能”。它既运行编写好的 YAML 测试库，也运行全自主的 LLM 与视觉会话：打开真实应用，核验每项已文档化的功能，在 Android、Android TV、Web 与桌面端上排查未文档化的缺陷；若缺少已捕获的运行时证据及可供 AI 直接修复的工单，一律不判定 PASS。
+  proj.helixspecifier.blurb: 规格驱动开发的融合引擎：流程的繁简随工作规模自动调整，并以多智能体辩论为规格提供支撑。
+  proj.helixtrack.blurb: 免费的 JIRA + Confluence 替代方案：基于 Go 微服务，通过 HTTP/3 提供统一的动作路由 API，使用 SQLCipher 实现静态数据加密，并提供原生的 Web、桌面端、Android 和 iOS 客户端。
+  proj.llmorchestrator.blurb: 线程安全的控制平面，通过管道与文件混合协议启动并驱动无头 CLI 智能体（OpenCode、Claude Code、Gemini、Junie、Qwen Code）。
+  proj.llmprovider.blurb: 覆盖 43 家提供商的统一接口，具备熔断器、健康监控、带抖动的退避重试，以及如实的、不含硬编码回退的模型发现机制。
+  proj.llmsverifier.blurb: 验证结果的唯一可信来源：其强制性的“Do you see my code?”门禁确保只有经证明确实可用的模型才会被标记为可用或被导出。
+  proj.mailserverfactory.blurb: 将声明式 JSON 转换为完整部署就绪、基于 Docker 的邮件服务器，支持 12 种连接类型和 25 个 Linux 发行版；报告 439 项测试通过，SonarQube 质量门禁无告警。
+  proj.serverfactorycore.blurb: Server Factory 产品线背后共用的环境部署（Provisioning）引擎与虚拟机镜像工具——在同一框架下提供 QEMU、Libvirt 和 Parallels 驱动。
+  proj.visionengine.blurb: 结合计算机视觉与多提供商 LLM 视觉的界面感知引擎，并带有导航图。
+  pub.fundamentalkotlin.detail: 自出版作者；最新修订版为 2022 年 9 月（第 3 版）。同时也为 Packt Publishing（英国）撰写过图书。
+  pub.fundamentalkotlin.title: Fundamental Kotlin
+  skills.ai: AI 与 LLM
+  skills.backend: 后端与协议
+  skills.data: 数据
+  skills.frontend: 前端与桌面端
+  skills.infra: 基础设施与 DevOps
+  skills.languages: 编程语言
+  summary.body: 十六年以上的专业工程经验，横跨移动端 SDK、实时硬件集成与分布式后端，如今汇聚于一个焦点：让自主 AI 开发在大规模下值得信赖。我构建的是由众多模块组成的体系，而非单体应用——大型产品应用建立在数十个小而解耦、可独立测试的模块之上，每个模块都继承同一部工程宪法，并通过反虚报、以证据为门禁的 QA 规范加以验证。
+  summary.lead: AI/软件工程师，端到端构建 AI 开发系统——从多提供商 LLM 基础设施和自主智能体，到确保其诚实可靠的 QA 与治理层。我不交付演示，我交付平台。
+  summary.value: 我能带来的价值：将 AI 能力从研究构想落地为受治理、可自我验证、具备生产形态的系统——在信任之前先证明每个模型确实可用的 LLM 路由；通过辩论达成共识而非凭空猜测的智能体；不丢失上下文的记忆与 RAG 层；以及整套生态的联动设计，使“测试全绿”绝不会悄然变成“功能已坏”。
+  tmpl.cl.emphasis: 在这些项目中，我关注的重点是{list}——这份严谨也贯穿于我交付的所有工作。
+  tmpl.cl.project: '{blurb} 技术栈：{tech}。'
+  tmpl.cl.salutation: 尊敬的招聘团队：
+  tmpl.cl.subject: 求职申请——{area}
+  tmpl.cl.title: '{name}——{area}——求职信'
+  tmpl.cv.keywords: 关键词：{list}
+  tmpl.cv.tech: 技术栈：{tech}
+  tmpl.cv.title: '{name}——{area}——个人简历'

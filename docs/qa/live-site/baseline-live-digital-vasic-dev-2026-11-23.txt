@@ -1,0 +1,22 @@
+verify-live-site  base=https://digital.vasic.dev  at=2026-11-23T21:54:44Z  took=59.9s
+sitemap URLs: 527   pages HTTP 200: 527/527   resources checked: 52 (non-200: 0)
+FAILED assertions: 0   UNDETERMINED: 0
+PRE-EXISTING foreign-origin references (not failures): 9994  by kind: hreflang[ar]=526, hreflang[be]=526, hreflang[de]=526, hreflang[en]=526, hreflang[es]=526, hreflang[fa]=526, hreflang[fr]=526, hreflang[hi]=526, hreflang[ja]=526, hreflang[kk]=526, hreflang[ko]=526, hreflang[ru]=526, hreflang[sr]=526, hreflang[tr]=526, hreflang[x-default]=526, hreflang[zh]=526, link=1052, og:image=526
+    ~ [og:image] https://digital.vasic.dev/ -> https://vasic.digital/Assets/Logo.jpeg
+    ~ [hreflang[en]] https://digital.vasic.dev/ -> https://vasic.digital/
+    ~ [hreflang[ar]] https://digital.vasic.dev/ -> https://vasic.digital/ar/
+    ~ [hreflang[be]] https://digital.vasic.dev/ -> https://vasic.digital/be/
+    ~ [hreflang[de]] https://digital.vasic.dev/ -> https://vasic.digital/de/
+    ~ [hreflang[es]] https://digital.vasic.dev/ -> https://vasic.digital/es/
+    ~ [hreflang[fa]] https://digital.vasic.dev/ -> https://vasic.digital/fa/
+    ~ [hreflang[fr]] https://digital.vasic.dev/ -> https://vasic.digital/fr/
+    ~ [hreflang[hi]] https://digital.vasic.dev/ -> https://vasic.digital/hi/
+    ~ [hreflang[ja]] https://digital.vasic.dev/ -> https://vasic.digital/ja/
+    ~ [hreflang[kk]] https://digital.vasic.dev/ -> https://vasic.digital/kk/
+    ~ [hreflang[ko]] https://digital.vasic.dev/ -> https://vasic.digital/ko/
+    ~ [hreflang[ru]] https://digital.vasic.dev/ -> https://vasic.digital/ru/
+    ~ [hreflang[sr]] https://digital.vasic.dev/ -> https://vasic.digital/sr/
+    ~ [hreflang[tr]] https://digital.vasic.dev/ -> https://vasic.digital/tr/
+  note: crawl discovered 37 URL(s) (max-pages 2000)
+VERDICT: PASS (rc 0)
+report sha256: f136050fe4c310b26cc8f5fee039c8b00729587fec26d15e8e5381bd0f26327d

@@ -1,0 +1,56 @@
+schema: career.area.v1
+id: web-frontend
+order: 9
+accent: "#f43f5e"
+icon: web
+title_i18n: area.web-frontend.title
+title: "Web & Frontend"
+tagline_i18n: area.web-frontend.tagline
+tagline: "TypeScript, React and Angular — design systems, accessibility, and performance budgets."
+hero_metric: metric.locales
+sections: [summary, competencies, experience, projects, skills, education, publications]
+keywords:
+  - "TypeScript"
+  - "React"
+  - "Angular"
+  - "Tailwind"
+  - "Redux Toolkit"
+  - "i18next"
+  - "accessibility"
+  - "WCAG"
+  - "Core Web Vitals"
+  - "design systems"
+  - "Playwright"
+  - "Vite"
+  - "SSR"
+competencies:
+  - comp.frontend
+  - comp.qa
+  - comp.backend
+  - comp.data
+  - comp.infra
+  - comp.gov
+emphasis:
+  - comp.frontend
+  - comp.qa
+projects:
+  - proj.helixtrack
+  - proj.catalogizer
+  - proj.coursescreator
+  - proj.helixqa
+  - proj.helixconstitution
+experience:
+  - exp.harness
+  - exp.leica
+  - exp.tntech
+cover_letter:
+  angle: "frontends that are fast, accessible and translated by construction"
+  opening_i18n: cl.open.web
+  opening: "TypeScript, React and Angular — design systems, accessibility, and performance budgets."
+  project_ids:
+    - proj.helixtrack
+    - proj.catalogizer
+    - proj.coursescreator
+    - proj.helixqa
+  closing_i18n: cl.close.web-frontend
+  closing: "I would welcome the chance to bring that combination to your team."

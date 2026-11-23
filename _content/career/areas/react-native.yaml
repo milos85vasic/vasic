@@ -1,0 +1,54 @@
+schema: career.area.v1
+id: react-native
+order: 6
+accent: "#61dafb"
+icon: react
+title_i18n: area.react-native.title
+title: "React Native"
+tagline_i18n: area.react-native.tagline
+tagline: "TypeScript across the bridge — native modules, SDK packages, and release automation."
+hero_metric: metric.products
+sections: [summary, competencies, experience, projects, skills, education, publications]
+keywords:
+  - "React Native"
+  - "TypeScript"
+  - "JavaScript"
+  - "native module"
+  - "TurboModules"
+  - "Fabric"
+  - "Metro"
+  - "Jest"
+  - "Detox"
+  - "npm"
+  - "CI/CD"
+  - "iOS"
+  - "Android"
+competencies:
+  - comp.cross
+  - comp.frontend
+  - comp.qa
+  - comp.android
+  - comp.backend
+emphasis:
+  - comp.cross
+  - comp.frontend
+projects:
+  - proj.helixqa
+  - proj.catalogizer
+  - proj.coursescreator
+  - proj.helixconstitution
+experience:
+  - exp.harness
+  - exp.leica
+  - exp.tntech
+cover_letter:
+  angle: "React Native at the SDK layer, where the bridge is the product"
+  opening_i18n: cl.open.reactnative
+  opening: "TypeScript across the bridge — native modules, SDK packages, and release automation."
+  project_ids:
+    - proj.helixqa
+    - proj.catalogizer
+    - proj.coursescreator
+    - proj.helixconstitution
+  closing_i18n: cl.close.react-native
+  closing: "I would welcome the chance to bring that combination to your team."

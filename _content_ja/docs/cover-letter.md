@@ -22,7 +22,7 @@ note: General-purpose letter — no employer, project outcome, or metric is fabr
 
 技術面では主にGoを使用し、Kotlin/KMP、TypeScript/React、Python、Swift、Shellなどの技術を駆使して、REST/gRPC/HTTP/3サービス、PostgreSQL/SQLite/Redis/ClickHouseデータレイヤー、Docker/Kubernetes/Prometheusオペレーションにわたるシステムを扱っています。プロバイダーの抽象化やデータ取得から、そのシステムが機能していることを証明するエビデンスのトレイルまで、一貫してシステム全体を管理することに慣れています。
 
-このような、深いAIシステムエンジニアリングと、真に検証可能な品質へのこだわりを、貴チームにもたらす機会をいただければ幸いです。ご検討のほどよろしくお願いいたします。私のポートフォリオと公開リポジトリは、milosvasic.ruおよびvasic.digitalにてご覧いただけます。
+このような、深いAIシステムエンジニアリングと、真に検証可能な品質へのこだわりを、貴チームにもたらす機会をいただければ幸いです。ご検討のほどよろしくお願いいたします。私のポートフォリオと公開リポジトリは、milosvasic.ruおよびdigital.vasic.devにてご覧いただけます。
 
 敬具
 Miloš Vasić

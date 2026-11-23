@@ -1,0 +1,52 @@
+schema: career.area.v1
+id: flutter
+order: 5
+accent: "#54c5f8"
+icon: flutter
+title_i18n: area.flutter.title
+title: "Flutter"
+tagline_i18n: area.flutter.tagline
+tagline: "Dart at SDK level — plugin architecture, platform channels, and shipped packages."
+hero_metric: metric.products
+sections: [summary, competencies, experience, projects, skills, education, publications]
+keywords:
+  - "Flutter"
+  - "Dart"
+  - "plugin"
+  - "platform channel"
+  - "FFI"
+  - "state management"
+  - "Riverpod"
+  - "Bloc"
+  - "widget testing"
+  - "integration testing"
+  - "pub.dev"
+  - "CI/CD"
+competencies:
+  - comp.cross
+  - comp.android
+  - comp.qa
+  - comp.frontend
+  - comp.backend
+emphasis:
+  - comp.cross
+projects:
+  - proj.helixqa
+  - proj.catalogizer
+  - proj.coursescreator
+  - proj.helixconstitution
+experience:
+  - exp.harness
+  - exp.leica
+  - exp.tntech
+cover_letter:
+  angle: "Flutter used as an SDK surface, not just a UI toolkit"
+  opening_i18n: cl.open.flutter
+  opening: "Dart at SDK level — plugin architecture, platform channels, and shipped packages."
+  project_ids:
+    - proj.helixqa
+    - proj.catalogizer
+    - proj.coursescreator
+    - proj.helixconstitution
+  closing_i18n: cl.close.flutter
+  closing: "I would welcome the chance to bring that combination to your team."
