@@ -471,6 +471,12 @@ deps:
     why: "Interview-preparation corpus and employer due-diligence kit — a self-contained research/preparation body of work carried as an owned submodule of the umbrella."
     layout: flat
 
+  - name: job_seeker
+    ssh_url: git@github.com:milos85vasic/job_seeker.git
+    ref: "8b3da29ebbc499c82944e6665dbc3e6691366af2"   # kickoff 2026-11-24 (PR #1 merged, independent review GO); gitlink tracks heads/main
+    why: "Private single-operator job-search tool: job-source adapters, per-position ATS CVs, human-in-the-loop applying (dry-run default). Personal data only in the git-ignored career_private overlay."
+    layout: flat
+
   - name: monetization
     ssh_url: git@github.com:milos85vasic/monetization.git
     ref: "05227b03f49aa6517134e7fdeec66520e2b87517"   # NO tag exists anywhere in this repository; gitlink tracks heads/main

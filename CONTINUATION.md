@@ -426,6 +426,10 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+## UPDATE 2026-11-24 (job_seeker kicked off; branch `pr/job-seeker-kickoff`)
+
+`job_seeker` (private, `milos85vasic/job_seeker`, prefix `JSK`, layout `flat`) fast-forwarded `8066233` -> `cc7b074` (0 divergent, no live local session), then received its four lockstep carriers, `.gitignore`, README and leaf `helix-deps.yaml` via its own PR #1 (independent review GO), now at `8b3da29ebbc4`. Umbrella: `helix-deps.yaml` entry, `docs/workable-items/sub-projects.tsv` JSK row, gitlink bump, `docs/plans/job-seeker-inputs-summary.md`. Open: the repo lives on a personal account, so a read-only collaborator cannot be granted there (operator rule: private repos under `vasic-digital`); jobops submodule and speckit work not started.
+
 ## UPDATE 2026-11-24 (constitution inheritance made verifiable; PR-delivery decision recorded; branch `pr/constitution-inheritance`)
 
 Operator order: "We MUST inherit from the Constitution! Make this happen properly!" Pin `submodules/constitution` at `6d93ccd19e1c`
