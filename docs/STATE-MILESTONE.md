@@ -1,38 +1,46 @@
 # Milestone State: milosvasic.ru career rework
 
-_Revision 2 (2026-11-23). Canonical resume point for this workstream. Every number below was measured on 2026-11-23 and carries the command that produced it; anything not measured says UNCONFIRMED. No personal data values are recorded here._
+_Revision 3 (2026-11-23, post-merge-review rewrite). Canonical resume point for this workstream. Every figure carries the command or evidence file that produced it; anything not measured says UNCONFIRMED. No personal data values are recorded here._
 
-Related guides: `docs/career/vault-guide.md` (sealed vault operator manual), `docs/career/site-build-guide.md`, `docs/career/deploy-guide.md`. Plan: `docs/plans/2026-11-19-milosvasic-ru-rework/PLAN.md`.
+Guides: `docs/career/vault-guide.md`, `docs/career/site-build-guide.md`, `docs/career/deploy-guide.md`. Plan: `docs/plans/2026-11-19-milosvasic-ru-rework/PLAN.md`.
 
-## DONE
+## DONE (committed and pushed)
 
-- **Career engine** (`_tools/career/`, content in `_content/career/`): 10 areas (`ls _content/career/areas | wc -l` = 10) and 14 non-English locale files plus the English master (`ls _content/career/locales | wc -l` = 14; EN is the master in `profile.yaml`), so 15 languages in total. `python3 _tools/career/career.py model` returns `ok: true, errors: []`. `career.py locales` reports OK per locale (all 14 lines read OK in the tail checked; the full-run exit code was not captured, UNCONFIRMED). The Chinese locale code is `zh` (older drafts said `z`; that was wrong).
-- **300 PDF target**: 10 areas x 15 languages x 2 kinds (CV, cover letter) = 300. **The rebuild is IN PROGRESS at the time of writing and is NOT claimed built.** Measured on disk now: `find milosvasic.ru/downloads -name '*.pdf' | wc -l` = 65 (the old pre-rework generic set plus partial output); UNCONFIRMED whether the final 300 exist. Verification command when the build ends: `python3 _tools/career/career.py verify`.
-- **Vault v1, redefined**: sealed to the private repository decision (see `docs/career/vault-guide.md`). On disk now: `find milosvasic.ru/downloads/vault -type f | wc -l` = 21 (a `manifest.json` plus 20 files under 10 area directories); UNCONFIRMED whether these are a real seal or an earlier test seal. A real seal with the operator passphrase is still pending.
-- **Private repository**: `vasic-digital/career_private` exists as a sibling checkout (`ls /home/milosvasic/Projects | grep career` = `career_private`), with an overlay mechanism and `career.py private-check`. Today `private-check` returns `CANNOT DETERMINE: CAREER_PRIVATE_DIR is not set`, which is rc 2 and never a pass; it must be re-run with the variable set.
-- **Expertise pages**: `find milosvasic.ru/expertise -type f | wc -l` = 165, all `index.html`. Breakdown: 1 hub + 10 area pages + 14 localized hubs (`expertise/<lang>/`) + 140 localized area pages (`expertise/<area>/<lang>/`). The figure 187 that circulated earlier is NOT reproduced by this measurement (165); UNCONFIRMED what it counted, so 165 is the number to trust. `expertise_localized.json` holds 14 entries (python3 `len(json.load(...))`). No directory is literally named `_hub`; the localized hubs sit at `expertise/<lang>/index.html`.
-- **SEO**: the committed `milosvasic.ru/sitemap.xml` has 690 `<loc>` entries (`grep -c '<loc>'`) but 0 `xhtml:link` and 0 `hreflang` matches in this measurement, so the hreflang sitemap is NOT confirmed in the committed file (it may be produced by the generator, `_tools/gen/seo.go`, at build time; UNCONFIRMED). PNG og cards: `ls milosvasic.ru/assets/og/*.png | wc -l` = 11; UNCONFIRMED whether that covers all 10 areas plus default.
-- **Deploy-script hardening**: `_tools/deploy-langs.sh` modified in the working tree (see `git status`); not yet committed.
-- **Constitution pin**: fast-forwarded to `6d93ccd1` (`git -C submodules/constitution rev-parse --short=8 HEAD` = `6d93ccd1`; the index gitlink is `6d93ccd19e1c2fe0e1a97ece22b49e962ef3005e`, staged together with `helix-deps.yaml`).
-- **Independent review round 1**: findings fixed (reported by the orchestrator, not re-measured here).
+- **Site commit.** `git ls-files -s milosvasic.ru` gives gitlink `b5896642ce7b`; `git -C milosvasic.ru log --oneline -1` = `b589664 feat(site): v2.0.0 rework ...`; it is on `milos85vasic/milosvasic.ru` main. The Pages workflow run `45281909132` succeeded (reported by the orchestrator; run id not re-queried here, UNCONFIRMED by this document's own command).
+- **Live verifier, milosvasic.ru** (`docs/qa/live-site/post/verify-live-site-milosvasic_ru-20261123T224227Z.txt`): sitemap URLs 690, pages HTTP 200 690/690, resources 58 (non-200: 0), baseline `docs/qa/live-site/baseline-live-2026-11-23.json` regressions=0 (new_paths=176), `VERDICT: PASS (rc 0)`. `/admin/` and `/downloads/vault/` return 404 live (operator-reported check; the vault directory is not tracked: `git -C milosvasic.ru ls-files downloads/vault | wc -l` = 0).
+- **Live verifier, digital.vasic.dev** (`.../post/verify-live-site-digital_vasic_dev-20261123T224322Z.txt`): 527/527 pages 200, 52 resources, regressions=0 against `baseline-live-digital-vasic-dev-2026-11-23.json`. `vasic.digital` tree fingerprint unchanged: `docs/qa/live-site/vasic-digital-tree-fingerprint.txt` records `6d157cc9f41371a1e02d86b3b3b85d14f2cd84a1bb9b1028ffee2c28564fbe3f`.
+- **Sitemap.** `grep -c '<loc>' milosvasic.ru/sitemap.xml` = 690; `grep -c 'xhtml:link' milosvasic.ru/sitemap.xml` = 2640 alternates over 165 expertise URLs. (The revision-2 statement that hreflang was unconfirmed is withdrawn.)
+- **Umbrella PR #1** (`pr/milosvasic-ru-v2-rework`, state OPEN per `env -u GITHUB_TOKEN gh pr view 1`): carries the milosvasic.ru gitlink, the `helix-deps.yaml` ref, the constitution pin `6d93ccd1` (`git -C submodules/constitution rev-parse --short=8 HEAD`; equals remote head per the orchestrator), and the deploy-script hardening. `bash scripts/verify-manifest-pins.sh`: 21 MATCH / 0 DRIFT / 0 UNDETERMINED. `sha256sum _tools/deploy-langs.sh` = `d77332880759857d...` (was a different value in revision 2).
+- **Career engine**: 10 areas, 15 languages. Evidence committed in `docs/qa/career/` (hashes in `SHA256SUMS`):
+  - `verify-2026-11-23.txt`: `verified 300/300 artifact(s) passing; expected 300; 0 completeness problem(s)`, rc=0.
+  - `build-2026-11-23.txt`: the build log.
+  - `unittest-career-2026-11-23.txt`: 268 tests OK, 1 expected failure.
+  - `playwright-local-2026-11-23.txt`: 1520 passed, 3 failed. The 3 failures came from a spec edit made in that run; the spec was fixed and re-run, 6/6 passed. This is stated honestly: the committed local file shows the 3 failures, not a clean run.
+  - `playwright-live-2026-11-23.txt`: 83 passed, 5 failed. All 5 are on digital.vasic.dev because that static site's own pages still declare canonical host `vasic.digital` (pre-existing; operator decision pending). The milosvasic.ru live specs all passed.
+- **Where the PDFs are.** The 300 career PDFs (10 areas x 15 languages x CV and cover letter) are in the git-ignored `.cache-career/` (`git check-ignore -v .cache-career` -> `.gitignore:232`; `find .cache-career -name '*.pdf' | wc -l` = 300). They are NOT shipped on the public site; they are inputs for the sealed vault in the PRIVATE repository. The 45 document PDFs (CV, cover, portfolio) that ARE shipped are under `milosvasic.ru/downloads` (`find milosvasic.ru/downloads -name '*.pdf' -not -path '*vault*' | wc -l` = 45) and were regenerated with contact host `digital.vasic.dev`. (`find milosvasic.ru/downloads -name '*.pdf' | wc -l` = 65 on disk includes untracked vault files; tracked PDFs under downloads: 46.)
+- **Expertise pages**: `find milosvasic.ru/expertise -type f | wc -l` = 165 (1 hub, 10 area, 14 localized hubs, 140 localized area pages).
+- **Review**: round 1 fixed, round 2 fixed, round 3 GO; PR review GO x2 (security, pins) and docs fixes (orchestrator-reported).
 
-## PENDING (in order)
+## DECISIONS
 
-1. Final PDF rebuild finishes, then `python3 _tools/career/career.py verify` (full 10x2x15 matrix built, gated, manifested).
-2. Clean containerized Jekyll build: `_tools/containers/bin/site-build -workload jekyll -build-year 2026`, then re-check the sitemap/hreflang and expertise counts above. The earlier "525/525 URLs" figure is superseded and must be re-measured; do not quote it.
-3. Full Playwright run (`_tests/`), including the new `expertise.spec.js` and `css-visual-regression.spec.js`.
-4. Independent review round 2 (running at the time of writing).
-5. Commit and push order: the `milosvasic.ru` submodule first (it shows `m` in `git status`), then the umbrella with the `milosvasic.ru` gitlink and the `helix-deps.yaml` ref staged together (cascade check C9). Fast-forward only, never force. Operator-gated; nothing is committed yet.
-6. Tag `vasic-1.0.0-dev-0.0.8` on the umbrella and owned submodules, after 5.
-7. Real vault seal: needs the operator passphrase, supplied as a file under `_secure/` (does not exist yet: `ls _secure` fails) or via an environment variable; see `docs/career/vault-guide.md` section 3. The passphrase is never printed or committed.
-8. `job_seeker` kickoff checklist, after 1 to 6: (a) confirm 300 PDFs verified, (b) confirm live site passes the Playwright live specs, (c) re-run `private-check` with `CAREER_PRIVATE_DIR` set, (d) confirm the vault is sealed and the console decrypts one slot, (e) operator decides scope and start. UNCONFIRMED: no `job_seeker` artifacts exist yet.
+- `career_private` is now `vasic-digital/career_private` (private, owner milos85vasic, `rnabulsi` read invite pending). `rnabulsi` already has write on `workshop_curriculum`, `ai_interviewing`, `monetization`.
+- PR-driven workflow is the operator-decided mode (§11.4.297): task branch, PR, independent review agents, merge to main. Use `env -u GITHUB_TOKEN gh` (keyring login); the `GITHUB_TOKEN` PAT cannot create PRs.
+
+## PENDING
+
+1. Merge PR #1 (operator/review-gated; fast-forward semantics, never force).
+2. Real vault seal: needs the operator passphrase as a file under `_secure/` or an env var (`docs/career/vault-guide.md` section 3). Never printed or committed. Local vault files on disk are untracked and not a real seal (UNCONFIRMED which seal they are).
+3. Carriers/index lag versus canon (anchors 289-298; 279 anchors, 13108 lines): `scripts/verify-claim-ledger.sh` shows 4 FALSE claims in the carriers/README.
+4. Static-site canonicals still `vasic.digital` (cause of the 5 live failures): operator decision.
+5. Moving the 3 personal private repos into the org: not requested.
+6. `job_seeker` kickoff: `docs/plans/job-seeker-kickoff-readiness-2026-11-23.md`; ff-only possible, 0 divergent / 1 behind. Operator decides scope.
+7. Tag `vasic-1.0.0-dev-0.0.8` after merge. Playwright webkit is not needed.
 
 ## Resume
 
 ```bash
-cd <repo root>
 python3 _tools/career/career.py model     # ok=true, errors=[]
-python3 _tools/career/career.py locales   # every locale OK
-find milosvasic.ru/downloads -name '*.pdf' | wc -l   # target 300 when the rebuild is done
-python3 _tools/career/career.py verify
+python3 _tools/career/career.py verify    # 300/300
+bash scripts/verify-manifest-pins.sh
+env -u GITHUB_TOKEN gh pr view 1
 ```

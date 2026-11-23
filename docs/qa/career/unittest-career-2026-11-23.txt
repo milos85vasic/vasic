@@ -1,0 +1,66 @@
+............................................................usage: gates [-h] [--kind {cover,cv}] [--lang LANG] [--phrase PHRASE] pdf
+gates: error: argument --kind: invalid choice: 'bogus' (choose from cover, cv)
+............................................................CANNOT DETERMINE build epoch: pass --epoch, set SOURCE_DATE_EPOCH, or run inside the git checkout
+..  FAIL: boom
+manifest NOT written: 1 failed/undetermined cell(s): cv-a-en
+...CANNOT VERIFY: a build holds the lock on this directory; the files are mid-rewrite
+............................................................................................................x..................................
+----------------------------------------------------------------------
+Ran 268 tests in 380.782s
+
+OK (expected failures=1)
+rc=0 ok
+build cv-a-en: gates 1
+locale  pass  fail  undetermined
+en         0     1      0
+built 1 artifact(s), 1 gate failure(s), 0 undetermined
+build cv-a-en: gates 0
+filtered build: manifest.json left untouched (only a full build may rewrite it)
+locale  pass  fail  undetermined
+en         1     0      0
+built 1 artifact(s), 0 gate failure(s), 0 undetermined
+  node PASS decrypt-all-match-python: 3 slots, mismatches=0
+  node PASS aad-bytes-identical-nonascii: {"alg":"AES-256-GCM","iters":600000,"kdf":"sha256","mime":"application/pdf","nam
+  node PASS wrong-passphrase: code=AUTH_FAILED name=VaultError
+  node PASS flipped-bit: code=AUTH_FAILED name=VaultError
+  node PASS edited-name: code=AUTH_FAILED name=VaultError
+  node PASS edited-name-with-recomputed-aad: code=AUTH_FAILED name=VaultError
+  node PASS slot-substitution: code=AUTH_FAILED name=VaultError
+  node PASS edited-slot: code=AUTH_FAILED name=VaultError
+  node PASS truncated-blob: code=AUTH_FAILED name=VaultError
+  node PASS blob-shorter-than-tag: code=AUTH_FAILED name=VaultError
+  node PASS missing-blob-404: code=NETWORK name=VaultError
+  node PASS header-version-2: code=FORMAT name=VaultError
+  node PASS header-iters-1: code=FORMAT name=VaultError
+  node PASS header-alg-changed: code=FORMAT name=VaultError
+  node PASS header-kdf-changed: code=FORMAT name=VaultError
+  node PASS header-iters-string: code=FORMAT name=VaultError
+  node PASS slot-path-traversal: FORMAT
+  node PASS blob-url-relative-to-manifest: https://site.test/downloads/vault/android/en/cover.YBuGLLfEWsNPqvuV.bin
+  node PASS abort: AbortError
+  browser PASS meta-robots-noindex: 
+  browser PASS wrong-passphrase-generic-failure: Authentication failed: this is not the published document.
+  browser PASS throttled-after-failure: Too many failures; wait 1 s.
+  browser PASS unlock-succeeds: Authentication succeeded — 3 file(s) available.
+  browser PASS passphrase-field-cleared: 
+  browser PASS download-bytes-android/en/cover: suggested=cover-android-en.pdf sha256=ade2982fd782b16a
+  browser PASS download-bytes-android/en/cv: suggested=cv-android-en.pdf sha256=05e2ce80ffff3522
+  browser PASS download-bytes-go/ru/cv: suggested=résumé-日本.pdf sha256=2f46144f5812e8ee
+  browser PASS all-downloads-match: 3/3
+  browser PASS lock-hides-picker: 
+  browser PASS no-page-errors: 
+  AAD python==node on 6000 random unicode cases (3 fixed seeds)
+  60 random-unicode slots sealed in Python opened by vault.js, names/mime/bytes equal
+  1MiB  rss=133MiB traced_peak=6.1MiB
+  50MiB rss=224MiB traced_peak=104.1MiB (ceilings rss<320 traced<220)
+  300 slots rss=224MiB (ceiling 250)
+  browser PASS first-wrong-attempt-did-one-real-attempt: manifest fetches=1
+  browser PASS 200-rapid-attempts-all-refused-no-network: manifest fetches before=1 after=1; statuses=["Too many failures; wait 1 s."]
+  browser PASS refusal-message-shown: Too many failures; wait 1 s.
+  browser PASS unlock-button-not-stuck-disabled: 
+  browser PASS exponential-backoff-capped-at-30s: [1,2,4,8,16,30,30]
+  browser PASS correct-passphrase-unlocks-after-lock-expiry: Authentication succeeded — 1 file(s) available.
+  browser PASS success-resets-failure-counter: first failure after a success locks for 1 s again
+  browser PASS no-page-errors: 
+  browser PASS cold-burst-survives-and-ends-failed-locked-out: 25 manifest requests for 200 submits issued before the first failure (throttle arms only AFTER a failure; in-flight attempts abort each other); final 
+  metrics: {"burst200_manifest_fetches_added": 0, "backoff_seconds": [1, 2, 4, 8, 16, 30, 30], "coldburst200_manifest_requests": 25}
