@@ -959,7 +959,7 @@ false in the direction that flattered the tree.**
 
 - *"The submodule is present for the workload `specs/001-…` plans."* **It has a
   real consumer now.** `_tools/containers/` was committed 2026-09-03 (`460266c`)
-  with **22** tracked files as re-measured 2026-11-25 (21 on 2026-11-24 and 23 earlier the same day, SUPERSEDED; 21 on 2026-09-22, 18 on 2026-09-09, SUPERSEDED) — among them `go.mod`
+  with **23** tracked files as re-measured 2026-11-25 (22 earlier that day, before `cmd/site-build/main_test.go`; 21 on 2026-11-24 and 23 earlier the same day, SUPERSEDED; 21 on 2026-09-22, 18 on 2026-09-09, SUPERSEDED) — among them `go.mod`
   requiring `digital.vasic.containers`, `go.sum`, `cmd/site-build/main.go`,
   `compose/compose.sites.yml` and `compose/jekyll-build.sh`. **The "7 tracked
   files" this sentence carried is WITHDRAWN BY MEASUREMENT, and it was true when

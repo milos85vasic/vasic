@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 )
 
 // TestMain lets the test binary act as the site-build program itself: when
@@ -113,5 +114,70 @@ func TestCharWorkloadTable(t *testing.T) {
 	}
 	if g := workloads["gen-test"]; g.artifact != "" || g.service != "gen-test" {
 		t.Fatalf("gen-test workload changed: %+v", g)
+	}
+}
+
+func TestLookupWorkloadKnownAndUnknown(t *testing.T) {
+	if wl, err := lookupWorkload("jekyll"); err != nil || wl.service != "jekyll-build" {
+		t.Fatalf("jekyll: %+v %v", wl, err)
+	}
+	_, err := lookupWorkload("zzz")
+	if err == nil || err.Error() != `unknown -workload "zzz" (known: gen-test, jekyll)` {
+		t.Fatalf("unknown workload error = %v", err)
+	}
+}
+
+// The verifyArtifact tests use real files and real mtimes on a real
+// filesystem; nothing is stubbed.
+func writeAt(t *testing.T, path string, body string, mtime time.Time) {
+	t.Helper()
+	if err := os.WriteFile(path, []byte(body), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Chtimes(path, mtime, mtime); err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestVerifyArtifact(t *testing.T) {
+	now := time.Now()
+	dir := t.TempDir()
+	p := filepath.Join(dir, "index.html")
+
+	// absent: the bluff case
+	if _, err := verifyArtifact("svc", p, "index.html", time.Time{}, now); err == nil ||
+		!strings.Contains(err.Error(), `"svc" exited 0 but index.html does not exist`) {
+		t.Fatalf("absent artifact: %v", err)
+	}
+	// empty
+	writeAt(t, p, "", now)
+	if _, err := verifyArtifact("svc", p, "index.html", time.Time{}, now); err == nil ||
+		!strings.Contains(err.Error(), "is empty") {
+		t.Fatalf("empty artifact: %v", err)
+	}
+	// created by this run (no before-snapshot), fresh
+	writeAt(t, p, "x", now)
+	if fi, err := verifyArtifact("svc", p, "index.html", time.Time{}, now.Add(-time.Second)); err != nil || fi.Size() != 1 {
+		t.Fatalf("fresh artifact rejected: %v", err)
+	}
+	// not rewritten: mtime equals the snapshot
+	if _, err := verifyArtifact("svc", p, "index.html", now, now.Add(-time.Second)); err == nil ||
+		!strings.Contains(err.Error(), "was NOT rewritten") {
+		t.Fatalf("stale-by-snapshot: %v", err)
+	}
+	// rewritten after the snapshot: accepted
+	if _, err := verifyArtifact("svc", p, "index.html", now.Add(-time.Hour), now.Add(-time.Second)); err != nil {
+		t.Fatalf("rewritten artifact rejected: %v", err)
+	}
+	// predates the run start by more than 2 s although newer than the snapshot
+	writeAt(t, p, "x", now.Add(-time.Hour))
+	if _, err := verifyArtifact("svc", p, "index.html", now.Add(-2*time.Hour), now); err == nil ||
+		!strings.Contains(err.Error(), "predates this run") {
+		t.Fatalf("predates-run: %v", err)
+	}
+	// within the 2 s tolerance: accepted
+	writeAt(t, p, "x", now.Add(-time.Second))
+	if _, err := verifyArtifact("svc", p, "index.html", time.Time{}, now); err != nil {
+		t.Fatalf("within tolerance rejected: %v", err)
 	}
 }

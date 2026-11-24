@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-25T01:30:00Z
+    Last-Updated: 2026-11-25T03:00:00Z
     Synced-Commit: 95d8701a4262
     Authority-Root: submodules/constitution
 
@@ -27,6 +27,8 @@ quoted from `submodules/constitution/Constitution.md`:
 >    any CLI agent.
 > 6. **Document MUST be self-contained.** No hyperlinks to ephemeral
 >    external systems as the only source of truth.
+
+> **2026-11-25 site-build tests (PR pr/site-build-tests-2026-11-25):** `_tools/containers/cmd/site-build` gained `main_test.go` (characterisation tests of the real entry point written first, then `lookupWorkload` and `verifyArtifact` extracted behaviour-preservingly); the carriers' containers-file count moved 22 -> 23 (ledger row `carriers-containers-consumer-files`). Resume: items 7, 9, 12 of the umbrella gap register.
 
 > **2026-11-25 carrier corrections (PR pr/carriers-fix-2026-11-25):** the four root carriers were edited as one shared artifact (C5 digest count 1): the stale "webkit cannot launch" and "three sweep gates FAIL, none acted on" sentences are marked superseded with their re-measurement, the §11.4.299 pin figures stay at `f9eb835e03db`, and §11.4.300 is recorded as present in the constitution upstream only (not in the pin). Two `t.Skip` lines added by PR #93 in `_tools/containers/internal/orchestrate/orchestrate_test.go` had pushed the zero-findings ratchet to 9 > 7; they were removed. Resume: items 7-12 of the umbrella gap register.
 
