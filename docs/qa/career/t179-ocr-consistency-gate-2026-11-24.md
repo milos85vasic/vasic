@@ -17,7 +17,7 @@ text must be >= 0.90 (measured 0.932-0.986). Tesseract, pdftoppm or the pack mis
 dictionary line in `OCR_LANG`. The backlog bar of 0.95 is not used: short pages with many Latin names (sr cover 0.932) sit below it for a measured reason, not a defect.
 
 **RED.** A real PDF whose font ToUnicode maps every letter to its neighbour (the page shows one text, the layer says another) is not refused by the OCR
-reason with the gate un-wired (`t179-red-...`); wired, recall is 0.0 and `validate_pdf` returns rc 1 "OCR recall".
+reason with the gate un-wired (`t179-red-...`); wired, `validate_pdf` returns rc 1 with an "OCR recall" reason; recall values in `t179-scramble-reason-2026-11-24.txt`.
 
 **Tests.** `t179-tests-2026-11-24.txt`: 128 tests, 6 failures, the same six `test_pdf_pipeline` heading-fixture failures that fail identically on clean `main` (see
 `t178-main-baseline-failures-2026-11-24.txt` in PR 62; not caused by this change). `t179-prove-failure-2026-11-24.txt`: 31 cases (T168 + T178 + T179) 31 passed:
