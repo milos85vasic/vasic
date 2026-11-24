@@ -84,6 +84,60 @@ eligible_countries: ["ZZ", "QX"]
 """
 
 
+WA_LANG_YAML = """schema: career.overlay.v1
+work_auth_countries: ["ZZ", "QX"]
+languages: ["zz", "qx"]
+"""
+
+
+class WorkAuthLanguagesTests(unittest.TestCase):
+    """JSK-T177: work_auth_countries (ISO 3166 alpha-2) and languages (ISO 639-1)."""
+
+    def load(self, text):
+        with make_dir(text) as d:
+            return overlay.load_overlay(env={overlay.ENV: d})
+
+    def err(self, text):
+        with make_dir(text) as d:
+            with self.assertRaises(overlay.OverlayError) as cm:
+                overlay.load_overlay(env={overlay.ENV: d})
+            return str(cm.exception)
+
+    def test_accepts_both_keys(self):
+        ov = self.load(WA_LANG_YAML)
+        self.assertEqual(ov["work_auth_countries"], ["ZZ", "QX"])
+        self.assertEqual(ov["languages"], ["zz", "qx"])
+        for k in ("work_auth_countries", "languages"):
+            self.assertIn(k, overlay.ALLOWED)
+            self.assertIn(k, overlay.SCORING_KEYS)
+
+    def test_empty_work_auth_means_none_and_is_accepted(self):
+        ov = self.load("schema: career.overlay.v1\nwork_auth_countries: []\n")
+        self.assertEqual(ov["work_auth_countries"], [])
+
+    def test_rejects_bad_values_without_echo(self):
+        bad = {
+            'work_auth_countries: ["zz"]': "work_auth_countries",
+            'work_auth_countries: ["ZZZ"]': "work_auth_countries",
+            'work_auth_countries: "ZZ"': "work_auth_countries",
+            "languages: []": "languages",
+            'languages: ["ZZ"]': "languages",
+            'languages: ["zzz"]': "languages",
+            'languages: "zz"': "languages",
+            "languages: [1]": "languages",
+        }
+        for line, key in bad.items():
+            msg = self.err("schema: career.overlay.v1\n" + line + "\n")
+            self.assertIn(key, msg, line)
+            for v in ("zzz", "ZZZ"):
+                self.assertNotIn(v, msg, line)
+
+    def test_not_merged_into_identity(self):
+        merged = overlay.apply_identity({"name": "x"}, self.load(WA_LANG_YAML))
+        self.assertNotIn("work_auth_countries", merged)
+        self.assertNotIn("languages", merged)
+
+
 class ScoringKeysTests(unittest.TestCase):
     """JSK-T011: scoring keys for the job_seeker overlay reader (synthetic values only)."""
 
