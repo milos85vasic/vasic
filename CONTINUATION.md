@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T12:00:00Z
-    Synced-Commit: c4e1320
+    Last-Updated: 2026-11-24T18:00:00Z
+    Synced-Commit: 63374a1
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -425,6 +425,10 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+## UPDATE 2026-11-24 (JSK-T011: overlay allow-list extended; branch `pr/jsk-t011-overlay-allowlist`)
+
+`_tools/career/overlay.py` now allows the job_seeker scoring keys `salary_min`, `salary_currency`, `salary_period`, `tz_window`, `allowed_onsite_cities`, `blocked_companies`, `eligible_countries`, shape-validated per `job_seeker/specs/001-job-seeker-mvp/contracts/overlay-and-config.md`; errors name keys only, never values; the keys are NOT merged into PDF/vault identity (`SCORING_KEYS`). Tests: `python3 -m unittest _tools/career/test_overlay.py` (`ScoringKeysTests`, synthetic values only). The cross-check test against the Go reader remains JSK-T050.
 
 ## UPDATE 2026-11-24 (consolidated state after PRs #1-#8; branch `pr/continuation-sync-2026-11-24`; SUPERSEDES the 2026-11-23 and earlier 2026-11-24 "Open"/"Pending" wording below where facts changed)
 

@@ -33,7 +33,23 @@ ALLOWED: dict[str, str] = {
     "salary_expectation": "str",
     "referees": "list",
     "private_notes": "str",
+    # job_seeker scoring keys (JSK-T011; contract overlay-and-config.md, FR-055)
+    "salary_min": "int",
+    "salary_currency": "iso4217",
+    "salary_period": "period",
+    "tz_window": "tz_window",
+    "allowed_onsite_cities": "strlist",
+    "blocked_companies": "strlist",
+    "eligible_countries": "iso3166list",
 }
+#: scoring-only keys: validated and readable, never merged into PDF/vault identity
+SCORING_KEYS: tuple[str, ...] = (
+    "salary_min", "salary_currency", "salary_period", "tz_window",
+    "allowed_onsite_cities", "blocked_companies", "eligible_countries",
+)
+_PERIODS = ("year", "month", "hour")
+_CCY = re.compile(r"[A-Z]{3}")
+_CC = re.compile(r"[A-Z]{2}")
 # built by concatenation so this source file itself carries no literal repo name
 _NAME = "career" + "_" + "private"
 
@@ -58,6 +74,42 @@ def deep_merge(base: Mapping[str, Any], over: Mapping[str, Any]) -> dict[str, An
     return out
 
 
+def _is_int(v: Any) -> bool:
+    return isinstance(v, int) and not isinstance(v, bool)
+
+
+def _kind_ok(kind: str, v: Any) -> bool:
+    """Type/shape check only; callers never echo ``v``."""
+    if kind == "str":
+        return isinstance(v, str)
+    if kind == "list":
+        return isinstance(v, list)
+    if kind == "int":
+        return _is_int(v) and v >= 0
+    if kind == "iso4217":
+        return isinstance(v, str) and bool(_CCY.fullmatch(v))
+    if kind == "period":
+        return isinstance(v, str) and v in _PERIODS
+    if kind == "tz_window":
+        return (isinstance(v, dict) and set(v) == {"start_utc", "end_utc"}
+                and all(_is_int(x) and 0 <= x <= 24 for x in v.values()))
+    if kind == "strlist":
+        return isinstance(v, list) and all(isinstance(x, str) and x.strip() for x in v)
+    if kind == "iso3166list":
+        return isinstance(v, list) and all(isinstance(x, str) and _CC.fullmatch(x) for x in v)
+    return False
+
+
+_KIND_MSG = {
+    "str": "must be a string", "list": "must be a list",
+    "int": "must be a non-negative integer", "iso4217": "must be an ISO 4217 code",
+    "period": "must be one of year, month, hour",
+    "tz_window": "must be a mapping of exactly start_utc and end_utc, integers 0..24",
+    "strlist": "must be a list of non-empty strings",
+    "iso3166list": "must be a list of upper-case ISO 3166 alpha-2 codes",
+}
+
+
 def validate(raw: Any) -> dict[str, Any]:
     if not isinstance(raw, dict):
         raise OverlayError(f"{OVERLAY_FILE}: top level must be a mapping")
@@ -68,10 +120,8 @@ def validate(raw: Any) -> dict[str, Any]:
             continue
         kind = ALLOWED[key]
         val = raw[key]
-        if kind == "str" and not isinstance(val, str):
-            errors.append(f"key {key!r}: must be a string")
-        elif kind == "list" and not isinstance(val, list):
-            errors.append(f"key {key!r}: must be a list")
+        if not _kind_ok(kind, val):
+            errors.append(f"key {key!r}: {_KIND_MSG[kind]}")
     if raw.get("schema", SCHEMA) != SCHEMA:
         errors.append("key 'schema': unsupported version")
     if errors:
@@ -96,7 +146,8 @@ def load_overlay(env: Optional[Mapping[str, str]] = None) -> Optional[dict[str, 
 def apply_identity(identity: Mapping[str, Any], ov: Optional[Mapping[str, Any]]) -> dict[str, Any]:
     if not ov:
         return dict(identity)
-    return deep_merge(identity, {k: v for k, v in ov.items() if k != "schema"})
+    return deep_merge(identity, {k: v for k, v in ov.items()
+                                       if k != "schema" and k not in SCORING_KEYS})
 
 
 def vault_out_dir(env: Optional[Mapping[str, str]] = None) -> Path:

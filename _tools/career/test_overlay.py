@@ -71,6 +71,90 @@ class LoadTests(unittest.TestCase):
                          {"a": {"b": 9, "c": 2}})
 
 
+SCORING_YAML = """schema: career.overlay.v1
+salary_min: 12345
+salary_currency: ZZZ
+salary_period: month
+tz_window:
+  start_utc: 6
+  end_utc: 14
+allowed_onsite_cities: ["Zqxville"]
+blocked_companies: ["Zqx Blocked Co"]
+eligible_countries: ["ZZ", "QX"]
+"""
+
+
+class ScoringKeysTests(unittest.TestCase):
+    """JSK-T011: scoring keys for the job_seeker overlay reader (synthetic values only)."""
+
+    def load(self, text):
+        with make_dir(text) as d:
+            return overlay.load_overlay(env={overlay.ENV: d})
+
+    def err(self, text):
+        with make_dir(text) as d:
+            with self.assertRaises(overlay.OverlayError) as cm:
+                overlay.load_overlay(env={overlay.ENV: d})
+            return str(cm.exception)
+
+    def test_all_scoring_keys_allowed(self):
+        ov = self.load(SCORING_YAML)
+        for k in ("salary_min", "salary_currency", "salary_period", "tz_window",
+                  "allowed_onsite_cities", "blocked_companies", "eligible_countries"):
+            self.assertIn(k, ov)
+            self.assertIn(k, overlay.ALLOWED)
+
+    def test_unknown_key_still_rejected_alongside_scoring_keys(self):
+        msg = self.err(SCORING_YAML + 'salary_maxx: 99999\n')
+        self.assertIn("salary_maxx", msg)
+        self.assertNotIn("99999", msg)
+        self.assertNotIn("12345", msg)
+
+    def test_bad_types_rejected_without_values(self):
+        bad = {
+            'salary_min: "12345"': "salary_min",          # str not int
+            "salary_min: true": "salary_min",             # bool is not int
+            "salary_min: -5": "salary_min",               # negative
+            'salary_currency: "usd1"': "salary_currency", # not 3 upper letters
+            'salary_period: "week"': "salary_period",
+            "tz_window: [1, 2]": "tz_window",
+            "tz_window: {start_utc: 25, end_utc: 3}": "tz_window",
+            "tz_window: {start_utc: 1}": "tz_window",
+            "tz_window: {start_utc: 1, end_utc: 2, x: 3}": "tz_window",
+            'allowed_onsite_cities: "Zqxville"': "allowed_onsite_cities",
+            "allowed_onsite_cities: [1]": "allowed_onsite_cities",
+            'blocked_companies: "Zqx"': "blocked_companies",
+            "blocked_companies: [{a: b}]": "blocked_companies",
+            'eligible_countries: ["zz"]': "eligible_countries",
+            'eligible_countries: ["ZZZ"]': "eligible_countries",
+            'eligible_countries: "ZZ"': "eligible_countries",
+        }
+        for line, key in bad.items():
+            msg = self.err("schema: career.overlay.v1\n" + line + "\n")
+            self.assertIn(key, msg, line)
+            for v in ("12345", "usd1", "Zqxville", "Zqx"):
+                self.assertNotIn(v, msg, line)
+
+    def test_scoring_keys_not_merged_into_identity(self):
+        ov = self.load(SCORING_YAML + 'phone: "' + FAKE_PHONE + '"\n')
+        merged = overlay.apply_identity({"name": "x"}, ov)
+        self.assertEqual(merged["phone"], FAKE_PHONE)
+        for k in overlay.SCORING_KEYS:
+            self.assertNotIn(k, merged)
+
+    def test_no_personal_values_in_public_source(self):
+        src = Path(overlay.__file__).read_text(encoding="utf-8")
+        self.assertNotIn("Zqx", src)
+        # the allow-list is names and kinds only: no digits-bearing default values
+        self.assertEqual(set(overlay.SCORING_KEYS) - set(overlay.ALLOWED), set())
+
+    def test_leak_scan_covers_scoring_strings(self):
+        ov = self.load(SCORING_YAML)
+        vals = overlay._values(ov)
+        self.assertIn("Zqx Blocked Co", vals)
+        self.assertIn("Zqxville", vals)
+
+
 class ResolveTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
