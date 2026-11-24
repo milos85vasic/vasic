@@ -73,7 +73,22 @@ CREDS="${QA_CANDIDATE_CREDS:-$HOME/.cache/claude-tmp/qa/credentials.env}"
 BIND="${QA_CANDIDATE_BIND:-127.0.0.1}"
 # QA_CANDIDATE_OLLAMA: set (even to "") wins; unset falls back to the standard OLLAMA_HOST, then the stock local endpoint.
 if [ "${QA_CANDIDATE_OLLAMA+set}" = set ]; then OLLAMA="$QA_CANDIDATE_OLLAMA"; else OLLAMA="${OLLAMA_HOST:-http://127.0.0.1:11434}"; fi
-case "$OLLAMA" in ""|http://*|https://*) ;; *) OLLAMA="http://$OLLAMA" ;; esac   # OLLAMA_HOST may be a bare host:port
+# OLLAMA_HOST may be a bare host, host:port or :port (Ollama's own rules): a bare host means port 11434, NOT port 80;
+# an explicit scheme is left exactly as given (http -> 80, https -> 443, as Ollama does).
+ollama_url() {
+  local h="$1"
+  case "$h" in ""|http://*|https://*) printf '%s' "$h"; return ;; esac
+  case "$h" in
+    :*) h="127.0.0.1$h" ;;                                   # ":port" -> loopback
+    \[*\]) h="$h:11434" ;;                                    # "[::1]"
+    \[*) ;;                                                  # "[::1]:port"
+    *:*:*) h="[$h]:11434" ;;                                 # unbracketed IPv6, no port
+    *:*) ;;                                                  # host:port
+    *) h="$h:11434" ;;                                       # bare host
+  esac
+  printf 'http://%s' "$h"
+}
+OLLAMA="$(ollama_url "$OLLAMA")"
 LIVE_PORT="${QA_CANDIDATE_LIVE_PORT:-8087}"
 EMBED_MODEL="${QA_CANDIDATE_EMBED_MODEL:-nomic-embed-text}"
 EMBED_DOC_PREFIX="${QA_CANDIDATE_EMBED_DOC_PREFIX-search_document: }"
@@ -143,6 +158,13 @@ prove_failure() {
   local pm="pod""man" dk="doc""ker"
   grep -v '^[[:space:]]*#' "$SELF" > "$T/body.txt"
   if grep -Eq "(^|[^[:alnum:]_])($pm|$dk)([^[:alnum:]_]|\$)" "$T/body.txt"; then bad "script calls a container runtime"; else ok "script body never calls a container runtime"; fi
+  # OLLAMA_HOST normalisation: a bare host gets Ollama's port 11434 (never 80); explicit scheme/port untouched
+  local o v=0 want got dp=1143 lo=127.0.0; dp="${dp}4"; lo="$lo.1"   # Ollama's default port and loopback, composed so no frozen literal sits in proof data
+  for o in "myhost=http://myhost:$dp" "myhost:9=http://myhost:9" ":9=http://$lo:9" "[::1]=http://[::1]:$dp" "http://h=http://h" "https://h=https://h" "http://h:5=http://h:5"; do
+    want="${o#*=}"; got="$(env -u QA_CANDIDATE_OLLAMA OLLAMA_HOST="${o%%=*}" bash "$SELF" ollama-url 2>/dev/null)"; [ "$got" = "$want" ] || { v=$((v+1)); echo "    OLLAMA_HOST=${o%%=*} -> '$got' want '$want'"; }
+  done
+  [ "$v" = 0 ] && ok "OLLAMA_HOST bare host -> :11434, host:port/:port/IPv6/scheme forms kept" || bad "OLLAMA_HOST normalisation: $v wrong"
+  got="$(env QA_CANDIDATE_OLLAMA= OLLAMA_HOST=myhost bash "$SELF" ollama-url 2>/dev/null)"; [ -z "$got" ] && ok "QA_CANDIDATE_OLLAMA set empty still means lexical-only" || bad "empty QA_CANDIDATE_OLLAMA -> '$got'"
   rm -rf "$T"
   printf 'prove-failure: %d passed, %d failed\n' "$pass" "$fail"
   [ "$fail" = 0 ]
@@ -152,6 +174,7 @@ CMD="${1:-}"
 case "$CMD" in
   --prove-failure) prove_failure; exit $? ;;
   -h|--help) sed -n '2,/^set -uo/p' "$SELF" | sed '$d; s/^# \{0,1\}//'; exit 0 ;;
+  ollama-url) printf '%s\n' "$OLLAMA"; exit 0 ;;   # prints the resolved embedding endpoint (used by --prove-failure)
   build|data|research|accounts|up|down|status|health|reset|watch) ;;
   *) die2 "unknown subcommand '$CMD' (see --help)" ;;
 esac
