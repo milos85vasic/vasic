@@ -62,7 +62,8 @@
 # =============================================================================
 set -uo pipefail
 
-SELF="$(readlink -f -- "${BASH_SOURCE[0]}")"
+SELF="${BASH_SOURCE[0]}"; while [ -L "$SELF" ]; do _sl="$(readlink -- "$SELF")"; case "$_sl" in /*) SELF="$_sl" ;; *) SELF="$(dirname -- "$SELF")/$_sl" ;; esac; done  # portable readlink -f
+SELF="$(cd -P -- "$(dirname -- "$SELF")" && pwd -P)/$(basename -- "$SELF")"
 ROOT="$(cd -- "$(dirname -- "$SELF")/.." && pwd -P)"
 REPO="${QA_CANDIDATE_REPO:-$ROOT/workshop}"
 WT="${QA_CANDIDATE_WT:-$(dirname "$ROOT")/vasic-wt/qa-candidate}"

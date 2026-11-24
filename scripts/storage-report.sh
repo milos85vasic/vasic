@@ -25,6 +25,16 @@
 #
 # It never writes, moves or deletes anything.
 set -uo pipefail
+_realpath() {  # portable `readlink -f` (BSD/macOS readlink has no -f): follow every link, then canonicalise the directory
+    local p="$1" n=0 l d
+    while [ -L "$p" ]; do
+        n=$((n+1)); [ "$n" -le 40 ] || return 1
+        l="$(readlink -- "$p")" || return 1
+        case "$l" in /*) p="$l" ;; *) p="$(dirname -- "$p")/$l" ;; esac
+    done
+    d="$(cd -P -- "$(dirname -- "$p")" 2>/dev/null && pwd -P)" || return 1
+    printf '%s/%s\n' "${d%/}" "$(basename -- "$p")"
+}
 
 SELF="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)/$(basename -- "${BASH_SOURCE[0]}")"
 THRESHOLD=90
@@ -125,7 +135,7 @@ echo "consumers (relative to $HOME_DIR):"
 for c in "${CONSUMERS[@]}"; do
   p="$HOME_DIR/$c"
   if [ ! -e "$p" ]; then printf '  %-36s absent (not a consumer on this host)\n' "$c"; continue; fi
-  real="$(readlink -f "$p" 2>/dev/null)"
+  real="$(_realpath "$p" 2>/dev/null)"
   dev="$(stat -c %d "$real" 2>/dev/null)"
   if [ -z "$real" ] || [ -z "$dev" ]; then printf '  %-36s UNDETERMINED (cannot resolve)\n' "$c"; [ "$rc" -eq 0 ] && rc=2; continue; fi
   size="-"

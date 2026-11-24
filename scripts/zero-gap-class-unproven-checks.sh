@@ -218,7 +218,8 @@ zg_drop_excluded() {
 }
 # <<< zg_thirdparty
 
-SELF=$(readlink -f "$0" 2>/dev/null || echo "$0")
+SELF="$0"; while [ -L "$SELF" ]; do _sl="$(readlink -- "$SELF")"; case "$_sl" in /*) SELF="$_sl" ;; *) SELF="$(dirname -- "$SELF")/$_sl" ;; esac; done  # portable readlink -f
+SELF="$(cd -P -- "$(dirname -- "$SELF")" && pwd -P)/$(basename -- "$SELF")"
 EMPTY_SHA=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855   # sha256 of the empty population
 ROOT="" CORPUS="" EMIT=0 PROVE=0
 # fail_early <part> <reason>: nothing was enumerated. An inspection run still prints INSPECTED 0 and
@@ -1205,9 +1206,19 @@ sub_exempt() {
 # resolves to; rc 1 unless that file lies inside BASE, is a regular non-symlink file and (live mode) belongs to the
 # SAME git repository as the link.
 BASE_REAL=$(cd "$BASE" 2>/dev/null && pwd -P)
+_realpath() {  # portable `readlink -f` (BSD/macOS readlink has no -f): follow every link, then canonicalise the directory
+    local p="$1" n=0 l d
+    while [ -L "$p" ]; do
+        n=$((n+1)); [ "$n" -le 40 ] || return 1
+        l="$(readlink -- "$p")" || return 1
+        case "$l" in /*) p="$l" ;; *) p="$(dirname -- "$p")/$l" ;; esac
+    done
+    d="$(cd -P -- "$(dirname -- "$p")" 2>/dev/null && pwd -P)" || return 1
+    printf '%s/%s\n' "${d%/}" "$(basename -- "$p")"
+}
 alias_target() {
     local real t1 t2
-    real=$(readlink -f -- "$BASE/$1" 2>/dev/null) || return 1
+    real=$(_realpath "$BASE/$1" 2>/dev/null) || return 1
     [ -f "$real" ] && [ ! -L "$real" ] || return 1
     case "$real" in "$BASE_REAL"/*) ;; *) return 1 ;; esac
     if [ -z "$CORPUS" ]; then
