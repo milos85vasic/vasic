@@ -5968,3 +5968,13 @@ WHAT: job_seeker onboarded as private owned submodule under vasic-digital with m
 
 WHAT: vasic.digital now served at digital.vasic.dev; generator reads domain from CNAME; footer renders website version linked to its GitHub release; gates and release process added (PRs #2, #4, #6). EVIDENCE: docs/qa/live-site/post-version-vd and post-version.
 
+## VSC-423 — operator item: per-language footer review of the website-version footer
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** docs/qa/i18n-review/README.md
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: the website-version footer text exists in every localized page but each language rendering has not been reviewed by an independent per-language reviewer (11.4.256). Closes when a review verdict is recorded per language.
+

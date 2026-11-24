@@ -1,0 +1,649 @@
+{
+ "lang": "sr",
+ "verdict": "FIX",
+ "summary": "Cyrillic script is correct, but the Serbian set has the most defects: gender errors with 'портфолио' (masculine), a mistransliterated Cyrillic brand name ('Васиц Дигитал'), a broken pf.summary, several literal or ungrammatical headings, 'отворени извор' calques in keywords, inconsistent 'продукт'/'производ' terminology, and English city names in the footer.",
+ "checks": {
+  "meaning_idiom_register": "Many headings are word-for-word calques (whywebuilt.0/.3, gamechanger.1, innovative.0, challenges.1/.2, status.0/.1/.name); pf.lede 'доказано' changes the meaning (proven, not evidence-based). Register otherwise professional.",
+  "script": "Cyrillic only, as required, apart from protected Latin terms. Defects: 'Belgrade · Dubna' left in Latin English; 'Vasic Digital' wrongly transliterated to Cyrillic in alt.brandLogo (it must stay Latin).",
+  "rtl": "n/a",
+  "plural": "No plural-bearing keys; confirmed none.",
+  "date_number": "None present; confirmed. 'Верзија сајта: v2.0.0' — correct colon spacing.",
+  "glossary": "Constitution (Устав), Miloš Vasić (Милоша Васића) and Vasic Digital (Васиц Дигитал) were localized; Vasic Digital is a clear defect, the other two are fixed per the binding glossary (see spotcheck for the name).",
+  "footer_length": "footer.suffix 30 chars, footer.version 14 — OK. mv footer.text ~72 chars — long by nature (source 68)."
+ },
+ "items": [
+  {
+   "src": "gen",
+   "key": "skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.home",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.products",
+   "verdict": "FIX",
+   "current": "Продукти",
+   "proposed": "Производи",
+   "rationale": "Terminology consistency: the same dictionary uses 'производ' (prod.desc.fallback, prod.head.powers.name); 'Производи' is the standard Serbian form."
+  },
+  {
+   "src": "gen",
+   "key": "nav.portfolio",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "toggle",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.suffix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.eyebrow",
+   "verdict": "FIX",
+   "current": "уједињено портфолио",
+   "proposed": "обједињени портфолио",
+   "rationale": "'портфолио' is masculine in Serbian (neuter 'уједињено' is a gender error); 'уједињен' means 'united' (as of nations), 'обједињен' is 'unified'."
+  },
+  {
+   "src": "gen",
+   "key": "pf.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.download",
+   "verdict": "FIX",
+   "current": "Преузми Портфолио (PDF)",
+   "proposed": "Преузми портфолио (PDF)",
+   "rationale": "Common noun must be lowercase mid-phrase; title-case carried over from English."
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.products",
+   "verdict": "FIX",
+   "current": "Продукти",
+   "proposed": "Производи",
+   "rationale": "Consistency with nav.products / 'производ' elsewhere."
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.tiers",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.helix",
+   "verdict": "FIX",
+   "current": "Helix продукти",
+   "proposed": "Helix производи",
+   "rationale": "Consistency with 'производ' elsewhere."
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.readmore",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.lede",
+   "verdict": "FIX",
+   "current": "Уједињено, доказано портфолио Helix породице, Vasic Digital алатки и Server Factory алатног ланца.",
+   "proposed": "Обједињени портфолио, заснован на доказима, који обухвата Helix породицу, Vasic Digital алатке и Server Factory скуп алата.",
+   "rationale": "Gender error (портфолио is masculine); 'доказано' means 'proven', not 'evidence-based'; 'алатног ланца' is a calque."
+  },
+  {
+   "src": "gen",
+   "key": "pf.summary",
+   "verdict": "FIX",
+   "current": "Једна флота: велике апликације на врху десетина малих, одвојених, независно тестираних модула — управљаних заједничким инжењерским Уставом и провереним анти-блеф QA. Доминантни језик је Go, са Kotlin/KMP, TypeScript/React, Python, Swift, и Shell где најбоље одговарају. Уједињујућа теза: функција је завршена само када је стварни корисник може да је користи и постоји ухваћен доказ да је то тако.",
+   "proposed": "Једна флота: велике производне апликације изграђене над десетинама малих, раздвојених, независно тестираних модула — којима управља заједнички инжењерски устав (Constitution) и које проверава анти-блеф QA. Доминантни језик је Go, уз Kotlin/KMP, TypeScript/React, Python, Swift и Shell тамо где најбоље одговарају. Обједињујућа теза: функционалност је завршена тек када стварни корисник може да је користи и када постоји забележен доказ за то.",
+   "rationale": "'на врху' = 'at the summit' (calque of 'on top of'); case error 'провереним анти-блеф QA'; broken clause 'када је стварни корисник може да је користи'; 'ухваћен доказ' calque; glossary Constitution verbatim."
+  },
+  {
+   "src": "gen",
+   "key": "tier1.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier1.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.tier",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.order",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.source",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.license",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.architecture",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "kw.vasic",
+   "verdict": "FIX",
+   "current": "инжењеринг софтвера, платформе за развој AI, LLM оркестрација, отворени извор, алатке за програмере, SDK",
+   "proposed": "софтверски инжењеринг, платформе за развој AI, LLM оркестрација, отворени код, алати за програмере, SDK",
+   "rationale": "'отворени извор' is a calque of 'open source' (Serbian: 'отворени код'); 'софтверски инжењеринг' is the standard search term."
+  },
+  {
+   "src": "gen",
+   "key": "kw.milos",
+   "verdict": "FIX",
+   "current": "инжењер платформе, специјалиста за SDK, Kotlin, Go, архитектура софтвера, дистрибуирани системи, отворени извор",
+   "proposed": "платформски инжењер, специјалиста за SDK, Kotlin, Go, софтверска архитектура, дистрибуирани системи, отворени код",
+   "rationale": "'отворени извор' calque; 'платформски инжењер' / 'софтверска архитектура' are the natural terms."
+  },
+  {
+   "src": "gen",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.0",
+   "verdict": "FIX",
+   "current": "Проблем који смо се латили да решимо",
+   "proposed": "Проблем који смо кренули да решимо",
+   "rationale": "'латити се' governs the genitive, so 'који смо се латили' is ungrammatical."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.3",
+   "verdict": "FIX",
+   "current": "Сврбеж који смо морали да огребемо",
+   "proposed": "Проблем који нам није давао мира",
+   "rationale": "'Сврбеж који смо морали да огребемо' is a literal, unnatural rendering of the English idiom."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.4",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.1",
+   "verdict": "FIX",
+   "current": "Скок који пружа",
+   "proposed": "Искорак који доноси",
+   "rationale": "'Скок који пружа' is awkward ('a jump that it provides')."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.0",
+   "verdict": "FIX",
+   "current": "Где живи новина",
+   "proposed": "У чему је новина",
+   "rationale": "'Где живи новина' is a calque; not idiomatic as a heading."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.1",
+   "verdict": "FIX",
+   "current": "Тешки делови — и поправке",
+   "proposed": "Тешкоће — и како смо их решили",
+   "rationale": "'Тешки делови — и поправке' is a literal calque, reads like a repair list."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.2",
+   "verdict": "FIX",
+   "current": "Инжењеринг тешких сегмената",
+   "proposed": "Инжењерска решења тешких задатака",
+   "rationale": "'Инжењеринг тешких сегмената' is a calque with no clear meaning."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.0",
+   "verdict": "FIX",
+   "current": "Статус, речено отворено",
+   "proposed": "Статус без увијања",
+   "rationale": "'Статус, речено отворено' is a word-for-word rendering; unnatural as a heading."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.1",
+   "verdict": "FIX",
+   "current": "Где стварно стоји",
+   "proposed": "Право стање ствари",
+   "rationale": "'Где стварно стоји' reads as 'where it physically stands'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.name",
+   "verdict": "FIX",
+   "current": "Статус и белешке о искрености",
+   "proposed": "Статус и искрене напомене",
+   "rationale": "'белешке о искрености' means 'notes about honesty' (meaning shift)."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.summary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.short",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.long",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.desc.fallback",
+   "verdict": "FIX",
+   "current": "%s — %s производ.",
+   "proposed": "%s — производ %s.",
+   "rationale": "English word order ('Vasic Digital производ'); Serbian needs 'производ <brand>'. Placeholder order preserved."
+  },
+  {
+   "src": "gen",
+   "key": "alt.portrait",
+   "verdict": "FIX",
+   "current": "Портрет Милоша Васића",
+   "proposed": "Miloš Vasić — портрет",
+   "rationale": "Glossary requires the name verbatim (Latin). Owner decision: see spotcheck — 'Портрет Милоша Васића' is the natural Serbian Cyrillic form."
+  },
+  {
+   "src": "gen",
+   "key": "alt.brandLogo",
+   "verdict": "FIX",
+   "current": "Логотип Васиц Дигитал",
+   "proposed": "Логотип Vasic Digital",
+   "rationale": "Brand name must stay Latin verbatim; 'Васиц Дигитал' is also a wrong transliteration (c→ц)."
+  },
+  {
+   "src": "gen",
+   "key": "status.beta",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.active",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.production",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.in-development",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.shipped",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.scaffold",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.roadmap",
+   "verdict": "FIX",
+   "current": "На плану",
+   "proposed": "У плану",
+   "rationale": "The idiom for 'planned' is 'у плану'; 'на плану' means 'on the (drawn) plan/map'."
+  },
+  {
+   "src": "gen",
+   "key": "status.stable",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.mixed",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.helix-primary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.vasic-util-secondary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.serverfactory-tertiary",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "a11y.skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.expertise",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.experience",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.skills",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.heading",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.choose",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "footer.text",
+   "verdict": "FIX",
+   "current": "Belgrade · Dubna. Изграђено као статички сајт, објављено на GitHub Pages.",
+   "proposed": "Београд · Дубна. Изграђено као статички сајт, објављено на GitHub Pages.",
+   "rationale": "City names left in English Latin inside the Cyrillic-only Serbian site; not glossary terms."
+  },
+  {
+   "src": "mv",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.changeLang",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.menu",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.close",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.language",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.theme",
+   "verdict": "OK"
+  }
+ ],
+ "glossary_violation_judgements": [
+  {
+   "key": "pf.summary",
+   "term": "Constitution",
+   "real": true,
+   "why": "Rendered as 'Уставом' (which also means state constitution); fixed with verbatim term in parentheses."
+  },
+  {
+   "key": "alt.portrait",
+   "term": "Miloš Vasić",
+   "real": true,
+   "why": "Per the binding glossary it is a violation, though 'Милоша Васића' is the correct native Serbian form of the owner's own name — owner decision flagged."
+  },
+  {
+   "key": "alt.brandLogo",
+   "term": "Vasic Digital",
+   "real": true,
+   "why": "Brand transliterated (and mis-transliterated, c→ц) as 'Васиц Дигитал'; must stay Latin."
+  }
+ ],
+ "spotcheck": [
+  "alt.portrait: your own name — the glossary forces Latin 'Miloš Vasić'; the natural Serbian Cyrillic is 'Портрет Милоша Васића'. Decide and amend the glossary if you prefer Cyrillic.",
+  "nav.products: 'Производи' (proposed, standard) vs 'Продукти' (original) — pick one and keep prod.desc.fallback / powers.name consistent.",
+  "status.production 'У продукцији' kept as accepted IT jargon — confirm, or use 'У употреби'.",
+  "tier1.eyebrow 'заставни брод' (kept) vs 'водећи производи'.",
+  "pf.summary: 'устав (Constitution)' — 'устав' collides with the state constitution; consider 'правилник'/'кодекс' + (Constitution) if you prefer.",
+  "skip 'Прескочи до садржаја' vs mv a11y.skip 'Пређи на садржај' — two different wordings across the two sites; harmonise if you like.",
+  "tier1.title uses '&' ('Helix породица & LLM инфраструктура') — 'и' would match ru/be."
+ ]
+}
