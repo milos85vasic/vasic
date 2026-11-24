@@ -152,8 +152,8 @@ Fixed in code by #86 and #87 (RED reproduced first, paired proofs, no exemption 
 | `specs/017-*/progress.yml` | 4 | MODEL, ENDPOINT | append-only progress ledger |
 
 Git history was read first (section 11.4.124): the report is a frozen evidence copy committed in `f05817b` and
-amended once; `docs/zero-gap/checks/VSC-386.probe.sh` addresses the 010 `progress.yml` lines and the report
-findings BY LINE NUMBER. Rewording those files would alter frozen evidence and shift the probe's anchors, so
+amended once; `docs/zero-gap/checks/VSC-386.probe.sh` addresses the 010 `progress.yml` lines by number (of its PRE_REF)
+and the report's findings by file path. Rewording those files would alter frozen evidence and shift the probe's anchors, so
 this change did NOT reword them. Findings that merely mention a model id, ref or port inside a historical
 record are not frozen environment assumptions in code.
 
