@@ -24,10 +24,10 @@ The root filesystem (`/`, one NVMe) must never carry caches, model stores, conta
 images or other bulk, regenerable data. Two data drives exist and are mounted from
 `/etc/fstab`:
 
-| Alias | Mount | Medium | Use for |
+| Alias | Variable (mount defined machine-locally, section 3) | Medium | Use for |
 |---|---|---|---|
-| FAST | `/mnt/DATA1TB` | NVMe, ext4 | build and package caches, container storage, anything latency-sensitive |
-| BULK | `/mnt/DATA7TB` | SATA, ext4 | model weights, archives, cold scratch, old transcripts and evidence |
+| FAST | `$VASIC_FAST_STORE` | NVMe, ext4 | build and package caches, container storage, anything latency-sensitive |
+| BULK | `$VASIC_BULK_STORE` | SATA, ext4 | model weights, archives, cold scratch, old transcripts and evidence |
 
 Everything is user-level. No privileged command is part of this policy.
 User data and work are relocated (copy, verify, then swap), never deleted; only
@@ -61,9 +61,14 @@ trees are never relocated by this policy; remove merged, clean agent worktrees w
 `~/.config/vasic/storage.env` is sourced from `~/.bashrc` and `~/.profile`. It is the single
 place that names the drives; a new shell on this host inherits every variable.
 
+The two drive locations are the only machine-specific values. They are defined once, in the
+host's own `~/.config/vasic/storage.env`; the tracked template
+[`config/storage.env.example`](../config/storage.env.example) shows the shape (the two
+`VASIC_*_STORE` assignments take the host's mount points, which are deliberately NOT written in
+this repository). Everything else derives from them:
+
 ```sh
-VASIC_FAST_STORE=/mnt/DATA1TB/claude-work
-VASIC_BULK_STORE=/mnt/DATA7TB/claude-work
+# VASIC_FAST_STORE / VASIC_BULK_STORE: assigned from the host's own mount points (see the example file)
 export VASIC_FAST_STORE VASIC_BULK_STORE
 if [ -d "$VASIC_FAST_STORE" ]; then
   export GOCACHE="$VASIC_FAST_STORE/gocache"
