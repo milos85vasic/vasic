@@ -6004,3 +6004,13 @@ LuaLaTeX tagging via DocumentMetadata plus soft-hyphen and list-geometry fixes, 
 
 Investigated with measurements: hi/ko merging fixed by tagpdf space glyphs, Arabic raw order is content-stream order and not fixable in the renderer, Cyrillic OCR recall low only because Latin text was OCRed with a Cyrillic-only model. Evidence docs/qa/career/career-engine-wave1-2026-11-24.md
 
+## VSC-417 — --runner flag programme: forced container-runner selector across containers, umbrella launchers and docs
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** docs/qa/launchers/launcher-retest-2026-11-24-post-merge
+**Severity:** high
+**Created-By:** Claude
+
+containers PR #3 adds the forced-runner selector; umbrella PR #11 bumped the pin with manifest ref; umbrella launchers (PR #12) carry --runner and the containers gitlink is current (2d18551). CLOSED 2026-11-24: the workshop launcher change merged as workshop PR #1 (merge 5a7acdd1) after an independent review (GO); post-merge run evidence at the merge commit is in docs/qa/launchers/launcher-retest-2026-11-24-post-merge (Go build/vet/test rc 0, runner-flag.test.sh 26 passed 0 failed, prove-failure 9 killed 0 survived on the branch tip); earlier launcher evidence in docs/qa/launchers/launcher-retest-2026-11-24. The umbrella pin bump is PR #23.
+

@@ -1,0 +1,32 @@
+ws_runner_args
+  ok    no flag, no env: no-op, args kept in order
+  ok    --runner=podman is stripped, other args kept in order
+  ok    --runner podman (two words) works
+  ok    CONTAINERS_RUNNER=podman alone selects by env
+  ok    flag beats env (flag podman, env docker)
+  ok    --runner=auto beats an env force and unsets it
+  ok    unknown runner (flag) refused rc 2
+  ok    unknown runner (env) refused rc 2
+  ok    --runner with no value refused rc 2
+  ok    forced docker (not installed) refused rc 2, NO fallback to podman
+  ok    forced docker via env refused rc 2
+detect_runtime precedence
+  ok    default order finds podman
+  ok    CONTAINERS_RUNNER=podman
+  ok    CONTAINERS_RUNNER=docker: no fallback to podman
+  ok    CONTAINERS_RUNNER beats WORKSHOP_CONTAINER_RUNTIME (podman over docker)
+  ok    WORKSHOP_CONTAINER_RUNTIME still works when nothing forced
+  ok    WORKSHOP_CONTAINER_RUNTIME=podman still works
+  ok    CONTAINERS_RUNNER=auto defers to WORKSHOP_CONTAINER_RUNTIME
+real scripts (restart.sh --dry-run starts/stops nothing)
+  ok    restart --runner=podman: names the runner, rc 0
+  ok    restart --runner=podman: rc 0
+  ok    restart --runner=docker: refused rc 2 before any step
+  ok    restart --runner=bogus: refused rc 2
+  ok    start/stop/restart --help each document --runner (5 mentions)
+ordering: the runner is resolved before any lifecycle step
+  ok    start.sh: ws_runner_args (line 23) precedes first action (line 66)
+  ok    stop.sh: ws_runner_args (line 22) precedes first action (line 40)
+  ok    restart.sh: ws_runner_args (line 83) precedes first action (line 157)
+
+26 passed, 0 failed
