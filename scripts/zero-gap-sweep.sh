@@ -726,7 +726,7 @@ run_class() {
 jsonq() { awk 'BEGIN{ORS=""} { gsub(/\\/, "\\\\"); gsub(/"/, "\\\""); print "\"" $0 "\"" }' <<<"$1"; }
 
 prove_failure() (
-    local T FIX LIB pass=0 fail=0 R RC b i sums fp st0 st1 strc=0 rc t0 pid ref
+    local T FIX LIB pass=0 fail=0 undet=0 R RC b i sums fp st0 st1 strc=0 rc t0 pid ref
     for b in git sha256sum mktemp sort cmp sed awk grep timeout realpath find cp python3 setsid iconv stat; do
         if ! command -v "$b" >/dev/null 2>&1; then echo "prove-failure: cannot determine — '$b' missing" >&2; exit 2; fi
     done
@@ -998,7 +998,9 @@ prove_failure() (
     R=$T/i5s; one "$R" sleeper nocorpus; rm -f "$T/tmp/zg-sleeper.pid"; t0=$SECONDS
     runenv ZG_CLASS_BUDGET=2 -- "$R"
     pid=$(cat "$T/tmp/zg-sleeper.pid" 2>/dev/null || true)
-    if [ "$RC" -eq 2 ] && has "class budget" && [ $((SECONDS - t0)) -lt 25 ]; then ok "I5a class over its budget => COULD-NOT-INSPECT rc 2 within $((SECONDS - t0)) s"; else bad "I5a rc=$RC after $((SECONDS - t0)) s"; fi
+    # Enforcement is proved by the runner's own "class budget" refusal, not by a clock: the class's child sleeps
+    # 60 s, so without enforcement there is no such message; elapsed time is reported, never asserted (load-proof).
+    if [ "$RC" -eq 2 ] && has "class budget"; then ok "I5a class over its budget => COULD-NOT-INSPECT rc 2 (budget refusal named; $((SECONDS - t0)) s elapsed, not asserted)"; else bad "I5a rc=$RC after $((SECONDS - t0)) s"; fi
     if [ -n "$pid" ] && ! running "$pid"; then ok "I5b its TERM-ignoring child did not outlive the class"; else bad "I5b child ${pid:-<no pid>} survived"; [ -n "$pid" ] && kill -KILL "$pid" 2>/dev/null; fi
     R=$T/i5o; one "$R" orphaner nocorpus; rm -f "$T/tmp/zg-orphan.pid"; run "$R"
     pid=$(cat "$T/tmp/zg-orphan.pid" 2>/dev/null || true)
@@ -1046,8 +1048,19 @@ prove_failure() (
     pid=$(cat "$T/tmp/zg-escaper.pid" 2>/dev/null || true)
     if [ "$RC" -eq 2 ] && has "outlived" && [ -n "$pid" ] && ! running "$pid"; then ok "R2-I5 escaped setsid grandchild => COULD-NOT-INSPECT rc 2 and it is gone"; else bad "R2-I5 rc=$RC pid=${pid:-none} alive=$(kill -0 "${pid:-0}" 2>/dev/null && echo yes || echo no)"; fi
     if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null; then kill -KILL "$pid" 2>/dev/null; fi
-    R=$T/r2flood; one "$R" flood nocorpus; t0=$SECONDS; run "$R" --json
-    if [ "$RC" -eq 1 ] && [ $((SECONDS - t0)) -lt 120 ] && python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert len(d["findings"]) == 200000' "$T/out" 2>/dev/null; then ok "R2-I5 200000 findings render as valid JSON in $((SECONDS - t0)) s"; else bad "R2-I5 flood rc=$RC after $((SECONDS - t0)) s"; fi
+    # Linear rendering is proved by a RATIO of CPU seconds (user+sys of the run and everything it spawned) between a
+    # 20000- and a 200000-finding flood measured back to back on the same host, never by a wall-clock or absolute
+    # bound: those measure how busy the host is (190 s wall / 128 CPU s at load average ~50 for the same input).
+    # Linear => ~10x (plus fixed startup, which only lowers the ratio); quadratic => ~100x. The bound is 30x.
+    local TIMEFORMAT='%U %S' cu cs c_small c_big rc_big
+    cpu_of() { # <root>: run --json, CPU seconds (integer, -1 = not measurable) in $CPU, rc in RC
+        { time run "$1" --json; } 2>"$T/flood.cpu"; read -r cu cs <"$T/flood.cpu" || true
+        CPU=$(awk -v u="${cu:-x}" -v s="${cs:-x}" 'BEGIN { if (u !~ /^[0-9.]+$/ || s !~ /^[0-9.]+$/) { print -1; exit } printf "%d", u + s + 0.999 }')
+    }
+    R=$T/r2flood-s; one "$R" flood20k nocorpus; cpu_of "$R"; c_small=$CPU
+    R=$T/r2flood; one "$R" flood nocorpus; cpu_of "$R"; c_big=$CPU; rc_big=$RC
+    if [ "$c_small" -lt 0 ] || [ "$c_big" -lt 0 ]; then echo "  UNDETERMINED R2-I5 flood: CPU time not measurable"; undet=$((undet + 1))
+    elif [ "$rc_big" -eq 1 ] && [ "$c_big" -le $((30 * (c_small > 0 ? c_small : 1))) ] && python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); assert len(d["findings"]) == 200000' "$T/out" 2>/dev/null; then ok "R2-I5 200000 findings render as valid JSON, ${c_big} CPU s vs ${c_small} CPU s for 20000 (linear, <= 30x)"; else bad "R2-I5 flood rc=$rc_big ${c_big} CPU s vs ${c_small} CPU s for 20000 (> 30x or invalid JSON)"; fi
 
     echo "R2-I7 non-normal path tokens and fixture paths anywhere in a token are rejected"
     R=$T/r2dot; one "$R" dotslash nocorpus; run "$R"
@@ -1100,20 +1113,29 @@ prove_failure() (
     for p in $left; do kill -KILL "$p" 2>/dev/null; done
 
     echo "I6 the live class list derives each disputed population from a named tracked source"
-    rowcase() { # <class_id> <path substring>...
-        local id=$1 pop p okk=1; shift
+    rowcase() { # <class_id> <path substring>...  (a source inside a submodule that is not checked out => UNDETERMINED, never a fail)
+        local id=$1 pop p okk=1 nco=0 top; shift
         pop=$(awk -F'\t' -v c="$id" '$1 == c { print $2 }' "$LIVE_ROOT/docs/zero-gap/sweep-classes.tsv")
         for p in "$@"; do
             case "$pop" in *"$p"*) ;; *) okk=0 ;; esac
-            compgen -G "$LIVE_ROOT/$p*" >/dev/null || okk=0
+            if ! compgen -G "$LIVE_ROOT/$p*" >/dev/null; then
+                top=${p%%/*}
+                # a gitlink whose checkout is empty cannot be read here: that is a fact about this checkout
+                if [ "$(git -C "$LIVE_ROOT" ls-files -s -- "$top" 2>/dev/null | cut -c1-6)" = 160000 ] && [ -z "$(ls -A -- "$LIVE_ROOT/$top" 2>/dev/null)" ]; then nco=1; else okk=0; fi
+            fi
         done
-        if [ "$okk" -eq 1 ]; then ok "I6 $id names $* and each exists"; else bad "I6 $id does not name an existing $*"; fi
+        if [ "$okk" -eq 0 ]; then bad "I6 $id does not name an existing $*"
+        elif [ "$nco" -eq 1 ]; then echo "  UNDETERMINED I6 $id: a named source is in a submodule that is not checked out in $LIVE_ROOT (init it to decide)"; undet=$((undet + 1))
+        else ok "I6 $id names $* and each exists"; fi
     }
     rowcase live-vs-source workshop/platform/compose.yml scripts/qa-up.sh
     rowcase unproven-checks scripts/check-registry.tsv
     rowcase doc-count-drift docs/claim-ledger.tsv
-    rowcase build-if-missing ai_interviewing/platform/scripts/start.sh
-    rowcase improvement-candidates docs/OPERATOR-DECISIONS- docs/workable_items.db
+    # the row no longer names a submodule script (it derives start*.sh from every CHECKED-OUT submodule); the one
+    # path-like source it does name is helix-deps.yaml, which must exist
+    rowcase build-if-missing helix-deps.yaml
+    rowcase known-open-decisions docs/OPERATOR-DECISIONS-
+    rowcase improvement-candidates docs/workable_items.db
     rowcase missing-toolchain docs/zero-gap/toolchains.tsv
     rowcase guard-gaps docs/zero-gap/guarded-commands.tsv
     # The catalogue files' SCHEMAS are owned by their classes (missing-toolchain, guard-gaps) and asserted
@@ -1131,9 +1153,10 @@ prove_failure() (
         echo "prove-failure: $pass passed, $fail failed (live tree moved: rc 2)"; exit 2
     fi
     ok "LIVE live tree byte-identical (whole-tree fingerprint + git status)"
-    echo "prove-failure: $pass passed, $fail failed"
-    if [ "$fail" -eq 0 ]; then exit 0; fi
-    exit 1
+    echo "prove-failure: $pass passed, $fail failed, $undet undetermined"
+    if [ "$fail" -ne 0 ]; then exit 1; fi
+    if [ "$undet" -ne 0 ]; then echo "prove-failure: $undet case(s) could not be decided on this checkout => rc 2 (never a pass)"; exit 2; fi
+    exit 0
 )
 
 if [ "$PROVE" -eq 1 ]; then prove_failure; exit $?; fi
