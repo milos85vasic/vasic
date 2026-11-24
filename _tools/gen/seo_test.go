@@ -253,7 +253,7 @@ func TestSitemapExcludesAdminAndVault(t *testing.T) {
 
 func TestSitemapLastmodFromGit(t *testing.T) {
 	if _, err := exec.LookPath("git"); err != nil {
-		t.Skip("git not available") // SKIP-OK: VSC-432 conditional on git on PATH
+		t.Skip("git not available") // SKIP-OK: VSC-433 conditional on git on PATH
 	}
 	s := testSite()
 	tmp := t.TempDir()

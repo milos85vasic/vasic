@@ -62,7 +62,7 @@ func TestParseRecorderRow_RefusesUnknownShape(t *testing.T) {
 func TestParseRecorderRow_RealRecorder(t *testing.T) {
 	bash, err := exec.LookPath("bash")
 	if err != nil {
-		t.Skip("bash absent: the real recorder cannot be driven (honest skip, not a pass)") // SKIP-OK: VSC-432 conditional on bash on PATH
+		t.Skip("bash absent: the real recorder cannot be driven (honest skip, not a pass)") // SKIP-OK: VSC-433 conditional on bash on PATH
 	}
 	lib, err := filepath.Abs("../../submodules/constitution/scripts/gates/lib/execution_record.sh")
 	if err != nil {

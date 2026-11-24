@@ -1,6 +1,6 @@
-# Zero-findings ratchet burn-down, 2026-11-24 (VSC-431, closes VSC-422)
+# Zero-findings ratchet burn-down, 2026-11-24 (VSC-432, closes VSC-422)
 
-Operator decision 2026-11-24: burn the ratchet down. Roadmap-Item: VSC-431.
+Operator decision 2026-11-24: burn the ratchet down. Roadmap-Item: VSC-432.
 
 ## RED, reproduced live at commit d1aeb48 (main, before any edit)
 
@@ -22,7 +22,7 @@ Operator decision 2026-11-24: burn the ratchet down. Roadmap-Item: VSC-431.
 | weak-spots | 2 | 0 | real fix: `set -u` in `scripts/install_skills.sh`; `set -u` in the direct-run block of `scripts/zero-gap-lib.sh` (a sourced library must not change its caller's options) |
 | danger-zones | 32 | 0 | 3 real fixes (`eval "$oldnull"` nullglob restore removed in `verify-check-registry.sh`; two log-message rewordings in `zero-gap-class-guard-gaps.sh` and `zero-gap-coverage.sh`); 29 lines carry the detector's own line marker `DANGER-OK: <reason>` where the pattern is DATA (probe strings, flag tables, synthetic-repo commits) or an eval of a constant / in-repo-extracted / operator-supplied string |
 | todo-fixme | 2 | 0 | two planted fixture comments reworded from the literal marker word to NOTE; the two class `--prove-failure` proofs still pass |
-| skipped-tests | 21 | 1 | 19 skips carry `SKIP-OK: VSC-432` (conditional on an absent tool/host condition, each prints SKIPPED, not a pass) or `SKIP-OK: VSC-433` (three live specs deferred to the post-deploy live config, still in its testMatch and in deploy-langs LIVE_SPECS) |
+| skipped-tests | 21 | 1 | 19 skips carry `SKIP-OK: VSC-433` (conditional on an absent tool/host condition, each prints SKIPPED, not a pass) or `SKIP-OK: VSC-434` (three live specs deferred to the post-deploy live config, still in its testMatch and in deploy-langs LIVE_SPECS) |
 | gaps | 6 | 6 | untouched: open rows of docs/constitution-adoption/INVENTORY.md |
 
 Remaining 7: six open INVENTORY gap rows, and `.github/workflows/ci.yml.disabled` (file kept by the 11.4.156 decision; removing it is an operator decision under 11.4.122).

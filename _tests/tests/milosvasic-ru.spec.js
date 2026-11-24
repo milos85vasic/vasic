@@ -139,7 +139,7 @@ test.describe('milosvasic.ru — AI engineer site (OpenDesign + Jekyll)', () => 
   });
 
   test('evidence screenshots (chromium)', async ({ page }, testInfo) => {
-    if (testInfo.project.name !== 'chromium') test.skip(); // SKIP-OK: VSC-432 conditional on the browser project: evidence screenshots are taken in chromium only
+    if (testInfo.project.name !== 'chromium') test.skip(); // SKIP-OK: VSC-433 conditional on the browser project: evidence screenshots are taken in chromium only
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(BASE);
     // Settle any JS count-up before capturing. milosvasic.ru carries no

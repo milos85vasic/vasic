@@ -74,7 +74,7 @@ func TestExitCodesAreThreeValued(t *testing.T) {
 
 	t.Run("rc0_when_a_runtime_is_present", func(t *testing.T) {
 		if !anyRuntimeOnPath() {
-			t.Skip("no container runtime on this host; nothing to detect (documented SKIP, not a pass)") // SKIP-OK: VSC-432 conditional on a container runtime on PATH; prints a documented SKIP
+			t.Skip("no container runtime on this host; nothing to detect (documented SKIP, not a pass)") // SKIP-OK: VSC-433 conditional on a container runtime on PATH; prints a documented SKIP
 		}
 		out, rc := runBinOut(t, bin, nil, "-name-only")
 		if rc != 0 {

@@ -4323,21 +4323,21 @@ WHAT: operator-requested research programme whose outputs live under docs/resear
 
 Deferred from wave 1: a new artifact suffix touches ENGINE_FORMATS, expected_files, the verify matrix, manifest.json and vault packing, and job_seeker accepts pdf slots only. Needs a design pass first. See docs/qa/career/career-engine-wave1-2026-11-24.md
 
-## VSC-432 — register of environment-conditional honest skips (SKIP-OK tracker)
+## VSC-433 — register of environment-conditional honest skips (SKIP-OK tracker)
 
 **Status:** Queued
 **Type:** Task
 **Severity:** low
 **Created-By:** Claude
 
-WHAT: tracker referenced by SKIP-OK markers on test skips conditional on an absent tool or host condition (git, bash, a container runtime, root user, a submodule checkout) that print an explicit SKIPPED, not-a-pass reason. Acceptance: no unconditional skip carries this marker.
+WHAT: tracker referenced by SKIP-OK markers on test skips conditional on an absent tool or host condition that print an explicit SKIPPED, not-a-pass reason. Acceptance: no unconditional skip carries this marker.
 
-## VSC-433 — three live-production specs deferred from gate 6 to the post-deploy live config (SKIP-OK tracker)
+## VSC-434 — three live-production specs deferred from gate 6 to the post-deploy live config (SKIP-OK tracker)
 
 **Status:** Queued
 **Type:** Task
 **Severity:** low
 **Created-By:** Claude
 
-WHAT: _tests/playwright.config.js testIgnore defers restyle-seo-regression, v170-fixes and v171-hardcoding to _tests/playwright.live.config.js, run by _tools/deploy-langs.sh LIVE_SPECS after each deploy. Acceptance: the specs stay in the live testMatch and LIVE_SPECS.
+WHAT: _tests/playwright.config.js testIgnore defers three specs to playwright.live.config.js, run by _tools/deploy-langs.sh LIVE_SPECS after each deploy. Acceptance: the specs stay in the live testMatch and LIVE_SPECS.
 

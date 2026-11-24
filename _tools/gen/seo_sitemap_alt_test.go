@@ -157,7 +157,7 @@ var fmHreflang = regexp.MustCompile(`hreflang=\\"([^"\\]+)\\" href=\\"([^"\\]+)\
 func TestSitemapAlternatesMatchInPageHreflang(t *testing.T) {
 	src := filepath.Join("..", "..", "milosvasic.ru", "expertise")
 	if _, err := os.Stat(src); err != nil {
-		t.Skip("no live expertise tree") // SKIP-OK: VSC-432 conditional on the milosvasic.ru expertise tree being checked out
+		t.Skip("no live expertise tree") // SKIP-OK: VSC-433 conditional on the milosvasic.ru expertise tree being checked out
 	}
 	root := t.TempDir()
 	dst := filepath.Join(root, "expertise")

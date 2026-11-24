@@ -238,7 +238,7 @@ for (const site of SITES) {
           for (let i = 0; i < n; i++) if (await links.nth(i).isVisible()) visibleIdx.push(i);
           // A collapsed nav with a working hamburger is NOT a valid reason to skip —
           // it must be reachable. Only skip if there is genuinely no way in.
-          test.skip(!toggleVisible && visibleIdx.length === 0, `primary nav is collapsed/hidden at ${vp.width}px on this page`); // SKIP-OK: VSC-432 conditional on the page having no reachable nav at this viewport
+          test.skip(!toggleVisible && visibleIdx.length === 0, `primary nav is collapsed/hidden at ${vp.width}px on this page`); // SKIP-OK: VSC-433 conditional on the page having no reachable nav at this viewport
           expect(visibleIdx.length, `[${site.key} ${pg.type} @ ${vp.width}px] primary nav must be reachable`).toBeGreaterThan(0);
 
           const wantPath = new URL(site.base + pg.path).pathname;
@@ -284,7 +284,7 @@ for (const site of SITES) {
           await page.emulateMedia({ reducedMotion: 'reduce' });
           await page.goto(site.base + pg.path, { waitUntil: 'load' });
           const maxScroll = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight);
-          test.skip(maxScroll < 650, 'page too short to require a back-to-top control'); // SKIP-OK: VSC-432 conditional on page height: no back-to-top control is required on a short page
+          test.skip(maxScroll < 650, 'page too short to require a back-to-top control'); // SKIP-OK: VSC-433 conditional on page height: no back-to-top control is required on a short page
 
           // Scroll well past the reveal threshold.
           await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
