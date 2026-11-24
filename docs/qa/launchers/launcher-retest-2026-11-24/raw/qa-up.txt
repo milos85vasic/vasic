@@ -1,0 +1,128 @@
+=== [help] $ bash scripts/qa-up.sh --help
+#   QA_NAME_PREFIX            registry name prefix         (default vasic-qa)
+#   QA_STATE_DIR              pid/port files               (default $ROOT/.service-registry/qa)
+#   QA_REGISTRY_DIR           port-discover registry       (default $ROOT/.service-registry)
+#   QA_AI_HOME                ai_interviewing platform dir (default $ROOT/ai_interviewing/platform)
+#
+# EXIT: 0 every requested service is up and answering on its discovered port
+#       1 a service genuinely failed to come up or does not answer
+#       2 could not determine (no go / curl / ss, port-discover unbuildable,
+#         bad argument) — NEVER a pass
+# =============================================================================
+--- rc=0
+=== [unknown-flag] $ bash scripts/qa-up.sh --bogus
+UNDETERMINED: unknown argument: --bogus
+--- rc=2
+=== [only-bogus] $ bash scripts/qa-up.sh --only nope
+UNDETERMINED: unknown service: nope
+--- rc=2
+=== [only-novalue] $ bash scripts/qa-up.sh --only
+UNDETERMINED: --only needs vd|mv|workshop|ai
+--- rc=2
+=== [runner-docker-refused] $ bash scripts/qa-up.sh --only vd --runner=docker
+>> vd: started (pid 397181) on 8401
+
+SERVICE    URL
+vd         http://127.0.0.1:8401/
+--- rc=0
+=== [runner-bogus] $ bash scripts/qa-up.sh --only vd --runner=bogus
+>> vd: already running (pid 397181) on 8401 — reused
+
+SERVICE    URL
+vd         http://127.0.0.1:8401/
+--- rc=0
+=== [runner-novalue] $ bash scripts/qa-up.sh --only vd --runner
+runner: --runner needs a value
+--- rc=2
+=== [env-docker-refused] $ env CONTAINERS_RUNNER=docker bash scripts/qa-up.sh --only vd
+>> vd: already running (pid 397181) on 8401 — reused
+
+SERVICE    URL
+vd         http://127.0.0.1:8401/
+--- rc=0
+=== [start-vd] $ bash scripts/qa-up.sh --only vd
+>> vd: already running (pid 397181) on 8401 — reused
+
+SERVICE    URL
+vd         http://127.0.0.1:8401/
+--- rc=0
+=== [double-start-vd] $ bash scripts/qa-up.sh --only vd
+>> vd: already running (pid 397181) on 8401 — reused
+
+SERVICE    URL
+vd         http://127.0.0.1:8401/
+--- rc=0
+=== [workshop-runner-docker-refused] $ bash scripts/qa-up.sh --only workshop --runner=docker
+runner: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [ai-runner-bogus-refused] $ bash scripts/qa-up.sh --only ai --runner=bogus
+runner: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
+--- rc=2
+=== [env-docker-workshop-refused] $ env CONTAINERS_RUNNER=docker bash scripts/qa-up.sh --only workshop
+runner: forced container runner is not available: "docker" (selected via env) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [workshop-reuse-live] $ bash scripts/qa-up.sh --only workshop --runner=podman
+runner: podman (selected by flag)
+>> workshop: already running on http://127.0.0.1:8087 — reused
+
+SERVICE    URL
+workshop   http://127.0.0.1:8087/
+--- rc=0
+=== [mv-no-rebuild] $ bash scripts/qa-up.sh --only mv --no-rebuild
+>> mv: started (pid 410370) on 8084
+
+SERVICE    URL
+mv         http://127.0.0.1:8084/
+--- rc=0
+=== [ai-start-runner-podman] $ bash scripts/qa-up.sh --only ai --runner=podman
+runner: podman (no containers used by this launcher)
+>> starting server ...
+UP: http://localhost:8099  (pid 415073)
+    https://localhost:8444  (HTTP/2 + HTTP/3, self-signed)
+{"curriculum":1,"lesson":435,"module":77,"plan":74,"question":2488,"track":3},"version":"1.0.0"}
+
+SERVICE    URL
+ai         http://localhost:8099/   (https: https://localhost:8444)
+--- rc=0
+=== [ai-double-start] $ bash scripts/qa-up.sh --only ai
+>> ai: found a running instance on http://localhost:8099 — checking it
+
+SERVICE    URL
+ai         http://localhost:8099/   (https: https://localhost:8444)
+--- rc=0
+=== [curl-8401/] $ curl -sS -m 5 -o /dev/null -w HTTP %{http_code}\n http://127.0.0.1:8401/
+HTTP 200
+--- rc=0
+=== [curl-8084/] $ curl -sS -m 5 -o /dev/null -w HTTP %{http_code}\n http://127.0.0.1:8084/
+HTTP 200
+--- rc=0
+=== [curl-8099/api/health] $ curl -sS -m 5 -o /dev/null -w HTTP %{http_code}\n http://127.0.0.1:8099/api/health
+HTTP 200
+--- rc=0
+=== [curl-8087/api/health] $ curl -sS -m 5 -o /dev/null -w HTTP %{http_code}\n http://127.0.0.1:8087/api/health
+HTTP 200
+--- rc=0
+=== [stop] $ bash scripts/qa-up.sh --stop
+>> vd: stopped pid 397181
+>> mv: stopped pid 410370
+>> workshop: not started by qa-up.sh — left running (stop it with /home/milosvasic/Projects/vasic/workshop/scripts/stop.sh)
+stopped pid 415073
+--- rc=0
+=== [snap after-stop] podman ps (ours)
+workshop-curriculum_platform_1 Up 16 minutes (healthy)
+listeners:
+(none)
+=== [stop-again] $ bash scripts/qa-up.sh --stop
+>> vd: nothing of ours running
+>> mv: nothing of ours running
+>> workshop: not started by qa-up.sh — left running (stop it with /home/milosvasic/Projects/vasic/workshop/scripts/stop.sh)
+>> ai: not started by qa-up.sh — left running (stop it with /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/aiwt/platform/scripts/stop.sh)
+--- rc=0
+=== [runner-bogus-stop] $ bash scripts/qa-up.sh --stop --runner=bogus
+runner: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
+!! runner not selected on --stop (stopping needs none); the stack scripts decide
+>> vd: nothing of ours running
+>> mv: nothing of ours running
+>> workshop: not started by qa-up.sh — left running (stop it with /home/milosvasic/Projects/vasic/workshop/scripts/stop.sh)
+>> ai: not started by qa-up.sh — left running (stop it with /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/aiwt/platform/scripts/stop.sh)
+--- rc=0

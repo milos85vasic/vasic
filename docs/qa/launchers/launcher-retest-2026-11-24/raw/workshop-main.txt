@@ -1,0 +1,186 @@
+=== [help] $ bash scripts/start.sh --help
+Usage: start.sh [--port N] [--bind ADDR] [--wait-healthy N]
+--- rc=0
+=== [start-unknown-flag] $ bash scripts/start.sh --bogus
+UNDETERMINED: unknown argument: --bogus
+--- rc=2
+=== [start-runner-flag] $ bash scripts/start.sh --runner=podman
+UNDETERMINED: unknown argument: --runner=podman
+--- rc=2
+=== [stop-help] $ bash scripts/stop.sh --help
+Usage: stop.sh [--destroy-volumes]
+
+  --destroy-volumes  ALSO delete the search index and transcripts.
+                     Requires a typed confirmation.
+--- rc=0
+=== [status-before] $ bash scripts/status.sh
+  platform                     exited
+PROBLEM: DEGRADED: 1 service(s) exist but not all are running
+--- rc=1
+=== [snap before] podman ps (ours)
+workshop-curriculum_platform_1 Exited (0) 16 hours ago
+listeners:
+LISTEN 0      4096                                     127.0.0.1:8095       0.0.0.0:*    users:(("llmctl-decide",pid=2838,fd=7))                            
+=== [start-default] $ bash scripts/start.sh
+>> WORKSHOP_ENV is '' (not production): the production boot guard is inert
+>> AUTH_SHARED_SECRET_FILE is unset: authkit audience-scoped tokens are OFF (a presented X-Authkit-Token is refused)
+require: OK  (8 entries)
+>> stack is not fully running; starting it
+>> stamping workshop-server: build=d58ae75d-20261124T124346Z dirty=false src_dirty=false (8 input module(s))
+>> building workshop-server (static) from /home/milosvasic/Projects/vasic/workshop/platform/backend/./cmd/workshop-server ...
+>>    -> /home/milosvasic/Projects/vasic/workshop/platform/bin/workshop-server (d58ae75d-20261124T124346Z, src_dirty=false)
+api_keys: ApiKey_DeepSeek present=yes (env file)
+>> starting the workshop curriculum stack ...
+2026/11/24 13:43:57 [INFO]  workshop-boot: compose up: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name workshop-curriculum up -d --no-recreate
+2026/11/24 13:43:57 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name workshop-curriculum up -d --no-recreate (dir: /home/milosvasic/Projects/vasic/workshop/platform)
+2026/11/24 13:43:57 [DEBUG] workshop-boot: compose command completed successfully
+2026/11/24 13:43:58 [DEBUG] workshop-boot: podman-compose wait: all requested services ready (1)
+  platform                     running
+>> oomd protection applied while the stack was still booting
+HEALTHY: http://127.0.0.1:8087/api/health (16ms)
+UP: http://127.0.0.1:8087
+>> oomd protection: libpod-a0558fc32e8a192b6693937b7c1fa8dc3fb2c608d09bf7a75162bf9b2d56cea0.scope ManagedOOMPreference=avoid, cgroup user.oomd_avoid=1, drop-in present
+WORKSHOP_OOMD_OUTCOME=applied
+--- rc=0
+=== [status-up] $ bash scripts/status.sh
+  platform                     running
+RUNNING
+  http:   http://127.0.0.1:8087
+  health: OK (7ms)
+  { "status": "ok", "http": "http://127.0.0.1:8087", "pid": 1, "chapters": 5, "web": true, "index": "/var/lib/workshop", "build": "d58ae75d-20261124T124346Z", "source_commit": "d58ae75d2d7bc969677f605695882a3a5d80c907", "source_dirty": false, "built_at": "2026-11-24T12:43:46Z", "identity_source": "ldflags", "ollama": { "url": "http://127.0.0.1:11434", "configured": true, "reachable": true } }
+--- rc=0
+=== [health-curl] $ curl -sS -m 5 -w \nHTTP %{http_code}\n http://127.0.0.1:8087/api/health
+  "ollama": {
+    "url": "http://127.0.0.1:11434",
+    "configured": true,
+    "reachable": true
+  }
+}
+
+HTTP 200
+--- rc=0
+=== [real-read] $ curl -sS -m 10 -o /dev/null -w HTTP %{http_code} bytes %{size_download}\n http://127.0.0.1:8087/
+HTTP 200 bytes 13344
+--- rc=0
+=== [double-start] $ bash scripts/start.sh
+>> already running — nothing to do
+  platform                     running
+RUNNING
+  http:   http://127.0.0.1:8087
+  health: OK (6ms)
+  { "status": "ok", "http": "http://127.0.0.1:8087", "pid": 1, "chapters": 5, "web": true, "index": "/var/lib/workshop", "build": "d58ae75d-20261124T124346Z", "source_commit": "d58ae75d2d7bc969677f605695882a3a5d80c907", "source_dirty": false, "built_at": "2026-11-24T12:43:46Z", "identity_source": "ldflags", "ollama": { "url": "http://127.0.0.1:11434", "configured": true, "reachable": true } }
+>> oomd protection: libpod-a0558fc32e8a192b6693937b7c1fa8dc3fb2c608d09bf7a75162bf9b2d56cea0.scope ManagedOOMPreference=avoid, cgroup user.oomd_avoid=1, drop-in present
+WORKSHOP_OOMD_OUTCOME=applied
+--- rc=0
+=== [snap up] podman ps (ours)
+workshop-curriculum_platform_1 Up 54 seconds (healthy)
+listeners:
+LISTEN 0      4096                                     127.0.0.1:8095       0.0.0.0:*    users:(("llmctl-decide",pid=2838,fd=7))                            
+LISTEN 0      4096                                     127.0.0.1:8087       0.0.0.0:*    users:(("workshop-server",pid=3561534,fd=4))                       
+=== [stop] $ bash scripts/stop.sh
+>> stopping the workshop curriculum stack ...
+2026/11/24 13:44:56 [INFO]  workshop-boot: compose down: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name workshop-curriculum down --timeout 20
+2026/11/24 13:44:56 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name workshop-curriculum down --timeout 20 (dir: /home/milosvasic/Projects/vasic/workshop/platform)
+2026/11/24 13:44:56 [DEBUG] workshop-boot: compose command completed successfully
+STOPPED
+named volumes preserved (search index and transcripts intact)
+--- rc=0
+=== [snap after-stop] podman ps (ours)
+(none)
+listeners:
+LISTEN 0      4096                                     127.0.0.1:8095       0.0.0.0:*    users:(("llmctl-decide",pid=2838,fd=7))                            
+=== [status-stopped] $ bash scripts/status.sh
+STOPPED
+  no containers exist for this project
+PROBLEM: STOPPED: no containers exist for this project
+--- rc=1
+=== [stop-again] $ bash scripts/stop.sh
+>> stopping the workshop curriculum stack ...
+2026/11/24 13:45:06 [INFO]  workshop-boot: compose down: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name workshop-curriculum down --timeout 20
+2026/11/24 13:45:06 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name workshop-curriculum down --timeout 20 (dir: /home/milosvasic/Projects/vasic/workshop/platform)
+2026/11/24 13:45:06 [DEBUG] workshop-boot: compose command completed successfully
+STOPPED
+named volumes preserved (search index and transcripts intact)
+--- rc=0
+=== [health-after-stop] $ curl -sS -m 3 http://127.0.0.1:8087/api/health
+curl: (7) Failed to connect to 127.0.0.1 port 8087 after 0 ms: Could not connect to server
+--- rc=7
+=== [stop-bogus] $ bash scripts/stop.sh --bogus
+UNDETERMINED: unknown argument: --bogus
+--- rc=2
+=== [restart-help] $ bash scripts/restart.sh --help
+# readings of the module root, WORKSHOP_RESTART_QUIESCE_SECONDS apart
+# (default 30 — see `ws_git_quiescent` in _common.sh for the single-pass
+# contract). If they differ, this script refuses to proceed (exit 2 —
+# UNDETERMINED whether it is currently safe, not a claim the stack is
+# broken), rather than guessing that whatever was mid-write is done.
+# `--skip-quiescence-check` opts out explicitly, for a caller that has
+# already established quiescence some other way.
+# ==============================================================================
+--- rc=0
+=== [restart-when-stopped] $ bash scripts/restart.sh
+WORKSHOP_OOMD_OUTCOME=applied
+WARNING: the student initial password is a published example password (-allow-example-student-password); acceptable for QA accounts only
+student1       student        unchanged
+student2       student        unchanged
+student3       student        unchanged
+student4       student        unchanged
+student5       student        unchanged
+ok: 5 account(s) checked, 0 changed
+--- rc=0
+=== [status-after-restart] $ bash scripts/status.sh
+  platform                     running
+RUNNING
+  http:   http://127.0.0.1:8087
+  health: OK (10ms)
+  { "status": "ok", "http": "http://127.0.0.1:8087", "pid": 1, "chapters": 5, "web": true, "index": "/var/lib/workshop", "build": "d58ae75d-20261124T124539Z", "source_commit": "d58ae75d2d7bc969677f605695882a3a5d80c907", "source_dirty": false, "built_at": "2026-11-24T12:45:39Z", "identity_source": "ldflags", "ollama": { "url": "http://127.0.0.1:11434", "configured": true, "reachable": true } }
+--- rc=0
+=== [health-after-restart] $ curl -sS -m 5 -w  HTTP %{http_code}\n http://127.0.0.1:8087/api/health
+  "identity_source": "ldflags",
+  "ollama": {
+    "url": "http://127.0.0.1:11434",
+    "configured": true,
+    "reachable": true
+  }
+}
+ HTTP 200
+--- rc=0
+=== [restart-when-running] $ bash scripts/restart.sh --skip-quiescence-check
+WORKSHOP_OOMD_OUTCOME=applied
+WARNING: the student initial password is a published example password (-allow-example-student-password); acceptable for QA accounts only
+student1       student        unchanged
+student2       student        unchanged
+student3       student        unchanged
+student4       student        unchanged
+student5       student        unchanged
+ok: 5 account(s) checked, 0 changed
+--- rc=0
+=== [health-after-restart2] $ curl -sS -m 5 -w  HTTP %{http_code}\n http://127.0.0.1:8087/api/health
+  "identity_source": "ldflags",
+  "ollama": {
+    "url": "http://127.0.0.1:11434",
+    "configured": true,
+    "reachable": true
+  }
+}
+ HTTP 200
+--- rc=0
+=== [restart-destroy-refused] $ bash scripts/restart.sh --destroy-volumes
+restart.sh: --destroy-volumes is refused here.
+  A restart must never be the command that deletes the search index and the
+  transcripts. If you mean it, run:  bash /home/milosvasic/Projects/vasic/workshop/scripts/stop.sh --destroy-volumes
+--- rc=2
+=== [restart-dry] $ bash scripts/restart.sh --dry-run
+>> dry run — would execute, in order:
+     two `git status` reads of /home/milosvasic/Projects/vasic/workshop, 30s apart (T569 quiescence check)
+     bash /home/milosvasic/Projects/vasic/workshop/scripts/stop.sh
+     bash /home/milosvasic/Projects/vasic/workshop/scripts/start.sh
+   and would NOT start if stop returned 1 or 2, or if quiescence is not confirmed.
+--- rc=0
+=== [logs] $ podman logs --tail 5 workshop-curriculum_platform_1
+2026/11/24 12:47:54 workshop-server: answering UNAVAILABLE (no_provider): Answering is not configured. Browsing and search are unaffected. Name a provider with -answer-provider to enable it.
+2026/11/24 12:47:54 workshop-server: L4 is the LEXICAL floor, not entailment (set WORKSHOP_ENTAIL_PYTHON and WORKSHOP_ENTAIL_MODEL_DIR to change that)
+2026/11/24 12:47:54 workshop-server: L5 (answer-against-question) is DELIBERATELY DISABLED: `-question-verify none` is a recognised value meaning the layer is switched off on purpose. No verification layer compares a claim with the question in this deployment — the same reduced assurance the unset case carries, requested rather than defaulted. Set -question-verify focus|llm to turn it on.
+UP: http://127.0.0.1:8087
+2026/11/24 12:47:54 workshop-server: listening on http://127.0.0.1:8087 (requested 127.0.0.1:8087)
+--- rc=0

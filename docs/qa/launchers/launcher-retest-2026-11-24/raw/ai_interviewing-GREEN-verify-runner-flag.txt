@@ -1,0 +1,20 @@
+  PASS stop --runner=podman accepted, prints no-containers line
+  PASS stop --runner <sep value> accepted
+  PASS stop --runner=auto accepted
+  PASS unknown runner refused rc 2, lists supported
+  PASS stop --runner=docker (not installed) refused rc 2 before any side effect
+  PASS start --runner=docker (not installed) refused rc 2 before any side effect
+  PASS restart --runner=docker (not installed) refused rc 2 before any side effect
+  PASS valueless --runner refused rc 2
+  PASS env CONTAINERS_RUNNER=bogus refused rc 2
+  FAIL module-absent rc=0: runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+not running
+  PASS no flag: behaviour unchanged, no runner output
+  PASS stop unknown argument refused rc 2 before any side effect
+  PASS stop --help prints usage, rc 0, no side effect
+  PASS start unknown argument refused rc 2 before any side effect
+  PASS start --help prints usage, rc 0, no side effect
+  PASS restart unknown argument refused rc 2 before any side effect
+  PASS restart --help prints usage, rc 0, no side effect
+runner-flag: 16 pass, 1 fail
