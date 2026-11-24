@@ -28,8 +28,9 @@ const srv = http.createServer((q, s) => {
 });
 (async () => {
   fs.mkdirSync(out, { recursive: true });
-  await new Promise(r => srv.listen(0, "127.0.0.1", r));
-  const base = "http://127.0.0.1:" + srv.address().port;
+  const host = process.env.PROOF_HOST || "127.0.0.1";   // loopback only; the port is chosen by the kernel
+  await new Promise(r => srv.listen(0, host, r));
+  const base = "http://" + host + ":" + srv.address().port;
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), "noto-proof-"));
   const ctx = await pw.chromium.launchPersistentContext(profile, { headless: true, viewport: { width: 980, height: 560 } });
   const results = []; let bad = 0;
