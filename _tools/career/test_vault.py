@@ -22,6 +22,9 @@ from career import vault  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 NODE = shutil.which("node")
+# vault.js is operator-private and git-ignored in the milosvasic.ru submodule by design (14b2d8b); absent => cross-language tests CANNOT run (skip, never a pass).
+VAULT_JS = Path(__file__).resolve().parents[2] / "milosvasic.ru" / "assets" / "js" / "vault.js"
+HAVE_VAULT_JS = bool(NODE) and VAULT_JS.is_file()
 WORDS = "abacus bridge candle dragon engine forest garden harbor island jungle".split()
 NONASCII_NAME = "résumé-日本語-\U0001F600-\"q\".pdf"
 
@@ -204,7 +207,7 @@ class Cli(unittest.TestCase):
             self.assertEqual(stat.S_IMODE(to.stat().st_mode), 0o600)
 
 
-@unittest.skipUnless(NODE, "node not installed -- cross-language proof CANNOT run (not a pass)")
+@unittest.skipUnless(HAVE_VAULT_JS, "node or milosvasic.ru/assets/js/vault.js (operator-private, git-ignored) absent -- cross-language proof CANNOT run (not a pass)")
 class CrossLanguage(unittest.TestCase):
     def test_node_decrypts_python_sealed_vault_and_rejects_tampering(self):
         with tempfile.TemporaryDirectory() as d:

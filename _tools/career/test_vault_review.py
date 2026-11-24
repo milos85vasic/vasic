@@ -22,6 +22,9 @@ from career import vault  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 NODE = shutil.which("node")
+# vault.js is operator-private and git-ignored in the milosvasic.ru submodule by design (14b2d8b); absent => cross-language tests CANNOT run (skip, never a pass).
+VAULT_JS = Path(__file__).resolve().parents[2] / "milosvasic.ru" / "assets" / "js" / "vault.js"
+HAVE_VAULT_JS = bool(NODE) and VAULT_JS.is_file()
 
 
 def pw() -> str:
@@ -236,7 +239,7 @@ class Normalisation(Base):
         vault.seal_items([item()], passphrase=nfd, out_root=self.root)
         self.assertEqual(len(vault.verify_vault(nfc, self.root)), 1)
 
-    @unittest.skipUnless(NODE, "node missing")
+    @unittest.skipUnless(HAVE_VAULT_JS, "node or vault.js (operator-private, git-ignored) absent -- CANNOT run (not a pass)")
     def test_node_opens_with_other_normalisation_form(self):
         base = "Ünïcödé-ñ-Xk9#mQ2$vL7@pR4!"
         nfd = unicodedata.normalize("NFD", base)

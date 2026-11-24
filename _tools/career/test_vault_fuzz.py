@@ -38,6 +38,9 @@ from career import vault  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 NODE = shutil.which("node")
+# vault.js is operator-private and git-ignored in the milosvasic.ru submodule by design (14b2d8b); absent => cross-language tests CANNOT run (skip, never a pass).
+VAULT_JS = Path(__file__).resolve().parents[2] / "milosvasic.ru" / "assets" / "js" / "vault.js"
+HAVE_VAULT_JS = bool(NODE) and VAULT_JS.is_file()
 known_defect = (lambda f: f) if os.environ.get("VAULT_SHOW_DEFECTS") else unittest.expectedFailure
 SEEDS = (20260101, 20260102, 20260103)
 N_AAD = 2000
@@ -98,7 +101,7 @@ def pw() -> str:
     return " ".join("".join(secrets.choice(letters) for _ in range(7)) for _ in range(7))
 
 
-@unittest.skipUnless(NODE, "node missing -- cross-language fuzz CANNOT run (not a pass)")
+@unittest.skipUnless(HAVE_VAULT_JS, "node or milosvasic.ru/assets/js/vault.js (operator-private, git-ignored) absent -- cross-language fuzz CANNOT run (not a pass)")
 class AadEquality(unittest.TestCase):
     def test_aad_python_equals_node_all_seeds(self):
         total = 0
@@ -215,7 +218,7 @@ class RoundTripProperties(unittest.TestCase):
                 vault.unseal_blob(blob, rec, key=k, salt=self.SALT, slot="a/en/cv")
 
 
-@unittest.skipUnless(NODE, "node missing -- cross-language fuzz CANNOT run (not a pass)")
+@unittest.skipUnless(HAVE_VAULT_JS, "node or milosvasic.ru/assets/js/vault.js (operator-private, git-ignored) absent -- cross-language fuzz CANNOT run (not a pass)")
 class RandomVaultOpenedByRealJs(unittest.TestCase):
     def test_python_sealed_random_unicode_vault_opens_in_js(self):
         r = random.Random(SEEDS[0] + 99)
