@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Noto script faces - rendered proof</title>
+<!-- Rendered-proof page for the script subsets. Open as  preview.html?lang=ja&theme=dark[&brand=URL]  (brand defaults to the design-system layout; lang: ru sr be kk zh ja ko hi ar fa;
+     theme: light | dark). Only the shipped stylesheets are used - zero CDN. The tokens come from the brand stylesheet; this page
+     defines none (11.4.216). tests: design-system/fonts/tools/render_noto_proof.cjs screenshots every language. -->
+<link rel="stylesheet" href="../fonts.css">
+<style>
+  main { padding: 2rem; max-width: 56rem; }
+  body { margin: 0; background: var(--od-bg); color: var(--od-text); font-family: var(--od-font-body); line-height: 1.6; }
+  h1 { font-family: var(--od-font-display); font-weight: 700; font-size: var(--od-fs-3xl); margin: 0 0 .5rem; letter-spacing: var(--od-tracking-tight); }
+  h2 { font-family: var(--od-font-display); font-weight: 700; font-size: var(--od-fs-xl); margin: 1.5rem 0 .25rem; }
+  p { margin: .25rem 0; font-size: var(--od-fs-base); }
+  .b { font-weight: 700; }
+  code { font-family: var(--od-font-mono); font-size: var(--od-fs-sm); }
+  #verdict { font-family: var(--od-font-mono); font-size: var(--od-fs-sm); margin-top: 1.5rem; }
+</style>
+</head>
+<body>
+<main>
+<h1 id="h1"></h1>
+<p id="lead"></p>
+<p class="b" id="bold"></p>
+<h2 id="h2"></h2>
+<p id="mix"></p>
+<p id="num"></p>
+<div id="verdict"></div>
+</main>
+<script>
+const S = {
+  ru: ["Поиск работы без хаоса", "Каждая вакансия, письмо и ответ собраны в одном месте.", "Жирный текст: сроки, статусы, ответы.", "Настройки языка и темы", "Резюме v2.1 отправлено 24.11.2026 в компанию Acme, ответ через 3 дня.", "0123456789"],
+  sr: ["Тражење посла без хаоса", "Сваки оглас, писмо и одговор на једном месту, ђ ж љ њ ћ џ.", "Подебљан текст: рокови, статуси, одговори.", "Подешавања језика и теме", "Биографија v2.1 послата 24.11.2026 компанији Acme.", "0123456789"],
+  be: ["Пошук працы без хаосу", "Кожная вакансія, ліст і адказ у адным месцы, ў і ё.", "Тоўсты тэкст: тэрміны, статусы, адказы.", "Налады мовы і тэмы", "Рэзюмэ v2.1 адпраўлена 24.11.2026 у кампанію Acme.", "0123456789"],
+  kk: ["Жұмыс іздеу ретке келді", "Әрбір вакансия, хат және жауап бір жерде: ә ғ қ ң ө ұ ү һ і.", "Қалың мәтін: мерзімдер, күйлер, жауаптар.", "Тіл мен тақырып баптаулары", "Түйіндеме v2.1 24.11.2026 Acme компаниясына жіберілді.", "0123456789"],
+  zh: ["求职，井然有序", "每一个职位、每一封邮件和每一次回复都集中在一处。", "粗体文字：截止日期、状态、回复。", "语言和主题设置", "简历 v2.1 已于 2026年11月24日 发送给 Acme 公司，三天后回复。", "0123456789"],
+  ja: ["求職を、整理して進める", "すべての求人、メール、返信をひとつの場所にまとめます。", "太字：締め切り、ステータス、返信。", "言語とテーマの設定", "履歴書 v2.1 を 2026年11月24日 に Acme 社へ送信しました。", "0123456789"],
+  ko: ["체계적인 구직 활동", "모든 채용 공고, 이메일, 답장을 한곳에 모았습니다.", "굵은 글씨: 마감일, 상태, 답변.", "언어 및 테마 설정", "이력서 v2.1을 2026년 11월 24일 Acme 사에 보냈습니다.", "0123456789"],
+  hi: ["नौकरी की खोज, व्यवस्थित", "हर नौकरी, ईमेल और जवाब एक ही जगह पर।", "गाढ़ा पाठ: समय-सीमा, स्थिति, उत्तर।", "भाषा और थीम सेटिंग", "बायोडाटा v2.1 को 24.11.2026 को Acme कंपनी को भेजा गया, जवाब तीन दिन में।", "०१२३४५६७८९ 0123456789"],
+  ar: ["البحث عن عمل بلا فوضى", "كل وظيفة وبريد ورد في مكان واحد.", "نص غامق: المواعيد النهائية، الحالات، الردود.", "إعدادات اللغة والمظهر", "تم إرسال السيرة الذاتية v2.1 في 24.11.2026 إلى شركة Acme، والرد بعد ٣ أيام.", "٠١٢٣٤٥٦٧٨٩ 0123456789"],
+  fa: ["جست‌وجوی کار بدون هرج‌ومرج", "هر آگهی، نامه و پاسخ در یک جا؛ پ چ ژ گ ک ی.", "متن پررنگ: مهلت‌ها، وضعیت‌ها، پاسخ‌ها.", "تنظیمات زبان و پوسته", "رزومه v2.1 در 24.11.2026 به شرکت Acme فرستاده شد، پاسخ پس از ۳ روز.", "۰۱۲۳۴۵۶۷۸۹ 0123456789"],
+};
+const q = new URLSearchParams(location.search);
+const brand = document.createElement("link");
+brand.rel = "stylesheet"; brand.href = q.get("brand") || "../../brand-vasic-digital/vasic-digital.css";
+document.head.appendChild(brand);
+const lang = S[q.get("lang")] ? q.get("lang") : "ru", theme = q.get("theme") === "dark" ? "dark" : "light";
+const r = document.documentElement;
+r.lang = lang; r.dir = (lang === "ar" || lang === "fa") ? "rtl" : "ltr"; r.setAttribute("data-theme", theme);
+const t = S[lang];
+["h1", "lead", "bold", "h2", "mix", "num"].forEach((id, i) => { document.getElementById(id).textContent = t[i]; });
+document.getElementById("bold").lang = lang;
+new Promise(res => { brand.onload = res; brand.onerror = res; }).then(() => document.fonts.ready).then(() => document.fonts.ready).then(() => {
+  const loaded = [...document.fonts].filter(f => f.status === "loaded").map(f => f.family.replace(/['"]/g, "")).sort();
+  document.getElementById("verdict").textContent = "lang=" + lang + " theme=" + theme + " loaded faces: " + (loaded.join(", ") || "none");
+  document.body.setAttribute("data-fonts-ready", "1");
+});
+</script>
+</body>
+</html>

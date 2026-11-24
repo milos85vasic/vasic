@@ -357,6 +357,7 @@ check	pretooluse-guard	scripts/verify-pretooluse-guard.sh	flag	--prove-failure	-
 # rc 0 ok / 1 finding / 2 could not determine; the rc-2 probe names a root path that does not exist.
 check	storage-report	scripts/storage-report.sh	flag	--prove-failure	--root-path /nonexistent
 check	runner-flag	scripts/verify-runner-flag.sh	flag	--prove-failure	--root /nonexistent
+check	font-licences	scripts/verify-font-licences.sh	flag	--prove-failure	--root /nonexistent
 #
 # fleet-summary — T109 (unified 005/T031). Reports the fleet's live state as
 # the FR-009 two-number statement (defect vs declared-condition reds, never
