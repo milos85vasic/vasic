@@ -21,6 +21,7 @@
 #   R6  /Volumes/                                   -> <volume>/
 #   R7  /run/media/<u>/                             -> <media>/
 #   R8  /mnt/<name>/                                -> <mnt>/
+#   Every rule is left-bounded (see BND below): `https://github.com/home/x/a` is NOT touched.
 #   The right-hand sides contain no character the audit's pattern matches, so the
 #   output is idempotent: normalising twice equals normalising once.
 #
@@ -38,19 +39,25 @@ set -u
 
 # One rule per line, tagged so --prove-failure can delete exactly one. (sed -E)
 RULES='
-s#/home/[A-Za-z0-9_.-]+/\.cache/claude-tmp/[^ "'"'"':]*/scratchpad#<scratchpad>#g  #R1
-s#/home/[A-Za-z0-9_.-]+/Projects/vasic-wt-[A-Za-z0-9_.-]+#<worktree>#g  #R2
-s#/home/[A-Za-z0-9_.-]+/Projects/vasic([^A-Za-z0-9_-]|$)#<repo>\1#g  #R3
-s#/home/[A-Za-z0-9_.-]+/#<home>/#g  #R4
-s#/Users/[A-Za-z0-9_.-]+/#<home>/#g  #R5
-s#/[V]olumes/#<volume>/#g  #R6
-s#/run/media/[A-Za-z0-9_.-]+/#<media>/#g  #R7
-s#/mnt/[A-Za-z0-9_.-]+/#<mnt>/#g  #R8
+s#@B@/home/[A-Za-z0-9_.-]+/\.cache/claude-tmp/[^ "'"'"':]*/scratchpad#\1<scratchpad>#g  #R1
+s#@B@/home/[A-Za-z0-9_.-]+/Projects/vasic-wt-[A-Za-z0-9_.-]+#\1<worktree>#g  #R2
+s#@B@/home/[A-Za-z0-9_.-]+/Projects/vasic([^A-Za-z0-9_-]|$)#\1<repo>\2#g  #R3
+s#@B@/home/[A-Za-z0-9_.-]+/#\1<home>/#g  #R4
+s#@B@/Users/[A-Za-z0-9_.-]+/#\1<home>/#g  #R5
+s#@B@/[V]olumes/#\1<volume>/#g  #R6
+s#@B@/run/media/[A-Za-z0-9_.-]+/#\1<media>/#g  #R7
+s#@B@/mnt/[A-Za-z0-9_.-]+/#\1<mnt>/#g  #R8
 '
 
 # sed treats a trailing `  #R1` as part of the s command's flags area only if it
 # is not stripped; strip the tag comments to produce the script.
-build_script() { printf '%s\n' "$1" | sed -E 's/[[:space:]]+#R[0-9]+$//' | grep -v '^$'; }
+# LEFT BOUNDARY (@B@, reviewer nit N1): a rule only fires at the start of a line, after a
+# character that cannot continue a path/host name, or after `file://`. Without it
+# `https://github.com/home/x/a` was rewritten to `https://github.com<home>/a` (the
+# `/home/x/` inside a URL path is not a developer-host path). BND is overridable only
+# so --prove-failure can mutate it.
+BND='(^|[^A-Za-z0-9_.~/-]|file://)'
+build_script() { printf '%s\n' "$1" | sed -E 's/[[:space:]]+#R[0-9]+$//' | grep -v '^$' | BND_="${BND}" awk '{ i = index($0, "@B@"); while (i) { $0 = substr($0, 1, i-1) ENVIRON["BND_"] substr($0, i+3); i = index($0, "@B@") } print }'; }
 
 normalise_stream() { LC_ALL=C sed -E -f <(build_script "${1:-$RULES}"); }
 
@@ -83,6 +90,12 @@ Targets @H@/alice/.claude/CLAUDE.md here|Targets <home>/.claude/CLAUDE.md here
 @M@/carol/disk/x|<media>/disk/x
 @N@/data/x|<mnt>/x
 @H@/alice/Projects/vasic-digital-thing/x|<home>/Projects/vasic-digital-thing/x
+https://github.com@H@/x/a|https://github.com@H@/x/a
+https://example.org/srv@H@/x/a|https://example.org/srv@H@/x/a
+/srv@H@/x/a|/srv@H@/x/a
+file://@H@/alice/x|file://<home>/x
+a=@H@/alice/x b=(@H@/bob/y)|a=<home>/x b=(<home>/y)
+@H@/alice/a/ @H@/bob/b/|<home>/a/ <home>/b/
 nothing machine specific here, 100% clean|nothing machine specific here, 100% clean
 EOF
     return "$fail"
@@ -106,6 +119,10 @@ cmd_prove_failure() {
             echo "M$i  deleting rule R$i SLIPPED THROUGH"; fails=$((fails+1))
         fi
     done
+    # M8b: removing the LEFT BOUNDARY must be caught (the URL/prefixed-path fixtures fail).
+    if [ "$(BND='()' self_test_with "$RULES" 2>/dev/null | grep -c '^  FAIL')" -gt 0 ]; then
+        echo "M8b  removing the left boundary is CAUGHT by the self-test"
+    else echo "M8b  removing the left boundary SLIPPED THROUGH"; fails=$((fails+1)); fi
     # M9: a planted dirty file must make --check rc 1; a clean one rc 0; a missing one rc 2.
     local d; d=$(mktemp -d) || { echo "cannot mktemp"; return 2; }
     printf 'x %s/alice/Projects/vasic-wt-a/y\n' "/ho""me" > "$d/dirty"; printf 'clean\n' > "$d/clean"

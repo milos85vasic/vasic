@@ -282,6 +282,27 @@ if [[ "$MODE" == "prove" ]]; then
     # the fix would have handed anyone a one-line way to smuggle a path past it.
     plant_url()          { printf 'ref <https://example.invalid/home/publications/x>\n' >> "$1/scripts/tool.sh"; }
     plant_url_and_real() { printf 'ref <https://example.invalid/home/publications/x> DATA="%s"\n' "$SYN_PLANT" >> "$1/scripts/tool.sh"; }
+    # H13/H14: the scan is BATCHED through `xargs -0 -s 100000` (63534f0). A single
+    # batch hides a defect in the batching itself (a dropped or doubled batch, a
+    # per-batch state leak), so these two cases pad the tracked set past the byte
+    # bound -- the pad's own path bytes are CHECKED to exceed 2 x 100000, i.e. at
+    # least three batches -- and plant the violation in the FIRST and in the LAST
+    # file of the sorted list (first batch / last batch). Each must still be named.
+    multibatch_pad() {
+        local d="$1" i pad total=0
+        pad="$(printf 'x%.0s' $(seq 1 70))"
+        mkdir -p "$d/src/pad" || return 1
+        for i in $(seq 1 2600); do
+            printf 'no path here\n' > "$d/src/pad/${pad}_${i}.txt" || return 1
+        done
+        printf '# first\n' > "$d/aa_first.sh"; printf '# last\n' > "$d/zz_last.sh"
+        sgit -C "$d" add -A >/dev/null 2>&1 || return 1
+        total="$(sgit -C "$d" ls-files | wc -c)"
+        [[ "$total" -gt 200000 ]] || { echo "pad too small (need > 2 xargs batches): ${total} bytes" >&2; return 1; }
+    }
+    plant_batch_last()  { multibatch_pad "$1" && printf 'DATA_DIR="%s"\n' "$SYN_PLANT" >> "$1/zz_last.sh"  && sgit -C "$1" add -A >/dev/null 2>&1; }
+    plant_batch_first() { multibatch_pad "$1" && printf 'DATA_DIR="%s"\n' "$SYN_PLANT" >> "$1/aa_first.sh" && sgit -C "$1" add -A >/dev/null 2>&1; }
+    pad_only()          { multibatch_pad "$1"; }
     not_a_repo()     { rm -rf "$1/.git"; }
     no_such_dir()    { rm -rf "$1"; }
     empty_universe() { local d="$1"; rm -rf "$d"; mkdir -p "$d" && sgit -C "." init -q "$d" >/dev/null 2>&1; }
@@ -306,6 +327,9 @@ if [[ "$MODE" == "prove" ]]; then
     p_assert "H11 url-is-not-a-path" "a REMOTE URL whose path happens to contain /home/ — not local    " 0 "no machine-specific"     plant_url
     p_assert "H12 url-hides-nothing" "a real literal on the SAME LINE as such a URL is still caught    " 1 "scripts/tool.sh"         plant_url_and_real
     p_assert "H10 uninit-submodule"  "a declared submodule is not checked out — NOT a pass, NOT a fail" 2 "not initialised"         uninit_sub
+    p_assert "H13 multibatch-last"   "padded past 2 xargs batches, violation in the LAST batch        " 1 "zz_last.sh"             plant_batch_last
+    p_assert "H14 multibatch-first"  "padded past 2 xargs batches, violation in the FIRST batch       " 1 "aa_first.sh"            plant_batch_first
+    p_assert "H15 multibatch-clean"  "the same padding with NO violation is clean (no batch invents one)" 0 "no machine-specific"    pad_only
 
     # ---- restored control ----------------------------------------------------
     bash "$SELF_ABS" "$PRISTINE" >/dev/null 2>&1; rc=$?
@@ -320,10 +344,10 @@ if [[ "$MODE" == "prove" ]]; then
     if [[ $p_fails -eq 0 ]]; then
         echo "✅ CM-HARDCODED-PATHS §1.1 MUTATION PROOF: PASS — the REAL entry point ran against"
         echo "   the REAL tree (reported, never gating), a SYNTHETIC control green by construction"
-        echo "   passed, and 10 mutations each produced the required THREE-VALUED verdict while"
+        echo "   passed, and 13 mutations each produced the required THREE-VALUED verdict while"
         echo "   NAMING the offending thing: a planted violation as rc=1; three suppression"
         echo "   mechanisms as rc=0 that still name what they suppressed; a comment-only mention"
-        echo "   correctly ignored; and four could-not-determine states as rc=2 — never as a pass"
+        echo "   correctly ignored; a multi-batch scan (three or more xargs batches) still naming a violation in its first and last batch; and four could-not-determine states as rc=2 — never as a pass"
         echo "   and never as an accusation. The control is still green."
         exit 0
     fi
