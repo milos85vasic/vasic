@@ -4341,3 +4341,11 @@ WHAT: tracker referenced by SKIP-OK markers on test skips conditional on an abse
 
 WHAT: _tests/playwright.config.js testIgnore defers three specs to playwright.live.config.js, run by _tools/deploy-langs.sh LIVE_SPECS after each deploy. Acceptance: the specs stay in the live testMatch and LIVE_SPECS.
 
+## VSC-435 — job_seeker public snapshot repository job_seeker_public published on public hosts
+
+**Status:** Queued
+**Type:** Task
+**Severity:** medium
+
+WHAT: one-way fresh-history snapshot of vasic-digital/job_seeker (publish_snapshot.sh, PR job_seeker #82; AUDIT-GO + evidence job_seeker PR #94). Public (provider-reported 2026-11-24): https://github.com/vasic-digital/job_seeker_public , https://gitlab.com/vasic-digital/job_seeker_public , https://codeberg.org/vasic-digital/job_seeker_public , https://gitverse.ru/vasic-digital/job_seeker_public . m3w https://git.m3w.org/vasic-digital/job_seeker_public private by decision. GitFlic https://gitflic.ru/project/milosvasic/job_seeker_public still private: documented API cannot change visibility, operator must switch it in the project settings. Remaining: next snapshot after job_seeker gitlink removal lands; licences for containers/challenges/security are operator decisions. Acceptance: GitFlic public, updated snapshot, anonymous clone proof on every public host.
+
