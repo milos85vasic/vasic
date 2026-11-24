@@ -96,3 +96,30 @@ def _rot(cp: int) -> int:
     if 0x41 <= cp <= 0x5A:
         return 0x41 + (cp - 0x41 + 1) % 26
     return cp
+
+
+def visual_order_pdf(html_src: Path, dst: Path, lang: str) -> Path:
+    """A REAL visually-mirrored RTL artifact (JSK-T169 RED), rendered by the real WeasyPrint engine from the real
+    document HTML: the paragraph is forced ``ltr`` and every word is an isolated span in LOGICAL order, so the words
+    sit left to right in the order a reader should meet them right to left.  Both supported readers (MuPDF and
+    ``pdftotext -layout``) then return the words of each line last-first: the visual order is wrong, which is the
+    defect a renderer that lays RTL runs out left to right produces."""
+    import html as _h
+    import re
+    from career.render import html as html_engine
+    from career.extract_gates import _is_rtl_word
+
+    src = Path(html_src).read_text(encoding="utf-8")
+    head, sep, body = src.partition("</head>")
+
+    def node(m: "re.Match[str]") -> str:
+        toks = _h.unescape(m.group(1)).split()
+        if sum(1 for t in toks if _is_rtl_word(t)) < 2:
+            return m.group(0)
+        spans = [f'<span dir="{"rtl" if _is_rtl_word(t) else "ltr"}" style="unicode-bidi:isolate">{_h.escape(t)}</span>'
+                 for t in toks]
+        return ">" + " ".join(spans) + "<"
+
+    body = re.sub(r">([^<>]+)<", node, body)
+    out = (head + '<style>html,body{direction:ltr;text-align:right}</style>' + sep + body).replace('dir="rtl"', 'dir="ltr"', 1)
+    return html_engine.compile_pdf(out, Path(dst), lang=lang)

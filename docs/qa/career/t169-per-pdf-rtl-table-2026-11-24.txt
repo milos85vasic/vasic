@@ -1,0 +1,11 @@
+# T169 per-PDF table: share of the source's pure-RTL 3-word phrases read FORWARD (logical order) per reader, fresh WeasyPrint PDFs (ai-engineering) and their visually-mirrored twins
+# 'raw' and 'pypdf' are informational only: NOT supported readers (extract_gates.RTL_TARGET_EXTRACTORS = pdftotext-layout, mupdf)
+pdf                                   phr  layout   mupdf  raw(info)  pypdf(info) gate  validate_pdf
+cv-ai-engineering-ar.pdf              123     113     117          0          111 PASS  rc=0
+cv-ai-engineering-fa.pdf              134     132     127          0          123 PASS  rc=0
+cover-ai-engineering-ar.pdf            46      41      41          0           40 PASS  rc=0
+cover-ai-engineering-fa.pdf            55      51      48          0           48 PASS  rc=0
+--- visually-mirrored twins (real WeasyPrint render of the same documents, words laid out last-first)
+bad-cv-ai-engineering-ar.pdf          123       0       0         82          123 FAIL  rc=1
+bad-cv-ai-engineering-fa.pdf          134       0       0        129          134 FAIL  rc=1
+bad-cover-ai-engineering-ar.pdf        46       0       0         32           46 FAIL  rc=1

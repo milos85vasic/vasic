@@ -70,6 +70,18 @@ class PureDetectors(unittest.TestCase):
         self.assertTrue(g.check_hyphenation(explicit, None))                         # no source => cannot excuse
         self.assertEqual(g.check_hyphenation(["whole words only"], src), [])
 
+    def test_unspaced_cjk_line_end_hyphen_is_judged_by_its_own_word(self):
+        """zh/ja have no spaces, so the text before a line-end hyphen is a whole clause with full-width punctuation.
+        A break at the SOURCE hyphen of ``tree-of-thoughts`` is explicit; a cut inside a word is still automatic."""
+        src = "規划（hiplan／mcts／tree-of-thoughts）、llmops、基准测试（swe-bench"
+        explicit = ["规划（hiplan／mcts／tree-\nof-thoughts）、llmops、基准测试（swe-bench"]
+        b = g.hyphen_breaks(explicit, src)
+        self.assertEqual((len(b["auto"]), len(b["explicit"])), (0, 1), b)
+        auto = ["规划（hiplan／mcts／tree-of-thoughts）、基准测试（evalua-\ntion、llmops"]
+        b = g.hyphen_breaks(auto, src)
+        self.assertEqual((len(b["auto"]), len(b["explicit"])), (1, 0), b)
+        self.assertTrue(g.check_hyphenation(auto, src))
+
 
 class WordBoundaryPure(unittest.TestCase):
     """JSK-T168: tokens per extractor must agree (min/max >= 0.9) outside the unspaced CJK scripts."""
@@ -301,6 +313,82 @@ class BrokenArtifactHyphenation(unittest.TestCase):
                 good = self._build(td, lang, None)
                 self.assertEqual(g.hyphen_breaks(g.pages_of(good), g.sibling_source_text(good))["auto"], [], lang)
                 self.assertEqual(gates.validate_pdf(good, "cv", lang)[0], 0, lang)
+
+
+class RtlLogicalOrderPure(unittest.TestCase):
+    """JSK-T169: supported readers are MuPDF and pdftotext -layout; both must read ar/fa words in logical order."""
+
+    HTML = ("<html><head><title>\u0647\u0646\u062f\u0633\u0629 \u0627\u0644\u0630\u0643\u0627\u0621 \u0627\u0644\u0627\u0635\u0637\u0646\u0627\u0639\u064a</title></head>"
+            "<body><p>\u0623\u0635\u0645\u0645 \u0623\u0633\u0627\u0637\u064a\u0644 \u0644\u0627 \u0643\u062a\u0644\u0627\u064b \u0645\u062a\u0631\u0627\u0635\u0629 LLM 2026, \u0628\u0644</p></body></html>")
+
+    def test_phrases_come_from_body_text_only_and_stop_at_latin_digits_punctuation(self):
+        ph = g.rtl_phrases_from_source(self.HTML)
+        self.assertEqual(ph, ["\u0623\u0635\u0645\u0645 \u0623\u0633\u0627\u0637\u064a\u0644 \u0644\u0627"])   # head/title excluded; non-overlapping 3-word windows; the Latin/digit tail is never part of a phrase
+
+    def _with(self, layout, mupdf):
+        saved = g._rtl_extractions
+        g._rtl_extractions = lambda p: {"pdftotext-layout": layout, "mupdf": mupdf}
+        try:
+            return g.check_rtl_logical_order(Path("x.pdf"), ["\u0623\u0635\u0645\u0645 \u0623\u0633\u0627\u0637\u064a\u0644 \u0644\u0627"] * 1 + ["\u0645\u0647\u0646\u062f\u0633 \u0630\u0643\u0627\u0621 \u0627\u0635\u0637\u0646\u0627\u0639\u064a"])
+        finally:
+            g._rtl_extractions = saved
+
+    def test_forward_passes_reversed_fails_in_either_reader(self):
+        fwd = "\u0623\u0635\u0645\u0645 \u0623\u0633\u0627\u0637\u064a\u0644 \u0644\u0627 \u0645\u0647\u0646\u062f\u0633 \u0630\u0643\u0627\u0621 \u0627\u0635\u0637\u0646\u0627\u0639\u064a"
+        rev = "\u0627\u0635\u0637\u0646\u0627\u0639\u064a \u0630\u0643\u0627\u0621 \u0645\u0647\u0646\u062f\u0633 \u0644\u0627 \u0623\u0633\u0627\u0637\u064a\u0644 \u0623\u0635\u0645\u0645"
+        self.assertEqual(self._with(fwd, fwd), [])
+        for a, b, who in ((rev, fwd, "pdftotext-layout"), (fwd, rev, "mupdf")):
+            r = self._with(a, b)
+            self.assertEqual(len(r), 1, r)
+            self.assertIn(who, r[0])
+
+    def test_absent_reader_or_no_phrases_cannot_determine(self):
+        fwd = "\u0623\u0635\u0645\u0645 \u0623\u0633\u0627\u0637\u064a\u0644 \u0644\u0627"
+        self.assertIsNone(self._with(None, fwd))
+        self.assertIsNone(g.check_rtl_logical_order(Path("x.pdf"), []))
+
+    def test_left_to_right_locale_is_not_judged(self):
+        self.assertEqual(g.check_rtl_document(Path("x.pdf"), "en"), [])
+
+    def test_raw_reader_is_not_a_target(self):
+        self.assertNotIn("pdftotext-raw", g.RTL_TARGET_EXTRACTORS)
+        self.assertNotIn("pypdf", g.RTL_TARGET_EXTRACTORS)
+
+
+@unittest.skipUnless(TOOLS and g.shutil.which("mutool"), "lualatex, pdftotext or mutool missing: cannot determine")
+class RtlRealPdfs(unittest.TestCase):
+    """Fresh ar/fa PDFs from the real renderer pass; a real visually-mirrored PDF is refused with the T169 message."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.td, cls.out, cls.priv = sample_build.scratch_pair()
+        sample_build.build_sample(cls.out, cls.priv, langs=("ar", "fa"), write=False)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.td.cleanup()
+
+    def test_fresh_pdfs_pass_and_mirrored_pdfs_are_refused(self):
+        for kind, lang in (("cv", "ar"), ("cv", "fa"), ("cover", "ar")):
+            pdf = self.out / f"{kind}-ai-engineering-{lang}.pdf"
+            self.assertEqual(g.check_rtl_document(pdf, lang), [], pdf.name)
+            self.assertEqual(gates.validate_pdf(pdf, kind, lang)[0], 0, pdf.name)
+            bad = sample_build.visual_order_pdf(pdf.with_suffix(".html"), self.out / f"bad-{pdf.name}", lang)
+            (self.out / f"bad-{pdf.stem}.html").write_text(pdf.with_suffix(".html").read_text(encoding="utf-8"), encoding="utf-8")
+            r = g.check_rtl_document(bad, lang)
+            self.assertEqual(len(r), 2, (pdf.name, r))
+            rc, msg = gates.validate_pdf(bad, kind, lang)
+            self.assertEqual(rc, 1, msg)
+            self.assertIn("RTL words not in logical order", msg)
+
+    def test_missing_html_source_cannot_determine(self):
+        pdf = self.out / "cv-ai-engineering-ar.pdf"
+        hidden = pdf.with_suffix(".html").rename(self.out / "hidden.html")
+        try:
+            self.assertIsNone(g.check_rtl_document(pdf, "ar"))
+            self.assertEqual(gates.validate_pdf(pdf, "cv", "ar")[0], 2)
+        finally:
+            hidden.rename(pdf.with_suffix(".html"))
 
 
 if __name__ == "__main__":
