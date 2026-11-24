@@ -37,19 +37,19 @@ provably regenerable caches may be dropped, and their size is recorded.
 
 | Consumer | Original path | Now | Drive |
 |---|---|---|---|
-| Podman graphroot (images, containers, volumes) | `~/.local/share/containers/storage` | symlink to `/mnt/DATA1TB/containers/storage` | FAST |
+| Podman graphroot (images, containers, volumes) | `~/.local/share/containers/storage` | symlink to `<FAST mount>/containers/storage` | FAST |
 | Podman runroot | `/run/user/1000/containers` | unchanged (tmpfs) | n/a |
-| Go build cache | `~/.cache/go-build` | `GOCACHE=/mnt/DATA1TB/claude-work/gocache` | FAST |
-| Go module cache | `~/go/pkg/mod` | `GOMODCACHE=/mnt/DATA1TB/claude-work/gomodcache` (and symlink) | FAST |
-| npm cache | `~/.npm` | `npm_config_cache=/mnt/DATA1TB/claude-work/npm` (and symlink) | FAST |
-| Gradle home | `~/.gradle` | `GRADLE_USER_HOME=/mnt/DATA1TB/claude-work/gradle` (and symlink) | FAST |
-| Maven repository | `~/.m2` | symlink to `/mnt/DATA1TB/claude-work/m2` | FAST |
-| pip cache | `~/.cache/pip` | `PIP_CACHE_DIR=/mnt/DATA1TB/claude-work/pip-cache` | FAST |
-| Cargo / rustup (if ever installed) | `~/.cargo`, `~/.rustup` | `CARGO_HOME`, `RUSTUP_HOME` under `/mnt/DATA1TB/claude-work` | FAST |
-| LSP servers (clangd, swift/sourcekit-lsp, kotlin-lsp, lsp-dl, ruby gems) | `~/.local/share/{clangd,swift,kotlin-lsp,lsp-dl,gem}` | symlinks to `/mnt/DATA1TB/claude-work/lsp/*`; `~/.local/bin` wrappers unchanged | FAST |
-| Local vision-model weights (job_seeker vision QA, user-level ollama on 127.0.0.1:11500) | `~/.ollama/models` (ollama default) | `OLLAMA_MODELS=/mnt/DATA1TB/claude-work/ollama-models` set by `job_seeker/scripts/vision-ollama.sh`; server home `/mnt/DATA1TB/claude-work/ollama-user` | FAST |
-| Local model weights (llmctl) | `~/.local/share/llmctl/models` | symlink to `/mnt/DATA7TB/claude-work/llmctl/models` | BULK |
-| Cold agent scratch and archives | `~/.cache/claude-tmp/...` (idle sessions) | symlinks into `/mnt/DATA7TB/claude-work/scratch-archive` | BULK |
+| Go build cache | `~/.cache/go-build` | `GOCACHE=$VASIC_FAST_STORE/gocache` | FAST |
+| Go module cache | `~/go/pkg/mod` | `GOMODCACHE=$VASIC_FAST_STORE/gomodcache` (and symlink) | FAST |
+| npm cache | `~/.npm` | `npm_config_cache=$VASIC_FAST_STORE/npm` (and symlink) | FAST |
+| Gradle home | `~/.gradle` | `GRADLE_USER_HOME=$VASIC_FAST_STORE/gradle` (and symlink) | FAST |
+| Maven repository | `~/.m2` | symlink to `$VASIC_FAST_STORE/m2` | FAST |
+| pip cache | `~/.cache/pip` | `PIP_CACHE_DIR=$VASIC_FAST_STORE/pip-cache` | FAST |
+| Cargo / rustup (if ever installed) | `~/.cargo`, `~/.rustup` | `CARGO_HOME`, `RUSTUP_HOME` under `$VASIC_FAST_STORE` | FAST |
+| LSP servers (clangd, swift/sourcekit-lsp, kotlin-lsp, lsp-dl, ruby gems) | `~/.local/share/{clangd,swift,kotlin-lsp,lsp-dl,gem}` | symlinks to `$VASIC_FAST_STORE/lsp/*`; `~/.local/bin` wrappers unchanged | FAST |
+| Local vision-model weights (job_seeker vision QA, user-level ollama on 127.0.0.1:11500) | `~/.ollama/models` (ollama default) | `OLLAMA_MODELS=$VASIC_FAST_STORE/ollama-models` set by `job_seeker/scripts/vision-ollama.sh`; server home `$VASIC_FAST_STORE/ollama-user` | FAST |
+| Local model weights (llmctl) | `~/.local/share/llmctl/models` | symlink to `$VASIC_BULK_STORE/llmctl/models` | BULK |
+| Cold agent scratch and archives | `~/.cache/claude-tmp/...` (idle sessions) | symlinks into `$VASIC_BULK_STORE/scratch-archive` | BULK |
 | Agent scratch (current session) | `$TMPDIR` set by the agent harness | unchanged; keep large outputs on FAST or BULK explicitly | n/a |
 
 `~/Projects` (the repositories and their worktrees) stays on the root filesystem. Working
@@ -96,7 +96,7 @@ the agent harness and desktop applications own them.
 ## 5. Moving an existing directory safely
 
 ```bash
-SRC=~/.some/cache; DST=/mnt/DATA1TB/claude-work/some-cache
+SRC=~/.some/cache; DST=$VASIC_FAST_STORE/some-cache
 mkdir -p "$DST"
 rsync -a "$SRC"/ "$DST"/              # bulk copy while the tool may still run
 rsync -a -n -i "$SRC"/ "$DST"/        # dry run: empty output means identical

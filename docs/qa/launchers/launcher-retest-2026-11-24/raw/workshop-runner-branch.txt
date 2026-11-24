@@ -40,17 +40,17 @@ runner: podman (selected by flag)
 >> AUTH_SHARED_SECRET_FILE is unset: authkit audience-scoped tokens are OFF (a presented X-Authkit-Token is refused)
 require: OK  (8 entries)
 >> control plane not built yet; building ...
->> containers submodule: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/submodules/containers
-replace target ../../../submodules/passage (in /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/backend/go.mod) does not exist
-PROBLEM: workshop-server failed to build from /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/backend/./cmd/workshop-server
+>> containers submodule: <scratchpad>/vasic/submodules/containers
+replace target ../../../submodules/passage (in <scratchpad>/vasic/workshop/platform/backend/go.mod) does not exist
+PROBLEM: workshop-server failed to build from <scratchpad>/vasic/workshop/platform/backend/./cmd/workshop-server
 --- rc=1
 === [start-runner-podman-altport] $ bash scripts/start.sh --runner=podman --port 18087 --wait-healthy 120
 >> stamping workshop-server: build=7797b732-20261124T125120Z dirty=false src_dirty=false (8 input module(s))
->> building workshop-server (static) from /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/backend/./cmd/workshop-server ...
->>    -> /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/bin/workshop-server (7797b732-20261124T125120Z, src_dirty=false)
+>> building workshop-server (static) from <scratchpad>/vasic/workshop/platform/backend/./cmd/workshop-server ...
+>>    -> <scratchpad>/vasic/workshop/platform/bin/workshop-server (7797b732-20261124T125120Z, src_dirty=false)
 >> starting the workshop curriculum stack ...
-2026/11/24 13:51:28 [INFO]  workshop-boot: compose up: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest up -d --no-recreate
-2026/11/24 13:51:28 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest up -d --no-recreate (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform)
+2026/11/24 13:51:28 [INFO]  workshop-boot: compose up: podman-compose -f <scratchpad>/vasic/workshop/platform/compose.yml --project-name wsretest up -d --no-recreate
+2026/11/24 13:51:28 [DEBUG] workshop-boot: executing: podman-compose -f <scratchpad>/vasic/workshop/platform/compose.yml --project-name wsretest up -d --no-recreate (dir: <scratchpad>/vasic/workshop/platform)
 2026/11/24 13:51:29 [DEBUG] workshop-boot: compose command completed successfully
 2026/11/24 13:51:29 [DEBUG] workshop-boot: podman-compose wait: all requested services ready (1)
   platform                     running
@@ -95,8 +95,8 @@ WORKSHOP_OOMD_OUTCOME=applied
 WORKSHOP_OOMD_OUTCOME=applied
 --- rc=0
 === [stop-runner-podman] $ bash scripts/stop.sh --runner=podman
-2026/11/24 13:52:56 [INFO]  workshop-boot: compose down: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20
-2026/11/24 13:52:56 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20 (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform)
+2026/11/24 13:52:56 [INFO]  workshop-boot: compose down: podman-compose -f <scratchpad>/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20
+2026/11/24 13:52:56 [DEBUG] workshop-boot: executing: podman-compose -f <scratchpad>/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20 (dir: <scratchpad>/vasic/workshop/platform)
 2026/11/24 13:52:57 [DEBUG] workshop-boot: compose command completed successfully
 STOPPED
 named volumes preserved (search index and transcripts intact)
@@ -106,8 +106,8 @@ named volumes preserved (search index and transcripts intact)
 listeners:
 (none)
 === [stop-again-runner-podman] $ bash scripts/stop.sh --runner=podman
-2026/11/24 13:53:04 [INFO]  workshop-boot: compose down: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20
-2026/11/24 13:53:04 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20 (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform)
+2026/11/24 13:53:04 [INFO]  workshop-boot: compose down: podman-compose -f <scratchpad>/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20
+2026/11/24 13:53:04 [DEBUG] workshop-boot: executing: podman-compose -f <scratchpad>/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20 (dir: <scratchpad>/vasic/workshop/platform)
 2026/11/24 13:53:05 [DEBUG] workshop-boot: compose command completed successfully
 STOPPED
 named volumes preserved (search index and transcripts intact)
@@ -116,7 +116,7 @@ named volumes preserved (search index and transcripts intact)
 UP: http://127.0.0.1:18087
 >> oomd protection: libpod-e5a52de64818e29273d290dd94b58753bebbe0e634a1d4bacf69db545aea6350.scope ManagedOOMPreference=avoid, cgroup user.oomd_avoid=1, drop-in present
 WORKSHOP_OOMD_OUTCOME=applied
-seed-test-accounts: COULD NOT DETERMINE: no student password (export WORKSHOP_TEST_SEED_PASSWORD_STUDENT, or add that key to the gitignored, 0600 /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/.env). Nothing was written.
+seed-test-accounts: COULD NOT DETERMINE: no student password (export WORKSHOP_TEST_SEED_PASSWORD_STUDENT, or add that key to the gitignored, 0600 <scratchpad>/vasic/workshop/.env). Nothing was written.
 WARN: restart: seed-test-accounts.sh did not complete (the stack itself is up); run it by hand
 --- rc=0
 === [health-after-restart] $ curl -sS -m 5 -o /dev/null -w HTTP %{http_code}\n http://127.0.0.1:18087/api/health
@@ -126,12 +126,12 @@ HTTP 200
 UP: http://127.0.0.1:18087
 >> oomd protection: libpod-2b1bb8dc0bb33cf5675092caccd16f4325bc98f0b3bcc385f2b69ef8e0c52cc3.scope ManagedOOMPreference=avoid, cgroup user.oomd_avoid=1, drop-in present
 WORKSHOP_OOMD_OUTCOME=applied
-seed-test-accounts: COULD NOT DETERMINE: no student password (export WORKSHOP_TEST_SEED_PASSWORD_STUDENT, or add that key to the gitignored, 0600 /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/.env). Nothing was written.
+seed-test-accounts: COULD NOT DETERMINE: no student password (export WORKSHOP_TEST_SEED_PASSWORD_STUDENT, or add that key to the gitignored, 0600 <scratchpad>/vasic/workshop/.env). Nothing was written.
 WARN: restart: seed-test-accounts.sh did not complete (the stack itself is up); run it by hand
 --- rc=0
 === [stop-final] $ bash scripts/stop.sh --runner=podman
-2026/11/24 13:55:18 [INFO]  workshop-boot: compose down: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20
-2026/11/24 13:55:18 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20 (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/vasic/workshop/platform)
+2026/11/24 13:55:18 [INFO]  workshop-boot: compose down: podman-compose -f <scratchpad>/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20
+2026/11/24 13:55:18 [DEBUG] workshop-boot: executing: podman-compose -f <scratchpad>/vasic/workshop/platform/compose.yml --project-name wsretest down --timeout 20 (dir: <scratchpad>/vasic/workshop/platform)
 2026/11/24 13:55:19 [DEBUG] workshop-boot: compose command completed successfully
 STOPPED
 named volumes preserved (search index and transcripts intact)

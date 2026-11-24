@@ -1,3 +1,3 @@
-$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf/job_seeker) : ./bin/jsstack --runner bogus probe
+$ (cd <scratchpad>/umf/job_seeker) : ./bin/jsstack --runner bogus probe
 jsstack: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
 rc=2

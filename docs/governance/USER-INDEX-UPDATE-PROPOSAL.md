@@ -4,7 +4,7 @@
 |---|---|
 | Revision | 1 |
 | Date | 2026-11-24 |
-| Targets | `/home/milosvasic/.claude/CLAUDE.md` (regular file), `/home/milosvasic/.claude-claude3/CLAUDE.md` (symlink to `~/.claude-shared/CLAUDE.md`) |
+| Targets | `~/.claude/CLAUDE.md` (regular file), `~/.claude-claude3/CLAUDE.md` (symlink to `~/.claude-shared/CLAUDE.md`) |
 | Status | PROPOSAL ONLY. Nothing under `~` was edited. |
 
 ## Why a proposal and not an edit

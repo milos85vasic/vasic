@@ -13,7 +13,10 @@ ABSENT=docker; command -v docker >/dev/null 2>&1 && { echo "docker present: abse
 printf 'launcher\tflag_eq\tflag_sp\tenv\thelp_rc0\tbogus_rc2\tbogus_sp_rc2\tenvbogus_rc2\tabsent_rc2\tverdict\n' > "$TSV"
 run() { # run <rawname> <env-assign-or-:> cmd...  -> sets RC, writes raw
   local raw="$OUT/raw/$1.txt"; local e="$2"; shift 2
-  { echo "\$ (cd $PWD) ${e} $*"; env ${e/:/} timeout 60 "$@" </dev/null; echo "rc=$?"; } >"$raw" 2>&1
+  # Normalised AT CAPTURE TIME (scripts/normalise-evidence-paths.sh): captured evidence must not carry
+  # developer-host paths (audit-hardcoded-paths.sh), and an after-the-fact rewrite breaks the seal.
+  { echo "\$ (cd $PWD) ${e} $*"; env ${e/:/} timeout 60 "$@" </dev/null; echo "rc=$?"; } 2>&1 \
+    | bash "$U/scripts/normalise-evidence-paths.sh" >"$raw"
   RC=$(tail -1 "$raw" | sed 's/rc=//')
 }
 cell() { [ "$1" = "$2" ] && echo OK || echo "FAIL($1)"; }
