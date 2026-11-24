@@ -80,6 +80,62 @@ root at `submodules/containers`, or `$CONTAINERS_DIR`. If it is missing, or the
 submodule is pinned before the selector landed, the launcher exits **2** and says
 which `git submodule update --init` command fixes it; it never skips the flag.
 
+## Try it out, project by project
+
+Every command below was executed for real on the development host (podman
+present, docker absent) -- raw output, with the matrix of every launcher, is in
+[`docs/qa/launchers/launcher-runner-matrix-2026-11-24/`](qa/launchers/launcher-runner-matrix-2026-11-24/).
+Run from the umbrella root unless a `cd` is shown. `--runner NAME`,
+`--runner=NAME` and `CONTAINERS_RUNNER=NAME` are interchangeable; an unknown
+runner, or a forced runner that is not installed (docker here), exits **2** with
+no fallback.
+
+```bash
+# umbrella (vasic.digital static server; add --only mv / workshop / ai for the others)
+bash scripts/qa-up.sh --runner=podman --only vd      # start; prints the discovered URL
+bash scripts/qa-up.sh --runner=podman --stop         # stop only what it started
+bash scripts/qa-up.sh --runner=docker --only workshop   # rc 2: docker absent, nothing booted
+
+# milosvasic.ru (Jekyll in a container; Ctrl-C stops it, or see the down command below)
+cd milosvasic.ru && bash ./start.sh --runner=podman --dry-run   # print the command, rc 0
+cd milosvasic.ru && bash ./start.sh --runner=podman             # http://127.0.0.1:4000/
+cd milosvasic.ru && MV_SITE_DIR=$PWD podman-compose -p milosvasic-ru-serve -f _container/compose.serve.yml down
+
+# workshop (use an isolated project and port; the live stack on :8087 is never touched)
+cd workshop && export WORKSHOP_PROJECT_NAME=try-runner WORKSHOP_HTTP_PORT=18087
+bash scripts/start.sh   --runner=podman
+bash scripts/status.sh  --runner=podman              # RUNNING rc 0 / STOPPED rc 1 (needs workshop branch pr/status-runner-flag, NOT yet merged: see matrix)
+bash scripts/restart.sh --runner=podman              # add --dry-run to only print the plan
+bash scripts/stop.sh    --runner podman
+bash scripts/run-isolated.sh --runner=podman         # native server: flag accepted and ignored (same unmerged branch)
+
+# ai_interviewing (native server, no containers: the flag is validated and acknowledged)
+cd ai_interviewing/platform/scripts
+bash ./start.sh --runner=podman && bash ./status.sh --runner=podman && bash ./restart.sh --runner=podman && bash ./stop.sh --runner=podman
+
+# job_seeker (compose stack through jsstack)
+cd job_seeker && ./bin/jsstack --runner=podman probe
+cd job_seeker && bash gates/live_h3.sh --runner=podman   # boots + tears down its own project js-live-h3
+
+# containers module's own boot driver / site-build / ocr / runtime-probe
+_tools/containers/bin/runtime-probe --runner=podman      # runtime=podman ... source=flag
+_tools/containers/bin/site-build --runner=podman -probe
+
+# umbrella tools
+bash _tools/deploy-langs.sh --runner=podman --dry-run
+bash _tools/hawkscan/run.sh --runner=podman              # needs HAWK_API_KEY (else skipped, rc 0)
+bash _tools/od/start-daemon.sh --runner=podman           # native Electron: flag ignored (macOS app only)
+```
+
+Not launchers of containers, so no flag: `_tools/translate/run-batch.sh`
+(drives the translation API through `translate-content.sh`), `platform/qa/helixqa/run-suite.sh`
+in workshop and ai_interviewing (test-bank runners that expect a stack already up),
+and the in-container scripts listed above.
+
+Re-run the whole matrix (every launcher x help / `--runner=bogus` / `--runner bogus`
+/ env bogus / absent runner / accepted forms):
+`bash docs/qa/launchers/launcher-runner-matrix-2026-11-24/run-matrix.sh`.
+
 ## Evidence
 
 `bash scripts/verify-runner-flag.sh` executes the real launchers and binaries on
