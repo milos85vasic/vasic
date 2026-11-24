@@ -1,0 +1,223 @@
+{
+  "date": "2026-11-24",
+  "vault_source": "career_private branch seal-vault-2026-11-24 commit a159916 (vault/), exported via git archive",
+  "checks": [
+    {
+      "name": "unlock-success",
+      "ok": true,
+      "detail": "Authentication succeeded — 300 file(s) available."
+    },
+    {
+      "name": "300-files",
+      "ok": true,
+      "detail": "300"
+    },
+    {
+      "name": "passphrase-field-cleared-after-unlock",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "download-identical ai-engineering/ar/cv",
+      "ok": true,
+      "detail": "528b854a2cd756f8 ms=63"
+    },
+    {
+      "name": "pdftotext ai-engineering/ar/cv",
+      "ok": true,
+      "detail": "chars=7658 script=arabic"
+    },
+    {
+      "name": "download-identical ai-engineering/ja/cv",
+      "ok": true,
+      "detail": "a648bd6bcb8e0e4f ms=83"
+    },
+    {
+      "name": "pdftotext ai-engineering/ja/cv",
+      "ok": true,
+      "detail": "chars=5111 script=cjk"
+    },
+    {
+      "name": "download-identical ai-engineering/en/cv",
+      "ok": true,
+      "detail": "f2f972b2ef055eb7 ms=67"
+    },
+    {
+      "name": "pdftotext ai-engineering/en/cv",
+      "ok": true,
+      "detail": "chars=6619 script=latin"
+    },
+    {
+      "name": "download-identical ai-engineering/fa/cv",
+      "ok": true,
+      "detail": "4f4f4a837c937090 ms=72"
+    },
+    {
+      "name": "pdftotext ai-engineering/fa/cv",
+      "ok": true,
+      "detail": "chars=7210 script=persian"
+    },
+    {
+      "name": "download-identical ai-engineering/ja/cover",
+      "ok": true,
+      "detail": "094150a8bfc43d9a ms=58"
+    },
+    {
+      "name": "pdftotext ai-engineering/ja/cover",
+      "ok": true,
+      "detail": "chars=1348 script=cjk"
+    },
+    {
+      "name": "lock-hides-picker",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "lock-hides-lock-btn",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "lock-clears-file-buttons",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "lock-clears-passphrase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "lock-status",
+      "ok": true,
+      "detail": "Locked."
+    },
+    {
+      "name": "wrong-generic-error",
+      "ok": true,
+      "detail": "Authentication failed: this is not the published document."
+    },
+    {
+      "name": "wrong-picker-stays-hidden",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "wrong-clears-field",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "throttle-armed",
+      "ok": true,
+      "detail": "Too many failures; wait 1 s."
+    },
+    {
+      "name": "throttle-no-picker",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "console-errors-zero",
+      "ok": true,
+      "detail": "0"
+    }
+  ],
+  "downloads": [
+    {
+      "slot": "ai-engineering/ar/cv",
+      "suggested_filename": "cv-ai-engineering-ar.pdf",
+      "bytes": 42979,
+      "sha256_downloaded": "528b854a2cd756f8500eeee8727bf25825f2a5d9833a65676ba1e332437d3cb9",
+      "source_pdf": ".cache-career/cv-ai-engineering-ar.pdf",
+      "sha256_source": "528b854a2cd756f8500eeee8727bf25825f2a5d9833a65676ba1e332437d3cb9",
+      "identical": true,
+      "magic_pdf": true,
+      "pdftotext_chars": 7658,
+      "script_check": "arabic",
+      "script_ok": true,
+      "click_to_download_ms": 63,
+      "status": "Downloaded cv-ai-engineering-ar.pdf (42979 bytes), authenticated."
+    },
+    {
+      "slot": "ai-engineering/ja/cv",
+      "suggested_filename": "cv-ai-engineering-ja.pdf",
+      "bytes": 99944,
+      "sha256_downloaded": "a648bd6bcb8e0e4f1c44fc3ba74d1be4ae9067bdf59600fcf5a80b02fbec888c",
+      "source_pdf": ".cache-career/cv-ai-engineering-ja.pdf",
+      "sha256_source": "a648bd6bcb8e0e4f1c44fc3ba74d1be4ae9067bdf59600fcf5a80b02fbec888c",
+      "identical": true,
+      "magic_pdf": true,
+      "pdftotext_chars": 5111,
+      "script_check": "cjk",
+      "script_ok": true,
+      "click_to_download_ms": 83,
+      "status": "Downloaded cv-ai-engineering-ja.pdf (99944 bytes), authenticated."
+    },
+    {
+      "slot": "ai-engineering/en/cv",
+      "suggested_filename": "cv-ai-engineering-en.pdf",
+      "bytes": 38601,
+      "sha256_downloaded": "f2f972b2ef055eb75a6d09f964675b895833fa203f51ea8989046ee129ea7299",
+      "source_pdf": ".cache-career/cv-ai-engineering-en.pdf",
+      "sha256_source": "f2f972b2ef055eb75a6d09f964675b895833fa203f51ea8989046ee129ea7299",
+      "identical": true,
+      "magic_pdf": true,
+      "pdftotext_chars": 6619,
+      "script_check": "latin",
+      "script_ok": true,
+      "click_to_download_ms": 67,
+      "status": "Downloaded cv-ai-engineering-en.pdf (38601 bytes), authenticated."
+    },
+    {
+      "slot": "ai-engineering/fa/cv",
+      "suggested_filename": "cv-ai-engineering-fa.pdf",
+      "bytes": 43036,
+      "sha256_downloaded": "4f4f4a837c9370906e7dc6083e02739092f784cf9265e2ecbfea08bc5fbd0599",
+      "source_pdf": ".cache-career/cv-ai-engineering-fa.pdf",
+      "sha256_source": "4f4f4a837c9370906e7dc6083e02739092f784cf9265e2ecbfea08bc5fbd0599",
+      "identical": true,
+      "magic_pdf": true,
+      "pdftotext_chars": 7210,
+      "script_check": "persian",
+      "script_ok": true,
+      "click_to_download_ms": 72,
+      "status": "Downloaded cv-ai-engineering-fa.pdf (43036 bytes), authenticated."
+    },
+    {
+      "slot": "ai-engineering/ja/cover",
+      "suggested_filename": "cover-ai-engineering-ja.pdf",
+      "bytes": 66396,
+      "sha256_downloaded": "094150a8bfc43d9a82d8f3643f58e0d3f8b1e347a3458b657922a43de320bfdd",
+      "source_pdf": ".cache-career/cover-ai-engineering-ja.pdf",
+      "sha256_source": "094150a8bfc43d9a82d8f3643f58e0d3f8b1e347a3458b657922a43de320bfdd",
+      "identical": true,
+      "magic_pdf": true,
+      "pdftotext_chars": 1348,
+      "script_check": "cjk",
+      "script_ok": true,
+      "click_to_download_ms": 58,
+      "status": "Downloaded cover-ai-engineering-ja.pdf (66396 bytes), authenticated."
+    }
+  ],
+  "timings_ms": {
+    "unlock": 364,
+    "wrong_passphrase": 190
+  },
+  "console_errors": [],
+  "page_errors": [],
+  "browser": "chromium 149.0.7827.55",
+  "unlock_status": "Authentication succeeded — 300 file(s) available.",
+  "files_listed": 300,
+  "areas": 10,
+  "langs": 15,
+  "wrong_status": "Authentication failed: this is not the published document.",
+  "throttle_status": "Too many failures; wait 1 s.",
+  "server_hits": {
+    "manifest": 2,
+    "blob": 7,
+    "other": 5
+  },
+  "console_error_count": 0,
+  "all_pass": true
+}
