@@ -40,6 +40,13 @@
 #      Static findings still win (1 outranks 2).
 
 set -u
+_sedi() {  # portable in-place sed (GNU and BSD/macOS disagree on the -i suffix argument): _sedi [sed options] script... FILE
+    local f="${!#}" t r
+    t="$(mktemp "${TMPDIR:-/tmp}/sedi.XXXXXX")" || return 1
+    sed "${@:1:$#-1}" "$f" >"$t"; r=$?
+    [ "$r" -eq 0 ] && cat "$t" >"$f"; r=$?
+    rm -f "$t"; return "$r"
+}
 export LC_ALL=C
 
 SELF="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)/$(basename -- "${BASH_SOURCE[0]}")"
@@ -189,7 +196,7 @@ prove_failure() {
     : > "$T/base/_tools/containers/cmd/port-discover/main.go"
     mutant() {  # $1 name, then a sed script applied to qa-up.sh
         rm -rf "$T/$1"; cp -a "$T/base" "$T/$1"; shift_name="$1"; shift
-        [ "$#" -gt 0 ] && sed -i -E "$1" "$T/$shift_name/scripts/qa-up.sh"
+        [ "$#" -gt 0 ] && _sedi -E "$1" "$T/$shift_name/scripts/qa-up.sh"
     }
     expect() {  # label want root
         out="$(bash "$SELF" --root "$3" --static-only 2>&1)"; rc=$?

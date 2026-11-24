@@ -106,6 +106,13 @@
 # USAGE  zero-gap-class-build-if-missing.sh --root <abs dir> [--corpus <abs dir>] [--emit-population]
 #        zero-gap-class-build-if-missing.sh --prove-failure      (paired proof, throwaway copies)
 set -uo pipefail
+_sedi() {  # portable in-place sed (GNU and BSD/macOS disagree on the -i suffix argument): _sedi [sed options] script... FILE
+    local f="${!#}" t r
+    t="$(mktemp "${TMPDIR:-/tmp}/sedi.XXXXXX")" || return 1
+    sed "${@:1:$#-1}" "$f" >"$t"; r=$?
+    [ "$r" -eq 0 ] && cat "$t" >"$f"; r=$?
+    rm -f "$t"; return "$r"
+}
 export LC_ALL=C LANG=C
 export PYTHONDONTWRITEBYTECODE=1
 
@@ -496,7 +503,7 @@ prove_failure() {
     git -C "$T/mu" add -A
     out=$(bash "$SELF" --root "$T/mu"); rc=$?
     if [ $rc -eq 0 ]; then ok "M2a control: existence AND -newer comparison is clean"; else bad "M2a rc=$rc: $out"; fi
-    sed -i 's/ || \[ -n "\$(find src -newer "\$BIN" -print -quit)" \]//' "$T/mu/scripts/start.sh"
+    _sedi 's/ || \[ -n "\$(find src -newer "\$BIN" -print -quit)" \]//' "$T/mu/scripts/start.sh"
     out=$(bash "$SELF" --root "$T/mu"); rc=$?
     if [ $rc -eq 1 ]; then ok "M2b mutation: freshness term removed => FINDING, rc 1"; else bad "M2b rc=$rc: $out"; fi
 
