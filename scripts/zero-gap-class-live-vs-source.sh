@@ -96,6 +96,11 @@
 #     resolves it with that variable unset); their CONTAINERS are still covered via podman.
 # =============================================================================================
 set -uo pipefail
+_stat_field() {  # $1 = mode (octal) | dev | mtime | size ; $2 = path (the link itself, never its target). Portable: perl is core on Linux and macOS, unlike GNU-only stat format flags.
+    perl -e 'my @s = lstat($ARGV[1]) or exit 1; my $f = $ARGV[0];
+             if ($f eq "mode") { printf("%o\n", $s[2] & 07777) } elsif ($f eq "dev") { print "$s[0]\n" }
+             elsif ($f eq "mtime") { print "$s[9]\n" } elsif ($f eq "size") { print "$s[7]\n" } else { exit 2 }' "$1" "$2"
+}
 export PYTHONDONTWRITEBYTECODE=1
 SELF_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
 SELF="$SELF_ROOT/scripts/$(basename -- "${BASH_SOURCE[0]}")"
@@ -386,9 +391,9 @@ probe_static() {
     if [ "$sb" != "$db" ]; then
         finding high build-freshness "$tok:index" "served / (sha256 $sb) is not $dd/index.html (sha256 $db): the server serves other content than the built docroot" "$ref"
     fi
-    im=$(stat -c %Y "$doc/index.html" 2>/dev/null) || { cni "$tok" "$dd/index.html mtime cannot be read"; return; }
+    im=$(_stat_field mtime "$doc/index.html") || { cni "$tok" "$dd/index.html mtime cannot be read"; return; }
     newest=$(g "$top" ls-files -z 2>/dev/null | awk -v p="$prefix" 'BEGIN { RS = ORS = "\0" } p == "" || index($0, p) != 1' \
-             | (cd "$top" && xargs -0 -r stat -c '%Y %n' 2>/dev/null) | LC_ALL=C sort -n -k1,1 | tail -1)
+             | (cd "$top" && perl -0ne 'chomp; my @s = lstat($_) or next; print "$s[9] $_\n"' 2>/dev/null) | LC_ALL=C sort -n -k1,1 | tail -1)
     [ -n "$newest" ] || { cni "$tok" "no tracked source file of $dd could be read"; return; }
     nm=${newest%% *}; nf=${newest#* }
     if [ "$nm" -gt "$im" ]; then

@@ -48,6 +48,14 @@ MARK=.agent-scratch
 MARK_LINE='created_by=agent-scratch.sh'
 
 say() { printf 'agent-scratch: %s\n' "$*" >&2; }
+_stat_field() {  # $1 = mode (octal) | dev | mtime | size ; $2 = path (the link itself, never its target). Portable: perl is core on Linux and macOS, unlike GNU-only stat format flags.
+    perl -e 'my @s = lstat($ARGV[1]) or exit 1; my $f = $ARGV[0];
+             if ($f eq "mode") { printf("%o\n", $s[2] & 07777) } elsif ($f eq "dev") { print "$s[0]\n" }
+             elsif ($f eq "mtime") { print "$s[9]\n" } elsif ($f eq "size") { print "$s[7]\n" } else { exit 2 }' "$1" "$2"
+}
+_mount_point() {  # portable mount point of a path (df -P is POSIX; the GNU-only stat mount-point format is not)
+    df -P -- "$1" 2>/dev/null | awk 'NR == 2 { $1 = $2 = $3 = $4 = $5 = ""; sub(/^ +/, ""); print }'
+}
 
 # RAM-backed filesystem types: a scratch root there reproduces the incident.
 is_ram_fs() { case "$1" in tmpfs|ramfs) return 0 ;; *) return 1 ;; esac; }
@@ -173,8 +181,8 @@ cmd_df_check() {
     ensure_root; rc=$?
     [ "$rc" -ne 2 ] || return 2
     [ -d "$R" ] && [ ! -L "$R" ] || { say "no usable scratch root at $R"; return 1; }
-    rt=$(fs_type "$R") && rd=$(stat -c %d -- "$R" 2>/dev/null) && rmnt=$(stat -c %m -- "$R" 2>/dev/null) || { say "cannot stat $R"; return 2; }
-    pt=$(fs_type "$repo") && pd=$(stat -c %d -- "$repo" 2>/dev/null) && pmnt=$(stat -c %m -- "$repo" 2>/dev/null) || { say "cannot stat $repo"; return 2; }
+    rt=$(fs_type "$R") && rd=$(_stat_field dev "$R") && rmnt=$(_mount_point "$R") || { say "cannot stat $R"; return 2; }
+    pt=$(fs_type "$repo") && pd=$(_stat_field dev "$repo") && pmnt=$(_mount_point "$repo") || { say "cannot stat $repo"; return 2; }
     # link(2) works only within one filesystem AND one mount (a bind mount of the same device is EXDEV)
     [ "$rd" = "$pd" ] && [ "$rmnt" = "$pmnt" ] && same=yes || same=no
     # prove the filesystem supports hardlinks with a probe INSIDE the scratch root; nothing is written in the repo
@@ -273,7 +281,7 @@ prove() {
     SCRIPT=$SELF
     # S1 new: a 0700 dir directly under the root, with the marker, path printed
     out=$(run "$T/root" new probe-s1 2>/dev/null); rc=$?
-    if [ "$rc" -eq 0 ] && [ -d "$out" ] && [ "$(dirname "$out")" = "$T/root" ] && [ "$(stat -c %a "$out")" = 700 ] \
+    if [ "$rc" -eq 0 ] && [ -d "$out" ] && [ "$(dirname "$out")" = "$T/root" ] && [ "$(_stat_field mode "$out")" = 700 ] \
         && [ "$(head -1 "$out/.agent-scratch")" = "$MARK_LINE" ]; then ok "S1 new prints a 0700 marked dir under the root"; else bad "S1 rc=$rc out=$out"; fi
     d1=$out
     case "$d1" in "$T"/root/*) ;; *) echo "COULD-NOT-PROVE: new did not yield a dir under the test root; later cases need one"; echo "agent-scratch --prove-failure: $pass passed, $((fail + 1)) failed"; return 1 ;; esac
@@ -331,11 +339,11 @@ prove() {
     [ "$rc" -eq 2 ] && ok "S10 uncreatable root: df-check rc 2" || bad "S10 rc=$rc"
     # S11 fresh boot: the root does not exist (first use after a reboot / cache wipe) => `new` recreates it 0700
     rm -rf "$T/fresh"; out=$(run "$T/fresh/a/b" new probe-boot 2>/dev/null); rc=$?
-    [ "$rc" -eq 0 ] && [ -d "$out" ] && [ "$(stat -c %a "$T/fresh/a/b")" = 700 ] && ok "S11 missing root recreated 0700 by new" || bad "S11 rc=$rc"
+    [ "$rc" -eq 0 ] && [ -d "$out" ] && [ "$(_stat_field mode "$T/fresh/a/b")" = 700 ] && ok "S11 missing root recreated 0700 by new" || bad "S11 rc=$rc"
     # S12 a SYMLINKED root is refused and its target is not chmod-ed (review X8: 755 -> 700)
     mkdir -p "$T/target"; chmod 755 "$T/target"; ln -sfn "$T/target" "$T/linkroot"
     run "$T/linkroot" new probe-s12 >/dev/null 2>&1; rc=$?
-    [ "$rc" -eq 1 ] && [ "$(stat -c %a "$T/target")" = 755 ] && [ -z "$(ls -A "$T/target")" ] && ok "S12 symlinked root refused rc 1, target untouched (755)" || bad "S12 rc=$rc mode=$(stat -c %a "$T/target")"
+    [ "$rc" -eq 1 ] && [ "$(_stat_field mode "$T/target")" = 755 ] && [ -z "$(ls -A "$T/target")" ] && ok "S12 symlinked root refused rc 1, target untouched (755)" || bad "S12 rc=$rc mode=$(_stat_field mode "$T/target")"
     # M1 mutation: marker check neutered => S5's detector sees a foreign dir deleted
     sed 's/^marker_ok() {$/marker_ok() { [ -d "$1" ]; return; /' "$SELF" >"$T/m1.sh"
     mkdir -p "$T/mroot/foreign"; touch -d '3 days ago' "$T/mroot/foreign"
@@ -356,7 +364,7 @@ sys.exit(3) if o not in s else open(sys.argv[4],"w").write(s.replace(o,n,1))' "$
     mut m5 '    if [ -L "$R" ]; then' '    if false; then'
     mkdir -p "$T/target5"; chmod 755 "$T/target5"; ln -sfn "$T/target5" "$T/linkroot5"
     SCRIPT="$T/m5.sh" run "$T/linkroot5" new probe-m5 >/dev/null 2>&1
-    [ "$(stat -c %a "$T/target5")" = 700 ] && ok "M5 a mutant without the symlink refusal chmods the target to 700 (S12 would FAIL)" || bad "M5 mode=$(stat -c %a "$T/target5")"
+    [ "$(_stat_field mode "$T/target5")" = 700 ] && ok "M5 a mutant without the symlink refusal chmods the target to 700 (S12 would FAIL)" || bad "M5 mode=$(_stat_field mode "$T/target5")"
     # P1-P6 verify-persistence against fixture repos and fixture login homes (no real dotfile is read)
     local FR="$T/prepo" FH="$T/phome" OD="$T/elsewhere"
     mkdir -p "$FR" "$FH/disk-tmp" "$OD"; git -C "$FR" init -q 2>/dev/null

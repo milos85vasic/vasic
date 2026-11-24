@@ -25,6 +25,11 @@
 #
 # It never writes, moves or deletes anything.
 set -uo pipefail
+_stat_field() {  # $1 = mode (octal) | dev | mtime | size ; $2 = path (the link itself, never its target). Portable: perl is core on Linux and macOS, unlike GNU-only stat format flags.
+    perl -e 'my @s = lstat($ARGV[1]) or exit 1; my $f = $ARGV[0];
+             if ($f eq "mode") { printf("%o\n", $s[2] & 07777) } elsif ($f eq "dev") { print "$s[0]\n" }
+             elsif ($f eq "mtime") { print "$s[9]\n" } elsif ($f eq "size") { print "$s[7]\n" } else { exit 2 }' "$1" "$2"
+}
 
 SELF="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)/$(basename -- "${BASH_SOURCE[0]}")"
 THRESHOLD=90
@@ -69,7 +74,7 @@ if [ "$PROVE" -eq 1 ]; then
   }
   # Another device is needed for the "off-root" control; /dev/shm is tmpfs.
   off=/dev/shm
-  if [ ! -d "$off" ] || [ "$(stat -c %d "$off")" = "$(stat -c %d "$tmp")" ]; then
+  if [ ! -d "$off" ] || [ "$(_stat_field dev "$off")" = "$(_stat_field dev "$tmp")" ]; then
     echo "storage-report: no second filesystem available for the proof" >&2; exit 2
   fi
   offd="$(mktemp -d "$off/storage-report-prove.XXXXXX")" || exit 2
@@ -110,7 +115,7 @@ line="$(df -Pk "$ROOT_PATH" 2>/dev/null | awk 'NR==2')"
 [ -n "$line" ] || { echo "UNDETERMINED: df failed for $ROOT_PATH" >&2; exit 2; }
 total_k="$(echo "$line" | awk '{print $2}')"; used_k="$(echo "$line" | awk '{print $3}')"
 avail_k="$(echo "$line" | awk '{print $4}')"; pct="$(echo "$line" | awk '{gsub("%","",$5); print $5}')"
-root_dev="$(stat -c %d "$ROOT_PATH" 2>/dev/null)" || { echo "UNDETERMINED: stat failed" >&2; exit 2; }
+root_dev="$(_stat_field dev "$ROOT_PATH")" || { echo "UNDETERMINED: stat failed" >&2; exit 2; }
 
 echo "storage-report: root filesystem of $ROOT_PATH"
 printf '  size %s MiB, used %s MiB, free %s MiB, used%% %s (threshold %s)\n' \
@@ -126,7 +131,7 @@ for c in "${CONSUMERS[@]}"; do
   p="$HOME_DIR/$c"
   if [ ! -e "$p" ]; then printf '  %-36s absent (not a consumer on this host)\n' "$c"; continue; fi
   real="$(readlink -f "$p" 2>/dev/null)"
-  dev="$(stat -c %d "$real" 2>/dev/null)"
+  dev="$(_stat_field dev "$real")"
   if [ -z "$real" ] || [ -z "$dev" ]; then printf '  %-36s UNDETERMINED (cannot resolve)\n' "$c"; [ "$rc" -eq 0 ] && rc=2; continue; fi
   size="-"
   if [ "$SIZES" -eq 1 ]; then
