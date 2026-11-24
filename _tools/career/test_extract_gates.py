@@ -57,9 +57,18 @@ class PureDetectors(unittest.TestCase):
         self.assertTrue(g.check_running_headers(bad))
         self.assertEqual(g.check_running_headers(["Jane Doe CV\nonly page\nPage 1"]), [])
 
-    def test_hyphenation_detector(self):
-        self.assertTrue(g.check_hyphenation(["evalua-\ntion engine"]))
-        self.assertEqual(g.check_hyphenation(["whole words only"]), [])
+    def test_hyphenation_auto_vs_source_hyphen(self):
+        src = r"\section{Skills} multi-provider routing, evaluation and PostgreSQL \textbf{Anti-Bluff}"
+        auto = ["we run evalua-\ntion and Post-\ngreSQL daily"]
+        self.assertEqual(len(g.hyphen_breaks(auto, src)["auto"]), 2)
+        self.assertTrue(g.check_hyphenation(auto, src))
+        explicit = ["a multi-\nprovider setup and anti-\nbluff checks"]
+        b = g.hyphen_breaks(explicit, src)
+        self.assertEqual((len(b["auto"]), len(b["explicit"])), (0, 2))
+        self.assertEqual(g.check_hyphenation(explicit, src), [])
+        self.assertTrue(g.check_hyphenation(explicit, src, explicit_budget=1))      # budget enforced
+        self.assertTrue(g.check_hyphenation(explicit, None))                         # no source => cannot excuse
+        self.assertEqual(g.check_hyphenation(["whole words only"], src), [])
 
 
 class WordBoundaryPure(unittest.TestCase):
@@ -247,6 +256,50 @@ class BrokenArtifactWordBoundaries(unittest.TestCase):
                     self.assertIn("word boundaries differ", msg, (lang, counts))
         finally:
             latex.render_document = orig
+
+
+@unittest.skipUnless(TOOLS, "lualatex or pdftotext missing: cannot determine")
+class BrokenArtifactHyphenation(unittest.TestCase):
+    """RED-on-the-broken-artifact: the pre-T178 class (hyphenpenalty=600) cuts words at line ends."""
+
+    def _build(self, td, lang, penalty):
+        from career import model as cmodel, overlay, resolve
+        from career.render import latex
+        orig = latex.class_source()
+        src = orig if penalty is None else orig.replace("\\hyphenpenalty=10000", f"\\hyphenpenalty={penalty}")
+        latex._CLASS_CACHE["src"] = src
+        try:
+            doc = resolve.resolve(cmodel.load_model(), "ai-engineering", lang, kind="cv",
+                                  epoch=sample_build.EPOCH, overlay=overlay.load_overlay())
+            return latex.build(doc, Path(td), f"hy-{lang}-{penalty}", epoch=sample_build.EPOCH)["pdf"]
+        finally:
+            latex._CLASS_CACHE["src"] = orig
+
+    def test_html_engine_source_classifies_hyphens(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            pdf = Path(td) / "x.pdf"
+            pdf.with_suffix(".html").write_text("<html><style>a{}</style><p>a <b>multi-provider</b> and evaluation &amp; more</p>", encoding="utf-8")
+            src = g.sibling_source_text(pdf)
+            self.assertIn("multi-provider", src)
+            self.assertNotIn("a{}", src)
+            self.assertEqual(len(g.hyphen_breaks(["a multi-\nprovider"], src)["explicit"]), 1)
+            self.assertEqual(len(g.hyphen_breaks(["an evalua-\ntion"], src)["auto"]), 1)
+            self.assertIsNone(g.sibling_source_text(Path(td) / "none.pdf"))
+
+    def test_old_penalty_is_refused_and_current_class_is_clean(self):
+        import tempfile
+        with tempfile.TemporaryDirectory(prefix="career-hyph-") as td:
+            for lang in ("en", "de"):
+                bad = self._build(td, lang, 600)
+                src = g.sibling_source_text(bad)
+                self.assertTrue(g.hyphen_breaks(g.pages_of(bad), src)["auto"], lang)
+                rc, msg = gates.validate_pdf(bad, "cv", lang)
+                self.assertEqual(rc, 1, (lang, msg))
+                self.assertIn("automatic hyphenation", msg)
+                good = self._build(td, lang, None)
+                self.assertEqual(g.hyphen_breaks(g.pages_of(good), g.sibling_source_text(good))["auto"], [], lang)
+                self.assertEqual(gates.validate_pdf(good, "cv", lang)[0], 0, lang)
 
 
 if __name__ == "__main__":

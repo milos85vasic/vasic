@@ -1,0 +1,24 @@
+PASS T168 control en: real PDF passes the boundary gate - {'mupdf': 922, 'poppler-raw': 916, 'pypdf': 933}
+PASS T168 control en: real PDF passes validate_pdf
+PASS T168 control de: real PDF passes the boundary gate - {'mupdf': 845, 'poppler-raw': 839, 'pypdf': 859}
+PASS T168 control de: real PDF passes validate_pdf
+PASS T168 control hi: real PDF passes the boundary gate - {'mupdf': 1009, 'poppler-raw': 1003, 'pypdf': 1009}
+PASS T168 control hi: real PDF passes validate_pdf
+PASS T168 control ko: real PDF passes the boundary gate - {'mupdf': 934, 'poppler-raw': 928, 'pypdf': 951}
+PASS T168 control ko: real PDF passes validate_pdf
+PASS T168 M-mupdf-hi: MuPDF loses 45% of the spaces -> blocked - ['word boundaries differ between extractors (min/max 0.59 < 0.90): mupdf 600, poppler-raw 1003, pypdf 1009']
+PASS T168 M-mupdf-ko: MuPDF loses 45% of the spaces -> blocked - ['word boundaries differ between extractors (min/max 0.60 < 0.90): mupdf 567, poppler-raw 928, pypdf 951']
+PASS T168 M-poppler-en: poppler loses 45% of the spaces -> blocked (any extractor, not only MuPDF) - ['word boundaries differ between extractors (min/max 0.60 < 0.90): mupdf 922, poppler-raw 556, pypdf 933']
+PASS T168 M-pypdf-en: pypdf with no spaces at all -> blocked - ['word boundaries differ between extractors (min/max 0.13 < 0.90): mupdf 922, poppler-raw 916, pypdf 116']
+PASS T168 M-one-extractor: fewer than two extractors -> CANNOT DETERMINE (None, never a pass) - None
+PASS T168 exemption: unspaced scripts (zh) are not judged by token count (control for the exemption) - []
+PASS T178 control en: real CV has no automatic-hyphenation break - explicit=3
+PASS T178 M-auto-en: injected 'evalua-/tion' (renderer cut a word) -> blocked - ['2 word(s) split by automatic hyphenation at a line end: p1:evalua-tion, p1:post-gresql']
+PASS T178 M-budget-en: 9 source-hyphen breaks -> blocked by the budget - ['12 line-end breaks at source hyphens exceed the budget 8']
+PASS T178 M-nosource-en: no source => an auto break cannot be excused - ['5 word(s) split by automatic hyphenation at a line end: p1:multi-provider, p1:anti-bluff, p1:evalua-tion, p1:post-gresql']
+PASS T178 control de: real CV has no automatic-hyphenation break - explicit=4
+PASS T178 M-auto-de: injected 'evalua-/tion' (renderer cut a word) -> blocked - ['2 word(s) split by automatic hyphenation at a line end: p1:evalua-tion, p1:post-gresql']
+PASS T178 M-budget-de: 9 source-hyphen breaks -> blocked by the budget - ['13 line-end breaks at source hyphens exceed the budget 8']
+PASS T178 M-nosource-de: no source => an auto break cannot be excused - ['6 word(s) split by automatic hyphenation at a line end: p1:echtzeit-hardwareintegration, p1:anti-bluff-qualitätssicherung, p1:evalua-tion, p1:post-gresql']
+
+22 passed, 0 failed of 22 cases
