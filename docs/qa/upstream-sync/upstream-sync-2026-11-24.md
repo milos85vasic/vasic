@@ -22,7 +22,7 @@ Heads are 9-char SHAs read 2026-11-24 (live values move; re-run to re-measure).
 
 | repo | upstream | head | status |
 |---|---|---|---|
-| umbrella vasic | github milos85vasic/vasic (github/origin/upstream remotes, one URL) | see PR landing | CURRENT (single upstream) |
+| umbrella vasic | github milos85vasic/vasic (github/origin/upstream remotes, one URL) | 6075448 at audit time (github/main); advances with this PR | CURRENT (single upstream; it is GitHub itself) |
 | submodules/constitution | 8 distinct upstreams (codeberg, gitflic, github HelixDevelopment, github vasic-digital, gitlab helixdevelopment1, gitlab vasic-digital, gitverse, m3w) | 6d93ccd19 | CURRENT (all) |
 | milosvasic.ru | github milos85vasic | 74c554c9b | CURRENT (single upstream; no push made, production untouched) |
 | vasic.digital | github vasic-digital.github.io | 006b834ed | CURRENT |
@@ -38,7 +38,7 @@ Heads are 9-char SHAs read 2026-11-24 (live values move; re-run to re-measure).
 | submodules/curriculum-kit | github, gitlab | 277b96efc | CURRENT |
 | submodules/qa (HelixQA) | github vasic-digital, gitlab, github HelixDevelopment x2 | dc25b8aba | CURRENT after push |
 | submodules/challenges | github, gitlab | 04d5c31b9 | CURRENT after push |
-| submodules/doc_processor | vasic-digital github/gitlab | 12a5fb763 (branch master) | CURRENT on master; NO `main` exists on vasic-digital |
+| submodules/doc_processor | vasic-digital github/gitlab | 12a5fb763 (branch master) | NOT-APPLICABLE-main: all 5 vasic-digital URLs level on `master`; no `main` branch exists there, so the main-directive cannot apply |
 | submodules/doc_processor | HelixDevelopment github, helixdevelopment1 gitlab | main = 86f1a9835 / bea9e9edb (stale, unrelated to master) | NOT TOUCHED; legacy `main` branches, report only |
 | submodules/llm_orchestrator | github x2, gitlab x2 | c84c410da | CURRENT |
 | submodules/llms_verifier | github, gitlab | 94e666d41 | CURRENT |
@@ -53,5 +53,35 @@ Heads are 9-char SHAs read 2026-11-24 (live values move; re-run to re-measure).
 
 - job_seeker `upstreams/*.sh.disabled` (codeberg, gitflic, gitlab, gitverse, m3w) all target `job_seeker_public`: DISABLED-BY-DESIGN; the shared checkout at 4e1a4cb is 8 behind origin and dirty, so nothing was pushed from it.
 - Several first-pass probes timed out at 25 s (empty heads); each was re-probed with a 90 s timeout and resolved.
-- The shared umbrella checkout is 19+ commits behind github/main and dirty (submodule pointers); it was not touched.
+- The shared LOCAL umbrella checkout is behind github/main and dirty (submodule pointers); it was not touched. The umbrella's only upstream (GitHub) holds main itself, so no push was needed.
+- submodules/containers: after our push to GitLab (eb70e05) another session advanced all four URLs to d71b62058; they are level (see appendix).
 - Branch name caveat: llm_provider, LLMProvider, llm_orchestrator, vision_engine, doc_processor check out `master` locally; remote main equals it except doc_processor (master only).
+
+## Appendix: post-push `git ls-remote <url> refs/heads/main` for every changed repo (2026-11-24)
+
+```
+# monetization
+git@github.com:milos85vasic/monetization.git 0634f36fc
+git@github.com:vasic-digital/monetization.git 0634f36fc
+git@gitlab.com:milos85vasic/monetization.git 0634f36fc
+# submodules/containers
+git@github.com:vasic-digital/containers.git d71b62058
+git@github.com:vasic-digital/Containers.git d71b62058
+git@gitlab.com:vasic-digital/containers.git d71b62058
+git@gitlab.com:vasic-digital/Containers.git d71b62058
+# submodules/qa
+git@github.com:HelixDevelopment/helixqa.git dc25b8aba
+git@github.com:HelixDevelopment/qa.git dc25b8aba
+git@github.com:vasic-digital/HelixQA.git dc25b8aba
+git@gitlab.com:vasic-digital/HelixQA.git dc25b8aba
+# submodules/challenges
+git@github.com:vasic-digital/challenges.git 04d5c31b9
+git@github.com:vasic-digital/Challenges.git 04d5c31b9
+git@gitlab.com:vasic-digital/challenges.git 04d5c31b9
+# monetization extras
+git@gitflic.ru:milosvasic/monetization.git 0634f36fc
+ssh://git@gitverse.ru:2222/milosvasic/monetization.git 0634f36fc
+```
+
+Constitution (pre-existing level, re-verified): codeberg, gitflic, github HelixDevelopment, github vasic-digital, gitlab helixdevelopment1, gitlab vasic-digital, gitverse and m3w all returned 6d93ccd19e1c2fe0e1a97ece22b49e962ef3005e.
+Other rows were read in the first pass with the same command and equalled the head shown.
