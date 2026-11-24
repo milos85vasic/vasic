@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T21:00:39Z
-    Synced-Commit: 2cf8f1277d71
+    Last-Updated: 2026-11-24T23:23:44Z
+    Synced-Commit: 95d8701a4262
     Authority-Root: submodules/constitution
 
 
@@ -27,6 +27,8 @@ quoted from `submodules/constitution/Constitution.md`:
 >    any CLI agent.
 > 6. **Document MUST be self-contained.** No hyperlinks to ephemeral
 >    external systems as the only source of truth.
+
+> **2026-11-25 continuation-check C3 resync (PR pr/continuation-c3-2026-11-25):** `scripts/continuation-check.sh` reported DRIFT C3 for four gitlink/helix-deps commits that changed watched governance files without updating this file (`e064bbf9e8b9` constitution bump, `178cc2ba525b` helix-deps wording, `6fc143d974ce` batch3 bump with carrier re-measure, `74889b2dd5b4` job_seeker re-read). Their content is already narrated in the sections above; Synced-Commit is advanced to `95d8701a4262` (includes PR #90 evidence-stability gate `scripts/verify-evidence-stability.sh` and PR #91 vault tests skipping with a reason when operator-private `milosvasic.ru/assets/js/vault.js` is absent). ROOT CAUSE of the drift going unnoticed, measured 2026-11-25: `scripts/continuation-check.sh` is registered only as the `continuation-sync` check with a `--prove-failure` proof; it is not a gate in `scripts/pre-push-gates.sh` (ids E Z0 Z1 0-6), `.git/hooks/` holds no installed hook in the primary checkout, and the PR/merge flow runs no pre-push at all, so nothing executes it on a bump. Enforcement is NOT added by this change; it remains an open operator decision (add it as a gate, or call it from the bump procedure). Also open: `bash scripts/continuation-check.sh` in a fresh worktree reports C5/C8 DRIFT or UNDET until submodules are initialised (uninitialised submodule paths look like missing scripts); that is an environment limit, not document drift.
 
 > **2026-11-24 §11.4.299 landing (PR pr/constitution-299-2026-11-24):** constitution pin `6d93ccd19e1c` -> `74c415d3d694` (adds §11.4.299 all-upstreams delivery; `Constitution.md` 13,142 lines / 280 `### §` anchors / 2,275,160 bytes / blob `ab5dcf28e1df` / sha256 `ba1adfbcd80b…`, re-measured on disk), gitlink and `helix-deps.yaml` ref staged together; four carriers edited as one shared artifact (C5 digest count 1); new `scripts/verify-upstream-sync.sh` (check-registry `upstream-sync`), `config/upstream-parity-*`. Resume: triage the fleet findings of `bash scripts/verify-upstream-sync.sh`; the C2 quote-fidelity DRIFT of `continuation-check.sh` pre-dates this change (present on github/main at the old pin).
 
