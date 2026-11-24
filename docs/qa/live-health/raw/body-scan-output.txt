@@ -1,0 +1,4 @@
+$ python3 body-scan.py milosvasic.ru digital.vasic.dev
+milosvasic.ru {'pages': 690}
+digital.vasic.dev {'pages': 525}
+(checks per page: title non-empty, <html lang> equals URL language dir, canonical present, hreflang>=16 when declared, no http:// src/href, no secret patterns, no host paths. Zero findings.)
