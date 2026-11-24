@@ -473,7 +473,7 @@ deps:
 
   - name: job_seeker
     ssh_url: git@github.com:vasic-digital/job_seeker.git
-    ref: "7bbec36477fcc7870e2e612bc1211be660c8b77b"   # repo transferred to vasic-digital 2026-11-24 (job_seeker PR #2); prior 8b3da29; kickoff 2026-11-24 (PR #1 merged, independent review GO); gitlink tracks heads/main
+    ref: "1876de3775cd7dcce4bacadcb54e667088162688"   # specs/001-job-seeker-mvp merged (job_seeker PR #3, 78 FR, 23 SC, 159 tasks); prior 7bbec36; repo transferred to vasic-digital 2026-11-24 (job_seeker PR #2); prior 8b3da29; kickoff 2026-11-24 (PR #1 merged, independent review GO); gitlink tracks heads/main
     why: "Private single-operator job-search tool: job-source adapters, per-position ATS CVs, human-in-the-loop applying (dry-run default). Personal data only in the git-ignored career_private overlay."
     layout: flat
 
