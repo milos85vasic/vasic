@@ -151,8 +151,10 @@ def hyphen_breaks(pages: Sequence[str], source: str | None) -> Dict[str, List[st
     out: Dict[str, List[str]] = {"auto": [], "explicit": []}
     for i, p in enumerate((p for p in pages if p.strip()), 1):
         for m in _EOL_HYPHEN.finditer(p):
-            left = re.sub(r"^\W+", "", m.group(1)).casefold()
-            right = re.sub(r"[^\w/-]+$", "", m.group(2)).casefold()
+            # Only the word-forming run on each side of the break: CJK text has no spaces, so ``\S*`` can hold a
+            # whole clause with full-width punctuation (measured: zh/ja "...tree-/of-thoughts）、llmops、...").
+            left = re.search(r"[\w/-]*$", m.group(1)).group(0).lstrip("-/").casefold()
+            right = re.match(r"[\w/-]*", m.group(2)).group(0).casefold()
             whole = f"{left}-{right}"
             kind = "explicit" if plain is not None and whole in plain else "auto"
             out[kind].append(f"p{i}:{whole}")

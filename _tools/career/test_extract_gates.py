@@ -70,6 +70,18 @@ class PureDetectors(unittest.TestCase):
         self.assertTrue(g.check_hyphenation(explicit, None))                         # no source => cannot excuse
         self.assertEqual(g.check_hyphenation(["whole words only"], src), [])
 
+    def test_unspaced_cjk_line_end_hyphen_is_judged_by_its_own_word(self):
+        """zh/ja have no spaces, so the text before a line-end hyphen is a whole clause with full-width punctuation.
+        A break at the SOURCE hyphen of ``tree-of-thoughts`` is explicit; a cut inside a word is still automatic."""
+        src = "規划（hiplan／mcts／tree-of-thoughts）、llmops、基准测试（swe-bench"
+        explicit = ["规划（hiplan／mcts／tree-\nof-thoughts）、llmops、基准测试（swe-bench"]
+        b = g.hyphen_breaks(explicit, src)
+        self.assertEqual((len(b["auto"]), len(b["explicit"])), (0, 1), b)
+        auto = ["规划（hiplan／mcts／tree-of-thoughts）、基准测试（evalua-\ntion、llmops"]
+        b = g.hyphen_breaks(auto, src)
+        self.assertEqual((len(b["auto"]), len(b["explicit"])), (1, 0), b)
+        self.assertTrue(g.check_hyphenation(auto, src))
+
 
 class WordBoundaryPure(unittest.TestCase):
     """JSK-T168: tokens per extractor must agree (min/max >= 0.9) outside the unspaced CJK scripts."""

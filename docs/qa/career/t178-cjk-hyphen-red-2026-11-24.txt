@@ -1,0 +1,22 @@
+....s.F
+======================================================================
+FAIL: test_unspaced_cjk_line_end_hyphen_is_judged_by_its_own_word (career.test_extract_gates.PureDetectors.test_unspaced_cjk_line_end_hyphen_is_judged_by_its_own_word)
+zh/ja have no spaces, so the text before a line-end hyphen is a whole clause with full-width punctuation.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/u169/_tools/career/test_extract_gates.py", line 79, in test_unspaced_cjk_line_end_hyphen_is_judged_by_its_own_word
+    self.assertEqual((len(b["auto"]), len(b["explicit"])), (0, 1), b)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (1, 0) != (0, 1)
+
+First differing element 0:
+1
+0
+
+- (1, 0)
++ (0, 1) : {'auto': ['p1:规划（hiplan／mcts／tree-of-thoughts）、llmops、基准测试（swe-bench'], 'explicit': []}
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.008s
+
+FAILED (failures=1, skipped=1)
