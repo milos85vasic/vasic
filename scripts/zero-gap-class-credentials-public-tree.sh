@@ -118,7 +118,8 @@ zg_drop_excluded() {
 
 CLASS_ID=credentials-public-tree
 FIXTURE_PFX=_tests/fixtures/zero-gap/
-SELF=$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || echo "${BASH_SOURCE[0]}")
+SELF="${BASH_SOURCE[0]}"; while [ -L "$SELF" ]; do _sl="$(readlink -- "$SELF")"; case "$_sl" in /*) SELF="$_sl" ;; *) SELF="$(dirname -- "$SELF")/$_sl" ;; esac; done  # portable realpath
+SELF="$(cd -P -- "$(dirname -- "$SELF")" && pwd -P)/$(basename -- "$SELF")"
 EMPTY_SHA=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 
 ROOT="" CORPUS="" EMIT=0 PROVE=0
