@@ -1,4 +1,4 @@
-$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf/workshop) : env WORKSHOP_PROJECT_NAME=zzz-runner-matrix WORKSHOP_HTTP_PORT=18087 bash scripts/status.sh --help
+$ (cd <scratchpad>/umf/workshop) : env WORKSHOP_PROJECT_NAME=zzz-runner-matrix WORKSHOP_HTTP_PORT=18087 bash scripts/status.sh --help
 STOPPED
   no containers exist for this project
 PROBLEM: STOPPED: no containers exist for this project

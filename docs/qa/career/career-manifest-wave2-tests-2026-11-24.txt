@@ -23,7 +23,7 @@ test_word_boundaries_real (_tools.career.test_extract_gates.RealSample.test_word
 test_html_failed_rebuild_leaves_no_stale_artifacts (_tools.career.test_pdf_pipeline.BuildFreshness.test_html_failed_rebuild_leaves_no_stale_artifacts) ... ok
 test_html_source_carries_model_hash (_tools.career.test_pdf_pipeline.BuildFreshness.test_html_source_carries_model_hash) ... ok
 test_latex_failed_rebuild_leaves_no_stale_artifacts (_tools.career.test_pdf_pipeline.BuildFreshness.test_latex_failed_rebuild_leaves_no_stale_artifacts) ... ok
-test_lock_fd_cloexec_and_closed_in_forked_child (_tools.career.test_pdf_pipeline.BuildFreshness.test_lock_fd_cloexec_and_closed_in_forked_child) ... /home/milosvasic/Projects/vasic-wt-manifest/_tools/career/test_pdf_pipeline.py:404: DeprecationWarning: This process (pid=1496219) is multi-threaded, use of fork() may lead to deadlocks in the child.
+test_lock_fd_cloexec_and_closed_in_forked_child (_tools.career.test_pdf_pipeline.BuildFreshness.test_lock_fd_cloexec_and_closed_in_forked_child) ... <worktree>/_tools/career/test_pdf_pipeline.py:404: DeprecationWarning: This process (pid=1496219) is multi-threaded, use of fork() may lead to deadlocks in the child.
   pid = os.fork()
 ok
 test_lock_state_probe (_tools.career.test_pdf_pipeline.BuildFreshness.test_lock_state_probe) ... ok
@@ -31,7 +31,7 @@ test_source_model_hash_parsed_from_tex_and_html (_tools.career.test_pdf_pipeline
 test_atomic_manifest_write_leaves_no_temp (_tools.career.test_pdf_pipeline.BuildLib.test_atomic_manifest_write_leaves_no_temp) ... ok
 test_jobs_capped_by_memory_and_bounds (_tools.career.test_pdf_pipeline.BuildLib.test_jobs_capped_by_memory_and_bounds) ... ok
 test_key_phrases_use_headline_pure_run (_tools.career.test_pdf_pipeline.BuildLib.test_key_phrases_use_headline_pure_run) ... ok
-test_lock_released_when_holder_dies (_tools.career.test_pdf_pipeline.BuildLib.test_lock_released_when_holder_dies) ... /home/milosvasic/Projects/vasic-wt-manifest/_tools/career/test_pdf_pipeline.py:148: DeprecationWarning: This process (pid=1496219) is multi-threaded, use of fork() may lead to deadlocks in the child.
+test_lock_released_when_holder_dies (_tools.career.test_pdf_pipeline.BuildLib.test_lock_released_when_holder_dies) ... <worktree>/_tools/career/test_pdf_pipeline.py:148: DeprecationWarning: This process (pid=1496219) is multi-threaded, use of fork() may lead to deadlocks in the child.
   pid = os.fork()
 ok
 test_manifest_is_deterministic_and_sorted (_tools.career.test_pdf_pipeline.BuildLib.test_manifest_is_deterministic_and_sorted) ... ok
@@ -142,7 +142,7 @@ test_file_mode_enforced (_tools.career.test_vault.Passphrase.test_file_mode_enfo
 FAIL: test_node_decrypts_python_sealed_vault_and_rejects_tampering (_tools.career.test_vault.CrossLanguage.test_node_decrypts_python_sealed_vault_and_rejects_tampering)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/home/milosvasic/Projects/vasic-wt-manifest/_tools/career/test_vault.py", line 221, in test_node_decrypts_python_sealed_vault_and_rejects_tampering
+  File "<worktree>/_tools/career/test_vault.py", line 221, in test_node_decrypts_python_sealed_vault_and_rejects_tampering
     self.assertEqual(r.returncode, 0, r.stderr)
     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
 AssertionError: 1 != 0 : node:internal/modules/cjs/loader:1573
@@ -151,7 +151,7 @@ AssertionError: 1 != 0 : node:internal/modules/cjs/loader:1573
 
 Error: Cannot find module '../../milosvasic.ru/assets/js/vault.js'
 Require stack:
-- /home/milosvasic/Projects/vasic-wt-manifest/_tools/career/test_vault_cross.js
+- <worktree>/_tools/career/test_vault_cross.js
     at Module._resolveFilename (node:internal/modules/cjs/loader:1569:15)
     at wrapResolveFilename (node:internal/modules/cjs/loader:1123:27)
     at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1147:10)
@@ -160,11 +160,11 @@ Require stack:
     at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
     at Module.require (node:internal/modules/cjs/loader:1679:12)
     at require (node:internal/modules/helpers:196:16)
-    at Object.<anonymous> (/home/milosvasic/Projects/vasic-wt-manifest/_tools/career/test_vault_cross.js:5:11)
+    at Object.<anonymous> (<worktree>/_tools/career/test_vault_cross.js:5:11)
     at Module._compile (node:internal/modules/cjs/loader:1934:14) {
   code: 'MODULE_NOT_FOUND',
   requireStack: [
-    '/home/milosvasic/Projects/vasic-wt-manifest/_tools/career/test_vault_cross.js'
+    '<worktree>/_tools/career/test_vault_cross.js'
   ]
 }
 

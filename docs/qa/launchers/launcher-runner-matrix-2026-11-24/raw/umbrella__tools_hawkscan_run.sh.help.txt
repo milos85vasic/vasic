@@ -1,4 +1,4 @@
-$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf) : bash _tools/hawkscan/run.sh --help
+$ (cd <scratchpad>/umf) : bash _tools/hawkscan/run.sh --help
 Usage: _tools/hawkscan/run.sh [--target <base-url>] [--runner=NAME]
   Container runner: --runner=NAME (or --runner NAME, or env CONTAINERS_RUNNER; flag wins; unknown or not-installed runner exit 2, no fallback). See docs/RUNNER_FLAG.md.
 rc=0

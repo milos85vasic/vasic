@@ -76,16 +76,16 @@ runner-flag gate: OK
 --- rc=0
 === [live-h3-runner-podman] $ make live-h3 RUNNER=podman
 PASS: body Brotli-decodes to the real /healthz JSON
-2026/11/24 14:06:19 [INFO]  jsstack: compose down: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.yml --project-name js-live-h3 down --remove-orphans
-2026/11/24 14:06:19 [DEBUG] jsstack: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.yml --project-name js-live-h3 down --remove-orphans (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy)
+2026/11/24 14:06:19 [INFO]  jsstack: compose down: podman-compose -f <scratchpad>/jswt/deploy/compose.yml --project-name js-live-h3 down --remove-orphans
+2026/11/24 14:06:19 [DEBUG] jsstack: executing: podman-compose -f <scratchpad>/jswt/deploy/compose.yml --project-name js-live-h3 down --remove-orphans (dir: <scratchpad>/jswt/deploy)
 2026/11/24 14:06:20 [DEBUG] jsstack: compose command completed successfully
 down: ok
 == 2. TCP-only stack (UDP not published)
-2026/11/24 14:06:21 [INFO]  jsstack: compose down: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 down --remove-orphans
-2026/11/24 14:06:21 [DEBUG] jsstack: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 down --remove-orphans (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy)
+2026/11/24 14:06:21 [INFO]  jsstack: compose down: podman-compose -f <scratchpad>/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 down --remove-orphans
+2026/11/24 14:06:21 [DEBUG] jsstack: executing: podman-compose -f <scratchpad>/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 down --remove-orphans (dir: <scratchpad>/jswt/deploy)
 2026/11/24 14:06:22 [DEBUG] jsstack: compose command completed successfully
-2026/11/24 14:06:22 [INFO]  jsstack: compose up: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 up -d --remove-orphans --build
-2026/11/24 14:06:22 [DEBUG] jsstack: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 up -d --remove-orphans --build (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy)
+2026/11/24 14:06:22 [INFO]  jsstack: compose up: podman-compose -f <scratchpad>/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 up -d --remove-orphans --build
+2026/11/24 14:06:22 [DEBUG] jsstack: executing: podman-compose -f <scratchpad>/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 up -d --remove-orphans --build (dir: <scratchpad>/jswt/deploy)
 2026/11/24 14:06:23 [DEBUG] jsstack: compose command completed successfully
 up: jobseeker-gate running
 PASS: HTTP/3 attempt FAILS while UDP is not published
@@ -95,8 +95,8 @@ PASS: fallback Content-Encoding is br (got br)
 PASS: fallback body decodes to the real /healthz JSON
 == 2b. mutation control: the h3 assertion MUST fail on the TCP-only stack
 PASS: h3 assertion fails without QUIC (rc=1)
-2026/11/24 14:06:35 [INFO]  jsstack: compose down: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 down --remove-orphans
-2026/11/24 14:06:35 [DEBUG] jsstack: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 down --remove-orphans (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy)
+2026/11/24 14:06:35 [INFO]  jsstack: compose down: podman-compose -f <scratchpad>/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 down --remove-orphans
+2026/11/24 14:06:35 [DEBUG] jsstack: executing: podman-compose -f <scratchpad>/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 down --remove-orphans (dir: <scratchpad>/jswt/deploy)
 2026/11/24 14:06:36 [DEBUG] jsstack: compose command completed successfully
 down: ok
 LIVE-H3 OK

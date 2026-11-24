@@ -2,7 +2,7 @@
 FAIL: test_old_penalty_is_refused_and_current_class_is_clean (career.test_extract_gates.BrokenArtifactHyphenation.test_old_penalty_is_refused_and_current_class_is_clean)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/home/milosvasic/Projects/vasic-wt-t178/_tools/career/test_extract_gates.py", line 244, in test_old_penalty_is_refused_and_current_class_is_clean
+  File "<worktree>/_tools/career/test_extract_gates.py", line 244, in test_old_penalty_is_refused_and_current_class_is_clean
     self.assertEqual(rc, 1, (lang, msg))
     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
 AssertionError: 0 != 1 : ('en', 'PDF is extractable, single-column, embedded, within budget (cv)')
