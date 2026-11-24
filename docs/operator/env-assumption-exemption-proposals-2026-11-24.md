@@ -134,3 +134,33 @@ Evidence: the two files under `_tests/fixtures/zero-gap/untracked-blind-window/p
 - `scripts/hooks/guard-project-catalogue.sh:2827` (OSPATH): `/proc/loadavg` in a diagnostic message of a self-test (`cut` of an absent file just prints nothing). Proposal: reword or guard (real fix); not in an approved exemption class.
 - `specs/010-*/progress.yml`, `specs/010-*/baseline/sweep-2026-09-26/report.json`, `specs/017-*/progress.yml` (MODEL/GITREF/SERVICE/ENDPOINT, 12 lines): prose of progress records and a frozen sweep report that merely MENTION model ids, refs and ports. They are records, not code; exempting them was not in the approved classes. Proposal for the operator: approve a prose-record class exemption for `specs/**/progress.yml` and the baseline report, or reword the records.
 - Also still reported on `main` until PR #84 merges, and FIXED there in code (not exempted): `scripts/qa-candidate-up.sh` lines 70, 71, 121, 257; `scripts/verify-live-site.py` lines 8 and 244; `scripts/zero-gap-sweep.sh:1032`; `_tools/zero-gap-chain/fix5_test.go:197`. After #84 the umbrella-root count is 26 minus these 8 = 18 (all listed in this section).
+
+## 8. Follow-up (2026-11-24): what changed after section 7, and the one decision left
+
+Fixed in code by #86 and #87 (RED reproduced first, paired proofs, no exemption rows):
+`scripts/agent-admit.sh` (fail-closed boot id, both lines audit-clean), `_tools/career/test_pdf_pipeline.py`
+(skip guard), `scripts/hooks/guard-project-catalogue.sh` (load diagnostic), `scripts/qa-candidate-up.sh`
+(`OLLAMA_HOST` bare host defaults to Ollama's port). Umbrella-root `audit-environment-assumptions.sh
+--no-submodules` went 18 -> 12 on `main` after both merged; the 12 left are the prose lines below.
+
+### Decision needed: the 12 prose lines in specs/010-* and specs/017-*
+
+| File | Lines | Classes | Nature |
+|---|---|---|---|
+| `specs/010-*/baseline/sweep-2026-09-26/report.json` | 4 | MODEL, GITREF | frozen sweep output ("frozen copy", T036 baseline) |
+| `specs/010-*/progress.yml` | 4 | GITREF, SERVICE, MODEL | append-only progress ledger |
+| `specs/017-*/progress.yml` | 4 | MODEL, ENDPOINT | append-only progress ledger |
+
+Git history was read first (section 11.4.124): the report is a frozen evidence copy committed in `f05817b` and
+amended once; `docs/zero-gap/checks/VSC-386.probe.sh` addresses the 010 `progress.yml` lines by number (of its PRE_REF)
+and the report's findings by file path. Rewording those files would alter frozen evidence and shift the probe's anchors, so
+this change did NOT reword them. Findings that merely mention a model id, ref or port inside a historical
+record are not frozen environment assumptions in code.
+
+Options: (A) approve a "prose record" exemption class covering these three paths (a reviewed rule with a
+`# REASON:` per path; recommended: it preserves the evidence untouched and the class cannot match code files
+because the rule is path-anchored); (B) reword the two ledgers and regenerate the baseline report (loses the
+historical wording, requires re-pointing VSC-386 and re-running T036; not recommended). No row has been added.
+
+Not fixed here, noted: `OLLAMA_HOST=::1` (unbracketed IPv6 starting with a colon) is still mishandled in
+`qa-candidate-up.sh` (it was broken before the change too).
