@@ -2,7 +2,7 @@
 
 | Field | Value |
 |---|---|
-| Status | DESIGN, proposal only. No issue was created anywhere, no constitution file edited. |
+| Status | DESIGN, proposal only; operator decisions of 2026-11-24 recorded in section 8.1. No issue was created anywhere, no constitution file edited. |
 | Operator order | 2026-11-24 (CRITICAL): all workable items (to do, in progress, done) are always created and kept up to date in the Issues of every supported upstream of the umbrella and of every submodule recursively (GitHub, GitLab, Gitea at m3w and Codeberg, GitFlic, GitVerse), in sync with Docs Chain, the SQLite DB, the status docs and all trackers. Constitution-level default mechanism, OFF by default, ON for this project. Addendum: engine, adapters, verifier, template config, hooks and anchor live in the Constitution submodule; consumers carry only a small config and call the constitution's scripts through existing inheritance. |
 | Evidence date | 2026-11-24, read-only probes from this host (section 1 and 2). Anything not probed is marked UNKNOWN. |
 | Related canon | 11.4.15/16/33/54/55/56/63/86/90/93/95/106/148/153, 11.4.296 (inbound), 11.4.299 |
@@ -23,7 +23,7 @@ Total 1250 rows. Open (not in Fixed) is 288 + 27 + 552 = 867. No other own-org s
 
 Schema facts that matter: PK is `(atm_id, current_location, representation)` (the same id may appear as a section and a table row, so the sync key must collapse by `atm_id`); `type` in {Bug, Feature, Task}; 10 status values; `current_location` Issues or Fixed; `body_md`, `closure_date`, `commit_ref`, `parent_atm_id`, `recurrence_of`, reproduction and investigation state columns; separate tables `item_history`, `test_diary`, `item_provenance`, `meta`, `sub_projects`. `sub_projects` URLs are stale for three rows (ai_interviewing, monetization, workshop list `milos85vasic/...`; the real remotes are `vasic-digital/...`). That table must be corrected before any routing uses it.
 
-Tooling: Go CLI `_tools/workable-items/` (`internal/wi/{store,validate,backfill,roster,modulereport,gap*}.go`). Docs Chain: contexts under `.docs_chain/contexts/` (`umbrella-docs`, `umbrella-root`, `umbrella-specs`), verified by `scripts/verify-docs-chain.sh` (registered `docs-chain-sync`). The Docs Chain engine is NOT a submodule here (`.gitmodules` has no docs_chain entry, `which docs_chain` empty, `~/Projects/docs_chain` absent), so the CLI cannot be invoked from a clean clone of this repo; 11.4.106's own status note says the same about its registration. This is a prerequisite blocker (Q7).
+Tooling: Go CLI `_tools/workable-items/` (`internal/wi/{store,validate,backfill,roster,modulereport,gap*}.go`). Docs Chain: contexts under `.docs_chain/contexts/` (`umbrella-docs`, `umbrella-root`, `umbrella-specs`), verified by `scripts/verify-docs-chain.sh` (registered `docs-chain-sync`). The Docs Chain engine is NOT a submodule here (`.gitmodules` has no docs_chain entry, `which docs_chain` empty, `~/Projects/docs_chain` absent), so the CLI cannot be invoked from a clean clone of this repo; 11.4.106's own status note says the same about its registration. This is a prerequisite blocker (Q7, decided in section 8.1: add as submodule).
 
 ### 1.2 Existing issue-touching scripts
 
@@ -203,20 +203,26 @@ Across hosts: GitHub about 1630 calls (spread over at least 1 h at 1 s spacing t
 - Confirm Issues are enabled on each repo of each host (GitHub: all enabled today).
 - Correct the stale `sub_projects` URLs (a repo change, not an operator input).
 
-## 8. Questions for the operator (decisions)
+## 8. Operator decisions (2026-11-24) and open defaults
 
-1. Upstream set: (a) derive per repo from declared upstreams and remotes (recommended, honest, GitHub plus GitLab where the repo exists); (b) require every repo to exist on all six hosts first and treat missing ones as blocking drift; (c) (a) now, creating mirrors later.
-2. GitFlic and GitVerse: neither could be verified (GitFlic issue API not found; GitVerse issue close not documented). Options: (a) build adapters behind live proof and report UNCONFIRMED until proven (recommended); (b) exclude them from the mandate; (c) browser/UI-driven fallback.
-3. Private repos' trackers: confirm that private items are mirrored ONLY to the private repo's own trackers, including the private job_seeker and the three private modules (recommended), versus not mirrored at all.
-4. The 184 private-prefix rows stored in the PUBLIC umbrella DB: (a) leave as is and never mirror to the umbrella tracker (recommended); (b) move them into the private repos' own DBs so the public DB stops carrying them (cleaner, a larger migration and a content-boundary decision); (c) mirror an opaque count only.
-5. Mirrored fields: title and description only (recommended) versus including closure criteria; confirm that `forensic_anchor`/operator quotes are never sent.
-6. Milestones/releases: none (recommended), or one per release tag.
-7. Docs Chain: it is not a registered submodule in this tree. Approve adding `vasic-digital/docs_chain` as a submodule to the umbrella and constitution (needed for C6), or point to where it is distributed.
-8. Closure semantics on the tracker: Obsolete closes as not-planned, Operator-blocked stays open with a label (recommended), versus closing blocked items.
-9. Backfill timing and mode: dry-run review first, then apply per tier (recommended), versus apply immediately.
-10. job_seeker: its `tasks.md` (299 lines) is a second tracking system: fold into the DB (recommended) or mirror both.
-11. The duplicate gitlink `submodules/llm_provider` vs `submodules/LLMProvider` (same remote, two prefixes HLP/LLP): confirm that one is canonical.
-12. Anchor number: confirm 11.4.300, and whether the engine is shell or Go in the constitution repo.
+### 8.1 DECIDED (operator decisions in force, 2026-11-24)
+
+- Upstream set (was Q1): per repo, derived from its EXISTING remotes and declared upstream recipes. Option (a). A host where the repo does not exist is not a target (not drift); creating mirrors is a separate later decision.
+- GitFlic and GitVerse (was Q2): adapters are built BEHIND live proof. Their legs are UNCONFIRMED until a live create/read-back/close proves them; they are not excluded from the mandate and not claimed in sync before proof.
+- Private repos (was Q3): private items are mirrored ONLY to the trackers of the owning private repo (workshop_curriculum, ai_interviewing, monetization, job_seeker).
+- The 184 private-prefix rows in the public umbrella DB (was Q4): never mirrored to the umbrella tracker (option a). A repo whose visibility is unknown BLOCKS (rc 2), it never defaults to public.
+- Backfill (was Q9): dry-run first, then tiered apply (umbrella public, public modules, private modules, job_seeker), each tier an operator-reviewed step.
+- Docs Chain (was Q7): `docs_chain` is to be added as a submodule (umbrella and constitution), which unblocks C6. Adding it is a separate PR and a per-bump operator step for the gitlink.
+- Switch: OFF by default in the constitution, ON per project (already section 4).
+
+### 8.2 DEFAULTS pending operator veto (NOT decisions)
+
+- Mirrored fields (Q5): title and description only; `forensic_anchor`, operator quotes, `body_md`, evidence and diaries never sent.
+- Milestones (Q6): none.
+- Closure semantics (Q8): Obsolete closes as not-planned; Operator-blocked stays open with a label.
+- job_seeker `tasks.md` (Q10): fold into the DB.
+- Duplicate gitlink (Q11): one canonical `llm_provider`/`LLMProvider` gitlink to be chosen; deduped by remote URL in the engine meanwhile.
+- Anchor number and engine language (Q12): 11.4.300 (confirm against the constitution at authoring time); shell versus Go undecided.
 
 ## 9. Honest boundary
 
