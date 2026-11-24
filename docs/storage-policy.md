@@ -47,6 +47,7 @@ provably regenerable caches may be dropped, and their size is recorded.
 | pip cache | `~/.cache/pip` | `PIP_CACHE_DIR=/mnt/DATA1TB/claude-work/pip-cache` | FAST |
 | Cargo / rustup (if ever installed) | `~/.cargo`, `~/.rustup` | `CARGO_HOME`, `RUSTUP_HOME` under `/mnt/DATA1TB/claude-work` | FAST |
 | LSP servers (clangd, swift/sourcekit-lsp, kotlin-lsp, lsp-dl, ruby gems) | `~/.local/share/{clangd,swift,kotlin-lsp,lsp-dl,gem}` | symlinks to `/mnt/DATA1TB/claude-work/lsp/*`; `~/.local/bin` wrappers unchanged | FAST |
+| Local vision-model weights (job_seeker vision QA, user-level ollama on 127.0.0.1:11500) | `~/.ollama/models` (ollama default) | `OLLAMA_MODELS=/mnt/DATA1TB/claude-work/ollama-models` set by `job_seeker/scripts/vision-ollama.sh`; server home `/mnt/DATA1TB/claude-work/ollama-user` | FAST |
 | Local model weights (llmctl) | `~/.local/share/llmctl/models` | symlink to `/mnt/DATA7TB/claude-work/llmctl/models` | BULK |
 | Cold agent scratch and archives | `~/.cache/claude-tmp/...` (idle sessions) | symlinks into `/mnt/DATA7TB/claude-work/scratch-archive` | BULK |
 | Agent scratch (current session) | `$TMPDIR` set by the agent harness | unchanged; keep large outputs on FAST or BULK explicitly | n/a |

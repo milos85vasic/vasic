@@ -3,6 +3,6 @@
 # commands and allows the rest. It only READS the string; nothing is executed.
 in=$(cat)
 case "$in" in
-  *"checkout --"*|*"git restore"*|*"clean -fd"*|*"git reset"*|*"push --force"*|*"--no-verify"*|*"git diff"*) echo "stub guard: refused" >&2; exit 2 ;;
+  *"checkout --"*|*"git restore"*|*"clean -fd"*|*"git reset"*|*"push --force"*|*"--no-verify"*|*"git diff"*) echo "stub guard: refused" >&2; exit 2 ;;  # DANGER-OK: planted stub guard: the strings are case patterns that only READ the command text; nothing is executed
 esac
 exit 0

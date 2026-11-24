@@ -862,7 +862,7 @@ EOF
     sg -C "$dest" update-index --add --cacheinfo "160000,${SYN_SHA_BETA},submodules/beta" >/dev/null 2>&1 || return 1
     sg -C "$dest" update-index --add --cacheinfo "160000,${SYN_SHA_GAMMA},gamma"          >/dev/null 2>&1 || return 1
 
-    sg -C "$dest" commit -q --no-verify -m "synthetic pin-proof specimen" >/dev/null 2>&1 || return 1
+    sg -C "$dest" commit -q --no-verify -m "synthetic pin-proof specimen" >/dev/null 2>&1 || return 1  # DANGER-OK: commit into a throwaway synthetic repo under mktemp; no hook of this tree is bypassed
     return 0
 }
 
@@ -976,7 +976,7 @@ prove_failure() {
         p="$(manifest_entries "${d}/${MANIFEST_NAME}" | awk -F'\t' 'NR==1{print $2}')"
         [ -n "$p" ] || return 1
         sg -C "$d" update-index --add --cacheinfo "160000,cafebabecafebabecafebabecafebabecafebabe,${p}" >/dev/null 2>&1 || return 1
-        sg -C "$d" commit -q --no-verify -m "bump a gitlink and forget the manifest" >/dev/null 2>&1
+        sg -C "$d" commit -q --no-verify -m "bump a gitlink and forget the manifest" >/dev/null 2>&1  # DANGER-OK: commit into a throwaway synthetic repo under mktemp; no hook of this tree is bypassed
     }
     # N8 — the same bump STAGED but NOT committed. This is the whole point of
     #      comparing against the index: the gate must go red at `git add`, one

@@ -180,7 +180,7 @@ func TestValidateDefaultAsOfIsTheUTCDate(t *testing.T) {
 	}
 	time.Local = time.FixedZone("far", offset)
 	if time.Now().Format("2006-01-02") == time.Now().UTC().Format("2006-01-02") {
-		t.Skip("SKIPPED (not passed): could not construct a zone whose date differs from UTC")
+		t.Skip("SKIPPED (not passed): could not construct a zone whose date differs from UTC") // SKIP-OK: VSC-433 conditional on a constructible non-UTC zone
 	}
 	repo := tempRepo(t)
 	db := buildDB(t, true, "golden-good.sql")

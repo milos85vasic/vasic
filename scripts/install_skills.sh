@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -u
 
 # Install all skills from the major repositories globally
 npx skills add aniruddhaadak80/skills --skill '*' --yes --global
