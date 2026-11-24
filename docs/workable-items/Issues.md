@@ -4348,3 +4348,11 @@ WHAT: merged pr/ and feat/ branches remain on the remote and in local worktrees 
 
 WHAT: operator-requested research programme whose outputs live under docs/research/protocols (directory not yet on main as of 2026-11-24; work in flight under another agent). Acceptance: the research documents are merged to main under that path, each cited by an item or Roadmap entry, and exported per the docs chain.
 
+## VSC-430 — Career engine: plain-text and DOCX fallback export (job_seeker T171), wave 2
+
+**Status:** Queued
+**Type:** Feature
+**Severity:** low
+
+Deferred from wave 1: a new artifact suffix touches ENGINE_FORMATS, expected_files, the verify matrix, manifest.json and vault packing, and job_seeker accepts pdf slots only. Needs a design pass first. See docs/qa/career/career-engine-wave1-2026-11-24.md
+
