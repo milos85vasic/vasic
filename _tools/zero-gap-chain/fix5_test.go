@@ -194,7 +194,7 @@ func TestN3_WitnessFetchInsteadOfCannotRetargetToExtHelper(t *testing.T) {
 // it is not asserting a defect.
 func TestN3_WitnessFetchSshCommandResidualIsDocumentedNotClosed(t *testing.T) {
 	repo, ch, an := n3Fixture(t)
-	marker := filepath.Join(t.TempDir(), "sshcommand-ran")
+	marker := filepath.Join(t.TempDir(), "ssh-cmd-ran")
 	helper := filepath.Join(t.TempDir(), "sshcmd.sh")
 	if err := os.WriteFile(helper, []byte("#!/bin/sh\n: > '"+marker+"'\nexit 1\n"), 0o755); err != nil {
 		t.Fatal(err)

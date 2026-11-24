@@ -38,7 +38,11 @@
 #                          generated with random 20-character values when absent; values are never printed
 #   QA_CANDIDATE_NG_WRAPPER command prefix for ng build (default 'nice -n 10'; e.g. a load-aware governor)
 #   QA_CANDIDATE_SKIP_WEB  1 = 'build' compiles the Go binaries only (use when the Angular bundle was built separately)
-#   QA_CANDIDATE_OLLAMA    local embedding endpoint (default http://127.0.0.1:11434; "" = lexical search only)
+#   QA_CANDIDATE_OLLAMA    local embedding endpoint (default: $OLLAMA_HOST, else http://127.0.0.1:11434; "" = lexical search only)
+#   QA_CANDIDATE_EMBED_MODEL / _EMBED_DOC_PREFIX / _EMBED_QUERY_PREFIX
+#                          embedding model and its document/query prefixes (defaults nomic-embed-text,
+#                          "search_document: ", "search_query: "; the prefixes belong to the model - change them together)
+#   QA_CANDIDATE_LIVE_PORT the LIVE workshop port the QA instance must never use (default 8087)
 #
 # EXIT  0 ok | 1 failed / refused by a rule | 2 could not determine (a tool or input is missing)
 # =============================================================================
@@ -67,8 +71,13 @@ WT="${QA_CANDIDATE_WT:-$(dirname "$ROOT")/vasic-wt/qa-candidate}"
 SRC="${QA_CANDIDATE_SRC:-$ROOT/workshop}"
 CREDS="${QA_CANDIDATE_CREDS:-$HOME/.cache/claude-tmp/qa/credentials.env}"
 BIND="${QA_CANDIDATE_BIND:-127.0.0.1}"
-OLLAMA="${QA_CANDIDATE_OLLAMA-http://127.0.0.1:11434}"
-LIVE_PORT=8087
+# QA_CANDIDATE_OLLAMA: set (even to "") wins; unset falls back to the standard OLLAMA_HOST, then the stock local endpoint.
+if [ "${QA_CANDIDATE_OLLAMA+set}" = set ]; then OLLAMA="$QA_CANDIDATE_OLLAMA"; else OLLAMA="${OLLAMA_HOST:-http://127.0.0.1:11434}"; fi
+case "$OLLAMA" in ""|http://*|https://*) ;; *) OLLAMA="http://$OLLAMA" ;; esac   # OLLAMA_HOST may be a bare host:port
+LIVE_PORT="${QA_CANDIDATE_LIVE_PORT:-8087}"
+EMBED_MODEL="${QA_CANDIDATE_EMBED_MODEL:-nomic-embed-text}"
+EMBED_DOC_PREFIX="${QA_CANDIDATE_EMBED_DOC_PREFIX-search_document: }"
+EMBED_QUERY_PREFIX="${QA_CANDIDATE_EMBED_QUERY_PREFIX-search_query: }"
 MARK=".qa-candidate-instance"
 
 say()  { printf '>> %s\n' "$*"; }
@@ -118,7 +127,7 @@ prove_failure() {
   bad() { printf '  FAIL  %s\n' "$1"; fail=$((fail+1)); }
   local E=(env QA_CANDIDATE_QA_ROOT="$T/qa" QA_CANDIDATE_SRC="$T/live" QA_CANDIDATE_WT="$T/wt")
   mkdir -p "$T/live"
-  "${E[@]}" QA_CANDIDATE_PORT=8087 bash "$SELF" up >/dev/null 2>&1; rc=$?; [ "$rc" = 1 ] && ok "port 8087 (the live port) refused rc 1" || bad "8087 rc $rc"
+  "${E[@]}" QA_CANDIDATE_PORT="$LIVE_PORT" bash "$SELF" up >/dev/null 2>&1; rc=$?; [ "$rc" = 1 ] && ok "port 8087 (the live port) refused rc 1" || bad "8087 rc $rc"
   "${E[@]}" QA_CANDIDATE_PORT=abc bash "$SELF" up >/dev/null 2>&1; rc=$?; [ "$rc" = 1 ] && ok "non-numeric port refused rc 1" || bad "port abc rc $rc"
   env QA_CANDIDATE_QA_ROOT="$T/live/inside" QA_CANDIDATE_SRC="$T/live" bash "$SELF" data >/dev/null 2>&1; rc=$?; [ "$rc" = 1 ] && ok "QA root inside the live checkout refused rc 1" || bad "inside-live rc $rc"
   env QA_CANDIDATE_QA_ROOT="/var/lib/workshop/x" QA_CANDIDATE_SRC="$T/live" bash "$SELF" data >/dev/null 2>&1; rc=$?; [ "$rc" = 1 ] && ok "QA root under the live state path refused rc 1" || bad "live-state root rc $rc"
@@ -254,7 +263,7 @@ do_up() {
     -knowledge-materials "$D/curriculum/area-materials.jsonl" -knowledge-questions "$D/curriculum/questions"
     -learning-catalog "$D/curriculum/learning" -docs "$D/docs" -web "$D/web" -index "$D/index"
     -registry "$D/curriculum/passages.jsonl" -prebuilt "$D/prebuilt"
-    -embed-model nomic-embed-text -embed-doc-prefix 'search_document: ' -embed-query-prefix 'search_query: '
+    -embed-model "$EMBED_MODEL" -embed-doc-prefix "$EMBED_DOC_PREFIX" -embed-query-prefix "$EMBED_QUERY_PREFIX"
     -embed-max-chars 6000 -embed-max-batch-chars 12000 -embed-carry-forward=true
     -answer-provider none -question-verify none)
   [ -z "$OLLAMA" ] || args+=(-ollama "$OLLAMA")

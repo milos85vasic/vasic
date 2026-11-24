@@ -5,7 +5,7 @@ Purpose: prove (with machine-produced evidence) that a site such as
 https://milosvasic.ru works, and that a change did not regress it.
 
 Usage:
-  verify-live-site.py --base https://milosvasic.ru|http://127.0.0.1:PORT
+  verify-live-site.py --base https://milosvasic.ru|http://HOST:PORT
         [--sitemap-from-dir milosvasic.ru/_site] [--evidence-dir D]
         [--baseline FILE] [--report-json FILE] [--max-concurrent 6]
         [--private-path /admin/ ...] [--crawl] [--max-pages 2000]
@@ -225,7 +225,7 @@ class Verifier:
             out.append(self.norm(u))
         return list(dict.fromkeys(out))
 
-    def local_dir_urls(self):
+    def urls_of_local_dir(self):
         d = self.sitemap_dir; out = []
         if not d: return out
         sm = os.path.join(d, "sitemap.xml")
@@ -241,7 +241,7 @@ class Verifier:
     def run(self):
         t0 = time.time()
         urls = self.sitemap_urls()
-        for u in self.local_dir_urls():
+        for u in self.urls_of_local_dir():
             if u not in urls:
                 self.notes.append(f"in local _site sitemap but not in served sitemap: {u}")
                 urls.append(u)

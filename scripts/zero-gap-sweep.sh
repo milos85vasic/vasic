@@ -131,8 +131,9 @@
 # CDPATH, BASH_ENV/ENV and every other inherited variable are dropped; `exec` keeps the pid, so
 # ZG_SWEEP_REEXEC == $$ proves the re-exec happened (a copy of the variable from a caller cannot
 # carry this process's pid).
+ZG_GOMAXPROCS_DEFAULT=4   # the single place the sweep's child-process Go parallelism default lives (an inherited GOMAXPROCS wins)
 if [ "${ZG_SWEEP_REEXEC:-}" != "$$" ]; then
-    _zg_env=("ZG_SWEEP_REEXEC=$$" "LC_ALL=C" "LANG=C" "GIT_CONFIG_GLOBAL=/dev/null" "GIT_CONFIG_SYSTEM=/dev/null" "GOTOOLCHAIN=local" "GOMAXPROCS=${GOMAXPROCS:-4}"
+    _zg_env=("ZG_SWEEP_REEXEC=$$" "LC_ALL=C" "LANG=C" "GIT_CONFIG_GLOBAL=/dev/null" "GIT_CONFIG_SYSTEM=/dev/null" "GOTOOLCHAIN=local" "GOMAXPROCS=${GOMAXPROCS:-$ZG_GOMAXPROCS_DEFAULT}"
              "GIT_CONFIG_COUNT=2" "GIT_CONFIG_KEY_0=core.excludesFile" "GIT_CONFIG_VALUE_0=/dev/null" "GIT_CONFIG_KEY_1=core.attributesFile" "GIT_CONFIG_VALUE_1=/dev/null")
     for _zg_v in PATH HOME TMPDIR USER LOGNAME XDG_RUNTIME_DIR ZG_CLASS_BUDGET ZG_SWEEP_BUDGET ZG_IGNORED_EXCLUDE; do
         if [ -n "${!_zg_v+x}" ]; then _zg_env+=("$_zg_v=${!_zg_v}"); fi
@@ -1029,7 +1030,7 @@ prove_failure() (
     R=$T/r2env; one "$R" envdump nocorpus; rm -f "$T/tmp/zg-env.txt" "$T/tmp/zg-envval.txt"
     RC=0; env -i PATH="$PATH" HOME="$T/home" TMPDIR="$T/tmp" SHELLOPTS=noglob EVIL_VAR=1 GIT_DIR="$T/other/.git" bash "$SELF" --root "$R" >"$T/out" 2>"$T/err" || RC=$?
     if [ "$(tr '\n' ' ' <"$T/tmp/zg-env.txt" 2>/dev/null)" = "GIT_CONFIG_COUNT GIT_CONFIG_GLOBAL GIT_CONFIG_KEY_0 GIT_CONFIG_KEY_1 GIT_CONFIG_SYSTEM GIT_CONFIG_VALUE_0 GIT_CONFIG_VALUE_1 GOMAXPROCS GOTOOLCHAIN HOME LANG LC_ALL PATH PYTHONDONTWRITEBYTECODE TMPDIR ZG_RUN " ]; then ok "R2-I2 the class environment is exactly the allow-list"; else bad "R2-I2 class environment: $(tr '\n' ' ' <"$T/tmp/zg-env.txt" 2>/dev/null)"; fi
-    if [ "$(tr '\n' ' ' <"$T/tmp/zg-envval.txt" 2>/dev/null)" = "GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GOTOOLCHAIN=local GOMAXPROCS=4 PYTHONDONTWRITEBYTECODE=1 LC_ALL=C LANG=C " ]; then ok "R2-I2 allow-list values: global/system git config off, GOTOOLCHAIN=local, GOMAXPROCS=4, no bytecode"; else bad "R2-I2 values: $(tr '\n' ' ' <"$T/tmp/zg-envval.txt" 2>/dev/null)"; fi
+    if [ "$(tr '\n' ' ' <"$T/tmp/zg-envval.txt" 2>/dev/null)" = "GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null GOTOOLCHAIN=local GOMAXPROCS=$ZG_GOMAXPROCS_DEFAULT PYTHONDONTWRITEBYTECODE=1 LC_ALL=C LANG=C " ]; then ok "R2-I2 allow-list values: global/system git config off, GOTOOLCHAIN=local, GOMAXPROCS at its default, no bytecode"; else bad "R2-I2 values: $(tr '\n' ' ' <"$T/tmp/zg-envval.txt" 2>/dev/null)"; fi
 
     echo "R2-I3 NUL, C1 controls and invisible direction/line characters are rejected as bytes"
     for b in nulbyte c1ctrl bidi linesep alm; do
@@ -1187,7 +1188,7 @@ mkdir -p "$W/tmp"
 ZG_TOKEN=$(od -An -N16 -tx1 /dev/urandom | tr -d ' \n')
 [[ $ZG_TOKEN =~ ^[0-9a-f]{32}$ ]] || die2 "cannot draw a random run token from /dev/urandom"
 CLASS_ENV=("PATH=$PATH" "LC_ALL=C" "LANG=C" "TMPDIR=${TMPDIR:-$W/tmp}" "GIT_CONFIG_GLOBAL=/dev/null" "GIT_CONFIG_SYSTEM=/dev/null"
-           "GOTOOLCHAIN=local" "GOMAXPROCS=${GOMAXPROCS:-4}" "PYTHONDONTWRITEBYTECODE=1" "ZG_RUN=$ZG_TOKEN"
+           "GOTOOLCHAIN=local" "GOMAXPROCS=${GOMAXPROCS:-$ZG_GOMAXPROCS_DEFAULT}" "PYTHONDONTWRITEBYTECODE=1" "ZG_RUN=$ZG_TOKEN"
            "GIT_CONFIG_COUNT=2" "GIT_CONFIG_KEY_0=core.excludesFile" "GIT_CONFIG_VALUE_0=/dev/null"
            "GIT_CONFIG_KEY_1=core.attributesFile" "GIT_CONFIG_VALUE_1=/dev/null")
 for v in HOME USER LOGNAME XDG_RUNTIME_DIR; do
