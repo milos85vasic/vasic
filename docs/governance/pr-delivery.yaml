@@ -12,6 +12,12 @@
 #                 and whether the operator wants a non-author reviewer account (see below).
 #
 # An unknown key or a value outside its closed set is a refusal, never ignored (§11.4.297(A)).
+#
+# Roadmap-Item trailers (§11.4.293): umbrella work cites `Roadmap-Item: VSC-NNN` (an id in
+# docs/workable_items.db; the key VSC was ratified by the operator 2026-09-08 and again 2026-11-24).
+# Submodule work cites its own roster key (JSK-, WSP-, ...). No script in this repository validates
+# the trailer today (the upstream land_vehicle.sh accepts any key); this is declaration by comment only,
+# PROVISIONAL, and no schema key is added because an unknown key is a refusal.
 decision_id: "operator-2026-11-23/24-pr-driven-work (id UNCONFIRMED; no tracker id was issued)"
 mode: pr
 base_branch: main
