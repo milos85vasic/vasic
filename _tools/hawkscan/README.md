@@ -54,3 +54,11 @@ directly. Tracking this tool's presence and configuration lives in this
 directory instead, following the same spirit (a declared, documented,
 locally-runnable dependency) without forcing it into a schema built for a
 different kind of dependency.
+
+## Forcing the container runner
+
+`run.sh --runner=NAME` (or `CONTAINERS_RUNNER`) forces the runner that runs the
+HawkScan image: podman, docker or nerdctl (any other runner cannot `run --rm` an
+image and is refused). Without it the Containers Submodule picks one; the former
+hand-rolled `podman else docker` is gone. An unknown or not-installed runner is
+exit 2 (not the "skipped" exit 0). See [`docs/RUNNER_FLAG.md`](../../docs/RUNNER_FLAG.md).

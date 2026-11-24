@@ -73,6 +73,10 @@ ASSETS="$HERE/helixtranslate-container"
 # than a configuration error.
 # shellcheck source=lib/translation-fleet.sh
 . "$HERE/lib/translation-fleet.sh"
+# --runner=NAME forces the runtime on the build host and every peer (each host
+# validates it before anything is changed); flag > $CONTAINERS_RUNNER > HT_FLEET.
+ht_runner_parse "$@" || exit 2
+if [ "${#HT_ARGS[@]}" -gt 0 ]; then echo "distribute-helixtranslate: unknown argument: ${HT_ARGS[0]}" >&2; exit 2; fi
 ht_fleet_require || exit 2
 mapfile -t FLEET_HOSTS < <(ht_fleet_hosts)
 [ "${#FLEET_HOSTS[@]}" -gt 0 ] || { echo "FATAL (rc 2): HT_FLEET resolved to no hosts" >&2; exit 2; }
@@ -88,6 +92,17 @@ mk_envfile() {  # write a 600 env file of the working-provider keys to $1
     local v="${!k:-}"; [ -n "$v" ] && printf '%s=%s\n' "$k" "$v" >> "$out"
   done
 }
+
+if [ -n "${HT_RUNNER_OVERRIDE:-}" ]; then
+  # Forced runner: prove it exists on EVERY host before touching any of them.
+  for H in "${FLEET_HOSTS[@]}"; do
+    H_AT="$(ht_ssh_target "$H")" || exit 2
+    if ! ssh -o BatchMode=yes "$H_AT" "command -v $HT_RUNNER_OVERRIDE >/dev/null 2>&1"; then
+      echo "distribute-helixtranslate: runner '$HT_RUNNER_OVERRIDE' is not installed on $H (or the host is unreachable); refusing, no fallback. Nothing was changed." >&2
+      exit 2
+    fi
+  done
+fi
 
 echo "== 1. rsync source -> $BUILD_HOST =="
 ssh -o BatchMode=yes "$BUILD_AT" 'mkdir -p ~/helixtranslate-src'

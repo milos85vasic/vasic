@@ -60,6 +60,13 @@
 #   usage: run.sh <runtime> <provider> <model> <source-lang> <target-lang> <script>
 set -euo pipefail
 RUNTIME="$1"; PROVIDER="$2"; MODEL="$3"; SL="$4"; TL="$5"; SCRIPT="$6"
+# The runner NAME arrives from the caller (it may have been forced with
+# --runner=NAME on the machine that ssh'd here). THIS host is the only place that
+# can know whether it is installed, so it is validated here: absent -> exit 2,
+# never a fallback to another runtime. (This file runs on the remote host and
+# cannot assume the Containers Submodule is checked out here.)
+case "$RUNTIME" in *[!a-z0-9-]*|-*|"") echo "run.sh: invalid runner name '$RUNTIME'" >&2; exit 2 ;; esac
+command -v "$RUNTIME" >/dev/null 2>&1 || { echo "run.sh: runner '$RUNTIME' is not installed on $(hostname 2>/dev/null || echo this host); refusing, no fallback" >&2; exit 2; }
 ENVF="$HOME/.helixtranslate.env"
 [ -f "$ENVF" ] || { echo "missing $ENVF" >&2; exit 90; }
 exec "$RUNTIME" run --rm -i --env-file "$ENVF" -v helixtranslate-data:/data --entrypoint sh helixtranslate:cli -c \

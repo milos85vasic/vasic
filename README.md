@@ -366,6 +366,17 @@ bash scripts/verify-content-boundary.sh     # expect 1; read it, do not silence 
 
 Record what each one printed, not what this file says it prints.
 
+### Forcing the container runner (`--runner=NAME`)
+
+Every launcher in this repository that starts a container accepts
+`--runner=NAME` (podman, docker, nerdctl, cri-o, lxd, kubernetes, or `auto`),
+with the precedence flag > `CONTAINERS_RUNNER` > default order. An unknown or
+not-installed runner is refused with exit 2; there is never a fallback to another
+runner. The single wrapper page listing every launcher and how each honours the
+flag is [`docs/RUNNER_FLAG.md`](docs/RUNNER_FLAG.md); the contract itself lives in
+the Containers Submodule (`submodules/containers/docs/RUNNER_FLAG.md`). Proof:
+`bash scripts/verify-runner-flag.sh` (and `--prove-failure`).
+
 ### The check registry
 
 `scripts/check-registry.tsv` is the enumeration of "every check". It exists

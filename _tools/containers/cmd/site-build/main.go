@@ -52,9 +52,9 @@ import (
 
 	"digital.vasic.containers/pkg/compose"
 	"digital.vasic.containers/pkg/logging"
-	"digital.vasic.containers/pkg/runtime"
 
 	"vasic.digital/tools/containers/internal/orchestrate"
+	"vasic.digital/tools/containers/internal/runnersel"
 )
 
 // Exit codes. Three-valued by project convention: 2 is COULD NOT DETERMINE and
@@ -113,7 +113,14 @@ func run() int {
 		flagTimeout   = flag.Duration("timeout", 20*time.Minute, "Overall wall-clock budget for the workload")
 		flagProbe     = flag.Bool("probe", false, "Report runtime + compose availability and exit; start nothing")
 	)
-	flag.Parse()
+	choice, rest, rerr := runnersel.Parse(os.Args[1:], nil)
+	if rerr != nil {
+		fmt.Fprintf(os.Stderr, "%s: runner refused: %v\n", "site-build", rerr)
+		return orchestrate.ExitUndetermined
+	}
+	if perr := flag.CommandLine.Parse(rest); perr != nil {
+		return orchestrate.ExitFail
+	}
 
 	log := logging.NewStdLogger("site-build")
 
@@ -149,7 +156,7 @@ func run() int {
 	defer stop()
 
 	// ---- 1. Which runtime is actually here? Ask the module, never `command -v`.
-	rt, err := runtime.AutoDetect(ctx)
+	rt, err := runnersel.Runtime(ctx, choice)
 	if err != nil {
 		fmt.Fprintf(os.Stderr,
 			"site-build: COULD NOT DETERMINE — no container runtime available: %v\n", err)
@@ -159,10 +166,10 @@ func run() int {
 	if verr != nil {
 		version = "(version unavailable)"
 	}
-	log.Info("runtime: %s %s", rt.Name(), strings.TrimSpace(version))
+	log.Info("runtime: %s %s (%s)", rt.Name(), strings.TrimSpace(version), runnersel.Describe(rt, choice))
 
 	// ---- 2. Which compose command? Again the module decides.
-	orch, err := compose.NewDefaultOrchestrator(root, log)
+	orch, err := runnersel.Orchestrator(root, log, choice)
 	if err != nil {
 		fmt.Fprintf(os.Stderr,
 			"site-build: COULD NOT DETERMINE — no compose command available: %v\n", err)
@@ -170,8 +177,8 @@ func run() int {
 	}
 
 	if *flagProbe {
-		fmt.Printf("runtime=%s version=%s compose=available root=%s workload=%s\n",
-			rt.Name(), strings.TrimSpace(version), root, *flagWorkload)
+		fmt.Printf("runtime=%s version=%s compose=available root=%s workload=%s %s\n",
+			rt.Name(), strings.TrimSpace(version), root, *flagWorkload, runnersel.Describe(rt, choice))
 		return exitOK
 	}
 

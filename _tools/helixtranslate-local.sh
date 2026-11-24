@@ -55,9 +55,17 @@
 # engine binary, but runs the helixtranslate:cli container LOCALLY through the
 # runtime the Containers Submodule detects (no SSH to thinker.local). Reads -i
 # input, writes -o output ONLY on success.
+# Container runner: `--runner=NAME` (podman|docker|nerdctl|cri-o|lxd|kubernetes|auto;
+# the list comes from the Containers Submodule) forces it; see docs/RUNNER_FLAG.md.
 # Tolerant of extra engine flags (-api-key/-timeout/-verify[=x]) and forwards
 # the translate flags into the container. LLM keys come from the env-file.
 set -euo pipefail
+# --runner=NAME forces the container runner (flag > $CONTAINERS_RUNNER > default
+# order; unknown / not installed -> exit 2, no fallback). See docs/RUNNER_FLAG.md.
+_HERE0="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+. "$_HERE0/lib/vasic-runner.sh"
+vasic_runner_maybe "$@" || exit 2
+set -- "${VASIC_ARGS[@]+"${VASIC_ARGS[@]}"}"
 IN="" OUT=""
 FWD=()   # forwarded engine flags (provider/model/langs/script/api-key/timeout/verify)
 while [ $# -gt 0 ]; do
@@ -88,7 +96,10 @@ IMAGE="${HELIX_IMAGE:-helixtranslate:cli}"
 #      so the probe cannot be built at all. It is kept so that this conversion
 #      cannot make a previously-working invocation stop working; it is not a
 #      default, and step 2 is expected to answer on any host with a runtime.
-RUNTIME="${HELIX_RUNTIME:-}"
+# 0. A forced runner (--runner / $CONTAINERS_RUNNER) outranks HELIX_RUNTIME: it
+#    was validated above through the module, so it is installed or we exited 2.
+RUNTIME="${CONTAINERS_RUNNER:+${CONTAINERS_RUNNER_CHOSEN:-}}"
+[ -n "$RUNTIME" ] || RUNTIME="${HELIX_RUNTIME:-}"
 if [ -z "$RUNTIME" ]; then
   _HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
   _CMOD="$_HERE/containers"

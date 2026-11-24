@@ -53,6 +53,11 @@
 // moves here. Closing the remaining half means extending
 // vasic-digital/containers upstream, per §11.4.76(4), not rewriting it here.
 //
+// FORCED RUNNER. `--runner=NAME` (or $CONTAINERS_RUNNER; flag wins) forces the
+// runtime through the module's runtime.SelectRuntime: a forced runner that is
+// unknown or not installed is REFUSED with exit 2 — never a fallback. The line
+// printed on stdout carries "runner=<name> source=<flag|env|default>".
+//
 // EXIT CODES are three-valued, as every check in this tree is:
 //
 //	0  a runtime was detected and is reported on stdout
@@ -73,6 +78,8 @@ import (
 	"time"
 
 	"digital.vasic.containers/pkg/runtime"
+
+	"vasic.digital/tools/containers/internal/runnersel"
 )
 
 const (
@@ -94,7 +101,12 @@ func run(args []string, stdout, stderr *os.File) int {
 		flagTimeout = fs.Duration("timeout", 15*time.Second,
 			"Wall-clock budget for detection")
 	)
-	if err := fs.Parse(args); err != nil {
+	choice, rest, rerr := runnersel.Parse(args, nil)
+	if rerr != nil {
+		fmt.Fprintf(stderr, "runtime-probe: runner refused: %v\n", rerr)
+		return exitUndetermined
+	}
+	if err := fs.Parse(rest); err != nil {
 		return exitFail
 	}
 	if fs.NArg() != 0 {
@@ -110,10 +122,13 @@ func run(args []string, stdout, stderr *os.File) int {
 		rt  runtime.ContainerRuntime
 		err error
 	)
-	if p := parsePriority(*flagPriority); len(p) > 0 {
+	if p := parsePriority(*flagPriority); len(p) > 0 && choice.Forced() {
+		fmt.Fprintf(stderr, "runtime-probe: -priority conflicts with a forced runner (%s via %s); refusing\n", choice.Name, choice.Source)
+		return exitFail
+	} else if len(p) > 0 {
 		rt, err = runtime.AutoDetectWithPriority(ctx, p)
 	} else {
-		rt, err = runtime.AutoDetect(ctx)
+		rt, err = runnersel.Runtime(ctx, choice)
 	}
 	if err != nil || rt == nil {
 		fmt.Fprintf(stderr,
@@ -132,7 +147,7 @@ func run(args []string, stdout, stderr *os.File) int {
 		// Say so rather than inventing a version string.
 		version = "(version unavailable)"
 	}
-	fmt.Fprintf(stdout, "runtime=%s version=%s\n", rt.Name(), strings.TrimSpace(version))
+	fmt.Fprintf(stdout, "runtime=%s version=%s %s\n", rt.Name(), strings.TrimSpace(version), runnersel.Describe(rt, choice))
 	return exitOK
 }
 

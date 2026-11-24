@@ -29,6 +29,11 @@
 #   1  pages were present and EVERY one of them failed
 #   3  no .png files were found — nothing to do; cmd/ocr maps this to rc 2
 #      (COULD NOT DETERMINE), because "no input" is not "OCR succeeded".
+#
+# --runner / CONTAINERS_RUNNER: N/A HERE. This file runs INSIDE the container and
+# has no notion of which runner started it. The runner is chosen (and may be
+# forced with `--runner=NAME`) by its host-side launcher, cmd/site-build, and by
+# scripts/qa-up.sh / _tools/deploy-langs.sh above it; see docs/RUNNER_FLAG.md.
 # =============================================================================
 set -eu
 

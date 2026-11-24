@@ -39,6 +39,17 @@
 #   bash scripts/qa-up.sh --stop       stop what this script started; a workshop/ai
 #                                      stack it merely reused is left running
 #   bash scripts/qa-up.sh --no-rebuild never rebuild milosvasic.ru/_site
+#   bash scripts/qa-up.sh --runner=podman   FORCE the container runner for every
+#                                      container workload it starts (the mv
+#                                      rebuild; also exported to the workshop
+#                                      and ai stacks as CONTAINERS_RUNNER).
+#                                      flag > $CONTAINERS_RUNNER > default order;
+#                                      unknown / not-installed runner -> exit 2,
+#                                      never a fallback. See docs/RUNNER_FLAG.md.
+#                                      Needed ONLY when a container is used (mv
+#                                      rebuild, workshop/ai boot): vd/mv static
+#                                      servers and --stop work with no Go and no
+#                                      runner; --stop never refuses on a runner.
 #
 # ENVIRONMENT (all optional)
 #   QA_VD_DEFAULT_PORT        preferred port for vd        (default 8401)
@@ -62,9 +73,12 @@
 set -uo pipefail
 
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
-CONTAINERS_DIR="$ROOT/_tools/containers"
-PORT_DISCOVER="$CONTAINERS_DIR/bin/port-discover"
-SITE_BUILD="$CONTAINERS_DIR/bin/site-build"
+# ---- forced container runner (--runner=NAME), via the Containers Submodule ----
+# shellcheck source=../_tools/lib/vasic-runner.sh
+. "$ROOT/_tools/lib/vasic-runner.sh"
+CONTAINERS_GO_DIR="$ROOT/_tools/containers"
+PORT_DISCOVER="$CONTAINERS_GO_DIR/bin/port-discover"
+SITE_BUILD="$CONTAINERS_GO_DIR/bin/site-build"
 PREFIX="${QA_NAME_PREFIX:-vasic-qa}"
 STATE_DIR="${QA_STATE_DIR:-$ROOT/.service-registry/qa}"
 REGISTRY_DIR="${QA_REGISTRY_DIR:-$ROOT/.service-registry}"
@@ -78,6 +92,13 @@ warn() { printf '!! %s\n' "$*" >&2; }
 undetermined() { printf 'UNDETERMINED: %s\n' "$*" >&2; exit 2; }
 
 ONLY="" STOP=0 REBUILD=1
+# The runner flag is only STRIPPED here (pure bash: no Go, no module). A runner is
+# loaded and selected further down, and only when a container is about to be
+# used (mv rebuild, workshop / ai boot): static servers and --stop need none, and
+# must keep working on a host with no Go toolchain and no cached runner binary.
+QA_ORIG_ARGS=("$@")
+vasic_runner_strip "$@" || exit 2
+set -- "${VASIC_ARGS[@]+"${VASIC_ARGS[@]}"}"
 while [ "$#" -gt 0 ]; do
     case "$1" in
         --only) [ "$#" -ge 2 ] || undetermined "--only needs vd|mv|workshop|ai"
@@ -85,11 +106,28 @@ while [ "$#" -gt 0 ]; do
                 shift 2 ;;
         --stop) STOP=1; shift ;;
         --no-rebuild) REBUILD=0; shift ;;
-        -h|--help) sed -n '2,57p' "${BASH_SOURCE[0]}"; exit 0 ;;
+        -h|--help) sed -n '2,72p' "${BASH_SOURCE[0]}"; exit 0 ;;
         *) undetermined "unknown argument: $1" ;;
     esac
 done
 wants() { [ -z "$ONLY" ] || [ "$ONLY" = "$1" ]; }
+# ---- runner selection, deferred until a container is actually needed --------
+# A runner that was ASKED for (flag / $CONTAINERS_RUNNER) is validated BEFORE
+# anything boots when the run will use containers, so a refusal (rc 2) never
+# leaves a half-started stack; the choice is exported as CONTAINERS_RUNNER so
+# site-build and the workshop/ai scripts honour it. --stop never REFUSES on a
+# runner (stopping is not runner-dependent): for the stacks it tries the
+# selection and, if it is refused, warns and lets their own scripts decide.
+RUNNER_NEEDED=0
+if [ "$VASIC_RUNNER_ASKED" = 1 ] && { wants workshop || wants ai || { wants mv && [ "$REBUILD" -eq 1 ]; }; }; then RUNNER_NEEDED=1; fi
+if [ "$STOP" -eq 1 ]; then { wants workshop || wants ai; } || RUNNER_NEEDED=0; fi
+if [ "$RUNNER_NEEDED" = 1 ]; then
+    if [ "$STOP" -eq 1 ]; then
+        vasic_runner_maybe "${QA_ORIG_ARGS[@]}" || { warn "runner not selected on --stop (stopping needs none); the stack scripts decide"; unset CONTAINERS_RUNNER; }
+    else
+        vasic_runner_maybe "${QA_ORIG_ARGS[@]}" || exit 2
+    fi
+fi
 mkdir -p "$STATE_DIR"
 # ss is needed by BOTH the start and the --stop paths (ownership = listener pid).
 command -v ss   >/dev/null 2>&1 || undetermined "ss absent; cannot prove which process owns a port"
@@ -189,7 +227,7 @@ ensure_bin() {  # $1 binary path, $2 cmd dir name
     [ -x "$1" ] && return 0
     command -v go >/dev/null 2>&1 || undetermined "go toolchain absent; cannot build $2"
     log "building $2 from _tools/containers/cmd/$2 ..."
-    ( cd "$CONTAINERS_DIR" && go build -o "bin/$2" "./cmd/$2" ) || undetermined "go build ./cmd/$2 failed"
+    ( cd "$CONTAINERS_GO_DIR" && go build -o "bin/$2" "./cmd/$2" ) || undetermined "go build ./cmd/$2 failed"
 }
 ensure_bin "$PORT_DISCOVER" port-discover
 
