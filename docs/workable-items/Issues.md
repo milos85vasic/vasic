@@ -11,7 +11,6 @@ WHAT — this repository tracked work in prose (docs/OPERATOR-DECISIONS-*.md, sp
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 1 of 2026-09-07. The question put to the operator was: `submodules/curriculum-kit` is not a git repository; `go.mod` reaches outside the repo and no truthful manifest entry can be written
@@ -31,7 +30,6 @@ SUB-PROJECT BASIS — the source row names the path submodules/curriculum-kit.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 2 of 2026-09-07. The question put to the operator was: 3 area documents fail publication review on 62/54/58 uncited claim blocks
@@ -51,7 +49,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 3 of 2026-09-07. The question put to the operator was: Only 5 of 42 areas carry a test
@@ -71,7 +68,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 4 of 2026-09-07. The question put to the operator was: FR-002 asked for a topical classification the reviews decline to make
@@ -91,7 +87,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** In progress
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 6 of 2026-09-07. The question put to the operator was: SC-010 hue floor: gate reported 4 families over a defective instrument
@@ -111,7 +106,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 7 of 2026-09-07. The question put to the operator was: Two chapter-card implementations; `/chapters` never uses the component extracted for it
@@ -131,7 +125,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 8 of 2026-09-07. The question put to the operator was: The 37-area lexicon is chapter-01-derived; chapters 02 and 02.01 were never mined
@@ -151,7 +144,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 9 of 2026-09-07. The question put to the operator was: 12 documents' ingested `.sections.json` are stale; regenerating mints new passage ids
@@ -171,7 +163,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 10 of 2026-09-07. The question put to the operator was: `tesseract` absent (gate 5 → rc 2); `bundle`/`bundler`/`jekyll` absent (gate 6 asserts against an 8-file fragment)
@@ -191,7 +182,6 @@ SUB-PROJECT BASIS — the source row names the path submodules/containers.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 11 of 2026-09-07. The question put to the operator was: Content-boundary gate red at ~15,300 matches; decision packet never acted on
@@ -211,7 +201,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 12 of 2026-09-07. The question put to the operator was: `deploy-langs.sh` downgrades a failed Jekyll build to a warning and still exits 0
@@ -231,7 +220,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 13 of 2026-09-07. The question put to the operator was: `milosvasic.ru/_site/` tracked: 8 files, 1 page, answers 1 of 525 sitemap URLs
@@ -251,7 +239,6 @@ SUB-PROJECT BASIS — the source row names the path milosvasic.ru.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 14 of 2026-09-07. The question put to the operator was: 21 repositories have Actions enabled while declaring zero workflow files
@@ -271,7 +258,6 @@ SUB-PROJECT BASIS — the source row names the path milosvasic.ru.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 15 of 2026-09-07. The question put to the operator was: `design-toolkit` GitLab mirror 7 commits behind, recipe deliberately `.disabled`
@@ -291,7 +277,6 @@ SUB-PROJECT BASIS — the source row names the path design-toolkit.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 16 of 2026-09-07. The question put to the operator was: Nothing committed this session; container serves the old binary
@@ -311,7 +296,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 1 of 2026-09-08. The question put to the operator was: Semantic-search leg needs an embedder; local models now off
@@ -331,7 +315,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 2 of 2026-09-08. The question put to the operator was: `meeting-notes` route deliberately NOT_BUILT on one undecided row
@@ -351,7 +334,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 3 of 2026-09-08. The question put to the operator was: 3 documents unpublished on W2 violations
@@ -371,7 +353,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 4 of 2026-09-08. The question put to the operator was: 12 served areas carry no assessment
@@ -391,7 +372,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 5 of 2026-09-08. The question put to the operator was: The one flagged span (id `01M1H9DKFTVEJMW5YFZ1GC7PYN`)
@@ -411,7 +391,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 6 of 2026-09-08. The question put to the operator was: The word-run rule that flagged it
@@ -431,7 +410,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 7 of 2026-09-08. The question put to the operator was: `meeting-notes` contract shape
@@ -451,7 +429,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 9 of 2026-09-08. The question put to the operator was: Sequencing against the QA session
@@ -471,7 +448,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 10 of 2026-09-08. The question put to the operator was: 20-passage evidence floor sorts on the wrong quantity (r = -0.066 against actual authorability)
@@ -491,7 +467,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 11 of 2026-09-08. The question put to the operator was: Filling every area empties the M4 proof arm's population
@@ -511,7 +486,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 13 of 2026-09-08. The question put to the operator was: 11 plan rows are ASR fragments naming no deliverable
@@ -531,7 +505,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 14 of 2026-09-08. The question put to the operator was: `MIN_SEGMENTS_FOR_INFORMATIVE_ABSENCE = 500` makes `not_covered` unreachable for short chapters
@@ -551,7 +524,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 15 of 2026-09-08. The question put to the operator was: Document 04's last 8 blocks cite evidence that has no passage id
@@ -571,8 +543,9 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
+**Severity:** medium
 **Created-By:** User
+**Assigned-To:** zero-gap-sweep
 
 WHAT — operator decision 16 of 2026-09-08. The question put to the operator was: 264 pre-existing citations of unverified relevance
 
@@ -591,7 +564,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 17 of 2026-09-08. The question put to the operator was: `publication-reviews.jsonl` / `area-materials.jsonl` gitignored — the files gating what is served are not in version control
@@ -611,7 +583,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 18 of 2026-09-08. The question put to the operator was: Every graded question answerable by shape alone: 138/138 keys are the longest option (100%), 122/138 at position 1 (88%), pass mark 70%, no shuffle anywhere in the serving path
@@ -631,7 +602,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 19 of 2026-09-08. The question put to the operator was: The producer/verifier split is process-scoped only; two invocations 2s apart publish on same-minted citations, and the prover's key arm is inverted so it passes with the protection removed
@@ -651,7 +621,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 20 of 2026-09-08. The question put to the operator was: QA session timing given the above
@@ -671,7 +640,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 21 of 2026-09-08. The question put to the operator was: 32 answer keys appear verbatim in the lesson section the question links to (31 of 290) — all against area-document prose, never a transcript
@@ -691,7 +659,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 24 of 2026-09-08. The question put to the operator was: Areas 26 (5 anchored) and 23 (6) serve tests while 19 (5), 27 (6) and 28 (6) are refused — authorship date, not evidence, is the selector
@@ -711,7 +678,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 25 of 2026-09-08. The question put to the operator was: Four `kg_*` kinds (226 rows of TODOs, meeting notes, open questions, next-meeting points) exist in the index but were never in the advertised vocabulary
@@ -731,7 +697,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 26a of 2026-09-08. The question put to the operator was: Re-measured: there is NO pack producer and NO artefact — the pack is derived by reading a Markdown file, and NO gate ever enforced membership (B1–B8 check resolution, redaction and lesson-section path, never pack membership). Only 30.6% of outside-pack citations sit at distance 1; the rest reach up to 644 segments away. Best closure admits 41.3% at 3.75× pack growth. Corpus re-cut separately proven unsafe: one merged pair moves `root_hash` `62e62eea…` → `960db1d2…`, orphans an anchor, and models are off so nothing can be re-embedded
@@ -751,7 +716,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 26b of 2026-09-08. The question put to the operator was: The withdrawn constraint's prose still stands verbatim in 6 banks, instructing future authors to obey the rule that caused the defect
@@ -771,7 +735,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** User
 
 WHAT — operator decision 27 of 2026-09-08. The question put to the operator was: 182 older-bank questions the screen never flagged, unread. Precision is 98%; recall is known poor (reading found 73% where the screen flagged 37.5%)
@@ -791,7 +754,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T006: [P] Configure linting/formatting to match the reference module (`gofmt`, Angular ESLint config) — **[UNWRITTEN, AND THE TASK CONTRADICTS ITSELF. Measured 2026-09-03; NEW note.** Neither half is configured. Frontend: `workshop/platform/frontend/` has **no** `.eslintrc*` and **no** `eslint.config.*`; `package.json` declares 11 scripts and **none is `lint`**; its `devDependencies` contain **no** package whose name matches `lint` or `prettier`. Go: nothing in `workshop/` runs `gofmt` as a gate, and `gofmt -l workshop/platform/backend` reports **3** unformatted files today (`cmd/knowledge-registry-backfill/main.go`, `internal/api/publication.go`, `internal/api/passages_publication_test.go`), which is a live demonstration that no gate is enforcing it. **The self-contradiction, and it needs an operator to resolve rather than an agent to guess:** this task says *"match the reference module"*, and the reference is `ai_interviewing/platform/frontend` (plan.md Structure Decision) — measured, **that module has no ESLint config either**: 5 scripts, none `lint`, zero lint devDependencies. So "match the reference" and "Angular ESLint config" point in opposite directions and cannot both be satisfied. Adopt ESLint and DIVERGE from the reference, or match the reference and drop the ESLint half; either is defensible, neither is this note's to choose. The `gofmt` half has no such ambiguity and is unblocked work]** — **BLOCKER:** the task contradicts itself — it says "match the reference module", and the reference (`ai_interviewing/platform/frontend`) has NO ESLint config either, so there is nothing to match · **OWNER:** **operator** — pick a lint baseline, or withdraw the "match the reference" clause (FR-013)
@@ -809,7 +771,6 @@ SUB-PROJECT BASIS — the source row names paths in more than one sub-project (A
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T015: [TDD] **[PATH NOT BUILT — `symbol.go` does not exist. Measured 2026-09-02, only the SCHEMA landed, in `registry.go`: `Symbol *string` at `:73`, `CREATE UNIQUE INDEX … passages_symbol_key ON passages(path, symbol)` at `:934`, `CREATE TABLE … symbol_aliases` at `:966`. No code reads or writes `symbol_aliases` — `registry.go:1091` names it among the tables this package never writes — so the behaviour this task contracts is still owed at the path named here]** Implement the code-passage matching key `(path, symbol)` and the `symbol_aliases` table in `submodules/passage/pkg/passage/symbol.go` per [contracts/passage-contract.md](./contracts/passage-contract.md) §6.2, §6.4 and the §4.3 `symbol_aliases` DDL (SC-016a) — `origin` separates `authored` (written by the maintainer performing the rename; authoritative) from `detected` (ingest's heuristic, which can mis-attach two similar helpers), so a reviewer can see exactly which links rest on a guess. ~~**Conditional on T014**~~ **— UNBLOCKED 2026-09-03. T014 now exits `0` and names the producer (`pipeline/symbols`, a `go/parser` extractor owned by this feature, at `workshop/pipeline/symbols/`); see T014's own note for the A3/A4 rejection of Lumen's store and the B1–B6 confirmation of this one. This task is therefore UNWRITTEN WORK, not blocked work, and the block that used to excuse it is gone** — **BLOCKER:** none but the work — only the SCHEMA landed in `registry.go`; `symbol.go` is unwritten · **OWNER:** **implementer** — unblocked today (SC-016a, FR-037)
@@ -827,7 +788,6 @@ SUB-PROJECT BASIS — the source row names paths in more than one sub-project (P
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T016: [TDD] **[PATH NOT BUILT — `ingest_match.go` does not exist and no equivalent landed anywhere]** Implement the §8 ingest matching branches for code passages in `submodules/passage/pkg/passage/ingest_match.go` — R2 attach on `(path, symbol)` · R3 attach through `symbol_aliases`, recording WHICH alias was used so `detected` links stay reviewable · R4 an unaliased rename ⇒ **exit `1`** for `workshop/`-owned code (§6.6 makes an `authored` alias a mandatory step of any rename inside the tree) and, for code outside `workshop/`, mint a new pid and record the orphaned old one so the broken citation is LOUD. Minting stays the last branch (M4). ~~**Conditional on T014**~~ **— UNBLOCKED 2026-09-03. T014 now exits `0` and names the producer (`pipeline/symbols`, a `go/parser` extractor owned by this feature, at `workshop/pipeline/symbols/`); see T014's own note for the A3/A4 rejection of Lumen's store and the B1–B6 confirmation of this one. This task is therefore UNWRITTEN WORK, not blocked work, and the block that used to excuse it is gone** — **BLOCKER:** none but the work — `ingest_match.go` is unwritten and no equivalent landed anywhere · **OWNER:** **implementer** — unblocked today (SC-016a, FR-037)
@@ -845,7 +805,6 @@ SUB-PROJECT BASIS — the source row names paths in more than one sub-project (P
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T017: [TDD] **[PATH NOT BUILT — `symbol_test.go` does not exist; measured 2026-09-02 the identifier `G-PID-4` appears nowhere in `submodules/passage`]** Prove **SC-016a** via gate **G-PID-4** in `submodules/passage/pkg/passage/symbol_test.go` ([contracts/passage-contract.md](./contracts/passage-contract.md) §6.5, §6.6): rename a `workshop/`-owned symbol WITH an `authored` alias and assert the pid is preserved and its citations still resolve; then rename one WITHOUT an alias and assert the old pid resolves `not_in_registry` — a loud dead link — and that ingest reports the unaliased rename as exit `1`. **Paired mutation**: make unaliased renames mint a new pid silently and re-point the old citation by nearest-text match; the gate MUST go red. 100% of stale code references failing loudly is the entire criterion — a confident link to the wrong code is the failure it exists to prevent. ~~**Conditional on T014**~~ **— UNBLOCKED 2026-09-03. T014 now exits `0` and names the producer (`pipeline/symbols`, a `go/parser` extractor owned by this feature, at `workshop/pipeline/symbols/`); see T014's own note for the A3/A4 rejection of Lumen's store and the B1–B6 confirmation of this one. This task is therefore UNWRITTEN WORK, not blocked work, and the block that used to excuse it is gone** — **BLOCKER:** **predecessor T015 + T016** — G-PID-4 tests code that does not exist yet · **OWNER:** **implementer**, after T015/T016 (SC-016a, FR-032, SC-012)
@@ -863,7 +822,6 @@ SUB-PROJECT BASIS — the source row names paths in more than one sub-project (P
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T019: [P] [TDD] **[PARTIAL — BUILT AND PROVEN, BUT ITS GATE READS THE WRONG EXIT CODE AND THE CONTRACTED OVERRIDE DOES NOT EXIST. Measured 2026-09-03; this is a NEW note, the task previously carried none.** `workshop/pipeline/detect_media.sh` EXISTS (26,095 B, executable) and does exactly what the first half of this task asks: it probes capability, never presence. `:27` — *"Never `--version`. Never `command -v`. Never `[ -x ]`"* — with `ffprobe` exercised by `-show_format -show_streams` on a 1 s fixture (`:192`, `:209`) and `ffmpeg` by an actual decode. **§1.1 paired proof RUN: `--prove-failure` → rc 0, `PROVE: 4 mutations, 4 caught, 0 missed`**, and it opens with the control this task's own text demands — `PROVE: control — BROKEN fake PASSES a naive '--version' presence check (rc 0)`. It is registered as check `media-presence` in `workshop/platform/gates/check-registry-001.tsv` with a real rc-2 probe (`--scratch-dir /nonexistent/…` → rc **2**, measured). **The trap this task exists to catch is live on this host and the tool catches it**: a plain run resolves `ffprobe` to `/home/…/.cache/ms-playwright/ffmpeg-1011/ffmpeg-linux`, which answers `--version` and prints `Unrecognized option 'show_format'`, and the probe reports `ffprobe UNUSABLE` with that evidence. **TWO MEASURED DIVERGENCES FROM G-CLI-3, and they are the open half.** (1) **The exit code is wrong against the contract.** An unusable tool exits **`1`** (`RESULT 1 UNUSABLE — a required tool cannot do its job`), and mutations M2/M3 assert `rc=1`. But `contracts/pipeline-cli.md` §3.2 **P4** and gate **G-CLI-3** at `:317` both require exit **`2`** with `reason.code: "ffprobe_unusable"` — *"an unusable tool determines nothing"*, this task's own words. `grep -n 'ffprobe_unusable\|reason.code' workshop/pipeline/detect_media.sh` returns **zero**. (2) **`WORKSHOP_FFPROBE` / `WORKSHOP_FFMPEG` do not exist** — `grep -oE '\$\{?[A-Z_]*FFPROBE[A-Z_]*' ` over that script returns nothing — so G-CLI-3 *as written* (*"point `WORKSHOP_FFPROBE` at Playwright's ffmpeg binary"*) cannot be run at all, even though the situation it describes is the host's actual state. **Which of `1` and `2` is right is a real question and NOT a clerical one** — standing rule 2 says a missing or crashed dependency is always `2`, while a tool that is present and answers wrongly is arguably a determined finding — but the contract, the gate and this task all say `2`, and the code says `1`, so **something must change and it is not this note's call to decide which.** Until then G-CLI-3 is unsatisfied]** Implement media-tooling detection in `workshop/pipeline/detect_media.sh` — probe `ffmpeg`/`ffprobe` for actual capability, not `--version`; `ffprobe` here is a Playwright symlink that answers `--version` and rejects `-show_format`. Gate **G-CLI-3** ([contracts/pipeline-cli.md](./contracts/pipeline-cli.md) §3.2, §5): point `WORKSHOP_FFPROBE` at Playwright's ffmpeg binary and assert exit `2` with a tooling reason, never `1` — an unusable tool determines nothing. **Paired mutation**: replace the capability probe with `ffprobe --version`; the gate MUST go red, because that binary answers `--version` happily and the probe would pass over a tool that cannot do the job — **BLOCKER:** none but the work — the script exists and runs; its gate reads the wrong exit code and the contracted override is unwritten · **OWNER:** **implementer** — unblocked today (FR-033, SC-013, FR-032, SC-012)
@@ -881,7 +839,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T020: [P] [TDD] Implement backend/model detection in `workshop/pipeline/detect_backend.sh` following `scripts/lumen-reindex.sh`'s env → config → live probe → documented fallback ladder — **[PATH NOT BUILT — `workshop/pipeline/detect_backend.sh` does not exist. Measured 2026-09-02, PART of the substance landed at a different path, for the ANSWERING backend only: `workshop/scripts/_capabilities.sh` carries the env-override rung, a live daemon probe and a documented read-only fallback. The config-file rung and ASR-model-backend detection are absent, so this task is not satisfied by that file — read it before rebuilding, then build the missing rungs]** — **BLOCKER:** none but the work — `detect_backend.sh` is unwritten · **OWNER:** **implementer** — unblocked today (FR-023)
@@ -899,7 +856,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T021: [P] **[PARTIAL — ONE OF ITS TWO GATES IS BUILT AND PROVEN, THE OTHER EXISTS NOWHERE. Measured 2026-09-03; NEW note.** The scripts and the adapter are real: `workshop/scripts/start.sh`, `stop.sh`, `status.sh` and the Go adapter `workshop/platform/orchestration/cmd/workshop-boot/main.go`, which reports `RUNNING`/`STOPPED`/`DEGRADED` *"or exit 2 when it cannot tell"* (`:126`). **G-CLI-17 is DONE**: `bash workshop/platform/gates/verify-status-exit-contract.sh` → rc **0**, `PASS=3 FAIL=0 UNDET=0` — A1 an absent project prints `STOPPED` and exits **1**, A2 `status.sh` passes the control plane's code through unchanged, A3 `RUNNING → 0` while `STOPPED → 1` are distinguishable by exit code alone; and its **§1.1 paired mutation** `prove-status-exit-contract.sh` → rc **0**, `CAUGHT=2 MISSED=0`, seeding **MS1** (`STOPPED` exits 0 — the exact `return nil` regression this task names) and **MS2** (`STOPPED` filed as 2), each proven to COMPILE and LINK before being judged, then the tree restored. **G-CLI-12 IS UNBUILT, and so is the behaviour it would gate.** `grep -rn 'G-CLI-12'` over `workshop/` returns **zero** files — no gate, no fixture, no registry row — and the branch itself does not exist: `grep -rn 'unidentif\|identity cannot\|port holder'` over `cmd/workshop-boot/main.go`, `status.sh` and `_common.sh` also returns **zero**. There is no path on which `status.sh` meets a published port held by a process whose identity cannot be established and answers **2**; today that case is simply not distinguished from the `DEGRADED`/`STOPPED` negatives, which is the exact conflation standing rule 2 forbids. What remains: the unidentifiable-holder branch, its `2`, and the paired mutation that makes it return `1`]** Create `workshop/scripts/{start,stop,status}.sh` over a Go consuming adapter that calls `submodules/containers`' **Go API** — consumption, not reimplementation (§11.4.76(4)). **Do NOT wrap `cmd/boot`**: measured 2026-09-01, that CLI hardcodes a `helixagent` endpoint, accepts no `ComposeFile`, and constructs `BootManager` with neither an orchestrator nor a health checker, so pointed at this project it **exits `0` having started nothing** — a silent false pass, which standing rule 2 forbids. The adapter constructs the manager with this project's compose file and health checker; anything the adapter needs that the submodule cannot express must be contributed upstream, not forked here. Gate **G-CLI-12** ([contracts/pipeline-cli.md](./contracts/pipeline-cli.md) §4.8, §5): bind the published port with a process whose identity cannot be established and assert `status.sh` exits `2`, not `1` — an unidentifiable holder is could-not-determine, while `DEGRADED` (containers exist but not all are running) is a determined negative and stays `1`. **Paired mutation**: make the unidentifiable-holder branch return `1`; the gate MUST go red. Gate **G-CLI-17** ([contracts/pipeline-cli.md](./contracts/pipeline-cli.md) §4.8, §5) — **assigned to this task 2026-09-02 by operator decision**, because the contract itself calls it the sibling of G-CLI-12 on the same script: `status.sh` against a project with **no containers** prints `STOPPED` **and** exits `1`, a determined negative distinguishable by exit code alone from `RUNNING`'s `0`. Reproduce with `WORKSHOP_PROJECT_NAME=<unused-name> bash workshop/scripts/status.sh`. **Paired mutation**: restore the `return nil` in `cmdStatus`'s `len(statuses) == 0` branch — i.e. reproduce the behaviour measured on 2026-09-01; the gate MUST go red — **BLOCKER:** none but the work — one of the two contracted gates exists nowhere · **OWNER:** **implementer** — unblocked today (FR-012, FR-033, SC-013, FR-032, SC-012)
@@ -917,7 +873,6 @@ SUB-PROJECT BASIS — the source row names paths in more than one sub-project (C
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T022: [REVIEW] Review the passage contract implementation against [contracts/passage-contract.md](./contracts/passage-contract.md) before anything consumes it — every other component depends on its shape — **BLOCKER:** **predecessor T015-T017** — the contract cannot be reviewed as a whole while its symbol half is unwritten; the review itself is a human judgement, not a gate · **OWNER:** **human reviewer**, after T015-T017 (FR-037)
@@ -935,7 +890,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T028: [US1] [TDD] Implement atomic checkpoint/resume (write-temp → fsync → rename) in `workshop/pipeline/transcribe/checkpoint.py` per FR-029 — **[PATH NOT BUILT for the CHECKPOINT half; the ATOMIC-WRITE half moved. Measured 2026-09-02: `checkpoint.py` and the `transcribe/` directory do not exist, but `workshop/pipeline/run_faster_whisper.py:179`–`:184` already implements exactly the contracted shape — `tmp = out.with_suffix(out.suffix + ".tmp")` → `json.dump` → `fh.flush()` → `os.fsync(fh.fileno())` → `tmp.replace(out)`. Do NOT rebuild that. What is genuinely absent is checkpoint/resume across chunks and any `--resume` flag, and it depends on T025's chunker, ~~which is also unbuilt~~ **— UNBLOCKED 2026-09-03: T025's chunker is now BUILT, PROVEN (8/8 mutations caught) and TICKED at `workshop/pipeline/transcribe/chunker.py`, so the dependency this note named is discharged and the remaining work is unwritten, not blocked. Re-measured the same day: `workshop/pipeline/transcribe/checkpoint.py` still does not exist, and the atomic-write half at `run_faster_whisper.py:179`–`:184` is unchanged — do NOT rebuild it**]** — **BLOCKER:** none but the work — the checkpoint half is unwritten · **OWNER:** **implementer** — unblocked today (FR-029)
@@ -953,7 +907,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T029: [US1] [TDD] **[PATH CORRECTED 2026-09-02 for the IDENTITY, `[PATH NOT BUILT]` for the GATE — this task named `workshop/pipeline/transcribe/coverage.py`, which does not exist. The identity landed in Go, in the backend: `workshop/platform/backend/pkg/curriculum/curriculum.go` `ComputeCoverage` at `:428`, `UnexplainedGapS` at `:503`, `Complete = UnexplainedGapS == 0` at `:504`, the identity string in the `Identity` field at `:376`; it is served at `internal/api/chapters.go:177`/`:362` and made a contract violation for a published chapter at `:216`. **Do not rebuild the arithmetic.** Gate G-CLI-4 and its tolerate-gaps mutation are what remain, and they must gate whatever actually computes coverage — which is this Go path, not a Python module. — **BLOCKER:** none but the work — the identity landed in Go; the GATE is unwritten · **OWNER:** **implementer** — unblocked today (FR-001, SC-001)
@@ -971,7 +924,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T030: [US1] Emit the markdown transcript with pid anchors and timestamps to `workshop/curriculum/chapter-01/transcript.md` — **[PATH CORRECTED 2026-09-02 — this task named `workshop/chapters/01/transcript/transcript.md`; that directory does not exist (`workshop/chapters/01/` holds the recording and its archive parts only) and the timestamped transcript landed at `workshop/curriculum/chapter-01/transcript.md`. The TIMESTAMP half is built; the **pid-anchor half is not** — `grep -rl '<!-- pid:' workshop --include='*.md'` returns zero files across the whole submodule, and passage identity currently lives only in `workshop/curriculum/passages.jsonl`. **RE-MEASURED 2026-09-03: unchanged. `workshop/curriculum/chapter-01/transcript.md` EXISTS (and T040's R2 assertion was re-run against it, 0 violations across 3 surfaces), and `grep -rl '<!-- pid:' workshop --include='*.md'` STILL returns ZERO files.** The consequence reaches further than this task: T009 built the anchor reader/writer at `submodules/passage/pkg/passage/anchor.go` and it is ticked, but nothing in the tree has ever written an anchor into a document, so T113's `--write-anchors` has nothing to switch on and the §8 R1b/R1c duplicate- and foreign-anchor branches have never been exercised against a real source. PARTIAL: timestamps done, anchors unwritten, nothing blocking]** — **BLOCKER:** none but the work · **OWNER:** **implementer** — unblocked today (FR-001, FR-002, FR-037)
@@ -989,7 +941,6 @@ SUB-PROJECT BASIS — the source row names paths in more than one sub-project (P
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T031: [US1] [TDD] Implement the immutable machine layer + append-only correction overlay in `workshop/platform/backend/pkg/transcript/layers.go` per FR-038 — the machine output is evidence and must survive correction. **[PATH NOT BUILT — neither `layers.go` nor the `pkg/transcript/` directory exists, and no equivalent landed anywhere. The nearest thing on disk is the `corrections` DDL at `submodules/passage/pkg/passage/registry.go:936`–`:944`, which `registry.go:1091` says that package never writes; a table declaration is not the layered type this task contracts]** — **BLOCKER:** none but the work — `layers.go` is unwritten · **OWNER:** **implementer** — unblocked today (FR-038)
@@ -1007,7 +958,6 @@ SUB-PROJECT BASIS — the source row names paths in more than one sub-project (P
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T034: [US1] Freeze and hash the normaliser in `workshop/pipeline/compare_engines.py` BEFORE the first measurement — **[PATH CORRECTED 2026-09-02 — this task named `workshop/pipeline/accuracy/normaliser.py`; neither it nor the `accuracy/` directory exists, and the normaliser landed inside `workshop/pipeline/compare_engines.py` (`norm_word` `:52`, `align` `:113`), which `workshop/scripts/verify-accuracy.sh:112` resolves as `$NORMALISER`. **The FREEZING is what is missing, not the normaliser**: `verify-accuracy.sh` measures its sha256 on every run and enforces it only when `--normaliser-sha256` is passed (default empty at `:113`), and no frozen hash is committed anywhere — no `*.sha256` under `workshop/pipeline/`, no normaliser record under `workshop/evidence/`. **RE-MEASURED 2026-09-03: unchanged and still accurate.** `NORMALISER_SHA=""` at `verify-accuracy.sh:113`, set only by `--normaliser-sha256` at `:132`, and enforced at `:588` — so the enforcement path is BUILT and simply never armed. The only `*.sha256` file anywhere under `workshop/` outside `venv/`/`engines/` is the chapter-01 recording's own checksum, which is a different artifact. **The whole remaining task is: measure `compare_engines.py`'s sha256 once, commit it as the frozen value, and make `verify-accuracy.sh` default to it instead of to the empty string** — after which an edit to the normaliser makes every prior accuracy figure loudly unreproducible instead of silently incomparable. This must happen BEFORE T037(b)'s reference is scored, not after. UNWRITTEN, nothing blocking]** — **BLOCKER:** none but the work — the normaliser must be frozen and hashed BEFORE the first measurement, so this gates T035 and T037 · **OWNER:** **implementer** — unblocked today, and it is the head of the accuracy chain (FR-004, SC-002)
@@ -1025,7 +975,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T035: [US1] [TDD] Paired mutation proof for the scorer in `workshop/scripts/verify-accuracy.sh --selftest` — a transcript with a known injected WER must produce that WER. **[PATH CORRECTED 2026-09-02 — this task named `workshop/pipeline/accuracy/score_mutation_test.sh`; neither it nor the `accuracy/` directory exists, and the mutation harness landed inside the scorer wrapper as `workshop/scripts/verify-accuracy.sh --selftest` (`:88`, `:140`, `:393`, `:405`). **Do not build a second harness** — extend that one. What is genuinely missing is THIS task's assertion: the existing selftest degrades a reference and checks that a threshold is crossed, which is not the same as asserting that a KNOWN INJECTED WER produces THAT WER. — **BLOCKER:** **predecessor T034** — a scorer mutation proof is meaningless until the normaliser is frozen · **OWNER:** **implementer**, after T034 (FR-004, FR-032, SC-012)
@@ -1043,7 +992,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T037: [US1] Produce and publish the Chapter 1 accuracy report: the METHOD statement (FR-004), the SAMPLE CENSUS, and the MEASURED accuracy figure (SC-002). — **BLOCKER:** **predecessor T034 + T035** — no accuracy figure may be published before the scorer that produced it is frozen and mutation-proved · **OWNER:** **implementer**, after T034/T035 (FR-004, SC-002)
@@ -1061,7 +1009,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T041: [US1] [REVIEW] Human review checkpoint: speaker attribution is HUMAN (D-TRANS-2 — the recording is dual-mono at −90.3 dB and AGC-flattened, so both diarization cues are measurably absent) — **[BLOCKED ON THE OPERATOR. Measured 2026-09-03; NEW note.** This is human labour by construction: D-TRANS-2 measured both diarization cues absent, so no tool on this host can attribute a line to a speaker, and no agent can substitute for the person who was in the room. Nothing else blocks it. **A TRAP, AND IT IS THIS FILE'S OWN COLLISION WARNING BITING: `workshop/docs/session-evidence/t041-decision-packets.md` (untracked, written 2026-09-03) IS NOT THIS TASK.** Its subject is R3 contradiction typology over taxonomy terms — that is **`002:T041`**. Its own opening line says *"T041 remains `[ ]`"*, and a reader who resolves that bare id against this file will conclude something false about speaker attribution. Cite it as `002:T041`, per standing rule at the head of this document. **No artifact recording a human speaker-attribution review exists for `001:T041`**]** — **BLOCKER:** **operator decision, and it is human labour** — speaker attribution is HUMAN by D-TRANS-2: the recording is dual-mono at -90.3 dB and AGC-flattened, so both diarization cues are measurably absent. No amount of engineering substitutes for someone listening · **OWNER:** **operator** — nothing an agent can do closes this (FR-005)
@@ -1093,7 +1040,6 @@ Proposed fix: Backfill kind, category, plan_due and a measurable target on the e
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T059: [US3] [TDD] **[PARTIAL — R1 IS DONE ON BOTH LEGS AND PROVEN; R5 IS A COMMENT. Measured 2026-09-03; NEW note.** **R1, lexical leg**: `pkg/index/generation.go:80`–`:101` drops `rec.Redacted` from the member set AND from the root hash at BUILD time — not at render time — with `passages_fts` exclusion by construction in `submodules/passage`'s `BuildDB` (documented at `generation.go:8`–`:14`). Proven live: `verify-redaction-propagation.sh` → rc **0** with `A10b R1 holds: a suppressed row is absent from the lexical index`, and its §1.1 pair → rc **0**, 6/6 mutations caught. **R1, embedding leg**: `pkg/search/semantic.go:381`–`:385` — `SELECT p.pid … WHERE p.redacted = 0` inside `IndexVectors`, i.e. also at build time, counter-checked at `cmd/index-embed/main.go:99`; the read-time filter at `semantic.go:136`–`:137` is additive belt-and-braces, not the primary, which is exactly what this task demands. **R5 IS NOT IMPLEMENTED.** `generation.go:57`–`:62` states the requirement *in a comment* — *"Callers that redact must therefore treat the window … as `degraded`"* — and the state vocabulary two lines away at `:46`–`:50` is `building` / `verified` / `live` / `superseded`, with **no `degraded` member**. Live `GET /api/index/status` returns 6 keys and none is `degraded`. **Do not mistake `pkg/search/degraded.go:35`–`:37` for this**: those `Degraded*` constants are upstream-Lumen SEARCH markers (T056's reindexing string), a different concept at a different layer. So between a recorded redaction and the completed rebuild, the index serves a generation it knows contains the passage and says nothing — which is the same unclosed window T038's missing *"mark the live generation as requiring a rebuild"* clause leaves open, seen from the other end. **These two are one gap and should be closed together**]** Enforce redaction rules **R1** and **R5** in `workshop/platform/backend/pkg/index/generation.go` per [contracts/passage-contract.md](./contracts/passage-contract.md) §7.3 (FR-039): redacted pids are excluded from `passages_fts` AND from the embedding set **at generation-build time**, so neither leg can return a redacted passage; and until the post-redaction rebuild completes the index reports `degraded` rather than serving a generation known to contain the passage. Filtering at render time is not compliance — the passage would still be retrievable — **BLOCKER:** none but the work — R1 is done and proven on both legs; R5 is a comment · **OWNER:** **implementer** — unblocked today (FR-039, FR-020)
@@ -1111,7 +1057,6 @@ SUB-PROJECT BASIS — the source row names paths in more than one sub-project (P
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T067: [US3] **[PATH NOT BUILT — `workshop/docs/search.md` does not exist, and the media boundary is not stated at any other path either; the docs directory holds `faq.md`, `knowledge-model-contract.md`, `limits.md`, `manual.md`, `quickstart.md`, `README.md`, `user-guide.md`, `work-register.md` plus the `prompts/`, `research/`, `training/` and `session-evidence/` trees]** Document the media boundary in `workshop/docs/search.md` — audio and video are reachable THROUGH transcripts, not indexed directly; Lumen's extension allowlist is a compile-time var with no override (FR-031 requires stating what the system cannot do) — **BLOCKER:** none but the work — `docs/search.md` is unwritten. Two clauses of the task text are FALSE and must be corrected rather than transcribed; see the note · **OWNER:** **implementer** — unblocked today (FR-031, FR-016)
@@ -1129,7 +1074,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T073: [US4] [TDD] **[PARTIAL — L4 EXISTS AND IS WIRED, BUT BOTH HALVES OF THIS TASK'S OWN PARENTHESIS DIVERGE, AND IT CANNOT BE EXERCISED ON THIS HOST. Measured 2026-09-03; NEW note.** Built: `pkg/answer/verify.go:363`–`:470` `EntailmentSupport`, wired into `VerifyClaims` at `:158`; `go test ./...` across all 25 backend packages is rc **0**, `pkg/entail` and `pkg/answer` included. **Divergence 1 — the floor is LEXICAL, not an embedding floor.** `NewEntailmentSupport(lexical *LexicalSupport, judge entail.Judge)` at `:392`–`:403`. The file states this against itself at `:226`–`:227` and `:237`, which is honest, but this task says *"embedding floor"* and no embedding is consulted. **Divergence 2 — it is not BATCHED.** `pkg/entail/entail.go:57`–`:69` takes one `(premise, hypothesis)` per call and `grep -n 'Batch'` over non-test `pkg/entail/*.go` returns **0**; `verify.go` loops claim × citation. On CPU-only generation (~21 s to ~95 s per call, per T083's own figures) that is the difference between a usable layer and an unusable one. **Divergence 3 — it CANNOT RUN HERE, and the tree says so rather than pretending.** `verify-entailment-loads.sh` → rc **2 UNDETERMINED** (*"U4 was not asked"*) because no `model.onnx` exists anywhere under `workshop/` (`find` = 0 hits), even though `pipeline/venv` carries onnxruntime 1.29.0. Its pair `prove-entailment-loads.sh` → rc **0** (5 caught, 2 controls at rc 2), and `gates/prove-mutations.sh` → rc **2** at `PROVED 25 / COULD-NOT-RUN 3 of 28`, M26 and M28 skipped for that same missing model. **That rc 2 is the correct answer and is NOT a pass** — it is also why the whole answering chain above (T078, T079) is being measured with L4 effectively absent. Obtaining or building the ONNX judge model is plausibly an operator decision; the lexical-vs-embedding floor and the batching are unwritten work]** Implement L4: support verification (embedding floor, then batched entailment) — **BLOCKER:** **host capability** — L4 exists and is wired, but it cannot be exercised on this host · **OWNER:** **operator** — needs a host that can run it, or an explicit decision to record it unmeasurable (SC-009, FR-021, FR-022)
@@ -1147,7 +1091,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T075: [US4] [TDD] **[PARTIAL — THE A4 HALF IS DONE AND TESTED; THE STORED-ANSWER HALF IS UNBUILT AND THERE IS A LIVE CACHE IT DOES NOT COVER. Measured 2026-09-03; NEW note.** **DONE**: `pkg/answer/verify.go:126`–`:134` maps `passage.OutcomeRedacted` to `Decline: ReasonRedactedEvidence` and withdraws the WHOLE answer — claims are never stripped to keep it presentable (§7.2 C4); the constant is `pkg/answer/outcome.go:133`, enumerated at `:160`, and it is covered by `pkg/answer/pipeline_test.go:270` and `citations_verified_test.go:173`, both passing under the rc-0 `go test ./...`. **NOT DONE, and the reasoning that excuses it is measurably out of date.** `internal/redaction/plan.go:596`–`:606` declares propagation target `stored_answers` as `StatusAbsent`, count 0, on the ground that *"no answer cache is persisted"* — **but `pkg/answer/jobs.go:25`–`:45` holds a 30-minute in-memory job cache carrying `outcome *Outcome` (`:45`, `:164`, `:200`), and `grep 'redact\|withdraw' jobs.go` returns 0 hits.** So an answer computed before a redaction and polled after it is served unchecked for up to thirty minutes. Not persisted is not the same as not served, and this task's own words are *"Redaction propagates to stored answers, not merely to the rendered transcript"*. **Do not mistake the `withdrawn` vocabulary that already exists for this one**: `internal/redaction/taxonomy.go:83`–`:136` and `internal/api/api.go:73 ErrTermWithdrawn` withdraw TAXONOMY TERMS (feature 002), not answers]** Enforce redaction rule **R4** and [contracts/http-api.md](./contracts/http-api.md) §3.10 **A4** (FR-039): a citation resolving `redacted` invalidates the WHOLE answer as `declined{redacted_evidence}` ([contracts/passage-contract.md](./contracts/passage-contract.md) §7.2 C4 — claims are never stripped to keep an answer presentable), and any **stored** answer whose citations intersect the redaction set is marked `withdrawn` and MUST NOT be served, with re-asking required. Redaction propagates to stored answers, not merely to the rendered transcript — **BLOCKER:** none but the work — the A4 half is done and tested; the stored-answer half is unbuilt and there is a live cache it does not cover · **OWNER:** **implementer** — unblocked today (FR-039, FR-022)
@@ -1165,7 +1108,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T076: [US4] [TDD] **[PARTIAL, AND THE MISREADING THIS NOTE PREVENTS MATTERS MORE THAN THE CLASSIFICATION. Measured 2026-09-03; NEW note.** `tasks.md`'s own T040 note calls `workshop/platform/gates/verify-redaction-propagation.sh` "G-PID-5". **The identifier `G-PID-5` occurs NOWHERE in `workshop/**` — not in a `*.sh`, `*.go`, `*.tsv` or `*.py` — only in `contracts/passage-contract.md:557`, `analysis.md:59` and this file.** That gate is real and green (rc **0**, A1–A10b; pair rc **0**, M1–M6) but it makes **one** of this task's four assertions. Measured by `grep 'redacted_omitted\|410\|stored_answer\|crossref'` over that gate: **0 hits for all four strings.** It asserts R1 (A10b, search cannot return it) and eight-target propagation (A5). It does **not** assert `resolve` → `redacted` with the API answering **410 Gone**; it does **not** assert crossrefs omitted with a non-zero `redacted_omitted` (R3); it does **not** assert a stored answer `withdrawn` (R4 — which T075 shows is unbuilt anyway). Its six mutations are M1 derived-term-index, M2 lookup key, M3 refusal-as-success, M4 unreadable registry, M5 report-without-artifact, M6 one-of-eight-targets: **none is this task's *"propagate only to the rendered transcript"*, and none demonstrates R1, R3 and R4 individually rather than as one aggregate**, which is the clause this task adds in bold. Pieces exist elsewhere and are worth reusing: 410 Gone is implemented at `internal/api/crossrefs.go:138`, `passages.go:30`, `graph_traverse.go:165`, `knowledge_reverse.go:117`, and `redacted_omitted` is asserted by Go tests at `internal/api/crossrefs_test.go:193`/`:241`/`:395`. **Do not mistake `verify-r3-rules.sh` (rc 0) for R3** — that is spec-002's extraction-reconciliation R3, a different rule with the same name. BLOCKED-ON-PREDECESSOR on T075 for the R4 leg; the R3 and 410 legs are writable today]** Prove **G-PID-5** end to end ([contracts/passage-contract.md](./contracts/passage-contract.md) §7.3) — this is the earliest point at which all three propagation paths exist. Redact a cited passage, then assert: search cannot return it (R1, T059), `resolve` returns `redacted` and the API answers `410 Gone` ([contracts/http-api.md](./contracts/http-api.md) §3.8), cross-references to it are omitted with a non-zero `redacted_omitted` (R3, T061), and the stored answer citing it is `withdrawn` (R4, T075). **Paired mutation**: propagate the redaction only to the rendered transcript; the gate MUST go red, and MUST demonstrate R1, R3 and R4 individually rather than as a single aggregate failure — **BLOCKER:** **predecessor** — see the note; the identifier confusion it prevents matters more than the classification · **OWNER:** **implementer**, after its named predecessor (FR-039, FR-032, SC-012)
@@ -1197,7 +1139,6 @@ Proposed fix: Backfill kind, category, plan_due and a measurable target on the e
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T079: [US4] [TDD] **[PATH CORRECTED 2026-09-02 — T078's harness is `workshop/platform/backend/gates/bench-answers.sh`, not `workshop/scripts/bench-answers.sh`. The ≥20-answer RUN exists: `questions.tsv` holds 24 `A` rows and the evidence header records `SC-009 met (24 answerable >= 20)` with `answered+cited 17  declined 7`. **The CERTIFICATION is what this task still owes** — the same evidence file states its own honest boundary that `answered+cited` is not `answered correctly`, and records that only 6 of the 17 were re-asked and read, with 1 defect found. SC-009 requires 100% over ≥20 answers, so it is unmet on certification, not on count. — **BLOCKER:** none but the work — the >=20-answer run exists · **OWNER:** **implementer** — unblocked today (SC-009, FR-021)
@@ -1215,7 +1156,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T080: [US4] [TDD] [REVIEW] **[PARTIAL — THE ALLOWLIST IS DONE AND MUTATION-PROVED; THE PART THAT UPGRADES *"WE OBSERVED NO EGRESS"* TO *"EGRESS WAS IMPOSSIBLE"* DOES NOT EXIST. Measured 2026-09-03; NEW note.** **DONE, and done the right way**: `pkg/answer/locality.go:62` uses `net.LookupIP` and `:83` `!ip.IsLoopback()` — resolution, not string matching — with the asymmetric contract stated at `:39`–`:48` and covered by `pkg/answer/provider_test.go:80`–`:95`. Its §1.1 paired mutation genuinely RUNS and is genuinely CAUGHT: `gates/prove-mutations.sh` row `M10-locality-by-substring  GREEN RED OK`, whose mutation body at `prove-mutations.sh:220`–`:221` replaces resolution with `strings.Contains(endpoint, "127.0.0.1")` — i.e. it seeds the exact defect this task names — plus `M16-standin-invents-locality-fault OK`. **MISSING — all four remaining elements, and the measurement is a single zero.** `grep -rn 'unshare|ip netns|tcpdump|tshark'` over the whole of `workshop/` (excluding `pipeline/venv`) returns **0 hits**: no egress-denied namespace, no packet capture. There is no `curl https://example.com` negative control — the only `example.com` strings in the tree are test fixtures at `provider_test.go:42`/`:76`/`:85`/`:107` and doc comments. `G-CLI-14` occurs **0 times** in the entire tree, so neither the gate nor its outside-the-namespace paired mutation exists. **What is enforced today is a config flag plus a DNS check, which is precisely what this task's own last sentence refuses to accept as a guarantee.** Building the namespace may need host privileges and is plausibly an operator step; the negative control and the capture assertion are not]** Enforce FR-024 privacy: resolved-address allowlist (`net.LookupIP` + `IsLoopback`, not string matching), egress-denied namespace with a NEGATIVE CONTROL (`curl https://example.com` from inside MUST fail), and packet capture asserting zero non-loopback packets. A config flag is not a guarantee. This is gate **G-CLI-14** ([contracts/pipeline-cli.md](./contracts/pipeline-cli.md) §5, D-LLM-4): the negative control and the capture both run across the full 20-answer and 10-refusal runs. **Paired mutation**: run the same assertions OUTSIDE the egress-denied namespace; the gate MUST go red — if it stays green the test proved nothing about the namespace, and *"we observed no egress"* was never upgraded to *"egress was impossible"* — **BLOCKER:** none but the work — the allowlist is done and mutation-proved; the part that upgrades "we observed no egress" to "egress was impossible" does not exist · **OWNER:** **implementer** — unblocked today (FR-024, FR-032, SC-012)
@@ -1247,7 +1187,6 @@ Proposed fix: Backfill kind, category, plan_due and a measurable target on the e
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T083: [US4] **[PATH NOT BUILT — `workshop/docs/answering.md` does not exist. Part of the content landed at OTHER paths and should be reused rather than rewritten: the `estimated_seconds: null` contract is documented at `workshop/docs/faq.md:215`–`:216` and `workshop/docs/quickstart.md:388`–`:389`, and the asynchronous-answering timing story is in `workshop/docs/limits.md` §1.4. The PAGE this task contracts still does not exist]** Document in `workshop/docs/answering.md` that answering is ASYNCHRONOUS — CPU-only generation is ~21 s (1.5B) to ~95 s (7B) idle, so "instant" is off by two orders of magnitude and no prompt engineering closes it. `estimated_seconds` MUST be `null` until measured — **BLOCKER:** none but the work — `docs/answering.md` is unwritten; part of the content already landed at other paths and should be reused, not rewritten · **OWNER:** **implementer** — unblocked today (FR-031, FR-030)
@@ -1265,7 +1204,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T084: [US5] [TDD] **[PATH NOT BUILT — `workshop/scripts/add-chapter.sh` does not exist and none of the nine contracted stages exists as a driver. Four of the stages it must call are themselves `[PATH NOT BUILT]` (`transcribe.sh` T111, `index.sh` T115, `crossref.sh` T116, `redact.sh` T038/T039); two exist (`verify-accuracy.sh` T112, `ingest.sh` T113). **This task gates T085, T086, T090 and the enforcement half of T087**. **RE-MEASURED 2026-09-03: unchanged, and now the single largest blocker in this file.** `grep -rln 'add-chapter\|add_chapter'` over `workshop/scripts/` and `workshop/platform/` returns **ZERO files**; `G-CLI-7` and `G-CLI-8` (T085, T086) appear nowhere in `workshop/`. The stage census is unchanged: of the nine, `verify-accuracy` (T112) is built and `ingest` (T113) is built but missing five of its six contracted flags, while `transcribe` (T111), `index` (T115) and `crossref` (T116) do not exist and `redaction-review` (T039) is now built, proven and ticked. **This task alone accounts for FIVE unticked tasks that are blocked on nothing else** — T085, T086, T087's enforcement half, T088 and T090 — so it is the highest-leverage unwritten item in the file. Nothing blocks it but the work and the four missing stages]** Implement `workshop/scripts/add-chapter.sh` per [contracts/pipeline-cli.md](./contracts/pipeline-cli.md) §4.7 covering **all NINE contracted stages in order** — `preflight → extract → transcribe → verify-accuracy → ingest → index → crossref → redaction-review → publish` — with `--resume`, `--only <stage>`, `--skip <stage>`, `--from <stage>`, `--dry-run`, `--json` and `--check-idempotent`, and with no code edit required to add a chapter. **No stage is optional and none is silently dropped**: `preflight` (§3.1) classifies every finding as tooling (`2`) or content (`1`) and reports ALL of them rather than the first; `verify-accuracy` (§4.2) must actually run because the presence of its `accuracy.json` is publish precondition B2 — its value may miss target, its absence blocks; and `redaction-review` is the FR-039 gate implemented in T038/T039, which is what makes `publish` legal at all. An earlier draft of this task named only four stages (transcribe → ingest → index → cross-link); dropping the publication gate is precisely how a redaction requirement becomes decorative — **BLOCKER:** **predecessor T111 + T115 + T116 + T088** — four of the nine stages this driver must call are themselves unwritten · **OWNER:** **implementer**, after those four (FR-026, FR-028, FR-029, FR-039)
@@ -1283,7 +1221,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T085: [US5] [TDD] Prove idempotency (FR-027) as gate **G-CLI-7** ([contracts/pipeline-cli.md](./contracts/pipeline-cli.md) §4.7, §5): run `add-chapter.sh` twice on a small synthetic chapter and assert all of **J1–J6** — a second run changes nothing and duplicates no passage, keyed on pid. **Paired mutation**: make the procedure mint unconditionally; the gate MUST go red — **BLOCKER:** **predecessor T084** — G-CLI-7 runs `add-chapter.sh` twice; there is no `add-chapter.sh` · **OWNER:** **implementer**, after T084 (FR-027, FR-032, SC-012)
@@ -1301,7 +1238,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T086: [US5] [TDD] Incomplete materials MUST report precisely what is missing and MUST NOT publish a partial chapter as complete (FR-028), proven as gate **G-CLI-8** ([contracts/pipeline-cli.md](./contracts/pipeline-cli.md) §4.7, §5): remove `chapter.yaml` and two archive parts, then assert exit `1` with **three** findings enumerated — all of them, not just the first — and nothing published. **Paired mutation**: report the first finding only and publish anyway; the gate MUST go red — **BLOCKER:** **predecessor T084** · **OWNER:** **implementer**, after T084 (FR-028, FR-032, SC-012)
@@ -1319,7 +1255,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T087: [US5] [TDD] Enforce the publish preconditions **B1–B6** of [contracts/pipeline-cli.md](./contracts/pipeline-cli.md) §4.7 in `add-chapter.sh`: B1 `coverage.unexplained_gap_s == 0` · B2 `accuracy.json` exists · B3 every passage has a pid in `passages.jsonl` · B4 the generation containing the chapter is `live` · B5 **`redaction-review.json` exists and is newer than the transcript (FR-039)** · B6 no source file changed during the run. Failing any one of them ⇒ exit `1` with the chapter left `transcribed`, never `published`. **Paired mutation**: publish with `redaction-review.json` absent (and again with it stale); the gate MUST go red in both cases — B5 is the only thing standing between FR-039 and a decorative requirement — **BLOCKER:** **predecessor T084** — B1-B6 are enforced IN `add-chapter.sh` · **OWNER:** **implementer**, after T084 (FR-039, FR-028, FR-004, FR-032, SC-012)
@@ -1337,7 +1272,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T088: [US5] Make the procedure accept a PRE-SUPPLIED TRANSCRIPT FIXTURE so idempotency and identity can be proven without running ASR — otherwise every US5 proof inherits the ASR block. **[PATHS ADDED 2026-09-02 — this task named none, and two fixture producers already exist: `workshop/pipeline/extract/fixtures/synthetic_chapter/passages.jsonl` and `workshop/platform/backend/cmd/fixture-corpus/main.go`, which writes an invented corpus so endpoints can be exercised without private content. **Do not build a third fixture.** What is missing is a PROCEDURE that accepts one, and that procedure is T084, which is `[PATH NOT BUILT]`]** — **BLOCKER:** none but the work — a pre-supplied transcript fixture is what lets every US5 proof escape the ASR block, so this is the cheapest way to unblock T085-T087 · **OWNER:** **implementer** — unblocked today (FR-027, SC-016)
@@ -1355,7 +1289,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T090: [US5] [TDD] Prove SC-011: a new chapter integrated in under 30 minutes hands-on with zero code or config change — **BLOCKER:** **predecessor T084 + T088** — SC-011 times the procedure end to end · **OWNER:** **implementer**, after T084/T088 (SC-011, FR-026)
@@ -1373,7 +1306,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T095: [P] **[PARTIAL — A GREEN GATE GUARDS A DIFFERENT CRITERION. Measured 2026-09-03; NEW note, and this is the kind of finding a glance at an exit code would invert.** `workshop/docs/limits.md` EXISTS, 2,273 lines, 117 headings, and it has a paired gate that is genuinely green: `verify-limits-completeness.sh` → rc **0**, *"checked 15 registered defect(s) against docs/limits.md … all 15 are named"*, and `prove-limits-completeness.sh` → rc **0**, one anchor removed, `CAUGHT`, restored. **But that gate's own line 2 scopes it to `SC-026`, not FR-031** — it asserts that every row of the DEFECT REGISTRY is named in the page, which is a completeness claim about a different set. Measured against FR-031's own four named classes: `grep -c 'FR-031' docs/limits.md` = **0**; `SC-016a` = **0**; `operator-only` = **0**; lines pairing media with indexing = **0**; lines pairing code-passage identity with weak/weaker = **0**. Only **asynchronous answering** is covered (3 lines: `:195`, `:375`, `:1084`). So **three of the four classes this task names are undocumented, and no instrument would notice.** Note also that the SC-016a class cannot be honestly written until T015–T017 exist to be weaker *than something* — but the media-boundary and operator-only classes are writable today, and the media boundary is T067's page, which is also unwritten]** Document every limit honestly per FR-031: no direct media indexing, asynchronous answering, code-passage identity weaker than transcript identity (SC-016a, implemented by T015–T017 and proven by G-PID-4 in T017), and every operator-only step — **BLOCKER:** none but the work — `limits.md` exists with a paired proof, but the green gate guards a DIFFERENT criterion than the one this task names · **OWNER:** **implementer** — unblocked today (FR-031, SC-016a)
@@ -1405,7 +1337,6 @@ Proposed fix: Backfill kind, category, plan_due and a measurable target on the e
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T097: [TDD] Verify EVERY feature check has a paired mutation proof including a real-entry-point case (SC-012) — **[PARTIAL. Measured 2026-09-03; NEW note. The PAIRING is complete where it is measured and the REAL-ENTRY-POINT case genuinely exists; what is missing is the QUANTIFIER.** `workshop/platform/gates/` holds **17** `verify-*.sh` and **19** `prove-*.sh` with **0 unpaired** by sibling name. Real-entry-point proofs were OBSERVED running, not just declared: `workshop/scripts/verify.sh:613` — `PROVE: PASS — E2E real verify.sh over a mutated tree -> rc 1 with a FAIL row` — and `bash scripts/verify-governance-cascade.sh --prove-failure` → rc 0 with *"the REAL entry point ran against the REAL tree"*. **But SC-012 says EVERY, and "every" is quantified over an enumeration that covers 19 `pipeline/` files and no others** (T096's `--strict` rc 1). Worse for this task specifically: `verify.sh --prove-failure` proves only verify.sh's OWN V1–V7 gates and **never executes the 19 sibling `prove-*.sh` scripts** — its single `prove-*.sh` reference is a synthetic fixture at `verify.sh:608`. So the proofs exist, are paired, and are not run by the thing that claims to run everything. This closes when T096's registry covers `platform/gates/` and `platform/backend/gates/`; it is BLOCKED-ON-PREDECESSOR on T096]** — **BLOCKER:** **predecessor T096** — SC-012 says EVERY, and "every" cannot be quantified over a set nobody enumerates · **OWNER:** **implementer**, after T096 (SC-012, FR-032)
@@ -1423,7 +1354,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T098: [TDD] Verify EVERY feature check distinguishes could-not-determine from pass and fail (SC-013) — **[PARTIAL, WITH THE SAME QUANTIFIER GAP AS T097 AND ONE EXTRA FINDING. Measured 2026-09-03; NEW note.** Structural census: **17 of 17** `workshop/platform/gates/verify-*.sh` and **10 of 10** `workshop/platform/backend/gates/*.sh` carry rc-2 vocabulary. It is DEMONSTRATED and not merely declared: registry-001's `--prove-failure` includes `M18 a sweep matching ZERO files is UNDETERMINED rc 2` (PASS), and a live `verify.sh` run produced a genuine `COULD-NOT-RUN` row for `G8 verify-entailment-loads.sh` rather than a FAIL. **The gap is the same one T096 and T097 name: 48 files sit outside any registry, and "100% of its checks" cannot be asserted over a set nobody enumerates.** One extra finding, recorded rather than resolved: `workshop/scripts/verify.sh:747`–`:752` documents IN ITS OWN SOURCE an unresolved divergence about whether a STOPPED stack is exit 0 or exit 1 — measured against `contracts/pipeline-cli.md` §4.8 and against T021's now-green G-CLI-17, which asserts **1**. A three-valued census is worth less while two instruments disagree about which value is right. BLOCKED-ON-PREDECESSOR on T096]** — **BLOCKER:** **predecessor T096** — same quantifier gap, plus an unresolved divergence about whether a STOPPED stack is exit 0 or 1 · **OWNER:** **implementer**, after T096; the exit-code divergence is an **operator** call (SC-013, FR-033)
@@ -1441,7 +1371,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T099: Write machine evidence to `workshop/evidence/` retained with the commit that produced it (FR-040) — **[PATH SPLIT 2026-09-02 — `workshop/evidence/` EXISTS but holds only **3** tracked files (`phase2-passage-identity/README.md`, `phase2b-mentions/README.md`, `phase2b-mentions/T014-unjoined-words-u5.md` — and that last one is FEATURE 002's T014, not this file's). The machine evidence FR-040 asks for landed at `workshop/platform/backend/evidence/`: **21** tracked files, committed and clean. `workshop/platform/qa/evidence/` exists on disk with **0** tracked files, and `workshop/evidence/knowledge-pipeline/` carries untracked run output. **The substance largely exists; its contracted LOCATION does not**, so this task is a move-or-mirror decision plus the retention rule, not a from-zero build. **RE-MEASURED 2026-09-03 — the shape holds, both counts moved, and a RETENTION BREACH is now visible.** ~~3 tracked files~~ → `git -C workshop ls-files evidence | wc -l` = **6** (`chunking/README.md`, `p-u1/README.md`, `p-u1/result.json`, `phase2-passage-identity/README.md`, `phase2b-mentions/README.md`, and `phase2b-mentions/T014-unjoined-words-u5.md`, which remains **002's** T014, not this file's). ~~21~~ → `git -C workshop ls-files platform/backend/evidence | wc -l` = **22**. `workshop/platform/qa/evidence/` holds **6** subdirectories on disk (`answering`, `challenges`, `helixqa`, `prove`, `prove-state2`, `state2`) with **0 tracked AND 0 untracked-not-ignored** — it is entirely git-ignored, so none of it is retained with any commit at all. **The retention half of FR-040 is measurably breached right now, not hypothetically**: `evidence/p-u1/result.json` is ` M` in the working tree, so the bytes on disk are not the bytes any commit carries — and those bytes are T014's P-U1 settlement evidence. Nothing in the tree gates FR-040 retention]** — **BLOCKER:** **operator decision** — the substance largely exists but at a DIFFERENT path than FR-040 contracts, so this is a move-or-mirror decision plus a retention rule, not a from-zero build. A retention breach is live right now · **OWNER:** **operator** decides move-vs-mirror; **implementer** executes (FR-040, SC-018)
@@ -1487,7 +1416,6 @@ Proposed fix: Backfill kind, category, plan_due and a measurable target on the e
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T106: [TDD] **[PATH CORRECT, FILE PARTIAL — measured 2026-09-02, `workshop/scripts/_common.sh` EXISTS at 273 lines but is the CONTAINER CONTROL-PLANE helper, not the §2.1 contract. Present: the three-valued exit constants, `undetermined()`/`problem()`, derived-never-hardcoded paths, `set -euo pipefail`. Absent: the §2.2 four-rung resolution order over every `WORKSHOP_*` var, the §2.4 `(size, mtime, inode)` fingerprint helpers, the §2.9 self-hash re-check, and the §1.4 `ERR`/`EXIT` traps — `grep -c '^\s*trap '` returns **0**. **Extend that file; do not write a second one**]** Implement the shared wrapper library `workshop/scripts/_common.sh` contracted in [contracts/pipeline-cli.md](./contracts/pipeline-cli.md) §2.1 — sourced, never executed. It owns the §2.2 resolution order **environment → config file → live probe → documented fallback**, identical for every `WORKSHOP_*` variable and copied from `scripts/lumen-reindex.sh` so an operator learns one pattern rather than two, printing at `-v` the host facts it measured and the arithmetic it performed; the §2.4 source-fingerprint helpers that record `(size, mtime, inode)` for every source before a run and re-check them after; the §2.9 self-hash re-check that aborts with `2` and `reason.code: "script_modified_while_running"` when a long-running script is edited mid-flight; and the §1.4 `ERR` and `EXIT` traps. Gate **G-CLI-10** (§1.4, §5): assert every *unclassified* non-zero status maps to `2` — `126`, `127`, `128+N` and any other unclassified non-zero — that only statuses set by a command's own classification logic may be `0` or `1`, and that `3`–`125` stay reserved and unused. **Paired mutation**: remove the `ERR` trap; the gate MUST go red, because a missing binary then surfaces as `127` and a tool that was never there reads as a real problem found — **BLOCKER:** none but the work. **RE-MEASURED 2026-09-04: the LIBRARY half landed this session and the GATE half did not.** `workshop/scripts/_common.sh` gained 983 lines / 39 `ws_*` functions, purely additive (0 deletions): the §2.2 four-rung resolver `ws_resolve` with `-v` host-fact reporting, the §2.4 `(size, mtime, inode)` fingerprint helpers (inode via POSIX `ls -i`, not `stat`, per `_portable.sh`'s recorded GNU-vs-BSD trap), the §2.9 self-hash re-check aborting 2 with `reason.code: script_modified_while_running`, and the §1.4 traps — `grep -c '^\s*trap '` moved **0 -> 4**. The §1.4 mapping was DRIVEN: a fixture calling a missing binary produced `UNDETERMINED: unclassified failure — exit status 127` and rc **2**. Regression-checked in both directions: `bash -n` passes on all nine control-plane scripts and `redact.sh`/`start.sh`/`stop.sh`/`ingest.sh`/`verify.sh` `--help` output is BYTE-IDENTICAL before and after; `status.sh` still returns `RUNNING`, rc 0. **What is NOT done: gate `G-CLI-10` and its paired mutation were never written** — design settled, no file exists · **OWNER:** **implementer** — unblocked today; only the gate remains (FR-033, SC-013, FR-032, SC-012)
@@ -1561,7 +1489,6 @@ Proposed fix: Backfill kind, category, plan_due and a measurable target on the e
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T115: [US3] [TDD] **[PATH NOT BUILT — `workshop/scripts/index.sh` does not exist and no equivalent landed anywhere]** Implement the `workshop/scripts/index.sh` wrapper per [contracts/pipeline-cli.md](./contracts/pipeline-cli.md) §4.4 over T058's generations — `--chapter`, `--lexical-only` (the honest escape hatch when the embedding backend is saturated), `--semantic-only`, `--verify-only`, `--swap`/`--no-swap`, and `--timeout-ms 5000` per call, because an unbounded query is how a 10-minute stall happens. It MUST reserve embedding capacity for interactive queries, which is a hard requirement rather than a nicety: `scripts/ollama-tune.sh` records that with `OLLAMA_NUM_PARALLEL` resolving to 1 a single embed went from 0.74 s to a >90 s client timeout, stalling indexing entirely — *"queue depth is not the defect — serialisation is"* — and without reservation SC-006 fails on every chapter ingest, precisely when people are using the system. Gate **G-CLI-6** (§4.4, §5): point the embedding endpoint at a closed port and assert exit `2` with `reason.code: "embedding_backend_exhausted"` **and** that the previously live generation is still live and serving. **Paired mutation**: map backend failure to exit `1`; the gate MUST go red. The line that must not be blurred: `all embedding servers exhausted` is `2`, never `1` — reporting `1` there makes a broken backend accuse a healthy curriculum — **BLOCKER:** none but the work — `index.sh` is unwritten · **OWNER:** **implementer** — unblocked today (SC-006, FR-020, FR-033, SC-013, FR-032, SC-012)
@@ -1579,7 +1506,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T116: [US3] **[PATH NOT BUILT — `workshop/scripts/crossref.sh` does not exist. The derivation it wraps DOES exist at `workshop/platform/backend/pkg/crossref/` (T060, ticked); the CLI over it does not, and no `--rebuild-derived`/`--check-cycles` surface exists anywhere]** Implement the `workshop/scripts/crossref.sh` wrapper per [contracts/pipeline-cli.md](./contracts/pipeline-cli.md) §4.5 over T060's derivation — `--chapter`, `--min-score`, `--max-per-passage 20`, `--rebuild-derived`, `--check-cycles`. It rebuilds `origin: "derived"` edges for the target generation and **never touches `authored` edges**, which are content rather than derivation ([contracts/passage-contract.md](./contracts/passage-contract.md) §7.4 X4); self-references are rejected and traversal is cycle-checked. Exit `1` on a cycle among `authored` edges (a content defect a human introduced), an edge whose endpoint is not in the registry, or a self-reference in authored content; exit `2` when the embedding backend is unavailable for similarity scoring, the registry is unreadable, or the run was interrupted — an unscoreable backend is not a finding about the content — **BLOCKER:** none but the work — the derivation it wraps EXISTS (T060); the CLI over it does not · **OWNER:** **implementer** — unblocked today (FR-018, FR-033, SC-013)
@@ -1597,7 +1523,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T119: [TDD] **[UNWRITTEN — NOTHING BLOCKS IT. Measured 2026-09-03; NEW note.** Searching for `G-CLI-1` with `G-CLI-1[0-9]` excluded, the identifier occurs **exactly once** anywhere under `workshop/` — `platform/backend/cmd/workshop-redact/main.go:55`, a **code comment**, not a gate. The full inventory of gate identifiers actually present under `workshop/` is `G-CLI-{1,3,5,11,13,16,17}`, `G-HTTP-{1..8,8c}` and `G-PID-4`; **nothing asserts state/exit agreement across every command, and nothing asserts the `--json` contract at all** — there is no test that stdout carries exactly one JSON object with all human text on stderr, and no `state: "ok"` hardcode mutation. Two facts make this cheaper than it looks and both were measured: `redact.sh` already writes a per-run result file (see T107), and `verify.sh` already discovers gates at run time. Two facts make it harder: that file is named `result-exit.json` and carries `{run_id, exit, at}` with **no `state` field** to compare the exit against (T107), and this task quantifies over *"every command in the control plane and the pipeline"*, several of which do not exist yet (T111, T115, T116, T084). Sequencing it last, as this phase does, is correct]** Prove gate **G-CLI-1** ([contracts/pipeline-cli.md](./contracts/pipeline-cli.md) §1.6, §5) across **every** command in the control plane and the pipeline: `result.json.state` and the process exit status agree over all three outcomes — `"ok"`/`0`, `"problem_found"`/`1`, `"could_not_determine"`/`2` — and under `--json` stdout carries exactly one JSON object and nothing else, with all human text on stderr. **Paired mutation**: hardcode `state: "ok"` in one command's result writer; the gate MUST go red. It sits in this phase because it asserts over every command and cannot run until they all exist — **BLOCKER:** none but the work. Re-measured 2026-09-04: NOT STARTED — `grep -rn 'G-CLI-1'` under `workshop/` still returns only the one code comment at `platform/backend/cmd/workshop-redact/main.go:55`. It is now CHEAPER than it was: T107 landed `result.json` with a `state` field derived from a single exit-to-state mapping, which is the artifact G-CLI-1 must compare against the process exit · **OWNER:** **implementer** — unblocked today (FR-033, SC-013, FR-032, SC-012, FR-040)
@@ -1615,7 +1540,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 001-workshop-curriculum-platform task T120: [TDD] [REVIEW] **[PARTIAL — BUILT, RUNNING, AND ITS HARDEST CLAUSE IS THE ONE THAT HOLDS. Measured 2026-09-03; NEW note, replacing the File Structure table's implicit reading that this is unbuilt.** `workshop/scripts/verify.sh` EXISTS, **812 lines**, and a live run exits **1** printing `PASS 24  FAIL 1  COULD-NOT-RUN 1  of 26   [scope: all]`, naming `FAIL: G12 verify-retrieval-benchmark.sh` and `COULD-NOT-RUN: G8 verify-entailment-loads.sh` separately, then `RESULT 1  a gate RAN and reported a violation (1 could not run and are listed above)`. **That is the precedence rule this task calls "the single most error-prone line in the contract", observed working on a real mixed outcome** — 1 FAIL beside 1 COULD-NOT-RUN aggregating to **1**, both counted, in the exact `PASS n FAIL n COULD-NOT-RUN n of N` vocabulary the task specifies (implementation `:795`–`:812`). `--prove-failure` → rc **0** with **26** `PROVE:` lines, all PASS, including `E2E real verify.sh over a mutated tree -> rc 1 with a FAIL row`, `precedence: 1 FAIL + 1 COULD-NOT-RUN aggregates to rc 1, both counted`, `a SKIP is never a PASS: all-green + 1 unrunnable -> rc 2`, and `V7b pairing: NO gates at all is 2, not 0` — both forbidden collapses proved in both directions. `--help` → rc 0. **TWO CLAUSES ARE UNMET AND BOTH ARE MEASURED.** (1) *"runs every gate in this contract set (all `G-CLI-*`, `G-HTTP-*` and `G-PID-*`)"* — it does not. It discovers `platform/gates/verify-*.sh` **by filename** and references only **2** of the 17 contract identifiers present in the tree (`G-CLI-11`, `G-CLI-16`); discovery answers *"what is on disk"*, never *"what the contract requires and is missing"*, and two of the required gates do not exist at all (T119's G-CLI-1, T114's G-CLI-15). (2) *"a gate whose mutation does not turn it red is reported **vacuous** and counted as **FAIL**"* — `grep -c vacuous workshop/scripts/verify.sh` = **0**; `--prove-failure` proves verify.sh's own V1–V7 and **never executes the 19 sibling `prove-*.sh` scripts**, so no mutation of a real gate is ever judged vacuous. This is also correctly sequenced last: it cannot be finished before the gates it must aggregate exist]** Implement `workshop/scripts/verify.sh` per [contracts/pipeline-cli.md](./contracts/pipeline-cli.md) §4.9 — the aggregation point that runs every gate in this contract set (all `G-CLI-*`, `G-HTTP-*` and `G-PID-*`) and aggregates them. **Sequenced last, after every gate task in every phase**, because it aggregates those gates and cannot be written before them. Three-valued: `0` every gate ran and passed · `1` at least one gate **ran** and reported a violation · `2` at least one gate **could not run** and **no** gate reported a violation. **The precedence rule is the single most error-prone line in the contract, and both directions of collapsing it are forbidden here by name**: when some gates failed (`1`) and others could not run (`2`), the aggregate is **`1`** — a confirmed violation outranks an unknown — and the summary reports the two counts separately in the repository's existing sweep vocabulary (`PASS n  FAIL n  COULD-NOT-RUN n  of N`, then each could-not-run gate named with its reason). A `verify.sh` that collapses `2` into FAIL is the specific defect to forbid: this project has shipped **seven** separate pass/fail/could-not-determine conflations, so a broken instrument must never be reported as a violated tree. The mirror defect is equally forbidden — it must never report `0` while any gate was skipped. `PREPUSH_STRICT=1` semantics apply: a SKIP is never a PASS. `verify.sh --prove-failure` runs every registered paired mutation and asserts its gate turns red; a gate whose mutation does not turn it red is reported **vacuous** and counted as **FAIL**, and at least one proof case MUST run the real entry point end to end rather than a sandboxed copy, because a proof that exercises only sandboxed copies can go green over an instrument that cannot start at all. Per §2.7 **N2** this script — a script, never a workflow — is what the umbrella's local pre-push hook calls (FR-032, FR-033, FR-040, SC-012, SC-013, SC-018) — **BLOCKER:** none but the work — `verify.sh` exists at 812 lines, is running, and its hardest clause holds; the remainder is unbuilt · **OWNER:** **implementer** — unblocked today (FR-032, FR-033, FR-040, SC-012, SC-013, SC-018)
@@ -1633,7 +1557,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T022: [REVIEW] Review the knowledge contract implementation before anything consumes it — — **BLOCKER:** none but the work — no `phase2e-report.md` exists, and `specs/002/` has NEITHER an `analysis.md` NOR a `review.md` (spec 001 has both). This is review-record authorship, and it is one of the two things holding T122 · **OWNER:** **implementer/reviewer** — unblocked today
@@ -1651,7 +1574,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T031: [US1] [BLOCKED: prose authorship] [REVIEW] Author area materials in the **seven-section — **BLOCKER:** **operator decision** — the prose-authorship clarification is undecided (extractive vs build-time vs run-time). 5 documents are authored with 7 `## ` sections each and 489 areas serve; the earlier "host capability" excuse is WITHDRAWN. This is irreducible authorship, not engineering · **OWNER:** **operator**, then **human prose authorship**
@@ -1669,7 +1591,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T033: [US1] [TDD] Implement claim citation enforcement (contract W2): every substantive claim — **BLOCKER:** **predecessor T031** — 224 of 532 claim blocks across all 5 documents are uncited or cite a non-resolving pid (48 are exempt Sources entries); W3 is reviewed for 2 of 5. Enforcement cannot land before the prose it enforces is settled · **OWNER:** **implementer**, after T031
@@ -1687,7 +1608,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T038: [US1] [TDD] Implement `GET /api/areas/{area}` per §3.2, and `GET /api/terms` and — **BLOCKER:** none but the work, but the fix is in the PIPELINE not the handler — `taxonomy.py` persists only the final score and never the significance inputs; the handler is already correct and honestly reports `inputs_available:false` with `score_determined:true` over 8,507 served terms · **OWNER:** **implementer** — unblocked today
@@ -1705,7 +1625,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T042: [US1] [REVIEW] Record the content boundary check **in both directions** before anything is — **BLOCKER:** none but the work — the SC-029a INBOUND half is unbuilt and the `sc029a-not-built` row is live; §10.14 records that the naive probe was rejected, so this needs a long-shingle design rather than a quick check · **OWNER:** **implementer** — unblocked today, design work required
@@ -1723,7 +1642,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T050: [US2] [TDD] Implement the six-row connectivity matrix (FR-033a) and its exercise harness. — **BLOCKER:** none but the work — the gate exits 0, but `rows_implemented` (`graph_traverse.go:200`) still EXCLUDES row 4's cross-reference-graph half, so a green gate is covering five of six rows · **OWNER:** **implementer** — unblocked today, one missing half-row
@@ -1755,7 +1673,6 @@ Proposed fix: Backfill kind, category, plan_due and a measurable target on the e
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T067: [US3] [TDD] Prove **SC-015**: the gate prints **per-query** outcomes, not only the — **BLOCKER:** **retrieval quality, and nobody's decision** — the instrument is built and correct; SC-015 is MEASURED NOT MET at top-5 12/22 (54.5%), top-1 3/22, against a bar of 20/22. The `term` leg is the shortfall · **OWNER:** **implementer** — unblocked, but it is a quality problem, not a wiring problem
@@ -1773,7 +1690,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T068: [US3] [TDD] Prove **SC-016 / SC-017**: re-run the latency harness and **publish before and — **BLOCKER:** **NOT "just a quiet host" — that remedy is now IN DOUBT, and this is the correction that matters.** Re-run 2026-09-04: rc **2**, `PASS 0 FAIL 0 UNDET 7`. The gate read the index block cleanly (generation 68, 12,979 passages, live) and then **every** endpoint refused — including the `health CONTROL`, which by the harness's own design makes the fused figure uninterpretable. Immediately afterwards `podman ps` showed `workshop-curriculum_platform_1  Up 46 seconds (starting)` and `/api/health` returned `HTTP=000`: **the container went down underneath a read-only run.** `tasks.md` already records the same sequence on 2026-09-03, so counting this it has happened **three times across two dates, every time during or immediately after `verify-search-latency.sh`**. Host load was FALLING across this run (17.5 -> 9.7), which weakens the load-average explanation the old note leans on. No causal claim is made — co-occurrence is not causation and this was not isolated — but the narrow, checkable claim is: the stated remedy *"one clean re-run, not new code"* has now failed three times identically, so treating this as bad luck risks a fourth identical result · **OWNER:** **implementer first** — find why the container dies under this harness's concurrent request pattern; that outranks the latency figure. **operator** second, for a quiet host, once the stability question is settled
@@ -1791,7 +1707,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T084: [US4] [REVIEW] Review question provenance end to end before the practice surface consumes — **BLOCKER:** none but the work — the only review record is `phase6-report.md` (unchanged since 2026-09-02 12:54) and it merely mentions T084; no later record exists. Pure review-record authorship, and the second of the two things holding T122 · **OWNER:** **implementer/reviewer** — unblocked today
@@ -1809,7 +1724,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T101: [US6] Port diagram rendering from text source — reproducible, unlike an embedded binary — **BLOCKER:** **operator decision** — `mmdc -V` exits 0 but an actual 2-node render exits **1 with no SVG**, `grep -c mermaid` is **0** across all 5 area documents, and there is no decision on where a diagram lives in the seven-section skeleton · **OWNER:** **operator** (content/contract placement), then **implementer**
@@ -1827,7 +1741,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T109: [US7] [TDD] Prove **G-KG-17 / SC-015c**: run the whole pipeline against the synthetic — **BLOCKER:** none but the work — `prove_g_kg_17_synthetic_chapter` self-scopes in its own docstring ("SCOPED HONESTLY") to extracted areas/themes plus taxonomy, while T109 asks for EVERY S2 output · **OWNER:** **implementer** — unblocked today
@@ -1845,7 +1758,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T119: [TDD] Prove **SC-028**: drive every new check into a could-not-determine condition and — **BLOCKER:** none but the work — SC-028 coverage reaches only 3 Phase-10 checks; the 18 G-KG gates have never been driven to state 2, and the registry population has since grown to 70 checks · **OWNER:** **implementer** — unblocked today
@@ -1863,7 +1775,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T122: [REVIEW] Final content-boundary check **in both directions** (SC-029, SC-029a), plus the — **BLOCKER:** **predecessor T042 (SC-029a inbound), plus T022 and T084 as a final review** — 2 of its 3 halves are already green: zero workflow files, and `CONTINUATION.md` carries 19 spec-002 references · **OWNER:** **implementer**, last; needs T042/T022/T084 first
@@ -1881,7 +1792,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T123: [UNBUILT] [P] Gate **G-OCR-1** — capability-probe the OCR toolchain per contract §7 **V1**: — **BLOCKER:** **half BUILT, half blocked on CAPABILITY not on a decision** — the `[UNBUILT]` marker is STALE: `pipeline/detect_ocr.sh` EXISTS (754 lines), is registered as `ocr-toolchain-capability` with a paired proof, and its rc-2 probe is verified live (`--scratch-dir /nonexistent` -> rc 2). What is NOT buildable is per-chapter language detection: tesseract OSD misclassified an all-caps Latin fixture as Cyrillic at the HIGHEST confidence of three fixtures, so a confidence floor selects FOR the error. Resolving it needs a bake-off against T132's hand-truthed sample · **OWNER:** **implementer** for the built half; **blocked on T132** for the language half
@@ -1899,7 +1809,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T124: [UNBUILT] [REVIEW] Settle **U6** — what sampling period keeps an on-screen visibility — **BLOCKER:** **operator decision, purely** — every input is already recorded (segment median 6.74 s, p95 10.78 s, max 20.22 s) and frame sampling is measured working. What is missing is the operator CHOOSING a sampling period, which the task forbids rounding to a convenient number · **OWNER:** **operator** — unblocks T126/T127/T128
@@ -1917,7 +1826,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T126: [UNBUILT] [TDD] Implement sampling and recognition across a chapter recording, producing — **BLOCKER:** **predecessor T124** — sampling cannot be implemented before the sampling period is chosen · **OWNER:** **implementer**, after T124
@@ -1935,7 +1843,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T127: [UNBUILT] [TDD] Gate **G-OCR-3** — implement the **stability rule**: text visible across — **BLOCKER:** **predecessor T124 + T126** · **OWNER:** **implementer**, after T124/T126
@@ -1953,7 +1860,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T128: [UNBUILT] [TDD] Gate **G-OCR-4** — join `screen_text` mentions to the **existing — **BLOCKER:** **predecessor T124 + T126** · **OWNER:** **implementer**, after T124/T126
@@ -1971,7 +1877,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T129: [UNBUILT] [TDD] Gate **G-OCR-5** — record **modality** (`spoken` / `on_screen`) on every — **BLOCKER:** **predecessor T126** — modality cannot be recorded on mentions that do not exist yet · **OWNER:** **implementer**, after T126
@@ -1989,7 +1894,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T130: [UNBUILT] [REVIEW] Settle **U7** — the **corroboration window**. A term is commonly — **BLOCKER:** **operator decision** — the corroboration window (U7) is an unsettled parameter, same class as T124 · **OWNER:** **operator**
@@ -2007,7 +1911,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T131: [UNBUILT] [TDD] Gate **G-OCR-6** — implement **corroboration grouping** per — **BLOCKER:** **predecessor T130** · **OWNER:** **implementer**, after T130
@@ -2025,7 +1928,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T132: [UNBUILT] [TDD] Build the **hand-truthed ground-truth sample** — drawn by a recorded seed — **BLOCKER:** **irreducible HUMAN LABOUR over a private recording** — hand-truthing a ground-truth sample cannot be delegated to a machine, and this is the SINGLE HIGHEST-LEVERAGE operator item in spec 002: T133, T134, T135, T136, T142 and 002's own closure all sit behind it · **OWNER:** **operator / human labour** — nothing an agent can do
@@ -2043,7 +1945,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T133: [UNBUILT] [TDD] Gate **G-OCR-7** — measure **textual** accuracy per chapter: word error — **BLOCKER:** **predecessor T132** — textual accuracy is measured AGAINST the hand-truthed sample · **OWNER:** **implementer**, after T132
@@ -2061,7 +1962,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T134: [UNBUILT] [TDD] Gate **G-OCR-8** — measure **temporal** accuracy per chapter: the — **BLOCKER:** **predecessor T132** — temporal accuracy is measured against the same sample · **OWNER:** **implementer**, after T132
@@ -2079,7 +1979,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T135: [UNBUILT] [TDD] Gate **G-OCR-9** — implement the **accuracy budget, derived and never — **BLOCKER:** **predecessor T132, AND a second independent operator blocker** — `CALIBRATION.md` carries NO WER figure at all, so the floor this gate must read at run time does not exist. The fix is spec 001's T037(b) blind human reference (30 seeded windows, 15 min audio, costed 1-2 h) — **one piece of human work satisfies both specs** · **OWNER:** **operator / human labour**, then **implementer**
@@ -2097,7 +1996,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T136: [UNBUILT] [TDD] Gate **G-OCR-10** — implement the **per-chapter publication precondition** — **BLOCKER:** **predecessor T133 + T134 + T135** — a publication precondition cannot be enforced before the figures it gates on exist · **OWNER:** **implementer**, after the accuracy chain
@@ -2115,7 +2013,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T137: [UNBUILT] [TDD] Gate **G-OCR-11** — extend the content-boundary check over OCR output and — **BLOCKER:** **predecessor T126** — there is no OCR output to extend the content-boundary check over · **OWNER:** **implementer**, after T126
@@ -2133,7 +2030,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T138: [UNBUILT] [TDD] Index `screen_text` on its own text and prove **G-KG-11** for it — an — **BLOCKER:** **predecessor T126** — nothing to index until `screen_text` mentions are produced · **OWNER:** **implementer**, after T126
@@ -2151,7 +2047,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T139: [UNBUILT] [P] Add the contract sections and route-manifest rows for the `screen_text` — **BLOCKER:** none but the work — contract sections and route-manifest rows can be written ahead of the implementation, and doing so early is cheap · **OWNER:** **implementer** — unblocked today
@@ -2169,7 +2064,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T140: [UNBUILT] [TDD] Prove redaction reaches **OCR-derived** mentions across all eight targets — **BLOCKER:** **predecessor T126** — redaction cannot be proven to reach OCR-derived mentions that do not exist · **OWNER:** **implementer**, after T126
@@ -2187,7 +2081,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T141: [UNBUILT] [US7] Add the OCR stage to the platform's **existing** chapter-addition path per — **BLOCKER:** **predecessor T126 + T136** · **OWNER:** **implementer**, after T126/T136
@@ -2205,7 +2098,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 002-knowledge-areas-deep-linking task T142: [UNBUILT] [REVIEW] Publish both OCR accuracy figures **beside** the speech-recognition — **BLOCKER:** **predecessor T133 + T134, and spec 001's T037** — both OCR accuracy figures must be published BESIDE the speech-recognition figure, and that figure does not exist either · **OWNER:** **implementer**, after T133/T134 and 001's T037
@@ -2223,7 +2115,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T001: [REVIEW] [BLOCKED: ordinal type] Record the decision on `Chapter.ordinal` in a decision
@@ -2241,7 +2132,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T002: [REVIEW] [BLOCKED: ordinal type] Amend
@@ -2259,7 +2149,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T003: [REVIEW] Confirm the two amendments agree with each other and with the live route set
@@ -2277,7 +2166,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T008: [TDD] Prove **G-CH-2** in `workshop/platform/gates/verify-chapter-hierarchy.sh`: over a
@@ -2295,7 +2183,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T009: [TDD] Prove **G-CH-3**: no persisted `parent_id`, depth or child list exists in the
@@ -2313,7 +2200,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T011: [P] [TDD] Assert the four embeddings measured in `research.md` D-CH-2, each of which
@@ -2331,7 +2217,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T012: [REVIEW] Review the grammar and the derivations before anything consumes them. A grammar
@@ -2349,7 +2234,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T016: [TDD] Implement **G-CH-5** in `verify-chapter-hierarchy.sh`: no comparison anywhere in
@@ -2367,7 +2251,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T017: [TDD] Prove **G-CH-13**. **THE CODE FIX LANDED CONCURRENTLY — THE PROOF DID NOT, AND
@@ -2385,7 +2268,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T019: [TDD] Prove **G-CH-12** for the two patterns already widened in `266f443`:
@@ -2403,7 +2285,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T020: Implement FR-015 at both call sites: a pattern non-match on a directory that **exists** is
@@ -2421,7 +2302,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T021: [P] Derive the suggest source manifest instead of hardcoding it. Six rows in
@@ -2439,7 +2319,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T022: [P] Derive every chapter reference in
@@ -2457,7 +2336,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T023: [P] Remove the frozen defaults at `workshop/pipeline/build_transcript.py:143`–`144`
@@ -2475,7 +2353,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T024: [P] Resolve `workshop/pipeline/calibrate.sh:36` from a named chapter instead of a frozen
@@ -2493,7 +2370,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T025: [TDD] [BLOCKED: ordinal type] Replace `ordinalOf`
@@ -2511,7 +2387,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T028: [P] [TDD] Reconcile the front end's two chapter shapes in
@@ -2529,7 +2404,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T029: [TDD] Prove **G-CH-11**: `core/api.ts:88` reads `body['chapters']` as a flat array and
@@ -2547,7 +2421,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T031: [TDD] Add `under`, `depth` and `include_self`, and echo the applied `filters` on **every**
@@ -2565,7 +2438,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T032: [TDD] Prove **G-CH-8**: an `under` naming a chapter that does not exist returns **`200`**
@@ -2583,7 +2455,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T033: [BLOCKED: ordinal type] Add `hierarchy` with `parent_href` and `child_hrefs` to
@@ -2601,7 +2472,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T034: [TDD] Prove **G-CH-9** (H3): a sub-chapter whose parent directory is absent is **served**,
@@ -2619,7 +2489,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T035: Update `workshop/platform/gates/route-manifest.tsv`. Three separate changes: (a)
@@ -2637,7 +2506,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T036: [TDD] Implement **G-CH-10** and **G-CH-14** in `verify-chapter-hierarchy.sh`, with
@@ -2655,7 +2523,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 003-chapter-hierarchy task T037: [REVIEW] Closure: publish `max_depth_present` as a **measurement** and assert no constant
@@ -2673,7 +2540,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T028: [US2] Render the lesson list and lesson body with prev/next in `workshop/platform/frontend/src/app/features/`, using the same sorted slice the list uses (FR-007, SC-006).
@@ -2691,7 +2557,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T038: [P] [US3] Report an unresolvable target as unavailable rather than routing to a page that reports nothing found (FR-017).
@@ -2709,7 +2574,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T043: [P] [US4] Play a video segment in place, bounded to its stated range (FR-013).
@@ -2727,7 +2591,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T044: [P] [SUBAGENT] [US4] Rasterise the 8 SVGs and check text fit at the served font metric — well-formedness and theming are verified; **text fit is not** (plan.md gap 7; FR-013).
@@ -2745,7 +2608,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T049: [US5] Emit `corpus_revision` on the served catalogue and cite it in every interface claim (FR-023a, SC-018). **Analysis finding F7 — MISPLACED**: this is a catalogue concern owned by the backend stream, not a presentation one. Execute it with Phase 3 (US1); it is listed here only because the superspec blueprint's Track A carries a *bundle* build id, which is a different artefact, and this task must not be assumed covered by it.
@@ -2763,7 +2625,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T059: [P] Add `workshop/curriculum/area-timelinks.json` and `workshop/curriculum/unpublished-areas.jsonl` to `.gitignore`, matching their siblings (FR-?).
@@ -2781,7 +2642,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T060: [P] Re-run the full frontend suite and account for every delta against the 162/0/8 baseline (FR-?).
@@ -2799,7 +2659,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T061: [REVIEW] **Human checkpoint** — read the 3 area documents failing publication review on 62, 54 and 58 uncited claim blocks. They stay failing until read; stamping them is the bypass (FR-002).
@@ -2817,7 +2676,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T062: [REVIEW] **Human checkpoint** — confirm or replace the 70% `passPercent`, the mcq-2/short-3 point weights, the 91–95 prefix shift and the anchor attachment section. These four are authored schema choices, stated rather than measured (FR-008b, SC-017).
@@ -2835,7 +2693,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T064: Regenerate the 12 pre-existing documents' ingested `.sections.json`, or record that their corpus copy is stale. **Regenerating mints new pids and changes the searchable corpus** — a corpus decision, not a cleanup (FR-?).
@@ -2853,7 +2710,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T065: [SUBAGENT] Investigate the redaction-pipeline report: one segment is marked `redacted: true` while the same sentence survives in the merged transcript. Reported, not acted on (FR-?).
@@ -2871,7 +2727,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T066: [TDD] Assert **corpus stability during measurement** in every corpus-counting run (FR-030, FR-027) — fingerprint the enumerated set before and after the analysis passes, sharing the enumeration with the analysis by construction, and emit `undet` rows **naming the changed paths** when they differ. **Analysis finding F2: this requirement had zero task coverage.** It was promoted from a real incident — a gate reporting 12939 / 12939 / 13058 / 12968 for the same command on a tree another agent was editing. The umbrella's `scripts/verify-content-boundary.sh` already implements exactly this; reuse its approach rather than inventing one.
@@ -2889,7 +2744,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T067: [TDD] [P] Assert **result stability** (FR-011, FR-026) in `workshop/platform/gates/prove-assessment-gate.sh` — submit, re-read, require a byte-identical result. **Analysis finding F4: FR-011 appeared only as a manual quickstart step, so nothing asserted it.**
@@ -2921,7 +2775,6 @@ Proposed fix: Backfill kind, category, plan_due and a measurable target on the e
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 004-authored-ai-areas task T070: [P] Append the governing FR/SC identifiers to each task line in this file (SC-013). **Analysis finding F8**: 33 of 39 FRs and 14 of 18 SCs are cited nowhere by id, so **SC-013 ("100% of requirements map to a check") is mechanically unverifiable** — it can be argued but not computed. With ids present it becomes a `grep`.
@@ -2939,7 +2792,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T010: [TDD] [US1] **PARTIAL** — run `verify-obtainability.sh --prove-failure`, the §1.1 paired proof, and record its pass/mutation counts (FR-021, SC-014). The proof's interface and mutation **M7** (a FINDING outranks an UNDETERMINED, never inverted) are declared in the guard's header, but **no run of it was captured in this session**, so no count is claimed here.
@@ -2957,7 +2809,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T011: [US1] **OPEN** — perform SC-001's actual trial: **3 of 3** clones by the documented command, on a machine that has never held the repository, with **0** transport failures (FR-001, SC-001). The refuting two-arm HTTPS test recorded in spec.md was run from a third host and proves the transport works; it is **not** the 3-of-3 acceptance run, and must not be reported as one.
@@ -2975,7 +2826,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T012: [US1] **BLOCKED — operator decision.** Publish the documented step by which recorded material is obtained from storage outside the repository, with its stated availability condition (FR-003, SC-003). The superseding instruction was explicit that the fetch instructions come in a later iteration. **Until it exists, SC-003's "100% remains obtainable by a documented step" is NOT met** — the bytes are on one disk and the step is unwritten.
@@ -2993,7 +2843,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T013: [US1] **OPEN** — warn on the growth TREND, not only on the breach (Edge case: *a repository shrinks below the threshold but keeps growing*). The guard thresholds on a point-in-time size; nothing reads a series.
@@ -3011,8 +2860,9 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Operator-blocked
 **Type:** Task
-**Severity:** unset
+**Severity:** medium
 **Created-By:** AI
+**Assigned-To:** zero-gap-sweep
 
 WHAT — 005-clone-and-clear-red task T020: [US2] **BLOCKED — operator credential.** Turn the 6 UNVERIFIED provider rows into verdicts (FR-011c, SC-005). **Re-measured 2026-09-08** (served, provider APIs): `bash scripts/verify-provider-ci.sh` exits **1** — 22 repositories / 40 upstream rows, **1 CONFIRMED**, and the 6 rows now report *"an adapter IS registered for this host but could not run"* rather than *"no adapter registered"*. `https://api.gitflic.ru` answers **HTTP 403** and `https://api.gitverse.ru` answers **HTTP 401**; both require a credential on every route and none is configured. **This is FR-011c working exactly as written** — "never asked" became "asked and could not determine", which is progress, and it was NOT converted into a pass. Lifting it needs `GITFLIC_TOKEN` / `GITVERSE_TOKEN`, which only the operator can issue.
 
@@ -3043,7 +2893,6 @@ Proposed fix: Backfill kind, category, plan_due and a measurable target on the e
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T031: [US2] **OPEN** — build the fleet summary that reports **defect count and declared-condition count separately and never merges them** (FR-009, SC-008). **No such instrument exists.** Every gate reports its own verdict; nothing aggregates them into the two-number statement FR-009 requires, so SC-008's "unexplained reds reaches 0, from a baseline of 11" is **not computable today**.
@@ -3061,7 +2910,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T032: [US2] **OPEN** — give every non-clean instrument an explicit KIND on its own output line: defect / declared / could-not-run (FR-006, SC-005). Several instruments do this well (T014, T015, T020); **it is not universal**, and SC-005's "100% of non-clean results state their kind" has not been measured across the fleet.
@@ -3079,7 +2927,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T033: [US2] **OPEN** — make a declared condition name **who may lift it and what evidence would** (FR-007, SC-015). `scripts/check-registry.tsv` exemptions now carry evidence and reasons (T017), and T020's row names the credential, but no instrument requires a lifting authority as a structural field.
@@ -3097,7 +2944,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T034: [TDD] [US2] **OPEN** — assert FR-010 mechanically: any threshold, bucket, allow-list or baseline change must carry a principle stated independently of the count it produces (FR-010, SC-007). Two guards do this in prose by construction — `verify-obtainability.sh`'s two threshold rules (T007) and the palette gate's fixed floor — but **nothing detects a weakening change**. This is the requirement most exposed to being satisfied by assertion.
@@ -3115,7 +2961,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T035: [REVIEW] [US2] **OPEN** — run SC-015's acceptance: a reader answers *"is this a defect, what is the evidence, what happens next"* for every red from instrument output alone, without consulting a person. Not attempted; it depends on T031–T033.
@@ -3147,7 +2992,6 @@ Proposed fix: Backfill kind, category, plan_due and a measurable target on the e
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T038: [US3] **OPEN** — tell a learner, in the interface, that an area has no assessment and why (FR-013, SC-010). No task in the tree implements the learner-facing disclosure; the platform's absence-honesty gates (`workshop/platform/gates/verify-absence-honesty.sh`) govern what the *server* asserts, not what the *learner reads*.
@@ -3179,7 +3023,6 @@ Proposed fix: Backfill kind, category, plan_due and a measurable target on the e
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T041: [REVIEW] [US3] **BLOCKED — operator gate.** Read the 3 documents failing publication review on **62, 54 and 58** uncited claim blocks and decide publish-or-not (FR-014, SC-010). They remain unpublished, so a client sees fewer areas than are authored. This is the same gate carried as T060 in [`../006-session-record-and-qa-readiness/tasks.md`](../006-session-record-and-qa-readiness/tasks.md) — **one decision, recorded in two specs, not two decisions.**
@@ -3197,7 +3040,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T042: [US3] **OPEN** — assert FR-014 mechanically: a published document's primary references resolve to material a reader can actually reach. T041 is a human read of three documents; **no check enumerates published documents and resolves their primary references.**
@@ -3215,7 +3057,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T046: [US4] **PARTIAL** — re-measure the served hue-family count and record it against SC-012's floor of 6, up from a baseline of 2 (FR-016, SC-012). The corrected instrument exists (T043–T045) and `workshop/platform/gates/sample-served-surfaces.mjs` takes the browser sample. **No served run was captured in this session, so no post-fix count is claimed here.** `CONTINUATION.md:646` still records the baseline *"the served interface paints 2 hue families against a floor of 6"*, and until a served run supersedes it, **that is the last measured figure in this tree.** Note the shape of the trap this gate was built against: when the instrument became honest the count went **down** from 4 to 2 — a corrected gate reporting a worse number than the broken one it replaced.
@@ -3233,7 +3074,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T047: [US4] **OPEN** — give every hue present a stated classification job, so no hue is added only to raise a count (FR-017, SC-012). The design-system documents landed in commit `f11a3c1` (`workshop/docs/design-system/TOKENS.md`, `RATIONALE.md`, `COMPONENTS.md`, `wk-semantic-tokens.css`), but **nothing asserts the mapping from every painted hue to a declared job**, which is what SC-012's second half requires.
@@ -3251,7 +3091,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T049: [US4] **PARTIAL** — record the served contrast result: **0** failures across text and non-text pairings in both presentations (FR-019, SC-013). The gate and its prover exist; **no served run was captured in this session.**
@@ -3269,7 +3108,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T050: [US4] **OPEN** — justify the measured population independently of its effect on the count, and record that justification whenever the population changes (FR-018, SC-012). T044 **changed the population** (adding `paint`) for a stated defect reason, which is the right shape — but no rule requires the next change to do the same, and the edge case *"a red is fixed by making the instrument weaker"* lives exactly here.
@@ -3287,7 +3125,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T053: [TDD] **PARTIAL** — make every check whose subject is a set establish the set is **non-empty** before reporting the set contains no defects (FR-022, SC-014). Two instruments do this: `verify-obtainability.sh` returns **2** when nothing is tracked to measure, and `workshop/platform/gates/verify-bank-reachability.sh` was written precisely because the prior gate checked one fixture area while 89 questions were unreachable. **It is not universal, and no sweep asserts it across the fleet.**
@@ -3305,7 +3142,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 005-clone-and-clear-red task T054: **OPEN** — satisfy SC-014: **100%** of requirements map to at least one automated check, and every such check ships a data-driven paired demonstration (FR-020, SC-014). **This file is the first half of that criterion and does not complete it.** Every FR and SC in spec.md is now cited by at least one task above — but a task is not a check, and 22 of the 54 tasks here are not ticked. **Requirements with no automated check at all: FR-009, FR-010, FR-013, FR-014, FR-017 and SC-015.** Those six are the real coverage gap.
@@ -3323,7 +3159,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T015: [US1] Build `GET /api/chapters/{id}/open-questions`, preserving the three-valued `resolution` the client already types (`answered_in_chapter`/`answered_by_research`/`unanswered`) (FR-005). **The wire must not narrow it** — the consumer already knows what it needs.
@@ -3341,7 +3176,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T016: [P] [US1] Build `GET /api/chapters/{id}/todo` reading `pkg/sessionrecord`, never re-deriving (FR-005).
@@ -3359,7 +3193,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T017: [P] [US1] Build `GET /api/chapters/{id}/next-meeting` reading `pkg/sessionrecord` (FR-005).
@@ -3377,7 +3210,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T018: [TDD] [US1] Assert the routes and the embedded key serve the **same items** in `workshop/platform/gates/verify-session-record.sh` (FR-005, FR-023). **This is the pair assertion** — a route and a key that agree today are exactly what drift, and that class produced the 819-vs-817 catalogue bug.
@@ -3395,8 +3227,9 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
+**Severity:** medium
 **Created-By:** AI
+**Assigned-To:** zero-gap-sweep
 
 WHAT — 006-session-record-and-qa-readiness task T019: [REVIEW] [US1] **BLOCKED — operator decision.** `GET /api/chapters/{id}/meeting-notes` is NOT built. Its withholding rule **may not be guessed** (FR-005a): one note is a content judgement left undecided. Update its DEBT row in `workshop/platform/gates/route-manifest.tsv` to name that specific blocker rather than the general one (FR-028).
 
@@ -3413,7 +3246,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T026: [SUBAGENT] [US2] Propose a coverage verdict per point with **per-point evidence and confidence**, marked `PROPOSED`, written to a separate artefact — never into `plan-coverage.json`, which is the decision record (FR-007a).
@@ -3431,7 +3263,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T027: [TDD] [US2] Assert `coverage_state` is still `undecided` and the served counts have not moved after a proposal exists (FR-007a). **This is what makes "a proposal is not a decision" mechanical rather than aspirational.**
@@ -3449,7 +3280,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T028: [REVIEW] [US2] **Operator gate**: confirm or overturn the proposed verdicts (FR-007a). Until then the served figure stays `undecided`.
@@ -3467,7 +3297,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T031: [SUBAGENT] [US3] **Regenerate both against the current build** (FR-020a). They describe 14 areas with tests and 0 lessons with content; live is **27** and **318 of 318**. **A stale expected-result column manufactures false defects** and spends a tester's day disproving our own fixes.
@@ -3485,7 +3314,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T032: [US3] Record the build identifier in both — served-CSS `sha256`, served area count, index generation — and state they must be regenerated when it moves (FR-020a, FR-026).
@@ -3503,7 +3331,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T033: [US3] Disclose up front (FR-020, FR-020b): 39 served against 42 authored; 12 areas carrying no test with the reason; every score indeterminate while banks mix machine-marked and free-text questions.
@@ -3521,7 +3348,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T034: [P] [US3] Disclose that `/meeting-notes` is deliberately unbuilt and that three sibling routes may or may not be live — **check, do not assume** (FR-020, FR-028, SC-008).
@@ -3539,7 +3365,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T044: [P] [SUBAGENT] [US4] Author text alternatives for the 205 video materials (FR-016, FR-028). **Evidence needed**: 205 of 213 carry `alt: ""`; the interface names the absence rather than hiding it, so this is a disclosed gap, not a hidden one.
@@ -3557,7 +3382,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T050: [TDD] [SUBAGENT] [US5] Add the build identifier to `/api/health` (FR-026). **Evidence needed**: nothing noticed the container was four hours older than the code, because no reading could be tied to a revision.
@@ -3575,7 +3399,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T051: [SUBAGENT] [US5] Commission a **second** independent adversarial review against the rebuilt container (FR-029, SC-014). The first found four false headline claims; a review that confirms is worth little.
@@ -3593,7 +3416,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T056: Restart once when every writer has stopped, verified by two `git status` readings 30 s apart (FR-027). **A restart triggers a 45-minute cross-reference derivation** over 24,929 passages, during which `verify-crossref-currency.sh` correctly reports rc 1.
@@ -3611,7 +3433,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T057: Re-run the full gate sweep against the rebuilt container and record each figure with its **population** — `source`, `in_process` or `served` (FR-023, FR-026).
@@ -3629,7 +3450,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T058: [P] [SUBAGENT] Register every new gate in `workshop/platform/gates/check-registry-006.tsv` (FR-?). **Evidence needed**: an unregistered gate fails the registry's own R5 anti-drift rule, which caught one of mine today.
@@ -3647,7 +3467,6 @@ SUB-PROJECT BASIS — the source row names the path workshop.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T059: [P] [SUBAGENT] Re-validate every `exempt` row whose subject changed this session (FR-028). **Evidence needed**: one said *"it judges nothing"* of a script that had gained a three-valued verdict — an exemption whose justification expired still looks reviewed.
@@ -3665,7 +3484,6 @@ SUB-PROJECT BASIS — no sub-project path named in the source row.
 
 **Status:** Queued
 **Type:** Task
-**Severity:** unset
 **Created-By:** AI
 
 WHAT — 006-session-record-and-qa-readiness task T060: [REVIEW] **Operator gate**: read the 3 documents failing publication review on 62, 54 and 58 uncited claim blocks (FR-020b, FR-023). They stay unpublished until read; a client sees 39 areas, not 42.
@@ -4303,4 +4121,221 @@ git status in the umbrella shows submodules/constitution modified and nested sub
 **Severity:** medium
 
 The toolkit full suite was stopped at file 42 of 145 because test_jev_detect_https_mutation.sh takes hours. Files 43 to 145 were not run for v1.34.0; the release rests on the files that ran. Source CONTINUATION.md.
+
+## MVR-003 — PDF export renders non-Latin scripts incorrectly (renderer fix)
+
+**Status:** In progress
+**Type:** Bug
+**Severity:** high
+**Created-By:** Claude
+
+Generated PDFs for non-Latin languages (the ru/ar/fa/hi/ja/ko/zh/be/kk/sr set) are affected by a renderer defect; a fix is being worked by ANOTHER agent right now, so this item is only the tracker anchor. Exact glyph symptom and root cause are UNCONFIRMED in this record; owner must attach reproduction and investigation evidence before closure. Surfaced by this session's review.
+
+## MVR-004 — Vault passphrase provisioning
+
+**Status:** Operator-blocked
+**Type:** Task
+**Operator-Block-Details:** WHAT: Provision the vault passphrase and wire it into the vault build; the agent cannot create or handle the secret. WHY: Self-resolution exhausted: generating a passphrase would put a credential in agent output and history (CONST-042 / 11.4.10); the passphrase is operator-held by definition, and no key store entry exists that an agent may read. UNBLOCK: - [1] operator supplies the passphrase out of band via an env var read by NAME, mode-0600 file (cost: low, one operator step)
+- [2] operator decides not to ship the vault, closing this as Obsolete (cost: none, see the vault ship decision item) WHO: operator (milosvasic)
+**Severity:** high
+**Created-By:** Claude
+
+The vault artifacts need a passphrase provisioned by the operator; no agent may generate, print or commit it (CONST-042). Where it is stored and how the build consumes it is UNCONFIRMED here. Depends on the vault ship decision item.
+
+## MVR-005 — Vault ship decision
+
+**Status:** Operator-blocked
+**Type:** Task
+**Operator-Block-Details:** WHAT: Decide whether the sealed vault feature ships at all. WHY: Self-resolution exhausted: shipping or dropping a feature is a product decision, and 11.4.122 forbids silently removing a shipped component without an operator keep-or-remove answer. UNBLOCK: - [1] ship the vault (cost: needs passphrase provisioning and the admin/vault publication decision)
+- [2] do not ship it (cost: vault code and artifacts removed or parked, needs 11.4.122 confirmation) WHO: operator (milosvasic)
+**Severity:** high
+**Created-By:** Claude
+
+Operator must decide whether the sealed vault feature ships at all. Related to but distinct from the admin/vault publication decision, which is about whether admin and vault files go on the public Pages site. Deploy tooling holds them back by default (DEPLOY_INCLUDE_ADMIN).
+
+## MVR-006 — English hub copy translation
+
+**Status:** Queued
+**Type:** Task
+**Severity:** medium
+**Created-By:** Claude
+
+The English hub page copy needs translating into the other site languages; which strings and which languages are incomplete is UNCONFIRMED in this record and must be measured before work starts.
+
+## MVR-007 — Admin/vault publication decision on the public site
+
+**Status:** Operator-blocked
+**Type:** Task
+**Operator-Block-Details:** WHAT: Decide whether admin/, assets/js/vault.js and downloads/vault/ are published on the public Pages site. WHY: Self-resolution exhausted: it is a publication and exposure decision on a live production site; deploy-langs.sh holds the files back by default and an agent must not flip DEPLOY_INCLUDE_ADMIN on its own. UNBLOCK: - [1] keep held back, do not publish (cost: none, current default)
+- [2] publish with DEPLOY_INCLUDE_ADMIN=1 (cost: admin console and sealed artifacts become publicly fetchable)
+- [3] host elsewhere or behind auth (cost: new hosting work) WHO: operator (milosvasic)
+**Severity:** high
+**Created-By:** Claude
+
+Operator must decide whether the admin console and sealed vault artifacts (admin/, assets/js/vault.js, downloads/vault/) belong on the public milosvasic.ru Pages site. _tools/deploy-langs.sh holds them back unless DEPLOY_INCLUDE_ADMIN=1; nothing public references them. Decision is not made by any agent.
+
+## VSC-408 — Release tag name decision: vasic-1.0.0-dev-0.0.8 versus vasic-2.0.0
+
+**Status:** Queued
+**Type:** Task
+**Severity:** high
+**Created-By:** Claude
+
+Operator must choose the release tag name between vasic-1.0.0-dev-0.0.8 and vasic-2.0.0 (the 11.4.151 project-prefixed scheme). No tag has been created by this session; naming rule and any prior tag history were not re-checked here and are UNCONFIRMED.
+
+## VSC-409 — Disposition of docs/BUILD-2026-11-20.md
+
+**Status:** Queued
+**Type:** Task
+**Severity:** low
+**Created-By:** Claude
+
+The untracked or unreferenced file docs/BUILD-2026-11-20.md needs a disposition: keep and commit, move into the docs chain, or remove. Removal needs the 11.4.122 operator decision and a git history check per 11.4.124; its content was not assessed by this record.
+
+## MVR-008 — hreflang alternates in sitemap for expertise pages
+
+**Status:** Queued
+**Type:** Feature
+**Severity:** medium
+**Created-By:** Claude
+
+The expertise pages (165 in the sitemap) do not yet carry hreflang alternate links in sitemap.xml; the generator is _tools/gen/seo.go. Open, not started; the exact current sitemap output was not re-measured by this record.
+
+## MVR-009 — og:image PNG cards for expertise pages
+
+**Status:** Queued
+**Type:** Feature
+**Severity:** medium
+**Created-By:** Claude
+
+Expertise pages currently reference SVG OG images under assets/og/; many social crawlers need PNG. Generate PNG cards and point og:image at them. Open, not started.
+
+## MVR-010 — og:locale for zh_CN is wrong or missing
+
+**Status:** Queued
+**Type:** Bug
+**Severity:** low
+**Created-By:** Claude
+
+The og:locale value for the Chinese pages needs to be zh_CN in the Open Graph form; the currently emitted value was not re-measured by this record and is UNCONFIRMED. Open, in _tools/gen/seo.go.
+
+## MVR-011 — sameAs data source for structured data
+
+**Status:** Queued
+**Type:** Task
+**Severity:** medium
+**Created-By:** Claude
+
+The JSON-LD sameAs links need one authoritative data source (profile links) instead of ad hoc values. Which file should own it is an open design decision, UNCONFIRMED.
+
+## WSP-178 — Go+Gin+HTTP3+Brotli stack rule for the workshop server (deferred)
+
+**Status:** Queued
+**Type:** Task
+**Severity:** low
+**Created-By:** Claude
+
+The stack rule Go, Gin, HTTP/3 and Brotli applies to the workshop server. The operator DEFERRED it: focus is milosvasic.ru first, then job_seeker. Not scheduled; the workshop server's present stack was not re-measured by this record.
+
+## VSC-410 — Go+Gin+HTTP3+Brotli stack rule applies to job_seeker
+
+**Status:** Queued
+**Type:** Task
+**Severity:** medium
+**Created-By:** Claude
+
+The stack rule Go, Gin, HTTP/3 and Brotli applies to job_seeker, which is next in focus after milosvasic.ru. job_seeker has no row in docs/workable-items/sub-projects.tsv so this is filed under the parent VSC; ratifying a job_seeker prefix is an operator decision. Its present stack is UNCONFIRMED.
+
+## VSC-411 — profile.yaml skill-item i18n ids and identity.pronouns content decisions
+
+**Status:** Queued
+**Type:** Task
+**Severity:** medium
+**Created-By:** Claude
+
+Two open content decisions for the job_seeker profile.yaml: the i18n ids for skill items, and the identity.pronouns field. Both need the operator's content input; no value has been chosen. Filed under VSC (no job_seeker roster prefix).
+
+## VSC-417 — --runner flag programme: forced container-runner selector across containers, umbrella launchers and docs
+
+**Status:** In progress
+**Type:** Task
+**Severity:** high
+**Created-By:** Claude
+
+WHAT: containers PR #3 adds forced-runner selector, umbrella PR #11 bumps the pin with manifest ref; Phase B (umbrella launchers and docs use --runner) is in flight under another agent. Closes when launchers and docs are merged and a live run with each runner is captured.
+
+## VSC-418 — storage-policy programme: root filesystem overfill, DATA1TB and DATA7TB placement
+
+**Status:** In progress
+**Type:** Task
+**Severity:** high
+**Created-By:** Claude
+
+WHAT: root filesystem filled up; a storage policy (docs/storage-policy.md) and report script (scripts/storage-report.sh) are being added by another agent via PR, with large data placed on DATA1TB and DATA7TB. Closes when the policy is merged and a live storage report shows root usage below the policy limit.
+
+## VSC-419 — LSP servers repair: typescript fixed; clangd, kotlin-lsp, ruby-lsp, rust-analyzer, sourcekit-lsp being installed
+
+**Status:** In progress
+**Type:** Task
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: language servers on the development host are broken or missing. typescript is fixed; clangd, kotlin-lsp, ruby-lsp, rust-analyzer and sourcekit-lsp are being installed. Closes when each server answers a live LSP request from the host shell with captured output.
+
+## VSC-420 — operator item: rnabulsi repository invite acceptance
+
+**Status:** Operator-blocked
+**Type:** Task
+**Operator-Block-Details:** WHAT: rnabulsi must accept the private-repository collaborator invite sent 2026-11-23; no agent can accept it for them UNBLOCK: Choose one:
+- [1] rnabulsi accepts the invite (cost: none; provider read-back shows accepted)
+- [2] operator re-sends the invite to another account (cost: new access decision) WHO: Claude
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: the collaborator invite sent 2026-11-23 for the private career repository must be accepted by rnabulsi; nothing in the repository can accept it. Closes when the invite shows accepted in the provider read-back.
+
+## VSC-421 — operator item: vault passphrase backup
+
+**Status:** Operator-blocked
+**Type:** Task
+**Operator-Block-Details:** WHAT: the vault v1 passphrase backup is a manual operator action outside the repository UNBLOCK: Choose one:
+- [1] operator stores the passphrase in their password manager and confirms (cost: minutes)
+- [2] operator declines a backup and accepts unrecoverable sealed content (cost: permanent data loss risk) WHO: Claude
+**Severity:** high
+**Created-By:** Claude
+
+WHAT: the vault v1 passphrase must be backed up by the operator outside the repository and outside any agent session; losing it makes sealed content unrecoverable. Closes when the operator confirms a backup exists. The value is never recorded here.
+
+## VSC-422 — operator item: zero-gap ratchet baseline 63 versus 23
+
+**Status:** Operator-blocked
+**Type:** Task
+**Operator-Block-Details:** WHAT: ratchet shows 63 where 23 was expected; which is authoritative is an operator decision UNBLOCK: Choose one:
+- [1] adopt 63 after a re-measured run (cost: higher baseline)
+- [2] investigate and restore 23 (cost: investigation time) WHO: Claude
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: the zero-findings ratchet records 63 where 23 was expected; which figure is authoritative is undecided. Closes when the figures are reconciled with a re-measured run and the ratchet file is updated or the discrepancy is explained.
+
+## VSC-423 — operator item: per-language footer review of the website-version footer
+
+**Status:** Operator-blocked
+**Type:** Task
+**Operator-Block-Details:** WHAT: per-language footer review needs independent per-language reviewers and an operator choice of method UNBLOCK: Choose one:
+- [1] machine review per language with recorded verdicts (cost: model spend)
+- [2] native-speaker review for priority languages only (cost: operator effort) WHO: Claude
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: the website-version footer text exists in every localized page but each language rendering has not been reviewed by an independent per-language reviewer (11.4.256). Closes when a review verdict is recorded per language.
+
+## VSC-424 — operator item: stale remote and local branches cleanup
+
+**Status:** Queued
+**Type:** Task
+**Severity:** low
+**Created-By:** Claude
+
+WHAT: merged pr/ and feat/ branches remain on the remote and in local worktrees after PR merges. Closes when each is confirmed merged and removal is decided by the operator, per the no-silent-removal rule.
 
