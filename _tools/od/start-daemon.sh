@@ -7,9 +7,9 @@
 # the contract every launcher honours. This one runs a native Electron process and
 # uses NO container, so the runner is VALIDATED but not used: an unknown or
 # malformed name is refused (rc 2); when the Go toolchain and the Containers module
-# are reachable a NOT-INSTALLED runner is refused too (rc 2, no fallback) -- exactly
-# as ai_interviewing's native launchers do. Without Go only the shape and (when the
-# module's runner binary is cached) the membership are checked. Accepted ->
+# are reachable a NOT-INSTALLED runner is refused too (rc 2, no fallback). If a runner
+# was asked for but cannot be validated (no Go / module) the launcher refuses, rc 2: a
+# runner choice is never silently ignored. Accepted ->
 # "runner: NAME (no containers used by this launcher)". --help/-h: usage, rc 0.
 set -euo pipefail
 HERE="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
@@ -30,7 +30,8 @@ if [ "$VASIC_RUNNER_ASKED" = 1 ]; then
     vasic_runner_maybe "$@" || exit 2
     echo "start-daemon: runner: ${CONTAINERS_RUNNER_CHOSEN:-auto} (no containers used by this launcher)" >&2
   else
-    echo "start-daemon: runner validated by shape only (no Go toolchain / Containers module): no containers used by this launcher" >&2
+    echo "start-daemon: COULD NOT DETERMINE whether runner is valid (needs the Go toolchain and the Containers module); refusing rather than ignoring it (rc 2)" >&2
+    exit 2
   fi
 fi
 APP="/Applications/Open Design.app/Contents/MacOS/Open Design"
