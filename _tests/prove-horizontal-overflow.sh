@@ -35,7 +35,7 @@ T="$(mktemp -d)"; SRVPID=""
 trap '[[ -n "$SRVPID" ]] && kill "$SRVPID" 2>/dev/null; rm -rf "$T"' EXIT
 PORT="$(python3 -c 'import socket;s=socket.socket();s.bind(("127.0.0.1",0));print(s.getsockname()[1])')"
 cat >"$T/cfg.js" <<CFG
-module.exports = { testDir: '$HERE/tests', timeout: 60000, workers: 4, reporter: 'line',
+module.exports = { outputDir: '$T/out', testDir: '$HERE/tests', timeout: 60000, workers: 4, reporter: 'line',
   projects: [{ name: 'chromium', use: { browserName: 'chromium' } }] };
 CFG
 

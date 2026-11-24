@@ -1,3 +1,4 @@
+NOTE: the "off" field below lists boxes outside the viewport WITHOUT considering clipping ancestors; .vd-hero__aurora is clipped by .vd-hero{overflow:hidden} and is NOT the cause (see the spec header). Cause: h2.od-section__title.
 total 75 overflow 6
 {"l":"de","w":320,"sw":454,"cw":320,"bsw":454,"off":["SPAN.vd-hero__aurora R=391"],"over":true}
 {"l":"ru","w":320,"sw":367,"cw":320,"bsw":367,"off":["SPAN.vd-hero__aurora R=391"],"over":true}

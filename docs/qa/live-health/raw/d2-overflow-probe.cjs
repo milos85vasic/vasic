@@ -1,4 +1,4 @@
-const { chromium } = require('/home/milosvasic/Projects/vasic/_tests/node_modules/@playwright/test');
+const { chromium } = require(process.env.PW_MODULE||'@playwright/test');
 const base = process.argv[2];
 const langs = ['', 'ar','be','de','es','fa','fr','hi','ja','kk','ko','ru','sr','tr','zh'];
 const widths = [320,360,390,414,768];

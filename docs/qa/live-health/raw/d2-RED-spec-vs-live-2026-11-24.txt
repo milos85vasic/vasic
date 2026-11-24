@@ -1,7 +1,7 @@
-[env.js] WARNING: building port-discover failed (Command failed: go build -o /home/milosvasic/Projects/vasic-wt-d2/umb/_tools/containers/bin/port-discover ./cmd/port-discover); falling back to the hardcoded VD_PORT default 8401 (dynamic discovery skipped)
-[env.js] WARNING: building port-discover failed (Command failed: go build -o /home/milosvasic/Projects/vasic-wt-d2/umb/_tools/containers/bin/port-discover ./cmd/port-discover); falling back to the hardcoded MV_PORT default 8082 (dynamic discovery skipped)
-[env.js] WARNING: building port-discover failed (Command failed: go build -o /home/milosvasic/Projects/vasic-wt-d2/umb/_tools/containers/bin/port-discover ./cmd/port-discover); falling back to the hardcoded MOTION_VD_PORT default 8481 (dynamic discovery skipped)
-[env.js] WARNING: building port-discover failed (Command failed: go build -o /home/milosvasic/Projects/vasic-wt-d2/umb/_tools/containers/bin/port-discover ./cmd/port-discover); falling back to the hardcoded MOTION_MV_PORT default 8482 (dynamic discovery skipped)
+[env.js] WARNING: building port-discover failed (Command failed: go build -o <repo>/_tools/containers/bin/port-discover ./cmd/port-discover); falling back to the hardcoded VD_PORT default 8401 (dynamic discovery skipped)
+[env.js] WARNING: building port-discover failed (Command failed: go build -o <repo>/_tools/containers/bin/port-discover ./cmd/port-discover); falling back to the hardcoded MV_PORT default 8082 (dynamic discovery skipped)
+[env.js] WARNING: building port-discover failed (Command failed: go build -o <repo>/_tools/containers/bin/port-discover ./cmd/port-discover); falling back to the hardcoded MOTION_VD_PORT default 8481 (dynamic discovery skipped)
+[env.js] WARNING: building port-discover failed (Command failed: go build -o <repo>/_tools/containers/bin/port-discover ./cmd/port-discover); falling back to the hardcoded MOTION_MV_PORT default 8482 (dynamic discovery skipped)
 
 Running 6 tests using 1 worker
 
@@ -29,7 +29,7 @@ Running 6 tests using 1 worker
       88 |     });
       89 |   }
       90 | });
-        at /home/milosvasic/Projects/vasic-wt-d2/umb/_tests/tests/horizontal-overflow.spec.js:87:52
+        at <repo>/_tests/tests/horizontal-overflow.spec.js:87:52
 
     Error Context: ../../../../test-results/horizontal-overflow-vasic--432f2--homes-fit-a-320px-viewport-chromium/error-context.md
 
@@ -57,7 +57,7 @@ Running 6 tests using 1 worker
       88 |     });
       89 |   }
       90 | });
-        at /home/milosvasic/Projects/vasic-wt-d2/umb/_tests/tests/horizontal-overflow.spec.js:87:52
+        at <repo>/_tests/tests/horizontal-overflow.spec.js:87:52
 
     Error Context: ../../../../test-results/horizontal-overflow-vasic--44c21--homes-fit-a-360px-viewport-chromium/error-context.md
 
@@ -84,7 +84,7 @@ Running 6 tests using 1 worker
       88 |     });
       89 |   }
       90 | });
-        at /home/milosvasic/Projects/vasic-wt-d2/umb/_tests/tests/horizontal-overflow.spec.js:87:52
+        at <repo>/_tests/tests/horizontal-overflow.spec.js:87:52
 
     Error Context: ../../../../test-results/horizontal-overflow-vasic--f5dc6--homes-fit-a-390px-viewport-chromium/error-context.md
 
@@ -111,7 +111,7 @@ Running 6 tests using 1 worker
       88 |     });
       89 |   }
       90 | });
-        at /home/milosvasic/Projects/vasic-wt-d2/umb/_tests/tests/horizontal-overflow.spec.js:87:52
+        at <repo>/_tests/tests/horizontal-overflow.spec.js:87:52
 
     Error Context: ../../../../test-results/horizontal-overflow-vasic--3f095--homes-fit-a-414px-viewport-chromium/error-context.md
 
