@@ -47,7 +47,7 @@ Run per module (`timeout 40 python3 -B -m unittest <module>`); 24 test modules e
 * Generator, two runs: identical sha256 over the full output tree for `vasic.digital` (`56475a4d…0717` both). Command and inputs are in row 14. Scope limit stated there.
 * Go build and fuzz: the fuzz seed corpus is committed; the `new interesting` count is not a determinism claim.
 * Gates: `zero-gap-determinism.sh --runs N` exists and is registered (`zero-gap-determinism`); it was not run here because it copies the tree. It is the right instrument for the sweep; backlog B7.
-* Evidence files that are NOT deterministic today: `_tests/evidence/test-types/perf-budget.json` (timings), `_tests/evidence/homepages/*.png`. A deterministic evidence rule needs a normalisation or tolerance step; this is gap UG-15.
+* Evidence files that are NOT deterministic today: `_tests/evidence/test-types/perf-budget.json` (timings), `_tests/evidence/homepages/*.png`. A deterministic evidence rule needs a normalisation or tolerance step; this was gap UG-15, which PR #90 FIXED (evidence stability; re-run the perf-budget spec twice and compare the JSON to confirm before relying on it).
 
 ## Missing areas
 

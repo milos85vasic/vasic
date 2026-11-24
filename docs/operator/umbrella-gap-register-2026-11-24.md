@@ -22,7 +22,7 @@ Every reading below is a dated measurement from this session. Re-run the named c
 
 | ID | Gap | State | Root cause (one line) | Next owner |
 |---|---|---|---|---|
-| UG-01 | Gate 6 webkit missing libs | DETERMINED, carrier claim STALE | `libmanette-0.2-0` and `libwoff1` are now installed; webkit launches. The remaining preflight blocker is a missing `milosvasic.ru/_site` | build step, see UG-01 |
+| UG-01 | Gate 6 webkit missing libs | DETERMINED, carrier claim CORRECTED 2026-11-25 (four root carriers); `_site` build still open (item 7) | `libmanette-0.2-0` and `libwoff1` are now installed; webkit launches. The remaining preflight blocker is a missing `milosvasic.ru/_site` | build step, see UG-01 |
 | UG-02 | `build_warn` tolerance in deploy-langs | DETERMINED, partly closed, one misreport FIXED | tolerated set is deliberate (per-language gen and pdf); `pdf built` echo printed after a tolerated failure | FIXED-IN-THIS-PR |
 | UG-03 | Claims drift (`verify-claim-ledger`) | DETERMINED green, slice only | 11 recorded claims, all agree; coverage is a slice, 520 unanchored figures in `CONTINUATION.md` | backlog B6 |
 | UG-04 | Remote-sync false DRIFT for uninitialised submodules | DETERMINED, FIXED-IN-THIS-PR | `git -C <empty submodule dir> rev-parse --git-dir` walks up to the superproject and reads ITS pushurl | FIXED-IN-THIS-PR |
@@ -31,15 +31,15 @@ Every reading below is a dated measurement from this session. Re-run the named c
 | UG-07 | content-boundary RED by design | see section | reading recorded below | operator (decision packet in carrier) |
 | UG-08 | Hardcoded-path and environment-assumption audits | DETERMINED measurement, fixes owned by agent a3ac97ad | 11011 and 8943 occurrences in a fully initialised tree, mostly consumed submodules | a3ac97ad |
 | UG-09 | Docs-chain check C-set | UNDETERMINED | `docs_chain` binary absent: nested submodule `constitution/submodules/docs_chain` not initialised and not built | backlog B5 |
-| UG-10 | Constitution sweep, failures actionable in this tree | DETERMINED partial | the three carrier-named gates now PASS; 4 of the first failing gates are REFUSE rc 4 caused by uninitialised nested constitution submodules; sweep does not finish in a session | backlog B5, B7 |
+| UG-10 | Constitution sweep, failures actionable in this tree | DETERMINED partial; carrier sentence CORRECTED 2026-11-25; PR #93 had pushed the zero-findings ratchet to 9 > 7 with two `t.Skip` lines, removed 2026-11-25 (live 7 <= 7 again) | the three carrier-named gates now PASS; 4 of the first failing gates are REFUSE rc 4 caused by uninitialised nested constitution submodules; sweep does not finish in a session | backlog B5, B7 |
 | UG-11 | `continuation-check` DRIFT C3 | DETERMINED | three gitlink-bump commits changed watched governance files without touching `CONTINUATION.md` | backlog B6 |
 | UG-12 | Paired proofs that could false-green (§11.4.201) | DETERMINED sample, no vacuous mutant found in 4 targeted mutants; one crude mutation method rejected | see section | backlog B8 |
 | UG-13 | `_tools/containers/cmd/site-build` and `internal/orchestrate` have no Go tests | DETERMINED | `go test` prints `[no test files]` for both; they are the only Jekyll build path | backlog B2 |
 | UG-14 | Harness self-validation UNDETERMINED in a fresh worktree | DETERMINED | `@playwright/test` not installed (`_tests/node_modules` absent); gate returns rc 2 correctly | environment, B5 |
-| UG-15 | `perf-budget.json` rewritten non-deterministically by test runs, summary doc quotes stale numbers | DETERMINED | committed JSON says `vasic.digital/` 324,494 B, `playwright-summary.txt` says 221,252 B; the main checkout shows the JSON modified | backlog B3 |
+| UG-15 | `perf-budget.json` rewritten non-deterministically by test runs, summary doc quotes stale numbers | FIXED by PR #90 (evidence stability) | committed JSON says `vasic.digital/` 324,494 B, `playwright-summary.txt` says 221,252 B; the main checkout shows the JSON modified | backlog B3 |
 | UG-16 | `TEST-TYPES.md` a11y row lists one spec; two exist | DETERMINED, FIXED-IN-THIS-PR | `vasic-digital-a11y.spec.js` exists and passes (12 passed webkit) | FIXED-IN-THIS-PR |
 | UG-17 | No deploy rollback tooling | DETERMINED | `grep -n rollback _tools/deploy-langs.sh` returns nothing; only `rollback-agents-wizard.sh` exists | backlog B4 |
-| UG-19 |  cross-language test fails | DETERMINED | the test requires , which is not in the pinned submodule; the test fails instead of skipping | backlog B2 area, owner of the vault feature |
+| UG-19 |  cross-language test fails | MITIGATED by PR #91 (vault skip); the owner still decides whether the submodule should ship the file | the test requires , which is not in the pinned submodule; the test fails instead of skipping | backlog B2 area, owner of the vault feature |
 | UG-18 | Root `main` behind `github/main` between worktree creation and PR | DETERMINED | `verify-upstream-sync` reported `tip 3a46674… not in the local object store` for the root | merge before PR |
 
 ## Fixed in this PR

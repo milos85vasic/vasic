@@ -388,6 +388,7 @@ Re-measured 2026-11-24 at the pin `f9eb835e03db`: `Constitution.md` defines anch
 - `11.4.297` pull-request delivery, binding only where a recorded operator decision declares it.
 - `11.4.298` release gate per product: deploy or tag only after a full live run on connected target hardware.
 - `11.4.299` merged is not delivered until fast-forward pushed to EVERY declared upstream and read back per upstream with `git ls-remote`, for the root and every own-org submodule touched (submodule first, then the parent pointer plus `helix-deps.yaml` ref); a partial push is a defect; a blocked push is reported BLOCKED, never bypassed; the constitution submodule itself is always the latest upstream `main` with nested submodules current.
+- `11.4.300` (NOT in the pinned `f9eb835e03db`; read 2026-11-25 from the constitution upstream `origin/main` at `3b491d63e215` with `git show origin/main:Constitution.md`, a fetched ref and not this repository's pin): workable items are mirrored one way, database to the Issues of every declared upstream, as a mechanism that is default OFF until a project turns it on; an undetermined leg is UNCONFIRMED, never in sync. This repository has not turned it on and no part of it is claimed wired here. Read the block before relying on it.
 
 **Recorded operator decision (the §11.4.297(A) declaration), 2026-11-23/24:** "PR-driven work: task branch, one PR per
 task, independent review agents, merge to main by the agent." Record:
@@ -958,7 +959,7 @@ false in the direction that flattered the tree.**
 
 - *"The submodule is present for the workload `specs/001-…` plans."* **It has a
   real consumer now.** `_tools/containers/` was committed 2026-09-03 (`460266c`)
-  with **21** tracked files as re-measured 2026-11-24 (23 earlier the same day, SUPERSEDED; 21 on 2026-09-22, 18 on 2026-09-09, SUPERSEDED) — among them `go.mod`
+  with **22** tracked files as re-measured 2026-11-25 (21 on 2026-11-24 and 23 earlier the same day, SUPERSEDED; 21 on 2026-09-22, 18 on 2026-09-09, SUPERSEDED) — among them `go.mod`
   requiring `digital.vasic.containers`, `go.sum`, `cmd/site-build/main.go`,
   `compose/compose.sites.yml` and `compose/jekyll-build.sh`. **The "7 tracked
   files" this sentence carried is WITHDRAWN BY MEASUREMENT, and it was true when
@@ -1712,7 +1713,8 @@ in THIS tree, unlike the two classes below: `cm_readme_badge_row_at_top`
 (§11.4.259, no badge row atop `README.md`), `cm_zero_findings_audit_sweep`
 (§11.4.261, no `scripts/audit/zero_findings_sweep.sh`) and
 `cm_zero_findings_monotone_ratchet` (§11.4.261(C), no
-`docs/findings/zero_findings_ratchet.tsv`). **None was acted on this session.**
+`docs/findings/zero_findings_ratchet.tsv`). **None was acted on this session.
+(historical: that sentence is SUPERSEDED. Re-measured 2026-11-25 at pin `f9eb835e03db`, each run directly, all three exit 0: `cm_readme_badge_row_at_top` PASS with 12 badges, `cm_zero_findings_audit_sweep` PASS, `cm_zero_findings_monotone_ratchet` PASS at `live=7 <= ceiling=7`. The files those FAILs named now exist. A complete sweep split is still NOT claimed.)**
 
 Two classes of failure inside the run are known and **cannot be cleared by any
 commit this repository can make**:
@@ -1856,7 +1858,8 @@ find milosvasic.ru/_site -name '*.html' | wc -l                        # 705
 node _tests/preflight.js                                               # rc 2 — "routes checked: 66", no route failure   # historical
 ```
 
-**Gate 6's remaining blocker is WEBKIT, not the site.** The preflight now fails
+**Gate 6's remaining blocker is WEBKIT, not the site. (historical, SUPERSEDED 2026-11-25: `dpkg -s libmanette-0.2-0 libwoff1` reports `install ok installed` for both, webkit launches, and `vasic-digital-a11y` passes 12/12 on the webkit project. What still blocks gate 6 on a fresh worktree is an absent `milosvasic.ru/_site`, which the preflight reports as rc 2; build it with `_tools/containers/bin/site-build -workload jekyll`. The remedy below stays valid for a host that lacks the libraries.)**
+The preflight then failed
 on exactly one line — `browser BLOCKED webkit: Host system is missing
 dependencies`; chromium and firefox launch. The host is **Ubuntu 26.04 LTS**
 (an earlier comment in `_tools/containers/compose/jekyll-build.sh` called it
@@ -1919,7 +1922,8 @@ gate 6 SKIPs with a stated reason instead of emitting 69 content failures, and
 **Two holes in that gate's own precondition are closed with it.** It tested for
 `milosvasic.ru/_site/index.html` — *the one file a fragment is guaranteed to
 have* — so the fragment passed it. And nothing asked whether a browser could
-START: `@playwright/test` is installed here and **webkit cannot launch at all**
+START: `@playwright/test` is installed here and **webkit could not launch at all
+on 2026-09-06** (historical, since fixed by the host libraries above)
 (`Host system is missing dependencies to run browsers`), the failure being in
 system libraries rather than npm, so a package-presence check was checking the
 wrong thing.

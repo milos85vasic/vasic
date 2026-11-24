@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T23:23:44Z
+    Last-Updated: 2026-11-25T01:30:00Z
     Synced-Commit: 95d8701a4262
     Authority-Root: submodules/constitution
 
@@ -27,6 +27,8 @@ quoted from `submodules/constitution/Constitution.md`:
 >    any CLI agent.
 > 6. **Document MUST be self-contained.** No hyperlinks to ephemeral
 >    external systems as the only source of truth.
+
+> **2026-11-25 carrier corrections (PR pr/carriers-fix-2026-11-25):** the four root carriers were edited as one shared artifact (C5 digest count 1): the stale "webkit cannot launch" and "three sweep gates FAIL, none acted on" sentences are marked superseded with their re-measurement, the §11.4.299 pin figures stay at `f9eb835e03db`, and §11.4.300 is recorded as present in the constitution upstream only (not in the pin). Two `t.Skip` lines added by PR #93 in `_tools/containers/internal/orchestrate/orchestrate_test.go` had pushed the zero-findings ratchet to 9 > 7; they were removed. Resume: items 7-12 of the umbrella gap register.
 
 > **2026-11-25 continuation-check C3 resync (PR pr/continuation-c3-2026-11-25):** `scripts/continuation-check.sh` reported DRIFT C3 for four gitlink/helix-deps commits that changed watched governance files without updating this file (`e064bbf9e8b9` constitution bump, `178cc2ba525b` helix-deps wording, `6fc143d974ce` batch3 bump with carrier re-measure, `74889b2dd5b4` job_seeker re-read). Their content is already narrated in the sections above; Synced-Commit is advanced to `95d8701a4262` (includes PR #90 evidence-stability gate `scripts/verify-evidence-stability.sh` and PR #91 vault tests skipping with a reason when operator-private `milosvasic.ru/assets/js/vault.js` is absent). ROOT CAUSE of the drift going unnoticed, measured 2026-11-25: `scripts/continuation-check.sh` is registered only as the `continuation-sync` check with a `--prove-failure` proof; it is not a gate in `scripts/pre-push-gates.sh` (ids E Z0 Z1 0-6), `.git/hooks/` holds no installed hook in the primary checkout, and the PR/merge flow runs no pre-push at all, so nothing executes it on a bump. Enforcement is NOT added by this change; it remains an open operator decision (add it as a gate, or call it from the bump procedure). Also open: `bash scripts/continuation-check.sh` in a fresh worktree reports C5/C8 DRIFT or UNDET until submodules are initialised (uninitialised submodule paths look like missing scripts); that is an environment limit, not document drift.
 
