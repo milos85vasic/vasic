@@ -6024,3 +6024,33 @@ containers PR #3 adds the forced-runner selector; umbrella PR #11 bumped the pin
 
 WHAT: the website-version footer text exists in every localized page but each language rendering has not been reviewed by an independent per-language reviewer (11.4.256). Closes when a review verdict is recorded per language.
 
+## VSC-431 — Rebuild 300 career PDFs with wave-1 engine and re-seal vault
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** docs/qa/vault/real-vault-browser-proof-2026-11-24-rebuild.txt
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: rebuild all 300 career PDFs with link annotations, tagged PDF/XMP and keyword gates, re-seal vault in vasic-digital/career_private. Acceptance: verify 300/300, vault verify 300 slots, browser proof, evidence in docs/qa/career and docs/qa/vault.
+
+## VSC-432 — zero-findings ratchet burn-down programme (63 live vs ceiling 23)
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** docs/qa/ratchet-burndown-2026-11-24.md
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: the §11.4.261 sweep refused the seam at 63 findings against ceilings totalling 23. Operator decision 2026-11-24: burn-down. Acceptance: live count at or under every class ceiling, no ceiling raised, no detector weakened; remainder listed with reasons.
+
+## VSC-422 — operator item: zero-gap ratchet baseline 63 versus 23
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** docs/qa/ratchet-burndown-2026-11-24.md
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: the zero-findings ratchet records 63 where 23 was expected; which figure is authoritative is undecided. Closes when the figures are reconciled with a re-measured run and the ratchet file is updated or the discrepancy is explained.
+

@@ -173,7 +173,7 @@ zg_prove_failure() (
     mkrepo() { rm -rf "$1"; mkdir -p "$1"; ( cd "$1" && git init -q && echo a >a.txt && echo b >b.txt \
         && git add . && git -c user.name=t -c user.email=t@t commit -qm i ) >/dev/null 2>&1; }
     WFP_SRC='WFP() { local d=$1; shift; zg_with_fingerprint --dir "$d" -- "$@"; }'
-    eval "$WFP_SRC"
+    eval "$WFP_SRC"  # DANGER-OK: WFP_SRC is a constant string assigned a few lines above, not external input
     here=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
     LIBFILE="$here/scripts/zero-gap-lib.sh"
     mkrepo "$T/c" || { echo "prove-failure: cannot build fixture repo — cannot determine" >&2; exit 2; }
@@ -289,6 +289,8 @@ zg_prove_failure() (
 )
 
 if [ "${BASH_SOURCE[0]}" = "$0" ]; then
+    # Direct execution only: a sourced library must not change its caller's shell options.
+    set -u
     case "${1:-}" in
         --prove-failure) zg_prove_failure; exit $? ;;
         *) echo "usage: . scripts/zero-gap-lib.sh  |  bash scripts/zero-gap-lib.sh --prove-failure" >&2; exit 2 ;;

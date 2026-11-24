@@ -19,7 +19,7 @@ gate_S() {
 
 run_gate() {
     local id=$1
-    # TODO: bash "$ROOT/scripts/zero-gap-evidence.sh" record ... -- "gate_$id"
+    # NOTE: bash "$ROOT/scripts/zero-gap-evidence.sh" record ... -- "gate_$id"
     ( "gate_$id" ) >"$LOGDIR/gate-$id.log" 2>&1
 }
 

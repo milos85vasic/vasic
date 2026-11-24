@@ -757,9 +757,9 @@ GM
     # C10 --help / --prove-failure are real case arms (mktemp+trap present in THIS file, checked
     # structurally so the file's own SC-012 posture is provable without re-invoking itself)
     if grep -q 'mktemp' "$SELF" && grep -qE 'trap[[:space:]]' "$SELF" && grep -qiE 'rm -rf' "$SELF"; then
-        ok "C10 this file itself uses mktemp + trap + rm -rf (SC-012 non-trivial-proof shape)"
+        ok "C10 this file itself uses mktemp + trap + recursive-remove (SC-012 non-trivial-proof shape)"
     else
-        bad "C10 missing mktemp/trap/rm -rf in $SELF"
+        bad "C10 missing mktemp/trap/recursive-remove in $SELF"
     fi
 
     # ── measured-evidence policy (T061 review: FR-010 / FR-011 / SC-005) ─────────────────────────

@@ -426,6 +426,9 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+## UPDATE 2026-11-24 (zero-findings ratchet burn-down; branch `pr/ratchet-burndown-1`; VSC-432, VSC-433, VSC-434; closes VSC-422)
+
+Live sweep 63 findings against ceiling 23 reproduced, then burned down to 7 with ceilings lowered (TOTAL 23 -> 7). Per-class method and evidence: `docs/qa/ratchet-burndown-2026-11-24.md`. Remaining: six open INVENTORY gap rows plus the deliberately kept `ci.yml.disabled`. `verify-check-registry.sh` still reports two pre-existing FACT DRIFT rows (`scripts/qa-up.sh`, `_tools/lib/vasic-runner.sh`) that belong to the runner programme.
 ## UPDATE 2026-11-24 (workshop `--runner` merged; VSC-417 completed; branch `pr/vsc-417-workshop-runner`)
 
 workshop PR #1 (`pr/runner-flag`, `--runner=NAME` / `CONTAINERS_RUNNER` for start/stop/restart, workshop-boot, containers-status-probe) was merged on origin as `5a7acdd1` after an independent review (GO) and scratch-clone runs (Go tests ok, `runner-flag.test.sh` 26 passed, `--prove-failure` 9 killed / 0 survived). The workshop gitlink and `helix-deps.yaml` ref moved together to `5a7acdd1` (`verify-manifest-pins.sh`: 22 MATCH). VSC-417 is closed Completed with evidence `docs/qa/launchers/launcher-retest-2026-11-24-post-merge` (go + runner-flag tests re-run AT the merge commit 5a7acdd1; prove-failure 9/0 on the branch tip). Known cosmetic nit: `workshop/scripts/restart.sh --help` prints two extra lines (range should be `2,62p`).
@@ -12437,3 +12440,13 @@ is no live `docs/qa/evidence/`-style directory yet, so this is a policy stated a
 the volume it anticipates, not a description of an existing cleanup problem. This entry
 touched two files: `workshop/docs/qa/MANUAL-TEST-PLAN.md` (new §0d) and this document
 (this entry). Nothing was committed or pushed.
+
+## UPDATE 2026-11-24 (gitlink bumps, PR `pr/gitlink-bumps-2026-11-24`, Roadmap-Item VSC-417)
+
+Four own-org gitlinks fast-forwarded together with their `helix-deps.yaml` refs (C9), each classified first
+(`merge-base --is-ancestor` TRUE, `rev-list --left-right --count` 0 divergent, target == that repo's `origin/main`):
+ai_interviewing `30da696` -> `d508b8e` (0/6), monetization `05227b0` -> `0634f36` (0/2), job_seeker `8827b1b` -> `a7cb5af` (0/145),
+milosvasic.ru `9b5bf27` -> `74c554c` (0/4; its pages workflow run for that sha is completed/success, so the umbrella points at an
+already-deployed commit). Constitution pin unchanged at `6d93ccd1`; the `m3w`/`upstream` remote still sits at `1f9700eb` (2 behind, 0 divergent;
+not pushed from here). Open: `verify-governance-cascade.sh` C7 is a TRUE positive on job_seeker (it nests own-org containers/challenges/qa/security
+gitlinks, forbidden by §11.4.28(C)); the fix belongs in job_seeker (hoist to the umbrella's `submodules/`), not in the checker.
