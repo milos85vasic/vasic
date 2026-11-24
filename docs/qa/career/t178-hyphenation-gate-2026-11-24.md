@@ -35,3 +35,7 @@ the operator's `career build` + re-seal (passphrase is the operator's secret).
 "section heading(s) not recognisable ..." - minimal fixture documents have no experience/education/skills sections and the T174 heading gate
 refuses them. They are NOT caused by this change: `test_chinese` and `test_persian_passes` were re-run on a clean checkout of `main`
 (`4c7f6dc`) and fail identically. Reported, not hidden; fixing them belongs to the T174 fixtures (another agent is fixing red tests on main).
+
+**HTML engine (ar/fa).** `sibling_source_text` falls back to the tag-stripped `.html`, so a Latin compound broken at a line end is classified
+instead of returning rc 2 (unit test `test_html_engine_source_classifies_hyphens`). Measured on the 4 fresh ar/fa PDFs: `auto 0, explicit 0, validate_pdf rc 0`
+(`t178-html-engine-2026-11-24.txt`). The "6 pre-existing failures" claim is backed by `t178-main-baseline-failures-2026-11-24.txt` (clean `main` 4c7f6dc, zh and fa fail identically).

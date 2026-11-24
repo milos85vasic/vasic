@@ -233,6 +233,18 @@ class BrokenArtifactHyphenation(unittest.TestCase):
         finally:
             latex._CLASS_CACHE["src"] = orig
 
+    def test_html_engine_source_classifies_hyphens(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as td:
+            pdf = Path(td) / "x.pdf"
+            pdf.with_suffix(".html").write_text("<html><style>a{}</style><p>a <b>multi-provider</b> and evaluation &amp; more</p>", encoding="utf-8")
+            src = g.sibling_source_text(pdf)
+            self.assertIn("multi-provider", src)
+            self.assertNotIn("a{}", src)
+            self.assertEqual(len(g.hyphen_breaks(["a multi-\nprovider"], src)["explicit"]), 1)
+            self.assertEqual(len(g.hyphen_breaks(["an evalua-\ntion"], src)["auto"]), 1)
+            self.assertIsNone(g.sibling_source_text(Path(td) / "none.pdf"))
+
     def test_old_penalty_is_refused_and_current_class_is_clean(self):
         import tempfile
         with tempfile.TemporaryDirectory(prefix="career-hyph-") as td:

@@ -117,7 +117,7 @@ def check_running_headers(pages: Sequence[str]) -> List[str]:
 #: compound such as ``Echtzeit-Bluetooth-`` / ``Kommunikation`` is reassembled whole.
 _EOL_HYPHEN = re.compile(r"(\S*[^\W\d_])-[ \t]*\n[ \t]*([^\W\d_]\S*)")
 #: Hyphens that exist in the SOURCE and merely sit at a line end are benign for the word they split (the
-#: extracted tokens keep their own hyphen); they are only budgeted.  Measured on 20 fresh CVs/covers: <= 6 per document.
+#: extracted tokens keep their own hyphen); they are only budgeted.  Measured on 22 fresh LuaLaTeX CVs/covers: max 4.
 EXPLICIT_HYPHEN_BUDGET = 8
 
 
@@ -130,9 +130,17 @@ def plain_source_text(source: str) -> str:
 
 
 def sibling_source_text(pdf: Path) -> Optional[str]:
-    """The ``.tex`` next to a PDF (None for the HTML engine: right-to-left scripts have no line-end hyphenation)."""
-    t = Path(pdf).with_suffix(".tex")
-    return t.read_text(encoding="utf-8") if t.is_file() else None
+    """The visible source next to a PDF: the ``.tex`` (LuaLaTeX engine) or the tag-stripped ``.html`` (WeasyPrint
+    engine, ar/fa).  None when neither exists."""
+    base = Path(pdf)
+    tex, html = base.with_suffix(".tex"), base.with_suffix(".html")
+    if tex.is_file():
+        return tex.read_text(encoding="utf-8")
+    if html.is_file():
+        import html as _h
+        body = re.sub(r"(?is)<(script|style)\b.*?</\1>", " ", html.read_text(encoding="utf-8"))
+        return _h.unescape(re.sub(r"<[^>]+>", " ", body))
+    return None
 
 
 def hyphen_breaks(pages: Sequence[str], source: str | None) -> Dict[str, List[str]]:
