@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T21:00:00Z
-    Synced-Commit: d369c11
+    Last-Updated: 2026-11-24T21:10:00Z
+    Synced-Commit: 2d491a7
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -447,6 +447,14 @@ secret; untouched). Until then the existing `.cache-career` PDFs are RED on the 
 (2) veraPDF is not installed, so no PDF/UA conformance may be claimed; the WeasyPrint files carry the library's own
 `pdfuaid:part=1` declaration, which is not a measurement. (3) Tagged PDFs are ~47% larger (2.86 MB -> 4.21 MB over 60 samples).
 
+
+## UPDATE 2026-11-24 (VSC-423 i18n review fixes deployed to both sites; branch `pr/i18n-gitlink-bump`)
+
+- Site PRs merged and live: milosvasic.ru PR #4 -> `74c554c` (Pages run success, `build_type=workflow`), vasic.digital PR #3 -> `006b834` (legacy Pages build, success). Each was reviewed read-only (GO, string-only diffs) before merge.
+- `verify-live-site.py` against the saved baselines, before and after each merge: milosvasic.ru 690/690 pages 200, FAILED 0, regressions 0 (both runs); digital.vasic.dev 527/527, FAILED 0, regressions 0 (both runs). Evidence: `docs/qa/i18n-review/deploy-evidence/`.
+- Version-footer checkers on the live sites PASS (vasic.digital `check-site-version-footer.py`, 30 sampled pages, release page 200; milosvasic.ru `check_version_footer.py` on 16 fetched live pages). Live footer labels of all 14 non-English languages equal the reviewed dictionaries on both sites.
+- Gitlinks `milosvasic.ru` and `vasic.digital` and their `helix-deps.yaml` refs moved together (C9); `aria-footer-l10n-runtime.spec.js` updated to the reviewed RU footer.text.
+- VSC-423 was already Completed in `Fixed.md`; nothing further to close from this task.
 
 ## UPDATE 2026-11-24 (storage policy: root filesystem kept free; branch `pr/storage-policy-2026-11-24`)
 
