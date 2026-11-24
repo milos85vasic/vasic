@@ -93,7 +93,6 @@ def check_headings(text: str, lang: str | None) -> List[str]:
 
 
 # --------------------------------------------------------------------------- T178
-_SOFT_BREAK = re.compile(r"[^\W\d_]-\n[^\W\d_]")  # letter, hyphen at end of line, letter: a word split across lines
 
 
 def check_running_headers(pages: Sequence[str]) -> List[str]:
@@ -114,17 +113,67 @@ def check_running_headers(pages: Sequence[str]) -> List[str]:
     return ["running header/footer repeated on every page: " + ", ".join(sorted(common)[:3])] if common else []
 
 
-def check_hyphenation(pages: Sequence[str]) -> List[str]:
-    """Words split by a line-end hyphen.  MEASURED, NOT A BLOCKING GATE: the renderer hyphenates (G-19)."""
+#: A line-end hyphen followed by the next line's first word.  Left/right tokens keep their neighbours so a
+#: compound such as ``Echtzeit-Bluetooth-`` / ``Kommunikation`` is reassembled whole.
+_EOL_HYPHEN = re.compile(r"(\S*[^\W\d_])-[ \t]*\n[ \t]*([^\W\d_]\S*)")
+#: Hyphens that exist in the SOURCE and merely sit at a line end are benign for the word they split (the
+#: extracted tokens keep their own hyphen); they are only budgeted.  Measured on 22 fresh LuaLaTeX CVs/covers: max 4.
+EXPLICIT_HYPHEN_BUDGET = 8
+
+
+def plain_source_text(source: str) -> str:
+    """The visible words of a ``.tex`` source: commands and braces removed, escapes undone, case folded."""
+    t = re.sub(r"\\[A-Za-z@]+\*?", " ", source)
+    t = re.sub(r"\\(.)", r"\1", t)
+    t = re.sub(r"[{}]", " ", t)
+    return " ".join(t.casefold().split())
+
+
+def sibling_source_text(pdf: Path) -> Optional[str]:
+    """The visible source next to a PDF: the ``.tex`` (LuaLaTeX engine) or the tag-stripped ``.html`` (WeasyPrint
+    engine, ar/fa).  None when neither exists."""
+    base = Path(pdf)
+    tex, html = base.with_suffix(".tex"), base.with_suffix(".html")
+    if tex.is_file():
+        return tex.read_text(encoding="utf-8")
+    if html.is_file():
+        import html as _h
+        body = re.sub(r"(?is)<(script|style)\b.*?</\1>", " ", html.read_text(encoding="utf-8"))
+        return _h.unescape(re.sub(r"<[^>]+>", " ", body))
+    return None
+
+
+def hyphen_breaks(pages: Sequence[str], source: str | None) -> Dict[str, List[str]]:
+    """Split every line-end hyphen into ``auto`` (a word the renderer cut: the source holds it unhyphenated) and
+    ``explicit`` (the source itself has that hyphen).  ``source`` None => everything is ``auto`` (cannot excuse)."""
+    plain = plain_source_text(source) if source is not None else None
+    out: Dict[str, List[str]] = {"auto": [], "explicit": []}
     for i, p in enumerate((p for p in pages if p.strip()), 1):
-        m = _SOFT_BREAK.search(p)
-        if m:
-            return [f"word split by a line-end hyphen on page {i}: {m.group(0).replace(chr(10), '⏎')!r}"]
-    return []
+        for m in _EOL_HYPHEN.finditer(p):
+            left = re.sub(r"^\W+", "", m.group(1)).casefold()
+            right = re.sub(r"[^\w/-]+$", "", m.group(2)).casefold()
+            whole = f"{left}-{right}"
+            kind = "explicit" if plain is not None and whole in plain else "auto"
+            out[kind].append(f"p{i}:{whole}")
+    return out
 
 
-def check_extraction_hygiene(pages: Sequence[str]) -> List[str]:
-    return check_running_headers(pages) + check_hyphenation(pages)
+def check_hyphenation(pages: Sequence[str], source: str | None = None,
+                      explicit_budget: int = EXPLICIT_HYPHEN_BUDGET) -> List[str]:
+    """No word cut by automatic hyphenation (G-19: an extractor that joins lines literally reads ``Post- greSQL``);
+    breaks at hyphens the source itself carries are budgeted, not forbidden."""
+    b = hyphen_breaks(pages, source)
+    problems: List[str] = []
+    if b["auto"]:
+        problems.append(f"{len(b['auto'])} word(s) split by automatic hyphenation at a line end: "
+                        + ", ".join(b["auto"][:4]))
+    if len(b["explicit"]) > explicit_budget:
+        problems.append(f"{len(b['explicit'])} line-end breaks at source hyphens exceed the budget {explicit_budget}")
+    return problems
+
+
+def check_extraction_hygiene(pages: Sequence[str], source: str | None = None) -> List[str]:
+    return check_running_headers(pages) + check_hyphenation(pages, source)
 
 
 # --------------------------------------------------------------------------- extractors

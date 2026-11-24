@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from career import extract_gates as g, gates, sample_build  # noqa: E402
 
-LANGS = ("en", "hi", "ko")
+LANGS = ("en", "de", "hi", "ko")
 RESULTS: list[tuple[str, bool, str]] = []
 
 
@@ -83,6 +83,24 @@ def prove_t168(out: Path) -> None:
     case("T168 exemption: unspaced scripts (zh) are not judged by token count (control for the exemption)", r == [], str(r))
 
 
+def prove_t178(out: Path) -> None:
+    for l in ("en", "de"):
+        pdf = out / f"cv-ai-engineering-{l}.pdf"
+        src = g.sibling_source_text(pdf)
+        pages = g.pages_of(pdf)
+        b = g.hyphen_breaks(pages, src)
+        case(f"T178 control {l}: real CV has no automatic-hyphenation break", b["auto"] == [] and gates.validate_pdf(pdf, "cv", l)[0] == 0,
+             f"explicit={len(b['explicit'])}")
+        cut = [pages[0] + "\nwe evalua-\ntion and Post-\ngreSQL"] + list(pages[1:])
+        r = g.check_hyphenation(cut, src)
+        case(f"T178 M-auto-{l}: injected 'evalua-/tion' (renderer cut a word) -> blocked", bool(r), str(r))
+        many = [pages[0] + "\n" + "\n".join("multi-\nprovider" for _ in range(g.EXPLICIT_HYPHEN_BUDGET + 1))] + list(pages[1:])
+        r = g.check_hyphenation(many, src + " multi-provider")
+        case(f"T178 M-budget-{l}: {g.EXPLICIT_HYPHEN_BUDGET + 1} source-hyphen breaks -> blocked by the budget", bool(r), str(r))
+        r = g.check_hyphenation(cut, None)
+        case(f"T178 M-nosource-{l}: no source => an auto break cannot be excused", bool(r), str(r))
+
+
 def main() -> int:
     if not sample_build.have_toolchain() or not shutil.which("mutool"):
         print("CANNOT DETERMINE: lualatex, pdftotext or mutool missing")
@@ -91,6 +109,7 @@ def main() -> int:
     try:
         sample_build.build_sample(out, priv, langs=LANGS, write=False)
         prove_t168(out)
+        prove_t178(out)
     finally:
         td.cleanup()
     bad = [n for n, ok, _ in RESULTS if not ok]
