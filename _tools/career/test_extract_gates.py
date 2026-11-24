@@ -62,9 +62,55 @@ class PureDetectors(unittest.TestCase):
         self.assertEqual(g.check_hyphenation(["whole words only"]), [])
 
 
+class WordBoundaryPure(unittest.TestCase):
+    """JSK-T168: tokens per extractor must agree (min/max >= 0.9) outside the unspaced CJK scripts."""
+
+    def _with(self, mupdf, poppler, pypdf_text, lang):
+        saved = (g.extract_mupdf, g.extract_poppler_raw, g.extract_pypdf)
+        g.extract_mupdf, g.extract_poppler_raw, g.extract_pypdf = (lambda p: mupdf, lambda p: poppler, lambda p: pypdf_text)
+        try:
+            return g.check_word_boundaries(Path("x.pdf"), lang)
+        finally:
+            g.extract_mupdf, g.extract_poppler_raw, g.extract_pypdf = saved
+
+    def test_agreeing_extractors_pass(self):
+        t = " ".join(["word"] * 100)
+        self.assertEqual(self._with(t, t, t, "hi"), [])
+
+    def test_one_extractor_merging_words_fails(self):
+        good, merged = " ".join(["word"] * 100), " ".join(["wordword"] * 55)
+        for lang in ("hi", "ko", "en", "ar"):
+            r = self._with(merged, good, good, lang)
+            self.assertTrue(r and "word boundaries" in r[0], (lang, r))
+        # the ratio is min/max across ALL extractors, not mupdf-vs-poppler only
+        r = self._with(good, good, merged, "ru")
+        self.assertTrue(r, r)
+
+    def test_threshold_is_point_nine(self):
+        a, b = " ".join(["w"] * 100), " ".join(["w"] * 91)
+        self.assertEqual(self._with(a, a, b, "en"), [])
+        b = " ".join(["w"] * 89)
+        self.assertTrue(self._with(a, a, b, "en"))
+
+    def test_unspaced_cjk_scripts_are_exempt(self):
+        a, b = " ".join(["w"] * 100), " ".join(["w"] * 60)
+        self.assertEqual(self._with(a, a, b, "zh"), [])
+        self.assertEqual(self._with(a, a, b, "ja"), [])
+
+    def test_pypdf_is_not_a_voter_for_rtl_scripts(self):
+        good, fused = " ".join(["w"] * 100), " ".join(["w"] * 85)
+        self.assertEqual(self._with(good, good, fused, "ar"), [])
+        self.assertEqual(self._with(good, good, fused, "fa"), [])
+        self.assertTrue(self._with(good, good, fused, "hi"))          # but it votes everywhere else
+        self.assertTrue(self._with(fused, good, good, "ar"))          # and MuPDF/poppler still catch an RTL defect
+
+    def test_missing_extractors_cannot_determine(self):
+        self.assertIsNone(self._with(None, None, "a b c", "en"))
+
+
 @unittest.skipUnless(TOOLS, "lualatex or pdftotext missing: cannot determine")
 class RealSample(unittest.TestCase):
-    LANGS = ("en", "ru", "ar", "hi")
+    LANGS = ("en", "ru", "ar", "hi", "ko")
 
     @classmethod
     def setUpClass(cls):
@@ -104,10 +150,61 @@ class RealSample(unittest.TestCase):
             self.assertEqual(g.check_running_headers(g.pages_of(p)), [], p.name)
 
     def test_word_boundaries_real(self):
-        r = g.check_word_boundaries(self.out / "cv-ai-engineering-hi.pdf")
-        if r is None:
-            self.skipTest("mutool/pdftotext missing")
-        self.assertEqual(r, [])
+        for lang in ("en", "ru", "hi", "ko", "ar"):
+            r = g.check_word_boundaries(self.out / f"cv-ai-engineering-{lang}.pdf", lang)
+            if r is None:
+                self.skipTest("fewer than two extractors: cannot determine")
+            self.assertEqual(r, [], lang)
+
+    def test_merged_boundaries_in_one_real_extractor_fail_the_gate(self):
+        """Golden-bad on the REAL text of the good hi/ko PDFs: drop 45% of MuPDF's spaces (the G-06 defect)."""
+        for lang in ("hi", "ko"):
+            pdf = self.out / f"cv-ai-engineering-{lang}.pdf"
+            self.assertEqual(gates.validate_pdf(pdf, "cv", lang)[0], 0, lang)
+            real = g.extract_mupdf(pdf)
+            seen = [0]
+
+            def lossy(_p, real=real, seen=seen):
+                out = []
+                for ch in real:
+                    if ch == " ":
+                        seen[0] += 1
+                        if seen[0] % 20 < 9:  # 45%
+                            continue
+                    out.append(ch)
+                return "".join(out)
+            orig = g.extract_mupdf
+            g.extract_mupdf = lossy
+            try:
+                rc, msg = gates.validate_pdf(pdf, "cv", lang)
+            finally:
+                g.extract_mupdf = orig
+            self.assertEqual(rc, 1, (lang, msg))
+            self.assertIn("word boundaries differ", msg)
+
+
+@unittest.skipUnless(TOOLS and __import__("shutil").which("mutool"), "lualatex, pdftotext or mutool missing: cannot determine")
+class BrokenArtifactWordBoundaries(unittest.TestCase):
+    """RED-on-the-broken-artifact (11.4.115): the pre-T170 build (no tagging => no interword space glyphs)."""
+
+    def test_untagged_build_of_hindi_and_korean_is_refused(self):
+        import tempfile
+        from career import model as cmodel, overlay, resolve
+        from career.render import latex
+        orig = latex.render_document
+        latex.render_document = lambda d: orig(d).replace("tagging=on", "tagging=off")
+        try:
+            with tempfile.TemporaryDirectory(prefix="career-broken-") as td:
+                for lang in ("hi", "ko"):
+                    doc = resolve.resolve(cmodel.load_model(), "ai-engineering", lang, kind="cv",
+                                          epoch=sample_build.EPOCH, overlay=overlay.load_overlay())
+                    paths = latex.build(doc, Path(td), f"broken-{lang}", epoch=sample_build.EPOCH)
+                    counts = g.boundary_counts(paths["pdf"])
+                    rc, msg = gates.validate_pdf(paths["pdf"], "cv", lang)
+                    self.assertEqual(rc, 1, (lang, counts, msg))
+                    self.assertIn("word boundaries differ", msg, (lang, counts))
+        finally:
+            latex.render_document = orig
 
 
 if __name__ == "__main__":

@@ -1,0 +1,24 @@
+............................usage: gates [-h] [--kind {cover,cv}] [--lang LANG] [--phrase PHRASE] pdf
+gates: error: argument --kind: invalid choice: 'bogus' (choose from cover, cv)
+.......................
+----------------------------------------------------------------------
+Ran 51 tests in 304.029s
+
+OK
+rc=0 ok
+PASS T168 control en: real PDF passes the boundary gate - {'mupdf': 925, 'poppler-raw': 919, 'pypdf': 936}
+PASS T168 control en: real PDF passes validate_pdf
+PASS T168 control hi: real PDF passes the boundary gate - {'mupdf': 1010, 'poppler-raw': 1004, 'pypdf': 1010}
+PASS T168 control hi: real PDF passes validate_pdf
+PASS T168 control ko: real PDF passes the boundary gate - {'mupdf': 935, 'poppler-raw': 929, 'pypdf': 952}
+PASS T168 control ko: real PDF passes validate_pdf
+PASS T168 M-mupdf-hi: MuPDF loses 45% of the spaces -> blocked - ['word boundaries differ between extractors (min/max 0.60 < 0.90): mupdf 601, poppler-raw 1004, pypdf 1010']
+PASS T168 M-mupdf-ko: MuPDF loses 45% of the spaces -> blocked - ['word boundaries differ between extractors (min/max 0.60 < 0.90): mupdf 567, poppler-raw 929, pypdf 952']
+PASS T168 M-poppler-en: poppler loses 45% of the spaces -> blocked (any extractor, not only MuPDF) - ['word boundaries differ between extractors (min/max 0.59 < 0.90): mupdf 925, poppler-raw 555, pypdf 936']
+PASS T168 M-pypdf-en: pypdf with no spaces at all -> blocked - ['word boundaries differ between extractors (min/max 0.12 < 0.90): mupdf 925, poppler-raw 919, pypdf 115']
+PASS T168 M-one-extractor: fewer than two extractors -> CANNOT DETERMINE (None, never a pass) - None
+PASS T168 exemption: unspaced scripts (zh) are not judged by token count (control for the exemption) - []
+
+12 passed, 0 failed of 12 cases
+
+[exited with code 0]
