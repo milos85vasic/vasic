@@ -24,9 +24,9 @@ baseline docs/qa/live-site/baseline-live-2026-11-23.json: regressions=0 new_path
     + new: /expertise/ai-engineering/hi/
 VERDICT: PASS (rc 0)
 report sha256: f374edd62e14b392dd1f941a043932f4db17d096ceb3c0e0434891929d2902ad
-wrote /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/ev/pre-mv/verify-live-site-milosvasic_ru-20261124T140518Z.json
-wrote /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/ev/pre-mv/verify-live-site-milosvasic_ru-20261124T140518Z.txt
-wrote /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/ev/pre-mv/verify-live-site-milosvasic_ru-20261124T140518Z.json.sha256
-wrote /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/ev/pre-mv.json
-wrote /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/ev/pre-mv.txt
+wrote <evidence-dir>/verify-live-site-milosvasic_ru-20261124T140518Z.json
+wrote <evidence-dir>/verify-live-site-milosvasic_ru-20261124T140518Z.txt
+wrote <evidence-dir>/verify-live-site-milosvasic_ru-20261124T140518Z.json.sha256
+wrote <path>/pre-mv.json
+wrote <path>/pre-mv.txt
 rc=0

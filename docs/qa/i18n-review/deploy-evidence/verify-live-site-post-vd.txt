@@ -5,9 +5,9 @@ baseline docs/qa/live-site/baseline-live-digital-vasic-dev-2026-11-23.json: regr
   note: crawl discovered 37 URL(s) (max-pages 2000)
 VERDICT: PASS (rc 0)
 report sha256: 342f82af9fbb111d65560e10b2029503aac1182c6f615243b262841191cdb98d
-wrote /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/ev/post-vd/verify-live-site-digital_vasic_dev-20261124T141330Z.json
-wrote /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/ev/post-vd/verify-live-site-digital_vasic_dev-20261124T141330Z.txt
-wrote /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/ev/post-vd/verify-live-site-digital_vasic_dev-20261124T141330Z.json.sha256
-wrote /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/ev/post-vd.json
-wrote /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/ev/post-vd.txt
+wrote <evidence-dir>/verify-live-site-digital_vasic_dev-20261124T141330Z.json
+wrote <evidence-dir>/verify-live-site-digital_vasic_dev-20261124T141330Z.txt
+wrote <evidence-dir>/verify-live-site-digital_vasic_dev-20261124T141330Z.json.sha256
+wrote <path>/post-vd.json
+wrote <path>/post-vd.txt
 rc=0
