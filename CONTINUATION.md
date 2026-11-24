@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T12:14:57Z
-    Synced-Commit: 1f5fd6d
+    Last-Updated: 2026-11-24T12:23:37Z
+    Synced-Commit: b506e8b
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -425,6 +425,15 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+## UPDATE 2026-11-24 (gitlinks bumped; carrier file-count claim corrected; VSC-425 added; branches `pr/bump-gitlinks-2026-11-24`, `pr/carriers-ledger-continuation`)
+
+- PR #15 fast-forwarded 8 gitlinks together with their `helix-deps.yaml` refs (C9): ai_interviewing `30da696`, milosvasic.ru `9b5bf27`, job_seeker `8827b1b`, LLMProvider and llm_provider `bd302c8`, qa `b16a0897`, challenges `d94e554`, doc_processor `12a5fb7`. Each was classified first (ancestor TRUE, 0 divergent). `workshop` is deliberately NOT bumped (its runner branch is unpushed, blocked at a gate). Before the milosvasic.ru bump the live site answered 200 and `verify-live-site.py` against `docs/qa/live-site/baseline-live-2026-11-23.json` reported regressions=0.
+- `submodules/containers` local checkout moved to the recorded gitlink `2d18551` (clears the C5 drift).
+- The four carriers now say **23** tracked files under `_tools/containers/` (claim-ledger row `carriers-containers-consumer-files`), edited identically in the shared tail so root lockstep holds.
+- VSC-417 (--runner programme) stays In progress: workshop launcher evidence is not merged. VSC-425 (research programme `docs/research/protocols`) is In progress; the directory is not on main yet.
+- Known, not caused here: `verify-workable-items.sh` reports findings on VSC-285 and WSP-151 (BLOCKED in title while Queued); `verify-claim-ledger.sh` has two UNDET constitution-anchor rows; vasic.digital TLS probe from this host failed (curl rc 35) while milosvasic.ru answered 200.
+
 
 ## UPDATE 2026-11-24 (umbrella workable items registered under key VSC; branch `pr/vsc-program-items`)
 

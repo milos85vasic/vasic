@@ -4262,7 +4262,7 @@ Two open content decisions for the job_seeker profile.yaml: the i18n ids for ski
 **Severity:** high
 **Created-By:** Claude
 
-WHAT: containers PR #3 adds forced-runner selector, umbrella PR #11 bumps the pin with manifest ref; Phase B (umbrella launchers and docs use --runner) is in flight under another agent. Closes when launchers and docs are merged and a live run with each runner is captured.
+WHAT: containers PR #3 adds forced-runner selector; umbrella PR #11 bumped the pin with manifest ref; umbrella launchers (PR #12) carry --runner and the containers gitlink is current (2d18551). 2026-11-24 status: umbrella side merged; the workshop launcher evidence is NOT merged (workshop runner branch is unpushed, blocked at a gate), so the programme stays In progress. Closes when every launcher's evidence is merged and a live run with each runner is captured.
 
 ## VSC-418 — storage-policy programme: root filesystem overfill, DATA1TB and DATA7TB placement
 
@@ -4338,4 +4338,13 @@ WHAT: the website-version footer text exists in every localized page but each la
 **Created-By:** Claude
 
 WHAT: merged pr/ and feat/ branches remain on the remote and in local worktrees after PR merges. Closes when each is confirmed merged and removal is decided by the operator, per the no-silent-removal rule.
+
+## VSC-425 — research programme docs/research/protocols: protocol research set
+
+**Status:** In progress
+**Type:** Task
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: operator-requested research programme whose outputs live under docs/research/protocols (directory not yet on main as of 2026-11-24; work in flight under another agent). Acceptance: the research documents are merged to main under that path, each cited by an item or Roadmap entry, and exported per the docs chain.
 
