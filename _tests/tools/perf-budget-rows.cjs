@@ -33,7 +33,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const EVIDENCE = path.join(__dirname, '..', 'evidence', 'test-types');
+const { evidenceDir } = require('./evidence-paths.cjs');
+
+// Tracked evidence/test-types/ ONLY under EVIDENCE_REFRESH=1; otherwise the
+// git-ignored scratch tree (see evidence-paths.cjs for the why).
+const EVIDENCE = evidenceDir('test-types');
 // Dot-prefixed and deleted by the teardown: a scratch directory, never evidence.
 const ROWS_DIR = path.join(EVIDENCE, '.perf-budget-rows');
 const OUT_FILE = path.join(EVIDENCE, 'perf-budget.json');

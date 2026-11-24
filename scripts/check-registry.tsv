@@ -500,3 +500,4 @@ check	qa-candidate-up	scripts/qa-candidate-up.sh	flag	--prove-failure	bogus-subc
 
 # upstream-sync -- registered 2026-11-24 (§11.4.299): merged main must be on EVERY declared upstream, read back per upstream.
 check	upstream-sync	scripts/verify-upstream-sync.sh	flag	--prove-failure	--root /nonexistent
+check	evidence-stability	scripts/verify-evidence-stability.sh	flag	--prove-failure	--root /nonexistent

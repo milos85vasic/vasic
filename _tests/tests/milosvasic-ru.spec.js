@@ -9,7 +9,9 @@ const path = require('path');
 // TWICE, tracked and byte-different, at _tests/evidence/<name>.png and
 // _tests/evidence/homepages/<name>.png. Anchoring on __dirname makes the
 // destination a property of the repository layout instead of the invocation.
-const SHOTS = path.join(__dirname, '..', 'evidence', 'homepages');
+const { evidenceDir } = require('../tools/evidence-paths.cjs');
+// Tracked evidence/homepages/ ONLY under EVIDENCE_REFRESH=1 (UG-15).
+const SHOTS = evidenceDir('homepages');
 
 // milosvasic.ru — AI-engineer personal site, reframed on the OpenDesign system while
 // keeping the Jekyll `default` layout chrome (nav, footer, theme + MV_I18N, download popup).
