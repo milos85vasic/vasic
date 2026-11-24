@@ -10,10 +10,10 @@ Open workable items (current_location = Issues), regenerated from the SQLite sin
 | Bug | Operator-blocked | 21 |
 | Bug | Queued | 11 |
 | Feature | Queued | 5 |
-| Task | In progress | 5 |
+| Task | In progress | 4 |
 | Task | Operator-blocked | 36 |
 | Task | Queued | 210 |
-| **TOTAL** | | **289** |
+| **TOTAL** | | **288** |
 
 ## Items
 
@@ -243,7 +243,6 @@ Open workable items (current_location = Issues), regenerated from the SQLite sin
 | VSC-409 | Task | Queued | low | The untracked or unreferenced file docs/BUILD-2026-11-20.md needs a disposition: keep and commit, move into the docs chain, or remove. Removal needs the 11.4.122 operator decision and a git history check per 11.4.124; its content was not assessed by this record. | UNSET | UNSET |
 | VSC-410 | Task | Queued | medium | The stack rule Go, Gin, HTTP/3 and Brotli applies to job_seeker, which is next in focus after milosvasic.ru. job_seeker has no row in docs/workable-items/sub-projects.tsv so this is filed under the parent VSC; ratifying a job_seeker prefix is an operator decision. Its present stack is UNCONFIRMED. | UNSET | UNSET |
 | VSC-411 | Task | Queued | medium | Two open content decisions for the job_seeker profile.yaml: the i18n ids for skill items, and the identity.pronouns field. Both need the operator's content input; no value has been chosen. Filed under VSC (no job_seeker roster prefix). | UNSET | UNSET |
-| VSC-417 | Task | In progress | high | WHAT: containers PR #3 adds forced-runner selector; umbrella PR #11 bumped the pin with manifest ref; umbrella launchers (PR #12) carry --runner and the containers gitlink is current (2d18551). 2026-11-24 status: umbrella side merged; the workshop launcher evidence is NOT merged (workshop runner branch is unpushed, blocked at a gate), so the programme stays In progress. Closes when every launcher's evidence is merged and a live run with each runner is captured. | UNSET | UNSET |
 | VSC-418 | Task | In progress | high | WHAT: root filesystem filled up; a storage policy (docs/storage-policy.md) and report script (scripts/storage-report.sh) are being added by another agent via PR, with large data placed on DATA1TB and DATA7TB. Closes when the policy is merged and a live storage report shows root usage below the policy limit. | UNSET | UNSET |
 | VSC-419 | Task | In progress | medium | WHAT: language servers on the development host are broken or missing. typescript is fixed; clangd, kotlin-lsp, ruby-lsp, rust-analyzer and sourcekit-lsp are being installed. Closes when each server answers a live LSP request from the host shell with captured output. | UNSET | UNSET |
 | VSC-420 | Task | Operator-blocked | medium | WHAT: the collaborator invite sent 2026-11-23 for the private career repository must be accepted by rnabulsi; nothing in the repository can accept it. Closes when the invite shows accepted in the provider read-back. | UNSET | UNSET |

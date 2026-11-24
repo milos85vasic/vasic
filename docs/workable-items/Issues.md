@@ -4255,15 +4255,6 @@ The stack rule Go, Gin, HTTP/3 and Brotli applies to job_seeker, which is next i
 
 Two open content decisions for the job_seeker profile.yaml: the i18n ids for skill items, and the identity.pronouns field. Both need the operator's content input; no value has been chosen. Filed under VSC (no job_seeker roster prefix).
 
-## VSC-417 — --runner flag programme: forced container-runner selector across containers, umbrella launchers and docs
-
-**Status:** In progress
-**Type:** Task
-**Severity:** high
-**Created-By:** Claude
-
-WHAT: containers PR #3 adds forced-runner selector; umbrella PR #11 bumped the pin with manifest ref; umbrella launchers (PR #12) carry --runner and the containers gitlink is current (2d18551). 2026-11-24 status: umbrella side merged; the workshop launcher evidence is NOT merged (workshop runner branch is unpushed, blocked at a gate), so the programme stays In progress. Closes when every launcher's evidence is merged and a live run with each runner is captured.
-
 ## VSC-418 — storage-policy programme: root filesystem overfill, DATA1TB and DATA7TB placement
 
 **Status:** In progress
