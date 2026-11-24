@@ -264,8 +264,17 @@ full_suite() {
         env -u CONTAINERS_RUNNER_BIN PATH="$HKB:$NOGO_BIN" HOME="$NOGO_HOME" HAWK_API_KEY=x bash "$HK/_tools/hawkscan/run.sh" --runner=podman
     expect "prove-ocr: forced absent runner refused rc2" 2 --grep 'refusing to fall back' -- \
         bash "$R/_tools/containers/prove-ocr.sh" --runner="$ABSENT"
-    expect "od/start-daemon: accepts --runner and says no containers used" 1 --grep 'no containers used' -- \
-        bash "$R/_tools/od/start-daemon.sh" --runner="$ABSENT"
+    # od/start-daemon is a NATIVE launcher (no containers) but obeys the same contract: a valid installed
+    # runner is accepted (rc 1 only because the Open Design app is absent on this Linux host), an unknown or
+    # not-installed one is refused rc 2, --help is rc 0.
+    expect "od/start-daemon: --runner=$GOOD accepted, says no containers used" 1 --grep 'no containers used' -- \
+        bash "$R/_tools/od/start-daemon.sh" --runner="$GOOD"
+    expect "od/start-daemon: --runner $GOOD (two-arg) accepted" 1 --grep 'no containers used' -- \
+        bash "$R/_tools/od/start-daemon.sh" --runner "$GOOD"
+    expect "od/start-daemon: forced absent runner refused rc2 (no fallback)" 2 -- bash "$R/_tools/od/start-daemon.sh" --runner="$ABSENT"
+    expect "od/start-daemon: unknown runner refused rc2" 2 -- bash "$R/_tools/od/start-daemon.sh" --runner=bogus
+    expect "od/start-daemon: env CONTAINERS_RUNNER=bogus refused rc2" 2 -- env CONTAINERS_RUNNER=bogus bash "$R/_tools/od/start-daemon.sh"
+    expect "od/start-daemon: --help rc0 and documents --runner" 0 --grep '--runner' -- bash "$R/_tools/od/start-daemon.sh" --help
     expect "od/start-daemon: --runner without value rc2" 2 -- bash "$R/_tools/od/start-daemon.sh" --runner
     # remote-fleet launchers refuse a malformed name locally, before ssh
     expect "distribute-helixtranslate.sh: malformed runner refused rc2 before ssh" 2 --grep 'invalid runner name' -- \
