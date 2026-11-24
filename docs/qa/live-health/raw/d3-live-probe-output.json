@@ -1,0 +1,33 @@
+{
+ "/": {
+  "lang": "en",
+  "dir": "ltr",
+  "btn": "EN",
+  "stored": null
+ },
+ "/ar/": {
+  "lang": "ar",
+  "dir": "rtl",
+  "btn": "AR",
+  "stored": null
+ },
+ "/ru/": {
+  "lang": "ru",
+  "dir": "ltr",
+  "btn": "RU",
+  "stored": null
+ },
+ "/ja/": {
+  "lang": "ja",
+  "dir": "ltr",
+  "btn": "JA",
+  "stored": null
+ },
+ "adminStatus": {
+  "/admin/": 404,
+  "/downloads/vault/": 404,
+  "/matrix.tsv": 404,
+  "/assets/js/vault.js": 404,
+  "/assets/css/admin-console.css": 404
+ }
+}
