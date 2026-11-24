@@ -27,7 +27,7 @@ Nothing is copied here. This file is a pointer; the authority is the submodule.
 
 | What | Canonical path in this repository |
 |---|---|
-| The universal constitution (13,108 lines, 279 `### §` anchors, 2,261,551 bytes, blob `931d4494c24a`, sha256 `4a40a85ae7e6…`, re-measured 2026-11-24 at the index pin `6d93ccd19e1c` with `wc -l`, `grep -c '^### §'`, `wc -c`, `git rev-parse HEAD:Constitution.md` and `sha256sum` on `Constitution.md`; re-derive, do not quote; historical and withdrawn as current: 11,965 lines, 257 anchors, 1,908,339 bytes at `a71b1767b402` (2026-10-12), and the 11,787 lines, 255 anchors, 1,801,862 bytes, sha256 `973e473c823b4a13…` of 2026-09-03) | `submodules/constitution/Constitution.md` |
+| The universal constitution (13,142 lines, 280 `### §` anchors, 2,275,160 bytes, blob `ab5dcf28e1df`, sha256 `ba1adfbcd80b…`, re-measured 2026-11-24 at the index pin `74c415d3d694` with `wc -l`, `grep -c '^### §'`, `wc -c`, `git rev-parse HEAD:Constitution.md` and `sha256sum` on `Constitution.md`; re-derive, do not quote; historical and withdrawn as current: 11,965 lines, 257 anchors, 1,908,339 bytes at `a71b1767b402` (2026-10-12), and the 11,787 lines, 255 anchors, 1,801,862 bytes, sha256 `973e473c823b4a13…` of 2026-09-03) | `submodules/constitution/Constitution.md` |
 | Claude Code carrier | `submodules/constitution/CLAUDE.md` |
 | Codex / Cursor / Aider / OpenCode / Crush / Kimi CLI carrier | `submodules/constitution/AGENTS.md` |
 | Qwen Code carrier | `submodules/constitution/QWEN.md` |
@@ -266,14 +266,14 @@ above, a `--fetch` may then be run to classify WHICH WAY:
 git -C submodules/constitution rev-parse HEAD                   # the local pin
 git ls-remote git@github.com:HelixDevelopment/HelixConstitution.git HEAD
 git -C submodules/constitution rev-parse HEAD:Constitution.md   # blob identity
-grep -c '^### §' submodules/constitution/Constitution.md        # 279 (re-measured 2026-11-24 at pin 6d93ccd19e1c; 257 SUPERSEDED)
-wc -l < submodules/constitution/Constitution.md                 # 13108 (re-measured 2026-11-24 at pin 6d93ccd19e1c; 11965 SUPERSEDED)
+grep -c '^### §' submodules/constitution/Constitution.md        # 280 (re-measured 2026-11-24 at pin 74c415d3d694; 279 and 257 SUPERSEDED)
+wc -l < submodules/constitution/Constitution.md                 # 13142 (re-measured 2026-11-24 at pin 74c415d3d694; 13108 and 11965 SUPERSEDED)
 bash scripts/verify-manifest-pins.sh                            # 0 = ref == gitlink
 ```
 
 **Current gitlinks of the five modules whose pins this carrier narrates — a dated reading, 2026-11-24, from the index.**
 Re-derive each with `git ls-files -s <path>`; these move with every bump and the `pointer-drift` sweep class
-reports the carrier again when one does: `submodules/constitution` `6d93ccd19e1c`, `design-toolkit` `1b9abac8ca50`, `submodules/containers` `22b49707f9bb`, `submodules/curriculum-kit` `277b96efcca4`, `workshop` `d58ae75d2d7b`.
+reports the carrier again when one does: `submodules/constitution` `74c415d3d694`, `design-toolkit` `1b9abac8ca50`, `submodules/containers` `22b49707f9bb`, `submodules/curriculum-kit` `277b96efcca4`, `workshop` `d58ae75d2d7b`.
 
 **Re-measured 2026-09-09, and the whole fleet is level — no move was made and
 none was needed.** `git -C submodules/constitution rev-parse HEAD` and
@@ -366,12 +366,14 @@ with or without approval. Where the two disagree, §11.4.113 governs; the scaffo
 upstream (`submodules/constitution/templates/`) and is reproduced verbatim on purpose, so this
 note corrects the reading without editing the quotation.
 
+**Binding addition (2026-11-24, §11.4.299): merged is not delivered until it is on EVERY upstream.** After a pull request is merged and the main repository (and every own-org submodule touched) is updated, everything brought into `main` MUST be fast-forward pushed to ALL declared upstreams and read back per upstream with `git ls-remote`; a partial push is a defect, a blocked push is reported BLOCKED and never bypassed, force stays forbidden (§11.4.113), and a public mirror is exempt only by a recorded operator decision declared as data. The constitution submodule itself MUST be the latest upstream `main` with its nested submodules current. Check: `bash scripts/verify-upstream-sync.sh`.
+
 Anything not covered by those nine items is covered by the canonical files. Go
 read them; do not guess.
 
-## Anchors 11.4.289 through 11.4.298, and the recorded PR-delivery decision
+## Anchors 11.4.289 through 11.4.299, and the recorded PR-delivery decision
 
-Re-measured 2026-11-24 at the pin `6d93ccd19e1c`: `Constitution.md` defines anchors through `11.4.298`. Read each block in
+Re-measured 2026-11-24 at the pin `74c415d3d694`: `Constitution.md` defines anchors through `11.4.299`. Read each block in
 `submodules/constitution/Constitution.md` before relying on it; this list is a pointer, not the rule (the canon wins).
 
 - `11.4.289` no stub, mock or fixture server as evidence: results are validated LIVE; a test double proves only the
@@ -385,6 +387,7 @@ Re-measured 2026-11-24 at the pin `6d93ccd19e1c`: `Constitution.md` defines anch
 - `11.4.296` GitHub Issues assigned to a declared account are a source of workable items.
 - `11.4.297` pull-request delivery, binding only where a recorded operator decision declares it.
 - `11.4.298` release gate per product: deploy or tag only after a full live run on connected target hardware.
+- `11.4.299` merged is not delivered until fast-forward pushed to EVERY declared upstream and read back per upstream with `git ls-remote`, for the root and every own-org submodule touched (submodule first, then the parent pointer plus `helix-deps.yaml` ref); a partial push is a defect; a blocked push is reported BLOCKED, never bypassed; the constitution submodule itself is always the latest upstream `main` with nested submodules current.
 
 **Recorded operator decision (the §11.4.297(A) declaration), 2026-11-23/24:** "PR-driven work: task branch, one PR per
 task, independent review agents, merge to main by the agent." Record:
@@ -393,6 +396,8 @@ declaration as DATA: [`docs/governance/pr-delivery.yaml`](docs/governance/pr-del
 commit (`gh pr merge --merge`); squash and rebase merges are forbidden and force-push stays absolute (§11.4.113).
 **Honest boundary (§11.4.297(G)):** the declaration is PROVISIONAL; this repository ships no delivery tool and no direct-push
 guard, so no part of PR delivery is claimed ENFORCED. This does not weaken §11.4.288 for any path the decision does not cover.
+
+**Operator directive of 2026-11-24 (§11.4.299), and how this repository wires it.** After PRs are merged and the main repositories updated, everything brought into `main` MUST be fully pushed to ALL UPSTREAMS. Read-only instruments: `bash scripts/verify-upstream-sync.sh` (the fleet derived from `.gitmodules`; exit 0 every upstream current, 1 behind or diverged, 2 cannot determine, never a pass; registered as `upstream-sync` in `scripts/check-registry.tsv` with `--prove-failure`) and `bash submodules/constitution/scripts/sync/verify_constitution_latest.sh --root .` (the constitution pin equals upstream `main` and its nested submodules are initialised and current). The guarded helper is `submodules/constitution/scripts/sync/push_all_upstreams.sh --repo <dir> --sha <merged-sha> [--apply]` (dry run by default, fast-forward only, no force construct, ends with a read-back). Declared mirror exemptions live as data in `config/upstream-parity-exemptions.tsv` (none today; a row needs a recorded operator decision). Honest boundary (§11.4.297(G)): the wiring is PROVISIONAL, not ENFORCED, until a delivery step runs the verifier after every merge; no part of it is claimed ENFORCED here.
 
 Exactly ONE operator override is in force (`Override §11.4.279-§11.4.286`, hosted Jev only; see "Project overrides of
 universal rules" below). PR delivery is a declared delivery MODE, not an override: it amends nothing beyond the three

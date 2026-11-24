@@ -1,0 +1,5 @@
+# config/upstream-parity-exemptions.tsv -- §11.4.299(E) declared mirror exemptions, DATA read by scripts/verify-upstream-sync.sh.
+# Format (TAB separated): <repo-relative-path>	<url-substring>	<reason naming the recorded operator decision>
+# A row is printed as EXEMPT with its reason on every run. An empty reason makes the check exit 2. Rows are added ONLY for a
+# mirror that is fed by a reviewed snapshot or export instead of a `git push` of main, and only with a recorded operator
+# decision (§11.4.66) -- for example a public mirror of a private repository. None is declared today: no row was invented.

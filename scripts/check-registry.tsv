@@ -495,3 +495,6 @@ check	zero-gap-class-credentials-public-tree	scripts/zero-gap-class-credentials-
 check	umbrella-mutants	scripts/prove-umbrella-mutants.sh	flag	--prove-failure	--go /nonexistent/go
 check	qa-candidate	scripts/qa-candidate.sh	flag	--prove-failure	--repo /nonexistent
 check	qa-candidate-up	scripts/qa-candidate-up.sh	flag	--prove-failure	bogus-subcommand
+
+# upstream-sync -- registered 2026-11-24 (§11.4.299): merged main must be on EVERY declared upstream, read back per upstream.
+check	upstream-sync	scripts/verify-upstream-sync.sh	flag	--prove-failure	--root /nonexistent
