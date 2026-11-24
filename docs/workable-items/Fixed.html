@@ -8010,6 +8010,56 @@ Claude</p>
 domain from CNAME; footer renders website version linked to its GitHub
 release; gates and release process added (PRs #2, #4, #6). EVIDENCE:
 docs/qa/live-site/post-version-vd and post-version.</p>
+<h2
+id="vsc-431-rebuild-300-career-pdfs-with-wave-1-engine-and-re-seal-vault">VSC-431
+— Rebuild 300 career PDFs with wave-1 engine and re-seal vault</h2>
+<p><strong>Status:</strong> Completed (→ Fixed.md)
+<strong>Type:</strong> Task <strong>Evidence:</strong>
+docs/qa/vault/real-vault-browser-proof-2026-11-24-rebuild.txt
+<strong>Severity:</strong> medium <strong>Created-By:</strong>
+Claude</p>
+<p>WHAT: rebuild all 300 career PDFs with link annotations, tagged
+PDF/XMP and keyword gates, re-seal vault in
+vasic-digital/career_private. Acceptance: verify 300/300, vault verify
+300 slots, browser proof, evidence in docs/qa/career and
+docs/qa/vault.</p>
+<h2
+id="vsc-426-career-pdfs-260300-luatex-contact-links-are-gotor-or-scheme-less-uris-job_seeker-t162">VSC-426
+— Career PDFs: 260/300 LuaTeX contact links are GoToR or scheme-less
+URIs (job_seeker T162)</h2>
+<p><strong>Status:</strong> Fixed (→ Fixed.md) <strong>Type:</strong>
+Bug <strong>Evidence:</strong>
+docs/qa/career/crosscheck-2026-11-24-rebuild.txt
+<strong>Severity:</strong> high</p>
+<p>render/latex.py used the visible label as the href target so hyperref
+wrote GoToR remote-file actions and scheme-less URIs; the ATS gate
+checked visible text only. Fix: explicit mailto:/https: targets plus a
+/Annots gate. Evidence
+docs/qa/career/career-engine-wave1-2026-11-24.md</p>
+<h2
+id="vsc-427-screen-keyword-matcher-is-substring-based-django-matches-go-job_seeker-t166">VSC-427
+— Screen keyword matcher is substring based: Django matches Go
+(job_seeker T166)</h2>
+<p><strong>Status:</strong> Fixed (→ Fixed.md) <strong>Type:</strong>
+Bug <strong>Evidence:</strong>
+docs/qa/career/crosscheck-2026-11-24-rebuild.txt
+<strong>Severity:</strong> medium</p>
+<p>screen._has_keyword squashed to [0-9a-z] and did substring tests;
+replaced by token-aware career/keywords.py with synonym table and
+non-Latin script handling. Evidence
+docs/qa/career/career-engine-wave1-2026-11-24.md</p>
+<h2
+id="vsc-428-career-pdfs-tagged-pdf-xmp-displaydoctitle-in-both-engines-no-pdfua-claim-job_seeker-t170">VSC-428
+— Career PDFs: tagged PDF, XMP, DisplayDocTitle in both engines, no
+PDF/UA claim (job_seeker T170)</h2>
+<p><strong>Status:</strong> Implemented (→ Fixed.md)
+<strong>Type:</strong> Feature <strong>Evidence:</strong>
+docs/qa/career/crosscheck-2026-11-24-rebuild.txt
+<strong>Severity:</strong> medium</p>
+<p>LuaLaTeX tagging via DocumentMetadata plus soft-hyphen and
+list-geometry fixes, WeasyPrint pdf_variant; structure gate added;
+veraPDF absent so conformance unmeasured. Evidence
+docs/qa/career/career-engine-wave1-2026-11-24.md</p>
 <section id="footnotes" class="footnotes footnotes-end-of-document"
 role="doc-endnotes">
 <hr />
