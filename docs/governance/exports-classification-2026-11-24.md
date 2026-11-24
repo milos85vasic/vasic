@@ -39,14 +39,14 @@
 
 | Directory or pattern | Files | Class | Evidence | PR |
 |---|---:|---|---|---|
-| `_content*/products/*` | 1056 | generated export | generator byte-identical without them | #66 |
+| `_content*/products/*` | 990 | generated export | generator byte-identical without them | #66 |
 | `_content*/docs/*` | 90 | generated export | build-pdfs.sh reads `*.md` only | #66 |
 | `_content*/sites/*` | 60 | generated export | generator reads `*.home*.json` | #66 |
 | `design-system/**` | 154 | generated export | prompts/diagrams consumers read `.md`/`.svg` only | #67 |
 | `_analysis/**` | 100 | generated export | no consumer | #68 |
 | repo root carriers (README, CLAUDE, AGENTS, QWEN, GEMINI, CONTINUATION, Constitution) | 14 | generated export | `.gitignore` negations only | #69 |
-| `docs/**` | 134 | generated export | `.hardcoded-paths-allow` entries (8, removed) and prose | #69 |
-| `specs/**` | 86 | generated export | historical ledgers and prose | #69 |
+| `docs/**` | 110 | generated export | `.hardcoded-paths-allow` entries (8, removed) and prose | #69 |
+| `specs/**` | 110 | generated export | historical ledgers and prose | #69 |
 | `_tools/containers/README.*` | 2 | generated export | none | #69 |
 
 ## 4. Kept, with the reason (194 files, left for the operator)
