@@ -22,19 +22,56 @@ class T(unittest.TestCase):
             self.assertNotIn(s, joined)
         self.assertEqual(len(reasons()), len(SYN))  # still one reason per contact
 
+    def test_link_annotation_reasons_redacted(self):
+        orig = gates._link_annotations
+        gates._link_annotations = lambda _p: [("URI", "ftp://" + SYN[1])]
+        try:
+            rs = gates._check_link_annotations(Path("x.pdf"), [SYN[0], SYN[2]])
+        finally:
+            gates._link_annotations = orig
+        self.assertEqual(len(rs), 3)
+        for s in SYN:
+            self.assertNotIn(s, " ".join(rs))
+
     def test_redaction_is_stable_and_distinct(self):
         a, b = gates._redact_contact(SYN[0]), gates._redact_contact(SYN[1])
         self.assertEqual(a, gates._redact_contact(SYN[0]))
         self.assertNotEqual(a, b)
 
 
-def prove_failure():
-    gates._redact_contact = lambda v: str(v)  # mutant: un-redacted
+def _run():
     r = unittest.TextTestRunner(stream=open("/dev/null", "w")).run(
         unittest.defaultTestLoader.loadTestsFromTestCase(T))
-    caught = not r.wasSuccessful()
-    print("PROVE-FAILURE: un-redacted mutant", "CAUGHT" if caught else "NOT CAUGHT")
-    return 0 if caught else 1
+    return not r.wasSuccessful()
+
+
+def prove_failure():
+    """Two mutants: helper made identity; and each call site reverted to raw (via helper swap per site)."""
+    ok = True
+    real = gates._redact_contact
+    gates._redact_contact = lambda v: str(v)
+    c1 = _run()
+    gates._redact_contact = real
+    print("PROVE-FAILURE: identity-redactor mutant", "CAUGHT" if c1 else "NOT CAUGHT")
+    # site mutants: re-source gates.py with one call site unredacted
+    src = Path(gates.__file__).read_text()
+    for name, old, new in [
+        ("link-scheme site", "scheme: {_redact_contact(target)}", "scheme: {target!r}"),
+        ("link-label site", "contact: {_redact_contact(label)}", "contact: {label}"),
+        ("intact site", "text layer: {_redact_contact(u)}", "text layer: {u}"),
+    ]:
+        assert old in src, name
+        ns = {"__name__": "gates_mut", "__file__": gates.__file__}
+        mod = type(sys)("gates_mut")
+        mod.__dict__.update(ns)
+        sys.modules["gates_mut"] = mod
+        exec(compile(src.replace(old, new), gates.__file__, "exec"), mod.__dict__)
+        globals()["gates"] = mod
+        c = _run()
+        globals()["gates"] = sys.modules["_tools.career.gates"]
+        print(f"PROVE-FAILURE: {name} mutant", "CAUGHT" if c else "NOT CAUGHT")
+        ok = ok and c
+    return 0 if (ok and c1) else 1
 
 
 if __name__ == "__main__":
