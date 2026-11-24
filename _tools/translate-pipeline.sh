@@ -52,15 +52,25 @@ die() { echo "FATAL: $*" >&2; exit 1; }
 # their projects in) — such a path resolves only on that one machine, and a
 # clean clone of THIS repo cannot reproduce it (§11.4.77). Override with
 # HELIX_TRANSLATE_BIN=<path> if you have a local engine binary.
-ENGINE="${HELIX_TRANSLATE_BIN:-$TOOLS/helixtranslate-container.sh}"
+# Engine selection (no silent fallback to anything but the SAME canonical engine):
+#   1. HELIX_TRANSLATE_BIN override; 2. the LOCAL runner _tools/helixtranslate-local.sh
+#   when a local helixtranslate image exists (rootless runtime via the Containers
+#   Submodule probe); 3. the remote-fleet ssh shim. Root cause fixed 2026-11-24: the
+#   shim needs HT_FLEET hosts that do not resolve here, so the probe was rc 2 even
+#   with a built local image.
+_local_image() { { podman images --format '{{.Repository}}:{{.Tag}}' 2>/dev/null || true; } | grep -qE '(^|/)helixtranslate:cli$'; }
+if [ -n "${HELIX_TRANSLATE_BIN:-}" ]; then ENGINE="$HELIX_TRANSLATE_BIN"
+elif _local_image && [ -f "${HELIX_ENVFILE:-$HOME/.helixtranslate.env}" ]; then ENGINE="$TOOLS/helixtranslate-local.sh"
+else ENGINE="$TOOLS/helixtranslate-container.sh"; fi
 EVIDENCE_DIR="${TRANSLATE_EVIDENCE_DIR:-$REPO/_tests/evidence/translate}"
 SOURCE_LANG="en"
-# Mistral first (more available / less aggressively rate-limited in practice),
-# Groq as fallback. Both are proven to have balance and produce quality output.
-PRIMARY_PROVIDER="${TRANSLATE_PRIMARY_PROVIDER:-mistral}"
-PRIMARY_MODEL="${TRANSLATE_PRIMARY_MODEL:-mistral-large-latest}"
-FALLBACK_PROVIDER="${TRANSLATE_FALLBACK_PROVIDER:-groq}"
-FALLBACK_MODEL="${TRANSLATE_FALLBACK_MODEL:-llama-3.3-70b-versatile}"
+# 2026-11-24 live-measured: groq llama-3.3-70b-versatile is gone (404) and
+# mistral-large-latest is 403 tier_not_allowed on this key; groq openai/gpt-oss-120b
+# translates (sr, ru verified). Mistral medium is the fallback (429s under load).
+PRIMARY_PROVIDER="${TRANSLATE_PRIMARY_PROVIDER:-groq}"
+PRIMARY_MODEL="${TRANSLATE_PRIMARY_MODEL:-openai/gpt-oss-120b}"
+FALLBACK_PROVIDER="${TRANSLATE_FALLBACK_PROVIDER:-mistral}"
+FALLBACK_MODEL="${TRANSLATE_FALLBACK_MODEL:-mistral-medium-latest}"
 MAX_RETRIES=2
 
 # ---- Arg parsing ------------------------------------------------------------
