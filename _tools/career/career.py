@@ -214,7 +214,9 @@ def cmd_build(args) -> int:
                           + ", ".join(bad_cells[:8]), file=sys.stderr)
                 else:
                     every = buildlib.matrix([a.id for a in areas], LOCALES)
-                    buildlib.write_manifest(outdir, buildlib.expected_files(every, render_pkg.source_suffix), epoch)
+                    buildlib.write_manifest(outdir, buildlib.expected_files(every, render_pkg.source_suffix), epoch,
+                                            overlay_sha=overlay_mod.overlay_sha(),
+                                            gate_rc={r["stem"]: r["rc"] for r in results})
             else:
                 print("filtered build: manifest.json left untouched (only a full build may rewrite it)")
     except buildlib.BuildLocked as exc:
@@ -283,14 +285,20 @@ def cmd_verify(args) -> int:
         epoch = int(man.get("epoch", 0))
         if man.get("count") != 600 or set(man.get("files", {})) != set(expected):
             problems.append(f"manifest lists {man.get('count')} file(s), expected 600 matching the matrix")
-        elif mpath.read_bytes() != buildlib.manifest_bytes(outdir, expected, epoch):
-            problems.append("manifest sha256/size entries do not match the files on disk")
     jobs = buildlib.effective_jobs(args.jobs)
     tasks = [(a, k, l, str(outdir), epoch or 0) for a, k, l in triples if (outdir / f"{buildlib.stem(a, k, l)}.pdf").is_file()]
     results = buildlib.run_pool(_verify_one, tasks, jobs, processes=True)
     for r in results:
         if r["rc"] != 0:
             print(f"  [{r['rc']}] {r['stem']}: {r['msg']}", file=sys.stderr)
+    if epoch is not None and not problems:
+        # the manifest must equal what the writer would emit NOW: file hashes, the overlay in force, and a gate stamp
+        # that agrees with the verdict just measured (a manifest vouching "pass" for a failing PDF is a lie).
+        want = buildlib.manifest_bytes(outdir, expected, epoch, overlay_sha=overlay_mod.overlay_sha(),
+                                       gate_rc={r["stem"]: r["rc"] for r in results})
+        if mpath.read_bytes() != want:
+            problems.append("manifest entries (sha256/size/gate/overlay_sha/cover metadata) do not match "
+                            "the files, gate verdicts and overlay on disk")
     for p in problems:
         print(f"PROBLEM: {p}", file=sys.stderr)
     print(_locale_table(results))

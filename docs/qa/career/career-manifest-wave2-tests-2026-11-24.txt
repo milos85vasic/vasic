@@ -1,0 +1,188 @@
+test_per_file_fields (_tools.career.test_manifest_contract.ManifestContract.test_per_file_fields) ... ok
+test_real_validator_accepts_fresh_set (_tools.career.test_manifest_contract.ManifestContract.test_real_validator_accepts_fresh_set) ... ok
+test_real_validator_refuses_foreign_overlay (_tools.career.test_manifest_contract.ManifestContract.test_real_validator_refuses_foreign_overlay) ... ok
+test_real_validator_refuses_other_day_cover (_tools.career.test_manifest_contract.ManifestContract.test_real_validator_refuses_other_day_cover) ... ok
+test_sample_gates_all_pass (_tools.career.test_manifest_contract.ManifestContract.test_sample_gates_all_pass) ... ok
+test_top_level_fields (_tools.career.test_manifest_contract.ManifestContract.test_top_level_fields) ... ok
+test_validator_refuses_failed_gate_stamp (_tools.career.test_manifest_contract.ManifestContract.test_validator_refuses_failed_gate_stamp) ... ok
+test_validator_refuses_mismatching_company (_tools.career.test_manifest_contract.ManifestContract.test_validator_refuses_mismatching_company) ... ok
+test_validator_refuses_missing_epoch (_tools.career.test_manifest_contract.ManifestContract.test_validator_refuses_missing_epoch) ... ok
+test_no_verdict_is_unknown_not_pass (_tools.career.test_manifest_contract.WriterUnit.test_no_verdict_is_unknown_not_pass) ... ok
+test_verdict_mapping_and_determinism (_tools.career.test_manifest_contract.WriterUnit.test_verdict_mapping_and_determinism) ... ok
+test_every_locale_has_every_required_alias (_tools.career.test_extract_gates.PureDetectors.test_every_locale_has_every_required_alias) ... ok
+test_headings_golden_bad (_tools.career.test_extract_gates.PureDetectors.test_headings_golden_bad) ... ok
+test_hyphenation_detector (_tools.career.test_extract_gates.PureDetectors.test_hyphenation_detector) ... ok
+test_placeholder_leak_golden_bad (_tools.career.test_extract_gates.PureDetectors.test_placeholder_leak_golden_bad) ... ok
+test_reserved_pattern_equals_job_seeker (_tools.career.test_extract_gates.PureDetectors.test_reserved_pattern_equals_job_seeker) ... ok
+test_running_header_golden_bad (_tools.career.test_extract_gates.PureDetectors.test_running_header_golden_bad) ... ok
+test_real_cv_headings_recognised_per_locale (_tools.career.test_extract_gates.RealSample.test_real_cv_headings_recognised_per_locale) ... ok
+test_real_documents_have_no_running_header (_tools.career.test_extract_gates.RealSample.test_real_documents_have_no_running_header) ... ok
+test_real_gates_pass_with_new_checks_wired (_tools.career.test_extract_gates.RealSample.test_real_gates_pass_with_new_checks_wired) ... ok
+test_validate_pdf_runs_new_checks_and_refuses_mutation (_tools.career.test_extract_gates.RealSample.test_validate_pdf_runs_new_checks_and_refuses_mutation) ... ok
+test_word_boundaries_real (_tools.career.test_extract_gates.RealSample.test_word_boundaries_real) ... ok
+test_html_failed_rebuild_leaves_no_stale_artifacts (_tools.career.test_pdf_pipeline.BuildFreshness.test_html_failed_rebuild_leaves_no_stale_artifacts) ... ok
+test_html_source_carries_model_hash (_tools.career.test_pdf_pipeline.BuildFreshness.test_html_source_carries_model_hash) ... ok
+test_latex_failed_rebuild_leaves_no_stale_artifacts (_tools.career.test_pdf_pipeline.BuildFreshness.test_latex_failed_rebuild_leaves_no_stale_artifacts) ... ok
+test_lock_fd_cloexec_and_closed_in_forked_child (_tools.career.test_pdf_pipeline.BuildFreshness.test_lock_fd_cloexec_and_closed_in_forked_child) ... /home/milosvasic/Projects/vasic-wt-manifest/_tools/career/test_pdf_pipeline.py:404: DeprecationWarning: This process (pid=1496219) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+ok
+test_lock_state_probe (_tools.career.test_pdf_pipeline.BuildFreshness.test_lock_state_probe) ... ok
+test_source_model_hash_parsed_from_tex_and_html (_tools.career.test_pdf_pipeline.BuildFreshness.test_source_model_hash_parsed_from_tex_and_html) ... ok
+test_atomic_manifest_write_leaves_no_temp (_tools.career.test_pdf_pipeline.BuildLib.test_atomic_manifest_write_leaves_no_temp) ... ok
+test_jobs_capped_by_memory_and_bounds (_tools.career.test_pdf_pipeline.BuildLib.test_jobs_capped_by_memory_and_bounds) ... ok
+test_key_phrases_use_headline_pure_run (_tools.career.test_pdf_pipeline.BuildLib.test_key_phrases_use_headline_pure_run) ... ok
+test_lock_released_when_holder_dies (_tools.career.test_pdf_pipeline.BuildLib.test_lock_released_when_holder_dies) ... /home/milosvasic/Projects/vasic-wt-manifest/_tools/career/test_pdf_pipeline.py:148: DeprecationWarning: This process (pid=1496219) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+ok
+test_manifest_is_deterministic_and_sorted (_tools.career.test_pdf_pipeline.BuildLib.test_manifest_is_deterministic_and_sorted) ... ok
+test_matrix_and_expected_files (_tools.career.test_pdf_pipeline.BuildLib.test_matrix_and_expected_files) ... ok
+test_second_lock_fails_fast (_tools.career.test_pdf_pipeline.BuildLib.test_second_lock_fails_fast) ... ok
+test_unexpected_files_detected (_tools.career.test_pdf_pipeline.BuildLib.test_unexpected_files_detected) ... ok
+test_epoch_never_wall_clock (_tools.career.test_pdf_pipeline.CareerCli.test_epoch_never_wall_clock) ... CANNOT DETERMINE build epoch: pass --epoch, set SOURCE_DATE_EPOCH, or run inside the git checkout
+ok
+test_epoch_pinned_wins_then_env_then_git (_tools.career.test_pdf_pipeline.CareerCli.test_epoch_pinned_wins_then_env_then_git) ... ok
+test_failed_cell_means_no_success_manifest (_tools.career.test_pdf_pipeline.CareerCli.test_failed_cell_means_no_success_manifest) ...   FAIL: boom
+manifest NOT written: 1 failed/undetermined cell(s): cv-a-en
+ok
+test_filtered_build_never_rewrites_manifest (_tools.career.test_pdf_pipeline.CareerCli.test_filtered_build_never_rewrites_manifest) ... ok
+test_verify_one_flags_stale_source (_tools.career.test_pdf_pipeline.CareerCli.test_verify_one_flags_stale_source) ... ok
+test_verify_refuses_while_build_running (_tools.career.test_pdf_pipeline.CareerCli.test_verify_refuses_while_build_running) ... CANNOT VERIFY: a build holds the lock on this directory; the files are mid-rewrite
+ok
+test_absent_family_is_rc2_not_silent_tofu (_tools.career.test_pdf_pipeline.FontPreflight.test_absent_family_is_rc2_not_silent_tofu) ... ok
+test_every_non_latin_locale_declares_its_family (_tools.career.test_pdf_pipeline.FontPreflight.test_every_non_latin_locale_declares_its_family) ... ok
+test_cyrillic_locales_need_cyrillic (_tools.career.test_pdf_pipeline.GateHardening.test_cyrillic_locales_need_cyrillic) ... ok
+test_each_poison_class_detected (_tools.career.test_pdf_pipeline.GateHardening.test_each_poison_class_detected) ... ok
+test_email_and_url_breakers_rejected_in_every_cjk_locale (_tools.career.test_pdf_pipeline.GateHardening.test_email_and_url_breakers_rejected_in_every_cjk_locale) ... ok
+test_empty_contact_list_fails (_tools.career.test_pdf_pipeline.GateHardening.test_empty_contact_list_fails) ... ok
+test_expected_contacts_from_doc_override_source (_tools.career.test_pdf_pipeline.GateHardening.test_expected_contacts_from_doc_override_source) ... ok
+test_fullwidth_url_scheme_rejected (_tools.career.test_pdf_pipeline.GateHardening.test_fullwidth_url_scheme_rejected) ... ok
+test_korean_ascii_punct_passes_fullwidth_at_rejected (_tools.career.test_pdf_pipeline.GateHardening.test_korean_ascii_punct_passes_fullwidth_at_rejected) ... ok
+test_legitimate_controls_still_allowed (_tools.career.test_pdf_pipeline.GateHardening.test_legitimate_controls_still_allowed) ... ok
+test_real_cjk_punctuation_passes_zh_ja (_tools.career.test_pdf_pipeline.GateHardening.test_real_cjk_punctuation_passes_zh_ja) ... ok
+test_arabic_presentation_forms_flagged (_tools.career.test_pdf_pipeline.GateUnits.test_arabic_presentation_forms_flagged) ... ok
+test_cjk_fullwidth_punctuation_is_content_not_poison (_tools.career.test_pdf_pipeline.GateUnits.test_cjk_fullwidth_punctuation_is_content_not_poison) ... ok
+test_cjk_wrap_inside_word_still_matches_but_reorder_does_not (_tools.career.test_pdf_pipeline.GateUnits.test_cjk_wrap_inside_word_still_matches_but_reorder_does_not) ... ok
+test_fullwidth_digits_flagged_even_in_cjk (_tools.career.test_pdf_pipeline.GateUnits.test_fullwidth_digits_flagged_even_in_cjk) ... ok
+test_fullwidth_punctuation_still_flagged_outside_cjk (_tools.career.test_pdf_pipeline.GateUnits.test_fullwidth_punctuation_still_flagged_outside_cjk) ... ok
+test_html_sibling_urls_read (_tools.career.test_pdf_pipeline.GateUnits.test_html_sibling_urls_read) ... ok
+test_infer_lang_from_sibling_source (_tools.career.test_pdf_pipeline.GateUnits.test_infer_lang_from_sibling_source) ... ok
+test_mixed_font_line_is_not_a_gutter (_tools.career.test_pdf_pipeline.GateUnits.test_mixed_font_line_is_not_a_gutter) ... ok
+test_phrase_must_be_contiguous_logical (_tools.career.test_pdf_pipeline.GateUnits.test_phrase_must_be_contiguous_logical) ... ok
+test_phrase_survives_line_wrap_whitespace (_tools.career.test_pdf_pipeline.GateUnits.test_phrase_survives_line_wrap_whitespace) ... ok
+test_real_two_column_still_detected (_tools.career.test_pdf_pipeline.GateUnits.test_real_two_column_still_detected) ... ok
+test_script_coverage_catches_latin_fallback (_tools.career.test_pdf_pipeline.GateUnits.test_script_coverage_catches_latin_fallback) ... ok
+test_strip_bidi_controls (_tools.career.test_pdf_pipeline.GateUnits.test_strip_bidi_controls) ... ok
+test_atomic_no_temp_left (_tools.career.test_pdf_pipeline.RealLatexScripts.test_atomic_no_temp_left) ... ok
+test_chinese (_tools.career.test_pdf_pipeline.RealLatexScripts.test_chinese) ... ok
+test_cjk_font_actually_embedded (_tools.career.test_pdf_pipeline.RealLatexScripts.test_cjk_font_actually_embedded) ... ok
+test_hindi (_tools.career.test_pdf_pipeline.RealLatexScripts.test_hindi) ... ok
+test_japanese (_tools.career.test_pdf_pipeline.RealLatexScripts.test_japanese) ... ok
+test_korean (_tools.career.test_pdf_pipeline.RealLatexScripts.test_korean) ... ok
+test_latex_rebuild_is_byte_identical (_tools.career.test_pdf_pipeline.RealLatexScripts.test_latex_rebuild_is_byte_identical) ... ok
+test_arabic_logical_order_no_controls_no_presentation_forms (_tools.career.test_pdf_pipeline.RealRtl.test_arabic_logical_order_no_controls_no_presentation_forms) ... ok
+test_persian_passes (_tools.career.test_pdf_pipeline.RealRtl.test_persian_passes) ... ok
+test_reversed_text_would_fail_phrase_gate (_tools.career.test_pdf_pipeline.RealRtl.test_reversed_text_would_fail_phrase_gate) ... ok
+test_rtl_rebuild_byte_identical_and_url_intact (_tools.career.test_pdf_pipeline.RealRtl.test_rtl_rebuild_byte_identical_and_url_intact) ... ok
+test_build_dispatches_by_engine (_tools.career.test_pdf_pipeline.RenderRegistry.test_build_dispatches_by_engine) ... ok
+test_engine_for_is_live_and_honest (_tools.career.test_pdf_pipeline.RenderRegistry.test_engine_for_is_live_and_honest) ... ok
+test_formats_only_claim_what_is_produced (_tools.career.test_pdf_pipeline.RenderRegistry.test_formats_only_claim_what_is_produced) ... ok
+test_missing_character_log_parsed (_tools.career.test_pdf_pipeline.RenderRegistry.test_missing_character_log_parsed) ... ok
+test_broken_url_flagged (_tools.career.test_gates_render.ContactUrls.test_broken_url_flagged) ... ok
+test_header_never_hyphenates_url (_tools.career.test_gates_render.ContactUrls.test_header_never_hyphenates_url) ... ok
+test_intact_url_ok (_tools.career.test_gates_render.ContactUrls.test_intact_url_ok) ... ok
+test_braces_not_double_escaped (_tools.career.test_gates_render.Escaping.test_braces_not_double_escaped) ... ok
+test_url_no_double_escape (_tools.career.test_gates_render.Escaping.test_url_no_double_escape) ... ok
+test_cid_truetype_good_is_clean (_tools.career.test_gates_render.FontParsing.test_cid_truetype_good_is_clean) ... ok
+test_cid_truetype_not_subset_flagged (_tools.career.test_gates_render.FontParsing.test_cid_truetype_not_subset_flagged) ... ok
+test_type3_detected (_tools.career.test_gates_render.FontParsing.test_type3_detected) ... ok
+test_unembedded_flagged (_tools.career.test_gates_render.FontParsing.test_unembedded_flagged) ... ok
+test_cli_bad_kind (_tools.career.test_gates_render.KindCli.test_cli_bad_kind) ... usage: gates [-h] [--kind {cover,cv}] [--lang LANG] [--phrase PHRASE] pdf
+gates: error: argument --kind: invalid choice: 'bogus' (choose from cover, cv)
+ok
+test_cli_passes_kind (_tools.career.test_gates_render.KindCli.test_cli_passes_kind) ... ok
+test_golden_bad_schemeless_href_is_flagged (_tools.career.test_gates_render.LinkAnnotations.test_golden_bad_schemeless_href_is_flagged) ... ok
+test_good_annotations_pass (_tools.career.test_gates_render.LinkAnnotations.test_good_annotations_pass) ... ok
+test_link_must_match_visible_label (_tools.career.test_gates_render.LinkAnnotations.test_link_must_match_visible_label) ... ok
+test_non_uri_actions_rejected (_tools.career.test_gates_render.LinkAnnotations.test_non_uri_actions_rejected) ... ok
+test_rebuilt_links_are_real_uris (_tools.career.test_gates_render.LinkAnnotations.test_rebuilt_links_are_real_uris) ... ok
+test_tex_contact_urls_return_labels_not_targets (_tools.career.test_gates_render.LinkAnnotations.test_tex_contact_urls_return_labels_not_targets) ... ok
+test_url_helper_takes_explicit_target (_tools.career.test_gates_render.LinkAnnotations.test_url_helper_takes_explicit_target) ... ok
+test_validate_pdf_runs_the_link_gate (_tools.career.test_gates_render.LinkAnnotations.test_validate_pdf_runs_the_link_gate) ... ok
+test_source_check (_tools.career.test_gates_render.SingleColumn.test_source_check) ... ok
+test_two_column_pdf_rejected_single_accepted (_tools.career.test_gates_render.SingleColumn.test_two_column_pdf_rejected_single_accepted) ... ok
+test_hindi_header_url_intact (_tools.career.test_gates_render.UrlBox.test_hindi_header_url_intact) ... ok
+test_url_is_unbreakable_box (_tools.career.test_gates_render.UrlBox.test_url_is_unbreakable_box) ... ok
+test_rtl_engine_builds_tagged_and_gates_green (_tools.career.test_pdf_structure.BuiltHtml.test_rtl_engine_builds_tagged_and_gates_green) ... ok
+test_build_is_byte_reproducible_with_tagging (_tools.career.test_pdf_structure.BuiltLatex.test_build_is_byte_reproducible_with_tagging) ... ok
+test_every_checked_locale_builds_tagged_and_gates_green (_tools.career.test_pdf_structure.BuiltLatex.test_every_checked_locale_builds_tagged_and_gates_green) ... ok
+test_complete_structure_passes (_tools.career.test_pdf_structure.Gate.test_complete_structure_passes) ... ok
+test_untagged_pdf_is_flagged (_tools.career.test_pdf_structure.Gate.test_untagged_pdf_is_flagged) ... ok
+test_validate_pdf_runs_the_structure_gate (_tools.career.test_pdf_structure.Gate.test_validate_pdf_runs_the_structure_gate) ... ok
+test_class_turns_softhyphen_rewrite_off (_tools.career.test_pdf_structure.Source.test_class_turns_softhyphen_rewrite_off) ... ok
+test_latex_source_does_not_claim_pdfua (_tools.career.test_pdf_structure.Source.test_latex_source_does_not_claim_pdfua) ... ok
+test_latex_source_enables_tagging_before_documentclass (_tools.career.test_pdf_structure.Source.test_latex_source_enables_tagging_before_documentclass) ... ok
+test_exit_2_without_passphrase_and_never_prints_it (_tools.career.test_vault.Cli.test_exit_2_without_passphrase_and_never_prints_it) ... ok
+test_seal_all_with_injected_cache_and_verify (_tools.career.test_vault.Cli.test_seal_all_with_injected_cache_and_verify) ... ok
+test_node_decrypts_python_sealed_vault_and_rejects_tampering (_tools.career.test_vault.CrossLanguage.test_node_decrypts_python_sealed_vault_and_rejects_tampering) ... FAIL
+test_bitflip_and_truncation (_tools.career.test_vault.Fmt.test_bitflip_and_truncation) ... ok
+test_blob_is_ciphertext_plus_tag_and_manifest_has_no_tag_or_hash (_tools.career.test_vault.Fmt.test_blob_is_ciphertext_plus_tag_and_manifest_has_no_tag_or_hash) ... ok
+test_canonical_json_nonascii_vector (_tools.career.test_vault.Fmt.test_canonical_json_nonascii_vector) ... ok
+test_header_enforced_exactly_before_derivation (_tools.career.test_vault.Fmt.test_header_enforced_exactly_before_derivation) ... ok
+test_merge_keeps_others_replace_mode_prunes_stale (_tools.career.test_vault.Fmt.test_merge_keeps_others_replace_mode_prunes_stale) ... ok
+test_mime_control_characters_rejected (_tools.career.test_vault.Fmt.test_mime_control_characters_rejected) ... ok
+test_roundtrip_and_verify (_tools.career.test_vault.Fmt.test_roundtrip_and_verify) ... ok
+test_slot_and_name_validation (_tools.career.test_vault.Fmt.test_slot_and_name_validation) ... ok
+test_tampered_name_slot_mime_fail_in_python (_tools.career.test_vault.Fmt.test_tampered_name_slot_mime_fail_in_python) ... ok
+test_weak_passphrase_rejected_unless_test_override (_tools.career.test_vault.Fmt.test_weak_passphrase_rejected_unless_test_override) ... ok
+test_wrong_passphrase (_tools.career.test_vault.Fmt.test_wrong_passphrase) ... ok
+test_env_wins_and_missing_is_unavailable (_tools.career.test_vault.Passphrase.test_env_wins_and_missing_is_unavailable) ... ok
+test_file_mode_enforced (_tools.career.test_vault.Passphrase.test_file_mode_enforced) ... ok
+
+======================================================================
+FAIL: test_node_decrypts_python_sealed_vault_and_rejects_tampering (_tools.career.test_vault.CrossLanguage.test_node_decrypts_python_sealed_vault_and_rejects_tampering)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/milosvasic/Projects/vasic-wt-manifest/_tools/career/test_vault.py", line 221, in test_node_decrypts_python_sealed_vault_and_rejects_tampering
+    self.assertEqual(r.returncode, 0, r.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : node:internal/modules/cjs/loader:1573
+  throw err;
+  ^
+
+Error: Cannot find module '../../milosvasic.ru/assets/js/vault.js'
+Require stack:
+- /home/milosvasic/Projects/vasic-wt-manifest/_tools/career/test_vault_cross.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1569:15)
+    at wrapResolveFilename (node:internal/modules/cjs/loader:1123:27)
+    at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1147:10)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1174:12)
+    at Module._load (node:internal/modules/cjs/loader:1346:5)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
+    at Module.require (node:internal/modules/cjs/loader:1679:12)
+    at require (node:internal/modules/helpers:196:16)
+    at Object.<anonymous> (/home/milosvasic/Projects/vasic-wt-manifest/_tools/career/test_vault_cross.js:5:11)
+    at Module._compile (node:internal/modules/cjs/loader:1934:14) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/home/milosvasic/Projects/vasic-wt-manifest/_tools/career/test_vault_cross.js'
+  ]
+}
+
+Node.js v26.8.1
+
+
+----------------------------------------------------------------------
+Ran 129 tests in 521.511s
+
+FAILED (failures=1)
+build cv-a-en: gates 1
+locale  pass  fail  undetermined
+en         0     1      0
+built 1 artifact(s), 1 gate failure(s), 0 undetermined
+build cv-a-en: gates 0
+filtered build: manifest.json left untouched (only a full build may rewrite it)
+locale  pass  fail  undetermined
+en         1     0      0
+built 1 artifact(s), 0 gate failure(s), 0 undetermined
+rc=0 ok
+rc=1
