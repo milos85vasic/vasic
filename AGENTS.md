@@ -402,7 +402,7 @@ points §11.4.297(A) itself names.
 
 This is a **PUBLIC** repository (`private=false`, verified against the provider
 2026-09-01). **Three** of its submodules are **PRIVATE**: `workshop`
-(`milos85vasic/workshop_curriculum`), `ai_interviewing`, `monetization`. A
+(`vasic-digital/workshop_curriculum`), `ai_interviewing`, `monetization`. A
 gitlink exposes only a commit SHA, so their content stays private — until
 somebody copies it out.
 
@@ -417,8 +417,8 @@ git config -f .gitmodules --get-regexp 'submodule\..*\.url'   # 13 URLs
 gh api repos/<owner>/<name> --jq '.visibility'                # per repository
 ```
 
-Measured 2026-09-01 with exactly that pair: `milos85vasic/workshop_curriculum`,
-`milos85vasic/ai_interviewing` and `milos85vasic/monetization` are **private**;
+Measured 2026-09-01 with exactly that pair (owner then `milos85vasic`, moved to `vasic-digital` 2026-11-24): `vasic-digital/workshop_curriculum`,
+`vasic-digital/ai_interviewing` and `vasic-digital/monetization` are **private**;
 `vasic-digital/design-toolkit`, `vasic-digital/containers`,
 `vasic-digital/LLMProvider`, `vasic-digital/RAG`, `vasic-digital/verdict`,
 `vasic-digital/passage`, `vasic-digital/vasic-digital.github.io` and
