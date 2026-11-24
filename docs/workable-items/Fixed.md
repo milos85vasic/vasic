@@ -6024,3 +6024,13 @@ containers PR #3 adds the forced-runner selector; umbrella PR #11 bumped the pin
 
 WHAT: the website-version footer text exists in every localized page but each language rendering has not been reviewed by an independent per-language reviewer (11.4.256). Closes when a review verdict is recorded per language.
 
+## VSC-431 — Rebuild 300 career PDFs with wave-1 engine and re-seal vault
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** docs/qa/vault/real-vault-browser-proof-2026-11-24-rebuild.txt
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: rebuild all 300 career PDFs with link annotations, tagged PDF/XMP and keyword gates, re-seal vault in vasic-digital/career_private. Acceptance: verify 300/300, vault verify 300 slots, browser proof, evidence in docs/qa/career and docs/qa/vault.
+

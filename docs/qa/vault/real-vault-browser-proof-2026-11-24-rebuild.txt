@@ -1,0 +1,19 @@
+Real-vault browser proof 2026-11-24 (rebuild, wave-1 engine); career_private PR #2 branch seal-vault-2026-11-24-rebuild vault/ served from checkout
+Console: milosvasic.ru/admin/console.html rendered from shipped layout + vault.js, vault-console.js; throwaway 127.0.0.1 server; headless chromium (playwright). Passphrase read in-process from _secure/cv-vault.passphrase; never printed or stored.
+
+PASS wrong-passphrase-rejected :: Authentication failed: this is not the published document.
+PASS unlock-correct :: ms=243
+PASS 300-files :: 300 over areas=10 langs=15
+PASS passphrase-field-cleared-after-unlock
+PASS download-identical ai-engineering/ar/0 :: ae2136e3d88b3c7e -> cover-ai-engineering-ar.pdf bytes=32078
+PASS download-identical ai-engineering/ar/1 :: b7a64b10bb90e3d8 -> cv-ai-engineering-ar.pdf bytes=50138
+PASS download-identical ai-engineering/en/0 :: ce411478716fbab7 -> cover-ai-engineering-en.pdf bytes=60657
+PASS download-identical ai-engineering/en/1 :: 4207bd0f6cc837a6 -> cv-ai-engineering-en.pdf bytes=67937
+PASS download-identical ai-engineering/ja/0 :: 8bbc602dde796e28 -> cover-ai-engineering-ja.pdf bytes=86894
+PASS download-identical ai-engineering/ja/1 :: 90f587bc78364cc0 -> cv-ai-engineering-ja.pdf bytes=130385
+PASS download-identical ai-engineering/ru/0 :: 230ce529746fd2f8 -> cover-ai-engineering-ru.pdf bytes=65778
+PASS download-identical ai-engineering/ru/1 :: 76f66b19d96c81ac -> cv-ai-engineering-ru.pdf bytes=75812
+PASS download-identical web-frontend/hi/0 :: e0e710fc9be018d5 -> cover-web-frontend-hi.pdf bytes=57208
+PASS download-identical web-frontend/hi/1 :: 406cd3d02c1d0ac4 -> cv-web-frontend-hi.pdf bytes=79358
+PASS lock-hides-picker
+PASS lock-clears-passphrase
