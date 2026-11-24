@@ -439,6 +439,11 @@ body {
   letter-spacing: var(--od-tracking-tight);
   color: var(--od-text);
   text-wrap: balance;
+  /* Translated titles carry U+2011 non-breaking hyphens ("Infrastruktur‑Automatisierung"),
+   * which leave a long word no break opportunity; at this display size it overran
+   * the box and made /de/ and /ru/ scroll sideways on phones (defect D2). Break
+   * inside the word only as a last resort — titles that fit are untouched. */
+  overflow-wrap: break-word;
   margin: 0 0 var(--od-space-6);
 }
 
