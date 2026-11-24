@@ -232,3 +232,6 @@ _tools/zero-gap-chain/continuum-integrity
 .cache-career/
 _secure/
 *.passphrase
+
+# Local git worktrees (task-branch checkouts); never tracked
+*-wt-*/
