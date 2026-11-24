@@ -1,0 +1,9 @@
+  File "/usr/lib/python3/dist-packages/podman_compose.py", line 309, in rec_subs
+    value = var_re.sub(convert, value)
+  File "/usr/lib/python3/dist-packages/podman_compose.py", line 306, in convert
+    raise RuntimeError(m.group("err"))
+RuntimeError: set by jsstack port
+
+rc=1
+config: JOBSEEKER_DB_KEY: missing
+rc=1

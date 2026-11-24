@@ -82,17 +82,43 @@ vasic_runner_maybe() {
 # rc 2 = --runner without a value.
 vasic_runner_strip() {
   VASIC_ARGS=(); VASIC_RUNNER_ASKED=0
+  local names=() n
   [ -n "${CONTAINERS_RUNNER:-}" ] && VASIC_RUNNER_ASKED=1
   while [ "$#" -gt 0 ]; do
     case "$1" in
       --) VASIC_ARGS+=("$@"); break ;;
       --runner)
         if [ "$#" -lt 2 ] || [ "${2#-}" != "$2" ]; then printf 'runner: --runner needs a value\n' >&2; return 2; fi
-        VASIC_RUNNER_ASKED=1; shift 2 ;;
+        VASIC_RUNNER_ASKED=1; names+=("$2"); shift 2 ;;
       --runner=*)
         [ -n "${1#--runner=}" ] || { printf 'runner: --runner= has an empty value\n' >&2; return 2; }
-        VASIC_RUNNER_ASKED=1; shift ;;
+        VASIC_RUNNER_ASKED=1; names+=("${1#--runner=}"); shift ;;
       *) VASIC_ARGS+=("$1"); shift ;;
     esac
   done
+  # A FORCED name is checked at parse time even when no container will be used (a typo must not be
+  # silently accepted). The env var is not checked here: it is inherited, and its refusal stays deferred.
+  for n in ${names[@]+"${names[@]}"}; do vasic_runner_check_name "$n" || return 2; done
+  return 0
+}
+
+# vasic_runner_check_name NAME -- pure bash. SHAPE (^[a-z0-9][a-z0-9-]*$, or auto) is always checked.
+# MEMBERSHIP is checked against the module's supported list ONLY when its `runner` binary is already
+# available (CONTAINERS_RUNNER_BIN or the module's user cache); this never builds anything and never needs
+# Go, so --stop and static servers keep working on a host with no toolchain. Without a binary a
+# well-formed unknown name passes here and is refused later, when a container is actually needed.
+vasic_runner_check_name() {
+  local name="$1" bin list
+  [ "$name" = auto ] && return 0
+  case "$name" in
+    ""|-*|*[!a-z0-9-]*) printf 'runner: invalid runner name %q (allowed: lowercase letters, digits, "-"; or auto)\n' "$name" >&2; return 2 ;;
+  esac
+  bin="${CONTAINERS_RUNNER_BIN:-${XDG_CACHE_HOME:-${HOME:-/nonexistent}/.cache}/containers-runner/runner}"
+  [ -x "$bin" ] || return 0
+  list="$("$bin" list 2>/dev/null)" || return 0
+  [ -n "$list" ] || return 0
+  if ! printf '%s\n' "$list" | grep -qx -- "$name"; then
+    printf 'runner: unknown container runner %q (supported: %s, auto)\n' "$name" "$(printf '%s' "$list" | paste -sd, - | sed 's/,/, /g')" >&2
+    return 2
+  fi
 }

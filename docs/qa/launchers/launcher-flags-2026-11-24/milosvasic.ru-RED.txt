@@ -1,0 +1,22 @@
+  PASS default: host command only, no runner output
+  PASS default executes bundle install then jekyll serve
+  PASS --runner=auto executes the host serve
+  PASS --runner=podman exits 0
+  PASS --runner=podman serves in a container
+  PASS --runner=docker (not installed) refused
+  PASS unknown runner refused
+  PASS env CONTAINERS_RUNNER=bogus refused
+  PASS valueless --runner refused
+  PASS --runner=auto exits 0
+  PASS --runner=auto stays on the host
+  PASS --container exits 0
+  PASS --container uses a container
+  FAIL flag with module absent refused (not ignored) (got '0' want '2')
+  PASS --help exits 0
+  FAIL --help prints usage (got '' want 'Usage text')
+  PASS -h exits 0
+  FAIL unknown flag refused rc 2 (got '0' want '2')
+  FAIL stray positional refused rc 2 (got '0' want '2')
+  FAIL unknown flag with --runner refused rc 2 (got '0' want '2')
+  FAIL help/unknown never invoked the host bundle (got 'invoked' want 'none')
+runner-flag: rc=1

@@ -49,7 +49,7 @@
 #                                      Needed ONLY when a container is used (mv
 #                                      rebuild, workshop/ai boot): vd/mv static
 #                                      servers and --stop work with no Go and no
-#                                      runner; --stop never refuses on a runner.
+#                                      runner. A FORCED unknown/malformed name is refused rc 2 at parse time (typo), also with --stop.
 #
 # ENVIRONMENT (all optional)
 #   QA_VD_DEFAULT_PORT        preferred port for vd        (default 8401)

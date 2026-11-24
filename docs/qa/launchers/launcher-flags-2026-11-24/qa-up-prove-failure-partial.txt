@@ -1,0 +1,13 @@
+  PASS M0 control: unmutated sandbox passes all 26 core cases
+  PASS M1 vasic_runner_maybe ignores --runner (flag silently dropped): caught (7 core case(s) failed on the mutant)
+  PASS M2 vasic_runner_maybe skips runner_select (no validation): caught (8 core case(s) failed on the mutant)
+  PASS M3 ht_runner_parse: env beats flag: caught (2 core case(s) failed on the mutant)
+  PASS M4 ht_fleet_runtime ignores the override: caught (2 core case(s) failed on the mutant)
+  PASS M5 ht_runner_parse accepts shell metacharacters: caught (3 core case(s) failed on the mutant)
+  PASS M6 remote run.sh drops its installed-check (fallback-by-failure): caught (1 core case(s) failed on the mutant)
+  PASS M7 helixtranslate-local: HELIX_RUNTIME outranks the forced runner: caught (1 core case(s) failed on the mutant)
+  PASS M8 vasic_runner_load swallows a missing helper: caught (1 core case(s) failed on the mutant)
+  PASS M9 qa-up --stop refuses on a runner (B1 regression): caught (1 core case(s) failed on the mutant)
+  PASS M10 qa-up selects a runner unconditionally, even for static/--stop (B1): caught (3 core case(s) failed on the mutant)
+  PASS M12 qa-up parse-time check skipped (typo accepted when unused): caught (1 core case(s) failed on the mutant)
+  PASS M13 parse-time shape check dropped: caught (1 core case(s) failed on the mutant)

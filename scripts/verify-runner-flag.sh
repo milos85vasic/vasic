@@ -179,6 +179,10 @@ core_cases() {
         nogo QA_STATE_DIR="$T/qa-nogo" QA_REGISTRY_DIR="$T/qa-nogo-reg" bash "$R/scripts/qa-up.sh" --runner="$GOOD" --only workshop
     expect "qa-up (no go): a forced runner for a BOOT path is still refused rc2 (ai)" 2 --grep 'go toolchain not found' -- \
         nogo QA_STATE_DIR="$T/qa-nogo" QA_REGISTRY_DIR="$T/qa-nogo-reg" bash "$R/scripts/qa-up.sh" --runner="$GOOD" --only ai
+    expect "qa-up (no go, no binary): malformed --runner shape refused rc2 at parse time" 2 --grep 'invalid runner name' -- \
+        nogo QA_STATE_DIR="$T/qa-nogo" QA_REGISTRY_DIR="$T/qa-nogo-reg" bash "$R/scripts/qa-up.sh" --runner='A;b' --stop --only vd
+    expect "qa-up (no go, no binary): well-formed unknown name cannot be checked at parse time; --stop --only vd still rc0 (B1)" 0 -- \
+        nogo QA_STATE_DIR="$T/qa-nogo" QA_REGISTRY_DIR="$T/qa-nogo-reg" bash "$R/scripts/qa-up.sh" --runner=bogus --stop --only vd
     expect "qa-up: --runner without a value is a usage error rc2 even on --stop" 2 --grep 'needs a value' -- \
         env QA_STATE_DIR="$T/qa-nogo" bash "$R/scripts/qa-up.sh" --stop --only vd --runner
 }
@@ -209,8 +213,21 @@ full_suite() {
         env QA_STATE_DIR="$T/qa" bash "$R/scripts/qa-up.sh" --runner="$ABSENT" --only workshop
     expect "qa-up: unknown runner refused rc2 on a boot path" 2 --grep 'unknown container runner' -- \
         env QA_STATE_DIR="$T/qa" bash "$R/scripts/qa-up.sh" --runner=bogus --only ai
-    expect "qa-up: unknown runner on --stop --only vd is NOT refused (stopping needs no runner)" 0 -- \
+    # A FORCED --runner naming an unknown / malformed runner is a typo: refused rc 2 at parse time even when
+    # no container is needed (the env var form stays lenient on non-container paths). Membership uses the
+    # module's runner binary when one is already available (never builds); shape is always checked.
+    expect "qa-up: --runner=bogus --stop --only vd refused rc2 at parse time (unused runner is still a typo)" 2 --grep 'unknown container runner' -- \
         env QA_STATE_DIR="$T/qa" QA_REGISTRY_DIR="$T/qa-reg" bash "$R/scripts/qa-up.sh" --runner=bogus --stop --only vd
+    expect "qa-up: --runner bogus (space form) --stop --only vd refused rc2" 2 --grep 'unknown container runner' -- \
+        env QA_STATE_DIR="$T/qa" QA_REGISTRY_DIR="$T/qa-reg" bash "$R/scripts/qa-up.sh" --runner bogus --stop --only vd
+    expect "qa-up: malformed --runner='A;b' --stop --only vd refused rc2 (shape)" 2 --grep 'invalid runner name' -- \
+        env QA_STATE_DIR="$T/qa" QA_REGISTRY_DIR="$T/qa-reg" bash "$R/scripts/qa-up.sh" --runner='A;b' --stop --only vd
+    expect "qa-up: --runner=$ABSENT (supported, not installed) --stop --only vd still accepted" 0 -- \
+        env QA_STATE_DIR="$T/qa" QA_REGISTRY_DIR="$T/qa-reg" bash "$R/scripts/qa-up.sh" --runner="$ABSENT" --stop --only vd
+    expect "qa-up: --runner=auto --stop --only vd accepted" 0 -- \
+        env QA_STATE_DIR="$T/qa" QA_REGISTRY_DIR="$T/qa-reg" bash "$R/scripts/qa-up.sh" --runner=auto --stop --only vd
+    expect "qa-up: env CONTAINERS_RUNNER=bogus --stop --only vd stays lenient (inherited env, not a typo here)" 0 -- \
+        env CONTAINERS_RUNNER=bogus QA_STATE_DIR="$T/qa" QA_REGISTRY_DIR="$T/qa-reg" bash "$R/scripts/qa-up.sh" --stop --only vd
     expect "qa-up: --runner=$GOOD --stop accepted, selected by flag (stack stop is best-effort)" 0 --grep "runner: $GOOD \\(selected by flag\\)" -- \
         env QA_STATE_DIR="$T/qa" QA_REGISTRY_DIR="$T/qa-reg" bash "$R/scripts/qa-up.sh" --runner="$GOOD" --stop
     expect "qa-up: module helper missing -> rc2 on a boot path" 2 --grep 'COULD NOT DETERMINE' -- \
@@ -312,6 +329,9 @@ mutant "M7 helixtranslate-local: HELIX_RUNTIME outranks the forced runner" _tool
 mutant "M8 vasic_runner_load swallows a missing helper"                 _tools/lib/vasic-runner.sh 's/^  if \[ ! -r "\$helper" \]; then$/  if false; then/'
 mutant "M9 qa-up --stop refuses on a runner (B1 regression)"            scripts/qa-up.sh 's/|| { warn "runner not selected on --stop[^}]*}/|| exit 2/'
 mutant "M10 qa-up selects a runner unconditionally, even for static/--stop (B1)" scripts/qa-up.sh 's/^RUNNER_NEEDED=0$/RUNNER_NEEDED=1/;s/^if \[ "\$STOP" -eq 1 \]; then { wants workshop.*$/:/;s/vasic_runner_maybe "\${QA_ORIG_ARGS\[@\]}"/{ vasic_runner_load \&\& runner_select; }/'
+mutant "M12 qa-up parse-time check skipped (typo accepted when unused)"  _tools/lib/vasic-runner.sh 's/^  for n in \${names\[@\]+"\${names\[@\]}"}; do vasic_runner_check_name "\$n" || return 2; done$/  :/'
+mutant "M13 parse-time shape check dropped"                              _tools/lib/vasic-runner.sh 's/^    ""|-\*|\*\[!a-z0-9-\]\*) printf/    "") printf/'
+mutant "M14 parse-time membership check dropped"                         _tools/lib/vasic-runner.sh 's/^  if ! printf .%s\\n. "\$list" | grep -qx -- "\$name"; then$/  if false; then/'
 mutant "M11 shim skips the runtime shape check (legacy HT_RUNTIME)"       _tools/helixtranslate-container.sh 's/^ht_runtime_check "\$RUNTIME" || exit 2$/:/'
 echo "--- $survivors survivor(s)"
 [ "$survivors" -eq 0 ] && exit 0
