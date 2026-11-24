@@ -1,4 +1,4 @@
-$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf/job_seeker) : bash gates/live_h3.sh --help
+$ (cd <scratchpad>/umf/job_seeker) : bash gates/live_h3.sh --help
 # live_h3.sh — JSK-T032 / FR-040: live HTTP/3 + Brotli gate against the REAL server stack running in a REAL
 # container, driven only through tools/containers (the Containers Submodule). Not part of `make gates`
 # (needs a container runtime); run with `make live-h3`. Evidence is written to evidence/JSK-T032/.

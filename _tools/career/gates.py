@@ -231,12 +231,22 @@ def _check_single_column_pdf(pdf_path: Path) -> List[str]:
     return []
 
 
+def _redact_contact(value: str) -> str:
+    """Opaque, stable label for a contact string so a failure reason never prints
+    the person's real address/URL into logs or committed evidence (JSK-T179).
+    Shape is kept (kind + length + short digest) so reasons stay diagnosable."""
+    import hashlib
+    v = str(value)
+    kind = "email" if "@" in v else ("url" if "/" in v or "." in v else "text")
+    return f"<contact {kind} len={len(v)} sha={hashlib.sha256(v.encode()).hexdigest()[:8]}>"
+
+
 def _check_contact_urls(text: str, urls: List[str]) -> List[str]:
     """Every contact URL must appear intact (one unbroken string) in the text."""
     wanted = [u for u in urls if u]
     if not wanted:
         return ["no contact URLs to check: the source/doc lists none, so intactness is unproven"]
-    return [f"contact URL not intact in text layer: {u}" for u in wanted if u not in text]
+    return [f"contact URL not intact in text layer: {_redact_contact(u)}" for u in wanted if u not in text]
 
 
 def _expected_contacts(pdf_path: Path, contacts: List[str] | None) -> List[str]:
@@ -324,11 +334,11 @@ def _check_link_annotations(pdf_path: Path, labels: List[str]) -> List[str]:
         if kind != "URI":
             problems.append(f"link annotation is a {kind} action, not a URI")
         elif not target.startswith(_ALLOWED_LINK_SCHEMES):
-            problems.append(f"link annotation URI has no mailto:/https: scheme: {target!r}")
+            problems.append(f"link annotation URI has no mailto:/https: scheme: {_redact_contact(target)}")
     reached = {_link_label(t) for k, t in anns if k == "URI" and t.startswith(_ALLOWED_LINK_SCHEMES)}
     for label in (u for u in labels if u):
         if label.rstrip("/") not in reached:
-            problems.append(f"no mailto:/https: link annotation targets the visible contact: {label}")
+            problems.append(f"no mailto:/https: link annotation targets the visible contact: {_redact_contact(label)}")
     return problems
 
 

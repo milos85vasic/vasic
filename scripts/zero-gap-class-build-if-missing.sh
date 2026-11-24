@@ -106,6 +106,13 @@
 # USAGE  zero-gap-class-build-if-missing.sh --root <abs dir> [--corpus <abs dir>] [--emit-population]
 #        zero-gap-class-build-if-missing.sh --prove-failure      (paired proof, throwaway copies)
 set -uo pipefail
+_sedi() {  # portable in-place sed (GNU and BSD/macOS disagree on the -i suffix argument): _sedi [sed options] script... FILE
+    local f="${!#}" t r
+    t="$(mktemp "${TMPDIR:-/tmp}/sedi.XXXXXX")" || return 1
+    sed "${@:1:$#-1}" "$f" >"$t"; r=$?
+    [ "$r" -eq 0 ] && cat "$t" >"$f"; r=$?
+    rm -f "$t"; return "$r"
+}
 export LC_ALL=C LANG=C
 export PYTHONDONTWRITEBYTECODE=1
 
@@ -306,10 +313,20 @@ third_party_prefixes() {
 # alias_target <base> <mode> <rel link path>: the base-relative path of the regular file an in-tree tracked symlink
 # resolves to; rc 1 unless it stays inside base, is a regular non-symlink file and (live mode) belongs to the SAME
 # git repository as the link. Dangling, out-of-tree and cross-repository links are not aliases.
+_realpath() {  # portable realpath (BSD/macOS readlink has no GNU canonicalise flag): follow every link, then canonicalise the directory
+    local p="$1" n=0 l d
+    while [ -L "$p" ]; do
+        n=$((n+1)); [ "$n" -le 40 ] || return 1
+        l="$(readlink -- "$p")" || return 1
+        case "$l" in /*) p="$l" ;; *) p="$(dirname -- "$p")/$l" ;; esac
+    done
+    d="$(cd -P -- "$(dirname -- "$p")" 2>/dev/null && pwd -P)" || return 1
+    printf '%s/%s\n' "${d%/}" "$(basename -- "$p")"
+}
 alias_target() {
     local b=$1 m=$2 rel=$3 breal real t1 t2
     breal=$(cd "$b" 2>/dev/null && pwd -P) || return 1
-    real=$(readlink -f -- "$b/$rel" 2>/dev/null) || return 1
+    real=$(_realpath "$b/$rel" 2>/dev/null) || return 1
     [ -f "$real" ] && [ ! -L "$real" ] || return 1
     case "$real" in "$breal"/*) ;; *) return 1 ;; esac
     if [ "$m" = live ]; then
@@ -486,7 +503,7 @@ prove_failure() {
     git -C "$T/mu" add -A
     out=$(bash "$SELF" --root "$T/mu"); rc=$?
     if [ $rc -eq 0 ]; then ok "M2a control: existence AND -newer comparison is clean"; else bad "M2a rc=$rc: $out"; fi
-    sed -i 's/ || \[ -n "\$(find src -newer "\$BIN" -print -quit)" \]//' "$T/mu/scripts/start.sh"
+    _sedi 's/ || \[ -n "\$(find src -newer "\$BIN" -print -quit)" \]//' "$T/mu/scripts/start.sh"
     out=$(bash "$SELF" --root "$T/mu"); rc=$?
     if [ $rc -eq 1 ]; then ok "M2b mutation: freshness term removed => FINDING, rc 1"; else bad "M2b rc=$rc: $out"; fi
 

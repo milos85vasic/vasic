@@ -82,6 +82,13 @@
 #   two places is two findings (T038 must dedupe, and must also dedupe against
 #   improvement-candidates, which reports every Operator-blocked item too).
 set -uo pipefail
+_sedi() {  # portable in-place sed (GNU and BSD/macOS disagree on the -i suffix argument): _sedi [sed options] script... FILE
+    local f="${!#}" t r
+    t="$(mktemp "${TMPDIR:-/tmp}/sedi.XXXXXX")" || return 1
+    sed "${@:1:$#-1}" "$f" >"$t"; r=$?
+    [ "$r" -eq 0 ] && cat "$t" >"$f"; r=$?
+    rm -f "$t"; return "$r"
+}
 export LC_ALL=C PYTHONDONTWRITEBYTECODE=1
 
 CLASS=known-open-decisions
@@ -494,7 +501,7 @@ prove_failure() (
 
     mkdir "$T/empty"; run --root "$T" --corpus "$T/empty"
     if [ "$RC" -eq 2 ] && vout "$T/empty" "$RC" "$OUT"; then ok "K8 empty population: rc 2, INSPECTED and POPULATION-SHA still printed"; else bad "K8 empty rc=$RC:$VWHY"; fi
-    mkdir -p "$T/res/docs"; cp "$FIX/clean/docs/workable_items.sql" "$T/res/docs/"; sed -i "/DEM-002/d" "$T/res/docs/workable_items.sql"
+    mkdir -p "$T/res/docs"; cp "$FIX/clean/docs/workable_items.sql" "$T/res/docs/"; _sedi "/DEM-002/d" "$T/res/docs/workable_items.sql"
     printf '# Doc\n\n| # | x | y | Status |\n|---|---|---|---|\n| 1 | a | b | DECIDED |\n' >"$T/res/docs/OPERATOR-DECISIONS-2099-01-02.md"
     run --root "$T" --corpus "$T/res"
     if [ "$RC" -eq 2 ]; then ok "K9 all decisions resolved (zero pending) is rc 2, not clean"; else bad "K9 resolved-only rc=$RC"; fi

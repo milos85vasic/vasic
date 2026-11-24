@@ -1,4 +1,4 @@
-$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf) : /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf/docs/qa/launchers/launcher-runner-matrix-2026-11-24/boot.bin --runner=docker
+$ (cd <scratchpad>/umf) : <scratchpad>/umf/docs/qa/launchers/launcher-runner-matrix-2026-11-24/boot.bin --runner=docker
 2026/11/24 16:25:34 [INFO]  boot: Starting boot process...
 2026/11/24 16:25:34 [INFO]  boot: Configuration loaded: remote=false, hosts=0, scheduler=resource_aware
 Error: select runtime: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner

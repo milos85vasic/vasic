@@ -1,5 +1,5 @@
 host: installed runner under test = podman ; supported-but-absent runner under test = docker
-=== runner-flag suite against /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/um ===
+=== runner-flag suite against <scratchpad>/um ===
   PASS local: forced absent runner (docker) refused rc2
   PASS local: unknown runner refused rc2
   PASS local: env CONTAINERS_RUNNER=absent refused rc2

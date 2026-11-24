@@ -78,12 +78,17 @@ MEMINFO="${AGENT_ADMIT_MEMINFO:-/proc/meminfo}"
 SHMEM_MAX="${AGENT_ADMIT_SHMEM_MAX_PCT:-10}"
 THREADS_MAX="${AGENT_ADMIT_THREADS_MAX_PCT:-75}"
 THREADS_MIN_HEADROOM="${AGENT_ADMIT_THREADS_MIN_HEADROOM:-512}"
-BOOT_ID_FILE=/proc/sys/kernel/random/boot_id
+THREADS_MAX_FILE="${AGENT_ADMIT_THREADS_MAX_FILE:-/proc/sys/kernel/threads-max}"   # read only when ulimit -u is unlimited; unreadable => rc 2
+BOOT_ID_FILE="${AGENT_ADMIT_BOOT_ID_FILE:-/proc/sys/kernel/random/boot_id}"
 CG_DIR="${AGENT_ADMIT_CGROUP:-/sys/fs/cgroup/user.slice/user-$(id -u).slice/user@$(id -u).service/app.slice}"
 SLICE_MAX="${AGENT_ADMIT_SLICE_MAX_PCT:-85}"
 BR="${AGENT_ADMIT_BOUNDED_RUN-$(command -v bounded-run 2>/dev/null)}"
 
 say() { printf 'agent-admit: %s\n' "$*" >&2; }
+
+# The current boot id, or nothing when it cannot be read. Callers MUST treat an empty value as COULD-NOT-
+# DETERMINE: comparing an empty recorded id with an empty current id would call two unknowns "equal".
+boot_id() { local b; b=$(cat "$BOOT_ID_FILE" 2>/dev/null) || return 1; [ -n "$b" ] || return 1; printf '%s' "$b"; }
 
 # ---- pre-checks: each prints one metric line; rc 0 ok / 1 over threshold / 2 unreadable -------------
 check_psi() {
@@ -130,7 +135,7 @@ check_tmpfs() {
 check_threads() {
     local lim live pct head pc pm
     lim="${AGENT_ADMIT_NPROC_LIMIT:-$(ulimit -u 2>/dev/null)}"
-    [ "$lim" = unlimited ] && lim=$(cat /proc/sys/kernel/threads-max 2>/dev/null)
+    [ "$lim" = unlimited ] && lim=$(cat "$THREADS_MAX_FILE" 2>/dev/null)
     live="${AGENT_ADMIT_THREADS_LIVE:-$(ps -L --no-headers -u "$(id -u)" 2>/dev/null | wc -l)}"
     case "$lim:$live" in *[!0-9:]*|:*|*:) say "CANNOT DETERMINE: thread limit or live thread count unreadable (limit='$lim' live='$live')"; return 2 ;; esac
     [ "$lim" -gt 0 ] && [ "$live" -gt 0 ] || { say "CANNOT DETERMINE: thread limit $lim / live $live"; return 2; }
@@ -191,7 +196,7 @@ is_ancestor() { # $1 pid: is it $$ or an ancestor of $$?
     return 1
 }
 is_admitted() {
-    local s="${AGENT_ADMITTED_SLOT:-}" rs rd fd holder boot
+    local s="${AGENT_ADMITTED_SLOT:-}" rs rd fd holder boot cur_boot
     [ -n "$s" ] && [ -f "$s" ] || return 1
     rs=$(realpath -e -- "$s" 2>/dev/null) && rd=$(realpath -e -- "$SLOTS_DIR" 2>/dev/null) || return 1
     [ "$(dirname -- "$rs")" = "$rd" ] || return 1
@@ -199,7 +204,8 @@ is_admitted() {
     if flock -n "$fd"; then flock -u "$fd"; exec {fd}<&-; return 1; fi
     exec {fd}<&-
     holder=$(sed -n 's/^pid=//p' "$rs" 2>/dev/null); boot=$(sed -n 's/^boot=//p' "$rs" 2>/dev/null)
-    [ -n "$holder" ] && [ "$boot" = "$(cat "$BOOT_ID_FILE" 2>/dev/null)" ] || return 1
+    cur_boot=$(boot_id) || return 1   # fail closed: an unreadable boot id never matches anything
+    [ -n "$holder" ] && [ -n "$boot" ] && [ "$boot" = "$cur_boot" ] || return 1
     is_ancestor "$holder" || return 1
     return 0
 }
@@ -229,6 +235,7 @@ admit_and_run() {
     [ "$slots" -ge 1 ] || { say "--slots must be >= 1"; refuse 2; }
     [[ "$tag" =~ ^[A-Za-z0-9_.-]{1,40}$ ]] || { say "bad --tag (the whole value must match ^[A-Za-z0-9_.-]{1,40}\$)"; refuse 2; }
 
+    boot_id >/dev/null || { say "CANNOT DETERMINE: boot id unreadable ($BOOT_ID_FILE); the stale-slot check cannot be made, refusing"; refuse 2; }
     if is_admitted; then   # nested inside an admitted run: no second slot, no second scope
         "$@"; local nrc=$?
         exit "$nrc"
@@ -256,7 +263,7 @@ admit_and_run() {
     done
     chmod 600 -- "$slot" 2>/dev/null || true
     # holder record for the nesting check (the lock is on the fd; this rewrite does not drop it)
-    printf 'pid=%s\nboot=%s\ntag=%s\nstarted=%s\n' "$$" "$(cat "$BOOT_ID_FILE" 2>/dev/null)" "$tag" "$(date -Is)" >"$slot" 2>/dev/null \
+    printf 'pid=%s\nboot=%s\ntag=%s\nstarted=%s\n' "$$" "$(boot_id)" "$tag" "$(date -Is)" >"$slot" 2>/dev/null \
         || { flock -u "$fd"; exec {fd}>&-; say "CANNOT DETERMINE: cannot record the holder in $slot"; refuse 2; }
 
     local prc
@@ -308,9 +315,10 @@ prove() {
     # AGENT_ADMIT_* prefix on the call would be shadowed).
     A() { AGENT_SCRATCH_ROOT="$T/scr" AGENT_ADMIT_PSI_FILE="${OV_PSI:-$T/psi}" AGENT_ADMIT_CGROUP="${OV_CG:-$T/cg}" AGENT_ADMIT_TMPFS="${OV_TMPFS:-$T/absent-mount}" \
           AGENT_ADMIT_MEMINFO="${OV_MI:-$T/meminfo}" AGENT_ADMIT_NPROC_LIMIT="${OV_NPROC:-10000}" AGENT_ADMIT_THREADS_LIVE="${OV_LIVE:-100}" \
-          AGENT_ADMIT_BOUNDED_RUN="${OV_BR:-$T/fake-br}" AGENT_ADMIT_WAIT=0 bash "${SCRIPT:-$SELF}" "$@"; }
+          AGENT_ADMIT_BOUNDED_RUN="${OV_BR:-$T/fake-br}" AGENT_ADMIT_BOOT_ID_FILE="${OV_BOOT:-$T/bootid}" AGENT_ADMIT_WAIT=0 bash "${SCRIPT:-$SELF}" "$@"; }
     meminfo() { printf 'MemTotal:       %s kB\nMemFree:        1 kB\nShmem:          %s kB\n' "$1" "$2" >"$T/meminfo"; }
     meminfo 31717516 122260
+    printf 'fixture-boot-id-0001\n' >"$T/bootid"
     SCRIPT=$SELF
     psi 0.50; cg 1000 10000 max 0
     # A1 healthy host: CMD runs under bounded-run with the default caps, its rc is returned
@@ -400,6 +408,19 @@ prove() {
     OV_NPROC=4096 OV_LIVE=3900 A -- true 2>/dev/null; rc=$?
     OV_NPROC=bogus A -- true 2>/dev/null; local rc19=$?
     [ "$rc" -eq 1 ] && [ "$rc19" -eq 2 ] && ok "A19 thread headroom 196 of 4096 refused rc 1; unreadable limit rc 2" || bad "A19 rc=$rc/$rc19"
+    # A20 fail-closed stale-slot check: with the boot id UNREADABLE (absent file) or EMPTY, a run is rc 2 and CMD does
+    #     not run; and a locked slot whose record carries an EMPTY boot id is not trusted as "same boot" (two
+    #     unknowns must never compare equal)
+    rm -f "$T/ran20"; OV_BOOT="$T/absent-bootid" A -- touch "$T/ran20" 2>/dev/null; rc=$?
+    : >"$T/empty-bootid"; local rc20b; OV_BOOT="$T/empty-bootid" A -- true 2>/dev/null; rc20b=$?
+    local rc20c; rc20c=$( ( exec {f20}>>"$T/scr/slots/slot-0"; flock -n "$f20" || exit 9
+        printf 'pid=%s\nboot=\ntag=x\n' "$BASHPID" >"$T/scr/slots/slot-0"
+        AGENT_SCRATCH_ROOT="$T/scr" AGENT_ADMITTED_SLOT="$T/scr/slots/slot-0" AGENT_ADMIT_BOOT_ID_FILE="$T/absent-bootid" bash "${SCRIPT:-$SELF}" --is-admitted {f20}>&-; echo $? ) )
+    [ "$rc" -eq 2 ] && [ ! -e "$T/ran20" ] && [ "$rc20b" -eq 2 ] && [ "$rc20c" = 1 ] && ok "A20 unreadable/empty boot id => rc 2, CMD not run; empty recorded boot id is not trusted" || bad "A20 rc=$rc/$rc20b/is-admitted=$rc20c"
+    # A21 ulimit -u unlimited and the kernel threads-max file unreadable/empty => rc 2 (never a pass); readable => decided
+    OV_NPROC=unlimited AGENT_ADMIT_THREADS_MAX_FILE="$T/absent-threads-max" A -- true 2>/dev/null; rc=$?
+    printf '1000000\n' >"$T/threads-max"; OV_NPROC=unlimited AGENT_ADMIT_THREADS_MAX_FILE="$T/threads-max" A -- true 2>/dev/null; local rc21=$?
+    [ "$rc" -eq 2 ] && [ "$rc21" -eq 0 ] && ok "A21 unlimited nproc + unreadable threads-max => rc 2; readable => admitted" || bad "A21 rc=$rc/$rc21"
     # W1-W3 wiring: each heavy entry point turns an admission refusal into rc 2 (never a pass, never a finding)
     psi 40
     local E=(AGENT_SCRATCH_ROOT="$T/scr" AGENT_ADMIT_PSI_FILE="$T/psi" AGENT_ADMIT_CGROUP="$T/cg" AGENT_ADMIT_TMPFS="$T/absent-mount" AGENT_ADMIT_MEMINFO="$T/meminfo" AGENT_ADMIT_NPROC_LIMIT=10000 AGENT_ADMIT_THREADS_LIVE=100 AGENT_ADMIT_BOUNDED_RUN="$T/fake-br" AGENT_ADMIT_WAIT=0)
@@ -478,6 +499,14 @@ sys.exit(3) if o not in s else open(sys.argv[4],"w").write(s.replace(o,n,1))' "$
     mut m10 '[[ "$tag" =~ ^[A-Za-z0-9_.-]{1,40}$ ]]' "printf '%s' \"\$tag\" | grep -Eq '^[A-Za-z0-9_.-]{1,40}\$'"
     SCRIPT="$T/m10.sh" A --tag $'ok\nINJECT' -- true 2>/dev/null; rc=$?
     [ "$rc" -eq 0 ] && ok "M10 a mutant with line-wise tag validation accepts a newline tag (A17 would FAIL)" || bad "M10 rc=$rc"
+    # M11 the empty-boot-id guard removed (old compare of two possibly-empty strings) => A20's empty record is trusted
+    mut m11 '    cur_boot=$(boot_id) || return 1   # fail closed: an unreadable boot id never matches anything
+    [ -n "$holder" ] && [ -n "$boot" ] && [ "$boot" = "$cur_boot" ] || return 1' '    cur_boot=$(cat "$BOOT_ID_FILE" 2>/dev/null)
+    [ -n "$holder" ] && [ "$boot" = "$cur_boot" ] || return 1'
+    local rc11; rc11=$( ( exec {f11}>>"$T/scr/slots/slot-0"; flock -n "$f11" || exit 9
+        printf 'pid=%s\nboot=\ntag=x\n' "$BASHPID" >"$T/scr/slots/slot-0"
+        AGENT_SCRATCH_ROOT="$T/scr" AGENT_ADMITTED_SLOT="$T/scr/slots/slot-0" AGENT_ADMIT_BOOT_ID_FILE="$T/absent-bootid" bash "$T/m11.sh" --is-admitted {f11}>&-; echo $? ) )
+    [ "$rc11" = 0 ] && ok "M11 a mutant comparing two empty boot ids trusts the forged record (A20 would FAIL)" || bad "M11 is-admitted=$rc11"
     echo "agent-admit --prove-failure: $pass passed, $fail failed"
     [ "$fail" -eq 0 ]
 }

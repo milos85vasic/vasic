@@ -390,13 +390,19 @@ class GateHardening(unittest.TestCase):
             self.assertEqual(gates._expected_contacts(pdf, None), ["a.com"])
 
 
+# The per-process fd directory (Linux /proc/self/fd; override with PDF_TEST_FD_DIR, e.g. /dev/fd).
+FD_DIR = os.environ.get("PDF_TEST_FD_DIR", "/proc/self/fd")
+
+
 class BuildFreshness(unittest.TestCase):
+    # Needs the fd directory; where it is absent the test is SKIPPED (reported, never a pass)
+    @unittest.skipUnless(os.path.isdir(FD_DIR), "no fd directory on this host: cannot inspect the lock fd")
     def test_lock_fd_cloexec_and_closed_in_forked_child(self):
         with tempfile.TemporaryDirectory() as d:
             with buildlib.build_lock(Path(d)) as path:
-                fds = [int(n) for n in os.listdir("/proc/self/fd")
-                       if os.path.exists(f"/proc/self/fd/{n}")
-                       and os.path.realpath(f"/proc/self/fd/{n}") == os.path.realpath(path)]
+                fds = [int(n) for n in os.listdir(FD_DIR)
+                       if os.path.exists(f"{FD_DIR}/{n}")
+                       and os.path.realpath(f"{FD_DIR}/{n}") == os.path.realpath(path)]
                 self.assertTrue(fds)
                 import fcntl
                 for fd in fds:

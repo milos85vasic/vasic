@@ -1,8 +1,8 @@
 .............................usage: gates [-h] [--kind {cover,cv}] [--lang LANG] [--phrase PHRASE] pdf
 gates: error: argument --kind: invalid choice: 'bogus' (choose from cover, cv)
-........................../home/milosvasic/Projects/vasic-wt-t178/_tools/career/test_pdf_pipeline.py:404: DeprecationWarning: This process (pid=1119339) is multi-threaded, use of fork() may lead to deadlocks in the child.
+..........................<worktree>/_tools/career/test_pdf_pipeline.py:404: DeprecationWarning: This process (pid=1119339) is multi-threaded, use of fork() may lead to deadlocks in the child.
   pid = os.fork()
-....../home/milosvasic/Projects/vasic-wt-t178/_tools/career/test_pdf_pipeline.py:148: DeprecationWarning: This process (pid=1119339) is multi-threaded, use of fork() may lead to deadlocks in the child.
+......<worktree>/_tools/career/test_pdf_pipeline.py:148: DeprecationWarning: This process (pid=1119339) is multi-threaded, use of fork() may lead to deadlocks in the child.
   pid = os.fork()
 .....CANNOT DETERMINE build epoch: pass --epoch, set SOURCE_DATE_EPOCH, or run inside the git checkout
 ..  FAIL: boom
@@ -13,10 +13,10 @@ manifest NOT written: 1 failed/undetermined cell(s): cv-a-en
 FAIL: test_chinese (career.test_pdf_pipeline.RealLatexScripts.test_chinese)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/home/milosvasic/Projects/vasic-wt-t178/_tools/career/test_pdf_pipeline.py", line 279, in test_chinese
+  File "<worktree>/_tools/career/test_pdf_pipeline.py", line 279, in test_chinese
     self._check("zh", "AI工程师")
     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
-  File "/home/milosvasic/Projects/vasic-wt-t178/_tools/career/test_pdf_pipeline.py", line 273, in _check
+  File "<worktree>/_tools/career/test_pdf_pipeline.py", line 273, in _check
     self.assertEqual(rc, 0, msg)
     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^
 AssertionError: 1 != 0 : section heading(s) not recognisable as a standalone line in 'zh': experience, education, skills
@@ -25,10 +25,10 @@ AssertionError: 1 != 0 : section heading(s) not recognisable as a standalone lin
 FAIL: test_hindi (career.test_pdf_pipeline.RealLatexScripts.test_hindi)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/home/milosvasic/Projects/vasic-wt-t178/_tools/career/test_pdf_pipeline.py", line 285, in test_hindi
+  File "<worktree>/_tools/career/test_pdf_pipeline.py", line 285, in test_hindi
     self._check("hi", "इंजीनियर")
     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
-  File "/home/milosvasic/Projects/vasic-wt-t178/_tools/career/test_pdf_pipeline.py", line 273, in _check
+  File "<worktree>/_tools/career/test_pdf_pipeline.py", line 273, in _check
     self.assertEqual(rc, 0, msg)
     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^
 AssertionError: 1 != 0 : section heading(s) not recognisable as a standalone line in 'hi': experience, education, skills
@@ -37,10 +37,10 @@ AssertionError: 1 != 0 : section heading(s) not recognisable as a standalone lin
 FAIL: test_japanese (career.test_pdf_pipeline.RealLatexScripts.test_japanese)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/home/milosvasic/Projects/vasic-wt-t178/_tools/career/test_pdf_pipeline.py", line 276, in test_japanese
+  File "<worktree>/_tools/career/test_pdf_pipeline.py", line 276, in test_japanese
     self._check("ja", "AIエンジニア")
     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/milosvasic/Projects/vasic-wt-t178/_tools/career/test_pdf_pipeline.py", line 273, in _check
+  File "<worktree>/_tools/career/test_pdf_pipeline.py", line 273, in _check
     self.assertEqual(rc, 0, msg)
     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^
 AssertionError: 1 != 0 : section heading(s) not recognisable as a standalone line in 'ja': experience, education, skills
@@ -49,10 +49,10 @@ AssertionError: 1 != 0 : section heading(s) not recognisable as a standalone lin
 FAIL: test_korean (career.test_pdf_pipeline.RealLatexScripts.test_korean)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/home/milosvasic/Projects/vasic-wt-t178/_tools/career/test_pdf_pipeline.py", line 282, in test_korean
+  File "<worktree>/_tools/career/test_pdf_pipeline.py", line 282, in test_korean
     self._check("ko", "엔지니어")
     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
-  File "/home/milosvasic/Projects/vasic-wt-t178/_tools/career/test_pdf_pipeline.py", line 273, in _check
+  File "<worktree>/_tools/career/test_pdf_pipeline.py", line 273, in _check
     self.assertEqual(rc, 0, msg)
     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^
 AssertionError: 1 != 0 : section heading(s) not recognisable as a standalone line in 'ko': experience, education, skills
@@ -61,7 +61,7 @@ AssertionError: 1 != 0 : section heading(s) not recognisable as a standalone lin
 FAIL: test_arabic_logical_order_no_controls_no_presentation_forms (career.test_pdf_pipeline.RealRtl.test_arabic_logical_order_no_controls_no_presentation_forms)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/home/milosvasic/Projects/vasic-wt-t178/_tools/career/test_pdf_pipeline.py", line 320, in test_arabic_logical_order_no_controls_no_presentation_forms
+  File "<worktree>/_tools/career/test_pdf_pipeline.py", line 320, in test_arabic_logical_order_no_controls_no_presentation_forms
     self.assertEqual(rc, 0, msg)
     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^
 AssertionError: 1 != 0 : section heading(s) not recognisable as a standalone line in 'ar': experience, education, skills
@@ -70,7 +70,7 @@ AssertionError: 1 != 0 : section heading(s) not recognisable as a standalone lin
 FAIL: test_persian_passes (career.test_pdf_pipeline.RealRtl.test_persian_passes)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/home/milosvasic/Projects/vasic-wt-t178/_tools/career/test_pdf_pipeline.py", line 325, in test_persian_passes
+  File "<worktree>/_tools/career/test_pdf_pipeline.py", line 325, in test_persian_passes
     self.assertEqual(rc, 0, msg)
     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^
 AssertionError: 1 != 0 : section heading(s) not recognisable as a standalone line in 'fa': experience, education, skills
