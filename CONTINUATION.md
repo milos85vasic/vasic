@@ -426,6 +426,9 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+## UPDATE 2026-11-24 (storage policy: root filesystem kept free; branch `pr/storage-policy-2026-11-24`)
+
+Operator directive: the root filesystem kept filling to 100%. Caches, model weights, LSP installs, idle agent scratch and (when verified) the podman graphroot now live on `/mnt/DATA1TB` and `/mnt/DATA7TB`, reached through symlinks at the original paths and a host-local `~/.config/vasic/storage.env`. The policy, the path table and the add-a-consumer procedure are in `docs/storage-policy.md`; `scripts/storage-report.sh` (rc 0 ok, 1 finding, 2 undetermined; registered as `storage-report` with `--prove-failure`) fails when root usage exceeds a threshold or a listed heavy consumer resolves to root. Read the current placement from the script, not from this paragraph.
 ## UPDATE 2026-11-24 (gitlinks bumped; carrier file-count claim corrected; VSC-425 added; branches `pr/bump-gitlinks-2026-11-24`, `pr/carriers-ledger-continuation`)
 
 - PR #15 fast-forwarded 8 gitlinks together with their `helix-deps.yaml` refs (C9): ai_interviewing `30da696`, milosvasic.ru `9b5bf27`, job_seeker `8827b1b`, LLMProvider and llm_provider `bd302c8`, qa `b16a0897`, challenges `d94e554`, doc_processor `12a5fb7`. Each was classified first (ancestor TRUE, 0 divergent). `workshop` is deliberately NOT bumped (its runner branch is unpushed, blocked at a gate). Before the milosvasic.ru bump the live site answered 200 and `verify-live-site.py` against `docs/qa/live-site/baseline-live-2026-11-23.json` reported regressions=0.
