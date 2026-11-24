@@ -247,7 +247,7 @@ func TestI1MultiBadFieldVerdictIsIdenticalOnEveryRun(t *testing.T) {
 
 func TestI2AWriteToAReadOnlyRegisterIsTwo(t *testing.T) {
 	if os.Geteuid() == 0 {
-		t.Skip("SKIPPED (not passed): running as root, file permissions cannot make the register read-only")
+		t.Skip("SKIPPED (not passed): running as root, file permissions cannot make the register read-only") // SKIP-OK: VSC-433 conditional on not running as root (root ignores file permissions)
 	}
 	repo, db := gapRepo(t), buildRegister(t, true, "golden-good.sql")
 	if err := os.Chmod(db, 0o444); err != nil {
@@ -344,7 +344,7 @@ func TestClosedOutsideGapCloseIsNamed(t *testing.T) {
 	root := fixtureRoot(t, false)
 	bin := filepath.Join(repoRoot(t), "submodules/constitution/scripts/workable-items/bin/workable-items-linux")
 	if _, err := os.Stat(bin); err != nil {
-		t.Skip("SKIPPED (not passed): canonical binary absent: " + err.Error())
+		t.Skip("SKIPPED (not passed): canonical binary absent: " + err.Error()) // SKIP-OK: VSC-433 conditional on the constitution submodule's canonical binary being checked out
 	}
 	out, err := runIn(root, bin, "close", "VSC-001", "--db", path, "--status", "fixed", "--evidence", fixtureRel+"/evidence/sweep-finding.json")
 	if err != nil {

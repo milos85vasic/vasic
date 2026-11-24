@@ -253,10 +253,10 @@ prove_failure() {
 
     # L3 (fix round F2) the destructive classes rev-base-A found uncatalogued are catalogued refused.
     local want_cmd missing_cmd=""
-    for want_cmd in 'reboot' 'halt' 'git push origin :main' 'git push --delete origin main' 'rm -rf ~'; do
+    for want_cmd in 'reboot' 'halt' 'git push origin :main' 'git push --delete origin main' 'rm -rf ~'; do  # DANGER-OK: probe commands are DATA looked up in the catalogue with awk; never executed
         awk -F'\t' -v c="$want_cmd" '!/^#/ && $2 == c && $3 == "refused" { f = 1 } END { exit !f }' "$SELF_ROOT/$CAT_REL" || missing_cmd="$missing_cmd [$want_cmd]"
     done
-    if [ -z "$missing_cmd" ]; then ok "L3 reboot, halt, both remote-branch deletions and rm -rf ~ are catalogued refused"; else bad "L3 not catalogued refused:$missing_cmd"; fi
+    if [ -z "$missing_cmd" ]; then ok "L3 reboot, halt, both remote-branch deletions and the recursive home-directory delete are catalogued refused"; else bad "L3 not catalogued refused:$missing_cmd"; fi
 
     # L4 (fix round F3, review rev-f) honest sourcing: a row whose source is a rule that names only the
     # command CLASS (Constitution §9 "branch deletion, bulk file removal, history rewrite"; the §11.4.109

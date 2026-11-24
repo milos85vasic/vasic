@@ -511,7 +511,7 @@ else
     else
         # Evaluate in a SUBSHELL and take only its printed id<TAB>command lines.
         RUNTABLE="$(
-            eval "$gsrc" >/dev/null 2>&1 || exit 9
+            eval "$gsrc" >/dev/null 2>&1 || exit 9  # DANGER-OK: gsrc is the function-definition text sed-extracted from this repo's own tracked pre-push-gates.sh, evaluated in a subshell; same trust as sourcing that file
             for id in "${GATE_IDS[@]}"; do printf '%s\t%s\n' "$id" "$(gate_cmd_text "$id")"; done
         )"
         if [[ $? -ne 0 || -z "$RUNTABLE" ]]; then

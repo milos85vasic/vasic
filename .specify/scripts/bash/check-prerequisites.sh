@@ -86,7 +86,7 @@ if $PATHS_ONLY; then
 else
     _paths_output=$(get_feature_paths) || { echo "ERROR: Failed to resolve feature paths" >&2; exit 1; }
 fi
-eval "$_paths_output"
+eval "$_paths_output"  # DANGER-OK: output of this script's own get_feature_paths helper, which shell-quotes every value; vendored spec-kit idiom
 unset _paths_output
 
 # If paths-only mode, output paths and exit (no validation)

@@ -208,7 +208,7 @@ func TestMigratedDBStillPassesTheCanonicalValidator(t *testing.T) {
 	path := buildRegister(t, false, "legacy-register.sql")
 	rc, out, skipped := canonicalValidate(t, path)
 	if skipped {
-		t.Skip("SKIPPED (not passed): " + out)
+		t.Skip("SKIPPED (not passed): " + out) // SKIP-OK: VSC-433 conditional on the canonical validator binary being runnable; the text says SKIPPED (not passed)
 	}
 	if rc != 0 {
 		t.Fatalf("control: the UNMIGRATED legacy fixture must validate under the canonical tool first, got rc %d:\n%s", rc, out)

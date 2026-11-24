@@ -427,8 +427,8 @@ if [ "$PROVE" -eq 1 ]; then
     # sx <name> <description> <assertion> <edit...>: one property edited, then the assertion is evaluated
     sx() {
         local nm=$1 desc=$2 cond=$3; shift 3
-        k=$((k + 1)); muts=$((muts + 1)); mk "$nm" clean; ( cd "$T/$nm" && eval "$*" ); run "$T/$nm"
-        if eval "$cond"; then ok "M$k $desc"; else bad "M$k $desc rc=$RC: $(grep -E '^(FINDING|COULD)' <<<"$OUT" | tr '\n' '|')"; fi
+        k=$((k + 1)); muts=$((muts + 1)); mk "$nm" clean; ( cd "$T/$nm" && eval "$*" ); run "$T/$nm"  # DANGER-OK: harness-authored literal mutation commands applied to a throwaway fixture under mktemp
+        if eval "$cond"; then ok "M$k $desc"; else bad "M$k $desc rc=$RC: $(grep -E '^(FINDING|COULD)' <<<"$OUT" | tr '\n' '|')"; fi  # DANGER-OK: harness-authored literal assertion condition, never external input
     }
     k=$((k + 1)); muts=$((muts + 1)); mk sx0 clean; run "$T/sx0"
     pop0=$(cd "$T/sx0" && env -i PATH="$PATH" HOME="${HOME:-/}" TMPDIR="$T" LC_ALL=C bash "$SELF" --root "$T/sx0" --corpus "$T/sx0" --emit-population 2>/dev/null)

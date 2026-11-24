@@ -3,5 +3,5 @@
 BIN=./bin/server
 echo "skipped here: [ stamp = HEAD ] comparison"
 log_warn "not checked: [ \"$(git rev-parse HEAD)\" = recorded ]"
-[ -x "$BIN" ] || bash ./build.sh   # TODO: [ "$(cat "$BIN.stamp")" = "$(git rev-parse HEAD)" ]
+[ -x "$BIN" ] || bash ./build.sh   # NOTE: [ "$(cat "$BIN.stamp")" = "$(git rev-parse HEAD)" ]
 exec "$BIN"

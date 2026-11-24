@@ -161,7 +161,7 @@ while IFS=$'\t' read -r component action target backup sha ts; do
             fi ;;
         ACTION)
             if [[ $RUN_ACTIONS -eq 1 ]]; then
-                arc=0; eval "$target" >/dev/null 2>&1 || arc=$?
+                arc=0; eval "$target" >/dev/null 2>&1 || arc=$?  # DANGER-OK: target is an undo command this wizard itself recorded in its own action log; run only under an explicit --run-actions opt-in
                 if [[ $arc -eq 0 ]]; then
                     print_success "ran      [$component] $target"; ok=$((ok+1))
                 else
