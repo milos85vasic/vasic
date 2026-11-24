@@ -533,6 +533,11 @@ def validate_pdf(pdf_path: Path, kind: str = "cv", lang: str | None = None,
     layout = extract_gates.pages_of(pdf_path)
     if layout is not None:
         problems.extend(extract_gates.check_running_headers(layout))
+        # JSK-T178 / G-19: no word cut by automatic hyphenation; source-hyphen breaks are budgeted.
+        src = extract_gates.sibling_source_text(pdf_path)
+        if src is None and extract_gates.hyphen_breaks(layout, None)["auto"]:
+            return 2, "cannot classify line-end hyphens: the sibling .tex source is missing"
+        problems.extend(extract_gates.check_hyphenation(layout, src))
     problems.extend(_check_page_count(pdf_path, kind))
     problems.extend(_check_fonts_embedded(pdf_path))
     problems = list(dict.fromkeys(problems))
