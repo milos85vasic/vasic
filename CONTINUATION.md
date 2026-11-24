@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T12:23:37Z
+    Last-Updated: 2026-11-24T18:00:00Z
     Synced-Commit: b506e8b
     Authority-Root: submodules/constitution
 
@@ -425,6 +425,20 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+## UPDATE 2026-11-24 (career engine wave 1 of the job_seeker [UMBRELLA] items; branch `pr/career-engine-wave1`; items VSC-426..VSC-430)
+
+Done in `_tools/career/` (evidence and all measurements: `docs/qa/career/career-engine-wave1-2026-11-24.md`):
+T162 link annotations (`render/latex.py` `_url(text, href)` + `gates._check_link_annotations`), T166 token-aware keyword
+matcher (`keywords.py`, used by `screen._has_keyword`), T170 tagged PDF + XMP + DisplayDocTitle in both engines
+(`gates._check_structure`; LuaLaTeX `\DocumentMetadata` + two class fixes; WeasyPrint `pdf_variant="pdf/ua-1"`), plus root
+causes for T168 (fixed by tagging: real space glyphs), T169 (content-stream order, not fixable in the renderer) and T179
+(OCR language set, not a rendering defect). T171 (plain-text/DOCX) is deliberately left to wave 2 (VSC-430).
+
+**Operator-gated follow-ups, NOT done:** (1) `career build` of all 300 PDFs and vault re-seal (passphrase is the operator's
+secret; untouched). Until then the existing `.cache-career` PDFs are RED on the new structure and link gates by design.
+(2) veraPDF is not installed, so no PDF/UA conformance may be claimed; the WeasyPrint files carry the library's own
+`pdfuaid:part=1` declaration, which is not a measurement. (3) Tagged PDFs are ~47% larger (2.86 MB -> 4.21 MB over 60 samples).
 
 ## UPDATE 2026-11-24 (gitlinks bumped; carrier file-count claim corrected; VSC-425 added; branches `pr/bump-gitlinks-2026-11-24`, `pr/carriers-ledger-continuation`)
 

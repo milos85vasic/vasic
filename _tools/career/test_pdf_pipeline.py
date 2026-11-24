@@ -385,7 +385,9 @@ class GateHardening(unittest.TestCase):
             tex.write_text(r"\href{https://a.com}{a.com}", encoding="utf-8")
             got = gates._expected_contacts(pdf, ["i@mvasic.ru", "a.com"])
             self.assertIn("i@mvasic.ru", got)
-            self.assertEqual(gates._expected_contacts(pdf, None), ["https://a.com"])
+            # the sibling source yields the VISIBLE label (what the text layer
+            # carries); the \href target is judged by the link-annotation gate
+            self.assertEqual(gates._expected_contacts(pdf, None), ["a.com"])
 
 
 class BuildFreshness(unittest.TestCase):

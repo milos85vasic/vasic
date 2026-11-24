@@ -19,6 +19,8 @@ import re
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
+from career import keywords
+
 # --------------------------------------------------------------------------- #
 # Report
 # --------------------------------------------------------------------------- #
@@ -78,39 +80,14 @@ def _words(text: str) -> int:
     return len(re.findall(r"[\w']+", text))
 
 
-def _squash(s: str) -> str:
-    """Lowercase and remove every character that is not a letter or digit.
+def _has_keyword(text: str, keyword: str, synonyms=()) -> bool:
+    """Token-aware presence of ``keyword`` (or a synonym) in ``text``.
 
-    "prompt engineering" -> "promptengineering"; "CI/CD" -> "cicd".  This is
-    the comparison basis because the extracted text wraps lines mid-phrase
-    (``...prompt\\nengineering``) and ATS parsers disagree about whether to
-    rejoin them, so the comparison is whitespace-insensitive by construction.
+    Delegates to :mod:`keywords`.  The earlier squash-and-substring test made
+    ``"We use Django"`` contain ``"Go"`` and ``"JavaScript"`` contain
+    ``"Java"`` (T166 / G-04): a gate that calls a missing term present.
     """
-    return re.sub(r"[^0-9a-zA-Z]", "", str(s or "").lower())
-
-
-def _has_keyword(text: str, keyword: str) -> bool:
-    """Case-insensitive, whitespace-insensitive presence with plural tolerance.
-
-    ATS keyword matching is not a binary string compare: "Agent
-    orchestration" in the resume matches the keyword "agent orchestration",
-    and the text's "Vector databases" matches the keyword "vector database".
-    Both sides are squashed and the text's trailing "s" is tolerated when the
-    keyword is singular.
-    """
-    if not keyword:
-        return True
-    t = _squash(text)
-    k = _squash(keyword)
-    if not k:
-        return True
-    if k in t:
-        return True
-    if k + "s" in t:                  # keyword singular, text plural
-        return True
-    if t.endswith("s") and k in t[:-1]:  # keyword plural, text singular
-        return True
-    return False
+    return keywords.has_keyword(text, keyword, synonyms)
 
 
 def _missing_keywords(text: str, keywords: List[str]) -> List[str]:

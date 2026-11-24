@@ -136,6 +136,70 @@ class UrlBox(unittest.TestCase):
         self.assertEqual(gates._check_contact_urls(text, urls), [], text[:400])
 
 
+class LinkAnnotations(unittest.TestCase):
+    """T162 / G-02 / F-08: the /Annots dictionary, not the visible text, is what a click follows."""
+
+    CONTACT = [
+        {"kind": "email", "label": "a@example.org", "href": "mailto:a@example.org"},
+        {"kind": "url", "label": "example.org", "href": "https://example.org"},
+        {"kind": "url", "label": "github.com/someone", "href": "https://github.com/someone"},
+    ]
+
+    def _pdf(self, contacts, tmp):
+        pieces = latex._join([latex._url(c["label"], c["href"]) for c in contacts])
+        body = ("\\documentclass{miloscv}\n\\begin{document}\n"
+                "\\milosletterhead{N}{" + pieces + "}\n\\end{document}\n")
+        return _compile(body, tmp)
+
+    def test_url_helper_takes_explicit_target(self):
+        out = latex._url("github.com/x", "https://github.com/x")
+        self.assertIn(r"\href{https://github.com/x}{github.com/x}", out)
+
+    @unittest.skipUnless(HAVE_TEX, "lualatex missing")
+    def test_rebuilt_links_are_real_uris(self):
+        with tempfile.TemporaryDirectory() as d:
+            pdf = self._pdf(self.CONTACT, Path(d))
+            self.assertEqual(gates._check_link_annotations(pdf, [c["label"] for c in self.CONTACT]), [])
+            uris = sorted(u for _, u in gates._link_annotations(pdf))
+        self.assertEqual(uris, ["https://example.org", "https://github.com/someone", "mailto:a@example.org"])
+
+    @unittest.skipUnless(HAVE_TEX, "lualatex missing")
+    def test_golden_bad_schemeless_href_is_flagged(self):
+        # Exactly what the renderer emitted before the fix: target == label.
+        bad = [{"kind": "url", "label": c["label"], "href": c["label"]} for c in self.CONTACT]
+        with tempfile.TemporaryDirectory() as d:
+            pdf = self._pdf(bad, Path(d))
+            problems = gates._check_link_annotations(pdf, [c["label"] for c in self.CONTACT])
+        self.assertTrue(problems, "a GoToR / scheme-less link must fail the gate")
+        self.assertTrue(any("GoToR" in p or "scheme" in p for p in problems), problems)
+
+    def test_link_must_match_visible_label(self):
+        with mock.patch.object(gates, "_link_annotations",
+                               return_value=[("URI", "https://evil.example/x")]):
+            problems = gates._check_link_annotations(Path("x.pdf"), ["github.com/someone"])
+        self.assertTrue(any("github.com/someone" in p for p in problems), problems)
+
+    def test_non_uri_actions_rejected(self):
+        for kind in ("GoToR", "Launch", "GoTo"):
+            with mock.patch.object(gates, "_link_annotations", return_value=[(kind, "")]):
+                self.assertTrue(gates._check_link_annotations(Path("x.pdf"), []), kind)
+
+    def test_good_annotations_pass(self):
+        ann = [("URI", "mailto:a@example.org"), ("URI", "https://example.org")]
+        with mock.patch.object(gates, "_link_annotations", return_value=ann):
+            self.assertEqual(gates._check_link_annotations(Path("x.pdf"), ["a@example.org", "example.org"]), [])
+
+    def test_validate_pdf_runs_the_link_gate(self):
+        src = Path(gates.__file__).read_text(encoding="utf-8")
+        self.assertTrue("_check_link_annotations(pdf_path" in src)
+
+    def test_tex_contact_urls_return_labels_not_targets(self):
+        with tempfile.TemporaryDirectory() as d:
+            t = Path(d) / "x.tex"
+            t.write_text("\\mbox{\\href{https://github.com/x}{github.com/x}}\n", encoding="utf-8")
+            self.assertEqual(gates._tex_contact_urls(t), ["github.com/x"])
+
+
 class Escaping(unittest.TestCase):
     def test_braces_not_double_escaped(self):
         self.assertEqual(latex.escape("a\\b"), r"a\textbackslash{}b")
