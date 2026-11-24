@@ -642,16 +642,16 @@ FNR == 1 {
 }
 '
 
-FILES=()
-while IFS= read -r f; do
-    [[ -n "$f" ]] || continue
-    FILES+=("$f")
-done < "$WORK/files.txt"
-
-# Quoted array expansion, NOT `$(cat ...)`: `workshop/` tracks filenames that
-# contain spaces, and word-splitting them silently scanned the wrong paths.
-LC_ALL=C awk -v pat="$PATTERN" "$AWK_PROG" "${FILES[@]}" > "$WORK/hits.tsv" 2>"$WORK/awk.err"
-AWK_RC=$?
+# Batched through xargs -0 with a byte bound: a single awk invocation over
+# every tracked file of the fully initialised fleet (23 gitlinks) exceeds
+# ARG_MAX and the kernel refuses to exec it (awk rc=126, "Argument list too
+# long"). The awk program keeps no cross-file state (it resets at FNR == 1 and
+# has no END block), so batching does not change what is reported. NUL
+# separation keeps `workshop/` filenames that contain spaces intact.
+tr '\n' '\0' < "$WORK/files.txt" \
+    | LC_ALL=C xargs -0 -r -s 100000 awk -v pat="$PATTERN" "$AWK_PROG" \
+    > "$WORK/hits.tsv" 2>"$WORK/awk.err"
+AWK_RC=${PIPESTATUS[1]}
 if [[ $AWK_RC -ne 0 ]]; then
     echo "FATAL: the scan itself failed (awk rc=$AWK_RC)" >&2
     sed 's/^/       /' "$WORK/awk.err" >&2
