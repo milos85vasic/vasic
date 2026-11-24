@@ -96,30 +96,35 @@ def check_headings(text: str, lang: str | None) -> List[str]:
 _SOFT_BREAK = re.compile(r"[^\W\d_]-\n[^\W\d_]")  # letter, hyphen at end of line, letter: a word split across lines
 
 
-def check_extraction_hygiene(pages: Sequence[str]) -> List[str]:
-    """Running headers/footers repeated on every page, and words split by a line-end hyphen.
+def check_running_headers(pages: Sequence[str]) -> List[str]:
+    """A line repeated at the top or bottom of every page (running header/footer) pollutes the parsed body.
 
-    ``pages`` is the text of each page (``pdftotext`` form-feed split).  A single-page document cannot
-    have a running header, so only the hyphenation check applies.
+    ``pages`` is the text of each page (``pdftotext`` form-feed split).  A single page cannot have one.
     """
-    problems: List[str] = []
     pages = [p for p in pages if p.strip()]
-    if len(pages) >= 2:
-        def edge(p: str) -> set:
-            ls = [l.strip() for l in p.splitlines() if l.strip()]
-            return {ls[0], ls[-1]} if ls else set()
-        # page numbers differ per page, so digits are folded before comparing
-        folded = [{re.sub(r"\d+", "#", e) for e in edge(p)} for p in pages]
-        common = set.intersection(*folded)
-        common = {c for c in common if len(c) > 3 and c != "#"}
-        if common:
-            problems.append("running header/footer repeated on every page: " + ", ".join(sorted(common)[:3]))
-    for i, p in enumerate(pages, 1):
+    if len(pages) < 2:
+        return []
+
+    def edge(p: str) -> set:
+        ls = [l.strip() for l in p.splitlines() if l.strip()]
+        return {ls[0], ls[-1]} if ls else set()
+    # page numbers differ per page, so digits are folded before comparing
+    folded = [{re.sub(r"\d+", "#", e) for e in edge(p)} for p in pages]
+    common = {c for c in set.intersection(*folded) if len(c) > 3 and c != "#"}
+    return ["running header/footer repeated on every page: " + ", ".join(sorted(common)[:3])] if common else []
+
+
+def check_hyphenation(pages: Sequence[str]) -> List[str]:
+    """Words split by a line-end hyphen.  MEASURED, NOT A BLOCKING GATE: the renderer hyphenates (G-19)."""
+    for i, p in enumerate((p for p in pages if p.strip()), 1):
         m = _SOFT_BREAK.search(p)
         if m:
-            problems.append(f"word split by a line-end hyphen on page {i}: {m.group(0).replace(chr(10), '⏎')!r}")
-            break
-    return problems
+            return [f"word split by a line-end hyphen on page {i}: {m.group(0).replace(chr(10), '⏎')!r}"]
+    return []
+
+
+def check_extraction_hygiene(pages: Sequence[str]) -> List[str]:
+    return check_running_headers(pages) + check_hyphenation(pages)
 
 
 # --------------------------------------------------------------------------- extractors

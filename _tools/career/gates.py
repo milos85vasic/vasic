@@ -22,6 +22,11 @@ import subprocess
 from pathlib import Path
 from typing import List, Tuple
 
+try:
+    from . import extract_gates
+except ImportError:  # run as a script
+    import extract_gates  # type: ignore
+
 #: Classified as extraction garbage by every ATS we have a reading of.
 #: ZWNJ/ZWJ/LRM/RLM (U+200C-200F) are deliberately absent: Persian/Arabic
 #: typography needs them and extractors drop them.
@@ -521,6 +526,13 @@ def validate_pdf(pdf_path: Path, kind: str = "cv", lang: str | None = None,
         problems.extend(_check_structure(pdf_path))
     except RuntimeError as exc:
         return 2, str(exc)
+    # Extraction-side ATS gates (JSK-T163 placeholder leakage, T174 heading recognition, T178 running header).
+    problems.extend(extract_gates.check_placeholder_leak(clean, lang))
+    if kind == "cv":
+        problems.extend(extract_gates.check_headings(clean, lang))
+    layout = extract_gates.pages_of(pdf_path)
+    if layout is not None:
+        problems.extend(extract_gates.check_running_headers(layout))
     problems.extend(_check_page_count(pdf_path, kind))
     problems.extend(_check_fonts_embedded(pdf_path))
     problems = list(dict.fromkeys(problems))
