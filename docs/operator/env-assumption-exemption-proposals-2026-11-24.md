@@ -143,7 +143,15 @@ Fixed in code by #86 and #87 (RED reproduced first, paired proofs, no exemption 
 (`OLLAMA_HOST` bare host defaults to Ollama's port). Umbrella-root `audit-environment-assumptions.sh
 --no-submodules` went 18 -> 12 on `main` after both merged; the 12 left are the prose lines below.
 
-### Decision needed: the 12 prose lines in specs/010-* and specs/017-*
+### DECIDED (2026-11-25, option A): the 12 prose lines in specs/010-* and specs/017-*
+
+Operator approved option A. Implemented as 12 path-anchored `# REASON:` rows in `scripts/audit-environment-assumptions.sh`
+(one per recorded line; no directory wildcard; no baseline rows). Evidence re-verified from git history (11.4.124): every
+exempt ledger line was added in one commit and never altered (`git log -S` per line); the report is a frozen copy touched by two
+commits (f05817b, fd40432). Paired proofs E14-E16 in `--prove-failure`: the exact line at its path is allow-listed, the same
+prose in an unrelated path is still reported, and a modified line inside the exempt file is not covered. Also fixed in the same
+change: GNU-only `sed -i` in `scripts/verify-evidence-stability.sh` (two findings that had appeared since). `--no-submodules`
+exits 0. The original decision text follows unchanged.
 
 | File | Lines | Classes | Nature |
 |---|---|---|---|
