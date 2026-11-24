@@ -1,0 +1,13 @@
+verify-live-site  base=https://digital.vasic.dev  at=2026-11-24T14:13:30Z  took=151.4s
+sitemap URLs: 527   pages HTTP 200: 527/527   resources checked: 52 (non-200: 0)
+FAILED assertions: 0   UNDETERMINED: 0
+baseline docs/qa/live-site/baseline-live-digital-vasic-dev-2026-11-23.json: regressions=0 new_paths=0
+  note: crawl discovered 37 URL(s) (max-pages 2000)
+VERDICT: PASS (rc 0)
+report sha256: 342f82af9fbb111d65560e10b2029503aac1182c6f615243b262841191cdb98d
+wrote <evidence-dir>/verify-live-site-digital_vasic_dev-20261124T141330Z.json
+wrote <evidence-dir>/verify-live-site-digital_vasic_dev-20261124T141330Z.txt
+wrote <evidence-dir>/verify-live-site-digital_vasic_dev-20261124T141330Z.json.sha256
+wrote <path>/post-vd.json
+wrote <path>/post-vd.txt
+rc=0

@@ -1,0 +1,31 @@
+verify-live-site  base=https://milosvasic.ru  at=2026-11-24T14:09:50Z  took=194.1s
+sitemap URLs: 690   pages HTTP 200: 690/690   resources checked: 58 (non-200: 0)
+FAILED assertions: 0   UNDETERMINED: 0
+baseline docs/qa/live-site/baseline-live-2026-11-23.json: regressions=0 new_paths=176
+    + new: /assets/og/ai-engineering.png
+    + new: /assets/og/android-aosp.png
+    + new: /assets/og/android-tv.png
+    + new: /assets/og/android.png
+    + new: /assets/og/desktop.png
+    + new: /assets/og/expertise.png
+    + new: /assets/og/flutter.png
+    + new: /assets/og/go.png
+    + new: /assets/og/mobile.png
+    + new: /assets/og/react-native.png
+    + new: /assets/og/web-frontend.png
+    + new: /expertise/
+    + new: /expertise/ai-engineering/
+    + new: /expertise/ai-engineering/ar/
+    + new: /expertise/ai-engineering/be/
+    + new: /expertise/ai-engineering/de/
+    + new: /expertise/ai-engineering/es/
+    + new: /expertise/ai-engineering/fa/
+    + new: /expertise/ai-engineering/fr/
+    + new: /expertise/ai-engineering/hi/
+VERDICT: PASS (rc 0)
+report sha256: 5f042dd3c63d8885dfdbce5035e99c414df3352cbb2169f01276cf4f8c1367c7
+wrote <evidence-dir>/verify-live-site-milosvasic_ru-20261124T140950Z.json
+wrote <evidence-dir>/verify-live-site-milosvasic_ru-20261124T140950Z.txt
+wrote <evidence-dir>/verify-live-site-milosvasic_ru-20261124T140950Z.json.sha256
+wrote <path>/post-mv.json
+wrote <path>/post-mv.txt
