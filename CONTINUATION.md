@@ -12470,7 +12470,7 @@ already-deployed commit). Constitution pin unchanged at `6d93ccd1`; the `m3w`/`u
 not pushed from here). Open: `verify-governance-cascade.sh` C7 is a TRUE positive on job_seeker (it nests own-org containers/challenges/qa/security
 gitlinks, forbidden by §11.4.28(C)); the fix belongs in job_seeker (hoist to the umbrella's `submodules/`), not in the checker.
 
-## UPDATE 2026-11-25 (governance hygiene sweep; branch `pr/continuation-sync-2026-11-25`)
+## UPDATE 2026-11-24 late (governance hygiene sweep; branch `pr/continuation-sync-2026-11-25`)
 
 State measured from a fresh recursive clone of `milos85vasic/vasic` at `2cf8f1277d71` (PR #57 merged): `bash scripts/continuation-check.sh` rc 0 (8 PASS / 0 DRIFT / 0 UNDET / 17 NOTE) and `bash scripts/verify-governance-cascade.sh` rc 0 (12 PASS / 0 FAIL / 0 ENV / 8 NOTE; C1 = 23 declared, 21 owned, 1 source, 1 third-party; C7 PASS, so the earlier C7 finding on job_seeker is closed: job_seeker is gitlink-free since 2026-11-24, ADR 0008). Constitution gitlink `7ac2926fa727` equals upstream `main` (`verify_constitution_latest.sh`: gitlink == checkout == upstream; 32 nested rows initialised and at pin). The same instrument exits 1 on nested submodules of the constitution itself (containers, design-toolkit DIFFERS; open_design, verification, verify BEHIND; video-quality-mcp, wave-dpctf UNREACHABLE from this host): their pins are recorded by the constitution repository, which this repository does not commit to; reported upstream, not fixed here.
 
