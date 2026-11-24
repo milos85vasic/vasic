@@ -1241,8 +1241,13 @@ if [ -x "$PDF" ] && command -v weasyprint >/dev/null 2>&1 && command -v pandoc >
   bash "$PDF" en >/dev/null 2>&1 || build_fail "pdf en"
   for l in "${COMPLETE[@]:-}"; do
     [ -z "$l" ] && continue
-    bash "$PDF" "$l" >/dev/null 2>&1 || build_warn "pdf $l"
-    echo "[deploy-langs] pdf built: $l"
+    # The success line prints ONLY on success: it used to follow a tolerated failure unconditionally,
+    # so a failed `pdf <lang>` was reported as both a warning and "pdf built" (gap register UG-02).
+    if bash "$PDF" "$l" >/dev/null 2>&1; then
+      echo "[deploy-langs] pdf built: $l"
+    else
+      build_warn "pdf $l"
+    fi
   done
 else
   # DELIBERATELY still a plain skip, and the reasoning is recorded rather than
