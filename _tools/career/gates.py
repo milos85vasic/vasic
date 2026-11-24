@@ -538,6 +538,12 @@ def validate_pdf(pdf_path: Path, kind: str = "cv", lang: str | None = None,
     layout = extract_gates.pages_of(pdf_path)
     if layout is not None:
         problems.extend(extract_gates.check_running_headers(layout))
+    # JSK-T179 / G-20: the rendered page and the text layer must say the same thing (needs the locale's OCR pack).
+    if extract_gates.ocr_applicable(lang):
+        ocr = extract_gates.check_ocr_consistency(pdf_path, lang)
+        if ocr is None:
+            return 2, f"cannot determine OCR consistency for '{lang}': tesseract, pdftoppm or its language pack is missing"
+        problems.extend(ocr)
     problems.extend(_check_page_count(pdf_path, kind))
     problems.extend(_check_fonts_embedded(pdf_path))
     problems = list(dict.fromkeys(problems))

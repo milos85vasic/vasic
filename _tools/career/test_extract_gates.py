@@ -104,6 +104,20 @@ class WordBoundaryPure(unittest.TestCase):
         self.assertTrue(self._with(good, good, fused, "hi"))          # but it votes everywhere else
         self.assertTrue(self._with(fused, good, good, "ar"))          # and MuPDF/poppler still catch an RTL defect
 
+    def test_ocr_applicability_is_explicit(self):
+        for l in ("en", "ru", "sr", "de", "fr"):
+            self.assertTrue(g.ocr_applicable(l), l)
+        for l in ("hi", "ko", "ar", "zh", "ja", "es", None):
+            self.assertFalse(g.ocr_applicable(l), l)
+
+    def test_ocr_cannot_determine_is_none_not_a_pass(self):
+        saved = g.shutil.which
+        g.shutil.which = lambda n: None if n == "tesseract" else saved(n)
+        try:
+            self.assertIsNone(g.check_ocr_consistency(Path("x.pdf"), "ru"))
+        finally:
+            g.shutil.which = saved
+
     def test_missing_extractors_cannot_determine(self):
         self.assertIsNone(self._with(None, None, "a b c", "en"))
 
@@ -155,6 +169,34 @@ class RealSample(unittest.TestCase):
             if r is None:
                 self.skipTest("fewer than two extractors: cannot determine")
             self.assertEqual(r, [], lang)
+
+    def test_ocr_agrees_with_text_layer_per_script(self):
+        for lang in ("en", "ru"):
+            pdf = self.out / f"cv-ai-engineering-{lang}.pdf"
+            r = g.ocr_recall(pdf, lang)
+            if r is None:
+                self.skipTest("tesseract language pack missing: cannot determine")
+            self.assertGreaterEqual(r, g.MIN_OCR_RECALL, lang)
+            self.assertEqual(g.check_ocr_consistency(pdf, lang), [], lang)
+
+    def test_single_language_ocr_is_the_g20_measurement_artefact(self):
+        """ru read with `rus` alone mis-reads the Latin technology names: ~0.73; `rus+eng` reads 0.96 (the root cause of G-20)."""
+        pdf = self.out / "cv-ai-engineering-ru.pdf"
+        one, both = g.ocr_recall(pdf, "ru", spec="rus"), g.ocr_recall(pdf, "ru")
+        if one is None or both is None:
+            self.skipTest("tesseract rus pack missing: cannot determine")
+        self.assertLess(one, g.MIN_OCR_RECALL)
+        self.assertGreaterEqual(both, g.MIN_OCR_RECALL)
+
+    def test_text_layer_that_disagrees_with_the_page_is_refused(self):
+        import tempfile
+        pdf = self.out / "cv-ai-engineering-en.pdf"
+        self.assertEqual(gates.validate_pdf(pdf, "cv", "en")[0], 0)
+        with tempfile.TemporaryDirectory() as td:
+            bad = sample_build.scramble_text_layer(pdf, Path(td) / "cv-ai-engineering-en.pdf")
+            rc, msg = gates.validate_pdf(bad, "cv", "en")
+            self.assertEqual(rc, 1, msg)
+            self.assertIn("OCR recall", msg)
 
     def test_merged_boundaries_in_one_real_extractor_fail_the_gate(self):
         """Golden-bad on the REAL text of the good hi/ko PDFs: drop 45% of MuPDF's spaces (the G-06 defect)."""

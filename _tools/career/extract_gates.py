@@ -236,32 +236,50 @@ def _words(s: str) -> List[str]:
     return [w for w in re.findall(r"[^\W\d_]{3,}", s.casefold())]
 
 
-def ocr_recall(pdf: Path, lang: str, dpi: int = 200) -> Optional[float]:
+def ocr_applicable(lang: str | None) -> bool:
+    """Locales with a configured tesseract language set.  The others (hi, ko, ar, ...) need an operator-installed
+    model (Q-ATS-6); for them OCR is NOT APPLICABLE, which is stated, not a pass of the OCR check."""
+    return lang in OCR_LANG
+
+
+def ocr_recall(pdf: Path, lang: str, dpi: int = 200, first_page_only: bool = True,
+               spec: str | None = None) -> Optional[float]:
     """Share of the text layer's words (>= 3 letters) that OCR of the rendered page also reads.
 
+    ``first_page_only`` keeps the per-document cost at a few seconds (measured 3-9 s a page).  ``spec`` overrides
+    the tesseract language set (tests use it to show that a single-language run mis-reads the Latin words).
     None when tesseract, pdftoppm or the locale's language pack is missing (cannot determine).
     """
-    spec = OCR_LANG.get(lang)
+    spec = spec or OCR_LANG.get(lang)
     if not spec or not shutil.which("tesseract") or not shutil.which("pdftoppm"):
         return None
     have = _run(["tesseract", "--list-langs"]) or ""
     if any(p not in have.split() for p in spec.split("+")):
         return None
-    layer = extract_poppler_layout(pdf)
-    if not layer:
+    layer_pages = pages_of(pdf)
+    if not layer_pages or not any(p.strip() for p in layer_pages):
         return None
+    layer = layer_pages[0] if first_page_only else "\n".join(layer_pages)
     import tempfile
     with tempfile.TemporaryDirectory(prefix="ocr-") as td:
-        subprocess.run(["pdftoppm", "-r", str(dpi), "-png", str(pdf), f"{td}/p"], capture_output=True, timeout=300)
+        cmd = ["pdftoppm", "-r", str(dpi), "-png"] + (["-f", "1", "-l", "1"] if first_page_only else []) + [str(pdf), f"{td}/p"]
+        subprocess.run(cmd, capture_output=True, timeout=300)
+        pngs = sorted(Path(td).glob("p*.png"))
+        if not pngs:
+            return None
         ocr = ""
-        for png in sorted(Path(td).glob("p*.png")):
-            ocr += (_run(["tesseract", str(png), "-", "-l", spec], 300) or "") + "\n"
+        for png in pngs:
+            out = _run(["tesseract", str(png), "-", "-l", spec], 300)
+            if out is None:
+                return None
+            ocr += out + "\n"
     want = _words(layer)
     got = set(_words(ocr))
     return (sum(1 for w in want if w in got) / len(want)) if want else None
 
 
 def check_ocr_consistency(pdf: Path, lang: str) -> Optional[List[str]]:
+    """The visible page (OCR) and the text layer must agree: recall >= MIN_OCR_RECALL.  None = cannot determine."""
     r = ocr_recall(pdf, lang)
     if r is None:
         return None
