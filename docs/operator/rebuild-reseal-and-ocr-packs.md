@@ -18,8 +18,10 @@
 
 The T178 change (no automatic hyphenation of words) alters every LuaLaTeX PDF, so every sealed blob is out of date. Everything that needs no passphrase was rebuilt:
 
-* `python3 _tools/career/career.py build` rendered and gated the whole matrix (10 areas x 2 kinds x 15 locales = 300 PDFs) into the non-vault cache `.cache-career/` at the repository root (gitignored, not under `milosvasic.ru/`). No private overlay was set, matching the previously shipped set (its manifest carries no `overlay_sha`).
-* `python3 _tools/career/career.py verify` then re-gated all 300 and checked `manifest.json` against the files on disk. The recorded output is in `docs/qa/career/verify-2026-11-24-t169-rebuild.txt` and `build-2026-11-24-t169-rebuild.txt`.
+* `python3 _tools/career/career.py build` rendered and gated the whole matrix (10 areas x 2 kinds x 15 locales = 300 PDFs) into the non-vault cache `.cache-career/` at the repository root (gitignored, not under `milosvasic.ru/`), at build epoch 1795556695. No private overlay was set, matching the previously shipped set (its manifest carries no `overlay_sha`). The previous cache was copied aside first.
+* The first full build gated 296 of 300 cells green and refused 4 (`cv` ai-engineering and go, zh and ja): the new T178 hyphenation gate misread a line-end break at the source hyphen of `tree-of-thoughts` in unspaced CJK text as an automatic break (a gate defect, not a document defect). That is fixed in this PR with a RED-then-GREEN test; those 4 cells were rebuilt at the same epoch and pass. `build-2026-11-24-t169-rebuild.txt` is the first build's log, including the 4 refusals.
+* The manifest was then written by the real writer (`buildlib.write_manifest`) only after all 300 PDFs were re-gated with 0 non-zero verdicts (`manifest-2026-11-24-t169-rebuild.txt`), because a filtered build may not rewrite it. The other 296 cells are byte-for-byte what a second full build would produce, since the fix changed a gate and not a renderer.
+* `python3 _tools/career/career.py verify` then re-gated all 300 with the T169 RTL gate included and checked `manifest.json` against the files on disk: `verified 300/300 artifact(s) passing; expected 300; 0 completeness problem(s)`, rc 0 (`verify-2026-11-24-t169-rebuild.txt`).
 * The vault itself (`milosvasic.ru/downloads/vault`) was NOT touched: sealing needs your passphrase, and no secret was read, printed or asked for.
 
 ## 2. Step A: re-seal the vault (passphrase)
