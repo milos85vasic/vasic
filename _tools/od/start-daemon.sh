@@ -11,6 +11,7 @@
 set -euo pipefail
 while [ "$#" -gt 0 ]; do
   case "$1" in
+    --help|-h) printf 'Usage: start-daemon.sh [--runner=NAME]\n  --runner=NAME  accepted and ignored: this launcher starts a native Electron process and uses no container (docs/RUNNER_FLAG.md)\n  env: OD_PORT (default 4321)\n'; exit 0 ;;
     --runner=?*) echo "start-daemon: --runner=${1#--runner=} ignored: no containers used (native Electron daemon)" >&2; shift ;;
     --runner) [ "$#" -ge 2 ] || { echo "start-daemon: --runner needs a value" >&2; exit 2; }
               echo "start-daemon: --runner=$2 ignored: no containers used (native Electron daemon)" >&2; shift 2 ;;

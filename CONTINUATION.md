@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T21:00:00Z
-    Synced-Commit: d369c11
+    Last-Updated: 2026-11-24T22:00:00Z
+    Synced-Commit: 7d837db
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -426,6 +426,10 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+## UPDATE 2026-11-24 (post-merge export refresh + gate re-run; branch `pr/export-refresh-2026-11-24`)
+
+The 14 binary/HTML exports under `docs/workable-items/` (`Issues`, `Fixed` and both `_Summary` pairs; html/pdf/docx) and the two `_Summary.md` files were regenerated from `docs/workable_items.db` (663 items) at main `2d491a7` with `workable-items-linux export --db docs/workable_items.db --formats --out-dir docs/workable-items` (~2 min). The README badge row was regenerated (`scripts/badges/compute_badges.sh --write`) because the zero-findings badge still said 63 after the ratchet burn-down to 7 (claim-ledger row `readme-zero-findings-badge` was FALSE). Post-merge gates in a submodule-initialised checkout: manifest-pins rc 0 (22/22); remote-sync rc 1 (5 gitlinks BEHIND their remotes: vasic.digital, containers, qa, challenges, job_seeker - fast-forwardable, each an operator bump decision, not bumped here); governance-cascade rc 1 (C7 only: job_seeker nests own-org submodules); check-registry rc 0. Re-run `bash scripts/verify-all...`/the gates by hand; do not trust these numbers.
+
 ## UPDATE 2026-11-24 (zero-findings ratchet burn-down; branch `pr/ratchet-burndown-1`; VSC-432, VSC-433, VSC-434; closes VSC-422)
 
 Live sweep 63 findings against ceiling 23 reproduced, then burned down to 7 with ceilings lowered (TOTAL 23 -> 7). Per-class method and evidence: `docs/qa/ratchet-burndown-2026-11-24.md`. Remaining: six open INVENTORY gap rows plus the deliberately kept `ci.yml.disabled`. `verify-check-registry.sh` still reports two pre-existing FACT DRIFT rows (`scripts/qa-up.sh`, `_tools/lib/vasic-runner.sh`) that belong to the runner programme.
@@ -447,6 +451,14 @@ secret; untouched). Until then the existing `.cache-career` PDFs are RED on the 
 (2) veraPDF is not installed, so no PDF/UA conformance may be claimed; the WeasyPrint files carry the library's own
 `pdfuaid:part=1` declaration, which is not a measurement. (3) Tagged PDFs are ~47% larger (2.86 MB -> 4.21 MB over 60 samples).
 
+
+## UPDATE 2026-11-24 (VSC-423 i18n review fixes deployed to both sites; branch `pr/i18n-gitlink-bump`)
+
+- Site PRs merged and live: milosvasic.ru PR #4 -> `74c554c` (Pages run success, `build_type=workflow`), vasic.digital PR #3 -> `006b834` (legacy Pages build, success). Each was reviewed read-only (GO, string-only diffs) before merge.
+- `verify-live-site.py` against the saved baselines, before and after each merge: milosvasic.ru 690/690 pages 200, FAILED 0, regressions 0 (both runs); digital.vasic.dev 527/527, FAILED 0, regressions 0 (both runs). Evidence: `docs/qa/i18n-review/deploy-evidence/`.
+- Version-footer checkers on the live sites PASS (vasic.digital `check-site-version-footer.py`, 30 sampled pages, release page 200; milosvasic.ru `check_version_footer.py` on 16 fetched live pages). Live footer labels of all 14 non-English languages equal the reviewed dictionaries on both sites.
+- Gitlinks `milosvasic.ru` and `vasic.digital` and their `helix-deps.yaml` refs moved together (C9); `aria-footer-l10n-runtime.spec.js` updated to the reviewed RU footer.text.
+- VSC-423 was already Completed in `Fixed.md`; nothing further to close from this task.
 
 ## UPDATE 2026-11-24 (storage policy: root filesystem kept free; branch `pr/storage-policy-2026-11-24`)
 

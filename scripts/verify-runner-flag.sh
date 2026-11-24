@@ -267,6 +267,10 @@ full_suite() {
     expect "od/start-daemon: accepts --runner and says no containers used" 1 --grep 'no containers used' -- \
         bash "$R/_tools/od/start-daemon.sh" --runner="$ABSENT"
     expect "od/start-daemon: --runner without value rc2" 2 -- bash "$R/_tools/od/start-daemon.sh" --runner
+    expect "od/start-daemon: --help rc 0 and documents --runner" 0 --grep '\-\-runner' -- bash "$R/_tools/od/start-daemon.sh" --help
+    for hs in hawkscan/run.sh helixtranslate-local.sh helixtranslate-container.sh translate-fleet.sh; do
+        expect "$hs: --help rc 0 and documents --runner" 0 --grep '\-\-runner' -- bash "$R/_tools/$hs" --help
+    done
     # remote-fleet launchers refuse a malformed name locally, before ssh
     expect "distribute-helixtranslate.sh: malformed runner refused rc2 before ssh" 2 --grep 'invalid runner name' -- \
         env HT_SRC="$T" HT_FLEET="h1:podman" bash "$R/_tools/distribute-helixtranslate.sh" --runner='a;b'
