@@ -77,3 +77,7 @@ node _tests/tools/validate.mutation.test.mjs
 # without them that one spec fails with "Expected: 200 / Received: 0".
 ( cd _tests && npx playwright test --config=playwright.live.config.js )
 ```
+
+## Volatile evidence is refreshed deliberately (UG-15)
+
+`evidence/test-types/perf-budget.json` and `evidence/homepages/*.png` depend on what the sites serve and on the host, so an ordinary run no longer rewrites them: it writes to the git-ignored `_tests/test-results/evidence-scratch/`. A deliberate refresh is `EVIDENCE_REFRESH=1 npx playwright test ...`. `scripts/verify-evidence-stability.sh` (check `evidence-stability`) enforces this; the single decision point is `_tests/tools/evidence-paths.cjs`. `evidence/test-types/playwright-summary.txt` is a dated historical snapshot and is not expected to match the JSON.
