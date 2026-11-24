@@ -448,6 +448,20 @@ if [ "$MODE" = "prove" ]; then
     P_ENV="ENV_ASSUMPTIONS_STRICT_ALLOW=1"
     p_assert "E13 live-rule-strict"   "a rule that DOES suppress — must stay green even under strict    " 0 "no NEW frozen"          allow_reason
 
+    # ---- prose-record exemption class (added 2026-11-25) ---------------------
+    # The path-anchored REASON rows for frozen evidence under specs/010-* and
+    # specs/017-* must (E14) suppress exactly the recorded line at its exact path,
+    # (E15) NOT suppress the same prose pattern in any unrelated path, and (E16)
+    # NOT cover a modified (non-frozen) line inside the exempt file itself.
+    PR_REF='    {"class": "guard-gaps", "severity": "high", "category": "security", "location": "guarded:ref-delete", "description": "destructive command not blocked: git update-ref -d refs/heads/main (catalogue id ref-delete); the guard exited 0"}'
+    PR_PATH="specs/010-zero-gap-verified-closure/baseline/sweep-2026-09-26/report.json"
+    plant_prose_exempt() { mkdir -p "$1/$(dirname "$PR_PATH")" && printf '%s\n' "$PR_REF" > "$1/$PR_PATH" && sgit -C "$1" add -A >/dev/null 2>&1; }
+    plant_prose_other()  { mkdir -p "$1/specs/999-other" && printf '%s\n' "$PR_REF" > "$1/specs/999-other/report.json" && sgit -C "$1" add -A >/dev/null 2>&1; }
+    plant_prose_edited() { mkdir -p "$1/$(dirname "$PR_PATH")" && printf '%s\n' "${PR_REF/(catalogue id ref-delete)/(catalogue id ref-delete-edited)}" > "$1/$PR_PATH" && sgit -C "$1" add -A >/dev/null 2>&1; }
+    p_assert "E14 prose-record-exempt" "the exact frozen line at its exact exempt path is allow-listed       " 0 "allow-listed"  plant_prose_exempt
+    p_assert "E15 prose-other-path"    "the SAME prose line in an unrelated path is still reported           " 1 "GITREF"        plant_prose_other
+    p_assert "E16 prose-edited-line"   "a modified line inside the exempt file is NOT covered by the exemption" 1 "GITREF"       plant_prose_edited
+
     # ---- restored control ----------------------------------------------------
     bash "$SELF_ABS" "$PRISTINE" >/dev/null 2>&1; rc=$?
     if [ "$rc" -eq 0 ]; then
@@ -463,7 +477,7 @@ if [ "$MODE" = "prove" ]; then
         echo "   the REAL tree (reported above, never gating: whatever it returned, that verdict"
         echo "   is why the control below is synthetic and not the live tree), a control green by"
         echo "   construction passed, and the"
-        echo "   13 mutations each produced the required THREE-VALUED verdict while NAMING the"
+        echo "   16 mutations each produced the required THREE-VALUED verdict while NAMING the"
         echo "   offending thing: two distinct detector classes caught as rc=1; the env-defaulted"
         echo "   form of the same endpoint correctly NOT flagged; both suppression kinds honoured"
         echo "   at rc=0 while still naming what they suppressed; five could-not-determine"
@@ -780,6 +794,52 @@ scripts/audit/zero_findings_sweep.sh GITREF ce origin main
 # so, and the guard reads it as text; nothing here is ever executed. The literal
 # forbidden command is the whole point of the probe.
 scripts/verify-pretooluse-guard.sh GITREF origin main|DANGER-OK: probe DATA piped to the guard
+
+# REASON: PROSE RECORD, frozen evidence (operator decision 2026-11-25, option A of
+# docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 8). This
+# file is the T036 baseline sweep output (a frozen copy of 1229 findings); git history
+# (git log -- <path>) shows exactly two commits, f05817b (created) and fd40432 (one
+# post-snapshot amendment), none since. docs/zero-gap/checks/VSC-386.probe.sh addresses
+# its findings by file path, so rewording would alter frozen evidence. Each row below is
+# anchored to this exact path and to the full text of ONE recorded line (a model id,
+# a git ref or a command quoted INSIDE a JSON description string, not code). No
+# directory wildcard: any other line, in this file or any other, is still reported.
+specs/010-zero-gap-verified-closure/baseline/sweep-2026-09-26/report.json MODEL architecture-deepseek-harness.md", "description": "15 unmeasurable recorded count(s)
+# REASON: as above - one more recorded line of the same frozen/append-only file.
+specs/010-zero-gap-verified-closure/baseline/sweep-2026-09-26/report.json GITREF destructive command not blocked: git update-ref -d refs/heads/main (catalogue id ref-delete)
+# REASON: as above - one more recorded line of the same frozen/append-only file.
+specs/010-zero-gap-verified-closure/baseline/sweep-2026-09-26/report.json GITREF destructive command not blocked: git push --delete origin main (catalogue id remote-branch-delete-flag)
+# REASON: as above - one more recorded line of the same frozen/append-only file.
+specs/010-zero-gap-verified-closure/baseline/sweep-2026-09-26/report.json GITREF destructive command not blocked: git push origin :main (catalogue id remote-branch-delete-refspec)
+# REASON: PROSE RECORD, append-only progress ledger (operator decision 2026-11-25,
+# option A of docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 8).
+# Verified with git log -S on each line: every one of the four entries below was added in
+# a single commit (f05817b, f05817b, fd40432, 99a4722) and never altered afterwards, so
+# each is a historical record of what was done then, not configuration. VSC-386.probe.sh
+# addresses lines of this ledger by number, so rewording would shift its anchors. Each
+# row is anchored to this exact path and to the text of ONE recorded entry; later or
+# edited entries, here or elsewhere, are still reported.
+specs/010-zero-gap-verified-closure/progress.yml GITREF T038 baseline review rev-base-A (8 classes)
+# REASON: as above - one more recorded line of the same frozen/append-only file.
+specs/010-zero-gap-verified-closure/progress.yml GITREF Fix round F2 DONE (private-in-public, vacuous-gates, build-if-missing, guard-gaps)
+# REASON: as above - one more recorded line of the same frozen/append-only file.
+specs/010-zero-gap-verified-closure/progress.yml SERVICE Scoped review rev-f of f05817ba3c7a: F1 missing-toolchain
+# REASON: as above - one more recorded line of the same frozen/append-only file.
+specs/010-zero-gap-verified-closure/progress.yml MODEL gap adopt race fix DONE (fix-adopt): CRITICAL TOCTOU
+# REASON: PROSE RECORD, append-only progress ledger (operator decision 2026-11-25,
+# option A of docs/operator/env-assumption-exemption-proposals-2026-11-24.md section 8).
+# Verified with git log -S on each line: all four entries below were added in d782a6e
+# (the 017 delivery commit) and never altered afterwards; they record measured values and
+# a model id as history (e.g. a port a smoke test used once), not configuration. Each row
+# is anchored to this exact path and to the text of ONE recorded entry; any other line is
+# still reported.
+specs/017-exhaustive-rag-expansion/progress.yml MODEL (current default, tag differs from FR-016
+# REASON: as above - one more recorded line of the same frozen/append-only file.
+specs/017-exhaustive-rag-expansion/progress.yml MODEL qwen3-embedding:0.6b, bge-m3:latest. (An initial bare
+# REASON: as above - one more recorded line of the same frozen/append-only file.
+specs/017-exhaustive-rag-expansion/progress.yml MODEL (ordis/jina-embeddings-v2-base-code). Measured: gen2 root_hash
+# REASON: as above - one more recorded line of the same frozen/append-only file.
+specs/017-exhaustive-rag-expansion/progress.yml ENDPOINT reranker_smoke_test_port: 18089
 ALLOW_EOF
 )"
 
