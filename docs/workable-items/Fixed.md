@@ -6008,9 +6008,9 @@ Investigated with measurements: hi/ko merging fixed by tagpdf space glyphs, Arab
 
 **Status:** Completed (→ Fixed.md)
 **Type:** Task
-**Evidence:** docs/qa/launchers/launcher-retest-2026-11-24
+**Evidence:** docs/qa/launchers/launcher-retest-2026-11-24-post-merge
 **Severity:** high
 **Created-By:** Claude
 
-WHAT: containers PR #3 adds forced-runner selector; umbrella PR #11 bumped the pin with manifest ref; umbrella launchers (PR #12) carry --runner and the containers gitlink is current (2d18551). 2026-11-24 status: umbrella side merged; the workshop launcher evidence is NOT merged (workshop runner branch is unpushed, blocked at a gate), so the programme stays In progress. Closes when every launcher's evidence is merged and a live run with each runner is captured.
+containers PR #3 adds the forced-runner selector; umbrella PR #11 bumped the pin with manifest ref; umbrella launchers (PR #12) carry --runner and the containers gitlink is current (2d18551). CLOSED 2026-11-24: the workshop launcher change merged as workshop PR #1 (merge 5a7acdd1) after an independent review (GO); post-merge run evidence at the merge commit is in docs/qa/launchers/launcher-retest-2026-11-24-post-merge (Go build/vet/test rc 0, runner-flag.test.sh 26 passed 0 failed, prove-failure 9 killed 0 survived on the branch tip); earlier launcher evidence in docs/qa/launchers/launcher-retest-2026-11-24. The umbrella pin bump is PR #23.
 

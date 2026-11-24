@@ -428,7 +428,7 @@ deviation is not an override** and must never be written up as one.
 
 ## UPDATE 2026-11-24 (workshop `--runner` merged; VSC-417 completed; branch `pr/vsc-417-workshop-runner`)
 
-workshop PR #1 (`pr/runner-flag`, `--runner=NAME` / `CONTAINERS_RUNNER` for start/stop/restart, workshop-boot, containers-status-probe) was merged on origin as `5a7acdd1` after an independent review (GO) and scratch-clone runs (Go tests ok, `runner-flag.test.sh` 26 passed, `--prove-failure` 9 killed / 0 survived). The workshop gitlink and `helix-deps.yaml` ref moved together to `5a7acdd1` (`verify-manifest-pins.sh`: 22 MATCH). VSC-417 is closed Completed with evidence `docs/qa/launchers/launcher-retest-2026-11-24`. Known cosmetic nit: `workshop/scripts/restart.sh --help` prints two extra lines (range should be `2,62p`).
+workshop PR #1 (`pr/runner-flag`, `--runner=NAME` / `CONTAINERS_RUNNER` for start/stop/restart, workshop-boot, containers-status-probe) was merged on origin as `5a7acdd1` after an independent review (GO) and scratch-clone runs (Go tests ok, `runner-flag.test.sh` 26 passed, `--prove-failure` 9 killed / 0 survived). The workshop gitlink and `helix-deps.yaml` ref moved together to `5a7acdd1` (`verify-manifest-pins.sh`: 22 MATCH). VSC-417 is closed Completed with evidence `docs/qa/launchers/launcher-retest-2026-11-24-post-merge` (go + runner-flag tests re-run AT the merge commit 5a7acdd1; prove-failure 9/0 on the branch tip). Known cosmetic nit: `workshop/scripts/restart.sh --help` prints two extra lines (range should be `2,62p`).
 
 ## UPDATE 2026-11-24 (career engine wave 1 of the job_seeker [UMBRELLA] items; branch `pr/career-engine-wave1`; items VSC-426..VSC-430)
 
