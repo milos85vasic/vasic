@@ -202,6 +202,7 @@ class RealSample(unittest.TestCase):
         pdf = self.out / "cv-ai-engineering-en.pdf"
         self.assertEqual(gates.validate_pdf(pdf, "cv", "en")[0], 0)
         with tempfile.TemporaryDirectory() as td:
+            __import__("shutil").copy(pdf.with_suffix(".tex"), Path(td) / "cv-ai-engineering-en.tex")
             bad = sample_build.scramble_text_layer(pdf, Path(td) / "cv-ai-engineering-en.pdf")
             rc, msg = gates.validate_pdf(bad, "cv", "en")
             self.assertEqual(rc, 1, msg)
