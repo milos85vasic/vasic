@@ -356,6 +356,8 @@ check	pretooluse-guard	scripts/verify-pretooluse-guard.sh	flag	--prove-failure	-
 # consumer (podman graphroot, model store, package caches) must resolve off the root filesystem.
 # rc 0 ok / 1 finding / 2 could not determine; the rc-2 probe names a root path that does not exist.
 check	storage-report	scripts/storage-report.sh	flag	--prove-failure	--root-path /nonexistent
+# normalise-evidence-paths -- deterministic host-path normaliser for captured evidence; rc 0 / 1 / 2; the rc-2 probe names a file that does not exist.
+check	normalise-evidence-paths	scripts/normalise-evidence-paths.sh	flag	--prove-failure	--check /nonexistent/x
 check	runner-flag	scripts/verify-runner-flag.sh	flag	--prove-failure	--root /nonexistent
 check	font-licences	scripts/verify-font-licences.sh	flag	--prove-failure	--root /nonexistent
 #

@@ -27,12 +27,12 @@ LISTEN 0      4096                                     127.0.0.1:8095       0.0.
 require: OK  (8 entries)
 >> stack is not fully running; starting it
 >> stamping workshop-server: build=d58ae75d-20261124T124346Z dirty=false src_dirty=false (8 input module(s))
->> building workshop-server (static) from /home/milosvasic/Projects/vasic/workshop/platform/backend/./cmd/workshop-server ...
->>    -> /home/milosvasic/Projects/vasic/workshop/platform/bin/workshop-server (d58ae75d-20261124T124346Z, src_dirty=false)
+>> building workshop-server (static) from <repo>/workshop/platform/backend/./cmd/workshop-server ...
+>>    -> <repo>/workshop/platform/bin/workshop-server (d58ae75d-20261124T124346Z, src_dirty=false)
 api_keys: ApiKey_DeepSeek present=yes (env file)
 >> starting the workshop curriculum stack ...
-2026/11/24 13:43:57 [INFO]  workshop-boot: compose up: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name workshop-curriculum up -d --no-recreate
-2026/11/24 13:43:57 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name workshop-curriculum up -d --no-recreate (dir: /home/milosvasic/Projects/vasic/workshop/platform)
+2026/11/24 13:43:57 [INFO]  workshop-boot: compose up: podman-compose -f <repo>/workshop/platform/compose.yml --project-name workshop-curriculum up -d --no-recreate
+2026/11/24 13:43:57 [DEBUG] workshop-boot: executing: podman-compose -f <repo>/workshop/platform/compose.yml --project-name workshop-curriculum up -d --no-recreate (dir: <repo>/workshop/platform)
 2026/11/24 13:43:57 [DEBUG] workshop-boot: compose command completed successfully
 2026/11/24 13:43:58 [DEBUG] workshop-boot: podman-compose wait: all requested services ready (1)
   platform                     running
@@ -79,8 +79,8 @@ LISTEN 0      4096                                     127.0.0.1:8095       0.0.
 LISTEN 0      4096                                     127.0.0.1:8087       0.0.0.0:*    users:(("workshop-server",pid=3561534,fd=4))                       
 === [stop] $ bash scripts/stop.sh
 >> stopping the workshop curriculum stack ...
-2026/11/24 13:44:56 [INFO]  workshop-boot: compose down: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name workshop-curriculum down --timeout 20
-2026/11/24 13:44:56 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name workshop-curriculum down --timeout 20 (dir: /home/milosvasic/Projects/vasic/workshop/platform)
+2026/11/24 13:44:56 [INFO]  workshop-boot: compose down: podman-compose -f <repo>/workshop/platform/compose.yml --project-name workshop-curriculum down --timeout 20
+2026/11/24 13:44:56 [DEBUG] workshop-boot: executing: podman-compose -f <repo>/workshop/platform/compose.yml --project-name workshop-curriculum down --timeout 20 (dir: <repo>/workshop/platform)
 2026/11/24 13:44:56 [DEBUG] workshop-boot: compose command completed successfully
 STOPPED
 named volumes preserved (search index and transcripts intact)
@@ -96,8 +96,8 @@ PROBLEM: STOPPED: no containers exist for this project
 --- rc=1
 === [stop-again] $ bash scripts/stop.sh
 >> stopping the workshop curriculum stack ...
-2026/11/24 13:45:06 [INFO]  workshop-boot: compose down: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name workshop-curriculum down --timeout 20
-2026/11/24 13:45:06 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name workshop-curriculum down --timeout 20 (dir: /home/milosvasic/Projects/vasic/workshop/platform)
+2026/11/24 13:45:06 [INFO]  workshop-boot: compose down: podman-compose -f <repo>/workshop/platform/compose.yml --project-name workshop-curriculum down --timeout 20
+2026/11/24 13:45:06 [DEBUG] workshop-boot: executing: podman-compose -f <repo>/workshop/platform/compose.yml --project-name workshop-curriculum down --timeout 20 (dir: <repo>/workshop/platform)
 2026/11/24 13:45:06 [DEBUG] workshop-boot: compose command completed successfully
 STOPPED
 named volumes preserved (search index and transcripts intact)
@@ -168,13 +168,13 @@ ok: 5 account(s) checked, 0 changed
 === [restart-destroy-refused] $ bash scripts/restart.sh --destroy-volumes
 restart.sh: --destroy-volumes is refused here.
   A restart must never be the command that deletes the search index and the
-  transcripts. If you mean it, run:  bash /home/milosvasic/Projects/vasic/workshop/scripts/stop.sh --destroy-volumes
+  transcripts. If you mean it, run:  bash <repo>/workshop/scripts/stop.sh --destroy-volumes
 --- rc=2
 === [restart-dry] $ bash scripts/restart.sh --dry-run
 >> dry run — would execute, in order:
-     two `git status` reads of /home/milosvasic/Projects/vasic/workshop, 30s apart (T569 quiescence check)
-     bash /home/milosvasic/Projects/vasic/workshop/scripts/stop.sh
-     bash /home/milosvasic/Projects/vasic/workshop/scripts/start.sh
+     two `git status` reads of <repo>/workshop, 30s apart (T569 quiescence check)
+     bash <repo>/workshop/scripts/stop.sh
+     bash <repo>/workshop/scripts/start.sh
    and would NOT start if stop returned 1 or 2, or if quiescence is not confirmed.
 --- rc=0
 === [logs] $ podman logs --tail 5 workshop-curriculum_platform_1

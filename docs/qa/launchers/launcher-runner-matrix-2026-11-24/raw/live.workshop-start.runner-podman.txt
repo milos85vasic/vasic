@@ -1,11 +1,11 @@
 $ start.sh --runner=podman (isolated project zzz-runner-matrix, port 18087)
 >> stamping workshop-server: build=5a7acdd1-20261124T142612Z dirty=true src_dirty=false (8 input module(s))
->> building workshop-server (static) from /home/milosvasic/Projects/vasic/workshop/platform/backend/./cmd/workshop-server ...
->>    -> /home/milosvasic/Projects/vasic/workshop/platform/bin/workshop-server (5a7acdd1-20261124T142612Z, src_dirty=false)
+>> building workshop-server (static) from <repo>/workshop/platform/backend/./cmd/workshop-server ...
+>>    -> <repo>/workshop/platform/bin/workshop-server (5a7acdd1-20261124T142612Z, src_dirty=false)
 api_keys: ApiKey_DeepSeek present=yes (env file)
 >> starting the workshop curriculum stack ...
-2026/11/24 15:26:24 [INFO]  workshop-boot: compose up: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name zzz-runner-matrix up -d --no-recreate
-2026/11/24 15:26:24 [DEBUG] workshop-boot: executing: podman-compose -f /home/milosvasic/Projects/vasic/workshop/platform/compose.yml --project-name zzz-runner-matrix up -d --no-recreate (dir: /home/milosvasic/Projects/vasic/workshop/platform)
+2026/11/24 15:26:24 [INFO]  workshop-boot: compose up: podman-compose -f <repo>/workshop/platform/compose.yml --project-name zzz-runner-matrix up -d --no-recreate
+2026/11/24 15:26:24 [DEBUG] workshop-boot: executing: podman-compose -f <repo>/workshop/platform/compose.yml --project-name zzz-runner-matrix up -d --no-recreate (dir: <repo>/workshop/platform)
 2026/11/24 15:26:26 [DEBUG] workshop-boot: compose command completed successfully
 2026/11/24 15:26:26 [DEBUG] workshop-boot: podman-compose wait: all requested services ready (1)
   platform                     running

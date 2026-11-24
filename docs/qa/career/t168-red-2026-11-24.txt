@@ -2,7 +2,7 @@
 FAIL: test_untagged_build_of_hindi_and_korean_is_refused (career.test_extract_gates.BrokenArtifactWordBoundaries.test_untagged_build_of_hindi_and_korean_is_refused)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File "/home/milosvasic/Projects/vasic-wt-t168/_tools/career/test_extract_gates.py", line 198, in test_untagged_build_of_hindi_and_korean_is_refused
+  File "<worktree>/_tools/career/test_extract_gates.py", line 198, in test_untagged_build_of_hindi_and_korean_is_refused
     self.assertIn("word boundaries differ", msg, (lang, counts))
     ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 AssertionError: 'word boundaries differ' not found in 'text layer contains non-ATS codepoints: U+00AD; PDF is not tagged: /MarkInfo /Marked is not true; PDF has no /StructTreeRoot (no tag tree)' : ('hi', {'mupdf': 530, 'poppler-raw': 1004, 'pypdf': 1026})

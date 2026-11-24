@@ -1,5 +1,5 @@
-$ (cd /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf/milosvasic.ru) : bash ./start.sh --runner=podman --dry-run
+$ (cd <scratchpad>/umf/milosvasic.ru) : bash ./start.sh --runner=podman --dry-run
 runner: podman (selected by flag)
 serving Jekyll in a container via: podman-compose (runner podman)
-podman-compose -p milosvasic-ru-serve -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/umf/milosvasic.ru/_container/compose.serve.yml up
+podman-compose -p milosvasic-ru-serve -f <scratchpad>/umf/milosvasic.ru/_container/compose.serve.yml up
 rc=0
