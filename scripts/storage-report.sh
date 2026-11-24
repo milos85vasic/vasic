@@ -30,6 +30,16 @@ _stat_field() {  # $1 = mode (octal) | dev | mtime | size ; $2 = path (the link 
              if ($f eq "mode") { printf("%o\n", $s[2] & 07777) } elsif ($f eq "dev") { print "$s[0]\n" }
              elsif ($f eq "mtime") { print "$s[9]\n" } elsif ($f eq "size") { print "$s[7]\n" } else { exit 2 }' "$1" "$2"
 }
+_realpath() {  # portable realpath (BSD/macOS readlink has no GNU canonicalise flag): follow every link, then canonicalise the directory
+    local p="$1" n=0 l d
+    while [ -L "$p" ]; do
+        n=$((n+1)); [ "$n" -le 40 ] || return 1
+        l="$(readlink -- "$p")" || return 1
+        case "$l" in /*) p="$l" ;; *) p="$(dirname -- "$p")/$l" ;; esac
+    done
+    d="$(cd -P -- "$(dirname -- "$p")" 2>/dev/null && pwd -P)" || return 1
+    printf '%s/%s\n' "${d%/}" "$(basename -- "$p")"
+}
 
 SELF="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)/$(basename -- "${BASH_SOURCE[0]}")"
 THRESHOLD=90
@@ -130,7 +140,7 @@ echo "consumers (relative to $HOME_DIR):"
 for c in "${CONSUMERS[@]}"; do
   p="$HOME_DIR/$c"
   if [ ! -e "$p" ]; then printf '  %-36s absent (not a consumer on this host)\n' "$c"; continue; fi
-  real="$(readlink -f "$p" 2>/dev/null)"
+  real="$(_realpath "$p" 2>/dev/null)"
   dev="$(_stat_field dev "$real")"
   if [ -z "$real" ] || [ -z "$dev" ]; then printf '  %-36s UNDETERMINED (cannot resolve)\n' "$c"; [ "$rc" -eq 0 ] && rc=2; continue; fi
   size="-"

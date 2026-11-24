@@ -44,12 +44,23 @@
 # =============================================================================
 set -uo pipefail
 
-SELF="$(readlink -f -- "${BASH_SOURCE[0]}")"
+SELF="${BASH_SOURCE[0]}"; while [ -L "$SELF" ]; do _sl="$(readlink -- "$SELF")"; case "$_sl" in /*) SELF="$_sl" ;; *) SELF="$(dirname -- "$SELF")/$_sl" ;; esac; done  # portable realpath
+SELF="$(cd -P -- "$(dirname -- "$SELF")" && pwd -P)/$(basename -- "$SELF")"
 ROOT="$(cd -- "$(dirname -- "$SELF")/.." && pwd -P)"
 _stat_field() {  # $1 = mode (octal) | dev | mtime | size ; $2 = path (the link itself, never its target). Portable: perl is core on Linux and macOS, unlike GNU-only stat format flags.
     perl -e 'my @s = lstat($ARGV[1]) or exit 1; my $f = $ARGV[0];
              if ($f eq "mode") { printf("%o\n", $s[2] & 07777) } elsif ($f eq "dev") { print "$s[0]\n" }
              elsif ($f eq "mtime") { print "$s[9]\n" } elsif ($f eq "size") { print "$s[7]\n" } else { exit 2 }' "$1" "$2"
+}
+_realpath() {  # portable realpath (BSD/macOS readlink has no GNU canonicalise flag): follow every link, then canonicalise the directory
+    local p="$1" n=0 l d
+    while [ -L "$p" ]; do
+        n=$((n+1)); [ "$n" -le 40 ] || return 1
+        l="$(readlink -- "$p")" || return 1
+        case "$l" in /*) p="$l" ;; *) p="$(dirname -- "$p")/$l" ;; esac
+    done
+    d="$(cd -P -- "$(dirname -- "$p")" 2>/dev/null && pwd -P)" || return 1
+    printf '%s/%s\n' "${d%/}" "$(basename -- "$p")"
 }
 QA_ROOT="${QA_CANDIDATE_QA_ROOT:-$HOME/.cache/workshop-qa-candidate}"
 WT="${QA_CANDIDATE_WT:-$(dirname "$ROOT")/vasic-wt/qa-candidate}"
@@ -96,8 +107,8 @@ pick_port() {
 pid_is_ours() { # $1 pid ; ours = alive AND /proc exe is our QA binary
   local p="$1" exe
   [ -n "$p" ] && [ "$p" -gt 1 ] 2>/dev/null || return 1
-  exe="$(readlink -f "/proc/$p/exe" 2>/dev/null)" || return 1
-  [ "$exe" = "$(readlink -f "$B/workshop-server" 2>/dev/null)" ]
+  exe="$(_realpath "/proc/$p/exe" 2>/dev/null)" || return 1
+  [ "$exe" = "$(_realpath "$B/workshop-server" 2>/dev/null)" ]
 }
 
 # --------------------------------------------------------------------- prove
