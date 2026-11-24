@@ -1,0 +1,7 @@
+Usage: jobseekerd [version | -h | --help]
+
+jobseekerd is the job_seeker server. It takes no other arguments; it is configured by environment
+rc=0
+config: JOBSEEKER_DB_KEY: missing
+rc=1
+{"version":"unstamped","source_commit":"unknown","source_dirty":false,"stamped":

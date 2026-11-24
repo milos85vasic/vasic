@@ -1,0 +1,69 @@
+host: installed runner under test = podman ; supported-but-absent runner under test = docker
+=== runner-flag suite against /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/um ===
+  PASS local: forced absent runner (docker) refused rc2
+  PASS local: unknown runner refused rc2
+  PASS local: env CONTAINERS_RUNNER=absent refused rc2
+  PASS local: --runner=podman beats HELIX_RUNTIME=docker (flag wins, real run)
+  PASS local: flag --runner=docker beats env CONTAINERS_RUNNER=podman (refused)
+  PASS helper: missing module -> rc2 with the fix named
+  PASS remote run.sh: absent runner refused rc2, no fallback
+  PASS remote run.sh: shell-metachar runner name refused rc2
+  PASS remote run.sh: installed runner passes the check (stops later at the env file, rc90)
+  PASS fleet lib: flag > env, override reaches ht_fleet_runtime
+  PASS fleet lib: env alone applies when no flag
+  PASS fleet lib: explicit auto clears the override (per-host config wins)
+  PASS fleet lib: no flag, no env -> per-host config untouched
+  PASS fleet lib: malformed name refused rc2
+  PASS fleet lib: --runner without value refused rc2
+  PASS shim: malformed --runner refused rc2 before ssh
+  PASS shim: malformed legacy HT_RUNTIME refused rc2 before ssh
+  PASS qa-up (no go, no cached runner): --stop --only vd rc0, no runner/go complaint
+  PASS qa-up (no go): --runner=docker --stop --only vd rc0 (stopping is not runner-dependent)
+  PASS qa-up (no go): env CONTAINERS_RUNNER=bogus --stop --only mv rc0
+  PASS qa-up (no go): --runner=docker --stop --only workshop rc0, warns instead of refusing
+  PASS qa-up (no go): a forced runner for a BOOT path is still refused rc2 (workshop)
+  PASS qa-up (no go): a forced runner for a BOOT path is still refused rc2 (ai)
+  PASS qa-up (no go, no binary): malformed --runner shape refused rc2 at parse time
+  PASS qa-up (no go, no binary): well-formed unknown name cannot be checked at parse time; --stop --only vd still rc0 (B1)
+  PASS qa-up: --runner without a value is a usage error rc2 even on --stop
+  PASS runtime-probe: --runner=podman reports runner=podman source=flag
+  PASS runtime-probe: --runner podman (two-arg form)
+  PASS runtime-probe: -name-only stays one bare name
+  PASS runtime-probe: forced absent docker refused rc2
+  PASS runtime-probe: unknown runner refused rc2
+  PASS runtime-probe: env=docker refused rc2
+  PASS runtime-probe: flag podman beats env docker
+  PASS runtime-probe: --runner=auto beats env docker
+  PASS runtime-probe: default reports source=default
+  PASS site-build -probe: forced podman
+  PASS site-build -probe: forced absent refused rc2
+  PASS ocr -probe: forced podman
+  PASS ocr -probe: forced absent refused rc2
+  PASS go tests: runnersel + runtime-probe
+  PASS qa-up: forced absent runner refused rc2 before booting anything (boot path: workshop)
+  PASS qa-up: unknown runner refused rc2 on a boot path
+  PASS qa-up: --runner=bogus --stop --only vd refused rc2 at parse time (unused runner is still a typo)
+  PASS qa-up: --runner bogus (space form) --stop --only vd refused rc2
+  PASS qa-up: malformed --runner='A;b' --stop --only vd refused rc2 (shape)
+  PASS qa-up: --runner=docker (supported, not installed) --stop --only vd still accepted
+  PASS qa-up: --runner=auto --stop --only vd accepted
+  PASS qa-up: env CONTAINERS_RUNNER=bogus --stop --only vd stays lenient (inherited env, not a typo here)
+  PASS qa-up: --runner=podman --stop accepted, selected by flag (stack stop is best-effort)
+  PASS qa-up: module helper missing -> rc2 on a boot path
+  PASS qa-up: --help documents --runner
+  PASS deploy-langs (sandbox copy): forced absent runner refused rc2 BEFORE any build/git
+  PASS deploy-langs (sandbox copy): --runner without value rc2
+  PASS deploy-langs (sandbox copy): unknown runner rc2
+  PASS deploy-langs: --help documents --runner
+  PASS hawkscan: forced absent runner refused rc2 (not the skip rc0)
+  PASS hawkscan: forced podman accepted (skips later for the missing key, rc0)
+  PASS hawkscan (no flag, podman on PATH, no go, no cache): falls back to the host runtime
+  PASS hawkscan (forced runner, no go, no cache): strict rc2, no fallback
+  PASS prove-ocr: forced absent runner refused rc2
+  PASS od/start-daemon: accepts --runner and says no containers used
+  PASS od/start-daemon: --runner without value rc2
+  PASS distribute-helixtranslate.sh: malformed runner refused rc2 before ssh
+  PASS translate-fleet.sh: malformed runner refused rc2 before any job
+  PASS docs/RUNNER_FLAG.md lists every launcher
+--- 65 passed, 0 failed
+rc=0
