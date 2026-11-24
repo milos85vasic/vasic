@@ -306,7 +306,7 @@ third_party_prefixes() {
 # alias_target <base> <mode> <rel link path>: the base-relative path of the regular file an in-tree tracked symlink
 # resolves to; rc 1 unless it stays inside base, is a regular non-symlink file and (live mode) belongs to the SAME
 # git repository as the link. Dangling, out-of-tree and cross-repository links are not aliases.
-_realpath() {  # portable `readlink -f` (BSD/macOS readlink has no -f): follow every link, then canonicalise the directory
+_realpath() {  # portable realpath (BSD/macOS readlink has no GNU canonicalise flag): follow every link, then canonicalise the directory
     local p="$1" n=0 l d
     while [ -L "$p" ]; do
         n=$((n+1)); [ "$n" -le 40 ] || return 1

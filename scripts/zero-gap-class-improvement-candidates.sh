@@ -104,7 +104,7 @@ zg_pct_encode() { printf '%s\0' "$1" | zg_pct_encode_z; }
 # <<< zg_pct_encode
 
 CLASS=improvement-candidates
-SELF="${BASH_SOURCE[0]}"; while [ -L "$SELF" ]; do _sl="$(readlink -- "$SELF")"; case "$_sl" in /*) SELF="$_sl" ;; *) SELF="$(dirname -- "$SELF")/$_sl" ;; esac; done  # portable readlink -f
+SELF="${BASH_SOURCE[0]}"; while [ -L "$SELF" ]; do _sl="$(readlink -- "$SELF")"; case "$_sl" in /*) SELF="$_sl" ;; *) SELF="$(dirname -- "$SELF")/$_sl" ;; esac; done  # portable realpath
 SELF="$(cd -P -- "$(dirname -- "$SELF")" && pwd -P)/$(basename -- "$SELF")"
 export PYTHONDONTWRITEBYTECODE=1
 TMPBASE=${TMPDIR:-/tmp}

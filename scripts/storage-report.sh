@@ -25,7 +25,7 @@
 #
 # It never writes, moves or deletes anything.
 set -uo pipefail
-_realpath() {  # portable `readlink -f` (BSD/macOS readlink has no -f): follow every link, then canonicalise the directory
+_realpath() {  # portable realpath (BSD/macOS readlink has no GNU canonicalise flag): follow every link, then canonicalise the directory
     local p="$1" n=0 l d
     while [ -L "$p" ]; do
         n=$((n+1)); [ "$n" -le 40 ] || return 1

@@ -44,10 +44,10 @@
 # =============================================================================
 set -uo pipefail
 
-SELF="${BASH_SOURCE[0]}"; while [ -L "$SELF" ]; do _sl="$(readlink -- "$SELF")"; case "$_sl" in /*) SELF="$_sl" ;; *) SELF="$(dirname -- "$SELF")/$_sl" ;; esac; done  # portable readlink -f
+SELF="${BASH_SOURCE[0]}"; while [ -L "$SELF" ]; do _sl="$(readlink -- "$SELF")"; case "$_sl" in /*) SELF="$_sl" ;; *) SELF="$(dirname -- "$SELF")/$_sl" ;; esac; done  # portable realpath
 SELF="$(cd -P -- "$(dirname -- "$SELF")" && pwd -P)/$(basename -- "$SELF")"
 ROOT="$(cd -- "$(dirname -- "$SELF")/.." && pwd -P)"
-_realpath() {  # portable `readlink -f` (BSD/macOS readlink has no -f): follow every link, then canonicalise the directory
+_realpath() {  # portable realpath (BSD/macOS readlink has no GNU canonicalise flag): follow every link, then canonicalise the directory
     local p="$1" n=0 l d
     while [ -L "$p" ]; do
         n=$((n+1)); [ "$n" -le 40 ] || return 1

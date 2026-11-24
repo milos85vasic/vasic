@@ -218,7 +218,7 @@ zg_drop_excluded() {
 }
 # <<< zg_thirdparty
 
-SELF="$0"; while [ -L "$SELF" ]; do _sl="$(readlink -- "$SELF")"; case "$_sl" in /*) SELF="$_sl" ;; *) SELF="$(dirname -- "$SELF")/$_sl" ;; esac; done  # portable readlink -f
+SELF="$0"; while [ -L "$SELF" ]; do _sl="$(readlink -- "$SELF")"; case "$_sl" in /*) SELF="$_sl" ;; *) SELF="$(dirname -- "$SELF")/$_sl" ;; esac; done  # portable realpath
 SELF="$(cd -P -- "$(dirname -- "$SELF")" && pwd -P)/$(basename -- "$SELF")"
 EMPTY_SHA=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855   # sha256 of the empty population
 ROOT="" CORPUS="" EMIT=0 PROVE=0
@@ -1206,7 +1206,7 @@ sub_exempt() {
 # resolves to; rc 1 unless that file lies inside BASE, is a regular non-symlink file and (live mode) belongs to the
 # SAME git repository as the link.
 BASE_REAL=$(cd "$BASE" 2>/dev/null && pwd -P)
-_realpath() {  # portable `readlink -f` (BSD/macOS readlink has no -f): follow every link, then canonicalise the directory
+_realpath() {  # portable realpath (BSD/macOS readlink has no GNU canonicalise flag): follow every link, then canonicalise the directory
     local p="$1" n=0 l d
     while [ -L "$p" ]; do
         n=$((n+1)); [ "$n" -le 40 ] || return 1
