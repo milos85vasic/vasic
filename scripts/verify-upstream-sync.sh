@@ -52,4 +52,22 @@ fi
 [ -d "$ROOT" ] || { echo "verify-upstream-sync: root not found: $ROOT -- exit 2" >&2; exit 2; }
 ORGS=(); while read -r o; do case "$o" in ''|'#'*) ;; *) ORGS+=(--own-org "$o");; esac; done < "$REPO/config/upstream-parity-own-orgs.txt"
 EX=(); [ -s "$REPO/config/upstream-parity-exemptions.tsv" ] && EX=(--exempt "$REPO/config/upstream-parity-exemptions.tsv")
-exec bash "$V" --fleet "$ROOT" "${ORGS[@]}" "${EX[@]}" "${Q[@]}"
+# DECLARED NON-main BRANCHES: the instrument takes ONE --branch for the whole fleet, so a submodule whose .gitmodules declares
+# `branch = <b>` (b != main) would be reported NO-BRANCH on a repo that has no `main`. Such a submodule is left out of the fleet
+# pass (--skip, printed as a NOTE) and checked in its own pass with --branch <b>, so it is verified against the branch it
+# DECLARES instead of being exempted. Top-level submodules only; data comes from .gitmodules, never a roster.
+SKIPS=(); DECL=()
+if [ -f "$ROOT/.gitmodules" ]; then
+  while read -r k bpath; do
+    n="${k%.path}"; b=$(git config -f "$ROOT/.gitmodules" --get "$n.branch" 2>/dev/null)
+    [ -n "$b" ] && [ "$b" != main ] && [ -e "$ROOT/$bpath/.git" ] && { SKIPS+=(--skip "$bpath"); DECL+=("$bpath	$b"); }
+  done < <(git config -f "$ROOT/.gitmodules" --get-regexp '^submodule\..*\.path$' 2>/dev/null)
+fi
+bash "$V" --fleet "$ROOT" "${ORGS[@]}" "${EX[@]}" "${SKIPS[@]}" "${Q[@]}"; rc=$?
+for d in "${DECL[@]}"; do
+  bpath="${d%%	*}"; b="${d#*	}"
+  echo "== declared branch: $bpath  branch=$b (.gitmodules)"
+  bash "$V" --repo "$ROOT/$bpath" --branch "$b" "${EX[@]}" "${Q[@]}"; r=$?
+  if [ "$r" = 1 ]; then rc=1; elif [ "$r" = 2 ] && [ "$rc" != 1 ]; then rc=2; fi
+done
+exit "$rc"

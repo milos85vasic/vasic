@@ -231,7 +231,7 @@
 \linespread{1.0}
 \RaggedRight
 \setlength{\emergencystretch}{2em}
-\hyphenpenalty=600
+\hyphenpenalty=10000 % JSK-T178: never break a word by automatic hyphenation (extractors keep the stray "-" and a space; "Post-greSQL" is not "PostgreSQL")
 % Contact URLs must never be split by hyphenation ("gitlab.com/milos85va-/sic"
 % is not a URL a parser or a human can use).  Use inside a group that ends
 % with \par so the penalties are in force when the paragraph is broken.
