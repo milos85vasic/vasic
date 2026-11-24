@@ -3,7 +3,7 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T23:59:00Z
+    Last-Updated: 2026-11-25T00:30:00Z
     Synced-Commit: c10a455a88d5
     Authority-Root: submodules/constitution
 
@@ -432,6 +432,10 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+## UPDATE 2026-11-24 (all-upstreams push sweep + parity-gate fix; branch `task/UPSTREAM-PARITY-pin-bump`)
+
+Constitution main pushed fast-forward to all 8 upstreams (74c415d3, then 7ac2926f after constitution PR #33: the parity verifier expects the checked-out HEAD instead of a stale local main; its mutation test no longer force-pushes; new M27a-c). milosvasic.ru gitflic mirror fast-forwarded 04cf165 -> cc785348. This change bumps the constitution gitlink and helix-deps ref to 7ac2926f and makes `verify-upstream-sync.sh --prove-failure` non-force. Open operator decisions: LLMProvider/llm_provider `master` vs `main` (main stale at 53e4b2e on 3 upstreams; pushing bd302c8 as main is ff-only, 0 divergent) and doc_processor (HelixDevelopment/DocProcessor main 86f1a98 diverged from pin 12a5fb7, 126/1; vasic-digital upstreams have no main; helixdevelopment1 gitlab main bea9e9e is an ancestor of the pin). Nothing was decided or pushed for those.
 
 ## UPDATE 2026-11-24 (post-merge export refresh + gate re-run; branch `pr/export-refresh-2026-11-24`)
 
