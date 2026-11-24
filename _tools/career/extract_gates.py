@@ -204,21 +204,40 @@ def pages_of(pdf: Path) -> Optional[List[str]]:
 
 # --------------------------------------------------------------------------- T168
 _TOK = re.compile(r"[^\s]+")
-MIN_BOUNDARY_RATIO = 0.85
+#: min/max token count across the independent extractors.  Measured pre-fix: hi 530/1004 (0.53), ko 515/929 (0.55).
+MIN_BOUNDARY_RATIO = 0.90
+#: Scripts written without inter-word spaces: a "token" there is a line fragment, so the counts legitimately differ.
+UNSPACED_LANGS = frozenset({"zh", "ja"})
+#: pypdf assembles a right-to-left line from visually ordered runs and fuses the words around every embedded
+#: Latin/number run (measured on a fresh ai-engineering CV: ar 891 vs 1007/1053, fa 918 vs 1012/1069, min/max 0.85/0.86
+#: with the same space glyphs present in the stream).  That is the logical-order problem (T169), not a missing
+#: interword glyph, so for ar/fa the boundary vote is MuPDF vs poppler; pypdf is still counted everywhere else.
+RTL_LANGS = frozenset({"ar", "fa"})
 
 
-def check_word_boundaries(pdf: Path) -> Optional[List[str]]:
-    """Token counts of MuPDF and poppler must agree (a missing interword glyph merges words in one of them).
+def boundary_counts(pdf: Path) -> Dict[str, int]:
+    """Whitespace-token count per available independent extractor (MuPDF, poppler -raw, pypdf)."""
+    outs = {"mupdf": extract_mupdf(pdf), "poppler-raw": extract_poppler_raw(pdf), "pypdf": extract_pypdf(pdf)}
+    return {n: len(_TOK.findall(t)) for n, t in outs.items() if t and t.strip()}
 
-    Returns None when either extractor is absent (cannot determine).  Measured pre-fix: hi 530/1004, ko 515/929.
+
+def check_word_boundaries(pdf: Path, lang: str | None = None) -> Optional[List[str]]:
+    """Token counts of every independent extractor must agree (a missing interword glyph merges words in one).
+
+    ``min/max >= 0.9`` over MuPDF, poppler and pypdf.  zh/ja are exempt (no inter-word spaces by nature).
+    Returns None when fewer than two extractors exist (cannot determine; rc 2 is never a pass).
     """
-    a, b = extract_mupdf(pdf), extract_poppler_raw(pdf)
-    if not a or not b:
+    if lang in UNSPACED_LANGS:
+        return []
+    c = boundary_counts(pdf)
+    if lang in RTL_LANGS:
+        c.pop("pypdf", None)
+    if len(c) < 2:
         return None
-    na, nb = len(_TOK.findall(a)), len(_TOK.findall(b))
-    lo, hi = min(na, nb), max(na, nb)
+    lo, hi = min(c.values()), max(c.values())
     if hi and lo / hi < MIN_BOUNDARY_RATIO:
-        return [f"word boundaries differ between extractors: mupdf {na} tokens vs poppler {nb}"]
+        return ["word boundaries differ between extractors (min/max %.2f < %.2f): %s"
+                % (lo / hi, MIN_BOUNDARY_RATIO, ", ".join(f"{n} {v}" for n, v in sorted(c.items())))]
     return []
 
 

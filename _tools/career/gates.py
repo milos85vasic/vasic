@@ -530,6 +530,11 @@ def validate_pdf(pdf_path: Path, kind: str = "cv", lang: str | None = None,
     problems.extend(extract_gates.check_placeholder_leak(clean, lang))
     if kind == "cv":
         problems.extend(extract_gates.check_headings(clean, lang))
+    # JSK-T168 / G-06 / F-25: every independent extractor must see the same word boundaries.
+    wb = extract_gates.check_word_boundaries(pdf_path, lang)
+    if wb is None:
+        return 2, "cannot determine word boundaries: fewer than two independent extractors available"
+    problems.extend(wb)
     layout = extract_gates.pages_of(pdf_path)
     if layout is not None:
         problems.extend(extract_gates.check_running_headers(layout))
