@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T12:23:37Z
-    Synced-Commit: b506e8b
+    Last-Updated: 2026-11-24T20:30:00Z
+    Synced-Commit: d1aeb48
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -205,8 +205,8 @@ Its **GitLab mirror is reported to remain private**, and the lag between the two
 mirrors is now **UNMEASURED — not zero, and no longer the "5 commits" this paragraph used to assert.** That figure was measured on 2026-09-01 against GitHub HEAD `5467a888…` (GitLab HEAD `520c436c…` a strict ancestor, `rev-list --left-right --count` = `0` / `5` — lag, not divergence). **The GitHub side has since moved on: the gitlink and origin HEAD are both `e7f3815ec35c` as of 2026-09-02**, so the old count describes a comparison whose right-hand side no longer exists, and the true lag can only be larger or equal, never smaller. Honest boundary (§11.4.6): this checkout wires up **no** GitLab remote for `design-toolkit` (`git -C design-toolkit remote -v` shows `origin` only, GitHub), so **neither** half can be re-measured from this tree — `scripts/verify-submodule-remote-sync.sh` probes the declared origin and reports the submodule CURRENT, which is a true statement about GitHub and says nothing at all about GitLab. Do not write as though the mirrors agree, and do not quote "5 commits" as a live figure. (historical)
 
 **Only THREE submodules are private now**, re-measured 2026-09-01 with
-`gh api repos/<owner>/<name> --jq '.visibility'`: `milos85vasic/workshop_curriculum`,
-`milos85vasic/ai_interviewing`, `milos85vasic/monetization`. Everything else —
+`gh api repos/<owner>/<name> --jq '.visibility'`: `vasic-digital/workshop_curriculum`,
+`vasic-digital/ai_interviewing`, `vasic-digital/monetization`. Everything else —
 including `design-toolkit`, `containers`, `LLMProvider`, `RAG`, `verdict`,
 `passage`, both sites — is **public**. The "four private submodules" figure this
 document and the carriers used to carry is withdrawn.
@@ -426,6 +426,25 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+## UPDATE 2026-11-24 (workshop `--runner` merged; VSC-417 completed; branch `pr/vsc-417-workshop-runner`)
+
+workshop PR #1 (`pr/runner-flag`, `--runner=NAME` / `CONTAINERS_RUNNER` for start/stop/restart, workshop-boot, containers-status-probe) was merged on origin as `5a7acdd1` after an independent review (GO) and scratch-clone runs (Go tests ok, `runner-flag.test.sh` 26 passed, `--prove-failure` 9 killed / 0 survived). The workshop gitlink and `helix-deps.yaml` ref moved together to `5a7acdd1` (`verify-manifest-pins.sh`: 22 MATCH). VSC-417 is closed Completed with evidence `docs/qa/launchers/launcher-retest-2026-11-24-post-merge` (go + runner-flag tests re-run AT the merge commit 5a7acdd1; prove-failure 9/0 on the branch tip). Known cosmetic nit: `workshop/scripts/restart.sh --help` prints two extra lines (range should be `2,62p`).
+
+## UPDATE 2026-11-24 (career engine wave 1 of the job_seeker [UMBRELLA] items; branch `pr/career-engine-wave1`; items VSC-426..VSC-430)
+
+Done in `_tools/career/` (evidence and all measurements: `docs/qa/career/career-engine-wave1-2026-11-24.md`):
+T162 link annotations (`render/latex.py` `_url(text, href)` + `gates._check_link_annotations`), T166 token-aware keyword
+matcher (`keywords.py`, used by `screen._has_keyword`), T170 tagged PDF + XMP + DisplayDocTitle in both engines
+(`gates._check_structure`; LuaLaTeX `\DocumentMetadata` + two class fixes; WeasyPrint `pdf_variant="pdf/ua-1"`), plus root
+causes for T168 (fixed by tagging: real space glyphs), T169 (content-stream order, not fixable in the renderer) and T179
+(OCR language set, not a rendering defect). T171 (plain-text/DOCX) is deliberately left to wave 2 (VSC-430).
+
+**Operator-gated follow-ups, NOT done:** (1) `career build` of all 300 PDFs and vault re-seal (passphrase is the operator's
+secret; untouched). Until then the existing `.cache-career` PDFs are RED on the new structure and link gates by design.
+(2) veraPDF is not installed, so no PDF/UA conformance may be claimed; the WeasyPrint files carry the library's own
+`pdfuaid:part=1` declaration, which is not a measurement. (3) Tagged PDFs are ~47% larger (2.86 MB -> 4.21 MB over 60 samples).
+
+
 ## UPDATE 2026-11-24 (storage policy: root filesystem kept free; branch `pr/storage-policy-2026-11-24`)
 
 Operator directive: the root filesystem kept filling to 100%. Caches, model weights, LSP installs, idle agent scratch and (when verified) the podman graphroot now live on `/mnt/DATA1TB` and `/mnt/DATA7TB`, reached through symlinks at the original paths and a host-local `~/.config/vasic/storage.env`. The policy, the path table and the add-a-consumer procedure are in `docs/storage-policy.md`; `scripts/storage-report.sh` (rc 0 ok, 1 finding, 2 undetermined; registered as `storage-report` with `--prove-failure`) fails when root usage exceeds a threshold or a listed heavy consumer resolves to root. Read the current placement from the script, not from this paragraph.
@@ -552,7 +571,7 @@ State at the time of writing (re-derive, do not quote: `git ls-files -s workshop
 State at the time of writing (re-derive, do not quote: `bash scripts/verify-submodule-remote-sync.sh`, `bash scripts/verify-manifest-pins.sh`, `bash scripts/verify-governance-cascade.sh`).
 
 - **Repair.** `~/Projects/vasic/.git` (and every `.git/modules/*`) had been deleted. The umbrella repository was rebuilt (`git init`, `fetch --tags`, `checkout -B main origin/main`), the 22 submodules were re-initialised level by level (never blind `--recursive`: the constitution <-> llmctl/claude_toolkit cycle is skipped on purpose), and 32 submodules whose working trees were left EMPTY by an interrupted update were repopulated from their pinned HEAD with `scripts`-style `checkout HEAD -- .` after a pure-staged-deletions safety check. Unique local work was preserved before any change: `~/backups/rescue-20261023/` (SHA256SUMS.txt; bundles, wip patches, 20 worktree tarballs) and the GitHub branches `rescue/*` (2 on this repo, 40 on workshop_curriculum).
-- **Pins moved this session (all fast-forward only, nothing forced).** `submodules/constitution` 4c5ae23 -> 5f8503b -> 0b94dfc (tag `helixconstitution-v71`; `Constitution.md` 12149 -> 12420 lines, 259 -> 267 anchors); `submodules/qa` 3faf888 -> 8851c1a (qa de-registered its 27 nested tool submodules, so the 27 per-path exclusions in `helix-deps.yaml` were withdrawn, cascade C4 green again); `workshop` 3defbd4 -> 8166f91d (adds a fix pushed to `milos85vasic/workshop_curriculum`: `helix-deps.yaml` pinned RAG at 2dffc735 which predates `chunker.NewHierarchicalChunker`; `go build ./...` rc 0 afterwards).
+- **Pins moved this session (all fast-forward only, nothing forced).** `submodules/constitution` 4c5ae23 -> 5f8503b -> 0b94dfc (tag `helixconstitution-v71`; `Constitution.md` 12149 -> 12420 lines, 259 -> 267 anchors); `submodules/qa` 3faf888 -> 8851c1a (qa de-registered its 27 nested tool submodules, so the 27 per-path exclusions in `helix-deps.yaml` were withdrawn, cascade C4 green again); `workshop` 3defbd4 -> 8166f91d (adds a fix pushed to `vasic-digital/workshop_curriculum`: `helix-deps.yaml` pinned RAG at 2dffc735 which predates `chunker.NewHierarchicalChunker`; `go build ./...` rc 0 afterwards).
 - **Jev decision layer released in the constitution** as anchors §11.4.279-286 (the POC's 277-284 were renumbered +2 because live 277/278 are llmctl model validation and HelixQA). Tag `helixconstitution-v71` is on all six upstreams; GitHub and GitLab releases exist. `claude_toolkit` is tagged `claude_toolkit-1.32.0` (done by the separate claude-toolkit session) and the constitution pins it at adae02d.
 - **Open, not done here.** llmctl `v3.3.0` (78 dirty entries, backed up; needs the operator's authorization and the spec-009 gaps closed); `monetization` gitflic/gitverse remotes (operator must confirm they are private); the half-merged `~/Projects/workshop` clone is aborted and clean at 3061eab (preserved by branch `rescue/auth-3061eab` and a verified bundle); 58 of 78 `~/Projects/vasic-wt` worktree directories have no tarball backup, so none may be deleted yet; unpushed work outside this repo (`notes` 10 commits, `helix_code` rescue branches, `lava`/`boba` dirty files); TypeSafe/hosted-provider checks of the Jev layer are NOT done and the TypeSafe key stays off-limits until the operator says otherwise.
 - **Hazard learned.** `submodules/constitution/scripts/jev/bootstrap.sh` run from stage 7 with `cm_jev_bootstrap_idempotent` pointed at the real script recursed without bound (a fork storm). A re-entrancy guard (`JEV_BOOTSTRAP_NESTED`) is now in the released script; never run a bootstrap outside an isolated `HOME`.
@@ -6485,7 +6504,7 @@ replaced.
 
 **1. The workshop is committed and pushed. `a3b0a73`.**
 318 files, +70,964 / −4,262. `83260ee..a3b0a73` to
-`git@github.com:milos85vasic/workshop_curriculum.git`; local and remote sha
+`git@github.com:vasic-digital/workshop_curriculum.git`; local and remote sha
 verified EQUAL after the push. Its working tree is **0 entries**. All three of
 its remotes (`github`, `origin`, `upstream`) are the same URL, so one push
 covers all three — do not read "3 remotes" as three destinations.

@@ -14,7 +14,7 @@ Guides: `docs/career/vault-guide.md`, `docs/career/site-build-guide.md`, `docs/c
 - **Sitemap.** `grep -c '<loc>' milosvasic.ru/sitemap.xml` = 690; `grep -c 'xhtml:link' milosvasic.ru/sitemap.xml` = 2640 alternates over 165 expertise URLs. (The revision-2 statement that hreflang was unconfirmed is withdrawn.)
 - **Umbrella PR #1** (`pr/milosvasic-ru-v2-rework`, state OPEN per `env -u GITHUB_TOKEN gh pr view 1`): carries the milosvasic.ru gitlink, the `helix-deps.yaml` ref, the constitution pin `6d93ccd1` (`git -C submodules/constitution rev-parse --short=8 HEAD`; equals remote head per the orchestrator), and the deploy-script hardening. `bash scripts/verify-manifest-pins.sh`: 21 MATCH / 0 DRIFT / 0 UNDETERMINED. `sha256sum _tools/deploy-langs.sh` = `d77332880759857d...` (was a different value in revision 2).
 - **Career engine**: 10 areas, 15 languages. Evidence committed in `docs/qa/career/` (hashes in `SHA256SUMS`):
-  - `verify-2026-11-23.txt`: `verified 300/300 artifact(s) passing; expected 300; 0 completeness problem(s)`, rc=0.
+  - `verify-2026-11-23.txt`: `verified 300/300 artifact(s) passing; expected 300; 0 completeness problem(s)`, rc=0. **Historical (superseded 2026-11-24):** measured before the link-annotation and tagged-PDF gates (VSC-426/428); against the same cache `career verify` is now RED by design until the operator-gated rebuild of the 300 PDFs and vault re-seal. See `docs/qa/career/career-engine-wave1-2026-11-24.md`.
   - `build-2026-11-23.txt`: the build log.
   - `unittest-career-2026-11-23.txt`: 268 tests OK, 1 expected failure.
   - `playwright-local-2026-11-23.txt`: 1520 passed, 3 failed. The 3 failures came from a spec edit made in that run; the spec was fixed and re-run, 6/6 passed (evidence: docs/qa/career/playwright-linkintegrity-rerun-2026-11-23.txt; the spec edit is in this PR's diff, _tests/tests/all-languages-link-integrity.spec.js). This is stated honestly: the committed local file shows the 3 failures, not a clean run.
@@ -42,7 +42,7 @@ Guides: `docs/career/vault-guide.md`, `docs/career/site-build-guide.md`, `docs/c
 
 ```bash
 python3 _tools/career/career.py model     # ok=true, errors=[]
-python3 _tools/career/career.py verify    # 300/300
+python3 _tools/career/career.py verify    # was 300/300 before 2026-11-24; RED on the old cache by design until rebuild (wave-1 evidence doc)
 bash scripts/verify-manifest-pins.sh
 env -u GITHUB_TOKEN gh pr view 1
 ```

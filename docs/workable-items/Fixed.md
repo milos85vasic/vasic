@@ -5968,6 +5968,52 @@ WHAT: job_seeker onboarded as private owned submodule under vasic-digital with m
 
 WHAT: vasic.digital now served at digital.vasic.dev; generator reads domain from CNAME; footer renders website version linked to its GitHub release; gates and release process added (PRs #2, #4, #6). EVIDENCE: docs/qa/live-site/post-version-vd and post-version.
 
+## VSC-426 — Career PDFs: 260/300 LuaTeX contact links are GoToR or scheme-less URIs (job_seeker T162)
+
+**Status:** Fixed (→ Fixed.md)
+**Type:** Bug
+**Evidence:** docs/qa/career/career-engine-wave1-2026-11-24.md
+**Severity:** high
+
+render/latex.py used the visible label as the href target so hyperref wrote GoToR remote-file actions and scheme-less URIs; the ATS gate checked visible text only. Fix: explicit mailto:/https: targets plus a /Annots gate. Evidence docs/qa/career/career-engine-wave1-2026-11-24.md
+
+## VSC-427 — Screen keyword matcher is substring based: Django matches Go (job_seeker T166)
+
+**Status:** Fixed (→ Fixed.md)
+**Type:** Bug
+**Evidence:** docs/qa/career/career-engine-wave1-2026-11-24.md
+**Severity:** medium
+
+screen._has_keyword squashed to [0-9a-z] and did substring tests; replaced by token-aware career/keywords.py with synonym table and non-Latin script handling. Evidence docs/qa/career/career-engine-wave1-2026-11-24.md
+
+## VSC-428 — Career PDFs: tagged PDF, XMP, DisplayDocTitle in both engines, no PDF/UA claim (job_seeker T170)
+
+**Status:** Implemented (→ Fixed.md)
+**Type:** Feature
+**Evidence:** docs/qa/career/career-engine-wave1-2026-11-24.md
+**Severity:** medium
+
+LuaLaTeX tagging via DocumentMetadata plus soft-hyphen and list-geometry fixes, WeasyPrint pdf_variant; structure gate added; veraPDF absent so conformance unmeasured. Evidence docs/qa/career/career-engine-wave1-2026-11-24.md
+
+## VSC-429 — Career PDFs: root causes of MuPDF hi/ko word merging, Arabic pdftotext -raw order, Cyrillic OCR recall (job_seeker T168 T169 T179)
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** docs/qa/career/career-engine-wave1-2026-11-24.md
+**Severity:** medium
+
+Investigated with measurements: hi/ko merging fixed by tagpdf space glyphs, Arabic raw order is content-stream order and not fixable in the renderer, Cyrillic OCR recall low only because Latin text was OCRed with a Cyrillic-only model. Evidence docs/qa/career/career-engine-wave1-2026-11-24.md
+
+## VSC-417 — --runner flag programme: forced container-runner selector across containers, umbrella launchers and docs
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** docs/qa/launchers/launcher-retest-2026-11-24-post-merge
+**Severity:** high
+**Created-By:** Claude
+
+containers PR #3 adds the forced-runner selector; umbrella PR #11 bumped the pin with manifest ref; umbrella launchers (PR #12) carry --runner and the containers gitlink is current (2d18551). CLOSED 2026-11-24: the workshop launcher change merged as workshop PR #1 (merge 5a7acdd1) after an independent review (GO); post-merge run evidence at the merge commit is in docs/qa/launchers/launcher-retest-2026-11-24-post-merge (Go build/vet/test rc 0, runner-flag.test.sh 26 passed 0 failed, prove-failure 9 killed 0 survived on the branch tip); earlier launcher evidence in docs/qa/launchers/launcher-retest-2026-11-24. The umbrella pin bump is PR #23.
+
 ## VSC-423 — operator item: per-language footer review of the website-version footer
 
 **Status:** Completed (→ Fixed.md)

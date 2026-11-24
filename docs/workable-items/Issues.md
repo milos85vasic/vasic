@@ -4255,15 +4255,6 @@ The stack rule Go, Gin, HTTP/3 and Brotli applies to job_seeker, which is next i
 
 Two open content decisions for the job_seeker profile.yaml: the i18n ids for skill items, and the identity.pronouns field. Both need the operator's content input; no value has been chosen. Filed under VSC (no job_seeker roster prefix).
 
-## VSC-417 — --runner flag programme: forced container-runner selector across containers, umbrella launchers and docs
-
-**Status:** In progress
-**Type:** Task
-**Severity:** high
-**Created-By:** Claude
-
-WHAT: containers PR #3 adds forced-runner selector; umbrella PR #11 bumped the pin with manifest ref; umbrella launchers (PR #12) carry --runner and the containers gitlink is current (2d18551). 2026-11-24 status: umbrella side merged; the workshop launcher evidence is NOT merged (workshop runner branch is unpushed, blocked at a gate), so the programme stays In progress. Closes when every launcher's evidence is merged and a live run with each runner is captured.
-
 ## VSC-418 — storage-policy programme: root filesystem overfill, DATA1TB and DATA7TB placement
 
 **Status:** In progress
@@ -4335,4 +4326,12 @@ WHAT: merged pr/ and feat/ branches remain on the remote and in local worktrees 
 **Created-By:** Claude
 
 WHAT: operator-requested research programme whose outputs live under docs/research/protocols (directory not yet on main as of 2026-11-24; work in flight under another agent). Acceptance: the research documents are merged to main under that path, each cited by an item or Roadmap entry, and exported per the docs chain.
+
+## VSC-430 — Career engine: plain-text and DOCX fallback export (job_seeker T171), wave 2
+
+**Status:** Queued
+**Type:** Feature
+**Severity:** low
+
+Deferred from wave 1: a new artifact suffix touches ENGINE_FORMATS, expected_files, the verify matrix, manifest.json and vault packing, and job_seeker accepts pdf slots only. Needs a design pass first. See docs/qa/career/career-engine-wave1-2026-11-24.md
 

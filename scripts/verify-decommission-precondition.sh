@@ -33,7 +33,7 @@
 #
 # ENTRY POINTS, PER MODULE — investigated, not assumed
 # ------------------------------------------------------
-#   workshop          (github.com/milos85vasic/workshop_curriculum)
+#   workshop          (github.com/vasic-digital/workshop_curriculum)
 #     install/build  scripts/build.sh   (builds workshop-server + workshop-boot
 #                     Go binaries; conditionally builds the Angular frontend
 #                     when platform/frontend/package.json is present; builds
@@ -51,7 +51,7 @@
 #                     WORKSHOP_FULL_VERIFY=1 for the broader pass; its
 #                     three-valued contract is preserved either way.
 #
-#   ai_interviewing   (github.com/milos85vasic/ai_interviewing)
+#   ai_interviewing   (github.com/vasic-digital/ai_interviewing)
 #     install/build  platform/scripts/build.sh — builds the Go backend
 #                     (`go build ./cmd/server`) and, when present, the Angular
 #                     frontend via `npm ci && ng build`.
