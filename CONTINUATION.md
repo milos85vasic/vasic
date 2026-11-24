@@ -7,6 +7,7 @@
     Synced-Commit: a36afb66bead
     Authority-Root: submodules/constitution
 
+
 This file is the single canonical handoff document mandated by **Constitution
 §12.10** ("Continuation document — sacred invariant"). Its binding requirements,
 quoted from `submodules/constitution/Constitution.md`:
@@ -28,6 +29,8 @@ quoted from `submodules/constitution/Constitution.md`:
 >    external systems as the only source of truth.
 
 > **2026-11-24 §11.4.299 landing (PR pr/constitution-299-2026-11-24):** constitution pin `6d93ccd19e1c` -> `74c415d3d694` (adds §11.4.299 all-upstreams delivery; `Constitution.md` 13,142 lines / 280 `### §` anchors / 2,275,160 bytes / blob `ab5dcf28e1df` / sha256 `ba1adfbcd80b…`, re-measured on disk), gitlink and `helix-deps.yaml` ref staged together; four carriers edited as one shared artifact (C5 digest count 1); new `scripts/verify-upstream-sync.sh` (check-registry `upstream-sync`), `config/upstream-parity-*`. Resume: triage the fleet findings of `bash scripts/verify-upstream-sync.sh`; the C2 quote-fidelity DRIFT of `continuation-check.sh` pre-dates this change (present on github/main at the old pin).
+
+> **2026-11-24 batch2 gitlink bump** (PR pr/gitlink-bumps-batch2-2026-11-24; each ff-only, 0 divergent, `helix-deps.yaml` ref moved in the same change): `milosvasic.ru` 74c554c9bfce -> cc7853480d55, `submodules/containers` eb70e05439f3 -> d71b62058502, `submodules/challenges` d94e55492f10 -> 04d5c31b97f9, `submodules/llm_orchestrator` c84c410daa05 -> 8ee57956359c, `submodules/vision_engine` d52fa447d168 -> 1b2b991c31d4. Deliberately NOT moved: `submodules/constitution`, `job_seeker`. Synced-Commit advanced to 824624b, which also accounts for the earlier merged pin commits (qa f232d39, vasic.digital b63a3c7).
 
 > **2026-11-24 launcher `--runner` matrix** (`docs/qa/launchers/launcher-runner-matrix-2026-11-24/`): 16 of 18 launcher rows PASS on real runs. OPEN: workshop `status.sh` / `run-isolated.sh` lack the flag on workshop main; fix is committed on workshop branch `pr/status-runner-flag` (not pushed: the workshop materials pre-push gate blocks it; operator decision). `submodules/containers` gitlink + helix-deps ref bumped to eb70e05439f3 (cmd/boot exits 2 for an absent forced runner).
 
