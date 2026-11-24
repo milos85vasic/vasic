@@ -3,3 +3,4 @@
 # A row is printed as EXEMPT with its reason on every run. An empty reason makes the check exit 2. Rows are added ONLY for a
 # mirror that is fed by a reviewed snapshot or export instead of a `git push` of main, and only with a recorded operator
 # decision (§11.4.66) -- for example a public mirror of a private repository. None is declared today: no row was invented.
+submodules/doc_processor	git@github.com:HelixDevelopment/DocProcessor.git	Operator decision 2026-11-24 (docs/governance/OPERATOR-DECISION-DOC-PROCESSOR-BRANCH-MASTER-2026-11-24.md): this mirror carries its own divergent main (86f1a98350b8) that is not a descendant of the declared master the project tracks (12a5fb76381a); it is not fed by a push of this fleet's history, nothing is pushed to any doc_processor repository
