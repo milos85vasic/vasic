@@ -1,0 +1,125 @@
+[env.js] WARNING: building port-discover failed (Command failed: go build -o /home/milosvasic/Projects/vasic-wt-d2/umb/_tools/containers/bin/port-discover ./cmd/port-discover); falling back to the hardcoded VD_PORT default 8401 (dynamic discovery skipped)
+[env.js] WARNING: building port-discover failed (Command failed: go build -o /home/milosvasic/Projects/vasic-wt-d2/umb/_tools/containers/bin/port-discover ./cmd/port-discover); falling back to the hardcoded MV_PORT default 8082 (dynamic discovery skipped)
+[env.js] WARNING: building port-discover failed (Command failed: go build -o /home/milosvasic/Projects/vasic-wt-d2/umb/_tools/containers/bin/port-discover ./cmd/port-discover); falling back to the hardcoded MOTION_VD_PORT default 8481 (dynamic discovery skipped)
+[env.js] WARNING: building port-discover failed (Command failed: go build -o /home/milosvasic/Projects/vasic-wt-d2/umb/_tools/containers/bin/port-discover ./cmd/port-discover); falling back to the hardcoded MOTION_MV_PORT default 8482 (dynamic discovery skipped)
+
+Running 6 tests using 1 worker
+
+[1/6] [chromium] › tests/horizontal-overflow.spec.js:67:3 › vasic.digital: no horizontal overflow › language discovery found the full set
+[2/6] [chromium] › tests/horizontal-overflow.spec.js:75:5 › vasic.digital: no horizontal overflow › all language homes fit a 320px viewport
+  1) [chromium] › tests/horizontal-overflow.spec.js:75:5 › vasic.digital: no horizontal overflow › all language homes fit a 320px viewport 
+
+    Error: horizontal overflow at 320px
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "/de/ scrollWidth 454 > clientWidth 320: main. right=320 scrollW=454 clientW=320 | h2.od-section__title right=300 scrollW=290 clientW=280 | h2.od-section__title right=300 scrollW=286 clientW=280 | section.od-section od-reveal right=320 scrollW=375 clientW=320 | h2.od-section__title right=300 scrollW=355 clientW=280 | section.od-section od-reveal right=320 scrollW=454 clientW=320 | h2.od-section__title right=300 scrollW=434 clientW=280",
+    +   "/ru/ scrollWidth 367 > clientWidth 320: main. right=320 scrollW=367 clientW=320 | section.od-section od-reveal right=320 scrollW=367 clientW=320 | h2.od-section__title right=300 scrollW=347 clientW=280",
+    + ]
+
+      85 |         }
+      86 |       } finally { await ctx.close(); }
+    > 87 |       expect(bad, `horizontal overflow at ${w}px`).toEqual([]);
+         |                                                    ^
+      88 |     });
+      89 |   }
+      90 | });
+        at /home/milosvasic/Projects/vasic-wt-d2/umb/_tests/tests/horizontal-overflow.spec.js:87:52
+
+    Error Context: ../../../../test-results/horizontal-overflow-vasic--432f2--homes-fit-a-320px-viewport-chromium/error-context.md
+
+
+[3/6] [chromium] › tests/horizontal-overflow.spec.js:75:5 › vasic.digital: no horizontal overflow › all language homes fit a 360px viewport
+  2) [chromium] › tests/horizontal-overflow.spec.js:75:5 › vasic.digital: no horizontal overflow › all language homes fit a 360px viewport 
+
+    Error: horizontal overflow at 360px
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "/de/ scrollWidth 454 > clientWidth 360: main. right=360 scrollW=454 clientW=360 | section.od-section od-reveal right=360 scrollW=375 clientW=360 | h2.od-section__title right=340 scrollW=355 clientW=320 | section.od-section od-reveal right=360 scrollW=454 clientW=360 | h2.od-section__title right=340 scrollW=434 clientW=320",
+    +   "/ru/ scrollWidth 368 > clientWidth 360: main. right=360 scrollW=368 clientW=360 | section.od-section od-reveal right=360 scrollW=368 clientW=360 | h2.od-section__title right=340 scrollW=348 clientW=320",
+    + ]
+
+      85 |         }
+      86 |       } finally { await ctx.close(); }
+    > 87 |       expect(bad, `horizontal overflow at ${w}px`).toEqual([]);
+         |                                                    ^
+      88 |     });
+      89 |   }
+      90 | });
+        at /home/milosvasic/Projects/vasic-wt-d2/umb/_tests/tests/horizontal-overflow.spec.js:87:52
+
+    Error Context: ../../../../test-results/horizontal-overflow-vasic--44c21--homes-fit-a-360px-viewport-chromium/error-context.md
+
+
+[4/6] [chromium] › tests/horizontal-overflow.spec.js:75:5 › vasic.digital: no horizontal overflow › all language homes fit a 390px viewport
+  3) [chromium] › tests/horizontal-overflow.spec.js:75:5 › vasic.digital: no horizontal overflow › all language homes fit a 390px viewport 
+
+    Error: horizontal overflow at 390px
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "/de/ scrollWidth 463 > clientWidth 390: main. right=390 scrollW=463 clientW=390 | h2.od-section__title right=370 scrollW=362 clientW=350 | section.od-section od-reveal right=390 scrollW=463 clientW=390 | h2.od-section__title right=370 scrollW=443 clientW=350",
+    + ]
+
+      85 |         }
+      86 |       } finally { await ctx.close(); }
+    > 87 |       expect(bad, `horizontal overflow at ${w}px`).toEqual([]);
+         |                                                    ^
+      88 |     });
+      89 |   }
+      90 | });
+        at /home/milosvasic/Projects/vasic-wt-d2/umb/_tests/tests/horizontal-overflow.spec.js:87:52
+
+    Error Context: ../../../../test-results/horizontal-overflow-vasic--f5dc6--homes-fit-a-390px-viewport-chromium/error-context.md
+
+
+[5/6] [chromium] › tests/horizontal-overflow.spec.js:75:5 › vasic.digital: no horizontal overflow › all language homes fit a 414px viewport
+  4) [chromium] › tests/horizontal-overflow.spec.js:75:5 › vasic.digital: no horizontal overflow › all language homes fit a 414px viewport 
+
+    Error: horizontal overflow at 414px
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 3
+
+    - Array []
+    + Array [
+    +   "/de/ scrollWidth 464 > clientWidth 414: main. right=414 scrollW=464 clientW=414 | section.od-section od-reveal right=414 scrollW=464 clientW=414 | h2.od-section__title right=393 scrollW=443 clientW=373",
+    + ]
+
+      85 |         }
+      86 |       } finally { await ctx.close(); }
+    > 87 |       expect(bad, `horizontal overflow at ${w}px`).toEqual([]);
+         |                                                    ^
+      88 |     });
+      89 |   }
+      90 | });
+        at /home/milosvasic/Projects/vasic-wt-d2/umb/_tests/tests/horizontal-overflow.spec.js:87:52
+
+    Error Context: ../../../../test-results/horizontal-overflow-vasic--3f095--homes-fit-a-414px-viewport-chromium/error-context.md
+
+
+[6/6] [chromium] › tests/horizontal-overflow.spec.js:75:5 › vasic.digital: no horizontal overflow › all language homes fit a 768px viewport
+  4 failed
+    [chromium] › tests/horizontal-overflow.spec.js:75:5 › vasic.digital: no horizontal overflow › all language homes fit a 320px viewport 
+    [chromium] › tests/horizontal-overflow.spec.js:75:5 › vasic.digital: no horizontal overflow › all language homes fit a 360px viewport 
+    [chromium] › tests/horizontal-overflow.spec.js:75:5 › vasic.digital: no horizontal overflow › all language homes fit a 390px viewport 
+    [chromium] › tests/horizontal-overflow.spec.js:75:5 › vasic.digital: no horizontal overflow › all language homes fit a 414px viewport 
+  2 passed (36.7s)
