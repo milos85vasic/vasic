@@ -4309,18 +4309,6 @@ WHAT: the vault v1 passphrase must be backed up by the operator outside the repo
 
 WHAT: the zero-findings ratchet records 63 where 23 was expected; which figure is authoritative is undecided. Closes when the figures are reconciled with a re-measured run and the ratchet file is updated or the discrepancy is explained.
 
-## VSC-423 — operator item: per-language footer review of the website-version footer
-
-**Status:** Operator-blocked
-**Type:** Task
-**Operator-Block-Details:** WHAT: per-language footer review needs independent per-language reviewers and an operator choice of method UNBLOCK: Choose one:
-- [1] machine review per language with recorded verdicts (cost: model spend)
-- [2] native-speaker review for priority languages only (cost: operator effort) WHO: Claude
-**Severity:** medium
-**Created-By:** Claude
-
-WHAT: the website-version footer text exists in every localized page but each language rendering has not been reviewed by an independent per-language reviewer (11.4.256). Closes when a review verdict is recorded per language.
-
 ## VSC-424 — operator item: stale remote and local branches cleanup
 
 **Status:** Queued

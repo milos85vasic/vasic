@@ -6014,3 +6014,13 @@ Investigated with measurements: hi/ko merging fixed by tagpdf space glyphs, Arab
 
 containers PR #3 adds the forced-runner selector; umbrella PR #11 bumped the pin with manifest ref; umbrella launchers (PR #12) carry --runner and the containers gitlink is current (2d18551). CLOSED 2026-11-24: the workshop launcher change merged as workshop PR #1 (merge 5a7acdd1) after an independent review (GO); post-merge run evidence at the merge commit is in docs/qa/launchers/launcher-retest-2026-11-24-post-merge (Go build/vet/test rc 0, runner-flag.test.sh 26 passed 0 failed, prove-failure 9 killed 0 survived on the branch tip); earlier launcher evidence in docs/qa/launchers/launcher-retest-2026-11-24. The umbrella pin bump is PR #23.
 
+## VSC-423 — operator item: per-language footer review of the website-version footer
+
+**Status:** Completed (→ Fixed.md)
+**Type:** Task
+**Evidence:** docs/qa/i18n-review/README.md
+**Severity:** medium
+**Created-By:** Claude
+
+WHAT: the website-version footer text exists in every localized page but each language rendering has not been reviewed by an independent per-language reviewer (11.4.256). Closes when a review verdict is recorded per language.
+

@@ -1,0 +1,634 @@
+{
+ "lang": "de",
+ "verdict": "FIX",
+ "summary": "German needs real fixes: missing compound hyphens throughout (Helix-Produkte, LLM-Infrastruktur, OpenDesign-System), 'Thema' used for UI theme (means topic), garbage 'Inhalte tier 1', garbled 'vasic-digitalen Dienstprogramme', grammar errors in pf.summary, and a comma-less keyword list. Terminology for tier (Stufe/Level/Inhaltsstufen) and fleet (Flotte/System) was inconsistent. Register is impersonal and consistent; headings otherwise read naturally.",
+ "checks": {
+  "meaning_idiom_register": "Impersonal register consistent (no du/Sie conflict; imperatives avoided). Defects: Thema/Design, Nützlichkeiten, Inhaltsstufen, calque 'Juckreiz', incomplete verb in challenges.1, case agreement in pf.summary.",
+  "script": "Latin, umlauts/ß correct; no foreign-script garbage, but stray 'Inhalte tier 1'.",
+  "rtl": "n/a",
+  "plural": "No plural-bearing keys; lists only. Confirmed.",
+  "date_number": "None present (version string v2.0.0 is appended, unaffected). Confirmed.",
+  "glossary": "Constitution, AI, Miloš Vasić, Vasic Digital, Server Factory, OpenDesign, Helix kept verbatim; open compounds with brands corrected via 'von'/hyphen.",
+  "footer_length": "footer.suffix 'basierend auf dem OpenDesign-System' is 35 chars; mv footer.text is about 80 chars (EN is 66) and wraps, as the English one does."
+ },
+ "items": [
+  {
+   "src": "gen",
+   "key": "skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.home",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.portfolio",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "toggle",
+   "verdict": "FIX",
+   "current": "Thema umschalten",
+   "proposed": "Design umschalten",
+   "rationale": "'Thema' means topic in German; the UI colour theme is 'Design' (or 'Farbschema')."
+  },
+  {
+   "src": "gen",
+   "key": "footer.suffix",
+   "verdict": "FIX",
+   "current": "aufgebaut auf dem OpenDesign System",
+   "proposed": "basierend auf dem OpenDesign-System",
+   "rationale": "German compound needs a hyphen (OpenDesign-System); 'aufgebaut auf' is stiff."
+  },
+  {
+   "src": "gen",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.download",
+   "verdict": "FIX",
+   "current": "Herunterladen Portfolio (PDF)",
+   "proposed": "Portfolio herunterladen (PDF)",
+   "rationale": "Word order: German infinitive goes last ('Portfolio herunterladen'), not 'Herunterladen Portfolio'."
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.tiers",
+   "verdict": "FIX",
+   "current": "Inhaltsstufen",
+   "proposed": "Stufen",
+   "rationale": "'Inhaltsstufen' (content levels) is wrong meaning; align with 'Stufe' used in tier2/tier3 eyebrows."
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.helix",
+   "verdict": "FIX",
+   "current": "Helix Produkte",
+   "proposed": "Helix-Produkte",
+   "rationale": "Missing compound hyphen (brand + noun)."
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.readmore",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.lede",
+   "verdict": "FIX",
+   "current": "Ein einheitliches, evidenzbasiertes Portfolio der Helix-Familie, vasic-digitalen Dienstprogramme und der Server Factory-Toolchain.",
+   "proposed": "Ein einheitliches, evidenzbasiertes Portfolio der Helix-Familie, der Dienstprogramme von Vasic Digital und der Toolchain Server Factory.",
+   "rationale": "'vasic-digitalen Dienstprogramme' is a garbled adjectivised brand; brand and product names must stay verbatim."
+  },
+  {
+   "src": "gen",
+   "key": "pf.summary",
+   "verdict": "FIX",
+   "current": "Eine Flotte: Große Produktanwendungen auf Basis von Dutzenden kleinen, entkoppelten, unabhängig getesteten Modulen — gesteuert von einer gemeinsamen Engineering-Constitution und verifiziert durch Anti-Bluff-QA. Die dominante Sprache ist Go, sowie Kotlin/KMP, TypeScript/React, Python, Swift und Shell an den passenden Stellen. Die einheitliche These lautet: Eine Funktion ist erst dann fertig, wenn ein realer Nutzer sie nutzen kann und es erfasste Beweise gibt, die dies belegen.",
+   "proposed": "Eine Flotte: große Produktanwendungen auf Basis Dutzender kleiner, entkoppelter, unabhängig getesteter Module — gesteuert durch eine gemeinsame Engineering-Constitution und verifiziert durch Anti-Bluff-QA. Die vorherrschende Sprache ist Go, ergänzt durch Kotlin/KMP, TypeScript/React, Python, Swift und Shell dort, wo sie am besten passen. Die verbindende These: Eine Funktion ist erst dann fertig, wenn ein realer Nutzer sie verwenden kann und erfasste Belege dies beweisen.",
+   "rationale": "Case agreement errors ('von Dutzenden kleinen'), ungrammatical 'ist Go, sowie ...', lowercase after colon for a fragment; Constitution kept verbatim."
+  },
+  {
+   "src": "gen",
+   "key": "tier1.eyebrow",
+   "verdict": "FIX",
+   "current": "Inhalte tier 1 — Flaggschiff",
+   "proposed": "Stufe 1 — Flaggschiff",
+   "rationale": "Garbage 'Inhalte tier 1' (stray 'Inhalte' + untranslated 'tier'); align with 'Stufe 2/3'."
+  },
+  {
+   "src": "gen",
+   "key": "tier1.title",
+   "verdict": "FIX",
+   "current": "Helix Familie & LLM Infrastruktur",
+   "proposed": "Helix-Familie & LLM-Infrastruktur",
+   "rationale": "Missing compound hyphens."
+  },
+  {
+   "src": "gen",
+   "key": "tier2.eyebrow",
+   "verdict": "FIX",
+   "current": "Stufe 2 — Nützlichkeiten",
+   "proposed": "Stufe 2 — Dienstprogramme",
+   "rationale": "'Nützlichkeiten' (usefulnesses) is wrong meaning; use the same term as tier2.title."
+  },
+  {
+   "src": "gen",
+   "key": "tier2.title",
+   "verdict": "FIX",
+   "current": "Vasic Digital Dienstprogramme",
+   "proposed": "Dienstprogramme von Vasic Digital",
+   "rationale": "Open compound 'Vasic Digital Dienstprogramme' is ungrammatical; this phrasing keeps the brand verbatim."
+  },
+  {
+   "src": "gen",
+   "key": "tier3.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.tier",
+   "verdict": "FIX",
+   "current": "Level",
+   "proposed": "Stufe",
+   "rationale": "Inconsistent terminology: tier is 'Stufe' everywhere else."
+  },
+  {
+   "src": "gen",
+   "key": "prod.order",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.source",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.license",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.architecture",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "kw.vasic",
+   "verdict": "FIX",
+   "current": "Softwareentwicklung, AI Entwicklungsplattformen, LLM Orchestrierung, Open Source, Entwicklerwerkzeuge, SDK",
+   "proposed": "Softwareentwicklung, AI-Entwicklungsplattformen, LLM-Orchestrierung, Open Source, Entwicklerwerkzeuge, SDK",
+   "rationale": "Missing compound hyphens (AI-/LLM-); AI kept verbatim."
+  },
+  {
+   "src": "gen",
+   "key": "kw.milos",
+   "verdict": "FIX",
+   "current": "Plattform-Ingenieur SDK Spezialist Kotlin Go Softwarearchitektur Verteilte Systeme Open Source",
+   "proposed": "Plattform-Ingenieur, SDK-Spezialist, Kotlin, Go, Softwarearchitektur, verteilte Systeme, Open Source",
+   "rationale": "Keyword list lost all commas (one run-on phrase); 'verteilte' must be lowercase; SDK-Spezialist hyphen."
+  },
+  {
+   "src": "gen",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.toggleTheme",
+   "verdict": "FIX",
+   "current": "Dunkles / helles Thema umschalten",
+   "proposed": "Zwischen dunklem und hellem Design wechseln",
+   "rationale": "'Thema' means topic; colour theme is 'Design'."
+  },
+  {
+   "src": "gen",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.3",
+   "verdict": "FIX",
+   "current": "Der Juckreiz, den wir kratzen mussten",
+   "proposed": "Das Problem, das uns keine Ruhe ließ",
+   "rationale": "Literal calque of 'itch to scratch' is not idiomatic German and reads oddly as a heading."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.4",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.1",
+   "verdict": "FIX",
+   "current": "Die kniffligen Stellen – und wie wir sie behoben",
+   "proposed": "Die kniffligen Stellen – und wie wir sie gelöst haben",
+   "rationale": "Incomplete verb phrase ('wie wir sie behoben' lacks auxiliary 'haben')."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.1",
+   "verdict": "FIX",
+   "current": "Was es im gesamten System freischaltet",
+   "proposed": "Was es in der gesamten Flotte ermöglicht",
+   "rationale": "Terminology: 'fleet' is 'Flotte' elsewhere (pf.summary, overview title), not 'System'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.2",
+   "verdict": "FIX",
+   "current": "Wie sich das System darauf stützt",
+   "proposed": "Wie sich die Flotte darauf stützt",
+   "rationale": "Terminology: 'fleet' is 'Flotte' elsewhere, not 'System'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.summary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.short",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.long",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.desc.fallback",
+   "verdict": "FIX",
+   "current": "%s – %s Produkt.",
+   "proposed": "%s – %s-Produkt.",
+   "rationale": "German compound needs a hyphen after the brand placeholder (e.g. 'Helix-Produkt'); placeholders kept in order."
+  },
+  {
+   "src": "gen",
+   "key": "alt.portrait",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "alt.brandLogo",
+   "verdict": "FIX",
+   "current": "Vasic Digital Logo",
+   "proposed": "Logo von Vasic Digital",
+   "rationale": "Open compound 'Vasic Digital Logo' is ungrammatical German."
+  },
+  {
+   "src": "gen",
+   "key": "status.beta",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.active",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.production",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.in-development",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.shipped",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.scaffold",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.roadmap",
+   "verdict": "FIX",
+   "current": "Im Roadmap",
+   "proposed": "Geplant",
+   "rationale": "'Im Roadmap' has wrong gender (die Roadmap) and is not a natural badge; 'Geplant' matches the other status badges."
+  },
+  {
+   "src": "gen",
+   "key": "status.stable",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.mixed",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.helix-primary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.vasic-util-secondary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.serverfactory-tertiary",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "a11y.skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.expertise",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.experience",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.skills",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.heading",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.choose",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "footer.text",
+   "verdict": "FIX",
+   "current": "Belgrade · Dubna. Als statische Website erstellt, auf GitHub Pages bereitgestellt.",
+   "proposed": "Belgrad · Dubna. Als statische Website erstellt, auf GitHub Pages bereitgestellt.",
+   "rationale": "English exonym 'Belgrade' left untranslated; German is 'Belgrad'."
+  },
+  {
+   "src": "mv",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.changeLang",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.toggleTheme",
+   "verdict": "FIX",
+   "current": "Dunkles / helles Thema umschalten",
+   "proposed": "Zwischen dunklem und hellem Design wechseln",
+   "rationale": "'Thema' means topic; colour theme is 'Design'. Keep identical to the gen key."
+  },
+  {
+   "src": "mv",
+   "key": "aria.menu",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.close",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.language",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.theme",
+   "verdict": "FIX",
+   "current": "Thema",
+   "proposed": "Design",
+   "rationale": "'Thema' means topic; the colour theme is 'Design'."
+  }
+ ],
+ "glossary_violation_judgements": [],
+ "spotcheck": [
+  "tier3.eyebrow 'Erbe' for 'heritage': is 'Vermächtnis' or 'Altbestand' a better fit for the legacy product line?",
+  "nav.skills left as 'Skills' (common in German CVs) vs 'Kenntnisse'.",
+  "prod.desc.fallback renders as e.g. 'HelixCode – Helix-Produkt.': confirm what the 2nd %s is, so the hyphen compound reads right.",
+  "status.production 'Produktiv' vs 'Im Produktivbetrieb' on the badge.",
+  "'Game-Changer' anglicism in gamechanger.name: acceptable or replace?"
+ ]
+}

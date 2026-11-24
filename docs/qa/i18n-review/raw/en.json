@@ -1,0 +1,670 @@
+{
+ "lang": "en",
+ "verdict": "FIX",
+ "summary": "The English source is clear, consistent in tone and free of typos. Three real defects: the fallback description template lacks an article, pf.lede uses the slug 'vasic-digital' instead of the brand, and the bare label 'order' is ambiguous (both tr and kk translated it as a purchase order).",
+ "checks": {
+  "meaning_idiom_register": "Confident, informal-professional register; rotating headings are deliberately idiomatic ('the itch we had to scratch', 'under the hood', 'ideas worth stealing') — valid English, but they drive calques in translation (see spotcheck).",
+  "script": "Latin; 'Miloš Vasić' diacritics correct.",
+  "rtl": "n/a",
+  "plural": "No plural-form strings.",
+  "date_number": "None present.",
+  "glossary": "Brands verbatim; pf.lede 'vasic-digital' is the GitHub org slug, inconsistent with 'Vasic Digital' in tier2.title (FIX).",
+  "footer_length": "footer.suffix 30 chars, footer.version 16 chars; mv footer.text 66 chars (full sentence line)."
+ },
+ "items": [
+  {
+   "src": "gen",
+   "key": "skip",
+   "verdict": "OK",
+   "current": "Skip to content"
+  },
+  {
+   "src": "gen",
+   "key": "nav.home",
+   "verdict": "OK",
+   "current": "Home"
+  },
+  {
+   "src": "gen",
+   "key": "nav.products",
+   "verdict": "OK",
+   "current": "Products"
+  },
+  {
+   "src": "gen",
+   "key": "nav.portfolio",
+   "verdict": "OK",
+   "current": "Portfolio"
+  },
+  {
+   "src": "gen",
+   "key": "toggle",
+   "verdict": "OK",
+   "current": "Toggle theme"
+  },
+  {
+   "src": "gen",
+   "key": "footer.suffix",
+   "verdict": "OK",
+   "current": "built on the OpenDesign system"
+  },
+  {
+   "src": "gen",
+   "key": "footer.version",
+   "verdict": "OK",
+   "current": "Website version:"
+  },
+  {
+   "src": "gen",
+   "key": "pf.eyebrow",
+   "verdict": "OK",
+   "current": "unified portfolio"
+  },
+  {
+   "src": "gen",
+   "key": "pf.title",
+   "verdict": "OK",
+   "current": "Portfolio"
+  },
+  {
+   "src": "gen",
+   "key": "pf.download",
+   "verdict": "OK",
+   "current": "Download Portfolio (PDF)"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.products",
+   "verdict": "OK",
+   "current": "Products"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.tiers",
+   "verdict": "OK",
+   "current": "Tiers"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.helix",
+   "verdict": "OK",
+   "current": "Helix products"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.eyebrow",
+   "verdict": "OK",
+   "current": "overview"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.title",
+   "verdict": "OK",
+   "current": "One fleet, one discipline"
+  },
+  {
+   "src": "gen",
+   "key": "pf.readmore",
+   "verdict": "OK",
+   "current": "Read more"
+  },
+  {
+   "src": "gen",
+   "key": "pf.lede",
+   "verdict": "FIX",
+   "current": "A unified, evidence-based portfolio of the Helix family, vasic-digital utilities, and the Server Factory toolchain.",
+   "proposed": "A unified, evidence-based portfolio of the Helix family, Vasic Digital utilities, and the Server Factory toolchain.",
+   "rationale": "Uses the slug 'vasic-digital' while tier2.title and the glossary use the brand 'Vasic Digital'; translators diverged (tr used the brand, kk the slug)."
+  },
+  {
+   "src": "gen",
+   "key": "pf.summary",
+   "verdict": "OK",
+   "current": "One fleet: large product applications on top of dozens of small, decoupled, independently-tested modules — governed by a shared engineering Constitution and verified by anti-bluff QA. The dominant language is Go, with Kotlin/KMP, TypeScript/React, Python, Swift, and Shell where they fit best. The unifying thesis: a feature is done only when a real user can use it and there is captured evidence to prove it."
+  },
+  {
+   "src": "gen",
+   "key": "tier1.eyebrow",
+   "verdict": "OK",
+   "current": "tier 1 — flagship"
+  },
+  {
+   "src": "gen",
+   "key": "tier1.title",
+   "verdict": "OK",
+   "current": "Helix family & LLM infrastructure"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.eyebrow",
+   "verdict": "OK",
+   "current": "tier 2 — utilities"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.title",
+   "verdict": "OK",
+   "current": "Vasic Digital utilities"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.eyebrow",
+   "verdict": "OK",
+   "current": "tier 3 — heritage"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.title",
+   "verdict": "OK",
+   "current": "Server Factory"
+  },
+  {
+   "src": "gen",
+   "key": "prod.tier",
+   "verdict": "OK",
+   "current": "tier"
+  },
+  {
+   "src": "gen",
+   "key": "prod.order",
+   "verdict": "FIX",
+   "current": "order",
+   "proposed": "position",
+   "rationale": "Shown before a numeric sort position (e.Order); bare 'order' is ambiguous and was mistranslated as 'purchase order' in both tr (sipariş) and kk (тапсырыс). If 'order' is kept, add a translator note instead."
+  },
+  {
+   "src": "gen",
+   "key": "prod.source",
+   "verdict": "OK",
+   "current": "Source"
+  },
+  {
+   "src": "gen",
+   "key": "prod.license",
+   "verdict": "OK",
+   "current": "license"
+  },
+  {
+   "src": "gen",
+   "key": "prod.architecture",
+   "verdict": "OK",
+   "current": "architecture"
+  },
+  {
+   "src": "gen",
+   "key": "kw.vasic",
+   "verdict": "OK",
+   "current": "software engineering, AI development platforms, LLM orchestration, open source, developer tools, SDK"
+  },
+  {
+   "src": "gen",
+   "key": "kw.milos",
+   "verdict": "OK",
+   "current": "platform engineer, SDK specialist, Kotlin, Go, software architecture, distributed systems, open source"
+  },
+  {
+   "src": "gen",
+   "key": "aria.primaryNav",
+   "verdict": "OK",
+   "current": "Primary"
+  },
+  {
+   "src": "gen",
+   "key": "aria.backToTop",
+   "verdict": "OK",
+   "current": "Back to top"
+  },
+  {
+   "src": "gen",
+   "key": "aria.toggleTheme",
+   "verdict": "OK",
+   "current": "Toggle dark / light theme"
+  },
+  {
+   "src": "gen",
+   "key": "nav.work",
+   "verdict": "OK",
+   "current": "Work"
+  },
+  {
+   "src": "gen",
+   "key": "nav.contact",
+   "verdict": "OK",
+   "current": "Contact"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.0",
+   "verdict": "OK",
+   "current": "The problem we set out to solve"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.1",
+   "verdict": "OK",
+   "current": "Why this exists"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.2",
+   "verdict": "OK",
+   "current": "What drove us to build it"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.3",
+   "verdict": "OK",
+   "current": "The itch we had to scratch"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.4",
+   "verdict": "OK",
+   "current": "Origin story"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.0",
+   "verdict": "OK",
+   "current": "Why it changes the game"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.1",
+   "verdict": "OK",
+   "current": "The leap it delivers"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.2",
+   "verdict": "OK",
+   "current": "What sets it apart"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.3",
+   "verdict": "OK",
+   "current": "Why it matters"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.0",
+   "verdict": "OK",
+   "current": "Where the novelty lives"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.1",
+   "verdict": "OK",
+   "current": "What's genuinely new"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.2",
+   "verdict": "OK",
+   "current": "The innovations inside"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.3",
+   "verdict": "OK",
+   "current": "Ideas worth stealing"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.0",
+   "verdict": "OK",
+   "current": "Hard problems, honest solutions"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.1",
+   "verdict": "OK",
+   "current": "The tough parts — and the fixes"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.2",
+   "verdict": "OK",
+   "current": "Engineering the hard bits"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.3",
+   "verdict": "OK",
+   "current": "Where it got hard, and how we won"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.0",
+   "verdict": "OK",
+   "current": "The stack, and why"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.1",
+   "verdict": "OK",
+   "current": "How it's built"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.2",
+   "verdict": "OK",
+   "current": "Under the hood"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.3",
+   "verdict": "OK",
+   "current": "The engineering stack"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.0",
+   "verdict": "OK",
+   "current": "Status, told straight"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.1",
+   "verdict": "OK",
+   "current": "Where it really stands"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.2",
+   "verdict": "OK",
+   "current": "The honest status"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.3",
+   "verdict": "OK",
+   "current": "No-spin status"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.0",
+   "verdict": "OK",
+   "current": "The powers it gives"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.1",
+   "verdict": "OK",
+   "current": "What it unlocks across the fleet"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.2",
+   "verdict": "OK",
+   "current": "How the fleet leans on it"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.name",
+   "verdict": "OK",
+   "current": "Why we built it"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.name",
+   "verdict": "OK",
+   "current": "Why it's a game-changer"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.name",
+   "verdict": "OK",
+   "current": "What's innovative"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.name",
+   "verdict": "OK",
+   "current": "Challenges & solutions"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.name",
+   "verdict": "OK",
+   "current": "Tech stack"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.name",
+   "verdict": "OK",
+   "current": "Status & honesty notes"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.name",
+   "verdict": "OK",
+   "current": "How it is used across all products (the powers it gives)"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.summary",
+   "verdict": "OK",
+   "current": "Summary"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.short",
+   "verdict": "OK",
+   "current": "Short description"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.long",
+   "verdict": "OK",
+   "current": "Long description"
+  },
+  {
+   "src": "gen",
+   "key": "prod.desc.fallback",
+   "verdict": "FIX",
+   "current": "%s — %s product.",
+   "proposed": "%s — a %s product.",
+   "rationale": "Renders as 'HelixCode — Vasic Digital product.' (Name, Brand): the indefinite article is missing. Placeholders unchanged and in the same order."
+  },
+  {
+   "src": "gen",
+   "key": "alt.portrait",
+   "verdict": "OK",
+   "current": "Portrait of Miloš Vasić"
+  },
+  {
+   "src": "gen",
+   "key": "alt.brandLogo",
+   "verdict": "OK",
+   "current": "Vasic Digital logo"
+  },
+  {
+   "src": "gen",
+   "key": "status.beta",
+   "verdict": "OK",
+   "current": "beta"
+  },
+  {
+   "src": "gen",
+   "key": "status.active",
+   "verdict": "OK",
+   "current": "active"
+  },
+  {
+   "src": "gen",
+   "key": "status.production",
+   "verdict": "OK",
+   "current": "production"
+  },
+  {
+   "src": "gen",
+   "key": "status.in-development",
+   "verdict": "OK",
+   "current": "in-development"
+  },
+  {
+   "src": "gen",
+   "key": "status.shipped",
+   "verdict": "OK",
+   "current": "shipped"
+  },
+  {
+   "src": "gen",
+   "key": "status.scaffold",
+   "verdict": "OK",
+   "current": "scaffold"
+  },
+  {
+   "src": "gen",
+   "key": "status.roadmap",
+   "verdict": "OK",
+   "current": "roadmap"
+  },
+  {
+   "src": "gen",
+   "key": "status.stable",
+   "verdict": "OK",
+   "current": "stable"
+  },
+  {
+   "src": "gen",
+   "key": "status.mixed",
+   "verdict": "OK",
+   "current": "mixed"
+  },
+  {
+   "src": "gen",
+   "key": "tier.helix-primary",
+   "verdict": "OK",
+   "current": "helix-primary"
+  },
+  {
+   "src": "gen",
+   "key": "tier.vasic-util-secondary",
+   "verdict": "OK",
+   "current": "vasic-util-secondary"
+  },
+  {
+   "src": "gen",
+   "key": "tier.serverfactory-tertiary",
+   "verdict": "OK",
+   "current": "serverfactory-tertiary"
+  },
+  {
+   "src": "mv",
+   "key": "a11y.skip",
+   "verdict": "OK",
+   "current": "Skip to main content"
+  },
+  {
+   "src": "mv",
+   "key": "nav.expertise",
+   "verdict": "OK",
+   "current": "Expertise"
+  },
+  {
+   "src": "mv",
+   "key": "nav.work",
+   "verdict": "OK",
+   "current": "Work"
+  },
+  {
+   "src": "mv",
+   "key": "nav.experience",
+   "verdict": "OK",
+   "current": "Experience"
+  },
+  {
+   "src": "mv",
+   "key": "nav.skills",
+   "verdict": "OK",
+   "current": "Skills"
+  },
+  {
+   "src": "mv",
+   "key": "nav.contact",
+   "verdict": "OK",
+   "current": "Contact"
+  },
+  {
+   "src": "mv",
+   "key": "dl.heading",
+   "verdict": "OK",
+   "current": "Download"
+  },
+  {
+   "src": "mv",
+   "key": "dl.choose",
+   "verdict": "OK",
+   "current": "Choose your language"
+  },
+  {
+   "src": "mv",
+   "key": "footer.text",
+   "verdict": "OK",
+   "current": "Belgrade · Dubna. Built as a static site, deployed on GitHub Pages."
+  },
+  {
+   "src": "mv",
+   "key": "footer.version",
+   "verdict": "OK",
+   "current": "Website version:"
+  },
+  {
+   "src": "mv",
+   "key": "aria.changeLang",
+   "verdict": "OK",
+   "current": "Change language"
+  },
+  {
+   "src": "mv",
+   "key": "aria.toggleTheme",
+   "verdict": "OK",
+   "current": "Toggle dark / light theme"
+  },
+  {
+   "src": "mv",
+   "key": "aria.menu",
+   "verdict": "OK",
+   "current": "Menu"
+  },
+  {
+   "src": "mv",
+   "key": "aria.close",
+   "verdict": "OK",
+   "current": "Close"
+  },
+  {
+   "src": "mv",
+   "key": "aria.backToTop",
+   "verdict": "OK",
+   "current": "Back to top"
+  },
+  {
+   "src": "mv",
+   "key": "aria.primaryNav",
+   "verdict": "OK",
+   "current": "Primary"
+  },
+  {
+   "src": "mv",
+   "key": "title.language",
+   "verdict": "OK",
+   "current": "Language"
+  },
+  {
+   "src": "mv",
+   "key": "title.theme",
+   "verdict": "OK",
+   "current": "Theme"
+  }
+ ],
+ "glossary_violation_judgements": [],
+ "spotcheck": [
+  "Coined jargon 'anti-bluff QA', 'captured evidence' and the 'fleet' metaphor in pf.summary / pf.overview.title / prod.head.powers.* need a translator note — both tr and kk calqued them.",
+  "Idiomatic headings (prod.head.whywebuilt.3, gamechanger.*, techstack.2) benefit from a translator note on intended meaning.",
+  "aria.primaryNav 'Primary' relies on the screen reader appending 'navigation'; fine in English, confirm translations read sensibly the same way."
+ ]
+}

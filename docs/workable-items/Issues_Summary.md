@@ -11,9 +11,9 @@ Open workable items (current_location = Issues), regenerated from the SQLite sin
 | Bug | Queued | 11 |
 | Feature | Queued | 5 |
 | Task | In progress | 4 |
-| Task | Operator-blocked | 36 |
+| Task | Operator-blocked | 35 |
 | Task | Queued | 210 |
-| **TOTAL** | | **288** |
+| **TOTAL** | | **287** |
 
 ## Items
 
@@ -248,7 +248,6 @@ Open workable items (current_location = Issues), regenerated from the SQLite sin
 | VSC-420 | Task | Operator-blocked | medium | WHAT: the collaborator invite sent 2026-11-23 for the private career repository must be accepted by rnabulsi; nothing in the repository can accept it. Closes when the invite shows accepted in the provider read-back. | UNSET | UNSET |
 | VSC-421 | Task | Operator-blocked | high | WHAT: the vault v1 passphrase must be backed up by the operator outside the repository and outside any agent session; losing it makes sealed content unrecoverable. Closes when the operator confirms a backup exists. The value is never recorded here. | UNSET | UNSET |
 | VSC-422 | Task | Operator-blocked | medium | WHAT: the zero-findings ratchet records 63 where 23 was expected; which figure is authoritative is undecided. Closes when the figures are reconciled with a re-measured run and the ratchet file is updated or the discrepancy is explained. | UNSET | UNSET |
-| VSC-423 | Task | Operator-blocked | medium | WHAT: the website-version footer text exists in every localized page but each language rendering has not been reviewed by an independent per-language reviewer (11.4.256). Closes when a review verdict is recorded per language. | UNSET | UNSET |
 | VSC-424 | Task | Queued | low | WHAT: merged pr/ and feat/ branches remain on the remote and in local worktrees after PR merges. Closes when each is confirmed merged and removal is decided by the operator, per the no-silent-removal rule. | UNSET | UNSET |
 | VSC-425 | Task | In progress | medium | WHAT: operator-requested research programme whose outputs live under docs/research/protocols (directory not yet on main as of 2026-11-24; work in flight under another agent). Acceptance: the research documents are merged to main under that path, each cited by an item or Roadmap entry, and exported per the docs chain. | UNSET | UNSET |
 | VSC-430 | Feature | Queued | low | Deferred from wave 1: a new artifact suffix touches ENGINE_FORMATS, expected_files, the verify matrix, manifest.json and vault packing, and job_seeker accepts pdf slots only. Needs a design pass first. See docs/qa/career/career-engine-wave1-2026-11-24.md | UNSET | UNSET |

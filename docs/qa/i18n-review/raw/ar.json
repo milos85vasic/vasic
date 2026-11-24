@@ -1,0 +1,657 @@
+{
+ "lang": "ar",
+ "verdict": "FIX",
+ "summary": "Mostly sound Modern Standard Arabic in a professional register, but pf.summary is broken (a stray Chinese character '反', a non-word 'محبز', a changed meaning for 'independently-tested', and no verbatim 'Constitution'). 'Portfolio' was rendered as 'المحفظة' (wallet), 'Work' as 'العمل' (employment), and the 'Primary' nav landmark as 'الرئيسية' (which Arabic users read as 'Home'). The footer leaves 'Belgrade · Dubna' in English, and the desc.fallback attaches 'product' to the wrong placeholder.",
+ "checks": {
+  "meaning_idiom_register": "MSA professional-neutral register throughout. Real meaning defects: المحفظة (wallet) for portfolio, العمل (job) for Work, الحداثة (modernity) for novelty, التراث (folklore) for heritage tier, a literal 'itch to scratch' calque, and 'fleet' rendered as أسطول. pf.summary is mistranslated in three places.",
+  "script": "There is one real defect: U+53CD '反' (CJK) inside pf.summary. Apart from that every string is in Arabic script, with harakat (shadda, damma) used sparingly and correctly. There is no Persian ی/ک contamination.",
+  "rtl": "With page-level dir=rtl, the strings that start with a Latin run ('%s — ...', footer.text 'Belgrade · Dubna.') resolve correctly, because the paragraph direction is set by dir and not inferred. The '—' between Latin and Arabic runs takes the paragraph direction, so it is safe. The 'footer.version' colon is the plain ':' (Arabic has no separate colon glyph), and the LTR 'v2.0.0' link that follows renders on the left of the colon as expected, so no RLM/LRM is needed. In prod.desc.fallback the two %s stay in source order. Under RTL they display right-to-left (name on the right), which is the correct Arabic reading order. If both values are Latin and are adjacent through '—', they may be visually reordered: the proposed form keeps Arabic 'منتج' between them, which anchors the order. tier.* slugs with hyphens display as isolated LTR runs, which is OK.",
+  "plural": "No string carries a count or plural form. If counts are ever added (e.g. 'N products'), Arabic needs the full CLDR set: zero/one/two (dual)/few/many/other.",
+  "date_number": "There are no dates. The only numerals are the tier ordinals 1/2/3 in Western digits, which is acceptable for a tech site (Maghreb and most web UIs use Western digits). Using Arabic-Indic ١/٢/٣ would be a site-wide policy decision, not a defect here.",
+  "glossary": "Brand and product names are kept Latin. Real violations: 'Constitution' (pf.summary), 'AI' (kw.vasic) and 'Miloš Vasić' (alt.portrait). Fixes keep the Arabic term and add the protected term verbatim where natural.",
+  "footer_length": "mv footer.text is about 66 characters in English and about 55 in the proposed Arabic. It exceeds about 45 characters, but it is shorter than its source, so it is not a regression. footer.suffix (about 23) and footer.version (about 13) are fine."
+ },
+ "items": [
+  {
+   "src": "gen",
+   "key": "skip",
+   "verdict": "FIX",
+   "current": "تخطى إلى المحتوى",
+   "proposed": "انتقل إلى المحتوى",
+   "rationale": "'تخطى' is past tense (imperative would be 'تخطَّ'); a skip link needs an imperative, aligned with a11y.skip wording."
+  },
+  {
+   "src": "gen",
+   "key": "nav.home",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.portfolio",
+   "verdict": "FIX",
+   "current": "المحفظة",
+   "proposed": "معرض الأعمال",
+   "rationale": "Arabic 'المحفظة' means a wallet / investment portfolio; a professional work portfolio is 'معرض الأعمال'."
+  },
+  {
+   "src": "gen",
+   "key": "toggle",
+   "verdict": "FIX",
+   "current": "تبديل الشكل",
+   "proposed": "تبديل السمة",
+   "rationale": "'الشكل' (shape/form) is not 'theme'; aria.toggleTheme and title.theme already use 'السمة'."
+  },
+  {
+   "src": "gen",
+   "key": "footer.suffix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.eyebrow",
+   "verdict": "FIX",
+   "current": "محفظة موحدة",
+   "proposed": "معرض أعمال موحّد",
+   "rationale": "Arabic 'المحفظة' means a wallet / investment portfolio; a professional work portfolio is 'معرض الأعمال'."
+  },
+  {
+   "src": "gen",
+   "key": "pf.title",
+   "verdict": "FIX",
+   "current": "المحفظة",
+   "proposed": "معرض الأعمال",
+   "rationale": "Arabic 'المحفظة' means a wallet / investment portfolio; a professional work portfolio is 'معرض الأعمال'."
+  },
+  {
+   "src": "gen",
+   "key": "pf.download",
+   "verdict": "FIX",
+   "current": "تنزيل المحفظة (PDF)",
+   "proposed": "تنزيل معرض الأعمال (PDF)",
+   "rationale": "Arabic 'المحفظة' means a wallet / investment portfolio; a professional work portfolio is 'معرض الأعمال'."
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.tiers",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.helix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.title",
+   "verdict": "FIX",
+   "current": "أسطول واحد، منهج واحد",
+   "proposed": "منظومة واحدة، منهج واحد",
+   "rationale": "'أسطول' (naval/vehicle fleet) is a calque for a set of software modules; 'منظومة' is the natural term, used consistently."
+  },
+  {
+   "src": "gen",
+   "key": "pf.readmore",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.lede",
+   "verdict": "FIX",
+   "current": "محفظة موحدة، قائمة على الأدلة، من عائلة Helix، أدوات Vasic Digital، وسلسلة أدوات Server Factory.",
+   "proposed": "معرض أعمال موحّد قائم على الأدلة لعائلة Helix وأدوات Vasic Digital وسلسلة أدوات Server Factory.",
+   "rationale": "Arabic 'المحفظة' means a wallet / investment portfolio; a professional work portfolio is 'معرض الأعمال'. Also the comma-chained list without 'و' read as apposition rather than a list; 'من' should be the genitive 'لـ'."
+  },
+  {
+   "src": "gen",
+   "key": "pf.summary",
+   "verdict": "FIX",
+   "current": "أسطول واحد: تطبيقات المنتج الكبيرة على رأس عشرات من الوحدات الصغيرة المنفصلة والمنفردة والمتحكمة بشكل مستقل — الخاضعة لدستور هندسي مشترك والمدققة بواسطة QA反 الخداع. اللغة السائدة هي Go، مع Kotlin/KMP وTypeScript/React وPython وSwift وShell حيث تناسب بشكل أفضل. الأطروحة الموحدة: الميزة لم تكتمل إلا عندما يمكن لمستخدم حقيقي استخدامها وهناك دليل محبز لبرهنتها.",
+   "proposed": "منظومة واحدة: تطبيقات منتجات كبيرة مبنية فوق عشرات الوحدات الصغيرة المنفصلة والمختبَرة كلٌّ منها على حدة — يحكمها دستور هندسي مشترك (Constitution) ويتحقق منها ضمان جودة (QA) لا يقبل النتائج الزائفة. اللغة السائدة هي Go، إلى جانب Kotlin/KMP وTypeScript/React وPython وSwift وShell حيثما كانت الأنسب. الفكرة الجامعة: لا تُعدّ الميزة مكتملة إلا عندما يستطيع مستخدم حقيقي استخدامها ويوجد دليل مُسجَّل يثبت ذلك.",
+   "rationale": "Stray Chinese '反' inside 'QA反 الخداع'; non-word 'محبز' for 'captured'; 'المنفردة والمتحكمة بشكل مستقل' means 'independently controlled', not 'independently tested'; 'على رأس' means 'at the head of'; 'Constitution' must stay verbatim per glossary; 'anti-bluff QA' rendered by meaning."
+  },
+  {
+   "src": "gen",
+   "key": "tier1.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier1.title",
+   "verdict": "FIX",
+   "current": "عائلة Helix وبنية LLM",
+   "proposed": "عائلة Helix والبنية التحتية لـ LLM",
+   "rationale": "'بنية' alone means 'structure'; infrastructure is 'البنية التحتية'."
+  },
+  {
+   "src": "gen",
+   "key": "tier2.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.eyebrow",
+   "verdict": "FIX",
+   "current": "الدرجة 3 — التراث",
+   "proposed": "الدرجة 3 — الإرث",
+   "rationale": "'التراث' is cultural/folk heritage; a legacy product line is 'الإرث'."
+  },
+  {
+   "src": "gen",
+   "key": "tier3.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.tier",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.order",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.source",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.license",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.architecture",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "kw.vasic",
+   "verdict": "FIX",
+   "current": "هندسة البرمجيات، منصات تطوير الذكاء الاصطناعي، تنسيق LLM، مفتوح المصدر، أدوات المطور، SDK",
+   "proposed": "هندسة البرمجيات، منصات تطوير الذكاء الاصطناعي (AI)، تنسيق LLM، مفتوح المصدر، أدوات المطور، SDK",
+   "rationale": "Glossary requires 'AI' verbatim; kept the Arabic term for search and added AI in parentheses."
+  },
+  {
+   "src": "gen",
+   "key": "kw.milos",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.primaryNav",
+   "verdict": "FIX",
+   "current": "الرئيسية",
+   "proposed": "القائمة الرئيسية",
+   "rationale": "'الرئيسية' alone is the standard Arabic word for the Home page, so the nav landmark is announced as 'Home'; 'القائمة الرئيسية' = main navigation."
+  },
+  {
+   "src": "gen",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.work",
+   "verdict": "FIX",
+   "current": "العمل",
+   "proposed": "الأعمال",
+   "rationale": "'العمل' means job/labour/employment; portfolio 'Work' (projects) is 'الأعمال'."
+  },
+  {
+   "src": "gen",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.3",
+   "verdict": "FIX",
+   "current": "الحكّة التي كان علينا حكّها",
+   "proposed": "الحاجة التي كان لا بدّ من تلبيتها",
+   "rationale": "Literal 'the itch we had to scratch' is a calque with no meaning in Arabic (reads as a physical itch)."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.4",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.0",
+   "verdict": "FIX",
+   "current": "أين تكمن الحداثة",
+   "proposed": "أين يكمن الجديد",
+   "rationale": "'الحداثة' means modernity/modernism, not novelty."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.1",
+   "verdict": "FIX",
+   "current": "ما يفتحه عبر الأسطول",
+   "proposed": "ما يتيحه عبر المنظومة",
+   "rationale": "'أسطول' (naval/vehicle fleet) is a calque for a set of software modules; 'منظومة' is the natural term, used consistently. 'يفتحه' is a literal 'unlocks'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.2",
+   "verdict": "FIX",
+   "current": "كيف يعتمد عليه الأسطول",
+   "proposed": "كيف تعتمد عليه المنظومة",
+   "rationale": "'أسطول' (naval/vehicle fleet) is a calque for a set of software modules; 'منظومة' is the natural term, used consistently."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.name",
+   "verdict": "FIX",
+   "current": "ملاحظات الحالة والصّدق",
+   "proposed": "الحالة وملاحظات الصراحة",
+   "rationale": "'ملاحظات الحالة والصّدق' (notes of status and truthfulness) is awkward; heading should read 'Status & candour notes'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.summary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.short",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.long",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.desc.fallback",
+   "verdict": "FIX",
+   "current": "منتج %s — %s.",
+   "proposed": "%s — منتج %s.",
+   "rationale": "Current 'منتج %s — %s.' attaches 'product' to the FIRST placeholder (the name) instead of the second (the category); order of %s preserved, the noun moved to where English has it."
+  },
+  {
+   "src": "gen",
+   "key": "alt.portrait",
+   "verdict": "FIX",
+   "current": "صورة شخصية لميلوش فاسيتش",
+   "proposed": "صورة شخصية لـ Miloš Vasić",
+   "rationale": "Glossary requires the person name verbatim (Latin); transliteration removed."
+  },
+  {
+   "src": "gen",
+   "key": "alt.brandLogo",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.beta",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.active",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.production",
+   "verdict": "FIX",
+   "current": "إنتاج",
+   "proposed": "في الإنتاج",
+   "rationale": "Bare 'إنتاج' reads as 'manufacturing/output'; the badge means 'in production'."
+  },
+  {
+   "src": "gen",
+   "key": "status.in-development",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.shipped",
+   "verdict": "FIX",
+   "current": "مُطلَق",
+   "proposed": "تم إطلاقه",
+   "rationale": "'مُطلَق' is ambiguous (most commonly 'absolute', also 'divorced/released'); 'تم إطلاقه' = has been launched/shipped."
+  },
+  {
+   "src": "gen",
+   "key": "status.scaffold",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.roadmap",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.stable",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.mixed",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.helix-primary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.vasic-util-secondary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.serverfactory-tertiary",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "a11y.skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.expertise",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.work",
+   "verdict": "FIX",
+   "current": "العمل",
+   "proposed": "الأعمال",
+   "rationale": "'العمل' means job/labour; portfolio 'Work' is 'الأعمال' (same fix as gen nav.work)."
+  },
+  {
+   "src": "mv",
+   "key": "nav.experience",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.skills",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.heading",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.choose",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "footer.text",
+   "verdict": "FIX",
+   "current": "Belgrade · Dubna. تم بناؤه كموقع ثابت، تم نشره على GitHub Pages.",
+   "proposed": "بلغراد · دوبنا. بُني كموقع ثابت ونُشر على GitHub Pages.",
+   "rationale": "City names were left in English mid-Arabic sentence (not glossary terms) and create a leading Latin run in an RTL footer; double passive 'تم ... تم' is clumsy."
+  },
+  {
+   "src": "mv",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.changeLang",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.menu",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.close",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.primaryNav",
+   "verdict": "FIX",
+   "current": "الرئيسية",
+   "proposed": "القائمة الرئيسية",
+   "rationale": "'الرئيسية' alone is announced as 'Home page'; same fix as gen aria.primaryNav."
+  },
+  {
+   "src": "mv",
+   "key": "title.language",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.theme",
+   "verdict": "OK"
+  }
+ ],
+ "glossary_violation_judgements": [
+  {
+   "key": "pf.summary",
+   "term": "Constitution",
+   "real": true,
+   "why": "Rendered only as 'دستور'; the glossary requires the governance-document name verbatim. Fixed as 'دستور هندسي مشترك (Constitution)'."
+  },
+  {
+   "key": "kw.vasic",
+   "term": "AI",
+   "real": true,
+   "why": "Rendered only as 'الذكاء الاصطناعي'. AI is a protected term, so the fix keeps the Arabic term for search and adds '(AI)'."
+  },
+  {
+   "key": "alt.portrait",
+   "term": "Miloš Vasić",
+   "real": true,
+   "why": "The name was transliterated as 'ميلوش فاسيتش'. The glossary requires it in Latin form, and the fix uses 'لـ Miloš Vasić'."
+  }
+ ],
+ "spotcheck": [
+  "Confirm 'معرض الأعمال' as the site-wide term for Portfolio (alternative: 'ملف الأعمال'). It must be used consistently in nav, title, eyebrow, download and lede.",
+  "Confirm 'منظومة' for 'fleet' across pf.overview.title, pf.summary and prod.head.powers.1/2.",
+  "Confirm that the 'المكدس التقني' (tech stack) and 'تحت الغطاء' (under the hood) calques are acceptable to a native developer audience. Alternatives: 'التقنيات المستخدمة' and 'من الداخل'.",
+  "Check how the pf.summary rendering of 'anti-bluff QA' ('ضمان جودة (QA) لا يقبل النتائج الزائفة') reads.",
+  "Check that the footer line '© 2026 Vasic Digital — مبني على نظام OpenDesign' renders in the intended order in the live RTL page.",
+  "Check the length of the 'تم إطلاقه' and 'في الإنتاج' badges in the status pill."
+ ]
+}

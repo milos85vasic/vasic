@@ -1,0 +1,635 @@
+{
+ "lang": "hi",
+ "verdict": "FIX",
+ "summary": "Clean Devanagari, natural headings and correct danda use. Real defects: pf.summary ends in a garbled clause ('कब्जा किया गया है', which means 'seized') and drops verbatim 'Constitution'. alt.brandLogo has a garbled brand ('वासिडिजिटल'), and the glossary violations AI/Miloš Vasić need fixing. Several status badges are ambiguous or wrong: 'जारी' reads as 'ongoing', 'खांचा' means groove, and 'उत्पादन में' means manufacturing. 'fleet' is inconsistently 'बेड़ा' and 'नेटवर्क'.",
+ "checks": {
+  "meaning_idiom_register": "Professional-neutral register, and most headings are idiomatic (e.g. 'बिना लाग-लपेट की स्थिति', 'वह छलांग जो यह दिलाता है'). Defects: the literal 'itch' and 'game' calques, gamechanger.0 changing 'why' to 'how', विवरण used for overview, वास्तुकला for software architecture, and the inconsistent 'fleet' rendering (बेड़ा vs नेटवर्क).",
+  "script": "Devanagari is correct throughout, and Latin is used only for brands, technologies and glossary terms. The nukta (फ़, ज़) is mostly present. There is a minor inconsistency between 'जाएं' (gen skip) and 'जाएँ' (mv a11y.skip): both spellings are accepted, so it is not a FIX.",
+  "rtl": "Not applicable (LTR).",
+  "plural": "No counted strings. Hindi CLDR has one/other, and noun plural agreement is handled inline: kw.milos now uses the plural 'प्रणालियाँ'.",
+  "date_number": "There are no dates. Western digits 1/2/3 are standard for Hindi web UIs; Devanagari digits are not expected.",
+  "glossary": "Real violations: Constitution (pf.summary), AI (kw.vasic 'एआई'), Miloš Vasić (alt.portrait) and Vasic Digital (alt.brandLogo, which is also garbled). All are fixed with the term kept verbatim.",
+  "footer_length": "mv footer.text is about 65 characters, similar to the English (66). It is over 45 characters but matches the source. Other footer strings are under 25 characters."
+ },
+ "items": [
+  {
+   "src": "gen",
+   "key": "skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.home",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.portfolio",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "toggle",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.suffix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.download",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.products",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.tiers",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.helix",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.eyebrow",
+   "verdict": "FIX",
+   "current": "विवरण",
+   "proposed": "अवलोकन",
+   "rationale": "'विवरण' means description/details; overview is 'अवलोकन'."
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.title",
+   "verdict": "FIX",
+   "current": "एक बेड़ा, एक अनुशासन",
+   "proposed": "एक इकोसिस्टम, एक अनुशासन",
+   "rationale": "'बेड़ा' (fleet of ships) is a calque; prod.head.powers.* used 'नेटवर्क' instead (inconsistent). 'इकोसिस्टम' used consistently."
+  },
+  {
+   "src": "gen",
+   "key": "pf.readmore",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.lede",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "pf.summary",
+   "verdict": "FIX",
+   "current": "एक बेड़ा: दर्जनों छोटे, अलग, स्वतंत्र रूप से परीक्षण किए गए मॉड्यूल के ऊपर बड़े उत्पाद अनुप्रयोग — एक साझा इंजीनियरिंग संविधान द्वारा शासित और एंटी-ब्लफ़ QA द्वारा सत्यापित। प्रमुख भाषा Go है, Kotlin/KMP, TypeScript/React, Python, Swift, और Shell जहां वे सबसे अच्छे लगते हैं। एकत्रीकरण का सिद्धांत: एक विशेषता तभी पूरी होती है जब एक वास्तविक उपयोगकर्ता इसका उपयोग कर सकता है और इसका प्रमाण देने के लिए कब्जा किया गया है।",
+   "proposed": "एक इकोसिस्टम: दर्जनों छोटे, अलग-अलग और स्वतंत्र रूप से परीक्षण किए गए मॉड्यूलों पर बने बड़े उत्पाद एप्लिकेशन — एक साझा इंजीनियरिंग संविधान (Constitution) द्वारा शासित और झूठे दावों को स्वीकार न करने वाले QA द्वारा सत्यापित। प्रमुख भाषा Go है, और जहाँ उपयुक्त हो वहाँ Kotlin/KMP, TypeScript/React, Python, Swift और Shell का उपयोग होता है। मूल सिद्धांत: कोई फ़ीचर तभी पूरा माना जाता है जब कोई वास्तविक उपयोगकर्ता उसका उपयोग कर सके और इसे साबित करने के लिए दर्ज किया गया प्रमाण मौजूद हो।",
+   "rationale": "Last clause is garbled: 'कब्जा किया गया है' = 'has been seized/occupied' and the sentence lacks its subject (evidence); 'एकत्रीकरण का सिद्धांत' = 'aggregation principle'; 'जहां वे सबसे अच्छे लगते हैं' = 'where they look best'; 'विशेषता' = trait, not product feature; 'Constitution' must stay verbatim; 'एंटी-ब्लफ़' is a transliteration calque."
+  },
+  {
+   "src": "gen",
+   "key": "tier1.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier1.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.eyebrow",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.title",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.tier",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.order",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.source",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.license",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.architecture",
+   "verdict": "FIX",
+   "current": "वास्तुकला",
+   "proposed": "आर्किटेक्चर",
+   "rationale": "'वास्तुकला' is building architecture; software architecture is 'आर्किटेक्चर' in Hindi tech usage."
+  },
+  {
+   "src": "gen",
+   "key": "kw.vasic",
+   "verdict": "FIX",
+   "current": "सॉफ्टवेयर इंजीनियरिंग, एआई विकास मंच, LLM ऑर्केस्ट्रेशन, ओपन सोर्स, डेवलपर टूल्स, SDK",
+   "proposed": "सॉफ्टवेयर इंजीनियरिंग, AI डेवलपमेंट प्लेटफ़ॉर्म, LLM ऑर्केस्ट्रेशन, ओपन सोर्स, डेवलपर टूल्स, SDK",
+   "rationale": "Glossary requires 'AI' verbatim (was 'एआई'); 'विकास मंच' is a literal calque rarely searched."
+  },
+  {
+   "src": "gen",
+   "key": "kw.milos",
+   "verdict": "FIX",
+   "current": "प्लेटफ़ॉर्म इंजीनियर, SDK विशेषज्ञ, Kotlin, Go, सॉफ्टवेयर वास्तुकला, वितरित प्रणाली, ओपन सोर्स",
+   "proposed": "प्लेटफ़ॉर्म इंजीनियर, SDK विशेषज्ञ, Kotlin, Go, सॉफ्टवेयर आर्किटेक्चर, वितरित प्रणालियाँ, ओपन सोर्स",
+   "rationale": "'सॉफ्टवेयर वास्तुकला' is building-architecture wording; 'distributed systems' is plural."
+  },
+  {
+   "src": "gen",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.3",
+   "verdict": "FIX",
+   "current": "वह खुजली जिसे हमें खुजलाना था",
+   "proposed": "वह ज़रूरत जिसे पूरा करना ही था",
+   "rationale": "'वह खुजली जिसे हमें खुजलाना था' is a literal calque of 'itch to scratch' and reads as a physical itch."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.4",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.0",
+   "verdict": "FIX",
+   "current": "यह खेल को कैसे बदल देता है",
+   "proposed": "यह पूरी तस्वीर क्यों बदल देता है",
+   "rationale": "Current text asks 'how' (कैसे) where source says 'why', and 'खेल को बदल देता है' is a literal calque."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.3",
+   "verdict": "FIX",
+   "current": "ऐसे विचार जिन्हें अपनाने लायक है",
+   "proposed": "ऐसे विचार जो अपनाने लायक हैं",
+   "rationale": "'ऐसे विचार जिन्हें अपनाने लायक है' is ungrammatical (agreement)."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.1",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.2",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.3",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.0",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.1",
+   "verdict": "FIX",
+   "current": "पूरे नेटवर्क में यह क्या अनलॉक करता है",
+   "proposed": "पूरे इकोसिस्टम में यह क्या संभव बनाता है",
+   "rationale": "'बेड़ा' (fleet of ships) is a calque; prod.head.powers.* used 'नेटवर्क' instead (inconsistent). 'इकोसिस्टम' used consistently. 'अनलॉक करता है' is a literal 'unlocks'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.2",
+   "verdict": "FIX",
+   "current": "नेटवर्क इस पर कैसे निर्भर है",
+   "proposed": "इकोसिस्टम इस पर कैसे निर्भर है",
+   "rationale": "'बेड़ा' (fleet of ships) is a calque; prod.head.powers.* used 'नेटवर्क' instead (inconsistent). 'इकोसिस्टम' used consistently."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.name",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.summary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.short",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.long",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "prod.desc.fallback",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "alt.portrait",
+   "verdict": "FIX",
+   "current": "मिलोश वासिच का पोट्रेट",
+   "proposed": "Miloš Vasić का पोर्ट्रेट",
+   "rationale": "Glossary requires the person name verbatim; 'पोट्रेट' is also misspelled (पोर्ट्रेट)."
+  },
+  {
+   "src": "gen",
+   "key": "alt.brandLogo",
+   "verdict": "FIX",
+   "current": "वासिडिजिटल का लोगो",
+   "proposed": "Vasic Digital का लोगो",
+   "rationale": "Garbled brand transliteration 'वासिडिजिटल'; brand must stay Latin verbatim."
+  },
+  {
+   "src": "gen",
+   "key": "status.beta",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.active",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.production",
+   "verdict": "FIX",
+   "current": "उत्पादन में",
+   "proposed": "प्रोडक्शन में",
+   "rationale": "'उत्पादन में' means 'in manufacturing'; software 'production' is 'प्रोडक्शन'."
+  },
+  {
+   "src": "gen",
+   "key": "status.in-development",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.shipped",
+   "verdict": "FIX",
+   "current": "जारी",
+   "proposed": "रिलीज़ हो चुका",
+   "rationale": "'जारी' is ambiguous: it most often means 'ongoing/continuing', the opposite of shipped."
+  },
+  {
+   "src": "gen",
+   "key": "status.scaffold",
+   "verdict": "FIX",
+   "current": "खांचा",
+   "proposed": "प्रारंभिक ढाँचा",
+   "rationale": "'खांचा' means groove/slot/mould; a code scaffold is an initial skeleton."
+  },
+  {
+   "src": "gen",
+   "key": "status.roadmap",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.stable",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "status.mixed",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.helix-primary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.vasic-util-secondary",
+   "verdict": "OK"
+  },
+  {
+   "src": "gen",
+   "key": "tier.serverfactory-tertiary",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "a11y.skip",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.expertise",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.work",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.experience",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.skills",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "nav.contact",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.heading",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "dl.choose",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "footer.text",
+   "verdict": "FIX",
+   "current": "Belgrade · Dubna. एक स्थिर साइट के रूप में बनाया गया, GitHub Pages पर तैनात।",
+   "proposed": "बेलग्रेड · दुब्ना। स्थिर साइट के रूप में बनाया गया, GitHub Pages पर तैनात।",
+   "rationale": "City names left in English and a Latin period mid-Hindi; Hindi sentence terminator is the danda '।'."
+  },
+  {
+   "src": "mv",
+   "key": "footer.version",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.changeLang",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.toggleTheme",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.menu",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.close",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.backToTop",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "aria.primaryNav",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.language",
+   "verdict": "OK"
+  },
+  {
+   "src": "mv",
+   "key": "title.theme",
+   "verdict": "OK"
+  }
+ ],
+ "glossary_violation_judgements": [
+  {
+   "key": "pf.summary",
+   "term": "Constitution",
+   "real": true,
+   "why": "Rendered only as 'संविधान'. Fixed with '(Constitution)' added."
+  },
+  {
+   "key": "kw.vasic",
+   "term": "AI",
+   "real": true,
+   "why": "Transliterated as 'एआई'. Fixed with the verbatim 'AI'."
+  },
+  {
+   "key": "alt.portrait",
+   "term": "Miloš Vasić",
+   "real": true,
+   "why": "Transliterated as 'मिलोश वासिच'. Fixed with the Latin name."
+  },
+  {
+   "key": "alt.brandLogo",
+   "term": "Vasic Digital",
+   "real": true,
+   "why": "The transliteration is garbled ('वासिडिजिटल'). Fixed as 'Vasic Digital का लोगो'."
+  }
+ ],
+ "spotcheck": [
+  "Confirm 'इकोसिस्टम' for 'fleet' (alternatives: 'तंत्र' or 'समूह').",
+  "Check how the pf.summary rendering of 'anti-bluff QA' ('झूठे दावों को स्वीकार न करने वाले QA') reads.",
+  "Check the 'रिलीज़ हो चुका' and 'प्रारंभिक ढाँचा' badge lengths.",
+  "Decide between 'जाएं' and 'जाएँ' (anusvara vs chandrabindu) for site-wide consistency.",
+  "Check 'उत्पाद' vs 'प्रोडक्ट' for Products. 'उत्पाद' is fine, but a native speaker should confirm the tone."
+ ]
+}
