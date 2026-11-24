@@ -54,14 +54,15 @@ die() { echo "FATAL: $*" >&2; exit 1; }
 # HELIX_TRANSLATE_BIN=<path> if you have a local engine binary.
 # Engine selection (no silent fallback to anything but the SAME canonical engine):
 #   1. HELIX_TRANSLATE_BIN override; 2. the LOCAL runner _tools/helixtranslate-local.sh
-#   when a local helixtranslate image exists (rootless runtime via the Containers
-#   Submodule probe); 3. the remote-fleet ssh shim. Root cause fixed 2026-11-24: the
+#   when a podman image helixtranslate:cli AND the env file exist (the runner then
+#   resolves its runtime via the Containers Submodule probe); 3. the remote-fleet ssh shim. Root cause fixed 2026-11-24: the
 #   shim needs HT_FLEET hosts that do not resolve here, so the probe was rc 2 even
 #   with a built local image.
 _local_image() { { podman images --format '{{.Repository}}:{{.Tag}}' 2>/dev/null || true; } | grep -qE '(^|/)helixtranslate:cli$'; }
-if [ -n "${HELIX_TRANSLATE_BIN:-}" ]; then ENGINE="$HELIX_TRANSLATE_BIN"
-elif _local_image && [ -f "${HELIX_ENVFILE:-$HOME/.helixtranslate.env}" ]; then ENGINE="$TOOLS/helixtranslate-local.sh"
-else ENGINE="$TOOLS/helixtranslate-container.sh"; fi
+ENGINE="${HELIX_TRANSLATE_BIN:-$TOOLS/helixtranslate-container.sh}"
+if [ -z "${HELIX_TRANSLATE_BIN:-}" ] && _local_image && [ -f "${HELIX_ENVFILE:-$HOME/.helixtranslate.env}" ]; then
+  ENGINE="$TOOLS/helixtranslate-local.sh"   # needs podman image helixtranslate:cli + the env file
+fi
 EVIDENCE_DIR="${TRANSLATE_EVIDENCE_DIR:-$REPO/_tests/evidence/translate}"
 SOURCE_LANG="en"
 # 2026-11-24 live-measured: groq llama-3.3-70b-versatile is gone (404) and
