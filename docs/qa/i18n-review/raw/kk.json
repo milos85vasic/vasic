@@ -1,0 +1,717 @@
+{
+ "lang": "kk",
+ "verdict": "FIX",
+ "summary": "Short labels (nav, aria, menu, language/theme titles, most badges) are correct Kazakh Cyrillic. Real defects are concentrated in prose and headings: pf.summary is garbled and transliterates 'Constitution'; 'fleet' is calqued as naval 'флот'; prod.order and both kw.* keyword lists contain mistranslations; several rotating headings are literal calques or ungrammatical; city names left in Latin.",
+ "checks": {
+  "meaning_idiom_register": "Register is neutral-professional. FIX: pf.summary (garbled clauses), prod.order (purchase order), kw.vasic/kw.milos (wrong terms), toggle, pf.download (case), heading calques whywebuilt.2/.3, gamechanger.0/.1/.name, challenges.2, status.0/.2, powers.1/.2, status.in-development, nav.skills.",
+  "script": "Cyrillic with Kazakh-specific letters used correctly (ә ғ қ ң ө ұ ү і present; һ not needed); no Russian-only substitutions spotted. Defect: Latin 'Belgrade · Dubna' in footer.text (fixed to Белград · Дубна). Latin brand/product names are correct by glossary.",
+  "rtl": "n/a",
+  "plural": "No plural-form strings; confirmed none carry plural variants.",
+  "date_number": "No dates or numbers inside strings; confirmed. '1-деңгей' ordinal form is correct.",
+  "glossary": "One real violation: pf.summary 'Конституция' (transliterated; fixed as 'конституция (Constitution)'). Other glossary terms verbatim (Helix, Vasic Digital, Server Factory, OpenDesign, GitHub Pages, Miloš Vasić, AI, LLM, SDK, QA). pf.lede also used the slug 'vasic-digital' — aligned to the brand.",
+  "footer_length": "footer.suffix 29 chars, footer.version 13 chars: fine. footer.text (mv) ~80 chars vs 66 English: full-sentence line, flag for a narrow-viewport visual check."
+ },
+ "items": [
+  {
+   "src": "gen",
+   "key": "skip",
+   "verdict": "OK",
+   "current": "Мазмұнға өту"
+  },
+  {
+   "src": "gen",
+   "key": "nav.home",
+   "verdict": "OK",
+   "current": "Басты бет"
+  },
+  {
+   "src": "gen",
+   "key": "nav.products",
+   "verdict": "OK",
+   "current": "Өнімдер"
+  },
+  {
+   "src": "gen",
+   "key": "nav.portfolio",
+   "verdict": "OK",
+   "current": "Портфолио"
+  },
+  {
+   "src": "gen",
+   "key": "toggle",
+   "verdict": "FIX",
+   "current": "Темаға ауысу",
+   "proposed": "Теманы ауыстыру",
+   "rationale": "'Темаға ауысу' means 'switch to a theme'; the action is to toggle the theme (consistent with aria.toggleTheme)."
+  },
+  {
+   "src": "gen",
+   "key": "footer.suffix",
+   "verdict": "OK",
+   "current": "OpenDesign жүйесінде жасалған"
+  },
+  {
+   "src": "gen",
+   "key": "footer.version",
+   "verdict": "OK",
+   "current": "Сайт нұсқасы:"
+  },
+  {
+   "src": "gen",
+   "key": "pf.eyebrow",
+   "verdict": "OK",
+   "current": "біртұтас портфолио"
+  },
+  {
+   "src": "gen",
+   "key": "pf.title",
+   "verdict": "OK",
+   "current": "Портфолио"
+  },
+  {
+   "src": "gen",
+   "key": "pf.download",
+   "verdict": "FIX",
+   "current": "Портфолио жүктеу (PDF)",
+   "proposed": "Портфолионы жүктеп алу (PDF)",
+   "rationale": "Missing accusative case on the direct object ('Портфолионы') and the standard verb for download is 'жүктеп алу' (as in dl.heading)."
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.products",
+   "verdict": "OK",
+   "current": "Өнімдер"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.tiers",
+   "verdict": "OK",
+   "current": "Деңгейлер"
+  },
+  {
+   "src": "gen",
+   "key": "pf.stat.helix",
+   "verdict": "OK",
+   "current": "Helix өнімдері"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.eyebrow",
+   "verdict": "OK",
+   "current": "жалпы көрініс"
+  },
+  {
+   "src": "gen",
+   "key": "pf.overview.title",
+   "verdict": "FIX",
+   "current": "Бір флот, бір тәртіп",
+   "proposed": "Бір экожүйе, бір тәртіп",
+   "rationale": "'флот' means a naval fleet in Kazakh — a calque for a family of software modules; 'экожүйе' is the natural term. Applied consistently to pf.summary and prod.head.powers.1/.2."
+  },
+  {
+   "src": "gen",
+   "key": "pf.readmore",
+   "verdict": "OK",
+   "current": "Толығырақ оқу"
+  },
+  {
+   "src": "gen",
+   "key": "pf.lede",
+   "verdict": "FIX",
+   "current": "Helix отбасының, vasic-digital құралдарының және Server Factory құралдар жиынының біртұтас, дәлелді портфолиосы.",
+   "proposed": "Helix отбасының, Vasic Digital құралдарының және Server Factory құралдар тізбегінің біртұтас, дәлелдерге негізделген портфолиосы.",
+   "rationale": "Use the brand 'Vasic Digital' (consistent with tier2.title) instead of the slug; 'toolchain' is 'құралдар тізбегі', and 'evidence-based' is 'дәлелдерге негізделген' ('дәлелді' = justified)."
+  },
+  {
+   "src": "gen",
+   "key": "pf.summary",
+   "verdict": "FIX",
+   "current": "Бір флот: ондаған кіші, бөлек, тәуелсіз сыналған модульдердің үстіне орналасқан үлкен өнімдік қосымшалар — ортақ инженерлік Конституция басқаратын және анти-блеф QA арқылы тексерілген. Басым тіл — Go, Kotlin/KMP, TypeScript/React, Python, Swift, және Shell — олардың орнына сәйкес келеді. Біртұтас тезис: бір функция тек нағыз пайдаланушы оны пайдалана алатын және дәлелді дәлелдердің бар болғанын дәлелдейтін кезде ғана аяқталады.",
+   "proposed": "Бір экожүйе: ондаған шағын, бір-бірінен тәуелсіз және жеке-жеке сыналған модульдердің үстіне құрылған ірі өнімдік қосымшалар — оларды ортақ инженерлік конституция (Constitution) басқарады, ал сапасын жалған есептерге жол бермейтін QA тексереді. Негізгі тіл — Go; Kotlin/KMP, TypeScript/React, Python, Swift және Shell өздері ең қолайлы жерлерде қолданылады. Біріктіруші тезис: функция нақты пайдаланушы оны қолдана алғанда және мұны дәлелдейтін тіркелген айғақ болғанда ғана дайын саналады.",
+   "rationale": "Current transliterates the glossary term (Конституция, glossary violation), keeps the calque 'анти-блеф QA', garbles the language list ('олардың орнына сәйкес келеді' = 'correspond to their place') and has a tautological, broken final clause ('дәлелді дәлелдердің ... дәлелдейтін')."
+  },
+  {
+   "src": "gen",
+   "key": "tier1.eyebrow",
+   "verdict": "OK",
+   "current": "1-деңгей — флагман"
+  },
+  {
+   "src": "gen",
+   "key": "tier1.title",
+   "verdict": "OK",
+   "current": "Helix отбасы және LLM инфрақұрылымы"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.eyebrow",
+   "verdict": "OK",
+   "current": "2-деңгей — құралдар"
+  },
+  {
+   "src": "gen",
+   "key": "tier2.title",
+   "verdict": "OK",
+   "current": "Vasic Digital құралдары"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.eyebrow",
+   "verdict": "OK",
+   "current": "3-деңгей — мұра"
+  },
+  {
+   "src": "gen",
+   "key": "tier3.title",
+   "verdict": "OK",
+   "current": "Server Factory"
+  },
+  {
+   "src": "gen",
+   "key": "prod.tier",
+   "verdict": "OK",
+   "current": "деңгей"
+  },
+  {
+   "src": "gen",
+   "key": "prod.order",
+   "verdict": "FIX",
+   "current": "тапсырыс",
+   "proposed": "реті",
+   "rationale": "Rendered next to a sort-position number (e.Order); 'тапсырыс' means a purchase order: mistranslation."
+  },
+  {
+   "src": "gen",
+   "key": "prod.source",
+   "verdict": "OK",
+   "current": "Көзі"
+  },
+  {
+   "src": "gen",
+   "key": "prod.license",
+   "verdict": "OK",
+   "current": "лицензия"
+  },
+  {
+   "src": "gen",
+   "key": "prod.architecture",
+   "verdict": "OK",
+   "current": "архитектура"
+  },
+  {
+   "src": "gen",
+   "key": "kw.vasic",
+   "verdict": "FIX",
+   "current": "бағдарламалық инженерия, AI құрылымдарының дамыту платформалары, LLM оркестрлеу, ашық көзі, дамыту құралдары, SDK",
+   "proposed": "бағдарламалық инженерия, AI әзірлеу платформалары, LLM оркестрлеу, ашық бастапқы код, әзірлеуші құралдары, SDK",
+   "rationale": "'AI құрылымдарының дамыту платформалары' adds 'structures' (mistranslation); 'open source' is 'ашық бастапқы код' ('ашық көзі' = 'its open eye/source'); developer tools = 'әзірлеуші құралдары'."
+  },
+  {
+   "src": "gen",
+   "key": "kw.milos",
+   "verdict": "FIX",
+   "current": "платформа инженері, SDK маманы, Kotlin, Go, бағдарламалық инженерия, таратылған жүйелер, ашық көзі",
+   "proposed": "платформа инженері, SDK маманы, Kotlin, Go, бағдарламалық архитектура, таратылған жүйелер, ашық бастапқы код",
+   "rationale": "'software architecture' was mistranslated as 'бағдарламалық инженерия' (software engineering); 'open source' fixed as in kw.vasic."
+  },
+  {
+   "src": "gen",
+   "key": "aria.primaryNav",
+   "verdict": "OK",
+   "current": "Негізгі"
+  },
+  {
+   "src": "gen",
+   "key": "aria.backToTop",
+   "verdict": "OK",
+   "current": "Басына оралу"
+  },
+  {
+   "src": "gen",
+   "key": "aria.toggleTheme",
+   "verdict": "OK",
+   "current": "Қараңғы / ақшыл теманы ауыстыру"
+  },
+  {
+   "src": "gen",
+   "key": "nav.work",
+   "verdict": "OK",
+   "current": "Жұмыс"
+  },
+  {
+   "src": "gen",
+   "key": "nav.contact",
+   "verdict": "OK",
+   "current": "Байланыс"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.0",
+   "verdict": "OK",
+   "current": "Шешуге кіріскен мәселеміз"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.1",
+   "verdict": "OK",
+   "current": "Бұл не үшін бар"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.2",
+   "verdict": "FIX",
+   "current": "Оны құруға не итермеледі",
+   "proposed": "Бізді мұны құруға не итермеледі",
+   "rationale": "Missing the object 'бізді' (us); the clause is incomplete without it."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.3",
+   "verdict": "FIX",
+   "current": "Қышытатын қышымыз",
+   "proposed": "Бізге тыным бермеген қажеттілік",
+   "rationale": "'Қышытатын қышымыз' is a meaningless literal calque of 'the itch we had to scratch'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.4",
+   "verdict": "OK",
+   "current": "Шығу тарихы"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.0",
+   "verdict": "FIX",
+   "current": "Ойынды қалай өзгертеді",
+   "proposed": "Неге ол ойын ережесін өзгертеді",
+   "rationale": "Current says 'how' (қалай) instead of 'why'; the Kazakh idiom is 'ойын ережесін өзгерту'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.1",
+   "verdict": "FIX",
+   "current": "Жеткізетін секіріс",
+   "proposed": "Ол берген серпіліс",
+   "rationale": "'Жеткізетін секіріс' is a literal calque ('delivered jump'); 'серпіліс' is the idiomatic word for a leap/breakthrough."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.2",
+   "verdict": "OK",
+   "current": "Оны өзгеше ететін нәрсе"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.3",
+   "verdict": "OK",
+   "current": "Оның маңызы неге зор"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.0",
+   "verdict": "OK",
+   "current": "Жаңалық қайда жатыр"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.1",
+   "verdict": "OK",
+   "current": "Шынымен жаңа нәрсе не"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.2",
+   "verdict": "OK",
+   "current": "Ішіндегі жаңалықтар"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.3",
+   "verdict": "OK",
+   "current": "Ұрлап алуға тұрарлық идеялар"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.0",
+   "verdict": "OK",
+   "current": "Қиын мәселелер, адал шешімдер"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.1",
+   "verdict": "OK",
+   "current": "Қиын бөліктері — және түзетулер"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.2",
+   "verdict": "FIX",
+   "current": "Қиын бөліктерді инженерлеу",
+   "proposed": "Күрделі тұстардың инженерлік шешімі",
+   "rationale": "'инженерлеу' is a non-standard calque of 'engineering' as a verb."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.3",
+   "verdict": "OK",
+   "current": "Қай жерде қиындады және біз қалай жеңдік"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.0",
+   "verdict": "OK",
+   "current": "Технологиялық стек және оның себебі"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.1",
+   "verdict": "OK",
+   "current": "Қалай құрылды"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.2",
+   "verdict": "OK",
+   "current": "Ішкі құрылымы"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.3",
+   "verdict": "OK",
+   "current": "Инженерлік стек"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.0",
+   "verdict": "FIX",
+   "current": "Күйі туралы ашық айтылған",
+   "proposed": "Күйі — бүкпесіз",
+   "rationale": "'Күйі туралы ашық айтылған' is a dangling participle fragment ('openly told about the status')."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.1",
+   "verdict": "OK",
+   "current": "Шынымен қай күйде тұр"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.2",
+   "verdict": "FIX",
+   "current": "Адал күйі",
+   "proposed": "Шынайы күйі",
+   "rationale": "'Адал күйі' ('an honest/faithful state') is unnatural; 'шынайы' (true, genuine) fits a status."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.3",
+   "verdict": "OK",
+   "current": "Шындыққа негізделген күйі"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.0",
+   "verdict": "OK",
+   "current": "Берген мүмкіндіктері"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.1",
+   "verdict": "FIX",
+   "current": "Бүкіл флоты бойынша ашқан нәрселері",
+   "proposed": "Бүкіл экожүйеде ашатын мүмкіндіктері",
+   "rationale": "Consistency with 'fleet' -> 'экожүйе'; 'флоты бойынша ашқан нәрселері' is also past tense and vague."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.2",
+   "verdict": "FIX",
+   "current": "Флот оған қалай сүйенеді",
+   "proposed": "Экожүйе оған қалай сүйенеді",
+   "rationale": "Consistency with 'fleet' -> 'экожүйе'."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.whywebuilt.name",
+   "verdict": "OK",
+   "current": "Оны неге құрдық"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.gamechanger.name",
+   "verdict": "FIX",
+   "current": "Ойынды өзгертетін нәрсе неге",
+   "proposed": "Неге бұл — бетбұрыс",
+   "rationale": "'Ойынды өзгертетін нәрсе неге' is ungrammatical (question word stranded at the end)."
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.innovative.name",
+   "verdict": "OK",
+   "current": "Жаңашылдығы неде"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.challenges.name",
+   "verdict": "OK",
+   "current": "Мәселелер мен шешімдер"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.techstack.name",
+   "verdict": "OK",
+   "current": "Технологиялық стек"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.status.name",
+   "verdict": "OK",
+   "current": "Күйі және адалдық ескертпелері"
+  },
+  {
+   "src": "gen",
+   "key": "prod.head.powers.name",
+   "verdict": "OK",
+   "current": "Барлық өнімдерде қалай қолданылады (берген мүмкіндіктері)"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.summary",
+   "verdict": "OK",
+   "current": "Қорытынды"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.short",
+   "verdict": "OK",
+   "current": "Қысқаша сипаттама"
+  },
+  {
+   "src": "gen",
+   "key": "prod.sec.long",
+   "verdict": "OK",
+   "current": "Толық сипаттама"
+  },
+  {
+   "src": "gen",
+   "key": "prod.desc.fallback",
+   "verdict": "OK",
+   "current": "%s — %s өнімі."
+  },
+  {
+   "src": "gen",
+   "key": "alt.portrait",
+   "verdict": "OK",
+   "current": "Miloš Vasić портреті"
+  },
+  {
+   "src": "gen",
+   "key": "alt.brandLogo",
+   "verdict": "OK",
+   "current": "Vasic Digital логотипі"
+  },
+  {
+   "src": "gen",
+   "key": "status.beta",
+   "verdict": "OK",
+   "current": "Бета"
+  },
+  {
+   "src": "gen",
+   "key": "status.active",
+   "verdict": "OK",
+   "current": "Белсенді"
+  },
+  {
+   "src": "gen",
+   "key": "status.production",
+   "verdict": "OK",
+   "current": "Өндірісте"
+  },
+  {
+   "src": "gen",
+   "key": "status.in-development",
+   "verdict": "FIX",
+   "current": "Жобалауда",
+   "proposed": "Әзірленуде",
+   "rationale": "'Жобалауда' means 'in the design phase'; 'in development' is 'Әзірленуде'."
+  },
+  {
+   "src": "gen",
+   "key": "status.shipped",
+   "verdict": "OK",
+   "current": "Шығарылды"
+  },
+  {
+   "src": "gen",
+   "key": "status.scaffold",
+   "verdict": "OK",
+   "current": "Скелет"
+  },
+  {
+   "src": "gen",
+   "key": "status.roadmap",
+   "verdict": "OK",
+   "current": "Жоспарда"
+  },
+  {
+   "src": "gen",
+   "key": "status.stable",
+   "verdict": "OK",
+   "current": "Тұрақты"
+  },
+  {
+   "src": "gen",
+   "key": "status.mixed",
+   "verdict": "OK",
+   "current": "Аралас"
+  },
+  {
+   "src": "gen",
+   "key": "tier.helix-primary",
+   "verdict": "OK",
+   "current": "helix-primary"
+  },
+  {
+   "src": "gen",
+   "key": "tier.vasic-util-secondary",
+   "verdict": "OK",
+   "current": "vasic-util-secondary"
+  },
+  {
+   "src": "gen",
+   "key": "tier.serverfactory-tertiary",
+   "verdict": "OK",
+   "current": "serverfactory-tertiary"
+  },
+  {
+   "src": "mv",
+   "key": "a11y.skip",
+   "verdict": "OK",
+   "current": "Негізгі мазмұнға өту"
+  },
+  {
+   "src": "mv",
+   "key": "nav.expertise",
+   "verdict": "OK",
+   "current": "Мамандану"
+  },
+  {
+   "src": "mv",
+   "key": "nav.work",
+   "verdict": "OK",
+   "current": "Жұмыс"
+  },
+  {
+   "src": "mv",
+   "key": "nav.experience",
+   "verdict": "OK",
+   "current": "Тәжірибе"
+  },
+  {
+   "src": "mv",
+   "key": "nav.skills",
+   "verdict": "FIX",
+   "current": "Қабілеттер",
+   "proposed": "Дағдылар",
+   "rationale": "For a CV/portfolio section, 'skills' is 'Дағдылар'; 'Қабілеттер' means innate abilities/aptitudes."
+  },
+  {
+   "src": "mv",
+   "key": "nav.contact",
+   "verdict": "OK",
+   "current": "Байланыс"
+  },
+  {
+   "src": "mv",
+   "key": "dl.heading",
+   "verdict": "OK",
+   "current": "Жүктеп алу"
+  },
+  {
+   "src": "mv",
+   "key": "dl.choose",
+   "verdict": "OK",
+   "current": "Тілді таңдаңыз"
+  },
+  {
+   "src": "mv",
+   "key": "footer.text",
+   "verdict": "FIX",
+   "current": "Belgrade · Dubna. Статикалық сайт ретінде жасалған, GitHub Pages-те орналастырылған.",
+   "proposed": "Белград · Дубна. Статикалық сайт ретінде жасалған, GitHub Pages-те орналастырылған.",
+   "rationale": "City names were left in Latin script mid-Cyrillic text; Kazakh uses 'Белград' (as in _content_kk/docs/cv.md) and 'Дубна'."
+  },
+  {
+   "src": "mv",
+   "key": "footer.version",
+   "verdict": "OK",
+   "current": "Сайт нұсқасы:"
+  },
+  {
+   "src": "mv",
+   "key": "aria.changeLang",
+   "verdict": "OK",
+   "current": "Тілді ауыстыру"
+  },
+  {
+   "src": "mv",
+   "key": "aria.toggleTheme",
+   "verdict": "OK",
+   "current": "Қараңғы / ақшыл теманы ауыстыру"
+  },
+  {
+   "src": "mv",
+   "key": "aria.menu",
+   "verdict": "OK",
+   "current": "Мәзір"
+  },
+  {
+   "src": "mv",
+   "key": "aria.close",
+   "verdict": "OK",
+   "current": "Жабу"
+  },
+  {
+   "src": "mv",
+   "key": "aria.backToTop",
+   "verdict": "OK",
+   "current": "Басына оралу"
+  },
+  {
+   "src": "mv",
+   "key": "aria.primaryNav",
+   "verdict": "OK",
+   "current": "Негізгі"
+  },
+  {
+   "src": "mv",
+   "key": "title.language",
+   "verdict": "OK",
+   "current": "Тіл"
+  },
+  {
+   "src": "mv",
+   "key": "title.theme",
+   "verdict": "OK",
+   "current": "Тема"
+  }
+ ],
+ "glossary_violation_judgements": [
+  {
+   "key": "pf.summary",
+   "term": "Constitution",
+   "real": true,
+   "why": "Rendered as Cyrillic 'Конституция' instead of the verbatim glossary term; fixed as 'ортақ инженерлік конституция (Constitution)'."
+  }
+ ],
+ "spotcheck": [
+  "pf.summary rewrite: 'жалған есептерге жол бермейтін QA' as the rendering of 'anti-bluff QA', and 'тіркелген айғақ' for 'captured evidence'.",
+  "'экожүйе' for the author's 'fleet' metaphor.",
+  "status.production 'Өндірісте' (manufacturing sense) vs a software-production phrasing; status badges are capitalised in kk but lowercase in en/tr — confirm whether CSS normalises case.",
+  "nav.expertise 'Мамандану' vs 'Біліктілік'/'Сараптама'.",
+  "prod.sec.summary 'Қорытынды' (conclusion) vs 'Түйіндеме' for a top-of-page summary.",
+  "prod.source 'Көзі' over a repository list (vs 'Бастапқы код').",
+  "Heading rewrites for gamechanger.* ('ойын ережесін өзгерту', 'бетбұрыс', 'серпіліс')."
+ ]
+}

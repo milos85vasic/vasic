@@ -4255,15 +4255,6 @@ The stack rule Go, Gin, HTTP/3 and Brotli applies to job_seeker, which is next i
 
 Two open content decisions for the job_seeker profile.yaml: the i18n ids for skill items, and the identity.pronouns field. Both need the operator's content input; no value has been chosen. Filed under VSC (no job_seeker roster prefix).
 
-## VSC-417 — --runner flag programme: forced container-runner selector across containers, umbrella launchers and docs
-
-**Status:** In progress
-**Type:** Task
-**Severity:** high
-**Created-By:** Claude
-
-WHAT: containers PR #3 adds forced-runner selector; umbrella PR #11 bumped the pin with manifest ref; umbrella launchers (PR #12) carry --runner and the containers gitlink is current (2d18551). 2026-11-24 status: umbrella side merged; the workshop launcher evidence is NOT merged (workshop runner branch is unpushed, blocked at a gate), so the programme stays In progress. Closes when every launcher's evidence is merged and a live run with each runner is captured.
-
 ## VSC-418 — storage-policy programme: root filesystem overfill, DATA1TB and DATA7TB placement
 
 **Status:** In progress
@@ -4318,18 +4309,6 @@ WHAT: the vault v1 passphrase must be backed up by the operator outside the repo
 
 WHAT: the zero-findings ratchet records 63 where 23 was expected; which figure is authoritative is undecided. Closes when the figures are reconciled with a re-measured run and the ratchet file is updated or the discrepancy is explained.
 
-## VSC-423 — operator item: per-language footer review of the website-version footer
-
-**Status:** Operator-blocked
-**Type:** Task
-**Operator-Block-Details:** WHAT: per-language footer review needs independent per-language reviewers and an operator choice of method UNBLOCK: Choose one:
-- [1] machine review per language with recorded verdicts (cost: model spend)
-- [2] native-speaker review for priority languages only (cost: operator effort) WHO: Claude
-**Severity:** medium
-**Created-By:** Claude
-
-WHAT: the website-version footer text exists in every localized page but each language rendering has not been reviewed by an independent per-language reviewer (11.4.256). Closes when a review verdict is recorded per language.
-
 ## VSC-424 — operator item: stale remote and local branches cleanup
 
 **Status:** Queued
@@ -4347,14 +4326,6 @@ WHAT: merged pr/ and feat/ branches remain on the remote and in local worktrees 
 **Created-By:** Claude
 
 WHAT: operator-requested research programme whose outputs live under docs/research/protocols (directory not yet on main as of 2026-11-24; work in flight under another agent). Acceptance: the research documents are merged to main under that path, each cited by an item or Roadmap entry, and exported per the docs chain.
-
-## VSC-429 — Career PDFs: root causes of MuPDF hi/ko word merging, Arabic pdftotext -raw order, Cyrillic OCR recall (job_seeker T168 T169 T179)
-
-**Status:** Queued
-**Type:** Task
-**Severity:** medium
-
-Investigated with measurements: hi/ko merging fixed by tagpdf space glyphs, Arabic raw order is content-stream order and not fixable in the renderer, Cyrillic OCR recall low only because Latin text was OCRed with a Cyrillic-only model. Evidence docs/qa/career/career-engine-wave1-2026-11-24.md
 
 ## VSC-430 — Career engine: plain-text and DOCX fallback export (job_seeker T171), wave 2
 

@@ -8011,25 +8011,12 @@ domain from CNAME; footer renders website version linked to its GitHub
 release; gates and release process added (PRs #2, #4, #6). EVIDENCE:
 docs/qa/live-site/post-version-vd and post-version.</p>
 <h2
-id="vsc-431-rebuild-300-career-pdfs-with-wave-1-engine-and-re-seal-vault">VSC-431
-— Rebuild 300 career PDFs with wave-1 engine and re-seal vault</h2>
-<p><strong>Status:</strong> Completed (→ Fixed.md)
-<strong>Type:</strong> Task <strong>Evidence:</strong>
-docs/qa/vault/real-vault-browser-proof-2026-11-24-rebuild.txt
-<strong>Severity:</strong> medium <strong>Created-By:</strong>
-Claude</p>
-<p>WHAT: rebuild all 300 career PDFs with link annotations, tagged
-PDF/XMP and keyword gates, re-seal vault in
-vasic-digital/career_private. Acceptance: verify 300/300, vault verify
-300 slots, browser proof, evidence in docs/qa/career and
-docs/qa/vault.</p>
-<h2
 id="vsc-426-career-pdfs-260300-luatex-contact-links-are-gotor-or-scheme-less-uris-job_seeker-t162">VSC-426
 — Career PDFs: 260/300 LuaTeX contact links are GoToR or scheme-less
 URIs (job_seeker T162)</h2>
 <p><strong>Status:</strong> Fixed (→ Fixed.md) <strong>Type:</strong>
 Bug <strong>Evidence:</strong>
-docs/qa/career/crosscheck-2026-11-24-rebuild.txt
+docs/qa/career/career-engine-wave1-2026-11-24.md
 <strong>Severity:</strong> high</p>
 <p>render/latex.py used the visible label as the href target so hyperref
 wrote GoToR remote-file actions and scheme-less URIs; the ATS gate
@@ -8042,7 +8029,7 @@ id="vsc-427-screen-keyword-matcher-is-substring-based-django-matches-go-job_seek
 (job_seeker T166)</h2>
 <p><strong>Status:</strong> Fixed (→ Fixed.md) <strong>Type:</strong>
 Bug <strong>Evidence:</strong>
-docs/qa/career/crosscheck-2026-11-24-rebuild.txt
+docs/qa/career/career-engine-wave1-2026-11-24.md
 <strong>Severity:</strong> medium</p>
 <p>screen._has_keyword squashed to [0-9a-z] and did substring tests;
 replaced by token-aware career/keywords.py with synonym table and
@@ -8054,12 +8041,69 @@ id="vsc-428-career-pdfs-tagged-pdf-xmp-displaydoctitle-in-both-engines-no-pdfua-
 PDF/UA claim (job_seeker T170)</h2>
 <p><strong>Status:</strong> Implemented (→ Fixed.md)
 <strong>Type:</strong> Feature <strong>Evidence:</strong>
-docs/qa/career/crosscheck-2026-11-24-rebuild.txt
+docs/qa/career/career-engine-wave1-2026-11-24.md
 <strong>Severity:</strong> medium</p>
 <p>LuaLaTeX tagging via DocumentMetadata plus soft-hyphen and
 list-geometry fixes, WeasyPrint pdf_variant; structure gate added;
 veraPDF absent so conformance unmeasured. Evidence
 docs/qa/career/career-engine-wave1-2026-11-24.md</p>
+<h2
+id="vsc-429-career-pdfs-root-causes-of-mupdf-hiko-word-merging-arabic-pdftotext--raw-order-cyrillic-ocr-recall-job_seeker-t168-t169-t179">VSC-429
+— Career PDFs: root causes of MuPDF hi/ko word merging, Arabic pdftotext
+-raw order, Cyrillic OCR recall (job_seeker T168 T169 T179)</h2>
+<p><strong>Status:</strong> Completed (→ Fixed.md)
+<strong>Type:</strong> Task <strong>Evidence:</strong>
+docs/qa/career/career-engine-wave1-2026-11-24.md
+<strong>Severity:</strong> medium</p>
+<p>Investigated with measurements: hi/ko merging fixed by tagpdf space
+glyphs, Arabic raw order is content-stream order and not fixable in the
+renderer, Cyrillic OCR recall low only because Latin text was OCRed with
+a Cyrillic-only model. Evidence
+docs/qa/career/career-engine-wave1-2026-11-24.md</p>
+<h2
+id="vsc-417-runner-flag-programme-forced-container-runner-selector-across-containers-umbrella-launchers-and-docs">VSC-417
+— –runner flag programme: forced container-runner selector across
+containers, umbrella launchers and docs</h2>
+<p><strong>Status:</strong> Completed (→ Fixed.md)
+<strong>Type:</strong> Task <strong>Evidence:</strong>
+docs/qa/launchers/launcher-retest-2026-11-24-post-merge
+<strong>Severity:</strong> high <strong>Created-By:</strong> Claude</p>
+<p>containers PR #3 adds the forced-runner selector; umbrella PR #11
+bumped the pin with manifest ref; umbrella launchers (PR #12) carry
+–runner and the containers gitlink is current (2d18551). CLOSED
+2026-11-24: the workshop launcher change merged as workshop PR #1 (merge
+5a7acdd1) after an independent review (GO); post-merge run evidence at
+the merge commit is in
+docs/qa/launchers/launcher-retest-2026-11-24-post-merge (Go
+build/vet/test rc 0, runner-flag.test.sh 26 passed 0 failed,
+prove-failure 9 killed 0 survived on the branch tip); earlier launcher
+evidence in docs/qa/launchers/launcher-retest-2026-11-24. The umbrella
+pin bump is PR #23.</p>
+<h2
+id="vsc-423-operator-item-per-language-footer-review-of-the-website-version-footer">VSC-423
+— operator item: per-language footer review of the website-version
+footer</h2>
+<p><strong>Status:</strong> Completed (→ Fixed.md)
+<strong>Type:</strong> Task <strong>Evidence:</strong>
+docs/qa/i18n-review/README.md <strong>Severity:</strong> medium
+<strong>Created-By:</strong> Claude</p>
+<p>WHAT: the website-version footer text exists in every localized page
+but each language rendering has not been reviewed by an independent
+per-language reviewer (11.4.256). Closes when a review verdict is
+recorded per language.</p>
+<h2
+id="vsc-431-rebuild-300-career-pdfs-with-wave-1-engine-and-re-seal-vault">VSC-431
+— Rebuild 300 career PDFs with wave-1 engine and re-seal vault</h2>
+<p><strong>Status:</strong> Completed (→ Fixed.md)
+<strong>Type:</strong> Task <strong>Evidence:</strong>
+docs/qa/vault/real-vault-browser-proof-2026-11-24-rebuild.txt
+<strong>Severity:</strong> medium <strong>Created-By:</strong>
+Claude</p>
+<p>WHAT: rebuild all 300 career PDFs with link annotations, tagged
+PDF/XMP and keyword gates, re-seal vault in
+vasic-digital/career_private. Acceptance: verify 300/300, vault verify
+300 slots, browser proof, evidence in docs/qa/career and
+docs/qa/vault.</p>
 <section id="footnotes" class="footnotes footnotes-end-of-document"
 role="doc-endnotes">
 <hr />
