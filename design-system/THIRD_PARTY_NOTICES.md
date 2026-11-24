@@ -80,7 +80,7 @@ version, the codepoint count, the byte size and the file's own sha256.
 
 Gate: `bash scripts/verify-font-licences.sh` fails (exit 1) when a font file under `design-system/` has no row above, a row's
 licence file is missing or has no OFL text, a row's sha256 no longer matches the file, or a row names a file that is gone;
-`--prove-failure` runs seven mutations and a control.
+`--prove-failure` runs eleven mutations and a control.
 
 <!-- BEGIN generated:noto -->
 
