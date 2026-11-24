@@ -93,6 +93,23 @@
 \RequirePackage[hidelinks,unicode]{hyperref}
 \RequirePackage{etoolbox}
 
+% Tagged build (\DocumentMetadata{tagging=on} is emitted by the renderer).
+% tagpdf otherwise rewrites every line-end hyphen to U+00AD in the text layer;
+% measured: that soft hyphen is forbidden by gates._NO_ARTIFACT_RANGES because
+% an ATS reads "communi<U+00AD>cation" as two words.  Off, the hyphen extracts
+% as the ASCII "-" it always did.
+\ifdefined\tagpdfsetup\tagpdfsetup{activate/softhyphen=false}\fi
+% Window title shows the document title, not the file name (G-22).
+\hypersetup{pdfdisplaydoctitle=true}
+\ifdefined\tagpdfsetup
+  % Under tagging the kernel list code ignores \setlist (measured: \itemsep
+  % stays 4.5pt, one extra line per bullet), so restate the geometry where the
+  % kernel reads it.
+  \def\@listi{\leftmargin=4.0mm \topsep=0.5pt \itemsep=0.2pt \parsep=0pt
+    \partopsep=0pt \labelsep=2.0mm \labelwidth=2.0mm}
+  \let\@listI\@listi
+\fi
+
 \definecolor{milosaccent}{HTML}{\milos@accent}
 \definecolor{milosink}{HTML}{111418}
 \definecolor{milosmuted}{HTML}{4A5361}

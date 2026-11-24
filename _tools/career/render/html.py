@@ -207,7 +207,12 @@ def compile_pdf(html_source: str, out_pdf: Path, *, lang: str) -> Path:
     out_pdf.parent.mkdir(parents=True, exist_ok=True)
     tmp = out_pdf.with_name(f".{out_pdf.name}.{os.getpid()}.tmp")
     try:
-        HTML(string=html_source).write_pdf(str(tmp), pdf_identifier=b"milos-career")
+        # pdf_variant="pdf/ua-1" is the only WeasyPrint mode that writes the
+        # tag tree AND the XMP packet (T170).  It also stamps pdfuaid:part=1 in
+        # the XMP; that is the library's declaration, NOT a measured result --
+        # no PDF/UA validator is installed here.  Do not cite it as compliance.
+        HTML(string=html_source).write_pdf(str(tmp), pdf_identifier=b"milos-career",
+                                           pdf_variant="pdf/ua-1")
         os.replace(tmp, out_pdf)  # atomic: a reader never sees a half-written PDF
     finally:
         tmp.unlink(missing_ok=True)

@@ -242,7 +242,8 @@ def _expected_contacts(pdf_path: Path, contacts: List[str] | None) -> List[str]:
     return _tex_contact_urls(Path(pdf_path).with_suffix(".tex"))
 
 
-_HREF_RE = re.compile(r"\\href\{([^}]*)\}")
+#: ``\href{target}{label}``: the visible label is what the text layer carries.
+_HREF_RE = re.compile(r"\\href\{([^}]*)\}\{([^}]*)\}")
 
 
 _HTML_LABEL_RE = re.compile(r'<span class="u"><a href="[^"]*">([^<]*)</a></span>')
@@ -251,7 +252,7 @@ _HTML_LABEL_RE = re.compile(r'<span class="u"><a href="[^"]*">([^<]*)</a></span>
 def _tex_contact_urls(tex_path: Path) -> List[str]:
     """Contact URLs the renderer wrote into the sibling source.
 
-    ``.tex``: ``\\href`` targets.  ``.html`` (RTL engine): the visible link labels.
+    ``.tex``: ``\\href`` visible labels.  ``.html`` (RTL engine): the visible link labels.
     """
     html_path = tex_path.with_suffix(".html")
     if not tex_path.is_file() and html_path.is_file():
@@ -260,11 +261,117 @@ def _tex_contact_urls(tex_path: Path) -> List[str]:
     if not tex_path.is_file():
         return []
     urls = []
-    for t in _HREF_RE.findall(tex_path.read_text(encoding="utf-8")):
+    for _target, t in _HREF_RE.findall(tex_path.read_text(encoding="utf-8")):
         u = t.replace("\\%", "%").replace("\\#", "#").replace("\\_", "_")
         if u not in urls:
             urls.append(u)
     return urls
+
+
+def _link_annotations(pdf_path: Path) -> List[Tuple[str, str]]:
+    """Every ``/Link`` annotation as ``(action kind, target)``.
+
+    ``kind`` is the action subtype without the slash (``URI``, ``GoToR``,
+    ``Launch``, ``GoTo``, or ``none`` for a link without an action).  For
+    ``URI`` the target is the URI string; otherwise it is empty.  Raises
+    ``RuntimeError`` when the file cannot be parsed (callers map that to 2).
+    """
+    try:
+        import pypdf  # type: ignore
+        out: List[Tuple[str, str]] = []
+        for page in pypdf.PdfReader(str(pdf_path)).pages:
+            for ref in page.get("/Annots") or []:
+                annot = ref.get_object()
+                if annot.get("/Subtype") != "/Link":
+                    continue
+                act = annot.get("/A")
+                act = act.get_object() if act is not None else {}
+                kind = str(act.get("/S") or "/none").lstrip("/")
+                out.append((kind, str(act.get("/URI", "")) if kind == "URI" else ""))
+        return out
+    except Exception as exc:  # noqa: BLE001 -- unparseable means "cannot determine"
+        raise RuntimeError(f"cannot read link annotations: {exc}") from exc
+
+
+_ALLOWED_LINK_SCHEMES = ("mailto:", "https:")
+
+
+def _link_label(uri: str) -> str:
+    """The visible label a URI must correspond to: no scheme, no trailing slash."""
+    for scheme in ("mailto:", "https://", "http://"):
+        if uri.startswith(scheme):
+            uri = uri[len(scheme):]
+            break
+    return uri.rstrip("/")
+
+
+def _check_link_annotations(pdf_path: Path, labels: List[str]) -> List[str]:
+    """What a click follows, not what the page shows (T162, G-02, F-08).
+
+    Every ``/Link`` must be a ``/URI`` action whose scheme is ``mailto:`` or
+    ``https:`` -- never ``GoToR`` (a remote *file* link, measured on 260 of 300
+    PDFs), ``Launch``, or a scheme-less URI -- and every expected visible
+    contact label must be the target of at least one such link.
+    """
+    problems: List[str] = []
+    anns = _link_annotations(pdf_path)
+    for kind, target in anns:
+        if kind != "URI":
+            problems.append(f"link annotation is a {kind} action, not a URI")
+        elif not target.startswith(_ALLOWED_LINK_SCHEMES):
+            problems.append(f"link annotation URI has no mailto:/https: scheme: {target!r}")
+    reached = {_link_label(t) for k, t in anns if k == "URI" and t.startswith(_ALLOWED_LINK_SCHEMES)}
+    for label in (u for u in labels if u):
+        if label.rstrip("/") not in reached:
+            problems.append(f"no mailto:/https: link annotation targets the visible contact: {label}")
+    return problems
+
+
+def _pdf_structure(pdf_path: Path) -> dict:
+    """The document-level structure facts T170 gates (empty dict = none found)."""
+    try:
+        import pypdf  # type: ignore
+        rd = pypdf.PdfReader(str(pdf_path))
+        root = rd.trailer["/Root"]
+        mark = root.get("/MarkInfo")
+        mark = mark.get_object() if mark is not None else {}
+        vp = root.get("/ViewerPreferences")
+        vp = vp.get_object() if vp is not None else {}
+        info = rd.metadata
+        return {
+            "marked": bool(mark.get("/Marked")),
+            "struct": "/StructTreeRoot" in root,
+            "xmp": "/Metadata" in root,
+            "lang": str(root.get("/Lang") or ""),
+            "display_title": bool(vp.get("/DisplayDocTitle")),
+            "title": str((info.title if info else "") or ""),
+        }
+    except Exception as exc:  # noqa: BLE001 -- unparseable means "cannot determine"
+        raise RuntimeError(f"cannot read PDF structure: {exc}") from exc
+
+
+def _check_structure(pdf_path: Path) -> List[str]:
+    """Tagged-PDF facts (T170, G-08, G-22, F-26).
+
+    Checks PRESENCE of the structures a tag-following parser or screen reader
+    needs.  It does NOT validate PDF/UA conformance; that needs veraPDF, which
+    is not installed on the development host.
+    """
+    f = _pdf_structure(pdf_path)
+    problems: List[str] = []
+    if not f.get("marked"):
+        problems.append("PDF is not tagged: /MarkInfo /Marked is not true")
+    if not f.get("struct"):
+        problems.append("PDF has no /StructTreeRoot (no tag tree)")
+    if not f.get("xmp"):
+        problems.append("PDF has no /Metadata XMP packet")
+    if not f.get("lang"):
+        problems.append("PDF catalog has no /Lang")
+    if not f.get("title"):
+        problems.append("PDF has an empty document title")
+    if not f.get("display_title"):
+        problems.append("PDF does not set /ViewerPreferences /DisplayDocTitle")
+    return problems
 
 
 def _check_page_count(pdf_path: Path, kind: str) -> List[str]:
@@ -406,6 +513,14 @@ def validate_pdf(pdf_path: Path, kind: str = "cv", lang: str | None = None,
     urls = _expected_contacts(pdf_path, contacts)
     problems.extend(_check_contact_urls(clean, urls) if all(u in clean for u in urls)
                     else _check_contact_urls(_norm(clean) + "\n" + raw, urls))
+    try:
+        problems.extend(_check_link_annotations(pdf_path, urls))
+    except RuntimeError as exc:
+        return 2, str(exc)
+    try:
+        problems.extend(_check_structure(pdf_path))
+    except RuntimeError as exc:
+        return 2, str(exc)
     problems.extend(_check_page_count(pdf_path, kind))
     problems.extend(_check_fonts_embedded(pdf_path))
     problems = list(dict.fromkeys(problems))
