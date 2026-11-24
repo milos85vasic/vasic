@@ -17,6 +17,11 @@
 # Resumable: existing outputs are skipped. No `set -e` (one bad job ≠ abort).
 # =============================================================================
 set -uo pipefail
+# --runner=NAME (anywhere in the args) forces the container runtime on every
+# fleet host, over the per-host HT_FLEET entry; each host validates it (exit 2).
+. "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib/translation-fleet.sh"
+ht_runner_parse "$@" || exit 2
+set -- "${HT_ARGS[@]+"${HT_ARGS[@]}"}"
 TAG="${1:?tag required}"; shift
 LANGS="$*"
 # ROOT (the repository root) is DERIVED from this script's own location
@@ -85,7 +90,7 @@ run_job() {
   fi
 }
 export -f run_job ht_fleet_require ht_fleet_runtime
-export PIPE SHIM SUM HT_FLEET HOSTS HT_DEFAULT_RUNTIME
+export PIPE SHIM SUM HT_FLEET HOSTS HT_DEFAULT_RUNTIME HT_RUNNER_OVERRIDE
 
 # ---- Dispatch round-robin with a bounded pool ------------------------------
 i=0

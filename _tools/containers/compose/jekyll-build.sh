@@ -23,6 +23,11 @@
 # Exit codes are the container's, and site-build reads them back off the
 # stopped container via the module's runtime.Status(). A non-zero exit here is
 # a build failure; it is never swallowed.
+#
+# --runner / CONTAINERS_RUNNER: N/A HERE. This file runs INSIDE the container and
+# has no notion of which runner started it. The runner is chosen (and may be
+# forced with `--runner=NAME`) by its host-side launcher, cmd/site-build, and by
+# scripts/qa-up.sh / _tools/deploy-langs.sh above it; see docs/RUNNER_FLAG.md.
 # =============================================================================
 set -euo pipefail
 

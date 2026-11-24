@@ -45,7 +45,7 @@ set -uo pipefail
 # BEGIN-ARGPARSE (extracted verbatim by --prove-args; keep it self-contained)
 deploy_usage() {
   cat <<'USAGE'
-Usage: _tools/deploy-langs.sh [--dry-run|-n] [--help|-h]
+Usage: _tools/deploy-langs.sh [--dry-run|-n] [--runner=NAME] [--help|-h]
        _tools/deploy-langs.sh --prove-buildyear | --prove-build-fatality |
                               --prove-deploy-scope | --prove-args
 
@@ -59,6 +59,14 @@ Flags:
   --dry-run, -n          do everything except git stage/commit/push. It is NOT
                          read-only: it still REWRITES the working trees (pages,
                          PDFs, _site, assets) of both site submodules
+  --runner=NAME          force the container runner for the containerised
+                         steps (the jekyll rebuild via site-build): any runner
+                         the Containers Submodule supports (podman, docker,
+                         nerdctl, cri-o, lxd, kubernetes) or `auto`. Also
+                         `--runner NAME`. flag > $CONTAINERS_RUNNER > default
+                         order. An unknown or not-installed runner exits 2
+                         BEFORE anything is built, staged or pushed; there is
+                         no fallback. See docs/RUNNER_FLAG.md
   --help, -h             print this text and exit 0 (no side effects)
   --prove-buildyear      self-test: footer year derivation (no deploy)
   --prove-build-fatality self-test: build-step fatality contract (no deploy)
@@ -67,6 +75,7 @@ Flags:
 
 Environment variables:
   DRY_RUN=1                       same as --dry-run
+  CONTAINERS_RUNNER=<name>        same as --runner (the flag wins)
   DEPLOY_INCLUDE_ADMIN=1          also own the admin/vault surface (admin/,
                                   assets/js/vault.js, assets/js/vault-console.js,
                                   _layouts/admin_console.html, downloads/vault/).
@@ -96,14 +105,21 @@ dirty paths) · 4 publish failed · 5 required build step failed.
 USAGE
 }
 DEPLOY_WANT_HELP=0; DEPLOY_N_PROVE=0; DEPLOY_WANT_DRY=0
+DEPLOY_RUNNER_NEXT=0
 for a in "$@"; do
+  if [ "$DEPLOY_RUNNER_NEXT" = "1" ]; then DEPLOY_RUNNER_NEXT=0; continue; fi
   case "$a" in
+    --runner) DEPLOY_RUNNER_NEXT=1 ;;
+    --runner=*) ;;
     --help|-h) DEPLOY_WANT_HELP=1 ;;
     --dry-run|-n) DEPLOY_WANT_DRY=1 ;;
     --prove-buildyear|--prove-build-fatality|--prove-deploy-scope|--prove-args) DEPLOY_N_PROVE=$((DEPLOY_N_PROVE+1)) ;;
     *) echo "deploy-langs: unknown argument: $a" >&2; deploy_usage >&2; exit 2 ;;
   esac
 done
+if [ "$DEPLOY_RUNNER_NEXT" = "1" ]; then
+  echo "deploy-langs: --runner needs a value" >&2; deploy_usage >&2; exit 2
+fi
 if [ "$DEPLOY_N_PROVE" -gt 1 ]; then
   echo "deploy-langs: at most one --prove-* may be given" >&2; deploy_usage >&2; exit 2
 fi
@@ -112,6 +128,14 @@ if [ "$DEPLOY_N_PROVE" -ge 1 ] && [ "$DEPLOY_WANT_DRY" = "1" ]; then
 fi
 if [ "$DEPLOY_WANT_HELP" = "1" ]; then deploy_usage; exit 0; fi
 # END-ARGPARSE
+
+# Forced container runner (--runner / $CONTAINERS_RUNNER), validated by the
+# Containers Submodule BEFORE anything is built, staged, committed or pushed
+# (refusal -> exit 2). The flag is stripped from "$@"; the choice is exported as
+# CONTAINERS_RUNNER so the containerised site-build step honours it.
+. "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib/vasic-runner.sh"
+vasic_runner_maybe "$@" || exit 2
+set -- "${VASIC_ARGS[@]+"${VASIC_ARGS[@]}"}"
 
 # deploy_commit_args — fills COMMIT_MSG_ARGS (the `-m` pairs for git commit).
 # No co-author trailer unless DEPLOY_COAUTHOR is set (full trailer line).

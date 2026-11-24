@@ -73,6 +73,10 @@
 # =============================================================================
 set -euo pipefail
 
+. "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/lib/translation-fleet.sh"
+# --runner=NAME overrides the per-host runtime choice; the remote host validates it.
+ht_runner_parse "$@" || exit 2
+set -- "${HT_ARGS[@]+"${HT_ARGS[@]}"}"
 IN="" OUT="" PROVIDER="" MODEL="" SL="en" TL="" SCRIPT="cyrillic"
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -101,7 +105,10 @@ HOST="${HT_HOST:-}"
 if [ -z "$HOST" ]; then
   HOST="$(ht_build_host)" || exit 2
 fi
-if [ -n "${HT_RUNTIME:-}" ]; then RUNTIME="$HT_RUNTIME"
+# Precedence: --runner > $CONTAINERS_RUNNER (both folded into ht_fleet_runtime via
+# HT_RUNNER_OVERRIDE) > legacy $HT_RUNTIME > per-host HT_FLEET entry.
+if [ -n "${HT_RUNNER_OVERRIDE:-}" ]; then RUNTIME="$HT_RUNNER_OVERRIDE"
+elif [ -n "${HT_RUNTIME:-}" ]; then RUNTIME="$HT_RUNTIME"
 else RUNTIME="$(ht_fleet_runtime "$HOST")" || exit 2; fi
 
 USER_AT="$(ht_ssh_target "$HOST")" || exit 2

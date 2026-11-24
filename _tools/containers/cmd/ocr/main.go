@@ -56,9 +56,9 @@ import (
 
 	"digital.vasic.containers/pkg/compose"
 	"digital.vasic.containers/pkg/logging"
-	"digital.vasic.containers/pkg/runtime"
 
 	"vasic.digital/tools/containers/internal/orchestrate"
+	"vasic.digital/tools/containers/internal/runnersel"
 )
 
 const (
@@ -87,7 +87,14 @@ func run() int {
 		flagTimeout = flag.Duration("timeout", 10*time.Minute, "Overall wall-clock budget")
 		flagProbe   = flag.Bool("probe", false, "Report runtime + compose availability and exit; start nothing")
 	)
-	flag.Parse()
+	choice, rest, rerr := runnersel.Parse(os.Args[1:], nil)
+	if rerr != nil {
+		fmt.Fprintf(os.Stderr, "%s: runner refused: %v\n", "ocr", rerr)
+		return orchestrate.ExitUndetermined
+	}
+	if perr := flag.CommandLine.Parse(rest); perr != nil {
+		return orchestrate.ExitFail
+	}
 
 	if flag.NArg() > 0 {
 		fmt.Fprintf(os.Stderr, "%s: unexpected argument %q\n", prog, flag.Arg(0))
@@ -117,7 +124,7 @@ func run() int {
 	defer stop()
 
 	// ---- 1. Which runtime is actually here? Ask the module, never `command -v`.
-	rt, err := runtime.AutoDetect(ctx)
+	rt, err := runnersel.Runtime(ctx, choice)
 	if err != nil {
 		fmt.Fprintf(os.Stderr,
 			"%s: COULD NOT DETERMINE — no container runtime available: %v\n", prog, err)
@@ -129,7 +136,7 @@ func run() int {
 	}
 
 	// ---- 2. Which compose command? Again the module decides.
-	orch, err := compose.NewDefaultOrchestrator(root, log)
+	orch, err := runnersel.Orchestrator(root, log, choice)
 	if err != nil {
 		fmt.Fprintf(os.Stderr,
 			"%s: COULD NOT DETERMINE — no compose command available: %v\n", prog, err)
@@ -137,12 +144,12 @@ func run() int {
 	}
 
 	if *flagProbe {
-		fmt.Printf("runtime=%s version=%s compose=available root=%s\n",
-			rt.Name(), strings.TrimSpace(version), root)
+		fmt.Printf("runtime=%s version=%s compose=available root=%s %s\n",
+			rt.Name(), strings.TrimSpace(version), root, runnersel.Describe(rt, choice))
 		return orchestrate.ExitOK
 	}
 
-	log.Info("runtime: %s %s", rt.Name(), strings.TrimSpace(version))
+	log.Info("runtime: %s %s (%s)", rt.Name(), strings.TrimSpace(version), runnersel.Describe(rt, choice))
 
 	// ---- 3. Resolve and validate the input directory.
 	if *flagDir == "" {

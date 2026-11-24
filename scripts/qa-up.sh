@@ -39,6 +39,13 @@
 #   bash scripts/qa-up.sh --stop       stop what this script started; a workshop/ai
 #                                      stack it merely reused is left running
 #   bash scripts/qa-up.sh --no-rebuild never rebuild milosvasic.ru/_site
+#   bash scripts/qa-up.sh --runner=podman   FORCE the container runner for every
+#                                      container workload it starts (the mv
+#                                      rebuild; also exported to the workshop
+#                                      and ai stacks as CONTAINERS_RUNNER).
+#                                      flag > $CONTAINERS_RUNNER > default order;
+#                                      unknown / not-installed runner -> exit 2,
+#                                      never a fallback. See docs/RUNNER_FLAG.md.
 #
 # ENVIRONMENT (all optional)
 #   QA_VD_DEFAULT_PORT        preferred port for vd        (default 8401)
@@ -62,9 +69,12 @@
 set -uo pipefail
 
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
-CONTAINERS_DIR="$ROOT/_tools/containers"
-PORT_DISCOVER="$CONTAINERS_DIR/bin/port-discover"
-SITE_BUILD="$CONTAINERS_DIR/bin/site-build"
+# ---- forced container runner (--runner=NAME), via the Containers Submodule ----
+# shellcheck source=../_tools/lib/vasic-runner.sh
+. "$ROOT/_tools/lib/vasic-runner.sh"
+CONTAINERS_GO_DIR="$ROOT/_tools/containers"
+PORT_DISCOVER="$CONTAINERS_GO_DIR/bin/port-discover"
+SITE_BUILD="$CONTAINERS_GO_DIR/bin/site-build"
 PREFIX="${QA_NAME_PREFIX:-vasic-qa}"
 STATE_DIR="${QA_STATE_DIR:-$ROOT/.service-registry/qa}"
 REGISTRY_DIR="${QA_REGISTRY_DIR:-$ROOT/.service-registry}"
@@ -78,6 +88,16 @@ warn() { printf '!! %s\n' "$*" >&2; }
 undetermined() { printf 'UNDETERMINED: %s\n' "$*" >&2; exit 2; }
 
 ONLY="" STOP=0 REBUILD=1
+case " $* " in *" -h "*|*" --help "*) ;; *)
+    vasic_runner_load || exit 2
+    runner_parse_args "$@" || exit 2
+    set -- "${RUNNER_REST[@]+"${RUNNER_REST[@]}"}"
+    # Select BEFORE anything boots: a refused runner must fail the whole run
+    # (rc 2) rather than leave a half-started stack. The choice is exported as
+    # CONTAINERS_RUNNER so site-build and the workshop/ai start/stop scripts
+    # honour the same runner.
+    runner_select || exit 2 ;;
+esac
 while [ "$#" -gt 0 ]; do
     case "$1" in
         --only) [ "$#" -ge 2 ] || undetermined "--only needs vd|mv|workshop|ai"
@@ -85,7 +105,7 @@ while [ "$#" -gt 0 ]; do
                 shift 2 ;;
         --stop) STOP=1; shift ;;
         --no-rebuild) REBUILD=0; shift ;;
-        -h|--help) sed -n '2,57p' "${BASH_SOURCE[0]}"; exit 0 ;;
+        -h|--help) sed -n '2,68p' "${BASH_SOURCE[0]}"; exit 0 ;;
         *) undetermined "unknown argument: $1" ;;
     esac
 done
@@ -189,7 +209,7 @@ ensure_bin() {  # $1 binary path, $2 cmd dir name
     [ -x "$1" ] && return 0
     command -v go >/dev/null 2>&1 || undetermined "go toolchain absent; cannot build $2"
     log "building $2 from _tools/containers/cmd/$2 ..."
-    ( cd "$CONTAINERS_DIR" && go build -o "bin/$2" "./cmd/$2" ) || undetermined "go build ./cmd/$2 failed"
+    ( cd "$CONTAINERS_GO_DIR" && go build -o "bin/$2" "./cmd/$2" ) || undetermined "go build ./cmd/$2 failed"
 }
 ensure_bin "$PORT_DISCOVER" port-discover
 

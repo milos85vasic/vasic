@@ -4,7 +4,7 @@
      Keep the exact `Field: value` shape. -->
 
     Last-Updated: 2026-11-24T18:00:00Z
-    Synced-Commit: 63374a1
+    Synced-Commit: 7934bad
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -425,6 +425,10 @@ deviation is not an override** and must never be written up as one.
 ---
 
 ## §3 Active work
+
+## UPDATE 2026-11-24 (`--runner=NAME` on every umbrella launcher; branch `pr/runner-flag-umbrella`)
+
+Operator directive: every launcher accepts `--runner=NAME` (podman, docker, nerdctl, cri-o, lxd, kubernetes, `auto`) to force the container runner (flag > `CONTAINERS_RUNNER` > default; unknown or not-installed -> exit 2, no fallback). Phase A (module, `submodules/containers` at `2d18551`) was already pinned by PR #11. Done here: `scripts/qa-up.sh`, `_tools/deploy-langs.sh` (argument parser + usage), `_tools/helixtranslate-local.sh`, `_tools/hawkscan/run.sh` (hand-rolled podman/docker removed), `_tools/containers` Go commands `site-build`, `ocr`, `runtime-probe`, `distribute-helixtranslate` via the new seam `internal/runnersel`, `_tools/containers/prove-ocr.sh`, the remote-host scripts (`helixtranslate-container.sh`, `helixtranslate-container/run.sh`, `translate-fleet.sh`, `distribute-helixtranslate.sh`, via `ht_runner_parse` in `_tools/lib/translation-fleet.sh`: flag overrides the per-host runtime, the name is shape-checked locally and validated ON the remote host, a miss is exit 2), and `_tools/od/start-daemon.sh` (accepts and ignores: no containers). Shared shell entry: `_tools/lib/vasic-runner.sh` (sources `submodules/containers/scripts/lib/runner.sh`; missing -> exit 2 naming the `git submodule update --init` fix). No `go.mod` bump was needed: `digital.vasic.containers` is a `replace` onto the gitlink, which PR #11 already moved. Docs: `docs/RUNNER_FLAG.md` (the single wrapper page), README section, `_tools/containers/README.md`, `_tools/hawkscan/README.md`. Proof: `scripts/verify-runner-flag.sh` (47 cases executed on this host: podman installed, docker genuinely absent) and `--prove-failure` (control plus 8 mutants, 0 survivors); registered in `scripts/check-registry.tsv` as `runner-flag`, `_tools/lib/vasic-runner.sh` as an exempt library, and the fact hashes of the 13 exempt rows whose files changed were re-verified and moved. HONEST BOUNDARY: the ssh legs of the remote-host scripts were not run (fleet hosts do not resolve on the development host); the remote-side validator `run.sh` and the local parsing were run for real. `deploy-langs.sh` was NOT run for real (only `--help`, refusals and `--prove-args`). The workshop and ai_interviewing start scripts receive the choice as `CONTAINERS_RUNNER` (their own flag support is their repositories' scope).
 
 ## UPDATE 2026-11-24 (JSK-T011: overlay allow-list extended; branch `pr/jsk-t011-overlay-allowlist`)
 
