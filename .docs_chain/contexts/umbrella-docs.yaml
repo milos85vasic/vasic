@@ -153,8 +153,6 @@ nodes:
   docs_site_health_production_site_health_html: { kind: html,     path: docs/site-health/PRODUCTION-SITE-HEALTH.html }
   docs_site_health_production_site_health_pdf:  { kind: pdf,      path: docs/site-health/PRODUCTION-SITE-HEALTH.pdf }
   docs_workable_items_procedure_md:   { kind: markdown, path: docs/workable-items/PROCEDURE.md }
-  docs_workable_items_procedure_html: { kind: html,     path: docs/workable-items/PROCEDURE.html }
-  docs_workable_items_procedure_pdf:  { kind: pdf,      path: docs/workable-items/PROCEDURE.pdf }
   docs_workshop_curriculum_recon_md:   { kind: markdown, path: docs/workshop-curriculum/RECON.md }
   docs_workshop_curriculum_recon_html: { kind: html,     path: docs/workshop-curriculum/RECON.html }
   docs_workshop_curriculum_recon_pdf:  { kind: pdf,      path: docs/workshop-curriculum/RECON.pdf }
@@ -257,8 +255,6 @@ edges:
   - { type: derive-from, from: docs_setup_agents_wizard_user_guide_html, to: docs_setup_agents_wizard_user_guide_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_site_health_production_site_health_md,   to: docs_site_health_production_site_health_html, transform: md2html }
   - { type: derive-from, from: docs_site_health_production_site_health_html, to: docs_site_health_production_site_health_pdf,  transform: html2pdf }
-  - { type: derive-from, from: docs_workable_items_procedure_md,   to: docs_workable_items_procedure_html, transform: md2html }
-  - { type: derive-from, from: docs_workable_items_procedure_html, to: docs_workable_items_procedure_pdf,  transform: html2pdf }
   - { type: derive-from, from: docs_workshop_curriculum_recon_md,   to: docs_workshop_curriculum_recon_html, transform: md2html }
   - { type: derive-from, from: docs_workshop_curriculum_recon_html, to: docs_workshop_curriculum_recon_pdf,  transform: html2pdf }
 transforms:
