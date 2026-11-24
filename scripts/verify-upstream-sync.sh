@@ -7,7 +7,7 @@
 #
 # USAGE  verify-upstream-sync.sh [--root DIR] [--quiet] [--prove-failure]
 #   --root DIR       project root to check (default: this checkout); a missing directory is exit 2
-#   --prove-failure  paired §1.1 proof: runs the constitution's mutation test (42 cases) and a fleet-level fixture in which
+#   --prove-failure  paired §1.1 proof: runs the constitution's mutation test (66 expectations, M1..M27 + L1..L5; its RESULT line prints the live count) and a fleet-level fixture in which
 #                    a submodule's second upstream is behind (the wrapper MUST return 1) next to a green control (0).
 # EXIT   0 every upstream of every own repository CURRENT/AHEAD/EXEMPT · 1 at least one BEHIND/DIVERGED/DIFFERS/NO-BRANCH ·
 #        2 could not determine (unreachable upstream, uninitialised own submodule, missing instrument); 2 is never a pass.
@@ -42,7 +42,10 @@ if [ "$PROVE" = 1 ]; then
   git -C "$W/root/sub" remote add b "$W/sub.b.git"; git init -q --bare -b main "$W/root.a.git"; git -C "$W/root" remote add a "$W/root.a.git"; git -C "$W/root" push -q a main
   git -C "$W/root/sub" checkout -q main 2>/dev/null; git -C "$W/root/sub" fetch -q origin; git -C "$W/root/sub" merge -q --ff-only origin/main 2>/dev/null
   bash "$V" --fleet "$W/root" --quiet >/dev/null; c=$?; [ "$c" = 0 ] || { echo "PROOF FAIL: green fleet control returned $c"; exit 1; }
-  git -C "$W/root/sub" push -q b "$S1:refs/heads/main" -f 2>/dev/null
+  # make upstream b BEHIND without any force push or ref rewind (§11.4.113): advance the submodule by one commit that only
+  # upstream a (origin) receives, and fast-forward the superproject's checkout to it; b stays at the older commit.
+  echo 3 >> "$W/sub/f"; git -C "$W/sub" commit -qam 3; git -C "$W/sub" push -q a main
+  git -C "$W/root/sub" fetch -q origin; git -C "$W/root/sub" merge -q --ff-only origin/main
   bash "$V" --fleet "$W/root" --quiet >/dev/null; m=$?; [ "$m" = 1 ] || { echo "PROOF FAIL: fleet with a behind submodule upstream returned $m, want 1"; exit 1; }
   echo "PROOF OK: green fleet control 0, behind submodule upstream 1, constitution mutation test green"; exit 0
 fi
