@@ -3,8 +3,8 @@
 <!-- The three fields below are MACHINE-READ by scripts/continuation-check.sh.
      Keep the exact `Field: value` shape. -->
 
-    Last-Updated: 2026-11-24T21:00:00Z
-    Synced-Commit: 63374a1
+    Last-Updated: 2026-11-24T12:23:37Z
+    Synced-Commit: b506e8b
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -429,10 +429,22 @@ deviation is not an override** and must never be written up as one.
 ## UPDATE 2026-11-24 (storage policy: root filesystem kept free; branch `pr/storage-policy-2026-11-24`)
 
 Operator directive: the root filesystem kept filling to 100%. Caches, model weights, LSP installs, idle agent scratch and (when verified) the podman graphroot now live on `/mnt/DATA1TB` and `/mnt/DATA7TB`, reached through symlinks at the original paths and a host-local `~/.config/vasic/storage.env`. The policy, the path table and the add-a-consumer procedure are in `docs/storage-policy.md`; `scripts/storage-report.sh` (rc 0 ok, 1 finding, 2 undetermined; registered as `storage-report` with `--prove-failure`) fails when root usage exceeds a threshold or a listed heavy consumer resolves to root. Read the current placement from the script, not from this paragraph.
+## UPDATE 2026-11-24 (gitlinks bumped; carrier file-count claim corrected; VSC-425 added; branches `pr/bump-gitlinks-2026-11-24`, `pr/carriers-ledger-continuation`)
+
+- PR #15 fast-forwarded 8 gitlinks together with their `helix-deps.yaml` refs (C9): ai_interviewing `30da696`, milosvasic.ru `9b5bf27`, job_seeker `8827b1b`, LLMProvider and llm_provider `bd302c8`, qa `b16a0897`, challenges `d94e554`, doc_processor `12a5fb7`. Each was classified first (ancestor TRUE, 0 divergent). `workshop` is deliberately NOT bumped (its runner branch is unpushed, blocked at a gate). Before the milosvasic.ru bump the live site answered 200 and `verify-live-site.py` against `docs/qa/live-site/baseline-live-2026-11-23.json` reported regressions=0.
+- `submodules/containers` local checkout moved to the recorded gitlink `2d18551` (clears the C5 drift).
+- The four carriers now say **23** tracked files under `_tools/containers/` (claim-ledger row `carriers-containers-consumer-files`), edited identically in the shared tail so root lockstep holds.
+- VSC-417 (--runner programme) stays In progress: workshop launcher evidence is not merged. VSC-425 (research programme `docs/research/protocols`) is In progress; the directory is not on main yet.
+- Known, not caused here: `verify-workable-items.sh` reports findings on VSC-285 and WSP-151 (BLOCKED in title while Queued); `verify-claim-ledger.sh` has two UNDET constitution-anchor rows; vasic.digital TLS probe from this host failed (curl rc 35) while milosvasic.ru answered 200.
+
 
 ## UPDATE 2026-11-24 (umbrella workable items registered under key VSC; branch `pr/vsc-program-items`)
 
 The umbrella already had a workable-items system keyed `VSC` (`docs/workable_items.db`, VSC-001..VSC-411; roster `docs/workable-items/sub-projects.tsv`, key ratified by the operator 2026-09-08), so nothing was migrated and no id was reused. Operator note 2026-11-24: "Even the umbrella project 'vasic' should have its workable items and workable items key we use ---> 'VSC'." This change registers VSC-412..VSC-424 for the current program: Completed with evidence VSC-412 (career engine/v2.0.0), VSC-413 (digital.vasic.dev + footers), VSC-414 (constitution inheritance / PR delivery), VSC-415 (live-site verifier), VSC-416 (job_seeker kickoff); In progress VSC-417 (`--runner` programme), VSC-418 (storage policy), VSC-419 (LSP repair); Operator-blocked VSC-420 (rnabulsi invite), VSC-421 (vault passphrase backup), VSC-422 (ratchet 63 vs 23), VSC-423 (per-language footer review); Queued VSC-424 (stale branches). The Issues/Fixed trackers were regenerated from the DB (they were stale against it). Commits cite `Roadmap-Item: VSC-NNN`; no script validates the trailer. How to add an item: `docs/workable-items/PROCEDURE.md`, last section.
+
+## UPDATE 2026-11-24 (`--runner=NAME` on every umbrella launcher; branch `pr/runner-flag-umbrella`)
+
+Operator directive: every launcher accepts `--runner=NAME` (podman, docker, nerdctl, cri-o, lxd, kubernetes, `auto`) to force the container runner (flag > `CONTAINERS_RUNNER` > default; unknown or not-installed -> exit 2, no fallback). Phase A (module, `submodules/containers` at `2d18551`) was already pinned by PR #11. Done here: `scripts/qa-up.sh`, `_tools/deploy-langs.sh` (argument parser + usage), `_tools/helixtranslate-local.sh`, `_tools/hawkscan/run.sh` (hand-rolled podman/docker removed), `_tools/containers` Go commands `site-build`, `ocr`, `runtime-probe`, `distribute-helixtranslate` via the new seam `internal/runnersel`, `_tools/containers/prove-ocr.sh`, the remote-host scripts (`helixtranslate-container.sh`, `helixtranslate-container/run.sh`, `translate-fleet.sh`, `distribute-helixtranslate.sh`, via `ht_runner_parse` in `_tools/lib/translation-fleet.sh`: flag overrides the per-host runtime, the name is shape-checked locally and validated ON the remote host, a miss is exit 2), and `_tools/od/start-daemon.sh` (accepts and ignores: no containers). Shared shell entry: `_tools/lib/vasic-runner.sh` (sources `submodules/containers/scripts/lib/runner.sh`; missing -> exit 2 naming the `git submodule update --init` fix). No `go.mod` bump was needed: `digital.vasic.containers` is a `replace` onto the gitlink, which PR #11 already moved. Docs: `docs/RUNNER_FLAG.md` (the single wrapper page), README section, `_tools/containers/README.md`, `_tools/hawkscan/README.md`. Proof: `scripts/verify-runner-flag.sh` (47 cases executed on this host: podman installed, docker genuinely absent) and `--prove-failure` (control plus 8 mutants, 0 survivors); registered in `scripts/check-registry.tsv` as `runner-flag`, `_tools/lib/vasic-runner.sh` as an exempt library, and the fact hashes of the 13 exempt rows whose files changed were re-verified and moved. HONEST BOUNDARY: the ssh legs of the remote-host scripts were not run (fleet hosts do not resolve on the development host); the remote-side validator `run.sh` and the local parsing were run for real. `deploy-langs.sh` was NOT run for real (only `--help`, refusals and `--prove-args`). The workshop and ai_interviewing start scripts receive the choice as `CONTAINERS_RUNNER` (their own flag support is their repositories' scope).
 
 ## UPDATE 2026-11-24 (JSK-T011: overlay allow-list extended; branch `pr/jsk-t011-overlay-allowlist`)
 

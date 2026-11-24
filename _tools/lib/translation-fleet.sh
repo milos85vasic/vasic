@@ -96,8 +96,69 @@ ht_fleet_hosts() {
 }
 
 # echo the container runtime declared for $1, else HT_DEFAULT_RUNTIME.
+# ---- forced runner for REMOTE hosts (--runner=NAME) -----------------------
+# These scripts do not run containers on THIS machine; each host named in
+# HT_FLEET has its own runtime. `--runner=NAME` (or $CONTAINERS_RUNNER; flag
+# wins) FORCES one runtime for every host, overriding the per-host entry and
+# HT_DEFAULT_RUNTIME. `auto` means "no override" (per-host configuration).
+#
+# Validation is split on purpose and documented in docs/RUNNER_FLAG.md:
+#   * HERE: only the SHAPE of the name (it is interpolated into remote shell
+#     command lines, so anything but [a-z0-9-] is refused, rc 2).
+#   * ON THE REMOTE HOST: whether that runner is installed. A remote without it
+#     refuses with exit 2 (helixtranslate-container/run.sh; the Go tool's
+#     `command -v` probe) -- there is NO fallback to the configured runtime.
+# The module's supported list is deliberately NOT consulted here: this path
+# must work from a checkout that has no Go toolchain and no submodule.
+#
+#   ht_runner_parse "$@" || exit 2
+#   set -- "${HT_ARGS[@]+"${HT_ARGS[@]}"}"
+ht_runner_parse() {
+    HT_ARGS=(); HT_RUNNER_OVERRIDE=""; HT_RUNNER_SOURCE=default
+    local val="" set=0 seen_dd=0
+    while [ "$#" -gt 0 ]; do
+        if [ "$seen_dd" = 1 ]; then HT_ARGS+=("$1"); shift; continue; fi
+        case "$1" in
+            --) seen_dd=1; HT_ARGS+=("$1"); shift ;;
+            --runner)
+                if [ "$#" -lt 2 ] || [ "${2#-}" != "$2" ]; then echo "runner: --runner needs a value" >&2; return 2; fi
+                if [ "$set" = 1 ] && [ "$val" != "$2" ]; then echo "runner: conflicting --runner values '$val' and '$2'" >&2; return 2; fi
+                val="$2"; set=1; shift 2 ;;
+            --runner=*)
+                if [ -z "${1#--runner=}" ]; then echo "runner: --runner= has an empty value" >&2; return 2; fi
+                if [ "$set" = 1 ] && [ "$val" != "${1#--runner=}" ]; then echo "runner: conflicting --runner values '$val' and '${1#--runner=}'" >&2; return 2; fi
+                val="${1#--runner=}"; set=1; shift ;;
+            *) HT_ARGS+=("$1"); shift ;;
+        esac
+    done
+    if [ "$set" = 1 ]; then HT_RUNNER_SOURCE=flag
+    elif [ -n "${CONTAINERS_RUNNER:-}" ]; then val="$CONTAINERS_RUNNER"; HT_RUNNER_SOURCE=env
+    else return 0; fi
+    case "$val" in
+        auto) val="" ;;
+        *[!a-z0-9-]*|-*|"") echo "runner: invalid runner name '$val' (from $HT_RUNNER_SOURCE): expected a name like podman, docker, nerdctl, or auto" >&2; return 2 ;;
+    esac
+    HT_RUNNER_OVERRIDE="$val"
+    if [ -n "$val" ]; then export HT_RUNNER_OVERRIDE CONTAINERS_RUNNER="$val"
+    else unset CONTAINERS_RUNNER; export HT_RUNNER_OVERRIDE; fi
+    echo "runner: ${val:-auto (per-host configuration)} (selected by $HT_RUNNER_SOURCE; validated on each remote host)" >&2
+    return 0
+}
+
+# ht_runtime_check NAME -- shape check for a runtime name that is about to be
+# interpolated into an ssh command line (any source: flag, env, legacy
+# $HT_RUNTIME, per-host HT_FLEET). rc 2 + message when malformed.
+ht_runtime_check() {
+    case "$1" in
+        *[!a-z0-9-]*|-*|"") echo "runner: invalid runner name '$1': expected a name like podman, docker or nerdctl" >&2; return 2 ;;
+    esac
+    return 0
+}
+
 ht_fleet_runtime() {
     local want="$1" e host rt
+    # A forced runner overrides every per-host choice (see ht_runner_parse).
+    if [ -n "${HT_RUNNER_OVERRIDE:-}" ]; then printf '%s\n' "$HT_RUNNER_OVERRIDE"; return 0; fi
     ht_fleet_require || return $?
     for e in "${HT_FLEET_ENTRIES[@]}"; do
         host="${e%%:*}"

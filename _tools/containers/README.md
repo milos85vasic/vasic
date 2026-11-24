@@ -90,6 +90,18 @@ DETERMINE — no runtime, no compose command, a compose file that cannot be read
 or an outcome that could not be read back. **A 2 is never a pass**, and a 2
 arriving as a 1 is an unproven claim reported as a defect.
 
+### Forcing the runner (`--runner=NAME`)
+
+`site-build`, `ocr`, `runtime-probe` and `distribute-helixtranslate` take
+`--runner=NAME` (or `CONTAINERS_RUNNER`; the flag wins), resolved by the module's
+`runtime.ParseRunnerFlag` / `ResolveRunner` / `SelectRuntime` and, for compose,
+`compose.NewDefaultOrchestratorForRunner`, all behind one seam,
+`internal/runnersel`. A forced runner that is unknown or not installed exits 2 and
+never falls back. `-probe` and `runtime-probe` print `runner=<name>
+source=<flag|env|default>`. See [`docs/RUNNER_FLAG.md`](../../docs/RUNNER_FLAG.md).
+The compose entrypoints (`compose/jekyll-build.sh`, `compose/ocr-run.sh`) run inside
+the container and cannot know the runner; their host-side launchers take the flag.
+
 ### The freshness assertion is proved, not asserted (§1.1)
 
 The check that makes a green run mean something is *"the artifact was rewritten

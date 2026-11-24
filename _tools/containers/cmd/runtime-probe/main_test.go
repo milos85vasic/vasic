@@ -136,3 +136,42 @@ func goTool(t *testing.T) string {
 	t.Fatalf("go test is running but no go toolchain can be located (not on PATH, not at %s)", p)
 	return ""
 }
+
+// TestForcedRunnerRefusedAndReported runs the real binary: an unknown runner is
+// refused (rc 2), forcing a runner that is not installed is refused (rc 2, no
+// fallback), and forcing the one this host has reports source=flag.
+func TestForcedRunnerRefusedAndReported(t *testing.T) {
+	goBin := goTool(t)
+	bin := filepath.Join(t.TempDir(), "runtime-probe")
+	if out, err := exec.Command(goBin, "build", "-o", bin, ".").CombinedOutput(); err != nil {
+		t.Fatalf("go build: %v\n%s", err, out)
+	}
+	rc := func(args ...string) (int, string) {
+		out, err := exec.Command(bin, args...).CombinedOutput()
+		if err == nil {
+			return 0, string(out)
+		}
+		if ee, ok := err.(*exec.ExitError); ok {
+			return ee.ExitCode(), string(out)
+		}
+		t.Fatalf("run: %v", err)
+		return -1, ""
+	}
+	if c, out := rc("--runner=bogus"); c != 2 {
+		t.Fatalf("unknown runner: rc=%d, want 2: %s", c, out)
+	}
+	if c, out := rc("--runner"); c != 2 {
+		t.Fatalf("missing value: rc=%d, want 2: %s", c, out)
+	}
+	if _, err := exec.LookPath("docker"); err != nil {
+		if c, out := rc("--runner=docker"); c != 2 || strings.Contains(out, "runtime=") {
+			t.Fatalf("docker absent but forced run did not refuse: rc=%d %s", c, out)
+		}
+	}
+	if _, err := exec.LookPath("podman"); err == nil {
+		c, out := rc("--runner=podman")
+		if c != 0 || !strings.Contains(out, "runner=podman source=flag") {
+			t.Fatalf("forced podman: rc=%d %s", c, out)
+		}
+	}
+}

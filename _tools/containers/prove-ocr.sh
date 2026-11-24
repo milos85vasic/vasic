@@ -34,6 +34,12 @@ set -uo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$HERE/../.." && pwd)"
+# --runner=NAME forces the container runner for every cmd/ocr run below (exported
+# as CONTAINERS_RUNNER, which cmd/ocr resolves through the module); flag >
+# $CONTAINERS_RUNNER > default order; refused runner -> exit 2, never a pass.
+. "$ROOT/_tools/lib/vasic-runner.sh"
+vasic_runner_maybe "$@" || exit 2
+set -- "${VASIC_ARGS[@]+"${VASIC_ARGS[@]}"}"
 FIXTURE="$ROOT/_tests/export/fixtures/golden-good.pdf"
 
 command -v go       >/dev/null 2>&1 || { echo "UNDETERMINED: go is not on PATH";       exit 2; }

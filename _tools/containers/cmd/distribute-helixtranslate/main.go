@@ -110,6 +110,8 @@ import (
 	"digital.vasic.containers/pkg/logging"
 	"digital.vasic.containers/pkg/remote"
 	"digital.vasic.containers/pkg/remoteexec"
+
+	"vasic.digital/tools/containers/internal/runnersel"
 )
 
 // Exit codes. Three-valued by project convention: 2 is COULD NOT DETERMINE and
@@ -180,7 +182,20 @@ func run() int {
 	flagSkipBuild := flag.Bool("skip-build", false,
 		"Skip the source sync and image build; replicate and seed the image already "+
 			"present on the build host.")
-	flag.Parse()
+	// --runner=NAME forces the container runtime on BOTH remote hosts, over
+	// the per-host HT_BUILD_RUNTIME / HT_WORKER_RUNTIME. The name is checked
+	// against the module's supported list here, but whether the runner is
+	// INSTALLED is only knowable on each remote host, so it is checked THERE
+	// (below, before anything is changed) and a miss is exit 2 — never a
+	// fallback to the configured runtime.
+	choice, rest, rerr := runnersel.Parse(os.Args[1:], nil)
+	if rerr != nil {
+		fmt.Fprintf(os.Stderr, "distribute-helixtranslate: runner refused: %v\n", rerr)
+		return exitUndetermined
+	}
+	if perr := flag.CommandLine.Parse(rest); perr != nil {
+		return exitFail
+	}
 
 	log := logging.NewStdLogger("distribute-helixtranslate")
 
@@ -189,6 +204,11 @@ func run() int {
 		fmt.Fprintf(os.Stderr,
 			"distribute-helixtranslate: COULD NOT DETERMINE — %v\n", err)
 		return exitUndetermined
+	}
+	if choice.Forced() {
+		cfg.buildHost.Runtime = choice.Name
+		cfg.workerHost.Runtime = choice.Name
+		log.Info("runner forced to %s (selected by %s) on both hosts", choice.Name, choice.Source)
 	}
 
 	if *flagDryRun {
@@ -230,6 +250,15 @@ func run() int {
 			return exitUndetermined
 		}
 		log.Info("host %s (%s) reachable, runtime %s", h.Name, h.Address, h.Runtime)
+		if choice.Forced() {
+			// Validated ON the remote host: it may not have the forced runner.
+			if _, cerr := sshExec.Execute(ctx, h, "command -v "+shellQuote(choice.Name)); cerr != nil {
+				fmt.Fprintf(os.Stderr,
+					"distribute-helixtranslate: runner refused — forced runner %q (selected by %s) is not installed on host %q (%s); no fallback to the configured runtime. Nothing was changed on any host.\n",
+					choice.Name, choice.Source, h.Name, h.Address)
+				return exitUndetermined
+			}
+		}
 	}
 
 	if *flagProbe {
