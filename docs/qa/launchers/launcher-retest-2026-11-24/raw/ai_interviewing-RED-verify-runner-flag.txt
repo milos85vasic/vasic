@@ -1,0 +1,32 @@
+  PASS stop --runner=podman accepted, prints no-containers line
+  PASS stop --runner <sep value> accepted
+  PASS stop --runner=auto accepted
+  PASS unknown runner refused rc 2, lists supported
+  PASS stop --runner=docker (not installed) refused rc 2 before any side effect
+  PASS start --runner=docker (not installed) refused rc 2 before any side effect
+  PASS restart --runner=docker (not installed) refused rc 2 before any side effect
+  PASS valueless --runner refused rc 2
+  PASS env CONTAINERS_RUNNER=bogus refused rc 2
+  FAIL module-absent rc=0: runner: podman (selected by flag)
+runner: podman (no containers used by this launcher)
+not running
+  PASS no flag: behaviour unchanged, no runner output
+  FAIL stop unknown arg rc=0: not running
+  FAIL stop --help rc=0: not running
+  FAIL start unknown arg rc=0: >> starting server ...
+UP: http://localhost:18199  (pid 178786)
+    https://localhost:18543  (HTTP/2 + HTTP/3, self-signed)
+{"curriculum":1,"lesson":435,"module":77,"plan":74,"question":2488,"track":3},"version":"1.0.0"}
+  FAIL start --help rc=0: already running (pid 178786)
+UP: http://localhost:18199
+  FAIL restart unknown arg rc=0: stopped pid 178786
+>> starting server ...
+UP: http://localhost:18199  (pid 180123)
+    https://localhost:18543  (HTTP/2 + HTTP/3, self-signed)
+{"curriculum":1,"lesson":435,"module":77,"plan":74,"question":2488,"track":3},"version":"1.0.0"}
+  FAIL restart --help rc=0: stopped pid 180123
+>> starting server ...
+UP: http://localhost:18199  (pid 181433)
+    https://localhost:18543  (HTTP/2 + HTTP/3, self-signed)
+{"curriculum":1,"lesson":435,"module":77,"plan":74,"question":2488,"track":3},"version":"1.0.0"}
+runner-flag: 10 pass, 7 fail

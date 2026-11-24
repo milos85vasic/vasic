@@ -1,0 +1,109 @@
+=== [usage] $ bin/jsstack
+usage: jsstack probe|port|up|status|logs|down ...
+--- rc=1
+=== [unknown-subcommand] $ bin/jsstack bogus
+jsstack: unknown command "bogus"
+--- rc=1
+=== [probe-default] $ bin/jsstack probe
+runtime=podman version=5.7.0 compose=available
+--- rc=0
+=== [probe-runner-podman] $ bin/jsstack probe --runner=podman
+runtime=podman version=5.7.0 compose=available
+--- rc=0
+=== [probe-runner-docker] $ bin/jsstack probe --runner=docker
+jsstack: COULD NOT DETERMINE: no container runtime: forced container runner is not available: "docker" (selected via flag) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [probe-runner-bogus] $ bin/jsstack probe --runner=bogus
+jsstack: unknown container runner "bogus" (from --runner): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
+--- rc=2
+=== [probe-runner-novalue] $ bin/jsstack probe --runner
+jsstack: malformed --runner flag: --runner needs a value (one of: podman, docker, nerdctl, cri-o, lxd, kubernetes, auto)
+--- rc=2
+=== [probe-env-docker] $ env CONTAINERS_RUNNER=docker bin/jsstack probe
+jsstack: COULD NOT DETERMINE: no container runtime: forced container runner is not available: "docker" (selected via env) is not installed or not reachable on this host; refusing to fall back to another runner
+--- rc=2
+=== [probe-env-podman] $ env CONTAINERS_RUNNER=podman bin/jsstack probe
+runtime=podman version=5.7.0 compose=available
+--- rc=0
+=== [probe-flag-auto-over-env-docker] $ env CONTAINERS_RUNNER=docker bin/jsstack probe --runner=auto
+runtime=podman version=5.7.0 compose=available
+--- rc=0
+=== [port] $ bin/jsstack port
+usage: jsstack port [-udp] [-registry-dir D] NAME DEFAULT_PORT
+--- rc=1
+=== [status-before-up] $ bin/jsstack status -container jobseeker-gate
+jsstack: COULD NOT DETERMINE status of jobseeker-gate: podman inspect jobseeker-gate: exit status 125: Error: no such object: "jobseeker-gate"
+--- rc=2
+=== [down-when-not-up] $ bin/jsstack down -file deploy/compose.yml
+  File "/usr/lib/python3/dist-packages/podman_compose.py", line 311, in rec_subs
+    value = [rec_subs(i, subs_dict) for i in value]
+             ~~~~~~~~^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/podman_compose.py", line 309, in rec_subs
+    value = var_re.sub(convert, value)
+  File "/usr/lib/python3/dist-packages/podman_compose.py", line 306, in convert
+    raise RuntimeError(m.group("err"))
+RuntimeError: set by jsstack port
+--- rc=1
+=== [live-h3-runner-docker] $ make live-h3 RUNNER=docker
+CGO_ENABLED=0 go build -trimpath -o bin/jsgate-serve ./cmd/jsgate-serve
+cd tools/containers && CGO_ENABLED=0 go build -trimpath -o ../../bin/jsstack ./cmd/jsstack && CGO_ENABLED=0 go build -trimpath -o ../../bin/jsgate-probe ./cmd/jsgate-probe
+bash gates/live_h3.sh --runner=docker
+jsstack: COULD NOT DETERMINE: no container runtime: forced container runner is not available: "docker" (selected via env) is not installed or not reachable on this host; refusing to fall back to another runner
+UNDETERMINED: no runtime/compose (or the forced runner is refused)
+make: *** [Makefile:26: live-h3] Error 2
+--- rc=2
+=== [live-h3-runner-bogus] $ bash gates/live_h3.sh --runner=bogus
+jsstack: unknown container runner "bogus" (from $CONTAINERS_RUNNER): supported runners are podman, docker, nerdctl, cri-o, lxd, kubernetes, or "auto" for the default order
+UNDETERMINED: no runtime/compose (or the forced runner is refused)
+--- rc=2
+=== [live-h3-runner-novalue] $ bash gates/live_h3.sh --runner
+UNDETERMINED: --runner needs a value
+--- rc=2
+=== [live-h3-env-docker] $ env CONTAINERS_RUNNER=docker bash gates/live_h3.sh
+jsstack: COULD NOT DETERMINE: no container runtime: forced container runner is not available: "docker" (selected via env) is not installed or not reachable on this host; refusing to fall back to another runner
+UNDETERMINED: no runtime/compose (or the forced runner is refused)
+--- rc=2
+=== [live-h3-prove-failure] $ bash gates/live_h3.sh --prove-failure
+PROVE-FAILURE OK: control rc=0, no-brotli mutation rc=1
+--- rc=0
+=== [verify-runner-flag] $ bash gates/verify_runner_flag.sh
+  PASS env CONTAINERS_RUNNER=bogus refused
+  PASS flag overrides a bad env value
+  PASS live_h3.sh unknown runner
+  PASS live_h3.sh --runner=docker refused before any container
+  PASS live_h3.sh valueless --runner
+runner-flag gate: OK
+--- rc=0
+=== [live-h3-runner-podman] $ make live-h3 RUNNER=podman
+PASS: body Brotli-decodes to the real /healthz JSON
+2026/11/24 14:06:19 [INFO]  jsstack: compose down: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.yml --project-name js-live-h3 down --remove-orphans
+2026/11/24 14:06:19 [DEBUG] jsstack: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.yml --project-name js-live-h3 down --remove-orphans (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy)
+2026/11/24 14:06:20 [DEBUG] jsstack: compose command completed successfully
+down: ok
+== 2. TCP-only stack (UDP not published)
+2026/11/24 14:06:21 [INFO]  jsstack: compose down: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 down --remove-orphans
+2026/11/24 14:06:21 [DEBUG] jsstack: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 down --remove-orphans (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy)
+2026/11/24 14:06:22 [DEBUG] jsstack: compose command completed successfully
+2026/11/24 14:06:22 [INFO]  jsstack: compose up: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 up -d --remove-orphans --build
+2026/11/24 14:06:22 [DEBUG] jsstack: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 up -d --remove-orphans --build (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy)
+2026/11/24 14:06:23 [DEBUG] jsstack: compose command completed successfully
+up: jobseeker-gate running
+PASS: HTTP/3 attempt FAILS while UDP is not published
+PASS: TCP fallback request completed (<nil>)
+PASS: fallback protocol is HTTP/2.0 (got HTTP/2.0)
+PASS: fallback Content-Encoding is br (got br)
+PASS: fallback body decodes to the real /healthz JSON
+== 2b. mutation control: the h3 assertion MUST fail on the TCP-only stack
+PASS: h3 assertion fails without QUIC (rc=1)
+2026/11/24 14:06:35 [INFO]  jsstack: compose down: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 down --remove-orphans
+2026/11/24 14:06:35 [DEBUG] jsstack: executing: podman-compose -f /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy/compose.tcp-only.yml --project-name js-live-h3 down --remove-orphans (dir: /home/milosvasic/.cache/claude-tmp/claude-1000/-home-milosvasic-Projects-vasic/3d238ae2-d49c-4f10-a74d-4d1decde165b/scratchpad/jswt/deploy)
+2026/11/24 14:06:36 [DEBUG] jsstack: compose command completed successfully
+down: ok
+LIVE-H3 OK
+--- rc=0
+=== [jobseekerd-help] $ bin/jobseekerd -h
+config: JOBSEEKER_DB_KEY: missing
+--- rc=1
+=== [jobseekerd-runner-flag] $ bin/jobseekerd --runner=podman
+config: JOBSEEKER_DB_KEY: missing
+--- rc=1

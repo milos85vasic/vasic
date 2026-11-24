@@ -4,7 +4,7 @@
      Keep the exact `Field: value` shape. -->
 
     Last-Updated: 2026-11-24T18:00:00Z
-    Synced-Commit: b506e8b
+    Synced-Commit: 1c532c8
     Authority-Root: submodules/constitution
 
 This file is the single canonical handoff document mandated by **Constitution
@@ -440,12 +440,17 @@ secret; untouched). Until then the existing `.cache-career` PDFs are RED on the 
 (2) veraPDF is not installed, so no PDF/UA conformance may be claimed; the WeasyPrint files carry the library's own
 `pdfuaid:part=1` declaration, which is not a measurement. (3) Tagged PDFs are ~47% larger (2.86 MB -> 4.21 MB over 60 samples).
 
+
+## UPDATE 2026-11-24 (storage policy: root filesystem kept free; branch `pr/storage-policy-2026-11-24`)
+
+Operator directive: the root filesystem kept filling to 100%. Caches, model weights, LSP installs, idle agent scratch and (when verified) the podman graphroot now live on `/mnt/DATA1TB` and `/mnt/DATA7TB`, reached through symlinks at the original paths and a host-local `~/.config/vasic/storage.env`. The policy, the path table and the add-a-consumer procedure are in `docs/storage-policy.md`; `scripts/storage-report.sh` (rc 0 ok, 1 finding, 2 undetermined; registered as `storage-report` with `--prove-failure`) fails when root usage exceeds a threshold or a listed heavy consumer resolves to root. Read the current placement from the script, not from this paragraph.
 ## UPDATE 2026-11-24 (gitlinks bumped; carrier file-count claim corrected; VSC-425 added; branches `pr/bump-gitlinks-2026-11-24`, `pr/carriers-ledger-continuation`)
 
 - PR #15 fast-forwarded 8 gitlinks together with their `helix-deps.yaml` refs (C9): ai_interviewing `30da696`, milosvasic.ru `9b5bf27`, job_seeker `8827b1b`, LLMProvider and llm_provider `bd302c8`, qa `b16a0897`, challenges `d94e554`, doc_processor `12a5fb7`. Each was classified first (ancestor TRUE, 0 divergent). `workshop` is deliberately NOT bumped (its runner branch is unpushed, blocked at a gate). Before the milosvasic.ru bump the live site answered 200 and `verify-live-site.py` against `docs/qa/live-site/baseline-live-2026-11-23.json` reported regressions=0.
 - `submodules/containers` local checkout moved to the recorded gitlink `2d18551` (clears the C5 drift).
 - The four carriers now say **23** tracked files under `_tools/containers/` (claim-ledger row `carriers-containers-consumer-files`), edited identically in the shared tail so root lockstep holds.
 - VSC-417 (--runner programme) stays In progress: workshop launcher evidence is not merged. VSC-425 (research programme `docs/research/protocols`) is In progress; the directory is not on main yet.
+- Launcher full retest 2026-11-24 (VSC-417 status note; item stays In progress): evidence in `docs/qa/launchers/launcher-retest-2026-11-24/` (README + matrix + raw + SHA256SUMS). All launchers refuse forced docker / bogus runner / valueless `--runner` with rc 2 and no fallback; start/stop/restart idempotence and clean stops measured. Defect found and fixed: ai_interviewing start/stop/restart ignored unknown args (`start.sh --help` started the server), ai_interviewing PR #2 (merge 5c5091111c97); same class remains OPEN in `milosvasic.ru/start.sh` (production-deploying repo, operator decision). The workshop platform container was started with its own script and is left running healthy on 8087. Workshop `--runner` branch (7797b732) still unmerged.
 - Known, not caused here: `verify-workable-items.sh` reports findings on VSC-285 and WSP-151 (BLOCKED in title while Queued); `verify-claim-ledger.sh` has two UNDET constitution-anchor rows; vasic.digital TLS probe from this host failed (curl rc 35) while milosvasic.ru answered 200.
 
 
