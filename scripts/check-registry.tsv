@@ -352,6 +352,10 @@ check	translate-reproducibility	_tools/translate/reproducibility-selftest.sh	fla
 # working tree every time the registry is verified.
 check	portfolio-data-integrity	_tools/portfolio/self-validate.sh	flag	--prove-failure	--fixtures /nonexistent
 check	pretooluse-guard	scripts/verify-pretooluse-guard.sh	flag	--prove-failure	--root /nonexistent
+# storage-report — docs/storage-policy.md. Read-only: root usage vs threshold, and every listed heavy
+# consumer (podman graphroot, model store, package caches) must resolve off the root filesystem.
+# rc 0 ok / 1 finding / 2 could not determine; the rc-2 probe names a root path that does not exist.
+check	storage-report	scripts/storage-report.sh	flag	--prove-failure	--root-path /nonexistent
 #
 # fleet-summary — T109 (unified 005/T031). Reports the fleet's live state as
 # the FR-009 two-number statement (defect vs declared-condition reds, never

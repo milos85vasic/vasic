@@ -426,6 +426,10 @@ deviation is not an override** and must never be written up as one.
 
 ## §3 Active work
 
+## UPDATE 2026-11-24 (storage policy: root filesystem kept free; branch `pr/storage-policy-2026-11-24`)
+
+Operator directive: the root filesystem kept filling to 100%. Caches, model weights, LSP installs, idle agent scratch and (when verified) the podman graphroot now live on `/mnt/DATA1TB` and `/mnt/DATA7TB`, reached through symlinks at the original paths and a host-local `~/.config/vasic/storage.env`. The policy, the path table and the add-a-consumer procedure are in `docs/storage-policy.md`; `scripts/storage-report.sh` (rc 0 ok, 1 finding, 2 undetermined; registered as `storage-report` with `--prove-failure`) fails when root usage exceeds a threshold or a listed heavy consumer resolves to root. Read the current placement from the script, not from this paragraph.
+
 ## UPDATE 2026-11-24 (umbrella workable items registered under key VSC; branch `pr/vsc-program-items`)
 
 The umbrella already had a workable-items system keyed `VSC` (`docs/workable_items.db`, VSC-001..VSC-411; roster `docs/workable-items/sub-projects.tsv`, key ratified by the operator 2026-09-08), so nothing was migrated and no id was reused. Operator note 2026-11-24: "Even the umbrella project 'vasic' should have its workable items and workable items key we use ---> 'VSC'." This change registers VSC-412..VSC-424 for the current program: Completed with evidence VSC-412 (career engine/v2.0.0), VSC-413 (digital.vasic.dev + footers), VSC-414 (constitution inheritance / PR delivery), VSC-415 (live-site verifier), VSC-416 (job_seeker kickoff); In progress VSC-417 (`--runner` programme), VSC-418 (storage policy), VSC-419 (LSP repair); Operator-blocked VSC-420 (rnabulsi invite), VSC-421 (vault passphrase backup), VSC-422 (ratchet 63 vs 23), VSC-423 (per-language footer review); Queued VSC-424 (stale branches). The Issues/Fixed trackers were regenerated from the DB (they were stale against it). Commits cite `Roadmap-Item: VSC-NNN`; no script validates the trailer. How to add an item: `docs/workable-items/PROCEDURE.md`, last section.
