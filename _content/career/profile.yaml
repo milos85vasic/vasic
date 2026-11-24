@@ -652,7 +652,7 @@ metrics:
     value: "33"
     i18n: metric.products.label
     label: evidence-backed products
-    evidence: _content/products/*.md (33 product entries (99 files incl. .html/.pdf renders))
+    evidence: _content/products/*.md (33 product entries (33 files, Markdown only per §11.4.65 amendment 2026-11-24))
   - id: metric.years
     value: "16+"
     i18n: metric.years.label
