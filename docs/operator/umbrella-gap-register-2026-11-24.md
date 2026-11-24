@@ -64,7 +64,7 @@ So the carrier claim "webkit BLOCKED" is stale on this host: someone installed t
 
 ### UG-02 deploy-langs
 
-The 2026-09-08 change already split the set: `en gen`, `pdf en`, jekyll rebuild are FATAL (`build_fail`, exit 5), toolchain-absent is `build_undet` (exit 2), and `gen <lang> vasic|milos` and `pdf <lang>` stay `build_warn` by design (a half-written language is an expected state, the previous generation is republished). `grep -n build_warn _tools/deploy-langs.sh` shows the remaining tolerated call sites at lines 1229, 1230 and 1244. The residual defect found is the misreport above. There is no remaining silent-success path for the fatal steps. Not changed: whether the tolerated steps should be fatal for a language the cycle itself declares COMPLETE. That is a product decision; backlog B4.
+The 2026-09-08 change already split the set: `en gen`, `pdf en`, jekyll rebuild are FATAL (`build_fail`, exit 5), toolchain-absent is `build_undet` (exit 2), and `gen <lang> vasic|milos` and `pdf <lang>` stay `build_warn` by design (a half-written language is an expected state, the previous generation is republished). `grep -n build_warn _tools/deploy-langs.sh` shows the remaining tolerated call sites at the `gen <lang>` pair and the `pdf <lang>` step in the per-language loop. The residual defect found is the misreport above. There is no remaining silent-success path for the fatal steps. Not changed: whether the tolerated steps should be fatal for a language the cycle itself declares COMPLETE. That is a product decision; backlog B4.
 
 ### UG-03 claims
 
