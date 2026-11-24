@@ -1,0 +1,41 @@
+Real-vault browser proof 2026-11-24 (chromium 149.0.7827.55)
+career_private branch seal-vault-2026-11-24 commit a159916 (vault/), exported via git archive
+Console: milosvasic.ru/admin/console.html rendered from shipped layout + assets/js/vault.js, vault-console.js; served from 127.0.0.1 throwaway server; headless chromium (playwright).
+Passphrase never printed/stored; read in-process from _secure/cv-vault.passphrase.
+
+unlock (correct): 364 ms -> 'Authentication succeeded — 300 file(s) available.' files_listed=300 areas=10 langs=15
+wrong passphrase: 190 ms -> 'Authentication failed: this is not the published document.'
+immediate retry: 'Too many failures; wait 1 s.'
+server hits: {'manifest': 2, 'blob': 7, 'other': 5}
+
+ai-engineering/ar/cv           42979 B sha256=528b854a2cd756f8500eeee8727bf25825f2a5d9833a65676ba1e332437d3cb9 identical_to_.cache-career/cv-ai-engineering-ar.pdf=True pdftotext_chars=7658 script(arabic)=True 63ms
+ai-engineering/ja/cv           99944 B sha256=a648bd6bcb8e0e4f1c44fc3ba74d1be4ae9067bdf59600fcf5a80b02fbec888c identical_to_.cache-career/cv-ai-engineering-ja.pdf=True pdftotext_chars=5111 script(cjk)=True 83ms
+ai-engineering/en/cv           38601 B sha256=f2f972b2ef055eb75a6d09f964675b895833fa203f51ea8989046ee129ea7299 identical_to_.cache-career/cv-ai-engineering-en.pdf=True pdftotext_chars=6619 script(latin)=True 67ms
+ai-engineering/fa/cv           43036 B sha256=4f4f4a837c9370906e7dc6083e02739092f784cf9265e2ecbfea08bc5fbd0599 identical_to_.cache-career/cv-ai-engineering-fa.pdf=True pdftotext_chars=7210 script(persian)=True 72ms
+ai-engineering/ja/cover        66396 B sha256=094150a8bfc43d9a82d8f3643f58e0d3f8b1e347a3458b657922a43de320bfdd identical_to_.cache-career/cover-ai-engineering-ja.pdf=True pdftotext_chars=1348 script(cjk)=True 58ms
+
+PASS unlock-success :: Authentication succeeded — 300 file(s) available.
+PASS 300-files :: 300
+PASS passphrase-field-cleared-after-unlock
+PASS download-identical ai-engineering/ar/cv :: 528b854a2cd756f8 ms=63
+PASS pdftotext ai-engineering/ar/cv :: chars=7658 script=arabic
+PASS download-identical ai-engineering/ja/cv :: a648bd6bcb8e0e4f ms=83
+PASS pdftotext ai-engineering/ja/cv :: chars=5111 script=cjk
+PASS download-identical ai-engineering/en/cv :: f2f972b2ef055eb7 ms=67
+PASS pdftotext ai-engineering/en/cv :: chars=6619 script=latin
+PASS download-identical ai-engineering/fa/cv :: 4f4f4a837c937090 ms=72
+PASS pdftotext ai-engineering/fa/cv :: chars=7210 script=persian
+PASS download-identical ai-engineering/ja/cover :: 094150a8bfc43d9a ms=58
+PASS pdftotext ai-engineering/ja/cover :: chars=1348 script=cjk
+PASS lock-hides-picker
+PASS lock-hides-lock-btn
+PASS lock-clears-file-buttons
+PASS lock-clears-passphrase
+PASS lock-status :: Locked.
+PASS wrong-generic-error :: Authentication failed: this is not the published document.
+PASS wrong-picker-stays-hidden
+PASS wrong-clears-field
+PASS throttle-armed :: Too many failures; wait 1 s.
+PASS throttle-no-picker
+PASS console-errors-zero :: 0
+console_errors+page_errors = 0; all_pass=True
