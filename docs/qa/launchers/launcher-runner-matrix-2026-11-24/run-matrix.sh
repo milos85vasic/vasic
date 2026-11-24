@@ -53,7 +53,7 @@ launcher "workshop/scripts/restart.sh --dry-run" "$U/workshop" env WORKSHOP_PROJ
 launcher "ai_interviewing/status.sh" "$U/ai_interviewing/platform/scripts" bash ./status.sh --
 launcher "ai_interviewing/stop.sh" "$U/ai_interviewing/platform/scripts" bash ./stop.sh --
 NATIVE=1 ARC=1 launcher "umbrella _tools/od/start-daemon.sh (native Electron: flag ignored; no Open Design app on Linux so rc1 after the flag is accepted)" "${OD_ROOT:-$U}" bash _tools/od/start-daemon.sh --
-fails=$(grep -c "GAP" "$TSV"); ISO="WORKSHOP_PROJECT_NAME=zzz-runner-matrix WORKSHOP_HTTP_PORT=18087"
+ISO="WORKSHOP_PROJECT_NAME=zzz-runner-matrix WORKSHOP_HTTP_PORT=18087"
 NOACCEPT=1 launcher "workshop/scripts/start.sh (accept: see live.*)" "$U/workshop" env $ISO bash scripts/start.sh --
 launcher "workshop/scripts/stop.sh (isolated project)" "$U/workshop" env $ISO bash scripts/stop.sh --
 NOACCEPT=1 launcher "ai_interviewing/start.sh (accept: see live.*)" "$U/ai_interviewing/platform/scripts" bash ./start.sh --
@@ -67,5 +67,6 @@ NOACCEPT=1 launcher "umbrella _tools/helixtranslate-local.sh (accept needs the i
 ( cd "$U/submodules/containers" && go build -o "$OUT/boot.bin" ./cmd/boot ) 2>/dev/null
 NOACCEPT=1 launcher "submodules/containers/cmd/boot (accept: boots services, not run)" "$U" "$OUT/boot.bin" --
 rm -f "$OUT/boot.bin"
+fails=$(grep -c "GAP" "$TSV")
 echo "launchers with a gap: $fails"; column -t -s$'\t' "$TSV"
 [ "$fails" = 0 ]
