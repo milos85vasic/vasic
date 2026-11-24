@@ -9,6 +9,7 @@ problem strings (empty = clean) and every extractor-dependent check returns
 """
 from __future__ import annotations
 
+import html as _html
 import re
 import shutil
 import subprocess
@@ -251,27 +252,102 @@ def check_word_boundaries(pdf: Path, lang: str | None = None) -> Optional[List[s
 
 # --------------------------------------------------------------------------- T169
 def _squash(s: str) -> str:
-    return re.sub(r"[\s‌‍‎‏‪-‮⁦-⁩]+", "", unicodedata.normalize("NFKC", s))
+    t = re.sub(r"[\s‌‍‎‏‪-‮⁦-⁩ـ]+", "", unicodedata.normalize("NFKC", s))
+    return "".join(c for c in t if unicodedata.category(c) != "Mn")
 
 
-def check_rtl_logical_order(pdf: Path, phrases: Iterable[str], min_extractors: int = 2) -> Optional[List[str]]:
-    """In at least ``min_extractors`` independent extractors every known phrase is present in logical order.
+#: Pure right-to-left-script words: Arabic-script letters, marks and the zero-width joiners Persian uses; a token that
+#: carries a Latin letter or a digit is not one (the extractors disagree on where an embedded Latin run goes).
+def _is_rtl_word(tok: str) -> bool:
+    """Arabic-script letters and marks only (plus the zero-width joiners Persian uses): no punctuation, digit or
+    Latin character, because the extractors disagree on where those go relative to a word."""
+    return bool(tok) and all(ch in "\u200c\u200d" or (unicodedata.category(ch)[0] in "LM"
+                                                     and unicodedata.name(ch, "").startswith("ARABIC")) for ch in tok)
 
-    ``pdftotext -raw`` is excluded by design: it dumps content-stream order, which is visual for any
-    RTL renderer that writes runs left to right (docs/qa/career/career-engine-wave1-2026-11-24.md, T169).
-    Returns None when fewer than ``min_extractors`` extractors exist (cannot determine).
-    """
-    phrases = [_squash(p) for p in phrases if p and len(_squash(p)) >= 4]
-    outs = [("pdftotext-layout", extract_poppler_layout(pdf)), ("mupdf", extract_mupdf(pdf)),
-            ("pypdf", extract_pypdf(pdf))]
-    outs = [(n, _squash(t)) for n, t in outs if t]
-    if len(outs) < min_extractors or not phrases:
+
+#: Words per phrase.  Three keeps the probe sensitive to word ORDER (one word cannot be reversed) while a phrase
+#: of pure Arabic-script words survives every position-aware extractor unchanged.
+RTL_PHRASE_WORDS = 3
+#: Supported ATS readers of right-to-left documents (JSK-T169, operator decision 2026-11-24): poppler
+#: ``pdftotext -layout`` and MuPDF, both of which read a line in LOGICAL order.  NOT supported, by design:
+#: ``pdftotext -raw`` (dumps content-stream order and re-applies its own RTL reversal, so it returns the words of
+#: every Arabic/Persian line reversed for any renderer; measured forward 1 / reversed 6 on a fresh ar CV) and
+#: position-less readers.  A PDF cannot be in visual order for ``-raw`` and logical order for MuPDF at once, and
+#: marking the text up with /ActualText did not help (poppler reverses it again), so the target set is a choice.
+#: Share of the known phrases that must read forward in each supported reader (measured 87-97% on fresh builds).
+MIN_RTL_FORWARD = 0.80
+RTL_TARGET_EXTRACTORS = ("pdftotext-layout", "mupdf")
+
+
+def rtl_phrases_from_source(source: str, words: int = RTL_PHRASE_WORDS) -> List[str]:
+    """Known-logical phrases from the document's own source: every ``words`` consecutive pure RTL-script words that
+    sit in ONE text node (tags and punctuation end a run).  The source is written in logical order by construction."""
+    out: List[str] = []
+    body = re.sub(r"(?is)<(head|script|style)\b.*?</\1>", " ", source)
+    body = _html.unescape(re.sub(r"<[^>]+>", "\n", body))
+    for node in body.split("\n"):
+        run: List[str] = []
+        for tok in re.split(r"\s+", node) + [""]:
+            if _is_rtl_word(tok):
+                run.append(tok)
+                continue
+            for i in range(0, len(run) - words + 1, words):
+                out.append(" ".join(run[i:i + words]))
+            run = []
+    return list(dict.fromkeys(out))
+
+
+def _rtl_extractions(pdf: Path) -> Dict[str, Optional[str]]:
+    return {"pdftotext-layout": extract_poppler_layout(pdf), "mupdf": extract_mupdf(pdf)}
+
+
+def rtl_order_counts(pdf: Path, phrases: Iterable[str]) -> Optional[Dict[str, Dict[str, int]]]:
+    """Per supported reader: how many known phrases appear forward (logical order), how many only word-reversed."""
+    fwd = list(dict.fromkeys(q for q in (_squash(p) for p in phrases if p) if len(q) >= 4))
+    outs = _rtl_extractions(pdf)
+    if not fwd or any(not t for t in outs.values()):
         return None
-    good = [n for n, t in outs if all(p in t for p in phrases)]
-    if len(good) < min_extractors:
-        return [f"RTL logical order holds in {len(good)} of {len(outs)} extractors (need {min_extractors}); "
-                f"ok: {', '.join(good) or 'none'}"]
-    return []
+    res: Dict[str, Dict[str, int]] = {}
+    for name, text in outs.items():
+        flat = _squash(text)
+        res[name] = {"phrases": len(fwd), "forward": sum(q in flat for q in fwd), "reversed": 0}
+    rev = {p: _squash(" ".join(reversed(p.split()))) for p in phrases if p and len(_squash(p)) >= 4}
+    for name, text in outs.items():
+        flat = _squash(text)
+        res[name]["reversed"] = sum(1 for p, r in rev.items() if r in flat and _squash(p) not in flat)
+    return res
+
+
+def check_rtl_logical_order(pdf: Path, phrases: Iterable[str]) -> Optional[List[str]]:
+    """In BOTH supported readers (``RTL_TARGET_EXTRACTORS``) at least ``MIN_RTL_FORWARD`` of the known phrases are
+    present in logical order.
+
+    Not 100%: a phrase that wraps onto the next line next to an embedded Latin run is legitimately split by both
+    readers (measured 4-12% of phrases on fresh ar/fa CVs and covers), whereas a renderer that writes the words
+    visually leaves almost none forward.  ``pdftotext -raw`` is excluded by design (see ``RTL_TARGET_EXTRACTORS``).
+    None = cannot determine: a target extractor is absent or no phrase exists (rc 2 is never a pass).
+    """
+    counts = rtl_order_counts(pdf, phrases)
+    if counts is None:
+        return None
+    problems: List[str] = []
+    for name, c in counts.items():
+        share = c["forward"] / c["phrases"]
+        if share < MIN_RTL_FORWARD:
+            problems.append(f"RTL words not in logical order in {name}: {c['forward']}/{c['phrases']} phrases forward "
+                            f"({share:.0%} < {MIN_RTL_FORWARD:.0%}), {c['reversed']} word-reversed; supported readers: "
+                            + ", ".join(RTL_TARGET_EXTRACTORS))
+    return problems
+
+
+def check_rtl_document(pdf: Path, lang: str | None) -> Optional[List[str]]:
+    """T169 for one document: the phrases come from its sibling source.  [] for left-to-right locales."""
+    if lang not in RTL_LANGS:
+        return []
+    html = Path(pdf).with_suffix(".html")
+    if not html.is_file():
+        return None
+    return check_rtl_logical_order(pdf, rtl_phrases_from_source(html.read_text(encoding="utf-8")))
 
 
 # --------------------------------------------------------------------------- T179

@@ -535,6 +535,13 @@ def validate_pdf(pdf_path: Path, kind: str = "cv", lang: str | None = None,
     if wb is None:
         return 2, "cannot determine word boundaries: fewer than two independent extractors available"
     problems.extend(wb)
+    # JSK-T169 / G-07: Arabic/Persian words must read in logical order in the supported readers (MuPDF and
+    # pdftotext -layout); pdftotext -raw and position-less readers are NOT supported (extract_gates.RTL_TARGET_EXTRACTORS).
+    rtl = extract_gates.check_rtl_document(pdf_path, lang)
+    if rtl is None:
+        return 2, (f"cannot determine RTL logical order for '{lang}': MuPDF, pdftotext or the sibling .html "
+                   "source is missing")
+    problems.extend(rtl)
     layout = extract_gates.pages_of(pdf_path)
     if layout is not None:
         problems.extend(extract_gates.check_running_headers(layout))

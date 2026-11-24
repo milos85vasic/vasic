@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Paired mutation proof of the extraction-side ATS gates (JSK-T168, T178, T179).
+"""Paired mutation proof of the extraction-side ATS gates (JSK-T168, T169, T178, T179).
 
 Run:  python3 -m career.prove_extract_gates        (from ``_tools``; builds a small REAL sample, ~3 min)
 
@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from career import extract_gates as g, gates, sample_build  # noqa: E402
 
-LANGS = ("en", "de", "ru", "hi", "ko")
+LANGS = ("en", "de", "ru", "hi", "ko", "ar", "fa")
 RESULTS: list[tuple[str, bool, str]] = []
 
 
@@ -130,6 +130,44 @@ def prove_t179(out: Path) -> None:
          not any(g.ocr_applicable(l) for l in ("hi", "ko", "ar", "es")))
 
 
+def prove_t169(out: Path) -> None:
+    """RTL logical order: supported readers are MuPDF and pdftotext -layout; -raw and pypdf do not vote."""
+    for l in ("ar", "fa"):
+        pdf = out / f"cv-ai-engineering-{l}.pdf"
+        ph = g.rtl_phrases_from_source(pdf.with_suffix(".html").read_text(encoding="utf-8"))
+        c = g.rtl_order_counts(pdf, ph)
+        case(f"T169 control {l}: real PDF reads forward in both supported readers and passes validate_pdf",
+             g.check_rtl_document(pdf, l) == [] and gates.validate_pdf(pdf, "cv", l)[0] == 0, str(c))
+        with tempfile.TemporaryDirectory() as td:
+            shutil.copy(pdf.with_suffix(".html"), Path(td) / pdf.with_suffix(".html").name)
+            bad = sample_build.visual_order_pdf(pdf.with_suffix(".html"), Path(td) / pdf.name, l)
+            r = g.check_rtl_document(bad, l)
+            rc, msg = gates.validate_pdf(bad, "cv", l)
+            case(f"T169 M-mirrored-{l}: real visually-mirrored PDF (words laid out last-first) -> blocked by T169 in validate_pdf",
+                 bool(r) and len(r) == 2 and rc == 1 and "RTL words not in logical order" in msg, str(g.rtl_order_counts(bad, ph)))
+        real = g.extract_mupdf(pdf)
+        words = real.split(" ")
+        with Patch(extract_mupdf=lambda p, w=words: " ".join(reversed(w))):
+            r = g.check_rtl_document(pdf, l)
+        case(f"T169 M-mupdf-only-{l}: only MuPDF reads reversed -> blocked (BOTH readers must agree)",
+             bool(r) and len(r) == 1 and "mupdf" in r[0], str(r))
+        lay = g.extract_poppler_layout(pdf)
+        with Patch(extract_poppler_layout=lambda p, w=lay.split(" "): " ".join(reversed(w))):
+            r = g.check_rtl_document(pdf, l)
+        case(f"T169 M-layout-only-{l}: only pdftotext -layout reads reversed -> blocked",
+             bool(r) and len(r) == 1 and "pdftotext-layout" in r[0], str(r))
+        with Patch(extract_mupdf=lambda p: None):
+            r = g.check_rtl_document(pdf, l)
+        case(f"T169 M-no-mupdf-{l}: a supported reader is absent -> CANNOT DETERMINE (None), never a pass", r is None, str(r))
+    pdf = out / "cv-ai-engineering-ar.pdf"
+    raw = g.extract_poppler_raw(pdf)
+    ph = g.rtl_phrases_from_source(pdf.with_suffix(".html").read_text(encoding="utf-8"))
+    n_raw = sum(g._squash(q) in g._squash(raw) for q in ph)
+    case("T169 scope: pdftotext -raw reads this correct PDF mostly reversed, yet validate_pdf passes it (raw is NOT a supported reader)",
+         n_raw < 0.5 * len(ph) and gates.validate_pdf(pdf, "cv", "ar")[0] == 0, f"raw forward {n_raw}/{len(ph)}")
+    case("T169 scope: left-to-right locales are not judged", g.check_rtl_document(out / "cv-ai-engineering-en.pdf", "en") == [])
+
+
 def main() -> int:
     if not sample_build.have_toolchain() or not shutil.which("mutool"):
         print("CANNOT DETERMINE: lualatex, pdftotext or mutool missing")
@@ -138,6 +176,7 @@ def main() -> int:
     try:
         sample_build.build_sample(out, priv, langs=LANGS, write=False)
         prove_t168(out)
+        prove_t169(out)
         prove_t178(out)
         prove_t179(out)
     finally:
