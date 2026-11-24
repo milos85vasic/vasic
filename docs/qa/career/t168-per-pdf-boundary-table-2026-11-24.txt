@@ -1,0 +1,21 @@
+# per-PDF token counts of the 20 freshly built ai-engineering PDFs; ratio = min/max over ALL three; gate verdict applies the ar/fa rule (pypdf not a voter)
+cover-ai-engineering-ar    {'mupdf': 284, 'poppler-raw': 295, 'pypdf': 256} all3=0.868 mupdf-vs-poppler=0.963 gate=PASS
+cover-ai-engineering-de    {'mupdf': 263, 'poppler-raw': 261, 'pypdf': 267} all3=0.978 mupdf-vs-poppler=0.992 gate=PASS
+cover-ai-engineering-en    {'mupdf': 278, 'poppler-raw': 276, 'pypdf': 282} all3=0.979 mupdf-vs-poppler=0.993 gate=PASS
+cover-ai-engineering-es    {'mupdf': 326, 'poppler-raw': 324, 'pypdf': 328} all3=0.988 mupdf-vs-poppler=0.994 gate=PASS
+cover-ai-engineering-fa    {'mupdf': 305, 'poppler-raw': 321, 'pypdf': 292} all3=0.910 mupdf-vs-poppler=0.950 gate=PASS
+cover-ai-engineering-fr    {'mupdf': 383, 'poppler-raw': 381, 'pypdf': 389} all3=0.979 mupdf-vs-poppler=0.995 gate=PASS
+cover-ai-engineering-hi    {'mupdf': 304, 'poppler-raw': 302, 'pypdf': 304} all3=0.993 mupdf-vs-poppler=0.993 gate=PASS
+cover-ai-engineering-ko    {'mupdf': 254, 'poppler-raw': 252, 'pypdf': 261} all3=0.966 mupdf-vs-poppler=0.992 gate=PASS
+cover-ai-engineering-ru    {'mupdf': 309, 'poppler-raw': 307, 'pypdf': 311} all3=0.987 mupdf-vs-poppler=0.994 gate=PASS
+cover-ai-engineering-sr    {'mupdf': 314, 'poppler-raw': 312, 'pypdf': 315} all3=0.990 mupdf-vs-poppler=0.994 gate=PASS
+cv-ai-engineering-ar       {'mupdf': 1007, 'poppler-raw': 1053, 'pypdf': 891} all3=0.846 mupdf-vs-poppler=0.956 gate=PASS
+cv-ai-engineering-de       {'mupdf': 849, 'poppler-raw': 843, 'pypdf': 863} all3=0.977 mupdf-vs-poppler=0.993 gate=PASS
+cv-ai-engineering-en       {'mupdf': 925, 'poppler-raw': 919, 'pypdf': 936} all3=0.982 mupdf-vs-poppler=0.994 gate=PASS
+cv-ai-engineering-es       {'mupdf': 1143, 'poppler-raw': 1137, 'pypdf': 1155} all3=0.984 mupdf-vs-poppler=0.995 gate=PASS
+cv-ai-engineering-fa       {'mupdf': 1012, 'poppler-raw': 1069, 'pypdf': 918} all3=0.859 mupdf-vs-poppler=0.947 gate=PASS
+cv-ai-engineering-fr       {'mupdf': 1054, 'poppler-raw': 1046, 'pypdf': 1068} all3=0.979 mupdf-vs-poppler=0.992 gate=PASS
+cv-ai-engineering-hi       {'mupdf': 1010, 'poppler-raw': 1004, 'pypdf': 1010} all3=0.994 mupdf-vs-poppler=0.994 gate=PASS
+cv-ai-engineering-ko       {'mupdf': 935, 'poppler-raw': 929, 'pypdf': 952} all3=0.976 mupdf-vs-poppler=0.994 gate=PASS
+cv-ai-engineering-ru       {'mupdf': 933, 'poppler-raw': 927, 'pypdf': 944} all3=0.982 mupdf-vs-poppler=0.994 gate=PASS
+cv-ai-engineering-sr       {'mupdf': 1005, 'poppler-raw': 999, 'pypdf': 1015} all3=0.984 mupdf-vs-poppler=0.994 gate=PASS

@@ -17,7 +17,7 @@ wired, `validate_pdf` refused it only for tagging and soft-hyphen reasons and sa
 (`t168-red-2026-11-24.txt`). With the gate wired, `BrokenArtifactWordBoundaries` passes (hi and ko refused with
 "word boundaries differ").
 
-**GREEN.** 20 freshly built PDFs (ai-engineering, cv + cover x en de ru sr fr hi ko ar fa es): every one passes,
+**GREEN** (per-PDF counts in `t168-per-pdf-boundary-table-2026-11-24.txt`). 20 freshly built PDFs (ai-engineering, cv + cover x en de ru sr fr hi ko ar fa es): every one passes,
 ratios 0.966-0.994 for non-RTL (hi 1010/1004/1010, ko 935/929/952).
 
 **Measured finding that shaped the gate.** pypdf reports ar 891 and fa 918 tokens against MuPDF/poppler
